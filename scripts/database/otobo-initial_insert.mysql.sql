@@ -830,7 +830,7 @@ INSERT INTO article (id, ticket_id, communication_channel_id, article_sender_typ
 # ----------------------------------------------------------
 INSERT INTO article_data_mime (id, article_id, a_from, a_to, a_subject, a_body, a_message_id, incoming_time, content_path, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 'OTOBO Feedback <hallo@otobo.de>', 'Your OTOBO System <otobo@localhost>', 'Welcome to OTOBO!', 'Welcome to the OTOBO community!
+    (1, 1, 'OTOBO Feedback <marketing@otobo.com>', 'Your OTOBO System <otobo@localhost>', 'Welcome to OTOBO!', 'Welcome to the OTOBO community!
 
 Thank you for installing OTOBO, the next world’s most popular open source service management software. It’s available in 40 languages and used by more than 170,000 companies worldwide.
 
@@ -865,11 +865,13 @@ Your OTOBO Team
 # ----------------------------------------------------------
 INSERT INTO article_data_mime_plain (id, article_id, body, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 'From: OTOBO Feedback <marketing@otobo.de>
+    (1, 1, 'From: OTOBO Feedback <marketing@otobo.com>
 To: Your OTOBO System <otobo@localhost>
 Subject: Welcome to OTOBO!
 Content-Type: text/plain\; charset=utf-8
 Content-Transfer-Encoding: 8bit
+
+Welcome to the OTOBO community!
 
 Thank you for installing OTOBO, the next world’s most popular open source service management software. It’s available in 40 languages and used by more than 170,000 companies worldwide.
 
@@ -1667,6 +1669,252 @@ INSERT INTO notification_event_item (notification_id, event_key, event_value)
 INSERT INTO notification_event_item (notification_id, event_key, event_value)
     VALUES
     (15, 'VisibleForAgent', '0');
+# ----------------------------------------------------------
+#  insert into table gi_webservice_config
+# ----------------------------------------------------------
+INSERT INTO gi_webservice_config (id, name, config, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    (1, 'Elasticsearch', '---
+Debugger:
+  DebugThreshold: error
+  TestMode: \'0\'
+Description: \'\'
+FrameworkVersion: 10.0.0 beta1
+Provider:
+  Transport:
+    Type: \'\'
+RemoteSystem: \'\'
+Requester:
+  Invoker:
+    CustomerCompanyManagement:
+      Description: \'\'
+      Events:
+      - Asynchronous: \'0\'
+        Event: CustomerCompanyAdd
+      - Asynchronous: \'0\'
+        Event: CustomerCompanyUpdate
+      Type: Elasticsearch::CustomerCompanyManagement
+    CustomerUserManagement:
+      Description: \'\'
+      Events:
+      - Asynchronous: \'0\'
+        Event: CustomerUserAdd
+      - Asynchronous: \'0\'
+        Event: CustomerUserUpdate
+      Type: Elasticsearch::CustomerUserManagement
+    Search:
+      Description: \'\'
+      Type: Elasticsearch::Search
+    TicketIngestAttachment:
+      Description: \'\'
+      Type: Elasticsearch::TicketManagement
+    TicketManagement:
+      Description: \'\'
+      Events:
+      - Asynchronous: \'0\'
+        Event: TicketCreate
+      - Asynchronous: \'0\'
+        Event: ArticleCreate
+      - Asynchronous: \'0\'
+        Event: TicketCustomerUpdate
+      - Asynchronous: \'0\'
+        Event: TicketQueueUpdate
+      - Asynchronous: \'0\'
+        Event: TicketTitleUpdate
+      - Asynchronous: \'0\'
+        Event: QueueUpdate
+      - Asynchronous: \'0\'
+        Event: TicketDelete
+      - Asynchronous: \'0\'
+        Event: TicketArchiveFlagUpdate
+      Type: Elasticsearch::TicketManagement
+    UtilsIngest_DELETE:
+      Description: \'\'
+      Type: Elasticsearch::Utils
+    UtilsIngest_GET:
+      Description: \'\'
+      Type: Elasticsearch::Utils
+    UtilsPipeline_DELETE:
+      Description: \'\'
+      Type: Elasticsearch::Utils
+    UtilsPipeline_PUT:
+      Description: \'\'
+      Type: Elasticsearch::Utils
+    Utils_DELETE:
+      Description: \'\'
+      Type: Elasticsearch::Utils
+    Utils_GET:
+      Description: \'\'
+      Type: Elasticsearch::Utils
+    Utils_PUT:
+      Description: \'\'
+      Type: Elasticsearch::Utils
+  Transport:
+    Config:
+      DefaultCommand: POST
+      Host: http://localhost:9200
+      InvokerControllerMapping:
+        CustomerCompanyManagement:
+          Command: POST
+          Controller: /customer/:docapi/:id
+        CustomerUserManagement:
+          Command: POST
+          Controller: /customeruser/:docapi/:id
+        Search:
+          Command: POST
+          Controller: /:index/_search
+        TicketIngestAttachment:
+          Command: POST
+          Controller: /tmpattachments/:docapi/:id?pipeline=:path
+        TicketManagement:
+          Command: POST
+          Controller: /ticket/:docapi/:id
+        UtilsIngest_DELETE:
+          Command: DELETE
+          Controller: /:index/:docapi/:id
+        UtilsIngest_GET:
+          Command: GET
+          Controller: /:index/:docapi/:id
+        UtilsPipeline_DELETE:
+          Command: DELETE
+          Controller: /_ingest/pipeline/Attachments
+        UtilsPipeline_PUT:
+          Command: PUT
+          Controller: /_ingest/pipeline/Attachments
+        Utils_DELETE:
+          Command: DELETE
+          Controller: /:index
+        Utils_GET:
+          Command: GET
+          Controller: /:index
+        Utils_PUT:
+          Command: PUT
+          Controller: /:index
+      Timeout: \'30\'
+    Type: HTTP::REST', 1, 1, current_timestamp, 1, current_timestamp);
+# ----------------------------------------------------------
+#  insert into table gi_webservice_config_history
+# ----------------------------------------------------------
+INSERT INTO gi_webservice_config_history (id, config_id, config, config_md5, create_by, create_time, change_by, change_time)
+    VALUES
+    (1, 1, '---
+Debugger:
+  DebugThreshold: error
+  TestMode: \'0\'
+Description: \'\'
+FrameworkVersion: 10.0.0 beta1
+Provider:
+  Transport:
+    Type: \'\'
+RemoteSystem: \'\'
+Requester:
+  Invoker:
+    CustomerCompanyManagement:
+      Description: \'\'
+      Events:
+      - Asynchronous: \'0\'
+        Event: CustomerCompanyAdd
+      - Asynchronous: \'0\'
+        Event: CustomerCompanyUpdate
+      Type: Elasticsearch::CustomerCompanyManagement
+    CustomerUserManagement:
+      Description: \'\'
+      Events:
+      - Asynchronous: \'0\'
+        Event: CustomerUserAdd
+      - Asynchronous: \'0\'
+        Event: CustomerUserUpdate
+      Type: Elasticsearch::CustomerUserManagement
+    Search:
+      Description: \'\'
+      Type: Elasticsearch::Search
+    TicketIngestAttachment:
+      Description: \'\'
+      Type: Elasticsearch::TicketManagement
+    TicketManagement:
+      Description: \'\'
+      Events:
+      - Asynchronous: \'0\'
+        Event: TicketCreate
+      - Asynchronous: \'0\'
+        Event: ArticleCreate
+      - Asynchronous: \'0\'
+        Event: TicketCustomerUpdate
+      - Asynchronous: \'0\'
+        Event: TicketQueueUpdate
+      - Asynchronous: \'0\'
+        Event: TicketTitleUpdate
+      - Asynchronous: \'0\'
+        Event: QueueUpdate
+      - Asynchronous: \'0\'
+        Event: TicketDelete
+      - Asynchronous: \'0\'
+        Event: TicketArchiveFlagUpdate
+      Type: Elasticsearch::TicketManagement
+    UtilsIngest_DELETE:
+      Description: \'\'
+      Type: Elasticsearch::Utils
+    UtilsIngest_GET:
+      Description: \'\'
+      Type: Elasticsearch::Utils
+    UtilsPipeline_DELETE:
+      Description: \'\'
+      Type: Elasticsearch::Utils
+    UtilsPipeline_PUT:
+      Description: \'\'
+      Type: Elasticsearch::Utils
+    Utils_DELETE:
+      Description: \'\'
+      Type: Elasticsearch::Utils
+    Utils_GET:
+      Description: \'\'
+      Type: Elasticsearch::Utils
+    Utils_PUT:
+      Description: \'\'
+      Type: Elasticsearch::Utils
+  Transport:
+    Config:
+      DefaultCommand: POST
+      Host: http://localhost:9200
+      InvokerControllerMapping:
+        CustomerCompanyManagement:
+          Command: POST
+          Controller: /customer/:docapi/:id
+        CustomerUserManagement:
+          Command: POST
+          Controller: /customeruser/:docapi/:id
+        Search:
+          Command: POST
+          Controller: /:index/_search
+        TicketIngestAttachment:
+          Command: POST
+          Controller: /tmpattachments/:docapi/:id?pipeline=:path
+        TicketManagement:
+          Command: POST
+          Controller: /ticket/:docapi/:id
+        UtilsIngest_DELETE:
+          Command: DELETE
+          Controller: /:index/:docapi/:id
+        UtilsIngest_GET:
+          Command: GET
+          Controller: /:index/:docapi/:id
+        UtilsPipeline_DELETE:
+          Command: DELETE
+          Controller: /_ingest/pipeline/Attachments
+        UtilsPipeline_PUT:
+          Command: PUT
+          Controller: /_ingest/pipeline/Attachments
+        Utils_DELETE:
+          Command: DELETE
+          Controller: /:index
+        Utils_GET:
+          Command: GET
+          Controller: /:index
+        Utils_PUT:
+          Command: PUT
+          Controller: /:index
+      Timeout: \'30\'
+    Type: HTTP::REST', 'init', 1, current_timestamp, 1, current_timestamp);
 # ----------------------------------------------------------
 #  insert into table notification_event_message
 # ----------------------------------------------------------

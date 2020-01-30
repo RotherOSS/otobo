@@ -833,33 +833,74 @@ INSERT INTO article_data_mime (article_id, a_from, a_to, a_subject, a_body, a_me
     VALUES
     (1, 'OTOBO Feedback <marketing@otobo.com>', 'Your OTOBO System <otobo@localhost>', 'Welcome to OTOBO!', 'Welcome to the OTOBO community!
 
-        Thank you for installing OTOBO, the next world’s most popular open source service management software. It’s available in 40 languages and used by more than 170,000 companies worldwide.
+Thank you for installing OTOBO, the next world’s most popular open source service management software. It’s available in 40 languages and used by more than 170,000 companies worldwide.
 
-        Please be aware that we offer free support for OTOBO at https://forum.otobo.de/ and commercial support at https://otobo.de/de/angebot/support/.
+Please be aware that we offer free support for OTOBO at https://forum.otobo.de/ and commercial support at https://otobo.de/de/angebot/support/.
 
-        Resources for OTOBO Users
+Resources for OTOBO Users
 
-        You can find updates and patches for OTOBO at https://otobo.de/de/download/.
+You can find updates and patches for OTOBO at https://otobo.de/de/download/.
 
-        Find help and exchange ideas in our knowledge base at https://forum.otobo.de/. Here, you’ll be able to take part of the OTOBO Team’s Community and take advantage of our blog posts. You can report a bug, suggest a feature or discover online documentation.
+Find help and exchange ideas in our knowledge base at https://forum.otobo.de/. Here, you’ll be able to take part of the OTOBO Team’s Community and take advantage of our blog posts. You can report a bug, suggest a feature or discover online documentation.
 
-        Interested in OTOBO? We offer professional service too.
+Interested in OTOBO? We offer professional service too.
 
-        To get the most up-to-date version of OTOBO and to receive the best possible support for your business, we recommend a OTOBO support contract https://otobo.de/de/angebot/support/.
+To get the most up-to-date version of OTOBO and to receive the best possible support for your business, we recommend a OTOBO support contract https://otobo.de/de/angebot/support/.
 
-        With this version, you’ll gain access to:
+With this version, you’ll gain access to:
 
-        - Business process management support
-        - Included professional services – training, support and consulting
-        - Implementation and configuration by our experts
+- Business process management support
+- Included professional services – training, support and consulting
+- Implementation and configuration by our experts
 
-        Find more information about OTOBO support and consulting by visiting https://otobo.de/.
+Find more information about OTOBO support and consulting by visiting https://otobo.de/.
 
-        Ready to get started with fully-managed OTOBO instead? -> Contact Sales: https://otobo.de/en/kontakt/
+Ready to get started with fully-managed OTOBO instead? -> Contact Sales: https://otobo.de/en/kontakt/
 
-        Best regards,
+Best regards,
 
-        Your OTOBO Team
+Your OTOBO Team
+', '<007@localhost>', 1436949030, '2015/07/15', 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table article_data_mime_plain
+-- ----------------------------------------------------------
+INSERT INTO article_data_mime_plain (article_id, body, create_by, create_time, change_by, change_time)
+    VALUES
+    (1, 'From: OTOBO Feedback <marketing@otobo.com>
+To: Your OTOBO System <otobo@localhost>
+Subject: Welcome to OTOBO!
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+Welcome to the OTOBO community!
+
+Thank you for installing OTOBO, the next world’s most popular open source service management software. It’s available in 40 languages and used by more than 170,000 companies worldwide.
+
+Please be aware that we offer free support for OTOBO at https://forum.otobo.de/ and commercial support at https://otobo.de/de/angebot/support/.
+
+Resources for OTOBO Users
+
+You can find updates and patches for OTOBO at https://otobo.de/de/download/.
+
+Find help and exchange ideas in our knowledge base at https://forum.otobo.de/. Here, you’ll be able to take part of the OTOBO Team’s Community and take advantage of our blog posts. You can report a bug, suggest a feature or discover online documentation.
+
+Interested in OTOBO? We offer professional service too.
+
+To get the most up-to-date version of OTOBO and to receive the best possible support for your business, we recommend a OTOBO support contract https://otobo.de/de/angebot/support/.
+
+With this version, you’ll gain access to:
+
+- Business process management support
+- Included professional services – training, support and consulting
+- Implementation and configuration by our experts
+
+Find more information about OTOBO support and consulting by visiting https://otobo.de/.
+
+Ready to get started with fully-managed OTOBO instead? -> Contact Sales: https://otobo.de/en/kontakt/
+
+Best regards,
+
+Your OTOBO Team
 ', 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table ticket_history
@@ -1629,6 +1670,252 @@ INSERT INTO notification_event_item (notification_id, event_key, event_value)
 INSERT INTO notification_event_item (notification_id, event_key, event_value)
     VALUES
     (15, 'VisibleForAgent', '0');
+-- ----------------------------------------------------------
+--  insert into table gi_webservice_config
+-- ----------------------------------------------------------
+INSERT INTO gi_webservice_config (name, config, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Elasticsearch', '---
+Debugger:
+  DebugThreshold: error
+  TestMode: ''0''
+Description: ''''
+FrameworkVersion: 10.0.0 beta1
+Provider:
+  Transport:
+    Type: ''''
+RemoteSystem: ''''
+Requester:
+  Invoker:
+    CustomerCompanyManagement:
+      Description: ''''
+      Events:
+      - Asynchronous: ''0''
+        Event: CustomerCompanyAdd
+      - Asynchronous: ''0''
+        Event: CustomerCompanyUpdate
+      Type: Elasticsearch::CustomerCompanyManagement
+    CustomerUserManagement:
+      Description: ''''
+      Events:
+      - Asynchronous: ''0''
+        Event: CustomerUserAdd
+      - Asynchronous: ''0''
+        Event: CustomerUserUpdate
+      Type: Elasticsearch::CustomerUserManagement
+    Search:
+      Description: ''''
+      Type: Elasticsearch::Search
+    TicketIngestAttachment:
+      Description: ''''
+      Type: Elasticsearch::TicketManagement
+    TicketManagement:
+      Description: ''''
+      Events:
+      - Asynchronous: ''0''
+        Event: TicketCreate
+      - Asynchronous: ''0''
+        Event: ArticleCreate
+      - Asynchronous: ''0''
+        Event: TicketCustomerUpdate
+      - Asynchronous: ''0''
+        Event: TicketQueueUpdate
+      - Asynchronous: ''0''
+        Event: TicketTitleUpdate
+      - Asynchronous: ''0''
+        Event: QueueUpdate
+      - Asynchronous: ''0''
+        Event: TicketDelete
+      - Asynchronous: ''0''
+        Event: TicketArchiveFlagUpdate
+      Type: Elasticsearch::TicketManagement
+    UtilsIngest_DELETE:
+      Description: ''''
+      Type: Elasticsearch::Utils
+    UtilsIngest_GET:
+      Description: ''''
+      Type: Elasticsearch::Utils
+    UtilsPipeline_DELETE:
+      Description: ''''
+      Type: Elasticsearch::Utils
+    UtilsPipeline_PUT:
+      Description: ''''
+      Type: Elasticsearch::Utils
+    Utils_DELETE:
+      Description: ''''
+      Type: Elasticsearch::Utils
+    Utils_GET:
+      Description: ''''
+      Type: Elasticsearch::Utils
+    Utils_PUT:
+      Description: ''''
+      Type: Elasticsearch::Utils
+  Transport:
+    Config:
+      DefaultCommand: POST
+      Host: http://localhost:9200
+      InvokerControllerMapping:
+        CustomerCompanyManagement:
+          Command: POST
+          Controller: /customer/:docapi/:id
+        CustomerUserManagement:
+          Command: POST
+          Controller: /customeruser/:docapi/:id
+        Search:
+          Command: POST
+          Controller: /:index/_search
+        TicketIngestAttachment:
+          Command: POST
+          Controller: /tmpattachments/:docapi/:id?pipeline=:path
+        TicketManagement:
+          Command: POST
+          Controller: /ticket/:docapi/:id
+        UtilsIngest_DELETE:
+          Command: DELETE
+          Controller: /:index/:docapi/:id
+        UtilsIngest_GET:
+          Command: GET
+          Controller: /:index/:docapi/:id
+        UtilsPipeline_DELETE:
+          Command: DELETE
+          Controller: /_ingest/pipeline/Attachments
+        UtilsPipeline_PUT:
+          Command: PUT
+          Controller: /_ingest/pipeline/Attachments
+        Utils_DELETE:
+          Command: DELETE
+          Controller: /:index
+        Utils_GET:
+          Command: GET
+          Controller: /:index
+        Utils_PUT:
+          Command: PUT
+          Controller: /:index
+      Timeout: ''30''
+    Type: HTTP::REST', 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table gi_webservice_config_history
+-- ----------------------------------------------------------
+INSERT INTO gi_webservice_config_history (config_id, config, config_md5, create_by, create_time, change_by, change_time)
+    VALUES
+    (1, '---
+Debugger:
+  DebugThreshold: error
+  TestMode: ''0''
+Description: ''''
+FrameworkVersion: 10.0.0 beta1
+Provider:
+  Transport:
+    Type: ''''
+RemoteSystem: ''''
+Requester:
+  Invoker:
+    CustomerCompanyManagement:
+      Description: ''''
+      Events:
+      - Asynchronous: ''0''
+        Event: CustomerCompanyAdd
+      - Asynchronous: ''0''
+        Event: CustomerCompanyUpdate
+      Type: Elasticsearch::CustomerCompanyManagement
+    CustomerUserManagement:
+      Description: ''''
+      Events:
+      - Asynchronous: ''0''
+        Event: CustomerUserAdd
+      - Asynchronous: ''0''
+        Event: CustomerUserUpdate
+      Type: Elasticsearch::CustomerUserManagement
+    Search:
+      Description: ''''
+      Type: Elasticsearch::Search
+    TicketIngestAttachment:
+      Description: ''''
+      Type: Elasticsearch::TicketManagement
+    TicketManagement:
+      Description: ''''
+      Events:
+      - Asynchronous: ''0''
+        Event: TicketCreate
+      - Asynchronous: ''0''
+        Event: ArticleCreate
+      - Asynchronous: ''0''
+        Event: TicketCustomerUpdate
+      - Asynchronous: ''0''
+        Event: TicketQueueUpdate
+      - Asynchronous: ''0''
+        Event: TicketTitleUpdate
+      - Asynchronous: ''0''
+        Event: QueueUpdate
+      - Asynchronous: ''0''
+        Event: TicketDelete
+      - Asynchronous: ''0''
+        Event: TicketArchiveFlagUpdate
+      Type: Elasticsearch::TicketManagement
+    UtilsIngest_DELETE:
+      Description: ''''
+      Type: Elasticsearch::Utils
+    UtilsIngest_GET:
+      Description: ''''
+      Type: Elasticsearch::Utils
+    UtilsPipeline_DELETE:
+      Description: ''''
+      Type: Elasticsearch::Utils
+    UtilsPipeline_PUT:
+      Description: ''''
+      Type: Elasticsearch::Utils
+    Utils_DELETE:
+      Description: ''''
+      Type: Elasticsearch::Utils
+    Utils_GET:
+      Description: ''''
+      Type: Elasticsearch::Utils
+    Utils_PUT:
+      Description: ''''
+      Type: Elasticsearch::Utils
+  Transport:
+    Config:
+      DefaultCommand: POST
+      Host: http://localhost:9200
+      InvokerControllerMapping:
+        CustomerCompanyManagement:
+          Command: POST
+          Controller: /customer/:docapi/:id
+        CustomerUserManagement:
+          Command: POST
+          Controller: /customeruser/:docapi/:id
+        Search:
+          Command: POST
+          Controller: /:index/_search
+        TicketIngestAttachment:
+          Command: POST
+          Controller: /tmpattachments/:docapi/:id?pipeline=:path
+        TicketManagement:
+          Command: POST
+          Controller: /ticket/:docapi/:id
+        UtilsIngest_DELETE:
+          Command: DELETE
+          Controller: /:index/:docapi/:id
+        UtilsIngest_GET:
+          Command: GET
+          Controller: /:index/:docapi/:id
+        UtilsPipeline_DELETE:
+          Command: DELETE
+          Controller: /_ingest/pipeline/Attachments
+        UtilsPipeline_PUT:
+          Command: PUT
+          Controller: /_ingest/pipeline/Attachments
+        Utils_DELETE:
+          Command: DELETE
+          Controller: /:index
+        Utils_GET:
+          Command: GET
+          Controller: /:index
+        Utils_PUT:
+          Command: PUT
+          Controller: /:index
+      Timeout: ''30''
+    Type: HTTP::REST', 'init', 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table notification_event_message
 -- ----------------------------------------------------------
