@@ -1,0 +1,26 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<div id="MainBox">
+    <div class="Content Error">
+        <h1>[% Translate("An Error Occurred") | html %]</h1>
+        <p>[% Translate(Data.Message) | truncate(200) | html %]</p>
+    [% IF Data.Comment %]
+        <p>[% Translate(Data.Comment) | html %]</p>
+    [% END %]
+    [% IF Data.BackendTraceback %]
+        <p><a href="#" class="TriggerFullErrorDetails">[% Translate("Error Details") | html %]</a></p>
+    [% END %]
+    </div>
+    [% IF Data.BackendTraceback %]
+    <div class="Content Error Hidden ErrorDetails">
+        <h2>[% Translate("Traceback") | html %]</h2>
+        <pre>[% Data.BackendTraceback | html %]</pre>
+    </div>
+    [% END %]
+</div>

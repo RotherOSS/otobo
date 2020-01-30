@@ -1,0 +1,42 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<div class="LayoutPopup ARIARoleMain">
+
+    <div class="Header">
+        <ul class="HeaderPopup">
+            <li class="HeaderPopupleft">
+                <h1>[% Translate("View Email Plain Text for %s%s%s", Config('Ticket::Hook'), Config('Ticket::HookDivider'), Data.TicketNumber) | html %] &mdash; [% Data.Title | html %]</h1>
+            </li>
+            <li class="HeaderPopupright">
+                <a class="CancelClosePopup" href="#">[% Translate("Cancel & close") | html %]</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="Content">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>
+                    [% Translate("Plain") | html %] [% Config("Ticket::Hook") | html %][% Config("Ticket::HookDivider") | html %][% Data.TicketNumber | html %] / TicketID: [% Data.TicketID | html %] / ArticleID: [% Data.ArticleID | html %]
+                    -
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Download;ArticleID=[% Data.ArticleID | uri %];TicketID=[% Data.TicketID | uri %]">
+                        [% Translate("Download this email") | html %]
+                    </a>
+                </h2>
+            </div>
+            <div class="Content">
+                <code>
+                [% Data.Text %]
+                </code>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,91 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+## nofilter(TidyAll::Plugin::OTOBO::TT::ScriptUsage)
+
+<script type="text/javascript">//<![CDATA[
+    "use strict";
+
+    var CKEDITOR_BASEPATH = [% Config("Frontend::RichTextPath") | JSON %];
+//]]></script>
+[% RenderBlockStart("CommonJS") %]
+<script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") | html %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
+[% RenderBlockEnd("CommonJS") %]
+
+[% RenderBlockStart("ModuleJS") %]
+<script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") | html %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
+[% RenderBlockEnd("ModuleJS") %]
+
+<script type="text/javascript">//<![CDATA[
+"use strict";
+
+Core.Init.ExecuteInit('JS_LOADED');
+
+Core.App.Ready(function () {
+
+    Core.Init.ExecuteInit('DOCUMENT_READY');
+
+    [% PROCESS JSDataInsert %]
+
+    Core.Init.ExecuteInit('CONFIG_LOADED');
+    Core.Init.ExecuteInit('APP_GLOBAL_EARLY');
+    Core.Init.ExecuteInit('APP_GLOBAL');
+    Core.Init.ExecuteInit('APP_GLOBAL_LATE');
+
+});
+//]]></script>
+
+<script type="text/javascript">//<![CDATA[
+"use strict";
+Core.App.Ready(function () {
+    Core.Init.ExecuteInit('APP_MODULE_EARLY');
+
+[% PROCESS JSOnDocumentCompleteInsert %]
+
+    Core.Init.ExecuteInit('APP_MODULE');
+    Core.Init.ExecuteInit('APP_MODULE_LATE');
+});
+//]]></script>
+
+# Finally, unblock click events on the page again after all JavaScript was loaded and
+# executed. Put in an own block to make sure it is always run.
+<script type="text/javascript">//<![CDATA[
+"use strict";
+Core.App.Ready(function () {
+    Core.Init.ExecuteInit('FINISH');
+    Core.App.UnblockEvents();
+});
+//]]></script>
+
+<div id="AjaxErrorDialog">
+    <div id="AjaxErrorDialogInner">
+        <div class="NoConnection" style="display:none;">
+            <span class="Icon">
+                <i class="fa fa-plug"></i>
+            </span>
+            <p>
+                [% Translate("%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.", Config("Product")) | html %]
+            </p>
+        </div>
+        <div class="ConnectionReEstablished" style="display:none;">
+            <span class="Icon">
+                <i class="fa fa-check"></i>
+            </span>
+            <p>
+                [% Translate("The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.") | html %]
+            </p>
+        </div>
+    </div>
+</div>
+
+<div id="ResponsiveFooter">
+    <div class="Visible-ScreenXL"></div>
+    <div class="Visible-ScreenL"></div>
+    <div class="Visible-ScreenM"></div>
+    <div class="Visible-ScreenS"></div>
+    <div class="Visible-ScreenXS"></div>
+</div>

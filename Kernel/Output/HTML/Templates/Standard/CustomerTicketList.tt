@@ -1,0 +1,55 @@
+# --
+# Copyright (C) 2019 Rother OSS GmbH, https://otobo.ch/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+<div class="oooTicketList">
+[% RenderBlockStart("Ticket") %]
+    <a href="[% Env("Baselink") %]Action=CustomerTicketZoom;TicketNumber=[% Data.TicketNumber | uri %]" class="oooTicketListItem">
+        <div class="oooTicketItemDesc">
+            <h3 class="oooTIDTitle">[% Data.Subject | html %]</h3>
+            <p class="oooTIDNumber ooo12g">[% Translate("Nr.") | html %] #[% Data.TicketNumber | html %]</p>
+        </div>
+        <div class="oooTicketItemCat">
+            <div class="oooRow1"></div>
+            <div class="oooRow2"></div>
+[% RenderBlockStart("Categories") %]
+            <p class="oooCategory ooo10" style="background-color:[% Data.Color | html %]">[% Data.Text | html %]</p>
+[% RenderBlockEnd("Categories") %]
+        </div>
+        <div class="oooTicketItemAvatar">
+            [% IF Data.Avatar %]
+                <img src="[% Data.Avatar %]" />
+            [% ELSE %]
+                <span class="Initials">[% Data.UserInitials | html %]</span>
+            [% END %]
+        </div>
+        <p class="oooTicketItemOwner ooo10g">[% Data.CustomerName | html %]</p>
+        <p class="oooTicketItemAge ooo10g">[% Data.CustomerAge | html %]</p>
+        <h3 class="oooTicketItemInfo"><i class="ooofo ooofo-more_v ooog"></i></h3>
+    </a>
+[% RenderBlockEnd("Ticket") %]
+# no Tickets present:
+# customer has no tickets at all
+[% RenderBlockStart("EmptyDefault") %]
+    <a href="[% Env("Baselink") %]Action=CustomerTicketMessage" class="oooTicketListMessage">
+        <h3>[% Translate("Welcome!") | html %]</h3>
+        <p>[% Translate("You have no tickets yet. Please click here, to create a new one.") | html %]</p>
+    </a>
+[% RenderBlockEnd("EmptyDefault") %]
+[% RenderBlockStart("EmptyCustom") %]
+    <a href="[% Env("Baselink") %]Action=CustomerTicketMessage" class="oooTicketListMessage">
+        <h3>[% Translate(Data.Title) | html %]</h3>
+        <p>[% Translate(Data.Text) | html %]</p>
+    </a>
+[% RenderBlockEnd("EmptyCustom") %]
+# customer has no tickets with the current filters
+[% RenderBlockStart("EmptyFilter") %]
+    <a href="[% Env("Baselink") %]Action=CustomerTicketOverview;Subaction=MyTickets;Filter=All;SortBy=;OrderBy=;" class="oooTicketListMessage">
+        <h3>[% Translate("Nothing to show.") | html %]</h3>
+        <p>[% Translate("Click here for an unfiltered list of all your tickets.") | html %]</p>
+    </a>
+[% RenderBlockEnd("EmptyFilter") %]
+</div>

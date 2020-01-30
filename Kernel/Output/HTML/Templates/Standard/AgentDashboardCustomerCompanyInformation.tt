@@ -1,0 +1,36 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+
+<fieldset class="TableLike FixedLabelSmall">
+
+[% RenderBlockStart("ContentSmallCustomerCompanyInformationRow") %]
+
+[% RenderBlockStart("ContentSmallCustomerCompanyInformationRowText") %]
+    <label>[% Translate(Data.Label) | html %]:</label>
+    <p class="Field FixedValueSmall">[% Data.Value | html %]
+[% RenderBlockStart("ContentSmallCustomerCompanyInvalid") %]
+        <em class="Error">[% Translate("Note: Customer is invalid!") | html %]</em>
+[% RenderBlockEnd("ContentSmallCustomerCompanyInvalid") %]
+    </p>
+    <div class="Clear"></div>
+[% RenderBlockEnd("ContentSmallCustomerCompanyInformationRowText") %]
+
+[% RenderBlockStart("ContentSmallCustomerCompanyInformationRowLink") %]
+    <label>[% Translate(Data.Label) | html %]:</label>
+    <div class="Field">
+        <a href="[% Data.URL | Interpolate %]" target="[% Data.Target | html %]">
+            [% Data.Value | html %]
+        </a>
+    </div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("ContentSmallCustomerCompanyInformationRowLink") %]
+
+[% RenderBlockEnd("ContentSmallCustomerCompanyInformationRow") %]
+
+</fieldset>

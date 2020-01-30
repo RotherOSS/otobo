@@ -1,0 +1,77 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+#
+#   This module allows for some configuration, which can be added to the include code:
+#
+#   Single:         whether it should be allowed to upload only one file (difference to MaxFiles: if Single, the user can't *select* more than one file from the start) (e.g. true)
+#   MaxFiles:       Maximum number of files which should be allowed to be uploaded (e.g. 2)
+#   MaxSizePerFile: the maximum file size per file (in bytes, e.g. 20000)
+#   FileTypes:      a comma-separated list of file extensions which should be allowed (e.g. pdf, jpeg)
+#   Mandatory:      if it should be mandatory to upload at least one file (e.g. true)
+#   FieldID:        the value for the HTML ID attribute the file input should receive (defaults to FileUpload)
+#   FieldName:      the value for the HTML name attribute the file input should receive (defaults to FileUpload)
+#   FormID:         a custom FormID if needed. Otherwise the FormID of the surrounding form is considered for the uploads.
+#
+#   Example:
+#
+#   [% INCLUDE "FormElements/AttachmentList.tt"
+#       Single="true"
+#       FieldID="MyID"
+#       FieldName="MyName"
+#       MaxFiles="2"
+#       Mandatory="true"
+#       FileTypes="pdf,jpg,jpeg"
+#       FormID="3849738474.3343434"
+#   %]
+#
+#   Please note: all validation is done in JavaScript only. Please take care of any backend validation on your own.
+#   Please note: A drag & drop upload field must be a child element of a <div class="Field" />
+#   Please note: If you want to use multiple drag & drop upload fields on the same page, they must not be child elements of the same <div class="Field" />
+#
+
+<div class="AttachmentListContainer">
+    <table class="Hidden Small DataTable AttachmentList">
+        <thead>
+            <th class="Filename">[% Translate("Filename") | html %]</th>
+            <th class="Filetype">[% Translate("Type") | html %]</th>
+            <th class="Filesize">[% Translate("Size") | html %]</th>
+            <th class="Delete"></th>
+        </thead>
+        <tbody>
+        [% FOREACH Data IN Data.AttachmentList %]
+            <tr>
+                <td class="Filename">[% Data.Filename | html %]</td>
+                <td class="Filetype">[% Data.ContentType | html %]</td>
+                <td class="Filesize" data-file-size="[% Data.Filesize | html %]">[% Data.Filesize | Localize('Filesize') | html %]</td>
+                <td class="Delete">
+                    <a href="#" class="AttachmentDelete" aria-label="[% Translate("Click to delete this attachment.") | html %]" tabindex="0" data-file-id="[% Data.FileID | html %]" data-object-id="[% Data.ObjectID | html %]" data-field-id="[% Data.FieldID | html %]" data-delete-action="[% Data.DeleteAction | html %]">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        [% END %]
+        </tbody>
+    </table>
+    <span class="Busy">
+        <i class="fa fa-spinner fa-spin"></i>
+    </span>
+</div>
+<input
+    class="AjaxDnDUpload [% IF Mandatory %]Validate_DnDUpload[% END %]"
+    [% IF !Single %] multiple="multiple"[% END %]
+    id="[% IF FieldID %][% FieldID | html %][% ELSE %]FileUpload[% END %]"
+    name="[% IF FieldName %][% FieldName | html %][% ELSE %]FileUpload[% END %]"
+    data-max-files="[% MaxFiles | html %]"
+    data-file-types="[% FileTypes | html %]"
+    data-max-size-per-file="[% MaxSizePerFile | html %]"
+    data-max-size-per-file-hr="[% IF MaxSizePerFile %][% MaxSizePerFile | Localize('Filesize') | html %][% END %]"
+    data-form-id="[% FormID | html %]"
+    type="file"
+    size="40"
+/>

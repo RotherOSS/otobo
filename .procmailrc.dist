@@ -1,0 +1,90 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+#SYS_HOME=/opt/otobo/
+SYS_HOME=$HOME
+
+SHELL=/bin/sh
+PATH=/bin:/usr/bin:/usr/local/bin
+MONTHFOLDER=`date +%Y-%m`
+YEARFOLDER=`date +%Y`
+LOGFILE=$SYS_HOME/var/log/procmail-$MONTHFOLDER.log
+VERBOSE=on
+COMSAT=no
+
+
+# Remove all X-OTOBO Header (allow this only for trusted email)
+# e. g. from *@example.com
+
+:0 fhw :
+* !^From.*@example.com
+| grep -vi '^X-OTOBO-'
+
+# or just no emails with "X-OTOBO-Ident: ahfiw2Fw32r230dddl2foeo3r" header!
+#:0 fhw :
+#* !^X-OTOBO-Ident: ahfiw2Fw32r230dddl2foeo3r
+#| grep -vi '^X-OTOBO-'
+
+
+
+# Examples for queue presorting.
+
+:0 fhw :
+* TO:.*@example.com
+| formail -I "X-OTOBO-Queue: example"
+
+:0 fhw :
+* ^List-Id:.*OpenAntiVirus
+| formail -I "X-OTOBO-Queue: OpenAntiVirus"
+
+
+# Example for add free form key and value (max 3).
+
+:0 fhw :
+* TO:.*@example.com
+| formail -I "X-OTOBO-ArticleKey1: Test" |  formail -I "X-OTOBO-ArticleValue1: True!"
+
+
+# Example for assigning the "email domain as customer ID" automaticaly.
+
+#:0hc
+#CUSTOMERID=|formail -X "From:"|perl -e '$i=<STDIN>; $i=~s/^From: //;$i=~s/\(.*?\)//;$i=~s/<(.*?)>/$1/;$i=~s/ //g;$i=~s/.*@(.*)/$1/;print $i'
+#
+#:0 fhw :
+#| formail -I "X-OTOBO-CustomerNo: $CUSTOMERID"
+
+
+# Backup of all incoming emails.
+# It's always better to have a backup of all incoming emails!
+
+#:0 c :
+#$SYS_HOME/var/INBOX.Backup.$MONTHFOLDER
+
+
+# Pipe all email into the PostMaster process.
+
+:0 w
+| $SYS_HOME/bin/otobo.Console.pl Maint::PostMaster::Read
+
+
+# Spool all the rest (which the console command 'Maint::PostMaster::Read' can't process!)
+# If the database is down or the console command 'Maint::PostMaster::Read' does not return success!
+
+:0 :
+$SYS_HOME/var/spool/.
+
+
+# end of .procmailrc

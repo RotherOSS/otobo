@@ -1,0 +1,26 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+[% RenderBlockStart("rw:DynamicField") %]
+<div class="Row Row_DynamicField_[% Data.Name %]">
+[% RenderBlockStart("rw:DynamicField:DescriptionLong") %]
+    <span class="FieldHelpContainer">
+        <i class="fa fa-question-circle FieldHelpTrigger"></i>
+        <span>[% Translate(Data.DescriptionLong) | html %]</span>
+    </span>
+[% RenderBlockEnd("rw:DynamicField:DescriptionLong") %]
+    [% Data.Label %]
+    <div class="Field">
+        [% Data.Content %]
+[% RenderBlockStart("rw:DynamicField:DescriptionShort") %]
+        <div class="FieldExplanation">[% Translate(Data.DescriptionShort) | html %]</div>
+[% RenderBlockEnd("rw:DynamicField:DescriptionShort") %]
+    </div>
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("rw:DynamicField") %]

@@ -1,0 +1,211 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+[% RenderBlockStart("Overview") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("Type Management") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Type Management'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% SWITCH Data.Action %]
+        [% CASE 'Add' %]
+            [% BreadcrumbPath.push({ Name => Translate("Add Type"),}) %]
+        [% CASE 'Change' %]
+            [% USE EditTitle = String(Translate("Edit Type")) %]
+            [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.Name ) }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+
+[% RenderBlockStart("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+
+[% RenderBlockStart("ActionAdd") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add Type") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionAdd") %]
+
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionList") %]
+
+[% RenderBlockStart("Filter") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterTypes">[% Translate("Filter for Types") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterTypes" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterTypes" value="" title="[% Translate("Filter for types") | html %]">
+            </div>
+        </div>
+[% RenderBlockEnd("Filter") %]
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+
+[% RenderBlockStart("OverviewResult") %]
+            <div class="Header">
+                <h2>[% Translate("List") | html %]</h2>
+            </div>
+            <div class="Content">
+
+                <table class="DataTable" id="Types">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Name") | html %]</th>
+                            <th>[% Translate("Validity") | html %]</th>
+                            <th>[% Translate("Changed") | html %]</th>
+                            <th>[% Translate("Created") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("NoDataFoundMsg") %]
+                        <tr>
+                            <td colspan="4">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockStart("OverviewResultRow") %]
+                        <tr [%IF Data.ValidID != 1%]class="Invalid"[% END %]>
+                            <td><a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Change;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>
+                            <td>[% Translate(Data.Valid) | html %]</td>
+                            <td>[% Data.ChangeTime | Localize("TimeShort") %]</td>
+                            <td>[% Data.CreateTime | Localize("TimeShort") %]</td>
+                        </tr>
+[% RenderBlockEnd("OverviewResultRow") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="4">[% Translate("No matches found.") | html %]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+[% RenderBlockEnd("OverviewResult") %]
+
+[% RenderBlockStart("OverviewUpdate") %]
+            <div class="Header">
+
+            [% IF Data.Action == 'Add' %]
+                <h2>[% Translate("Add Type") | html %]</h2>
+            [% ELSE %]
+                <h2>[% Translate("Edit Type") | html %]</h2>
+            [% END %]
+
+            </div>
+            <div class="Content">
+
+                <form id="EntityUpdate" action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="[% Data.Action | uri %]Action"/>
+                    <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
+                    [% IF Data.Action == 'Change' %]
+                        <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+                    [% END %]
+                    <fieldset class="TableLike">
+                        <label class="Mandatory" for="Name"><span class="Marker">*</span> [% Translate("Name") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Name" id="Name" value="[% Data.Name | html %]" class="W50pc Validate_Required [% Data.NameInvalid | html %]" maxlength="200"/>
+                            <div id="NameError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="NameServerError" class="TooltipErrorMessage">
+                                <p>
+[% RenderBlockStart("NameServerError") %]
+                                [% Translate("This field is required.") | html %]
+[% RenderBlockEnd("NameServerError") %]
+[% RenderBlockStart("ExistNameServerError") %]
+                                [% Translate("A type with this name already exists!") | html %]
+[% RenderBlockEnd("ExistNameServerError") %]
+[% RenderBlockStart("InSettingNameServerError") %]
+                                    [% Translate("This type is present in a SysConfig setting, confirmation for updating settings to point to the new type is needed!") | html %]
+[% RenderBlockEnd("InSettingNameServerError") %]
+                                </p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> [% Translate("Validity") | html %]:</label>
+                        <div class="Field">
+                            [% Data.ValidOption %]
+                            <div id="ValidIDError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                <p>
+[% RenderBlockStart("RequiredValidOptionServerError") %]
+                                    [% Translate("This field is required.") | html %]
+[% RenderBlockEnd("RequiredValidOptionServerError") %]
+[% RenderBlockStart("InSettingValidOptionServerError") %]
+                                    [% Translate("Is not possible to invalidate this entry, all config settings have to be changed beforehand.") | html %]
+[% RenderBlockEnd("InSettingValidOptionServerError") %]
+                                </p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field">
+                            [% IF Data.Action == 'Change' %]
+                                <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                                [% Translate("or") | html %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
+                            [% ELSE %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% END %]
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+[% RenderBlockStart("TypeInSysConfig") %]
+                    <input type="hidden" name="OldName" id="OldName" value="[% Data.OldName | html %]"/>
+                    <input type="hidden" name="UpdateEntity" id="UpdateEntity" value=""/>
+                    <div id="EntityInSetting" class="Hidden">
+                        <div class="TextDialog">
+                            <h1>[% Translate("This type is used in the following config settings:") | html %]</h1>
+                            <ul>
+[% RenderBlockStart("TypeInSysConfigRow") %]
+                                <li class="InSysConfigSetting">[% Data.SettingName %]</li>
+[% RenderBlockEnd("TypeInSysConfigRow") %]
+                            </ul>
+                            <p class="FieldExplanation"></p>
+                        </div>
+                    </div>
+[% RenderBlockEnd("TypeInSysConfig") %]
+[% RenderBlockStart("TypeInSysConfigDirty") %]
+                    <input type="hidden" name="SysConfigDirty" id="SysConfigDirty" value="1"/>
+[% RenderBlockEnd("TypeInSysConfigDirty") %]
+                </form>
+            </div>
+[% RenderBlockEnd("OverviewUpdate") %]
+
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("Overview") %]

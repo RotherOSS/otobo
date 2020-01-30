@@ -1,0 +1,65 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<div class="MainBox ARIARoleMain SpacingTopLarge ErrorScreen">
+
+    <div class="W50pc CenterBox SpacingBottomLarge">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("An Error Occurred") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p>[% Translate(Data.Message) | truncate(200) | html %]</p>
+                <p class="SpacingTop">
+                    [% Translate(Data.Comment) | html %]
+                </p>
+
+                <form action="https://bugs.otobo.org/enter_bug.cgi" target="_blank">
+                    <input type="hidden" name="product" value="OTOBO Helpdesk" />
+
+                    <textarea class="Hidden" name="comment" rows="1" cols="1">
+Message:
+[% Data.Message | html %]
+
+Comment:
+[% Data.Comment | html %]
+
+Traceback:
+[% Data.BackendTraceback | html %]
+                    </textarea>
+                    <input type="hidden" name="bug_file_loc" value="[% Env("SERVER_NAME") | html %][% Env("REQUEST_URI") | html %]"/>
+
+                    <p class="SpacingTop">
+                        <button type="submit" class="Primary CallForAction" value="[% Translate("Send a bugreport") | html %]"><span>[% Translate("Send a bugreport") | html %]</span></button>
+                        &nbsp;[% Translate("or") | html %]&nbsp;
+                        <a href="#" class="CallForAction ReturnToPreviousPage"><span>[% Translate("go back to the previous page") | html %]</span></a>
+                    </p>
+                </form>
+
+                <div id="Traceback" class="SpacingTop Notice Hidden">
+                    <h4>[% Translate("Error Details") | html %]:</h4>
+
+                </div>
+            </div>
+        </div>
+[% RenderBlockStart("ShowBackendTraceback") %]
+        <div class="WidgetSimple Collapsed SpacingTop">
+            <div class="Header ErrorMessage">
+                <div class="WidgetAction Toggle">
+                    <a href="#" title="[% Translate("Expand") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                </div>
+                <h2>[% Translate("Error Details") | html %]</h2>
+            </div>
+            <div class="Content">
+                <code><pre>Backend [% Data.BackendTraceback | html %]</pre></code>
+            </div>
+        </div>
+[% RenderBlockEnd("ShowBackendTraceback") %]
+    </div>
+</div>

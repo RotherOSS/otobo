@@ -1,0 +1,52 @@
+# --
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<!-- start NavigationBar -->
+<div id="oooNavigation">
+    <div id="oooNavBarIcons">
+        <div id="oooNavBarSignet">
+            <img id="oooSignet" src="[% Config("Frontend::WebPath") %]skins/Customer/default/img/otobo_signet_w.svg"/>
+            <img id="oooLogo" src="[% Config("Frontend::WebPath") %]skins/Customer/default/img/otobo_logo_simple_w.svg"/>
+        </div>
+        <div id="oooNavBarModuleIcons">
+[% RenderBlockStart("Item") %]
+            <a href="[% Env("Baselink") %][% Data.Link %]">
+                <div class="oooNavBarHighlight"></div>
+                <div class="oooIconContainer">
+                    [% Data.SVG %]
+                </div>
+                <div class="oooNavBarDescription">
+                    <h3>[% Translate(Data.Name) | html %]</h3>
+                </div>
+            </a>
+[% RenderBlockEnd("Item") %]
+        </div>
+        <a id="oooUser" href="[% Env('Baselink') %]Action=Logout">
+            <div class="oooNavBarHighlight"></div>
+            <div id="oooNavBarAvatar">
+                <div id="oooLogoutIcon" style="background-image:url([% Config("Frontend::WebPath") %]skins/Customer/default/img/logout.svg)">
+                    [% IF Data.Avatar %]
+                        <img src="[% Data.Avatar %]"/>
+                    [% ELSE %]
+                        <span class="Initials">[% Data.UserInitials | html %]</span>
+                    [% END %]
+                </div>
+            </div>
+            <div class="oooLogout">
+                <h3>[% Translate("Logout") | html %]</h3>
+            </div>
+#            <div class="oooUserName">
+#                <h3>[% Data.UserName | html %]</h3>
+#            </div>
+        </div>
+    </a>
+    <div id="oooNavBarExpand">
+        <img src="[% Config("Frontend::WebPath") %]skins/Customer/default/img/arrow_right_blu.svg"/>
+    </div>
+</div>
+<!-- end NavigationBar -->

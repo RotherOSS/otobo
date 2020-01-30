@@ -1,0 +1,25 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<ul class="BreadCrumb">
+[% IF Type == 'Agent' %]
+    <li><a href="[% Env('Baselink') %]" title="[% Translate("Home") | html %]"><i class="fa fa-home"></i></a></li>
+[% ELSE %]
+    <li><a href="[% Env('Baselink') %]Action=Admin" title="[% Translate("Back to admin overview") | html %]"><i class="fa fa-home"></i></a></li>
+[% END %]
+    [% FOREACH Item IN Path %]
+        <li>
+            [% IF Item.Link && Path.size() > 0 %]
+                <a href="[% Env('Baselink') %]Action=[% Item.Link | url %]" title="[% Item.Name | html %]">[% Item.Name | html %]</a>
+            [% ELSE %]
+                <span title="[% Item.Name | html %]">[% Item.Name | html %]</span>
+            [% END %]
+        </li>
+    [% END %]
+</ul>
+<div class="Clear"></div>

@@ -1,0 +1,54 @@
+# --
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.ch/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<div class="InnerContent">
+    <form action="[% Env("CGIHandle") %]" method="post" id="ElasticsearchQuickResult">
+        <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+        <input type="hidden" name="Subaction" value="Redirect"/>
+        <table class="TableSmall NoCellspacing">
+            <thead>
+                <tr>
+                    <th class="OverviewHeader TicketNumber">
+                        <a name="OverviewControl"  title="TicketNummer">Ticket#</a>
+                    </th>
+                    <th class="OverviewHeader TicketAge">
+                        <a name="OverviewControl"  title="TicketAge">[% Translate("Age") | html %]</a>
+                    </th>
+                    <th class="OverviewHeader TicketTitle">
+                        <a name="OverviewControl"  title="TicketTitle">[% Translate("Title") | html  %]</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+[% RenderBlockStart("Record") %]
+                <tr id="TicketID_[% Data.TicketID | html %]" class="MasterAction">
+
+[% RenderBlockStart("RecordTicketNumber") %]
+                    <td>
+                        <a href="[% Env("Baselink") %]Action=CustomerTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.TicketNumber %]</a>
+                    </td>
+[% RenderBlockEnd("RecordTicketNumber") %]
+
+[% RenderBlockStart("RecordTicketAge") %]
+                    <td>
+                        <a href="[% Env("Baselink") %]Action=CustomerTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[%  Data.Title | html %]" class="MasterActionLink">[% Data.TicketAge %]</a>
+                    </td>
+[% RenderBlockEnd("RecordTicketAge") %]
+
+[% RenderBlockStart("RecordTicketTitle") %]
+                    <td>
+                        <a href="[% Env("Baselink") %]Action=CustomerTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.TicketTitle %]</a>
+                    </td>
+[% RenderBlockEnd("RecordTicketTitle") %]
+                </tr>
+[% RenderBlockEnd("Record") %]
+            </tbody>
+        </table>
+    </form>
+</div>

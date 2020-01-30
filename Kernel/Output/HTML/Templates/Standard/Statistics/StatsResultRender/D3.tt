@@ -1,0 +1,30 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+## nofilter(TidyAll::Plugin::OTOBO::TT::Format)
+
+<div class="MainBox AriaRoleMain">
+    <h1 class="Center SpacingBottom">
+        [% Config("Stats::StatsHook") | html %][% Data.StatNumber | html %]
+        [% IF Data.TimeZone %] ([% Translate("Time Zone") | html %] [% Data.TimeZone | html %])[% END %]
+        — [% Data.Title | html %]
+    </h1>
+
+    <div id="svg-container">
+        <svg id="ChartContent" xmlns="http://www.w3.org/2000/svg" version="1.1" style="min-height: 500px"></svg>
+    </div>
+
+    <div class="Center SpacingTop">
+        <a id="download-svg" class="CallForAction" download="[% Data.Title | replace('\s+', '_') | html %][% IF Data.TimeZone %]_TimeZone_[% Data.TimeZone %][% END %].svg">
+            <span>[% Translate('Download SVG') | html %]</span>
+        </a>
+        <a id="download-png" class="CallForAction" download="[% Data.Title | replace('\s+', '_') | html %][% IF Data.TimeZone %]_TimeZone_[% Data.TimeZone %][% END %].png">
+            <span>[% Translate('Download PNG') | html %]</span>
+        </a>
+    </div>
+</div>

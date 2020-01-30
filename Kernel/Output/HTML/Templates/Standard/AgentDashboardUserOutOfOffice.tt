@@ -1,0 +1,27 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+[% RenderBlockStart("ContentSmallTicketGenericNavBar") %]
+<span class="Pagination">
+    [% Data.SiteNavBar %]
+</span>
+[% RenderBlockEnd("ContentSmallTicketGenericNavBar") %]
+
+<table class="DataTable DashboardUser">
+    <tbody>
+[% RenderBlockStart("ContentSmallUserOutOfOfficeRow") %]
+        <tr>
+            <td>
+                <p class="UserRow" title="[% Data.UserEmail | html %]">
+                    <span>[% Data.UserFullname | html %] [% Translate("until") | html %] [% Data.OutOfOfficeUntil | Localize("Date") %]</span>
+                </p>
+            </td>
+        </tr>
+[% RenderBlockEnd("ContentSmallUserOutOfOfficeRow") %]
+    </tbody>
+</table>

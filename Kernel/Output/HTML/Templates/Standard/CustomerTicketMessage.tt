@@ -1,0 +1,195 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+<div id="oooContent" class="ARIARoleMain TicketCompose">
+    <div id="oooHeader">
+        <h1>[% Translate("Issue a new Ticket") | html %]</h1>
+    </div>
+    <div id="oooMainBox" class="Content">
+        <form action="[% Env("CGIHandle") %]" method="post" name="compose" id="NewCustomerTicket" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+            <input type="hidden" name="Action" value="[% Env("Action") %]" />
+            <input type="hidden" name="Subaction" value="StoreNew" />
+            <input type="hidden" name="Expand" id="Expand" value="" />
+            <input type="hidden" name="FormID" value="[% Data.FormID | html %]" />
+            <input type="hidden" name="FromChatID" value="[% Data.FromChatID | html %]" />
+            <fieldset>
+
+[% RenderBlockStart("DynamicField_TitleCategory") %]
+                <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
+                    <div class="Field">
+                        [% Data.Field %]
+                    </div>
+                    [% Data.Label %]
+                    <div class="Clear"></div>
+                </div>
+[% RenderBlockEnd("DynamicField_TitleCategory") %]
+
+[% RenderBlockStart("TicketType") %]
+                <div class="Row">
+                    [% Data.TypeStrg %]
+                    <label for="TypeID" class="Mandatory">[% Translate("Type") | html %] <span class="Marker">*</span></label>
+                    <div id="TypeIDError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                    <div id="TypeIDServerError" class="TooltipErrorMessage NoJavaScriptMessage[% Data.TypeIDInvalid | html %]" ><p>[% Translate("This field is required.") | html %]</p></div>
+                    <div class="Clear"></div>
+                </div>
+[% RenderBlockEnd("TicketType") %]
+
+[% RenderBlockStart("Queue") %]
+                <div class="Row">
+                    [% Data.ToStrg %]
+                    <label for="Dest" class="Mandatory">
+                        [% Translate("To") | html %] <span class="Marker">*</span>
+                    </label>
+                    <div id="DestError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                    <div id="DestServerError" class="TooltipErrorMessage NoJavaScriptMessage[% Data.QueueInvalid | html %]" ><p>[% Translate("This field is required.") | html %]</p></div>
+                    <div class="Clear"></div>
+                </div>
+[% RenderBlockEnd("Queue") %]
+
+[% RenderBlockStart("TicketService") %]
+                <div class="Row">
+                    [% Data.ServiceStrg %]
+                    [% IF Data.ServiceMandatory %]
+                        <label for="ServiceID" class="Mandatory"><span class="Marker">*</span> [% Translate("Service") | html %]:</label>
+                    [% ELSE %]
+                        <label for="ServiceID">[% Translate("Service") | html %]:</label>
+                    [% END %]
+                    [% IF Data.ServiceMandatory %]
+                        <div id="ServiceIDError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                        <div id="ServiceIDServerError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                    [% END %]
+                    <div class="Clear"></div>
+                </div>
+[% RenderBlockEnd("TicketService") %]
+
+[% RenderBlockStart("TicketSLA") %]
+                <div class="Row">
+                    [% Data.SLAStrg %]
+                    [% IF Data.SLAMandatory %]
+                        <label for="SLAID" title="[% Translate("Service level agreement") | html %]" class="Mandatory"><span class="Marker">*</span> [% Translate("SLA") | html %]:</label>
+
+                    [% ELSE %]
+                        <label for="SLAID" title="[% Translate("Service level agreement") | html %]">[% Translate("SLA") | html %]:</label>
+                    [% END %]
+                    [% IF Data.SLAMandatory %]
+                        <div id="SLAIDError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                        <div id="SLAIDServerError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                    [% END %]
+                    <div class="Clear"></div>
+                </div>
+[% RenderBlockEnd("TicketSLA") %]
+
+[% RenderBlockStart("DynamicField_TitleDynamicFields") %]
+                <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
+                    <div class="Field">
+                        [% Data.Field %]
+                    </div>
+                    [% Data.Label %]
+                    <div class="Clear"></div>
+                </div>
+[% RenderBlockEnd("DynamicField_TitleDynamicFields") %]
+
+[% RenderBlockStart("DynamicField") %]
+                <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
+                    <div class="Field">
+                        [% Data.Field %]
+                    </div>
+                    [% Data.Label %]
+                    <div class="Clear"></div>
+                </div>
+[% RenderBlockEnd("DynamicField") %]
+
+[% RenderBlockStart("DynamicField_TitleMessage") %]
+                <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
+                    <div class="Field">
+                        [% Data.Field %]
+                    </div>
+                    [% Data.Label %]
+                    <div class="Clear"></div>
+                </div>
+[% RenderBlockEnd("DynamicField_TitleMessage") %]
+
+                <div class="Row">
+                    <input title="[% Translate("Subject") | html %]" type="text" id="Subject" name="Subject" value="[% Data.Subject | html %]" class="Validate_Required [% Data.SubjectInvalid | html %]" />
+                    <label for="Subject" class="Mandatory">
+                        [% Translate("Subject") | html %] <span class="Marker">*</span>
+                    </label>
+                    <div id="SubjectError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                    <div id="SubjectServerError" class="TooltipErrorMessage NoJavaScriptMessage[% Data.SubjectInvalid | html %]" ><p>[% Translate("This field is required.") | html %]</p></div>
+                    <div class="Clear"></div>
+                </div>
+
+                <div class="RichTextHolder">
+                    <textarea id="RichText" class="RichText Validate_Required [% Data.BodyInvalid | html %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
+                    <label for="RichText" class="Mandatory">
+                        [% Translate("Text") | html %] <span class="Marker">*</span>
+                    </label>
+                    <div id="RichTextError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                    <div id="RichTextServerError" class="TooltipErrorMessage NoJavaScriptMessage[% Data.BodyInvalid | html %]" ><p>[% Translate("This field is required.") | html %]</p></div>
+                    <div class="Clear"></div>
+                </div>
+
+                <div class="Row">
+                    <div id="oooAttachments" class="Field">
+                        <div class="DnDUploadBox">
+[% INCLUDE "FormElements/CustomerAttachmentList.tt" %]
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+                </div>
+
+[% RenderBlockStart("ChatArticlePreview") %]
+                <div class="Row">
+                    <label>[% Translate("Chat protocol") | html %]:</label>
+                    <div class="Field">
+                        <div class="ChatProtocol">
+[% INCLUDE "ArticleContent/Chat.tt" %]
+                    </div>
+                    <p class="FieldExplanation">[% Translate('The chat will be appended as a separate article.') | html %]
+                    </div>
+                    <div class="Clear"></div>
+                </div>
+[% RenderBlockEnd("ChatArticlePreview") %]
+
+[% RenderBlockStart("Priority") %]
+                <div class="Row">
+                    [% Data.PriorityStrg %]
+                    <label for="PriorityID">[% Translate("Priority") | html %]</label>
+                    <div class="Clear"></div>
+                </div>
+[% RenderBlockEnd("Priority") %]
+
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#[% RenderBlockStart("DynamicField_Field1") %]
+#                <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
+#                    <div class="Field">
+#                        [% Data.Field %]
+#                    </div>
+#                    [% Data.Label %]
+#                    <div class="Clear"></div>
+#                </div>
+#[% RenderBlockEnd("DynamicField_Field1") %]
+#[% RenderBlockStart("DynamicField_Field2") %]
+#                <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
+#                    <div class="Field">
+#                        [% Data.Field %]
+#                    </div>
+#                    [% Data.Label %]
+#                    <div class="Clear"></div>
+#                </div>
+#[% RenderBlockEnd("DynamicField_Field2") %]
+
+            </fieldset>
+            <div id="BottomActionRow" class="ActionRow">
+                <button id="submitRichText" class="oooL" accesskey="g" title="[% Translate("Submit") | html %] (g)" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
+            </div>
+        </form>
+    </div>
+</div>

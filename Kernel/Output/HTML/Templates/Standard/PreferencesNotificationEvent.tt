@@ -1,0 +1,40 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<table class="DataTable NotificationList">
+    <thead>
+        <tr>
+            <th>[% Translate("Notification") | html %]</th>
+[% RenderBlockStart("HeaderRow") %]
+            <th class="Center"><i class="[% Data.TransportIcon %]" title="[% Data.TransportName | Translate | html%]"></i></th>
+[% RenderBlockEnd("HeaderRow") %]
+        </tr>
+    </thead>
+    <tbody>
+[% RenderBlockStart("NoDataFoundMsg") %]
+        <tr>
+            <td colspan="[% Data.ColSpan | html %]">
+                [% Translate("No user configurable notifications found.") | html %]
+            </td>
+        </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockStart("BodyRow") %]
+        <tr title="[% Data.NotificationTitle | Translate | html %]"[% IF Data.VisibleForAgent == 2 %] class="Mandatory"[% END %]>
+            <td>[% IF Data.VisibleForAgent == 2 %]<span class="Mandatory">* [% END %][% Translate(Data.NotificationName) | html %][% IF Data.VisibleForAgent == 2 %]</span>[% END %]</td>
+[% RenderBlockStart("BodyTransportColumn") %]
+            <td class="Center">
+[% RenderBlockStart("BodyTransportColumnEnabled") %]
+                <input autocomplete="off" type="checkbox" class="NotificationEvent" id="[% Data.Identifier | html %]-checkbox" name="[% Data.Identifier | html %]-checkbox" title="[% Translate("Receive messages for notification '%s' by transport method '%s'.", Translate(Data.NotificationName), Translate(Data.TransportName)) | html %]" value="1" [% Data.Checked | html %] />
+                <input autocomplete="off" type="hidden" name="[% Data.Identifier | html %]" value="[% Data.HiddenValue | html %]"/>
+[% RenderBlockEnd("BodyTransportColumnEnabled") %]
+            </td>
+[% RenderBlockEnd("BodyTransportColumn") %]
+        </tr>
+[% RenderBlockEnd("BodyRow") %]
+    </tbody>
+</table>

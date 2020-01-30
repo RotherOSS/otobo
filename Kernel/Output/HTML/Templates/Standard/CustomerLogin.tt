@@ -1,0 +1,168 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+[% InsertTemplate("CustomerHeader.tt") %]
+
+<!-- start login -->
+<div id="oooLoginBG">
+    <div class="oooBG" style="background-image: url([% Data.Background | html %]);">
+        <div id="oooBGSignet" style="background-image: url([% Config("Frontend::WebPath") %]common/img/otobo-signet_border.svg);"></div>
+    </div>
+    <h1>[% Translate(Data.LoginText) | html %]</h1>
+</div>
+<div id="MainBox" class="Login ARIARoleMain">
+[% RenderBlockStart("Signet") %]
+    <img id="oooSignet" src="[% Config("Frontend::WebPath") %]common/img/otobo-signet.svg">
+[% RenderBlockEnd("Signet") %]
+[% RenderBlockStart("Message") %]
+    <div class="[% IF Data.MessageType == 'Success' %]SuccessBox[% ELSE %]ErrorBox[% END %]"><p>[% Translate(Data.Message) | html %]</p></div>
+[% RenderBlockEnd("Message") %]
+    <noscript>
+    <div id="NoJavaScript">
+        <h2>[% Translate("JavaScript Not Available") | html %]</h2>
+        <p>
+            [% Translate("In order to experience this software, you'll need to enable JavaScript in your browser.") | html %]
+        </p>
+    </div>
+    </noscript>
+    <div class="Hidden" id="OldBrowser">
+        <h2 class="Center">[% Translate("Browser Warning") | html %]</h2>
+        <p>
+            [% Translate("The browser you are using is too old.") | html %]
+            [% Translate("This software runs with a huge lists of browsers, please upgrade to one of these.") | html %]
+            [% Translate("Please see the documentation or ask your admin for further information.") | html %]
+        </p>
+    </div>
+    <div id="oooNoGrid">
+        <h2 class="Center">[% Translate("Browser Warning") | html %]</h2>
+        <p>
+            [% Translate("The browser you are using doesn't support css-grid. It's likely too old.") | html %]
+            [% Translate("An Internet Explorer compatible version will soon be released nonetheless.") | html %]
+        </p>
+    </div>
+
+[% RenderBlockStart("SystemMaintenance") %]
+    <div class="WarningBox WithIcon">
+        <p>
+            <i class="fa fa-exclamation-circle"></i> [% Translate(Data.LoginMessage) | html %]
+        </p>
+    </div>
+[% RenderBlockEnd("SystemMaintenance") %]
+
+    <div id="Slider">
+        <div id="SlideArea">
+[% RenderBlockStart("PreLogin") %]
+            <div id="PreLogin">
+                <p>[% Translate("One moment please, you are being redirected...") | html %]</p>
+                <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" name="login">
+                    <input type="hidden" name="Action" value="Login" />
+                    <input type="hidden" name="RequestedURL" value="[% Data.RequestedURL | html %]"/>
+                    <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
+                    <input type="hidden" name="TimeZoneOffset" id="TimeZoneOffset" value=""/>
+                </form>
+            </div>
+[% RenderBlockEnd("PreLogin") %]
+[% RenderBlockStart("LoginBox") %]
+            <div id="Login">
+                <h1>[% Translate("Login") | html %]</h1>
+                <form class="Floating" action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" name="login">
+                    <input type="hidden" name="Action" value="Login"/>
+                    <input type="hidden" name="RequestedURL" value="[% Data.RequestedURL | html %]"/>
+                    <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
+                    <input type="hidden" name="TimeZoneOffset" id="TimeZoneOffset" value=""/>
+                    <div class="Row">
+                        <input autocorrect="off" autocapitalize="off" title="[% Translate("Your user name") | html %]" type="text" name="User" id="User" maxlength="150" />
+                        <label for="User">[% Translate("User name") | html %]</label>
+                    </div>
+                    <div class="Row">
+                        <input title="[% Translate("Your password") | html %]" type="password" name="Password" id="Password" autocomplete="current-password" />
+                        <label for="Password">[% Translate("Password") | html %]</label>
+[% RenderBlockStart("LostPasswordLink") %]
+                        <div class="Option">
+                            <a href="#Reset" class="ooo10g" id="ForgotPassword">[% Translate("Forgot password?") | html %]</a>
+                        </div>
+[% RenderBlockEnd("LostPasswordLink") %]
+                    </div>
+
+[% RenderBlockStart("AuthTwoFactor") %]
+                    <div class="Row">
+                        <input title="[% Translate("Your 2 Factor Token") | html %]" type="text" name="TwoFactorToken" id="TwoFactorToken" />
+                        <label for="TwoFactorToken">[% Translate("2 Factor Token") | html %]</label>
+                    </div>
+[% RenderBlockEnd("AuthTwoFactor") %]
+
+                    <div class="Row">
+                        <button type="submit" value="[% Translate("Log In") | html %]" disabled="disabled">[% Translate("Log In") | html %]</button>
+                    </div>
+                    <div class="Clear"></div>
+                </form>
+[% RenderBlockStart("CreateAccountLink") %]
+                <a id="oooRegister" class="ooo12g" href="#Signup">[% Translate("Request Account") | html %]</a>
+[% RenderBlockEnd("CreateAccountLink") %]
+            </div>
+[% RenderBlockEnd("LoginBox") %]
+[% RenderBlockStart("LostPassword") %]
+            <div id="Reset">
+                <a href="#Login" class="InlineNavigation">&larr; [% Translate("Back") | html %]</a>
+                <h2>[% Translate("Request New Password") | html %]</h2>
+                <form class="Floating" action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded">
+                    <input type="hidden" name="Action" value="CustomerLostPassword" />
+                    <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]" />
+                    <div class="Row">
+                        <input title="[% Translate("Your User Name") | html %]" type="text" id="ResetUser" name="User" maxlength="150" />
+                        <label for="ResetUser">[% Translate("User name") | html %]</label>
+                    </div>
+                    <div class="Row">
+                        <button type="submit" value="[% Translate("Submit") | html %]" disabled="disabled">[% Translate("Submit") | html %]</button>
+                    </div>
+                    <div class="Clear"></div>
+                </form>
+#                <p>[% Translate("A new password will be sent to your email address.") | html %]</p>
+            </div>
+[% RenderBlockEnd("LostPassword") %]
+[% RenderBlockStart("CreateAccount") %]
+            <div id="Signup">
+                <a href="#Login" class="InlineNavigation">&larr; [% Translate("Back") | html %]</a>
+                <h2>[% Translate("Create Account") | html %]</h2>
+                <p>[% Translate("Please fill out this form to receive login credentials.") | html %]</p>
+                <form class="Floating Validate" action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded">
+                    <input type="hidden" name="Action" value="CustomerCreateAccount"/>
+                    <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
+                    <div class="Row">
+                        <input title="[% Translate("How we should address you") | html %]" type="text" name="Title"  id="Title" class="W50pc" value="[% Data.UserTitle | html %]"/>
+                        <label for="Title">[% Translate("Title or salutation") | html %]</label>
+                    </div>
+                    <div class="Row">
+                        <input title="[% Translate("Your First Name") | html %]" name="Firstname" type="text" id="FirstName" maxlength="100" value="[% Data.UserFirstname | html %]" class="W50pc Validate_Required"/>
+                        <label class="Mandatory" for="FirstName"><span class="Marker">*</span> [% Translate("Firstname") | html %]</label>
+                        <div id="FirstNameError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                    </div>
+                    <div class="Row">
+                        <input title="[% Translate("Your Last Name") | html %]" name="Lastname" type="text" id="LastName" maxlength="100" value="[% Data.UserLastname | html %]" class="W50pc Validate_Required"/>
+                        <label class="Mandatory" for="LastName"><span class="Marker">*</span> [% Translate("Lastname") | html %]</label>
+                        <div id="LastNameError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                    </div>
+                    <div class="Row">
+                        <input title="[% Translate("Your email address (this will become your username)") | html %]" name="Email" type="[% Env("EmailFieldType") | html %]" id="Email" maxlength="150" value="[% Data.UserEmail | html %]" class="W100pc Validate_Required Validate_Email"/>
+                        <label class="Mandatory" for="Email"><span class="Marker">*</span> [% Translate("Email") | html %]</label>
+                        <div id="EmailError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                    </div>
+                    <div class="Row">
+                        <button id="CreateAccount" type="submit" value="[% Translate("Create") | html %]" disabled="disabled">[% Translate("Create") | html %]</button>
+                    </div>
+                    <div class="Clear"></div>
+                </form>
+            </div>
+[% RenderBlockEnd("CreateAccount") %]
+            <div class="Clear"></div>
+        </div> <!-- /SlideArea -->
+    </div>
+</div>
+<!-- stop login -->
+
+[% InsertTemplate("CustomerFooter.tt") %]

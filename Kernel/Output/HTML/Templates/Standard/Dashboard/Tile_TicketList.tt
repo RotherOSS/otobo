@@ -1,0 +1,13 @@
+# --
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+<div id="oooTile[% Data.TileID | html %]" class="oooTile oooTile_TicketList">
+    <h2 title="[% Translate(Data.Text) | html %]">[% Translate(Data.Text) | html %]</h2>
+    <div>
+        [% Data.TicketListHTML %]
+    </div>
+</div>

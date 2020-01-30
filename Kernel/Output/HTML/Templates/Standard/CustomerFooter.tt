@@ -1,0 +1,47 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<div id='oooFooter'>
+    <div>
+        <div id='oooSanMiguel'>
+            <p class='ooo10g'>designed by</p>
+            <a href="https://www.sanmiguel-brand-partner.com"><img src='[% Config("Frontend::WebPath") %]skins/Customer/default/img/sanmiguel_g.svg'></a>
+        </div>
+        <div id='ooo'>
+            <p class='ooo10g'>powered by <a href="https://otobo.de">Rother OSS</a> © 2019</p>
+            <a href="https://otobo.de"><img src='[% Config("Frontend::WebPath") %]skins/Customer/default/img/otobo_logo_simple_g.svg'></a>
+        </div>
+    </div>
+</div>
+
+#<div id="Footer" class="ARIARoleContentinfo">
+#
+#[% IF(Data.FooterLinks) %]
+#    <ul class="FooterLinks">
+#        [% FOREACH Link IN Data.FooterLinks %]
+#            <li>
+#                <a href="[% Link.Target %]" target="_blank">[% Link.Description | html %]</a>
+#            </li>
+#        [% END %]
+#    </ul>
+#[% END %]
+
+#[% IF !Config("Secure::DisableBanner") %]
+#    <a href="[% IF !Data.IsLoginPage %]https://www.otrs.com[% ELSE %]https://www.otrs.com/otobo-business-solution-managed/[% END %]" title="[% Config("Product") | html %][% IF !Data.IsLoginPage %] [% Config("Version") | html %][% END %]" target="_blank">
+#        <span></span>
+#        [% Translate("Powered by %s™", "Harry") | html %]
+#    </a>
+#    <div class="Clear"></div>
+#[% END %]
+#</div>
+
+[% InsertTemplate("CustomerFooterJS.tt") %]
+
+</body>
+</html>

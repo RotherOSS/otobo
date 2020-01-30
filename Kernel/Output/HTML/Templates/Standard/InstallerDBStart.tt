@@ -1,0 +1,51 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+[% RenderBlockStart("DatabaseStart") %]
+<div class="W950px SpacingTop SpacingBottom CenterBox">
+    <form action="[% Env("CGIHandle") %]" method="post" id="FormDB" class="PreventMultipleSubmits">
+        <input type="hidden" name="Action"    value="Installer" />
+        <input type="hidden" name="Subaction" value="DB" />
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate(Data.Item) | html %] ([% Data.Step %])</h2>
+            </div>
+
+            <div class="Content">
+                <fieldset class="TableLike">
+                    <label for="DBType">[% Translate("Type") | html %]:</label>
+                    <div class="Field">
+                        [% Data.SelectDBType %]
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label>[% Translate("Install Type") | html %]:</label>
+                    <div class="Field">
+                        <div>
+                            <input type="radio" id="DBInstallTypeCreateDB" name="DBInstallType" checked value="CreateDB" />
+                            <label for="DBInstallTypeCreateDB">[% Translate("Create a new database for OTOBO") | html %]</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="DBInstallTypeUseDB" name="DBInstallType" value="UseDB" />
+                            <label for="DBInstallTypeUseDB">[% Translate("Use an existing database for OTOBO") | html %]</label>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <div class="Spacing Right">
+                    <button class="Primary CallForAction" type="submit" id="FormDBSubmit"><span>[% Translate("Next") | html %]</span></button>
+                </div>
+                <div class="Clear"></div>
+            </div>
+        </div>
+    </form>
+</div>
+[% RenderBlockEnd("DatabaseStart") %]

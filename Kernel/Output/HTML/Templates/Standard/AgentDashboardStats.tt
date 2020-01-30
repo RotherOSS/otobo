@@ -1,0 +1,94 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+## nofilter(TidyAll::Plugin::OTOBO::TT::Format)
+
+[% IF Data.StatConfigurationValid %]
+
+    [% IF !Data.StatParametersValid %]
+
+        <div class="MessageBox Warning">
+            <p>[% Translate('The configuration for this statistic widget contains errors, please review your settings.') | html %]</p>
+        </div>
+
+    [% ELSIF Data.StatResultData %]
+
+        [% IF Data.Format %]
+
+            <div id="GraphWidgetContainer[% Data.Name | html %]">
+                <svg style="height: 350px;" class="D3GraphCanvas GraphWidget[% Data.Name | html %]" id="GraphWidget[% Data.Name | html %]" xmlns="http://www.w3.org/2000/svg" version="1.1"></svg>
+            </div>
+
+            [% SET AvailableFormats = Data.Stat.Format %]
+
+            <div class="WidgetAction" id="GraphWidgetLink[% Data.Name | html %]">
+                <a href="#" class="TriggerTooltip" title="[% Translate("Download") | html %]">
+                    <i class="fa fa-download"></i>
+                </a>
+                <ul class="Hidden WidgetTooltip">
+                    <li>
+                        <a id="DownloadSVG[% Data.Name | html %]" href="#" download="[% Data.Stat.Title | html %].svg">
+                            <i class="fa fa-file-image-o"></i>
+                            [% Translate("Download as SVG file") | html %]
+                        </a>
+                    </li>
+                    <li>
+                        <a id="DownloadPNG[% Data.Name | html %]" href="#" download="[% Data.Stat.Title | html %].png">
+                            <i class="fa fa-file-image-o"></i>
+                            [% Translate("Download as PNG file") | html %]
+                        </a>
+                    </li>
+                [% IF Data.AgentStatisticsFrontendPermission && AvailableFormats.grep('^CSV$').size %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AgentStatistics;Subaction=Run;Cached=1;StatID=[% Data.Stat.StatID | uri %];Format=CSV;Name=[% Data.Name | uri %]">
+                            <i class="fa fa-file-text-o"></i>
+                            [% Translate("Download as CSV file") | html %]
+                        </a>
+                    </li>
+                [% END %]
+                [% IF Data.AgentStatisticsFrontendPermission && AvailableFormats.grep('^Excel$').size %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AgentStatistics;Subaction=Run;Cached=1;StatID=[% Data.Stat.StatID | uri %];Format=Excel;Name=[% Data.Name | uri %]">
+                            <i class="fa fa-file-excel-o"></i>
+                            [% Translate("Download as Excel file") | html %]
+                        </a>
+                    </li>
+                [% END %]
+                [% IF Data.AgentStatisticsFrontendPermission && AvailableFormats.grep('^Print$').size %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AgentStatistics;Subaction=Run;Cached=1;StatID=[% Data.Stat.StatID | uri %];Format=Print;Name=[% Data.Name | uri %]" target="_blank">
+                            <i class="fa fa-file-pdf-o"></i>
+                            [% Translate("Download as PDF file") | html %]
+                        </a>
+                    </li>
+                [% END %]
+                </ul>
+            </div>
+
+        [% ELSE %]
+
+            <div class="MessageBox Warning">
+                <p>[% Translate('Please select a valid graph output format in the configuration of this widget.') | html %]</p>
+            </div>
+
+        [% END %]
+
+    [% ELSE %]
+
+        <i class="fa fa-signal" style="display: block; margin-bottom: 3px; font-size: 20px; text-align: center; color: #E77A34;"></i>
+        <p class="Center D3GraphMessage FieldExplanation">[% Translate("The content of this statistic is being prepared for you, please be patient.") | html %]</p>
+
+    [% END %]
+
+[% ELSE %]
+
+    <div class="MessageBox Warning" id="StatsConigurationError[% Data.NamePref | html %]">
+        <p>[% Translate('This statistic can currently not be used because its configuration needs to be corrected by the statistics administrator.') | html %]</p>
+    </div>
+
+[% END %]

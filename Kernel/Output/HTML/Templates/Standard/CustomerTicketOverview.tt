@@ -1,0 +1,51 @@
+# --
+# Copyright (C) 2019 Rother OSS GmbH, https://otobo.ch/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<div id='oooContent'>
+    <div id='oooHeader'>
+        <h1>[% Translate("Your Tickets") %]</h1>
+        <div id="oooTicketSearchBox">
+            <form action="[% Env("CGIHandle") %]" method="post" name="compose">
+                <input type="hidden" name="Action" value="CustomerTicketOverview"/>
+                <input type="hidden" name="Subaction" value="Search"/>
+
+                <h3 class='ooog'>
+                    <i class="ooofo ooofo-search"></i>
+                    <input type="text" name="Fulltext" id="oooTicketSearch" title="[% Translate('Ticket Search') | html %]"/>
+                    <span id='oooTicketSearchLabel'>[% Translate('Ticket Search') | html %]</span>
+                </h3>
+            </form>
+        </div>
+        <a id='oooHeaderButton' href="[% Env("Baselink") %]Action=CustomerTicketMessage"><button><i class="ooofo ooofo-add"></i> [% Translate("New Ticket") %]</button></a>
+    </div>
+    <div id='oooMainBox'>
+        <div id='oooTicketListHeader'>
+[% IF Env("Subaction") == 'Search' %]
+            <p class="ooo12 oool Selected">
+                [% Translate("Search") | html %]:  "[% Data.Fulltext %]"
+            </p>
+[% END %]
+[% RenderBlockStart("FilterHeader") %]
+            <a class="[% Data.ClassA | html %] ooo12g oool" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Env("Subaction") %];Filter=[% Data.Filter | uri %];SortBy=[% Data.SortBy | uri %];OrderBy=[% Data.OrderBy | uri %][% Data.CustomerIDs %];Fulltext=[% Data.Fulltext | uri %]">
+                [% Translate(Data.Name) | html %] ([% Data.Count | html %])
+            </a>
+[% RenderBlockEnd("FilterHeader") %]
+[% IF Data.SiteNavBar %]
+            <div class="ooo12g ooor">
+                <p>[% Translate("Page") | html %]</p>
+                [% Data.SiteNavBar %]
+            </div>
+[% END %]
+#            <p class="ooo12g oool">[% Data.TicketCount | html %] [% Translate("Tickets") | html %]</p>
+#            <p class="ooo12g oool">[% Translate("Sort") | html %]</p>
+#            <p class="ooo12g ooor">[% Translate("Filter") | html %]</p>
+#            <p class="ooo12g ooor">[% Translate("Page") | html %]</p>
+        </div>
+        [% Data.TicketListHTML %]
+    </div>
+</div>

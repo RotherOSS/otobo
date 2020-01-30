@@ -1,0 +1,153 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/* New Ticket */
+.oooTile_NewTicket {
+    background-color: #fff;
+    padding-left: 32px;
+    padding-right: 32px;
+    padding-bottom: 24px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.oooTile_NewTicket > h1 {
+    align-self: end;
+    font-size: 36px;
+    letter-spacing: 0.9px;
+}
+
+.oooTile_NewTicket > h1:first-child {
+    justify-self: left;
+    max-width: 180px;
+}
+
+.oooTile_NewTicket > h1:last-child {
+    justify-self: right;
+}
+
+/* Featured Link */
+.oooTile_FeaturedLink {
+	background-size:cover;
+	padding-left: 32px;
+	padding-right: 32px;
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: 1.15fr auto 1fr;
+	grid-row-gap: 16px;	
+}
+
+.oooTile_FeaturedLink > h2 {
+	align-self: end;
+}
+
+.oooTile_FeaturedLink > h3:first-of-type {
+	align-self: center;
+}
+
+.oooTile_FeaturedLink > h3:last-child {
+	align-self: start;
+}
+
+/* TicketList */
+.oooTile_TicketList > h2 {
+    margin-top: 16px;
+    margin-left: 32px;
+    margin-bottom: 16px;
+    height: 30px;
+}
+
+.oooTile_TicketList > div {
+    position: relative;
+    top: -4px;
+    left: -4px;
+    padding-top: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    width: 100%;
+    height: calc( 100% - 62px );
+    overflow: hidden;
+}
+
+.oooTile_TicketList .oooTicketListItem {
+    /* title number / categories / avatar */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.77fr) 40px;
+}
+
+.oooTile_TicketList .oooTicketListItem > .oooTicketItemOwner,
+.oooTile_TicketList .oooTicketListItem > .oooTicketItemInfo,
+.oooTile_TicketList .oooTicketListItem > .oooTicketItemAge {
+    display: none;
+}
+
+/* PlainText */
+.oooTile_PlainText {
+    padding-top: 24px;
+    padding-bottom: 32px;
+	padding-left: 32px;
+	padding-right: 32px;
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: 1fr auto;
+	grid-row-gap: 24px;	
+}
+
+.oooTile_PlainText > h2 {
+	align-self: end;
+}
+
+.oooTile_PlainText > h3 {
+	align-self: start;
+    max-height: 100%;
+    overflow: hidden;
+}
+
+/* ToolBox */
+.oooTile_ToolBox {
+	padding-left: 32px;
+	padding-right: 32px;
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: 1fr auto;
+	grid-row-gap: 24px;	
+    background-color: #fff;
+}
+
+.oooTile_ToolBox > h2 {
+	align-self: end;
+}
+
+.oooTile_ToolBox > div {
+    padding-bottom: 16px;
+}
+
+.oooTile_ToolBox a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-right: 16px;
+    margin-bottom: 16px;
+	background-size: cover;
+    border-radius: 5px;
+    box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
+}
+
+/* Plain Picture */
+.oooTile_PlainPicture {
+	background-size:cover;
+	padding-left: 32px;
+	padding-top: 24px;
+}
+

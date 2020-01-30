@@ -1,0 +1,145 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("SQL Box") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('SQL Box'),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+[% RenderBlockStart("ResultFilter") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterResults">[% Translate("Filter for Results") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterResults" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterResults" value="" title="[% Translate("Filter for results") | html %]">
+            </div>
+        </div>
+[% RenderBlockEnd("ResultFilter") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+[% RenderBlockStart("ExplanationOnlySelect") %]
+                <p class="FieldExplanation">
+                    [% Translate("Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.") | html %]
+                </p>
+[% RenderBlockEnd("ExplanationOnlySelect") %]
+[% RenderBlockStart("ExplanationAllSqlQueries") %]
+                <p class="FieldExplanation">
+                    [% Translate("Here you can enter SQL to send it directly to the application database.") | html %]
+                </p>
+[% RenderBlockEnd("ExplanationAllSqlQueries") %]
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Options") | html %]</h2>
+            </div>
+            <div class="Content">
+
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate" id="AdminSelectBoxForm">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="Select"/>
+                    <fieldset class="TableLike FixedLabelSmall">
+
+                        <label class="Mandatory" for="SQL"><span class="Marker">*</span> [% Translate("SQL") | html %]:</label>
+                        <div class="Field">
+                            <textarea name="SQL" id="SQL" rows="3" class="W100pc Validate_Required [% Data.SQLInvalid | html %]">[% Data.SQL | html %]</textarea>
+                            <div id="SQLError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div id="SQLServerError" class="TooltipErrorMessage">
+                                <p>
+[% RenderBlockStart("FieldRequiredServerError") %]
+                                    [% Translate("This field is required.") | html %]
+[% RenderBlockEnd("FieldRequiredServerError") %]
+[% RenderBlockStart("SQLIsNotSelectServerError") %]
+                                    [% Translate("Only select queries are allowed.") | html %]
+[% RenderBlockEnd("SQLIsNotSelectServerError") %]
+[% RenderBlockStart("SQLSyntaxServerError") %]
+                                    [% Translate("The syntax of your SQL query has a mistake. Please check it.") | html %]
+[% RenderBlockEnd("SQLSyntaxServerError") %]
+[% RenderBlockStart("BindParamServerError") %]
+                                    [% Translate("There is at least one parameter missing for the binding. Please check it.") | html %]
+[% RenderBlockEnd("BindParamServerError") %]
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Max">[% Translate("Limit") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Max" id="Max" value="[% Data.Max | html %]" class="W50px" />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ResultFormat">[% Translate("Result format") | html %]:</label>
+                        <div class="Field">
+                            [% Data.ResultFormatStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary CallForAction" type="submit" id="Run" value="[% Translate("Run Query") | html %]"><span>[% Translate("Run Query") | html %]</span></button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+[% RenderBlockStart("Result") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("%s Results", Data.MatchesFound) | html %]</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable" id="Results">
+                    <thead>
+                        <tr>
+[% RenderBlockStart("ColumnHead") %]
+                            <th>[% Data.ColumnName | html %]</th>
+[% RenderBlockEnd("ColumnHead") %]
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("NoMatches") %]
+                        <tr><td colspan="[% Data.Colspan | html %]">[% Translate("No matches found.") | html %]</td></tr>
+[% RenderBlockEnd("NoMatches") %]
+[% RenderBlockStart("NoSelectResult") %]
+                        <tr><td colspan="[% Data.Colspan | html %]">[% Translate("Query is executed.") | html %]</td></tr>
+[% RenderBlockEnd("NoSelectResult") %]
+[% RenderBlockStart("Row") %]
+                        <tr>
+[% RenderBlockStart("Cell") %]
+                            <td title="[% Data.Content | html %]">[% Data.Content | truncate(80) | html %]</td>
+[% RenderBlockEnd("Cell") %]
+                        </tr>
+[% RenderBlockEnd("Row") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="999">[% Translate("No matches found.") | html %]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+[% RenderBlockEnd("Result") %]
+    </div>
+    <div class="Clear"></div>
+</div>

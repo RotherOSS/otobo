@@ -1,0 +1,122 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<!-- start -->
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("System Maintenance Management") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate("System Maintenance Management"),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
+    <div class="SidebarColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=SystemMaintenanceNew" class="CallForAction Fullsize Center Create"><span><i class="fa fa-plus-square"></i>[% Translate("Schedule New System Maintenance") | html %]</span></a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterSystemMaintenances">[% Translate("Filter for System Maintenances") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterSystemMaintenances" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterSystemMaintenances" value="" title="[% Translate("Filter for system maintenances") | html %]">
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("Schedule a system maintenance period for announcing the Agents and Customers the system is down for a time period.") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    [% Translate("Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.") | html %]
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+
+            <div class="Header">
+                <h2>[% Translate("List") | html %]</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable" id="SystemMaintenances">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Start date") | html %]</th>
+                            <th>[% Translate("Stop date") | html %]</th>
+                            <th>[% Translate("Comment") | html %]</th>
+                            <th>[% Translate("Validity") | html %]</th>
+                            <th class="Center">[% Translate("Delete") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("ViewRow") %]
+                        <tr [% IF Data.ValidID != "valid"%]class="Invalid"[% END %]>
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSystemMaintenance;Subaction=SystemMaintenanceEdit;SystemMaintenanceID=[% Data.ID | uri %]">[% Data.StartDateTimeStamp | html %]</a>
+                            </td>
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSystemMaintenance;Subaction=SystemMaintenanceEdit;SystemMaintenanceID=[% Data.ID | uri %]">[% Data.StopDateTimeStamp | html %]</a>
+                            </td>
+                            <td>[% Data.Comment | truncate(80) | html %]</td>
+                            <td>[% Translate(Data.ValidID) | html %]</td>
+
+                            <td class="Center">
+                                <a class="TrashCan SystemMaintenanceDelete" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;SystemMaintenanceID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete System Maintenance") | html %]">
+                                    <i class="fa fa-trash-o"></i>
+                                    <span class="InvisibeText">[% Translate("Delete System Maintenance") | html %]</span>
+                                </a>
+                            </td>
+                        </tr>
+[% RenderBlockEnd("ViewRow") %]
+
+[% RenderBlockStart("NoDataRow") %]
+                        <tr>
+                            <td colspan="5">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("NoDataRow") %]
+
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="5">[% Translate("No matches found.") | html %]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="Clear"></div>
+</div>
+
+<!-- end -->

@@ -1,0 +1,402 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+[% RenderBlockStart("Overview") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("S/MIME Management") | html %][% IF Data.Subtitle %]:[% END %] [% Translate(Data.Subtitle) | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('S/MIME Management'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% IF Data.Action == "ShowAddCertificate" %]
+        [% BreadcrumbPath.push({ Name => Translate("Add Certificate"),}) %]
+    [% ELSIF Data.Action == "ShowAddPrivate" %]
+        [% BreadcrumbPath.push({ Name => Translate("Add Private Key"),}) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+[% RenderBlockStart("Notice") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Notice") | html %]</h2>
+            </div>
+            <div class="Content ActionList">
+                <form action="[% Env("CGIHandle") %]" method="post">
+                    <input type="hidden" name="Action" value="AdminSystemConfigurationGroup"/>
+                    <input type="hidden" name="RootNavigation" value="Core::Crypt::SMIME"/>
+[% RenderBlockStart("Disabled") %]
+                    <h3><span class="Warning">[% Translate("SMIME support is disabled") | html %]<span></h3>
+                    <fieldset>
+                        <p class="FieldExplanation">
+                            [% Translate("To be able to use SMIME in OTOBO, you have to enable it first.") | html %]
+                        </p>
+                        <div class="Field">
+                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Enable it here!") | html %]">
+                                <span><i class="fa fa-unlock-alt"></i> [% Translate("Enable SMIME support") | html %]</span>
+                            </button>
+                        </div>
+[% RenderBlockEnd("Disabled") %]
+[% RenderBlockStart("NotWorking") %]
+                    <h3><span class="Error">[% Translate("Faulty SMIME configuration") | html %]<span></h3>
+                    <fieldset>
+                        <p class="FieldExplanation">
+                            [% Translate("SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.") | html %]
+                        </p>
+                        <div class="Field">
+                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Configure it here!") | html %]">
+                                <span><i class="fa fa-unlock-alt"></i> [% Translate("Check SMIME configuration") | html %]</span>
+                            </button>
+                        </div>
+[% RenderBlockEnd("NotWorking") %]
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+[% RenderBlockEnd("Notice") %]
+[% RenderBlockStart("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("ActionAdd") %]
+                    <li>
+                        <a class="CallForAction Fullsize Center" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ShowAddCertificate"><span><i class="fa fa-plus-square"></i> [% Translate("Add Certificate") | html %]</span></a>
+                    </li>
+                    <li>
+                        <a class="CallForAction Fullsize Center" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ShowAddPrivate"><span><i class="fa fa-plus-square"></i> [% Translate("Add Private Key") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionAdd") %]
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+                </ul>
+            </div>
+        </div>
+
+[% RenderBlockEnd("ActionList") %]
+
+[% RenderBlockStart("SMIMEFilter") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterSMIME">[% Translate("Filter for Certificates") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <ul>
+                    <li>
+                        <form action="">
+                            <fieldset>
+                                <input type="text" id="FilterSMIME" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterSMIME" value="" title="[% Translate("Filter for certificates") | html %]" />
+                            </fieldset>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("SMIMEFilter") %]
+
+[% RenderBlockStart("OverviewHint") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("To show certificate details click on a certificate icon.") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    [% Translate("To manage private certificate relations click on a private key icon.") | html %]
+                </p>
+            </div>
+        </div>
+[% RenderBlockEnd("OverviewHint") %]
+[% RenderBlockStart("SignerCertHint") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("Here you can add relations to your private certificate, these will be embedded to the S/MIME signature every time you use this certificate to sign an email.") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    [% Translate("See also") | html %]: <a href="http://en.wikipedia.org/wiki/S/MIME" target="_blank">http://en.wikipedia.org/wiki/S/MIME</a>
+                </p>
+            </div>
+        </div>
+[% RenderBlockEnd("SignerCertHint") %]
+[% RenderBlockStart("Hint") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("In this way you can directly edit the certification and private keys in file system.") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    [% Translate("See also") | html %]: <a href="http://en.wikipedia.org/wiki/S/MIME" target="_blank">http://en.wikipedia.org/wiki/S/MIME</a>
+                </p>
+            </div>
+        </div>
+[% RenderBlockEnd("Hint") %]
+    </div>
+
+    <div class="ContentColumn">
+[% RenderBlockStart("OverviewResult") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("List") | html %]</h2>
+            </div>
+            <div class="Content ">
+                <table class="DataTable" id="SMIME">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>[% Translate("Type") | html %]</th>
+                            <th>[% Translate("Subject") | html %]</th>
+                            <th>[% Translate("Hash") | html %]</th>
+                            <th>[% Translate("Fingerprint") | html %]</th>
+                            <th>[% Translate("Create") | html %]</th>
+                            <th>[% Translate("Expires") | html %]</th>
+                            <th>[% Translate("Delete") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="8">[% Translate("No matches found.") | html %]</td>
+                        </tr>
+[% RenderBlockStart("NoDataFoundMsg") %]
+                        <tr>
+                            <td colspan="8">[% Translate("No data found.") | html %]</td>
+                        </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockStart("Row") %]
+                        <tr [% IF Data.Expired %] class="Error" title="Expired"[% END %]>
+                            <td>
+
+[% RenderBlockStart("CertificateRelationAdd") %]
+                                <a class="CertificateRelationAdd" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=SignerRelations;Fingerprint=[% Data.Fingerprint %]" title="[% Translate("Handle related certificates") | html %]">
+                                    [% Translate("Handle related certificates") | html %]
+                                </a>
+[% RenderBlockEnd("CertificateRelationAdd") %]
+[% RenderBlockStart("CertificateRead") %]
+                                <a class="CertificateRead" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Read;Type=[% Data.Type | uri %];Filename=[% Data.Filename | uri %]" title="[% Translate("Read certificate") | html %]">
+                                    [% Translate("Read certificate") | html %]
+                                </a>
+[% RenderBlockEnd("CertificateRead") %]
+
+                            </td>
+                            <td>[% Data.Type | html %]</td>
+                            <td>[% Data.Subject | html %]</td>
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Download;Type=[% Data.Type | uri %];Filename=[% Data.Filename | uri %]" title="[% Data.Hash | html %]">[% Data.Hash | truncate(12) | html %]</a>
+                            </td>
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=DownloadFingerprint;Type=[% Data.Type | uri %];Filename=[% Data.Filename | uri %]" title="[% Data.Fingerprint | html %]">[% Data.Fingerprint | truncate(12) | html %]</a>
+                            </td>
+                            <td>[% Data.ShortStartDate | html %]</td>
+                            <td>[% Data.ShortEndDate | html %]</td>
+                            <td class="Center">
+                                <a class="TrashCan" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;Type=[% Data.Type | uri %];Filename=[% Data.Filename | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this certificate") | html %]">
+                                    [% Translate("Delete this certificate") | html %]
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+                            </td>
+                        </tr>
+[% RenderBlockEnd("Row") %]
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+[% RenderBlockEnd("OverviewResult") %]
+[% RenderBlockStart("OverviewAddCertificate") %]
+    <div class="WidgetSimple">
+        <div class="Header">
+            <h2>[% Translate("Add Certificate") | html %]</h2>
+        </div>
+        <div class="Content">
+            <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                <input type="hidden" name="Subaction" value="AddCertificate"/>
+                <fieldset class="TableLike">
+                    <label class="Mandatory" for="File"><span class="Marker">*</span> [% Translate("File") | html %]:</label>
+                    <div class="Field">
+                        <input type="file" size="30" name="FileUpload" id="FileUpload" class="Validate_Required [% Data.FileUploadInvalid | html %]"/>
+                        <div id="FileUploadError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        <div id="FileUploadServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div class="Field SpacingTop">
+                        <button class="Primary CallForAction" type="submit" value="[% Translate("Add") | html %]"><span>[% Translate("Add") | html %]</span></button>
+                        [% Translate("or") | html %]
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+[% RenderBlockEnd("OverviewAddCertificate") %]
+[% RenderBlockStart("OverviewAddPrivate") %]
+    <div class="WidgetSimple">
+        <div class="Header">
+            <h2>[% Translate("Add Private Key") | html %]</h2>
+        </div>
+        <div class="Content">
+            <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+                <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                <input type="hidden" name="Subaction" value="AddPrivate"/>
+                <fieldset class="TableLike">
+                    <label class="Mandatory" for="File"><span class="Marker">*</span> [% Translate("File") | html %]:</label>
+                    <div class="Field">
+                        <input type="file" size="5" name="FileUpload" id="FileUpload" class="Validate_Required [% Data.FileUploadInvalid | html %]"/>
+                        <div id="FileUploadError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        <div id="FileUploadServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label class="Mandatory" for="Secret"><span class="Marker">*</span> [% Translate("Secret") | html %]:</label>
+                    <div class="Field">
+                        <input class="W50pc Validate_Required" type="password" name="Secret" id="Secret" value="[% Data.Secret | html %]" maxlength="50"/>
+                        <div id="SecretError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div class="Field SpacingTop">
+                        <button class="Primary CallForAction" type="submit"><span>[% Translate("Submit") | html %]</span></button>
+                        [% Translate("or") | html %]
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+[% RenderBlockEnd("OverviewAddPrivate") %]
+[% RenderBlockStart("SignerCertificates") %]
+    <div class="WidgetSimple">
+        <div class="Header">
+            <h2>[% Translate("Related Certificates for") | html %]: [% Data.CertFingerprint | html %] </h2>
+        </div>
+        <div class="Content ">
+            <table class="DataTable" id="RelatedCerts">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>[% Translate("Type") | html %]</th>
+                        <th>[% Translate("Subject") | html %]</th>
+                        <th>[% Translate("Hash") | html %]</th>
+                        <th>[% Translate("Fingerprint") | html %]</th>
+                        <th>[% Translate("Create") | html %]</th>
+                        <th>[% Translate("Expires") | html %]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="FilterMessage Hidden">
+                        <td colspan="7">[% Translate("No matches found.") | html %]</td>
+                    </tr>
+[% RenderBlockStart("RelatedCertsNoDataFoundMsg") %]
+                    <tr>
+                        <td colspan="7">[% Translate("No data found.") | html %]</td>
+                    </tr>
+[% RenderBlockEnd("RelatedCertsNoDataFoundMsg") %]
+[% RenderBlockStart("RelatedCertsRow") %]
+                    <tr>
+                        <td class="Center">
+                            <a class="Remove" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=SignerRelationDelete;CertFingerprint=[% Data.CertFingerprint | uri %];CAFingerprint=[% Data.Fingerprint | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this relation") | html %]">
+                                [% Translate("Delete this relation") | html %]
+                            </a>
+                        </td>
+                        <td>[% Data.Type | html %]</td>
+                        <td>[% Data.Subject | html %]</td>
+                        <td>
+                            [% Data.Hash | truncate(12) | html %]
+                        </td>
+                        <td title="[% Data.Fingerprint | html %]">
+                            [% Data.Fingerprint | truncate(12) | html %]
+                        </td>
+                        <td>[% Data.ShortStartDate | html %]</td>
+                        <td>[% Data.ShortEndDate | html %]</td>
+                    </tr>
+[% RenderBlockEnd("RelatedCertsRow") %]
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="WidgetSimple">
+        <div class="Header">
+            <h2>[% Translate("Available Certificates") | html %]</h2>
+        </div>
+        <div class="Content">
+            <fieldset>
+                <label for="FilterSMIMECerts">[% Translate("Filter") | html %]: </label>
+                <input type="text" id="FilterSMIMECerts" class="W50pc" name="FilterSMIME" value="" title="[% Translate("Filter for S/MIME certs") | html %]" />
+            </fieldset>
+            <table class="DataTable" id="AvailableCerts">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>[% Translate("Type") | html %]</th>
+                        <th>[% Translate("Subject") | html %]</th>
+                        <th>[% Translate("Hash") | html %]</th>
+                        <th>[% Translate("Fingerprint") | html %]</th>
+                        <th>[% Translate("Create") | html %]</th>
+                        <th>[% Translate("Expires") | html %]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="FilterMessage Hidden">
+                        <td colspan="7">[% Translate("No matches found.") | html %]</td>
+                    </tr>
+[% RenderBlockStart("AvailableCertsNoDataFoundMsg") %]
+                    <tr>
+                        <td colspan="7">[% Translate("No data found.") | html %]</td>
+                    </tr>
+[% RenderBlockEnd("AvailableCertsNoDataFoundMsg") %]
+[% RenderBlockStart("AvailableCertsRow") %]
+                    <tr>
+                        <td>
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=SignerRelationAdd;CertFingerprint=[% Data.CertFingerprint | uri %];CAFingerprint=[% Data.Fingerprint | uri %];[% Env("ChallengeTokenParam") | html %]" class="Add" title="[% Translate("Relate this certificate") | html %]">
+                                [% Translate("Relate this certificate") | html %]
+                            </a>
+                        </td>
+                        <td>[% Data.Type | html %]</td>
+                        <td>[% Data.Subject | html %]</td>
+                        <td>
+                            [% Data.Hash | truncate(12) | html %]
+                        </td>
+                        <td title="[% Data.Fingerprint | html %]">
+                            [% Data.Fingerprint | truncate(12) | html %]
+                        </td>
+                        <td>[% Data.ShortStartDate | html %]</td>
+                        <td>[% Data.ShortEndDate | html %]</td>
+                    </tr>
+[% RenderBlockEnd("AvailableCertsRow") %]
+                </tbody>
+            </table>
+        </div>
+    </div>
+[% RenderBlockEnd("SignerCertificates") %]
+</div>
+<div class="Clear"></div>
+[% RenderBlockEnd("Overview") %]

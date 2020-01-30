@@ -1,0 +1,359 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     OTOBO Framework - Skin "Default"
+ * @section     Customer
+ */
+
+/*
+ * @note    This will be displayed by Core.UI.Tooltips
+ */
+div.TooltipErrorMessage {
+    display: none;
+}
+
+/*
+ * @note    Special case: do display
+ *          ServerError message divs when JavaScript is not active,
+ *          otherwise the user will not see these messages
+ */
+.NoJavaScript .NoJavaScriptMessageServerError {
+    display: block;
+    padding: 2px 5px;
+}
+
+.NoJavaScript .NoJavaScriptMessageServerError,
+.NoJavaScript .NoJavaScriptMessageServerError * {
+    color: #ff505e;
+}
+
+/**
+ * @subsection AJAX Loader
+ */
+
+.AJAXLoader {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-bottom: 18px;
+    margin-left: 16px;
+    position: relative;
+    vertical-align: bottom;
+}
+
+.AJAXLoader:after {
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    line-height: 14px;
+    content: "\f1ce";
+    font-family: FontAwesome;
+    font-size: 14px;
+    color: #777;
+}
+
+/**
+ * @subsection    Tree selection icon and overlay for select boxes
+ */
+
+.ShowTreeSelection {
+    width: 16px;
+    height: 16px;
+    margin-left: 1px;
+    display: inline-block;
+    position: relative;
+    color: #333;
+}
+
+.ShowTreeSelection span {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+}
+
+.ShowTreeSelection:focus {
+    color: #f92;
+}
+
+fieldset .ShowTreeSelection {
+    display: inline-block;
+}
+
+#TreeContainer #TreeSearch {
+    position: relative;
+}
+
+#TreeContainer #TreeSearch span {
+    color: #AAAAAA;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    height: 12px;
+    position: absolute;
+    right: 9px;
+    top: 4px;
+    width: 16px;
+}
+
+#TreeContainer #TreeSearch input {
+    display: block;
+    margin: 10px 12px 0px 12px;
+    width: 92%;
+}
+
+.JSTreeField {
+    background-color: #FFFFFF;
+    border: 1px solid #ccc;
+    height: 72%;
+    margin: 10px 12px;
+    -moz-box-shadow: inset 0px 0px 6px #ccc;
+    -webkit-box-shadow: inset 0px 0px 6px #ccc;
+    box-shadow: inset 0px 0px 6px #ccc;
+    overflow: auto;
+    padding: 0px 10px 10px 10px;
+}
+
+.JSTreeField.InOverlay {
+    margin: 5px 5px 5px 0px;
+    width: 85%;
+    float: left;
+}
+
+.JSTreeField .Disabled > a {
+    color: #aaa;
+    font-style: italic;
+}
+
+.JSTreeField .jstree-search {
+    color: #E07006;
+}
+
+.JSTreeField .jstree-search.jstree-clicked {
+    color: #000;
+}
+
+.JSTreeField .jstree-clicked {
+    background: #f3960d;
+    background: -moz-linear-gradient(top,  #ffe7bd 0%, #fbba49 20%, #f6ad3e 51%, #f3960d 51%, #e98207 95%, #e07006 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffe7bd), color-stop(20%,#fbba49), color-stop(51%,#f6ad3e), color-stop(51%,#f3960d), color-stop(95%,#e98207), color-stop(100%,#e07006));
+    background: -webkit-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    background: -o-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    background: -ms-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    background: linear-gradient(to bottom,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
+    border-color: #f3960d;
+    padding: 0px 3px;
+}
+
+.JSTreeField .jstree-hovered {
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+.JSTreeField a:focus {
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+#SubmitTree {
+    display: block;
+    width: 120px;
+    margin: 0px auto;
+}
+
+.RTL .ShowTreeSelection {
+    margin: 0 3px 0 0;
+}
+
+.OverlayTreeSelector {
+    width: 400px;
+    height: 300px;
+    margin: -10px -15px;
+}
+
+/**
+ * @subsection  Drag & drop upload
+ */
+
+#oooAttachments {
+    height: auto;
+}
+
+div.DnDUploadBox {
+    overflow-y: hidden;
+    padding: 0 !important;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-column-gap: 16px;
+    grid-template-rows: auto;
+}
+
+div.DnDUpload {
+    text-align: center;
+    height: 144px;
+    background-color: #f7f7f9;
+    border-radius: 10px;
+}
+
+input.AjaxDnDUpload.Error + div.DnDUpload {
+    color: #ff505e;
+    border-color: #ff505e;
+}
+
+div.DnDUpload.DragOver {
+    border-style: dashed;
+    background: #eee;
+    color: #444;
+}
+
+div.DnDUpload i {
+    display: block;
+    position: relative;
+    top: 32px;
+}
+
+div.DnDUpload span {
+    position: relative;
+    top: 36px;
+    width: 160px;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+    text-align: center;
+    color: #bfbfce;
+}
+
+div.DnDUpload i.ooofo-save {
+    color: #bfbfce;
+    font-size: 28px;
+}
+
+div.DnDUpload i.fa-spinner {
+    display: none;
+    color: #bfbfce;
+    font-size: 28px;
+}
+
+div.DnDUpload.Uploading i.ooofo-save {
+    display: none;
+}
+
+div.DnDUpload.Uploading i.fa-spinner {
+    display: block;
+}
+
+div.DnDUpload .UploadRunning {
+    display: none;
+}
+
+div.DnDUpload.Uploading .ReadyForUpload {
+    display: none;
+}
+
+div.DnDUpload.Uploading .UploadRunning {
+    display: block;
+}
+
+.AttachmentListContainer {
+    border-radius: 10px;
+    background-color: #f7f7f9;
+}
+
+.AttachmentListContainer .Busy {
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    background: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    box-sizing: border-box;
+    display: none;
+}
+
+.AttachmentListContainer .Busy i {
+    vertical-align: middle;
+    line-height: 100%;
+    position: absolute;
+    top: 50%;
+    font-size: 20px;
+    margin-top: -10px;
+}
+
+table.AttachmentList {
+    width: 100%;
+}
+
+table.AttachmentList tr {
+    height: 48px;
+}
+
+table.AttachmentList tr:nth-child(2) {
+    background-color: #fafafc;
+}
+
+table.AttachmentList td {
+    vertical-align: middle;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+    color: #bfbfce;
+    padding-left: 8px;
+}
+
+table.AttachmentList .Filetype {
+    width: 16px;
+    padding-left: 16px;
+}
+
+table.AttachmentList .Filename {
+    width: calc( 75% - 72px );
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+table.AttachmentList .Progress {
+    display: block;
+    height: 4px;
+    margin: 3px 0px;
+    background: #f92;
+    width: 0px;
+}
+
+table.AttachmentList .Filesize {
+    width: calc( 25% - 72px );
+    text-align: right;
+}
+
+/* last box has class Center from js, or class Delete from HTML-template */
+table.AttachmentList .Center,
+table.AttachmentList .Delete {
+    vertical-align: middle;
+    color: #bfbfce;
+    width: 16px;
+    padding-right: 16px;
+    font-size: 16px;
+}

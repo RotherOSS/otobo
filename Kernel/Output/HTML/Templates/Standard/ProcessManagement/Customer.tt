@@ -1,0 +1,34 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+[% InsertTemplate("AgentCustomerSearch.tt") %]
+
+[% RenderBlockStart("rw:Customer") %]
+<input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="[% Data.SelectedCustomerUser | html %]"/>
+<label for="CustomerAutoComplete" class="[% Data.MandatoryClass | html %]">
+[% RenderBlockStart("LabelSpanCustomerUser") %]
+    <span class="Marker">*</span>
+[% RenderBlockEnd("LabelSpanCustomerUser") %]
+[% RenderBlockStart("rw:Customer:DescriptionLong") %]
+    <span class="FieldHelpContainer">
+        <i class="fa fa-question-circle FieldHelpTrigger"></i>
+        <span>[% Translate(Data.DescriptionLong)| html %]</span>
+    </span>
+[% RenderBlockEnd("rw:Customer:DescriptionLong") %]
+    [% Data.LabelCustomerUser | html %]:
+</label>
+<div class="Field">
+    <input id="CustomerAutoComplete" type="text" name="CustomerUserID" value="[% Data.CustomerUserID | html %]" class="W75pc Validate_Required [% Data.CustomerUserIDServerError | html %]" autocomplete="off" />
+    <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+    <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+</div>
+<div class="Clear"></div>
+
+[% INCLUDE "CustomerCompany/TicketCustomerIDSelection.tt" Required = 0 Readonly = Config("Ticket::Frontend::AgentTicketProcess::CustomerIDReadOnly") %]
+
+[% RenderBlockEnd("rw:Customer") %]

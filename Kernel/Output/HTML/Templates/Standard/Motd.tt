@@ -1,0 +1,16 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<div class="WidgetSimple MessageOfTheDayBox" id="MessageOfTheDayBox">
+    <div class="Header">
+        <h2 class="Center">[% Translate("Message of the Day") | html %]</h2>
+    </div>
+    <div class="Content">
+        <p>[% Translate("This is the message of the day. You can edit this in %s.", 'Kernel/Output/HTML/Templates/Standard/Motd.tt') | html %]</p>
+    </div>
+</div>

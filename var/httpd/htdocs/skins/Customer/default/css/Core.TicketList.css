@@ -1,0 +1,103 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+.oooTicketList h3,
+.oooTicketList p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.oooTicketListMessage {
+    display: block;
+    width: calc( 100% - 80px );
+    height: auto;
+    margin-top: 8px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    padding-left: 40px;
+    padding-right: 40px;
+
+    border-radius: 15px;
+    box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
+    background-color: #ffffff;
+}
+
+.oooTicketListMessage > h3 {
+    padding-bottom: 8px;
+}
+
+.oooTicketListItem {
+    width: calc( 100% - 80px );
+    height: 86px;
+    margin-top: 16px;
+    padding-left: 40px;
+    padding-right: 40px;
+
+    border-radius: 15px;
+    box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
+    background-color: #ffffff;
+
+    display: grid;
+    /* title number / categories / avatar / name / age / options */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.77fr) 40px minmax(0, 0.36fr) 84px 29px;
+    grid-column-gap: 16px;
+    grid-template-rows: 100%;
+    align-items: center;
+}
+
+.oooTicketListItem:first-child {
+    margin-top: 8px;
+}
+
+.oooTicketItemInfo,
+.oooTicketItemAge {
+    text-align: right;
+}
+
+.oooTicketItemInfo > i {
+    display: inline-block;
+    vertical-align: middle;
+    padding-bottom: 3px;
+}
+
+.oooTicketItemCat {
+    position: relative;
+    width: 100%;
+}
+
+.oooTicketItemCat > div {
+    height: 18px;
+    white-space: nowrap;
+}
+
+.oooTicketItemCat > p.oooCategory {
+    height: 0px;
+    padding: 0px;
+}
+
+.oooRow2 {
+    margin-top: 8px;
+}
+
+.oooTicketItemAvatar {
+    height: 40px;
+}
+
+.oooTicketItemAvatar > img {
+    width: 100%;
+    object-fit: contain;
+    border-radius: 20px;
+}

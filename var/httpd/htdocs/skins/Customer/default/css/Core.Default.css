@@ -1,0 +1,124 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: 0.35px;
+    color: #00023c;
+}
+
+p,
+span,
+h1,
+h3 {
+    color: inherit;
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: 0.64px;
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: 500;
+	letter-spacing: 0.5px;
+}
+
+h3 {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+}
+
+.ooo10 {
+    font-size: 10px;
+    letter-spacing: 0.25px;
+}
+.ooo10g {
+    font-size: 10px;
+    letter-spacing: 0.25px;
+    color: #7f809d;
+}
+
+.ooo12 {
+    font-size: 12px;
+    letter-spacing: 0.3px;
+}
+.ooo12g {
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    color: #7f809d;
+}
+
+.ooog {
+    color: #7f809d;
+}
+
+button {
+    background-color: #0000fc;
+    text-align: center;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+-webkit-transition: width 0.3s ease;
+   -moz-transition: width 0.3s ease;
+     -o-transition: width 0.3s ease;
+        transition: width 0.3s ease;
+}
+
+button:hover {
+    background-color: #000099;
+}
+
+button,
+button.oooL {
+    width: 180px;
+    height: 48px;
+    border-radius: 24px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.4px;
+}
+
+button.oooM {
+    width: 162px;
+    height: 40px;
+    border-radius: 20px;
+}
+
+button.oooS {
+    width: 151px;
+    height: 36px;
+    border-radius: 18px;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+}
+
+button.oooXS {
+    width: 106px;
+    height: 36px;
+    border-radius: 18px;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+}

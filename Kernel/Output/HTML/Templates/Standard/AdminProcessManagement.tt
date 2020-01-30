@@ -1,0 +1,182 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("Process Management") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Process Management'),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="Filter">[% Translate("Filter for Processes") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="Filter" class="W95pc" name="Filter" value="" placeholder="[% Translate("Just start typing to filter...") | html %]" title="[% Translate("Filter for processes") | html %]" />
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessNew" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i> [% Translate("Create New Process") | html %]</span></a>
+                    </li>
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessSync" class="CallForAction Fullsize Center"><span><i class="fa fa-rocket"></i> [% Translate("Deploy All Processes") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Configuration Import") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.") | html %]
+                </p>
+                <ul class="ActionList SpacingTop">
+                    <li>
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="ProcessImport"/>
+                            <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
+                            <input name="FileUpload" id="FileUpload" type="file" size="18" class="Fixed W100pc Validate_Required [% Data.FileUploadInvalid | html %]"/>
+                            <div id="FileUploadError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div id="FileUploadServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <fieldset class="SpacingTop">
+                                <input type="checkbox" id="OverwriteExistingEntitiesImport" name="OverwriteExistingEntities" value="1" checked="checked" />
+                                <label for="OverwriteExistingEntitiesImport">[% Translate("Overwrite existing entities") | html %]</label>
+                            </fieldset>
+                            <button class="CallForAction Fullsize Center SpacingTop" type="submit" value="[% Translate("Upload process configuration") | html %]">
+                                <span><i class="fa fa-upload"></i>[% Translate("Import process configuration") | html %]</span>
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple" id="ExampleProcesses">
+            <div class="Header">
+                <h2>[% Translate("Ready2Adopt Processes") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("Here you can activate Ready2Adopt processes showcasing our best practices. Please note that some additional configuration may be required.") | html %]
+                </p>
+                <ul class="ActionList SpacingTop">
+                    <li>
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="ProcessImport"/>
+                            <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
+                            [% Data.ExampleProcessList %]
+                            <div id="ExampleProcessError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div id="ExampleProcessServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <fieldset class="SpacingTop">
+                                <input type="checkbox" id="OverwriteExistingEntitiesExample" name="OverwriteExistingEntities" value="1" checked="checked" />
+                                <label for="OverwriteExistingEntitiesExample">[% Translate("Overwrite existing entities") | html %]</label>
+                            </fieldset>
+                            <button class="CallForAction Fullsize Center SpacingTop" type="submit" value="[% Translate("Import Ready2Adopt process") | html %]">
+                                <span><i class="fa fa-upload"></i>[% Translate("Import Ready2Adopt process") | html %]</span>
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Description") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("To create a new Process you can either import a Process that was exported from another system or create a complete new one.") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    [% Translate("Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.") | html %]
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Processes") | html %]</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable" id="Processes">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Process name") | html %]</th>
+                            <th>[% Translate("Description") | html %]</th>
+                            <th>[% Translate("State") | html %]</th>
+                            <th class="Center">[% Translate("Export") | html %]</th>
+                            <th class="Center">[% Translate("Copy") | html %]</th>
+                            <th class="Center">[% Translate("Print") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("ProcessRow") %]
+                        <tr [% IF Data.State != "Active"%]class="Invalid"[% END %]>
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessEdit;ID=[% Data.ID | uri %];EntityID=[% Data.EntityID | uri %]" title="[% Translate(Data.Name) | html %] ([% Data.EntityID | html %])">
+                                    [% Translate(Data.Name) | html %]
+                                </a>
+                            </td>
+                            <td title="[% Translate(Data.Description) | html %]">[% Translate(Data.Description) | truncate(80) | html %]</td>
+                            <td>[% Translate(Data.State) | html %]</td>
+                            <td class="Center">
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessExport;ID=[% Data.ID | uri %]" title="[% Translate("Export Process Configuration") | html %]">
+                                    <i class="fa fa-download"></i> <span class="InvisibleText">[% Translate("Export") | html %]</span>
+                                </a>
+                            </td>
+                            <td class="Center">
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessCopy;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Copy Process") | html %]">
+                                    <i class="fa fa-copy"></i> <span class="InvisibleText">[% Translate("Copy") | html %]</span>
+                                </a>
+                            </td>
+                            <td class="Center">
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessPrint;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" class="AsPopup PopupType_ProcessOverview">
+                                    <i class="fa fa-print"></i> <span class="InvisibleText">[% Translate("Print") | html %]</span>
+                                </a>
+                            </td>
+                        </tr>
+[% RenderBlockEnd("ProcessRow") %]
+[% RenderBlockStart("ProcessNoDataRow") %]
+                        <tr>
+                            <td colspan="6">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("ProcessNoDataRow") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="6">[% Translate("No matches found.") | html %]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>

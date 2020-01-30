@@ -1,0 +1,246 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+## nofilter(TidyAll::Plugin::OTOBO::TT::ScriptUsage)
+[%- INCLUDE "HTTPHeaders.tt" -%]
+# With this X-Header, Core.AJAX can recognize that the AJAX request returned the login page (session timeout) and perform a redirect.
+X-OTOBO-Login: [% Env("Baselink") %]
+
+<!DOCTYPE html>
+<html>
+[% InsertTemplate("Copyright.tt") %]
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-type" content="text/html;charset=utf-8" />
+    <link rel="shortcut icon" href="[% Config("Frontend::ImagePath") %]icons/product.ico" type="image/ico" />
+    <link rel="apple-touch-icon" href="[% Config("Frontend::ImagePath") %]icons/apple-touch-icon.png" />
+
+[% RenderBlockStart("CommonCSS") %]
+    <link rel="stylesheet" type="text/css" href="[% Config("Frontend::WebPath") %]skins/Agent/[% Data.Skin | uri %]/[% Data.CSSDirectory %]/[% Data.Filename %]" />
+[% RenderBlockEnd("CommonCSS") %]
+
+    <link rel="stylesheet" href="[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/ui-theme/jquery-ui.css" />
+
+[% RenderBlockStart("HeaderLogoCSS") %]
+    <style type="text/css">
+        #Header #Logo {
+            background-image: [% Data.URL | html %];
+            top: [% Data.StyleTop | html %];
+            right: [% Data.StyleRight | html %];
+            width: [% Data.StyleWidth | html %];
+            height: [% Data.StyleHeight | html %];
+        }
+    </style>
+[% RenderBlockEnd("HeaderLogoCSS") %]
+
+[% RenderBlockStart("LoginLogoCSS") %]
+    <style type="text/css">
+        #LoginLogo {
+            background-image: [% Data.URL | html %];
+            height: [% Data.StyleHeight | html %];
+        }
+    </style>
+[% RenderBlockEnd("LoginLogoCSS") %]
+
+    <link rel="stylesheet" type="text/css" href="[% Config("Frontend::WebPath") %]common/css/font-awesome.min.css" />
+
+# decide, if responsive CSS must be loaded
+# resposive CSS will not be loaded in "desktop mode" or if the document is within an iframe (customer overview in ticket phone overlay)
+    <script>
+      (function(doc, win) {
+          var isIFrame = (win.top.location.href !== win.location.href),
+              isPopup = (win.name.search(/^OTOBOPopup_/) != -1);
+          try {
+              if (((!isIFrame && !isPopup) || (isIFrame && isPopup)) && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
+                var ResponsiveCSS;
+    [% RenderBlockStart("ResponsiveCSS") %]
+                ResponsiveCSS = doc.createElement("link");
+                ResponsiveCSS.setAttribute("rel", "stylesheet");
+                ResponsiveCSS.setAttribute("type", "text/css");
+                ResponsiveCSS.setAttribute("href", "[% Config("Frontend::WebPath") %]skins/Agent/[% Data.Skin | uri %]/[% Data.CSSDirectory %]/[% Data.Filename %]");
+                doc.getElementsByTagName("head")[0].appendChild(ResponsiveCSS);
+    [% RenderBlockEnd("ResponsiveCSS") %]
+              }
+          }
+          catch (Exception) {}
+      }(document, window));
+    </script>
+
+    <title>[% Translate(Data.Title) | html %] - [% Config("ProductName") %]</title>
+
+[% InsertTemplate("HTMLHeadBlockEvents.tt") %]
+
+</head>
+<!-- end header -->
+<body class="[% Data.BodyClass | html %] LoginScreen">
+    <div id="AppWrapper">
+    <div id="Header" class="ARIARoleBanner">
+        <div id="Logo"></div>
+    </div>
+
+    <div class="MainBox ARIARoleMain">
+[% RenderBlockStart("LoginLogo") %]
+        <div id="LoginLogo" class="CenterBox"></div>
+[% RenderBlockEnd("LoginLogo") %]
+
+        <div>
+            <div class="LoginBox">
+                <noscript>
+                <div class="ErrorBox">
+                    <strong>[% Translate("JavaScript Not Available") | html %]</strong>
+                    <span>[% Translate("In order to experience this software, you'll need to enable JavaScript in your browser.") | html %]</span>
+                </div>
+                </noscript>
+                <div class="ErrorBox Hidden" id="OldBrowser">
+                    <span>
+                        [% Translate("The browser you are using is too old.") | html %]
+                        [% Translate("This software runs with a huge lists of browsers, please upgrade to one of these.") | html %]
+                        [% Translate("Please see the documentation or ask your admin for further information.") | html %]
+                    </span>
+                </div>
+
+[% RenderBlockStart("SystemMaintenance") %]
+                <div class="MessageBox WithIcon" id="SystemMaintenance">
+                    <i class="fa fa-exclamation-circle"></i>
+                    <p>
+                        [% Translate(Data.LoginMessage) | html %]
+                    </p>
+                </div>
+[% RenderBlockEnd("SystemMaintenance") %]
+            </div>
+
+[% RenderBlockStart("PreLogin") %]
+            <div id="LoginBox" class="LoginBox PreLogin">
+                <div class="WidgetSimple">
+                    <div class="Content">
+                        <p class="Center">
+                            [% Translate("One moment please, you are being redirected...") | html %]
+                        </p>
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" name="login">
+                            <input type="hidden" name="Action" value="Login" />
+                            <input type="hidden" name="RequestedURL" value="[% Data.RequestedURL | html %]"/>
+                            <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
+                            <input type="hidden" name="TimeZoneOffset" id="TimeZoneOffset" value=""/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+[% RenderBlockEnd("PreLogin") %]
+
+[% RenderBlockStart("LoginBox") %]
+            <div id="LoginBox" class="LoginBox">
+                <div class="[% IF Data.MessageType == 'Success' %]SuccessBox[% ELSIF Data.MessageType == 'Error' %]ErrorBox[% END %]">
+                    <span>[% Translate(Data.Message) | html %]</span>
+                </div>
+                <div class="WidgetSimple">
+                    <div class="Content">
+                        <p class="Error Center Spacing"></p>
+
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" name="login" class="Validate PreventMultipleSubmits">
+                            <input type="hidden" name="Action" value="Login" />
+                            <input type="hidden" name="RequestedURL" value="[% Data.RequestedURL | html %]"/>
+                            <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
+                            <input type="hidden" name="TimeZoneOffset" id="TimeZoneOffset" value=""/>
+                            <fieldset>
+                                <div>
+                                    <label for="User" class="InvisibleText Mandatory">
+                                        <span class="Marker">*</span> [% Translate("Username") | html %]
+                                    </label>
+                                    <input autocorrect="off" autocomplete="username" placeholder="[% Translate("Username") | html %]" autocapitalize="off" type="text" id="User" name="User" value="[% Data.User | html %]" class="W75pc Validate_Required" />
+                                    <div id="UserError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                                </div>
+                                <div>
+                                    <label for="Password" class="InvisibleText Mandatory">
+                                        <span class="Marker">*</span> [% Translate("Password") | html %]
+                                    </label>
+                                    <input type="password" autocomplete="current-password" placeholder="[% Translate("Password") | html %]" id="Password" name="Password" class="W75pc Validate_Required" />
+                                    <div id="PasswordError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                                </div>
+                                <div class="Clear"></div>
+
+[% RenderBlockStart("AuthTwoFactor") %]
+                                <label for="TwoFactorToken" class="InvisibleText [% Data.MandatoryClass | html %]">
+[% RenderBlockStart("AuthTwoFactorMandatory") %]
+                                    <span class="Marker">*</span>
+[% RenderBlockEnd("AuthTwoFactorMandatory") %]
+                                        [% Translate("2 Factor Token") | html %]
+                                </label>
+                                <div>
+                                    <input type="text" placeholder="[% Translate("2 Factor Token") | html %]" id="TwoFactorToken" name="TwoFactorToken" class="W75pc [% Data.ValidateRequired | html %]" />
+                                    <div id="TwoFactorTokenError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                                </div>
+                                <div class="Clear"></div>
+[% RenderBlockEnd("AuthTwoFactor") %]
+
+<!--
+# TODO: Implement
+#                                <div class="Field">
+#                                    <input type="checkbox" id="Remember" name="Remember" title="Remember my login on this computer" readonly="readonly" />
+#                                    <label for="Remember">Remember my login on this computer</label>
+#                                </div>
+#                                <div class="Clear"></div>
+                                -->
+
+                                <div class="Field">
+                                    <button type="submit" id="LoginButton" class="Primary CallForAction Fullsize Center" value="[% Translate("Login") | html %]" disabled="disabled"><span>[% Translate("Login") | html %]</span></button>
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+[% RenderBlockStart("LostPasswordLink") %]
+                <p class="Center SpacingTop">
+                    <a href="#" id="LostPassword">[% Translate("Lost your password?") | html %]</a>
+                </p>
+            </div>
+[% RenderBlockEnd("LostPasswordLink") %]
+[% RenderBlockEnd("LoginBox") %]
+
+[% RenderBlockStart("LostPassword") %]
+            <div id="PasswordBox" class="Hidden">
+                <div class="WidgetSimple">
+                    <div class="Content">
+                        <p class="Error Center Spacing"></p>
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" class="Validate PreventMultipleSubmits">
+                            <input type="hidden" name="Action" value="LostPassword"/>
+                            <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
+
+                            <fieldset>
+                                <label class="InvisibleText" for="PasswordUser" class="Mandatory">
+                                    <span class="Marker">*</span>
+                                        [% Translate("Username") | html %]:
+                                </label>
+                                <div>
+                                    <input placeholder="[% Translate("Username") | html %]" type="text" id="PasswordUser" name="User" value="" class="W75pc Validate_Required" readonly="readonly"/>
+                                    <div id="PasswordUserError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <div>
+                                    <button type="submit" Class="Primary CallForAction Fullsize Center" value="[% Translate("Request New Password") | html %]" disabled="disabled"><span>[% Translate("Request New Password") | html %]</span></button>
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+                <p class="Center SpacingTop">
+                    <a href="" id="BackToLogin">&larr; [% Translate("Back to login") | html %]</a>
+                </p>
+            </div>
+[% RenderBlockEnd("LostPassword") %]
+
+# Message of the day data!
+[% Data.Motd %]
+
+        </div>
+    </div>
+# loading a file called ads.js would be blocked by ad blockers (e.g. AdBlock or AdBlockPlus) and thus allows for a basic adblocker detection
+    <script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") %]ads.js"></script>
+
+[% InsertTemplate("Footer.tt") %]

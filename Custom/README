@@ -1,0 +1,16 @@
+If you need to modify already existing framework Perl module files or tt template files
+or unit test files for customizations, you can do this in the $OTOBO_HOME/Custom/ directory.
+
+Example:
+
+  You need to modify Kernel/System/Service.pm to add an customization, copy
+  Kernel/System/Service.pm to Custom/Kernel/System/Service.pm and modify it.
+  This module will be used instead of the original Service.pm.
+
+This method also works for tt files. Just place them in Kernel/Output/HTML/$ThemeName,
+and they will be used if the theme is selected.
+
+It also works for unit test files. Just place them in Custom/scripts/test.
+
+If you use Apache + mod_perl or PerlEx, any Perl module files placed in this directory
+will only be loaded by your web server after you restarted it.

@@ -1,0 +1,139 @@
+---
+- ChangeBy: 1
+  ChangeTime: 2017-08-11 11:22:44
+  Comment: ''
+  CreateBy: 1
+  CreateTime: 2017-08-11 11:22:44
+  Data:
+    AgentEnabledByDefault:
+    - Email
+    Events:
+    - NotificationNewTicket
+    Recipients:
+    - AgentMyQueues
+    - AgentMyServices
+    SendOnOutOfOffice:
+    - '1'
+    Transports:
+    - Email
+    VisibleForAgent:
+    - '1'
+    VisibleForAgentTooltip:
+    - You will receive a notification each time a new ticket is created in one of
+      your "My Queues" or "My Services".
+  ID: 1
+  Message:
+    de:
+      Body: |-
+        Hallo <OTOBO_NOTIFICATION_RECIPIENT_UserFirstname> <OTOBO_NOTIFICATION_RECIPIENT_UserLastname>,
+
+        das Ticket [<OTOBO_CONFIG_Ticket::Hook><OTOBO_CONFIG_Ticket::HookDivider><OTOBO_TICKET_TicketNumber>] wurde in der Queue <OTOBO_TICKET_Queue> erstellt.
+
+        <OTOBO_CUSTOMER_REALNAME> schrieb:
+        <OTOBO_CUSTOMER_BODY[30]>
+
+        <OTOBO_CONFIG_HttpType>://<OTOBO_CONFIG_FQDN>/<OTOBO_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTOBO_TICKET_TicketID>
+
+        -- <OTOBO_CONFIG_NotificationSenderName>
+      ContentType: text/plain
+      Subject: 'Ticket erstellt: <OTOBO_TICKET_Title>'
+    en:
+      Body: |-
+        Hi <OTOBO_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+        ticket [<OTOBO_CONFIG_Ticket::Hook><OTOBO_CONFIG_Ticket::HookDivider><OTOBO_TICKET_TicketNumber>] has been created in queue <OTOBO_TICKET_Queue>.
+
+        <OTOBO_CUSTOMER_REALNAME> wrote:
+        <OTOBO_CUSTOMER_BODY[30]>
+
+        <OTOBO_CONFIG_HttpType>://<OTOBO_CONFIG_FQDN>/<OTOBO_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTOBO_TICKET_TicketID>
+
+        -- <OTOBO_CONFIG_NotificationSenderName>
+      ContentType: text/plain
+      Subject: 'Ticket Created: <OTOBO_TICKET_Title>'
+    es_MX:
+      Body: |-
+        Hola <OTOBO_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+        el ticket [<OTOBO_CONFIG_Ticket::Hook><OTOBO_CONFIG_Ticket::HookDivider><OTOBO_TICKET_TicketNumber>] se ha creado en la fila <OTOBO_TICKET_Queue>.
+
+        <OTOBO_CUSTOMER_REALNAME> escribió:
+        <OTOBO_CUSTOMER_BODY[30]>
+
+        <OTOBO_CONFIG_HttpType>://<OTOBO_CONFIG_FQDN>/<OTOBO_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTOBO_TICKET_TicketID>
+
+        -- <OTOBO_CONFIG_NotificationSenderName>
+      ContentType: text/plain
+      Subject: 'Se ha creado un ticket: <OTOBO_TICKET_Title>'
+    hu:
+      Body: |-
+        Kedves <OTOBO_NOTIFICATION_RECIPIENT_UserFirstname>!
+
+        A(z) [<OTOBO_CONFIG_Ticket::Hook><OTOBO_CONFIG_Ticket::HookDivider><OTOBO_TICKET_TicketNumber>] jegy létrejött a következő várólistában: <OTOBO_TICKET_Queue>.
+
+        <OTOBO_CUSTOMER_REALNAME> ezt írta:
+        <OTOBO_CUSTOMER_BODY[30]>
+
+        <OTOBO_CONFIG_HttpType>://<OTOBO_CONFIG_FQDN>/<OTOBO_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTOBO_TICKET_TicketID>
+
+        -- <OTOBO_CONFIG_NotificationSenderName>
+      ContentType: text/plain
+      Subject: 'Jegy létrehozva: <OTOBO_TICKET_Title>'
+    pt_BR:
+      Body: |-
+        Oi <OTOBO_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+        o ticket [<OTOBO_CONFIG_Ticket::Hook><OTOBO_CONFIG_Ticket::HookDivider><OTOBO_TICKET_TicketNumber>] foi criado na fila <OTOBO_TICKET_Queue>.
+
+        <OTOBO_CUSTOMER_REALNAME> escreveu:
+        <OTOBO_CUSTOMER_BODY[30]>
+
+        <OTOBO_CONFIG_HttpType>://<OTOBO_CONFIG_FQDN>/<OTOBO_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTOBO_TICKET_TicketID>
+
+        -- <OTOBO_CONFIG_NotificationSenderName>
+      ContentType: text/plain
+      Subject: 'Ticket criado: <OTOBO_TICKET_Title>'
+    sr_Cyrl:
+      Body: |-
+        Здраво <OTOBO_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+        тикет [<OTOBO_CONFIG_Ticket::Hook><OTOBO_CONFIG_Ticket::HookDivider><OTOBO_TICKET_TicketNumber>] је отворен у реду <OTOBO_TICKET_Queue>.
+
+        <OTOBO_CUSTOMER_REALNAME> је написао/ла:
+        <OTOBO_CUSTOMER_BODY[30]>
+
+        <OTOBO_CONFIG_HttpType>://<OTOBO_CONFIG_FQDN>/<OTOBO_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTOBO_TICKET_TicketID>
+
+        -- <OTOBO_CONFIG_NotificationSenderName>
+      ContentType: text/plain
+      Subject: 'Oтворен тикет: <OTOBO_TICKET_Title>'
+    sr_Latn:
+      Body: |-
+        Zdravo <OTOBO_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+        tiket [<OTOBO_CONFIG_Ticket::Hook><OTOBO_CONFIG_Ticket::HookDivider><OTOBO_TICKET_TicketNumber>] je otvoren u redu <OTOBO_TICKET_Queue>.
+
+        <OTOBO_CUSTOMER_REALNAME> je napisao/la:
+        <OTOBO_CUSTOMER_BODY[30]>
+
+        <OTOBO_CONFIG_HttpType>://<OTOBO_CONFIG_FQDN>/<OTOBO_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTOBO_TICKET_TicketID>
+
+        -- <OTOBO_CONFIG_NotificationSenderName>
+      ContentType: text/plain
+      Subject: 'Otvoren tiket: <OTOBO_TICKET_Title>'
+    zh_CN:
+      Body: |-
+        您好 <OTOBO_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+        票据工单 [<OTOBO_CONFIG_Ticket::Hook><OTOBO_CONFIG_Ticket::HookDivider><OTOBO_TICKET_TicketNumber>] 已在等待队列 已在队列<OTOBO_TICKET_Queue> 中被编制完成。中被创建完成
+
+        <OTOBO_CUSTOMER_REALNAME> 写道：
+        <OTOBO_CUSTOMER_BODY[30]>
+
+        <OTOBO_CONFIG_HttpType>://<OTOBO_CONFIG_FQDN>/<OTOBO_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTOBO_TICKET_TicketID>
+
+        -- <OTOBO_CONFIG_NotificationSenderName>
+      ContentType: text/plain
+      Subject: 票据编制 工单已创建：<OTOBO_TICKET_Title>
+  Name: Ticket create notification
+  ValidID: 1

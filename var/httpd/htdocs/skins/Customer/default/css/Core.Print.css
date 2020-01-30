@@ -1,0 +1,254 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+@media print {
+/**
+ * @subsection  Fonts
+ */
+body {
+    font:12px/14px Arial,sans-serif;
+}
+
+/**
+ * @package     OTOBO Framework - Skin "Default"
+ * @section     CSS for printing
+ */
+
+/**
+ * @subsection  Hidden Parts
+ */
+
+#Header,
+.ControlRow,
+.ActionRow,
+.Flag,
+.Print,
+.DontPrint,
+#Footer,
+#TicketOptions {
+    display: none !important;
+}
+
+/**
+ * @subsection  Spacing Reset
+ */
+
+.Content,
+.Header,
+.Metadata,
+.MessageHeader,
+.MessageBody,
+.Details {
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.MessageHeader h3 {
+    font-weight: 18px !important;
+
+}
+
+/**
+ * @subsection Visible Parts
+ */
+
+.MessageBody {
+    display: block !important;
+}
+
+ /**
+ * @subsection Misc
+ */
+
+ol, ul {
+    list-style: none outside none;
+}
+
+#Navigation{
+    display:none;
+}
+
+#Messages {
+    margin-top: -40px;
+    padding: 0;
+}
+
+.Message {
+    margin-top: 21px;
+    list-style: none;
+}
+
+.MessageHeader a {
+    color: black;
+}
+
+.MessageHeader h3,
+.MessageBody .Label {
+    display: inline;
+}
+
+.MessageHeader .Age,
+.MessageBody .Label {
+    font-size: 11px;
+}
+.Details {
+    margin: 8px 0;
+}
+
+iframe {
+    width: 100%;
+}
+
+/*
+    Customer Ticket Overview
+*/
+
+.Filter a {
+    display:block;
+    padding:5px 9px;
+    color:#FFF;
+}
+.MessageBox, .ActionRow {
+    margin:0;
+    border-bottom:1px solid #B8BBBB;
+    border-top:1px solid #F0F2F2;
+    font-size:11px;
+    overflow:hidden;
+}
+
+.Overview table thead{
+    display:block;
+    width:100%;
+}
+
+.Overview thead th{
+    border-top: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    text-transform:uppercase;
+    padding:5px;
+}
+
+.Overview a{
+    text-decoration:none;
+    font-size:12px;
+    font-style:normal;
+    color:#000;
+}
+
+.Overview tbody tr td{
+    border-left:1px dotted #CCC;
+    border-bottom:1px dotted #CCC;
+    padding:5px 5px 5px 10px;
+    text-decoration:none;
+    font-size:12px;
+    font-style:normal;
+    color:#452A03;
+}
+
+.Overview tbody tr td a{
+    text-decoration:none;
+    font-size:12px;
+    color:#452A03;
+}
+
+/*
+    Ticket Zoom
+*/
+
+#ZoomSidebar {
+    float: none;
+    border: 1px solid #ccc;
+    padding: 15px;
+}
+
+#Metadata {
+    margin: 0px;
+    padding: 0px;
+}
+
+.TicketHeader {
+    margin: 10px 0px 20px 0px;
+    border-bottom: 1px solid #000;
+    font-size: 20px;
+    padding: 5px 0px;
+    line-height: 1.2;
+}
+
+#Flag{
+    height:15px;
+    width:150px;
+    margin:10px 0 15px 0;
+    padding:10px;
+    display:block;
+    font-size:15px;
+    color:#CCCCCC;
+    border:1px dashed #CCCCCC;
+}
+
+.TicketHeader h2{
+    margin: 10px 0 10px 0;
+    padding:0;
+}
+
+.TicketHeader ul{
+    border-top:1px dotted #CCC;
+    border-bottom:1px dotted #CCC;
+    margin: 10px 0 20px 0;
+    padding:10px 0 10px 0;
+    display:inline-block;
+}
+
+.TicketHeader ul li {
+    margin: 5px 0 5px 0;
+}
+
+#Metadata li .Key {
+    color:#666666;
+    font-weight:bold;
+}
+
+.MessageHeader{
+    margin: 20px 0 10px 0;
+    padding:10px;
+    display:block;
+}
+
+.MessageHeader h3 a{
+    margin: 20px 0 10px 0;
+    font-size:16px;
+    text-decoration:none;
+    padding:10px 0 10px 0;
+    display:inline-block;
+}
+
+.MessageHeader .Age{
+    margin: 0 0 0 10px;
+}
+
+.Details div{
+    margin-bottom:10px;
+}
+
+.MessageBody .Label{
+    font-weight:bold;
+}
+
+.MessageContent{
+    margin-top: 10px;
+    padding:10px;
+    border:1px solid #CCC;
+}
+} /* end @media */

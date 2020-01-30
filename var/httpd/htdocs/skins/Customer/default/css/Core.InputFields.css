@@ -1,0 +1,901 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Input Fields
+ */
+
+@media screen,projection,tv,handheld {
+
+/* TODO */
+.ARIAAlertMessage {
+    display: none;
+}
+
+/**
+ * @subsection  General
+ */
+
+.InputField_Container,
+.InputField_InputContainer,
+.InputField_ListContainer,
+.InputField_Container div,
+.InputField_InputContainer div,
+.InputField_ListContainer div,
+fieldset.Columns .Column .InputField_Container,
+fieldset.Columns .Column .InputField_InputContainer,
+fieldset.Columns .Column .InputField_ListContainer,
+fieldset.Columns .Column .InputField_Container div,
+fieldset.Columns .Column .InputField_InputContainer div,
+fieldset.Columns .Column .InputField_ListContainer div {
+    overflow: visible;
+}
+
+.Row,
+.RichTextHolder {
+    margin-top: 40px;
+    white-space: nowrap;
+}
+
+.Row > div.Field,
+.Row > div.InputField_Container,
+.Row > select {
+    display: inline-block;
+    height: 56px;
+}
+
+#cke_RichText {
+    display: inline-block;
+    height: auto;
+}
+
+#Subject,
+input.DynamicFieldText {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: 0.4px;
+    text-align: left;
+/*    color: #7f809d; */
+}
+
+#Subject {
+    height: 56px;
+    padding: 0px;
+    padding-left: 32px;
+}
+/*#Subject:focus,
+.DynamicFieldText:focus {
+    color: #001bff; 
+}*/
+
+div.InputField_Container {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    display: inline-block;
+}
+div.InputField_InputContainer {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.InputField_Search::-ms-clear {
+    display: none;
+    width : 0;
+    height: 0;
+}
+
+.InputField_Search,
+input.DynamicFieldText,
+.InputField_Autocomplete {
+    /* overwrite js-generated width */
+    width: calc( 100% - 32px ) !important;
+    height: 100%;
+    border-radius: 10px;
+    padding: 0px;
+    padding-left: 32px;
+/*    border: solid 1px rgba(247, 247, 249, 0);
+    background-color: #f7f7f9;
+-webkit-transition: border 0.2s ease;
+   -moz-transition: border 0.2s ease;
+     -o-transition: border 0.2s ease;
+        transition: border 0.2s ease; */
+}
+.Row > select,
+#Subject {
+    border-radius: 10px;
+/*    border: none;
+    border: solid 1px rgba(247, 247, 249, 0);
+    background-color: #f7f7f9; */
+}
+
+textarea {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: 0.35px;
+    color: #00023c;
+    width: calc( 100% - 48px );
+    padding: 16px 24px 16px 24px;
+    border-radius: 10px;
+    outline: none;
+}
+
+label {
+    position: relative;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 0px;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: 0.4px;
+    text-align: left;
+    color: #7f809d;
+}
+
+/* 
+ * colors and label repositioning
+ */
+
+/* default */
+input,
+textarea {
+    color: #7f809d;
+    border: solid 1px rgba(247, 247, 249, 0);
+    background-color: #f7f7f9;
+-webkit-transition: border 0.2s ease, color 0.2s ease;
+   -moz-transition: border 0.2s ease, color 0.2s ease;
+     -o-transition: border 0.2s ease, color 0.2s ease;
+        transition: border 0.2s ease, color 0.2s ease;
+}
+
+.Row > label {
+    pointer-events: none;
+    background-color: #f7f7f9;
+-webkit-transition: color 0.2s ease;
+   -moz-transition: color 0.2s ease;
+     -o-transition: color 0.2s ease;
+        transition: color 0.2s ease;
+-webkit-transition: top 0.2s ease, color 0.2s ease;
+   -moz-transition: top 0.2s ease, color 0.2s ease;
+     -o-transition: top 0.2s ease, color 0.2s ease;
+        transition: top 0.2s ease, color 0.2s ease;
+}
+
+/* hover, selected and filled */
+input:hover,
+input.oooFull,
+textarea:hover,
+textarea.oooFull,
+.oooSelected input {
+    border: solid 1px #7f809d;
+    background-color: #fff;
+}
+
+.Row > input:hover ~ label,
+input.oooFull ~ label,
+.Field:hover ~ label,
+.Field.oooFull ~ label,
+.oooSelected ~ label,
+.InputField_Container:hover ~ label {
+    top: -29px;
+    font-size: 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+    color: #7f809d;
+    background-color:#ffffff;
+}
+
+/* focus */
+input:focus,
+input[aria-expanded="true"],
+input.oooFull[aria-expanded="true"],
+input.oooFull:focus,
+textarea:focus,
+textarea.oooFull:focus,
+.oooSelected input:focus {
+    border: solid 1px #001bff;
+    background-color: #fff;
+}
+
+.Row > input:focus ~ label,
+label.oooFocus,
+.Field ~ label.oooFocus,
+.InputField_Container ~ label.oooFocus {
+    top: -29px;
+    font-size: 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+    color: #001bff;
+    background-color:#ffffff;
+}
+
+/* error */
+input.Error,
+textarea.Error,
+label.LabelError {
+    color: #ea2400 !important;
+    background-color: #f9bcb2;
+}
+
+input.Error:hover,
+input.Error.oooFull,
+.oooSelected input.Error,
+input.Error.Error:focus,
+input.Error[aria-expanded="true"],
+input.Error.oooFull[aria-expanded="true"],
+input.Error.oooFull:focus,
+textarea.Error:hover,
+textarea.Error.oooFull,
+textarea.Error.Error:focus,
+.oooSelected input.Error:focus {
+    border: solid 1px #ea2400;
+    background-color: #fff;
+}
+
+input:hover ~ label.LabelError,
+input.oooFull ~ label.LabelError,
+.Field:hover ~ label.LabelError,
+.Field.oooFull ~ label.LabelError,
+.oooSelected ~ label.LabelError,
+.InputField_Container:hover ~ label.LabelError,
+input:focus ~ label.LabelError,
+label.oooFocus.LabelError {
+    background-color:#fff;
+}
+
+/* Title fields */
+.oooTitle {
+    height: 100%;
+    display: grid;
+    grid-template-rows: 100%;
+    align-items: end;
+}
+
+/* RichText */
+.RichTextHolder > label.LabelError {
+    background-color: transparent;
+}
+
+#cke_RichText {
+    border: none;
+}
+#cke_RichText > .cke_inner {
+    border-radius: 10px;
+    background-color: #f7f7f9;
+}
+#cke_1_contents {
+    border: solid 1px #e5e5eb;
+}
+#cke_1_bottom,
+#cke_1_top {
+    background: none;
+    border: none;
+}
+
+/*#RichText.Error + #cke_RichText {
+    border-radius: 10px;
+    border: solid 1px #ea2400;
+    position: relative;
+    left: -1px;
+    top: -1px;
+}*/
+
+.RichTextHolder > label {
+    top: -8px;
+}
+
+/* Checkboxes & Date */
+.Row > div.Field.oooDateContainer,
+.Row > div.Field.oooCheckboxContainer {
+    height: 38px;
+    padding-top: 16px;
+    padding-left: 16px;
+    font-size: 16px;
+    letter-spacing: 0.4px;
+    color: #7f809d;
+    whitespace: nowrap;
+}
+
+.oooDateContainer > label,
+.oooCheckboxContainer > label {
+    display: inline-block;
+
+    background-color: #fff;
+    cursor: pointer;
+}
+
+input[type='checkbox'] {
+    display: none;
+}
+
+.oooAltCheck {
+    position: relative;
+    top 1px;
+    cursor: pointer;
+}
+
+input[type='checkbox']:checked + .oooAltCheck:before {
+    content: "\e908";
+    font-size: 16px;
+}
+
+input[type='checkbox']:not(:checked) + .oooAltCheck:before {
+    content: "\e90b";
+    font-size: 16px;
+}
+
+/* Date */
+.oooDateContainer > input[type='checkbox']:checked ~ label {
+    position: relative;
+    top: -24px;
+    left: -16.8px;
+    padding: 0px;
+
+    display: inline-block;
+    width: 0px;
+
+    font-size: 10px;
+}
+
+.oooDateContainer select {
+    cursor: pointer;
+}
+
+.oooDate {
+    display: inline-block;
+}
+
+.DatepickerIcon {
+    padding-left: 8px;
+}
+
+input[type='checkbox']:not(:checked) ~ .oooDate {
+    display: none;
+}
+
+/* select fields (date/datetime) TODO: rework completely */
+select {
+    border: none;
+    padding: 0px;
+    margin: 0px;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+
+    font-size: 16px;
+    letter-spacing: 0.4px;
+    color: #7f809d;
+    background-color: #fff;
+}
+
+div.InputField_ListContainer {
+    position: absolute;
+    z-index: 1000;
+    display: none;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+div.InputField_TreeContainer {
+    width: auto !important;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    overflow-y: auto !important;
+    box-sizing: content-box;
+}
+
+div.InputField_ToolbarContainer {
+    display: none;
+}
+
+div.InputField_Selection {
+    display: none;
+    position: absolute;
+    top: 13px;
+    height: 32px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 10px;
+    background-color: #f7f7f9;
+	width: auto;
+}
+div.InputField_Selection > div {
+    font-size: 12px;
+    font-weight: 500;
+    height: 32px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2.92;
+    letter-spacing: 0.3px;
+    text-align: center;
+    color: #7f809d;
+    width: auto;
+}
+div.InputField_Selection > .Remove {
+    padding-bottom: 2px;
+}
+
+.InputField_Selection > div {
+    display: inline-block;
+}
+.InputField_Selection > .Remove {
+    margin-left: 8px;
+}
+
+/* jstree stuff */
+
+.jstree-node > .jstree-wholerow {
+    height: 48px;
+}
+
+.jstree-node[aria-selected="true"] {
+    background-color: #c4cdfa;
+}
+
+.jstree-node > .jstree-wholerow:hover {
+    background-color: #f7f7f9;
+}
+
+.jstree-node[aria-selected="true"] > .jstree-wholerow:hover {
+    background-color: #6d83f2;
+}
+
+.jstree-anchor {
+    pointer-events: none;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: 0.4px;
+    text-align: left;
+    color: #00023c;
+    margin-top: 14px;
+    margin-bottom: 14px;
+    margin-left: 8px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 32px;
+}
+
+.jstree-InputField-NoTree .jstree-anchor {
+    margin-left: 32px;
+}
+
+/*.ActionRow .InputField_Search,
+.ActionRow .InputField_Autocomplete {
+    min-width: 200px;
+    box-shadow: none;
+}
+
+.InputField_Search[disabled="disabled"] {
+    color: #aaa;
+}
+
+.InputField_Search[readonly=readonly]:focus {
+    box-shadow: none;
+}
+
+a.InputField_Action {
+    position: absolute;
+    display: block;
+    color: #000;
+    top: 5px;
+}
+
+a.InputField_Action:hover {
+    color: #f92;
+}
+
+div.InputField_Selection {
+    display: none;
+    position: absolute;
+    top: 4px;
+    height: 17px;
+    line-height: 11px;
+}
+
+div.InputField_Selection div {
+    display: inline-block;
+    font-size: 11px;
+}
+
+div.InputField_Selection div.Text {
+    background: #ddd;
+    padding: 2px 4px !important;
+}
+
+div.InputField_Selection div.Remove {
+    background: #bbb;
+    color: #fff;
+    cursor: pointer;
+}
+
+.AlreadyDisabled div.InputField_Selection div.Text {
+    background: #f5f5f5;
+    cursor: default;
+}
+
+
+div.InputField_Selection div.Remove a {
+    color: #fff;
+    padding: 2px 4px;
+    display: block;
+}
+
+.AlreadyDisabled div.InputField_Selection div.Remove {
+    visibility: hidden;
+    display: none;
+}
+
+div.InputField_More {
+    position: absolute;
+    white-space: nowrap;
+    top: 6px;
+}
+
+div.InputField_ListContainer {
+    position: absolute;
+    z-index: 1000;
+    display: none;
+    text-shadow: none;
+}
+
+.ExpandToTop div.InputField_TreeContainer {
+    border-top: 1px solid #ccc;
+    border-bottom: none;
+}
+
+div.InputField_ToolbarContainer {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-top: none;
+    line-height: 21px;
+    box-sizing: content-box;
+    min-height: 21px;
+}
+
+.div.InputField_ToolbarContainer ul {
+    width:100%;
+}
+
+div.InputField_ToolbarContainer ul li {
+    display: table-cell;
+    width: 1%;
+    text-align: center;
+}
+
+div.InputField_ToolbarContainer ul li:after {
+    color: #bbb;
+    content: "|";
+    display: inline-block;
+    float: right;
+    cursor: default;
+    width: 0;
+}
+
+div.InputField_ToolbarContainer ul li:last-child:after {
+    display: none;
+}
+
+.RTL div.InputField_ToolbarContainer ul li:last-child:after {
+    display: inline-block;
+}
+
+.RTL div.InputField_ToolbarContainer ul li:first-child:after {
+    display: none;
+}
+
+div.InputField_ToolbarContainer ul li a {
+    color: #000;
+    display: inline-block;
+    width: 100%;
+    margin: 2px 0;
+    font-size: 11px;
+    line-height: 15px;
+}
+
+div.InputField_ToolbarContainer ul li a:hover {
+    border-bottom: 2px solid #f92;
+    margin-bottom: 0;
+}
+
+.InputField_Confirm,
+.InputField_Filters.Active {
+    font-weight: bold;
+}
+
+.InputField_FiltersList {
+    display: none;
+    background: #fff;
+    white-space: nowrap;
+    border-top: 1px solid #ccc;
+    z-index: 1500;
+    line-height: 1.5em;
+    width: 100%;
+    font-size: 11px;
+}
+
+.InputField_FiltersList span {
+    margin-right: 5px;
+    vertical-align: 15%;
+    cursor: default;
+}
+
+.InputField_FiltersList input[disabled="disabled"] + span {
+    font-style: italic;
+    color: #aaa;
+} */
+
+/**
+ * @subsection  jsTree theme
+ */
+.jstree-InputField .jstree-node,
+.jstree-InputField .jstree-children,
+.jstree-InputField .jstree-container-ul {
+    display: block;
+    list-style-type: none;
+    list-style-image: none;
+}
+
+.jstree-children .jstree-children {
+    padding-left: 16px;
+}
+
+.jstree-InputField .jstree-node {
+    white-space: nowrap;
+}
+
+.jstree-InputField .jstree-node.jstree-hidden {
+    display: none;
+}
+
+.jstree-InputField .jstree-anchor {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.jstree-InputField .jstree-anchor:focus {
+    outline: 0;
+    background: transparent !important;
+}
+
+.jstree-InputField .jstree-anchor,
+.jstree-InputField .jstree-anchor:link,
+.jstree-InputField .jstree-anchor:visited,
+.jstree-InputField .jstree-anchor:hover,
+.jstree-InputField .jstree-anchor:active {
+    text-decoration: none;
+}
+
+.jstree-InputField .jstree-icon {
+    display: inline-block;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    text-align: center;
+}
+
+.jstree-InputField .jstree-icon:empty {
+    display: inline-block;
+    text-decoration: none;
+    vertical-align: top;
+    text-align: center;
+}
+
+.jstree-InputField .jstree-ocl {
+    cursor: pointer;
+}
+
+.jstree-InputField .jstree-leaf > .jstree-ocl {
+    cursor: default;
+}
+
+.jstree-InputField .jstree .jstree-open > .jstree-children {
+    display: block;
+    padding-left: 16px;
+}
+
+.jstree-InputField .jstree .jstree-closed > .jstree-children,
+.jstree-InputField .jstree .jstree-leaf > .jstree-children {
+    display: none;
+}
+
+.jstree-InputField .jstree-no-icons .jstree-themeicon,
+.jstree-InputField .jstree-anchor > .jstree-themeicon-hidden {
+    display: none;
+}
+
+.jstree-InputField .jstree-hovered {
+    background-color: transparent !important;
+}
+
+.jstree-InputField .Disabled > .jstree-anchor {
+    color: #aaa !important;
+    font-style: italic;
+    cursor: default;
+}
+
+.jstree-InputField .jstree-open,
+.jstree-InputField .jstree-closed {
+    cursor: pointer;
+}
+
+.jstree-InputField .jstree-wholerow-ul {
+    position: relative;
+    display: inline-block;
+    min-width: 100%;
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-leaf > .jstree-ocl {
+    cursor: pointer;
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-anchor,
+.jstree-InputField .jstree-wholerow-ul .jstree-icon {
+    position: relative;
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow {
+    width: 100%;
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.jstree-InputField .Disabled > .jstree-wholerow:hover,
+.jstree-InputField .Disabled > .jstree-wholerow-hovered {
+    background-color: #eee;
+    cursor: default;
+}
+
+.jstree-InputField .Disabled.jstree-open > .jstree-anchor,
+.jstree-InputField .Disabled.jstree-closed > .jstree-anchor {
+    cursor: pointer !important;
+}
+
+.jstree-InputField .jstree-clicked {
+    background: transparent !important;
+    border: none !important;
+}
+
+.jstree-InputField.jstree-rtl .jstree-last {
+    background: transparent;
+}
+
+.jstree-InputField.jstree-rtl > .jstree-no-dots .jstree-node,
+.jstree-InputField.jstree-rtl > .jstree-no-dots .jstree-leaf > .jstree-ocl {
+    background: transparent;
+}
+
+.jstree-InputField .jstree-themeicon-custom {
+    background-color: transparent;
+    background-image: none;
+    background-position: 0 0;
+}
+
+.jstree-InputField.jstree-rtl .jstree-last {
+    background: transparent;
+}
+
+.jstree-InputField .jstree-search {
+    font-style: italic;
+}
+
+.jstree-InputField .jstree-no-match .jstree-ocl {
+    display: none;
+}
+
+/**
+ * @subsection  jsTree theme - Tree variant
+ */
+.jstree-InputField-Tree .jstree-anchor {
+    overflow-y: hidden;
+}
+
+.jstree-InputField-Tree .jstree-icon {
+    font-family: 'otobo' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.jstree-InputField-Tree .jstree-icon {
+    height: 16px;
+    width: 16px;
+    margin-top: 16px;
+    margin-left: 16px
+}
+
+.jstree-InputField-Tree .jstree-icon:before {
+    font-size: 16px;
+}
+
+.jstree-open > .jstree-wholerow {
+    height: 40px;
+}
+
+.jstree-open > .jstree-anchor {
+    margin-bottom: 6px;
+}
+
+.jstree-InputField-Tree .jstree-children .jstree-children .jstree-icon {
+    margin-top: 8px;
+}
+
+.jstree-InputField-Tree .jstree-children .jstree-children .jstree-anchor,
+.jstree-InputField-Tree .jstree-children .jstree-children > .jstree-open > .jstree-anchor {
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.jstree-InputField-Tree .jstree-children .jstree-children .jstree-wholerow,
+.jstree-InputField-Tree .jstree-children .jstree-children > .jstree-open > .jstree-wholerow {
+    height: 32px;
+}
+
+.jstree-closed > .jstree-icon:before {
+    content: "\e904";
+}
+
+.jstree-open > .jstree-icon:before {
+    content: "\e902";
+}
+
+.jstree-InputField-Tree .jstree-last {
+    background: transparent;
+}
+
+.jstree-InputField-Tree > .jstree-no-dots .jstree-node,
+.jstree-InputField-Tree > .jstree-no-dots .jstree-leaf > .jstree-ocl {
+    background: transparent;
+}
+
+/**
+ * @subsection  jsTree theme - No Tree variant
+ */
+.jstree-InputField-NoTree .jstree-anchor {
+    overflow-y: hidden;
+}
+
+.jstree-InputField-NoTree .jstree-icon {
+    display: none;
+}
+
+} /* end @media */

@@ -1,0 +1,72 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+
+    <h1 class="InvisibleText">[% Translate("System configuration") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('System Configuration'),
+                Link => 'AdminSystemConfiguration',
+            },
+        ]
+    %]
+
+[% IF Env("Subaction") == 'Search' %]
+    [% IF Data.Search %]
+        [% BreadcrumbPath.push({ Name => Translate('Search for') _ ' "' _ Data.Search _ '"', Link => 'AdminSystemConfiguration;Subaction=Search;Search=' _ Data.Search }) %]
+    [% ELSIF Data.Category %]
+        [% BreadcrumbPath.push({ Name => Translate('Search for category') _ ' "' _ Translate(Data.Category) _ '"', Link => 'AdminSystemConfiguration;Subaction=Search;Category=' _ Data.Category }) %]
+    [% END %]
+[% ELSIF Env("Subaction") == 'SearchLocked' %]
+    [% BreadcrumbPath.push({ Name => Translate('Settings I\'m currently editing'), Link => 'AdminSystemConfiguration;Subaction=SearchLocked' }) %]
+[% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+        [% INCLUDE "SystemConfiguration/Sidebar/Actions.tt" %]
+        [% INCLUDE "SystemConfiguration/Sidebar/Help.tt" %]
+        [% INCLUDE "SystemConfiguration/Sidebar/DynamicActions.tt" %]
+    </div>
+
+    <div class="ContentColumn">
+    [% IF Env("Subaction") == 'Search' %]
+        <div class="WidgetSimple">
+            <div class="Content">
+                <p class="Center">
+        [% Data.SearchTerm = Data.Search %]
+        [% IF !Data.SearchTerm && Data.Category %]
+            [% Data.SearchTerm = Translate(Data.Category) %]
+        [% END %]
+        [% IF Data.Results == 0 %]
+            [% Translate('Your search for "%s" in category "%s" did not return any results.', Data.SearchTerm, Translate(Data.Category)) | html %]
+        [% ELSIF Data.Results == 1 %]
+            [% Translate('Your search for "%s" in category "%s" returned one result.', Data.SearchTerm, Translate(Data.Category)) | html %]
+        [% ELSE %]
+            [% Translate('Your search for "%s" in category "%s" returned %s results.', Data.SearchTerm, Translate(Data.Category), Data.Results) | html %]
+        [% END %]
+                </p>
+            </div>
+        </div>
+    [% ELSIF Env("Subaction") == 'SearchLocked' %]
+        <div class="WidgetSimple">
+            <div class="Content">
+            [% IF Data.Results == 0 %]
+                <p class="Center">[% Translate("You're currently not editing any settings.") | html %]</p>
+            [% ELSE %]
+                <p class="Center">[% Translate("You're currently editing %s setting(s).", Data.Results) | html %]</p>
+            [% END %]
+            </div>
+        </div>
+    [% END %]
+        [% INCLUDE "SystemConfiguration/SettingsList.tt" %]
+    </div>
+    <div class="Clear"></div>
+</div>

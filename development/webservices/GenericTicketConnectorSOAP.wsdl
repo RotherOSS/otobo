@@ -1,0 +1,801 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="GenericTicketConnectorSOAP" targetNamespace="http://www.otobo.org/TicketConnector/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.otobo.org/TicketConnector/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <wsdl:documentation>The Generic Ticket Connector web service for SOAP protocol
+
+WARNING: This WSDL file is for Development and Test purposes ONLY!
+</wsdl:documentation>
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://www.otobo.org/TicketConnector/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:element name="TicketCreate">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:choice maxOccurs="1" minOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>UserLogin, CustomerUserLogin or SessionID is mandatory</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:element minOccurs="0" name="UserLogin" type="xsd:string"/>
+                            <xsd:element minOccurs="0" name="CustomerUserLogin" type="xsd:string"/>
+                            <xsd:element minOccurs="0" name="SessionID" type="xsd:string"/>
+                        </xsd:choice>
+                        <xsd:element minOccurs="0" name="Password" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="Ticket" type="tns:OTOBO_TicketCreate_Ticket"/>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="Article" type="tns:OTOBO_Article"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="DynamicField" type="tns:OTOBO_DynamicField"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="Attachment" type="tns:OTOBO_Attachment"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="TicketCreateResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="TicketID" type="xsd:positiveInteger"/>
+                        <xsd:element minOccurs="1" name="TicketNumber" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="ArticleID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Error" type="tns:OTOBO_Error"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:complexType name="OTOBO_TicketCreate_Ticket">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Title" type="xsd:string"/>
+                    <xsd:choice maxOccurs="1" minOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation>Queue or QueueID is mandatory
+                    </xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="QueueID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Queue" type="xsd:string"/>
+                    </xsd:choice>
+                    <xsd:choice maxOccurs="1" minOccurs="0">
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TypeID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Type" type="xsd:string"/>
+                    </xsd:choice>
+                    <xsd:choice maxOccurs="1" minOccurs="0">
+                        <xsd:element maxOccurs="1" minOccurs="0" name="ServiceID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Service" type="xsd:string"/>
+                    </xsd:choice>
+                    <xsd:choice maxOccurs="1" minOccurs="0">
+                        <xsd:element maxOccurs="1" minOccurs="0" name="SLAID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="SLA" type="xsd:string"/>
+                    </xsd:choice>
+                    <xsd:choice maxOccurs="1" minOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation>State or StateID is mandatory
+                    </xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="StateID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="State" type="xsd:string"/>
+                    </xsd:choice>
+                    <xsd:choice maxOccurs="1" minOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation>Priority or PriorityID is mandatory
+                    </xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="PriorityID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Priority" type="xsd:string"/>
+                    </xsd:choice>
+                    <xsd:choice maxOccurs="1" minOccurs="0">
+                        <xsd:element maxOccurs="1" minOccurs="0" name="OwnerID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Owner" type="xsd:string"/>
+                    </xsd:choice>
+                    <xsd:choice maxOccurs="1" minOccurs="0">
+                        <xsd:element maxOccurs="1" minOccurs="0" name="ResponsibleID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Responsible" type="xsd:string"/>
+                    </xsd:choice>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="CustomerUser" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="CustomerID" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="PendingTime" type="tns:OTOBO_PendingTime"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="OTOBO_PendingTime">
+                <xsd:choice>
+                    <xsd:sequence>
+                        <xsd:element name="Year" type="xsd:positiveInteger"/>
+                        <xsd:element name="Month" type="xsd:positiveInteger"/>
+                        <xsd:element name="Day" type="xsd:positiveInteger"/>
+                        <xsd:element name="Hour" type="xsd:positiveInteger"/>
+                        <xsd:element name="Minute" type="xsd:positiveInteger"/>
+                    </xsd:sequence>
+                    <xsd:element name="Diff" type="xsd:positiveInteger"/>
+                </xsd:choice>
+            </xsd:complexType>
+            <xsd:complexType name="OTOBO_Article">
+                <xsd:sequence>
+                    <xsd:choice maxOccurs="1" minOccurs="0">
+                        <xsd:element maxOccurs="1" minOccurs="0" name="CommunicationChannelID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="CommunicationChannel" type="tns:OTOBO_MIME_Communication_Channel"/>
+                    </xsd:choice>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="IsVisibleForCustomer" type="xsd:string"/>
+                    <xsd:choice maxOccurs="1" minOccurs="0">
+                        <xsd:element maxOccurs="1" minOccurs="0" name="SenderTypeID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="SenderType" type="xsd:string"/>
+                    </xsd:choice>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="From" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Subject" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Body" type="xsd:string"/>
+                    <xsd:choice maxOccurs="1" minOccurs="1">
+                        <xsd:element minOccurs="0" name="ContentType" type="xsd:string"/>
+                        <xsd:sequence maxOccurs="1" minOccurs="0">
+                            <xsd:element maxOccurs="1" minOccurs="1" name="Charset" type="xsd:string"/>
+                            <xsd:element maxOccurs="1" minOccurs="1" name="MimeType" type="xsd:string"/>
+                        </xsd:sequence>
+                    </xsd:choice>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="HistoryType" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="HistoryComment" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="AutoResponseType" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="TimeUnit" type="xsd:float"/>
+                    <xsd:element minOccurs="0" name="NoAgentNotify" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="ForceNotificationToUserID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="ExcludeNotificationToUserID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="ExcludeMuteNotificationToUserID" type="xsd:positiveInteger"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="OTOBO_DynamicField">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Name" type="xsd:string"/>
+                    <xsd:element maxOccurs="unbounded" name="Value" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="OTOBO_Attachment">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Content" type="xsd:base64Binary"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="ContentType" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Filename" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="OTOBO_Error">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="ErrorCode" type="xsd:string"/>
+                    <xsd:element minOccurs="1" name="ErrorMessage" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:element name="TicketUpdate">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:choice maxOccurs="1" minOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>UserLogin, CustomerUserLogin or SessionID is mandatory</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:element minOccurs="0" name="UserLogin" type="xsd:string"/>
+                            <xsd:element minOccurs="0" name="CustomerUserLogin" type="xsd:string"/>
+                            <xsd:element minOccurs="0" name="SessionID" type="xsd:string"/>
+                        </xsd:choice>
+                        <xsd:element minOccurs="0" name="Password" type="xsd:string"/>
+                        <xsd:choice maxOccurs="1" minOccurs="1">
+                            <xsd:element maxOccurs="1" minOccurs="1" name="TicketID" type="xsd:positiveInteger"/>
+                            <xsd:element maxOccurs="1" minOccurs="1" name="TicketNumber" type="xsd:string"/>
+                        </xsd:choice>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Ticket" type="tns:OTOBO_TicketUpdate_Ticket"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Article" type="tns:OTOBO_Article"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="DynamicField" type="tns:OTOBO_DynamicField"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="Attachment" type="tns:OTOBO_Attachment"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="TicketUpdateResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="TicketID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="TicketNumber" type="xsd:string"/>
+                        <xsd:element minOccurs="0" name="ArticleID" type="xsd:positiveInteger"/>
+                        <xsd:element minOccurs="0" name="Error" type="tns:OTOBO_Error"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:complexType name="OTOBO_TicketUpdate_Ticket">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="Title" type="xsd:string"/>
+                    <xsd:choice maxOccurs="1" minOccurs="0">
+                        <xsd:element maxOccurs="1" minOccurs="0" name="QueueID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Queue" type="xsd:string"/>
+                    </xsd:choice>
+                    <xsd:choice maxOccurs="1" minOccurs="0">
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TypeID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Type" type="xsd:string"/>
+                    </xsd:choice>
+                    <xsd:choice maxOccurs="1" minOccurs="0">
+                        <xsd:element maxOccurs="1" minOccurs="0" name="ServiceID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Service" type="xsd:string"/>
+                    </xsd:choice>
+                    <xsd:choice maxOccurs="1" minOccurs="0">
+                        <xsd:element maxOccurs="1" minOccurs="0" name="SLAID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="SLA" type="xsd:string"/>
+                    </xsd:choice>
+                    <xsd:choice maxOccurs="1" minOccurs="0">
+                        <xsd:element maxOccurs="1" minOccurs="0" name="StateID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="State" type="xsd:string"/>
+                    </xsd:choice>
+                    <xsd:choice maxOccurs="1" minOccurs="0">
+                        <xsd:element maxOccurs="1" minOccurs="0" name="PriorityID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Priority" type="xsd:string"/>
+                    </xsd:choice>
+                    <xsd:choice maxOccurs="1" minOccurs="0">
+                        <xsd:element maxOccurs="1" minOccurs="0" name="OwnerID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Owner" type="xsd:string"/>
+                    </xsd:choice>
+                    <xsd:choice maxOccurs="1" minOccurs="0">
+                        <xsd:element maxOccurs="1" minOccurs="0" name="ResponsibleID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Responsible" type="xsd:string"/>
+                    </xsd:choice>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="CustomerUser" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="CustomerID" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="PendingTime" type="tns:OTOBO_PendingTime"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:element name="TicketGet">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:choice maxOccurs="1" minOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>UserLogin, CustomerUserLogin or SessionID is
+                            mandatory
+                        </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:element minOccurs="0" name="UserLogin" type="xsd:string"/>
+                            <xsd:element minOccurs="0" name="CustomerUserLogin" type="xsd:string"/>
+                            <xsd:element minOccurs="0" name="SessionID" type="xsd:string"/>
+                        </xsd:choice>
+                        <xsd:element minOccurs="0" name="Password" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="1" name="TicketID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="DynamicFields" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Extended" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="AllArticles" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="ArticleSenderType" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="ArticleOrder" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="ArticleLimit" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Attachments" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="GetAttachmentContents" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="HTMLBodyAsAttachment" type="xsd:positiveInteger"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="TicketGetResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="unbounded" name="Ticket" type="tns:OTOBO_TicketGetResponse_Ticket"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:complexType name="OTOBO_TicketGetResponse_Ticket">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" name="Age" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" name="ArchiveFlag" type="xsd:string"/>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Article" type="tns:OTOBO_TicketGetResponse_Article"/>
+                    <xsd:element maxOccurs="1" name="ChangeBy" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" name="Changed" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="Closed" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" name="CreateBy" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Created" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="CustomerID" type="xsd:string"/>
+                    <xsd:element minOccurs="1" name="CustomerUserID" type="xsd:string"/>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="DynamicField" type="tns:OTOBO_DynamicField"/>
+                    <xsd:element minOccurs="0" name="EscalationDestinationDate" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="EscalationDestinationIn" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="EscalationDestinationTime" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="EscalationResponseTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="EscalationSolutionTime" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" name="EscalationTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="EscalationTimeWorkingTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="EscalationUpdateTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="FirstResponseTimeEscalation" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="FirstResponseTimeNotification" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="FirstResponseTimeDestinationTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="FirstResponseTimeDestinationDate" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="FirstResponseTimeWorkingTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="FirstResponseTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="UpdateTimeEscalation" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="UpdateTimeNotification" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="UpdateTimeDestinationTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="UpdateTimeDestinationDate" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="UpdateTimeWorkingTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="UpdateTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="FirstResponse" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="FirstResponseInMin" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="FirstResponseDiffInMin" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="SolutionInMin" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="SolutionDiffInMin" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="FirstLock" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="GroupID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="0" name="Lock" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="LockID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="1" name="Owner" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="OwnerID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="1" name="Priority" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="PriorityID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="1" name="Queue" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="QueueID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="0" name="RealTillTimeNotUsed" type="xsd:string"/>
+                    <xsd:element minOccurs="1" name="Responsible" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="ResponsibleID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="0" name="SLA" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="SLAID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="0" name="Service" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="ServiceID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="0" name="SolutionTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="SolutionTimeEscalation" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="SolutionTimeNotification" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="SolutionTimeDestinationDate" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="SolutionTimeDestinationTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="SolutionTimeWorkingTime" type="xsd:string"/>
+                    <xsd:element minOccurs="1" name="State" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="StateID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="1" name="StateType" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="TicketFreeKeyX" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="TicketFreeTextX" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="TicketFreeTimeX" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="TicketID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="TicketNumber" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Title" type="xsd:string"/>
+                    <xsd:element minOccurs="1" name="Type" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="TimeUnit" type="xsd:float"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="TypeID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="UnlockTimeout" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="UntilTime" type="xsd:nonNegativeInteger"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="OTOBO_TicketGetResponse_Article">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" name="Age" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" name="AgeTimeUnix" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" name="ArticleID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" name="ArticleType" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" name="ArticleTypeID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Attachment" type="tns:OTOBO_TicketGetResponse_Attachment"/>
+                    <xsd:element maxOccurs="1" name="Body" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" name="Cc" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="CcRealname" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" name="Changed" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" name="Charset" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="Closed" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" name="ContentCharset" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" name="ContentType" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Created" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" name="CreatedBy" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="0" name="CustomerID" type="xsd:string"/>
+                    <xsd:element minOccurs="1" name="CustomerUserID" type="xsd:string"/>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="DynamicField" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="EscalationDestinationDate" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="EscalationDestinationIn" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="EscalationDestinationTime" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="EscalationResponseTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="EscalationSolutionTime" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" name="EscalationTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="EscalationTimeWorkingTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="EscalationUpdateTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="FirstLock" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="From" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="FromRealname" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="InReplyTo" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="IncomingTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="Lock" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="LockID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="MessageID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="0" name="MimeType" type="xsd:string"/>
+                    <xsd:element minOccurs="1" name="Owner" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="OwnerID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="1" name="Priority" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="PriorityID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="1" name="Queue" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="QueueID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="0" name="RealTillTimeNotUsed" type="xsd:string"/>
+                    <xsd:element minOccurs="1" name="References" type="xsd:string"/>
+                    <xsd:element minOccurs="1" name="ReplyTo" type="xsd:string"/>
+                    <xsd:element minOccurs="1" name="Responsible" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="ResponsibleID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="0" name="SLA" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="SLAID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="1" name="SenderType" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="SenderTypeID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="0" name="Service" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="ServiceID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="0" name="SolutionTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="SolutionTimeDestinationDate" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="SolutionTimeDestinationTime" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="SolutionTimeWorkingTime" type="xsd:string"/>
+                    <xsd:element minOccurs="1" name="State" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="StateID" type="xsd:positiveInteger"/>
+                    <xsd:element minOccurs="1" name="StateType" type="xsd:string"/>
+                    <xsd:element minOccurs="1" name="Subject" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="TicketFreeKeyX" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="TicketFreeTextX" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="TicketFreeTimeX" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="TicketID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="TicketNumber" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Title" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="TimeUnit" type="xsd:float"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="To" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="ToRealname" type="xsd:string"/>
+                    <xsd:element minOccurs="1" name="Type" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="TypeID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="UntilTime" type="xsd:nonNegativeInteger"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="OTOBO_TicketGetResponse_Attachment">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="FileID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Content" type="xsd:base64Binary"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="ContentAlternative" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="ContentID" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="ContentType" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Filename" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Filesize" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="FilesizeRaw" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:element name="TicketSearch">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:choice maxOccurs="1" minOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>UserLogin, CustomerUserLogin or SessionID is mandatory</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:element minOccurs="0" name="UserLogin" type="xsd:string"/>
+                            <xsd:element minOccurs="0" name="CustomerUserLogin" type="xsd:string"/>
+                            <xsd:element minOccurs="0" name="SessionID" type="xsd:string"/>
+                        </xsd:choice>
+                        <xsd:element minOccurs="0" name="Password" type="xsd:string"/>
+                        <xsd:element minOccurs="0" name="Limit" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="TicketNumber" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="Title" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="Queues" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="QueueIDs" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="UseSubQueues" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="Types" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="TypeIDs" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="States" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="StateIDs" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="StateType" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="StateTypeIDs" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="Priorities" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="PriorityIDs" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="Services" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="ServiceIDs" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="SLAs" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="SLAIDs" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="Locks" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="LockIDs" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="OwnerIDs" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="ResponsibleIDs" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="WatchUserIDs" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CustomerID" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CustomerUserLogin" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CreatedUserIDs" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CreatedTypes" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CreatedTypeIDs" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CreatedPriorities" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CreatedPriorityIDs" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CreatedStates" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CreatedStateIDs" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CreatedQueues" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CreatedQueueIDs" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="DynamicField" type="tns:OTOBO_TicketSearch_DynamicField"/>
+                        <xsd:element minOccurs="0" name="Ticketflag" type="tns:OTOBO_TicketSearch_TicketFlag"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="MIMEBase_From" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="MIMEBase_To" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="MIMEBase_Cc" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="MIMEBase_Subject" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="MIMEBase_Body" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="FullTextIndex" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="ContentSearch" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="ConditionInline" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="ArticleCreateTimeOlderMinutes" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="ArticleCreateTimeNewerMinutes" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="ArticleCreateTimeNewerDate" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="ArticleCreateTimeOlderDate" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketCreateTimeOlderMinutes" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketCreateTimeNewerMinutes" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketCreateTimeNewerDate" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketCreateTimeOlderDate" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketChangeTimeOlderMinutes" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketChangeTimeNewerMinutes" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketChangeTimeNewerDate" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketChangeTimeOlderDate" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketLastChangeTimeOlderMinutes" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketLastChangeTimeNewerMinutes" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketLastChangeTimeNewerDate" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketLastChangeTimeOlderDate" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketCloseTimeOlderMinutes" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketCloseTimeNewerMinutes" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketCloseTimeNewerDate" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketCloseTimeOlderDate" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketPendingTimeOlderMinutes" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketPendingTimeNewerMinutes" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketPendingTimeNewerDate" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketPendingTimeOlderDate" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketEscalationTimeOlderMinutes" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketEscalationTimeNewerMinutes" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketEscalationTimeNewerDate" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="TicketEscalationTimeOlderDate" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="ArchiveFlags" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="OrderBy" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="SortBy" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CustomerUserID" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="TicketSearchResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="0" name="TicketID" type="xsd:positiveInteger"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:complexType name="OTOBO_TicketSearch_DynamicField">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Name" type="xsd:string"/>
+                    <xsd:choice maxOccurs="1" minOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation>Empty, Equals, Like, GreaterThan,
+                        GreaterThanEquals, SmallerThan or
+                        SmallerThanEquals is mandatory
+                    </xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Empty" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Equals" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Like" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="GreaterThan" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="GreaterThanEquals" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="SmallerThan" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="SmallerThanEquals" type="xsd:string"/>
+                    </xsd:choice>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="OTOBO_TicketSearch_TicketFlag">
+                <xsd:sequence>
+                    <xsd:annotation>
+                        <xsd:documentation>It should be possible to use other flags in future, rather than just 'Seen' </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:element minOccurs="0" name="Seen" type="xsd:positiveInteger"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:element name="SessionCreate">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:choice maxOccurs="1" minOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>UserLogin or CustomerUserLogin is mandatory.
+                        </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:element minOccurs="0" name="UserLogin" type="xsd:string"/>
+                            <xsd:element minOccurs="0" name="CustomerUserLogin" type="xsd:string"/>
+                        </xsd:choice>
+                        <xsd:element minOccurs="0" name="Password" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="SessionCreateResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="SessionID" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="Error" type="tns:OTOBO_Error"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="TicketHistoryGet">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:choice maxOccurs="1" minOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>UserLogin or SessionID is
+                            mandatory
+                                </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:element minOccurs="0" name="UserLogin" type="xsd:string"/>
+                            <xsd:element minOccurs="0" name="SessionID" type="xsd:string"/>
+                        </xsd:choice>
+                        <xsd:element minOccurs="0" name="Password" type="xsd:string"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="1" name="TicketID" type="xsd:positiveInteger"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="TicketHistoryGetResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="unbounded" minOccurs="1" name="TicketHistory" type="tns:OTOBO_TicketHistoryGetResponse_TicketHistory"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:complexType name="OTOBO_TicketHistoryGetResponse_TicketHistory">
+                <xsd:sequence>
+                    <xsd:element name="TicketID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="unbounded" minOccurs="1" name="History" type="tns:OTOBO_TicketHistoryGetResponse_TicketHistoryElement"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="OTOBO_TicketHistoryGetResponse_TicketHistoryElement">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="ArticleID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="CreateBy" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="CreateTime" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="HistoryType" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="HistoryTypeID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Name" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="OwnerID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="PriorityID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="QueueID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="StateID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="TicketID" type="xsd:positiveInteger"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="TypeID" type="xsd:positiveInteger"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:simpleType name="OTOBO_MIME_Communication_Channel">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="Email"/>
+                    <xsd:enumeration value="Internal"/>
+                    <xsd:enumeration value="Phone"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:element name="SessionGet">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="SessionID" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="SessionGetResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="unbounded" minOccurs="1" name="SessionData" type="tns:OTOBO_SessionGetResponse_SessionData"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:complexType name="OTOBO_SessionGetResponse_SessionData">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Name" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Value" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="Serialized" type="xsd:positiveInteger"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="TicketCreateRequest">
+        <wsdl:part element="tns:TicketCreate" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="TicketCreateResponse">
+        <wsdl:part element="tns:TicketCreateResponse" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="TicketUpdateRequest">
+        <wsdl:part element="tns:TicketUpdate" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="TicketUpdateResponse">
+        <wsdl:part element="tns:TicketUpdateResponse" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="TicketGetRequest">
+        <wsdl:part element="tns:TicketGet" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="TicketGetResponse">
+        <wsdl:part element="tns:TicketGetResponse" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="TicketSearchRequest">
+        <wsdl:part element="tns:TicketSearch" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="TicketSearchResponse">
+        <wsdl:part element="tns:TicketSearchResponse" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="TicketHistoryGetRequest">
+        <wsdl:part element="tns:TicketHistoryGet" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="TicketHistoryGetResponse">
+        <wsdl:part element="tns:TicketHistoryGetResponse" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="SessionCreateRequest">
+        <wsdl:part element="tns:SessionCreate" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="SessionCreateResponse">
+        <wsdl:part element="tns:SessionCreateResponse" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="SessionGetRequest">
+        <wsdl:part element="tns:SessionGet" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="SessionGetResponse">
+        <wsdl:part element="tns:SessionGetResponse" name="parameters"/>
+    </wsdl:message>
+    <wsdl:portType name="GenericTicketConnector_PortType">
+        <wsdl:documentation>Provides:
+- TicketCreate
+- TicketGet
+- TicketUpdate
+- TicketSearch
+- TicketHistoryGet
+- SessionCreate
+</wsdl:documentation>
+        <wsdl:operation name="TicketCreate">
+            <wsdl:input message="tns:TicketCreateRequest"/>
+            <wsdl:output message="tns:TicketCreateResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="TicketUpdate">
+            <wsdl:input message="tns:TicketUpdateRequest"/>
+            <wsdl:output message="tns:TicketUpdateResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="TicketGet">
+            <wsdl:input message="tns:TicketGetRequest"/>
+            <wsdl:output message="tns:TicketGetResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="TicketSearch">
+            <wsdl:input message="tns:TicketSearchRequest"/>
+            <wsdl:output message="tns:TicketSearchResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="TicketHistoryGet">
+            <wsdl:input message="tns:TicketHistoryGetRequest"/>
+            <wsdl:output message="tns:TicketHistoryGetResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="SessionCreate">
+            <wsdl:input message="tns:SessionCreateRequest"/>
+            <wsdl:output message="tns:SessionCreateResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="SessionGet">
+            <wsdl:input message="tns:SessionGetRequest"/>
+            <wsdl:output message="tns:SessionGetResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="GenericTicketConnector_Binding" type="tns:GenericTicketConnector_PortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="TicketCreate">
+            <soap:operation soapAction="http://www.otobo.org/TicketConnector/TicketCreate"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="TicketUpdate">
+            <soap:operation soapAction="http://www.otobo.org/TicketConnector/TicketUpdate"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="TicketGet">
+            <soap:operation soapAction="http://www.otobo.org/TicketConnector/TicketGet"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="TicketSearch">
+            <soap:operation soapAction="http://www.otobo.org/TicketConnector/TicketSearch"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="TicketHistoryGet">
+            <soap:operation soapAction="http://www.otobo.org/TicketConnector/TicketHistoryGet"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="SessionCreate">
+            <soap:operation soapAction="http://www.otobo.org/TicketConnector/SessionCreate"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="SessionGet">
+            <soap:operation soapAction="http://www.otobo.org/TicketConnector/SessionGet"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="GenericTicketConnector">
+        <wsdl:port binding="tns:GenericTicketConnector_Binding" name="GenericTicketConnector_Port">
+            <soap:address location="http://localhost/otobo/nph-genericinterface.pl/Webservice/GenericTicketConnectorSOAP"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

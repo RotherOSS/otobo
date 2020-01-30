@@ -1,0 +1,161 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<!-- start -->
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("Session Management") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Session Management'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% IF Data.Action == 'Detail' %]
+        [% USE TranslatedUserType = String(Translate(Data.UserType)) %]
+        [% BreadcrumbPath.push({ Name => Translate( "Detail Session View for %s (%s)", Data.UserFullname, TranslatedUserType ) })%]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
+    <div class="SidebarColumn">
+
+[% RenderBlockStart("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+
+[% RenderBlockStart("ActionSummary") %]
+
+                    <li>
+                        <table class="DataTable">
+                            <tr>
+                                <td>[% Translate("All sessions") | html %]</td>
+                                <td>[% Data.Counter | html %]</td>
+                            </tr>
+                            <tr>
+                                <td>[% Translate("Agent sessions") | html %]</td>
+                                <td>[% Data.UserSession | html %]</td>
+                            </tr>
+                            <tr>
+                                <td>[% Translate("Customer sessions") | html %]</td>
+                                <td>[% Data.CustomerSession | html %]</td>
+                            </tr>
+                            <tr>
+                                <td>[% Translate("Unique agents") | html %]</td>
+                                <td>[% Data.UserSessionUniq | html %]</td>
+                            </tr>
+                            <tr>
+                                <td>[% Translate("Unique customers") | html %]</td>
+                                <td>[% Data.CustomerSessionUniq | html %]</td>
+                            </tr>
+                        </table>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=KillAll;WantSessionID=[% Env("SessionID") %];[% Env("ChallengeTokenParam") | html %]" id="KillAllSessions" class="CallForAction LittleSpacingTop Fullsize Center"><span><i class="fa fa-trash-o"></i> [% Translate("Kill all sessions") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionSummary") %]
+
+[% RenderBlockStart("ActionKillSession") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Kill;WantSessionID=[% Data.SessionID %];[% Env("ChallengeTokenParam") | html %]" id="KillThisSession" class="CallForAction Fullsize Center"><span><i class="fa fa-power-off"></i> [% Translate("Kill this session") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionKillSession") %]
+
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionList") %]
+[% RenderBlockStart("Filter") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterSessions">[% Translate("Filter for Sessions") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterSessions" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterSessions" value="" title="[% Translate("Filter for sessions") | html %]">
+            </div>
+        </div>
+[% RenderBlockEnd("Filter") %]
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+
+[% RenderBlockStart("Overview") %]
+            <div class="Header">
+                <h2>[% Translate("List") | html %]</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable" id="Sessions">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Session") | html %]</th>
+                            <th>[% Translate("Type") | html %]</th>
+                            <th>[% Translate("User") | html %]</th>
+                            <th>[% Translate("Kill") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("Session") %]
+                        <tr>
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSession;Subaction=Detail;WantSessionID=[% Data.SessionID | uri %]">[% Data.SessionID | html %]</a>
+                            </td>
+                            <td>[% Data.UserType | html %]</td>
+                            <td>[% Data.UserFullname | html %]</td>
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSession;Subaction=Kill;WantSessionID=[% Data.SessionID | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Kill this session") | html %]</a>
+                            </td>
+                        </tr>
+[% RenderBlockEnd("Session") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="4">[% Translate("No matches found.") | html %]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+[% RenderBlockEnd("Overview") %]
+
+[% RenderBlockStart("DetailView") %]
+            <div class="Header">
+                <h2>[% Translate("Detail View for SessionID: %s - %s", Data.SessionID, Data.UserFullname) | html %]</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Key") | html %]</th>
+                            <th>[% Translate("Value") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("DetailViewRow") %]
+                        <tr>
+                            <td>[% Data.Key | html %]</td>
+                            <td>[% Data.Value | html %]</td>
+                        </tr>
+[% RenderBlockEnd("DetailViewRow") %]
+                    </tbody>
+                </table>
+            </div>
+[% RenderBlockEnd("DetailView") %]
+        </div>
+    </div>
+
+    <div class="Clear"></div>
+</div>
+<!-- end -->

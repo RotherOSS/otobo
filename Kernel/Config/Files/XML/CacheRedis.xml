@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<otobo_config version="2.0" init="Config">
+    <Setting Name="Cache::Redis###Server" Required="1" Valid="1">
+        <Description Translatable="1">Redis server address. Example: 127.0.0.1:6379.</Description>
+        <Navigation>Core::Cache</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">127.0.0.1:6379</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Cache::Redis###DatabaseNumber" Required="1" Valid="1">
+        <Description Translatable="1">Use specified Redis logical database.</Description>
+        <Navigation>Core::Cache</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="\d">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Cache::Redis###RedisFast" Required="1" Valid="1">
+        <Description Translatable="1">Use Redis::Fast instead of Redis.</Description>
+        <Navigation>Core::Cache</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+</otobo_config>

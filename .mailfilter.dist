@@ -1,0 +1,82 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+#SYS_HOME=/opt/otobo
+SYS_HOME=$HOME
+
+import DEFAULT
+LOCALDEFAULT=$DEFAULT
+DEFAULT=${SYS_HOME}/var/spool/`date +%s`${FROM}${SIZE}
+MONTHFOLDER=`date +%Y-%m`
+YEARFOLDER=`date +%Y`
+
+
+# Remove all X-OTOBO Header (allow this only for trusted email)
+# e. g. from *@example.com
+
+if (/^To:.*@example.com/)
+{
+    xfilter "grep -vi '^X-OTOBO-'"
+}
+
+# or just no emails with "X-OTOBO-Ident: ahfiw2Fw32r230dddl2foeo3r" header!
+#if (/^X-OTOBO-Ident: ahfiw2Fw32r230dddl2foeo3r/)
+#{
+#    xfilter "grep -vi '^X-OTOBO-'"
+#}
+
+
+
+# Examples for queue presorting.
+
+if (/^To:.*@example.com/)
+{
+    xfilter "formail -I \"X-OTOBO-Queue: example\""
+}
+
+if (/^List-Id:.*OpenAntiVirus/)
+{
+    xfilter "formail -I \"X-OTOBO-Queue: OpenAntiVirus\""
+}
+
+
+# Example for add free form key and value (max 3).
+
+if (/^To:.*@example.com/)
+{
+    xfilter "formail -I \"X-OTOBO-ArticleKey1: Test\""
+    xfilter "formail -I \"X-OTOBO-ArticleValue1: True!\""
+}
+
+
+# Backup of all incoming emails.
+# It's always better to have a backup of all incoming emails!
+
+cc ${SYS_HOME}/var/INBOX.Backup.${MONTHFOLDER}
+
+
+# Pipe all email into the PostMaster process.
+
+xfilter "${SYS_HOME}/bin/otobo.Console.pl Maint::PostMaster::Read"
+
+
+# spool all the rest (which the otobo.PostMaster.pl can't process!)
+# If the database is down or the otobo.PostMaster.pl exit was not '0'!
+
+to $DEFAULT
+
+
+# end of .mailfilter

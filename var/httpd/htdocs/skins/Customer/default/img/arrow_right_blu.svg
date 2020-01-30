@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0beta1 (32d4812, 2019-09-19)"
+   sodipodi:docname="arrow_back_ios-24px.svg"
+   version="1.1"
+   viewBox="0 0 25 42"
+   height="42"
+   width="25"
+   id="arrow_back_ios-24px">
+  <metadata
+     id="metadata842">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:current-layer="arrow_back_ios-24px"
+     inkscape:window-maximized="0"
+     inkscape:window-y="23"
+     inkscape:window-x="0"
+     inkscape:cy="120.00902"
+     inkscape:cx="13.084036"
+     inkscape:zoom="1.6445965"
+     showgrid="false"
+     id="namedview840"
+     inkscape:window-height="907"
+     inkscape:window-width="1600"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     inkscape:document-rotation="0"
+     bordercolor="#666666"
+     pagecolor="#ffffff" />
+  <defs
+     id="defs835">
+    <style
+       id="style833">
+            .cls-1{fill:none;opacity:.87}.cls-2{fill:#00023c}
+        </style>
+  </defs>
+  <path
+     inkscape:connector-curvature="0"
+     data-name="Pfad 13791"
+     class="cls-1"
+     d="M 50,0 H 0 v 50 h 50 z"
+     id="Pfad_13791" />
+  <path
+     style="stroke-width:1.02322;fill:#0002ff;fill-opacity:1"
+     inkscape:connector-curvature="0"
+     data-name="Pfad 13792"
+     class="cls-2"
+     d="m 1.7843813,1.7843544 a 2.6603611,2.6603611 0 0 1 3.772596,0 L 23.271913,19.498267 a 2.1231728,2.1231728 0 0 1 0,3.006207 L 5.5539073,40.21941 A 2.6676287,2.6676287 0 0 1 1.7813123,36.446813 L 17.218568,20.991138 1.7680103,5.5405801 a 2.6603611,2.6603611 0 0 1 0.016371,-3.7562257 z"
+     id="Pfad_13792" />
+</svg>

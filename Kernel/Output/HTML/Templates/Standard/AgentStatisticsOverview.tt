@@ -1,0 +1,132 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<div class="MainBox AriaRoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("Statistics Management") | html %]</h1>
+
+    [% USE ActionLink = String( 'AgentStatistics' ) %]
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Statistics Management'),
+                Link => ActionLink.append( ';Subaction=Overview' ),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath Type = "Agent" %]
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    [% IF Data.AccessRw %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add Statistics") | html %]</span></a>
+                    </li>
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Import" class="CallForAction Fullsize Center"><span><i class="fa fa-upload"></i> [% Translate("Import Statistics") | html %]</span></a>
+                    </li>
+                    [% ELSE %]
+#                   <!-- placeholder action for readonly view -->
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i> [% Translate("Go to overview") | html %]</span></a>
+                    </li>
+                    [% END %]
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Statistics") | html %]</h2>
+            </div>
+            <div class="Content">
+                <span class="Pagination">
+                    [% Data.ResultLong %]
+                    [% Data.SiteNavBarLong %]
+                </span>
+
+                <table class="Sortable DataTable">
+                    <thead>
+                        <tr [% IF !Data.Valid %]class="Invalid"[% END %]>
+                            <th class="[% Data.CSSSortID | html %]">
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview;Direction=[% Data.LinkSortID | uri %];OrderBy=ID;StartHit=[% Data.StartHit | uri %]">
+                                    [% Config("Stats::StatsHook") | html %]
+                                </a>
+                            </th>
+                            <th class="[% Data.CSSSortTitle | html %]">
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview;Direction=[% Data.LinkSortTitle | uri %];OrderBy=Title;StartHit=[% Data.StartHit | uri %]">
+                                    [% Translate("Title") | html %]
+                                </a>
+                            </th>
+                            <th class="[% Data.CSSSortObject | html %]">
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview;Direction=[% Data.LinkSortObject | uri %];OrderBy=Object;StartHit=[% Data.StartHit | uri %]">
+                                    [% Translate("Object") | html %]
+                                </a>
+                            </th>
+                            [% IF Data.AccessRw %]
+                            <th class="Center">
+                                <span>[% Translate('Export') | html %]</span>
+                            </th>
+                            <th class="Center">
+                                <span>[% Translate('Delete') | html %]</span>
+                            </th>
+                            [% END %]
+                            <th class="Center">
+                                <span>[% Translate('Run') | html %]</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("Result") %]
+                        <tr[% IF !Data.Valid %] class="Invalid"[% END %]>
+                        <td>
+                                [% IF Data.AccessRw %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Edit;StatID=[% Data.StatID | uri %]" class="AsBlock" title="[% Translate('Edit statistic "%s".', Data.Title) | html %]">
+                                    [% Data.StatNumber | html %]
+
+                            </a>
+                                [% ELSE %]
+                                    [% Data.StatNumber | html %]
+                                [% END %]
+                        </td>
+                        <td>[% Data.Title | html %]</td>
+                        <td>[% Translate(Data.ObjectName) | html %]</td>
+                            [% IF Data.AccessRw %]
+                        <td class="Center" title="[% Translate('Export statistic "%s"', Data.Title) | html %]">
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ExportAction;StatID=[% Data.StatID | uri %];[% Env('ChallengeTokenParam') %]" class="AsBlock">
+                                <i class="fa fa-download"></i>
+                                <span class="InvisibleText">[% Translate('Export statistic %s', Data.Title) | html %]</span>
+                            </a>
+                        </td>
+                        <td class="Center" title="[% Translate('Delete statistic "%s"', Data.Title) | html %]">
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=DeleteAction;StatID=[% Data.StatID | uri %];[% Env('ChallengeTokenParam') %]" class="AsBlock StatDelete" data-stat-title="[% Data.Title | html %]">
+                                <i class="fa fa-trash"></i>
+                                <span class="InvisibleText">[% Translate('Delete statistic %s', Data.Title) | html %]</span>
+                            </a>
+                        </td>
+                            [% END %]
+                        <td class="Center">
+                            [% IF Data.Valid %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=View;StatID=[% Data.StatID | uri %]" class="RunNow AsBlock"><i class="fa fa-caret-square-o-right"></i></a>
+                            [% END %]
+                        </td>
+                    </tr>
+[% RenderBlockEnd("Result") %]
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>

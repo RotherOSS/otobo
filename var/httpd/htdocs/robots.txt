@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /otobo/public.pl
+Disallow: /

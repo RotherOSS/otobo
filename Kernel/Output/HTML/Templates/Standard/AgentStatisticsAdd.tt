@@ -1,0 +1,130 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<div class="MainBox AriaRoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("Statistics Management") | html %]</h1>
+
+    [% USE ActionLink = String( 'AgentStatistics' ) %]
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Statistics Management'),
+                Link => ActionLink.append( ';Subaction=Overview' ),
+            },
+            {
+                Name => Translate("Add Statistics"),
+            }
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath Type = "Agent" %]
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+                    <li>
+# Rother OSS / TODO Redirect directly to statistic doc.
+                        <a href="https://otobo.ch/de/otobo-dokumentation-und-handbuecher/" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-book"></i>[% Translate("Read more about statistics in OTOBO") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+            <input type="hidden" name="Subaction" value="AddAction"/>
+
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("Add Statistics") | html %]</h2>
+                </div>
+                <div class="Content">
+                    <ul class="ItemListGrid WithIcons">
+                        <li>
+                            <a href="" data-statistic-preselection="DynamicMatrix" class="AsBlock [% IF Data.StatisticPreselection == 'DynamicMatrix' %] Active[% END %][% IF !Data.ShowAddDynamicMatrixButton %] Disabled[% END %]">
+                                <span class="Icons">
+                                    <i class="fa fa-table"></i>
+                                </span>
+                                <span class="Title">
+                                    [% Translate('Dynamic Matrix') | html %]
+                                </span>
+                                <span class="Description">
+                                    [% Translate('Each cell contains a singular data point.') | html %]
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-statistic-preselection="DynamicList" class="AsBlock [% IF Data.StatisticPreselection == 'DynamicList' %] Active[% END %][% IF !Data.ShowAddDynamicListButton %] Disabled[% END %]">
+                                <span class="Icons">
+                                    <i class="fa fa-list"></i>
+                                </span>
+                                <span class="Title">
+                                    [% Translate('Dynamic List') | html %]
+                                </span>
+                                <span class="Description">
+                                    [% Translate('Each row contains data of one entity.') | html %]
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-statistic-preselection="Static" class="AsBlock [% IF Data.StatisticPreselection == 'Static' %] Active[% END %][% IF !Data.ShowAddStaticButton %] Disabled[% END %]">
+                                <span class="Icons">
+                                    <i class="fa fa-table"></i>
+                                </span>
+                                <span class="Title">
+                                    [% Translate('Static') | html %]
+                                </span>
+                                <span class="Description">
+                                    [% Translate('Non-configurable complex statistics.') | html %]
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="WidgetSimple" id="GeneralSpecifications" [% IF !Data.ShowFormInitially %]style="display: none;"[% END %]>
+                <div class="Header">
+                    <h2>[% Translate("General Specification") | html %]</h2>
+                </div>
+                <div class="Content">
+                    [% IF Data.GeneralSpecificationsWidget %][% Data.GeneralSpecificationsWidget %][% END %]
+                </div>
+            </div>
+
+            <div class="WidgetSimple" id="SaveWidget" [% IF !Data.ShowFormInitially %]style="display: none;"[% END %]>
+                <div class="Header">
+                    <h2>[% Translate("Create Statistic") | html %]</h2>
+                </div>
+                <div class="Content">
+                    <fieldset class="TableLike">
+                        <div class="Field SpacingTop">
+                            <button class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]">
+                                <span>[% Translate("Save") | html %]</span>
+                            </button>
+                            [% Translate('or') | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview">
+                                [% Translate('Cancel') | html %]
+                            </a>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

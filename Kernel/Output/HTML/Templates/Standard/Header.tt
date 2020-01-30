@@ -1,0 +1,117 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+[%- INCLUDE "HTTPHeaders.tt" -%]
+
+<!DOCTYPE html>
+<html>
+[% InsertTemplate("Copyright.tt") %]
+[% InsertTemplate("HTMLHead.tt") %]
+<body class="[% Data.BodyClass | html %]">
+    <a name="Top"></a>
+    <div id="AppWrapper">
+    <div id="Header" class="ARIARoleBanner">
+        <div id="Logo"></div>
+        <ul id="ToolBar">
+[% RenderBlockStart("ToolBar") %]
+            <li class="UserAvatar">
+                <a href="#">
+                [% IF Data.Avatar %]
+                    <img src="[% Data.Avatar %]" />
+                [% ELSE %]
+                    <span class="Initials">[% Data.UserInitials | html %]</span>
+                [% END %]
+                </a>
+                <div>
+                    <span>[% Env("UserFullname") | html %]</span>
+                [% RenderBlockStart("Login") %]
+                    <a href="[% Env("Baselink") %]Action=AgentPreferences" title="[% Translate("Edit personal preferences") | html %]">
+                        <i class="fa fa-cog"></i><strong>[% Translate("Personal preferences") | html %]</strong>
+                    </a>
+                [% RenderBlockEnd("Login") %]
+                [% RenderBlockStart("Logout") %]
+                    <a class="LogoutButton" id="LogoutButton" href="[% Env("Baselink") %]Action=Logout;[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Logout") | html %] ([% Translate("You are logged in as") | html %] [% Env("UserFullname") | html %])">
+                        <i class="fa fa-power-off"></i><strong>[% Translate("Logout") | html %]</strong>
+                    </a>
+                [% RenderBlockEnd("Logout") %]
+                </div>
+            </li>
+[% RenderBlockStart("ToolBarItemSeparatorShortcut") %]
+            <li class="ToolBarItemSeparator"></li>
+[% RenderBlockEnd("ToolBarItemSeparatorShortcut") %]
+[% RenderBlockStart("ToolBarItemShortcut") %]
+            <li class="[% Data.Class | html %]"><a href="[% Data.Link %]" target="[% Data.Target | html %]" accesskey="[% Data.AccessKey | html %]" title="[% Translate(Data.Description) | html %]: [% Data.Count | html %][% Data.AccessKeyReference | html %]">[% Translate(Data.Description) | html %] <i class="icon-small fa fa-clock-o icon-show-reached"></i> <i class="icon-small fa fa-star icon-show-new"></i><i class="[% Data.Icon | html %]"></i> <span class="Counter">[% Data.Count | html %]</span> </a></li>
+[% RenderBlockEnd("ToolBarItemShortcut") %]
+[% RenderBlockStart("ToolBarItemSeparatorMyTickets") %]
+            <li class="ToolBarItemSeparator"></li>
+[% RenderBlockEnd("ToolBarItemSeparatorMyTickets") %]
+[% RenderBlockStart("ToolBarItem") %]
+            <li class="[% Data.Class | html %]"><a href="[% Data.Link %]" target="[% Data.Target | html %]" accesskey="[% Data.AccessKey | html %]" title="[% Translate(Data.Description) | html %]: [% Data.Count | html %][% Data.AccessKeyReference | html %]">[% Translate(Data.Description) | html %] <i class="icon-small fa fa-clock-o icon-show-reached"></i> <i class="icon-small fa fa-star icon-show-new"></i><i class="[% Data.Icon | html %]"></i> <span class="Counter">[% Data.Count | html %]</span> </a></li>
+[% RenderBlockEnd("ToolBarItem") %]
+[% RenderBlockStart("ToolBarItemSeparatorSearch") %]
+            <li class="ToolBarItemSeparator"></li>
+[% RenderBlockEnd("ToolBarItemSeparatorSearch") %]
+# Toolbar for Elasticsearch
+[% RenderBlockStart("ToolBarSearchFulltextES") %]
+            <li class="Extended SearchFulltext">
+                <form action="[% Env("CGIHandle") %]" method="post" name="SearchFulltext">
+                    <input type="hidden" name="Action" value="AgentTicketSearch"/>
+                    <input type="hidden" name="Subaction" value="Search"/>
+                    <input type="hidden" name="SearchTemplate" value="[% Translate("Search") | html %]"/>
+                    <input type="hidden" name="CheckTicketNumberAndRedirect" value="1"/>
+                    [% IF Data.SearchInArchive %]
+                        <input type="hidden" name="SearchInArchive" value="[% Data.SearchInArchive | html %]"/>
+                    [% END %]
+                    <input type="text" size="[% Data.Size | html %]" name="FulltextES" id="FulltextES" value="[% Data.FulltextES | html %]" placeholder="[% Translate(Data.Description) | html %]" title="[% Translate(Data.Description) | html %]"/>
+                </form>
+            </li>
+[% RenderBlockEnd("ToolBarSearchFulltextES") %]
+[% RenderBlockStart("ToolBarSearchProfile") %]
+            <li class="Extended SearchProfile">
+                <form action="[% Env("CGIHandle") %]" method="post" name="SearchProfile">
+                    <input type="hidden" name="Action" value="AgentTicketSearch"/>
+                    <input type="hidden" name="Subaction" value="LoadProfile"/>
+                    <input type="hidden" name="SearchTemplate" value="[% Translate("Search") | html %]"/>
+                    [% Data.Link %]
+#                    <a href="#" id="ToolbarProfileSearch" title="[% Translate(Data.Description) | html %]  ([% Data.AccessKey | html %])" accesskey="[% Data.AccessKey | html %]" [% Data.LinkOption %]>[% Translate(Data.Name) | html %]</a>
+                </form>
+            </li>
+[% RenderBlockEnd("ToolBarSearchProfile") %]
+[% RenderBlockStart("ToolBarSearchFulltext") %]
+            <li class="Extended SearchFulltext">
+                <form action="[% Env("CGIHandle") %]" method="post" name="SearchFulltext">
+                    <input type="hidden" name="Action" value="AgentTicketSearch"/>
+                    <input type="hidden" name="Subaction" value="Search"/>
+                    <input type="hidden" name="SearchTemplate" value="[% Translate("Search") | html %]"/>
+                    <input type="hidden" name="CheckTicketNumberAndRedirect" value="1"/>
+                    [% IF Data.SearchInArchive %]
+                        <input type="hidden" name="SearchInArchive" value="[% Data.SearchInArchive | html %]"/>
+                    [% END %]
+                    <input type="text" size="[% Data.Size | html %]" name="Fulltext" id="Fulltext" value="[% Data.Fulltext | html %]" placeholder="[% Translate(Data.Description) | html %]" title="[% Translate(Data.Description) | html %]"/>
+#                    <a href="#" id="ToolbarFulltextSearch" title="[% Translate(Data.Description) | html %] ([% Data.AccessKey | html %])" accesskey="[% Data.AccessKey | html %]" [% Data.LinkOption %]>[% Translate(Data.Name) | html %]</a>
+                </form>
+            </li>
+[% RenderBlockEnd("ToolBarSearchFulltext") %]
+[% RenderBlockStart("ToolBarCICSearchCustomerID") %]
+            <li class="Extended SearchFulltext">
+                <input type="text" size="[% Data.Size | html %]" id="ToolBarCICSearchCustomerID" placeholder="[% Translate(Data.Description) | html %]" title="[% Translate(Data.Description) | html %]"/>
+            </li>
+[% RenderBlockEnd("ToolBarCICSearchCustomerID") %]
+[% RenderBlockStart("ToolBarCICSearchCustomerUser") %]
+            <li class="Extended SearchFulltext">
+                <input type="text" size="[% Data.Size | html %]" id="ToolBarCICSearchCustomerUser" placeholder="[% Translate(Data.Description) | html %]" title="[% Translate(Data.Description) | html %]"/>
+            </li>
+[% RenderBlockEnd("ToolBarCICSearchCustomerUser") %]
+[% RenderBlockEnd("ToolBar") %]
+[% RenderBlockStart("DebugRTLButton") %]
+            <li>
+                <button type="button" class="DebugRTL">Simulate RTL</button>
+            </li>
+[% RenderBlockEnd("DebugRTLButton") %]
+        </ul>
+    </div>

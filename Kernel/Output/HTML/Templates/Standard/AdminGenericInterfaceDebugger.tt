@@ -1,0 +1,141 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceDebugger">
+    <h1 class="InvisibleText">[% Translate("GenericInterface Web Service Management") | html %]</h1>
+
+    [% USE BreadcrumbLink = String("AdminGenericInterfaceWebservice") %]
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate( 'Web Service Management' ),
+                Link => BreadcrumbLink,
+            },
+            {
+                Name => Data.WebserviceName,
+                Link => BreadcrumbLink.copy.append( ";Subaction=Change;WebserviceID=", Data.WebserviceID ),
+            },
+            {
+                Name => Translate('Debugger'),
+            }
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i> [% Translate("Go back to web service") | html %]</span></a>
+                    </li>
+                    <li>
+                        <button class="CallForAction Fullsize Center" type="button" id="DeleteButton"><span><i class="fa fa-trash-o"></i> [% Translate("Clear") | html %]</span></button>
+                        <div class="Hidden" id="DeleteDialogContainer">
+                            <span class="WarningDialog ">&nbsp;</span>
+                            <p id="DeleteDialog" class="Center Warning">
+                                [% Translate("Do you really want to clear the debug log of this web service?") | html %]
+                            </p>
+                            <div class="SpacingTop"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple RequestListWidget">
+            <div class="Header">
+                <h2>
+                    [% Translate("Request List") | html %]
+                </h2>
+            </div>
+            <div class="Content">
+                <div class="LayoutGrid ColumnsWithSpacing">
+                    <div class="Size1of2">
+                        <div class="ListContainer" style="max-height: 220px;"><!-- needed for CSS to limit table height -->
+                            <table class="DataTable" id="RequestList" summary="List of web service communications recorded by the debugger with the applied filter">
+                                <thead>
+                                    <tr>
+                                        <th>[% Translate("Type") | html %]</th>
+                                        <th>[% Translate("Time") | html %]</th>
+                                        <th>[% Translate("Communication ID") | html %]</th>
+                                        <th>[% Translate("Remote IP") | html %]</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="4">[% Translate("Loading") | html %]...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="FieldExplanation">[% Translate("Select a single request to see its details.") | html %]</p>
+                    </div>
+                    <div class="Size1of2">
+                        <fieldset class="TableLike">
+                            <label for="FilterType">[% Translate("Filter by type") | html %]:</label>
+                            <div class="Field">
+                                [% Data.FilterTypeStrg %]
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label>[% Translate("Filter from") | html %]:</label>
+                            <div class="Field">
+                                [% Data.FilterFromStrg %]
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label>[% Translate("Filter to") | html %]:</label>
+                            <div class="Field">
+                                [% Data.FilterToStrg %]
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label for="FilterRemoteIP">[% Translate("Filter by remote IP") | html %]:</label>
+                            <div class="Field">
+                                <input type="text" class="w50pc" id="FilterRemoteIP" />
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label for="FilterLimit">[% Translate("Limit") | html %]:</label>
+                            <div class="Field">
+                                [% Data.FilterLimitStrg %]
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label for="FilterSort">[% Translate("Order") | html %]:</label>
+                            <div class="Field">
+                                [% Data.FilterSortStrg %]
+                            </div>
+                            <div class="Clear"></div>
+
+                            <div class="Field">
+                                <button type="button" id="FilterRefresh" class="CallForAction" value="[% Translate("Refresh") | html %]"><span><i class="fa fa-refresh"></i> [% Translate("Refresh") | html %]</span></button>
+                            </div>
+                            <div class="Clear"></div>
+                        </fieldset>
+
+                    </div>
+                    <div class="Clear"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="WidgetSimple Hidden" id="CommunicationDetails">
+            <div class="Header"></div>
+            <div class="Content"></div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>

@@ -1,0 +1,29 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<!-- start form -->
+<div class="MainBox ARIARoleMain">
+
+    <div class="W33pc CenterBox SpacingTopLarge SpacingBottomLarge">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Information") | html %]</h2>
+            </div>
+            <div class="Content">
+                <h4>
+                    [% Translate("To accept some news, a license or some changes.") | html %]
+                </h4>
+                <p>
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Accept=1">[% Translate("Yes, accepted.") | html %]</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- end form -->

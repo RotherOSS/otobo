@@ -1,0 +1,21 @@
+export OTOBOUSER=otobo
+
+[% '#' %] note
+HOST=`hostname -f`
+echo ""
+echo "Next steps: "
+echo ""
+echo "[restart web server]"
+echo " systemctl restart [% WebServiceName || 'apache2.service' %]"
+echo ""
+echo "[install the OTOBO database]"
+echo " Make sure your database server is running."
+echo " Use a web browser and open this link:"
+echo " http://$HOST/otobo/installer.pl"
+echo ""
+echo "[start OTOBO daemon and corresponding watchdog cronjob]"
+echo " /opt/otobo/bin/otobo.Daemon.pl start"
+echo " /opt/otobo/bin/Cron.sh start"
+echo ""
+echo " Your OTOBO Team"
+echo ""

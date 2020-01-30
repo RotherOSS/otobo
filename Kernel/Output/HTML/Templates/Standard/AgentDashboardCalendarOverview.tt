@@ -1,0 +1,28 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<table class="DataTable">
+    <tbody>
+[% RenderBlockStart("ContentSmallCalendarOverviewRow") %]
+        <tr>
+            <td>
+                <a href="[% Env("Baselink") %][% Data.Link %]" title="[% Data.Title | html %]">[% Data.ObjectNumber %]</a> [% Data.Title | truncate(50) | html %]
+                <br/>
+                <em title="[% Data.TimeStamp | Localize("TimeShort") | html %]">([% Translate(Data.Text) | html %] [% Translate("in") | html %] [% Data.In | html %])</em>
+            </td>
+        </tr>
+[% RenderBlockEnd("ContentSmallCalendarOverviewRow") %]
+[% RenderBlockStart("ContentSmallCalendarOverviewNone") %]
+        <tr>
+            <td>
+                [% Translate("none") | html %]
+            </td>
+        </tr>
+[% RenderBlockEnd("ContentSmallCalendarOverviewNone") %]
+    </tbody>
+</table>

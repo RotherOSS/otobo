@@ -1,0 +1,32 @@
+# --
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<div id='oooContent'>
+    <div id='oooHeader'>
+        <div class='oooWithSub'>
+            <h1 title="[% Translate(Data.WelcomeText, Data.Name) | html %]">[% Translate(Data.WelcomeText, Data.Name) | html %]</h1>
+            <h3 class="ooog" title="[% Translate(Data.SubText) | html %]">[% Translate(Data.SubText) | html %]</h3>
+        </div>
+        <div id="oooTicketSearchBox">
+            <form action="[% Env("CGIHandle") %]" method="post" name="compose">
+                <input type="hidden" name="Action" value="CustomerTicketOverview"/>
+                <input type="hidden" name="Subaction" value="Search"/>
+
+                <h3 class='ooog'>
+                    <i class="ooofo ooofo-search"></i>
+                    <input type="text" name="Fulltext" id="oooTicketSearch" title="[% Translate('Ticket Search') | html %]"/>
+                    <span id='oooTicketSearchLabel'>[% Translate('Ticket Search') | html %]</span>
+                </h3>
+            </form>
+        </div>
+#        <h3 id='oooHeaderOptions' class="ooog"><i class="ooofo ooofo-more_h"></i></h3>
+    </div>
+    <div id='oooMainBox'>
+        [% Data.TileHTML %]
+    </div>
+</div>

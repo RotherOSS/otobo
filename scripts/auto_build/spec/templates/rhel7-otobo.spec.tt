@@ -1,0 +1,23 @@
+[% INCLUDE 'includes/redhat-systemd-base.tt'
+    Requires = [
+        'bash-completion',
+        'cronie',
+        'httpd',
+        'perl',
+        'perl(Archive::Zip)',
+        'perl(Date::Format)',
+        'perl(DateTime)',
+        'perl(DBI)',
+        'perl(IO::Socket::SSL)',
+        'perl(LWP::UserAgent)',
+        'perl(Net::DNS)',
+        'perl(Net::LDAP)',
+        'perl(Template)',
+        'perl(URI)',
+        'perl(XML::LibXML)',
+        'perl(XML::LibXSLT)',
+        'perl(XML::Parser)',
+        'perl-core',
+        'procmail',
+    ]
+-%]

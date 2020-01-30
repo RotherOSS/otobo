@@ -1,0 +1,818 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+[% RenderBlockStart("Uninstall") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("Package Manager") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Package Manager'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% USE UninstallBreadcrumb = String(Translate("Uninstall Package")) %]
+    [% BreadcrumbPath.push({ Name => UninstallBreadcrumb.append( ': ', Data.Name ) }) %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>
+                    [% Translate("Uninstall package") | html %]
+                </h2>
+            </div>
+            <div class="Content">
+
+                <fieldset class="TableLike">
+                    <label>[% Translate("Name") | html %]: </label>
+                    <div class="Value">
+                        [% Data.Name | html %]
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label>[% Translate("Version") | html %]: </label>
+                    <div class="Value">
+                        [% Data.Version %]
+                    </div>
+                    <div class="Clear"></div>
+                    <p class="Field">
+                        [% Translate("Do you really want to uninstall this package?") | html %]
+                    </p>
+                    <div class="Clear"></div>
+                    <div class="Field SpacingTop">
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="UninstallAction"/>
+                            <input type="hidden" name="Name" value="[% Data.Name | html %]"/>
+                            <input type="hidden" name="Version" value="[% Data.Version | html %]"/>
+                            <button class="Primary CallForAction" type="submit" value="[% Translate("Uninstall package") | html %]"><span>[% Translate("Uninstall package") | html %]</span></button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                        </form>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
+[% RenderBlockEnd("Uninstall") %]
+[% RenderBlockStart("Reinstall") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("Package Manager") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Package Manager'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% USE ReinstallBreadcrumb = String(Translate("Reinstall package")) %]
+    [% BreadcrumbPath.push({ Name => ReinstallBreadcrumb.append( ': ', Data.Name ) }) %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>
+                    [% Translate("Reinstall package") | html %]
+                </h2>
+            </div>
+            <div class="Content">
+
+                <fieldset class="TableLike">
+                    <label>[% Translate("Name") | html %]: </label>
+                    <div class="Value">
+                        [% Data.Name | html %]
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label>[% Translate("Version") | html %]: </label>
+                    <div class="Value">
+                        [% Data.Version %]
+                    </div>
+                    <div class="Clear"></div>
+                    <p class="Field">
+                        [% Translate("Do you really want to reinstall this package? Any manual changes will be lost.") | html %]
+                    </p>
+                    <div class="Clear"></div>
+                    <div class="Field SpacingTop">
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="ReinstallAction"/>
+                            <input type="hidden" name="Name" value="[% Data.Name | html %]"/>
+                            <input type="hidden" name="Version" value="[% Data.Version | html %]"/>
+                            <button class="Primary CallForAction" type="submit" value="[% Translate("Reinstall package") | html %]"><span>[% Translate("Reinstall package") | html %]</span></button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                        </form>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
+[% RenderBlockEnd("Reinstall") %]
+[% RenderBlockStart("IncompatibleInfo") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("Package Manager") | html %]</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h3>
+                </div>
+                <div class="Content">
+                    <ul class="ActionList">
+                        <li>
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                        </li>
+                        <li>
+                            <a href="https://doc.otobo.org/doc/manual/admin/6.0/en/html/updating.html" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-external-link"></i>[% Translate("Go to updating instructions") | html %]</span></a>
+                        </li>
+                        <li>
+                            <a href="https://portal.otrs.com/" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-external-link"></i>[% Translate("Go to the OTOBO customer portal") | html %]</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="ContentColumn">
+
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2> [% Data.Name | html %] [% Data.Version | html %] [% Translate("package information") | html %]</h2>
+                </div>
+                <div class="Content">
+                    [% IF Data.Type == 'InstallIncompatible' %]
+                    <h2>[% Translate("Package installation requires a patch level update of OTOBO.") | html %]</h2>
+                    [% ELSIF Data.Type =='UpgradeIncompatible' %]
+                    <h2>[% Translate("Package update requires a patch level update of OTOBO.") | html %]</h2>
+                    [% END %]
+                    <p class="SpacingTop">[% Translate("Please note that your installed OTOBO version is %s.", Config("Version")) | html %]</p>
+                    [% IF Data.RequiredMinimumVersion %]
+                    <p><span class="MinimumRequired">[% Translate("To install this package, you need to update OTOBO to version %s or newer.", Data.RequiredMinimumVersion) | html %]</span></p>
+                    [% END %]
+                    [% IF Data.RequiredMaximumVersion %]
+                    <p><span class="MaximumRequired">[% Translate("This package can only be installed on OTOBO version %s or older.", Data.RequiredMaximumVersion) | html %] </span></p>
+                    [% END %]
+                    [% IF !Data.RequiredMinimumVersion && Data.RequiredFramework %]
+                    <p><span class="MaximumRequired">[% Translate("This package can only be installed on OTOBO version %s or newer.", Data.RequiredFramework) | html %] </span></p>
+                    [% END %]
+                    <h2 class="SpacingTop">[% Translate("Why should I keep OTOBO up to date?") | html %]</h2>
+                    <ul class="Default">
+                        <li>
+                            [% Translate("You will receive updates about relevant security issues.") | html %]
+                        </li>
+                        <li>
+                            [% Translate("You will receive updates for all other relevant OTOBO issues.") | html %]
+                        </li>
+                    </ul>
+                    <h2 class="SpacingTop">[% Translate("How can I do a patch level update if I don’t have a contract?") | html %]</h2>
+                    <p>
+                        [% Translate("Please find all relevant information within the updating instructions at %s.") | html
+                        | ReplacePlaceholders('<a href="https://doc.otobo.org/doc/manual/admin/6.0/en/html/updating.html" target="_blank">doc.otobo.org</a>') %]
+                    </p>
+                    <p>[% Translate("In case you would have further questions we would be glad to answer them.") | html %] <br />[% Translate("Please visit our customer portal and file a request.") | html %]</p>
+                </div>
+            </div>
+        </div>
+        <div class="Clear"></div>
+    </div>
+</div>
+[% RenderBlockEnd("IncompatibleInfo") %]
+[% RenderBlockStart("Intro") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("Package Manager") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Package Manager'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% SWITCH Env("Subaction") %]
+        [% CASE 'InstallRemote' %]
+            [% USE InstallRemoteTitle = String(Translate("Install Package")) %]
+            [% BreadcrumbPath.push({ Name => InstallRemoteTitle.append( ': ', Data.Name ) }) %]
+        [% CASE 'Uninstall' %]
+            [% USE UninstallTitle = String(Translate("Uninstall Package")) %]
+            [% BreadcrumbPath.push({ Name => UninstallTitle.append( ': ', Data.Name ) }) %]
+        [% CASE 'UpgradeRemote' %]
+            [% USE UpgradeRemoteTitle = String(Translate("Update Package")) %]
+            [% BreadcrumbPath.push({ Name => UpgradeRemoteTitle.append( ': ', Data.Name ) }) %]
+        [% CASE 'InstallUpload' %]
+            [% USE InstallUploadTitle = String(Translate("Install Package")) %]
+            [% BreadcrumbPath.push({ Name => InstallUploadTitle.append( ': ', Data.Name ) }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h3>
+                </div>
+                <div class="Content">
+                    <ul class="ActionList">
+                        <li>
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="ContentColumn">
+
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate(Data.Title) | html %]</h2>
+                </div>
+                <div class="Content">
+[% RenderBlockStart("OTOBOVerifyLogo") %]
+                    <img src="[% Config("Frontend::ImagePath") %]/otobo-verify.png" class="OTOBOVerifyLogoBig" />
+[% RenderBlockEnd("OTOBOVerifyLogo") %]
+                    <div class="IntroInstall [% Data.VerifyCSSClass | html %]">
+                        <h3>[% Data.Name | html %] [% Data.Version | html %]</h3>
+                        [% Data.Description %]
+                    </div>
+[% RenderBlockStart("IntroForm") %]
+                    <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+                        <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                        <input type="hidden" name="Subaction" value="[% Data.Subaction | html %]"/>
+                        <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
+                        <input type="hidden" name="Source" value="[% Data.Source | html %]"/>
+                        <input type="hidden" name="File" value="[% Data.File | html %]"/>
+                        <input type="hidden" name="[% Data.Type | html %]" value="1"/>
+                        <input type="hidden" name="Name" value="[% Data.Name | html %]"/>
+                        <input type="hidden" name="Version" value="[% Data.Version | html %]"/>
+                        <button class="Primary CallForAction" type="submit" value="[% Translate("Continue") | html %]"><span>[% Translate("Continue") | html %]</span></button>
+[% RenderBlockStart("IntroCancel") %]
+                        [% Translate("or") | html %]
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
+[% RenderBlockEnd("IntroCancel") %]
+                    </form>
+[% RenderBlockEnd("IntroForm") %]
+                </div>
+            </div>
+        </div>
+        <div class="Clear"></div>
+    </div>
+</div>
+[% RenderBlockEnd("Intro") %]
+
+
+[% RenderBlockStart("Overview") %]
+    <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+        <h1 class="InvisibleText">[% Translate("Package Manager") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Package Manager'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+        <div class="SidebarColumn">
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("Actions") | html %]</h2>
+                </div>
+                <div class="Content">
+                    <ul class="ActionList">
+[% RenderBlockStart("OverviewFileUpload") %]
+                        <li class="Separated">
+                            <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+                                <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                                <input type="hidden" name="Subaction" value="InstallUpload"/>
+                                <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
+                                <input name="FileUpload" id="FileUpload" type="file" size="18" class="Fixed W100pc Validate_Required [% Data.FileUploadInvalid | html %]"/>
+                                <div id="FileUploadError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="FileUploadServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+[% RenderBlockStart("DatabasePackageSizeWarning") %]
+                                <p class="FieldExplanation Error">
+                                    [% Translate("Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.", Data.MaxAllowedPacketRecommended, Data.MaxAllowedPacket) | html %]
+                                </p>
+[% RenderBlockEnd("DatabasePackageSizeWarning") %]
+                                <button class="Fullsize Center CallForAction LittleSpacingTop PackageAction" type="submit" value="[% Translate("Install") | html %]">
+                                    <span><i class="fa fa-upload"></i> [% Translate("Install Package") | html %]</span>
+                                </button>
+                            </form>
+                        </li>
+[% RenderBlockEnd("OverviewFileUpload") %]
+                        <li>
+                            <form action="[% Env("CGIHandle") %]" method="post">
+                                <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                                <input type="hidden" name="Subaction" value="ChangeRepository"/>
+                                [% Data.SourceList %]
+                                <button class="Fullsize CallForAction LittleSpacingTop Center" type="submit" name="GetRepositoryList" value="[% Translate("Update") | html %]">
+                                    <span><i class="fa fa-refresh"></i> [% Translate("Update repository information") | html %]</span>
+                                </button>
+                            </form>
+                        </li>
+ [% RenderBlockStart("CloudServicesWarning") %]
+                        <li>
+                            <p class="FieldExplanation Error">
+                                [% Translate("Cloud services are currently disabled.") | html %]
+                                </br>
+                                [% Translate("OTOBO Verify™ can not continue!") | html %]
+                            </p>
+                            <form action="[% Env("CGIHandle") %]" method="post">
+                                <input type="hidden" name="Action" value="AdminSystemConfiguration"/>
+                                <input type="hidden" name="Subaction" value="Edit"/>
+                                <input type="hidden" name="SysConfigGroup" value="CloudService"/>
+                                <input type="hidden" name="SysConfigSubGroup" value="Core"/>
+                                <fieldset>
+                                    <button class="Fullsize CallForAction LittleSpacingTop Center" type="submit" value="[% Translate("Enable cloud services") | html %]">
+                                        <span><i class="fa fa-cloud"></i> [% Translate("Enable cloud services") | html %]</span>
+                                    </button>
+                                </fieldset>
+                            </form>
+                        </li>
+[% RenderBlockEnd("CloudServicesWarning") %]
+                        [% IF Data.InstalledPackages %]
+                        <li>
+                            <a href="#" class="CallForAction Fullsize Center UpgradeAll PackageAction"><span><i class="fa fa-arrow-circle-o-up"></i>[% Translate("Update all installed packages") | html %]</span></a>
+                        </li>
+                        [% END %]
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="ContentColumn">
+            <div class="WidgetSimple">
+
+                <div class="Header">
+                    <h2>[% Translate("Online Repository") | html %]</h2>
+                </div>
+                <div class="Content ">
+                    <table class="DataTable">
+                        <thead>
+                            <tr>
+                                <th>[% Translate("Name") | html %]</th>
+                                <th></th>
+                                <th>[% Translate("Version") | html %]</th>
+                                <th>[% Translate("Vendor") | html %]</th>
+                                <th class="W40pc">[% Translate("Description") | html %]</th>
+                                <th>[% Translate("Action") | html %]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+[% RenderBlockStart("NoDataFoundMsg") %]
+                            <tr>
+                                <td colspan="6">
+                                    [% Translate("No data found.") | html %]
+                                </td>
+                            </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockStart("ShowRemotePackage") %]
+                            <tr>
+                                <td>
+                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ViewRemote;Source=[% Data.Source | uri %];File=[% Data.File | uri %];Name=[% Data.Name | uri %];Version=[% Data.Version | uri %]">[% Data.Name | html %]</a>
+                                </td>
+                                <td>
+[% RenderBlockStart("ShowRemotePackageDocumentation") %]
+                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ViewRemote;Source=[% Data.Source | uri %];File=[% Data.File | uri %];Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];Location=[% Data.Location | uri %]" class="AsBlock" title="[% Translate("Module documentation") | html %]"><i class="fa fa-file-pdf-o"></i></a>
+[% RenderBlockEnd("ShowRemotePackageDocumentation") %]
+                                </td>
+                                <td>[% Data.Version | html %]</td>
+                                <td><a href="[% Data.URL %]" target="_blank">[% Data.Vendor | html %]</a></td>
+                                <td title="[% Data.Description | html %]">[% Data.Description | truncate(55) | html %]</td>
+                                <td>
+[% RenderBlockStart("ShowRemotePackageInstall") %]
+                                    <a class="PackageAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=InstallRemote;Source=[% Data.Source | uri %];File=[% Data.File | uri %];Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Install") | html %]</a>
+[% RenderBlockEnd("ShowRemotePackageInstall") %]
+[% RenderBlockStart("ShowRemotePackageUpgrade") %]
+                                    <a class="PackageAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpgradeRemote;Source=[% Data.Source | uri %];File=[% Data.File | uri %];Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Update") | html %]</a>
+[% RenderBlockEnd("ShowRemotePackageUpgrade") %]
+                                </td>
+                            </tr>
+[% RenderBlockEnd("ShowRemotePackage") %]
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="WidgetSimple">
+
+                <div class="Header">
+                    <h2>[% Translate("Local Repository") | html %]</h2>
+                </div>
+                <div class="Content ">
+                    <table class="DataTable">
+                        <thead>
+                            <tr>
+                                <th>[% Translate("Name") | html %]</th>
+                                <th></th>
+                                <th>[% Translate("Version") | html %]</th>
+                                <th>[% Translate("Vendor") | html %]</th>
+                                <th class="W40pc">[% Translate("Description") | html %]</th>
+                                <th>[% Translate("Status") | html %]</th>
+                                <th>[% Translate("Action") | html %]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+[% RenderBlockStart("NoDataFoundMsg2") %]
+                            <tr>
+                                <td colspan="7">
+                                    [% Translate("No data found.") | html %]
+                                </td>
+                            </tr>
+[% RenderBlockEnd("NoDataFoundMsg2") %]
+[% RenderBlockStart("ShowLocalPackage") %]
+                            <tr>
+                                <td>
+[% RenderBlockStart("ShowLocalPackageVerifyLogo") %]
+                                    <img src="[% Config("Frontend::ImagePath") %]/otobo-verify-small.png" class="OTOBOVerifyLogo" alt="[% Translate("This package is verified by OTOBOverify (tm)") | html %]" />
+[% RenderBlockEnd("ShowLocalPackageVerifyLogo") %]
+                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=View;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %]">[% Data.Name | html %]</a>
+                                </td>
+                                <td>
+[% RenderBlockStart("ShowLocalPackageDocumentation") %]
+                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=View;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];File=[% Data.File | uri %];Location=[% Data.Location | uri %]" class="AsBlock" title="[% Translate("Module documentation") | html %]"><i class="fa fa-file-pdf-o"></i></a>
+[% RenderBlockEnd("ShowLocalPackageDocumentation") %]
+                                </td>
+                                <td>[% Data.Version | html %]</td>
+                                <td><a href="[% Data.URL %]" target="_blank">[% Data.Vendor | html %]</a></td>
+                                <td title="[% Data.Description | html %]">[% Data.Description | truncate(55) | html %]</td>
+                                <td>[% Translate(Data.Status) | html %]</td>
+                                <td>
+[% RenderBlockStart("ShowLocalPackageInstall") %]
+                                    <a class="PackageAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Install;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Install") | html %]</a>
+                                    <br/><br/>
+[% RenderBlockEnd("ShowLocalPackageInstall") %]
+[% RenderBlockStart("ShowLocalPackageUninstall") %]
+                                    <a class="PackageAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Uninstall;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Uninstall") | html %]</a>
+                                    <br/>
+[% RenderBlockEnd("ShowLocalPackageUninstall") %]
+[% RenderBlockStart("ShowLocalPackageReinstall") %]
+                                    <a class="PackageAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Reinstall;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Package not correctly deployed! Please reinstall the package.") | html %]">[% Translate("Reinstall") | html %]</a>
+                                    <br/>
+[% RenderBlockEnd("ShowLocalPackageReinstall") %]
+                                </td>
+                            </tr>
+[% RenderBlockEnd("ShowLocalPackage") %]
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+# Svencheck
+[% RenderBlockStart("FeatureAddonList") %]
+#            <div class="WidgetSimple">
+#
+#                <div class="Header">
+#                    <h2>
+#                        [% Translate("Features for %s customers only") | html | ReplacePlaceholders(OTOBOBusinessLabel) %]
+#                        → <a href="mailto:sales@otrs.com">sales@otrs.com</a>
+#                    </h2>
+#                </div>
+#                <div class="Content ">
+#                    <p>
+#                        [% Translate("With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.") | html | ReplacePlaceholders(OTOBOBusinessLabel, '<a href="mailto:sales@otrs.com">sales@otrs.com</a>') %]
+#                    </p>
+#                    <table class="DataTable SpacingTop">
+#                        <thead>
+#                            <tr>
+#                                <th>[% Translate("Name") | html %]</th>
+#                                <th>[% Translate("Description") | html %]</th>
+#                            </tr>
+#                        </thead>
+#                        <tbody>
+#[% RenderBlockStart("FeatureAddonData") %]
+#                            <tr>
+#                                <td><a href="[% Data.Link | html %]" target="_feature_addon_details">[% Data.Title | html %]</a></td>
+#                                <td>[% Data.Description | html %]</td>
+#                            </tr>
+#[% RenderBlockEnd("FeatureAddonData") %]
+#                        </tbody>
+#                    </table>
+#                </div>
+#            </div>
+[% RenderBlockEnd("FeatureAddonList") %]
+
+        </div>
+        <div class="Clear"></div>
+    </div>
+
+[% RenderBlockEnd("Overview") %]
+
+
+[% RenderBlockStart("Package") %]
+    <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+        <h1 class="InvisibleText">[% Translate("Package Manager") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Package Manager'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% USE PackageBreadcrumb = String(Translate("Package Information")) %]
+    [% BreadcrumbPath.push({ Name => PackageBreadcrumb.append( ': ', Data.Name ) }) %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+        <div class="SidebarColumn">
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("Actions") | html %]</h2>
+                </div>
+                <div class="Content">
+
+                    <ul class="ActionList">
+
+                        <li>
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                        </li>
+[% RenderBlockStart("PackageDownloadLocal") %]
+                        <li>
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Download;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %]" class="CallForAction Fullsize Center">
+                                <span><i class="fa fa-download"></i>[% Translate("Download package") | html %]</span>
+                            </a>
+                        </li>
+[% RenderBlockEnd("PackageDownloadLocal") %]
+[% RenderBlockStart("PackageDownloadRemote") %]
+                        <li>
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=DownloadRemote;File=[% Data.File | uri %]" class="CallForAction Fullsize Center">
+                                <span><i class="fa fa-download"></i>[% Translate("Download package") | html %]</span>
+                            </a>
+                        </li>
+[% RenderBlockEnd("PackageDownloadRemote") %]
+[% RenderBlockStart("PackageRebuild") %]
+                        <li>
+                            <a class="CallForAction Fullsize Center PackageAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=RebuildPackage;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">
+                                <span><i class="fa fa-retweet"></i>[% Translate("Rebuild package") | html %]</span>
+                            </a>
+                        </li>
+[% RenderBlockEnd("PackageRebuild") %]
+[% RenderBlockStart("PackageReinstall") %]
+                        <li>
+                            <a class="CallForAction Fullsize Center PackageAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Reinstall;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">
+                                <span><i class="fa fa-refresh"></i>[% Translate("Reinstall package") | html %]</span>
+                            </a>
+                        </li>
+[% RenderBlockEnd("PackageReinstall") %]
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="ContentColumn">
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("Metadata") | html %]</h2>
+                </div>
+                <div class="Content ">
+                    <fieldset class="TableLike Fixed Label">
+[% RenderBlockStart("PackageItemDescription") %]
+                        <label>[% Translate(Data.Tag) | html %]: </label>
+                        <div class="Value">([% Data.Lang | html %]) [% Data.Content | html %]</div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("PackageItemDescription") %]
+[% RenderBlockStart("PackageItemGeneric") %]
+                        <label>[% Translate(Data.Tag) | html %]: </label>
+                        <div class="Value">[% Data.Content %]</div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("PackageItemGeneric") %]
+                    </fieldset>
+                </div>
+            </div>
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("Change Log") | html %]</h2>
+                </div>
+                <div class="Content ">
+                    <table class="DataTable">
+                        <thead>
+                            <tr>
+                                <th class="W25pc">[% Translate("Version") | html %]</th>
+                                <th class="W25pc">[% Translate("Date") | html %]</th>
+                                <th class="W50pc">[% Translate("Comment") | html %]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+[% RenderBlockStart("PackageItemChangeLog") %]
+                            <tr>
+                                <td>[% Data.Version | html %]</td>
+                                <td>[% Data.Date | html %]</td>
+                                <td>[% Data.Content | html %]</td>
+                            </tr>
+[% RenderBlockEnd("PackageItemChangeLog") %]
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("List of Files") | html %]</h2>
+                </div>
+                <div class="Content ">
+                    <table class="DataTable">
+                        <thead>
+                            <tr>
+                                <th class="W50pc">[% Translate("Filename") | html %]</th>
+                                <th>[% Translate("Permission") | html %]</th>
+                                <th>[% Translate("Status") | html %]</th>
+                                <th class="W20pc">[% Translate("Download") | html %]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+[% RenderBlockStart("PackageItemFilelistFile") %]
+                            <tr>
+                                <td title="[% Data.Location | html %]">
+                                    <code>[% Data.Location | truncate(65) | html %]</code>
+                                </td>
+                                <td>
+                                    <div title="[% Data.Permission | html %]">([% Data.Permission | html %])</div>
+                                </td>
+                                <td>
+[% RenderBlockStart("PackageItemFilelistFileNoteDiff") %]
+                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ViewDiff;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];File=[% Data.File | uri %];Location=[% Data.Location | uri %]" title="[% Translate(Data.Message) | html %]" class="AsBlock [% Data.Icon | html %]"></a>
+[% RenderBlockEnd("PackageItemFilelistFileNoteDiff") %]
+[% RenderBlockStart("PackageItemFilelistFileNote") %]
+                                    <span title="[% Translate(Data.Message) | html %]" class="AsBlock [% Data.Icon | html %]"></span>
+[% RenderBlockEnd("PackageItemFilelistFileNote") %]
+                                </td>
+                                <td>
+
+[% RenderBlockStart("PackageItemFilelistFileLink") %]
+                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Env("Subaction") %];Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];File=[% Data.File | uri %];Location=[% Data.Location | uri %]" class="IconInline" title="[% Translate("Download file from package!") | html %]"><i class="fa fa-save"></i></a>
+[% RenderBlockEnd("PackageItemFilelistFileLink") %]
+                                    [% Data.Size | html %]
+                                </td>
+                            </tr>
+[% RenderBlockEnd("PackageItemFilelistFile") %]
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+[% RenderBlockStart("PackageItemDatabase") %]
+            <div class="WidgetSimple SpacingTop">
+                <div class="Header">
+                    <h2>[% Data.TagName | html %] ([% Data.Type | html %])</h2>
+                </div>
+                <div class="Content">
+                    <h3 class="SpacingTop">[% Data.Tag | html %]: [% Data.Name | html %] ([% Data.Version | html %])</h3>
+                    <table class="DataTable W100pc">
+                        <thead>
+                            <tr>
+                                <th>[% Translate("Type") | html %]</th>
+                                <th>[% Translate("Name") | html %]</th>
+                                <th>[% Translate("Required") | html %]</th>
+                                <th>[% Translate("Size") | html %]</th>
+                                <th>[% Translate("Primary Key") | html %]</th>
+                                <th>[% Translate("Auto Increment") | html %]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+[% RenderBlockStart("PackageItemDatabaseSub") %]
+                            <tr>
+                                <td><code>[% Data.Tag | html %]</code></td>
+                                <td>[% Data.Name | html %]</td>
+                                <td>[% Data.Required | html %]</td>
+                                <td>[% Data.Size | html %]</td>
+                                <td>[% Data.PrimaryKey | html %]</td>
+                                <td>[% Data.AutoIncrement | html %]</td>
+                            </tr>
+[% RenderBlockEnd("PackageItemDatabaseSub") %]
+                        </tbody>
+                    </table>
+[% RenderBlockStart("PackageItemDatabaseSQL") %]
+                    <h3 class="SpacingTop">[% Translate("SQL") | html %]</h3>
+                    <div>
+                        <code>[% Data.SQL | html %]</code>
+                    </div>
+[% RenderBlockEnd("PackageItemDatabaseSQL") %]
+                </div>
+            </div>
+[% RenderBlockEnd("PackageItemDatabase") %]
+
+
+[% RenderBlockStart("PackageItemCode") %]
+            <div class="WidgetSimple SpacingTop">
+                <div class="Header">
+                    <h2>[% Translate(Data.Tag) | html %] ([% Data.Type | html %])</h2>
+                </div>
+                <div class="Content">
+                    <code>[% Data.Content %]</code>
+                </div>
+            </div>
+[% RenderBlockEnd("PackageItemCode") %]
+[% RenderBlockStart("PackageItemIntro") %]
+            <div class="WidgetSimple SpacingTop">
+                <div class="Header">
+                    <h2>[% Translate(Data.Tag) | html %] ([% Data.Type | html %]/[% Data.Lang | html %])</h2>
+                </div>
+                <div class="Content">
+                    [% Data.Content %]
+                </div>
+            </div>
+[% RenderBlockEnd("PackageItemIntro") %]
+        </div>
+        <div class="Clear"></div>
+    </div>
+[% RenderBlockEnd("Package") %]
+[% RenderBlockStart("FileDiff") %]
+    <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+        <h1 class="InvisibleText">[% Translate("Package Manager") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Package Manager'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% USE FileDiffBreadcrumb = String(Translate("File Differences for File %s", Data.Location)) %]
+    [% BreadcrumbPath.push({ Name => FileDiffBreadcrumb.append( ': ', Data.Name ) }) %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+        <div class="SidebarColumn">
+
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("Actions") | html %]</h2>
+                </div>
+                <div class="Content">
+                    <ul class="ActionList">
+                        <li>
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=View;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %]" class="CallForAction Fullsize Center">
+                                <span>[% Translate("Go to overview") | html %]</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="ContentColumn">
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>
+                        [% Data.Name | html %]: [% Translate("File differences for file %s", Data.Location) | html %]
+                    </h2>
+                </div>
+                <div class="Content">
+                    <pre><code>[% Data.Diff | html %]</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+[% RenderBlockEnd("FileDiff") %]

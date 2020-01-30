@@ -1,0 +1,36 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+[% RenderBlockStart("License") %]
+<div class="W950px SpacingTop SpacingBottom CenterBox">
+    <div class="WidgetSimple">
+        <div class="Header">
+            <h2>[% Translate(Data.Item) | html %] ([% Data.Step %])</h2>
+        </div>
+
+        <div class="Content Center">
+[% InsertTemplate("InstallerLicenseText.tt") %]
+
+            <div id="InstallerContinueWithJS" class="SpacingTop Right">
+                <form action="[% Env("CGIHandle") %]" method="post" class="SpacingTop PreventMultipleSubmits">
+                    <button type="submit" class="CallForAction" value="[% Translate("Don't accept license") | html %]">
+                        <span>[% Translate("Don't accept license") | html %]</span>
+                    </button>
+                </form>
+                [% Translate("or") | html %]
+                <form action="[% Env("CGIHandle") %]" method="post" class="PreventMultipleSubmits">
+                    <input type="hidden" name="Subaction" value="Start">
+                    <button class="Primary CallForAction" type="submit" value="[% Translate("Accept license and continue") | html %]">
+                        <span>[% Translate("Accept license and continue") | html %]</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+[% RenderBlockEnd("License") %]

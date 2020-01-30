@@ -1,0 +1,28 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<div id="DaemonRunDialog" class="InnerContent DaemonInfoContent">
+
+    <p>[% Translate("The OTOBO Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.") | html %]</p>
+
+    <p class="Strong SpacingTop">[% Translate("A running OTOBO Daemon is mandatory for correct system operation.") | html %]</p>
+
+    <legend class="SpacingTop">[% Translate("Starting the OTOBO Daemon") | html %]</legend>
+    <div class="InfoParagraph">
+        <ul>
+            <li>[% Translate("Make sure that the file '%s' exists (without .dist extension). This cron job will check every 5 minutes if the OTOBO Daemon is running and start it if needed.", Data.DaemonCron) | html %]</li>
+            <li>[% Translate("Execute '%s start' to make sure the cron jobs of the 'otobo' user are active.", Data.CronExecutable) | html %]</li>
+            <li>[% Translate("After 5 minutes, check that the OTOBO Daemon is running in the system ('bin/otobo.Daemon.pl status').") | html %]</li>
+        </ul>
+    </div>
+    <div class="Clear Spacing"></div>
+</div>
+<div class="ContentFooter Center">
+    <button id="DaemonFormCancel" class="Primary CallForAction" value="Close"><span><i class="fa fa-times"></i>[% Translate("Close this dialog") | html %]</span></button>
+</div>

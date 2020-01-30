@@ -1,0 +1,775 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+
+package Kernel::System::Elasticsearch;
+
+use strict;
+use warnings;
+use Data::Dumper;
+use Kernel::System::VariableCheck qw( :all );
+
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Ticket',
+    'Kernel::System::User',
+    'Kernel::System::Group',
+);
+
+=head1 NAME
+
+Kernel::System::Elasticsearch - Elasticsearch Backend
+
+=head1 DESCRIPTION
+
+This module processes search calls for various otobo classes to call the generic Elasticsearch search invoker
+
+=head2 new()
+
+Create an Elasticsearch object. Do not use it directly, instead use:
+
+    my $ESObject = $Kernel::OM->Get('Kernel::System::Elasticsearch');
+
+=cut
+
+sub new {
+    my ( $Type, %Param ) = @_;
+
+    # allocate new hash for object
+    my $Self = {};
+    bless( $Self, $Type );
+
+    # get the Elasticsearch webservice id
+    my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+    my $Webservice = $WebserviceObject->WebserviceGet(
+        Name => 'Elasticsearch',
+    );
+
+    $Self->{WebserviceID} = $Webservice->{ID};
+
+    return $Self;
+}
+
+=head2 TicketSearch()
+
+Performs a ticket search via Elasticsearch.
+
+    my @TicketIDs = $ESObject->TicketSearch(
+        # result (required)
+        Result => 'ARRAY' || 'HASH' || 'COUNT' || 'FULL',
+
+        # user search (UserID is required)
+        UserID     => 123,
+        Permission => 'ro' || 'rw',
+
+        # customer search (CustomerUserID is required)
+        CustomerUserID => 123,
+        Permission     => 'ro' || 'rw',
+
+        # result limit
+        Limit => 100,
+
+        # CustomerID (optional) as STRING or as ARRAYREF
+        CustomerID => '123',
+        CustomerID => ['123', 'ABC'],
+
+        # CustomerIDRaw (optional) as STRING or as ARRAYREF
+        # CustomerID without QueryCondition checking
+        #The raw value will be used if is set this parameter
+        CustomerIDRaw => '123 + 345',
+        CustomerIDRaw => ['123', 'ABC','123 && 456','ABC % efg'],
+
+        # CustomerUserLogin (optional) as STRING as ARRAYREF
+        CustomerUserLogin => 'uid123',
+        CustomerUserLogin => ['uid123', 'uid777'],
+
+        # CustomerUserLoginRaw (optional) as STRING as ARRAYREF
+        #The raw value will be used if is set this parameter
+        CustomerUserLoginRaw => 'uid',
+        CustomerUserLoginRaw => 'uid + 123',
+        CustomerUserLoginRaw => ['uid  -  123', 'uid # 777 + 321'],
+
+        # OrderBy and SortBy (optional)
+        OrderBy => 'Down',  # Down|Up
+        SortBy  => 'Age',   # Score|Age
+
+        # CacheTTL, cache search result in seconds (optional)
+        CacheTTL => 60 * 15,
+    );
+
+=cut
+
+sub TicketSearch {
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ResultType   = $Param{Result}  || 'ARRAY';
+    my $OrderBy      = $Param{OrderBy} || ['Down', 'Down'];
+    my $SortBy       = $Param{SortBy}  || ['Score', 'Age'];
+    my $Limit        = $Param{Limit}   || 10000;
+
+    # check required params
+    if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID or CustomerUserID params for permission check!',
+        );
+        return;
+    }
+
+    # gather the info for the Elasticsearch query preparation
+    # Must is read as all conditions have to be met, Should is read as at least one condition has to be met
+    my ( @Filters, @Musts );
+
+    # user groups
+    if ( $Param{UserID} && $Param{UserID} != 1 ) {
+
+        # get users groups
+        my %GroupList = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
+            UserID => $Param{UserID},
+            Type   => $Param{Permission} || 'ro',
+        );
+
+        # return if we have no permissions
+        return if !%GroupList;
+
+        # add permission restrictions
+        push @Filters, {
+            terms => {
+                GroupID => [ keys %GroupList ],
+            },
+        };
+    }
+
+    # customer groups
+    if ( $Param{CustomerUserID} ) {
+        my %GroupList = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupMemberList(
+            UserID => $Param{CustomerUserID},
+            Type   => $Param{Permission} || 'ro',
+            Result => 'HASH',
+        );
+ 
+        # return if we have no permissions
+        return if !%GroupList;
+ 
+        # get all customer ids
+        my @CustomerIDs = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerIDs(
+            User => $Param{CustomerUserID},
+        );
+ 
+        # prepare combination of customer<->group access
+        # add default combination first ( CustomerIDs + CustomerUserID <-> rw access groups )
+        # this group will always be added (ensures previous behavior)
+        my @CustomerGroupPermission;
+        push @CustomerGroupPermission, {
+            CustomerIDs    => \@CustomerIDs,
+            CustomerUserID => $Param{CustomerUserID},
+            GroupIDs       => [ sort keys %GroupList ],
+        };
+        # add all combinations based on group access for other CustomerIDs (if available)
+        # only active if customer group support and extra permission context are enabled
+        my $CustomerGroupObject    = $Kernel::OM->Get('Kernel::System::CustomerGroup');
+        my $ExtraPermissionContext = $CustomerGroupObject->GroupContextNameGet(
+            SysConfigName => '100-CustomerID-other',
+        );
+        if ( $Kernel::OM->Get('Kernel::Config')->Get('CustomerGroupSupport') && $ExtraPermissionContext ) {
+ 
+            # add lookup for CustomerID
+            my %CustomerIDsLookup = map { $_ => $_ } @CustomerIDs;
+ 
+            # for all CustomerIDs get groups with access to other CustomerIDs
+            my %ExtraPermissionGroups;
+            CUSTOMERID:
+            for my $CustomerID (@CustomerIDs) {
+                my %CustomerIDExtraPermissionGroups = $CustomerGroupObject->GroupCustomerList(
+                    CustomerID => $CustomerID,
+                    Type       => $Param{Permission} || 'ro',
+                    Context    => $ExtraPermissionContext,
+                    Result     => 'HASH',
+                );
+                next CUSTOMERID if !%CustomerIDExtraPermissionGroups;
+ 
+                # add to groups
+                %ExtraPermissionGroups = (
+                    %ExtraPermissionGroups,
+                    %CustomerIDExtraPermissionGroups,
+                );
+            }
+ 
+            # add all unique accessible Group<->Customer combinations to query
+            # for performance reasons all groups corresponsing with a unique customer id combination
+            #   will be combined into one part
+            my %CustomerIDCombinations;
+            GROUPID:
+            for my $GroupID ( sort keys %ExtraPermissionGroups ) {
+                my @ExtraCustomerIDs = $CustomerGroupObject->GroupCustomerList(
+                    GroupID => $GroupID,
+                    Type    => $Param{Permission} || 'ro',
+                    Result  => 'ID',
+                );
+                next GROUPID if !@ExtraCustomerIDs;
+ 
+                # exclude own CustomerIDs for performance reasons
+                my @MergedCustomerIDs = grep { !$CustomerIDsLookup{$_} } @ExtraCustomerIDs;
+                next GROUPID if !@MergedCustomerIDs;
+ 
+                # remember combination
+                my $CustomerIDString = join ',', sort @MergedCustomerIDs;
+                if ( !$CustomerIDCombinations{$CustomerIDString} ) {
+                    $CustomerIDCombinations{$CustomerIDString} = {
+                        CustomerIDs => \@MergedCustomerIDs,
+                    };
+                }
+                push @{ $CustomerIDCombinations{$CustomerIDString}->{GroupIDs} }, $GroupID;
+            }
+ 
+            # add to query combinations
+            push @CustomerGroupPermission, sort values %CustomerIDCombinations;
+        }
+ 
+        # now add all combinations to query:
+        # this will compile a search restriction based on customer_id/customer_user_id and group
+        #   and will match if any of the permission combination is met
+        # a permission combination could be:
+        #     ( <CustomerUserID> OR <CUSTOMERID1> ) AND ( <GROUPID1> )
+        # or
+        #     ( <CustomerID1> OR <CUSTOMERID2> OR <CUSTOMERID3> ) AND ( <GROUPID1> OR <GROUPID2> )
+        my @CustomerIDGroupCombinations; 
+        ENTRY:
+        for my $Entry (@CustomerGroupPermission) {
+            my $DirectConditions;
+            my @CustomerIDs;
+ 
+            if ( IsArrayRefWithData( $Entry->{CustomerIDs} ) ) {
+                push @CustomerIDs, @{ $Entry->{CustomerIDs} };
+            }
+ 
+            if ( @CustomerIDs && $Entry->{CustomerUserID} ) {
+                $DirectConditions = {
+                    bool => {
+                        should => [
+                            {  
+                                term => {
+                                    CustomerUserID => $Entry->{CustomerUserID},  
+                                },
+                            },
+                            {
+                                terms => {
+                                    CustomerID => \@CustomerIDs,
+                                },
+                            },
+                        ],
+                    },
+                };
+            }
+            elsif ( @CustomerIDs ) {
+                $DirectConditions = {
+                    terms => {
+                        CustomerID => \@CustomerIDs,
+                    },
+                };
+            }
+            elsif ( $Entry->{CustomerUserID} ) {
+                $DirectConditions = {
+                    term => {
+                        CustomerUserID => $Entry->{CustomerUserID},
+                    },
+                };
+            }
+            else {
+                next ENTRY;
+            }
+ 
+            push @CustomerIDGroupCombinations, {
+                bool => {
+                    filter => [
+                        $DirectConditions,
+                        {
+                            terms => {
+                                GroupID => $Entry->{GroupIDs},
+                            },
+                        },
+                    ],
+                },
+            };
+
+        }
+    
+        if ( scalar @CustomerIDGroupCombinations == 1 ) {
+            push @Filters, $CustomerIDGroupCombinations[0];
+        }
+        else {
+            push @Filters, {
+                bool => {
+                    should => \@CustomerIDGroupCombinations,
+                },
+            };
+        }
+
+    }
+
+    # fulltext search
+    if ( $Param{Fulltext} ) {
+        # get fields to search
+        my $FulltextFields = $ConfigObject->Get('Elasticsearch::TicketSearchFields');
+        my @SearchFields = @{ $FulltextFields->{Ticket} };
+        push @SearchFields, ( map { "ArticlesExternal.$_" } @{ $FulltextFields->{Article} } );
+        push @SearchFields, ( "AttachmentsExternal.Content", "AttachmentsExternal.Filename" );
+
+        # add internal fields
+        if ( $Param{UserID} ) {
+            push @SearchFields, ( map { "ArticlesInternal.$_" } @{ $FulltextFields->{Article} } );
+            push @SearchFields, ( "AttachmentsInternal.Content", "AttachmentsInternal.Filename" );
+        }     
+
+        # handle dynamic fields
+        if ( $FulltextFields->{DynamicField} ) {
+            my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+            my $CustomerFields = $ConfigObject->Get('Ticket::Frontend::CustomerTicketZoom###DynamicField');
+
+            DYNAMICFIELD:
+            for my $DynamicFieldName ( @{ $FulltextFields->{DynamicField} } ) {
+                my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
+                    Name => $DynamicFieldName,
+                );
+                next DYNAMICFIELD if !$DynamicField;
+
+                # agent search
+                if ( $Param{UserID} ) {
+                    # add all ticket dynamic fields
+                    if ( $DynamicField->{ObjectType} eq 'Ticket' ) {
+                        push @SearchFields, "DynamicField_$DynamicFieldName";
+                    }
+                    
+                    # add article dynamicfields for both internal and external articles
+                    elsif ( $DynamicField->{ObjectType} eq 'Article' ) {
+                        push @SearchFields, ( "ArticlesExternal.DynamicField_$DynamicFieldName", "ArticlesInternal.DynamicField_$DynamicFieldName" );
+                    }
+                }
+
+                # customer search
+                else {
+                    # check if dynamic field is visible for customers
+                    next DYNAMICFIELD if ( !$CustomerFields || !$CustomerFields->{ $DynamicFieldName } );
+
+                    # add ticket dynamic fields
+                    if ( $DynamicField->{ObjectType} eq 'Ticket' ) {
+                        push @SearchFields, "DynamicField_$DynamicFieldName";
+                    }
+                    
+                    # add article dynamicfields for external articles
+                    elsif ( $DynamicField->{ObjectType} eq 'Article' ) {
+                        push @SearchFields, ( "ArticlesExternal.DynamicField_$DynamicFieldName" );
+                    }
+                }
+            }
+        }
+
+        # add queue restrictions
+        push @Musts, {
+            query_string => {
+                fields => \@SearchFields,
+                query  => "*$Param{Fulltext}*",
+            },
+        };
+        
+    }
+
+    # define the return type
+    my $Return = ( $ResultType eq 'HASH' ) ? [ qw(TicketID TicketNumber) ] :
+                 ( $ResultType eq 'FULL' ) ? '' :'TicketID';
+
+    # define the sorting
+    my @Sort;
+    my %O2E = qw(Down desc Up asc);
+    if ( !ref($SortBy) ) {
+        $SortBy  = [ $SortBy ];
+        $OrderBy = [ $OrderBy ];
+    }
+    for my $i ( 0..$#{ $SortBy } ) {
+        
+        # score is Elasticsearch specific
+        if ( $SortBy->[$i] eq 'Score' ) { $SortBy->[$i] = '_score' }
+        # age is not stored in Elasticsearch
+        if ( $SortBy->[$i] eq 'Age' ) {
+            $SortBy->[$i]  = 'Created';
+            $OrderBy->[$i] = $OrderBy->[$i] eq 'Up' ? 'Up' : 'Down';
+        }
+
+        push @Sort, { $SortBy->[$i] => $O2E{ $OrderBy->[$i] } };
+    }
+
+    # call the Elasticsearch webservice
+    my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'Search',
+        Asynchronous => 0,
+        Data         => {
+            IndexName => 'ticket',
+            Must      => \@Musts,
+            Filter    => \@Filters,
+            Limit     => $Limit,
+            Return    => $Return,
+            Sort      => \@Sort,
+        }
+    );
+
+    # convert the Elasticsearch return to the needed OTRS structure and return
+    if ( $ResultType eq 'HASH' ) {
+        return ( map { { $_->{TicketID} => $_->{TicketNumber} } } @{ $Result->{Data} } );
+    }
+
+    elsif ( $ResultType eq 'ARRAY' ) {
+        return ( map { $_->{TicketID} } @{ $Result->{Data} } );
+    }
+
+    elsif ( $ResultType eq 'FULL' ) {
+        # age has to be calulated
+        my $Now = $Kernel::OM->Create(
+            'Kernel::System::DateTime'
+        )->ToEpoch();
+        
+        for my $Data ( @{ $Result->{Data} } ) {
+            $Data->{Age} = $Now - $Data->{Created};
+        }
+        return ( map { { $_->{TicketID} => $_ } } @{ $Result->{Data} } );
+    }
+
+    elsif ( $ResultType eq 'COUNT' ) {
+        return scalar @{ $Result->{Data} };
+    }
+
+}
+
+sub CustomerCompanySearch {
+    my ( $Self, %Param ) = @_;
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ResultType   = $Param{Result}  || 'ARRAY';
+    my $Limit        = $Param{Limit}   || 10000;
+    
+    my ( @Musts, @Filters ) ;
+    if ( $Param{Fulltext} ) {
+
+        my $FulltextFields = $ConfigObject->Get('Elasticsearch::CustomerCompanySearchFields');
+
+        push @Musts, {
+            query_string => {
+                fields => $FulltextFields,
+                query  => "*$Param{Fulltext}*",
+            },
+        };
+    }
+    my $Return = 'CustomerID';
+
+    my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'Search',
+        Asynchronous => 0,
+        Data         => {
+            IndexName => 'customer',
+            Must      => \@Musts,
+            Filter    => \@Filters,
+            Limit     => $Limit,
+            Return    => $Return,
+        }
+    );
+
+    if ( $ResultType eq 'ARRAY' ) {
+        return ( map { $_->{CustomerID} } @{ $Result->{Data} } );
+    }
+    elsif ( $ResultType eq 'COUNT' ) {
+        return scalar @{ $Result->{Data} };
+    }
+
+}
+
+sub CustomerUserSearch {
+    my ( $Self, %Param ) = @_;
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ResultType   = $Param{Result}  || 'ARRAY';
+    my $Limit        = $Param{Limit}   || 10000;
+    
+    my ( @Musts, @Filters ) ;
+    if ( $Param{Fulltext} ) {
+
+        my $FulltextFields = $ConfigObject->Get('Elasticsearch::CustomerUserSearchFields');
+
+        push @Musts, {
+            query_string => {
+                fields => $FulltextFields,
+                query  => "*$Param{Fulltext}*",
+            },
+        };
+    }
+    my $Return = ( $ResultType eq 'HASH' ) ? [qw(UserLogin UserFullname)] : 'UserLogin';
+
+    my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'Search',
+        Asynchronous => 0,
+        Data         => {
+            IndexName => 'customeruser',
+            Must      => \@Musts,
+            Filter    => \@Filters,
+            Limit     => $Limit,
+            Return    => $Return,
+        }
+    );
+    if ( $ResultType eq 'HASH' ) {
+        return ( map { { $_->{UserLogin} => $_->{UserFullname} } } @{ $Result->{Data} } );
+    }
+    elsif ( $ResultType eq 'ARRAY' ) {
+        return ( map { $_->{UserLogin} } @{ $Result->{Data} } );
+    }
+    elsif ( $ResultType eq 'COUNT' ) {
+        return scalar @{ $Result->{Data} };
+    }
+}
+
+=head2 TicketCreate()
+
+Explicitly creates a ticket in the Elasticsearch database. Happens event based in a productive system.
+
+    $ESObject->TicketCreate(
+        TicketID => $TicketID,
+    );
+
+=cut
+
+sub TicketCreate {
+    my ( $Self, %Param ) = @_;
+
+    my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'TicketManagement',
+        Asynchronous => 0,
+        Data         => {
+            Event    => 'TicketCreate',
+            TicketID => $Param{TicketID},
+        }
+    );
+
+    return $Result->{Success};
+
+}
+
+=head2 ArticleCreate()
+
+Explicitly creates an article in the Elasticsearch database. Happens event based in a productive system.
+
+    $ESObject->ArticleCreate(
+        TicketID  => $TicketID,
+        ArticleID => $ArticleID,
+    );
+
+=cut
+
+sub ArticleCreate {
+    my ( $Self, %Param ) = @_;
+
+    my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'TicketManagement',
+        Asynchronous => 0,
+        Data         => {
+            Event     => 'ArticleCreate',
+            TicketID  => $Param{TicketID},
+            ArticleID => $Param{ArticleID},
+        }
+    );
+
+    return $Result->{Success};
+
+}
+
+=head2 CustomerCompanyAdd()
+
+Explicitly creates a customer company in the Elasticsearch database. Happens event based in a productive system.
+
+    $ESObject->CustomerCompanyAdd(
+        CustomerID => $CustomerID,
+    );
+
+=cut
+
+sub CustomerCompanyAdd {
+    my ( $Self, %Param ) = @_;
+
+    my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
+    my %CustomerCompany = $CustomerCompanyObject->CustomerCompanyGet(
+        CustomerID => $Param{CustomerID},
+    );
+
+    my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'CustomerCompanyManagement',
+        Asynchronous => 0,
+        Data         => {
+            Event      => 'CustomerCompanyAdd',
+            CustomerID => $Param{CustomerID},
+            NewData    => \%CustomerCompany,
+        }
+    );
+
+    return $Result->{Success};
+
+}
+
+=head2 CustomerUserAdd()
+
+Explicitly creates a customer company in the Elasticsearch database. Happens event based in a productive system.
+
+    $ESObject->CustomerUserAdd(
+        UserLogin => $UserLogin,
+    );
+
+=cut
+
+sub CustomerUserAdd {
+    my ( $Self, %Param ) = @_;
+
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my %CustomerUser = $CustomerUserObject->CustomerUserDataGet(
+        User => $Param{UserLogin},
+    );
+
+    my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'CustomerUserManagement',
+        Asynchronous => 0,
+        Data         => {
+            Event      => 'CustomerUserAdd',
+            NewData    => \%CustomerUser,
+        }
+    );
+
+    return $Result->{Success};
+
+}
+
+=head2 TestConnection()
+
+Test the connection to the Elasticsearch server.
+
+    $ESObject->TestConnection();
+
+=cut
+
+sub TestConnection {
+    my ( $Self, %Param ) = @_;
+    my %DummyIndex = (
+        index => '',
+    );
+    my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'Utils_GET',
+        Asynchronous => 0,
+        Data         => {
+            IndexName => \%DummyIndex,
+        }
+    );
+
+    return $Result->{Success};
+
+}
+
+=head2 CreateIndex()
+
+Create a new index.
+
+    $ESObject->CreateIndex(
+        IndexName => 'name',
+    );
+
+=cut
+
+sub CreateIndex{
+    my ( $Self, %Param ) = @_;
+
+
+    my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'Utils_PUT',
+        Asynchronous => 0,
+        Data         => {
+            IndexName => $Param{IndexName}, 
+            Request   => $Param{Request},
+        }
+    );
+
+    return $Result->{Success};
+
+}
+
+=head2 DropIndex()
+
+Drop a complete index.
+
+    $ESObject->DropIndex(
+        IndexName => 'name',
+    );
+
+=cut
+
+sub DropIndex{
+    my ( $Self, %Param ) = @_;
+
+    my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'Utils_DELETE',
+        Asynchronous => 0,
+        Data         => {
+            IndexName => $Param{IndexName},
+        }
+    );
+    return $Result->{Success};
+
+}
+
+sub DeletePipeline{
+    my ( $Self, %Param ) = @_;
+
+    my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'UtilsPipeline_DELETE',
+        Asynchronous => 0,
+        Data         => {
+            IndexName => {},
+        }
+    );
+
+    return $Result->{Success};
+
+}
+
+sub CreatePipeline{
+    my ( $Self, %Param ) = @_;
+
+    my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'UtilsPipeline_PUT',
+        Asynchronous => 0,
+        Data         => {
+            IndexName => '',
+            Request => $Param{Request},
+        }
+    );
+
+    return $Result->{Success};
+
+}
+1;
+

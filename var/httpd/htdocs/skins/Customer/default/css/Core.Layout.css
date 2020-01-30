@@ -1,0 +1,83 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/* base layout */
+
+body {
+    position: relative;
+}
+
+#oooMobileHeader {
+    display: none;
+}
+@media only screen and (max-width: 767px) {
+    #oooHeader {
+        display: none !important;
+    }
+
+    #oooMobileHeader {
+        display: block;
+        padding: 24px;
+    }
+}
+
+#oooHeader {
+    z-index: 1000;
+}
+#oooNavigation {
+    z-index: 2000;
+}
+
+#oooContent {
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: calc( 100vh - 72px );
+    background-color: #f7f7f9;
+    padding-bottom: 24px;
+}
+
+#oooMainBox {
+    min-width: 320px;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1443px) {
+
+    #oooHeader,
+    #oooFooter > div,
+    #oooMainBox {
+        width: calc( 100% - 160px );
+        padding-left: 102px;
+        padding-right: 58px;
+    }
+
+}
+
+@media only screen and (min-width: 1444px) {
+
+    #oooHeader,
+    #oooFooter > div,
+    #oooMainBox {
+        width: 1284px;
+        padding-left: calc( 50% - 620px );
+        padding-right: calc( 50% - 664px );
+    }
+
+}
+
+#oooFooter {
+    height: 48px;
+    background-color: #f7f7f9;
+}

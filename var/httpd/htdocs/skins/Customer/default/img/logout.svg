@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="otobo-logout"
+   width="37.5"
+   height="37.5"
+   viewBox="0 0 37.5 37.5"
+   version="1.1"
+   sodipodi:docname="logout.svg"
+   inkscape:version="1.0beta1 (32d4812, 2019-09-19)">
+  <metadata
+     id="metadata841">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     inkscape:document-rotation="0"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1600"
+     inkscape:window-height="907"
+     id="namedview839"
+     showgrid="false"
+     inkscape:zoom="6.3723884"
+     inkscape:cx="11.158693"
+     inkscape:cy="26.845274"
+     inkscape:window-x="0"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="otobo-logout" />
+  <defs
+     id="defs835">
+    <style
+       id="style833">
+            .cls-1{fill:#00023c}
+        </style>
+  </defs>
+  <path
+     id="Pfad_13764"
+     d="m 18.368637,11.053884 h 5.386376 a 1.0801714,1.0801135 0 0 1 1.077064,1.077012 V 25.05711 a 1.0801714,1.0801135 0 0 1 -1.077064,1.077007 h -5.386376 a 1.077328,1.0772702 0 1 0 0,2.15454 h 6.46344 a 2.1608609,2.1607451 0 0 0 2.154655,-2.15454 V 11.053884 A 2.1608609,2.1607451 0 0 0 24.832077,8.8993441 h -6.46344 a 1.077328,1.0772702 0 1 0 0,2.1545399 z m -7.096357,8.638839 2.025393,2.025284 a 1.0740324,1.0739748 0 0 1 -1.518659,1.519082 L 7.9118024,19.370085 a 1.0729334,1.0728759 0 0 1 0,-1.517532 l 3.8672116,-3.867004 a 1.0739665,1.0739089 0 1 1 1.540886,1.496343 l -0.02221,0.02223 -2.025395,2.036143 h 9.339428 a 1.077328,1.0772702 0 0 1 0,2.15454 z"
+     class="cls-1"
+     data-name="Pfad 13764"
+     inkscape:connector-curvature="0"
+     style="fill:#fef235;fill-opacity:1;stroke:#fef235;stroke-width:0.610687;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+</svg>

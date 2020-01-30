@@ -1,0 +1,91 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<div class="LayoutPopup ARIARoleMain">
+
+    <div class="Header">
+        <ul class="HeaderPopup">
+            <li class="HeaderPopupleft">
+                [% Translate("History of %s%s%s", Config('Ticket::Hook'), Config('Ticket::HookDivider'), Data.TicketNumber) | html %] &mdash; [% Data.Title | html %]
+            </li>
+            <li class="HeaderPopupright">
+                <a class="CancelClosePopup" href="#">[% Translate("Cancel & close") | html %]</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="Content">
+
+        <div class="WidgetSimple HistoryActions">
+            <div class="Content">
+                <span>
+                    <input type="text" id="FilterHistory" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterHistory" value="" title="[% Translate("Filter for history items") | html %]">
+                </span>
+                <span class="FloatRight">
+                    <a href="" class="CallForAction" id="ExpandCollapseAll"><span><i class="fa fa-bars"></i>[% Translate("Expand/collapse all") | html %]</span></a>
+                </span>
+            </div>
+        </div>
+
+        <div class="WidgetSimple FilterMessageWidget Hidden">
+            <div class="Header">
+                <h2>[% Translate("No Matches") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p>[% Translate("Sorry, your search didn't match any items.") | html %]</p>
+            </div>
+        </div>
+
+        [% RenderBlockStart("HistoryWidget") %]
+        <div class="WidgetSimple Expanded">
+            <div class="Header">
+                <div class="WidgetAction Toggle"><a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a></div>
+                <h2>
+                    [% Data.CreateTime | Localize("TimeLong") %]
+                </h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Agent") | html %]</th>
+                            <th>[% Translate("Action") | html %]</th>
+                            <th class="CreateTime W10pc Hidden">[% Translate("CreateTime") | html %]</th>
+                            <th class="Center">[% Translate("Article") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                [% RenderBlockStart("Row") %]
+                        <tr class="[% Data.Class | html %]">
+                            <td class="UserName">
+                            [% IF Data.UserID == Config('CustomerPanelUserID') || Data.UserID == Config('PostmasterUserID') %]
+                                -
+                            [% ELSE %]
+                                [% Data.UserFullname | html %]
+                            [% END %]
+                            </td>
+                            <td title="[% Data.HistoryType | html %]">
+                                [% Data.Name | html %] ([% Data.HistoryType | html %])
+                            </td>
+                            <td class="Hidden CreateTime">
+                                [% Data.CreateTime | html %]
+                            </td>
+                            <td class="Center">
+                            [% IF Data.ArticleID != '0' %]
+                                <a class="LinkZoomView AsBlock" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]"><i class="fa fa-search"></i></a>
+                            [% END %]
+                            </td>
+                        </tr>
+                [% RenderBlockEnd("Row") %]
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        [% RenderBlockEnd("HistoryWidget") %]
+    </div>
+</div>

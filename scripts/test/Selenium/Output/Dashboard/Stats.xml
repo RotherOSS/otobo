@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<otobo_stats>
+<Cache>1</Cache>
+<Description>Anzahl der neuen Tickets pro Tag und Queue die im letzten
+Monat in das System gelangt sind.</Description>
+<Format>Print</Format>
+<Format>D3::BarChart</Format>
+<Format>D3::LineChart</Format>
+<Format>D3::StackedAreaChart</Format>
+<Object>Ticket</Object>
+<ObjectModule>Kernel::System::Stats::Dynamic::Ticket</ObjectModule>
+<Permission>stats</Permission>
+<StatType>dynamic</StatType>
+<SumCol>1</SumCol>
+<SumRow>1</SumRow>
+<Title>Neue Tickets</Title>
+<UseAsValueSeries Element="QueueIDs" Fixed="1">
+</UseAsValueSeries>
+<UseAsXvalue Element="StateIDs" Fixed="1">
+<SelectedValues>new</SelectedValues>
+<SelectedValues>open</SelectedValues>
+</UseAsXvalue>
+<Valid>1</Valid>
+</otobo_stats>

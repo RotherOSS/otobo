@@ -1,0 +1,433 @@
+#
+# A list of all included third party libraries.
+#
+
+#
+# Perl
+#
+
+o Name:    CPAN CGI
+  Web:     http://stein.cshl.org/WWW/software/CGI/
+  License: # Copyright 1995-1998 Lincoln D. Stein.  All rights reserved.
+           # It may be used and modified freely, but I do request that this copyright
+           # notice remain attached to the file.  You may modify this module as you
+           # wish, but if you redistribute a modified version, please attach a note
+           # listing the modifications you have made.
+
+o Name:    CPAN Apache::DBI
+  Web:     n/a
+  License: Apache License v2 - http://www.apache.org/licenses/LICENSE-2.0
+
+o Name:    CPAN Apache2::Reload
+  Web:     n/a
+  License: Apache License v2 - http://www.apache.org/licenses/LICENSE-2.0
+           # Matt Sergeant, matt@sergeant.org
+           # Stas Bekman (porting to mod_perl 2.0)
+
+o Name:    CPAN Algorithm::Diff
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Parts Copyright (c) 2000-2004 Ned Konz. All rights reserved. Parts
+           # by Tye McQueen.
+
+o Name:    CPAN CGI::Emulate::PSGI
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright (c) 2009-2010 by tokuhirom.
+
+o Name:    CPAN Crypt::PasswdMD5
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright Luis E. Mu�oz <luismunoz@cpan.org>
+
+o Name:    CPAN HTTP::Date
+  Web;     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright 1995-1999, Gisle Aas
+
+o Name:    CPAN IO::Interactive
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright (c) 2005, Damian Conway <DCONWAY@cpan.org>. All rights reserved.
+
+o Name:    CPAN Linux::Distribution
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Alexandr Ciornii <alexchorny@gmail.com>, http://chorny.net
+           # Alberto Re, <alberto@accidia.net>
+           # Judith Lebzelter, <judith@osdl.org>
+
+o Name:    CPAN Locale::Codes
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright (c) 1997-2001 Canon Research Centre Europe (CRE).
+           # Copyright (c) 2001      Michael Hennecke (Locale::Currency)
+           # Copyright (c) 2001-2010 Neil Bowers
+           # Copyright (c) 2010-2011 Sullivan Beck
+
+o Name:    CPAN LWP
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    #   © 1995-2010 Gisle Aas. All rights reserved.
+           #   © 1995 Martijn Koster. All rights reserved.
+
+o Name:    CPAN LWP::Protocol::https
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright 1997-2011 Gisle Aas.
+
+o Name:    CPAN MIME::Tools
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright (c) 1996 by Eryq.  All rights reserved.
+           # Copyright (c) 1999 by ZeeGee Software Inc. All rights reserved.
+
+o Name:    CPAN MailTools
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyrights 1995-2000 Graham Barr <gbarr@pobox.com> and 2001-2007
+           # Mark Overmeer <perl@overmeer.net>.
+
+o Name:    CPAN Module::Refresh
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright 2004,2011 by Jesse Vincent <jesse@bestpractical.com>,
+           # Audrey Tang <audreyt@audreyt.org>
+
+o Name:    CPAN Net::HTTP
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright 2001-2003 Gisle Aas.
+
+o Name:    CPAN Net::IMAP::Simple
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright (c) 2005 Colin Faber.
+           # Copyright (c) 2004 Casey West.
+           # Copyright (c) 1999 Joao Fonseca.
+
+o Name:    CPAN Net::SSLGlue
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # (c) 2008-2013, Steffen Ullrich. All Rights Reserved.
+
+o Name:    CPAN Schedule::Cron::Event
+  Web:     n/a
+  License: # This library is free software; you can redistribute it
+           # and/or modify it under the same terms as Perl itself.
+  Note:    # Copyright 2002 P Kent
+
+o Name:    CPAN Set::Crontab
+  Web:     n/a
+  License: # This library is free software; you can redistribute it
+           # and/or modify it under the same terms as Perl itself.
+  Note:    # Copyright 2001 Abhijit Menon-Sen <ams@toroid.org>
+
+o Name:    CPAN Text::CSV
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+
+o Name:    CPAN Text::CSV_PP
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+
+o Name:    CPAN Text::Diff
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+
+o Name:    CPAN XML::FeedPP
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright (c) 2006-2009 Yusuke Kawasaki.
+
+o Name:    CPAN XML::TreePP
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright (c) 2006-2009 Yusuke Kawasaki.
+
+o Name:    CPAN XML::Parser::Lite
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+
+o Name:    CPAN JSON::PP
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    Copyright 2007-2009 by Makamaka Hannyaharamitu
+
+o Name:    CPAN CSS::Minifier
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    Copyright (C) 2007 by Peter Michaux
+
+o Name:    CPAN JavaScript::Minifier
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    Copyright (C) 2007 by Peter Michaux
+
+o Name:    CPAN YAML
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    Copyright (c) 2005, 2006, 2008. Ingy d�t Net.
+           # Copyright (c) 2001, 2002, 2005. Brian Ingerson.
+           # Some parts copyright (c) 2009 - 2010 Adam Kennedy
+
+o Name:    CPAN URI
+  Web:     n/a
+  License: # This library is free software; you can redistribute it
+           # and/or modify it under the same terms as Perl itself.
+  Note:    # Copyright 1995-2009 Gisle Aas.
+           # Copyright 1995 Martijn Koster.
+
+o Name:    CPAN HTTP::Message
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright 1995-2008 Gisle Aas.
+
+o Name:    CPAN LWP
+  Web:     http://github.com/gisle/libwww-perl
+  License: # This library is free software; you can redistribute it
+           # and/or modify it under the same terms as Perl itself.
+  Note:    # Copyright 1995-2009, Gisle Aas
+           # Copyright 1995, Martijn Koster
+
+o Name:    CPAN Mozilla::CA
+  Web:     n/a
+  License: Mozilla MPL 1.1 - http://www.mozilla.org/MPL/
+  Note:    # Copyright Ask Bj�rn Hansen
+
+o Name:    CPAN parent
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright (c) 2007-10 Max Maischein <corion@cpan.org>
+
+o Name:    CPAN Class::Inspector
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright 2002 - 2011 Adam Kennedy.
+
+o Name:    CPAN Email::Valid
+  Web:     n/a
+  License: # This library is free software; you can redistribute it
+           # and/or modify it under the same terms as Perl itself.
+  Note:    # Copyright 1998-2003, Maurice Aubrey <maurice@hevanet.com>. All rights reserved.
+
+o Name:    CPAN Selenium::Remote::Driver
+  Web:     http://code.google.com/p/selenium/
+  License: Apache License v2 - http://www.apache.org/licenses/LICENSE-2.0
+  Note:    # Copyright (c) 2010-2011 Aditya Ivaturi, Gordon Child
+
+o Name:    CPAN REST::Client
+  Web:     n/a
+  License: # This program is free software; you can redistribute it
+           # and/or modify it under the same terms as Perl itself.
+  Note:    # Copyright 2008 - 2010 by Miles Crawford
+
+o Name:    CPAN SOAP::Lite
+  Web:     n/a
+  License: # This library is free software; you can redistribute it
+           # and/or modify it under the same terms as Perl itself.
+           #
+           # This text and all associated documentation for this library
+           # is made available under the Creative Commons Attribution-NoDerivs
+           # 2.0 license. http://creativecommons.org/licenses/by-nd/2.0/
+  Note:    # Copyright (C) 2000-2007 Paul Kulchenko. All rights reserved.
+           # Copyright (C) 2007-2008 Martin Kutter
+           # Copyright (C) 2013 Fred Moyer
+
+o Name:    CPAN  Excel::Writer::XLSX
+  Web:     http://github.com/jmcnamara/excel-writer-xlsx
+  License: # All Rights Reserved. This module is free software.
+           # It may be used, redistributed and/or modified under the same terms as Perl itself.
+  Note:    # Copyright MM-MMXIIII, John McNamara.
+
+o Name:    CPAN XML::Simple
+  Web:     n/a
+  License: # This program is free software; you can redistribute it and/or modify it
+           # under the same terms as Perl itself.
+  Note:    # Copyright 1999-2004 Grant McLean <grantm@cpan.org>
+
+o Name:    CPAN HTML::TokeParser
+  Web:     n/a
+  License: # This library is free software; you can redistribute it and/or modify it
+           # under the same terms as Perl itself.
+  Note:    # Copyright 1998-2005 Gisle Aas.
+
+o Name:    CPAN HTML::Tagset
+  Web:     n/a
+  License: # This program is free software; you can redistribute it and/or modify it
+           # under the same terms as Perl itself.
+  Note:    # Copyright 1995-2000 Gisle Aas.
+           # Copyright 2000-2005 Sean M. Burke.
+           # Copyright 2005-2008 Andy Lester.
+
+o Name:    CPAN Pod::Strip
+  Web:     n/a
+  License: # This program is free software; you can redistribute it and/or modify it
+           # under the same terms as Perl itself.
+  Note:    # Copyright 2004, 2005, 2006 Thomas Klausner, All Rights Reserved.
+
+o Name:    CPAN PDF::API2
+  Web:     n/a
+  License: # This program is free software; you can redistribute it and/or modify it
+           # under the same terms as Perl itself.
+  Note:    # PDF::API2 was originally written by Alfred Reibenschuh.
+           # It is currently being maintained by Steve Simms.
+
+o Name:    CPAN IO::String
+  Web:     n/a
+  License: # This program is free software; you can redistribute it and/or modify it
+           # under the same terms as Perl itself.
+  Note:    # Copyright 1998-2005 Gisle Aas.
+
+o Name:    CPAN Font::TTF
+  Web:     n/a
+  License: # GNU Lesser v2.1 - http://www.gnu.org/licenses/lgpl.html
+  Note:    # Copyright (c) 1998-2015, SIL International (http://www.sil.org).
+
+o Name:    CPAN Lingua::Translit
+  Web:     http://lingua-systems.com/translit/
+  License: # This module is free software. It may be used, redistributed and/or
+           # modified under the terms of either the GPL v2 or the Artistic license.
+           # GNU v2 - http://www.opensource.org/licenses/gpl-2.0.php
+           # Artistic v2 - http://www.opensource.org/licenses/artistic-license-2.0.php
+  Note:    # Copyright (C) 2007-2008 Alex Linke and Rona Linke.
+           # Copyright (C) 2009-2015 Lingua-Systems Software GmbH
+
+o Name:    CPAN Class::Accessor
+  Web:     n/a
+  License: # GNU v1 - http://dev.perl.org/licenses/gpl1.html
+           # Artistic v1 - http://dev.perl.org/licenses/artistic.html
+  Note:    # Copyright 2009 Marty Pauley.
+           # Original author Michael G Schwern.
+
+o Name:    CPAN Class::ReturnValue
+  Web:     n/a
+  License: # GNU v1 - http://dev.perl.org/licenses/gpl1.html
+           # Artistic v1 - http://dev.perl.org/licenses/artistic.html
+  Note:    # Copyright (c) 2002,2003,2005,2007 Jesse Vincent.
+
+o Name:    CPAN Data::ICal
+  Web:     n/a
+  License: # GNU v1 - http://dev.perl.org/licenses/gpl1.html
+           # Artistic v1 - http://dev.perl.org/licenses/artistic.html
+  Note:    # Copyright (c) 2005 - 2015, Best Practical Solutions, LLC. All rights reserved.
+
+o Name:    CPAN Date::ICal
+  Web:     n/a
+  License: # GNU v1 - http://dev.perl.org/licenses/gpl1.html
+           # Artistic v1 - http://dev.perl.org/licenses/artistic.html
+           # GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Author Rich Bowen and the Reefknot team.
+
+o Name:    CPAN Devel::StackTrace
+  Web:     n/a
+  License: # Artistic v2 - http://www.opensource.org/licenses/artistic-license-2.0.php
+  Note:    # Copyright (c) 2000 - 2016 by David Rolsky.
+
+o Name:    CPAN Text::vFile::asData
+  Web:     n/a
+  License: # GNU v1 - http://dev.perl.org/licenses/gpl1.html
+           # Artistic v1 - http://dev.perl.org/licenses/artistic.html
+  Note:    # Copyright 2004, 2010, 2013 Richard Clamp and Nik Clayton. All Rights Reserved.
+
+o Name:    CPAN Class::Accessor::Lite
+  Web:     n/a
+  License: # GNU v1 - http://dev.perl.org/licenses/gpl1.html
+           # Artistic v1 - http://dev.perl.org/licenses/artistic.html
+  Note:    # Copyright (C) 2008 - 2010 Kazuho Oku.
+
+o Name:    CPAN Sisimai
+  Web:     http://libsisimai.org
+  License: # BSD 2-Clause - https://opensource.org/licenses/BSD-2-Clause
+  Note:    # Copyright (C) 2014-2017 azumakuniyuki, All rights reserved.
+
+
+#
+# JavaScript
+#
+
+o Name:    CKEditor
+  Web:     http://www.ckeditor.com/
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+
+o Name:    Skin BootstrapCK4 for CKEditor
+  Web:     http://ckeditor.com/addon/bootstrapck
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+           GNU Lesser v3 - http://www.gnu.org/licenses/lgpl.html
+           MPL v1.1 - http://opensource.org/licenses/MPL-1.1
+
+o Name:    D3 Data-Driven Documents
+  Web:     http://d3js.org/
+  License: BSD license - http://opensource.org/licenses/BSD-3-Clause
+
+o Name:    FullCalendar
+  Web:     http://fullcalendar.io/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    FullCalendar Scheduler
+  Web:     http://fullcalendar.io/scheduler/
+  License: GPL License - http://www.gnu.org/licenses/gpl-3.0.en.html
+
+o Name:    MomentJS
+  Web:     http://momentjs.com/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    jQuery
+  Web:     http://www.jquery.com/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    jsTree
+  Web:     http://www.jstree.com/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    jQuery Migrate
+  Web:     https://github.com/jquery/jquery-migrate
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    TableSorter
+  Web:     http://tablesorter.com
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    jQuery UI
+  Web:     http://www.jqueryui.com/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    jQuery Validate
+  Web:     http://bassistance.de/jquery-plugins/jquery-plugin-validation/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    jsPlumb
+  Web:     http://jsplumbtoolkit.com/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    jQuery UI Touch Punch
+  Web:     http://touchpunch.furf.com/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    QUnit
+  Web:     http://qunitjs.com/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    canvg
+  Web:     https://github.com/gabelerner/canvg
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    StringView
+  Web:     https://developer.mozilla.org/en-US/Add-ons/Code_snippets/StringView
+  License: GNU Lesser v3 - http://www.gnu.org/licenses/lgpl.html
+
+o Name:    clipboard.js
+  Web:     https://clipboardjs.com/
+  License: MIT License - https://zenorocha.mit-license.org/
+
+o Name:    Spectrum
+  Web:     http://bgrins.github.io/spectrum/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+#
+# Other
+#
+
+o Name:    DejaVu Fonts
+  Web:     https://dejavu-fonts.github.io/
+  License: Free License - https://dejavu-fonts.github.io/License.html

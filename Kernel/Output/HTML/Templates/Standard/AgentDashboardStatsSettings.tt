@@ -1,0 +1,19 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<input type="hidden" name="[% Data.JSONFieldName | html %]" class="StatsSettingsJSON" />
+<div class="StatsSettingsBox" id="StatsSettingsBox[% Data.NamePref | html %]">
+
+[% FOR Error IN Data.Errors %]
+    <div class="MessageBox Error">
+        <p>[% Error | html %]</p>
+    </div>
+[% END %]
+
+[% Data.StatsParamsWidget %]
+</div>

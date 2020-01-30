@@ -1,0 +1,283 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/* Standard Tiles are kept at a ratio of 89/55 via height and possibly padding */
+
+@media only screen and (max-width: 879px) {
+
+    #oooMainBox {
+        display: grid;
+        grid-template-columns: 100%;
+        grid-column-gap: 24px;
+        grid-row-gap: 24px;
+
+        grid-template-rows: repeat(9, 1fr);
+    }
+
+    /* New Ticket */
+    #oooTile01 {
+        grid-area: 1 / 1 / 2 / 2;
+    }                       
+                            
+    /* Featured Link */
+    #oooTile02 {            
+        grid-area: 3 / 1 / 5 / 2;
+    }                       
+                            
+    /* MotD */              
+    #oooTile04 {            
+        grid-area: 2 / 1 / 3 / 2;
+    }                       
+                            
+    /* External Links */
+    #oooTile05 {            
+        grid-area: 5 / 1 / 6 / 2;
+    }                       
+                            
+    /* Status */            
+    #oooTile06 {            
+        grid-area: 6 / 1 / 7 / 2;
+    }
+
+    /* 89/55 = (Tilewidth) / (Tileheight)
+       Height: 9*Tileheight+192px */
+    @media only screen and (max-width: 419px) {
+        #oooContent > #oooMainBox {
+            height: calc( 3.708vw + 192px );
+            min-height: 1378.52px;
+            grid-template-rows: repeat(6, 1fr);
+        }
+
+        /* Ticket List */
+        #oooTile03 {
+            display: none;
+        }
+    }
+
+    @media only screen and (min-width: 420px) and (max-width: 767px) {
+        #oooContent > #oooMainBox {
+            width: 420px;
+            padding-left: calc( 50vw - 210px );
+            padding-right: calc( 50vw - 210px );
+            height: 2528.96px;
+        }
+
+        /* Ticket List */
+        #oooTile03 {            
+            grid-area: 7 / 1 / 10 / 2;
+        }                                           
+    }
+
+    @media only screen and (min-width: 768px) {
+        #oooContent > #oooMainBox {
+            width: 420px;
+            padding-left: calc( 50vw - 196px );
+            padding-right: calc( 50vw - 152px );
+            height: 2528.96px;
+        }
+
+        /* Ticket List */
+        #oooTile03 {            
+            grid-area: 7 / 1 / 10 / 2;
+        }                       
+    }
+    
+}
+
+@media only screen and (min-width: 880px) and (max-width: 1279px) {
+
+    #oooMainBox {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        grid-column-gap: 24px;
+        grid-row-gap: 24px;
+
+        grid-template-rows: repeat(18, 1fr);
+    }
+
+    /* New Ticket */
+    #oooTile01 {
+        grid-area: 1 / 4 / 4 / 7;
+    }
+
+    /* Featured Link */
+    #oooTile02 {
+        grid-area: 1 / 1 / 7 / 4;
+    }
+
+    /* Ticket List */
+    #oooTile03 {
+        grid-area: 10 / 1 / 19 / 7;
+    }
+
+    /* MotD */
+    #oooTile04 {
+        grid-area: 7 / 1 / 10 / 4;
+    }
+
+    /* External Links*/
+    #oooTile05 {
+        grid-area: 4 / 4 / 7 / 7;
+    }
+
+    /* Status */
+    #oooTile06 {
+        grid-area: 7 / 4 / 10 / 7;
+    }
+
+    /* 89/55 = (3*Tilewidth+48px) / (3*Tileheight+48px)
+       Height: 6*Tileheight+120px */
+    @media only screen and (max-width: 1023px) {
+        #oooMainBox {
+            height: calc( 185.4141vw - 221.16px );
+        }
+    }
+
+    @media only screen and (min-width: 1024px) {
+        /* overwrite Core.Layout.css padding and width */
+        #oooContent > #oooMainBox {
+            width: 864px;
+            padding-left: calc( 50vw - 410px );
+            padding-right: calc( 50vw - 454px );
+            height: 1677.3px;
+        }
+    }
+}
+
+@media only screen and (min-width: 1280px) {
+
+    #oooMainBox {
+        display: grid;
+
+        grid-template-columns: repeat(12, 1fr);
+        grid-column-gap: 24px;
+        grid-row-gap: 24px;
+
+        grid-template-rows: repeat(16, 1fr);
+    }
+
+    /* New Ticket */
+    #oooTile01 {
+        grid-area: 1 / 9 / 5 / 13;
+    }
+
+    /* Featured Link */
+    #oooTile02 {
+        grid-area: 1 / 1 / 9 / 5;
+    }
+
+    /* Ticket List */
+    #oooTile03 {
+        grid-area: 5 / 5 / 17 / 13;
+    }
+
+    /* MotD */
+    #oooTile04 {
+        grid-area: 1 / 5 / 5 / 9;
+    }
+
+    /* External Links*/
+    #oooTile05 {
+        grid-area: 9 / 1 / 13 / 5;
+    }
+
+    /* Status */
+    #oooTile06 {
+        grid-area: 13 / 1 / 17 / 5;
+    }
+
+    @media only screen and (max-width: 1443px) {
+        #oooMainBox {
+            height: calc( 82.406vw - 99.405px );
+        }
+    }
+    
+    @media only screen and (min-width: 1444px) {
+        #oooMainBox {
+            height: 1090.54px;
+        }
+    }
+}
+
+#oooMainBox {
+    margin-top: 24px;
+}
+
+#oooMainBox > .oooTile {
+    border-radius: 20px;
+}
+
+#oooHeader {
+    height: 145px;
+    display: grid;
+    /* text / ticket search / new ticket button */
+    grid-template-columns: 1fr auto auto;
+    grid-column-gap: 40px;
+    grid-template-rows: 100%;
+    align-items: center;
+}
+
+#oooHeader i {
+    display: inline-block;
+    vertical-align: middle;
+    padding-bottom: 3px;
+}
+
+#oooTicketSearchBox {
+    cursor: pointer;
+}
+
+#oooTicketSearch,
+#oooTicketSearchLabel {
+    display: inline-block;
+}
+
+#oooTicketSearch {
+    position: relative;
+    left: -32px;
+    padding-left: 32px;
+    width: 114px;
+    height: 40px;
+
+    border: solid 1px #7f809d;
+    border-radius: 10px;
+    background-color: inherit;
+
+    font-size: 16px;
+
+    display: none;
+
+        transition: width 0.2s ease;
+    -ms-transition: width 0.2s ease;
+   -moz-transition: width 0.2s ease;
+-webkit-transition: width 0.2s ease;
+}
+
+#oooTicketSearch ~ i,
+#oooTicketSearch ~ span {
+    pointer-events: none;
+}
+
+#oooTicketSearch:focus {
+    display: inline-block;
+    width: 280px;
+    border: solid 1px #001bff;
+}
+
+#oooTicketSearch.oooFull ~ #oooTicketSearchLabel,
+#oooTicketSearch:focus ~ #oooTicketSearchLabel {
+    display: none;
+}
+

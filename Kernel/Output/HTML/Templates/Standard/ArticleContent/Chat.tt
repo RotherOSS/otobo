@@ -1,0 +1,19 @@
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+[% FOREACH Line IN Data.ChatMessages %]
+<div>
+    <div class="[% IF Line.ChatterID == Env('UserID') %]Own[% ELSE %]Foreign[% END %][% IF Line.SystemGenerated %] SystemGenerated[% END %]">
+        <span class="Time">[[% Line.CreateTime | Localize('TimeLong') | html %]]</span>
+        <span>
+            <span class="Name">[% IF Line.SystemGenerated != 1 %][% Line.ChatterName | html %][% END %]</span>
+            <span class="Text">[% Line.MessageText %]</span>
+        </span>
+    </div>
+</div>
+[% END %]

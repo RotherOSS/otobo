@@ -1,0 +1,124 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+#oooHeader {
+    position: sticky;
+    top: 0;
+    height: 145px;
+    background-color: #ffffff;
+    border-bottom: 1.2px solid #e5e5eb;
+
+    display: grid;
+    /* text / ticket search / new ticket button */
+    grid-template-columns: 1fr auto auto;
+    grid-template-rows: 100%;
+    align-items: center;
+}
+
+#oooHeaderButton i {
+    padding-right: 8px;
+}
+
+#oooHeader i {
+    display: inline-block;
+    vertical-align: middle;
+    padding-bottom: 3px;
+}
+
+#oooTicketListHeader {
+    margin-left: 32px;
+    margin-right: 32px;
+    margin-top: 24px;
+    display: grid;
+    /* search? / all / open / closed / page? */
+    grid-template-columns: auto auto auto auto 1fr;
+    grid-column-gap: 40px;
+}
+
+#oooTicketListHeader > .oool {
+    text-align: left;
+}
+
+#oooTicketListHeader > .ooor {
+    text-align: right;
+}
+
+#oooTicketListHeader > div {
+    grid-column-start: 5;
+    grid-column-end: 6;
+}
+
+#oooTicketListHeader > div > p {
+    display: inline-block;
+    padding-right: 4px;
+}
+
+#oooTicketListHeader > div > a {
+    padding-left: 4px;
+}
+
+#oooTicketListHeader .Selected {
+    color: #00023c;
+    font-weight: 600;
+}
+
+/* SearchBox */
+#oooTicketSearchBox {
+    padding-right: 72px;
+    cursor: pointer;
+}
+
+#oooTicketSearch,
+#oooTicketSearchLabel {
+    display: inline-block;
+}
+
+#oooTicketSearch {
+    position: relative;
+    left: -32px;
+    padding-left: 32px;
+    width: 114px;
+    height: 40px;
+
+    border: solid 1px #7f809d;
+    border-radius: 10px;
+    background-color: inherit;
+
+    font-size: 16px;
+
+    display: none;
+
+        transition: width 0.2s ease;
+    -ms-transition: width 0.2s ease;
+   -moz-transition: width 0.2s ease;
+-webkit-transition: width 0.2s ease;
+}
+
+#oooTicketSearch ~ i,
+#oooTicketSearch ~ span {
+    pointer-events: none;
+}
+
+#oooTicketSearch:focus {
+    display: inline-block;
+    width: 280px;
+    border: solid 1px #001bff;
+}
+
+#oooTicketSearch.oooFull ~ #oooTicketSearchLabel,
+#oooTicketSearch:focus ~ #oooTicketSearchLabel {
+    display: none;
+}
+
