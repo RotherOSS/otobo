@@ -744,6 +744,7 @@ sub Run {
         # if sorting takes place after ES search, then take the query string from FulltextES and set it to Fulltext
         if ( $ParamObject->GetParam( Param => 'TakeLastSearch') && $GetParam{FulltextES} ){
             $GetParam{Fulltext} = $GetParam{FulltextES};
+            delete $GetParam{FulltextES};
         } 
 
         my @ViewableTicketIDs;
@@ -771,7 +772,7 @@ sub Run {
 
         # if ES is activated
         my $ESActive = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::Active') || 0;
-        if ( $ESActive && !$ParamObject->GetParam( Param => 'TakeLastSearch') ){
+        if ( $ESActive && $GetParam{FulltextES} ){
             # get data from cache
             my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
             my $CacheData = $CacheObject->Get(
