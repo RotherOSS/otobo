@@ -27,7 +27,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 div.InputField_Container {
     position: static;
     display: inline-block;
-    width: 60%;
+    width: 100%;
 }
 
 div.InputField_InputContainer {

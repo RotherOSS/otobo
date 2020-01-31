@@ -9120,6 +9120,7 @@ via the Preferences button after logging in.
                 <Item Key="Ticket">
                     <Array>
                         <Item>Title</Item>
+                        <Item>TicketNumber</Item>
                     </Array>
                 </Item>
                 <Item Key="Article">
@@ -9187,6 +9188,7 @@ via the Preferences button after logging in.
                 <Item>UserLastname</Item>
                 <Item>UserEmail</Item>
                 <Item>UserLogin</Item>
+                <Item>UserCustomerID</Item>
             </Array>
         </Value>
     </Setting>
