@@ -22,6 +22,7 @@ use warnings;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 use File::Basename;
+use File::Copy;
 
 our @ObjectDependencies = (
     'Kernel::System::Main',
@@ -33,27 +34,53 @@ sub Configure {
     my ( $Self, %Param ) = @_;
 
     $Self->Description('Create clean OTOBO source files from OTRS source code or an OTRS OPM package.');
+
     $Self->AddOption(
-        Name => 'source',
+        Name => 'cleanpath',
         Description =>
-            "Specify the directory containing the OTRS sources.",
+            "Should we change the path and filename to OTOBO or otobo, if otrs or OTRS exists?",
         Required   => 0,
-        HasValue   => 1,
+        HasValue   => 0,
         ValueRegex => qr/.*/smx,
     );
     $Self->AddOption(
-        Name => 'opmfile',
+        Name => 'cleancontent',
         Description =>
-            "Specify the path to an OTRS based opm package.",
+            "Should we clean the file content from OTRS to OTOBO style?",
         Required   => 0,
-        HasValue   => 1,
+        HasValue   => 0,
         ValueRegex => qr/.*/smx,
     );
-    $Self->AddArgument(
-        Name        => 'target-directory',
+    $Self->AddOption(
+        Name => 'cleanlicense',
+        Description =>
+            "Should we clean the file license information to OTOBO and Rother OSS?",
+        Required   => 0,
+        HasValue   => 0,
+        ValueRegex => qr/.*/smx,
+    );
+    $Self->AddOption(
+        Name => 'cleanall',
+        Description =>
+            "Run all clean options together.",
+        Required   => 0,
+        HasValue   => 0,
+        ValueRegex => qr/.*/smx,
+    );
+    $Self->AddOption(
+        Name        => 'target',
         Description => "Specify the directory where the cleaned OTOBO code should be placed.",
         Required    => 0,
+        HasValue   => 1,
         ValueRegex  => qr/.*/smx,
+    );
+    $Self->AddArgument(
+        Name => 'source',
+        Description =>
+            "Specify the directory containing the OTRS sources or the path to an OTRS based opm package.",
+        Required   => 1,
+        HasValue   => 1,
+        ValueRegex => qr/.*/smx,
     );
 
     return;
@@ -62,14 +89,13 @@ sub Configure {
 sub PreRun {
     my ( $Self, %Param ) = @_;
 
-    my $Source = $Self->GetOption('source');
-    my $OPMSource = $Self->GetOption('opmfile');
+    my $Source = $Self->GetArgument('source');
 
-    if ( !-r ($Source || $OPMSource) ) {
-        die "File $Source or $OPMSource does not exist / cannot be read.\n";
+    if ( !-r ( $Source ) ) {
+        die "File $Source does not exist / cannot be read.\n";
     }
 
-    my $TargetDirectory = $Self->GetArgument('target-directory');
+    my $TargetDirectory = $Self->GetOption('target');
     if ( !-d $TargetDirectory ) {
         die "Directory $TargetDirectory does not exist.\n";
     }
@@ -82,10 +108,15 @@ sub Run {
 
     $Self->Print("<green>Read unclean code or opm package...</green>\n");
 
-    my $Source = $Self->GetOption('source');
-    my $OPMSource = $Self->GetOption('opmfile');
+    my $Source              = $Self->GetArgument('source');
 
-    my $TargetDirectory = $Self->GetArgument('target-directory');
+    # If option cleanall is active, we execute all availible clean modules.
+    my $CleanALL            = $Self->GetOption('cleanall');
+    my $CleanPath           = $Self->GetOption('cleanpath')  || $CleanALL;
+    my $CleanLicenseHeader  = $Self->GetOption('cleanlicense') || $CleanALL;
+    my $CleanContent        = $Self->GetOption('cleancontent') || $CleanALL;
+
+    my $TargetDirectory = $Self->GetOption('target');
 
     # Create tempdir if opm package given
     my $TmpDirectory =  $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
@@ -100,18 +131,18 @@ sub Run {
     my @ParserIgnoreDirAndFile = _IgnorePathList();
 
     # We need to check if a opm package is given
-    if ( -f $OPMSource && -d $TargetDirectory) {
+    if ( -f $Source && -d $TargetDirectory) {
 
         # OPM package is given, so we need to extract it to a tmp dir
         # Add $TempDir path to $Source, so we can go on
         $Source = $Self->_ExtractOPMPackage(
-            OPMSource     => $OPMSource,
+            Source     => $Source,
             TmpDirectory  => $TmpDirectory,
         );
         $Self->Print("<green>Extract OPM package: Done.</green>\n");
 
         my $SOPMCreate = $Self->_CopyOPMtoSOPMAndClean(
-            OPMSource     => $OPMSource,
+            Source     => $Source,
             TmpDirectory  => $TmpDirectory,
         );
         $Self->Print("<green>Copy .opm file to Package.som: Done.</green>\n");
@@ -126,9 +157,9 @@ sub Run {
 
         for my $File (@UncleanDirAndFileList) {
 
-            # IF $OPMSource we need to remove the tmppath
+            # IF $Source we need to remove the tmppath
             my $RwPath = $File;
-            if ($OPMSource) {
+            if ($Source) {
                 $RwPath =~ s/$TmpDirectory//g;
                 $RwPath = $TargetDirectory . $RwPath;
             }
@@ -163,15 +194,26 @@ sub Run {
 
             }
 
-            # Clean opm file
-            $Self->_ChangeFiles(
-                File     => $File,
-            );
+            # Clean content of files if $CleanContent option is defined
+            if ($CleanContent) {
+                $Self->_ChangeFiles(
+                    File     => $File,
+                );
+            }
 
             # Clean header and license in files
-            $Self->_ChangeLicenseHeader(#
-                File     => $File,
-            );
+            if ($CleanLicenseHeader) {
+                $Self->_ChangeLicenseHeader(
+                    File     => $File,
+                );
+            }
+
+            # If option cleanpath is given, clean path and filename
+            if ($CleanPath) {
+                $Self->_ChangePathFileName(
+                    File     => $File,
+                );
+            }
         }
     }
     else {
@@ -185,7 +227,7 @@ sub Run {
 sub _ExtractOPMPackage {
     my ( $Self, %Param ) = @_;
 
-    my $SourcePath = $Param{OPMSource};
+    my $SourcePath = $Param{Source};
     my $TmpDirectory = $Param{TmpDirectory};
 
     $Self->Print("<yellow>Exporting package contents to $SourcePath...</yellow>\n");
@@ -220,7 +262,7 @@ sub _ExtractOPMPackage {
 sub _CopyOPMtoSOPMAndClean {
     my ( $Self, %Param ) = @_;
 
-    my $SourcePath = $Param{OPMSource};
+    my $SourcePath = $Param{Source};
     my $TmpDirectory = $Param{TmpDirectory};
 
     # Export opm file to sopm file
@@ -313,7 +355,7 @@ sub _HandleFile {
     # do translation
 
     if ( !$Content ) {
-        $Self->PrintError("Package build failed.\n");
+        $Self->PrintError("Can't work with file $Param{File}.\n");
         return $Self->ExitCodeError();
     }
     my $File = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
@@ -344,7 +386,8 @@ sub _ChangeLicenseHeader {
 
     if ( !$FileHandle ) {
         $Self->PrintError("File $FilePathAndName is empty / could not be read.\n");
-        return $Self->ExitCodeError();
+        close $FileHandle;
+        return 1;
     }
     # Read parse content from _ChangeLicenseHeaderRules
     my @Parser = $Self->_ChangeLicenseHeaderRules();
@@ -360,7 +403,8 @@ sub _ChangeLicenseHeader {
 
     if (! $Parse ) {
         $Self->Print("<red>File extension for file $FilePathAndName is not active - please check if you need to add a new regexp.</red>\n");
-        return;
+        close $FileHandle;
+        return 1;
     }
 
     my $Good = 1;
@@ -387,6 +431,7 @@ sub _ChangeLicenseHeader {
     }
     if ( !$Good ) {
         $Self->Print("<red>Don't find regexp for typ $FilePathAndName (for license change).</red>\n");
+        close $FileHandle;
         return;
     }
 if ( $Parse->{New} ) {
@@ -416,11 +461,6 @@ sub _ChangeFiles {
     my $Suffix = $Param{File};
     $Suffix =~ s/^.*\.//g;
 
-    # Check if parse is build for this filetyp || All
-    if ( $Suffix eq ('png' || 'pdf') ) {
-        return;
-    }
-
     my($Filename, $Dirs, $SuffixNotWork) = fileparse($FilePathAndName);
 
     # Read parse content from _ChangeLicenseHeaderRules
@@ -432,7 +472,8 @@ sub _ChangeFiles {
 
     if ( !$FileHandle ) {
         $Self->PrintError("File $FilePathAndName is empty / could not be read.\n");
-        return $Self->ExitCodeError();
+        close $FileHandle;
+        return 1;
     }
 
     while (my $Line = <$FileHandle>) {
@@ -464,6 +505,55 @@ sub _ChangeFiles {
         Permission => '660',                                                      # unix file permissions
     );
     return 1;
+}
+
+sub _ChangePathFileName {
+    my ( $Self, %Param ) = @_;
+
+    my $File = $Param{File};
+    my $NewFile = $Param{File};
+    my $Suffix = $Param{File};
+    $Suffix =~ s/^.*\.//g;
+
+    # Read parse content from _ChangeFilePath
+    my @ParserRegEx = $Self->_ChangeFilePath();
+
+
+    TYPE:
+    for my $Type ( @ParserRegEx ) {
+        # TODO: Check if work proper. Check if parse is build for this filetyp || All
+        next TYPE if $Suffix !~ /$Type->{FileTyp}/ && $Type->{FileTyp} ne 'All';
+        my $Search = $Type->{Search};
+        my $Change = $Type->{Change};
+
+        $NewFile =~ s/$Search/$Change/g;
+    }
+
+    if ($NewFile eq $File) {
+        return 1;
+    }
+
+    move($File, $NewFile) or die "The move operation failed: $!";;
+    $Self->Print("<green>Move file $File to $NewFile, cause cleanpath option is given.</green>\n");
+    return 1;
+}
+
+sub _ChangeFilePath {
+
+    return (
+        (
+            {
+                FileTyp => 'All',
+                Search  => 'OTRS',
+                Change  => 'OTOBO',
+            },
+            {
+                FileTyp => 'All',
+                Search  => 'otrs',
+                Change  => 'otobo',
+            },
+        ),
+    )
 }
 
 sub _IgnorePathList {
