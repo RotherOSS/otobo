@@ -52,7 +52,7 @@ sub Configure {
     $Self->AddArgument(
         Name        => 'target-directory',
         Description => "Specify the directory where the cleaned OTOBO code should be placed.",
-        Required    => 1,
+        Required    => 0,
         ValueRegex  => qr/.*/smx,
     );
 
@@ -95,6 +95,9 @@ sub Run {
 
     # List of only files to edit in the next step
     my @UncleanFileList;
+
+    # Ignore path list
+    my @ParserIgnoreDirAndFile = _IgnorePathList();
 
     # We need to check if a opm package is given
     if ( -f $OPMSource && -d $TargetDirectory) {
@@ -141,13 +144,29 @@ sub Run {
         }
 
         # Now we clean the existing files
+        FILE:
         for my $File (@UncleanFileList) {
+
+            # Check wich paths we should ignore
+            my $ParseNot;
+            TYPE:
+            for my $Type ( @ParserIgnoreDirAndFile ) {
+                if ( $File =~ $Type ) {
+                    $ParseNot = 1;
+                    last TYPE;
+                }
+            }
+
+            if ( $ParseNot ) {
+                $Self->Print("<yellow>Ignore directory setting for $File is active - please check if you need to add a new regexp.</yellow>\n");
+                next FILE;
+
+            }
 
             # Clean opm file
             $Self->_ChangeFiles(
                 File     => $File,
             );
-            $Self->Print("<green>Change file content in OTOBO style: Done.</green>\n");
 
             # Clean header and license in files
             $Self->_ChangeLicenseHeader(#
@@ -156,10 +175,10 @@ sub Run {
         }
     }
     else {
-        $Self->PrintError("No valid source or target dir given, exit!");
+        $Self->PrintError("No valid source or target dir given, exit!\n");
         return $Self->ExitCodeError();
     }
-    $Self->Print("<green>Done!</green>\n");
+    $Self->Print("<green>Change file content in OTOBO style: Done.</green>\n");
     return $Self->ExitCodeOk();
 }
 
@@ -215,7 +234,7 @@ sub _CopyOPMtoSOPMAndClean {
     );
 
     if ( !$ContentRefOPM || ref $ContentRefOPM ne 'SCALAR' ) {
-        $Self->PrintError("File $SourcePath is empty / could not be read.");
+        $Self->PrintError("File $SourcePath is empty / could not be read.\n");
         return $Self->ExitCodeError();
     }
 
@@ -324,7 +343,7 @@ sub _ChangeLicenseHeader {
     open my $FileHandle, "< $FilePathAndName" or print "Error: $!";
 
     if ( !$FileHandle ) {
-        $Self->PrintError("File $FilePathAndName is empty / could not be read.");
+        $Self->PrintError("File $FilePathAndName is empty / could not be read.\n");
         return $Self->ExitCodeError();
     }
     # Read parse content from _ChangeLicenseHeaderRules
@@ -340,8 +359,8 @@ sub _ChangeLicenseHeader {
     }
 
     if (! $Parse ) {
-        $Self->PrintError("File extension for file $FilePathAndName is not active - please check if you need to add a new regexp.");
-
+        $Self->Print("<red>File extension for file $FilePathAndName is not active - please check if you need to add a new regexp.</red>\n");
+        return;
     }
 
     my $Good = 1;
@@ -367,11 +386,12 @@ sub _ChangeLicenseHeader {
         }
     }
     if ( !$Good ) {
-        print STDERR " Don't find regexp for typ $FilePathAndName for license change.\n";
+        $Self->Print("<red>Don't find regexp for typ $FilePathAndName (for license change).</red>\n");
         return;
     }
-
+if ( $Parse->{New} ) {
     $NewContent .= $Parse->{New};
+}
     while (<$FileHandle>) {
         $NewContent .= $_;
     }
@@ -411,7 +431,7 @@ sub _ChangeFiles {
     open my $FileHandle, "< $FilePathAndName" or print "Error: $!";
 
     if ( !$FileHandle ) {
-        $Self->PrintError("File $FilePathAndName is empty / could not be read.");
+        $Self->PrintError("File $FilePathAndName is empty / could not be read.\n");
         return $Self->ExitCodeError();
     }
 
@@ -444,6 +464,24 @@ sub _ChangeFiles {
         Permission => '660',                                                      # unix file permissions
     );
     return 1;
+}
+
+sub _IgnorePathList {
+    return (
+        qr/^.+Kernel\/cpan-lib.+$/,
+        qr/^.+var\/tmp\/CacheFileStorable.+$/,
+        qr/^.+var\/httpd\/htdocs\/js\/thirdparty.+$/,
+        qr/^.+var\/httpd\/htdocs\/skins\/Customer\/default\/css\/thirdparty.+$/,
+        qr/^.+var\/httpd\/htdocs\/skins\/Agent\/default\/css\/thirdparty.+$/,
+        qr/^.+var\/httpd\/htdocs\/js\/js-cache.+$/,
+        qr/^.+var\/httpd\/htdocs\/common\/fonts.+$/,
+        qr/^.+.pdf$/,
+        qr/^.+.svg$/,
+        qr/^.+.png$/,
+        qr/^.+.gif$/,
+        qr/^.+.psd$/,
+        qr/^\.git$/,
+    );
 }
 
 sub _ChangeFileInfo {
@@ -675,7 +713,7 @@ sub _ChangeXXXX {
     );
 
     if ( !$ContentRef || ref $ContentRef ne 'SCALAR' ) {
-        $Self->PrintError("File is empty / could not be read.");
+        $Self->PrintError("File is empty / could not be read.\n");
         return $Self->ExitCodeError();
     }
 
