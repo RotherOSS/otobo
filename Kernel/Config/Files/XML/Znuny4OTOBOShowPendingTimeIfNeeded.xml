@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<otobo_config version="2.0" init="Application">
+    <Setting Name="Loader::Agent::CommonJS###999-Znuny4OTOBOShowPendingTimeIfNeeded" Required="0" Valid="1">
+        <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
+        <Navigation>Frontend::Base::Loader</Navigation>
+        <Value>
+            <Array>
+                <Item>Core.Agent.Znuny4OTOBOShowPendingTimeIfNeeded.js</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Output::FilterElementPost###Znuny4OTOBOShowPendingTimeIfNeeded" Required="0" Valid="1">
+        <Description Translatable="1">This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.</Description>
+        <Navigation>Frontend::Base::OutputFilter</Navigation>
+            <Value>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::FilterElementPost::Znuny4OTOBOShowPendingTimeIfNeeded</Item>
+                    <Item Key="Templates">
+                        <Hash>
+                            <Item Key="AgentTicketBulk">1</Item>
+                            <Item Key="AgentTicketActionCommon">1</Item>
+                            <Item Key="AgentTicketClose">1</Item>
+                            <Item Key="AgentTicketNote">1</Item>
+                            <Item Key="AgentTicketOwner">1</Item>
+                            <Item Key="AgentTicketPending">1</Item>
+                            <Item Key="AgentTicketPriority">1</Item>
+                            <Item Key="AgentTicketResponsible">1</Item>
+                            <Item Key="AgentTicketCompose">1</Item>
+                            <Item Key="AgentTicketEmail">1</Item>
+                            <Item Key="AgentTicketEmailOutbound">1</Item>
+                            <Item Key="AgentTicketForward">1</Item>
+                            <Item Key="AgentTicketMove">1</Item>
+                            <Item Key="AgentTicketPhone">1</Item>
+                            <Item Key="AgentTicketPhoneCommon">1</Item>
+                            <Item Key="AgentTicketFreeText">1</Item>
+                        </Hash>
+                    </Item>
+                </Hash>
+            </Value>
+    </Setting>
+</otobo_config>
