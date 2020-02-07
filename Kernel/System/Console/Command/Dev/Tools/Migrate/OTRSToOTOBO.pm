@@ -546,8 +546,14 @@ sub _ChangePathFileName {
         return 1;
     }
 
-    move($File, $NewFile) or die "The move operation failed: $!";;
+    # Check if new dir exists
+    my $NewFileDirname  = dirname($NewFile);
+    if (! -d $NewFileDirname ) {
+        mkdir $NewFileDirname or print "Can\'t create directory $NewFileDirname: $!\n";
+    }
     $Self->Print("<green>Move file $File to $NewFile, cause cleanpath option is given.</green>\n");
+    move($File, $NewFile) or die "The move operation failed: $!";;
+
     return 1;
 }
 
