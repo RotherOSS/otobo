@@ -19,41 +19,41 @@ var Core = Core || {};
 Core.Customer = Core.Customer || {};
 
 /**
- * @namespace Core.Customer.TicketSearch
+ * @namespace Core.Customer.Search
  * @memberof Core.Customer
  * @author Rother OSS GmbH
  * @description
  *      This namespace contains special functions for the ticket search in the customer interface.
  */
-Core.Customer.TicketSearch = (function (TargetNS) {
+Core.Customer.Search = (function (TargetNS) {
 
     /**
      * @name Init
-     * @memberof Core.Customer.TicketSearch
+     * @memberof Core.Customer.Search
      * @function
      * @description
      *      This function initializes the module functionality.
      */
     TargetNS.Init = function(){
-        $('#oooTicketSearchBox').on('click', function () {
-            $('#oooTicketSearch').css('display', 'inline-block');
-            $('#oooTicketSearch').focus();
-            $('#oooTicketSearch').addClass('oooFull');
+        $('#oooSearchBox').on('click', function () {
+            $('#oooSearch').css('display', 'inline-block');
+            $('#oooSearch').focus();
+            $('#oooSearch').addClass('oooFull');
 
             if ( Core.Config.Get('ESActive') == 1 ){
-                Core.UI.Elasticsearch.InitSearchField( $('#oooTicketSearch'), "CustomerElasticsearchQuickResult");
+                Core.UI.Elasticsearch.InitSearchField( $('#oooSearch'), "CustomerElasticsearchQuickResult");
             }
 
-            $('#oooTicketSearch').on('blur', function () {
+            $('#oooSearch').on('blur', function () {
                 setTimeout( function() {
-                    $('#oooTicketSearch').hide();
-                    $('#oooTicketSearch').removeClass('oooFull');
+                    $('#oooSearch').hide();
+                    $('#oooSearch').removeClass('oooFull');
                 },60);
             });
         });
 
         /*Core.App.Subscribe('Event.UI.Dialog.CloseDialog.Close', function() {
-            $('#oooTicketSearch').blur();
+            $('#oooSearch').blur();
         });*/
 
     };
@@ -61,4 +61,4 @@ Core.Customer.TicketSearch = (function (TargetNS) {
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
-}(Core.Customer.TicketSearch || {}));
+}(Core.Customer.Search || {}));

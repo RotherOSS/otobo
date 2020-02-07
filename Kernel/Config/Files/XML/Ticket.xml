@@ -10947,7 +10947,7 @@
                 <Item Key="JavaScript">
                     <Array>
                         <Item>Core.Customer.TicketList.js</Item>
-                        <Item>Core.Customer.TicketSearch.js</Item>
+                        <Item>Core.Customer.Search.js</Item>
                     </Array>
                 </Item>
                 <Item Key="CSS">
@@ -11231,19 +11231,6 @@
                     <Item Key="Title" Translatable="1">Search</Item>
                 </Hash>
             </Item>
-        </Value>
-    </Setting>
-    <Setting Name="Loader::Module::CustomerTicketSearch###002-Ticket" Required="0" Valid="1">
-        <Description Translatable="1">Loader module registration for the customer interface.</Description>
-        <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="JavaScript">
-                    <Array>
-                        <Item>Core.Customer.TicketSearch.js</Item>
-                    </Array>
-                </Item>
-            </Hash>
         </Value>
     </Setting>
     <Setting Name="CustomerFrontend::Navigation###CustomerTicketSearch###002-Ticket" Required="0" Valid="1">

@@ -1,6 +1,5 @@
 /* OTOBO is a web-based ticketing system for service organisations.
 
-Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
 Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 
 This program is free software: you can redistribute it and/or modify it under
@@ -13,3 +12,50 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+/* SearchBox */
+#oooSearchBox {
+    padding-right: 72px;
+    cursor: pointer;
+}
+
+#oooSearch,
+#oooSearchLabel {
+    display: inline-block;
+}
+
+#oooSearch {
+    position: relative;
+    left: -32px;
+    padding-left: 32px;
+    width: 114px;
+    height: 40px;
+
+    border: solid 1px #7f809d;
+    border-radius: 10px;
+    background-color: inherit;
+
+    font-size: 16px;
+
+    display: none;
+
+        transition: width 0.2s ease;
+    -ms-transition: width 0.2s ease;
+   -moz-transition: width 0.2s ease;
+-webkit-transition: width 0.2s ease;
+}
+
+#oooSearch ~ i,
+#oooSearch ~ span {
+    pointer-events: none;
+}
+
+#oooSearch:focus {
+    display: inline-block;
+    width: 280px;
+    border: solid 1px #001bff;
+}
+
+#oooSearch.oooFull ~ #oooSearchLabel,
+#oooSearch:focus ~ #oooSearchLabel {
+    display: none;
+}

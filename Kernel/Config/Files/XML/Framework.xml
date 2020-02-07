@@ -6967,7 +6967,7 @@ via the Preferences button after logging in.
                 <Item Key="JavaScript">
                     <Array>
                         <Item>Core.Customer.TicketList.js</Item>
-                        <Item>Core.Customer.TicketSearch.js</Item>
+                        <Item>Core.Customer.Search.js</Item>
                     </Array>
                 </Item>
             </Hash>

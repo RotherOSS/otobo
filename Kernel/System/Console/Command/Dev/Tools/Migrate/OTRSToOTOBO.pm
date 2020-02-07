@@ -134,18 +134,18 @@ sub Run {
     if ( -f $Source && -d $TargetDirectory) {
 
         # OPM package is given, so we need to extract it to a tmp dir
+        my $SOPMCreate = $Self->_CopyOPMtoSOPMAndClean(
+            Source     => $Source,
+            TmpDirectory  => $TmpDirectory,
+        );
+        $Self->Print("<green>Copy .opm file to Package.sopm: Done.</green>\n");
+
         # Add $TempDir path to $Source, so we can go on
         $Source = $Self->_ExtractOPMPackage(
             Source     => $Source,
             TmpDirectory  => $TmpDirectory,
         );
         $Self->Print("<green>Extract OPM package: Done.</green>\n");
-
-        my $SOPMCreate = $Self->_CopyOPMtoSOPMAndClean(
-            Source     => $Source,
-            TmpDirectory  => $TmpDirectory,
-        );
-        $Self->Print("<green>Copy .opm file to Package.som: Done.</green>\n");
     }
 
     if ( -d $Source && -d $TargetDirectory) {
@@ -270,24 +270,23 @@ sub _CopyOPMtoSOPMAndClean {
     my $ContentRefOPM = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
         Location => $SourcePath,
 #        Mode     => 'utf8',        # optional - binmode|utf8
-        Type            => 'Local',   # optional - Local|Attachment|MD5
-        Result          => 'SCALAR',  # optional - SCALAR|ARRAY
-        Result   => 'SCALAR',      # optional - SCALAR|ARRAY
+        #Type            => 'Local',   # optional - Local|Attachment|MD5
+        #Result          => 'SCALAR',  # optional - SCALAR|ARRAY
     );
 
-    if ( !$ContentRefOPM || ref $ContentRefOPM ne 'SCALAR' ) {
+    if ( !$ContentRefOPM || ref $ContentRefOPM ne 'SCALAR' || !defined $$ContentRefOPM ) {
         $Self->PrintError("File $SourcePath is empty / could not be read.\n");
         return $Self->ExitCodeError();
     }
 
     my $FileString = ${$ContentRefOPM};
     my $BaseName = basename($SourcePath);
+    $BaseName =~ s/\.opm$/.sopm/;
 
     # Write opm content to new sopm file
-    # TODO: Don't know why I can't use $BaseName? Please help!
     my $SOPMFile = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Directory   => $TmpDirectory,
-        Filename    => "Package.sopm",
+        Filename    => $BaseName,
         Content    => $ContentRefOPM,
 #        Mode       => 'utf8',                                                     # binmode|utf8
         Type       => 'Local',                                                    # optional - Local|Attachment|MD5
@@ -408,14 +407,21 @@ sub _ChangeLicenseHeader {
     }
 
     my $Good = 1;
+    my $ExtraLicenses;
     BLOCK:
     for my $Block ( @{ $Parse->{Old} } ) {
-        if ( $Block->{w} ) {
+        if ( $Block->{while} ) {
             $_ = <$FileHandle>;
-            until ( /$Block->{u}/ ) {
-                if ( !$_ || !/$Block->{w}/ ) {
+            until ( /$Block->{until}/ ) {
+                if ( !$_ || !/$Block->{while}/ ) {
                     $Good = 0;
                     last BLOCK;
+                }
+                if ( $Block->{keep} && /$Block->{keep}/ ) {
+                    $ExtraLicenses .= $_;
+                }
+                elsif ( $Block->{nkeep} && !/$Block->{nkeep}/ ) {
+                    $ExtraLicenses .= $_;
                 }
 
                 $_ = <$FileHandle>;
@@ -423,7 +429,7 @@ sub _ChangeLicenseHeader {
         }
         else {
             $_ = <$FileHandle>;
-            if ( !$_ || !/$Block->{u}/ ) {
+            if ( !$_ || !/$Block->{until}/ ) {
                 $Good = 0;
                 last BLOCK;
             }
@@ -434,9 +440,16 @@ sub _ChangeLicenseHeader {
         close $FileHandle;
         return;
     }
-if ( $Parse->{New} ) {
-    $NewContent .= $Parse->{New};
-}
+
+    if ( $Parse->{New} ) {
+        $NewContent = $Parse->{New}[0];
+        if ( $ExtraLicenses ) {
+            $NewContent .= $ExtraLicenses;
+        }
+        if ( $Parse->{New}[1] ) {
+            $NewContent .= $Parse->{New}[1];
+        }
+    }
     while (<$FileHandle>) {
         $NewContent .= $_;
     }
@@ -649,29 +662,28 @@ sub _ChangeLicenseHeaderRules {
 File => qr/\.pl$/,
 Old => [
     {
-        u => qr/^#!\/usr\/bin\/perl\s*$/,
+        until => qr/^#!\/usr\/bin\/perl\s*$/,
     },
     {
-        u => qr/^# --/,
+        until => qr/^# --/,
     },
     {
-        u => qr/^#.+(otrs|otobo)/i,
+        while => qr/^#.+/,
+        nkeep  => qr/^#.+otobo/i,
+        until => qr/^# --/,
     },
     {
-        w => qr/^#.+(otrs|otobo)/,
-        u => qr/^# --/,
-    },
-    {
-        w => qr/^#( |$)/,
-        u => qr/^# --/,
+        while => qr/^#( |$)/,
+        until => qr/^# --/,
     },
 ],
-New => "#!/usr/bin/perl
+New => [
+    "#!/usr/bin/perl
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+",
+"# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -683,30 +695,30 @@ New => "#!/usr/bin/perl
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 ",
+    ],
         },
         {
 File => qr/\.(pm|tt|t)$/,
 Old => [
     {
-        u => qr/^# --/,
+        until => qr/^# --/,
     },
     {
-        u => qr/^#.+(otrs|otobo)/i,
+        while => qr/^#.+/,
+        nkeep => qr/^#.+otobo/i,
+        until => qr/^# --/,
     },
     {
-        w => qr/^#.+(otrs|otobo)/i,
-        u => qr/^# --/,
-    },
-    {
-        w => qr/^# /,
-        u => qr/^# --/,
+        while => qr/^# /,
+        until => qr/^# --/,
     },
 ],
-New => "# --
+New => [
+    "# --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+",
+"# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -718,58 +730,56 @@ New => "# --
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 ",
+    ],
         },
         {
 File => qr/\.(js|js\.save)$/,
 Old => [
     {
-        u => qr/^\/\/ --/,
+        until => qr/^\/\/ --/,
     },
     {
-        u => qr/^\/\/.+(otrs|otobo)/i,
+        while => qr/^\/\/ /,
+        nkeep => qr/^\/\/.+otobo/i,
+        until => qr/^\/\/ --/,
     },
     {
-        w => qr/^\/\/.+(otrs|otobo)/i,
-        u => qr/^\/\/ --/,
-    },
-    {
-        w => qr/^\/\/ /,
-        u => qr/^\/\/ --/,
+        while => qr/^\/\/ /,
+        until => qr/^\/\/ --/,
     },
 ],
-New => "/* OTOBO is a web-based ticketing system for service organisations.
-
-Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
-Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
-
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later version.
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <https://www.gnu.org/licenses/>.
-*/
+New => [
+    "// --
+// OTOBO is a web-based ticketing system for service organisations.
+// --
 ",
+"// Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+// --
+// This program is free software: you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later version.
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+",
+    ],
         },
         {
 File => qr/\.(css|css\.save)$/,
 Old => [
     {
-        u => qr/^\/\*/,
+        until => qr/^\/\*/,
     },
-#    {
-#        u => qr/^.*(otrs|otobo)/i,
-#    },
     {
-        w => qr/^.+(otrs|otobo)/i,
-        u => qr/^\*\//,
+        while => qr/.?/,
+        nkeep => qr/^.*otobo/i,
+        until => qr/^\s*$/,
     },
-#    {
-#        w => qr/^\*\//,
-#        u => qr/^\*\//,
-#    },
+    {
+        until => qr/\*\//,
+    },
 ],
 New => "/* OTOBO is a web-based ticketing system for service organisations.
 

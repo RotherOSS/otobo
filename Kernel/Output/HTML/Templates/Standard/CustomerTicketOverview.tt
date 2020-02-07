@@ -17,15 +17,15 @@
 <div id='oooContent'>
     <div id='oooHeader'>
         <h1>[% Translate("Your Tickets") %]</h1>
-        <div id="oooTicketSearchBox">
+        <div id="oooSearchBox">
             <form action="[% Env("CGIHandle") %]" method="post" name="compose">
                 <input type="hidden" name="Action" value="CustomerTicketOverview"/>
                 <input type="hidden" name="Subaction" value="Search"/>
 
                 <h3 class='ooog'>
                     <i class="ooofo ooofo-search"></i>
-                    <input type="text" name="Fulltext" id="oooTicketSearch" title="[% Translate('Ticket Search') | html %]"/>
-                    <span id='oooTicketSearchLabel'>[% Translate('Ticket Search') | html %]</span>
+                    <input type="text" name="Fulltext" id="oooSearch" title="[% Translate('Ticket Search') | html %]"/>
+                    <span id='oooSearchLabel'>[% Translate('Ticket Search') | html %]</span>
                 </h3>
             </form>
         </div>

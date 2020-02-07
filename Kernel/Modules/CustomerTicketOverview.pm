@@ -78,7 +78,6 @@ sub Run {
     my $OrderByCurrent = $ParamObject->GetParam( Param => 'OrderBy' ) || 'Down';
     my $Fulltext       = $ParamObject->GetParam( Param => 'Fulltext' );
 
-
     # filter definition
     my %Filters = (
         MyTickets => {
