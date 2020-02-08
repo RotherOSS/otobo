@@ -604,12 +604,12 @@ sub _ChangeFileInfo {
         (
             {
                 FileTyp => 'All',
-                Search  => 'OTRS AG',
+                Search  => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d ))OTRS AG',
                 Change  => 'Rother OSS GmbH'
             },
             {
                 FileTyp => 'All',
-                Search  => 'OTOBOCommunity',
+                Search  => 'OTRSBusiness',
                 Change  => 'OTOBOCommunity'
             },
             {
@@ -644,17 +644,17 @@ sub _ChangeFileInfo {
             },
             {
                 FileTyp => 'All',
-                Search  => 'https:\/\/otrs.com',
+                Search  => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d OTRS AG, ))https:\/\/otrs\.com',
                 Change  => 'https://otobo.de'
             },
             {
                 FileTyp => 'All',
-                Search  => 'OTRS',
+                Search  => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d ))OTRS',
                 Change  => 'OTOBO',
             },
             {
                 FileTyp => 'All',
-                Search  => 'otrs',
+                Search  => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d OTRS AG, https:\/\/))otrs',
                 Change  => 'otobo'
             },
             {
