@@ -19,7 +19,7 @@ $Selenium->RunTest(
     sub {
 
         my $Helper             = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $OTOBOBusinessObject = $Kernel::OM->Get('Kernel::System::OTOBOBusiness');
+        my $OTOBOCommunityObject = $Kernel::OM->Get('Kernel::System::OTOBOCommunity');
         my $SysConfigObject    = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # Create test user and login.
@@ -120,7 +120,7 @@ $Selenium->RunTest(
             'Make sure setting is reset.',
         );
 
-        if ( $OTOBOBusinessObject->OTOBOBusinessIsInstalled() ) {
+        if ( $OTOBOCommunityObject->OTOBOCommunityIsInstalled() ) {
 
             my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
                 UserLogin => $TestUserLogin,

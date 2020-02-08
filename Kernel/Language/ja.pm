@@ -1305,7 +1305,7 @@ sub Data {
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '<OTOBO_TICKET_DynamicField_...> を指定することで、現在のチケットの値を参照することができます。',
 
-        # Template: AdminOTOBOBusinessInstalled
+        # Template: AdminOTOBOCommunityInstalled
         'Manage %s' => '%s を管理',
         'Downgrade to OTOBO' => '',
         'Read documentation' => 'ドキュメントを参照',
@@ -1332,7 +1332,7 @@ sub Data {
         'Congratulations, your %s is correctly installed and up to date!' =>
             'おめでとうございます。 %s は最新版として正常にインストールされました。',
 
-        # Template: AdminOTOBOBusinessNotInstalled
+        # Template: AdminOTOBOCommunityNotInstalled
         'Go to the OTOBO customer portal' => 'OTOBOのカスタマーポータルへアクセス',
         '%s will be available soon. Please check again in a few days.' =>
             '%sはもうすぐ有効になります。数日後に確認してください。',
@@ -1361,7 +1361,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
             'もし%sの全機能を使用したい場合には、契約をアップグレードする必要があります！現在の契約: %s',
 
-        # Template: AdminOTOBOBusinessUninstall
+        # Template: AdminOTOBOCommunityUninstall
         'Cancel downgrade and go back' => 'ダウングレードを中止して戻る',
         'Go to OTOBO Package Manager' => 'OTOBOパッケージマネージャーへ',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
@@ -2434,7 +2434,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             '現在、リンクはありません。 このアイテムを他のオブジェクトにリンクするには、上部にある[新しいリンクを作成]をクリックしてください。',
 
-        # Template: AgentOTOBOBusinessBlockScreen
+        # Template: AgentOTOBOCommunityBlockScreen
         'Unauthorized usage of %s detected' => '',
         'If you decide to downgrade to OTOBO, you will lose all database tables and data related to %s.' =>
             '',
@@ -3276,7 +3276,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Template: Navigation
         'Navigation' => 'ナビゲーション',
 
-        # Template: OTOBOBusinessTeaser
+        # Template: OTOBOCommunityTeaser
         'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
             '',
 
@@ -3721,7 +3721,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Invisible to customer' => '',
         'Visible to customer' => '',
 
-        # Perl Module: Kernel/Modules/AdminOTOBOBusiness.pm
+        # Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
         'Your system was successfully upgraded to %s.' => 'システムは正常に%sにアップグレードされました。',
         'There was a problem during the upgrade to %s.' => '%sにアップグレード中に問題が発生しました。',
         '%s was correctly reinstalled.' => '%s は正常に再インストールされました',
@@ -4621,7 +4621,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
         'Enable cloud services to unleash all OTOBO features!' => 'クラウドサービスを利用して、OTOBOのすべての機能を活用しましょう！',
 
-        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOBusiness.pm
+        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
         '%s Upgrade to %s now! %s' => '%s は %sに更新されました！ %s',
         'Please verify your license data!' => '',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>

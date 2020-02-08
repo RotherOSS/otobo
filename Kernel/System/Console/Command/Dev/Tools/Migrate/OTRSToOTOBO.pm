@@ -563,6 +563,11 @@ sub _ChangeFilePath {
         (
             {
                 FileTyp => 'All',
+                Search  => 'OTOBOCommunity',
+                Change  => 'OTOBOCommunity',
+            },
+            {
+                FileTyp => 'All',
                 Search  => 'OTRS',
                 Change  => 'OTOBO',
             },
@@ -601,6 +606,11 @@ sub _ChangeFileInfo {
                 FileTyp => 'All',
                 Search  => 'OTRS AG',
                 Change  => 'Rother OSS GmbH'
+            },
+            {
+                FileTyp => 'All',
+                Search  => 'OTOBOCommunity',
+                Change  => 'OTOBOCommunity'
             },
             {
                 FileTyp => 'All',

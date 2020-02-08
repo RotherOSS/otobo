@@ -271,19 +271,19 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        my $OTOBOBusinessIsInstalled = $Kernel::OM->Get('Kernel::System::OTOBOBusiness')->OTOBOBusinessIsInstalled();
+        my $OTOBOCommunityIsInstalled = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCommunityIsInstalled();
         my $OBTeaser                = $LanguageObject->Translate('All attachments (OTOBO Business Solution™)');
         my $OBTeaserFound           = index( $Selenium->get_page_source(), $OBTeaser ) > -1;
-        if ( !$OTOBOBusinessIsInstalled ) {
+        if ( !$OTOBOCommunityIsInstalled ) {
             $Self->True(
                 $OBTeaserFound,
-                "OTOBOBusiness teaser found on page",
+                "OTOBOCommunity teaser found on page",
             );
         }
         else {
             $Self->False(
                 $OBTeaserFound,
-                "OTOBOBusiness teaser not found on page",
+                "OTOBOCommunity teaser not found on page",
             );
         }
 

@@ -31,7 +31,7 @@ our @ObjectDependencies = (
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # currently an OTOBOBusiness 'feature'
+    # currently an OTOBOCommunity 'feature'
     return '';
 
     # Check if the agent session limit for the prior warning is reached

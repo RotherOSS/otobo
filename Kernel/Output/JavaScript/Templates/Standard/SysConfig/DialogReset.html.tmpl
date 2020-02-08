@@ -9,7 +9,7 @@
 <div>
     <div class="InnerContent">
         <h2>{{ Name }}</h2>
-            {% if ModificationAllowed == "1" and OTOBOBusinessIsInstalled == "1" %}
+            {% if ModificationAllowed == "1" and OTOBOCommunityIsInstalled == "1" %}
             <fieldset class="TableLike FixedLabelSmall">
                 <label for="ResetOptions"><span class="Mandatory Small">*</span> {{ "Reset options" | Translate }}:</label>
                 <div class="Field">
@@ -47,7 +47,7 @@
         {% endif %}
     </div>
     <div class="ContentFooter Center">
-        {% if ModificationAllowed == "1" and OTOBOBusinessIsInstalled == "1"  %}
+        {% if ModificationAllowed == "1" and OTOBOCommunityIsInstalled == "1"  %}
         <button id="ResetConfirm" class="Primary CallForAction">
             <span>{{ "Reset" | Translate }}</span>
         </button>

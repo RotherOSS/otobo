@@ -1383,7 +1383,7 @@ sub Data {
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             'Sie können OTOBO-Tags wie <OTOBO_TICKET_DynamicField_...> nutzen, um Werte des aktuellen Tickets einzufügen.',
 
-        # Template: AdminOTOBOBusinessInstalled
+        # Template: AdminOTOBOCommunityInstalled
         'Manage %s' => '%s verwalten',
         'Downgrade to OTOBO' => 'Downgrade auf OTOBO',
         'Read documentation' => 'Dokumentation lesen',
@@ -1410,7 +1410,7 @@ sub Data {
         'Congratulations, your %s is correctly installed and up to date!' =>
             'Gratulation, Ihre %s ist korrekt installiert und auf einem aktuellen Stand!',
 
-        # Template: AdminOTOBOBusinessNotInstalled
+        # Template: AdminOTOBOCommunityNotInstalled
         'Go to the OTOBO customer portal' => 'Gehen Sie zum OTOBO-Kundenportal',
         '%s will be available soon. Please check again in a few days.' =>
             'Die %s wird bald verfügbar sein. Bitte prüfen Sie in einigen Tagen erneut.',
@@ -1438,7 +1438,7 @@ sub Data {
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
             'Mit einem Upgrade Ihres Vertrages kommen Sie in den Genuss der kompletten %s und profitieren von allen Vorteilen! Kontaktieren Sie %s.',
 
-        # Template: AdminOTOBOBusinessUninstall
+        # Template: AdminOTOBOCommunityUninstall
         'Cancel downgrade and go back' => 'Downgrade abbrechen und zurück',
         'Go to OTOBO Package Manager' => 'Zum OTOBO Paket-Manager wechseln',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
@@ -2511,7 +2511,7 @@ sub Data {
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             'Derzeit existieren keine Verknüpfungen. Klicken Sie auf "Neue Verknüpfungen erstellen", um das aktuelle Objekt mit anderen Objekten zu verknüpfen.',
 
-        # Template: AgentOTOBOBusinessBlockScreen
+        # Template: AgentOTOBOCommunityBlockScreen
         'Unauthorized usage of %s detected' => 'Unerlaubte Nutzung der %s erkannt',
         'If you decide to downgrade to OTOBO, you will lose all database tables and data related to %s.' =>
             'Wenn Sie sich für ein Downgrade auf OTOBO entscheiden, verlieren Sie alle Datenbank-Tabellen und Daten, die sich auf %s beziehen.',
@@ -3378,7 +3378,7 @@ sub Data {
         # Template: Navigation
         'Navigation' => 'Navigation',
 
-        # Template: OTOBOBusinessTeaser
+        # Template: OTOBOCommunityTeaser
         'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
             'Die %s enthält Unterstützung für Versionierung und Rollbacks, sowie die Freigabe einzelner Einstellungen zur Anpassung durch Agenten in deren persönlichen Einstellungen.',
 
@@ -3822,7 +3822,7 @@ sub Data {
         'Invisible to customer' => 'Unsichtbar für Kunde',
         'Visible to customer' => 'Sichtbar für Kunde',
 
-        # Perl Module: Kernel/Modules/AdminOTOBOBusiness.pm
+        # Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
         'Your system was successfully upgraded to %s.' => 'Ihr System wurde erfolgreich auf die %s erweitert.',
         'There was a problem during the upgrade to %s.' => 'Es gab ein Problem während des Upgrade-Prozesses auf die %s.',
         '%s was correctly reinstalled.' => 'Ihre %s wurde korrekt re-installiert.',
@@ -4722,7 +4722,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
         'Enable cloud services to unleash all OTOBO features!' => 'Aktivieren Sie die Cloud-Services, um alle OTOBO-Funktionen nutzen zu können!',
 
-        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOBusiness.pm
+        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
         '%s Upgrade to %s now! %s' => '%s Jetzt auf %s upgraden! %s',
         'Please verify your license data!' => 'Bitte überprüfen Sie Ihre Lizenzdaten!',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>

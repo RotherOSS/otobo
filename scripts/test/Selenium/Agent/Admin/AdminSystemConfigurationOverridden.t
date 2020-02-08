@@ -147,7 +147,7 @@ $Selenium->RunTest(
             'Make sure that Frontend::CSSPath is not overridden.'
         );
 
-        if ( $Kernel::OM->Get('Kernel::System::OTOBOBusiness')->OTOBOBusinessIsInstalled() ) {
+        if ( $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCommunityIsInstalled() ) {
 
             # Navigate to AgentPreferences screen.
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=Advanced");

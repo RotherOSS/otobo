@@ -89,13 +89,13 @@ $Selenium->RunTest(
             "Breadcrumb is found on Overview screen.",
         );
 
-        my $OTOBOBusinessIsInstalled = $Kernel::OM->Get('Kernel::System::OTOBOBusiness')->OTOBOBusinessIsInstalled();
+        my $OTOBOCommunityIsInstalled = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCommunityIsInstalled();
         my $OBTeaser                = $LanguageObject->Translate('More Business Fields');
         my $OBTeaserFound           = index( $Selenium->get_page_source(), $OBTeaser ) > -1;
-        if ( !$OTOBOBusinessIsInstalled ) {
+        if ( !$OTOBOCommunityIsInstalled ) {
             $Self->True(
                 $OBTeaserFound,
-                "OTOBOBusiness teaser found on page",
+                "OTOBOCommunity teaser found on page",
             );
             for my $TeaserOption (qw(Database Webservice ContactWithData)) {
                 $Selenium->find_element( "select#TicketDynamicField option[value=$TeaserOption]", 'css' );
@@ -105,7 +105,7 @@ $Selenium->RunTest(
         else {
             $Self->False(
                 $OBTeaserFound,
-                "OTOBOBusiness teaser not found on page",
+                "OTOBOCommunity teaser not found on page",
             );
         }
 

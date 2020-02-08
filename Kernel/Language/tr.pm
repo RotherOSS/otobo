@@ -1300,7 +1300,7 @@ sub Data {
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '',
 
-        # Template: AdminOTOBOBusinessInstalled
+        # Template: AdminOTOBOCommunityInstalled
         'Manage %s' => '',
         'Downgrade to OTOBO' => '',
         'Read documentation' => '',
@@ -1327,7 +1327,7 @@ sub Data {
         'Congratulations, your %s is correctly installed and up to date!' =>
             '',
 
-        # Template: AdminOTOBOBusinessNotInstalled
+        # Template: AdminOTOBOCommunityNotInstalled
         'Go to the OTOBO customer portal' => '',
         '%s will be available soon. Please check again in a few days.' =>
             '',
@@ -1355,7 +1355,7 @@ sub Data {
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
             '',
 
-        # Template: AdminOTOBOBusinessUninstall
+        # Template: AdminOTOBOCommunityUninstall
         'Cancel downgrade and go back' => '',
         'Go to OTOBO Package Manager' => '',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
@@ -2427,7 +2427,7 @@ sub Data {
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             '',
 
-        # Template: AgentOTOBOBusinessBlockScreen
+        # Template: AgentOTOBOCommunityBlockScreen
         'Unauthorized usage of %s detected' => '',
         'If you decide to downgrade to OTOBO, you will lose all database tables and data related to %s.' =>
             '',
@@ -3269,7 +3269,7 @@ sub Data {
         # Template: Navigation
         'Navigation' => '',
 
-        # Template: OTOBOBusinessTeaser
+        # Template: OTOBOCommunityTeaser
         'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
             '',
 
@@ -3713,7 +3713,7 @@ sub Data {
         'Invisible to customer' => '',
         'Visible to customer' => '',
 
-        # Perl Module: Kernel/Modules/AdminOTOBOBusiness.pm
+        # Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
         'Your system was successfully upgraded to %s.' => '',
         'There was a problem during the upgrade to %s.' => '',
         '%s was correctly reinstalled.' => '',
@@ -4613,7 +4613,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
         'Enable cloud services to unleash all OTOBO features!' => '',
 
-        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOBusiness.pm
+        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
         '%s Upgrade to %s now! %s' => '',
         'Please verify your license data!' => '',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>

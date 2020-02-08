@@ -4300,111 +4300,111 @@ msgid ""
 msgstr ""
 "<OTOBO_TICKET_DynamicField _...>와 같은 OTRS 태그를 사용하여 현재 티켓의 값을 삽입 할 수 있습니다."
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Manage %s"
 msgstr "%s 관리"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Downgrade to ((OTRS)) Community Edition"
 msgstr ""
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Read documentation"
 msgstr "설명서 읽기"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "%s makes contact regularly with cloud.otrs.com to check on available updates"
 " and the validity of the underlying contract."
 msgstr "%s는 cloud.otrs.com과 정기적으로 접속하여 사용 가능한 업데이트 및 기본 계약의 유효성을 확인합니다."
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Unauthorized Usage Detected"
 msgstr "무단 사용 발견"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "This system uses the %s without a proper license! Please make contact with "
 "%s to renew or activate your contract!"
 msgstr "이 시스템은 적절한 라이센스없이 %s를 사용합니다! 계약을 갱신하거나 활성화하려면 %s와 연락하십시오!"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s not Correctly Installed"
 msgstr "%s가 올바르게 설치되지 않았습니다."
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "Your %s is not correctly installed. Please reinstall it with the button "
 "below."
 msgstr "%s이 가 올바르게 설치되지 않았습니다. 아래 버튼으로 다시 설치하십시오. "
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Reinstall %s"
 msgstr "%s 재설치 "
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "Your %s is not correctly installed, and there is also an update available."
 msgstr "%s가 올바르게 설치되지 않았으며 사용 가능한 업데이트도 있습니다. "
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "You can either reinstall your current version or perform an update with the "
 "buttons below (update recommended)."
 msgstr "현재 버전을 다시 설치하거나 아래 버튼을 사용하여 업데이트를 수행 할 수 있습니다 (권장 업데이트)."
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Update %s"
 msgstr "%s 업데이트 "
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s Not Yet Available"
 msgstr "%s 아직 사용할 수없음"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s will be available soon."
 msgstr "%s는 곧 제공될 예정입니다."
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s Update Available"
 msgstr "%s 업데이트 사용 가능"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
 msgstr "%s에 대한 업데이트를 사용할 수 있습니다! 가능한 빨리 업데이트하십시오!"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s Correctly Deployed"
 msgstr "%s가 올바르게 배포되었습니다."
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Congratulations, your %s is correctly installed and up to date!"
 msgstr "축하합니다. %s가 올바르게 설치되고 최신 상태입니다!"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Go to the OTRS customer portal"
 msgstr "OTRS 고객 포털로 이동하십시오."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "%s will be available soon. Please check again in a few days."
 msgstr "%s는 곧 제공될 예정입니다. 며칠 후에 다시 확인하십시오."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Please have a look at %s for more information."
 msgstr "자세한 내용은 %s를 보십시오."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid ""
 "Your ((OTRS)) Community Edition is the base for all future actions. Please "
 "register first before you continue with the upgrade process of %s!"
 msgstr ""
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid ""
 "Before you can benefit from %s, please contact %s to get your %s contract."
 msgstr "%s의 혜택을 누리려면 %s로 연락해  %s계약을 획득하세요."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid ""
 "Connection to cloud.otrs.com via HTTPS couldn't be established. Please make "
 "sure that your OTRS can connect to cloud.otrs.com via port 443."
@@ -4412,114 +4412,114 @@ msgstr ""
 "HTTPS를 통해 cloud.otrs.com에 연결할 수 없습니다. OTRS가 포트 443을 통해 cloud.otrs.com에 연결할 수"
 " 있는지 확인하십시오."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Package installation requires patch level update of OTRS."
 msgstr "패키지를 설치하려면 OTRS의 패치 레벨 업데이트가 필요합니다."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Please visit our customer portal and file a request."
 msgstr "고객 포털을 방문하여 요청을 제출하십시오."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Everything else will be done as part of your contract."
 msgstr "그 밖의 모든 것은 계약의 일부로 수행됩니다."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Your installed OTRS version is %s."
 msgstr "설치된 OTRS 버전은 %s입니다."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "To install this package, you need to update to OTRS %s or higher."
 msgstr "이 패키지를 설치하려면 %s 이상의 OTRS로 업데이트해야합니다."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "To install this package, the Maximum OTRS Version is %s."
 msgstr "이 패키지를 설치하려면 최대 OTRS 버전은 %s입니다."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "To install this package, the required Framework version is %s."
 msgstr "이 패키지를 설치하려면 필요한 Framework 버전이 %s입니다."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Why should I keep OTRS up to date?"
 msgstr "왜 OTRS를 최신 상태로 유지해야합니까?"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "You will receive updates about relevant security issues."
 msgstr "관련 보안 문제에 대한 업데이트가 제공됩니다."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "You will receive updates for all other relevant OTRS issues"
 msgstr "다른 모든 관련 OTRS 문제에 대한 업데이트를 받게됩니다."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
 msgstr "기존 계약을 사용하면 %s의 작은 부분 만 사용할 수 있습니다."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid ""
 "If you would like to take full advantage of the %s get your contract "
 "upgraded now! Contact %s."
 msgstr "%s를 최대한 활용하고 싶다면 계약을 지금 업그레이드하십시오! 연락처 %s"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Cancel downgrade and go back"
 msgstr "다운그레이드 취소하고 돌아가기"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Go to OTRS Package Manager"
 msgstr "OTRS 패키지 관리자로 이동하십시오."
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid ""
 "Sorry, but currently you can't downgrade due to the following packages which"
 " depend on %s:"
 msgstr "죄송하지만 현재 %s에 의존하는 다음 패키지 때문에 다운 그레이드 할 수 없습니다 :"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Vendor"
 msgstr "공급 업체"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid ""
 "Please uninstall the packages first using the package manager and try again."
 msgstr "먼저 패키지 관리자를 사용하여 패키지를 제거한 후 다시 시도하십시오."
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid ""
 "You are about to downgrade to ((OTRS)) Community Edition and will lose the "
 "following features and all data related to these:"
 msgstr ""
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Chat"
 msgstr "~에게 말을 걸다"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Report Generator"
 msgstr "보고서 생성기"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Timeline view in ticket zoom"
 msgstr "티켓의 타임라인보기 확대 / 축소"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "DynamicField ContactWithData"
 msgstr "DynamicField ContactWithData"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "DynamicField Database"
 msgstr "DynamicField 데이터베이스"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "SLA Selection Dialog"
 msgstr "SLA 선택 대화 상자"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Ticket Attachment View"
 msgstr "티켓 첨부보기"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "The %s skin"
 msgstr "%s 스킨"
 
@@ -7853,11 +7853,11 @@ msgid ""
 "link this item to other objects."
 msgstr "현재 링크가 없습니다. 이 항목을 다른 개체에 링크하려면 상단의 '새 링크 만들기'를 클릭하십시오."
 
-#. Template: AgentOTRSBusinessBlockScreen
+#. Template: AgentOTOBOCommunityBlockScreen
 msgid "Unauthorized usage of %s detected"
 msgstr "%s의 무단 사용이 감지되었습니다."
 
-#. Template: AgentOTRSBusinessBlockScreen
+#. Template: AgentOTOBOCommunityBlockScreen
 msgid ""
 "If you decide to downgrade to ((OTRS)) Community Edition, you will lose all "
 "database tables and data related to %s."
@@ -10286,7 +10286,7 @@ msgstr "현재 설정 편집 취소."
 msgid "Navigation"
 msgstr "항해"
 
-#. Template: OTRSBusinessTeaser
+#. Template: OTOBOCommunityTeaser
 msgid ""
 "With %s, System Configuration supports versioning, rollback and user-"
 "specific configuration settings."
@@ -11619,35 +11619,35 @@ msgstr ""
 msgid "Visible to customer"
 msgstr ""
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "Your system was successfully upgraded to %s."
 msgstr "시스템이 %s로 성공적으로 업그레이드되었습니다."
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "There was a problem during the upgrade to %s."
 msgstr "%s로 업그레이드하는 동안 문제가 발생했습니다."
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "%s was correctly reinstalled."
 msgstr "%s을 올바르게 다시 설치했습니다."
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "There was a problem reinstalling %s."
 msgstr "%s을 재설치하는 중에 문제가 발생했습니다."
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "Your %s was successfully updated."
 msgstr "%s이 성공적으로 업데이트되었습니다."
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "There was a problem during the upgrade of %s."
 msgstr "%s 업그레이드 중 문제가 발생했습니다. "
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "%s was correctly uninstalled."
 msgstr "%s이 올바르게 제거되었습니다."
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "There was a problem uninstalling %s."
 msgstr "%s을 제거하는 중에 문제가 발생했습니다."
 
@@ -14154,21 +14154,21 @@ msgstr "보관 검색"
 msgid "Enable cloud services to unleash all OTRS features!"
 msgstr "클라우드 서비스로 모든 OTRS 기능을 구현할 수 있습니다!"
 
-#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr "%s 지금 %s로 업그레이드하십시오! %s"
 
-#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
 msgid "Please verify your license data!"
 msgstr "라이센스 데이터를 확인 하십시오!"
 
-#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
 msgstr "%s에 대한 라이센스가 곧 만료됩니다. 계약을 갱신 하시려면%s와 연락하십시오!"
 
-#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"

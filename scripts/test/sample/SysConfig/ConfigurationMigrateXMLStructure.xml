@@ -331,7 +331,7 @@ Description
                     <Description Translatable="1"></Description>
                     <Name Translatable="1">Reports (OTOBO Business Solution™)</Name>
                     <Link>Action=AgentStatisticsReports;Subaction=Overview</Link>
-                    <LinkOption>class="OTOBOBusinessRequired"</LinkOption>
+                    <LinkOption>class="OTOBOCommunityRequired"</LinkOption>
                     <NavBar>Reports</NavBar>
                     <Prio>100</Prio>
                     <Type></Type>

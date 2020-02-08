@@ -1300,7 +1300,7 @@ sub Data {
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             'Можете користити OTOBO тагове као <OTOBO_TICKET_DynamicField_...> за уметање вредности из тренутног тикета.',
 
-        # Template: AdminOTOBOBusinessInstalled
+        # Template: AdminOTOBOCommunityInstalled
         'Manage %s' => 'Управљај са %s',
         'Downgrade to OTOBO' => 'Повратак на бесплатно издање ((OTOBO))',
         'Read documentation' => 'Прочитај документацију',
@@ -1327,7 +1327,7 @@ sub Data {
         'Congratulations, your %s is correctly installed and up to date!' =>
             'Честитамо, ваш %s је коректно инсталиран и ажуран!',
 
-        # Template: AdminOTOBOBusinessNotInstalled
+        # Template: AdminOTOBOCommunityNotInstalled
         'Go to the OTOBO customer portal' => 'Иди на OTOBO кориснички портал',
         '%s will be available soon. Please check again in a few days.' =>
             '%s ће бити доступна ускоро. Молимо, проверите поново за неколико дана.',
@@ -1355,7 +1355,7 @@ sub Data {
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
             'Ако желите да искористите све предности %s потребно је да ажурирате ваш уговор! Контактирајте %s.',
 
-        # Template: AdminOTOBOBusinessUninstall
+        # Template: AdminOTOBOCommunityUninstall
         'Cancel downgrade and go back' => 'Поништи повратак на стару верзију и врати се назад',
         'Go to OTOBO Package Manager' => 'Иди на OTOBO управљање пакетима',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
@@ -2428,7 +2428,7 @@ sub Data {
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             'Тренутно нема веза. Молимо кликните на \'Додај нове везе\' при врху да бисте повезали овај објекат са осталим.',
 
-        # Template: AgentOTOBOBusinessBlockScreen
+        # Template: AgentOTOBOCommunityBlockScreen
         'Unauthorized usage of %s detected' => 'Детектована неовлаштена употреба %s',
         'If you decide to downgrade to OTOBO, you will lose all database tables and data related to %s.' =>
             'Ако одлучите да се вратите на бесплатно издање ((OTOBO)), изгубићете све табеле и податке у бази података повезане са %s.',
@@ -3270,7 +3270,7 @@ sub Data {
         # Template: Navigation
         'Navigation' => 'Навигација',
 
-        # Template: OTOBOBusinessTeaser
+        # Template: OTOBOCommunityTeaser
         'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
             'Са %s, системска конфигурација подржава преглед промена, поновно распоређивање и корисничке промене подешавања.',
 
@@ -3714,7 +3714,7 @@ sub Data {
         'Invisible to customer' => 'Невидљиво клијенту',
         'Visible to customer' => 'Видљиво клијенту',
 
-        # Perl Module: Kernel/Modules/AdminOTOBOBusiness.pm
+        # Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
         'Your system was successfully upgraded to %s.' => 'Ваш систем је успешно унапређен на %s.',
         'There was a problem during the upgrade to %s.' => 'Проблем током унапређивања на  %s.',
         '%s was correctly reinstalled.' => '%s је коректно реинсталирана.',
@@ -4614,7 +4614,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
         'Enable cloud services to unleash all OTOBO features!' => 'Активирајте сервисе у облаку да би омогућили све OTOBO функције!',
 
-        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOBusiness.pm
+        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
         '%s Upgrade to %s now! %s' => '%s Унапредите на %s сада! %s',
         'Please verify your license data!' => 'Молимо проверите податке ваше лиценце!',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>

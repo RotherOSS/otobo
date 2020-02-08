@@ -1590,18 +1590,18 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemConfiguration");
 
-        my $OTOBOBusinessIsInstalled = $Kernel::OM->Get('Kernel::System::OTOBOBusiness')->OTOBOBusinessIsInstalled();
+        my $OTOBOCommunityIsInstalled = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCommunityIsInstalled();
         my $OBTeaserFound           = index( $Selenium->get_page_source(), 'supports versioning, rollback and' ) > -1;
-        if ( !$OTOBOBusinessIsInstalled ) {
+        if ( !$OTOBOCommunityIsInstalled ) {
             $Self->True(
                 $OBTeaserFound,
-                "OTOBOBusiness teaser found on page",
+                "OTOBOCommunity teaser found on page",
             );
         }
         else {
             $Self->False(
                 $OBTeaserFound,
-                "OTOBOBusiness teaser not found on page",
+                "OTOBOCommunity teaser not found on page",
             );
         }
 

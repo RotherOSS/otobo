@@ -4688,19 +4688,19 @@ msgstr ""
 "Você pode utilizar OTRS-tags como <OTOBO_TICKET_DynamicField_...> para "
 "inserir valores do chamado atual."
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Manage %s"
 msgstr "Gerenciar %s"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Downgrade to ((OTRS)) Community Edition"
 msgstr ""
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Read documentation"
 msgstr "Leia a documentação"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "%s makes contact regularly with cloud.otrs.com to check on available updates"
 " and the validity of the underlying contract."
@@ -4708,11 +4708,11 @@ msgstr ""
 "%s faz contato regular com cloud.otrs.com para verificar as atualizações "
 "disponíveis e a validade do contrato subjacente."
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Unauthorized Usage Detected"
 msgstr "Uso não autorizado detectado"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "This system uses the %s without a proper license! Please make contact with "
 "%s to renew or activate your contract!"
@@ -4720,11 +4720,11 @@ msgstr ""
 "Este sistema usa o %s sem a licença correspondente! Por favor faça contato "
 "com %s para renovar ou ativar o seu contrato!"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s not Correctly Installed"
 msgstr "%s não instalado corretamente"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "Your %s is not correctly installed. Please reinstall it with the button "
 "below."
@@ -4732,18 +4732,18 @@ msgstr ""
 "O seu %s não está instalado corretamente. Por favor reinstale-o usando o "
 "botão abaixo."
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Reinstall %s"
 msgstr "Reinstalar %s"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "Your %s is not correctly installed, and there is also an update available."
 msgstr ""
 "O seu %s não está instalado corretamente, e também há uma atualização "
 "disponível."
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "You can either reinstall your current version or perform an update with the "
 "buttons below (update recommended)."
@@ -4751,64 +4751,64 @@ msgstr ""
 "Você pode reinstalar a versão atual ou executar uma atualização com os "
 "botões abaixo (atualização recomendada)."
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Update %s"
 msgstr "Atualizar %s"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s Not Yet Available"
 msgstr "%s Não Disponível Ainda"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s will be available soon."
 msgstr "%s estará disponível em breve."
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s Update Available"
 msgstr "%s Atualização Disponível"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
 msgstr ""
 "Uma atualização para seu %s está disponível! Por favor, atualize o mais "
 "breve possível!"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s Correctly Deployed"
 msgstr "%s Instalado Corretamente"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Congratulations, your %s is correctly installed and up to date!"
 msgstr "Parabéns, seu %s está corretamente instalado e atualizado!"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Go to the OTRS customer portal"
 msgstr "Vá para o portal de clientes do OTRS"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "%s will be available soon. Please check again in a few days."
 msgstr ""
 "%s estará disponível em breve. Por favor, verifique novamente em poucos "
 "dias."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Please have a look at %s for more information."
 msgstr "Por favor, dê uma olhada em %s para mais informações."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid ""
 "Your ((OTRS)) Community Edition is the base for all future actions. Please "
 "register first before you continue with the upgrade process of %s!"
 msgstr ""
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid ""
 "Before you can benefit from %s, please contact %s to get your %s contract."
 msgstr ""
 "Antes que você possa se beneficiar do %s, por favor, entre em contato com %s"
 " para o obter seu contrato de %s."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid ""
 "Connection to cloud.otrs.com via HTTPS couldn't be established. Please make "
 "sure that your OTRS can connect to cloud.otrs.com via port 443."
@@ -4817,54 +4817,54 @@ msgstr ""
 "certifique-se de que seu OTRS pode se conectar a cloud.otrs.com através da "
 "porta 443."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Package installation requires patch level update of OTRS."
 msgstr "Instalação do pacote requer atualização de nível de patch do OTRS."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Please visit our customer portal and file a request."
 msgstr "Por favor visite nosso portal de clientes e registre um pedido."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Everything else will be done as part of your contract."
 msgstr "Tudo mais será feito como parte do seu contrato."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Your installed OTRS version is %s."
 msgstr "Sua versão do OTRS instalada é %s."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "To install this package, you need to update to OTRS %s or higher."
 msgstr ""
 "Para instalar este pacote, você precisa atualizar para OTRS %s ou superior."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "To install this package, the Maximum OTRS Version is %s."
 msgstr "Para instalar este pacote, a versão máxima do OTRS é %s."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "To install this package, the required Framework version is %s."
 msgstr "Para instalar este pacote, a versão do framework requerida é %s."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Why should I keep OTRS up to date?"
 msgstr "Por que eu deveria manter o OTRS atualizado?"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "You will receive updates about relevant security issues."
 msgstr "Você receberá atualizações sobre questões de segurança relevantes."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "You will receive updates for all other relevant OTRS issues"
 msgstr ""
 "Você receberá atualizações para todas as outras questões relevantes do OTRS"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
 msgstr ""
 "Com seu contrato existente você pode usar apenas uma pequena parte do %s."
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid ""
 "If you would like to take full advantage of the %s get your contract "
 "upgraded now! Contact %s."
@@ -4872,15 +4872,15 @@ msgstr ""
 "Se você quiser aproveitar todas as vantagens do %s atualize seu contrato "
 "agora! Entre em contato com %s."
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Cancel downgrade and go back"
 msgstr "Cancelar downgrade e retornar"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Go to OTRS Package Manager"
 msgstr "Ir para o Gerenciador de Pacotes do OTRS"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid ""
 "Sorry, but currently you can't downgrade due to the following packages which"
 " depend on %s:"
@@ -4888,52 +4888,52 @@ msgstr ""
 "Desculpe, mas atualmente você não pode efetuar desatualizar os seguintes "
 "pacotes que dependem de % s:"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Vendor"
 msgstr "Fornecedor"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid ""
 "Please uninstall the packages first using the package manager and try again."
 msgstr ""
 "Por favor, desinstale os pacotes primeiro usando o Gerenciador de pacotes e "
 "tente novamente."
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid ""
 "You are about to downgrade to ((OTRS)) Community Edition and will lose the "
 "following features and all data related to these:"
 msgstr ""
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Chat"
 msgstr "Chat"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Report Generator"
 msgstr "Gerador de relatório"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Timeline view in ticket zoom"
 msgstr "Visão de linha do tempo nos detalhes do chamado"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "DynamicField ContactWithData"
 msgstr "CampoDinâmico ContatoComDados"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "DynamicField Database"
 msgstr "CampoDinâmico BaseDeDados"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "SLA Selection Dialog"
 msgstr "SLA Dialogo de Seleção"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Ticket Attachment View"
 msgstr "Visão de Anexo do Chamado"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "The %s skin"
 msgstr "O tema %s"
 
@@ -8477,11 +8477,11 @@ msgstr ""
 "Não existem links no momento. Por favor clique em 'Criar novos links' no "
 "topo para estabelecer um link entre este item e outro objeto."
 
-#. Template: AgentOTRSBusinessBlockScreen
+#. Template: AgentOTOBOCommunityBlockScreen
 msgid "Unauthorized usage of %s detected"
 msgstr "Uso não autorizado de %s detectado"
 
-#. Template: AgentOTRSBusinessBlockScreen
+#. Template: AgentOTOBOCommunityBlockScreen
 msgid ""
 "If you decide to downgrade to ((OTRS)) Community Edition, you will lose all "
 "database tables and data related to %s."
@@ -11009,7 +11009,7 @@ msgstr "Cancelar a edição da definição atual."
 msgid "Navigation"
 msgstr "Navegação"
 
-#. Template: OTRSBusinessTeaser
+#. Template: OTOBOCommunityTeaser
 msgid ""
 "With %s, System Configuration supports versioning, rollback and user-"
 "specific configuration settings."
@@ -12373,35 +12373,35 @@ msgstr ""
 msgid "Visible to customer"
 msgstr ""
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "Your system was successfully upgraded to %s."
 msgstr "Seu sistema foi atualizado com sucesso para %s."
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "There was a problem during the upgrade to %s."
 msgstr "Ocorreu um problema durante a atualização para %s."
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "%s was correctly reinstalled."
 msgstr "%s foi corretamente instalado."
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "There was a problem reinstalling %s."
 msgstr "Houve um problema ao reinstalar %s."
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "Your %s was successfully updated."
 msgstr "Seu %s foi atualizado com sucesso."
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "There was a problem during the upgrade of %s."
 msgstr "Houve um problema durante a atualização de %s."
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "%s was correctly uninstalled."
 msgstr "%s foi corretamente desinstalado."
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "There was a problem uninstalling %s."
 msgstr "Houve um problema ao desinstalar %s."
 
@@ -14999,15 +14999,15 @@ msgstr "Pesquisar arquivamento."
 msgid "Enable cloud services to unleash all OTRS features!"
 msgstr "Habilite serviços de nuvem para liberar todos os recursos do OTRS!"
 
-#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr "%s Atualize para %s agora! %s"
 
-#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
 msgid "Please verify your license data!"
 msgstr "Favor verificar os dados de sua licença!"
 
-#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
@@ -15015,7 +15015,7 @@ msgstr ""
 "A licença do seu %s está prestes a expirar. Por favor entre em contato com "
 "%s para revonar o seu contrato!"
 
-#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"

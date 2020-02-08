@@ -175,7 +175,7 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Archive::Zip',                               # Rother OSS / TODO required for OTOBOBusiness
+        Module    => 'Archive::Zip',                               # Rother OSS / TODO required for OTOBOCommunity
         Required  => 1,
         Comment   => 'Required for compressed file generation.',
         InstTypes => {

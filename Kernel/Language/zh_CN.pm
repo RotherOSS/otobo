@@ -1306,7 +1306,7 @@ sub Data {
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '你可以使用诸如<OTOBO_TICKET_DynamicField_...>之类的OTOBO标签来插入当前工单中的值。',
 
-        # Template: AdminOTOBOBusinessInstalled
+        # Template: AdminOTOBOCommunityInstalled
         'Manage %s' => '管理 %s',
         'Downgrade to OTOBO' => '降级为  ((OTOBO)) 社区版',
         'Read documentation' => '阅读文档',
@@ -1333,7 +1333,7 @@ sub Data {
         'Congratulations, your %s is correctly installed and up to date!' =>
             '恭喜，你的%s 已经正确地安装到最新版本！',
 
-        # Template: AdminOTOBOBusinessNotInstalled
+        # Template: AdminOTOBOCommunityNotInstalled
         'Go to the OTOBO customer portal' => '访问OTOBO客户门户',
         '%s will be available soon. Please check again in a few days.' =>
             '%s 很快就可用了，请过几天再检查一次。',
@@ -1361,7 +1361,7 @@ sub Data {
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
             '如欲发挥%s 的全部优势，请升级合同！联系%s。',
 
-        # Template: AdminOTOBOBusinessUninstall
+        # Template: AdminOTOBOCommunityUninstall
         'Cancel downgrade and go back' => '取消降级并返回',
         'Go to OTOBO Package Manager' => '进入 OTOBO 软件包管理',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
@@ -2434,7 +2434,7 @@ sub Data {
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             '目前没有链接。 请点击顶部的“创建新链接”将此项目链接到其他对象。',
 
-        # Template: AgentOTOBOBusinessBlockScreen
+        # Template: AgentOTOBOCommunityBlockScreen
         'Unauthorized usage of %s detected' => '检测到未经授权的使用 %s',
         'If you decide to downgrade to OTOBO, you will lose all database tables and data related to %s.' =>
             '如果决定降级到 ((OTOBO)) 社区版，会丢失%s相关的所有数据库表及其数据。',
@@ -3276,7 +3276,7 @@ sub Data {
         # Template: Navigation
         'Navigation' => '导航',
 
-        # Template: OTOBOBusinessTeaser
+        # Template: OTOBOCommunityTeaser
         'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
             '使用%s，系统配置支持版本控制、回滚和用户特定的配置设置。',
 
@@ -3720,7 +3720,7 @@ sub Data {
         'Invisible to customer' => '客户不可见',
         'Visible to customer' => '对客户可见',
 
-        # Perl Module: Kernel/Modules/AdminOTOBOBusiness.pm
+        # Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
         'Your system was successfully upgraded to %s.' => '你的系统已成功更新到 %s。',
         'There was a problem during the upgrade to %s.' => '升级到%s的过程中出现问题。',
         '%s was correctly reinstalled.' => '%s 已经成功重装。',
@@ -4620,7 +4620,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
         'Enable cloud services to unleash all OTOBO features!' => '启用云服务以激活OTOBO的所有功能！',
 
-        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOBusiness.pm
+        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
         '%s Upgrade to %s now! %s' => '现在升级%s到%s！%s',
         'Please verify your license data!' => '请验证您的许可证数据！',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>

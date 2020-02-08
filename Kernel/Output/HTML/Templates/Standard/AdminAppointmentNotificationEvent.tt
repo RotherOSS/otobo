@@ -418,7 +418,7 @@
 [% RenderBlockEnd("TransportRowDisabled") %]
 #[% RenderBlockStart("TransportRowRecommendation") %]  # Svencheck
 #                        <div class="Field Info">
-#                            <a href="[% Env("Baselink") %]Action=AdminOTOBOBusiness" class="Button"><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s") | html | ReplacePlaceholders(OTOBOBusinessLabel) %]</a>
+#                            <a href="[% Env("Baselink") %]Action=AdminOTOBOCommunity" class="Button"><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s") | html | ReplacePlaceholders(OTOBOCommunityLabel) %]</a>
 #                        </div>
 #[% RenderBlockEnd("TransportRowRecommendation") %]
 [% RenderBlockStart("TransportRowNotActive") %]

@@ -120,7 +120,7 @@ sub new {
         }
     }
 
-    # Please note: ZoomTimeline is an OTOBOBusiness feature
+    # Please note: ZoomTimeline is an OTOBOCommunity feature
     if ( !$ConfigObject->Get('TimelineViewEnabled') ) {
         $Self->{ZoomTimeline} = 0;
     }
@@ -226,7 +226,7 @@ sub new {
         )
     {
         $ConfigObject->Set(
-            Key   => 'Loader::Module::AgentTicketZoom###003-OTOBOBusiness',
+            Key   => 'Loader::Module::AgentTicketZoom###003-OTOBOCommunity',
             Value => {
                 JavaScript => [
                     'Core.Agent.TicketZoom.TimelineView.js',

@@ -1305,7 +1305,7 @@ sub Data {
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             'Você pode utilizar OTOBO-tags como <OTOBO_TICKET_DynamicField_...> para inserir valores do chamado atual.',
 
-        # Template: AdminOTOBOBusinessInstalled
+        # Template: AdminOTOBOCommunityInstalled
         'Manage %s' => 'Gerenciar %s',
         'Downgrade to OTOBO' => '',
         'Read documentation' => 'Leia a documentação',
@@ -1332,7 +1332,7 @@ sub Data {
         'Congratulations, your %s is correctly installed and up to date!' =>
             'Parabéns, seu %s está corretamente instalado e atualizado!',
 
-        # Template: AdminOTOBOBusinessNotInstalled
+        # Template: AdminOTOBOCommunityNotInstalled
         'Go to the OTOBO customer portal' => 'Vá para o portal de clientes do OTOBO',
         '%s will be available soon. Please check again in a few days.' =>
             '%s estará disponível em breve. Por favor, verifique novamente em poucos dias.',
@@ -1360,7 +1360,7 @@ sub Data {
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
             'Se você quiser aproveitar todas as vantagens do %s atualize seu contrato agora! Entre em contato com %s.',
 
-        # Template: AdminOTOBOBusinessUninstall
+        # Template: AdminOTOBOCommunityUninstall
         'Cancel downgrade and go back' => 'Cancelar downgrade e retornar',
         'Go to OTOBO Package Manager' => 'Ir para o Gerenciador de Pacotes do OTOBO',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
@@ -2433,7 +2433,7 @@ sub Data {
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             'Não existem links no momento. Por favor clique em \'Criar novos links\' no topo para estabelecer um link entre este item e outro objeto.',
 
-        # Template: AgentOTOBOBusinessBlockScreen
+        # Template: AgentOTOBOCommunityBlockScreen
         'Unauthorized usage of %s detected' => 'Uso não autorizado de %s detectado',
         'If you decide to downgrade to OTOBO, you will lose all database tables and data related to %s.' =>
             '',
@@ -3275,7 +3275,7 @@ sub Data {
         # Template: Navigation
         'Navigation' => 'Navegação',
 
-        # Template: OTOBOBusinessTeaser
+        # Template: OTOBOCommunityTeaser
         'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
             'Com %s a Configuração do Sistema suporta versionamento, rollback e parâmetros de configuração específicos por usuário.',
 
@@ -3719,7 +3719,7 @@ sub Data {
         'Invisible to customer' => '',
         'Visible to customer' => '',
 
-        # Perl Module: Kernel/Modules/AdminOTOBOBusiness.pm
+        # Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
         'Your system was successfully upgraded to %s.' => 'Seu sistema foi atualizado com sucesso para %s.',
         'There was a problem during the upgrade to %s.' => 'Ocorreu um problema durante a atualização para %s.',
         '%s was correctly reinstalled.' => '%s foi corretamente instalado.',
@@ -4619,7 +4619,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
         'Enable cloud services to unleash all OTOBO features!' => 'Habilite serviços de nuvem para liberar todos os recursos do OTOBO!',
 
-        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOBusiness.pm
+        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
         '%s Upgrade to %s now! %s' => '%s Atualize para %s agora! %s',
         'Please verify your license data!' => 'Favor verificar os dados de sua licença!',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>

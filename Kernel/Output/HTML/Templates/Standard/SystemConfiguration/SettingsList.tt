@@ -81,7 +81,7 @@
 
 #Svencheck: nach Stefan
 # Rother OSS / TODO / After sysconfig enhancement
-                [% IF Setting.UserModificationPossible && Data.OTOBOBusinessIsInstalled %]
+                [% IF Setting.UserModificationPossible && Data.OTOBOCommunityIsInstalled %]
                 <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UserModified;SettingName=[% Setting.Name | uri %]"
                     class="UserModificationNotActive Button [% IF Setting.UserModificationActive %]Hidden[% END %]" title="[% Translate("Allow users to adapt this setting from within their personal preferences") | html %]">
 

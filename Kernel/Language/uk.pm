@@ -1300,7 +1300,7 @@ sub Data {
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             'Ви можете використовувати OTOBO-теги, такі як  <OTOBO_TICKET_DynamicField_...>  щоб вставити значення з поточного квитка.',
 
-        # Template: AdminOTOBOBusinessInstalled
+        # Template: AdminOTOBOCommunityInstalled
         'Manage %s' => 'Керування %s',
         'Downgrade to OTOBO' => '',
         'Read documentation' => 'Читайте документацію',
@@ -1327,7 +1327,7 @@ sub Data {
         'Congratulations, your %s is correctly installed and up to date!' =>
             'Вітаємо, ваш %s встановлено правильно та має актуальну версію!',
 
-        # Template: AdminOTOBOBusinessNotInstalled
+        # Template: AdminOTOBOCommunityNotInstalled
         'Go to the OTOBO customer portal' => 'Перейти до порталу клієнтів OTOBO',
         '%s will be available soon. Please check again in a few days.' =>
             '%s незабаром буде доступний. Будь ласка, перевірте ще раз через кілька днів.',
@@ -1355,7 +1355,7 @@ sub Data {
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
             'Якщо ви маєте бажання скористатися всіма перевагами %s, покращить вашу угоду зараз! Зв\'яжіться з %s.',
 
-        # Template: AdminOTOBOBusinessUninstall
+        # Template: AdminOTOBOCommunityUninstall
         'Cancel downgrade and go back' => 'Скасувати погіршення та повернутися',
         'Go to OTOBO Package Manager' => 'Перейти до менеджера пакунків OTOBO',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
@@ -2428,7 +2428,7 @@ sub Data {
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             '',
 
-        # Template: AgentOTOBOBusinessBlockScreen
+        # Template: AgentOTOBOCommunityBlockScreen
         'Unauthorized usage of %s detected' => 'Виявлено несанкційоване використання %s ',
         'If you decide to downgrade to OTOBO, you will lose all database tables and data related to %s.' =>
             '',
@@ -3270,7 +3270,7 @@ sub Data {
         # Template: Navigation
         'Navigation' => '',
 
-        # Template: OTOBOBusinessTeaser
+        # Template: OTOBOCommunityTeaser
         'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
             '',
 
@@ -3714,7 +3714,7 @@ sub Data {
         'Invisible to customer' => '',
         'Visible to customer' => '',
 
-        # Perl Module: Kernel/Modules/AdminOTOBOBusiness.pm
+        # Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
         'Your system was successfully upgraded to %s.' => 'Вашу систему було успішно оновлено до %s.',
         'There was a problem during the upgrade to %s.' => 'Сталася проблема під час оновлення до %s.',
         '%s was correctly reinstalled.' => '%s було коректно перевстановлено.',
@@ -4614,7 +4614,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
         'Enable cloud services to unleash all OTOBO features!' => 'Ввімкніть хмарні сервіси щоб розкрити усі можливості OTOBO!',
 
-        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOBusiness.pm
+        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
         '%s Upgrade to %s now! %s' => '%s Оновіться до %s зараз! %s',
         'Please verify your license data!' => '',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>

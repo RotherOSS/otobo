@@ -47,8 +47,8 @@ $Selenium->RunTest(
         # Check Secure::DisableBanner functionality.
         my $Product          = $Kernel::OM->Get('Kernel::Config')->Get('Product');
         my $Version          = $Kernel::OM->Get('Kernel::Config')->Get('Version');
-        my $STORMInstalled   = $Kernel::OM->Get('Kernel::System::OTOBOBusiness')->OTOBOSTORMIsInstalled();
-        my $CONTROLInstalled = $Kernel::OM->Get('Kernel::System::OTOBOBusiness')->OTOBOCONTROLIsInstalled();
+        my $STORMInstalled   = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOSTORMIsInstalled();
+        my $CONTROLInstalled = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCONTROLIsInstalled();
 
         for my $Disabled ( reverse 0 .. 1 ) {
             $Helper->ConfigSettingChange(

@@ -2303,7 +2303,7 @@ sub NavigationLookupGet {
         'Frontend::Customer::ModuleMetaHead' => 'Frontend::Customer',
         'Frontend::Public::ModuleMetaHead'   => 'Frontend::Public',
 
-        # OTOBOBusiness
+        # OTOBOCommunity
         'Core::NotificationEvent'               => 'Frontend::Agent::View::NotificationView',
         'Core::NotificationView'                => 'Frontend::Agent::View::NotificationView',
         'Core::NotificationView::BulkAction'    => 'Frontend::Agent::View::NotificationView',
@@ -2530,10 +2530,10 @@ sub _LookupNewConfigName {
         'Ticket::Frontend::AgentTicketSearch###Defaults###Body' =>
             'Ticket::Frontend::AgentTicketSearch###Defaults###MIMEBase_Body',
 
-        # Moved and renamed config setting from OTOBOBusiness.xml to Framework.xml
+        # Moved and renamed config setting from OTOBOCommunity.xml to Framework.xml
         'ChatEngine::AgentOnlineThreshold' => 'SessionAgentOnlineThreshold',
 
-        # Moved and renamed config setting from OTOBOBusiness.xml to Framework.xml
+        # Moved and renamed config setting from OTOBOCommunity.xml to Framework.xml
         'ChatEngine::CustomerOnlineThreshold' => 'SessionCustomerOnlineThreshold',
 
         %{ $Param{PackageLookupNewConfigName} // {} },

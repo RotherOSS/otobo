@@ -397,9 +397,9 @@ $Selenium->RunTest(
         $Element->is_enabled();
         $Element->is_displayed();
 
-        my $OTOBOBusinessIsInstalled = $Kernel::OM->Get('Kernel::System::OTOBOBusiness')->OTOBOBusinessIsInstalled();
-        my $OTOBOSTORMIsInstalled    = $Kernel::OM->Get('Kernel::System::OTOBOBusiness')->OTOBOSTORMIsInstalled();
-        my $OTOBOCONTROLIsInstalled  = $Kernel::OM->Get('Kernel::System::OTOBOBusiness')->OTOBOCONTROLIsInstalled();
+        my $OTOBOCommunityIsInstalled = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCommunityIsInstalled();
+        my $OTOBOSTORMIsInstalled    = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOSTORMIsInstalled();
+        my $OTOBOCONTROLIsInstalled  = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCONTROLIsInstalled();
 
         my $FooterMessage;
         if ($OTOBOSTORMIsInstalled) {
@@ -408,7 +408,7 @@ $Selenium->RunTest(
         elsif ($OTOBOCONTROLIsInstalled) {
             $FooterMessage = 'CONTROL powered by OTOBO';
         }
-        elsif ($OTOBOBusinessIsInstalled) {
+        elsif ($OTOBOCommunityIsInstalled) {
             $FooterMessage = 'Powered by OTOBO Business Solution';
         }
         else {

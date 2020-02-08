@@ -247,19 +247,19 @@ my @Tests = (
         Success => 0,
     },
     {
-        Name   => 'OTOBOBusiness only',
+        Name   => 'OTOBOCommunity only',
         Config => {
             InstalledPackages => [],
             OnlinePackages    => [],
         },
-        OTOBOBusinessOptions => {
-            OTOBOBusinessIsInstalled  => 1,
-            OTOBOBusinessIsUpdateable => 1,
+        OTOBOCommunityOptions => {
+            OTOBOCommunityIsInstalled  => 1,
+            OTOBOCommunityIsUpdateable => 1,
         },
         Success        => 1,
         ExpectedResult => {
             InstallOrder => {
-                OTOBOBusiness => 9999,
+                OTOBOCommunity => 9999,
             },
             Failed => {},
         },
@@ -285,14 +285,14 @@ my @Tests = (
         },
     },
     {
-        Name   => 'ITSM 5.0.17 to 5.0.21 W/OTOBOBusiness',
+        Name   => 'ITSM 5.0.17 to 5.0.21 W/OTOBOCommunity',
         Config => {
             InstalledPackages => \@InstalledITSM5017,
             OnlinePackages    => \@OnlineITSM5021,
         },
-        OTOBOBusinessOptions => {
-            OTOBOBusinessIsInstalled  => 1,
-            OTOBOBusinessIsUpdateable => 1,
+        OTOBOCommunityOptions => {
+            OTOBOCommunityIsInstalled  => 1,
+            OTOBOCommunityIsUpdateable => 1,
         },
         Success        => 1,
         ExpectedResult => {
@@ -304,7 +304,7 @@ my @Tests = (
                 ITSMCore                      => 5,
                 ITSMIncidentProblemManagement => 1,
                 ITSMServiceLevelManagement    => 1,
-                OTOBOBusiness                  => 9999,
+                OTOBOCommunity                  => 9999,
             },
             Failed => {},
         },
@@ -669,28 +669,28 @@ TEST:
 for my $Test (@Tests) {
 
     $Kernel::OM->ObjectsDiscard(
-        Objects => [ 'Kernel::System::OTOBOBusiness', 'Kernel::System::Package' ],
+        Objects => [ 'Kernel::System::OTOBOCommunity', 'Kernel::System::Package' ],
     );
 
-    $Test->{OTOBOBusinessOptions}->{OTOBOBusinessIsInstalled}  // 0;
-    $Test->{OTOBOBusinessOptions}->{OTOBOBusinessIsUpdateable} // 0;
+    $Test->{OTOBOCommunityOptions}->{OTOBOCommunityIsInstalled}  // 0;
+    $Test->{OTOBOCommunityOptions}->{OTOBOCommunityIsUpdateable} // 0;
 
     no warnings 'once';    ## no critic
-    local *Kernel::System::OTOBOBusiness::OTOBOBusinessIsInstalled = sub {
-        if ( $Test->{OTOBOBusinessOptions}->{OTOBOBusinessIsInstalled} ) {
+    local *Kernel::System::OTOBOCommunity::OTOBOCommunityIsInstalled = sub {
+        if ( $Test->{OTOBOCommunityOptions}->{OTOBOCommunityIsInstalled} ) {
             return 1;
         }
         return 0;
     };
-    local *Kernel::System::OTOBOBusiness::OTOBOBusinessIsUpdateable = sub {
-        if ( $Test->{OTOBOBusinessOptions}->{OTOBOBusinessIsUpdateable} ) {
+    local *Kernel::System::OTOBOCommunity::OTOBOCommunityIsUpdateable = sub {
+        if ( $Test->{OTOBOCommunityOptions}->{OTOBOCommunityIsUpdateable} ) {
             return 1;
         }
         return 0;
     };
     use warnings;
 
-    my $OTOBOBusinessObject = $Kernel::OM->Get('Kernel::System::OTOBOBusiness');
+    my $OTOBOCommunityObject = $Kernel::OM->Get('Kernel::System::OTOBOCommunity');
     my $PackageObject      = $Kernel::OM->Get('Kernel::System::Package');
 
     my %Result = $PackageObject->PackageInstallOrderListGet( %{ $Test->{Config} } );
@@ -713,7 +713,7 @@ for my $Test (@Tests) {
 }
 continue {
     $Kernel::OM->ObjectsDiscard(
-        Objects => [ 'Kernel::System::OTOBOBusiness', 'Kernel::System::Package' ],
+        Objects => [ 'Kernel::System::OTOBOCommunity', 'Kernel::System::Package' ],
     );
 }
 

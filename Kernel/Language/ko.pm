@@ -1300,7 +1300,7 @@ sub Data {
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '<OTOBO_TICKET_DynamicField _...>와 같은 OTOBO 태그를 사용하여 현재 티켓의 값을 삽입 할 수 있습니다.',
 
-        # Template: AdminOTOBOBusinessInstalled
+        # Template: AdminOTOBOCommunityInstalled
         'Manage %s' => '%s 관리',
         'Downgrade to OTOBO' => '',
         'Read documentation' => '설명서 읽기',
@@ -1327,7 +1327,7 @@ sub Data {
         'Congratulations, your %s is correctly installed and up to date!' =>
             '축하합니다. %s가 올바르게 설치되고 최신 상태입니다!',
 
-        # Template: AdminOTOBOBusinessNotInstalled
+        # Template: AdminOTOBOCommunityNotInstalled
         'Go to the OTOBO customer portal' => 'OTOBO 고객 포털로 이동하십시오.',
         '%s will be available soon. Please check again in a few days.' =>
             '%s는 곧 제공될 예정입니다. 며칠 후에 다시 확인하십시오.',
@@ -1355,7 +1355,7 @@ sub Data {
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
             '%s를 최대한 활용하고 싶다면 계약을 지금 업그레이드하십시오! 연락처 %s',
 
-        # Template: AdminOTOBOBusinessUninstall
+        # Template: AdminOTOBOCommunityUninstall
         'Cancel downgrade and go back' => '다운그레이드 취소하고 돌아가기',
         'Go to OTOBO Package Manager' => 'OTOBO 패키지 관리자로 이동하십시오.',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
@@ -2428,7 +2428,7 @@ sub Data {
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             '현재 링크가 없습니다. 이 항목을 다른 개체에 링크하려면 상단의 \'새 링크 만들기\'를 클릭하십시오.',
 
-        # Template: AgentOTOBOBusinessBlockScreen
+        # Template: AgentOTOBOCommunityBlockScreen
         'Unauthorized usage of %s detected' => '%s의 무단 사용이 감지되었습니다.',
         'If you decide to downgrade to OTOBO, you will lose all database tables and data related to %s.' =>
             '',
@@ -3270,7 +3270,7 @@ sub Data {
         # Template: Navigation
         'Navigation' => '항해',
 
-        # Template: OTOBOBusinessTeaser
+        # Template: OTOBOCommunityTeaser
         'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
             '%s에서 시스템 환경설정은 버전 관리, 롤백 및 사용자 별 구성 설정을 지원합니다.',
 
@@ -3714,7 +3714,7 @@ sub Data {
         'Invisible to customer' => '',
         'Visible to customer' => '',
 
-        # Perl Module: Kernel/Modules/AdminOTOBOBusiness.pm
+        # Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
         'Your system was successfully upgraded to %s.' => '시스템이 %s로 성공적으로 업그레이드되었습니다.',
         'There was a problem during the upgrade to %s.' => '%s로 업그레이드하는 동안 문제가 발생했습니다.',
         '%s was correctly reinstalled.' => '%s을 올바르게 다시 설치했습니다.',
@@ -4614,7 +4614,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
         'Enable cloud services to unleash all OTOBO features!' => '클라우드 서비스로 모든 OTOBO 기능을 구현할 수 있습니다!',
 
-        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOBusiness.pm
+        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
         '%s Upgrade to %s now! %s' => '%s 지금 %s로 업그레이드하십시오! %s',
         'Please verify your license data!' => '라이센스 데이터를 확인 하십시오!',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>

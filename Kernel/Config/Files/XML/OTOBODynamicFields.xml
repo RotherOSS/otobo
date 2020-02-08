@@ -78,7 +78,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldDatabase###004-OTOBOBusiness" Required="1" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldDatabase###004-OTOBOCommunity" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -114,7 +114,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AgentDynamicFieldDatabaseDetailedSearch###004-OTOBOBusiness" Required="1" Valid="1">
+    <Setting Name="Loader::Module::AgentDynamicFieldDatabaseDetailedSearch###004-OTOBOCommunity" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -149,7 +149,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AgentDynamicFieldDatabaseDetails###004-OTOBOBusiness" Required="1" Valid="1">
+    <Setting Name="Loader::Module::AgentDynamicFieldDatabaseDetails###004-OTOBOCommunity" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -215,7 +215,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::CustomerDynamicFieldDatabaseSearch###004-OTOBOBusiness" Required="1" Valid="1">
+    <Setting Name="Loader::Module::CustomerDynamicFieldDatabaseSearch###004-OTOBOCommunity" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -254,7 +254,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::CustomerDynamicFieldDatabaseDetailedSearch###004-OTOBOBusiness" Required="1" Valid="1">
+    <Setting Name="Loader::Module::CustomerDynamicFieldDatabaseDetailedSearch###004-OTOBOCommunity" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -294,7 +294,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::CustomerDynamicFieldDatabaseDetails###004-OTOBOBusiness" Required="1" Valid="1">
+    <Setting Name="Loader::Module::CustomerDynamicFieldDatabaseDetails###004-OTOBOCommunity" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -546,7 +546,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldWebService###004-OTOBOBusiness" Required="1" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldWebService###004-OTOBOCommunity" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -590,7 +590,7 @@
     </Setting>
     <!-- End DynamicField Web Service -->
     <!-- ContactWithData -->
-    <Setting Name="Ticket::Frontend::AgentTicketZoom###Widgets###0210-OTOBOBusiness-ContactWithData" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###Widgets###0210-OTOBOCommunity-ContactWithData" Required="1" Valid="1">
         <Description Translatable="1">AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
@@ -634,7 +634,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Loader::Module::AdminDynamicFieldContactWithData###004-OTOBOBusiness" Required="0" Valid="1">
+    <Setting Name="Loader::Module::AdminDynamicFieldContactWithData###004-OTOBOCommunity" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
@@ -706,7 +706,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Navigation###AdminContactWithData###004-OTOBOBusiness" Required="0" Valid="1">
+    <Setting Name="Frontend::Navigation###AdminContactWithData###004-OTOBOCommunity" Required="0" Valid="1">
         <Description Translatable="1">Main menu item registration.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
         <Value>

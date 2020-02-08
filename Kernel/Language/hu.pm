@@ -1305,7 +1305,7 @@ sub Data {
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             'Használhatja az OTOBO címkéket (mint például <OTOBO_TICKET_DynamicField_...>) értékek beszúrásához a jelenlegi jegyből.',
 
-        # Template: AdminOTOBOBusinessInstalled
+        # Template: AdminOTOBOCommunityInstalled
         'Manage %s' => '%s kezelése',
         'Downgrade to OTOBO' => 'Visszaváltás az OTOBO verzióra',
         'Read documentation' => 'Dokumentáció elolvasása',
@@ -1332,7 +1332,7 @@ sub Data {
         'Congratulations, your %s is correctly installed and up to date!' =>
             'Gratulálunk, az %s helyesen van telepítve és naprakész!',
 
-        # Template: AdminOTOBOBusinessNotInstalled
+        # Template: AdminOTOBOCommunityNotInstalled
         'Go to the OTOBO customer portal' => 'Ugrás az OTOBO ügyfélportáljára',
         '%s will be available soon. Please check again in a few days.' =>
             'Az %s hamarosan elérhető lesz. Ellenőrizze ismét néhány nap múlva.',
@@ -1360,7 +1360,7 @@ sub Data {
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
             'Ha az %s minden előnyét igénybe szeretné venni, akkor frissítse most a szerződését! Kapcsolatfelvétel: %s.',
 
-        # Template: AdminOTOBOBusinessUninstall
+        # Template: AdminOTOBOCommunityUninstall
         'Cancel downgrade and go back' => 'Visszaváltás megszakítása és visszalépés',
         'Go to OTOBO Package Manager' => 'Ugrás az OTOBO csomagkezelőhöz',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
@@ -2433,7 +2433,7 @@ sub Data {
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             'Jelenleg nincsenek kapcsolatok. Kattintson a fenti „Új kapcsolatok létrehozása” gombra ezen elem más objektumokkal történő összekapcsolásához.',
 
-        # Template: AgentOTOBOBusinessBlockScreen
+        # Template: AgentOTOBOCommunityBlockScreen
         'Unauthorized usage of %s detected' => 'Az %s jogosulatlan használata észlelhető',
         'If you decide to downgrade to OTOBO, you will lose all database tables and data related to %s.' =>
             'Ha úgy dönt, hogy visszavált az OTOBO verzióra, akkor el fogja veszíteni az %s szolgáltatáshoz kapcsolódó összes adatbázis táblát és adatot.',
@@ -3275,7 +3275,7 @@ sub Data {
         # Template: Navigation
         'Navigation' => 'Navigáció',
 
-        # Template: OTOBOBusinessTeaser
+        # Template: OTOBOCommunityTeaser
         'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
             'Az %s használatával a rendszerbeállítások támogatják a verziókövetést, visszaállítást és a felhasználóra jellemző konfigurációs beállításokat.',
 
@@ -3719,7 +3719,7 @@ sub Data {
         'Invisible to customer' => 'Láthatatlan az ügyfélnek',
         'Visible to customer' => 'Látható az ügyfélnek',
 
-        # Perl Module: Kernel/Modules/AdminOTOBOBusiness.pm
+        # Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
         'Your system was successfully upgraded to %s.' => 'A rendszere sikeresen frissítve lett a következő verzióra: %s.',
         'There was a problem during the upgrade to %s.' => 'Hiba történt az %s verzióra való frissítés közben.',
         '%s was correctly reinstalled.' => 'Az %s megfelelően újra lett telepítve.',
@@ -4619,7 +4619,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
         'Enable cloud services to unleash all OTOBO features!' => 'Engedélyezze a felhőszolgáltatásokat az összes OTOBO funkció feloldásához!',
 
-        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOBusiness.pm
+        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
         '%s Upgrade to %s now! %s' => '%s Frissítés erre most: %s! %s',
         'Please verify your license data!' => 'Ellenőrizze a licencadatait!',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>

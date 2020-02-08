@@ -90,7 +90,7 @@ $Selenium->RunTest(
             AdminLog
             AdminMailAccount
             AdminNotificationEvent
-            AdminOTOBOBusiness
+            AdminOTOBOCommunity
             AdminPGP
             AdminPackageManager
             AdminPerformanceLog
@@ -134,7 +134,7 @@ $Selenium->RunTest(
             # Skip test for unregistered modules (e.g. OTOBO Business)
             if ( !$FrontendModules->{$AdminModule} ) {
 
-                next ADMINMODULE if $AdminModule eq 'AdminOTOBOBusiness';
+                next ADMINMODULE if $AdminModule eq 'AdminOTOBOCommunity';
                 $Self->True(
                     index(
                         $Selenium->get_page_source(),

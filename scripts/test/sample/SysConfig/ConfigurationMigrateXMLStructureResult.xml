@@ -347,7 +347,7 @@ Description
                         <Item Key="Description" Translatable="1"></Item>
                         <Item Key="Name" Translatable="1">Reports (OTOBO Business Solution™)</Item>
                         <Item Key="Link">Action=AgentStatisticsReports;Subaction=Overview</Item>
-                        <Item Key="LinkOption">class="OTOBOBusinessRequired"</Item>
+                        <Item Key="LinkOption">class="OTOBOCommunityRequired"</Item>
                         <Item Key="NavBar">Reports</Item>
                         <Item Key="Type"></Item>
                         <Item Key="Block"></Item>

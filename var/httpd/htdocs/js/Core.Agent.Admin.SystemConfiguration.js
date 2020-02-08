@@ -527,7 +527,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
             return false;
         });
 
-        /*if (parseInt(Core.Config.Get('OTOBOBusinessIsInstalled'), 10) == "1") {
+        /*if (parseInt(Core.Config.Get('OTOBOCommunityIsInstalled'), 10) == "1") {
             $(".UserModificationActive, .UserModificationNotActive").on('click', function () {
                 EnableModification($(this));
                 Core.SystemConfiguration.Update($(this), 0, 1);

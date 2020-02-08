@@ -582,25 +582,25 @@ for my $ModuleFile (@BackendModuleFiles) {
 
     my $SystemDataObject = $Kernel::OM->Get('Kernel::System::SystemData');
 
-    my %OTOBOBusinessAgentSessionLimits = (
+    my %OTOBOCommunityAgentSessionLimits = (
         AgentSessionLimit             => 3,
         AgentSessionLimitPriorWarning => 1,
     );
 
-    for my $Key ( sort keys %OTOBOBusinessAgentSessionLimits ) {
-        my $FullKey = 'OTOBOBusiness::' . $Key;
+    for my $Key ( sort keys %OTOBOCommunityAgentSessionLimits ) {
+        my $FullKey = 'OTOBOCommunity::' . $Key;
 
         if ( defined $SystemDataObject->SystemDataGet( Key => $FullKey ) ) {
             $SystemDataObject->SystemDataUpdate(
                 Key    => $FullKey,
-                Value  => $OTOBOBusinessAgentSessionLimits{$Key},
+                Value  => $OTOBOCommunityAgentSessionLimits{$Key},
                 UserID => 1,
             );
         }
         else {
             $SystemDataObject->SystemDataAdd(
                 Key    => $FullKey,
-                Value  => $OTOBOBusinessAgentSessionLimits{$Key},
+                Value  => $OTOBOCommunityAgentSessionLimits{$Key},
                 UserID => 1,
             );
         }
@@ -620,7 +620,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
     $Self->False(
         $AgentSessionLimitPriorWarningMessage,
-        "#$Module - CheckAgentSessionLimitPriorWarning() - OTOBOBusiness - AgentSessionLimitPriorWarning not reached",
+        "#$Module - CheckAgentSessionLimitPriorWarning() - OTOBOCommunity - AgentSessionLimitPriorWarning not reached",
     );
 
     for my $Count ( 1 .. 2 ) {
@@ -642,7 +642,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
     $Self->True(
         $AgentSessionLimitPriorWarningMessage,
-        "#$Module - CheckAgentSessionLimitPriorWarning() - OTOBOBusiness - AgentSessionLimitPriorWarning reached",
+        "#$Module - CheckAgentSessionLimitPriorWarning() - OTOBOCommunity - AgentSessionLimitPriorWarning reached",
     );
 
     $SessionID = $SessionObject->CreateSessionID(
@@ -652,19 +652,19 @@ for my $ModuleFile (@BackendModuleFiles) {
 
     $Self->False(
         $SessionID,
-        "#$Module - CreateSessionID() - OTOBOBusiness - AgentSessionLimit reached",
+        "#$Module - CreateSessionID() - OTOBOCommunity - AgentSessionLimit reached",
     );
 
-    %OTOBOBusinessAgentSessionLimits = (
+    %OTOBOCommunityAgentSessionLimits = (
         AgentSessionLimit => 4,
     );
 
-    for my $Key ( sort keys %OTOBOBusinessAgentSessionLimits ) {
-        my $FullKey = 'OTOBOBusiness::' . $Key;
+    for my $Key ( sort keys %OTOBOCommunityAgentSessionLimits ) {
+        my $FullKey = 'OTOBOCommunity::' . $Key;
 
         $SystemDataObject->SystemDataUpdate(
             Key    => $FullKey,
-            Value  => $OTOBOBusinessAgentSessionLimits{$Key},
+            Value  => $OTOBOCommunityAgentSessionLimits{$Key},
             UserID => 1,
         );
     }
@@ -676,7 +676,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
     $Self->True(
         $SessionID,
-        "#$Module - CreateSessionID() - OTOBOBusiness - AgentSessionLimit not reached (after increase)",
+        "#$Module - CreateSessionID() - OTOBOCommunity - AgentSessionLimit not reached (after increase)",
     );
 
     $ConfigObject->Set(
@@ -713,17 +713,17 @@ for my $ModuleFile (@BackendModuleFiles) {
         "#$Module - CleanUp after normal session limit tests()",
     );
 
-    %OTOBOBusinessAgentSessionLimits = (
+    %OTOBOCommunityAgentSessionLimits = (
         AgentSessionLimit             => 0,
         AgentSessionLimitPriorWarning => 0,
     );
 
-    for my $Key ( sort keys %OTOBOBusinessAgentSessionLimits ) {
-        my $FullKey = 'OTOBOBusiness::' . $Key;
+    for my $Key ( sort keys %OTOBOCommunityAgentSessionLimits ) {
+        my $FullKey = 'OTOBOCommunity::' . $Key;
 
         $SystemDataObject->SystemDataUpdate(
             Key    => $FullKey,
-            Value  => $OTOBOBusinessAgentSessionLimits{$Key},
+            Value  => $OTOBOCommunityAgentSessionLimits{$Key},
             UserID => 1,
         );
     }
@@ -745,7 +745,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         $Self->True(
             $SessionID,
-            "#$Module - CreateSessionID() - with emptry OTOBOBusiness session limit values.",
+            "#$Module - CreateSessionID() - with emptry OTOBOCommunity session limit values.",
         );
     }
 
@@ -753,7 +753,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
     $Self->False(
         $AgentSessionLimitPriorWarningMessage,
-        "#$Module - CheckAgentSessionLimitPriorWarning() - with emptry OTOBOBusiness session limit values.",
+        "#$Module - CheckAgentSessionLimitPriorWarning() - with emptry OTOBOCommunity session limit values.",
     );
 
     $CleanUp = $SessionObject->CleanUp();
@@ -763,9 +763,9 @@ for my $ModuleFile (@BackendModuleFiles) {
         "#$Module - CleanUp after normal session limit tests()",
     );
 
-    for my $Key ( sort keys %OTOBOBusinessAgentSessionLimits ) {
+    for my $Key ( sort keys %OTOBOCommunityAgentSessionLimits ) {
         $SystemDataObject->SystemDataDelete(
-            Key    => 'OTOBOBusiness::' . $Key,
+            Key    => 'OTOBOCommunity::' . $Key,
             UserID => 1,
         );
     }

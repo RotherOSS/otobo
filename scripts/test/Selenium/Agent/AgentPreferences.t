@@ -529,7 +529,7 @@ JAVASCRIPT
 
         # Enable two factor authenticator.
 
-        if ( $Kernel::OM->Get('Kernel::System::OTOBOBusiness')->OTOBOBusinessIsInstalled() ) {
+        if ( $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCommunityIsInstalled() ) {
 
             # Open advanced preferences screen.
             $Selenium->VerifiedGet(

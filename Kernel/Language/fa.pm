@@ -1305,7 +1305,7 @@ sub Data {
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '',
 
-        # Template: AdminOTOBOBusinessInstalled
+        # Template: AdminOTOBOCommunityInstalled
         'Manage %s' => 'مدیریت %s',
         'Downgrade to OTOBO' => '',
         'Read documentation' => 'خواندن اسناد',
@@ -1332,7 +1332,7 @@ sub Data {
         'Congratulations, your %s is correctly installed and up to date!' =>
             'تبریک می گویم، شما %s به درستی نصب شده و بروزرسانی شده است !',
 
-        # Template: AdminOTOBOBusinessNotInstalled
+        # Template: AdminOTOBOCommunityNotInstalled
         'Go to the OTOBO customer portal' => '',
         '%s will be available soon. Please check again in a few days.' =>
             '%s به زودی در دسترس خواهد بود. لطفا پس از چند روز دوباره بررسی کنید.',
@@ -1360,7 +1360,7 @@ sub Data {
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
             'اگر شما می خواهم به استفاده کامل از %s از قرارداد خود را به روز رسانی در حال حاضر! تماس با %s .',
 
-        # Template: AdminOTOBOBusinessUninstall
+        # Template: AdminOTOBOCommunityUninstall
         'Cancel downgrade and go back' => 'لغو کاهش دادن و بازگشت',
         'Go to OTOBO Package Manager' => 'برو به OTOBO مدیر بسته',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
@@ -2433,7 +2433,7 @@ sub Data {
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             '',
 
-        # Template: AgentOTOBOBusinessBlockScreen
+        # Template: AgentOTOBOCommunityBlockScreen
         'Unauthorized usage of %s detected' => 'استفاده غیر مجاز از %s شناسایی',
         'If you decide to downgrade to OTOBO, you will lose all database tables and data related to %s.' =>
             '',
@@ -3275,7 +3275,7 @@ sub Data {
         # Template: Navigation
         'Navigation' => '',
 
-        # Template: OTOBOBusinessTeaser
+        # Template: OTOBOCommunityTeaser
         'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
             '',
 
@@ -3719,7 +3719,7 @@ sub Data {
         'Invisible to customer' => '',
         'Visible to customer' => '',
 
-        # Perl Module: Kernel/Modules/AdminOTOBOBusiness.pm
+        # Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
         'Your system was successfully upgraded to %s.' => 'سیستم شما با موفقیت در%s به روز رسانی شد  .',
         'There was a problem during the upgrade to %s.' => '  در طول ارتقاء%s یک مشکلی به وجود آمده بود .',
         '%s was correctly reinstalled.' => '%s به درستی نصب مجدد شد.',
@@ -4619,7 +4619,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
         'Enable cloud services to unleash all OTOBO features!' => 'فعال کردن سرویس های ابری به رها کردن تمام ویژگی های OTOBO!',
 
-        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOBusiness.pm
+        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
         '%s Upgrade to %s now! %s' => '%s ارتقا به %s در حال حاضر! %s',
         'Please verify your license data!' => '',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>

@@ -365,10 +365,10 @@ $Selenium->RunTest(
         }
 
         # Check article filtering by event types in timeline view (see bug#13836).
-        # TimelineView is an OTOBOBusiness feature.
-        my $OTOBOBusinessIsInstalled = $Kernel::OM->Get('Kernel::System::OTOBOBusiness')->OTOBOBusinessIsInstalled();
+        # TimelineView is an OTOBOCommunity feature.
+        my $OTOBOCommunityIsInstalled = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCommunityIsInstalled();
 
-        if ($OTOBOBusinessIsInstalled) {
+        if ($OTOBOCommunityIsInstalled) {
 
             # Enable TimelineViewEnabled.
             $Helper->ConfigSettingChange(

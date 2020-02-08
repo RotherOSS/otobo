@@ -749,7 +749,7 @@
                 <Item Key="Name" Translatable="1">Web View</Item>
                 <Item Key="Icon">fa fa-th-list</Item>
                 <Item Key="Prio">110</Item>
-                <Item Key="IsOTOBOBusinessTransport">1</Item>
+                <Item Key="IsOTOBOCommunityTransport">1</Item>
                 <Item Key="AgentEnabledByDefault">0</Item>
             </Hash>
         </Value>
@@ -763,7 +763,7 @@
                 <Item Key="Name" Translatable="1">SMS (Short Message Service)</Item>
                 <Item Key="Icon">fa fa-mobile</Item>
                 <Item Key="Prio">120</Item>
-                <Item Key="IsOTOBOBusinessTransport">1</Item>
+                <Item Key="IsOTOBOCommunityTransport">1</Item>
                 <Item Key="AgentEnabledByDefault">0</Item>
             </Hash>
         </Value>
