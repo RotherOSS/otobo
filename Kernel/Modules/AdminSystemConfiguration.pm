@@ -239,7 +239,7 @@ sub Run {
         my $SettingName = $ParamObject->GetParam( Param => 'Name' ) || '';
 
         my %UsersList;
-        if ( $SysConfigObject->can('UserSettingModifiedValueList') ) {    # OTOBO Business Solution™
+        if ( $SysConfigObject->can('UserSettingModifiedValueList') ) {    # OTOBO Community Solution
             %UsersList = $SysConfigObject->UserSettingModifiedValueList(
                 Name => $SettingName,
             );

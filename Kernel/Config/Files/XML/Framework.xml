@@ -9309,7 +9309,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <!-- End DeploymentHistory -->
-    <!-- End SettingHistory -->
+    <!-- SettingHistory -->
     <Setting Name="Frontend::Module###AdminSystemConfigurationSettingHistory" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
@@ -9366,4 +9366,50 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <!-- End SettingHistory -->
+    <!-- SettingUser -->
+    <Setting Name="Frontend::Module###AdminSystemConfigurationUser" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Core::Web</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">Admin</Item>
+                    <Item Key="Title">System Configuration User Settings</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminSystemConfigurationUser###001-OTOBOCommunity" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.Admin.SystemConfiguration.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>thirdparty/clipboardjs-1.7.1/clipboard.min.js</Item>
+                        <Item>Core.SystemConfiguration.js</Item>
+                        <Item>Core.Form.js</Item>
+                        <Item>Core.Agent.Admin.SystemConfiguration.js</Item>
+                        <Item>Core.Agent.Admin.SystemConfigurationUser.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <!-- End SettingUser -->
 </otobo_config>

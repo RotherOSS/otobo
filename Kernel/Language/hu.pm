@@ -1435,7 +1435,7 @@ sub Data {
         'Install' => 'Telepítés',
         'Update repository information' => 'Tároló-információk frissítése',
         'Cloud services are currently disabled.' => 'A felhőszolgáltatások jelenleg le vannak tiltva.',
-        'OTOBO Verify™ can not continue!' => 'Az OTOBO Verify™ nem folytatható!',
+        'OTOBO Verify can not continue!' => 'Az OTOBO Verify nem folytatható!',
         'Enable cloud services' => 'Felhőszolgáltatások engedélyezése',
         'Update all installed packages' => 'Az összes telepített csomag frissítése',
         'Online Repository' => 'Online tároló',
@@ -2834,8 +2834,8 @@ sub Data {
         'Traceback' => 'Visszakövetés',
 
         # Template: CustomerFooter
-        '%s powered by %s™' => '%s gépházában: %s™',
-        'Powered by %s™' => 'A gépházban: %s™',
+        '%s powered by %s' => '%s gépházában: %s',
+        'Powered by %s' => 'A gépházban: %s',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>

@@ -1,0 +1,77 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+<ul class="SettingsList Compare [% IF Env("Subaction") == 'Deployment' %]Deployment[% END %]">
+[% FOREACH Setting IN Data.SettingList %]
+    <li>
+        <div class="SettingContainer Selected">
+            <div class="SettingOld">
+                <div class="WidgetSimple Expanded Setting">
+                    <div class="Header">
+                        <h2>
+                            [% Setting.PreviousName | html %]
+                            <span class="Label">[% Translate("Now") | html %]</span>
+                        </h2>
+                    </div>
+                    <div class="Content">
+                        <div class="WidgetMessage Top">
+                            <p class="UserModification">[% Translate("User modification") | html %]: <strong>[% IF Setting.PreviousUserModificationActive %][% Translate("enabled") | html %][% ELSE %][% Translate("disabled") | html %][% END %]</strong></p>
+                            <p class="SettingState">[% Translate("Setting state") | html %]: <strong>[% IF Setting.PreviousIsValid %][% Translate("enabled") | html %][% ELSE %][% Translate("disabled") | html %][% END %]</strong></p>
+                        </div>
+                        <div class="SettingWrapper">
+                            <div class="SettingContainer">
+                                <fieldset class="TableLike FixedLabel" id="fieldset[% Setting.DefaultID | html %]">
+                                    [% Setting.PreviousHTMLStrg %]
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="SettingNew">
+                <div class="WidgetSimple Expanded Setting">
+                    <div class="Header">
+                        <h2>
+                            <input type="checkbox" checked="checked" value="[% Setting.CurrentName | html %]" />
+                            <a href="[% Env("Baselink") | html %]Action=AdminSystemConfiguration;Subaction=View;Setting=[% Setting.CurrentName | uri %];DeploymentID=[% Data.DeploymentID | uri %]" target="_parent">[% Setting.CurrentName | html %]</a>
+                            <span class="Label">[% Translate("New") | html %]</span>
+                        </h2>
+                        <p class="HeaderMessage">[% Setting.Navigation | html %]</p>
+                        <div class="ActionMenu Visible">
+                            <div class="WidgetAction Compare">
+                                <a href=""><i class="fa fa-exchange"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Content">
+                        <div class="WidgetMessage Top">
+                            <p class="UserModification">[% Translate("User modification") | html %]: <strong>[% IF Setting.CurrentUserModificationActive %][% Translate("enabled") | html %][% ELSE %][% Translate("disabled") | html %][% END %]</strong></p>
+                            <p class="SettingState">[% Translate("Setting state") | html %]: <strong>[% IF Setting.CurrentIsValid %][% Translate("enabled") | html %][% ELSE %][% Translate("disabled") | html %][% END %]</strong></p>
+                        </div>
+                        <div class="SettingWrapper">
+                            <div class="SettingContainer">
+                                <fieldset class="TableLike FixedLabel" id="fieldset[% Setting.DefaultID | html %]">
+                                    [% Setting.HTMLStrg %]
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+[% END %]
+</ul>

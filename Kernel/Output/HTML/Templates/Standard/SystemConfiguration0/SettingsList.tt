@@ -1,0 +1,158 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+[% IF Data.SettingList.size %]
+<ul class="SettingsList">
+[% FOREACH Setting IN Data.SettingList %]
+    <li>
+        <div class="WidgetSimple Expanded Setting
+            [% IF Setting.IsReadonly OR Setting.OverriddenFileName OR Setting.HasConfigLevel < Data.ConfigLevel %]IsReadonly[% END %]
+            [% IF !Setting.IsValid %]IsDisabled[% END %]
+            [% IF Setting.IsModified %]IsModified[% END %]
+            [% IF Setting.IsDirty %]IsDirty[% END %]
+            [% IF Setting.Locked == 1 %]IsLockedByAnotherUser[% END %]
+            [% IF Setting.ExclusiveLockUserID == Env('UserID') %]IsLockedByMe[% END %]"
+            id="Setting[% Setting.DefaultID %]"
+            data-name="[% Setting.Name | html %]">
+
+            <div class="Header">
+                <h2>
+                    <div class="Icon">
+                        <i class="fa fa-ban [% IF Setting.IsValid || Setting.OverriddenFileName || Setting.HasConfigLevel < Data.ConfigLevel %]Hidden[% END %]" title="[% Translate("This setting is disabled.") | html %]"></i>
+                    </div>
+
+                    [% IF Env("Subaction") == 'Invalid' %]
+                    <div class="Icon">
+                        <i class="fa fa-check-circle-o [% IF Setting.Invalid %]Hidden[% END %]" title="[% Translate("This setting is fixed but not deployed yet!") | html %]"></i>
+                    </div>
+                    [% END %]
+
+                    [% IF Setting.OverriddenFileName %]
+                    <div class="Icon">
+                        <i class="fa fa-exclamation-triangle" title="[% Translate("This setting is currently being overridden in %s and can't thus be changed here!", Setting.OverriddenFileName) | html %]"></i>
+                    </div>
+                    [% ELSIF Setting.HasConfigLevel < Data.ConfigLevel %]
+                    <div class="Icon">
+                        <i class="fa fa-exclamation-triangle" title="[% Translate("Changing this setting is only available in a higher config level!") | html %]"></i>
+                    </div>
+                    [% END %]
+
+                    [% Setting.Name | html %]
+                </h2>
+                <p class="HeaderMessage">
+                <span class="Right">[% Setting.XMLFilename %]</span>&nbsp;&nbsp;
+                [% IF Env("Action") != 'AdminSystemConfigurationGroup' %]
+                    <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationGroup;RootNavigation=[% Setting.Navigation | uri %]" target="_blank">[% Setting.Navigation | html %] &nbsp;<i class="fa fa-external-link"></i></a>
+                [% END %]
+                [% IF Setting.Locked == 1 %]
+                    <span>[% Translate("%s (%s) is currently working on this setting.", Setting.User.UserFullname, Setting.User.UserEmail) | html %]</span>
+                [% END %]
+                </p>
+                <div class="ActionMenu Visible">
+                    <div class="WidgetAction Expand">
+                        <a href="#" title="[% Translate("Toggle advanced options for this setting") | html %]"><i class="fa fa-bars"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="WidgetMenu">
+                [% IF !Setting.IsRequired %]
+                <a href="#" class="Button SettingEnabled [% IF Setting.IsValid == 0 %]Hidden[% END %]" title="[% Translate("Disable this setting, so it is no longer effective") | html %]"><i class="fa fa-times"></i> [% Translate("Disable") | html %]</a>
+                <a href="#" class="Button SettingDisabled [% IF Setting.IsValid == 1 %]Hidden[% END %]" title="[% Translate("Enable this setting, so it becomes effective") | html %]"><i class="fa fa-check"></i> [% Translate("Enable") | html %]</a>
+                [% END %]
+
+                <a href="#" class="ResetSetting Button" data-user-modification="[% Setting.UserModificationPossible %]" title="[% Translate("Reset this setting to its default state") | html %]">
+                    <i class="fa fa-undo"></i>
+                    [% Translate("Reset setting") | html %]
+                </a>
+
+#Svencheck: nach Stefan
+# Rother OSS / TODO / After sysconfig enhancement
+                [% IF Setting.UserModificationPossible && Data.OTOBOCommunityIsInstalled %]
+                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UserModified;SettingName=[% Setting.Name | uri %]"
+                    class="UserModificationNotActive Button [% IF Setting.UserModificationActive %]Hidden[% END %]" title="[% Translate("Allow users to adapt this setting from within their personal preferences") | html %]">
+
+                    <i class="fa fa-users"></i>
+                    [% Translate("Allow users to update") | html %]
+                </a>
+                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UserModified;SettingName=[% Setting.Name | uri %]"
+                    class="UserModificationActive Button [% IF !Setting.UserModificationActive %]Hidden[% END %]" title="[% Translate("Do not longer allow users to adapt this setting from within their personal preferences") | html %]">
+
+                    <i class="fa fa-users"></i>
+                    [% Translate("Forbid users to update") | html %]
+                </a>
+                [% END %]
+
+                [% IF Setting.UserModificationActive %]
+                <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationUser;Subaction=ShowUsersSettingValue;SettingName=[% Setting.Name | uri %]" class="UserSettings Button" title="[% Translate("Show user specific changes for this setting") | html %]">
+                    <i class="fa fa-user"></i>
+                    [% Translate("Show user settings") | html %]
+                </a>
+                [% END %]
+
+                <span href="#" class="Button CopyToClipboard" data-clipboard-text="[% Config("HttpType") | html %]://[% Config("FQDN") | html %][% Env("Baselink") | html %]Action=AdminSystemConfiguration;Subaction=View;Setting=[% Setting.Name | uri %]" title="[% Translate("Copy a direct link to this setting to your clipboard") | html %]"><i class="fa fa-link"></i> [% Translate("Copy direct link") | html %]</span>
+
+            [% IF Setting.IsFavourite %]
+                <a href="#" class="Button RemoveFromFavourites" data-setting-name="[% Setting.Name | html %]" title="[% Translate("Remove this setting from your favorites setting") | html %]"><i class="fa fa-star"></i> <span>[% Translate("Remove from favourites") | html %]</span></a>
+            [% ELSE %]
+                <a href="#" class="Button AddToFavourites" data-setting-name="[% Setting.Name | html %]" title="[% Translate("Add this setting to your favorites") | html %]"><i class="fa fa-star-o"></i> <span>[% Translate("Add to favourites") | html %]</span></a>
+            [% END %]
+
+                <a href="#" class="Button Right CancelAlias" title="[% Translate("Cancel editing this setting") | html %]"><i class="fa fa-times"></i> [% Translate("Cancel") | html %]</a>
+                <a href="#" class="Button Right SaveAlias" title="[% Translate("Save changes on this setting") | html %]"><i class="fa fa-check"></i> [% Translate("Save") | html %]</a>
+                <a href="#" class="Button Right EditAlias" title="[% Translate("Edit this setting") | html %]"><i class="fa fa-pencil-square-o"></i> [% Translate("Edit this setting") | html %]</a>
+
+            </div>
+
+            <div class="Content">
+                [% IF Setting.Locked == 1 %]
+                <div class="LockedByAnotherUser"></div>
+                [% END %]
+                [% IF !Setting.OverriddenFileName %]
+                <a href="#" title="[% Translate("Edit this setting") | html %]" class="SettingEdit" data-name="[% Setting.Name | html %]" data-id="[% Setting.DefaultID | html %]">
+                    <button class="CallForAction" aria-controls="fieldset[% Setting.DefaultID | html %]"><span><i class="fa fa-pencil-square-o"></i> [% Translate("Edit this setting") | html %]</span></button>
+                </a>
+                [% END %]
+
+                <a href="#" title="[% Translate("Enable this setting") | html %]" class="SettingEnable">
+                    <button class="CallForAction" aria-controls="fieldset[% Setting.DefaultID | html %]"><span><i class="fa fa-check"></i> [% Translate("Enable this setting") | html %]</span></button>
+                </a>
+
+                <div class="SettingWrapper">
+                    <form autocomplete="off">
+                        <div class="SettingContainer">
+                            <input type="hidden" name="SettingName" value="[% Setting.Name | html %]" />
+                            <fieldset class="TableLike FixedLabel" role="region" aria-live="polite" id="fieldset[% Setting.DefaultID | html %]">
+                                [% Setting.HTMLStrg %]
+                            </fieldset>
+                        </div>
+                    </form>
+                    <div class="SettingDescription">
+                        [% Translate(Setting.Description) | html %]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+[% END %]
+</ul>
+[% ELSE %]
+<div class="WidgetSimple">
+    <div class="Content">
+        <p class="Center">[% Translate("This group doesn't contain any settings. Please try navigating to one of its sub groups or another group.") | html %]</p>
+    </div>
+</div>
+[% END %]

@@ -50,7 +50,7 @@ my @Tests = (
         AgentNotificationResultAdmin => '<!-- start Notify -->
 <div class="MessageBox Info">
     <p>
-            <a href="No-$ENV{"SCRIPT_NAME"}?Action=AdminOTOBOCommunity"> Upgrade to <b>OTOBO Business Solution</b>™ now! </a>
+            <a href="No-$ENV{"SCRIPT_NAME"}?Action=AdminOTOBOCommunity"> Upgrade to <b>OTOBO Community Edition</b>™ now! </a>
     </p>
 </div>
 <!-- end Notify -->
@@ -89,7 +89,7 @@ my @Tests = (
         AgentNotificationResultAdmin => '<!-- start Notify -->
 <div class="MessageBox Notice">
     <p>
-            The license for your <b>OTOBO Business Solution</b>™ is about to expire. Please make contact with sales@otrs.com to renew your contract!
+            The license for your <b>OTOBO Community Edition</b>™ is about to expire. Please make contact with sales@otrs.com to renew your contract!
     </p>
 </div>
 <!-- end Notify -->
@@ -134,7 +134,7 @@ my @Tests = (
         AgentNotificationResultAgent => '<!-- start Notify -->
 <div class="MessageBox Error">
     <p>
-            This system uses the <b>OTOBO Business Solution</b>™ without a proper license! Please make contact with sales@otrs.com to renew or activate your contract!
+            This system uses the <b>OTOBO Community Edition</b>™ without a proper license! Please make contact with sales@otrs.com to renew or activate your contract!
     </p>
 </div>
 <!-- end Notify -->
@@ -142,7 +142,7 @@ my @Tests = (
         AgentNotificationResultAdmin => '<!-- start Notify -->
 <div class="MessageBox Error">
     <p>
-            This system uses the <b>OTOBO Business Solution</b>™ without a proper license! Please make contact with sales@otrs.com to renew or activate your contract!
+            This system uses the <b>OTOBO Community Edition</b>™ without a proper license! Please make contact with sales@otrs.com to renew or activate your contract!
     </p>
 </div>
 <!-- end Notify -->
@@ -150,7 +150,7 @@ my @Tests = (
         CustomerNotificationResult => '<!-- start Notify -->
 <div class="MessageBox Error">
     <p>
-            This system uses the <b>OTOBO Business Solution</b>™ without a proper license! Please make contact with sales@otrs.com to renew or activate your contract!
+            This system uses the <b>OTOBO Community Edition</b>™ without a proper license! Please make contact with sales@otrs.com to renew or activate your contract!
     </p>
 </div>
 <!-- end Notify -->
@@ -171,7 +171,7 @@ my @Tests = (
         AgentNotificationResultAgent => '<!-- start Notify -->
 <div class="MessageBox Error">
     <p>
-            This system uses the <b>OTOBO Business Solution</b>™ without a proper license! Please make contact with sales@otrs.com to renew or activate your contract!
+            This system uses the <b>OTOBO Community Edition</b>™ without a proper license! Please make contact with sales@otrs.com to renew or activate your contract!
 <script>
 if (!window.location.search.match(/^[?]Action=(AgentOTOBOCommunity|Admin.*)/)) {
     window.location.search = "Action=AgentOTOBOCommunity;Subaction=BlockScreen";
@@ -184,7 +184,7 @@ if (!window.location.search.match(/^[?]Action=(AgentOTOBOCommunity|Admin.*)/)) {
         AgentNotificationResultAdmin => '<!-- start Notify -->
 <div class="MessageBox Error">
     <p>
-            This system uses the <b>OTOBO Business Solution</b>™ without a proper license! Please make contact with sales@otrs.com to renew or activate your contract!
+            This system uses the <b>OTOBO Community Edition</b>™ without a proper license! Please make contact with sales@otrs.com to renew or activate your contract!
 <script>
 if (!window.location.search.match(/^[?]Action=(AgentOTOBOCommunity|Admin.*)/)) {
     window.location.search = "Action=AgentOTOBOCommunity;Subaction=BlockScreen";
@@ -197,7 +197,7 @@ if (!window.location.search.match(/^[?]Action=(AgentOTOBOCommunity|Admin.*)/)) {
         CustomerNotificationResult => '<!-- start Notify -->
 <div class="MessageBox Error">
     <p>
-            This system uses the <b>OTOBO Business Solution</b>™ without a proper license! Please make contact with sales@otrs.com to renew or activate your contract!
+            This system uses the <b>OTOBO Community Edition</b>™ without a proper license! Please make contact with sales@otrs.com to renew or activate your contract!
     </p>
 </div>
 <!-- end Notify -->

@@ -321,7 +321,7 @@ sub Run {
         if ( $UpdateResult{Error} ) {
             $Result{Data}->{Error} = $UpdateResult{Error};
         }
-        elsif ( !$SysConfigObject->can('UserConfigurationDeploy') ) {    # OTOBO Business Solution™
+        elsif ( !$SysConfigObject->can('UserConfigurationDeploy') ) {    # OTOBO Community Solution
             $Result{Data}->{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
                 "This feature is not available."
             );
@@ -898,7 +898,7 @@ sub _SettingReset {
     if ( !%Setting ) {
         $Result{Error} = $LayoutObject->{LanguageObject}->Translate("Setting not found!");
     }
-    elsif ( !$SysConfigObject->can('UserSettingValueDelete') ) {    # OTOBO Business Solution™
+    elsif ( !$SysConfigObject->can('UserSettingValueDelete') ) {    # OTOBO Community Solution
         $Result{Data}->{Error} = $LayoutObject->{LanguageObject}->Translate(
             "This feature is not available."
         );

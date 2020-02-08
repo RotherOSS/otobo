@@ -345,7 +345,7 @@ Description
                             </Array>
                         </Item>
                         <Item Key="Description" Translatable="1"></Item>
-                        <Item Key="Name" Translatable="1">Reports (OTOBO Business Solution™)</Item>
+                        <Item Key="Name" Translatable="1">Reports (OTOBO Community Solution)</Item>
                         <Item Key="Link">Action=AgentStatisticsReports;Subaction=Overview</Item>
                         <Item Key="LinkOption">class="OTOBOCommunityRequired"</Item>
                         <Item Key="NavBar">Reports</Item>
@@ -622,7 +622,7 @@ Description
         </Value>
     </Setting>
     <Setting Name="Test29" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">OTOBO Business Solution™, OTOBO Verify™ (test utf8).</Description>
+        <Description Translatable="1">OTOBO Community Solution, OTOBO Verify (test utf8).</Description>
         <Navigation>SubGroup</Navigation>
         <Value>
             <String1 Regex="">123</String1>

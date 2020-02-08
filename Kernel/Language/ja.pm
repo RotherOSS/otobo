@@ -1436,7 +1436,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Install' => 'インストール',
         'Update repository information' => 'リポジトリ情報を更新',
         'Cloud services are currently disabled.' => 'クラウドサービスは現在無効化されています',
-        'OTOBO Verify™ can not continue!' => 'OTOBO Verify™️が継続できません！',
+        'OTOBO Verify can not continue!' => 'OTOBO Verify️が継続できません！',
         'Enable cloud services' => 'クラウドサービスの有効化',
         'Update all installed packages' => 'インストールされているパッケージを全て更新する',
         'Online Repository' => 'オンラインリポジトリ',
@@ -2835,8 +2835,8 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Traceback' => 'トレースバック',
 
         # Template: CustomerFooter
-        '%s powered by %s™' => '%spowered by %s',
-        'Powered by %s™' => 'powered by %s™',
+        '%s powered by %s' => '%spowered by %s',
+        'Powered by %s' => 'powered by %s',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>

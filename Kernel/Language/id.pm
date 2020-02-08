@@ -1430,7 +1430,7 @@ sub Data {
         'Install' => 'Instal',
         'Update repository information' => 'Memperbarui informasi repositori',
         'Cloud services are currently disabled.' => 'Layanan cloud saat ini di non-aktifkan',
-        'OTOBO Verify™ can not continue!' => 'Verifikasi™ OTOBO tidak bisa dilanjutkan',
+        'OTOBO Verify can not continue!' => 'Verifikasi™ OTOBO tidak bisa dilanjutkan',
         'Enable cloud services' => 'Mengaktifkan layanan cloud',
         'Update all installed packages' => '',
         'Online Repository' => 'Repository secara online',
@@ -2831,8 +2831,8 @@ bin/otobo.Daemon.pl status\').',
         'Traceback' => 'Melacak kembali',
 
         # Template: CustomerFooter
-        '%s powered by %s™' => '',
-        'Powered by %s™' => '',
+        '%s powered by %s' => '',
+        'Powered by %s' => '',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>

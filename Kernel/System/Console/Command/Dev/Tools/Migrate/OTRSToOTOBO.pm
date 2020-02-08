@@ -364,6 +364,7 @@ sub _HandleFile {
         Type       => 'Local',                                                    # optional - Local|Attachment|MD5
         Permission => '660',                                                      # unix file permissions
     );
+
     if ( !$File ) {
         $Self->PrintError("File $RwPath could not be written.\n");
         return $Self->ExitCodeError();
@@ -548,6 +549,7 @@ sub _ChangePathFileName {
 
     # Check if new dir exists
     my $NewFileDirname  = dirname($NewFile);
+    print STDERR "DIRENAMMMMMM: $NewFileDirname\n";
     if (! -d $NewFileDirname ) {
         mkdir $NewFileDirname or print "Can\'t create directory $NewFileDirname: $!\n";
     }
@@ -563,7 +565,7 @@ sub _ChangeFilePath {
         (
             {
                 FileTyp => 'All',
-                Search  => 'OTOBOCommunity',
+                Search  => 'OTRSBusiness',
                 Change  => 'OTOBOCommunity',
             },
             {
@@ -575,6 +577,16 @@ sub _ChangeFilePath {
                 FileTyp => 'All',
                 Search  => 'otrs',
                 Change  => 'otobo',
+            },
+            {
+                FileTyp => 'All',
+                Search  => 'ContactWithData',
+                Change  => 'ContactWD',
+            },
+            {
+                FileTyp => 'All',
+                Search  => 'DynamicFieldDatabase',
+                Change  => 'DynamicFieldDB',
             },
         ),
     )
@@ -602,10 +614,26 @@ sub _ChangeFileInfo {
 
     return (
         (
+
+            {
+                FileTyp => 'All',
+                Search  => 'ContactWithData',
+                Change  => 'ContactWD'
+            },
+            {
+                FileTyp => 'All',
+                Search  => 'DynamicFieldDatabase',
+                Change  => 'DynamicFieldDB'
+            },
             {
                 FileTyp => 'All',
                 Search  => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d ))OTRS AG',
                 Change  => 'Rother OSS GmbH'
+            },
+            {
+                FileTyp => 'All',
+                Search  => 'OTOBO Community Edition',
+                Change  => 'OTOBO Community'
             },
             {
                 FileTyp => 'All',

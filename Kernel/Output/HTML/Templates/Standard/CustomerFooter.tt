@@ -42,7 +42,7 @@
 #[% IF !Config("Secure::DisableBanner") %]
 #    <a href="[% IF !Data.IsLoginPage %]https://www.otrs.com[% ELSE %]https://www.otrs.com/otobo-business-solution-managed/[% END %]" title="[% Config("Product") | html %][% IF !Data.IsLoginPage %] [% Config("Version") | html %][% END %]" target="_blank">
 #        <span></span>
-#        [% Translate("Powered by %s™", "Harry") | html %]
+#        [% Translate("Powered by %s", "Harry") | html %]
 #    </a>
 #    <div class="Clear"></div>
 #[% END %]

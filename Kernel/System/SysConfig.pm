@@ -91,7 +91,7 @@ sub new {
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     FILENAME:
-    for my $Filename (qw(Framework.pm)) {
+    for my $Filename (qw(Framework.pm OTOBOCommunity.pm)) {
         my $BaseFile = $BaseDir . $Filename;
         next FILENAME if !-e $BaseFile;
 
@@ -701,7 +701,7 @@ sub SettingUpdate {
     if (
         !$Param{IsValid}
         && !$Param{TargetUserID}
-        && $Self->can('UserSettingValueDelete')    # OTOBO Business Solution™
+        && $Self->can('UserSettingValueDelete')    # OTOBO Community Solution
         )
     {
         $Self->UserSettingValueDelete(
@@ -3607,7 +3607,7 @@ sub ConfigurationDeploy {
 
         # If setting is updated on global level, check all user specific settings, maybe it's needed
         #   to remove duplicates.
-        if ( $Self->can('UserConfigurationResetToGlobal') ) {    # OTOBO Business Solution™
+        if ( $Self->can('UserConfigurationResetToGlobal') ) {    # OTOBO Community Solution
 
             my @DeployedSettings;
             if ( $Param{DirtySettings} ) {
@@ -3770,7 +3770,7 @@ sub ConfigurationDeploySync {
     }
 
     # Sync also user specific settings (if available).
-    return 1 if !$Self->can('UserConfigurationDeploySync');    # OTOBO Business Solution™
+    return 1 if !$Self->can('UserConfigurationDeploySync');    # OTOBO Community Solution
     $Self->UserConfigurationDeploySync();
 
     return 1;
@@ -4116,7 +4116,7 @@ sub ConfigurationDump {
             }
         }
 
-        if ( !$Param{SkipUserSettings} && $Self->can('UserConfigurationDump') ) {    # OTOBO Business Solution™
+        if ( !$Param{SkipUserSettings} && $Self->can('UserConfigurationDump') ) {    # OTOBO Community Solution
             my %UserSettings = $Self->UserConfigurationDump(
                 SettingList => \@SettingsList,
                 OnlyValues  => $Param{OnlyValues},
@@ -4264,7 +4264,7 @@ sub ConfigurationLoad {
 
         # Only deploy user specific settings;
         next SECTION if !$TargetUserID;
-        next SECTION if !$Self->can('UserConfigurationDeploy');    # OTOBO Business Solution™
+        next SECTION if !$Self->can('UserConfigurationDeploy');    # OTOBO Community Solution
 
         # Deploy user configuration requires another package to be installed.
         my $Success = $Self->UserConfigurationDeploy(

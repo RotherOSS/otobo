@@ -1430,7 +1430,7 @@ sub Data {
         'Install' => 'ติดตั้ง',
         'Update repository information' => 'อัปเดตข้อมูลของพื้นที่เก็บข้อมูล',
         'Cloud services are currently disabled.' => 'บริการคลาวด์ถูกปิดการใช้งานในขณะนี้',
-        'OTOBO Verify™ can not continue!' => 'OTOBO Verify™ ไม่สามารถดำเนินการต่อไป!',
+        'OTOBO Verify can not continue!' => 'OTOBO Verify ไม่สามารถดำเนินการต่อไป!',
         'Enable cloud services' => 'เปิดใช้บริการคลาวด์',
         'Update all installed packages' => '',
         'Online Repository' => 'พื้นที่เก็บข้อมูลออนไลน์',
@@ -2832,8 +2832,8 @@ sub Data {
         'Traceback' => 'ตรวจสอบย้อนกลับ',
 
         # Template: CustomerFooter
-        '%s powered by %s™' => '',
-        'Powered by %s™' => '',
+        '%s powered by %s' => '',
+        'Powered by %s' => '',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>

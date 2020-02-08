@@ -329,7 +329,7 @@ Description
                     <GroupRo>stats</GroupRo>
                     <GroupRo>another</GroupRo>
                     <Description Translatable="1"></Description>
-                    <Name Translatable="1">Reports (OTOBO Business Solution™)</Name>
+                    <Name Translatable="1">Reports (OTOBO Community Solution)</Name>
                     <Link>Action=AgentStatisticsReports;Subaction=Overview</Link>
                     <LinkOption>class="OTOBOCommunityRequired"</LinkOption>
                     <NavBar>Reports</NavBar>
@@ -460,7 +460,7 @@ Description
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Test29" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">OTOBO Business Solution™, OTOBO Verify™ (test utf8).</Description>
+        <Description Translatable="1">OTOBO Community Solution, OTOBO Verify (test utf8).</Description>
         <Group>TestGroup</Group>
         <SubGroup>SubGroup</SubGroup>
         <Setting>

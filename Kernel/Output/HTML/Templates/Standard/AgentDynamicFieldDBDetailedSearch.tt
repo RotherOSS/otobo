@@ -1,0 +1,117 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+<div class="LayoutPopup">
+
+[% RenderBlockStart("SearchResultAction") %]
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AgentDynamicFieldDBDetailedSearch;DynamicFieldName=DynamicField_[% Data.FieldName | html %];[% Data.SearchParam | html %];TicketID=[% Data.TicketID %]" class="CallForAction">
+                            <span><i class="fa fa-caret-left"></i> [% Translate("Back") | html %]</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+[% RenderBlockEnd("SearchResultAction") %]
+
+    <div class="Content">
+[% RenderBlockStart("SearchOverview") %]
+        <h1>[% Translate("Detailed search") | html %]</h1>
+        <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+            <input type="hidden" name="Action" value="AgentDynamicFieldDBDetailedSearch">
+            <input type="hidden" name="Subaction" value="DetailedSearch">
+            <input type="hidden" name="DynamicFieldName" value="DynamicField_[% Data.DynamicFieldName | html %]">
+            <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]">
+
+            <fieldset class="TableLike FixedLabel SpacingTop">
+
+[% RenderBlockStart("SearchField") %]
+                <label for="[% Data.FieldName | html %]" id="Label_[% Data.FieldName | html %]">[% Data.FieldLabel | html %]:</label>
+                <div class="Field" id="Field_[% Data.FieldName | html %]">
+                    <input type="text" name="DetailedSearch_[% Data.FieldKey | html %]_[% Data.FieldName | html %]" id="[% Data.FieldName | html %]" value="[% Data.FieldValue | html %]" class="W75pc" />
+                    <a href="#" id="RemoveValue_[% Data.FieldName | html %]_[% Data.FieldKey | html %]" class="RemoveButton" title="[% Translate("Remove value") | html %]"><i class="fa fa-minus-square-o"></i></a>
+                </div>
+[% RenderBlockEnd("SearchField") %]
+[% RenderBlockStart("SearchFieldHidden") %]
+                <label for="[% Data.FieldName | html %]" class="Hidden" id="Label_[% Data.FieldName | html %]">[% Data.FieldLabel | html %]:</label>
+                <div class="Field Hidden" id="Field_[% Data.FieldName | html %]">
+                    <input type="text" name="DetailedSearch_[% Data.FieldKey | html %]_[% Data.FieldName | html %]" id="[% Data.FieldName | html %]" value="[% Data.FieldValue | html %]" class="W75pc" />
+                    <a href="#" id="RemoveValue_[% Data.FieldName | html %]_[% Data.FieldKey | html %]" class="RemoveButton" title="[% Translate("Remove value") | html %]"><i class="fa fa-minus-square-o"></i></a>
+                </div>
+[% RenderBlockEnd("SearchFieldHidden") %]
+
+            </fieldset>
+
+            <fieldset class="TableLike FixedLabel SpacingTop">
+
+[% RenderBlockStart("SearchFieldList") %]
+                <label for="[% Data.FieldName | html %]">[% Translate("Add an additional attribute") | html %]:</label>
+                <div class="Field">
+                    [% Data.SearchFieldList %]
+                    <a href="#" id="AddValue" class="AddButton" title="[% Translate("Add value") | html %]"> <i class="fa fa-plus-square-o"></i></a>
+                </div>
+[% RenderBlockEnd("SearchFieldList") %]
+
+            </fieldset>
+
+            <div class="Center SpacingTop">
+                <button id="Search" class="Primary CallForAction" value="Run search">
+                    <span>
+                        <i class="fa fa-search"></i>
+                        [% Translate("Run search") | html %]
+                    </span>
+                </button>
+            </div>
+        </form>
+[% RenderBlockEnd("SearchOverview") %]
+
+[% RenderBlockStart("SearchResult") %]
+        <h1>[% Data.DynamicFieldName | html %] [% Translate("Search Results") | html %]</h1>
+        <table id="ResultTable" field="DynamicField_[% Data.DynamicFieldName | html %]" class="DataTable">
+            <thead>
+                <tr>
+[% RenderBlockStart("SearchResultHeader") %]
+                    <th>[% Data.SearchResultHeader | html %]</th>
+[% RenderBlockEnd("SearchResultHeader") %]
+                </tr>
+            </thead>
+            <tbody>
+[% RenderBlockStart("NoDataFoundMsg") %]
+                <tr>
+                    <td colspan="5">
+                        [% Translate("No data found.") | html %]
+                    </td>
+                </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockStart("SearchResultRow") %]
+                <tr class="MasterAction" data="[% Data.Identifier | html %]">
+[% RenderBlockStart("SearchResultColumn") %]
+                    <td>[% Data.SearchResultColumn | html %]</td>
+[% RenderBlockEnd("SearchResultColumn") %]
+                </tr>
+[% RenderBlockEnd("SearchResultRow") %]
+            </tbody>
+        </table>
+
+[% RenderBlockEnd("SearchResult") %]
+
+    </div>
+</div>

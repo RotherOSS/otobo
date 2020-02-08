@@ -4604,7 +4604,7 @@ msgstr "升级软件包需要将OTRS补丁级别更新。"
 
 #. Template: AdminPackageManager
 msgid ""
-"If you are a OTRS Business Solution™ customer, please visit our customer "
+"If you are a OTOBO Community Edition customer, please visit our customer "
 "portal and file a request."
 msgstr "如果您是OTRS 商业版™客户，请访问我们的客户门户并提交请求。"
 
@@ -4677,8 +4677,8 @@ msgid "Cloud services are currently disabled."
 msgstr "云服务当前被禁用了。"
 
 #. Template: AdminPackageManager
-msgid "OTRS Verify™ can not continue!"
-msgstr "OTRS Verify™（OTRS验证）不能继续！"
+msgid "OTOBO Verify can not continue!"
+msgstr "OTOBO Verify（OTRS验证）不能继续！"
 
 #. Template: AdminPackageManager
 msgid "Enable cloud services"
@@ -8966,12 +8966,12 @@ msgid "Traceback"
 msgstr "追溯"
 
 #. Template: CustomerFooter
-msgid "%s powered by %s™"
-msgstr "%s由%s™提供技术支持"
+msgid "%s powered by %s"
+msgstr "%s由%s提供技术支持"
 
 #. Template: CustomerFooter
-msgid "Powered by %s™"
-msgstr "由%s™提供技术支持"
+msgid "Powered by %s"
+msgstr "由%s提供技术支持"
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -9312,7 +9312,7 @@ msgid "Notifications"
 msgstr "通知"
 
 #. Template: Header
-msgid "Notifications (OTRS Business Solution™)"
+msgid "Notifications (OTOBO Community Edition)"
 msgstr "通知 (OTRS商业版)"
 
 #. Template: Header
@@ -13704,7 +13704,7 @@ msgid "Unmark"
 msgstr "取消标记"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
-msgid "Upgrade to OTRS Business Solution™"
+msgid "Upgrade to OTOBO Community Edition"
 msgstr "更新到OTRS商业版"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
@@ -17719,7 +17719,7 @@ msgid "All CustomerIDs of a customer user."
 msgstr "一个客户用户的所有客户ID。"
 
 #. SysConfig
-msgid "All attachments (OTRS Business Solution™)"
+msgid "All attachments (OTOBO Community Edition)"
 msgstr "所有附件（OTRS商业解决方案）"
 
 #. SysConfig
@@ -18305,11 +18305,11 @@ msgid ""
 msgstr "在跟进工单的工单编号检测时检查系统ID。如果不启用，系统ID将在使用系统后更改。"
 
 #. SysConfig
-msgid "Checks the availability of OTRS Business Solution™ for this system."
+msgid "Checks the availability of OTOBO Community Edition for this system."
 msgstr "检查本系统的OTRS商业版可用性。"
 
 #. SysConfig
-msgid "Checks the entitlement status of OTRS Business Solution™."
+msgid "Checks the entitlement status of OTOBO Community Edition."
 msgstr "检查OTRS商业版的权利状态。"
 
 #. SysConfig
@@ -19469,11 +19469,11 @@ msgid ""
 "Defines if the communication between this system and OTOBO Team servers that"
 " provide cloud services is possible. If set to 'Disable cloud services', "
 "some functionality will be lost such as system registration, support data "
-"sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS"
+"sending, upgrading to and use of OTOBO Community Edition, OTOBO Verify, OTRS"
 " News and product News dashboard widgets, among others."
 msgstr ""
 "定义本系统能否与OTRS集团提供云服务的服务器通信。如果设置为“禁用云服务”，某些功能如系统注册、发送支持数据、升级到OTRS Business "
-"Solution™（OTRS商业解决方案）、OTRS Verify™（OTRS验证）、仪表板中的OTRS新闻和产品新闻小部件等将失效。"
+"Solution™（OTRS商业解决方案）、OTOBO Verify（OTRS验证）、仪表板中的OTRS新闻和产品新闻小部件等将失效。"
 
 #. SysConfig
 msgid ""
@@ -20674,7 +20674,7 @@ msgstr "定义云服务被禁用时显示一个通知消息的模块。"
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in different interfaces on "
-"different occasions for OTRS Business Solution™."
+"different occasions for OTOBO Community Edition."
 msgstr "定义在不同界面不同场合显示OTRS商业版通知的模块。"
 
 #. SysConfig
@@ -21423,7 +21423,7 @@ msgid ""
 msgstr "启用后，如果发生了任何的AJAX错误，就在前端传递扩展的调试信息。"
 
 #. SysConfig
-msgid "Deploy and manage OTRS Business Solution™."
+msgid "Deploy and manage OTOBO Community Edition."
 msgstr "部署并管理OTRS商业版。"
 
 #. SysConfig
@@ -24518,7 +24518,7 @@ msgid "Reports"
 msgstr "报表"
 
 #. SysConfig
-msgid "Reports (OTRS Business Solution™)"
+msgid "Reports (OTOBO Community Edition)"
 msgstr "报表 (OTRS商业版)"
 
 #. SysConfig
@@ -24633,7 +24633,7 @@ msgid ""
 msgstr "如果工单转移到另一个队列，重置并解锁工单所有者。"
 
 #. SysConfig
-msgid "Resource Overview (OTRS Business Solution™)"
+msgid "Resource Overview (OTOBO Community Edition)"
 msgstr "资源概览（OTRS商业版）"
 
 #. SysConfig
@@ -26130,7 +26130,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Shows a teaser link in the menu for the ticket attachment view of OTRS "
-"Business Solution™."
+"Community Solution."
 msgstr "在OTRS 商业版™的工单附件视图的菜单中显示一个头部预览链接。"
 
 #. SysConfig
@@ -26577,7 +26577,7 @@ msgstr "指定在创建缓存文件时使用多少级子目录，这可以防止
 
 #. SysConfig
 msgid ""
-"Specify the channel to be used to fetch OTRS Business Solution™ updates. "
+"Specify the channel to be used to fetch OTOBO Community Edition updates. "
 "Warning: Development releases might not be complete, your system might "
 "experience unrecoverable errors and on extreme cases could become "
 "unresponsive!"

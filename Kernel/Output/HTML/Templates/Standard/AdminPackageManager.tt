@@ -371,7 +371,7 @@
                             <p class="FieldExplanation Error">
                                 [% Translate("Cloud services are currently disabled.") | html %]
                                 </br>
-                                [% Translate("OTOBO Verify™ can not continue!") | html %]
+                                [% Translate("OTOBO Verify can not continue!") | html %]
                             </p>
                             <form action="[% Env("CGIHandle") %]" method="post">
                                 <input type="hidden" name="Action" value="AdminSystemConfiguration"/>

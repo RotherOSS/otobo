@@ -1430,7 +1430,7 @@ sub Data {
         'Install' => 'Инсталирај',
         'Update repository information' => 'Ажурирај информације о спремишту',
         'Cloud services are currently disabled.' => 'Сервиси у облаку су тренутно деактивирани.',
-        'OTOBO Verify™ can not continue!' => 'OTOBO Verify™ не може да настави!',
+        'OTOBO Verify can not continue!' => 'OTOBO Verify не може да настави!',
         'Enable cloud services' => 'Активирај сервисе у облаку',
         'Update all installed packages' => 'Ажурирај све инсталиране пакете',
         'Online Repository' => 'Мрежно спремиште',
@@ -2829,8 +2829,8 @@ sub Data {
         'Traceback' => 'Испрати уназад',
 
         # Template: CustomerFooter
-        '%s powered by %s™' => '%s се покреће од стране %s™',
-        'Powered by %s™' => 'Покреће %s™',
+        '%s powered by %s' => '%s се покреће од стране %s',
+        'Powered by %s' => 'Покреће %s',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>

@@ -4944,10 +4944,10 @@ msgstr "Ажурирање пакета захтева ажурирану вер
 
 #. Template: AdminPackageManager
 msgid ""
-"If you are a OTRS Business Solution™ customer, please visit our customer "
+"If you are a OTOBO Community Edition customer, please visit our customer "
 "portal and file a request."
 msgstr ""
-"Уколико сте корисник OTRS Business Solution™, молимо посетите наш кориснички"
+"Уколико сте корисник OTOBO Community Edition, молимо посетите наш кориснички"
 " портал и поднесите захтев."
 
 #. Template: AdminPackageManager
@@ -5027,8 +5027,8 @@ msgid "Cloud services are currently disabled."
 msgstr "Сервиси у облаку су тренутно деактивирани."
 
 #. Template: AdminPackageManager
-msgid "OTRS Verify™ can not continue!"
-msgstr "OTRS Verify™ не може да настави!"
+msgid "OTOBO Verify can not continue!"
+msgstr "OTOBO Verify не може да настави!"
 
 #. Template: AdminPackageManager
 msgid "Enable cloud services"
@@ -9528,12 +9528,12 @@ msgid "Traceback"
 msgstr "Испрати уназад"
 
 #. Template: CustomerFooter
-msgid "%s powered by %s™"
-msgstr "%s се покреће од стране %s™"
+msgid "%s powered by %s"
+msgstr "%s се покреће од стране %s"
 
 #. Template: CustomerFooter
-msgid "Powered by %s™"
-msgstr "Покреће %s™"
+msgid "Powered by %s"
+msgstr "Покреће %s"
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -9893,8 +9893,8 @@ msgid "Notifications"
 msgstr "Обавештења"
 
 #. Template: Header
-msgid "Notifications (OTRS Business Solution™)"
-msgstr "Обавештења (OTRS Business Solution™)"
+msgid "Notifications (OTOBO Community Edition)"
+msgstr "Обавештења (OTOBO Community Edition)"
 
 #. Template: Header
 msgid "Personal preferences"
@@ -14436,8 +14436,8 @@ msgid "Unmark"
 msgstr "Неозначено"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
-msgid "Upgrade to OTRS Business Solution™"
-msgstr "Унапредите на OTRS Business Solution™"
+msgid "Upgrade to OTOBO Community Edition"
+msgstr "Унапредите на OTOBO Community Edition"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install Package"
@@ -18703,8 +18703,8 @@ msgid "All CustomerIDs of a customer user."
 msgstr "Сви клијент ID клијент корисника."
 
 #. SysConfig
-msgid "All attachments (OTRS Business Solution™)"
-msgstr "Сви прилози (OTRS Business Solution™)"
+msgid "All attachments (OTOBO Community Edition)"
+msgstr "Сви прилози (OTOBO Community Edition)"
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
@@ -19392,12 +19392,12 @@ msgstr ""
 " SystemID ће бити промењен након коришћења система."
 
 #. SysConfig
-msgid "Checks the availability of OTRS Business Solution™ for this system."
-msgstr "Проверава доступност OTRS Business Solution™ за овај систем."
+msgid "Checks the availability of OTOBO Community Edition for this system."
+msgstr "Проверава доступност OTOBO Community Edition за овај систем."
 
 #. SysConfig
-msgid "Checks the entitlement status of OTRS Business Solution™."
-msgstr "Проверава статус права коришћења OTRS Business Solution™."
+msgid "Checks the entitlement status of OTOBO Community Edition."
+msgstr "Проверава статус права коришћења OTOBO Community Edition."
 
 #. SysConfig
 msgid "Child"
@@ -20759,13 +20759,13 @@ msgid ""
 "Defines if the communication between this system and OTOBO Team servers that"
 " provide cloud services is possible. If set to 'Disable cloud services', "
 "some functionality will be lost such as system registration, support data "
-"sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS"
+"sending, upgrading to and use of OTOBO Community Edition, OTOBO Verify, OTRS"
 " News and product News dashboard widgets, among others."
 msgstr ""
 "Дефинише да ли је могућа комуникација између овог система и сервера OTRS "
 "групе који обезбеђују сервисе у облаку. Ако је подешено на 'Онемогући "
 "сервисе у облаку' неке функционалности неће радити, а то су регистрација "
-"система, слање података подршке, унапређење на OTRS Business Solution™, OTRS"
+"система, слање података подршке, унапређење на OTOBO Community Edition, OTRS"
 " верификација, OTRS новости и новости о производу у додацима на контролној "
 "табли, између осталих."
 
@@ -22335,10 +22335,10 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in different interfaces on "
-"different occasions for OTRS Business Solution™."
+"different occasions for OTOBO Community Edition."
 msgstr ""
 "Одређује модул за приказ обавештења у разним интерфејсима у различитим "
-"приликама за OTRS Business Solution™."
+"приликама за OTOBO Community Edition."
 
 #. SysConfig
 msgid ""
@@ -23271,8 +23271,8 @@ msgstr ""
 " проблема са AJAX методом."
 
 #. SysConfig
-msgid "Deploy and manage OTRS Business Solution™."
-msgstr "Примени и управљај OTRS Business Solution™."
+msgid "Deploy and manage OTOBO Community Edition."
+msgstr "Примени и управљај OTOBO Community Edition."
 
 #. SysConfig
 msgid "Detached"
@@ -26928,8 +26928,8 @@ msgid "Reports"
 msgstr "Извештаји"
 
 #. SysConfig
-msgid "Reports (OTRS Business Solution™)"
-msgstr "Извештаји (OTRS Business Solution™)"
+msgid "Reports (OTOBO Community Edition)"
+msgstr "Извештаји (OTOBO Community Edition)"
 
 #. SysConfig
 msgid ""
@@ -27074,8 +27074,8 @@ msgid ""
 msgstr "Ресетује и откључава власника ако је тикета премештен у други ред."
 
 #. SysConfig
-msgid "Resource Overview (OTRS Business Solution™)"
-msgstr "Преглед ресурса (OTRS Business Solution™)"
+msgid "Resource Overview (OTOBO Community Edition)"
+msgstr "Преглед ресурса (OTOBO Community Edition)"
 
 #. SysConfig
 msgid "Responsible Tickets"
@@ -28931,7 +28931,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Shows a teaser link in the menu for the ticket attachment view of OTRS "
-"Business Solution™."
+"Community Solution."
 msgstr ""
 "Приказује рекламну везу у менију за преглед прилога тикета из OTRS Business "
 "Solution™."
@@ -29480,12 +29480,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Specify the channel to be used to fetch OTRS Business Solution™ updates. "
+"Specify the channel to be used to fetch OTOBO Community Edition updates. "
 "Warning: Development releases might not be complete, your system might "
 "experience unrecoverable errors and on extreme cases could become "
 "unresponsive!"
 msgstr ""
-"Дефинише канал за ажурирање OTRS Business Solution™. Упозорење: бета издања "
+"Дефинише канал за ажурирање OTOBO Community Edition. Упозорење: бета издања "
 "могу бити некомплетна, ваш систем може добити непоправљиве грешке и, у "
 "екстремним случајевима, престати да реагује."
 

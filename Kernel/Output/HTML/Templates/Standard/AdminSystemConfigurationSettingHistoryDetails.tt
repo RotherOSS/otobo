@@ -1,0 +1,73 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("System configuration") | html %]</h1>
+
+    [% SettingName = Data.SettingName | uri %]
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('System Configuration'),
+                Link => 'AdminSystemConfiguration',
+            },
+            {
+                Name => Data.SettingName,
+                Link => 'AdminSystemConfiguration;Subaction=View;Setting=' _ SettingName,
+            },
+            {
+                Name => Translate("Change History")
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationGroup;RootNavigation=[% Data.RootNavigation | html %]" class="GoBackButton CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+
+            <div class="Header">
+                <h2>[% Translate("Change History of %s", Data.SettingName) | html %]</h2>
+            </div>
+            <div class="Content">
+
+            [% IF Data.SettingHistory.size() %]
+                [% INCLUDE "SystemConfiguration/SettingHistoryListCompare.tt" %]
+            [% ELSE %]
+                <p>[% Translate("No modified values for this setting, the default value is used.") | html %]</p>
+            [% END %]
+                <input type="hidden" id="SettingName" name="SettingName" value="[% Data.SettingName | html %]" />
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>

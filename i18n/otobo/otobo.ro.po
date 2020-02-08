@@ -4700,7 +4700,7 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
-"If you are a OTRS Business Solution™ customer, please visit our customer "
+"If you are a OTOBO Community Edition customer, please visit our customer "
 "portal and file a request."
 msgstr ""
 
@@ -4771,7 +4771,7 @@ msgid "Cloud services are currently disabled."
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "OTRS Verify™ can not continue!"
+msgid "OTOBO Verify can not continue!"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -9060,11 +9060,11 @@ msgid "Traceback"
 msgstr ""
 
 #. Template: CustomerFooter
-msgid "%s powered by %s™"
+msgid "%s powered by %s"
 msgstr ""
 
 #. Template: CustomerFooter
-msgid "Powered by %s™"
+msgid "Powered by %s"
 msgstr ""
 
 #. Template: CustomerFooterJS
@@ -9408,7 +9408,7 @@ msgid "Notifications"
 msgstr ""
 
 #. Template: Header
-msgid "Notifications (OTRS Business Solution™)"
+msgid "Notifications (OTOBO Community Edition)"
 msgstr ""
 
 #. Template: Header
@@ -13807,7 +13807,7 @@ msgid "Unmark"
 msgstr "Șterge marcarea"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
-msgid "Upgrade to OTRS Business Solution™"
+msgid "Upgrade to OTOBO Community Edition"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
@@ -17854,7 +17854,7 @@ msgid "All CustomerIDs of a customer user."
 msgstr ""
 
 #. SysConfig
-msgid "All attachments (OTRS Business Solution™)"
+msgid "All attachments (OTOBO Community Edition)"
 msgstr ""
 
 #. SysConfig
@@ -18435,11 +18435,11 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Checks the availability of OTRS Business Solution™ for this system."
+msgid "Checks the availability of OTOBO Community Edition for this system."
 msgstr ""
 
 #. SysConfig
-msgid "Checks the entitlement status of OTRS Business Solution™."
+msgid "Checks the entitlement status of OTOBO Community Edition."
 msgstr ""
 
 #. SysConfig
@@ -19559,7 +19559,7 @@ msgid ""
 "Defines if the communication between this system and OTOBO Team servers that"
 " provide cloud services is possible. If set to 'Disable cloud services', "
 "some functionality will be lost such as system registration, support data "
-"sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS"
+"sending, upgrading to and use of OTOBO Community Edition, OTOBO Verify, OTRS"
 " News and product News dashboard widgets, among others."
 msgstr ""
 
@@ -20737,7 +20737,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in different interfaces on "
-"different occasions for OTRS Business Solution™."
+"different occasions for OTOBO Community Edition."
 msgstr ""
 
 #. SysConfig
@@ -21459,7 +21459,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Deploy and manage OTRS Business Solution™."
+msgid "Deploy and manage OTOBO Community Edition."
 msgstr ""
 
 #. SysConfig
@@ -24420,7 +24420,7 @@ msgid "Reports"
 msgstr "Rapoarte"
 
 #. SysConfig
-msgid "Reports (OTRS Business Solution™)"
+msgid "Reports (OTOBO Community Edition)"
 msgstr ""
 
 #. SysConfig
@@ -24535,7 +24535,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Resource Overview (OTRS Business Solution™)"
+msgid "Resource Overview (OTOBO Community Edition)"
 msgstr ""
 
 #. SysConfig
@@ -25953,7 +25953,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Shows a teaser link in the menu for the ticket attachment view of OTRS "
-"Business Solution™."
+"Community Solution."
 msgstr ""
 
 #. SysConfig
@@ -26390,7 +26390,7 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Specify the channel to be used to fetch OTRS Business Solution™ updates. "
+"Specify the channel to be used to fetch OTOBO Community Edition updates. "
 "Warning: Development releases might not be complete, your system might "
 "experience unrecoverable errors and on extreme cases could become "
 "unresponsive!"

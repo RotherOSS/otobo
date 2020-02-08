@@ -296,7 +296,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      * @param {String} ArticleID - The article number of the loaded article
      * @param {Object} WindowObject
      * @description
-     *      Used in OTOBO Business Solution (TM). Loads an article in the Zoom from another window context (e.g. popup).
+     *      Used in OTOBO Community Edition (TM). Loads an article in the Zoom from another window context (e.g. popup).
      */
     TargetNS.LoadArticleFromExternal = function (ArticleID, WindowObject) {
         var $Element = $('#ArticleTable td.No input.ArticleID[value=' + ArticleID + ']'),

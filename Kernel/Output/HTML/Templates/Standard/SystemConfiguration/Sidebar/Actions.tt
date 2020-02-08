@@ -42,6 +42,9 @@
                 <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationDeployment;Subaction=Deployment" class="CallForAction Fullsize Center"><span><i class="fa fa-rocket"></i>[% Translate("Deployment") | html %]</span></a>
             </li>
             <li>
+                <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationDeploymentHistory;Subaction=DeploymentHistory" class="CallForAction Fullsize Center"><span><i class="fa fa-rocket"></i>[% Translate("Deployment History") | html %]</span></a>
+            </li>
+            <li>
                 <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=SearchLocked" class="CallForAction Fullsize Center"><span><i class="fa fa-edit"></i>[% Translate("Settings I'm currently editing") | html %]</span></a>
             </li>
             <li>

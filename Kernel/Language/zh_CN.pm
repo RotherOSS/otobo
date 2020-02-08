@@ -1436,7 +1436,7 @@ sub Data {
         'Install' => '安装',
         'Update repository information' => '更新软件仓库信息',
         'Cloud services are currently disabled.' => '云服务当前被禁用了。',
-        'OTOBO Verify™ can not continue!' => 'OTOBO Verify™（OTOBO验证）不能继续！',
+        'OTOBO Verify can not continue!' => 'OTOBO Verify（OTOBO验证）不能继续！',
         'Enable cloud services' => '启用云服务',
         'Update all installed packages' => '更新所有已安装的软件包',
         'Online Repository' => '在线软件仓库',
@@ -2835,8 +2835,8 @@ sub Data {
         'Traceback' => '追溯',
 
         # Template: CustomerFooter
-        '%s powered by %s™' => '%s由%s™提供技术支持',
-        'Powered by %s™' => '由%s™提供技术支持',
+        '%s powered by %s' => '%s由%s提供技术支持',
+        'Powered by %s' => '由%s提供技术支持',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>

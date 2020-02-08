@@ -1429,7 +1429,7 @@ sub Data {
         'Install' => 'Pasang',
         'Update repository information' => 'Kemaskini maklumat repositori',
         'Cloud services are currently disabled.' => 'Servis-servis awan tidak dibolehkan buat sementara.',
-        'OTOBO Verify™ can not continue!' => 'OTOBO Verify™ tidak boleh diteruskan.',
+        'OTOBO Verify can not continue!' => 'OTOBO Verify tidak boleh diteruskan.',
         'Enable cloud services' => 'Bolehkan servis-servis awan',
         'Update all installed packages' => '',
         'Online Repository' => 'repositori talian',
@@ -2828,8 +2828,8 @@ sub Data {
         'Traceback' => 'Menjejaki kembali',
 
         # Template: CustomerFooter
-        '%s powered by %s™' => '',
-        'Powered by %s™' => '',
+        '%s powered by %s' => '',
+        'Powered by %s' => '',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>

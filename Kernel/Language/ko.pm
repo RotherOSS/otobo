@@ -1430,7 +1430,7 @@ sub Data {
         'Install' => '설치',
         'Update repository information' => '저장소 정보 업데이트',
         'Cloud services are currently disabled.' => '클라우드 서비스는 현재 사용할 수 없습니다.',
-        'OTOBO Verify™ can not continue!' => 'OTOBO Verify ™를 계속할 수 없습니다!',
+        'OTOBO Verify can not continue!' => 'OTOBO Verify ™를 계속할 수 없습니다!',
         'Enable cloud services' => '클라우드 서비스 사용',
         'Update all installed packages' => '설치된 모든 패키지를 업데이트 하십시오.',
         'Online Repository' => '온라인 저장소',
@@ -2829,8 +2829,8 @@ sub Data {
         'Traceback' => '역 추적',
 
         # Template: CustomerFooter
-        '%s powered by %s™' => '%s powered by %s™',
-        'Powered by %s™' => 'Powered by %s™',
+        '%s powered by %s' => '%s powered by %s',
+        'Powered by %s' => 'Powered by %s',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>

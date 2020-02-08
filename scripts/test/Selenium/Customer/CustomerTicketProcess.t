@@ -409,7 +409,7 @@ $Selenium->RunTest(
             $FooterMessage = 'CONTROL powered by OTOBO';
         }
         elsif ($OTOBOCommunityIsInstalled) {
-            $FooterMessage = 'Powered by OTOBO Business Solution';
+            $FooterMessage = 'Powered by OTOBO Community Edition';
         }
         else {
             $FooterMessage = 'Powered by ' . $ConfigObject->Get('Product');

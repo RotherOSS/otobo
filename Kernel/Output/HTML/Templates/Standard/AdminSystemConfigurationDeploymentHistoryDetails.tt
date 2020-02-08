@@ -1,0 +1,99 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("System configuration") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('System Configuration'),
+                Link => 'AdminSystemConfiguration',
+            },
+            {
+                Name => Translate('Changes Deployment'),
+                Link => 'AdminSystemConfigurationDeployment;Subaction=Deployment',
+            },
+            {
+                Name => Translate('Deployment History'),
+                Link => 'AdminSystemConfigurationDeploymentHistory;Subaction=DeploymentHistory',
+            },
+            {
+                Name => Translate('Deployment Details')
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationDeploymentHistory;Subaction=DeploymentHistory" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+
+            <div class="Header">
+                <h2>[% Translate("Deployment Details") | html %]</h2>
+                <div class="ActionMenu Visible">
+                [% IF Data.SettingList.size() %]
+                    <div class="WidgetAction CompareAll">
+                        <a href=""><i class="fa fa-exchange"></i></a>
+                    </div>
+                [% END %]
+                </div>
+            </div>
+            <div class="Content">
+
+                <fieldset class="TableLike DeploymentData">
+                    <label>
+                        [% Translate("Created") | html %]:
+                    </label>
+                    <div class="Field">
+                        <p class="FieldExplanation">[% Data.CreateTime | Localize("TimeShort") %] [% Translate("by") | html %] [% Data.CreateByName | html %]</p>
+                    </div>
+                    <div class="Clear"></div>
+                    <label>
+                        [% Translate("Comment") | html %]:
+                    </label>
+                    <div class="Field">
+                        <p class="FieldExplanation">[% IF Data.Comments %][% Data.Comments | html %][% ELSE %]-[% END %]</p>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+            [% IF Data.SettingList.size() %]
+                [% INCLUDE "SystemConfiguration/SettingsListCompare.tt" %]
+            [% ELSE %]
+                <p>[% Translate("No settings have been deployed in this run.") | html %]</p>
+            [% END %]
+
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>

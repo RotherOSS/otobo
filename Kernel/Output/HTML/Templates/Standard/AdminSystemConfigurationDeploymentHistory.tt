@@ -1,0 +1,125 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+
+    <h1>[% Translate("System configuration") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('System Configuration'),
+                Link => 'AdminSystemConfiguration',
+            },
+            {
+                Name => Translate('Changes Deployment'),
+                Link => 'AdminSystemConfigurationDeployment;Subaction=Deployment',
+            },
+            {
+                Name => Translate('Deployment History'),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationDeployment;Subaction=Deployment" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterDeployments">[% Translate("Filter for Deployments") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterDeployments" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterServices" value="" title="[% Translate("Filter for services") | html %]">
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+
+            <div class="Header">
+                <h2>[% Translate("Recent Deployments") | html %]</h2>
+            </div>
+            <div class="Content">
+
+                <table class="DataTable" id="Deployments">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Date") | html %]</th>
+                            <th class="W40pc">[% Translate("Comment") | html %]</th>
+                            <th>[% Translate("Responsible") | html %]</th>
+                            <th class="Center">[% Translate("Details") | html %]</th>
+                            <th class="Center W10pc">[% Translate("Restore") | html %]</th>
+                            <th class="Center W10pc">[% Translate("Export") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    [% IF !Data.List %]
+                        <tr>
+                            <td colspan="4">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+                    [% ELSE %]
+                        [% FOREACH Item IN Data.List %]
+                        <tr>
+                            <td>[% Item.CreateTime | Localize("TimeShort") %]</td>
+                            <td>[% Item.Comments | html %]</td>
+                            <td>[% Item.CreateByName | html %]</td>
+                            <td class="Center">
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=DeploymentHistoryDetails;DeploymentID=[% Item.DeploymentID | uri %]">
+                                    [% Translate("View Details") | html %]
+                                </a>
+                            </td>
+                            <td class="Center">
+                            [% IF Item.DeploymentRestore %]
+                                <a class="DeploymentRestore OTOBOCommunityRequired" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=DeploymentRestore;DeploymentID=[% Item.DeploymentID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Restore this deployment.") | html %]">
+                                    <i class="fa fa-undo"></i>
+                                    <span class="InvisibleText">[% Translate("Restore") | html %]</span>
+                                </a>
+                            [% END %]
+                            </td>
+                            <td class="Center">
+                                <a class="DeploymentExport" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=DeploymentExport;DeploymentID=[% Item.DeploymentID | uri %];" title="[% Translate("Export this deployment.") | html %]">
+                                    <i class="fa fa-download"></i>
+                                    <span class="InvisibleText">[% Translate("Export") | html %]</span>
+                                </a>
+                            </td>
+                        </tr>
+                        [% END %]
+                    [% END %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="4">[% Translate("No matches found.") | html %]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>

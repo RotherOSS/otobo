@@ -1435,7 +1435,7 @@ sub Data {
         'Install' => 'نصب',
         'Update repository information' => 'به‌روز رسانی اطلاعات مخزن',
         'Cloud services are currently disabled.' => 'خدمات ابر در حال حاضر غیر فعال است.',
-        'OTOBO Verify™ can not continue!' => 'OTOBO تایید ™ نمی تواند ادامه دهد.',
+        'OTOBO Verify can not continue!' => 'OTOBO تایید ™ نمی تواند ادامه دهد.',
         'Enable cloud services' => 'فعال کردن سرویس های ابری',
         'Update all installed packages' => '',
         'Online Repository' => 'مخزن آنلاین بسته‌ها',
@@ -2834,8 +2834,8 @@ sub Data {
         'Traceback' => 'بازبینی',
 
         # Template: CustomerFooter
-        '%s powered by %s™' => '',
-        'Powered by %s™' => '',
+        '%s powered by %s' => '',
+        'Powered by %s' => '',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>

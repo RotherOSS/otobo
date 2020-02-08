@@ -1433,7 +1433,7 @@ sub Data {
         'Install' => 'Sakinisha',
         'Update repository information' => 'Sasisha taarifa zilizohifadhiwa',
         'Cloud services are currently disabled.' => '',
-        'OTOBO Verify™ can not continue!' => '',
+        'OTOBO Verify can not continue!' => '',
         'Enable cloud services' => '',
         'Update all installed packages' => '',
         'Online Repository' => 'Hifadhi ya mtandaoni',
@@ -2832,8 +2832,8 @@ sub Data {
         'Traceback' => 'Tafuta Nyuma',
 
         # Template: CustomerFooter
-        '%s powered by %s™' => '',
-        'Powered by %s™' => '',
+        '%s powered by %s' => '',
+        'Powered by %s' => '',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>

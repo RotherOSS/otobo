@@ -1431,7 +1431,7 @@ sub Data {
         'Install' => 'Instalar',
         'Update repository information' => 'Atualizar informação do repositório',
         'Cloud services are currently disabled.' => '',
-        'OTOBO Verify™ can not continue!' => '',
+        'OTOBO Verify can not continue!' => '',
         'Enable cloud services' => '',
         'Update all installed packages' => 'Atualizar todos os pacotes instalados',
         'Online Repository' => 'Repositório Online',
@@ -2830,8 +2830,8 @@ sub Data {
         'Traceback' => 'Retroceder',
 
         # Template: CustomerFooter
-        '%s powered by %s™' => '',
-        'Powered by %s™' => '',
+        '%s powered by %s' => '',
+        'Powered by %s' => '',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
