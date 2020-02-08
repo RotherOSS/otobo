@@ -34,6 +34,76 @@ sub Data {
     $Self->{ThousandSeparator} = '.';
     $Self->{Translation} = {
 
+        # Template: ShowPendingTimeIfNeeded
+        'This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.' => 'Diese Konfiguration registriert ein Outputfilter, um die Erinnerungszeit via Javascript auszublenden.',
+        'List of JS files to always be loaded for the agent interface.' => 'Liste von JS-Dateien, die immer für den Agenten-Interfaace geladen werden.',
+
+        # Template: AdminContactWithData
+        'Contact with data management' => 'Kontaktdaten',
+        'Add contact with data' => 'Kontaktdaten hinzufügen',
+        'Edit contact with data' => 'Kontaktdaten bearbeiten',
+        'Please enter a search term to look for contacts with data.' => 'Bitte geben Sie einen Suchbegriff ein, um nach Kunden zu suchen.',
+
+        # Template: AdminDynamicFieldContactWithData
+        'Add or edit contacts' => 'Kontakte hinzufügen oder bearbeiten',
+        'To add contacts to this field please fill out all the needed information and save it.' =>
+            'Bitte füllen Sie alle benötigen Informationen aus und speichern Sie diese, um Kontakte zu diesem Feld hinzuzufügen.',
+        'Click on the field name from the overview to edit it and find the corresponding action in the sidebar or from the \'Tickets\' menu.' =>
+            'Klicken Sie in der Übersicht auf den Feldnamen, um ihn zu bearbeiten und die entsprechendene Aktion in der Seitenleiste oder im Menu \'Tickets\' zu finden.',
+        'Name Field' => 'Namensfeld',
+        'ValidID Field' => 'ValidID-Feld',
+        'Other Fields' => 'Andere Felder',
+        'Add Field' => 'Feld hinzufügen',
+        'These are the possible data attributes for contacts.' => 'Die folgenden Attribute sind für Kontakte möglich.',
+        'Mandatory fields' => 'Pflichtfelder',
+        'Comma separated list of mandatory keys (optional). Keys \'Name\' and \'ValidID\' are always mandatory and doesn\'t have to be listed here.' =>
+            'Kommaseparierte Pflichtfelderliste (optional). Die Schlüssel \'Name\' und \'ValidID\' sind immer Pflichtfelder und müssen hier nicht aufgeführt werden.',
+        'Sorted fields' => 'Sortierte Felder',
+        'Comma separated list of keys in sort order (optional). Keys listed here come first, all remaining fields afterwards and sorted alphabetically.' =>
+            'Kommaseparierte Schlüsselliste in Sortierreihenfolge (optional). Die hier aufgeführten Schlüssel werden zuerst angezeigt, alle weiteren Felder danach und in alphabetischer Reihenfolge.',
+        'Searchable fields' => 'Durchsuchbare Felder',
+        'Comma separated list of searchable keys (optional). Key \'Name\' is always searchable and doesn\'t have to be listed here.' =>
+            'Komma getrennte Liste durchsuchbarer Schlüssel (optional). Die Schlüssel \'Name\' ist immer durchsuchbar und muss hier nicht aufgeführt werden.',
+
+        # Template: AdminDynamicFieldDatabase
+        'Datatype' => 'Datentyp',
+        'Searchfield' => 'Suchfeld',
+        'Listfield' => 'Listenfeld',
+        'Driver' => 'Treiber',
+        'Server' => 'Server',
+        'Table / View' => 'Tabelle / Ansicht',
+        'Must be unique column from the table entered in Table/View.' => 'Muss eine eindeutige Spalte der in Tabelle/Ansicht eingetragenen Tabelle sein. ',
+        'CacheTTL' => 'CacheTTL',
+        'Searchprefix' => 'Suchpräfix',
+        'Searchsuffix' => 'Suchsuffix',
+        'Result Limit' => 'Ergebnis-Beschränkung',
+        'Case Sensitive' => 'Groß-/Kleinschreibung unterscheiden',
+
+        # Template: AdminDynamicFieldWebService
+        'The web service to be executed for possible values.' => 'Der Webservice, der für mögliche Werte ausgeführt werden soll.',
+        'Invoker' => 'Invoker',
+        'The invoker to be used to perform requests (invoker needs to be of type \'Generic::PassThrough\').' =>
+            'Der Invoker, der genutzt wird, um Anfragen auszuführen (Invoker muss vom Typ \'Generic::PassThrough\' sein).',
+        'Activate this option to allow multiselect on results.' => 'Aktivieren Sie diese Option, um Mehrfachauswahl auf den Ergebnissen zu erlauben.',
+        'Cache TTL' => 'Cache TTL',
+        'Cache time to live (in minutes), to save the retrieved possible values.' =>
+            'Cache TTL (in Minuten), um die gelieferten Werte zu speichern.',
+        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens. Optional HTTP link works only for single-select fields.' =>
+            'Hier können Sie einen optionalen HTTP-Link für den Feldwert in Übersichten und Detailansichten angeben. Der optionale HTTP-Link funktioniert nur bei einfach ausgewählten Feldern.',
+
+        # Template: AdminSystemConfigurationDeploymentHistory
+        'Deployment History' => 'Inbetriebnahme-Historie',
+        'Filter for Deployments' => 'Filter für Inbetriebnahmen',
+        'Recent Deployments' => 'Kürzliche Inbetriebnahmen',
+        'Restore' => 'Wiederherstellen',
+        'View Details' => 'Details ansehen',
+        'Restore this deployment.' => 'Inbetriebnahme wiederherstellen.',
+        'Export this deployment.' => 'Inbetriebnahme exportieren',
+
+        # Template: AdminSystemConfigurationDeploymentHistoryDetails
+        'Deployment Details' => 'Inbetriebnahme-Details',
+        'No settings have been deployed in this run.' => 'In diesem Lauf wurden keine Einstellungen in Betrieb genommen.',
+
         # Template: AdminACL
         'ACL Management' => 'ACL-Verwaltung',
         'Actions' => 'Aktionen',

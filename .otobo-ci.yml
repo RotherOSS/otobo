@@ -20,7 +20,7 @@ TestModes:
    - ITSMChangeManagement@rel-6_0
    - ITSMServiceLevelManagement@rel-6_0
    - ImportExport@rel-6_0
-   - OTOBOBusinessSeleniumTesting@master
+   - OTOBOCommunitySeleniumTesting@master
 
  Silent:
   Active: 0
