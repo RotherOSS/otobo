@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -91,7 +91,7 @@ $Selenium->RunTest(
             $Selenium->execute_script("\$('.fc-now-indicator.fc-now-indicator-line').hide();");
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && $(".fc-now-indicator.fc-now-indicator-line").is(":hidden");'
+                    'return typeof($) === "function" &&  $(".fc-now-indicator.fc-now-indicator-line:visible").length === 0;'
             );
         }
 

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 17:51+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: OTRS SDN BHD <otobosdnbhd@gmail.com>, 2019\n"
 "Language-Team: Thai (Thailand) (https://www.transifex.com/otobo/teams/23435/th_TH/)\n"
@@ -2226,6 +2226,14 @@ msgid "Ticket lock"
 msgstr "ตั๋วล็อค"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr "ไดมานิคฟิลด์"
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "เวลาที่สร้าง"
 
@@ -2424,10 +2432,6 @@ msgstr "หัวข้อใหม่"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "ประเภทใหม่"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr "ค่าไดนามิกฟิลด์ใหม่ "
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -8962,10 +8966,6 @@ msgid "Sending of this message has failed."
 msgstr ""
 
 #. Template: AgentTicketZoom
-msgid "This message has been queued for sending."
-msgstr ""
-
-#. Template: AgentTicketZoom
 msgid "Resize"
 msgstr "ปรับขนาด"
 
@@ -9437,10 +9437,6 @@ msgstr "ข้อมูลกิจกรรม"
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
 msgstr "ช่องข้อมูลตั๋ว"
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
-msgstr "ไดมานิคฟิลด์"
 
 #. Template: Error
 msgid ""
@@ -10522,6 +10518,10 @@ msgstr ""
 
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "This field can have no more than 250 characters."
 msgstr ""
 
 #. JS Template: DialogDeployment
@@ -12954,6 +12954,11 @@ msgid "The following tickets were locked: %s."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
+msgid ""
+"Article subject will be empty if the subject contains only the ticket hook!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
 msgstr "ที่อยู่% s แทนที่ด้วยที่อยู่ของลูกค้าที่ลงทะเบียน"
 
@@ -13659,6 +13664,11 @@ msgstr "ตรวจสอบการตั้งค่า SysConfig สำห�
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::TicketTypeDefault."
 msgstr "ตรวจสอบการตั้งค่า SysConfig สำหรับ %s::TicketTypeDefault."
+
+#. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
+msgid ""
+"You don't have sufficient permissions for ticket creation in default queue."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
@@ -16696,6 +16706,10 @@ msgstr "ลบฟิลด์"
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
 msgstr "การลบฟิลด์และข้อมูล อาจจะใช้เวลาสักครู่ ..."
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
+msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove selection"
@@ -22007,8 +22021,11 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Defines the valid state types for a ticket."
-msgstr "กำหนดประเภทของสถานะที่ถูกต้องสำหรับตั๋ว"
+msgid ""
+"Defines the valid state types for a ticket. If a ticket is in a state which "
+"have any state type from this setting, this ticket will be considered as "
+"open, otherwise as closed."
+msgstr ""
 
 #. SysConfig
 msgid ""

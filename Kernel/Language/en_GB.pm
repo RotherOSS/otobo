@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.676925692909369;
+    $Self->{Completeness}        = 0.676240652617267;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -677,6 +677,8 @@ sub Data {
         'Owner' => 'Owner',
         'Responsible' => 'Responsible',
         'Ticket lock' => 'Ticket lock',
+        'Dynamic fields' => 'Dynamic fields',
+        'Add dynamic field' => '',
         'Create times' => 'Create times',
         'No create time settings.' => 'No create time settings.',
         'Ticket created' => 'Ticket created',
@@ -727,7 +729,6 @@ sub Data {
         'New customer ID' => 'New customer ID',
         'New title' => 'New title',
         'New type' => 'New type',
-        'New Dynamic Field Values' => 'New Dynamic Field Values',
         'Archive selected tickets' => 'Archive selected tickets',
         'Add Note' => 'Add Note',
         'Visible for customer' => '',
@@ -2754,7 +2755,6 @@ sub Data {
         'Outgoing message' => 'Outgoing message',
         'Internal message' => 'Internal message',
         'Sending of this message has failed.' => '',
-        'This message has been queued for sending.' => '',
         'Resize' => 'Resize',
         'Mark this article as read' => 'Mark this article as read',
         'Show Full Text' => 'Show Full Text',
@@ -2926,7 +2926,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Event Information',
         'Ticket fields' => 'Ticket fields',
-        'Dynamic fields' => 'Dynamic fields',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTOBO.' =>
@@ -3322,6 +3321,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => '',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => '',
         'Preparing to deploy, please wait...' => '',
         'Deploy now' => '',
@@ -4125,6 +4125,8 @@ sub Data {
         'The following tickets were locked: %s.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => 'Address %s replaced with registered customer address.',
         'Customer user automatically added in Cc.' => 'Customer user automatically added in Cc.',
 
@@ -4366,6 +4368,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => 'Check SysConfig setting for %s::QueueDefault.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'Check SysConfig setting for %s::TicketTypeDefault.',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => 'Need CustomerID!',
@@ -5495,6 +5499,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => 'Deleting the field and its data. This may take a while...',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => 'Remove selection',
         'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => 'Delete this Event Trigger',
@@ -7051,7 +7056,8 @@ Thanks for your help!
             'Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
-        'Defines the valid state types for a ticket.' => 'Defines the valid state types for a ticket.',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -9016,6 +9022,7 @@ Thanks for your help!
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',
@@ -9099,6 +9106,7 @@ Thanks for your help!
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -93,6 +93,15 @@ $Selenium->RunTest(
 
         # Go to AgentTicketEmail screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketEmail");
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#OptionCustomerUserAddressBookToCustomer').length === 1;"
+        );
+
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#OptionCustomerUserAddressBookToCustomer',
+        );
 
         # Open customer user address book search.
         $Selenium->find_element( "#OptionCustomerUserAddressBookToCustomer", 'css' )->click();

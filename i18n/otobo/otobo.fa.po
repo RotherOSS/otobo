@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 17:51+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: saeedi <mohsen.saeedi@gmail.com>, 2019\n"
 "Language-Team: Persian (https://www.transifex.com/otobo/teams/23435/fa/)\n"
@@ -2256,6 +2256,14 @@ msgid "Ticket lock"
 msgstr "تحویل درخواست"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr "زمینه های پویا"
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "زمان‌های ساخت"
 
@@ -2454,10 +2462,6 @@ msgstr "عنوان جدید"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "نوع جدید"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr "مقادیر جدید پویا درست"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -9077,10 +9081,6 @@ msgid "Sending of this message has failed."
 msgstr ""
 
 #. Template: AgentTicketZoom
-msgid "This message has been queued for sending."
-msgstr ""
-
-#. Template: AgentTicketZoom
 msgid "Resize"
 msgstr "تغییر اندازه"
 
@@ -9558,10 +9558,6 @@ msgstr "اطلاعات رویداد"
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
 msgstr "زمینه های درخواست"
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
-msgstr "زمینه های پویا"
 
 #. Template: Error
 msgid ""
@@ -10660,6 +10656,10 @@ msgstr ""
 
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "This field can have no more than 250 characters."
 msgstr ""
 
 #. JS Template: DialogDeployment
@@ -13100,6 +13100,11 @@ msgid "The following tickets were locked: %s."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
+msgid ""
+"Article subject will be empty if the subject contains only the ticket hook!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
 msgstr " %s آدرس با آدرس مشتری ثبت شده جایگزین شده است."
 
@@ -13813,6 +13818,11 @@ msgstr "بررسی SysConfig تنظیم برای %s :: QueueDefault."
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::TicketTypeDefault."
 msgstr "بررسی SysConfig تنظیم برای %s :: TicketTypeDefault."
+
+#. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
+msgid ""
+"You don't have sufficient permissions for ticket creation in default queue."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
@@ -16876,6 +16886,10 @@ msgstr "حذف زمینه"
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
 msgstr "حذف رشته و داده های آن. این ممکن است یک مدت طول بکشد....."
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
+msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove selection"
@@ -22393,8 +22407,11 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Defines the valid state types for a ticket."
-msgstr "انواع وضعیت معتبر برای یک بلیط.را تعریف میکند."
+msgid ""
+"Defines the valid state types for a ticket. If a ticket is in a state which "
+"have any state type from this setting, this ticket will be considered as "
+"open, otherwise as closed."
+msgstr ""
 
 #. SysConfig
 msgid ""

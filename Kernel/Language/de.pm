@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # Copyright (C) 2019-2020 RotherOSS GmbH, https://otobo.ch/
 # --
@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999829960891005;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -687,6 +687,8 @@ sub Data {
         'Owner' => 'Besitzer',
         'Responsible' => 'Verantwortlicher',
         'Ticket lock' => 'Ticketsperre',
+        'Dynamic fields' => 'Dynamische Felder',
+        'Add dynamic field' => 'Dynamisches Feld hinzufügen',
         'Create times' => 'Erstellzeiten',
         'No create time settings.' => 'Keine Erstellzeit-Einstellungen.',
         'Ticket created' => 'Ticket erstellt',
@@ -737,7 +739,6 @@ sub Data {
         'New customer ID' => 'Neue Kundennummer',
         'New title' => 'Neuer Titel',
         'New type' => 'Neuer Typ',
-        'New Dynamic Field Values' => 'Neue Werte für Dynamische Felder',
         'Archive selected tickets' => 'Ausgewählte Tickets archivieren',
         'Add Note' => 'Notiz hinzufügen',
         'Visible for customer' => 'Sichtbar für Kunde',
@@ -2764,7 +2765,6 @@ sub Data {
         'Outgoing message' => 'Ausgehende Nachricht',
         'Internal message' => 'Interne Nachricht',
         'Sending of this message has failed.' => 'Senden der Nachricht fehlgeschlagen.',
-        'This message has been queued for sending.' => 'Diese Nachricht wird demnächst gesendet.',
         'Resize' => 'Größe anpassen',
         'Mark this article as read' => 'Diesen Artikel als gelesen markieren',
         'Show Full Text' => 'Vollständigen Text anzeigen',
@@ -2825,7 +2825,7 @@ sub Data {
         # Template: CustomerAccept
         'Dear Customer,' => 'Lieber Kunde,',
         'thank you for using our services.' => 'Danke, dass Sie unsere Services nutzen.',
-        'Yes, I accept your license.' => '',
+        'Yes, I accept your license.' => 'Ja, ich akzeptiere Ihre Lizenz.',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -2960,7 +2960,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Ereignisinformation',
         'Ticket fields' => 'Ticket-Felder',
-        'Dynamic fields' => 'Dynamische Felder',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTOBO.' =>
@@ -3357,6 +3356,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => 'Kommentar zur Inbetriebnahme...',
+        'This field can have no more than 250 characters.' => 'Dieses Feld darf nicht mehr als 250 Zeichen lang sein.',
         'Deploying, please wait...' => 'Inbetriebnahme läuft, bitte warten...',
         'Preparing to deploy, please wait...' => 'Inbetriebnahme wird vorbereitet, bitte warten...',
         'Deploy now' => 'Jetzt in Betrieb nehmen',
@@ -4160,6 +4160,8 @@ sub Data {
         'The following tickets were locked: %s.' => 'Die folgenden Tickets wurden gesperrt: %s.',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            'Der Betreff des Artikels ist leer, wenn der Betreff nur den Ticket-Hook enthält!',
         'Address %s replaced with registered customer address.' => 'Adresse %s wurde durch die Adresse des eingetragenen Kunden ersetzt.',
         'Customer user automatically added in Cc.' => 'Kundenbenutzer wurde automatisch ins Cc eingetragen.',
 
@@ -4401,6 +4403,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => 'Prüfen Sie die Sysconfig-Einstellungen für %s::QueueDefault.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'Prüfen Sie die Sysconfig-Einstellungen für %s::TicketTypeDefault.',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            'Sie haben keine ausreichenden Rechte zur Ticket-Anlage in der Default-Queue',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => 'Benötige CustomerID!',
@@ -5532,6 +5536,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => 'Lösche das Feld und die zugehörigen Daten. Dies kann etwas dauern...',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => 'Dieses dynamische Feld entfernen',
         'Remove selection' => 'Auswahl entfernen',
         'Do you really want to delete this generic agent job?' => 'Wollen Sie diesen GenericAgent-Job wirklich löschen?',
         'Delete this Event Trigger' => 'Diesen Event-Trigger löschen',
@@ -7087,7 +7092,8 @@ Ihr Helpdesk-Team
             'Definiert den Benutzernamen um auf die SOAP-Schnittstelle zuzugreifen (bin/cgi-bin/rpc.pl).',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Definiert den Avatar des Benutzers. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.',
-        'Defines the valid state types for a ticket.' => 'Definiert die gültigen Statustypen für ein Ticket.',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            'Definiert die gültigen Statustypen für ein Ticket. Wenn sich ein Ticket in einem Status befindet, der einen Statustyp aus dieser Einstellung hat, gilt dieses Ticket als offen, ansonsten als geschlossen.',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Bestimmt gültige Status für entsperrte Tickets. Um Tickets zu entsperren, kann das Script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" genutzt werden.',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -9054,6 +9060,7 @@ Ihr Helpdesk-Team
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',
@@ -9138,6 +9145,7 @@ Ihr Helpdesk-Team
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

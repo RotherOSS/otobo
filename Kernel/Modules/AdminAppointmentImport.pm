@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -55,7 +55,7 @@ sub Run {
         my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
         my $UpdateExisting = $ParamObject->GetParam( Param => 'UpdateExistingAppointments' ) || '';
-        my $CalendarID = $ParamObject->GetParam( Param => 'CalendarID' ) || '';
+        my $CalendarID     = $ParamObject->GetParam( Param => 'CalendarID' )                 || '';
 
         my %Errors;
 

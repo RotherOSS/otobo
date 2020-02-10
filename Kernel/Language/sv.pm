@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.373916000680156;
+    $Self->{Completeness}        = 0.373385452073419;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -676,6 +676,8 @@ sub Data {
         'Owner' => 'Ansvarig handläggare',
         'Responsible' => 'Ansvarig',
         'Ticket lock' => 'Ärendelås',
+        'Dynamic fields' => '',
+        'Add dynamic field' => '',
         'Create times' => 'Skapat-tider',
         'No create time settings.' => 'Inga inställningar för skapattider.',
         'Ticket created' => 'Ärende skapat',
@@ -726,7 +728,6 @@ sub Data {
         'New customer ID' => 'Nytt kund-ID',
         'New title' => 'Ny rubrik',
         'New type' => 'Ny typ',
-        'New Dynamic Field Values' => 'Nytt värde för dynamiskt fält',
         'Archive selected tickets' => 'Arkivera markerade ärenden',
         'Add Note' => 'Lägg till anteckning',
         'Visible for customer' => '',
@@ -2753,7 +2754,6 @@ sub Data {
         'Outgoing message' => 'Utgående meddelande',
         'Internal message' => 'Internt meddelande',
         'Sending of this message has failed.' => '',
-        'This message has been queued for sending.' => '',
         'Resize' => '',
         'Mark this article as read' => 'Märk artikeln som läst',
         'Show Full Text' => 'Visa hela texten',
@@ -2925,7 +2925,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Händelseinformation',
         'Ticket fields' => 'Ärendefält',
-        'Dynamic fields' => '',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTOBO.' =>
@@ -3321,6 +3320,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => '',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => '',
         'Preparing to deploy, please wait...' => '',
         'Deploy now' => '',
@@ -4124,6 +4124,8 @@ sub Data {
         'The following tickets were locked: %s.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => 'Adress %s utbytt mot registrerad kunds adress.',
         'Customer user automatically added in Cc.' => 'Kundanvändare automatiskt tillagd till Cc.',
 
@@ -4365,6 +4367,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => '',
         'Check SysConfig setting for %s::TicketTypeDefault.' => '',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => '',
@@ -5494,6 +5498,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => '',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => 'Ta bort urval',
         'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => 'Radera denna händesletrigger',
@@ -7039,7 +7044,8 @@ Thanks for your help!
             '',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
-        'Defines the valid state types for a ticket.' => 'Giltiga tillståndstyper för ett ärende. ',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -9004,6 +9010,7 @@ Thanks for your help!
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',
@@ -9087,6 +9094,7 @@ Thanks for your help!
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

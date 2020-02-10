@@ -2,7 +2,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -215,6 +215,18 @@ my @NeededModules = (
             zypper => 'perl-DateTime',
             ports  => 'devel/p5-TimeDate',
         },
+        Depends => [
+            {
+                Module              => 'DateTime::TimeZone',
+                Comment             => 'Olson time zone database, required for correct time calculations.',
+                VersionsRecommended => [
+                    {
+                        Version => '2.20',
+                        Comment => 'This version includes recent time zone changes for Chile.',
+                    },
+                ],
+            },
+        ],
     },
     {
         Module    => 'DBI',

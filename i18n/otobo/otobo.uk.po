@@ -13,7 +13,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 17:51+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Bohdan Melnychuk <base-w@yandex.ru>, 2019\n"
 "Language-Team: Ukrainian (https://www.transifex.com/otobo/teams/23435/uk/)\n"
@@ -2279,6 +2279,14 @@ msgid "Ticket lock"
 msgstr "Блокування заявки"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr "Динамічні поля"
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "Часи створення"
 
@@ -2477,10 +2485,6 @@ msgstr "Новий заголовок"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "Новий тип"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr "Нові значення динамічного поля"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -9152,10 +9156,6 @@ msgid "Sending of this message has failed."
 msgstr ""
 
 #. Template: AgentTicketZoom
-msgid "This message has been queued for sending."
-msgstr ""
-
-#. Template: AgentTicketZoom
 msgid "Resize"
 msgstr "Змінити розмір"
 
@@ -9637,10 +9637,6 @@ msgstr "Інформація про подію"
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
 msgstr "Поля квитка"
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
-msgstr "Динамічні поля"
 
 #. Template: Error
 msgid ""
@@ -10745,6 +10741,10 @@ msgstr ""
 
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "This field can have no more than 250 characters."
 msgstr ""
 
 #. JS Template: DialogDeployment
@@ -13204,6 +13204,11 @@ msgid "The following tickets were locked: %s."
 msgstr "Наступні квитки були заблоковані: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
+msgid ""
+"Article subject will be empty if the subject contains only the ticket hook!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
 msgstr "Адресу %s замінено на зареєстровану адресу клієнта."
 
@@ -13917,6 +13922,11 @@ msgstr "Перевірте налаштування SysConfig для %s::QueueDe
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::TicketTypeDefault."
 msgstr "Перевірте налаштування SysConfig для %s::TicketTypeDefault."
+
+#. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
+msgid ""
+"You don't have sufficient permissions for ticket creation in default queue."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
@@ -16970,6 +16980,10 @@ msgstr "Видалити поле"
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
 msgstr "Вилучення поля та його даних. Це може зайняти деякий час..."
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
+msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove selection"
@@ -21802,7 +21816,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Defines the valid state types for a ticket."
+msgid ""
+"Defines the valid state types for a ticket. If a ticket is in a state which "
+"have any state type from this setting, this ticket will be considered as "
+"open, otherwise as closed."
 msgstr ""
 
 #. SysConfig

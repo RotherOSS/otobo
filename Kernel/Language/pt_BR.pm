@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2003 Gilberto Cezar de Almeida <gibalmeida at hotmail.com>
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>
@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.939466077197755;
+    $Self->{Completeness}        = 0.9418762746431;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -679,6 +679,8 @@ sub Data {
         'Owner' => 'Proprietário',
         'Responsible' => 'Responsável',
         'Ticket lock' => 'Bloqueio de Chamado',
+        'Dynamic fields' => 'Campos dinâmicos',
+        'Add dynamic field' => '',
         'Create times' => 'Horários de criação',
         'No create time settings.' => 'Sem configurações de horário de criação',
         'Ticket created' => 'Chamado criado',
@@ -729,7 +731,6 @@ sub Data {
         'New customer ID' => 'Novo ID de Cliente',
         'New title' => 'Novo Título',
         'New type' => 'Novo Tipo',
-        'New Dynamic Field Values' => 'Novos Valores de Campo Dinâmico',
         'Archive selected tickets' => 'Arquivar chamados selecionados',
         'Add Note' => 'Adicionar Nota',
         'Visible for customer' => 'Visível para o Cliente',
@@ -2480,7 +2481,7 @@ sub Data {
         'Split' => 'Dividir',
 
         # Template: AgentStatisticsAdd
-        'Statistics Management' => '',
+        'Statistics Management' => 'Gestão de Estatísticas',
         'Add Statistics' => 'Adicionar estatísticas',
         'Read more about statistics in OTOBO' => 'Leia mais sobre estatísticas no OTOBO',
         'Dynamic Matrix' => 'Matriz Dinâmica ',
@@ -2756,7 +2757,6 @@ sub Data {
         'Outgoing message' => 'Mensagem de Saída',
         'Internal message' => 'Mensagem Interna',
         'Sending of this message has failed.' => 'O envio desta mensagem falhou.',
-        'This message has been queued for sending.' => 'Esta mensagem foi adicionada à fila de envio.',
         'Resize' => 'Redimensionar',
         'Mark this article as read' => 'Marcar este artigo como lido',
         'Show Full Text' => 'Mostrar Texto completo',
@@ -2817,7 +2817,7 @@ sub Data {
         # Template: CustomerAccept
         'Dear Customer,' => 'Caro Cliente,',
         'thank you for using our services.' => 'obrigado por utilizar nossos serviços.',
-        'Yes, I accept your license.' => '',
+        'Yes, I accept your license.' => 'Sim, eu aceito a sua licença.',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -2877,7 +2877,7 @@ sub Data {
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'Recebendo requisições de bate-papo',
         'Edit personal preferences' => 'Editar preferências pessoais',
-        'Logout %s' => '',
+        'Logout %s' => 'Fechar sessão %s',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Acordo de nível de serviço',
@@ -2928,7 +2928,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Informação do Evento',
         'Ticket fields' => 'Campos de chamado',
-        'Dynamic fields' => 'Campos dinâmicos',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTOBO.' =>
@@ -2970,14 +2969,14 @@ sub Data {
         'General Specifications and Mail Settings' => 'Especificações Gerais e Configurações de E-mail',
         'Finish' => 'Finalizar',
         'Welcome to %s' => 'Bem-vindo a %s',
-        'Germany' => '',
+        'Germany' => 'Alemanha',
         'Phone' => 'Telefone',
-        'United States' => '',
-        'Mexico' => '',
-        'Hungary' => '',
-        'Brazil' => '',
-        'Singapore' => '',
-        'Hong Kong' => '',
+        'United States' => 'Estados Unidos',
+        'Mexico' => 'México',
+        'Hungary' => 'Hungria',
+        'Brazil' => 'Brasil',
+        'Singapore' => 'Singapura',
+        'Hong Kong' => 'Hong Kong',
         'Web site' => 'Website',
 
         # Template: InstallerConfigureMail
@@ -3212,7 +3211,7 @@ sub Data {
         'This setting is currently being overridden in %s and can\'t thus be changed here!' =>
             'Esta definição está sendo sobrescrita em %s e, por isso, não pode ser alterada aqui!',
         'Changing this setting is only available in a higher config level!' =>
-            '',
+            'A alteração dessa configuração está disponível somente em um nível de configuração mais elevado!',
         '%s (%s) is currently working on this setting.' => '%s (%s) está atuando nesta definição no momento.',
         'Toggle advanced options for this setting' => 'Alternar opções avançadas para esta definição',
         'Disable this setting, so it is no longer effective' => 'Desative esta definição para que ela deixa de ser efetiva',
@@ -3324,6 +3323,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => 'Comentário de implantação...',
+        'This field can have no more than 250 characters.' => 'Este campo não pode ter mais de 250 caracteres.',
         'Deploying, please wait...' => 'Implantando, favor esperar...',
         'Preparing to deploy, please wait...' => 'Preparando para implantar, favor esperar...',
         'Deploy now' => 'Implantar agora',
@@ -3503,9 +3503,9 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
         'Fields configuration is not valid' => 'Configuração do campo não é válida.',
         'Objects configuration is not valid' => 'Configuração dos objetos não são válidas',
-        'Database (%s)' => '',
-        'Web service (%s)' => '',
-        'Contact with data (%s)' => '',
+        'Database (%s)' => 'Base de dados (%s)',
+        'Web service (%s)' => 'Web service (%s)',
+        'Contact with data (%s)' => 'Contato com dados (%s)',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Não foi possível resetar corretamente a ordem do campo Dinâmico, verifique o log de erros para obter mais detalhes.',
 
@@ -3678,7 +3678,7 @@ sub Data {
         'Web service "%s" created!' => 'Web service "%s" criado!',
         'Need Name!' => 'Necessário Nome!',
         'Need ExampleWebService!' => 'Necessário ExampleWebService!',
-        'Could not load %s.' => '',
+        'Could not load %s.' => 'Não foi possível carregar %s.',
         'Could not read %s!' => 'Não pôde ser lido %s!',
         'Need a file to import!' => 'Necessário um arquivo para importar!',
         'The imported file has not valid YAML content! Please check OTOBO log for details' =>
@@ -3716,8 +3716,8 @@ sub Data {
         'Customer user of the ticket' => 'Usuário cliente do ticket',
         'All recipients of the first article' => 'Todos os destinatários do primeiro artigo',
         'All recipients of the last article' => 'Todos os destinatários do último artigo',
-        'Invisible to customer' => '',
-        'Visible to customer' => '',
+        'Invisible to customer' => 'Não visível para o cliente',
+        'Visible to customer' => 'Visível para o cliente',
 
         # Perl Module: Kernel/Modules/AdminOTOBOBusiness.pm
         'Your system was successfully upgraded to %s.' => 'Seu sistema foi atualizado com sucesso para %s.',
@@ -4127,6 +4127,8 @@ sub Data {
         'The following tickets were locked: %s.' => 'Os Tickets a seguir foram bloqueados: %s',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => 'Endereço %s substituído pelo endereço cadastrado do cliente.',
         'Customer user automatically added in Cc.' => 'Cliente automaticamente adicionado no Cc.',
 
@@ -4368,6 +4370,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => 'Valide configuração no SysConfig para %s::QueueDefault.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'Valide configuração no SysConfig para %s::TicketTypeDefault.',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => 'ID do Cliente é necessário.',
@@ -4575,7 +4579,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'Standard' => 'Padrão',
-        'The following tickets are not updated: %s.' => '',
+        'The following tickets are not updated: %s.' => 'Os tickets a seguir não foram atualizados: %s.',
         'h' => 'h',
         'm' => 'm',
         'd' => 'd',
@@ -5354,7 +5358,7 @@ sub Data {
             'Nova conta criada. Enviadas informações de login para %s. Por favor, verifique seu e-mail.',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
-        'Action "%s" not found!' => '',
+        'Action "%s" not found!' => 'Ação "%s" não encontrada!',
 
         # Database XML Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => 'inválido-temporariamente',
@@ -5497,6 +5501,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => 'Delindo o campo e seus dados.  Isto pode levar um tempo…',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => 'Remover tradução',
         'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => 'Excluir este disparador de evento',
@@ -7053,7 +7058,8 @@ Obrigado pela ajuda!
             '',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Define o avatar do usuário. Favor observar: definindo \'Active\' como 0 só irá prevenir agentes de editar definições deste grupo em suas preferências pessoais, mas ainda irá permitir que administradores editem definições em nome de outros usuários. Utilize \'PreferenceGroup\' para controlar em quais áreas estas definições deveriam ser exibidas na interface de usuário.',
-        'Defines the valid state types for a ticket.' => 'Define os tipos de estado válidos para um ticket.',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Define os estados válidos para tickets desbloqueados. Para desbloquear tickets, o script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" pode ser utilizado.',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -9018,6 +9024,7 @@ Obrigado pela ajuda!
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',
@@ -9101,6 +9108,7 @@ Obrigado pela ajuda!
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

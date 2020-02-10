@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.430368984866519;
+    $Self->{Completeness}        = 0.430149558123725;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -682,6 +682,8 @@ sub Data {
         'Owner' => 'Propriétaire',
         'Responsible' => 'Responsable',
         'Ticket lock' => 'Verrouillage ticket',
+        'Dynamic fields' => 'Champs dynamiques',
+        'Add dynamic field' => '',
         'Create times' => 'Date de création',
         'No create time settings.' => 'Pas de critère de date de création',
         'Ticket created' => 'Ticket créé',
@@ -732,7 +734,6 @@ sub Data {
         'New customer ID' => 'Nouvel ID client',
         'New title' => 'Nouveau titre',
         'New type' => 'Nouveau type',
-        'New Dynamic Field Values' => 'Nouvelles Valeurs de Champ Dynamique',
         'Archive selected tickets' => 'Archiver tickets sélectionnés',
         'Add Note' => 'Ajouter une note',
         'Visible for customer' => 'Visible par le client',
@@ -2759,7 +2760,6 @@ sub Data {
         'Outgoing message' => 'Message sortant',
         'Internal message' => 'Message Interne',
         'Sending of this message has failed.' => 'L\'envoi du message a échoué.',
-        'This message has been queued for sending.' => 'Ce message a été mis dans la file d\'attente pour envoi.',
         'Resize' => 'Redimensionner',
         'Mark this article as read' => 'Marquer cet article comme lu ',
         'Show Full Text' => 'Voir le texte complet',
@@ -2809,7 +2809,7 @@ sub Data {
         'Load blocked content.' => 'Charger le contenu bloqué',
 
         # Template: Breadcrumb
-        'Home' => 'Maison',
+        'Home' => 'Accueil',
         'Back to admin overview' => 'Retour à la page d\'administration',
 
         # Template: CloudServicesDisabled
@@ -2931,7 +2931,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Information de l\'événement',
         'Ticket fields' => 'Champs du ticket',
-        'Dynamic fields' => 'Champs dynamiques',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTOBO.' =>
@@ -3327,6 +3326,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => 'Commentaire de déploiement...',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => 'En cours de déploiement, veuillez patienter...',
         'Preparing to deploy, please wait...' => 'Préparation au déploiement, veuillez patienter...',
         'Deploy now' => 'Déployer maintenant',
@@ -4130,6 +4130,8 @@ sub Data {
         'The following tickets were locked: %s.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => 'Adresse %s remplacée par celle du client enregistré.',
         'Customer user automatically added in Cc.' => 'Client ajouté automatiquement en Cc.',
 
@@ -4371,6 +4373,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => '',
         'Check SysConfig setting for %s::TicketTypeDefault.' => '',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => '',
@@ -4513,7 +4517,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
-        'Email security' => '',
+        'Email security' => 'courriel sécurité',
         'PGP sign' => '',
         'PGP sign and encrypt' => '',
         'PGP encrypt' => '',
@@ -5500,6 +5504,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => 'Supprimer le champ et ses données. Cela peut prendre un certain temps...',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => 'Supprimer la sélection',
         'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => '',
@@ -6160,7 +6165,7 @@ Thanks for your help!
         'Changed queue to "%s" (%s) from "%s" (%s).' => '',
         'Changed responsible to "%s" (%s).' => '',
         'Changed service to "%s" (%s).' => '',
-        'Changed state from "%s" to "%s".' => '',
+        'Changed state from "%s" to "%s".' => 'Changer l´état de "%s" á "%s".',
         'Changed title from "%s" to "%s".' => '',
         'Changed type from "%s" (%s) to "%s" (%s).' => '',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
@@ -7045,7 +7050,8 @@ Thanks for your help!
             '',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
-        'Defines the valid state types for a ticket.' => '',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -9010,6 +9016,7 @@ Thanks for your help!
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',
@@ -9093,6 +9100,7 @@ Thanks for your help!
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',
