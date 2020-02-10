@@ -449,7 +449,7 @@ sub _ChangeLicenseHeader {
         }
     }
     if ( !$Good ) {
-        $Self->Print("<red>Don't find regexp for typ $FilePathAndName (for license change).</red>\n");
+        $Self->Print("<red>Could not replace license header of $FilePathAndName.</red>\n");
         close $FileHandle;
         return;
     }
@@ -830,10 +830,11 @@ Old => [
     },
     {
         while => qr/.?/,
-        nkeep => qr/^.*otobo/i,
+        nkeep => qr/otobo/i,
         until => qr/^\s*$/,
     },
     {
+        while => qr/.?/,
         until => qr/\*\//,
     },
 ],
