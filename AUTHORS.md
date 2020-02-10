@@ -1,6 +1,12 @@
 The following persons contributed to OTOBO:
 
-* OTOBO Team
+* Johnny Hioe <jh@rother-oss.com>
+* Grit Rother <mr@rother-oss.com>
+* Daniel Dorna <dd@otrs.com>
+* Sven Oesterling <svo@rother-oss.com>
+* Stefan Rother <sr@otrs.ch>
+* San Miguel Team https://www.sanmiguel-brand-partner.com
+* OTOBO Team <https://rother-oss.com>
 * Yuri Myasoedov <ymyasoedov@yandex.ru> (Thanks for add RedisCache implementation)
 
 The following persons contributed to OTRS:
