@@ -23,6 +23,7 @@ use warnings;
 use parent qw(Kernel::System::Console::BaseCommand);
 use File::Basename;
 use File::Copy;
+use File::Path qw(make_path);
 
 our @ObjectDependencies = (
     'Kernel::System::Main',
@@ -115,11 +116,17 @@ sub Run {
     my $CleanPath           = $Self->GetOption('cleanpath')  || $CleanALL;
     my $CleanLicenseHeader  = $Self->GetOption('cleanlicense') || $CleanALL;
     my $CleanContent        = $Self->GetOption('cleancontent') || $CleanALL;
+    my $TargetDirectory     = $Self->GetOption('target');
+    my $SourceIsOPMOrDir    = 'Dir';
+    my $TmpDirectory;
 
-    my $TargetDirectory = $Self->GetOption('target');
+    if ( -f $Source ) {
+        # Source is a file, hope opm (Need to check?)...
+        $SourceIsOPMOrDir = 'OPM';
 
-    # Create tempdir if opm package given
-    my $TmpDirectory =  $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
+        # Create tempdir if opm package given
+        $TmpDirectory =  $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
+    }
 
     # List of all dir and files
     my @UncleanDirAndFileList;
@@ -131,7 +138,7 @@ sub Run {
     my @ParserIgnoreDirAndFile = _IgnorePathList();
 
     # We need to check if a opm package is given
-    if ( -f $Source && -d $TargetDirectory) {
+    if ( $SourceIsOPMOrDir eq 'OPM' && -d $TargetDirectory) {
 
         # OPM package is given, so we need to extract it to a tmp dir
         my $SOPMCreate = $Self->_CopyOPMtoSOPMAndClean(
@@ -148,7 +155,7 @@ sub Run {
         $Self->Print("<green>Extract OPM package: Done.</green>\n");
     }
 
-    if ( -d $Source && -d $TargetDirectory) {
+    if ( $Source && -d $TargetDirectory) {
         @UncleanDirAndFileList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => $Source,
             Filter    => '*',
@@ -159,8 +166,13 @@ sub Run {
 
             # IF $Source we need to remove the tmppath
             my $RwPath = $File;
-            if ($Source) {
+            if ( $SourceIsOPMOrDir eq 'OPM' ) {
                 $RwPath =~ s/$TmpDirectory//g;
+                $RwPath = $TargetDirectory . $RwPath;
+            }
+            # No TmpDirectory exists
+            elsif ( $SourceIsOPMOrDir eq 'Dir' ) {
+                $RwPath =~ s/$Source//g;
                 $RwPath = $TargetDirectory . $RwPath;
             }
 
@@ -549,12 +561,12 @@ sub _ChangePathFileName {
 
     # Check if new dir exists
     my $NewFileDirname  = dirname($NewFile);
-    print STDERR "DIRENAMMMMMM: $NewFileDirname\n";
     if (! -d $NewFileDirname ) {
-        mkdir $NewFileDirname or print "Can\'t create directory $NewFileDirname: $!\n";
+#        mkdir $NewFileDirname or print "Can\'t create directory $NewFileDirname: $!\n";
+        make_path($NewFileDirname);
     }
     $Self->Print("<green>Move file $File to $NewFile, cause cleanpath option is given.</green>\n");
-    move($File, $NewFile) or die "The move operation failed: $!";;
+    move($File, $NewFile) or print "The move operation failed: $!";;
 
     return 1;
 }
