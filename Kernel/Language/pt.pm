@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.323584424417616;
+    $Self->{Completeness}        = 0.323419442556084;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -675,6 +675,8 @@ sub Data {
         'Owner' => 'Proprietário',
         'Responsible' => 'Responsável',
         'Ticket lock' => 'Ticket bloqueado',
+        'Dynamic fields' => 'Campos dinâmicos',
+        'Add dynamic field' => '',
         'Create times' => 'Criar tempo',
         'No create time settings.' => 'Não existem definições de Tempo Criados',
         'Ticket created' => 'Ticket criado',
@@ -725,7 +727,6 @@ sub Data {
         'New customer ID' => 'Novo ID de cliente',
         'New title' => 'Novo título',
         'New type' => 'Novo tipo',
-        'New Dynamic Field Values' => '',
         'Archive selected tickets' => 'Arquivar tickets selecionados',
         'Add Note' => 'Adicionar nota',
         'Visible for customer' => 'Visível para o cliente',
@@ -2752,7 +2753,6 @@ sub Data {
         'Outgoing message' => 'Mensagem de saída',
         'Internal message' => 'Mensagem interna',
         'Sending of this message has failed.' => '',
-        'This message has been queued for sending.' => '',
         'Resize' => 'Redimensionar',
         'Mark this article as read' => '',
         'Show Full Text' => 'Mostrar texto completo',
@@ -2924,7 +2924,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => '',
         'Ticket fields' => 'Campos do ticket',
-        'Dynamic fields' => 'Campos dinâmicos',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTOBO.' =>
@@ -3320,6 +3319,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => '',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => '',
         'Preparing to deploy, please wait...' => '',
         'Deploy now' => '',
@@ -4123,6 +4123,8 @@ sub Data {
         'The following tickets were locked: %s.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => 'Endereço %s substituído por um endereço de cliente registado ',
         'Customer user automatically added in Cc.' => 'Utilizador de Cliente adicionado automaticamente em Cc (Com Conhecimento)',
 
@@ -4364,6 +4366,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => 'Verificar a configuração do systema para %s::QueueDefault.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'Verificar a configuração do systema para %s::TicketTypeDefault.',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => 'É necessário o ID de utilizador',
@@ -5493,6 +5497,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => 'Apagar este campo e respetiva informação. Pode demorar algum tempo ...',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => 'Remover seleção',
         'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => '',
@@ -7038,7 +7043,8 @@ Thanks for your help!
             '',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
-        'Defines the valid state types for a ticket.' => '',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -9005,6 +9011,7 @@ Devemos voltar a estar online dentro de momentos.',
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',
@@ -9088,6 +9095,7 @@ Devemos voltar a estar online dentro de momentos.',
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

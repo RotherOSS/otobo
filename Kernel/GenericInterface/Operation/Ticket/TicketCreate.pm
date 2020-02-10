@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -1240,13 +1240,38 @@ sub _TicketCreate {
     my $Article          = $Param{Article};
     my $DynamicFieldList = $Param{DynamicFieldList};
     my $AttachmentList   = $Param{AttachmentList};
+    my $CustomerUser     = $Ticket->{CustomerUser} || '';
 
-    # get customer information
-    # with information will be used to create the ticket if customer is not defined in the
-    # database, customer ticket information need to be empty strings
-    my %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+    # Get customer information, that will be used to create the ticket.
+    # If TicketCreate CustomerUser parameter is defined,
+    #   check if there is CustomerUser in DB with such address,
+    # If address, defined in $Ticket->{CustomerUser},
+    #    is not valid, ValidateCustomer() will not allowed to run TicketCreate.
+    # See more information in bug#14288.
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my %CustomerUserData   = $CustomerUserObject->CustomerUserDataGet(
         User => $Ticket->{CustomerUser},
     );
+
+    if ( !IsHashRefWithData( \%CustomerUserData ) ) {
+        my %CustomerSearch = $CustomerUserObject->CustomerSearch(
+            PostMasterSearch => $CustomerUser,
+            Limit            => 1,
+        );
+
+        if ( IsHashRefWithData( \%CustomerSearch ) ) {
+            my @CustomerSearchResults = sort keys %CustomerSearch;
+            $CustomerUser = $CustomerSearchResults[0];
+
+            %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
+                User => $CustomerUser,
+            );
+        }
+
+    }
+    else {
+        $CustomerUser = $CustomerUserData{UserLogin};
+    }
 
     my $CustomerID = $CustomerUserData{UserCustomerID} || '';
 
@@ -1301,7 +1326,7 @@ sub _TicketCreate {
         Priority     => $Ticket->{Priority} || '',
         OwnerID      => 1,
         CustomerNo   => $CustomerID,
-        CustomerUser => $CustomerUserData{UserLogin} || '',
+        CustomerUser => $CustomerUser || '',
         UserID       => $Param{UserID},
     );
 
@@ -1415,7 +1440,7 @@ sub _TicketCreate {
 
     # otherwise use customer user as sent from the request (it should be an email)
     else {
-        $From = $Ticket->{CustomerUser};
+        $From = $CustomerUser;
     }
 
     # set Article To

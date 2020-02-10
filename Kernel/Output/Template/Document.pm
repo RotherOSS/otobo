@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -83,7 +83,7 @@ sub _InstallOTOBOExtensions {
             $_tt_args{'BlockName'} = shift;
             $_tt_params            = shift;
             $_tt_params            = {} if ref $_tt_params ne 'HASH';
-            $_tt_params = { %_tt_args, %$_tt_params };
+            $_tt_params            = { %_tt_args, %$_tt_params };
 
             my $stash = $Context->localise($_tt_params);
             eval {

@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -107,7 +107,7 @@ sub Convert {
     my ( $Self, %Param ) = @_;
 
     # return if no text is given
-    return if !defined $Param{Text};
+    return    if !defined $Param{Text};
     return '' if $Param{Text} eq '';
 
     # check needed stuff

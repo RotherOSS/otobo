@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -930,7 +930,7 @@ sub MigrateXMLStructure {
                     my $LinkBackendReplace = $BackendReplacement;
                     $LinkBackendReplace =~ s{DefaultItem>(\s+)<Item\sKey}{DefaultItem>\n\t\t\t\t\t\t<Item Key}gsmx;
                     $LinkBackendReplace =~ s{\t\t<Item\sKey=\"Age\">2</Item>}{<Item Key="Age">1</Item>}gsmx;
-                    $Setting =~ s{
+                    $Setting            =~ s{
                     <Item\sKey=\"DefaultColumns\">(\s+)<Hash>(\s+)<Item\sKey=\"Age\">1</Item>
                     }
                     {$LinkBackendReplace}gsmx;

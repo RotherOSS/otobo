@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 17:51+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Macbethana Wilfred <mwi@nrd.no>, 2019\n"
 "Language-Team: Swahili (https://www.transifex.com/otobo/teams/23435/sw/)\n"
@@ -2236,6 +2236,14 @@ msgid "Ticket lock"
 msgstr "Kifungo cha tiketi"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr "Uga wenye nguvu"
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "Tengeneza muda"
 
@@ -2434,10 +2442,6 @@ msgstr "Kichwa cha habari kipya"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "Aina mpya"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr "Thamani mpya za uga wenye nguvu"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -9041,10 +9045,6 @@ msgid "Sending of this message has failed."
 msgstr ""
 
 #. Template: AgentTicketZoom
-msgid "This message has been queued for sending."
-msgstr ""
-
-#. Template: AgentTicketZoom
 msgid "Resize"
 msgstr "Badilisha ukubwa"
 
@@ -9517,10 +9517,6 @@ msgstr "Taarifa kuhusu tukio"
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
 msgstr "Uga wa tiketi"
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
-msgstr "Uga wenye nguvu"
 
 #. Template: Error
 msgid ""
@@ -10595,6 +10591,10 @@ msgstr ""
 
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "This field can have no more than 250 characters."
 msgstr ""
 
 #. JS Template: DialogDeployment
@@ -13010,6 +13010,11 @@ msgid "The following tickets were locked: %s."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
+msgid ""
+"Article subject will be empty if the subject contains only the ticket hook!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
 msgstr "Anuani %s imebadilishwa na anuani ya mteja iliyosajiliwa"
 
@@ -13699,6 +13704,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::TicketTypeDefault."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
+msgid ""
+"You don't have sufficient permissions for ticket creation in default queue."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
@@ -16715,6 +16725,10 @@ msgstr "Futa uga"
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent
@@ -22210,8 +22224,11 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Defines the valid state types for a ticket."
-msgstr "Inafafanua aina ya hali halali ya tiketi."
+msgid ""
+"Defines the valid state types for a ticket. If a ticket is in a state which "
+"have any state type from this setting, this ticket will be considered as "
+"open, otherwise as closed."
+msgstr ""
 
 #. SysConfig
 msgid ""

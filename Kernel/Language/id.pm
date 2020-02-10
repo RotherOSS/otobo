@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.67964631865329;
+    $Self->{Completeness}        = 0.678959891230456;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -674,6 +674,8 @@ sub Data {
         'Owner' => 'Pemilik',
         'Responsible' => 'Tanggung Jawab',
         'Ticket lock' => 'Kunci Ticket',
+        'Dynamic fields' => 'Dinamis dasar',
+        'Add dynamic field' => '',
         'Create times' => 'Waktu pembuatan',
         'No create time settings.' => 'Tidak ada pengaturan waktu pembuatan',
         'Ticket created' => 'Tiket telah terbuat',
@@ -724,7 +726,6 @@ sub Data {
         'New customer ID' => 'ID Pelanggan baru',
         'New title' => 'Gelar baru',
         'New type' => 'tipe baru',
-        'New Dynamic Field Values' => 'Nilai bidang dinamis baru',
         'Archive selected tickets' => 'Arsipkan tiket yang dipilih.',
         'Add Note' => 'Tambahkan catatan',
         'Visible for customer' => '',
@@ -2753,7 +2754,6 @@ bin/otobo.Daemon.pl status\').',
         'Outgoing message' => 'Pesan yang keluar',
         'Internal message' => 'Pesan yang internal',
         'Sending of this message has failed.' => '',
-        'This message has been queued for sending.' => '',
         'Resize' => 'Mengubah ukuran',
         'Mark this article as read' => 'Tandakan artikel ini sebagai telah dibaca',
         'Show Full Text' => 'Tampikan teks penuh',
@@ -2925,7 +2925,6 @@ bin/otobo.Daemon.pl status\').',
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Informasi acara',
         'Ticket fields' => 'Dasar tiket',
-        'Dynamic fields' => 'Dinamis dasar',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTOBO.' =>
@@ -3321,6 +3320,7 @@ bin/otobo.Daemon.pl status\').',
 
         # JS Template: DialogDeployment
         'Deployment comment...' => '',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => '',
         'Preparing to deploy, please wait...' => '',
         'Deploy now' => '',
@@ -4124,6 +4124,8 @@ bin/otobo.Daemon.pl status\').',
         'The following tickets were locked: %s.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => 'Alamat %s ditukar dengan alamat pelanggan yang terdaftar',
         'Customer user automatically added in Cc.' => 'Pelanggan pengguna ditambahkan ke Cc secara otomatis.',
 
@@ -4365,6 +4367,8 @@ bin/otobo.Daemon.pl status\').',
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => 'Periksa SysConfig untuk pengaturan %s::QueueDefault.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'Periksa SysConfig pengaturan untul %s::TicketTypeDefault.',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => 'Perlu CustomerID!',
@@ -5494,6 +5498,7 @@ bin/otobo.Daemon.pl status\').',
         'Deleting the field and its data. This may take a while...' => 'Menghapus lapangan dan data. Ini mungkin memerlukan waktu ...',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => 'Hapus pilihan',
         'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => 'Hapus pemicu event ini',
@@ -7051,7 +7056,8 @@ Helpdesk Team Anda
             'Mendefinisikan nama pengguna untuk mengakses SOAP pegangan (bin/cgi-bin/rpc.pl).',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
-        'Defines the valid state types for a ticket.' => 'Mendefinisikan jenis state yang berlaku untuk tiket.',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Mendefinisikan negara berlaku untuk tiket dibuka. Untuk membuka tiket script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" dapat digunakan',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -9016,6 +9022,7 @@ Helpdesk Team Anda
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',
@@ -9099,6 +9106,7 @@ Helpdesk Team Anda
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

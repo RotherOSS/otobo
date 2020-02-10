@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -71,6 +71,16 @@ my @Tests = (
         SettingName => 'Loader::Customer::CommonJS###000-Framework',
         OldValue    => 'thirdparty/jquery-jstree-3.3.4/jquery.jstree.js',
         NewValue    => 'thirdparty/jquery-jstree-3.3.7/jquery.jstree.js',
+    },
+    {
+        SettingName => 'Loader::Agent::CommonJS###000-Framework',
+        OldValue    => 'thirdparty/jquery-3.2.1/jquery.js',
+        NewValue    => 'thirdparty/jquery-3.4.1/jquery.js',
+    },
+    {
+        SettingName => 'Loader::Customer::CommonJS###000-Framework',
+        OldValue    => 'thirdparty/jquery-3.2.1/jquery.js',
+        NewValue    => 'thirdparty/jquery-3.4.1/jquery.js',
     },
 );
 

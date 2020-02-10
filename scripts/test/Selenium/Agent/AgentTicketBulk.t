@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -554,6 +554,11 @@ $Selenium->RunTest(
                     JavaScript => 'return typeof($) === "function" && !$("#AJAXLoaderOwnerID:visible").length;'
                 );
 
+                $Self->True(
+                    $Selenium->execute_script("return \$('#OwnerID').length;"),
+                    "Owner field is loaded.",
+                );
+
                 # Check for existence.
                 for my $Key ( sort keys %{ $Test->{ExpectedOwners} } ) {
                     my $IsFound = $ConfigValue
@@ -567,13 +572,13 @@ $Selenium->RunTest(
                         $Selenium->execute_script("return \$('#OwnerID option[value=$Key]').length;"),
                         $Exist,
                         "OwnerID - Test user $IsFound",
-                    );
+                    ) || die;
 
                     $Self->Is(
                         $Selenium->execute_script("return \$('#ResponsibleID option[value=$Key]').length;"),
                         $Exist,
                         "ResponsibleID - Test user $IsFound",
-                    );
+                    ) || die;
                 }
             }
         }

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 17:51+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
 "Language-Team: Korean (https://www.transifex.com/otobo/teams/23435/ko/)\n"
@@ -2193,6 +2193,14 @@ msgid "Ticket lock"
 msgstr "티켓 잠금"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr "동적 필드"
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "생성시간"
 
@@ -2391,10 +2399,6 @@ msgstr "새 직함"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "새로운 유형"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr "새로운 동적 필드 값"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -8834,10 +8838,6 @@ msgid "Sending of this message has failed."
 msgstr "이 메시지를 보내지 못했습니다."
 
 #. Template: AgentTicketZoom
-msgid "This message has been queued for sending."
-msgstr "이 메시지는 전송 대기중입니다."
-
-#. Template: AgentTicketZoom
 msgid "Resize"
 msgstr "크기 조정"
 
@@ -9311,10 +9311,6 @@ msgstr "이벤트 정보"
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
 msgstr "타켓 필드"
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
-msgstr "동적 필드"
 
 #. Template: Error
 msgid ""
@@ -10379,6 +10375,10 @@ msgstr "키 추가"
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
 msgstr "배포 설명..."
+
+#. JS Template: DialogDeployment
+msgid "This field can have no more than 250 characters."
+msgstr ""
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
@@ -12793,6 +12793,11 @@ msgid "The following tickets were locked: %s."
 msgstr "다음 티켓이 잠겼습니다 : %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
+msgid ""
+"Article subject will be empty if the subject contains only the ticket hook!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
 msgstr "주소 %s는 등록 된 고객 주소로 바뀝니다."
 
@@ -13493,6 +13498,11 @@ msgstr "%s::QueueDefault에 대한 SysConfig 설정을 확인하십시오."
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::TicketTypeDefault."
 msgstr "%s::TicketTypeDefault에 대한 SysConfig 설정을 확인하십시오."
+
+#. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
+msgid ""
+"You don't have sufficient permissions for ticket creation in default queue."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
@@ -16491,6 +16501,10 @@ msgstr "입력란 삭제"
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
 msgstr "필드 및 해당 데이터 삭제. 이 작업은 다소 시간이 걸릴 수 있습니다..."
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
+msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove selection"
@@ -21604,8 +21618,11 @@ msgstr ""
 "인터페이스에 표시 할 영역을 제어하십시오."
 
 #. SysConfig
-msgid "Defines the valid state types for a ticket."
-msgstr "티켓의 유효한 상태 유형을 정의합니다."
+msgid ""
+"Defines the valid state types for a ticket. If a ticket is in a state which "
+"have any state type from this setting, this ticket will be considered as "
+"open, otherwise as closed."
+msgstr ""
 
 #. SysConfig
 msgid ""

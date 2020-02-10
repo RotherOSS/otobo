@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -248,8 +248,8 @@ $Selenium->RunTest(
 
         # Wait for the AJAX call to finish.
         $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('#QueueID').closest('.WidgetSimple').hasClass('HasOverlay')"
+            ElementMissing =>
+                "//i[contains(\@class,\'fa fa-circle-o-notch fa-spin\')]"
         );
         $Selenium->WaitFor(
             JavaScript =>
@@ -267,8 +267,8 @@ $Selenium->RunTest(
 
         # Wait for the AJAX call to finish.
         $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('#ServiceID').closest('.WidgetSimple').hasClass('HasOverlay')"
+            ElementMissing =>
+                "//i[contains(\@class,\'fa fa-circle-o-notch fa-spin\')]"
         );
         $Selenium->WaitFor(
             JavaScript =>

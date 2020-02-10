@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -139,7 +139,8 @@ sub Run {
     };
 
     # Check if there are errors.
-    if ( $ErrorMessage || !$Success ) {
+    # Do not log debug messages as Daemon errors. See bug#14722 (https://bugs.otrs.org/show_bug.cgi?id=14722).
+    if ( ( $ErrorMessage && $ErrorMessage !~ /Debug: /g ) || !$Success ) {
         $Self->_HandleError(
             TaskName     => 'ConfigurationDeploySync',
             TaskType     => 'SystemConfigurationSyncManager',

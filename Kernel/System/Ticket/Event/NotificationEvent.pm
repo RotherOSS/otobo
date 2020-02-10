@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -1124,6 +1124,16 @@ sub _RecipientsGet {
             TicketID => $Ticket{TicketID},
             UserID   => $User{UserID}
         );
+
+        # Additional permissions for notes.
+        # Please see bug#14917 for more information.
+        if ( !$Permission && $Param{Event} eq 'NotificationAddNote' ) {
+            $Permission = $TicketObject->TicketPermission(
+                Type     => 'note',
+                TicketID => $Ticket{TicketID},
+                UserID   => $User{UserID}
+            );
+        }
 
         next RECIPIENT if !$Permission;
 
