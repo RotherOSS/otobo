@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.999660095173351;
+    $Self->{Completeness}        = 0.964885752688172;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -296,23 +296,23 @@ sub Data {
         'Support data collector' => '支持数据收集工具',
         'Hint' => '提示',
         'Currently support data is only shown in this system.' => '当前的支持数据只是在系统中显示。',
-        'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            '极力推荐将支持数据发送给OTOBO集团以便获得更好的支持。',
+        'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
+            '',
         'Configuration' => '配置',
         'Send support data' => '发送支持数据',
-        'This will allow the system to send additional support data information to OTOBO Team.' =>
-            '允许系统发送额外的支持数据信息给OTOBO集团。',
+        'This will allow the system to send additional support data information to the OTOBO team.' =>
+            '',
         'Update' => '更新',
         'System Registration' => '系统注册',
-        'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '为了启用数据发送功能，请将您的系统注册到OTOBO集团或更新您的注册信息（确保激活了“发送支持数据”选项。）',
+        'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+            '',
         'Register this System' => '注册本系统',
         'System Registration is disabled for your system. Please check your configuration.' =>
             '本系统的系统注册功能已被禁用，请检查你的配置。',
 
         # Template: AdminCloudServices
-        'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            '系统注册是OTOBO集团的一项服务，它为您提供了很多好处!',
+        'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
+            '',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             '请注意：为了使用OTOBO云服务，需要先注册系统。',
         'Register this system' => '注册本系统',
@@ -392,13 +392,22 @@ sub Data {
         'Communication Log Details' => '通信日志详情',
         'Please select an entry from the list.' => '请从列表中选择一个条目。',
 
+        # Template: AdminContactWD
+        'Contact with data management' => '',
+        'Contact with data' => '连接数据',
+        'Add contact with data' => '',
+        'Edit contact with data' => '',
+        'Back to search results' => '返回到搜索结果',
+        'Select' => '选择',
+        'Search' => '搜索',
+        'Wildcards like \'*\' are allowed.' => '允许使用通配置符，例如\'*\'。',
+        'Please enter a search term to look for contacts with data.' => '',
+        'Valid' => '有效',
+
         # Template: AdminCustomerCompany
         'Customer Management' => '客户管理',
         'Add Customer' => '添加客户',
         'Edit Customer' => '编辑客户',
-        'Search' => '搜索',
-        'Wildcards like \'*\' are allowed.' => '允许使用通配置符，例如\'*\'。',
-        'Select' => '选择',
         'List (only %s shown - more available)' => '列表 (目前显示%s-显示更多)',
         'total' => '总共',
         'Please enter a search term to look for customers.' => '请输入搜索条件以便检索客户资料.',
@@ -440,7 +449,6 @@ sub Data {
         'Customer User Management' => '客户用户管理',
         'Add Customer User' => '添加客户用户',
         'Edit Customer User' => '编辑客户用户',
-        'Back to search results' => '返回到搜索结果',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             '工单的客户历史信息需要有客户用户，客户界面登录也需要用客户用户。',
         'List (%s total)' => '列表（总共 %s）',
@@ -508,16 +516,15 @@ sub Data {
         'Add new field for object' => '为对象添加新的字段',
         'Filter for Dynamic Fields' => '动态字段过滤器',
         'Filter for dynamic fields' => '动态字段过滤器',
-        'More Business Fields' => '更多商业版字段',
-        'Would you like to benefit from additional dynamic field types for businesses? Upgrade to %s to get access to the following field types:' =>
-            '您想要从商业版的额外动态字段类型中受益吗？ 升级到%s以访问以下字段类型：',
+        'New OTOBO Community  Fields' => '',
+        'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
+            '',
         'Database' => '数据库',
         'Use external databases as configurable data sources for this dynamic field.' =>
             '使用外部数据库作为此动态字段的可配置数据源。',
         'Web service' => 'Web服务',
         'External web services can be configured as data sources for this dynamic field.' =>
             '外部Web服务可以配置为该动态字段的数据源。',
-        'Contact with data' => '连接数据',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
             '此功能允许将（多个）联系人信息添加到工单中。',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
@@ -557,6 +564,66 @@ sub Data {
         'Default value' => '默认值',
         'This is the default value for this field.' => '这是该字段的默认值。',
 
+        # Template: AdminDynamicFieldContactWD
+        'Add or edit contacts' => '',
+        'To add contacts to this field please fill out all the needed information and save it.' =>
+            '',
+        'Click on the field name from the overview to edit it and find the corresponding action in the sidebar or from the \'Tickets\' menu.' =>
+            '',
+        'Name Field' => '',
+        'ValidID Field' => '',
+        'Other Fields' => '',
+        'Key' => '键',
+        'Value' => '值',
+        'Remove value' => '删除值',
+        'Add Field' => '',
+        'Add value' => '添加值',
+        'These are the possible data attributes for contacts.' => '',
+        'Mandatory fields' => '',
+        'Comma separated list of mandatory keys (optional). Keys \'Name\' and \'ValidID\' are always mandatory and doesn\'t have to be listed here.' =>
+            '',
+        'Sorted fields' => '',
+        'Comma separated list of keys in sort order (optional). Keys listed here come first, all remaining fields afterwards and sorted alphabetically.' =>
+            '',
+        'Searchable fields' => '',
+        'Comma separated list of searchable keys (optional). Key \'Name\' is always searchable and doesn\'t have to be listed here.' =>
+            '',
+        'Translatable values' => '可翻译的值',
+        'If you activate this option the values will be translated to the user defined language.' =>
+            '如果激活此选项，这些值将被转换为用户定义的语言。',
+        'Note' => '备注',
+        'You need to add the translations manually into the language translation files.' =>
+            '您需要将翻译手动添加到语言翻译文件中。',
+
+        # Template: AdminDynamicFieldDB
+        'Possible values' => '可能值',
+        'Datatype' => '',
+        'Filter' => '过滤器',
+        'Searchfield' => '',
+        'Listfield' => '',
+        'Show link' => '显示链接',
+        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
+            '可以为字段值指定一个可选的HTTP链接，以便其显示在工单概览和工单详情中。',
+        'Example' => '样例',
+        'Link for preview' => '连接预览',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
+            '如果填写了内容，在工单详情屏幕中当鼠标移动到这个URL上方时将显示URL的预览。请注意：要使这个功能生效，还需要上面的常规URL字段也填写好了内容。',
+        'SID' => '实例名',
+        'Driver' => '',
+        'Server' => '',
+        'Port' => '端口',
+        'Table / View' => '',
+        'User' => '用户',
+        'Password' => '密码',
+        'Identifier' => '标识符',
+        'Must be unique column from the table entered in Table/View.' => '',
+        'Multiselect' => '多选框',
+        'CacheTTL' => '',
+        'Searchprefix' => '',
+        'Searchsuffix' => '',
+        'Result Limit' => '',
+        'Case Sensitive' => '',
+
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => '默认的日期差',
         'This field must be numeric.' => '此字段必须是数字。',
@@ -569,35 +636,17 @@ sub Data {
         'Years in the past to display (default: 5 years).' => '显示过去的几年 (默认: 5年)',
         'Years in the future' => '未来的几年',
         'Years in the future to display (default: 5 years).' => '显示未来的几年 (默认: 5年)',
-        'Show link' => '显示链接',
-        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
-            '可以为字段值指定一个可选的HTTP链接，以便其显示在工单概览和工单详情中。',
         'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
             '如果不应编码特殊字符（&、@、 :、 / 等），请使用“url”代替“uri”过滤器。',
-        'Example' => '样例',
-        'Link for preview' => '连接预览',
-        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
-            '如果填写了内容，在工单详情屏幕中当鼠标移动到这个URL上方时将显示URL的预览。请注意：要使这个功能生效，还需要上面的常规URL字段也填写好了内容。',
         'Restrict entering of dates' => '限制输入日期',
         'Here you can restrict the entering of dates of tickets.' => '在这里可以限制输入工单日期。',
 
         # Template: AdminDynamicFieldDropdown
-        'Possible values' => '可能值',
-        'Key' => '键',
-        'Value' => '值',
-        'Remove value' => '删除值',
-        'Add value' => '添加值',
         'Add Value' => '添加值',
         'Add empty value' => '添加空值',
         'Activate this option to create an empty selectable value.' => '激活此选项, 创建可选择的空值.',
         'Tree View' => '树形视图',
         'Activate this option to display values as a tree.' => '激活此选项，将以树状形式显示值。',
-        'Translatable values' => '可翻译的值',
-        'If you activate this option the values will be translated to the user defined language.' =>
-            '如果激活此选项，这些值将被转换为用户定义的语言。',
-        'Note' => '备注',
-        'You need to add the translations manually into the language translation files.' =>
-            '您需要将翻译手动添加到语言翻译文件中。',
 
         # Template: AdminDynamicFieldText
         'Number of rows' => '行数',
@@ -613,6 +662,30 @@ sub Data {
         'Invalid RegEx' => '无效的正则表达式',
         'Error Message' => '错误消息',
         'Add RegEx' => '添加正则表达式',
+
+        # Template: AdminDynamicFieldTitle
+        'Template' => '模版',
+        'Style' => '',
+        'bold' => '',
+        'italic' => '',
+        'underline' => '',
+        'Font style of the label.' => '',
+        'Size' => '大小',
+        'Font size of the label.' => '',
+        'Color in hex.' => '',
+
+        # Template: AdminDynamicFieldWebService
+        'This field is required' => '这个字段是必需的',
+        'The web service to be executed for possible values.' => '',
+        'Invoker' => '',
+        'The invoker to be used to perform requests (invoker needs to be of type \'Generic::PassThrough\').' =>
+            '',
+        'Activate this option to allow multiselect on results.' => '',
+        'Cache TTL' => '',
+        'Cache time to live (in minutes), to save the retrieved possible values.' =>
+            '',
+        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens. Optional HTTP link works only for single-select fields.' =>
+            '',
 
         # Template: AdminEmail
         'Admin Message' => '管理消息',
@@ -680,8 +753,6 @@ sub Data {
         'Owner' => '所有者',
         'Responsible' => '负责人',
         'Ticket lock' => '工单锁定',
-        'Dynamic fields' => '动态字段',
-        'Add dynamic field' => '',
         'Create times' => '创建时间',
         'No create time settings.' => '没有创建时间。',
         'Ticket created' => '工单创建时间',
@@ -732,6 +803,7 @@ sub Data {
         'New customer ID' => '指定客户ID',
         'New title' => '指定标题',
         'New type' => '指定类型',
+        'New Dynamic Field Values' => '指定动态字段值',
         'Archive selected tickets' => '归档选中的工单',
         'Add Note' => '添加备注',
         'Visible for customer' => '对客户的可见性',
@@ -1032,8 +1104,8 @@ sub Data {
         'Endpoint' => '端点',
         'URI to indicate specific location for accessing a web service.' =>
             '用于指示访问Web服务的特定位置的URI。',
-        'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
-            '例如：https://www.otrs.com:10745/api/v1.0 (最后不带斜杠/)',
+        'e.g https://www.otobo.ch:10745/api/v1.0 (without trailing backslash)' =>
+            '',
         'Timeout' => '超时',
         'Timeout value for requests.' => '请求的超时值。',
         'Authentication' => 'Authentication（身份验证）',
@@ -1075,6 +1147,9 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             '认证机构目录的完整路径，文件系统中存储CA证书的地方。',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => '例如：/opt/otobo/var/certificates/SOAP/CA',
+        'SSL hostname verification.' => '',
+        'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
+            '',
         'Controller mapping for Invoker' => '调用程序的控制器映射',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             '控制器接受调用程序发送的请求。以“:“作为标记的变量将被数据值和其它传递参数替换。',
@@ -1239,7 +1314,6 @@ sub Data {
         'Delete account' => '删除帐号',
         'Fetch mail' => '查收邮件',
         'Do you really want to delete this mail account?' => '您确定要删除这个邮件帐户吗？',
-        'Password' => '密码',
         'Example: mail.example.com' => '样例：mail.example.com',
         'IMAP Folder' => 'IMAP文件夹',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1251,7 +1325,6 @@ sub Data {
         # Template: AdminNavigationBar
         'Administration Overview' => '系统管理概览',
         'Filter for Items' => '条目过滤器',
-        'Filter' => '过滤器',
         'Favorites' => '收藏夹',
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '你可以移动鼠标到条目的右上角并点击星形图标来将条目添加到收藏夹。',
@@ -1307,85 +1380,12 @@ sub Data {
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '你可以使用诸如<OTOBO_TICKET_DynamicField_...>之类的OTOBO标签来插入当前工单中的值。',
 
-        # Template: AdminOTOBOCommunityInstalled
-        'Manage %s' => '管理 %s',
-        'Downgrade to OTOBO' => '降级为  ((OTOBO)) 社区版',
-        'Read documentation' => '阅读文档',
-        '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
-            '%s 定期连接到cloud.otrs.com检查可用更新，并验证合同的有效性。',
-        'Unauthorized Usage Detected' => '检测到未经授权的使用',
-        'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
-            '该系统所使用的 %s 许可证无效！ 请与%s联系续订或激活您的合同！',
-        '%s not Correctly Installed' => '%s 没有正确安装',
-        'Your %s is not correctly installed. Please reinstall it with the button below.' =>
-            '%s 没有正确安装，请点击下面的按钮重新安装。',
-        'Reinstall %s' => '重新安装 %s',
-        'Your %s is not correctly installed, and there is also an update available.' =>
-            '%s 没有正确安装，已经有了可用的更新版本。',
-        'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
-            '你可以重新安装当前版本，或者安装新版本（推荐更新到新版本）。',
-        'Update %s' => '更新 %s',
-        '%s Not Yet Available' => '%s 还不可用',
-        '%s will be available soon.' => '%s 很快就可用了。',
-        '%s Update Available' => '%s 更新可用',
-        'An update for your %s is available! Please update at your earliest!' =>
-            '%s 有更新版本可用了！请尽早更新！',
-        '%s Correctly Deployed' => '%s 已经正确地部署',
-        'Congratulations, your %s is correctly installed and up to date!' =>
-            '恭喜，你的%s 已经正确地安装到最新版本！',
-
-        # Template: AdminOTOBOCommunityNotInstalled
-        'Go to the OTOBO customer portal' => '访问OTOBO客户门户',
-        '%s will be available soon. Please check again in a few days.' =>
-            '%s 很快就可用了，请过几天再检查一次。',
-        'Please have a look at %s for more information.' => '有关更多信息,请查看 %s。',
-        'Your OTOBO is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            ' ((OTOBO)) 社区版是所有特色功能的基础，继续升级到%s 前请先注册！',
-        'Before you can benefit from %s, please contact %s to get your %s contract.' =>
-            '在从%s 受益之前，请先联系%s 以获得%s 合同。',
-        'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTOBO can connect to cloud.otrs.com via port 443.' =>
-            '不能通过HTTPS连接到cloud.otrs.com，请确保你的OTOBO系统能够通过端口443连接到cloud.otrs.com。',
-        'Package installation requires patch level update of OTOBO.' => '软件包安装需要更新OTOBO的补丁级别。',
-        'Please visit our customer portal and file a request.' => '请访问我们的客户门户并提出请求。',
-        'Everything else will be done as part of your contract.' => '一切都将作为您的合同的一部分完成。',
-        'Your installed OTOBO version is %s.' => '您安装的OTOBO版本是%s。',
-        'To install this package, you need to update to OTOBO %s or higher.' =>
-            '要安装此软件包，您需要更新到OTOBO %s或更高版本。',
-        'To install this package, the Maximum OTOBO Version is %s.' => '要安装此软件包，OTOBO最高版本为%s。',
-        'To install this package, the required Framework version is %s.' =>
-            '要安装此软件包，所需的框架版本为%s。',
-        'Why should I keep OTOBO up to date?' => '为什么要保持OTOBO是最新的？',
-        'You will receive updates about relevant security issues.' => '您将收到有关安全问题的更新。',
-        'You will receive updates for all other relevant OTOBO issues' => '您将收到所有其他OTOBO相关问题的更新',
-        'With your existing contract you can only use a small part of the %s.' =>
-            '当前的合同表明你只能使用%s 的小部分功能。',
-        'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
-            '如欲发挥%s 的全部优势，请升级合同！联系%s。',
-
-        # Template: AdminOTOBOCommunityUninstall
-        'Cancel downgrade and go back' => '取消降级并返回',
-        'Go to OTOBO Package Manager' => '进入 OTOBO 软件包管理',
-        'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
-            '当前不能降级，因为以下软件包依赖%s：',
-        'Vendor' => '提供者',
-        'Please uninstall the packages first using the package manager and try again.' =>
-            '请在软件包管理模块中先删除这些软件包，然后再试一次。',
-        'You are about to downgrade to OTOBO and will lose the following features and all data related to these:' =>
-            '你打算降级到 ((OTOBO)) 社区版，以下功能特性和相关数据将全部丢失：',
-        'Chat' => '聊天',
-        'Report Generator' => '报表生成器',
-        'Timeline view in ticket zoom' => '以时间轴视图展开工单',
-        'DynamicField ContactWithData' => '动态字段ContactWithData',
-        'DynamicField Database' => '动态字段Database',
-        'SLA Selection Dialog' => 'SLA选择对话框',
-        'Ticket Attachment View' => '工单附件视图',
-        'The %s skin' => '%s 皮肤',
-
         # Template: AdminPGP
         'PGP Management' => 'PGP管理',
         'Add PGP Key' => '添加PGP密钥',
         'PGP support is disabled' => 'PGP支持已禁用',
-        'To be able to use PGP in OTOBO, you have to enable it first.' => '要在OTOBO中使用PGP，你必须首先启用它。',
+        'To be able to use PGP in OTOBO, you have to enable it first.' =>
+            '要在OTOBO中使用PGP，你必须首先启用它。',
         'Enable PGP support' => '启用PGP支持',
         'Faulty PGP configuration' => '错误的PGP配置',
         'PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
@@ -1395,7 +1395,6 @@ sub Data {
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             '通过此模块可以直接编辑在SysConfig中配置的密钥环。',
         'Introduction to PGP' => 'PGP介绍',
-        'Identifier' => '标识符',
         'Bit' => '位',
         'Fingerprint' => '指纹',
         'Expires' => '过期',
@@ -1411,8 +1410,10 @@ sub Data {
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             '您真的想要重新安装该软包吗? 所有该模块的手工设置将丢失.',
         'Go to updating instructions' => '转到升级说明',
+        'Go to the OTOBO customer portal' => '访问OTOBO客户门户',
         'package information' => '软件包信息',
-        'Package installation requires a patch level update of OTOBO.' => '安装软件包需要将OTOBO补丁级别更新。',
+        'Package installation requires a patch level update of OTOBO.' =>
+            '安装软件包需要将OTOBO补丁级别更新。',
         'Package update requires a patch level update of OTOBO.' => '升级软件包需要将OTOBO补丁级别更新。',
         'Please note that your installed OTOBO version is %s.' => '请注意，您安装的OTOBO版本是%s。',
         'To install this package, you need to update OTOBO to version %s or newer.' =>
@@ -1421,6 +1422,8 @@ sub Data {
             '这个软件包只能安装在OTOBO版本%s或者更低。',
         'This package can only be installed on OTOBO version %s or newer.' =>
             '这个软件包只能安装在OTOBO版本%s或者更高。',
+        'Why should I keep OTOBO up to date?' => '为什么要保持OTOBO是最新的？',
+        'You will receive updates about relevant security issues.' => '您将收到有关安全问题的更新。',
         'You will receive updates for all other relevant OTOBO issues.' =>
             '你将收到所有其他有关OTOBO问题的更新。',
         'How can I do a patch level update if I don’t have a contract?' =>
@@ -1429,6 +1432,7 @@ sub Data {
             '请在升级说明%s中查找所有相关的信息。',
         'In case you would have further questions we would be glad to answer them.' =>
             '如果您还有其它问题，我们非常愿意答复您。',
+        'Please visit our customer portal and file a request.' => '请访问我们的客户门户并提出请求。',
         'Install Package' => '安装软件包',
         'Update Package' => '更新软件包',
         'Continue' => '继续',
@@ -1437,10 +1441,11 @@ sub Data {
         'Install' => '安装',
         'Update repository information' => '更新软件仓库信息',
         'Cloud services are currently disabled.' => '云服务当前被禁用了。',
-        'OTOBO Verify can not continue!' => 'OTOBO Verify（OTOBO验证）不能继续！',
+        'OTOBO Verify can not continue!' => 'OTOBO Verify（OTRS验证）不能继续！',
         'Enable cloud services' => '启用云服务',
         'Update all installed packages' => '更新所有已安装的软件包',
         'Online Repository' => '在线软件仓库',
+        'Vendor' => '提供者',
         'Action' => '操作',
         'Module documentation' => '模块文档',
         'Local Repository' => '本地软件仓库',
@@ -1462,7 +1467,6 @@ sub Data {
         'Permission' => '权限',
         'Download file from package!' => '从软件包中下载这个文件！',
         'Required' => '必需的',
-        'Size' => '大小',
         'Primary Key' => '主密钥',
         'Auto Increment' => '自动增加',
         'SQL' => 'SQL',
@@ -1546,8 +1550,6 @@ sub Data {
         'Ready2Adopt Processes' => '即开即用的流程',
         'Here you can activate Ready2Adopt processes showcasing our best practices. Please note that some additional configuration may be required.' =>
             '你可以在此激活能展示我们最佳实践的即开即用的流程，请注意这可能需要一些额外的配置。',
-        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated Ready2Adopt processes.' =>
-            '你想从专家创建的流程中受益吗？升级到%s 就能导入一些复杂的即开即用的流程。',
         'Import Ready2Adopt process' => '导入即开即用的流程',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             '为了创建新的流程，你可以导入从其它系统导出的流程配置文件，或者重新创建一个。',
@@ -1760,7 +1762,7 @@ sub Data {
         'Show transmitted data' => '显示已传输的数据',
         'Deregister system' => '取消系统注册',
         'Overview of registered systems' => '注册系统概述',
-        'This system is registered with OTOBO Team.' => '本系统已注册到OTOBO集团。',
+        'This system is registered with OTOBO Team.' => '本系统已注册到OTRS集团。',
         'System type' => '系统类型',
         'Unique ID' => '唯一ID',
         'Last communication with registration server' => '与注册服务器上一次的通信',
@@ -1769,9 +1771,9 @@ sub Data {
             '请注意：如果OTOBO守护进程没有正确运行，你就不能注册你的系统！',
         'Instructions' => '说明',
         'System Deregistration not Possible' => '系统取消注册不可能',
-        'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
-            '请注意：如果你正在使用%s 或具有一个有效的服务合同，你就不能取消你的系统注册。',
         'OTOBO-ID Login' => 'OTOBO-ID登陆',
+        'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
+            '系统注册是OTRS集团的一项服务，它为您提供了很多好处!',
         'Read more' => '阅读更多',
         'You need to log in with your OTOBO-ID to register your system.' =>
             '为了注册系统，需要你先使用OTOBO-ID进行登陆。',
@@ -1791,7 +1793,7 @@ sub Data {
         'Is it possible to deregister?' => '可以取消注册吗？',
         'You can deregister at any time.' => '你可以随时取消系统注册。',
         'Which data is transfered when registering?' => '注册后，哪些数据会被上传?',
-        'A registered system sends the following data to OTOBO Team:' => '注册过的系统会将以下数据上传给OTOBO集团：',
+        'A registered system sends the following data to OTOBO Team:' => '注册过的系统会将以下数据上传给OTRS集团：',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             '域名(FQDN)、OTOBO版本、数据库、操作系统和Perl版本。',
         'Why do I have to provide a description for my system?' => '为什么需要我提供有关注册系统的描述?',
@@ -1813,16 +1815,18 @@ sub Data {
         'Retrieve a new one' => '获取新的密码',
         'Next' => '下一步',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            '注册本系统后，这个数据会经常传送给OTOBO集团。',
+            '注册本系统后，这个数据会经常传送给OTRS集团。',
         'Attribute' => '属性',
         'FQDN' => '正式域名',
         'OTOBO Version' => 'OTOBO版本',
         'Operating System' => '操作系统',
         'Perl Version' => 'Perl版本',
         'Optional description of this system.' => '本系统可选的描述。',
+        'This will allow the system to send additional support data information to OTOBO Team.' =>
+            '允许系统发送额外的支持数据信息给OTRS集团。',
         'Register' => '注册',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            '继续这一步将从OTOBO集团取消注册本系统。',
+            '继续这一步将从OTRS集团取消注册本系统。',
         'Deregister' => '取消注册',
         'You can modify registration settings here.' => '你可以在这里修改注册设置。',
         'Overview of Transmitted Data' => '已传输的数据概览',
@@ -1917,8 +1921,8 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'S/MIME证书',
-        'Close this dialog' => '关闭该对话框',
         'Certificate Details' => '证书详情',
+        'Close this dialog' => '关闭该对话框',
 
         # Template: AdminSalutation
         'Salutation Management' => '问候语管理',
@@ -1976,7 +1980,6 @@ sub Data {
         'Filter for Sessions' => '会话过滤器',
         'Filter for sessions' => '会话过滤器',
         'Session' => '会话',
-        'User' => '用户',
         'Kill' => '终止',
         'Detail View for SessionID: %s - %s' => '会话ID%s - %s的详情视图：',
 
@@ -2004,14 +2007,18 @@ sub Data {
         'This state is used in the following config settings:' => '这个状态已用于以下的系统配置设置：',
 
         # Template: AdminSupportDataCollector
-        'Sending support data to OTOBO Team is not possible!' => '不能将支持数据发送给OTOBO集团！',
+        'Sending support data to OTOBO Team is not possible!' => '不能将支持数据发送给OTRS集团！',
         'Enable Cloud Services' => '启用云服务',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            '这些数据被定期发送到OTOBO集团，要停止发送这些数据，请更新你的系统注册配置。',
+            '这些数据被定期发送到OTRS集团，要停止发送这些数据，请更新你的系统注册配置。',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             '你可以通过这个按钮手动发送支持数据：',
         'Send Update' => '发送更新',
         'Currently this data is only shown in this system.' => '目前支持数据只是在本地系统上显示。',
+        'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
+            '极力推荐将支持数据发送给OTRS集团以便获得更好的支持。',
+        'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+            '为了启用数据发送功能，请将您的系统注册到OTRS集团或更新您的注册信息（确保激活了“发送支持数据”选项。）',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             '点击以下按钮生成支持数据包（包括：系统注册信息、支持数据、已安装软件包列表和本地所有修改过的源代码文件）',
         'Generate Support Bundle' => '生成支持数据包',
@@ -2024,10 +2031,10 @@ sub Data {
             '当前用户的邮件地址无效，本选项无法使用。',
         'Sending' => '发送中',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            '支持数据包会自动通过电子邮件方式发送给OTOBO集团。',
+            '支持数据包会自动通过电子邮件方式发送给OTRS集团。',
         'Download File' => '下载文件',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            '包含支持数据包的文件已经可以下载到本地。请保存文件，然后通过其他方法把这个文件发送给OTOBO集团。',
+            '包含支持数据包的文件已经可以下载到本地。请保存文件，然后通过其他方法把这个文件发送给OTRS集团。',
         'Error: Support data could not be collected (%s).' => '错误：%s 无法收集支持数据。',
         'Details' => '详情',
 
@@ -2090,6 +2097,20 @@ sub Data {
             '切换到高级模式，查看其他用户更改的可部署设置。',
         'Deploy selected changes' => '部署所选更改',
 
+        # Template: AdminSystemConfigurationDeploymentHistory
+        'Deployment History' => '',
+        'Filter for Deployments' => '',
+        'Recent Deployments' => '',
+        'Restore' => '',
+        'View Details' => '',
+        'Restore this deployment.' => '',
+        'Export this deployment.' => '',
+
+        # Template: AdminSystemConfigurationDeploymentHistoryDetails
+        'Deployment Details' => '',
+        'by' => '由',
+        'No settings have been deployed in this run.' => '',
+
         # Template: AdminSystemConfigurationGroup
         'This group doesn\'t contain any settings. Please try navigating to one of its sub groups.' =>
             '这个组不包含任何设置， 请尝试浏览它的一个子组。',
@@ -2119,6 +2140,19 @@ sub Data {
         # Template: AdminSystemConfigurationSearchDialog
         'Category' => '类别',
         'Run search' => '搜索',
+
+        # Template: AdminSystemConfigurationSettingHistoryDetails
+        'Change History' => '',
+        'Change History of %s' => '',
+        'No modified values for this setting, the default value is used.' =>
+            '',
+
+        # Template: AdminSystemConfigurationUserModifiedDetails
+        'Review users setting value' => '',
+        'Users Value' => '',
+        'For' => '',
+        'Delete all user values.' => '',
+        'No user value for this setting.' => '',
 
         # Template: AdminSystemConfigurationView
         'View a custom List of Settings' => '查看设置的自定义列表',
@@ -2162,7 +2196,6 @@ sub Data {
         'Delete this entry' => '删除该条目',
         'Do you really want to delete this template?' => '您真的想要删除这个模板吗？',
         'A standard template with this name already exists!' => '模板名称已存在！',
-        'Template' => '模版',
         'Create type templates only supports this smart tags' => '“Create创建”类型的模板只支持以下智能标签',
         'Example template' => '模板样例',
         'The current ticket state is' => '当前工单状态是',
@@ -2422,6 +2455,14 @@ sub Data {
         # Template: AgentDashboardUserOutOfOffice
         'until' => '直到',
 
+        # Template: AgentDynamicFieldDBDetailedSearch
+        'Back' => '后退',
+        'Detailed search' => '',
+        'Add an additional attribute' => '',
+
+        # Template: AgentDynamicFieldDBDetails
+        'Details view' => '',
+
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => '接收新闻、许可证或者一些变更信息。',
         'Yes, accepted.' => '是的，接受。',
@@ -2435,10 +2476,24 @@ sub Data {
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             '目前没有链接。 请点击顶部的“创建新链接”将此项目链接到其他对象。',
 
-        # Template: AgentOTOBOCommunityBlockScreen
-        'Unauthorized usage of %s detected' => '检测到未经授权的使用 %s',
-        'If you decide to downgrade to OTOBO, you will lose all database tables and data related to %s.' =>
-            '如果决定降级到 ((OTOBO)) 社区版，会丢失%s相关的所有数据库表及其数据。',
+        # Template: AgentPassword
+        'Password Policy' => '',
+        'Your current password is older than %s days. You need to set a new one.' =>
+            '',
+        'Change password' => '修改密码',
+        'Current password' => '当前密码',
+        'New password' => '新密码',
+        'Repeat new password' => '',
+        'Password needs to be renewed every %s days.' => '',
+        'Password history is active, you can\'t use a password which was used the last %s times.' =>
+            '',
+        'Password length must be at least %s characters.' => '',
+        'Password requires at least two lower- and two uppercase characters.' =>
+            '',
+        'Password requires at least two characters.' => '',
+        'Password requires at least one digit.' => '',
+        'Change config options' => '',
+        'Admin permissions are required!' => '',
 
         # Template: AgentPreferences
         'Edit your preferences' => '编辑个人设置',
@@ -2534,7 +2589,6 @@ sub Data {
         'Set Pending Time for %s%s%s' => '为%s%s%s添加挂起时间',
         'Change Priority of %s%s%s' => '变更工单%s%s%s的优先级',
         'Change Responsible of %s%s%s' => '变更工单%s%s%s的负责人',
-        'All fields marked with an asterisk (*) are mandatory.' => '所有带“*”的字段都是强制要求输入的字段.',
         'The ticket has been locked' => '工单已锁定',
         'Undo & close' => '撤销并关闭',
         'Ticket Settings' => '工单设置',
@@ -2738,7 +2792,6 @@ sub Data {
         'Event Type' => '事件类型',
         'Save as default' => '保存为默认',
         'Drafts' => '草稿',
-        'by' => '由',
         'Change Queue' => '改变队列',
         'There are no dialogs available at this point in the process.' =>
             '目前流程中没有可用的活动对话框。',
@@ -2797,8 +2850,6 @@ sub Data {
         # Template: Invalid
         'Preview of this article is not possible because %s channel is missing in the system.' =>
             '由于系统丢失了%s频道，无法预览该信件。',
-        'This feature is part of the %s. Please contact us at %s for an upgrade.' =>
-            '此功能是%s的一部分， 请通过%s与我们联系以进行升级。',
         'Please re-install %s package in order to display this article.' =>
             '请重新安装%s软件包以显示该信件。',
 
@@ -2816,9 +2867,7 @@ sub Data {
         'go back to the previous page' => '返回上一页',
 
         # Template: CustomerAccept
-        'Dear Customer,' => '尊敬的客户，',
-        'thank you for using our services.' => '感谢您使用我们的服务。',
-        'Yes, I accept your license.' => '是，同意许可。',
+        'Yes, I accepted your license.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -2829,13 +2878,15 @@ sub Data {
         'From all Customer IDs' => '从所有的客户ID',
         'From assigned Customer IDs' => '从已分配的客户ID',
 
+        # Template: CustomerDashboard
+        'Ticket Search' => '',
+
         # Template: CustomerError
         'An Error Occurred' => '发生了一个错误',
         'Error Details' => '详细错误信息',
         'Traceback' => '追溯',
 
         # Template: CustomerFooter
-        '%s powered by %s' => '%s由%s提供技术支持',
         'Powered by %s' => '由%s提供技术支持',
 
         # Template: CustomerFooterJS
@@ -2854,17 +2905,20 @@ sub Data {
             '本软件可以在大量的浏览器中运行，请升级到其中之一。',
         'Please see the documentation or ask your admin for further information.' =>
             '欲了解更多信息, 请向你的管理询问或参考相关文档.',
+        'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
+            '',
+        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+            '',
         'One moment please, you are being redirected...' => '请稍候，正在重定向...',
         'Login' => '登录',
-        'User name' => '用户名',
         'Your user name' => '你的用户名',
+        'User name' => '用户名',
         'Your password' => '你的密码',
         'Forgot password?' => '密码忘记?',
-        '2 Factor Token' => '双因素令牌',
         'Your 2 Factor Token' => '你的双因素令牌',
+        '2 Factor Token' => '双因素令牌',
         'Log In' => '登录',
-        'Not yet registered?' => '还未注册?',
-        'Back' => '后退',
+        'Request Account' => '',
         'Request New Password' => '请求新密码',
         'Your User Name' => '你的用户名',
         'A new password will be sent to your email address.' => '新密码将会发送到您的邮箱中。',
@@ -2876,17 +2930,31 @@ sub Data {
         'Your email address (this will become your username)' => '您的邮件地址（这将是你的登录用户名）',
 
         # Template: CustomerNavigationBar
-        'Incoming Chat Requests' => '进入的聊天请求',
-        'Edit personal preferences' => '编辑个人偏好设置',
-        'Logout %s' => '注销 %s',
+        'Logout' => '注销',
+
+        # Template: CustomerPassword
+        'Change Password' => '',
+        'Password needs to contain at least 3 of the character classes: lower char, upper char, digit, special character.' =>
+            '',
+
+        # Template: CustomerTicketList
+        'Nr.' => '',
+        'Welcome!' => '欢迎！',
+        'You have no tickets yet. Please click here, to create a new one.' =>
+            '',
+        'Nothing to show.' => '',
+        'Click here for an unfiltered list of all your tickets.' => '',
 
         # Template: CustomerTicketMessage
+        'Issue a new Ticket' => '',
         'Service level agreement' => '服务级别协议',
 
         # Template: CustomerTicketOverview
-        'Welcome!' => '欢迎！',
-        'Please click the button below to create your first ticket.' => '请点击下面的按钮创建第一个工单。',
-        'Create your first ticket' => '创建第一个工单',
+        'Your Tickets' => '',
+        'New Ticket' => '新建工单',
+        'Page' => '页',
+        'Tickets' => '工单',
+        'Sort' => '',
 
         # Template: CustomerTicketSearch
         'Profile' => '搜索条件',
@@ -2911,14 +2979,14 @@ sub Data {
 
         # Template: CustomerTicketSearchResultShort
         'of' => '在',
-        'Page' => '页',
         'Search Results for' => '以下条件的搜索结果',
         'Remove this Search Term.' => '移除这个搜索条件',
 
         # Template: CustomerTicketZoom
-        'Start a chat from this ticket' => '从这个工单开始一次聊天',
-        'Next Steps' => '下一步',
         'Reply' => '回复',
+        'Discard' => '',
+        'Ticket Information' => '工单信息',
+        'Categories' => '',
 
         # Template: Chat
         'Expand article' => '展开信件',
@@ -2926,16 +2994,15 @@ sub Data {
         # Template: CustomerWarning
         'Warning' => '警告',
 
+        # Template: Tile_NewTicket
+        'Issue<br/>a ticket' => '',
+
         # Template: DashboardEventsTicketCalendar
         'Event Information' => '事件信息',
         'Ticket fields' => '工单字段',
+        'Dynamic fields' => '动态字段',
 
         # Template: Error
-        'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTOBO.' =>
-            '真的是一个BUG吗？十个BUG报告有五个起因于错误或不完整的OTOBO安装。',
-        'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
-            '通过%s，我们的专家通过技术支持和定期安全更新来确保正确安装且后台程序正常。',
-        'Contact our service team now.' => '现在就联系我们的服务团队。',
         'Send a bugreport' => '发送一个BUG报告',
         'Expand' => '展开',
 
@@ -2955,11 +3022,8 @@ sub Data {
             '请注意，这个草稿已经过时了，因为这个草稿创建后该工单已经被修改过了。',
 
         # Template: Header
-        'View notifications' => '查看通知',
-        'Notifications' => '通知',
-
+        'Edit personal preferences' => '编辑个人偏好设置',
         'Personal preferences' => '个人偏好设置',
-        'Logout' => '注销',
         'You are logged in as' => '您已登录为',
 
         # Template: Installer
@@ -2972,12 +3036,7 @@ sub Data {
         'Welcome to %s' => '欢迎使用%s',
         'Germany' => '德国',
         'Phone' => '电话',
-        'United States' => '美国',
-        'Mexico' => '墨西哥',
-        'Hungary' => '匈牙利',
-        'Brazil' => '巴西',
-        'Singapore' => '新加坡',
-        'Hong Kong' => '香港',
+        'Switzerland' => '',
         'Web site' => '网址',
 
         # Template: InstallerConfigureMail
@@ -3033,10 +3092,6 @@ sub Data {
 
         # Template: InstallerDBmysql
         'Passwords do not match' => '密码不匹配',
-
-        # Template: InstallerDBoracle
-        'SID' => '实例名',
-        'Port' => '端口',
 
         # Template: InstallerFinish
         'To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -3206,6 +3261,10 @@ sub Data {
         'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             '请记住：Y轴的时间刻度必须大于X轴的时间刻度（例如：X轴=>月，Y轴=>年）。',
 
+        # Template: SettingHistoryListCompare
+        'On ' => '',
+        'Reset to this value' => '',
+
         # Template: SettingsList
         'This setting is disabled.' => '这个设置已被禁用。',
         'This setting is fixed but not deployed yet!' => '这个设置已修正，但尚未部署！',
@@ -3275,9 +3334,8 @@ sub Data {
         # Template: Navigation
         'Navigation' => '导航',
 
-        # Template: OTOBOCommunityTeaser
-        'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
-            '使用%s，系统配置支持版本控制、回滚和用户特定的配置设置。',
+        # Template: UsersSettingListCompare
+        'Delete user\'s value.' => '',
 
         # Template: Test
         'OTOBO Test Page' => 'OTOBO测试页',
@@ -3306,6 +3364,7 @@ sub Data {
 
         # JS Template: UploadContainer
         'Click to select a file for upload.' => '点击以选择一个文件上传。',
+        'Click to select or drop files here.' => '',
         'Click to select files or just drop them here.' => '单击以选择文件或将文件拖放到这里。',
         'Click to select a file or just drop it here.' => '单击以选择一个文件或将文件拖放到这里。',
         'Uploading...' => '上传中...',
@@ -3324,7 +3383,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => '部署注释...',
-        'This field can have no more than 250 characters.' => '此字段不能超过250个字符。',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => '正在部署，请稍候...',
         'Preparing to deploy, please wait...' => '准备部署，请稍候...',
         'Deploy now' => '现在部署',
@@ -3352,7 +3411,6 @@ sub Data {
         'Zip' => '邮编',
         'City' => '城市',
         'Country' => '国家',
-        'Valid' => '有效',
         'Mr.' => '先生',
         'Mrs.' => '女士',
         'Address' => '地址',
@@ -3368,8 +3426,7 @@ sub Data {
         'The following ACLs have been added successfully: %s' => '下列ACL已经成功添加：%s',
         'The following ACLs have been updated successfully: %s' => '下列ACL已经成功更新：%s',
         'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.' =>
-            '在添加/更新下列ACL：%s 时出现一些错误，请检查OTOBO日志以获得更多信息。',
-        'This field is required' => '这个字段是必需的',
+            '在添加/更新下列ACL：%s 时出现一些错误，请检查OTRS日志以获得更多信息。',
         'There was an error creating the ACL' => '创建ACL时出现了一个错误',
         'Need ACLID!' => '需要ACLID！',
         'Could not get data for ACLID %s' => '不能获得ACLID为%s 的数据',
@@ -3426,14 +3483,13 @@ sub Data {
         'The following Notifications have been updated successfully: %s' =>
             '下列通知已成功更新：%s',
         'There where errors adding/updating the following Notifications: %s. Please check the log file for more information.' =>
-            '添加/更新下列通知时出现错误：%s，请检查OTOBO日志以获取更多信息。',
+            '添加/更新下列通知时出现错误：%s，请检查OTRS日志以获取更多信息。',
         'Notification updated!' => '通知已更新！',
         'Agent (resources), who are selected within the appointment' => '这个预约选择的服务人员（资源）',
         'All agents with (at least) read permission for the appointment (calendar)' =>
             '所有对这个预约（日历）至少有读权限的服务人员。',
         'All agents with write permission for the appointment (calendar)' =>
             '所有对这个预约（日历）有写权限的服务人员。',
-        'Yes, but require at least one active notification method.' => '是的，但需要至少一个活动的通知方法。',
 
         # Perl Module: Kernel/Modules/AdminAttachment.pm
         'Attachment added!' => '附件已添加！',
@@ -3470,6 +3526,17 @@ sub Data {
         'seconds' => '秒',
         'second' => '秒',
 
+        # Perl Module: Kernel/Modules/AdminContactWD.pm
+        'No contact is given!' => '',
+        'No data found for given contact in given source!' => '',
+        'Contact updated!' => '',
+        'No field data found!' => '',
+        'Contact created!' => '',
+        'Error creating contact!' => '',
+        'No sources found, at least one "Contact with data" dynamic field must be added to the system!' =>
+            '',
+        'No data found for given source!' => '',
+
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => '客户单位已更新！',
         'Dynamic field %s not found!' => '没有找到动态字段“%s”！',
@@ -3504,9 +3571,6 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
         'Fields configuration is not valid' => '不是有效的字段配置',
         'Objects configuration is not valid' => '不是有效的对象配置',
-        'Database (%s)' => '数据库 (%s)',
-        'Web service (%s)' => 'Web服务(%s)',
-        'Contact with data (%s)' => '联系人信息（%s）',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             '不能正确地重置动态字段顺序，请检查错误日志以获得更多详细信息。',
 
@@ -3528,12 +3592,15 @@ sub Data {
         'Unchecked' => '未检查',
         'Checked' => '已检查',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldContactWD.pm
+        'This field key is duplicated.' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDB.pm
+        'This field value is duplicated.' => '这个字段值是重复的。',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
         'Prevent entry of dates in the future' => '防止未来的日期条目',
         'Prevent entry of dates in the past' => '防止过去的日期条目',
-
-        # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-        'This field value is duplicated.' => '这个字段值是重复的。',
 
         # Perl Module: Kernel/Modules/AdminEmail.pm
         'Select at least one recipient.' => '选择至少一个收件人。',
@@ -3720,16 +3787,6 @@ sub Data {
         'Invisible to customer' => '客户不可见',
         'Visible to customer' => '对客户可见',
 
-        # Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
-        'Your system was successfully upgraded to %s.' => '你的系统已成功更新到 %s。',
-        'There was a problem during the upgrade to %s.' => '升级到%s的过程中出现问题。',
-        '%s was correctly reinstalled.' => '%s 已经成功重装。',
-        'There was a problem reinstalling %s.' => '重装 %s 时遇到了一个问题。',
-        'Your %s was successfully updated.' => '你的 %s 已经成功更新。',
-        'There was a problem during the upgrade of %s.' => '升级 %s 时遇到了一个问题。',
-        '%s was correctly uninstalled.' => '%s 已经成功卸载。',
-        'There was a problem uninstalling %s.' => '卸载 %s 时遇到了一个问题。',
-
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
             'PGP环境不能正常工作，请检查日志获取更多信息！',
@@ -3747,7 +3804,7 @@ sub Data {
         'File is OK' => '文件正常',
         'Package has locally modified files.' => '软件包中有本地修改过的文件。',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            '扩展包未经OTOBO检验！不推荐使用该扩展包.',
+            '扩展包未经OTRS检验！不推荐使用该扩展包.',
         'Not Started' => '没有启动',
         'Updated' => '更新时间',
         'Already up-to-date' => '已经是最新的',
@@ -3949,6 +4006,11 @@ sub Data {
         'Some imported settings are not present in the current state of the configuration or it was not possible to update them. Please check the OTOBO log for more information.' =>
             '某些导入的设置不在配置的当前状态中，或者无法进行更新。 请查看OTOBO日志了解更多信息。',
 
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
+        'This deployment does not contain changes in the setting values!' =>
+            '',
+        'No DeploymentID received!' => '',
+
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
         'You need to enable the setting before locking!' => '锁定之前需要启用该设置！',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
@@ -3962,6 +4024,18 @@ sub Data {
         'Missing setting name.' => '缺少设置名称。',
         'Setting not found.' => '没有找到设置。',
         'Missing Settings!' => '缺少设置！',
+
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
+        'No setting name received!' => '',
+        'Modified Version' => '',
+        'Reset To Default' => '',
+        'Default Version' => '',
+        'No setting name or modified version id received!' => '',
+        'Was not possible to revert the historical value!' => '',
+
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
+        'Missing setting name or modified id!' => '',
+        'System was not able to delete the user setting values!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
         'Start date shouldn\'t be defined after Stop date!' => '开始日期不能在结束日期之后！',
@@ -4064,6 +4138,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => '参数“组”是必需的！',
+        'This feature is not available.' => '',
         'Updated user preferences' => '用户偏好设置已更新',
         'System was unable to deploy your changes.' => '系统无法部署你的变更。',
         'Setting not found!' => '没有找到设置。',
@@ -4129,7 +4204,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
         'Article subject will be empty if the subject contains only the ticket hook!' =>
-            '如果主题只包含工单钩子，则信件主题将为空！',
+            '',
         'Address %s replaced with registered customer address.' => '地址%s已被注册的客户地址所替换。',
         'Customer user automatically added in Cc.' => '客户用户被自动地添加到Cc中.',
 
@@ -4352,7 +4427,6 @@ sub Data {
         'Show one article' => '显示单一信件',
         'Show all articles' => '显示所有信件',
         'Show Ticket Timeline View' => '以时间轴视图显示工单',
-        'Show Ticket Timeline View (%s)' => '显示工单时间轴视图(%s)',
 
         # Perl Module: Kernel/Modules/AjaxAttachment.pm
         'Got no FormID.' => '没有获取到表单ID。',
@@ -4372,7 +4446,7 @@ sub Data {
         'Check SysConfig setting for %s::QueueDefault.' => '检查系统配置 %s::QueueDefault 的设置。',
         'Check SysConfig setting for %s::TicketTypeDefault.' => '检查系统配置 %s::TicketTypeDefault 的设置。',
         'You don\'t have sufficient permissions for ticket creation in default queue.' =>
-            '您没有足够的权限在默认队列中创建工单。',
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => '需要客户ID！',
@@ -4447,6 +4521,9 @@ sub Data {
         'Need config Package::RepositoryAccessRegExp' => '需要配置 Package::RepositoryAccessRegExp',
         'Authentication failed from %s!' => '从 %s 身份认证失败！',
 
+        # Perl Module: Kernel/Output/HTML/Article/Chat.pm
+        'Chat' => '聊天',
+
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketBounce.pm
         'Bounce Article to a different mail address' => '将邮件退回到另一个邮箱地址',
         'Bounce' => '退回',
@@ -4484,9 +4561,7 @@ sub Data {
         'Unmark' => '取消标记',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
-
         'Re-install Package' => '重新安装软件包',
-        'Upgrade' => '升级',
         'Re-install' => '重新安装',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -4621,17 +4696,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
         'Archive search' => '归档搜索',
 
-        # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
-        'Enable cloud services to unleash all OTOBO features!' => '启用云服务以激活OTOBO的所有功能！',
-
-        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
-        '%s Upgrade to %s now! %s' => '现在升级%s到%s！%s',
-        'Please verify your license data!' => '请验证您的许可证数据！',
-        'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            '您的%s的许可证即将过期， 请与%s联系续订您的合同！',
-        'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            '您的%s有新版本可用，但是与当前的框架版本不兼容！请先升级当前的框架版本！',
-
         # Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
         'Online Agent: %s' => '在线服务人员：%s',
 
@@ -4656,10 +4720,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
         'You have Out of Office enabled, would you like to disable it?' =>
             '你已设置为不在办公室，是否取消它?',
-
-        # Perl Module: Kernel/Output/HTML/Notification/PackageManagerCheckNotVerifiedPackages.pm
-        'The installation of packages which are not verified by the OTOBO Team is activated. These packages could threaten your whole system! It is recommended not to use unverified packages.' =>
-            '使用了没有通过OTOBO集团验证的软件包，这些软件包可能会威胁到您的整个系统！ 建议不要使用未经验证的软件包。',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
         'You have %s invalid setting(s) deployed. Click here to show invalid settings.' =>
@@ -4689,13 +4749,11 @@ sub Data {
         'Please specify an end date that is after the start date.' => '请指定在开始时间之后的结束时间。',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
-        'Current password' => '当前密码',
-        'New password' => '新密码',
         'Verify password' => '重复新密码',
         'The current password is not correct. Please try again!' => '当前密码不正确，请重新输入！',
         'Please supply your new password!' => '请提供你的新密码!',
-        'Can\'t update password, your new passwords do not match. Please try again!' =>
-            '无法修改密码。新密码不一致，请重新输入！',
+        'Can\'t update password, the new password and the repeated password do not match.' =>
+            '',
         'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             '当前系统配置禁止此密码，如有其他问题，请联系管理员。',
         'Can\'t update password, it must be at least %s characters long!' =>
@@ -4705,6 +4763,8 @@ sub Data {
         'Can\'t update password, it must contain at least 1 digit!' => '无法修改密码，密码至少需要1个数字字符！',
         'Can\'t update password, it must contain at least 2 letter characters!' =>
             '无法更新密码，必须至少包含2个字母字符！',
+        'Can\'t update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
         'Time zone updated successfully!' => '时区更新成功！',
@@ -4760,9 +4820,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => '排序',
 
-        # Perl Module: Kernel/Output/HTML/TicketZoom/TicketInformation.pm
-        'Ticket Information' => '工单信息',
-
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
         'Locked Tickets New' => '新的锁定工单数',
         'Locked Tickets Reminder Reached' => '提醒过的锁定工单数',
@@ -4788,15 +4845,6 @@ sub Data {
         # Perl Module: Kernel/System/Auth.pm
         'It is currently not possible to login due to a scheduled system maintenance.' =>
             '当前正在执行计划内的系统维护，暂时无法登录。',
-
-        # Perl Module: Kernel/System/AuthSession.pm
-        'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
-            '你已经超出了并发服务人员的最大数，请联系sales@otrs.com。',
-        'Please note that the session limit is almost reached.' => '请注意，会话数即将达到极限。',
-        'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
-            '登录被拒绝！已经达到服务人员最大并发数！请立即联系sales@otrs.com！',
-        'Session limit reached! Please try again later.' => '会话数量已超，请过会再试。',
-        'Session per user limit reached!' => '达到用户会话限制！',
 
         # Perl Module: Kernel/System/AuthSession/DB.pm
         'Session invalid. Please log in again.' => '会话无效，请重新登录。',
@@ -4862,7 +4910,7 @@ sub Data {
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTOBO service contracts.</p>' =>
             '<p>如果安装这个扩展包，可能导致以下问题：</p><ul><li>安全问题</li><li>稳定问题</li><li>性能问题</li></ul><p>请注意，使用此软件包所引起的问题不在OTOBO服务合同范围内。</p>',
         '<p>The installation of packages which are not verified by the OTOBO Team is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
-            '<p>默认情况下，无法安装未经OTOBO集团验证的软件包。 您可以通过系统配置设置“AllowNotVerifiedPackages”激活安装未经验证的软件包。</p>',
+            '<p>默认情况下，无法安装未经OTRS集团验证的软件包。 您可以通过系统配置设置“AllowNotVerifiedPackages”激活安装未经验证的软件包。</p>',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -4954,8 +5002,9 @@ sub Data {
             '最大首次响应工作时间（受升级配置影响）',
         'Number of Tickets (affected by escalation configuration)' => '工单数量（受升级配置影响）',
 
-        # Perl Module: Kernel/System/Stats/Static/StateAction.pm
+        # Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
         'Days' => '天',
+        'Queues / Tickets' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
         'Outdated Tables' => '过时的表',
@@ -5118,7 +5167,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
         'Database Records' => '数据库记录',
-        'Tickets' => '工单',
         'Ticket History Entries' => '工单历史条目',
         'Articles' => '信件',
         'Attachments (DB, Without HTML)' => '附件（DB，不包括HTML文件）',
@@ -5170,7 +5218,7 @@ sub Data {
         'Some packages are not correctly installed.' => '一些软件包没有正确安装。',
         'Package Verification Status' => '软件包验证状态',
         'Some packages are not verified by the OTOBO Team! It is recommended not to use this packages.' =>
-            '一些软件包未经OTOBO团队验证！不推荐使用该扩展包。',
+            '一些软件包未经OTRS团队验证！不推荐使用该扩展包。',
         'Package Framework Version Status' => '软件包框架版本状态',
         'Some packages are not allowed for the current framework version.' =>
             '一些软件包无法在当前的框架版本中使用。',
@@ -5308,7 +5356,8 @@ sub Data {
         'Disabled' => '已禁用',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/Date.pm
-        'System was not able to calculate user Date in OTOBOTimeZone!' => '系统无法在OTOBOTimeZone中计算用户的日期！',
+        'System was not able to calculate user Date in OTOBOTimeZone!' =>
+            '系统无法在OTOBOTimeZone中计算用户的日期！',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/DateTime.pm
         'System was not able to calculate user DateTime in OTOBOTimeZone!' =>
@@ -5330,6 +5379,7 @@ sub Data {
         'Chat Message Text' => '聊天消息文本',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
+        'Too many fail attempts, please retry again later' => '',
         'Login failed! Your user name or password was entered incorrectly.' =>
             '登录失败！用户名或密码错误。',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
@@ -5502,7 +5552,6 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => '正在删除这个动态字段及其相关数据，可能还要等一会儿...',
 
         # JS File: Core.Agent.Admin.GenericAgent
-        'Remove this dynamic field' => '',
         'Remove selection' => '删除选择',
         'Do you really want to delete this generic agent job?' => '您真的想要删除这个自动任务吗？',
         'Delete this Event Trigger' => '删除这个事件触发器',
@@ -5654,6 +5703,9 @@ sub Data {
             '带有值的键不能被重命名。 请删除此键/值对，然后重新添加它。',
         'Unlock setting.' => '解锁设置。',
 
+        # JS File: Core.Agent.Admin.SystemConfigurationUser
+        'Are you sure you want to remove all user values?' => '',
+
         # JS File: Core.Agent.Admin.SystemMaintenance
         'Do you really want to delete this scheduled system maintenance?' =>
             '您真的要删除这个已安排的系统维护吗？',
@@ -5706,6 +5758,9 @@ sub Data {
         'Please check the fields marked as red for valid inputs.' => '请检查标记为红色的字段，需要输入有效的值。',
         'month' => '月',
         'Remove active filters for this widget.' => '移除这个小部件的活动过滤器。',
+
+        # JS File: Core.Agent.DynamicFieldDBSearch
+        'This dynamic field database value is already selected.' => '',
 
         # JS File: Core.Agent.LinkObject.SearchForm
         'Please wait...' => '请稍候...',
@@ -5768,7 +5823,6 @@ sub Data {
         # JS File: Core.Agent
         'Slide the navigation bar' => '滑动导航栏',
         'Please turn off Compatibility Mode in Internet Explorer!' => '请关闭IE的兼容模式！',
-        'Find out more' => '了解更多',
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => '切换到移动模式',
@@ -5927,6 +5981,9 @@ Thanks for your help!
             'ACL模块仅在所有子工单都关闭后才允许关闭父工单（除非所有子工单都已经关闭，否则父工单显示的“状态”均不可用）',
         'Access Control Lists (ACL)' => '访问控制列表(ACL)',
         'AccountedTime' => '所用工时',
+        'Activate Elasticsearch.' => '',
+        'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
+            '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             '包含最早工单的队列激活闪烁提醒机制。',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -5967,19 +6024,31 @@ Thanks for your help!
         'Adds the permanent vacation days.' => '添加永久假期。',
         'Admin' => '系统管理',
         'Admin Area.' => '系统管理区。',
+        'Admin Contact With Data' => '',
         'Admin Notification' => '管理员通知',
         'Admin area navigation for the agent interface.' => '服务人员界面系统管理模块导航。',
+        'Admin contact with data.' => '',
         'Admin modules overview.' => '系统管理模块概览。',
         'Admin.' => '系统管理。',
         'Administration' => '管理',
+        'Agent Contact With Data Search' => '',
         'Agent Customer Search' => '服务人员搜索客户',
         'Agent Customer Search.' => '服务人员搜索客户。',
+        'Agent Dynamic Field Database Detailed Search' => '',
+        'Agent Dynamic Field Database Details' => '',
+        'Agent Dynamic Field Database Search' => '',
         'Agent Name' => '服务人员姓名',
         'Agent Name + FromSeparator + System Address Display Name' => '服务人员姓名 + 隔离符号 + 系统邮件地址显示姓名',
         'Agent Preferences.' => '服务人员偏好设置。',
         'Agent Statistics.' => '服务人员统计。',
         'Agent User Search' => '服务人员搜索用户',
         'Agent User Search.' => '服务人员搜索用户。',
+        'Agent contact with data search.' => '',
+        'Agent dynamic field database detailed search.' => '',
+        'Agent dynamic field database details.' => '',
+        'Agent dynamic field database search.' => '',
+        'Agent frontend module registration (disable \'Edit contacts with data\' link if if there is no source field configured).' =>
+            '',
         'Agent interface article notification module to check PGP.' => '服务人员界面检查PGP的信件通知模块。',
         'Agent interface article notification module to check S/MIME.' =>
             '服务人员界面检查S/MIME的信件通知模块。',
@@ -5999,6 +6068,8 @@ Thanks for your help!
             '查看服务人员所属服务工单数的服务人员界面通知模块。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '查看服务人员关注工单数的服务人员界面通知模块。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。',
+        'AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.' =>
+            '',
         'AgentTicketZoom widget that displays a table of objects linked to the ticket.' =>
             '服务人员工单详情小部件，显示链接到该工单的对象表。',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
@@ -6008,7 +6079,6 @@ Thanks for your help!
         'Agents ↔ Groups' => '服务人员 ↔ 组',
         'Agents ↔ Roles' => '服务人员 ↔ 角色',
         'All CustomerIDs of a customer user.' => '一个客户用户的所有客户ID。',
-
         'All customer users of a CustomerID' => '一个客户ID的所有客户用户',
         'All escalated tickets' => '所有升级的工单',
         'All new tickets, these tickets have not been worked on yet' => '所有新建工单，这些工单目前还没有被处理',
@@ -6115,6 +6185,7 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => '阿拉伯语（沙特阿拉伯）',
         'ArticleTree' => '信件树',
         'Attachment Name' => '附件名',
+        'Autoloading of Znuny4OTOBOPasswordPolicy extensions.' => '',
         'Automated line break in text messages after x number of chars.' =>
             '文本消息中在X个字符后自动换行。',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -6153,10 +6224,14 @@ Thanks for your help!
         'Cache time in seconds for the web service config backend.' => 'WEB服务配置后端的缓存时间（秒）。',
         'Calendar manage screen.' => '日历管理屏幕。',
         'Catalan' => '加泰罗尼亚语',
-        'Change password' => '修改密码',
+        'Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+            '',
+        'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+            '',
+        'Change Ticket' => '',
+        'Change Ticket information' => '',
         'Change queue!' => '变更队列！',
         'Change the customer for this ticket' => '更改这个工单的客户',
-        'Change the free fields for this ticket' => '修改这个工单的自由字段',
         'Change the owner for this ticket' => '更改工单所有者',
         'Change the priority for this ticket' => '更改这个工单的优先级',
         'Change the responsible for this ticket' => '更改这个工单的负责人',
@@ -6266,6 +6341,7 @@ Thanks for your help!
             '控制工单和信件归档后的可见标志是否被移除。',
         'Converts HTML mails into text messages.' => '将HTML邮件转换为文本信息。',
         'Create New process ticket.' => '创建新的流程工单。',
+        'Create Templates for AdminDynamicFieldTitle' => '',
         'Create Ticket' => '创建工单',
         'Create a new calendar appointment linked to this ticket' => '创建一个新的日历预约到这个工单。',
         'Create and manage Service Level Agreements (SLAs).' => '创建和管理服务品质协议(SLA)。',
@@ -6297,6 +6373,7 @@ Thanks for your help!
         'Create new phone ticket.' => '创建新的电话工单。',
         'Create new process ticket.' => '创建新的流程工单。',
         'Create tickets.' => '创建工单。',
+        'Create your first ticket' => '创建第一个工单',
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             '已创建工单 [%s]，在 "%s"，优先级为"%s" ，状态为"%s"。',
         'Croatian' => '克罗地亚语',
@@ -6306,10 +6383,15 @@ Thanks for your help!
             '显示给还没有工单的客户的网页定制文本（如果您需要翻译这些文本，将它们添加到定制翻译模块）。',
         'Customer Administration' => '客户管理',
         'Customer Companies' => '客户单位',
+        'Customer Dashboard' => '',
+        'Customer Dynamic Field Database Detailed Search' => '',
+        'Customer Dynamic Field Database Details' => '',
+        'Customer Dynamic Field Database Search' => '',
         'Customer IDs' => '客户ID',
         'Customer Information Center Search.' => '客户信息中心搜索。',
         'Customer Information Center search.' => '客户信息中心搜索。',
         'Customer Information Center.' => '客户信息中心。',
+        'Customer Password.' => '',
         'Customer Ticket Print Module.' => '客户工单打印模块。',
         'Customer User Administration' => '客户用户管理',
         'Customer User Information' => '客户用户信息',
@@ -6319,6 +6401,9 @@ Thanks for your help!
         'Customer Users ↔ Customers' => '客户用户 ↔ 客户',
         'Customer Users ↔ Groups' => '客户用户 ↔ 组',
         'Customer Users ↔ Services' => '客户用户 ↔ 服务',
+        'Customer dynamic field database detailed search.' => '',
+        'Customer dynamic field database details.' => '',
+        'Customer dynamic field database search.' => '',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '显示已关闭工单信息块的客户信息（图标）。设置参数CustomerUserLogin为1，则基于登录名而不是客户ID搜索工单。',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -6380,9 +6465,9 @@ Thanks for your help!
             '为选定的日历定义日期选择器中一周的起始日。',
         'Define the start day of the week for the date picker.' => '定义日期选择器中一周的起始日。',
         'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check https://gravatar.com/site/implement/images/ for further information.' =>
-            '如果没有分配邮件地址的个人全球统一标识头像，则定义信件视图应该使用哪个头像作为默认图像。 查看 https://gravatar.com/site/implement/images/ 以了解更多信息。',
+            '',
         'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check https://gravatar.com/site/implement/images/ for further information.' =>
-            '如果没有分配给服务人员的邮件地址的个人全球统一标识头像，则定义当前服务人员应该使用哪个头像作为默认图像。 查看 https://gravatar.com/site/implement/images/ 以了解更多信息。',
+            '',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             '定义服务人员工单详情中的服务人员头像和的发件人图片使用哪个头像引擎。 如果选择“无”，则用缩写替代。 请注意，选择除“无”之外的任何内容都会将特定用户的加密过的电子邮件地址传输到外部服务。',
         'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
@@ -6499,6 +6584,8 @@ Thanks for your help!
             '定义是否允许因在个人偏好设置中没有存储共享密钥而不能使用双因素身份验证的服务人员登录。',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             '定义是否允许因在个人偏好设置中没有存储共享密钥而不能使用双因素身份验证的客户用户登录。',
+        'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '定义客户界面是否使用增强模式（启用表格、替换、下标、上标、从WORD粘贴等功能）。',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
@@ -6577,8 +6664,6 @@ Thanks for your help!
         'Defines the config options for the autocompletion feature.' => '定义自动完成功能的配置选项。',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             '定义在个人偏好设置视图中显示这个条目的配置参数。',
-        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
-            '定义在偏好设置中这个条目的配置参数。\'PasswordRegExp\'保证密码不匹配一个正则表达式；\'PasswordMinSize\'定义密码的最小字符数；如果至少需要2个小写字母和2个大写字母就设置合适的选项为“1”，\'PasswordMin2Characters\'定义密码如果要包含至少2个字母字符（设置为0或1）；\'PasswordNeedDigit\'控制是否至少包含1个数字（设置为0或1）；\'PasswordMaxLoginFailed\'设置最大登录失败数，一个服务人员在登录失败次数达到这个数后会临时无效。请注意：将\'Active（激活）\'设置为0只会阻止服务人员根据他们的个人偏好编辑此组的设置，但仍然允许管理员以其他用户的名义编辑其偏好设置。 使用\'PreferenceGroup\'来控制这些设置应该显示在用户界面的哪个区域。',
         'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '定义此条目的配置参数，以显示在偏好设置视图中。 请注意：将\'Active（激活）\'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用\'PreferenceGroup\'来控制这些设置应该显示在用户界面的哪个区域。',
         'Defines the connections for http/ftp, via a proxy.' => '定义通过代理到HTTP/FTP的连接。',
@@ -6858,8 +6943,6 @@ Thanks for your help!
         'Defines the maximum size (in MB) of the log file.' => '定义日志文件的最大尺寸（单位：MB）。',
         'Defines the maximum size in KiloByte of GenericInterface responses that get logged to the gi_debugger_entry_content table.' =>
             '定义通用接口响应记录日志到表gi_debugger_entry_content的最大尺寸（单位：KB）。',
-        'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
-            '定义服务人员界面显示一个通用通知的模块。可以是“Text（文本）”-如果配置了-，或者是“File（文件）”的内容将被显示。',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             '定义服务人员界面显示当前登录的所有服务人员的模块。',
         'Defines the module that shows all the currently logged in customers in the agent interface.' =>
@@ -6869,8 +6952,6 @@ Thanks for your help!
         'Defines the module that shows the currently logged in customers in the customer interface.' =>
             '定义客户界面显示当前登录的所有客户人员的模块。',
         'Defines the module to authenticate customers.' => '定义客户身份验证的模块。',
-        'Defines the module to display a notification if cloud services are disabled.' =>
-            '定义云服务被禁用时显示一个通知消息的模块。',
         'Defines the module to display a notification in the agent interface if the OTOBO Daemon is not running.' =>
             '定义服务人员界面如果OTOBO守护进程没有运行就显示一个通知的模块。',
         'Defines the module to display a notification in the agent interface if the system configuration is out of sync.' =>
@@ -6881,10 +6962,6 @@ Thanks for your help!
             '定义服务人员界面如果服务人员在“不在办公室”期间登录系统就显示一个通知的模块。',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
             '定义服务人员界面如果服务人员在系统维护期间登录系统就显示一个通知的模块。',
-        'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
-            '定义服务人员界面如果服务人员会话数达到预警值时就显示一个通知的模块。',
-        'Defines the module to display a notification in the agent interface, if the installation of not verified packages is activated (only shown to admins).' =>
-            '如果启用了安装未经验证的软件包，则定义在服务人员界面中显示通知的模块（仅系统管理员会显示）。',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             '定义服务人员界面如果以管理员帐户登录系统（正常情况下您不应该用管理员帐户工作）就显示一个通知的模块。',
         'Defines the module to display a notification in the agent interface, if there are invalid sysconfig settings deployed.' =>
@@ -7007,6 +7084,8 @@ Thanks for your help!
             '定义在服务人员界面客户用户通讯录搜索结果屏幕中显示的列和位置。',
         'Defines the shown links in the footer area of the customer and public interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
             '定义OTOBO系统的客户和公共界面中页脚区域显示的链接。 “Key（键）”中的值是外部网址，“Content（内容）”中的值是显示的文字。',
+        'Defines the source dynamic field for storing historical data.' =>
+            '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             '定义本系统客户可用的标准权限。如果需要更多的权限，您可以在这里输入。权限必须确实硬编码以保证生效。请确保在添加前面任何提到的权限时，“rw（读写）”权限保持为最后一个条目。',
         'Defines the standard size of PDF pages.' => '定义PDF页面的标准尺寸。',
@@ -7033,6 +7112,8 @@ Thanks for your help!
             '定义到外部客户数据库的目标属性，例如：\'AsPopup PopupType_TicketAction\'。',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
             '定义到外部客户数据库的目标属性，例如：\'target="cdb"\'。',
+        'Defines the target dynamic fields for storing historical data.' =>
+            '',
         'Defines the ticket appointment type backend for ticket dynamic field date time.' =>
             '定义工单预约类型后端，用于工单动态字段日期时间。',
         'Defines the ticket appointment type backend for ticket escalation time.' =>
@@ -7058,7 +7139,7 @@ Thanks for your help!
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '定义用户头像。 请注意：将\'Active（激活）\'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用\'PreferenceGroup\'来控制这些设置应该显示在用户界面的哪个区域。',
         'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
-            '定义工单的有效状态类型。如果一个工单处于此设置中任一状态类型的状态，则该工单将被视为打开，否则将被视为关闭。',
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '定义解锁的工单有效的状态。为解锁工单，可以使用脚本"bin/otobo.Console.pl Maint::Ticket::UnlockTimeout"。',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -7095,7 +7176,7 @@ Thanks for your help!
         'Deletes requested sessions if they have timed out.' => '删除超时的会话请求。',
         'Delivers extended debugging information in the frontend in case any AJAX errors occur, if enabled.' =>
             '启用后，如果发生了任何的AJAX错误，就在前端传递扩展的调试信息。',
-
+        'DeploymentHistory' => '',
         'Detached' => '已卸下',
         'Determines if a button to delete a link should be displayed next to each link in each zoom mask.' =>
             '确定在每个详情遮罩窗口中是否应在每个链接旁边显示删除链接的按钮。',
@@ -7154,12 +7235,15 @@ Thanks for your help!
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             '全文索引的荷兰语停止词。这些词将从搜索索引中移除。',
         'Dynamic Fields Checkbox Backend GUI' => '动态字段复选框后端GUI',
+        'Dynamic Fields Contact Data Backend GUI' => '',
+        'Dynamic Fields Database Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => '动态字段日期时间后端GUI',
         'Dynamic Fields Drop-down Backend GUI' => '动态字段下拉框后端GUI',
         'Dynamic Fields GUI' => '动态字段GUI',
         'Dynamic Fields Multiselect Backend GUI' => '动态字段多选框后端GUI',
         'Dynamic Fields Overview Limit' => '动态字段概览限制',
         'Dynamic Fields Text Backend GUI' => '动态字段文本框后端图形界面',
+        'Dynamic Fields Web Service Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             '用于输出搜索结果为CSV格式的动态字段。',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
@@ -7231,7 +7315,11 @@ Thanks for your help!
         'Edit Customer Companies.' => '编辑客户单位。',
         'Edit Customer Users.' => '编辑客户用户。',
         'Edit appointment' => '编辑预约',
+        'Edit contacts with data' => '',
+        'Edit contacts with data.' => '',
         'Edit customer company' => '编辑客户单位',
+        'Elasticsearch' => '',
+        'Elasticsearch quick result module.' => '',
         'Email Addresses' => '邮件地址',
         'Email Outbound' => '外发邮件',
         'Email Resend' => '邮件重发',
@@ -7276,6 +7364,8 @@ Thanks for your help!
         'Escalation view' => '升级视图',
         'EscalationTime' => '升级时间',
         'Estonian' => '爱沙尼亚',
+        'Event module registration (store historical data in dynamic fields).' =>
+            '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '事件模块注册。为获得更好的性能你可以定义一个触发事件（例如：事件 => 工单创建）。',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -7303,7 +7393,8 @@ Thanks for your help!
             '执行定制的命令或模块。注意：如果使用模块，需要使用函数。',
         'Executes follow-up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '为主题中没有工单编号的邮件执行回复或引用头的跟进检查。',
-        'Executes follow-up checks on OTOBO Header \'X-OTOBO-Bounce\'.' => '对OTOBO头\'X-OTOBO-Bounce\'执行后续检查。',
+        'Executes follow-up checks on OTOBO Header \'X-OTOBO-Bounce\'.' =>
+            '对OTOBO头\'X-OTOBO-Bounce\'执行后续检查。',
         'Executes follow-up checks on attachment contents for mails that don\'t have a ticket number in the subject.' =>
             '为主题中没有工单编号的邮件执行附件内容的跟进检查。',
         'Executes follow-up checks on email body for mails that don\'t have a ticket number in the subject.' =>
@@ -7319,6 +7410,18 @@ Thanks for your help!
         'Fetch incoming emails from configured mail accounts.' => '从配置的邮件帐户获取进入邮件。',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
             '通过代理获取软件包，覆盖“WebUserAgent::Proxy”设置。',
+        'Fields of the customer company index, used for the company fulltext search. Fields are also stored, but are not mandatory for the overall functionality.' =>
+            '',
+        'Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
+            '',
+        'Fields stored in the customer company index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
+            '',
+        'Fields stored in the customer user index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
+            '',
+        'Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
+            '',
+        'Fields to be searched in ticket index. Fields are also stored, but are not mandatory for the overall functionality.' =>
+            '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.' =>
             '显示在模块Kernel::Modules::AgentInfo中的文件，位于Kernel/Output/HTML/Templates/Standard/AgentInfo.tt。',
         'Filter for debugging ACLs. Note: More ticket attributes can be added in the format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>.' =>
@@ -7346,8 +7449,8 @@ Thanks for your help!
             '工单锁定后强制选择与当前不同的另一个工单状态，定义键为当前状态，值为锁定后的下一个工单状态。',
         'Forces to unlock tickets after being moved to another queue.' =>
             '工单转移到另一队列后强制解锁。',
+        'Format to be ingested' => '',
         'Forwarded to "%s".' => '已转发给“%s”。',
-        'Free Fields' => '自定义字段',
         'French' => '法语',
         'French (Canada)' => '法语（加拿大）',
         'French stop words for fulltext index. These words will be removed from the search index.' =>
@@ -7369,6 +7472,8 @@ Thanks for your help!
         'Full value' => '全值',
         'Fulltext index regex filters to remove parts of the text.' => '全文索引正则表达式过滤器用来删除部分文本。',
         'Fulltext search' => '全文搜索',
+        'Fulltext search using Elasticsearch' => '',
+        'FulltextES' => '',
         'Galician' => '加利西亚语',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
             '在工单概览中显示的一般工单数据（低效运行）。 请注意，工单编号不能被禁用，因为它是必要的。',
@@ -7387,6 +7492,8 @@ Thanks for your help!
         'GenericInterface Web Service Mapping GUI' => '通用接口WEB服务映射图形界面',
         'GenericInterface module registration for an error handling module.' =>
             '错误处理模块的通用接口模块注册。',
+        'GenericInterface module registration for the PassThrough invoker layer.' =>
+            '',
         'GenericInterface module registration for the invoker layer.' => '调用程序层的通用接口模块注册。',
         'GenericInterface module registration for the mapping layer.' => '映射层的通用接口模块注册。',
         'GenericInterface module registration for the operation layer.' =>
@@ -7527,7 +7634,7 @@ Thanks for your help!
         'If this regex matches, no message will be send by the autoresponder.' =>
             '如果这个正则表达式匹配了，自动响应不会发送任何消息。',
         'If this setting is enabled, it is possible to install packages which are not verified by OTOBO Team. These packages could threaten your whole system!' =>
-            '如果启用了本设置，就可以安装未经 OTOBO集团验证的软件包。这些软件包可能会威胁到您的整个系统！',
+            '如果启用了本设置，就可以安装未经 OTRS集团验证的软件包。这些软件包可能会威胁到您的整个系统！',
         'If this setting is enabled, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '如果启用这个设置，本地修改内容不会在软件包管理器和支持数据收集工具中高亮显示为错误。',
         'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
@@ -7644,7 +7751,7 @@ Thanks for your help!
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             '让会话管理使用HTML Cookies。如果禁用了html cookies或客户端浏览器禁用了html cookies，系统仍会正常工作，并将会话ID追加到链接地址中。',
         'Malay' => '马来语',
-        'Manage OTOBO Team cloud services.' => '管理 OTOBO 集团云服务。',
+        'Manage OTOBO Team cloud services.' => '管理 OTRS 集团云服务。',
         'Manage PGP keys for email encryption.' => '管理邮件加密的PGP密钥。',
         'Manage POP3 or IMAP accounts to fetch email from.' => '管理收取邮件的POP3或IMAP帐号。',
         'Manage S/MIME certificates for email encryption.' => '管理邮件加密的S/MIME证书。',
@@ -7668,6 +7775,7 @@ Thanks for your help!
             '一天中给自己的邮件地址发送自动邮件响应的最大数（邮件环路保护）。',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>
             '一天中给自己的邮件地址发送自动邮件响应的最大数，可按电子邮件地址进行配置（邮件环路保护）。',
+        'Maximal number of results returned by ES per field.' => '',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
             '通过POP3/POP3S/IMAP/IMAPS能够收取的邮件最大尺寸（单位：KB）。',
         'Maximum Number of a calendar shown in a dropdown.' => '一个日历显示在下拉选择框中的最大数字。',
@@ -7677,6 +7785,7 @@ Thanks for your help!
             '工单详情视图侧边栏动态字段的最大长度（单位：字符）。',
         'Maximum number of active calendars in overview screens. Please note that large number of active calendars can have a performance impact on your server by making too much simultaneous calls.' =>
             '日历概览屏幕能激活的日历最大数。请注意：大量的激活日历会对服务器产生太多的同步调用，可能会有性能影响。',
+        'Maximum number of results returned from the quick result.' => '',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             '服务人员界面搜索结果显示的最大工单数。',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
@@ -7736,7 +7845,6 @@ Thanks for your help!
             '显示通知和升级信息的模块（ShownMax：显示升级的最大数，EscalationInMinutes：显示将在...分钟内升级的工单，CacheTime：经计算的升级缓冲秒数）',
         'Module to use database filter storage.' => '使用数据库过滤器的模块。',
         'Module used to detect if attachments are present.' => '用于检测是否存在附件的模块。',
-        'Multiselect' => '多选框',
         'My Queues' => '我的队列',
         'My Services' => '我的服务',
         'My Tickets.' => '我的工单。',
@@ -7745,7 +7853,6 @@ Thanks for your help!
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             '定制服务的名称。定制服务是您的首选服务，能够在偏好设置中选择。',
         'NameX' => 'NameX',
-        'New Ticket' => '新建工单',
         'New Tickets' => '新建工单',
         'New Window' => '新窗口',
         'New Year\'s Day' => '新年',
@@ -7766,13 +7873,14 @@ Thanks for your help!
         'Number of displayed tickets' => '显示工单个数',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '服务人员界面搜索工具显示每个工单的行数。',
+        'Number of shards (NS) and replicas (NR) for the index.' => '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             '服务人员界面搜索结果每页显示的工单数。',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '客户界面搜索结果每页显示的工单数。',
         'Number of tickets to be displayed in each page.' => '每页显示的工单数量。',
-        'OTOBO Team Services' => 'OTOBO集团服务',
         'OTOBO News' => 'OTOBO新闻',
+        'OTOBO Team Services' => 'OTRS集团服务',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             'OTOBO能够使用一个或多个只读镜像数据库以扩展操作（如全文搜索或生成统计报表）。您可以在这里指定第一个镜像数据库的DSN（数据源名称）。',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
@@ -7793,6 +7901,8 @@ Thanks for your help!
         'Out Of Office' => '不在办公室',
         'Out Of Office Time' => '不在办公室的时间',
         'Out of Office users.' => '不在办公室的用户。',
+        'Output filter to inject the necessary Dynamic field names in hidden input.' =>
+            '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '重载（重定义）Kernel::System::Ticket中的函数，以便容易添加定制内容。',
         'Overview Escalated Tickets.' => '已升级工单概览。',
@@ -7891,6 +8001,7 @@ Thanks for your help!
         'Picture Upload' => '图片上传',
         'Picture upload module.' => '图片上传模块。',
         'Picture-Upload' => '图片上传',
+        'Please click the button below to create your first ticket.' => '请点击下面的按钮创建第一个工单。',
         'Plugin search' => '搜索插件',
         'Plugin search module for autocomplete.' => '用于自动完成的搜索插件模块。',
         'Polish' => '波兰语',
@@ -7911,7 +8022,9 @@ Thanks for your help!
         'Processes & Automation' => '流程和自动化',
         'Product News' => '产品新闻',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
-            '针对CSRF(跨站请求伪造)漏洞利用的保护(参阅 https://en.wikipedia.org/wiki/Cross-site_request_forgery 获取更多信息)。',
+            '',
+        'Protection against brute force attacks. MaxAttempt: How many failed login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered.' =>
+            '',
         'Provides a matrix overview of the tickets per state per queue' =>
             '提供每个队列每个状态的工单的矩阵概览',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
@@ -7921,8 +8034,10 @@ Thanks for your help!
         'Queue view' => '队列视图',
         'Queues ↔ Auto Responses' => '队列 ↔ 自动回复',
         'Rebuild the ticket index for AgentTicketQueue.' => '为AgentTicketQueue（服务人员工单队列）重建工单索引。',
+        'Rebuilds the ACL preselection cache.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
             '通过外部工单编号识别一个工单是否为已有工单的跟进。 注意：“NumberRegExp”表达式中的第一个捕获组将用作工单编号值。',
+        'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => '刷新间隔',
         'Registers a log module, that can be used to log communication related information.' =>
             '注册一个日志模块用于记录通信相关信息。',
@@ -7940,7 +8055,6 @@ Thanks for your help!
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '服务人员界面工单编写屏幕，用客户当前的邮件地址替换编写回复时的原始发件人。',
         'Reports' => '报表',
-
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             '从spool目录中重新处理的邮件不能被导入到第一的位置。',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -7979,7 +8093,6 @@ Thanks for your help!
         'Resent email to "%s".' => '已重发邮件到"%s"。',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
             '如果工单转移到另一个队列，重置并解锁工单所有者。',
-
         'Responsible Tickets' => '负责的工单',
         'Responsible Tickets.' => '负责的工单.',
         'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
@@ -7992,6 +8105,8 @@ Thanks for your help!
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '运行基于文件的自动任务(注意：需要在-configuration-module参数中指定模块名，如"Kernel::System::GenericAgent")。',
         'Running Process Tickets' => '运行中的流程工单',
+        'Runs an initial wildcard search of the existing contacts with data when accessing the AdminContactWD module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             '访问管理客户单位模块时执行一个初始的已有全部客户单位的搜索。',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
@@ -8000,8 +8115,6 @@ Thanks for your help!
             '以“演示”模式运行系统。如果启用了，服务人员能够修改偏好设置，如通过WEB界面选择语言和主题，这些变更内容只对当前会话有效。服务人员不能修改密码。',
         'Russian' => '俄语',
         'S/MIME Certificates' => 'S/MIME证书',
-        'SMS' => '短信',
-        'SMS (Short Message Service)' => '短信(短消息)',
         'Salutations' => '问候语',
         'Sample command output' => '命令输出样例',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
@@ -8059,8 +8172,6 @@ Thanks for your help!
         'Service Level Agreements' => '服务级别协议',
         'Service view' => '服务视图',
         'ServiceView' => '服务视图',
-        'Set a new password by filling in your current password and a new one.' =>
-            '填写当前密码和一个新的密码来设置新密码。',
         'Set sender email addresses for this system.' => '为系统设置发件人的邮件地址.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '设置服务人员工单详情屏幕内嵌HTML信件的默认高度（单位：像素）。',
@@ -8155,14 +8266,8 @@ Thanks for your help!
             '设置服务人员界面新建邮件工单的默认文本。',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             '设置一个会话被终止且用户登出前的非活动时间（单位：秒）。',
-        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.' =>
-            '设置在SessionMaxIdleTime中定义的时间范围内最大的活动服务人员数，之后才能对登录的服务人员显示先前的警告。',
-        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
-            '设置SessionMaxIdleTime中定义的时间范围内最大的活动服务人员数。',
         'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
             '设置SessionMaxIdleTime中定义的时间范围内的最大的活动客户数。',
-        'Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime.' =>
-            '设置SessionMaxIdleTime中定义的时间范围内每个服务人员最大的活动会话数。',
         'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
             '设置SessionMaxIdleTime中定义的时间范围内每个客户最大的活动会话数。',
         'Sets the method PGP will use to sing and encrypt emails. Note Inline method is not compatible with RichText messages.' =>
@@ -8280,6 +8385,7 @@ Thanks for your help!
         'Sets the timeout (in seconds) for http/ftp downloads.' => '设置http/ftp下载的超时时间（单位：秒）。',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             '设置软件下载的超时时间（单位：秒），覆盖参数“WebUserAgent::Timeout”。',
+        'Settings for the customer login screen.' => '',
         'Shared Secret' => '共享密钥',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
             '在服务人员界面电话/邮件工单中显示负责人选择。',
@@ -8531,7 +8637,6 @@ Thanks for your help!
             '指定第一个镜像数据库的认证密码。',
         'Specify the username to authenticate for the first mirror database.' =>
             '指定第一个镜像数据库的认证用户名。',
-        'Stable' => '稳定的',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             '系统中服务人员可用的标准权限，如果需要更多的权限，可以在这里输入。权限必须已定义好且有效，一些好的权限已经内置：备注、关闭、挂起、客户、自定义字段、转移、编写、负责人、转发和退回。请确保“rw（读写）始终是注册权限的最后一条。',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -8543,7 +8648,6 @@ Thanks for your help!
             '在打开链接对象遮罩屏幕后搜索一次所有活动对象。',
         'Stat#' => '统计号',
         'States' => '状态',
-        'Statistic Reports overview.' => '统计报告概览。',
         'Statistics overview.' => '统计概览。',
         'Status view' => '状态视图',
         'Stopped response time escalation.' => '响应时间升级已停止。',
@@ -8559,6 +8663,7 @@ Thanks for your help!
         'System Address Display Name' => '系统邮件地址显示姓名',
         'System Configuration Deployment' => '系统配置部署',
         'System Configuration Group' => '系统配置组',
+        'System Configuration Setting History' => '',
         'System Maintenance' => '系统维护',
         'Templates ↔ Attachments' => '模板 ↔ 附件',
         'Templates ↔ Queues' => '模板↔队列',
@@ -8616,6 +8721,8 @@ Thanks for your help!
             '转发邮件中加在主题前的文字，如FW、Fwd或WG。',
         'The value of the From field' => '“发件人”字段的值',
         'Theme' => '主题',
+        'This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.' =>
+            '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             '这个事件模块将客户用户的属性存储为工单动态字段，如何配置这个映射请查看DynamicFieldFromCustomerUser::Mapping设置。',
         'This is a Description for Comment on Framework.' => '这是在框架中关于注释的描述信息。',
@@ -8625,6 +8732,9 @@ Thanks for your help!
         'This is the default orange - black skin.' => '这是默认的橙色-黑色皮肤。',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '每次请求时这个模块和它的PreRun()函数（如果定义了）将被执行。',
+        'This module is being used to extend the password policy.' => '',
+        'This module is part of the admin area of OTOBO Community Edition.' =>
+            '',
         'This module is part of the admin area of OTOBO.' => '这个模块是OTOBO系统管理的一部分。',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             '这个选项定义存储流程管理活动条目ID的动态字段。',
@@ -8641,7 +8751,6 @@ Thanks for your help!
         'This setting is deprecated. Set OTOBOTimeZone instead.' => '此设置已弃用。 替代方式是设置OTOBOTimeZone。',
         'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
             '这个设置显示所有概览屏幕（而不是仅队列视图）中的排序属性。',
-        'This will allow the system to send text messages via SMS.' => '这个选项允许系统通过短信发送文本消息。',
         'Ticket Close.' => '工单关闭。',
         'Ticket Compose Bounce Email.' => '工单编写退回邮件。',
         'Ticket Compose email Answer.' => '工单编写邮件回复。',
@@ -8681,6 +8790,8 @@ Thanks for your help!
         'Ticket zoom view.' => '工单详情视图。',
         'TicketNumber' => '工单编号',
         'Tickets.' => '工单。',
+        'Tile registration for the CustomerDashboard. Module is required.' =>
+            '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '如果设置一个挂起状态，添加到实际时间的秒数（默认：86400 = 1天）。',
         'To accept login information, such as an EULA or license.' => '接受登录信息，如EULA（最终用户许可协议）或许可。',
@@ -8723,10 +8834,10 @@ Thanks for your help!
         'Updates the ticket index accelerator.' => '更新工单索引加速器。',
         'Upload your PGP key.' => '上传你的PGP密钥。',
         'Upload your S/MIME certificate.' => '上传你的S/MIME证书。',
+        'Use Redis::Fast instead of Redis.' => '',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             '服务人员界面在合适的地方（输入字段）使用新式选择和自动完成字段。',
-        'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>
-            '客户界面在合适的地方（输入字段）使用新式选择和自动完成字段。',
+        'Use specified Redis logical database.' => '',
         'User Profile' => '用户配置文件',
         'UserFirstname' => '用户的名字',
         'UserLastname' => '用户的姓',
@@ -8735,7 +8846,6 @@ Thanks for your help!
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '查看和编辑以下内容时使用富文本：信件、问候语、签名、标准模板、自动响应和通知。',
         'Vietnam' => '越南语',
-        'View all attachments of the current ticket' => '查看当前工单的所有附件',
         'View performance benchmark results.' => '查看性能基准测试结果.',
         'Watch this ticket' => '关注这个工单',
         'Watched Tickets' => '关注的工单',
@@ -8745,8 +8855,10 @@ Thanks for your help!
             '我们正在执行系统维护，暂时无法登录。',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             '我们正在执行系统维护，很快就恢复正常使用。',
+        'Web Service' => '',
         'Web Services' => 'Web服务',
-        'Web View' => 'WEB视图',
+        'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
+            '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             '服务人员创建工单时，工单是否被自动锁定到该服务人员。',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
@@ -8755,8 +8867,12 @@ Thanks for your help!
             '工单被合并时，自动添加一个备注到不再活动的工单，您可以在这里定义这个备注的主题（这个主题不能被服务人员修改）。',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '工单被合并时，通过设置“通知发送人”复选框选项，客户能收到邮件通知，您可以在这个文本框中定义一个预先格式化的文本（服务人员可在以后修改）。',
+        'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
+            '',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
             '通过在Ticket::Frontend::ZoomCollectMetaFilters中配置的过滤器确定是否收集信件元信息。',
+        'Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes.' =>
+            '',
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '是否强制将所有请求从http重定向到https协议。启用此选项之前，请检查Web服务器是否正确配置了https协议。',
         'Yes, but hide archived tickets' => '是，但隐藏已归档的工单',
@@ -8821,6 +8937,7 @@ Thanks for your help!
         'Apr',
         'April',
         'Are you sure you want to delete this appointment? This operation cannot be undone.',
+        'Are you sure you want to remove all user values?',
         'Are you sure you want to update all installed packages?',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
         'Article display',
@@ -8845,6 +8962,7 @@ Thanks for your help!
         'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
+        'Click to select or drop files here.',
         'Clone web service',
         'Close preview',
         'Close this dialog',
@@ -8921,7 +9039,6 @@ Thanks for your help!
         'Feb',
         'February',
         'Filters',
-        'Find out more',
         'Finished',
         'First select a customer user, then select a customer ID to assign to this ticket.',
         'Fr',
@@ -9023,7 +9140,6 @@ Thanks for your help!
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
-        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',
@@ -9039,6 +9155,7 @@ Thanks for your help!
         'Resources',
         'Restore default settings',
         'Restore web service configuration',
+        'Results',
         'Rule',
         'Running',
         'Sa',
@@ -9104,9 +9221,9 @@ Thanks for your help!
         'This Transition is already used for this Activity. You cannot use it twice!',
         'This TransitionAction is already used in this Path. You cannot use it twice!',
         'This address already exists on the address list.',
+        'This dynamic field database value is already selected.',
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
-        'This feature is part of the %s. Please contact us at %s for an upgrade.',
         'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',

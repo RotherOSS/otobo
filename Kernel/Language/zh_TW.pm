@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.339225016995241;
+    $Self->{Completeness}        = 0.331485215053763;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -292,23 +292,23 @@ sub Data {
         'Support data collector' => '',
         'Hint' => '提示',
         'Currently support data is only shown in this system.' => '',
-        'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
+        'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
             '',
         'Configuration' => '配置',
         'Send support data' => '發送支援數據',
-        'This will allow the system to send additional support data information to OTOBO Team.' =>
+        'This will allow the system to send additional support data information to the OTOBO team.' =>
             '',
         'Update' => '更新',
         'System Registration' => '系統註冊',
-        'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+        'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
             '',
         'Register this System' => '登記此系統',
         'System Registration is disabled for your system. Please check your configuration.' =>
             '',
 
         # Template: AdminCloudServices
-        'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            '系統註冊是OTOBO集團的一項服務，它為您提供了很多好處!',
+        'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
+            '',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             '',
         'Register this system' => '登記此系統',
@@ -388,13 +388,22 @@ sub Data {
         'Communication Log Details' => '',
         'Please select an entry from the list.' => '',
 
+        # Template: AdminContactWD
+        'Contact with data management' => '',
+        'Contact with data' => '',
+        'Add contact with data' => '',
+        'Edit contact with data' => '',
+        'Back to search results' => '返回至搜索結果',
+        'Select' => '選擇',
+        'Search' => '搜索',
+        'Wildcards like \'*\' are allowed.' => '允許使用通配置符，例如\'*\'。',
+        'Please enter a search term to look for contacts with data.' => '',
+        'Valid' => '有效',
+
         # Template: AdminCustomerCompany
         'Customer Management' => '用戶單位管理',
         'Add Customer' => '添加用戶單位',
         'Edit Customer' => '編輯用戶單位',
-        'Search' => '搜索',
-        'Wildcards like \'*\' are allowed.' => '允許使用通配置符，例如\'*\'。',
-        'Select' => '選擇',
         'List (only %s shown - more available)' => '',
         'total' => '總計',
         'Please enter a search term to look for customers.' => '請輸入搜索條件以便檢索用戶單位資料.',
@@ -436,7 +445,6 @@ sub Data {
         'Customer User Management' => '用戶管理',
         'Add Customer User' => '添加用戶',
         'Edit Customer User' => '編輯用戶',
-        'Back to search results' => '返回至搜索結果',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             '用戶資料用於記錄工單歷史並允許用戶訪問服務台門戶網站。',
         'List (%s total)' => '',
@@ -504,8 +512,8 @@ sub Data {
         'Add new field for object' => '為對象添加新的字段',
         'Filter for Dynamic Fields' => '',
         'Filter for dynamic fields' => '',
-        'More Business Fields' => '',
-        'Would you like to benefit from additional dynamic field types for businesses? Upgrade to %s to get access to the following field types:' =>
+        'New OTOBO Community  Fields' => '',
+        'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
             '',
         'Database' => '數據庫',
         'Use external databases as configurable data sources for this dynamic field.' =>
@@ -513,7 +521,6 @@ sub Data {
         'Web service' => '',
         'External web services can be configured as data sources for this dynamic field.' =>
             '',
-        'Contact with data' => '',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
             '',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
@@ -553,6 +560,66 @@ sub Data {
         'Default value' => '默認值',
         'This is the default value for this field.' => '此值是字段的默認值',
 
+        # Template: AdminDynamicFieldContactWD
+        'Add or edit contacts' => '',
+        'To add contacts to this field please fill out all the needed information and save it.' =>
+            '',
+        'Click on the field name from the overview to edit it and find the corresponding action in the sidebar or from the \'Tickets\' menu.' =>
+            '',
+        'Name Field' => '',
+        'ValidID Field' => '',
+        'Other Fields' => '',
+        'Key' => '鍵',
+        'Value' => '值',
+        'Remove value' => '刪除值',
+        'Add Field' => '',
+        'Add value' => '添加值',
+        'These are the possible data attributes for contacts.' => '',
+        'Mandatory fields' => '',
+        'Comma separated list of mandatory keys (optional). Keys \'Name\' and \'ValidID\' are always mandatory and doesn\'t have to be listed here.' =>
+            '',
+        'Sorted fields' => '',
+        'Comma separated list of keys in sort order (optional). Keys listed here come first, all remaining fields afterwards and sorted alphabetically.' =>
+            '',
+        'Searchable fields' => '',
+        'Comma separated list of searchable keys (optional). Key \'Name\' is always searchable and doesn\'t have to be listed here.' =>
+            '',
+        'Translatable values' => '可翻譯的值',
+        'If you activate this option the values will be translated to the user defined language.' =>
+            '激活此項，將用自定義的語言翻譯字段值',
+        'Note' => '備註',
+        'You need to add the translations manually into the language translation files.' =>
+            '需要您手動將翻譯内容添加到翻譯文件中',
+
+        # Template: AdminDynamicFieldDB
+        'Possible values' => '可選值',
+        'Datatype' => '',
+        'Filter' => '過濾器',
+        'Searchfield' => '',
+        'Listfield' => '',
+        'Show link' => '顯示鏈接',
+        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
+            '可以為字段值指定一個可選的HTTP鏈接，以便其顯示在工單概況和工單詳情中。',
+        'Example' => '範例',
+        'Link for preview' => '',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
+            '',
+        'SID' => '',
+        'Driver' => '',
+        'Server' => '',
+        'Port' => '',
+        'Table / View' => '',
+        'User' => '用戶',
+        'Password' => '密碼',
+        'Identifier' => '標識符',
+        'Must be unique column from the table entered in Table/View.' => '',
+        'Multiselect' => '多選',
+        'CacheTTL' => '',
+        'Searchprefix' => '',
+        'Searchsuffix' => '',
+        'Result Limit' => '',
+        'Case Sensitive' => '',
+
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => '默認的日期差',
         'This field must be numeric.' => '字段值必須是數字字符',
@@ -565,35 +632,17 @@ sub Data {
         'Years in the past to display (default: 5 years).' => '顯示過去的幾年 (默認: 5年)',
         'Years in the future' => '未來的幾年',
         'Years in the future to display (default: 5 years).' => '顯示未來的幾年 (默認: 5年)',
-        'Show link' => '顯示鏈接',
-        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
-            '可以為字段值指定一個可選的HTTP鏈接，以便其顯示在工單概況和工單詳情中。',
         'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
-            '',
-        'Example' => '範例',
-        'Link for preview' => '',
-        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
         'Restrict entering of dates' => '日期限制輸入',
         'Here you can restrict the entering of dates of tickets.' => '',
 
         # Template: AdminDynamicFieldDropdown
-        'Possible values' => '可選值',
-        'Key' => '鍵',
-        'Value' => '值',
-        'Remove value' => '刪除值',
-        'Add value' => '添加值',
         'Add Value' => '添加值',
         'Add empty value' => '添加空值',
         'Activate this option to create an empty selectable value.' => '激活此選項, 創建可選擇的空值.',
         'Tree View' => '樹狀視圖',
         'Activate this option to display values as a tree.' => '激活此項，將以樹狀形式顯示值',
-        'Translatable values' => '可翻譯的值',
-        'If you activate this option the values will be translated to the user defined language.' =>
-            '激活此項，將用自定義的語言翻譯字段值',
-        'Note' => '備註',
-        'You need to add the translations manually into the language translation files.' =>
-            '需要您手動將翻譯内容添加到翻譯文件中',
 
         # Template: AdminDynamicFieldText
         'Number of rows' => '行數',
@@ -609,6 +658,30 @@ sub Data {
         'Invalid RegEx' => '',
         'Error Message' => '出錯信息',
         'Add RegEx' => '',
+
+        # Template: AdminDynamicFieldTitle
+        'Template' => '模板',
+        'Style' => '',
+        'bold' => '',
+        'italic' => '',
+        'underline' => '',
+        'Font style of the label.' => '',
+        'Size' => '大小',
+        'Font size of the label.' => '',
+        'Color in hex.' => '',
+
+        # Template: AdminDynamicFieldWebService
+        'This field is required' => '這個字段是必需的',
+        'The web service to be executed for possible values.' => '',
+        'Invoker' => '',
+        'The invoker to be used to perform requests (invoker needs to be of type \'Generic::PassThrough\').' =>
+            '',
+        'Activate this option to allow multiselect on results.' => '',
+        'Cache TTL' => '',
+        'Cache time to live (in minutes), to save the retrieved possible values.' =>
+            '',
+        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens. Optional HTTP link works only for single-select fields.' =>
+            '',
 
         # Template: AdminEmail
         'Admin Message' => '',
@@ -676,8 +749,6 @@ sub Data {
         'Owner' => '所有者',
         'Responsible' => '負責人',
         'Ticket lock' => '工單鎖定',
-        'Dynamic fields' => '動態字段',
-        'Add dynamic field' => '',
         'Create times' => '創建時間',
         'No create time settings.' => '沒有創建時間。',
         'Ticket created' => '工單創建時間(相對)',
@@ -728,6 +799,7 @@ sub Data {
         'New customer ID' => '指定用戶ID',
         'New title' => '指定稱謂',
         'New type' => '指定類型',
+        'New Dynamic Field Values' => '新的動態字段值',
         'Archive selected tickets' => '歸檔選中的工單',
         'Add Note' => '添加備註',
         'Visible for customer' => '',
@@ -1028,7 +1100,7 @@ sub Data {
         'Endpoint' => '端點',
         'URI to indicate specific location for accessing a web service.' =>
             '',
-        'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
+        'e.g https://www.otobo.ch:10745/api/v1.0 (without trailing backslash)' =>
             '',
         'Timeout' => '',
         'Timeout value for requests.' => '',
@@ -1071,6 +1143,9 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             '認証機構目錄的完整路徑，文件系統中存儲CA証書存儲地方。',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => '',
+        'SSL hostname verification.' => '',
+        'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
+            '',
         'Controller mapping for Invoker' => '',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             '',
@@ -1235,7 +1310,6 @@ sub Data {
         'Delete account' => '刪除帳號',
         'Fetch mail' => '查收郵件',
         'Do you really want to delete this mail account?' => '',
-        'Password' => '密碼',
         'Example: mail.example.com' => '範例：mail.example.com',
         'IMAP Folder' => 'IMAP文件夾',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1247,7 +1321,6 @@ sub Data {
         # Template: AdminNavigationBar
         'Administration Overview' => '',
         'Filter for Items' => '',
-        'Filter' => '過濾器',
         'Favorites' => '',
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '',
@@ -1303,85 +1376,12 @@ sub Data {
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '',
 
-        # Template: AdminOTOBOCommunityInstalled
-        'Manage %s' => '',
-        'Downgrade to OTOBO' => '',
-        'Read documentation' => '',
-        '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
-            '',
-        'Unauthorized Usage Detected' => '',
-        'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
-            '',
-        '%s not Correctly Installed' => '',
-        'Your %s is not correctly installed. Please reinstall it with the button below.' =>
-            '',
-        'Reinstall %s' => '',
-        'Your %s is not correctly installed, and there is also an update available.' =>
-            '',
-        'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
-            '',
-        'Update %s' => '',
-        '%s Not Yet Available' => '',
-        '%s will be available soon.' => '',
-        '%s Update Available' => '',
-        'An update for your %s is available! Please update at your earliest!' =>
-            '',
-        '%s Correctly Deployed' => '',
-        'Congratulations, your %s is correctly installed and up to date!' =>
-            '',
-
-        # Template: AdminOTOBOCommunityNotInstalled
-        'Go to the OTOBO customer portal' => '',
-        '%s will be available soon. Please check again in a few days.' =>
-            '',
-        'Please have a look at %s for more information.' => '',
-        'Your OTOBO is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            '',
-        'Before you can benefit from %s, please contact %s to get your %s contract.' =>
-            '',
-        'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTOBO can connect to cloud.otrs.com via port 443.' =>
-            '',
-        'Package installation requires patch level update of OTOBO.' => '',
-        'Please visit our customer portal and file a request.' => '',
-        'Everything else will be done as part of your contract.' => '',
-        'Your installed OTOBO version is %s.' => '',
-        'To install this package, you need to update to OTOBO %s or higher.' =>
-            '',
-        'To install this package, the Maximum OTOBO Version is %s.' => '',
-        'To install this package, the required Framework version is %s.' =>
-            '',
-        'Why should I keep OTOBO up to date?' => '',
-        'You will receive updates about relevant security issues.' => '',
-        'You will receive updates for all other relevant OTOBO issues' => '',
-        'With your existing contract you can only use a small part of the %s.' =>
-            '',
-        'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
-            '',
-
-        # Template: AdminOTOBOCommunityUninstall
-        'Cancel downgrade and go back' => '',
-        'Go to OTOBO Package Manager' => '',
-        'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
-            '',
-        'Vendor' => '提供者',
-        'Please uninstall the packages first using the package manager and try again.' =>
-            '',
-        'You are about to downgrade to OTOBO and will lose the following features and all data related to these:' =>
-            '',
-        'Chat' => '',
-        'Report Generator' => '',
-        'Timeline view in ticket zoom' => '',
-        'DynamicField ContactWithData' => '',
-        'DynamicField Database' => '',
-        'SLA Selection Dialog' => '',
-        'Ticket Attachment View' => '',
-        'The %s skin' => '',
-
         # Template: AdminPGP
         'PGP Management' => 'PGP管理',
         'Add PGP Key' => '添加PGP密鑰',
         'PGP support is disabled' => '',
-        'To be able to use PGP in OTOBO, you have to enable it first.' => '',
+        'To be able to use PGP in OTOBO, you have to enable it first.' =>
+            '',
         'Enable PGP support' => '',
         'Faulty PGP configuration' => '',
         'PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
@@ -1391,7 +1391,6 @@ sub Data {
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             '通過此模塊可以直接編輯在SysConfig中配置的密鑰環。',
         'Introduction to PGP' => 'PGP介紹',
-        'Identifier' => '標識符',
         'Bit' => '位',
         'Fingerprint' => '指紋',
         'Expires' => '過期',
@@ -1407,8 +1406,10 @@ sub Data {
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             '您確定要重新安裝該軟包嗎? 所有該模塊的手工設置將丢失.',
         'Go to updating instructions' => '',
+        'Go to the OTOBO customer portal' => '',
         'package information' => '',
-        'Package installation requires a patch level update of OTOBO.' => '',
+        'Package installation requires a patch level update of OTOBO.' =>
+            '',
         'Package update requires a patch level update of OTOBO.' => '',
         'Please note that your installed OTOBO version is %s.' => '',
         'To install this package, you need to update OTOBO to version %s or newer.' =>
@@ -1417,6 +1418,8 @@ sub Data {
             '',
         'This package can only be installed on OTOBO version %s or newer.' =>
             '',
+        'Why should I keep OTOBO up to date?' => '',
+        'You will receive updates about relevant security issues.' => '',
         'You will receive updates for all other relevant OTOBO issues.' =>
             '',
         'How can I do a patch level update if I don’t have a contract?' =>
@@ -1425,6 +1428,7 @@ sub Data {
             '',
         'In case you would have further questions we would be glad to answer them.' =>
             '如果您還有其它問題，我們非常願意答復您。',
+        'Please visit our customer portal and file a request.' => '',
         'Install Package' => '安裝軟件包',
         'Update Package' => '',
         'Continue' => '繼續',
@@ -1437,6 +1441,7 @@ sub Data {
         'Enable cloud services' => '',
         'Update all installed packages' => '',
         'Online Repository' => '在綫軟件倉庫',
+        'Vendor' => '提供者',
         'Action' => '操作',
         'Module documentation' => '模塊文檔',
         'Local Repository' => '本地軟件倉庫',
@@ -1458,7 +1463,6 @@ sub Data {
         'Permission' => '權限',
         'Download file from package!' => '從軟件包中下載這個文件',
         'Required' => '必需的',
-        'Size' => '大小',
         'Primary Key' => '',
         'Auto Increment' => '',
         'SQL' => 'SQL',
@@ -1500,7 +1504,7 @@ sub Data {
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
             '如果您只想匹配某個郵件地址，可以在From、To或Cc中使用EMAILADDRESS:info@example.com這樣的郵件格式。',
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
-            '如果您使用了正則表達式，您可以取出()中匹配的值，再將它寫入OTOBO標記中(需採用[***]這種格式。)',
+            '如果您使用了正則表達式，您可以取出()中匹配的值，再將它寫入OTRS標記中(需採用[***]這種格式。)',
         'You can also use named captures %s and use the names in the \'Set\' action %s (e.g. Regexp: %s, Set action: %s). A matched EMAILADDRESS has the name \'%s\'.' =>
             '',
         'Delete this filter' => '刪除此過濾器',
@@ -1541,8 +1545,6 @@ sub Data {
         'Import process configuration' => '導入流程配置',
         'Ready2Adopt Processes' => '',
         'Here you can activate Ready2Adopt processes showcasing our best practices. Please note that some additional configuration may be required.' =>
-            '',
-        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated Ready2Adopt processes.' =>
             '',
         'Import Ready2Adopt process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1756,7 +1758,7 @@ sub Data {
         'Show transmitted data' => '',
         'Deregister system' => '取消系統註冊',
         'Overview of registered systems' => '註冊系統概述',
-        'This system is registered with OTOBO Team.' => '本系統由OTOBO集團註冊。',
+        'This system is registered with OTOBO Team.' => '本系統由OTRS集團註冊。',
         'System type' => '系統類型',
         'Unique ID' => '唯一ID',
         'Last communication with registration server' => '與註冊服務器上一次的通訊',
@@ -1765,9 +1767,9 @@ sub Data {
             '',
         'Instructions' => '',
         'System Deregistration not Possible' => '',
-        'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
-            '',
         'OTOBO-ID Login' => 'OTOBO-ID登陸',
+        'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
+            '系統註冊是OTRS集團的一項服務，它為您提供了很多好處!',
         'Read more' => '閱讀全部',
         'You need to log in with your OTOBO-ID to register your system.' =>
             '為了註冊系統，需要您先使用OTOBO-ID進行登陸。',
@@ -1787,7 +1789,7 @@ sub Data {
         'Is it possible to deregister?' => '可以取消註冊嗎？',
         'You can deregister at any time.' => '您可以隨時取消系統註冊',
         'Which data is transfered when registering?' => '註冊後，哪些數據會被上傳?',
-        'A registered system sends the following data to OTOBO Team:' => '註冊過的系統會將以下數據上傳給OTOBO集團：',
+        'A registered system sends the following data to OTOBO Team:' => '註冊過的系統會將以下數據上傳給OTRS集團：',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             '域名(FQDN)、OTOBO版本、數據庫、操作系統和Perl版本。',
         'Why do I have to provide a description for my system?' => '為什麼需要我提供有關註冊系統的描述?',
@@ -1816,6 +1818,8 @@ sub Data {
         'Operating System' => '操作系統',
         'Perl Version' => 'Perl版本',
         'Optional description of this system.' => '這個系統可選的描述。',
+        'This will allow the system to send additional support data information to OTOBO Team.' =>
+            '',
         'Register' => '註冊',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
             '',
@@ -1913,8 +1917,8 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'S/MIME証書',
-        'Close this dialog' => '關閉該對話',
         'Certificate Details' => '',
+        'Close this dialog' => '關閉該對話',
 
         # Template: AdminSalutation
         'Salutation Management' => '回復抬頭管理',
@@ -1972,7 +1976,6 @@ sub Data {
         'Filter for Sessions' => '',
         'Filter for sessions' => '',
         'Session' => '會話',
-        'User' => '用戶',
         'Kill' => '终止',
         'Detail View for SessionID: %s - %s' => '',
 
@@ -2008,6 +2011,10 @@ sub Data {
             '',
         'Send Update' => '',
         'Currently this data is only shown in this system.' => '',
+        'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
+            '',
+        'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+            '',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             '',
         'Generate Support Bundle' => '',
@@ -2086,6 +2093,20 @@ sub Data {
             '',
         'Deploy selected changes' => '',
 
+        # Template: AdminSystemConfigurationDeploymentHistory
+        'Deployment History' => '',
+        'Filter for Deployments' => '',
+        'Recent Deployments' => '',
+        'Restore' => '',
+        'View Details' => '',
+        'Restore this deployment.' => '',
+        'Export this deployment.' => '',
+
+        # Template: AdminSystemConfigurationDeploymentHistoryDetails
+        'Deployment Details' => '',
+        'by' => '由',
+        'No settings have been deployed in this run.' => '',
+
         # Template: AdminSystemConfigurationGroup
         'This group doesn\'t contain any settings. Please try navigating to one of its sub groups.' =>
             '',
@@ -2115,6 +2136,19 @@ sub Data {
         # Template: AdminSystemConfigurationSearchDialog
         'Category' => '類别',
         'Run search' => '搜索',
+
+        # Template: AdminSystemConfigurationSettingHistoryDetails
+        'Change History' => '',
+        'Change History of %s' => '',
+        'No modified values for this setting, the default value is used.' =>
+            '',
+
+        # Template: AdminSystemConfigurationUserModifiedDetails
+        'Review users setting value' => '',
+        'Users Value' => '',
+        'For' => '',
+        'Delete all user values.' => '',
+        'No user value for this setting.' => '',
 
         # Template: AdminSystemConfigurationView
         'View a custom List of Settings' => '',
@@ -2158,7 +2192,6 @@ sub Data {
         'Delete this entry' => '刪除該條目',
         'Do you really want to delete this template?' => '你確定要删除這個模板嗎？',
         'A standard template with this name already exists!' => '',
-        'Template' => '模板',
         'Create type templates only supports this smart tags' => '',
         'Example template' => '模板舉例',
         'The current ticket state is' => '當前工單狀態是',
@@ -2418,6 +2451,14 @@ sub Data {
         # Template: AgentDashboardUserOutOfOffice
         'until' => '直至',
 
+        # Template: AgentDynamicFieldDBDetailedSearch
+        'Back' => '上一步',
+        'Detailed search' => '',
+        'Add an additional attribute' => '',
+
+        # Template: AgentDynamicFieldDBDetails
+        'Details view' => '',
+
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => '接收新聞、許可証或者一些動態信息。',
         'Yes, accepted.' => '',
@@ -2431,10 +2472,24 @@ sub Data {
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             '',
 
-        # Template: AgentOTOBOCommunityBlockScreen
-        'Unauthorized usage of %s detected' => '',
-        'If you decide to downgrade to OTOBO, you will lose all database tables and data related to %s.' =>
+        # Template: AgentPassword
+        'Password Policy' => '',
+        'Your current password is older than %s days. You need to set a new one.' =>
             '',
+        'Change password' => '修改密碼',
+        'Current password' => '當前密碼',
+        'New password' => '新密碼',
+        'Repeat new password' => '',
+        'Password needs to be renewed every %s days.' => '',
+        'Password history is active, you can\'t use a password which was used the last %s times.' =>
+            '',
+        'Password length must be at least %s characters.' => '',
+        'Password requires at least two lower- and two uppercase characters.' =>
+            '',
+        'Password requires at least two characters.' => '',
+        'Password requires at least one digit.' => '',
+        'Change config options' => '',
+        'Admin permissions are required!' => '',
 
         # Template: AgentPreferences
         'Edit your preferences' => '編輯個人設置',
@@ -2531,7 +2586,6 @@ sub Data {
         'Set Pending Time for %s%s%s' => '',
         'Change Priority of %s%s%s' => '',
         'Change Responsible of %s%s%s' => '',
-        'All fields marked with an asterisk (*) are mandatory.' => '所有带 * 的字段都是強制要求輸入的字段.',
         'The ticket has been locked' => '工單已鎖定',
         'Undo & close' => '',
         'Ticket Settings' => '工單設置',
@@ -2735,7 +2789,6 @@ sub Data {
         'Event Type' => '',
         'Save as default' => '',
         'Drafts' => '',
-        'by' => '由',
         'Change Queue' => '改變隊列',
         'There are no dialogs available at this point in the process.' =>
             '目前流程中沒有環節操作。',
@@ -2794,8 +2847,6 @@ sub Data {
         # Template: Invalid
         'Preview of this article is not possible because %s channel is missing in the system.' =>
             '',
-        'This feature is part of the %s. Please contact us at %s for an upgrade.' =>
-            '此功能為 %s 的一部分，請聯繫 %s 來取得升級。',
         'Please re-install %s package in order to display this article.' =>
             '',
 
@@ -2813,9 +2864,7 @@ sub Data {
         'go back to the previous page' => '返回上一頁',
 
         # Template: CustomerAccept
-        'Dear Customer,' => '',
-        'thank you for using our services.' => '',
-        'Yes, I accept your license.' => '',
+        'Yes, I accepted your license.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -2826,13 +2875,15 @@ sub Data {
         'From all Customer IDs' => '',
         'From assigned Customer IDs' => '',
 
+        # Template: CustomerDashboard
+        'Ticket Search' => '',
+
         # Template: CustomerError
         'An Error Occurred' => '',
         'Error Details' => '詳細錯誤信息',
         'Traceback' => '追溯',
 
         # Template: CustomerFooter
-        '%s powered by %s' => '',
         'Powered by %s' => '',
 
         # Template: CustomerFooterJS
@@ -2851,17 +2902,20 @@ sub Data {
             '',
         'Please see the documentation or ask your admin for further information.' =>
             '欲了解更多信息, 請向您的管理詢問或参考相關文檔.',
+        'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
+            '',
+        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+            '',
         'One moment please, you are being redirected...' => '',
         'Login' => '登錄',
-        'User name' => '用戶名',
         'Your user name' => '您的用戶名',
+        'User name' => '用戶名',
         'Your password' => '您的密碼',
         'Forgot password?' => '密碼遺忘?',
-        '2 Factor Token' => '',
         'Your 2 Factor Token' => '',
+        '2 Factor Token' => '',
         'Log In' => '登錄',
-        'Not yet registered?' => '還未註冊?',
-        'Back' => '上一步',
+        'Request Account' => '',
         'Request New Password' => '請求新密碼',
         'Your User Name' => '您的用戶名',
         'A new password will be sent to your email address.' => '新密碼將會發送到您的郵箱中',
@@ -2873,17 +2927,31 @@ sub Data {
         'Your email address (this will become your username)' => '',
 
         # Template: CustomerNavigationBar
-        'Incoming Chat Requests' => '',
-        'Edit personal preferences' => '編輯個人設置',
-        'Logout %s' => '',
+        'Logout' => '退出',
+
+        # Template: CustomerPassword
+        'Change Password' => '',
+        'Password needs to contain at least 3 of the character classes: lower char, upper char, digit, special character.' =>
+            '',
+
+        # Template: CustomerTicketList
+        'Nr.' => '',
+        'Welcome!' => '歡迎！',
+        'You have no tickets yet. Please click here, to create a new one.' =>
+            '',
+        'Nothing to show.' => '',
+        'Click here for an unfiltered list of all your tickets.' => '',
 
         # Template: CustomerTicketMessage
+        'Issue a new Ticket' => '',
         'Service level agreement' => '服務水平協議',
 
         # Template: CustomerTicketOverview
-        'Welcome!' => '歡迎！',
-        'Please click the button below to create your first ticket.' => '請點擊下面的按鈕創建第一個工單。',
-        'Create your first ticket' => '創建第一個工單',
+        'Your Tickets' => '',
+        'New Ticket' => '新的工單',
+        'Page' => '頁',
+        'Tickets' => '工單',
+        'Sort' => '',
 
         # Template: CustomerTicketSearch
         'Profile' => '搜索條件',
@@ -2908,14 +2976,14 @@ sub Data {
 
         # Template: CustomerTicketSearchResultShort
         'of' => '在',
-        'Page' => '頁',
         'Search Results for' => '搜索結果',
         'Remove this Search Term.' => '',
 
         # Template: CustomerTicketZoom
-        'Start a chat from this ticket' => '',
-        'Next Steps' => '下一',
         'Reply' => '回復',
+        'Discard' => '',
+        'Ticket Information' => '工單信息',
+        'Categories' => '',
 
         # Template: Chat
         'Expand article' => '展開信件',
@@ -2923,16 +2991,15 @@ sub Data {
         # Template: CustomerWarning
         'Warning' => '警告',
 
+        # Template: Tile_NewTicket
+        'Issue<br/>a ticket' => '',
+
         # Template: DashboardEventsTicketCalendar
         'Event Information' => '事件信息',
         'Ticket fields' => '工單字段',
+        'Dynamic fields' => '動態字段',
 
         # Template: Error
-        'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTOBO.' =>
-            '',
-        'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
-            '',
-        'Contact our service team now.' => '',
         'Send a bugreport' => '發送一個錯誤報告',
         'Expand' => '展開',
 
@@ -2952,11 +3019,8 @@ sub Data {
             '',
 
         # Template: Header
-        'View notifications' => '',
-        'Notifications' => '',
-
+        'Edit personal preferences' => '編輯個人設置',
         'Personal preferences' => '個人設置',
-        'Logout' => '退出',
         'You are logged in as' => '您已登錄為',
 
         # Template: Installer
@@ -2969,12 +3033,7 @@ sub Data {
         'Welcome to %s' => '',
         'Germany' => '',
         'Phone' => '電話',
-        'United States' => '',
-        'Mexico' => '',
-        'Hungary' => '',
-        'Brazil' => '',
-        'Singapore' => '',
-        'Hong Kong' => '',
+        'Switzerland' => '',
         'Web site' => '網址',
 
         # Template: InstallerConfigureMail
@@ -3030,10 +3089,6 @@ sub Data {
 
         # Template: InstallerDBmysql
         'Passwords do not match' => '密碼不匹配',
-
-        # Template: InstallerDBoracle
-        'SID' => '',
-        'Port' => '',
 
         # Template: InstallerFinish
         'To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -3203,6 +3258,10 @@ sub Data {
         'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             '',
 
+        # Template: SettingHistoryListCompare
+        'On ' => '',
+        'Reset to this value' => '',
+
         # Template: SettingsList
         'This setting is disabled.' => '',
         'This setting is fixed but not deployed yet!' => '',
@@ -3272,9 +3331,8 @@ sub Data {
         # Template: Navigation
         'Navigation' => '',
 
-        # Template: OTOBOCommunityTeaser
-        'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
-            '',
+        # Template: UsersSettingListCompare
+        'Delete user\'s value.' => '',
 
         # Template: Test
         'OTOBO Test Page' => 'OTOBO測試頁',
@@ -3303,6 +3361,7 @@ sub Data {
 
         # JS Template: UploadContainer
         'Click to select a file for upload.' => '',
+        'Click to select or drop files here.' => '',
         'Click to select files or just drop them here.' => '',
         'Click to select a file or just drop it here.' => '',
         'Uploading...' => '',
@@ -3349,7 +3408,6 @@ sub Data {
         'Zip' => '郵編',
         'City' => '城市',
         'Country' => '國家',
-        'Valid' => '有效',
         'Mr.' => '先生',
         'Mrs.' => '女士',
         'Address' => '地址',
@@ -3366,7 +3424,6 @@ sub Data {
         'The following ACLs have been updated successfully: %s' => '',
         'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.' =>
             '',
-        'This field is required' => '這個字段是必需的',
         'There was an error creating the ACL' => '',
         'Need ACLID!' => '',
         'Could not get data for ACLID %s' => '',
@@ -3430,7 +3487,6 @@ sub Data {
             '',
         'All agents with write permission for the appointment (calendar)' =>
             '',
-        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminAttachment.pm
         'Attachment added!' => '附件已添加！',
@@ -3467,6 +3523,17 @@ sub Data {
         'seconds' => '秒',
         'second' => '秒',
 
+        # Perl Module: Kernel/Modules/AdminContactWD.pm
+        'No contact is given!' => '',
+        'No data found for given contact in given source!' => '',
+        'Contact updated!' => '',
+        'No field data found!' => '',
+        'Contact created!' => '',
+        'Error creating contact!' => '',
+        'No sources found, at least one "Contact with data" dynamic field must be added to the system!' =>
+            '',
+        'No data found for given source!' => '',
+
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => '用戶單位已更新！',
         'Dynamic field %s not found!' => '',
@@ -3501,9 +3568,6 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
         'Fields configuration is not valid' => '',
         'Objects configuration is not valid' => '',
-        'Database (%s)' => '',
-        'Web service (%s)' => '',
-        'Contact with data (%s)' => '',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             '',
 
@@ -3525,12 +3589,15 @@ sub Data {
         'Unchecked' => '',
         'Checked' => '',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldContactWD.pm
+        'This field key is duplicated.' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDB.pm
+        'This field value is duplicated.' => '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
         'Prevent entry of dates in the future' => '',
         'Prevent entry of dates in the past' => '',
-
-        # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-        'This field value is duplicated.' => '',
 
         # Perl Module: Kernel/Modules/AdminEmail.pm
         'Select at least one recipient.' => '',
@@ -3717,16 +3784,6 @@ sub Data {
         'Invisible to customer' => '',
         'Visible to customer' => '',
 
-        # Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
-        'Your system was successfully upgraded to %s.' => '您的系統成功升級至 %s。',
-        'There was a problem during the upgrade to %s.' => '在升級到％s期間出現問題。',
-        '%s was correctly reinstalled.' => '%s 已正確重新安裝。',
-        'There was a problem reinstalling %s.' => '重新安裝％s時出現問題。',
-        'Your %s was successfully updated.' => '您的 %s 已成功更新。 ',
-        'There was a problem during the upgrade of %s.' => '在％S的升級過程中出現問題。',
-        '%s was correctly uninstalled.' => '成功解除安裝了％s。',
-        'There was a problem uninstalling %s.' => '解除安裝“％s”時出現問題。',
-
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
             '',
@@ -3744,7 +3801,7 @@ sub Data {
         'File is OK' => '',
         'Package has locally modified files.' => '',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            '擴展包未經OTOBO檢驗！不推薦使用該擴展包.',
+            '擴展包未經OTRS檢驗！不推薦使用該擴展包.',
         'Not Started' => '',
         'Updated' => '',
         'Already up-to-date' => '',
@@ -3946,6 +4003,11 @@ sub Data {
         'Some imported settings are not present in the current state of the configuration or it was not possible to update them. Please check the OTOBO log for more information.' =>
             '',
 
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
+        'This deployment does not contain changes in the setting values!' =>
+            '',
+        'No DeploymentID received!' => '',
+
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
         'You need to enable the setting before locking!' => '',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
@@ -3959,6 +4021,18 @@ sub Data {
         'Missing setting name.' => '',
         'Setting not found.' => '',
         'Missing Settings!' => '',
+
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
+        'No setting name received!' => '',
+        'Modified Version' => '',
+        'Reset To Default' => '',
+        'Default Version' => '',
+        'No setting name or modified version id received!' => '',
+        'Was not possible to revert the historical value!' => '',
+
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
+        'Missing setting name or modified id!' => '',
+        'System was not able to delete the user setting values!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
         'Start date shouldn\'t be defined after Stop date!' => '',
@@ -4061,6 +4135,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => '',
+        'This feature is not available.' => '',
         'Updated user preferences' => '',
         'System was unable to deploy your changes.' => '',
         'Setting not found!' => '',
@@ -4349,7 +4424,6 @@ sub Data {
         'Show one article' => '顯示單一信件',
         'Show all articles' => '顯示所有信件',
         'Show Ticket Timeline View' => '',
-        'Show Ticket Timeline View (%s)' => '',
 
         # Perl Module: Kernel/Modules/AjaxAttachment.pm
         'Got no FormID.' => '',
@@ -4444,6 +4518,9 @@ sub Data {
         'Need config Package::RepositoryAccessRegExp' => '',
         'Authentication failed from %s!' => '',
 
+        # Perl Module: Kernel/Output/HTML/Article/Chat.pm
+        'Chat' => '',
+
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketBounce.pm
         'Bounce Article to a different mail address' => '',
         'Bounce' => '退回',
@@ -4481,9 +4558,7 @@ sub Data {
         'Unmark' => '取消標記',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
-
         'Re-install Package' => '',
-        'Upgrade' => '升級',
         'Re-install' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -4618,17 +4693,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
         'Archive search' => '',
 
-        # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
-        'Enable cloud services to unleash all OTOBO features!' => '啟用雲端服務釋放所有OTOBO功能！',
-
-        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
-        '%s Upgrade to %s now! %s' => '',
-        'Please verify your license data!' => '',
-        'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            '您的％s的許可即將到期。 請與％s聯繫以續訂您的合約！',
-        'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            '您％S有可用的更新，但與你的框架版本衝突！ 請先更新您的框架！',
-
         # Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
         'Online Agent: %s' => '在綫服務人員：%s',
 
@@ -4653,10 +4717,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
         'You have Out of Office enabled, would you like to disable it?' =>
             '您已設置為不在辦公室，是否取消它?',
-
-        # Perl Module: Kernel/Output/HTML/Notification/PackageManagerCheckNotVerifiedPackages.pm
-        'The installation of packages which are not verified by the OTOBO Team is activated. These packages could threaten your whole system! It is recommended not to use unverified packages.' =>
-            '',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
         'You have %s invalid setting(s) deployed. Click here to show invalid settings.' =>
@@ -4686,13 +4746,11 @@ sub Data {
         'Please specify an end date that is after the start date.' => '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
-        'Current password' => '當前密碼',
-        'New password' => '新密碼',
         'Verify password' => '重複新密碼',
         'The current password is not correct. Please try again!' => '當前密碼不正確，請重新輸入！',
         'Please supply your new password!' => '請提供您的新密碼!',
-        'Can\'t update password, your new passwords do not match. Please try again!' =>
-            '無法更改密碼。新密碼不一致，請重新輸入！',
+        'Can\'t update password, the new password and the repeated password do not match.' =>
+            '',
         'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             '',
         'Can\'t update password, it must be at least %s characters long!' =>
@@ -4701,6 +4759,8 @@ sub Data {
             '',
         'Can\'t update password, it must contain at least 1 digit!' => '無法更改密碼，密碼至少需要1個數字字符！',
         'Can\'t update password, it must contain at least 2 letter characters!' =>
+            '',
+        'Can\'t update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!' =>
             '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
@@ -4757,9 +4817,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => '排序',
 
-        # Perl Module: Kernel/Output/HTML/TicketZoom/TicketInformation.pm
-        'Ticket Information' => '工單信息',
-
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
         'Locked Tickets New' => '鎖定工單(未讀信件)',
         'Locked Tickets Reminder Reached' => '鎖定工單(提醒時間已過)',
@@ -4785,15 +4842,6 @@ sub Data {
         # Perl Module: Kernel/System/Auth.pm
         'It is currently not possible to login due to a scheduled system maintenance.' =>
             '系統維護中，請稍後再登入。',
-
-        # Perl Module: Kernel/System/AuthSession.pm
-        'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
-            '',
-        'Please note that the session limit is almost reached.' => '',
-        'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
-            '',
-        'Session limit reached! Please try again later.' => '超過會話數量，請稍後再試.',
-        'Session per user limit reached!' => '',
 
         # Perl Module: Kernel/System/AuthSession/DB.pm
         'Session invalid. Please log in again.' => '會話無效，請重新登錄.',
@@ -4951,8 +4999,9 @@ sub Data {
             '',
         'Number of Tickets (affected by escalation configuration)' => '',
 
-        # Perl Module: Kernel/System/Stats/Static/StateAction.pm
+        # Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
         'Days' => '日',
+        'Queues / Tickets' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
         'Outdated Tables' => '',
@@ -5115,7 +5164,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
         'Database Records' => '',
-        'Tickets' => '工單',
         'Ticket History Entries' => '',
         'Articles' => '文章',
         'Attachments (DB, Without HTML)' => '',
@@ -5305,7 +5353,8 @@ sub Data {
         'Disabled' => '禁用',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/Date.pm
-        'System was not able to calculate user Date in OTOBOTimeZone!' => '',
+        'System was not able to calculate user Date in OTOBOTimeZone!' =>
+            '',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/DateTime.pm
         'System was not able to calculate user DateTime in OTOBOTimeZone!' =>
@@ -5327,6 +5376,7 @@ sub Data {
         'Chat Message Text' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
+        'Too many fail attempts, please retry again later' => '',
         'Login failed! Your user name or password was entered incorrectly.' =>
             '登錄失敗！用戶名或密碼錯誤。',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
@@ -5499,7 +5549,6 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => '',
 
         # JS File: Core.Agent.Admin.GenericAgent
-        'Remove this dynamic field' => '',
         'Remove selection' => '',
         'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => '刪除這個事件觸發器',
@@ -5651,6 +5700,9 @@ sub Data {
             '',
         'Unlock setting.' => '',
 
+        # JS File: Core.Agent.Admin.SystemConfigurationUser
+        'Are you sure you want to remove all user values?' => '',
+
         # JS File: Core.Agent.Admin.SystemMaintenance
         'Do you really want to delete this scheduled system maintenance?' =>
             '',
@@ -5703,6 +5755,9 @@ sub Data {
         'Please check the fields marked as red for valid inputs.' => '',
         'month' => '月',
         'Remove active filters for this widget.' => '',
+
+        # JS File: Core.Agent.DynamicFieldDBSearch
+        'This dynamic field database value is already selected.' => '',
 
         # JS File: Core.Agent.LinkObject.SearchForm
         'Please wait...' => '',
@@ -5766,7 +5821,6 @@ sub Data {
         # JS File: Core.Agent
         'Slide the navigation bar' => '',
         'Please turn off Compatibility Mode in Internet Explorer!' => '',
-        'Find out more' => '了解更多',
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => '',
@@ -5916,6 +5970,9 @@ Thanks for your help!
             '',
         'Access Control Lists (ACL)' => '訪問控制列表(ACL)',
         'AccountedTime' => '佔用時間',
+        'Activate Elasticsearch.' => '',
+        'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
+            '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             '',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -5956,19 +6013,31 @@ Thanks for your help!
         'Adds the permanent vacation days.' => '',
         'Admin' => '系統管理',
         'Admin Area.' => '',
+        'Admin Contact With Data' => '',
         'Admin Notification' => '管理員通知',
         'Admin area navigation for the agent interface.' => '',
+        'Admin contact with data.' => '',
         'Admin modules overview.' => '',
         'Admin.' => '',
         'Administration' => '管理',
+        'Agent Contact With Data Search' => '',
         'Agent Customer Search' => '',
         'Agent Customer Search.' => '',
+        'Agent Dynamic Field Database Detailed Search' => '',
+        'Agent Dynamic Field Database Details' => '',
+        'Agent Dynamic Field Database Search' => '',
         'Agent Name' => '',
         'Agent Name + FromSeparator + System Address Display Name' => '',
         'Agent Preferences.' => '服務員喜好設定',
         'Agent Statistics.' => '',
         'Agent User Search' => '',
         'Agent User Search.' => '',
+        'Agent contact with data search.' => '',
+        'Agent dynamic field database detailed search.' => '',
+        'Agent dynamic field database details.' => '',
+        'Agent dynamic field database search.' => '',
+        'Agent frontend module registration (disable \'Edit contacts with data\' link if if there is no source field configured).' =>
+            '',
         'Agent interface article notification module to check PGP.' => '',
         'Agent interface article notification module to check S/MIME.' =>
             '',
@@ -5988,6 +6057,8 @@ Thanks for your help!
             '',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
+        'AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.' =>
+            '',
         'AgentTicketZoom widget that displays a table of objects linked to the ticket.' =>
             '',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
@@ -5997,7 +6068,6 @@ Thanks for your help!
         'Agents ↔ Groups' => '',
         'Agents ↔ Roles' => '',
         'All CustomerIDs of a customer user.' => '',
-
         'All customer users of a CustomerID' => '',
         'All escalated tickets' => '所有升級的工單',
         'All new tickets, these tickets have not been worked on yet' => '所有新建工單，這些工單目前還沒有被處理',
@@ -6104,6 +6174,7 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => '',
         'ArticleTree' => '',
         'Attachment Name' => '',
+        'Autoloading of Znuny4OTOBOPasswordPolicy extensions.' => '',
         'Automated line break in text messages after x number of chars.' =>
             '',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -6142,10 +6213,14 @@ Thanks for your help!
         'Cache time in seconds for the web service config backend.' => '',
         'Calendar manage screen.' => '',
         'Catalan' => '',
-        'Change password' => '修改密碼',
+        'Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+            '',
+        'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+            '',
+        'Change Ticket' => '',
+        'Change Ticket information' => '',
         'Change queue!' => '轉移隊列',
         'Change the customer for this ticket' => '更改該工單用戶',
-        'Change the free fields for this ticket' => '修改自定義字段',
         'Change the owner for this ticket' => '更改工單所有者',
         'Change the priority for this ticket' => '更改工單優先級',
         'Change the responsible for this ticket' => '',
@@ -6255,6 +6330,7 @@ Thanks for your help!
             '',
         'Converts HTML mails into text messages.' => '將HTML郵件轉換為文本信息.',
         'Create New process ticket.' => '',
+        'Create Templates for AdminDynamicFieldTitle' => '',
         'Create Ticket' => '',
         'Create a new calendar appointment linked to this ticket' => '',
         'Create and manage Service Level Agreements (SLAs).' => '創建和管理服務品質協議(SLA)',
@@ -6286,6 +6362,7 @@ Thanks for your help!
         'Create new phone ticket.' => '',
         'Create new process ticket.' => '',
         'Create tickets.' => '創建工單',
+        'Create your first ticket' => '創建第一個工單',
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             '',
         'Croatian' => '',
@@ -6295,10 +6372,15 @@ Thanks for your help!
             '',
         'Customer Administration' => '',
         'Customer Companies' => '公司名稱',
+        'Customer Dashboard' => '',
+        'Customer Dynamic Field Database Detailed Search' => '',
+        'Customer Dynamic Field Database Details' => '',
+        'Customer Dynamic Field Database Search' => '',
         'Customer IDs' => '',
         'Customer Information Center Search.' => '',
         'Customer Information Center search.' => '',
         'Customer Information Center.' => '客戶資訊中心',
+        'Customer Password.' => '',
         'Customer Ticket Print Module.' => '',
         'Customer User Administration' => '用戶管理',
         'Customer User Information' => '',
@@ -6308,6 +6390,9 @@ Thanks for your help!
         'Customer Users ↔ Customers' => '',
         'Customer Users ↔ Groups' => '',
         'Customer Users ↔ Services' => '',
+        'Customer dynamic field database detailed search.' => '',
+        'Customer dynamic field database details.' => '',
+        'Customer dynamic field database search.' => '',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -6488,6 +6573,8 @@ Thanks for your help!
             '',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             '',
+        'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
@@ -6565,8 +6652,6 @@ Thanks for your help!
             '',
         'Defines the config options for the autocompletion feature.' => '',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
-            '',
-        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
         'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
@@ -6847,8 +6932,6 @@ Thanks for your help!
         'Defines the maximum size (in MB) of the log file.' => '',
         'Defines the maximum size in KiloByte of GenericInterface responses that get logged to the gi_debugger_entry_content table.' =>
             '',
-        'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
-            '',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             '',
         'Defines the module that shows all the currently logged in customers in the agent interface.' =>
@@ -6858,8 +6941,6 @@ Thanks for your help!
         'Defines the module that shows the currently logged in customers in the customer interface.' =>
             '',
         'Defines the module to authenticate customers.' => '',
-        'Defines the module to display a notification if cloud services are disabled.' =>
-            '',
         'Defines the module to display a notification in the agent interface if the OTOBO Daemon is not running.' =>
             '',
         'Defines the module to display a notification in the agent interface if the system configuration is out of sync.' =>
@@ -6869,10 +6950,6 @@ Thanks for your help!
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having out-of-office active.' =>
             '',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
-            '',
-        'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
-            '',
-        'Defines the module to display a notification in the agent interface, if the installation of not verified packages is activated (only shown to admins).' =>
             '',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             '',
@@ -6996,6 +7073,8 @@ Thanks for your help!
             '',
         'Defines the shown links in the footer area of the customer and public interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
             '',
+        'Defines the source dynamic field for storing historical data.' =>
+            '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             '',
         'Defines the standard size of PDF pages.' => '',
@@ -7021,6 +7100,8 @@ Thanks for your help!
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             '',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
+            '',
+        'Defines the target dynamic fields for storing historical data.' =>
             '',
         'Defines the ticket appointment type backend for ticket dynamic field date time.' =>
             '',
@@ -7084,7 +7165,7 @@ Thanks for your help!
         'Deletes requested sessions if they have timed out.' => '',
         'Delivers extended debugging information in the frontend in case any AJAX errors occur, if enabled.' =>
             '',
-
+        'DeploymentHistory' => '',
         'Detached' => '',
         'Determines if a button to delete a link should be displayed next to each link in each zoom mask.' =>
             '',
@@ -7143,12 +7224,15 @@ Thanks for your help!
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Dynamic Fields Checkbox Backend GUI' => '',
+        'Dynamic Fields Contact Data Backend GUI' => '',
+        'Dynamic Fields Database Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => '',
         'Dynamic Fields Drop-down Backend GUI' => '',
         'Dynamic Fields GUI' => '',
         'Dynamic Fields Multiselect Backend GUI' => '',
         'Dynamic Fields Overview Limit' => '動態字段概覽限制',
         'Dynamic Fields Text Backend GUI' => '',
+        'Dynamic Fields Web Service Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
@@ -7220,7 +7304,11 @@ Thanks for your help!
         'Edit Customer Companies.' => '',
         'Edit Customer Users.' => '',
         'Edit appointment' => '',
+        'Edit contacts with data' => '',
+        'Edit contacts with data.' => '',
         'Edit customer company' => '',
+        'Elasticsearch' => '',
+        'Elasticsearch quick result module.' => '',
         'Email Addresses' => '郵件發送地址',
         'Email Outbound' => '',
         'Email Resend' => '',
@@ -7265,6 +7353,8 @@ Thanks for your help!
         'Escalation view' => '升級視圖',
         'EscalationTime' => '',
         'Estonian' => '',
+        'Event module registration (store historical data in dynamic fields).' =>
+            '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -7292,7 +7382,8 @@ Thanks for your help!
             '',
         'Executes follow-up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '',
-        'Executes follow-up checks on OTOBO Header \'X-OTOBO-Bounce\'.' => '',
+        'Executes follow-up checks on OTOBO Header \'X-OTOBO-Bounce\'.' =>
+            '',
         'Executes follow-up checks on attachment contents for mails that don\'t have a ticket number in the subject.' =>
             '',
         'Executes follow-up checks on email body for mails that don\'t have a ticket number in the subject.' =>
@@ -7307,6 +7398,18 @@ Thanks for your help!
         'Fetch emails via fetchmail.' => '',
         'Fetch incoming emails from configured mail accounts.' => '',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
+            '',
+        'Fields of the customer company index, used for the company fulltext search. Fields are also stored, but are not mandatory for the overall functionality.' =>
+            '',
+        'Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
+            '',
+        'Fields stored in the customer company index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
+            '',
+        'Fields stored in the customer user index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
+            '',
+        'Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
+            '',
+        'Fields to be searched in ticket index. Fields are also stored, but are not mandatory for the overall functionality.' =>
             '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.' =>
             '',
@@ -7335,8 +7438,8 @@ Thanks for your help!
             '',
         'Forces to unlock tickets after being moved to another queue.' =>
             '',
+        'Format to be ingested' => '',
         'Forwarded to "%s".' => 'Forwarded to "%s".',
-        'Free Fields' => '自定義字段',
         'French' => '',
         'French (Canada)' => '',
         'French stop words for fulltext index. These words will be removed from the search index.' =>
@@ -7358,6 +7461,8 @@ Thanks for your help!
         'Full value' => '',
         'Fulltext index regex filters to remove parts of the text.' => '',
         'Fulltext search' => '',
+        'Fulltext search using Elasticsearch' => '',
+        'FulltextES' => '',
         'Galician' => '',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
@@ -7375,6 +7480,8 @@ Thanks for your help!
         'GenericInterface Web Service History GUI' => '',
         'GenericInterface Web Service Mapping GUI' => '',
         'GenericInterface module registration for an error handling module.' =>
+            '',
+        'GenericInterface module registration for the PassThrough invoker layer.' =>
             '',
         'GenericInterface module registration for the invoker layer.' => '',
         'GenericInterface module registration for the mapping layer.' => '',
@@ -7657,6 +7764,7 @@ Thanks for your help!
             '',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>
             '',
+        'Maximal number of results returned by ES per field.' => '',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
             '',
         'Maximum Number of a calendar shown in a dropdown.' => '',
@@ -7666,6 +7774,7 @@ Thanks for your help!
             '',
         'Maximum number of active calendars in overview screens. Please note that large number of active calendars can have a performance impact on your server by making too much simultaneous calls.' =>
             '',
+        'Maximum number of results returned from the quick result.' => '',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             '',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
@@ -7725,7 +7834,6 @@ Thanks for your help!
             '',
         'Module to use database filter storage.' => '',
         'Module used to detect if attachments are present.' => '',
-        'Multiselect' => '多選',
         'My Queues' => '我的隊列',
         'My Services' => '我的服務',
         'My Tickets.' => '我的工單',
@@ -7734,7 +7842,6 @@ Thanks for your help!
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
-        'New Ticket' => '新的工單',
         'New Tickets' => '新的工單',
         'New Window' => '',
         'New Year\'s Day' => '元旦',
@@ -7755,13 +7862,14 @@ Thanks for your help!
         'Number of displayed tickets' => '顯示工單個數',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '',
+        'Number of shards (NS) and replicas (NR) for the index.' => '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             '',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO Team Services' => '',
         'OTOBO News' => 'OTOBO新聞',
+        'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
@@ -7782,6 +7890,8 @@ Thanks for your help!
         'Out Of Office' => '不在辦公室的用戶列表',
         'Out Of Office Time' => '不在辦公室的時間',
         'Out of Office users.' => '不在辦公室的用戶',
+        'Output filter to inject the necessary Dynamic field names in hidden input.' =>
+            '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets.' => '',
@@ -7880,6 +7990,7 @@ Thanks for your help!
         'Picture Upload' => '',
         'Picture upload module.' => '',
         'Picture-Upload' => '',
+        'Please click the button below to create your first ticket.' => '請點擊下面的按鈕創建第一個工單。',
         'Plugin search' => '',
         'Plugin search module for autocomplete.' => '',
         'Polish' => '',
@@ -7901,6 +8012,8 @@ Thanks for your help!
         'Product News' => '產品新聞',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
+        'Protection against brute force attacks. MaxAttempt: How many failed login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered.' =>
+            '',
         'Provides a matrix overview of the tickets per state per queue' =>
             '',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
@@ -7910,8 +8023,10 @@ Thanks for your help!
         'Queue view' => '隊列視圖',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
+        'Rebuilds the ACL preselection cache.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
             '',
+        'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => '刷新間隔',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
@@ -7929,7 +8044,6 @@ Thanks for your help!
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
         'Reports' => '',
-
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -7968,7 +8082,6 @@ Thanks for your help!
         'Resent email to "%s".' => '',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
             '',
-
         'Responsible Tickets' => '',
         'Responsible Tickets.' => '',
         'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
@@ -7981,6 +8094,8 @@ Thanks for your help!
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
         'Running Process Tickets' => '時間緊迫的工單',
+        'Runs an initial wildcard search of the existing contacts with data when accessing the AdminContactWD module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
@@ -7989,8 +8104,6 @@ Thanks for your help!
             '',
         'Russian' => '',
         'S/MIME Certificates' => 'S/MIME証書',
-        'SMS' => '',
-        'SMS (Short Message Service)' => 'SMS (短訊服務)',
         'Salutations' => '回復抬頭',
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
@@ -8048,8 +8161,6 @@ Thanks for your help!
         'Service Level Agreements' => '服務水平協議',
         'Service view' => '',
         'ServiceView' => '',
-        'Set a new password by filling in your current password and a new one.' =>
-            '輸入目前密碼來變更密碼',
         'Set sender email addresses for this system.' => '為系統設置發件人的郵件地址.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
@@ -8144,13 +8255,7 @@ Thanks for your help!
             '',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             '',
-        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.' =>
-            '',
-        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
-            '',
         'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
-            '',
-        'Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime.' =>
             '',
         'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
             '',
@@ -8269,6 +8374,7 @@ Thanks for your help!
         'Sets the timeout (in seconds) for http/ftp downloads.' => '',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             '',
+        'Settings for the customer login screen.' => '',
         'Shared Secret' => '',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
             '',
@@ -8520,7 +8626,6 @@ Thanks for your help!
             '',
         'Specify the username to authenticate for the first mirror database.' =>
             '',
-        'Stable' => '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             '',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -8532,7 +8637,6 @@ Thanks for your help!
             '',
         'Stat#' => '統計#',
         'States' => '狀態',
-        'Statistic Reports overview.' => '',
         'Statistics overview.' => '',
         'Status view' => '狀態視圖',
         'Stopped response time escalation.' => '',
@@ -8548,6 +8652,7 @@ Thanks for your help!
         'System Address Display Name' => '系統郵件地址顯示名稱',
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
+        'System Configuration Setting History' => '',
         'System Maintenance' => '系統維護',
         'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => '',
@@ -8605,6 +8710,8 @@ Thanks for your help!
             '',
         'The value of the From field' => '',
         'Theme' => '主題',
+        'This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.' =>
+            '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             '',
         'This is a Description for Comment on Framework.' => '',
@@ -8613,6 +8720,9 @@ Thanks for your help!
             '',
         'This is the default orange - black skin.' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
+            '',
+        'This module is being used to extend the password policy.' => '',
+        'This module is part of the admin area of OTOBO Community Edition.' =>
             '',
         'This module is part of the admin area of OTOBO.' => '',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
@@ -8630,7 +8740,6 @@ Thanks for your help!
         'This setting is deprecated. Set OTOBOTimeZone instead.' => '',
         'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
             '',
-        'This will allow the system to send text messages via SMS.' => '',
         'Ticket Close.' => '',
         'Ticket Compose Bounce Email.' => '',
         'Ticket Compose email Answer.' => '',
@@ -8670,6 +8779,8 @@ Thanks for your help!
         'Ticket zoom view.' => '',
         'TicketNumber' => '工單編號',
         'Tickets.' => '工單',
+        'Tile registration for the CustomerDashboard. Module is required.' =>
+            '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
         'To accept login information, such as an EULA or license.' => '',
@@ -8712,10 +8823,10 @@ Thanks for your help!
         'Updates the ticket index accelerator.' => '',
         'Upload your PGP key.' => '',
         'Upload your S/MIME certificate.' => '',
+        'Use Redis::Fast instead of Redis.' => '',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             '',
-        'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>
-            '',
+        'Use specified Redis logical database.' => '',
         'User Profile' => '用戶資料',
         'UserFirstname' => '用戶名字',
         'UserLastname' => '用戶姓氏',
@@ -8724,7 +8835,6 @@ Thanks for your help!
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '',
         'Vietnam' => '越南文',
-        'View all attachments of the current ticket' => '',
         'View performance benchmark results.' => '查看性能基准測試結果.',
         'Watch this ticket' => '',
         'Watched Tickets' => '訂閱的工單',
@@ -8734,8 +8844,10 @@ Thanks for your help!
             '',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             '',
+        'Web Service' => '',
         'Web Services' => 'Web服務',
-        'Web View' => '',
+        'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
+            '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
@@ -8744,7 +8856,11 @@ Thanks for your help!
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
+        'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
+            '',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
+            '',
+        'Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes.' =>
             '',
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
@@ -8810,6 +8926,7 @@ Thanks for your help!
         'Apr',
         'April',
         'Are you sure you want to delete this appointment? This operation cannot be undone.',
+        'Are you sure you want to remove all user values?',
         'Are you sure you want to update all installed packages?',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
         'Article display',
@@ -8834,6 +8951,7 @@ Thanks for your help!
         'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
+        'Click to select or drop files here.',
         'Clone web service',
         'Close preview',
         'Close this dialog',
@@ -8910,7 +9028,6 @@ Thanks for your help!
         'Feb',
         'February',
         'Filters',
-        'Find out more',
         'Finished',
         'First select a customer user, then select a customer ID to assign to this ticket.',
         'Fr',
@@ -9012,7 +9129,6 @@ Thanks for your help!
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
-        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',
@@ -9028,6 +9144,7 @@ Thanks for your help!
         'Resources',
         'Restore default settings',
         'Restore web service configuration',
+        'Results',
         'Rule',
         'Running',
         'Sa',
@@ -9093,9 +9210,9 @@ Thanks for your help!
         'This Transition is already used for this Activity. You cannot use it twice!',
         'This TransitionAction is already used in this Path. You cannot use it twice!',
         'This address already exists on the address list.',
+        'This dynamic field database value is already selected.',
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
-        'This feature is part of the %s. Please contact us at %s for an upgrade.',
         'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',

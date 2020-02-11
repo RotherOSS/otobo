@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
 # Copyright (C) 2014 Norihiro Tanaka NTT Data Intellilink Corp.
@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.763426240652617;
+    $Self->{Completeness}        = 0.739751344086022;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -293,23 +293,23 @@ sub Data {
         'Support data collector' => 'サポート情報コレクター',
         'Hint' => 'ヒント',
         'Currently support data is only shown in this system.' => '現在サポートしているデーターはこのシステムでのみ表示されています。',
-        'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'より良いサポートを提供するために、このデータをOTOBOグループにお送りいただくことを強くお勧めします。',
+        'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
+            '',
         'Configuration' => '設定',
         'Send support data' => 'サポート情報の送信',
-        'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'この操作は、システムによる OTOBO Team への追加サポート情報の送信を許可します。',
+        'This will allow the system to send additional support data information to the OTOBO team.' =>
+            '',
         'Update' => '更新',
         'System Registration' => 'システム登録',
-        'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'データ送信を有効にするために、OTOBO Team へのシステムの登録・更新をお願いします (併せて「サポート情報の送信」のチェックを有効にするのを忘れずに)。',
+        'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+            '',
         'Register this System' => 'このシステムをサポート登録する',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'システムのサポート登録機能が無効になっています。設定をご確認ください。',
 
         # Template: AdminCloudServices
-        'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'OTOBOグループへのシステムのサポート登録により、多くのメリットが提供されます。',
+        'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
+            '',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             'OTOBO クラウドサービスのご利用には、システムの登録が必要となりますのでご注意ください。',
         'Register this system' => 'このシステムをサポート登録する',
@@ -389,13 +389,22 @@ sub Data {
         'Communication Log Details' => 'コミュニケーション・ログの詳細',
         'Please select an entry from the list.' => 'リストから項目を選択して下さい。',
 
+        # Template: AdminContactWD
+        'Contact with data management' => '',
+        'Contact with data' => 'データと接続',
+        'Add contact with data' => '',
+        'Edit contact with data' => '',
+        'Back to search results' => '検索結果に戻る',
+        'Select' => '選択',
+        'Search' => '検索',
+        'Wildcards like \'*\' are allowed.' => 'ワイルドカード（*）が使用できます。',
+        'Please enter a search term to look for contacts with data.' => '',
+        'Valid' => '有効',
+
         # Template: AdminCustomerCompany
         'Customer Management' => '顧客管理',
         'Add Customer' => '顧客を追加',
         'Edit Customer' => '顧客を編集',
-        'Search' => '検索',
-        'Wildcards like \'*\' are allowed.' => 'ワイルドカード（*）が使用できます。',
-        'Select' => '選択',
         'List (only %s shown - more available)' => '一覧 ( %s 件のみ表示、他候補あり)',
         'total' => '合計',
         'Please enter a search term to look for customers.' => '顧客を検索するための条件を入力してください',
@@ -437,7 +446,6 @@ sub Data {
         'Customer User Management' => '顧客ユーザー管理',
         'Add Customer User' => '顧客ユーザーを追加',
         'Edit Customer User' => '顧客ユーザーを編集',
-        'Back to search results' => '検索結果に戻る',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             '顧客ユーザーは顧客履歴の使用と顧客パネルからログインするために必要です。',
         'List (%s total)' => '一覧 (全 %s 件)',
@@ -505,8 +513,8 @@ sub Data {
         'Add new field for object' => 'オブジェクトに新規領域を追加',
         'Filter for Dynamic Fields' => 'ダイナミック・フィールドでフィルター',
         'Filter for dynamic fields' => 'ダイナミック・フィールドでフィルター',
-        'More Business Fields' => 'その他のビジネス分野',
-        'Would you like to benefit from additional dynamic field types for businesses? Upgrade to %s to get access to the following field types:' =>
+        'New OTOBO Community  Fields' => '',
+        'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
             '',
         'Database' => 'データベース',
         'Use external databases as configurable data sources for this dynamic field.' =>
@@ -514,7 +522,6 @@ sub Data {
         'Web service' => 'ウェブサービス',
         'External web services can be configured as data sources for this dynamic field.' =>
             '外部Webサービスをこの ダイナミック・フィールド のデータソースとして設定できます。',
-        'Contact with data' => 'データと接続',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
             '',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
@@ -554,6 +561,66 @@ sub Data {
         'Default value' => 'デフォルト値',
         'This is the default value for this field.' => 'これはこの領域に対するデフォルト値です。',
 
+        # Template: AdminDynamicFieldContactWD
+        'Add or edit contacts' => '',
+        'To add contacts to this field please fill out all the needed information and save it.' =>
+            '',
+        'Click on the field name from the overview to edit it and find the corresponding action in the sidebar or from the \'Tickets\' menu.' =>
+            '',
+        'Name Field' => '',
+        'ValidID Field' => '',
+        'Other Fields' => '',
+        'Key' => '鍵',
+        'Value' => '値',
+        'Remove value' => '値を削除',
+        'Add Field' => '',
+        'Add value' => '値を追加',
+        'These are the possible data attributes for contacts.' => '',
+        'Mandatory fields' => '',
+        'Comma separated list of mandatory keys (optional). Keys \'Name\' and \'ValidID\' are always mandatory and doesn\'t have to be listed here.' =>
+            '',
+        'Sorted fields' => '',
+        'Comma separated list of keys in sort order (optional). Keys listed here come first, all remaining fields afterwards and sorted alphabetically.' =>
+            '',
+        'Searchable fields' => '',
+        'Comma separated list of searchable keys (optional). Key \'Name\' is always searchable and doesn\'t have to be listed here.' =>
+            '',
+        'Translatable values' => '翻訳可能な値',
+        'If you activate this option the values will be translated to the user defined language.' =>
+            'このオプションを有効にすると、値がユーザーの定義した言語に翻訳されます。',
+        'Note' => 'メモ',
+        'You need to add the translations manually into the language translation files.' =>
+            '翻訳を手動で言語翻訳ファイルに追加する必要があります。',
+
+        # Template: AdminDynamicFieldDB
+        'Possible values' => '選択肢',
+        'Datatype' => '',
+        'Filter' => 'フィルター',
+        'Searchfield' => '',
+        'Listfield' => '',
+        'Show link' => 'リンクを表示',
+        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
+            '',
+        'Example' => '例',
+        'Link for preview' => 'プレビュー用のリンク',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
+            '',
+        'SID' => 'SID',
+        'Driver' => '',
+        'Server' => '',
+        'Port' => 'Port',
+        'Table / View' => '',
+        'User' => 'ユーザー',
+        'Password' => 'パスワード',
+        'Identifier' => '識別子',
+        'Must be unique column from the table entered in Table/View.' => '',
+        'Multiselect' => 'Multiselect',
+        'CacheTTL' => '',
+        'Searchprefix' => '',
+        'Searchsuffix' => '',
+        'Result Limit' => '',
+        'Case Sensitive' => '',
+
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'デフォルトの日時差',
         'This field must be numeric.' => 'この領域は数値でなければなりません。',
@@ -566,35 +633,17 @@ sub Data {
         'Years in the past to display (default: 5 years).' => '表示する過去の年数(デフォルト:5年)。',
         'Years in the future' => '未来の年数',
         'Years in the future to display (default: 5 years).' => '表示する未来の年数(デフォルト:5年)。',
-        'Show link' => 'リンクを表示',
-        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
-            '',
         'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
-            '',
-        'Example' => '例',
-        'Link for preview' => 'プレビュー用のリンク',
-        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
         'Restrict entering of dates' => '日付入力の制限',
         'Here you can restrict the entering of dates of tickets.' => '本項目でチケットの日付入力の制限できます',
 
         # Template: AdminDynamicFieldDropdown
-        'Possible values' => '選択肢',
-        'Key' => '鍵',
-        'Value' => '値',
-        'Remove value' => '値を削除',
-        'Add value' => '値を追加',
         'Add Value' => '値を追加',
         'Add empty value' => '空の値の追加',
         'Activate this option to create an empty selectable value.' => '本項目を有効にすれば空の選択可能項目が作成できます。',
         'Tree View' => 'ツリー表示',
         'Activate this option to display values as a tree.' => '本項目を有効にすれば、値をツリー形式で表示できます。',
-        'Translatable values' => '翻訳可能な値',
-        'If you activate this option the values will be translated to the user defined language.' =>
-            'このオプションを有効にすると、値がユーザーの定義した言語に翻訳されます。',
-        'Note' => 'メモ',
-        'You need to add the translations manually into the language translation files.' =>
-            '翻訳を手動で言語翻訳ファイルに追加する必要があります。',
 
         # Template: AdminDynamicFieldText
         'Number of rows' => '行数',
@@ -610,6 +659,30 @@ sub Data {
         'Invalid RegEx' => '無効な正規表現',
         'Error Message' => 'エラーメッセージ',
         'Add RegEx' => '正規表現を追加',
+
+        # Template: AdminDynamicFieldTitle
+        'Template' => 'テンプレート',
+        'Style' => '',
+        'bold' => '',
+        'italic' => '',
+        'underline' => '',
+        'Font style of the label.' => '',
+        'Size' => 'サイズ',
+        'Font size of the label.' => '',
+        'Color in hex.' => '',
+
+        # Template: AdminDynamicFieldWebService
+        'This field is required' => 'このフィールドは必須です',
+        'The web service to be executed for possible values.' => '',
+        'Invoker' => '',
+        'The invoker to be used to perform requests (invoker needs to be of type \'Generic::PassThrough\').' =>
+            '',
+        'Activate this option to allow multiselect on results.' => '',
+        'Cache TTL' => '',
+        'Cache time to live (in minutes), to save the retrieved possible values.' =>
+            '',
+        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens. Optional HTTP link works only for single-select fields.' =>
+            '',
 
         # Template: AdminEmail
         'Admin Message' => '管理者メッセージ',
@@ -677,8 +750,6 @@ sub Data {
         'Owner' => '所有者',
         'Responsible' => '責任者',
         'Ticket lock' => 'チケットロック',
-        'Dynamic fields' => 'ダイナミック・フィールド',
-        'Add dynamic field' => '',
         'Create times' => '作成日時',
         'No create time settings.' => '作成日時を指定しない',
         'Ticket created' => 'チケットを作成したのが',
@@ -729,6 +800,7 @@ sub Data {
         'New customer ID' => '新しい顧客ID',
         'New title' => '新しいタイトル',
         'New type' => '新しいタイプ',
+        'New Dynamic Field Values' => 'ダイナミック・フィールドの値を設定',
         'Archive selected tickets' => '選択されたアーカイブ・チケット',
         'Add Note' => 'メモを追加',
         'Visible for customer' => '顧客が閲覧可能な記事',
@@ -1031,8 +1103,8 @@ sub Data {
         'Endpoint' => 'エンドポイント',
         'URI to indicate specific location for accessing a web service.' =>
             '',
-        'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
-            '例… https://www.otrs.com:10745/api/v1.0 (バックスラッシュを除く)',
+        'e.g https://www.otobo.ch:10745/api/v1.0 (without trailing backslash)' =>
+            '',
         'Timeout' => 'タイムアウト',
         'Timeout value for requests.' => '',
         'Authentication' => '認証',
@@ -1074,6 +1146,9 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             '',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => '例… /opt/otobo/var/certificates/SOAP/CA',
+        'SSL hostname verification.' => '',
+        'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
+            '',
         'Controller mapping for Invoker' => 'API実行元に対するコントローラ・マッピング',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             '',
@@ -1238,7 +1313,6 @@ sub Data {
         'Delete account' => 'アカウント削除',
         'Fetch mail' => 'メールを取得',
         'Do you really want to delete this mail account?' => '本当にこのメールアカウントを削除しますか？',
-        'Password' => 'パスワード',
         'Example: mail.example.com' => '例: mail.example.com',
         'IMAP Folder' => 'IMAPフォルダー',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1250,7 +1324,6 @@ sub Data {
         # Template: AdminNavigationBar
         'Administration Overview' => '管理一覧',
         'Filter for Items' => 'アイテムをフィルター',
-        'Filter' => 'フィルター',
         'Favorites' => 'お気に入り',
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '右側のアイテムにカーソルを合わせてスターアイコンをクリックすると、お気に入りを追加できます。',
@@ -1306,86 +1379,12 @@ sub Data {
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '<OTOBO_TICKET_DynamicField_...> を指定することで、現在のチケットの値を参照することができます。',
 
-        # Template: AdminOTOBOCommunityInstalled
-        'Manage %s' => '%s を管理',
-        'Downgrade to OTOBO' => '',
-        'Read documentation' => 'ドキュメントを参照',
-        '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
-            '',
-        'Unauthorized Usage Detected' => '',
-        'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
-            '',
-        '%s not Correctly Installed' => '%s は正常にインストールされました',
-        'Your %s is not correctly installed. Please reinstall it with the button below.' =>
-            '%s は正常にインストールされていません。下のボタンを押して再インストールしてください。',
-        'Reinstall %s' => '%s の再インストール',
-        'Your %s is not correctly installed, and there is also an update available.' =>
-            '%s は正常にインストールされていません。また、こちらのパッケージにはアップデートがあります。',
-        'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
-            '',
-        'Update %s' => '%s のアップデート',
-        '%s Not Yet Available' => '%sはまだ存在しません',
-        '%s will be available soon.' => '%sはもうすぐ有効となります。',
-        '%s Update Available' => '%s 利用できるアップデーターがあります',
-        'An update for your %s is available! Please update at your earliest!' =>
-            '',
-        '%s Correctly Deployed' => '%s 正しくデプロイされました',
-        'Congratulations, your %s is correctly installed and up to date!' =>
-            'おめでとうございます。 %s は最新版として正常にインストールされました。',
-
-        # Template: AdminOTOBOCommunityNotInstalled
-        'Go to the OTOBO customer portal' => 'OTOBOのカスタマーポータルへアクセス',
-        '%s will be available soon. Please check again in a few days.' =>
-            '%sはもうすぐ有効になります。数日後に確認してください。',
-        'Please have a look at %s for more information.' => '詳細については%sを参照してください。',
-        'Your OTOBO is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            '',
-        'Before you can benefit from %s, please contact %s to get your %s contract.' =>
-            '',
-        'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTOBO can connect to cloud.otrs.com via port 443.' =>
-            'cloud.otrs.comへのHTTPSでの接続の確立ができませんでした。
-OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認して下さい。',
-        'Package installation requires patch level update of OTOBO.' => 'パッケージのインストールには、OTOBOのパッチレベルの更新が必要です。',
-        'Please visit our customer portal and file a request.' => '',
-        'Everything else will be done as part of your contract.' => '',
-        'Your installed OTOBO version is %s.' => 'インストールされているOTOBOのバージョンは%sです。',
-        'To install this package, you need to update to OTOBO %s or higher.' =>
-            'このパッケージをインストールするにはOTOBO %s以上にアップデートする必要があります。',
-        'To install this package, the Maximum OTOBO Version is %s.' => 'このパッケージがインストールできるOTOBOの最大バージョンは%sです。',
-        'To install this package, the required Framework version is %s.' =>
-            'このパッケージをインストールするにはフレームワークのバージョンが%sである必要があります。',
-        'Why should I keep OTOBO up to date?' => 'OTOBOのバージョンを最新に保つことが必要な理由',
-        'You will receive updates about relevant security issues.' => '',
-        'You will receive updates for all other relevant OTOBO issues' => '',
-        'With your existing contract you can only use a small part of the %s.' =>
-            '現在登録されている契約では、%sの機能の一部しか使用できません。',
-        'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
-            'もし%sの全機能を使用したい場合には、契約をアップグレードする必要があります！現在の契約: %s',
-
-        # Template: AdminOTOBOCommunityUninstall
-        'Cancel downgrade and go back' => 'ダウングレードを中止して戻る',
-        'Go to OTOBO Package Manager' => 'OTOBOパッケージマネージャーへ',
-        'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
-            'パッケージ%sに依存しているため、現在ダウングレードすることは出来ません',
-        'Vendor' => 'ベンダー',
-        'Please uninstall the packages first using the package manager and try again.' =>
-            'パッケージマネージャでパッケージを削除して再度実行して下さい。',
-        'You are about to downgrade to OTOBO and will lose the following features and all data related to these:' =>
-            '',
-        'Chat' => 'チャット',
-        'Report Generator' => 'レポート・ジェネレーター',
-        'Timeline view in ticket zoom' => 'チケット・ズームにおけるタイムライン',
-        'DynamicField ContactWithData' => 'ダイナミック・フィールド日付でコンタクトする',
-        'DynamicField Database' => 'ダイナミック・フィールド用データベース',
-        'SLA Selection Dialog' => 'SLA選択画面',
-        'Ticket Attachment View' => 'チケット添付ファイルビュー',
-        'The %s skin' => '%s スキン',
-
         # Template: AdminPGP
         'PGP Management' => 'PGP管理',
         'Add PGP Key' => 'PGP鍵を追加',
         'PGP support is disabled' => 'PGPサポート機能は無効化されています',
-        'To be able to use PGP in OTOBO, you have to enable it first.' => 'OTOBOでPGPを使用するにはまず有効にする必要があります。',
+        'To be able to use PGP in OTOBO, you have to enable it first.' =>
+            'OTOBOでPGPを使用するにはまず有効にする必要があります。',
         'Enable PGP support' => 'PGPサポートの有効化',
         'Faulty PGP configuration' => '',
         'PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
@@ -1395,7 +1394,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'この方法で直接システム設定からキーリング設定を編集できます。',
         'Introduction to PGP' => 'PGPの導入',
-        'Identifier' => '識別子',
         'Bit' => 'ビット',
         'Fingerprint' => 'フィンガープリント',
         'Expires' => '期限切れ',
@@ -1411,8 +1409,10 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'このパッケージを本当に再インストールしますか？ 全ての手動変更点は失われます。',
         'Go to updating instructions' => '',
+        'Go to the OTOBO customer portal' => 'OTOBOのカスタマーポータルへアクセス',
         'package information' => 'パッケージ情報',
-        'Package installation requires a patch level update of OTOBO.' => '',
+        'Package installation requires a patch level update of OTOBO.' =>
+            '',
         'Package update requires a patch level update of OTOBO.' => '',
         'Please note that your installed OTOBO version is %s.' => 'インストールされているOTOBOのバージョンは%sです。',
         'To install this package, you need to update OTOBO to version %s or newer.' =>
@@ -1421,6 +1421,8 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
             'このパッケージはOTOBOのバージョンが%sかそれより古い必要があります。',
         'This package can only be installed on OTOBO version %s or newer.' =>
             'このパッケージをインストールするにはOTOBOのバージョンが%sかそれより新しい必要があります。',
+        'Why should I keep OTOBO up to date?' => 'OTOBOのバージョンを最新に保つことが必要な理由',
+        'You will receive updates about relevant security issues.' => '',
         'You will receive updates for all other relevant OTOBO issues.' =>
             '',
         'How can I do a patch level update if I don’t have a contract?' =>
@@ -1429,6 +1431,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'In case you would have further questions we would be glad to answer them.' =>
             '',
+        'Please visit our customer portal and file a request.' => '',
         'Install Package' => 'パッケージをインストール',
         'Update Package' => 'パッケージを更新',
         'Continue' => '続ける',
@@ -1441,6 +1444,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Enable cloud services' => 'クラウドサービスの有効化',
         'Update all installed packages' => 'インストールされているパッケージを全て更新する',
         'Online Repository' => 'オンラインリポジトリ',
+        'Vendor' => 'ベンダー',
         'Action' => '操作',
         'Module documentation' => 'モジュールの書類',
         'Local Repository' => 'ローカルリポジトリ',
@@ -1462,7 +1466,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Permission' => '権限',
         'Download file from package!' => 'パッケージからファイルをダウンロードしてください。',
         'Required' => '必要項目',
-        'Size' => 'サイズ',
         'Primary Key' => '主キー',
         'Auto Increment' => '自動カウントアップ',
         'SQL' => 'SQL',
@@ -1545,8 +1548,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Import process configuration' => 'プロセスの設定をインポート',
         'Ready2Adopt Processes' => '',
         'Here you can activate Ready2Adopt processes showcasing our best practices. Please note that some additional configuration may be required.' =>
-            '',
-        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated Ready2Adopt processes.' =>
             '',
         'Import Ready2Adopt process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1760,7 +1761,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Show transmitted data' => '送信されたデータを表示',
         'Deregister system' => 'システムを未登録に戻す',
         'Overview of registered systems' => '登録されたシステムの概要',
-        'This system is registered with OTOBO Team.' => 'このシステムはOTOBO社もしくは関連する会社に登録されています。',
+        'This system is registered with OTOBO Team.' => 'このシステムはOTRS社もしくは関連する会社に登録されています。',
         'System type' => 'システム種別',
         'Unique ID' => 'ユニークID',
         'Last communication with registration server' => '登録管理サーバに対する最後のアクセス',
@@ -1769,9 +1770,9 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '注意：OTOBOデーモンが起動していないと、システムの登録が正常に行えません。',
         'Instructions' => '指示',
         'System Deregistration not Possible' => 'システムの登録解除ができない',
-        'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
-            '契約上、%sを使用している場合には登録を解除することが出来ませんので注意して下さい。',
         'OTOBO-ID Login' => 'OTOBO-ID',
+        'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
+            'OTRSグループへのシステムのサポート登録により、多くのメリットが提供されます。',
         'Read more' => '続きを読む',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'システムを登録するには、OTOBO-IDでログインする必要があります。',
@@ -1820,6 +1821,8 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Operating System' => 'オペレーションシステム',
         'Perl Version' => 'Perl バージョン',
         'Optional description of this system.' => '',
+        'This will allow the system to send additional support data information to OTOBO Team.' =>
+            'この操作は、システムによる OTOBO Team への追加サポート情報の送信を許可します。',
         'Register' => '登録',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
             '',
@@ -1917,8 +1920,8 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'S/MIME証明書',
-        'Close this dialog' => 'このダイアログを閉じる',
         'Certificate Details' => '証明書の詳細',
+        'Close this dialog' => 'このダイアログを閉じる',
 
         # Template: AdminSalutation
         'Salutation Management' => '挨拶文管理',
@@ -1976,7 +1979,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Filter for Sessions' => 'セッションでフィルター',
         'Filter for sessions' => 'セッションでフィルター',
         'Session' => 'セッション',
-        'User' => 'ユーザー',
         'Kill' => '切断',
         'Detail View for SessionID: %s - %s' => '',
 
@@ -2007,11 +2009,15 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Sending support data to OTOBO Team is not possible!' => 'OTOBO Team へのサポートデータの送信ができません！',
         'Enable Cloud Services' => 'クラウドサービスを有効にする',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            'このデータは定期的にOTOBOグループに送られます。 このデータの送信を停止するには、システム登録を更新して下さい。',
+            'このデータは定期的にOTRSグループに送られます。 このデータの送信を停止するには、システム登録を更新して下さい。',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             '手動でこのボタンを押すことにより、サポートデータを送信することができます。',
         'Send Update' => '更新を送信',
         'Currently this data is only shown in this system.' => 'このデータは現在このシステム上で表示されています。',
+        'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
+            'より良いサポートを提供するために、このデータをOTRSグループにお送りいただくことを強くお勧めします。',
+        'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+            'データ送信を有効にするために、OTOBO Team へのシステムの登録・更新をお願いします (併せて「サポート情報の送信」のチェックを有効にするのを忘れずに)。',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'このボタンを押すとサポートバンドル(システム登録情報、サポートに必要なデータ、インストールされているパッケージリスト、変更されているソース)が作成されます。',
         'Generate Support Bundle' => 'サポートバンドルの生成',
@@ -2024,10 +2030,10 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
             'このユーザーのメールアドレスは無効です。このオプションは無効になっています。',
         'Sending' => '送信者',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            'サポートバンドルはOTOBOグループに電子メールで自動的に送信されます。',
+            'サポートバンドルはOTRSグループに電子メールで自動的に送信されます。',
         'Download File' => 'ファイルのダウンロード',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            'サポートバンドルを含むファイルをダウンロードします。ファイルを保存しOTOBOグループに他の手段で送信してください。',
+            'サポートバンドルを含むファイルをダウンロードします。ファイルを保存しOTRSグループに他の手段で送信してください。',
         'Error: Support data could not be collected (%s).' => 'エラー：サポートデータを収集できませんでした。（%s）',
         'Details' => '詳細',
 
@@ -2090,6 +2096,20 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '拡張モードに切り替えて、他のユーザーが変更したデプロイ設定を確認します。',
         'Deploy selected changes' => '選択された変更をデプロイ',
 
+        # Template: AdminSystemConfigurationDeploymentHistory
+        'Deployment History' => '',
+        'Filter for Deployments' => '',
+        'Recent Deployments' => '',
+        'Restore' => '',
+        'View Details' => '',
+        'Restore this deployment.' => '',
+        'Export this deployment.' => '',
+
+        # Template: AdminSystemConfigurationDeploymentHistoryDetails
+        'Deployment Details' => '',
+        'by' => 'by',
+        'No settings have been deployed in this run.' => '',
+
         # Template: AdminSystemConfigurationGroup
         'This group doesn\'t contain any settings. Please try navigating to one of its sub groups.' =>
             'このグループには設定が含まれていません。 サブグループの1つに移動してみて下さい。',
@@ -2119,6 +2139,19 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Template: AdminSystemConfigurationSearchDialog
         'Category' => '区分',
         'Run search' => '検索を実行',
+
+        # Template: AdminSystemConfigurationSettingHistoryDetails
+        'Change History' => '',
+        'Change History of %s' => '',
+        'No modified values for this setting, the default value is used.' =>
+            '',
+
+        # Template: AdminSystemConfigurationUserModifiedDetails
+        'Review users setting value' => '',
+        'Users Value' => '',
+        'For' => '',
+        'Delete all user values.' => '',
+        'No user value for this setting.' => '',
 
         # Template: AdminSystemConfigurationView
         'View a custom List of Settings' => 'カスタム設定の一覧を表示',
@@ -2162,7 +2195,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Delete this entry' => 'この登録を削除',
         'Do you really want to delete this template?' => '本当にこのテンプレートを削除してよろしいですか？',
         'A standard template with this name already exists!' => '',
-        'Template' => 'テンプレート',
         'Create type templates only supports this smart tags' => '作成するタイプテンプレートはこのスマートタグのみをサポートします。',
         'Example template' => 'テンプレート例',
         'The current ticket state is' => '現在のチケットのステータスは',
@@ -2422,6 +2454,14 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Template: AgentDashboardUserOutOfOffice
         'until' => '〜まで',
 
+        # Template: AgentDynamicFieldDBDetailedSearch
+        'Back' => '戻る',
+        'Detailed search' => '',
+        'Add an additional attribute' => '',
+
+        # Template: AgentDynamicFieldDBDetails
+        'Details view' => '',
+
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'ニュース、ライセンスなどの変更を受け付ける。',
         'Yes, accepted.' => 'はい、受け入れます。',
@@ -2435,10 +2475,24 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             '現在、リンクはありません。 このアイテムを他のオブジェクトにリンクするには、上部にある[新しいリンクを作成]をクリックしてください。',
 
-        # Template: AgentOTOBOCommunityBlockScreen
-        'Unauthorized usage of %s detected' => '',
-        'If you decide to downgrade to OTOBO, you will lose all database tables and data related to %s.' =>
+        # Template: AgentPassword
+        'Password Policy' => '',
+        'Your current password is older than %s days. You need to set a new one.' =>
             '',
+        'Change password' => 'パスワード変更',
+        'Current password' => '現在のパスワード',
+        'New password' => '新しいパスワード',
+        'Repeat new password' => '',
+        'Password needs to be renewed every %s days.' => '',
+        'Password history is active, you can\'t use a password which was used the last %s times.' =>
+            '',
+        'Password length must be at least %s characters.' => '',
+        'Password requires at least two lower- and two uppercase characters.' =>
+            '',
+        'Password requires at least two characters.' => '',
+        'Password requires at least one digit.' => '',
+        'Change config options' => '',
+        'Admin permissions are required!' => '',
 
         # Template: AgentPreferences
         'Edit your preferences' => '個人設定を編集',
@@ -2534,7 +2588,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Set Pending Time for %s%s%s' => '%s%s%sの保留時間を設定',
         'Change Priority of %s%s%s' => '%s%s%sの優先度を変更',
         'Change Responsible of %s%s%s' => '%s%s%sの責任者を変更',
-        'All fields marked with an asterisk (*) are mandatory.' => 'アスタリスク（*）が付いている全ての領域は必須入力です。',
         'The ticket has been locked' => 'チケットはロック済です',
         'Undo & close' => '元に戻して閉じる',
         'Ticket Settings' => 'チケット設定',
@@ -2738,7 +2791,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Event Type' => 'イベントタイプ',
         'Save as default' => 'ドラフトとして保存',
         'Drafts' => '下書き',
-        'by' => 'by',
         'Change Queue' => 'キューを変更',
         'There are no dialogs available at this point in the process.' =>
             'このプロセスは完了しました。',
@@ -2797,8 +2849,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Template: Invalid
         'Preview of this article is not possible because %s channel is missing in the system.' =>
             '',
-        'This feature is part of the %s. Please contact us at %s for an upgrade.' =>
-            '',
         'Please re-install %s package in order to display this article.' =>
             '',
 
@@ -2816,9 +2866,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'go back to the previous page' => '直前のページに戻る',
 
         # Template: CustomerAccept
-        'Dear Customer,' => 'お客様各位',
-        'thank you for using our services.' => '私たちのサービスをご利用いただきありがとうございます。',
-        'Yes, I accept your license.' => '',
+        'Yes, I accepted your license.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -2829,13 +2877,15 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'From all Customer IDs' => '全てのCustomer IDから',
         'From assigned Customer IDs' => '割り当てられた顧客IDから',
 
+        # Template: CustomerDashboard
+        'Ticket Search' => '',
+
         # Template: CustomerError
         'An Error Occurred' => 'エラーが発生しました。',
         'Error Details' => 'エラーの詳細',
         'Traceback' => 'トレースバック',
 
         # Template: CustomerFooter
-        '%s powered by %s' => '%spowered by %s',
         'Powered by %s' => 'powered by %s',
 
         # Template: CustomerFooterJS
@@ -2854,17 +2904,20 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'Please see the documentation or ask your admin for further information.' =>
             '詳細はマニュアルを参照するか、管理者にお問い合わせください。',
+        'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
+            '',
+        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+            '',
         'One moment please, you are being redirected...' => '',
         'Login' => 'ログイン',
-        'User name' => 'ユーザー名',
         'Your user name' => 'ユーザー名',
+        'User name' => 'ユーザー名',
         'Your password' => 'パスワード',
         'Forgot password?' => 'パスワードを忘れましたか？',
-        '2 Factor Token' => '',
         'Your 2 Factor Token' => '',
+        '2 Factor Token' => '',
         'Log In' => 'ログイン',
-        'Not yet registered?' => '未登録ですか？',
-        'Back' => '戻る',
+        'Request Account' => '',
         'Request New Password' => '新規パスワードを申請',
         'Your User Name' => 'ユーザー名',
         'A new password will be sent to your email address.' => '登録されたメールアドレスに新しいパスワードを送信します。',
@@ -2876,17 +2929,31 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Your email address (this will become your username)' => 'あなたの電子メールアドレス (ユーザー名になります)',
 
         # Template: CustomerNavigationBar
-        'Incoming Chat Requests' => '受信チャット要求',
-        'Edit personal preferences' => '個人設定の編集',
-        'Logout %s' => '%sをログアウト',
+        'Logout' => 'ログアウト',
+
+        # Template: CustomerPassword
+        'Change Password' => '',
+        'Password needs to contain at least 3 of the character classes: lower char, upper char, digit, special character.' =>
+            '',
+
+        # Template: CustomerTicketList
+        'Nr.' => '',
+        'Welcome!' => 'ようこそ！',
+        'You have no tickets yet. Please click here, to create a new one.' =>
+            '',
+        'Nothing to show.' => '',
+        'Click here for an unfiltered list of all your tickets.' => '',
 
         # Template: CustomerTicketMessage
+        'Issue a new Ticket' => '',
         'Service level agreement' => 'サービスレベル契約 (SLA)',
 
         # Template: CustomerTicketOverview
-        'Welcome!' => 'ようこそ！',
-        'Please click the button below to create your first ticket.' => 'チケットを作成するために下のボタンをクリックしてください。',
-        'Create your first ticket' => 'チケット作成',
+        'Your Tickets' => '',
+        'New Ticket' => '新規チケット',
+        'Page' => 'ページ',
+        'Tickets' => 'チケット',
+        'Sort' => '',
 
         # Template: CustomerTicketSearch
         'Profile' => 'プロファイル',
@@ -2911,14 +2978,14 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Template: CustomerTicketSearchResultShort
         'of' => '/',
-        'Page' => 'ページ',
         'Search Results for' => '検索結果: ',
         'Remove this Search Term.' => 'この検索語を削除して下さい。',
 
         # Template: CustomerTicketZoom
-        'Start a chat from this ticket' => 'このチケットからチャットを開始する。',
-        'Next Steps' => '次のステップ',
         'Reply' => '返信',
+        'Discard' => '',
+        'Ticket Information' => 'チケット情報',
+        'Categories' => '',
 
         # Template: Chat
         'Expand article' => '記事を展開',
@@ -2926,16 +2993,15 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Template: CustomerWarning
         'Warning' => '警告',
 
+        # Template: Tile_NewTicket
+        'Issue<br/>a ticket' => '',
+
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'イベント情報',
         'Ticket fields' => 'チケット・フィールド',
+        'Dynamic fields' => 'ダイナミック・フィールド',
 
         # Template: Error
-        'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTOBO.' =>
-            '本当にバグですか？ 10つのバグレポートのうち5つは、OTOBOのインストールが間違っているか不完全であることに起因しています。',
-        'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
-            '',
-        'Contact our service team now.' => '今すぐ、サービス担当までご連絡ください。',
         'Send a bugreport' => 'バグ報告を送信',
         'Expand' => '展開',
 
@@ -2955,11 +3021,8 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
             'このドラフトは、このドラフトが作成されてから改訂されたため、古くなっています。',
 
         # Template: Header
-        'View notifications' => '通知を見る',
-        'Notifications' => '通知',
-
+        'Edit personal preferences' => '個人設定の編集',
         'Personal preferences' => '個人設定',
-        'Logout' => 'ログアウト',
         'You are logged in as' => 'ログイン中: ',
 
         # Template: Installer
@@ -2972,12 +3035,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Welcome to %s' => '%s にようこそ',
         'Germany' => '',
         'Phone' => '電話',
-        'United States' => '',
-        'Mexico' => '',
-        'Hungary' => '',
-        'Brazil' => '',
-        'Singapore' => '',
-        'Hong Kong' => '',
+        'Switzerland' => '',
         'Web site' => 'Webサイト',
 
         # Template: InstallerConfigureMail
@@ -3033,10 +3091,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Template: InstallerDBmysql
         'Passwords do not match' => 'パスワードが一致しません',
-
-        # Template: InstallerDBoracle
-        'SID' => 'SID',
-        'Port' => 'Port',
 
         # Template: InstallerFinish
         'To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -3206,6 +3260,10 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             'Y軸の目盛はX軸の目盛より大きくする必要があります (例: X軸=>月、Y軸=>年)',
 
+        # Template: SettingHistoryListCompare
+        'On ' => '',
+        'Reset to this value' => '',
+
         # Template: SettingsList
         'This setting is disabled.' => 'この設定は無効です。',
         'This setting is fixed but not deployed yet!' => 'この設定は確定しましたが、まだデプロイされていません！',
@@ -3275,9 +3333,8 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Template: Navigation
         'Navigation' => 'ナビゲーション',
 
-        # Template: OTOBOCommunityTeaser
-        'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
-            '',
+        # Template: UsersSettingListCompare
+        'Delete user\'s value.' => '',
 
         # Template: Test
         'OTOBO Test Page' => 'OTOBO テストページ',
@@ -3306,6 +3363,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # JS Template: UploadContainer
         'Click to select a file for upload.' => '',
+        'Click to select or drop files here.' => '',
         'Click to select files or just drop them here.' => 'クリックしてファイルを選択するか、ここにドロップして下さい。',
         'Click to select a file or just drop it here.' => 'クリックしてファイルを選択するか、ここにドロップします。',
         'Uploading...' => 'アップロード中...',
@@ -3352,7 +3410,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Zip' => '郵便番号',
         'City' => '住所',
         'Country' => '国',
-        'Valid' => '有効',
         'Mr.' => '様',
         'Mrs.' => '様',
         'Address' => 'アドレス',
@@ -3370,7 +3427,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.' =>
             '次のACLを追加/更新するときにエラーが発生しました。: %s
 詳細は、ログファイルを参照してください。',
-        'This field is required' => 'このフィールドは必須です',
         'There was an error creating the ACL' => 'ACLデータの作成時にエラーが発生しました。',
         'Need ACLID!' => 'ACL IDの入力が必要です！',
         'Could not get data for ACLID %s' => 'ACL ID %s の値を取得できませんでした',
@@ -3434,7 +3490,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'All agents with write permission for the appointment (calendar)' =>
             '',
-        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminAttachment.pm
         'Attachment added!' => '添付ファイルを追加しました。',
@@ -3471,6 +3526,17 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'seconds' => '秒',
         'second' => '秒',
 
+        # Perl Module: Kernel/Modules/AdminContactWD.pm
+        'No contact is given!' => '',
+        'No data found for given contact in given source!' => '',
+        'Contact updated!' => '',
+        'No field data found!' => '',
+        'Contact created!' => '',
+        'Error creating contact!' => '',
+        'No sources found, at least one "Contact with data" dynamic field must be added to the system!' =>
+            '',
+        'No data found for given source!' => '',
+
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => '顧客企業を更新しました。',
         'Dynamic field %s not found!' => '',
@@ -3505,9 +3571,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
         'Fields configuration is not valid' => '',
         'Objects configuration is not valid' => '',
-        'Database (%s)' => 'データベース (%s)',
-        'Web service (%s)' => 'Webサービス (%s)',
-        'Contact with data (%s)' => 'データ接続 (%s)',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'ダイナミック・フィールドのオーダー定義を初期化できませんでした。詳細はエラーログを参照願います。',
 
@@ -3529,12 +3592,15 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Unchecked' => '未選択',
         'Checked' => '選択済み',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldContactWD.pm
+        'This field key is duplicated.' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDB.pm
+        'This field value is duplicated.' => '',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
         'Prevent entry of dates in the future' => '',
         'Prevent entry of dates in the past' => '',
-
-        # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-        'This field value is duplicated.' => '',
 
         # Perl Module: Kernel/Modules/AdminEmail.pm
         'Select at least one recipient.' => '',
@@ -3721,16 +3787,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Invisible to customer' => '',
         'Visible to customer' => '',
 
-        # Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
-        'Your system was successfully upgraded to %s.' => 'システムは正常に%sにアップグレードされました。',
-        'There was a problem during the upgrade to %s.' => '%sにアップグレード中に問題が発生しました。',
-        '%s was correctly reinstalled.' => '%s は正常に再インストールされました',
-        'There was a problem reinstalling %s.' => '%s をインストール中に問題が発生しました',
-        'Your %s was successfully updated.' => '%sは正常に更新されました。',
-        'There was a problem during the upgrade of %s.' => '%sのアップグレード中に問題が発生しました。',
-        '%s was correctly uninstalled.' => '%sは正常にアンインストールされました。',
-        'There was a problem uninstalling %s.' => '%sのアンインストール時に問題が発生しました。',
-
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
             'PGP 機構が動作していません。詳しくはログをご覧ください！',
@@ -3748,7 +3804,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'File is OK' => 'ファイルは正常です',
         'Package has locally modified files.' => 'パッケージにはローカルに変更されたファイルがあります。',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'パッケージはOTOBOグループによって検証されていません。このパッケージの利用を推奨しません。',
+            'パッケージはOTRSグループによって検証されていません。このパッケージの利用を推奨しません。',
         'Not Started' => '始まっていない',
         'Updated' => '更新しました',
         'Already up-to-date' => 'すでに最新版です。',
@@ -3950,6 +4006,11 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Some imported settings are not present in the current state of the configuration or it was not possible to update them. Please check the OTOBO log for more information.' =>
             '',
 
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
+        'This deployment does not contain changes in the setting values!' =>
+            '',
+        'No DeploymentID received!' => '',
+
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
         'You need to enable the setting before locking!' => '',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
@@ -3963,6 +4024,18 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Missing setting name.' => '設定名がありません。',
         'Setting not found.' => '設定が見つかりません。',
         'Missing Settings!' => '設定がありません！',
+
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
+        'No setting name received!' => '',
+        'Modified Version' => '',
+        'Reset To Default' => '',
+        'Default Version' => '',
+        'No setting name or modified version id received!' => '',
+        'Was not possible to revert the historical value!' => '',
+
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
+        'Missing setting name or modified id!' => '',
+        'System was not able to delete the user setting values!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
         'Start date shouldn\'t be defined after Stop date!' => '停止日の後に開始日を定義しないで下さい！',
@@ -4065,6 +4138,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => 'パラメータ Groupが必要です！',
+        'This feature is not available.' => '',
         'Updated user preferences' => 'ユーザー設定を更新しました',
         'System was unable to deploy your changes.' => '',
         'Setting not found!' => '設定が見つかりません！',
@@ -4353,7 +4427,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Show one article' => '一つの記事を閲覧',
         'Show all articles' => '全ての記事を閲覧',
         'Show Ticket Timeline View' => '',
-        'Show Ticket Timeline View (%s)' => '',
 
         # Perl Module: Kernel/Modules/AjaxAttachment.pm
         'Got no FormID.' => '',
@@ -4448,6 +4521,9 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Need config Package::RepositoryAccessRegExp' => 'Package::RepositoryAccessRegExp の設定が必要です',
         'Authentication failed from %s!' => '%s からの認証が失敗しました！',
 
+        # Perl Module: Kernel/Output/HTML/Article/Chat.pm
+        'Chat' => 'チャット',
+
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketBounce.pm
         'Bounce Article to a different mail address' => '異なるメールアドレスに記事をバウンス',
         'Bounce' => 'バウンス',
@@ -4485,9 +4561,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Unmark' => 'マーク解除',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
-
         'Re-install Package' => 'パッケージを再インストールする',
-        'Upgrade' => 'アップグレード',
         'Re-install' => '再インストール',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -4622,17 +4696,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
         'Archive search' => 'アーカイブの検索',
 
-        # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
-        'Enable cloud services to unleash all OTOBO features!' => 'クラウドサービスを利用して、OTOBOのすべての機能を活用しましょう！',
-
-        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
-        '%s Upgrade to %s now! %s' => '%s は %sに更新されました！ %s',
-        'Please verify your license data!' => '',
-        'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            'あなたの %s のライセンスはもうすぐ失効します。　 %s にお問い合わせいただき更新を行ってください。',
-        'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            ' %s のアップデートが利用可能です。しかしあなたのフレームワークのバージョンとコンフリクトしていますので、事前にフレームワークの更新を行ってください。',
-
         # Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
         'Online Agent: %s' => 'オンラインの担当者: %s',
 
@@ -4657,10 +4720,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
         'You have Out of Office enabled, would you like to disable it?' =>
             '外出中が有効になっています。無効にしますか？',
-
-        # Perl Module: Kernel/Output/HTML/Notification/PackageManagerCheckNotVerifiedPackages.pm
-        'The installation of packages which are not verified by the OTOBO Team is activated. These packages could threaten your whole system! It is recommended not to use unverified packages.' =>
-            '',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
         'You have %s invalid setting(s) deployed. Click here to show invalid settings.' =>
@@ -4690,13 +4749,11 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Please specify an end date that is after the start date.' => '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
-        'Current password' => '現在のパスワード',
-        'New password' => '新しいパスワード',
         'Verify password' => '新しいパスワード(確認用)',
         'The current password is not correct. Please try again!' => 'パスワードが正しくありません。再入力してください。',
         'Please supply your new password!' => '新しいパスワードを入力して下さい！',
-        'Can\'t update password, your new passwords do not match. Please try again!' =>
-            'パスワードを更新できません。新しいパスワードが一致しません。再入力してください。',
+        'Can\'t update password, the new password and the repeated password do not match.' =>
+            '',
         'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             '',
         'Can\'t update password, it must be at least %s characters long!' =>
@@ -4706,6 +4763,8 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Can\'t update password, it must contain at least 1 digit!' => 'パスワードを更新できません。数字が1文字以上必要です。',
         'Can\'t update password, it must contain at least 2 letter characters!' =>
             'パスワードを更新できません。アルファベットが2文字以上必要です。',
+        'Can\'t update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
         'Time zone updated successfully!' => 'タイムゾーンが正常に更新されました！',
@@ -4761,9 +4820,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => '順序',
 
-        # Perl Module: Kernel/Output/HTML/TicketZoom/TicketInformation.pm
-        'Ticket Information' => 'チケット情報',
-
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
         'Locked Tickets New' => 'ロック済チケット新規',
         'Locked Tickets Reminder Reached' => 'ロック済チケット時間切れ',
@@ -4789,15 +4845,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Perl Module: Kernel/System/Auth.pm
         'It is currently not possible to login due to a scheduled system maintenance.' =>
             '予定されていたメンテナンスのため、只今の時間はログインを行うことができません。',
-
-        # Perl Module: Kernel/System/AuthSession.pm
-        'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
-            '',
-        'Please note that the session limit is almost reached.' => 'セッション数の上限に近づいていますのでご注意ください。',
-        'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
-            '同時接続ユーザ数の上限に達したため、ログインできませんでした。sales@otrs.comに連絡してください。',
-        'Session limit reached! Please try again later.' => 'セッション数が上限に達しました。後で再ログインを試みてください。',
-        'Session per user limit reached!' => 'ユーザあたりのセッション数の上限に到達しました！',
 
         # Perl Module: Kernel/System/AuthSession/DB.pm
         'Session invalid. Please log in again.' => 'セッションが無効です。再ログインしてください。',
@@ -4955,8 +5002,9 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'Number of Tickets (affected by escalation configuration)' => '',
 
-        # Perl Module: Kernel/System/Stats/Static/StateAction.pm
+        # Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
         'Days' => '日',
+        'Queues / Tickets' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
         'Outdated Tables' => '',
@@ -5054,7 +5102,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
             'OTOBO がインストールされているディスクパーティションはディスクスペースの問題は起こっていません',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-        'Disk Partitions Usage' => 'OTOBO ディスクパーティション使用率',
+        'Disk Partitions Usage' => 'OTRS ディスクパーティション使用率',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
         'Distribution' => 'ディストリビューション',
@@ -5119,7 +5167,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
         'Database Records' => 'データーベースレコード',
-        'Tickets' => 'チケット',
         'Ticket History Entries' => 'チケット履歴エントリ',
         'Articles' => '記事',
         'Attachments (DB, Without HTML)' => '添付(DB, HTML以外)',
@@ -5171,7 +5218,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Some packages are not correctly installed.' => '正常にインストールされていないパッケージが存在します',
         'Package Verification Status' => 'パッケージの検証結果',
         'Some packages are not verified by the OTOBO Team! It is recommended not to use this packages.' =>
-            'いくつかのパッケージはOTOBO社で認証されていません。これらのパッケージの使用は推奨しません。',
+            'いくつかのパッケージはOTRS社で認証されていません。これらのパッケージの使用は推奨しません。',
         'Package Framework Version Status' => 'パッケージフレームワークバージョン',
         'Some packages are not allowed for the current framework version.' =>
             'いくつかのパッケージは現在のフレームワークのバージョンに対応していません。',
@@ -5309,7 +5356,8 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Disabled' => '無効',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/Date.pm
-        'System was not able to calculate user Date in OTOBOTimeZone!' => 'システムはユーザー日付をOTOBOTimeZoneから算出できませんでした！',
+        'System was not able to calculate user Date in OTOBOTimeZone!' =>
+            'システムはユーザー日付をOTOBOTimeZoneから算出できませんでした！',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/DateTime.pm
         'System was not able to calculate user DateTime in OTOBOTimeZone!' =>
@@ -5331,6 +5379,7 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Chat Message Text' => 'チャットメッセージ本文',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
+        'Too many fail attempts, please retry again later' => '',
         'Login failed! Your user name or password was entered incorrectly.' =>
             'ログインできません。ユーザー名またはパスワードを確認してください。',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
@@ -5503,7 +5552,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Deleting the field and its data. This may take a while...' => 'フィールドとそれに属するデータを削除します。これには少々時間が掛かることがあります。',
 
         # JS File: Core.Agent.Admin.GenericAgent
-        'Remove this dynamic field' => '',
         'Remove selection' => '選択項目を削除',
         'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => 'このイベントトリガーを削除',
@@ -5655,6 +5703,9 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'Unlock setting.' => '',
 
+        # JS File: Core.Agent.Admin.SystemConfigurationUser
+        'Are you sure you want to remove all user values?' => '',
+
         # JS File: Core.Agent.Admin.SystemMaintenance
         'Do you really want to delete this scheduled system maintenance?' =>
             'このスケジュールされたシステムメンテナンスを本当に削除しますか？',
@@ -5707,6 +5758,9 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Please check the fields marked as red for valid inputs.' => '',
         'month' => '月',
         'Remove active filters for this widget.' => 'このウィジットに対するアクティブ・フィルターを除去',
+
+        # JS File: Core.Agent.DynamicFieldDBSearch
+        'This dynamic field database value is already selected.' => '',
 
         # JS File: Core.Agent.LinkObject.SearchForm
         'Please wait...' => 'しばらくお待ちください..',
@@ -5769,7 +5823,6 @@ OTOBOが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # JS File: Core.Agent
         'Slide the navigation bar' => 'ナビゲーションバーを操作してください',
         'Please turn off Compatibility Mode in Internet Explorer!' => 'Internet Explorerの互換モードを無効にして下さい。',
-        'Find out more' => '詳細を参照',
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => 'モバイルモードへ',
@@ -5928,6 +5981,9 @@ Thanks for your help!
             '親チケットについて、その全ての子チケットが既にクローズされている場合にのみ、クローズすることを許可するACLモジュールです（“State”は、全ての子チケットがクローズされるまで、親チケットにどの状態が適用不可であるかを示しています）。',
         'Access Control Lists (ACL)' => 'アクセス制御リスト (ACL)',
         'AccountedTime' => '作業時間',
+        'Activate Elasticsearch.' => '',
+        'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
+            '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             '最も古いチケットを含むキューの、点滅メカニズムを有効にします。',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -5968,19 +6024,31 @@ Thanks for your help!
         'Adds the permanent vacation days.' => '',
         'Admin' => '管理',
         'Admin Area.' => '',
+        'Admin Contact With Data' => '',
         'Admin Notification' => '管理者通知',
         'Admin area navigation for the agent interface.' => '担当者Webインタフェースの管理ナビゲーション',
+        'Admin contact with data.' => '',
         'Admin modules overview.' => '管理モジュール一覧',
         'Admin.' => '管理',
         'Administration' => '管理',
+        'Agent Contact With Data Search' => '',
         'Agent Customer Search' => '担当者顧客の検索',
         'Agent Customer Search.' => '担当者顧客の検索',
+        'Agent Dynamic Field Database Detailed Search' => '',
+        'Agent Dynamic Field Database Details' => '',
+        'Agent Dynamic Field Database Search' => '',
         'Agent Name' => '',
         'Agent Name + FromSeparator + System Address Display Name' => '',
         'Agent Preferences.' => '',
         'Agent Statistics.' => '担当者に関する統計',
         'Agent User Search' => '担当者の検索',
         'Agent User Search.' => '担当者の検索',
+        'Agent contact with data search.' => '',
+        'Agent dynamic field database detailed search.' => '',
+        'Agent dynamic field database details.' => '',
+        'Agent dynamic field database search.' => '',
+        'Agent frontend module registration (disable \'Edit contacts with data\' link if if there is no source field configured).' =>
+            '',
         'Agent interface article notification module to check PGP.' => 'PGPをチェックするための、担当者インタフェースの項目通知のモジュールです。',
         'Agent interface article notification module to check S/MIME.' =>
             'S/MIME-Keyが利用可能かつtrueである場合、Ticket-Zoom-Viewで受信Eメールをチェックする、担当者インタフェースのモジュールです。',
@@ -6000,6 +6068,8 @@ Thanks for your help!
             '担当者Webインタフェース通知モジュールを使用して、マイサービスのチケット数を確認します。 このリンクを表示するかどうかを示す追加のアクセス制御は、 "グループ"キーと "rw：group1; move_into：group2"のようなコンテンツを使用して行うことができます。',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
+        'AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.' =>
+            '',
         'AgentTicketZoom widget that displays a table of objects linked to the ticket.' =>
             'AgentTicketZoom ウィジェットでは、チケットに関連付けられたオブジェクトがテーブル表示されます。',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
@@ -6009,7 +6079,6 @@ Thanks for your help!
         'Agents ↔ Groups' => '担当者 ↔ グループ',
         'Agents ↔ Roles' => '担当者 ↔ ロール',
         'All CustomerIDs of a customer user.' => '顧客ユーザーの全てのCustomerID',
-
         'All customer users of a CustomerID' => '顧客IDの全ての顧客ユーザー',
         'All escalated tickets' => '全エスカレーションチケット',
         'All new tickets, these tickets have not been worked on yet' => '全新規チケット。まだ着手されていません',
@@ -6116,6 +6185,7 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => '',
         'ArticleTree' => '',
         'Attachment Name' => '添付ファイル名',
+        'Autoloading of Znuny4OTOBOPasswordPolicy extensions.' => '',
         'Automated line break in text messages after x number of chars.' =>
             'X個の文字型の後の、テキスト・メッセージにおける自動化されたライン・ブレイク。',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -6154,10 +6224,14 @@ Thanks for your help!
         'Cache time in seconds for the web service config backend.' => '',
         'Calendar manage screen.' => 'カレンダー管理の画面',
         'Catalan' => '',
-        'Change password' => 'パスワード変更',
+        'Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+            '',
+        'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+            '',
+        'Change Ticket' => '',
+        'Change Ticket information' => '',
         'Change queue!' => 'キュー変更！',
         'Change the customer for this ticket' => 'このチケットの顧客を変更',
-        'Change the free fields for this ticket' => 'このチケットの自由領域を変更',
         'Change the owner for this ticket' => 'このチケットの所有者を変更',
         'Change the priority for this ticket' => 'このチケットの優先度を変更',
         'Change the responsible for this ticket' => '',
@@ -6267,6 +6341,7 @@ Thanks for your help!
             '',
         'Converts HTML mails into text messages.' => 'HTMLメールをテキストメッセージに変換',
         'Create New process ticket.' => 'プロセスチケットを作成',
+        'Create Templates for AdminDynamicFieldTitle' => '',
         'Create Ticket' => 'チケットを作成',
         'Create a new calendar appointment linked to this ticket' => 'このチケットにリンクされている新しい予定を作成',
         'Create and manage Service Level Agreements (SLAs).' => 'サービスレベル契約 (SLA) の作成と管理',
@@ -6298,6 +6373,7 @@ Thanks for your help!
         'Create new phone ticket.' => '新規電話チケットの作成',
         'Create new process ticket.' => 'プロセスチケットを作成',
         'Create tickets.' => 'チケットの作成',
+        'Create your first ticket' => 'チケット作成',
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             '',
         'Croatian' => 'クロアチア',
@@ -6307,10 +6383,15 @@ Thanks for your help!
             '',
         'Customer Administration' => '顧客管理',
         'Customer Companies' => '顧客企業',
+        'Customer Dashboard' => '',
+        'Customer Dynamic Field Database Detailed Search' => '',
+        'Customer Dynamic Field Database Details' => '',
+        'Customer Dynamic Field Database Search' => '',
         'Customer IDs' => '顧客ID',
         'Customer Information Center Search.' => '顧客情報センターの検索',
         'Customer Information Center search.' => '',
         'Customer Information Center.' => '',
+        'Customer Password.' => '',
         'Customer Ticket Print Module.' => '',
         'Customer User Administration' => '顧客ユーザー管理',
         'Customer User Information' => '顧客ユーザー情報',
@@ -6320,6 +6401,9 @@ Thanks for your help!
         'Customer Users ↔ Customers' => '顧客ユーザー ↔ 顧客',
         'Customer Users ↔ Groups' => '顧客ユーザー ↔ グループ',
         'Customer Users ↔ Services' => '顧客ユーザー ↔ サービス',
+        'Customer dynamic field database detailed search.' => '',
+        'Customer dynamic field database details.' => '',
+        'Customer dynamic field database search.' => '',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -6500,6 +6584,8 @@ Thanks for your help!
             '',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             '',
+        'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '顧客インタフェースで拡張モードを使用すべきかどうかを定義します(これにより、表・置換機能・各種スクリプト・Wordからの貼り付けなどが利用可能になります)。',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
@@ -6578,8 +6664,6 @@ Thanks for your help!
         'Defines the config options for the autocompletion feature.' => '',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             '本アイテムのコンフィグ・パラメータを、プレファレンス・ビューで表示されるように定義します。',
-        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
-            '',
         'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
         'Defines the connections for http/ftp, via a proxy.' => 'プロキシ経由で、http/ftpのための接続を定義します。',
@@ -6868,8 +6952,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Defines the maximum size (in MB) of the log file.' => 'ログ・ファイルの最大サイズ（MB）を定義します。',
         'Defines the maximum size in KiloByte of GenericInterface responses that get logged to the gi_debugger_entry_content table.' =>
             '',
-        'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
-            '',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             '担当者インタフェースにおいて、現在ログインしている全ユーザを表示させるモジュールを定義します。',
         'Defines the module that shows all the currently logged in customers in the agent interface.' =>
@@ -6879,8 +6961,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Defines the module that shows the currently logged in customers in the customer interface.' =>
             '',
         'Defines the module to authenticate customers.' => '顧客を認証するモジュールを定義します。',
-        'Defines the module to display a notification if cloud services are disabled.' =>
-            '',
         'Defines the module to display a notification in the agent interface if the OTOBO Daemon is not running.' =>
             '',
         'Defines the module to display a notification in the agent interface if the system configuration is out of sync.' =>
@@ -6890,10 +6970,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having out-of-office active.' =>
             '',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
-            '',
-        'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
-            '',
-        'Defines the module to display a notification in the agent interface, if the installation of not verified packages is activated (only shown to admins).' =>
             '',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             'もし、システムがアドミン・ユーザによって使用されている場合、担当者インタフェースにおいて通知を表示させるモジュールを定義します（通常はアドミンとして行動する必要はありません）。',
@@ -7017,6 +7093,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Defines the shown links in the footer area of the customer and public interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
             '',
+        'Defines the source dynamic field for storing historical data.' =>
+            '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'アプリケーション内で顧客が利用できる標準の許可を定義します。もし、より多くの許可が必要になった場合、ここに入力してください。許可が効力を持つためには、ハード・コーディングされる必要があります。なお、前述した許可のいずれかを追加する場合、“rw”許可が、最後のエントリとなることを確実にしてください。',
         'Defines the standard size of PDF pages.' => 'PDFページの標準サイズを定義します。',
@@ -7040,9 +7118,11 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO).' =>
             'システム識別子を定義します。すべてのチケット番号とHTTPセッションの文字列は、このIDが含まれています。これはをシステムに属している唯一のチケットがフォローアップとして処理されることを確実にします。（2つのOTOBOのインスタンス間で通信する場合に便利です）',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
-            'システム識別子を定義します。すべてのチケット番号とHTTPセッションの文字列は、このIDが含まれています。これはをシステムに属している唯一のチケットがフォローアップとして処理されることを確実にします。（2つのOTOBOのインスタンス間で通信する場合に便利です）',
+            'システム識別子を定義します。すべてのチケット番号とHTTPセッションの文字列は、このIDが含まれています。これはをシステムに属している唯一のチケットがフォローアップとして処理されることを確実にします。（2つのOTRSのインスタンス間で通信する場合に便利です）',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
             '外部顧客データベースへのリンクにおける、ターゲット属性を定義します。例：\'target="cdb"\'',
+        'Defines the target dynamic fields for storing historical data.' =>
+            '',
         'Defines the ticket appointment type backend for ticket dynamic field date time.' =>
             '',
         'Defines the ticket appointment type backend for ticket escalation time.' =>
@@ -7105,7 +7185,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Deletes requested sessions if they have timed out.' => 'リクエストされたセッションがタイムアウトしている場合に削除します。',
         'Delivers extended debugging information in the frontend in case any AJAX errors occur, if enabled.' =>
             '',
-
+        'DeploymentHistory' => '',
         'Detached' => '',
         'Determines if a button to delete a link should be displayed next to each link in each zoom mask.' =>
             '',
@@ -7164,12 +7244,15 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Dynamic Fields Checkbox Backend GUI' => 'ダイナミックフィールド・チェックボックス・バックエンドGUI',
+        'Dynamic Fields Contact Data Backend GUI' => '',
+        'Dynamic Fields Database Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => 'ダイナミック・フィールド・日時バックエンドGUI',
         'Dynamic Fields Drop-down Backend GUI' => 'ダイナミック・フィールド・ドロップダウン・バックエンドGUI',
         'Dynamic Fields GUI' => 'ダイナミックフィーールドのGUI',
         'Dynamic Fields Multiselect Backend GUI' => 'ダイナミック・フィールド複数選択バックエンドGUI',
         'Dynamic Fields Overview Limit' => 'ダイナミック・フィールド一覧の表示数',
         'Dynamic Fields Text Backend GUI' => 'ダイナミックフィールド・テキストバックエンドGUI',
+        'Dynamic Fields Web Service Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             '検索結果をCSVフォーマットでエクスポートする際に利用するダイナミック・フィールドです。',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
@@ -7241,7 +7324,11 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Edit Customer Companies.' => '顧客企業を編集',
         'Edit Customer Users.' => '顧客ユーザーを編集',
         'Edit appointment' => '予約の編集',
+        'Edit contacts with data' => '',
+        'Edit contacts with data.' => '',
         'Edit customer company' => '顧客企業を編集',
+        'Elasticsearch' => '',
+        'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'メールアドレス',
         'Email Outbound' => '電子メール発信',
         'Email Resend' => '電子メール再送信',
@@ -7286,6 +7373,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Escalation view' => 'エスカレーション・ビュー',
         'EscalationTime' => '',
         'Estonian' => 'エストニア語',
+        'Event module registration (store historical data in dynamic fields).' =>
+            '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -7313,7 +7402,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Executes follow-up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '',
-        'Executes follow-up checks on OTOBO Header \'X-OTOBO-Bounce\'.' => '',
+        'Executes follow-up checks on OTOBO Header \'X-OTOBO-Bounce\'.' =>
+            '',
         'Executes follow-up checks on attachment contents for mails that don\'t have a ticket number in the subject.' =>
             '',
         'Executes follow-up checks on email body for mails that don\'t have a ticket number in the subject.' =>
@@ -7329,6 +7419,18 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Fetch incoming emails from configured mail accounts.' => '',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
             'プロキシ経由でパッケージを取ってきます（フェッチ）。"WebUserAgent::Proxy"を上書きします。',
+        'Fields of the customer company index, used for the company fulltext search. Fields are also stored, but are not mandatory for the overall functionality.' =>
+            '',
+        'Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
+            '',
+        'Fields stored in the customer company index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
+            '',
+        'Fields stored in the customer user index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
+            '',
+        'Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
+            '',
+        'Fields to be searched in ticket index. Fields are also stored, but are not mandatory for the overall functionality.' =>
+            '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.' =>
             '',
         'Filter for debugging ACLs. Note: More ticket attributes can be added in the format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>.' =>
@@ -7356,8 +7458,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             'ロックのアクションの後に、（現状から）異なるチケット状態を強制的に選択します。現在の状態をキーとして定義し、ロック・アクションの後に来る次の状態をコンテンツとして選択してください。',
         'Forces to unlock tickets after being moved to another queue.' =>
             'チケットが他のキューに移動された後に、強制的にアンロックします。',
+        'Format to be ingested' => '',
         'Forwarded to "%s".' => 'Forwarded to "%s".',
-        'Free Fields' => '自由領域',
         'French' => 'フランス語',
         'French (Canada)' => 'フランス語（カナダ）',
         'French stop words for fulltext index. These words will be removed from the search index.' =>
@@ -7379,6 +7481,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Full value' => '',
         'Fulltext index regex filters to remove parts of the text.' => '',
         'Fulltext search' => '全文検索',
+        'Fulltext search using Elasticsearch' => '',
+        'FulltextES' => '',
         'Galician' => 'ガリシア語',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
@@ -7396,6 +7500,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'GenericInterface Web Service History GUI' => 'ジェネリックインターフェース・Webサービス履歴GUI',
         'GenericInterface Web Service Mapping GUI' => 'ジェネリックインターフェース・WebサービスマッピングGUI',
         'GenericInterface module registration for an error handling module.' =>
+            '',
+        'GenericInterface module registration for the PassThrough invoker layer.' =>
             '',
         'GenericInterface module registration for the invoker layer.' => '',
         'GenericInterface module registration for the mapping layer.' => '',
@@ -7654,7 +7760,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             'セッション管理に、htmlクッキーを使用させるようにします。htmlクッキーが無効にされている場合、またはクライアント・ブラウザがhtmlクッキーを無効にしている場合、システムは通常どおり動作し、またセッションIDをリンクに付け加えます。',
         'Malay' => 'マレー語',
-        'Manage OTOBO Team cloud services.' => 'OTOBOグループのクラウドサービスの管理',
+        'Manage OTOBO Team cloud services.' => 'OTRSグループのクラウドサービスの管理',
         'Manage PGP keys for email encryption.' => 'メール暗号用のPGP鍵管理',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'メール受信用POP3/IMAPアカウント管理',
         'Manage S/MIME certificates for email encryption.' => 'メール暗号用のS/MIME証明書管理',
@@ -7678,6 +7784,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '1日においてEメール・アドレスを入手する自動メールによる返答の最大数です（ループ・プロテクション）。',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>
             '',
+        'Maximal number of results returned by ES per field.' => '',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
             'POP3/POP3S/IMAP/IMAPS経由で取ってくることが可能なメールのKBytesの最大値です。',
         'Maximum Number of a calendar shown in a dropdown.' => '',
@@ -7687,6 +7794,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Maximum number of active calendars in overview screens. Please note that large number of active calendars can have a performance impact on your server by making too much simultaneous calls.' =>
             '',
+        'Maximum number of results returned from the quick result.' => '',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             '担当者インタフェースの検索結果で、表示されるチケットの最大数です。',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
@@ -7747,7 +7855,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '通知とエスカレーションを表示するためのモジュールです(ShownMax: 最大、表示されたエスカレーション、EscalationInMinutes: エスカレートされるチケットを表示、CacheTime: 計算されたエスカレーションのキャッシュ秒数)。',
         'Module to use database filter storage.' => 'データベース・フィルター・ストレージを使用するモジュールです。',
         'Module used to detect if attachments are present.' => '',
-        'Multiselect' => 'Multiselect',
         'My Queues' => '担当キュー',
         'My Services' => '担当サービス',
         'My Tickets.' => '担当チケット',
@@ -7756,7 +7863,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
-        'New Ticket' => '新規チケット',
         'New Tickets' => '新規チケット',
         'New Window' => '新規ウィンドウ',
         'New Year\'s Day' => '元日',
@@ -7777,13 +7883,14 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Number of displayed tickets' => '表示チケット数',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '担当者インタフェースの検索ユーティリティにより、表示される行（チケット毎）の数です。',
+        'Number of shards (NS) and replicas (NR) for the index.' => '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             '担当者インタフェースの検索結果の各ページで、表示されるチケットの数です。',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '顧客インタフェースの検索結果の各ページで表示される、チケット数です。',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO Team Services' => 'OTOBOグループ・サービス',
         'OTOBO News' => 'OTOBOニュース',
+        'OTOBO Team Services' => 'OTRSグループ・サービス',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             'OTOBOは、フルテキスト検索や統計生成などの高価な操作に、1つまたは複数の読み取り専用ミラーデータベースを使用できます。 ここでは、最初のミラーデータベースのDSNを指定できます。',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
@@ -7804,6 +7911,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Out Of Office' => '外出中',
         'Out Of Office Time' => '外出中',
         'Out of Office users.' => '',
+        'Output filter to inject the necessary Dynamic field names in hidden input.' =>
+            '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Kernel::System::Ticketに既に存在している機能を多重定義（再定義）します。簡単にカスタマイズを追加したい場合に使用されます。',
         'Overview Escalated Tickets.' => 'エスカレーション済チケット一覧',
@@ -7902,6 +8011,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Picture Upload' => '画像のアップロード',
         'Picture upload module.' => '',
         'Picture-Upload' => '画像のアップロード',
+        'Please click the button below to create your first ticket.' => 'チケットを作成するために下のボタンをクリックしてください。',
         'Plugin search' => 'プラグイン検索',
         'Plugin search module for autocomplete.' => 'オートコンプリート用のプラグイン検索モジュール',
         'Polish' => 'ポーランド語',
@@ -7923,6 +8033,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Product News' => '製品ニュース',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
+        'Protection against brute force attacks. MaxAttempt: How many failed login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered.' =>
+            '',
         'Provides a matrix overview of the tickets per state per queue' =>
             'キューごとの状態ごとのチケットのマトリックス概要を提供します。',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
@@ -7932,8 +8044,10 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Queue view' => 'キュー・ビュー',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'AgentTicketQueueのチケットインデックスを再構築します。',
+        'Rebuilds the ACL preselection cache.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
             '',
+        'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => '更新間隔',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
@@ -7951,7 +8065,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '担当者インタフェースのチケット構成画面で、オリジナルの送信者を、コンポーズ・アンサー上の現在の顧客のEメール・アドレスに置換します。',
         'Reports' => 'レポート',
-
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -7990,7 +8103,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Resent email to "%s".' => '',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
             'チケットの所有者を、チケットが移動された、または別のキューに移動した場合、リセットおよびアンロックします。',
-
         'Responsible Tickets' => '',
         'Responsible Tickets.' => '',
         'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
@@ -8003,6 +8115,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
         'Running Process Tickets' => '実行中のプロセスチケット',
+        'Runs an initial wildcard search of the existing contacts with data when accessing the AdminContactWD module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
@@ -8011,8 +8125,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Russian' => 'ロシア語',
         'S/MIME Certificates' => 'S/MIME証明書',
-        'SMS' => 'SMS',
-        'SMS (Short Message Service)' => 'SMS (Short Message Service)',
         'Salutations' => '挨拶文',
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
@@ -8070,8 +8182,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Service Level Agreements' => 'サービスレベル契約（SLA）',
         'Service view' => 'サービス・ビュー',
         'ServiceView' => 'サービス・ビュー',
-        'Set a new password by filling in your current password and a new one.' =>
-            '現在のパスワードと新しいパスワードを入力して、新しいパスワードを設定して下さい。',
         'Set sender email addresses for this system.' => 'このシステムのメール送信者を設定',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'AgentTicketZoomで、インラインHTML項目のデフォルトの高さ（pixel）を設定します。',
@@ -8166,13 +8276,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '担当者インタフェースで、新規Eメール・チケットに関してデフォルトのテキストを設定します。',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             '',
-        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.' =>
-            '',
-        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
-            '',
         'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
-            '',
-        'Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime.' =>
             '',
         'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
             '',
@@ -8291,6 +8395,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'http/ftp downloadsのためのタイムアウト（秒）を設定します。',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             'パッケージ・ダウンロードのためのタイムアウト（秒）を設定します。"WebUserAgent::Timeout"を上書きします。',
+        'Settings for the customer login screen.' => '',
         'Shared Secret' => '',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
             '担当者インタフェースにおいて、電話およびEメールのチケットにおける責任者のセレクションを表示します。',
@@ -8542,7 +8647,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             'データベースの第一ミラーの認証パスワードを指定してください。',
         'Specify the username to authenticate for the first mirror database.' =>
             '',
-        'Stable' => '安定',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             'アプリケーション内で担当者にとって標準的に利用可能な許可です。もし、さらに多くの許可が必要であれば、ここで加えることができます。許可は、効果的になるように設定する必要があります。いくつか他の良い許可も、ビルト・インで提供されています：note, close, pending, customer, freetext, move, compose, responsible, forward, bounce。“rw”は、常に最後の登録許可であることを確認してください。',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -8554,7 +8658,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Stat#' => '統計番号',
         'States' => 'ステータス',
-        'Statistic Reports overview.' => '',
         'Statistics overview.' => 'レポート一覧',
         'Status view' => 'ステータス・ビュー',
         'Stopped response time escalation.' => '応答時間のエスカレーションを停止しました。',
@@ -8570,6 +8673,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'System Address Display Name' => 'システムアドレスの表示名',
         'System Configuration Deployment' => 'システム設定のデプロイ',
         'System Configuration Group' => 'システム設定グループ',
+        'System Configuration Setting History' => '',
         'System Maintenance' => 'システムメンテナンス',
         'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => 'テンプレート ↔ キュー',
@@ -8627,6 +8731,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             'Eメールが転送された際の、件名の最初のテキストです。例：FW, Fwd, WG。',
         'The value of the From field' => '',
         'Theme' => 'テーマ',
+        'This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.' =>
+            '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             '',
         'This is a Description for Comment on Framework.' => '',
@@ -8636,6 +8742,9 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'This is the default orange - black skin.' => 'これは、デフォルトの黒地と橙色をモチーフにしたスキンです。',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '定義された場合、全てのリクエストに対して、本モジュールおよびそのPreRun()機能が実行されます。本モジュールは、いくつかのユーザ・オプションをチェックするため、または新しいアプリケーションのニュースを表示させるために、役立つものです。',
+        'This module is being used to extend the password policy.' => '',
+        'This module is part of the admin area of OTOBO Community Edition.' =>
+            '',
         'This module is part of the admin area of OTOBO.' => 'このモジュールは、OTOBO の管理者エリアの一機能です。',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             'このオプションは、プロセス管理のアクティビティ・エンティティIDを格納するためのダイナミック・フィールドを定義します。',
@@ -8652,7 +8761,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'This setting is deprecated. Set OTOBOTimeZone instead.' => '',
         'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
             '',
-        'This will allow the system to send text messages via SMS.' => 'この操作は、システムによるSMS経由でのメッセージ送信を許可します。',
         'Ticket Close.' => 'チケットをクローズする',
         'Ticket Compose Bounce Email.' => 'バウンスメールを送信する',
         'Ticket Compose email Answer.' => '',
@@ -8692,6 +8800,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Ticket zoom view.' => 'チケット・ズーム・ビュー',
         'TicketNumber' => 'チケット番号',
         'Tickets.' => 'チケット',
+        'Tile registration for the CustomerDashboard. Module is required.' =>
+            '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '保留中のステートを設定した場合、実際の時間に加えられる時間（秒）です。(default: 86400 = 1 day)',
         'To accept login information, such as an EULA or license.' => '',
@@ -8734,10 +8844,10 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Updates the ticket index accelerator.' => 'チケット・インデックス・アクセラレイタのアップです',
         'Upload your PGP key.' => 'PGPキーをアップロードしてください。',
         'Upload your S/MIME certificate.' => 'S/MIME証明書をアップロードしてください。',
+        'Use Redis::Fast instead of Redis.' => '',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             '',
-        'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>
-            '',
+        'Use specified Redis logical database.' => '',
         'User Profile' => 'ユーザーのプロファイル',
         'UserFirstname' => '姓',
         'UserLastname' => '名',
@@ -8746,7 +8856,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '作成と表示確認にリッチテキストを利用します。: 記事、挨拶、署名、標準テンプレート、自動応答と通知',
         'Vietnam' => 'ベトナム',
-        'View all attachments of the current ticket' => '現在のチケットにある全ての添付ファイルを表示する',
         'View performance benchmark results.' => 'パフォーマンス・ベンチマーク結果を見る。',
         'Watch this ticket' => 'このチケットを見る。',
         'Watched Tickets' => '監視チケット',
@@ -8756,8 +8865,10 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '定期メンテナンスを実施中です。ログインはしばらくお待ちください。',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             '定期メンテナンスを実施中です。',
+        'Web Service' => '',
         'Web Services' => 'Webサービス',
-        'Web View' => 'Web ビュー',
+        'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
+            '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             '担当者 がチケットを作成すると、自動的に チケット をその 担当者に割り当ててロックするかどうかを設定します。',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
@@ -8766,7 +8877,11 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             'チケットがマージされると、有効ではなくなったチケットに自動的にメモが追加されます。このメモの件名をここで定義できます(担当者はこの件名を変更できません)。',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '担当者インタフェースでズームされたチケットのチケット結合画面で、チケット・ロックが必要かどうかを定義します。（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。',
+        'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
+            '',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
+            '',
+        'Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes.' =>
             '',
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
@@ -8832,6 +8947,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Apr',
         'April',
         'Are you sure you want to delete this appointment? This operation cannot be undone.',
+        'Are you sure you want to remove all user values?',
         'Are you sure you want to update all installed packages?',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
         'Article display',
@@ -8856,6 +8972,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
+        'Click to select or drop files here.',
         'Clone web service',
         'Close preview',
         'Close this dialog',
@@ -8932,7 +9049,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Feb',
         'February',
         'Filters',
-        'Find out more',
         'Finished',
         'First select a customer user, then select a customer ID to assign to this ticket.',
         'Fr',
@@ -9034,7 +9150,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
-        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',
@@ -9050,6 +9165,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Resources',
         'Restore default settings',
         'Restore web service configuration',
+        'Results',
         'Rule',
         'Running',
         'Sa',
@@ -9115,9 +9231,9 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'This Transition is already used for this Activity. You cannot use it twice!',
         'This TransitionAction is already used in this Path. You cannot use it twice!',
         'This address already exists on the address list.',
+        'This dynamic field database value is already selected.',
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
-        'This feature is part of the %s. Please contact us at %s for an upgrade.',
         'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
