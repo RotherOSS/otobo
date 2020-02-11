@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.588335317122938;
+    $Self->{Completeness}        = 0.569556451612903;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -290,23 +290,23 @@ sub Data {
         'Support data collector' => 'สนับสนุนการเก็บรวบรวมข้อมูล',
         'Hint' => 'คำแนะนำ',
         'Currently support data is only shown in this system.' => 'ข้อมูลสนับสนุนตอนนี้จะแสดงเฉพาะในระบบนี้',
-        'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'ขอแนะนำให้ส่งข้อมูลนี้ไปยังกลุ่มOTOBO เพื่อให้ได้รับการสนับสนุนที่ดีขึ้น',
+        'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
+            '',
         'Configuration' => 'การกำหนดค่าการ',
         'Send support data' => 'ส่งข้อมูลการสนับสนุน',
-        'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'ซึ่งจะช่วยให้ระบบสามารถส่งข้อมูลการสนับสนุนเพิ่มเติมไปยังกลุ่มOTOBO',
+        'This will allow the system to send additional support data information to the OTOBO team.' =>
+            '',
         'Update' => 'อัปเดต',
         'System Registration' => 'ระบบการลงทะเบียน',
-        'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'เพื่อเปิดใช้งานการส่งข้อมูลกรุณาลงทะเบียนระบบของคุณกับกลุ่มOTOBOหรืออัปเดตข้อมูลการลงทะเบียนระบบของคุณ (ต้องแน่ใจว่าได้เปิดใช้งาน \'ตัวเลือกการส่งข้อมูลสนับสนุน\'.)',
+        'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+            '',
         'Register this System' => 'ลงทะเบียนระบบนี้',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'ระบบการลงทะเบียนถูกปิดใช้งานสำหรับระบบของคุณ กรุณาตรวจสอบการตั้งค่าของคุณ',
 
         # Template: AdminCloudServices
-        'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'ระบบการลงทะเบียนคือหนึ่งในการบริการของ OTOBO ซึ่งมีประโยชน์มาก!',
+        'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
+            '',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             'โปรดทราบว่าการใช้บริการคลาวด์ของ OTOBOต้องใช้ระบบที่จะถูกลงทะเบียน',
         'Register this system' => 'ลงทะเบียนระบบนี้',
@@ -386,13 +386,22 @@ sub Data {
         'Communication Log Details' => '',
         'Please select an entry from the list.' => '',
 
+        # Template: AdminContactWD
+        'Contact with data management' => '',
+        'Contact with data' => 'ติดต่อกับข้อมูล',
+        'Add contact with data' => '',
+        'Edit contact with data' => '',
+        'Back to search results' => 'กลับไปยังผลการค้นหา',
+        'Select' => 'เลือก',
+        'Search' => 'ค้นหา',
+        'Wildcards like \'*\' are allowed.' => 'สัญลักษณ์เช่น \'*\' ได้รับอนุญาต',
+        'Please enter a search term to look for contacts with data.' => '',
+        'Valid' => 'ถูกต้อง',
+
         # Template: AdminCustomerCompany
         'Customer Management' => 'การจัดการลูกค้า',
         'Add Customer' => 'เพิ่มลูกค้า',
         'Edit Customer' => 'แก้ไขลูกค้า',
-        'Search' => 'ค้นหา',
-        'Wildcards like \'*\' are allowed.' => 'สัญลักษณ์เช่น \'*\' ได้รับอนุญาต',
-        'Select' => 'เลือก',
         'List (only %s shown - more available)' => '',
         'total' => 'ผลรวม',
         'Please enter a search term to look for customers.' => 'กรุณากรอกคำค้นหาที่จะค้นหาลูกค้า',
@@ -434,7 +443,6 @@ sub Data {
         'Customer User Management' => 'การจัดการลูกค้าผู้ใช้',
         'Add Customer User' => 'เพิ่มลูกค้าผู้ใช้',
         'Edit Customer User' => 'แก้ไขลูกค้าผู้ใช้',
-        'Back to search results' => 'กลับไปยังผลการค้นหา',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             'ลูกค้าผู้ใช้จำเป็นต้องมีประวัติลูกค้าและเข้าสู่ระบบผ่านทางแผงของลูกค้า',
         'List (%s total)' => '',
@@ -502,8 +510,8 @@ sub Data {
         'Add new field for object' => 'เพิ่มฟิลด์ใหม่สำหรับออบเจค',
         'Filter for Dynamic Fields' => '',
         'Filter for dynamic fields' => '',
-        'More Business Fields' => '',
-        'Would you like to benefit from additional dynamic field types for businesses? Upgrade to %s to get access to the following field types:' =>
+        'New OTOBO Community  Fields' => '',
+        'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
             '',
         'Database' => 'ฐานข้อมูล',
         'Use external databases as configurable data sources for this dynamic field.' =>
@@ -511,7 +519,6 @@ sub Data {
         'Web service' => '',
         'External web services can be configured as data sources for this dynamic field.' =>
             '',
-        'Contact with data' => 'ติดต่อกับข้อมูล',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
             '',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
@@ -551,6 +558,66 @@ sub Data {
         'Default value' => 'ค่าเริ่มต้น',
         'This is the default value for this field.' => 'นี่คือค่าเริ่มต้นสำหรับข้อมูลนี้',
 
+        # Template: AdminDynamicFieldContactWD
+        'Add or edit contacts' => '',
+        'To add contacts to this field please fill out all the needed information and save it.' =>
+            '',
+        'Click on the field name from the overview to edit it and find the corresponding action in the sidebar or from the \'Tickets\' menu.' =>
+            '',
+        'Name Field' => '',
+        'ValidID Field' => '',
+        'Other Fields' => '',
+        'Key' => 'คีย์',
+        'Value' => 'ค่า',
+        'Remove value' => 'ลบค่า',
+        'Add Field' => '',
+        'Add value' => 'เพิ่มค่า',
+        'These are the possible data attributes for contacts.' => '',
+        'Mandatory fields' => '',
+        'Comma separated list of mandatory keys (optional). Keys \'Name\' and \'ValidID\' are always mandatory and doesn\'t have to be listed here.' =>
+            '',
+        'Sorted fields' => '',
+        'Comma separated list of keys in sort order (optional). Keys listed here come first, all remaining fields afterwards and sorted alphabetically.' =>
+            '',
+        'Searchable fields' => '',
+        'Comma separated list of searchable keys (optional). Key \'Name\' is always searchable and doesn\'t have to be listed here.' =>
+            '',
+        'Translatable values' => 'ค่าที่สามารถแปล',
+        'If you activate this option the values will be translated to the user defined language.' =>
+            'ถ้าคุณเปิดใช้งานตัวเลือกนี้ค่าจะถูกแปลเป็นภาษาที่ผู้ใช้กำหนด',
+        'Note' => 'โน้ต',
+        'You need to add the translations manually into the language translation files.' =>
+            'คุณจำเป็นต้องเพิ่มการแปลภาษาด้วยตนเองลงในไฟล์การแปล',
+
+        # Template: AdminDynamicFieldDB
+        'Possible values' => 'ค่าที่เป็นไปได้',
+        'Datatype' => '',
+        'Filter' => 'ตัวกรอง',
+        'Searchfield' => '',
+        'Listfield' => '',
+        'Show link' => 'แสดงลิงค์',
+        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
+            'คุณสามารถระบุตัวเลือกการเชื่อมโยง HTTPที่นี่ สำหรับข้อมูลในภาพรวมและหน้าจอซูม',
+        'Example' => 'ตัวอย่าง',
+        'Link for preview' => '',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
+            '',
+        'SID' => 'SID',
+        'Driver' => '',
+        'Server' => '',
+        'Port' => 'พอร์ต',
+        'Table / View' => '',
+        'User' => 'ผู้ใช้',
+        'Password' => 'รหัสผ่าน',
+        'Identifier' => 'ตัวบ่งชี้',
+        'Must be unique column from the table entered in Table/View.' => '',
+        'Multiselect' => 'หลายรายการ',
+        'CacheTTL' => '',
+        'Searchprefix' => '',
+        'Searchsuffix' => '',
+        'Result Limit' => '',
+        'Case Sensitive' => '',
+
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'วันที่เริ่มต้นที่แตกต่างกัน',
         'This field must be numeric.' => 'ข้อมูลนี้ต้องเป็นตัวเลข',
@@ -563,35 +630,17 @@ sub Data {
         'Years in the past to display (default: 5 years).' => 'ปีที่ผ่านมาที่จะแสดง (ค่าเริ่มต้น: 5 ปี)',
         'Years in the future' => 'ปีถัดไป',
         'Years in the future to display (default: 5 years).' => 'ปีถัดไปที่จะแสดง (ค่าเริ่มต้น: 5 ปี)',
-        'Show link' => 'แสดงลิงค์',
-        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
-            'คุณสามารถระบุตัวเลือกการเชื่อมโยง HTTPที่นี่ สำหรับข้อมูลในภาพรวมและหน้าจอซูม',
         'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
-            '',
-        'Example' => 'ตัวอย่าง',
-        'Link for preview' => '',
-        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
         'Restrict entering of dates' => 'จำกัดการป้อนวันที่',
         'Here you can restrict the entering of dates of tickets.' => 'คุณสามารถจำกัดการป้อนวันที่ของตั๋วที่นี่',
 
         # Template: AdminDynamicFieldDropdown
-        'Possible values' => 'ค่าที่เป็นไปได้',
-        'Key' => 'คีย์',
-        'Value' => 'ค่า',
-        'Remove value' => 'ลบค่า',
-        'Add value' => 'เพิ่มค่า',
         'Add Value' => 'เพิ่มค่า',
         'Add empty value' => 'เพิ่มค่าว่างเปล่า',
         'Activate this option to create an empty selectable value.' => 'ปิดใช้งานตัวเลือกนี้เพื่อสร้างค่าว่างเปล่าที่สามารถเลือกได้',
         'Tree View' => 'มุมมองแผนภูมิ',
         'Activate this option to display values as a tree.' => 'เปิดใช้งานตัวเลือกนี้เพื่อแสดงค่าเป็น tree',
-        'Translatable values' => 'ค่าที่สามารถแปล',
-        'If you activate this option the values will be translated to the user defined language.' =>
-            'ถ้าคุณเปิดใช้งานตัวเลือกนี้ค่าจะถูกแปลเป็นภาษาที่ผู้ใช้กำหนด',
-        'Note' => 'โน้ต',
-        'You need to add the translations manually into the language translation files.' =>
-            'คุณจำเป็นต้องเพิ่มการแปลภาษาด้วยตนเองลงในไฟล์การแปล',
 
         # Template: AdminDynamicFieldText
         'Number of rows' => 'จำนวนแถว',
@@ -607,6 +656,30 @@ sub Data {
         'Invalid RegEx' => 'RegEx ที่ใช้ไม่ได้',
         'Error Message' => 'ข้อความผิดพลาด',
         'Add RegEx' => 'เพิ่มRegEx',
+
+        # Template: AdminDynamicFieldTitle
+        'Template' => 'แม่แบบ',
+        'Style' => '',
+        'bold' => '',
+        'italic' => '',
+        'underline' => '',
+        'Font style of the label.' => '',
+        'Size' => 'ขนาด',
+        'Font size of the label.' => '',
+        'Color in hex.' => '',
+
+        # Template: AdminDynamicFieldWebService
+        'This field is required' => 'ต้องระบุข้อมูลนี้',
+        'The web service to be executed for possible values.' => '',
+        'Invoker' => '',
+        'The invoker to be used to perform requests (invoker needs to be of type \'Generic::PassThrough\').' =>
+            '',
+        'Activate this option to allow multiselect on results.' => '',
+        'Cache TTL' => '',
+        'Cache time to live (in minutes), to save the retrieved possible values.' =>
+            '',
+        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens. Optional HTTP link works only for single-select fields.' =>
+            '',
 
         # Template: AdminEmail
         'Admin Message' => '',
@@ -1025,8 +1098,8 @@ sub Data {
         'Endpoint' => 'จุดสิ้นสุด',
         'URI to indicate specific location for accessing a web service.' =>
             '',
-        'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
-            'เช่น https://www.otrs.com:10745/api/v1.0 (โดยไม่ต้องต่อท้ายด้วยเครื่องหมาย backslash)',
+        'e.g https://www.otobo.ch:10745/api/v1.0 (without trailing backslash)' =>
+            '',
         'Timeout' => '',
         'Timeout value for requests.' => '',
         'Authentication' => 'การรับรองความถูกต้อง',
@@ -1068,6 +1141,9 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'เส้นทางแบบเต็มของไดเรกทอรีผู้มีสิทธิ์ออกใบรับรองซึ่งใบรับรองCAจะถูกเก็บไว้ในระบบไฟล์',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'เช่น /opt/otobo/var/certificates/SOAP/CA',
+        'SSL hostname verification.' => '',
+        'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
+            '',
         'Controller mapping for Invoker' => 'ตัวควบคุมการทำแผนที่สำหรับผู้ร้องขอ',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             'ตัวควบคุมที่ผู้ร้องขอควรส่งการร้องขอไป ตัวแปรถูกทำเครื่องหมายด้วย \':\' จะได้รับการแทนที่ด้วยค่าข้อมูลและผ่านไปตามคำขอต่อไป (เช่น / ตั๋ว /: TicketID UserLogin =: UserLogin&Password =: รหัสผ่าน)',
@@ -1232,7 +1308,6 @@ sub Data {
         'Delete account' => 'ลบบัญชี',
         'Fetch mail' => 'การดึงข้อมูลอีเมล',
         'Do you really want to delete this mail account?' => '',
-        'Password' => 'รหัสผ่าน',
         'Example: mail.example.com' => 'ตัวอย่าง: mail.example.com',
         'IMAP Folder' => 'โฟลเดอร์ IMAP',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1244,7 +1319,6 @@ sub Data {
         # Template: AdminNavigationBar
         'Administration Overview' => '',
         'Filter for Items' => '',
-        'Filter' => 'ตัวกรอง',
         'Favorites' => '',
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '',
@@ -1300,85 +1374,12 @@ sub Data {
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '',
 
-        # Template: AdminOTOBOCommunityInstalled
-        'Manage %s' => 'จัดการ% s',
-        'Downgrade to OTOBO' => '',
-        'Read documentation' => 'อ่านเอกสาร',
-        '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
-            '%s ทำการติดต่อเป็นประจำกับ cloud.otrs.comเพื่อตรวจสอบการปรับปรุงที่มีและความถูกต้องของสัญญาพื้นฐาน',
-        'Unauthorized Usage Detected' => 'ตรวจพบการใช้งานที่ไม่ได้รับอนุญาต',
-        'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
-            'ระบบนี้ใช้ %s โดยไม่มีใบอนุญาตที่ถูกต้อง! กรุณาโทรติดต่อกับ %s เพื่อต่ออายุหรือเปิดใช้งานสัญญาของคุณ!',
-        '%s not Correctly Installed' => '%s ไม่ได้ติดตั้งอย่างถูกต้อง',
-        'Your %s is not correctly installed. Please reinstall it with the button below.' =>
-            '%s ของคุณไม่ได้ติดตั้งอย่างถูกต้อง โปรดติดตั้งด้วยปุ่มด้านล่าง',
-        'Reinstall %s' => 'การติดตั้งใหม่% s',
-        'Your %s is not correctly installed, and there is also an update available.' =>
-            '%s ของคุณไม่ได้ติดตั้งอย่างถูกต้องและยังมีการปรับปรุงที่พร้อมใช้งานอีกด้วย',
-        'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
-            'คุณสามารถติดตั้งเวอร์ชันปัจจุบันของคุณหรือดำเนินการอัพเดตด้วยปุ่มด้านล่างดังกล่าว (แนะนำให้ทำการอัพเดต)',
-        'Update %s' => 'อัพเดท% s',
-        '%s Not Yet Available' => '% s ยังไม่สามารถใช้ได้',
-        '%s will be available soon.' => '% s จะพร้อมใช้งานเร็ว ๆ นี้',
-        '%s Update Available' => '%s การอัปเดตที่พร้อมใช้งาน',
-        'An update for your %s is available! Please update at your earliest!' =>
-            'การอัปเดตสำหรับ% s ของคุณพร้อมใช้งาน โปรดอัปเดตโดยเร็วที่สุด!',
-        '%s Correctly Deployed' => '%s ถูกนำไปใช้อย่างถูกต้อง',
-        'Congratulations, your %s is correctly installed and up to date!' =>
-            'ขอแสดงความยินดี %s ของคุณมีการติดตั้งอย่างถูกต้องและเป็นเวอร์ชั่นล่าสุด',
-
-        # Template: AdminOTOBOCommunityNotInstalled
-        'Go to the OTOBO customer portal' => '',
-        '%s will be available soon. Please check again in a few days.' =>
-            '%s จะสามารถใช้ได้ในเร็ว ๆ นี้ กรุณาตรวจสอบอีกครั้งภายในไม่กี่วันนี้',
-        'Please have a look at %s for more information.' => 'โปรดดูได้ที่ %s สำหรับข้อมูลเพิ่มเติม',
-        'Your OTOBO is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            '',
-        'Before you can benefit from %s, please contact %s to get your %s contract.' =>
-            'ก่อนที่คุณจะสามารถได้รับประโยชน์จาก %s กรุณาติดต่อ %s เพื่อรับสัญญาของคุณ %s',
-        'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTOBO can connect to cloud.otrs.com via port 443.' =>
-            'การเชื่อมต่อกับ cloud.otrs.com ผ่าน HTTPS ไม่สามารถยืนยันได โปรดตรวจสอบว่า OTOBOของคุณคุณสามารถเชื่อมต่อกับ cloud.otrs.com ผ่านทางพอร์ต443',
-        'Package installation requires patch level update of OTOBO.' => '',
-        'Please visit our customer portal and file a request.' => '',
-        'Everything else will be done as part of your contract.' => '',
-        'Your installed OTOBO version is %s.' => '',
-        'To install this package, you need to update to OTOBO %s or higher.' =>
-            '',
-        'To install this package, the Maximum OTOBO Version is %s.' => '',
-        'To install this package, the required Framework version is %s.' =>
-            '',
-        'Why should I keep OTOBO up to date?' => '',
-        'You will receive updates about relevant security issues.' => '',
-        'You will receive updates for all other relevant OTOBO issues' => '',
-        'With your existing contract you can only use a small part of the %s.' =>
-            'ด้วยสัญญาที่มีอยู่ของคุณคุณสามารถใช้ส่วนเล็ก ๆ ของ %s',
-        'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
-            'ถ้าคุณต้องการที่จะรับประโยชน์สูงสุดจาก %s อัพเกรดสัญญาของคุณตอนนี้! ติดต่อ% s',
-
-        # Template: AdminOTOBOCommunityUninstall
-        'Cancel downgrade and go back' => 'ยกเลิกการดาวน์เกรดแล้วย้อนกลับ',
-        'Go to OTOBO Package Manager' => 'ไปยังตัวจัดการแพคเกจ OTOBO ',
-        'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
-            'ขออภัยขณะนี้คุณไม่สามารถดาวน์เกรดเนื่องจากการแพคเกจดังต่อไปนี้ซึ่งขึ้นอยู่กับ %s:',
-        'Vendor' => 'ผู้จำหน่าย',
-        'Please uninstall the packages first using the package manager and try again.' =>
-            'โปรดถอนการติดตั้งแพคเกจแรกโดยใช้ตัวจัดการแพคเกจและลองอีกครั้ง',
-        'You are about to downgrade to OTOBO and will lose the following features and all data related to these:' =>
-            '',
-        'Chat' => 'แชท',
-        'Report Generator' => 'ตัวสร้างรายงาน',
-        'Timeline view in ticket zoom' => 'มุมมองเส้นเวลาในการซูมตั๋ว',
-        'DynamicField ContactWithData' => 'ฟิลด์แบบไดนามิค ติดต่อกับข้อมูล',
-        'DynamicField Database' => 'ฟิลด์แบบไดนามิค ฐานข้อมูล',
-        'SLA Selection Dialog' => 'SLA การเลือกไดอะล็อก',
-        'Ticket Attachment View' => 'มุมมองตั๋วที่มีเอกสารแนบ',
-        'The %s skin' => 'สกิน %s',
-
         # Template: AdminPGP
         'PGP Management' => 'การจัดการ PGP',
         'Add PGP Key' => 'เพิ่มคีย์ PGP',
         'PGP support is disabled' => 'การสนับสนุน PGP จะถูกปิดใช้งาน',
-        'To be able to use PGP in OTOBO, you have to enable it first.' => 'เพื่อให้สามารถใช้ PGP ใน OTOBO คุณต้องเปิดการใช้งานก่อน',
+        'To be able to use PGP in OTOBO, you have to enable it first.' =>
+            'เพื่อให้สามารถใช้ PGP ใน OTOBO คุณต้องเปิดการใช้งานก่อน',
         'Enable PGP support' => 'เปิดใช้การสนับสนุน PGP',
         'Faulty PGP configuration' => 'การกำหนดค่า PGP ผิดพลาด',
         'PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
@@ -1388,7 +1389,6 @@ sub Data {
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'ด้วยวิธีนี้คุณสามารถแก้ไขการคีย์การกำหนดค่าใน sysconfigได้โดยตรง',
         'Introduction to PGP' => 'ข้อมูลเบื้องต้นเกี่ยวกับ PGP',
-        'Identifier' => 'ตัวบ่งชี้',
         'Bit' => 'บิต',
         'Fingerprint' => 'ลายนิ้วมือ',
         'Expires' => 'หมดอายุ',
@@ -1404,8 +1404,10 @@ sub Data {
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'คุณต้องการติดตั้งแพคเกจนี้อีกครั้งหรือไม่? การเปลี่ยนแปลงด้วยตนเองจะหายไป',
         'Go to updating instructions' => '',
+        'Go to the OTOBO customer portal' => '',
         'package information' => '',
-        'Package installation requires a patch level update of OTOBO.' => '',
+        'Package installation requires a patch level update of OTOBO.' =>
+            '',
         'Package update requires a patch level update of OTOBO.' => '',
         'Please note that your installed OTOBO version is %s.' => '',
         'To install this package, you need to update OTOBO to version %s or newer.' =>
@@ -1414,6 +1416,8 @@ sub Data {
             '',
         'This package can only be installed on OTOBO version %s or newer.' =>
             '',
+        'Why should I keep OTOBO up to date?' => '',
+        'You will receive updates about relevant security issues.' => '',
         'You will receive updates for all other relevant OTOBO issues.' =>
             '',
         'How can I do a patch level update if I don’t have a contract?' =>
@@ -1422,6 +1426,7 @@ sub Data {
             '',
         'In case you would have further questions we would be glad to answer them.' =>
             'ในกรณีที่คุณมีคำถามอื่นๆเรายินดีที่จะตอบคำถามเหล่านั้น',
+        'Please visit our customer portal and file a request.' => '',
         'Install Package' => 'ติดตั้งแพคเกจ',
         'Update Package' => '',
         'Continue' => 'ดำเนินการต่อ',
@@ -1434,6 +1439,7 @@ sub Data {
         'Enable cloud services' => 'เปิดใช้บริการคลาวด์',
         'Update all installed packages' => '',
         'Online Repository' => 'พื้นที่เก็บข้อมูลออนไลน์',
+        'Vendor' => 'ผู้จำหน่าย',
         'Action' => 'การดำเนินการ',
         'Module documentation' => 'เอกสารของโมดูล',
         'Local Repository' => 'พื้นที่เก็บข้อมูลท้องถิ่น',
@@ -1455,7 +1461,6 @@ sub Data {
         'Permission' => 'การอนุญาต',
         'Download file from package!' => 'ดาวน์โหลดไฟล์จากแพคเกจ',
         'Required' => 'ที่จำเป็น',
-        'Size' => 'ขนาด',
         'Primary Key' => '',
         'Auto Increment' => '',
         'SQL' => 'SQL',
@@ -1539,8 +1544,6 @@ sub Data {
         'Import process configuration' => 'นำเข้าการกำหนดค่าขั้นตอน',
         'Ready2Adopt Processes' => '',
         'Here you can activate Ready2Adopt processes showcasing our best practices. Please note that some additional configuration may be required.' =>
-            '',
-        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated Ready2Adopt processes.' =>
             '',
         'Import Ready2Adopt process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1755,7 +1758,7 @@ sub Data {
         'Show transmitted data' => 'แสดงข้อมูลที่ส่ง',
         'Deregister system' => 'ยกเลิกการลงทะเบียนระบบ',
         'Overview of registered systems' => 'ภาพรวมของระบบการลงทะเบียน',
-        'This system is registered with OTOBO Team.' => 'ระบบนี้มีการลงทะเบียนกับกลุ่ม OTOBO',
+        'This system is registered with OTOBO Team.' => 'ระบบนี้มีการลงทะเบียนกับกลุ่ม OTRS',
         'System type' => 'ชนิดของระบบ',
         'Unique ID' => 'ID ที่ไม่ซ้ำกัน',
         'Last communication with registration server' => 'การสื่อสารกับเซิร์ฟเวอร์การลงทะเบียนครั้งล่าสุด',
@@ -1764,9 +1767,9 @@ sub Data {
             'โปรดทราบว่าคุณไม่สามารถลงทะเบียนระบบของคุณ ถ้าหาก OTOBO Daemon ทำงานไม่ถูกต้อง!',
         'Instructions' => 'คำแนะนำ',
         'System Deregistration not Possible' => '',
-        'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
-            'โปรดทราบว่าคุณไม่สามารถยกเลิกการลงทะเบียนระบบของคุณ หากคุณกำลังใช้ %s หรือมีสัญญาการให้บริการที่ถูกต้อง',
         'OTOBO-ID Login' => 'OTOBO-ID เข้าสู่ระบบ ',
+        'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
+            'ระบบการลงทะเบียนคือหนึ่งในการบริการของ OTRS ซึ่งมีประโยชน์มาก!',
         'Read more' => 'อ่านเพิ่มเติม',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'คุณจำเป็นต้องเข้าสู่ระบบID OTOBOเพื่อลงทะเบียนระบบของคุณ',
@@ -1786,7 +1789,7 @@ sub Data {
         'Is it possible to deregister?' => 'เป็นไปได้หรือไม่ที่จะยกเลิกการลงทะเบียน?',
         'You can deregister at any time.' => 'คุณสามารถยกเลิกการลงทะเบียนได้ตลอดเวลา',
         'Which data is transfered when registering?' => 'ข้อมูลใดจะถูกโอนเมื่อลงทะเบียน?',
-        'A registered system sends the following data to OTOBO Team:' => 'ระบบที่จดทะเบียนส่งข้อมูลต่อไปนี้ไปยังกลุ่ม OTOBO:',
+        'A registered system sends the following data to OTOBO Team:' => 'ระบบที่จดทะเบียนส่งข้อมูลต่อไปนี้ไปยังกลุ่ม OTRS:',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'ชื่อโดเมนที่ผ่านการรับรองอย่างเต็มรูปแบบ (FQDN) เวอร์ชั่นของ OTOBO, ฐานข้อมูล, ระบบปฏิบัติการและ เวอร์ชันของ Perl',
         'Why do I have to provide a description for my system?' => 'ทำไมฉันจะต้องให้คำอธิบายสำหรับระบบของฉัน?',
@@ -1808,16 +1811,18 @@ sub Data {
         'Retrieve a new one' => 'ดึงข้อมูลขึ้นมาใหม่',
         'Next' => 'ถัดไป',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            'ข้อมูลนี้จะถูกโอนไปยังกลุ่มOTOBO บ่อยครั้งเมื่อคุณลงทะเบียนระบบนี้',
+            'ข้อมูลนี้จะถูกโอนไปยังกลุ่มOTRS บ่อยครั้งเมื่อคุณลงทะเบียนระบบนี้',
         'Attribute' => 'แอตทริบิวต์',
         'FQDN' => 'FQDN',
         'OTOBO Version' => 'เวอร์ชั่นของ OTOBO',
         'Operating System' => 'ระบบปฏิบัติการ',
         'Perl Version' => 'เวอร์ชั่นของ Perl',
         'Optional description of this system.' => 'ตัวเลือกคำอธิบายของระบบนี้',
+        'This will allow the system to send additional support data information to OTOBO Team.' =>
+            'ซึ่งจะช่วยให้ระบบสามารถส่งข้อมูลการสนับสนุนเพิ่มเติมไปยังกลุ่มOTRS',
         'Register' => 'ลงทะเบียน',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            'ดำเนินการต่อด้วยขั้นตอนนี้จะยกเลิกการลงทะเบียนระบบจากกลุ่มOTOBO',
+            'ดำเนินการต่อด้วยขั้นตอนนี้จะยกเลิกการลงทะเบียนระบบจากกลุ่มOTRS',
         'Deregister' => 'ยกเลิกการลงทะเบียน',
         'You can modify registration settings here.' => 'คุณสามารถแก้ไขการตั้งค่าการลงทะเบียนที่นี่',
         'Overview of Transmitted Data' => '',
@@ -1912,8 +1917,8 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'ใบรับรอง S/MIME',
-        'Close this dialog' => 'ปิดไดอะล็อกนี้',
         'Certificate Details' => '',
+        'Close this dialog' => 'ปิดไดอะล็อกนี้',
 
         # Template: AdminSalutation
         'Salutation Management' => 'การจัดการคำขึ้นต้น',
@@ -1971,7 +1976,6 @@ sub Data {
         'Filter for Sessions' => '',
         'Filter for sessions' => '',
         'Session' => 'เซสชัน',
-        'User' => 'ผู้ใช้',
         'Kill' => 'ทำลาย',
         'Detail View for SessionID: %s - %s' => '',
 
@@ -1999,14 +2003,18 @@ sub Data {
         'This state is used in the following config settings:' => '',
 
         # Template: AdminSupportDataCollector
-        'Sending support data to OTOBO Team is not possible!' => 'ไม่สามารถส่งข้อมูลการสนับสนุนให้กับกลุ่มOTOBO',
+        'Sending support data to OTOBO Team is not possible!' => 'ไม่สามารถส่งข้อมูลการสนับสนุนให้กับกลุ่มOTRS',
         'Enable Cloud Services' => 'เปิดใช้บริการคลาวด์',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            'ข้อมูลนี้จะถูกส่งไปยังกลุ่มOTOBO เป็นประจำ หากต้องการหยุดการส่งข้อมูลนี้โปรดอัปเดตการลงทะเบียนในระบบของคุณ',
+            'ข้อมูลนี้จะถูกส่งไปยังกลุ่มOTRS เป็นประจำ หากต้องการหยุดการส่งข้อมูลนี้โปรดอัปเดตการลงทะเบียนในระบบของคุณ',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             'คุณสามารถกระตุ้นการสนับสนุนการส่งข้อมูลโดยการกดปุ่มนี้:',
         'Send Update' => 'ส่งการอัพเดต',
         'Currently this data is only shown in this system.' => 'ขณะนี้ข้อมูลนี้จะแสดงเฉพาะในระบบนี้',
+        'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
+            'ขอแนะนำให้ส่งข้อมูลนี้ไปยังกลุ่มOTRS เพื่อให้ได้รับการสนับสนุนที่ดีขึ้น',
+        'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+            'เพื่อเปิดใช้งานการส่งข้อมูลกรุณาลงทะเบียนระบบของคุณกับกลุ่มOTRSหรืออัปเดตข้อมูลการลงทะเบียนระบบของคุณ (ต้องแน่ใจว่าได้เปิดใช้งาน \'ตัวเลือกการส่งข้อมูลสนับสนุน\'.)',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'กลุมสนับสนุน(รวมถึงข้อมูลการลงทะเบียนระบบ ข้อมูลสนับสนุน รายการของแพคเกจการติดตั้ง
 และไฟล์แหล่งที่มาทั้งหมดที่มีการปรับเปลี่ยน) สามารถสร้างขึ้นได้โดยการกดปุ่มนี้:',
@@ -2023,7 +2031,7 @@ sub Data {
             'กลุ่มสนับสนุนจะถูกส่งไปยังกลุ่มการตรวจสอบแล้วผ่านทางอีเมล์โดยอัตโนมัติ',
         'Download File' => 'ดาวน์โหลดไฟล์',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            'ไฟล์ที่ประกอบด้วยกำสนับสนุนจะถูกดาวน์โหลดไปยังระบบภายใน กรุณาบันทึกไฟล์และส่งไปยังกลุ่มOTOBO โดยใช้วิธีอื่น',
+            'ไฟล์ที่ประกอบด้วยกำสนับสนุนจะถูกดาวน์โหลดไปยังระบบภายใน กรุณาบันทึกไฟล์และส่งไปยังกลุ่มOTRS โดยใช้วิธีอื่น',
         'Error: Support data could not be collected (%s).' => 'ข้อผิดพลาด: ไม่สามารถเก็บรวบรวมข้อมูลสนับสนุน (%s)',
         'Details' => 'รายละเอียด',
 
@@ -2086,6 +2094,20 @@ sub Data {
             '',
         'Deploy selected changes' => '',
 
+        # Template: AdminSystemConfigurationDeploymentHistory
+        'Deployment History' => '',
+        'Filter for Deployments' => '',
+        'Recent Deployments' => '',
+        'Restore' => '',
+        'View Details' => '',
+        'Restore this deployment.' => '',
+        'Export this deployment.' => '',
+
+        # Template: AdminSystemConfigurationDeploymentHistoryDetails
+        'Deployment Details' => '',
+        'by' => 'โดย',
+        'No settings have been deployed in this run.' => '',
+
         # Template: AdminSystemConfigurationGroup
         'This group doesn\'t contain any settings. Please try navigating to one of its sub groups.' =>
             '',
@@ -2115,6 +2137,19 @@ sub Data {
         # Template: AdminSystemConfigurationSearchDialog
         'Category' => 'หมวดหมู่',
         'Run search' => 'ดำเนินการค้นหา',
+
+        # Template: AdminSystemConfigurationSettingHistoryDetails
+        'Change History' => '',
+        'Change History of %s' => '',
+        'No modified values for this setting, the default value is used.' =>
+            '',
+
+        # Template: AdminSystemConfigurationUserModifiedDetails
+        'Review users setting value' => '',
+        'Users Value' => '',
+        'For' => '',
+        'Delete all user values.' => '',
+        'No user value for this setting.' => '',
 
         # Template: AdminSystemConfigurationView
         'View a custom List of Settings' => '',
@@ -2158,7 +2193,6 @@ sub Data {
         'Delete this entry' => 'ลบการกรอกข้อมูลนี้',
         'Do you really want to delete this template?' => 'คุณต้องการที่จะลบแม่แบบนี้หรือไม่?',
         'A standard template with this name already exists!' => 'แม่แบบมาตรฐานที่ใช้ชื่อนี้มีอยู่แล้ว!',
-        'Template' => 'แม่แบบ',
         'Create type templates only supports this smart tags' => 'สร้างประเภทแม่แบบซึ่งสนับสนุนเฉพาะสมาร์ทแท็กนี้',
         'Example template' => 'ตัวอย่างแม่แบบ',
         'The current ticket state is' => 'สถานะตั๋วปัจจุบัน',
@@ -2418,6 +2452,14 @@ sub Data {
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'จนถึง',
 
+        # Template: AgentDynamicFieldDBDetailedSearch
+        'Back' => 'กลับไป',
+        'Detailed search' => '',
+        'Add an additional attribute' => '',
+
+        # Template: AgentDynamicFieldDBDetails
+        'Details view' => '',
+
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'ในการรับข่าว ใบอนุญาตหรือการเปลี่ยนแปลงบางอย่าง',
         'Yes, accepted.' => '',
@@ -2431,10 +2473,24 @@ sub Data {
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             '',
 
-        # Template: AgentOTOBOCommunityBlockScreen
-        'Unauthorized usage of %s detected' => '',
-        'If you decide to downgrade to OTOBO, you will lose all database tables and data related to %s.' =>
+        # Template: AgentPassword
+        'Password Policy' => '',
+        'Your current password is older than %s days. You need to set a new one.' =>
             '',
+        'Change password' => 'เปลี่ยนรหัสผ่าน',
+        'Current password' => 'รหัสผ่านปัจจุบัน',
+        'New password' => 'รหัสผ่านใหม่',
+        'Repeat new password' => '',
+        'Password needs to be renewed every %s days.' => '',
+        'Password history is active, you can\'t use a password which was used the last %s times.' =>
+            '',
+        'Password length must be at least %s characters.' => '',
+        'Password requires at least two lower- and two uppercase characters.' =>
+            '',
+        'Password requires at least two characters.' => '',
+        'Password requires at least one digit.' => '',
+        'Change config options' => '',
+        'Admin permissions are required!' => '',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'แก้ไขการตั้งค่าของคุณ',
@@ -2530,7 +2586,6 @@ sub Data {
         'Set Pending Time for %s%s%s' => '',
         'Change Priority of %s%s%s' => '',
         'Change Responsible of %s%s%s' => '',
-        'All fields marked with an asterisk (*) are mandatory.' => 'ฟิลด์ที่มีเครื่องหมายดอกจันทั้งหมด (*) มีผลบังคับใช้',
         'The ticket has been locked' => 'ตั๋วถูกล็อค',
         'Undo & close' => 'เลิกทำและปิด',
         'Ticket Settings' => 'การตั้งค่าตั๋ว',
@@ -2734,7 +2789,6 @@ sub Data {
         'Event Type' => 'ประเภทของกิจกรรม',
         'Save as default' => 'บันทึกเป็นค่าเริ่มต้น',
         'Drafts' => '',
-        'by' => 'โดย',
         'Change Queue' => 'เปลี่ยนคิว',
         'There are no dialogs available at this point in the process.' =>
             'ไม่มีไดอะล็อกที่สามารถใช้ได้ในกระบวนการนี้',
@@ -2754,7 +2808,6 @@ sub Data {
         'Outgoing message' => 'ข้อความขาออก',
         'Internal message' => 'ข้อความภายใน',
         'Sending of this message has failed.' => '',
-        'This message has been queued for sending.' => '',
         'Resize' => 'ปรับขนาด',
         'Mark this article as read' => 'มาร์คว่าได้อ่านบทความนี้แล้ว',
         'Show Full Text' => 'แสดงข้อความแบบเต็ม',
@@ -2794,8 +2847,6 @@ sub Data {
         # Template: Invalid
         'Preview of this article is not possible because %s channel is missing in the system.' =>
             '',
-        'This feature is part of the %s. Please contact us at %s for an upgrade.' =>
-            '',
         'Please re-install %s package in order to display this article.' =>
             '',
 
@@ -2813,9 +2864,7 @@ sub Data {
         'go back to the previous page' => 'กลับไปที่หน้าก่อนหน้านี้',
 
         # Template: CustomerAccept
-        'Dear Customer,' => '',
-        'thank you for using our services.' => '',
-        'Yes, I accept your license.' => '',
+        'Yes, I accepted your license.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -2826,13 +2875,15 @@ sub Data {
         'From all Customer IDs' => '',
         'From assigned Customer IDs' => '',
 
+        # Template: CustomerDashboard
+        'Ticket Search' => '',
+
         # Template: CustomerError
         'An Error Occurred' => '',
         'Error Details' => 'รายละเอียด ข้อผิดพลาด',
         'Traceback' => 'ตรวจสอบย้อนกลับ',
 
         # Template: CustomerFooter
-        '%s powered by %s' => '',
         'Powered by %s' => '',
 
         # Template: CustomerFooterJS
@@ -2851,17 +2902,20 @@ sub Data {
             '',
         'Please see the documentation or ask your admin for further information.' =>
             'โปรดอ่านเอกสารหรือขอให้ผู้ดูแลระบบของคุณสำหรับอธิบายข้อมูลเพิ่มเติม',
+        'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
+            '',
+        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+            '',
         'One moment please, you are being redirected...' => 'รอสักครู่คุณกำลังถูกนำไป ...',
         'Login' => 'เข้าสู่ระบบ',
-        'User name' => 'ชื่อผู้ใช้',
         'Your user name' => 'ชื่อผู้ใช้ของคุณ',
+        'User name' => 'ชื่อผู้ใช้',
         'Your password' => 'รหัสผ่านของคุณ',
         'Forgot password?' => 'ลืมรหัสผ่าน?',
-        '2 Factor Token' => '2 ปัจจัยโทเคน',
         'Your 2 Factor Token' => '2 ปัจจัยโทเคนของคุณ',
+        '2 Factor Token' => '2 ปัจจัยโทเคน',
         'Log In' => 'เข้าสู่ระบบ',
-        'Not yet registered?' => 'ยังไม่ได้ลงทะเบียน?',
-        'Back' => 'กลับไป',
+        'Request Account' => '',
         'Request New Password' => 'การร้องขอรหัสผ่านใหม่',
         'Your User Name' => 'ชื่อผู้ใช้ของคุณ',
         'A new password will be sent to your email address.' => 'รหัสผ่านใหม่จะถูกส่งไปยังที่อยู่อีเมลของคุณ',
@@ -2873,17 +2927,31 @@ sub Data {
         'Your email address (this will become your username)' => 'ที่อยู่อีเมลของคุณ (จะกลายเป็นชื่อผู้ใช้ของคุณ)',
 
         # Template: CustomerNavigationBar
-        'Incoming Chat Requests' => 'การร้องขอแชทขาเข้า',
-        'Edit personal preferences' => 'แก้ไขการตั้งค่าส่วนตัว',
-        'Logout %s' => '',
+        'Logout' => 'ออกจากระบบ',
+
+        # Template: CustomerPassword
+        'Change Password' => '',
+        'Password needs to contain at least 3 of the character classes: lower char, upper char, digit, special character.' =>
+            '',
+
+        # Template: CustomerTicketList
+        'Nr.' => '',
+        'Welcome!' => 'ยินดีต้อนรับ!',
+        'You have no tickets yet. Please click here, to create a new one.' =>
+            '',
+        'Nothing to show.' => '',
+        'Click here for an unfiltered list of all your tickets.' => '',
 
         # Template: CustomerTicketMessage
+        'Issue a new Ticket' => '',
         'Service level agreement' => 'ข้อตกลงระดับการให้บริการ',
 
         # Template: CustomerTicketOverview
-        'Welcome!' => 'ยินดีต้อนรับ!',
-        'Please click the button below to create your first ticket.' => 'กรุณาคลิกที่ปุ่มด้านล่างเพื่อสร้างตั๋วของคุณครั้งแรก',
-        'Create your first ticket' => 'สร้างตั๋วของคุณครั้งแรก',
+        'Your Tickets' => '',
+        'New Ticket' => 'ตั๋วใหม่',
+        'Page' => 'หน้า',
+        'Tickets' => 'ตั๋ว',
+        'Sort' => '',
 
         # Template: CustomerTicketSearch
         'Profile' => 'โปรไฟล์',
@@ -2908,14 +2976,14 @@ sub Data {
 
         # Template: CustomerTicketSearchResultShort
         'of' => 'ของ',
-        'Page' => 'หน้า',
         'Search Results for' => 'ผลการค้นหาสำหรับ',
         'Remove this Search Term.' => 'ลบคำค้นหานี้',
 
         # Template: CustomerTicketZoom
-        'Start a chat from this ticket' => 'เริ่มต้นการสนทนาจากตั๋วนี้',
-        'Next Steps' => 'ขั้นตอนถัดไป',
         'Reply' => 'ตอบกลับ',
+        'Discard' => '',
+        'Ticket Information' => 'ข้อมูลของตั๋ว',
+        'Categories' => '',
 
         # Template: Chat
         'Expand article' => 'Expand article',
@@ -2923,17 +2991,15 @@ sub Data {
         # Template: CustomerWarning
         'Warning' => 'คำเตือน',
 
+        # Template: Tile_NewTicket
+        'Issue<br/>a ticket' => '',
+
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'ข้อมูลกิจกรรม',
         'Ticket fields' => 'ช่องข้อมูลตั๋ว',
         'Dynamic fields' => 'ไดมานิคฟิลด์',
 
         # Template: Error
-        'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTOBO.' =>
-            '',
-        'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
-            '',
-        'Contact our service team now.' => '',
         'Send a bugreport' => 'ส่งรายงานข้อบกพร่อง',
         'Expand' => 'การขยาย',
 
@@ -2953,11 +3019,8 @@ sub Data {
             '',
 
         # Template: Header
-        'View notifications' => 'ดูการแจ้งเตือน',
-        'Notifications' => '',
-
+        'Edit personal preferences' => 'แก้ไขการตั้งค่าส่วนตัว',
         'Personal preferences' => '',
-        'Logout' => 'ออกจากระบบ',
         'You are logged in as' => 'คุณได้เข้าสู่ระบบเป็น',
 
         # Template: Installer
@@ -2970,12 +3033,7 @@ sub Data {
         'Welcome to %s' => 'ยินดีต้อนรับสู่ %s',
         'Germany' => '',
         'Phone' => 'โทรศัพท์',
-        'United States' => '',
-        'Mexico' => '',
-        'Hungary' => '',
-        'Brazil' => '',
-        'Singapore' => '',
-        'Hong Kong' => '',
+        'Switzerland' => '',
         'Web site' => 'เว็บไซต์',
 
         # Template: InstallerConfigureMail
@@ -3031,10 +3089,6 @@ sub Data {
 
         # Template: InstallerDBmysql
         'Passwords do not match' => 'รหัสผ่านไม่ตรงกัน',
-
-        # Template: InstallerDBoracle
-        'SID' => 'SID',
-        'Port' => 'พอร์ต',
 
         # Template: InstallerFinish
         'To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -3204,6 +3258,10 @@ sub Data {
         'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             'โปรดจำไว้ว่าขนาดสำหรับแกน Y จะต้องมีขนาดใหญ่กว่าขนาดสำหรับแกน X (เช่นแกน X => เดือนที่แกน Y => ปี)',
 
+        # Template: SettingHistoryListCompare
+        'On ' => '',
+        'Reset to this value' => '',
+
         # Template: SettingsList
         'This setting is disabled.' => '',
         'This setting is fixed but not deployed yet!' => '',
@@ -3273,9 +3331,8 @@ sub Data {
         # Template: Navigation
         'Navigation' => '',
 
-        # Template: OTOBOCommunityTeaser
-        'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
-            '',
+        # Template: UsersSettingListCompare
+        'Delete user\'s value.' => '',
 
         # Template: Test
         'OTOBO Test Page' => 'หน้าการทดสอบ OTOBO',
@@ -3304,6 +3361,7 @@ sub Data {
 
         # JS Template: UploadContainer
         'Click to select a file for upload.' => '',
+        'Click to select or drop files here.' => '',
         'Click to select files or just drop them here.' => '',
         'Click to select a file or just drop it here.' => '',
         'Uploading...' => '',
@@ -3322,6 +3380,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => '',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => '',
         'Preparing to deploy, please wait...' => '',
         'Deploy now' => '',
@@ -3349,7 +3408,6 @@ sub Data {
         'Zip' => 'รหัสไปรษณีย์',
         'City' => 'เมือง',
         'Country' => 'ประเทศ',
-        'Valid' => 'ถูกต้อง',
         'Mr.' => 'นาย',
         'Mrs.' => 'นาง',
         'Address' => 'ที่อยู่',
@@ -3366,7 +3424,6 @@ sub Data {
         'The following ACLs have been updated successfully: %s' => 'ACLs ดังต่อไปนี้ได้รับการปรับปรุงเรียบร้อยแล้ว: %s',
         'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.' =>
             'มีข้อผิดพลาดการเพิ่ม / อัปเดต ACLs ดังต่อไปนี้ได้:% s กรุณาตรวจสอบแฟ้มบันทึกสำหรับข้อมูลเพิ่มเติม',
-        'This field is required' => 'ต้องระบุข้อมูลนี้',
         'There was an error creating the ACL' => 'มีข้อผิดพลาดในการสร้าง ACL ',
         'Need ACLID!' => 'ต้องการ ACLID!',
         'Could not get data for ACLID %s' => 'ไม่สามารถรับข้อมูลสำหรับ ACLID %s',
@@ -3430,7 +3487,6 @@ sub Data {
             '',
         'All agents with write permission for the appointment (calendar)' =>
             '',
-        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminAttachment.pm
         'Attachment added!' => 'เพิ่มสิ่งที่แนบมาแล้ว!',
@@ -3467,6 +3523,17 @@ sub Data {
         'seconds' => 'วินาที',
         'second' => 'วินาที',
 
+        # Perl Module: Kernel/Modules/AdminContactWD.pm
+        'No contact is given!' => '',
+        'No data found for given contact in given source!' => '',
+        'Contact updated!' => '',
+        'No field data found!' => '',
+        'Contact created!' => '',
+        'Error creating contact!' => '',
+        'No sources found, at least one "Contact with data" dynamic field must be added to the system!' =>
+            '',
+        'No data found for given source!' => '',
+
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => 'อัปเดตลูกค้าบริษัทแล้ว!',
         'Dynamic field %s not found!' => '',
@@ -3501,9 +3568,6 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
         'Fields configuration is not valid' => 'การตั้งค่าฟิลด์ไม่ถูกต้อง',
         'Objects configuration is not valid' => 'การกำหนดค่าออบเจคไม่ถูกต้อง',
-        'Database (%s)' => '',
-        'Web service (%s)' => '',
-        'Contact with data (%s)' => '',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'ไม่สามารถรีเซ็ตคำสั่งฟิลด์ไดนามิกอย่างถูกต้องโปรดตรวจสอบบันทึกข้อผิดพลาดสำหรับรายละเอียดเพิ่มเติม',
 
@@ -3525,12 +3589,15 @@ sub Data {
         'Unchecked' => 'ยกเลิกการทำเครื่องหมาย',
         'Checked' => 'ตรวจสอบ',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldContactWD.pm
+        'This field key is duplicated.' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDB.pm
+        'This field value is duplicated.' => 'ค่าข้อมูลในช่องนี้ซ้ำ',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
         'Prevent entry of dates in the future' => 'ป้องกันการเข้ามาของวันที่ในอนาคต',
         'Prevent entry of dates in the past' => 'ป้องกันการเข้ามาของวันที่ในอดีตที่ผ่านมา',
-
-        # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-        'This field value is duplicated.' => 'ค่าข้อมูลในช่องนี้ซ้ำ',
 
         # Perl Module: Kernel/Modules/AdminEmail.pm
         'Select at least one recipient.' => 'เลือกผู้รับอย่างน้อยหนึ่งคน',
@@ -3717,16 +3784,6 @@ sub Data {
         'Invisible to customer' => '',
         'Visible to customer' => '',
 
-        # Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
-        'Your system was successfully upgraded to %s.' => 'ระบบของคุณประสบความสำเร็จในการอัพเกรดเปน % s',
-        'There was a problem during the upgrade to %s.' => 'มีปัญหาเกิดขึ้นระหว่างการอัพเกรดเป็น% s',
-        '%s was correctly reinstalled.' => '% s ได้รับการติดตั้งอย่างถูกต้อง',
-        'There was a problem reinstalling %s.' => 'มีปัญหาในการติดตั้งอีกครั้ง% s',
-        'Your %s was successfully updated.' => '% s ของคุณอัพเดตเรียบร้อยแล้ว',
-        'There was a problem during the upgrade of %s.' => 'มีปัญหาเกิดขึ้นระหว่างการอัพเกรดของ% s',
-        '%s was correctly uninstalled.' => '% sได้ยกเลิกการติดตั้งอย่างถูกต้อง',
-        'There was a problem uninstalling %s.' => 'มีปัญหาในการถอนการติดตั้ง% s ',
-
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
             'สภาพแวดล้อม PGP ไม่ทำงาน กรุณาตรวจสอบบันทึกสำหรับข้อมูลเพิ่มเติม!',
@@ -3744,7 +3801,7 @@ sub Data {
         'File is OK' => '',
         'Package has locally modified files.' => 'แพคเกจมีการปรับเปลี่ยนไฟล์ภายในเครื่อง',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'แพคเกจยังไม่ได้รับการตรวจสอบโดยกลุ่ม OTOBO! ขอแนะนำไม่ให้ใช้แพคเกจนี้',
+            'แพคเกจยังไม่ได้รับการตรวจสอบโดยกลุ่ม OTRS! ขอแนะนำไม่ให้ใช้แพคเกจนี้',
         'Not Started' => '',
         'Updated' => '',
         'Already up-to-date' => '',
@@ -3946,6 +4003,11 @@ sub Data {
         'Some imported settings are not present in the current state of the configuration or it was not possible to update them. Please check the OTOBO log for more information.' =>
             '',
 
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
+        'This deployment does not contain changes in the setting values!' =>
+            '',
+        'No DeploymentID received!' => '',
+
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
         'You need to enable the setting before locking!' => '',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
@@ -3959,6 +4021,18 @@ sub Data {
         'Missing setting name.' => '',
         'Setting not found.' => '',
         'Missing Settings!' => '',
+
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
+        'No setting name received!' => '',
+        'Modified Version' => '',
+        'Reset To Default' => '',
+        'Default Version' => '',
+        'No setting name or modified version id received!' => '',
+        'Was not possible to revert the historical value!' => '',
+
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
+        'Missing setting name or modified id!' => '',
+        'System was not able to delete the user setting values!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
         'Start date shouldn\'t be defined after Stop date!' => 'วันที่เริ่มต้นไม่ควรกำหนดหลังจากวันหยุด!',
@@ -4061,6 +4135,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => 'ต้องระบุกลุ่มพารามิเตอร์!',
+        'This feature is not available.' => '',
         'Updated user preferences' => '',
         'System was unable to deploy your changes.' => '',
         'Setting not found!' => '',
@@ -4125,6 +4200,8 @@ sub Data {
         'The following tickets were locked: %s.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => 'ที่อยู่% s แทนที่ด้วยที่อยู่ของลูกค้าที่ลงทะเบียน',
         'Customer user automatically added in Cc.' => 'ผู้ใช้ลูกค้าถูกเพิ่มโดยอัตโนมัติใน  Cc',
 
@@ -4347,7 +4424,6 @@ sub Data {
         'Show one article' => 'แสดงหนึ่งบทความ',
         'Show all articles' => 'แสดงบทความทั้งหมด',
         'Show Ticket Timeline View' => 'แสดงมุมมองไทม์ไลน์ตั๋ว',
-        'Show Ticket Timeline View (%s)' => '',
 
         # Perl Module: Kernel/Modules/AjaxAttachment.pm
         'Got no FormID.' => '',
@@ -4366,6 +4442,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => 'ตรวจสอบการตั้งค่า SysConfig สำหรับ %s::QueueDefault.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'ตรวจสอบการตั้งค่า SysConfig สำหรับ %s::TicketTypeDefault.',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => 'ต้องการ CustomerID!',
@@ -4440,6 +4518,9 @@ sub Data {
         'Need config Package::RepositoryAccessRegExp' => 'ต้องปรับแต่ง Package::RepositoryAccessRegExp',
         'Authentication failed from %s!' => 'การตรวจสอบสิทธิ์ล้มเหลวจาก%s!',
 
+        # Perl Module: Kernel/Output/HTML/Article/Chat.pm
+        'Chat' => 'แชท',
+
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketBounce.pm
         'Bounce Article to a different mail address' => 'บทความตีกลับไปยังที่อยู่อีเมลที่แตกต่างกัน',
         'Bounce' => 'การตีกลับ',
@@ -4477,9 +4558,7 @@ sub Data {
         'Unmark' => 'ยกเลิกการมาร์ค',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
-
         'Re-install Package' => '',
-        'Upgrade' => 'อัพเกรด',
         'Re-install' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -4614,17 +4693,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
         'Archive search' => '',
 
-        # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
-        'Enable cloud services to unleash all OTOBO features!' => 'เปิดใช้บริการคลาวด์เพื่อเปิดใช้งานคุณสมบัติ OTOBO ทั้งหมด!',
-
-        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
-        '%s Upgrade to %s now! %s' => '%s อัพเกรดเป็น %s ในขณะนี้! %s',
-        'Please verify your license data!' => '',
-        'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            'ใบอนุญาตสำหรับ% s ของคุณกำลังจะหมดอายุ กรุณาโทรติดต่อกับ% s เพื่อต่อสัญญาของคุณ!',
-        'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            'การอัปเดตสำหรับ% s ของคุณพร้อมใช้งาน แต่มีข้อขัดแย้งกับเวอร์ชั่นเฟรมเวิร์คของคุณ! โปรดอัปเดตเฟรมเวิร์คก่อน!',
-
         # Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
         'Online Agent: %s' => 'เอเย่นต์ออนไลน์:%s',
 
@@ -4649,10 +4717,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
         'You have Out of Office enabled, would you like to disable it?' =>
             'คุณไม่อยู่ที่สำนักงานที่เปิดใช้งาน คุณต้องการจะปิดการใช้งานหรือไม่?',
-
-        # Perl Module: Kernel/Output/HTML/Notification/PackageManagerCheckNotVerifiedPackages.pm
-        'The installation of packages which are not verified by the OTOBO Team is activated. These packages could threaten your whole system! It is recommended not to use unverified packages.' =>
-            '',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
         'You have %s invalid setting(s) deployed. Click here to show invalid settings.' =>
@@ -4682,13 +4746,11 @@ sub Data {
         'Please specify an end date that is after the start date.' => 'โปรดระบุวันที่สิ้นสุดหลังจากวันที่เริ่มต้น',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
-        'Current password' => 'รหัสผ่านปัจจุบัน',
-        'New password' => 'รหัสผ่านใหม่',
         'Verify password' => 'ยืนยันรหัสผ่าน',
         'The current password is not correct. Please try again!' => 'รหัสผ่านปัจจุบันไม่ถูกต้อง กรุณาลองอีกครั้ง!',
         'Please supply your new password!' => 'กรุณาใส่รหัสผ่านใหม่ของคุณ!',
-        'Can\'t update password, your new passwords do not match. Please try again!' =>
-            'ไม่สามารถอัพเดตรหัสผ่าน เนื่องจากรหัสผ่านใหม่ของคุณไม่ตรงกัน กรุณาลองอีกครั้ง!',
+        'Can\'t update password, the new password and the repeated password do not match.' =>
+            '',
         'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             '',
         'Can\'t update password, it must be at least %s characters long!' =>
@@ -4697,6 +4759,8 @@ sub Data {
             '',
         'Can\'t update password, it must contain at least 1 digit!' => 'ไม่สามารถอัพเดตรหัสผ่าน เนื่องจากต้องมีตัวเลขอย่างน้อย 1 หลัก!',
         'Can\'t update password, it must contain at least 2 letter characters!' =>
+            '',
+        'Can\'t update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!' =>
             '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
@@ -4753,9 +4817,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'จัดเรียงโดย',
 
-        # Perl Module: Kernel/Output/HTML/TicketZoom/TicketInformation.pm
-        'Ticket Information' => 'ข้อมูลของตั๋ว',
-
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
         'Locked Tickets New' => 'ตั๋วล็อคใหม่',
         'Locked Tickets Reminder Reached' => 'การแจ้งเตือนการล็อคตั๋วมาถึงแล้ว',
@@ -4781,15 +4842,6 @@ sub Data {
         # Perl Module: Kernel/System/Auth.pm
         'It is currently not possible to login due to a scheduled system maintenance.' =>
             'ยังไม่สามารถเข้าสู่ระบบในตอนนี้เนื่องจากการบำรุงรักษาระบบที่กำหนด',
-
-        # Perl Module: Kernel/System/AuthSession.pm
-        'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
-            '',
-        'Please note that the session limit is almost reached.' => '',
-        'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
-            '',
-        'Session limit reached! Please try again later.' => 'เซสชั่นถึงขีดจำกัด! กรุณาลองใหม่อีกครั้งในภายหลัง.',
-        'Session per user limit reached!' => 'เซสชั่นต่อขีดจำกัดของผู้ใช้!',
 
         # Perl Module: Kernel/System/AuthSession/DB.pm
         'Session invalid. Please log in again.' => 'เซสชั่นที่ไม่ถูกต้อง กรุณาเข้าสู่ระบบอีกครั้ง',
@@ -4947,8 +4999,9 @@ sub Data {
             '',
         'Number of Tickets (affected by escalation configuration)' => '',
 
-        # Perl Module: Kernel/System/Stats/Static/StateAction.pm
+        # Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
         'Days' => 'วัน',
+        'Queues / Tickets' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
         'Outdated Tables' => '',
@@ -5111,7 +5164,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
         'Database Records' => '',
-        'Tickets' => 'ตั๋ว',
         'Ticket History Entries' => 'ประวัติการป้อนตั๋ว',
         'Articles' => 'บทความ',
         'Attachments (DB, Without HTML)' => 'สิ่งที่แนบมา (DB ปราศจาก HTML)',
@@ -5301,7 +5353,8 @@ sub Data {
         'Disabled' => '',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/Date.pm
-        'System was not able to calculate user Date in OTOBOTimeZone!' => '',
+        'System was not able to calculate user Date in OTOBOTimeZone!' =>
+            '',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/DateTime.pm
         'System was not able to calculate user DateTime in OTOBOTimeZone!' =>
@@ -5323,6 +5376,7 @@ sub Data {
         'Chat Message Text' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
+        'Too many fail attempts, please retry again later' => '',
         'Login failed! Your user name or password was entered incorrectly.' =>
             'เข้าระบบลงล้มเหลว! ชื่อผู้ใช้หรือรหัสผ่านของคุณไม่ถูกต้อง',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
@@ -5646,6 +5700,9 @@ sub Data {
             '',
         'Unlock setting.' => '',
 
+        # JS File: Core.Agent.Admin.SystemConfigurationUser
+        'Are you sure you want to remove all user values?' => '',
+
         # JS File: Core.Agent.Admin.SystemMaintenance
         'Do you really want to delete this scheduled system maintenance?' =>
             'คุณต้องการที่จะลบการบำรุงรักษาระบบที่กำหนดนี้?',
@@ -5698,6 +5755,9 @@ sub Data {
         'Please check the fields marked as red for valid inputs.' => 'กรุณาตรวจสอบฟิลด์ที่ทำเครื่องหมายสีแดงสำหรับปัจจัยการป้อนข้อมูลที่ถูกต้อง',
         'month' => 'เดือน',
         'Remove active filters for this widget.' => 'ลบตัวกรองการใช้งานสำหรับเครื่องมือนี้',
+
+        # JS File: Core.Agent.DynamicFieldDBSearch
+        'This dynamic field database value is already selected.' => '',
 
         # JS File: Core.Agent.LinkObject.SearchForm
         'Please wait...' => '',
@@ -5760,7 +5820,6 @@ sub Data {
         # JS File: Core.Agent
         'Slide the navigation bar' => 'เลื่อนแถบนำทาง',
         'Please turn off Compatibility Mode in Internet Explorer!' => 'กรุณาปิดโหมดความเข้ากันได้ใน Internet Explorer!',
-        'Find out more' => '',
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => 'สลับเป็นโหมดมือถือ',
@@ -5921,6 +5980,9 @@ Thanks for your help!
             'โมดูล ACL อนุญาติให้ปิดตั๋วparent ได้ก็ต่อเมื่อตั๋วchildren ทั้งหมดถูกปิด ("สถานะ" ซึ่งแสดงให้เห็นว่าสถานะจะไม่สามารถใช้ได้สำหรับตั๋วparent จนกระทั่ง ตั๋วchildren ทั้งหมดจะถูกปิด)',
         'Access Control Lists (ACL)' => 'รายการการควบคุมการเข้าถึง (ACL)',
         'AccountedTime' => 'AccountedTime',
+        'Activate Elasticsearch.' => '',
+        'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
+            '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'เปิดใช้งานกลไกการกระพริบของคิวที่มีตั๋วที่เก่าที่สุด',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -5961,19 +6023,31 @@ Thanks for your help!
         'Adds the permanent vacation days.' => '',
         'Admin' => 'ผู้ดูแลระบบ',
         'Admin Area.' => 'ส่วนของแอดมิน',
+        'Admin Contact With Data' => '',
         'Admin Notification' => 'ผู้ดูแลการแจ้งเตือน',
         'Admin area navigation for the agent interface.' => '',
+        'Admin contact with data.' => '',
         'Admin modules overview.' => '',
         'Admin.' => '',
         'Administration' => '',
+        'Agent Contact With Data Search' => '',
         'Agent Customer Search' => '',
         'Agent Customer Search.' => '',
+        'Agent Dynamic Field Database Detailed Search' => '',
+        'Agent Dynamic Field Database Details' => '',
+        'Agent Dynamic Field Database Search' => '',
         'Agent Name' => 'ชื่อเอเย่นต์',
         'Agent Name + FromSeparator + System Address Display Name' => 'ชื่อตัวแทน + FromSeparator + ระบบที่อยู่ของชื่อที่ใช้แสดง',
         'Agent Preferences.' => 'การตั้งค่าตัวแทน',
         'Agent Statistics.' => '',
         'Agent User Search' => '',
         'Agent User Search.' => '',
+        'Agent contact with data search.' => '',
+        'Agent dynamic field database detailed search.' => '',
+        'Agent dynamic field database details.' => '',
+        'Agent dynamic field database search.' => '',
+        'Agent frontend module registration (disable \'Edit contacts with data\' link if if there is no source field configured).' =>
+            '',
         'Agent interface article notification module to check PGP.' => 'โมดูลการแจ้งเตือนบทความในอินเตอร์เฟซของเอเย่นต์เพื่อตรวจสอบ PGP',
         'Agent interface article notification module to check S/MIME.' =>
             'โมดูลการแจ้งเตือนบทความในอินเตอร์เฟซของเอเย่นต์เพื่อตรวจสอบ S/MIME.',
@@ -5993,6 +6067,8 @@ Thanks for your help!
             'โมดูลอินเตอร์เฟซเอเย่นต์ในการดูจำนวนตั๋วที่ใน การบริการของฉัน การควบคุมการเข้าถึงเพิ่มเติมเพื่อแสดงหรือไม่แสดงการเชื่อมโยงนี้สามารถทำได้โดยใช้คีย์ "กลุ่ม บริษัท " และเนื้อหาเช่น"rw:group1;move_into:group2".',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'โมดูลอินเตอร์เฟซเอเย่นต์ในการดูจำนวนตั๋วที่ถูกดูแล้ว การควบคุมการเข้าถึงเพิ่มเติมเพื่อแสดงหรือไม่แสดงการเชื่อมโยงนี้สามารถทำได้โดยใช้คีย์ "กลุ่ม บริษัท " และเนื้อหาเช่น"rw:group1;move_into:group2".',
+        'AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.' =>
+            '',
         'AgentTicketZoom widget that displays a table of objects linked to the ticket.' =>
             '',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
@@ -6002,7 +6078,6 @@ Thanks for your help!
         'Agents ↔ Groups' => '',
         'Agents ↔ Roles' => '',
         'All CustomerIDs of a customer user.' => '',
-
         'All customer users of a CustomerID' => 'ลูกค้าผู้ใช้ทั้งหมดของ CustomerID',
         'All escalated tickets' => 'ตั๋วการขยายทั้งหมด',
         'All new tickets, these tickets have not been worked on yet' => 'ตั๋วใหม่ทั้งหมดเหล่านี้ยังไม่ได้ถูกทำงาน',
@@ -6109,6 +6184,7 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => 'ภาษาอาหรับ (ซาอุดีอาระเบีย)',
         'ArticleTree' => 'ArticleTree',
         'Attachment Name' => 'ชื่อเอกสารที่แนบมา',
+        'Autoloading of Znuny4OTOBOPasswordPolicy extensions.' => '',
         'Automated line break in text messages after x number of chars.' =>
             'แบ่งบรรทัดอัตโนมัติในข้อความหลังจากจำนวนตัวอักษร  x ',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -6147,10 +6223,14 @@ Thanks for your help!
         'Cache time in seconds for the web service config backend.' => 'แคชเเวลาป็นวินาทีสำหรับการตั้งค่าส่วนหลังของ web service ',
         'Calendar manage screen.' => '',
         'Catalan' => 'Catalan',
-        'Change password' => 'เปลี่ยนรหัสผ่าน',
+        'Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+            '',
+        'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+            '',
+        'Change Ticket' => '',
+        'Change Ticket information' => '',
         'Change queue!' => 'เปลี่ยนคิว!',
         'Change the customer for this ticket' => 'เปลี่ยนลูกค้าสำหรับตั๋วนี้',
-        'Change the free fields for this ticket' => 'เปลี่ยนฟิลด์ฟรีสำหรับตั๋วนี้',
         'Change the owner for this ticket' => 'เปลี่ยนเจ้าของตั๋วนี้',
         'Change the priority for this ticket' => 'เปลี่ยนลำดับความสำคัญสำหรับตั๋วนี้',
         'Change the responsible for this ticket' => 'เปลี่ยนผู้รับผิดชอบสำหรับตั๋วนี้',
@@ -6235,7 +6315,7 @@ Thanks for your help!
         'Configure any additional readonly mirror databases that you want to use.' =>
             'กำหนดค่าฐานข้อมูลสะท้อนของ อ่านเท่านั้น ที่คุณต้องการใช้',
         'Configure sending of support data to OTOBO Team for improved support.' =>
-            'กำหนดค่าการส่งข้อมูลการสนับสนุนให้กับกลุ่มOTOBO สำหรับการสนับสนุนที่ดีขึ้น',
+            'กำหนดค่าการส่งข้อมูลการสนับสนุนให้กับกลุ่มOTRS สำหรับการสนับสนุนที่ดีขึ้น',
         'Configure which screen should be shown after a new ticket has been created.' =>
             'กำหนดค่าว่าหน้าจอใดควรจะแสดงหลังจากที่ตั๋วใหม่ถูกสร้างขึ้น',
         'Configure your own log text for PGP.' => 'กำหนดค่าข้อความบันทึกของคุณสำหรับ PGP',
@@ -6260,6 +6340,7 @@ Thanks for your help!
             'ควบคุมหากตั๋วและบทความค่าสถานะที่มองเห็นได้จะถูกลบออกเมื่อตั๋วถูกเก็บไว้',
         'Converts HTML mails into text messages.' => 'แปลงอีเมล HTML เป็นข้อความ',
         'Create New process ticket.' => 'สร้างตั๋วกระบวนการใหม่',
+        'Create Templates for AdminDynamicFieldTitle' => '',
         'Create Ticket' => '',
         'Create a new calendar appointment linked to this ticket' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'สร้างและจัดการข้อตกลงระดับการให้บริการ (SLAs)',
@@ -6291,6 +6372,7 @@ Thanks for your help!
         'Create new phone ticket.' => 'สร้างตั๋วจากโทรศัพท์ใหม่',
         'Create new process ticket.' => 'สร้างตั๋วกระบวนการใหม่',
         'Create tickets.' => 'สร้างตั๋ว',
+        'Create your first ticket' => 'สร้างตั๋วของคุณครั้งแรก',
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             '',
         'Croatian' => 'ภาษาโครเอเชีย',
@@ -6300,10 +6382,15 @@ Thanks for your help!
             'ข้อความที่กำหนดเองสำหรับหน้าเว็บที่แสดงลูกค้าที่ยังไม่มีตั๋ว(ถ้าคุณต้องการแปลข้อความเหล่านั้น ต้องเพิ่มเข้าไปในโมดูลการแปลที่กำหนดเอง)',
         'Customer Administration' => 'การบริหารลูกค้า',
         'Customer Companies' => 'บริษัทลูกค้า',
+        'Customer Dashboard' => '',
+        'Customer Dynamic Field Database Detailed Search' => '',
+        'Customer Dynamic Field Database Details' => '',
+        'Customer Dynamic Field Database Search' => '',
         'Customer IDs' => '',
         'Customer Information Center Search.' => 'การค้นหาศูนย์ข้อมูลลูกค้า',
         'Customer Information Center search.' => '',
         'Customer Information Center.' => 'ศูนย์ข้อมูลลูกค้า',
+        'Customer Password.' => '',
         'Customer Ticket Print Module.' => 'โมดูลพิมพ์ตั๋วลูกค้า',
         'Customer User Administration' => 'การบริหารลูกค้าผู้ใช้',
         'Customer User Information' => '',
@@ -6313,6 +6400,9 @@ Thanks for your help!
         'Customer Users ↔ Customers' => '',
         'Customer Users ↔ Groups' => '',
         'Customer Users ↔ Services' => '',
+        'Customer dynamic field database detailed search.' => '',
+        'Customer dynamic field database details.' => '',
+        'Customer dynamic field database search.' => '',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             'รายการของลูกค้า (ไอคอน)ซึ่งจะแสดงตั๋วปิดของลูกค้ารายนี้เป็นบล็อกข้อมูล ตั้งค่า CustomerUserLogin เป็น 1 เพื่อค้นหาตั๋วตามชื่อสำหรับเข้าสู่ระบบมากกว่าCustomerID',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -6494,6 +6584,8 @@ Thanks for your help!
             'กำหนดหากเอเย่นต์ควรได้รับอนุญาตในการเข้าสู่ระบบหากพวกเขาไม่มีความลับที่ใช้ร่วมกันเก็บไว้ในการตั้งค่าของพวกเขา เพราะฉะนั้นจึงไม่ได้ใช้ตรวจสอบสองปัจจัย',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'กำหนดหากลูกค้าควรได้รับอนุญาตในการเข้าสู่ระบบหากพวกเขาไม่มีความลับที่ใช้ร่วมกันเก็บไว้ในการตั้งค่าของพวกเขา เพราะฉะนั้นจึงไม่ได้ใช้ตรวจสอบสองปัจจัย',
+        'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
@@ -6573,8 +6665,6 @@ Thanks for your help!
         'Defines the config options for the autocompletion feature.' => 'กำหนดตัวเลือกการตั้งค่าสำหรับฟีเจอร์autocompletion',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             'กำหนดค่าพารามิเตอร์ของการตั้งค่าของรายการนี้จะแสดงในมุมมองการตั้งค่า',
-        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
-            '',
         'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
         'Defines the connections for http/ftp, via a proxy.' => 'กำหนดการเชื่อมต่อสำหรับ http/ftp ผ่านพร็อกซี่',
@@ -6855,8 +6945,6 @@ Thanks for your help!
         'Defines the maximum size (in MB) of the log file.' => 'กำหนดขนาดสูงสุด (เมกะไบต์) ของไฟล์ล็อก',
         'Defines the maximum size in KiloByte of GenericInterface responses that get logged to the gi_debugger_entry_content table.' =>
             'กำหนดขนาดสูงสุดเป็นกิโลไบต์ของการตอบสนอง GenericInterface ที่ได้รับการบันทึกลงในตาราง gi_debugger_entry_content',
-        'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
-            'กำหนดโมดูลที่แสดงการแจ้งเตือนทั่วไปในอินเตอร์เฟซเอเย่นต์ ทั้ง "ข้อความ" - ถ้าถูกกำหนดค่า - หรือเนื้อหาของ "แฟ้ม"จะถูกแสดง',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             'กำหนดโมดูลที่แสดงเอเย่นต์ที่เข้าสู่ระบบในขณะนี้ทั้งหมดในอินเตอร์เฟซเอเย่นต์',
         'Defines the module that shows all the currently logged in customers in the agent interface.' =>
@@ -6866,8 +6954,6 @@ Thanks for your help!
         'Defines the module that shows the currently logged in customers in the customer interface.' =>
             '',
         'Defines the module to authenticate customers.' => 'กำหนดโมดูลในการตรวจสอบลูกค้า',
-        'Defines the module to display a notification if cloud services are disabled.' =>
-            'กำหนดโมดูลเพื่อแสดงการแจ้งเตือนถ้าการบริการคลาวด์ถูกปิดใช้งาน',
         'Defines the module to display a notification in the agent interface if the OTOBO Daemon is not running.' =>
             'กำหนดโมดูลเพื่อแสดงการแจ้งเตือนในอินเตอร์เฟซเอเย่นต์ถ้า OTOBO Daemonไม่ได้ทำงานอยู่',
         'Defines the module to display a notification in the agent interface if the system configuration is out of sync.' =>
@@ -6878,10 +6964,6 @@ Thanks for your help!
             'กำหนดโมดูลเพื่อแสดงการแจ้งเตือนในอินเตอร์เฟซเอเย่นต์ถ้าตัวเอเย่นต์เข้าสู่ระบบในขณะout-of-office ใช้งานอยู่',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
             'กำหนดโมดูลเพื่อแสดงการแจ้งเตือนในอินเตอร์เฟซเอเย่นต์ถ้าตัวเอเย่นต์เข้าสู่ระบบในขณะที่การบำรุงรักษาระบบกำลังใช้งานอยู่',
-        'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
-            '',
-        'Defines the module to display a notification in the agent interface, if the installation of not verified packages is activated (only shown to admins).' =>
-            '',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             'กำหนดโมดูลเพื่อแสดงการแจ้งเตือนในอินเตอร์เฟซเอเย่นต์ถ้าระบบถูกใช้โดยผู้ดูแลระบบ (ปกติคุณไม่ควรทำงานเป็นผู้ดูแลระบบ)',
         'Defines the module to display a notification in the agent interface, if there are invalid sysconfig settings deployed.' =>
@@ -7004,6 +7086,8 @@ Thanks for your help!
             '',
         'Defines the shown links in the footer area of the customer and public interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
             '',
+        'Defines the source dynamic field for storing historical data.' =>
+            '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'กำหนดสิทธิ์มาตรฐานสามารถใช้ได้สำหรับลูกค้าภายในแอพพลิเคชันหากจำเป็นต้องใช้สิทธิ์มากขึ้นคุณสามารถป้อนข้อมูลที่นี่ การกำหนดสิทธิ์จะต้องเป็นรหัสที่ยากที่มีประสิทธิภาพ โปรดตรวจสอบเมื่อเพิ่มสิทธิ์ที่กล่าวถึงข้างต้น, "RW" ยังคงเป็นรายการสุดท้ายที่จะได้รับอนุญาต ',
         'Defines the standard size of PDF pages.' => 'กำหนดขนาดมาตรฐานของหน้า PDF',
@@ -7030,6 +7114,8 @@ Thanks for your help!
             'กำหนดแอตทริบิวต์เป้าหมายในการเชื่อมโยงไปยังฐานข้อมูลของลูกค้าภายนอก เช่น. \'AsPopup PopupType_TicketAction\'',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
             'กำหนดแอตทริบิวต์เป้าหมายในการเชื่อมโยงไปยังฐานข้อมูลของลูกค้าภายนอก เช่น. \'target="cdb"\'.',
+        'Defines the target dynamic fields for storing historical data.' =>
+            '',
         'Defines the ticket appointment type backend for ticket dynamic field date time.' =>
             '',
         'Defines the ticket appointment type backend for ticket escalation time.' =>
@@ -7054,7 +7140,8 @@ Thanks for your help!
             'กำหนดรหัสผ่านในการเข้าถึงการจัดการ SOAP (bin/cgi-bin/rpc.pl).',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
-        'Defines the valid state types for a ticket.' => 'กำหนดประเภทของสถานะที่ถูกต้องสำหรับตั๋ว',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'กำหนดสถานะที่ถูกต้องของตั๋วปลดล็อค เพื่อปลดล็อคตั๋วสคริปต์นี้สามารถนำมาใช้ "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout"',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -7091,7 +7178,7 @@ Thanks for your help!
         'Deletes requested sessions if they have timed out.' => 'ลบเซสชันที่ร้องขอหากหมดเวลา',
         'Delivers extended debugging information in the frontend in case any AJAX errors occur, if enabled.' =>
             '',
-
+        'DeploymentHistory' => '',
         'Detached' => '',
         'Determines if a button to delete a link should be displayed next to each link in each zoom mask.' =>
             '',
@@ -7150,12 +7237,15 @@ Thanks for your help!
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             'คำหยุดดัตช์สำหรับดัชนี Fulltext คำเหล่านี้จะถูกลบออกจากดัชนีการค้นหา',
         'Dynamic Fields Checkbox Backend GUI' => 'ฟิลด์แบบไดนามิก Checkbox Backend GUI',
+        'Dynamic Fields Contact Data Backend GUI' => '',
+        'Dynamic Fields Database Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => 'ฟิลด์แบบไดนามิก Date Time Backend GUI',
         'Dynamic Fields Drop-down Backend GUI' => 'ฟิลด์แบบไดนามิก Drop-down Backend GUI',
         'Dynamic Fields GUI' => ' GUI ฟิลด์แบบไดนามิก',
         'Dynamic Fields Multiselect Backend GUI' => 'ฟิลด์แบบไดนามิก Multiselect Backend GUI',
         'Dynamic Fields Overview Limit' => 'ภาพรวมทีจำกัดของไดมานิคฟิลด์',
         'Dynamic Fields Text Backend GUI' => 'ฟิลด์แบบไดนามิก ฟิลด์แบบไดนามิก',
+        'Dynamic Fields Web Service Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             'ฟิลด์แบบไดนามิก ถูกนำมาใช้เพื่อส่งออกผลการค้นหาในรูปแบบ CSV',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
@@ -7227,7 +7317,11 @@ Thanks for your help!
         'Edit Customer Companies.' => 'แก้ไขลูกค้าบริษัท',
         'Edit Customer Users.' => 'แก้ไขผู้ใช้ลูกค้า',
         'Edit appointment' => '',
+        'Edit contacts with data' => '',
+        'Edit contacts with data.' => '',
         'Edit customer company' => 'แก้ไขลูกค้าบริษัท',
+        'Elasticsearch' => '',
+        'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'ที่อยู่อีเมล',
         'Email Outbound' => 'อีเมลขาออก',
         'Email Resend' => '',
@@ -7272,6 +7366,8 @@ Thanks for your help!
         'Escalation view' => 'มุมมองการขยาย',
         'EscalationTime' => 'เวลาของการขยาย',
         'Estonian' => 'ภาษาเอสโตเนีย',
+        'Event module registration (store historical data in dynamic fields).' =>
+            '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             'การลงทะเบียนโมดูลเหตุการณ์ เพื่อให้ได้ประสิทธิภาพมากขึ้นคุณสามารถกำหนดเหตุการณ์ตัวเรียกโฆษณา (e. ก. จัดกิจกรรม => TicketCreate)',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -7299,7 +7395,8 @@ Thanks for your help!
             'รันคำสั่งที่กำหนดเองหรือโมดูล หมายเหตุ: หากโมดูลมีการใช้ฟังก์ชั่นเป็นสิ่งจำเป็น',
         'Executes follow-up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             'ดำเนินการตรวจการติดตามผลในการตรวจสอบใน In-Reply-To หรือการอ้างอิงข้อมูลส่วนหัวสำหรับอีเมลที่ไม่ได้หมายเลขตั๋วในเนื้อเรื่อง',
-        'Executes follow-up checks on OTOBO Header \'X-OTOBO-Bounce\'.' => '',
+        'Executes follow-up checks on OTOBO Header \'X-OTOBO-Bounce\'.' =>
+            '',
         'Executes follow-up checks on attachment contents for mails that don\'t have a ticket number in the subject.' =>
             'ดำเนินการตรวจการติดตามผลในการตรวจสอบในเนื้อหาของสิ่งที่แนบมาสำหรับอีเมลที่ไม่ได้หมายเลขตั๋วในเนื้อเรื่อง',
         'Executes follow-up checks on email body for mails that don\'t have a ticket number in the subject.' =>
@@ -7315,6 +7412,18 @@ Thanks for your help!
         'Fetch incoming emails from configured mail accounts.' => 'ดึงข้อมูลอีเมลขาเข้าจากบัญชีอีเมลการกำหนดค่า',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
             'เรียกแพคเกจผ่านพร็อกซี่ เขียนทับ "WebUserAgent::Proxy".',
+        'Fields of the customer company index, used for the company fulltext search. Fields are also stored, but are not mandatory for the overall functionality.' =>
+            '',
+        'Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
+            '',
+        'Fields stored in the customer company index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
+            '',
+        'Fields stored in the customer user index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
+            '',
+        'Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
+            '',
+        'Fields to be searched in ticket index. Fields are also stored, but are not mandatory for the overall functionality.' =>
+            '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.' =>
             'ไฟล์ที่แสดงอยู่ในโมดูล Kernel::Modules::AgentInfo ซึ่งอยู่ใต้ Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.',
         'Filter for debugging ACLs. Note: More ticket attributes can be added in the format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>.' =>
@@ -7342,8 +7451,8 @@ Thanks for your help!
             'บังคับให้เลือกสถานภาพของตั๋วที่แตกต่างกัน (จากปัจจุบัน) หลังจากการดำเนินการล็อค กําหนดสถานภาพในปัจจุบันเป็นคีย์และสถานภาพถัดไปหลังจากการดำเนินการล็อคเป็นเนื้อหา',
         'Forces to unlock tickets after being moved to another queue.' =>
             'Forcesที่จะปลดล็อคตั๋วหลังจากที่ถูกย้ายไปยังอีกคิว',
+        'Format to be ingested' => '',
         'Forwarded to "%s".' => 'ส่งต่อไปยัง "%s".',
-        'Free Fields' => 'ฟิลด์ฟรี',
         'French' => 'ภาษาฝรั่งเศส',
         'French (Canada)' => 'ภาษาฝรั่งเศษ (แคนาดา)',
         'French stop words for fulltext index. These words will be removed from the search index.' =>
@@ -7365,6 +7474,8 @@ Thanks for your help!
         'Full value' => 'ค่าเต็ม',
         'Fulltext index regex filters to remove parts of the text.' => 'ดัชนี regex ของ Fulltext กรองเพื่แลบบางส่วนของข้อความ',
         'Fulltext search' => 'ค้นหาข้อความฉบับเต็ม',
+        'Fulltext search using Elasticsearch' => '',
+        'FulltextES' => '',
         'Galician' => 'ภาษากาลิเซีย',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
@@ -7382,6 +7493,8 @@ Thanks for your help!
         'GenericInterface Web Service History GUI' => '',
         'GenericInterface Web Service Mapping GUI' => '',
         'GenericInterface module registration for an error handling module.' =>
+            '',
+        'GenericInterface module registration for the PassThrough invoker layer.' =>
             '',
         'GenericInterface module registration for the invoker layer.' => 'การลงทะเบียนโมดูล GenericInterface สำหรับชั้นของผู้ร้องขอ',
         'GenericInterface module registration for the mapping layer.' => 'การลงทะเบียนโมดูล GenericInterface สำหรับชั้นของการทำแผนที่',
@@ -7664,6 +7777,7 @@ Thanks for your help!
             '',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>
             '',
+        'Maximal number of results returned by ES per field.' => '',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
             '',
         'Maximum Number of a calendar shown in a dropdown.' => '',
@@ -7673,6 +7787,7 @@ Thanks for your help!
             '',
         'Maximum number of active calendars in overview screens. Please note that large number of active calendars can have a performance impact on your server by making too much simultaneous calls.' =>
             '',
+        'Maximum number of results returned from the quick result.' => '',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             '',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
@@ -7732,7 +7847,6 @@ Thanks for your help!
             '',
         'Module to use database filter storage.' => 'โมดูลที่จะใช้จัดเก็บฐานข้อมูลของตัวกรอง',
         'Module used to detect if attachments are present.' => '',
-        'Multiselect' => 'หลายรายการ',
         'My Queues' => 'คิวของฉัน',
         'My Services' => 'การบริการของฉัน',
         'My Tickets.' => 'ตั๋วของฉัน',
@@ -7741,7 +7855,6 @@ Thanks for your help!
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             '',
         'NameX' => 'NameX',
-        'New Ticket' => 'ตั๋วใหม่',
         'New Tickets' => 'ตั๋วใหม่',
         'New Window' => 'หน้าต่างใหม่',
         'New Year\'s Day' => 'วันขึ้นปีใหม่',
@@ -7762,13 +7875,14 @@ Thanks for your help!
         'Number of displayed tickets' => 'จำนวนตั๋วที่แสดง',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '',
+        'Number of shards (NS) and replicas (NR) for the index.' => '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             '',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO Team Services' => '',
         'OTOBO News' => 'ข่าวOTOBO',
+        'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
@@ -7789,6 +7903,8 @@ Thanks for your help!
         'Out Of Office' => 'ออกจากสำนักงาน',
         'Out Of Office Time' => 'หมดเวลาทำงาน',
         'Out of Office users.' => '',
+        'Output filter to inject the necessary Dynamic field names in hidden input.' =>
+            '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets.' => 'ภาพรวมตั๋วส่งต่อ',
@@ -7887,6 +8003,7 @@ Thanks for your help!
         'Picture Upload' => 'อัพโหลดรูปภาพ',
         'Picture upload module.' => 'โมดูลอัพโหลดรูปภาพ',
         'Picture-Upload' => 'อัพโหลด-รูปภาพ',
+        'Please click the button below to create your first ticket.' => 'กรุณาคลิกที่ปุ่มด้านล่างเพื่อสร้างตั๋วของคุณครั้งแรก',
         'Plugin search' => '',
         'Plugin search module for autocomplete.' => '',
         'Polish' => 'ภาษาโปแลนด์',
@@ -7908,6 +8025,8 @@ Thanks for your help!
         'Product News' => 'ข่าวผลิตภัณฑ์',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
+        'Protection against brute force attacks. MaxAttempt: How many failed login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered.' =>
+            '',
         'Provides a matrix overview of the tickets per state per queue' =>
             '',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
@@ -7917,8 +8036,10 @@ Thanks for your help!
         'Queue view' => 'มุมมองคิว',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
+        'Rebuilds the ACL preselection cache.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
             '',
+        'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => 'ช่วงเวลาการฟื้นฟู',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
@@ -7936,7 +8057,6 @@ Thanks for your help!
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
         'Reports' => 'รายงาน',
-
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -7975,7 +8095,6 @@ Thanks for your help!
         'Resent email to "%s".' => '',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
             '',
-
         'Responsible Tickets' => 'ผู้รับผิดชอบตั๋ว',
         'Responsible Tickets.' => 'ผู้รับผิดชอบตั๋ว',
         'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
@@ -7988,6 +8107,8 @@ Thanks for your help!
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
         'Running Process Tickets' => '',
+        'Runs an initial wildcard search of the existing contacts with data when accessing the AdminContactWD module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
@@ -7996,8 +8117,6 @@ Thanks for your help!
             '',
         'Russian' => 'ภาษารัสเซีย',
         'S/MIME Certificates' => 'ใบรับรอง S/MIME',
-        'SMS' => 'SMS',
-        'SMS (Short Message Service)' => 'SMS (Short Message Service)',
         'Salutations' => 'คำขึ้นต้น',
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
@@ -8055,8 +8174,6 @@ Thanks for your help!
         'Service Level Agreements' => 'ข้อตกลงระดับการให้บริการ',
         'Service view' => 'มุมมองบริการ',
         'ServiceView' => 'มุมมองบริการ',
-        'Set a new password by filling in your current password and a new one.' =>
-            '',
         'Set sender email addresses for this system.' => '',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
@@ -8151,13 +8268,7 @@ Thanks for your help!
             '',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             '',
-        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.' =>
-            '',
-        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
-            '',
         'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
-            '',
-        'Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime.' =>
             '',
         'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
             '',
@@ -8276,6 +8387,7 @@ Thanks for your help!
         'Sets the timeout (in seconds) for http/ftp downloads.' => '',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             '',
+        'Settings for the customer login screen.' => '',
         'Shared Secret' => 'ความลับที่ใช้ร่วมกัน',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
             '',
@@ -8527,7 +8639,6 @@ Thanks for your help!
             '',
         'Specify the username to authenticate for the first mirror database.' =>
             '',
-        'Stable' => '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             '',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -8539,7 +8650,6 @@ Thanks for your help!
             '',
         'Stat#' => 'Stat#',
         'States' => 'สถานภาพ',
-        'Statistic Reports overview.' => '',
         'Statistics overview.' => '',
         'Status view' => 'ดูสถานะ',
         'Stopped response time escalation.' => '',
@@ -8555,6 +8665,7 @@ Thanks for your help!
         'System Address Display Name' => '',
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
+        'System Configuration Setting History' => '',
         'System Maintenance' => '',
         'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => '',
@@ -8612,6 +8723,8 @@ Thanks for your help!
             '',
         'The value of the From field' => '',
         'Theme' => 'ตีม',
+        'This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.' =>
+            '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             '',
         'This is a Description for Comment on Framework.' => '',
@@ -8620,6 +8733,9 @@ Thanks for your help!
             '',
         'This is the default orange - black skin.' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
+            '',
+        'This module is being used to extend the password policy.' => '',
+        'This module is part of the admin area of OTOBO Community Edition.' =>
             '',
         'This module is part of the admin area of OTOBO.' => '',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
@@ -8637,7 +8753,6 @@ Thanks for your help!
         'This setting is deprecated. Set OTOBOTimeZone instead.' => '',
         'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
             '',
-        'This will allow the system to send text messages via SMS.' => '',
         'Ticket Close.' => 'ตั๋วปิด',
         'Ticket Compose Bounce Email.' => '__',
         'Ticket Compose email Answer.' => '',
@@ -8677,6 +8792,8 @@ Thanks for your help!
         'Ticket zoom view.' => '',
         'TicketNumber' => '',
         'Tickets.' => '',
+        'Tile registration for the CustomerDashboard. Module is required.' =>
+            '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
         'To accept login information, such as an EULA or license.' => '',
@@ -8719,10 +8836,10 @@ Thanks for your help!
         'Updates the ticket index accelerator.' => '',
         'Upload your PGP key.' => '',
         'Upload your S/MIME certificate.' => '',
+        'Use Redis::Fast instead of Redis.' => '',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             '',
-        'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>
-            '',
+        'Use specified Redis logical database.' => '',
         'User Profile' => 'โปรไฟล์ผู้ใช้',
         'UserFirstname' => '',
         'UserLastname' => '',
@@ -8731,7 +8848,6 @@ Thanks for your help!
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '',
         'Vietnam' => '',
-        'View all attachments of the current ticket' => '',
         'View performance benchmark results.' => '',
         'Watch this ticket' => '',
         'Watched Tickets' => 'ตั๋วดูแล้ว',
@@ -8741,8 +8857,10 @@ Thanks for your help!
             '',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             '',
+        'Web Service' => '',
         'Web Services' => 'Web Services',
-        'Web View' => '',
+        'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
+            '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
@@ -8751,7 +8869,11 @@ Thanks for your help!
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
+        'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
+            '',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
+            '',
+        'Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes.' =>
             '',
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
@@ -8817,6 +8939,7 @@ Thanks for your help!
         'Apr',
         'April',
         'Are you sure you want to delete this appointment? This operation cannot be undone.',
+        'Are you sure you want to remove all user values?',
         'Are you sure you want to update all installed packages?',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
         'Article display',
@@ -8841,6 +8964,7 @@ Thanks for your help!
         'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
+        'Click to select or drop files here.',
         'Clone web service',
         'Close preview',
         'Close this dialog',
@@ -8917,7 +9041,6 @@ Thanks for your help!
         'Feb',
         'February',
         'Filters',
-        'Find out more',
         'Finished',
         'First select a customer user, then select a customer ID to assign to this ticket.',
         'Fr',
@@ -9034,6 +9157,7 @@ Thanks for your help!
         'Resources',
         'Restore default settings',
         'Restore web service configuration',
+        'Results',
         'Rule',
         'Running',
         'Sa',
@@ -9099,9 +9223,10 @@ Thanks for your help!
         'This Transition is already used for this Activity. You cannot use it twice!',
         'This TransitionAction is already used in this Path. You cannot use it twice!',
         'This address already exists on the address list.',
+        'This dynamic field database value is already selected.',
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
-        'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.934194864818908;
+    $Self->{Completeness}        = 0.902049731182796;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -301,23 +301,23 @@ sub Data {
         'Support data collector' => 'Сбор данных для поддержки',
         'Hint' => 'Подсказка',
         'Currently support data is only shown in this system.' => 'В настоящее время эти данные для поддержки только отображаются в этой системе.',
-        'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'Настоятельно рекомендуется отправлять эти данные в OTOBO Team для получения более точной поддержки.',
+        'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
+            '',
         'Configuration' => 'Конфигурация',
         'Send support data' => 'Выслать данные для технической поддержки',
-        'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'Это позволит системе оправлять дополнительную информацию для поддержки в OTOBO Team.',
+        'This will allow the system to send additional support data information to the OTOBO team.' =>
+            '',
         'Update' => 'Обновление',
         'System Registration' => 'Регистрация системы',
-        'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'Для включения возможности отсылки данных, зарегистрируйте свою систему в OTOBO Team или обновите ваши регистрационные данные (убедитесь, что активирована функция \'send support data/послать данные для поддержки\'.)',
+        'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+            '',
         'Register this System' => 'Зарегистрируйте эту систему',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'System Registration отключена для вашей системы. Проверьте настройки.',
 
         # Template: AdminCloudServices
-        'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'Регистрация системы - это сервис от OTOBO Team, который предоставляет много преимуществ!',
+        'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
+            '',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             'Обращаем внимание, что использование облачных сервисов OTOBO требует регистрации системы.',
         'Register this system' => 'Зарегистрировать эту систему',
@@ -397,13 +397,22 @@ sub Data {
         'Communication Log Details' => 'Подробный просмотр журнала сеансов связи',
         'Please select an entry from the list.' => 'Выберите запись из списка.',
 
+        # Template: AdminContactWD
+        'Contact with data management' => '',
+        'Contact with data' => 'Contact with data',
+        'Add contact with data' => '',
+        'Edit contact with data' => '',
+        'Back to search results' => 'Назад к результатам поиска',
+        'Select' => 'Выбор',
+        'Search' => 'Поиск',
+        'Wildcards like \'*\' are allowed.' => 'Разрешены шаблоны типа \'*\'.',
+        'Please enter a search term to look for contacts with data.' => '',
+        'Valid' => 'Valid - действительность',
+
         # Template: AdminCustomerCompany
         'Customer Management' => 'Управление Компаниями',
         'Add Customer' => 'Добавить компанию',
         'Edit Customer' => 'Редактировать компанию',
-        'Search' => 'Поиск',
-        'Wildcards like \'*\' are allowed.' => 'Разрешены шаблоны типа \'*\'.',
-        'Select' => 'Выбор',
         'List (only %s shown - more available)' => 'Список (%s показано, доступно еще)',
         'total' => 'всего',
         'Please enter a search term to look for customers.' => 'Введите запрос для поиска компании.',
@@ -445,7 +454,6 @@ sub Data {
         'Customer User Management' => 'Управление учётными записями клиентов',
         'Add Customer User' => 'Добавить учётную запись клиента',
         'Edit Customer User' => 'Редактировать  учётную запись клиента',
-        'Back to search results' => 'Назад к результатам поиска',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             'Необходимо для наличия данных о клиенте и подключения к системе через интерфейс клиента',
         'List (%s total)' => 'Список (%s всего)',
@@ -513,16 +521,15 @@ sub Data {
         'Add new field for object' => 'Добавить новое поле для объекта',
         'Filter for Dynamic Fields' => 'Фильтр для динамических полей',
         'Filter for dynamic fields' => 'Фильтр для динамических полей',
-        'More Business Fields' => 'Больше Business Fields',
-        'Would you like to benefit from additional dynamic field types for businesses? Upgrade to %s to get access to the following field types:' =>
-            'Желаете получить больше выгоды от динамических полей для бизнеса? Обновите систему до %sдля доступа к следующим дополнительным типам полей:',
+        'New OTOBO Community  Fields' => '',
+        'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
+            '',
         'Database' => 'База данных',
         'Use external databases as configurable data sources for this dynamic field.' =>
             'Используйте внешние БД как конфигурируемые источники данных для этих динамических полей',
         'Web service' => 'Веб-сервисы',
         'External web services can be configured as data sources for this dynamic field.' =>
             'Внешние веб-сервисы могут быть настроены как источники данных для этих динамических полей.',
-        'Contact with data' => 'Contact with data',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
             'Эта возможность позволяет добавить (несколько) контакты с данными к заявкам.',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
@@ -562,6 +569,66 @@ sub Data {
         'Default value' => 'Значение по умолчанию',
         'This is the default value for this field.' => 'Это значение по умолчанию для данного поля.',
 
+        # Template: AdminDynamicFieldContactWD
+        'Add or edit contacts' => '',
+        'To add contacts to this field please fill out all the needed information and save it.' =>
+            '',
+        'Click on the field name from the overview to edit it and find the corresponding action in the sidebar or from the \'Tickets\' menu.' =>
+            '',
+        'Name Field' => '',
+        'ValidID Field' => '',
+        'Other Fields' => '',
+        'Key' => 'Ключ',
+        'Value' => 'Значение',
+        'Remove value' => 'Удалить значение',
+        'Add Field' => '',
+        'Add value' => 'Добавить значение',
+        'These are the possible data attributes for contacts.' => '',
+        'Mandatory fields' => '',
+        'Comma separated list of mandatory keys (optional). Keys \'Name\' and \'ValidID\' are always mandatory and doesn\'t have to be listed here.' =>
+            '',
+        'Sorted fields' => '',
+        'Comma separated list of keys in sort order (optional). Keys listed here come first, all remaining fields afterwards and sorted alphabetically.' =>
+            '',
+        'Searchable fields' => '',
+        'Comma separated list of searchable keys (optional). Key \'Name\' is always searchable and doesn\'t have to be listed here.' =>
+            '',
+        'Translatable values' => 'Переводимые значения',
+        'If you activate this option the values will be translated to the user defined language.' =>
+            'Если включить эту опцию, значения, при отображении, будут переведены на заданный язык.',
+        'Note' => 'Заметка',
+        'You need to add the translations manually into the language translation files.' =>
+            'Вам необходимо вручную добавить переводы значений в файлы переводов для используемых языков.',
+
+        # Template: AdminDynamicFieldDB
+        'Possible values' => 'Возможные значения',
+        'Datatype' => '',
+        'Filter' => 'Фильтр',
+        'Searchfield' => '',
+        'Listfield' => '',
+        'Show link' => 'Показывать ссылку',
+        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
+            'Здесь можно указать необязательную HTTP-ссылку для значения поля в экранах Обзоров и Подробного просмотра',
+        'Example' => 'Пример',
+        'Link for preview' => 'Ссылка для предпросмотра',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
+            'Эта ссылка будет использована для предпросмотра, который будет отображаться по наведению на нее в экране заявки. Чтобы эта опция работала, поле со ссылкой выше также должно быть заполнено.',
+        'SID' => 'SID',
+        'Driver' => '',
+        'Server' => '',
+        'Port' => 'Порт',
+        'Table / View' => '',
+        'User' => 'Пользователь',
+        'Password' => 'Пароль',
+        'Identifier' => 'Идентификатор',
+        'Must be unique column from the table entered in Table/View.' => '',
+        'Multiselect' => 'Multiselect - множественный выбор',
+        'CacheTTL' => '',
+        'Searchprefix' => '',
+        'Searchsuffix' => '',
+        'Result Limit' => '',
+        'Case Sensitive' => '',
+
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Диапазон дат по умолчанию',
         'This field must be numeric.' => 'Это поле должно быть числовым',
@@ -574,35 +641,17 @@ sub Data {
         'Years in the past to display (default: 5 years).' => 'Число лет в прошлом для отображения (по умолчанию: 5 лет)',
         'Years in the future' => 'Лет в будущее',
         'Years in the future to display (default: 5 years).' => 'Число лет в будущее для отображения (по умолчанию: 5 лет)',
-        'Show link' => 'Показывать ссылку',
-        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
-            'Здесь можно указать необязательную HTTP-ссылку для значения поля в экранах Обзоров и Подробного просмотра',
         'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
             '',
-        'Example' => 'Пример',
-        'Link for preview' => 'Ссылка для предпросмотра',
-        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
-            'Эта ссылка будет использована для предпросмотра, который будет отображаться по наведению на нее в экране заявки. Чтобы эта опция работала, поле со ссылкой выше также должно быть заполнено.',
         'Restrict entering of dates' => 'Ограничить ввод дат',
         'Here you can restrict the entering of dates of tickets.' => 'Здесь вы можете ограничить ввода дат в заявке.',
 
         # Template: AdminDynamicFieldDropdown
-        'Possible values' => 'Возможные значения',
-        'Key' => 'Ключ',
-        'Value' => 'Значение',
-        'Remove value' => 'Удалить значение',
-        'Add value' => 'Добавить значение',
         'Add Value' => 'Добавить Значение',
         'Add empty value' => 'Добавить пустое значение',
         'Activate this option to create an empty selectable value.' => 'Отметьте эту опцию для создания пустого выбираемого значения.',
         'Tree View' => 'Иерархический вид',
         'Activate this option to display values as a tree.' => 'Включите для отображения в иерархическом виде.',
-        'Translatable values' => 'Переводимые значения',
-        'If you activate this option the values will be translated to the user defined language.' =>
-            'Если включить эту опцию, значения, при отображении, будут переведены на заданный язык.',
-        'Note' => 'Заметка',
-        'You need to add the translations manually into the language translation files.' =>
-            'Вам необходимо вручную добавить переводы значений в файлы переводов для используемых языков.',
 
         # Template: AdminDynamicFieldText
         'Number of rows' => 'Число строк',
@@ -618,6 +667,30 @@ sub Data {
         'Invalid RegEx' => 'Некорректное регулярное выражение',
         'Error Message' => 'Сообщение об ошибке',
         'Add RegEx' => 'Добавить регулярное выражение',
+
+        # Template: AdminDynamicFieldTitle
+        'Template' => 'Шаблон',
+        'Style' => '',
+        'bold' => '',
+        'italic' => '',
+        'underline' => '',
+        'Font style of the label.' => '',
+        'Size' => 'Размер',
+        'Font size of the label.' => '',
+        'Color in hex.' => '',
+
+        # Template: AdminDynamicFieldWebService
+        'This field is required' => 'Это поле обязательно',
+        'The web service to be executed for possible values.' => '',
+        'Invoker' => '',
+        'The invoker to be used to perform requests (invoker needs to be of type \'Generic::PassThrough\').' =>
+            '',
+        'Activate this option to allow multiselect on results.' => '',
+        'Cache TTL' => '',
+        'Cache time to live (in minutes), to save the retrieved possible values.' =>
+            '',
+        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens. Optional HTTP link works only for single-select fields.' =>
+            '',
 
         # Template: AdminEmail
         'Admin Message' => 'Сообщение администратора',
@@ -1036,8 +1109,8 @@ sub Data {
         'Endpoint' => 'Конечная точка',
         'URI to indicate specific location for accessing a web service.' =>
             'URI для указания точного расположения для доступа к веб-сервису.',
-        'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
-            'например, https://www.otrs.com:10745/api/v1.0 (без обратных слэшей)',
+        'e.g https://www.otobo.ch:10745/api/v1.0 (without trailing backslash)' =>
+            '',
         'Timeout' => 'Timeout',
         'Timeout value for requests.' => 'Значение Timeout для запросов.',
         'Authentication' => 'Аутентификация',
@@ -1079,6 +1152,9 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'Полный путь к каталогу certification authority, в котором хранятся CA certificates. ',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'например, /opt/otobo/var/certificates/SOAP/CA',
+        'SSL hostname verification.' => '',
+        'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
+            '',
         'Controller mapping for Invoker' => 'Controller mapping для Invoker',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             'Контроллер, на который invoker должен отправлять запросы. Переменные, помеченные \':\', будут заменены значением и переданы вместе с запросом. (например, /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).',
@@ -1243,7 +1319,6 @@ sub Data {
         'Delete account' => 'Удалить учетную запись',
         'Fetch mail' => 'Забрать почту',
         'Do you really want to delete this mail account?' => 'Вы действительно желаете удалить этот почтовый аккаунт?',
-        'Password' => 'Пароль',
         'Example: mail.example.com' => 'Пример: mail.example.com',
         'IMAP Folder' => 'Папка IMAP',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1255,7 +1330,6 @@ sub Data {
         # Template: AdminNavigationBar
         'Administration Overview' => 'Панель администратора',
         'Filter for Items' => 'Фильтр для элементов',
-        'Filter' => 'Фильтр',
         'Favorites' => 'Избранные',
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             'Можно добавить отдельные настройки в Избранные кликнув мышкой по "звездочке" справа в списке параметров.',
@@ -1311,85 +1385,12 @@ sub Data {
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             'Вы можете использовать OTOBO-тэги типа <OTOBO_TICKET_DynamicField_...> для вставки значений из текущей заявки.',
 
-        # Template: AdminOTOBOCommunityInstalled
-        'Manage %s' => 'Упровление %s',
-        'Downgrade to OTOBO' => 'Обновиться до OTOBO',
-        'Read documentation' => 'Читайте документацию',
-        '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
-            '%s выполняет регулярную связь с cloud.otrs.com для проверки доступных обновлений и срока действия основного договора.',
-        'Unauthorized Usage Detected' => 'Обнаружено несанкционированное использование ',
-        'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
-            'Эта система использует %s без соответствующей лицензии! Свяжитесь, пожалуйста с %s для обновления или активации вашего контракта!',
-        '%s not Correctly Installed' => '%s некорректно установлен',
-        'Your %s is not correctly installed. Please reinstall it with the button below.' =>
-            'Ваш %s  некорректно установлен. Пожалуйста, переустановите его с помощью кнопки расположенной ниже.',
-        'Reinstall %s' => 'Переустановите %s ',
-        'Your %s is not correctly installed, and there is also an update available.' =>
-            'Ваш %s некорректно установлен, а также доступно обновление для него.',
-        'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
-            'Вы можете либо переустановить текущую версию продукта, либо обновить его с помощью кнопок расположенных ниже (рекомендуется выполнить обновление).',
-        'Update %s' => 'Обновить %s ',
-        '%s Not Yet Available' => '%s в данный момент еще недоступен',
-        '%s will be available soon.' => '%s скоро будет доступен.',
-        '%s Update Available' => 'Доступно обновление для %s',
-        'An update for your %s is available! Please update at your earliest!' =>
-            'Обновление для вашего %s  доступно! Обновите его в ближайшее время!',
-        '%s Correctly Deployed' => '%s правильно развернут/установлен',
-        'Congratulations, your %s is correctly installed and up to date!' =>
-            'Поздравляем, ваш %s правильно установлен и имеет последнюю версию!',
-
-        # Template: AdminOTOBOCommunityNotInstalled
-        'Go to the OTOBO customer portal' => 'Перейти на портал клиентов OTOBO',
-        '%s will be available soon. Please check again in a few days.' =>
-            'Обновление для %s будет скоро доступно. Проверьте повторно в ближайшие дни.',
-        'Please have a look at %s for more information.' => 'Пожалуйста, обратитесь к %s за дополнительной информацией.',
-        'Your OTOBO is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            'Ваша OTOBO - базовая версия для последующих действий в будущем. Пожалуйста зарегистрируйтесь перед тем, как продолжить процесс обновления %s! ',
-        'Before you can benefit from %s, please contact %s to get your %s contract.' =>
-            'Для получения пользы от использования %s, свяжитесь с %s для получения вашего контракта на %s.',
-        'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTOBO can connect to cloud.otrs.com via port 443.' =>
-            'Соединение с cloud.otrs.com по HTTPS не может быть установлено. Убедитесь, что ваша система OTOBO использует порт 443 для соединения с cloud.otrs.com.',
-        'Package installation requires patch level update of OTOBO.' => 'Установка пакета требует обновление OTOBO уровня патч.',
-        'Please visit our customer portal and file a request.' => 'Посетите наш клиентский портал и отправьте запрос.',
-        'Everything else will be done as part of your contract.' => 'Все остальное будет сделано в рамках вашего контракта.',
-        'Your installed OTOBO version is %s.' => 'Установлена OTOBO версии %s.',
-        'To install this package, you need to update to OTOBO %s or higher.' =>
-            'Для установки пакета необходимо обновить OTOBO до версии %s или выше.',
-        'To install this package, the Maximum OTOBO Version is %s.' => 'Для установки пакета необходима версия OTOBO не выше %s.',
-        'To install this package, the required Framework version is %s.' =>
-            'Для установки этого пакета требуется Framework версии %s',
-        'Why should I keep OTOBO up to date?' => 'Почему я должен постоянно обновлять OTOBO?',
-        'You will receive updates about relevant security issues.' => 'Вы получите обновления о соответствующих выпусках безопасности.',
-        'You will receive updates for all other relevant OTOBO issues' => 'Вы получите обновления для всех других соответствующих вопросов OTOBO',
-        'With your existing contract you can only use a small part of the %s.' =>
-            'Ваш существующий контракт позволяет использовать лишь малую часть возможностей %s.',
-        'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
-            'Если вы желаете получить все возможности %s обновите свой контракт! Свяжитесь с %s.',
-
-        # Template: AdminOTOBOCommunityUninstall
-        'Cancel downgrade and go back' => 'Прервать процесс возврата к предыдущей версии и вернуться назад',
-        'Go to OTOBO Package Manager' => 'Перейти к Менеджеру пакетов OTOBO ',
-        'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
-            'Извините, но вы не можете сделать возврат к предыдущей версии из-за следующих пакетов, которые зависят от %s:',
-        'Vendor' => 'Изготовитель',
-        'Please uninstall the packages first using the package manager and try again.' =>
-            'Пожалуйста, деинсталлируйте сначала пакеты с помощью Менеджера пакетов и попробуйте повторить заново.',
-        'You are about to downgrade to OTOBO and will lose the following features and all data related to these:' =>
-            'Вы собираетесь перейти на одну их предыдущих версий OTOBO и потеряете следующие возможности и все данные, связанные с ними:',
-        'Chat' => 'Чат',
-        'Report Generator' => 'Генератор отчетов',
-        'Timeline view in ticket zoom' => 'Хронологический вид при подробном просмотре заявки',
-        'DynamicField ContactWithData' => 'Динамическое поле ContactWithData',
-        'DynamicField Database' => 'База данных Динамических полей',
-        'SLA Selection Dialog' => 'Диалог выбора SLA ',
-        'Ticket Attachment View' => 'Обзор вложений заявки',
-        'The %s skin' => 'Обложка %s',
-
         # Template: AdminPGP
         'PGP Management' => 'Управление подписями PGP',
         'Add PGP Key' => 'Добавить PGP ключ',
         'PGP support is disabled' => 'Поддержка PGP отключена',
-        'To be able to use PGP in OTOBO, you have to enable it first.' => 'Чтобы использовать PGP в OTOBO, сначала надо включить его поддержку.',
+        'To be able to use PGP in OTOBO, you have to enable it first.' =>
+            'Чтобы использовать PGP в OTOBO, сначала надо включить его поддержку.',
         'Enable PGP support' => 'Включить поддержку PGP ',
         'Faulty PGP configuration' => 'Неверная настройка PGP ',
         'PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
@@ -1399,7 +1400,6 @@ sub Data {
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'В данном случае вы можете изменить ключи прямо в конфигурации системы',
         'Introduction to PGP' => 'Введение в PGP',
-        'Identifier' => 'Идентификатор',
         'Bit' => 'Бит',
         'Fingerprint' => 'Цифровой отпечаток',
         'Expires' => 'Истекает',
@@ -1415,8 +1415,10 @@ sub Data {
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Вы действительно хотите переустановить этот пакет? Все ручные изменения будут потеряны.',
         'Go to updating instructions' => 'Перейдите к инструкциям по обновлению',
+        'Go to the OTOBO customer portal' => 'Перейти на портал клиентов OTOBO',
         'package information' => 'Информация о пакете',
-        'Package installation requires a patch level update of OTOBO.' => 'Установка пакета требует обновления уровня патчей OTOBO.',
+        'Package installation requires a patch level update of OTOBO.' =>
+            'Установка пакета требует обновления уровня патчей OTOBO.',
         'Package update requires a patch level update of OTOBO.' => 'Обновление пакета требует обновления уровня патчей OTOBO.',
         'Please note that your installed OTOBO version is %s.' => 'Установлена OTOBO версии %s.',
         'To install this package, you need to update OTOBO to version %s or newer.' =>
@@ -1425,6 +1427,8 @@ sub Data {
             'Этот пакет может быть установлен для версий OTOBO не выше %s.',
         'This package can only be installed on OTOBO version %s or newer.' =>
             'Этот пакет может быть установлен на OTOBO версии не ниже %s.',
+        'Why should I keep OTOBO up to date?' => 'Почему я должен постоянно обновлять OTOBO?',
+        'You will receive updates about relevant security issues.' => 'Вы получите обновления о соответствующих выпусках безопасности.',
         'You will receive updates for all other relevant OTOBO issues.' =>
             'Вы получите обновления для всех других соответствующих вопросов OTOBO.',
         'How can I do a patch level update if I don’t have a contract?' =>
@@ -1433,6 +1437,7 @@ sub Data {
             'Пожалуйста, найдите всю соответствующую информацию в инструкциях по обновлению здесь %s.',
         'In case you would have further questions we would be glad to answer them.' =>
             'В случае, если у Вас возникли вопросы, мы будем рады ответить на них.',
+        'Please visit our customer portal and file a request.' => 'Посетите наш клиентский портал и отправьте запрос.',
         'Install Package' => 'Установить пакет',
         'Update Package' => 'Обновить пакет',
         'Continue' => 'Продолжить',
@@ -1445,6 +1450,7 @@ sub Data {
         'Enable cloud services' => 'Включить облачный сервис',
         'Update all installed packages' => 'Обновить все установленные пакеты',
         'Online Repository' => 'Онлайновый репозиторий',
+        'Vendor' => 'Изготовитель',
         'Action' => 'Действие',
         'Module documentation' => 'Документация модуля',
         'Local Repository' => 'Локальный репозиторий',
@@ -1466,7 +1472,6 @@ sub Data {
         'Permission' => 'Права доступа',
         'Download file from package!' => 'Загрузить файл из пакета!',
         'Required' => 'Требуется',
-        'Size' => 'Размер',
         'Primary Key' => 'Главный ключ',
         'Auto Increment' => 'Авто инкремент',
         'SQL' => 'SQL',
@@ -1549,8 +1554,6 @@ sub Data {
         'Import process configuration' => 'Импортировать конфигурацию Процесса',
         'Ready2Adopt Processes' => '',
         'Here you can activate Ready2Adopt processes showcasing our best practices. Please note that some additional configuration may be required.' =>
-            '',
-        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated Ready2Adopt processes.' =>
             '',
         'Import Ready2Adopt process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1773,9 +1776,9 @@ sub Data {
             'Обратите внимание, что вы не сможете зарегистрировать вашу систему если планировщик работает некорректно!',
         'Instructions' => 'Инструкции',
         'System Deregistration not Possible' => 'Разрегистрация/System Deregistration системы невозможна',
-        'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
-            'Помните, что вы не можете разрегистрировать свою систему, если используете %s или имеете действующий контракт на поддержку.',
         'OTOBO-ID Login' => 'Уч. запись OTOBO-ID',
+        'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
+            'Регистрация системы - это сервис от OTOBO Team, который предоставляет много преимуществ!',
         'Read more' => 'Читайте дополнительно',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'Вы должны войти в систему со своей уч. записью OTOBO-ID, чтобы зарегистрировать Вашу систему.',
@@ -1824,9 +1827,11 @@ sub Data {
         'Operating System' => 'Операционная система',
         'Perl Version' => 'Версия Perl',
         'Optional description of this system.' => 'Необязательное описание этой системы',
+        'This will allow the system to send additional support data information to OTOBO Team.' =>
+            'Это позволит системе оправлять дополнительную информацию для поддержки в OTOBO Team.',
         'Register' => 'Регистрация',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            'Продолжите этот шаг и вы удалите зарегистрированиую ситему из скписка OTOBO Team.',
+            'Продолжите этот шаг и вы удалите зарегистрированиую ситему из скписка OTRS Group.',
         'Deregister' => 'Удалить регистрацию',
         'You can modify registration settings here.' => 'Вы можете изменить параметры регистрации здесь.',
         'Overview of Transmitted Data' => 'Обзор переданных данных',
@@ -1921,8 +1926,8 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'Сертификат S/MIME',
-        'Close this dialog' => 'Закрыть этот диалог',
         'Certificate Details' => 'Содержание сертификата',
+        'Close this dialog' => 'Закрыть этот диалог',
 
         # Template: AdminSalutation
         'Salutation Management' => 'Управление приветствиями',
@@ -1980,7 +1985,6 @@ sub Data {
         'Filter for Sessions' => 'Фильтр для сеансов',
         'Filter for sessions' => 'Фильтр для сеансов',
         'Session' => 'Сеанс',
-        'User' => 'Пользователь',
         'Kill' => 'Завершить',
         'Detail View for SessionID: %s - %s' => 'Просмотр для SessionID: %s - %s',
 
@@ -2016,6 +2020,10 @@ sub Data {
             'Вы можете вручную запустить передачу данных поддержки нажатием на эту кнопку:',
         'Send Update' => 'Послать обновление',
         'Currently this data is only shown in this system.' => 'В настоящее время эти данные только отображаются в этой системе.',
+        'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
+            'Настоятельно рекомендуется отправлять эти данные в OTOBO Team для получения более точной поддержки.',
+        'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+            'Для включения возможности отсылки данных, зарегистрируйте свою систему в OTOBO Team или обновите ваши регистрационные данные (убедитесь, что активирована функция \'send support data/послать данные для поддержки\'.)',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'Пакет поддержки (включая сведения о регистрации системы, данные поддержки, список установленных пакетов и локально изменённые файлы с исходным кодом) можно сгенерировать нажатием этой кнопки:',
         'Generate Support Bundle' => 'Сгенерировать пакет поддержки',
@@ -2094,6 +2102,20 @@ sub Data {
             'Переключится на расширенный режим для просмотра готовых для применения  изменений  настроек сделанных другими пользователями.',
         'Deploy selected changes' => 'Применить выбранные изменения',
 
+        # Template: AdminSystemConfigurationDeploymentHistory
+        'Deployment History' => '',
+        'Filter for Deployments' => '',
+        'Recent Deployments' => '',
+        'Restore' => '',
+        'View Details' => '',
+        'Restore this deployment.' => '',
+        'Export this deployment.' => '',
+
+        # Template: AdminSystemConfigurationDeploymentHistoryDetails
+        'Deployment Details' => '',
+        'by' => 'кем:',
+        'No settings have been deployed in this run.' => '',
+
         # Template: AdminSystemConfigurationGroup
         'This group doesn\'t contain any settings. Please try navigating to one of its sub groups.' =>
             'В этой группе нет параметров. Попробуйте посмотреть есть ли они в её подгруппах.',
@@ -2123,6 +2145,19 @@ sub Data {
         # Template: AdminSystemConfigurationSearchDialog
         'Category' => 'Категория',
         'Run search' => 'Выполнить поиск',
+
+        # Template: AdminSystemConfigurationSettingHistoryDetails
+        'Change History' => '',
+        'Change History of %s' => '',
+        'No modified values for this setting, the default value is used.' =>
+            '',
+
+        # Template: AdminSystemConfigurationUserModifiedDetails
+        'Review users setting value' => '',
+        'Users Value' => '',
+        'For' => '',
+        'Delete all user values.' => '',
+        'No user value for this setting.' => '',
 
         # Template: AdminSystemConfigurationView
         'View a custom List of Settings' => 'Просмотр пользовательского Списка Изменений',
@@ -2166,7 +2201,6 @@ sub Data {
         'Delete this entry' => 'Удалить эту запись',
         'Do you really want to delete this template?' => 'Ва действительно желаете удалить этот шаблон',
         'A standard template with this name already exists!' => 'Стандартный шаблон с таким именем уже существует!',
-        'Template' => 'Шаблон',
         'Create type templates only supports this smart tags' => 'Создайте шаблоны типа, только поддерживает это умные теги',
         'Example template' => 'Пример шаблона',
         'The current ticket state is' => 'Текущее состояние заявки',
@@ -2426,6 +2460,14 @@ sub Data {
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'до',
 
+        # Template: AgentDynamicFieldDBDetailedSearch
+        'Back' => 'Назад',
+        'Detailed search' => '',
+        'Add an additional attribute' => '',
+
+        # Template: AgentDynamicFieldDBDetails
+        'Details view' => '',
+
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'Чтобы принять какие-нибудь новости, лицензию или какие-то изменения.',
         'Yes, accepted.' => 'Да, принято',
@@ -2439,10 +2481,24 @@ sub Data {
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             'Нет текущих связей. Нажмите \'Связать\' выше чтобы связать этот элемент с другими объектами.',
 
-        # Template: AgentOTOBOCommunityBlockScreen
-        'Unauthorized usage of %s detected' => 'Обнаружено несанкционированное использование  %s ',
-        'If you decide to downgrade to OTOBO, you will lose all database tables and data related to %s.' =>
+        # Template: AgentPassword
+        'Password Policy' => '',
+        'Your current password is older than %s days. You need to set a new one.' =>
             '',
+        'Change password' => 'Изменить пароль',
+        'Current password' => 'Текущий пароль',
+        'New password' => 'Новый пароль',
+        'Repeat new password' => '',
+        'Password needs to be renewed every %s days.' => '',
+        'Password history is active, you can\'t use a password which was used the last %s times.' =>
+            '',
+        'Password length must be at least %s characters.' => '',
+        'Password requires at least two lower- and two uppercase characters.' =>
+            '',
+        'Password requires at least two characters.' => '',
+        'Password requires at least one digit.' => '',
+        'Change config options' => '',
+        'Admin permissions are required!' => '',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Измените ваши личные настройки',
@@ -2538,7 +2594,6 @@ sub Data {
         'Set Pending Time for %s%s%s' => 'Установить время ожидания до %s%s%s',
         'Change Priority of %s%s%s' => 'Сменить приоритет %s%s%s',
         'Change Responsible of %s%s%s' => 'Изменить ответственного для %s%s%s',
-        'All fields marked with an asterisk (*) are mandatory.' => 'Все поля отмеченные (*) являются обязательными',
         'The ticket has been locked' => 'Заявка была заблокирована',
         'Undo & close' => 'Отменить и закрыть',
         'Ticket Settings' => 'Настройки заявок',
@@ -2742,7 +2797,6 @@ sub Data {
         'Event Type' => 'Тип события',
         'Save as default' => 'Сохранить, как значение по умолчанию',
         'Drafts' => 'Черновики',
-        'by' => 'кем:',
         'Change Queue' => 'Сменить очередь',
         'There are no dialogs available at this point in the process.' =>
             'Нет диалогов доступных в этой части процесса',
@@ -2762,7 +2816,6 @@ sub Data {
         'Outgoing message' => 'Исходящее сообщение',
         'Internal message' => 'Внутреннее сообщение',
         'Sending of this message has failed.' => 'Передача сообщения не удалась.',
-        'This message has been queued for sending.' => 'Это сообщение поставлено в очередь для передачи.',
         'Resize' => 'Изменить размер',
         'Mark this article as read' => 'Пометить это сообщение как прочитанное',
         'Show Full Text' => 'Показать текст полностью',
@@ -2802,8 +2855,6 @@ sub Data {
         # Template: Invalid
         'Preview of this article is not possible because %s channel is missing in the system.' =>
             'Предварительный просмотр этой заметки невозможен, поскольку в системе отсутствует канал %s.',
-        'This feature is part of the %s. Please contact us at %s for an upgrade.' =>
-            'Эта возможность является составной частью %s. Пожалуйста свяжитесь с нами по адресу %s для обновления.',
         'Please re-install %s package in order to display this article.' =>
             'Переустановите пакет %s для отображения этого сообщения.',
 
@@ -2821,9 +2872,7 @@ sub Data {
         'go back to the previous page' => 'перейти на предыдущую страницу',
 
         # Template: CustomerAccept
-        'Dear Customer,' => 'Уважаемый Клиент, ',
-        'thank you for using our services.' => 'Спасибо за пользование нашими сервисами.',
-        'Yes, I accept your license.' => '',
+        'Yes, I accepted your license.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -2834,13 +2883,15 @@ sub Data {
         'From all Customer IDs' => 'Из всех Customer ID',
         'From assigned Customer IDs' => 'Из назначенных Customer ID',
 
+        # Template: CustomerDashboard
+        'Ticket Search' => '',
+
         # Template: CustomerError
         'An Error Occurred' => 'Произошла ошибка',
         'Error Details' => 'Детали ошибки',
         'Traceback' => 'Отслеживание',
 
         # Template: CustomerFooter
-        '%s powered by %s' => '%s используется в %s',
         'Powered by %s' => 'Используется в %s',
 
         # Template: CustomerFooterJS
@@ -2852,24 +2903,27 @@ sub Data {
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript не доступен',
         'In order to experience this software, you\'ll need to enable JavaScript in your browser.' =>
-            'Для работы с OTOBO вам потребуется включить JavaScript в вашем браузере.',
+            'Для работы с OTRS вам потребуется включить JavaScript в вашем браузере.',
         'Browser Warning' => 'Предупреждение о браузере',
         'The browser you are using is too old.' => 'Используемый вами браузер слишком стар.',
         'This software runs with a huge lists of browsers, please upgrade to one of these.' =>
             'Это ПО работает с большим списком браузеров, пожалуйста, сделайте обновление для работы с одним из них.',
         'Please see the documentation or ask your admin for further information.' =>
             'Обратитесь к документации или спросите своего администратора для получения дополнительной информации.',
+        'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
+            '',
+        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+            '',
         'One moment please, you are being redirected...' => 'Подождите, вы будете перенаправлены...',
         'Login' => 'Вход',
-        'User name' => 'Имя пользователя',
         'Your user name' => 'Ваше имя пользователя',
+        'User name' => 'Имя пользователя',
         'Your password' => 'Ваш пароль',
         'Forgot password?' => 'Забыли пароль?',
-        '2 Factor Token' => '2-факторный токен',
         'Your 2 Factor Token' => 'Ваш 2-факторный токен',
+        '2 Factor Token' => '2-факторный токен',
         'Log In' => 'Войти',
-        'Not yet registered?' => 'Хотите зарегистрироваться?',
-        'Back' => 'Назад',
+        'Request Account' => '',
         'Request New Password' => 'Запросить новый пароль',
         'Your User Name' => 'Логин',
         'A new password will be sent to your email address.' => 'Новый пароль будет отправлен на ваш адрес электронной почты',
@@ -2881,17 +2935,31 @@ sub Data {
         'Your email address (this will become your username)' => 'Ваш адрес электронной почты (он станет вашим именем пользователя)',
 
         # Template: CustomerNavigationBar
-        'Incoming Chat Requests' => 'Входящие запросы на Чат',
-        'Edit personal preferences' => 'Редактировать персональные настройки',
-        'Logout %s' => 'Выход %s',
+        'Logout' => 'Выход',
+
+        # Template: CustomerPassword
+        'Change Password' => '',
+        'Password needs to contain at least 3 of the character classes: lower char, upper char, digit, special character.' =>
+            '',
+
+        # Template: CustomerTicketList
+        'Nr.' => '',
+        'Welcome!' => 'Добро пожаловать!',
+        'You have no tickets yet. Please click here, to create a new one.' =>
+            '',
+        'Nothing to show.' => '',
+        'Click here for an unfiltered list of all your tickets.' => '',
 
         # Template: CustomerTicketMessage
+        'Issue a new Ticket' => '',
         'Service level agreement' => 'Соглашение об уровне сервиса',
 
         # Template: CustomerTicketOverview
-        'Welcome!' => 'Добро пожаловать!',
-        'Please click the button below to create your first ticket.' => 'Пожалуйста, нажмите на кнопку ниже, чтобы создать вашу первую заявку.',
-        'Create your first ticket' => 'Создать вашу первую заявку.',
+        'Your Tickets' => '',
+        'New Ticket' => 'Новая заявка',
+        'Page' => 'Страница',
+        'Tickets' => 'Заявки',
+        'Sort' => '',
 
         # Template: CustomerTicketSearch
         'Profile' => 'Параметры',
@@ -2916,14 +2984,14 @@ sub Data {
 
         # Template: CustomerTicketSearchResultShort
         'of' => 'из',
-        'Page' => 'Страница',
         'Search Results for' => 'Результаты поиска для',
         'Remove this Search Term.' => 'Удалить эти условия поска.',
 
         # Template: CustomerTicketZoom
-        'Start a chat from this ticket' => 'Начать чат из этой заявки',
-        'Next Steps' => 'Далее',
         'Reply' => 'Ответить',
+        'Discard' => '',
+        'Ticket Information' => 'Информация о заявке',
+        'Categories' => '',
 
         # Template: Chat
         'Expand article' => 'Развернуть сообщение',
@@ -2931,17 +2999,15 @@ sub Data {
         # Template: CustomerWarning
         'Warning' => 'Предупреждение',
 
+        # Template: Tile_NewTicket
+        'Issue<br/>a ticket' => '',
+
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Информация о событии',
         'Ticket fields' => 'Поля заявки',
         'Dynamic fields' => 'Динамические поля',
 
         # Template: Error
-        'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTOBO.' =>
-            'Вы уверены, что это ошибка? В 5 случаях из 10 ошибки возникают из-за некорректной или незавершенной установки OTOBO.',
-        'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
-            'С %s, наши специалисты позаботятся о правильности установки  и осуществят поддержку и проведение периодических обновлений безопасности.',
-        'Contact our service team now.' => 'Свяжитесь с нашей командой поддержки.',
         'Send a bugreport' => 'Отправить сообщение об ошибке',
         'Expand' => 'Развернуть',
 
@@ -2961,11 +3027,8 @@ sub Data {
             'Обратите внимание, что черновик устарел, так как заявка была обновлена после его создания.',
 
         # Template: Header
-        'View notifications' => 'Просмотр уведомлений',
-        'Notifications' => 'Уведомления',
-
+        'Edit personal preferences' => 'Редактировать персональные настройки',
         'Personal preferences' => 'Персональные настройки',
-        'Logout' => 'Выход',
         'You are logged in as' => 'Вы вошли как',
 
         # Template: Installer
@@ -2978,12 +3041,7 @@ sub Data {
         'Welcome to %s' => 'Добро пожаловать в %s',
         'Germany' => 'Германия',
         'Phone' => 'Телефон',
-        'United States' => 'США',
-        'Mexico' => 'Мексика',
-        'Hungary' => 'Венгрия',
-        'Brazil' => 'Бразилия',
-        'Singapore' => 'Сингапур',
-        'Hong Kong' => 'Гонконг',
+        'Switzerland' => '',
         'Web site' => 'Веб-сайт',
 
         # Template: InstallerConfigureMail
@@ -3039,10 +3097,6 @@ sub Data {
 
         # Template: InstallerDBmysql
         'Passwords do not match' => 'Пароли не подходят',
-
-        # Template: InstallerDBoracle
-        'SID' => 'SID',
-        'Port' => 'Порт',
 
         # Template: InstallerFinish
         'To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -3212,6 +3266,10 @@ sub Data {
         'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             'Помните, что масштаб для групп значений должен быть больше, чем масштаб для оси X (например, ось Х — месяц, группы значений — год).',
 
+        # Template: SettingHistoryListCompare
+        'On ' => '',
+        'Reset to this value' => '',
+
         # Template: SettingsList
         'This setting is disabled.' => 'Данный параметр отключен.',
         'This setting is fixed but not deployed yet!' => 'Этот параметр исправлен, но пока не применен!',
@@ -3281,9 +3339,8 @@ sub Data {
         # Template: Navigation
         'Navigation' => 'Навигация',
 
-        # Template: OTOBOCommunityTeaser
-        'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
-            'В %s, в Конфигурации системы поддерживаются версии, откат и различные пользовательские наборы настроек.',
+        # Template: UsersSettingListCompare
+        'Delete user\'s value.' => '',
 
         # Template: Test
         'OTOBO Test Page' => 'Тестовая страница OTOBO',
@@ -3312,6 +3369,7 @@ sub Data {
 
         # JS Template: UploadContainer
         'Click to select a file for upload.' => 'Нажмите, чтобы выбрать файл для загрузки',
+        'Click to select or drop files here.' => '',
         'Click to select files or just drop them here.' => 'Кликните для выбора файлов или просто перетащите их сюда.',
         'Click to select a file or just drop it here.' => 'Кликните для выбора файла или просто перетащите его сюда.',
         'Uploading...' => 'Выгружается...',
@@ -3330,6 +3388,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => 'Пояснения по применению...',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => 'Подождите, идет применение...',
         'Preparing to deploy, please wait...' => 'Подождите, идет подготовка к развертыванию...',
         'Deploy now' => 'Применить сейчас',
@@ -3357,7 +3416,6 @@ sub Data {
         'Zip' => 'Индекс',
         'City' => 'Город',
         'Country' => 'Страна',
-        'Valid' => 'Valid - действительность',
         'Mr.' => 'Г-н',
         'Mrs.' => 'Г-жа',
         'Address' => 'Адрес',
@@ -3374,7 +3432,6 @@ sub Data {
         'The following ACLs have been updated successfully: %s' => 'Следующие ACL были успешно обновлены: %s',
         'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.' =>
             'Произошла ошибка при добавлении/обновлении следующей ACL. Подробности в лог-файле.',
-        'This field is required' => 'Это поле обязательно',
         'There was an error creating the ACL' => 'Произошла ошибка при создание ACL',
         'Need ACLID!' => 'Требуется ACLID!',
         'Could not get data for ACLID %s' => 'Невозможно получить данные для ACLID %s',
@@ -3438,7 +3495,6 @@ sub Data {
             'Все агенты с правом чтения (как минимум) для мероприятия (календаря)',
         'All agents with write permission for the appointment (calendar)' =>
             'Все агенты с правом -w/записи на заявку для мероприятия (календаря)',
-        'Yes, but require at least one active notification method.' => 'Да, но необходимо указать хотя бы один из способов уведомления.',
 
         # Perl Module: Kernel/Modules/AdminAttachment.pm
         'Attachment added!' => 'Вложение добавлено!',
@@ -3475,6 +3531,17 @@ sub Data {
         'seconds' => 'секунд',
         'second' => 'секунда',
 
+        # Perl Module: Kernel/Modules/AdminContactWD.pm
+        'No contact is given!' => '',
+        'No data found for given contact in given source!' => '',
+        'Contact updated!' => '',
+        'No field data found!' => '',
+        'Contact created!' => '',
+        'Error creating contact!' => '',
+        'No sources found, at least one "Contact with data" dynamic field must be added to the system!' =>
+            '',
+        'No data found for given source!' => '',
+
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => 'Компания клиента обновлена!',
         'Dynamic field %s not found!' => 'Динамическое поле %s не найдено!',
@@ -3509,9 +3576,6 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
         'Fields configuration is not valid' => 'Настройка полей неверна',
         'Objects configuration is not valid' => 'Настройка объектов неверна',
-        'Database (%s)' => 'База данных (%s)',
-        'Web service (%s)' => 'Веб-сервис (%s)',
-        'Contact with data (%s)' => 'Контакт с данными (%s)',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Невозможно правильно сбросить очередность Dynamic Field, подробности в логе ошибок.',
 
@@ -3533,12 +3597,15 @@ sub Data {
         'Unchecked' => 'Не отмечено',
         'Checked' => 'Отмечено',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldContactWD.pm
+        'This field key is duplicated.' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDB.pm
+        'This field value is duplicated.' => 'Это поле дублируется.',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
         'Prevent entry of dates in the future' => 'Запретить ввод дат в будущем',
         'Prevent entry of dates in the past' => 'Запретить ввод дат в прошлом',
-
-        # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-        'This field value is duplicated.' => 'Это поле дублируется.',
 
         # Perl Module: Kernel/Modules/AdminEmail.pm
         'Select at least one recipient.' => 'Необходимо указать хотя бы одного получателя.',
@@ -3724,16 +3791,6 @@ sub Data {
         'All recipients of the last article' => 'Все получатели последней заметки',
         'Invisible to customer' => '',
         'Visible to customer' => '',
-
-        # Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
-        'Your system was successfully upgraded to %s.' => 'Ваша система успешно обновлена до %s.',
-        'There was a problem during the upgrade to %s.' => 'Обнаружены проблемы при обновлении до %s.',
-        '%s was correctly reinstalled.' => '%s была корректно переустановлена.',
-        'There was a problem reinstalling %s.' => 'Обнаружены проблемы при переустановке %s.',
-        'Your %s was successfully updated.' => 'Ваша %s была успешно обновлена.',
-        'There was a problem during the upgrade of %s.' => 'Обнаружены проблемы при обновлении %s.',
-        '%s was correctly uninstalled.' => '%s была корректно деинсталлирована.',
-        'There was a problem uninstalling %s.' => 'Обнаружены проблемы при деинсталляции %s. ',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3954,6 +4011,11 @@ sub Data {
         'Some imported settings are not present in the current state of the configuration or it was not possible to update them. Please check the OTOBO log for more information.' =>
             'Некоторые импортированные настройки отсутствуют в текущей конфигурации или их невозможно обновить. Для подробностей проверьте записи журнала OTOBO.',
 
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
+        'This deployment does not contain changes in the setting values!' =>
+            '',
+        'No DeploymentID received!' => '',
+
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
         'You need to enable the setting before locking!' => 'Необходимо включить параметр перед блокировкой!',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
@@ -3967,6 +4029,18 @@ sub Data {
         'Missing setting name.' => 'Пропущено имя параметра.',
         'Setting not found.' => 'Параметр не найден.',
         'Missing Settings!' => 'Пропущены параметры!',
+
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
+        'No setting name received!' => '',
+        'Modified Version' => '',
+        'Reset To Default' => '',
+        'Default Version' => '',
+        'No setting name or modified version id received!' => '',
+        'Was not possible to revert the historical value!' => '',
+
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
+        'Missing setting name or modified id!' => '',
+        'System was not able to delete the user setting values!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
         'Start date shouldn\'t be defined after Stop date!' => 'Начальная дата не может быть задана позднее даты окончания!',
@@ -4069,6 +4143,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => 'Требуется группа Параметров!',
+        'This feature is not available.' => '',
         'Updated user preferences' => 'Обновленные настройки пользователя',
         'System was unable to deploy your changes.' => 'Система не смогла применить ваше изменение.',
         'Setting not found!' => 'Параметр не найден!',
@@ -4133,6 +4208,8 @@ sub Data {
         'The following tickets were locked: %s.' => 'Текущие заявки были заблокированы: %s.',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => 'Адрес %s заменен зарегистрированным адресом клиента',
         'Customer user automatically added in Cc.' => 'Клиент автоматически добавлен в поле Сс',
 
@@ -4355,7 +4432,6 @@ sub Data {
         'Show one article' => 'Отобразить одно сообщение',
         'Show all articles' => 'Отобразить все сообщения',
         'Show Ticket Timeline View' => 'Показать заявку в хронологическом виде',
-        'Show Ticket Timeline View (%s)' => 'Показать заявку в хронологическом виде (%s)',
 
         # Perl Module: Kernel/Modules/AjaxAttachment.pm
         'Got no FormID.' => 'Отсутствует FormID.',
@@ -4374,6 +4450,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => 'Проверьте настройки SysConfig для %s::QueueDefault.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'Проверьте настройки SysConfig setting для %s::TicketTypeDefault.',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => 'Требуется CustomerID!',
@@ -4448,6 +4526,9 @@ sub Data {
         'Need config Package::RepositoryAccessRegExp' => 'Необходима настройка Package::RepositoryAccessRegExp',
         'Authentication failed from %s!' => 'Аутентификация неудачна от %s!',
 
+        # Perl Module: Kernel/Output/HTML/Article/Chat.pm
+        'Chat' => 'Чат',
+
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketBounce.pm
         'Bounce Article to a different mail address' => 'Перенаправить сообщение на другой почтовый адрес',
         'Bounce' => 'Перенаправить',
@@ -4485,9 +4566,7 @@ sub Data {
         'Unmark' => 'Снять пометку',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
-
         'Re-install Package' => 'Переустановить пакет',
-        'Upgrade' => 'Обновление',
         'Re-install' => 'Переустановить ',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -4560,7 +4639,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
         'Can\'t connect to Product News server!' => 'Невозможно подключиться к серверу продукта!',
-        'Can\'t get Product News from server!' => 'Невозможно получить новости о продуктах с сервера OTOBO!',
+        'Can\'t get Product News from server!' => 'Невозможно получить новости о продуктах с сервера OTRS!',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
         'Can\'t connect to %s!' => 'Не удается подключиться к %s!',
@@ -4622,17 +4701,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
         'Archive search' => 'Поиск в архиве',
 
-        # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
-        'Enable cloud services to unleash all OTOBO features!' => 'Включите облачный сервис чтобы получить доступ ко всем возможностям OTOBO! ',
-
-        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
-        '%s Upgrade to %s now! %s' => '%s Обновление до %s сейчас! %s',
-        'Please verify your license data!' => 'Проверьте , пожалуйста данные лицензии!',
-        'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            'Лицензия на ваш продукт %s истекает. Свяжитесь, пожалуйста с %s для обновления контракта!',
-        'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            'Обновление для вашего продукта %s доступна, но оно не соответствует версии вашего основного продукта! Обновите его сначала!',
-
         # Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
         'Online Agent: %s' => 'Агент онлайн: %s',
 
@@ -4658,10 +4726,6 @@ sub Data {
         'You have Out of Office enabled, would you like to disable it?' =>
             'Вы включали Отсутствие в офисе, хотите отключить?',
 
-        # Perl Module: Kernel/Output/HTML/Notification/PackageManagerCheckNotVerifiedPackages.pm
-        'The installation of packages which are not verified by the OTOBO Team is activated. These packages could threaten your whole system! It is recommended not to use unverified packages.' =>
-            'Активирована установка пакетов, которые не верифицированы OTOBO Team. Эти пакеты могут влиять на работу вашей системе! Не рекомендуется использовать непроверенные пакеты.',
-
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
         'You have %s invalid setting(s) deployed. Click here to show invalid settings.' =>
             'У вас%sошибочных настроек. Нажмите здесь для их показа.',
@@ -4676,7 +4740,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/UIDCheck.pm
         'Don\'t use the Superuser account to work with %s! Create new Agents and work with these accounts instead.' =>
-            'Не используйте учетную запись суперпользователя для работы с OTOBO! Создайте новых агентов и работайте под их учетными записями.',
+            'Не используйте учетную запись суперпользователя для работы с OTRS! Создайте новых агентов и работайте под их учетными записями.',
 
         # Perl Module: Kernel/Output/HTML/Preferences/AppointmentNotificationEvent.pm
         'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
@@ -4690,13 +4754,11 @@ sub Data {
         'Please specify an end date that is after the start date.' => 'Пожалуйста, укажите Дату окончания раньше даты начала.',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
-        'Current password' => 'Текущий пароль',
-        'New password' => 'Новый пароль',
         'Verify password' => 'Подтвердите пароль',
         'The current password is not correct. Please try again!' => 'Пароль не верен. Пожалуйста, попробуйте снова!',
         'Please supply your new password!' => 'Пожалуйста, укажите ваш новый пароль!',
-        'Can\'t update password, your new passwords do not match. Please try again!' =>
-            'Невозможно обновить пароль. Новые пароли не совпадают. Пожалуйста, попробуйте снова!',
+        'Can\'t update password, the new password and the repeated password do not match.' =>
+            '',
         'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             'Такой пароль запрещен в текущей конфигурации. Если есть вопросы обращайтесь к администратору системы.',
         'Can\'t update password, it must be at least %s characters long!' =>
@@ -4706,6 +4768,8 @@ sub Data {
         'Can\'t update password, it must contain at least 1 digit!' => 'Невозможно обновить пароль, т.к. он должен содержать не менее 1-й цифры!',
         'Can\'t update password, it must contain at least 2 letter characters!' =>
             'Невозможно обновить пароль, т.к. он должен содержать не менее 2 символов!',
+        'Can\'t update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
         'Time zone updated successfully!' => 'Временная зона обновлена успешно',
@@ -4761,9 +4825,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Сортировка по',
 
-        # Perl Module: Kernel/Output/HTML/TicketZoom/TicketInformation.pm
-        'Ticket Information' => 'Информация о заявке',
-
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
         'Locked Tickets New' => 'Заблокированные заявки: Новые',
         'Locked Tickets Reminder Reached' => 'Заблокированные заявки: Время напоминания наступило',
@@ -4789,15 +4850,6 @@ sub Data {
         # Perl Module: Kernel/System/Auth.pm
         'It is currently not possible to login due to a scheduled system maintenance.' =>
             'Невозможно подключиться к системе, т.к. она находится на профилактике/системном обслуживании.',
-
-        # Perl Module: Kernel/System/AuthSession.pm
-        'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
-            'Превышено количество одновременных агентов - свяжитесь с sales@otrs.com',
-        'Please note that the session limit is almost reached.' => 'Пожалуйста, обратите внимание, что ограничение сессий почти достигнуто.',
-        'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
-            'Вход отклонён! Превышено максимальное количество одновременных агентов! Срочно свяжитесь с sales@otrs.com!',
-        'Session limit reached! Please try again later.' => 'Срок жизни сессии прошел. Пожалуйста попробуйте еще раз.',
-        'Session per user limit reached!' => 'Достигнут предел количества сессий на одного пользователя!',
 
         # Perl Module: Kernel/System/AuthSession/DB.pm
         'Session invalid. Please log in again.' => 'Ошибка сессии. Пожалуйста авторизуйтесь вновь.',
@@ -4955,8 +5007,9 @@ sub Data {
             '',
         'Number of Tickets (affected by escalation configuration)' => 'Количество заявок (учитывая настройки эскалации)',
 
-        # Perl Module: Kernel/System/Stats/Static/StateAction.pm
+        # Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
         'Days' => 'Дни',
+        'Queues / Tickets' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
         'Outdated Tables' => 'Устаревшие таблицы',
@@ -5119,7 +5172,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
         'Database Records' => 'Записи базы данных',
-        'Tickets' => 'Заявки',
         'Ticket History Entries' => 'Записи истории заявки',
         'Articles' => 'Заметки/сообщения',
         'Attachments (DB, Without HTML)' => 'Вложения (DB, без HTML)',
@@ -5309,7 +5361,8 @@ sub Data {
         'Disabled' => 'Отключено',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/Date.pm
-        'System was not able to calculate user Date in OTOBOTimeZone!' => 'Системе не удалось вычислить дату пользователя в OTOBOTimeZone!',
+        'System was not able to calculate user Date in OTOBOTimeZone!' =>
+            'Системе не удалось вычислить дату пользователя в OTOBOTimeZone!',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/DateTime.pm
         'System was not able to calculate user DateTime in OTOBOTimeZone!' =>
@@ -5331,6 +5384,7 @@ sub Data {
         'Chat Message Text' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
+        'Too many fail attempts, please retry again later' => '',
         'Login failed! Your user name or password was entered incorrectly.' =>
             'Ошибка идентификации! Указано неправильное имя или пароль!',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
@@ -5654,6 +5708,9 @@ sub Data {
             'Ключи со значениями нельзя переименовать. Удалите эту пару ключ / значение и повторно добавьте ее заново.',
         'Unlock setting.' => 'Разблокировать настройку.',
 
+        # JS File: Core.Agent.Admin.SystemConfigurationUser
+        'Are you sure you want to remove all user values?' => '',
+
         # JS File: Core.Agent.Admin.SystemMaintenance
         'Do you really want to delete this scheduled system maintenance?' =>
             'Вы действительно желаете удалить этот график техобслуживания?',
@@ -5706,6 +5763,9 @@ sub Data {
         'Please check the fields marked as red for valid inputs.' => 'Проверьте поля отмеченные красным цветом и исправьте их.',
         'month' => 'месяц',
         'Remove active filters for this widget.' => 'Удалить активные фильтры для этого виджета.',
+
+        # JS File: Core.Agent.DynamicFieldDBSearch
+        'This dynamic field database value is already selected.' => '',
 
         # JS File: Core.Agent.LinkObject.SearchForm
         'Please wait...' => 'Подождите пожалуйста',
@@ -5768,7 +5828,6 @@ sub Data {
         # JS File: Core.Agent
         'Slide the navigation bar' => 'Прокрутите панель навигации',
         'Please turn off Compatibility Mode in Internet Explorer!' => 'Выключите Compatibility Mode/Режим совместимости в Internet Explorer!',
-        'Find out more' => 'Найти ещё',
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => 'Переключиться на мобильный режим',
@@ -5929,6 +5988,9 @@ Thanks for your help!
             'ACL модуль, который позволяет закрывать родительские заявки только после того как все младшие закрыты ("State" задает доступные состояния для родительских заявок до закрытия всех младших',
         'Access Control Lists (ACL)' => 'Списки управления доступом (ACL)',
         'AccountedTime' => 'Затраченное время',
+        'Activate Elasticsearch.' => '',
+        'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
+            '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'Включить "мигание" для очередей содержащих наиболее старые заявки',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -5969,19 +6031,31 @@ Thanks for your help!
         'Adds the permanent vacation days.' => 'Добавляет постоянные дни отпуска.',
         'Admin' => 'Администрирование',
         'Admin Area.' => 'Панель администратора.',
+        'Admin Contact With Data' => '',
         'Admin Notification' => 'Уведомление администратором',
         'Admin area navigation for the agent interface.' => 'Область навигации для администратора в интерфейсе агента.',
+        'Admin contact with data.' => '',
         'Admin modules overview.' => '',
         'Admin.' => 'Администратор.',
         'Administration' => 'Администрирование',
+        'Agent Contact With Data Search' => '',
         'Agent Customer Search' => 'Поиск клиента агентом',
         'Agent Customer Search.' => 'Поиск клиента агентом.',
+        'Agent Dynamic Field Database Detailed Search' => '',
+        'Agent Dynamic Field Database Details' => '',
+        'Agent Dynamic Field Database Search' => '',
         'Agent Name' => 'Имя Агента',
         'Agent Name + FromSeparator + System Address Display Name' => 'Agent Name + FromSeparator + System Address Display Name',
         'Agent Preferences.' => 'Предпочтения агента.',
         'Agent Statistics.' => 'Статистика агентов',
         'Agent User Search' => 'Поиск агента',
         'Agent User Search.' => '',
+        'Agent contact with data search.' => '',
+        'Agent dynamic field database detailed search.' => '',
+        'Agent dynamic field database details.' => '',
+        'Agent dynamic field database search.' => '',
+        'Agent frontend module registration (disable \'Edit contacts with data\' link if if there is no source field configured).' =>
+            '',
         'Agent interface article notification module to check PGP.' => 'Модуль уведомления для проверки PGP в интерфейсе агента.',
         'Agent interface article notification module to check S/MIME.' =>
             'Модуль уведомления для проверки S/MIME в интерфейсе агента.',
@@ -6001,6 +6075,8 @@ Thanks for your help!
             'Модуль отображения количества заявок в Моих Сервисах в навигационной панели интерфейса агента. Дополнительный контроль доступа к этой возможности может осуществляться использованием ключа "Group/Группа" и Content/Содержание, например - "rw:group1;move_into:group2"',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Модуль отображения количества наблюдаемых заявок в навигационной панели интерфейса агента. Дополнительный контроль доступа к этой возможности может осуществляться использованием ключа "Group/Группа" и Content/Содержание, например - "rw:group1;move_into:group2"',
+        'AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.' =>
+            '',
         'AgentTicketZoom widget that displays a table of objects linked to the ticket.' =>
             'Виджет в AgentTicketZoom отображающий таблицу объектов связанных с заявкой.',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
@@ -6010,7 +6086,6 @@ Thanks for your help!
         'Agents ↔ Groups' => 'Агенты ↔ Группы',
         'Agents ↔ Roles' => 'Агенты <-> Роли',
         'All CustomerIDs of a customer user.' => 'Все Компании клиента.',
-
         'All customer users of a CustomerID' => 'Все клиенты Компании',
         'All escalated tickets' => 'Все эскалированные заявки',
         'All new tickets, these tickets have not been worked on yet' => 'Все новые заявки; с этими заявками еще никто не работал',
@@ -6117,6 +6192,7 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => 'Арабский (Саудовская Аравия)',
         'ArticleTree' => 'Дерево сообщений',
         'Attachment Name' => 'Имя вложения',
+        'Autoloading of Znuny4OTOBOPasswordPolicy extensions.' => '',
         'Automated line break in text messages after x number of chars.' =>
             'Автоматический перевод строки в тексте сообщения после х символов.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -6155,10 +6231,14 @@ Thanks for your help!
         'Cache time in seconds for the web service config backend.' => 'Cache time, в сек, для backend конфигурации веб сервисов.',
         'Calendar manage screen.' => 'Экран Управление календарями.',
         'Catalan' => 'Каталонский',
-        'Change password' => 'Изменить пароль',
+        'Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+            '',
+        'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+            '',
+        'Change Ticket' => '',
+        'Change Ticket information' => '',
         'Change queue!' => 'Сменить очередь!',
         'Change the customer for this ticket' => 'Изменить клиента для этой заявки',
-        'Change the free fields for this ticket' => 'Изменить свободные поля для этой заявки',
         'Change the owner for this ticket' => 'Сменить владельца этой заявки',
         'Change the priority for this ticket' => 'Поменять приоритет заявки',
         'Change the responsible for this ticket' => 'Изменить ответственного за эту заявку',
@@ -6189,7 +6269,6 @@ Thanks for your help!
             'Проверяет, является ли письмо дополнением к существующей заявке путем поиска в теме письма правильного номера заявки.',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             'Проверяет SystemID в номере заявки при обнаружении ответа клиент (follow-ups). Если выключено, SystemID будет изменен после использования системы.',
-
         'Child' => 'Потомок',
         'Chinese (Simplified)' => 'Китайский (упрощённый)',
         'Chinese (Traditional)' => 'Китайский (традиционный)',
@@ -6269,6 +6348,7 @@ Thanks for your help!
             'Управляет удалением флагов просмотра заявок и сообщений при архивирвании заявки.',
         'Converts HTML mails into text messages.' => 'Преобразовать письмо из HTML в текст',
         'Create New process ticket.' => 'Создать новую процессную заявку.',
+        'Create Templates for AdminDynamicFieldTitle' => '',
         'Create Ticket' => 'Создание заявки',
         'Create a new calendar appointment linked to this ticket' => 'Создать новое мероприятие календаря связанное с этой заявкой',
         'Create and manage Service Level Agreements (SLAs).' => 'Создание Соглашений об уровне сервиса (SLA) и управление ими.',
@@ -6300,6 +6380,7 @@ Thanks for your help!
         'Create new phone ticket.' => 'Создать новую телефонную заявку.',
         'Create new process ticket.' => 'Создать новую процессную заявку.',
         'Create tickets.' => 'Создать заявки.',
+        'Create your first ticket' => 'Создать вашу первую заявку.',
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             'Создана заявка [%s] в "%s" с приоритетом "%s" и состоянием "%s".',
         'Croatian' => 'Хорватский',
@@ -6309,10 +6390,15 @@ Thanks for your help!
             'Текст отображаемый клиенту еще не имеющему заявок (если желаете, чтобы этот текст отображался на нужном языке, добавьте его в кастомный русский файл локализации - ru_custom.pm).',
         'Customer Administration' => 'Управление Компаниями',
         'Customer Companies' => 'Компании клиента',
+        'Customer Dashboard' => '',
+        'Customer Dynamic Field Database Detailed Search' => '',
+        'Customer Dynamic Field Database Details' => '',
+        'Customer Dynamic Field Database Search' => '',
         'Customer IDs' => 'Customer IDs',
         'Customer Information Center Search.' => 'Поиск в центре оповещения клиентов.',
         'Customer Information Center search.' => '',
         'Customer Information Center.' => 'Центр оповещения клиентов.',
+        'Customer Password.' => '',
         'Customer Ticket Print Module.' => 'Модуль печати клиентских заявок.',
         'Customer User Administration' => 'Управление Клиентами',
         'Customer User Information' => 'Информация о клиенте',
@@ -6322,6 +6408,9 @@ Thanks for your help!
         'Customer Users ↔ Customers' => 'Клиенты ↔ Компании',
         'Customer Users ↔ Groups' => 'Клиенты ↔ Группы',
         'Customer Users ↔ Services' => 'Клиенты ↔ Сервисы',
+        'Customer dynamic field database detailed search.' => '',
+        'Customer dynamic field database details.' => '',
+        'Customer dynamic field database search.' => '',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             'Элемент интерфейса клиента (иконка), который показывает в виде информацинного блока количество заявок закрытых текущим клиентом. При CustomerUserLogin, установленном в 1, поиск производится по логину клиента, а не по компании.',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -6502,6 +6591,8 @@ Thanks for your help!
             'Задает возможность входа для агента, если для него не задан секретный ключ хранимый в его личных настройках, т.е. не используется двух-факторная аутентификация.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'Задает возможность входа для клиента, если для него не задан секретный ключ хранимый в его личных настройках, т.е. не используется двух-факторная аутентификация.',
+        'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             'Включает расширенные средства редактирования (использование таблиц, замены, подстрочный индекс, надстрочный индекс, вставить из слова и т. д.) в интерфейсе клиента.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
@@ -6580,8 +6671,6 @@ Thanks for your help!
         'Defines the config options for the autocompletion feature.' => 'Задает настройки для функции автозавершения.',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             'Задает параметры для этого элемента, которые будут отображаться на экране личных настроек.',
-        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
-            '',
         'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
         'Defines the connections for http/ftp, via a proxy.' => 'Задает параметры для соединения для http/ftp, через proxy.',
@@ -6861,8 +6950,6 @@ Thanks for your help!
         'Defines the maximum size (in MB) of the log file.' => 'Задает максимальный размер (в MB) для файла журнала.',
         'Defines the maximum size in KiloByte of GenericInterface responses that get logged to the gi_debugger_entry_content table.' =>
             'Задаёт максимальный размер в килобайтах для ответов GenericInterface которые регистрируются в таблице gi_debugger_entry_content.',
-        'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
-            'Задает модуль который показывает основные уведомления в интерфейсе агента. Либо "Text", если настроен, либо содержимое "File" будет отображаться.',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             'Задает модуль который показывает всех подключившихся агентов в интерфейсе агента.',
         'Defines the module that shows all the currently logged in customers in the agent interface.' =>
@@ -6872,8 +6959,6 @@ Thanks for your help!
         'Defines the module that shows the currently logged in customers in the customer interface.' =>
             'Задает модуль который показывает всех подключившихся клиентов в интерфейсе клиента.',
         'Defines the module to authenticate customers.' => 'Задает модуль аутентификации клиентов',
-        'Defines the module to display a notification if cloud services are disabled.' =>
-            'Задает модуль который показывает уведомление если не отключен облачный сервис.',
         'Defines the module to display a notification in the agent interface if the OTOBO Daemon is not running.' =>
             'Задает модуль который показывает уведомление в интерфейсе агента, если не запущен OTOBO Daemon.',
         'Defines the module to display a notification in the agent interface if the system configuration is out of sync.' =>
@@ -6884,10 +6969,6 @@ Thanks for your help!
             'Задает модуль который показывает уведомление в интерфейсе агента, если агент зашел в систему при включенном режиме "Вне офиса".',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
             'Задает модуль который показывает уведомление в интерфейсе агента, если агент зашел в систему, когда она в состоянии Профилактика/Обслуживание системы.',
-        'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
-            'Задает модуль который показывает уведомление в интерфейсе агента, если достигнуто время для предупреждения о превышении лимита времени сеанса агента.',
-        'Defines the module to display a notification in the agent interface, if the installation of not verified packages is activated (only shown to admins).' =>
-            '',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             'Задает модуль который показывает уведомление в интерфейсе агента, что вы зашли в систему как администратор (в обычном режиме вы не должны работать под этой учетной записью).',
         'Defines the module to display a notification in the agent interface, if there are invalid sysconfig settings deployed.' =>
@@ -7010,6 +7091,8 @@ Thanks for your help!
             '',
         'Defines the shown links in the footer area of the customer and public interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
             '',
+        'Defines the source dynamic field for storing historical data.' =>
+            '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'Задает стандартный набор прав для клиентов в системе. Если требуются дополнительные права, вы можете указать их здесь. Права должны существовать в системе (или добавлены в нее). При дополнении таблицы с правами помните, что строка с правом "rw" всегда должна быть последней в списке.',
         'Defines the standard size of PDF pages.' => 'Задает стандартный размер страницы при выводе в PDF',
@@ -7036,6 +7119,8 @@ Thanks for your help!
             'Задает целевой атрибут в ссылке на внешнюю базу клиентов. Например, \'AsPopup PopupType_TicketAction\'.',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
             'Задает целевой атрибут в ссылке на внешнюю базу клиентов. Например, \'target="cdb"\'.',
+        'Defines the target dynamic fields for storing historical data.' =>
+            '',
         'Defines the ticket appointment type backend for ticket dynamic field date time.' =>
             'Задает модуль обработки для мероприятий заявки для динамических полей типа дата/время / date time.',
         'Defines the ticket appointment type backend for ticket escalation time.' =>
@@ -7060,7 +7145,8 @@ Thanks for your help!
             'Задает username для доступа к обработчику SOAP (bin/cgi-bin/rpc.pl).',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
-        'Defines the valid state types for a ticket.' => 'Задает действительные типы состояний для заявки',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Задает действительные состояния для разблокированных заявок. Для разблокирования заявок используйте скрипт "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout".',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -7097,7 +7183,7 @@ Thanks for your help!
         'Deletes requested sessions if they have timed out.' => 'Удаляет запрошенные сеансы с истекшим сроком.',
         'Delivers extended debugging information in the frontend in case any AJAX errors occur, if enabled.' =>
             'Если включено, то в случае появления каких-либо ошибок AJAX, предоставляет во фронтенде расширенную отладочную информацию.',
-
+        'DeploymentHistory' => '',
         'Detached' => '',
         'Determines if a button to delete a link should be displayed next to each link in each zoom mask.' =>
             '',
@@ -7156,12 +7242,15 @@ Thanks for your help!
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             'Голландские стоп-слова для полнотекстовой индексации. Эти слова будут удалены и поискового индекса.',
         'Dynamic Fields Checkbox Backend GUI' => 'Редактор динамических полей типа Checkbox',
+        'Dynamic Fields Contact Data Backend GUI' => '',
+        'Dynamic Fields Database Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => 'Редактор динамических полей типа Date Time',
         'Dynamic Fields Drop-down Backend GUI' => 'Редактор динамических полей типа Drop-down',
         'Dynamic Fields GUI' => 'Редактор динамических полей',
         'Dynamic Fields Multiselect Backend GUI' => 'Редактор динамических полей типа Multiselect',
         'Dynamic Fields Overview Limit' => 'Количество строк списка динамических полей на странице.',
         'Dynamic Fields Text Backend GUI' => 'Редактор динамических полей типа Text',
+        'Dynamic Fields Web Service Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             'Динамические поля включаемые в результат поиска при экспорте в формате CSV.',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
@@ -7233,7 +7322,11 @@ Thanks for your help!
         'Edit Customer Companies.' => 'Редактировать компанию клиента.',
         'Edit Customer Users.' => 'Редактировать пользователей клиента.',
         'Edit appointment' => 'Редактировать мероприятие',
+        'Edit contacts with data' => '',
+        'Edit contacts with data.' => '',
         'Edit customer company' => 'Редактировать компанию клиента',
+        'Elasticsearch' => '',
+        'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'Адреса email',
         'Email Outbound' => 'Исходящая эл. почта',
         'Email Resend' => 'Повторная отправка Письма',
@@ -7278,6 +7371,8 @@ Thanks for your help!
         'Escalation view' => 'Просмотр эскалированных заявок',
         'EscalationTime' => 'EscalationTime',
         'Estonian' => 'Эстонский',
+        'Event module registration (store historical data in dynamic fields).' =>
+            '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             'Регистрация модуля обработки события. Для большей производительности вы должны задать событие (например: Event => TicketCreate).',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -7305,7 +7400,8 @@ Thanks for your help!
             'Выполняет пользовательскую команду или модуль. Внимание: если используется модуль, требуется указание функции.',
         'Executes follow-up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             'Выполняет проверку ответа клиента в In-Reply-To или References заголовках для писем, не содержащих в Теме номер заявки.',
-        'Executes follow-up checks on OTOBO Header \'X-OTOBO-Bounce\'.' => '',
+        'Executes follow-up checks on OTOBO Header \'X-OTOBO-Bounce\'.' =>
+            '',
         'Executes follow-up checks on attachment contents for mails that don\'t have a ticket number in the subject.' =>
             'Выполняет проверку вложения к почтовым ответам клиента, не имеющим в Теме номера заявки.',
         'Executes follow-up checks on email body for mails that don\'t have a ticket number in the subject.' =>
@@ -7321,6 +7417,18 @@ Thanks for your help!
         'Fetch incoming emails from configured mail accounts.' => 'Получение входящих писем от настроенных учетных записей.',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
             'Получает пакеты через proxy. Перекрывает параметр "WebUserAgent::Proxy".',
+        'Fields of the customer company index, used for the company fulltext search. Fields are also stored, but are not mandatory for the overall functionality.' =>
+            '',
+        'Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
+            '',
+        'Fields stored in the customer company index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
+            '',
+        'Fields stored in the customer user index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
+            '',
+        'Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
+            '',
+        'Fields to be searched in ticket index. Fields are also stored, but are not mandatory for the overall functionality.' =>
+            '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.' =>
             'Файл отображаемый модулем Kernel::Modules::AgentInfo, если он помещен в Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.',
         'Filter for debugging ACLs. Note: More ticket attributes can be added in the format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>.' =>
@@ -7348,8 +7456,8 @@ Thanks for your help!
             'Принудительно устанавливать новое состояние (отличное от текущего) поcле блокирования заявки. Задайте текущее состояние как Ключ и следующее состояние как Содержимое.',
         'Forces to unlock tickets after being moved to another queue.' =>
             'Принудительно разблокировать заявки при перемещении в другую очередь.',
+        'Format to be ingested' => '',
         'Forwarded to "%s".' => 'Переcлано «%s».',
-        'Free Fields' => 'Свободные поля',
         'French' => 'Французский',
         'French (Canada)' => 'Французский (Канада)',
         'French stop words for fulltext index. These words will be removed from the search index.' =>
@@ -7371,6 +7479,8 @@ Thanks for your help!
         'Full value' => 'Полное значение',
         'Fulltext index regex filters to remove parts of the text.' => 'Регулярное выражение для удаления части текста в запросе полнотекстового поиска.',
         'Fulltext search' => 'Полнотекстовый поиск',
+        'Fulltext search using Elasticsearch' => '',
+        'FulltextES' => '',
         'Galician' => 'Галисийский',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
@@ -7388,6 +7498,8 @@ Thanks for your help!
         'GenericInterface Web Service History GUI' => '',
         'GenericInterface Web Service Mapping GUI' => '',
         'GenericInterface module registration for an error handling module.' =>
+            '',
+        'GenericInterface module registration for the PassThrough invoker layer.' =>
             '',
         'GenericInterface module registration for the invoker layer.' => 'GenericInterface модуль регистрации для уровня Invoker',
         'GenericInterface module registration for the mapping layer.' => '',
@@ -7670,6 +7782,7 @@ Thanks for your help!
             'Максимальное количество почтовых автоответов на собственный почтовый адрес в день (Loop-Protection).',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>
             '',
+        'Maximal number of results returned by ES per field.' => '',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
             'Максимальный размер в KBytes для писем принимаемых через POP3/POP3S/IMAP/IMAPS.',
         'Maximum Number of a calendar shown in a dropdown.' => '',
@@ -7679,6 +7792,7 @@ Thanks for your help!
             'Максимальная длина (в символах) для динамических полей в информации о заявке в подробном просмотре заявки.',
         'Maximum number of active calendars in overview screens. Please note that large number of active calendars can have a performance impact on your server by making too much simultaneous calls.' =>
             'Максимальное количество активных календарей на экранах обзора. Помните, что большое число активных календарей может оказать влияние на производительность сервера, делая слишком много одновременных вызовов.',
+        'Maximum number of results returned from the quick result.' => '',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             'Максимальное количество заявок отображаемых в результате поиска в интерфейсе агента.',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
@@ -7738,7 +7852,6 @@ Thanks for your help!
             'Модуль для показа уведомлений и эскалаций (ShownMax: мак. кол-во показываемых эскалаций, EscalationInMinutes: Показать эскалированные заявки, CacheTime: Cache для вычисленных эскалаций в сек.).',
         'Module to use database filter storage.' => '',
         'Module used to detect if attachments are present.' => '',
-        'Multiselect' => 'Multiselect - множественный выбор',
         'My Queues' => 'Мои очереди',
         'My Services' => 'Мои сервисы',
         'My Tickets.' => 'Мои заявки.',
@@ -7747,7 +7860,6 @@ Thanks for your help!
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             'Имя пользовательского сервиса. Это сервис, выбранный из списка предпочтительных сервисов и он может быть выбран в личных настройках.',
         'NameX' => 'ИмяХ',
-        'New Ticket' => 'Новая заявка',
         'New Tickets' => 'Новые Заявки',
         'New Window' => 'Новое окно',
         'New Year\'s Day' => 'Новый Год',
@@ -7768,13 +7880,14 @@ Thanks for your help!
         'Number of displayed tickets' => 'Количество отображаемых заявок',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             'Количество строк (на заявку) которое показывается при выводе результатов поиска в интерфейсе агента.',
+        'Number of shards (NS) and replicas (NR) for the index.' => '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'Количество заявок которое показывается на каждой странице при выводе результатов поиска в интерфейсе агента.',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Количество заявок которое показывается на каждой странице при выводе результатов поиска в интерфейсе клиента.',
         'Number of tickets to be displayed in each page.' => 'Количество заявок, отображаемых на каждой странице.',
-        'OTOBO Team Services' => '',
         'OTOBO News' => 'Новости OTOBO',
+        'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             'OTOBO может использовать одну или более зеркальных БД, в режиме только для чтения, для ресурсоёмких операций, типа полнотекстового поиска или генерации отчетов. Здесь вы можете указать имя/DSN для первой зеркальной БД.',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
@@ -7795,6 +7908,8 @@ Thanks for your help!
         'Out Of Office' => 'Вне офиса',
         'Out Of Office Time' => 'Период отсутствия в офисе',
         'Out of Office users.' => 'Пользователи за пределами офиса',
+        'Output filter to inject the necessary Dynamic field names in hidden input.' =>
+            '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Переопределяет функции заданные в Kernel::System::Ticket::(имя папки с альтернативными модулями). Применяется для облегчения кастомизации.',
         'Overview Escalated Tickets.' => 'Обзор эскалированных заявок.',
@@ -7893,6 +8008,7 @@ Thanks for your help!
         'Picture Upload' => 'Загрузка изображений',
         'Picture upload module.' => 'Модуль загрузки изображений.',
         'Picture-Upload' => 'Загрузка рисунка',
+        'Please click the button below to create your first ticket.' => 'Пожалуйста, нажмите на кнопку ниже, чтобы создать вашу первую заявку.',
         'Plugin search' => 'Поисковый плагин',
         'Plugin search module for autocomplete.' => 'Поисковый плагин для автозавершения.',
         'Polish' => 'Польский',
@@ -7914,6 +8030,8 @@ Thanks for your help!
         'Product News' => 'Новости о продукте',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
+        'Protection against brute force attacks. MaxAttempt: How many failed login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered.' =>
+            '',
         'Provides a matrix overview of the tickets per state per queue' =>
             '',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
@@ -7923,8 +8041,10 @@ Thanks for your help!
         'Queue view' => 'Просмотр очередей',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Перестраивает индексы заявок для AgentTicketQueue.',
+        'Rebuilds the ACL preselection cache.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
             '',
+        'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => 'Интервал обновления',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
@@ -7942,7 +8062,6 @@ Thanks for your help!
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             'Заменяет оригинального отправителя текущим почтовым адресом клиента при написании ответа в интерфейсе агента.',
         'Reports' => 'Отчеты',
-
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -7981,7 +8100,6 @@ Thanks for your help!
         'Resent email to "%s".' => '',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
             'Сбрасывает Владельца и разблокирует заявку при перемещении ее в другую очередь.',
-
         'Responsible Tickets' => 'Ответственные заявки',
         'Responsible Tickets.' => 'Ответственные заявки',
         'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
@@ -7994,6 +8112,8 @@ Thanks for your help!
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
         'Running Process Tickets' => 'Запущенные Процессные заявки',
+        'Runs an initial wildcard search of the existing contacts with data when accessing the AdminContactWD module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             'Выполняет начальный поиск по символу подстановки в списке компаний клиентов в модуле AdminCustomerCompany.',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
@@ -8002,8 +8122,6 @@ Thanks for your help!
             '',
         'Russian' => 'Русский',
         'S/MIME Certificates' => 'Сертификаты S/MIME',
-        'SMS' => 'SMS',
-        'SMS (Short Message Service)' => 'СМС (от англ. Short Message Service — «служба коротких сообщений»)',
         'Salutations' => 'Приветствия',
         'Sample command output' => 'Простейший пример результата выполнения',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
@@ -8061,8 +8179,6 @@ Thanks for your help!
         'Service Level Agreements' => 'Соглашения об Уровне Сервиса',
         'Service view' => 'Обзор сервисов',
         'ServiceView' => 'ServiceView',
-        'Set a new password by filling in your current password and a new one.' =>
-            'Измените пароль, указав текущий пароль и новый.',
         'Set sender email addresses for this system.' => 'Задать адрес отправителя для этой системы.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Задает высоту (в пикселах) по умолчанию для inline HTML сообщений в AgentTicketZoom.',
@@ -8157,13 +8273,7 @@ Thanks for your help!
             'Устанавливает Текст по умолчанию для новых почтовых заявок в интерфейсе агента.',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             'Установить время отсутствия активности (в секундах), которое должно пройти, прежде чем сессия будет закрыта и пользователь будет отключен',
-        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.' =>
-            '',
-        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
-            '',
         'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
-            '',
-        'Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime.' =>
             '',
         'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
             '',
@@ -8282,6 +8392,7 @@ Thanks for your help!
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'Задает timeout (в сек) для http/ftp downloads.',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             'Задает timeout (в сек) для загрузки пакетов. Перекрывает "WebUserAgent::Timeout".',
+        'Settings for the customer login screen.' => '',
         'Shared Secret' => 'Общий секрет',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
             'Выводит окно выбора Ответственного при создании телефонных (почтовых) заявок в интерфейсеагента.',
@@ -8533,7 +8644,6 @@ Thanks for your help!
             'Задайте пароль для аутентификации для первой зеркалируемой БД.',
         'Specify the username to authenticate for the first mirror database.' =>
             'Задайте имя пользователя для аутентификации в первой зеркалируемой БД.',
-        'Stable' => 'Стабильный',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             'Задает набор доступных прав агентов в системе. Если требуются дополнительные права, они могут быть заданы здесь. Права должны быть определены, чтобы использоваться в системе. Некоторые другие полезные права, также встроены в систему: note, close, pending, customer, freetext, move, compose, responsible, forward, и bounce. Последней строкой в таблице всегда дорлжна быть строка с "rw".',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -8545,7 +8655,6 @@ Thanks for your help!
             'Запускает поиск с символами подстановки активного объекта в окне связывания объектов.',
         'Stat#' => 'Отчет#',
         'States' => 'Состояния',
-        'Statistic Reports overview.' => 'Обзор статистических отчетов.',
         'Statistics overview.' => 'Обзор статистики.',
         'Status view' => 'Просмотр статусов',
         'Stopped response time escalation.' => '',
@@ -8561,6 +8670,7 @@ Thanks for your help!
         'System Address Display Name' => 'Отображаемое имя для System Address',
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
+        'System Configuration Setting History' => '',
         'System Maintenance' => 'Обслуживание системы',
         'Templates ↔ Attachments' => 'Шаблоны ↔ Вложения',
         'Templates ↔ Queues' => 'Шаблоны ↔ Очереди',
@@ -8618,6 +8728,8 @@ Thanks for your help!
             'Текст, предшествующий теме при пересылке письма, например, FW, Fwd, или WG.',
         'The value of the From field' => '',
         'Theme' => 'Тема',
+        'This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.' =>
+            '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             'Этот модуль событий сохраняет атрибуты Клиента как Динамические поля заявок. Пожалуйста, посмотрите DynamicFieldFromCustomerUser::Mapping настройку, чтобы понять как настроить отображение.',
         'This is a Description for Comment on Framework.' => 'Это Описание Комментария к Фреймворку',
@@ -8627,6 +8739,9 @@ Thanks for your help!
         'This is the default orange - black skin.' => 'Это стандартная оранжево-черная тема.',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'Этот модуль и его PreRun() функция будет запускаться, если он определен для каждого запроса. Он полезен для проверки некоторых атрибутов пользователя или отображать новости о новых приложениях.',
+        'This module is being used to extend the password policy.' => '',
+        'This module is part of the admin area of OTOBO Community Edition.' =>
+            '',
         'This module is part of the admin area of OTOBO.' => 'Этот модуль является частью административного раздела OTOBO.',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             'Этот параметр задает динамическое поле для хранения идентификаторов элементов Активности в Управлении Процессами.',
@@ -8643,7 +8758,6 @@ Thanks for your help!
         'This setting is deprecated. Set OTOBOTimeZone instead.' => 'Этот параметр устарел. Вместо него используйте OTOBOTimeZone.',
         'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
             'Это параметр отображает опции сортировки во всех экранах обзора заявок, а не только в обзоре очередей.',
-        'This will allow the system to send text messages via SMS.' => 'Это позволит системе отправлять текстовые сообщения через СМС',
         'Ticket Close.' => 'Заявка закрыта.',
         'Ticket Compose Bounce Email.' => '',
         'Ticket Compose email Answer.' => '',
@@ -8683,6 +8797,8 @@ Thanks for your help!
         'Ticket zoom view.' => 'Просмотр подробностей заявки.',
         'TicketNumber' => 'Заявка №',
         'Tickets.' => 'Заявки.',
+        'Tile registration for the CustomerDashboard. Module is required.' =>
+            '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             'Время (в сек) добавляемое к текущему, если установлено состояние ожидания. (по умолчанию: 86400 = 1 день).',
         'To accept login information, such as an EULA or license.' => 'Принять регистрационную информацию, такую как EULA или лицензию.',
@@ -8725,10 +8841,10 @@ Thanks for your help!
         'Updates the ticket index accelerator.' => 'Обновляет ticket index accelerator.',
         'Upload your PGP key.' => 'Загрузите ваш PGP-ключ',
         'Upload your S/MIME certificate.' => 'Загрузить Ваш S/MIME сертификат.',
+        'Use Redis::Fast instead of Redis.' => '',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             'Используйте новый способ выбора и автозавершения при заполнении полей в интерфейсе агента, где это применимо (InputFields/Поля ввода).',
-        'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>
-            'Используйте новый способ выбора и автозавершения при заполнении полей в интерфейсе клиента, где это применимо (InputFields/Поля ввода).',
+        'Use specified Redis logical database.' => '',
         'User Profile' => 'Профиль пользователя',
         'UserFirstname' => 'Имя',
         'UserLastname' => 'Фамилия',
@@ -8737,7 +8853,6 @@ Thanks for your help!
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             'Использует форматированный текст для просмотра и редактирования: сообщений, приветствий, подписей, стандартных шаблонов, автоответов и уведомлений.',
         'Vietnam' => 'Вьетнамский',
-        'View all attachments of the current ticket' => 'Просмотреть все вложения текущей заявки',
         'View performance benchmark results.' => 'Просмотр результатов измерения производительности.',
         'Watch this ticket' => 'Наблюдать за этой заявкой',
         'Watched Tickets' => 'Наблюдаемые заявки',
@@ -8747,8 +8862,10 @@ Thanks for your help!
             'Проводиться плановое техническое обслуживание сайта. Вход временно недоступен.',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             'Проводиться плановое техническое обслуживание. Уже скоро закончим.',
+        'Web Service' => '',
         'Web Services' => 'Веб-сервисы',
-        'Web View' => 'Веб просмотр',
+        'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
+            '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             'Когда агент создает заявку, она автоматически блокируется этим агентом.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
@@ -8757,8 +8874,12 @@ Thanks for your help!
             'Когда выполняется слияние заявок, заметка автоматически добавляется к заявке, которая более неактивна. Здесь можно задать Тему сообщения/заметки (она не может быть изменена агентом).',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'При слиянии/объединении заявок, клиент может быть информирован об этом почтовым сообщением, активацией параметра "Inform Sender". Здесь вы можете задать текст, который  потом может быть изменен агентами.',
+        'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
+            '',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
             'Собирать или нет мета информацию из заметок, используя фильтры заданные в Ticket::Frontend::ZoomCollectMetaFilters.',
+        'Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes.' =>
+            '',
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             'Перенаправить все запросы с http на https протокол. Пожалуйста проверьте, что https протокол настроен корректно на Вашем web сервере, прежде чем включать эту опцию.',
         'Yes, but hide archived tickets' => 'Да, скрыть архивированные заявки',
@@ -8823,6 +8944,7 @@ Thanks for your help!
         'Apr',
         'April',
         'Are you sure you want to delete this appointment? This operation cannot be undone.',
+        'Are you sure you want to remove all user values?',
         'Are you sure you want to update all installed packages?',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
         'Article display',
@@ -8847,6 +8969,7 @@ Thanks for your help!
         'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
+        'Click to select or drop files here.',
         'Clone web service',
         'Close preview',
         'Close this dialog',
@@ -8923,7 +9046,6 @@ Thanks for your help!
         'Feb',
         'February',
         'Filters',
-        'Find out more',
         'Finished',
         'First select a customer user, then select a customer ID to assign to this ticket.',
         'Fr',
@@ -9040,6 +9162,7 @@ Thanks for your help!
         'Resources',
         'Restore default settings',
         'Restore web service configuration',
+        'Results',
         'Rule',
         'Running',
         'Sa',
@@ -9105,9 +9228,10 @@ Thanks for your help!
         'This Transition is already used for this Activity. You cannot use it twice!',
         'This TransitionAction is already used in this Path. You cannot use it twice!',
         'This address already exists on the address list.',
+        'This dynamic field database value is already selected.',
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
-        'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

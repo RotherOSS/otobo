@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.99931984356402;
+    $Self->{Completeness}        = 0.964885752688172;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -290,23 +290,23 @@ sub Data {
         'Support data collector' => 'Сакупљач података подршке',
         'Hint' => 'Савет',
         'Currently support data is only shown in this system.' => 'Актуелни подаци подршке се приказују само на овом систему.',
-        'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'Препоручује се да ове податке пошаљете OTOBO групи да би сте добили бољу подршку.',
+        'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
+            '',
         'Configuration' => 'Конфигурација',
         'Send support data' => 'Пошаљи податке за подршку',
-        'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'Ово ће омогућити систему да пошаље додатне информације о подацима подршке OTOBO групи.',
+        'This will allow the system to send additional support data information to the OTOBO team.' =>
+            '',
         'Update' => 'Ажурирање',
         'System Registration' => 'Регистрација система',
-        'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'Да би сте омогућили слање података, молимо вас да региструјете ваш систем у OTOBO групи или да ажурирате информације системске регистрације (будите сигурни да сте активирали опцију "Пошаљи податке за подршку").',
+        'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+            '',
         'Register this System' => 'Региструј овај систем',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'Системска регистрације је деактивирана за ваш систем. Молимо да проверите вашу конфигурацију.',
 
         # Template: AdminCloudServices
-        'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'Регистрација система је услуга OTOBO групе, која обезбеђује многе предности!',
+        'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
+            '',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             'Напомињемо да коришћење OTOBO сервиса у облаку захтевају да систем буде регистрован.',
         'Register this system' => 'Региструј овај систем',
@@ -386,13 +386,22 @@ sub Data {
         'Communication Log Details' => 'Детаљи комуникационог лога',
         'Please select an entry from the list.' => 'Молимо изаберите ставку из листе.',
 
+        # Template: AdminContactWD
+        'Contact with data management' => '',
+        'Contact with data' => 'Контакт са подацима',
+        'Add contact with data' => '',
+        'Edit contact with data' => '',
+        'Back to search results' => 'Врати се на резултате претраге',
+        'Select' => 'Изабери',
+        'Search' => 'Тражи',
+        'Wildcards like \'*\' are allowed.' => 'Џокерски знаци као \'*\' су дозвољени',
+        'Please enter a search term to look for contacts with data.' => '',
+        'Valid' => 'Важећи',
+
         # Template: AdminCustomerCompany
         'Customer Management' => 'Управљање клијентима',
         'Add Customer' => 'Додај клијента',
         'Edit Customer' => 'Измени клијента',
-        'Search' => 'Тражи',
-        'Wildcards like \'*\' are allowed.' => 'Џокерски знаци као \'*\' су дозвољени',
-        'Select' => 'Изабери',
         'List (only %s shown - more available)' => 'Листа (само %s је приказано - расположиво више)',
         'total' => 'укупно',
         'Please enter a search term to look for customers.' => 'Молимо унесите појам претраге за проналажење клијената.',
@@ -434,7 +443,6 @@ sub Data {
         'Customer User Management' => 'Управљање клијентима клијентима',
         'Add Customer User' => 'Додај клијента корисника',
         'Edit Customer User' => 'Уреди клијента корисника',
-        'Back to search results' => 'Врати се на резултате претраге',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             'Клијент клијент треба да има клијентски историјат и да се пријави преко клијентског панела.',
         'List (%s total)' => 'Листа (%s укупно)',
@@ -502,16 +510,15 @@ sub Data {
         'Add new field for object' => 'Додај ново поље објекту',
         'Filter for Dynamic Fields' => 'Филтер за динамичка поља',
         'Filter for dynamic fields' => 'Филтер за динамичка поља',
-        'More Business Fields' => 'Више пословних поља',
-        'Would you like to benefit from additional dynamic field types for businesses? Upgrade to %s to get access to the following field types:' =>
-            'Да ли желите могућност додатних пословних динамичких поља? Унапредите на %s за приступ следећим врстама поља:',
+        'New OTOBO Community  Fields' => '',
+        'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
+            '',
         'Database' => 'База података',
         'Use external databases as configurable data sources for this dynamic field.' =>
             'Користите екстерне базе података као извор података за ово динамичко поље.',
         'Web service' => 'Веб сервис',
         'External web services can be configured as data sources for this dynamic field.' =>
             'Екстерни веб сервиси се могу конфигурисати као извор података за ово динамичко поље.',
-        'Contact with data' => 'Контакт са подацима',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
             'Ова функција вам омогућава да додате (вишеструке) контакте са подацима тикетима.',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
@@ -551,6 +558,66 @@ sub Data {
         'Default value' => 'Подразумевана вредност',
         'This is the default value for this field.' => 'Ово је подразумевана вредност за ово поље.',
 
+        # Template: AdminDynamicFieldContactWD
+        'Add or edit contacts' => '',
+        'To add contacts to this field please fill out all the needed information and save it.' =>
+            '',
+        'Click on the field name from the overview to edit it and find the corresponding action in the sidebar or from the \'Tickets\' menu.' =>
+            '',
+        'Name Field' => '',
+        'ValidID Field' => '',
+        'Other Fields' => '',
+        'Key' => 'Кључ',
+        'Value' => 'Вредност',
+        'Remove value' => 'Уклони вредност',
+        'Add Field' => '',
+        'Add value' => 'Додај вредност',
+        'These are the possible data attributes for contacts.' => '',
+        'Mandatory fields' => '',
+        'Comma separated list of mandatory keys (optional). Keys \'Name\' and \'ValidID\' are always mandatory and doesn\'t have to be listed here.' =>
+            '',
+        'Sorted fields' => '',
+        'Comma separated list of keys in sort order (optional). Keys listed here come first, all remaining fields afterwards and sorted alphabetically.' =>
+            '',
+        'Searchable fields' => '',
+        'Comma separated list of searchable keys (optional). Key \'Name\' is always searchable and doesn\'t have to be listed here.' =>
+            '',
+        'Translatable values' => 'Преводљиве вредности',
+        'If you activate this option the values will be translated to the user defined language.' =>
+            'Ако активирате ову опцију вредности ће бити преведене на изабрани језик.',
+        'Note' => 'Напомена',
+        'You need to add the translations manually into the language translation files.' =>
+            'Ове преводе морате ручно додати у датотеке превода.',
+
+        # Template: AdminDynamicFieldDB
+        'Possible values' => 'Могуће вредности',
+        'Datatype' => '',
+        'Filter' => 'Филтер',
+        'Searchfield' => '',
+        'Listfield' => '',
+        'Show link' => 'Покажи везу',
+        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
+            'Овде можете да унесете опциону HTTP везу за вредност поља у екранима прегледа.',
+        'Example' => 'Пример',
+        'Link for preview' => 'Веза за преглед',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
+            'Ако је попуњено, овај URL ће се користити за преглед који се приказује када је показивач изнад везе у детаљима тикета. Узмите у обзир, да би ово радило, нормално URL поље изнад, мора такође да буде попуњено.',
+        'SID' => 'SID',
+        'Driver' => '',
+        'Server' => '',
+        'Port' => 'Порт',
+        'Table / View' => '',
+        'User' => 'Корисник',
+        'Password' => 'Лозинка',
+        'Identifier' => 'Идентификатор',
+        'Must be unique column from the table entered in Table/View.' => '',
+        'Multiselect' => 'Вишеструки избор',
+        'CacheTTL' => '',
+        'Searchprefix' => '',
+        'Searchsuffix' => '',
+        'Result Limit' => '',
+        'Case Sensitive' => '',
+
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Подразумевана разлика датума',
         'This field must be numeric.' => 'Ово поље мора бити нумеричко.',
@@ -563,35 +630,17 @@ sub Data {
         'Years in the past to display (default: 5 years).' => 'Године у прошлости за приказ (подразумевано је 5 година).',
         'Years in the future' => 'Године у будућности',
         'Years in the future to display (default: 5 years).' => 'Године у будућности за приказ (подразумевано је 5 година).',
-        'Show link' => 'Покажи везу',
-        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
-            'Овде можете да унесете опциону HTTP везу за вредност поља у екранима прегледа.',
         'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
             'Уколико специјални карактери (&, @, :, /, итд) не треба да буду енкодирани, користите \'url\' филтер уместо \'uri\'.',
-        'Example' => 'Пример',
-        'Link for preview' => 'Веза за преглед',
-        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
-            'Ако је попуњено, овај URL ће се користити за преглед који се приказује када је показивач изнад везе у детаљима тикета. Узмите у обзир, да би ово радило, нормално URL поље изнад, мора такође да буде попуњено.',
         'Restrict entering of dates' => 'Ограничи унос датума',
         'Here you can restrict the entering of dates of tickets.' => 'Овде можете ограничити унос датума за тикете.',
 
         # Template: AdminDynamicFieldDropdown
-        'Possible values' => 'Могуће вредности',
-        'Key' => 'Кључ',
-        'Value' => 'Вредност',
-        'Remove value' => 'Уклони вредност',
-        'Add value' => 'Додај вредност',
         'Add Value' => 'Додај Вредност',
         'Add empty value' => 'Додај без вредности',
         'Activate this option to create an empty selectable value.' => 'Активирај ову опцију за креирање избора без вредности.',
         'Tree View' => 'Приказ у облику стабла',
         'Activate this option to display values as a tree.' => 'Активирај ову опцију за приказ вредности у облику стабла.',
-        'Translatable values' => 'Преводљиве вредности',
-        'If you activate this option the values will be translated to the user defined language.' =>
-            'Ако активирате ову опцију вредности ће бити преведене на изабрани језик.',
-        'Note' => 'Напомена',
-        'You need to add the translations manually into the language translation files.' =>
-            'Ове преводе морате ручно додати у датотеке превода.',
 
         # Template: AdminDynamicFieldText
         'Number of rows' => 'Број редова',
@@ -607,6 +656,30 @@ sub Data {
         'Invalid RegEx' => 'Неважећи регуларни израз',
         'Error Message' => 'Порука о грешци',
         'Add RegEx' => 'Додај регуларни израз',
+
+        # Template: AdminDynamicFieldTitle
+        'Template' => 'Шаблон',
+        'Style' => '',
+        'bold' => '',
+        'italic' => '',
+        'underline' => '',
+        'Font style of the label.' => '',
+        'Size' => 'Величина',
+        'Font size of the label.' => '',
+        'Color in hex.' => '',
+
+        # Template: AdminDynamicFieldWebService
+        'This field is required' => 'Ово поље је обавезно.',
+        'The web service to be executed for possible values.' => '',
+        'Invoker' => '',
+        'The invoker to be used to perform requests (invoker needs to be of type \'Generic::PassThrough\').' =>
+            '',
+        'Activate this option to allow multiselect on results.' => '',
+        'Cache TTL' => '',
+        'Cache time to live (in minutes), to save the retrieved possible values.' =>
+            '',
+        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens. Optional HTTP link works only for single-select fields.' =>
+            '',
 
         # Template: AdminEmail
         'Admin Message' => 'Административна порука',
@@ -1025,8 +1098,8 @@ sub Data {
         'Endpoint' => 'Крајња тачка',
         'URI to indicate specific location for accessing a web service.' =>
             'URI за идентификацију специфичне локације за приступ сервису. ',
-        'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
-            'нпр. https://www.otrs.com:10745/api/v1.0 (без косе црте на крају)',
+        'e.g https://www.otobo.ch:10745/api/v1.0 (without trailing backslash)' =>
+            '',
         'Timeout' => 'Временско ограничење',
         'Timeout value for requests.' => 'Временско ограничење за захтеве.',
         'Authentication' => 'Аутентификација',
@@ -1068,6 +1141,9 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'Цела путања директоријума сертификационог тела где се складиште CA сертификати у систему датотека.',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'нпр. /opt/otobo/var/certificates/SOAP/CA',
+        'SSL hostname verification.' => '',
+        'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
+            '',
         'Controller mapping for Invoker' => 'Мапирање контролера за позиваоца',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             'Контролер коме ће позивалац прослеђивати захтеве. Променљиве обележене са \':\' ће бити замењене њиховим вредностима и прослеђене заједно са захтевом (нпр. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).',
@@ -1232,7 +1308,6 @@ sub Data {
         'Delete account' => 'Обриши налог',
         'Fetch mail' => 'Преузми пошту',
         'Do you really want to delete this mail account?' => 'Да ли стварно желите да обришете овај имејл налог?',
-        'Password' => 'Лозинка',
         'Example: mail.example.com' => 'Пример: mail.example.com',
         'IMAP Folder' => 'IMAP фолдер',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1244,7 +1319,6 @@ sub Data {
         # Template: AdminNavigationBar
         'Administration Overview' => 'Административни преглед',
         'Filter for Items' => 'Филтер за ставке',
-        'Filter' => 'Филтер',
         'Favorites' => 'Омиљене',
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             'Можете додати омиљене превлачењем курсора преко ставке са десне стране и кликом на иконицу звезде.',
@@ -1300,85 +1374,12 @@ sub Data {
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             'Можете користити OTOBO тагове као <OTOBO_TICKET_DynamicField_...> за уметање вредности из тренутног тикета.',
 
-        # Template: AdminOTOBOCommunityInstalled
-        'Manage %s' => 'Управљај са %s',
-        'Downgrade to OTOBO' => 'Повратак на бесплатно издање ((OTOBO))',
-        'Read documentation' => 'Прочитај документацију',
-        '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
-            '%s редовно се повезује са cloud.otrs.com за проверу доступних ажурирања и исправности интерних уговора.',
-        'Unauthorized Usage Detected' => 'Детектована неовлаштена употреба',
-        'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
-            'Овај систем користи %s без адекватне лиценце! Молимо да контактирате %s за обнову или активацију вашег уговора!',
-        '%s not Correctly Installed' => '%s није коректно инсталирана',
-        'Your %s is not correctly installed. Please reinstall it with the button below.' =>
-            'Ваш %s није коректно инсталиран. Молимо да реинсталирате путем дугмета испод.',
-        'Reinstall %s' => 'Реинсталирај %s',
-        'Your %s is not correctly installed, and there is also an update available.' =>
-            'Ваш %s није коректно инсталиран, а и ажурирање је доступно.',
-        'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
-            'Можете реинсталирати актуелну верзију или извршити ажурирање путем дугмета испод (препоручује се ажурирање).',
-        'Update %s' => 'Ажурирај %s',
-        '%s Not Yet Available' => '%s није још доступан',
-        '%s will be available soon.' => '%s ће бити ускоро доступно',
-        '%s Update Available' => '%s доступно ажурирање',
-        'An update for your %s is available! Please update at your earliest!' =>
-            'Ажурирање за ваш %s је доступно! Молимо вас да ажурирате што пре!',
-        '%s Correctly Deployed' => '%s коректно распоређено',
-        'Congratulations, your %s is correctly installed and up to date!' =>
-            'Честитамо, ваш %s је коректно инсталиран и ажуран!',
-
-        # Template: AdminOTOBOCommunityNotInstalled
-        'Go to the OTOBO customer portal' => 'Иди на OTOBO кориснички портал',
-        '%s will be available soon. Please check again in a few days.' =>
-            '%s ће бити доступна ускоро. Молимо, проверите поново за неколико дана.',
-        'Please have a look at %s for more information.' => 'Молимо да погледате  %s за више информација.',
-        'Your OTOBO is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            'Ваше бесплатно издање ((OTOBO)) је основа за све будуће активности. Молимо вас да се региструјете пре него што наставите са процесом ажурирања на %s!',
-        'Before you can benefit from %s, please contact %s to get your %s contract.' =>
-            'Пре него вам %s буде користан, молимо да контактирате %s да бисте добили %s уговор.',
-        'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTOBO can connect to cloud.otrs.com via port 443.' =>
-            'Конекција према cloud.otrs.com преко HTTPS није могла бити успостављена. Молимо осигурајте да ваш OTOBO може да се повеже са cloud.otrs.com преко порта 443.',
-        'Package installation requires patch level update of OTOBO.' => 'Инсталација пакета захтева ажурирану верзију OTOBO.',
-        'Please visit our customer portal and file a request.' => 'Молимо посетите наш кориснички портал и поднесите захтев.',
-        'Everything else will be done as part of your contract.' => 'Све остало ће бити урађено под вашим постојећим уговором.',
-        'Your installed OTOBO version is %s.' => 'Инсталирана OTOBO верзија код вас је %s.',
-        'To install this package, you need to update to OTOBO %s or higher.' =>
-            'Да бисте инсталирали овај пакет, неопходно је да ажурирате ваш OTOBO на верзију %s или више.',
-        'To install this package, the Maximum OTOBO Version is %s.' => 'За инсталацију овог пакета, највиша подржана верзија OTOBO је %s.',
-        'To install this package, the required Framework version is %s.' =>
-            'За инсталацију овог пакета неопходна верзија OTOBO је %s.',
-        'Why should I keep OTOBO up to date?' => 'Зашто би требало да OTOBO увек буде ажуриран?',
-        'You will receive updates about relevant security issues.' => 'Добићете ажурирања одговарајућих безбедносних издања.',
-        'You will receive updates for all other relevant OTOBO issues' => 'Добићете ажурирања свих релевантних OTOBO издања.',
-        'With your existing contract you can only use a small part of the %s.' =>
-            'Са вашим садашњим уговором можете користити само мали део од %s.',
-        'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
-            'Ако желите да искористите све предности %s потребно је да ажурирате ваш уговор! Контактирајте %s.',
-
-        # Template: AdminOTOBOCommunityUninstall
-        'Cancel downgrade and go back' => 'Поништи повратак на стару верзију и врати се назад',
-        'Go to OTOBO Package Manager' => 'Иди на OTOBO управљање пакетима',
-        'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
-            'Нажалост, тренутно не можете да се вратите на стару верзију због следећих пакета који зависе од %s:',
-        'Vendor' => 'Продавац',
-        'Please uninstall the packages first using the package manager and try again.' =>
-            'Молимо вас да прво деинсталирате пакете кроз управљач пакетима па да покушате поново. ',
-        'You are about to downgrade to OTOBO and will lose the following features and all data related to these:' =>
-            'Враћањем на бесплатно издање ((OTOBO)) изгубићете следећа својства и податке повезане са:',
-        'Chat' => 'Ћаскање',
-        'Report Generator' => 'Генератор извештаја',
-        'Timeline view in ticket zoom' => 'Детаљни приказ тикета на временској линији',
-        'DynamicField ContactWithData' => 'Динамичко поље "Контакт са подацима"',
-        'DynamicField Database' => 'База података динамичких поља',
-        'SLA Selection Dialog' => 'Дијалог избора SLA',
-        'Ticket Attachment View' => 'Преглед прилога уз тикет',
-        'The %s skin' => 'Изглед %s',
-
         # Template: AdminPGP
         'PGP Management' => 'Управљање PGP кључевима',
         'Add PGP Key' => 'Додај PGP кључ',
         'PGP support is disabled' => 'PGP подршка је онемогућена',
-        'To be able to use PGP in OTOBO, you have to enable it first.' => 'Да би могли да користите PGP у OTOBO, морате га прво омогућити.',
+        'To be able to use PGP in OTOBO, you have to enable it first.' =>
+            'Да би могли да користите PGP у OTOBO, морате га прво омогућити.',
         'Enable PGP support' => 'Омогући PGP подршку',
         'Faulty PGP configuration' => 'Неисправна PGP конфигурација',
         'PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
@@ -1388,7 +1389,6 @@ sub Data {
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'На овај начин можете директно уређивати комплет кључева подешен у SysConfig (системским конфигурацијама).',
         'Introduction to PGP' => 'Увод у PGP',
-        'Identifier' => 'Идентификатор',
         'Bit' => 'Бит',
         'Fingerprint' => 'Отисак',
         'Expires' => 'Истиче',
@@ -1404,8 +1404,10 @@ sub Data {
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Да ли стварно желите да поново инсталирате овај пакет? Све ручне промене ће бити изгубљене.',
         'Go to updating instructions' => 'Иди на упутство за ажурирање',
+        'Go to the OTOBO customer portal' => 'Иди на OTOBO кориснички портал',
         'package information' => 'Информације о пакету',
-        'Package installation requires a patch level update of OTOBO.' => 'Инсталација пакета захтева ажурирану верзију OTOBO.',
+        'Package installation requires a patch level update of OTOBO.' =>
+            'Инсталација пакета захтева ажурирану верзију OTOBO.',
         'Package update requires a patch level update of OTOBO.' => 'Ажурирање пакета захтева ажурирану верзију OTOBO.',
         'Please note that your installed OTOBO version is %s.' => 'Тренутно инсталирана OTOBO верзија је %s.',
         'To install this package, you need to update OTOBO to version %s or newer.' =>
@@ -1414,14 +1416,17 @@ sub Data {
             'Овај пакет се може инсталирати само на OTOBO верзију%s или старију.',
         'This package can only be installed on OTOBO version %s or newer.' =>
             'Овај пакет се може инсталирати само на OTOBO верзију%s или новију.',
+        'Why should I keep OTOBO up to date?' => 'Зашто би требало да OTOBO увек буде ажуриран?',
+        'You will receive updates about relevant security issues.' => 'Добићете ажурирања одговарајућих безбедносних издања.',
         'You will receive updates for all other relevant OTOBO issues.' =>
             'Добићете ажурирања свих других релевантних OTOBO издања.',
         'How can I do a patch level update if I don’t have a contract?' =>
-            'Како могу да ажурирам верзију OTOBO уколико немам уговор?',
+            'Како могу да ажурирам верзију OTRS уколико немам уговор?',
         'Please find all relevant information within the updating instructions at %s.' =>
             'Молимо пронађите све релевантне информације у оквиру инструкција за ажурирање на %s.',
         'In case you would have further questions we would be glad to answer them.' =>
             'У случају да имате додтана питања, биће нам задовољство да одговоримо на њих.',
+        'Please visit our customer portal and file a request.' => 'Молимо посетите наш кориснички портал и поднесите захтев.',
         'Install Package' => 'Инсталирај пакет',
         'Update Package' => 'Ажурирај пакет',
         'Continue' => 'Настави',
@@ -1434,6 +1439,7 @@ sub Data {
         'Enable cloud services' => 'Активирај сервисе у облаку',
         'Update all installed packages' => 'Ажурирај све инсталиране пакете',
         'Online Repository' => 'Мрежно спремиште',
+        'Vendor' => 'Продавац',
         'Action' => 'Акција',
         'Module documentation' => 'Документација модула',
         'Local Repository' => 'Локално спремиште',
@@ -1455,7 +1461,6 @@ sub Data {
         'Permission' => 'Дозвола',
         'Download file from package!' => 'Преузми датотеку из пакета!',
         'Required' => 'Обавезно',
-        'Size' => 'Величина',
         'Primary Key' => 'Примарни кључ',
         'Auto Increment' => 'Ауто увећање',
         'SQL' => 'SQL',
@@ -1539,8 +1544,6 @@ sub Data {
         'Ready2Adopt Processes' => 'Ready2Adopt процеси',
         'Here you can activate Ready2Adopt processes showcasing our best practices. Please note that some additional configuration may be required.' =>
             'Овде можете активирати Ready2Adopt процесе примера најбоље праксе који су спремни за употребу. Молимо обратите пажњу да је можда неопходна додатна конфигурација.',
-        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated Ready2Adopt processes.' =>
-            'Да ли желите да искористите процесе креиране од стране експерата? Унапредите на %s за увоз примера софистицираних Ready2Adopt процеса спремних за употребу.',
         'Import Ready2Adopt process' => 'Увези Ready2Adopt процес',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'За креирање новог процеса можете или увести процес који је извезен из другог система или креирати комплетно нов.',
@@ -1753,7 +1756,7 @@ sub Data {
         'Show transmitted data' => 'Покажи послате податке',
         'Deregister system' => 'Одјави систем',
         'Overview of registered systems' => 'Преглед регистрованих система',
-        'This system is registered with OTOBO Team.' => 'Овај систем је регистрован у OTOBO групи.',
+        'This system is registered with OTOBO Team.' => 'Овај систем је регистрован у OTRS групи.',
         'System type' => 'Тип система',
         'Unique ID' => 'Јединствени ID',
         'Last communication with registration server' => 'Последња комуникација са регистрационим сервером',
@@ -1762,9 +1765,9 @@ sub Data {
             'Молимо да обратите пажњу да не можете регистровати ваш систем ако OTOBO системски процес не ради коректно!',
         'Instructions' => 'Инструкције',
         'System Deregistration not Possible' => 'Одјава система није могућа',
-        'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
-            'Молимо да обратите пажњу да не можете дерегистровати ваш систем ако користите %s или имате важећи сервисни уговор.',
         'OTOBO-ID Login' => 'OTOBO-ID пријава',
+        'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
+            'Регистрација система је услуга OTRS групе, која обезбеђује многе предности!',
         'Read more' => 'Прочитај више',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'Потребно је да се пријавите са вашим OTOBO-ID да региструјете ваш систем.',
@@ -1784,7 +1787,7 @@ sub Data {
         'Is it possible to deregister?' => 'Да ли је могућа одјава?',
         'You can deregister at any time.' => 'Можете се одјавити у било које доба.',
         'Which data is transfered when registering?' => 'Који подаци се преносе приликом регистрације?',
-        'A registered system sends the following data to OTOBO Team:' => 'Регистровани систем шаље следеће податке OTOBO групи:',
+        'A registered system sends the following data to OTOBO Team:' => 'Регистровани систем шаље следеће податке OTRS групи:',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'Пуно квалификовано име домена (FQDN), OTOBO верзија, база података, оперативни систем и Perl верзија.',
         'Why do I have to provide a description for my system?' => 'Зашто морам да проследим опис мог система?',
@@ -1806,16 +1809,18 @@ sub Data {
         'Retrieve a new one' => 'Преузми нову',
         'Next' => 'Следеће',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            'Ови подаци ће бити послати OTOBO групи када региструјете овај систем.',
+            'Ови подаци ће бити послати OTRS групи када региструјете овај систем.',
         'Attribute' => 'Атрибут',
         'FQDN' => 'FQDN',
         'OTOBO Version' => 'OTOBO верзија',
         'Operating System' => 'Оперативни систем',
         'Perl Version' => 'Perl верзија',
         'Optional description of this system.' => 'Опциони опис овог система.',
+        'This will allow the system to send additional support data information to OTOBO Team.' =>
+            'Ово ће омогућити систему да пошаље додатне информације о подацима подршке OTRS групи.',
         'Register' => 'Региструј',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            'Настављање овог корака ће одјавити систем из OTOBO групе.',
+            'Настављање овог корака ће одјавити систем из OTRS групе.',
         'Deregister' => 'Искључи из регистра',
         'You can modify registration settings here.' => 'Овде можете изменити регистрациона подешавања.',
         'Overview of Transmitted Data' => 'Преглед послатих података',
@@ -1910,8 +1915,8 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'S/MIME сертификат',
-        'Close this dialog' => 'Затвори овај дијалог',
         'Certificate Details' => 'Детаљи сертификата',
+        'Close this dialog' => 'Затвори овај дијалог',
 
         # Template: AdminSalutation
         'Salutation Management' => 'Управљање поздравима',
@@ -1969,7 +1974,6 @@ sub Data {
         'Filter for Sessions' => 'Филтер за сесије',
         'Filter for sessions' => 'Филтер за сесије',
         'Session' => 'Сесија',
-        'User' => 'Корисник',
         'Kill' => 'Угаси',
         'Detail View for SessionID: %s - %s' => 'Детаљни преглед за ID сесије: %s - %s',
 
@@ -1997,14 +2001,18 @@ sub Data {
         'This state is used in the following config settings:' => 'Ово стање се користи у следећим системским подешавањима: ',
 
         # Template: AdminSupportDataCollector
-        'Sending support data to OTOBO Team is not possible!' => 'Слање података за подршку OTOBO групи није могуће!',
+        'Sending support data to OTOBO Team is not possible!' => 'Слање података за подршку OTRS групи није могуће!',
         'Enable Cloud Services' => 'Активирај сервисе у облаку',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            'Ови подаци се шаљу OTOBO групи у регуларном интервалу. Да зауставите слање ових података молимо вас да ажурирате регистрацију.',
+            'Ови подаци се шаљу OTRS групи у регуларном интервалу. Да зауставите слање ових података молимо вас да ажурирате регистрацију.',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             'Можете мануелно активирати слање подржаних података притискањем овог дугмета:',
         'Send Update' => 'Пошаљи ажурирање',
         'Currently this data is only shown in this system.' => 'Тренутно су ови подаци приказани само у овом систему.',
+        'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
+            'Препоручује се да ове податке пошаљете OTRS групи да би сте добили бољу подршку.',
+        'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+            'Да би сте омогућили слање података, молимо вас да региструјете ваш систем у OTRS групи или да ажурирате информације системске регистрације (будите сигурни да сте активирали опцију "Пошаљи податке за подршку").',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'Пакет за подршку (укључујући: информације о регистрацији система, податке за подршку, листу инсталираних пакета и свих локално модификованих датотека изворног кода) може бити генерисан притиском на ово дугме:',
         'Generate Support Bundle' => 'Генериши пакет подршке',
@@ -2017,10 +2025,10 @@ sub Data {
             'Имејл адреса овог корисника је неважећа, ова опција је искључена.',
         'Sending' => 'Слање',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            'Пакет подршке ће бити аутоматски послат имејлом OTOBO групи.',
+            'Пакет подршке ће бити аутоматски послат имејлом OTRS групи.',
         'Download File' => 'Преузми датотеку',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            'Датотека која садржи пакет за подршку ће бити преузета на локални рачунар. Молимо вас да сачувате датотеку и да је пошаљете на неки други начин OTOBO групи.',
+            'Датотека која садржи пакет за подршку ће бити преузета на локални рачунар. Молимо вас да сачувате датотеку и да је пошаљете на неки други начин OTRS групи.',
         'Error: Support data could not be collected (%s).' => 'Подржани подаци не могу бити прикупљени (%s).',
         'Details' => 'Детаљи',
 
@@ -2083,6 +2091,20 @@ sub Data {
             'Прежите на напредни мод да видите која подешавања промењена од стране осталих корисника могу бити распоређена.',
         'Deploy selected changes' => 'Распореди означене промене',
 
+        # Template: AdminSystemConfigurationDeploymentHistory
+        'Deployment History' => '',
+        'Filter for Deployments' => '',
+        'Recent Deployments' => '',
+        'Restore' => '',
+        'View Details' => '',
+        'Restore this deployment.' => '',
+        'Export this deployment.' => '',
+
+        # Template: AdminSystemConfigurationDeploymentHistoryDetails
+        'Deployment Details' => '',
+        'by' => 'од',
+        'No settings have been deployed in this run.' => '',
+
         # Template: AdminSystemConfigurationGroup
         'This group doesn\'t contain any settings. Please try navigating to one of its sub groups.' =>
             'Ова категорија не садржи ниједно подешавање. Молимо пробајте неку од под-група.',
@@ -2112,6 +2134,19 @@ sub Data {
         # Template: AdminSystemConfigurationSearchDialog
         'Category' => 'Категорија',
         'Run search' => 'Покрени претрагу',
+
+        # Template: AdminSystemConfigurationSettingHistoryDetails
+        'Change History' => '',
+        'Change History of %s' => '',
+        'No modified values for this setting, the default value is used.' =>
+            '',
+
+        # Template: AdminSystemConfigurationUserModifiedDetails
+        'Review users setting value' => '',
+        'Users Value' => '',
+        'For' => '',
+        'Delete all user values.' => '',
+        'No user value for this setting.' => '',
 
         # Template: AdminSystemConfigurationView
         'View a custom List of Settings' => 'Преглед листе подешавања',
@@ -2155,7 +2190,6 @@ sub Data {
         'Delete this entry' => 'Обриши овај унос',
         'Do you really want to delete this template?' => 'Да ли стварно желите да обришете овај шаблон?',
         'A standard template with this name already exists!' => 'Стандардни шаблон са овим називом већ постоји!',
-        'Template' => 'Шаблон',
         'Create type templates only supports this smart tags' => 'Креирај тип шаблона који подржавају само ове паметне ознаке.',
         'Example template' => 'Пример шаблона',
         'The current ticket state is' => 'Тренутни стаус тикета је',
@@ -2322,7 +2356,7 @@ sub Data {
         'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTOBO Daemon is running and start it if needed.' =>
             'Осигурава да датотека \'%s\' постоји (без .dist екстензије). Овај крон посао ће проверавати сваких 5 минута да ли OTOBO системски сервис ради и покреће га ако је потребно.',
         'Execute \'%s start\' to make sure the cron jobs of the \'otobo\' user are active.' =>
-            'Извршите \'%s start\' да би били сигурни да су крон послови за OTOBO корисника увек активни.',
+            'Извршите \'%s start\' да би били сигурни да су крон послови за OTRS корисника увек активни.',
         'After 5 minutes, check that the OTOBO Daemon is running in the system (\'bin/otobo.Daemon.pl status\').' =>
             'После 5 минута, проверава да ли OTOBO системски сервис функционише у систему (\'bin/otobo.Daemon.pl status\').',
 
@@ -2415,6 +2449,14 @@ sub Data {
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'dok',
 
+        # Template: AgentDynamicFieldDBDetailedSearch
+        'Back' => 'Назад',
+        'Detailed search' => '',
+        'Add an additional attribute' => '',
+
+        # Template: AgentDynamicFieldDBDetails
+        'Details view' => '',
+
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'Да би прихватили неке вести, дозволе или неке промене.',
         'Yes, accepted.' => 'Да, прихваћено.',
@@ -2428,10 +2470,24 @@ sub Data {
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             'Тренутно нема веза. Молимо кликните на \'Додај нове везе\' при врху да бисте повезали овај објекат са осталим.',
 
-        # Template: AgentOTOBOCommunityBlockScreen
-        'Unauthorized usage of %s detected' => 'Детектована неовлаштена употреба %s',
-        'If you decide to downgrade to OTOBO, you will lose all database tables and data related to %s.' =>
-            'Ако одлучите да се вратите на бесплатно издање ((OTOBO)), изгубићете све табеле и податке у бази података повезане са %s.',
+        # Template: AgentPassword
+        'Password Policy' => '',
+        'Your current password is older than %s days. You need to set a new one.' =>
+            '',
+        'Change password' => 'Промена лозинке',
+        'Current password' => 'Садашња лозинка',
+        'New password' => 'Нова лозинка',
+        'Repeat new password' => '',
+        'Password needs to be renewed every %s days.' => '',
+        'Password history is active, you can\'t use a password which was used the last %s times.' =>
+            '',
+        'Password length must be at least %s characters.' => '',
+        'Password requires at least two lower- and two uppercase characters.' =>
+            '',
+        'Password requires at least two characters.' => '',
+        'Password requires at least one digit.' => '',
+        'Change config options' => '',
+        'Admin permissions are required!' => '',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Уреди личне поставке',
@@ -2527,7 +2583,6 @@ sub Data {
         'Set Pending Time for %s%s%s' => 'Постави време чекања за %s%s%s',
         'Change Priority of %s%s%s' => 'Промени приоритет за %s%s%s',
         'Change Responsible of %s%s%s' => 'Промени одговорног за %s%s%s',
-        'All fields marked with an asterisk (*) are mandatory.' => 'Сва поља означена звездицом (*) су обавезна.',
         'The ticket has been locked' => 'Тикет је закључан.',
         'Undo & close' => 'Одустани & затвори',
         'Ticket Settings' => 'Подешавање тикета',
@@ -2731,7 +2786,6 @@ sub Data {
         'Event Type' => 'Тип догађаја',
         'Save as default' => 'Сачувај као подразумевано',
         'Drafts' => 'Нацрти',
-        'by' => 'од',
         'Change Queue' => 'Промени Ред',
         'There are no dialogs available at this point in the process.' =>
             'У овом тренутку нема слободних дијалога у процесу.',
@@ -2751,7 +2805,6 @@ sub Data {
         'Outgoing message' => 'Одлазна порука',
         'Internal message' => 'Интерна порука',
         'Sending of this message has failed.' => 'Слање ове поруке није успело.',
-        'This message has been queued for sending.' => 'Ова порука је заказана за слање.',
         'Resize' => 'Промена величине',
         'Mark this article as read' => 'Означи овај чланак као прочитан',
         'Show Full Text' => 'Прикажи цео текст',
@@ -2791,8 +2844,6 @@ sub Data {
         # Template: Invalid
         'Preview of this article is not possible because %s channel is missing in the system.' =>
             'Преглед овог чланка није могућ јер %s канал недостаје у систему.',
-        'This feature is part of the %s. Please contact us at %s for an upgrade.' =>
-            'Ово својство је део %s. Молимо да нас контактирате на %s за ажурирање.',
         'Please re-install %s package in order to display this article.' =>
             'Молимо поново инсталирајте пакет %s за приказ овог чланка.',
 
@@ -2810,9 +2861,7 @@ sub Data {
         'go back to the previous page' => 'иди на претходну страну',
 
         # Template: CustomerAccept
-        'Dear Customer,' => 'Драги клијенте,',
-        'thank you for using our services.' => 'хвала вам на коришћењу наших услуга.',
-        'Yes, I accept your license.' => '',
+        'Yes, I accepted your license.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -2823,13 +2872,15 @@ sub Data {
         'From all Customer IDs' => 'Из листе свих ID клијента',
         'From assigned Customer IDs' => 'Из листе додељених ID клијента',
 
+        # Template: CustomerDashboard
+        'Ticket Search' => '',
+
         # Template: CustomerError
         'An Error Occurred' => 'Догодила се грешка',
         'Error Details' => 'Детаљи грешке',
         'Traceback' => 'Испрати уназад',
 
         # Template: CustomerFooter
-        '%s powered by %s' => '%s се покреће од стране %s',
         'Powered by %s' => 'Покреће %s',
 
         # Template: CustomerFooterJS
@@ -2848,17 +2899,20 @@ sub Data {
             'Ова апликација функционише на великом броју веб претраживача, молимо да инсталирате и користите један од ових.',
         'Please see the documentation or ask your admin for further information.' =>
             'Молимо да прегледате документацију или питате вашег администратора за додатне информације.',
+        'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
+            '',
+        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+            '',
         'One moment please, you are being redirected...' => 'Сачекајте моменат, бићете преусмерени...',
         'Login' => 'Пријављивање',
-        'User name' => 'Корисничко име',
         'Your user name' => 'Ваше корисничко име',
+        'User name' => 'Корисничко име',
         'Your password' => 'Ваша лозинка',
         'Forgot password?' => 'Заборавили сте лозинку?',
-        '2 Factor Token' => 'Двофакторски токен',
         'Your 2 Factor Token' => 'Ваш двофакторски токен',
+        '2 Factor Token' => 'Двофакторски токен',
         'Log In' => 'Пријављивање',
-        'Not yet registered?' => 'Нисте регистровани?',
-        'Back' => 'Назад',
+        'Request Account' => '',
         'Request New Password' => 'Захтев за нову лозинку',
         'Your User Name' => 'Ваше корисничко име',
         'A new password will be sent to your email address.' => 'Нова лозинка ће бити послата на вашу имејл адресу.',
@@ -2870,17 +2924,31 @@ sub Data {
         'Your email address (this will become your username)' => 'Ваша имејл адреса (то ће бити ваше корисничко име)',
 
         # Template: CustomerNavigationBar
-        'Incoming Chat Requests' => 'Долазни захтеви за ћаскање',
-        'Edit personal preferences' => 'Уреди личне поставке',
-        'Logout %s' => 'Одјава %s',
+        'Logout' => 'Одјава',
+
+        # Template: CustomerPassword
+        'Change Password' => '',
+        'Password needs to contain at least 3 of the character classes: lower char, upper char, digit, special character.' =>
+            '',
+
+        # Template: CustomerTicketList
+        'Nr.' => '',
+        'Welcome!' => 'Добродошли!',
+        'You have no tickets yet. Please click here, to create a new one.' =>
+            '',
+        'Nothing to show.' => '',
+        'Click here for an unfiltered list of all your tickets.' => '',
 
         # Template: CustomerTicketMessage
+        'Issue a new Ticket' => '',
         'Service level agreement' => 'Споразум о нивоу услуге',
 
         # Template: CustomerTicketOverview
-        'Welcome!' => 'Добродошли!',
-        'Please click the button below to create your first ticket.' => 'Молимо да притиснете дугме испод за креирање вашег првог тикета.',
-        'Create your first ticket' => 'Креирајте ваш први тикет',
+        'Your Tickets' => '',
+        'New Ticket' => 'Нови тикет',
+        'Page' => 'Страна',
+        'Tickets' => 'Тикети',
+        'Sort' => '',
 
         # Template: CustomerTicketSearch
         'Profile' => 'Профил',
@@ -2905,14 +2973,14 @@ sub Data {
 
         # Template: CustomerTicketSearchResultShort
         'of' => 'од',
-        'Page' => 'Страна',
         'Search Results for' => 'Резултати претраживања за',
         'Remove this Search Term.' => 'Уклони овај израз за претрагу.',
 
         # Template: CustomerTicketZoom
-        'Start a chat from this ticket' => 'Почни ћаскање из овог тикета',
-        'Next Steps' => 'Следећи кораци',
         'Reply' => 'Одговори',
+        'Discard' => '',
+        'Ticket Information' => 'Информације о тикету',
+        'Categories' => '',
 
         # Template: Chat
         'Expand article' => 'Рашири чланак',
@@ -2920,17 +2988,15 @@ sub Data {
         # Template: CustomerWarning
         'Warning' => 'Упозорење',
 
+        # Template: Tile_NewTicket
+        'Issue<br/>a ticket' => '',
+
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Информације о догађају',
         'Ticket fields' => 'Поља тикета',
         'Dynamic fields' => 'Динамичка поља',
 
         # Template: Error
-        'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTOBO.' =>
-            'Стварно грешка? 5 од 10 пријављених грешака су последица погрешне или некомплетне OTOBO инсталације.',
-        'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
-            'Са %s, наши експерти ће се побринути за коректну инсталацију и обезбедити подршку и повремена сигурносна ажурирања.',
-        'Contact our service team now.' => 'Контактирајте наш сервисним тим сада.',
         'Send a bugreport' => 'Пошаљи извештај о грешци',
         'Expand' => 'Прошири',
 
@@ -2950,11 +3016,8 @@ sub Data {
             'Молимо обратите пажњу да је овај нацрт застарео јер је тикет модификован од када је нацрт креиран.',
 
         # Template: Header
-        'View notifications' => 'Преглед обавештења',
-        'Notifications' => 'Обавештења',
-
+        'Edit personal preferences' => 'Уреди личне поставке',
         'Personal preferences' => 'Лична подешавања',
-        'Logout' => 'Одјава',
         'You are logged in as' => 'Пријављени сте као',
 
         # Template: Installer
@@ -2967,12 +3030,7 @@ sub Data {
         'Welcome to %s' => 'Добродошли у %s',
         'Germany' => 'Немачка',
         'Phone' => 'Позив',
-        'United States' => 'Сједињене Америчке Државе',
-        'Mexico' => 'Мексико',
-        'Hungary' => 'Мађарска',
-        'Brazil' => 'Бразил',
-        'Singapore' => 'Сингапур',
-        'Hong Kong' => 'Хонг Конг',
+        'Switzerland' => '',
         'Web site' => 'Веб сајт',
 
         # Template: InstallerConfigureMail
@@ -3028,10 +3086,6 @@ sub Data {
 
         # Template: InstallerDBmysql
         'Passwords do not match' => 'Лозинке се не поклапају',
-
-        # Template: InstallerDBoracle
-        'SID' => 'SID',
-        'Port' => 'Порт',
 
         # Template: InstallerFinish
         'To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -3201,6 +3255,10 @@ sub Data {
         'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             'Молимо запамтите, да скала за Y-осу треба да буде већа од скале за Х-осу (нпр. Х-Оса => месец; Y-оса => година).',
 
+        # Template: SettingHistoryListCompare
+        'On ' => '',
+        'Reset to this value' => '',
+
         # Template: SettingsList
         'This setting is disabled.' => 'Ово подешавање је искључено.',
         'This setting is fixed but not deployed yet!' => 'Ово подешавање је статичко, али није још распоређено!',
@@ -3270,9 +3328,8 @@ sub Data {
         # Template: Navigation
         'Navigation' => 'Навигација',
 
-        # Template: OTOBOCommunityTeaser
-        'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
-            'Са %s, системска конфигурација подржава преглед промена, поновно распоређивање и корисничке промене подешавања.',
+        # Template: UsersSettingListCompare
+        'Delete user\'s value.' => '',
 
         # Template: Test
         'OTOBO Test Page' => 'OTOBO тест страна',
@@ -3301,6 +3358,7 @@ sub Data {
 
         # JS Template: UploadContainer
         'Click to select a file for upload.' => 'Кликните овде за отпремање датотеке.',
+        'Click to select or drop files here.' => '',
         'Click to select files or just drop them here.' => 'Кликните да одаберете датотеке или их једноставно превуците овде.',
         'Click to select a file or just drop it here.' => 'Кликните да одаберете датотеку или је једноставно превуците овде.',
         'Uploading...' => 'Отпремање...',
@@ -3319,6 +3377,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => 'Коментар распоређувања...',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => 'Распоређивање у току, молимо сачекајте...',
         'Preparing to deploy, please wait...' => 'Припрема за распоређивање, молимо сачекајте...',
         'Deploy now' => 'Распореди сад',
@@ -3346,7 +3405,6 @@ sub Data {
         'Zip' => 'ПБ',
         'City' => 'Место',
         'Country' => 'Држава',
-        'Valid' => 'Важећи',
         'Mr.' => 'Г-дин',
         'Mrs.' => 'Г-ђа',
         'Address' => 'Адреса',
@@ -3363,7 +3421,6 @@ sub Data {
         'The following ACLs have been updated successfully: %s' => 'Следеће ACL листе су успешно ажуриране: %s',
         'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.' =>
             'Постоје грешке у додавању/ажурирању следећих ACL: %s. Молимо проверите лог датотеку за више информација.',
-        'This field is required' => 'Ово поље је обавезно.',
         'There was an error creating the ACL' => 'Дошло је до грешке при креирању ACL',
         'Need ACLID!' => 'Неопходан ACLID!',
         'Could not get data for ACLID %s' => 'Не могу прибавити податке за ИД ACL листе %s',
@@ -3427,7 +3484,6 @@ sub Data {
             'Сви оператери са (најмање) дозволом прегледа термина (календара)',
         'All agents with write permission for the appointment (calendar)' =>
             'Сви оператери са дозволом писања у термину (календару)',
-        'Yes, but require at least one active notification method.' => 'Да, али тражи бар један активни метод обавештавања.',
 
         # Perl Module: Kernel/Modules/AdminAttachment.pm
         'Attachment added!' => 'Додат прилог!',
@@ -3464,6 +3520,17 @@ sub Data {
         'seconds' => 'секунде',
         'second' => 'секунда',
 
+        # Perl Module: Kernel/Modules/AdminContactWD.pm
+        'No contact is given!' => '',
+        'No data found for given contact in given source!' => '',
+        'Contact updated!' => '',
+        'No field data found!' => '',
+        'Contact created!' => '',
+        'Error creating contact!' => '',
+        'No sources found, at least one "Contact with data" dynamic field must be added to the system!' =>
+            '',
+        'No data found for given source!' => '',
+
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => 'Ажурирана фирма клијента!',
         'Dynamic field %s not found!' => 'Динамичко поље %s није пронађено!',
@@ -3498,11 +3565,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
         'Fields configuration is not valid' => 'Конфигурација поља је неважећа',
         'Objects configuration is not valid' => 'Конфигурација објекта је неважећа',
-        'Database (%s)' => 'База података (%s)',
-        'Web service (%s)' => 'Веб сервис (%s)',
-        'Contact with data (%s)' => 'Контакт са подацима (%s)',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
-            'Није могуће поништити редослед динамичких поља, молимо да проверите OTOBO логове за више информација.',
+            'Није могуће поништити редослед динамичких поља, молимо да проверите OTRS логове за више информација.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Недефинисана субакција.',
@@ -3522,12 +3586,15 @@ sub Data {
         'Unchecked' => 'Искључено',
         'Checked' => 'Укључено',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldContactWD.pm
+        'This field key is duplicated.' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDB.pm
+        'This field value is duplicated.' => 'Вредност овог поља је умножена.',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
         'Prevent entry of dates in the future' => 'Спречава унос датума у будућности',
         'Prevent entry of dates in the past' => 'Спречава унос датума у прошлости',
-
-        # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-        'This field value is duplicated.' => 'Вредност овог поља је умножена.',
 
         # Perl Module: Kernel/Modules/AdminEmail.pm
         'Select at least one recipient.' => 'Изаберите бар једног примаоца.',
@@ -3714,16 +3781,6 @@ sub Data {
         'Invisible to customer' => 'Невидљиво клијенту',
         'Visible to customer' => 'Видљиво клијенту',
 
-        # Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
-        'Your system was successfully upgraded to %s.' => 'Ваш систем је успешно унапређен на %s.',
-        'There was a problem during the upgrade to %s.' => 'Проблем током унапређивања на  %s.',
-        '%s was correctly reinstalled.' => '%s је коректно реинсталирана.',
-        'There was a problem reinstalling %s.' => 'Проблем при реинсталацији %s.',
-        'Your %s was successfully updated.' => 'Ваша %s је успешно ажурирана.',
-        'There was a problem during the upgrade of %s.' => 'Проблем током унапређивања %s.',
-        '%s was correctly uninstalled.' => '%s је коректно деинсталирана.',
-        'There was a problem uninstalling %s.' => 'Проблем при деинсталацији %s.',
-
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
             'PGP окружење не функционише. За више информација проверите лог.',
@@ -3741,7 +3798,7 @@ sub Data {
         'File is OK' => 'Датотека је у реду',
         'Package has locally modified files.' => 'Пакет садржи локално измењене датотеке.',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'Пакет није верификован од стране OTOBO групе! Препоручује се да не користите овај пакет.',
+            'Пакет није верификован од стране OTRS групе! Препоручује се да не користите овај пакет.',
         'Not Started' => 'Није покренуто',
         'Updated' => 'Ажурирано',
         'Already up-to-date' => 'Већ ажурно',
@@ -3943,6 +4000,11 @@ sub Data {
         'Some imported settings are not present in the current state of the configuration or it was not possible to update them. Please check the OTOBO log for more information.' =>
             'Нека увезена подешавања нису присутна у тренутној конфигурацији или није било могуће ажурирати их. Молимо проверите OTOBO лог за више информација.',
 
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
+        'This deployment does not contain changes in the setting values!' =>
+            '',
+        'No DeploymentID received!' => '',
+
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
         'You need to enable the setting before locking!' => 'Морате укључити подешавање пре закључавања!',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
@@ -3956,6 +4018,18 @@ sub Data {
         'Missing setting name.' => 'Недостаје назив подешавања.',
         'Setting not found.' => 'Подешавање није пронађено.',
         'Missing Settings!' => 'Недостаје Settings!',
+
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
+        'No setting name received!' => '',
+        'Modified Version' => '',
+        'Reset To Default' => '',
+        'Default Version' => '',
+        'No setting name or modified version id received!' => '',
+        'Was not possible to revert the historical value!' => '',
+
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
+        'Missing setting name or modified id!' => '',
+        'System was not able to delete the user setting values!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
         'Start date shouldn\'t be defined after Stop date!' => 'Датум почетка не би требало одредити после датума завршетка!',
@@ -4058,6 +4132,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => 'Неопходан параметар групе! ',
+        'This feature is not available.' => '',
         'Updated user preferences' => 'Ажуриране корисничке поставке',
         'System was unable to deploy your changes.' => 'Систем није успео да распореди ваше промене.',
         'Setting not found!' => 'Подешавање није пронађено!',
@@ -4122,6 +4197,8 @@ sub Data {
         'The following tickets were locked: %s.' => 'Следећи тикети су били закључани: %s.',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => 'Адреса %s је замењена регистровном адресом клијента.',
         'Customer user automatically added in Cc.' => 'Клијент клијент се аутоматски додаје у Cc.',
 
@@ -4344,7 +4421,6 @@ sub Data {
         'Show one article' => 'Прикажи један чланак',
         'Show all articles' => 'Прикажи све чланке',
         'Show Ticket Timeline View' => 'Прикажи тикете на временској линији',
-        'Show Ticket Timeline View (%s)' => 'Прикажи тикете на временској линији (%s)',
 
         # Perl Module: Kernel/Modules/AjaxAttachment.pm
         'Got no FormID.' => 'Није дат FormID.',
@@ -4363,6 +4439,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => 'Проверите подешавања за %s::QueueDefault.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'Проверите подешавања за %s::TicketTypeDefault.',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => 'Неопходан CustomerID!',
@@ -4437,6 +4515,9 @@ sub Data {
         'Need config Package::RepositoryAccessRegExp' => 'Неопходна конфигурација Package::RepositoryAccessRegExp',
         'Authentication failed from %s!' => 'Аутентификација није успела од %s!',
 
+        # Perl Module: Kernel/Output/HTML/Article/Chat.pm
+        'Chat' => 'Ћаскање',
+
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketBounce.pm
         'Bounce Article to a different mail address' => 'Преусмеравање чланка на другу имејл адресу',
         'Bounce' => 'Преусмери',
@@ -4474,9 +4555,7 @@ sub Data {
         'Unmark' => 'Неозначено',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
-
         'Re-install Package' => 'Инсталирај поново пакет',
-        'Upgrade' => 'Ажурирање',
         'Re-install' => 'Инсталирај поново',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -4611,17 +4690,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
         'Archive search' => 'Претрага архиве',
 
-        # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
-        'Enable cloud services to unleash all OTOBO features!' => 'Активирајте сервисе у облаку да би омогућили све OTOBO функције!',
-
-        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
-        '%s Upgrade to %s now! %s' => '%s Унапредите на %s сада! %s',
-        'Please verify your license data!' => 'Молимо проверите податке ваше лиценце!',
-        'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            'Лиценца за ваш %s истиче ускоро. Молимо да контактирате %s ради обнове уговора!',
-        'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            'Ажурирање за ваш %s је доступно, али постоји неусаглашеност са верзијом вашег система! Молимо вас да прво ажурирате верзију вашег система!',
-
         # Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
         'Online Agent: %s' => 'Оператер на вези: %s',
 
@@ -4646,10 +4714,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
         'You have Out of Office enabled, would you like to disable it?' =>
             'Активирана је опција ван канцеларије, желите ли да је искључите?',
-
-        # Perl Module: Kernel/Output/HTML/Notification/PackageManagerCheckNotVerifiedPackages.pm
-        'The installation of packages which are not verified by the OTOBO Team is activated. These packages could threaten your whole system! It is recommended not to use unverified packages.' =>
-            'Могућност инсталације пакета који нису верификоване од стране OTOBO групе је укључена. Ови пакети могу угрозити ваш цео систем. Препоручујемо да не користите неверификоване пакете.',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
         'You have %s invalid setting(s) deployed. Click here to show invalid settings.' =>
@@ -4679,13 +4743,11 @@ sub Data {
         'Please specify an end date that is after the start date.' => 'Молимо да одредите датум завршетка који је после датума почетка.',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
-        'Current password' => 'Садашња лозинка',
-        'New password' => 'Нова лозинка',
         'Verify password' => 'Потврди лозинку',
         'The current password is not correct. Please try again!' => 'Актуелна лозинка је нетачна. Молимо покушајте поново!',
         'Please supply your new password!' => 'Молимо да обезбедите нову лозинку!',
-        'Can\'t update password, your new passwords do not match. Please try again!' =>
-            'Лозинка не може бити ажурирана, нови уноси су различити. Молимо покушајте поново!',
+        'Can\'t update password, the new password and the repeated password do not match.' =>
+            '',
         'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             'Ова лозинка је забрањена тренутном системском конфигурацијом. Молимо контактирајте админстратора за додатна питања.',
         'Can\'t update password, it must be at least %s characters long!' =>
@@ -4695,6 +4757,8 @@ sub Data {
         'Can\'t update password, it must contain at least 1 digit!' => 'Лозинка не може бити ажурирана. Мора да садржи најнмање једну бројку.',
         'Can\'t update password, it must contain at least 2 letter characters!' =>
             'Лозинка не може бити ажурирана, мора садржати најмање 2 слова!',
+        'Can\'t update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
         'Time zone updated successfully!' => 'Временска зона успешно ажурирана!',
@@ -4750,9 +4814,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Сортирај по',
 
-        # Perl Module: Kernel/Output/HTML/TicketZoom/TicketInformation.pm
-        'Ticket Information' => 'Информације о тикету',
-
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
         'Locked Tickets New' => 'Нови закључани тикети',
         'Locked Tickets Reminder Reached' => 'Достигнут подсетник закључаних тикета',
@@ -4778,15 +4839,6 @@ sub Data {
         # Perl Module: Kernel/System/Auth.pm
         'It is currently not possible to login due to a scheduled system maintenance.' =>
             'Пријава тренутно није могућа због планираног одржавања система.',
-
-        # Perl Module: Kernel/System/AuthSession.pm
-        'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
-            'Прекорачили сте број истовремено пријављених оператера - контактирајте sales@otrs.com.',
-        'Please note that the session limit is almost reached.' => 'Имајте у виду да је ограничење сесија скоро достигнуто.',
-        'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
-            'Пријава одбијена! Прекорачили сте дозвољени број истовремено пријављених оператера! Под хитно контактирајте sales@otrs.com!',
-        'Session limit reached! Please try again later.' => 'Сесија је истекла! Молимо покушајте касније!',
-        'Session per user limit reached!' => 'Достигнуто ограничење броја сесија по кориснику!',
 
         # Perl Module: Kernel/System/AuthSession/DB.pm
         'Session invalid. Please log in again.' => 'Сесија је неважећа. Молимо пријавите се поново.',
@@ -4852,7 +4904,7 @@ sub Data {
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTOBO service contracts.</p>' =>
             '<p>Ако наставите са инсталацијом овог пакета, могу се јавити следећи проблеми:</p><ul><li>Безбедносни проблеми</li><li>Проблеми стабилности</li><li>Проблеми у перформансама</li></ul><p>Напомињемо да проблеми настали услед рада са овим пакетом нису покривени OTOBO сервисним уговором.</p>',
         '<p>The installation of packages which are not verified by the OTOBO Team is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
-            '<p>Инсталација пакета који нису верификовани од стране OTOBO групе није подразумевано омогућена. Можете активирати инсталацију неверификованих пакета путем "AllowNotVerifiedPackages" опције у системској конфигурацији.</p>',
+            '<p>Инсталација пакета који нису верификовани од стране OTRS групе није подразумевано омогућена. Можете активирати инсталацију неверификованих пакета путем "AllowNotVerifiedPackages" опције у системској конфигурацији.</p>',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -4944,8 +4996,9 @@ sub Data {
             'Максимално радно време првог одговора (под утицајем поставки ескалације)',
         'Number of Tickets (affected by escalation configuration)' => 'Број тикета (под утицајем поставки ескалације)',
 
-        # Perl Module: Kernel/System/Stats/Static/StateAction.pm
+        # Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
         'Days' => 'Дани',
+        'Queues / Tickets' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
         'Outdated Tables' => 'Застареле табеле',
@@ -5108,7 +5161,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
         'Database Records' => 'Записи у бази података',
-        'Tickets' => 'Тикети',
         'Ticket History Entries' => 'Историја уноса тикета',
         'Articles' => 'Чланци',
         'Attachments (DB, Without HTML)' => 'Прилози (база података, без HTML)',
@@ -5160,7 +5212,7 @@ sub Data {
         'Some packages are not correctly installed.' => 'Неки пакети нису исправно инсталирани.',
         'Package Verification Status' => 'Статус верификације пакета',
         'Some packages are not verified by the OTOBO Team! It is recommended not to use this packages.' =>
-            'Неки пакети нису верификовани од стране OTOBO групе! Препоручује се да не користите ове пакете.',
+            'Неки пакети нису верификовани од стране OTRS групе! Препоручује се да не користите ове пакете.',
         'Package Framework Version Status' => 'Статус пакета за верзију система',
         'Some packages are not allowed for the current framework version.' =>
             'Неки пакети нису дозвољени за верзију вашег система. ',
@@ -5298,7 +5350,8 @@ sub Data {
         'Disabled' => 'Онемогућен',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/Date.pm
-        'System was not able to calculate user Date in OTOBOTimeZone!' => 'Систем није успео да израчуна кориснички Date у OTOBOTimeZone!',
+        'System was not able to calculate user Date in OTOBOTimeZone!' =>
+            'Систем није успео да израчуна кориснички Date у OTOBOTimeZone!',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/DateTime.pm
         'System was not able to calculate user DateTime in OTOBOTimeZone!' =>
@@ -5320,6 +5373,7 @@ sub Data {
         'Chat Message Text' => 'Порука ћаскања',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
+        'Too many fail attempts, please retry again later' => '',
         'Login failed! Your user name or password was entered incorrectly.' =>
             'Неуспешна пријава! Нетачно је унето ваше корисничко име или лозинка.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
@@ -5643,6 +5697,9 @@ sub Data {
             'Кључеви са вредностима не могу бити промењени. Молимо уклоните овај пар кључ/вредност и додајте га поново.',
         'Unlock setting.' => 'Откључај подешавање.',
 
+        # JS File: Core.Agent.Admin.SystemConfigurationUser
+        'Are you sure you want to remove all user values?' => '',
+
         # JS File: Core.Agent.Admin.SystemMaintenance
         'Do you really want to delete this scheduled system maintenance?' =>
             'Да ли стварно желите да обришете ово планирано оржавање система?',
@@ -5695,6 +5752,9 @@ sub Data {
         'Please check the fields marked as red for valid inputs.' => 'Молимо проверите поља означена црвеним за важеће уносе.',
         'month' => 'месец',
         'Remove active filters for this widget.' => 'Уклони активне филтере за овај додатак.',
+
+        # JS File: Core.Agent.DynamicFieldDBSearch
+        'This dynamic field database value is already selected.' => '',
 
         # JS File: Core.Agent.LinkObject.SearchForm
         'Please wait...' => 'Молимо сачекајте...',
@@ -5757,7 +5817,6 @@ sub Data {
         # JS File: Core.Agent
         'Slide the navigation bar' => 'Померите навигациону траку',
         'Please turn off Compatibility Mode in Internet Explorer!' => 'Молимо да искључите мод компатибилности у Интернет експлореру!',
-        'Find out more' => 'Сазнај више',
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => 'Пређи на мобилни мод',
@@ -5918,6 +5977,9 @@ Thanks for your help!
             'ACL модул који дозвољава да надређени тикети буду затворени само ако су већ затворени сви подређени тикети ("State" показује која стања нису доступна за надређени тикет док се не затворе сви подређени тикети).',
         'Access Control Lists (ACL)' => 'Листе за контролу приступа (ACL)',
         'AccountedTime' => 'Обрачунато време',
+        'Activate Elasticsearch.' => '',
+        'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
+            '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'Активира механизам трептања реда који саржи најстарији тикет.',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -5958,19 +6020,31 @@ Thanks for your help!
         'Adds the permanent vacation days.' => 'Трајно додаје нерадне дане.',
         'Admin' => 'Админ',
         'Admin Area.' => 'Административни простор.',
+        'Admin Contact With Data' => '',
         'Admin Notification' => 'Администраторска обавештења',
         'Admin area navigation for the agent interface.' => 'Администраторска навигација за интефејс оператера.',
+        'Admin contact with data.' => '',
         'Admin modules overview.' => 'Преглед администраторских модула.',
         'Admin.' => 'Админ.',
         'Administration' => 'Администрација',
+        'Agent Contact With Data Search' => '',
         'Agent Customer Search' => 'Претрага клијената за оператере',
         'Agent Customer Search.' => 'Претрага клијената за оператере.',
+        'Agent Dynamic Field Database Detailed Search' => '',
+        'Agent Dynamic Field Database Details' => '',
+        'Agent Dynamic Field Database Search' => '',
         'Agent Name' => 'Име оператера',
         'Agent Name + FromSeparator + System Address Display Name' => 'Назив оператера + сепаратор "oд" + системска адреса за приказ',
         'Agent Preferences.' => 'Оператерска подешавања.',
         'Agent Statistics.' => 'Статистике за интерфејс оператера.',
         'Agent User Search' => 'Претрага корисника за оператере',
         'Agent User Search.' => 'Претрага корисника за оператере.',
+        'Agent contact with data search.' => '',
+        'Agent dynamic field database detailed search.' => '',
+        'Agent dynamic field database details.' => '',
+        'Agent dynamic field database search.' => '',
+        'Agent frontend module registration (disable \'Edit contacts with data\' link if if there is no source field configured).' =>
+            '',
         'Agent interface article notification module to check PGP.' => 'Модул интерфејса оператера за обавештавања о чланку за проверу PGP.',
         'Agent interface article notification module to check S/MIME.' =>
             'Модул интерфејса оператера за обавештавања о чланку, провера S/MIME',
@@ -5990,6 +6064,8 @@ Thanks for your help!
             'Модул интерфејса оператера за приказ броја тикета у Мојим услугама. Додатна контрола приказа ове везе може се постићи коришћењем кључа "Group" са садржајем "rw:group1;move_into:group2".',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Модул интерфејса оператера за приказ броја праћених тикета. Додатна контрола приказа ове везе може се постићи коришћењем кључа "Group" са садржајем "rw:group1;move_into:group2".',
+        'AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.' =>
+            '',
         'AgentTicketZoom widget that displays a table of objects linked to the ticket.' =>
             'Додатак за AgentTicketZoom екран који приказује табелу објеката повезаних са тикетом.',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
@@ -5999,7 +6075,6 @@ Thanks for your help!
         'Agents ↔ Groups' => 'Оператери ↔ групе',
         'Agents ↔ Roles' => 'Оператери ↔ улоге',
         'All CustomerIDs of a customer user.' => 'Сви клијент ID клијент корисника.',
-
         'All customer users of a CustomerID' => 'Сви клијенти корисници за CustomerID',
         'All escalated tickets' => 'Сви ескалирани тикети',
         'All new tickets, these tickets have not been worked on yet' => 'Сви нови тикети, на њима још није ништа рађено',
@@ -6106,6 +6181,7 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => 'Арапски (Саудијска арабија)',
         'ArticleTree' => 'Чланак у облику дрвета',
         'Attachment Name' => 'Назив прилога',
+        'Autoloading of Znuny4OTOBOPasswordPolicy extensions.' => '',
         'Automated line break in text messages after x number of chars.' =>
             'Аутоматски крај реда у текстуалним порукама после х карактера.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -6144,10 +6220,14 @@ Thanks for your help!
         'Cache time in seconds for the web service config backend.' => 'Време кеширања у секундама за веб сервис модул конфигурације.',
         'Calendar manage screen.' => 'Страница за управљање календарима.',
         'Catalan' => 'Каталонски',
-        'Change password' => 'Промена лозинке',
+        'Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+            '',
+        'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+            '',
+        'Change Ticket' => '',
+        'Change Ticket information' => '',
         'Change queue!' => 'Промена реда!',
         'Change the customer for this ticket' => 'Промени клијента за овај тикет',
-        'Change the free fields for this ticket' => 'Промени слободна поља овог тикета',
         'Change the owner for this ticket' => 'Промени власника овог тикета',
         'Change the priority for this ticket' => 'Промени приоритете за овај тикет.',
         'Change the responsible for this ticket' => 'Промени одговорног за овај тикет',
@@ -6232,7 +6312,7 @@ Thanks for your help!
         'Configure any additional readonly mirror databases that you want to use.' =>
             'Конфигурише било коју додатну пресликану базу података, коју желите да користите, само за читање.',
         'Configure sending of support data to OTOBO Team for improved support.' =>
-            'Подешавање слања података за подршку OTOBO групи ради унапређења подршке.',
+            'Подешавање слања података за подршку OTRS групи ради унапређења подршке.',
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Конфигурише који екран би требало приказати након креирања новог тикета.',
         'Configure your own log text for PGP.' => 'Конфигуриши сопствени лог текст за PGP.',
@@ -6257,6 +6337,7 @@ Thanks for your help!
             'Контролише да ли су заставицом обележени тикет и чланак уклоњени када је тикет архивиран.',
         'Converts HTML mails into text messages.' => 'Конвертује HTML поруке у текстуалне поруке.',
         'Create New process ticket.' => 'Креирај нови процес тикет',
+        'Create Templates for AdminDynamicFieldTitle' => '',
         'Create Ticket' => 'Креирај тикет',
         'Create a new calendar appointment linked to this ticket' => 'Креира нови термин у календару повезан са овим тикетом',
         'Create and manage Service Level Agreements (SLAs).' => 'Креира и управља Споразуме о нивоу услуга (СЛА)',
@@ -6288,6 +6369,7 @@ Thanks for your help!
         'Create new phone ticket.' => 'Креирање новог тикета позива.',
         'Create new process ticket.' => 'Креирај нови процес тикет.',
         'Create tickets.' => 'Креирање тикета.',
+        'Create your first ticket' => 'Креирајте ваш први тикет',
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             'Креиран тикет [%s] у "%s" са приоритетом "%s" и стањем "%s".',
         'Croatian' => 'Хрватски',
@@ -6297,10 +6379,15 @@ Thanks for your help!
             'Прилагођен текст за страницу која се приказује клијентима који још увек немају тикете (ако вам је тај текст потребан на другом језику, додајте га у прилагођен модул за преводе).',
         'Customer Administration' => 'Администрација клијената',
         'Customer Companies' => 'Фирме клијенти',
+        'Customer Dashboard' => '',
+        'Customer Dynamic Field Database Detailed Search' => '',
+        'Customer Dynamic Field Database Details' => '',
+        'Customer Dynamic Field Database Search' => '',
         'Customer IDs' => 'ID клијента',
         'Customer Information Center Search.' => 'Претрага клијентског информативног центра.',
         'Customer Information Center search.' => 'Претрага клијентског информативног центра.',
         'Customer Information Center.' => 'Клијентски информативни центар.',
+        'Customer Password.' => '',
         'Customer Ticket Print Module.' => 'Модул за штампу тикета у интерфејсу клијента.',
         'Customer User Administration' => 'Администрација клијента корисника',
         'Customer User Information' => 'Информације о клијент кориснику',
@@ -6310,6 +6397,9 @@ Thanks for your help!
         'Customer Users ↔ Customers' => 'Клијент корисници ↔ клијенти',
         'Customer Users ↔ Groups' => 'Клијенти корисници ↔ Групе',
         'Customer Users ↔ Services' => 'Клијент корисници ↔ сервиси',
+        'Customer dynamic field database detailed search.' => '',
+        'Customer dynamic field database details.' => '',
+        'Customer dynamic field database search.' => '',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             'Клијент иконица која показује затворене тикете овог клијента као инфо блок. Подешавање CustomerUserLogin на 1 претражује тикете на основу корисничког назива уместо CustomerID.',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -6490,6 +6580,8 @@ Thanks for your help!
             'Дефинише да ли ће оператерима бити дозвољена пријава на систем уколико немају подешен дељени тајни кључ и тиме не користе двофакторски модул за идентификацију.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'Дефинише да ли ће клијентима бити дозвољена пријава на систем уколико немају подешен дељени тајни кључ па због тога не користе двофакторски модул за идентификацију.',
+        'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             'Дефинише да ли ће се користити побољшани режим (омогућава коришћење табела, замене, индексирања, експонирања, уметања из Word-a, итд) у интерфејсу клијента.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
@@ -6568,8 +6660,6 @@ Thanks for your help!
         'Defines the config options for the autocompletion feature.' => 'Дефинише конфигурационе опције за функцију аутоматског довршавања.',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             'Дефинише конфигурационе параметре за ову ставку, да буду приказани у приказу подешавања.',
-        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
-            'Одређује све параметре за ову ставку у екрану подешавања. PasswordRegExp омогућава проверу лозинке путем регуларног израза. Дефинишите минимални број карактера путем PasswordMinSize. Дефинишите најмање 2 мала и 2 велика слова тако што ћете подесити одговарајућу опцију на 1. PasswordMin2Characters дефинише да ли лозинка мора да садржи најмање два слова (0 или 1). PasswordNeedDigit контролише потребу за најмање једном цифром (0 или 1). PasswordMaxLoginFailed дозвољава аутоматско проглашавање статуса оператера као неважећи-привремено, уколико је достигнут максимални број неуспешних логовања. Напомена: подешавање \'Active\' на 0 ће само онемогућити оператерима да мењају своја лична подешавања из ове групе, али ће администратори и даље моћи да их мењају у њихово име. Подесите \'PreferenceGroup\' да бисте одредили у ком делу интерфејса ова подешавања треба да буду приказана.',
         'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Дефинише конфигурационе параметре ове ставке за приказ у екрану подешавања. Напомена: подешавање \'Active\' на 0 ће само онемогућити оператерима да мењају своја лична подешавања из ове групе, али ће администратори и даље моћи да их мењају у њихово име. Подесите \'PreferenceGroup\' да бисте одредили у ком делу интерфејса ова подешавања треба да буду приказана.',
         'Defines the connections for http/ftp, via a proxy.' => 'Дефинише конекције за http/ftp преко посредника.',
@@ -6849,8 +6939,6 @@ Thanks for your help!
         'Defines the maximum size (in MB) of the log file.' => 'Дефинише максималну величину лог датотеке (у мегабајтима).',
         'Defines the maximum size in KiloByte of GenericInterface responses that get logged to the gi_debugger_entry_content table.' =>
             'Дефинише максималну величину у килобајтима за одговоре Генеричког интерфејса који се бележе у gi_debugger_entry_content табелу.',
-        'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
-            'Дефинише модул који приказује генеричку напомену у интерфејсу оператера. Биће приказан или "Text" (ако је конфигурисан) или садржај "File".',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             'Дефинише модул који приказује све тренутно пријављене оператере у интерфејсу оператера.',
         'Defines the module that shows all the currently logged in customers in the agent interface.' =>
@@ -6860,8 +6948,6 @@ Thanks for your help!
         'Defines the module that shows the currently logged in customers in the customer interface.' =>
             'Дефинише модул који приказује све тренутно пријављене клијенте у интерфејсу клијента.',
         'Defines the module to authenticate customers.' => 'Одређује модул за аутентификацију клијената.',
-        'Defines the module to display a notification if cloud services are disabled.' =>
-            'Дефинише модул за приказивање обавештења ако су сервиси у облаку онемогућени.',
         'Defines the module to display a notification in the agent interface if the OTOBO Daemon is not running.' =>
             'Одређује модул за приказ обавештења у интерфејсу оператера ако OTOBO системски сервис не ради.',
         'Defines the module to display a notification in the agent interface if the system configuration is out of sync.' =>
@@ -6872,10 +6958,6 @@ Thanks for your help!
             'Дефинише модул за приказивање обавештења у интерфејсу оператера ако је оператер пријављен на систем док је опција ван канцеларије активна.',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
             'Одређује модул за приказ обавештења у интерфејсу оператера, ако је оператер пријављен на систем док је активно одржавање система.',
-        'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
-            'Одређује модул за приказ обавештења у интерфејсу оператера ако .је достигнут лимит сесија оператера.',
-        'Defines the module to display a notification in the agent interface, if the installation of not verified packages is activated (only shown to admins).' =>
-            'Дефинише модул за приказивање обавештења у интерфејсу оператера, уколико је инсталација неверификованих пакета укључена (приказ само за администраторе).',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             'Дефинише модул за приказивање обавештења у интерфејсу оператера ако се систем користи од стране админ корисника (нормално не треба да раде као администратор).',
         'Defines the module to display a notification in the agent interface, if there are invalid sysconfig settings deployed.' =>
@@ -6998,6 +7080,8 @@ Thanks for your help!
             'Дефинише приказане колоне и њихов редослед у екрану резултата претраге адресара клијент корисника.',
         'Defines the shown links in the footer area of the customer and public interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
             'Одређује приказане везе у доњем делу клијентског и јавног интерфејса овог OTOBO система. Вредност поља "Key" је екстерна адреса (URL), а вредност поља "Content" је приказан назив.',
+        'Defines the source dynamic field for storing historical data.' =>
+            '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'Одређује стандардне дозволе расположиве за кориснике у апликацији. Уколико је потребно више дозвола, можете их унети овде. Да би биле ефективне, дозволе морају бити непроменљиве. Молимо проверите када додајете било коју од горе наведених дозвола, да "rw" дозвола остане последња.',
         'Defines the standard size of PDF pages.' => 'Дефинише стандардну величину PDF страница.',
@@ -7024,6 +7108,8 @@ Thanks for your help!
             'Одређује циљни атрибут у вези са екстерном базом података клијента. Нпр. \'AsPopup PopupType_TicketAction\'.',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
             'Одређује циљни атрибут у вези са екстерном базом података клијента. Нпр. \'target="cdb"\'.',
+        'Defines the target dynamic fields for storing historical data.' =>
+            '',
         'Defines the ticket appointment type backend for ticket dynamic field date time.' =>
             'Дефинише модул термина тикета за динамичко поље датума.',
         'Defines the ticket appointment type backend for ticket escalation time.' =>
@@ -7048,7 +7134,8 @@ Thanks for your help!
             'Дефинише корисничко име за приступ SOAP руковању (bin/cgi-bin/rpc.pl).',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Дефинише корисникову аватар сличицу. Напомена: подешавање \'Active\' на 0 ће само онемогућити оператерима да мењају своја лична подешавања из ове групе, али ће администратори и даље моћи да их мењају у њихово име. Подесите \'PreferenceGroup\' да бисте одредили у ком делу интерфејса ова подешавања треба да буду приказана.',
-        'Defines the valid state types for a ticket.' => 'Дефинише важеће типове статуса за тикет.',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Одређује важеће статусе за откључане тикете. За откључавање тикета може се користити скрипт "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout".',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -7085,7 +7172,7 @@ Thanks for your help!
         'Deletes requested sessions if they have timed out.' => 'Брише захтевану сесију ако је истекло време.',
         'Delivers extended debugging information in the frontend in case any AJAX errors occur, if enabled.' =>
             'Омогућава прибављање додатних информација о грешкама у интерфејсу, у случају проблема са AJAX методом.',
-
+        'DeploymentHistory' => '',
         'Detached' => 'Одвојено',
         'Determines if a button to delete a link should be displayed next to each link in each zoom mask.' =>
             'Одређује да ли се приказује дугме за брисање поред сваке везе у детаљном прегледу тикета.',
@@ -7144,12 +7231,15 @@ Thanks for your help!
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             'Холандске зауставне речи за индекс претраге комплетног текста. Ове речи ће бити уклоњене из индекса претраге.',
         'Dynamic Fields Checkbox Backend GUI' => 'Графички интерфејс динамичког поља за потврду',
+        'Dynamic Fields Contact Data Backend GUI' => '',
+        'Dynamic Fields Database Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => 'Графички интерфејс динамичког поља за датум и време',
         'Dynamic Fields Drop-down Backend GUI' => 'Графички интерфејс падајућег динамичког поља',
         'Dynamic Fields GUI' => 'Графички интерфејс динамичких поља',
         'Dynamic Fields Multiselect Backend GUI' => 'Графички интерфејс динамичког поља са вишеструким избором',
         'Dynamic Fields Overview Limit' => 'Ограничен преглед динамичких поља',
         'Dynamic Fields Text Backend GUI' => 'Графички интерфејс текстуалног динамичког поља',
+        'Dynamic Fields Web Service Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             'Динамичка поља коришћена за извоз резултата претраге у CSV формат.',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
@@ -7221,7 +7311,11 @@ Thanks for your help!
         'Edit Customer Companies.' => 'Измена фирми клијента.',
         'Edit Customer Users.' => 'Уреди клијенте кориснике.',
         'Edit appointment' => 'Измена термина',
+        'Edit contacts with data' => '',
+        'Edit contacts with data.' => '',
         'Edit customer company' => 'Измени фирму клијента',
+        'Elasticsearch' => '',
+        'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'Имејл адресе',
         'Email Outbound' => 'Одлазни имејл',
         'Email Resend' => 'Пошаљи поново имејл',
@@ -7266,6 +7360,8 @@ Thanks for your help!
         'Escalation view' => 'Преглед ескалација',
         'EscalationTime' => 'Време ескалације',
         'Estonian' => 'Естонски',
+        'Event module registration (store historical data in dynamic fields).' =>
+            '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             'Регистрација модула догађаја. За бољи учинак можете дефинисати догађај окидач (нпр Догађај => КреирањеТикета).',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -7293,7 +7389,8 @@ Thanks for your help!
             'Извршава прилагођену команду или модул. Напомена: ако је употребљен модул, функција је неопходна.',
         'Executes follow-up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             'Извршава провере за наставак тикета на „In-Reply-To” или „References” заглављима имејла који немају број тикета у предмету.',
-        'Executes follow-up checks on OTOBO Header \'X-OTOBO-Bounce\'.' => 'Извршава провере наставка на „OTOBO” заглављу „X-OTOBO-Bounce”.',
+        'Executes follow-up checks on OTOBO Header \'X-OTOBO-Bounce\'.' =>
+            'Извршава провере наставка на „OTOBO” заглављу „X-OTOBO-Bounce”.',
         'Executes follow-up checks on attachment contents for mails that don\'t have a ticket number in the subject.' =>
             'Извршава проверу настављања у садржају прилога за имејлове који немају број тикета у предмету.',
         'Executes follow-up checks on email body for mails that don\'t have a ticket number in the subject.' =>
@@ -7309,6 +7406,18 @@ Thanks for your help!
         'Fetch incoming emails from configured mail accounts.' => 'Преузимање ',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
             'Преузима пакете преко proxy сервера. Преиначује опцију "WebUserAgent::Proxy".',
+        'Fields of the customer company index, used for the company fulltext search. Fields are also stored, but are not mandatory for the overall functionality.' =>
+            '',
+        'Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
+            '',
+        'Fields stored in the customer company index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
+            '',
+        'Fields stored in the customer user index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
+            '',
+        'Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
+            '',
+        'Fields to be searched in ticket index. Fields are also stored, but are not mandatory for the overall functionality.' =>
+            '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.' =>
             'Датотека за приказ у модулу Kernel::Modules::AgentInfo, уколико је снимљена под Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.',
         'Filter for debugging ACLs. Note: More ticket attributes can be added in the format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>.' =>
@@ -7336,8 +7445,8 @@ Thanks for your help!
             'Намеће избор различитог стања тикета (од актуелног) после акције закључавања. Дефинише актуелно стање као кључ, а следеће стање после закључавања као садржај.',
         'Forces to unlock tickets after being moved to another queue.' =>
             'Принудно откључава тикете после премештања у други ред.',
+        'Format to be ingested' => '',
         'Forwarded to "%s".' => 'Прослеђено "%s".',
-        'Free Fields' => 'Слободна поља',
         'French' => 'Француски',
         'French (Canada)' => 'Француски (Канада)',
         'French stop words for fulltext index. These words will be removed from the search index.' =>
@@ -7359,6 +7468,8 @@ Thanks for your help!
         'Full value' => 'Цела вредност',
         'Fulltext index regex filters to remove parts of the text.' => 'Текст индекс филтери (регуларни изрази) за уклањање делова текста.',
         'Fulltext search' => 'Текст за претрагу',
+        'Fulltext search using Elasticsearch' => '',
+        'FulltextES' => '',
         'Galician' => 'Галицијски',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
             'Општи подаци тикета приказани у прегледима тикета (резерва). Напомињемо да TicketNumber не може бити искључен, јер је неопходан.',
@@ -7377,6 +7488,8 @@ Thanks for your help!
         'GenericInterface Web Service Mapping GUI' => 'Генерички интерфејс - мапирање веб сервиса',
         'GenericInterface module registration for an error handling module.' =>
             'Регистрација модула генеричког интерфејса за отклањање грешака.',
+        'GenericInterface module registration for the PassThrough invoker layer.' =>
+            '',
         'GenericInterface module registration for the invoker layer.' => 'Регистрација модула генеричког интерфејса за слој позиваоца.',
         'GenericInterface module registration for the mapping layer.' => 'Регистрација модула генеричког интерфејса за слој мапирања.',
         'GenericInterface module registration for the operation layer.' =>
@@ -7517,7 +7630,7 @@ Thanks for your help!
         'If this regex matches, no message will be send by the autoresponder.' =>
             'Ако се овај израз поклапа, аутоматски одговарач неће послати ниједну поруку.',
         'If this setting is enabled, it is possible to install packages which are not verified by OTOBO Team. These packages could threaten your whole system!' =>
-            'Уколико је подешавање омогућено, могућа је инсталација пакета који нису верификовани од стране OTOBO групе. Ови пакети могу угрозити ваш цео систем!',
+            'Уколико је подешавање омогућено, могућа је инсталација пакета који нису верификовани од стране OTRS групе. Ови пакети могу угрозити ваш цео систем!',
         'If this setting is enabled, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             'Уколико је ово подешавање укључено, локалне измене неће бити приказане као грешке у управљачу пакетима и сакупљачу података подршке.',
         'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
@@ -7634,7 +7747,7 @@ Thanks for your help!
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             'Одређује да ли сесије користе HTML колачиће. Уколико су колачићи искључени или клијентски претраживач их не подржава, систем ће радити уобичајено и додаваће ID сесије у свим везама.',
         'Malay' => 'Малајски',
-        'Manage OTOBO Team cloud services.' => 'Управља услугама у облаку OTOBO групе.',
+        'Manage OTOBO Team cloud services.' => 'Управља услугама у облаку OTRS групе.',
         'Manage PGP keys for email encryption.' => 'Управља PGP кључевима за имејл шифровање.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Управљање ПОП3 или ИМАП налозима за преузимање емаил-а од.',
         'Manage S/MIME certificates for email encryption.' => 'Управљај S/MIME сертификатима за имеј енкрипцију.',
@@ -7658,6 +7771,7 @@ Thanks for your help!
             'Максимум аутоматских имејл одговора дневно на сопствену адресу (Заштита од петље)',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>
             'Максимални број аутоматских имејл одговора дневно на сопствену адресу, подесив по имејл адреси (заштита од петље).',
+        'Maximal number of results returned by ES per field.' => '',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
             'Максимална величина у килобајтима за имејлове који могу бити преузети преко POP3/POP3S/IMAP/IMAPS (KBytes).',
         'Maximum Number of a calendar shown in a dropdown.' => 'Максимални број календара приказан у листи.',
@@ -7667,6 +7781,7 @@ Thanks for your help!
             'Максимална дужина (у знацима) динамичког поља у бочној траци на детаљном прегледу тикета.',
         'Maximum number of active calendars in overview screens. Please note that large number of active calendars can have a performance impact on your server by making too much simultaneous calls.' =>
             'Максимални број активних календара у екранима за преглед. Обратите пажњу да велики број активних календара може имати утицај на перформансе вашег сервера прављењем превише симултаних захтева.',
+        'Maximum number of results returned from the quick result.' => '',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             'Максимални број тикета који ће бити приказани у резултату претраге у интерфејсу оператера.',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
@@ -7726,7 +7841,6 @@ Thanks for your help!
             'Модул за приказ обавештења и ескалација (ShownMax: највећи приказан број ексалација, EscalationInMinutes: приказ тикета који ће ескалирати, CacheTime: кеш израчунатих ескалација у секундама).',
         'Module to use database filter storage.' => 'Модул за смештај филтера у базу података.',
         'Module used to detect if attachments are present.' => 'Модул за детекцију да ли су присутни прилози.',
-        'Multiselect' => 'Вишеструки избор',
         'My Queues' => 'Моји редови',
         'My Services' => 'Моје услуге',
         'My Tickets.' => 'Моји тикети.',
@@ -7735,7 +7849,6 @@ Thanks for your help!
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             'Назив наменске услуге. Наменска услуга је избор услуга по вашој жељи и може се изабрати у подешавањима.',
         'NameX' => 'NameX',
-        'New Ticket' => 'Нови тикет',
         'New Tickets' => 'Нови тикети',
         'New Window' => 'Нови прозор',
         'New Year\'s Day' => 'Нова година',
@@ -7756,13 +7869,14 @@ Thanks for your help!
         'Number of displayed tickets' => 'Број приказаних тикета',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             'Број линија (по тикету) приказаних према услужној претрази у интерфејсу оператера.',
+        'Number of shards (NS) and replicas (NR) for the index.' => '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'Број тикета који ће бити приказани на свакој страни резултата претраге у интерфејсу оператера.',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Број тикета који ће бити приказани на свакој страни резултата претраге у интерфејсу клијента.',
         'Number of tickets to be displayed in each page.' => 'Број тикета који ће бити приказани на свакој страни.',
-        'OTOBO Team Services' => 'Сервиси OTOBO групе',
         'OTOBO News' => 'OTOBO новости',
+        'OTOBO Team Services' => 'Сервиси OTRS групе',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '„OTOBO” може да користи једну или више пресликаних база података за скупе операције као што су претрага текста или генерисање статистика. Овде можете дефинисати DSN за прву пресликану базу података.',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
@@ -7783,6 +7897,8 @@ Thanks for your help!
         'Out Of Office' => 'Ван канцеларије',
         'Out Of Office Time' => 'Време ван канцеларије',
         'Out of Office users.' => 'Корисници ван канцеларије.',
+        'Output filter to inject the necessary Dynamic field names in hidden input.' =>
+            '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Преоптерећује (редефинисано) постојеће фуцкције у Kernel::System::Ticket. Користи се за лако додавање прилагођавања.',
         'Overview Escalated Tickets.' => 'Преглед ескалираних тикета.',
@@ -7881,6 +7997,7 @@ Thanks for your help!
         'Picture Upload' => 'Отпремање слике',
         'Picture upload module.' => 'Модул за отпремање слике.',
         'Picture-Upload' => 'Отпремање слике',
+        'Please click the button below to create your first ticket.' => 'Молимо да притиснете дугме испод за креирање вашег првог тикета.',
         'Plugin search' => 'Модул претраге',
         'Plugin search module for autocomplete.' => 'Модул претраге за аутоматско допуњавање.',
         'Polish' => 'Пољски',
@@ -7902,6 +8019,8 @@ Thanks for your help!
         'Product News' => 'Новости о производу',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
+        'Protection against brute force attacks. MaxAttempt: How many failed login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered.' =>
+            '',
         'Provides a matrix overview of the tickets per state per queue' =>
             'Приказује матрицу прегледа тикета по њиховом стању по редовима',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
@@ -7911,8 +8030,10 @@ Thanks for your help!
         'Queue view' => 'Преглед реда',
         'Queues ↔ Auto Responses' => 'Редови ↔ аутоматски одговори',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Поново изради индекс тикета за оператерски ред тикета.',
+        'Rebuilds the ACL preselection cache.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
             'Препознаје да ли је тикет наставак постојећег тикета коришћењем екстерног броја тикета. Напомена: прва RegEx група из \'NumberRegExp\' израза ће бити искоришћена као вредност броја тикета.',
+        'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => 'Интервал освежавања',
         'Registers a log module, that can be used to log communication related information.' =>
             'Региструје лог модул за чување информација у вези комуникација.',
@@ -7930,7 +8051,6 @@ Thanks for your help!
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             'Замењује оригиналног пошиљаоца са имејл адресом актуелног клијента при креирању одговора у прозору за писање одговора интерфејса оператера.',
         'Reports' => 'Извештаји',
-
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             'Поново обради имејлове из директоријума реда чекања који први пут нису могли бити увезени.',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -7969,7 +8089,6 @@ Thanks for your help!
         'Resent email to "%s".' => 'Поново послат имејл на "%s".',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
             'Ресетује и откључава власника ако је тикета премештен у други ред.',
-
         'Responsible Tickets' => 'Одговорни тикети',
         'Responsible Tickets.' => 'Одговорни тикети.',
         'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
@@ -7982,6 +8101,8 @@ Thanks for your help!
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             'Покреће послове генеричког оператера базиране на датотекама (Напомена: назив модула мора бити дефинисан у конфигурацији параметара модула, нпр. "Kernel::System::GenericAgent").',
         'Running Process Tickets' => 'Активни процес тикети',
+        'Runs an initial wildcard search of the existing contacts with data when accessing the AdminContactWD module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             'Покреће иницијалну џокер претрагу постојећих фирми клијената при приступу модулу AdminCustomerCompany.',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
@@ -7990,8 +8111,6 @@ Thanks for your help!
             'Покреће систем у демо моду. Уколико је укључено, оператери могу променити своја подешавања као што су избор језика и теме у интерфејсу оператера. Ове промене ће важити само за тренутну сесију. Оператерима неће бити омогућено да промене своје лозинке.',
         'Russian' => 'Руски',
         'S/MIME Certificates' => 'S/MIME сертификати',
-        'SMS' => 'СМС',
-        'SMS (Short Message Service)' => 'SMS (сервис кратких порука)',
         'Salutations' => 'Поздрави',
         'Sample command output' => 'Пример командног излаза',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
@@ -8049,8 +8168,6 @@ Thanks for your help!
         'Service Level Agreements' => 'Споразуми о нивоу услуга',
         'Service view' => 'Преглед услуге',
         'ServiceView' => 'ServiceView',
-        'Set a new password by filling in your current password and a new one.' =>
-            'Подесите нову лозинку укуцавањем ваше тренутне и нове.',
         'Set sender email addresses for this system.' => 'Подеси системску адресу пошиљаоца.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Подешава подразумевану висину (у пикселима) непосредних HTML чланака у AgentTicketZoom.',
@@ -8145,14 +8262,8 @@ Thanks for your help!
             'Одређује подразумевани текст новог имејл тикета а у интерфејсу оператера.',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             'Одређује време без активности (у секундама) пре него што сесија буде угашена а корисник одјављен.',
-        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.' =>
-            'Поставља максимални број активних оператера у временском распону дефинисаном у SessionMaxIdleTime пре него што обавештење буде видљиво за пријављене оператере.',
-        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
-            'Поставља максимални број активних оператера у временском распону дефинисаном у SessionMaxIdleTime.',
         'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
             'Поставља максимални број активних клијента у временском распону дефинисаном у SessionMaxIdleTime.',
-        'Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime.' =>
-            'Поставља максимални број активних сесија по оператеру у временском распону дефинисаном у SessionMaxIdleTime.',
         'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
             'Поставља максимални број активних сесија по кориснику у временском распону дефинисаном у SessionMaxIdleTime.',
         'Sets the method PGP will use to sing and encrypt emails. Note Inline method is not compatible with RichText messages.' =>
@@ -8270,6 +8381,7 @@ Thanks for your help!
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'Поставља временско одлагање (у секундама) за http/ftp преузимања.',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             'Дефинише истицање (у секундама) за функцију преузимања пакета. Преиначује опцију "WebUserAgent::Timeout".',
+        'Settings for the customer login screen.' => '',
         'Shared Secret' => 'Дељена тајна',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
             'Прикажи избор одговорног у тикетима позива и имејл тикетима у интерфејсу оператера.',
@@ -8521,7 +8633,6 @@ Thanks for your help!
             'Наведи лозинку за ауторизацију на прву пресликану базу података.',
         'Specify the username to authenticate for the first mirror database.' =>
             'Наведи корисничко име за ауторизацију на прву пресликану базу података.',
-        'Stable' => ' Стабилно',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             'Стандардне расположиве дозволе за оператере унутар апликације. Уколико је потребно више дозвола они могу унети овде. Дозволе морају бити дефинисане да буду ефективне. Неке друге дозволе су такође обезбеђене уграђивањем у: напомену, затвори, на чекању, клијент, слободан текст, помери, отвори, одговоран, проследи и поврати. Обезбедите да "rw" увек буде последња регистрована дозвола.',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -8533,7 +8644,6 @@ Thanks for your help!
             'Почиње џокер претрагу активног објекта након покретања везе маске објекта.',
         'Stat#' => 'Статистика#',
         'States' => 'Стања',
-        'Statistic Reports overview.' => 'Преглед статистичких извештаја.',
         'Statistics overview.' => 'Преглед статистика.',
         'Status view' => 'Преглед статуса',
         'Stopped response time escalation.' => 'Обустављена ескалација времена одговора.',
@@ -8549,6 +8659,7 @@ Thanks for your help!
         'System Address Display Name' => 'Назив за приказ системске адресе',
         'System Configuration Deployment' => 'Распоређивање системске конфигурације',
         'System Configuration Group' => 'Категорија системске конфигурације',
+        'System Configuration Setting History' => '',
         'System Maintenance' => 'Одржавање система',
         'Templates ↔ Attachments' => 'Шаблони ↔ прилози',
         'Templates ↔ Queues' => 'Шаблони ↔ редови',
@@ -8606,6 +8717,8 @@ Thanks for your help!
             'Текст на почетку предмета када се имејл прослеђује, нпр. FW, Fwd, или WG.',
         'The value of the From field' => 'Вредност From поља',
         'Theme' => 'Тема',
+        'This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.' =>
+            '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             'Овај модул догађаја чува атрибуте корисника као динамичка поља тикета. Погледајте опцију DynamicFieldFromCustomerUser::Mapping за подешавање мапирања.',
         'This is a Description for Comment on Framework.' => 'Ово је опис за коментар у систему.',
@@ -8615,6 +8728,9 @@ Thanks for your help!
         'This is the default orange - black skin.' => 'Ово је подразумевани наранџасто-црни изглед.',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'Уколико је укључен, овај модул и његова PreRun() функција биће  извршени приликом сваког захтева. Користи се за проверу опција корисника и приказ вести о апликацији.',
+        'This module is being used to extend the password policy.' => '',
+        'This module is part of the admin area of OTOBO Community Edition.' =>
+            '',
         'This module is part of the admin area of OTOBO.' => 'Овај модул је део OTOBO административног простора.',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             'Ова опција одређује динамичко поље у које се смешта ID ентитета активности управљања процесима.',
@@ -8631,7 +8747,6 @@ Thanks for your help!
         'This setting is deprecated. Set OTOBOTimeZone instead.' => 'Ово подешавање је застарело. Подесите OTOBOTimeZone уместо њега.',
         'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
             'Ово подешавање приказује атрибуте сортирања у свим екранима прегледа, не само у приказу редова.',
-        'This will allow the system to send text messages via SMS.' => 'Ово ће дозволити систему да шаље текстуалне поруке преко СМС.',
         'Ticket Close.' => 'Затварање тикета.',
         'Ticket Compose Bounce Email.' => 'Преусмеравање имејл поруке у тикету.',
         'Ticket Compose email Answer.' => 'Писање имејл поруке у тикету.',
@@ -8671,6 +8786,8 @@ Thanks for your help!
         'Ticket zoom view.' => 'Детаљни преглед тикета.',
         'TicketNumber' => 'Број тикета',
         'Tickets.' => 'Тикети.',
+        'Tile registration for the CustomerDashboard. Module is required.' =>
+            '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             'Време у секундама које се додаје на тренутно време ако се поставља статус на чекању (подразумевано: 86400 = 1 дан).',
         'To accept login information, such as an EULA or license.' => 'Прихватање информација приликом пријављивања, нпр. EULA изјава или лиценца.',
@@ -8713,10 +8830,10 @@ Thanks for your help!
         'Updates the ticket index accelerator.' => 'Ажурирај акцелератор индекса тикета.',
         'Upload your PGP key.' => 'Пошаљите свој PGP кључ.',
         'Upload your S/MIME certificate.' => 'Пошаљите ваш S/MIME сертификат.',
+        'Use Redis::Fast instead of Redis.' => '',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             'Користите нови тип поља за избор и аутоматско довршавање у интерфејсу оператера где је то могуће (поља за унос).',
-        'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>
-            'Користите нови тип поља за избор и аутоматско довршавање у интерфејсу клијента где је то могуће (поља за унос).',
+        'Use specified Redis logical database.' => '',
         'User Profile' => 'Кориснички профил',
         'UserFirstname' => 'Име корисника',
         'UserLastname' => 'Презиме корисника',
@@ -8725,7 +8842,6 @@ Thanks for your help!
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             'Користи richtekt формат за преглед и уређивање: чланака, поздрава, потписа, стандардних шаблона, аутоматских одговора и обавештења.',
         'Vietnam' => 'Вијетнамски',
-        'View all attachments of the current ticket' => 'Приказ свих прилога тикета',
         'View performance benchmark results.' => 'Преглед резултата провере перформанси.',
         'Watch this ticket' => 'Надгледај овај тикет',
         'Watched Tickets' => 'Посматрани тикет',
@@ -8735,8 +8851,10 @@ Thanks for your help!
             'Извршавамо планирано одржавање. Пријава привремено није могућа.',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             'Извршавамо планирано одржавање. ускоро ћемо бити поново активни.',
+        'Web Service' => '',
         'Web Services' => 'Веб сервиси',
-        'Web View' => 'Веб преглед',
+        'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
+            '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             'Одређује да ли ће тикет бити аутоматски закључан на оператера, када га исти креира.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
@@ -8745,8 +8863,12 @@ Thanks for your help!
             'Када су тикети спојени, напомена ће бити аутоматски додата тикету који није више активан. Овде можете дефинисати предмет ове напомене (овај предмет се не може променити од стране оператера).',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Када су тикети спојени, клијент може бити информисан имејлом постављањем поља за потврду "Обавести пошиљаоца". У простору за текст, можете дефинисати унапред форматирани текст који касније бити модификован од стране оператера.',
+        'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
+            '',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
             'Дефинише да ли ће бити прикупљане информације из чланака коришћењем филтера дефинисаним у Ticket::Frontend::ZoomCollectMetaFilters.',
+        'Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes.' =>
+            '',
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             'Одређује да ли ће сви захтеви са http бити преусмерени на https протокол. Молимо проверите да ли је ваш веб сервер правилно подешен за https протокол пре укључивања ове опције.',
         'Yes, but hide archived tickets' => 'Да, али склони архивиране тикете',
@@ -8811,6 +8933,7 @@ Thanks for your help!
         'Apr',
         'April',
         'Are you sure you want to delete this appointment? This operation cannot be undone.',
+        'Are you sure you want to remove all user values?',
         'Are you sure you want to update all installed packages?',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
         'Article display',
@@ -8835,6 +8958,7 @@ Thanks for your help!
         'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
+        'Click to select or drop files here.',
         'Clone web service',
         'Close preview',
         'Close this dialog',
@@ -8911,7 +9035,6 @@ Thanks for your help!
         'Feb',
         'February',
         'Filters',
-        'Find out more',
         'Finished',
         'First select a customer user, then select a customer ID to assign to this ticket.',
         'Fr',
@@ -9028,6 +9151,7 @@ Thanks for your help!
         'Resources',
         'Restore default settings',
         'Restore web service configuration',
+        'Results',
         'Rule',
         'Running',
         'Sa',
@@ -9093,9 +9217,10 @@ Thanks for your help!
         'This Transition is already used for this Activity. You cannot use it twice!',
         'This TransitionAction is already used in this Path. You cannot use it twice!',
         'This address already exists on the address list.',
+        'This dynamic field database value is already selected.',
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
-        'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

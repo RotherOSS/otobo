@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.694099642917871;
+    $Self->{Completeness}        = 0.672211021505376;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -295,23 +295,23 @@ sub Data {
         'Support data collector' => 'پشتیبانی از داده های جمع آوری شده ',
         'Hint' => 'تذکر',
         'Currently support data is only shown in this system.' => 'در حال حاضر اطلاعات پشتیبانی داداه ها فقط در این سیستم نمایش داده شد ه . ',
-        'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'آن را بسیار توصیه به ارسال این اطلاعات را به OTOBO گروه به منظور رسیدن به پشتیبانی بهتر.',
+        'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
+            '',
         'Configuration' => 'پیکر بندی',
         'Send support data' => 'ارسال پشتیبانی  داده ها',
-        'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'این اجازه خواهد داد این سیستم را به ارسال اطلاعات اضافی داده ها پشتیبانی به OTOBO گروه.',
+        'This will allow the system to send additional support data information to the OTOBO team.' =>
+            '',
         'Update' => 'بروزرسانی',
         'System Registration' => 'ثبت نام سیستم',
-        'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'برای فعال کردن ارسال اطلاعات، لطفا ثبت نام سیستم خود را با OTOBO گروه یا به روز رسانی اطلاعات ثبت نام سیستم تان انجام دهید (مطمئن شوید که  گزینه  "ارسال  پشتیبانی داده ها " فعال است.)',
+        'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+            '',
         'Register this System' => 'ثبت نام این سیستم',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'سیستم ثبت نام برای سیستم شما غیر فعال است. لطفا پیکربندی خود را چک کنید.',
 
         # Template: AdminCloudServices
-        'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'ثبت نام سیستم یک سرویس از OTOBO گروه، فراهم می کند که بسیاری از مزایای است!',
+        'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
+            '',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             'لطفا توجه داشته باشید که استفاده از سیستم های ابری  OTOBO نیاز به این سیستم  ثبت نام دارد . ',
         'Register this system' => 'ثبت نام این سیستم',
@@ -391,13 +391,22 @@ sub Data {
         'Communication Log Details' => '',
         'Please select an entry from the list.' => '',
 
+        # Template: AdminContactWD
+        'Contact with data management' => '',
+        'Contact with data' => '',
+        'Add contact with data' => '',
+        'Edit contact with data' => '',
+        'Back to search results' => 'بازگشت به نتایج جستجو',
+        'Select' => 'انتخاب',
+        'Search' => 'جستجو',
+        'Wildcards like \'*\' are allowed.' => 'نویسه عام مانند "*" مجاز است.',
+        'Please enter a search term to look for contacts with data.' => '',
+        'Valid' => 'معتبر',
+
         # Template: AdminCustomerCompany
         'Customer Management' => 'مدیریت مشترک',
         'Add Customer' => 'افزودن مشترک',
         'Edit Customer' => 'ویرایش مشترک',
-        'Search' => 'جستجو',
-        'Wildcards like \'*\' are allowed.' => 'نویسه عام مانند "*" مجاز است.',
-        'Select' => 'انتخاب',
         'List (only %s shown - more available)' => 'فهرست (فقط %s نشان داده شده است - در دسترس تر)',
         'total' => 'مجموع',
         'Please enter a search term to look for customers.' => 'لطفا عبارت جستجو را وارد نمایید تا مشترکین را جستجو نمایید.',
@@ -439,7 +448,6 @@ sub Data {
         'Customer User Management' => 'مدیریت کاربری مشترک',
         'Add Customer User' => 'اضافه کردن کاربر مشترک',
         'Edit Customer User' => ' ویرایش کاربر مشتری',
-        'Back to search results' => 'بازگشت به نتایج جستجو',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             'کاربران و ضوابط مورد نیاز برای یک سابقه مشتری و برای ورود به سایت از طریق پنل مشتری می باشد.',
         'List (%s total)' => 'فهرست ( تعداد %s)',
@@ -507,8 +515,8 @@ sub Data {
         'Add new field for object' => 'اضافه کردن فیلد جدید برای موضوع',
         'Filter for Dynamic Fields' => '',
         'Filter for dynamic fields' => '',
-        'More Business Fields' => '',
-        'Would you like to benefit from additional dynamic field types for businesses? Upgrade to %s to get access to the following field types:' =>
+        'New OTOBO Community  Fields' => '',
+        'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
             '',
         'Database' => 'پایگاه داده',
         'Use external databases as configurable data sources for this dynamic field.' =>
@@ -516,7 +524,6 @@ sub Data {
         'Web service' => '',
         'External web services can be configured as data sources for this dynamic field.' =>
             '',
-        'Contact with data' => '',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
             '',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
@@ -556,6 +563,66 @@ sub Data {
         'Default value' => 'مقدار پیش‌فرض',
         'This is the default value for this field.' => 'این مقدار پیش فرض برای این رشته است.',
 
+        # Template: AdminDynamicFieldContactWD
+        'Add or edit contacts' => '',
+        'To add contacts to this field please fill out all the needed information and save it.' =>
+            '',
+        'Click on the field name from the overview to edit it and find the corresponding action in the sidebar or from the \'Tickets\' menu.' =>
+            '',
+        'Name Field' => '',
+        'ValidID Field' => '',
+        'Other Fields' => '',
+        'Key' => 'کلید',
+        'Value' => 'مقدار',
+        'Remove value' => 'حذف مقدار',
+        'Add Field' => '',
+        'Add value' => 'اضافه کردن مقدار',
+        'These are the possible data attributes for contacts.' => '',
+        'Mandatory fields' => '',
+        'Comma separated list of mandatory keys (optional). Keys \'Name\' and \'ValidID\' are always mandatory and doesn\'t have to be listed here.' =>
+            '',
+        'Sorted fields' => '',
+        'Comma separated list of keys in sort order (optional). Keys listed here come first, all remaining fields afterwards and sorted alphabetically.' =>
+            '',
+        'Searchable fields' => '',
+        'Comma separated list of searchable keys (optional). Key \'Name\' is always searchable and doesn\'t have to be listed here.' =>
+            '',
+        'Translatable values' => 'ارزش ترجمه',
+        'If you activate this option the values will be translated to the user defined language.' =>
+            'اگر این گزینه را فعال شدن ارزش خواهد شد به زبان تعریف شده توسط کاربر ترجمه شده است.',
+        'Note' => 'یادداشت',
+        'You need to add the translations manually into the language translation files.' =>
+            'شما نیاز به اضافه کردن ترجمه دستی برای فایل های ترجمه زبان دارید .',
+
+        # Template: AdminDynamicFieldDB
+        'Possible values' => 'مقادیر ممکن',
+        'Datatype' => '',
+        'Filter' => 'فیلتر',
+        'Searchfield' => '',
+        'Listfield' => '',
+        'Show link' => 'نمایش لینک',
+        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
+            'در اینجا شما می توانید یک لینک HTTP اختیاری برای مقدار فیلد در صفحه نمایش بررسی ها و زوم را مشخص کنید.',
+        'Example' => 'مثال',
+        'Link for preview' => 'لینک برای پیش نمایش',
+        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
+            'اگر در پر شده است، این URL خواهد شد برای یک پیش نمایش است که نشان داده شده است که این پیوند در زوم بلیط ماند استفاده می شود. لطفا توجه داشته باشید که برای این کار، زمینه URL به طور منظم بالا نیاز به در شود پر شده است، بیش از حد.',
+        'SID' => 'SID',
+        'Driver' => '',
+        'Server' => '',
+        'Port' => 'پورت',
+        'Table / View' => '',
+        'User' => 'کاربر',
+        'Password' => 'رمز عبور',
+        'Identifier' => 'شناسه',
+        'Must be unique column from the table entered in Table/View.' => '',
+        'Multiselect' => 'چندین انتخاب',
+        'CacheTTL' => '',
+        'Searchprefix' => '',
+        'Searchsuffix' => '',
+        'Result Limit' => '',
+        'Case Sensitive' => '',
+
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'تفاوت تاریخ به طور پیش فرض',
         'This field must be numeric.' => 'در این زمینه باید عدد باشد.',
@@ -568,35 +635,17 @@ sub Data {
         'Years in the past to display (default: 5 years).' => 'سال در گذشته برای نمایش (به طور پیش فرض: 5 سال).',
         'Years in the future' => 'سال در آینده',
         'Years in the future to display (default: 5 years).' => 'سال در آینده برای نمایش (به طور پیش فرض: 5 سال).',
-        'Show link' => 'نمایش لینک',
-        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
-            'در اینجا شما می توانید یک لینک HTTP اختیاری برای مقدار فیلد در صفحه نمایش بررسی ها و زوم را مشخص کنید.',
         'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
             '',
-        'Example' => 'مثال',
-        'Link for preview' => 'لینک برای پیش نمایش',
-        'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
-            'اگر در پر شده است، این URL خواهد شد برای یک پیش نمایش است که نشان داده شده است که این پیوند در زوم بلیط ماند استفاده می شود. لطفا توجه داشته باشید که برای این کار، زمینه URL به طور منظم بالا نیاز به در شود پر شده است، بیش از حد.',
         'Restrict entering of dates' => 'محدود کردن ورود از  تاریخ',
         'Here you can restrict the entering of dates of tickets.' => 'در اینجا شما می توانید تاریخ درخواست ورود را محدود کنید .',
 
         # Template: AdminDynamicFieldDropdown
-        'Possible values' => 'مقادیر ممکن',
-        'Key' => 'کلید',
-        'Value' => 'مقدار',
-        'Remove value' => 'حذف مقدار',
-        'Add value' => 'اضافه کردن مقدار',
         'Add Value' => 'اضافه کردن مقدار',
         'Add empty value' => 'اضافه کردن مقدار خالی',
         'Activate this option to create an empty selectable value.' => 'این گزینه را برای ساختن یک مقدارخالی انتخابی فعال کنید',
         'Tree View' => 'نمای درختی',
         'Activate this option to display values as a tree.' => 'این گزینه را برای نمایش مقادیر درختی فعال کنید.',
-        'Translatable values' => 'ارزش ترجمه',
-        'If you activate this option the values will be translated to the user defined language.' =>
-            'اگر این گزینه را فعال شدن ارزش خواهد شد به زبان تعریف شده توسط کاربر ترجمه شده است.',
-        'Note' => 'یادداشت',
-        'You need to add the translations manually into the language translation files.' =>
-            'شما نیاز به اضافه کردن ترجمه دستی برای فایل های ترجمه زبان دارید .',
 
         # Template: AdminDynamicFieldText
         'Number of rows' => 'تعداد ردیف',
@@ -612,6 +661,30 @@ sub Data {
         'Invalid RegEx' => 'عبارت منظم نامعتبر',
         'Error Message' => 'پیغام خطا',
         'Add RegEx' => 'اضافه کردن عبارت منظم',
+
+        # Template: AdminDynamicFieldTitle
+        'Template' => 'قالب',
+        'Style' => '',
+        'bold' => '',
+        'italic' => '',
+        'underline' => '',
+        'Font style of the label.' => '',
+        'Size' => 'اندازه',
+        'Font size of the label.' => '',
+        'Color in hex.' => '',
+
+        # Template: AdminDynamicFieldWebService
+        'This field is required' => 'این فیلد مورد نیاز است',
+        'The web service to be executed for possible values.' => '',
+        'Invoker' => '',
+        'The invoker to be used to perform requests (invoker needs to be of type \'Generic::PassThrough\').' =>
+            '',
+        'Activate this option to allow multiselect on results.' => '',
+        'Cache TTL' => '',
+        'Cache time to live (in minutes), to save the retrieved possible values.' =>
+            '',
+        'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens. Optional HTTP link works only for single-select fields.' =>
+            '',
 
         # Template: AdminEmail
         'Admin Message' => '',
@@ -1030,8 +1103,8 @@ sub Data {
         'Endpoint' => 'نقطه پایانی',
         'URI to indicate specific location for accessing a web service.' =>
             '',
-        'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
-            'به عنوان مثال https://www.otrs.com:10745/api/v1.0 (بدون دنباله بک اسلش)',
+        'e.g https://www.otobo.ch:10745/api/v1.0 (without trailing backslash)' =>
+            '',
         'Timeout' => '',
         'Timeout value for requests.' => '',
         'Authentication' => 'احراز هویت',
@@ -1072,7 +1145,10 @@ sub Data {
         'Certification Authority (CA) Directory' => 'مجوز (CA) راهنمای',
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'مسیر کامل دایرکتوری که در آن اقتدار صدور گواهینامه گواهی CA ها در سیستم فایل ذخیره می شود.',
-        'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'به عنوان مثال / انتخاب کردن / OTOBO / ور / گواهی / SOAP / CA',
+        'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'به عنوان مثال / انتخاب کردن / OTRS / ور / گواهی / SOAP / CA',
+        'SSL hostname verification.' => '',
+        'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
+            '',
         'Controller mapping for Invoker' => ' برای  کنترل نگاشت Invoker',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             'کنترل که فراخواننده باید درخواست برای ارسال. متغیرهای مشخص شده توسط \':\' خواهد شد با مقدار داده جایگزین و سرانجام همراه با درخواست. (به عنوان مثال / درخواست /: TicketID صفحهی =: صفحهی و رمز عبور =: رمز عبور).',
@@ -1104,7 +1180,7 @@ sub Data {
         'Namespace' => 'فضای نام',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI به روش SOAP زمینه ای، کاهش ابهامات.',
         'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
-            'به عنوان مثال کوزه: OTOBO-COM: صابون: توابع و یا http://www.otrs.com/GenericInterface/actions',
+            'به عنوان مثال کوزه: OTRS-COM: صابون: توابع و یا http://www.otrs.com/GenericInterface/actions',
         'Request name scheme' => ' درخواست پاسخ به طرح نام',
         'Select how SOAP request function wrapper should be constructed.' =>
             'انتخاب کنید که چگونه SOAP تابع درخواست لفاف بسته بندی باید ساخته شود.',
@@ -1237,7 +1313,6 @@ sub Data {
         'Delete account' => 'حذف حساب',
         'Fetch mail' => 'واکشی ایمیل',
         'Do you really want to delete this mail account?' => '',
-        'Password' => 'رمز عبور',
         'Example: mail.example.com' => 'مثال: mail.example.com',
         'IMAP Folder' => 'پوشه IMAP',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
@@ -1249,7 +1324,6 @@ sub Data {
         # Template: AdminNavigationBar
         'Administration Overview' => '',
         'Filter for Items' => '',
-        'Filter' => 'فیلتر',
         'Favorites' => '',
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '',
@@ -1305,85 +1379,12 @@ sub Data {
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '',
 
-        # Template: AdminOTOBOCommunityInstalled
-        'Manage %s' => 'مدیریت %s',
-        'Downgrade to OTOBO' => '',
-        'Read documentation' => 'خواندن اسناد',
-        '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
-            '%s باعث می شود تماس به طور منظم با cloud.otrs.com برای بررسی در دسترس به روز رسانی و اعتبار قرارداد زمینه ای است.',
-        'Unauthorized Usage Detected' => 'استفاده غیر مجاز شناسایی',
-        'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
-            'این سیستم با استفاده از %s بدون مجوز مناسب! لطفا تماس با %s به تجدید و یا فعال شدن قرارداد خود را!',
-        '%s not Correctly Installed' => '%s به درستی نصب نشده',
-        'Your %s is not correctly installed. Please reinstall it with the button below.' =>
-            'شما %s به درستی نصب نشده است. لطفا آن را با دکمه زیر نصب کنید.',
-        'Reinstall %s' => 'نصب مجدد %s',
-        'Your %s is not correctly installed, and there is also an update available.' =>
-            'شما %s به درستی نصب نشده است، و نیز یک به روز رسانی در دسترس است.',
-        'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
-            'شما هم می توانید نصب مجدد نسخه فعلی خود را و یا انجام یک به روز رسانی را با دکمه های زیر (به روز رسانی توصیه می شود).',
-        'Update %s' => 'بروز رسانی%2$s',
-        '%s Not Yet Available' => '%s هنوز در دسترس است',
-        '%s will be available soon.' => '%s به زودی در دسترس خواهد بود.',
-        '%s Update Available' => '%s به روز رسانی دردسترس است',
-        'An update for your %s is available! Please update at your earliest!' =>
-            'به روز رسانی برای خود %s در دسترس است! لطفا در اولین فرصت به روز رسانی کنید !',
-        '%s Correctly Deployed' => '%s به درستی مستقر شده',
-        'Congratulations, your %s is correctly installed and up to date!' =>
-            'تبریک می گویم، شما %s به درستی نصب شده و بروزرسانی شده است !',
-
-        # Template: AdminOTOBOCommunityNotInstalled
-        'Go to the OTOBO customer portal' => '',
-        '%s will be available soon. Please check again in a few days.' =>
-            '%s به زودی در دسترس خواهد بود. لطفا پس از چند روز دوباره بررسی کنید.',
-        'Please have a look at %s for more information.' => 'لطفا نگاهی داشته باشید به  %s برای اطلاعات بیشتر.',
-        'Your OTOBO is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            '',
-        'Before you can benefit from %s, please contact %s to get your %s contract.' =>
-            'قبل از اینکه شما می توانید از آن بهره مند %s ، لطفا با %s به خود %s قرارداد.',
-        'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTOBO can connect to cloud.otrs.com via port 443.' =>
-            'اتصال به cloud.otrs.com از طریق HTTPS برقرار نشد. لطفا مطمئن شوید که OTOBO خود را می توانید به cloud.otrs.com از طریق پورت 443 متصل کنید .  ',
-        'Package installation requires patch level update of OTOBO.' => '',
-        'Please visit our customer portal and file a request.' => '',
-        'Everything else will be done as part of your contract.' => '',
-        'Your installed OTOBO version is %s.' => '',
-        'To install this package, you need to update to OTOBO %s or higher.' =>
-            '',
-        'To install this package, the Maximum OTOBO Version is %s.' => '',
-        'To install this package, the required Framework version is %s.' =>
-            '',
-        'Why should I keep OTOBO up to date?' => '',
-        'You will receive updates about relevant security issues.' => '',
-        'You will receive updates for all other relevant OTOBO issues' => '',
-        'With your existing contract you can only use a small part of the %s.' =>
-            'با قرارداد های موجود خود را شما فقط می توانید یک بخش کوچک از استفاده %s .',
-        'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
-            'اگر شما می خواهم به استفاده کامل از %s از قرارداد خود را به روز رسانی در حال حاضر! تماس با %s .',
-
-        # Template: AdminOTOBOCommunityUninstall
-        'Cancel downgrade and go back' => 'لغو کاهش دادن و بازگشت',
-        'Go to OTOBO Package Manager' => 'برو به OTOBO مدیر بسته',
-        'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
-            'با عرض پوزش، اما در حال حاضر شما می توانید با توجه به بسته های زیر که در بستگی دارد جمع و جور کردن %s :',
-        'Vendor' => 'عرضه‌کننده',
-        'Please uninstall the packages first using the package manager and try again.' =>
-            'لطفا ابتدا با استفاده از بسته های مدیر بسته حذف و دوباره امتحان کنید.',
-        'You are about to downgrade to OTOBO and will lose the following features and all data related to these:' =>
-            '',
-        'Chat' => 'گپ',
-        'Report Generator' => 'گزارش ژنراتور',
-        'Timeline view in ticket zoom' => 'نمایش جدول زمانی در زوم بلیط',
-        'DynamicField ContactWithData' => 'DynamicField ContactWithData',
-        'DynamicField Database' => 'پایگاه DynamicField',
-        'SLA Selection Dialog' => 'SLA انتخاب گفت و گو',
-        'Ticket Attachment View' => 'نمایش درخواست پیوست ',
-        'The %s skin' => '%s پوست',
-
         # Template: AdminPGP
         'PGP Management' => 'مدیریت رمزگذاری PGP',
         'Add PGP Key' => 'افزودن کلید PGP',
         'PGP support is disabled' => 'پشتیبانی PGP غیر فعال است',
-        'To be able to use PGP in OTOBO, you have to enable it first.' => 'برای اینکه قادر به استفاده از PGP در OTOBO باشید، شما باید برای اولین بار آن را فعال کنید .',
+        'To be able to use PGP in OTOBO, you have to enable it first.' =>
+            'برای اینکه قادر به استفاده از PGP در OTOBO باشید، شما باید برای اولین بار آن را فعال کنید .',
         'Enable PGP support' => 'فعال کردن پشتیبانی از PGP',
         'Faulty PGP configuration' => 'پیکربندی PGP معیوب',
         'PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
@@ -1393,7 +1394,6 @@ sub Data {
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'از این طریق شما می‌توانید مستقیما کلید‌های خود را درسیستم تنظیم نمائید',
         'Introduction to PGP' => 'معرفی به PGP',
-        'Identifier' => 'شناسه',
         'Bit' => 'Bit',
         'Fingerprint' => 'اثر انگشت',
         'Expires' => 'ابطال',
@@ -1409,8 +1409,10 @@ sub Data {
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'آیا واقعا می‌خواهید این بسته را مجددا نصب نمایید؟ تمام تغییرات دستی از بین خواهد رفت.',
         'Go to updating instructions' => '',
+        'Go to the OTOBO customer portal' => '',
         'package information' => '',
-        'Package installation requires a patch level update of OTOBO.' => '',
+        'Package installation requires a patch level update of OTOBO.' =>
+            '',
         'Package update requires a patch level update of OTOBO.' => '',
         'Please note that your installed OTOBO version is %s.' => '',
         'To install this package, you need to update OTOBO to version %s or newer.' =>
@@ -1419,6 +1421,8 @@ sub Data {
             '',
         'This package can only be installed on OTOBO version %s or newer.' =>
             '',
+        'Why should I keep OTOBO up to date?' => '',
+        'You will receive updates about relevant security issues.' => '',
         'You will receive updates for all other relevant OTOBO issues.' =>
             '',
         'How can I do a patch level update if I don’t have a contract?' =>
@@ -1427,6 +1431,7 @@ sub Data {
             '',
         'In case you would have further questions we would be glad to answer them.' =>
             'در مورد شما می سوال بیشتر دارند ما خوشحال خواهد بود به آنها پاسخ دهد.',
+        'Please visit our customer portal and file a request.' => '',
         'Install Package' => 'نصب بسته',
         'Update Package' => '',
         'Continue' => 'ادامه',
@@ -1435,10 +1440,11 @@ sub Data {
         'Install' => 'نصب',
         'Update repository information' => 'به‌روز رسانی اطلاعات مخزن',
         'Cloud services are currently disabled.' => 'خدمات ابر در حال حاضر غیر فعال است.',
-        'OTOBO Verify can not continue!' => 'OTOBO تایید ™ نمی تواند ادامه دهد.',
+        'OTOBO Verify can not continue!' => 'OTRS تایید ™ نمی تواند ادامه دهد.',
         'Enable cloud services' => 'فعال کردن سرویس های ابری',
         'Update all installed packages' => '',
         'Online Repository' => 'مخزن آنلاین بسته‌ها',
+        'Vendor' => 'عرضه‌کننده',
         'Action' => 'فعالیت',
         'Module documentation' => 'مستندات ماژول',
         'Local Repository' => 'مخزن محلی بسته‌ها',
@@ -1460,7 +1466,6 @@ sub Data {
         'Permission' => 'حقوق دسترسی',
         'Download file from package!' => 'دریافت فایل از بسته!',
         'Required' => 'الزامی',
-        'Size' => 'اندازه',
         'Primary Key' => 'کلید اولیه',
         'Auto Increment' => 'افزایش خودکار',
         'SQL' => 'SQL',
@@ -1543,8 +1548,6 @@ sub Data {
         'Import process configuration' => ' روند دریافت پیکربندی',
         'Ready2Adopt Processes' => '',
         'Here you can activate Ready2Adopt processes showcasing our best practices. Please note that some additional configuration may be required.' =>
-            '',
-        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated Ready2Adopt processes.' =>
             '',
         'Import Ready2Adopt process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1758,7 +1761,7 @@ sub Data {
         'Show transmitted data' => 'نمایش انتقال داده ها',
         'Deregister system' => 'سیستم لغو ثبت',
         'Overview of registered systems' => 'بررسی اجمالی از سیستم ثبت نام',
-        'This system is registered with OTOBO Team.' => 'این سیستم با OTOBO گروه ثبت شده است.',
+        'This system is registered with OTOBO Team.' => 'این سیستم با OTRS گروه ثبت شده است.',
         'System type' => 'نوع سیستم',
         'Unique ID' => 'شناسه منحصر به فرد',
         'Last communication with registration server' => 'ارتباط با سرور و زمان آخرین ثبت نام',
@@ -1767,9 +1770,9 @@ sub Data {
             'لطفا توجه داشته باشید که شما می توانید از سیستم خود را برای ثبت نام اینجا اگر OTOBO دیمون را به درستی اجرا نیست!',
         'Instructions' => 'دستورعمل',
         'System Deregistration not Possible' => '',
-        'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
-            'لطفا توجه داشته باشید که شما می توانید از سیستم خود را لغو ثبت می کنید اگر شما در حال استفاده از %s و یا داشتن یک قرارداد خدمات معتبر است.',
         'OTOBO-ID Login' => 'OTOBO-ID ورود',
+        'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
+            'ثبت نام سیستم یک سرویس از OTRS گروه، فراهم می کند که بسیاری از مزایای است!',
         'Read more' => 'ادامه مطلب',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'شما نیاز به ورود خود را با OTOBO-ID برای ثبت نام سیستم شما.',
@@ -1789,7 +1792,7 @@ sub Data {
         'Is it possible to deregister?' => 'آیا لغو ثبت ممکن است؟',
         'You can deregister at any time.' => 'شما می توانید در هر زمان لغو ثبت کنید .',
         'Which data is transfered when registering?' => 'که داده منتقل هنگام ثبت نام؟',
-        'A registered system sends the following data to OTOBO Team:' => 'سیستم ثبت نام اطلاعات زیر به OTOBO گروه می فرستد:',
+        'A registered system sends the following data to OTOBO Team:' => 'سیستم ثبت نام اطلاعات زیر به OTRS گروه می فرستد:',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'نام کامل دامنه (FQDN)، مدل OTOBO، پایگاه داده، سیستم عامل و نسخه پرل.',
         'Why do I have to provide a description for my system?' => 'چرا باید برای ارائه یک توصیف برای سیستم من؟',
@@ -1811,16 +1814,18 @@ sub Data {
         'Retrieve a new one' => ' یک رمز جدید بازیابی کنید',
         'Next' => 'بعدی',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            'این داده خواهد شد اغلب به OTOBO گروه منتقل هنگامی که شما این سیستم ثبت نام کنید.',
+            'این داده خواهد شد اغلب به OTRS گروه منتقل هنگامی که شما این سیستم ثبت نام کنید.',
         'Attribute' => 'صفت',
         'FQDN' => 'FQDN',
         'OTOBO Version' => 'OTOBO نسخه',
         'Operating System' => 'سیستم عامل',
         'Perl Version' => 'پرل نسخه',
         'Optional description of this system.' => 'توضیحات اختیاری این سیستم.',
+        'This will allow the system to send additional support data information to OTOBO Team.' =>
+            'این اجازه خواهد داد این سیستم را به ارسال اطلاعات اضافی داده ها پشتیبانی به OTRS گروه.',
         'Register' => 'ثبت نام',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            'در ادامه با این مرحله خواهد شد سیستم را از OTOBO گروه لغو ثبت.',
+            'در ادامه با این مرحله خواهد شد سیستم را از OTRS گروه لغو ثبت.',
         'Deregister' => 'لغو ثبت',
         'You can modify registration settings here.' => 'شما می توانید تنظیمات ثبت نام را اینجا تنظیم کنید.',
         'Overview of Transmitted Data' => '',
@@ -1915,8 +1920,8 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'گواهینامه S/MIME',
-        'Close this dialog' => 'بستن این پنجره',
         'Certificate Details' => '',
+        'Close this dialog' => 'بستن این پنجره',
 
         # Template: AdminSalutation
         'Salutation Management' => 'مدیریت عنوان‌ها',
@@ -1974,7 +1979,6 @@ sub Data {
         'Filter for Sessions' => '',
         'Filter for sessions' => '',
         'Session' => 'Session',
-        'User' => 'کاربر',
         'Kill' => 'کشتن',
         'Detail View for SessionID: %s - %s' => '',
 
@@ -2002,14 +2006,18 @@ sub Data {
         'This state is used in the following config settings:' => '',
 
         # Template: AdminSupportDataCollector
-        'Sending support data to OTOBO Team is not possible!' => 'ارسال اطلاعات پشتیبانی به OTOBO گروه ممکن نیست!',
+        'Sending support data to OTOBO Team is not possible!' => 'ارسال اطلاعات پشتیبانی به OTRS گروه ممکن نیست!',
         'Enable Cloud Services' => 'فعال کردن خدمات ابر',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            'این داده ها به OTOBO گروه به طور منظم ارسال می شود. برای متوقف کردن ارسال این اطلاعات لطفا به روز رسانی ثبت نام سیستم شما.',
+            'این داده ها به OTRS گروه به طور منظم ارسال می شود. برای متوقف کردن ارسال این اطلاعات لطفا به روز رسانی ثبت نام سیستم شما.',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             'شما می توانید دستی ماشه داده پشتیبانی از ارسال با فشار دادن این دکمه:',
         'Send Update' => 'ارسال به روز رسانی',
         'Currently this data is only shown in this system.' => 'در حال حاضر این داده ها فقط در این سیستم نشان داده میشوند.',
+        'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
+            'آن را بسیار توصیه به ارسال این اطلاعات را به OTRS گروه به منظور رسیدن به پشتیبانی بهتر.',
+        'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+            'برای فعال کردن ارسال اطلاعات، لطفا ثبت نام سیستم خود را با OTRS گروه یا به روز رسانی اطلاعات ثبت نام سیستم تان انجام دهید (مطمئن شوید که  گزینه  "ارسال  پشتیبانی داده ها " فعال است.)',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'بسته نرم افزاری پشتیبانی (از جمله: اطلاعات ثبت نام سیستم، داده پشتیبانی، یک لیست از بسته های نصب شده و تمامی فایل های کد منبع به صورت محلی تغییر) را می توان با فشار دادن این دکمه تولید:',
         'Generate Support Bundle' => 'تولید پشتیبانی بسته نرم افزاری',
@@ -2022,10 +2030,10 @@ sub Data {
             'آدرس ایمیل برای این کاربر نامعتبر است، این گزینه غیرفعال شده است.',
         'Sending' => 'فرستنده',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            'بسته نرم افزاری پشتیبانی به OTOBO گروه از طریق ایمیل به طور خودکار ارسال خواهد شد .',
+            'بسته نرم افزاری پشتیبانی به OTRS گروه از طریق ایمیل به طور خودکار ارسال خواهد شد .',
         'Download File' => 'دریافت فایل',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            'فایل حاوی بسته نرم افزاری پشتیبانی خواهد شد به سیستم محلی دریافت کنید. لطفا فایل ذخیره و ارسال آن به گروه OTOBO، با استفاده از یک روش جایگزین.',
+            'فایل حاوی بسته نرم افزاری پشتیبانی خواهد شد به سیستم محلی دریافت کنید. لطفا فایل ذخیره و ارسال آن به گروه OTRS، با استفاده از یک روش جایگزین.',
         'Error: Support data could not be collected (%s).' => 'خطا: اطلاعات پشتیبانی نمی تواند جمع آوری  شود ( %s ).',
         'Details' => 'جزئیات',
 
@@ -2088,6 +2096,20 @@ sub Data {
             '',
         'Deploy selected changes' => '',
 
+        # Template: AdminSystemConfigurationDeploymentHistory
+        'Deployment History' => '',
+        'Filter for Deployments' => '',
+        'Recent Deployments' => '',
+        'Restore' => '',
+        'View Details' => '',
+        'Restore this deployment.' => '',
+        'Export this deployment.' => '',
+
+        # Template: AdminSystemConfigurationDeploymentHistoryDetails
+        'Deployment Details' => '',
+        'by' => 'توسط',
+        'No settings have been deployed in this run.' => '',
+
         # Template: AdminSystemConfigurationGroup
         'This group doesn\'t contain any settings. Please try navigating to one of its sub groups.' =>
             '',
@@ -2117,6 +2139,19 @@ sub Data {
         # Template: AdminSystemConfigurationSearchDialog
         'Category' => 'دسته بندی',
         'Run search' => 'اجرا جستجو ',
+
+        # Template: AdminSystemConfigurationSettingHistoryDetails
+        'Change History' => '',
+        'Change History of %s' => '',
+        'No modified values for this setting, the default value is used.' =>
+            '',
+
+        # Template: AdminSystemConfigurationUserModifiedDetails
+        'Review users setting value' => '',
+        'Users Value' => '',
+        'For' => '',
+        'Delete all user values.' => '',
+        'No user value for this setting.' => '',
 
         # Template: AdminSystemConfigurationView
         'View a custom List of Settings' => '',
@@ -2160,7 +2195,6 @@ sub Data {
         'Delete this entry' => 'حذف این ورودی',
         'Do you really want to delete this template?' => 'آیا واقعا مایل به حذف این قالب هستید؟',
         'A standard template with this name already exists!' => 'قالب استاندارد با این نام وجود دارد.',
-        'Template' => 'قالب',
         'Create type templates only supports this smart tags' => 'ایجاد قالب های نوع تنها پشتیبانی از این تگ های هوشمند',
         'Example template' => 'نمونه قالب',
         'The current ticket state is' => 'وضعیت فعلی درخواست',
@@ -2327,7 +2361,7 @@ sub Data {
         'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTOBO Daemon is running and start it if needed.' =>
             'مطمئن شوید که فایل \' %s \' وجود دارد (بدون .dist پسوند). این cron در هر 5 دقیقه اگر OTOBO دیمون در حال اجرا است را بررسی کنید و شروع به آن در صورت نیاز.',
         'Execute \'%s start\' to make sure the cron jobs of the \'otobo\' user are active.' =>
-            'اعدام %s شروع به مطمئن شوید که به cron job از کاربر OTOBO، فعال هستند.',
+            'اعدام %s شروع به مطمئن شوید که به cron job از کاربر OTRS، فعال هستند.',
         'After 5 minutes, check that the OTOBO Daemon is running in the system (\'bin/otobo.Daemon.pl status\').' =>
             'پس از 5 دقیقه، بررسی کنید که OTOBO دیمون در حال اجرا در سیستم ( \'وضعیت بن / otobo.Daemon.pl\').',
 
@@ -2420,6 +2454,14 @@ sub Data {
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'تا',
 
+        # Template: AgentDynamicFieldDBDetailedSearch
+        'Back' => 'بازگشت',
+        'Detailed search' => '',
+        'Add an additional attribute' => '',
+
+        # Template: AgentDynamicFieldDBDetails
+        'Details view' => '',
+
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'برای پذیرش برخی اخبار، یک گواهینامه یا برخی تغییرات.',
         'Yes, accepted.' => '',
@@ -2433,10 +2475,24 @@ sub Data {
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             '',
 
-        # Template: AgentOTOBOCommunityBlockScreen
-        'Unauthorized usage of %s detected' => 'استفاده غیر مجاز از %s شناسایی',
-        'If you decide to downgrade to OTOBO, you will lose all database tables and data related to %s.' =>
+        # Template: AgentPassword
+        'Password Policy' => '',
+        'Your current password is older than %s days. You need to set a new one.' =>
             '',
+        'Change password' => 'تغییر رمز عبور',
+        'Current password' => 'رمز عبور کنونی',
+        'New password' => 'رمز عبور جدید',
+        'Repeat new password' => '',
+        'Password needs to be renewed every %s days.' => '',
+        'Password history is active, you can\'t use a password which was used the last %s times.' =>
+            '',
+        'Password length must be at least %s characters.' => '',
+        'Password requires at least two lower- and two uppercase characters.' =>
+            '',
+        'Password requires at least two characters.' => '',
+        'Password requires at least one digit.' => '',
+        'Change config options' => '',
+        'Admin permissions are required!' => '',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'تنظیمات شخصی خودتان را ویرایش نمایید',
@@ -2532,7 +2588,6 @@ sub Data {
         'Set Pending Time for %s%s%s' => 'تنظیم انتظار زمان برای %s %s %s',
         'Change Priority of %s%s%s' => 'تغییر اولویت %s %s %s',
         'Change Responsible of %s%s%s' => 'تغییر مسئول %s %s %s',
-        'All fields marked with an asterisk (*) are mandatory.' => 'همه فیلدهایی که با ستاره مشخص شده اند (*) الزامی است.',
         'The ticket has been locked' => 'درخواست تحویل گرفته شده است',
         'Undo & close' => 'عملیات را برگردان و پنجره را ببند',
         'Ticket Settings' => 'تنظیمات درخواست',
@@ -2736,7 +2791,6 @@ sub Data {
         'Event Type' => 'نوع رویداد',
         'Save as default' => 'ذخیره به عنوان پیش فرض',
         'Drafts' => '',
-        'by' => 'توسط',
         'Change Queue' => 'تغییر صف درخواست',
         'There are no dialogs available at this point in the process.' =>
             'هیچ پنجره موجود در این نقطه از این فرآیند وجود ندارد.',
@@ -2756,7 +2810,6 @@ sub Data {
         'Outgoing message' => 'پیغام ارسالی',
         'Internal message' => 'پیغام داخلی',
         'Sending of this message has failed.' => '',
-        'This message has been queued for sending.' => '',
         'Resize' => 'تغییر اندازه',
         'Mark this article as read' => 'علامت گذاری  این مقاله به عنوان خوانده شده',
         'Show Full Text' => 'نمایش کامل متن ',
@@ -2796,8 +2849,6 @@ sub Data {
         # Template: Invalid
         'Preview of this article is not possible because %s channel is missing in the system.' =>
             '',
-        'This feature is part of the %s. Please contact us at %s for an upgrade.' =>
-            '',
         'Please re-install %s package in order to display this article.' =>
             '',
 
@@ -2815,9 +2866,7 @@ sub Data {
         'go back to the previous page' => 'به صفحه قبل برگرد',
 
         # Template: CustomerAccept
-        'Dear Customer,' => '',
-        'thank you for using our services.' => '',
-        'Yes, I accept your license.' => '',
+        'Yes, I accepted your license.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -2828,13 +2877,15 @@ sub Data {
         'From all Customer IDs' => '',
         'From assigned Customer IDs' => '',
 
+        # Template: CustomerDashboard
+        'Ticket Search' => '',
+
         # Template: CustomerError
         'An Error Occurred' => 'خطا',
         'Error Details' => 'جزئیات خطا',
         'Traceback' => 'بازبینی',
 
         # Template: CustomerFooter
-        '%s powered by %s' => '',
         'Powered by %s' => '',
 
         # Template: CustomerFooterJS
@@ -2853,17 +2904,20 @@ sub Data {
             '',
         'Please see the documentation or ask your admin for further information.' =>
             'لطفا مستندات را مشاهده کنید یا از مدیر سیستم برای اطلاعات بیشتر سوال بپرسید.',
+        'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
+            '',
+        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+            '',
         'One moment please, you are being redirected...' => 'لطفا چند لحظه صبرکنید ، شما در حال هدایت می شوید ...',
         'Login' => 'ورود به سیستم',
-        'User name' => 'نام کاربری',
         'Your user name' => 'نام کاربری شما',
+        'User name' => 'نام کاربری',
         'Your password' => 'رمز عبور شما',
         'Forgot password?' => 'رمز عبور را فراموش کردید؟',
-        '2 Factor Token' => '2 فاکتور رمز',
         'Your 2 Factor Token' => ' 2 فاکتور رمزشما',
+        '2 Factor Token' => '2 فاکتور رمز',
         'Log In' => 'ورود',
-        'Not yet registered?' => 'هنوز ثبت نام نشده‌اید؟',
-        'Back' => 'بازگشت',
+        'Request Account' => '',
         'Request New Password' => 'درخواست رمز عبور جدید',
         'Your User Name' => 'نام کاربری شما',
         'A new password will be sent to your email address.' => 'رمز عبور جدید برای آدرس ایمیل شما ارسال خواهد شد.',
@@ -2875,17 +2929,31 @@ sub Data {
         'Your email address (this will become your username)' => 'نشانی ایمیل شما (این تبدیل خواهد شد به نام کاربری شما)',
 
         # Template: CustomerNavigationBar
-        'Incoming Chat Requests' => 'درخواست چت ورودی',
-        'Edit personal preferences' => 'ویرایش تنظیمات شخصی',
-        'Logout %s' => '',
+        'Logout' => 'خروج ',
+
+        # Template: CustomerPassword
+        'Change Password' => '',
+        'Password needs to contain at least 3 of the character classes: lower char, upper char, digit, special character.' =>
+            '',
+
+        # Template: CustomerTicketList
+        'Nr.' => '',
+        'Welcome!' => 'خوش آمدید',
+        'You have no tickets yet. Please click here, to create a new one.' =>
+            '',
+        'Nothing to show.' => '',
+        'Click here for an unfiltered list of all your tickets.' => '',
 
         # Template: CustomerTicketMessage
+        'Issue a new Ticket' => '',
         'Service level agreement' => 'توافقنامه سطح سرویس',
 
         # Template: CustomerTicketOverview
-        'Welcome!' => 'خوش آمدید',
-        'Please click the button below to create your first ticket.' => 'لطفا دکمه زیر را برای ساخت اولین درخواست خود بفشارید.',
-        'Create your first ticket' => 'ساخت اولین درخواست شما',
+        'Your Tickets' => '',
+        'New Ticket' => 'درخواست جدید',
+        'Page' => 'صفحه',
+        'Tickets' => 'درخواست‌ها',
+        'Sort' => '',
 
         # Template: CustomerTicketSearch
         'Profile' => 'مشخصات کاربری',
@@ -2910,14 +2978,14 @@ sub Data {
 
         # Template: CustomerTicketSearchResultShort
         'of' => ' از ',
-        'Page' => 'صفحه',
         'Search Results for' => 'نتایج جستجو برای',
         'Remove this Search Term.' => 'حذف این عبارت جستجو.',
 
         # Template: CustomerTicketZoom
-        'Start a chat from this ticket' => 'آغاز گپ این درخواست از',
-        'Next Steps' => 'گام های بعدی',
         'Reply' => 'پاسخ',
+        'Discard' => '',
+        'Ticket Information' => 'اطلاعات درخواست',
+        'Categories' => '',
 
         # Template: Chat
         'Expand article' => 'گسترش مطلب',
@@ -2925,17 +2993,15 @@ sub Data {
         # Template: CustomerWarning
         'Warning' => 'اخطار',
 
+        # Template: Tile_NewTicket
+        'Issue<br/>a ticket' => '',
+
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'اطلاعات رویداد',
         'Ticket fields' => 'زمینه های درخواست',
         'Dynamic fields' => 'زمینه های پویا',
 
         # Template: Error
-        'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTOBO.' =>
-            'واقعا یک اشکال؟ 5 از 10 گزارش اشکال از نصب و راه اندازی اشتباه و یا ناقص از OTOBO شود.',
-        'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
-            'با %s ، کارشناسان ما مراقبت از نصب صحیح و پوشش پشت خود را با پشتیبانی و به روز رسانی های امنیتی تناوبی.',
-        'Contact our service team now.' => ' با تیم خدمات ما در حال حاضر تماس بگیرید.',
         'Send a bugreport' => 'ارسال گزارش خطا',
         'Expand' => 'گسترش',
 
@@ -2955,11 +3021,8 @@ sub Data {
             '',
 
         # Template: Header
-        'View notifications' => '',
-        'Notifications' => '',
-
+        'Edit personal preferences' => 'ویرایش تنظیمات شخصی',
         'Personal preferences' => '',
-        'Logout' => 'خروج ',
         'You are logged in as' => 'شما با این عنوان وارد شده‌اید',
 
         # Template: Installer
@@ -2972,12 +3035,7 @@ sub Data {
         'Welcome to %s' => 'خوش آمدید به %s',
         'Germany' => '',
         'Phone' => 'تلفن',
-        'United States' => '',
-        'Mexico' => '',
-        'Hungary' => '',
-        'Brazil' => '',
-        'Singapore' => '',
-        'Hong Kong' => '',
+        'Switzerland' => '',
         'Web site' => 'وب سایت',
 
         # Template: InstallerConfigureMail
@@ -3033,10 +3091,6 @@ sub Data {
 
         # Template: InstallerDBmysql
         'Passwords do not match' => 'رمزهای ورود مطابقت ندارند',
-
-        # Template: InstallerDBoracle
-        'SID' => 'SID',
-        'Port' => 'پورت',
 
         # Template: InstallerFinish
         'To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -3206,6 +3260,10 @@ sub Data {
         'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
             'لطفا به یاد داشته باشید که این مقیاس برای محور Y را به بزرگتر از مقیاس برای محور X (به عنوان مثال محور X => ماه، محور Y => سال).',
 
+        # Template: SettingHistoryListCompare
+        'On ' => '',
+        'Reset to this value' => '',
+
         # Template: SettingsList
         'This setting is disabled.' => '',
         'This setting is fixed but not deployed yet!' => '',
@@ -3275,9 +3333,8 @@ sub Data {
         # Template: Navigation
         'Navigation' => '',
 
-        # Template: OTOBOCommunityTeaser
-        'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
-            '',
+        # Template: UsersSettingListCompare
+        'Delete user\'s value.' => '',
 
         # Template: Test
         'OTOBO Test Page' => 'صفحه آزمایش سیستم',
@@ -3306,6 +3363,7 @@ sub Data {
 
         # JS Template: UploadContainer
         'Click to select a file for upload.' => '',
+        'Click to select or drop files here.' => '',
         'Click to select files or just drop them here.' => '',
         'Click to select a file or just drop it here.' => '',
         'Uploading...' => '',
@@ -3324,6 +3382,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => '',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => '',
         'Preparing to deploy, please wait...' => '',
         'Deploy now' => '',
@@ -3351,7 +3410,6 @@ sub Data {
         'Zip' => 'کد پستی',
         'City' => 'شهر',
         'Country' => 'کشور',
-        'Valid' => 'معتبر',
         'Mr.' => 'آقای',
         'Mrs.' => 'خانم',
         'Address' => 'نشانی',
@@ -3368,7 +3426,6 @@ sub Data {
         'The following ACLs have been updated successfully: %s' => 'استفاده از ACL زیر با موفقیت به روز شده است: %s',
         'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.' =>
             'وجود دارد که در آن خطاهای اضافه کردن / به روز رسانی ACL ها زیر است: %s . لطفا ورود به سیستم فایل برای اطلاعات بیشتر.',
-        'This field is required' => 'این فیلد مورد نیاز است',
         'There was an error creating the ACL' => 'خطایی در ایجاد لیگ قهرمانان آسیا وجود دارد',
         'Need ACLID!' => 'نیاز ACLID!',
         'Could not get data for ACLID %s' => 'می تواند داده ها را برای ACLID نیست %s',
@@ -3432,7 +3489,6 @@ sub Data {
             '',
         'All agents with write permission for the appointment (calendar)' =>
             '',
-        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminAttachment.pm
         'Attachment added!' => 'پیوست افزوده شد!',
@@ -3469,6 +3525,17 @@ sub Data {
         'seconds' => 'ثانیه',
         'second' => 'ثانیه',
 
+        # Perl Module: Kernel/Modules/AdminContactWD.pm
+        'No contact is given!' => '',
+        'No data found for given contact in given source!' => '',
+        'Contact updated!' => '',
+        'No field data found!' => '',
+        'Contact created!' => '',
+        'Error creating contact!' => '',
+        'No sources found, at least one "Contact with data" dynamic field must be added to the system!' =>
+            '',
+        'No data found for given source!' => '',
+
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => 'شرکت مشترک به روز شد.',
         'Dynamic field %s not found!' => '',
@@ -3503,9 +3570,6 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
         'Fields configuration is not valid' => 'پیکربندی زمینه معتبر نیست',
         'Objects configuration is not valid' => 'پیکربندی اشیاء معتبر نیست',
-        'Database (%s)' => '',
-        'Web service (%s)' => '',
-        'Contact with data (%s)' => '',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'می تواند پویا درست سفارش تنظیم مجدد نمی کند، لطفا ورود به سیستم خطا برای جزئیات بیشتر.',
 
@@ -3527,12 +3591,15 @@ sub Data {
         'Unchecked' => 'بدون کنترل',
         'Checked' => 'بررسی',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldContactWD.pm
+        'This field key is duplicated.' => '',
+
+        # Perl Module: Kernel/Modules/AdminDynamicFieldDB.pm
+        'This field value is duplicated.' => 'این مقدار فیلد تکراری است.',
+
         # Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
         'Prevent entry of dates in the future' => 'جلوگیری از ورود تاریخ در آینده',
         'Prevent entry of dates in the past' => 'جلوگیری از ورود تاریخ در گذشته',
-
-        # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-        'This field value is duplicated.' => 'این مقدار فیلد تکراری است.',
 
         # Perl Module: Kernel/Modules/AdminEmail.pm
         'Select at least one recipient.' => 'حداقل یک گیرنده را انتخاب کنید.',
@@ -3719,16 +3786,6 @@ sub Data {
         'Invisible to customer' => '',
         'Visible to customer' => '',
 
-        # Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
-        'Your system was successfully upgraded to %s.' => 'سیستم شما با موفقیت در%s به روز رسانی شد  .',
-        'There was a problem during the upgrade to %s.' => '  در طول ارتقاء%s یک مشکلی به وجود آمده بود .',
-        '%s was correctly reinstalled.' => '%s به درستی نصب مجدد شد.',
-        'There was a problem reinstalling %s.' => 'یک مشکل در نصب مجدد %s بوجود آمده بود.',
-        'Your %s was successfully updated.' => ' %s شما با موفقیت به روزرسانی شد.',
-        'There was a problem during the upgrade of %s.' => 'یک مشکل درطی ارتقاء%s وجود دارد  .',
-        '%s was correctly uninstalled.' => '%s به درستی لغو نصب شد.',
-        'There was a problem uninstalling %s.' => 'یک مشکل در پاک کردن%s وجود دارد  .',
-
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
             'محیط زیست PGP کار نمی کند. لطفا وارد سیستم شوید برای اطلاعات بیشتر ',
@@ -3746,7 +3803,7 @@ sub Data {
         'File is OK' => 'فایل خوب است',
         'Package has locally modified files.' => 'بسته بندی به صورت محلی فایل های اصلاح شده.',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'بسته توسط گروه OTOBO تایید نشده است! توصیه نمی شود از این بسته استفاده کنید .',
+            'بسته توسط گروه OTRS تایید نشده است! توصیه نمی شود از این بسته استفاده کنید .',
         'Not Started' => '',
         'Updated' => '',
         'Already up-to-date' => '',
@@ -3948,6 +4005,11 @@ sub Data {
         'Some imported settings are not present in the current state of the configuration or it was not possible to update them. Please check the OTOBO log for more information.' =>
             '',
 
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
+        'This deployment does not contain changes in the setting values!' =>
+            '',
+        'No DeploymentID received!' => '',
+
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
         'You need to enable the setting before locking!' => '',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
@@ -3961,6 +4023,18 @@ sub Data {
         'Missing setting name.' => '',
         'Setting not found.' => '',
         'Missing Settings!' => '',
+
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
+        'No setting name received!' => '',
+        'Modified Version' => '',
+        'Reset To Default' => '',
+        'Default Version' => '',
+        'No setting name or modified version id received!' => '',
+        'Was not possible to revert the historical value!' => '',
+
+        # Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
+        'Missing setting name or modified id!' => '',
+        'System was not able to delete the user setting values!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
         'Start date shouldn\'t be defined after Stop date!' => 'نباید تاریخ شروع  پس از تاریخ توقف تعریف  شود!',
@@ -4063,6 +4137,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => 'PARAM گروه مورد نیاز است!',
+        'This feature is not available.' => '',
         'Updated user preferences' => '',
         'System was unable to deploy your changes.' => '',
         'Setting not found!' => '',
@@ -4127,6 +4202,8 @@ sub Data {
         'The following tickets were locked: %s.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => ' %s آدرس با آدرس مشتری ثبت شده جایگزین شده است.',
         'Customer user automatically added in Cc.' => 'نام کاربری مشتری به طور خودکار در رونوشت اضافه میشود',
 
@@ -4349,7 +4426,6 @@ sub Data {
         'Show one article' => 'نمایش یک مطلب',
         'Show all articles' => 'نمایش تمام مطالب',
         'Show Ticket Timeline View' => 'نشان دادن درخواست گاهشمار مشخصات',
-        'Show Ticket Timeline View (%s)' => '',
 
         # Perl Module: Kernel/Modules/AjaxAttachment.pm
         'Got no FormID.' => '',
@@ -4368,6 +4444,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => 'بررسی SysConfig تنظیم برای %s :: QueueDefault.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'بررسی SysConfig تنظیم برای %s :: TicketTypeDefault.',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => 'نیاز CustomerID!',
@@ -4442,6 +4520,9 @@ sub Data {
         'Need config Package::RepositoryAccessRegExp' => 'نیاز بسته بندی پیکربندی :: RepositoryAccessRegExp',
         'Authentication failed from %s!' => 'احراز هویت از %s !',
 
+        # Perl Module: Kernel/Output/HTML/Article/Chat.pm
+        'Chat' => 'گپ',
+
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketBounce.pm
         'Bounce Article to a different mail address' => 'برگشت زدن نوشته به یک آدرس ایمیل دیگر ',
         'Bounce' => 'ارجاع',
@@ -4479,9 +4560,7 @@ sub Data {
         'Unmark' => 'بدون علامت',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
-
         'Re-install Package' => '',
-        'Upgrade' => 'ارتقاء',
         'Re-install' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -4616,17 +4695,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
         'Archive search' => 'بایگانی جستجو',
 
-        # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
-        'Enable cloud services to unleash all OTOBO features!' => 'فعال کردن سرویس های ابری به رها کردن تمام ویژگی های OTOBO!',
-
-        # Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
-        '%s Upgrade to %s now! %s' => '%s ارتقا به %s در حال حاضر! %s',
-        'Please verify your license data!' => '',
-        'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            'مجوز %s شما رو به پایان است. لطفا برای بستن قرارداد مجدد با  %s تماس بگیرید.',
-        'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            'یک به روز رسانی برای  %s شماموجود است، اما یک مشکلی با نسخه چارچوب شما وجود دارد! لطفا ابتدا چارچوب خود را به روز رسانی کنید !',
-
         # Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
         'Online Agent: %s' => 'کارشناس فعال: %s',
 
@@ -4651,10 +4719,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
         'You have Out of Office enabled, would you like to disable it?' =>
             'شما گزینه خارج از دفتردارید،می خواهید غیرفعالش کنید؟ ',
-
-        # Perl Module: Kernel/Output/HTML/Notification/PackageManagerCheckNotVerifiedPackages.pm
-        'The installation of packages which are not verified by the OTOBO Team is activated. These packages could threaten your whole system! It is recommended not to use unverified packages.' =>
-            '',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
         'You have %s invalid setting(s) deployed. Click here to show invalid settings.' =>
@@ -4684,13 +4748,11 @@ sub Data {
         'Please specify an end date that is after the start date.' => 'لطفا تاریخ پایان است که بعد از تاریخ شروع را مشخص کنید.',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
-        'Current password' => 'رمز عبور کنونی',
-        'New password' => 'رمز عبور جدید',
         'Verify password' => 'تکرار رمز عبور',
         'The current password is not correct. Please try again!' => 'رمز عبور کنونی صحیح نمی‌باشد. لطفا مجددا تلاش نمایید!',
         'Please supply your new password!' => 'لطفا رمز عبور جدید خود را عرضه کنید!',
-        'Can\'t update password, your new passwords do not match. Please try again!' =>
-            'نمی‌توان کلمه عبور را به روز کرد، رمزهای عبور جدید با هم مطابقت ندارند. لطفا مجددا تلاش نمایید!',
+        'Can\'t update password, the new password and the repeated password do not match.' =>
+            '',
         'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             '',
         'Can\'t update password, it must be at least %s characters long!' =>
@@ -4699,6 +4761,8 @@ sub Data {
             '',
         'Can\'t update password, it must contain at least 1 digit!' => 'نمی‌توان کلمه عبور را به روز کرد، باید شامل حداقل یک عدد باشد!',
         'Can\'t update password, it must contain at least 2 letter characters!' =>
+            '',
+        'Can\'t update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!' =>
             '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
@@ -4755,9 +4819,6 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'مرتب‌سازی بر اساس',
 
-        # Perl Module: Kernel/Output/HTML/TicketZoom/TicketInformation.pm
-        'Ticket Information' => 'اطلاعات درخواست',
-
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
         'Locked Tickets New' => 'درخواست‌های تازه تحویل گرفته شده',
         'Locked Tickets Reminder Reached' => 'درخواست‌های تحویل گرفته شده‌ای که زمان یادآوری آن رسیده',
@@ -4783,15 +4844,6 @@ sub Data {
         # Perl Module: Kernel/System/Auth.pm
         'It is currently not possible to login due to a scheduled system maintenance.' =>
             'در حال حاضر بدلیل تعمیر و نگهداری سیستم برنامه ریزی شده، ورود به سایت امکان پذیر نمیباشد.',
-
-        # Perl Module: Kernel/System/AuthSession.pm
-        'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
-            'شما بیش از تعدادی از عوامل همزمان - تماس sales@otrs.com.',
-        'Please note that the session limit is almost reached.' => 'لطفا توجه داشته باشید که حد جلسه است که تقریبا رسیده است.',
-        'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
-            'ورود را رد کرد! شما از حداکثر تعدادی از عوامل همزمان! تماس با sales@otrs.com بلافاصله!',
-        'Session limit reached! Please try again later.' => 'محدودیت در ورود! لطفا بعدا دوباره امتحان کنید.',
-        'Session per user limit reached!' => 'جلسه در حد کاربران رسیده!',
 
         # Perl Module: Kernel/System/AuthSession/DB.pm
         'Session invalid. Please log in again.' => 'جلسه نامعتبر است. لطفا مجددا وارد شوید.',
@@ -4949,8 +5001,9 @@ sub Data {
             '',
         'Number of Tickets (affected by escalation configuration)' => 'تعداد درخواست (متاثر از پیکربندی تشدید)',
 
-        # Perl Module: Kernel/System/Stats/Static/StateAction.pm
+        # Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
         'Days' => 'روزها',
+        'Queues / Tickets' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
         'Outdated Tables' => '',
@@ -5113,7 +5166,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
         'Database Records' => 'سوابق پایگاه داده',
-        'Tickets' => 'درخواست‌ها',
         'Ticket History Entries' => 'درخواست تاریخچه مطالب',
         'Articles' => 'مقالات',
         'Attachments (DB, Without HTML)' => 'فایل های پیوست (DB، بدون HTML)',
@@ -5165,7 +5217,7 @@ sub Data {
         'Some packages are not correctly installed.' => 'برخی از بسته ها به درستی نصب نشده است.',
         'Package Verification Status' => 'وضعیت بسته تأیید',
         'Some packages are not verified by the OTOBO Team! It is recommended not to use this packages.' =>
-            'برخی از بسته های توسط گروه OTOBO تایید نشده است! توصیه می شود برای استفاده از این بسته نیست.',
+            'برخی از بسته های توسط گروه OTRS تایید نشده است! توصیه می شود برای استفاده از این بسته نیست.',
         'Package Framework Version Status' => 'بسته بندی Framework نسخه وضعیت',
         'Some packages are not allowed for the current framework version.' =>
             'برخی از بسته های برای نسخه چارچوب فعلی مجاز نیست.',
@@ -5303,7 +5355,8 @@ sub Data {
         'Disabled' => '',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/Date.pm
-        'System was not able to calculate user Date in OTOBOTimeZone!' => '',
+        'System was not able to calculate user Date in OTOBOTimeZone!' =>
+            '',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/DateTime.pm
         'System was not able to calculate user DateTime in OTOBOTimeZone!' =>
@@ -5325,6 +5378,7 @@ sub Data {
         'Chat Message Text' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
+        'Too many fail attempts, please retry again later' => '',
         'Login failed! Your user name or password was entered incorrectly.' =>
             'ورود ناموفق! نام کاربری یا کلمه عبور وارد شده اشتباه می‌باشد.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
@@ -5648,6 +5702,9 @@ sub Data {
             '',
         'Unlock setting.' => '',
 
+        # JS File: Core.Agent.Admin.SystemConfigurationUser
+        'Are you sure you want to remove all user values?' => '',
+
         # JS File: Core.Agent.Admin.SystemMaintenance
         'Do you really want to delete this scheduled system maintenance?' =>
             'آیا شما واقعا می خواهید  این تعمیر و نگهداری سیستم های برنامه ریزی شده را حذف کنید؟',
@@ -5700,6 +5757,9 @@ sub Data {
         'Please check the fields marked as red for valid inputs.' => 'لطفا فیلدهای مشخص شده به عنوان قرمز برای ورودی های معتبر را بررسی کنید.',
         'month' => 'ماه',
         'Remove active filters for this widget.' => 'حذف فیلتر فعال برای این عنصر است.',
+
+        # JS File: Core.Agent.DynamicFieldDBSearch
+        'This dynamic field database value is already selected.' => '',
 
         # JS File: Core.Agent.LinkObject.SearchForm
         'Please wait...' => '',
@@ -5762,7 +5822,6 @@ sub Data {
         # JS File: Core.Agent
         'Slide the navigation bar' => 'اسلاید نوار ناوبری',
         'Please turn off Compatibility Mode in Internet Explorer!' => 'لطفا حالت سازگاری در اینترنت اکسپلورر را خاموش کنید !',
-        'Find out more' => '',
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => 'تغییر به حالت همراه',
@@ -5923,6 +5982,9 @@ Thanks for your help!
             'ماژول ACL فقط زمانی که تمام درخواست‌های فرزند بسته شده باشد، اجازه بستن درخواست‌های والد را می‌دهد. ("وضعیت" نان می‌دهد که کدام وضعیت‌ها برای درخواست والدتا زمانی که تمام درخواست‌های فرزند بسته شده است، در دسترس می‌باشد.)',
         'Access Control Lists (ACL)' => 'فهرست سطخ دسترسی (ACL)',
         'AccountedTime' => 'AccountedTime',
+        'Activate Elasticsearch.' => '',
+        'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
+            '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'مکانیزم چشمک زدن را برای صف درخواستی که شامل قدیمی‌ترین درخواست می‌باشد فعال می‌کند.',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -5963,19 +6025,31 @@ Thanks for your help!
         'Adds the permanent vacation days.' => '',
         'Admin' => 'مدیریت سیستم',
         'Admin Area.' => 'بخش مدیریت.',
+        'Admin Contact With Data' => '',
         'Admin Notification' => 'اعلام مدیر سیستم',
         'Admin area navigation for the agent interface.' => '',
+        'Admin contact with data.' => '',
         'Admin modules overview.' => '',
         'Admin.' => 'مدیر',
         'Administration' => '',
+        'Agent Contact With Data Search' => '',
         'Agent Customer Search' => '',
         'Agent Customer Search.' => '',
+        'Agent Dynamic Field Database Detailed Search' => '',
+        'Agent Dynamic Field Database Details' => '',
+        'Agent Dynamic Field Database Search' => '',
         'Agent Name' => 'نام نماینده',
         'Agent Name + FromSeparator + System Address Display Name' => 'نام نماینده + FromSeparator + سیستم نام آدرس ها',
         'Agent Preferences.' => 'تنظیمات عامل.',
         'Agent Statistics.' => '',
         'Agent User Search' => '',
         'Agent User Search.' => '',
+        'Agent contact with data search.' => '',
+        'Agent dynamic field database detailed search.' => '',
+        'Agent dynamic field database details.' => '',
+        'Agent dynamic field database search.' => '',
+        'Agent frontend module registration (disable \'Edit contacts with data\' link if if there is no source field configured).' =>
+            '',
         'Agent interface article notification module to check PGP.' => 'ماژول اعلان مطلب برای کارشناس به جهت کنترل PGP',
         'Agent interface article notification module to check S/MIME.' =>
             'ماژول اعلان مطلب برای کارشناس به جهت کنترل S/MIME',
@@ -5995,6 +6069,8 @@ Thanks for your help!
             'عامل ماژول اطلاع رسانی رابط برای دیدن تعدادی از بلیط در سرویس های من. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \ "گروه " و محتوا مانند \ ":؛: GROUP2 \ move_into GROUP1 RW" انجام می شود.',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'عامل ماژول اطلاع رسانی رابط برای دیدن تعدادی از بلیط تماشا. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \ "گروه " و محتوا مانند \ ":؛: GROUP2 \ move_into GROUP1 RW" انجام می شود.',
+        'AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.' =>
+            '',
         'AgentTicketZoom widget that displays a table of objects linked to the ticket.' =>
             '',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
@@ -6004,7 +6080,6 @@ Thanks for your help!
         'Agents ↔ Groups' => '',
         'Agents ↔ Roles' => '',
         'All CustomerIDs of a customer user.' => '',
-
         'All customer users of a CustomerID' => 'همه کاربران مشتری از CustomerID',
         'All escalated tickets' => 'تمام درخواست‌هایی که زمان پاسخگویی آن‌ها رو به پایان است',
         'All new tickets, these tickets have not been worked on yet' => 'تمام درخواست‌های جدید، روی این درخواست‌ها هنوز کاری انجام شده',
@@ -6111,6 +6186,7 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => 'عربی (عربستان سعودی)',
         'ArticleTree' => 'ArticleTree',
         'Attachment Name' => 'نام فایل پیوست',
+        'Autoloading of Znuny4OTOBOPasswordPolicy extensions.' => '',
         'Automated line break in text messages after x number of chars.' =>
             'خط خودکار در پیام های متنی از تعداد X از کاراکتر.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -6149,10 +6225,14 @@ Thanks for your help!
         'Cache time in seconds for the web service config backend.' => 'زمان کش در ثانیه برای خدمات وب باطن پیکربندی.',
         'Calendar manage screen.' => '',
         'Catalan' => 'کاتالان',
-        'Change password' => 'تغییر رمز عبور',
+        'Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+            '',
+        'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+            '',
+        'Change Ticket' => '',
+        'Change Ticket information' => '',
         'Change queue!' => 'تغییر صف درخواست!',
         'Change the customer for this ticket' => 'تغییر مشتری  برای این درخواست',
-        'Change the free fields for this ticket' => 'تغییر زمینه رایگان برای این درخواست',
         'Change the owner for this ticket' => 'تغییرمالک برای این درخواست ',
         'Change the priority for this ticket' => 'تغییر اولویت  برای این درخواست',
         'Change the responsible for this ticket' => 'تغییر مسئول برای این درخواست',
@@ -6237,7 +6317,7 @@ Thanks for your help!
         'Configure any additional readonly mirror databases that you want to use.' =>
             'پیکربندی هر پایگاه داده آینه فقط خواندنی های اضافی است که شما می خواهید به استفاده از.',
         'Configure sending of support data to OTOBO Team for improved support.' =>
-            'پیکربندی ارسال داده پشتیبانی به OTOBO گروه برای پشتیبانی بهبود یافته.',
+            'پیکربندی ارسال داده پشتیبانی به OTRS گروه برای پشتیبانی بهبود یافته.',
         'Configure which screen should be shown after a new ticket has been created.' =>
             'پیکربندی که صفحه نمایش باید نشان داده شود پس از یک درخواست جدید ایجاد شده است.',
         'Configure your own log text for PGP.' => 'پیکربندی متن ورود به سیستم خود  برای PGP.',
@@ -6262,6 +6342,7 @@ Thanks for your help!
             'کنترل اگر پرچم درخواست و مقاله دیده شود آنها حذف می شوند زمانیکه یک بلیط بایگانی شده است.',
         'Converts HTML mails into text messages.' => 'تبدیل ایمیل های HTML و به پیام های متنی.',
         'Create New process ticket.' => 'ساختن درخواست روند جدید.',
+        'Create Templates for AdminDynamicFieldTitle' => '',
         'Create Ticket' => '',
         'Create a new calendar appointment linked to this ticket' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'ساخت و مدیریت توافقات سطح سرویس (SLA)',
@@ -6293,6 +6374,7 @@ Thanks for your help!
         'Create new phone ticket.' => 'ساختن درخواست گوشی جدید.',
         'Create new process ticket.' => 'ساختن درخواست فرآیند جدید.',
         'Create tickets.' => 'ساختن درخواست',
+        'Create your first ticket' => 'ساخت اولین درخواست شما',
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             '',
         'Croatian' => 'کرواتی',
@@ -6302,10 +6384,15 @@ Thanks for your help!
             'متن دلخواه برای صفحه نشان داده شده به مشتریان است که هیچ بلیط هنوز (اگر شما نیاز به آن متن ترجمه آنها را به یک ماژول ترجمه سفارشی اضافه کنید).',
         'Customer Administration' => 'اداره مشتری',
         'Customer Companies' => 'شرکت/سازمان‌های مشترک',
+        'Customer Dashboard' => '',
+        'Customer Dynamic Field Database Detailed Search' => '',
+        'Customer Dynamic Field Database Details' => '',
+        'Customer Dynamic Field Database Search' => '',
         'Customer IDs' => '',
         'Customer Information Center Search.' => ' جستجو مرکز اطلاعات مشتری.',
         'Customer Information Center search.' => '',
         'Customer Information Center.' => 'مرکز اطلاعات مشتری.',
+        'Customer Password.' => '',
         'Customer Ticket Print Module.' => 'درخواست مشتری چاپ ماژول.',
         'Customer User Administration' => 'مشتری اداره کاربری',
         'Customer User Information' => '',
@@ -6315,6 +6402,9 @@ Thanks for your help!
         'Customer Users ↔ Customers' => '',
         'Customer Users ↔ Groups' => '',
         'Customer Users ↔ Services' => '',
+        'Customer dynamic field database detailed search.' => '',
+        'Customer dynamic field database details.' => '',
+        'Customer dynamic field database search.' => '',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             'مورد و ضوابط (آیکون) نشان می دهد که بلیط بسته از این مشتری را به عنوان بلوک اطلاعات. تنظیم CustomerUserLogin تا 1 جستجو برای بلیط بر اساس نام کاربری به جای CustomerID.',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -6495,6 +6585,8 @@ Thanks for your help!
             'تعریف می کند اگر عوامل باید مجاز به ورود در صورتی که هیچ راز به اشتراک گذاشته شده ذخیره شده در تنظیمات خود را و در نتیجه با استفاده از احراز هویت دو عامل است.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'تعریف می کند اگر مشتریان باید مجاز به ورود در صورتی که هیچ راز به اشتراک گذاشته شده ذخیره شده در تنظیمات خود را و در نتیجه با استفاده از احراز هویت دو عامل است.',
+        'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             'تعریف می کند اگر حالت پیشرفته استفاده شود (را قادر می سازد استفاده از جدول، جایگزین، زیرنویس، بالانویس، چسباندن از Word، و غیره) در رابط مشتری می باشد.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
@@ -6573,8 +6665,6 @@ Thanks for your help!
         'Defines the config options for the autocompletion feature.' => 'تعریف می کند که گزینه های پیکربندی برای قابلیت تکمیل خودکار است.',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             'تعریف می کند که پارامترهای پیکربندی از این آیتم، به  نظردر تنظیمات نشان داده میشود.',
-        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
-            '',
         'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
         'Defines the connections for http/ftp, via a proxy.' => 'تعریف می کند که ارتباطات به HTTP / FTP، از طریق یک پروکسی است.',
@@ -6854,8 +6944,6 @@ Thanks for your help!
         'Defines the maximum size (in MB) of the log file.' => 'تعریف می کند که حداکثر اندازه (در MB) از فایل وارد شوید.',
         'Defines the maximum size in KiloByte of GenericInterface responses that get logged to the gi_debugger_entry_content table.' =>
             'تعریف می کند که حداکثر اندازه در کیلوبایت پاسخ GenericInterface که به جدول gi_debugger_entry_content وارد شده است.',
-        'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
-            'تعریف می کند که نشان می دهد یک ماژول است که اطلاع رسانی عمومی در رابط عامل. در هر دو صورت \ "متن " - در صورت پیکربندی - و یا محتویات \ "فایل " نمایش داده خواهد شد.',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             'ماژول است که همه به در حال حاضر در عوامل در رابط عامل وارد تعریف می کند.',
         'Defines the module that shows all the currently logged in customers in the agent interface.' =>
@@ -6865,8 +6953,6 @@ Thanks for your help!
         'Defines the module that shows the currently logged in customers in the customer interface.' =>
             'تعریف می کند ماژول که نشان می دهد در حال حاضر در مشتریان در رابط مشتری وارد سایت شوید.',
         'Defines the module to authenticate customers.' => 'تعریف می کند که ماژول برای تأیید هویت مشتریان است.',
-        'Defines the module to display a notification if cloud services are disabled.' =>
-            'تعریف می کند که ماژول برای نمایش اطلاع رسانی اگر خدمات ابر غیر فعال هستند.',
         'Defines the module to display a notification in the agent interface if the OTOBO Daemon is not running.' =>
             'تعریف می کند که ماژول برای نمایش اطلاع رسانی در رابط عامل اگر OTOBO شبح حال اجرا نیست.',
         'Defines the module to display a notification in the agent interface if the system configuration is out of sync.' =>
@@ -6877,10 +6963,6 @@ Thanks for your help!
             'تعریف می کند که ماژول برای نمایش اطلاع رسانی در رابط عامل، اگر عامل در حالی که داشتن خارج از دفتر فعال وارد سایت شوید.',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
             'تعریف می کند که ماژول برای نمایش اطلاع رسانی در رابط عامل، اگر عامل در حالی که داشتن تعمیر و نگهداری سیستم فعال وارد سایت شوید.',
-        'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
-            'تعریف می کند که ماژول برای نمایش اطلاع رسانی در رابط عامل، اگر عامل محدود جلسه هشدار قبلی رسیده است.',
-        'Defines the module to display a notification in the agent interface, if the installation of not verified packages is activated (only shown to admins).' =>
-            '',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             'ماژول برای نمایش اطلاع رسانی در رابط عامل، در صورتی که سیستم توسط کاربر مدیریت استفاده را تعریف می کند (به طور معمول شما باید به عنوان مدیر کار نمی کند).',
         'Defines the module to display a notification in the agent interface, if there are invalid sysconfig settings deployed.' =>
@@ -7003,6 +7085,8 @@ Thanks for your help!
             '',
         'Defines the shown links in the footer area of the customer and public interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
             '',
+        'Defines the source dynamic field for storing historical data.' =>
+            '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'تعریف می کند که مجوز استاندارد برای مشتریان داخل نرم افزار. اگر مجوزهای بیشتری مورد نیاز است، شما می توانید آنها را در اینجا وارد کنید. مجوز باید سخت کدگذاری موثر باشد. لطفا اطمینان حاصل شود، در هنگام اضافه کردن هر یک از مجوز مزبور، که \ "RW " اجازه آخرین ورود باقی مانده است.',
         'Defines the standard size of PDF pages.' => ' اندازه استاندارد برای صفحات PDF. تعریف می کند ',
@@ -7029,6 +7113,8 @@ Thanks for your help!
             'تعریف می کند ویژگی target در لینک به پایگاه داده های مشتری خارجی. به عنوان مثال \'AsPopup PopupType_TicketAction.',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
             'تعریف می کند ویژگی target در لینک به پایگاه داده های مشتری خارجی. به عنوان مثال \'هدف = \ "CDB ".',
+        'Defines the target dynamic fields for storing historical data.' =>
+            '',
         'Defines the ticket appointment type backend for ticket dynamic field date time.' =>
             '',
         'Defines the ticket appointment type backend for ticket escalation time.' =>
@@ -7053,7 +7139,8 @@ Thanks for your help!
             'تعریف می کند که نام کاربری برای دسترسی به دسته SOAP (بن / cgi-bin در / rpc.pl). میباشد',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
-        'Defines the valid state types for a ticket.' => 'انواع وضعیت معتبر برای یک بلیط.را تعریف میکند.',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'تعریف می کند که ایالات معتبر برای بلیط باز شده است. برای باز کردن قفل بلیط اسکریپت \ "بن / otobo.Console.pl سیستم maint :: بلیط :: UnlockTimeout " می تواند استفاده شود.',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -7090,7 +7177,7 @@ Thanks for your help!
         'Deletes requested sessions if they have timed out.' => 'حذف جلسات درخواست اگر آنها به پایان رسیده است.',
         'Delivers extended debugging information in the frontend in case any AJAX errors occur, if enabled.' =>
             'ارائه اطلاعات اشکال زدایی گسترده در ظاهر در مورد هر گونه خطا AJAX رخ می دهد، اگر فعال باشد.',
-
+        'DeploymentHistory' => '',
         'Detached' => '',
         'Determines if a button to delete a link should be displayed next to each link in each zoom mask.' =>
             '',
@@ -7149,12 +7236,15 @@ Thanks for your help!
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             'کلمات توقف هلندی شاخص متن. این کلمات از صفحه اول جستجو حذف خواهند شد.',
         'Dynamic Fields Checkbox Backend GUI' => 'رابط کاربری گرافیکی پویا زمینه جعبه بخش مدیریت',
+        'Dynamic Fields Contact Data Backend GUI' => '',
+        'Dynamic Fields Database Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => 'پویا زمینه های تاریخ زمان بخش مدیریت رابط کاربری گرافیکی',
         'Dynamic Fields Drop-down Backend GUI' => 'پویا زمینه های کشویی GUI بخش مدیریت',
         'Dynamic Fields GUI' => 'رابط کاربری گرافیکی زمینه پویا ',
         'Dynamic Fields Multiselect Backend GUI' => 'رابط کاربری گرافیکی زمینه پویا چندین انتخاب بخش مدیریت',
         'Dynamic Fields Overview Limit' => 'زمینه پویا نمای کلی محدود',
         'Dynamic Fields Text Backend GUI' => ' زمینه های پویا متن بخش مدیریت رابط کاربری گرافیکی',
+        'Dynamic Fields Web Service Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             ' زمینه های پویا مورد استفاده به صادرات نتیجه جستجو در فرمت CSV.',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
@@ -7226,7 +7316,11 @@ Thanks for your help!
         'Edit Customer Companies.' => 'ویرایش شرکت و مشتری',
         'Edit Customer Users.' => 'ویرایش کاربران مشتری',
         'Edit appointment' => '',
+        'Edit contacts with data' => '',
+        'Edit contacts with data.' => '',
         'Edit customer company' => 'ویرایش شرکت مشتری',
+        'Elasticsearch' => '',
+        'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'آدرس‌های ایمیل',
         'Email Outbound' => 'عازم ناحیه دور دست ایمیل',
         'Email Resend' => '',
@@ -7271,6 +7365,8 @@ Thanks for your help!
         'Escalation view' => 'نمای درخواست‌های خیلی مهم',
         'EscalationTime' => 'EscalationTime',
         'Estonian' => 'زبان استونی',
+        'Event module registration (store historical data in dynamic fields).' =>
+            '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             'رویداد ثبت نام ماژول. برای عملکرد بیشتر شما می توانید رویداد ماشه (به عنوان مثال رویداد => TicketCreate) را تعریف کنیم.',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -7298,7 +7394,8 @@ Thanks for your help!
             'اجرای یک دستور سفارشی و یا ماژول. توجه: اگر ماژول استفاده می شود، تابع مورد نیاز است.',
         'Executes follow-up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             'اجرا چک پیگیری در پاسخ به یا مراجع هدر برای ایمیل هایی که شماره درخواست را در موضوع ندارد.',
-        'Executes follow-up checks on OTOBO Header \'X-OTOBO-Bounce\'.' => '',
+        'Executes follow-up checks on OTOBO Header \'X-OTOBO-Bounce\'.' =>
+            '',
         'Executes follow-up checks on attachment contents for mails that don\'t have a ticket number in the subject.' =>
             'اجرا چک پیگیری محتویات پیوست برای ایمیل هایی که شماره درخواست را در موضوع ندارد.',
         'Executes follow-up checks on email body for mails that don\'t have a ticket number in the subject.' =>
@@ -7314,6 +7411,18 @@ Thanks for your help!
         'Fetch incoming emails from configured mail accounts.' => 'واکشی ایمیل های دریافتی از حساب های ایمیل پیکربندی شده است.',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
             'بازخوانی بسته از طریق پروکسی. رونویسی \ "WebUserAgent :: پروکسی ".',
+        'Fields of the customer company index, used for the company fulltext search. Fields are also stored, but are not mandatory for the overall functionality.' =>
+            '',
+        'Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
+            '',
+        'Fields stored in the customer company index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
+            '',
+        'Fields stored in the customer user index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
+            '',
+        'Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
+            '',
+        'Fields to be searched in ticket index. Fields are also stored, but are not mandatory for the overall functionality.' =>
+            '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.' =>
             'فایل است که در کرنل :: ماژول :: AgentInfo نمایش داده، اگر در هسته / خروجی / HTML / قالب / استاندارد / AgentInfo.tt واقع شده است.',
         'Filter for debugging ACLs. Note: More ticket attributes can be added in the format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>.' =>
@@ -7341,8 +7450,8 @@ Thanks for your help!
             'نیروهای به انتخاب یک دولت بلیط مختلف (از فعلی) بعد از عمل قفل. تعریف وضعیت فعلی به عنوان کلید، و دولت بعدی پس از عمل قفل به عنوان محتوا.',
         'Forces to unlock tickets after being moved to another queue.' =>
             'نیروهای  باز کردن درخواست پس ازاین به صف دیگری نقل مکان کرد.',
+        'Format to be ingested' => '',
         'Forwarded to "%s".' => 'لینک ثابت به : "%s"',
-        'Free Fields' => 'فیلد‌های آزاد',
         'French' => 'فرانسوی',
         'French (Canada)' => 'فرانسه (کانادا)',
         'French stop words for fulltext index. These words will be removed from the search index.' =>
@@ -7364,6 +7473,8 @@ Thanks for your help!
         'Full value' => 'ارزش کامل',
         'Fulltext index regex filters to remove parts of the text.' => 'متن فیلتر شاخص عبارت منظم به حذف بخش هایی از متن.',
         'Fulltext search' => 'جستجوی متن',
+        'Fulltext search using Elasticsearch' => '',
+        'FulltextES' => '',
         'Galician' => 'گاليکي',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
@@ -7381,6 +7492,8 @@ Thanks for your help!
         'GenericInterface Web Service History GUI' => '',
         'GenericInterface Web Service Mapping GUI' => '',
         'GenericInterface module registration for an error handling module.' =>
+            '',
+        'GenericInterface module registration for the PassThrough invoker layer.' =>
             '',
         'GenericInterface module registration for the invoker layer.' => 'GenericInterface ثبت نام ماژول برای لایه invoker است.',
         'GenericInterface module registration for the mapping layer.' => 'GenericInterface ثبت نام ماژول برای لایه های نقشه برداری.',
@@ -7639,7 +7752,7 @@ Thanks for your help!
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             'باعث می شود مدیریت جلسه کوکی استفاده از HTML. اگر کوکی ها اچ غیر فعال و یا اگر کوکی ها مرورگر HTML غیر فعال است مشتری، سپس سیستم به طور معمول کار خواهد کرد و اضافه ID جلسه به لینک ها',
         'Malay' => 'مالایا',
-        'Manage OTOBO Team cloud services.' => 'مدیریت OTOBO گروه خدمات ابر.',
+        'Manage OTOBO Team cloud services.' => 'مدیریت OTRS گروه خدمات ابر.',
         'Manage PGP keys for email encryption.' => 'مدیریت کلیدهای PGP برای رمزنگاری ایمیل',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'مدیریت حساب‌های POP3 و IMAP برای واکشی ایمیل‌ها',
         'Manage S/MIME certificates for email encryption.' => 'مدیریت گواهینامه‌ها برای رمزنگاری ایمیل‌ها',
@@ -7663,6 +7776,7 @@ Thanks for your help!
             'پاسخ به ایمیل خودکار حداکثر به خود آدرس ایمیل در روز (حلقه حفاظت).',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>
             '',
+        'Maximal number of results returned by ES per field.' => '',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
             'اندازه حداکثر در کیلو بایت برای ایمیل است که می تواند از طریق POP3 / POP3S / IMAP / IMAPS (کیلو بایت) برگردانده شده.',
         'Maximum Number of a calendar shown in a dropdown.' => 'حداکثر تعداد یک تقویم نشان داده شده در منوی کرکره ای.',
@@ -7672,6 +7786,7 @@ Thanks for your help!
             'حداکثر طول (به نویسه) زمینه پویا در نوار کناری از نظر زوم درخواست',
         'Maximum number of active calendars in overview screens. Please note that large number of active calendars can have a performance impact on your server by making too much simultaneous calls.' =>
             '',
+        'Maximum number of results returned from the quick result.' => '',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             'حداکثر تعداد بلیط در نتیجه یک جستجو در رابط عامل نمایش داده میشود.',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
@@ -7731,7 +7846,6 @@ Thanks for your help!
             'ماژول برای نمایش اعلام و escalations (ShownMax: حداکثر escalations نشان داده شده است، EscalationInMinutes: بلیط نمایش که تشدید، CacheTime خواهد شد: کش از escalations محاسبه در ثانیه).',
         'Module to use database filter storage.' => 'ماژول برای استفاده از ذخیره سازی فیلتر پایگاه داده.',
         'Module used to detect if attachments are present.' => '',
-        'Multiselect' => 'چندین انتخاب',
         'My Queues' => 'لیست درخواست‌های من',
         'My Services' => 'خدمات من',
         'My Tickets.' => 'درخواست من.',
@@ -7740,7 +7854,6 @@ Thanks for your help!
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             'نام خدمات سفارشی. خدمات سفارشی انتخاب خدمات خدمات مورد نظر خود را است و می تواند در تنظیمات تنظیمات انتخاب شده است.',
         'NameX' => 'NameX',
-        'New Ticket' => 'درخواست جدید',
         'New Tickets' => 'درخواست‌های جدید',
         'New Window' => 'پنجره جدید',
         'New Year\'s Day' => 'روز اول ژانویه که آغاز سال نو مسیحیان است',
@@ -7761,13 +7874,14 @@ Thanks for your help!
         'Number of displayed tickets' => 'تعداد درخواست‌های نمایش داده شده',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             'تعداد خطوط (در هر بلیط) که توسط ابزار جستجو در رابط عامل نشان داده شده است.',
+        'Number of shards (NS) and replicas (NR) for the index.' => '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'تعداد بلیط در هر صفحه از یک نتیجه جستجو در رابط عامل نمایش داده شود.',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'تعداد بلیط در هر صفحه از یک نتیجه جستجو در رابط مشتری نمایش داده می شود.',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO Team Services' => '',
         'OTOBO News' => 'اخبار سامانه پشتیبانی',
+        'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             'OTOBO می توانید یک یا چند پایگاه داده آینه فقط خواندنی برای عملیات گران قیمت مانند جستجو و یا آمار نسل متن استفاده کنید. در اینجا شما می توانید DSN برای پایگاه داده آینه اول را مشخص کنید.',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
@@ -7788,6 +7902,8 @@ Thanks for your help!
         'Out Of Office' => 'بیرون از دفتر',
         'Out Of Office Time' => 'زمان بیرون بودن از محل کار',
         'Out of Office users.' => '',
+        'Output filter to inject the necessary Dynamic field names in hidden input.' =>
+            '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'اضافه بار (باز تعریف) توابع موجود در هسته :: :: سیستم بلیط. استفاده به راحتی سفارشی اضافه کنید.',
         'Overview Escalated Tickets.' => 'درخواست تشدید هفتگی.',
@@ -7886,6 +8002,7 @@ Thanks for your help!
         'Picture Upload' => 'تصویر آپلود',
         'Picture upload module.' => 'تصویر ماژول آپلود.',
         'Picture-Upload' => 'تصویر آپلود',
+        'Please click the button below to create your first ticket.' => 'لطفا دکمه زیر را برای ساخت اولین درخواست خود بفشارید.',
         'Plugin search' => '',
         'Plugin search module for autocomplete.' => '',
         'Polish' => 'لهستانی',
@@ -7907,6 +8024,8 @@ Thanks for your help!
         'Product News' => 'اخبار محصولات',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
+        'Protection against brute force attacks. MaxAttempt: How many failed login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered.' =>
+            '',
         'Provides a matrix overview of the tickets per state per queue' =>
             '',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
@@ -7916,8 +8035,10 @@ Thanks for your help!
         'Queue view' => 'نمای صف درخواست',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'بازسازی شاخص بلیط برای AgentTicketQueue.',
+        'Rebuilds the ACL preselection cache.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
             '',
+        'Redis server address. Example: 127.0.0.1:6379.' => '',
         'Refresh interval' => 'بارگذاری مجدد ورودی',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
@@ -7935,7 +8056,6 @@ Thanks for your help!
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             'جایگزین فرستنده اصلی با آدرس ایمیل مشتری فعلی در پاسخ نوشتن در صفحه نوشتن بلیط رابط عامل.',
         'Reports' => 'گزارشات',
-
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             'پردازش مجدد ایمیل از دایرکتوری قرقره است که نمی تواند در وهله اول وارد شود.',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -7974,7 +8094,6 @@ Thanks for your help!
         'Resent email to "%s".' => '',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
             'بازنشانی و بازکردن دسترسی صاحب یک درخواست اگر آن را به صف دیگری انتقال داده.',
-
         'Responsible Tickets' => 'کارشناس درخواست',
         'Responsible Tickets.' => 'کارشناس درخواست.',
         'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
@@ -7987,6 +8106,8 @@ Thanks for your help!
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
         'Running Process Tickets' => 'در حال اجرا فرآیند درخواست',
+        'Runs an initial wildcard search of the existing contacts with data when accessing the AdminContactWD module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             'اجرا می شود جستجو کلمات اولیه این شرکت مشتری های موجود در هنگام دسترسی به ماژول AdminCustomerCompany است.',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
@@ -7995,8 +8116,6 @@ Thanks for your help!
             '',
         'Russian' => 'روسی',
         'S/MIME Certificates' => 'گواهینامه‌های S/MIME',
-        'SMS' => 'پیامک',
-        'SMS (Short Message Service)' => 'اس ام اس (خدمات پیام کوتاه)',
         'Salutations' => 'عنوان',
         'Sample command output' => 'خروجی دستور نمونه',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
@@ -8054,8 +8173,6 @@ Thanks for your help!
         'Service Level Agreements' => 'توافقات سطح سرویس',
         'Service view' => 'نمای سرویس',
         'ServiceView' => 'ServiceView',
-        'Set a new password by filling in your current password and a new one.' =>
-            '',
         'Set sender email addresses for this system.' => 'تنظیم آدرس ایمیل‌های ارسال‌کننده برای این سیستم',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'مجموعه ای از ارتفاع به طور پیش فرض (به پیکسل) مقالات HTML درون خطی در AgentTicketZoom.',
@@ -8150,13 +8267,7 @@ Thanks for your help!
             'متن پیش فرض برای بلیط ایمیل جدید در رابط عامل تنظیم می کند.',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             'مجموعه زمان عدم فعالیت (در ثانیه) به تصویب قبل از یک جلسه کشته و یک کاربر وارد شده است است.',
-        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.' =>
-            '',
-        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
-            '',
         'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
-            '',
-        'Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime.' =>
             '',
         'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
             '',
@@ -8275,6 +8386,7 @@ Thanks for your help!
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'ایست (در ثانیه) برای دریافت HTTP / FTP تنظیم می کند.',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             'ایست (در ثانیه) برای دریافت بسته را تنظیم میکند. رونویسی \ "WebUserAgent :: اتمام مهلت ".',
+        'Settings for the customer login screen.' => '',
         'Shared Secret' => 'راز مشترک',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
             'نمایش یک انتخاب مسئول در تلفن و ایمیل بلیط در رابط عامل.',
@@ -8526,7 +8638,6 @@ Thanks for your help!
             'رمز عبور مشخص برای احراز هویت برای پایگاه داده آینه است.',
         'Specify the username to authenticate for the first mirror database.' =>
             'نام مشخص کاربری برای تأیید هویت برای پایگاه داده آینه است.',
-        'Stable' => '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             'مجوز دسترس استاندارد برای عوامل داخل نرم افزار. اگر مجوزهای بیشتری مورد نیاز است، می توان آنها را در اینجا وارد شده است. مجوز باید تعریف شود، موثر باشد. برخی از مجوز خوب دیگر نیز ارائه ساخته شده در: توجه داشته باشید، نزدیک، در انتظار، مشتری، گه از FREETEXT، حرکت، آهنگسازی، مسئول، به جلو، و گزاف گویی. مطمئن شوید که \ "RW " همیشه آخرین اجازه ثبت شده است.',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -8538,7 +8649,6 @@ Thanks for your help!
             'جستجوی کلمات از جسم فعال پس از ماسک لینک شی آغاز شده است.',
         'Stat#' => 'شماره گزارش',
         'States' => 'وضعیت',
-        'Statistic Reports overview.' => '',
         'Statistics overview.' => '',
         'Status view' => 'نمای وضعیت',
         'Stopped response time escalation.' => '',
@@ -8554,6 +8664,7 @@ Thanks for your help!
         'System Address Display Name' => 'سیستم آدرس نام ها',
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
+        'System Configuration Setting History' => '',
         'System Maintenance' => 'تعمیر و نگهداری سیستم',
         'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => '',
@@ -8611,6 +8722,8 @@ Thanks for your help!
             'متن در آغاز موضوع هنگامی که یک ایمیل فرستاده است، به عنوان مثال FW، FWD، یا WG.',
         'The value of the From field' => '',
         'Theme' => 'طرح زمینه',
+        'This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.' =>
+            '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             '',
         'This is a Description for Comment on Framework.' => '',
@@ -8620,6 +8733,9 @@ Thanks for your help!
         'This is the default orange - black skin.' => 'پوست سیاه و سفید - این به طور پیش فرض نارنجی است.',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'این ماژول و عملکرد PreRun () آن اجرا خواهد شد، اگر تعریف شده است، برای هر درخواست. این ماژول مفید است که برای بررسی برخی از گزینه های کاربران و یا برای نمایش اخبار در مورد برنامه های جدید.',
+        'This module is being used to extend the password policy.' => '',
+        'This module is part of the admin area of OTOBO Community Edition.' =>
+            '',
         'This module is part of the admin area of OTOBO.' => 'این ماژول بخشی از بخش مدیریت OTOBO موجود است.',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             'این گزینه زمینه پویا که در آن یک مدیریت فرآیند نهاد فعالیت شناسه ذخیره شده است تعریف می کند.',
@@ -8636,7 +8752,6 @@ Thanks for your help!
         'This setting is deprecated. Set OTOBOTimeZone instead.' => '',
         'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
             '',
-        'This will allow the system to send text messages via SMS.' => 'این اجازه خواهد داد به سیستم برای ارسال پیام های متنی از طریق SMS.',
         'Ticket Close.' => 'درخواست نزدیک ',
         'Ticket Compose Bounce Email.' => 'درخواست نوشتن پرش ایمیل.',
         'Ticket Compose email Answer.' => 'درخواست نوشتن برای پاسخ ایمیل.',
@@ -8676,6 +8791,8 @@ Thanks for your help!
         'Ticket zoom view.' => 'نمایش زوم درخواست',
         'TicketNumber' => 'شماره درخواست',
         'Tickets.' => 'درخواست',
+        'Tile registration for the CustomerDashboard. Module is required.' =>
+            '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             'زمان در ثانیه است که می شود به زمان واقعی اضافه شده است اگر تنظیم یک انتظار دولت (به طور پیش فرض: 86،400 = 1 روز).',
         'To accept login information, such as an EULA or license.' => 'برای قبول اطلاعات ورود به سیستم، مانند EULA یا مجوز.',
@@ -8718,10 +8835,10 @@ Thanks for your help!
         'Updates the ticket index accelerator.' => 'به روز رسانی شتاب دهنده شاخص درخواست',
         'Upload your PGP key.' => '',
         'Upload your S/MIME certificate.' => '',
+        'Use Redis::Fast instead of Redis.' => '',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             'استفاده از نوع جدیدی از زمینه را انتخاب کنید و تکمیل خودکار در رابط عامل، که در آن قابل اجرا (InputFields).',
-        'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>
-            'استفاده از نوع جدیدی از زمینه را انتخاب کنید و تکمیل خودکار در رابط مشتری، در آن قابل اجرا (InputFields).',
+        'Use specified Redis logical database.' => '',
         'User Profile' => 'مشخصات کاربر',
         'UserFirstname' => 'UserFirstname',
         'UserLastname' => 'UserLastname',
@@ -8730,7 +8847,6 @@ Thanks for your help!
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             'استفاده از richtext برای مشاهده و ویرایش: مقالات، درود، امضا، قالب استاندارد، پاسخ خودکار و اطلاعیه ها.',
         'Vietnam' => 'ویتنام',
-        'View all attachments of the current ticket' => '',
         'View performance benchmark results.' => 'نمایش نتایج آزمون کارایی',
         'Watch this ticket' => 'سازمان دیده بان این درخواست',
         'Watched Tickets' => 'درخواست‌های مشاهده شده',
@@ -8740,8 +8856,10 @@ Thanks for your help!
             'ما در حال انجام تعمیر و نگهداری برنامه ریزی شده هستیم. ورود به طور موقت در دسترس نیست.',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             'ما در حال انجام تعمیر و نگهداری برنامه ریزی شده هستیم.ما باید بزودی به حالت آن لاین برگردیم.',
+        'Web Service' => '',
         'Web Services' => 'وب سرویس',
-        'Web View' => 'مشاهده وب سایت',
+        'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
+            '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
@@ -8750,8 +8868,12 @@ Thanks for your help!
             'هنگامی که بلیط ادغام شدهاند، توجه داشته باشید به طور خودکار بلیط است که دیگر فعال به اضافه شده است. در اینجا شما می توانید موضوع این توجه داشته باشید (این موضوع می تواند توسط عامل نمی توان تغییر داد) را تعریف کنیم.',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'هنگامی که بلیط هم ادغام شدند، مشتری می تواند در هر ایمیل با تنظیم چک باکس \ "اطلاع فرستنده " آگاه است. در این متن، شما می توانید یک متن از قبل فرمت شده که بعدا توسط عوامل اصلاح شود را تعریف کنیم.',
+        'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
+            '',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
             'یا نه به جمع آوری اطلاعات متا از مقالات با استفاده از فیلتر تنظیم شده در بلیط :: ظاهر :: ZoomCollectMetaFilters.',
+        'Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes.' =>
+            '',
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
         'Yes, but hide archived tickets' => 'بله، اما آرشیو درخواست پنهان است',
@@ -8816,6 +8938,7 @@ Thanks for your help!
         'Apr',
         'April',
         'Are you sure you want to delete this appointment? This operation cannot be undone.',
+        'Are you sure you want to remove all user values?',
         'Are you sure you want to update all installed packages?',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
         'Article display',
@@ -8840,6 +8963,7 @@ Thanks for your help!
         'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
+        'Click to select or drop files here.',
         'Clone web service',
         'Close preview',
         'Close this dialog',
@@ -8916,7 +9040,6 @@ Thanks for your help!
         'Feb',
         'February',
         'Filters',
-        'Find out more',
         'Finished',
         'First select a customer user, then select a customer ID to assign to this ticket.',
         'Fr',
@@ -9033,6 +9156,7 @@ Thanks for your help!
         'Resources',
         'Restore default settings',
         'Restore web service configuration',
+        'Results',
         'Rule',
         'Running',
         'Sa',
@@ -9098,9 +9222,10 @@ Thanks for your help!
         'This Transition is already used for this Activity. You cannot use it twice!',
         'This TransitionAction is already used in this Path. You cannot use it twice!',
         'This address already exists on the address list.',
+        'This dynamic field database value is already selected.',
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
-        'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',
