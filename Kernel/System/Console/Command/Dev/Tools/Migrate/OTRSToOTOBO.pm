@@ -291,7 +291,6 @@ sub _CopyOPMtoSOPMAndClean {
         return $Self->ExitCodeError();
     }
 
-    my $FileString = ${$ContentRefOPM};
     my $BaseName = basename($SourcePath);
     $BaseName =~ s/\.opm$/.sopm/;
 
