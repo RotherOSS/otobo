@@ -7,6 +7,7 @@
 %dir /opt/otobo/
 /opt/otobo/RELEASE
 /opt/otobo/ARCHIVE
+/opt/otobo/LICENSE
 /opt/otobo/.bash_completion
 /opt/otobo/.procmailrc.dist
 /opt/otobo/.fetchmailrc.dist
@@ -52,7 +53,7 @@
 /opt/otobo/var/cron/*
 %dir /opt/otobo/var/tmp/
 %dir /opt/otobo/var/stats/
-/opt/otobo/var/stats/*.xml
+/opt/otobo/var/stats/*
 %dir /opt/otobo/var/processes/examples/
 /opt/otobo/var/processes/examples/*
 %dir /opt/otobo/var/webservices/examples/
