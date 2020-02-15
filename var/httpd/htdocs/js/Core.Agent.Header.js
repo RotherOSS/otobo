@@ -49,11 +49,9 @@ Core.Agent.Header = (function (TargetNS) {
         Core.Agent.CustomerInformationCenterSearch.InitAutocomplete($('#ToolBarCICSearchCustomerID'), "SearchCustomerID");
         Core.Agent.CustomerUserInformationCenterSearch.InitAutocomplete($('#ToolBarCICSearchCustomerUser'), "SearchCustomerUser");
 
-
         // Initialize full text search via ES 
-        if( Core.Config.Get('SessionName') == 'OTOBOAgentInterface' ){
-            Core.UI.Elasticsearch.InitSearchField($('#FulltextES'), "AgentElasticsearchQuickResult");
-        }
+        Core.UI.Elasticsearch.InitSearchField($('#FulltextES'), "AgentElasticsearchQuickResult");
+
         // Initialize full text search
         Core.Agent.Search.InitToolbarFulltextSearch();
 

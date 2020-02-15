@@ -192,6 +192,7 @@ sub PrepareRequest {
            
             # Ingest attachment if only filesize less than defined in sysconfig
             next if $FileSize > $MaxFilesize;
+
             my @Format = split /\//,$FileType;
             
             if ( grep( /^$Format[1]$/i, @{$FileFormat} ) ){
