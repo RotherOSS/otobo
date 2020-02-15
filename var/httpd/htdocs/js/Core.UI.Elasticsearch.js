@@ -27,175 +27,166 @@ Core.UI = Core.UI || {};
  */
 Core.UI.Elasticsearch = (function (TargetNS) {
 
+    /**
+     * @private
+     * @name MinSearch
+     * @memberof Core.UI.ElasticSearch
+     * @description
+     *      Minimum length of search string which induces a search.
+    */
+    var MinSearch = 2;
 
-    function ShowWaitingDialog(){
-        Core.UI.Dialog.ShowContentDialog('<div class="Spacing Center"><span class="AJAXLoader" title="' + Core.Language.Translate('Loading...') + '"></span></div>', Core.Language.Translate('Loading...'), '100px', '400px', false);
-        $('.Dialog').css('width','550px');
-    }
-  
-    function OnClick( $Input, Action ){
-        var $Dialog = $('div.Dialog:visible');
-        var FulltextESValue = $Input.val();
-        if ( typeof FulltextESValue == 'undefined' ){
-            FulltextESValue = '';
-        }
-        var LengthFulltext = FulltextESValue.length;
+    /**
+     * @name InitSearchField
+     * @memberof Core.UI.Elasticsearch
+     * @param {jQueryObject} $Input
+     * @param {String} Action
+     * @description
+     *      This function initializes an Elasticsearch search field.
+     */
+    TargetNS.InitSearchField = function ( $InputField, Action ) {
 
-        // if dialog is not visible and the inputfield is filled open it and start to search
-        if( typeof $Dialog[0] == 'undefined' ){
-            if( LengthFulltext > 1 ){
-                TargetNS.OpenElasticsearchQuickResultDialog( Action );
-                $('#oooESOuter').removeClass('oooEmpty');
-                var URL = Core.Config.Get('Baselink'),
-                    Data = {
-                        Action: Action,
-                        Subaction: 'SearchUpdate',
-                        FulltextES: FulltextESValue, 
-                    };
-                GetResult(URL, Data); 
-                return false;
-            }
-        }
-        else if ( LengthFulltext < 2 ) {
-            $('#oooESOuter').addClass('oooEmpty');
-            Core.UI.Dialog.CloseDialog( $('div.Dialog:visible') );
-            return false;
-        }
+        // handle searches on input
+        $InputField.on('input', function() {
 
-    }
- 
-    TargetNS.InitSearchField = function ( $Input, Action ) {
-
-        if (Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName')){
-            // on click event if customer interface
-            OnClick( $Input, Action);
-        }else{
-            // on click event if agent interface
-            $Input.on('click', function() {
-                OnClick( $Input, Action);
-            });
-        }
-
-        // on input event
-        $Input.on('input', function() {
+            // if the dialog already exists, use it
             var $Dialog = $('div.Dialog:visible');
-            var FulltextESValue = $Input.val();
+
+            // get the current input length
+            var FulltextESValue = $InputField.val();
             if ( typeof FulltextESValue == 'undefined' ){
                 FulltextESValue = '';
             }
             var LengthFulltext = FulltextESValue.length;
 
-            if ( typeof $Dialog[0] != 'undefined' ) {
-                // if text parameter is longer than 1, then perform query
-                if( LengthFulltext > 1 ){ 
-                    $('#oooESOuter').removeClass('oooEmpty');
-                    var URL = Core.Config.Get('Baselink'),
-                        Data = {
-                            Action: Action,
-                            Subaction: 'SearchUpdate',
-                            FulltextES: FulltextESValue, 
-                        };
-                    GetResult(URL, Data); 
-                    return false;
-                // otherwise delete results 
-                }else if ( LengthFulltext < 2 ){
-                    $('#oooESOuter').addClass('oooEmpty');
-                    Core.UI.Dialog.CloseDialog( $('div.Dialog:visible') );
-                    return false;
-                }
+            // close an existing dialog, if the search string is less than MinSearch characters long
+            if ( typeof $Dialog[0] != 'undefined' && LengthFulltext < MinSearch ) {
+                Core.UI.Dialog.CloseDialog( $Dialog );
             }
 
-            // open the dialog if it is not yet open
-            else if ( LengthFulltext > 1 ) {
-                TargetNS.OpenElasticsearchQuickResultDialog( Action );
-                $('#oooESOuter').removeClass('oooEmpty');
-                var URL = Core.Config.Get('Baselink'),
-                    Data = {
-                        Action: Action,
-                        Subaction: 'SearchUpdate',
-                        FulltextES: FulltextESValue, 
-                    };
-                GetResult(URL, Data); 
-                return false;
+            // else update the dialog
+            else if ( LengthFulltext >= MinSearch ) {
+                UpdateDialog( $InputField, Action, FulltextESValue );
+            }
+
+        });
+
+        // delete input on blur, if the dialog is not open
+        $InputField.on('blur', function() {
+            var $Dialog = $('div.Dialog:visible');
+            if ( typeof $Dialog[0] == 'undefined' ) {
+                $InputField.val('');
             }
         });
+
+        // delete input on closing the dialog, if InputField is not focused
+        Core.App.Subscribe('Event.UI.Dialog.CloseDialog.Close', function () {
+            if ( !$InputField.is(':focus') ) {
+                $InputField.val('');
+            }
+        });
+
     }; 
 
-    TargetNS.OpenElasticsearchQuickResultDialog = function ( Action ) {
+    /**
+     * @private
+     * @name UpdateDialog
+     * @memberof Core.UI.Elasticsearch
+     * @function
+     * @param {jQueryObject} $InputField
+     * @param {String} Action
+     * @param {String} FulltextESValue
+     * @description
+     *      Updates the Elasticsearch quick result dialog.
+     */
+    function UpdateDialog( $InputField, Action, FulltextESValue ){
 
-        var Data = {
-            Action: Action
-        };
-        var CustomerInterface = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName');
+        var URL = Core.Config.Get('Baselink'),
+            Data = {
+                Action: Action,
+                Subaction: 'SearchUpdate',
+                FulltextES: FulltextESValue, 
+            };
 
-        Core.AJAX.FunctionCall(
-            Core.Config.Get('CGIHandle'),
-            Data,
-            function ( Response ) {
-
-                var DialogOptions;
-                if ( CustomerInterface ) {
-                    var HTML      = "<div id='oooESOuter' style='min-width: 400px'>" + Response + "</div>";
-                    var PosRight  = $(window).width() > 520 ? '120px' : '0px';
-                    DialogOptions = {
-                        HTML: HTML,
-                        Title: Core.Language.Translate('Results'),
-                        PositionTop: '120px',
-                        PositionRight: PosRight,  
-                        Modal: true,
-                        CloseOnClickOutside: false,
-                        CloseOnEscape: true,
-                        AllowAutoGrow: false,
-                    }; 
-                    Core.UI.Dialog.ShowDialog( DialogOptions );
-
-                } else {
-                    var HTML      = "<div id='oooESOuter' style='min-width: 500px'>" + Response + "</div>";
-                    DialogOptions = {
-                        HTML: HTML,
-                        Title: Core.Language.Translate('Results'),
-                        PositionTop: '100px',
-                        PositionLeft: 'Center',
-                        Modal: true,
-                        CloseOnClickOutside: false,
-                        CloseOnEscape: true,
-                        AllowAutoGrow: false,
-                    }; 
-                    Core.UI.Dialog.ShowDialog( DialogOptions );
-
-                    $('#Overlay').css('top','94px');
-                }
-
-            }, 'html'
-        );
-
-    };
-
-    function GetResult( URL, Data ){
+        // initiate the AJAX call
         Core.AJAX.FunctionCall(
             URL,
             Data,
             function ( Response ) {
 
-                $('#oooESOuter:not(.oooEmpty)').html(Response);
+                var CurrentESValue = $InputField.val();
 
-            }, 'html'
+                // check whether the results still matches the current input
+                if ( FulltextESValue == CurrentESValue ) {
+
+                    var $Dialog = $('div.Dialog:visible');
+
+                    // open a new dialog, if it doesn't exist
+                    if ( typeof $Dialog[0] == 'undefined' ) {
+                        OpenDialog();
+                    }
+
+                    // update the dialog
+                    $('#oooESOuter').html(Response);
+                }
+
+            },
+            'html'
         );
 
     }
 
-
     /**
-     * @name Init
+     * @private
+     * @name OpenDialog
      * @memberof Core.UI.Elasticsearch
      * @function
      * @description
-     *      This function binds click event for opening search dialog.
+     *      Opens the Elasticsearch quick result dialog.
      */
-    TargetNS.Init = function () {
-    };
+    function OpenDialog() {
 
-    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
+        var CustomerInterface = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName');
+
+        // define and open the dialog for the customer interface
+        if ( CustomerInterface ) {
+            var HTML          = "<div id='oooESOuter' style='min-width: 400px'>" + Response + "</div>";
+            var PosRight      = $(window).width() > 520 ? '120px' : '0px';
+            var DialogOptions = {
+                HTML: HTML,
+                Title: Core.Language.Translate('Results'),
+                PositionTop: '120px',
+                PositionRight: PosRight,  
+                Modal: true,
+                CloseOnClickOutside: false,
+                CloseOnEscape: true,
+                AllowAutoGrow: false,
+            }; 
+
+            Core.UI.Dialog.ShowDialog( DialogOptions );
+        }
+        
+        // define and open the dialog for the agent interface
+        else {
+            var HTML          = "<div id='oooESOuter' style='min-width: 500px'>" + Response + "</div>";
+            var DialogOptions = {
+                HTML: HTML,
+                Title: Core.Language.Translate('Results'),
+                PositionTop: '100px',
+                PositionLeft: 'Center',
+                Modal: true,
+                CloseOnClickOutside: false,
+                CloseOnEscape: true,
+                AllowAutoGrow: false,
+            }; 
+
+            Core.UI.Dialog.ShowDialog( DialogOptions );
+            
+            // move the overlay to keep access to the input field
+            $('#Overlay').css('top','94px');
+        }
+
+    };
 
     return TargetNS;
 }(Core.UI.Elasticsearch || {}));

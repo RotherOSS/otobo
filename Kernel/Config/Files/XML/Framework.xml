@@ -9057,8 +9057,19 @@ via the Preferences button after logging in.
         <Navigation>Elasticsearch::Settings</Navigation>
         <Value>
             <Array>
-                <Item>doc</Item>
                 <Item>pdf</Item>
+                <Item>txt</Item>
+                <Item>rtf</Item>
+                <Item>csv</Item>
+                <Item>doc</Item>
+                <Item>docx</Item>
+                <Item>xls</Item>
+                <Item>xlsx</Item>
+                <Item>ppt</Item>
+                <Item>pptx</Item>
+                <Item>odt</Item>
+                <Item>ods</Item>
+                <Item>odp</Item>
             </Array>
         </Value>
     </Setting>
@@ -9070,7 +9081,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="Elasticsearch::IngestMaxFilesize" Required="0" Valid="1">
-        <Description Translatable="1">Maximal number of results returned by ES per field.</Description>
+        <Description Translatable="1">Maximum file size for the ingest plugin.</Description>
         <Navigation>Elasticsearch::Settings</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">50000000</Item>

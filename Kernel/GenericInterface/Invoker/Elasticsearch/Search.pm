@@ -96,7 +96,7 @@ sub PrepareRequest {
     if ( !IsArrayRefWithData( $Param{Data}{Must} ) && !IsArrayRefWithData( $Param{Data}{Filter} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need $Needed!',
+            Message  => "Need Must or Filter in the search data!",
         );
         return;
     }
