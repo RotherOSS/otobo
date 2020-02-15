@@ -13,11 +13,12 @@
 # Jan Papež <honyczek@centrum.cz>, 2019
 # David Krotil <david.krotil@krotilovi.cz>, 2019
 # Peter Sveter, 2019
+# Pavel Mlčoch <pavkamlc@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 17:51+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Peter Sveter, 2019\n"
 "Language-Team: Czech (https://www.transifex.com/otobo/teams/23435/cs/)\n"
@@ -170,7 +171,7 @@ msgstr "Smazat neplatná ACL"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
-msgstr ""
+msgstr "Nastavení shody"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -194,7 +195,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "Zkontrolovat oficiální %sdokumentaci%s."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -2201,6 +2202,14 @@ msgid "Ticket lock"
 msgstr ""
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr "Dynamické pole"
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr ""
 
@@ -2399,10 +2408,6 @@ msgstr "Nový název"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "Nový typ"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr "Nové hodnoty dynamického pole"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -8777,10 +8782,6 @@ msgid "Sending of this message has failed."
 msgstr ""
 
 #. Template: AgentTicketZoom
-msgid "This message has been queued for sending."
-msgstr ""
-
-#. Template: AgentTicketZoom
 msgid "Resize"
 msgstr "Změnit velikost"
 
@@ -9254,10 +9255,6 @@ msgstr ""
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
 msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
-msgstr "Dynamické pole"
 
 #. Template: Error
 msgid ""
@@ -10323,6 +10320,10 @@ msgstr ""
 
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "This field can have no more than 250 characters."
 msgstr ""
 
 #. JS Template: DialogDeployment
@@ -12742,6 +12743,11 @@ msgid "The following tickets were locked: %s."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
+msgid ""
+"Article subject will be empty if the subject contains only the ticket hook!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
 msgstr "Adresa %snahrazena registrovanou adresou zákazníka"
 
@@ -13430,6 +13436,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::TicketTypeDefault."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
+msgid ""
+"You don't have sufficient permissions for ticket creation in default queue."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
@@ -16432,6 +16443,10 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent
@@ -21231,7 +21246,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Defines the valid state types for a ticket."
+msgid ""
+"Defines the valid state types for a ticket. If a ticket is in a state which "
+"have any state type from this setting, this ticket will be considered as "
+"open, otherwise as closed."
 msgstr ""
 
 #. SysConfig

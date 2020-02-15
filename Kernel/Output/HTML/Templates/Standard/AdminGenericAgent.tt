@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -462,17 +462,27 @@
                             [% Data.LockOption %]
                         </div>
                         <div class="Clear"></div>
-[% RenderBlockStart("DynamicField") %]
-                        <label>[% Translate("Dynamic Fields") | html %]</label>
+
+                        <label>[% Translate("Dynamic fields") | html %]</label>
                         <div class="Clear"></div>
-[% RenderBlockStart("DynamicFieldElement") %]
-                        [% Data.Label %]
-                        <div class="Field">
-                            [% Data.Field %]
-                        </div>
+[% RenderBlockStart("AddDynamicFields") %]
+                            <label>[% Translate("Add dynamic field") | html %]:</label>
+                                <div class="Field" data-widget="Select">
+                                    [% Data.DynamicFieldsStrg %]
+                                </div>
+                            <div class="Clear"></div>
+[% RenderBlockEnd("AddDynamicFields") %]
                         <div class="Clear"></div>
-[% RenderBlockEnd("DynamicFieldElement") %]
-[% RenderBlockEnd("DynamicField") %]
+                        <fieldset id="SelectedDynamicFields" class="TableLike">
+[% RenderBlockStart("SelectedDynamicFields") %]
+                            [% Data.Label %]
+                            <div class="Field" data-id="[% Data.ID %]">
+                                [% Data.Field %]
+                            </div>
+                            <div class="Clear"></div>
+[% RenderBlockEnd("SelectedDynamicFields") %]
+                        </fieldset>
+
                         <label for="TimeSearchTypeNone">[% Translate("Create times") | html %]:</label>
                         <div class="Field">
                             <input type="radio" name="TimeSearchType" id="TimeSearchTypeNone" value="" [% Data.item("TimeSearchType::None") %]/>
@@ -745,17 +755,29 @@
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("NewTicketType") %]
-[% RenderBlockStart("NewDynamicField") %]
-                        <label>[% Translate("New Dynamic Field Values") | html %]</label>
+                        <label>[% Translate("Dynamic fields") | html %]</label>
                         <div class="Clear"></div>
-[% RenderBlockStart("NewDynamicFieldElement") %]
-                        [% Data.Label %]
-                        <div class="Field">
-                            [% Data.Field %]
-                        </div>
+[% RenderBlockStart("AddNewDynamicFields") %]
+                        <fieldset class="TableLike">
+                            <label>[% Translate("Add dynamic field") | html %]:</label>
+                                <div class="Field" data-widget="Update">
+                                    [% Data.NewDynamicFieldsStrg %]
+                                </div>
+                            <div class="Clear"></div>
+                        </fieldset>
+[% RenderBlockEnd("AddNewDynamicFields") %]
                         <div class="Clear"></div>
-[% RenderBlockEnd("NewDynamicFieldElement") %]
-[% RenderBlockEnd("NewDynamicField") %]
+                        <fieldset id="SelectedNewDynamicFields" class="TableLike">
+[% RenderBlockStart("SelectedNewDynamicFields") %]
+                            [% Data.Label %]
+                            <div class="Field" data-id="[% Data.ID %]">
+                                [% Data.Field %]
+                            </div>
+                            <div class="Clear"></div>
+[% RenderBlockEnd("SelectedNewDynamicFields") %]
+                        </fieldset>
+
+
 [% RenderBlockStart("NewArchiveFlag") %]
                         <label for="NewArchiveFlag">[% Translate("Archive selected tickets") | html %]:</label>
                         <div class="Field">

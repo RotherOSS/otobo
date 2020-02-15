@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -140,8 +140,8 @@ sub Run {
     my %Param;
 
     # get session id
-    $Param{SessionName} = $ConfigObject->Get('SessionName') || 'SessionID';
-    $Param{SessionID} = $ParamObject->GetParam( Param => $Param{SessionName} ) || '';
+    $Param{SessionName} = $ConfigObject->Get('SessionName')                      || 'SessionID';
+    $Param{SessionID}   = $ParamObject->GetParam( Param => $Param{SessionName} ) || '';
 
     # drop old session id (if exists)
     $QueryString =~ s/(\?|&|;|)$Param{SessionName}(=&|=;|=.+?&|=.+?$)/;/g;

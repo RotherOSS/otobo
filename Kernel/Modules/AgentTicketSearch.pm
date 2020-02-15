@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -232,8 +232,6 @@ sub Run {
     else {
         for my $Key (
             sort keys %ArticleSearchableFields,
-            # text input into the FulltextES field
-            'FulltextES',
             qw(
             TicketNumber Title CustomerID CustomerIDRaw CustomerUserLogin CustomerUserLoginRaw
             CustomerUserID StateType Agent ResultForm TimeSearchType ChangeTimeSearchType
@@ -280,6 +278,7 @@ sub Run {
             TicketEscalationTimeStop TicketEscalationTimeStopDay TicketEscalationTimeStopMonth
             TicketEscalationTimeStopYear
             TicketCloseTimeNewerDate TicketCloseTimeOlderDate
+            FulltextES
             )
             )
         {
@@ -741,38 +740,39 @@ sub Run {
             }
         }
 
-        # if sorting takes place after ES search, then take the query string from FulltextES and set it to Fulltext
-        if ( $ParamObject->GetParam( Param => 'TakeLastSearch') && $GetParam{FulltextES} ){
-            $GetParam{Fulltext} = $GetParam{FulltextES};
-            delete $GetParam{FulltextES};
-        } 
-
         my @ViewableTicketIDs;
-        # if FulltextES is empty then perform DBsearch 
-        if ( !$GetParam{FulltextES} ) {
-            {
-                local $Kernel::System::DB::UseSlaveDB = 1;
 
-                # perform ticket search
-                @ViewableTicketIDs = $TicketObject->TicketSearch(
-                    Result              => 'ARRAY',
-                    SortBy              => $Self->{SortBy},
-                    OrderBy             => $Self->{OrderBy},
-                    Limit               => $Self->{SearchLimit},
-                    UserID              => $Self->{UserID},
-                    ConditionInline     => $Config->{ExtendedSearchCondition},
-                    ContentSearchPrefix => '*',
-                    ContentSearchSuffix => '*',
-                    FullTextIndex       => 1,
-                    %GetParam,
-                    %DynamicFieldSearchParameters,
-                );
-            }
+        my $ESActive = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::Active') || 0;
+
+        # check whether we want to perform a search via Elasticsearch or not
+        # use normal search for sorting, or if ES is not activated
+        if ( $GetParam{FulltextES} && ( !$ESActive || $Self->{TakeLastSearch} ) ) {
+            $GetParam{Fulltext} = $GetParam{Fulltext} || $GetParam{FulltextES};
+            delete $GetParam{FulltextES};
+        }
+
+        # search via DB if FulltextES is empty
+        if ( !$GetParam{FulltextES} ) {
+            local $Kernel::System::DB::UseSlaveDB = 1;
+
+            # perform ticket search
+            @ViewableTicketIDs = $TicketObject->TicketSearch(
+                Result              => 'ARRAY',
+                SortBy              => $Self->{SortBy},
+                OrderBy             => $Self->{OrderBy},
+                Limit               => $Self->{SearchLimit},
+                UserID              => $Self->{UserID},
+                ConditionInline     => $Config->{ExtendedSearchCondition},
+                ContentSearchPrefix => '*',
+                ContentSearchSuffix => '*',
+                FullTextIndex       => 1,
+                %GetParam,
+                %DynamicFieldSearchParameters,
+            );
         }
 
         # if ES is activated
-        my $ESActive = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::Active') || 0;
-        if ( $ESActive && $GetParam{FulltextES} ){
+        else {
             # get data from cache
             my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
             my $CacheData = $CacheObject->Get(

@@ -1,17 +1,18 @@
-/* OTOBO is a web-based ticketing system for service organisations.
-
-Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
-Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
-
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later version.
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <https://www.gnu.org/licenses/>.
-*/
+// --
+// OTOBO is a web-based ticketing system for service organisations.
+// --
+// Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+// Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+// --
+// This program is free software: you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later version.
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+// --
 
 /*eslint-disable no-window*/
 
@@ -39,6 +40,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
      */
     TargetNS.Init = function () {
         var Subaction = Core.Config.Get('Subaction');
+
+        // Initialize Popup
+        InitProcessPopups();
 
         // Initialize Popup response (Redirect and close Popup)
         InitProcessPopupsResponse();
@@ -974,9 +978,6 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // Init DnD on Accordion
         TargetNS.InitAccordionDnD();
 
-        // Initialize the different create and edit links/buttons
-        InitProcessPopups();
-
         // Initialize the different Delete Links
         InitDeleteEntity();
 
@@ -1086,9 +1087,6 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
             Form.submit();
         });
-
-        // Init popups
-        InitProcessPopups();
 
         // Init handling of closing popup with the OS functionality ("X")
         $(window).off("beforeunload.PMPopup").on("beforeunload.PMPopup", function () {
@@ -1329,8 +1327,6 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             return false;
         });
 
-        InitProcessPopups();
-
         // Init handling of closing popup with the OS functionality ("X")
         $(window).off("beforeunload.PMPopup").on("beforeunload.PMPopup", function () {
             window.opener.Core.Agent.Admin.ProcessManagement.HandlePopupClose();
@@ -1487,8 +1483,6 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             Form.submit();
         });
 
-        InitProcessPopups();
-
         // Init handling of closing popup with the OS functionality ("X")
         $(window).off("beforeunload.PMPopup").on("beforeunload.PMPopup", function () {
             window.opener.Core.Agent.Admin.ProcessManagement.HandlePopupClose();
@@ -1585,9 +1579,6 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
             Form.submit();
         });
-
-        // Init popups
-        InitProcessPopups();
 
         // Init handling of closing popup with the OS functionality ("X")
         $(window).off("beforeunload.PMPopup").on("beforeunload.PMPopup", function () {

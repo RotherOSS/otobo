@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -74,7 +74,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    $Self->{Email} = $Param{Email} || die "Got no Email!";
+    $Self->{Email}                  = $Param{Email}                  || die "Got no Email!";
     $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
 
     $Self->{ParserObject} = Kernel::System::EmailParser->new(

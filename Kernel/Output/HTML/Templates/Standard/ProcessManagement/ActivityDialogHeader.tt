@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -53,7 +53,7 @@
                 <h2>[% Translate("Description") | html %]</h2>
             </div>
             <div class="Content">
-                <p class="Value FixedValueSmall">[% Translate(Data.Description) | html %]</p>
+                <p class="Value FixedValueSmall DescriptionLong">[% Translate(Data.Description) | html %]</p>
                 <div class="Clear"></div>
             </div>
         </div>
@@ -81,14 +81,16 @@
                         - [% Data.DescriptionShort | html %]
 [% RenderBlockEnd("DescriptionShort") %]
                     </h1>
-                    <p>
 [% RenderBlockStart("DescriptionLong") %]
-                        [% Data.DescriptionLong | html %] -
+                    <p class="DescriptionLong">
+                        [% Data.DescriptionLong | html %]
+                    </p>
 [% RenderBlockEnd("DescriptionLong") %]
 [% RenderBlockStart("CancelLink") %]
+                    <p>
                         <a class="CancelClosePopup" href="#">[% Translate("Cancel & close") | html %]</a>
-[% RenderBlockEnd("CancelLink") %]
                     </p>
+[% RenderBlockEnd("CancelLink") %]
 [% RenderBlockStart("PropertiesLock") %]
                     <p>
                         [% Translate("The ticket has been locked") | html %].

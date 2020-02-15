@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -432,7 +432,7 @@ sub ValueSet {
 
     # Either ObjectID or ObjectName has to be given
     if (
-        ( !$Param{ObjectID}   && !$Param{ObjectName} )
+        ( !$Param{ObjectID} && !$Param{ObjectName} )
         || ( $Param{ObjectID} && $Param{ObjectName} )
         )
     {
@@ -935,7 +935,7 @@ sub ValueGet {
 
     # Either ObjectID or ObjectName has to be given
     if (
-        ( !$Param{ObjectID}   && !$Param{ObjectName} )
+        ( !$Param{ObjectID} && !$Param{ObjectName} )
         || ( $Param{ObjectID} && $Param{ObjectName} )
         )
     {

@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -96,7 +96,7 @@ sub PrepareRequest {
     if ( !IsArrayRefWithData( $Param{Data}{Must} ) && !IsArrayRefWithData( $Param{Data}{Filter} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need $Needed!',
+            Message  => "Need Must or Filter in the search data!",
         );
         return;
     }

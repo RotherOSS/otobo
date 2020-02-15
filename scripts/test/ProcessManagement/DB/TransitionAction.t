@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -759,15 +759,12 @@ $Self->Is(
     "TransitionActionList Test 2: All TransitionAction | Number of TransitionActions match added TransitionActions",
 );
 
-my $Counter                        = 0;
-my @AddedTransitionActionsListSort = sort { int $a <=> int $b } @AddedTransitionActionsList;
-for my $TransitionActionID ( sort { int $a <=> int $b } keys %TestTransitionActionListCopy ) {
-    $Self->Is(
-        $TransitionActionID,
-        $AddedTransitionActionsListSort[$Counter],
+my %AddedTransitionActionsListSort = map { $_ => 1 } @AddedTransitionActionsList;
+for my $TransitionActionID ( sort keys %TestTransitionActionListCopy ) {
+    $Self->True(
+        $AddedTransitionActionsListSort{$TransitionActionID},
         "TransitionActionList Test 2: All | TransitionActionID match AddedTransitionActionID",
     );
-    $Counter++;
 }
 
 #

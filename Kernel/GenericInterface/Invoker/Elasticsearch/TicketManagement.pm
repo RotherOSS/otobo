@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -192,6 +192,7 @@ sub PrepareRequest {
            
             # Ingest attachment if only filesize less than defined in sysconfig
             next if $FileSize > $MaxFilesize;
+
             my @Format = split /\//,$FileType;
             
             if ( grep( /^$Format[1]$/i, @{$FileFormat} ) ){

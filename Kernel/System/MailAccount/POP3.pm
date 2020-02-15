@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -94,7 +94,7 @@ sub _Fetch {
     # fetch again if still messages on the account
     MESSAGE:
     while (1) {
-        return if !$Self->_Fetch(%Param);
+        return       if !$Self->_Fetch(%Param);
         last MESSAGE if $Self->{Reconnect};
     }
     return 1;

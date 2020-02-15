@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -203,7 +203,7 @@ sub _CleanupFlags {
                 Key      => 'Seen',
                 UserID   => $User->{UserID},
             );
-            $Count++ if $Delete;
+            $Count++                                  if $Delete;
             Time::HiRes::usleep( $Param{MicroSleep} ) if $Param{MicroSleep};
         }
 
@@ -240,7 +240,7 @@ sub _CleanupFlags {
                 Key       => 'Seen',
                 UserID    => $User->{UserID},
             );
-            $Count++ if $Delete;
+            $Count++                                  if $Delete;
             Time::HiRes::usleep( $Param{MicroSleep} ) if $Param{MicroSleep};
         }
 
@@ -275,7 +275,7 @@ sub _CleanupFlags {
                     WatchUserID => $User->{UserID},
                     UserID      => 1,
                 );
-                $Count++ if $Unsubscribe;
+                $Count++                                  if $Unsubscribe;
                 Time::HiRes::usleep( $Param{MicroSleep} ) if $Param{MicroSleep};
             }
 

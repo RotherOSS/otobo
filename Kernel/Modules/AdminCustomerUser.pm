@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -1535,8 +1535,8 @@ sub _EffectivePermissions {
 
             # show permission marks
             for my $Type (@Types) {
-                my $PermissionMark = $Permissions{$GroupID}{$Type} ? 'On' : 'Off';
-                my $HighlightMark = $Type eq 'rw' ? 'Highlight' : '';
+                my $PermissionMark = $Permissions{$GroupID}{$Type} ? 'On'        : 'Off';
+                my $HighlightMark  = $Type eq 'rw'                 ? 'Highlight' : '';
                 $LayoutObject->Block(
                     Name => 'GroupPermissionMark',
                 );

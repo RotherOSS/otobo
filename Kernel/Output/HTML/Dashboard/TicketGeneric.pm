@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -586,7 +586,7 @@ sub Run {
         );
     }
 
-    my $CacheKey     = join '-', $Self->{Name}, $Self->{Action}, $Self->{PageShown}, $Self->{StartHit}, $Self->{UserID};
+    my $CacheKey = join '-', $Self->{Name}, $Self->{Action}, $Self->{PageShown}, $Self->{StartHit}, $Self->{UserID};
     my $CacheColumns = join(
         ',',
         map { $_ . '=>' . $Self->{GetColumnFilterSelect}->{$_} } sort keys %{ $Self->{GetColumnFilterSelect} }
@@ -1494,7 +1494,7 @@ sub Run {
                     Name => 'ContentLargeTicketGenericHeaderColumn',
                     Data => {
                         HeaderColumnName => $DynamicFieldName || '',
-                        CSS => $CSS || '',
+                        CSS              => $CSS              || '',
                     },
                 );
 
@@ -1623,7 +1623,7 @@ sub Run {
                     Name => 'ContentLargeTicketGenericHeaderColumn',
                     Data => {
                         HeaderColumnName => $DynamicFieldName || '',
-                        CSS => $CSS || '',
+                        CSS              => $CSS              || '',
                     },
                 );
 
