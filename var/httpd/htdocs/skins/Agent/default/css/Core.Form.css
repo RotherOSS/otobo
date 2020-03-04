@@ -257,8 +257,7 @@ button.Reset:active {
 .GetAllAJAX {
     width: 16px;
     height: 16px;
-/* TODO: Bad    margin-left: 3px; */
-    margin-left: -33%;
+    margin-left: 3px;
     display: inline-block;
     color: #00023c;
 }
@@ -673,11 +672,11 @@ fieldset.TableLike > .Field > select,
 fieldset.TableLike > .Row > .Field > select,
 fieldset.TableLike > .Field > input,
 fieldset.TableLike > .Row > .Field > input {
-    max-width: 50%;
+    max-width: 100%;
     border-radius: 4px;
 }
 
-fieldset.TableLike > .Field > select#ConfigFile,
+/*fieldset.TableLike > .Field > select#ConfigFile,
 fieldset.TableLike > .Row > .Field > select#ConfigFile,
 fieldset.TableLike > .Field > input#ConfigFile,
 fieldset.TableLike > .Row > .Field > input#ConfigFile,
@@ -687,7 +686,7 @@ fieldset.TableLike > .Field > input#WebserviceName,
 fieldset.TableLike > .Row > .Field > input#WebserviceName {
     max-width: 250px;
     border: none;
-}
+}*/
 
 /**
  * @note    The RichText field needs to float, otherwise it breaks

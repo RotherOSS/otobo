@@ -27,14 +27,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 div.InputField_Container {
     position: static;
     display: inline-block;
-    width: 100%;
 }
 
 div.InputField_InputContainer {
     position: relative;
     display: inline-block;
     line-height: 11px;
-    width: 80%;
 }
 
 .InputField_Search::-ms-clear {
@@ -45,7 +43,7 @@ div.InputField_InputContainer {
 
 .InputField_Search,
 .InputField_Autocomplete {
-    min-width: 50%;
+    min-width: 190px;
 }
 
 .InputField_Search.Small {
@@ -62,12 +60,27 @@ div.InputField_InputContainer {
 
 .SidebarColumn .WidgetSimple .InputField_Search,
 .SidebarColumn .WidgetSimple .InputField_Autocomplete {
-    min-width: 80px !important;
+    min-width: 80px;
 }
 
 .WidgetSettingsForm .InputField_Search,
 .WidgetSettingsForm .InputField_Autocomplete {
     min-width: 0px;
+}
+
+@media only screen and (min-width: 1025px) {
+    fieldset.TableLike > .Field > input.W75pc,
+    fieldset.TableLike > .Field > select.Modernize,
+    fieldset.TableLike > .Row > .Field > input.W75pc,
+    fieldset.TableLike > .Row > .Field > select.Modernize {
+        width: 75%;
+        max-width: 614px;
+    }
+
+    fieldset.TableLike > .Field > div.CustomerContainer {
+        width: 75%;
+        max-width: 607px;
+    }
 }
 
 #Header div.InputField_Container {
@@ -102,7 +115,6 @@ div.InputField_InputContainer {
 
 div.InputField_InputContainer .InputField_Search {
     margin: 0;
-    max-width: 50%;
     border-radius: 4px;
 }
 
