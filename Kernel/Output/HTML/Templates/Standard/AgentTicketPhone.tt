@@ -62,16 +62,6 @@
 #                        <button type="button" onclick="$('#Template1').submit()" value="[% Translate("Example Template") | html %]">[% Translate("Example Template") | html %]</button>
 #                    </div>
 #                    <div class="Clear"></div>
-[% RenderBlockStart("TicketType") %]
-                    <label class="Mandatory" for="TypeID"><span class="Marker">*</span> [% Translate("Type") | html %]:</label>
-                    <div class="Field">
-                        [% Data.TypeStrg %]
-                        <div id="TypeIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                        <div id="TypeIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                    </div>
-                    <div class="Clear"></div>
-[% RenderBlockEnd("TicketType") %]
-
                     <label for="FromCustomer" class="Mandatory"><span class="Marker">*</span>[% Translate("Customer user") | html %]:</label>
                     <div class="Field">
                         <input id="FromCustomer" type="text" name="FromCustomer" value="" class="CustomerAutoComplete W75pc [% Data.FromInvalid | html %]" autocomplete="off" />
@@ -139,7 +129,19 @@
                     </div>
                     <div class="Clear"></div>
 
+[% IF !Config("Ticket::Frontend::AgentTicketEmail::CustomerIDReadOnly") %]
                     [% INCLUDE "CustomerCompany/TicketCustomerIDSelection.tt" Required = 0 Readonly = Config("Ticket::Frontend::AgentTicketPhone::CustomerIDReadOnly") %]
+[% END %]
+
+[% RenderBlockStart("TicketType") %]
+                    <label class="Mandatory" for="TypeID"><span class="Marker">*</span> [% Translate("Type") | html %]:</label>
+                    <div class="Field">
+                        [% Data.TypeStrg %]
+                        <div id="TypeIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        <div id="TypeIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                    </div>
+                    <div class="Clear"></div>
+[% RenderBlockEnd("TicketType") %]
 
                     <label class="Mandatory" for="Dest"><span class="Marker">*</span> [% Translate("To queue") | html %]:</label>
                     <div class="Field">
@@ -336,7 +338,7 @@
 [% RenderBlockEnd("TimeUnitsLabelMandatory") %]
 [% RenderBlockStart("TimeUnits") %]
                         <div class="Field">
-                            <input type="text" class="W75pc Validate_TimeUnits [% Data.TimeUnitsRequired | html %] [% Data.TimeUnitsInvalid | html %]" name="TimeUnits" id="TimeUnits" value="[% Data.TimeUnits | html %]" />
+                            <input type="text" class="W50pc Validate_TimeUnits [% Data.TimeUnitsRequired | html %] [% Data.TimeUnitsInvalid | html %]" name="TimeUnits" id="TimeUnits" value="[% Data.TimeUnits | html %]" />
                             <div id="TimeUnitsError" class="TooltipErrorMessage"><p>[% Translate("Invalid time!") | html %]</p></div>
                             <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                         </div>

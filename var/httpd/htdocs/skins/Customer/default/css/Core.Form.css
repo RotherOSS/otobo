@@ -209,6 +209,7 @@ div.DnDUpload {
     height: 144px;
     background-color: #f7f7f9;
     border-radius: 10px;
+    white-space: normal;
 }
 
 input.AjaxDnDUpload.Error + div.DnDUpload {
