@@ -2,7 +2,7 @@ The following persons contributed to OTOBO:
 
 * Johnny Hioe <jh@rother-oss.com>
 * Grit Rother <mr@rother-oss.com>
-* Daniel Dorna <dd@otrs.com>
+* Daniel Dorna <dd@otrs.ch>
 * Sven Oesterling <svo@rother-oss.com>
 * Stefan Rother <sr@otrs.ch>
 * San Miguel Team https://www.sanmiguel-brand-partner.com

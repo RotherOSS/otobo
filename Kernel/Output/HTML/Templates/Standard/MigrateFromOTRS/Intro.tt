@@ -1,0 +1,82 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+[% RenderBlockStart("Intro") %]
+    <div class="W950px SpacingTop SpacingBottom CenterBox">
+        <div class="WidgetSimple SpacingTop" id="WebMigrateFromOTRSBox">
+            <div class="Header">
+                <h2>[% Translate("Welcome to %s", Config("ProductName")) | html %]</h2>
+            </div>
+            <div class="Clear"></div>
+            <div class="LayoutGrid Content">
+                <h2>[% Translate("This migration script will lead you step by step through the process of migrating your ticket system from OTRS or ((OTRS)) Community Edition version 6 to OTOBO 10.") | html %]</h2>
+            </div>
+            <div class="Clear"></div>
+            <div class="LayoutGrid Content">
+                <h4>[% Translate("Important") | html %]</h4>
+                <ul>
+                  <li>[% Translate("There is no danger whatsoever for your original system: nothing is changed there.") | html %]</li>
+                  <li>[% Translate("Instructions and details on migration prerequisites can be found in the migration manual. We strongly recommend reading it before starting migration.") | html %]</li>
+                  <li>[% Translate("In case you have to suspend migration, you can resume it anytime at the same point as long as the cache has not been deleted.") | html %]</li>
+                  <li><span class="Error">[% Translate("All entered passwords are cached until the migration is finished.") | html %]</span> [% Translate(" Anyone with access to this page, or read permission for the OTOBO Home Directory will be able to read them. If you abort the migration, you are given the option to clear the cache by visiting this page again.") | html %]</li>
+                </ul>
+            </div>
+            <div class="Clear"></div>
+            <div class="LayoutGrid Content">
+                <p>[% Translate("If you need support, just ask our experts – either at") | html %] <a href="https://otobo.de/de/forums/otobo/otobo-forum/" target="_blank">[% Translate("OTOBO forum") | html %]</a> [% Translate("or directly via mail to") | html %] <a href="mailto:sales@otobo.de">sales@otobo.de</a>.</p>
+            </div>
+            <div class="Clear"></div>
+        </div>
+[% IF Data.Cache %]
+        <div class="WidgetSimple SpacingTop" id="CacheBox">
+            <div class="Header">
+                <h2>[% Translate("Cached data found") | html %]</h2>
+            </div>
+            <div class="LayoutGrid Content">
+                <p>[% Translate("You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress.") | html %]</p>
+            </div>
+            <div id="DeleteCacheError" style="display:none" class="LayoutGrid Content">
+                <p class="Error">[% Translate("An error occured.") | html %]</p>
+            </div>
+            <div class="LayoutGrid Content">
+                <button type="button" class="CallForAction" id="ButtonDeleteCache"><span>[% Translate("Discard previous progress") | html %]</span></button>
+            </div>
+            <div class="Clear"></div>
+        </div>
+[% END %]
+[% IF Env("REQUEST_SCHEME") == 'http' %]
+        <div class="WidgetSimple SpacingTop" id="HTTPBox">
+            <div class="Header">
+                <h2 class="Error">[% Translate("Insecure HTTP connection") | html %]</h2>
+            </div>
+            <div class="LayoutGrid Content">
+                <p class="Error">[% Translate("You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.") | html %]</p>
+            </div>
+            <div class="LayoutGrid Content">
+                <input type="checkbox" id="CheckIgnoreHTTP" title="[% Translate("Continue anyways :(") | html %]" ><span>[% Translate(" Continue anyways :(") | html %]</span></input>
+            </div>
+            <div class="Clear"></div>
+        </div>
+[% END %]
+        <div id="MigrateFromOTRSContinueWithJSIntro" class="SpacingBottom Right">
+            <form action="[% Env("CGIHandle") %]" method="post" class="PreventMultipleSubmits">
+                <input type="hidden" name="Action" value="MigrateFromOTRS">
+                <input type="hidden" name="Subaction" value="[% Data.Subaction %]">
+                <button class="Primary CallForAction" type="submit"><span>[% Translate("Next") | html %]</span></button>
+            </form>
+        </div>
+    </div>
+[% RenderBlockEnd("Intro") %]

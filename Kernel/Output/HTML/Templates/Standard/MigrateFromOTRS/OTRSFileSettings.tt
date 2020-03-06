@@ -1,0 +1,101 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+[% RenderBlockStart("OTRSFileSettings") %]
+<div class="W950px SpacingTop SpacingBottom CenterBox">
+    <form action="[% Env("CGIHandle") %]" method="post" id="FormOTRS" class="PreventMultipleSubmits">
+        <input type="hidden" name="Action"    value="MigrateFromOTRS" />
+        <input type="hidden" name="Subaction" value="OTRSFileSettings" />
+        <input type="hidden" name="Task" id="Task" value="CheckSettings" />
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate(Data.Item) | html %] ([% Data.Step %])</h2>
+            </div>
+
+            <div class="Content">
+                <fieldset class="TableLike">
+                    <label for="OTRSLocation">[% Translate("OTRS server") | html %]:</label>
+                    <div class="Field">
+                        [% Data.SelectOTRSLocation %]
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="FQDN" class="oooRemote Hidden">[% Translate("FQDN") | html %]:</label>
+                    <div class="Field oooRemote Hidden">
+                        <input type="text" id="FQDN" name="FQDN" class="W50pc" value="[% Data.FQDN %]" />
+                    </div>
+                    <div class="Clear" class="oooRemote Hidden"></div>
+
+                    <label for="SSHUser" class="oooRemote Hidden">[% Translate("SSH User") | html %]:</label>
+                    <div class="Field oooRemote Hidden">
+                        <input type="text" id="SSHUser" name="SSHUser" class="W50pc" autocomplete="off" value="[% Data.SSHUser %]" />
+                    </div>
+                    <div class="Clear" class="oooRemote Hidden"></div>
+
+                    <label for="Password" class="oooRemote Hidden">[% Translate("Password") | html %]:</label>
+                    <div class="Field oooRemote Hidden">
+                        <input type="password" id="Password" name="Password" value="" class="W50pc" autocomplete="off" value="[% Data.Password %]" />
+                    </div>
+                    <div class="Clear" class="oooRemote Hidden"></div>
+
+                    <label for="Port" class="oooRemote Hidden">[% Translate("Port") | html %]:</label>
+                    <div class="Field oooRemote Hidden">
+                        <input type="text" id="Port" name="Port" class="W50pc" value="[% Data.Port %]" />
+                    </div>
+                    <div class="Clear" class="oooRemote Hidden"></div>
+
+                    <label for="OTRSHome">[% Translate("OTRS home directory") | html %]:</label>
+                    <div class="Field">
+                        <input type="text" id="OTRSHome" name="OTRSHome" class="W50pc" value="[% Data.OTRSHome %]" />
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div class="Field">
+                        <button class="Primary CallForAction" type="button" id="ButtonDefTask"><span>[% Translate("Check settings") | html %]</span></button>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <fieldset class="TableLike Hidden ErrorMsg">
+                    <h4>[% Translate("Result of database check") | html %]</h4>
+
+                    <div class="Field">
+                        <p id="ResultMessage" class="Error"></p>
+                        <p id="ResultComment" class="FieldExplanation"></p>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <fieldset class="TableLike Hidden Success">
+                    <h4>[% Translate("Result of settings check") | html %]</h4>
+
+                    <div class="Field Result">
+                        <p><i class="fa fa-check"></i> [% Translate("Settings check successful.") | html %]</p>
+                    </div>
+
+                    <div class="Clear"></div>
+                </fieldset>
+                
+                <div class="Spacing Right">
+                    <button type="button" class="CallForAction" id="ButtonBack"><span>[% Translate("Back") | html %]</span></button>
+                    <button class="Primary CallForAction Disabled HideMe" type="submit" id="FormSubmit" disabled><span>[% Translate("Next") | html %]</span></button>
+                </div>
+                <div class="Clear"></div>
+            </div>
+        </div>
+    </form>
+</div>
+[% RenderBlockEnd("OTRSFileSettings") %]
