@@ -20,7 +20,9 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use File::Basename    qw(fileparse);
+use File::Basename;
+use File::Copy;
+use File::Path qw(make_path);
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
@@ -29,6 +31,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::Language',
+    'Kernel::System::FileTemp',
 );
 
 =head1 NAME
@@ -102,10 +105,9 @@ sub CleanLicenseHeader {
     }
 
     if (! $Parse ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "File extension for file $FilePathAndName is not active - please check if you need to add a new regexp.",
-        );
+
+        print STDERR "File extension for file $FilePathAndName is not active - please check if you need to add a new regexp.";
+
         close $FileHandle;
         return 1;
     }
@@ -233,6 +235,7 @@ clean given file to OTOBO style
 
     $OTRSToOTOBOObject->CleanOTRSFileToOTOBOStyle(
         FilePath         => '/opt/otobo/Test.pm',
+        UserID           => 1,
     );
 
 =cut
@@ -553,7 +556,7 @@ sub CopyOPMtoSOPMAndClean {
     }
 
     my $BaseName = basename($SourcePath);
-    $BaseName =~ s/\.opm$/.sopm/;
+    $BaseName =~ s/-\d.*\.opm$/.sopm/;
 
     # Write opm content to new sopm file
     my $SOPMFile = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
@@ -1345,15 +1348,30 @@ sub PackageMigrateIgnorePackages {
             {
                 PackageName => 'ShowDynamicField',
                 IgnoreType  => 'Ignore',
-                Comment     => 'HideShow package is in a better version integraded in OTOBO standard. We only migrate the config and database data.',
+                Comment     => 'HideShow package integrated in OTOBO standard is in a better version. We only migrate the config and database data.',
             },
             {
                 PackageName => 'TicketForms',
                 IgnoreType  => 'Ignore',
-                Comment     => 'TicketForms package is in a better version integraded in OTOBO standard. We only migrate the config and database data.',
+                Comment     => 'TicketForms package is integrated in OTOBO standard in a better version. We only migrate the config and database data.',
             },
             {
-                PackageName => 'Znuny',
+                PackageName => 'RotherOSS-LongEscalationPerformanceBoost',
+                IgnoreType  => 'Ignore',
+                Comment     => 'RotherOSS-LongEscalationPerformanceBoost package is integrated in OTOBO standard in a better version.',
+            },
+            {
+                PackageName => 'Znuny4OTRS-AdvancedDynamicFields',
+                IgnoreType  => 'Ignore',
+                Comment     => 'Znuny4OTRS-AdvancedDynamicFields package is integrated in OTOBO standard.',
+            },
+            {
+                PackageName => 'Znuny4OTRS-AutoSelect',
+                IgnoreType  => 'Ignore',
+                Comment     => 'Znuny4OTRS-AutoSelect package is integrated in OTOBO standard in a newer version.',
+            },
+            {
+                PackageName => 'Znuny4OTRS-AutoCheckbox',
                 IgnoreType  => 'Uninstall',
                 Comment     => 'This package is not needed for OTOBO, we uninstall it',
             },
@@ -1403,7 +1421,7 @@ sub _ChangeFilePath {
     )
 }
 
-sub _IgnorePathList {
+sub IgnorePathList {
     return (
         qr/^.+Kernel\/cpan-lib.+$/,
         qr/^.+var\/tmp\/CacheFileStorable.+$/,
@@ -1510,6 +1528,11 @@ sub _ChangeFileInfo {
                 FileTyp => 'opm',
                 Search  => '<File Location\=\"(.*)\"\s.*\s.*\">.*<\/File>',
                 Change  => '<File Location="OTOBO_XXX" Permission="644" ></File>'
+            },
+            {
+                FileTyp => 'opm',
+                Search  => '<File Permission\=.*Location\=\"(.*)\"\s.*\">.*<\/File>',
+                Change  => '<File Location="OTOBO_XXX" Permission="660" ></File>'
             },
         ),
 

@@ -22,7 +22,7 @@ Core.UI = Core.UI || {};
 /**
  * @namespace Core.UI.Datepicker
  * @memberof Core.UI
- * @author 
+ * @author
  * @description
  *      This namespace contains the datepicker functions.
  */
@@ -176,7 +176,7 @@ Core.UI.Datepicker = (function (TargetNS) {
                     var Icon = $("<i class='oooAltCheck ooofo'></i>").on('click', function() {
                         Checkbox.click();
                     });
-                    
+
                     Container.prepend( Checkbox, Icon, $DatepickerElement, Label );
                 } else {
                     Element.Day.after($DatepickerElement);

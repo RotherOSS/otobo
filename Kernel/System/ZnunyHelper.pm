@@ -516,8 +516,6 @@ sub _ValidDynamicFieldScreenListGet {
         my @Array = sort keys %{ $ValidScreens->{$Screen} };
         $ValidScreens->{$Screen} = \@Array;
     }
-use Data::Dumper;
-print STDERR Dumper($ValidScreens);
     return $ValidScreens;
 }
 

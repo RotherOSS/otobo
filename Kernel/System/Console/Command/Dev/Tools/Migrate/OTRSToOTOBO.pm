@@ -210,15 +210,17 @@ sub Run {
 
             # Clean content of files if $CleanContent option is defined
             if ($CleanContent) {
-                $MigraionBaseObject->ChangeFiles(
+                $MigraionBaseObject->CleanOTRSFileToOTOBOStyle(
                     File     => $File,
+                    UserID   => 1,
                 );
             }
 
             # Clean header and license in files
             if ($CleanLicenseHeader) {
-                $MigraionBaseObject->ChangeLicenseHeader(
+                $MigraionBaseObject->CleanLicenseHeader(
                     File     => $File,
+                    UserID   => 1,
                 );
             }
 
@@ -226,6 +228,7 @@ sub Run {
             if ($CleanPath) {
                 $MigraionBaseObject->ChangePathFileName(
                     File     => $File,
+                    UserID   => 1,
                 );
             }
         }

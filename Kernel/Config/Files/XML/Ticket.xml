@@ -14335,4 +14335,53 @@ Thanks for your help!
             <Item ValueType="Entity" ValueEntityType="Queue" ValueRegex="">Postmaster</Item>
         </Value>
     </Setting>
+    <Setting Name="EscalationSuspendStates" Required="0" Valid="0">
+        <Description Translatable="1">List of states for which escalations should be suspended.</Description>
+        <Navigation>Core</Navigation>
+        <Value>
+            <Array>
+                <Item>pending auto close+</Item>
+                <Item>pending auto close-</Item>
+                <Item>pending reminder</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="SuspendEscalatedTickets" Required="1" Valid="1">
+        <Description Translatable="1">Suspend already escalated tickets.</Description>
+        <Navigation>Core::Znuny4OTOBO::EscalationSuspend</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="EscalationSuspendCancelEscalation" Required="1" Valid="1">
+        <Description Translatable="1">Cancel whole escalation if ticket is in configured suspend state (EscalationSuspendStates). Ticket will not escalate at all in configured suspend state. No escalation times are shown. Ticket will not be shown in escalation view.</Description>
+        <Navigation>Core::Znuny4OTOBO::EscalationSuspend</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Daemon::SchedulerCronTaskManager::Task###RebuildEscalationIndex" Required="0" Valid="1" ConfigLevel="100">
+        <Description Translatable="1">Rebuilds the escalation index.</Description>
+        <Navigation>Daemon::SchedulerCronTaskManager::Task</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="TaskName">RebuildEscalationIndex</Item>
+                <Item Key="Schedule">*/4 * * * *</Item> <!-- default every 4 minutes -->
+                <Item Key="Module">Kernel::System::Ticket</Item>
+                <Item Key="Function">RebuildEscalationIndex</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="EscalationSuspendLoopProtection" Required="1" Valid="1">
+        <Description Translatable="1">This configuration defines the number of iterations that should be performed at max for calculating the WorkingTime for a Ticket. Attention: Setting this configuration to high can lead to performance issues.</Description>
+        <Navigation>Core::Znuny4OTOBO::EscalationSuspend</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^\d+$">500</Item>
+        </Value>
+    </Setting>
 </otobo_config>
