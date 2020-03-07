@@ -135,7 +135,7 @@ sub Run {
     my @UncleanFileList;
 
     # Ignore path list
-    my @ParserIgnoreDirAndFile = _IgnorePathList();
+    my @ParserIgnoreDirAndFile = IgnorePathList();
 
     # We need to check if a opm package is given
     if ( $SourceIsOPMOrDir eq 'OPM' && -d $TargetDirectory) {
@@ -292,7 +292,7 @@ sub _CopyOPMtoSOPMAndClean {
     }
 
     my $BaseName = basename($SourcePath);
-    $BaseName =~ s/\.opm$/.sopm/;
+    $BaseName =~ s/-\d.*\.opm$/.sopm/;
 
     # Write opm content to new sopm file
     my $SOPMFile = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
@@ -603,7 +603,7 @@ sub _ChangeFilePath {
     )
 }
 
-sub _IgnorePathList {
+sub IgnorePathList {
     return (
         qr/^.+Kernel\/cpan-lib.+$/,
         qr/^.+var\/tmp\/CacheFileStorable.+$/,
@@ -700,6 +700,11 @@ sub _ChangeFileInfo {
                 FileTyp => 'opm',
                 Search  => '\<Framework.*\>6\..*\<\/Framework\>',
                 Change  => '<Framework>10.0.x</Framework>'
+            },
+            {
+                FileTyp => 'opm',
+                Search  => '\<Version\>.*\<\/Version\>',
+                Change  => '<Version>0.0.0</Version>'
             },
             {
                 FileTyp => 'opm',
