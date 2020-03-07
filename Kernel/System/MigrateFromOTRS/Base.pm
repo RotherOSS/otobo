@@ -1381,6 +1381,11 @@ sub PackageMigrateIgnorePackages {
                 Comment     => 'Znuny4OTRS-ExternalURLJump package is integrated in OTOBO standard.',
             },
             {
+                PackageName => 'Znuny4OTRS-QuickClose',
+                IgnoreType  => 'Ignore',
+                Comment     => 'Znuny4OTRS-QuickClose package is integrated in OTOBO standard.',
+            },
+            {
                 PackageName => 'Znuny4OTRS-AutoCheckbox',
                 IgnoreType  => 'Uninstall',
                 Comment     => 'This pZnuny4OTRS-EscalationSuspendackage is not needed for OTOBO, we uninstall it',

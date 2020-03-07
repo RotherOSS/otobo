@@ -5997,7 +5997,35 @@ sub Data {
         'This configuration defines if only valids or all (invalids) dynamic fields should be shown.' => 'Diese Konfiguration definiert ob nur gültige oder alle (ungültige) dynamischen Felder angezeigt werden sollen.',
         'This configuration defines all possible screens to enable or disable default columns.' => 'Diese Konfiguration definiert alle möglichen Oberflächen in denen dynamische Felder als DefaultColumns aktiviert/deaktiviert werden können.',
         'This configuration defines all possible screens to enable or disable dynamic fields.' => 'Diese Konfiguration definiert alle möglichen Oberflächen in denen dynamische Felder als DynamicFields aktiviert/deaktiviert werden können.',
+        'Defines the close state for quick close.' => 'Definiert den Schließzustand für das schnelle Schließen.',
+        "Defines which items are available for 'Action' in third level of the ACL structure." => "Definiert, welche Elemente für 'Aktion' in der dritten Ebene der ACL-Struktur zur Verfügung stehen.",
+        'Frontend module registration for the agent interface.' => 'Registrierung des Frontend-Moduls für die Agentenschnittstelle.',
+        'Sets the default article customer visibility for quick close action in the agent interface.' => 'Legt die Standardartikel-Kundentransparenz für schnelle Schließvorgänge in der Agentenoberfläche fest.',
+        'Shows a link in the menu to quick close a ticket in every ticket overview of the agent interface.' => 'Zeigt einen Link im Menü an, um ein Ticket in jeder Ticketübersicht der Agentenoberfläche schnell zu schließen.',
+        'Shows a link in the menu to quick close a ticket in the ticket zoom view of the agent interface.'  => 'Zeigt einen Link im Menü an, um ein Ticket in der Ticket-Zoom-Ansicht der Agentenoberfläche schnell zu schließen.',
+        'If enabled, the quick close action will create an article.' => 'Wenn diese Option aktiviert ist, wird mit der Aktion Schnellschließen ein Artikel erstellt.',
+        'Defines the subject for the quick close action, which gets used for ticket history in the agent interface.' => 'Definiert den Artikelbetreff für die Schnellschließaktion, der für die Tickethistorie in der Agentenoberfläche verwendet wird.',
+        'Defines the body for the quick close action, which gets used for ticket history in the agent interface.' => 'Definiert den Artikeltext für die Schnellschließaktion, der für die Tickethistorie in der Agentenoberfläche verwendet wird.',
+        'Defines the communication chanel for the quick close article action.' => 'Definiert den Kommunikationskanal für die Schnellschließung von Artikeln.',
+        'Defines the sender type for the quick close action, which gets used for ticket history in the agent interface.' => 'Definiert den Sendertyp für die Schnellschließaktion, der für die Tickethistorie in der Agentenoberfläche verwendet wird.',
+        'Defines the content type for the quick close action, which gets used for ticket history in the agent interface.' => 'Definiert den Content-Typ für die Schnellschließaktion, der für die Tickethistorie in der Agentenoberfläche verwendet wird.',
+        'Defines the history type for the quick close action, which gets used for ticket history in the agent interface.' => 'Definiert den History-Typ für die Schnellschließaktion, der für die Tickethistorie in der Agentenoberfläche verwendet wird.',
+        'Defines the history comment for the quick close action, which gets used for ticket history in the agent interface.' => 'Definiert den History-Kommentar für die Schnellschließaktion, der für die Ticket-Historie in der Agentenoberfläche verwendet wird.',
 
+        # Frontend
+        'Quick Close'       => 'sofort schließen',
+        'Ticket closed'     => 'Ticket geschlossen',
+        'Ticket was closed' => 'Ticket wurde geschlossen',
+        'List of states for which escalations should be suspended.' => 'Liste von Status, für welche Eskalationen angehalten werden sollen.',
+        'Escalation view - Without Suspend State'                   => 'Ansicht nach Eskalationen ohne ausg. Status',
+        'Overview Escalated Tickets Without Suspend State'          => 'Übersicht über eskalierte Tickets ohne ausgesetzte Status',
+        'Suspend already escalated tickets.'                        => 'Aussetzen von bereits eskalierten Tickets.',
+        'Ticket Escalation View Without Suspend State'              => 'Ansicht nach Ticket-Eskalationen ohne ausgesetzte Status',
+        'Cancel whole escalation if ticket is in configured suspend state (EscalationSuspendStates). Ticket will not escalate at all in configured suspend state. No escalation times are shown. Ticket will not be shown in escalation view.' => 'Abschalten der gesamten Eskalation wenn ein Ticket in einem konfigurierten Status zum anhalten der Eskalationen verweilt. Am Ticket werden keine Eskalationswerte mehr angezeigt. Das Ticket taucht auch nicht in der Übersicht der eskallierten Tickets auf.',
+        'This configuration defines the number of iterations that should be performed at max for calculating the WorkingTime for a Ticket. Attention: Setting this configuration to high can lead to performance issues.' => 'Diese Konfiguration definiert die Anzahl von Iterationen, die durchgeführt werden sollen um die Arbeitszeit eines Tickets zu errechnen. Achtung: Ist diese Konfiguration auf einen zu hohen Wert gesetzt, kann es zu negativen Auswirkungen auf die Performance kommen.',
+        'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.'
+            => 'Überlädt existierende Funktionen aus Kernel::System::Ticket.',
+        'Rebuilds the escalation index.' => 'Erneuert den Eskalationsindex.',
 
     };
 
