@@ -1495,6 +1495,47 @@ sub DESTROY {
     return 1;
 }
 
+=head2 GetValidDynamicFields()
+
+Returns a list of valid dynamic fields.
+
+    my $DynamicFields = $DynamicFieldObject->GetValidDynamicFields();
+
+Returns:
+
+    my $DynamicFields = {
+        'Field1' => 'Field 1',
+        'Field2' => 'Field2',
+    };
+
+=cut
+
+sub GetValidDynamicFields {
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+    my $DynamicFieldValid = $ConfigObject->Get('Znuny4OTOBOAdvancedDynamicFields::DynamicFieldValid');
+
+    my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
+        ResultType => 'HASH',
+        Valid      => $DynamicFieldValid,
+    );
+
+    my $DynamicFields = {};
+
+    DYNAMICFIELD:
+    for my $DynamicField ( @{$DynamicFieldList} ) {
+
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicField);
+
+        $DynamicFields->{ $DynamicField->{Name} } = $DynamicField->{Label};
+    }
+
+    return $DynamicFields;
+}
+
 =begin Internal:
 
 =cut

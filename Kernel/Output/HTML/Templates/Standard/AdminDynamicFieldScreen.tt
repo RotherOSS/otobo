@@ -1,0 +1,287 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2012-2020 Znuny GmbH, http://znuny.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+[% RenderBlockStart("Overview") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("Management of Dynamic Fields <-> Screens") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Management of Dynamic Fields <-> Screens'),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Overview") | html %]</span></a>
+                    </li>
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminDynamicField" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Dynamic Fields") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Overview") | html %]</h2>
+            </div>
+            <div class="Content LayoutGrid ColumnsWithSpacing">
+
+                <div class="Size1of3">
+                    <ul class="Tablelike" id="DynamicFieldScreens">
+                        <li class="Header">[% Translate("Dynamic Fields Screens") | html %]</li>
+                        <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
+[% RenderBlockStart("DynamicFieldScreenOverviewRow") %]
+                        <li>
+                            <a class="AsBlock" id="[% Data.Name | uri %]" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Edit;Type=DynamicFieldScreen;Element=[% Data.DynamicFieldScreen | uri %]">[% Data.Name | html %]</a>
+                        </li>
+[% RenderBlockEnd("DynamicFieldScreenOverviewRow") %]
+                    </ul>
+                </div>
+                <div class="Size1of3">
+                    <ul class="Tablelike" id="DefaultColumnsScreens">
+                        <li class="Header">[% Translate("Default Columns Screens") | html %]</li>
+                        <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
+[% RenderBlockStart("DefaultColumnsScreenOverviewRow") %]
+                        <li>
+                            <a class="AsBlock" id="[% Data.Name | uri %]" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Edit;Type=DefaultColumnsScreen;Element=[% Data.DefaultColumnsScreen | uri %]">[% Data.Name | html %]</a>
+                        </li>
+[% RenderBlockEnd("DefaultColumnsScreenOverviewRow") %]
+                    </ul>
+                </div>
+                <div class="Size1of3">
+                    <ul class="Tablelike" id="DynamicFields">
+                        <li class="Header">[% Translate("Dynamic Fields") | html %]</li>
+                        <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
+[% RenderBlockStart("NoDataFoundMsg") %]
+                        <li>
+                            [% Translate("No data found.") | html %] <a href="[% Env("Baselink") %]Action=AdminDynamicField" >[% Translate("Add DynamicField") | html %]</a>
+                        </li>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockStart("DynamicFieldOverviewRow") %]
+                        <li>
+                            <a class="AsBlock" id="[% Data.Name | uri %]" title="[% Data.Name | html %] ([% Data.DynamicField | html %])" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Edit;Type=DynamicField;Element=[% Data.DynamicField | uri %]">
+                                [% Translate(Data.Name) | html %] (<strong>[% Data.DynamicField | html %]</strong>)</a>
+                        </li>
+[% RenderBlockEnd("DynamicFieldOverviewRow") %]
+                    </ul>
+                </div>
+            </div>
+        </div>
+   </div>
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("Overview") %]
+
+[% RenderBlockStart("Edit") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("Management of Dynamic Fields <-> Screens") | html %]</h1>
+
+    [% USE EditTitle = String(Data.BreadcrumbTitle) %]
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Management of Dynamic Fields <-> Screens'),
+                Link => Env("Action"),
+            },
+            {
+                Name => EditTitle.append(Data.Type, " - " ,Data.Element  ),
+            }
+        ]
+    %]
+
+    [% DynamicFieldSelected = ( Data.Type == 'DynamicField' ) %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Overview") | html %]</span></a>
+                    </li>
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminDynamicField" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Dynamic Fields") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("List") | html %]</h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterElements" class="W95pc" name="FilterElements" value="" title="[% Translate('Filter') | html %]" placeholder="[% Translate('Filter') | html %]..." />
+                <table class="DataTable SpacingTop" id="Elements">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Name") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("ActionOverviewRowEdit") %]
+                        <tr>
+                            <td title="[% Data.Element | html %][% IF DynamicFieldSelected %] ([% Data.ElementKey | html %])[% END %]"><a class="AsBlock" id="[% Translate(Data.Element) | html %]" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Edit;Type=[% Data.Type | uri %];Element=[% Data.ElementKey | uri %]">[% Translate(Data.Element) | html %][% IF DynamicFieldSelected %] (<strong>[% Data.ElementKey | html %]</strong>)[% END %]</a></td>
+                        </tr>
+[% RenderBlockEnd("ActionOverviewRowEdit") %]
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate(Data.Header) | html %] - [% Data.Element | html %]</h2>
+            </div>
+            <div class="Content">
+                <form id='Form' action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action"/>
+                    <input type="hidden" name="Type" value="[% Data.Type | html %]"/>
+                    <input type="hidden" name="Element" value="[% Data.Element | html %]"/>
+                    <input type="hidden" name="Fields" value=""/>
+                    <div class="LayoutGrid">
+                        <div class="Size1of1 SpacingBottom">
+                            <p>
+                    [% Translate("You can assign elements to this Screen/Field by dragging the elements with the mouse from the left list to the right list.") | html %]
+                    [% Translate("Ordering the elements within the list is also possible by drag 'n' drop.") | html %]
+                            </p>
+                        </div>
+                    </div>
+                    <div class="LayoutGrid">
+                        <div class="[% Data.Size | html %]">
+                            <input type="text" id="FilterAvailableElements" style="width:90%;" name="FilterAvailableElements" value="" title="[% Translate('Filter available elements') | html %]" placeholder="[% Translate('Filter available elements') | html %]..." />
+
+                            <a id='AllSelectedAvailableElements' class="CallForAction W90pc Center SpacingTop" style="display: block; width:85%;"><span><i class="fa fa-caret-down"></i>[% Translate("selected to available elements") | html %]</span></a>
+
+                            <ul class="Tablelike W90pc SpacingTop">
+                                <li class="Header">
+                                    <input type="checkbox" name="SelectAllAvailableElements" id="SelectAllAvailableElements" title="[% Translate('Toggle all available elements') | html %]" value="" />
+                                    [% Translate("Available Elements") | html %]
+                                </li>
+                            </ul>
+                            <ul class="AllocationList Tablelike W90pc" style="max-height: inherit;" id="AvailableElements">
+[% RenderBlockStart("AvailableFieldRow") %]
+                                <li title="[% Translate(Data.Label) | html %][% IF !DynamicFieldSelected %] ([% Translate(Data.Element) | html %])[% END %]" id="[% Data.ID | html %]">
+                                    <input type="checkbox" name="SelectAllAvailableElements" value="[% Data.ID | html %]"/>
+                                    [% Translate(Data.Label) | html %][% IF !DynamicFieldSelected %] (<strong>[% Data.Element | html %]</strong>)[% END %]
+                                    <input type="hidden" name="AvailableElements"  value="[% Data.Element | html %]">
+                                </li>
+[% RenderBlockEnd("AvailableFieldRow") %]
+                            </ul>
+                        </div>
+                         <div class="[% Data.Size | html %]">
+                            <input type="text" id="FilterDisabledElements" style="width:90%;" name="FilterDisabledElements" value="" title="[% Translate('Filter disabled elements') | html %]" placeholder="[% Translate('Filter disabled elements') | html %]..." />
+
+                            <a id='AllSelectedDisabledElements' class="CallForAction W90pc Center SpacingTop" style="display: block; width:85%;"><span><i class="fa fa-caret-down"></i>[% Translate("selected to disabled elements") | html %]</span></a>
+
+                            <ul class="Tablelike W90pc SpacingTop">
+                                <li class="Header">
+                                    <input type="checkbox" name="SelectAllDisabledElements" id="SelectAllDisabledElements" title="[% Translate('Toggle all disabled elements') | html %]" value="" />
+                                    [% Translate("Disabled Elements") | html %]
+                                </li>
+                            </ul>
+                            <ul class="AllocationList Tablelike W90pc" style="max-height: inherit;" id="DisabledElements">
+[% RenderBlockStart("DisabledFieldRow") %]
+                                <li title="[% Translate(Data.Label) | html %][% IF !DynamicFieldSelected %] ([% Translate(Data.Element) | html %])[% END %]" id="[% Data.ID | html %]">
+                                    <input type="checkbox" name="SelectAllDisabledElements" value="[% Data.ID | html %]"/>
+                                    [% Translate(Data.Label) | html %][% IF !DynamicFieldSelected %] (<strong>[% Data.Element | html %]</strong>)[% END %]
+                                    <input type="hidden" name="DisabledElements" value="[% Data.Element | html %]">
+                                </li>
+[% RenderBlockEnd("DisabledFieldRow") %]
+                            </ul>
+                        </div>
+                        <div class="[% Data.Size | html %]">
+                            <input type="text" id="FilterAssignedElements" style="width:90%;" name="FilterAssignedElements" value="" title="[% Translate('Filter assigned elements') | html %]" placeholder="[% Translate('Filter assigned elements') | html %]..." />
+
+                            <a id='AllSelectedAssignedElements' class="CallForAction W90pc Center SpacingTop" style="display: block; width:85%;"><span><i class="fa fa-caret-down"></i>[% Translate("selected to assigned elements") | html %]</span></a>
+
+                            <ul class="Tablelike W90pc SpacingTop">
+                                <li class="Header">
+                                    <input type="checkbox" name="SelectAllAssignedElements" id="SelectAllAssignedElements" title="[% Translate('Toggle all assigned elements') | html %]" value="" />
+                                    [% Translate("Assigned Elements") | html %]
+                                </li>
+                            </ul>
+                            <ul class="AllocationList Tablelike W90pc" style="max-height: inherit;" id="AssignedElements">
+[% RenderBlockStart("AssignedFieldRow") %]
+                                <li title="[% Translate(Data.Label) | html %][% IF !DynamicFieldSelected %] ([% Translate(Data.Element) | html %])[% END %]" id="[% Data.ID | html %]">
+                                    <input type="checkbox" name="SelectAllAssignedElements" value="[% Data.ID | html %]"/>
+                                    [% Translate(Data.Label) | html %][% IF !DynamicFieldSelected %] (<strong>[% Data.Element | html %]</strong>)[% END %]
+                                    <input type="hidden" name="AssignedElements" value="[% Data.Element | html %]">
+                                </li>
+[% RenderBlockEnd("AssignedFieldRow") %]
+                            </ul>
+                        </div>
+                        <div class="[% Data.Size | html %] [% Data.HiddenRequired | html %]">
+                            <input type="text" id="FilterAssignedRequiredElements" style="width:90%;" name="FilterAssignedRequiredElements" value="" title="[% Translate('Filter assigned required elements') | html %]" placeholder="[% Translate('Filter assigned required elements') | html %]..." />
+
+                            <a id='AllSelectedAssignedRequiredElements' class="CallForAction W90pc Center SpacingTop" style="display: block; width:85%;"><span><i class="fa fa-caret-down"></i>[% Translate("selected to assigned required elements") | html %]</span></a>
+
+                            <ul class="Tablelike W90pc SpacingTop">
+                                <li class="Header">
+                                    <input type="checkbox" name="SelectAllAssignedRequiredElements" id="SelectAllAssignedRequiredElements" title="[% Translate('Toggle all assigned required elements') | html %]" value="" />
+                                    [% Translate("Assigned Required Elements") | html %]
+                                </li>
+                            </ul>
+                             <ul class="AllocationList Tablelike W90pc" style="max-height: inherit;" id="AssignedRequiredElements">
+[% RenderBlockStart("AssignedRequiredFieldRow") %]
+                                <li title="[% Translate(Data.Label) | html %][% IF !DynamicFieldSelected %] ([% Translate(Data.Element) | html %])[% END %]" id="[% Data.ID | html %]">
+                                    <input type="checkbox" name="SelectAllAssignedRequiredElements" value="[% Data.ID | html %]" />
+                                    [% Translate(Data.Label) | html %][% IF !DynamicFieldSelected %] (<strong>[% Data.Element | html %]</strong>)[% END %]
+                                    <input type="hidden" name="AssignedRequiredElements" value="[% Data.Element | html %]" />
+                                </li>
+[% RenderBlockEnd("AssignedRequiredFieldRow") %]
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="Field SpacingTop" style="text-align: center;">
+                        <button class="Primary CallForAction" type="submit" value="[% Translate("Submit") | html %]">
+                            <span>[% Translate("Submit") | html %]</span>
+                        </button>
+                        [% Translate("or") | html %]
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" >[% Translate("Cancel") | html %]</a>
+                        <i class="[% Data.HiddenReset | html %]">[% Translate("or") | html %]</i>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Reset;Type=[% Data.Type | uri %];Element=[% Data.Element | uri %]" class="CallForAction Center [% Data.HiddenReset | html %]" >
+                            <span>
+                                <i class="fa fa-trash-o"></i>[% Translate("Reset") | html %]
+                            </span>
+                        </a>
+                    </div>
+                    <div class="Clear"></div>
+                </form>
+            </div>
+        </div>
+[% RenderBlockEnd("Edit") %]
+    </div>
+    <div class="Clear"></div>
+</div>

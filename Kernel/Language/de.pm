@@ -5921,6 +5921,84 @@ sub Data {
         'Stream' => 'Fließend',
         'Expanded' => 'Ausgedehnt',
 
+        # Import / Export
+        # Frontend
+        'Here you can upload a configuration file to import dynamic fields to your system. The file needs to be in .yml format as exported by dynamic field management module.' => 'Hier können Sie eine Konfigurationsdatei hochladen, um dynamische Felder auf Ihr System zu importieren. Die Datei muss im .yml-Format vorliegen, wie es von dem dynamischen Feld Verwaltungsmodul exportiert wird.',
+
+        'Here you can export a configuration file of dynamic fields and dynamic field screens to import these on another system. The configuration file is exported in yml format.' => 'Hier können Sie eine Konfigurationsdatei von dynamischen Feldern und dynamischen Felder Oberflächen exportieren, um diese auf einem anderen System zu importieren. Die Konfigurationsdatei wird im yml Format exportiert.',
+
+        "Select the desired elements and confirm the import with 'import'." => "Selektieren Sie die gewünschten Elemente und bestätigen Sie den Import mit 'importieren'.",
+
+        'Select the items you want to ' => 'Wählen Sie die Elemente aus, um sie zu ',
+
+        'Here you can manage the dynamic fields in the respective screens.' => 'Hier können Sie die dynamischen Felder in den jeweiligen Oberflächen verwalten.',
+
+        'The following dynamic fields can not be imported because of an invalid backend.' => 'Die folgenden dynamischen Felder können aufgrund eines ungültigen Backends nicht importiert werden.',
+
+        'DynamicFields Import' => 'Dynamische Felder importieren',
+        'DynamicFields Export' => 'Dynamische Felder exportieren',
+
+        'Screens' => 'Oberflächen',
+        'Fields'  => 'Felder',
+
+        'Export'  => 'Exportieren',
+        'Import'  => 'Importieren',
+
+        # Screens
+        # Frontend
+        'You can assign elements to this Screen/Field by dragging the elements with the mouse from the left list to the right list.' => 'Sie können diese Elemente den Oberflächen/Feldern zuweisen, indem Sie sie mit der Maus aus der rechten Liste in die linke Liste verschieben.',
+
+        "Ordering the elements within the list is also possible by drag 'n' drop." => 'Die Elemente können auch durch Verschieben mit der Maus geordnet werden.',
+
+        'Manage dynamic field in screens.' => 'Verwaltung von dynamischen Feldern in Oberflächen.',
+
+        'Settings were reset.' => 'Einstellungen wurden zurückgesetzt.',
+        'Settings were saved.' => 'Einstellungen wurden gespeichert.',
+
+        'System was not able to save the setting!'  => 'Das System konnte die Einstellung nicht speichern!',
+        'System was not able to reset the setting!' => 'Das System konnte die Einstellung nicht zurücksetzen!',
+
+        # Elements
+        'Management of Dynamic Fields <-> Screens' => 'Verwaltung von Dynamische Feldern <-> Oberflächen',
+
+        'Dynamic Fields Screens'  => 'Dynamische Felder Oberflächen',
+        'DynamicField Screens'    => 'Dynamische Felder Oberflächen',
+        'Default Columns Screens' => 'DefaultColumns Oberflächen',
+        'Dynamic Fields'          => 'Dynamische Felder',
+
+        'Available Elements'         => 'Verfügbare Elemente',
+        'Disabled Elements'          => 'Deaktivierte Elemente',
+        'Assigned Elements'          => 'Zugewiesene Elemente',
+        'Assigned Required Elements' => 'Zugewiesene Pflichtelemente',
+
+        'Dynamic Fields for this Screen'  => 'Dynamische Felder für die Oberfläche',
+        'Screens for this Dynamic Field'  => 'Oberflächen für das dynamische Feld',
+
+        # Filter
+        'Filter Dynamic Fields Screen'      => 'Oberflächen für Dynamische Felder filtern',
+        'Filter available elements'         => 'Verfügbare Elemente filtern',
+        'Filter disabled elements'          => 'Deaktivierte Elemente filtern',
+        'Filter assigned elements'          => 'Zugewiesene Elemente filtern',
+        'Filter assigned required elements' => 'Zugewiesene Pflichtelemente filtern',
+
+        'Add DynamicField'                      => 'Dynamisches Feld hinzufügen',
+
+        'Toggle all available elements'         => 'Alle verfügbare Elemente umschalten',
+        'Toggle all assigned elements'          => 'Alle zugewiesene Elemente umschalten',
+        'Toggle all disabled elements'          => 'Alle deaktivierte Elemente umschalten',
+        'Toggle all assigned required elements' => 'Alle zugewiesene Pflichtelemente umschalten',
+
+        'selected to available elements'         => 'Selektierte zu verfügbare Elemente',
+        'selected to disabled elements'          => 'Selektierte zu deaktivierte Elemente',
+        'selected to assigned elements'          => 'Selektierte zu zugewiesene Elemente',
+        'selected to assigned required elements' => 'Selektierte zu zugewiesene Pflichtelemente',
+
+        # SysConfig
+        'This configuration defines if only valids or all (invalids) dynamic fields should be shown.' => 'Diese Konfiguration definiert ob nur gültige oder alle (ungültige) dynamischen Felder angezeigt werden sollen.',
+        'This configuration defines all possible screens to enable or disable default columns.' => 'Diese Konfiguration definiert alle möglichen Oberflächen in denen dynamische Felder als DefaultColumns aktiviert/deaktiviert werden können.',
+        'This configuration defines all possible screens to enable or disable dynamic fields.' => 'Diese Konfiguration definiert alle möglichen Oberflächen in denen dynamische Felder als DynamicFields aktiviert/deaktiviert werden können.',
+
+
     };
 
     $Self->{JavaScriptStrings} = [
