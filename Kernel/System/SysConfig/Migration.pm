@@ -20,7 +20,7 @@ package Kernel::System::SysConfig::Migration;
 use strict;
 use warnings;
 
-use parent qw(scripts::DBUpdateTo6::Base);
+use parent qw(scripts::MigrateFromOTRS::Base);
 
 use List::Util qw(first);
 
@@ -60,14 +60,14 @@ sub new {
 
 =head2 MigrateXMLStructure()
 
-Migrate XML file content from OTOBO 5 to OTOBO 10.
+Migrate XML file content from OTRS 6 to OTOBO 10.
 
     my $Result = $SysConfigMigrationObject->MigrateXMLStructure(
         Content => '
             <?xml version="1.0" encoding="utf-8" ?>
-            <otobo_config version="1.0" init="Framework">
+            <otrs_config version="1.0" init="Framework">
                 ...
-            </otobo_config>',
+            </otrs_config>',
         Name => 'Framework',
     );
 
@@ -95,15 +95,15 @@ sub MigrateXMLStructure {
     }
 
     my $Init = "";
-    if ( $Param{Content} =~ m{<otobo_config.*?init="(.*?)"} ) {
+    if ( $Param{Content} =~ m{<otrs_config.*?init="(.*?)"} ) {
         $Init = $1;
     }
 
     # Stop if we don't have Init (configuration xml file is corrupt or invalid).
     return if !$Init;
 
-    # Stop if its a configuration file is not from OTOBO 5 or prior (OTOBO 10 uses version 2.0).
-    return if !$Param{Content} =~ m{^<otobo_config.*?version="1.0"}gsmx;
+    # Stop if its a configuration file is not from OTRS 6 (OTOBO 10 uses otobo_version).
+    return if !$Param{Content} =~ m{^<otrs_config.*?version="2.0"}gsmx;
 
     # Split settings - prevent deleting some settings due to greedy RegEx. Each array item contains
     #   only one setting.
@@ -124,10 +124,10 @@ sub MigrateXMLStructure {
     for my $Setting (@Settings) {
 
         # Stop the setting loop process if it's the ending tag.
-        last SETTING if $Setting =~ m/<\/otobo_config>/i;
+        last SETTING if $Setting =~ m/<\/otrs_config>/i;
 
         # Update version (from 1.0 to 2.0).
-        $Setting =~ s{^(<otobo_config.*?version)="1.0"}{$1="2.0"}gsmx;
+        $Setting =~ s{^<otrs_config}{<otobo_config}gsmx;
         $Setting .= "</ConfigItem>";
 
         # Update to preferences group

@@ -65,7 +65,7 @@ did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
  * FF3.6 has a problem with setting the position:relative only on :hover state.
  * As a workaround it is set always and a special z-index on hover.
  */
-.DataTable tbody tr,
+/*.DataTable tbody tr,
 .TableSmall tbody tr {
     position: relative;
 }
@@ -118,12 +118,12 @@ did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
     background: linear-gradient(to bottom,  #ffe4b5 0%,#faa91c 20%,#eb8c0b 95%,#e37b09 100%);
     -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.3);
     box-shadow: 0 1px 0 rgba(0,0,0,0.3);
-}
+} */
 
 /**
  * @subsection  Generic table elements
  */
-tbody tr.UnreadArticles td {
+/*tbody tr.UnreadArticles td {
     font-weight: bold !important;
 }
 
@@ -140,12 +140,12 @@ tbody tr.UnreadArticles td {
 
 table tr.MasterAction {
     cursor: pointer;
-}
+} */
 
 /**
  * @subsection  Standard DataTable
  */
-.DataTable {
+/*.DataTable {
     width: 100%;
     background-color: #FDFDFD;
     border: 1px solid #C9C9C9;
@@ -325,14 +325,14 @@ table tr.MasterAction {
 
 .DataTable td:first-child input {
     margin: 0;
-}
+}*/
 
 
 /**
  * @subsection  QueueOverviewTotals DataTable
  */
 
-.DataTable thead th.QueueOverviewTotals,
+/*.DataTable thead th.QueueOverviewTotals,
 .Row td.QueueOverviewTotals,
 .Row a.QueueOverviewTotals {
     font-weight: bold;
@@ -342,13 +342,13 @@ table tr.MasterAction {
     text-transform: uppercase;
     color: #4B4B4B;
     border-top: 1px dotted #CCCCCC;
-}
+} */
 
 /**
  * @subsection  Sortable DataTable
  */
 
-.Sortable.DataTable th {
+/*.Sortable.DataTable th {
     padding: 0;
 }
 
@@ -369,13 +369,13 @@ table tr.MasterAction {
     border-top-color: #DDD;
     border-right-color: #AAA;
     border-bottom-color: #999;
-}
+} */
 
 @media only screen and (min-width: 0px) and (max-width: 1024px) {
 
     .DynamicFieldDBContainer {
         margin: 5px;
     }
-}
+} 
 
 } /* end @media */

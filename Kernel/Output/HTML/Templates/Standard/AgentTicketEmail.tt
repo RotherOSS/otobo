@@ -55,24 +55,6 @@
 #                    </div>
 #                    <div class="Clear"></div>
 
-[% RenderBlockStart("TicketType") %]
-                    <label class="Mandatory" for="TypeID"><span class="Marker">*</span> [% Translate("Type") | html %]:</label>
-                    <div class="Field">
-                        [% Data.TypeStrg %]
-                        <div id="TypeIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                        <div id="TypeIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                    </div>
-                    <div class="Clear"></div>
-[% RenderBlockEnd("TicketType") %]
-
-                    <label class="Mandatory" for="Dest"><span class="Marker">*</span> [% Translate("From queue") | html %]:</label>
-                    <div class="Field">
-                        [% Data.FromStrg %]
-                        <div id="DestError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
-                        <div id="DestServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                    </div>
-                    <div class="Clear"></div>
-
                     <label for="ToCustomer" class="Mandatory"><span class="Marker">*</span>[% Translate("To customer user") | html %]:</label>
                     <div class="Field">
                         <input id="ToCustomer" type="text" name="ToCustomer" value="" class="CustomerAutoComplete W75pc [% Data.ToIsLocalAddress | html %] [% Data.ToInvalid | html %]" autocomplete="off" />
@@ -297,8 +279,28 @@
                     </div>
                     <div class="Clear"></div>
 
+[% IF !Config("Ticket::Frontend::AgentTicketEmail::CustomerIDReadOnly") %]
                     [% INCLUDE "CustomerCompany/TicketCustomerIDSelection.tt" Required = 0 Readonly = Config("Ticket::Frontend::AgentTicketEmail::CustomerIDReadOnly") %]
+[% END %]
 
+                    <div class="Clear"></div>
+
+[% RenderBlockStart("TicketType") %]
+                    <label class="Mandatory" for="TypeID"><span class="Marker">*</span> [% Translate("Type") | html %]:</label>
+                    <div class="Field">
+                        [% Data.TypeStrg %]
+                        <div id="TypeIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        <div id="TypeIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                    </div>
+                    <div class="Clear"></div>
+[% RenderBlockEnd("TicketType") %]
+
+                    <label class="Mandatory" for="Dest"><span class="Marker">*</span> [% Translate("From queue") | html %]:</label>
+                    <div class="Field">
+                        [% Data.FromStrg %]
+                        <div id="DestError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                        <div id="DestServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                    </div>
                     <div class="Clear"></div>
 
 [% RenderBlockStart("TicketService") %]

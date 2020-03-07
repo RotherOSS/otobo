@@ -1,7 +1,8 @@
+#!/usr/bin/perl
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -14,17 +15,22 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-[% BLOCK Recurse %]
-<ul style="display: none;">
-    [% FOREACH Item IN RecursionData.keys.sort %]
-        [% Matches = Item.match('[:]*(\w+)$'); %]
-        <li id="[% Item | html %]" [% IF RecursionData.$Item.Count == 0 %]data-jstree='{"disabled":true}'[% END %]>
-            [% Matches.0 | html %][% IF RecursionData.$Item.Count != 0 %] ([% RecursionData.$Item.Count | html %])[% END %]
-            [% IF RecursionData.$Item.size %]
-                [% INCLUDE Recurse RecursionData = RecursionData.$Item.Subitems %]
-            [% END %]
-        </li>
-    [% END %]
-</ul>
-[% END %]
-[% PROCESS Recurse RecursionData = Data.Tree %]
+use strict;
+use warnings;
+
+# use ../../ as lib location
+use FindBin qw($Bin);
+use lib "$Bin/../..";
+use lib "$Bin/../../Kernel/cpan-lib";
+use lib "$Bin/../../Custom";
+
+# 0=off;1=on;
+my $Debug = 1;
+
+use Kernel::System::Web::InterfaceMigrateFromOTRS();
+use Kernel::System::ObjectManager;
+
+local $Kernel::OM = Kernel::System::ObjectManager->new();
+
+my $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new( Debug => $Debug );
+$Interface->Run();

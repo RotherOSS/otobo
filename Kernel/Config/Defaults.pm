@@ -1904,6 +1904,16 @@ via the Preferences button after logging in.
         ],
     };
 
+    # specify Loader settings for the installer
+    $Self->{'Loader::Module::MigrateFromOTRS'}->{'000-Defaults'} = {
+        JavaScript => [
+            'Core.MigrateFromOTRS.js',
+        ],
+        CSS => [
+            'Core.MigrateFromOTRS.css',
+        ],
+    };
+
     return 1;
 }
 
