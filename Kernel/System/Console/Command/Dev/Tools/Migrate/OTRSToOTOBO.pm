@@ -709,7 +709,12 @@ sub _ChangeFileInfo {
             {
                 FileTyp => 'opm',
                 Search  => '<File Location\=\"(.*)\"\s.*\s.*\">.*<\/File>',
-                Change  => '<File Location="OTOBO_XXX" Permission="644" ></File>'
+                Change  => '<File Location="OTOBO_XXX" Permission="660" ></File>'
+            },
+            {
+                FileTyp => 'opm',
+                Search  => '<File Permission\=.*Location\=\"(.*)\"\s.*\">.*<\/File>',
+                Change  => '<File Location="OTOBO_XXX" Permission="660" ></File>'
             },
         ),
 
