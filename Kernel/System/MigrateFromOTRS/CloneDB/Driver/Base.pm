@@ -30,6 +30,8 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::DateTime',
+    'Kernel::System::MigrateFromOTRS::Base',
+    'Kernel::System::Cache',
 );
 
 =head1 NAME
@@ -100,6 +102,9 @@ sub SanityChecks {
         );
         return;
     }
+
+    my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
+    my $SkipTables = $MigrationBaseObject->DBSkipTables();
 
     # get OTOBO DB object
     my $TargetDBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -197,9 +202,9 @@ sub DataTransfer {
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # get log file location
-    my $LogFile = '/tmp/otrscopy.log';
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
+    my $SkipTables = $MigrationBaseObject->DBSkipTables();
 
     # file handle
     my $FH;
@@ -242,6 +247,17 @@ sub DataTransfer {
                 $TableExists = 1;
             }
             if ( $TableExists == 1 ) {
+
+                # Get info if this table is already migrated
+                my $CacheValue = $CacheObject->Get(
+                    Type  => 'OTRSMigration',
+                    Key   => 'MigrationStateDB'.$Table,
+                );
+
+                if ( $CacheValue ) {
+                    last OTOBOTABLES;
+                };
+
                 $TargetDBObject->Do( SQL  => "TRUNCATE TABLE $OTRSTable");
                 last OTOBOTABLES;
             } else {
@@ -265,7 +281,6 @@ sub DataTransfer {
         }
 
         # Set cache object with taskinfo and starttime to show current state in frontend
-        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
         my $DateTimeObject = $Kernel::OM->Create( 'Kernel::System::DateTime');
         my $Epoch = $DateTimeObject->ToEpoch();
 
@@ -278,6 +293,16 @@ sub DataTransfer {
                 StartTime   => $Epoch,
             },
         );
+
+        # Get info if this table is already migrated
+        my $CacheValue = $CacheObject->Get(
+            Type  => 'OTRSMigration',
+            Key   => 'MigrationStateDB'.$Table,
+        );
+
+        if ( $CacheValue ) {
+            next TABLES;
+        };
 
         # get a list of blob columns from OTOBO DB
         my $BlobColumnsRef = $Self->BlobColumnsList(
@@ -458,6 +483,13 @@ sub DataTransfer {
             );
         }
     }
+    # Set cache object if table is already copied
+    $CacheObject->Set(
+        Type  => 'OTRSMigration',
+        Key   => 'MigrationStateDB'.$Table,
+        Value => '1',
+    );
+
     return 1;
 }
 

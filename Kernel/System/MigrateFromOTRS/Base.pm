@@ -48,7 +48,7 @@ All migration functions.
 
 Don't use the constructor directly, use the ObjectManager instead:
 
-    my $MigraionBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
+    my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
 
 =cut
 
@@ -1392,6 +1392,17 @@ sub PackageMigrateIgnorePackages {
             },
         )
     );
+}
+
+sub DBSkipTables {
+    return {
+        communication_log => 1,
+        communication_log_obj_lookup => 1,
+        communication_log_object => 1,
+        communication_log_object_entry => 1,
+        cloud_service_config => 1,
+        web_upload_cache => 1,
+    };
 }
 
 sub CopyFileListfromOTRSToOTOBO {
