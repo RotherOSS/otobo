@@ -109,9 +109,6 @@ sub SanityChecks {
     # get OTOBO DB object
     my $TargetDBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # get skip tables settings / TODO: Need SkipTables?
-    my $SkipTables;
-
     # get a list of tables on OTRS DB
     my @Tables = $Self->TablesList(
         DBObject => $Param{OTRSDBObject},
@@ -209,9 +206,6 @@ sub DataTransfer {
     # file handle
     my $FH;
 
-    # get skip tables settings
-    my $SkipTables;
-
     # get OTOBO db object
     my $TargetDBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -251,7 +245,7 @@ sub DataTransfer {
                 # Get info if this table is already migrated
                 my $CacheValue = $CacheObject->Get(
                     Type  => 'OTRSMigration',
-                    Key   => 'MigrationStateDB'.$Table,
+                    Key   => 'MigrationStateDB'.$OTOBOTable,
                 );
 
                 if ( $CacheValue ) {
@@ -482,14 +476,13 @@ sub DataTransfer {
                 Table    => $Table,
             );
         }
+        # Set cache object if table is already copied
+        $CacheObject->Set(
+            Type  => 'OTRSMigration',
+            Key   => 'MigrationStateDB'.$Table,
+            Value => '1',
+        );
     }
-    # Set cache object if table is already copied
-    $CacheObject->Set(
-        Type  => 'OTRSMigration',
-        Key   => 'MigrationStateDB'.$Table,
-        Value => '1',
-    );
-
     return 1;
 }
 
