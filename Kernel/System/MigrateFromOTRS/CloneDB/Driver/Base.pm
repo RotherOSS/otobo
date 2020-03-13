@@ -104,7 +104,9 @@ sub SanityChecks {
     }
 
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
-    my $SkipTables = $MigrationBaseObject->DBSkipTables();
+
+    my $SkipTablesRef = $MigrationBaseObject->DBSkipTables();
+    my %SkipTables = %{$SkipTablesRef};
 
     # get OTOBO DB object
     my $TargetDBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -122,7 +124,7 @@ sub SanityChecks {
     TABLES:
     for my $Table (@Tables) {
 
-        if ( defined $SkipTables->{ lc $Table } && $SkipTables->{ lc $Table } ) {
+        if ( defined $SkipTables{ lc $Table } && $SkipTables{ lc $Table } ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'info',
                 Message  => "Skipping table $Table on SanityChecks.",
@@ -201,7 +203,9 @@ sub DataTransfer {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
-    my $SkipTables = $MigrationBaseObject->DBSkipTables();
+
+    my $SkipTablesRef = $MigrationBaseObject->DBSkipTables();
+    my %SkipTables = %{$SkipTablesRef};
 
     # file handle
     my $FH;
@@ -233,44 +237,49 @@ sub DataTransfer {
     OTRSTABLES:
     for my $OTRSTable (@Tables) {
 
-        # check if OTOBO Table exists, if yes drop table
+        # check if OTOBO Table exists, if yes delete table content
         my $TableExists = 0;
         OTOBOTABLES:
         for my $OTOBOTable (@OTOBOTables) {
+
             if ( $OTRSTable eq $OTOBOTable ) {
                 $TableExists = 1;
             }
+
             if ( $TableExists == 1 ) {
+#                # Get info if this table is already migrated
+#                my $CacheValue = $CacheObject->Get(
+#                    Type  => 'OTRSMigration',
+#                    Key   => 'MigrationStateDB'.$OTOBOTable,
+#                );
+#
+#                if ( $CacheValue ) {
+#                    last OTOBOTABLES;
+#                };
 
-                # Get info if this table is already migrated
-                my $CacheValue = $CacheObject->Get(
-                    Type  => 'OTRSMigration',
-                    Key   => 'MigrationStateDB'.$OTOBOTable,
-                );
-
-                if ( $CacheValue ) {
-                    last OTOBOTABLES;
-                };
-
-                $TargetDBObject->Do( SQL  => "TRUNCATE TABLE $OTRSTable");
+                $TargetDBObject->Do( SQL  => "TRUNCATE TABLE $OTOBOTable");
                 last OTOBOTABLES;
-            } else {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'notice',
-                    Message  => "Table $OTRSTable exists not in OTOBO, please copy this table later manualy.",
-                );
             }
+        }
+        if ( $TableExists == 0 ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'notice',
+                Message  => "Table $OTRSTable exists not in OTOBO, please copy this table later manualy.",
+            );
+            print STDERR "Table $OTRSTable exists not in OTOBO, please copy this table later manualy.\n";
+            $SkipTables{$OTRSTable} = 1;
         }
     }
 
     TABLES:
     for my $Table (@Tables) {
 
-        if ( defined $SkipTables->{ lc $Table } && $SkipTables->{ lc $Table } ) {
+        if ( defined $SkipTables{ lc $Table } && $SkipTables{ lc $Table } ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message  => "Skipping table $Table...",
             );
+            print STDERR "Skipping table $Table...\n";
             next TABLES;
         }
 
@@ -278,25 +287,26 @@ sub DataTransfer {
         my $DateTimeObject = $Kernel::OM->Create( 'Kernel::System::DateTime');
         my $Epoch = $DateTimeObject->ToEpoch();
 
-        $CacheObject->Set(
-            Type  => 'OTRSMigration',
-            Key   => 'MigrationState',
-            Value => {
-                Task        => 'OTOBODatabaseMigrate',
-                SubTask     => "Copy table: $Table",
-                StartTime   => $Epoch,
-            },
-        );
+#        $CacheObject->Set(
+#            Type  => 'OTRSMigration',
+#            Key   => 'MigrationState',
+#            Value => {
+#                Task        => 'OTOBODatabaseMigrate',
+#                SubTask     => "Copy table: $Table",
+#                StartTime   => $Epoch,
+#            },
+#        );
+        print STDERR "Copy table: $Table\n";
 
         # Get info if this table is already migrated
-        my $CacheValue = $CacheObject->Get(
-            Type  => 'OTRSMigration',
-            Key   => 'MigrationStateDB'.$Table,
-        );
-
-        if ( $CacheValue ) {
-            next TABLES;
-        };
+#        my $CacheValue = $CacheObject->Get(
+#            Type  => 'OTRSMigration',
+#            Key   => 'MigrationStateDB'.$Table,
+#        );
+#
+#        if ( $CacheValue ) {
+#            next TABLES;
+#        };
 
         # get a list of blob columns from OTOBO DB
         my $BlobColumnsRef = $Self->BlobColumnsList(
@@ -318,6 +328,53 @@ sub DataTransfer {
         my @Columns;
         push (@Columns, @{$ColumnRef});
 
+        # We need to check if all columns exists in both tables
+        my @ColumnsOTRS;
+        push (@ColumnsOTRS, @{$ColumnRef});
+
+        my $ColumnRefOTOBO = $Self->ColumnsList(
+            Table    => $Table,
+            DBName   => $ConfigObject->Get('Database'),
+            DBObject => $TargetDBObject,
+        ) || return;
+
+        my @ColumnsOTOBO;
+        push (@ColumnsOTOBO, @{$ColumnRefOTOBO});
+
+        # Remove all colums which in both systems exists.
+        # First we create a hash
+        my %TmpOTOBOHash = map { $_ => 1 } @ColumnsOTOBO;
+        # Remove if not exist in hash
+        @ColumnsOTRS = grep { ! exists $TmpOTOBOHash{$_} } @ColumnsOTRS;
+
+use Data::Dumper;
+print STDERR "ColumnsOTRS: ".Dumper(\@ColumnsOTRS)."\n";
+        # If true, we have more columns in OTRS table and we need to add the column to otobo
+        if ( IsArrayRefWithData(\@ColumnsOTRS) ) {
+
+            for my $Column ( @ColumnsOTRS ) {
+
+                my $ColumnInfos = $Self->GetColumnInfos(
+                    Table    => $Table,
+                    DBName   => $Param{DBInfo}->{DBName},
+                    DBObject => $Param{OTRSDBObject},
+                    Column   => $Column,
+                );
+print STDERR "ColumnInfos: ".Dumper($ColumnInfos)."\n";
+                my $TranslatedColumnInfos = $Self->TranslateColumnInfos(
+                    ColumnInfos => $ColumnInfos,
+                    DBType      => $TargetDBObject->{'DB::Type'},
+                );
+print STDERR "TranslatedColumnInfos: ".Dumper($TranslatedColumnInfos)."\n";
+                my $Result = $Self->AlterTableAddColumn(
+                    Table    => $Table,
+                    DBObject => $TargetDBObject,
+                    Column   => $Column,
+                    ColumnInfos => $TranslatedColumnInfos,
+                );
+print STDERR "Result: $Result\n";
+            }
+        }
 
         my $ColumnsString = join( ', ', @Columns );
         my $BindString    = join ', ', map {'?'} @Columns;
@@ -476,12 +533,12 @@ sub DataTransfer {
                 Table    => $Table,
             );
         }
-        # Set cache object if table is already copied
-        $CacheObject->Set(
-            Type  => 'OTRSMigration',
-            Key   => 'MigrationStateDB'.$Table,
-            Value => '1',
-        );
+#        # Set cache object if table is already copied
+#        $CacheObject->Set(
+#            Type  => 'OTRSMigration',
+#            Key   => 'MigrationStateDB'.$Table,
+#            Value => '1',
+#        );
     }
     return 1;
 }
