@@ -156,10 +156,6 @@ sub Run {
         }
     }
 
-    $CloneDBBackendObject->PopulateOTRSStructuresPost(
-        OTRSDBObject => $SourceDBObject,
-    );
-
     $Result{Message}    = $Self->{LanguageObject}->Translate( "Copy database." );
     $Result{Comment}    = $Self->{LanguageObject}->Translate( "Data transfer completed." );
     $Result{Successful} = 1;

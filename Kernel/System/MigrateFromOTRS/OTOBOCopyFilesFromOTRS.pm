@@ -67,7 +67,7 @@ sub Run {
     my $Success = 1;
 
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-    
+
     # Set cache object with taskinfo and starttime to show current state in frontend
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
     my $DateTimeObject = $Kernel::OM->Create( 'Kernel::System::DateTime');
@@ -152,6 +152,7 @@ sub Run {
         my $OTRSPathFile = $OTRS6path.$File;
 
         if ( $OTOBOPathFile =~ /Config\.pm/) {
+
             $OTOBODBParam{DatabaseHost} = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseHost');
             $OTOBODBParam{Database}     = $Kernel::OM->Get('Kernel::Config')->Get('Database');
             $OTOBODBParam{DatabaseUser} = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseUser');
@@ -166,19 +167,15 @@ sub Run {
             # We copy only the content, if OTRS exists on localhost, otherwise we move the content from tmp
             if ( -f $OTRSPathFile ) {
                 if ( $Param{OTRSData}->{OTRSLocation} eq 'localhost' ) {
-#                    $ExitCode = `cp $OTRSPathFile $OTOBOPathFile`;
                     $ExitCode = system( "cp $OTRSPathFile $OTOBOPathFile" );
                 } else {
-#                    $ExitCode = `mv $OTRSPathFile $OTOBOPathFile`;
                     $ExitCode = system( "mv $OTRSPathFile $OTOBOPathFile" );
                 }
 
             } elsif (-d $OTRSPathFile ) {
                 if ( $Param{OTRSData}->{OTRSLocation} eq 'localhost' ) {
-#                    $ExitCode = `cp -r $OTRSPathFile/* $OTOBOPathFile`;
                     $ExitCode = system( "cp -r $OTRSPathFile/* $OTOBOPathFile" );
                 } else {
-#                    $ExitCode = `mv $OTRSPathFile/* $OTOBOPathFile`;
                     $ExitCode = system( "mv $OTRSPathFile/* $OTOBOPathFile" );
                 }
             }

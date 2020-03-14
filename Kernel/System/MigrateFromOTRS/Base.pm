@@ -1401,7 +1401,9 @@ sub DBSkipTables {
         communication_log_object => 1,
         communication_log_object_entry => 1,
         cloud_service_config => 1,
+        article_data_otrs_chat => 1,
         web_upload_cache => 1,
+        sessions => 1,
     };
 }
 
