@@ -174,6 +174,7 @@ Core.MigrateFromOTRS = (function (TargetNS) {
     function DefTaskCallback(json) {
         // success
         if (parseInt(json.Successful, 10) === 1) {
+            ToggleAJAXLoader( 'ButtonDefTask', false );
             $('#ButtonDefTask').closest('.Field').hide();
             $('button[type="submit"]').removeAttr('disabled').removeClass('Disabled');
             $('fieldset.ErrorMsg').hide();
@@ -185,6 +186,7 @@ Core.MigrateFromOTRS = (function (TargetNS) {
         }
         // error
         else {
+            ToggleAJAXLoader( 'ButtonDefTask', false );
             $('#ResultMessage').html(json.Message);
             $('#ResultComment').html(json.Comment);
             $('fieldset.ErrorMsg').show();
@@ -205,6 +207,7 @@ Core.MigrateFromOTRS = (function (TargetNS) {
         // standard buttons
         // single task
         $('#ButtonDefTask').on('click', function() {
+            ToggleAJAXLoader( 'ButtonDefTask', true );
             var Data = Core.AJAX.SerializeForm( $(this).closest('form') );
             Core.AJAX.FunctionCall( Core.Config.Get('Baselink'), Data, DefTaskCallback );
         });
@@ -296,6 +299,36 @@ Core.MigrateFromOTRS = (function (TargetNS) {
             }
         });
 
+    }
+
+    /**
+     * @private
+     * @name ToggleAJAXLoader
+     * @memberof Core.MigrateFromOTRS
+     * @function
+     * @param {String} FieldID - Id of the field which is updated via ajax
+     * @param {Boolean} Show - Show or hide the AJAX loader image
+     * @description
+     *      Shows and hides an ajax loader for every element which is updates via ajax.
+     */
+    function ToggleAJAXLoader(FieldID, Show) {
+        var $Element = $('#' + FieldID),
+            AJAXLoaderPrefix = 'Loader',
+            $Loader = $('#' + AJAXLoaderPrefix + FieldID),
+            LoaderHTML = '<span id="' + AJAXLoaderPrefix + FieldID + '" class="AJAXLoader"></span>';
+
+        // Show or hide the loader
+        if ( Show ) {
+            if (!$Loader.length) {
+                $Element.after(LoaderHTML);
+            }
+            else {
+                $Loader.show();
+            }
+        }
+        else {
+            $Loader.hide();
+        }
     }
 
     /**
