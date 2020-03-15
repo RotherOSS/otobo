@@ -43,7 +43,14 @@ sub Configure {
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
     );
-
+    $Self->AddOption(
+        Name        => 'keeptype',
+        Description => 'Define the type of cache which should be NOT deleted (e.g. Ticket or StdAttachment).',
+        Required    => 0,
+	Multiple    => 1,
+        HasValue    => 1,
+        ValueRegex  => qr/.*/smx,
+    );
     return;
 }
 
@@ -51,8 +58,16 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my %Options;
-    $Options{Expired} = $Self->GetOption('expired');
-    $Options{Type}    = $Self->GetOption('type');
+    $Options{Expired}   = $Self->GetOption('expired');
+    $Options{Type}      = $Self->GetOption('type');
+    my @KeepTypes;
+
+    # Get keeptypes
+    KEEP:
+    for my $KeepType ( @{ $Self->GetOption('keeptype') // [] } ) {
+	push (@KeepTypes, $KeepType);
+    }
+    $Options{KeepTypes} = \@KeepTypes;
 
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
