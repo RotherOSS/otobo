@@ -124,7 +124,7 @@ Core.UI.Elasticsearch = (function (TargetNS) {
 
                     // open a new dialog, if it doesn't exist
                     if ( typeof $Dialog[0] == 'undefined' ) {
-                        OpenDialog();
+                        OpenDialog( Response );
                     }
 
                     // update the dialog
@@ -145,7 +145,7 @@ Core.UI.Elasticsearch = (function (TargetNS) {
      * @description
      *      Opens the Elasticsearch quick result dialog.
      */
-    function OpenDialog() {
+    function OpenDialog( Response ) {
 
         var CustomerInterface = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName');
 
