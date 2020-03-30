@@ -530,14 +530,14 @@ sub Run {
             Data           => \%DynamicFieldAcl,
         );
         if ( $ACLResult ) {
-            %Visibility = map { 'DynamicField_'.$_->{Name} => 0 } @{ $Self->{DynamicField} };
+            %Visibility = map { 'DynamicField_'.$_->{Name} => 0 } @{ $DynamicField };
             my %AclData = $TicketObject->TicketAclData();
             for my $Field ( keys %AclData ) {
                 $Visibility{ 'DynamicField_'.$Field } = 1;
             }
         }
         else {
-            %Visibility = map { 'DynamicField_'.$_->{Name} => 1 } @{ $Self->{DynamicField} };
+            %Visibility = map { 'DynamicField_'.$_->{Name} => 1 } @{ $DynamicField };
         }
 
         # create html strings for all dynamic fields

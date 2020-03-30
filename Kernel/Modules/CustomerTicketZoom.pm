@@ -649,7 +649,7 @@ sub Run {
         # skip validation of hidden fields
         my %Visibility;
         # transform dynamic field data into DFName => DFName pair
-        my %DynamicFieldAcl = map { $_->{Name} => $_->{Name} } @{ $Self->{DynamicField} };
+        my %DynamicFieldAcl = map { $_->{Name} => $_->{Name} } @{ $FollowUpDynamicField };
         # call ticket ACLs for DynamicFields to check field visibility
         my $ACLResult = $TicketObject->TicketAcl(
             %GetParam,
@@ -658,18 +658,17 @@ sub Run {
             ReturnType     => 'Form',
             ReturnSubType  => '-',
             Data           => \%DynamicFieldAcl,
-            UserID         => $Self->{UserID},
             TicketID       => $Self->{TicketID},
         );
         if ( $ACLResult ) {
-            %Visibility = map { 'DynamicField_'.$_->{Name} => 0 } @{ $Self->{DynamicField} };
+            %Visibility = map { 'DynamicField_'.$_->{Name} => 0 } @{ $FollowUpDynamicField };
             my %AclData = $TicketObject->TicketAclData();
             for my $Field ( keys %AclData ) {
                 $Visibility{ 'DynamicField_'.$Field } = 1;
             }
         }
         else {
-            %Visibility = map { 'DynamicField_'.$_->{Name} => 1 } @{ $Self->{DynamicField} };
+            %Visibility = map { 'DynamicField_'.$_->{Name} => 1 } @{ $FollowUpDynamicField };
         }
 
         # create html strings for all dynamic fields
