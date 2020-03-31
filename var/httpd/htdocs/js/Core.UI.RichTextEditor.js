@@ -45,7 +45,17 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      * @description
      *      Object to handle timeout.
      */
-        TimeOutRTEOnChange;
+        TimeOutRTEOnChange,
+    
+    /**
+     * @private
+     * @name CustomerInterface
+     * @memberof Core.UI.RichTextEditor
+     * @member {Object}
+     * @description
+     *      Whether we are in the CustomerInterface.
+     */
+        CustomerInterface = ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') );
 
     /**
      * @private
@@ -272,11 +282,17 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             CKEDITOR.instances[EditorID].on('blur', function () {
                 CKEDITOR.instances[EditorID].updateElement();
                 Core.Form.Validate.ValidateElement($EditorArea);
+                if ( CustomerInterface ) {
+                    $('label[for="RichText"].LabelError').show();
+                }
             });
 
             // needed for client-side validation
             CKEDITOR.instances[EditorID].on('focus', function () {
 
+                if ( CustomerInterface ) {
+                    $('label[for="RichText"]').hide();
+                }
                 Core.App.Publish('Event.UI.RichTextEditor.Focus', [Editor]);
 
                 if ($EditorArea.attr('class').match(/Error/)) {
@@ -288,11 +304,23 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 }
             });
 
+            // move the label if needed
+            if ( CustomerInterface ) {
+                var ToolBarHeight = $('#cke_1_top').outerHeight(true) + 32;
+                $('label[for="RichText"]').css( 'top', ToolBarHeight + 'px' );
+
+                $(window).on('resize', function () {
+                    ToolBarHeight = $('#cke_1_top').outerHeight(true) + 32;
+                    $('label[for="RichText"]').css( 'top', ToolBarHeight + 'px' );
+                });
+            }
+
             // mainly needed for client-side validation
-            $EditorArea.focus(function () {
-                TargetNS.Focus($EditorArea);
-                Core.UI.ScrollTo($("label[for=" + $EditorArea.attr('id') + "]"));
-            });
+            // TODO: not always wanted - disabled for otobo
+            //$EditorArea.focus(function () {
+            //    TargetNS.Focus($EditorArea);
+            //    Core.UI.ScrollTo($("label[for=" + $EditorArea.attr('id') + "]"));
+            //});
         }
     };
 

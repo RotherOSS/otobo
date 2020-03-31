@@ -17,7 +17,60 @@
 <li class="[% Data.SenderType | html %]-[% Data.IsVisibleForCustomer | html %] [% Data.Class | html %]">
     <div class="MessageHeader">
         <h3 class="oooSender">[% Data.FromRealname | html %]</h3>
-        <p class="oooAge ooo10g">[% Data.Age %]</p>
+        [% IF Data.Attachments && Data.Attachments.size %]
+            <p class="oooAttButton ooog">
+                <i class="fa fa-paperclip"></i>
+            </p>
+            <div class="oooAttachments oooWidget">
+                <div class="oooSection">
+                    <h3>[% Translate('Attachments') %]</h3>
+                    <i class='ooofo ooofo-close oooClose'></i>
+                    [% FOREACH Attachment IN Data.Attachments %]
+                    <div>
+                        <i class="fa fa-paperclip ooo12g"></i>
+                        <span class="DownloadAttachment ooo12" title="[% Attachment.Filename | html %][% IF Attachment.FilesizeRaw %] - [% Attachment.FilesizeRaw | Localize('Filesize') | html %][% END %]">
+                            <a href="[% Attachment.Link %]" [% Attachment.Target %] title="[% Translate(Attachment.Action) | html %]">[% Attachment.Filename | html %]</a>
+                            [% IF Attachment.FilesizeRaw %]
+                                ([% Attachment.FilesizeRaw | Localize('Filesize') | html %])
+                            [% END %]
+                        </span>
+                    </div>
+                    [% END %]
+                </div>
+            </div>
+        [% END %]
+        <div class="oooSupplement">
+            <p class="oooAge ooo10g">[% Data.Age %]</p>
+            [% IF Data.ArticleMetaFields && Data.ArticleMetaFields.size %]
+                <p class="oooInfoButton ooo12">
+                    <i class="ooofo ooofo-info"></i>
+                </p>
+                <div class="oooInfoBox oooWidget">
+                    <div class="oooSection">
+                        <h3>[% Translate('Article Information') %]</h3>
+                        <i class='ooofo ooofo-close oooClose'></i>
+                        [% FOREACH ArticleField IN Data.ArticleMetaFields %]
+                        <!-- show accounted time and dynamic fields -->
+                        <p class='ooo12'><span class='ooo12g'>[% Translate(ArticleField.value.Label) | html %]:</span>
+                        [% IF ArticleField.value.Link %]
+                            <a href="[% ArticleField.value.Link | Interpolate %]"
+                                [% IF ArticleField.value.LinkPreview %] data-trigger="floater" data-floater-url="[% ArticleField.value.LinkPreview | Interpolate %]"[% END %]
+                                target="_blank" class="DynamicFieldLink">
+                                    [% ArticleField.value.Value %]
+                            </a>
+                        [% ELSE %]
+                            [% ArticleField.value.Value %]
+                        [% END %]
+                        </p>
+                        [% END %]
+                    </div>
+                </div>
+            [% END %]
+# TODO: Add article replies.
+#            <p class="oooReplyButton ooo12">
+#                <i class="ooofo ooofo-arrow_r2"></i>
+#            </p>
+        </div>
         <h3 class="oooSubject">[% Data.ArticleFields.Subject.Value | html %]</h3>
         [% FOREACH ArticleField IN Data.ArticleFields.values.nsort("Prio") %]
           [% IF ArticleField.Label == "To" || ArticleField.Label == "Cc" %]
@@ -26,41 +79,6 @@
           [% END %]
         [% END %]
     </div>
-    [% IF Data.Attachments && Data.Attachments.size %]
-    <div class="Attachments">
-        <div class="Label">[% Translate("Attachments") | html %]:</div>
-      [% FOREACH Attachment IN Data.Attachments %]
-        <div>
-            <i class="fa fa-paperclip"></i>
-            <span class="DownloadAttachment" title="[% Attachment.Filename | html %][% IF Attachment.FilesizeRaw %] - [% Attachment.FilesizeRaw | Localize('Filesize') | html %][% END %]">
-                <a href="[% Attachment.Link %]" [% Attachment.Target %] title="[% Translate(Attachment.Action) | html %]">[% Attachment.Filename | html %]</a>
-                [% IF Attachment.FilesizeRaw %]
-                    ([% Attachment.FilesizeRaw | Localize('Filesize') | html %])
-                [% END %]
-            </span>
-        </div>
-        <div class="Clear"></div>
-      [% END %]
-#        [% FOREACH ArticleField IN Data.ArticleMetaFields %]
-#            <div>
-#                <!-- show accounted time and dynamic fields -->
-#                <div class="Label">[% Translate(ArticleField.value.Label) | html %]:</div>
-#                [% IF ArticleField.value.Link %]
-#                    <span class="Value" title="[% ArticleField.value.Title %]">
-#                        <a href="[% ArticleField.value.Link | Interpolate %]"
-#                            [% IF ArticleField.value.LinkPreview %] data-trigger="floater" data-floater-url="[% ArticleField.value.LinkPreview | Interpolate %]"[% END %]
-#                            target="_blank" class="DynamicFieldLink">
-#                                [% ArticleField.value.Value %]
-#                        </a>
-#                    </span>
-#                [% ELSE %]
-#                    <span class="Value" title="[% ArticleField.value.Title %]">[% ArticleField.value.Value %]</span>
-#                [% END %]
-#                <div class="Clear"></div>
-#            </div>
-#        [% END %]
-    </div>
-    [% END %]
     <hr>
     <div class="MessageBody">
         <div class="Details SeperatorRow">

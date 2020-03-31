@@ -1588,15 +1588,18 @@ Core.UI.InputFields = (function (TargetNS) {
                                 ErrorTooltipPosition = 'TongueTop';
                             }
 
-                            if ($SelectObj.hasClass(Config.ErrorClass)) {
-                                Core.Form.ErrorTooltips.ShowTooltip(
-                                    $SearchObj, $('#' + Core.App.EscapeSelector($SelectObj.attr('id')) + Config.ErrorClass).html(), ErrorTooltipPosition
-                                );
-                            }
-                            if ($SelectObj.hasClass(Config.ServerErrorClass)) {
-                                Core.Form.ErrorTooltips.ShowTooltip(
-                                    $SearchObj, $('#' + Core.App.EscapeSelector($SelectObj.attr('id')) + Config.ServerErrorClass).html(), ErrorTooltipPosition
-                                );
+                            // TODO: for the time being don't show error tooltips in the CustomerInterface
+                            if ( Config.CustomerInterface === false ) {
+                                if ($SelectObj.hasClass(Config.ErrorClass)) {
+                                    Core.Form.ErrorTooltips.ShowTooltip(
+                                        $SearchObj, $('#' + Core.App.EscapeSelector($SelectObj.attr('id')) + Config.ErrorClass).html(), ErrorTooltipPosition
+                                    );
+                                }
+                                if ($SelectObj.hasClass(Config.ServerErrorClass)) {
+                                    Core.Form.ErrorTooltips.ShowTooltip(
+                                        $SearchObj, $('#' + Core.App.EscapeSelector($SelectObj.attr('id')) + Config.ServerErrorClass).html(), ErrorTooltipPosition
+                                    );
+                                }
                             }
                         }
                     }

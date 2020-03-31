@@ -155,6 +155,12 @@ label {
     color: #7f809d;
 }
 
+label[for='RichText'] {
+    display: inline-block;
+    vertical-align: top;
+    top: 98px;
+}
+
 /* 
  * colors and label repositioning
  */
@@ -302,10 +308,6 @@ label.oooFocus.LabelError {
     left: -1px;
     top: -1px;
 }*/
-
-.RichTextHolder > label {
-    top: -8px;
-}
 
 /* Checkboxes & Date */
 .Row > div.Field.oooDateContainer,

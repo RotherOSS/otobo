@@ -87,16 +87,34 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     
     #oooArticleList > li {
         height: 66px;
-        margin-left: 56px;
+        padding-left: 32px;
+    }
+
+    #oooArticleList > li.oooActive {
+        background-color: #ffffff;
+    }
+
+    #oooArticleList > li.oooActive > hr,
+    #oooArticleList > li.oooActive + li > hr {
+        position: relative;
+        left: -32px;
+        width: calc( 100% + 32px );
+        margin-left: 0px;
     }
 
     #oooArticleList > li > hr {
         background-color: #f7f7f9;
         height: 1.5px;
+        margin-left: 24px;
     }
 
     #oooArticleList > li:first-child > hr {
         display: none;
+    }
+
+    #oooArticleList .oooAttach {
+        display: inline-block;
+        width: 24px;
     }
 
     #oooArticleList .oooSender {
@@ -115,6 +133,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         margin-right: 56px;
     }
 
+    #oooArticleList .oooSubject {
+        margin-left: 24px;
+    }
 }
 
 @media only screen and (max-width: 1023px) {
@@ -139,6 +160,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 #oooArticleListExpanded > li > hr {
+    margin-top: 16px;
     margin-left: 56px;
     background-color: #f7f7f9;
     height: 1px;
@@ -154,10 +176,45 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     text-align: left;
 }
 
-.MessageHeader > .oooAge {
-    display: inline-block;
+.MessageHeader > .oooSupplement {
     text-align: right;
     float: right;
+}
+
+.MessageHeader .oooAge,
+.MessageHeader .oooAttButton,
+.MessageHeader .oooInfoButton,
+.MessageHeader .oooReplyButton {
+    display: inline-block;
+    margin-left: 8px;
+}
+
+.MessageHeader .oooInfoButton,
+.MessageHeader .oooReplyButton {
+    cursor: pointer;
+    position: relative;
+    top: 1px;
+}
+
+.MessageHeader .oooReplyButton {
+    color: #0000fc;
+}
+
+.MessageHeader .oooAttButton {
+    cursor: pointer;
+    position: relative;
+}
+
+.MessageHeader .oooAttachments,
+.MessageHeader .oooInfoBox {
+    display: none;
+    position: absolute;
+    z-index: 800;
+}
+
+.MessageHeader .oooInfoBox {
+    right: 40px;
+    text-align: left;
 }
 
 /*.MessageHeader > span {
