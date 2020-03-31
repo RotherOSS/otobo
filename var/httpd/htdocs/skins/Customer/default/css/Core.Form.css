@@ -308,19 +308,12 @@ table.AttachmentList tr {
     height: 48px;
 }
 
-table.AttachmentList tr:nth-child(2) {
+table.AttachmentList tr:nth-child(even) {
     background-color: #fafafc;
 }
 
 table.AttachmentList td {
     vertical-align: middle;
-    font-size: 12px;
-    font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.5;
-    letter-spacing: 0.3px;
-    color: #bfbfce;
     padding-left: 8px;
 }
 
@@ -330,7 +323,7 @@ table.AttachmentList .Filetype {
 }
 
 table.AttachmentList .Filename {
-    width: calc( 75% - 72px );
+    width: calc( 75% - 45px );
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -345,7 +338,7 @@ table.AttachmentList .Progress {
 }
 
 table.AttachmentList .Filesize {
-    width: calc( 25% - 72px );
+    width: calc( 25% - 43px );
     text-align: right;
 }
 
@@ -353,8 +346,41 @@ table.AttachmentList .Filesize {
 table.AttachmentList .Center,
 table.AttachmentList .Delete {
     vertical-align: middle;
-    color: #bfbfce;
+    /*color: #bfbfce;*/
     width: 16px;
     padding-right: 16px;
     font-size: 16px;
 }
+
+table.AttachmentList i {
+    position: relative;
+    top: 1px;
+}
+
+table.AttachmentList > .oooRetracted > tr:not( .oooToggleML ):not( :nth-child(-n+2) ) {
+    display: none;
+}
+
+table.AttachmentList .ToggleML {
+    border-radius: 0px 0px 10px 10px;
+}
+
+table.AttachmentList > .oooRetracted .ToggleML {
+    background-color: #f7f7f9;
+}
+
+table.AttachmentList .oooMore,
+table.AttachmentList .oooLess {
+    cursor: pointer;
+    text-align: center;
+    margin-left: calc(33.33% + 20px);
+}
+
+table.AttachmentList > .oooRetracted .oooLess {
+    display: none;
+}
+
+table.AttachmentList > tbody:not( .oooRetracted ) .oooMore {
+    display: none;
+}
+
