@@ -236,7 +236,8 @@ Core.UI.Dialog = (function (TargetNS) {
 
         DialogHTML = '<div class="Dialog">';
         if (!Params.HideHeader) {
-            DialogHTML += '<div class="Header"><a class="Close" title="' + Core.Language.Translate('Close this dialog') + '" href="#"><i class="fa fa-times"></i></a></div>';
+            var CloseIcon = CustomerInterface ? 'ooofo ooofo-close' : 'fa fa-times';
+            DialogHTML += '<div class="Header"><a class="Close" title="' + Core.Language.Translate('Close this dialog') + '" href="#"><i class="' + CloseIcon + '"></i></a></div>';
         }
         DialogHTML += '<div class="Content"></div>';
         if (!Params.HideFooter) {
@@ -405,7 +406,7 @@ Core.UI.Dialog = (function (TargetNS) {
                 Type: 'Close',
                 Function: Params.OnClose
             }];
-            $Content.append('<div class="Center Spacing"><button type="button" id="DialogButton1" class="CallForAction Close"><span>' + Core.Language.Translate('OK') + '</span></button></div>');
+            $Content.append('<div class="Center Spacing"><button type="button" id="DialogButton1" class="CallForAction Close oooS"><span>' + Core.Language.Translate('OK') + '</span></button></div>');
         }
         // Define different other types here...
         else if (Params.Type === 'Search') {
@@ -469,10 +470,18 @@ Core.UI.Dialog = (function (TargetNS) {
 
         // Set position for Dialog
         if (Params.Type === 'Alert') {
-            $Dialog.css({
-                top: $(window).scrollTop() + ($(window).height() * 0.3),
-                left: Math.round(($(window).width() - $Dialog.width()) / 2)
-            });
+            if ( CustomerInterface ) {
+                $Dialog.css({
+                    top: $(window).height() * 0.2,
+                    left: Math.round(($(window).width() - $Dialog.width()) / 2)
+                });
+            }
+            else {
+                $Dialog.css({
+                    top: $(window).scrollTop() + ($(window).height() * 0.3),
+                    left: Math.round(($(window).width() - $Dialog.width()) / 2)
+                });
+            }
         }
 
         if (typeof Params.PositionTop !== 'undefined') {

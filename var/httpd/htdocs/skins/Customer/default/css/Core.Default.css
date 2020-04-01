@@ -126,3 +126,10 @@ button.oooXS {
     font-size: 12px;
     letter-spacing: 0.3px;
 }
+
+/**
+ * @subsection  Text
+ */
+.Center {
+    text-align: center;
+}

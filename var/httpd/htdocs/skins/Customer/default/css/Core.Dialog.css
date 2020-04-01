@@ -53,50 +53,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 /*    cursor: move;*/
     display: block;
     position: relative;
-    padding-top: 24px;@media only screen and (min-width: 1025px) {
-
-    html.NoScroll,
-    html.NoScroll body {
-        height: 100%;
-        overflow: hidden;
-    }
-
-    /*
-     * @subsection Responsive classes
-     */
-    .ScreenXL {
-        display: block;
-    }
-
-    .SmallerOrEqualScreenXL {
-        display: block;
-    }
-
-    .ScreenL, .ScreenM, .ScreenS, .ScreenXS,
-    .SmallerOrEqualScreenL, .SmallerOrEqualScreenM,
-    .SmallerOrEqualScreenS, .SmallerOrEqualScreenXS {
-        display: none;
-    }
-
-    /*
-     * @subsection Responsive footer classes
-     * @description Used to determinethe active screen size in JavaScript
-     */
-    #ResponsiveFooter .Visible-ScreenXL {
-        display: block;
-    }
-
-    #ResponsiveFooter .Visible-ScreenL,
-    #ResponsiveFooter .Visible-ScreenM,
-    #ResponsiveFooter .Visible-ScreenS,
-    #ResponsiveFooter .Visible-ScreenXS {
-        display: none;
-    }
-
-    #ResponsiveNavigationHandle {
-        display: none;
-    }
-}
+    padding-top: 24px;
 }
 
 .Dialog > .Header .Close {
@@ -114,6 +71,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     padding: 0px 32px 16px 32px;
 }
 
+.Dialog > .Header .ooofo {
+    position: relative;
+    top: 1px;
+}
+
 .Dialog > .Content {
     overflow: hidden;
     padding: 0px;
@@ -126,6 +88,31 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .Dialog > .Footer {
     display: none;
+}
+
+/**
+ * subsection       Alert
+ */
+
+.Dialog.Alert .InnerContent .fa {
+    display: block;
+    font-size: 25px;
+    text-align: center;
+    color: #ea2400;
+    margin-bottom: 8px;
+}
+
+.Dialog.Alert p {
+    text-align: center;
+    margin-left: 32px;
+    margin-right: 32px;
+}
+
+.Dialog.Alert {
+    width: 450px;
+    top: 100px;
+    left: 300px;
+    margin-bottom: 8px;
 }
 
 /* Table */
@@ -144,6 +131,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .Dialog td {
     padding-left: 16px;
     height: 32px;
+    max-width: 400px;
     vertical-align: middle;
 
     white-space: nowrap;

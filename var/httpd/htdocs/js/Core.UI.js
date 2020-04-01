@@ -565,7 +565,7 @@ Core.UI = (function (TargetNS) {
                 CGIHandle = Core.Config.Get('CGIHandle'),
                 SessionToken = '',
                 SessionName,
-                Customer = /^Customer/.test( Core.Config.Get('Action') );
+                Customer = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName');
 
             if (!FormID || !SelectedFiles || !$DropObj || !ChallengeToken) {
                 return false;
@@ -868,7 +868,7 @@ Core.UI = (function (TargetNS) {
                     ObjectID: $(this).data('object-id'),
                     FieldID: $(this).data('field-id'),
                 },
-                Customer = /^Customer/.test( Core.Config.Get('Action') );
+                Customer = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName');
 
             $TriggerObj.closest('.AttachmentListContainer').find('.Busy').fadeIn();
 
@@ -913,7 +913,7 @@ Core.UI = (function (TargetNS) {
         $('input[type=file].AjaxDnDUpload').each(function() {
 
             var IsMultiple = ($(this).attr('multiple') == 'multiple'),
-                Customer = /^Customer/.test( Core.Config.Get('Action') ),
+                Customer = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName'),
                 UploadContainer = Core.Template.Render('AjaxDnDUpload/UploadContainer', {
                     'IsMultiple': IsMultiple,
                     'Customer'  : Customer
