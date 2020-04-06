@@ -414,8 +414,8 @@ div.InputField_ToolbarContainer {
     display: none;
 }
 
-div.InputField_Selection {
-    display: none;
+div.InputField_Selection,
+div.InputField_More {
     position: absolute;
     top: 13px;
     height: 32px;
@@ -425,7 +425,14 @@ div.InputField_Selection {
     background-color: #f7f7f9;
 	width: auto;
 }
-div.InputField_Selection > div {
+
+div.InputField_Selection {
+    display: none;
+}
+
+div.InputField_Selection > div,
+div.InputField_More > a,
+div.InputField_More > div {
     font-size: 12px;
     font-weight: 500;
     height: 32px;
@@ -437,14 +444,18 @@ div.InputField_Selection > div {
     color: #7f809d;
     width: auto;
 }
+
 div.InputField_Selection > .Remove {
     padding-bottom: 2px;
 }
 
-.InputField_Selection > div {
+.InputField_Selection > div,
+.InputField_More > div {
     display: inline-block;
 }
-.InputField_Selection > .Remove {
+
+.InputField_Selection > .Remove,
+.InputField_More > a {
     margin-left: 8px;
 }
 

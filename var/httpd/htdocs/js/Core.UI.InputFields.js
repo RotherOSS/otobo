@@ -647,19 +647,36 @@ Core.UI.InputFields = (function (TargetNS) {
 
                         // Check if we already displayed more box
                         if (!MoreBox) {
-                            $SelectionObj.after(
-                                $('<div />').addClass('InputField_More')
-                                .css(
-                                    ($('body').hasClass('RTL') ? 'right' : 'left'),
-                                    OffsetLeft + 'px'
-                                )
-                                .text(
-                                    Core.Language.Translate("and %s more...").replace(/%s/, SelectionLength - i)
-                                )
-                                .on('click.InputField', function () {
-                                    $SearchObj.trigger('focus');
-                                })
-                            );
+                            if ( Config.CustomerInterface === true ) {
+                                $SelectionObj.after(
+                                    $('<div />').addClass('InputField_More')
+                                    .css(
+                                        ($('body').hasClass('RTL') ? 'right' : 'left'),
+                                        OffsetLeft + 'px'
+                                    )
+                                    .html(
+                                        '<div class="Text">' + Core.Language.Translate("and %s more...").replace(/%s/, SelectionLength - i) + '</div>'
+                                    )
+                                    .on('click.InputField', function () {
+                                        $SearchObj.trigger('focus');
+                                    })
+                                );
+                            }
+                            else {
+                                $SelectionObj.after(
+                                    $('<div />').addClass('InputField_More')
+                                    .css(
+                                        ($('body').hasClass('RTL') ? 'right' : 'left'),
+                                        OffsetLeft + 'px'
+                                    )
+                                    .text(
+                                        Core.Language.Translate("and %s more...").replace(/%s/, SelectionLength - i)
+                                    )
+                                    .on('click.InputField', function () {
+                                        $SearchObj.trigger('focus');
+                                    })
+                                );
+                            }
                             MoreBox = true;
                         }
 
@@ -678,7 +695,12 @@ Core.UI.InputFields = (function (TargetNS) {
             });
 
             if (Multiple && MoreBox) {
-                $SelectionFilterObj = $('<a />').appendTo($InputContainerObj);
+                if ( Config.CustomerInterface === true ) {
+                    $SelectionFilterObj = $('<a />').appendTo( $(".InputField_More", $InputContainerObj) );
+                }
+                else {
+                    $SelectionFilterObj = $('<a />').appendTo($InputContainerObj);
+                }
                 $SelectionFilterObj.addClass('InputField_Action InputField_SelectionFilter')
                     .attr('href', '#')
                     .attr('title', Core.Language.Translate('Show current selection'))
@@ -706,6 +728,13 @@ Core.UI.InputFields = (function (TargetNS) {
                                     setTimeout(function () {
                                         $SearchObj.focus();
                                     }, 0);
+
+                                    if ( Config.CustomerInterface === true ) {
+                                        setTimeout(function () {
+                                            $SelectObj.data('filtered', 0);
+                                            ApplyFilter($SelectObj, null);
+                                        }, 5);
+                                    }
                                     return true;
                                 }
                             });
