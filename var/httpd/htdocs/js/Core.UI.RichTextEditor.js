@@ -168,6 +168,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     + '=' + Core.Config.Get('SessionID');
         }
 
+        var ToolbarConfig = CustomerInterface ?
+                                $EditorArea.width() < 454 ? Core.Config.Get('RichText.ToolbarMini') :
+                                $EditorArea.width() < 622 ? Core.Config.Get('RichText.ToolbarMidi') :
+                                CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage') :
+                            CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage');
+                                
         // set default editor config, but allow custom config for other types for editors
         /*eslint-disable camelcase */
         EditorConfig = {
@@ -186,7 +192,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             enterMode: CKEDITOR.ENTER_BR,
             shiftEnterMode: CKEDITOR.ENTER_BR,
             contentsLangDirection: Core.Config.Get('RichText.TextDir', 'ltr'),
-            toolbar: CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage'),
+            toolbar: ToolbarConfig,
             filebrowserBrowseUrl: '',
             filebrowserUploadUrl: UploadURL,
             extraPlugins: 'splitquote,preventimagepaste,contextmenu_linkopen',

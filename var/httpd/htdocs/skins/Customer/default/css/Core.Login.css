@@ -13,6 +13,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+#oooMobileHeader,
 #oooFooter {
     display: none;
 }
@@ -34,18 +35,34 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         top 0;
         left: 0;
         width: 100vw;
-        min-width: 358px;
+        min-width: 320px;
         height: 100vh;
         min-height: 768px;
         padding: 0px;
         border-bottom-right-radius: 20px;
         background-color: #ffffff;
+        overflow: hidden;
     }
 
 	#Slider {
     	min-height: calc( 692px - 10% );
 	}
 
+    @media only screen and (min-width: 448px) {
+
+        #Slider {
+            max-width: calc( 50% + 128px );
+        }
+
+        #Slider,
+        .SuccessBox > p,
+        .WarningBox > p,
+        .ErrorBox > p {
+            margin-left: calc( 25% - 112px );
+            margin-right: calc( 25% - 112px );
+        }
+    
+    }
 }
 
 @media only screen and (min-width: 1024px) {
@@ -119,18 +136,18 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 @media only screen and (min-width: 1280px) {
 
-    .Row {
-        width: calc( 72.5% + 96.8px );
-        margin-left: calc( 13.75% - 48.4px );
+    #Slider {
+        max-width: calc( 50% + 128px );
     }
 
+    #Slider,
     .SuccessBox > p,
     .WarningBox > p,
     .ErrorBox > p {
-        margin-left: calc( 13.75% - 48.4px );
-        margin-right: calc( 13.75% - 48.4px );
+        margin-left: calc( 25% - 112px );
+        margin-right: calc( 25% - 112px );
     }
-    
+
 }
 
 #NoJavaScript,
@@ -168,7 +185,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .SuccessBox > p,
 .WarningBox > p,
 .ErrorBox > p {
-    margin-left: calc( 13.75% - 48.4px );
     border-radius: 10px;
     padding: 16px;
     text-overflow: ellipsis;

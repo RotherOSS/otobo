@@ -20,7 +20,10 @@
 [% InsertTemplate("Copyright.tt") %]
 [% InsertTemplate("CustomerHTMLHead.tt") %]
 <body class="NoJavaScript [% Data.BodyClass | html %]">
-<h3 id="oooMobileHeader">Mobile layout coming soon...</h3>
+<div id="oooMobileHeader">
+    <i id='oooMobileMenu' class='ooofo ooofo-menu'></i>
+    <img id="oooMobileSignet" src="/otobo-web/skins/Customer/default/img/otobo_signet_w.svg">
+</div>
 #<!-- start CI layout -->
 #    <div id="Header">
 #[% RenderBlockStart("HeaderLogo") %]

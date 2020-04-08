@@ -151,12 +151,15 @@ Core.UI.Elasticsearch = (function (TargetNS) {
 
         // define and open the dialog for the customer interface
         if ( CustomerInterface ) {
-            var HTML          = "<div id='oooESOuter' style='min-width: 400px'>" + Response + "</div>";
-            var PosRight      = $(window).width() > 520 ? '120px' : '0px';
+            var MinWidth      = $(window).width() > 767 ? '400px' : '320px';
+            var Fullsize      = $(window).width() > 767 ? '' : 'width: 100vw;';
+            var HTML          = "<div id='oooESOuter' style='" + Fullsize + "min-width: " + MinWidth + "'>" + Response + "</div>";
+            var PosRight      = $(window).width() > 767 ? '120px' : '0px';
+            var PosTop        = $(window).width() > 767 ? '120px' : '192px';
             var DialogOptions = {
                 HTML: HTML,
                 Title: Core.Language.Translate('Results'),
-                PositionTop: '120px',
+                PositionTop: PosTop,
                 PositionRight: PosRight,  
                 Modal: true,
                 CloseOnClickOutside: false,
@@ -165,6 +168,12 @@ Core.UI.Elasticsearch = (function (TargetNS) {
             }; 
 
             Core.UI.Dialog.ShowDialog( DialogOptions );
+
+            if ( $(window).width() < 768 ) {
+                // move the overlay to keep access to the input field
+                $('#Overlay').css('top','201.5px');
+            }
+
         }
         
         // define and open the dialog for the agent interface

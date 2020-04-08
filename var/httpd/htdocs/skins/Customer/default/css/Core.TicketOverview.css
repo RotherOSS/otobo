@@ -13,38 +13,119 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-#oooHeader {
-    position: sticky;
-    top: 0;
-    height: 145px;
-    background-color: #ffffff;
-    border-bottom: 1.2px solid #e5e5eb;
+@media only screen and (max-width: 767px) {
 
-    display: grid;
-    /* text / ticket search / new ticket button */
-    grid-template-columns: 1fr auto auto;
-    grid-template-rows: 100%;
-    align-items: center;
+    #oooHeader {
+        padding: 0px 16px 24px 16px;
+        border-radius: 20px 20px 0px 0px;
+        border-bottom: 0.6px solid #e5e5eb;
+        height: 121px;
+
+        /* text / ticket search */
+        grid-template-columns: 100%;
+        grid-template-rows: 64px 57px 0px;
+        align-items: end;
+
+        overflow: hidden;
+    }
+
+	#oooHeaderButton span {
+        display: none;
+    }
+
+    #oooHeaderButton > button {
+        position: fixed;
+        bottom: 32px;
+        right: 16px;
+        width: 48px;
+        z-index: 600;
+        box-shadow: 0 12px 16px 0 rgba(0, 27, 255, 0.24);
+	}
+
+	#oooHeader i {
+        font-size: 20px;
+    	padding-bottom: 2px;
+	}
+
+    #oooSearchBox i.ooofo-search {
+        top: 152px;
+        left: 26px;
+    }
+
+    #oooMainBox {
+        background-color: #f7f7f9;
+        min-height: calc( 100vh - 265px );
+    }
+
+    #oooTicketListHeader {
+        margin-left: 16px;
+        margin-right: 16px;
+        margin-top: 16px;
+        display: grid;
+        /* search? / all / open / closed // page? */
+        grid-template-columns: auto auto 1fr;
+        grid-template-rows: auto auto;
+        grid-column-gap: 24px;
+        grid-row-gap: 8px;
+    }
+
+    #oooTicketListHeader > div {
+        grid-row-start: 2;
+        grid-row-end: 3;
+        grid-column-start: 3;
+        grid-column-end: 4;
+    }
+
 }
 
-#oooHeaderButton i {
-    padding-right: 8px;
+@media only screen and (min-width: 768px) {
+    
+    #oooHeader {
+        height: 145px;
+        position: sticky;
+        top: 0;
+        border-bottom: 1.2px solid #e5e5eb;
+
+        /* text / ticket search / new ticket button */
+        grid-template-columns: 1fr auto auto;
+        grid-template-rows: 100%;
+        align-items: center;
+    }
+
+    #oooTicketListHeader {
+        margin-left: 32px;
+        margin-right: 32px;
+        margin-top: 24px;
+        display: grid;
+        /* search? / all / open / closed / page? */
+        grid-template-columns: auto auto auto auto 1fr;
+        grid-column-gap: 40px;
+    }
+
+    #oooTicketListHeader > div {
+        grid-column-start: 5;
+        grid-column-end: 6;
+    }
+
+	#oooHeaderButton i {
+    	padding-right: 8px;
+	}
+
+	#oooHeader i {
+    	padding-bottom: 3px;
+	}
+
+}
+
+#oooHeader {
+    background-color: #ffffff;
+
+    display: grid;
 }
 
 #oooHeader i {
     display: inline-block;
     vertical-align: middle;
-    padding-bottom: 3px;
-}
-
-#oooTicketListHeader {
-    margin-left: 32px;
-    margin-right: 32px;
-    margin-top: 24px;
-    display: grid;
-    /* search? / all / open / closed / page? */
-    grid-template-columns: auto auto auto auto 1fr;
-    grid-column-gap: 40px;
 }
 
 #oooTicketListHeader > .oool {
@@ -53,11 +134,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 #oooTicketListHeader > .ooor {
     text-align: right;
-}
-
-#oooTicketListHeader > div {
-    grid-column-start: 5;
-    grid-column-end: 6;
 }
 
 #oooTicketListHeader > div > p {

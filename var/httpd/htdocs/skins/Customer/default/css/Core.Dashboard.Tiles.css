@@ -81,15 +81,19 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     overflow: hidden;
 }
 
-.oooTile_TicketList .oooTicketListItem {
-    /* title number / categories / avatar */
-    grid-template-columns: minmax(0, 1fr) minmax(0, 0.77fr) 40px;
-}
+@media only screen and (min-width: 768px) {
 
-.oooTile_TicketList .oooTicketListItem > .oooTicketItemOwner,
-.oooTile_TicketList .oooTicketListItem > .oooTicketItemInfo,
-.oooTile_TicketList .oooTicketListItem > .oooTicketItemAge {
-    display: none;
+    .oooTile_TicketList .oooTicketListItem {
+        /* title number / categories / avatar */
+        grid-template-columns: minmax(0, 1fr) minmax(0, 0.77fr) 40px;
+    }
+
+    .oooTile_TicketList .oooTicketListItem > .oooTicketItemOwner,
+    .oooTile_TicketList .oooTicketListItem > .oooTicketItemInfo,
+    .oooTile_TicketList .oooTicketListItem > .oooTicketItemAge {
+        display: none;
+    }
+
 }
 
 /* PlainText */

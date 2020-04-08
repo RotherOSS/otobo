@@ -13,24 +13,98 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-#oooContent.TicketCompose,
+@media only screen and (max-width: 767px) {
+
+    #oooHeader {
+        height: 128px;
+        border-radius: 20px 20px 0px 0px;
+    }
+
+    #oooHeader > h1 {
+        padding-top: 40px;
+    }
+
+    .Row:first-child {
+        margin-top: 0px;
+    }
+
+    #oooContent.TicketCompose {
+        background-color: #00023c;
+    }
+
+    #oooContent.TicketCompose > #oooMainBox{
+        border-radius: 0px;
+    }
+
+    .Row > div.Field,
+    .Row > div.InputField_Container,
+    .Row > select,
+    #cke_RichText,
+    #RichText {
+        width: calc( 50% + 150px ) !important;
+        margin-left: calc( 25% - 76px );
+    }
+
+    #Subject {
+        width: calc( 50% + 118px ) !important;
+        margin-left: calc( 25% - 76px );
+    }
+
+    .Row > label,
+    .RichTextHolder > label {
+        left: calc( -50% - 126px );
+    }
+
+}
+
+@media only screen and (min-width: 768px) {
+
+    #oooContent.TicketCompose {
+        background-color: #fff;
+    }
+
+    #oooHeader {
+        height: 145px;
+    }
+
+    #oooHeader > h1 {
+        padding-top: 48.5px;
+    }
+
+    .Row > div.Field,
+    .Row > div.InputField_Container,
+    .Row > select,
+    #cke_RichText,
+    #RichText {
+        width: 66% !important;
+        margin-left: 17%;
+    }
+
+    #Subject {
+        width: calc( 66% - 32px ) !important;
+        margin-left: 17%;
+    }
+
+    .Row > label,
+    .RichTextHolder > label {
+        left: calc( -66% + 24px );
+    }
+
+}
+
 .TicketCompose ~ #oooFooter {
     background-color: #fff;
 }
 
 #oooHeader {
-    height: 145px;
     background-color: #ffffff;
     text-align: center;
-}
-
-#oooHeader > h1 {
-    padding-top: 48.5px;
 }
 
 #oooMainBox {
     background-color: #ffffff;
     padding-bottom: 48px;
+    overflow: hidden;
 }
 
 #BottomActionRow {
@@ -38,20 +112,3 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     margin-top: 80px;
 }
 
-.Row > div.Field,
-.Row > div.InputField_Container,
-.Row > select,
-#cke_RichText {
-    width: 66% !important;
-    margin-left: 17%;
-}
-
-#Subject {
-    width: calc( 66% - 32px ) !important;
-    margin-left: 17%;
-}
-
-.Row > label,
-.RichTextHolder > label {
-    left: calc( -66% + 24px );
-}

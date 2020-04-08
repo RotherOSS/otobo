@@ -19,6 +19,7 @@
     <div id="oooNavBarIcons">
         <div id="oooNavBarSignet">
             <img id="oooSignet" src="[% Config("Frontend::WebPath") %]skins/Customer/default/img/otobo_signet_w.svg"/>
+            <i id="oooMobileMenuClose" class="ooofo ooofo-close"></i>
             <img id="oooLogo" src="[% Config("Frontend::WebPath") %]skins/Customer/default/img/otobo_logo_simple_w.svg"/>
         </div>
         <div id="oooNavBarModuleIcons">

@@ -15,16 +15,103 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 /* Standard Tiles are kept at a ratio of 89/55 via height and possibly padding */
 
-@media only screen and (max-width: 879px) {
 
-    #oooMainBox {
+@media only screen and (max-width: 435px) {
+
+    /* new ticket */
+    #oooTile01 {
+        display: none;
+    }
+
+    /* Featured Link */
+    #oooTile02 {            
+        grid-area: 2 / 1 / 4 / 2;
+    }                       
+                            
+    /* Ticket List */
+    #oooTile03 {
+        display: none;
+    }
+
+    /* MotD */              
+    #oooTile04 {            
+        grid-area: 1 / 1 / 2 / 2;
+    }                       
+                            
+    /* External Links */
+    #oooTile05 {            
+        grid-area: 4 / 1 / 5 / 2;
+    }                       
+                            
+    /* Status */            
+    #oooTile06 {            
+        grid-area: 5 / 1 / 6 / 2;
+    }
+
+    /* 89/55 = (Tilewidth) / (Tileheight)
+       Height: 5*Tileheight+96px
+       Width: 100vw - 16px */
+    #oooContent > #oooMainBox {
+        display: grid;
+        grid-template-columns: 100%;
+        grid-row-gap: 24px;
+
+        height: calc( 308.99vw + 46.56px );
+        grid-template-rows: repeat(5, 1fr);
+    }
+    
+}
+
+@media only screen and (min-width: 436px) and (max-width: 767px) {
+
+    /* new ticket */
+    #oooTile01 {
+        display: none;
+    }
+
+    /* Featured Link */
+    #oooTile02 {            
+        grid-area: 2 / 1 / 4 / 2;
+    }                       
+                            
+    /* Ticket List */
+    #oooTile03 {            
+        grid-area: 6 / 1 / 9 / 2;
+    }                                           
+
+    /* MotD */              
+    #oooTile04 {            
+        grid-area: 1 / 1 / 2 / 2;
+    }                       
+                            
+    /* External Links */
+    #oooTile05 {            
+        grid-area: 4 / 1 / 5 / 2;
+    }                       
+                            
+    /* Status */            
+    #oooTile06 {            
+        grid-area: 5 / 1 / 6 / 2;
+    }
+
+    #oooContent > #oooMainBox {
         display: grid;
         grid-template-columns: 100%;
         grid-column-gap: 24px;
         grid-row-gap: 24px;
+        grid-template-rows: repeat(8, 1fr);
 
-        grid-template-rows: repeat(9, 1fr);
+        width: 420px;
+        padding-left: calc( 50vw - 210px );
+        padding-right: calc( 50vw - 210px );
+        height: 2245.3px;
     }
+
+}
+
+
+
+@media only screen and (min-width: 768px) and (max-width: 879px) {
 
     /* New Ticket */
     #oooTile01 {
@@ -34,6 +121,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     /* Featured Link */
     #oooTile02 {            
         grid-area: 3 / 1 / 5 / 2;
+    }                       
+
+    /* Ticket List */
+    #oooTile03 {            
+        grid-area: 7 / 1 / 10 / 2;
     }                       
                             
     /* MotD */              
@@ -51,47 +143,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         grid-area: 6 / 1 / 7 / 2;
     }
 
-    /* 89/55 = (Tilewidth) / (Tileheight)
-       Height: 9*Tileheight+192px */
-    @media only screen and (max-width: 419px) {
-        #oooContent > #oooMainBox {
-            height: calc( 3.708vw + 192px );
-            min-height: 1378.52px;
-            grid-template-rows: repeat(6, 1fr);
-        }
+    #oooContent > #oooMainBox {
+        display: grid;
+        grid-template-columns: 100%;
+        grid-column-gap: 24px;
+        grid-row-gap: 24px;
+        grid-template-rows: repeat(9, 1fr);
 
-        /* Ticket List */
-        #oooTile03 {
-            display: none;
-        }
-    }
-
-    @media only screen and (min-width: 420px) and (max-width: 767px) {
-        #oooContent > #oooMainBox {
-            width: 420px;
-            padding-left: calc( 50vw - 210px );
-            padding-right: calc( 50vw - 210px );
-            height: 2528.96px;
-        }
-
-        /* Ticket List */
-        #oooTile03 {            
-            grid-area: 7 / 1 / 10 / 2;
-        }                                           
-    }
-
-    @media only screen and (min-width: 768px) {
-        #oooContent > #oooMainBox {
-            width: 420px;
-            padding-left: calc( 50vw - 196px );
-            padding-right: calc( 50vw - 152px );
-            height: 2528.96px;
-        }
-
-        /* Ticket List */
-        #oooTile03 {            
-            grid-area: 7 / 1 / 10 / 2;
-        }                       
+        width: 420px;
+        padding-left: calc( 50vw - 188px );
+        padding-right: calc( 50vw - 232px );
+        height: 2528.96px;
     }
     
 }
@@ -211,22 +273,67 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
 }
 
-#oooMainBox {
-    margin-top: 24px;
+@media only screen and (max-width: 767px) {
+
+    #oooContent {
+        background-color: #00023c;
+    }
+
+    #oooHeader {
+        background-color: #00023c;
+        color: #ffffff;
+        padding: 0px 16px 16px 16px;
+    }
+
+    #oooMainBox {
+        background-color: #f7f7f9;
+        border-radius: 20px 20px 0px 0px;
+    }
+
+    #oooHeaderButton > button {
+        position: fixed;
+        bottom: 32px;
+        right: 16px;
+        width: 48px;
+        z-index: 600;
+        box-shadow: 0 12px 16px 0 rgba(0, 27, 255, 0.24);
+    }
+
+    #oooHeader i {
+        font-size: 20px;
+        padding-bottom: 2px;
+    }
+
+    #oooSearchBox {
+        display: none;
+    }
+
+}
+
+@media only screen and (min-width: 768px) {
+
+    #oooMainBox {
+        margin-top: 24px;
+    }
+
+    #oooHeader {
+        height: 145px;
+        display: grid;
+        /* text / ticket search / new ticket button */
+        grid-template-columns: 1fr auto auto;
+        grid-column-gap: 40px;
+        grid-template-rows: 100%;
+        align-items: center;
+    }
+
+    #oooHeaderButton {
+        display: none;
+    }
+
 }
 
 #oooMainBox > .oooTile {
     border-radius: 20px;
-}
-
-#oooHeader {
-    height: 145px;
-    display: grid;
-    /* text / ticket search / new ticket button */
-    grid-template-columns: 1fr auto auto;
-    grid-column-gap: 40px;
-    grid-template-rows: 100%;
-    align-items: center;
 }
 
 #oooHeader i {

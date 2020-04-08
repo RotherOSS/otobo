@@ -6354,6 +6354,8 @@ sub CustomerSetRichTextParameters {
     # decide if we need to use the enhanced mode (with tables)
     my @Toolbar;
     my @ToolbarWithoutImage;
+    my @ToolbarMidi;
+    my @ToolbarMini;
 
     if ( $ConfigObject->Get("Frontend::RichText::EnhancedMode::Customer") == '1' ) {
         @Toolbar = [
@@ -6422,6 +6424,28 @@ sub CustomerSetRichTextParameters {
                 '-',            'Maximize'
             ]
         ];
+        @ToolbarMidi = [
+            [
+                'Bold',         'Italic', 'Underline', 'Strike',  '-', 'NumberedList',
+                'BulletedList', '-',      'Link',      'Unlink',  '-', 'HorizontalRule',
+                '-',            'Undo',   'Redo',      '-',       'Maximize'
+            ],
+            '/',
+            [
+                'FontSize', '-',           'TextColor',  'BGColor',     'RemoveFormat', 
+                '-',        'SpecialChar', 'SplitQuote', 'RemoveQuote',
+            ]
+        ];
+        @ToolbarMini = [
+            [
+                'Bold', 'Italic', 'Underline', 'Strike', '-',    'BulletedList',
+                '-',    'Link',   'Unlink',    '-',      'Undo', 'Redo',
+            ],
+            '/',
+            [
+                'FontSize', '-', 'TextColor', 'RemoveFormat', '-', 'SplitQuote', 'RemoveQuote',
+            ]
+        ];
     }
 
     # set data with AddJSData()
@@ -6437,6 +6461,8 @@ sub CustomerSetRichTextParameters {
             },
             Toolbar             => $Toolbar[0],
             ToolbarWithoutImage => $ToolbarWithoutImage[0],
+            ToolbarMidi         => $ToolbarMidi[0],
+            ToolbarMini         => $ToolbarMini[0],
             PictureUploadAction => $PictureUploadAction,
         },
     );

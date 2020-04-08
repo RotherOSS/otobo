@@ -256,26 +256,32 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             Core.UI.InputFields.Activate();
             $('html').css({scrollTop: $('#Body').height()});
             Core.UI.RichTextEditor.Focus($RTE);    
+            if ( $(window).width() < 768 ) {
+                $('#ReplyButton').hide();
+            }
         });
         $('#CloseButton').on('click', function(Event){
             Event.preventDefault();
             $FollowUp.hide();
             $FollowUp.removeClass('Visible');
             $('html').css({scrollTop: $('#Body').height()});
+            $('#ReplyButton').show();
         });
 
         // scroll events
         $(window).scroll( function() {
             // change Header on scroll
-            if ( $(window).scrollTop() > 90 && $("#oooHead1").height() > 64 ) {
-                $("#oooHead1").height( '64px' );
-                $("#oooHead2").height( '0px' );
-                $("#oooHead2 .oooCategory").fadeOut(200);
-            }
-            else if ( $(window).scrollTop() < 8 ) {
-                $("#oooHead1").height( '92px' );
-                $("#oooHead2").height( '53px' );
-                $("#oooHead2 .oooCategory").fadeIn(200);
+            if ( $(window).width() > 767 ) {
+                if ( $(window).scrollTop() > 90 && $("#oooHeader").height() > 56 ) {
+                    $("#oooHeader").height( '56px' );
+                    $("#oooHeader").css( 'padding-top', '8px' );
+                    $("#oooHeader .oooCategory").fadeOut(200);
+                }
+                else if ( $(window).scrollTop() < 8 ) {
+                    $("#oooHeader").height( '123px' );
+                    $("#oooHeader").css( 'padding-top', '22px' );
+                    $("#oooHeader .oooCategory").fadeIn(200);
+                }
             }
 
             // track active article
@@ -319,8 +325,8 @@ Core.Customer.TicketZoom = (function (TargetNS) {
         });
 
         // info button toggle info on click
-        $('#oooHead1 .oooInfo').on('click', function() {
-            if ( $(window).width() > 440 ) {
+        $('#oooHeader .oooInfo').on('click', function() {
+            if ( $(window).width() > 519 ) {
                 $('#oooTicketInfo').css({top: 80, right: 40}).toggle();
             }
             else {

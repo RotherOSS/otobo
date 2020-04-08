@@ -37,9 +37,8 @@ Core.Customer.Search = (function (TargetNS) {
      */
     TargetNS.Init = function(){
         $('#oooSearchBox').on('click', function () {
-            $('#oooSearch').css('display', 'inline-block');
-            $('#oooSearch').focus();
             $('#oooSearch').addClass('oooFull');
+            $('#oooSearch').focus();
 
             if ( Core.Config.Get('ESActive') == 1 ){
                 Core.UI.Elasticsearch.InitSearchField( $('#oooSearch'), "CustomerElasticsearchQuickResult");
@@ -47,8 +46,8 @@ Core.Customer.Search = (function (TargetNS) {
 
             $('#oooSearch').on('blur', function () {
                 setTimeout( function() {
-                    $('#oooSearch').hide();
                     $('#oooSearch').removeClass('oooFull');
+                    $('#oooSearch').val('');
                 },60);
             });
         });

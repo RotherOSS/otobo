@@ -195,21 +195,66 @@ fieldset .ShowTreeSelection {
     height: auto;
 }
 
+@media only screen and (max-width: 599px) {
+
+    div.DnDUploadBox {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        grid-row-gap: 16px;
+    }
+
+    div.DnDUpload {
+        height: 98px;
+    }
+
+    div.DnDUpload i {
+        top: 12px;
+    }
+
+    div.DnDUpload span {
+        top: 18px;
+    }
+
+}
+
+@media only screen and (min-width: 600px) {
+
+    div.DnDUploadBox {
+        grid-template-columns: 1fr 2fr;
+        grid-column-gap: 16px;
+        grid-template-rows: auto;
+    }
+
+    div.DnDUpload {
+        height: 128px;
+    }
+
+    div.DnDUpload i {
+        top: 24px;
+    }
+
+    div.DnDUpload span {
+        top: 28px;
+    }
+
+}
+
+div.DnDUpload span {
+    position: relative;
+}
+
 div.DnDUploadBox {
     overflow-y: hidden;
     padding: 0 !important;
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    grid-column-gap: 16px;
-    grid-template-rows: auto;
 }
 
 div.DnDUpload {
     text-align: center;
-    height: 144px;
     background-color: #f7f7f9;
     border-radius: 10px;
     white-space: normal;
+    padding: 8px;
 }
 
 input.AjaxDnDUpload.Error + div.DnDUpload {
@@ -226,12 +271,10 @@ div.DnDUpload.DragOver {
 div.DnDUpload i {
     display: block;
     position: relative;
-    top: 32px;
 }
 
 div.DnDUpload span {
     position: relative;
-    top: 36px;
     width: 160px;
     font-size: 12px;
     font-weight: 500;
@@ -277,6 +320,7 @@ div.DnDUpload.Uploading .UploadRunning {
 .AttachmentListContainer {
     border-radius: 10px;
     background-color: #f7f7f9;
+    min-height: 144px;
 }
 
 .AttachmentListContainer .Busy {

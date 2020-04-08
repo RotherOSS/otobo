@@ -149,4 +149,61 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     padding-right: 40px;
 }
 
+/* Elasticsearch */
+@media only screen and (max-width: 419px) {
+
+    .Dialog #oooESOuter th:first-child,
+    .Dialog #oooESOuter td:first-child,
+    .Dialog #oooESOuter th:nth-child(2),
+    .Dialog #oooESOuter td:nth-child(2) {
+        display: none;
+    }
+
+    .Dialog #oooESOuter th:nth-child(3),
+    .Dialog #oooESOuter td:nth-child(3) {
+        max-width: calc( 100vw - 80px );
+        padding-left: 40px;
+    }
+
+}
+
+@media only screen and (min-width: 420px) and (max-width: 619px) {
+
+    .Dialog #oooESOuter th:first-child,
+    .Dialog #oooESOuter td:first-child {
+        display: none;
+    }
+
+    .Dialog #oooESOuter th:nth-child(2),
+    .Dialog #oooESOuter td:nth-child(2) {
+        max-width: 84px;
+        padding-left: 40px;
+    }
+
+    .Dialog #oooESOuter th:nth-child(3),
+    .Dialog #oooESOuter td:nth-child(3) {
+        max-width: calc( 100vw - 180px );
+    }
+
+}
+
+@media only screen and (min-width: 620px) and (max-width: 769px) {
+
+    .Dialog #oooESOuter th:first-child,
+    .Dialog #oooESOuter td:first-child {
+        max-width: 184px;
+    }
+
+    .Dialog #oooESOuter th:nth-child(2),
+    .Dialog #oooESOuter td:nth-child(2) {
+        max-width: 84px;
+    }
+
+    .Dialog #oooESOuter th:nth-child(3),
+    .Dialog #oooESOuter td:nth-child(3) {
+        max-width: calc( 100vw - 380px );
+    }
+
+}
+
 } /* end @media */

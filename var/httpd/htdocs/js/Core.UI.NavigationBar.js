@@ -38,16 +38,26 @@ Core.UI.NavigationBar = (function (TargetNS) {
      */
     function NavBarShrink() {
         $('#oooNavigation').off('mouseleave', NavBarShrink);
-        $('#oooNavBarExpand').show();
-        $('#oooLogo').hide();
-        $('#oooSignet').show();
-        $('#oooNavigation').removeClass("oooExpanded");
-        $('#oooNavBarModuleIcons > a > .oooNavBarDescription > h3').each(function() {
-            $(this).hide();
-        });
-        $('#oooUser h3').each(function() {
-            $(this).hide();
-        });
+        // desktop mode
+        if ( $(window).width() >= 768 ) {
+            $('#oooNavBarExpand').show();
+            $('#oooLogo').hide();
+            $('#oooSignet').show();
+            $('#oooNavigation').removeClass("oooExpanded");
+            $('#oooNavBarModuleIcons > a > .oooNavBarDescription > h3').each(function() {
+                $(this).hide();
+            });
+            $('#oooUser h3').each(function() {
+                $(this).hide();
+            });
+        }
+        // mobile mode
+        else {
+            $('#oooMobileMenuClose').hide().fadeOut(100);
+            $('#oooNavigation').removeClass("oooExpanded");
+            $('#oooNavBarModuleIcons').hide().fadeOut(100);
+            $('#oooUser').hide().fadeOut(100);
+        }
     };
 
     /**
@@ -68,6 +78,10 @@ Core.UI.NavigationBar = (function (TargetNS) {
 
         // expands the NavBar on click via css
         $('#oooNavBarExpand').on('click', function() {
+            // if we switched modes from mobile to desktop
+            $('#oooNavBarModuleIcons').show();
+            $('#oooUser').show();
+
             setTimeout( function() {
                 // only trigger if still expanded
                 $('.oooExpanded > #oooNavBarExpand').hide();
@@ -87,6 +101,34 @@ Core.UI.NavigationBar = (function (TargetNS) {
                 });
                 $('#oooNavigation').on('mouseleave', NavBarShrink);
             }, 100);
+        });
+
+        // mobile expand
+        $('#oooMobileMenu').on('click', function() {
+            $('#oooNavigation').addClass("oooExpanded");
+            // if we switched from desktop to mobile
+            $('.oooExpanded #oooLogo').show();
+
+            setTimeout( function() {
+                $('#oooNavBarModuleIcons > a > .oooNavBarDescription > h3').each(function() {
+                    $(this).show();
+                });
+                $('#oooUser h3').each(function() {
+                    $(this).show();
+                });
+                $('#oooUser').show().fadeIn(100);
+                $('#oooNavBarModuleIcons').show().fadeIn(100);
+            }, 40);
+            setTimeout( function() {
+                $('#oooMobileMenuClose').show().fadeIn(100);
+                // shrinks the NavBar again on mouseleave
+                $('#oooNavigation').on('mouseleave', NavBarShrink);
+            }, 140);
+        });
+
+        // mobile close
+        $('#oooMobileMenuClose').on('click', function() {
+            NavBarShrink();
         });
     };
 

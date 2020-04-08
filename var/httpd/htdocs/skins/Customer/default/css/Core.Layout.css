@@ -17,20 +17,44 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 body {
     position: relative;
+    min-width: 320px;
 }
 
-#oooMobileHeader {
-    display: none;
-}
 @media only screen and (max-width: 767px) {
-    #oooHeader {
-        display: none !important;
-    }
 
     #oooMobileHeader {
-        display: block;
-        padding: 24px;
+        width: calc( 100% - 32px );
+        height: 24px;
+        padding: 16px;
+        background-color: #00023c;
+        position: sticky;
+        top: 0px;
+        z-index: 500;
     }
+
+    #oooContent {
+        min-height: calc( 100vh - 104px );
+        background-color: #00023c;
+    }
+
+    #oooMainBox {
+        padding: 8px;
+    }
+
+}
+
+@media only screen and (min-width: 768px) {
+
+    #oooMobileHeader {
+        display: none;
+    }
+
+    #oooContent {
+        padding-bottom: 24px;
+        min-height: calc( 100vh - 72px );
+        background-color: #f7f7f9;
+    }
+
 }
 
 #oooHeader {
@@ -44,13 +68,6 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    min-height: calc( 100vh - 72px );
-    background-color: #f7f7f9;
-    padding-bottom: 24px;
-}
-
-#oooMainBox {
-    min-width: 320px;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1443px) {

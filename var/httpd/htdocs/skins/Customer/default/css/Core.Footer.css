@@ -13,6 +13,26 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+
+@media only screen and (max-width: 767px) {
+
+    #oooFooter > div {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+}
+
+@media only screen and (max-width: 479px) {
+
+    #oooSanMiguel,
+    #ooo > a {
+        display: none;
+    }
+
+}
+
+
 #oooFooter > div {
     height: 100%;
     box-shadow: 0 -2px 6px 0 rgba(0, 0, 0, 0.06);
@@ -20,7 +40,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     color: #7f809d;
     background-color: #fff;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr auto;
     grid-template-rows: 100%;
     align-items: center;
 }

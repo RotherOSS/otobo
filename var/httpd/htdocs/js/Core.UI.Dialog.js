@@ -506,7 +506,7 @@ Core.UI.Dialog = (function (TargetNS) {
         AdjustScrollableHeight(Params.AllowAutoGrow);
 
         // Adjust dialog position on mobile devices
-        if (FullsizeMode) {
+        if ( FullsizeMode && !CustomerInterface ) {
             $Dialog.css('top', $(window).scrollTop());
         }
 
