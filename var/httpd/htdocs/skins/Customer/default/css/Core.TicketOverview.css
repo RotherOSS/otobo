@@ -22,7 +22,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         height: 121px;
 
         /* text / ticket search */
-        grid-template-columns: 100%;
+        grid-template-columns: calc( 100% - 32px);
         grid-template-rows: 64px 57px 0px;
         align-items: end;
 

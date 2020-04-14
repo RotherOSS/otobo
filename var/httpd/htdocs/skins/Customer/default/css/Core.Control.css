@@ -27,7 +27,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     #oooSearch {
         display: inline-block;
-        width: calc( 100% - 35px );
+        width: calc( 100% - 3px );
         padding-left: 32px;
         height: 32px;
         background-color: #f7f7f9;
@@ -43,7 +43,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     #oooSearchLabel {
         position: relative;
-        left: calc( -100% + 32px );
+        left: -100%;
         font-size: 14px;
     }
 
