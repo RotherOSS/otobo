@@ -165,6 +165,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     background-color: #ffffff;
     overflow: hidden;
     display: grid;
+    white-space: nowrap;
+}
+
+#oooHeader > div,
+#oooHeader > p {
+    overflow: hidden;
+}
+
+#oooHeader > .oooWithSub h2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #FollowUp {
@@ -323,9 +334,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     line-height: 24px;
 }
 
-.MessageHeader > .oooSender {
+.MessageHeader > .oooSender,
+.MessageHeader > .oooSubject {
     display: inline-block;
     text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.MessageHeader > .oooSubject {
+    width: 100%;
 }
 
 .MessageHeader > .oooSupplement {
