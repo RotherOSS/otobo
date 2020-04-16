@@ -38,6 +38,32 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     justify-self: right;
 }
 
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    .oooTile_NewTicket {
+        display: -ms-grid;
+        -ms-grid-columns: auto 1fr;
+        -ms-grid-rows: 100%;
+    }
+
+    .oooTile_NewTicket > h1 {
+        -ms-grid-row-align: end;
+    }
+
+    .oooTile_NewTicket > h1:nth-child(2) {
+        -ms-grid-column: 2;
+        -ms-grid-column-align: end;
+    }
+
+    @supports (display: grid) {
+        .oooTile_NewTicket {
+            display: grid;
+        }
+    }
+
+}
+
 /* Featured Link */
 .oooTile_FeaturedLink {
 	background-size:cover;
@@ -59,6 +85,44 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .oooTile_FeaturedLink > h3:last-child {
 	align-self: start;
+}
+
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    .oooTile_FeaturedLink {
+        display: -ms-grid;
+        -ms-grid-columns: 100%;
+        -ms-grid-rows: 1.15fr auto 1fr;
+    }
+
+    .oooTile_FeaturedLink > h2 {
+        -ms-grid-row: 1;
+        -ms-grid-row-align: end;
+        padding-bottom: 16px;
+    }
+
+    .oooTile_FeaturedLink > h3:nth-child(2) {
+        -ms-grid-row: 2;
+        -ms-grid-row-align: center;
+        padding-bottom: 16px;
+    }
+
+    .oooTile_FeaturedLink > h3:nth-child(3) {
+        -ms-grid-row: 3;
+        -ms-grid-row-align: start;
+    }
+
+    @supports (display: grid) {
+        .oooTile_FeaturedLink {
+            display: grid;
+        }
+        .oooTile_FeaturedLink > h2,
+        .oooTile_FeaturedLink > h3:nth-child(2) {
+            padding-bottom: 0px;
+        }
+    }
+
 }
 
 /* TicketList */
@@ -96,6 +160,18 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 }
 
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    @media only screen and (min-width: 768px) {
+        .oooTile_TicketList .oooTicketListItem {
+            /* title number / categories / avatar */
+            -ms-grid-columns: 1fr 0.77fr 40px;
+        }
+    }
+
+}
+
 /* PlainText */
 .oooTile_PlainText {
     padding-top: 24px;
@@ -116,6 +192,37 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 	align-self: start;
     max-height: 100%;
     overflow: hidden;
+}
+
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    .oooTile_PlainText {
+        display: -ms-grid;
+        -ms-grid-columns: 100%;
+        -ms-grid-rows: 1fr auto;
+    }
+
+    .oooTile_PlainText > h2 {
+        -ms-grid-row: 1;
+        -ms-grid-row-align: end;
+        padding-bottom: 24px;
+    }
+
+    .oooTile_PlainText > h3 {
+        -ms-grid-row: 2;
+        -ms-grid-row-align: start;
+    }
+
+    @supports (display: grid) {
+        .oooTile_PlainText {
+            display: grid;
+        }
+        .oooTile_PlainText > h2 {
+            padding-bottom: 0px;
+        }
+    }
+
 }
 
 /* ToolBox */
@@ -146,6 +253,37 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 	background-size: cover;
     border-radius: 5px;
     box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
+}
+
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    .oooTile_ToolBox {
+        display: -ms-grid;
+        -ms-grid-columns: 100%;
+        -ms-grid-rows: 1fr auto;
+    }
+
+    .oooTile_ToolBox > h2 {
+        -ms-grid-row: 1;
+        -ms-grid-row-align: end;
+        padding-bottom: 24px;
+    }
+
+    .oooTile_ToolBox > div {
+        -ms-grid-row: 2;
+        -ms-grid-row-align: start;
+    }
+
+    @supports (display: grid) {
+        .oooTile_ToolBox {
+            display: grid;
+        }
+        .oooTile_ToolBox > h2 {
+            padding-bottom: 0px;
+        }
+    }
+
 }
 
 /* Plain Picture */

@@ -66,8 +66,9 @@ Core.Customer.TicketList = (function (TargetNS) {
             var MaxWidth   = $(this).width();
             var Categories = $(this).children("p");
 
-            for (var Cat of Categories) {
-                var Category = $(Cat);
+//            for (var Cat of Categories) {
+            for (var i = 0; i < Categories.length; i++ ) {
+                var Category = $( Categories[i] );
                 var Outer    = Category.outerWidth(true);
                 if ( Width1 <= Width2 ) {
                     if ( Width1 + Outer < MaxWidth ) {

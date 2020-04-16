@@ -150,3 +150,37 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     font-weight: 600;
 }
 
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    #oooHeader {
+        display: -ms-grid;
+        /* text / ticket search */
+        -ms-grid-columns: 1fr auto auto;
+        -ms-grid-rows: 100%;
+    }
+
+    #oooHeader > h1 {
+        -ms-grid-column: 1;
+        -ms-grid-row-align: center;
+    }
+
+    #oooSearchBox {
+        -ms-grid-column: 2;
+        -ms-grid-row-align: center;
+    }
+
+    #oooHeader > a {
+        -ms-grid-column: 3;
+        -ms-grid-row-align: center;
+        display: block;
+    }
+
+    @supports (display: grid) {
+        #oooHeader {
+            display: grid;
+        }
+    }
+
+}
+

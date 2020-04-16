@@ -181,3 +181,52 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     object-fit: contain;
     border-radius: 20px;
 }
+
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    .oooTicketListItem {
+        display: -ms-grid;
+        /* title number / categories / avatar / name / age / options */
+        -ms-grid-columns: 1fr 0.77fr 40px 0.36fr 84px 29px;
+        -ms-grid-rows: 100%;
+    }
+
+    .oooTicketItemDesc {
+        -ms-grid-column: 1;
+        -ms-grid-row-align: center;
+    }
+
+    .oooTicketItemCat {
+        -ms-grid-column: 2;
+        -ms-grid-row-align: center;
+    }
+
+    .oooTicketItemAvatar {
+        -ms-grid-column: 3;
+        -ms-grid-row-align: center;
+    }
+
+    .oooTicketItemOwner {
+        -ms-grid-column: 4;
+        -ms-grid-row-align: center;
+    }
+
+    .oooTicketItemAge {
+        -ms-grid-column: 5;
+        -ms-grid-row-align: center;
+    }
+
+    .oooTicketItemInfo {
+        -ms-grid-column: 6;
+        -ms-grid-row-align: center;
+    }
+
+    @supports (display: grid) {
+        .oooTicketListItem {
+            display: grid;
+        }
+    }
+
+}
+

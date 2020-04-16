@@ -320,3 +320,130 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     opacity: 0;
 }
 
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    #oooNavigation > #oooNavBarIcons {
+        display: -ms-grid;
+        -ms-grid-columns: 100%;
+        -ms-grid-rows: 65px 1fr auto 1fr 32px;
+    }
+
+    /* Logo */
+    #oooNavBarSignet {
+        -ms-grid-row: 1;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 1;
+    }
+
+    /* User */
+    #oooUser {
+        -ms-grid-row: 5;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 1;
+
+        display: -ms-grid;
+        -ms-grid-columns: 4px 1fr auto;
+    }
+
+    #oooUser .oooNavBarHighlight {
+        -ms-grid-column: 1;
+        -ms-grid-row-align: center;
+    }
+
+    #oooNavBarAvatar {
+        -ms-grid-column: 2;
+        -ms-grid-row-align: center;
+    }
+
+    #oooUser .oooLogout {
+        -ms-grid-column: 3;
+        -ms-grid-row-align: center;
+    }
+
+    /* Modules */
+    #oooNavBarModuleIcons {
+        -ms-grid-row: 3;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 1;
+
+        display: -ms-grid;
+        -ms-grid-columns: 100%;
+        -ms-grid-rows: 78px;
+    }
+
+    #oooNavBarModuleIcons > a {
+        display: -ms-grid;
+        -ms-grid-columns: 4px 1fr auto;
+
+        -ms-grid-row-align: center;
+        margin-top: 19px;
+        margin-bottom: 19px;
+    }
+
+    #oooNavBarModuleIcons > a:nth-child(1) {
+        -ms-grid-row: 1;
+    }
+    #oooNavBarModuleIcons > a:nth-child(2) {
+        -ms-grid-row: 2;
+    }
+    #oooNavBarModuleIcons > a:nth-child(3) {
+        -ms-grid-row: 3;
+    }
+    #oooNavBarModuleIcons > a:nth-child(4) {
+        -ms-grid-row: 4;
+    }
+    #oooNavBarModuleIcons > a:nth-child(5) {
+        -ms-grid-row: 5;
+    }
+    #oooNavBarModuleIcons > a:nth-child(6) {
+        -ms-grid-row: 6;
+    }
+    #oooNavBarModuleIcons > a:nth-child(7) {
+        -ms-grid-row: 7;
+    }
+
+    #oooNavBarModuleIcons .oooNavBarHighlight {
+        -ms-grid-column: 1;
+        -ms-grid-row-align: center;
+    }
+
+    #oooNavBarModuleIcons .oooIconContainer {
+        -ms-grid-column: 2;
+        -ms-grid-row-align: center;
+    }
+
+    #oooNavBarModuleIcons .oooNavBarDescription {
+        -ms-grid-column: 3;
+        -ms-grid-row-align: center;
+    }
+
+    #oooNavBarModuleIcons > a > .oooIconContainer > svg {
+        top: 4px;
+    }
+
+    @supports (display: grid) {
+        #oooNavigation > #oooNavBarIcons {
+            display: grid;
+        }
+        #oooUser {
+            display: grid;
+        }
+        #oooNavBarModuleIcons {
+            display: grid;
+        }
+        #oooNavBarModuleIcons > a {
+            display: grid;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+        #oooNavBarModuleIcons > a > .oooIconContainer > svg {
+            top: 9px;
+        }
+    }
+
+}
+

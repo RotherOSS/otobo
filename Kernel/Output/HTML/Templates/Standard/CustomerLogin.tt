@@ -49,7 +49,11 @@
         <h2 class="Center">[% Translate("Browser Warning") | html %]</h2>
         <p>
             [% Translate("The browser you are using doesn't support css-grid. It's likely too old.") | html %]
-            [% Translate("An Internet Explorer compatible version will soon be released nonetheless.") | html %]
+        </p>
+    </div>
+    <div id="oooIE" class="WarningBox">
+        <p>
+            [% Translate("Browser Warning") | html %]: [% Translate("Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.") | html %]
         </p>
     </div>
 

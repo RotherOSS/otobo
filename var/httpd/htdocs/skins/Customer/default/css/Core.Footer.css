@@ -32,7 +32,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 }
 
-
 #oooFooter > div {
     height: 100%;
     box-shadow: 0 -2px 6px 0 rgba(0, 0, 0, 0.06);
@@ -61,9 +60,38 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 #oooSanMiguel {
     justify-self: left;
+    white-space: nowrap;
 }
 
 #ooo {
     justify-self: right;
+    white-space: nowrap;
+}
+
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    #oooFooter > div {
+        display: -ms-grid;
+        -ms-grid-columns: 1fr auto;
+        -ms-grid-rows: 100%;
+    }
+
+    #oooSanMiguel {
+        -ms-grid-column-align: start;
+        -ms-grid-row-align: center;
+    }
+
+    #ooo {
+        -ms-grid-column-align: end;
+        -ms-grid-row-align: center;
+    }
+
+    @supports (display: grid) {
+        #oooFooter > div {
+            display: grid;
+        }
+    }
+
 }
 

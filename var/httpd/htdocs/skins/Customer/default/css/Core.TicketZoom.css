@@ -174,6 +174,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 #oooHeader > .oooWithSub h2 {
+    padding-right: 8px;
+}
+
+#oooHeader > .oooWithSub h2 {
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -214,7 +218,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     #oooMainBox {
         display: grid;
-        grid-template-columns: 32.6fr 67.4fr;
+        grid-template-columns: minmax(0px, 32.6fr) minmax(0px, 67.4fr);
         grid-column-gap: 24px;
     }
     
@@ -227,7 +231,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         max-height: 80vh;
         background-color: rgba(255, 255, 255, 0.35);
         cursor: pointer;
-        overflow-x: scroll;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
     }
     
     #oooArticleList > li {
@@ -280,6 +286,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     #oooArticleList .oooSubject {
         margin-left: 24px;
+        padding-right: 16px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }
 
@@ -475,3 +485,92 @@ iframe {
 #CloseButton:hover {
     background-color: #000099;
 }
+
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    #oooHeader {
+        display: -ms-grid;
+        -ms-grid-columns: 5fr 32px 4fr 159px 162px 32px;
+        -ms-grid-rows: 48px 1fr;
+    }
+
+    #oooHeader > .oooWithSub {
+        -ms-grid-column: 1;
+        -ms-grid-row-align: center;
+        margin-left: 8px;
+    }
+
+    #oooHeader > .oooAvatar {
+        -ms-grid-column: 2;
+        -ms-grid-row-align: center;
+        margin-left: 8px;
+    }
+
+    #oooHeader > p {
+        -ms-grid-column: 3;
+        -ms-grid-row-align: center;
+        margin-left: 8px;
+    }
+
+    #oooHeader > .oooInfoBlock {
+        -ms-grid-column: 4;
+        -ms-grid-row-align: center;
+        margin-left: 8px;
+    }
+
+    #oooHeader > button {
+        -ms-grid-column: 5;
+        -ms-grid-row-align: center;
+        margin-left: 8px;
+    }
+
+    #oooHeader > i {
+        -ms-grid-column: 6;
+        -ms-grid-column-span: 1;
+        -ms-grid-row-align: center;
+        display: block;
+    }
+
+    #oooCategories {
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 6;
+        -ms-grid-row: 2;
+        margin-top: 2px;
+        -ms-grid-row-align: center;
+    }
+
+    #oooArticleList {
+        display: none;
+    }
+
+    @supports (display: grid) {
+        #oooHeader {
+            display: grid;
+        }
+        #oooHeader > .oooWithSub {
+            margin-left: 0px;
+        }
+        #oooHeader > .oooAvatar {
+            margin-left: 0px;
+        }
+        #oooHeader > p {
+            margin-left: 0px;
+        }
+        #oooHeader > .oooInfoBlock {
+            margin-left: 0px;
+        }
+        #oooHeader > button {
+            margin-left: 0px;
+        }
+        #oooCategories {
+            margin-top: 0px;
+        }
+        @media only screen and (min-width: 1024px) {
+            #oooArticleList {
+                display: block;
+            }
+        }
+    }
+}
+

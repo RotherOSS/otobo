@@ -52,8 +52,8 @@
 #            <div class="oooUserName">
 #                <h3>[% Data.UserName | html %]</h3>
 #            </div>
-        </div>
-    </a>
+        </a>
+    </div>
     <div id="oooNavBarExpand">
         <img src="[% Config("Frontend::WebPath") %]skins/Customer/default/img/arrow_right_blu.svg"/>
     </div>

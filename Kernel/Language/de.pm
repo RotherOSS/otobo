@@ -2972,6 +2972,7 @@ sub Data {
         'Your First Name' => 'Ihr Vorname',
         'Your Last Name' => 'Ihr Nachname',
         'Your email address (this will become your username)' => 'Ihre E-Mail-Adresse (das wird Ihr Benutzername)',
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' => 'Der Internetexplorer wird von OTOBO nur in Hinblick auf grundlegende Funktionalität unterstützt. Bitte ziehen Sie in Betracht, zu einem modernen Web-Browser zu wechseln.',
 
         # Template: CustomerNavigationBar
         'Logout' => 'Abmelden',

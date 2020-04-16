@@ -14,6 +14,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 #oooMobileHeader,
+#oooIE,
 #oooFooter {
     display: none;
 }
@@ -295,3 +296,20 @@ label {
 	margin-top: 24px;
 }
 
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    #oooIE {
+        display: block;
+    }
+    #oooNoGrid {
+        display: none;
+    }
+
+    /* Edge */
+    @supports (display: grid) {
+        #oooIE {
+            display: none;
+        }
+    }
+}

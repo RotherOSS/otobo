@@ -219,9 +219,16 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             });
 
             // add Entry to list and make it scroll to the referenced article
-            $(TOCItem).on('click', function() {
-                $('html').animate( { scrollTop: $(Article[0]).offset().top - 89 }, 140 );
-			}).appendTo( $('#oooArticleList') );
+            if ( navigator.userAgent.match(/Edge/) ) {
+                $(TOCItem).on('click', function() {
+                    $(window).scrollTop( $(Article[0]).offset().top - 89 );
+                }).appendTo( $('#oooArticleList') );
+            }
+            else {
+                $(TOCItem).on('click', function() {
+                    $('html').animate( { scrollTop: $(Article[0]).offset().top - 89 }, 140 );
+                }).appendTo( $('#oooArticleList') );
+            }
         });
 
         $('#oooArticleList > li:first-child').addClass('oooActive');

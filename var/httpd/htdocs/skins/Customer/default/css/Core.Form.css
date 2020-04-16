@@ -428,3 +428,32 @@ table.AttachmentList > tbody:not( .oooRetracted ) .oooMore {
     display: none;
 }
 
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    div.DnDUploadBox {
+        display: -ms-grid;
+        -ms-grid-columns: 1fr 2fr;
+        -ms-grid-rows: auto;
+    }
+
+    .oooDnD {
+        -ms-grid-column: 1 / 2;
+        margin-right: 16px;
+    }
+
+    .AttachmentListContainer {
+        -ms-grid-column: 2;
+    }
+
+    @supports (display: grid) {
+        div.DnDUploadBox {
+            display: grid;
+        }
+        .oooDnD {
+            margin-right: 0px;
+        }
+    }
+
+}
+

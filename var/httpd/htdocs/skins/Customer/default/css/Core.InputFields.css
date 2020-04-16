@@ -280,6 +280,25 @@ label.oooFocus.LabelError {
     align-items: end;
 }
 
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    .oooTitle {
+        display: -ms-grid;
+        -ms-grid-rows: 100%;
+    }
+    
+    .oooTitle > p {
+        -ms-grid-row-align: end;
+    }
+
+    @supports (display: grid) {
+        .oooTitle {
+            display: grid;
+        }
+    }
+}
+
 /* RichText */
 .RichTextHolder > label.LabelError {
     background-color: transparent;
