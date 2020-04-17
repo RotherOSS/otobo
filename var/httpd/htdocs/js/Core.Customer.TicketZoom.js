@@ -341,6 +341,16 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             }
         });
 
+        // more button toggle further actions on click
+        $('#oooHeader .ooofo-more_v').on('click', function() {
+            if ( $(window).width() > 519 ) {
+                $('#oooMore').css({top: 80, right: 40}).toggle();
+            }
+            else {
+                $('#oooMore').css({top: 0, left: 0}).toggle();
+            }
+        });
+
         // eo otobo
 
         /*        $('#Messages > li > .MessageHeader').on('click', function(Event){

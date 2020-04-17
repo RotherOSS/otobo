@@ -233,6 +233,19 @@
             </div>
 [% RenderBlockEnd("InfoCategories") %]
         </div>
+        <div id='oooMore' class='oooWidget'>
+            <div class='oooWHead'>
+                <h2>[% Translate('Further actions') %]</h2>
+                <i class='ooofo ooofo-close oooClose'></i>
+            </div>
+            <div class="oooSection">
+[% RenderBlockStart("Print") %]
+                <a href="[% Env("Baselink") %]Action=CustomerTicketPrint;TicketID=[% Data.TicketID | uri %]" class="Print AsPopup" title="[% Translate("Print") | html %]">
+                    <i class="ooofo ooofo-print"></i><span>[% Translate("Print") | html %]</span>
+                </a>
+[% RenderBlockEnd("Print") %]
+            </div>
+        </div>
 # EO Widgets
     </div>
 </div>

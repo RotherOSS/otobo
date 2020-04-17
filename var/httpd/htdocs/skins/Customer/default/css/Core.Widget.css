@@ -82,3 +82,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     margin-bottom: 24px;
 }
 
+.oooWidget > .oooSection i {
+    position: relative;
+    top: 1px;
+    margin-right: 8px;
+}

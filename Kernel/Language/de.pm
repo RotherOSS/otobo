@@ -2860,6 +2860,7 @@ sub Data {
         'Full Article Text' => 'Vollständiger Artikeltext',
         'No more events found. Please try changing the filter settings.' =>
             'Keine weiteren Ereignisse gefunden. Versuchen Sie die Filtereinstellungen zu verändern.',
+        'Further actions' => 'Weitere Aktionen',
 
         # Template: Chat
         '#%s' => '#%s',

@@ -201,7 +201,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     top: 2px;
 }
 
-#oooHeader .oooInfo {
+#oooHeader .oooInfo,
+#oooHeader > i {
     cursor: pointer;
 }
 
