@@ -68,9 +68,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     #oooSearch.oooFull,
     #oooSearch:focus {
-        width: 280px;
         display: inline-block;
         border: solid 1px #001bff;
+    }
+    #oooSearch:focus {
+        width: 280px;
     }
 
 }
