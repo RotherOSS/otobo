@@ -64,7 +64,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     right: 32px;
     top: 34px;
     margin-top: -6px;
-    color: #000;
+    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .Dialog > .Header h2 {
@@ -122,9 +123,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .Dialog tbody tr:nth-child(odd) {
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
 }
 .Dialog tbody tr:nth-child(even) {
     background-color: #fdfdfd;
+    background-color: var(--colBGDark);
 }
 
 .Dialog th,

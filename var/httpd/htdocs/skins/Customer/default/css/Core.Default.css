@@ -22,6 +22,7 @@ body {
     line-height: 1.5;
     letter-spacing: 0.35px;
     color: #00023c;
+    color: var(--colTextDark);
 }
 
 p,
@@ -71,6 +72,7 @@ h3 {
     font-size: 10px;
     letter-spacing: 0.25px;
     color: #7f809d;
+    color: var(--colTextLight);
 }
 
 .ooo12 {
@@ -81,10 +83,12 @@ h3 {
     font-size: 12px;
     letter-spacing: 0.3px;
     color: #7f809d;
+    color: var(--colTextLight);
 }
 
 .ooog {
     color: #7f809d;
+    color: var(--colTextLight);
 }
 
 .oool {
@@ -92,7 +96,8 @@ h3 {
 }
 
 button {
-    background-color: #0000fc;
+    background-color: #001bff;
+    background-color: var(--colMainLight);
     text-align: center;
     color: #ffffff;
     border: none;
@@ -106,6 +111,7 @@ button {
 
 button:hover {
     background-color: #000099;
+    background-color: var(--colHoverDark);
 }
 
 button,

@@ -37,6 +37,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     box-shadow: 0 -2px 6px 0 rgba(0, 0, 0, 0.06);
     border-top-right-radius: 20px;
     color: #7f809d;
+    color: var(--colTextLight);
     background-color: #fff;
     display: grid;
     grid-template-columns: 1fr auto;
@@ -52,10 +53,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     padding-right: 4px;
 }
 
-#oooFooter img {
-    object-fit: contain;
+#oooFooter svg {
     height: 12px;
     width: auto;
+    fill: #7f809d;
+    fill: var(--colTextLight);
 }
 
 #oooSanMiguel {

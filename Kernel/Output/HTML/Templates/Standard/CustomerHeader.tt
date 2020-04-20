@@ -19,10 +19,10 @@
 <html>
 [% InsertTemplate("Copyright.tt") %]
 [% InsertTemplate("CustomerHTMLHead.tt") %]
-<body class="NoJavaScript [% Data.BodyClass | html %]">
+<body class="NoJavaScript [% Data.BodyClass | html %]" style="[% Data.ColorDefinitions | html %]">
 <div id="oooMobileHeader">
     <i id='oooMobileMenu' class='ooofo ooofo-menu'></i>
-    <img id="oooMobileSignet" src="/otobo-web/skins/Customer/default/img/otobo_signet_w.svg">
+    <img id="oooMobileSignet" src="[% Data.URLSignet | html %]">
 </div>
 #<!-- start CI layout -->
 #    <div id="Header">

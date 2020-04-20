@@ -76,6 +76,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         height: 100vh;
         min-height: 768px;
         background-color: #00023c;
+        background-color: var(--colMainDark);
     }
 
     #oooLoginBG > .oooBG {
@@ -160,6 +161,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     padding-left: 48px;
     padding-right: 48px;
     background-color: #f9bcb2;
+    background-color: var(--colNotifyErr);
     z-index: 500;
 }
 
@@ -195,14 +197,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .SuccessBox > p {
     background-color: #c4cdfa;
+    background-color: var(--colNotifyOK);
 }
 
 .WarningBox > p {
     background-color: #fffccc;
+    background-color: var(--colNotifyWarn);
 }
 
 .ErrorBox > p {
     background-color: #f9bcb2;
+    background-color: var(--colNotifyErr);
 }
 
 /**
@@ -237,12 +242,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     letter-spacing: 0.4px;
     text-align: left;
     color: #7f809d;
+    color: var(--colTextLight);
     width: calc( 100% - 32px );
     border-radius: 10px;
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
     padding: 0px;
     padding-left: 32px;
     border: solid 1px rgba(247, 247, 249, 0);
+    border: solid 1px var(--colBGLight);
 -webkit-transition: border 0.2s ease;
    -moz-transition: border 0.2s ease;
      -o-transition: border 0.2s ease;
@@ -252,14 +260,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .Row > input:hover,
 .Row > input.oooFull {
     border: solid 1px #7f809d;
+    border: solid 1px var(--colTextLight);
     background-color: #fff;
 }
 
 .Row > input:focus,
 .Row > input.oooFull:focus {
     border: solid 1px #001bff;
+    border: solid 1px var(--colMainLight);
     background-color: #fff;
     color: #001bff;
+    color: var(--colMainLight);
 }
 
 label {

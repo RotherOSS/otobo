@@ -134,6 +134,7 @@ textarea {
     line-height: 1.5;
     letter-spacing: 0.35px;
     color: #00023c;
+    color: var(--colTextDark);
     width: calc( 100% - 48px );
     padding: 16px 24px 16px 24px;
     border-radius: 10px;
@@ -153,6 +154,7 @@ label {
     letter-spacing: 0.4px;
     text-align: left;
     color: #7f809d;
+    color: var(--colTextLight);
 }
 
 label[for='RichText'] {
@@ -169,8 +171,11 @@ label[for='RichText'] {
 input,
 textarea {
     color: #7f809d;
+    color: var(--colTextLight);
     border: solid 1px rgba(247, 247, 249, 0);
+    border: solid 1px var(--colBGLight);
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
 -webkit-transition: border 0.2s ease, color 0.2s ease;
    -moz-transition: border 0.2s ease, color 0.2s ease;
      -o-transition: border 0.2s ease, color 0.2s ease;
@@ -180,6 +185,7 @@ textarea {
 .Row > label {
     pointer-events: none;
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
 -webkit-transition: color 0.2s ease;
    -moz-transition: color 0.2s ease;
      -o-transition: color 0.2s ease;
@@ -197,6 +203,7 @@ textarea:hover,
 textarea.oooFull,
 .oooSelected input {
     border: solid 1px #7f809d;
+    border: solid 1px var(--colTextLight);
     background-color: #fff;
 }
 
@@ -211,6 +218,7 @@ input.oooFull ~ label,
     line-height: 1.3;
     letter-spacing: 0.5px;
     color: #7f809d;
+    color: var(--colTextLight);
     background-color:#ffffff;
 }
 
@@ -223,6 +231,7 @@ textarea:focus,
 textarea.oooFull:focus,
 .oooSelected input:focus {
     border: solid 1px #001bff;
+    border: solid 1px var(--colMainLight);
     background-color: #fff;
 }
 
@@ -235,6 +244,7 @@ label.oooFocus,
     line-height: 1.3;
     letter-spacing: 0.5px;
     color: #001bff;
+    color: var(--colMainLight);
     background-color:#ffffff;
 }
 
@@ -244,6 +254,7 @@ textarea.Error,
 label.LabelError {
     color: #ea2400 !important;
     background-color: #f9bcb2;
+    background-color: var(--colNotifyErr);
 }
 
 input.Error:hover,
@@ -310,6 +321,7 @@ label.oooFocus.LabelError {
 #cke_RichText > .cke_inner {
     border-radius: 10px;
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
 }
 #cke_1_contents {
     border: solid 1px #e5e5eb;
@@ -337,6 +349,7 @@ label.oooFocus.LabelError {
     font-size: 16px;
     letter-spacing: 0.4px;
     color: #7f809d;
+    color: var(--colTextLight);
     whitespace: nowrap;
 }
 
@@ -409,6 +422,7 @@ select {
     font-size: 16px;
     letter-spacing: 0.4px;
     color: #7f809d;
+    color: var(--colTextLight);
     background-color: #fff;
 }
 
@@ -442,6 +456,7 @@ div.InputField_More {
     padding-right: 16px;
     border-radius: 10px;
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
 	width: auto;
 }
 
@@ -461,6 +476,7 @@ div.InputField_More > div {
     letter-spacing: 0.3px;
     text-align: center;
     color: #7f809d;
+    color: var(--colTextLight);
     width: auto;
 }
 
@@ -486,14 +502,17 @@ div.InputField_Selection > .Remove {
 
 .jstree-node[aria-selected="true"] {
     background-color: #c4cdfa;
+    background-color: var(--colNotifyOK);
 }
 
 .jstree-node > .jstree-wholerow:hover {
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
 }
 
 .jstree-node[aria-selected="true"] > .jstree-wholerow:hover {
     background-color: #6d83f2;
+    background-color: var(--colHoverLight);
 }
 
 .jstree-anchor {
@@ -506,6 +525,7 @@ div.InputField_Selection > .Remove {
     letter-spacing: 0.4px;
     text-align: left;
     color: #00023c;
+    color: var(--colTextDark);
     margin-top: 14px;
     margin-bottom: 14px;
     margin-left: 8px;

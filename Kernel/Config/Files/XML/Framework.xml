@@ -267,15 +267,34 @@
         </Value>
     </Setting>
     <Setting Name="CustomerLogo" Required="0" Valid="0">
-        <Description Translatable="1">The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.</Description>
+        <Description Translatable="1">The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)</Description>
         <Navigation>Frontend::Customer</Navigation>
         <Value>
             <Hash>
-                <Item Key="URL">skins/Customer/default/img/logo.png</Item>
-                <Item Key="StyleTop">9px</Item>
-                <Item Key="StyleRight">25px</Item>
-                <Item Key="StyleHeight">45px</Item>
-                <Item Key="StyleWidth">300px</Item>
+                <Item Key="URLLogo">skins/Customer/default/img/otobo_logo_simple_w.svg</Item>
+                <Item Key="URLSignet">skins/Customer/default/img/otobo_signet_w.svg</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerColorDefinitions" Required="1" Valid="1">
+        <Description Translatable="1">Color definitions for the customer interface.</Description>
+        <Navigation>Frontend::Customer</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="MainDark">#00023c</Item>
+                <Item Key="MainLight">#001bff</Item>
+                <Item Key="BGLight">#f7f7f9</Item>
+                <Item Key="BGDark">#bfbfce</Item>
+                <Item Key="TextDark">#00023c</Item>
+                <Item Key="TextLight">#7f809d</Item>
+                <Item Key="Highlight">#fef235</Item>
+                <Item Key="NotifyOK">#c4cdfa</Item>
+                <Item Key="NotifyWarn">#fffccc</Item>
+                <Item Key="NotifyErr">#f9bcb2</Item>
+                <Item Key="HoverLight">#6d83f2</Item>
+                <Item Key="HoverDark">#000099</Item>
+                <Item Key="ShadowMain">rgba(0,27,255,0.24)</Item>
+                <Item Key="ShadowDark">rgba(4,0,71,0.16)</Item>
             </Hash>
         </Value>
     </Setting>

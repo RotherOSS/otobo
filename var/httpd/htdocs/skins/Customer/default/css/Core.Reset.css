@@ -50,7 +50,8 @@ table, caption, tbody, tfoot, thead, tr, th, td, hr {
 
 body {
     line-height: 1;
-    color: black;
+    color: #00023c;
+    color: var(--colTextDark);
     background: white;
     text-align: left;
     margin: 0;

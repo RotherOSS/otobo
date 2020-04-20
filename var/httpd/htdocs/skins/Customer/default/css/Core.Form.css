@@ -66,7 +66,8 @@ div.TooltipErrorMessage {
     content: "\f1ce";
     font-family: FontAwesome;
     font-size: 14px;
-    color: #777;
+    color: #7f809d;
+    color: var(--colTextLight);
 }
 
 /**
@@ -252,6 +253,7 @@ div.DnDUploadBox {
 div.DnDUpload {
     text-align: center;
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
     border-radius: 10px;
     white-space: normal;
     padding: 8px;
@@ -283,18 +285,21 @@ div.DnDUpload span {
     line-height: 1.5;
     letter-spacing: 0.3px;
     text-align: center;
-    color: #bfbfce;
+    color: #7f809d;
+    color: var(--colTextLight);
 }
 
 div.DnDUpload i.ooofo-save {
-    color: #bfbfce;
     font-size: 28px;
+    color: #7f809d;
+    color: var(--colTextLight);
 }
 
 div.DnDUpload i.fa-spinner {
     display: none;
-    color: #bfbfce;
     font-size: 28px;
+    color: #7f809d;
+    color: var(--colTextLight);
 }
 
 div.DnDUpload.Uploading i.ooofo-save {
@@ -320,6 +325,7 @@ div.DnDUpload.Uploading .UploadRunning {
 .AttachmentListContainer {
     border-radius: 10px;
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
     min-height: 144px;
 }
 
@@ -353,7 +359,7 @@ table.AttachmentList tr {
 }
 
 table.AttachmentList tr:nth-child(even) {
-    background-color: #fafafc;
+    background-color: rgba(255, 255, 255, 0.35);
 }
 
 table.AttachmentList td {
@@ -364,6 +370,11 @@ table.AttachmentList td {
 table.AttachmentList .Filetype {
     width: 16px;
     padding-left: 16px;
+}
+
+table.AttachmentList .Filetype i {
+    position: relative;
+    top: 1px;
 }
 
 table.AttachmentList .Filename {
@@ -396,11 +407,6 @@ table.AttachmentList .Delete {
     font-size: 16px;
 }
 
-table.AttachmentList i {
-    position: relative;
-    top: 1px;
-}
-
 table.AttachmentList > .oooRetracted > tr:not( .oooToggleML ):not( :nth-child(-n+2) ) {
     display: none;
 }
@@ -411,6 +417,7 @@ table.AttachmentList .ToggleML {
 
 table.AttachmentList > .oooRetracted .ToggleML {
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
 }
 
 table.AttachmentList .oooMore,

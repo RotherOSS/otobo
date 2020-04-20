@@ -4074,6 +4074,12 @@ sub CustomerLogin {
     $Param{LoginText}  = $BGConfig->{LoginText} // "Your Tickets. Your OTOBO.";
     $Param{Background} = $BGConfig->{Background} || '';
 
+    # define color scheme
+    my $ColorDefinitions = $ConfigObject->Get('CustomerColorDefinitions');
+    for my $Color ( keys %{ $ColorDefinitions } ) {
+        $Param{ColorDefinitions} .= "--col$Color:$ColorDefinitions->{ $Color };";
+    }
+
     # create & return output
     $Output .= $Self->Output(
         TemplateFile => 'CustomerLogin',
@@ -4181,37 +4187,33 @@ sub CustomerHeader {
         );
     }
 
-    # Add header logo, if configured
+    # define (custom) logo
+    my $WebPath = $ConfigObject->Get('Frontend::WebPath');
+    $Param{URLSignet} = $WebPath . 'skins/Customer/default/img/otobo_signet_w.svg';
     if ( defined $ConfigObject->Get('CustomerLogo') ) {
         my %CustomerLogo = %{ $ConfigObject->Get('CustomerLogo') };
-        my %Data;
 
-        for my $CSSStatement ( sort keys %CustomerLogo ) {
-            if ( $CSSStatement eq 'URL' ) {
-                my $WebPath = '';
-                if ( $CustomerLogo{$CSSStatement} !~ /(http|ftp|https):\//i ) {
-                    $WebPath = $ConfigObject->Get('Frontend::WebPath');
-                }
-                $Data{'URL'} = 'url(' . $WebPath . $CustomerLogo{$CSSStatement} . ')';
+        for my $Statement ( qw(URLSignet) ) {
+            next if !$CustomerLogo{ $Statement };
+
+            if ( $CustomerLogo{ $Statement } !~ /(http|ftp|https):\//i ) {
+                $Param{ $Statement } = $WebPath . $CustomerLogo{ $Statement };
             }
             else {
-                $Data{$CSSStatement} = $CustomerLogo{$CSSStatement};
+                $Param{ $Statement } = $CustomerLogo{ $Statement };
             }
         }
-
-        $Self->Block(
-            Name => 'HeaderLogoCSS',
-            Data => \%Data,
-        );
-
-        $Self->Block(
-            Name => 'HeaderLogo',
-        );
     }
 
     # Generate the minified CSS and JavaScript files
     # and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateCustomerCSSCalls();
+
+    # define color scheme
+    my $ColorDefinitions = $ConfigObject->Get('CustomerColorDefinitions');
+    for my $Color ( keys %{ $ColorDefinitions } ) {
+        $Param{ColorDefinitions} .= "--col$Color:$ColorDefinitions->{ $Color };";
+    }
 
     # create & return output
     $Output .= $Self->Output(
@@ -4656,6 +4658,25 @@ sub CustomerNavigationBar {
         $Param{UserInitials} = substr( $User{UserFirstName}, 0, 1 ) . substr( $User{UserLastName}, 0, 1 );
     }
 
+    # define (custom) logo
+    my $WebPath = $ConfigObject->Get('Frontend::WebPath');
+    $Param{URLLogo} = $WebPath . 'skins/Customer/default/img/otobo_logo_simple_w.svg';
+    $Param{URLSignet} = $WebPath . 'skins/Customer/default/img/otobo_signet_w.svg';
+    if ( defined $ConfigObject->Get('CustomerLogo') ) {
+        my %CustomerLogo = %{ $ConfigObject->Get('CustomerLogo') };
+
+        for my $Statement ( qw(URLLogo URLSignet) ) {
+            next if !$CustomerLogo{ $Statement };
+
+            if ( $CustomerLogo{ $Statement } !~ /(http|ftp|https):\//i ) {
+                $Param{ $Statement } = $WebPath . $CustomerLogo{ $Statement };
+            }
+            else {
+                $Param{ $Statement } = $CustomerLogo{ $Statement };
+            }
+        }
+    }
+
     # create & return output
     return $Self->Output(
         TemplateFile => 'CustomerNavigationBar',
@@ -4663,74 +4684,7 @@ sub CustomerNavigationBar {
     );
 
 
-# TODO: rest is ignored; build in useful stuff
-    ITEM:
-    for my $Item ( sort keys %NavBarModule ) {
-        next ITEM if !%{ $NavBarModule{$Item} };
-        next ITEM if $Item eq 'Sub';
-        $Counter++;
-        my $Sub;
-        if ( $NavBarModule{$Item}->{NavBar} ) {
-            $Sub = $NavBarModule{Sub}->{ $NavBarModule{$Item}->{NavBar} };
-        }
-
-        # highlight active link
-        $NavBarModule{$Item}->{Class} = '';
-        if ( $NavBarModule{$Item}->{Link} ) {
-            if (
-                !$SelectedFlag
-                && $NavBarModule{$Item}->{Link} =~ /Action=$Self->{Action}/
-                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/       # Subaction can be empty
-                )
-            {
-                $NavBarModule{$Item}->{Class} .= ' Selected';
-                $SelectedFlag = 1;
-            }
-        }
-        if ( $Counter == $Total ) {
-            $NavBarModule{$Item}->{Class} .= ' Last';
-        }
-        $Self->Block(
-            Name => $NavBarModule{$Item}->{Block} || 'Item',
-            Data => $NavBarModule{$Item},
-        );
-
-        # show sub menu
-        next ITEM if !$Sub;
-        $Self->Block(
-            Name => 'ItemAreaSub',
-            Data => $Item,
-        );
-        for my $Key ( sort keys %{$Sub} ) {
-            my $ItemSub = $Sub->{$Key};
-            $ItemSub->{NameForID} = $ItemSub->{Name};
-            $ItemSub->{NameForID} =~ s/[ &;]//ig;
-            $ItemSub->{NameTop} = $NavBarModule{$Item}->{NameForID};
-
-            # check if we must mark the parent element as selected
-            if ( $ItemSub->{Link} ) {
-                if (
-                    $ItemSub->{Link} =~ /Action=$Self->{Action}/
-                    && $ItemSub->{Link} =~ /$Self->{Subaction}/    # Subaction can be empty
-                    )
-                {
-                    $NavBarModule{$Item}->{Class} .= ' Selected';
-                    $ItemSub->{Class} .= ' SubSelected';
-                    $SelectedFlag = 1;
-                }
-            }
-
-            $Self->Block(
-                Name => 'ItemAreaSubItem',
-                Data => {
-                    %$ItemSub,
-                    AccessKeyReference => $ItemSub->{AccessKey} ? " ($ItemSub->{AccessKey})" : '',
-                },
-            );
-        }
-    }
-
-    # run notification modules
+    # TODO: run notification modules
     my $FrontendNotifyModuleConfig = $ConfigObject->Get('CustomerFrontend::NotifyModule');
     if ( ref $FrontendNotifyModuleConfig eq 'HASH' ) {
         my %Jobs = %{$FrontendNotifyModuleConfig};
@@ -4751,74 +4705,6 @@ sub CustomerNavigationBar {
         }
     }
 
-    # create the customer user login info (usually at the right side of the navigation bar)
-    if ( !$Self->{UserLoginIdentifier} ) {
-        $Param{UserLoginIdentifier} = $Self->{UserEmail} ne $Self->{UserCustomerID}
-            ?
-            "( $Self->{UserEmail} / $Self->{UserCustomerID} )"
-            : $Self->{UserEmail};
-    }
-    else {
-        $Param{UserLoginIdentifier} = $Self->{UserLoginIdentifier};
-    }
-
-    # only on valid session
-    if ( $Self->{UserID} ) {
-
-        # show logout button (if registered)
-        if ( $FrontendModule->{Logout} ) {
-            $Self->Block(
-                Name => 'Logout',
-                Data => \%Param,
-            );
-        }
-
-        # show preferences button (if registered)
-        if ( $FrontendModule->{CustomerPreferences} ) {
-            if ( $Self->{Action} eq 'CustomerPreferences' ) {
-                $Param{Class} = 'Selected';
-            }
-            $Self->Block(
-                Name => 'Preferences',
-                Data => \%Param,
-            );
-        }
-
-        # Show open chat requests (if chat engine is active).
-        if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Chat', Silent => 1 ) ) {
-            if ( $ConfigObject->Get('ChatEngine::Active') ) {
-                my $ChatObject = $Kernel::OM->Get('Kernel::System::Chat');
-                my $Chats      = $ChatObject->ChatList(
-                    Status        => 'request',
-                    TargetType    => 'Customer',
-                    ChatterID     => $Self->{UserID},
-                    ChatterType   => 'Customer',
-                    ChatterActive => 0,
-                );
-
-                my $Count = scalar $Chats;
-
-                $Self->Block(
-                    Name => 'ChatRequests',
-                    Data => {
-                        Count => $Count,
-                        Class => ($Count) ? '' : 'Hidden',
-                    },
-                );
-
-                $Self->AddJSData(
-                    Key   => 'ChatEngine::Active',
-                    Value => $ConfigObject->Get('ChatEngine::Active')
-                );
-            }
-        }
-    }
-
-    # create & return output
-    return $Self->Output(
-        TemplateFile => 'CustomerNavigationBar',
-        Data         => \%Param
-    );
 }
 
 sub CustomerError {

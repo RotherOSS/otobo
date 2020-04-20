@@ -30,6 +30,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     #oooContent.TicketCompose {
         background-color: #00023c;
+        background-color: var(--colMainDark);
     }
 
     #oooContent.TicketCompose > #oooMainBox{

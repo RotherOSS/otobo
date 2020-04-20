@@ -27,6 +27,7 @@ body {
         height: 24px;
         padding: 16px;
         background-color: #00023c;
+        background-color: var(--colMainDark);
         position: sticky;
         top: 0px;
         z-index: 500;
@@ -35,6 +36,7 @@ body {
     #oooContent {
         min-height: calc( 100vh - 104px );
         background-color: #00023c;
+        background-color: var(--colMainDark);
     }
 
     #oooMainBox {
@@ -53,6 +55,7 @@ body {
         padding-bottom: 24px;
         min-height: calc( 100vh - 72px );
         background-color: #f7f7f9;
+        background-color: var(--colBGLight);
     }
 
 }
@@ -97,4 +100,5 @@ body {
 #oooFooter {
     height: 48px;
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
 }

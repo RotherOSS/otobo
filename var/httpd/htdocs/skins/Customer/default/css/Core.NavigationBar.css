@@ -20,6 +20,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         font-size: 24px;
         line-height: 1;
         color: #fef235;
+        color: var(--colHighlight);
         cursor: pointer;
     }
 
@@ -49,6 +50,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         font-size: 22px;
         line-height: 1;
         color: #fef235;
+        color: var(--colHighlight);
         cursor: pointer;
     }
 
@@ -83,14 +85,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     #oooLogo {
         display: none;
-        width: 183.4px;
+        width: 196px;
     }
 
     #oooNavBarSignet > img {
         position: relative;
         top: 32px;
         left: 12px;
-        height: 29.6px;
+        height: 32px;
         object-fit: contain;
 -webkit-transition: left 0.3s ease;
    -moz-transition: left 0.3s ease;
@@ -98,7 +100,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         transition: left 0.3s ease;
     }
     #oooNavigation.oooExpanded > #oooNavBarIcons > #oooNavBarSignet > img {
-        left: 40px;
+        left: 36px;
     }
 
 }
@@ -110,6 +112,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     height: 100%;
     border-radius: 0px 0px 20px 0px;
     background-color: #00023c;
+    background-color: var(--colMainDark);
 -webkit-transition: width 0.3s ease;
    -moz-transition: width 0.3s ease;
      -o-transition: width 0.3s ease;
@@ -139,7 +142,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 #oooNavigation #oooSignet {
-    width: 29.4px;
+    width: 32x;
 }
 
 /* User */
@@ -161,7 +164,18 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     background-size: cover;
 }
 
+#oooLogoutIcon > svg {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+    margin-top: 6px;
+	fill: #fef235;
+    fill: var(--colHighlight);
+}
+
 #oooNavBarAvatar img {
+    position: relative;
+    top: -32px;
     height: 32px;
     width: 32px;
     object-fit: contain;
@@ -199,6 +213,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 #oooUser:hover h3 {
     opacity: 1;
 	color: #fef235;
+    color: var(--colHighlight);
 }
 
 /* Modules */
@@ -223,6 +238,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 	height: 100%;
 	border-radius: 2px;
 	background-color: #fef235;
+    background-color: var(--colHighlight);
 	opacity: 0;
 -webkit-transition: opacity 0.12s ease;
    -moz-transition: opacity 0.12s ease;
@@ -254,6 +270,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 #oooNavBarModuleIcons > a:hover > .oooIconContainer > svg {
 	opacity: 1;
     fill: #fef235;
+    fill: var(--colHighlight);
 }
 
 #oooNavBarModuleIcons > a > .oooNavBarDescription {
@@ -279,6 +296,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 #oooNavBarModuleIcons > a:hover > .oooNavBarDescription > h3 {
     opacity: 1;
 	color: #fef235;
+    color: var(--colHighlight);
 }
 
 /* Expand Button */
@@ -303,14 +321,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     background-color: rgba(255, 255, 255, 0);
 }
 
-#oooNavBarExpand > img {
+#oooNavBarExpand > i {
     position: relative;
-    top: 4px;
-    left: 4px;
-    width: 16px;
-    height: 16px;
+    top: 3.5px;
+    left: 4.5px;
+    font-size: 16px;
+    line-height: 16px;
+    color: #001bff;
+    color: var(--colMainLight);
     opacity: 1;
-    object-fit: contain;
 -webkit-transition: opacity 0.3s ease;
    -moz-transition: opacity 0.3s ease;
      -o-transition: opacity 0.3s ease;
