@@ -4,7 +4,7 @@
         <Description Translatable="1">Defines if the communication between this system and the servers that provide cloud services is possible. If set to 'Disable cloud services', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.</Description>
         <Navigation>CloudService</Navigation>
         <Value>
-            <Item ValueType="Select" SelectedID="1">
+            <Item ValueType="Select" SelectedID="0">
                 <Item ValueType="Option" Value="0" Translatable="1">Enable cloud services</Item>
                 <Item ValueType="Option" Value="1" Translatable="1">Disable cloud services</Item>
             </Item>
