@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.393364928909953;
+    $Self->{Completeness}        = 0.393637846655791;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -819,6 +819,10 @@ sub Data {
         'No change time settings.' => 'Ingen endringstidspunkt innstillinger',
         'Ticket changed' => 'Sak endret',
         'Ticket changed between' => 'Sak endret mellom',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'Stengningstidspunkt',
         'No close time settings.' => 'Ingen stengetid-innstilling',
         'Ticket closed' => 'Sak låst',
@@ -1809,7 +1813,7 @@ sub Data {
         'Show transmitted data' => 'Vis overført data',
         'Deregister system' => 'Avregistrere system',
         'Overview of registered systems' => 'Oversikt over registrerte systemet',
-        'This system is registered with OTOBO Team.' => 'Dette systemet er registrert med OTRS gruppen.',
+        'This system is registered with OTOBO Team.' => '',
         'System type' => 'Systemtype',
         'Unique ID' => 'Unik ID',
         'Last communication with registration server' => 'Sist kommunikasjon med registreringstjeneren',
@@ -1820,7 +1824,7 @@ sub Data {
         'System Deregistration not Possible' => '',
         'OTOBO-ID Login' => 'OTOBO-ID',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'Registrering av systemet er en tjeneste fra OTRS gruppen, som kan tilby mange fordeler!',
+            '',
         'Read more' => 'Les mer',
         'You need to log in with your OTOBO-ID to register your system.' =>
             '',
@@ -1840,7 +1844,7 @@ sub Data {
         'Is it possible to deregister?' => 'Er det mulig å avregistrere seg?',
         'You can deregister at any time.' => 'Du kan avregistrere deg når som helst.',
         'Which data is transfered when registering?' => 'Hvilke data blir overført ved registrering?',
-        'A registered system sends the following data to OTOBO Team:' => 'Et registrert system overfører følgende data til OTRS gruppen:',
+        'A registered system sends the following data to OTOBO Team:' => '',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'Fully Qualified Domain Name (FQDN), OTOBO versjon, Database-, Operativsystem- og Perl versjon.',
         'Why do I have to provide a description for my system?' => 'Hvorfor må jeg gi en beskrivelse for mitt system?',
@@ -1870,7 +1874,7 @@ sub Data {
         'Perl Version' => 'Perl versjon',
         'Optional description of this system.' => 'Valgfri beskrivelse av dette systemet.',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'Dette vil tillate ditt system å sende tilleggsdatainformasjon til OTRS gruppen.',
+            '',
         'Register' => 'Registrer',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
             '',
@@ -2243,6 +2247,14 @@ sub Data {
         'Delete this entry' => 'Slett denne posten',
         'Do you really want to delete this template?' => 'Virkelig slette denne malen?',
         'A standard template with this name already exists!' => '',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => '',
         'Example template' => 'Eksempel på mal',
         'The current ticket state is' => 'Nåværende status på sak',
@@ -2958,7 +2970,7 @@ sub Data {
             'Vennligst se dokumentasjonen eller spør din IT-ansvarlige for mer informasjon.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => 'Et øyeblikk, du blir omdirigert',
         'Login' => 'Innlogging',
@@ -3037,6 +3049,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => 'Saksinformasjon',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => 'Utvid artikkel',
@@ -3926,7 +3939,7 @@ sub Data {
         'File is OK' => '',
         'Package has locally modified files.' => '',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'Pakken er ikke verifisert av OTRS-gruppen! Det er anbefalt å ikke bruke denne pakken.',
+            '',
         'Not Started' => '',
         'Updated' => '',
         'Already up-to-date' => '',
@@ -5266,6 +5279,8 @@ sub Data {
         'Client Connection Charset' => '',
         'Setting character_set_client needs to be utf8.' => 'Innstillingen character_set_client må være utf8',
         'Server Database Charset' => 'Tjener databasetegnsett',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Tabel tegnsett',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -6246,7 +6261,7 @@ Thanks for your help!
         'Added system request (%s).' => '',
         'Added web request from customer.' => '',
         'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.' =>
-            '',
+            'Legger til år og måned på loggfilens navn. Dette gjør at man får én logg-fil per måned.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             '',
         'Adds the one time vacation days for the indicated calendar.' => '',
@@ -6513,6 +6528,7 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             '',
         'Collect support data for asynchronous plug-in modules.' => '',
+        'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
@@ -6684,7 +6700,7 @@ Thanks for your help!
         'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
             '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Sett et filter for HTML-visning som legger til lenker bak en gitt tekst. Bildeelementet tillater to typer inn-data. For det første navnet på et bilde (f.eks. bilde01.png). I det tilfellet vil OTOBO sin bilde-sti brukes. Den andre muligheten er å skrive inn URL til bildet',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
             '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
@@ -6717,13 +6733,13 @@ Thanks for your help!
         'Defines a customer item, which generates a google maps icon at the end of a customer info block.' =>
             'Definferer et kundeelement som lager et Google Maps-symbol på slutten av kunde-info-blokken.',
         'Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Definerer et filter for HTML-visning for å legge til lenker bak CVE-nummer. Bilde-elementet tillater to typer inn-data. Enten navnet på en bilde-fil (f.eks. bilde01.png), der OTOBO vil gå utfra at bildet ligger i OTOBO sin bildemappe. Eller man kan oppgi URL til et bilde.',
         'Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Definerer et filter i HTML-visningen for å legge til lenker bak MSBulletin-nummer. Bildeelementet tillater to typer inn-data. Enten navnet på en bilde-fil (f.eks. bilde01.png), der OTOBO vil gå utfra at bildet ligger i OTOBO sin bildemappe. Eller man kan oppgi URL til et bilde.',
         'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Definerer et filter for HTML-visning som legger til lenker bak en definert tekst. Bilde-elementet tillater to typer inn-data. Enten navnet på en bilde-fil (f.eks. bilde01.png), der OTOBO vil gå utfra at bildet ligger i OTOBO sin bildemappe. Eller man kan oppgi URL til et bilde.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Definerer et filter for HTML-visning som legger til lenker bak BugTraq-numre. Bilde-elementet tillater to typer inn-data. Enten navnet på en bildefil (f.eks. bilde01.png), der OTOBO vil gå utfra at bildet ligger i OTOBO sin bildemappe. Eller man kan oppgi URL til et bilde.',
         'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
@@ -7790,7 +7806,7 @@ Thanks for your help!
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             '',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            '',
+            'Hvis "HTTPBasicAuth" er valgt som Customer::AuthModule kan du velge å ta vekk deler av brukernavnet (f.eks. gjøre "domene\bruker" om til "bruker").',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
             'Hvis "LDAP" er valgt som Customer::AuthModule og du vil legge til en tekst til etter brukernavnet (f.eks. endre "brukernavn" til "brukernavn@domene") kan du spesifisere dette her.',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
@@ -7854,7 +7870,7 @@ Thanks for your help!
         'If enabled, OTOBO will deliver all CSS files in minified form.' =>
             '',
         'If enabled, OTOBO will deliver all JavaScript files in minified form.' =>
-            '',
+            'Hvis slått på vil OTOBO levere alle JavaScript-filer i minimert form',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'Hvis slått på vil telefonsak og e-postsak bli åpnet i nye vinduer.',
         'If enabled, the OTOBO version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
@@ -8110,7 +8126,7 @@ Thanks for your help!
         'New Year\'s Day' => 'Nyttårsdagen',
         'New Year\'s Eve' => 'Nyttårsaften',
         'New process ticket' => 'Ny prosess sak',
-        'News about OTOBO releases!' => '',
+        'News about OTOBO releases!' => 'Nyheter om OTOBO utgivelser!',
         'News about OTOBO.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
@@ -8131,7 +8147,7 @@ Thanks for your help!
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Antall saker som vises per side i et søkeresultat i kundeportalen.',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO News' => '',
+        'OTOBO News' => 'OTOBO-nyheter',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
@@ -8776,7 +8792,7 @@ Thanks for your help!
             'Viser enten emnet til siste kundeartikkel eller sakens emne i "liten" oversikt.',
         'Shows existing parent/child queue lists in the system in the form of a tree or a list.' =>
             'Viser eksisterende foredldre/barn kølister i systemet i form av et tre eller en liste',
-        'Shows information on how to start OTOBO Daemon' => '',
+        'Shows information on how to start OTOBO Daemon' => 'Vis informasjon om hvordan starte OTOBO Agenten',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Shows the article head information in the agent zoom view.' => '',
@@ -8952,6 +8968,8 @@ Thanks for your help!
         'The headline shown in the customer interface.' => 'Overskriften som vises i kundeportalen',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             'Identifikatoren for en sak, f.eks. Sak#, Ticket#, MinSak#. Standard er Ticket#',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8963,8 +8981,6 @@ Thanks for your help!
         'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            '',
-        'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
@@ -9181,6 +9197,7 @@ Thanks for your help!
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2013 Sefer ÅimÅek / Network Group <network@kamusm.gov.tr>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.184343847033829;
+    $Self->{Completeness}        = 0.184176182707993;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -811,6 +811,10 @@ sub Data {
         'No change time settings.' => 'Zaman ayarlarında değişiklik yok.',
         'Ticket changed' => 'Bilet değişti',
         'Ticket changed between' => '',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'Kapanma zamanı',
         'No close time settings.' => '',
         'Ticket closed' => 'Bilet kapatıldı',
@@ -2235,6 +2239,14 @@ sub Data {
         'Delete this entry' => 'Bu kaydı sil',
         'Do you really want to delete this template?' => '',
         'A standard template with this name already exists!' => '',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => '',
         'Example template' => '',
         'The current ticket state is' => 'Bilet durumu',
@@ -2950,7 +2962,7 @@ sub Data {
             '',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => '',
         'Login' => 'Oturum aç',
@@ -3029,6 +3041,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => 'Bilet Bilgileri',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => 'Makaleyi genişlet',
@@ -5258,6 +5271,8 @@ sub Data {
         'Client Connection Charset' => '',
         'Setting character_set_client needs to be utf8.' => '',
         'Server Database Charset' => '',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => '',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -6505,6 +6520,7 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             '',
         'Collect support data for asynchronous plug-in modules.' => '',
+        'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
@@ -8123,7 +8139,7 @@ Thanks for your help!
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO News' => '',
+        'OTOBO News' => 'OTOBO Haberleri',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
@@ -8944,6 +8960,8 @@ Thanks for your help!
         'The headline shown in the customer interface.' => '',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             '',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8955,8 +8973,6 @@ Thanks for your help!
         'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            '',
-        'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
@@ -9173,6 +9189,7 @@ Thanks for your help!
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

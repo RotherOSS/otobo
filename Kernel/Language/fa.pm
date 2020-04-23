@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.648962248733453;
+    $Self->{Completeness}        = 0.649102773246329;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -816,6 +816,10 @@ sub Data {
         'No change time settings.' => 'هیچ تنظیمی برای تغییر زمان وجود ندارد',
         'Ticket changed' => 'درخواست تغییر داده شده',
         'Ticket changed between' => 'درخواست تغییر داده شده بین',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'زمان‌های بستن',
         'No close time settings.' => 'زمان بستن تنظیم نشده است',
         'Ticket closed' => 'درخواست بسته شده',
@@ -1194,7 +1198,7 @@ sub Data {
         'Certification Authority (CA) Directory' => 'مجوز (CA) راهنمای',
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'مسیر کامل دایرکتوری که در آن اقتدار صدور گواهینامه گواهی CA ها در سیستم فایل ذخیره می شود.',
-        'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'به عنوان مثال / انتخاب کردن / OTRS / ور / گواهی / SOAP / CA',
+        'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'به عنوان مثال / انتخاب کردن / OTOBO / ور / گواهی / SOAP / CA',
         'SSL hostname verification.' => '',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
             '',
@@ -1229,7 +1233,7 @@ sub Data {
         'Namespace' => 'فضای نام',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI به روش SOAP زمینه ای، کاهش ابهامات.',
         'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
-            'به عنوان مثال کوزه: OTRS-COM: صابون: توابع و یا http://www.otrs.com/GenericInterface/actions',
+            '',
         'Request name scheme' => ' درخواست پاسخ به طرح نام',
         'Select how SOAP request function wrapper should be constructed.' =>
             'انتخاب کنید که چگونه SOAP تابع درخواست لفاف بسته بندی باید ساخته شود.',
@@ -1489,7 +1493,7 @@ sub Data {
         'Install' => 'نصب',
         'Update repository information' => 'به‌روز رسانی اطلاعات مخزن',
         'Cloud services are currently disabled.' => 'خدمات ابر در حال حاضر غیر فعال است.',
-        'OTOBO Verify can not continue!' => 'OTRS تایید ™ نمی تواند ادامه دهد.',
+        'OTOBO Verify can not continue!' => '',
         'Enable cloud services' => 'فعال کردن سرویس های ابری',
         'Update all installed packages' => '',
         'Online Repository' => 'مخزن آنلاین بسته‌ها',
@@ -1806,7 +1810,7 @@ sub Data {
         'Show transmitted data' => 'نمایش انتقال داده ها',
         'Deregister system' => 'سیستم لغو ثبت',
         'Overview of registered systems' => 'بررسی اجمالی از سیستم ثبت نام',
-        'This system is registered with OTOBO Team.' => 'این سیستم با OTRS گروه ثبت شده است.',
+        'This system is registered with OTOBO Team.' => '',
         'System type' => 'نوع سیستم',
         'Unique ID' => 'شناسه منحصر به فرد',
         'Last communication with registration server' => 'ارتباط با سرور و زمان آخرین ثبت نام',
@@ -1817,7 +1821,7 @@ sub Data {
         'System Deregistration not Possible' => '',
         'OTOBO-ID Login' => 'OTOBO-ID ورود',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'ثبت نام سیستم یک سرویس از OTRS گروه، فراهم می کند که بسیاری از مزایای است!',
+            '',
         'Read more' => 'ادامه مطلب',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'شما نیاز به ورود خود را با OTOBO-ID برای ثبت نام سیستم شما.',
@@ -1837,7 +1841,7 @@ sub Data {
         'Is it possible to deregister?' => 'آیا لغو ثبت ممکن است؟',
         'You can deregister at any time.' => 'شما می توانید در هر زمان لغو ثبت کنید .',
         'Which data is transfered when registering?' => 'که داده منتقل هنگام ثبت نام؟',
-        'A registered system sends the following data to OTOBO Team:' => 'سیستم ثبت نام اطلاعات زیر به OTRS گروه می فرستد:',
+        'A registered system sends the following data to OTOBO Team:' => '',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'نام کامل دامنه (FQDN)، مدل OTOBO، پایگاه داده، سیستم عامل و نسخه پرل.',
         'Why do I have to provide a description for my system?' => 'چرا باید برای ارائه یک توصیف برای سیستم من؟',
@@ -1859,7 +1863,7 @@ sub Data {
         'Retrieve a new one' => ' یک رمز جدید بازیابی کنید',
         'Next' => 'بعدی',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            'این داده خواهد شد اغلب به OTRS گروه منتقل هنگامی که شما این سیستم ثبت نام کنید.',
+            '',
         'Attribute' => 'صفت',
         'FQDN' => 'FQDN',
         'OTOBO Version' => 'OTOBO نسخه',
@@ -1867,10 +1871,10 @@ sub Data {
         'Perl Version' => 'پرل نسخه',
         'Optional description of this system.' => 'توضیحات اختیاری این سیستم.',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'این اجازه خواهد داد این سیستم را به ارسال اطلاعات اضافی داده ها پشتیبانی به OTRS گروه.',
+            '',
         'Register' => 'ثبت نام',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            'در ادامه با این مرحله خواهد شد سیستم را از OTRS گروه لغو ثبت.',
+            '',
         'Deregister' => 'لغو ثبت',
         'You can modify registration settings here.' => 'شما می توانید تنظیمات ثبت نام را اینجا تنظیم کنید.',
         'Overview of Transmitted Data' => '',
@@ -2051,18 +2055,18 @@ sub Data {
         'This state is used in the following config settings:' => '',
 
         # Template: AdminSupportDataCollector
-        'Sending support data to OTOBO Team is not possible!' => 'ارسال اطلاعات پشتیبانی به OTRS گروه ممکن نیست!',
+        'Sending support data to OTOBO Team is not possible!' => '',
         'Enable Cloud Services' => 'فعال کردن خدمات ابر',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            'این داده ها به OTRS گروه به طور منظم ارسال می شود. برای متوقف کردن ارسال این اطلاعات لطفا به روز رسانی ثبت نام سیستم شما.',
+            '',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             'شما می توانید دستی ماشه داده پشتیبانی از ارسال با فشار دادن این دکمه:',
         'Send Update' => 'ارسال به روز رسانی',
         'Currently this data is only shown in this system.' => 'در حال حاضر این داده ها فقط در این سیستم نشان داده میشوند.',
         'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'آن را بسیار توصیه به ارسال این اطلاعات را به OTRS گروه به منظور رسیدن به پشتیبانی بهتر.',
+            '',
         'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'برای فعال کردن ارسال اطلاعات، لطفا ثبت نام سیستم خود را با OTRS گروه یا به روز رسانی اطلاعات ثبت نام سیستم تان انجام دهید (مطمئن شوید که  گزینه  "ارسال  پشتیبانی داده ها " فعال است.)',
+            '',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'بسته نرم افزاری پشتیبانی (از جمله: اطلاعات ثبت نام سیستم، داده پشتیبانی، یک لیست از بسته های نصب شده و تمامی فایل های کد منبع به صورت محلی تغییر) را می توان با فشار دادن این دکمه تولید:',
         'Generate Support Bundle' => 'تولید پشتیبانی بسته نرم افزاری',
@@ -2075,10 +2079,10 @@ sub Data {
             'آدرس ایمیل برای این کاربر نامعتبر است، این گزینه غیرفعال شده است.',
         'Sending' => 'فرستنده',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            'بسته نرم افزاری پشتیبانی به OTRS گروه از طریق ایمیل به طور خودکار ارسال خواهد شد .',
+            '',
         'Download File' => 'دریافت فایل',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            'فایل حاوی بسته نرم افزاری پشتیبانی خواهد شد به سیستم محلی دریافت کنید. لطفا فایل ذخیره و ارسال آن به گروه OTRS، با استفاده از یک روش جایگزین.',
+            '',
         'Error: Support data could not be collected (%s).' => 'خطا: اطلاعات پشتیبانی نمی تواند جمع آوری  شود ( %s ).',
         'Details' => 'جزئیات',
 
@@ -2240,6 +2244,14 @@ sub Data {
         'Delete this entry' => 'حذف این ورودی',
         'Do you really want to delete this template?' => 'آیا واقعا مایل به حذف این قالب هستید؟',
         'A standard template with this name already exists!' => 'قالب استاندارد با این نام وجود دارد.',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => 'ایجاد قالب های نوع تنها پشتیبانی از این تگ های هوشمند',
         'Example template' => 'نمونه قالب',
         'The current ticket state is' => 'وضعیت فعلی درخواست',
@@ -2406,7 +2418,7 @@ sub Data {
         'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTOBO Daemon is running and start it if needed.' =>
             'مطمئن شوید که فایل \' %s \' وجود دارد (بدون .dist پسوند). این cron در هر 5 دقیقه اگر OTOBO دیمون در حال اجرا است را بررسی کنید و شروع به آن در صورت نیاز.',
         'Execute \'%s start\' to make sure the cron jobs of the \'otobo\' user are active.' =>
-            'اعدام %s شروع به مطمئن شوید که به cron job از کاربر OTRS، فعال هستند.',
+            'اعدام %s شروع به مطمئن شوید که به cron job از کاربر OTOBO، فعال هستند.',
         'After 5 minutes, check that the OTOBO Daemon is running in the system (\'bin/otobo.Daemon.pl status\').' =>
             'پس از 5 دقیقه، بررسی کنید که OTOBO دیمون در حال اجرا در سیستم ( \'وضعیت بن / otobo.Daemon.pl\').',
 
@@ -2955,7 +2967,7 @@ sub Data {
             'لطفا مستندات را مشاهده کنید یا از مدیر سیستم برای اطلاعات بیشتر سوال بپرسید.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => 'لطفا چند لحظه صبرکنید ، شما در حال هدایت می شوید ...',
         'Login' => 'ورود به سیستم',
@@ -3034,6 +3046,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => 'اطلاعات درخواست',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => 'گسترش مطلب',
@@ -3923,7 +3936,7 @@ sub Data {
         'File is OK' => 'فایل خوب است',
         'Package has locally modified files.' => 'بسته بندی به صورت محلی فایل های اصلاح شده.',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'بسته توسط گروه OTRS تایید نشده است! توصیه نمی شود از این بسته استفاده کنید .',
+            '',
         'Not Started' => '',
         'Updated' => '',
         'Already up-to-date' => '',
@@ -5263,6 +5276,8 @@ sub Data {
         'Client Connection Charset' => 'اتصال مشتری نویسهگان',
         'Setting character_set_client needs to be utf8.' => 'تنظیم character_set_client نیاز به UTF8 باشد.',
         'Server Database Charset' => 'سرور مجموعه کاراکتر پایگاه',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'جدول مجموعه کاراکتر',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -5451,7 +5466,7 @@ sub Data {
         'Some packages are not correctly installed.' => 'برخی از بسته ها به درستی نصب نشده است.',
         'Package Verification Status' => 'وضعیت بسته تأیید',
         'Some packages are not verified by the OTOBO Team! It is recommended not to use this packages.' =>
-            'برخی از بسته های توسط گروه OTRS تایید نشده است! توصیه می شود برای استفاده از این بسته نیست.',
+            '',
         'Package Framework Version Status' => 'بسته بندی Framework نسخه وضعیت',
         'Some packages are not allowed for the current framework version.' =>
             'برخی از بسته های برای نسخه چارچوب فعلی مجاز نیست.',
@@ -6254,7 +6269,7 @@ Thanks for your help!
         'Added system request (%s).' => '',
         'Added web request from customer.' => '',
         'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.' =>
-            '',
+            'پسوند سال و ماه به فایل ثبت وقایع می‌افزاید. برای هر ماه یک فایل ساخته خواهد شد.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             'می افزاید: مشتریان به آدرس ایمیل به گیرندگان در صفحه نوشتن بلیط رابط عامل. آدرس مشتریان ایمیل اضافه خواهد شد در صورتی که نوع مقاله ایمیل داخلی است.',
         'Adds the one time vacation days for the indicated calendar.' => '',
@@ -6521,6 +6536,7 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             'ابر مدیر خدمات ثبت نام ماژول برای لایه حمل و نقل.',
         'Collect support data for asynchronous plug-in modules.' => 'جمع آوری داده ها پشتیبانی از پلاگین در ماژول ناهمزمان.',
+        'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => 'فیلتر درخواست ستون برای نوع درخواست مروری \ "کوچک ".',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
@@ -6558,7 +6574,7 @@ Thanks for your help!
         'Configure any additional readonly mirror databases that you want to use.' =>
             'پیکربندی هر پایگاه داده آینه فقط خواندنی های اضافی است که شما می خواهید به استفاده از.',
         'Configure sending of support data to OTOBO Team for improved support.' =>
-            'پیکربندی ارسال داده پشتیبانی به OTRS گروه برای پشتیبانی بهبود یافته.',
+            '',
         'Configure which screen should be shown after a new ticket has been created.' =>
             'پیکربندی که صفحه نمایش باید نشان داده شود پس از یک درخواست جدید ایجاد شده است.',
         'Configure your own log text for PGP.' => 'پیکربندی متن ورود به سیستم خود  برای PGP.',
@@ -6692,7 +6708,7 @@ Thanks for your help!
         'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
             'تعریف عملیات که در آن یک دکمه تنظیمات در دسترس است در اشیاء مرتبط ویجت (LinkObject :: ViewMode = \ "پیچیده "). لطفا توجه داشته باشید که این اقدامات باید در بر داشت زیر JS و CSS فایل های ثبت نام کرده اند: Core.AllocationList.css، Core.UI.AllocationList.js، Core.UI.Table.Sort.js، Core.Agent.TableFilters.js.',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'تعریف یک فیلتر برای خروجی HTML برای اضافه کردن لینک پشت یک رشته تعریف شده است. عنصر تصویر اجازه می دهد تا دو نوع ورودی. در یک بار نام یک تصویر (به عنوان مثال faq.png). در این مورد مسیر تصویر OTOBO استفاده خواهد شد. احتمال و امکان دوم است برای قرار دادن لینک به تصویر.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
             '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
@@ -6725,13 +6741,13 @@ Thanks for your help!
         'Defines a customer item, which generates a google maps icon at the end of a customer info block.' =>
             'یک Anchor را معرفی مشتری، که تولید یک آیکون نقشه های گوگل در پایان یک بلوک اطلاعات مشتری.',
         'Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'تعریف می کند یک فیلتر برای خروجی HTML برای اضافه کردن لینک در پشت اعداد CVE. عنصر تصویر اجازه می دهد تا دو نوع ورودی. در یک بار نام یک تصویر (به عنوان مثال faq.png). در این مورد مسیر تصویر OTOBO استفاده خواهد شد. احتمال و امکان دوم است برای قرار دادن لینک به تصویر.',
         'Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'تعریف می کند یک فیلتر برای خروجی HTML برای اضافه کردن لینک در پشت اعداد MSBulletin. عنصر تصویر اجازه می دهد تا دو نوع ورودی. در یک بار نام یک تصویر (به عنوان مثال faq.png). در این مورد مسیر تصویر OTOBO استفاده خواهد شد. احتمال و امکان دوم است برای قرار دادن لینک به تصویر.',
         'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'تعریف می کند یک فیلتر برای خروجی HTML برای اضافه کردن لینک پشت یک رشته تعریف شده است. عنصر تصویر اجازه می دهد تا دو نوع ورودی. در یک بار نام یک تصویر (به عنوان مثال faq.png). در این مورد مسیر تصویر OTOBO استفاده خواهد شد. احتمال و امکان دوم است برای قرار دادن لینک به تصویر.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'تعریف می کند یک فیلتر برای خروجی HTML برای اضافه کردن لینک در پشت اعداد BUGTRAQ. عنصر تصویر اجازه می دهد تا دو نوع ورودی. در یک بار نام یک تصویر (به عنوان مثال faq.png). در این مورد مسیر تصویر OTOBO استفاده خواهد شد. احتمال و امکان دوم است برای قرار دادن لینک به تصویر.',
         'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             'تعریف می کند یک فیلتر برای جمع آوری تعداد CVE از متون مقاله در AgentTicketZoom. نتایج خواهد شد در یک جعبه متا بعدی به مقاله نمایش داده شود. را پر کنید در URLPreview اگر شما می خواهم برای دیدن یک پیش نمایش در هنگام حرکت ماوس خود را بالا عنصر link. این می تواند از همان URL که در URL، بلکه یک جایگزین. لطفا توجه داشته باشید که برخی از وب سایت های انکار که در درون یک iframe (مانند گوگل) نمایش داده و به این ترتیب با حالت پیش نمایش کار نمی کند.',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
@@ -6873,7 +6889,7 @@ Thanks for your help!
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             'تعریف می کند که صف را بلیط برای نمایش به عنوان رویدادهای تقویم استفاده می شود.',
         'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTOBO Daemon).' =>
-            '',
+            'تعریف می کند نام میزبان HTTP برای جمع آوری داده ها پشتیبانی با ماژول عمومی PublicSupportDataCollector، (به عنوان مثال استفاده از OTOBO شبح).',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             'تعریف می کند بیان IP به طور منظم برای دسترسی به مخزن محلی. شما نیاز به فعال کردن دسترسی به این دارند به مخزن محلی خود و بسته :: RepositoryList در میزبان راه دور مورد نیاز است.',
         'Defines the PostMaster header to be used on the filter for keeping the current state of the ticket.' =>
@@ -7179,7 +7195,7 @@ Thanks for your help!
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' =>
             'تعریف می کند ماژول ورود به سیستم برای سیستم. \ "فایل " می نویسد: تمام پیام ها در یک فایل تاریخچه ثبت داده می شود، \ "syslog را " با استفاده از شبح syslog را از سیستم، به عنوان مثال و syslogd.',
         'Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTOBO instance to stop working (probably any mask which takes input from the user).' =>
-            '',
+            'تعریف می کند به اندازه حداکثر (در بایت) برای ارسال فایل از طریق مرورگر. هشدار: تنظیم این گزینه بر یک ارزش است که خیلی کم می تواند از ماسک های بسیاری در مثال OTOBO شما می شود برای جلوگیری از کار (احتمالا هر ماسک که طول می کشد ورودی از کاربر).',
         'Defines the maximal valid time (in seconds) for a session id.' =>
             'تعریف می کند که حداکثر زمان معتبر (در ثانیه) برای یک ID را وارد نمایید.',
         'Defines the maximum number of affected tickets per job.' => 'تعریف می کند که حداکثر تعداد درخواست های آسیب دیده در هر کاررا اعلام کنید.',
@@ -7201,7 +7217,7 @@ Thanks for your help!
             'تعریف می کند ماژول که نشان می دهد در حال حاضر در مشتریان در رابط مشتری وارد سایت شوید.',
         'Defines the module to authenticate customers.' => 'تعریف می کند که ماژول برای تأیید هویت مشتریان است.',
         'Defines the module to display a notification in the agent interface if the OTOBO Daemon is not running.' =>
-            '',
+            'تعریف می کند که ماژول برای نمایش اطلاع رسانی در رابط عامل اگر OTOBO شبح حال اجرا نیست.',
         'Defines the module to display a notification in the agent interface if the system configuration is out of sync.' =>
             '',
         'Defines the module to display a notification in the agent interface, if the agent has not yet selected a time zone.' =>
@@ -7235,7 +7251,7 @@ Thanks for your help!
         'Defines the name of the indicated calendar.' => 'تعریف می کند که نام تقویم نشان داد.',
         'Defines the name of the key for customer sessions.' => 'تعریف می کند که نام کلید برای جلسات مشتری می باشد.',
         'Defines the name of the session key. E.g. Session, SessionID or OTOBO.' =>
-            '',
+            'تعریف می کند که نام کلید جلسه. به عنوان مثال جلسه، SESSIONID یا OTOBO.',
         'Defines the name of the table where the user preferences are stored.' =>
             'تعریف می کند که نام جدول که در آن تنظیمات کاربر ذخیره می شود.',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
@@ -7357,7 +7373,7 @@ Thanks for your help!
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             'تعریف می کند آدرس ایمیل مدیر سیستم است. از آن خواهد شد در صفحه نمایش خطا از نرم افزار نمایش داده شود.',
         'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO).' =>
-            '',
+            'تعریف می کند شناسه سیستم. هر عدد بلیط و جلسه HTTP رشته شامل این ID. این تضمین می کند که تنها بلیط که متعلق به سیستم شما خواهد شد به شرح زیر یو پی اس (در هنگام برقراری ارتباط بین دو نمونه از OTOBO مفید) پردازش شده است.',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             'تعریف می کند ویژگی target در لینک به پایگاه داده های مشتری خارجی. به عنوان مثال \'AsPopup PopupType_TicketAction.',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
@@ -7463,7 +7479,7 @@ Thanks for your help!
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'غیر فعال کردن HTTP هدر "Content-Security-Policy" اجازه می دهد تا بارگذاری محتویات اسکریپت های خارجی. غیر فعال کردن این هدر HTTP می تواند یک مسئله امنیتی! فقط آن را غیر فعال کنید، اگر شما می دانید آنچه شما انجام می دهند!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTOBO to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
-            '',
+            'غیر فعال کردن HTTP هدر \ "X-قاب گزینه ها: SAMEORIGIN " اجازه می دهد OTOBO به عنوان یک iframe در وب سایت های دیگر گنجانده شده است. غیر فعال کردن این هدر HTTP می تواند یک مسئله امنیتی! فقط آن را غیر فعال کنید، اگر شما می دانید آنچه شما انجام می دهند!',
         'Disable cloud services' => '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
@@ -7581,7 +7597,7 @@ Thanks for your help!
             '',
         'Enabled filters.' => 'فیلتر را فعال کنید.',
         'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTOBO user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
-            '',
+            'پشتیبانی PGP را قادر می سازد. زمانی که حمایت PGP برای امضای و رمزنگاری ایمیل فعال، آن را بسیار توصیه می شود که وب سرور به عنوان کاربر OTOBO اجرا می شود. در غیر این صورت، وجود خواهد داشت مشکلات با امتیازات زمانی که دسترسی به .gnupg پوشه.',
         'Enables S/MIME support.' => 'پشتیبانی از S / MIME را قادر می سازد.',
         'Enables customers to create their own accounts.' => 'مشتریان را برای ایجاد حساب خود قادر می سازد .',
         'Enables fetch S/MIME from CustomerUser backend support.' => 'را قادر می سازد واکشی S / MIME از پشتیبانی باطن CustomerUser.',
@@ -7798,7 +7814,7 @@ Thanks for your help!
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             'اگر \ "HTTPBasicAuth " برای ضوابط انتخاب شد :: AuthModule، شما می توانید (با استفاده از یک استقبال میکنم) به نوار قطعات از REMOTE_USER (به عنوان مثال برای به حذف دامنه انتهایی) را مشخص کنید. استقبال میکنم-توجه داشته باشید، $ 1 خواهد بود که کاربری جدید ورود.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            '',
+            'اگر \ "HTTPBasicAuth " برای ضوابط انتخاب شد :: AuthModule، شما می توانید مشخص به نوار قطعات منجر از نام کاربر (به عنوان مثال برای دامنه های مانند example_domain \ کاربر به کاربر).',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
             'اگر \ "LDAP " برای مشتریان :: AuthModule انتخاب شد و اگر شما می خواهید برای اضافه کردن یک پسوند به هر نام کاربری مشتری، آن را specifiy در اینجا، به عنوان مثال شما فقط می خواهم به ارسال کاربران نام کاربری اما در دایرکتوری LDAP شما وجود دارد کاربران @ دامنه.',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
@@ -7820,7 +7836,7 @@ Thanks for your help!
         'If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.' =>
             'اگر \ "LDAP " برای مشتریان :: AuthModule انتخاب شد، شما می توانید مشخص کنید اگر برنامه های کاربردی متوقف خواهد شد اگر به عنوان مثال یک اتصال به یک سرور می تواند به دلیل مشکلات شبکه ایجاد شود.',
         'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use OTOBO. Specify the group, who may access the system.' =>
-            '',
+            'اگر \ "LDAP " برای ضوابط Authmodule انتخاب شد ::، شما می توانید در صورتی که کاربر مجاز به تصدیق چرا که او در یک posixGroup است، به عنوان مثال کاربر نیاز به در یک XYZ گروه به استفاده از OTOBO شود تیک بزنید. مشخص گروه، که ممکن است سیستم دسترسی داشته باشید.',
         'If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).' =>
             'اگر \ "LDAP " انتخاب شد، شما می توانید یک فیلتر برای هر پرس و جو LDAP، به عنوان مثال (ایمیل = *)، (objectclass = کاربر) و یا (! objectclass = کامپیوتر) اضافه کنید.',
         'If "Radius" was selected for Customer::AuthModule, the password to authenticate to the radius host must be specified.' =>
@@ -7862,11 +7878,11 @@ Thanks for your help!
         'If enabled, OTOBO will deliver all CSS files in minified form.' =>
             '',
         'If enabled, OTOBO will deliver all JavaScript files in minified form.' =>
-            '',
+            'اگر فعال باشد، OTOBO تمام فایل های جاوا اسکریپت را در فرم های Minified ارائه کرده است.',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'اگر فعال باشد، TicketPhone و TicketEmail در پنجره جدید باز خواهد شد.',
         'If enabled, the OTOBO version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
-            '',
+            'اگر فعال باشد، نسخه برچسب OTOBO خواهد شد از Webinterface، هدر HTTP و X-هدر از ایمیل های خروجی حذف خواهند شد. توجه: اگر شما این گزینه را تغییر دهید، لطفا مطمئن شوید که به حذف کش.',
         'If enabled, the cache data be held in memory.' => '',
         'If enabled, the cache data will be stored in cache backend.' => '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
@@ -8009,7 +8025,7 @@ Thanks for your help!
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             'باعث می شود مدیریت جلسه کوکی استفاده از HTML. اگر کوکی ها اچ غیر فعال و یا اگر کوکی ها مرورگر HTML غیر فعال است مشتری، سپس سیستم به طور معمول کار خواهد کرد و اضافه ID جلسه به لینک ها',
         'Malay' => 'مالایا',
-        'Manage OTOBO Team cloud services.' => 'مدیریت OTRS گروه خدمات ابر.',
+        'Manage OTOBO Team cloud services.' => '',
         'Manage PGP keys for email encryption.' => 'مدیریت کلیدهای PGP برای رمزنگاری ایمیل',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'مدیریت حساب‌های POP3 و IMAP برای واکشی ایمیل‌ها',
         'Manage S/MIME certificates for email encryption.' => 'مدیریت گواهینامه‌ها برای رمزنگاری ایمیل‌ها',
@@ -8118,7 +8134,7 @@ Thanks for your help!
         'New Year\'s Day' => 'روز اول ژانویه که آغاز سال نو مسیحیان است',
         'New Year\'s Eve' => 'شب سال نو',
         'New process ticket' => 'درخواست فرآیند جدید',
-        'News about OTOBO releases!' => '',
+        'News about OTOBO releases!' => 'اخبار در مورد انتشار OTOBO!',
         'News about OTOBO.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             'بعدی ایالات بلیط ممکن است پس از اضافه کردن یک یادداشت تلفن در گوشی بلیط صفحه نمایش بین المللی به درون رابط عامل.',
@@ -8139,10 +8155,10 @@ Thanks for your help!
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'تعداد بلیط در هر صفحه از یک نتیجه جستجو در رابط مشتری نمایش داده می شود.',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO News' => '',
+        'OTOBO News' => 'اخبار سامانه پشتیبانی',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
-            '',
+            'OTOBO می توانید یک یا چند پایگاه داده آینه فقط خواندنی برای عملیات گران قیمت مانند جستجو و یا آمار نسل متن استفاده کنید. در اینجا شما می توانید DSN برای پایگاه داده آینه اول را مشخص کنید.',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
         'Open an external link!' => '',
@@ -8380,7 +8396,7 @@ Thanks for your help!
         'Salutations' => 'عنوان',
         'Sample command output' => 'خروجی دستور نمونه',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
-            '',
+            'موجب صرفه جویی در فایل پیوست مقالات. \ "DB " فروشگاه تمام اطلاعات در پایگاه داده (برای ذخیره سازی فایل پیوست بزرگ توصیه نمی شود). \ "FS " ذخیره اطلاعات در فایل سیستم. این است سریع تر اما وب سرور باید تحت کاربر OTOBO اجرا کنید. شما می توانید بین ماژول حتی در یک سیستم است که در حال حاضر در تولید بدون از دست دادن داده ها تغییر دهید. توجه داشته باشید: جستجو برای نام دلبستگی پشتیبانی نمی که \ "FS " استفاده شده است.',
         'Schedule a maintenance period.' => 'برنامه ریزی یک دوره تعمیر و نگهداری.',
         'Screen after new ticket' => 'وضعیت نمایش پس از دریافت درخواست جدید',
         'Search Customer' => 'جستجوی مشترک',
@@ -8417,7 +8433,7 @@ Thanks for your help!
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'می فرستد تمام ایمیل های خروجی از طریق BCC به آدرس مشخص شده. لطفا این تنها به دلایل پشتیبان استفاده کنید.',
         'Sends customer notifications just to the mapped customer.' => 'می فرستد اطلاعیه مشتری فقط به مشتری نقشه برداری.',
-        'Sends registration information to OTOBO group.' => '',
+        'Sends registration information to OTOBO group.' => 'ارسال اطلاعات ثبت نام به گروه OTOBO.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'می فرستد اطلاعیه یادآور بلیط قفل پس از رسیدن به تاریخ یادآوری (فقط به صاحب بلیط ارسال).',
         'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
@@ -8784,7 +8800,7 @@ Thanks for your help!
             'هم موضوع آخرین مقاله مشتری و یا به عنوان بلیط در بررسی اجمالی فرمت کوچک نشان می دهد.',
         'Shows existing parent/child queue lists in the system in the form of a tree or a list.' =>
             'نشان می دهد موجود لیست صف والد / فرزند در سیستم در قالب یک درخت یا یک لیست.',
-        'Shows information on how to start OTOBO Daemon' => '',
+        'Shows information on how to start OTOBO Daemon' => 'نشان می دهد اطلاعات در مورد چگونگی شروع OTOBO دیمون',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Shows the article head information in the agent zoom view.' => '',
@@ -8870,7 +8886,7 @@ Thanks for your help!
         'Specifies the directory where private SSL certificates are stored.' =>
             ' دایرکتوری که در آن گواهینامه های SSL خصوصی ذخیره شده است را مشخص میکند.',
         'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTOBO Notifications" otobo@your.example.com). You can use the OTOBO_CONFIG_FQDN variable as set in your configuation, or choose another email address.' =>
-            '',
+            'آدرس ایمیل که باید توسط نرم افزار در هنگام ارسال اطلاعیه استفاده می شود مشخص می کند. آدرس ایمیل استفاده می شود برای ساخت نام صفحه نمایش کامل برای کارشناسی ارشد اطلاع رسانی (یعنی \ "OTOBO اطلاعیه " otobo@your.example.com). شما می توانید متغیر OTOBO_CONFIG_FQDN به عنوان مجموعه ای در configuation خود استفاده کنید، یا آدرس ایمیل دیگر را انتخاب کنید.',
         'Specifies the email addresses to get notification messages from scheduler tasks.' =>
             ' آدرس ایمیل برای دریافت پیام های اطلاع رسانی از وظایف زمانبندی را مشخص میکند.',
         'Specifies the group where the user needs rw permissions so that he can access the "SwitchToCustomer" feature.' =>
@@ -8878,7 +8894,7 @@ Thanks for your help!
         'Specifies the group where the user needs rw permissions so that they can edit other users preferences.' =>
             '',
         'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTOBO Notifications" otobo@your.example.com).' =>
-            '',
+            'نامی است که باید توسط نرم افزار در هنگام ارسال اطلاعیه استفاده می شود مشخص می کند. نام فرستنده استفاده می شود برای ساخت نام صفحه نمایش کامل برای کارشناسی ارشد اطلاع رسانی (یعنی \ "OTOBO اطلاعیه " otobo@your.example.com).',
         'Specifies the order in which the firstname and the lastname of agents will be displayed.' =>
             ' نظمی که در آن نام و نام خانوادگی از عوامل نمایش داده خواهد شد را مشخص میکند.',
         'Specifies the path of the file for the logo in the page header (gif|jpg|png, 700 x 100 pixel).' =>
@@ -8960,6 +8976,8 @@ Thanks for your help!
         'The headline shown in the customer interface.' => 'تیتر نشان داده شده در رابط مشتری.',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             'شناسه یک بلیط برای، به عنوان مثال بلیط #، تماس #، MyTicket #. به طور پیش فرض بلیط # است.',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8972,8 +8990,6 @@ Thanks for your help!
             'آرم نشان داده شده در هدر از رابط عامل برای پوست \ "باریک ". \ "AgentLogo " برای توضیحات بیشتر را مشاهده کنید.',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             'آرم نشان داده شده است در هدر رابط عامل. URL به تصویر می تواند یک آدرس نسبی به دایرکتوری تصویر پوست، و یا یک URL کامل به یک وب سرور از راه دور.',
-        'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            'آرم نشان داده شده است در هدر رابط مشتری. URL به تصویر می تواند یک آدرس نسبی به دایرکتوری تصویر پوست، و یا یک URL کامل به یک وب سرور از راه دور.',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
@@ -9012,7 +9028,7 @@ Thanks for your help!
         'This module is being used to extend the password policy.' => '',
         'This module is part of the admin area of OTOBO Community Edition.' =>
             '',
-        'This module is part of the admin area of OTOBO.' => '',
+        'This module is part of the admin area of OTOBO.' => 'این ماژول بخشی از بخش مدیریت OTOBO موجود است.',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             'این گزینه زمینه پویا که در آن یک مدیریت فرآیند نهاد فعالیت شناسه ذخیره شده است تعریف می کند.',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -9076,7 +9092,7 @@ Thanks for your help!
         'To download attachments.' => 'برای دانلود فایل پیوست کنید.',
         'To view HTML attachments.' => '',
         'Toggles display of OTOBO FeatureAddons list in PackageManager.' =>
-            '',
+            'نمایش پستی از لیست FeatureAddons OTOBO در سامانه مدیریت بسته.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'مورد نوار ابزار برای یک میانبر. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \ "گروه " و محتوا مانند \ ":؛: GROUP2 \ move_into GROUP1 RW" انجام می شود.',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -9189,6 +9205,7 @@ Thanks for your help!
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.454486027128616;
+    $Self->{Completeness}        = 0.453996737357259;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -814,6 +814,10 @@ sub Data {
         'No change time settings.' => 'Hakuna mipangilio ya kubadili muda',
         'Ticket changed' => 'Tiketi imebadilishwa',
         'Ticket changed between' => 'Tiketi imebadilishwa katikati ya',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'Mida ya kufunga ',
         'No close time settings.' => 'Hakuna mipangilio ya muda wa kufunga.',
         'Ticket closed' => 'Tiketi imefungwa',
@@ -1227,7 +1231,7 @@ sub Data {
         'Namespace' => 'Nafasi ya jina',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI kuzipa njia za SOAP muktadha kupunguza utata.',
         'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
-            'mfano urn:otobo-com:soap:functions au http://www.otrs.com/GenericInterface/actions',
+            '',
         'Request name scheme' => '',
         'Select how SOAP request function wrapper should be constructed.' =>
             '',
@@ -1804,7 +1808,7 @@ sub Data {
         'Show transmitted data' => 'Onyesha data zilizotumwa',
         'Deregister system' => 'Futa usajili wa mfumo',
         'Overview of registered systems' => 'Marejeo ya mifumo iliyosajiliwa',
-        'This system is registered with OTOBO Team.' => 'Huu mfumo umesajiliwa na kikundi cha OTRS',
+        'This system is registered with OTOBO Team.' => '',
         'System type' => 'Aina ya mfumo',
         'Unique ID' => 'Kitambulisho cha kipekee',
         'Last communication with registration server' => 'Mawasiliano ya mwisho na seva ya usajili.',
@@ -1815,7 +1819,7 @@ sub Data {
         'System Deregistration not Possible' => '',
         'OTOBO-ID Login' => 'OTOBO- ingia na kitambulidho',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'Usajili wa mfumo ni huduma ya kikundi cha OTRS, ambacho kina faida nyingi.',
+            '',
         'Read more' => 'Soma zaidi',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'Unahitaji kuingia na kitambulisho chako cha OTOBO kusajili mfumo wako.',
@@ -1835,7 +1839,7 @@ sub Data {
         'Is it possible to deregister?' => 'Inawezeka kujifuta?',
         'You can deregister at any time.' => 'Unaweza kujitoa muda wowote',
         'Which data is transfered when registering?' => 'Data gani zinatumwa wakati wa usajili?',
-        'A registered system sends the following data to OTOBO Team:' => 'Mfumo uliosajiliwa unatuma data zifuatazo kwenda kwenye kikundi cha OTRS:',
+        'A registered system sends the following data to OTOBO Team:' => '',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'Jina ka Kikoa lilifuzu Kamili (FQDN), Toleo la OTOBO, Hifadhi data, Mfumo endeshi na Toleo la Perl.',
         'Why do I have to provide a description for my system?' => 'Kwanini nitoe maelezo kwa ajili ya mfumo wangu.',
@@ -1857,7 +1861,7 @@ sub Data {
         'Retrieve a new one' => 'Pata jipya',
         'Next' => 'Baadae',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            'Data hii itahamishwa mara kwa mara kwenye kikundi cha OTRS ukisajili katika mfumo huu.',
+            '',
         'Attribute' => 'Sifa',
         'FQDN' => 'FQDN',
         'OTOBO Version' => 'Toleo la OTOBO',
@@ -1865,10 +1869,10 @@ sub Data {
         'Perl Version' => 'Toleo la perl',
         'Optional description of this system.' => 'Maelezo mafupi ya hiari ya mfumo huu.',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'Hii itaruhusu mfumo kutuma taarifa za data nyongeza kwenye kikundi cha OTRS.',
+            '',
         'Register' => 'Usajili',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            'Endelea na hatua hii itafuta usajili wa mfumo kutoka kikundi cha OTRS.',
+            '',
         'Deregister' => 'Ondoa usajili',
         'You can modify registration settings here.' => 'Unaweza kurekebisha mipangilio ya usajili hapa',
         'Overview of Transmitted Data' => '',
@@ -2052,15 +2056,15 @@ sub Data {
         'Sending support data to OTOBO Team is not possible!' => '',
         'Enable Cloud Services' => '',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            'Hii data imetumwa kwenda kwenye kikundi cha OTRS kwa msingi wa mara kwa mara. Kuzuia kutuma data hii tafadhali sasisha usajili wa mfumo wako.',
+            '',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             'Unaweza kuchochea kwa mkono data ya kusaidia kwa kutuma kwa kubofya kitufe:',
         'Send Update' => 'Tuma usasishaji',
         'Currently this data is only shown in this system.' => 'Kwasasa hii data inaonyeshwa katika mfumo huu',
         'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'Inapendekezwa kutuma data hii kwenye kikundi cha OTRS ili kupata msaada mzuri. ',
+            '',
         'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'Kuruhusu utumaji wa data, tafadhali sajili mfumo wako na kikundi cha OTRS au sasisha taarifa za usajili wa mfumo wako (hakikisha unaamilisha chaguo la \'Tuma data za msaada\')',
+            '',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'Kifurushi cha msaada (Inahusisha: taarifa za usajili za mfumo, data za msaada, orodha ya vifurushi vilivyosanidiwa na mafaili ya chanzo msimbo yote yaliyorekebishwa) yanaweza kuundwa kwa kubofya kibonye hiki.',
         'Generate Support Bundle' => 'Tengeneza kifurushi cha msaada.',
@@ -2073,10 +2077,10 @@ sub Data {
             'Anwani ya barua pepe kwa mtumiaji huyu ni batili, chaguo hili halijawezeshwa.',
         'Sending' => 'Tuma',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            'Kifurushi cha msaada kitatumwa kwenye kikundi cha oTRS kwa kutumia barua pepe kwa otomatiki.',
+            '',
         'Download File' => 'Pakua faili',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            'Faili lililo na kifurushi cha msaada litapakuliwa kwenye mfumo kiambo. Tafadhali hifadhi faili na litume kwenye kikundi cha OTRS, kwa kutumia njia mbadala.',
+            '',
         'Error: Support data could not be collected (%s).' => 'Kosa: Data auni hazikuweza kukusanywa (%s).',
         'Details' => 'Undani',
 
@@ -2238,6 +2242,14 @@ sub Data {
         'Delete this entry' => 'Futa ingizo hili',
         'Do you really want to delete this template?' => 'Kweli uanataka kufuta hiki kiolezo?',
         'A standard template with this name already exists!' => 'Kielezo cha kawaida kwa jina hili tayari kipo!',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => 'Tengeneza aina ya violezo kwa kusaidia tu lebo maizi.',
         'Example template' => 'Kielezo cha mfano',
         'The current ticket state is' => 'Hali ya tiketi ya sasa ni',
@@ -2953,7 +2965,7 @@ sub Data {
             'Tafadhali angalia nyaraka au muulize kiongozi wako kwa taarifa zaidi.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => 'Tafadhali subiri kidogo, unaelekezwa....',
         'Login' => 'Ingia',
@@ -3032,6 +3044,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => 'Taarifa za tiketi',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => 'Panua makal',
@@ -3921,7 +3934,7 @@ sub Data {
         'File is OK' => '',
         'Package has locally modified files.' => '',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'Kifurushi hakijathibitishwa na kikundi cha OTRS! Inapendekezwa kutokutumia kifurushi hiki.',
+            '',
         'Not Started' => '',
         'Updated' => '',
         'Already up-to-date' => '',
@@ -5261,6 +5274,8 @@ sub Data {
         'Client Connection Charset' => 'Seti ya herufi ya mahusiano ya mteja',
         'Setting character_set_client needs to be utf8.' => 'Mpangilio character_set_client nahitaji kuwa utf8.',
         'Server Database Charset' => 'Seti ya herufi ya hifadhi data ya seva',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Seti ya herufi ya jedwali',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -6241,7 +6256,7 @@ Thanks for your help!
         'Added system request (%s).' => '',
         'Added web request from customer.' => '',
         'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.' =>
-            '',
+            'Inaongeza kiendelezi na mwaka na mwezi wa ukweli katika faili la batli. Faili la batli litatengenezwa kila mwezi.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             'Ongeza anwani za barua pepe za wateja kwa mpokeaji katika skrini ya kutunga tiketi ya kiolesura cha wakala. Anwani za barua pepe za wateja hazitoongezwa kama aina ya makala ni barua pepe za ndani.',
         'Adds the one time vacation days for the indicated calendar.' => '',
@@ -6508,6 +6523,7 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             '',
         'Collect support data for asynchronous plug-in modules.' => '',
+        'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => 'Vichuja vya tiketi vya safu wima kwa ajili ya aina "Ndogo" ya mapitio ya tiketi.',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
@@ -6682,7 +6698,7 @@ Mfano:
         'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
             '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Inafafanua kichujio cha matokeo ya html ili kuongeza viunganishi nyuma ya tungo zilizo fafanuliwa. Sura ya elemnti hii inaruhusu maingizo ya aina mbili. Kwanza jinala sura (mf. faq.png). Kwa kesi hii sura ya njia ya OTOBO itatumika. Njia ya pili ni kuingiza kiungo cha hiyo sura.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
             '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
@@ -6715,13 +6731,13 @@ Mfano:
         'Defines a customer item, which generates a google maps icon at the end of a customer info block.' =>
             'Inafafanua kipengee cha mteja, ambacho kinatengeneza ikoni ya ramani za google katika mwisho wa kifungu cha taarifa cha mteja.',
         'Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Inafafanua kichujio cha matokeo ya html ili kuongeza viungo nyuma ya namba za CVE. Sura ya elemnti hii inaruhusu maingizo ya aina mbili. Kwanza jinala sura (mf. faq.png). Kwa kesi hii sura ya njia ya OTOBO itatumika. Njia ya pili ni kuingiza kiungo cha hiyo sura.',
         'Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Inafafanua kichujio cha matokeo ya html ili kuongeza viunganishi nyuma ya namba za MSBulletin. Sura ya elemnti hii inaruhusu maingizo ya aina mbili. Kwanza jinala sura (mf. faq.png). Kwa kesi hii sura ya njia ya OTOBO itatumika. Njia ya pili ni kuingiza kiungo cha hiyo sura.',
         'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Inafafanua kichujio cha matokeo ya html ili kuongeza viunganishi nyuma ya tungo zilizo fafanuliwa. Sura ya elemnti hii inaruhusu maingizo ya aina mbili. Kwanza jinala sura (mf. faq.png). Kwa kesi hii sura ya njia ya OTOBO itatumika. Njia ya pili ni kuingiza kiungo cha hiyo sura.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Inafafanua kichujio cha matokeo ya html ili kuongeza viunganishi nyuma ya namba za bugtraq. Sura ya elemnti hii inaruhusu maingizo ya aina mbili. Kwanza jinala sura (mf. faq.png). Kwa kesi hii sura ya njia ya OTOBO itatumika. Njia ya pili ni kuingiza kiungo cha hiyo sura.',
         'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
@@ -7169,7 +7185,7 @@ Mfano:
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' =>
             'Inafafanua moduli batli kwa mfumo. "Faili" inaandika jumbe zote katika faili batli lilipo, "BatliMfumo" unatumia batli mfumo jini wa mfumo mfano syslogd',
         'Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTOBO instance to stop working (probably any mask which takes input from the user).' =>
-            '',
+            'Inafafanua upeo wa juu wa ukubwa (katika baiti) kwa ajili ya kupakia faili kwa kivinjari. Onyo: kuwekea chaguo hili thamani ambayo ni ndogo sana inaweza kusababisha barakoa nyingi katika OTOBO yako kuacha kufanya kazi (Pengine barakoa inayochukua miingizo kutoka kwa mtumiaji)',
         'Defines the maximal valid time (in seconds) for a session id.' =>
             'Inafafanua upeo wa juu wa muda halali (katika sekunde) kwa kitambulisho cha kipindi.',
         'Defines the maximum number of affected tickets per job.' => '',
@@ -7225,7 +7241,7 @@ Mfano:
         'Defines the name of the indicated calendar.' => 'Fafanua jina la kalenda iliyoonyeshwa.',
         'Defines the name of the key for customer sessions.' => 'Fafanua jina la funguo kwa vipindi vya mteja.',
         'Defines the name of the session key. E.g. Session, SessionID or OTOBO.' =>
-            '',
+            'Fafanua jina la funguo wa kipindi.Mfano Kipindi, Kitambulisho cha kipindi au OTOBO.',
         'Defines the name of the table where the user preferences are stored.' =>
             '',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
@@ -7347,7 +7363,7 @@ Mfano:
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             'Inafafanua anwani ya barua pepe ya msimamizi wa mfumo. Itaonyeshwa katika skrini za makosa ya programu tumizi.',
         'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO).' =>
-            '',
+            'Inafafanua kitambulishi cha mfumo. Kila namba ya tiketi na tungo ya kipindi cha http inacho kitambulisho hiki. Hii inahakikisha kwamba kila tiketi ambayo ipo katika mfumo wako itashughulikiwa kama iliyokuwa inafuatiliwa (Inatumika wakati wa kuwasiliana kati ya mifani 2 ya OTOBO).',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             'Inafafanua sifa ya lengo katika kiunganishi cha hifadhi data ya mteja ya nje. Mfano \'AsPopup PopupType_TicketAction\'.',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
@@ -7571,7 +7587,7 @@ Mfano:
             '',
         'Enabled filters.' => 'Wezesha vichuja.',
         'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTOBO user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
-            '',
+            'Inawezesha msaada wa PGP. Wakati msaada wa PGP umewezeshwa kwa ajili ya kuipa na usimbaji fiche barua bebe, inashauriwa kwamba seva ya wavuti kufanya kazi kama mtumiaji wa OTOBO. Vinginevyo kutakuwa na matatizo na mapendeleo wakati wa kufikia mpangilio orodha wa .gnupg.',
         'Enables S/MIME support.' => 'Wezesha msaada wa S/MIME.',
         'Enables customers to create their own accounts.' => 'Inawawezesha wateja kutengeneza akaunti zao wenyeye.',
         'Enables fetch S/MIME from CustomerUser backend support.' => '',
@@ -7788,7 +7804,7 @@ Mfano:
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             'Kama "Uhifadhi wa msingi wa HTTP" inachaguliwa kwa ajili ya Mteja::Moduli ya uhalalishaji, unaweza kubainisha (kwa kutumia RegExp) kuachanisha sehemu za MTUMIAJI_WA_MBALI (mfano kuongoa vikoa mkia). RegExp-Note, $1 itakuwa muingio mpya.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            '',
+            'Kama "Uhifadhi wa msingi wa HTTP" inachaguliwa kwa ajili ya Mteja::Moduli ya uhalalishaji, unaweza kubainisha kwenye sehemu zilizo wazi za majina ya watumiaji (mfano kwa vikoa kwa example_domain\user kwa mtumiaji).',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
             'Kama "LDAP" imechaguliwa kwa ajili ya Mteja::Moduli ya uhalalishaji na kama unahitaji kuongeza kiambishi kwa kila jina la mteja la kuingia, bainisha hapa, mfano unataka kuandika jina la mtumiaji lakini katika mpangilio orodha wako wa LDAP ipo user@domain.',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
@@ -7810,7 +7826,7 @@ Mfano:
         'If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.' =>
             'Kama "LDAP" imechaguliwa kwa ajili ya Mteja::Moduli ya uhalalishaji, unaweza kubainisha kama programu tumizi zitaacha kufanya kazi kama mfano muunganisho wa kwenye seva hauwezi kuanzishwa kwasababu ya matatizo ya mtandao.',
         'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use OTOBO. Specify the group, who may access the system.' =>
-            '',
+            'Kama "LDAP" imechaguliwa kwa ajili ya Mteja::Moduli ya uhalalishaji, unaweza kuangalia hapa kama mtumiaji anaruhusiwa kuhalalisha kwasababu yuo kwenye posixGroup, mfano mtumiaji anahitaji kuwa kwenye kikundi xyz kutumia OTOBO. Bainisha kikundi, nani anaweza kufikia mfumo.',
         'If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).' =>
             'Kama "LDAP" imechaguliwa unaweza kuongeza kichuja katika kila ulizo la LDAP, mfano (barua pepe=*), (tabaka la kipengele = mtumiaji) au (!tabaka la kipengele = tarakilishi).',
         'If "Radius" was selected for Customer::AuthModule, the password to authenticate to the radius host must be specified.' =>
@@ -7852,7 +7868,7 @@ Mfano:
         'If enabled, OTOBO will deliver all CSS files in minified form.' =>
             '',
         'If enabled, OTOBO will deliver all JavaScript files in minified form.' =>
-            '',
+            'Kama imezeshwa, OTOBO itawasilisha mafaili yote ya JavaScript katika umbo dogo.',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'Kama imewezeshwa, Simu ya tiketi na barua pepe ya tiketi zitafunguliwa katika windows mpya.',
         'If enabled, the OTOBO version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
@@ -8108,7 +8124,7 @@ Mfano:
         'New Year\'s Day' => 'Siku ya mwaka mpya.',
         'New Year\'s Eve' => 'Usiku wa kuamkia mwaka mpya.',
         'New process ticket' => 'Tiketi Mpya ya mchakato',
-        'News about OTOBO releases!' => '',
+        'News about OTOBO releases!' => 'Taarifa kuhusu matoleo ya OTOBO! ',
         'News about OTOBO.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             'Hali za tiketi zijazo ziwezekanazo baada ya kuongeza kidokezo cha simu katika skrini iliyofungwa ndani ya simu ya tiketi ya kiolesura cha wakala.',
@@ -8129,7 +8145,7 @@ Mfano:
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Namba ta tiketi zitakazoonyeshwa katika kila ukurasa wa matokeo ya utafutaji katika kiolesura cha mteja.',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO News' => '',
+        'OTOBO News' => 'OTOBO Habari',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
@@ -8950,6 +8966,8 @@ Mfano:
         'The headline shown in the customer interface.' => 'Kichwa cha habari kinaonyeshwa katika kiolesura cha mteja.',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             'Kitambulishi cha tiketi, mfano. Tiketi #, Simu#, Tiketizangu#. Chaguo-msingi ni Tiketi#.',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8962,8 +8980,6 @@ Mfano:
             'Nembo inayoonyeshwa katika kichwa cha kiolesura cha wakala kwa ajili gamba "slim". Angalia "Nembo ya wakala" kwa ufafanuzi zaidi.',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             'Nembo iliyoonyeshwa kwenye kichwa cha kiolesura cha wakala. URL kwenye taswira inaweza URL inayofanana na gamba la taswira la mpangilio orodha, au URL nzima kwenye seva ya wavuti. ',
-        'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            'Nembo iliyoonyeshwa kwenye kichwa cha kiolesura cha mteja. URL kwenye taswira inaweza URL inayofanana na gamba la taswira la mpangilio orodha, au URL nzima kwenye seva ya wavuti. ',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
@@ -9066,7 +9082,7 @@ Mfano:
         'To download attachments.' => '',
         'To view HTML attachments.' => '',
         'Toggles display of OTOBO FeatureAddons list in PackageManager.' =>
-            '',
+            'Inageuza onyesho la orodha ya vifaa vya nyongeza ya vipengele vya OTOBO  katika msimamizi wa kifurushi.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -9179,6 +9195,7 @@ Mfano:
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

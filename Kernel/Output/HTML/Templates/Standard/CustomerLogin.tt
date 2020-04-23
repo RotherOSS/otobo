@@ -87,11 +87,11 @@
                     <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
                     <input type="hidden" name="TimeZoneOffset" id="TimeZoneOffset" value=""/>
                     <div class="Row">
-                        <input autocorrect="off" autocapitalize="off" title="[% Translate("Your user name") | html %]" type="text" name="User" id="User" maxlength="150" />
+                        <input autocorrect="off" autocapitalize="off" autocomplete="[% Data.UserNameAutocomplete %]" title="[% Translate("Your user name") | html %]" type="text" name="User" id="User" maxlength="150" />
                         <label for="User">[% Translate("User name") | html %]</label>
                     </div>
                     <div class="Row">
-                        <input title="[% Translate("Your password") | html %]" type="password" name="Password" id="Password" autocomplete="current-password" />
+                        <input title="[% Translate("Your password") | html %]" type="password" name="Password" id="Password" autocomplete="[% Data.PasswordAutocomplete %]" />
                         <label for="Password">[% Translate("Password") | html %]</label>
 [% RenderBlockStart("LostPasswordLink") %]
                         <div class="Option">

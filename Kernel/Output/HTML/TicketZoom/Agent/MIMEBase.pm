@@ -23,7 +23,6 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(IsPositiveInteger);
-use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',

@@ -70,6 +70,13 @@ $Selenium->RunTest(
             Value => 1,
         );
 
+        # Disable richtext editor.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Frontend::RichText',
+            Value => '0'
+        );
+
         my $RandomNumber = $Helper->GetRandomNumber();
         my $Success;
 
@@ -182,6 +189,25 @@ $Selenium->RunTest(
             );
             push @QueueIDs, $QueueID;
         }
+
+        my $QueueID = $QueueObject->QueueLookup( Queue => 'Frontend' );
+        if ( !defined $QueueID ) {
+            $QueueID = $QueueObject->QueueAdd(
+                Name            => 'Frontend',
+                ValidID         => 1,
+                GroupID         => $GroupIDs[0],
+                SystemAddressID => 1,
+                SalutationID    => 1,
+                SignatureID     => 1,
+                Comment         => 'Comment',
+                UserID          => $TestUserID,
+            );
+            $Self->True(
+                $QueueID,
+                "QueueID $QueueID is created",
+            );
+        }
+        push @QueueIDs, $QueueID;
 
         my $TestCustomerUser      = 'User-' . $RandomNumber;
         my $TestCustomerUserEmail = $TestCustomerUser . '@example.com';
@@ -389,6 +415,17 @@ $Selenium->RunTest(
             "After change - Ticket type is not translated",
         );
 
+        # Check if ticket queue is not translated.
+        # For more information see bug #14968.
+        $Selenium->InputFieldValueSet(
+            Element => '#QueueID',
+            Value   => $QueueID,
+        );
+        $Self->True(
+            $Selenium->find_element('//select[@id="QueueID"]/option[contains(.,"Frontend")]'),
+            "On update - Ticket queue is not translated",
+        );
+
         $Selenium->WaitForjQueryEventBound(
             CSSSelector => ".UndoClosePopup",
         );
@@ -460,6 +497,15 @@ $Selenium->RunTest(
         );
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
+
+        # Create a note to test bug#14952.
+        $Selenium->execute_script('$(".WidgetSimple.Collapsed .WidgetAction.Toggle a").click();');
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#Subject:visible").length'
+        );
+
+        $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
+        $Selenium->find_element( "#Body",           'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         # Return to status view.
@@ -468,6 +514,39 @@ $Selenium->RunTest(
 
         # Make sure main window is fully loaded.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketStatusView");
+
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("a[href*=\'Filter=Closed\']").length;'
+        );
+
+        # Clean the article cache, otherwise we'll get the caches result, which are wrong.
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            Type => 'Article',
+        );
+
+        # Verify From that is created in Note in Bulk action, see bug#14952.
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my @Articles      = $ArticleObject->ArticleList(
+            TicketID => $Tickets[0]->{TicketID},
+            OnlyLast => 1,
+        );
+
+        # Use the first result (it should be only 1).
+        my %RawArticle;
+        if ( scalar @Articles ) {
+            %RawArticle = %{ $Articles[0] };
+        }
+
+        my %Article = $ArticleObject->BackendForArticle(%RawArticle)->ArticleGet(
+            TicketID  => $RawArticle{TicketID},
+            ArticleID => $RawArticle{ArticleID},
+        );
+
+        $Self->Is(
+            $Article{From},
+            "\"$TestUserLogin $TestUserLogin\" <$TestUserLogin\@localunittest.com>",
+            "Article 'From' is correct."
+        );
 
         # Select closed view to verify ticket bulk functionality.
         $Selenium->find_element("//a[contains(\@href, \'Filter=Closed' )]")->VerifiedClick();

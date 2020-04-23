@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.550907010949502;
+    $Self->{Completeness}        = 0.549918433931485;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -811,6 +811,10 @@ sub Data {
         'No change time settings.' => 'ไม่มีการตั้งค่าเวลาการเปลี่ยนแปลง',
         'Ticket changed' => 'ตั๋วถูกเปลี่ยนแปลง',
         'Ticket changed between' => 'ตั๋วถูกเปลี่ยนแปลงระหว่าง',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'เวลาที่ปิด',
         'No close time settings.' => 'ไม่มีการตั้งค่าเวลาที่ปิด',
         'Ticket closed' => 'ตั๋วถูกปิด',
@@ -1224,7 +1228,7 @@ sub Data {
         'Namespace' => 'พื้นที่ชื่อ',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI ที่จะให้วิธีการ SOAPตามบริบทจะช่วยลดความคลุมเครือ',
         'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
-            'เช่น  urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions',
+            '',
         'Request name scheme' => 'ร้องขอรูปแบบชื่อ',
         'Select how SOAP request function wrapper should be constructed.' =>
             'เลือกวิธีที่ SOAP ร้องขอฟังก์ชั่นการห่อหุ้มที่ควรจะสร้าง',
@@ -1484,7 +1488,7 @@ sub Data {
         'Install' => 'ติดตั้ง',
         'Update repository information' => 'อัปเดตข้อมูลของพื้นที่เก็บข้อมูล',
         'Cloud services are currently disabled.' => 'บริการคลาวด์ถูกปิดการใช้งานในขณะนี้',
-        'OTOBO Verify can not continue!' => 'OTOBO Verify ไม่สามารถดำเนินการต่อไป!',
+        'OTOBO Verify can not continue!' => '',
         'Enable cloud services' => 'เปิดใช้บริการคลาวด์',
         'Update all installed packages' => '',
         'Online Repository' => 'พื้นที่เก็บข้อมูลออนไลน์',
@@ -1803,7 +1807,7 @@ sub Data {
         'Show transmitted data' => 'แสดงข้อมูลที่ส่ง',
         'Deregister system' => 'ยกเลิกการลงทะเบียนระบบ',
         'Overview of registered systems' => 'ภาพรวมของระบบการลงทะเบียน',
-        'This system is registered with OTOBO Team.' => 'ระบบนี้มีการลงทะเบียนกับกลุ่ม OTRS',
+        'This system is registered with OTOBO Team.' => '',
         'System type' => 'ชนิดของระบบ',
         'Unique ID' => 'ID ที่ไม่ซ้ำกัน',
         'Last communication with registration server' => 'การสื่อสารกับเซิร์ฟเวอร์การลงทะเบียนครั้งล่าสุด',
@@ -1814,7 +1818,7 @@ sub Data {
         'System Deregistration not Possible' => '',
         'OTOBO-ID Login' => 'OTOBO-ID เข้าสู่ระบบ ',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'ระบบการลงทะเบียนคือหนึ่งในการบริการของ OTRS ซึ่งมีประโยชน์มาก!',
+            '',
         'Read more' => 'อ่านเพิ่มเติม',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'คุณจำเป็นต้องเข้าสู่ระบบID OTOBOเพื่อลงทะเบียนระบบของคุณ',
@@ -1834,7 +1838,7 @@ sub Data {
         'Is it possible to deregister?' => 'เป็นไปได้หรือไม่ที่จะยกเลิกการลงทะเบียน?',
         'You can deregister at any time.' => 'คุณสามารถยกเลิกการลงทะเบียนได้ตลอดเวลา',
         'Which data is transfered when registering?' => 'ข้อมูลใดจะถูกโอนเมื่อลงทะเบียน?',
-        'A registered system sends the following data to OTOBO Team:' => 'ระบบที่จดทะเบียนส่งข้อมูลต่อไปนี้ไปยังกลุ่ม OTRS:',
+        'A registered system sends the following data to OTOBO Team:' => '',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'ชื่อโดเมนที่ผ่านการรับรองอย่างเต็มรูปแบบ (FQDN) เวอร์ชั่นของ OTOBO, ฐานข้อมูล, ระบบปฏิบัติการและ เวอร์ชันของ Perl',
         'Why do I have to provide a description for my system?' => 'ทำไมฉันจะต้องให้คำอธิบายสำหรับระบบของฉัน?',
@@ -1856,7 +1860,7 @@ sub Data {
         'Retrieve a new one' => 'ดึงข้อมูลขึ้นมาใหม่',
         'Next' => 'ถัดไป',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            'ข้อมูลนี้จะถูกโอนไปยังกลุ่มOTRS บ่อยครั้งเมื่อคุณลงทะเบียนระบบนี้',
+            '',
         'Attribute' => 'แอตทริบิวต์',
         'FQDN' => 'FQDN',
         'OTOBO Version' => 'เวอร์ชั่นของ OTOBO',
@@ -1864,10 +1868,10 @@ sub Data {
         'Perl Version' => 'เวอร์ชั่นของ Perl',
         'Optional description of this system.' => 'ตัวเลือกคำอธิบายของระบบนี้',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'ซึ่งจะช่วยให้ระบบสามารถส่งข้อมูลการสนับสนุนเพิ่มเติมไปยังกลุ่มOTRS',
+            '',
         'Register' => 'ลงทะเบียน',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            'ดำเนินการต่อด้วยขั้นตอนนี้จะยกเลิกการลงทะเบียนระบบจากกลุ่มOTRS',
+            '',
         'Deregister' => 'ยกเลิกการลงทะเบียน',
         'You can modify registration settings here.' => 'คุณสามารถแก้ไขการตั้งค่าการลงทะเบียนที่นี่',
         'Overview of Transmitted Data' => '',
@@ -2048,18 +2052,18 @@ sub Data {
         'This state is used in the following config settings:' => '',
 
         # Template: AdminSupportDataCollector
-        'Sending support data to OTOBO Team is not possible!' => 'ไม่สามารถส่งข้อมูลการสนับสนุนให้กับกลุ่มOTRS',
+        'Sending support data to OTOBO Team is not possible!' => '',
         'Enable Cloud Services' => 'เปิดใช้บริการคลาวด์',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            'ข้อมูลนี้จะถูกส่งไปยังกลุ่มOTRS เป็นประจำ หากต้องการหยุดการส่งข้อมูลนี้โปรดอัปเดตการลงทะเบียนในระบบของคุณ',
+            '',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             'คุณสามารถกระตุ้นการสนับสนุนการส่งข้อมูลโดยการกดปุ่มนี้:',
         'Send Update' => 'ส่งการอัพเดต',
         'Currently this data is only shown in this system.' => 'ขณะนี้ข้อมูลนี้จะแสดงเฉพาะในระบบนี้',
         'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'ขอแนะนำให้ส่งข้อมูลนี้ไปยังกลุ่มOTRS เพื่อให้ได้รับการสนับสนุนที่ดีขึ้น',
+            '',
         'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'เพื่อเปิดใช้งานการส่งข้อมูลกรุณาลงทะเบียนระบบของคุณกับกลุ่มOTRSหรืออัปเดตข้อมูลการลงทะเบียนระบบของคุณ (ต้องแน่ใจว่าได้เปิดใช้งาน \'ตัวเลือกการส่งข้อมูลสนับสนุน\'.)',
+            '',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'กลุมสนับสนุน(รวมถึงข้อมูลการลงทะเบียนระบบ ข้อมูลสนับสนุน รายการของแพคเกจการติดตั้ง
 และไฟล์แหล่งที่มาทั้งหมดที่มีการปรับเปลี่ยน) สามารถสร้างขึ้นได้โดยการกดปุ่มนี้:',
@@ -2073,10 +2077,10 @@ sub Data {
             'ที่อยู่อีเมลสำหรับผู้ใช้นี้ไม่ถูกต้องตัวเลือกนี้ถูกปิดใช้งาน',
         'Sending' => 'กำลังส่ง',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            'กลุ่มสนับสนุนจะถูกส่งไปยังกลุ่มการตรวจสอบแล้วผ่านทางอีเมล์โดยอัตโนมัติ',
+            '',
         'Download File' => 'ดาวน์โหลดไฟล์',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            'ไฟล์ที่ประกอบด้วยกำสนับสนุนจะถูกดาวน์โหลดไปยังระบบภายใน กรุณาบันทึกไฟล์และส่งไปยังกลุ่มOTRS โดยใช้วิธีอื่น',
+            '',
         'Error: Support data could not be collected (%s).' => 'ข้อผิดพลาด: ไม่สามารถเก็บรวบรวมข้อมูลสนับสนุน (%s)',
         'Details' => 'รายละเอียด',
 
@@ -2238,6 +2242,14 @@ sub Data {
         'Delete this entry' => 'ลบการกรอกข้อมูลนี้',
         'Do you really want to delete this template?' => 'คุณต้องการที่จะลบแม่แบบนี้หรือไม่?',
         'A standard template with this name already exists!' => 'แม่แบบมาตรฐานที่ใช้ชื่อนี้มีอยู่แล้ว!',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => 'สร้างประเภทแม่แบบซึ่งสนับสนุนเฉพาะสมาร์ทแท็กนี้',
         'Example template' => 'ตัวอย่างแม่แบบ',
         'The current ticket state is' => 'สถานะตั๋วปัจจุบัน',
@@ -2953,7 +2965,7 @@ sub Data {
             'โปรดอ่านเอกสารหรือขอให้ผู้ดูแลระบบของคุณสำหรับอธิบายข้อมูลเพิ่มเติม',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => 'รอสักครู่คุณกำลังถูกนำไป ...',
         'Login' => 'เข้าสู่ระบบ',
@@ -3032,6 +3044,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => 'ข้อมูลของตั๋ว',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => 'Expand article',
@@ -3921,7 +3934,7 @@ sub Data {
         'File is OK' => '',
         'Package has locally modified files.' => 'แพคเกจมีการปรับเปลี่ยนไฟล์ภายในเครื่อง',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'แพคเกจยังไม่ได้รับการตรวจสอบโดยกลุ่ม OTRS! ขอแนะนำไม่ให้ใช้แพคเกจนี้',
+            '',
         'Not Started' => '',
         'Updated' => '',
         'Already up-to-date' => '',
@@ -5261,6 +5274,8 @@ sub Data {
         'Client Connection Charset' => 'การเชื่อมต่อลูกค้ากับชุดรหัสอักขระ',
         'Setting character_set_client needs to be utf8.' => 'การตั้งค่า character_set_client จะต้องเป็น utf8',
         'Server Database Charset' => 'ฐานข้อมูลชุดรหัสอักขระของเซิร์ฟเวอร์',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'ตารางชุดรหัสอักขระ',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -6252,7 +6267,7 @@ Thanks for your help!
         'Added system request (%s).' => '',
         'Added web request from customer.' => '',
         'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.' =>
-            '',
+            'เพิ่มคำต่อท้ายกับปีและเดือนที่เกิดขึ้นจริงไปยังแฟ้มบันทึกของOTOBO  แฟ้มบันทึกสำหรับทุกเดือนจะถูกสร้างขึ้น',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             'เพิ่มที่อยู่อีเมลของลูกค้าไปยังผู้รับในหน้าจอเขียนตั๋วของอินเตอร์เฟซตัวแทน ที่อยู่อีเมลของลูกค้าจะไม่ถูกเพิ่มถ้าพิมพ์บทความเป็นอีเมลภายใน',
         'Adds the one time vacation days for the indicated calendar.' => '',
@@ -6519,6 +6534,7 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             'การลงทะเบียนโมดูลบริการดูแลระบบคลาวด์สำหรับชั้นขนส่ง',
         'Collect support data for asynchronous plug-in modules.' => 'เก็บรวบรวมข้อมูลสนับสนุนสำหรับโมดูลปลั๊กอินที่ไม่ตรงกัน',
+        'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => 'คอลัมน์ตัวกรองตั๋วสำหรับประเภทภาพรวมตั๋ว "เล็ก ๆ "',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
@@ -6556,7 +6572,7 @@ Thanks for your help!
         'Configure any additional readonly mirror databases that you want to use.' =>
             'กำหนดค่าฐานข้อมูลสะท้อนของ อ่านเท่านั้น ที่คุณต้องการใช้',
         'Configure sending of support data to OTOBO Team for improved support.' =>
-            'กำหนดค่าการส่งข้อมูลการสนับสนุนให้กับกลุ่มOTRS สำหรับการสนับสนุนที่ดีขึ้น',
+            '',
         'Configure which screen should be shown after a new ticket has been created.' =>
             'กำหนดค่าว่าหน้าจอใดควรจะแสดงหลังจากที่ตั๋วใหม่ถูกสร้างขึ้น',
         'Configure your own log text for PGP.' => 'กำหนดค่าข้อความบันทึกของคุณสำหรับ PGP',
@@ -6690,7 +6706,7 @@ Thanks for your help!
         'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
             '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'กำหนดตัวกรองสำหรับการแสดงผล HTMLเพื่อเพิ่มการเชื่อมโยงที่อยู่เบื้องหลังของอักขระที่กำหนดไว้ องค์ประกอบของภาพที่จะช่วยให้สามารถป้อนข้อมูลสองชนิดได้ หนึ่งคือชื่อของภาพ (เช่น faq.png)ในกรณีนี้เส้นทางของภาพOTOBO จะถูกนำมาใช้ สองคือการแทรกการเชื่อมโยงไปยังภาพ',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
             '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
@@ -6723,13 +6739,13 @@ Thanks for your help!
         'Defines a customer item, which generates a google maps icon at the end of a customer info block.' =>
             'กำหนดรายการลูกค้าซึ่งจะสร้างไอคอน google maps ในตอนท้ายของบล็อกข้อมูลลูกค้า',
         'Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'กำหนดตัวกรองสำหรับการแสดงผล HTMLเพื่อเพิ่มการเชื่อมโยงที่อยู่เบื้องหลังของหมายเลข CVE องค์ประกอบของภาพที่จะช่วยให้สามารถป้อนข้อมูลสองชนิดได้ หนึ่งคือชื่อของภาพ (เช่น faq.png)ในกรณีนี้เส้นทางของภาพOTOBO จะถูกนำมาใช้ สองคือการแทรกการเชื่อมโยงไปยังภาพ',
         'Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'กำหนดตัวกรองสำหรับการแสดงผล HTMLเพื่อเพิ่มการเชื่อมโยงที่อยู่เบื้องหลังของหมายเลข MSBulletin องค์ประกอบของภาพที่จะช่วยให้สามารถป้อนข้อมูลสองชนิดได้ หนึ่งคือชื่อของภาพ (เช่น faq.png)ในกรณีนี้เส้นทางของภาพOTOBO จะถูกนำมาใช้ สองคือการแทรกการเชื่อมโยงไปยังภาพ',
         'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'กำหนดตัวกรองสำหรับการแสดงผล HTMLเพื่อเพิ่มการเชื่อมโยงที่อยู่เบื้องหลังของอักขระที่กำหนดไว้ องค์ประกอบของภาพที่จะช่วยให้สามารถป้อนข้อมูลสองชนิดได้ หนึ่งคือชื่อของภาพ (เช่น faq.png)ในกรณีนี้เส้นทางของภาพOTOBO จะถูกนำมาใช้ สองคือการแทรกการเชื่อมโยงไปยังภาพ',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'กำหนดตัวกรองสำหรับการแสดงผล HTMLเพื่อเพิ่มการเชื่อมโยงที่อยู่เบื้องหลังของหมายเลข bugtraq องค์ประกอบของภาพที่จะช่วยให้สามารถป้อนข้อมูลสองชนิดได้ หนึ่งคือชื่อของภาพ (เช่น faq.png)ในกรณีนี้เส้นทางของภาพOTOBO จะถูกนำมาใช้ สองคือการแทรกการเชื่อมโยงไปยังภาพ',
         'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
@@ -7180,7 +7196,7 @@ Thanks for your help!
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' =>
             'กำหนดโมดูลบันทึกสำหรับระบบ  "แฟ้ม" คือเขียนข้อความทั้งหมดใน logfile ที่กำหนด "Syslog" จะใช้ syslog  daemon ของระบบ เช่น syslogd',
         'Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTOBO instance to stop working (probably any mask which takes input from the user).' =>
-            '',
+            'กำหนดขนาดสูงสุด (ไบต์) สำหรับไฟล์ที่อัปโหลดผ่านทางเบราว์เซอร์ คำเตือน: การตั้งค่าตัวเลือกนี้ไปเป็นค่าซึ่งอยู่ในระดับต่ำเกินไปอาจก่อให้เกิดมาสก์จำนวนมากในตัวอย่างของOTOBO ของคุณเพื่อหยุดการทำงาน (อาจจะเป็นมาสก์ใด ๆที่จะนำข้อมูลจากผู้ใช้)',
         'Defines the maximal valid time (in seconds) for a session id.' =>
             'กำหนดเวลาสูงสุดที่ถูกต้อง (เป็นวินาที) สำหรับไอดีเซสชั่น',
         'Defines the maximum number of affected tickets per job.' => 'กำหนดจำนวนสูงสุดของตั๋วที่ได้รับผลกระทบต่อหนึ่งงาน',
@@ -7202,7 +7218,7 @@ Thanks for your help!
             '',
         'Defines the module to authenticate customers.' => 'กำหนดโมดูลในการตรวจสอบลูกค้า',
         'Defines the module to display a notification in the agent interface if the OTOBO Daemon is not running.' =>
-            '',
+            'กำหนดโมดูลเพื่อแสดงการแจ้งเตือนในอินเตอร์เฟซเอเย่นต์ถ้า OTOBO Daemonไม่ได้ทำงานอยู่',
         'Defines the module to display a notification in the agent interface if the system configuration is out of sync.' =>
             '',
         'Defines the module to display a notification in the agent interface, if the agent has not yet selected a time zone.' =>
@@ -7236,7 +7252,7 @@ Thanks for your help!
         'Defines the name of the indicated calendar.' => 'กำหนดชื่อของปฏิทินที่ระบุ',
         'Defines the name of the key for customer sessions.' => 'กำหนดชื่อของคีย์สำหรับเซสชั่นของลูกค้า',
         'Defines the name of the session key. E.g. Session, SessionID or OTOBO.' =>
-            '',
+            'กำหนดชื่อของคีย์เซสชั่น เช่น Session, SessionID or OTOBO',
         'Defines the name of the table where the user preferences are stored.' =>
             'กำหนดชื่อของตารางที่การตั้งค่าของลูกค้าถูกจัดเก็บไว้',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
@@ -7358,7 +7374,7 @@ Thanks for your help!
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             'กำหนดที่อยู่อีเมลของผู้ดูแลระบบ มันจะถูกแสดงในหน้าจอข้อผิดพลาดของแอพพลิเคชัน',
         'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO).' =>
-            '',
+            'กำหนดตัวบ่งชี้ระบบ ทุกๆหมายเลขตั๋วและสตริงเซสชั่นของ http ที่มีไอดีนี้เพื่อให้แน่ใจว่าเฉพาะตั๋วที่อยู่ในระบบของคุณที่จะถูกประมวลผลขณะที่ติดตาม (มีประโยชน์เมื่อการติดต่อสื่อสารระหว่างสองกรณีของOTOBO)',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             'กำหนดแอตทริบิวต์เป้าหมายในการเชื่อมโยงไปยังฐานข้อมูลของลูกค้าภายนอก เช่น. \'AsPopup PopupType_TicketAction\'',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
@@ -7464,7 +7480,7 @@ Thanks for your help!
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTOBO to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
-            '',
+            'ปิดการใช้งานส่วนหัวของ HTTP "X-Frame-Options: SAMEORIGIN" เพื่อช่วยให้ OTOBO ถูกรวมเป็น IFrame ในเว็บไซต์อื่น ๆ ปิดการใช้งานส่วนหัวของ HTTP นี้อาจจะเกิดปัญหาด้านความปลอดภัย! ปิดการใช้งานเมื่อคุณรู้ว่าสิ่งที่คุณกำลังทำคืออะไรเท่านั้น!',
         'Disable cloud services' => '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
@@ -7582,7 +7598,7 @@ Thanks for your help!
             '',
         'Enabled filters.' => 'เปิดใช้งานตัวกรอง',
         'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTOBO user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
-            '',
+            'เปิดใช้การสนับสนุน PGP เมื่อการสนับสนุน PGP เปิดใช้งานสำหรับการเซ็นชื่อและการเข้ารหัสอีเมลจึงขอแนะนำว่าเว็บเซิร์ฟเวอร์รันฐานะผู้ใช้ OTOBO มิฉะนั้นจะมีปัญหาเกี่ยวกับสิทธิพิเศษเมื่อมีการเข้าถึงโฟลเดอร์ .gnupg',
         'Enables S/MIME support.' => 'เปิดใช้งานการสนับสนุน S/MIME',
         'Enables customers to create their own accounts.' => 'ช่วยให้ลูกค้าสามารถสร้างบัญชีของตัวเอง',
         'Enables fetch S/MIME from CustomerUser backend support.' => '',
@@ -7799,7 +7815,7 @@ Thanks for your help!
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             'คุณสามารถกำหนด (โดยการใช้ RegEx )เพื่อจะตัดส่วนของ REMOTE_USER (เช่น สำหรับการลบโดเมนที่ต่อท้าย) RegExp-Note, $1 จะกลายเป็นล็อกอินใหม่',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            '',
+            'หาก "HTTPBasicAuth" ถูกเลือกให้ Customer::AuthModule คุณสามารถกำหนดเพื่อตัดส่วนหน้าของชื่อผู้ใช้ (เช่น สำหรับโดเมน example_domain\user ไปยังผู้ใช้)',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
             'หาก "LDAP" ถูกเลือกให้ Customer::AuthModule และถ้าคุณต้องการที่จะเพิ่มคำต่อท้ายชื่อสำหรับเข้าสู่ระบบให้ลูกค้าทุกคน โปรดระบุที่นี่ เช่น คุณเพียงแค่เขียนชื่อผู้ใช้ แต่ในไดเรกทอรี LDAP จะเป็น user@domain.',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
@@ -7821,7 +7837,7 @@ Thanks for your help!
         'If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.' =>
             'หาก "LDAP" ถูกเลือกให้ Customer::AuthModule คุณสามารถระบุได้ว่าการใช้งานจะหยุดถ้าการเชื่อมต่อไปยังเซิร์ฟเวอร์ไม่สามารถสร้างเนื่องจากปัญหาเครือข่าย',
         'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use OTOBO. Specify the group, who may access the system.' =>
-            '',
+            'หาก "LDAP" ถูกเลือกให้ Customer::AuthModule คุณสามารถตรวจสอบว่าผู้ใช้ที่ได้รับอนุญาตในการตรวจสอบเพราะเขาอยู่ใน posixGroup เช่น ผู้ใช้ต้องการที่จะอยู่ในกลุ่ม xyz เพื่อใช้ OTOBO ระบุกลุ่มที่อาจเข้าสู่ระบบ',
         'If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).' =>
             'หาก "LDAP" ถูกเลือก คุณสามารถเพิ่มตัวกรองให้แต่ละแบบสอบถาม LDAP เช่น (mail=*), (objectclass=user) หรือ (!objectclass=computer).',
         'If "Radius" was selected for Customer::AuthModule, the password to authenticate to the radius host must be specified.' =>
@@ -8119,7 +8135,7 @@ Thanks for your help!
         'New Year\'s Day' => 'วันขึ้นปีใหม่',
         'New Year\'s Eve' => 'วันส่งท้ายปีเก่า',
         'New process ticket' => 'ตั๋วกระบวนการใหม่',
-        'News about OTOBO releases!' => '',
+        'News about OTOBO releases!' => 'ข่าวเกี่ยวกับการเผยแพร่OTOBO !',
         'News about OTOBO.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
@@ -8140,7 +8156,7 @@ Thanks for your help!
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO News' => '',
+        'OTOBO News' => 'ข่าวOTOBO',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
@@ -8961,6 +8977,8 @@ Thanks for your help!
         'The headline shown in the customer interface.' => '',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             '',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8972,8 +8990,6 @@ Thanks for your help!
         'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            '',
-        'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
@@ -9190,6 +9206,7 @@ Thanks for your help!
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

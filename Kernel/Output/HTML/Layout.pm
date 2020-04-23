@@ -822,6 +822,10 @@ sub Login {
     # if not in PreLogin mode, show normal login form
     else {
 
+        my $DisableLoginAutocomplete = $ConfigObject->Get('DisableLoginAutocomplete');
+        $Param{UserNameAutocomplete} = $DisableLoginAutocomplete ? 'off' : 'username';
+        $Param{PasswordAutocomplete} = $DisableLoginAutocomplete ? 'off' : 'current-password';
+
         $Self->Block(
             Name => 'LoginBox',
             Data => \%Param,
@@ -1546,6 +1550,7 @@ sub Header {
         # generate avatar
         if ( $ConfigObject->Get('Frontend::AvatarEngine') eq 'Gravatar' && $Self->{UserEmail} ) {
             my $DefaultIcon = $ConfigObject->Get('Frontend::Gravatar::DefaultImage') || 'mp';
+            $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Self->{UserEmail} );
             $Param{Avatar}
                 = '//www.gravatar.com/avatar/' . md5_hex( lc $Self->{UserEmail} ) . '?s=100&d=' . $DefaultIcon;
         }
@@ -3187,7 +3192,14 @@ sub NavigationBar {
             Name => 'ItemAreaSub',
             Data => $Item,
         );
-        for my $Key ( sort keys %{$Sub} ) {
+
+        # Sort Admin sub modules (favorites) correctly. See bug#13103 for more details.
+        my @Subs = sort keys %{$Sub};
+        if ( $Item->{NameForID} eq 'Admin' ) {
+            @Subs = sort { $a <=> $b } keys %{$Sub};
+        }
+
+        for my $Key (@Subs) {
             my $ItemSub = $Sub->{$Key};
             $ItemSub->{NameForID} = $ItemSub->{Name};
             $ItemSub->{NameForID} =~ s/[ &;]//ig;
@@ -3993,6 +4005,10 @@ sub CustomerLogin {
 
     # if not in PreLogin mode, show normal login form
     else {
+
+        my $DisableLoginAutocomplete = $ConfigObject->Get('DisableLoginAutocomplete');
+        $Param{UserNameAutocomplete} = $DisableLoginAutocomplete ? 'off' : 'username';
+        $Param{PasswordAutocomplete} = $DisableLoginAutocomplete ? 'off' : 'current-password';
 
         $Self->Block(
             Name => 'LoginBox',

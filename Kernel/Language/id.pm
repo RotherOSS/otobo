@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.63572479163262;
+    $Self->{Completeness}        = 0.635562805872757;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -811,6 +811,10 @@ sub Data {
         'No change time settings.' => 'Tidak ada pengaturan waktu pengubahan',
         'Ticket changed' => 'Tiket telah diubah',
         'Ticket changed between' => 'Tiket diubah antara',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'Waktu tutup',
         'No close time settings.' => 'Tidak ada pengaturan waktu tutup',
         'Ticket closed' => 'Tiket telah ditutup',
@@ -1224,7 +1228,7 @@ sub Data {
         'Namespace' => 'Namespace',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI memberikan metode SOAP konteks, mengurangi ambiguitas.',
         'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
-            'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions',
+            '',
         'Request name scheme' => 'Permintaan nama skema',
         'Select how SOAP request function wrapper should be constructed.' =>
             'Pilih bagaimana fungsi permintaan SOAP wrapper harus dibangun.',
@@ -1484,7 +1488,7 @@ sub Data {
         'Install' => 'Instal',
         'Update repository information' => 'Memperbarui informasi repositori',
         'Cloud services are currently disabled.' => 'Layanan cloud saat ini di non-aktifkan',
-        'OTOBO Verify can not continue!' => 'Verifikasi™ OTRS tidak bisa dilanjutkan',
+        'OTOBO Verify can not continue!' => '',
         'Enable cloud services' => 'Mengaktifkan layanan cloud',
         'Update all installed packages' => '',
         'Online Repository' => 'Repository secara online',
@@ -1802,7 +1806,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Show transmitted data' => 'Tampilkan data dikirimkan',
         'Deregister system' => 'Sistem deregister',
         'Overview of registered systems' => 'Ikhtisar sistem yang terdaftar',
-        'This system is registered with OTOBO Team.' => 'Sistem ini telah terdaftar oleh grup OTRS',
+        'This system is registered with OTOBO Team.' => '',
         'System type' => 'Jenis sistem',
         'Unique ID' => 'Unique ID',
         'Last communication with registration server' => 'Komunikasi terakhir dengan server registrasi',
@@ -1813,7 +1817,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'System Deregistration not Possible' => '',
         'OTOBO-ID Login' => 'OTOBO-ID masuk',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'Pendaftaran sistem adalah layanan dari Grup OTRS, yang memberikan banyak keuntungan!',
+            '',
         'Read more' => 'Baca lagi',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'Anda perlu masuk dengan menggunakan OTOBO-ID anda ke dalam sistem pendaftaran anda',
@@ -1833,7 +1837,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Is it possible to deregister?' => 'Apakah mungkin untuk melakukan deregister?',
         'You can deregister at any time.' => 'Anda bisa melakukan deregister kapan saja',
         'Which data is transfered when registering?' => 'Data manakah yang ditransfer saat mendaftar?',
-        'A registered system sends the following data to OTOBO Team:' => 'Sebuah sistem yang terdaftar akan mengirimkan data berikut untuk grup OTRS',
+        'A registered system sends the following data to OTOBO Team:' => '',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'Nama Fully Qualified Domain (FQDN), versi OTOBO, Database, Sistem Operasi dan versi Perl.',
         'Why do I have to provide a description for my system?' => 'Mengapa saya harus memberikan keterangan untuk sistem saya?',
@@ -1855,7 +1859,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Retrieve a new one' => 'Mengambil yang baru',
         'Next' => 'Lanjut',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            'Data ini akan sering dialihkan ke OTRS Grup saat anda mendaftar sistem ini.',
+            '',
         'Attribute' => 'Atribut',
         'FQDN' => 'FQDN',
         'OTOBO Version' => 'Versi OTOBO',
@@ -1863,10 +1867,10 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Perl Version' => 'Versi Perl',
         'Optional description of this system.' => 'Deskripsi opsional sistem ini',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'Ini akan mengizinkan system untuk mengirimkan informasi data pendukung tambahan kepada Grup OTRS',
+            '',
         'Register' => 'Daftar',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            'Melanjutkan dengan langkah berikut akan mempengaruhi deregister dari grup OTRS',
+            '',
         'Deregister' => 'Tidak terdaftar',
         'You can modify registration settings here.' => 'Anda bisa mengubah pengaturan disini',
         'Overview of Transmitted Data' => '',
@@ -2047,18 +2051,18 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'This state is used in the following config settings:' => '',
 
         # Template: AdminSupportDataCollector
-        'Sending support data to OTOBO Team is not possible!' => 'Mengirimkan dukungan data ke dalam grup OTRS tidak didapati',
+        'Sending support data to OTOBO Team is not possible!' => '',
         'Enable Cloud Services' => 'Mengadakan layanan cloud',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            'Data ini dihantar ke grup OTRS dalam basis yang sederhana. Untuk menghentikan data ini, silahkan perbarui system pendaftaran anda',
+            '',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             'Anda dapat secara manual memicu Data Dukungan pengiriman dengan menekan tombol:',
         'Send Update' => 'Hantar pembaruan',
         'Currently this data is only shown in this system.' => 'Saat ini data hanya menampilkan sistem ini',
         'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'Sangat di rekomendasikan untuk mengirimdata ini kepada Grup OTRS agar mendapatkan bantuan yang lebih baik.',
+            '',
         'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'Untuk mengaktifkan pengiriman data, mohon untuk mendaftarkan sistem anda dengan Grup OTRS atau perbarui informasi pendaftaran sistem anda (pastikan untuk mengaktifkan  pilihan \'Kirimkan data pendukung\')',
+            '',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'Sebuah bundel dukungan (termasuk: informasi pendaftaran sistem, data pendukung, daftar paket yang diinstal dan semua sumber kode yang diubah secara manual) dapat dihasilkan dengan menekan tombol ini:',
         'Generate Support Bundle' => 'Menghasilkan Dukungan Bundle',
@@ -2071,10 +2075,10 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
             'Alamat email untuk pengguna ini tidak sah, pilihan ini ditiadakan',
         'Sending' => 'Menghantar',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            'Pendukung bundel akan menghantar ke grup OTRS melalui email dengan otomatis',
+            '',
         'Download File' => 'Memuat turun file',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            'Sebuah file yang berisi dukungan bundel akan di-download ke sistem lokal. Harap menyimpan file dan mengirimkannya ke grup OTRS,  denganmenggunakan metode alternatif.',
+            '',
         'Error: Support data could not be collected (%s).' => 'Eror: data pendukung tidak dapat dikumpulkan (%s)',
         'Details' => 'Rincian',
 
@@ -2236,6 +2240,14 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Delete this entry' => 'Hapuskan entri ini',
         'Do you really want to delete this template?' => 'Apakah Anda benar-benar ingin menghapus template ini?',
         'A standard template with this name already exists!' => 'Template standar dengan nama ini sudah ada!',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => 'Membuat jenis template hanya mendukung smart tag ini',
         'Example template' => 'Contoh template',
         'The current ticket state is' => 'Pilihan tiket saat ini adalah',
@@ -2402,7 +2414,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTOBO Daemon is running and start it if needed.' =>
             'Pastikan fail tersebut %s ada (tanpa .dist tambahan). Tugas cron ini akan memeriksa setiap 5 menit jika OTOBO Daemon berjalan dan memulainya jika diperlukan.',
         'Execute \'%s start\' to make sure the cron jobs of the \'otobo\' user are active.' =>
-            'Mengeksekusi \'%s start\' untuk memastikan pekerjaan cron dari pengguna OTRS \'yang aktif.',
+            'Mengeksekusi \'%s start\' untuk memastikan pekerjaan cron dari pengguna OTOBO \'yang aktif.',
         'After 5 minutes, check that the OTOBO Daemon is running in the system (\'bin/otobo.Daemon.pl status\').' =>
             'Setelah 5 menit, periksa OTOBO Daemon menjalankan dengan system (
 bin/otobo.Daemon.pl status\').',
@@ -2952,7 +2964,7 @@ bin/otobo.Daemon.pl status\').',
             'Tolong lihat dokumentasi atau tanyakan kepada admin anda untuk informasi selanjutnya',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => 'Tunggu sebentar, anda sedang diarahkan...',
         'Login' => 'Masukkan',
@@ -3031,6 +3043,7 @@ bin/otobo.Daemon.pl status\').',
         'Discard' => '',
         'Ticket Information' => 'Informasi tiket',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => 'Memperluas artikel',
@@ -3920,7 +3933,7 @@ bin/otobo.Daemon.pl status\').',
         'File is OK' => '',
         'Package has locally modified files.' => 'Paket telah diubah secara lokal',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'Paket tidak di verifikasi oleh OTRS grup! Tidak di rekomendasikan untuk menggunakan paket ini.',
+            '',
         'Not Started' => '',
         'Updated' => '',
         'Already up-to-date' => '',
@@ -5260,6 +5273,8 @@ bin/otobo.Daemon.pl status\').',
         'Client Connection Charset' => 'Koneksi klien charset',
         'Setting character_set_client needs to be utf8.' => 'Pengaturan character_set_client perlu utf 8.',
         'Server Database Charset' => 'Server database charset',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Tabel charset',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -6251,7 +6266,7 @@ Helpdesk Team Anda
         'Added system request (%s).' => '',
         'Added web request from customer.' => '',
         'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.' =>
-            '',
+            'Menambahkan akhiran dengan tahun aktual dan bulan ke file log OTOBO. Sebuah file log untuk setiap bulan akan dibuat.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             'Menambahkan pelanggan email alamat ke penerima di layar compose tiket dari antarmuka agen. Alamat pelanggan email tidak akan ditambahkan jika jenis artikel adalah email-internal.',
         'Adds the one time vacation days for the indicated calendar.' => '',
@@ -6518,6 +6533,7 @@ Helpdesk Team Anda
         'Cloud service admin module registration for the transport layer.' =>
             'Layanan modul pendaftaran cloud admin untuk transpor layer',
         'Collect support data for asynchronous plug-in modules.' => 'Mengumpulkan data dukungan untuk modul plugin asynchronous.',
+        'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => 'Filter tiket kolom untuk Ticket Ikhtisar Jenis "Kecil".',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
@@ -6555,7 +6571,7 @@ Helpdesk Team Anda
         'Configure any additional readonly mirror databases that you want to use.' =>
             'Konfigurasi tambahan hanya membaca database cermin yang ingin Anda gunakan.',
         'Configure sending of support data to OTOBO Team for improved support.' =>
-            'Mengkonfigurasi pengiriman data dukungan untuk OTOBO Team untuk meningkatkan dukungan.',
+            '',
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Konfigurasi yang layar harus ditampilkan setelah tiket baru telah dibuat.',
         'Configure your own log text for PGP.' => 'Mengkonfigurasi teks log Anda sendiri untuk PGP.',
@@ -6689,7 +6705,7 @@ Helpdesk Team Anda
         'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
             'Tentukan Tindakan adalah tombol pengaturan tersedia di objek widget terkait (LinkObject::ViewMode = "complex"). Harap dicatat bahwa Tindakan ini harus telah mendaftarkan berikut JS dan CSS file: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Tentukan filter untuk output html untuk menambahkan link balik string yang didefinisikan. Elemen Gambar memungkinkan dua jenis masukan. Sekaligus nama dari suatu gambar (misalnya faq.png). Dalam hal ini path gambar OTOBO akan digunakan. Kemungkinan kedua adalah untuk memasukkan link ke gambar.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
             '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
@@ -6722,13 +6738,13 @@ Helpdesk Team Anda
         'Defines a customer item, which generates a google maps icon at the end of a customer info block.' =>
             'Mendefinisikan item pelanggan, yang menghasilkan ikon peta google di ujung blok Info pelanggan.',
         'Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Mendefinisikan sebuah filter untuk output html untuk menambahkan link balik nomor CVE. Elemen Gambar memungkinkan dua jenis masukan. Sekaligus nama dari suatu gambar (misal faq.png). Dalam hal ini path gambar OTOBO akan digunakan. Kemungkinan kedua adalah untuk memasukkan link ke gambar.',
         'Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Mendefinisikan sebuah filter untuk output html untuk menambahkan link balik nomor MS Bulletin. Elemen Gambar memungkinkan dua jenis masukan. Sekaligus nama dari suatu gambar (misalnya faq.png). Dalam hal ini path gambar OTOBO akan digunakan. Kemungkinan kedua adalah untuk memasukkan link ke gambar.',
         'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Mendefinisikan sebuah filter untuk output html untuk menambahkan link dimana bisa mendefinisikan string. Elemen Gambar memungkinkan dua jenis masukan. Sekaligus nama dari suatu gambar (misal faq.png). Dalam hal ini path gambar OTOBO akan digunakan. Kemungkinan kedua adalah untuk memasukkan link ke gambar.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Mendefinisikan sebuah filter untuk output html untuk menambahkan link balik nomor bugtraq. Elemen Gambar memungkinkan dua jenis masukan. Sekaligus nama dari suatu gambar (misal faq.png). Dalam hal ini path gambar OTOBO akan digunakan. Kemungkinan keduanya adalah untuk memasukkan link ke gambar',
         'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             'Mendefinisikan sebuah filter untuk mengumpulkan nomor CVE dari teks artikel di AgentTicketZoom. Hasilnya akan ditampilkan dalam meta kotak di samping artikel. Isi URLPreview jika Anda ingin melihat pratinjau ketika memindahkan kursor mouse Anda di atas elemen link. Ini bisa menjadi URL yang sama seperti di URL, tetapi juga salah satu alternatif. Harap dicatat bahwa beberapa situs menyangkal ditampilkan dalam iframe (misalnya Google) dan dengan demikian tidak akan bekerja dengan modus pratinjau.',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
@@ -7133,7 +7149,7 @@ Helpdesk Team Anda
         'Defines the history type for the phone ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Mendefinisikan jenis sejarah untuk aksi layar tiket ponsel, yang akan digunakan sebagai sejarah tiket di antarmuka agen.',
         'Defines the history type for the ticket free text screen action, which gets used for ticket history.' =>
-            'Mendefinisikan nama domain berkualifikasi lengkap dari sistem. Pengaturan ini digunakan sebagai variabel, OTOBO_CONFIG_FQDN yang ditemukan dalam semua bentuk pesan yang digunakan oleh aplikasi, untuk membangun link ke tiket dalam sistem Anda.',
+            'Mendefinisikan nama domain berkualifikasi lengkap dari sistem. Pengaturan ini digunakan sebagai variabel, OTRS_CONFIG_FQDN yang ditemukan dalam semua bentuk pesan yang digunakan oleh aplikasi, untuk membangun link ke tiket dalam sistem Anda.',
         'Defines the history type for the ticket note screen action, which gets used for ticket history in the agent interface.' =>
             'Mendefinisikan jenis sejarah untuk aksi layar catatan tiket, yang akan digunakan untuk sejarah tiket di antarmuka agen.',
         'Defines the history type for the ticket owner screen action, which gets used for ticket history in the agent interface.' =>
@@ -7177,7 +7193,7 @@ Helpdesk Team Anda
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' =>
             'Mendefinisikan modul log untuk sistem. "File" tertulis di semua pesan yang diberikan oleh logfile, "SysLog" digunakan untuk syslog daemon untuk sistem, contoh: syslogd.',
         'Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTOBO instance to stop working (probably any mask which takes input from the user).' =>
-            '',
+            'Mendefinisikan ukuran maksimal (dalam byte) untuk upload file melalui browser. Peringatan: Mengatur opsi ini untuk nilai yang terlalu rendah dapat menyebabkan banyak topeng dalam hal OTOBO Anda untuk berhenti bekerja (mungkin setiap topeng yang mengambil input dari user).',
         'Defines the maximal valid time (in seconds) for a session id.' =>
             'Mendefinisikan maksimum waktu yang berlaku (dalam detik) untuk sesi id',
         'Defines the maximum number of affected tickets per job.' => 'Mendefinisikan jumlah maksimum tiket yang terkena per pekerjaan.',
@@ -7199,7 +7215,7 @@ Helpdesk Team Anda
             '',
         'Defines the module to authenticate customers.' => 'Mendefinisikan modul untuk mengotentikasi pelanggan.',
         'Defines the module to display a notification in the agent interface if the OTOBO Daemon is not running.' =>
-            '',
+            'Mendefinisikan modul untuk menampilkan pemberitahuan di antarmuka agen jika OTOBO Daemon tidak berjalan.',
         'Defines the module to display a notification in the agent interface if the system configuration is out of sync.' =>
             '',
         'Defines the module to display a notification in the agent interface, if the agent has not yet selected a time zone.' =>
@@ -7233,7 +7249,7 @@ Helpdesk Team Anda
         'Defines the name of the indicated calendar.' => 'Mendefinisikan nama kalender yang ditunjukkan.',
         'Defines the name of the key for customer sessions.' => 'Mendefinisikan nama kunci untuk sesi pelanggan.',
         'Defines the name of the session key. E.g. Session, SessionID or OTOBO.' =>
-            '',
+            'Mendefinisikan nama kunci sesi. Misalnya. Sesi, sessionid atau OTOBO.',
         'Defines the name of the table where the user preferences are stored.' =>
             'Mendefinisikan nama tabel dimana preferensi pengguna disimpan.',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
@@ -7355,7 +7371,7 @@ Helpdesk Team Anda
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             'Mendefinisikan alamat email administrator sistem. Akan ditampilkan di layar dimana terjadi kesalahan pada aplikasi.',
         'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO).' =>
-            '',
+            'Mendefinisikan sistem identifier. Setiap nomor tiket dan sesi http string berisi ID ini. Hal ini memastikan bahwa hanya tiket yang milik sistem anda akan diproses sebagai tindak lanjut (berguna ketika berkomunikasi antara dua contoh OTOBO).',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             'Mendefinisikan atribut target link ke database pelanggan eksternal.Contoh \'AsPopup PopupType_TicketAction\'.',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
@@ -7378,7 +7394,7 @@ Helpdesk Team Anda
         'Defines the two-factor module to authenticate agents.' => 'Mendefinisikan modul dua faktor untuk otentikasi agen.',
         'Defines the two-factor module to authenticate customers.' => 'Mendefinisikan modul dua faktor untuk mengotentikasi pelanggan.',
         'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            'Mendefinisikan jenis protokol, yang digunakan oleh web server, untuk melayani aplikasi. Jika protokol https akan digunakan bukan http biasa, itu harus ditentukan di sini. Karena ini tidak berpengaruh pada pengaturan atau perilaku web server, itu tidak akan mengubah metode akses ke aplikasi dan, jika salah, tidak akan mencegah Anda dari masuk ke aplikasi. Pengaturan ini hanya digunakan sebagai variabel, OTRS CONFIG Http Jenis yang ditemukan dalam semua bentuk pesan yang digunakan oleh aplikasi, untuk membangun link ke tiket dalam sistem Anda.',
+            'Mendefinisikan jenis protokol, yang digunakan oleh web server, untuk melayani aplikasi. Jika protokol https akan digunakan bukan http biasa, itu harus ditentukan di sini. Karena ini tidak berpengaruh pada pengaturan atau perilaku web server, itu tidak akan mengubah metode akses ke aplikasi dan, jika salah, tidak akan mencegah Anda dari masuk ke aplikasi. Pengaturan ini hanya digunakan sebagai variabel, OTOBO CONFIG Http Jenis yang ditemukan dalam semua bentuk pesan yang digunakan oleh aplikasi, untuk membangun link ke tiket dalam sistem Anda.',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             'Mendefinisikan karakter yang digunakan untuk kutipan email plaintext di layar compose tiket dari antarmuka agen. Jika ini kosong atau tidak aktif, email asli tidak akan dikutip tetapi ditambahkan ke respon.',
         'Defines the user identifier for the customer panel.' => 'Mendefinisikan identifier pengguna untuk panel pelanggan',
@@ -7461,7 +7477,7 @@ Helpdesk Team Anda
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTOBO to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
-            '',
+            'Nonaktifkan HTTP header "X-Frame-Options: SAMEORIGIN" untuk memungkinkan OTHERS untuk dimasukkan sebagai iFrame di situs-situs lain. Menonaktifkan HTTP header ini bisa menjadi masalah keamanan! Hanya menonaktifkannya, jika Anda tahu apa yang Anda lakukan!',
         'Disable cloud services' => '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
@@ -7579,7 +7595,7 @@ Helpdesk Team Anda
             '',
         'Enabled filters.' => 'Filter diaktifkan',
         'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTOBO user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
-            '',
+            'Memungkinkan dukungan PGP. Ketika dukungan PGP diaktifkan untuk menandatangani dan mengenkripsi email, itu sangat dianjurkan bahwa web server berjalan sebagai pengguna OTOBO. Jika tidak, akan ada masalah dengan hak ketika mengakses .gnupg folder.',
         'Enables S/MIME support.' => 'Mengaktifkan dukungan S/MIME ',
         'Enables customers to create their own accounts.' => 'Mengaktifkan pelanggan untuk membuat account mereka sendiri.',
         'Enables fetch S/MIME from CustomerUser backend support.' => '',
@@ -7818,7 +7834,7 @@ Helpdesk Team Anda
         'If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.' =>
             'Jika "HTTPBasicAuth" dipilih untuk Customer::AuthModule, Anda dapat menentukan apakah aplikasi akan berhenti jika e. g. koneksi ke server tidak dapat dibangun karena masalah jaringan.',
         'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use OTOBO. Specify the group, who may access the system.' =>
-            '',
+            'Jika "HTTPBasicAuth" dipilih untuk Customer::AuthModule, Anda dapat memeriksa apakah pengguna diijinkan untuk otentikasi karena ia berada dalam posixGroup, misalnya kebutuhan pengguna berada dalam xyz kelompok untuk menggunakan OTOBO. Tentukan kelompok, yang dapat mengakses sistem.',
         'If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).' =>
             'Jika "LDAP" dipilih, Anda dapat menambahkan filter untuk setiap query LDAP, (email = *), (objectclass=user) atau (!Objectclass=komputer).',
         'If "Radius" was selected for Customer::AuthModule, the password to authenticate to the radius host must be specified.' =>
@@ -7860,7 +7876,7 @@ Helpdesk Team Anda
         'If enabled, OTOBO will deliver all CSS files in minified form.' =>
             '',
         'If enabled, OTOBO will deliver all JavaScript files in minified form.' =>
-            '',
+            'Jika diaktifkan, OTOBO akan memberikan semua file JavaScript dalam bentuk minified.',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'Jika diaktifkan, Telepon Tiket dan Ticket Email akan terbuka di jendela baru.',
         'If enabled, the OTOBO version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
@@ -8007,7 +8023,7 @@ Helpdesk Team Anda
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             'Membuat manajemen sesi cookie penggunaan html. Jika html cookies dinonaktifkan atau jika cookies html browser klien dinonaktifkan, maka sistem akan bekerja seperti biasa dan menambahkan sesi id ke link.',
         'Malay' => 'Melayu',
-        'Manage OTOBO Team cloud services.' => 'Mengelola layanan cloud OTOBO Team.',
+        'Manage OTOBO Team cloud services.' => '',
         'Manage PGP keys for email encryption.' => 'Mengelola kunci PGP untuk enkripsi email.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Mengelola POP3 atau IMAP account untuk mengambil email dari.',
         'Manage S/MIME certificates for email encryption.' => 'Mengelola sertifikat  S/MIME untuk enkripsi email.',
@@ -8055,7 +8071,7 @@ Helpdesk Team Anda
         'Medium' => 'Medium',
         'Merge this ticket and all articles into another ticket' => '',
         'Merged Ticket (%s/%s) to (%s/%s).' => '',
-        'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => 'igabung Tiket <OTRS TIKET> ke <OTRS MERGE_TO_TICKET>.',
+        'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => 'igabung Tiket <OTOBO TIKET> ke <OTOBO MERGE_TO_TICKET>.',
         'Minute' => '',
         'Miscellaneous' => 'bermacam-macam',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -8116,7 +8132,7 @@ Helpdesk Team Anda
         'New Year\'s Day' => 'Hari Tahun Baru',
         'New Year\'s Eve' => 'Malam Tahun Baru',
         'New process ticket' => 'Proses tiket baru',
-        'News about OTOBO releases!' => '',
+        'News about OTOBO releases!' => 'Berita tentang perilisan OTOBO!',
         'News about OTOBO.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             'Berikutnya state tiket memungkinkan setelah menambahkan catatan telepon di telepon tiket layar masuk dari interface agen.',
@@ -8137,10 +8153,10 @@ Helpdesk Team Anda
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Jumlah tiket yang akan ditampilkan di setiap halaman hasil pencarian di antarmuka pelanggan.',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO News' => '',
+        'OTOBO News' => 'Berita OTOBO',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
-            '',
+            'OTOBO dapat menggunakan satu atau lebih database cermin dibaca untuk operasi mahal seperti penuh pencarian teks atau statistik generasi. Di sini Anda dapat menentukan DSN untuk database cermin pertama.',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
         'Open an external link!' => '',
@@ -8378,7 +8394,7 @@ Helpdesk Team Anda
         'Salutations' => 'Salam Pembuka',
         'Sample command output' => 'Contoh perintah output',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
-            '',
+            'Menyimpan lampiran dari artikel. "DB" menyimpan semua data dalam database (tidak disarankan untuk menyimpan lampiran besar). "FS" menyimpan data di filesystem; ini lebih cepat tapi webserver harus berjalan di bawah pengguna OTOBO. Anda dapat beralih antara modul bahkan pada sistem yang sudah di produksi tanpa kehilangan data. Catatan: Mencari nama lampiran tidak didukung ketika "FS" digunakan.',
         'Schedule a maintenance period.' => 'Jadwalkan masa pemeliharaan.',
         'Screen after new ticket' => 'Layar setelah tiket baru',
         'Search Customer' => 'Cari Pelanggan',
@@ -8415,7 +8431,7 @@ Helpdesk Team Anda
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Mengirimkan semua email keluar melalui bcc ke alamat yang ditentukan. Silakan gunakan ini hanya untuk alasan cadangan.',
         'Sends customer notifications just to the mapped customer.' => '',
-        'Sends registration information to OTOBO group.' => '',
+        'Sends registration information to OTOBO group.' => 'Mengirimkan informasi pendaftaran untuk kelompok OTOBO.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'Mengirimkan pemberitahuan amaran terkunci tiket setelah mencapai tanggal yang ditetapkan (hanya dikirim ke pemilik tiket).',
         'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
@@ -8782,7 +8798,7 @@ Helpdesk Team Anda
             'Menunjukkan baik subjek pelanggan artikel terakhir atau judul tiket di gambaran format kecil.',
         'Shows existing parent/child queue lists in the system in the form of a tree or a list.' =>
             'Menunjukkan daftar antrian orang tua / anak yang ada dalam sistem dalam bentuk pohon atau daftar.',
-        'Shows information on how to start OTOBO Daemon' => '',
+        'Shows information on how to start OTOBO Daemon' => 'Menunjukkan informasi tentang cara untuk memulai OTOBO Daemon',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Shows the article head information in the agent zoom view.' => '',
@@ -8868,7 +8884,7 @@ Helpdesk Team Anda
         'Specifies the directory where private SSL certificates are stored.' =>
             'Menentukan direktori dimana sertifikat SSL pribadi disimpan.',
         'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTOBO Notifications" otobo@your.example.com). You can use the OTOBO_CONFIG_FQDN variable as set in your configuation, or choose another email address.' =>
-            '',
+            'Menentukan alamat email yang harus digunakan oleh aplikasi saat mengirim pemberitahuan. Alamat email digunakan untuk membangun nama lengkap tampilan untuk master pemberitahuan (yaitu "OTOBO Pemberitahuan" otobo@your.example.com). Anda dapat menggunakan variabel OTOBO_CONFIG_FQDN sebagai set di configuation Anda, atau memilih alamat email lain.',
         'Specifies the email addresses to get notification messages from scheduler tasks.' =>
             'Menentukan alamat email untuk mendapatkan pesan pemberitahuan dari tugas scheduler.',
         'Specifies the group where the user needs rw permissions so that he can access the "SwitchToCustomer" feature.' =>
@@ -8876,7 +8892,7 @@ Helpdesk Team Anda
         'Specifies the group where the user needs rw permissions so that they can edit other users preferences.' =>
             '',
         'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTOBO Notifications" otobo@your.example.com).' =>
-            '',
+            'Menentukan nama yang harus digunakan oleh aplikasi saat mengirim pemberitahuan. Nama pengirim digunakan untuk membangun nama lengkap tampilan untuk master pemberitahuan (yaitu "OTOBO Pemberitahuan" otobo@your.example.com).',
         'Specifies the order in which the firstname and the lastname of agents will be displayed.' =>
             'Menentukan urutan nama depan dan nama belakang dari agen akan ditampilkan.',
         'Specifies the path of the file for the logo in the page header (gif|jpg|png, 700 x 100 pixel).' =>
@@ -8958,6 +8974,8 @@ Helpdesk Team Anda
         'The headline shown in the customer interface.' => 'judul menunjukkan dalam antarmuka pelanggan.',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             'Pengenal untuk tiket, e. Tiket #, Panggil #, MyTicket #. default adalah Ticket #.',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8970,8 +8988,6 @@ Helpdesk Team Anda
             'Logo dalam header dari antarmuka agen untuk kulit "tipis". Lihat "Agen Logo" untuk deskripsi lebih lanjut.',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             'Logo dalam header dari antarmuka agen. URL untuk gambar bisa menjadi URL relatif ke direktori image kulit, atau URL lengkap ke web server jauh.',
-        'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            'Logo dalam header dari antarmuka pelanggan. URL untuk gambar bisa menjadi URL relatif ke direktori image kulit, atau URL lengkap ke web server jauh.',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
@@ -9010,7 +9026,7 @@ Helpdesk Team Anda
         'This module is being used to extend the password policy.' => '',
         'This module is part of the admin area of OTOBO Community Edition.' =>
             '',
-        'This module is part of the admin area of OTOBO.' => '',
+        'This module is part of the admin area of OTOBO.' => 'Modul ini merupakan bagian admin dari OTOBO.',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             'Opsi ini mendefinisikan bidang yang dinamis di mana Proses Manajemen aktivitas entitas id disimpan.',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -9074,7 +9090,7 @@ Helpdesk Team Anda
         'To download attachments.' => 'Untuk unduh lampiran',
         'To view HTML attachments.' => '',
         'Toggles display of OTOBO FeatureAddons list in PackageManager.' =>
-            '',
+            'Matikan tampilan Fitur OTOBO Add ons daftar di Package Manager.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Toolbar Barang untuk jalan pintas. kontrol akses tambahan untuk menampilkan atau tidak menampilkan link ini dapat dilakukan dengan menggunakan Key "Group" dan konten seperti "rw:group1;move_into:group2".',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -9187,6 +9203,7 @@ Helpdesk Team Anda
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

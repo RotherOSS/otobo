@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.908154927275699;
+    $Self->{Completeness}        = 0.909298531810767;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -811,6 +811,10 @@ sub Data {
         'No change time settings.' => '변경 시간 설정이 없습니다.',
         'Ticket changed' => '티켓 변경됨',
         'Ticket changed between' => '티켓 변경 사이',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => '끝나는 시간',
         'No close time settings.' => '가까운 시간 설정이 없습니다.',
         'Ticket closed' => '티켓이 폐쇄되었습니다.',
@@ -1224,7 +1228,7 @@ sub Data {
         'Namespace' => '네임 스페이스',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI는 SOAP 메소드에 컨텍스트를 제공하여 모호성을 줄입니다.',
         'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
-            '예 : urn : otobo-com : soap : 함수 또는 http://www.otrs.com/GenericInterface/actions',
+            '',
         'Request name scheme' => '요청 이름 체계',
         'Select how SOAP request function wrapper should be constructed.' =>
             'SOAP 요청 함수 랩퍼를 구성하는 방법을 선택하십시오.',
@@ -1484,7 +1488,7 @@ sub Data {
         'Install' => '설치',
         'Update repository information' => '저장소 정보 업데이트',
         'Cloud services are currently disabled.' => '클라우드 서비스는 현재 사용할 수 없습니다.',
-        'OTOBO Verify can not continue!' => 'OTOBO Verify를 계속할 수 없습니다!',
+        'OTOBO Verify can not continue!' => '',
         'Enable cloud services' => '클라우드 서비스 사용',
         'Update all installed packages' => '설치된 모든 패키지를 업데이트 하십시오.',
         'Online Repository' => '온라인 저장소',
@@ -1801,7 +1805,7 @@ sub Data {
         'Show transmitted data' => '전송된 데이터 표시',
         'Deregister system' => 'Deregister system',
         'Overview of registered systems' => '등록된 시스템 개요',
-        'This system is registered with OTOBO Team.' => '이 시스템은 OTRS 그룹에 등록되어 있습니다.',
+        'This system is registered with OTOBO Team.' => '',
         'System type' => '시스템 유형',
         'Unique ID' => '고유 ID',
         'Last communication with registration server' => '등록 서버와의 마지막 통신',
@@ -1812,7 +1816,7 @@ sub Data {
         'System Deregistration not Possible' => '시스템 등록 취소가 불가능합니다.',
         'OTOBO-ID Login' => 'OTOBO-ID 로그인',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            '시스템 등록은 많은 장점을 제공하는 OTOBO Team의 서비스입니다!',
+            '',
         'Read more' => '더 많은 것을 읽으십시오',
         'You need to log in with your OTOBO-ID to register your system.' =>
             '시스템을 등록하려면 OTOBO-ID로 로그인해야합니다.',
@@ -1832,7 +1836,7 @@ sub Data {
         'Is it possible to deregister?' => '등록 취소가 가능합니까?',
         'You can deregister at any time.' => '언제든지 등록 취소 할 수 있습니다.',
         'Which data is transfered when registering?' => '등록할 때 어떤 데이터가 전송됩니까?',
-        'A registered system sends the following data to OTOBO Team:' => '등록 된 시스템은 다음 데이터를 OTRS 그룹에 보냅니다.',
+        'A registered system sends the following data to OTOBO Team:' => '',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'FQDN (정규화 된 도메인 이름), OTOBO 버전, 데이터베이스, 운영 체제 및 Perl 버전',
         'Why do I have to provide a description for my system?' => '왜 내 시스템에 대한 설명을 제공해야 합니까?',
@@ -1854,7 +1858,7 @@ sub Data {
         'Retrieve a new one' => '새 항목 가져 오기',
         'Next' => '다음',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            '이 시스템을 등록 할 때이 데이터는 OTRS 그룹으로 자주 전송됩니다.',
+            '',
         'Attribute' => '속성',
         'FQDN' => 'FQDN',
         'OTOBO Version' => 'OTOBO 버전',
@@ -1862,10 +1866,10 @@ sub Data {
         'Perl Version' => '펄 버전',
         'Optional description of this system.' => '이 시스템에 대한 선택적 설명.',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
-            '이렇게하면 시스템이 OTRS 그룹에 추가 지원 데이터 정보를 보낼 수 있습니다.',
+            '',
         'Register' => '기록',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            '이 단계를 계속하면 OTRS 그룹의 시스템 등록이 취소됩니다.',
+            '',
         'Deregister' => '위임자',
         'You can modify registration settings here.' => '여기에서 등록 설정을 수정할 수 있습니다.',
         'Overview of Transmitted Data' => '전송된 데이터의 개요',
@@ -2046,18 +2050,18 @@ sub Data {
         'This state is used in the following config settings:' => '이 상태는 다음 구성 설정에서 사용됩니다.',
 
         # Template: AdminSupportDataCollector
-        'Sending support data to OTOBO Team is not possible!' => 'OTRS 그룹에 지원 데이터를 보낼 수 없습니다!',
+        'Sending support data to OTOBO Team is not possible!' => '',
         'Enable Cloud Services' => '클라우드 서비스 사용',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            '이 데이터는 정기적으로 OTRS 그룹에 전송됩니다. 이 데이터의 전송을 중지하려면 시스템 등록을 업데이트하십시오.',
+            '',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             '이 버튼을 눌러 Support Data를 수동으로 트리거 할 수 있습니다 :',
         'Send Update' => '업데이트 보내기',
         'Currently this data is only shown in this system.' => '현재 이 데이터는 이 시스템에만 표시됩니다.',
         'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            '보다 나은 지원을 받으려면이 데이터를 OTRS 그룹에 보내도록하십시오.',
+            '',
         'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '데이터 전송을 활성화하려면 시스템을 OTRS 그룹에 등록하거나 시스템 등록 정보를 업데이트하십시오 ( \'지원 데이터 보내기\'옵션을 활성화하십시오).',
+            '',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             '이 단추를 누르면 지원 번들 (시스템 등록 정보, 지원 데이터, 설치된 패키지 목록 및 모든 로컬로 수정 된 소스 코드 파일 포함)을 생성 할 수 있습니다.',
         'Generate Support Bundle' => '지원 번들 생성',
@@ -2070,10 +2074,10 @@ sub Data {
             '이 사용자의 이메일 주소가 유효하지 않습니다.이 옵션은 사용 중지되었습니다.',
         'Sending' => '보내다',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            '지원 번들은 이메일을 통해 OTRS 그룹에 자동으로 전송됩니다.',
+            '',
         'Download File' => '다운로드 파일',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            '지원 번들이 들어있는 파일은 로컬 시스템에 다운로드됩니다. 파일을 저장하고 대체 방법을 사용하여 OTRS 그룹에 보내십시오.',
+            '',
         'Error: Support data could not be collected (%s).' => '오류 : 지원 데이터를 수집 할 수 없습니다 (%s).',
         'Details' => '세부',
 
@@ -2235,6 +2239,14 @@ sub Data {
         'Delete this entry' => '이 항목 삭제',
         'Do you really want to delete this template?' => '이 템플릿을 정말로 삭제 하시겠습니까?',
         'A standard template with this name already exists!' => '이 이름을 가진 표준 템플릿이 이미 존재합니다!',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => '만들기 유형 템플릿은 이 스마트 태그만 지원합니다.',
         'Example template' => '템플릿 예제',
         'The current ticket state is' => '현재 티켓 상태는 다음과 같습니다.',
@@ -2930,7 +2942,7 @@ sub Data {
         'Traceback' => '역 추적',
 
         # Template: CustomerFooter
-        'Powered by %s' => 'Powered by %s',
+        'Powered by %s' => '',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
@@ -2950,7 +2962,7 @@ sub Data {
             '자세한 내용은 설명서를 참조하거나 관리자에게 문의하십시오.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => '잠시만 기다려주십시오. 리디렉션 중입니다...',
         'Login' => '로그인',
@@ -3029,6 +3041,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => '티켓 정보',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => '기사 펼치기',
@@ -3918,7 +3931,7 @@ sub Data {
         'File is OK' => '파일은 정상입니다.',
         'Package has locally modified files.' => '패키지에 로컬로 수정된 파일이 있습니다.',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            '패키지가 OTRS 그룹에 의해 확인되지 않았습니다! 이 패키지를 사용하지 않는 것이 좋습니다.',
+            '',
         'Not Started' => '시작되지 않음',
         'Updated' => '업데이트 됨',
         'Already up-to-date' => '이미 최신',
@@ -5258,6 +5271,8 @@ sub Data {
         'Client Connection Charset' => '클라이언트 연결 문자 세트',
         'Setting character_set_client needs to be utf8.' => 'character_set_client 설정은 utf8이어야합니다.',
         'Server Database Charset' => '서버 데이터베이스 문자 세트',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '설정 character_set_database는 \'utf8\'이어야합니다.',
         'Table Charset' => '표 문자 집합',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -5446,7 +5461,7 @@ sub Data {
         'Some packages are not correctly installed.' => '일부 패키지가 올바르게 설치되지 않았습니다.',
         'Package Verification Status' => '패키지 확인 상태',
         'Some packages are not verified by the OTOBO Team! It is recommended not to use this packages.' =>
-            '일부 패키지는 OTRS 그룹에 의해 검증되지 않습니다! 이 패키지를 사용하지 않는 것이 좋습니다.',
+            '',
         'Package Framework Version Status' => '패키지 프레임 워크 버전 상태',
         'Some packages are not allowed for the current framework version.' =>
             '일부 패키지는 현재 프레임 워크 버전에 허용되지 않습니다.',
@@ -6249,7 +6264,7 @@ Thanks for your help!
         'Added system request (%s).' => '시스템 요구 사항을 추가했습니다 (%s).',
         'Added web request from customer.' => '고객의 웹 요청을 추가했습니다.',
         'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.' =>
-            '',
+            'OTOBO 로그 파일에 실제 연도와 월이있는 접미어를 추가합니다. 매월 로그 파일이 생성됩니다.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             '상담원 인터페이스의 티켓 작성 화면에서 고객 전자 메일 주소를 받는 사람에게 추가합니다. 기사 유형이 이메일 내부인 경우 고객 이메일 주소는 추가되지 않습니다.',
         'Adds the one time vacation days for the indicated calendar.' => '표시된 달력에 대해 휴가일을 한 번 추가합니다.',
@@ -6516,6 +6531,7 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             '전송 계층에 대한 클라우드 서비스 관리 모듈 등록',
         'Collect support data for asynchronous plug-in modules.' => '비동기 플러그인 모듈에 대한 지원 데이터를 수집하십시오.',
+        'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '티켓 개요에 대한 열 티켓 필터는 "Small"입니다.',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '에이전트 인터페이스의 에스컬레이션보기에서 필터링 할 수있는 열. 참고 : 티켓 속성, 동적 필드 (DynamicField_NameX) 및 고객 속성 (예 : CustomerUserPhone, CustomerCompanyName, ...) 만 허용됩니다.',
@@ -6553,7 +6569,7 @@ Thanks for your help!
         'Configure any additional readonly mirror databases that you want to use.' =>
             '사용할 추가 읽기 전용 미러 데이터베이스를 구성하십시오.',
         'Configure sending of support data to OTOBO Team for improved support.' =>
-            '향상된 지원을 위해 OTRS 그룹에 지원 데이터를 보내도록 구성합니다.',
+            '',
         'Configure which screen should be shown after a new ticket has been created.' =>
             '새 티켓이 작성된 후 표시할 화면을 구성하십시오.',
         'Configure your own log text for PGP.' => 'PGP에 대한 자체 로그 텍스트를 구성하십시오.',
@@ -6687,7 +6703,7 @@ Thanks for your help!
         'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
             '링크 객체 위젯에서 설정 버튼을 사용할 수있는 액션 정의 (LinkObject :: ViewMode = "complex"). 이러한 작업은 다음 JS 및 CSS 파일을 등록해야합니다. Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            '정의 된 문자열 뒤에 링크를 추가하기 위해 html 출력을위한 필터를 정의하십시오. Image 요소는 두 가지 입력 종류를 허용합니다. 한 번에 이미지의 이름 (예 : faq.png). 이 경우 OTOBO 이미지 경로가 사용됩니다. 두 번째 가능성은 링크를 이미지에 삽입하는 것입니다.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
             '고객 사용자 데이터 (키)의 변수와 티켓의 동적 필드 (값) 간의 매핑을 정의하십시오. 그 목적은 티켓 동적 필드에 고객 사용자 데이터를 저장하는 것입니다. 동적 필드는 시스템에 있어야하며 에이전트에서 수동으로 설정하거나 업데이트 할 수 있도록 AgentTicketFreeText에 대해 활성화해야합니다. AgentTicketPhone, AgentTicketEmail 및 AgentTicketCustomer에는 사용할 수 없습니다. 그럴 경우 자동으로 설정된 값보다 우선합니다. 이 매핑을 사용하려면 Ticket :: EventModulePost ### 4100-DynamicFieldFromCustomerUser 설정을 활성화해야합니다.',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
@@ -6720,13 +6736,13 @@ Thanks for your help!
         'Defines a customer item, which generates a google maps icon at the end of a customer info block.' =>
             '고객 정보 블록의 끝에 Google지도 아이콘을 생성하는 고객 항목을 정의합니다.',
         'Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'CVE 번호 뒤에 링크를 추가하는 html 출력을위한 필터를 정의합니다. Image 요소는 두 가지 입력 종류를 허용합니다. 한 번에 이미지의 이름 (예 : faq.png). 이 경우 OTOBO 이미지 경로가 사용됩니다. 두 번째 가능성은 링크를 이미지에 삽입하는 것입니다.',
         'Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'MSBulletin 번호 뒤에 링크를 추가하기 위해 html 출력을위한 필터를 정의합니다. Image 요소는 두 가지 입력 종류를 허용합니다. 한 번에 이미지의 이름 (예 : faq.png). 이 경우 OTOBO 이미지 경로가 사용됩니다. 두 번째 가능성은 링크를 이미지에 삽입하는 것입니다.',
         'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            '정의 된 문자열 뒤에 링크를 추가하는 html 출력을위한 필터를 정의합니다. Image 요소는 두 가지 입력 종류를 허용합니다. 한 번에 이미지의 이름 (예 : faq.png). 이 경우 OTOBO 이미지 경로가 사용됩니다. 두 번째 가능성은 링크를 이미지에 삽입하는 것입니다.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'bugtraq 번호 뒤에 링크를 추가하기위한 html 출력을위한 필터를 정의합니다. Image 요소는 두 가지 입력 종류를 허용합니다. 한 번에 이미지의 이름 (예 : faq.png). 이 경우 OTOBO 이미지 경로가 사용됩니다. 두 번째 가능성은 링크를 이미지에 삽입하는 것입니다.',
         'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             'AgentTicketZoom의 기사 텍스트에서 CVE 번호를 수집하는 필터를 정의합니다. 결과는 기사 옆의 메타 상자에 표시됩니다. 링크 요소 위로 마우스 커서를 이동할 때 미리보기를 보려면 URLPreview를 채 웁니다. URL과 동일한 URL 일 수도 있지만 대체 URL 일 수도 있습니다. 일부 웹 사이트는 iframe (예 : Google)에 표시되지 않으므로 미리보기 모드에서는 작동하지 않습니다.',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
@@ -6868,7 +6884,7 @@ Thanks for your help!
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             '달력 이벤트로 표시하기 위해 티켓을 사용하는 대기열을 정의합니다.',
         'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTOBO Daemon).' =>
-            '',
+            '\'PublicSupportDataCollector\'공용 모듈 (예 : OTOBO 데몬에서 사용)을 사용하여 지원 데이터 수집을위한 HTTP 호스트 이름을 정의합니다.',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             '로컬 저장소에 액세스하기위한 IP 정규식을 정의합니다. 이것을 사용하여 로컬 저장소에 액세스 할 수 있어야하며 패키지 :: RepositoryList가 원격 호스트에 필요합니다.',
         'Defines the PostMaster header to be used on the filter for keeping the current state of the ticket.' =>
@@ -7174,7 +7190,7 @@ Thanks for your help!
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' =>
             '시스템의 로그 모듈을 정의합니다. "파일"은 주어진 로그 파일에 모든 메시지를 쓰고 "syslog"는 시스템의 syslog 데몬을 사용합니다. syslogd.',
         'Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTOBO instance to stop working (probably any mask which takes input from the user).' =>
-            '',
+            '브라우저를 통한 파일 업로드의 최대 크기 (바이트)를 정의합니다. 경고 :이 옵션을 너무 낮은 값으로 설정하면 OTOBO 인스턴스의 많은 마스크가 작동을 멈출 수 있습니다 (사용자가 입력 한 마스크 일 가능성이 있음).',
         'Defines the maximal valid time (in seconds) for a session id.' =>
             '세션 ID의 최대 유효 시간 (초)을 정의합니다.',
         'Defines the maximum number of affected tickets per job.' => '작업 당 영향을 받는 티켓의 최대 수를 정의합니다.',
@@ -7196,7 +7212,7 @@ Thanks for your help!
             '현재 로그인 한 고객을 고객 인터페이스에 표시하는 모듈을 정의합니다.',
         'Defines the module to authenticate customers.' => '고객을 인증할 모듈을 정의합니다.',
         'Defines the module to display a notification in the agent interface if the OTOBO Daemon is not running.' =>
-            '',
+            'OTOBO 데몬이 실행되고 있지 않은 경우 에이전트 인터페이스에 알림을 표시 할 모듈을 정의합니다.',
         'Defines the module to display a notification in the agent interface if the system configuration is out of sync.' =>
             '시스템 구성이 동기화되지 않은 경우 에이전트 인터페이스에 알림을 표시 할 모듈을 정의합니다.',
         'Defines the module to display a notification in the agent interface, if the agent has not yet selected a time zone.' =>
@@ -7230,7 +7246,7 @@ Thanks for your help!
         'Defines the name of the indicated calendar.' => '표시된 달력의 이름을 정의합니다.',
         'Defines the name of the key for customer sessions.' => '고객 세션의 키 이름을 정의합니다.',
         'Defines the name of the session key. E.g. Session, SessionID or OTOBO.' =>
-            '',
+            '세션 키의 이름을 정의합니다. 예 : 세션, 세션 ID 또는 OTOBO.',
         'Defines the name of the table where the user preferences are stored.' =>
             '사용자 기본 설정이 저장된 테이블의 이름을 정의합니다.',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
@@ -7352,7 +7368,7 @@ Thanks for your help!
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             '시스템 관리자의 전자 메일 주소를 정의합니다. 응용 프로그램의 오류 화면에 표시됩니다.',
         'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO).' =>
-            '',
+            '시스템 식별자를 정의합니다. 모든 티켓 번호와 http 세션 문자열에는이 ID가 들어 있습니다. 이렇게하면 시스템에 속한 티켓 만 후속 조치로 처리됩니다 (OTOBO의 두 인스턴스간에 통신 할 때 유용함).',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             '외부 고객 데이터베이스 링크의 대상 속성을 정의합니다. 예 : \'AsPopup PopupType_TicketAction\'.',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
@@ -7371,7 +7387,7 @@ Thanks for your help!
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             '지정된 일정에 나중에 할당할 수 있는 지정된 달력의 표준 시간대를 정의합니다.',
         'Defines the timeout (in seconds, minimum is 20 seconds) for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTOBO Daemon).' =>
-            '',
+            '공개 모듈 \'PublicSupportDataCollector\'(예 : OTOBO 데몬에서 사용)를 사용하여 지원 데이터 수집에 대한 시간 초과 (최소, 20 초)를 정의합니다.',
         'Defines the two-factor module to authenticate agents.' => '에이전트를 인증할 2요소 모듈을 정의합니다.',
         'Defines the two-factor module to authenticate customers.' => '고객을 인증할 2요소 모듈을 정의합니다.',
         'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
@@ -7458,7 +7474,7 @@ Thanks for your help!
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '외부 스크립트 내용로드를 허용하려면 HTTP 헤더 "Content-Security-Policy"를 비활성화하십시오. 이 HTTP 헤더를 비활성화하면 보안 문제가 발생할 수 있습니다! 자신이하는 일을 아는 경우에만 사용을 중지하십시오!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTOBO to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
-            '',
+            'HTTP 헤더 "X-Frame-Options : SAMEORIGIN"을 사용하지 않도록 설정하여 OTOBO를 다른 웹 사이트의 IFrame으로 포함 할 수 있습니다. 이 HTTP 헤더를 비활성화하면 보안 문제가 발생할 수 있습니다! 자신이하는 일을 아는 경우에만 사용을 중지하십시오!',
         'Disable cloud services' => '클라우드 서비스 사용 중지',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '책임있는 에이전트에게 티켓 알림을 보내는 것을 비활성화합니다 (Ticket :: Responsible을 활성화해야합니다).',
@@ -7576,7 +7592,7 @@ Thanks for your help!
             '신뢰할 수있는 서명으로 인증되지 않았더라도 모든 공용 및 개인용 PGP 키를 신뢰하는 경우이 옵션을 활성화하십시오.',
         'Enabled filters.' => '필터를 사용합니다.',
         'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTOBO user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
-            '',
+            'PGP 지원을 사용합니다. 메일 서명 및 암호화에 대해 PGP 지원을 사용하는 경우 웹 서버를 OTOBO 사용자로 실행하는 것이 좋습니다. 그렇지 않으면 .gnupg 폴더에 액세스 할 때 권한에 문제가 있습니다.',
         'Enables S/MIME support.' => 'S / MIME 지원을 사용합니다.',
         'Enables customers to create their own accounts.' => '고객이 자신의 계정을 만들 수 있습니다.',
         'Enables fetch S/MIME from CustomerUser backend support.' => '고객사용자 백 엔드 지원에서 S / MIME을 가져올 수 있습니다.',
@@ -7640,7 +7656,7 @@ Thanks for your help!
         'Executes follow-up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '제목에 티켓 번호가없는 메일에 대한 In-Reply-To 또는 References 헤더의 후속 검사를 실행합니다.',
         'Executes follow-up checks on OTOBO Header \'X-OTOBO-Bounce\'.' =>
-            '',
+            'OTOBO Header \'X-OTOBO-Bounce\'에 대한 후속 검사를 실행합니다.',
         'Executes follow-up checks on attachment contents for mails that don\'t have a ticket number in the subject.' =>
             '제목에 티켓 번호가 없는 메일의 첨부파일 내용에 대한 후속 검사를 실행합니다.',
         'Executes follow-up checks on email body for mails that don\'t have a ticket number in the subject.' =>
@@ -7815,7 +7831,7 @@ Thanks for your help!
         'If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.' =>
             'Customer :: AuthModule에 대해 "LDAP"가 선택된 경우, e. 지. 네트워크 문제로 인해 서버에 연결할 수 없습니다.',
         'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use OTOBO. Specify the group, who may access the system.' =>
-            '',
+            'Customer :: Authmodule에 대해 "LDAP"가 선택된 경우 사용자가 posixGroup에 있기 때문에 인증 할 수 있는지 확인할 수 있습니다. 사용자는 OTOBO를 사용하려면 그룹 xyz에 있어야합니다. 시스템에 액세스 할 수있는 그룹을 지정하십시오.',
         'If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).' =>
             '"LDAP"를 선택한 경우 각 LDAP 쿼리에 필터를 추가 할 수 있습니다. (메일 = *), (objectclass = 사용자) 또는 (! objectclass = 컴퓨터).',
         'If "Radius" was selected for Customer::AuthModule, the password to authenticate to the radius host must be specified.' =>
@@ -7853,15 +7869,15 @@ Thanks for your help!
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
             '사용 가능하면 데몬은 표준 출력 스트림을 로그 파일로 재지정합니다.',
         'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTOBOHome>/var/run/ can not be used.' =>
-            '',
+            '이 설정을 사용하면 데몬은이 디렉토리를 사용하여 PID 파일을 만듭니다. 참고 : 변경하기 전에 데몬을 중지하고 <$ OTOBOHome> / var / run /을 사용할 수없는 경우에만이 설정을 사용하십시오.',
         'If enabled, OTOBO will deliver all CSS files in minified form.' =>
-            '',
+            '사용하도록 설정하면 OTOBO는 모든 CSS 파일을 축소 된 형식으로 제공합니다.',
         'If enabled, OTOBO will deliver all JavaScript files in minified form.' =>
-            '',
+            '사용하도록 설정하면 OTOBO는 모든 JavaScript 파일을 축소 된 형식으로 제공합니다.',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             '사용하도록 설정하면 TicketPhone 및 TicketEmail이 새 창에서 열립니다.',
         'If enabled, the OTOBO version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
-            '',
+            '사용 설정하면 OTOBO 버전 태그가 웹 인터페이스, 나가는 메일의 HTTP 헤더 및 X 헤더에서 삭제됩니다. 참고 :이 옵션을 변경하면 캐시를 삭제하십시오.',
         'If enabled, the cache data be held in memory.' => '활성화된 경우 캐시 데이터가 메모리에 보관됩니다.',
         'If enabled, the cache data will be stored in cache backend.' => '활성화된 경우 캐시 데이터가 캐시 백엔드에 저장됩니다.',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
@@ -7872,7 +7888,7 @@ Thanks for your help!
             '이 옵션을 사용하면 메인 메뉴의 첫 번째 레벨이 마우스를 올리면 열리게 됩니다 (클릭만 하는 대신).',
         'If enabled, the quick close action will create an article.' => '',
         'If enabled, users that haven\'t selected a time zone yet will be notified to do so. Note: Notification will not be shown if (1) user has not yet selected a time zone and (2) OTOBOTimeZone and UserDefaultTimeZone do match and (3) are not set to UTC.' =>
-            '',
+            '사용하도록 설정하면 아직 시간대를 선택하지 않은 사용자에게 알림이 전송됩니다. 참고 : (1) 사용자가 아직 시간대를 선택하지 않았으며 (2) OTOBOTimeZone과 UserDefaultTimeZone이 일치하고 (3) UTC로 설정되지 않은 경우 알림이 표시되지 않습니다.',
         'If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email\'s from address instead of an empty envelope sender (required in certain mail server configurations).' =>
             'SendmailNotificationEnvelopeFrom이 지정되지 않은 경우이 설정을 사용하면 빈 봉투 발신자 대신 (특정 전자 메일 서버 구성에서 필요) 전자 메일의 보낸 사람 주소를 사용할 수 있습니다.',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set).' =>
@@ -8004,7 +8020,7 @@ Thanks for your help!
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             '세션 관리가 html 쿠키를 사용하게합니다. html 쿠키가 비활성화되거나 클라이언트 브라우저가 html 쿠키를 비활성화 한 경우 시스템은 평소와 같이 작동하고 링크에 세션 ID를 추가합니다.',
         'Malay' => '말레이 사람',
-        'Manage OTOBO Team cloud services.' => 'OTRS 그룹 클라우드 서비스를 관리합니다.',
+        'Manage OTOBO Team cloud services.' => '',
         'Manage PGP keys for email encryption.' => '전자 메일 암호화를위한 PGP 키 관리.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'POP3 또는 IMAP 계정을 관리하여 전자 메일을 가져옵니다.',
         'Manage S/MIME certificates for email encryption.' => '전자 메일 암호화를위한 S / MIME 인증서를 관리합니다.',
@@ -8113,8 +8129,8 @@ Thanks for your help!
         'New Year\'s Day' => '새해첫날',
         'New Year\'s Eve' => '새해 전날',
         'New process ticket' => '새 프로세스 티켓',
-        'News about OTOBO releases!' => '',
-        'News about OTOBO.' => '',
+        'News about OTOBO releases!' => 'OTOBO 출시에 대한 뉴스!',
+        'News about OTOBO.' => 'OTOBO에 관한 뉴스.',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '다음 가능한 티켓 상태는 에이전트 인터페이스의 티켓 인바운드 인바운드 화면에 전화 메모를 추가한 후의 상태입니다.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
@@ -8134,12 +8150,12 @@ Thanks for your help!
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '고객 인터페이스에서 검색 결과의 각 페이지에 표시할 티켓 수입니다.',
         'Number of tickets to be displayed in each page.' => '각 페이지에 표시할 티켓 수입니다.',
-        'OTOBO News' => '',
-        'OTOBO Team Services' => 'OTRS 그룹 서비스',
+        'OTOBO News' => 'OTOBO 뉴스',
+        'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
-            '',
+            'OTOBO는 전체 텍스트 검색이나 통계 생성과 같은 값 비싼 작업에 대해 하나 이상의 읽기 전용 미러 데이터베이스를 사용할 수 있습니다. 여기서 첫 번째 미러 데이터베이스에 대해 DSN을 지정할 수 있습니다.',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
-            '',
+            'OTOBO는 끝 날짜 또는 반복 횟수가없는 되풀이 약속을 지원하지 않습니다. 가져 오기 프로세스 중에 ICS 파일에 이러한 약속이 포함될 수 있습니다. 대신, 시스템은 과거의 모든 약속과 다음 N 개월 (기본적으로 120 개월 / 10 년)의 약속을 작성합니다.',
         'Open an external link!' => '외부 링크 열기',
         'Open tickets (customer user)' => '진행중 티켓 (고객 사용자)',
         'Open tickets (customer)' => '진행중 티켓 (고객)',
@@ -8375,7 +8391,7 @@ Thanks for your help!
         'Salutations' => '인사말',
         'Sample command output' => '샘플 명령 출력',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
-            '',
+            '기사의 첨부 파일을 저장합니다. "DB"는 모든 데이터를 데이터베이스에 저장합니다 (큰 첨부 파일 저장에는 권장되지 않음). "FS"는 데이터를 파일 시스템에 저장합니다. 이것은 더 빠르지 만 웹 서버는 OTOBO 사용자 하에서 실행되어야합니다. 데이터 손실없이 이미 생산중인 시스템에서도 모듈 간을 전환 할 수 있습니다. 참고 : "FS"를 사용하면 첨부 파일 이름을 검색 할 수 없습니다.',
         'Schedule a maintenance period.' => '유지 보수 기간을 예약하십시오.',
         'Screen after new ticket' => '새로운 티켓 후에 화면',
         'Search Customer' => '고객 검색',
@@ -8398,7 +8414,7 @@ Thanks for your help!
         'Select your personal time zone. All times will be displayed relative to this time zone.' =>
             '개인 시간대를 선택하십시오. 모든 시간은이 시간대를 기준으로 표시됩니다.',
         'Select your preferred layout for the software.' => '소프트웨어의 기본 레이아웃을 선택하십시오.',
-        'Select your preferred theme for OTOBO.' => '',
+        'Select your preferred theme for OTOBO.' => 'OTOBO에 대한 선호 테마를 선택하십시오.',
         'Selects the cache backend to use.' => '사용할 캐시 백엔드를 선택합니다.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             '웹 인터페이스를 통해 업로드를 처리 할 모듈을 선택합니다. "DB"는 모든 업로드를 데이터베이스에 저장하고 "FS"는 파일 시스템을 사용합니다.',
@@ -8412,7 +8428,7 @@ Thanks for your help!
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             '모든 발신 이메일을 bcc를 통해 지정된 주소로 보냅니다. 백업 목적으로 만 사용하십시오.',
         'Sends customer notifications just to the mapped customer.' => '매핑된 고객에게 고객 알림만 보냅니다.',
-        'Sends registration information to OTOBO group.' => '',
+        'Sends registration information to OTOBO group.' => 'OTOBO 그룹에 등록 정보를 보냅니다.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '미리 알림 날짜에 도달 한 후 잠금 해제 된 티켓에 대한 미리 알림을 전송합니다 (티켓 소유자에게만 전송 됨).',
         'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
@@ -8638,9 +8654,9 @@ Thanks for your help!
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be enabled).' =>
             '에이전트 인터페이스의 티켓 책임 화면에 티켓 유형을 설정합니다 (Ticket :: Type을 활성화해야합니다).',
         'Sets the time zone being used internally by OTOBO to e. g. store dates and times in the database. WARNING: This setting must not be changed once set and tickets or any other data containing date/time have been created.' =>
-            '',
+            'OTOBO에 의해 내부적으로 사용되는 시간대를 e로 설정합니다. 지. 날짜와 시간을 데이터베이스에 저장하십시오. 경고 :이 설정은 일단 설정하고 티켓 또는 날짜 / 시간이 포함 된 다른 데이터를 작성한 후에 변경하면 안됩니다.',
         'Sets the time zone that will be assigned to newly created users and will be used for users that haven\'t yet set a time zone. This is the time zone being used as default to convert date and time between the OTOBO time zone and the user\'s time zone.' =>
-            '',
+            '새로 생성 된 사용자에게 할당되고 아직 시간대를 설정하지 않은 사용자에게 사용될 시간대를 설정합니다. 이 시간대는 OTOBO 시간대와 사용자 시간대 사이의 날짜와 시간을 변환하기 위해 기본값으로 사용됩니다.',
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'http / ftp 다운로드에 대한 시간 초과 (초)를 설정합니다.',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             '패키지 다운로드의 시간 초과 (초)를 설정합니다. "WebUserAgent :: Timeout"을 덮어 씁니다.',
@@ -8779,7 +8795,7 @@ Thanks for your help!
             '마지막 고객 기사의 제목이나 작은 제목 개요의 티켓 제목을 표시합니다.',
         'Shows existing parent/child queue lists in the system in the form of a tree or a list.' =>
             '시스템의 기존 상위/하위 대기열 목록을 트리 또는 목록 형태로 표시합니다.',
-        'Shows information on how to start OTOBO Daemon' => '',
+        'Shows information on how to start OTOBO Daemon' => 'OTOBO 데몬을 시작하는 방법에 대한 정보를 보여줍니다.',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '에이전트 인터페이스의 티켓 확대보기에서 외부 페이지에 대한 링크를 표시합니다. 이 링크를 표시하거나 표시하지 않으려는 추가 액세스 제어는 키 "그룹"과 "rw : group1; move_into : group2"와 같은 내용을 사용하여 수행 할 수 있습니다.',
         'Shows the article head information in the agent zoom view.' => '',
@@ -8865,7 +8881,7 @@ Thanks for your help!
         'Specifies the directory where private SSL certificates are stored.' =>
             '개인 SSL 인증서가 저장되는 디렉토리를 지정합니다.',
         'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTOBO Notifications" otobo@your.example.com). You can use the OTOBO_CONFIG_FQDN variable as set in your configuation, or choose another email address.' =>
-            '',
+            '알림을 보낼 때 응용 프로그램에서 사용해야하는 전자 메일 주소를 지정합니다. 이메일 주소는 알림 마스터의 전체 표시 이름 (예 : "OTOBO Notifications"otobo@your.example.com)을 작성하는 데 사용됩니다. OTOBO_CONFIG_FQDN 변수를 설정에 사용하거나 다른 이메일 주소를 선택할 수 있습니다.',
         'Specifies the email addresses to get notification messages from scheduler tasks.' =>
             '스케줄러 테스크에서 알림 메시지를 가져올 이메일 주소를 지정합니다.',
         'Specifies the group where the user needs rw permissions so that he can access the "SwitchToCustomer" feature.' =>
@@ -8873,7 +8889,7 @@ Thanks for your help!
         'Specifies the group where the user needs rw permissions so that they can edit other users preferences.' =>
             '다른 사용자 기본 설정을 편집 할 수 있도록 사용자에게 rw 권한이 필요한 그룹을 지정합니다.',
         'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTOBO Notifications" otobo@your.example.com).' =>
-            '',
+            '알림을 보낼 때 응용 프로그램에서 사용해야하는 이름을 지정합니다. 발신자 이름은 알림 마스터의 전체 표시 이름 (예 : "OTOBO Notifications"otobo@your.example.com)을 작성하는 데 사용됩니다.',
         'Specifies the order in which the firstname and the lastname of agents will be displayed.' =>
             '에이전트의 성 및 성을 표시하는 순서를 지정합니다.',
         'Specifies the path of the file for the logo in the page header (gif|jpg|png, 700 x 100 pixel).' =>
@@ -8955,6 +8971,8 @@ Thanks for your help!
         'The headline shown in the customer interface.' => '고객 인터페이스에 표시되는 헤드 라인.',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             '티켓 식별자 예 : 티켓 #, 콜 #, 마이 티켓 #. 기본값은 Ticket #입니다.',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8967,8 +8985,6 @@ Thanks for your help!
             '스킨 "슬림"을위한 에이전트 인터페이스의 헤더에 표시된 로고. 자세한 설명은 "AgentLogo"를 참조하십시오.',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '에이전트 인터페이스의 헤더에 표시된 로고. 이미지의 URL은 스킨 이미지 디렉토리에 대한 상대 URL이거나 원격 웹 서버에 대한 전체 URL 일 수 있습니다.',
-        'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            '고객 인터페이스의 머리글에 표시된 로고입니다. 이미지의 URL은 스킨 이미지 디렉토리에 대한 상대 URL이거나 원격 웹 서버에 대한 전체 URL 일 수 있습니다.',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '에이전트 인터페이스의 로그인 상자 상단에 표시된 로고입니다. 이미지의 URL은 스킨 이미지 디렉토리에 대한 상대 URL이거나 원격 웹 서버에 대한 전체 URL 일 수 있습니다.',
         'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
@@ -9007,7 +9023,7 @@ Thanks for your help!
         'This module is being used to extend the password policy.' => '',
         'This module is part of the admin area of OTOBO Community Edition.' =>
             '',
-        'This module is part of the admin area of OTOBO.' => '',
+        'This module is part of the admin area of OTOBO.' => '이 모듈은 OTOBO의 관리 영역의 일부입니다.',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             '이 옵션은 프로세스 관리 활동 엔티티ID가 저장되는 동적 필드를 정의합니다.',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -9020,7 +9036,7 @@ Thanks for your help!
             '이 옵션은 고객 사용자가 생성하지 않은 고객 회사 티켓에 대한 액세스를 거부합니다.',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '이 설정을 사용하면 기본 제공 국가 목록을 자신의 국가 목록으로 대체할 수 있습니다. 소규모 그룹을 선택하고 싶을 때 특히 편리합니다.',
-        'This setting is deprecated. Set OTOBOTimeZone instead.' => '',
+        'This setting is deprecated. Set OTOBOTimeZone instead.' => '이 설정은 사용되지 않습니다. 대신 OTOBOTimeZone을 설정하십시오.',
         'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
             '이 설정은 대기열보기 뿐만 아니라 모든 개요 화면에서 정렬 속성을 표시합니다.',
         'Ticket Close' => '',
@@ -9071,7 +9087,7 @@ Thanks for your help!
         'To download attachments.' => '첨부 파일을 다운로드 하려면.',
         'To view HTML attachments.' => 'HTML 첨부 파일을 봅니다.',
         'Toggles display of OTOBO FeatureAddons list in PackageManager.' =>
-            '',
+            'PackageManager의 OTOBO FeatureAddons 목록 표시를 토글합니다.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '도구 모음 단축키 항목입니다. 이 링크를 표시하거나 표시하지 않으려는 추가 액세스 제어는 키 "그룹"과 "rw : group1; move_into : group2"와 같은 내용을 사용하여 수행 할 수 있습니다.',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -9091,7 +9107,7 @@ Thanks for your help!
             '원격 IP 주소 확인을 켭니다. 예를 들어 프록시 팜이나 전화 접속 연결을 통해 응용 프로그램을 사용하는 경우에는 원격 IP 주소가 대부분 요청마다 다릅니다.',
         'Tweak the system as you wish.' => '원하는대로 시스템을 조정하십시오.',
         'Type of daemon log rotation to use: Choose \'OTOBO\' to let OTOBO system to handle the file rotation, or choose \'External\' to use a 3rd party rotation mechanism (i.e. logrotate). Note: External rotation mechanism requires its own and independent configuration.' =>
-            '',
+            '사용할 데몬 로그 회전 유형 : OTOBO 시스템이 파일 순환을 처리하도록하려면 \'OTOBO\'를 선택하고 제3자 회전 메커니즘 (즉, logrotate)을 사용하려면 \'외부\'를 선택하십시오. 참고 : 외부 회전 메커니즘은 자체적으로 독립적인 구성이 필요합니다.',
         'Ukrainian' => '우크라이나 말',
         'Unlock tickets that are past their unlock timeout.' => '잠금 해제 시간 초과가 된 티켓의 잠금을 해제하십시오.',
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
@@ -9184,6 +9200,7 @@ Thanks for your help!
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

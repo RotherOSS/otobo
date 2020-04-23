@@ -29,6 +29,7 @@ use Unicode::Normalize;
 use List::Util qw();
 use Fcntl qw(:flock);
 use Encode;
+use Math::Random::Secure qw(rand);
 
 use Kernel::System::VariableCheck qw(IsStringWithData);
 

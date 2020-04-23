@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.46527210328485;
+    $Self->{Completeness}        = 0.46231647634584;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -811,6 +811,10 @@ sub Data {
         'No change time settings.' => 'Не змінювати параметри часу',
         'Ticket changed' => 'Заявка змінена',
         'Ticket changed between' => 'Заявка змінена в період',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'Часів закриття',
         'No close time settings.' => ' Без обліку часу закриття',
         'Ticket closed' => 'Заявка закрита',
@@ -1224,7 +1228,7 @@ sub Data {
         'Namespace' => 'Простір Імен',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI, щоб дати контекст методів SOAP, зменшуючи двозначність.',
         'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
-            'наприклад urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions',
+            '',
         'Request name scheme' => 'Схема імені запиту',
         'Select how SOAP request function wrapper should be constructed.' =>
             'Виберіть як має бути побудована функція обгортка SOAP запиту.',
@@ -1484,7 +1488,7 @@ sub Data {
         'Install' => 'Установити',
         'Update repository information' => 'Обновити інформацію репозитарія',
         'Cloud services are currently disabled.' => 'Хмарні служби наразі вимкнуті.',
-        'OTOBO Verify can not continue!' => 'OTOBO Verify не може тривати!',
+        'OTOBO Verify can not continue!' => '',
         'Enable cloud services' => 'Дозволити хмарні служби',
         'Update all installed packages' => '',
         'Online Repository' => 'Онлайновий репозитарій',
@@ -1801,7 +1805,7 @@ sub Data {
         'Show transmitted data' => 'Показати передані дані',
         'Deregister system' => 'Скасувати реєстрацію системи',
         'Overview of registered systems' => 'Огляд зареєстрованих систем',
-        'This system is registered with OTOBO Team.' => 'Ця система реєстрована OTOBO Team.',
+        'This system is registered with OTOBO Team.' => '',
         'System type' => 'Тип системи',
         'Unique ID' => 'Унікальний ID',
         'Last communication with registration server' => 'Останній зв\'язок із сервером реєстрації',
@@ -1812,7 +1816,7 @@ sub Data {
         'System Deregistration not Possible' => '',
         'OTOBO-ID Login' => 'OTOBO-ID Ім\'я',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'Реєстрація системи — це сервіс групи OTRS, який надає багато переваг!',
+            '',
         'Read more' => 'Докладніше',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'Ви маєте увійти з вашим ім\'ям OTOBO-ID, щоб зареєструвати вашу систему.',
@@ -1832,7 +1836,7 @@ sub Data {
         'Is it possible to deregister?' => 'Чи можна скасувати реєстрацію?',
         'You can deregister at any time.' => 'Ви можете скасувати реєстрацію у будь-який час.',
         'Which data is transfered when registering?' => 'Які дані передаються під час реєстрації?',
-        'A registered system sends the following data to OTOBO Team:' => 'Зареєстрована система надсилає наступні дані до OTOBO Team:',
+        'A registered system sends the following data to OTOBO Team:' => '',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'Повне доменне ім\'я (FQDN), версія OTOBO, База даних, Операційна система та версія Perl.',
         'Why do I have to provide a description for my system?' => 'Чому я маю надати опис для моєї системи?',
@@ -1854,7 +1858,7 @@ sub Data {
         'Retrieve a new one' => 'Отримати новий',
         'Next' => 'Далі',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            'Ці дані найчастіше передаються до OTOBO Team під час реєстрації системи.',
+            '',
         'Attribute' => 'Атрибут',
         'FQDN' => 'FQDN',
         'OTOBO Version' => 'Версій OTOBO',
@@ -1862,10 +1866,10 @@ sub Data {
         'Perl Version' => 'Версія Perl',
         'Optional description of this system.' => 'Додатковий опис цієї системи.',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'Це дозволить системі надсилати додаткову інформацію даних підтримки до групи OTRS.',
+            '',
         'Register' => 'Реєстрація',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            'Продовжуючи далі, ви скасуєте реєстрацію системи від OTOBO Team. ',
+            '',
         'Deregister' => 'Скасувати реєстрацію',
         'You can modify registration settings here.' => 'Тут ви можете змінити налаштування реєстрації.',
         'Overview of Transmitted Data' => '',
@@ -2046,18 +2050,18 @@ sub Data {
         'This state is used in the following config settings:' => '',
 
         # Template: AdminSupportDataCollector
-        'Sending support data to OTOBO Team is not possible!' => 'Передача даних по підтримці до OTOBO Team не представляється можливим!',
+        'Sending support data to OTOBO Team is not possible!' => '',
         'Enable Cloud Services' => 'Дозволити Хмарні Служби',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            'Ці дані надсилаються до OTOBO Team на регулярній основі. Щоб припинити передачу цієї інформації, будь ласка, поновіть реєстрацію системи.',
+            '',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             'Ви можете вручну викликати передачу Даних Підтримки натиснувши на цю кнопку:',
         'Send Update' => 'Надіслати Оновлення',
         'Currently this data is only shown in this system.' => 'Наразі ці дані показані тільки в цій системі.',
         'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'Дуже рекомендується надіслати ці дані до групи OTRS з метою отримати кращу підтримку.',
+            '',
         'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'Щоб увімкнути надсилання, будь ласка, зареєструйте Вашу систему у групі OTRS, або оновіть Вашу інформацію реєстрації системи (переконайтесь, що опцію «надсилати дані підтримки» активовано).',
+            '',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'В\'язка підтримки (що містить: відомості про реєстрацію системи, дані підтримки, перелік встановлених пакунків та всі локально змінені файли вихідного коду) може бути згенерована шляхом натискання на цю кнопку:',
         'Generate Support Bundle' => 'Створити В\'язку Підтримки',
@@ -2070,10 +2074,10 @@ sub Data {
             'Адреса електронної пошти для цього користувача не є чинною, цю опцію буде скасовано.',
         'Sending' => 'Відправник',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            'В\'язку підтримки буде надіслано до OTOBO Team електронною поштою автоматично.',
+            '',
         'Download File' => 'Завантаження файлу',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            'Файл, що містить в\'язку підтримки, буде завантажено до локальної системи. Будь ласка, збережіть файл та надішліть його до OTOBO Team іншим шляхом.',
+            '',
         'Error: Support data could not be collected (%s).' => 'Помилка: дані підтримки не можуть бути зібрані (%s).',
         'Details' => 'Подробиці',
 
@@ -2235,6 +2239,14 @@ sub Data {
         'Delete this entry' => 'Вилучити цей запис',
         'Do you really want to delete this template?' => 'Ви дійсно бажаєте вилучити цей шаблон?',
         'A standard template with this name already exists!' => 'Стандартний шаблон з таким ім\'ям вже існує!',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => 'Створення типу шаблонів підтримує тільки ці смарт-теги',
         'Example template' => 'Приклад шаблону',
         'The current ticket state is' => 'Поточний стан заявки',
@@ -2950,7 +2962,7 @@ sub Data {
             'Будь ласка, зверніться до документації або до адміністратора для отримання додаткової інформації.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => 'Хвилинку, будь ласка, вас буде перенаправлено...',
         'Login' => 'Вхід',
@@ -3029,6 +3041,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => 'Інформація про заявку',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => 'Розгорнути статтю',
@@ -3918,7 +3931,7 @@ sub Data {
         'File is OK' => 'Файл в нормі',
         'Package has locally modified files.' => 'Пакунок має локально змінені файли.',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'Пакет не верифіковано OTOBO Team! Рекомендовано не використовувати цей пакет.',
+            '',
         'Not Started' => '',
         'Updated' => '',
         'Already up-to-date' => '',
@@ -5258,6 +5271,8 @@ sub Data {
         'Client Connection Charset' => 'Набір символів клієнтського зв\'язку',
         'Setting character_set_client needs to be utf8.' => 'Налаштування character_set_client має бути utf8.',
         'Server Database Charset' => 'Набір символів бази даних сервера',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Таблиця набору символів',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -6505,6 +6520,7 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             '',
         'Collect support data for asynchronous plug-in modules.' => '',
+        'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
@@ -8102,7 +8118,7 @@ Thanks for your help!
         'New Year\'s Day' => 'Новий рік',
         'New Year\'s Eve' => 'Переддень Нового року',
         'New process ticket' => '',
-        'News about OTOBO releases!' => '',
+        'News about OTOBO releases!' => 'Новини про релізи OTOBO!',
         'News about OTOBO.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
@@ -8123,7 +8139,7 @@ Thanks for your help!
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO News' => '',
+        'OTOBO News' => 'Новини OTOBO',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
@@ -8944,6 +8960,8 @@ Thanks for your help!
         'The headline shown in the customer interface.' => '',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             '',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8955,8 +8973,6 @@ Thanks for your help!
         'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            '',
-        'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
@@ -9173,6 +9189,7 @@ Thanks for your help!
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

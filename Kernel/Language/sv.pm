@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.352998856022226;
+    $Self->{Completeness}        = 0.351060358890701;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -813,6 +813,10 @@ sub Data {
         'No change time settings.' => 'Inga Ändringstider',
         'Ticket changed' => 'Ärende ändrat',
         'Ticket changed between' => 'Ärende ändrat mellan',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'Stängd-tider',
         'No close time settings.' => 'Inga Stängt-tider',
         'Ticket closed' => 'Ärende stängt',
@@ -1486,7 +1490,7 @@ sub Data {
         'Install' => 'Installera',
         'Update repository information' => 'Uppdatera information om repo',
         'Cloud services are currently disabled.' => 'Molntjänster är fört tillfället inaktiverade.',
-        'OTOBO Verify can not continue!' => 'OTOBO Verify kan inte fortsätta!',
+        'OTOBO Verify can not continue!' => '',
         'Enable cloud services' => 'Aktivera molntjänster',
         'Update all installed packages' => '',
         'Online Repository' => 'Online-repo',
@@ -1803,7 +1807,7 @@ sub Data {
         'Show transmitted data' => 'Visa överförda data',
         'Deregister system' => 'Avregistrera OTRS-installationen',
         'Overview of registered systems' => 'Översikt över registrerade OTRS-installationer',
-        'This system is registered with OTOBO Team.' => 'Denna OTRS-installation är registrerad hos OTOBO Team.',
+        'This system is registered with OTOBO Team.' => '',
         'System type' => 'Systemtyp',
         'Unique ID' => 'Unikt ID',
         'Last communication with registration server' => 'Senaste kontakt med reistreringsservern',
@@ -1814,7 +1818,7 @@ sub Data {
         'System Deregistration not Possible' => '',
         'OTOBO-ID Login' => 'OTOBO-ID-inloggning',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'Systemregistreringen hos OTOBO Team kan vara fördelaktig men är ej obligatorisk.',
+            '',
         'Read more' => 'Läs mer',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'Logga in med ditt OTOBO-ID för att registrera OTOBO-installationen.',
@@ -1824,7 +1828,7 @@ sub Data {
         'What are the advantages of system registration?' => 'Vilka är fördelarna med att registrera OTRS-installationen?',
         'You will receive updates about relevant security releases.' => '',
         'With your system registration we can improve our services for you, because we have all relevant information available.' =>
-            'Genom att registrera OTRS-installationen kan informationen du tillhandahåller hjälpa OTOBO Team att förbättra tjänsterna.',
+            'Genom att registrera OTRS-installationen kan informationen du tillhandahåller hjälpa OTRS Group att förbättra tjänsterna.',
         'This is only the beginning!' => '',
         'We will inform you about our new services and offerings soon.' =>
             '',
@@ -1834,7 +1838,7 @@ sub Data {
         'Is it possible to deregister?' => 'Kan man avregistrera en OTRS-installation?',
         'You can deregister at any time.' => 'Du kan avregistrera en OTRS-installation när som helst.',
         'Which data is transfered when registering?' => 'Vilka uppgifter skickas vid registrering av OTRS-installationen?',
-        'A registered system sends the following data to OTOBO Team:' => 'Följande skickas om OTRS-installationen till OTOBO Team:',
+        'A registered system sends the following data to OTOBO Team:' => '',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'Domännamnet (FQDN), OTOBO-version, databastyp, samt OS- och Perl-version.',
         'Why do I have to provide a description for my system?' => 'Varför ska jag ge en systembeskrivning?',
@@ -1856,7 +1860,7 @@ sub Data {
         'Retrieve a new one' => 'Generera ett nytt lösenord',
         'Next' => 'Nästa',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            'Supportdata skickas regelbundet till OTOBO Team om du registrerar den här OTRS-installationen.',
+            '',
         'Attribute' => 'Attribut',
         'FQDN' => 'FQDN',
         'OTOBO Version' => 'OTOBO-version',
@@ -1864,10 +1868,10 @@ sub Data {
         'Perl Version' => 'Perl-version',
         'Optional description of this system.' => 'Valfritt: beskrivning av systemet.',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'Aktiverar rätt för systemet att skicka ytterligare supportdatainformation till OTOBO Team.',
+            '',
         'Register' => 'Registrera',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            'Genom att slutföra detta steg avregistreras OTRS-installationen hos OTRS Group.',
+            '',
         'Deregister' => 'Avregistrera',
         'You can modify registration settings here.' => '',
         'Overview of Transmitted Data' => '',
@@ -2051,15 +2055,15 @@ sub Data {
         'Sending support data to OTOBO Team is not possible!' => '',
         'Enable Cloud Services' => '',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            'Supportdata skickas regelbundet till OTOBO Team. För att upphöra med det behöver du ändra registreringen av OTRS-installationen.',
+            '',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             '',
         'Send Update' => 'Skicka uppdatering',
         'Currently this data is only shown in this system.' => 'Supportdata finns för tillfället endast lokalt i din OTRS-installation.',
         'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'Det rekommenderas att du skickar denna data till OTRS-Gruppen för att få bättre support.',
+            '',
         'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'För att skicka supportdata behöver du registrera din OTRS-installation eller uppdatera en tidigare registrering hos OTRS group samt slå på \'skicka supportdata\'-inställningen.',
+            '',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             '',
         'Generate Support Bundle' => 'Skapa supportpaket',
@@ -2237,6 +2241,14 @@ sub Data {
         'Delete this entry' => 'Radera denna post',
         'Do you really want to delete this template?' => 'Vill du verkligen radera den här mallen?',
         'A standard template with this name already exists!' => 'En standardmall med det här namnet existerar redan!',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => '',
         'Example template' => 'Exempelmall',
         'The current ticket state is' => 'Nuvarande ärendestatus',
@@ -2952,7 +2964,7 @@ sub Data {
             'Läs dokumentationen eller kontakta en administratör för mer information.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => 'Vänta, du blir omdirigerad ...',
         'Login' => 'Inloggning',
@@ -3031,6 +3043,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => 'Ärende-information',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => '',
@@ -3920,7 +3933,7 @@ sub Data {
         'File is OK' => '',
         'Package has locally modified files.' => '',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'Paketet är inte kontrollerat av OTRS-gruppen! Du bör inte använda det.',
+            '',
         'Not Started' => '',
         'Updated' => '',
         'Already up-to-date' => '',
@@ -5260,6 +5273,8 @@ sub Data {
         'Client Connection Charset' => '',
         'Setting character_set_client needs to be utf8.' => '',
         'Server Database Charset' => '',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => '',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -6507,6 +6522,7 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             '',
         'Collect support data for asynchronous plug-in modules.' => '',
+        'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
@@ -8104,7 +8120,7 @@ Thanks for your help!
         'New Year\'s Day' => 'Nyårsdagen',
         'New Year\'s Eve' => 'Nyårsafton',
         'New process ticket' => '',
-        'News about OTOBO releases!' => '',
+        'News about OTOBO releases!' => 'Nyheter om OTOBO-releaser!',
         'News about OTOBO.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
@@ -8125,7 +8141,7 @@ Thanks for your help!
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO News' => '',
+        'OTOBO News' => 'OTOBO-nyheter',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
@@ -8946,6 +8962,8 @@ Thanks for your help!
         'The headline shown in the customer interface.' => 'Rubriken som visas i kundgränssnittet.',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             '',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8957,8 +8975,6 @@ Thanks for your help!
         'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            '',
-        'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
@@ -9062,7 +9078,7 @@ Thanks for your help!
         'To download attachments.' => '',
         'To view HTML attachments.' => '',
         'Toggles display of OTOBO FeatureAddons list in PackageManager.' =>
-            '',
+            'Växla visning av FeatureAddons i pakethanteraren.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -9175,6 +9191,7 @@ Thanks for your help!
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

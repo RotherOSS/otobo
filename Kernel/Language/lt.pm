@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2011 Edgaras LukoÅ¡eviÄius <edgaras[eta]kauko.lt or admin[eta]sysadmin.lt>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.181075339107697;
+    $Self->{Completeness}        = 0.194616639477977;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -37,30 +37,30 @@ sub Data {
         'ACL Management' => 'ACL valdymas',
         'Actions' => 'Veiksmai',
         'Create New ACL' => 'Sukurti naują ACL',
-        'Deploy ACLs' => 'Įdiegti ACL\'us',
-        'Export ACLs' => 'Eksportuoti ACL\'us',
-        'Filter for ACLs' => 'Filtruoti ACL\'us',
-        'Just start typing to filter...' => 'Filtruoti, pradėkite rinkti tekstą...',
+        'Deploy ACLs' => 'Įdiegti ACL',
+        'Export ACLs' => 'Eksportuoti ACL',
+        'Filter for ACLs' => 'Filtruoti ACL',
+        'Just start typing to filter...' => 'Norėdami filtruoti, pradėkite rinkti tekstą...',
         'Configuration Import' => 'Konfigūracijos importas',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            '',
+            'Čia galite įkelti konfigūracijos failą, norėdami importuoti ACL taisykles. Dokumentas turi būti išeksportuotas is ACL redaktoriaus modulio .yml formate.',
         'This field is required.' => 'Šis laukelis yra būtinas.',
         'Overwrite existing ACLs?' => 'Perrašyti esamas ACL taisykles?',
         'Upload ACL configuration' => 'Įkelti ACL konfiguraciją',
         'Import ACL configuration(s)' => 'Importuoti ACL konfiguraciją(-as)',
         'Description' => 'Aprašymas',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            '',
+            'Norėdami sukurti naują ACL taisyklę, galite arba importuoti ACL taisykles, eksportuotas iš kitos sistemos, arba sukurti visiškai naują taisyklę.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
-            '',
-        'ACLs' => '',
+            'ACL pakeitimai čia keičia sistemos elgesį tik jei ACL duomenys yra aktyvuojami vėliau. Aktyvuojant ACL duomenis, nauji pakeitimai bus įrašomi į konfigūraciją.',
+        'ACLs' => 'ACL taisyklės',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
-            '',
+            'Svarbu: Ši lentelė apibrėžia ACL taisyklių eiliškumą. Norėdami pakeisti šį eiliškumą, pakeiskite susijusių ACL taisyklių pavadinimus.',
         'ACL name' => 'ACL pavadinimas',
         'Comment' => 'Komentaras',
         'Validity' => 'Galiojimas',
         'Export' => 'Eksportuoti',
-        'Copy' => '',
+        'Copy' => 'Kopijuoti',
         'No data found.' => 'Nerasta duomenų.',
         'No matches found.' => 'Nerasta atitikmenų.',
 
@@ -70,146 +70,146 @@ sub Data {
         'Go to overview' => 'Eiti į peržiūrą',
         'Delete ACL' => 'Ištrinti ACL',
         'Delete Invalid ACL' => 'Ištrinti negaliojantį ACL',
-        'Match settings' => '',
+        'Match settings' => 'Tapatumo nustatymai',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
-        'Change settings' => '',
+        'Change settings' => 'Keisti nustatymus',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
         'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'Slėpti arba rodyti turinį',
-        'Edit ACL Information' => '',
+        'Edit ACL Information' => 'Pakeisti ACL informaciją',
         'Name' => 'Vardas',
         'Stop after match' => 'Radus atitikmenį sustoti',
-        'Edit ACL Structure' => '',
-        'Save ACL' => '',
+        'Edit ACL Structure' => 'Redaguoti ACL struktūrą',
+        'Save ACL' => 'Išsaugoti ACL',
         'Save' => 'Išsaugoti',
         'or' => 'arba',
-        'Save and finish' => '',
+        'Save and finish' => 'Išsaugoti ir pabaigti',
         'Cancel' => 'Atšaukti',
-        'Do you really want to delete this ACL?' => '',
+        'Do you really want to delete this ACL?' => 'Ar tikrai norite ištrinti šią ACL taisyklę?',
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
-            '',
+            'Sukurkite naują ACL pateikdami duomenis. Sukūrus ACL Jūs galėsite pridėti konfigūracijos elementus redagavimo būsenoje.',
 
         # Template: AdminAppointmentCalendarManage
-        'Calendar Management' => '',
-        'Add Calendar' => '',
-        'Edit Calendar' => '',
-        'Calendar Overview' => '',
-        'Add new Calendar' => '',
-        'Import Appointments' => '',
-        'Calendar Import' => '',
+        'Calendar Management' => 'Kalendoriaus valdymas',
+        'Add Calendar' => 'Pridėti kalendorių',
+        'Edit Calendar' => 'Redaguoti kalendorių',
+        'Calendar Overview' => 'Kalendoriaus peržiūra',
+        'Add new Calendar' => 'Pridėti naują kalendorių',
+        'Import Appointments' => 'Importuoti susitikimus',
+        'Calendar Import' => 'Importuoti kalendorių',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
-            '',
-        'Overwrite existing entities' => '',
-        'Upload calendar configuration' => '',
-        'Import Calendar' => '',
-        'Filter for Calendars' => '',
-        'Filter for calendars' => '',
+            'Norėdami importuoti kalendorių į savo sistemą, čia galite įkelti konfigūracijos failą. Dokumentas turi būti išeksportuotas iš kalendoriaus valdymo modulio .yml formate.',
+        'Overwrite existing entities' => 'Perrašyti esamus nustatymus',
+        'Upload calendar configuration' => 'Įkelti kalendoriaus konfigūraciją',
+        'Import Calendar' => 'Importuoti kalendorių',
+        'Filter for Calendars' => 'Filtruoti kalendorius',
+        'Filter for calendars' => 'Filtruoti kalendorius',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
-            '',
+            'Priklausomai nuo priskirtos grupės, vartotojai pagal jiems suteiktas teises (leidimus) galės naudotis kalendoriumi.',
         'Read only: users can see and export all appointments in the calendar.' =>
-            '',
+            'Tik skaitomas: vartotojai gali matyti ir eksportuoti susitikimus į kalendorių.',
         'Move into: users can modify appointments in the calendar, but without changing the calendar selection.' =>
-            '',
+            'Perkelti: vartotojai gali modifikuoti susitikimus kalendoriuje, bet negali keisti kalendoriaus parinkties.',
         'Create: users can create and delete appointments in the calendar.' =>
-            '',
-        'Read/write: users can manage the calendar itself.' => '',
+            'Sukurti: vartotojai gali sukurti ir ištrinti susitikimus kalendoriuje.',
+        'Read/write: users can manage the calendar itself.' => 'Skaityti/rašyti: vartotojai gali valdyti kalendorių.',
         'Group' => 'Grupė',
         'Changed' => 'Pakeistas',
         'Created' => 'Sukurtas',
-        'Download' => 'Parsiųsti',
-        'URL' => '',
-        'Export calendar' => '',
-        'Download calendar' => '',
-        'Copy public calendar URL' => '',
+        'Download' => 'Atsisiųsti',
+        'URL' => 'URL',
+        'Export calendar' => 'Eksportuoti kalendorių',
+        'Download calendar' => 'Atsisiųsti kalendorių',
+        'Copy public calendar URL' => 'Kopijuoti viešo kalendoriaus URL',
         'Calendar' => 'Kalendorius',
-        'Calendar name' => '',
-        'Calendar with same name already exists.' => '',
-        'Color' => '',
-        'Permission group' => '',
-        'Ticket Appointments' => '',
-        'Rule' => '',
+        'Calendar name' => 'Kalendoriaus pavadinimas',
+        'Calendar with same name already exists.' => 'Kalendorius su tokiu vardu jau yra sukurtas.',
+        'Color' => 'Spalva',
+        'Permission group' => 'Leidimų grupė',
+        'Ticket Appointments' => 'Su užduotimi susiję susitikimai',
+        'Rule' => 'Taisyklė',
         'Remove this entry' => 'Pašalinti šį įrašą',
         'Remove' => 'Pašalinti',
         'Start date' => 'Pradžia',
         'End date' => 'Pabaiga',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
-            '',
+            'Naudokite parinktis norėdami nustatyti, kurioms užduotims susitikimai bus sukurti automatiškai.',
         'Queues' => 'Eilės',
-        'Please select a valid queue.' => 'Prašome pasirinkti failą tinkamą eilę.',
+        'Please select a valid queue.' => 'Prašome pasirinkti tinkamą eilę.',
         'Search attributes' => 'Paieškos atributai',
         'Add entry' => 'Pridėti įrašą',
         'Add' => 'Pridėti',
         'Define rules for creating automatic appointments in this calendar based on ticket data.' =>
-            '',
+            'Apibrėžkite taisykles norėdami pagal užduočių duomenis sukurti automatinius susitikimus.',
         'Add Rule' => 'Pridėti taisyklę',
         'Submit' => 'Pateikti',
 
         # Template: AdminAppointmentImport
-        'Appointment Import' => '',
-        'Go back' => '',
-        'Uploaded file must be in valid iCal format (.ics).' => '',
+        'Appointment Import' => 'Importuoti susitikimą',
+        'Go back' => 'Grįžti',
+        'Uploaded file must be in valid iCal format (.ics).' => 'Įkeltas dokumentas turi būti iCal formate (.ics).',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
-            '',
+            'Jei nematote norimo kalendoriaus, įsitikinkite, ar turite "Kurti" leidimą.',
         'Upload' => 'Įkelti',
-        'Update existing appointments?' => '',
+        'Update existing appointments?' => 'Papildyti jau sukurtą?',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
-            '',
-        'Upload calendar' => '',
-        'Import appointments' => '',
+            'Visi sukurti susitikimai su vienodu UniqueID šiame kalendoriuje bus perrašyti.',
+        'Upload calendar' => 'Įkelti kalendorių',
+        'Import appointments' => 'Importuoti susitikimus',
 
         # Template: AdminAppointmentNotificationEvent
-        'Appointment Notification Management' => '',
+        'Appointment Notification Management' => 'Susitikimų pranešimų valdymas',
         'Add Notification' => 'Pridėti pranešimą',
         'Edit Notification' => 'Redaguoti pranešimus',
-        'Export Notifications' => '',
-        'Filter for Notifications' => '',
-        'Filter for notifications' => '',
+        'Export Notifications' => 'Eksportuoti pranešimus',
+        'Filter for Notifications' => 'Filtruoti pranešimus',
+        'Filter for notifications' => 'Filtruoti pranešimus',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
-            '',
-        'Overwrite existing notifications?' => '',
-        'Upload Notification configuration' => '',
-        'Import Notification configuration' => '',
+            'Čia galite įkelti konfigūracijų dokumentą norėdami importuoti susitikimų pranešimus į savo sistemą. Dokumentas turi būti eksportuotas iš susitikimų pranešimų modulio .yml formate.',
+        'Overwrite existing notifications?' => 'Perrašyti esamus pranešimus?',
+        'Upload Notification configuration' => 'Įkelti pranešimų konfigūraciją',
+        'Import Notification configuration' => 'Įkelti pranešimų konfigūraciją',
         'List' => 'Sąrašas',
         'Delete' => 'Ištrinti',
         'Delete this notification' => 'Ištrinti šį pranešimą',
-        'Show in agent preferences' => '',
-        'Agent preferences tooltip' => '',
+        'Show in agent preferences' => 'Rodyti agento pasirinkimuose',
+        'Agent preferences tooltip' => 'Agento pasirinkimų patarimo laukelis',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
-            '',
+            'Ši žinutė bus rodoma agento pasirinkimuose kaip patarimo laukelis šiam pranešimui.',
         'Toggle this widget' => 'Įjungti/išjungti šį valdiklį',
         'Events' => 'Įvykiai',
         'Event' => 'Įvykis',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
-            '',
-        'Appointment Filter' => '',
+            'Čia galite pasirinkti, kurie įvykiai įjungs šį pranešimą. Papildomas susitikimų filtras gali būti taikomas norint išsiųsti susitikimus pagal tam tikrus kriterijus.',
+        'Appointment Filter' => 'Susitikimų filtras',
         'Type' => 'Tipas',
         'Title' => 'Antraštė',
         'Location' => 'Vietovė',
-        'Team' => '',
-        'Resource' => '',
-        'Recipients' => '',
-        'Send to' => '',
-        'Send to these agents' => '',
-        'Send to all group members (agents only)' => '',
-        'Send to all role members' => '',
-        'Send on out of office' => '',
-        'Also send if the user is currently out of office.' => '',
-        'Once per day' => '',
+        'Team' => 'Grupė',
+        'Resource' => 'Resursai',
+        'Recipients' => 'Gavėjai',
+        'Send to' => 'Išsiųsti kam',
+        'Send to these agents' => 'Siųsti šiems agentams',
+        'Send to all group members (agents only)' => 'Siųsti visiems grupės nariams (tik agentams)',
+        'Send to all role members' => 'Siųsti visiems rolių nariams',
+        'Send on out of office' => 'Siųsti "Išvykęs"',
+        'Also send if the user is currently out of office.' => 'Taip pat siųsti, jei vartotojas išvykęs.',
+        'Once per day' => 'Vieną kartą per dieną',
         'Notify user just once per day about a single appointment using a selected transport.' =>
-            '',
-        'Notification Methods' => '',
+            'Vartotoją apie vieną susitikimą įspėti tik vieną kartą per dieną.',
+        'Notification Methods' => 'Pranešimų būdai',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
-            '',
-        'Enable this notification method' => '',
+            'Čia yra galimi pranešimų siuntimo būdą kiekvienam gavėjui. Pasirinkite bent vieną būdą iš išvardintų.',
+        'Enable this notification method' => 'Aktyvuoti šį pranešimų būdą',
         'Transport' => '',
-        'At least one method is needed per notification.' => '',
-        'Active by default in agent preferences' => '',
+        'At least one method is needed per notification.' => 'Bent vienas būdas yra būtinas vienam pranešimui.',
+        'Active by default in agent preferences' => '"Aktyvus" numatyta agento pasirinkimuose',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
-            '',
+            'Čia yra numatytoji vertė priskirtiems agentams, kurie nep',
         'This feature is currently not available.' => '',
         'Upgrade to %s' => '',
         'Please activate this transport in order to use it.' => '',
@@ -229,7 +229,7 @@ sub Data {
         'You can use the following tags' => 'Galite naudoti šias žymeles',
         'To get the first 20 character of the appointment title.' => '',
         'To get the appointment attribute' => '',
-        ' e. g.' => 'pvz.',
+        ' e. g.' => ' pvz.',
         'To get the calendar attribute' => '',
         'Attributes of the recipient user for the notification' => '',
         'Config options' => 'Konfigūracijos parinktys',
@@ -421,10 +421,10 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupCompanyAlwaysGroups".' =>
             '',
         'Filter for Groups' => 'Filtruoti grupes',
-        'Select the customer:group permissions.' => 'Pasirinkite klientas:grupė leidimus',
+        'Select the customer:group permissions.' => 'Pasirinkite klientą: grupės leidimai.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
-            'Jeigu nėra nieko pasirinkta, tai šioje grupėje nėra nustatytų leidimų (klientui triktys bus nepasiekiamos).',
-        'Search Results' => 'Paieškos rezultatas',
+            'Jeigu nėra nieko pasirinkta, tai šioje grupėje nėra nustatytų leidimų (klientui užduotys bus nepasiekiamos).',
+        'Search Results' => 'Paieškos rezultatai',
         'Customers' => 'Klientai',
         'Groups' => 'Grupės',
         'Change Group Relations for Customer' => 'Pakeisti klientui grupės sąsajas(ryšius)',
@@ -811,6 +811,10 @@ sub Data {
         'No change time settings.' => '',
         'Ticket changed' => '',
         'Ticket changed between' => '',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'Uždarymo datos',
         'No close time settings.' => '',
         'Ticket closed' => 'Triktis uždaryta',
@@ -856,10 +860,10 @@ sub Data {
         'Send agent/customer notifications on changes' => 'Įvykus pasikeitimams siųsti perspėjimus agentams/klientams',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
-            'Ši komanda bus įvykdyta. ARG[0] bus trikties numeris, ARG[1] - trikties ID',
+            'Ši komanda bus įvykdyta. ARG[0] bus užduoties numeris, ARG[1] - trikties ID.',
         'Delete tickets' => 'Ištrinti triktis',
         'Warning: All affected tickets will be removed from the database and cannot be restored!' =>
-            'ĮSPĖJIMAS: visos paveiktos triktys bus pašalintos iš duomenų bazės ir bus nebe atstatomos.',
+            'Įspėjimas: visos paveiktos užduotys bus pašalintos iš duomenų bazės ir bus nebeatstatomos!',
         'Execute Custom Module' => 'Vykdyti pasirinktinį/nestandartinį (custom) modulį',
         'Param %s key' => 'Parametro %s raktas',
         'Param %s value' => 'Parametro %s reikšmė',
@@ -1326,10 +1330,10 @@ sub Data {
         'Add Group' => 'Pridėti grupę',
         'Edit Group' => 'Redaguoti grupę',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
-            '\'admin\' grupė yra skirta patekti į administratorių zoną, o \'stats\' grupė - į statistikos zoną',
+            '"Admin" grupė yra skirta patekti į administratorių zoną, o \'Stats\' grupė - į statistikos zoną.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
-            'Sukurkite naujas grupes skirtingų agentų grupių leidimams suvaldyti (pvz. pirkimų skyrius, palaikymo skyrius, pardavimų skyrius, ...).',
-        'It\'s useful for ASP solutions. ' => 'Tai yra naudinga ASP sprendimams.',
+            'Sukurkite naujas grupes skirtingų agentų grupių leidimams valdyti (pvz. pirkimų skyrius, palaikymo skyrius, pardavimų skyrius, ...). ',
+        'It\'s useful for ASP solutions. ' => 'Tai yra naudinga ASP sprendimams. ',
 
         # Template: AdminLog
         'System Log' => 'Sistemos žurnalas',
@@ -1401,13 +1405,13 @@ sub Data {
             '',
         'Notifications are sent to an agent or a customer.' => 'Pranešimai yra siunčiami agentui arba klientui.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
-            'Gauti pirmus 20 temos simbolių (paskutinio agento straipsnio)',
+            'Gauti pirmus 20 temos simbolių (paskutinio agento straipsnio).',
         'To get the first 5 lines of the body (of the latest agent article).' =>
-            'Gauti pirmas 5 turinio eilutes (paskutinio agento straipsnio)',
+            'Gauti pirmas 5 turinio eilutes (paskutinio agento straipsnio).',
         'To get the first 20 character of the subject (of the latest customer article).' =>
-            'Gauti pirmus 20 temos simbolių (paskutinio kliento straipsnio)',
+            'Gauti pirmus 20 temos simbolių (paskutinio kliento straipsnio).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
-            'Gauti pirmas 5 turinio eilutes (paskutinio kliento straipsnio)',
+            'Gauti pirmas 5 turinio eilutes (paskutinio kliento straipsnio).',
         'Attributes of the current customer user data' => '',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
@@ -1523,10 +1527,10 @@ sub Data {
         'This feature is enabled!' => 'Ši ypatybę aktyvuota!',
         'Just use this feature if you want to log each request.' => 'Įjunkite šią ypatybę tik tuo atveju jeigu norite registruoti visas užklausas.',
         'Activating this feature might affect your system performance!' =>
-            'Šios ypatybės aktyvavimas gali paveikti Jūsų sistemos našumą.',
+            'Šios ypatybės aktyvavimas gali paveikti Jūsų sistemos našumą!',
         'Disable it here!' => 'Išjungti čia!',
         'Logfile too large!' => 'Registravimo žurnalas per didelis!',
-        'The logfile is too large, you need to reset it' => 'Registravimo žurnalas per didelis. Turėtumėte jį anuliuoti.',
+        'The logfile is too large, you need to reset it' => 'Registravimo žurnalas per didelis. Turėtumėte jį atstatyti',
         'Interface' => 'Sąsaja',
         'Requests' => 'Užklausos',
         'Min Response' => 'Mažiausias atsako laikas',
@@ -1545,7 +1549,7 @@ sub Data {
         'Filter for PostMaster Filters' => '',
         'Filter for PostMaster filters' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
-            'Išskirstyti ar filtruoti el. laiškus pagal el. laiškų antraštes. Taip pat galima naudoti ir reguliarias išraiškas',
+            'Išskirstyti ar filtruoti el. laiškus pagal el. laiškų antraštes. Taip pat galima naudoti ir reguliarias išraiškas.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
             'Jeigu norite nustatyti atitikmenį tik vienam el. pašto adresui, tai Nuo, Kam ir Cc laukeliuose naudokite EMAILADDRESS:info@example.com.',
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
@@ -1980,7 +1984,7 @@ sub Data {
             '',
 
         # Template: AdminSelectBox
-        'SQL Box' => 'SQL Box',
+        'SQL Box' => 'SQL',
         'Filter for Results' => '',
         'Filter for results' => '',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
@@ -2213,7 +2217,7 @@ sub Data {
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance' => '',
         'Edit System Maintenance Information' => '',
-        'Date invalid!' => 'Negalima data',
+        'Date invalid!' => 'Negalimi duomenys!',
         'Login message' => '',
         'This field must have less then 250 characters.' => '',
         'Show login message' => '',
@@ -2235,6 +2239,14 @@ sub Data {
         'Delete this entry' => 'Ištrinti šį įrašą',
         'Do you really want to delete this template?' => '',
         'A standard template with this name already exists!' => '',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => '',
         'Example template' => '',
         'The current ticket state is' => 'Dabartinė trikties būsena yra',
@@ -2633,12 +2645,12 @@ sub Data {
         'Change Responsible of %s%s%s' => '',
         'The ticket has been locked' => 'Triktis buvo užrakinta',
         'Undo & close' => '',
-        'Ticket Settings' => 'Trikčių nustatymai',
-        'Queue invalid.' => '',
-        'Service invalid.' => 'Paslauga negalima',
-        'SLA invalid.' => '',
+        'Ticket Settings' => 'Užduočių nustatymai',
+        'Queue invalid.' => 'Eilė negalima.',
+        'Service invalid.' => 'Paslauga negalima.',
+        'SLA invalid.' => 'SLA taisyklė negalima.',
         'New Owner' => 'Naujas savininkas',
-        'Please set a new owner!' => 'Prašome nustatyti naują savininką',
+        'Please set a new owner!' => 'Prašome nustatyti naują savininką!',
         'Owner invalid.' => '',
         'New Responsible' => '',
         'Please set a new responsible!' => '',
@@ -2660,16 +2672,16 @@ sub Data {
         # Template: AgentTicketBounce
         'Bounce %s%s%s' => '',
         'Bounce to' => 'Nukreipti į',
-        'You need a email address.' => 'Jums reikia el. pašto adreso',
+        'You need a email address.' => 'Jums reikia el. pašto adreso.',
         'Need a valid email address or don\'t use a local email address.' =>
             'Reikalingas galiojantis el. pašto adresas (arba nenaudokite lokalaus pašto adreso).',
         'Next ticket state' => 'Sekanti trikčių būsena',
         'Inform sender' => 'Informuoti siuntėją',
-        'Send mail' => 'Siųsti paštą!',
+        'Send mail' => 'Siųsti paštą',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Masinis veiksmas su triktimis',
-        'Send Email' => 'Siųsti paštą!',
+        'Send Email' => 'Siųsti paštą',
         'Merge' => 'Sujungti',
         'Merge to' => 'Sujungti su',
         'Invalid ticket identifier!' => 'Negaliojantis trikties identifikatorius!',
@@ -2752,7 +2764,7 @@ sub Data {
         'Move' => 'Perkelti',
 
         # Template: AgentTicketOverviewMedium
-        'No ticket data found.' => 'Nerasta duomenų apie triktį',
+        'No ticket data found.' => 'Nerasta duomenų apie triktį.',
         'Open / Close ticket action menu' => '',
         'Select this ticket' => '',
         'Sender' => 'Siuntėjas',
@@ -2939,7 +2951,7 @@ sub Data {
             '',
 
         # Template: CustomerLogin
-        'JavaScript Not Available' => 'JavaScript neįjungtas.',
+        'JavaScript Not Available' => 'JavaScript neįjungtas',
         'In order to experience this software, you\'ll need to enable JavaScript in your browser.' =>
             '',
         'Browser Warning' => 'Naršyklės perspėjimas',
@@ -2950,7 +2962,7 @@ sub Data {
             'Daugiau informacijos ieškokit dokumentacijoje arba kreipkitės į administratorių.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => '',
         'Login' => 'Prisijungti',
@@ -2967,7 +2979,7 @@ sub Data {
         'A new password will be sent to your email address.' => 'Naujas slaptažodis bus nusiųstas į Jūsų pašto dėžutę.',
         'Create Account' => 'Sukurti paskyrą',
         'Please fill out this form to receive login credentials.' => '',
-        'How we should address you' => 'Kaip turėtume į Jus kreiptis?',
+        'How we should address you' => 'Kaip turėtume į Jus kreiptis',
         'Your First Name' => 'Jūsų vardas',
         'Your Last Name' => 'Jūsų pavardė',
         'Your email address (this will become your username)' => '',
@@ -3017,11 +3029,11 @@ sub Data {
         'Save as Template' => '',
         'Template Name' => 'Šablono pavadinimas',
         'Pick a profile name' => '',
-        'Output to' => 'Rezultato išvedimas: ',
+        'Output to' => 'Rezultato išvedimas',
 
         # Template: CustomerTicketSearchResultShort
         'of' => 'iš',
-        'Search Results for' => 'Paieškos rezultatai: ',
+        'Search Results for' => 'Paieškos rezultatai',
         'Remove this Search Term.' => '',
 
         # Template: CustomerTicketZoom
@@ -3029,6 +3041,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => '',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => 'Išplėsti straipsnį',
@@ -3071,7 +3084,7 @@ sub Data {
         'You are logged in as' => 'Prisijungėte kaip',
 
         # Template: Installer
-        'JavaScript not available' => 'JavaScript neįjungtas.',
+        'JavaScript not available' => 'JavaScript neįjungtas',
         'Step %s' => 'Žingsnis %s',
         'License' => 'Licenzija',
         'Database Settings' => 'Duomenų bazės nustatymai',
@@ -3086,11 +3099,11 @@ sub Data {
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => 'Išeinančio el. pašto konfigūracija',
         'Outbound mail type' => 'Išeinančio el. pašto tipas',
-        'Select outbound mail type.' => 'Pasirinkite išeinančio el. pašto tipą',
+        'Select outbound mail type.' => 'Pasirinkite išeinančio el. pašto tipą.',
         'Outbound mail port' => 'Išeinančio el. pašto prievadas',
-        'Select outbound mail port.' => 'Pasirinkite išeinančio el. pašto prievadą',
+        'Select outbound mail port.' => 'Pasirinkite išeinančio el. pašto prievadą.',
         'SMTP host' => 'SMTP serveris',
-        'SMTP host.' => 'SMTP serveris',
+        'SMTP host.' => 'SMTP serveris.',
         'SMTP authentication' => 'SMTP autentikacija',
         'Does your SMTP host need authentication?' => 'Ar SMTP serveris reikalauja autentikacijos?',
         'SMTP auth user' => 'SMTP naudotojo autentikacija',
@@ -3099,11 +3112,11 @@ sub Data {
         'Password for SMTP auth.' => 'Slaptažodis SMTP autentikacijai.',
         'Configure Inbound Mail' => 'Įeinančio el. pašto konfigūracija',
         'Inbound mail type' => 'Įeinančio el. pašto tipas',
-        'Select inbound mail type.' => 'Pasirinkite įeinančio el. pašto tipą',
+        'Select inbound mail type.' => 'Pasirinkite įeinančio el. pašto tipą.',
         'Inbound mail host' => 'Gaunamo el. pašto serveris',
         'Inbound mail host.' => 'Gaunamo el. pašto serveris.',
         'Inbound mail user' => 'Gaunamo el. pašto naudotojas',
-        'User for inbound mail.' => 'Naudotojas įeinančiam el. paštui',
+        'User for inbound mail.' => 'Naudotojas įeinančiam el. paštui.',
         'Inbound mail password' => 'Įeinančio el. pašto naudotojo slaptažodis',
         'Password for inbound mail.' => 'Slaptažodis įeinančiam el. paštui.',
         'Result of mail configuration check' => 'El. pašto konfigūracijos patikrinimo rezultatas',
@@ -3140,7 +3153,7 @@ sub Data {
         # Template: InstallerFinish
         'To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root.' =>
             'Norėdami naudoti OTOBO turite root naudotojo teisėmis, komandinėje eilutėje (terminale), įvesti šią komandą.',
-        'Restart your webserver' => 'Perkraukite savo web serverį.',
+        'Restart your webserver' => 'Perkraukite savo web serverį',
         'After doing so your OTOBO is up and running.' => 'Atlikus šiuos veiksmus bus paleista OTOBO sistema.',
         'Start page' => 'Pradinis puslapis',
         'Your OTOBO Team' => 'Jūsų OTOBO komanda',
@@ -3152,7 +3165,7 @@ sub Data {
         # Template: InstallerSystem
         'SystemID' => 'SystemID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
-            'Sistemos identifikacijos numeris. Šis numeris bus kiekviename trikties numeryje ir kiekviename HTTP sesijos ID',
+            'Sistemos identifikacijos numeris. Šis numeris bus kiekviename trikties numeryje ir kiekviename HTTP sesijos ID.',
         'System FQDN' => 'Sistemos FQDN',
         'Fully qualified domain name of your system.' => 'Pilnas sistemos domeno pavadinimas (Fully qualified domain name).',
         'AdminEmail' => 'Administratoriaus el. pašto adresas',
@@ -3264,7 +3277,7 @@ sub Data {
         # Template: PictureUpload
         'Need FormID!' => 'Reikia Formos ID!',
         'No file found!' => 'Failas nerastas!',
-        'The file is not an image that can be shown inline!' => 'Failas nėra paveikslėlis, kurį būtų galima rodyti tiesiogiai (? inline)',
+        'The file is not an image that can be shown inline!' => 'Failas nėra paveikslėlis, kurį būtų galima rodyti tiesiogiai!',
 
         # Template: PreferencesNotificationEvent
         'No user configurable notifications found.' => '',
@@ -3323,7 +3336,7 @@ sub Data {
 
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
-            'Prašome pasirinkti tik vieną elementą arba išjungti "Fiksuotas"!',
+            'Prašome pasirinkti tik vieną elementą arba išjungti "Fiksuotas".',
         'Absolute period' => '',
         'Between %s and %s' => '',
         'Relative period' => '',
@@ -3522,7 +3535,7 @@ sub Data {
         'Mrs.' => 'Ponia',
         'Address' => '',
         'View system log messages.' => 'Peržiūrėti sistemos registravimo žurnalo žinutes.',
-        'Edit the system configuration settings.' => 'Keisti sistemos konfigūracijos nustatymus',
+        'Edit the system configuration settings.' => 'Keisti sistemos konfigūracijos nustatymus.',
         'Update and extend your system with software packages.' => 'Atnaujinkite ir išplėskite savo sistemą programinės įrangos paketais.',
 
         # Perl Module: Kernel/Modules/AdminACL.pm
@@ -3876,7 +3889,7 @@ sub Data {
         'Could not get history data for WebserviceHistoryID %s' => '',
 
         # Perl Module: Kernel/Modules/AdminGroup.pm
-        'Group updated!' => 'Grupė atnaujinta',
+        'Group updated!' => 'Grupė atnaujinta!',
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => '',
@@ -4781,7 +4794,7 @@ sub Data {
         'This is a' => 'Tai yra',
         'email' => 'el. paštas',
         'click here' => 'spauskite čia',
-        'to open it in a new window.' => 'atverti naujame lange',
+        'to open it in a new window.' => 'atverti naujame lange.',
         'Year' => 'Metai',
         'Hours' => 'Valandos',
         'Minutes' => 'minutės',
@@ -4874,10 +4887,10 @@ sub Data {
         'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             '',
         'Can\'t update password, it must be at least %s characters long!' =>
-            'Neįmanoma atnaujinti slaptažodžio. Jis turi būti mažiausiai %s simbolių ilgio.',
+            'Neįmanoma atnaujinti slaptažodžio. Jis turi būti mažiausiai %s simbolių ilgio!',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase letter characters!' =>
             '',
-        'Can\'t update password, it must contain at least 1 digit!' => 'Neįmanoma atnaujinti slaptažodžio. Slaptažodyje turi būti bent 1 skaitmuo.',
+        'Can\'t update password, it must contain at least 1 digit!' => 'Neįmanoma atnaujinti slaptažodžio. Slaptažodyje turi būti bent 1 skaitmuo!',
         'Can\'t update password, it must contain at least 2 letter characters!' =>
             '',
         'Can\'t update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!' =>
@@ -4965,7 +4978,7 @@ sub Data {
 
         # Perl Module: Kernel/System/AuthSession/DB.pm
         'Session invalid. Please log in again.' => '',
-        'Session has timed out. Please log in again.' => 'Baigėsi sesijai skirtas laikas. Prisijunkite iš naujo',
+        'Session has timed out. Please log in again.' => 'Baigėsi sesijai skirtas laikas. Prisijunkite iš naujo.',
 
         # Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
         'PGP sign only' => '',
@@ -5005,7 +5018,7 @@ sub Data {
         'Ignore this field.' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
-        'This field is required or' => 'Šis laukas yra privalomas arba ',
+        'This field is required or' => 'Šis laukas yra privalomas arba',
         'The field content is too long!' => '',
         'Maximum size is %s characters.' => '',
 
@@ -5258,6 +5271,8 @@ sub Data {
         'Client Connection Charset' => '',
         'Setting character_set_client needs to be utf8.' => '',
         'Server Database Charset' => '',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => '',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -5827,7 +5842,7 @@ sub Data {
 
         # JS File: Core.Agent.Admin.Group
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
-            'ĮSPĖJIMAS: Pervadinant grupę \'admin\' prieš atlikant atitinkamus veiksmus \'SysConfig\' būsite užrakintas nuo administravimo skydelio! Jei tai atsitiktų, panaudodami SQL užklausą, atkeiskite grupės pavadinimą atgal į \'admin\'',
+            'ĮSPĖJIMAS: Pervadinant grupę \'admin\' prieš atlikant atitinkamus veiksmus \'SysConfig\' būsite užrakintas nuo administravimo skydelio! Jei tai atsitiktų, panaudodami SQL užklausą, atkeiskite grupės pavadinimą atgal į \'admin\'.',
 
         # JS File: Core.Agent.Admin.MailAccount
         'Delete this Mail Account' => '',
@@ -6488,7 +6503,7 @@ Thanks for your help!
             '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             '',
-        'Child' => 'Vaikinis?',
+        'Child' => 'Vaikas',
         'Chinese (Simplified)' => '',
         'Chinese (Traditional)' => '',
         'Choose for which kind of appointment changes you want to receive notifications.' =>
@@ -6505,6 +6520,7 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             '',
         'Collect support data for asynchronous plug-in modules.' => '',
+        'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
@@ -7623,7 +7639,7 @@ Thanks for your help!
             '',
         'Events Ticket Calendar' => '',
         'Example package autoload configuration.' => '',
-        'Execute SQL statements.' => 'Vykdyti SQL sakinius',
+        'Execute SQL statements.' => 'Vykdyti SQL sakinius.',
         'Executes a custom command or module. Note: if module is used, function is required.' =>
             '',
         'Executes follow-up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -8123,7 +8139,7 @@ Thanks for your help!
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO News' => '',
+        'OTOBO News' => 'OTOBO Naujienos',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
@@ -8225,7 +8241,7 @@ Thanks for your help!
         'Parameters of the example SLA attribute Comment2.' => '',
         'Parameters of the example queue attribute Comment2.' => '',
         'Parameters of the example service attribute Comment2.' => '',
-        'Parent' => 'Tėvinis?',
+        'Parent' => 'Tėvas/globėjas',
         'ParentChild' => '',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             '',
@@ -8944,6 +8960,8 @@ Thanks for your help!
         'The headline shown in the customer interface.' => '',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             '',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8955,8 +8973,6 @@ Thanks for your help!
         'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            '',
-        'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
@@ -9141,7 +9157,7 @@ Thanks for your help!
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             '',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
-            'Jūsų el. laiškas trikties numeriu "<OTOBO_TICKET>" yra sujungtas su "<OTOBO_MERGE_TO_TICKET>"!',
+            'Jūsų el. laiškas trikties numeriu "<OTOBO_TICKET>" yra sujungtas su "<OTOBO_MERGE_TO_TICKET>".',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             '',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
@@ -9173,6 +9189,7 @@ Thanks for your help!
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

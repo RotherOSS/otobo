@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.293675437162935;
+    $Self->{Completeness}        = 0.291353996737357;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -811,6 +811,10 @@ sub Data {
         'No change time settings.' => 'Не променети временски подесувања.',
         'Ticket changed' => 'Промена на тикет',
         'Ticket changed between' => 'Тикет променет помеѓу',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'Затворено време',
         'No close time settings.' => 'Не затворени временски подесувања.',
         'Ticket closed' => 'Затворен тикет',
@@ -1224,7 +1228,7 @@ sub Data {
         'Namespace' => 'Простор за име',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI за да му даде SOAP контекст методи , намалувајќи нејаснотии.',
         'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
-            'на пример: urn:otobo-com:soap:functions или http://www.otrs.com/GenericInterface/actions',
+            '',
         'Request name scheme' => '',
         'Select how SOAP request function wrapper should be constructed.' =>
             '',
@@ -1801,7 +1805,7 @@ sub Data {
         'Show transmitted data' => 'Прикажи пренесени податоци',
         'Deregister system' => 'Дерегистрирај систем',
         'Overview of registered systems' => 'Преглед на регистрирани системи',
-        'This system is registered with OTOBO Team.' => 'Системот е регистриран преку OTRS Групацијата.',
+        'This system is registered with OTOBO Team.' => '',
         'System type' => 'Тип на Систем',
         'Unique ID' => 'Единствен ID',
         'Last communication with registration server' => 'Последна комуникација со серверот за регистрација',
@@ -1812,7 +1816,7 @@ sub Data {
         'System Deregistration not Possible' => '',
         'OTOBO-ID Login' => 'OTOBO-ID Најава',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'Системската регистрација е сервис на OTRS Групацијата, која овозможува многу предности!',
+            '',
         'Read more' => 'Прочитај повеќе',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'Морате да бидете логирани со вашиот OTOBO-ID за да го регистрирате вашиот систем.',
@@ -1832,7 +1836,7 @@ sub Data {
         'Is it possible to deregister?' => 'Дали е возможно да се де-регистрирате?',
         'You can deregister at any time.' => 'Можете да го де-регистрирате во било кое време.',
         'Which data is transfered when registering?' => 'Кои податоци се трансферирани при регистрација?',
-        'A registered system sends the following data to OTOBO Team:' => 'Регистрираниот систем ги праќа следните податоци до OTRS Групацијата:',
+        'A registered system sends the following data to OTOBO Team:' => '',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'Комплетно Квалификувано Име на Домеин (FQDN), OTOBO верзија, Датабаза, Оперативен Систем и Perl верзија.',
         'Why do I have to provide a description for my system?' => 'Зошто морам да наведам опис за мојот систем?',
@@ -1854,7 +1858,7 @@ sub Data {
         'Retrieve a new one' => 'Побарај нов',
         'Next' => 'Следен',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            'Овие податоци ќе бидат префрлувани до OTRS Групацијата кога ќе го регистрирате вашиот систем.',
+            '',
         'Attribute' => 'Атрибут',
         'FQDN' => 'FQDN',
         'OTOBO Version' => 'OTOBO верзија',
@@ -1862,10 +1866,10 @@ sub Data {
         'Perl Version' => 'Perl Верзија',
         'Optional description of this system.' => 'Опционален опис на овој систем.',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'Ова ќе овозможи на вашиот систем да праќа дополнителни податоци за поддршка до OTRS Групацијата.',
+            '',
         'Register' => 'Регистрирај',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            'Продолжување со овој чекер ке го дерегистрира системот од OTRS Групацијата.',
+            '',
         'Deregister' => 'Дерегистрирај',
         'You can modify registration settings here.' => 'Можете да ги измените подесувањата за регистрации тука.',
         'Overview of Transmitted Data' => '',
@@ -2049,15 +2053,15 @@ sub Data {
         'Sending support data to OTOBO Team is not possible!' => '',
         'Enable Cloud Services' => '',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            'Податоците се испратени до OTRS Групацијата на регуларна основа. За да прекинете праќање на податоците ве молиме изменете ја вашата регистрација на системот.',
+            '',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             'Можете мануелно да го активирате испраќањето на Податоците за Поддршка со кликање на оваа копче:',
         'Send Update' => 'Испрати Надградба',
         'Currently this data is only shown in this system.' => 'Во моментот само овие податоци се прикажани во овој систем.',
         'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'Препорачано е да се испратат овие податоци до OTRS Групацијата за да добиете подобра поддршка.',
+            '',
         'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'За да овозможите праќање на податоци, ве молиме регистрирајте го вашиот систем на OTRS Групацијата или ажурирајте го вешиот систем (не заборавајте да го активирате \'Прати податоци за поддршка\' полето.)',
+            '',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'Збир од Податоците за поддршка(вклучувајки: информации за регистрација на системот, податоци за поддршка, листа од инсталирани пакети и локално изменети датотеки на изворни кодови) можат да бидат генерирани со притискање на ова копче:',
         'Generate Support Bundle' => 'Генерирај Збир од Податоци за поддршка',
@@ -2070,10 +2074,10 @@ sub Data {
             '',
         'Sending' => 'Испраќање',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            'Збирот од Податоци за поддршка ќе биде пратен до OTRS Групацијата автоматски преку е-пошта.',
+            '',
         'Download File' => 'Превземи Датотека',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            'Датотеката што го содржи збирот од податоците за поддршка ќе биде симнат на вашиот локален систем. Ве молиме зачувајте го податокот и пратете го до OTRS Групацијата.',
+            '',
         'Error: Support data could not be collected (%s).' => 'Грешка: Податоците за поддршка не можат да бидат соберени(%s).',
         'Details' => 'Детали',
 
@@ -2235,6 +2239,14 @@ sub Data {
         'Delete this entry' => 'Избриши го овој внес',
         'Do you really want to delete this template?' => '',
         'A standard template with this name already exists!' => 'Веќе постои шаблон под исто име!',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => 'Направи нов тип на темплејт кој поддржува паметни тагови',
         'Example template' => 'Пример за Шаблон',
         'The current ticket state is' => 'Состојбата на вашиот тикет е',
@@ -2950,7 +2962,7 @@ sub Data {
             'Ве молиме прегледајте ја документацијата или прашајте го вашиот администратор за повеќе информации.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => 'Ве молиме почекајте, ќе бидете пренасочени...',
         'Login' => 'Најава',
@@ -3029,6 +3041,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => 'Информација за билет',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => '',
@@ -3918,7 +3931,7 @@ sub Data {
         'File is OK' => '',
         'Package has locally modified files.' => '',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'Пакетот не е проверен од страна на OTRS група! Затоа не е препорачливо да го користите овој пакет',
+            '',
         'Not Started' => '',
         'Updated' => '',
         'Already up-to-date' => '',
@@ -5258,6 +5271,8 @@ sub Data {
         'Client Connection Charset' => 'Клиент Конкција Множзнаци ',
         'Setting character_set_client needs to be utf8.' => 'Поставување карактери_клиент треба да биде utf8.',
         'Server Database Charset' => 'Карактер сет серверска база на податоци',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Табела Множзнаци',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -6505,6 +6520,7 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             '',
         'Collect support data for asynchronous plug-in modules.' => '',
+        'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
@@ -8102,7 +8118,7 @@ Thanks for your help!
         'New Year\'s Day' => 'Нова Година',
         'New Year\'s Eve' => 'Нова Година',
         'New process ticket' => '',
-        'News about OTOBO releases!' => '',
+        'News about OTOBO releases!' => 'Вести во врска со OTOBO изданија!',
         'News about OTOBO.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
@@ -8123,7 +8139,7 @@ Thanks for your help!
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO News' => '',
+        'OTOBO News' => 'ОТRS Вести',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
@@ -8944,6 +8960,8 @@ Thanks for your help!
         'The headline shown in the customer interface.' => '',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             '',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8955,8 +8973,6 @@ Thanks for your help!
         'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            '',
-        'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
@@ -9173,6 +9189,7 @@ Thanks for your help!
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

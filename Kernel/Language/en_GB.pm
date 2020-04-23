@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.633600261480634;
+    $Self->{Completeness}        = 0.633442088091354;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -814,6 +814,10 @@ sub Data {
         'No change time settings.' => 'No change time settings.',
         'Ticket changed' => 'Ticket changed',
         'Ticket changed between' => 'Ticket changed between',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'Close times',
         'No close time settings.' => 'No close time settings.',
         'Ticket closed' => 'Ticket closed',
@@ -1227,7 +1231,7 @@ sub Data {
         'Namespace' => 'Namespace',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI to give SOAP methods a context, reducing ambiguities.',
         'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
-            'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions',
+            '',
         'Request name scheme' => 'Request name scheme',
         'Select how SOAP request function wrapper should be constructed.' =>
             'Select how SOAP request function wrapper should be constructed.',
@@ -1487,7 +1491,7 @@ sub Data {
         'Install' => 'Install',
         'Update repository information' => 'Update repository information',
         'Cloud services are currently disabled.' => 'Cloud services are currently disabled.',
-        'OTOBO Verify can not continue!' => 'OTOBO Verify can not continue!',
+        'OTOBO Verify can not continue!' => '',
         'Enable cloud services' => 'Enable cloud services',
         'Update all installed packages' => '',
         'Online Repository' => 'Online Repository',
@@ -1804,7 +1808,7 @@ sub Data {
         'Show transmitted data' => 'Show transmitted data',
         'Deregister system' => 'Deregister system',
         'Overview of registered systems' => 'Overview of registered systems',
-        'This system is registered with OTOBO Team.' => 'This system is registered with OTOBO Team.',
+        'This system is registered with OTOBO Team.' => '',
         'System type' => 'System type',
         'Unique ID' => 'Unique ID',
         'Last communication with registration server' => 'Last communication with registration server',
@@ -1815,7 +1819,7 @@ sub Data {
         'System Deregistration not Possible' => '',
         'OTOBO-ID Login' => 'OTOBO-ID Login',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'System registration is a service of OTOBO Team, which provides a lot of advantages!',
+            '',
         'Read more' => 'Read more',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'You need to log in with your OTOBO-ID to register your system.',
@@ -1835,7 +1839,7 @@ sub Data {
         'Is it possible to deregister?' => 'Is it possible to deregister?',
         'You can deregister at any time.' => 'You can deregister at any time.',
         'Which data is transfered when registering?' => 'Which data is transfered when registering?',
-        'A registered system sends the following data to OTOBO Team:' => 'A registered system sends the following data to OTOBO Team:',
+        'A registered system sends the following data to OTOBO Team:' => '',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.',
         'Why do I have to provide a description for my system?' => 'Why do I have to provide a description for my system?',
@@ -1857,7 +1861,7 @@ sub Data {
         'Retrieve a new one' => 'Retrieve a new one',
         'Next' => 'Next',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            'This data will be frequently transferred to OTOBO Team when you register this system.',
+            '',
         'Attribute' => 'Attribute',
         'FQDN' => 'FQDN',
         'OTOBO Version' => 'OTOBO Version',
@@ -1865,10 +1869,10 @@ sub Data {
         'Perl Version' => 'Perl Version',
         'Optional description of this system.' => 'Optional description of this system.',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'This will allow the system to send additional support data information to OTOBO Team.',
+            '',
         'Register' => 'Register',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            'Continuing with this step will deregister the system from OTOBO Team.',
+            '',
         'Deregister' => 'Deregister',
         'You can modify registration settings here.' => 'You can modify registration settings here.',
         'Overview of Transmitted Data' => '',
@@ -2049,18 +2053,18 @@ sub Data {
         'This state is used in the following config settings:' => '',
 
         # Template: AdminSupportDataCollector
-        'Sending support data to OTOBO Team is not possible!' => 'Sending support data to OTOBO Team is not possible!',
+        'Sending support data to OTOBO Team is not possible!' => '',
         'Enable Cloud Services' => 'Enable Cloud Services',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.',
+            '',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             'You can manually trigger the Support Data sending by pressing this button:',
         'Send Update' => 'Send Update',
         'Currently this data is only shown in this system.' => 'Currently this data is only shown in this system.',
         'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'It is highly recommended to send this data to OTOBO Team in order to get better support.',
+            '',
         'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)',
+            '',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:',
         'Generate Support Bundle' => 'Generate Support Bundle',
@@ -2073,10 +2077,10 @@ sub Data {
             'The email address for this user is invalid, this option has been disabled.',
         'Sending' => 'Sending',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            'The support bundle will be sent to OTOBO Team via email automatically.',
+            '',
         'Download File' => 'Download File',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.',
+            '',
         'Error: Support data could not be collected (%s).' => 'Error: Support data could not be collected (%s).',
         'Details' => 'Details',
 
@@ -2238,6 +2242,14 @@ sub Data {
         'Delete this entry' => 'Delete this entry',
         'Do you really want to delete this template?' => 'Do you really want to delete this template?',
         'A standard template with this name already exists!' => 'A standard template with this name already exists!',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => 'Create type templates only supports this smart tags',
         'Example template' => 'Example template',
         'The current ticket state is' => 'The current ticket state is',
@@ -2953,7 +2965,7 @@ sub Data {
             'Please see the documentation or ask your admin for further information.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => 'One moment please, you are being redirected...',
         'Login' => 'Login',
@@ -3032,6 +3044,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => 'Ticket Information',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => 'Expand article',
@@ -3921,7 +3934,7 @@ sub Data {
         'File is OK' => '',
         'Package has locally modified files.' => 'Package has locally modified files.',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'Package not verified by the OTOBO Team! It is recommended not to use this package.',
+            '',
         'Not Started' => '',
         'Updated' => '',
         'Already up-to-date' => '',
@@ -5261,6 +5274,8 @@ sub Data {
         'Client Connection Charset' => 'Client Connection Charset',
         'Setting character_set_client needs to be utf8.' => 'Setting character_set_client needs to be utf8.',
         'Server Database Charset' => 'Server Database Charset',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Table Charset',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -6252,7 +6267,7 @@ Thanks for your help!
         'Added system request (%s).' => '',
         'Added web request from customer.' => '',
         'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.' =>
-            '',
+            'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.',
         'Adds the one time vacation days for the indicated calendar.' => '',
@@ -6519,6 +6534,7 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             'Cloud service admin module registration for the transport layer.',
         'Collect support data for asynchronous plug-in modules.' => 'Collect support data for asynchronous plug-in modules.',
+        'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => 'Column ticket filters for Ticket Overviews type "Small".',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
@@ -6556,7 +6572,7 @@ Thanks for your help!
         'Configure any additional readonly mirror databases that you want to use.' =>
             'Configure any additional readonly mirror databases that you want to use.',
         'Configure sending of support data to OTOBO Team for improved support.' =>
-            'Configure sending of support data to OTOBO Team for improved support.',
+            '',
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Configure which screen should be shown after a new ticket has been created.',
         'Configure your own log text for PGP.' => 'Configure your own log text for PGP.',
@@ -6690,7 +6706,7 @@ Thanks for your help!
         'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
             'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
             '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
@@ -6723,13 +6739,13 @@ Thanks for your help!
         'Defines a customer item, which generates a google maps icon at the end of a customer info block.' =>
             'Defines a customer item, which generates a google maps icon at the end of a customer info block.',
         'Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.',
         'Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.',
         'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.',
         'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
@@ -7177,7 +7193,7 @@ Thanks for your help!
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' =>
             'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.',
         'Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTOBO instance to stop working (probably any mask which takes input from the user).' =>
-            '',
+            'Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTOBO instance to stop working (probably any mask which takes input from the user).',
         'Defines the maximal valid time (in seconds) for a session id.' =>
             'Defines the maximal valid time (in seconds) for a session id.',
         'Defines the maximum number of affected tickets per job.' => 'Defines the maximum number of affected tickets per job.',
@@ -7199,7 +7215,7 @@ Thanks for your help!
             '',
         'Defines the module to authenticate customers.' => 'Defines the module to authenticate customers.',
         'Defines the module to display a notification in the agent interface if the OTOBO Daemon is not running.' =>
-            '',
+            'Defines the module to display a notification in the agent interface if the OTOBO Daemon is not running.',
         'Defines the module to display a notification in the agent interface if the system configuration is out of sync.' =>
             '',
         'Defines the module to display a notification in the agent interface, if the agent has not yet selected a time zone.' =>
@@ -7233,7 +7249,7 @@ Thanks for your help!
         'Defines the name of the indicated calendar.' => 'Defines the name of the indicated calendar.',
         'Defines the name of the key for customer sessions.' => 'Defines the name of the key for customer sessions.',
         'Defines the name of the session key. E.g. Session, SessionID or OTOBO.' =>
-            '',
+            'Defines the name of the session key. E.g. Session, SessionID or OTOBO.',
         'Defines the name of the table where the user preferences are stored.' =>
             'Defines the name of the table where the user preferences are stored.',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
@@ -7355,7 +7371,7 @@ Thanks for your help!
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.',
         'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO).' =>
-            '',
+            'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO).',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
@@ -7461,7 +7477,7 @@ Thanks for your help!
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTOBO to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
-            '',
+            'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTOBO to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!',
         'Disable cloud services' => '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
@@ -7579,7 +7595,7 @@ Thanks for your help!
             '',
         'Enabled filters.' => 'Enabled filters.',
         'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTOBO user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
-            '',
+            'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTOBO user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.',
         'Enables S/MIME support.' => 'Enables S/MIME support.',
         'Enables customers to create their own accounts.' => 'Enables customers to create their own accounts.',
         'Enables fetch S/MIME from CustomerUser backend support.' => '',
@@ -7818,7 +7834,7 @@ Thanks for your help!
         'If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.' =>
             'If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.',
         'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use OTOBO. Specify the group, who may access the system.' =>
-            '',
+            'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use OTOBO. Specify the group, who may access the system.',
         'If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).' =>
             'If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).',
         'If "Radius" was selected for Customer::AuthModule, the password to authenticate to the radius host must be specified.' =>
@@ -7860,7 +7876,7 @@ Thanks for your help!
         'If enabled, OTOBO will deliver all CSS files in minified form.' =>
             '',
         'If enabled, OTOBO will deliver all JavaScript files in minified form.' =>
-            '',
+            'If enabled, OTOBO will deliver all JavaScript files in minified form.',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'If enabled, TicketPhone and TicketEmail will be open in new windows.',
         'If enabled, the OTOBO version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
@@ -8007,7 +8023,7 @@ Thanks for your help!
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.',
         'Malay' => 'Malay',
-        'Manage OTOBO Team cloud services.' => 'Manage OTOBO Team cloud services.',
+        'Manage OTOBO Team cloud services.' => '',
         'Manage PGP keys for email encryption.' => 'Manage PGP keys for email encryption.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Manage POP3 or IMAP accounts to fetch email from.',
         'Manage S/MIME certificates for email encryption.' => 'Manage S/MIME certificates for email encryption.',
@@ -8116,7 +8132,7 @@ Thanks for your help!
         'New Year\'s Day' => 'New Year\'s Day',
         'New Year\'s Eve' => 'New Year\'s Eve',
         'New process ticket' => 'New process ticket',
-        'News about OTOBO releases!' => '',
+        'News about OTOBO releases!' => 'News about OTOBO releases!',
         'News about OTOBO.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.',
@@ -8137,10 +8153,10 @@ Thanks for your help!
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Number of tickets to be displayed in each page of a search result in the customer interface.',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO News' => '',
+        'OTOBO News' => 'OTOBO News',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
-            '',
+            'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
         'Open an external link!' => '',
@@ -8378,7 +8394,7 @@ Thanks for your help!
         'Salutations' => 'Salutations',
         'Sample command output' => 'Sample command output',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
-            '',
+            'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.',
         'Schedule a maintenance period.' => 'Schedule a maintenance period.',
         'Screen after new ticket' => 'Screen after new ticket',
         'Search Customer' => 'Search Customer',
@@ -8415,7 +8431,7 @@ Thanks for your help!
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.',
         'Sends customer notifications just to the mapped customer.' => 'Sends customer notifications just to the mapped customer.',
-        'Sends registration information to OTOBO group.' => '',
+        'Sends registration information to OTOBO group.' => 'Sends registration information to OTOBO group.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).',
         'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
@@ -8782,7 +8798,7 @@ Thanks for your help!
             'Shows either the last customer article\'s subject or the ticket title in the small format overview.',
         'Shows existing parent/child queue lists in the system in the form of a tree or a list.' =>
             'Shows existing parent/child queue lists in the system in the form of a tree or a list.',
-        'Shows information on how to start OTOBO Daemon' => '',
+        'Shows information on how to start OTOBO Daemon' => 'Shows information on how to start OTOBO Daemon',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Shows the article head information in the agent zoom view.' => '',
@@ -8868,7 +8884,7 @@ Thanks for your help!
         'Specifies the directory where private SSL certificates are stored.' =>
             'Specifies the directory where private SSL certificates are stored.',
         'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTOBO Notifications" otobo@your.example.com). You can use the OTOBO_CONFIG_FQDN variable as set in your configuation, or choose another email address.' =>
-            '',
+            'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTOBO Notifications" otobo@your.example.com). You can use the OTOBO_CONFIG_FQDN variable as set in your configuation, or choose another email address.',
         'Specifies the email addresses to get notification messages from scheduler tasks.' =>
             'Specifies the email addresses to get notification messages from scheduler tasks.',
         'Specifies the group where the user needs rw permissions so that he can access the "SwitchToCustomer" feature.' =>
@@ -8876,7 +8892,7 @@ Thanks for your help!
         'Specifies the group where the user needs rw permissions so that they can edit other users preferences.' =>
             '',
         'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTOBO Notifications" otobo@your.example.com).' =>
-            '',
+            'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTOBO Notifications" otobo@your.example.com).',
         'Specifies the order in which the firstname and the lastname of agents will be displayed.' =>
             'Specifies the order in which the firstname and the lastname of agents will be displayed.',
         'Specifies the path of the file for the logo in the page header (gif|jpg|png, 700 x 100 pixel).' =>
@@ -8958,6 +8974,8 @@ Thanks for your help!
         'The headline shown in the customer interface.' => 'The headline shown in the customer interface.',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8970,8 +8988,6 @@ Thanks for your help!
             'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.',
-        'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
@@ -9010,7 +9026,7 @@ Thanks for your help!
         'This module is being used to extend the password policy.' => '',
         'This module is part of the admin area of OTOBO Community Edition.' =>
             '',
-        'This module is part of the admin area of OTOBO.' => '',
+        'This module is part of the admin area of OTOBO.' => 'This module is part of the admin area of OTOBO.',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             'This option defines the dynamic field in which a Process Management activity entity id is stored.',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -9074,7 +9090,7 @@ Thanks for your help!
         'To download attachments.' => 'To download attachments.',
         'To view HTML attachments.' => '',
         'Toggles display of OTOBO FeatureAddons list in PackageManager.' =>
-            '',
+            'Toggles display of OTOBO FeatureAddons list in PackageManager.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -9187,6 +9203,7 @@ Thanks for your help!
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

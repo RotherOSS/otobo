@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.483248896878575;
+    $Self->{Completeness}        = 0.482871125611745;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -811,6 +811,10 @@ sub Data {
         'No change time settings.' => 'Non axustes do cambio do tempo',
         'Ticket changed' => 'Ticket cambiado',
         'Ticket changed between' => 'Ticket cambiado entre',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'Horas de peche',
         'No close time settings.' => 'Non axustes de peche de tempo',
         'Ticket closed' => 'Ticket pechado',
@@ -1224,7 +1228,7 @@ sub Data {
         'Namespace' => 'Espazo de nomes',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI para lles dar un contexto aos métodos SOAP, reducindo ambigüidades.',
         'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
-            'ex. urn:otobo-com:soap:functions ou http://www.otrs.com/GenericInterface/actions',
+            '',
         'Request name scheme' => 'Petición de nome de esquema',
         'Select how SOAP request function wrapper should be constructed.' =>
             'Selecione como o colector de funcion de peticións SOAP debe ser construido.',
@@ -1801,7 +1805,7 @@ sub Data {
         'Show transmitted data' => 'Mostrar os datos transmitidos',
         'Deregister system' => 'Desrexistre sistema',
         'Overview of registered systems' => 'Vista xeral dos sistemas rexistrados',
-        'This system is registered with OTOBO Team.' => 'Este sistema é rexistrado co grupo OTRS.',
+        'This system is registered with OTOBO Team.' => '',
         'System type' => 'Tipo de sistema',
         'Unique ID' => 'ID Único',
         'Last communication with registration server' => 'Derradeira comunicación co servidor de rexistro',
@@ -1812,7 +1816,7 @@ sub Data {
         'System Deregistration not Possible' => '',
         'OTOBO-ID Login' => 'Log-In OTOBO-ID',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'O rexistro do sistema é un servizo do Grupo OTRS, que fornece numerosas vantaxes!',
+            '',
         'Read more' => 'Ler máis',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'Necesita conectarse coa súa identidade de OTOBO para rexistrar o seu sistema.',
@@ -1832,7 +1836,7 @@ sub Data {
         'Is it possible to deregister?' => 'É posible desrexistrarse?',
         'You can deregister at any time.' => 'pode desrexistrarse en calquera momento.',
         'Which data is transfered when registering?' => 'Que datos son transferidos cando rexístrome?',
-        'A registered system sends the following data to OTOBO Team:' => 'Un sistema rexistrado envía os seguintes datos o Grupo OTRS:',
+        'A registered system sends the following data to OTOBO Team:' => '',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'Nome de Dominio Completo (FQDN), versión de OTOBO, Base de datos, Sistema Operativo e versión Perl.',
         'Why do I have to provide a description for my system?' => 'Por que teño que proporcionar unha descrición do meu sistema?',
@@ -1854,7 +1858,7 @@ sub Data {
         'Retrieve a new one' => 'Consiga unha nova',
         'Next' => 'Seguinte',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            'Estes datos serán frecuentemente transferidos a Grupo OTRS cando rexistre este sistema.',
+            '',
         'Attribute' => 'Atributo',
         'FQDN' => 'FQDN',
         'OTOBO Version' => 'Versión do OTOBO',
@@ -1862,10 +1866,10 @@ sub Data {
         'Perl Version' => 'Versión de Perl',
         'Optional description of this system.' => 'Descripción opcional deste sistema.',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'Isto permite que o sistema envíe información de datos de axuda adicionais ao Grupo OTRS.',
+            '',
         'Register' => 'Rexistro',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            'Se continúa con este paso ha anular o rexistro do sistema no Grupo OTRS.',
+            '',
         'Deregister' => 'Desrexistrar',
         'You can modify registration settings here.' => 'Pode modificar os axustes de rexistro aquí.',
         'Overview of Transmitted Data' => '',
@@ -2049,15 +2053,15 @@ sub Data {
         'Sending support data to OTOBO Team is not possible!' => '',
         'Enable Cloud Services' => '',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            'Estes datos son enviados a Grupo OTRS nunha base regular. Para parar de enviar a estes datos por favor actualice o seu rexistro de sistema.',
+            '',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             'Pódese disparar manualmente o envío de datos de axuda premendo neste botón:',
         'Send Update' => 'Enviar Actualización',
         'Currently this data is only shown in this system.' => 'Actualmente este dato é mostrado soamente neste sistema.',
         'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'Recoméndase moito enviar estes datos ao Grupo OTRS para obter mellor axuda.',
+            '',
         'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'Para activar o envío de datos rexistre o sistema no Grupo OTRS ou actualice a información de rexistro do sistema (asegúrese de activar a opción «enviar datos de axuda»).',
+            '',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'Un paquetede de apoio (incluíndo: información de rexistro de sistema, datos de apoio, unha lista de paquetes instalados e todolos arquivos de código fonte localmente modificados) pode ser xerado apertando este botón:',
         'Generate Support Bundle' => 'Xeración Paquete de Apoio',
@@ -2070,10 +2074,10 @@ sub Data {
             'O enderezo de correo electrónico para este usuario non é valido, esta opción foi desactivada.',
         'Sending' => 'Enviando',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            'O paquete de apoio será enviado a Grupo OTRS mediante correo electrónico automaticamente.',
+            '',
         'Download File' => 'Descargue Arquivo',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            'Un arquivo que contén o paquete de apoio será descargado no sistema local. Por favor garde o arquivo e envíeo ao Grupo OTRS, utilizando un método alternativo.',
+            '',
         'Error: Support data could not be collected (%s).' => 'Erro: Non foi posíbel recoller os datos de axuda (%s).',
         'Details' => 'Detalles',
 
@@ -2235,6 +2239,14 @@ sub Data {
         'Delete this entry' => 'Borre esta entrada',
         'Do you really want to delete this template?' => '',
         'A standard template with this name already exists!' => 'Un modelo estandard con este nome xa existe!',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => 'Cree modelos tipo só soportados por estos smart tags',
         'Example template' => 'Modelo exemplo',
         'The current ticket state is' => 'O estado do tícket actual é',
@@ -2950,7 +2962,7 @@ sub Data {
             'Por favor vexa a documentación ou pregunte o seu administrador para mais información.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => 'Agarde un momentiño; vaise encamiñar...',
         'Login' => 'Iniciar sesión',
@@ -3029,6 +3041,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => 'Información Ticket',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => 'Expanda artigo',
@@ -3918,7 +3931,7 @@ sub Data {
         'File is OK' => '',
         'Package has locally modified files.' => '',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'Este paquete non foi comprobado polo Grupo OTRS! Non se recomenda empregar este paquete.',
+            '',
         'Not Started' => '',
         'Updated' => '',
         'Already up-to-date' => '',
@@ -5258,6 +5271,8 @@ sub Data {
         'Client Connection Charset' => 'Conxunto de caracteres da conexión do cliente',
         'Setting character_set_client needs to be utf8.' => 'O axuste do character_set_client ten que ser utf8',
         'Server Database Charset' => 'Cadea de carácteres do Servidor da Base de Datos',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Conxunto de caracteres da táboa',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -6238,7 +6253,7 @@ Thanks for your help!
         'Added system request (%s).' => '',
         'Added web request from customer.' => '',
         'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.' =>
-            '',
+            'Engade un sufixo co ano e mes actuais ao arquivo OTOBO log. Un logfile para cada mes será creado.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             'Engade enderezos de correo de clientes aos destinatarios na pantalla de redacción de tíckets da interface do axente. Os enderezos de correo dos clientes non se engaden se o tipo de artigo é correo interno.',
         'Adds the one time vacation days for the indicated calendar.' => '',
@@ -6505,6 +6520,7 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             '',
         'Collect support data for asynchronous plug-in modules.' => '',
+        'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => 'Filtro de columna de ticket para Vista Xeral de Ticket tipo "Pequeno".',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
@@ -6676,7 +6692,7 @@ Thanks for your help!
         'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
             '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Define un filtro para que a saída de html engada enlaces detrás dun string definido. A Imaxe do elemento permite dous tipos de entrada. Ao mesmo tempo o nome dunha imaxe (p.ej. faq.png). Neste caso a ruta da imaxe de OTOBO será utilizada. A segunda posiblidade é introducir o enlace á imaxe.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
             '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
@@ -6709,13 +6725,13 @@ Thanks for your help!
         'Defines a customer item, which generates a google maps icon at the end of a customer info block.' =>
             'Defina un elemento de cliente, o cal vai xerar un icono de google maps ao final do bloque de información do cliente.',
         'Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Define un filtro para a saída de html que engada enlaces detrás dos números CVE. A Imaxe de elemento permite dous tipos de entrada. Á vez o nome dunha imaxe (p.ex. faq.png). Neste caso a ruta de imaxe de OTOBO será utilizada. A segunda posibilidade é introducir o enlace á imaxe.',
         'Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Define un filtro para a saída de html que engada enlaces detrás dos números MSBulletin. A Imaxe de elemento permite dous tipos de entrada. Á vez o nome dunha imaxe (p.ex. faq.png). Neste caso a ruta de imaxe de OTOBO será utilizada. A segunda posibilidade é introducir o enlace á imaxe.',
         'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Define un filtro para a saída de html que engada enlaces detrás dun string definido. A Imaxe de elemento permite dous tipos de entrada. Á vez o nome dunha imaxe (p.ex. faq.png). Neste caso a ruta de imaxe de OTOBO será utilizada. A segunda posibilidade é introducir o enlace á imaxe.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Define un filtro para a saída de html que engada enlaces detrás dos números bugtraq. A Imaxe de elemento permite dous tipos de entrada. Á vez o nome dunha imaxe (p.ex. faq.png). Neste caso a ruta de imaxe de OTOBO será utilizada. A segunda posibilidade é introducir o enlace á imaxe.',
         'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
@@ -7163,7 +7179,7 @@ Thanks for your help!
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' =>
             'Define o módulo log para o sistema. "Arquivo" escribe tódolos mensaxes nun logfile dado, "SysLog" emprega o daemon syslog do sistema, ex. syslogd.',
         'Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTOBO instance to stop working (probably any mask which takes input from the user).' =>
-            '',
+            'Define o tamaño maximo (en bytes) para carga de arquivos vía o navegador. Alerta: Axustar esta opción a un valor moi baixo pode causar moitas máscaras na súa instancia de OTOBO para parar de traballar (probablemente algunha máscara a cal colla entradas do usuario).',
         'Defines the maximal valid time (in seconds) for a session id.' =>
             'Define o tempo válido máximo (en segundos) para unha id de sesión.',
         'Defines the maximum number of affected tickets per job.' => '',
@@ -7219,7 +7235,7 @@ Thanks for your help!
         'Defines the name of the indicated calendar.' => 'Define o nome do calendario indicado.',
         'Defines the name of the key for customer sessions.' => 'Define o nome da chave para sesións de cliente.',
         'Defines the name of the session key. E.g. Session, SessionID or OTOBO.' =>
-            '',
+            'Define o nome da chave de sesión. Ex. Sesión, IDSesión ou OTOBO.',
         'Defines the name of the table where the user preferences are stored.' =>
             '',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
@@ -7341,7 +7357,7 @@ Thanks for your help!
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             'Define o enderezo de correo electrónico do administrador de sistema. Será mostrado nas pantallas de erro da aplicación.',
         'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO).' =>
-            '',
+            'Define o identificador de sistema. Todos os números de ticket e string de sesión http contén esta ID. Isto asegura que soamente os tickets que pertencen ao seu sistema serán procesados como seguimentos (útil cando comunicánse entre dúas instancias de OTOBO).',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             'Define o atributo de obxectivo no enlace a base de datos de cliente externa. P.ex. \'AsPopup PopupType_TicketAction\'.',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
@@ -7565,7 +7581,7 @@ Thanks for your help!
             '',
         'Enabled filters.' => 'Filtros activos.',
         'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTOBO user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
-            '',
+            'Activa a compatibilidade con PGP. Cando a compatibilidade con PGP está activada para asinar e cifrar correo, recoméndase MOITO que o servidor web se execute como usuario OTOBO. Caso contrario, haberá problemas cos privilexios ao acceder ao cartafol .gnupg.',
         'Enables S/MIME support.' => 'Activa a compatibilidade con S/MIME.',
         'Enables customers to create their own accounts.' => 'Permite que os clientes creen as súas propias contas.',
         'Enables fetch S/MIME from CustomerUser backend support.' => '',
@@ -7782,7 +7798,7 @@ Thanks for your help!
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             'Se "HTTPBasicAuth" foi seleccionado para Customer::AuthModule, pode especificar (usando ExpReg) espir partes de REMOTE_USER (ex. para eliminar dominios trailing). Nota-ExpReg, $1 vai ser o novo Login.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            '',
+            'Se "HTTPBasicAuth" foi seleccionado para Customer::AuthModule, pode especificar espir partes líderes de nomes de usuarios (ex. para dominios como example_domain\user a usuario ). ',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
             'Se "LDAP" foi seleccionado para Customer::AuthModule e se quere engadir un sufixo a cada nome login de cliente, especifíqueo aquí, ex. vostede quere soamente escribir o usuario do nome de usuario pero no seu directorio LDAP existe usuario@domain.',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
@@ -7804,7 +7820,7 @@ Thanks for your help!
         'If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.' =>
             'Se "LDAP" foi seleccionado para Customer::AuthModule, vostede pode especificar se as aplicacións van parar se ex. a concexión co servidor non pode ser establecida debido a problemas na rede.',
         'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use OTOBO. Specify the group, who may access the system.' =>
-            '',
+            'Se "LDAP" foi seleccionado para Customer::AuthModule, pode comprobar se o usuario ten permitido autenticarse porque el está no posixGrupo, ex. usuario precisa estar no grupo xyz para usar OTOBO. Especifica el grupo, quien puede acceder al sistema.',
         'If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).' =>
             'Se "LDAP" foi seleccionado, pode engadir un filtro para cada consulta LDAP, ex. (mail=*), (objectclass=user) ou (!objectclass=computer).',
         'If "Radius" was selected for Customer::AuthModule, the password to authenticate to the radius host must be specified.' =>
@@ -7846,7 +7862,7 @@ Thanks for your help!
         'If enabled, OTOBO will deliver all CSS files in minified form.' =>
             '',
         'If enabled, OTOBO will deliver all JavaScript files in minified form.' =>
-            '',
+            'Se habilitado, OTOBO proporcionará tódolos arquivos JavaScript en forma minimizada.',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'Se habilitado, TicketTelefónico e TicketEmail serán abertos en novas ventás.',
         'If enabled, the OTOBO version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
@@ -8102,7 +8118,7 @@ Thanks for your help!
         'New Year\'s Day' => 'Aninovo',
         'New Year\'s Eve' => 'Fin de ano',
         'New process ticket' => 'Novo ticket de proceso',
-        'News about OTOBO releases!' => '',
+        'News about OTOBO releases!' => 'Novas sobre as versións novas de OTOBO!',
         'News about OTOBO.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             'Próximos estados posibles de ticket despois de engadir unha nota de teléfono na pantalla ticket de chamada entrante da interface de axente.',
@@ -8123,7 +8139,7 @@ Thanks for your help!
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Número de tickets para ser mostrados en cada páxina dun resultado de busca na interface de cliente.',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO News' => '',
+        'OTOBO News' => 'Novas do OTOBO',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
@@ -8364,7 +8380,7 @@ Thanks for your help!
         'Salutations' => 'Saúdos',
         'Sample command output' => 'Saída comando exemplo',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
-            '',
+            'Garda os anexos dos artigos. «BD» almacena todos os datos na base de datos (non se recomenda para almacenar anexos grandes). «SF» almacena os datos no sistema de ficheiros; isto é máis rápido mais o servidor web debería ser executado co usuario OTOBO. Pódese alternar entre os módulos mesmo nun sistema que xa estea en produción, sen perda de datos. Nota: A busca nos nomes dos anexos non é posíbel cando se emprega «SF».',
         'Schedule a maintenance period.' => 'Planifique un periodo mantemento.',
         'Screen after new ticket' => 'Pantalla despois de ticket novo',
         'Search Customer' => 'Buscar clientes',
@@ -8944,6 +8960,8 @@ Thanks for your help!
         'The headline shown in the customer interface.' => 'A cabeceira que aparece na interface do cliente.',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             'O identificador dun tícket, p.e.x Ticket#, Chamada#, Omeutícket#. Por omisión é Ticket#.',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8956,8 +8974,6 @@ Thanks for your help!
             'O logo mostrado na cabeceira da interface de axente para a aparencia "slim". Vexa "LogoAxente" para unha maior descripción.',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             'O logo mostrado na cabeceira da interface de axente. A URL a imaxe pode ser unha URL relativa ao directorio da imaxe da aparencia, ou unha URL completa a un servidor web remoto.',
-        'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            'O logo mostrado na cabeceira da interface de cliente. A URL a imaxe pode ser unha URL relativa ao directorio da imaxe da aparencia, ou unha URL completa a un servidor web remoto.',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
@@ -9060,7 +9076,7 @@ Thanks for your help!
         'To download attachments.' => '',
         'To view HTML attachments.' => '',
         'Toggles display of OTOBO FeatureAddons list in PackageManager.' =>
-            '',
+            'Alterna á mostra da lista de OTOBO FeatureAddons no PackageManager.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -9173,6 +9189,7 @@ Thanks for your help!
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

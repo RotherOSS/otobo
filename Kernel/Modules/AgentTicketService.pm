@@ -451,7 +451,7 @@ sub Run {
         next COLUMNNAME if $GetColumnFilter{$ColumnName} eq '';
         $ColumnFilterLink
             .= ';' . $LayoutObject->Ascii2Html( Text => 'ColumnFilter' . $ColumnName )
-            . '=' . $LayoutObject->Ascii2Html( Text => $GetColumnFilter{$ColumnName} );
+            . '=' . $LayoutObject->LinkEncode( $GetColumnFilter{$ColumnName} );
     }
 
     my $LinkPage = 'ServiceID='
@@ -522,6 +522,7 @@ sub Run {
         ServiceIDs => \@ServiceIDs,
         Permission => $Permission,
         UserID     => $Self->{UserID},
+        Limit      => 20_000,
         Result     => 'ARRAY',
     );
 

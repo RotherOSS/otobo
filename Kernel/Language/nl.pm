@@ -5,7 +5,7 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.521490439614316;
+    $Self->{Completeness}        = 0.518923327895595;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -817,6 +817,10 @@ sub Data {
         'No change time settings.' => 'Alle',
         'Ticket changed' => 'Ticket gewijzigd',
         'Ticket changed between' => 'Ticket gewijzigd tussen',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'Tijdstip van sluiten',
         'No close time settings.' => 'Alle',
         'Ticket closed' => 'Ticket gesloten',
@@ -1180,7 +1184,7 @@ sub Data {
         'Client Certificate' => 'Client Certificaat',
         'The full path and name of the SSL client certificate file (must be in PEM, DER or PKCS#12 format).' =>
             '',
-        'e.g. /opt/otobo/var/certificates/SOAP/certificate.pem' => '',
+        'e.g. /opt/otobo/var/certificates/SOAP/certificate.pem' => 'bv. /opt/otobo/var/certificates/SOAP/certificate.pem',
         'Client Certificate Key' => 'Client Certificaatsleutel',
         'The full path and name of the SSL client certificate key file (if not already included in certificate file).' =>
             '',
@@ -1230,7 +1234,7 @@ sub Data {
         'Namespace' => 'Namespace',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI om SOAP methods een context te geven.',
         'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
-            'bijv. urn:otobo-com:soap:functions of http://www.otrs.com/GenericInterface/actions',
+            '',
         'Request name scheme' => 'Verzoek naamschema',
         'Select how SOAP request function wrapper should be constructed.' =>
             'Selecteer hoe de SOAP verzoeken wrapper gemaakt zou moeten worden.',
@@ -1490,7 +1494,7 @@ sub Data {
         'Install' => 'Installeer',
         'Update repository information' => 'Vernieuw repository gegevens',
         'Cloud services are currently disabled.' => 'Cloud services zijn op dit moment uitgeschakeld.',
-        'OTOBO Verify can not continue!' => 'OTOBO Verify kan niet  verder gaan!',
+        'OTOBO Verify can not continue!' => '',
         'Enable cloud services' => 'Schakel cloud diensten in',
         'Update all installed packages' => '',
         'Online Repository' => 'Online Repository',
@@ -1807,7 +1811,7 @@ sub Data {
         'Show transmitted data' => 'Toon verstuurde gegevens',
         'Deregister system' => 'Deregistreer systeem',
         'Overview of registered systems' => 'Overzicht van geregistreerde systemen',
-        'This system is registered with OTOBO Team.' => 'Dit systeem is geregistreerd bij de OTRS Groep.',
+        'This system is registered with OTOBO Team.' => '',
         'System type' => 'Systeemtype',
         'Unique ID' => 'Uniek ID',
         'Last communication with registration server' => 'Laatste communicatie met registratieserver',
@@ -1818,7 +1822,7 @@ sub Data {
         'System Deregistration not Possible' => 'Systeemuitschrijving niet mogelijk',
         'OTOBO-ID Login' => 'OTOBO-ID',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'Systeemregistratie is een service van de OTRS Groep, die een aantal voordelen biedt.',
+            '',
         'Read more' => 'Lees meer',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'U moet inloggen met uw OTOBO-ID om uw systeem te registreren',
@@ -1838,7 +1842,7 @@ sub Data {
         'Is it possible to deregister?' => 'Is het mogelijk om te deregistreren?',
         'You can deregister at any time.' => 'U kunt op elk moment deregistreren.',
         'Which data is transfered when registering?' => 'Welke data wordt verstuurd als ik mij registreer?',
-        'A registered system sends the following data to OTOBO Team:' => 'Een geregistreerd systeem verstuurt de volgende gegevens naar de OTRS Groep:',
+        'A registered system sends the following data to OTOBO Team:' => '',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'Fully Qualified Domain Name (FQDN), OTOBO-versie, database-versie, gebruikt besturingssysteem en Perl-versie.',
         'Why do I have to provide a description for my system?' => 'Waarom moet ik een beschrijving van mijn systeem invullen?',
@@ -1860,7 +1864,7 @@ sub Data {
         'Retrieve a new one' => 'Wachtwoord herstellen',
         'Next' => 'Volgende',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            'Deze gegevens worden op regelmatige basis verstuurd naar de OTRS Groep als u dit systeem registreert.',
+            '',
         'Attribute' => 'Attribuut',
         'FQDN' => 'FQDN',
         'OTOBO Version' => 'OTOBO-versie',
@@ -1868,10 +1872,10 @@ sub Data {
         'Perl Version' => 'Perl-versie',
         'Optional description of this system.' => 'Optionele omschrijving van dit systeem.',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'Hierdoor mag het systeem aanvullende ondersteuningsinformatie doorsturen naar de OTRS Groep.',
+            '',
         'Register' => 'Registreer',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            'Doorgaan met deze stap zal uw systeem deregistreren bij de OTRS Groep.',
+            '',
         'Deregister' => 'Deregistreer',
         'You can modify registration settings here.' => 'Je kunt je registratie instellingen hier aanpassen',
         'Overview of Transmitted Data' => 'Overzicht van verstuurde gegevens',
@@ -2052,18 +2056,18 @@ sub Data {
         'This state is used in the following config settings:' => 'Deze status wordt gebruikt in de volgende configuratieinstellingen:',
 
         # Template: AdminSupportDataCollector
-        'Sending support data to OTOBO Team is not possible!' => 'Het versturen van support gegevens naar OTOBO Team is niet mogelijk!',
+        'Sending support data to OTOBO Team is not possible!' => '',
         'Enable Cloud Services' => 'Schakel Cloud Diensten in',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            'Deze gegevens worden regelmatig verstuurd naar OTOBO Team. Om te stoppen met het versturen van deze gegevens moet je je systeem registatie aanpassen.',
+            '',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             'Je kunt handmatig de Support Data versturen door op deze knop te sturen:',
         'Send Update' => 'Verstuur Update',
         'Currently this data is only shown in this system.' => 'Op dit moment worden deze gegevens alleen in dit systeem weergegeven.',
         'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'Het is aangeraden om deze gegevens naar de OTOBO Team te versturen om een betere ondersteuning te bekomen.',
+            '',
         'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'Gelieve uw systeem te registreren bij de OTRS Groep of de informatie van uw systeem registratie bij te werken om het versturen van gegevens mogelijk te maken (zorg ervoor dat optie \'ondersteuningsgegevens verzenden\' geactiveerd is).',
+            '',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'Een support bundel kan gegenereerd worden door op deze knop te drukken (inclusief: systeem registratie informatie, ondersteuningsgegevens, een lijst met geïnstalleerde pakketen en alle lokaal aanepaste bronconde bestanden).',
         'Generate Support Bundle' => 'Genereer support bundel',
@@ -2076,10 +2080,10 @@ sub Data {
             'Het e-mail adres voor deze gebruiker is ongeldig, deze optie is niet beschikbaar.',
         'Sending' => 'Afzender',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            'De support bundel wordt automatisch verzonden naar OTOBO Team via e-mail.',
+            '',
         'Download File' => 'Download bestand',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            'Een bestand met de support bundel wordt gedownload naar het lokale systeem. Je kunt het opslaan en versturen naar OTOBO Team via een alternatieve methode.',
+            '',
         'Error: Support data could not be collected (%s).' => 'Fout: Support gegevens konden niet worden verzameld (%s).',
         'Details' => 'Details',
 
@@ -2241,6 +2245,14 @@ sub Data {
         'Delete this entry' => 'Verwijder antwoord',
         'Do you really want to delete this template?' => 'Wilt u deze template echt verwijderen?',
         'A standard template with this name already exists!' => 'Er bestaat al een standaard template met deze naam!',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => 'Sjablonen van het type \'Aanmaken\' ondersteunen alleen deze tags',
         'Example template' => 'Voorbeeld-sjabloon',
         'The current ticket state is' => 'De huidige ticketstatus is',
@@ -2587,7 +2599,7 @@ sub Data {
         # Template: AgentStatisticsAdd
         'Statistics Management' => 'Statistiekbeheer',
         'Add Statistics' => 'Statistieken toevoegen',
-        'Read more about statistics in OTOBO' => '',
+        'Read more about statistics in OTOBO' => 'Lees meer over statistieken in OTOBO',
         'Dynamic Matrix' => 'Dynamische matrix',
         'Each cell contains a singular data point.' => '',
         'Dynamic List' => 'Dynamische lijst',
@@ -2956,7 +2968,7 @@ sub Data {
             'Zie de documentatie of vraag uw beheerder voor meer informatie.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => 'Een moment alstublieft, je wordt doorverwezen',
         'Login' => 'Inloggen',
@@ -3035,6 +3047,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => 'Ticket-informatie',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => 'Toon interactie',
@@ -3924,7 +3937,7 @@ sub Data {
         'File is OK' => '',
         'Package has locally modified files.' => 'Pakket heeft lokaal bewerkte bestanden.',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'Pakket niet geverifieerd door de OTRS Groep! We raden aan dit pakket niet te gebruiken.',
+            '',
         'Not Started' => '',
         'Updated' => 'Bijgewerkt',
         'Already up-to-date' => '',
@@ -5264,6 +5277,8 @@ sub Data {
         'Client Connection Charset' => 'Client verbinding karakterset',
         'Setting character_set_client needs to be utf8.' => 'Instelling character_set_client moet staan op utf8',
         'Server Database Charset' => 'Server Database karakterinstelling',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Tabel Karacterset',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -6255,7 +6270,7 @@ Het Helpdesk Team
         'Added system request (%s).' => '',
         'Added web request from customer.' => '',
         'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.' =>
-            '',
+            'Voegt een achtervoegsel met het eigenlijke jaar en maand toe aan het OTOBO logbestand. Er wordt een logbestand gemaakt voor elke maand.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             'Voeg klant e-mail adressen toe aan de ontvangers in het ticket maak scherm van de agent interface. De adressen worden niet toegevoegd wanneer het artikel van het type email-internal is.',
         'Adds the one time vacation days for the indicated calendar.' => '',
@@ -6522,6 +6537,7 @@ Het Helpdesk Team
         'Cloud service admin module registration for the transport layer.' =>
             '',
         'Collect support data for asynchronous plug-in modules.' => '',
+        'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
@@ -7799,7 +7815,7 @@ Het Helpdesk Team
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             'Als "HTTPBasicAuth" is geselecteerd voor Customer::AuthModule, kun je hier (met behulp van een Reg Exp) gedeelten van REMOTE_USER verwijderen (om domeinen aan het einde te verwijderen). RegExp-opmerking, $1 wordt de nieuwe loginnaam.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            '',
+            'Als "HTTPBasicAuth" is geselecteerd voor Customer::AuthModule, kun je hier aangeve welke voorafgaande gedeelten van gebruikersnamen moeten worden verwijderd (voor gebruikernamen in de vorm voorbeeld_domein\gebruiker).',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
             'Als "LDAP" is geselecteerd voor Customer::AuthModule en je wil een achtervoegsel toevoegen aan elke klantnaam, kun je dat hier aangeven, bijvoorbeeld wanneer je alleen de gebruikersnaam wil typen en in de LDAP de gebruiker staat als gebruiker@domein.',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
@@ -8010,7 +8026,7 @@ Het Helpdesk Team
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             '',
         'Malay' => '',
-        'Manage OTOBO Team cloud services.' => 'Beheer OTOBO Team cloud diensten.',
+        'Manage OTOBO Team cloud services.' => '',
         'Manage PGP keys for email encryption.' => 'Beheer PGP-sleutels voor encryptie van e-mail.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Beheer POP3 of IMAP accounts om e-mail op te halen en om te zetten naar tickets.',
         'Manage S/MIME certificates for email encryption.' => 'Beheer S/MIME certificaten voor encryptie van e-mail.',
@@ -8119,8 +8135,8 @@ Het Helpdesk Team
         'New Year\'s Day' => 'Nieuwjaarsdag',
         'New Year\'s Eve' => 'Oudjaarsdag',
         'New process ticket' => 'Nieuw proces-ticket',
-        'News about OTOBO releases!' => '',
-        'News about OTOBO.' => '',
+        'News about OTOBO releases!' => 'Nieuws over OTOBO versies!',
+        'News about OTOBO.' => 'Nieuws over OTOBO.',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
@@ -8140,8 +8156,8 @@ Het Helpdesk Team
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO News' => '',
-        'OTOBO Team Services' => 'OTOBO Team diensten',
+        'OTOBO News' => 'OTOBO Nieuws',
+        'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
@@ -8961,6 +8977,8 @@ Het Helpdesk Team
         'The headline shown in the customer interface.' => '',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             '',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8972,8 +8990,6 @@ Het Helpdesk Team
         'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            '',
-        'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
@@ -9190,6 +9206,7 @@ Het Helpdesk Team
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.613008661546004;
+    $Self->{Completeness}        = 0.616150081566069;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -431,7 +431,7 @@ sub Data {
         'Filter for Groups' => 'Filtri per gruppi',
         'Select the customer:group permissions.' => 'Seleziona i permessi cliente:gruppo.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
-            'Se non si effettua una selezione, non ci saranno permessi in questo gruppo (i ticket non saranno disponibili al cliente)',
+            'Se non si effettua una selezione, non ci saranno permessi in questo gruppo (i ticket non saranno disponibili al cliente).',
         'Search Results' => 'Risultato della ricerca',
         'Customers' => 'Clienti',
         'Groups' => 'Gruppi',
@@ -805,7 +805,7 @@ sub Data {
         'Responsible' => 'Responsabile',
         'Ticket lock' => 'Blocco ticket',
         'Dynamic fields' => 'Campi dinamici',
-        'Add dynamic field' => '',
+        'Add dynamic field' => 'Aggiungi campo dinamico',
         'Create times' => 'Tempi di creazione',
         'No create time settings.' => 'Data di creazione mancante.',
         'Ticket created' => 'Ticket creato',
@@ -819,14 +819,18 @@ sub Data {
         'No change time settings.' => 'Nessuna modifica tempo.',
         'Ticket changed' => 'Ticket cambiato',
         'Ticket changed between' => 'Ticket cambiato fra',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'Tempi di chiusura',
         'No close time settings.' => 'Nessuna data di chiusura.',
         'Ticket closed' => 'Ticket chiusi',
         'Ticket closed between' => 'Ticket chiuso tra',
         'Pending times' => 'Tempi di attesa',
-        'No pending time settings.' => 'Tempo di attesa non selezionato',
+        'No pending time settings.' => 'Tempo di attesa non selezionato.',
         'Ticket pending time reached' => 'Tempo di attesa per ticket raggiunto',
-        'Ticket pending time reached between' => 'Tempo di attesa per ticket raggiunto fra ',
+        'Ticket pending time reached between' => 'Tempo di attesa per ticket raggiunto fra',
         'Escalation times' => 'Tempi di escalation',
         'No escalation time settings.' => 'Tempo di gestione non selezionato.',
         'Ticket escalation time reached' => 'Tempo di gestione per ticket superato',
@@ -912,7 +916,7 @@ sub Data {
         'Please provide a unique name for this web service.' => 'Indica un nome univoco per questo web service.',
         'Error handling module backend' => 'Errore nella gestione del back-end del modulo',
         'This OTOBO error handling backend module will be called internally to process the error handling mechanism.' =>
-            '',
+            'Questo modulo di back-end di gestione degli errori OTOBO verrà chiamato internamente per elaborare il meccanismo di gestione degli errori.',
         'Processing options' => 'Opzioni di elaborazione',
         'Configure filters to control error handling module execution.' =>
             'Configurare i filtri per controllare l\'esecuzione del modulo di gestione degli errori.',
@@ -1020,7 +1024,7 @@ sub Data {
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Per aggiungere un nuovo evento seleziona nome e oggetto, e premi sul pulsante "+"',
         'Asynchronous event triggers are handled by the OTOBO Scheduler Daemon in background (recommended).' =>
-            '',
+            'I trigger di eventi asincroni sono gestiti dal demone Scheduler OTOBO in background (consigliato).',
         'Synchronous event triggers would be processed directly during the web request.' =>
             'I trigger sincroni di eventi saranno elaborati direttamente durante la richiesta web.',
 
@@ -1146,7 +1150,7 @@ sub Data {
         'Maximum message length' => 'Lunghezza massima del messaggio',
         'This field should be an integer number.' => 'Questo campo deve essere un numero intero.',
         'Here you can specify the maximum size (in bytes) of REST messages that OTOBO will process.' =>
-            '',
+            'Qui è possibile specificare la dimensione massima (in byte) dei messaggi REST che verranno elaborati da OTOBO.',
         'Send Keep-Alive' => 'Invia Keep-Alive',
         'This configuration defines if incoming connections should get closed or kept alive.' =>
             'Questa configurazione definisce se le connessioni in entrata devono essere chiuse o mantenute attive.',
@@ -1232,7 +1236,7 @@ sub Data {
         'Namespace' => 'Spazio dei nomi',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI per indicare ai metodi SOAP il contesto, per ridurre le ambiguità',
         'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
-            'es. rn:otobo-com:soap:functions o http://www.otrs.com/GenericInterface/actions',
+            '',
         'Request name scheme' => 'Schema del nome di richiesta',
         'Select how SOAP request function wrapper should be constructed.' =>
             'Seleziona la modalità di creazione del involucro della funzione di richiesta SOAP.',
@@ -1357,7 +1361,7 @@ sub Data {
         'All incoming emails with one account will be dispatched in the selected queue.' =>
             'Tutte le e-mail in arrivo con un account verranno spedite nella coda selezionata.',
         'If your account is marked as trusted, the X-OTOBO headers already existing at arrival time (for priority etc.) will be kept and used, for example in PostMaster filters.' =>
-            'Se il tuo account è contrassegnato come attendibile, le intestazioni X-OTRS già esistenti all\'ora di arrivo (per priorità ecc.) Verranno conservate e utilizzate, ad esempio nei filtri PostMaster.',
+            'Se il tuo account è contrassegnato come attendibile, le intestazioni X-OTOBO già esistenti all\'ora di arrivo (per priorità ecc.) Verranno conservate e utilizzate, ad esempio nei filtri PostMaster.',
         'Outgoing email can be configured via the Sendmail* settings in %s.' =>
             'La posta elettronica in uscita può essere configurata tramite le impostazioni di Sendmail * in %s.',
         'System Configuration' => 'Configurazione di sistema',
@@ -1429,7 +1433,7 @@ sub Data {
         # Template: AdminNotificationEventTransportEmailSettings
         'Use comma or semicolon to separate email addresses.' => 'Utilizzare la virgola o il punto e virgola per separare gli indirizzi e-mail.',
         'You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values from the current ticket.' =>
-            '',
+            'È possibile utilizzare tag OTOBO come <OTOBO_TICKET_DynamicField_...> per inserire valori dal ticket corrente.',
 
         # Template: AdminPGP
         'PGP Management' => 'Gestione PGP',
@@ -1464,19 +1468,19 @@ sub Data {
         'Go to the OTOBO customer portal' => 'Val al portale clienti di OTOBO',
         'package information' => 'informazioni sul pacchetto',
         'Package installation requires a patch level update of OTOBO.' =>
-            '',
-        'Package update requires a patch level update of OTOBO.' => '',
-        'Please note that your installed OTOBO version is %s.' => '',
+            'L\'installazione del pacchetto richiede un aggiornamento a livello di patch di OTOBO.',
+        'Package update requires a patch level update of OTOBO.' => 'L\'aggiornamento del pacchetto richiede un aggiornamento a livello di patch di OTOBO.',
+        'Please note that your installed OTOBO version is %s.' => 'Si noti che la versione OTOBO installata è %s.',
         'To install this package, you need to update OTOBO to version %s or newer.' =>
-            '',
+            'Per installare questo pacchetto, è necessario aggiornare OTOBO alla versione %s o più nuova.',
         'This package can only be installed on OTOBO version %s or older.' =>
-            '',
+            'Questo pacchetto può essere installato solo sulla versione OTOBO %s o più vecchia.',
         'This package can only be installed on OTOBO version %s or newer.' =>
-            '',
-        'Why should I keep OTOBO up to date?' => '',
+            'Questo pacchetto può essere installato solo sulla versione OTOBO %s o più nuova.',
+        'Why should I keep OTOBO up to date?' => 'Perché dovrei tenere aggiornato OTOBO?',
         'You will receive updates about relevant security issues.' => 'Riceverai aggiornamenti su importanti problemi di sicurezza.',
         'You will receive updates for all other relevant OTOBO issues.' =>
-            '',
+            'Riceverai aggiornamenti per tutti gli altri problemi OTOBO pertinenti.',
         'How can I do a patch level update if I don’t have a contract?' =>
             'Come posso effettuare un aggiornamento a livello di patch se non ho un contratto?',
         'Please find all relevant information within the updating instructions at %s.' =>
@@ -1492,7 +1496,7 @@ sub Data {
         'Install' => 'Installa',
         'Update repository information' => 'Aggiorna informazioni sui repository',
         'Cloud services are currently disabled.' => 'I servizi cloud sono attualmente disabilitati.',
-        'OTOBO Verify can not continue!' => 'OTOBO Verify non può continuare!',
+        'OTOBO Verify can not continue!' => '',
         'Enable cloud services' => 'Abilita i servizi cloud',
         'Update all installed packages' => 'Aggiorna tutti i pacchetti installati',
         'Online Repository' => 'Archivio Online',
@@ -1803,13 +1807,13 @@ sub Data {
         'Edit System Registration' => 'Modifica la registrazione del sistema',
         'System Registration Overview' => 'Panoramica sulla registrazione del sistema',
         'Register System' => 'Sistema di registro',
-        'Validate OTOBO-ID' => '',
+        'Validate OTOBO-ID' => 'Convalida OTOBO-ID',
         'Deregister System' => 'Cancella registrazione sistema',
         'Edit details' => 'Modifica i dettagli',
         'Show transmitted data' => 'Mostra i dati trasmessi',
         'Deregister system' => 'Cancella registrazione sistema',
         'Overview of registered systems' => 'Riepilogo dei sistemi registrati',
-        'This system is registered with OTOBO Team.' => 'Questo sistema è registrato con OTOBO Team.',
+        'This system is registered with OTOBO Team.' => '',
         'System type' => 'Tipo di sistema',
         'Unique ID' => 'ID univoco',
         'Last communication with registration server' => 'Ultima comunicazione con il server di registrazione',
@@ -1820,7 +1824,7 @@ sub Data {
         'System Deregistration not Possible' => 'Cancellazione del sistema non possibile',
         'OTOBO-ID Login' => 'Accesso OTOBO-ID',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'La registrazione del sistema è un servizio di OTOBO Team, che fornisce molti vantaggi!',
+            '',
         'Read more' => 'Leggi altro',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'Devi accedere con il tuo OTOBO-ID per registrare il tuo sistema.',
@@ -1840,7 +1844,7 @@ sub Data {
         'Is it possible to deregister?' => 'È possibile cancellare la registrazione?',
         'You can deregister at any time.' => 'Puoi cancellare la registrazione in qualsiasi momento.',
         'Which data is transfered when registering?' => 'Quali dati sono trasferiti con la registrazione?',
-        'A registered system sends the following data to OTOBO Team:' => 'Un sistema registrato invia i dati seguenti a OTOBO Team:',
+        'A registered system sends the following data to OTOBO Team:' => '',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'Nome di dominio qualificato (FQDN), versione OTOBO, database, sistema operativo e versione Perl.',
         'Why do I have to provide a description for my system?' => 'Perché devo fornire una descrizione del mio sistema?',
@@ -1862,7 +1866,7 @@ sub Data {
         'Retrieve a new one' => 'Ottienine uno nuovo',
         'Next' => 'Successivo',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            'Questi dati saranno trasferiti frequentemente a OTOBO Team quando registri questo sistema.',
+            '',
         'Attribute' => 'Attributo',
         'FQDN' => 'FQDN',
         'OTOBO Version' => 'Versione OTOBO',
@@ -1870,10 +1874,10 @@ sub Data {
         'Perl Version' => 'Versione di Perl',
         'Optional description of this system.' => 'Descrizione facoltativa del sistema.',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'Ciò consentirà al sistema di inviare dati di supporto aggiuntivi a OTRS Group.',
+            '',
         'Register' => 'Registra',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            'Se si prosegue con questo passaggio, la registrazione del sistema sarà cancellata da OTOBO Team.',
+            '',
         'Deregister' => 'Cancella registrazione',
         'You can modify registration settings here.' => 'Puoi modificare qui le impostazioni di registrazione.',
         'Overview of Transmitted Data' => 'Panoramica dei dati trasmessi',
@@ -2054,18 +2058,18 @@ sub Data {
         'This state is used in the following config settings:' => 'Questo stato viene utilizzato nelle seguenti impostazioni di configurazione:',
 
         # Template: AdminSupportDataCollector
-        'Sending support data to OTOBO Team is not possible!' => 'Non è possibile inviare dati di supporto al gruppo OTOBO!',
+        'Sending support data to OTOBO Team is not possible!' => '',
         'Enable Cloud Services' => 'Abilita servizi cloud',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            'Questi dati sono inviati a OTOBO Team con regolarità. Per fermare l\'invio di questi dati, aggiorna la tua registrazione di sistema.',
+            '',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             'È possibile attivare manualmente l\'invio dei dati di supporto premendo questo pulsante:',
         'Send Update' => 'Invia aggiornamento',
         'Currently this data is only shown in this system.' => 'Attualmente questi dati sono mostrati solo in questo sistema.',
         'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'Consigliamo vivamente di inviare questi dati a OTOBO Team per ottenere un supporto migliore.',
+            '',
         'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'Per abilitare l\'invio di dati, registrare il sistema con OTRS Group o aggiornare le informazioni di registrazione del sistema (assicurarsi di attivare l\'opzione "invia dati di supporto").',
+            '',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'Un bundle di supporto (incluso: informazioni sulla registrazione del sistema, dati di supporto, un elenco di pacchetti installati e tutti i file di codice sorgente modificati localmente) può essere generato premendo questo pulsante:',
         'Generate Support Bundle' => 'Genera pacchetto di supporto',
@@ -2078,10 +2082,10 @@ sub Data {
             'L\'indirizzo email per questo utente non è valido, questa opzione è stata disabilitata.',
         'Sending' => 'Mittente',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            'Il pacchetto di supporto verrà inviato automaticamente al gruppo OTRS via e-mail.',
+            '',
         'Download File' => 'Scarica file',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            'Un file contenente il pacchetto di supporto verrà scaricato nel sistema locale. Salvare il file e inviarlo al gruppo OTRS, utilizzando un metodo alternativo.',
+            '',
         'Error: Support data could not be collected (%s).' => 'Errore: i dati di supporto non possono essere collezionati (%s).',
         'Details' => 'Dettagli',
 
@@ -2114,7 +2118,7 @@ sub Data {
             'Scopri come utilizzare la configurazione del sistema leggendo il %s.',
         'Search in all settings...' => 'Cerca in tutte le impostazioni ...',
         'There are currently no settings available. Please make sure to run \'otobo.Console.pl Maint::Config::Rebuild\' before using the software.' =>
-            'Al momento non ci sono impostazioni disponibili. Assicurati di eseguire \'otrs.Console.pl Maint::Config::Rebuild\' prima di utilizzare il software.',
+            'Al momento non ci sono impostazioni disponibili. Assicurati di eseguire \'otobo.Console.pl Maint::Config::Rebuild\' prima di utilizzare il software.',
 
         # Template: AdminSystemConfigurationDeployment
         'Changes Deployment' => 'Attivazione modifiche',
@@ -2243,6 +2247,14 @@ sub Data {
         'Delete this entry' => 'Elimina questa voce',
         'Do you really want to delete this template?' => 'Vuoi veramente cancellare questo modello?',
         'A standard template with this name already exists!' => 'Un modello standard con questo nome esiste già!',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => 'Crea modelli di tipi supporta solo questi smart tag',
         'Example template' => 'Modello di esempio',
         'The current ticket state is' => 'Lo stato attuale del ticket è',
@@ -2407,9 +2419,9 @@ sub Data {
             'Un OTOBO Daemon in esecuzione è obbligatorio per una corretta operatività del sistema.',
         'Starting the OTOBO Daemon' => 'Avvio di OTOBO Daemon',
         'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTOBO Daemon is running and start it if needed.' =>
-            '',
+            'Assicurati che il file \'%s\' esiste (senza estensione .dist). Questo cron job controllerà ogni 5 minuti se il Demone OTOBO è in esecuzione e lo avvierà se necessario.',
         'Execute \'%s start\' to make sure the cron jobs of the \'otobo\' user are active.' =>
-            'Esecuzione \'%s avviata\' per assicurarsi che i lavori cron dell\'utente\' otrs \'siano attivi.',
+            'Esecuzione \'%s avviata\' per assicurarsi che i lavori cron dell\'utente\' otobo \'siano attivi.',
         'After 5 minutes, check that the OTOBO Daemon is running in the system (\'bin/otobo.Daemon.pl status\').' =>
             'Dopo 5 minuti, controlla che OTOBO Daemon sia in esecuzione nel sistema (\'bin/otobo.Daemon.pl status\').',
 
@@ -2443,7 +2455,7 @@ sub Data {
         'Edit customer ID' => 'Modifica ID cliente',
 
         # Template: AgentDashboardCustomerIDStatus
-        'Escalated tickets' => '',
+        'Escalated tickets' => 'Tickets scaduti',
         'Open tickets' => 'Ticket aperti',
         'Closed tickets' => 'Ticket chiusi',
         'All tickets' => 'Tutti i ticket',
@@ -2589,7 +2601,7 @@ sub Data {
         # Template: AgentStatisticsAdd
         'Statistics Management' => 'Gestione delle statistiche',
         'Add Statistics' => 'Aggiungi statistiche',
-        'Read more about statistics in OTOBO' => '',
+        'Read more about statistics in OTOBO' => 'Ulteriori informazioni sulle statistiche in OTOBO',
         'Dynamic Matrix' => 'Matrice dinamica',
         'Each cell contains a singular data point.' => 'Ogni cella contiene un punto dati singolare.',
         'Dynamic List' => 'Elenco dinamico',
@@ -2958,7 +2970,7 @@ sub Data {
             'Consulta la documentazione o chiedi al tuo amministratore per ulteriori informazioni.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => 'Attendi un attimo, stai per essere rediretto...',
         'Login' => 'Accesso',
@@ -3037,6 +3049,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => 'Informazioni sul ticket',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => 'Espandi l\'articolo',
@@ -3248,7 +3261,7 @@ sub Data {
         # Template: MobileNotAvailableWidget
         'Feature not Available' => 'Funzionalità non Disponibile',
         'Sorry, but this feature of OTOBO is currently not available for mobile devices. If you\'d like to use it, you can either switch to desktop mode or use your regular desktop device.' =>
-            '',
+            'Siamo spiacenti, ma questa funzione di OTOBO non è attualmente disponibile per i dispositivi mobili. Se desideri utilizzarlo, puoi passare alla modalità desktop o utilizzare il tuo normale dispositivo desktop.',
 
         # Template: Motd
         'Message of the Day' => 'Motto del giorno',
@@ -3289,7 +3302,7 @@ sub Data {
         # Template: PublicDefault
         'Welcome' => 'Benvenuto',
         'This is the default public interface of OTOBO! There was no action parameter given.' =>
-            '',
+            'Questa è l\'interfaccia pubblica predefinita di OTOBO! Non è stato fornito alcun parametro di azione.',
         'You could install a custom public module (via the package manager), for example the FAQ module, which has a public interface.' =>
             'È possibile installare un modulo pubblico personalizzato (tramite il gestore pacchetti), ad esempio il modulo FAQ, che ha un\'interfaccia pubblica.',
 
@@ -3537,7 +3550,7 @@ sub Data {
         'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
             'Le ACL dal database non sono allineate con la configurazione di sistema, effettua il rilascio di tutte le ACL.',
         'ACLs could not be Imported due to a unknown error, please check OTOBO logs for more information' =>
-            '',
+            'Non è stato possibile importare ACL a causa di un errore sconosciuto. Per ulteriori informazioni, consultare i registri OTOBO',
         'The following ACLs have been added successfully: %s' => 'Sono stati aggiunti correttamente i seguenti ACL: %s',
         'The following ACLs have been updated successfully: %s' => 'Sono stati aggioranti correttamente i seguenti ACL: %s',
         'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.' =>
@@ -3592,7 +3605,7 @@ sub Data {
         '%s (copy)' => '%s (copia)',
         'There was an error creating the Notification' => 'Si è verificato un errore durante la creazione della notifica',
         'Notifications could not be Imported due to a unknown error, please check OTOBO logs for more information' =>
-            '',
+            'Non è stato possibile importare le notifiche a causa di un errore sconosciuto. Per ulteriori informazioni, consultare i registri OTOBO',
         'The following Notifications have been added successfully: %s' =>
             'Le seguenti notifiche sono state aggiunte correttamente: %s',
         'The following Notifications have been updated successfully: %s' =>
@@ -3872,7 +3885,7 @@ sub Data {
         'Could not read %s!' => 'Impossibile leggere %s!',
         'Need a file to import!' => 'Hai bisogno di un file da importare!',
         'The imported file has not valid YAML content! Please check OTOBO log for details' =>
-            '',
+            'Il file importato non ha contenuto YAML valido! Consultare il registro OTOBO per i dettagli',
         'Web service "%s" deleted!' => 'Web service "%s" eliminato!',
         'OTOBO as provider' => 'OTOBO come fornitore',
         'Operations' => 'Operazioni',
@@ -3918,15 +3931,15 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Sorry, Apache::Reload is needed as PerlModule and PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf. Alternatively, you can use the command line tool bin/otobo.Console.pl to install packages!' =>
-            'Spiacenti, Apache::Reload è necessario come PerlModule e PerlInitHandler nel file di configurazione di Apache. Vedi anche script/apache2-httpd.include.conf. In alternativa, è possibile utilizzare lo strumento da riga di comando bin/otrs.Console.pl per installare i pacchetti!',
+            'Spiacenti, Apache::Reload è necessario come PerlModule e PerlInitHandler nel file di configurazione di Apache. Vedi anche script/apache2-httpd.include.conf. In alternativa, è possibile utilizzare lo strumento da riga di comando bin/otobo.Console.pl per installare i pacchetti!',
         'No such package!' => 'Nessun pacchetto del genere!',
         'No such file %s in package!' => 'Nessun file del genere %s nel pacchetto!',
-        'No such file %s in local file system!' => '',
+        'No such file %s in local file system!' => 'Nessun file %s nel file system locale!',
         'Can\'t read %s!' => 'Impossibile leggere %s!',
         'File is OK' => 'File è OK',
         'Package has locally modified files.' => 'Il pacchetto ha file modificati localmente.',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'Pacchetto non verificato da OTRS! Si consiglia di non utilizzarlo.',
+            '',
         'Not Started' => 'Non iniziato',
         'Updated' => 'Aggiornato',
         'Already up-to-date' => 'Già aggiornato',
@@ -3937,7 +3950,7 @@ sub Data {
         'Dependency installed correctly' => 'Dipendenza installata correttamente',
         'The package needs to be reinstalled' => 'Il pacchetto deve essere reinstallato',
         'The package contains cyclic dependencies' => 'Il pacchetto contiene dipendenze cicliche',
-        'Not found in on-line repositories' => '',
+        'Not found in on-line repositories' => 'Non trovato nelle repository on-line',
         'Required version is higher than available' => '',
         'Dependencies fail to upgrade or install' => '',
         'Package could not be installed' => '',
@@ -5266,6 +5279,8 @@ sub Data {
         'Client Connection Charset' => 'Charset della Connessione Client',
         'Setting character_set_client needs to be utf8.' => 'Il parametro character_set_client deve essere impostato a utf8.',
         'Server Database Charset' => 'Charset del Server Database',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Charset della Tabella',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -6246,7 +6261,7 @@ Thanks for your help!
         'Added system request (%s).' => '',
         'Added web request from customer.' => '',
         'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.' =>
-            '',
+            'Aggiunge un suffisso con l\'attuale anno e mese nel log di OTOBO. Verrà creato un log per ogni mese.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             '',
         'Adds the one time vacation days for the indicated calendar.' => '',
@@ -6281,9 +6296,9 @@ Thanks for your help!
         'Agent dynamic field database search.' => '',
         'Agent frontend module registration (disable \'Edit contacts with data\' link if if there is no source field configured).' =>
             '',
-        'Agent interface article notification module to check PGP.' => '',
+        'Agent interface article notification module to check PGP.' => 'Modulo di notifica degli articoli dell\'interfaccia operatore per il controllo PGP',
         'Agent interface article notification module to check S/MIME.' =>
-            '',
+            'Modulo di notifica degli articoli dell\'interfaccia operatore per il controllo S/MIME',
         'Agent interface module to access CIC search via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Agent interface module to access fulltext search via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -6291,7 +6306,7 @@ Thanks for your help!
         'Agent interface module to access search profiles via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
-            '',
+            'Modulo dell\'interfaccia degli operatori per controllare le email in entrata nella visualizzazione ticket zoom se S/MIME è disponibile e attivo.',
         'Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Agent interface notification module to see the number of tickets an agent is responsible for. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -6513,6 +6528,7 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             '',
         'Collect support data for asynchronous plug-in modules.' => '',
+        'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
@@ -6684,7 +6700,7 @@ Thanks for your help!
         'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
             '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Definisce un filtro per l\'output HTML per aggiungere collegamenti dietro una determinata stringa. L\'elemento Image permette due tipi di input. Uno è il nome di una certa immagine (ad es. faq.png). In questo caso verrà usato il percorso delle immagini di OTOBO. La seconda possibilità è inserire un collegamento all\'immagine.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
             '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
@@ -6717,13 +6733,13 @@ Thanks for your help!
         'Defines a customer item, which generates a google maps icon at the end of a customer info block.' =>
             'Definire un oggetto cliente, che genera l\'icona Google Maps alla fine di un blocco di informazioni cliente.',
         'Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Definire un filtro per l\'output HTML per aggiungere i collegamenti dietro ai numeri CVE. L\'elemento Image permette due tipi di input. Uno è il nome di una certa immagine (ad es. faq.png). In questo caso verrà usato il percorso delle immagini di OTOBO. La seconda possibilità è inserire un collegamento all\'immagine.',
         'Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Definire un filtro per l\'output HTML per aggiungere i collegamenti dietro ai numeri MSBulletin. L\'elemento Image permette due tipi di input. Uno è il nome di una certa immagine (ad es. faq.png). In questo caso verrà usato il percorso delle immagini di OTOBO. La seconda possibilità è inserire un collegamento all\'immagine.',
         'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Definire un filtro per l\'output HTML per aggiungere i collegamenti dietro una determinata stringa. L\'elemento Image permette due tipi di input. Uno è il nome di una certa immagine (ad es. faq.png). In questo caso verrà usato il percorso delle immagini di OTOBO. La seconda possibilità è inserire un collegamento all\'immagine.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'Definire un filtro per l\'output HTML per aggiungere i collegamenti dietro ai numeri bugtraq. L\'elemento Image permette due tipi di input. Uno è il nome di una certa immagine (ad es. faq.png). In questo caso verrà usato il percorso delle immagini di OTOBO. La seconda possibilità è inserire un collegamento all\'immagine.',
         'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
@@ -8110,7 +8126,7 @@ Thanks for your help!
         'New Year\'s Day' => 'Capodanno',
         'New Year\'s Eve' => 'Vigilia di Capodanno',
         'New process ticket' => '',
-        'News about OTOBO releases!' => '',
+        'News about OTOBO releases!' => 'Novità sui rilasci di OTOBO!',
         'News about OTOBO.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
@@ -8131,7 +8147,7 @@ Thanks for your help!
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO News' => '',
+        'OTOBO News' => 'Notizie OTOBO',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
@@ -8409,7 +8425,7 @@ Thanks for your help!
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             '',
         'Sends customer notifications just to the mapped customer.' => '',
-        'Sends registration information to OTOBO group.' => '',
+        'Sends registration information to OTOBO group.' => 'Invia le informazioni di registrazione a Rother OSS GmbH.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '',
         'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
@@ -8776,7 +8792,7 @@ Thanks for your help!
             '',
         'Shows existing parent/child queue lists in the system in the form of a tree or a list.' =>
             '',
-        'Shows information on how to start OTOBO Daemon' => '',
+        'Shows information on how to start OTOBO Daemon' => 'Mostra informazioni su come avviare OTOBO Daemon',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Shows the article head information in the agent zoom view.' => '',
@@ -8952,6 +8968,8 @@ Thanks for your help!
         'The headline shown in the customer interface.' => '',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             '',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8963,8 +8981,6 @@ Thanks for your help!
         'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            '',
-        'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
@@ -9004,7 +9020,7 @@ Thanks for your help!
         'This module is being used to extend the password policy.' => '',
         'This module is part of the admin area of OTOBO Community Edition.' =>
             '',
-        'This module is part of the admin area of OTOBO.' => '',
+        'This module is part of the admin area of OTOBO.' => 'Questo modulo fa parte dell\'area di amministrazione di OTOBO.',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             'Questa opzione definisce il campo dinamico in cui è archiviato un ID entità attività Gestione processo.',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -9017,7 +9033,7 @@ Thanks for your help!
             'Questa opzione negherà l\'accesso ai ticket dell\'società del cliente, che non vengono creati dall\'utenza cliente.',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'Questa impostazione consente di sovrascrivere l\'elenco dei paesi integrati con il proprio elenco di paesi. Ciò è particolarmente utile se si desidera utilizzare solo un piccolo gruppo selezionato di paesi.',
-        'This setting is deprecated. Set OTOBOTimeZone instead.' => '',
+        'This setting is deprecated. Set OTOBOTimeZone instead.' => 'Questa impostazione è obsoleta. Impostare invece OTOBOTimeZone.',
         'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
             'Questa impostazione mostra gli attributi di ordinamento in tutte le schermate della panoramica, non solo nella vista coda.',
         'Ticket Close' => '',
@@ -9068,7 +9084,7 @@ Thanks for your help!
         'To download attachments.' => 'Per scaricare gli allegati.',
         'To view HTML attachments.' => 'Per visualizzare gli allegati HTML.',
         'Toggles display of OTOBO FeatureAddons list in PackageManager.' =>
-            '',
+            'Abilita o disabilita la visualizzazione di "OTOBO FeatureAddons" nella lista della Gestione dei Pacchetti.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Barra degli strumenti Voce per un collegamento. È possibile eseguire un controllo di accesso aggiuntivo per mostrare o non mostrare questo collegamento utilizzando la chiave "Gruppo" e Contenuti come "rw:group1;move_into:group2".',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -9088,7 +9104,11 @@ Thanks for your help!
             'Attiva il controllo dell\'indirizzo IP remoto. Non dovrebbe essere abilitato se l\'applicazione viene utilizzata, ad esempio, tramite una farm proxy o una connessione dialup, poiché l\'indirizzo IP remoto è principalmente diverso per le richieste.',
         'Tweak the system as you wish.' => 'Modifica il sistema a tuo piacimento.',
         'Type of daemon log rotation to use: Choose \'OTOBO\' to let OTOBO system to handle the file rotation, or choose \'External\' to use a 3rd party rotation mechanism (i.e. logrotate). Note: External rotation mechanism requires its own and independent configuration.' =>
-            '',
+            'Tipologie di log utilizzate dal Daemon:
+- Scegli "OTOBO" per lasciare che sia il sistema a gestire questa rotazione;
+- Scegli "External" per utilizzare una rotazione di 3a parte (e.g. logrotate).
+
+NOTA: i sistemi di terze parti richiedono una configurazione a se.',
         'Ukrainian' => 'Ucraino',
         'Unlock tickets that are past their unlock timeout.' => 'Sblocca i ticket che hanno passato il tempo previsto.',
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
@@ -9181,6 +9201,7 @@ Thanks for your help!
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

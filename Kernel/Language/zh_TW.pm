@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.321784605327668;
+    $Self->{Completeness}        = 0.320880913539967;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -813,6 +813,10 @@ sub Data {
         'No change time settings.' => '沒有修改時間',
         'Ticket changed' => '修改工單時間(相對)',
         'Ticket changed between' => '工單修改時間(絕對)',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => '關閉時間',
         'No close time settings.' => '沒有關閉時間',
         'Ticket closed' => '工單關閉時間(相對)',
@@ -1803,7 +1807,7 @@ sub Data {
         'Show transmitted data' => '',
         'Deregister system' => '取消系統註冊',
         'Overview of registered systems' => '註冊系統概述',
-        'This system is registered with OTOBO Team.' => '本系統由OTRS集團註冊。',
+        'This system is registered with OTOBO Team.' => '',
         'System type' => '系統類型',
         'Unique ID' => '唯一ID',
         'Last communication with registration server' => '與註冊服務器上一次的通訊',
@@ -1814,7 +1818,7 @@ sub Data {
         'System Deregistration not Possible' => '',
         'OTOBO-ID Login' => 'OTOBO-ID登陸',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            '系統註冊是OTRS集團的一項服務，它為您提供了很多好處!',
+            '',
         'Read more' => '閱讀全部',
         'You need to log in with your OTOBO-ID to register your system.' =>
             '為了註冊系統，需要您先使用OTOBO-ID進行登陸。',
@@ -1834,7 +1838,7 @@ sub Data {
         'Is it possible to deregister?' => '可以取消註冊嗎？',
         'You can deregister at any time.' => '您可以隨時取消系統註冊',
         'Which data is transfered when registering?' => '註冊後，哪些數據會被上傳?',
-        'A registered system sends the following data to OTOBO Team:' => '註冊過的系統會將以下數據上傳給OTRS集團：',
+        'A registered system sends the following data to OTOBO Team:' => '',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             '域名(FQDN)、OTOBO版本、數據庫、操作系統和Perl版本。',
         'Why do I have to provide a description for my system?' => '為什麼需要我提供有關註冊系統的描述?',
@@ -1856,7 +1860,7 @@ sub Data {
         'Retrieve a new one' => '獲取新的密碼',
         'Next' => '下一步',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            '註冊本系統後，這個數據會經常傳送給OTOBO Team',
+            '',
         'Attribute' => '屬性',
         'FQDN' => '',
         'OTOBO Version' => 'OTOBO版本',
@@ -2237,6 +2241,14 @@ sub Data {
         'Delete this entry' => '刪除該條目',
         'Do you really want to delete this template?' => '你確定要删除這個模板嗎？',
         'A standard template with this name already exists!' => '',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => '',
         'Example template' => '模板舉例',
         'The current ticket state is' => '當前工單狀態是',
@@ -2953,7 +2965,7 @@ sub Data {
             '欲了解更多信息, 請向您的管理詢問或参考相關文檔.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => '',
         'Login' => '登錄',
@@ -3032,6 +3044,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => '工單信息',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => '展開信件',
@@ -3921,7 +3934,7 @@ sub Data {
         'File is OK' => '',
         'Package has locally modified files.' => '',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            '擴展包未經OTRS檢驗！不推薦使用該擴展包.',
+            '',
         'Not Started' => '',
         'Updated' => '',
         'Already up-to-date' => '',
@@ -5261,6 +5274,8 @@ sub Data {
         'Client Connection Charset' => '',
         'Setting character_set_client needs to be utf8.' => '',
         'Server Database Charset' => '',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => '',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -6509,6 +6524,7 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             '',
         'Collect support data for asynchronous plug-in modules.' => '',
+        'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '工單概覽“小”模式列表字段過濾器',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
@@ -8106,8 +8122,8 @@ Thanks for your help!
         'New Year\'s Day' => '元旦',
         'New Year\'s Eve' => '除夕',
         'New process ticket' => '',
-        'News about OTOBO releases!' => '',
-        'News about OTOBO.' => '',
+        'News about OTOBO releases!' => '關於OTOBO發布的新聞！',
+        'News about OTOBO.' => '關於 OTOBO 的最新資訊',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
@@ -8127,7 +8143,7 @@ Thanks for your help!
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO News' => '',
+        'OTOBO News' => 'OTOBO新聞',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
@@ -8948,6 +8964,8 @@ Thanks for your help!
         'The headline shown in the customer interface.' => '',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             '',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8959,8 +8977,6 @@ Thanks for your help!
         'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            '',
-        'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
@@ -9177,6 +9193,7 @@ Thanks for your help!
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

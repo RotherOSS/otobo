@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-04-15 15:48+0000\n"
+"POT-Creation-Date: 2020-04-23 11:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2448,6 +2448,22 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket changed between"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Last close times"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "No last close time settings."
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last close"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last close between"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -6651,6 +6667,22 @@ msgid "A standard template with this name already exists!"
 msgstr ""
 
 #. Template: AdminTemplate
+msgid "To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types."
+msgstr ""
+
+#. Template: AdminTemplate
+msgid "To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types."
+msgstr ""
+
+#. Template: AdminTemplate
+msgid "To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types."
+msgstr ""
+
+#. Template: AdminTemplate
+msgid "To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types."
+msgstr ""
+
+#. Template: AdminTemplate
 msgid "Create type templates only supports this smart tags"
 msgstr ""
 
@@ -8659,7 +8691,7 @@ msgid "The browser you are using doesn't support css-grid. It's likely too old."
 msgstr ""
 
 #. Template: CustomerLogin
-msgid "An Internet Explorer compatible version will soon be released nonetheless."
+msgid "Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser."
 msgstr ""
 
 #. Template: CustomerLogin
@@ -8896,6 +8928,10 @@ msgstr ""
 
 #. Template: CustomerTicketZoom
 msgid "Categories"
+msgstr ""
+
+#. Template: CustomerTicketZoom
+msgid "Further actions"
 msgstr ""
 
 #. Template: Chat
@@ -14711,6 +14747,10 @@ msgid "Server Database Charset"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
+msgid "This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set 'utf8'."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "The setting character_set_database needs to be 'utf8'."
 msgstr ""
 
@@ -17755,6 +17795,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Collect support data for asynchronous plug-in modules."
+msgstr ""
+
+#. SysConfig
+msgid "Color definitions for the customer interface."
 msgstr ""
 
 #. SysConfig
@@ -23866,6 +23910,10 @@ msgid "The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default 
 msgstr ""
 
 #. SysConfig
+msgid "The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)"
+msgstr ""
+
+#. SysConfig
 msgid "The logo shown in the header of the agent interface for the skin \"High Contrast\". See \"AgentLogo\" for further description."
 msgstr ""
 
@@ -23887,10 +23935,6 @@ msgstr ""
 
 #. SysConfig
 msgid "The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server."
-msgstr ""
-
-#. SysConfig
-msgid "The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server."
 msgstr ""
 
 #. SysConfig

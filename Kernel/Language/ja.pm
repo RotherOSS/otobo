@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
 # Copyright (C) 2014 Norihiro Tanaka NTT Data Intellilink Corp.
@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.716293512011767;
+    $Self->{Completeness}        = 0.715823817292007;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -187,7 +187,7 @@ sub Data {
         'Events' => 'イベント',
         'Event' => 'イベント',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
-            '',
+            'ここで、この通知のトリガーとなるイベントを選択できます。 追加の予約フィルターを以下に適用して、それに適合する予約のみに送信できます。',
         'Appointment Filter' => '予約のフィルター',
         'Type' => 'タイプ',
         'Title' => 'タイトル',
@@ -214,9 +214,9 @@ sub Data {
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             'これは、全ての担当者の個々の環境設定に通知にチェックが入ります。そして通知されます。',
         'This feature is currently not available.' => 'この機能は現在利用できません。',
-        'Upgrade to %s' => '%s にアップグレードする。',
+        'Upgrade to %s' => '%s にアップグレードする',
         'Please activate this transport in order to use it.' => '使用するには、このトランスポートを有効にしてください。',
-        'No data found' => 'データがありません。',
+        'No data found' => 'データがありません',
         'No notification method found.' => '通知方法が見つかりませんでした。',
         'Notification Text' => '通知文書',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
@@ -234,7 +234,7 @@ sub Data {
         'To get the appointment attribute' => '予定の属性を取得すること',
         ' e. g.' => '例',
         'To get the calendar attribute' => 'カレンダーの属性を取得すること',
-        'Attributes of the recipient user for the notification' => '',
+        'Attributes of the recipient user for the notification' => '通知する受信者ユーザーの属性',
         'Config options' => '設定オプション',
         'Example notification' => '通知例',
 
@@ -314,7 +314,7 @@ sub Data {
             'OTOBO クラウドサービスのご利用には、システムの登録が必要となりますのでご注意ください。',
         'Register this system' => 'このシステムをサポート登録する',
         'Here you can configure available cloud services that communicate securely with %s.' =>
-            '',
+            'ここで、 %s と安全に通信するために利用可能なクラウドサービスを構成できます。',
         'Available Cloud Services' => '利用可能なクラウドサービス',
 
         # Template: AdminCommunicationLog
@@ -814,6 +814,10 @@ sub Data {
         'No change time settings.' => '変更時間設定を指定しない',
         'Ticket changed' => 'チケットを変更しました',
         'Ticket changed between' => 'チケットの変更がこの期間の間',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'クローズ時間',
         'No close time settings.' => 'クローズ時間を指定しない',
         'Ticket closed' => 'チケットをクローズしたのが',
@@ -1229,7 +1233,7 @@ sub Data {
         'Namespace' => '名前空間',
         'URI to give SOAP methods a context, reducing ambiguities.' => '',
         'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
-            '例… urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions',
+            '',
         'Request name scheme' => '',
         'Select how SOAP request function wrapper should be constructed.' =>
             '',
@@ -1489,7 +1493,7 @@ sub Data {
         'Install' => 'インストール',
         'Update repository information' => 'リポジトリ情報を更新',
         'Cloud services are currently disabled.' => 'クラウドサービスは現在無効化されています',
-        'OTOBO Verify can not continue!' => 'OTOBO Verify️が継続できません！',
+        'OTOBO Verify can not continue!' => '',
         'Enable cloud services' => 'クラウドサービスの有効化',
         'Update all installed packages' => 'インストールされているパッケージを全て更新する',
         'Online Repository' => 'オンラインリポジトリ',
@@ -1806,7 +1810,7 @@ sub Data {
         'Show transmitted data' => '送信されたデータを表示',
         'Deregister system' => 'システムを未登録に戻す',
         'Overview of registered systems' => '登録されたシステムの概要',
-        'This system is registered with OTOBO Team.' => 'このシステムはOTRS社もしくは関連する会社に登録されています。',
+        'This system is registered with OTOBO Team.' => '',
         'System type' => 'システム種別',
         'Unique ID' => 'ユニークID',
         'Last communication with registration server' => '登録管理サーバに対する最後のアクセス',
@@ -1817,7 +1821,7 @@ sub Data {
         'System Deregistration not Possible' => 'システムの登録解除ができない',
         'OTOBO-ID Login' => 'OTOBO-ID',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            'OTRSグループへのシステムのサポート登録により、多くのメリットが提供されます。',
+            '',
         'Read more' => '続きを読む',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'システムを登録するには、OTOBO-IDでログインする必要があります。',
@@ -1867,7 +1871,7 @@ sub Data {
         'Perl Version' => 'Perl バージョン',
         'Optional description of this system.' => '',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'この操作は、システムによる OTOBO Team への追加サポート情報の送信を許可します。',
+            '',
         'Register' => '登録',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
             '',
@@ -2051,18 +2055,18 @@ sub Data {
         'This state is used in the following config settings:' => 'このステータスは、次の設定で使用されます。',
 
         # Template: AdminSupportDataCollector
-        'Sending support data to OTOBO Team is not possible!' => 'OTOBO Team へのサポートデータの送信ができません！',
+        'Sending support data to OTOBO Team is not possible!' => '',
         'Enable Cloud Services' => 'クラウドサービスを有効にする',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            'このデータは定期的にOTRSグループに送られます。 このデータの送信を停止するには、システム登録を更新して下さい。',
+            '',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             '手動でこのボタンを押すことにより、サポートデータを送信することができます。',
         'Send Update' => '更新を送信',
         'Currently this data is only shown in this system.' => 'このデータは現在このシステム上で表示されています。',
         'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'より良いサポートを提供するために、このデータをOTRSグループにお送りいただくことを強くお勧めします。',
+            '',
         'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'データ送信を有効にするために、OTOBO Team へのシステムの登録・更新をお願いします (併せて「サポート情報の送信」のチェックを有効にするのを忘れずに)。',
+            '',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'このボタンを押すとサポートバンドル(システム登録情報、サポートに必要なデータ、インストールされているパッケージリスト、変更されているソース)が作成されます。',
         'Generate Support Bundle' => 'サポートバンドルの生成',
@@ -2075,10 +2079,10 @@ sub Data {
             'このユーザーのメールアドレスは無効です。このオプションは無効になっています。',
         'Sending' => '送信者',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            'サポートバンドルはOTRSグループに電子メールで自動的に送信されます。',
+            '',
         'Download File' => 'ファイルのダウンロード',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            'サポートバンドルを含むファイルをダウンロードします。ファイルを保存しOTRSグループに他の手段で送信してください。',
+            '',
         'Error: Support data could not be collected (%s).' => 'エラー：サポートデータを収集できませんでした。（%s）',
         'Details' => '詳細',
 
@@ -2240,6 +2244,14 @@ sub Data {
         'Delete this entry' => 'この登録を削除',
         'Do you really want to delete this template?' => '本当にこのテンプレートを削除してよろしいですか？',
         'A standard template with this name already exists!' => '',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => '作成するタイプテンプレートはこのスマートタグのみをサポートします。',
         'Example template' => 'テンプレート例',
         'The current ticket state is' => '現在のチケットのステータスは',
@@ -2935,7 +2947,7 @@ sub Data {
         'Traceback' => 'トレースバック',
 
         # Template: CustomerFooter
-        'Powered by %s' => 'powered by %s',
+        'Powered by %s' => '',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
@@ -2955,7 +2967,7 @@ sub Data {
             '詳細はマニュアルを参照するか、管理者にお問い合わせください。',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => '',
         'Login' => 'ログイン',
@@ -3034,6 +3046,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => 'チケット情報',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => '記事を展開',
@@ -3924,7 +3937,7 @@ sub Data {
         'File is OK' => 'ファイルは正常です',
         'Package has locally modified files.' => 'パッケージにはローカルに変更されたファイルがあります。',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'パッケージはOTRSグループによって検証されていません。このパッケージの利用を推奨しません。',
+            '',
         'Not Started' => '始まっていない',
         'Updated' => '更新しました',
         'Already up-to-date' => 'すでに最新版です。',
@@ -5264,6 +5277,8 @@ sub Data {
         'Client Connection Charset' => 'クライアントコネクションのキャラクターセット',
         'Setting character_set_client needs to be utf8.' => 'character_set_client は utf8 に設定する必要があります',
         'Server Database Charset' => 'データーベースサーバーのキャラクターセット',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Table キャラクターセット',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -5452,7 +5467,7 @@ sub Data {
         'Some packages are not correctly installed.' => '正常にインストールされていないパッケージが存在します',
         'Package Verification Status' => 'パッケージの検証結果',
         'Some packages are not verified by the OTOBO Team! It is recommended not to use this packages.' =>
-            'いくつかのパッケージはOTRS社で認証されていません。これらのパッケージの使用は推奨しません。',
+            '',
         'Package Framework Version Status' => 'パッケージフレームワークバージョン',
         'Some packages are not allowed for the current framework version.' =>
             'いくつかのパッケージは現在のフレームワークのバージョンに対応していません。',
@@ -5904,7 +5919,7 @@ sub Data {
         # JS File: Core.Agent.Admin.SupportDataCollector
         'Sending Update...' => '更新を送信中…',
         'Support Data information was successfully sent.' => '',
-        'Was not possible to send Support Data information.' => 'OTOBO Team へのサポートデータを送信できませんでした。',
+        'Was not possible to send Support Data information.' => 'OTRS Group へのサポートデータを送信できませんでした。',
         'Update Result' => 'アップデート結果',
         'Generating...' => '作成中...',
         'It was not possible to generate the Support Bundle.' => 'サポートバンドルが生成できませんでした。',
@@ -6253,7 +6268,7 @@ Thanks for your help!
         'Added system request (%s).' => '',
         'Added web request from customer.' => '',
         'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.' =>
-            '',
+            'OTOBOログ・ファイルに対して、実際の年と月による接尾辞を追加します。毎月のログファイルが作成されます。',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             '',
         'Adds the one time vacation days for the indicated calendar.' => '',
@@ -6520,6 +6535,7 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             '',
         'Collect support data for asynchronous plug-in modules.' => '',
+        'Color definitions for the customer interface.' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => 'チケット一覧(S)でのカラムチケット・フィルター',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
@@ -6691,7 +6707,7 @@ Thanks for your help!
         'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
             '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            '定義された文字列（string）の後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTOBOイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
             '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
@@ -6724,13 +6740,13 @@ Thanks for your help!
         'Defines a customer item, which generates a google maps icon at the end of a customer info block.' =>
             '顧客情報ブロックの最後において、Googleマップのアイコンを作成するための顧客アイテムを定義します。',
         'Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'CVEナンバーの後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTOBOイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。',
         'Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'MSBulletinナンバーの後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTOBOイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。',
         'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            '定義された文字列（string）の後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTOBOイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'バグトラック・ナンバーの後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTOBOイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。',
         'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
@@ -7187,7 +7203,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' =>
             'システムのログ・モジュールを定義します。"ファイル"は、与えられたログファイルの全メッセージをライトし、"SysLog"はそのシステムのsyslog daemon、つまりsyslogdを使用します。',
         'Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTOBO instance to stop working (probably any mask which takes input from the user).' =>
-            '',
+            'ブラウザからOTOBOへファイルアップロードする最大サイズ（バイト単位）を定義します。 警告：このオプションを低すぎる値に設定すると、OTOBOインスタンス内の多くのインプット機能が機能しなくなる可能性があります。',
         'Defines the maximal valid time (in seconds) for a session id.' =>
             'セッションIDのための最大有効時間（秒）を定義します。',
         'Defines the maximum number of affected tickets per job.' => '',
@@ -7243,7 +7259,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Defines the name of the indicated calendar.' => 'インシデントカレンダーの名称を設定してください。',
         'Defines the name of the key for customer sessions.' => '顧客セッションのためのキーの名前を定義します。',
         'Defines the name of the session key. E.g. Session, SessionID or OTOBO.' =>
-            '',
+            'セッション・キーの名前を定義します。つまり、Session、SessionID、OTOBOです。',
         'Defines the name of the table where the user preferences are stored.' =>
             '',
         'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
@@ -7365,7 +7381,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             'システム管理者のEメール・アドレスを定義します。アプリケーションのエラー画面に表示されるものです。',
         'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO).' =>
-            '',
+            'システム識別子を定義します。すべてのチケット番号とHTTPセッションの文字列は、このIDが含まれています。これはをシステムに属している唯一のチケットがフォローアップとして処理されることを確実にします。（2つのOTOBOのインスタンス間で通信する場合に便利です）',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             'システム識別子を定義します。すべてのチケット番号とHTTPセッションの文字列は、このIDが含まれています。これはをシステムに属している唯一のチケットがフォローアップとして処理されることを確実にします。（2つのOTRSのインスタンス間で通信する場合に便利です）',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
@@ -7471,7 +7487,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'HTTPヘッダ"Content-Security-Policy”を無効化し、外部のスクリプトコンテンツの読み込みを許可します。 このHTTPヘッダを無効にすることにより、セキュリティ上の問題が生じることがあります! 変更内容をよく理解している場合に限り無効化を実行してください!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTOBO to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
-            '',
+            'HTTPヘッダ"X-Frame-Options: SAMEORIGIN”を無効化し、OTOBOを外部のWebサイトの一部としてiframeに埋め込むことを許可します。 このHTTPヘッダを無効にすることにより、セキュリティ上の問題が生じることがあります! 変更内容をよく理解している場合に限り無効化を実行してください!',
         'Disable cloud services' => 'クラウドサービスの無効化',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             'チケットの責任者である担当者への、リマインダー通知の送信を無効にします(Ticket::Responsibleが有効にされる必要があります)。',
@@ -7589,7 +7605,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Enabled filters.' => 'フィルターを有効にする',
         'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTOBO user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
-            '',
+            'PGPを有効化します。PGPサポートでメールの署名と暗号化が有効になっている場合は、.gnupgフォルダにアクセスする際の権限問題を回避するため、WebサーバーをOTOBOユーザーとして実行することを強くお勧めします。 ',
         'Enables S/MIME support.' => 'S/MIMEサポートを有効にします。',
         'Enables customers to create their own accounts.' => '顧客が自ら自身のアカウントを作成できるようにします。',
         'Enables fetch S/MIME from CustomerUser backend support.' => '顧客ユーザー情報サポートからS / MIME設定を取得できるようにします。',
@@ -7806,7 +7822,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             'Customer::AuthModuleに関して"HTTPBasicAuth"が選択されていた場合、（RegExpを使用することで）REMOTE_USERの部分を削除することができます（例：trailing domainsを削除するなど）。RegExp-Note, $1が新しいログインとなります。',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            '',
+            'Customer::AuthModuleに関して"HTTPBasicAuth"が選択されていた場合、ユーザ名の始まりの部分を削除することができます（例：ドメインにおいて、example_domain\userをuserに変える）。',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
             'Customer::AuthModuleに関して“LDAP”が選択されていて、全ての顧客ログイン名にsuffix（後ろに付く接尾辞）を追加したい場合、ここで特定してください。例えば、ユーザ名のみを書いても、ユーザがLDAPディレクトリの中ではuser@domainとして存在するなどです。',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
@@ -7828,7 +7844,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.' =>
             'Customer::AuthModuleに関して“LDAP”が選択されている場合に、例えばサーバー接続がネットワークの問題で確立できない際に、アプリケーションを停止させるかどうかを設定できます。',
         'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use OTOBO. Specify the group, who may access the system.' =>
-            '',
+            'Customer::AuthModuleに関して“LDAP”が選択されていた場合、ユーザについて、例えばOTOBOを利用するためグループxyzにいる必要がある場合に、posixGroupにいるという理由で認証することを許可されるかどうかを、確認することができます。システムにアクセスする可能性があるグループを特定してください。',
         'If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).' =>
             '“LDAP”が選択されていた場合、LDAPクエリーそれぞれにフィルタを追加することができます。例えば、(mail=*), (objectclass=user), (!objectclass=computer)などです。',
         'If "Radius" was selected for Customer::AuthModule, the password to authenticate to the radius host must be specified.' =>
@@ -7870,7 +7886,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'If enabled, OTOBO will deliver all CSS files in minified form.' =>
             '',
         'If enabled, OTOBO will deliver all JavaScript files in minified form.' =>
-            '',
+            '有効にすると、OTOBOは全JavaScriptファイルを縮小した形式で配信します。',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             '有効にされた場合、TicketPhoneおよびTicketEmailは新しいウィンドウで開きます。',
         'If enabled, the OTOBO version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
@@ -8017,7 +8033,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             'セッション管理に、htmlクッキーを使用させるようにします。htmlクッキーが無効にされている場合、またはクライアント・ブラウザがhtmlクッキーを無効にしている場合、システムは通常どおり動作し、またセッションIDをリンクに付け加えます。',
         'Malay' => 'マレー語',
-        'Manage OTOBO Team cloud services.' => 'OTRSグループのクラウドサービスの管理',
+        'Manage OTOBO Team cloud services.' => '',
         'Manage PGP keys for email encryption.' => 'メール暗号用のPGP鍵管理',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'メール受信用POP3/IMAPアカウント管理',
         'Manage S/MIME certificates for email encryption.' => 'メール暗号用のS/MIME証明書管理',
@@ -8127,7 +8143,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'New Year\'s Day' => '元日',
         'New Year\'s Eve' => '大晦日',
         'New process ticket' => '新規プロセスチケット',
-        'News about OTOBO releases!' => '',
+        'News about OTOBO releases!' => 'OTOBOリリース情報!',
         'News about OTOBO.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
@@ -8148,10 +8164,10 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '顧客インタフェースの検索結果の各ページで表示される、チケット数です。',
         'Number of tickets to be displayed in each page.' => '',
-        'OTOBO News' => '',
-        'OTOBO Team Services' => 'OTRSグループ・サービス',
+        'OTOBO News' => 'OTOBOニュース',
+        'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
-            '',
+            'OTOBOは、フルテキスト検索や統計生成などの高価な操作に、1つまたは複数の読み取り専用ミラーデータベースを使用できます。 ここでは、最初のミラーデータベースのDSNを指定できます。',
         'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
         'Open an external link!' => '外部リンクを開く！',
@@ -8793,7 +8809,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '最後の顧客の項目の件名またはチケットのタイトルを、小さいフォーマットの一覧で表示します。',
         'Shows existing parent/child queue lists in the system in the form of a tree or a list.' =>
             'システム内に存在する親/子キューのリストを、ツリーまたはリストの形式で表示します。',
-        'Shows information on how to start OTOBO Daemon' => '',
+        'Shows information on how to start OTOBO Daemon' => 'OTOBOデーモンの起動手順を紹介します。',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Shows the article head information in the agent zoom view.' => '',
@@ -8969,6 +8985,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'The headline shown in the customer interface.' => '顧客インターフェイスの見出し',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             '例えばTicket#, Call#, MyTicket#などのチケットの識別子です。デフォルトはTicket#です。',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8981,8 +8999,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             'スキン"slim"時に担当者インターフェイスで表示されるロゴ。詳細は"AgentLogo"を参照してください。',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
-        'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            '顧客画面のヘッダ部分に表示するロゴを設定します。画像の',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
@@ -9021,7 +9037,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'This module is being used to extend the password policy.' => '',
         'This module is part of the admin area of OTOBO Community Edition.' =>
             '',
-        'This module is part of the admin area of OTOBO.' => '',
+        'This module is part of the admin area of OTOBO.' => 'このモジュールは、OTOBO の管理者エリアの一機能です。',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             'このオプションは、プロセス管理のアクティビティ・エンティティIDを格納するためのダイナミック・フィールドを定義します。',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -9198,6 +9214,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
