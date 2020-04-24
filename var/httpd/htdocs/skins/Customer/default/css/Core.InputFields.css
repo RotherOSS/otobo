@@ -102,7 +102,7 @@ div.InputField_InputContainer {
 }
 
 .InputField_Search,
-input.DynamicFieldText,
+input.DynamicFieldText:not([type=checkbox]),
 .InputField_Autocomplete {
     /* overwrite js-generated width */
     width: calc( 100% - 32px ) !important;
@@ -362,13 +362,19 @@ label.oooFocus.LabelError {
 }
 
 input[type='checkbox'] {
-    display: none;
+    width: 16px;
+    height: 16px;
+    border: 0;
+    padding: 0;
+    margin: 0px -16px 0px 0px;
+    opacity: 0;
 }
 
 .oooAltCheck {
     position: relative;
     top 1px;
     cursor: pointer;
+    background-color: #fff;
 }
 
 input[type='checkbox']:checked + .oooAltCheck:before {
@@ -379,6 +385,11 @@ input[type='checkbox']:checked + .oooAltCheck:before {
 input[type='checkbox']:not(:checked) + .oooAltCheck:before {
     content: "\e90b";
     font-size: 16px;
+}
+
+input[type='checkbox']:focus + .oooAltCheck:before {
+    color: #001bff;
+    color: var(--colMainLight);
 }
 
 /* Date */
@@ -494,6 +505,24 @@ div.InputField_Selection > .Remove {
     margin-left: 8px;
 }
 
+.InputField_ListContainer > .oooClose {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+    border-radius: 15px;
+    z-index: 100;
+    cursor: pointer;
+}
+
+.InputField_ListContainer > .oooClose > i {
+    position: relative;
+    top: 5.5px;
+    left: 8px;
+}
+
 /* jstree stuff */
 
 .jstree-node > .jstree-wholerow {
@@ -505,12 +534,12 @@ div.InputField_Selection > .Remove {
     background-color: var(--colNotifyOK);
 }
 
-.jstree-node > .jstree-wholerow:hover {
+.jstree-node > .jstree-wholerow-hovered {
     background-color: #f7f7f9;
     background-color: var(--colBGLight);
 }
 
-.jstree-node[aria-selected="true"] > .jstree-wholerow:hover {
+.jstree-node[aria-selected="true"] > .jstree-wholerow-hovered {
     background-color: #6d83f2;
     background-color: var(--colHoverLight);
 }

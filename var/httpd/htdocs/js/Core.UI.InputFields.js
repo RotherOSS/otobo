@@ -1672,6 +1672,12 @@ Core.UI.InputFields = (function (TargetNS) {
                         .attr('tabindex', '-1')
                         .appendTo('body');
 
+                    if ( Config.CustomerInterface ) {
+                        $('<div class="oooClose"><i class="ooofo ooofo-close"></i></div>').on('click', function() {
+                            $ListContainerObj.blur();
+                        }).appendTo($ListContainerObj);
+                    }
+
                     // Calculate available height for the list
                     CalculateListPosition();
 
