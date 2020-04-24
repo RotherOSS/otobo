@@ -153,6 +153,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     font-weight: 600;
 }
 
+#oooCustomerNotifications {
+    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+}
+
 /* IE */
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
 

@@ -339,6 +339,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     opacity: 0;
 }
 
+#oooNavigation + #oooCustomerNotifications {
+    display: none;
+}
+
 /* IE */
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
 

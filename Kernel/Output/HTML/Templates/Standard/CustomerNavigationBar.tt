@@ -62,4 +62,7 @@
         <i class='ooofo ooofo-arrow_r'></i>
     </div>
 </div>
+<div id="oooCustomerNotifications">
+    [% Data.Notification %]
+</div>
 <!-- end NavigationBar -->

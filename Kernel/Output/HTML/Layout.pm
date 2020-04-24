@@ -4659,6 +4659,27 @@ sub CustomerNavigationBar {
         );
     }
 
+    # run notification modules
+    my $FrontendNotifyModuleConfig = $ConfigObject->Get('CustomerFrontend::NotifyModule');
+    if ( ref $FrontendNotifyModuleConfig eq 'HASH' ) {
+        my %Jobs = %{$FrontendNotifyModuleConfig};
+
+        NOTIFICATIONMODULE:
+        for my $Job ( sort keys %Jobs ) {
+
+            # load module
+            next NOTIFICATIONMODULE if !$MainObject->Require( $Jobs{$Job}->{Module} );
+            my $Object = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+                LayoutObject => $Self,
+            );
+            next NOTIFICATIONMODULE if !$Object;
+
+            # run module
+            $Param{Notification} .= $Object->Run( %Param, Config => $Jobs{$Job} );
+        }
+    }
+
     my %User = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
         User          => $Self->{UserLogin},
     );
@@ -4698,28 +4719,6 @@ sub CustomerNavigationBar {
         TemplateFile => 'CustomerNavigationBar',
         Data         => \%Param,
     );
-
-
-    # TODO: run notification modules
-    my $FrontendNotifyModuleConfig = $ConfigObject->Get('CustomerFrontend::NotifyModule');
-    if ( ref $FrontendNotifyModuleConfig eq 'HASH' ) {
-        my %Jobs = %{$FrontendNotifyModuleConfig};
-
-        NOTIFICATIONMODULE:
-        for my $Job ( sort keys %Jobs ) {
-
-            # load module
-            next NOTIFICATIONMODULE if !$MainObject->Require( $Jobs{$Job}->{Module} );
-            my $Object = $Jobs{$Job}->{Module}->new(
-                %{$Self},
-                LayoutObject => $Self,
-            );
-            next NOTIFICATIONMODULE if !$Object;
-
-            # run module
-            $Param{Notification} .= $Object->Run( %Param, Config => $Jobs{$Job} );
-        }
-    }
 
 }
 

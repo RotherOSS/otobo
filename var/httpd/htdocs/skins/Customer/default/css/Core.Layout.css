@@ -43,6 +43,12 @@ body {
         padding: 8px;
     }
 
+    #oooCustomerNotifications {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+
 }
 
 @media only screen and (min-width: 768px) {
@@ -77,6 +83,7 @@ body {
 
     #oooHeader,
     #oooFooter > div,
+    #oooCustomerNotifications,
     #oooMainBox {
         width: calc( 100% - 160px );
         padding-left: 102px;
@@ -89,12 +96,18 @@ body {
 
     #oooHeader,
     #oooFooter > div,
+    #oooCustomerNotifications,
     #oooMainBox {
         width: 1284px;
         padding-left: calc( 50% - 620px );
         padding-right: calc( 50% - 664px );
     }
 
+}
+
+#oooCustomerNotifications {
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 #oooFooter {

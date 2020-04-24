@@ -186,6 +186,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     text-overflow: ellipsis;
 }
 
+#oooCustomerNotifications {
+    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+}
+
 #FollowUp {
     display: none;
 }
