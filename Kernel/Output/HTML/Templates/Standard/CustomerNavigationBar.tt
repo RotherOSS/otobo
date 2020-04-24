@@ -24,7 +24,7 @@
         </div>
         <div id="oooNavBarModuleIcons">
 [% RenderBlockStart("Item") %]
-            <a href="[% Env("Baselink") %][% Data.Link %]">
+            <a href="[% Env("Baselink") %][% Data.Link %]" title="[% Translate(Data.Description || Data.Name) | html %] ([% Data.AccessKey | html %])" accesskey="[% Data.AccessKey | html %]" [% Data.LinkOption %]>
                 <div class="oooNavBarHighlight"></div>
                 <div class="oooIconContainer">
                     [% Data.SVG %]
@@ -35,7 +35,7 @@
             </a>
 [% RenderBlockEnd("Item") %]
         </div>
-        <a id="oooUser" href="[% Env('Baselink') %]Action=Logout">
+        <a id="oooUser" href="[% Env('Baselink') %]Action=Logout" title="[% Translate("Logout") | html %]">
             <div class="oooNavBarHighlight"></div>
             <div id="oooNavBarAvatar">
                 <div id="oooLogoutIcon">

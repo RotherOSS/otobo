@@ -28,7 +28,7 @@
                 </h3>
             </form>
         </div>
-        <a id='oooHeaderButton' href="[% Env("Baselink") %]Action=CustomerTicketMessage" title="[% Translate("New Ticket") %]"><button><i class="ooofo ooofo-add"></i><span> [% Translate("New Ticket") %]</span></button></a>
+        <a id='oooHeaderButton' href="[% Env("Baselink") %]Action=CustomerTicketMessage" title="[% Translate("New Ticket") | html %] ([% Data.AccessKey | html %])" accesskey="[% Data.AccessKey | html %]"><button><i class="ooofo ooofo-add"></i><span> [% Translate("New Ticket") %]</span></button></a>
     </div>
     <div id='oooMainBox'>
         <div id='oooTicketListHeader'>
