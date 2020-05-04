@@ -2983,6 +2983,7 @@ sub Data {
         'Your First Name' => 'Ihr Vorname',
         'Your Last Name' => 'Ihr Nachname',
         'Your email address (this will become your username)' => 'Ihre E-Mail-Adresse (das wird Ihr Benutzername)',
+        'Too many failed login attempts, please retry in %s s.' => 'Zu viele fehlgeschlagene Anmeldungen, bitte versuchen Sie es in %s s nocheinmal.',
 
         # Template: CustomerNavigationBar
         'Logout' => 'Abmelden',
