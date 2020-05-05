@@ -45,18 +45,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      * @description
      *      Object to handle timeout.
      */
-        TimeOutRTEOnChange,
+        TimeOutRTEOnChange;
     
-    /**
-     * @private
-     * @name CustomerInterface
-     * @memberof Core.UI.RichTextEditor
-     * @member {Object}
-     * @description
-     *      Whether we are in the CustomerInterface.
-     */
-        CustomerInterface = ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') );
-
     /**
      * @private
      * @name CheckFormID
@@ -88,7 +78,9 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             Editor,
             UserLanguage,
             UploadURL = '',
-            EditorConfig;
+            EditorConfig,
+            CustomerInterface = ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') );
+
 
         if (typeof CKEDITOR === 'undefined') {
             return false;
@@ -168,11 +160,15 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     + '=' + Core.Config.Get('SessionID');
         }
 
-        var ToolbarConfig = CustomerInterface ?
-                                $EditorArea.width() < 454 ? Core.Config.Get('RichText.ToolbarMini') :
-                                $EditorArea.width() < 622 ? Core.Config.Get('RichText.ToolbarMidi') :
-                                CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage') :
+        var ToolbarConfig;
+        if ( CustomerInterface ) {
+            ToolbarConfig = $EditorArea.width() < 454 ? Core.Config.Get('RichText.ToolbarMini') :
+                            $EditorArea.width() < 622 ? Core.Config.Get('RichText.ToolbarMidi') :
                             CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage');
+        }
+        else {
+            ToolbarConfig = CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage');
+        }
                                 
         // set default editor config, but allow custom config for other types for editors
         /*eslint-disable camelcase */
@@ -358,7 +354,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         if (typeof CKEDITOR === 'undefined') {
             return;
         }
-
+        
         TargetNS.InitAllEditors();
     };
 
