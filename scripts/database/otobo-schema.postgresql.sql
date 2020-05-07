@@ -81,9 +81,9 @@ END IF;
 END$$;
 ;
 -- ----------------------------------------------------------
---  create table groups
+--  create table groups_table
 -- ----------------------------------------------------------
-CREATE TABLE groups (
+CREATE TABLE groups_table (
     id serial NOT NULL,
     name VARCHAR (200) NOT NULL,
     comments VARCHAR (250) NULL,

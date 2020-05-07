@@ -190,9 +190,9 @@ END;
 --
 ;
 -- ----------------------------------------------------------
---  create table groups
+--  create table groups_table
 -- ----------------------------------------------------------
-CREATE TABLE groups (
+CREATE TABLE groups_table (
     id NUMBER (12, 0) NOT NULL,
     name VARCHAR2 (200) NOT NULL,
     comments VARCHAR2 (250) NULL,
@@ -203,7 +203,7 @@ CREATE TABLE groups (
     change_by NUMBER (12, 0) NOT NULL,
     CONSTRAINT groups_name UNIQUE (name)
 );
-ALTER TABLE groups ADD CONSTRAINT PK_groups PRIMARY KEY (id);
+ALTER TABLE groups_table ADD CONSTRAINT PK_groups PRIMARY KEY (id);
 BEGIN
     EXECUTE IMMEDIATE 'DROP SEQUENCE SE_groups';
 EXCEPTION
@@ -229,7 +229,7 @@ END;
 --
 ;
 CREATE OR REPLACE TRIGGER SE_groups_t
-BEFORE INSERT ON groups
+BEFORE INSERT ON groups_table
 FOR EACH ROW
 BEGIN
     IF :new.id IS NULL THEN
