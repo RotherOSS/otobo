@@ -512,10 +512,13 @@ sub Run {
                 # Strip off port, i.e. 'localhost:14962' should become 'localhost'.
                 $DB{Host} =~ s{:\d*\z}{}xms;
 
+                # 'CREATE USER ... IDENTIFIED WITH ...' is used because in MySQL 8 user can no longer be created with 'GRANT'
+                # 'IDENTIFIED WITH mysql_native_password' is supported since at least MySQL 5.6
+                # Note that 'FLUSH PRIVILEGES' is not needed here since at least MySQL 5.6
                 @Statements = (
                     "CREATE DATABASE `$DB{DBName}` charset utf8",
-                    "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTOBODBUser}`\@`$DB{Host}` IDENTIFIED BY '$DB{OTOBODBPassword}' WITH GRANT OPTION",
-                    "FLUSH PRIVILEGES",
+                    "CREATE USER `$DB{OTOBODBUser}`\@`$DB{Host}` IDENTIFIED WITH mysql_native_password BY '$DB{OTOBODBPassword}'",
+                    "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTOBODBUser}`\@`$DB{Host}` WITH GRANT OPTION",
                 );
             }
 
