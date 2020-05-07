@@ -216,7 +216,7 @@ $Selenium->RunTest(
         # delete test group
         $TestGroup = $DBObject->Quote($TestGroup);
         $Success   = $DBObject->Do(
-            SQL  => "DELETE FROM groups WHERE name = ?",
+            SQL  => "DELETE FROM groups_table WHERE name = ?",
             Bind => [ \$TestGroup ],
         );
         $Self->True(
