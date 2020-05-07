@@ -285,7 +285,7 @@ sub GroupMemberList {
         # if it's active, return just the permitted groups
         my $SQL =
             'SELECT g.id, g.name, gu.permission_key, gu.permission_value, gu.user_id'
-            . ' FROM groups g, group_customer_user gu'
+            . ' FROM groups_table g, group_customer_user gu'
             . ' WHERE g.valid_id IN ( ' . join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet() . ')'
             . ' AND g.id = gu.group_id AND gu.permission_value = 1'
             . " AND gu.permission_key IN (?, 'rw')";
@@ -653,7 +653,7 @@ sub GroupCustomerList {
         # if it's active, return just the permitted groups
         my $SQL =
             'SELECT g.id, g.name, gc.permission_key, gc.permission_value, gc.customer_id'
-            . ' FROM groups g, group_customer gc'
+            . ' FROM groups_table g, group_customer gc'
             . ' WHERE g.valid_id IN ( ' . join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet() . ')'
             . ' AND g.id = gc.group_id AND gc.permission_value = 1'
             . " AND gc.permission_key IN (?, 'rw')"
@@ -922,13 +922,13 @@ sub GroupLookup {
     if ( $Param{Group} ) {
         $Param{What} = $Param{Group};
         $Suffix      = 'GroupID';
-        $SQL         = 'SELECT id FROM groups WHERE name = ?';
+        $SQL         = 'SELECT id FROM groups_table WHERE name = ?';
         push @Bind, \$Param{Group};
     }
     else {
         $Param{What} = $Param{GroupID};
         $Suffix      = 'Group';
-        $SQL         = 'SELECT name FROM groups WHERE id = ?';
+        $SQL         = 'SELECT name FROM groups_table WHERE id = ?';
         push @Bind, \$Param{GroupID};
     }
     return if !$DBObject->Prepare(
