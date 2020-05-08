@@ -85,7 +85,7 @@ sub Run {
             Label      => Translatable("Roles"),
         },
         {
-            SQL        => "SELECT count(*) FROM groups",
+            SQL        => "SELECT count(*) FROM groups_table",
             Identifier => 'GroupCount',
             Label      => Translatable("Groups"),
         },
