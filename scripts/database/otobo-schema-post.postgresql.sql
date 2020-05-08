@@ -108,7 +108,7 @@ IF NOT EXISTS (
     FROM pg_constraint
     WHERE LOWER(conname) = LOWER('FK_groups_create_by_id')
     ) THEN
-    ALTER TABLE groups ADD CONSTRAINT FK_groups_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+    ALTER TABLE groups_table ADD CONSTRAINT FK_groups_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 END IF;
 END$$;
 ;
@@ -119,7 +119,7 @@ IF NOT EXISTS (
     FROM pg_constraint
     WHERE LOWER(conname) = LOWER('FK_groups_change_by_id')
     ) THEN
-    ALTER TABLE groups ADD CONSTRAINT FK_groups_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+    ALTER TABLE groups_table ADD CONSTRAINT FK_groups_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 END IF;
 END$$;
 ;
@@ -130,7 +130,7 @@ IF NOT EXISTS (
     FROM pg_constraint
     WHERE LOWER(conname) = LOWER('FK_groups_valid_id_id')
     ) THEN
-    ALTER TABLE groups ADD CONSTRAINT FK_groups_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
+    ALTER TABLE groups_table ADD CONSTRAINT FK_groups_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
 END IF;
 END$$;
 ;
@@ -141,7 +141,7 @@ IF NOT EXISTS (
     FROM pg_constraint
     WHERE LOWER(conname) = LOWER('FK_group_user_group_id_id')
     ) THEN
-    ALTER TABLE group_user ADD CONSTRAINT FK_group_user_group_id_id FOREIGN KEY (group_id) REFERENCES groups (id);
+    ALTER TABLE group_user ADD CONSTRAINT FK_group_user_group_id_id FOREIGN KEY (group_id) REFERENCES groups_table (id);
 END IF;
 END$$;
 ;
@@ -185,7 +185,7 @@ IF NOT EXISTS (
     FROM pg_constraint
     WHERE LOWER(conname) = LOWER('FK_group_role_group_id_id')
     ) THEN
-    ALTER TABLE group_role ADD CONSTRAINT FK_group_role_group_id_id FOREIGN KEY (group_id) REFERENCES groups (id);
+    ALTER TABLE group_role ADD CONSTRAINT FK_group_role_group_id_id FOREIGN KEY (group_id) REFERENCES groups_table (id);
 END IF;
 END$$;
 ;
@@ -229,7 +229,7 @@ IF NOT EXISTS (
     FROM pg_constraint
     WHERE LOWER(conname) = LOWER('FK_group_customer_user_group_id_id')
     ) THEN
-    ALTER TABLE group_customer_user ADD CONSTRAINT FK_group_customer_user_group_id_id FOREIGN KEY (group_id) REFERENCES groups (id);
+    ALTER TABLE group_customer_user ADD CONSTRAINT FK_group_customer_user_group_id_id FOREIGN KEY (group_id) REFERENCES groups_table (id);
 END IF;
 END$$;
 ;
@@ -262,7 +262,7 @@ IF NOT EXISTS (
     FROM pg_constraint
     WHERE LOWER(conname) = LOWER('FK_group_customer_group_id_id')
     ) THEN
-    ALTER TABLE group_customer ADD CONSTRAINT FK_group_customer_group_id_id FOREIGN KEY (group_id) REFERENCES groups (id);
+    ALTER TABLE group_customer ADD CONSTRAINT FK_group_customer_group_id_id FOREIGN KEY (group_id) REFERENCES groups_table (id);
 END IF;
 END$$;
 ;
@@ -581,7 +581,7 @@ IF NOT EXISTS (
     FROM pg_constraint
     WHERE LOWER(conname) = LOWER('FK_queue_group_id_id')
     ) THEN
-    ALTER TABLE queue ADD CONSTRAINT FK_queue_group_id_id FOREIGN KEY (group_id) REFERENCES groups (id);
+    ALTER TABLE queue ADD CONSTRAINT FK_queue_group_id_id FOREIGN KEY (group_id) REFERENCES groups_table (id);
 END IF;
 END$$;
 ;
@@ -1153,7 +1153,7 @@ IF NOT EXISTS (
     FROM pg_constraint
     WHERE LOWER(conname) = LOWER('FK_ticket_index_group_id_id')
     ) THEN
-    ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_group_id_id FOREIGN KEY (group_id) REFERENCES groups (id);
+    ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_group_id_id FOREIGN KEY (group_id) REFERENCES groups_table (id);
 END IF;
 END$$;
 ;
@@ -2726,7 +2726,7 @@ IF NOT EXISTS (
     FROM pg_constraint
     WHERE LOWER(conname) = LOWER('FK_calendar_group_id_id')
     ) THEN
-    ALTER TABLE calendar ADD CONSTRAINT FK_calendar_group_id_id FOREIGN KEY (group_id) REFERENCES groups (id);
+    ALTER TABLE calendar ADD CONSTRAINT FK_calendar_group_id_id FOREIGN KEY (group_id) REFERENCES groups_table (id);
 END IF;
 END$$;
 ;

@@ -148,7 +148,7 @@ $Selenium->RunTest(
 
         # delete group
         $Success = $DBObject->Do(
-            SQL => "DELETE FROM groups WHERE id = $TestGroupID",
+            SQL => "DELETE FROM groups_table WHERE id = $TestGroupID",
         );
         $Self->True(
             $Success,

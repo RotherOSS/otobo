@@ -162,7 +162,7 @@ $Selenium->RunTest(
         );
 
         $Success = $DBObject->Do(
-            SQL  => "DELETE FROM groups WHERE id = ?",
+            SQL  => "DELETE FROM groups_table WHERE id = ?",
             Bind => [ \$GroupID ],
         );
         $Self->True(
