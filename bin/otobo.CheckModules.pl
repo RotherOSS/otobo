@@ -17,6 +17,7 @@
 
 use strict;
 use warnings;
+use feature qw(say);
 
 use File::Basename;
 use FindBin qw($RealBin);
@@ -111,30 +112,38 @@ if ( !defined $OSDist ) {
     $OSDist = $^O;
 }
 
-my $AllModules;
-my $PackageList;
+my $PrintAllModules;
+my $PrintPackageList;
+my $PrintCpanfile;
 my $Help;
 GetOptions(
-    all  => \$AllModules,
-    list => \$PackageList,
-    h    => \$Help
+    all       => \$PrintAllModules,
+    list      => \$PrintPackageList,
+    cpanfile  => \$PrintCpanfile,
+    h         => \$Help
 );
 
 # check needed params
 if ($Help) {
-    print "\nReturn all required and optional packages of OTOBO.\n\n";
+    print "\n";
+    print "Return all required and optional packages of OTOBO.\n";
+    print "\n";
     print "Usage:\n";
-    print " otobo.CheckModules.pl [-list|all]\n\n";
+    print "  otobo.CheckModules.pl [-list|-cpanfile|-all]\n";
+    print "\n";
     print "Options:\n";
-    printf " %-22s - %s", '[-list]', 'Return an install command with all required packages.' . "\n";
-    printf " %-22s - %s", '[-all]',  'Return all required, optional and bundled packages of OTOBO.' . "\n\n";
+    printf " %-22s - %s\n", '[-list]',     'Return an install command with all required packages that are missing.';
+    printf " %-22s - %s\n", '[-cpanfile]', 'Return a cpanfile with the required modules that are missing.';
+    printf " %-22s - %s\n", '[-all]',      'Return all required, optional and bundled packages of OTOBO.';
+    print "\n";
+
     exit 1;
 }
 
 my $Options = shift || '';
 my $NoColors;
 
-if ( $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
+if ( $PrintCpanfile || $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
     $NoColors = 1;
 }
 
@@ -594,10 +603,10 @@ my @NeededModules = (
     },
 );
 
-if ($PackageList) {
+if ($PrintCpanfile || $PrintPackageList) {
     my %PackageList = _PackageList( \@NeededModules );
 
-    if ( IsArrayRefWithData( $PackageList{Packages} ) ) {
+    if ( $PrintPackageList && IsArrayRefWithData( $PackageList{Packages} ) ) {
 
         my $CMD = $PackageList{CMD};
 
@@ -609,6 +618,12 @@ if ($PackageList) {
         printf $CMD, join( ' ', @{ $PackageList{Packages} } );
         print "\n";
     }
+
+    if ( $PrintCpanfile && IsArrayRefWithData( $PackageList{MissingModules} ) ) {
+        for my $Module ( @{ $PackageList{MissingModules} } ) {
+            say "requires '$Module->{Module}';";
+        }
+    }
 }
 else {
     # try to determine module version number
@@ -618,7 +633,7 @@ else {
         _Check( $Module, $Depends, $NoColors );
     }
 
-    if ($AllModules) {
+    if ($PrintAllModules) {
         print "\nBundled modules:\n\n";
 
         my %PerlInfo = Kernel::System::Environment->PerlInfoGet(
@@ -807,6 +822,7 @@ sub _PackageList {
     my $CMD;
     my $SubCMD;
     my @Packages;
+    my @MissingModules;
 
     # if we're on Windows we don't need to see Apache + mod_perl modules
     MODULE:
@@ -837,13 +853,15 @@ sub _PackageList {
             $CMD    = $InstallCommand{CMD};
             $SubCMD = $InstallCommand{SubCMD};
             push @Packages, $InstallCommand{Package};
+            push @MissingModules, $Module;
         }
     }
 
     return (
-        CMD      => $CMD,
-        SubCMD   => $SubCMD,
-        Packages => \@Packages,
+        CMD            => $CMD,
+        SubCMD         => $SubCMD,
+        Packages       => \@Packages,
+        MissingModules => \@MissingModules,
     );
 }
 
