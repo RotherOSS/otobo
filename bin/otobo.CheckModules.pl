@@ -32,7 +32,7 @@ use File::Path;
 use Getopt::Long;
 use Term::ANSIColor;
 
-our %InstTypeToCMD = (
+my %InstTypeToCMD = (
 
     # [InstType] => {
     #    CMD       => '[cmd to install module]',
@@ -77,7 +77,7 @@ our %InstTypeToCMD = (
     },
 );
 
-our %DistToInstType = (
+my %DistToInstType = (
 
     # apt-get
     debian => 'aptget',
@@ -101,7 +101,7 @@ our %DistToInstType = (
     freebsd => 'ports',
 );
 
-our $OSDist;
+my $OSDist;
 eval {
     require Linux::Distribution;    ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
     import Linux::Distribution;
