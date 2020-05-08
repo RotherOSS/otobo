@@ -107,3 +107,7 @@ OTRSSTORM.sopm
 .mysql_history
 .passwd
 backup_es
+
+# IntelliJ IDEA
+.idea
+*.iml
