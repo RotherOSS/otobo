@@ -126,7 +126,8 @@ GetOptions(
 # check needed params
 if ($Help) {
     print "\n";
-    print "Return all required and optional packages of OTOBO.\n";
+    print "Print all required and optional packages of OTOBO.\n";
+    print "Optionally limit to the required but missing packages or modules.\n";
     print "\n";
     print "Usage:\n";
     print "  otobo.CheckModules.pl [-list|-cpanfile|-all]\n";
