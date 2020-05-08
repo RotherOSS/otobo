@@ -115,27 +115,29 @@ if ( !defined $OSDist ) {
 my $PrintAllModules;
 my $PrintPackageList;
 my $PrintCpanfile;
-my $Help;
+my $PrintHelp;
 GetOptions(
     all       => \$PrintAllModules,
     list      => \$PrintPackageList,
     cpanfile  => \$PrintCpanfile,
-    h         => \$Help
+    'help|h'  => \$PrintHelp,
 );
 
 # check needed params
-if ($Help) {
+if ($PrintHelp) {
     print "\n";
     print "Print all required and optional packages of OTOBO.\n";
     print "Optionally limit to the required but missing packages or modules.\n";
     print "\n";
     print "Usage:\n";
-    print "  otobo.CheckModules.pl [-list|-cpanfile|-all]\n";
+    print "  otobo.CheckModules.pl [-help|-list|-cpanfile|-all]\n";
     print "\n";
     print "Options:\n";
-    printf " %-22s - %s\n", '[-list]',     'Return an install command with all required packages that are missing.';
-    printf " %-22s - %s\n", '[-cpanfile]', 'Return a cpanfile with the required modules that are missing.';
-    printf " %-22s - %s\n", '[-all]',      'Return all required, optional and bundled packages of OTOBO.';
+    printf " %-22s - %s\n", '[-help]',     'Print this help message.';
+    printf " %-22s - %s\n", '[-h]',        'Same as -help.';
+    printf " %-22s - %s\n", '[-list]',     'Print an install command with all required packages that are missing.';
+    printf " %-22s - %s\n", '[-cpanfile]', 'Print a cpanfile with the required modules that are missing.';
+    printf " %-22s - %s\n", '[-all]',      'Print all required, optional and bundled packages of OTOBO.';
     print "\n";
 
     exit 1;
