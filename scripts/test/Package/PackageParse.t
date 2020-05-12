@@ -59,7 +59,7 @@ for a package file.',
     <otobo_package version="1.0">
       <Name>TestPackage</Name>
       <Version>1.0.1</Version>
-      <Vendor></Vendor>
+      <Vendor>Rother OSS GmbH</Vendor>
       <URL>https://otrs.com/</URL>
       <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
       <ChangeLog>2013-08-14 New package (some test &lt; &gt; &amp;).</ChangeLog>
@@ -108,7 +108,7 @@ for my $Test (@Tests) {
 
         $Self->Is(
             $Structure{Vendor}->{Content},
-            '',
+            'Rother OSS GmbH',
             "PackageParse() - $Test->{Name} | Vendor",
         );
     }

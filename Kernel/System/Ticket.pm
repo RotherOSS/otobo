@@ -582,7 +582,7 @@ sub TicketCreate {
 
     # substitute title if needed
     else {
-        $Param{Title} = substr( $Param{Title}, 0, 255 );
+        $Param{Title} = substr( $Param{Title}, 0, 191 );
     }
 
     # check database undef/NULL (set value to undef/NULL to prevent database errors)
@@ -1490,6 +1490,9 @@ sub TicketTitleUpdate {
         UserID        => $Param{UserID},
         DynamicFields => 0,
     );
+
+    # title is restricted to 191 chars with utf8mb4
+    $Param{Title} = substr( $Param{Title}, 0, 191 );
 
     return 1 if defined $Ticket{Title} && $Ticket{Title} eq $Param{Title};
 
