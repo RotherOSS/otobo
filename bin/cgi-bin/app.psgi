@@ -33,9 +33,11 @@ use lib '/opt/otobo/Custom';
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 
+use Plack::Builder;
+use Plack::App::File;
+use Plack::Middleware::ErrorDocument;
 use CGI::Emulate::PSGI;
 use Module::Refresh;
-use Plack::Builder;
 
 # Preload frequently used modules to speed up client spawning.
 use CGI ();
@@ -116,25 +118,18 @@ my $App = CGI::Emulate::PSGI->handler(
     },
 );
 
-# Small helper function to determine the path to a static file.
-# This sub operates on the topic variable $_
-my $StaticPathSub = sub {
-
-    # Everything in otobo-web/ is a static file.
-    return 0 unless m{^/otobo-web/};
-
-    # Return only the relative path.
-    s{^/otobo-web/}{};
-
-    return 1;
-};
-
-# Middleware to serve static files directly without invoking the OTOBO application handler.
-# Same as 'Alias /otobo-web/ "/opt/otobo/var/httpd/htdocs/"' in Apache2
 builder {
-    enable 'Static',
-        path        => $StaticPathSub,
-        root        => '/opt/otobo/var/httpd/htdocs/',
-        pass_trough => 0;
-    $App;
-}
+    # Server the static files in var/httpd/httpd.
+    # Same as: Alias /otobo-web/ "/opt/otobo/var/httpd/htdocs/"
+    # Access is granted for all.
+    mount '/otobo-web' => Plack::App::File->new(root => '/opt/otobo/var/httpd/htdocs')->to_app;
+
+    # Wrap the CGI-scripts in bin/cgi-bin.
+    # Same as: ScriptAlias /otobo/ "/opt/otobo/bin/cgi-bin/"
+    # Access checking is done by $App.
+    mount '/otobo'     => builder {
+	    enable "Plack::Middleware::ErrorDocument",
+	        403 => '/otobo/index.pl';  # forbidden files
+            $App;
+       }
+};
