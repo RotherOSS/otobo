@@ -239,13 +239,11 @@ for my $Test (@Tests) {
     }
 
     $Kernel::OM->ObjectsDiscard(
-        Objects => [ 'Kernel::System::OTOBOCommunity', 'Kernel::System::Package' ],
+        Objects => [ 'Kernel::System::Package' ],
     );
 
     # Redefine key features to prevent real network communications and use local results for this test.
     no warnings qw( once redefine );    ## no critic
-    local *Kernel::System::OTOBOCommunity::OTOBOCommunityIsInstalled  = sub { return 0; };
-    local *Kernel::System::OTOBOCommunity::OTOBOCommunityIsUpdateable = sub { return 0; };
     local *Kernel::System::Package::PackageOnlineList             = sub {
         return do "$TestPath/$Test->{PackageOnlineList}";
     };
@@ -262,7 +260,6 @@ for my $Test (@Tests) {
     use warnings;
 
     # Recreate objects with the redefined functions.
-    my $OTOBOCommunityObject = $Kernel::OM->Get('Kernel::System::OTOBOCommunity');
     $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 
     # Check current installed packages
@@ -312,7 +309,7 @@ for my $Test (@Tests) {
 }
 continue {
     $Kernel::OM->ObjectsDiscard(
-        Objects => [ 'Kernel::System::OTOBOCommunity', 'Kernel::System::Package' ],
+        Objects => [ 'Kernel::System::Package' ],
     );
 }
 

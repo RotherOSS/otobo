@@ -145,7 +145,7 @@ my $TestPackage = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>Test - ' . $RandomNumber . '</Name>
   <Version>0.0.1</Version>
-  <Vendor></Vendor>
+  <Vendor>Rother OSS GmbH</Vendor>
   <URL>https://otrs.com/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
@@ -606,6 +606,14 @@ sub Load {
             UserPw => 'strong-secret-password',
         },
     };
+
+    # HTTP credentials test.
+    \$Self->{'DocumentSearch::Nodes'} = [
+        {
+            DNS  => 'https://elastic:search\@localhost:9200',
+            Name => 'test',
+        },
+    ];
 }
 
 1;
@@ -638,6 +646,10 @@ my @ExpectedResults = (
         Name   => 'UserPw (CustomerUser LDAP backend)',
         Result => "UserPw => 'xxx'",
     },
+    {
+        Name   => 'DNS (Document search nodes)',
+        Result => "DNS  => 'https://[user]:[password]\@localhost:9200'"
+    }
 );
 
 my $MaskPasswordFileLocation = $MainObject->FileWrite(

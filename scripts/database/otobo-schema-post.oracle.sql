@@ -148,7 +148,7 @@ END;
 --
 ;
 BEGIN
-    EXECUTE IMMEDIATE 'ALTER TABLE groups_table ADD CONSTRAINT FK_groups_table_create_by_id FOREIGN KEY (create_by) REFERENCES users (id)';
+    EXECUTE IMMEDIATE 'ALTER TABLE groups_table ADD CONSTRAINT FK_groups_create_by_id FOREIGN KEY (create_by) REFERENCES users (id)';
 EXCEPTION
   WHEN OTHERS THEN NULL;
 END;
@@ -156,7 +156,7 @@ END;
 --
 ;
 BEGIN
-    EXECUTE IMMEDIATE 'CREATE INDEX FK_groups_table_create_by ON groups_table (create_by)';
+    EXECUTE IMMEDIATE 'CREATE INDEX FK_groups_create_by ON groups_table (create_by)';
 EXCEPTION
   WHEN OTHERS THEN NULL;
 END;
@@ -164,7 +164,7 @@ END;
 --
 ;
 BEGIN
-    EXECUTE IMMEDIATE 'ALTER TABLE groups_table ADD CONSTRAINT FK_groups_table_change_by_id FOREIGN KEY (change_by) REFERENCES users (id)';
+    EXECUTE IMMEDIATE 'ALTER TABLE groups_table ADD CONSTRAINT FK_groups_change_by_id FOREIGN KEY (change_by) REFERENCES users (id)';
 EXCEPTION
   WHEN OTHERS THEN NULL;
 END;
@@ -172,7 +172,7 @@ END;
 --
 ;
 BEGIN
-    EXECUTE IMMEDIATE 'CREATE INDEX FK_groups_table_change_by ON groups_table (change_by)';
+    EXECUTE IMMEDIATE 'CREATE INDEX FK_groups_change_by ON groups_table (change_by)';
 EXCEPTION
   WHEN OTHERS THEN NULL;
 END;
@@ -180,7 +180,7 @@ END;
 --
 ;
 BEGIN
-    EXECUTE IMMEDIATE 'ALTER TABLE groups_table ADD CONSTRAINT FK_groups_table_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id)';
+    EXECUTE IMMEDIATE 'ALTER TABLE groups_table ADD CONSTRAINT FK_groups_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id)';
 EXCEPTION
   WHEN OTHERS THEN NULL;
 END;
@@ -188,7 +188,7 @@ END;
 --
 ;
 BEGIN
-    EXECUTE IMMEDIATE 'CREATE INDEX FK_groups_table_valid_id ON groups_table (valid_id)';
+    EXECUTE IMMEDIATE 'CREATE INDEX FK_groups_valid_id ON groups_table (valid_id)';
 EXCEPTION
   WHEN OTHERS THEN NULL;
 END;
@@ -2132,7 +2132,7 @@ END;
 --
 ;
 BEGIN
-    EXECUTE IMMEDIATE 'ALTER TABLE article_data_otobo_chat ADD CONSTRAINT FK_article_data_otobo_chat_aac FOREIGN KEY (article_id) REFERENCES article (id)';
+    EXECUTE IMMEDIATE 'ALTER TABLE article_data_otobo_chat ADD CONSTRAINT FK_article_data_otobo_chat_arcf FOREIGN KEY (article_id) REFERENCES article (id)';
 EXCEPTION
   WHEN OTHERS THEN NULL;
 END;
@@ -2140,7 +2140,7 @@ END;
 --
 ;
 BEGIN
-    EXECUTE IMMEDIATE 'CREATE INDEX FK_article_data_otobo_chat_ab1 ON article_data_otobo_chat (article_id)';
+    EXECUTE IMMEDIATE 'CREATE INDEX FK_article_data_otobo_chat_ar37 ON article_data_otobo_chat (article_id)';
 EXCEPTION
   WHEN OTHERS THEN NULL;
 END;

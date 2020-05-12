@@ -183,27 +183,55 @@ Core.Customer.TicketZoom = (function (TargetNS) {
 
     /**
      * @private
-     * @name BuildArticleTOC
+     * @name BuildArticles
      * @memberof Core.Customer.TicketZoom
      * @function
      * @description
-     * This function builds the article list.
+     * This function activates attachments, replybutton, info, and builds the article list.
      */
-    function BuildArticleTOC(){
+    function BuildArticles(){
         $('#oooArticleListExpanded > li:not(#FollowUp)').each( function() {
             var Article = $(this);
             var Header  = Article.children('.MessageHeader').first();
+
+            // attachments
+            var Attachments = $('.oooAttachments', Header);
+            if ( Attachments.length ) {
+                $('.oooAttButton', Header).on('click', function() {
+                    Attachments.toggle();
+                });
+            }
+
+            // info button
+            var InfoBox = $('.oooInfoBox', Header);
+            if ( InfoBox.length ) {
+                $('.oooInfoButton', Header).on('click', function() {
+                    InfoBox.toggle();
+                });
+            }
+
+            // build TOC
             var TOCItem = Core.Template.Render('Customer/TicketZoomTOCItem', {
                 Sender:  Header.children(".oooSender").first().text(),
                 Age:     Header.children(".oooAge").first().text(),
-                Subject: Header.children(".oooSubject").first().text()
+                Subject: Header.children(".oooSubject").first().text(),
+                Attach:  Attachments.length,
             });
 
             // add Entry to list and make it scroll to the referenced article
-            $(TOCItem).on('click', function() {
-                $(window).scrollTop( $(Article[0]).offset().top - 89 );
-			}).appendTo( $('#oooArticleList') );
+            if ( navigator.userAgent.match(/Edge/) ) {
+                $(TOCItem).on('click', function() {
+                    $(window).scrollTop( $(Article[0]).offset().top - 89 );
+                }).appendTo( $('#oooArticleList') );
+            }
+            else {
+                $(TOCItem).on('click', function() {
+                    $('html').animate( { scrollTop: $(Article[0]).offset().top - 89 }, 140 );
+                }).appendTo( $('#oooArticleList') );
+            }
         });
+
+        $('#oooArticleList > li:first-child').addClass('oooActive');
     }
 
     /**
@@ -227,7 +255,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             DynamicFieldNames = Core.Config.Get('DynamicFieldNames');
 
         // otobo
-        BuildArticleTOC();
+        BuildArticles();
         $('#ReplyButton').on('click', function(Event){
             Event.preventDefault();
             $FollowUp.show();
@@ -235,25 +263,66 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             Core.UI.InputFields.Activate();
             $('html').css({scrollTop: $('#Body').height()});
             Core.UI.RichTextEditor.Focus($RTE);    
+            if ( $(window).width() < 768 ) {
+                $('#ReplyButton').hide();
+            }
         });
         $('#CloseButton').on('click', function(Event){
             Event.preventDefault();
             $FollowUp.hide();
             $FollowUp.removeClass('Visible');
             $('html').css({scrollTop: $('#Body').height()});
+            $('#ReplyButton').show();
         });
 
-        // change Header on scroll
+        // scroll events
         $(window).scroll( function() {
-            if ( $(window).scrollTop() > 90 && $("#oooHead1").height() > 64 ) {
-                $("#oooHead1").height( '64px' );
-                $("#oooHead2").height( '0px' );
-                $("#oooHead2 .oooCategory").fadeOut(200);
+            // change Header on scroll
+            if ( $(window).width() > 767 ) {
+                if ( $(window).scrollTop() > 90 && $("#oooHeader").height() > 56 ) {
+                    $("#oooHeader").height( '56px' );
+                    $("#oooHeader").css( 'padding-top', '8px' );
+                    $("#oooHeader .oooCategory").fadeOut(200);
+                }
+                else if ( $(window).scrollTop() < 8 ) {
+                    $("#oooHeader").height( '123px' );
+                    $("#oooHeader").css( 'padding-top', '22px' );
+                    $("#oooHeader .oooCategory").fadeIn(200);
+                }
             }
-            else if ( $(window).scrollTop() < 8 ) {
-                $("#oooHead1").height( '92px' );
-                $("#oooHead2").height( '53px' );
-                $("#oooHead2 .oooCategory").fadeIn(200);
+
+            // track active article
+            var ActiveIndex = $('#oooArticleList > .oooActive').index() + 2,
+                StartIndex  = ActiveIndex,
+                ActiveChild = $('#oooArticleListExpanded > li:nth-child(' + ActiveIndex + ')');
+            
+            if ( ActiveChild.length ) {
+                $('#oooArticleList > .oooActive').removeClass('oooActive');
+
+                // scroll down
+                if ( ActiveChild.offset().top < $(window).scrollTop() + 240 ) {
+                    var NextChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex + 1 ) + ')');
+                    while ( NextChild.length && NextChild.offset().top < $(window).scrollTop() + 240 ) {
+                        ActiveChild = NextChild;
+                        ActiveIndex++;
+                        NextChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex + 1 ) + ')');
+                    }
+                }
+                // scroll up
+                else {
+                    $('#oooArticleList > .oooActive').removeClass('oooActive');
+                    var PrevChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex - 1 ) + ')');
+                    while ( ActiveIndex > 2 && ActiveChild.offset().top > $(window).scrollTop() + 240) {
+                        ActiveChild = PrevChild;
+                        ActiveIndex--;
+                        PrevChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex - 1 ) + ')');
+                    }
+                }
+                
+                $('#oooArticleList > li:nth-child(' + ( ActiveIndex - 1 ) +')').addClass('oooActive');
+                if ( ActiveIndex !== StartIndex ) {
+                    $('#oooArticleList').scrollTop( $('#oooArticleList > .oooActive').position().top );
+                }
             }
         });
 
@@ -263,12 +332,22 @@ Core.Customer.TicketZoom = (function (TargetNS) {
         });
 
         // info button toggle info on click
-        $('#oooHead1 .oooInfo').on('click', function() {
-            if ( $(window).width() > 440 ) {
+        $('#oooHeader .oooInfo').on('click', function() {
+            if ( $(window).width() > 519 ) {
                 $('#oooTicketInfo').css({top: 80, right: 40}).toggle();
             }
             else {
                 $('#oooTicketInfo').css({top: 0, left: 0}).toggle();
+            }
+        });
+
+        // more button toggle further actions on click
+        $('#oooHeader .ooofo-more_v').on('click', function() {
+            if ( $(window).width() > 519 ) {
+                $('#oooMore').css({top: 80, right: 40}).toggle();
+            }
+            else {
+                $('#oooMore').css({top: 0, left: 0}).toggle();
             }
         });
 

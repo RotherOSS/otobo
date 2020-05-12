@@ -389,7 +389,7 @@ $Selenium->RunTest(
                 UID        => $UserID[0],
                 GID        => $Group1,
                 Permission => {
-                    ro        => 0,
+                    ro        => 1,
                     move_into => 1,
                     create    => 0,
                     note      => 1,
@@ -588,7 +588,7 @@ $Selenium->RunTest(
 
         # Delete test groups.
         $Success = $DBObject->Do(
-            SQL  => "DELETE FROM groups WHERE id = ?",
+            SQL  => "DELETE FROM groups_table WHERE id = ?",
             Bind => [ \$Group0 ],
         );
         $Self->True(
@@ -596,7 +596,7 @@ $Selenium->RunTest(
             "Group is deleted - ID $Group0",
         );
         $Success = $DBObject->Do(
-            SQL  => "DELETE FROM groups WHERE id = ?",
+            SQL  => "DELETE FROM groups_table WHERE id = ?",
             Bind => [ \$Group1 ],
         );
         $Self->True(

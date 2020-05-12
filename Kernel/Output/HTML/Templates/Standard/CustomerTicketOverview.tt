@@ -23,13 +23,12 @@
                 <input type="hidden" name="Subaction" value="Search"/>
 
                 <h3 class='ooog'>
-                    <i class="ooofo ooofo-search"></i>
-                    <input type="text" name="Fulltext" id="oooSearch" title="[% Translate('Ticket Search') | html %]"/>
+                    <i class="ooofo ooofo-search"></i><input type="text" name="Fulltext" id="oooSearch" title="[% Translate('Ticket Search') | html %]"/>
                     <span id='oooSearchLabel'>[% Translate('Ticket Search') | html %]</span>
                 </h3>
             </form>
         </div>
-        <a id='oooHeaderButton' href="[% Env("Baselink") %]Action=CustomerTicketMessage"><button><i class="ooofo ooofo-add"></i> [% Translate("New Ticket") %]</button></a>
+        <a id='oooHeaderButton' href="[% Env("Baselink") %]Action=CustomerTicketMessage" title="[% Translate("New Ticket") | html %] ([% Data.AccessKey | html %])" accesskey="[% Data.AccessKey | html %]"><button><i class="ooofo ooofo-add"></i><span> [% Translate("New Ticket") %]</span></button></a>
     </div>
     <div id='oooMainBox'>
         <div id='oooTicketListHeader'>

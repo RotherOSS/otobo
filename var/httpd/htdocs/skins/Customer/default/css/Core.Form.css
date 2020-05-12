@@ -66,7 +66,8 @@ div.TooltipErrorMessage {
     content: "\f1ce";
     font-family: FontAwesome;
     font-size: 14px;
-    color: #777;
+    color: #7f809d;
+    color: var(--colTextLight);
 }
 
 /**
@@ -195,21 +196,67 @@ fieldset .ShowTreeSelection {
     height: auto;
 }
 
+@media only screen and (max-width: 599px) {
+
+    div.DnDUploadBox {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        grid-row-gap: 16px;
+    }
+
+    div.DnDUpload {
+        height: 98px;
+    }
+
+    div.DnDUpload i {
+        top: 12px;
+    }
+
+    div.DnDUpload span {
+        top: 18px;
+    }
+
+}
+
+@media only screen and (min-width: 600px) {
+
+    div.DnDUploadBox {
+        grid-template-columns: 1fr 2fr;
+        grid-column-gap: 16px;
+        grid-template-rows: auto;
+    }
+
+    div.DnDUpload {
+        height: 128px;
+    }
+
+    div.DnDUpload i {
+        top: 24px;
+    }
+
+    div.DnDUpload span {
+        top: 28px;
+    }
+
+}
+
+div.DnDUpload span {
+    position: relative;
+}
+
 div.DnDUploadBox {
     overflow-y: hidden;
     padding: 0 !important;
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    grid-column-gap: 16px;
-    grid-template-rows: auto;
 }
 
 div.DnDUpload {
     text-align: center;
-    height: 144px;
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
     border-radius: 10px;
     white-space: normal;
+    padding: 8px;
 }
 
 input.AjaxDnDUpload.Error + div.DnDUpload {
@@ -226,12 +273,10 @@ div.DnDUpload.DragOver {
 div.DnDUpload i {
     display: block;
     position: relative;
-    top: 32px;
 }
 
 div.DnDUpload span {
     position: relative;
-    top: 36px;
     width: 160px;
     font-size: 12px;
     font-weight: 500;
@@ -240,18 +285,21 @@ div.DnDUpload span {
     line-height: 1.5;
     letter-spacing: 0.3px;
     text-align: center;
-    color: #bfbfce;
+    color: #7f809d;
+    color: var(--colTextLight);
 }
 
 div.DnDUpload i.ooofo-save {
-    color: #bfbfce;
     font-size: 28px;
+    color: #7f809d;
+    color: var(--colTextLight);
 }
 
 div.DnDUpload i.fa-spinner {
     display: none;
-    color: #bfbfce;
     font-size: 28px;
+    color: #7f809d;
+    color: var(--colTextLight);
 }
 
 div.DnDUpload.Uploading i.ooofo-save {
@@ -277,6 +325,8 @@ div.DnDUpload.Uploading .UploadRunning {
 .AttachmentListContainer {
     border-radius: 10px;
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+    min-height: 144px;
 }
 
 .AttachmentListContainer .Busy {
@@ -308,19 +358,12 @@ table.AttachmentList tr {
     height: 48px;
 }
 
-table.AttachmentList tr:nth-child(2) {
-    background-color: #fafafc;
+table.AttachmentList tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.35);
 }
 
 table.AttachmentList td {
     vertical-align: middle;
-    font-size: 12px;
-    font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.5;
-    letter-spacing: 0.3px;
-    color: #bfbfce;
     padding-left: 8px;
 }
 
@@ -329,8 +372,13 @@ table.AttachmentList .Filetype {
     padding-left: 16px;
 }
 
+table.AttachmentList .Filetype i {
+    position: relative;
+    top: 1px;
+}
+
 table.AttachmentList .Filename {
-    width: calc( 75% - 72px );
+    width: calc( 75% - 45px );
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -345,7 +393,7 @@ table.AttachmentList .Progress {
 }
 
 table.AttachmentList .Filesize {
-    width: calc( 25% - 72px );
+    width: calc( 25% - 43px );
     text-align: right;
 }
 
@@ -353,8 +401,66 @@ table.AttachmentList .Filesize {
 table.AttachmentList .Center,
 table.AttachmentList .Delete {
     vertical-align: middle;
-    color: #bfbfce;
+    /*color: #bfbfce;*/
     width: 16px;
     padding-right: 16px;
     font-size: 16px;
 }
+
+table.AttachmentList > .oooRetracted > tr:not( .oooToggleML ):not( :nth-child(-n+2) ) {
+    display: none;
+}
+
+table.AttachmentList .ToggleML {
+    border-radius: 0px 0px 10px 10px;
+}
+
+table.AttachmentList > .oooRetracted .ToggleML {
+    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+}
+
+table.AttachmentList .oooMore,
+table.AttachmentList .oooLess {
+    cursor: pointer;
+    text-align: center;
+    margin-left: calc(33.33% + 20px);
+}
+
+table.AttachmentList > .oooRetracted .oooLess {
+    display: none;
+}
+
+table.AttachmentList > tbody:not( .oooRetracted ) .oooMore {
+    display: none;
+}
+
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    div.DnDUploadBox {
+        display: -ms-grid;
+        -ms-grid-columns: 1fr 2fr;
+        -ms-grid-rows: auto;
+    }
+
+    .oooDnD {
+        -ms-grid-column: 1 / 2;
+        margin-right: 16px;
+    }
+
+    .AttachmentListContainer {
+        -ms-grid-column: 2;
+    }
+
+    @supports (display: grid) {
+        div.DnDUploadBox {
+            display: grid;
+        }
+        .oooDnD {
+            margin-right: 0px;
+        }
+    }
+
+}
+

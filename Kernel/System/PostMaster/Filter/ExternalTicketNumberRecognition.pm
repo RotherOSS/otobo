@@ -219,6 +219,9 @@ sub Run {
         my $TicketHookDivider = $ConfigObject->Get('Ticket::HookDivider');
         $Param{GetParam}->{Subject} .= " [$TicketHook$TicketHookDivider$TicketNumber]";
 
+        # Set ticket number for later usage in ETNR follow-up module (see bug#14944).
+        $Param{GetParam}->{'X-OTRS-FollowUp-RecognizedTicketNumber'} = $TicketNumber;
+
         # set sender type and article type.
         $Param{GetParam}->{'X-OTOBO-FollowUp-SenderType'}           = $Param{JobConfig}->{SenderType};
         $Param{GetParam}->{'X-OTOBO-FollowUp-IsVisibleForCustomer'} = $Param{JobConfig}->{IsVisibleForCustomer};

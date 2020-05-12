@@ -17,20 +17,53 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 body {
     position: relative;
+    min-width: 320px;
 }
 
-#oooMobileHeader {
-    display: none;
-}
 @media only screen and (max-width: 767px) {
-    #oooHeader {
-        display: none !important;
-    }
 
     #oooMobileHeader {
-        display: block;
-        padding: 24px;
+        width: calc( 100% - 32px );
+        height: 24px;
+        padding: 16px;
+        background-color: #00023c;
+        background-color: var(--colMainDark);
+        position: sticky;
+        top: 0px;
+        z-index: 500;
     }
+
+    #oooContent {
+        min-height: calc( 100vh - 104px );
+        background-color: #00023c;
+        background-color: var(--colMainDark);
+    }
+
+    #oooMainBox {
+        padding: 8px;
+    }
+
+    #oooCustomerNotifications {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+
+}
+
+@media only screen and (min-width: 768px) {
+
+    #oooMobileHeader {
+        display: none;
+    }
+
+    #oooContent {
+        padding-bottom: 24px;
+        min-height: calc( 100vh - 72px );
+        background-color: #f7f7f9;
+        background-color: var(--colBGLight);
+    }
+
 }
 
 #oooHeader {
@@ -44,19 +77,13 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    min-height: calc( 100vh - 72px );
-    background-color: #f7f7f9;
-    padding-bottom: 24px;
-}
-
-#oooMainBox {
-    min-width: 320px;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1443px) {
 
     #oooHeader,
     #oooFooter > div,
+    #oooCustomerNotifications,
     #oooMainBox {
         width: calc( 100% - 160px );
         padding-left: 102px;
@@ -69,6 +96,7 @@ body {
 
     #oooHeader,
     #oooFooter > div,
+    #oooCustomerNotifications,
     #oooMainBox {
         width: 1284px;
         padding-left: calc( 50% - 620px );
@@ -77,7 +105,13 @@ body {
 
 }
 
+#oooCustomerNotifications {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
 #oooFooter {
     height: 48px;
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
 }

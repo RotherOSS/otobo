@@ -23,13 +23,16 @@
             <thead>
                 <tr>
                     <th class="OverviewHeader TicketNumber">
-                        <a name="OverviewControl"  title="TicketNummer">Ticket#</a>
-                    </th>
-                    <th class="OverviewHeader TicketAge">
-                        <a name="OverviewControl"  title="TicketAge">[% Translate("Age") | html %]</a>
+                        <a name="OverviewControl"  title="[% Translate("Ticketnumber") | html  %]">Ticket#</a>
                     </th>
                     <th class="OverviewHeader TicketTitle">
-                        <a name="OverviewControl"  title="TicketTitle">[% Translate("Title") | html  %]</a>
+                        <a name="OverviewControl"  title="[% Translate("Title") | html  %]">[% Translate("Title") | html  %]</a>
+                    </th>
+                    <th class="OverviewHeader TicketQueue">
+                        <a name="OverviewControl"  title="[% Translate("Queue") | html %]">[% Translate("Queue") | html %]</a>
+                    </th>
+                    <th class="OverviewHeader TicketAge">
+                        <a name="OverviewControl"  title="[% Translate("Age") | html %]">[% Translate("Age") | html %]</a>
                     </th>
                 </tr>
             </thead>
@@ -43,18 +46,22 @@
                         <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.TicketNumber %]</a>
                     </td>
 [% RenderBlockEnd("RecordTicketNumber") %]
-
+[% RenderBlockStart("RecordTicketTitle") %]
+                    <td>
+                        <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.TicketTitle %]</a>
+                    </td>
+[% RenderBlockEnd("RecordTicketTitle") %]
+[% RenderBlockStart("RecordTicketQueue") %]
+                    <td>
+                        <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.TicketQueue %]</a>
+                    </td>
+[% RenderBlockEnd("RecordTicketQueue") %]
 [% RenderBlockStart("RecordTicketAge") %]
                     <td>
                         <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[%  Data.Title | html %]" class="MasterActionLink">[% Data.TicketAge %]</a>
                     </td>
 [% RenderBlockEnd("RecordTicketAge") %]
 
-[% RenderBlockStart("RecordTicketTitle") %]
-                    <td>
-                        <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.TicketTitle %]</a>
-                    </td>
-[% RenderBlockEnd("RecordTicketTitle") %]
                 </tr>
 [% RenderBlockEnd("Record") %]
             </tbody>

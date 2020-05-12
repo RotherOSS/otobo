@@ -288,7 +288,7 @@ sub Run {
 
         # track changing standard fields
         my $ACLPreselection;
-        if ( $ConfigObject->Get('TicketACL::ACLPreselection') || 1 ) {
+        if ( $ConfigObject->Get('TicketACL::ACLPreselection') ) {
             # get cached preselection rules
             my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
             $ACLPreselection = $CacheObject->Get(
@@ -305,7 +305,7 @@ sub Run {
             Fields    => 0,
         );
         my %ChangedElements    = $ElementChanged ? ( $ElementChanged => 1 ) : ();
-        my %NewChangedElements = $ElementChanged ? ( $ElementChanged => 1 ) : ();
+        my %ChangedElementsDFStart = $ElementChanged ? ( $ElementChanged => 1 ) : ();
         my %ChangedStdFields;
 
         my $LoopProtection = 100;
@@ -319,6 +319,8 @@ sub Run {
 
             # determine standard field input
             until ( $Convergence{StdFields} ) {
+
+            my %NewChangedElements;
 
                 # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
                 my %Check = (
@@ -408,12 +410,18 @@ sub Run {
                     }
                 }
 
-                if ( !%NewChangedElements || ( $LoopProtection == 100 && scalar keys %NewChangedElements == 1 ) ) {
+
+                if ( !%NewChangedElements ) {
                     $Convergence{StdFields} = 1;
                 }
+                else {
+                    %ChangedElements = %NewChangedElements;
+                }
 
-                %ChangedElements    = %NewChangedElements;
-                %NewChangedElements = ();
+                %ChangedElementsDFStart = (
+                    %ChangedElementsDFStart,
+                    %NewChangedElements,
+                );
 
                 if ( $LoopProtection-- < 1 ) {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -424,6 +432,9 @@ sub Run {
                 }
 
             }
+
+            %ChangedElements = %ChangedElementsDFStart;
+            %ChangedElementsDFStart = ();
 
             # check dynamic fields
             my %CurFieldStates;
@@ -436,6 +447,7 @@ sub Run {
                     ChangedElements     => \%ChangedElements,                      # optional to reduce ACL evaluation
                     Action              => $Self->{Action},
                     TicketID            => $Self->{TicketID},
+                    FormID              => $Self->{FormID},
                     CustomerUser        => $Self->{UserID},
                     GetParam            => { %GetParam },
                     Autoselect          => $Autoselect,
@@ -479,12 +491,12 @@ sub Run {
         for my $Index ( keys %{ $DynFieldStates{Fields} } ) {
             my $DynamicFieldConfig = $FollowUpDynamicField->[ $Index ];
 
-            my $DataValues = $DynFieldStates{Fields}{ $Index }{NotACLReducible} ? '' :
-                $BackendObject->BuildSelectionDataGet(
+            my $DataValues = $DynFieldStates{Fields}{ $Index }{NotACLReducible} ? $GetParam{DynamicField}{ "DynamicField_$DynamicFieldConfig->{Name}" } :
+                ( $BackendObject->BuildSelectionDataGet(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     PossibleValues     => $DynFieldStates{Fields}{ $Index }{PossibleValues},
                     Value              => $GetParam{DynamicField}{ "DynamicField_$DynamicFieldConfig->{Name}" },
-                ) || $DynFieldStates{Fields}{ $Index }{PossibleValues};
+                ) || $DynFieldStates{Fields}{ $Index }{PossibleValues} );
 
             # add dynamic field to the list of fields to update
             push @DynamicFieldAJAX, {
@@ -637,7 +649,7 @@ sub Run {
         # skip validation of hidden fields
         my %Visibility;
         # transform dynamic field data into DFName => DFName pair
-        my %DynamicFieldAcl = map { $_->{Name} => $_->{Name} } @{ $Self->{DynamicField} };
+        my %DynamicFieldAcl = map { $_->{Name} => $_->{Name} } @{ $FollowUpDynamicField };
         # call ticket ACLs for DynamicFields to check field visibility
         my $ACLResult = $TicketObject->TicketAcl(
             %GetParam,
@@ -649,14 +661,14 @@ sub Run {
             TicketID       => $Self->{TicketID},
         );
         if ( $ACLResult ) {
-            %Visibility = map { 'DynamicField_'.$_->{Name} => 0 } @{ $Self->{DynamicField} };
+            %Visibility = map { 'DynamicField_'.$_->{Name} => 0 } @{ $FollowUpDynamicField };
             my %AclData = $TicketObject->TicketAclData();
             for my $Field ( keys %AclData ) {
                 $Visibility{ 'DynamicField_'.$Field } = 1;
             }
         }
         else {
-            %Visibility = map { 'DynamicField_'.$_->{Name} => 1 } @{ $Self->{DynamicField} };
+            %Visibility = map { 'DynamicField_'.$_->{Name} => 1 } @{ $FollowUpDynamicField };
         }
 
         # create html strings for all dynamic fields
@@ -937,6 +949,7 @@ sub Run {
         for my $DynamicFieldConfig ( @{$FollowUpDynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
+            next DYNAMICFIELD if !$Visibility{ "DynamicField_$DynamicFieldConfig->{Name}" };
 
             # set the value
             my $Success = $BackendObject->ValueSet(
@@ -953,6 +966,7 @@ sub Run {
         for my $DynamicFieldConfig ( @{$FollowUpDynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Article';
+            next DYNAMICFIELD if !$Visibility{ "DynamicField_$DynamicFieldConfig->{Name}" };
 
             # set the value
             my $Success = $BackendObject->ValueSet(
@@ -1005,6 +1019,12 @@ sub Run {
         # remove pre submited attachments
         $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
 
+        # delete hidden fields cache
+        $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+            Type => 'HiddenFields',
+            Key  => $Self->{FormID},
+        );
+
         # redirect to zoom view
         return $LayoutObject->Redirect(
             OP => "Action=$NextScreen;TicketID=$Self->{TicketID}",
@@ -1052,7 +1072,7 @@ sub Run {
 
     # track changing standard fields
     my $ACLPreselection;
-    if ( $ConfigObject->Get('TicketACL::ACLPreselection') || 1 ) {
+    if ( $ConfigObject->Get('TicketACL::ACLPreselection') ) {
         # get cached preselection rules
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
         $ACLPreselection = $CacheObject->Get(
@@ -1069,7 +1089,7 @@ sub Run {
         Fields    => 0,
     );
     my %ChangedElements    = ();
-    my %NewChangedElements = ();
+    my %ChangedElementsDFStart = ();
     my %ChangedStdFields;
 
     my $LoopProtection = 100;
@@ -1085,6 +1105,8 @@ sub Run {
 
         # determine standard field input
         until ( $Convergence{StdFields} ) {
+
+            my %NewChangedElements;
 
             # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
             my %Check = (
@@ -1174,12 +1196,17 @@ sub Run {
                 }
             }
 
-            if ( !%NewChangedElements || ( $LoopProtection == 100 && scalar keys %NewChangedElements == 1 ) ) {
+            if ( !%NewChangedElements ) {
                 $Convergence{StdFields} = 1;
             }
+            else {
+                %ChangedElements = %NewChangedElements;
+            }
 
-            %ChangedElements    = %NewChangedElements;
-            %NewChangedElements = ();
+            %ChangedElementsDFStart = (
+                %ChangedElementsDFStart,
+                %NewChangedElements,
+            );
 
             if ( $LoopProtection-- < 1 ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1190,6 +1217,9 @@ sub Run {
             }
 
         }
+
+        %ChangedElements = %ChangedElementsDFStart;
+        %ChangedElementsDFStart = ();
 
         # check dynamic fields
         my %CurFieldStates;
@@ -1202,12 +1232,12 @@ sub Run {
                 ChangedElements     => \%ChangedElements,                      # optional to reduce ACL evaluation
                 Action              => $Self->{Action},
                 TicketID            => $Self->{TicketID},
+                FormID              => $Self->{FormID},
                 CustomerUser        => $Self->{UserID},
                 GetParam            => \%GetParam,
                 Autoselect          => $Autoselect,
                 ACLPreselection     => $ACLPreselection,
                 LoopProtection      => \$LoopProtection,
-                InitialRun          => $InitialRun,
             );
 
             # combine FieldStates
@@ -1250,6 +1280,15 @@ sub Run {
 
         my $DynamicFieldConfig = $FollowUpDynamicField->[ $i ];
 
+        # don't set a default value for hidden fields
+        my %UseDefault = ();
+        if ( !$DynFieldStates{Visibility}{ "DynamicField_$DynamicFieldConfig->{Name}" } && ( $DynamicFieldConfig->{FieldType} ne 'Date' || $DynamicFieldConfig->{FieldType} ne 'DateTime' ) ) {
+            %UseDefault = (
+                UseDefaultValue => 0,
+                OverridePossibleNone => 1,
+            );
+        }
+
         # get field html
         $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } = $BackendObject->EditFieldRender(
             DynamicFieldConfig   => $DynamicFieldConfig,
@@ -1260,6 +1299,7 @@ sub Run {
             AJAXUpdate      => 1,
             UpdatableFields => $Self->_GetFieldsToUpdate(),
             Value           => $GetParam{DynamicField}{ "DynamicField_$DynamicFieldConfig->{Name}" },
+            %UseDefault,
         );
     }
 

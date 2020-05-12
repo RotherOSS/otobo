@@ -84,7 +84,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     width: 0px;
     height: 20px;
     margin: 3px 20px 0 20px;
-    border-right: 1px solid #2626bf;
+    border-right: 1px solid #fff;
+    opacity: 0.35;
     float: left;
     position: relative;
 }

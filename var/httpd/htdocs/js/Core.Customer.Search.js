@@ -37,18 +37,18 @@ Core.Customer.Search = (function (TargetNS) {
      */
     TargetNS.Init = function(){
         $('#oooSearchBox').on('click', function () {
-            $('#oooSearch').css('display', 'inline-block');
-            $('#oooSearch').focus();
             $('#oooSearch').addClass('oooFull');
+            $('#oooSearch').focus();
 
-            if ( Core.Config.Get('ESActive') == 1 ){
+            // TODO: include FAQ to ES
+            if ( Core.Config.Get('ESActive') == 1 && Core.Config.Get('Action') !== 'CustomerFAQExplorer' && Core.Config.Get('Action') !== 'CustomerFAQZoom' ){
                 Core.UI.Elasticsearch.InitSearchField( $('#oooSearch'), "CustomerElasticsearchQuickResult");
             }
 
             $('#oooSearch').on('blur', function () {
                 setTimeout( function() {
-                    $('#oooSearch').hide();
                     $('#oooSearch').removeClass('oooFull');
+                    $('#oooSearch').val('');
                 },60);
             });
         });

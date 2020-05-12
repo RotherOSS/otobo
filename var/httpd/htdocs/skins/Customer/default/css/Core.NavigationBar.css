@@ -14,65 +14,85 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 @media only screen and (max-width: 767px) {
+
+    #oooMobileMenu {
+        display: inline-block;
+        font-size: 24px;
+        line-height: 1;
+        color: #fef235;
+        color: var(--colHighlight);
+        cursor: pointer;
+    }
+
+    #oooMobileSignet {
+        float: right;
+        height: 24px;
+        line-height: 1;
+    }
+
     #oooNavigation {
+        width: 0px;
+    }
+
+    #oooNavigation.oooExpanded {
+	    width: 100%;
+    }
+
+    #oooNavigation #oooSignet,
+    #oooNavBarExpand {
         display: none;
+    }
+
+    #oooMobileMenuClose {
+        display: inline-block;
+        padding-top: 17px;
+        padding-left: 17px;
+        font-size: 22px;
+        line-height: 1;
+        color: #fef235;
+        color: var(--colHighlight);
+        cursor: pointer;
+    }
+
+    #oooLogo {
+        float: right;
+        padding-top: 16px;
+        padding-right: 16px;
+        height: 24px;
+        object-fit: contain;
+    }
+
+    #oooNavBarModuleIcons,
+    #oooUser {
+        max-width: 268px;
     }
 }
 
 @media only screen and (min-width: 768px) {
 
     #oooNavigation {
-        position: fixed;
-        top: 0;
-        left: 0;
         width: 56px;
-        height: 800px;
-        border-radius: 0px 0px 20px 0px;
-        background-color: #00023c;
--webkit-transition: width 0.3s ease;
-   -moz-transition: width 0.3s ease;
-     -o-transition: width 0.3s ease;
-        transition: width 0.3s ease;
-    }
-	#oooNavigation.oooExpanded {
-		width: 268px;
-	}
-
-    #oooNavigation > #oooNavBarIcons {
-        position: relative;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: calc( 100% - 24px );
-        display: grid;
-        grid-template-columns: 100%;
-        grid-template-rows: 65px 1fr auto 1fr 32px;
+        max-height: 800px;
     }
 
-    #oooNavBarIcons > div {
-        width: 100%;
-        height: 100%;
+    #oooNavigation.oooExpanded {
+	    width: 268px;
     }
 
-    /* Logo */
-    #oooNavBarSignet {
-        grid-area: 1 / 1 / 2 / 2;
-    }
-
-    #oooNavigation #oooSignet {
-        width: 29.4px;
+    #oooMobileMenuClose {
+        display: none;
     }
 
     #oooLogo {
         display: none;
-        width: 183.4px;
+        width: 196px;
     }
 
     #oooNavBarSignet > img {
         position: relative;
         top: 32px;
         left: 12px;
-        height: 29.6px;
+        height: 32px;
         object-fit: contain;
 -webkit-transition: left 0.3s ease;
    -moz-transition: left 0.3s ease;
@@ -80,186 +100,373 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         transition: left 0.3s ease;
     }
     #oooNavigation.oooExpanded > #oooNavBarIcons > #oooNavBarSignet > img {
-        left: 40px;
+        left: 36px;
     }
 
-    /* User */
-    #oooUser {
-        grid-area: 5 / 1 / 6 / 2;
-        width: 100%;
-        display: grid;
-        grid-template-columns: 4px 1fr auto;
-        align-items: center;
-    }
+}
 
-    #oooLogoutIcon {
-        position: relative;
-        top: 0px;
-        left: calc( 100% - 44px );
-        height: 32px;
-        width: 32px;
-        border-radius: 16px;
-        background-size: cover;
-    }
+#oooNavigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: 0px 0px 20px 0px;
+    background-color: #00023c;
+    background-color: var(--colMainDark);
+-webkit-transition: width 0.3s ease;
+   -moz-transition: width 0.3s ease;
+     -o-transition: width 0.3s ease;
+        transition: width 0.3s ease;
+}
 
-    #oooNavBarAvatar img {
-        height: 32px;
-        width: 32px;
-        object-fit: contain;
-        border-radius: 16px;
-        opacity: 1;
+#oooNavigation > #oooNavBarIcons {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc( 100% - 24px );
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 65px 1fr auto 1fr 32px;
+    overflow: hidden;
+}
+
+#oooNavBarIcons > div {
+    width: 100%;
+    height: 100%;
+}
+
+/* Logo */
+#oooNavBarSignet {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+#oooNavigation #oooSignet {
+    width: 32x;
+}
+
+/* User */
+#oooUser {
+    grid-area: 5 / 1 / 6 / 2;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 4px 1fr auto;
+    align-items: center;
+}
+
+#oooLogoutIcon {
+    position: relative;
+    top: 0px;
+    left: calc( 100% - 44px );
+    height: 32px;
+    width: 32px;
+    border-radius: 16px;
+    background-size: cover;
+}
+
+#oooLogoutIcon > svg {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+    margin-top: 6px;
+	fill: #fef235;
+    fill: var(--colHighlight);
+}
+
+#oooNavBarAvatar img {
+    position: relative;
+    top: -32px;
+    height: 32px;
+    width: 32px;
+    object-fit: contain;
+    border-radius: 16px;
+    opacity: 1;
 -webkit-transition: opacity 0.5s ease;
    -moz-transition: opacity 0.5s ease;
      -o-transition: opacity 0.5s ease;
         transition: opacity 0.5s ease;
-    }
-    #oooUser:hover img {
-        opacity: 0.2;
-    }
+}
+#oooUser:hover img {
+    opacity: 0.2;
+}
 
-	#oooUser > .oooLogout {
-		width: 0px;
+#oooUser > .oooLogout {
+	width: 0px;
 -webkit-transition: width 0.3s ease;
    -moz-transition: width 0.3s ease;
      -o-transition: width 0.3s ease;
         transition: width 0.3s ease;
-	}
-	#oooNavigation.oooExpanded > #oooNavBarIcons > #oooUser > .oooLogout {
-		width: 188px;
-	}
+}
+#oooNavigation.oooExpanded > #oooNavBarIcons > #oooUser > .oooLogout {
+	width: 188px;
+}
 
-    #oooUser h3 {
-        display: none;
-        color: #fff;
-        opacity: 0.8;
+#oooUser h3 {
+    display: none;
+    color: #fff;
+    opacity: 0.8;
 -webkit-transition: opacity 0.12s ease, color 0.12s ease;
    -moz-transition: opacity 0.12s ease, color 0.12s ease;
      -o-transition: opacity 0.12s ease, color 0.12s ease;
         transition: opacity 0.12s ease, color 0.12s ease;
-	}
-	#oooUser:hover h3 {
-        opacity: 1;
-		color: #fef235;
-	}
+}
+#oooUser:hover h3 {
+    opacity: 1;
+	color: #fef235;
+    color: var(--colHighlight);
+}
 
-    /* Modules */
-    #oooNavBarModuleIcons {
-        grid-area: 3 / 1 / 4 / 2;
-        position: relative;
+/* Modules */
+#oooNavBarModuleIcons {
+    grid-area: 3 / 1 / 4 / 2;
+    position: relative;
 
-        display: grid;
-        grid-template-columns: 100%;
-        grid-auto-rows: 40px;
-        grid-row-gap: 38px;
-    }
-	#oooNavBarModuleIcons > a {
-		display: grid;
-		grid-template-columns: 4px 1fr auto;
-        align-items: center;
-	}
+    display: grid;
+    grid-template-columns: 100%;
+    grid-auto-rows: 40px;
+    grid-row-gap: 38px;
+}
+#oooNavBarModuleIcons > a {
+	display: grid;
+	grid-template-columns: 4px 1fr auto;
+    align-items: center;
+}
 
-	#oooUser > .oooNavBarHighlight,
-	#oooNavBarModuleIcons > a > .oooNavBarHighlight {
-		width: 100%;
-		height: 100%;
-		border-radius: 2px;
-		background-color: #fef235;
-		opacity: 0;
+#oooUser > .oooNavBarHighlight,
+#oooNavBarModuleIcons > a > .oooNavBarHighlight {
+	width: 100%;
+	height: 100%;
+	border-radius: 2px;
+	background-color: #fef235;
+    background-color: var(--colHighlight);
+	opacity: 0;
 -webkit-transition: opacity 0.12s ease;
    -moz-transition: opacity 0.12s ease;
      -o-transition: opacity 0.12s ease;
         transition: opacity 0.12s ease;
-	}
-	#oooUser:hover > .oooNavBarHighlight,
-	#oooNavBarModuleIcons > a:hover > .oooNavBarHighlight {
-		opacity: 1;
-	}
+}
+#oooUser:hover > .oooNavBarHighlight,
+#oooNavBarModuleIcons > a:hover > .oooNavBarHighlight {
+	opacity: 1;
+}
 
-	#oooNavBarModuleIcons > a > .oooIconContainer {
-		width: 100%;
-		height: 100%;
-	}
-	#oooNavBarModuleIcons > a > .oooIconContainer > svg {
-		position: relative;
-		top: 9px;
-		left: calc(100% - 39px);
-		width: 22px;
-		height: 22px;
-        fill: #fff;
-        opacity: 0.4;
+#oooNavBarModuleIcons > a > .oooIconContainer {
+	width: 100%;
+	height: 100%;
+}
+#oooNavBarModuleIcons > a > .oooIconContainer > svg {
+	position: relative;
+	top: 9px;
+	left: calc(100% - 39px);
+	width: 22px;
+	height: 22px;
+    fill: #fff;
+    opacity: 0.4;
 -webkit-transition: opacity 0.12s ease, fill 0.12s ease;
    -moz-transition: opacity 0.12s ease, fill 0.12s ease;
      -o-transition: opacity 0.12s ease, fill 0.12s ease;
         transition: opacity 0.12s ease, fill 0.12s ease;
-	}
-	#oooNavBarModuleIcons > a:hover > .oooIconContainer > svg {
-		opacity: 1;
-        fill: #fef235;
-	}
+}
+#oooNavBarModuleIcons > a:hover > .oooIconContainer > svg {
+	opacity: 1;
+    fill: #fef235;
+    fill: var(--colHighlight);
+}
 
-	#oooNavBarModuleIcons > a > .oooNavBarDescription {
-		width: 0px;
+#oooNavBarModuleIcons > a > .oooNavBarDescription {
+	width: 0px;
 -webkit-transition: width 0.3s ease;
    -moz-transition: width 0.3s ease;
      -o-transition: width 0.3s ease;
         transition: width 0.3s ease;
-	}
-	#oooNavigation.oooExpanded > #oooNavBarIcons > #oooNavBarModuleIcons > a > .oooNavBarDescription {
-		width: 188px;
-	}
+}
+#oooNavigation.oooExpanded > #oooNavBarIcons > #oooNavBarModuleIcons > a > .oooNavBarDescription {
+	width: 188px;
+}
 
-	#oooNavBarModuleIcons > a > .oooNavBarDescription > h3 {
-        display: none;
-        opacity: 0.4;
-		color: #fff;
+#oooNavBarModuleIcons > a > .oooNavBarDescription > h3 {
+    display: none;
+    opacity: 0.4;
+	color: #fff;
 -webkit-transition: opacity 0.12s ease, color 0.12s ease;
    -moz-transition: opacity 0.12s ease, color 0.12s ease;
      -o-transition: opacity 0.12s ease, color 0.12s ease;
         transition: opacity 0.12s ease, color 0.12s ease;
-	}
-	#oooNavBarModuleIcons > a:hover > .oooNavBarDescription > h3 {
-        opacity: 1;
-		color: #fef235;
-	}
+}
+#oooNavBarModuleIcons > a:hover > .oooNavBarDescription > h3 {
+    opacity: 1;
+	color: #fef235;
+    color: var(--colHighlight);
+}
 
-    /* Expand Button */
-    #oooNavBarExpand {
-        position: fixed;
-        top: 102px;
-        left: 44px;
-        width: 24px;
-        height: 24px;
-        border-radius: 12px;
-        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-        background-color: rgba(255, 255, 255, 255);
-        cursor: pointer;
+/* Expand Button */
+#oooNavBarExpand {
+    position: fixed;
+    top: 102px;
+    left: 44px;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    background-color: rgba(255, 255, 255, 255);
+    cursor: pointer;
 -webkit-transition: left 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
    -moz-transition: left 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
      -o-transition: left 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
         transition: left 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-    }
-    #oooNavigation.oooExpanded > #oooNavBarExpand {
-        left: 256px;
-        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0);
-        background-color: rgba(255, 255, 255, 0);
-    }
+}
+#oooNavigation.oooExpanded > #oooNavBarExpand {
+    left: 256px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0);
+    background-color: rgba(255, 255, 255, 0);
+}
 
-    #oooNavBarExpand > img {
-        position: relative;
-        top: 4px;
-        left: 4px;
-        width: 16px;
-        height: 16px;
-        opacity: 1;
-        object-fit: contain;
+#oooNavBarExpand > i {
+    position: relative;
+    top: 3.5px;
+    left: 4.5px;
+    font-size: 16px;
+    line-height: 16px;
+    color: #001bff;
+    color: var(--colMainLight);
+    opacity: 1;
 -webkit-transition: opacity 0.3s ease;
    -moz-transition: opacity 0.3s ease;
      -o-transition: opacity 0.3s ease;
         transition: opacity 0.3s ease;
-    }
-    #oooNavigation.oooExpanded > #oooNavBarExpand > img {
-        opacity: 0;
-    }
+}
+#oooNavigation.oooExpanded > #oooNavBarExpand > img {
+    opacity: 0;
 }
 
+#oooNavigation + #oooCustomerNotifications {
+    display: none;
+}
+
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    #oooNavigation > #oooNavBarIcons {
+        display: -ms-grid;
+        -ms-grid-columns: 100%;
+        -ms-grid-rows: 65px 1fr auto 1fr 32px;
+    }
+
+    /* Logo */
+    #oooNavBarSignet {
+        -ms-grid-row: 1;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 1;
+    }
+
+    /* User */
+    #oooUser {
+        -ms-grid-row: 5;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 1;
+
+        display: -ms-grid;
+        -ms-grid-columns: 4px 1fr auto;
+    }
+
+    #oooUser .oooNavBarHighlight {
+        -ms-grid-column: 1;
+        -ms-grid-row-align: center;
+    }
+
+    #oooNavBarAvatar {
+        -ms-grid-column: 2;
+        -ms-grid-row-align: center;
+    }
+
+    #oooUser .oooLogout {
+        -ms-grid-column: 3;
+        -ms-grid-row-align: center;
+    }
+
+    /* Modules */
+    #oooNavBarModuleIcons {
+        -ms-grid-row: 3;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 1;
+
+        display: -ms-grid;
+        -ms-grid-columns: 100%;
+        -ms-grid-rows: 78px;
+    }
+
+    #oooNavBarModuleIcons > a {
+        display: -ms-grid;
+        -ms-grid-columns: 4px 1fr auto;
+
+        -ms-grid-row-align: center;
+        margin-top: 19px;
+        margin-bottom: 19px;
+    }
+
+    #oooNavBarModuleIcons > a:nth-child(1) {
+        -ms-grid-row: 1;
+    }
+    #oooNavBarModuleIcons > a:nth-child(2) {
+        -ms-grid-row: 2;
+    }
+    #oooNavBarModuleIcons > a:nth-child(3) {
+        -ms-grid-row: 3;
+    }
+    #oooNavBarModuleIcons > a:nth-child(4) {
+        -ms-grid-row: 4;
+    }
+    #oooNavBarModuleIcons > a:nth-child(5) {
+        -ms-grid-row: 5;
+    }
+    #oooNavBarModuleIcons > a:nth-child(6) {
+        -ms-grid-row: 6;
+    }
+    #oooNavBarModuleIcons > a:nth-child(7) {
+        -ms-grid-row: 7;
+    }
+
+    #oooNavBarModuleIcons .oooNavBarHighlight {
+        -ms-grid-column: 1;
+        -ms-grid-row-align: center;
+    }
+
+    #oooNavBarModuleIcons .oooIconContainer {
+        -ms-grid-column: 2;
+        -ms-grid-row-align: center;
+    }
+
+    #oooNavBarModuleIcons .oooNavBarDescription {
+        -ms-grid-column: 3;
+        -ms-grid-row-align: center;
+    }
+
+    #oooNavBarModuleIcons > a > .oooIconContainer > svg {
+        top: 4px;
+    }
+
+    @supports (display: grid) {
+        #oooNavigation > #oooNavBarIcons {
+            display: grid;
+        }
+        #oooUser {
+            display: grid;
+        }
+        #oooNavBarModuleIcons {
+            display: grid;
+        }
+        #oooNavBarModuleIcons > a {
+            display: grid;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+        #oooNavBarModuleIcons > a > .oooIconContainer > svg {
+            top: 9px;
+        }
+    }
+
+}
 

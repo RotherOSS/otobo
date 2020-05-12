@@ -2,7 +2,7 @@
 <otobo_package version="1.1">
     <Name>TestITSMIncidentProblemManagement</Name>
     <Version>6.0.20</Version>
-    <Vendor></Vendor>
+    <Vendor>Rother OSS GmbH</Vendor>
     <URL>http://otobo.org/</URL>
     <License>GNU AFFERO GENERAL PUBLIC LICENSE Version 3, November 2007</License>
     <Framework>6.0.x</Framework>

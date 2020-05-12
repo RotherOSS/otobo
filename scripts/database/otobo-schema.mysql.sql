@@ -24,7 +24,7 @@ CREATE TABLE acl (
 #  create table acl_sync
 # ----------------------------------------------------------
 CREATE TABLE acl_sync (
-    acl_id VARCHAR (200) NOT NULL,
+    acl_id VARCHAR (191) NOT NULL,
     sync_state VARCHAR (30) NOT NULL,
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL
@@ -859,7 +859,7 @@ CREATE TABLE service_preferences (
 #  create table service_customer_user
 # ----------------------------------------------------------
 CREATE TABLE service_customer_user (
-    customer_user_login VARCHAR (200) NOT NULL,
+    customer_user_login VARCHAR (191) NOT NULL,
     service_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -1503,7 +1503,7 @@ CREATE TABLE scheduler_recurrent_task (
 # ----------------------------------------------------------
 CREATE TABLE cloud_service_config (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     config LONGBLOB NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -1638,7 +1638,7 @@ CREATE TABLE sysconfig_deployment (
 CREATE TABLE calendar (
     id BIGINT NOT NULL AUTO_INCREMENT,
     group_id INTEGER NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     salt_string VARCHAR (64) NOT NULL,
     color VARCHAR (7) NOT NULL,
     ticket_appointments LONGBLOB NULL,

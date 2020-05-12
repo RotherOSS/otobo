@@ -139,7 +139,7 @@ my $String1 = qq|<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.1">
     <Name>TestPackage1</Name>
     <Version>0.0.1</Version>
-    <Vendor></Vendor>
+    <Vendor>Rother OSS GmbH</Vendor>
     <URL>https://otrs.com/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <Description Lang="en">TestPackage1.</Description>
@@ -156,7 +156,7 @@ my $String2 = qq|<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.1">
     <Name>TestPackage2</Name>
     <Version>0.0.1</Version>
-    <Vendor></Vendor>
+    <Vendor>Rother OSS GmbH</Vendor>
     <URL>https://otrs.com/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <Description Lang="en">TestPackage2.</Description>
@@ -173,7 +173,7 @@ my $String3 = qq|<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.1">
     <Name>TestPackage2</Name>
     <Version>0.0.2</Version>
-    <Vendor></Vendor>
+    <Vendor>Rother OSS GmbH</Vendor>
     <URL>https://otrs.com/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <Description Lang="en">TestPackage2.</Description>

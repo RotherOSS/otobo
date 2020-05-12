@@ -32,6 +32,7 @@
                 </h3>
             </form>
         </div>
+        <a id='oooHeaderButton' href="[% Env("Baselink") %]Action=CustomerTicketMessage" title="[% Translate("New Ticket") | html %] ([% Data.AccessKey | html %])" accesskey="[% Data.AccessKey | html %]"><button><i class="ooofo ooofo-add"></i></button></a>
 #        <h3 id='oooHeaderOptions' class="ooog"><i class="ooofo ooofo-more_h"></i></h3>
     </div>
     <div id='oooMainBox'>

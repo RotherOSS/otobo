@@ -102,7 +102,7 @@ div.InputField_InputContainer {
 }
 
 .InputField_Search,
-input.DynamicFieldText,
+input.DynamicFieldText:not([type=checkbox]),
 .InputField_Autocomplete {
     /* overwrite js-generated width */
     width: calc( 100% - 32px ) !important;
@@ -134,6 +134,7 @@ textarea {
     line-height: 1.5;
     letter-spacing: 0.35px;
     color: #00023c;
+    color: var(--colTextDark);
     width: calc( 100% - 48px );
     padding: 16px 24px 16px 24px;
     border-radius: 10px;
@@ -153,6 +154,13 @@ label {
     letter-spacing: 0.4px;
     text-align: left;
     color: #7f809d;
+    color: var(--colTextLight);
+}
+
+label[for='RichText'] {
+    display: inline-block;
+    vertical-align: top;
+    top: 98px;
 }
 
 /* 
@@ -163,8 +171,11 @@ label {
 input,
 textarea {
     color: #7f809d;
+    color: var(--colTextLight);
     border: solid 1px rgba(247, 247, 249, 0);
+    border: solid 1px var(--colBGLight);
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
 -webkit-transition: border 0.2s ease, color 0.2s ease;
    -moz-transition: border 0.2s ease, color 0.2s ease;
      -o-transition: border 0.2s ease, color 0.2s ease;
@@ -174,6 +185,7 @@ textarea {
 .Row > label {
     pointer-events: none;
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
 -webkit-transition: color 0.2s ease;
    -moz-transition: color 0.2s ease;
      -o-transition: color 0.2s ease;
@@ -191,6 +203,7 @@ textarea:hover,
 textarea.oooFull,
 .oooSelected input {
     border: solid 1px #7f809d;
+    border: solid 1px var(--colTextLight);
     background-color: #fff;
 }
 
@@ -205,6 +218,7 @@ input.oooFull ~ label,
     line-height: 1.3;
     letter-spacing: 0.5px;
     color: #7f809d;
+    color: var(--colTextLight);
     background-color:#ffffff;
 }
 
@@ -217,6 +231,7 @@ textarea:focus,
 textarea.oooFull:focus,
 .oooSelected input:focus {
     border: solid 1px #001bff;
+    border: solid 1px var(--colMainLight);
     background-color: #fff;
 }
 
@@ -229,6 +244,7 @@ label.oooFocus,
     line-height: 1.3;
     letter-spacing: 0.5px;
     color: #001bff;
+    color: var(--colMainLight);
     background-color:#ffffff;
 }
 
@@ -238,6 +254,7 @@ textarea.Error,
 label.LabelError {
     color: #ea2400 !important;
     background-color: #f9bcb2;
+    background-color: var(--colNotifyErr);
 }
 
 input.Error:hover,
@@ -274,6 +291,25 @@ label.oooFocus.LabelError {
     align-items: end;
 }
 
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    .oooTitle {
+        display: -ms-grid;
+        -ms-grid-rows: 100%;
+    }
+    
+    .oooTitle > p {
+        -ms-grid-row-align: end;
+    }
+
+    @supports (display: grid) {
+        .oooTitle {
+            display: grid;
+        }
+    }
+}
+
 /* RichText */
 .RichTextHolder > label.LabelError {
     background-color: transparent;
@@ -285,6 +321,7 @@ label.oooFocus.LabelError {
 #cke_RichText > .cke_inner {
     border-radius: 10px;
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
 }
 #cke_1_contents {
     border: solid 1px #e5e5eb;
@@ -303,10 +340,6 @@ label.oooFocus.LabelError {
     top: -1px;
 }*/
 
-.RichTextHolder > label {
-    top: -8px;
-}
-
 /* Checkboxes & Date */
 .Row > div.Field.oooDateContainer,
 .Row > div.Field.oooCheckboxContainer {
@@ -316,6 +349,7 @@ label.oooFocus.LabelError {
     font-size: 16px;
     letter-spacing: 0.4px;
     color: #7f809d;
+    color: var(--colTextLight);
     whitespace: nowrap;
 }
 
@@ -328,13 +362,19 @@ label.oooFocus.LabelError {
 }
 
 input[type='checkbox'] {
-    display: none;
+    width: 16px;
+    height: 16px;
+    border: 0;
+    padding: 0;
+    margin: 0px -16px 0px 0px;
+    opacity: 0;
 }
 
 .oooAltCheck {
     position: relative;
     top 1px;
     cursor: pointer;
+    background-color: #fff;
 }
 
 input[type='checkbox']:checked + .oooAltCheck:before {
@@ -345,6 +385,11 @@ input[type='checkbox']:checked + .oooAltCheck:before {
 input[type='checkbox']:not(:checked) + .oooAltCheck:before {
     content: "\e90b";
     font-size: 16px;
+}
+
+input[type='checkbox']:focus + .oooAltCheck:before {
+    color: #001bff;
+    color: var(--colMainLight);
 }
 
 /* Date */
@@ -388,6 +433,7 @@ select {
     font-size: 16px;
     letter-spacing: 0.4px;
     color: #7f809d;
+    color: var(--colTextLight);
     background-color: #fff;
 }
 
@@ -412,8 +458,8 @@ div.InputField_ToolbarContainer {
     display: none;
 }
 
-div.InputField_Selection {
-    display: none;
+div.InputField_Selection,
+div.InputField_More {
     position: absolute;
     top: 13px;
     height: 32px;
@@ -421,9 +467,17 @@ div.InputField_Selection {
     padding-right: 16px;
     border-radius: 10px;
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
 	width: auto;
 }
-div.InputField_Selection > div {
+
+div.InputField_Selection {
+    display: none;
+}
+
+div.InputField_Selection > div,
+div.InputField_More > a,
+div.InputField_More > div {
     font-size: 12px;
     font-weight: 500;
     height: 32px;
@@ -433,17 +487,40 @@ div.InputField_Selection > div {
     letter-spacing: 0.3px;
     text-align: center;
     color: #7f809d;
+    color: var(--colTextLight);
     width: auto;
 }
+
 div.InputField_Selection > .Remove {
     padding-bottom: 2px;
 }
 
-.InputField_Selection > div {
+.InputField_Selection > div,
+.InputField_More > div {
     display: inline-block;
 }
-.InputField_Selection > .Remove {
+
+.InputField_Selection > .Remove,
+.InputField_More > a {
     margin-left: 8px;
+}
+
+.InputField_ListContainer > .oooClose {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+    border-radius: 15px;
+    z-index: 100;
+    cursor: pointer;
+}
+
+.InputField_ListContainer > .oooClose > i {
+    position: relative;
+    top: 5.5px;
+    left: 8px;
 }
 
 /* jstree stuff */
@@ -454,14 +531,17 @@ div.InputField_Selection > .Remove {
 
 .jstree-node[aria-selected="true"] {
     background-color: #c4cdfa;
+    background-color: var(--colNotifyOK);
 }
 
-.jstree-node > .jstree-wholerow:hover {
+.jstree-node > .jstree-wholerow-hovered {
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
 }
 
-.jstree-node[aria-selected="true"] > .jstree-wholerow:hover {
+.jstree-node[aria-selected="true"] > .jstree-wholerow-hovered {
     background-color: #6d83f2;
+    background-color: var(--colHoverLight);
 }
 
 .jstree-anchor {
@@ -474,6 +554,7 @@ div.InputField_Selection > .Remove {
     letter-spacing: 0.4px;
     text-align: left;
     color: #00023c;
+    color: var(--colTextDark);
     margin-top: 14px;
     margin-bottom: 14px;
     margin-left: 8px;

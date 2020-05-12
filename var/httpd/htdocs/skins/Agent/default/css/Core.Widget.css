@@ -794,7 +794,7 @@ ul.WidgetTooltip li a:hover i {
 
 .HeaderPopupleft {
     float: left;
-
+    max-width: calc( 100% - 200px );
 }
 
 .HeaderPopupright {

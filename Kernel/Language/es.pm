@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.790473840078973;
+    $Self->{Completeness}        = 0.628874388254486;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -535,6 +535,16 @@ sub Data {
         'Object' => 'Objeto',
         'Delete this field' => 'Borrar este campo',
 
+        # Template: AdminDynamicFieldAdvanced
+        'Import / Export' => '',
+        'Here you can upload a configuration file to import dynamic fields to your system. The file needs to be in .yml format as exported by dynamic field management module.' =>
+            '',
+        'DynamicFields Import' => '',
+        'DynamicFields Export' => '',
+        'Dynamic Fields Screens' => '',
+        'Here you can manage the dynamic fields in the respective screens.' =>
+            '',
+
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Campos Dinámicos',
         'Go back to overview' => 'Volver a la vista general',
@@ -646,6 +656,45 @@ sub Data {
         'Activate this option to create an empty selectable value.' => 'Active esta opción para crear un valor seleccionable vacío.',
         'Tree View' => 'Vista en árbol',
         'Activate this option to display values as a tree.' => 'Active esta opción para mostrar los valores como un árbol.',
+
+        # Template: AdminDynamicFieldImportExport
+        '%s - %s' => '',
+        'Select the items you want to ' => '',
+        'Select the desired elements and confirm the import with \'import\'.' =>
+            '',
+        'Here you can export a configuration file of dynamic fields and dynamic field screens to import these on another system. The configuration file is exported in yml format.' =>
+            '',
+        'The following dynamic fields can not be imported because of an invalid backend.' =>
+            '',
+        'Toggle all available elements' => '',
+        'Fields' => 'Campos',
+        'Screens' => '',
+
+        # Template: AdminDynamicFieldScreen
+        'Management of Dynamic Fields <-> Screens' => '',
+        'Overview' => 'Resumen',
+        'Default Columns Screens' => '',
+        'Add DynamicField' => '',
+        'You can assign elements to this Screen/Field by dragging the elements with the mouse from the left list to the right list.' =>
+            '',
+        'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
+            'Ordenar los elementos dentro de la lista también es posible mediante arrastrar y soltar .',
+        'Filter available elements' => '',
+        'selected to available elements' => '',
+        'Available Elements' => '',
+        'Filter disabled elements' => '',
+        'selected to disabled elements' => '',
+        'Toggle all disabled elements' => '',
+        'Disabled Elements' => '',
+        'Filter assigned elements' => '',
+        'selected to assigned elements' => '',
+        'Toggle all assigned elements' => '',
+        'Assigned Elements' => '',
+        'Filter assigned required elements' => '',
+        'selected to assigned required elements' => '',
+        'Toggle all assigned required elements' => '',
+        'Assigned Required Elements' => '',
+        'Reset' => 'Restablecer',
 
         # Template: AdminDynamicFieldText
         'Number of rows' => 'Número de filas',
@@ -767,6 +816,10 @@ sub Data {
         'No change time settings.' => 'No hay fecha de modificación',
         'Ticket changed' => 'Ticket modificado',
         'Ticket changed between' => 'Ticket modificado entre',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'Fechas de cierre',
         'No close time settings.' => 'No hay fechas de cierre',
         'Ticket closed' => 'Ticket cerrado',
@@ -985,7 +1038,6 @@ sub Data {
         'Type of Linking between Conditions' => 'Tipo de Vinculación entre Condiciones',
         'Remove this Condition' => 'Eliminar esta Condición',
         'Type of Linking' => 'Tipo de Vinculación',
-        'Fields' => 'Campos',
         'Add a new Field' => 'Añadir nuevo Campo',
         'Remove this Field' => 'Eliminar este Campo',
         'And can\'t be repeated on the same condition.' => 'Y no puede ser repetida en la misma condición.',
@@ -1181,7 +1233,7 @@ sub Data {
         'Namespace' => 'Espacio de nombre',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI para dar un contexto a métodos SOAP, reduciendo ambiguedades.',
         'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
-            'ej. urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions',
+            '',
         'Request name scheme' => 'Petición nombre de esquema',
         'Select how SOAP request function wrapper should be constructed.' =>
             'Seleccione como el contenedor de la función de petición SOAP debe ser construido.',
@@ -1441,7 +1493,7 @@ sub Data {
         'Install' => 'Instalar',
         'Update repository information' => 'Actualizar información de repositorio',
         'Cloud services are currently disabled.' => 'Los servicios en la nube se encuentran dehabilitados.',
-        'OTOBO Verify can not continue!' => '¡OTOBO Verify no puede continuar!',
+        'OTOBO Verify can not continue!' => '',
         'Enable cloud services' => 'Habilitar servicios en la Nube',
         'Update all installed packages' => '',
         'Online Repository' => 'Repositorio en línea',
@@ -1484,8 +1536,6 @@ sub Data {
         'Disable it here!' => '¡Deshabilítelo aquí!',
         'Logfile too large!' => '¡Archivo de trazas muy grande!',
         'The logfile is too large, you need to reset it' => 'El archivolog es demasiado grande , es necesario reiniciarlo',
-        'Reset' => 'Restablecer',
-        'Overview' => 'Resumen',
         'Interface' => 'Interfaz',
         'Requests' => 'Solicitudes',
         'Min Response' => 'Respuesta Mínima',
@@ -1571,8 +1621,6 @@ sub Data {
         'Activity Dialogs' => 'Dialogos de Actividad',
         'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
             'Puede asignar Diálogos de Actividad a esta Actividad arrastrando los elementos con el ratón en la lista de la izquierda a la lista de la derecha .',
-        'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
-            'Ordenar los elementos dentro de la lista también es posible mediante arrastrar y soltar .',
         'Filter available Activity Dialogs' => 'Filtros disponibles en Diálogos de Actividad ',
         'Available Activity Dialogs' => 'Dialogos Actividad Disponibles',
         'Name: %s, EntityID: %s' => 'Nombre: %s, IDdeEntidad: %s',
@@ -1762,7 +1810,7 @@ sub Data {
         'Show transmitted data' => 'Mostrar datos transmitidos',
         'Deregister system' => 'Dar de baja sistema',
         'Overview of registered systems' => 'Vista general de sistemas registrados',
-        'This system is registered with OTOBO Team.' => 'Este sistema se encuentra registrado por OTOBO Team.',
+        'This system is registered with OTOBO Team.' => '',
         'System type' => 'Tipo de sistema',
         'Unique ID' => 'Identificador unica',
         'Last communication with registration server' => 'Última comunicación con el servidor de registro',
@@ -1773,7 +1821,7 @@ sub Data {
         'System Deregistration not Possible' => '',
         'OTOBO-ID Login' => 'Inicio de sesión con OTOBO-ID',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            '!El registro del sistema es un servicio del grupo OTRS, el cual provee innumerables ventajas!',
+            '',
         'Read more' => 'Leer más',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'Debe iniciar sesión con su OTOBO-ID para registrar el sistema.',
@@ -1793,7 +1841,7 @@ sub Data {
         'Is it possible to deregister?' => '¿Es posible dar de baja el registro?',
         'You can deregister at any time.' => 'Usted puede dar de baja el registro en cualquier momento.',
         'Which data is transfered when registering?' => '¿Qué datos se transfieren al registrarse?',
-        'A registered system sends the following data to OTOBO Team:' => 'Un sistema registrado envía los siguientes datos al grupo OTRS:',
+        'A registered system sends the following data to OTOBO Team:' => '',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'Nombre de dominio totalmente calificado (FQDN), versión de OTOBO, base de datos, sistema operativo y versión de Perl.',
         'Why do I have to provide a description for my system?' => '¿Por qué debo proporcionar una descripción para mi sistema?',
@@ -1815,7 +1863,7 @@ sub Data {
         'Retrieve a new one' => 'Solicitar una nueva',
         'Next' => 'Siguiente',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            'Estos datos se transferiran con frecuencia al grupo OTRS cuando registre este sistema.',
+            '',
         'Attribute' => 'Atributo',
         'FQDN' => 'Nombre de dominio totalmente calificado',
         'OTOBO Version' => 'Versión De OTOBO',
@@ -1823,10 +1871,10 @@ sub Data {
         'Perl Version' => 'Versión de Perl',
         'Optional description of this system.' => 'Descripción opcional de este sistema.',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
-            'Esto permitirá al sistema enviar información de datos de apoyo adicional al Grupo OTRS.',
+            '',
         'Register' => 'Registrar',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            'Continuando con este paso se dará de baja el sistema para el grupo OTRS.',
+            '',
         'Deregister' => 'Dar de baja',
         'You can modify registration settings here.' => 'Usted puede modificar los ajustes de registro aquí.',
         'Overview of Transmitted Data' => '',
@@ -2007,18 +2055,18 @@ sub Data {
         'This state is used in the following config settings:' => '',
 
         # Template: AdminSupportDataCollector
-        'Sending support data to OTOBO Team is not possible!' => 'El envío de información de soporte al Grupo de OTRS no fue posible!',
+        'Sending support data to OTOBO Team is not possible!' => '',
         'Enable Cloud Services' => 'Habilitar los servicios en la nube',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            'Estos datos se envían a Grupo OTRS en una base regular. Para detener el envío de estos datos por favor actualice su registro del sistema.',
+            '',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             'Puedes disparar manualmente los envíos de Datos de Soporte presionando este botón:',
         'Send Update' => 'Enviar Actualización',
         'Currently this data is only shown in this system.' => 'Actualmente estos datos sólo se muestran en este sistema.',
         'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            'Es altamente recomendable enviar estos datos a Grupo OTRS con el fin de obtener un mejor servicio de soporte.',
+            '',
         'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'Para habilitar el envío de datos, registre su sistema con Grupo OTRS o actualice su información de registro del sistema ( asegúrese de activar la opción \'Enviar datos de soporte enviar\'.)',
+            '',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'Un paquete de apoyo (incluyendo : información de registro del sistema, los datos de apoyo, una lista de los paquetes instalados y todos los archivos de código fuente modificados localmente) puede generarse presionando este botón:',
         'Generate Support Bundle' => 'Generar Paquete de Apoyo',
@@ -2031,10 +2079,10 @@ sub Data {
             'La dirección de correo electrónico para este usuario no es válida, esta opción se ha desactivado.',
         'Sending' => 'Remitente',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            'El paquete de soporte será enviado a Grupo OTRS a través de correo electrónico de forma automática.',
+            '',
         'Download File' => 'Descargar Archivo',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            'Un archivo que contiene el paquete de soporte se descargará en el sistema local. Por favor, guarde el archivo y envíelo al Grupo de OTRS, utilizando un método alternativo .',
+            '',
         'Error: Support data could not be collected (%s).' => 'Error: Los datos de soporte no han podido ser recolectados (%s).',
         'Details' => 'Detalles',
 
@@ -2196,6 +2244,14 @@ sub Data {
         'Delete this entry' => 'Eliminar esta entrada',
         'Do you really want to delete this template?' => '¿Realmente desea eliminar esta plantilla?',
         'A standard template with this name already exists!' => '¡Una plantilla estándar con este nombre ya existe!',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => 'Crear plantillas tipo sólo soporta estas etiquetas inteligentes',
         'Example template' => 'Plantilla Ejemplo',
         'The current ticket state is' => 'El estado actual del ticket es',
@@ -2463,6 +2519,9 @@ sub Data {
         # Template: AgentDynamicFieldDBDetails
         'Details view' => '',
 
+        # Template: AgentElasticsearchQuickResult
+        'Ticketnumber' => '',
+
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'Para aceptar algunas noticias, una licencia o algunos cambios.',
         'Yes, accepted.' => '',
@@ -2662,11 +2721,11 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Crear un nuevo ticket por correo electrónico',
         'Example Template' => 'Ejemplo Plantilla',
-        'From queue' => 'De la cola',
         'To customer user' => 'Al usuario cliente',
         'Please include at least one customer user for the ticket.' => 'Por favor, incluya al menos un usuario cliente para el ticket.',
         'Select this customer as the main customer.' => 'Seleccionar a este cliente como el cliente principal.',
         'Remove Ticket Customer User' => 'Eliminar el usuario cliente del ticket',
+        'From queue' => 'De la cola',
         'Get all' => 'Obtener todo',
 
         # Template: AgentTicketEmailOutbound
@@ -2880,6 +2939,7 @@ sub Data {
 
         # Template: CustomerDashboard
         'Ticket Search' => '',
+        'New Ticket' => 'Nuevo Ticket',
 
         # Template: CustomerError
         'An Error Occurred' => 'Ha ocurrido un error',
@@ -2907,7 +2967,7 @@ sub Data {
             'Para más información, consulte la documentación o pregunte a su administrador.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
             '',
-        'An Internet Explorer compatible version will soon be released nonetheless.' =>
+        'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
             '',
         'One moment please, you are being redirected...' => 'Un momento por favor, está siendo redirigido...',
         'Login' => 'Inicio de sesión',
@@ -2951,7 +3011,6 @@ sub Data {
 
         # Template: CustomerTicketOverview
         'Your Tickets' => '',
-        'New Ticket' => 'Nuevo Ticket',
         'Page' => 'Página',
         'Tickets' => 'Tickets',
         'Sort' => '',
@@ -2987,9 +3046,13 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => 'Información del ticket',
         'Categories' => '',
+        'Further actions' => '',
 
         # Template: Chat
         'Expand article' => 'Expandir el artículo',
+
+        # Template: MIMEBase
+        'Article Information' => '',
 
         # Template: CustomerWarning
         'Warning' => 'Advertencia',
@@ -3141,6 +3204,56 @@ sub Data {
         'Close preview' => 'Cerrar vista previa',
         'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
             'La vista previa de esta página no puede ser mostrada porque no se permitió su integración',
+
+        # Template: Copy
+        'Start migration' => '',
+        'Result of data migration' => '',
+        'Last successful task:' => '',
+        'Migration will restart from the last successfully finished task. Please do a complete rerun if you changed your system in the meantime.' =>
+            '',
+        'Clean up and finish' => '',
+
+        # Template: Finish
+        'The migration is complete, thank you for trying out OTOBO - we hope you will like it.' =>
+            '',
+
+        # Template: Intro
+        'This migration script will lead you step by step through the process of migrating your ticket system from OTRS or ((OTRS)) Community Edition version 6 to OTOBO 10.' =>
+            '',
+        'There is no danger whatsoever for your original system: nothing is changed there.' =>
+            '',
+        'Instructions and details on migration prerequisites can be found in the migration manual. We strongly recommend reading it before starting migration.' =>
+            '',
+        'In case you have to suspend migration, you can resume it anytime at the same point as long as the cache has not been deleted.' =>
+            '',
+        'All entered passwords are cached until the migration is finished.' =>
+            '',
+        ' Anyone with access to this page, or read permission for the OTOBO Home Directory will be able to read them. If you abort the migration, you are given the option to clear the cache by visiting this page again.' =>
+            '',
+        'If you need support, just ask our experts – either at' => '',
+        'OTOBO forum' => '',
+        'or directly via mail to' => '',
+        'Cached data found' => '',
+        'You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress.' =>
+            '',
+        'An error occured.' => '',
+        'Discard previous progress' => '',
+        'Insecure HTTP connection' => '',
+        'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
+            '',
+        'Continue anyways :(' => '',
+        ' Continue anyways :(' => '',
+
+        # Template: OTRSFileSettings
+        'OTRS server' => '',
+        'SSH User' => '',
+        'OTRS home directory' => '',
+        'Check settings' => '',
+        'Result of settings check' => '',
+        'Settings check successful.' => '',
+
+        # Template: PreChecks
+        'Execute migration pre-checks' => '',
 
         # Template: MobileNotAvailableWidget
         'Feature not Available' => '',
@@ -3361,12 +3474,25 @@ sub Data {
         # JS Template: WidgetLoading
         'Loading, please wait...' => '',
 
+        # JS Template: ToggleMoreLessCustomer
+        'Show all' => '',
+        'Show less' => '',
+
         # JS Template: UploadContainer
         'Click to select a file for upload.' => '',
         'Click to select or drop files here.' => '',
         'Click to select files or just drop them here.' => '',
         'Click to select a file or just drop it here.' => '',
         'Uploading...' => '',
+
+        # JS Template: MigrationState
+        'Time needed' => '',
+
+        # JS Template: PackageResolve
+        'Package' => '',
+        'Uninstall from OTOBO' => '',
+        'Ignore' => '',
+        'Migrate' => '',
 
         # JS Template: InformationDialog
         'Process state' => '',
@@ -3601,6 +3727,13 @@ sub Data {
         'Prevent entry of dates in the future' => 'Prevenir el ingreso de datos en futuro.',
         'Prevent entry of dates in the past' => 'Prevenir el ingreso de datos en pasado.',
 
+        # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
+        'Settings were saved.' => '',
+        'System was not able to save the setting!' => '',
+        'Setting is locked by another user!' => '',
+        'System was not able to reset the setting!' => '',
+        'Settings were reset.' => '',
+
         # Perl Module: Kernel/Modules/AdminEmail.pm
         'Select at least one recipient.' => 'Selecciona un recipiente por lo menos.',
 
@@ -3803,7 +3936,7 @@ sub Data {
         'File is OK' => 'El archivo está bien.',
         'Package has locally modified files.' => 'El paquete tiene archivos modificados localmente. ',
         'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            '¡Paquete no verificado por el grupo OTRS! Se recomienda que no use este paquete.',
+            '',
         'Not Started' => '',
         'Updated' => '',
         'Already up-to-date' => '',
@@ -4016,9 +4149,7 @@ sub Data {
             '',
         'Missing setting name!' => '',
         'Missing ResetOptions!' => '',
-        'Setting is locked by another user!' => '',
         'System was not able to lock the setting!' => '',
-        'System was not able to reset the setting!' => '',
         'System was unable to update setting!' => '',
         'Missing setting name.' => '',
         'Setting not found.' => '',
@@ -4509,6 +4640,11 @@ sub Data {
         'Wrong database collation (%s is %s, but it needs to be utf8).' =>
             '',
 
+        # Perl Module: Kernel/Modules/MigrateFromOTRS.pm
+        'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.' =>
+            '',
+        'OTRS to OTOBO migration' => '',
+
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => '¡No se tiene %s!',
         'No such user!' => '¡No existe el usuario!',
@@ -4892,6 +5028,117 @@ sub Data {
         'The field content is too long!' => '¡El contenido del campo es demasiado largo!',
         'Maximum size is %s characters.' => 'La cantidad máxima de caracteres es %s.',
 
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
+        'Deploy the ACL configuration.' => '',
+        'Deployment completed, perfect!' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
+        'Migrate database table auto_responses.' => '',
+        'Migration failed.' => '',
+        'Migrate database table auto_response.' => '',
+        'Migration completed, perfect!' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
+        'OTOBO Cache cleanup.' => '',
+        'Completed.' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
+        'Check if OTOBO version is correct.' => '',
+        'Check if OTOBO and OTRS connect is possible.' => '',
+        'Can\'t open RELEASE file from OTRSHome: %s!' => '',
+        'Copy and migrate files from OTRS' => '',
+        'All needed files copied and migrated, perfect!' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
+        'Need %s for Oracle db!' => '',
+        'Copy database.' => '',
+        'System was unable to connect to OTRS database.' => '',
+        'System was unable to complete data transfer.' => '',
+        'Data transfer completed.' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+        'Check if OTOBO and OTRS version is correct.' => '',
+        '%s does not exist!' => '',
+        'Can\'t read OTOBO RELEASE file: %s: %s!' => '',
+        'No OTOBO system found!' => '',
+        'You are trying to run this script on the wrong framework version %s!' =>
+            '',
+        'OTOBO Version is correct: %s.' => '',
+        'Check if OTRS version is correct.' => '',
+        'Can\'t read OTRS RELEASE file: %s: %s!' => '',
+        'No OTRS system found!' => '',
+        'OTRS Version is correct: %s.' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOInvalidSettingsCheck.pm
+        'Check for invalid configuration settings.' => '',
+        'Invalid setting detected.' => '',
+        'No invalid setting detected, perfect!' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
+        'Migrate configuration settings.' => '',
+        'An error occured during SysConfig data migration or no configuration exists.' =>
+            '',
+        'An error occured during SysConfig data migration.' => '',
+        'SysConfig data migration completed.' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
+        'Migrate web service configuration.' => '',
+        'No web service existent, done.' => '',
+        'Can\'t add web service for Elasticsearch. File %s not found!.' =>
+            '',
+        'Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed.' =>
+            '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
+        'Migrate database table notification.' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
+        'Can\'t open Kernel/Config.pm file from OTRSHome: %s!' => '',
+        'OTOBO Home exists.' => '',
+        'Check if we are able to connect to OTRS Home.' => '',
+        'Can\'t connect to OTRS file directory.' => '',
+        'Connect to OTRS file directory is possible.' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
+        'Try database connect and sanity checks.' => '',
+        'Connect to OTRS database or sanity checks failed.' => '',
+        'Database connect and sanity checks completed.' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
+        'Check if all necessary packages are installed.' => '',
+        'The following packages are only installed in OTRS:' => '',
+        'Please install (or uninstall) the packages before migration. If a package doesn\'t exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.org. We will find a solution.' =>
+            '',
+        'The same packages are installed on both systems, perfect!' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageMigration.pm
+        'Check if %s!' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
+        'Check if all needed Perl modules have been installed.' => '',
+        '%s script does not exist.' => '',
+        'One or more required Perl modules are missing. Please install them as recommended, and run the migration script again.' =>
+            '',
+        'All required Perl modules have been installed, perfect!' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOProcessDeploy.pm
+        'Deploy the process management configuration.' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBORebuildConfig.pm
+        'OTOBO config rebuild.' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBORebuildConfigCleanup.pm
+        'OTOBO Config cleanup.' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOResponseTemplatesMigrate.pm
+        'Migrate database table response_template.' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSalutationsMigrate.pm
+        'Migrate database table salutation.' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSignaturesMigrate.pm
+        'Migrate database table signature.' => '',
+
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
             '',
@@ -5030,6 +5277,8 @@ sub Data {
         'Client Connection Charset' => 'Juego de Caracteres de la Conexión del Cliente',
         'Setting character_set_client needs to be utf8.' => 'El ajuste character_set_client necesita ser utf8.',
         'Server Database Charset' => 'Juego de Caracteres del Servidor de Base de Datos',
+        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Juego de Caracter de la Tabla',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -5218,7 +5467,7 @@ sub Data {
         'Some packages are not correctly installed.' => 'Algunos paquetes no estan correctamente instalados.',
         'Package Verification Status' => 'Estado de verificación del paquete',
         'Some packages are not verified by the OTOBO Team! It is recommended not to use this packages.' =>
-            '¡Algunos paquetes no ha sido verificados por OTRS group! Se recomienda no utilizar estos paquetes.',
+            '',
         'Package Framework Version Status' => 'Estado de la versión del paquete Framework ',
         'Some packages are not allowed for the current framework version.' =>
             'Algunos paquetes no están permitidos para la versión actual del framework.',
@@ -5410,6 +5659,10 @@ sub Data {
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'Action "%s" not found!' => '¡Acción "% s" no encontrada!',
+
+        # Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
+        'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
+            '',
 
         # Database XML Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => 'temporalmente-no-válido',
@@ -5926,6 +6179,3029 @@ sub Data {
         'Stream' => 'Stream',
         'Expanded' => 'Expandido',
 
+        # SysConfig
+        '
+Dear Customer,
+
+Unfortunately we could not detect a valid ticket number
+in your subject, so this email can\'t be processed.
+
+Please create a new ticket via the customer panel.
+
+Thanks for your help!
+
+ Your Helpdesk Team
+' => '
+Estimado Cliente,
+
+Desafortunadamente no hemos podido detectar un número de ticket válido en su consulta, por lo que este email no puede ser procesado .
+
+Por favor cree un nuevo ticket a través del panel de cliente.
+
+¡Gracias por su ayuda!
+
+Tu Equipo de Soporte
+
+',
+        ' (work units)' => '(unidades de trabajo)',
+        ' 2 minutes' => ' 2 minutos',
+        ' 5 minutes' => ' 5 minutos',
+        ' 7 minutes' => ' 7 minutos',
+        '"Slim" skin which tries to save screen space for power users.' =>
+            'La apariencia "Slim" intenta ahorrar espacio en la pantalla para usuarios avanzados.',
+        '%s' => '%s',
+        '(UserLogin) Firstname Lastname' => '(LoginUsuario) Nombre Apellidos',
+        '(UserLogin) Lastname Firstname' => '(LoginUsuario) Apellidos Nombre ',
+        '(UserLogin) Lastname, Firstname' => '(LoginUsuario) Apellidos, Nombre ',
+        '*** out of office until %s (%s d left) ***' => '*** fuera de la oficina hasta el  %s (%s dias restantes) ***',
+        '0 - Disabled' => '',
+        '1 - Available' => '',
+        '1 - Enabled' => '',
+        '10 Minutes' => '10 Minutos',
+        '100 (Expert)' => '100 (Experto)',
+        '15 Minutes' => '15 Minutos',
+        '2 - Enabled and required' => '',
+        '2 - Enabled and shown by default' => '',
+        '2 - Enabled by default' => '',
+        '2 Minutes' => '2 Minutos',
+        '200 (Advanced)' => '200 (Avanzado)',
+        '30 Minutes' => '30 Minutos',
+        '300 (Beginner)' => '300 (Principiante)',
+        '5 Minutes' => '5 Minutos',
+        'A TicketWatcher Module.' => 'El Módulo de Vigilante de Ticket',
+        'A Website' => 'Un Sitio Web',
+        'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
+            'Una lista de los campos dinámicos que se fusionó con el ticket principal durante una operación de combinación. Sólo los campos dinámicos que están vacíos en el ticket principal se establecerán.',
+        'A picture' => 'Una foto',
+        'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
+            'Módulo ACL que permite el cierre de tickets padre sólo si todos sus hijos ya están cerrados ("Estado" muestra que estados no están disponibles para ticket padre hasta que todas las entradas de sus hijos están cerradas).',
+        'Access Control Lists (ACL)' => 'Listas de Control de Acceso (ACL)',
+        'AccountedTime' => 'Tiempo Registrado',
+        'Activate Elasticsearch.' => '',
+        'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
+            '',
+        'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
+            'Activa un mecanismo de parpadeo de la cola que contiene el ticket más antiguo.',
+        'Activates lost password feature for agents, in the agent interface.' =>
+            'Activa la función perdida de contraseña para los agentes, en la interfaz del agente.',
+        'Activates lost password feature for customers.' => 'Activa la función perdida de contraseña para los clientes.',
+        'Activates support for customer and customer user groups.' => '',
+        'Activates the article filter in the zoom view to specify which articles should be shown.' =>
+            'Activa el filtro de artículo en la vista de zoom para especificar qué artículos se deben mostrar.',
+        'Activates the available themes on the system. Value 1 means active, 0 means inactive.' =>
+            'Activa los temas disponibles en el sistema. Valor 1 significa activo, 0 significa inactivo.',
+        'Activates the ticket archive system search in the customer interface.' =>
+            'Activa la búsqueda de sistema de archivo de tickets en la interfaz del cliente.',
+        'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
+            'Activa el sistema de archivo de ticket para tener un sistema más rápido, moviendo algunos tickets fuera del ámbito cotidiano. Para buscar estos tickets, la bandera de archivo tiene que estar activada en la búsqueda de tickets .',
+        'Activates time accounting.' => 'Activa la contabilidad del tiempo.',
+        'ActivityID' => 'IDActividad',
+        'Add a note to this ticket' => 'Añadir una nota a este ticket',
+        'Add an inbound phone call to this ticket' => 'Añadir una llamada telefónica entrante a este ticket ',
+        'Add an outbound phone call to this ticket' => 'Añadir una llamada telefónica saliente a este ticket',
+        'Added %s time unit(s), for a total of %s time unit(s).' => '',
+        'Added email. %s' => 'Correo añadido. %s',
+        'Added follow-up to ticket [%s]. %s' => '',
+        'Added link to ticket "%s".' => 'Añadido enlace al ticket «%s».',
+        'Added note (%s).' => '',
+        'Added phone call from customer.' => '',
+        'Added phone call to customer.' => '',
+        'Added subscription for user "%s".' => 'Añadida suscripción para el usuario «%s».',
+        'Added system request (%s).' => '',
+        'Added web request from customer.' => '',
+        'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.' =>
+            'Añade un sufijo con el año y mes actual para el archivo de registro de OTOBO. Se creará un archivo de registro para cada mes .',
+        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
+            'Añade direcciones de correo electrónico de clientes  a los destinatarios en la pantalla de composición de ticket de la interfaz del agente. No se añadirá la dirección de correo electrónico de los clientes si el tipo de artículo es email-interno.',
+        'Adds the one time vacation days for the indicated calendar.' => '',
+        'Adds the one time vacation days.' => '',
+        'Adds the permanent vacation days for the indicated calendar.' =>
+            '',
+        'Adds the permanent vacation days.' => '',
+        'Admin' => 'Admin',
+        'Admin Area.' => 'Área de administración.',
+        'Admin Contact With Data' => '',
+        'Admin Notification' => 'Notificación del administrador',
+        'Admin area navigation for the agent interface.' => '',
+        'Admin contact with data.' => '',
+        'Admin modules overview.' => 'Visión general de los módulos de administración.',
+        'Admin.' => 'Admin.',
+        'Administration' => 'Administración',
+        'Agent Contact With Data Search' => '',
+        'Agent Customer Search' => '',
+        'Agent Customer Search.' => '',
+        'Agent Dynamic Field Database Detailed Search' => '',
+        'Agent Dynamic Field Database Details' => '',
+        'Agent Dynamic Field Database Search' => '',
+        'Agent Name' => 'Nombre del agente',
+        'Agent Name + FromSeparator + System Address Display Name' => 'Nombre del Agente + DesdeSeparador + Nombre de la Dirección del Sistema para Mostrar',
+        'Agent Preferences.' => 'Preferencias del Agente.',
+        'Agent Statistics.' => 'Estadísticas de agente.',
+        'Agent User Search' => '',
+        'Agent User Search.' => '',
+        'Agent contact with data search.' => '',
+        'Agent dynamic field database detailed search.' => '',
+        'Agent dynamic field database details.' => '',
+        'Agent dynamic field database search.' => '',
+        'Agent frontend module registration (disable \'Edit contacts with data\' link if if there is no source field configured).' =>
+            '',
+        'Agent interface article notification module to check PGP.' => 'Módulo de notificación de artículo de la interfaz de agente para verificar PGP.',
+        'Agent interface article notification module to check S/MIME.' =>
+            'Módulo de notificación de artículo de la interfaz de agente para verificar S/MIME.',
+        'Agent interface module to access CIC search via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            'El módulo de interfaz del Agente para acceder a la búsqueda CIC mediante nav bar. El control del acceso adicional para demostrar o no demostrar que éste enlace puede ser hecha por usar el "Grupo" Clave y el Contenido como "rw:group1;move_into:group2". ',
+        'Agent interface module to access fulltext search via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            'El módulo de interfaz de agente para acceder a la búsqueda de texto completo mediante nav bar.
+El control del acceso adicional para demostrar o no demostrar éste enlace puede ser hecha por usar el "Grupo" Clave y el Contenido como "rw:group1;move_into:group2". ',
+        'Agent interface module to access search profiles via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            'El módulo de interfaz de agente para acceder a la búsqueda de perfiles mediante nav bar.
+El control del acceso adicional para demostrar o no demostrar éste enlace puede ser hecha por usar el "Grupo" Clave y el Contenido como "rw:group1;move_into:group2". ',
+        'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
+            'Módulo de la interfaz de agente para comprobar los correos entrantes en la Vista-Zoom-Ticket si la clave S/MIME está disponible y es verdadera.',
+        'Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            'El módulo de interfaz de agente para ver el número de los tickets bloqueados.
+El control del acceso adicional para demostrar o no demostrar éste enlace puede ser hecha por usar el "Grupo" Clave y el Contenido como "rw:group1;move_into:group2". ',
+        'Agent interface notification module to see the number of tickets an agent is responsible for. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            'El módulo de interfaz de agente para ver el número de los tickets de los cuáles el agente está responsable.
+El control del acceso adicional para demostrar o no demostrar éste enlace puede ser hecha por usar el "Grupo" Clave y el Contenido como "rw:group1;move_into:group2". ',
+        'Agent interface notification module to see the number of tickets in My Services. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            'El módulo de interfaz de agente para ver el número de los tickets en Mis Servicios.
+El control del acceso adicional para demostrar o no demostrar éste enlace puede ser hecha por usar el "Grupo" Clave y el Contenido como "rw:group1;move_into:group2". ',
+        'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            'El módulo de interfaz de agente para ver el número de los tickets vistos.
+El control del acceso adicional para demostrar o no demostrar éste enlace puede ser hecha por usar el "Grupo" Clave y el Contenido como "rw:group1;move_into:group2". ',
+        'AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.' =>
+            '',
+        'AgentTicketZoom widget that displays a table of objects linked to the ticket.' =>
+            '',
+        'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
+            '',
+        'AgentTicketZoom widget that displays ticket data in the side bar.' =>
+            '',
+        'Agents ↔ Groups' => '',
+        'Agents ↔ Roles' => '',
+        'All CustomerIDs of a customer user.' => '',
+        'All customer users of a CustomerID' => 'Todos los clientes de un IDCliente',
+        'All escalated tickets' => 'Todos los Tickets escalados',
+        'All new tickets, these tickets have not been worked on yet' => 'Todos los Tickets nuevos, todavía no se ha trabajado en estos tickets',
+        'All open tickets, these tickets have already been worked on.' =>
+            '',
+        'All tickets with a reminder set where the reminder date has been reached' =>
+            'Todos los Tickets para los que se ha alcanzado su fecha de recordatorio',
+        'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            'Permite añadir notas en la pantalla de ticket cerrado de la interfaz de agente. Puede sobrescribirse por Ticket::Frontend::NeedAccountedTime.',
+        'Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            'Permite añadir notas en la pantalla texto libre de ticket de la interfaz de agente. Puede sobrescribirse por Ticket::Frontend::NeedAccountedTime.',
+        'Allows adding notes in the ticket note screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            'Permite añadir notas en la pantalla nota de ticket de la interfaz de agente. Puede sobrescribirse por Ticket::Frontend::NeedAccountedTime.',
+        'Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            'Permite añadir notas en la pantalla propietario de ticket de un ticket ampliado en la interfaz de agente. Puede sobrescribirse por Ticket::Frontend::NeedAccountedTime.',
+        'Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            'Permite añadir notas en la pantalla de ticket pendiente de un ticket ampliado en la interfaz de agente. Puede sobrescribirse por Ticket::Frontend::NeedAccountedTime.',
+        'Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            'Permite añadir notas en la pantalla prioridad de ticket de un ticket ampliado en la interfaz de agente. Puede sobrescribirse por Ticket::Frontend::NeedAccountedTime.',
+        'Allows adding notes in the ticket responsible screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            'Permite añadir notas en la pantalla responsable de ticket de la interfaz de agente. Puede sobrescribirse por Ticket::Frontend::NeedAccountedTime.',
+        'Allows agents to exchange the axis of a stat if they generate one.' =>
+            'Permite a los agentes intercambiar el eje de una estadística si generan una.',
+        'Allows agents to generate individual-related stats.' => 'Permite a los agentes generar estadísticas individualmente relacionadas .',
+        'Allows choosing between showing the attachments of a ticket in the browser (inline) or just make them downloadable (attachment).' =>
+            'Permite elegir entre mostrar los archivos adjuntos de un ticket en el navegador (en línea) o simplemente hacerlos descargables (archivo adjunto) .',
+        'Allows choosing the next compose state for customer tickets in the customer interface.' =>
+            'Permite elegir el siguiente estado de composición para los tickets de los clientes en la interfaz del cliente.',
+        'Allows customers to change the ticket priority in the customer interface.' =>
+            'Permite a los clientes cambiar la prioridad de ticket en la interfaz del cliente.',
+        'Allows customers to set the ticket SLA in the customer interface.' =>
+            'Permite a los clientes establecer el SLA de ticket en la interfaz del cliente.',
+        'Allows customers to set the ticket priority in the customer interface.' =>
+            'Permite a los clientes establecer la prioridad de ticket en la interfaz de cliente.',
+        'Allows customers to set the ticket queue in the customer interface. If this is not enabled, QueueDefault should be configured.' =>
+            '',
+        'Allows customers to set the ticket service in the customer interface.' =>
+            'Permite a los clientes establecer el servicio de ticket en la interfaz del cliente.',
+        'Allows customers to set the ticket type in the customer interface. If this is not enabled, TicketTypeDefault should be configured.' =>
+            '',
+        'Allows default services to be selected also for non existing customers.' =>
+            'Permito que los servicios por defecto sean seleccionados también por clientes no existentes.',
+        'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
+            'Permite definir servicios y SLAs para los tickets (ej. email, escritorio, red...), y los atributos de escalada para los SLAs (si la función servicio/SLA de ticket está activada).',
+        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            'Permite las condiciones de una búsqueda extendida en la búsqueda del ticket del interfaz del agente. Con éste función puede buscar por ejemplo, el ticket con tal tipo de condiciones como "(*key1*&&*key2*)" ó "(*key1*||*key2*)".',
+        'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            'Permite las condiciones de una búsqueda extendida en la búsqueda del ticket del interfaz del cliente. Con éste función puede buscar por ejemplo, el ticket con tal tipo de condiciones como "(*key1*&&*key2*)" ó "(*key1*||*key2*)".',
+        'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
+            'Permite las condiciones de una búsqueda extendida en la búsqueda del ticket del interfaz del agente genérico. Con éste función puede buscar por ejemplo, el ticket con tal tipo de condiciones como "(*key1*&&*key2*)" ó "(*key1*||*key2*)".',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
+        'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
+            'Permite tener un formato medio de la vista general de ticket (InfoCliente => 1 - muestra también la información de cliente).',
+        'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
+            'Permite tener un formato pequeño de la vista general de ticket (InfoCliente => 1 - muestra también la información de cliente).',
+        'Allows invalid agents to generate individual-related stats.' => 'Permite a agentes no válidos el generar estadísticas relacionadas individualmente.',
+        'Allows the administrators to login as other customers, via the customer user administration panel.' =>
+            'Permite a los administradores el acceso como otros clientes, vía el panel de administración del usuario cliente.',
+        'Allows the administrators to login as other users, via the users administration panel.' =>
+            'Permite a los administradores el acceso como otros clientes, vía el panel de administración de usuario.',
+        'Allows to save current work as draft in the close ticket screen of the agent interface.' =>
+            '',
+        'Allows to save current work as draft in the email outbound screen of the agent interface.' =>
+            '',
+        'Allows to save current work as draft in the ticket compose screen of the agent interface.' =>
+            '',
+        'Allows to save current work as draft in the ticket forward screen of the agent interface.' =>
+            '',
+        'Allows to save current work as draft in the ticket free text screen of the agent interface.' =>
+            '',
+        'Allows to save current work as draft in the ticket move screen of the agent interface.' =>
+            '',
+        'Allows to save current work as draft in the ticket note screen of the agent interface.' =>
+            '',
+        'Allows to save current work as draft in the ticket owner screen of the agent interface.' =>
+            '',
+        'Allows to save current work as draft in the ticket pending screen of the agent interface.' =>
+            '',
+        'Allows to save current work as draft in the ticket phone inbound screen of the agent interface.' =>
+            '',
+        'Allows to save current work as draft in the ticket phone outbound screen of the agent interface.' =>
+            '',
+        'Allows to save current work as draft in the ticket priority screen of the agent interface.' =>
+            '',
+        'Allows to save current work as draft in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
+            'Permite establecer un nuevo estado de ticket en la pantalla mover ticket de la interfaz de agente.',
+        'Always show RichText if available' => 'Siempre demostrar RichText cuando está disponible.',
+        'Answer' => 'Responder',
+        'Appointment Calendar overview page.' => 'Página de resumen del Calendario de Citas',
+        'Appointment Notifications' => 'Notificaciones de Citas',
+        'Appointment calendar event module that prepares notification entries for appointments.' =>
+            'Módulo de eventos del calendario de citas que prepara entradas para citas.',
+        'Appointment calendar event module that updates the ticket with data from ticket appointment.' =>
+            'Módulo de eventos de calendario que actualiza los datos del ticket desde una cita de ticket.',
+        'Appointment edit screen.' => 'Pantalla de edición de citas.',
+        'Appointment list' => 'Lista de citas',
+        'Appointment list.' => 'Lista de citas.',
+        'Appointment notifications' => 'Notificaciones de citas',
+        'Appointments' => 'Citas',
+        'Arabic (Saudi Arabia)' => 'Árabe (Arabia Saudita)',
+        'ArticleTree' => 'Árbol de Artículos',
+        'Attachment Name' => 'Nombre del archivo adjunto',
+        'Autoloading of Znuny4OTOBOPasswordPolicy extensions.' => '',
+        'Automated line break in text messages after x number of chars.' =>
+            'Salto de linea automático en mensajes de texto después de x número de caracteres.',
+        'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
+            '',
+        'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
+            'Automáticamente bloqueado y establecido propietario el Agente actual después de abrir la pantalla mover ticket de la interfaz de agente.',
+        'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
+            'Automáticamente bloqueado y establecido propietario el Agente actual después de seleccionar una Acción Masiva.',
+        'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled). This will only work by manually actions of the logged in user. It does not work for automated actions e.g. GenericAgent, Postmaster and GenericInterface.' =>
+            'Establece automáticamente el propietario del ticket como un responsable por éste (siempre cuando la función de responsable por ticket). Ésto solamente puede funcionar por los acciones manuales del usuario conectado. Ésto no va a funcionar para los acciones automatizadas como por ejemplo GenericAgent, Postmaster ó GenericInterface.',
+        'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
+            'Automáticamente establece al responsable de un ticket (si no está establecido aún) después de la primera actualización de propietario.',
+        'Avatar' => '',
+        'Balanced white skin by Felix Niklas (slim version).' => 'Apariencia blanca equilibrada por Felix Niklas (versión slim).',
+        'Balanced white skin by Felix Niklas.' => 'Apariencia blanca equilibrada por Felix Niklas.',
+        'Based on global RichText setting' => 'Basada en ajustes de RichText global',
+        'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
+            '',
+        'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
+            'Bloquea todos los emails entrantes que no tengan un número de ticket válido en el asunto con Desde: la dirección @example.com.',
+        'Bounced to "%s".' => 'Rebotado a «%s».',
+        'Bulgarian' => 'Bulgaro',
+        'Bulk Action' => 'Acción en Bloque',
+        'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' =>
+            'Configurar ejemplo CMD. Ignora emails donde una externa CMD devuelve alguna salida STDOUT ( el email será canalizado en STDIN de algún.bin).',
+        'CSV Separator' => 'Separador CSV',
+        'Cache time in seconds for agent authentication in the GenericInterface.' =>
+            'Tiempo de caché en segundos para la autenticación de agente en la InterfazGenerica.',
+        'Cache time in seconds for customer authentication in the GenericInterface.' =>
+            'Tiempo de caché en segundos para la autenticación de cliente en la InterfazGenerica.',
+        'Cache time in seconds for the DB ACL backend.' => 'Tiempo de caché en segundos para el backend de la Base de datos de ACL.',
+        'Cache time in seconds for the DB process backend.' => 'Tiempo de caché en segundos para el proceso backend DB.',
+        'Cache time in seconds for the SSL certificate attributes.' => 'Tiempo de caché en segundos para los atributos de certificado SSL.',
+        'Cache time in seconds for the ticket process navigation bar output module.' =>
+            'Tiempo de caché en segundos para el módulo de salida de la barra de navegación del proceso de ticket.',
+        'Cache time in seconds for the web service config backend.' => 'Tiempo de caché en segundos para la configuración backend del servicio web.',
+        'Calendar manage screen.' => 'Pantalla de gestión de Calendarios',
+        'Cancel whole escalation if ticket is in configured suspend state (EscalationSuspendStates). Ticket will not escalate at all in configured suspend state. No escalation times are shown. Ticket will not be shown in escalation view.' =>
+            '',
+        'Catalan' => 'Catalán',
+        'Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+            '',
+        'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
+            '',
+        'Change Ticket' => '',
+        'Change Ticket information' => '',
+        'Change queue!' => '¡Cambiar cola!',
+        'Change the customer for this ticket' => 'Cambiar el cliente de este ticket',
+        'Change the owner for this ticket' => 'Cambiar el propietario de este ticket',
+        'Change the priority for this ticket' => 'Cambiar la prioridad de este ticket',
+        'Change the responsible for this ticket' => 'Cambiar el responsable para este ticket',
+        'Change your avatar image.' => '',
+        'Change your password and more.' => '',
+        'Changed SLA to "%s" (%s).' => '',
+        'Changed archive state to "%s".' => '',
+        'Changed customer to "%s".' => '',
+        'Changed dynamic field %s from "%s" to "%s".' => '',
+        'Changed owner to "%s" (%s).' => '',
+        'Changed pending time to "%s".' => '',
+        'Changed priority from "%s" (%s) to "%s" (%s).' => 'Cambiada prioridad de «%s» (%s) a «%s» (%s).',
+        'Changed queue to "%s" (%s) from "%s" (%s).' => '',
+        'Changed responsible to "%s" (%s).' => '',
+        'Changed service to "%s" (%s).' => '',
+        'Changed state from "%s" to "%s".' => '',
+        'Changed title from "%s" to "%s".' => 'Se cambió el título de "%s" a "%s".',
+        'Changed type from "%s" (%s) to "%s" (%s).' => '',
+        'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
+            'Cambia el propietario de tickets a todos (útil para ASP). Normalmente se mostrará un único agente con permisos rw en la cola de ticket.',
+        'Chat communication channel.' => '',
+        'Checkbox' => ' Casilla de verificación',
+        'Checks for articles that needs to be updated in the article search index.' =>
+            '',
+        'Checks for communication log entries to be deleted.' => '',
+        'Checks for queued outgoing emails to be sent.' => '',
+        'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
+            'Comprueba si un E-Mail es un seguimiento a un ticket existente búscando en el tema por un número de ticket válido.',
+        'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
+            '',
+        'Child' => 'Hijo',
+        'Chinese (Simplified)' => 'Chino (Simplificado)',
+        'Chinese (Traditional)' => 'Chino (Tradicional)',
+        'Choose for which kind of appointment changes you want to receive notifications.' =>
+            'Elija el tipo de cambios en las citas par las cuales desea recibir notificaciones.',
+        'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
+            '',
+        'Choose which notifications you\'d like to receive.' => '',
+        'Christmas Eve' => 'Nochebuena',
+        'Close' => 'Cerrar',
+        'Close this ticket' => 'Cerrar este ticket',
+        'Closed tickets (customer user)' => 'Tickets cerrados (cliente usuario)',
+        'Closed tickets (customer)' => 'Tickets cerrados (cliente)',
+        'Cloud Services' => 'Servicios en la Nube',
+        'Cloud service admin module registration for the transport layer.' =>
+            'Módulo de registro de administración de servicios en la nube para la capa de transporte.',
+        'Collect support data for asynchronous plug-in modules.' => 'Recolector datos de soporte para módulos plug-in asíncronos.',
+        'Color definitions for the customer interface.' => '',
+        'Column ticket filters for Ticket Overviews type "Small".' => 'Filtros ticket de columna para Vistas Generales de Ticket tipo "Pequeña".',
+        'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
+            '',
+        'Columns that can be filtered in the locked view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
+            '',
+        'Columns that can be filtered in the queue view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
+            '',
+        'Columns that can be filtered in the responsible view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
+            '',
+        'Columns that can be filtered in the service view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
+            '',
+        'Columns that can be filtered in the status view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
+            '',
+        'Columns that can be filtered in the ticket search result view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
+            '',
+        'Columns that can be filtered in the watch view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
+            '',
+        'Comment for new history entries in the customer interface.' => 'Comentario para nueva entrada de historico en la interfaz de usuario.',
+        'Comment2' => 'Comentario2',
+        'Communication' => 'Comunicación',
+        'Communication & Notifications' => '',
+        'Communication Log GUI' => '',
+        'Communication log limit per page for Communication Log Overview.' =>
+            '',
+        'CommunicationLog Overview Limit' => '',
+        'Company Status' => 'Estado de la Empresa',
+        'Company Tickets.' => 'Tickets de Empresa.',
+        'Company name which will be included in outgoing emails as an X-Header.' =>
+            'Nombre de la Empresa la cual será incluida en los emails salientes como una X-Cabecera.',
+        'Compat module for AgentZoom to AgentTicketZoom.' => 'Módulo compatible para Zoom de Agente a Zoom del Ticket de Agente',
+        'Complex' => 'Complejo',
+        'Compose' => 'Redactar',
+        'Configure Processes.' => 'Configurar Procesos.',
+        'Configure and manage ACLs.' => 'Configurar y administrar ACLs.',
+        'Configure any additional readonly mirror databases that you want to use.' =>
+            'Configura base de datos espejo de sólo lectura adicional que quieras utilizar.',
+        'Configure sending of support data to OTOBO Team for improved support.' =>
+            '',
+        'Configure which screen should be shown after a new ticket has been created.' =>
+            'Configura que pantalla debe ser mostrada después de que un nuevo ticket haya sido creado.',
+        'Configure your own log text for PGP.' => 'Configure su propio texto de registro de PGP.',
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/doc/), chapter "Ticket Event Module".' =>
+            '',
+        'Controls how to display the ticket history entries as readable values.' =>
+            'Controla cómo mostrar el historial de entradas como valores legibles.',
+        'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
+            'Controla cada vez cuando el ID de Cliente se copia automáticamente desde la dirección del  remitente a los clientes desconocidos.',
+        'Controls if CustomerID is read-only in the agent interface.' => 'Controla cada vez cuando el ID del Cliente es sólo para leer en el interfaz de agente.',
+        'Controls if customers have the ability to sort their tickets.' =>
+            'Controla si los clientes tienen la posibilidad de ordenar sus tickets.',
+        'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            'Controla si más de una de entrada se puede establecer en el nuevo ticket telefónico en la interfaz del agente.',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            'Controla si el administrador está permitido para importar una configuración de sistema guardada en SysConfig .',
+        'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
+            'Controla si se permite al administrador para realizar cambios en la base de datos a través de AdminSelectBox.',
+        'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>
+            '',
+        'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
+            'Controla si se quitan las banderas de las entradas y el artículo visto cuando un ticket se archiva.',
+        'Converts HTML mails into text messages.' => 'Convierte correos HTML en mensajes de texto.',
+        'Create New process ticket.' => 'Crear nuevo ticket de proceso.',
+        'Create Templates for AdminDynamicFieldTitle' => '',
+        'Create Ticket' => '',
+        'Create a new calendar appointment linked to this ticket' => 'Crear una nueva cita de calendario vinculada a este ticket',
+        'Create and manage Service Level Agreements (SLAs).' => 'Crea y gestiona Acuerdos de Nivel de Servicio (SLAs).',
+        'Create and manage agents.' => 'Crea y gestiona agentes.',
+        'Create and manage appointment notifications.' => 'Crea y gestiona las notificaciones de citas.',
+        'Create and manage attachments.' => 'Crear y gestionar archivos adjuntos.',
+        'Create and manage calendars.' => '',
+        'Create and manage customer users.' => 'Crea y gestiona usuarios clientes.',
+        'Create and manage customers.' => 'Crea y gestiona clientes.',
+        'Create and manage dynamic fields.' => 'Crea y gestiona campos dinámicos.',
+        'Create and manage groups.' => 'Crea y gestiona grupos.',
+        'Create and manage queues.' => 'Crea y gestiona colas.',
+        'Create and manage responses that are automatically sent.' => 'Crea y gestiona las respuestas enviadas automáticamente.',
+        'Create and manage roles.' => 'Crea y gestiona roles.',
+        'Create and manage salutations.' => 'Crea y gestiona Saludos.',
+        'Create and manage services.' => 'Crea y gestiona servicios.',
+        'Create and manage signatures.' => 'Crea y gestiona firmas.',
+        'Create and manage templates.' => 'Crea y gestiona plantillas.',
+        'Create and manage ticket notifications.' => 'Crea y gestiona las notificaciones de ticket.',
+        'Create and manage ticket priorities.' => 'Crea y gestiona prioridades de tickets.',
+        'Create and manage ticket states.' => 'Crea y gestiona estado de los tickets.',
+        'Create and manage ticket types.' => 'Crea y gestiona tipos de tickets.',
+        'Create and manage web services.' => 'Crea y gestiona servicios web.',
+        'Create new Ticket.' => 'Crear nuevo Ticket.',
+        'Create new appointment.' => 'Crear nueva cita.',
+        'Create new email ticket and send this out (outbound).' => 'Crea un nuevo ticket por correo y envíelo (saliente).',
+        'Create new email ticket.' => 'Crear un nuevo ticket de correo electrónico.',
+        'Create new phone ticket (inbound).' => 'Crea nuevo ticket telefónico (entrante).',
+        'Create new phone ticket.' => 'Crea nuevo ticket telefónico.',
+        'Create new process ticket.' => 'Crea nuevo ticket de proceso.',
+        'Create tickets.' => 'Crear tickets.',
+        'Create your first ticket' => 'Cree su primer ticket',
+        'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
+            '',
+        'Croatian' => 'Croata',
+        'Custom RSS Feed' => 'RSS Feed Personalizado',
+        'Custom RSS feed.' => 'RSS feed personalizada.',
+        'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
+            'Texto personalizado para la página que se muestra a los clientes que no tienen tickets todavía ( si necesita esos textos traducidos añadadalos a un módulo de traducción personalizado).',
+        'Customer Administration' => 'Administración de Clientes',
+        'Customer Companies' => 'Empresas de los clientes',
+        'Customer Dashboard' => '',
+        'Customer Dynamic Field Database Detailed Search' => '',
+        'Customer Dynamic Field Database Details' => '',
+        'Customer Dynamic Field Database Search' => '',
+        'Customer IDs' => '',
+        'Customer Information Center Search.' => 'Buscar en Centro de información al cliente.',
+        'Customer Information Center search.' => 'Búsqueda en el Centro de información al cliente.',
+        'Customer Information Center.' => 'Centro de información al cliente.',
+        'Customer Password.' => '',
+        'Customer Ticket Print Module.' => 'Módulo de impresión de tickets de cliente.',
+        'Customer User Administration' => 'Administración de los usuarios cliente',
+        'Customer User Information' => '',
+        'Customer User Information Center Search.' => '',
+        'Customer User Information Center search.' => 'Búsqueda en el Centro de información del usuario del cliente.',
+        'Customer User Information Center.' => '',
+        'Customer Users ↔ Customers' => '',
+        'Customer Users ↔ Groups' => '',
+        'Customer Users ↔ Services' => '',
+        'Customer dynamic field database detailed search.' => '',
+        'Customer dynamic field database details.' => '',
+        'Customer dynamic field database search.' => '',
+        'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
+            'Elemento cliente (icono) el cual muestra los tickets cerrados para este cliente como un bloque de información. Estableciendo ClienteUsuarioLogin a 1 busca por tickets basándose en el nombre de login en vez de IDCliente.',
+        'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
+            'Elemento cliente (icono) el cual muestra los tickets abiertos para este cliente como un bloque de información. Estableciendo ClienteUsuarioLogin a 1 busca por tickets basándose en el nombre de login en vez de IDCliente.',
+        'Customer preferences.' => 'Preferencias del cliente.',
+        'Customer ticket overview' => 'Resumen de Tickets de Cliente',
+        'Customer ticket search.' => 'Busqueda de Ticket de Cliente',
+        'Customer ticket zoom' => 'Ticket zoom del Cliente',
+        'Customer user search' => 'Búsqueda de usuario cliente',
+        'CustomerID search' => 'Búsqueda de ClienteID',
+        'CustomerName' => 'Nombre del cliente',
+        'CustomerUser' => 'Usuario del cliente',
+        'Customers ↔ Groups' => 'Clientes ↔ Grupos',
+        'Customizable stop words for fulltext index. These words will be removed from the search index.' =>
+            'Palabras vacías personalizables para el índice de texto completo. Estas palabras serán eliminadas del índice de búsqueda.',
+        'Czech' => 'Checo',
+        'Danish' => 'Danes',
+        'Dashboard overview.' => 'Visión general del panel principal.',
+        'Data used to export the search result in CSV format.' => 'Datos usados para exportar el resultado de la búsqueda en formato CSV. ',
+        'Date / Time' => 'Fecha / Hora',
+        'Default (Slim)' => 'Predeterminado (Slim)',
+        'Default ACL values for ticket actions.' => 'Valores ACL por defecto para las acciones de tickets.',
+        'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
+            'Prefijos entidad GestiónProceso por defecto para las IDs entidades que son generadas automaticamnete.',
+        'Default agent name' => '',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
+            'Datos por defecto a usar en el atributo para la pantalla buscar ticket. Ejemplo: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".',
+        'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
+            'Datos por defecto a usar en el atributo para la pantalla buscar ticket. Ejemplo: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".',
+        'Default display type for recipient (To,Cc) names in AgentTicketZoom and CustomerTicketZoom.' =>
+            'Tipo de pantalla por defecto para nombre del destinatario ( Para, CC) en AgenteTicketZoom y ClienteTicketZoom.',
+        'Default display type for sender (From) names in AgentTicketZoom and CustomerTicketZoom.' =>
+            'Tipo de pantalla por defecto para nombres del remitente (De) en AgenteTicketZoom y ClienteTicketZoom.',
+        'Default loop protection module.' => 'Módulo protección bucle por defecto.',
+        'Default queue ID used by the system in the agent interface.' => 'ID cola por defecto usada por el sistema en la interfaz de agente.',
+        'Default skin for the agent interface (slim version).' => 'Apariencia por defecto para la interfaz de agente (versión slim).',
+        'Default skin for the agent interface.' => 'Apariencia por defecto para la interfaz de agente.',
+        'Default skin for the customer interface.' => 'Apariencia por defecto para la interfaz de cliente.',
+        'Default ticket ID used by the system in the agent interface.' =>
+            'ID ticket por defecto usada por el sistema en la interfaz de agente.',
+        'Default ticket ID used by the system in the customer interface.' =>
+            'ID de ticket por defecto usada por el sistema en la interfaz de cliente.',
+        'Default value for NameX' => 'Valor por defecto para NombreX',
+        'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
+            'Define los Acciones dónde el botón de ajustes está disponible en el widget del objeto vinculado (LinkObject::ViewMode = "complex"). Favor téngase en cuenta que éstos Acciones deben registrar los siguientes JS y CSS archivos: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.',
+        'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
+            'Definir un filtro para la salida html para agregar enlaces detrás de un string definido. El elemento Imagen permite dos tipos de entrada. Al mismo tiempo el nombre de una imagen (por ejemplo faq.png ). En este caso se utilizará la ruta de la imagen OTOBO. La segunda posibilidad es insertar el enlace a la imagen.',
+        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
+            '',
+        'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
+            'Definir el nombre del campo dinámico para la hora de finalización. Este campo tiene que ser añadido manualmente al sistema como Ticket: "Fecha / Hora" y debe ser activado en las pantallas de creación de ticket y / o en otras pantallas de acción de ticket.',
+        'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
+            'Definir el nombre del campo dinámico para la hora de inicio. Este campo tiene que ser añadido manualmente al sistema como Ticket: "Fecha / Hora" y debe ser activado en las pantallas de creación de ticket y / o en otras pantallas de acción de ticket.',
+        'Define the max depth of queues.' => 'Definir la profundidad máxima de colas.',
+        'Define the queue comment 2.' => 'Definir el comentario 2 de cola.',
+        'Define the service comment 2.' => 'Definir el comentario 2 de servicio.',
+        'Define the sla comment 2.' => 'Definir el comentario 2 de sla.',
+        'Define the start day of the week for the date picker for the indicated calendar.' =>
+            'Definir el día de inicio de la semana para el selector de fecha para el calendario indicado.',
+        'Define the start day of the week for the date picker.' => 'Definir el día de inicio de la semana para el selector de fecha.',
+        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check https://gravatar.com/site/implement/images/ for further information.' =>
+            '',
+        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check https://gravatar.com/site/implement/images/ for further information.' =>
+            '',
+        'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
+            '',
+        'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
+            'Define cuales columnas serán mostradas en widget de citas vinculadas (LinkObject::ViewMode = "complex"). Ajustes posibles: 0 = Desactivado, 1 = Disponible, 2 = Activado de forma predeterminada.',
+        'Define which columns are shown in the linked tickets widget (LinkObject::ViewMode = "complex"). Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
+            '',
+        'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
+            'Define un item del cliente, el cual genera un icono de LinkedIn en el extremo de un bloque de información del cliente.',
+        'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
+            'Define un ítem del cliente, el cual genera un icono de XING en el extremo de un bloque de información del cliente.',
+        'Defines a customer item, which generates a google icon at the end of a customer info block.' =>
+            'Define un ítem del cliente, el cual genera un icono de google en el extremo de un bloque de información del cliente.',
+        'Defines a customer item, which generates a google maps icon at the end of a customer info block.' =>
+            'Define un ítem del cliente, el cual genera un icono de google maps en el extremo de un bloque de información del cliente.',
+        'Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
+            'Define los filtros para la salida html para agregar los vínculos  tras los números CVE. El elemento Imagen permite dos tipos de entrada. En el primer tipo el nombre del imagen (ej.faq.png). En este caso será usado el camino del imagen OTOBO. La segunda posibilidad es insertar el vínculo al imagen.',
+        'Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
+            'Define el filtro de la salida html para agregar los vínculos tras los números de MSBulletin. El Imagen del elemento permite dos tipos de entrada. En el primer tipo el nombre de imagen (ej. faq.png). En éste caso será usado el camino de imagen OTOBO. La segunda posibilidad es insertar el vínculo al imagen.',
+        'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
+            'Define el filtro de la salida html para agregar los vínculos tras una cadena definida. El Imagen del elemento permite dos tipos de entrada. En el primer tipo el nombre de imagen (ej. faq.png). En éste caso será usado el camino de imagen OTOBO. La segunda posibilidad es insertar el vínculo al imagen.',
+        'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
+            'Define el filtro de la salida html para agregar los vínculos tras los números de bugtraq. El Imagen del elemento permite dos tipos de entrada. En el primer tipo el nombre de imagen (ej. faq.png). En éste caso será usado el camino de imagen OTOBO. La segunda posibilidad es insertar el vínculo al imagen.',
+        'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
+            'Define el filtro para colectar los números CVE desde los textos de artículos en AgentTicketZoom. Los resultados serán mostrados en meta box al lado del artículo. Llena el URLPrevisualización si quieres ver la previsualización cuando apuntes tu cursor del ratón en elemento vinculado. Ésto puede ser el mismo URL como en el URL, pero también un alternativo. Favor téngase en cuenta que algunos páginas web se niegan ser mostrados dentro el i-marco (ej. Google) y por ende no van a funcionar en el modo de previsualización.',
+        'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
+            'Define el filtro para el procesar el texto en los artículos, para resaltar las palabras claves predefinidos.',
+        'Defines a permission context for customer to group assignment.' =>
+            '',
+        'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
+            '',
+        'Defines a regular expression that filters all email addresses that should not be used in the application.' =>
+            'Define la expresión regular cuál filtra todos los direcciones de email que no deberían ser usados en éste aplicación.',
+        'Defines a sleep time in microseconds between tickets while they are been processed by a job.' =>
+            '',
+        'Defines a useful module to load specific user options or to display news.' =>
+            'Define un módulo útil para cargar opciones de usuario específicas o para mostrar noticias.',
+        'Defines all the X-headers that should be scanned.' => 'Define todos los X-headers que deben ser escaneados.',
+        'Defines all the languages that are available to the application. Specify only English names of languages here.' =>
+            'Define todos los idiomas disponibles para la aplicación. Especifique sólo los nombres en inglés de los idiomas aquí.',
+        'Defines all the languages that are available to the application. Specify only native names of languages here.' =>
+            '',
+        'Defines all the parameters for the RefreshTime object in the customer preferences of the customer interface.' =>
+            '',
+        'Defines all the parameters for the ShownTickets object in the customer preferences of the customer interface.' =>
+            '',
+        'Defines all the parameters for this item in the customer preferences.' =>
+            'Define todos los parámetros de este elemento en las Preferencias del Cliente.',
+        'Defines all the parameters for this item in the customer preferences. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control).' =>
+            '',
+        'Defines all the parameters for this notification transport.' => 'Define todos los parámetros para este transporte de notificaciones.',
+        'Defines all the possible stats output formats.' => 'Define todos los formatos de salida posibles para las estadísticas.',
+        'Defines an alternate URL, where the login link refers to.' => 'Define una URL alternativa, a donde hace referencia el enlace de inicio de sesión.',
+        'Defines an alternate URL, where the logout link refers to.' => 'Define una URL alternativa, a donde hace referencia el enlace de cierre de sesión.',
+        'Defines an alternate login URL for the customer panel..' => 'Define una URL alternativa de inicio de sesión para el panel de cliente.',
+        'Defines an alternate logout URL for the customer panel.' => 'Define una URL alternativa de cierre de sesión para el panel de cliente.',
+        'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').' =>
+            '',
+        'Defines an icon with link to the google map page of the current location in appointment edit screen.' =>
+            'Define un icono de vínculo a la pagina de google map de la ubicación actual en la pantalla de edición de citas.',
+        'Defines an overview module to show the address book view of a customer user list.' =>
+            '',
+        'Defines available article actions for Chat articles.' => '',
+        'Defines available article actions for Email articles.' => '',
+        'Defines available article actions for Internal articles.' => '',
+        'Defines available article actions for Phone articles.' => '',
+        'Defines available article actions for invalid articles.' => '',
+        'Defines available groups for the admin overview screen.' => '',
+        'Defines chat communication channel.' => '',
+        'Defines default headers for outgoing emails.' => '',
+        'Defines email communication channel.' => '',
+        'Defines from which ticket attributes the agent can select the result order.' =>
+            'Define con que atributos del ticket el agente puede seleccionar el orden resultante.',
+        'Defines groups for preferences items.' => '',
+        'Defines how many deployments the system should keep.' => '',
+        'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
+            'Define como debe lucir el campo From de los correos (enviados desde respuestas y tickets de correos).',
+        'Defines if a pre-sorting by priority should be done in the queue view.' =>
+            '',
+        'Defines if a pre-sorting by priority should be done in the service view.' =>
+            '',
+        'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
+        'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
+        'Defines if a ticket lock is required in the email resend screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
+        'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
+        'Defines if a ticket lock is required in the ticket compose screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
+        'Defines if a ticket lock is required in the ticket forward screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
+        'Defines if a ticket lock is required in the ticket free text screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
+        'Defines if a ticket lock is required in the ticket merge screen of a zoomed ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
+        'Defines if a ticket lock is required in the ticket note screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
+        'Defines if a ticket lock is required in the ticket owner screen of a zoomed ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
+        'Defines if a ticket lock is required in the ticket pending screen of a zoomed ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
+        'Defines if a ticket lock is required in the ticket phone inbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
+        'Defines if a ticket lock is required in the ticket phone outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
+        'Defines if a ticket lock is required in the ticket priority screen of a zoomed ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
+        'Defines if a ticket lock is required in the ticket responsible screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
+        'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
+        'Defines if agents should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
+            '',
+        'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
+            '',
+        'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
+            '',
+        'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
+            '',
+        'Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.' =>
+            '',
+        'Defines if the message in the email outbound screen of the agent interface is visible for the customer by default.' =>
+            '',
+        'Defines if the message in the email resend screen of the agent interface is visible for the customer by default.' =>
+            '',
+        'Defines if the message in the ticket compose screen of the agent interface is visible for the customer by default.' =>
+            '',
+        'Defines if the message in the ticket forward screen of the agent interface is visible for the customer by default.' =>
+            '',
+        'Defines if the note in the close ticket screen of the agent interface is visible for the customer by default.' =>
+            '',
+        'Defines if the note in the ticket bulk screen of the agent interface is visible for the customer by default.' =>
+            '',
+        'Defines if the note in the ticket free text screen of the agent interface is visible for the customer by default.' =>
+            '',
+        'Defines if the note in the ticket note screen of the agent interface is visible for the customer by default.' =>
+            '',
+        'Defines if the note in the ticket owner screen of the agent interface is visible for the customer by default.' =>
+            '',
+        'Defines if the note in the ticket pending screen of the agent interface is visible for the customer by default.' =>
+            '',
+        'Defines if the note in the ticket priority screen of the agent interface is visible for the customer by default.' =>
+            '',
+        'Defines if the note in the ticket responsible screen of the agent interface is visible for the customer by default.' =>
+            '',
+        'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
+            '',
+        'Defines if the values for filters should be retrieved from all available tickets. If enabled, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.' =>
+            '',
+        'Defines if time accounting is mandatory in the agent interface. If enabled, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
+            '',
+        'Defines if time accounting must be set to all tickets in bulk action.' =>
+            '',
+        'Defines internal communication channel.' => '',
+        'Defines out of office message template. Two string parameters (%s) available: end date and number of days left.' =>
+            '',
+        'Defines phone communication channel.' => '',
+        'Defines queues that\'s tickets are used for displaying as calendar events.' =>
+            '',
+        'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTOBO Daemon).' =>
+            '',
+        'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
+            '',
+        'Defines the PostMaster header to be used on the filter for keeping the current state of the ticket.' =>
+            '',
+        'Defines the URL CSS path.' => '',
+        'Defines the URL base path of icons, CSS and Java Script.' => '',
+        'Defines the URL image path of icons for navigation.' => '',
+        'Defines the URL java script path.' => '',
+        'Defines the URL rich text editor path.' => '',
+        'Defines the address of a dedicated DNS server, if necessary, for the "CheckMXRecord" look-ups.' =>
+            '',
+        'Defines the agent preferences key where the shared secret key is stored.' =>
+            '',
+        'Defines the available steps in time selections. Select "Minute" to be able to select all minutes of one hour from 1-59. Select "30 Minutes" to only make full and half hours available.' =>
+            '',
+        'Defines the body for the quick close action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the body text for notification mails sent to agents, about new password.' =>
+            '',
+        'Defines the body text for notification mails sent to agents, with token about new requested password.' =>
+            '',
+        'Defines the body text for notification mails sent to customers, about new account.' =>
+            '',
+        'Defines the body text for notification mails sent to customers, about new password.' =>
+            '',
+        'Defines the body text for notification mails sent to customers, with token about new requested password.' =>
+            '',
+        'Defines the body text for rejected emails.' => 'Define el cuerpo del texto para los emails rechazados.',
+        'Defines the calendar width in percent. Default is 95%.' => 'Define el ancho del calendario en porcentaje. El valor predeterminado es 95%.',
+        'Defines the close state for quick close.' => '',
+        'Defines the column to store the keys for the preferences table.' =>
+            '',
+        'Defines the communication chanel for the quick close article action.' =>
+            '',
+        'Defines the config options for the autocompletion feature.' => 'Define las opciones de configuración para la función de autocompletar.',
+        'Defines the config parameters of this item, to be shown in the preferences view.' =>
+            '',
+        'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Defines the connections for http/ftp, via a proxy.' => 'Define las conexiones para http/ftp, a través de un proxy.',
+        'Defines the customer preferences key where the shared secret key is stored.' =>
+            '',
+        'Defines the date input format used in forms (option or input fields).' =>
+            '',
+        'Defines the default CSS used in rich text editors.' => '',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
+        'Defines the default auto response type of the article for this operation.' =>
+            '',
+        'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
+            '',
+        'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
+            '',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/doc/.' =>
+            '',
+        'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
+            '',
+        'Defines the default history type in the customer interface.' => '',
+        'Defines the default maximum number of X-axis attributes for the time scale.' =>
+            '',
+        'Defines the default maximum number of statistics per page on the overview screen.' =>
+            '',
+        'Defines the default next state for a ticket after customer follow-up in the customer interface.' =>
+            '',
+        'Defines the default next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
+            '',
+        'Defines the default next state of a ticket after adding a note, in the ticket free text screen of the agent interface.' =>
+            '',
+        'Defines the default next state of a ticket after adding a note, in the ticket note screen of the agent interface.' =>
+            '',
+        'Defines the default next state of a ticket after adding a note, in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Defines the default next state of a ticket after adding a note, in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Defines the default next state of a ticket after adding a note, in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Defines the default next state of a ticket after adding a note, in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Defines the default next state of a ticket after being bounced, in the ticket bounce screen of the agent interface.' =>
+            '',
+        'Defines the default next state of a ticket after being forwarded, in the ticket forward screen of the agent interface.' =>
+            '',
+        'Defines the default next state of a ticket after the message has been sent, in the email outbound screen of the agent interface.' =>
+            '',
+        'Defines the default next state of a ticket if it is composed / answered in the ticket compose screen of the agent interface.' =>
+            '',
+        'Defines the default next state of a ticket, in the ticket bulk screen of the agent interface.' =>
+            '',
+        'Defines the default note body text for phone tickets in the ticket phone inbound screen of the agent interface.' =>
+            '',
+        'Defines the default note body text for phone tickets in the ticket phone outbound screen of the agent interface.' =>
+            '',
+        'Defines the default priority of follow-up customer tickets in the ticket zoom screen in the customer interface.' =>
+            '',
+        'Defines the default priority of new customer tickets in the customer interface.' =>
+            '',
+        'Defines the default priority of new tickets.' => 'Define la prioridad predeterminada de los nuevos tickets.',
+        'Defines the default queue for new customer tickets in the customer interface.' =>
+            'Define la cola predeterminada para los nuevos tickets del cliente en la interfaz de cliente.',
+        'Defines the default queue for new tickets in the agent interface.' =>
+            '',
+        'Defines the default selection at the drop down menu for dynamic objects (Form: Common Specification).' =>
+            '',
+        'Defines the default selection at the drop down menu for permissions (Form: Common Specification).' =>
+            '',
+        'Defines the default selection at the drop down menu for stats format (Form: Common Specification). Please insert the format key (see Stats::Format).' =>
+            '',
+        'Defines the default sender type for phone tickets in the ticket phone inbound screen of the agent interface.' =>
+            '',
+        'Defines the default sender type for phone tickets in the ticket phone outbound screen of the agent interface.' =>
+            '',
+        'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' =>
+            '',
+        'Defines the default shown ticket search attribute for ticket search screen (AllTickets/ArchivedTickets/NotArchivedTickets).' =>
+            '',
+        'Defines the default shown ticket search attribute for ticket search screen.' =>
+            '',
+        'Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case \'X\', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' and or \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.' =>
+            '',
+        'Defines the default sort criteria for all queues displayed in the queue view.' =>
+            'Define los criterios de clasificación predeterminados para todas las colas que se muestran en la vista de cola.',
+        'Defines the default sort criteria for all services displayed in the service view.' =>
+            '',
+        'Defines the default sort order for all queues in the queue view, after priority sort.' =>
+            '',
+        'Defines the default sort order for all services in the service view, after priority sort.' =>
+            '',
+        'Defines the default state of new customer tickets in the customer interface.' =>
+            'Define el estado predeterminado de los nuevos tickets de cliente en la interfaz de cliente.',
+        'Defines the default state of new tickets.' => 'Define el estado predeterminado de los nuevos tickets.',
+        'Defines the default subject for phone tickets in the ticket phone inbound screen of the agent interface.' =>
+            '',
+        'Defines the default subject for phone tickets in the ticket phone outbound screen of the agent interface.' =>
+            '',
+        'Defines the default subject of a note in the ticket free text screen of the agent interface.' =>
+            '',
+        'Defines the default the number of seconds (from current time) to re-schedule a generic interface failed task.' =>
+            '',
+        'Defines the default ticket attribute for ticket sorting in a ticket search of the customer interface.' =>
+            '',
+        'Defines the default ticket attribute for ticket sorting in the escalation view of the agent interface.' =>
+            '',
+        'Defines the default ticket attribute for ticket sorting in the locked ticket view of the agent interface.' =>
+            '',
+        'Defines the default ticket attribute for ticket sorting in the responsible view of the agent interface.' =>
+            '',
+        'Defines the default ticket attribute for ticket sorting in the status view of the agent interface.' =>
+            '',
+        'Defines the default ticket attribute for ticket sorting in the watch view of the agent interface.' =>
+            '',
+        'Defines the default ticket attribute for ticket sorting of the ticket search result of the agent interface.' =>
+            '',
+        'Defines the default ticket attribute for ticket sorting of the ticket search result of this operation.' =>
+            '',
+        'Defines the default ticket bounced notification for customer/sender in the ticket bounce screen of the agent interface.' =>
+            '',
+        'Defines the default ticket next state after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
+            '',
+        'Defines the default ticket next state after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
+            '',
+        'Defines the default ticket order (after priority sort) in the escalation view of the agent interface. Up: oldest on top. Down: latest on top.' =>
+            '',
+        'Defines the default ticket order (after priority sort) in the status view of the agent interface. Up: oldest on top. Down: latest on top.' =>
+            '',
+        'Defines the default ticket order in the responsible view of the agent interface. Up: oldest on top. Down: latest on top.' =>
+            '',
+        'Defines the default ticket order in the ticket locked view of the agent interface. Up: oldest on top. Down: latest on top.' =>
+            '',
+        'Defines the default ticket order in the ticket search result of the agent interface. Up: oldest on top. Down: latest on top.' =>
+            '',
+        'Defines the default ticket order in the ticket search result of the this operation. Up: oldest on top. Down: latest on top.' =>
+            '',
+        'Defines the default ticket order in the watch view of the agent interface. Up: oldest on top. Down: latest on top.' =>
+            '',
+        'Defines the default ticket order of a search result in the customer interface. Up: oldest on top. Down: latest on top.' =>
+            '',
+        'Defines the default ticket priority in the close ticket screen of the agent interface.' =>
+            '',
+        'Defines the default ticket priority in the ticket bulk screen of the agent interface.' =>
+            '',
+        'Defines the default ticket priority in the ticket free text screen of the agent interface.' =>
+            '',
+        'Defines the default ticket priority in the ticket note screen of the agent interface.' =>
+            '',
+        'Defines the default ticket priority in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Defines the default ticket priority in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Defines the default ticket priority in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Defines the default ticket priority in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Defines the default ticket type for new customer tickets in the customer interface.' =>
+            '',
+        'Defines the default ticket type.' => 'Define el tipo predeterminado de ticket.',
+        'Defines the default used Frontend-Module if no Action parameter given in the url on the agent interface.' =>
+            '',
+        'Defines the default used Frontend-Module if no Action parameter given in the url on the customer interface.' =>
+            '',
+        'Defines the default value for the action parameter for the public frontend. The action parameter is used in the scripts of the system.' =>
+            '',
+        'Defines the default viewable sender types of a ticket (default: customer).' =>
+            '',
+        'Defines the default visibility of the article to customer for this operation.' =>
+            '',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
+            '',
+        'Defines the dynamic fields that are used for displaying on calendar events.' =>
+            '',
+        'Defines the event object types that will be handled via AdminAppointmentNotificationEvent.' =>
+            'Define los tipos de objeto de evento que se manejan a través del AdminAppointmentNotificationEvent.',
+        'Defines the fall-back path to open fetchmail binary. Note: The name of the binary needs to be \'fetchmail\', if it is different please use a symbolic link.' =>
+            '',
+        'Defines the filter that processes the HTML templates.' => '',
+        'Defines the filter that processes the text in the articles, in order to highlight URLs.' =>
+            '',
+        'Defines the format of responses in the ticket compose screen of the agent interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | html %] is only realname of From).' =>
+            '',
+        'Defines the fully qualified domain name of the system. This setting is used as a variable, OTOBO_CONFIG_FQDN which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            '',
+        'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every customer user for these groups).' =>
+            '',
+        'Defines the groups every customer will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every customer for these groups).' =>
+            '',
+        'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
+            '',
+        'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            '',
+        'Defines the history comment for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history comment for the phone ticket screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history comment for the ticket free text screen action, which gets used for ticket history.' =>
+            '',
+        'Defines the history comment for the ticket note screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history comment for the ticket owner screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history comment for the ticket pending screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history comment for the ticket phone inbound screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history comment for the ticket phone outbound screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history comment for the ticket priority screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history comment for the ticket responsible screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history comment for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
+            '',
+        'Defines the history comment for this operation, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history type for the close ticket screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history type for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history type for the phone ticket screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history type for the ticket free text screen action, which gets used for ticket history.' =>
+            '',
+        'Defines the history type for the ticket note screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history type for the ticket owner screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history type for the ticket pending screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history type for the ticket phone inbound screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history type for the ticket phone outbound screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history type for the ticket priority screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history type for the ticket responsible screen action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the history type for the ticket zoom action, which gets used for ticket history in the customer interface.' =>
+            '',
+        'Defines the history type for this operation, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the hours and week days of the indicated calendar, to count the working time.' =>
+            '',
+        'Defines the hours and week days to count the working time.' => 'Define las horas y los días de la semana para contar el tiempo de trabajo.',
+        'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
+            '',
+        'Defines the key to check with CustomerAccept. If this user preferences key is true, then the message is accepted by the system.' =>
+            '',
+        'Defines the link type \'Normal\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' =>
+            '',
+        'Defines the link type \'ParentChild\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' =>
+            '',
+        'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' =>
+            '',
+        'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otobo/public.pl?Action=PublicRepository;File=" and Content="Some Name".' =>
+            '',
+        'Defines the list of params that can be passed to ticket search function.' =>
+            'Define la lista de parámetros que pueden ser enviados a la función de búsqueda de tickets',
+        'Defines the list of possible next actions on an error screen, a full path is required, then is possible to add external links if needed.' =>
+            '',
+        'Defines the list of types for templates.' => 'Define la lista de tipos de plantillas.',
+        'Defines the location to get online repository list for additional packages. The first available result will be used.' =>
+            'Define la ubicación para obtener la lista de repositorios en línea para paquetes adicionales. Se utilizará el primer resultado disponible.',
+        'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' =>
+            '',
+        'Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTOBO instance to stop working (probably any mask which takes input from the user).' =>
+            '',
+        'Defines the maximal valid time (in seconds) for a session id.' =>
+            '',
+        'Defines the maximum number of affected tickets per job.' => '',
+        'Defines the maximum number of pages per PDF file.' => 'Define el número máximo de páginas por archivo PDF.',
+        'Defines the maximum number of quoted lines to be added to responses.' =>
+            'Define el número máximo de líneas citadas que se agregarán a las respuestas.',
+        'Defines the maximum number of tasks to be executed as the same time.' =>
+            '',
+        'Defines the maximum size (in MB) of the log file.' => 'Define el tamaño máximo (en MB) del archivo de registro.',
+        'Defines the maximum size in KiloByte of GenericInterface responses that get logged to the gi_debugger_entry_content table.' =>
+            '',
+        'Defines the module that shows all the currently logged in agents in the agent interface.' =>
+            'Define el módulo que muestra todos los agentes actualmente conectados en la interfaz del agente.',
+        'Defines the module that shows all the currently logged in customers in the agent interface.' =>
+            'Define el módulo que muestra todos los clientes actualmente conectados en la interfaz del agente.',
+        'Defines the module that shows the currently logged in agents in the customer interface.' =>
+            'Define el módulo que muestra los agentes actualmente conectados en la interfaz del cliente.',
+        'Defines the module that shows the currently logged in customers in the customer interface.' =>
+            'Define el módulo que muestra los clientes actualmente conectados en la interfaz del cliente.',
+        'Defines the module to authenticate customers.' => 'Define el módulo para autenticar clientes.',
+        'Defines the module to display a notification in the agent interface if the OTOBO Daemon is not running.' =>
+            'Define el módulo para mostrar una notificación en la interfaz del agente si el Daemon de OTOBO no se está ejecutando.',
+        'Defines the module to display a notification in the agent interface if the system configuration is out of sync.' =>
+            '',
+        'Defines the module to display a notification in the agent interface, if the agent has not yet selected a time zone.' =>
+            '',
+        'Defines the module to display a notification in the agent interface, if the agent is logged in while having out-of-office active.' =>
+            '',
+        'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
+            '',
+        'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
+            '',
+        'Defines the module to display a notification in the agent interface, if there are invalid sysconfig settings deployed.' =>
+            '',
+        'Defines the module to display a notification in the agent interface, if there are modified sysconfig settings that are not deployed yet.' =>
+            '',
+        'Defines the module to display a notification in the customer interface, if the customer is logged in while having system maintenance active.' =>
+            '',
+        'Defines the module to display a notification in the customer interface, if the customer user has not yet selected a time zone.' =>
+            '',
+        'Defines the module to generate code for periodic page reloads.' =>
+            'Define el módulo para generar el código para las recargas periódicas de la página.',
+        'Defines the module to send emails. "DoNotSendEmail" doesn\'t send emails at all. Any of the "SMTP" mechanisms use a specified (external) mailserver. "Sendmail" directly uses the sendmail binary of your operating system. "Test" doesn\'t send emails, but writes them to $OTOBO_HOME/var/tmp/CacheFileStorable/EmailTest/ for testing purposes.' =>
+            '',
+        'Defines the module used to store the session data. With "DB" the frontend server can be splitted from the db server. "FS" is faster.' =>
+            '',
+        'Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.' =>
+            '',
+        'Defines the name of the column to store the data in the preferences table.' =>
+            '',
+        'Defines the name of the column to store the user identifier in the preferences table.' =>
+            'Define el nombre de la columna para almacenar el identificador de usuario en la tabla de preferencias.',
+        'Defines the name of the indicated calendar.' => 'Define el nombre del calendario indicado',
+        'Defines the name of the key for customer sessions.' => 'Define el nombre de la clave para las sesiones del cliente.',
+        'Defines the name of the session key. E.g. Session, SessionID or OTOBO.' =>
+            '',
+        'Defines the name of the table where the user preferences are stored.' =>
+            'Define el nombre de la tabla donde se almacenan las preferencias del usuario.',
+        'Defines the next possible states after composing / answering a ticket in the ticket compose screen of the agent interface.' =>
+            '',
+        'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
+            '',
+        'Defines the next possible states after sending a message in the email outbound screen of the agent interface.' =>
+            '',
+        'Defines the next possible states for customer tickets in the customer interface.' =>
+            '',
+        'Defines the next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
+            '',
+        'Defines the next state of a ticket after adding a note, in the ticket free text screen of the agent interface.' =>
+            '',
+        'Defines the next state of a ticket after adding a note, in the ticket note screen of the agent interface.' =>
+            '',
+        'Defines the next state of a ticket after adding a note, in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Defines the next state of a ticket after adding a note, in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Defines the next state of a ticket after adding a note, in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Defines the next state of a ticket after adding a note, in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Defines the next state of a ticket after being bounced, in the ticket bounce screen of the agent interface.' =>
+            '',
+        'Defines the next state of a ticket after being moved to another queue, in the move ticket screen of the agent interface.' =>
+            '',
+        'Defines the next state of a ticket, in the ticket bulk screen of the agent interface.' =>
+            '',
+        'Defines the number of character per line used in case an HTML article preview replacement on TemplateGenerator for EventNotifications.' =>
+            '',
+        'Defines the number of days to keep the daemon log files.' => 'Define el número de días para mantener los archivos de registro del daemon.',
+        'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
+            'Define el número de campos de encabezado en los módulos frontend para añadir y actualizar los filtros postmaster. Puede tener hasta 99 campos.',
+        'Defines the number of hours a communication will be stored, whichever its status.' =>
+            '',
+        'Defines the number of hours a successful communication will be stored.' =>
+            '',
+        'Defines the parameters for the customer preferences table.' => 'Define los parámetros para la tabla de preferencias del cliente',
+        'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
+            '',
+        'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
+            '',
+        'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
+            '',
+        'Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
+            '',
+        'Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
+            '',
+        'Defines the password to access the SOAP handle (bin/cgi-bin/rpc.pl).' =>
+            'Define la contraseña para acceder al identificador SOAP (bin / cgi-bin / rpc.pl).',
+        'Defines the path and TTF-File to handle bold italic monospaced font in PDF documents.' =>
+            '',
+        'Defines the path and TTF-File to handle bold italic proportional font in PDF documents.' =>
+            '',
+        'Defines the path and TTF-File to handle bold monospaced font in PDF documents.' =>
+            '',
+        'Defines the path and TTF-File to handle bold proportional font in PDF documents.' =>
+            '',
+        'Defines the path and TTF-File to handle italic monospaced font in PDF documents.' =>
+            '',
+        'Defines the path and TTF-File to handle italic proportional font in PDF documents.' =>
+            '',
+        'Defines the path and TTF-File to handle monospaced font in PDF documents.' =>
+            '',
+        'Defines the path and TTF-File to handle proportional font in PDF documents.' =>
+            '',
+        'Defines the path of the shown info file, that is located under Kernel/Output/HTML/Templates/Standard/CustomerAccept.tt.' =>
+            '',
+        'Defines the path to PGP binary.' => '',
+        'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).' =>
+            '',
+        'Defines the period of time (in minutes) before agent is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
+            '',
+        'Defines the period of time (in minutes) before customer is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
+            '',
+        'Defines the postmaster default queue.' => '',
+        'Defines the priority in which the information is logged and presented.' =>
+            '',
+        'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
+            '',
+        'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" shows only the queues which are assigned to system addresses) in the customer interface.' =>
+            '',
+        'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
+            '',
+        'Defines the search limit for the stats.' => '',
+        'Defines the search parameters for the AgentCustomerUserAddressBook screen. With the setting \'CustomerTicketTextField\' the values for the recipient field can be specified.' =>
+            '',
+        'Defines the sender for rejected emails.' => '',
+        'Defines the separator between the agents real name and the given queue email address.' =>
+            '',
+        'Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.' =>
+            '',
+        'Defines the shown links in the footer area of the customer and public interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
+            '',
+        'Defines the source dynamic field for storing historical data.' =>
+            '',
+        'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
+            '',
+        'Defines the standard size of PDF pages.' => 'Define el tamaño estándar de las páginas PDF.',
+        'Defines the state of a ticket if it gets a follow-up and the ticket was already closed.' =>
+            '',
+        'Defines the state of a ticket if it gets a follow-up.' => '',
+        'Defines the state type of the reminder for pending tickets.' => '',
+        'Defines the subject for notification mails sent to agents, about new password.' =>
+            '',
+        'Defines the subject for notification mails sent to agents, with token about new requested password.' =>
+            '',
+        'Defines the subject for notification mails sent to customers, about new account.' =>
+            '',
+        'Defines the subject for notification mails sent to customers, about new password.' =>
+            '',
+        'Defines the subject for notification mails sent to customers, with token about new requested password.' =>
+            '',
+        'Defines the subject for rejected emails.' => '',
+        'Defines the subject for the quick close action, which gets used for ticket history in the agent interface.' =>
+            '',
+        'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
+            '',
+        'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTOBO).' =>
+            '',
+        'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
+            '',
+        'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
+            '',
+        'Defines the target dynamic fields for storing historical data.' =>
+            '',
+        'Defines the ticket appointment type backend for ticket dynamic field date time.' =>
+            'Define el tipo de backed de cita de ticket para campos dinámicos de ticket de tipo fecha y hora',
+        'Defines the ticket appointment type backend for ticket escalation time.' =>
+            'Define el tipo de backed de cita de ticket para el tiempo de escalamiento de ticket',
+        'Defines the ticket appointment type backend for ticket pending time.' =>
+            'Define el tipo de backed de cita de ticket para el tiempo de espera de ticket',
+        'Defines the ticket fields that are going to be displayed calendar events. The "Key" defines the field or ticket attribute and the "Content" defines the display name.' =>
+            '',
+        'Defines the ticket plugin for calendar appointments.' => 'Define el plugin de ticket para las citas de calendario.',
+        'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
+            '',
+        'Defines the timeout (in seconds, minimum is 20 seconds) for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTOBO Daemon).' =>
+            '',
+        'Defines the two-factor module to authenticate agents.' => '',
+        'Defines the two-factor module to authenticate customers.' => '',
+        'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            '',
+        'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
+            '',
+        'Defines the user identifier for the customer panel.' => '',
+        'Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).' =>
+            '',
+        'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
+        'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otobo.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
+            '',
+        'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
+            '',
+        'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
+            '',
+        'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
+            '',
+        'Defines time in minutes since last modification for drafts of specified type before they are considered expired.' =>
+            '',
+        'Defines whether to index archived tickets for fulltext searches.' =>
+            '',
+        'Defines which article sender types should be shown in the preview of a ticket.' =>
+            '',
+        'Defines which items are available for \'Action\' in third level of the ACL structure.' =>
+            '',
+        'Defines which items are available in first level of the ACL structure.' =>
+            '',
+        'Defines which items are available in second level of the ACL structure.' =>
+            '',
+        'Defines which states should be set automatically (Content), after the pending time of state (Key) has been reached.' =>
+            '',
+        'Defines, which tickets of which ticket state types should not be listed in linked ticket lists.' =>
+            '',
+        'Delete expired cache from core modules.' => '',
+        'Delete expired loader cache weekly (Sunday mornings).' => '',
+        'Delete expired sessions.' => 'Borrar sesiones expiradas',
+        'Delete expired ticket draft entries.' => '',
+        'Delete expired upload cache hourly.' => '',
+        'Delete this ticket' => 'Borrar este ticket',
+        'Deleted link to ticket "%s".' => 'Eliminado enlace al ticket «%s».',
+        'Deletes a session if the session id is used with an invalid remote IP address.' =>
+            '',
+        'Deletes requested sessions if they have timed out.' => '',
+        'Delivers extended debugging information in the frontend in case any AJAX errors occur, if enabled.' =>
+            '',
+        'DeploymentHistory' => '',
+        'Detached' => '',
+        'Determines if a button to delete a link should be displayed next to each link in each zoom mask.' =>
+            '',
+        'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
+            '',
+        'Determines if the statistics module may generate ticket lists.' =>
+            '',
+        'Determines the next possible ticket states, after the creation of a new email ticket in the agent interface.' =>
+            '',
+        'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
+            '',
+        'Determines the next possible ticket states, for process tickets in the agent interface.' =>
+            '',
+        'Determines the next possible ticket states, for process tickets in the customer interface.' =>
+            '',
+        'Determines the next screen after new customer ticket in the customer interface.' =>
+            '',
+        'Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.' =>
+            '',
+        'Determines the next screen after the ticket is moved. LastScreenOverview will return the last overview screen (e.g. search results, queueview, dashboard). TicketZoom will return to the TicketZoom.' =>
+            '',
+        'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
+            '',
+        'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the recipient.' =>
+            '',
+        'Determines the strings that will be shown as recipient (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the recipient.' =>
+            '',
+        'Determines the way the linked objects are displayed in each zoom mask.' =>
+            '',
+        'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.' =>
+            '',
+        'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
+            '',
+        'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTOBO to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
+            '',
+        'Disable cloud services' => 'Deshabilitar servicios en la nube',
+        'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
+            '',
+        'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
+            '',
+        'Disables the web installer (http://yourhost.example.com/otobo/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+            '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
+        'Display communication log entries.' => '',
+        'Display settings to override defaults for Process Tickets.' => '',
+        'Displays the accounted time for an article in the ticket zoom view.' =>
+            '',
+        'Displays the number of all tickets with the same CustomerID as current ticket in the ticket zoom view.' =>
+            '',
+        'Down' => 'Abajo',
+        'Dropdown' => '',
+        'Dutch' => 'Holandés ',
+        'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
+            'Palabras vacías en holandés para el índice de texto completo. Estas palabras serán eliminadas del índice de búsqueda.',
+        'Dynamic Fields Checkbox Backend GUI' => '',
+        'Dynamic Fields Contact Data Backend GUI' => '',
+        'Dynamic Fields Database Backend GUI' => '',
+        'Dynamic Fields Date Time Backend GUI' => '',
+        'Dynamic Fields Drop-down Backend GUI' => '',
+        'Dynamic Fields GUI' => '',
+        'Dynamic Fields Multiselect Backend GUI' => '',
+        'Dynamic Fields Overview Limit' => '',
+        'Dynamic Fields Text Backend GUI' => '',
+        'Dynamic Fields Web Service Backend GUI' => '',
+        'Dynamic Fields used to export the search result in CSV format.' =>
+            '',
+        'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
+            '',
+        'Dynamic fields limit per page for Dynamic Fields Overview.' => '',
+        'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
+            '',
+        'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
+            '',
+        'Dynamic fields shown in the email outbound screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the sidebar of the ticket zoom screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket close screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket compose screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket email screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket forward screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket free text screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket medium format overview screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket move screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket note screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket overview screen of the customer interface.' =>
+            '',
+        'Dynamic fields shown in the ticket owner screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket pending screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket phone inbound screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket phone outbound screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket phone screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket preview format overview screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket print screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket print screen of the customer interface.' =>
+            '',
+        'Dynamic fields shown in the ticket priority screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket search overview results screen of the customer interface.' =>
+            '',
+        'Dynamic fields shown in the ticket search screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket search screen of the customer interface.' =>
+            '',
+        'Dynamic fields shown in the ticket small format overview screen of the agent interface.' =>
+            '',
+        'Dynamic fields shown in the ticket zoom screen of the customer interface.' =>
+            '',
+        'DynamicField' => '',
+        'DynamicField backend registration.' => '',
+        'DynamicField object registration.' => '',
+        'DynamicFieldScreen' => '',
+        'DynamicField_%s' => 'CampoDinámico_%s',
+        'E-Mail Outbound' => 'E-Mail Saliente',
+        'Edit Customer Companies.' => '',
+        'Edit Customer Users.' => '',
+        'Edit appointment' => 'Editar cita',
+        'Edit contacts with data' => '',
+        'Edit contacts with data.' => '',
+        'Edit customer company' => 'Editar la Empresa del cliente',
+        'Elasticsearch' => '',
+        'Elasticsearch quick result module.' => '',
+        'Email Addresses' => 'Direcciones de Correo',
+        'Email Outbound' => 'Email Saliente',
+        'Email Resend' => '',
+        'Email communication channel.' => '',
+        'Enable highlighting queues based on ticket age.' => '',
+        'Enable keep-alive connection header for SOAP responses.' => '',
+        'Enable this if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
+            '',
+        'Enabled filters.' => 'Habilitar Filtros',
+        'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTOBO user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
+            '',
+        'Enables S/MIME support.' => 'Habilitar soporte S/MIME.',
+        'Enables customers to create their own accounts.' => 'Permite a los clientes crear sus propias cuentas.',
+        'Enables fetch S/MIME from CustomerUser backend support.' => '',
+        'Enables file upload in the package manager frontend.' => '',
+        'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
+            '',
+        'Enables or disables the debug mode over frontend interface.' => '',
+        'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
+            '',
+        'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>
+            '',
+        'Enables the minimal ticket counter size (if "Date" was selected as TicketNumberGenerator).' =>
+            '',
+        'Enables ticket bulk action feature for the agent frontend to work on more than one ticket at a time.' =>
+            '',
+        'Enables ticket bulk action feature only for the listed groups.' =>
+            '',
+        'Enables ticket responsible feature, to keep track of a specific ticket.' =>
+            '',
+        'Enables ticket type feature.' => '',
+        'Enables ticket watcher feature only for the listed groups.' => '',
+        'English (Canada)' => 'Inglés (Canadá)',
+        'English (United Kingdom)' => 'Inglés (Reino unido)',
+        'English (United States)' => 'Inglés (Estados Unidos)',
+        'English stop words for fulltext index. These words will be removed from the search index.' =>
+            'Palabras vacías en ingles para el índice de texto completo. Estas palabras serán eliminadas del índice de búsqueda.',
+        'Enroll process for this ticket' => '',
+        'Enter your shared secret to enable two factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two factor token.' =>
+            '',
+        'Escalated Tickets' => 'Tickets Escalados',
+        'Escalation view' => 'Vista de escaladas',
+        'EscalationTime' => 'Tiempo para escalada',
+        'Estonian' => 'Estonio',
+        'Event module registration (store historical data in dynamic fields).' =>
+            '',
+        'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
+            '',
+        'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
+            '',
+        'Event module that performs an update statement on TicketIndex to rename the queue name there if needed and if StaticDB is actually used.' =>
+            '',
+        'Event module that updates customer company object name for dynamic fields.' =>
+            '',
+        'Event module that updates customer user object name for dynamic fields.' =>
+            '',
+        'Event module that updates customer user search profiles if login changes.' =>
+            '',
+        'Event module that updates customer user service membership if login changes.' =>
+            '',
+        'Event module that updates customer users after an update of the Customer.' =>
+            '',
+        'Event module that updates tickets after an update of the Customer User.' =>
+            '',
+        'Event module that updates tickets after an update of the Customer.' =>
+            '',
+        'Events Ticket Calendar' => 'Calendario de eventos de Tickets',
+        'Example package autoload configuration.' => '',
+        'Execute SQL statements.' => 'Ejecutar sentencias SQL.',
+        'Executes a custom command or module. Note: if module is used, function is required.' =>
+            '',
+        'Executes follow-up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
+            '',
+        'Executes follow-up checks on OTOBO Header \'X-OTOBO-Bounce\'.' =>
+            '',
+        'Executes follow-up checks on attachment contents for mails that don\'t have a ticket number in the subject.' =>
+            '',
+        'Executes follow-up checks on email body for mails that don\'t have a ticket number in the subject.' =>
+            '',
+        'Executes follow-up checks on the raw source email for mails that don\'t have a ticket number in the subject.' =>
+            '',
+        'Exports the whole article tree in search result (it can affect the system performance).' =>
+            '',
+        'External' => '',
+        'External Link' => '',
+        'Fetch emails via fetchmail (using SSL).' => '',
+        'Fetch emails via fetchmail.' => '',
+        'Fetch incoming emails from configured mail accounts.' => '',
+        'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
+            '',
+        'Fields of the customer company index, used for the company fulltext search. Fields are also stored, but are not mandatory for the overall functionality.' =>
+            '',
+        'Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
+            '',
+        'Fields stored in the customer company index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
+            '',
+        'Fields stored in the customer user index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.' =>
+            '',
+        'Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!' =>
+            '',
+        'Fields to be searched in ticket index. Fields are also stored, but are not mandatory for the overall functionality.' =>
+            '',
+        'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.' =>
+            '',
+        'Filter for debugging ACLs. Note: More ticket attributes can be added in the format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>.' =>
+            '',
+        'Filter for debugging Transitions. Note: More filters can be added in the format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>.' =>
+            '',
+        'Filter incoming emails.' => 'Filtrar emails entrantes.',
+        'Finnish' => 'Finlandés',
+        'First Christmas Day' => 'Navidad',
+        'First Queue' => 'Primera Cola',
+        'First response time' => 'Tiempo de primera respuesta',
+        'FirstLock' => 'PrimerBloqueo',
+        'FirstResponse' => 'PrimeraRespuesta',
+        'FirstResponseDiffInMin' => 'PrimeraRespuestaDifEnMin',
+        'FirstResponseInMin' => 'PrimeraRespuestaEnMin',
+        'Firstname Lastname' => 'Nombre Apellidos',
+        'Firstname Lastname (UserLogin)' => 'Nombre Apellidos (LoginUsuario) ',
+        'For these state types the ticket numbers are striked through in the link table.' =>
+            '',
+        'Force the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
+            '',
+        'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
+            '',
+        'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
+            '',
+        'Forces to unlock tickets after being moved to another queue.' =>
+            'Fuerza el desbloqueo de tickets luego de ser movidos a otra cola.',
+        'Format to be ingested' => '',
+        'Forwarded to "%s".' => 'Reenviado a "%s".',
+        'French' => 'Francés',
+        'French (Canada)' => 'Francés (Canadá)',
+        'French stop words for fulltext index. These words will be removed from the search index.' =>
+            'Palabras vacías en frances para el índice de texto completo. Estas palabras serán eliminadas del índice de búsqueda.',
+        'Frontend' => '',
+        'Frontend module registration (disable AgentTicketService link if Ticket Service feature is not used).' =>
+            '',
+        'Frontend module registration (disable company link if no company feature is used).' =>
+            '',
+        'Frontend module registration (disable ticket processes screen if no process available) for Customer.' =>
+            '',
+        'Frontend module registration (disable ticket processes screen if no process available).' =>
+            '',
+        'Frontend module registration (show personal favorites as sub navigation items of \'Admin\').' =>
+            '',
+        'Frontend module registration for the admin interface.' => '',
+        'Frontend module registration for the agent interface.' => '',
+        'Frontend module registration for the customer interface.' => '',
+        'Frontend module registration for the public interface.' => 'Registro de módulo "Frontend" en la interfaz pública.',
+        'Full value' => 'Valor completo',
+        'Fulltext index regex filters to remove parts of the text.' => '',
+        'Fulltext search' => 'Búsqueda de texto completo',
+        'Fulltext search using Elasticsearch' => '',
+        'FulltextES' => '',
+        'Galician' => 'Gallego',
+        'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
+            '',
+        'Generate HTML comment hooks for the specified blocks so that filters can use them.' =>
+            '',
+        'Generate dashboard statistics.' => '',
+        'Generic Info module.' => '',
+        'GenericAgent' => 'Agente Genérico',
+        'GenericInterface Debugger GUI' => '',
+        'GenericInterface ErrorHandling GUI' => '',
+        'GenericInterface Invoker Event GUI' => '',
+        'GenericInterface Invoker GUI' => '',
+        'GenericInterface Operation GUI' => '',
+        'GenericInterface TransportHTTPREST GUI' => '',
+        'GenericInterface TransportHTTPSOAP GUI' => '',
+        'GenericInterface Web Service GUI' => '',
+        'GenericInterface Web Service History GUI' => '',
+        'GenericInterface Web Service Mapping GUI' => '',
+        'GenericInterface module registration for an error handling module.' =>
+            '',
+        'GenericInterface module registration for the PassThrough invoker layer.' =>
+            '',
+        'GenericInterface module registration for the invoker layer.' => '',
+        'GenericInterface module registration for the mapping layer.' => '',
+        'GenericInterface module registration for the operation layer.' =>
+            '',
+        'GenericInterface module registration for the transport layer.' =>
+            '',
+        'German' => 'Alemán',
+        'German stop words for fulltext index. These words will be removed from the search index.' =>
+            'Palabras vacías en alemán para el índice de texto completo. Estas palabras serán eliminadas del índice de búsqueda.',
+        'Gives customer users group based access to tickets from customer users of the same customer (ticket CustomerID is a CustomerID of the customer user).' =>
+            '',
+        'Gives end users the possibility to override the separator character for CSV files, defined in the translation files. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Global Search Module.' => '',
+        'Go to dashboard!' => '¡Ir al panel principal!',
+        'Google Authenticator' => 'Google Authenticator',
+        'Graph: Bar Chart' => 'Gráfico: Gráfico de barras',
+        'Graph: Line Chart' => 'Gráfico: Gráfico de líneas',
+        'Graph: Stacked Area Chart' => 'Gráfico: Gráfico de áreas apiladas',
+        'Greek' => 'Griego',
+        'Hebrew' => 'Hebreo',
+        'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild".' =>
+            '',
+        'High Contrast' => '',
+        'High contrast skin for visually impaired users.' => '',
+        'Hindi' => 'Hindi',
+        'Hungarian' => 'Húngaro',
+        'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
+            '',
+        'If "DB" was selected for Customer::AuthModule, a password to connect to the customer table can be specified.' =>
+            '',
+        'If "DB" was selected for Customer::AuthModule, a username to connect to the customer table can be specified.' =>
+            '',
+        'If "DB" was selected for Customer::AuthModule, the DSN for the connection to the customer table must be specified.' =>
+            '',
+        'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
+            '',
+        'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
+            '',
+        'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
+            '',
+        'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
+            '',
+        'If "DB" was selected for SessionModule, a table in database where session data will be stored must be specified.' =>
+            '',
+        'If "FS" was selected for SessionModule, a directory where the session data will be stored must be specified.' =>
+            '',
+        'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
+            '',
+        'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
+            '',
+        'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
+            '',
+        'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
+            '',
+        'If "LDAP" was selected for Customer::AuthModule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the password for this special user here.' =>
+            '',
+        'If "LDAP" was selected for Customer::AuthModule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the username for this special user here.' =>
+            '',
+        'If "LDAP" was selected for Customer::AuthModule, the BaseDN must be specified.' =>
+            '',
+        'If "LDAP" was selected for Customer::AuthModule, the LDAP host can be specified.' =>
+            '',
+        'If "LDAP" was selected for Customer::AuthModule, the user identifier must be specified.' =>
+            '',
+        'If "LDAP" was selected for Customer::AuthModule, user attributes can be specified. For LDAP posixGroups use UID, for non LDAP posixGroups use full user DN.' =>
+            '',
+        'If "LDAP" was selected for Customer::AuthModule, you can specify access attributes here.' =>
+            '',
+        'If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.' =>
+            '',
+        'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use OTOBO. Specify the group, who may access the system.' =>
+            '',
+        'If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).' =>
+            '',
+        'If "Radius" was selected for Customer::AuthModule, the password to authenticate to the radius host must be specified.' =>
+            '',
+        'If "Radius" was selected for Customer::AuthModule, the radius host must be specified.' =>
+            '',
+        'If "Radius" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.' =>
+            '',
+        'If "Sendmail" was selected as SendmailModule, the location of the sendmail binary and the needed options must be specified.' =>
+            '',
+        'If "SysLog" was selected for LogModule, a special log facility can be specified.' =>
+            '',
+        'If "SysLog" was selected for LogModule, the charset that should be used for logging can be specified.' =>
+            '',
+        'If "bcrypt" was selected for CryptType, use cost specified here for bcrypt hashing. Currently max. supported cost value is 31.' =>
+            '',
+        'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
+            '',
+        'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
+            '',
+        'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
+            '',
+        'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, a password must be specified.' =>
+            '',
+        'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, an username must be specified.' =>
+            '',
+        'If any of the "SMTP" mechanisms was selected as SendmailModule, the mailhost that sends out the mails must be specified.' =>
+            '',
+        'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
+            '',
+        'If enabled debugging information for ACLs is logged.' => '',
+        'If enabled debugging information for transitions is logged.' => '',
+        'If enabled the daemon will redirect the standard error stream to a log file.' =>
+            '',
+        'If enabled the daemon will redirect the standard output stream to a log file.' =>
+            '',
+        'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTOBOHome>/var/run/ can not be used.' =>
+            '',
+        'If enabled, OTOBO will deliver all CSS files in minified form.' =>
+            '',
+        'If enabled, OTOBO will deliver all JavaScript files in minified form.' =>
+            '',
+        'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
+            '',
+        'If enabled, the OTOBO version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
+            '',
+        'If enabled, the cache data be held in memory.' => '',
+        'If enabled, the cache data will be stored in cache backend.' => '',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
+        'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
+            'Si se habilita, las diferentes vistas generales (panel principal, vista de bloqueados, vista de colas) se actualizarán automáticamente tras el tiempo indicado.',
+        'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
+            '',
+        'If enabled, the quick close action will create an article.' => '',
+        'If enabled, users that haven\'t selected a time zone yet will be notified to do so. Note: Notification will not be shown if (1) user has not yet selected a time zone and (2) OTOBOTimeZone and UserDefaultTimeZone do match and (3) are not set to UTC.' =>
+            '',
+        'If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email\'s from address instead of an empty envelope sender (required in certain mail server configurations).' =>
+            '',
+        'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set).' =>
+            '',
+        'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
+            '',
+        'If this option is enabled, tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is not enabled, no autoresponses will be sent.' =>
+            '',
+        'If this regex matches, no message will be send by the autoresponder.' =>
+            '',
+        'If this setting is enabled, it is possible to install packages which are not verified by OTOBO Team. These packages could threaten your whole system!' =>
+            '',
+        'If this setting is enabled, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
+            '',
+        'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
+            '',
+        'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
+            '',
+        'Import appointments screen.' => 'Pantalla de importación de citas.',
+        'Include tickets of subqueues per default when selecting a queue.' =>
+            'Incluya los tickets de subcolas por defecto al seleccionar una cola.',
+        'Include unknown customers in ticket filter.' => '',
+        'Includes article create times in the ticket search of the agent interface.' =>
+            '',
+        'Incoming Phone Call.' => '',
+        'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otobo.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
+            '',
+        'Indicates if a bounce e-mail should always be treated as normal follow-up.' =>
+            '',
+        'Indonesian' => 'Indonesio',
+        'Inline' => '',
+        'Input' => 'Entrada',
+        'Interface language' => 'Idioma de la interfaz',
+        'Internal communication channel.' => '',
+        'International Workers\' Day' => 'Día Internacional de los Trabajadores',
+        'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
+            '',
+        'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
+            '',
+        'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
+            '',
+        'Italian' => 'Italiano',
+        'Italian stop words for fulltext index. These words will be removed from the search index.' =>
+            'Palabras vacías en italiano para el índice de texto completo. Estas palabras serán eliminadas del índice de búsqueda.',
+        'Ivory' => 'Marfil',
+        'Ivory (Slim)' => 'Marfil (Slim)',
+        'Japanese' => 'Japonés',
+        'JavaScript function for the search frontend.' => '',
+        'Jump to Znuny!' => '',
+        'Korean' => '',
+        'Language' => 'Idioma',
+        'Large' => 'Grande',
+        'Last Screen Overview' => '',
+        'Last customer subject' => 'Último asunto del cliente',
+        'Lastname Firstname' => 'Apellidos Nombre',
+        'Lastname Firstname (UserLogin)' => 'Apellidos Nombre (LoginUsuario) ',
+        'Lastname, Firstname' => 'Apellidos, Nombre',
+        'Lastname, Firstname (UserLogin)' => 'Apellidos, Nombre (LoginUsuario) ',
+        'LastnameFirstname' => '',
+        'Latvian' => 'Letón',
+        'Left' => 'Izquierda',
+        'Link Object' => 'Enlazar objeto',
+        'Link Object.' => 'Enlazar objeto.',
+        'Link agents to groups.' => 'Crea enlace de Agentes a Grupos',
+        'Link agents to roles.' => 'Crea enlace de Agentes a Roles',
+        'Link customer users to customers.' => 'Relacionar clientes con empresas',
+        'Link customer users to groups.' => 'Relacionar grupos de clientes',
+        'Link customer users to services.' => 'Relacionar clientes con servicios',
+        'Link customers to groups.' => 'Relacionar grupos de empresas',
+        'Link queues to auto responses.' => 'Relacionar Colas con Respuestas Automáticas',
+        'Link roles to groups.' => 'Crea enlace de Roles a Grupos.',
+        'Link templates to attachments.' => 'Relacionar plantillas con adjuntos',
+        'Link templates to queues.' => 'Crea enlace de Plantillas a Colas.',
+        'Link this ticket to other objects' => 'Enlazar este ticket a otros objetos',
+        'Links 2 tickets with a "Normal" type link.' => 'Enlaza 2 tickets con un enlace tipo "Normal".',
+        'Links 2 tickets with a "ParentChild" type link.' => 'Enlaza 2 tickets con un enlace tipo "ParentChild".',
+        'Links appointments and tickets with a "Normal" type link.' => 'Vincular citas y tickets con el tipo de vínculo "Normal".',
+        'List of CSS files to always be loaded for the agent interface.' =>
+            '',
+        'List of CSS files to always be loaded for the customer interface.' =>
+            '',
+        'List of JS files to always be loaded for the agent interface.' =>
+            '',
+        'List of JS files to always be loaded for the customer interface.' =>
+            '',
+        'List of all CustomerCompany events to be displayed in the GUI.' =>
+            'Lista de todos los eventos de la Empresa del cliente que se mostrarán en la GUI.',
+        'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all DynamicField events to be displayed in the GUI.' => '',
+        'List of all LinkObject events to be displayed in the GUI.' => '',
+        'List of all Package events to be displayed in the GUI.' => '',
+        'List of all appointment events to be displayed in the GUI.' => 'Lista de todos los eventos de citas que son desplegaos en la GUI.',
+        'List of all article events to be displayed in the GUI.' => '',
+        'List of all calendar events to be displayed in the GUI.' => 'Lista de todos los eventos de calendario que son desplegados en la GUI.',
+        'List of all queue events to be displayed in the GUI.' => '',
+        'List of all ticket events to be displayed in the GUI.' => '',
+        'List of colors in hexadecimal RGB which will be available for selection during calendar creation. Make sure the colors are dark enough so white text can be overlayed on them.' =>
+            'Lista de colores en hexadecimal RGB que estarán disponibles para su selección durante la creación de calendarios. Asegúrese que los colores sean suficientemente obscuros para que el texto banco se vea correctamente sobre ellos.',
+        'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
+            '',
+        'List of responsive CSS files to always be loaded for the agent interface.' =>
+            '',
+        'List of responsive CSS files to always be loaded for the customer interface.' =>
+            '',
+        'List of states for which escalations should be suspended.' => '',
+        'List view' => '',
+        'Lithuanian' => 'Lituano',
+        'Loader module registration for the agent interface.' => '',
+        'Loader module registration for the customer interface.' => '',
+        'Lock / unlock this ticket' => 'Bloquear / Desbloquear este ticket',
+        'Locked Tickets' => 'Tickets Bloqueados',
+        'Locked Tickets.' => 'Tickets bloqueados.',
+        'Locked ticket.' => 'Ticket bloqueado.',
+        'Logged in users.' => 'Usuarios conectados.',
+        'Logged-In Users' => 'Usuarios conectados',
+        'Logout of customer panel.' => 'Salir del panel de cliente.',
+        'Look into a ticket!' => '¡Revisar un ticket!',
+        'Loop protection: no auto-response sent to "%s".' => '',
+        'Macedonian' => '',
+        'Mail Accounts' => 'Cuentas de Correo',
+        'MailQueue configuration settings.' => '',
+        'Main menu for the agent interface.' => '',
+        'Main menu item registration.' => 'Registro del elemento del menú principal.',
+        'Main menu registration.' => 'Registro del menú principal.',
+        'Makes the application block external content loading.' => '',
+        'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
+            '',
+        'Makes the application check the syntax of email addresses.' => '',
+        'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
+            '',
+        'Malay' => 'Malayo',
+        'Manage OTOBO Team cloud services.' => '',
+        'Manage PGP keys for email encryption.' => 'Gestión de claves PGP para encriptación de correo electrónico.',
+        'Manage POP3 or IMAP accounts to fetch email from.' => 'Gestionar cuentas POP3 o IMAP desde las que traer correo electrónico.',
+        'Manage S/MIME certificates for email encryption.' => 'Gestionar certificados S/MIME para encriptación de correo electrónico.',
+        'Manage System Configuration Deployments.' => '',
+        'Manage different calendars.' => 'Gestionar diferentes calendarios.',
+        'Manage dynamic field in screens.' => '',
+        'Manage existing sessions.' => 'Gestionar sesiones existentes.',
+        'Manage support data.' => 'Gestionar datos de soporte.',
+        'Manage system registration.' => 'Gestionar registro del sistema.',
+        'Manage tasks triggered by event or time based execution.' => 'Gestionar tareas activadas por eventos o ejecuciones temporales.',
+        'Mark as Spam!' => '¡Marcar como spam!',
+        'Mark this ticket as junk!' => '¡Marcar este ticket como basura!',
+        'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
+            '',
+        'Max size (in rows) of the informed agents box in the agent interface.' =>
+            'Tamaño máximo (en filas) del cuadro de agentes informados en la interfaz del agente.',
+        'Max size (in rows) of the involved agents box in the agent interface.' =>
+            'Tamaño máximo (en filas) del cuadro de agentes involucrados en la interfaz del agente.',
+        'Max size of the subjects in an email reply and in some overview screens.' =>
+            '',
+        'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
+            '',
+        'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>
+            '',
+        'Maximal number of results returned by ES per field.' => '',
+        'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
+            '',
+        'Maximum Number of a calendar shown in a dropdown.' => '',
+        'Maximum file size for the ingest plugin.' => '',
+        'Maximum length (in characters) of the dynamic field in the article of the ticket zoom view.' =>
+            '',
+        'Maximum length (in characters) of the dynamic field in the sidebar of the ticket zoom view.' =>
+            '',
+        'Maximum number of active calendars in overview screens. Please note that large number of active calendars can have a performance impact on your server by making too much simultaneous calls.' =>
+            'Numero máximo de calendarios activos en las pantallas de resumen. Por favor note que un numero grande de calendarios activos puede tener un impacto negativo en el desempeño del servidor debido a una gran cantidad de llamadas simultáneas.',
+        'Maximum number of results returned from the quick result.' => '',
+        'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
+            '',
+        'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
+            '',
+        'Maximum number of tickets to be displayed in the result of this operation.' =>
+            'Número máximo de tickets que se mostrarán en el resultado de esta operación.',
+        'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
+            '',
+        'Medium' => 'Mediano',
+        'Merge this ticket and all articles into another ticket' => '',
+        'Merged Ticket (%s/%s) to (%s/%s).' => '',
+        'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => 'Fusionar Ticket  <OTOBO_TICKET> con <OTOBO_MERGE_TO_TICKET>.',
+        'Minute' => 'Minuto',
+        'Miscellaneous' => 'Misceláneo',
+        'Module for To-selection in new ticket screen in the customer interface.' =>
+            '',
+        'Module to check if a incoming e-mail message is bounce.' => '',
+        'Module to check if arrived emails should be marked as internal (because of original forwarded internal email). IsVisibleForCustomer and SenderType define the values for the arrived email/article.' =>
+            '',
+        'Module to check the group permissions for customer access to tickets.' =>
+            '',
+        'Module to check the group permissions for the access to tickets.' =>
+            'Módulo para comprobar los permisos de grupo para el acceso a los tickets.',
+        'Module to compose signed messages (PGP or S/MIME).' => 'Módulo para componer mensajes firmados (PGP or S/MIME).',
+        'Module to define the email security options to use (PGP or S/MIME).' =>
+            '',
+        'Module to encrypt composed messages (PGP or S/MIME).' => '',
+        'Module to fetch customer users SMIME certificates of incoming messages.' =>
+            '',
+        'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
+            '',
+        'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' =>
+            '',
+        'Module to filter encrypted bodies of incoming messages.' => '',
+        'Module to generate accounted time ticket statistics.' => '',
+        'Module to generate html OpenSearch profile for short ticket search in the agent interface.' =>
+            '',
+        'Module to generate html OpenSearch profile for short ticket search in the customer interface.' =>
+            '',
+        'Module to generate ticket solution and response time statistics.' =>
+            '',
+        'Module to generate ticket statistics.' => 'Módulo para generar estadísticas de tickets.',
+        'Module to grant access if the CustomerID of the customer has necessary group permissions.' =>
+            '',
+        'Module to grant access if the CustomerID of the ticket matches the CustomerID of the customer.' =>
+            '',
+        'Module to grant access if the CustomerUserID of the ticket matches the CustomerUserID of the customer.' =>
+            '',
+        'Module to grant access to any agent that has been involved in a ticket in the past (based on ticket history entries).' =>
+            '',
+        'Module to grant access to the agent responsible of a ticket.' =>
+            '',
+        'Module to grant access to the creator of a ticket.' => 'Módulo para otorgar acceso al creador de un ticket.',
+        'Module to grant access to the owner of a ticket.' => 'Módulo para otorgar acceso al propietario de un ticket.',
+        'Module to grant access to the watcher agents of a ticket.' => 'Módulo para otorgar acceso a los agentes observadores de un ticket.',
+        'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' =>
+            '',
+        'Module to use database filter storage.' => 'Módulo para usar el almacenamiento de filtros de base de datos.',
+        'Module used to detect if attachments are present.' => '',
+        'My Queues' => 'Mis colas',
+        'My Services' => 'Mis Servicios',
+        'My Tickets.' => 'Mis Tickets.',
+        'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
+            '',
+        'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
+            '',
+        'NameX' => 'Nombre X',
+        'New Tickets' => 'Tickets Nuevos',
+        'New Window' => 'Nueva Ventana',
+        'New Year\'s Day' => 'Día de Año Nuevo',
+        'New Year\'s Eve' => 'Nochevieja',
+        'New process ticket' => 'Nuevo ticket de Proceso',
+        'News about OTOBO releases!' => '¡Noticias acerca de lanzamientos de OTOBO!',
+        'News about OTOBO.' => 'Noticias sobre OTOBO.',
+        'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
+            'Siguiente estado posible del ticket después de agregar una nota en la pantalla de llamada telefónica entrante para la interfaz de agente.',
+        'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
+            'Siguiente estado posible del ticket después de agregar una nota en la pantalla de llamada telefónica saliente para la interfaz de agente.',
+        'None' => 'Ninguno',
+        'Norwegian' => 'Noruego',
+        'Notification Settings' => 'Preferencias de Notificaciones',
+        'Notified about response time escalation.' => '',
+        'Notified about solution time escalation.' => '',
+        'Notified about update time escalation.' => '',
+        'Number of displayed tickets' => 'Número de tickets mostrados',
+        'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
+            '',
+        'Number of shards (NS) and replicas (NR) for the index.' => '',
+        'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
+            '',
+        'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
+            '',
+        'Number of tickets to be displayed in each page.' => '',
+        'OTOBO News' => 'Noticias de OTOBO',
+        'OTOBO Team Services' => '',
+        'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
+            '',
+        'OTOBO doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
+            '',
+        'Open an external link!' => '¡Abrir un enlace externo!',
+        'Open tickets (customer user)' => 'Tickets abiertos (usuario cliente)',
+        'Open tickets (customer)' => 'Tickets abiertos (cliente)',
+        'Option' => 'Opción',
+        'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the OwnerCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
+            '',
+        'Other Customers' => '',
+        'Out Of Office' => 'Fuera de la Oficina',
+        'Out Of Office Time' => 'Tiempo de ausencia de la oficina',
+        'Out of Office users.' => 'Usuarios Fuera de la Oficina.',
+        'Output filter to inject the necessary Dynamic field names in hidden input.' =>
+            '',
+        'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
+            '',
+        'Overview Escalated Tickets.' => '',
+        'Overview Refresh Time' => 'Tiempo de actualización de la vista general',
+        'Overview of all Tickets per assigned Queue.' => 'Visión general de todos los Tickets por Cola asignada',
+        'Overview of all appointments.' => 'Resumen de todas las citas',
+        'Overview of all escalated tickets.' => 'Vista general de todos los tickets escalados.',
+        'Overview of all open Tickets.' => 'Vista general de todos los Tickets abiertos.',
+        'Overview of all open tickets.' => 'Vista general de todos los tickets abiertos.',
+        'Overview of customer tickets.' => 'Visión general de los tickets del cliente.',
+        'PGP Key' => 'Clave PGP',
+        'PGP Key Management' => 'Administración de la Clave PGP',
+        'PGP Keys' => 'Claves PGP',
+        'Package event module file a scheduler task for update registration.' =>
+            '',
+        'Parameters for the CreateNextMask object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the CustomQueue object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the CustomService object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the RefreshTime object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the column filters of the small ticket overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the dashboard backend of the customer company information of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+            '',
+        'Parameters for the dashboard backend of the customer id list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+            '',
+        'Parameters for the dashboard backend of the customer id status widget of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+            '',
+        'Parameters for the dashboard backend of the customer user information of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+            '',
+        'Parameters for the dashboard backend of the customer user list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+            '',
+        'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
+            '',
+        'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
+            '',
+        'Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
+            '',
+        'Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
+            '',
+        'Parameters for the dashboard backend of the queue overview widget of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "QueuePermissionGroup" is not mandatory, queues are only listed if they belong to this permission group if you enable it. "States" is a list of states, the key is the sort order of the state in the widget. "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
+            '',
+        'Parameters for the dashboard backend of the running process tickets overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
+            '',
+        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
+            '',
+        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
+            '',
+        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
+            '',
+        'Parameters for the dashboard backend of the ticket events calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
+            '',
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
+            '',
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
+            '',
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
+            '',
+        'Parameters for the dashboard backend of the ticket stats of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
+            '',
+        'Parameters for the dashboard backend of the upcoming events widget of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
+            '',
+        'Parameters for the pages (in which the communication log entries are shown) of the communication log overview.' =>
+            '',
+        'Parameters for the pages (in which the dynamic fields are shown) of the dynamic fields overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the pages (in which the tickets are shown) of the medium ticket overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the pages (in which the tickets are shown) of the small ticket overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the pages (in which the tickets are shown) of the ticket preview overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters of the example SLA attribute Comment2.' => '',
+        'Parameters of the example queue attribute Comment2.' => '',
+        'Parameters of the example service attribute Comment2.' => '',
+        'Parent' => 'Padre',
+        'ParentChild' => '',
+        'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
+            '',
+        'Pending time' => 'Tiempo de espera',
+        'People' => 'Gente',
+        'Performs the configured action for each event (as an Invoker) for each configured web service.' =>
+            '',
+        'Permitted width for compose email windows.' => '',
+        'Permitted width for compose note windows.' => '',
+        'Persian' => 'Persa',
+        'Phone Call Inbound' => 'Llamada Telefónica Entrante',
+        'Phone Call Outbound' => 'Llamada Telefónica Saliente',
+        'Phone Call.' => 'Llamada telefónica.',
+        'Phone call' => 'Llamada telefónica',
+        'Phone communication channel.' => '',
+        'Phone-Ticket' => 'Ticket telefónico',
+        'Picture Upload' => 'Carga de imagen',
+        'Picture upload module.' => 'Módulo de carga de imágenes.',
+        'Picture-Upload' => 'Carga-de-imagen',
+        'Please click the button below to create your first ticket.' => 'Pulse el botón inferior para crear su primer ticket.',
+        'Plugin search' => 'Búsqueda de plug-ins',
+        'Plugin search module for autocomplete.' => 'Módulo Plug-in de búsqueda para auto-completar.',
+        'Polish' => 'Polaco',
+        'Portuguese' => 'Portugués',
+        'Portuguese (Brasil)' => 'Portugués (Brasileño)',
+        'PostMaster Filters' => 'Filtros de Correo Electrónico',
+        'PostMaster Mail Accounts' => 'Cuentas de Correo Electrónico',
+        'Print this ticket' => 'Imprimir este ticket',
+        'Priorities' => 'Prioridades',
+        'Process Management Activity Dialog GUI' => '',
+        'Process Management Activity GUI' => '',
+        'Process Management Path GUI' => '',
+        'Process Management Transition Action GUI' => '',
+        'Process Management Transition GUI' => '',
+        'Process Ticket.' => '',
+        'Process pending tickets.' => '',
+        'ProcessID' => 'ID de Proceso',
+        'Processes & Automation' => '',
+        'Product News' => 'Noticias de productos',
+        'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
+            '',
+        'Protection against brute force attacks. MaxAttempt: How many failed login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered.' =>
+            '',
+        'Provides a matrix overview of the tickets per state per queue' =>
+            '',
+        'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
+            '',
+        'Public Calendar' => 'Calendario Púplico',
+        'Public calendar.' => 'Calendario público.',
+        'Queue view' => 'Vista por colas',
+        'Queues ↔ Auto Responses' => 'Colas ↔ Auto Respuestas',
+        'Quick Close' => '',
+        'Rebuild the ticket index for AgentTicketQueue.' => '',
+        'Rebuilds the ACL preselection cache.' => '',
+        'Rebuilds the escalation index.' => '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+            '',
+        'Redis server address. Example: 127.0.0.1:6379.' => '',
+        'Refresh interval' => 'Intervalo de actualización',
+        'Registers a log module, that can be used to log communication related information.' =>
+            '',
+        'Reminder Tickets' => 'Tickets Recordatorio',
+        'Removed subscription for user "%s".' => 'Eliminada suscripción para el usuario «%s».',
+        'Removes old generic interface debug log entries created before the specified amount of days.' =>
+            '',
+        'Removes old system configuration deployments (Sunday mornings).' =>
+            '',
+        'Removes old ticket number counters (each 10 minutes).' => '',
+        'Removes the ticket watcher information when a ticket is archived.' =>
+            '',
+        'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be enabled in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
+            '',
+        'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
+            '',
+        'Reports' => 'Informes',
+        'Reprocess mails from spool directory that could not be imported in the first place.' =>
+            '',
+        'Required permissions to change the customer of a ticket in the agent interface.' =>
+            '',
+        'Required permissions to use the close ticket screen in the agent interface.' =>
+            '',
+        'Required permissions to use the email outbound screen in the agent interface.' =>
+            '',
+        'Required permissions to use the email resend screen in the agent interface.' =>
+            '',
+        'Required permissions to use the ticket bounce screen in the agent interface.' =>
+            '',
+        'Required permissions to use the ticket compose screen in the agent interface.' =>
+            '',
+        'Required permissions to use the ticket forward screen in the agent interface.' =>
+            '',
+        'Required permissions to use the ticket free text screen in the agent interface.' =>
+            '',
+        'Required permissions to use the ticket merge screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Required permissions to use the ticket note screen in the agent interface.' =>
+            '',
+        'Required permissions to use the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Required permissions to use the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Required permissions to use the ticket phone inbound screen in the agent interface.' =>
+            '',
+        'Required permissions to use the ticket phone outbound screen in the agent interface.' =>
+            '',
+        'Required permissions to use the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Required permissions to use the ticket responsible screen in the agent interface.' =>
+            '',
+        'Resend Ticket Email.' => '',
+        'Resent email to "%s".' => 'Reenviar correo a "%s".',
+        'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
+            '',
+        'Responsible Tickets' => '',
+        'Responsible Tickets.' => '',
+        'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
+            '',
+        'Retains all services in listings even if they are children of invalid elements.' =>
+            '',
+        'Right' => 'Derecha',
+        'Roles ↔ Groups' => 'Roles ↔ Grupos',
+        'Romanian' => '',
+        'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
+            '',
+        'Running Process Tickets' => 'Tickets de Proceso en ejecución',
+        'Runs an initial wildcard search of the existing contacts with data when accessing the AdminContactWD module.' =>
+            '',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
+        'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
+            '',
+        'Runs the system in "Demo" mode. If enabled, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
+            '',
+        'Russian' => 'Ruso',
+        'S/MIME Certificates' => 'Certificados S/MIME',
+        'Salutations' => 'Saludos',
+        'Sample command output' => 'Ejemplo de comando de salida.',
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
+            '',
+        'Schedule a maintenance period.' => 'Programar un periodo de mantenimiento.',
+        'Screen after new ticket' => 'Pantalla posterior a nuevo ticket',
+        'Search Customer' => 'Búsqueda de un cliente',
+        'Search Ticket.' => 'Buscar ticket.',
+        'Search Tickets.' => 'Buscar tickets.',
+        'Search User' => 'Buscar Usuario',
+        'Search backend default router.' => '',
+        'Search backend router.' => '',
+        'Search.' => 'Buscar.',
+        'Second Christmas Day' => 'Segundo día de navidad',
+        'Second Queue' => 'Cola Secundaria',
+        'Select after which period ticket overviews should refresh automatically.' =>
+            '',
+        'Select how many tickets should be shown in overviews by default.' =>
+            '',
+        'Select the main interface language.' => 'Selecciona el idioma principal de la interfaz.',
+        'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
+            'Seleccione el carácter separador a usar en los archivos CSV (estadísticas y búsquedas). Si no selecciona ningún separador aquí, se usará el separador predeterminado para su idioma.',
+        'Select your frontend Theme.' => 'Seleccione su tema',
+        'Select your personal time zone. All times will be displayed relative to this time zone.' =>
+            '',
+        'Select your preferred layout for the software.' => 'Seleccione su diseño preferido para el software.',
+        'Select your preferred theme for OTOBO.' => 'Seleccione su tema preferido para OTOBO.',
+        'Selects the cache backend to use.' => '',
+        'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
+            '',
+        'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535).' =>
+            '',
+        'Send new outgoing mail from this ticket' => '',
+        'Send notifications to users.' => 'Enviar notificaciones a usuarios.',
+        'Sender type for new tickets from the customer inteface.' => '',
+        'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
+            '',
+        'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
+            'Envíar todos los correos electrónicos saliente a través de "Copia oculta"a la dirección especificada. Por favor, utilice esto sólo por razones de copia de seguridad.',
+        'Sends customer notifications just to the mapped customer.' => '',
+        'Sends registration information to OTOBO group.' => 'Envía la información de registro a OTOBO group.',
+        'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
+            '',
+        'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
+            'Envía las notificaciones que está configuradas en la interfaz de administración en "Notificaciones de ticket"',
+        'Sent "%s" notification to "%s" via "%s".' => '',
+        'Sent auto follow-up to "%s".' => '',
+        'Sent auto reject to "%s".' => '',
+        'Sent auto reply to "%s".' => '',
+        'Sent email to "%s".' => '',
+        'Sent email to customer.' => '',
+        'Sent notification to "%s".' => '',
+        'Serbian Cyrillic' => 'Serbio Cirílico',
+        'Serbian Latin' => 'Serbio (Latino)',
+        'Service Level Agreements' => 'Acuerdos de Niveles de Servicios',
+        'Service view' => 'Vista de servicio',
+        'ServiceView' => 'Vista del servicio',
+        'Set sender email addresses for this system.' => 'Establecer direcciones de envío de correo electrónico para este sistema.',
+        'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
+            '',
+        'Set the limit of tickets that will be executed on a single genericagent job execution.' =>
+            '',
+        'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
+            '',
+        'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
+            '',
+        'Set this ticket to pending' => 'Poner este ticket en pendiente',
+        'Sets if SLA must be selected by the agent.' => '',
+        'Sets if SLA must be selected by the customer.' => '',
+        'Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Sets if queue must be selected by the agent.' => '',
+        'Sets if service must be selected by the agent.' => '',
+        'Sets if service must be selected by the customer.' => '',
+        'Sets if state must be selected by the agent.' => '',
+        'Sets if ticket owner must be selected by the agent.' => '',
+        'Sets if ticket responsible must be selected by the agent.' => '',
+        'Sets the PendingTime of a ticket to 0 if the state is changed to a non-pending state.' =>
+            '',
+        'Sets the age in minutes (first level) for highlighting queues that contain untouched tickets.' =>
+            '',
+        'Sets the age in minutes (second level) for highlighting queues that contain untouched tickets.' =>
+            '',
+        'Sets the configuration level of the administrator. Depending on the config level, some sysconfig options will be not shown. The config levels are in in ascending order: Expert, Advanced, Beginner. The higher the config level is (e.g. Beginner is the highest), the less likely is it that the user can accidentally configure the system in a way that it is not usable any more.' =>
+            '',
+        'Sets the count of articles visible in preview mode of ticket overviews.' =>
+            '',
+        'Sets the default article customer visibility for new email tickets in the agent interface.' =>
+            '',
+        'Sets the default article customer visibility for new phone tickets in the agent interface.' =>
+            '',
+        'Sets the default article customer visibility for quick close action in the agent interface.' =>
+            '',
+        'Sets the default body text for notes added in the close ticket screen of the agent interface.' =>
+            '',
+        'Sets the default body text for notes added in the ticket move screen of the agent interface.' =>
+            '',
+        'Sets the default body text for notes added in the ticket note screen of the agent interface.' =>
+            '',
+        'Sets the default body text for notes added in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the default body text for notes added in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the default body text for notes added in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the default body text for notes added in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Sets the default error message for the login screen on Agent and Customer interface, it\'s shown when a running system maintenance period is active.' =>
+            '',
+        'Sets the default link type of split tickets in the agent interface.' =>
+            '',
+        'Sets the default link type of splitted tickets in the agent interface.' =>
+            '',
+        'Sets the default message for the login screen on Agent and Customer interface, it\'s shown when a running system maintenance period is active.' =>
+            '',
+        'Sets the default message for the notification is shown on a running system maintenance period.' =>
+            '',
+        'Sets the default next state for new phone tickets in the agent interface.' =>
+            '',
+        'Sets the default next ticket state, after the creation of an email ticket in the agent interface.' =>
+            '',
+        'Sets the default note text for new telephone tickets. E.g \'New ticket via call\' in the agent interface.' =>
+            '',
+        'Sets the default priority for new email tickets in the agent interface.' =>
+            '',
+        'Sets the default priority for new phone tickets in the agent interface.' =>
+            '',
+        'Sets the default sender type for new email tickets in the agent interface.' =>
+            '',
+        'Sets the default sender type for new phone ticket in the agent interface.' =>
+            '',
+        'Sets the default subject for new email tickets (e.g. \'email Outbound\') in the agent interface.' =>
+            '',
+        'Sets the default subject for new phone tickets (e.g. \'Phone call\') in the agent interface.' =>
+            '',
+        'Sets the default subject for notes added in the close ticket screen of the agent interface.' =>
+            '',
+        'Sets the default subject for notes added in the ticket move screen of the agent interface.' =>
+            '',
+        'Sets the default subject for notes added in the ticket note screen of the agent interface.' =>
+            '',
+        'Sets the default subject for notes added in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the default subject for notes added in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the default subject for notes added in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the default subject for notes added in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Sets the default text for new email tickets in the agent interface.' =>
+            '',
+        'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
+            '',
+        'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
+            '',
+        'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
+            '',
+        'Sets the method PGP will use to sing and encrypt emails. Note Inline method is not compatible with RichText messages.' =>
+            '',
+        'Sets the minimal ticket counter size if "AutoIncrement" was selected as TicketNumberGenerator. Default is 5, this means the counter starts from 10000.' =>
+            '',
+        'Sets the minutes a notification is shown for notice about upcoming system maintenance period.' =>
+            '',
+        'Sets the number of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).' =>
+            '',
+        'Sets the options for PGP binary.' => '',
+        'Sets the password for private PGP key.' => '',
+        'Sets the prefered time units (e.g. work units, hours, minutes).' =>
+            '',
+        'Sets the preferred digest to be used for PGP binary.' => '',
+        'Sets the prefix to the scripts folder on the server, as configured on the web server. This setting is used as a variable, OTOBO_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within the system.' =>
+            '',
+        'Sets the queue in the ticket close screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket free text screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket note screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the queue in the ticket responsible screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the responsible agent of the ticket in the close ticket screen of the agent interface.' =>
+            '',
+        'Sets the responsible agent of the ticket in the ticket bulk screen of the agent interface.' =>
+            '',
+        'Sets the responsible agent of the ticket in the ticket free text screen of the agent interface.' =>
+            '',
+        'Sets the responsible agent of the ticket in the ticket note screen of the agent interface.' =>
+            '',
+        'Sets the responsible agent of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the responsible agent of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the responsible agent of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the responsible agent of the ticket in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Sets the service in the close ticket screen of the agent interface (Ticket::Service needs to be enabled).' =>
+            '',
+        'Sets the service in the ticket free text screen of the agent interface (Ticket::Service needs to be enabled).' =>
+            '',
+        'Sets the service in the ticket note screen of the agent interface (Ticket::Service needs to be enabled).' =>
+            '',
+        'Sets the service in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).' =>
+            '',
+        'Sets the service in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).' =>
+            '',
+        'Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).' =>
+            '',
+        'Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be enabled).' =>
+            '',
+        'Sets the state of a ticket in the close ticket screen of the agent interface.' =>
+            '',
+        'Sets the state of a ticket in the ticket bulk screen of the agent interface.' =>
+            '',
+        'Sets the state of a ticket in the ticket free text screen of the agent interface.' =>
+            '',
+        'Sets the state of a ticket in the ticket note screen of the agent interface.' =>
+            '',
+        'Sets the state of a ticket in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Sets the state of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the stats hook.' => '',
+        'Sets the ticket owner in the close ticket screen of the agent interface.' =>
+            '',
+        'Sets the ticket owner in the ticket bulk screen of the agent interface.' =>
+            '',
+        'Sets the ticket owner in the ticket free text screen of the agent interface.' =>
+            '',
+        'Sets the ticket owner in the ticket note screen of the agent interface.' =>
+            '',
+        'Sets the ticket owner in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the ticket owner in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the ticket owner in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Sets the ticket owner in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Sets the ticket type in the close ticket screen of the agent interface (Ticket::Type needs to be enabled).' =>
+            '',
+        'Sets the ticket type in the ticket bulk screen of the agent interface.' =>
+            '',
+        'Sets the ticket type in the ticket free text screen of the agent interface (Ticket::Type needs to be enabled).' =>
+            '',
+        'Sets the ticket type in the ticket note screen of the agent interface (Ticket::Type needs to be enabled).' =>
+            '',
+        'Sets the ticket type in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled).' =>
+            '',
+        'Sets the ticket type in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled).' =>
+            '',
+        'Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled).' =>
+            '',
+        'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be enabled).' =>
+            '',
+        'Sets the time zone being used internally by OTOBO to e. g. store dates and times in the database. WARNING: This setting must not be changed once set and tickets or any other data containing date/time have been created.' =>
+            '',
+        'Sets the time zone that will be assigned to newly created users and will be used for users that haven\'t yet set a time zone. This is the time zone being used as default to convert date and time between the OTOBO time zone and the user\'s time zone.' =>
+            '',
+        'Sets the timeout (in seconds) for http/ftp downloads.' => '',
+        'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
+            '',
+        'Settings for the customer login screen.' => '',
+        'Shared Secret' => 'Secreto Compartido',
+        'Show a responsible selection in phone and email tickets in the agent interface.' =>
+            'Mostrar una selección de responsable en tickets telefónicos y por email en la interfaz de agente.',
+        'Show article as rich text even if rich text writing is disabled.' =>
+            'Mostrar artículo como texto enriquecido incluso si el texto enriquecido está desactivado.',
+        'Show command line output.' => 'Mostrar salida de línea de comando.',
+        'Show queues even when only locked tickets are in.' => 'Mostrar colas incluso cuando solo se encuentren tickets bloqueados.',
+        'Show the current owner in the customer interface.' => 'Mostrar el propietario actual en la interfaz de cliente.',
+        'Show the current queue in the customer interface.' => 'Mostrar la cola actual en la interfaz de usuario.',
+        'Show the history for this ticket' => 'Mostrar el historial para este ticket',
+        'Show the ticket history' => 'Mostrar el historial del ticket',
+        'Shows a count of attachments in the ticket zoom, if the article has attachments.' =>
+            '',
+        'Shows a link in the menu for creating a calendar appointment linked to the ticket directly from the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            'Muestra un vínculo en el menú para crear una cita de calendario vinculada al ticket directo desde  la vista de detalle de ticket de la interface del agente. Adicionalmente se puede hacer in control de acceso para mostrar o no este vínculo usando la Clave "Group" y el Contenido como "rw:group1;move_into:group2". Para agrupar elemento del menú use la Clave "ClusterName" para el Contenido cualquier nombre que desee ver en la interface del usuario. Utilize "ClusterPriority" para configurar el orden de un cierto grupo dentro de la barra de herramientas.',
+        'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu that allows linking a ticket with another object in the ticket zoom view of the agent interface.  Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu that allows merging tickets in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to access the history of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to add a free text field in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to add a note in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to add a note to a ticket in every ticket overview of the agent interface.' =>
+            '',
+        'Shows a link in the menu to add a phone call inbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to add a phone call outbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to close a ticket in every ticket overview of the agent interface.' =>
+            '',
+        'Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to delete a ticket in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            '',
+        'Shows a link in the menu to delete a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to enroll a ticket into a process in the ticket zoom view of the agent interface.' =>
+            '',
+        'Shows a link in the menu to go back in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to lock / unlock a ticket in the ticket overviews of the agent interface.' =>
+            '',
+        'Shows a link in the menu to lock/unlock tickets in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to move a ticket in every ticket overview of the agent interface.' =>
+            '',
+        'Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to quick close a ticket in every ticket overview of the agent interface.' =>
+            '',
+        'Shows a link in the menu to quick close a ticket in the ticket zoom view of the agent interface.' =>
+            '',
+        'Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface.' =>
+            '',
+        'Shows a link in the menu to see the priority of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to set a ticket as junk in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            '',
+        'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.' =>
+            '',
+        'Shows a link in the menu to zoom a ticket in the ticket overviews of the agent interface.' =>
+            '',
+        'Shows a link to access article attachments via a html online viewer in the zoom view of the article in the agent interface.' =>
+            '',
+        'Shows a link to download article attachments in the zoom view of the article in the agent interface.' =>
+            '',
+        'Shows a link to see a zoomed email ticket in plain text.' => '',
+        'Shows a link to set a ticket as junk in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a list of all the involved agents on this ticket, in the close ticket screen of the agent interface.' =>
+            '',
+        'Shows a list of all the involved agents on this ticket, in the ticket free text screen of the agent interface.' =>
+            '',
+        'Shows a list of all the involved agents on this ticket, in the ticket note screen of the agent interface.' =>
+            '',
+        'Shows a list of all the involved agents on this ticket, in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Shows a list of all the involved agents on this ticket, in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Shows a list of all the involved agents on this ticket, in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Shows a list of all the involved agents on this ticket, in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the close ticket screen of the agent interface.' =>
+            '',
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket free text screen of the agent interface.' =>
+            '',
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket note screen of the agent interface.' =>
+            '',
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Shows a preview of the ticket overview (CustomerInfo => 1 - shows also Customer-Info, CustomerInfoMaxSize max. size in characters of Customer-Info).' =>
+            '',
+        'Shows all both ro and rw queues in the queue view.' => '',
+        'Shows all both ro and rw tickets in the service view.' => '',
+        'Shows all open tickets (even if they are locked) in the escalation view of the agent interface.' =>
+            '',
+        'Shows all the articles of the ticket (expanded) in the agent zoom view.' =>
+            '',
+        'Shows all the articles of the ticket (expanded) in the customer zoom view.' =>
+            '',
+        'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
+            '',
+        'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
+            '',
+        'Shows an owner selection in phone and email tickets in the agent interface.' =>
+            '',
+        'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
+            '',
+        'Shows either the last customer article\'s subject or the ticket title in the small format overview.' =>
+            '',
+        'Shows existing parent/child queue lists in the system in the form of a tree or a list.' =>
+            '',
+        'Shows information on how to start OTOBO Daemon' => 'Muestra información sobre cómo iniciar OTOBO Daemon',
+        'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            '',
+        'Shows the article head information in the agent zoom view.' => '',
+        'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
+            '',
+        'Shows the customer user information (phone and email) in the compose screen.' =>
+            '',
+        'Shows the enabled ticket attributes in the customer interface (0 = Disabled and 1 = Enabled).' =>
+            '',
+        'Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
+            '',
+        'Shows the message of the day on login screen of the agent interface.' =>
+            '',
+        'Shows the ticket history (reverse ordered) in the agent interface.' =>
+            '',
+        'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
+            '',
+        'Shows the ticket priority options in the move ticket screen of the agent interface.' =>
+            '',
+        'Shows the ticket priority options in the ticket bulk screen of the agent interface.' =>
+            '',
+        'Shows the ticket priority options in the ticket free text screen of the agent interface.' =>
+            '',
+        'Shows the ticket priority options in the ticket note screen of the agent interface.' =>
+            '',
+        'Shows the ticket priority options in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Shows the ticket priority options in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Shows the ticket priority options in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Shows the title field in the close ticket screen of the agent interface.' =>
+            '',
+        'Shows the title field in the ticket free text screen of the agent interface.' =>
+            '',
+        'Shows the title field in the ticket note screen of the agent interface.' =>
+            '',
+        'Shows the title field in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Shows the title field in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Shows the title field in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Shows the title field in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Shows time in long format (days, hours, minutes), if enabled; or in short format (days, hours), if not enabled.' =>
+            '',
+        'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
+            '',
+        'Signatures' => 'Firmas',
+        'Simple' => 'Simple',
+        'Skin' => 'Apariencia',
+        'Slovak' => 'Eslovaco',
+        'Slovenian' => 'Esloveno',
+        'Small' => 'Pequeño',
+        'Software Package Manager.' => 'Administrador de paquetes de software.',
+        'Solution time' => 'Tiempo de solución',
+        'SolutionDiffInMin' => '',
+        'SolutionInMin' => '',
+        'Some description!' => '¡Alguna descripción!',
+        'Some picture description!' => 'Alguna descripción de imagen!',
+        'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
+            '',
+        'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
+            '',
+        'Spam' => 'Spam',
+        'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
+            '',
+        'Spam Assassin example setup. Moves marked mails to spam queue.' =>
+            '',
+        'Spanish' => 'Español',
+        'Spanish (Colombia)' => 'Español (Colombia)',
+        'Spanish (Mexico)' => 'Español (México)',
+        'Spanish stop words for fulltext index. These words will be removed from the search index.' =>
+            'Palabras vacías en español para el índice de texto completo. Estas palabras serán eliminadas del índice de búsqueda.',
+        'Specifies if an agent should receive email notification of his own actions.' =>
+            '',
+        'Specifies the directory to store the data in, if "FS" was selected for ArticleStorage.' =>
+            '',
+        'Specifies the directory where SSL certificates are stored.' => '',
+        'Specifies the directory where private SSL certificates are stored.' =>
+            '',
+        'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTOBO Notifications" otobo@your.example.com). You can use the OTOBO_CONFIG_FQDN variable as set in your configuation, or choose another email address.' =>
+            '',
+        'Specifies the email addresses to get notification messages from scheduler tasks.' =>
+            '',
+        'Specifies the group where the user needs rw permissions so that he can access the "SwitchToCustomer" feature.' =>
+            '',
+        'Specifies the group where the user needs rw permissions so that they can edit other users preferences.' =>
+            '',
+        'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTOBO Notifications" otobo@your.example.com).' =>
+            '',
+        'Specifies the order in which the firstname and the lastname of agents will be displayed.' =>
+            '',
+        'Specifies the path of the file for the logo in the page header (gif|jpg|png, 700 x 100 pixel).' =>
+            '',
+        'Specifies the path of the file for the performance log.' => '',
+        'Specifies the path to the converter that allows the view of Microsoft Excel files, in the web interface.' =>
+            '',
+        'Specifies the path to the converter that allows the view of Microsoft Word files, in the web interface.' =>
+            '',
+        'Specifies the path to the converter that allows the view of PDF documents, in the web interface.' =>
+            '',
+        'Specifies the path to the converter that allows the view of XML files, in the web interface.' =>
+            '',
+        'Specifies the text that should appear in the log file to denote a CGI script entry.' =>
+            '',
+        'Specifies user id of the postmaster data base.' => '',
+        'Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.' =>
+            '',
+        'Specifies whether the (MIMEBase) article attachments will be indexed and searchable.' =>
+            '',
+        'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
+            '',
+        'Specify the password to authenticate for the first mirror database.' =>
+            '',
+        'Specify the username to authenticate for the first mirror database.' =>
+            '',
+        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
+            '',
+        'Start number for statistics counting. Every new stat increments this number.' =>
+            '',
+        'Started response time escalation.' => '',
+        'Started solution time escalation.' => '',
+        'Started update time escalation.' => '',
+        'Starts a wildcard search of the active object after the link object mask is started.' =>
+            '',
+        'Stat#' => 'Estadística nº',
+        'States' => 'Estado',
+        'Statistics overview.' => 'Visión general de estadísticas.',
+        'Status view' => 'Vista por estados',
+        'Stopped response time escalation.' => '',
+        'Stopped solution time escalation.' => '',
+        'Stopped update time escalation.' => '',
+        'Stores cookies after the browser has been closed.' => '',
+        'Strips empty lines on the ticket preview in the queue view.' => '',
+        'Strips empty lines on the ticket preview in the service view.' =>
+            '',
+        'Support Agent' => 'Agente de soporte',
+        'Suspend already escalated tickets.' => '',
+        'Swahili' => 'Suajili',
+        'Swedish' => 'Sueco',
+        'System Address Display Name' => '',
+        'System Configuration Deployment' => '',
+        'System Configuration Group' => '',
+        'System Configuration Setting History' => '',
+        'System Maintenance' => 'Mantenimiento de Sistema',
+        'Templates ↔ Attachments' => '',
+        'Templates ↔ Queues' => '',
+        'Textarea' => 'Área de texto',
+        'Thai' => 'Tailandés',
+        'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
+            '',
+        'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
+            '',
+        'The daemon registration for the scheduler cron task manager.' =>
+            '',
+        'The daemon registration for the scheduler future task manager.' =>
+            '',
+        'The daemon registration for the scheduler generic agent task manager.' =>
+            '',
+        'The daemon registration for the scheduler task worker.' => '',
+        'The daemon registration for the system configuration deployment sync manager.' =>
+            '',
+        'The divider between TicketHook and ticket number. E.g \': \'.' =>
+            '',
+        'The duration in minutes after emitting an event, in which the new escalation notify and start events are suppressed.' =>
+            '',
+        'The format of the subject. \'Left\' means \'[TicketHook#:12345] Some Subject\', \'Right\' means \'Some Subject [TicketHook#:12345]\', \'None\' means \'Some Subject\' and no ticket number. In the latter case you should verify that the setting PostMaster::CheckFollowUpModule###0200-References is activated to recognize followups based on email headers.' =>
+            '',
+        'The headline shown in the customer interface.' => '',
+        'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
+            '',
+        'The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)' =>
+            '',
+        'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
+            'El logo que se muestra en la cabecera de la interfaz del agente para el tema "Contraste alto". Ver "AgentLogo" para una mayor descripción.',
+        'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
+            '',
+        'The logo shown in the header of the agent interface for the skin "ivory". See "AgentLogo" for further description.' =>
+            '',
+        'The logo shown in the header of the agent interface for the skin "ivory-slim". See "AgentLogo" for further description.' =>
+            '',
+        'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.' =>
+            '',
+        'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
+            '',
+        'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
+            'El logo que se muestra en la parte superior del cuadro de inicio de sesión de la interfaz del agente. La URL de la imagen puede ser una UTL relativa al directorio de la imagen del tema, o una URL completa de un servidor web remoto.',
+        'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
+            '',
+        'The maximal number of articles shown on a single page in AgentTicketZoom.' =>
+            '',
+        'The maximum number of mails fetched at once before reconnecting to the server.' =>
+            '',
+        'The secret you supplied is invalid. The secret must only contain letters (A-Z, uppercase) and numbers (2-7) and must consist of 16 characters.' =>
+            '',
+        'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' =>
+            '',
+        'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
+            '',
+        'The value of the From field' => '',
+        'Theme' => 'Tema',
+        'This configuration defines all possible screens to enable or disable default columns.' =>
+            '',
+        'This configuration defines all possible screens to enable or disable dynamic fields.' =>
+            '',
+        'This configuration defines if only valids or all (invalids) dynamic fields should be shown.' =>
+            '',
+        'This configuration defines the number of iterations that should be performed at max for calculating the WorkingTime for a Ticket. Attention: Setting this configuration to high can lead to performance issues.' =>
+            '',
+        'This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.' =>
+            '',
+        'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
+            '',
+        'This is a Description for Comment on Framework.' => '',
+        'This is a Description for DynamicField on Framework.' => '',
+        'This is the default orange - black skin for the customer interface.' =>
+            'Este es el aspecto predeterminado naranja - negro para la interfaz del cliente.',
+        'This is the default orange - black skin.' => 'Este es el aspecto predeterminado naranja - negro.',
+        'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
+            '',
+        'This module is being used to extend the password policy.' => '',
+        'This module is part of the admin area of OTOBO Community Edition.' =>
+            '',
+        'This module is part of the admin area of OTOBO.' => 'Este módulo es parte del área de administración del OTOBO.',
+        'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
+            '',
+        'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
+            '',
+        'This option defines the process tickets default lock.' => '',
+        'This option defines the process tickets default priority.' => '',
+        'This option defines the process tickets default queue.' => '',
+        'This option defines the process tickets default state.' => '',
+        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
+            '',
+        'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
+            '',
+        'This setting is deprecated. Set OTOBOTimeZone instead.' => '',
+        'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
+            '',
+        'Ticket Close' => '',
+        'Ticket Close.' => '',
+        'Ticket Compose Bounce Email.' => '',
+        'Ticket Compose email Answer.' => '',
+        'Ticket Customer.' => 'Cliente del Ticket .',
+        'Ticket Forward Email.' => '',
+        'Ticket FreeText.' => '',
+        'Ticket History.' => '',
+        'Ticket Lock.' => '',
+        'Ticket Merge.' => 'Ticket Fusionado.',
+        'Ticket Move.' => 'Mover el Ticket.',
+        'Ticket Note.' => 'Nota del Ticket.',
+        'Ticket Notifications' => 'Notificaciones del Ticket',
+        'Ticket Outbound Email.' => '',
+        'Ticket Overview "Medium" Limit' => 'Límite en la Vista general «mediana» de tickets',
+        'Ticket Overview "Preview" Limit' => 'Límite en la Vista general «previsualización» de tickets',
+        'Ticket Overview "Small" Limit' => 'Límite en la Vista general «pequeña» de tickets',
+        'Ticket Owner.' => 'Propietario del Ticket.',
+        'Ticket Pending.' => 'Ticket pendiente.',
+        'Ticket Print.' => 'Imprimir el ticket.',
+        'Ticket Priority.' => 'Prioridad del ticket.',
+        'Ticket Queue Overview' => 'Resumen de Tickets por Cola',
+        'Ticket Responsible.' => 'Responsable del Ticket.',
+        'Ticket Watcher' => '',
+        'Ticket Zoom' => '',
+        'Ticket Zoom.' => 'Vista detallada del Ticket.',
+        'Ticket bulk module.' => '',
+        'Ticket event module that triggers the escalation stop events.' =>
+            '',
+        'Ticket limit per page for Ticket Overview "Medium".' => '',
+        'Ticket limit per page for Ticket Overview "Preview".' => '',
+        'Ticket limit per page for Ticket Overview "Small".' => '',
+        'Ticket notifications' => 'Notificaciones del ticket',
+        'Ticket overview' => 'Vista general de tickets',
+        'Ticket plain view of an email.' => '',
+        'Ticket split dialog.' => '',
+        'Ticket title' => 'Título del Ticket ',
+        'Ticket zoom view.' => '',
+        'TicketNumber' => 'Número de Ticket',
+        'Tickets.' => 'Tickets.',
+        'Tile registration for the CustomerDashboard. Module is required.' =>
+            '',
+        'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
+            '',
+        'To accept login information, such as an EULA or license.' => '',
+        'To download attachments.' => 'Para descargar archivos adjuntos.',
+        'To view HTML attachments.' => '',
+        'Toggles display of OTOBO FeatureAddons list in PackageManager.' =>
+            '',
+        'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            '',
+        'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Transport selection for ticket notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Tree view' => 'Vista en árbol',
+        'Triggers add or update of automatic calendar appointments based on certain ticket times.' =>
+            'Dispara la acción de añadir o actualizar citas automáticas de calendarios basadas en ciertos tiempos de tickets.',
+        'Triggers ticket escalation events and notification events for escalation.' =>
+            '',
+        'Turkish' => 'Turco',
+        'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
+            '',
+        'Turns on drag and drop for the main navigation.' => '',
+        'Turns on the remote ip address check. It should not be enabled if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
+            '',
+        'Tweak the system as you wish.' => '',
+        'Type of daemon log rotation to use: Choose \'OTOBO\' to let OTOBO system to handle the file rotation, or choose \'External\' to use a 3rd party rotation mechanism (i.e. logrotate). Note: External rotation mechanism requires its own and independent configuration.' =>
+            '',
+        'Ukrainian' => 'Ucraniano',
+        'Unlock tickets that are past their unlock timeout.' => 'Desbloquea los tickets que han superado el tiempo de espera de desbloqueo.',
+        'Unlock tickets whenever a note is added and the owner is out of office.' =>
+            '',
+        'Unlocked ticket.' => 'Ticket desbloqueado.',
+        'Up' => 'Arriba',
+        'Upcoming Events' => 'Próximos eventos',
+        'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
+            '',
+        'Update time' => 'Tiempo de actualización',
+        'Updates the ticket escalation index after a ticket attribute got updated.' =>
+            '',
+        'Updates the ticket index accelerator.' => 'Actualiza el acelerador del índice de tickets.',
+        'Upload your PGP key.' => '',
+        'Upload your S/MIME certificate.' => '',
+        'Use Redis::Fast instead of Redis.' => '',
+        'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
+            '',
+        'Use specified Redis logical database.' => '',
+        'User Profile' => 'Perfil del usuario',
+        'UserFirstname' => 'Nombre de Usuario',
+        'UserLastname' => 'Apellido de Usuario',
+        'Users, Groups & Roles' => '',
+        'Uses richtext for viewing and editing ticket notification.' => 'Utiliza texto enriquecido para ver y editar la notificación de tickets .',
+        'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
+            '',
+        'Vietnam' => 'Vietnamita',
+        'View performance benchmark results.' => 'Ver resultados de la prueba de desempeño.',
+        'Watch this ticket' => 'Vigilar este ticket',
+        'Watched Tickets' => 'Tickets Vistos',
+        'Watched Tickets.' => 'Tickets vistos.',
+        'We are performing scheduled maintenance.' => 'Estamos realizando un mantenimiento programado.',
+        'We are performing scheduled maintenance. Login is temporarily not available.' =>
+            'Estamos realizando un mantenimiento programado. Inicio de Sesión temporalmente no disponible.',
+        'We are performing scheduled maintenance. We should be back online shortly.' =>
+            'Estamos realizando un mantenimiento programado. Estaremos nuevamente en linea en breve.',
+        'Web Service' => '',
+        'Web Services' => 'Servicios web',
+        'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
+            '',
+        'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
+            '',
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
+            '',
+        'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
+            '',
+        'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
+            '',
+        'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
+            '',
+        'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
+            '',
+        'Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes.' =>
+            '',
+        'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
+            '',
+        'Yes, but hide archived tickets' => 'Sí, pero ocultar tickets archivados',
+        'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
+            'Su correo con el número de ticket "<OTOBO_TICKET>" ha sido rebotado a "<OTOBO_BOUNCE_TO>". Póngase en contacto con esa dirección para obtener más información.',
+        'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
+            'Su correo con el número de ticket "<OTOBO_TICKET>" se fusionó con "<OTOBO_MERGE_TO_TICKET>".',
+        'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
+            'Su selección de colas de sus colas preferidas. También se notifica sobre esas colas a través de correo electrónico si está habilitado.',
+        'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
+            'Su selección de servicios de sus servicios preferidos. También se notifica sobre esos servicios por correo electrónico si está habilitado.',
+        'Zoom' => 'Vista detallada',
+        'attachment' => 'archivo adjunto',
+        'bounce' => 'rebotar',
+        'compose' => 'componer',
+        'debug' => 'depurar',
+        'error' => 'error',
+        'forward' => 'transmitido',
+        'info' => 'Información',
+        'inline' => 'en línea',
+        'normal' => 'normal',
+        'notice' => 'Nota',
+        'pending' => 'pendiente',
+        'phone' => 'teléfono',
+        'responsible' => 'responsable',
+        'reverse' => 'revertir',
+        'stats' => 'estadísticas',
+
     };
 
     $Self->{JavaScriptStrings} = [
@@ -5936,6 +9212,7 @@ sub Data {
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
@@ -6076,6 +9353,7 @@ sub Data {
         'Help',
         'Hide EntityIDs',
         'If you now leave this page, all open popup windows will be closed, too!',
+        'Ignore',
         'Import web service',
         'Information about the OTOBO Daemon',
         'Invalid date (need a future date)!',
@@ -6107,6 +9385,7 @@ sub Data {
         'March',
         'May',
         'May_long',
+        'Migrate',
         'Mo',
         'Mon',
         'Monday',
@@ -6138,6 +9417,7 @@ sub Data {
         'Open URL in new tab',
         'Open date selection',
         'Open this node in a new window',
+        'Package',
         'Please add values for all keys before saving the setting.',
         'Please check the fields marked as red for valid inputs.',
         'Please either turn some off first or increase the limit in configuration.',
@@ -6204,7 +9484,9 @@ sub Data {
         'Settings',
         'Show',
         'Show EntityIDs',
+        'Show all',
         'Show current selection',
+        'Show less',
         'Show or hide the content.',
         'Slide the navigation bar',
         'Sorry, but you can\'t disable all methods for notifications marked as mandatory.',
@@ -6261,6 +9543,7 @@ sub Data {
         'This window must be called from compose window.',
         'Thu',
         'Thursday',
+        'Time needed',
         'Timeline Day',
         'Timeline Month',
         'Timeline Week',
@@ -6272,6 +9555,7 @@ sub Data {
         'Tue',
         'Tuesday',
         'Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later.',
+        'Uninstall from OTOBO',
         'Unknown',
         'Unlock setting.',
         'Update All Packages',

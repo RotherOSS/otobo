@@ -49,6 +49,17 @@ Core.UI.oooWidget = (function (TargetNS) {
         $(".oooClose").on('click', function() {
             $(this).parent().parent('.oooWidget').hide();
         });
+
+        /*
+        // close on blur
+        $(document).on('click', function() {
+            $('.oooWidget:visible').hide();
+        });
+        $('.oooWidget').on('click', function(e) {
+            e.stopPropagation();
+            return false;
+        });
+        */
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

@@ -2573,15 +2573,15 @@ sub TicketEscalationIndexBuild {
 # ---
 # Znuny4OTOBO-EscalationSuspend
 # ---
-        # get states in which to suspend escalations
-        my @SuspendStates      = @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') };
-        my $SuspendStateActive = 0;
-        STATE:
-        for my $State (@SuspendStates) {
-            next STATE if $Ticket{State} ne $State;
-            $SuspendStateActive = 1;
-            last STATE;
-        }
+    # get states in which to suspend escalations
+    my @SuspendStates      = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') ? @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') } : ();
+    my $SuspendStateActive = 0;
+    STATE:
+    for my $State (@SuspendStates) {
+        next STATE if $Ticket{State} ne $State;
+        $SuspendStateActive = 1;
+        last STATE;
+    }
 # ---
 
     # get database object
@@ -3101,7 +3101,7 @@ sub TicketEscalationSuspendCalculate {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get states in which to suspend escalations
-    my @SuspendStates = @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') };
+    my @SuspendStates = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') ? @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') } : ();
 
     # get stateid->state map
     my %StateList = $Kernel::OM->Get('Kernel::System::State')->StateList(
@@ -3123,7 +3123,7 @@ sub TicketEscalationSuspendCalculate {
         push @StateHistory, {
             StateID     => $Row[0],
             Created     => $Row[1],
-            CreatedUnix => $Kernel::OM->Get('Kernel::System::ZnunyTime')->TimeStamp2SystemTime(
+            CreatedUnix => $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
                 String => $Row[1],
             ),
             State => $StateList{ $Row[0] },
@@ -3139,7 +3139,7 @@ sub TicketEscalationSuspendCalculate {
     }
 
     # start time in unix format
-    my $DestinationTime = $Kernel::OM->Get('Kernel::System::ZnunyTime')->TimeStamp2SystemTime(
+    my $DestinationTime = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
         String => $Param{StartTime},
     );
 
@@ -3174,7 +3174,7 @@ sub TicketEscalationSuspendCalculate {
         else {
 
             # calculate working time if no suspend state
-            my $WorkingTime = $Kernel::OM->Get('Kernel::System::ZnunyTime')->WorkingTime(
+            my $WorkingTime = $Kernel::OM->Get('Kernel::System::Time')->WorkingTime(
                 StartTime => $DestinationTime,
                 StopTime  => $Row->{CreatedUnix},
                 Calendar  => $Param{Calendar},
@@ -3193,7 +3193,7 @@ sub TicketEscalationSuspendCalculate {
                 my $LoopProtection = 0;
                 UPDATETIME:
                 while ($UpdateDiffTime) {
-                    $WorkingTime = $Kernel::OM->Get('Kernel::System::ZnunyTime')->WorkingTime(
+                    $WorkingTime = $Kernel::OM->Get('Kernel::System::Time')->WorkingTime(
                         StartTime => $DestinationTime,
                         StopTime  => $DestinationTime + $UpdateDiffTime,
                         Calendar  => $Param{Calendar},
@@ -3269,11 +3269,11 @@ sub TicketEscalationSuspendCalculate {
 
         # use current timestamp if we are suspended
         if ($SuspendState) {
-            $StartTime = $Kernel::OM->Get('Kernel::System::ZnunyTime')->SystemTime();
+            $StartTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
         }
 
         # some time left? calculate reminder as usual
-        $DestinationTime = $Kernel::OM->Get('Kernel::System::ZnunyTime')->DestinationTime(
+        $DestinationTime = $Kernel::OM->Get('Kernel::System::Time')->DestinationTime(
             StartTime => $StartTime,
             Time      => $UpdateDiffTime,
             Calendar  => $Param{Calendar},
@@ -3286,7 +3286,7 @@ sub TicketEscalationSuspendCalculate {
     elsif ( !$UpdateDiffTime && $Kernel::OM->Get('Kernel::Config')->Get('SuspendEscalatedTickets') ) {
 
         # start time in unix format
-        my $InterimDestinationTime = $Kernel::OM->Get('Kernel::System::ZnunyTime')->TimeStamp2SystemTime(
+        my $InterimDestinationTime = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
             String => $Param{StartTime},
         );
 
@@ -3324,7 +3324,7 @@ sub TicketEscalationSuspendCalculate {
             else {
 
                 # calculate working time if state is suspend state
-                my $WorkingTime = $Kernel::OM->Get('Kernel::System::ZnunyTime')->WorkingTime(
+                my $WorkingTime = $Kernel::OM->Get('Kernel::System::Time')->WorkingTime(
                     StartTime => $InterimDestinationTime,
                     StopTime  => $Row->{CreatedUnix},
                     Calendar  => $Param{Calendar},
@@ -3338,7 +3338,7 @@ sub TicketEscalationSuspendCalculate {
         if ( $Param{Suspended} ) {
 
             # use current timestamp, because current state should be suspended
-            $StartTime = $Kernel::OM->Get('Kernel::System::ZnunyTime')->SystemTime();
+            $StartTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
         }
         else {
             # use time of last non-suspend state
@@ -3354,10 +3354,10 @@ sub TicketWorkingTimeSuspendCalculate {
 
     # get required objects
     my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::ZnunyTime');
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
     # get states in which to suspend escalations
-    my @SuspendStates = @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') };
+    my @SuspendStates = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') ? @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') } : ();
     my @ClosedStates = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
         StateType => ['closed'],
         Result    => 'Name',

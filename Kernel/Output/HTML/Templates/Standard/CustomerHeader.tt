@@ -19,8 +19,11 @@
 <html>
 [% InsertTemplate("Copyright.tt") %]
 [% InsertTemplate("CustomerHTMLHead.tt") %]
-<body class="NoJavaScript [% Data.BodyClass | html %]">
-<h3 id="oooMobileHeader">Mobile layout coming soon...</h3>
+<body class="NoJavaScript [% Data.BodyClass | html %]" style="[% Data.ColorDefinitions | html %]">
+<div id="oooMobileHeader">
+    <i id='oooMobileMenu' class='ooofo ooofo-menu'></i>
+    <img id="oooMobileSignet" src="[% Data.URLSignet | html %]">
+</div>
 #<!-- start CI layout -->
 #    <div id="Header">
 #[% RenderBlockStart("HeaderLogo") %]

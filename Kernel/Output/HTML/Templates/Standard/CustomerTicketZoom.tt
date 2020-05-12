@@ -16,26 +16,24 @@
 
 <div id='oooContent' class="TicketZoom ARIARoleMain">
     <div id='oooHeader'>
-        <div id='oooHead1'>
-            <div class='oooWithSub'>
-                <h2 title="[% Data.Title | html %]">[% Data.Title | html %]</h2>
-                <p class="ooo12g" title="[% Translate('No.') %] #[% Data.TicketNumber | html %]">[% Translate('No.') %] #[% Data.TicketNumber | html %]</p>
-            </div>
-            <div class='oooAvatar'>
-                [% IF Data.Avatar %]
-                    <img src="[% Data.Avatar %]" />
-                [% ELSE %]
-                    <span class="Initials">[% Data.UserInitials | html %]</span>
-                [% END %]
-            </div>
-            <p class='ooo12'>[% Data.UserFirstname | html %] [% Data.UserLastname | html %]</p>
-            <div>
-                <p class='oooInfo ooo12'><i class="ooofo ooofo-info"></i> [% Translate('Information') %]</p>
-            </div>
-            <button id="ReplyButton" class="DontPrint oooM">[% Translate("Reply") | html %] <i class="ooofo ooofo-arrow_r2"></i></button>
-            <i class="ooofo ooofo-more_v"></i>
+        <div class='oooWithSub'>
+            <h2 title="[% Data.Title | html %]">[% Data.Title | html %]</h2>
+            <p class="ooo12g" title="[% Translate('No.') %] #[% Data.TicketNumber | html %]">[% Translate('No.') %] #[% Data.TicketNumber | html %]</p>
         </div>
-        <div id='oooHead2' class='oooTop'>
+        <div class='oooAvatar'>
+            [% IF Data.Avatar %]
+                <img src="[% Data.Avatar %]" />
+            [% ELSE %]
+                <span class="Initials">[% Data.UserInitials | html %]</span>
+            [% END %]
+        </div>
+        <p class='ooo12'>[% Data.UserFirstname | html %] [% Data.UserLastname | html %]</p>
+        <div class='oooInfoBlock'>
+            <p class='oooInfo ooo12'><i class="ooofo ooofo-info"></i> <span>[% Translate('Information') %]</span></p>
+        </div>
+        <button id="ReplyButton" class="DontPrint oooM"><span>[% Translate("Reply") | html %] </span><i class="ooofo ooofo-arrow_r2"></i></button>
+        <i class="ooofo ooofo-more_v"></i>
+        <div id='oooCategories'>
 [% RenderBlockStart("Categories") %]
             <p class="oooCategory ooo10" style="background-color:[% Data.Color | html %]">[% Data.Text | html %]</p>
 [% RenderBlockEnd("Categories") %]
@@ -229,11 +227,25 @@
 [% RenderBlockStart("InfoCategories") %]
             <div class="oooSection">
                 <h3>[% Translate('Categories') %]</h3>
+                <br/>
 [% RenderBlockStart("CategoriesI") %]
                 <p class="oooCategory ooo10" style="background-color:[% Data.Color | html %]">[% Data.Text | html %]</p>
 [% RenderBlockEnd("CategoriesI") %]
             </div>
 [% RenderBlockEnd("InfoCategories") %]
+        </div>
+        <div id='oooMore' class='oooWidget'>
+            <div class='oooWHead'>
+                <h2>[% Translate('Further actions') %]</h2>
+                <i class='ooofo ooofo-close oooClose'></i>
+            </div>
+            <div class="oooSection">
+[% RenderBlockStart("Print") %]
+                <a href="[% Env("Baselink") %]Action=CustomerTicketPrint;TicketID=[% Data.TicketID | uri %]" class="Print AsPopup" title="[% Translate("Print") | html %]">
+                    <i class="ooofo ooofo-print"></i><span>[% Translate("Print") | html %]</span>
+                </a>
+[% RenderBlockEnd("Print") %]
+            </div>
         </div>
 # EO Widgets
     </div>

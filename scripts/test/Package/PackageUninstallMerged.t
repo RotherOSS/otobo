@@ -46,7 +46,7 @@ if ( !$DeveloperSystem ) {
     <otobo_package version="1.0">
       <Name>Test</Name>
       <Version>0.0.1</Version>
-      <Vendor></Vendor>
+      <Vendor>Rother OSS GmbH</Vendor>
       <URL>https://otrs.com/</URL>
       <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
       <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
@@ -86,7 +86,7 @@ if ( !$DeveloperSystem ) {
     <otobo_package version="1.0">
       <Name>Test</Name>
       <Version>0.0.1</Version>
-      <Vendor></Vendor>
+      <Vendor>Rother OSS GmbH</Vendor>
       <URL>https://otrs.com/</URL>
       <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
       <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>

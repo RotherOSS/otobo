@@ -38,6 +38,20 @@ Core.UI = (function (TargetNS) {
     var IDGeneratorCount = 0;
 
     /**
+     * @private
+     * @name UploadIcons
+     * @memberof Core.UI
+     * @member {Object}
+     * @description
+     *      Maps data types to icons for the attachment list.
+     */
+    var UploadIcons = {
+        'image':           'ooofo-photo',
+        'application/pdf': 'ooofo-pdf',
+        'text':            'ooofo-text',
+    };
+
+    /**
      * @name InitWidgetActionToggle
      * @memberof Core.UI
      * @function
@@ -551,7 +565,7 @@ Core.UI = (function (TargetNS) {
                 CGIHandle = Core.Config.Get('CGIHandle'),
                 SessionToken = '',
                 SessionName,
-                Customer = /^Customer/.test( Core.Config.Get('Action') );
+                Customer = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName');
 
             if (!FormID || !SelectedFiles || !$DropObj || !ChallengeToken) {
                 return false;
@@ -612,11 +626,23 @@ Core.UI = (function (TargetNS) {
 
             $.each(SelectedFiles, function(index, File) {
 
+                var FileIcon = UploadIcons[ 'text' ];
+                for ( var Key in UploadIcons ) {
+                    if ( !UploadIcons.hasOwnProperty( Key ) ) continue;
+
+                    var FileRE = new RegExp('^' + Key);
+                    if ( FileRE.test( File.type ) ) {
+                        FileIcon = UploadIcons[ Key ];
+                        break;
+                    }
+                }
+
                 var $CurrentRowObj,
                     FileExtension = File.name.slice((File.name.lastIndexOf(".") - 1 >>> 0) + 2),
                     AttachmentItem = Core.Template.Render(UploadTmpl, {
                         'Filename' : File.name,
-                        'Filetype' : File.type
+                        'Filetype' : File.type,
+                        'Fileicon' : FileIcon,
                     }),
                     FileExist;
 
@@ -654,6 +680,20 @@ Core.UI = (function (TargetNS) {
 
                 $DropObj.addClass('Uploading');
                 $ContainerObj.find('.AttachmentList').show();
+
+                // add show more/less element
+                if ( Customer && $ContainerObj.find('.AttachmentList > tbody > tr').length === 3 && $('.AttachmentList > tbody > .oooToggleML', $ContainerObj).length === 0 ) {
+                    var ToggleHTML = Core.Template.Render('AjaxDnDUpload/ToggleMoreLessCustomer', {});
+                    $('.AttachmentList > tbody', $ContainerObj).addClass('oooRetracted').append(ToggleHTML);
+
+                    // activate retracted/shown toggle
+                    $('.AttachmentList > tbody > .oooToggleML .oooMore', $ContainerObj).on('click', function() {
+                        $('.AttachmentList > tbody', $ContainerObj).removeClass('oooRetracted');
+                    });
+                    $('.AttachmentList > tbody > .oooToggleML .oooLess', $ContainerObj).on('click', function() {
+                        $('.AttachmentList > tbody', $ContainerObj).addClass('oooRetracted');
+                    });
+                }
 
                 $(AttachmentItem).prependTo($ContainerObj.find('.AttachmentList tbody')).fadeIn();
                 $CurrentRowObj = $ContainerObj.find('.AttachmentList tbody tr:first-child');
@@ -734,6 +774,7 @@ Core.UI = (function (TargetNS) {
                                     'Filetype' : Attachment.ContentType,
                                     'Filesize' : Attachment.Filesize,
                                     'FileID'   : Attachment.FileID,
+                                    'Fileicon' : FileIcon,
                                 });
 
                                 $(AttachmentItem).prependTo($ContainerObj.find('.AttachmentList tbody')).fadeIn();
@@ -826,7 +867,8 @@ Core.UI = (function (TargetNS) {
                     FormID: FormID,
                     ObjectID: $(this).data('object-id'),
                     FieldID: $(this).data('field-id'),
-                };
+                },
+                Customer = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName');
 
             $TriggerObj.closest('.AttachmentListContainer').find('.Busy').fadeIn();
 
@@ -835,6 +877,12 @@ Core.UI = (function (TargetNS) {
                     $TriggerObj.closest('tr').fadeOut(function() {
 
                         $(this).remove();
+
+                        // remove show more/less element
+                        if ( Customer && $AttachmentListContainerObj.find('.AttachmentList > tbody > tr').length === 4 && $('.AttachmentList > tbody > .oooToggleML', $AttachmentListContainerObj).length ) {
+                            $('.AttachmentList > tbody > .oooToggleML', $AttachmentListContainerObj).remove();
+                            $('.AttachmentList > .oooRetracted').removeClass('oooRetracted');
+                        }
 
                         if (Response.Data && Response.Data.length) {
 
@@ -862,11 +910,10 @@ Core.UI = (function (TargetNS) {
             return false;
         });
 
-        var Customer = /^Customer/.test( Core.Config.Get('Action') );
-
         $('input[type=file].AjaxDnDUpload').each(function() {
 
             var IsMultiple = ($(this).attr('multiple') == 'multiple'),
+                Customer = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName'),
                 UploadContainer = Core.Template.Render('AjaxDnDUpload/UploadContainer', {
                     'IsMultiple': IsMultiple,
                     'Customer'  : Customer

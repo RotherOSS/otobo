@@ -23,6 +23,7 @@ use warnings;
 use Storable();
 use Term::ANSIColor();
 use Text::Diff;
+use Time::HiRes();
 
 # UnitTest helper must be loaded to override the builtin time functions!
 use Kernel::System::UnitTest::Helper;
@@ -111,11 +112,10 @@ sub Run {
     }
 
     print "+-------------------------------------------------------------------+\n";
-    print "$File:\n";
+    print '  ' . $Self->_Color( 'yellow', $File ) . ":\n";
     print "+-------------------------------------------------------------------+\n";
 
-    # Use non-overridden time() function.
-    my $FileStartTime = CORE::time;    ## no critic
+    my $StartTime = [ Time::HiRes::gettimeofday() ];
 
     # Create a new scope to be sure to destroy local object of the test files.
     {
@@ -157,14 +157,23 @@ sub Run {
         }
     }
 
-    # Use non-overridden time() function.
-    $Self->{ResultData}->{Duration} = CORE::time - $FileStartTime;    ## no critic
+    $Self->{ResultData}->{Duration} = sprintf( '%.3f', Time::HiRes::tv_interval($StartTime) );
 
     if ( $Self->{SeleniumData} ) {
         $Self->{ResultData}->{SeleniumData} = $Self->{SeleniumData};
     }
 
-    print { $Self->{OriginalSTDOUT} } "\n";
+    print { $Self->{OriginalSTDOUT} } "\n" if !$Self->{Verbose};
+
+    my $TestCountTotal = $Self->{ResultData}->{TestOk} // 0;
+    $TestCountTotal += $Self->{ResultData}->{TestNotOk} // 0;
+
+    printf(
+        "%s ran %s test(s) in %s.\n\n",
+        $File,
+        $Self->_Color( 'yellow', $TestCountTotal ),
+        $Self->_Color( 'yellow', "$Self->{ResultData}->{Duration}s" ),
+    );
 
     return $Self->_SaveResults();
 }
@@ -365,6 +374,48 @@ sub IsDeeply {
                 FILENAME_B => 'Expected data',
             }
         );
+
+        # Provide colored diff.
+        if ( $Self->{ANSI} ) {
+            my @DiffLines = split( m{\n}, $Diff );
+            $Diff = '';
+
+            for my $DiffLine (@DiffLines) {
+
+                # Diff type "Table"
+                if ( $Self->{DataDiffType} eq 'Table' ) {
+
+                    # Line changed
+                    if ( substr( $DiffLine, 0, 1 ) eq '*' && substr( $DiffLine, -1, 1 ) eq '*' ) {
+                        $DiffLine = $Self->_Color( 'yellow', $DiffLine );
+                    }
+
+                    # Line added
+                    elsif ( substr( $DiffLine, 0, 1 ) eq '|' && substr( $DiffLine, -1, 1 ) eq '*' ) {
+                        $DiffLine = $Self->_Color( 'green', $DiffLine );
+                    }
+
+                    # Line removed
+                    elsif ( substr( $DiffLine, 0, 1 ) eq '*' && substr( $DiffLine, -1, 1 ) eq '|' ) {
+                        $DiffLine = $Self->_Color( 'red', $DiffLine );
+                    }
+                }
+
+                # Diff type "Unified"
+                else {
+                    # Line added
+                    if ( substr( $DiffLine, 0, 1 ) eq '+' && substr( $DiffLine, 0, 4 ) ne '+++ ' ) {
+                        $DiffLine = $Self->_Color( 'green', $DiffLine );
+                    }
+
+                    # Line removed
+                    elsif ( substr( $DiffLine, 0, 1 ) eq '-' && substr( $DiffLine, 0, 4 ) ne '--- ' ) {
+                        $DiffLine = $Self->_Color( 'red', $DiffLine );
+                    }
+                }
+                $Diff .= $DiffLine . "\n";
+            }
+        }
 
         my $Output;
         $Output .= $Self->_Color( 'yellow', "Diff" ) . ":\n$Diff\n";

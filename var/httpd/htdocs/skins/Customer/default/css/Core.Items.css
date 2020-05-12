@@ -26,3 +26,24 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     padding-top: 1px;
     padding-bottom: 1px;
 }
+
+#oooCustomerNotifications > .MessageBox {
+    width: calc( 100% - 16px );
+    border-radius: 5px;
+    background-color: #fffccc;
+    background-color: var(--colNotifyWarn);
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding: 4px 8px 4px 8px;
+}
+
+#oooCustomerNotifications > .MessageBox.Success {
+    background-color: #c4cdfa;
+    background-color: var(--colNotifyOK);
+}
+
+
+#oooCustomerNotifications > .MessageBox.Error {
+    background-color: #f9bcb2;
+    background-color: var(--colNotifyErr);
+}

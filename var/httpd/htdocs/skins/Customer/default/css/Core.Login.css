@@ -13,6 +13,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+#oooMobileHeader,
+#oooIE,
 #oooFooter {
     display: none;
 }
@@ -34,18 +36,34 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         top 0;
         left: 0;
         width: 100vw;
-        min-width: 358px;
+        min-width: 320px;
         height: 100vh;
         min-height: 768px;
         padding: 0px;
         border-bottom-right-radius: 20px;
         background-color: #ffffff;
+        overflow: hidden;
     }
 
 	#Slider {
     	min-height: calc( 692px - 10% );
 	}
 
+    @media only screen and (min-width: 448px) {
+
+        #Slider {
+            max-width: calc( 50% + 128px );
+        }
+
+        #Slider,
+        .SuccessBox > p,
+        .WarningBox > p,
+        .ErrorBox > p {
+            margin-left: calc( 25% - 112px );
+            margin-right: calc( 25% - 112px );
+        }
+    
+    }
 }
 
 @media only screen and (min-width: 1024px) {
@@ -58,6 +76,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         height: 100vh;
         min-height: 768px;
         background-color: #00023c;
+        background-color: var(--colMainDark);
     }
 
     #oooLoginBG > .oooBG {
@@ -119,18 +138,18 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 @media only screen and (min-width: 1280px) {
 
-    .Row {
-        width: calc( 72.5% + 96.8px );
-        margin-left: calc( 13.75% - 48.4px );
+    #Slider {
+        max-width: calc( 50% + 128px );
     }
 
+    #Slider,
     .SuccessBox > p,
     .WarningBox > p,
     .ErrorBox > p {
-        margin-left: calc( 13.75% - 48.4px );
-        margin-right: calc( 13.75% - 48.4px );
+        margin-left: calc( 25% - 112px );
+        margin-right: calc( 25% - 112px );
     }
-    
+
 }
 
 #NoJavaScript,
@@ -142,6 +161,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     padding-left: 48px;
     padding-right: 48px;
     background-color: #f9bcb2;
+    background-color: var(--colNotifyErr);
     z-index: 500;
 }
 
@@ -168,7 +188,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .SuccessBox > p,
 .WarningBox > p,
 .ErrorBox > p {
-    margin-left: calc( 13.75% - 48.4px );
     border-radius: 10px;
     padding: 16px;
     text-overflow: ellipsis;
@@ -178,14 +197,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .SuccessBox > p {
     background-color: #c4cdfa;
+    background-color: var(--colNotifyOK);
 }
 
 .WarningBox > p {
     background-color: #fffccc;
+    background-color: var(--colNotifyWarn);
 }
 
 .ErrorBox > p {
     background-color: #f9bcb2;
+    background-color: var(--colNotifyErr);
 }
 
 /**
@@ -220,12 +242,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     letter-spacing: 0.4px;
     text-align: left;
     color: #7f809d;
+    color: var(--colTextLight);
     width: calc( 100% - 32px );
     border-radius: 10px;
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
     padding: 0px;
     padding-left: 32px;
     border: solid 1px rgba(247, 247, 249, 0);
+    border: solid 1px var(--colBGLight);
 -webkit-transition: border 0.2s ease;
    -moz-transition: border 0.2s ease;
      -o-transition: border 0.2s ease;
@@ -235,14 +260,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .Row > input:hover,
 .Row > input.oooFull {
     border: solid 1px #7f809d;
+    border: solid 1px var(--colTextLight);
     background-color: #fff;
 }
 
 .Row > input:focus,
 .Row > input.oooFull:focus {
     border: solid 1px #001bff;
+    border: solid 1px var(--colMainLight);
     background-color: #fff;
     color: #001bff;
+    color: var(--colMainLight);
 }
 
 label {
@@ -279,3 +307,20 @@ label {
 	margin-top: 24px;
 }
 
+/* IE */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+    #oooIE {
+        display: block;
+    }
+    #oooNoGrid {
+        display: none;
+    }
+
+    /* Edge */
+    @supports (display: grid) {
+        #oooIE {
+            display: none;
+        }
+    }
+}

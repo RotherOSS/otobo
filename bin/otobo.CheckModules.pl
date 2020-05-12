@@ -17,6 +17,7 @@
 
 use strict;
 use warnings;
+use feature qw(say);
 
 use File::Basename;
 use FindBin qw($RealBin);
@@ -32,7 +33,7 @@ use File::Path;
 use Getopt::Long;
 use Term::ANSIColor;
 
-our %InstTypeToCMD = (
+my %InstTypeToCMD = (
 
     # [InstType] => {
     #    CMD       => '[cmd to install module]',
@@ -77,7 +78,7 @@ our %InstTypeToCMD = (
     },
 );
 
-our %DistToInstType = (
+my %DistToInstType = (
 
     # apt-get
     debian => 'aptget',
@@ -101,7 +102,7 @@ our %DistToInstType = (
     freebsd => 'ports',
 );
 
-our $OSDist;
+my $OSDist;
 eval {
     require Linux::Distribution;    ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
     import Linux::Distribution;
@@ -111,30 +112,41 @@ if ( !defined $OSDist ) {
     $OSDist = $^O;
 }
 
-my $AllModules;
-my $PackageList;
-my $Help;
+my $PrintAllModules;
+my $PrintPackageList;
+my $PrintCpanfile;
+my $PrintHelp;
 GetOptions(
-    all  => \$AllModules,
-    list => \$PackageList,
-    h    => \$Help
+    all       => \$PrintAllModules,
+    list      => \$PrintPackageList,
+    cpanfile  => \$PrintCpanfile,
+    'help|h'  => \$PrintHelp,
 );
 
 # check needed params
-if ($Help) {
-    print "\nReturn all required and optional packages of OTOBO.\n\n";
+if ($PrintHelp) {
+    print "\n";
+    print "Print all required and optional packages of OTOBO.\n";
+    print "Optionally limit to the required but missing packages or modules.\n";
+    print "\n";
     print "Usage:\n";
-    print " otobo.CheckModules.pl [-list|all]\n\n";
+    print "  otobo.CheckModules.pl [-help|-list|-cpanfile|-all]\n";
+    print "\n";
     print "Options:\n";
-    printf " %-22s - %s", '[-list]', 'Return an install command with all required packages.' . "\n";
-    printf " %-22s - %s", '[-all]',  'Return all required, optional and bundled packages of OTOBO.' . "\n\n";
+    printf " %-22s - %s\n", '[-help]',     'Print this help message.';
+    printf " %-22s - %s\n", '[-h]',        'Same as -help.';
+    printf " %-22s - %s\n", '[-list]',     'Print an install command with all required packages that are missing.';
+    printf " %-22s - %s\n", '[-cpanfile]', 'Print a cpanfile with the required modules regardless whether they are already available.';
+    printf " %-22s - %s\n", '[-all]',      'Print all required, optional and bundled packages of OTOBO.';
+    print "\n";
+
     exit 1;
 }
 
 my $Options = shift || '';
 my $NoColors;
 
-if ( $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
+if ( $PrintCpanfile || $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
     $NoColors = 1;
 }
 
@@ -594,7 +606,15 @@ my @NeededModules = (
     },
 );
 
-if ($PackageList) {
+if ($PrintCpanfile) {
+
+    for my $Module ( @NeededModules ) {
+        if ( $Module->{Required} ) {
+            say "requires '$Module->{Module}';";
+        }
+    }
+}
+elsif ($PrintPackageList) {
     my %PackageList = _PackageList( \@NeededModules );
 
     if ( IsArrayRefWithData( $PackageList{Packages} ) ) {
@@ -618,7 +638,7 @@ else {
         _Check( $Module, $Depends, $NoColors );
     }
 
-    if ($AllModules) {
+    if ($PrintAllModules) {
         print "\nBundled modules:\n\n";
 
         my %PerlInfo = Kernel::System::Environment->PerlInfoGet(
@@ -742,7 +762,7 @@ sub _Check {
             }
 
             if ($NoColors) {
-                print "ok ($OutputVersion)\n" . color('yellow') . "$AdditionalText" . color('reset');
+                print "ok ($OutputVersion)\n$AdditionalText";
             }
             else {
                 print color('green') . 'ok'
@@ -807,6 +827,7 @@ sub _PackageList {
     my $CMD;
     my $SubCMD;
     my @Packages;
+    my @MissingModules;
 
     # if we're on Windows we don't need to see Apache + mod_perl modules
     MODULE:
@@ -837,13 +858,15 @@ sub _PackageList {
             $CMD    = $InstallCommand{CMD};
             $SubCMD = $InstallCommand{SubCMD};
             push @Packages, $InstallCommand{Package};
+            push @MissingModules, $Module;
         }
     }
 
     return (
-        CMD      => $CMD,
-        SubCMD   => $SubCMD,
-        Packages => \@Packages,
+        CMD            => $CMD,
+        SubCMD         => $SubCMD,
+        Packages       => \@Packages,
+        MissingModules => \@MissingModules,
     );
 }
 

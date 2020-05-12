@@ -71,6 +71,7 @@ sub Run {
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
         return $LayoutObject->Notify(
+            Priority => 'Success',
             Info => $LayoutObject->{LanguageObject}->Translate(
                 'Online Agent: %s',
                 $Param{Message},

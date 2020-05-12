@@ -71,12 +71,12 @@ div.InputField_InputContainer {
 @media only screen and (min-width: 1025px) {
     fieldset.TableLike > .Field > select.Modernize,
     fieldset.TableLike > .Row > .Field > select.Modernize {
-        min-width: 275px;
+        min-width: 300px;
     }
 
     fieldset.TableLike > .Field > input.W50pc,
     fieldset.TableLike > .Row > .Field > input.W50pc {
-        max-width: 275px;
+        max-width: 300px;
     }
 
     fieldset.TableLike > .Field > input.W75pc,

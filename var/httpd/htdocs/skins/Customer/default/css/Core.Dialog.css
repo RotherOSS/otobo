@@ -53,50 +53,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 /*    cursor: move;*/
     display: block;
     position: relative;
-    padding-top: 24px;@media only screen and (min-width: 1025px) {
-
-    html.NoScroll,
-    html.NoScroll body {
-        height: 100%;
-        overflow: hidden;
-    }
-
-    /*
-     * @subsection Responsive classes
-     */
-    .ScreenXL {
-        display: block;
-    }
-
-    .SmallerOrEqualScreenXL {
-        display: block;
-    }
-
-    .ScreenL, .ScreenM, .ScreenS, .ScreenXS,
-    .SmallerOrEqualScreenL, .SmallerOrEqualScreenM,
-    .SmallerOrEqualScreenS, .SmallerOrEqualScreenXS {
-        display: none;
-    }
-
-    /*
-     * @subsection Responsive footer classes
-     * @description Used to determinethe active screen size in JavaScript
-     */
-    #ResponsiveFooter .Visible-ScreenXL {
-        display: block;
-    }
-
-    #ResponsiveFooter .Visible-ScreenL,
-    #ResponsiveFooter .Visible-ScreenM,
-    #ResponsiveFooter .Visible-ScreenS,
-    #ResponsiveFooter .Visible-ScreenXS {
-        display: none;
-    }
-
-    #ResponsiveNavigationHandle {
-        display: none;
-    }
-}
+    padding-top: 24px;
 }
 
 .Dialog > .Header .Close {
@@ -107,11 +64,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     right: 32px;
     top: 34px;
     margin-top: -6px;
-    color: #000;
+    color: #00023c;
+    color: var(--colTextDark);
 }
 
 .Dialog > .Header h2 {
     padding: 0px 32px 16px 32px;
+}
+
+.Dialog > .Header .ooofo {
+    position: relative;
+    top: 1px;
 }
 
 .Dialog > .Content {
@@ -128,6 +91,31 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     display: none;
 }
 
+/**
+ * subsection       Alert
+ */
+
+.Dialog.Alert .InnerContent .fa {
+    display: block;
+    font-size: 25px;
+    text-align: center;
+    color: #ea2400;
+    margin-bottom: 8px;
+}
+
+.Dialog.Alert p {
+    text-align: center;
+    margin-left: 32px;
+    margin-right: 32px;
+}
+
+.Dialog.Alert {
+    width: 450px;
+    top: 100px;
+    left: 300px;
+    margin-bottom: 8px;
+}
+
 /* Table */
 .Dialog table {
     min-width: 100%;
@@ -135,15 +123,18 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .Dialog tbody tr:nth-child(odd) {
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
 }
 .Dialog tbody tr:nth-child(even) {
     background-color: #fdfdfd;
+    background-color: var(--colBGDark);
 }
 
 .Dialog th,
 .Dialog td {
     padding-left: 16px;
     height: 32px;
+    max-width: 400px;
     vertical-align: middle;
 
     white-space: nowrap;
@@ -159,6 +150,63 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .Dialog th:last-child,
 .Dialog td:last-child {
     padding-right: 40px;
+}
+
+/* Elasticsearch */
+@media only screen and (max-width: 419px) {
+
+    .Dialog #oooESOuter th:first-child,
+    .Dialog #oooESOuter td:first-child,
+    .Dialog #oooESOuter th:nth-child(2),
+    .Dialog #oooESOuter td:nth-child(2) {
+        display: none;
+    }
+
+    .Dialog #oooESOuter th:nth-child(3),
+    .Dialog #oooESOuter td:nth-child(3) {
+        max-width: calc( 100vw - 80px );
+        padding-left: 40px;
+    }
+
+}
+
+@media only screen and (min-width: 420px) and (max-width: 619px) {
+
+    .Dialog #oooESOuter th:first-child,
+    .Dialog #oooESOuter td:first-child {
+        display: none;
+    }
+
+    .Dialog #oooESOuter th:nth-child(2),
+    .Dialog #oooESOuter td:nth-child(2) {
+        max-width: 84px;
+        padding-left: 40px;
+    }
+
+    .Dialog #oooESOuter th:nth-child(3),
+    .Dialog #oooESOuter td:nth-child(3) {
+        max-width: calc( 100vw - 180px );
+    }
+
+}
+
+@media only screen and (min-width: 620px) and (max-width: 769px) {
+
+    .Dialog #oooESOuter th:first-child,
+    .Dialog #oooESOuter td:first-child {
+        max-width: 184px;
+    }
+
+    .Dialog #oooESOuter th:nth-child(2),
+    .Dialog #oooESOuter td:nth-child(2) {
+        max-width: 84px;
+    }
+
+    .Dialog #oooESOuter th:nth-child(3),
+    .Dialog #oooESOuter td:nth-child(3) {
+        max-width: calc( 100vw - 380px );
+    }
+
 }
 
 } /* end @media */

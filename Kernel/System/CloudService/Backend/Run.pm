@@ -65,7 +65,7 @@ sub new {
         );
 
     # set URL for calling cloud services
-    $Self->{CloudServiceURL} = 'https://portal.otobo.de/otobo/public.pl';
+    $Self->{CloudServiceURL} = 'https://portal.otrs.ch/otrs/public.pl';
 
     return $Self;
 }
@@ -193,6 +193,11 @@ sub Request {
 
     # create config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # check if cloud services are disabled
+    my $CloudServicesDisabled = $ConfigObject->Get('CloudServices::Disabled');
+
+    return if $CloudServicesDisabled;
 
     # check needed stuff
     if ( !defined $Param{RequestData} ) {

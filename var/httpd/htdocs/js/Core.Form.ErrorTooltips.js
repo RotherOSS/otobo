@@ -109,7 +109,16 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      * @description
      *      The offset of the element for which a tooltip is shown.
      */
-        Offset;
+        Offset,
+    /**
+     * @private
+     * @name CustomerInterface
+     * @memberof Core.Form.ErrorTooltips
+     * @member {Object}
+     * @description
+     *      Whether we are in the CustomerInterface.
+     */
+        CustomerInterface = ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') );
 
     /**
      * @name ShowTooltip
@@ -122,6 +131,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      *      This function shows the tooltip for an element with a certain content.
      */
     TargetNS.ShowTooltip = function($Element, TooltipContent, TooltipPosition) {
+
         var $TooltipContainer = $('#' + TooltipContainerID),
             TopOffset;
 
@@ -247,6 +257,10 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      *      This function initializes the necessary stuff for a tooltip in a rich text editor.
      */
     TargetNS.InitRTETooltip = function ($Element, Message) {
+
+        // TODO: Error Tooltips are disabled for the Customerinterface
+        if ( CustomerInterface ) { return }
+
         var ElementID = $Element.attr('id');
         CKEDITOR.instances[ElementID].on('focus', ShowRTETooltip, null, {ElementID: ElementID, Message: Message});
         CKEDITOR.instances[ElementID].on('blur', RemoveRTETooltip, null, ElementID);

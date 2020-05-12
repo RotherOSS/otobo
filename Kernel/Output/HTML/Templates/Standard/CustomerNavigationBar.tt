@@ -18,12 +18,13 @@
 <div id="oooNavigation">
     <div id="oooNavBarIcons">
         <div id="oooNavBarSignet">
-            <img id="oooSignet" src="[% Config("Frontend::WebPath") %]skins/Customer/default/img/otobo_signet_w.svg"/>
-            <img id="oooLogo" src="[% Config("Frontend::WebPath") %]skins/Customer/default/img/otobo_logo_simple_w.svg"/>
+            <img id="oooSignet" src="[% Data.URLSignet | html %]"/>
+            <i id="oooMobileMenuClose" class="ooofo ooofo-close"></i>
+            <img id="oooLogo" src="[% Data.URLLogo | html %]"/>
         </div>
         <div id="oooNavBarModuleIcons">
 [% RenderBlockStart("Item") %]
-            <a href="[% Env("Baselink") %][% Data.Link %]">
+            <a href="[% Env("Baselink") %][% Data.Link %]" title="[% Translate(Data.Description || Data.Name) | html %] ([% Data.AccessKey | html %])" accesskey="[% Data.AccessKey | html %]" [% Data.LinkOption %]>
                 <div class="oooNavBarHighlight"></div>
                 <div class="oooIconContainer">
                     [% Data.SVG %]
@@ -34,10 +35,14 @@
             </a>
 [% RenderBlockEnd("Item") %]
         </div>
-        <a id="oooUser" href="[% Env('Baselink') %]Action=Logout">
+        <a id="oooUser" href="[% Env('Baselink') %]Action=Logout" title="[% Translate("Logout") | html %]">
             <div class="oooNavBarHighlight"></div>
             <div id="oooNavBarAvatar">
-                <div id="oooLogoutIcon" style="background-image:url([% Config("Frontend::WebPath") %]skins/Customer/default/img/logout.svg)">
+                <div id="oooLogoutIcon">
+                    <svg>
+                         <path id="Pfad_13764" d="m 11.324637,2.7098837 h 5.386376 c 0.59414,0.00171 1.07536,0.482904 1.077064,1.077012 V 16.71311 c -0.0017,0.594106 -0.482926,1.0753 -1.077064,1.077007 h -5.386376 c -1.4373115,-8.76e-4 -1.4373115,2.153664 0,2.15454 h 6.46344 c 1.188569,-0.0034 2.151247,-0.966035 2.154655,-2.15454 V 2.7098837 C 19.939324,1.5213789 18.976645,0.5587523 17.788077,0.55534384 h -6.46344 c -1.437453,-0.001018 -1.437453,2.15352216 0,2.15453986 z m -7.0963569,8.6388393 2.025393,2.025284 c 1.0127752,1.012385 -0.5058838,2.531467 -1.518659,1.519082 L 0.86780255,11.026085 c -0.4191777,-0.419013 -0.4191777,-1.0985189 0,-1.5175323 L 4.7350141,5.6415487 c 0.9975864,-1.0290738 2.5384724,0.4672692 1.540886,1.496343 l -0.02221,0.02223 -2.025395,2.036143 h 9.3394279 c 1.435999,4.375e-4 1.435999,2.1549773 0,2.1545403 z"
+                        </path>
+                    </svg>
                     [% IF Data.Avatar %]
                         <img src="[% Data.Avatar %]"/>
                     [% ELSE %]
@@ -51,10 +56,13 @@
 #            <div class="oooUserName">
 #                <h3>[% Data.UserName | html %]</h3>
 #            </div>
-        </div>
-    </a>
-    <div id="oooNavBarExpand">
-        <img src="[% Config("Frontend::WebPath") %]skins/Customer/default/img/arrow_right_blu.svg"/>
+        </a>
     </div>
+    <div id="oooNavBarExpand">
+        <i class='ooofo ooofo-arrow_r'></i>
+    </div>
+</div>
+<div id="oooCustomerNotifications">
+    [% Data.Notification %]
 </div>
 <!-- end NavigationBar -->

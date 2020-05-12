@@ -21,7 +21,7 @@ var Core = Core || {};
 /**
  * @namespace Core.AJAX
  * @memberof Core
- * @author 
+ * @author OTRS AG
  * @description
  *      This namespace contains the functionality for AJAX calls.
  */
@@ -218,7 +218,6 @@ Core.AJAX = (function (TargetNS) {
 
         var Customer = /^Customer/.test( Core.Config.Get('Action') );
         var AttachmentTemplate = ( Customer ? 'AjaxDnDUpload/AttachmentItemCustomer' : 'AjaxDnDUpload/AttachmentItem' );
-        console.log(AttachmentTemplate);
 
         // delete existing attachments
         $('.AttachmentList tbody').empty();
@@ -340,6 +339,7 @@ Core.AJAX = (function (TargetNS) {
         if (typeof Data !== 'object') {
             return;
         }
+
         $.each(Data, function (DataKey, DataValue) {
 
             // hide and show fields
@@ -390,7 +390,7 @@ Core.AJAX = (function (TargetNS) {
             }
 
             // text area elements like the ticket body
-            if ($Element.is('textarea')) {
+            if ( $Element.is('textarea') && !$Element.hasClass('DynamicFieldTextArea') ) {
                 UpdateTextarea($Element, DataValue);
                 return;
             }
@@ -415,8 +415,10 @@ Core.AJAX = (function (TargetNS) {
      *      Toggles visibility of fields
      */
     function HideShowFields(Visibility) {
-        for ( var FieldInfo of Visibility ) {
-            var Field = $( '#' + FieldInfo[0] );
+        for ( var i = 0; i < Visibility.length; i++ ) {
+            var FieldInfo = Visibility[i],
+                Field = $( '#' + FieldInfo[0] );
+
             if ( Field.length == 0 ) {
                 // DateTime
                 if ( $( '#' + FieldInfo[0] + 'Used' ).length > 0 ) {

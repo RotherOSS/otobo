@@ -151,6 +151,9 @@ sub Run {
 
         # Start to fill the blockdata for the template (See Kernel/Output/HTML/Templates/Standard/AgentElasticsearchQuickResult.tt)
         if ( @TicketIDs ) {
+            my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+            my %Queues = $QueueObject->QueueList( Valid => 0 );
+
             # Block ticket data
             for my $Ticket (@TicketIDs) {
         
@@ -170,17 +173,10 @@ sub Run {
                 );
         
                 $LayoutObject->Block(
-                    Name => 'RecordTicketAge',
-                    Data => {
-                        TicketID  => $TicketID,
-                        TicketAge => $Age,
-                    },
-                );
-        
-                $LayoutObject->Block(
                     Name => 'RecordTicketNumber',
                     Data => {
                         TicketID     => $TicketID,
+                        TicketTitle => $TicketParam->{Title},
                         TicketNumber => $TicketParam->{TicketNumber},
                     },
                 );
@@ -189,6 +185,22 @@ sub Run {
                     Data => {
                         TicketID    => $TicketID,
                         TicketTitle => $TicketParam->{Title},
+                    },
+                );
+                $LayoutObject->Block(
+                    Name => 'RecordTicketQueue',
+                    Data => {
+                        TicketID    => $TicketID,
+                        TicketTitle => $TicketParam->{Title},
+                        TicketQueue => $Queues{ $TicketParam->{QueueID} },
+                    },
+                );
+                $LayoutObject->Block(
+                    Name => 'RecordTicketAge',
+                    Data => {
+                        TicketID  => $TicketID,
+                        TicketTitle => $TicketParam->{Title},
+                        TicketAge => $Age,
                     },
                 );
             }
@@ -298,7 +310,7 @@ sub Run {
         NoCache     => 1,
         ContentType => 'text/html',
         Charset     => $LayoutObject->{UserCharset},
-        Content     => '',
+        Content     => '<div/>',
         Type        => 'inline',
     );
 }

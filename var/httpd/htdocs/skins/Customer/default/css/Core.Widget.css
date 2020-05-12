@@ -13,21 +13,41 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+@media only screen and (max-width: 519px) {
+
+    .oooWidget {
+        width: calc( 100vw - 32px );
+        padding-left: 16px;
+        padding-right: 16px;
+        top: 0;
+        left: 0;
+        height: calc( 100vh - 56px );
+    }
+
+}
+
+@media only screen and (min-width: 520px) {
+
+    .oooWidget {
+        width: calc( 100vw - 64px );
+        padding-left: 32px;
+        padding-right: 32px;
+        height: auto;
+    }
+
+}
+
 .oooWidget {
     display: none;
     position: fixed;
 
-    width: 100vw;
     max-width: 400px;
-    min-width: 320px;
-    height: auto;
+    min-width: 288px;
 
     background-color: #fff;
     border-radius: 20px;
     box-shadow: 0 14px 28px 0 rgba(0, 0, 0, 0.25);
 
-    padding-left: 32px;
-    padding-right: 32px;
     padding-top: 24px;
     padding-bottom: 32px;
 
@@ -38,7 +58,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     display: inline-block;
 }
 
-.oooWHead > .oooClose {
+.oooWidget .oooClose {
     float: right;
     padding-top: 8px;
     cursor: pointer;
@@ -49,10 +69,21 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     padding-left: 8px;
 }
 
+.oooWidget > .oooSection:first-child {
+    margin-top: 0px;
+}
+
 .oooWidget > .oooSection > h3 {
+    display: inline-block;
+
     position: relative;
     left: -8px;
 
     margin-bottom: 24px;
 }
 
+.oooWidget > .oooSection i {
+    position: relative;
+    top: 1px;
+    margin-right: 8px;
+}

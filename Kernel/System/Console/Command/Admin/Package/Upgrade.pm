@@ -71,6 +71,23 @@ sub Run {
         String => $FileString,
     );
 
+    my $Verified = $PackageObject->PackageVerify(
+        Package   => $FileString,
+        Structure => \%Structure,
+    ) || 'verified';
+    my %VerifyInfo = $PackageObject->PackageVerifyInfo();
+
+    # Check if installation of packages, which are not verified by us, is possible.
+    my $PackageAllowNotVerifiedPackages = $Kernel::OM->Get('Kernel::Config')->Get('Package::AllowNotVerifiedPackages');
+
+    if ( $Verified ne 'verified' && !$PackageAllowNotVerifiedPackages ) {
+
+        $Self->PrintError(
+            "$Structure{Name}->{Content}-$Structure{Version}->{Content} is not verified!\n\nThe installation of packages which are not verified is not possible by default."
+        );
+        return $Self->ExitCodeError();
+    }
+
     # Intro screen.
     if ( $Structure{IntroUpgrade} ) {
         my %Data = $Self->_PackageMetadataGet(

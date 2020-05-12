@@ -630,13 +630,16 @@ sub Run {
         Value => $ESActive,
     );
 
+    my $NewTicketAccessKey = $ConfigObject->Get( 'CustomerFrontend::Navigation' )->{'CustomerTicketMessage'}{'002-Ticket'}[0]{'AccessKey'} || '';
+
     $Output .= $LayoutObject->Output(
         TemplateFile => 'CustomerTicketOverview',
         Data         => {
             %Param,
             %PageNav,
+            AccessKey      => $NewTicketAccessKey,
             TicketListHTML => $TicketListHTML,
-            Fulltext => $ParamObject->GetParam( Param => 'Fulltext' ), 
+            Fulltext       => $ParamObject->GetParam( Param => 'Fulltext' ), 
         },
     );
     # build NavigationBar

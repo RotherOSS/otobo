@@ -46,7 +46,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      *      Object to handle timeout.
      */
         TimeOutRTEOnChange;
-
+    
     /**
      * @private
      * @name CheckFormID
@@ -78,7 +78,9 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             Editor,
             UserLanguage,
             UploadURL = '',
-            EditorConfig;
+            EditorConfig,
+            CustomerInterface = ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') );
+
 
         if (typeof CKEDITOR === 'undefined') {
             return false;
@@ -158,6 +160,16 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     + '=' + Core.Config.Get('SessionID');
         }
 
+        var ToolbarConfig;
+        if ( CustomerInterface ) {
+            ToolbarConfig = $EditorArea.width() < 454 ? Core.Config.Get('RichText.ToolbarMini') :
+                            $EditorArea.width() < 622 ? Core.Config.Get('RichText.ToolbarMidi') :
+                            CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage');
+        }
+        else {
+            ToolbarConfig = CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage');
+        }
+                                
         // set default editor config, but allow custom config for other types for editors
         /*eslint-disable camelcase */
         EditorConfig = {
@@ -176,7 +188,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             enterMode: CKEDITOR.ENTER_BR,
             shiftEnterMode: CKEDITOR.ENTER_BR,
             contentsLangDirection: Core.Config.Get('RichText.TextDir', 'ltr'),
-            toolbar: CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage'),
+            toolbar: ToolbarConfig,
             filebrowserBrowseUrl: '',
             filebrowserUploadUrl: UploadURL,
             extraPlugins: 'splitquote,preventimagepaste,contextmenu_linkopen',
@@ -272,11 +284,17 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             CKEDITOR.instances[EditorID].on('blur', function () {
                 CKEDITOR.instances[EditorID].updateElement();
                 Core.Form.Validate.ValidateElement($EditorArea);
+                if ( CustomerInterface ) {
+                    $('label[for="RichText"].LabelError').show();
+                }
             });
 
             // needed for client-side validation
             CKEDITOR.instances[EditorID].on('focus', function () {
 
+                if ( CustomerInterface ) {
+                    $('label[for="RichText"]').hide();
+                }
                 Core.App.Publish('Event.UI.RichTextEditor.Focus', [Editor]);
 
                 if ($EditorArea.attr('class').match(/Error/)) {
@@ -288,11 +306,23 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 }
             });
 
+            // move the label if needed
+            if ( CustomerInterface ) {
+                var ToolBarHeight = $('#cke_1_top').outerHeight(true) + 32;
+                $('label[for="RichText"]').css( 'top', ToolBarHeight + 'px' );
+
+                $(window).on('resize', function () {
+                    ToolBarHeight = $('#cke_1_top').outerHeight(true) + 32;
+                    $('label[for="RichText"]').css( 'top', ToolBarHeight + 'px' );
+                });
+            }
+
             // mainly needed for client-side validation
-            $EditorArea.focus(function () {
-                TargetNS.Focus($EditorArea);
-                Core.UI.ScrollTo($("label[for=" + $EditorArea.attr('id') + "]"));
-            });
+            // TODO: not always wanted - disabled for otobo
+            //$EditorArea.focus(function () {
+            //    TargetNS.Focus($EditorArea);
+            //    Core.UI.ScrollTo($("label[for=" + $EditorArea.attr('id') + "]"));
+            //});
         }
     };
 
@@ -324,7 +354,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         if (typeof CKEDITOR === 'undefined') {
             return;
         }
-
+        
         TargetNS.InitAllEditors();
     };
 

@@ -36,7 +36,7 @@ my $MergeOne = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>MergeOne</Name>
   <Version>2.0.1</Version>
-  <Vendor></Vendor>
+  <Vendor>Rother OSS GmbH</Vendor>
   <URL>https://otrs.com/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <ChangeLog>2012-04-28 New package (some test &lt; &gt; &amp;).</ChangeLog>
@@ -87,7 +87,7 @@ my $MainPackageOne = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
     <Name>TestMainPackage</Name>
     <Version>1.0.1</Version>
-    <Vendor></Vendor>
+    <Vendor>Rother OSS GmbH</Vendor>
     <URL>https://otrs.com/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
@@ -140,7 +140,7 @@ my $MainPackageTwo = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
     <Name>TestMainPackage</Name>
     <Version>1.0.1</Version>
-    <Vendor></Vendor>
+    <Vendor>Rother OSS GmbH</Vendor>
     <URL>https://otrs.com/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
@@ -358,7 +358,7 @@ my $MergeThree = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>MergeThree</Name>
   <Version>3.0.1</Version>
-  <Vendor></Vendor>
+  <Vendor>Rother OSS GmbH</Vendor>
   <URL>https://otrs.com/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">The third test package.</Description>
@@ -375,7 +375,7 @@ my $MainPackageFour = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
     <Name>TestMainPackageFour</Name>
     <Version>1.0.1</Version>
-    <Vendor></Vendor>
+    <Vendor>Rother OSS GmbH</Vendor>
     <URL>https://otrs.com/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <ChangeLog>2014-04-28 New package (some test &lt; &gt; &amp;).</ChangeLog>
@@ -641,7 +641,7 @@ my $PackageFour = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>PackageFour</Name>
   <Version>4.0.1</Version>
-  <Vendor></Vendor>
+  <Vendor>Rother OSS GmbH</Vendor>
   <URL>https://otrs.com/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">The third test package.</Description>
@@ -685,7 +685,7 @@ $PackageFour = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>PackageFour</Name>
   <Version>4.0.2</Version>
-  <Vendor></Vendor>
+  <Vendor>Rother OSS GmbH</Vendor>
   <URL>https://otrs.com/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">The third test package.</Description>

@@ -260,6 +260,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     margin-left: 8px;
 }
 
+/* Elasticsearch QuickResults */
+
+#ElasticsearchQuickResult td {
+    max-width: 400px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 /* Error screens in overlays */
 
 .Dialog.Modal #AppWrapper > #Header,

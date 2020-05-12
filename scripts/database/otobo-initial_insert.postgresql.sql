@@ -27,21 +27,21 @@ INSERT INTO users (first_name, last_name, login, pw, valid_id, create_by, create
     VALUES
     ('Admin', 'OTOBO', 'root@localhost', 'roK20XGbWEsSM', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table groups
+--  insert into table groups_table
 -- ----------------------------------------------------------
-INSERT INTO groups (name, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO groups_table (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('users', 'Group for default access.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table groups
+--  insert into table groups_table
 -- ----------------------------------------------------------
-INSERT INTO groups (name, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO groups_table (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('admin', 'Group of all administrators.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table groups
+--  insert into table groups_table
 -- ----------------------------------------------------------
-INSERT INTO groups (name, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO groups_table (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('stats', 'Group for statistics access.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------

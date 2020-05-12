@@ -22,12 +22,11 @@ use warnings;
 
 use Digest::MD5 qw(md5_hex);
 
-use Kernel::Language qw(Translatable);
-
 our @ObjectDependencies = (
     'Kernel::System::Web::Request',
     'Kernel::Config',
     'Kernel::System::AuthSession',
+    'Kernel::System::Encode',
 );
 
 sub new {
@@ -53,6 +52,7 @@ sub Param {
     };
 
     if ( $AvatarEngine eq 'Gravatar' && $Self->{UserEmail} ) {
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Self->{UserEmail} );
         $Return->{Avatar} = '//www.gravatar.com/avatar/' . md5_hex( lc $Self->{UserEmail} ) . '?s=45&d=mp';
     }
 
