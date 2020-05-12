@@ -91,12 +91,6 @@ my $App = CGI::Emulate::PSGI->handler(
             $ENV{SCRIPT_NAME} = 'index.pl';                                   ## no critic
         }
 
-        my $Profile;
-        if ( $ENV{NYTPROF} && $ENV{REQUEST_URI} =~ /NYTProf=([\w-]+)/ ) {
-            $Profile = 1;
-            DB::enable_profile("nytprof-$1.out");
-        }
-
         # Load the requested script
         eval {
             do "/opt/otobo/bin/cgi-bin/$ENV{SCRIPT_NAME}";
@@ -105,9 +99,6 @@ my $App = CGI::Emulate::PSGI->handler(
             warn $@;
         }
 
-        if ($Profile) {
-            DB::finish_profile();
-        }
     },
 );
 
@@ -138,9 +129,17 @@ builder {
                 };
                 warn $@ if $@;
 
+                # check whether this request runs under Devel::NYTProf
+                my $ProfilingIsOn = 0;
+                if ( $ENV{NYTPROF} && $ENV{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ) {
+                    $ProfilingIsOn = 1;
+                    DB::enable_profile("nytprof-$1.out");
+                }
+
                 my $res = $app->($env);
 
-                # do postprocessing
+                # clean up profiling, write the output file
+                DB::finish_profile() if $ProfilingIsOn;
 
                 return $res;
             };
