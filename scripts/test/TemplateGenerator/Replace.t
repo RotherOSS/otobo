@@ -298,7 +298,7 @@ my @Tests = (
         },
         RichText => 0,
         Template => 'Test <OTOBO_CUSTOMER_SUBJECT[3]>',
-        Result   => 'Test otr [...]',
+        Result   => 'Test oto [...]',
     },
     {
         Name => 'OTOBO customer subject 20 letters + garbarge',    # <OTOBO_CUSTOMER_SUBJECT[20]>
@@ -888,7 +888,7 @@ $Helper->ConfigSettingChange(
 );
 
 my $Result = $Kernel::OM->Get('Kernel::System::CalendarTemplateGenerator')->_Replace(
-    Text          => 'Description &lt;OTRS_APPOINTMENT_DESCRIPTION&gt;',
+    Text          => 'Description &lt;OTOBO_APPOINTMENT_DESCRIPTION&gt;',
     RichText      => 1,
     AppointmentID => $AppointmentID,
     CalendarID    => $Calendar{CalendarID},

@@ -3,7 +3,7 @@
     <Name>Test</Name>
     <Version>0.0.1</Version>
     <Framework>x.x.x</Framework>
-    <Vendor></Vendor>
+    <Vendor>Rother OSS GmbH</Vendor>
     <URL>http://otobo.org/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 2, June 199</License>
     <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>

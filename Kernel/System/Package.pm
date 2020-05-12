@@ -4933,9 +4933,10 @@ sub _ConfigurationDeploy {
     # build file location for OTOBO5 config file
     my $OTOBO5ConfigFile = "$Home/Kernel/Config/Backups/ZZZAutoOTOBO5.pm";
 
+    # TODO: specify otobo needs for this, implement and remove "&& 0"
     # if this is a Packageupgrade and if there is a ZZZAutoOTOBO5.pm file in the backup location
     # (this file has been copied there during the migration from OTOBO 5 to OTOBO 10)
-    if ( ( IsHashRefWithData( $Self->{MergedPackages} ) || $Param{Action} eq 'PackageUpgrade' ) && -e $OTOBO5ConfigFile )
+    if ( ( IsHashRefWithData( $Self->{MergedPackages} ) || $Param{Action} eq 'PackageUpgrade' ) && -e $OTOBO5ConfigFile && 0)
     {
 
         # delete categories cache

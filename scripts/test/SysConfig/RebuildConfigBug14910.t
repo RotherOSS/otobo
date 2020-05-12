@@ -74,7 +74,7 @@ $Self->True(
 # Prepare two new file-type config settings.
 my $ValidSettingXML = <<EOF,
 <?xml version="1.0" encoding="utf-8" ?>
-<otrs_config version="2.0" init="Framework">
+<otobo_config version="2.0" init="Framework">
     <Setting Name="Test1" Required="1" Valid="1">
         <Description Translatable="1">Test 1.</Description>
         <Navigation>Core::Ticket</Navigation>
@@ -89,7 +89,7 @@ my $ValidSettingXML = <<EOF,
             <Item ValueType="File">$TestFileLocation</Item>
         </Value>
     </Setting>
-</otrs_config>
+</otobo_config>
 EOF
 
     my $ConfigFileLocation

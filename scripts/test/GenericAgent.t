@@ -119,6 +119,11 @@ my $TicketID = $TicketObject->TicketCreate(
     UserID       => 1,
 );
 
+$Self->True(
+    $TicketID,
+    'TicketCreate() - uses for GenericAgenttest',
+);
+
 my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal')->ArticleCreate(
     TicketID             => $TicketID,
     IsVisibleForCustomer => 0,
@@ -137,11 +142,6 @@ my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Inte
     HistoryComment => 'Some free text!',
     UserID         => 1,
     NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
-);
-
-$Self->True(
-    $TicketID,
-    'TicketCreate() - uses for GenericAgenttest',
 );
 
 my %Ticket = $TicketObject->TicketGet(

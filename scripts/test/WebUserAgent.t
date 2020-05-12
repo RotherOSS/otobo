@@ -93,7 +93,7 @@ my @Tests = (
         Credentials => {
             User     => 'guest',
             Password => 'guest',
-            Realm    => 'OTOBO UnitTest',
+            Realm    => 'OTRS UnitTest',
             Location => 'makalu.otrs.com:443',
         },
     },

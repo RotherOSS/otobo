@@ -40,74 +40,7 @@ my @Tests = (
         ConfigSet      => {},
         Success        => 1,
         ExpectedResult => {
-            'http://ftp.otobo.org/pub/otobo/packages/' => 'OTOBO Freebie Features'
-        },
-    },
-    {
-        Name      => 'No ITSM Repositories',
-        ConfigSet => {
-            'http://otrs.com' => 'Test Repository',
-        },
-        Success        => 1,
-        ExpectedResult => {
-            'http://ftp.otobo.org/pub/otobo/packages/' => 'OTOBO Freebie Features',
-            'http://otrs.com'                        => 'Test Repository',
-        },
-    },
-    {
-        Name      => 'ITSM 33 Repository',
-        ConfigSet => {
-            'http://otrs.com'                               => 'Test Repository',
-            'http://ftp.otobo.org/pub/otobo/itsm/packages33/' => 'OTOBO::ITSM 3.3 Master',
-        },
-        Success        => 1,
-        ExpectedResult => {
-            'http://ftp.otobo.org/pub/otobo/packages/'                       => 'OTOBO Freebie Features',
-            'http://otrs.com'                                              => 'Test Repository',
-            "http://ftp.otobo.org/pub/otobo/itsm/packages$FrameworkVersion/" => "OTOBO::ITSM $FrameworkVersion Master",
-        },
-    },
-    {
-        Name      => 'ITSM 33 and 4 Repository',
-        ConfigSet => {
-            'http://otrs.com'                               => 'Test Repository',
-            'http://ftp.otobo.org/pub/otobo/itsm/packages33/' => 'OTOBO::ITSM 3.3 Master',
-            'http://ftp.otobo.org/pub/otobo/itsm/packages4/'  => 'OTOBO::ITSM 4 Master',
-        },
-        Success        => 1,
-        ExpectedResult => {
-            'http://ftp.otobo.org/pub/otobo/packages/'                       => 'OTOBO Freebie Features',
-            'http://otrs.com'                                              => 'Test Repository',
-            "http://ftp.otobo.org/pub/otobo/itsm/packages$FrameworkVersion/" => "OTOBO::ITSM $FrameworkVersion Master",
-        },
-    },
-    {
-        Name      => 'ITSM 33 4 and 5 Repository',
-        ConfigSet => {
-            'http://otrs.com'                               => 'Test Repository',
-            'http://ftp.otobo.org/pub/otobo/itsm/packages33/' => 'OTOBO::ITSM 3.3 Master',
-            'http://ftp.otobo.org/pub/otobo/itsm/packages4/'  => 'OTOBO::ITSM 4 Master',
-            'http://ftp.otobo.org/pub/otobo/itsm/packages5/'  => 'OTOBO::ITSM 5 Master',
-        },
-        Success        => 1,
-        ExpectedResult => {
-            'http://ftp.otobo.org/pub/otobo/packages/'                       => 'OTOBO Freebie Features',
-            'http://otrs.com'                                              => 'Test Repository',
-            "http://ftp.otobo.org/pub/otobo/itsm/packages$FrameworkVersion/" => "OTOBO::ITSM $FrameworkVersion Master",
-        },
-    },
-    {
-        Name      => 'ITSM 6 Repository',
-        ConfigSet => {
-            'http://ftp.otobo.org/pub/otobo/packages/'                       => 'OTOBO Freebie Features',
-            'http://otrs.com'                                              => 'Test Repository',
-            "http://ftp.otobo.org/pub/otobo/itsm/packages$FrameworkVersion/" => "OTOBO::ITSM $FrameworkVersion Master",
-        },
-        Success        => 1,
-        ExpectedResult => {
-            'http://ftp.otobo.org/pub/otobo/packages/'                       => 'OTOBO Freebie Features',
-            'http://otrs.com'                                              => 'Test Repository',
-            "http://ftp.otobo.org/pub/otobo/itsm/packages$FrameworkVersion/" => "OTOBO::ITSM $FrameworkVersion Master",
+            'http://ftp.otobo.org/pub/otobo/packages/' => 'OTOBO Addons'
         },
     },
 );

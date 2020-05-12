@@ -29,7 +29,7 @@ our @ObjectDependencies = (
     'Kernel::System::Web::Request',
     'Kernel::System::YAML',
     'Kernel::System::ZnunyHelper',
-    'Kernel::System::ZnunyTime',
+    'Kernel::System::Time',
 );
 
 use Kernel::System::VariableCheck qw(:all);
@@ -52,7 +52,7 @@ sub Run {
     my $LogObject                   = $Kernel::OM->Get('Kernel::System::Log');
     my $LayoutObject                = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject                 = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $TimeObject                  = $Kernel::OM->Get('Kernel::System::ZnunyTime');
+    my $TimeObject                  = $Kernel::OM->Get('Kernel::System::Time');
     my $YAMLObject                  = $Kernel::OM->Get('Kernel::System::YAML');
     my $ZnunyHelperObject           = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
     my $CacheObject                 = $Kernel::OM->Get('Kernel::System::Cache');

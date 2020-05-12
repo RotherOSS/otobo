@@ -72,7 +72,7 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     for my $SessionLimitConfigKey (
-        qw(CustomerSessionLimit CustomerSessionPerUserLimit)
+        qw(AgentSessionLimit AgentSessionPerUserLimit CustomerSessionLimit CustomerSessionPerUserLimit)
         )
     {
         $Self->{$SessionLimitConfigKey} = $ConfigObject->Get($SessionLimitConfigKey);
@@ -167,6 +167,54 @@ sub CreateSessionID {
         );
         return;
     }
+
+    my $SessionLimit;
+    if ( $Param{UserType} eq 'User' ) {
+            $SessionLimit = $Self->{AgentSessionLimit};
+    }
+    elsif ( $Param{UserType} eq 'Customer' && $Self->{CustomerSessionLimit} ) {
+        $SessionLimit = $Self->{CustomerSessionLimit};
+    }
+
+    # get session per user limit config
+    my $SessionPerUserLimit;
+    if ( $Param{UserType} eq 'User' && $Self->{AgentSessionPerUserLimit} ) {
+        $SessionPerUserLimit = $Self->{AgentSessionPerUserLimit};
+    }
+    elsif ( $Param{UserType} eq 'Customer' && $Self->{CustomerSessionPerUserLimit} ) {
+        $SessionPerUserLimit = $Self->{CustomerSessionPerUserLimit};
+    }
+
+    my $SessionSource = $Param{SessionSource} || '';
+
+    # Don't check the session limit for sessions from the source 'GenericInterface'.
+    if ( $SessionSource ne 'GenericInterface' && ( $SessionLimit || $SessionPerUserLimit ) ) {
+
+        my %ActiveSessions = $Self->GetActiveSessions(%Param);
+
+        if ( $SessionLimit && defined $ActiveSessions{Total} && $ActiveSessions{Total} >= $SessionLimit ) {
+            $Self->{SessionIDErrorMessage} = Translatable('Session limit reached! Please try again later.');
+            return;
+        }
+
+        if (
+            $SessionPerUserLimit
+            && $Param{UserLogin}
+            && defined $ActiveSessions{PerUser}->{ $Param{UserLogin} }
+            && $ActiveSessions{PerUser}->{ $Param{UserLogin} } >= $SessionPerUserLimit
+            )
+        {
+
+            $Self->{SessionIDErrorMessage} = Translatable('Session per user limit reached!');
+
+            return;
+        }
+    }
+
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => 'AuthSession',
+        Key  => 'AgentSessionLimitPriorWarningMessage',
+    );
 
     return $Self->{Backend}->CreateSessionID(%Param);
 }

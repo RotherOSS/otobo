@@ -194,6 +194,11 @@ sub Request {
     # create config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    # check if cloud services are disabled
+    my $CloudServicesDisabled = $ConfigObject->Get('CloudServices::Disabled');
+
+    return if $CloudServicesDisabled;
+
     # check needed stuff
     if ( !defined $Param{RequestData} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(

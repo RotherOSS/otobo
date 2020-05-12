@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otobo.org/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -69,24 +69,14 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>Test</Name>
   <Version>0.0.1</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
   <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
   <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
   <ModuleRequired Version="1.112">Encode</ModuleRequired>
-  <Framework>6.0.x</Framework>
-  <Framework>3.3.x</Framework>
-  <Framework>3.2.x</Framework>
-  <Framework>3.1.x</Framework>
-  <Framework>3.0.x</Framework>
-  <Framework>2.5.x</Framework>
-  <Framework>2.4.x</Framework>
-  <Framework>2.3.x</Framework>
-  <Framework>2.2.x</Framework>
-  <Framework>2.1.x</Framework>
-  <Framework>2.0.x</Framework>
+  <Framework>10.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <CodeInstall>
@@ -124,24 +114,14 @@ my $StringSecond = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>TestSecond</Name>
   <Version>0.0.1</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
   <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
   <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
   <ModuleRequired Version="1.112">Encode</ModuleRequired>
-  <Framework>6.0.x</Framework>
-  <Framework>3.3.x</Framework>
-  <Framework>3.2.x</Framework>
-  <Framework>3.1.x</Framework>
-  <Framework>3.0.x</Framework>
-  <Framework>2.5.x</Framework>
-  <Framework>2.4.x</Framework>
-  <Framework>2.3.x</Framework>
-  <Framework>2.2.x</Framework>
-  <Framework>2.1.x</Framework>
-  <Framework>2.0.x</Framework>
+  <Framework>10.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -332,8 +312,8 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>Test</Name>
   <Version>0.0.1</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
   <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
@@ -395,23 +375,13 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>Test2</Name>
   <Version>0.0.1</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <PackageRequired Version="0.1">SomeNotExistingModule</PackageRequired>
-  <Framework>6.0.x</Framework>
-  <Framework>3.3.x</Framework>
-  <Framework>3.2.x</Framework>
-  <Framework>3.1.x</Framework>
-  <Framework>3.0.x</Framework>
-  <Framework>2.5.x</Framework>
-  <Framework>2.4.x</Framework>
-  <Framework>2.3.x</Framework>
-  <Framework>2.2.x</Framework>
-  <Framework>2.1.x</Framework>
-  <Framework>2.0.x</Framework>
+  <Framework>10.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -430,23 +400,13 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>TestOSDetection1</Name>
   <Version>0.0.1</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <OS>NonExistingOS</OS>
-  <Framework>6.0.x</Framework>
-  <Framework>3.3.x</Framework>
-  <Framework>3.2.x</Framework>
-  <Framework>3.1.x</Framework>
-  <Framework>3.0.x</Framework>
-  <Framework>2.5.x</Framework>
-  <Framework>2.4.x</Framework>
-  <Framework>2.3.x</Framework>
-  <Framework>2.2.x</Framework>
-  <Framework>2.1.x</Framework>
-  <Framework>2.0.x</Framework>
+  <Framework>10.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -465,8 +425,8 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>TestOSDetection2</Name>
   <Version>0.0.1</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
@@ -474,17 +434,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <OS>linux</OS>
   <OS>freebsd</OS>
   <OS>MSWin32</OS>
-  <Framework>6.0.x</Framework>
-  <Framework>3.3.x</Framework>
-  <Framework>3.2.x</Framework>
-  <Framework>3.1.x</Framework>
-  <Framework>3.0.x</Framework>
-  <Framework>2.5.x</Framework>
-  <Framework>2.4.x</Framework>
-  <Framework>2.3.x</Framework>
-  <Framework>2.2.x</Framework>
-  <Framework>2.1.x</Framework>
-  <Framework>2.0.x</Framework>
+  <Framework>10.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -510,23 +460,13 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>Test2</Name>
   <Version>0.0.1</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <ModuleRequired Version="0.1">SomeNotExistingModule</ModuleRequired>
-  <Framework>6.0.x</Framework>
-  <Framework>3.3.x</Framework>
-  <Framework>3.2.x</Framework>
-  <Framework>3.1.x</Framework>
-  <Framework>3.0.x</Framework>
-  <Framework>2.5.x</Framework>
-  <Framework>2.4.x</Framework>
-  <Framework>2.3.x</Framework>
-  <Framework>2.2.x</Framework>
-  <Framework>2.1.x</Framework>
-  <Framework>2.0.x</Framework>
+  <Framework>10.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -544,23 +484,13 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>Test2</Name>
   <Version>0.0.1</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <ModuleRequired Version="12.999">Encode</ModuleRequired>
-  <Framework>6.0.x</Framework>
-  <Framework>3.3.x</Framework>
-  <Framework>3.2.x</Framework>
-  <Framework>3.1.x</Framework>
-  <Framework>3.0.x</Framework>
-  <Framework>2.5.x</Framework>
-  <Framework>2.4.x</Framework>
-  <Framework>2.3.x</Framework>
-  <Framework>2.2.x</Framework>
-  <Framework>2.1.x</Framework>
-  <Framework>2.0.x</Framework>
+  <Framework>10.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -580,22 +510,12 @@ my $String1 = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>Test2</Name>
   <Version>0.0.1</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>6.0.x</Framework>
-  <Framework>3.3.x</Framework>
-  <Framework>3.2.x</Framework>
-  <Framework>3.1.x</Framework>
-  <Framework>3.0.x</Framework>
-  <Framework>2.5.x</Framework>
-  <Framework>2.4.x</Framework>
-  <Framework>2.3.x</Framework>
-  <Framework>2.2.x</Framework>
-  <Framework>2.1.x</Framework>
-  <Framework>2.0.x</Framework>
+  <Framework>10.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -612,22 +532,12 @@ my $String2 = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>Test3</Name>
   <Version>0.0.1</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>6.0.x</Framework>
-  <Framework>3.3.x</Framework>
-  <Framework>3.2.x</Framework>
-  <Framework>3.1.x</Framework>
-  <Framework>3.0.x</Framework>
-  <Framework>2.5.x</Framework>
-  <Framework>2.4.x</Framework>
-  <Framework>2.3.x</Framework>
-  <Framework>2.2.x</Framework>
-  <Framework>2.1.x</Framework>
-  <Framework>2.0.x</Framework>
+  <Framework>10.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -645,22 +555,12 @@ my $String3 = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>Test3</Name>
   <Version>0.0.2</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>6.0.x</Framework>
-  <Framework>3.3.x</Framework>
-  <Framework>3.2.x</Framework>
-  <Framework>3.1.x</Framework>
-  <Framework>3.0.x</Framework>
-  <Framework>2.5.x</Framework>
-  <Framework>2.4.x</Framework>
-  <Framework>2.3.x</Framework>
-  <Framework>2.2.x</Framework>
-  <Framework>2.1.x</Framework>
-  <Framework>2.0.x</Framework>
+  <Framework>10.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -673,22 +573,12 @@ my $String3a = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>Test3</Name>
   <Version>0.0.3</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>6.0.x</Framework>
-  <Framework>3.3.x</Framework>
-  <Framework>3.2.x</Framework>
-  <Framework>3.1.x</Framework>
-  <Framework>3.0.x</Framework>
-  <Framework>2.5.x</Framework>
-  <Framework>2.4.x</Framework>
-  <Framework>2.3.x</Framework>
-  <Framework>2.2.x</Framework>
-  <Framework>2.1.x</Framework>
-  <Framework>2.0.x</Framework>
+  <Framework>10.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -709,22 +599,12 @@ my $String3b = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>Test3</Name>
   <Version>0.0.3</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>6.0.x</Framework>
-  <Framework>3.3.x</Framework>
-  <Framework>3.2.x</Framework>
-  <Framework>3.1.x</Framework>
-  <Framework>3.0.x</Framework>
-  <Framework>2.5.x</Framework>
-  <Framework>2.4.x</Framework>
-  <Framework>2.3.x</Framework>
-  <Framework>2.2.x</Framework>
-  <Framework>2.1.x</Framework>
-  <Framework>2.0.x</Framework>
+  <Framework>10.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <CodeUpgrade Type="pre" Version="0.0.4">
@@ -820,8 +700,8 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>Test2</Name>
   <Version>0.0.1</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
@@ -842,8 +722,8 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>Test2</Name>
   <Version>0.0.1</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
@@ -864,22 +744,12 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>Test2</Name>
   <Version>0.0.1</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>6.0.x</Framework>
-  <Framework>3.3.x</Framework>
-  <Framework>3.2.x</Framework>
-  <Framework>3.1.x</Framework>
-  <Framework>3.0.x</Framework>
-  <Framework>2.5.x</Framework>
-  <Framework>2.4.x</Framework>
-  <Framework>2.3.x</Framework>
-  <Framework>2.2.x</Framework>
-  <Framework>2.1.x</Framework>
-  <Framework>2.0.x</Framework>
+  <Framework>10.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -938,22 +808,12 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
   <Name>Test2</Name>
   <Version>0.0.1</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>6.0.x</Framework>
-  <Framework>3.3.x</Framework>
-  <Framework>3.2.x</Framework>
-  <Framework>3.1.x</Framework>
-  <Framework>3.0.x</Framework>
-  <Framework>2.5.x</Framework>
-  <Framework>2.4.x</Framework>
-  <Framework>2.3.x</Framework>
-  <Framework>2.2.x</Framework>
-  <Framework>2.1.x</Framework>
-  <Framework>2.0.x</Framework>
+  <Framework>10.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -1022,16 +882,12 @@ my $FileNotAllowedString = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>
 <otobo_package version=\"1.0\">
   <Name>FilesNotAllowed</Name>
   <Version>0.0.1</Version>
-  <Vendor></Vendor>
-  <URL>https://otrs.com/</URL>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang=\"en\">A test package.</Description>
   <Description Lang=\"de\">Ein Test Paket.</Description>
-  <Framework>6.0.x</Framework>
-  <Framework>3.3.x</Framework>
-  <Framework>3.2.x</Framework>
-  <Framework>3.1.x</Framework>
-  <Framework>3.0.x</Framework>
+  <Framework>10.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>\n";
@@ -1100,22 +956,12 @@ if ( !$DeveloperSystem ) {
     <otobo_package version="1.0">
       <Name>TestFrameworkFileCheck</Name>
       <Version>0.0.1</Version>
-      <Vendor></Vendor>
-      <URL>https://otrs.com/</URL>
+      <Vendor>Rother OSS GmbH</Vendor>
+      <URL>https://otobo.org/</URL>
       <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
       <Description Lang="en">A test package.</Description>
       <Description Lang="de">Ein Test Paket.</Description>
-      <Framework>6.0.x</Framework>
-      <Framework>3.3.x</Framework>
-      <Framework>3.2.x</Framework>
-      <Framework>3.1.x</Framework>
-      <Framework>3.0.x</Framework>
-      <Framework>2.5.x</Framework>
-      <Framework>2.4.x</Framework>
-      <Framework>2.3.x</Framework>
-      <Framework>2.2.x</Framework>
-      <Framework>2.1.x</Framework>
-      <Framework>2.0.x</Framework>
+      <Framework>10.0.x</Framework>
       <BuildDate>2005-11-10 21:17:16</BuildDate>
       <BuildHost>yourhost.example.com</BuildHost>
       <Filelist>
@@ -1184,22 +1030,12 @@ if ( !$DeveloperSystem ) {
     <otobo_package version="1.0">
       <Name>TestFrameworkFileCheck</Name>
       <Version>0.0.1</Version>
-      <Vendor></Vendor>
-      <URL>https://otrs.com/</URL>
+      <Vendor>Rother OSS GmbH</Vendor>
+      <URL>https://otobo.org/</URL>
       <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
       <Description Lang="en">A test package.</Description>
       <Description Lang="de">Ein Test Paket.</Description>
-      <Framework>6.0.x</Framework>
-      <Framework>3.3.x</Framework>
-      <Framework>3.2.x</Framework>
-      <Framework>3.1.x</Framework>
-      <Framework>3.0.x</Framework>
-      <Framework>2.5.x</Framework>
-      <Framework>2.4.x</Framework>
-      <Framework>2.3.x</Framework>
-      <Framework>2.2.x</Framework>
-      <Framework>2.1.x</Framework>
-      <Framework>2.0.x</Framework>
+      <Framework>10.0.x</Framework>
       <BuildDate>2005-11-10 21:17:16</BuildDate>
       <BuildHost>yourhost.example.com</BuildHost>
       <Filelist>

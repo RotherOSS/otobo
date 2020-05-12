@@ -19,24 +19,24 @@ my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 my $TestString = << 'END_STRING';
 Created:
 02/19/2008 12:17:03
-http://localhost/otobo-22-utf8/index.pl?Action=AgentTicketPhone
+http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone
 
 asdfasfd  sdfas dfsdf
-http://localhost/otobo-22-utf8/index.pl?Action=AgentTicketPhone
+http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone
 asdfasf
 
 asdfasf asasdfa fasdf
-http://localhost/otobo-22-utf8/index.pl?Action=AgentTicketPhone
+http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone
 asdfasdf
 
-http://localhost/otobo-22-utf8/index.pl?Action=AgentTicke()tPhone
+http://localhost/otrs-22-utf8/index.pl?Action=AgentTicke()tPhone
 
 asdfasfd  sdfas dfsdf
-http://localhost/otobo-22-utf8/index.pl?Action=AgentTi()cketPhone
+http://localhost/otrs-22-utf8/index.pl?Action=AgentTi()cketPhone
 asdfasf
 
 asdfasf asasdfa fasdf
-http://localhost/otobo-22-utf8/index.pl?Action=AgentTick()etPhone
+http://localhost/otrs-22-utf8/index.pl?Action=AgentTick()etPhone
 asdfasdf
 
 ak@example.com
@@ -53,34 +53,34 @@ wwww.example.net
 
 ftp.example.org
 
-https://portal.example.com/otobo/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl
+https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl
 
-lkj https://portal.example.com/otobo/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl lk
-lkj https://portal.example.com/otobo/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl
+lkj https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl lk
+lkj https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl
 lk
 END_STRING
 
 my $NeededResult = <<'END_RESULT';
 Created:<br/>
 02/19/2008 12:17:03<br/>
-<a href="http://localhost/otobo-22-utf8/index.pl?Action=AgentTicketPhone" target="_blank" title="http://localhost/otobo-22-utf8/index.pl?Action=AgentTicketPhone">http://localhost/otobo-22-utf8/index.pl?Action=AgentTicketPhone</a><br/>
+<a href="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone" target="_blank" title="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone">http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone</a><br/>
 <br/>
 asdfasfd&nbsp;&nbsp;sdfas dfsdf<br/>
-<a href="http://localhost/otobo-22-utf8/index.pl?Action=AgentTicketPhone" target="_blank" title="http://localhost/otobo-22-utf8/index.pl?Action=AgentTicketPhone">http://localhost/otobo-22-utf8/index.pl?Action=AgentTicketPhone</a><br/>
+<a href="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone" target="_blank" title="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone">http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone</a><br/>
 asdfasf<br/>
 <br/>
 asdfasf asasdfa fasdf<br/>
-<a href="http://localhost/otobo-22-utf8/index.pl?Action=AgentTicketPhone" target="_blank" title="http://localhost/otobo-22-utf8/index.pl?Action=AgentTicketPhone">http://localhost/otobo-22-utf8/index.pl?Action=AgentTicketPhone</a><br/>
+<a href="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone" target="_blank" title="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone">http://localhost/otrs-22-utf8/index.pl?Action=AgentTicketPhone</a><br/>
 asdfasdf<br/>
 <br/>
-<a href="http://localhost/otobo-22-utf8/index.pl?Action=AgentTicke()tPhone" target="_blank" title="http://localhost/otobo-22-utf8/index.pl?Action=AgentTicke()tPhone">http://localhost/otobo-22-utf8/index.pl?Action=AgentTicke()tPhone</a><br/>
+<a href="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicke()tPhone" target="_blank" title="http://localhost/otrs-22-utf8/index.pl?Action=AgentTicke()tPhone">http://localhost/otrs-22-utf8/index.pl?Action=AgentTicke()tPhone</a><br/>
 <br/>
 asdfasfd&nbsp;&nbsp;sdfas dfsdf<br/>
-<a href="http://localhost/otobo-22-utf8/index.pl?Action=AgentTi()cketPhone" target="_blank" title="http://localhost/otobo-22-utf8/index.pl?Action=AgentTi()cketPhone">http://localhost/otobo-22-utf8/index.pl?Action=AgentTi()cketPhone</a><br/>
+<a href="http://localhost/otrs-22-utf8/index.pl?Action=AgentTi()cketPhone" target="_blank" title="http://localhost/otrs-22-utf8/index.pl?Action=AgentTi()cketPhone">http://localhost/otrs-22-utf8/index.pl?Action=AgentTi()cketPhone</a><br/>
 asdfasf<br/>
 <br/>
 asdfasf asasdfa fasdf<br/>
-<a href="http://localhost/otobo-22-utf8/index.pl?Action=AgentTick()etPhone" target="_blank" title="http://localhost/otobo-22-utf8/index.pl?Action=AgentTick()etPhone">http://localhost/otobo-22-utf8/index.pl?Action=AgentTick()etPhone</a><br/>
+<a href="http://localhost/otrs-22-utf8/index.pl?Action=AgentTick()etPhone" target="_blank" title="http://localhost/otrs-22-utf8/index.pl?Action=AgentTick()etPhone">http://localhost/otrs-22-utf8/index.pl?Action=AgentTick()etPhone</a><br/>
 asdfasdf<br/>
 <br/>
 ak@example.com<br/>
@@ -97,10 +97,10 @@ ak@example.com<br/>
 <br/>
 <a href="ftp://ftp.example.org" target="_blank" title="ftp://ftp.example.org">ftp.example.org</a><br/>
 <br/>
-<a href="https://portal.example.com/otobo/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl" target="_blank" title="https://portal.example.com/otobo/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl">https://portal.example.com/otobo/index.pl?Action=AgentFileManager&Location=/[..]</a><br/>
+<a href="https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl" target="_blank" title="https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl">https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/[..]</a><br/>
 <br/>
-lkj <a href="https://portal.example.com/otobo/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl" target="_blank" title="https://portal.example.com/otobo/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl">https://portal.example.com/otobo/index.pl?Action=AgentFileManager&Location=/[..]</a> lk<br/>
-lkj <a href="https://portal.example.com/otobo/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl" target="_blank" title="https://portal.example.com/otobo/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl">https://portal.example.com/otobo/index.pl?Action=AgentFileManager&Location=/[..]</a><br/>
+lkj <a href="https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl" target="_blank" title="https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl">https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/[..]</a> lk<br/>
+lkj <a href="https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl" target="_blank" title="https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/home/tr/CVSUpdate().pl">https://portal.example.com/otrs/index.pl?Action=AgentFileManager&Location=/[..]</a><br/>
 lk<br/>
 END_RESULT
 

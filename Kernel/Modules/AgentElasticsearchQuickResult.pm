@@ -310,7 +310,7 @@ sub Run {
         NoCache     => 1,
         ContentType => 'text/html',
         Charset     => $LayoutObject->{UserCharset},
-        Content     => '',
+        Content     => '<div/>',
         Type        => 'inline',
     );
 }

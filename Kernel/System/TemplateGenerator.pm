@@ -1871,7 +1871,7 @@ sub _Replace {
                 $Tag = $Start . 'OTOBO_EMAIL_DATE';
 
                 my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-                my $SystemTimeZone = $DateTimeObject->OTRSTimeZoneGet();
+                my $SystemTimeZone = $DateTimeObject->OTOBOTimeZoneGet();
                 while ( $Param{Text} =~ /$Tag\[(.+?)\]$End/g ) {
                     my $TimeZone      = $1;
                     my $TimeZoneValid = $DateTimeObject->IsTimeZoneValid( TimeZone => $TimeZone );

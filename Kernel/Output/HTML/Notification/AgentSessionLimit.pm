@@ -31,24 +31,8 @@ our @ObjectDependencies = (
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # currently an OTOBOCommunity 'feature'
     return '';
 
-    # Check if the agent session limit for the prior warning is reached
-    #   and save the message for the translation and the output.
-    my $AgentSessionLimitPriorWarningMessage
-        = $Kernel::OM->Get('Kernel::System::AuthSession')->CheckAgentSessionLimitPriorWarning();
-
-    return '' if !$AgentSessionLimitPriorWarningMessage;
-
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    my $Output = $LayoutObject->Notify(
-        Data     => $LayoutObject->{LanguageObject}->Translate($AgentSessionLimitPriorWarningMessage),
-        Priority => 'Warning',
-    );
-
-    return $Output;
 }
 
 1;

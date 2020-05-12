@@ -75,11 +75,8 @@ for my $ModuleFile (@BackendModuleFiles) {
 
     next MODULEFILE if !$Module;
 
-    # Reset the AgentSessionLimitPriorWarning, AgentSessionLimit
+    # Reset the AgentSessionLimit
     #   and AgentSessionPerUserLimit at the beginning for the different backend modules.
-    $ConfigObject->Set(
-        Key => 'AgentSessionLimitPriorWarning',
-    );
     $ConfigObject->Set(
         Key   => 'AgentSessionLimit',
         Value => 100,
@@ -454,14 +451,6 @@ for my $ModuleFile (@BackendModuleFiles) {
         "#$Module - SessionList() no sessions left",
     );
 
-    # Some special tests for the possible agent session limits.
-    my $AgentSessionLimitPriorWarningMessage = $SessionObject->CheckAgentSessionLimitPriorWarning();
-
-    $Self->False(
-        $AgentSessionLimitPriorWarningMessage,
-        "#$Module - CheckAgentSessionLimitPriorWarning() - AgentSessionLimitPriorWarning not active",
-    );
-
     for my $Count ( 1 .. 2 ) {
 
         my %NewSessionData = (
@@ -481,20 +470,9 @@ for my $ModuleFile (@BackendModuleFiles) {
         Key   => 'AgentSessionPerUserLimit',
         Value => 1,
     );
-    $ConfigObject->Set(
-        Key   => 'AgentSessionLimitPriorWarning',
-        Value => 1,
-    );
 
     # Reset the session object, to get the new config settings.
     $SessionObject = Kernel::System::AuthSession->new();
-
-    $AgentSessionLimitPriorWarningMessage = $SessionObject->CheckAgentSessionLimitPriorWarning();
-
-    $Self->True(
-        $AgentSessionLimitPriorWarningMessage,
-        "#$Module - CheckAgentSessionLimitPriorWarning() - AgentSessionLimitPriorWarning reached",
-    );
 
     my $SessionID = $SessionObject->CreateSessionID(
         UserLogin => 'root1',
@@ -551,9 +529,6 @@ for my $ModuleFile (@BackendModuleFiles) {
     # First reset the config and session object
     #   and generate some dummy data in the system data.
     $ConfigObject->Set(
-        Key => 'AgentSessionLimitPriorWarning',
-    );
-    $ConfigObject->Set(
         Key   => 'AgentSessionLimit',
         Value => 100,
     );
@@ -582,30 +557,6 @@ for my $ModuleFile (@BackendModuleFiles) {
 
     my $SystemDataObject = $Kernel::OM->Get('Kernel::System::SystemData');
 
-    my %OTOBOCommunityAgentSessionLimits = (
-        AgentSessionLimit             => 3,
-        AgentSessionLimitPriorWarning => 1,
-    );
-
-    for my $Key ( sort keys %OTOBOCommunityAgentSessionLimits ) {
-        my $FullKey = 'OTOBOCommunity::' . $Key;
-
-        if ( defined $SystemDataObject->SystemDataGet( Key => $FullKey ) ) {
-            $SystemDataObject->SystemDataUpdate(
-                Key    => $FullKey,
-                Value  => $OTOBOCommunityAgentSessionLimits{$Key},
-                UserID => 1,
-            );
-        }
-        else {
-            $SystemDataObject->SystemDataAdd(
-                Key    => $FullKey,
-                Value  => $OTOBOCommunityAgentSessionLimits{$Key},
-                UserID => 1,
-            );
-        }
-    }
-
     $SessionID = $SessionObject->CreateSessionID(
         UserLogin => 'root',
         UserType  => 'User',
@@ -616,12 +567,6 @@ for my $ModuleFile (@BackendModuleFiles) {
         "#$Module - CreateSessionID()",
     );
 
-    $AgentSessionLimitPriorWarningMessage = $SessionObject->CheckAgentSessionLimitPriorWarning();
-
-    $Self->False(
-        $AgentSessionLimitPriorWarningMessage,
-        "#$Module - CheckAgentSessionLimitPriorWarning() - OTOBOCommunity - AgentSessionLimitPriorWarning not reached",
-    );
 
     for my $Count ( 1 .. 2 ) {
 
@@ -638,45 +583,9 @@ for my $ModuleFile (@BackendModuleFiles) {
         );
     }
 
-    $AgentSessionLimitPriorWarningMessage = $SessionObject->CheckAgentSessionLimitPriorWarning();
-
-    $Self->True(
-        $AgentSessionLimitPriorWarningMessage,
-        "#$Module - CheckAgentSessionLimitPriorWarning() - OTOBOCommunity - AgentSessionLimitPriorWarning reached",
-    );
-
     $SessionID = $SessionObject->CreateSessionID(
         UserLogin => 'limit-reached',
         UserType  => 'User',
-    );
-
-    $Self->False(
-        $SessionID,
-        "#$Module - CreateSessionID() - OTOBOCommunity - AgentSessionLimit reached",
-    );
-
-    %OTOBOCommunityAgentSessionLimits = (
-        AgentSessionLimit => 4,
-    );
-
-    for my $Key ( sort keys %OTOBOCommunityAgentSessionLimits ) {
-        my $FullKey = 'OTOBOCommunity::' . $Key;
-
-        $SystemDataObject->SystemDataUpdate(
-            Key    => $FullKey,
-            Value  => $OTOBOCommunityAgentSessionLimits{$Key},
-            UserID => 1,
-        );
-    }
-
-    $SessionID = $SessionObject->CreateSessionID(
-        UserLogin => 'root',
-        UserType  => 'User',
-    );
-
-    $Self->True(
-        $SessionID,
-        "#$Module - CreateSessionID() - OTOBOCommunity - AgentSessionLimit not reached (after increase)",
     );
 
     $ConfigObject->Set(
@@ -713,62 +622,10 @@ for my $ModuleFile (@BackendModuleFiles) {
         "#$Module - CleanUp after normal session limit tests()",
     );
 
-    %OTOBOCommunityAgentSessionLimits = (
-        AgentSessionLimit             => 0,
-        AgentSessionLimitPriorWarning => 0,
-    );
-
-    for my $Key ( sort keys %OTOBOCommunityAgentSessionLimits ) {
-        my $FullKey = 'OTOBOCommunity::' . $Key;
-
-        $SystemDataObject->SystemDataUpdate(
-            Key    => $FullKey,
-            Value  => $OTOBOCommunityAgentSessionLimits{$Key},
-            UserID => 1,
-        );
-    }
-
     $ConfigObject->Set(
         Key   => 'AgentSessionLimit',
         Value => 100,
     );
-    $SessionObject = Kernel::System::AuthSession->new();
-
-    for my $Count ( 1 .. 2 ) {
-
-        my %NewSessionData = (
-            UserLogin => 'root' . $Count,
-            UserType  => 'User',
-        );
-
-        my $SessionID = $SessionObject->CreateSessionID(%NewSessionData);
-
-        $Self->True(
-            $SessionID,
-            "#$Module - CreateSessionID() - with emptry OTOBOCommunity session limit values.",
-        );
-    }
-
-    $AgentSessionLimitPriorWarningMessage = $SessionObject->CheckAgentSessionLimitPriorWarning();
-
-    $Self->False(
-        $AgentSessionLimitPriorWarningMessage,
-        "#$Module - CheckAgentSessionLimitPriorWarning() - with emptry OTOBOCommunity session limit values.",
-    );
-
-    $CleanUp = $SessionObject->CleanUp();
-
-    $Self->True(
-        $CleanUp,
-        "#$Module - CleanUp after normal session limit tests()",
-    );
-
-    for my $Key ( sort keys %OTOBOCommunityAgentSessionLimits ) {
-        $SystemDataObject->SystemDataDelete(
-            Key    => 'OTOBOCommunity::' . $Key,
-            UserID => 1,
-        );
-    }
 
     # Added some checks for the GetActiveSessions function
     $Helper->FixedTimeSet();
