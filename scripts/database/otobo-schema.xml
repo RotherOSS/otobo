@@ -30,7 +30,7 @@
 
 <!-- acl_sync - sync states for acls -->
 <Table Name="acl_sync">
-    <Column Name="acl_id" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="acl_id" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="sync_state" Required="true" Size="30" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
@@ -1399,7 +1399,7 @@
 
 <!-- service_customer_user - relation customeruser<->service -->
 <Table Name="service_customer_user">
-    <Column Name="customer_user_login" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="customer_user_login" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="service_id" Required="true" Type="INTEGER"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -2271,7 +2271,7 @@
 <!-- cloud_service_config -->
 <Table Name="cloud_service_config">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="config" Required="true" Type="LONGBLOB"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -2477,7 +2477,7 @@
 <Table Name="calendar">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
     <Column Name="group_id" Required="true" Type="INTEGER" />
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR" />
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR" />
     <Column Name="salt_string" Required="true" Size="64" Type="VARCHAR" />
     <Column Name="color" Required="true" Size="7" Type="VARCHAR" />
     <Column Name="ticket_appointments" Required="false" Type="LONGBLOB" />

@@ -106,9 +106,9 @@ BEGIN
 IF NOT EXISTS (
     SELECT 1
     FROM pg_constraint
-    WHERE LOWER(conname) = LOWER('FK_groups_create_by_id')
+    WHERE LOWER(conname) = LOWER('FK_groups_table_create_by_id')
     ) THEN
-    ALTER TABLE groups_table ADD CONSTRAINT FK_groups_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+    ALTER TABLE groups_table ADD CONSTRAINT FK_groups_table_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 END IF;
 END$$;
 ;
@@ -117,9 +117,9 @@ BEGIN
 IF NOT EXISTS (
     SELECT 1
     FROM pg_constraint
-    WHERE LOWER(conname) = LOWER('FK_groups_change_by_id')
+    WHERE LOWER(conname) = LOWER('FK_groups_table_change_by_id')
     ) THEN
-    ALTER TABLE groups_table ADD CONSTRAINT FK_groups_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+    ALTER TABLE groups_table ADD CONSTRAINT FK_groups_table_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 END IF;
 END$$;
 ;
@@ -128,9 +128,9 @@ BEGIN
 IF NOT EXISTS (
     SELECT 1
     FROM pg_constraint
-    WHERE LOWER(conname) = LOWER('FK_groups_valid_id_id')
+    WHERE LOWER(conname) = LOWER('FK_groups_table_valid_id_id')
     ) THEN
-    ALTER TABLE groups_table ADD CONSTRAINT FK_groups_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
+    ALTER TABLE groups_table ADD CONSTRAINT FK_groups_table_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
 END IF;
 END$$;
 ;
