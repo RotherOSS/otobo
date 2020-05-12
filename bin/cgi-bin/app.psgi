@@ -34,9 +34,9 @@ use lib '/opt/otobo/Custom';
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 
 use Plack::Builder;
-use Plack::App::File;
 use Plack::Middleware::ErrorDocument;
-use CGI::Emulate::PSGI;
+use Plack::App::File;
+use Plack::App::CGIBin;
 use Module::Refresh;
 
 # Preload frequently used modules to speed up client spawning.
@@ -69,30 +69,7 @@ use Encode qw(:all);
 # this might improve performance
 CGI->compile(':cgi');
 
-# Workaround: some parts of OTOBO use exit to interrupt the control flow.
-#   This would kill the Plack server, so just use die instead.
-BEGIN {
-    *CORE::GLOBAL::exit = sub { die "exit called\n"; };
-}
-
-print STDERR "PLEASE NOTE THAT PLACK SUPPORT IS CURRENTLY EXPERIMENTAL AND NOT SUPPORTED!\n";
-
-my $App = CGI::Emulate::PSGI->handler(
-    sub {
-
-        # Cleanup values from previous requests.
-        CGI::initialize_globals();
-
-        # Load the requested script
-        eval {
-            do "/opt/otobo/bin/cgi-bin/$ENV{SCRIPT_NAME}";
-        };
-        if ( $@ && $@ ne "exit called\n" ) {
-            warn $@;
-        }
-
-    },
-);
+print STDERR "PLEASE NOTE THAT PLACK SUPPORT IS AS OF MAY 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
 
 builder {
     # Server the static files in var/httpd/httpd.
@@ -101,12 +78,12 @@ builder {
     # TODO: set the cache timeouts as in apache2-httpd.include.conf
     mount '/otobo-web' => Plack::App::File->new(root => '/opt/otobo/var/httpd/htdocs')->to_app;
 
-    # Wrap the CGI-scripts in bin/cgi-bin.
+    # Serve the CGI-scripts in bin/cgi-bin.
     # Same as: ScriptAlias /otobo/ "/opt/otobo/bin/cgi-bin/"
-    # Access checking is done by $App.
+    # Access checking is done by the application.
     mount '/otobo'     => builder {
 
-        # do some pre- and postprocessing in the middleware
+        # do some pre- and postprocessing in an inline middleware
         enable sub {
             my $app = shift;
             sub {
@@ -137,6 +114,7 @@ builder {
                     $env->{SCRIPT_NAME} = 'index.pl';
                 }
 
+                # do the work
                 my $res = $app->($env);
 
                 # clean up profiling, write the output file
@@ -149,6 +127,9 @@ builder {
         enable "Plack::Middleware::ErrorDocument",
             403 => '/otobo/index.pl';  # forbidden files
 
-        $App;
+        # Execute the scripts in the appropriate environment.
+        # The scripts are actually compiled by CGI::Compile,
+        # CGI::initialize_globals() is called implicitly.
+        Plack::App::CGIBin->new(root => '/opt/otobo/bin/cgi-bin')->to_app;
     }
 };
