@@ -136,7 +136,7 @@ if ($PrintHelp) {
     printf " %-22s - %s\n", '[-help]',     'Print this help message.';
     printf " %-22s - %s\n", '[-h]',        'Same as -help.';
     printf " %-22s - %s\n", '[-list]',     'Print an install command with all required packages that are missing.';
-    printf " %-22s - %s\n", '[-cpanfile]', 'Print a cpanfile with the required modules that are missing.';
+    printf " %-22s - %s\n", '[-cpanfile]', 'Print a cpanfile with the required modules regardless whether they are already available.';
     printf " %-22s - %s\n", '[-all]',      'Print all required, optional and bundled packages of OTOBO.';
     print "\n";
 
@@ -606,10 +606,18 @@ my @NeededModules = (
     },
 );
 
-if ($PrintCpanfile || $PrintPackageList) {
+if ($PrintCpanfile) {
+
+    for my $Module ( @NeededModules ) {
+        if ( $Module->{Required} ) {
+            say "requires '$Module->{Module}';";
+        }
+    }
+}
+elsif ($PrintPackageList) {
     my %PackageList = _PackageList( \@NeededModules );
 
-    if ( $PrintPackageList && IsArrayRefWithData( $PackageList{Packages} ) ) {
+    if ( IsArrayRefWithData( $PackageList{Packages} ) ) {
 
         my $CMD = $PackageList{CMD};
 
@@ -620,12 +628,6 @@ if ($PrintCpanfile || $PrintPackageList) {
         }
         printf $CMD, join( ' ', @{ $PackageList{Packages} } );
         print "\n";
-    }
-
-    if ( $PrintCpanfile && IsArrayRefWithData( $PackageList{MissingModules} ) ) {
-        for my $Module ( @{ $PackageList{MissingModules} } ) {
-            say "requires '$Module->{Module}';";
-        }
     }
 }
 else {
