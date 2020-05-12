@@ -35,9 +35,15 @@ use lib '/opt/otobo/Custom';
 
 use Plack::Builder;
 use Plack::Middleware::ErrorDocument;
+use Plack::Middleware::Header;
 use Plack::App::File;
 use Plack::App::CGIBin;
 use Module::Refresh;
+
+# for future use:
+#use Plack::Middleware::CamelcadeDB;
+#use Plack::Middleware::Expires;
+#use Plack::Middleware::Debug;
 
 # Preload frequently used modules to speed up client spawning.
 use CGI ();
@@ -75,8 +81,23 @@ builder {
     # Server the static files in var/httpd/httpd.
     # Same as: Alias /otobo-web/ "/opt/otobo/var/httpd/htdocs/"
     # Access is granted for all.
-    # TODO: set the cache timeouts as in apache2-httpd.include.conf
-    mount '/otobo-web' => Plack::App::File->new(root => '/opt/otobo/var/httpd/htdocs')->to_app;
+    # Set the Cache-Control headers as in apache2-httpd.include.conf
+    mount '/otobo-web' => builder {
+
+            # Cache css-cache for 30 days
+            enable_if { $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css-cache/.*\.(?:css|CSS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=2592000 must-revalidate' ];
+
+            # Cache css thirdparty for 4 hours, including icon fonts
+            enable_if { $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css/thirdparty/.*\.(?:css|CSS|woff|svn)$} } 'Header', set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
+
+            # Cache js-cache for 30 days
+            enable_if { $_[0]->{PATH_INFO} =~ m{js/js-cache/.*\.(?:js|JS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=2592000 must-revalidate' ];
+
+            # Cache js thirdparty for 4 hours
+            enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
+
+            Plack::App::File->new(root => '/opt/otobo/var/httpd/htdocs')->to_app;
+        };
 
     # Serve the CGI-scripts in bin/cgi-bin.
     # Same as: ScriptAlias /otobo/ "/opt/otobo/bin/cgi-bin/"
@@ -131,5 +152,5 @@ builder {
         # The scripts are actually compiled by CGI::Compile,
         # CGI::initialize_globals() is called implicitly.
         Plack::App::CGIBin->new(root => '/opt/otobo/bin/cgi-bin')->to_app;
-    }
+    };
 };
