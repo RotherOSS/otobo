@@ -115,6 +115,7 @@ builder {
     # Server the static files in var/httpd/httpd.
     # Same as: Alias /otobo-web/ "/opt/otobo/var/httpd/htdocs/"
     # Access is granted for all.
+    # TODO: set the cache timeouts as in apache2-httpd.include.conf
     mount '/otobo-web' => Plack::App::File->new(root => '/opt/otobo/var/httpd/htdocs')->to_app;
 
     # Wrap the CGI-scripts in bin/cgi-bin.
