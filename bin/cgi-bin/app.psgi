@@ -85,7 +85,7 @@ my $App = CGI::Emulate::PSGI->handler(
         ( $ENV{SCRIPT_NAME} ) = $ENV{PATH_INFO} =~ m{/([A-Za-z\-_]+\.pl)};    ## no critic
 
         # Fallback to agent login if we could not determine handle...
-        if ( !defined $ENV{SCRIPT_NAME} || !-e "$Bin/$ENV{SCRIPT_NAME}" ) {
+        if ( !defined $ENV{SCRIPT_NAME} || ! -e "/opt/otobo/bin/cgi-bin/$ENV{SCRIPT_NAME}" ) {
             $ENV{SCRIPT_NAME} = 'index.pl';                                   ## no critic
         }
 
@@ -104,7 +104,7 @@ my $App = CGI::Emulate::PSGI->handler(
 
         # Load the requested script
         eval {
-            do "$Bin/$ENV{SCRIPT_NAME}";
+            do "/opt/otobo/bin/cgin-bin/$ENV{SCRIPT_NAME}";
         };
         if ( $@ && $@ ne "exit called\n" ) {
             warn $@;
@@ -124,15 +124,16 @@ my $StaticPath = sub {
 
     # Return only the relative path.
     $_ =~ s{^.*?-web/(js/.*|skins/.*)}{$1}smx;
+
     return $_;
 };
 
 # Create a Static middleware to serve static files directly without invoking the OTOBO
 #   application handler.
 builder {
-    enable "Static",
+    enable 'Static',
         path        => $StaticPath,
-        root        => "$Bin/../../var/httpd/htdocs",
+        root        => "/opt/otobo/var/httpd/htdocs",
         pass_trough => 0;
     $App;
 }
