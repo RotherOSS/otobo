@@ -88,7 +88,7 @@ sub LoadPreferences {
 
     # init sql setting on db connect
     if ( !$Kernel::OM->Get('Kernel::Config')->Get('Database::ShellOutput') ) {
-        $Self->{'DB::Connect'} = 'SET NAMES utf8';
+        $Self->{'DB::Connect'} = 'SET NAMES utf8mb4';
     }
 
     return 1;
@@ -155,7 +155,7 @@ sub DatabaseCreate {
     }
 
     # return SQL
-    return ("CREATE DATABASE $Param{Name} DEFAULT CHARSET=utf8");
+    return ("CREATE DATABASE $Param{Name} DEFAULT CHARSET=utf8mb4");
 }
 
 sub DatabaseDrop {

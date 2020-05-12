@@ -516,7 +516,7 @@ sub Run {
                 # 'IDENTIFIED WITH mysql_native_password' is supported since at least MySQL 5.6
                 # Note that 'FLUSH PRIVILEGES' is not needed here since at least MySQL 5.6
                 @Statements = (
-                    "CREATE DATABASE `$DB{DBName}` charset utf8",
+                    "CREATE DATABASE `$DB{DBName}` charset utf8mb4",
                     "CREATE USER `$DB{OTOBODBUser}`\@`$DB{Host}` IDENTIFIED WITH mysql_native_password BY '$DB{OTOBODBPassword}'",
                     "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTOBODBUser}`\@`$DB{Host}` WITH GRANT OPTION",
                 );
@@ -1268,18 +1268,18 @@ sub CheckDBRequirements {
         # Check character_set_database value.
         my $Charset = $Result{DBH}->selectall_arrayref("SHOW variables LIKE 'character_set_database'");
 
-        if ( $Charset->[0]->[1] =~ /utf8mb4/i ) {
+        if ( $Charset->[0]->[1] =~ /utf8$/i ) {
             $Result{Successful} = 0;
             $Result{Message}    = $LayoutObject->{LanguageObject}->Translate(
-                "Wrong database collation (%s is %s, but it needs to be utf8).",
+                "Wrong database collation (%s is %s, but it needs to be utf8mb4).",
                 'character_set_database',
                 $Charset->[0]->[1],
             );
         }
-        elsif ( $Charset->[0]->[1] !~ /utf8/i ) {
+        elsif ( $Charset->[0]->[1] !~ /utf8mb4/i ) {
             $Result{Successful} = 0;
             $Result{Message}    = $LayoutObject->{LanguageObject}->Translate(
-                "Wrong database collation (%s is %s, but it needs to be utf8).",
+                "Wrong database collation (%s is %s, but it needs to be utf8mb4).",
                 'character_set_database',
                 $Charset->[0]->[1],
             );
