@@ -25,6 +25,7 @@
 
 use strict;
 use warnings;
+use 5.24.0;
 
 # use ../../ as lib location
 use FindBin qw($Bin);
