@@ -7,7 +7,7 @@ SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
 CREATE TABLE acl (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     description VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE acl_sync (
 -- ----------------------------------------------------------
 CREATE TABLE valid (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE valid (
 -- ----------------------------------------------------------
 CREATE TABLE users (
     id serial NOT NULL,
-    login VARCHAR (200) NOT NULL,
+    login VARCHAR (191) NOT NULL,
     pw VARCHAR (128) NOT NULL,
     title VARCHAR (50) NULL,
     first_name VARCHAR (100) NOT NULL,
@@ -81,11 +81,11 @@ END IF;
 END$$;
 ;
 -- ----------------------------------------------------------
---  create table groups
+--  create table groups_table
 -- ----------------------------------------------------------
-CREATE TABLE groups (
+CREATE TABLE groups_table (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time timestamp(0) NOT NULL,
@@ -240,7 +240,7 @@ END$$;
 -- ----------------------------------------------------------
 CREATE TABLE roles (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time timestamp(0) NOT NULL,
@@ -346,7 +346,7 @@ END$$;
 -- ----------------------------------------------------------
 CREATE TABLE salutation (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     text VARCHAR (3000) NOT NULL,
     content_type VARCHAR (250) NULL,
     comments VARCHAR (250) NULL,
@@ -363,7 +363,7 @@ CREATE TABLE salutation (
 -- ----------------------------------------------------------
 CREATE TABLE signature (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     text VARCHAR (3000) NOT NULL,
     content_type VARCHAR (250) NULL,
     comments VARCHAR (250) NULL,
@@ -416,7 +416,7 @@ CREATE TABLE system_maintenance (
 -- ----------------------------------------------------------
 CREATE TABLE follow_up_possible (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time timestamp(0) NOT NULL,
@@ -431,7 +431,7 @@ CREATE TABLE follow_up_possible (
 -- ----------------------------------------------------------
 CREATE TABLE queue (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     group_id INTEGER NOT NULL,
     unlock_timeout INTEGER NULL,
     first_response_time INTEGER NULL,
@@ -491,7 +491,7 @@ END$$;
 -- ----------------------------------------------------------
 CREATE TABLE ticket_priority (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
@@ -505,7 +505,7 @@ CREATE TABLE ticket_priority (
 -- ----------------------------------------------------------
 CREATE TABLE ticket_type (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
@@ -519,7 +519,7 @@ CREATE TABLE ticket_type (
 -- ----------------------------------------------------------
 CREATE TABLE ticket_lock_type (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
@@ -533,7 +533,7 @@ CREATE TABLE ticket_lock_type (
 -- ----------------------------------------------------------
 CREATE TABLE ticket_state (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     type_id SMALLINT NOT NULL,
     valid_id SMALLINT NOT NULL,
@@ -549,7 +549,7 @@ CREATE TABLE ticket_state (
 -- ----------------------------------------------------------
 CREATE TABLE ticket_state_type (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
@@ -564,7 +564,7 @@ CREATE TABLE ticket_state_type (
 CREATE TABLE ticket (
     id bigserial NOT NULL,
     tn VARCHAR (50) NOT NULL,
-    title VARCHAR (255) NULL,
+    title VARCHAR (191) NULL,
     queue_id INTEGER NOT NULL,
     ticket_lock_id SMALLINT NOT NULL,
     type_id SMALLINT NULL,
@@ -575,7 +575,7 @@ CREATE TABLE ticket (
     ticket_priority_id SMALLINT NOT NULL,
     ticket_state_id SMALLINT NOT NULL,
     customer_id VARCHAR (150) NULL,
-    customer_user_id VARCHAR (250) NULL,
+    customer_user_id VARCHAR (191) NULL,
     timeout INTEGER NOT NULL,
     until_time INTEGER NOT NULL,
     escalation_time INTEGER NOT NULL,
@@ -967,7 +967,7 @@ END$$;
 -- ----------------------------------------------------------
 CREATE TABLE ticket_history_type (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time timestamp(0) NOT NULL,
@@ -1016,7 +1016,7 @@ END$$;
 CREATE TABLE ticket_index (
     ticket_id BIGINT NOT NULL,
     queue_id INTEGER NOT NULL,
-    queue VARCHAR (200) NOT NULL,
+    queue VARCHAR (191) NOT NULL,
     group_id INTEGER NOT NULL,
     s_lock VARCHAR (200) NOT NULL,
     s_state VARCHAR (200) NOT NULL,
@@ -1076,7 +1076,7 @@ END$$;
 --  create table ticket_loop_protection
 -- ----------------------------------------------------------
 CREATE TABLE ticket_loop_protection (
-    sent_to VARCHAR (250) NOT NULL,
+    sent_to VARCHAR (191) NOT NULL,
     sent_date VARCHAR (150) NOT NULL
 );
 DO $$
@@ -1106,7 +1106,7 @@ END$$;
 -- ----------------------------------------------------------
 CREATE TABLE article_sender_type (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time timestamp(0) NOT NULL,
@@ -1153,7 +1153,7 @@ END$$;
 -- ----------------------------------------------------------
 CREATE TABLE communication_channel (
     id bigserial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     module VARCHAR (200) NOT NULL,
     package_name VARCHAR (200) NOT NULL,
     channel_data TEXT NOT NULL,
@@ -1281,7 +1281,7 @@ CREATE TABLE article_search_index (
     id bigserial NOT NULL,
     ticket_id BIGINT NOT NULL,
     article_id BIGINT NOT NULL,
-    article_key VARCHAR (200) NOT NULL,
+    article_key VARCHAR (191) NOT NULL,
     article_value VARCHAR NULL,
     PRIMARY KEY(id)
 );
@@ -1367,7 +1367,7 @@ END$$;
 CREATE TABLE article_data_mime_send_error (
     id bigserial NOT NULL,
     article_id BIGINT NOT NULL,
-    message_id VARCHAR (200) NULL,
+    message_id VARCHAR (191) NULL,
     log_message VARCHAR NULL,
     create_time timestamp(0) NOT NULL,
     PRIMARY KEY(id)
@@ -1449,7 +1449,7 @@ END$$;
 -- ----------------------------------------------------------
 CREATE TABLE standard_template (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     text VARCHAR NULL,
     content_type VARCHAR (250) NULL,
     template_type VARCHAR (100) DEFAULT 'Answer' NOT NULL,
@@ -1478,7 +1478,7 @@ CREATE TABLE queue_standard_template (
 -- ----------------------------------------------------------
 CREATE TABLE standard_attachment (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     content_type VARCHAR (250) NOT NULL,
     content TEXT NOT NULL,
     filename VARCHAR (250) NOT NULL,
@@ -1509,7 +1509,7 @@ CREATE TABLE standard_template_attachment (
 -- ----------------------------------------------------------
 CREATE TABLE auto_response_type (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time timestamp(0) NOT NULL,
@@ -1524,7 +1524,7 @@ CREATE TABLE auto_response_type (
 -- ----------------------------------------------------------
 CREATE TABLE auto_response (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     text0 VARCHAR (6000) NULL,
     text1 VARCHAR (6000) NULL,
     type_id SMALLINT NOT NULL,
@@ -1557,7 +1557,7 @@ CREATE TABLE queue_auto_response (
 -- ----------------------------------------------------------
 CREATE TABLE service (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     valid_id SMALLINT NOT NULL,
     comments VARCHAR (250) NULL,
     create_time timestamp(0) NOT NULL,
@@ -1622,7 +1622,7 @@ END$$;
 -- ----------------------------------------------------------
 CREATE TABLE sla (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     calendar_name VARCHAR (100) NULL,
     first_response_time INTEGER NOT NULL,
     first_response_notify SMALLINT NULL,
@@ -1704,7 +1704,7 @@ END$$;
 -- ----------------------------------------------------------
 CREATE TABLE customer_user (
     id serial NOT NULL,
-    login VARCHAR (200) NOT NULL,
+    login VARCHAR (191) NOT NULL,
     email VARCHAR (150) NOT NULL,
     customer_id VARCHAR (150) NOT NULL,
     pw VARCHAR (128) NULL,
@@ -1731,7 +1731,7 @@ CREATE TABLE customer_user (
 --  create table customer_preferences
 -- ----------------------------------------------------------
 CREATE TABLE customer_preferences (
-    user_id VARCHAR (250) NOT NULL,
+    user_id VARCHAR (191) NOT NULL,
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value VARCHAR (250) NULL
 );
@@ -1751,7 +1751,7 @@ END$$;
 -- ----------------------------------------------------------
 CREATE TABLE customer_company (
     customer_id VARCHAR (150) NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     street VARCHAR (200) NULL,
     zip VARCHAR (200) NULL,
     city VARCHAR (200) NULL,
@@ -1823,7 +1823,7 @@ CREATE TABLE mail_account (
 --  create table postmaster_filter
 -- ----------------------------------------------------------
 CREATE TABLE postmaster_filter (
-    f_name VARCHAR (200) NOT NULL,
+    f_name VARCHAR (191) NOT NULL,
     f_stop SMALLINT NULL,
     f_type VARCHAR (20) NOT NULL,
     f_key VARCHAR (200) NOT NULL,
@@ -1845,7 +1845,7 @@ END$$;
 --  create table generic_agent_jobs
 -- ----------------------------------------------------------
 CREATE TABLE generic_agent_jobs (
-    job_name VARCHAR (200) NOT NULL,
+    job_name VARCHAR (191) NOT NULL,
     job_key VARCHAR (200) NOT NULL,
     job_value VARCHAR (200) NULL
 );
@@ -1864,8 +1864,8 @@ END$$;
 --  create table search_profile
 -- ----------------------------------------------------------
 CREATE TABLE search_profile (
-    login VARCHAR (200) NOT NULL,
-    profile_name VARCHAR (200) NOT NULL,
+    login VARCHAR (191) NOT NULL,
+    profile_name VARCHAR (191) NOT NULL,
     profile_type VARCHAR (30) NOT NULL,
     profile_key VARCHAR (200) NOT NULL,
     profile_value VARCHAR (200) NULL
@@ -1920,7 +1920,7 @@ CREATE TABLE web_upload_cache (
 -- ----------------------------------------------------------
 CREATE TABLE notification_event (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     valid_id SMALLINT NOT NULL,
     comments VARCHAR (250) NULL,
     create_time timestamp(0) NOT NULL,
@@ -1970,8 +1970,8 @@ END$$;
 -- ----------------------------------------------------------
 CREATE TABLE notification_event_item (
     notification_id INTEGER NOT NULL,
-    event_key VARCHAR (200) NOT NULL,
-    event_value VARCHAR (200) NOT NULL
+    event_key VARCHAR (191) NOT NULL,
+    event_value VARCHAR (191) NOT NULL
 );
 DO $$
 BEGIN
@@ -2229,7 +2229,7 @@ CREATE TABLE package_repository (
 -- ----------------------------------------------------------
 CREATE TABLE gi_webservice_config (
     id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     config TEXT NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time timestamp(0) NOT NULL,
@@ -2389,7 +2389,7 @@ END$$;
 CREATE TABLE dynamic_field (
     id serial NOT NULL,
     internal_field SMALLINT DEFAULT 0 NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     label VARCHAR (200) NOT NULL,
     field_order INTEGER NOT NULL,
     field_type VARCHAR (200) NOT NULL,
@@ -2408,7 +2408,7 @@ CREATE TABLE dynamic_field (
 -- ----------------------------------------------------------
 CREATE TABLE dynamic_field_obj_id_name (
     object_id serial NOT NULL,
-    object_name VARCHAR (200) NOT NULL,
+    object_name VARCHAR (191) NOT NULL,
     object_type VARCHAR (100) NOT NULL,
     PRIMARY KEY(object_id),
     CONSTRAINT dynamic_field_object_name UNIQUE (object_name, object_type)
@@ -2639,7 +2639,7 @@ CREATE TABLE cloud_service_config (
 -- ----------------------------------------------------------
 CREATE TABLE sysconfig_default (
     id serial NOT NULL,
-    name VARCHAR (250) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     description TEXT NOT NULL,
     navigation VARCHAR (200) NOT NULL,
     is_invisible SMALLINT NOT NULL,
@@ -2671,7 +2671,7 @@ CREATE TABLE sysconfig_default (
 CREATE TABLE sysconfig_default_version (
     id serial NOT NULL,
     sysconfig_default_id INTEGER NULL,
-    name VARCHAR (250) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     description TEXT NOT NULL,
     navigation VARCHAR (200) NOT NULL,
     is_invisible SMALLINT NOT NULL,
@@ -2709,7 +2709,7 @@ END$$;
 CREATE TABLE sysconfig_modified (
     id serial NOT NULL,
     sysconfig_default_id INTEGER NOT NULL,
-    name VARCHAR (250) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     user_id INTEGER NULL,
     is_valid SMALLINT NOT NULL,
     user_modification_active SMALLINT NOT NULL,
@@ -2729,7 +2729,7 @@ CREATE TABLE sysconfig_modified (
 CREATE TABLE sysconfig_modified_version (
     id serial NOT NULL,
     sysconfig_default_version_id INTEGER NOT NULL,
-    name VARCHAR (250) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     user_id INTEGER NULL,
     is_valid SMALLINT NOT NULL,
     user_modification_active SMALLINT NOT NULL,
@@ -2931,9 +2931,9 @@ END$$;
 CREATE TABLE communication_log (
     id bigserial NOT NULL,
     insert_fingerprint VARCHAR (64) NULL,
-    transport VARCHAR (200) NOT NULL,
-    direction VARCHAR (200) NOT NULL,
-    status VARCHAR (200) NOT NULL,
+    transport VARCHAR (191) NOT NULL,
+    direction VARCHAR (191) NOT NULL,
+    status VARCHAR (191) NOT NULL,
     account_type VARCHAR (200) NULL,
     account_id VARCHAR (200) NULL,
     start_time timestamp(0) NOT NULL,
@@ -2992,7 +2992,7 @@ CREATE TABLE communication_log_object (
     insert_fingerprint VARCHAR (64) NULL,
     communication_id BIGINT NOT NULL,
     object_type VARCHAR (50) NOT NULL,
-    status VARCHAR (200) NOT NULL,
+    status VARCHAR (191) NOT NULL,
     start_time timestamp(0) NOT NULL,
     end_time timestamp(0) NULL,
     PRIMARY KEY(id)
@@ -3025,7 +3025,7 @@ END$$;
 CREATE TABLE communication_log_object_entry (
     id bigserial NOT NULL,
     communication_log_object_id BIGINT NOT NULL,
-    log_key VARCHAR (200) NOT NULL,
+    log_key VARCHAR (191) NOT NULL,
     log_value VARCHAR NOT NULL,
     priority VARCHAR (50) NOT NULL,
     create_time timestamp(0) NOT NULL,
@@ -3048,7 +3048,7 @@ END$$;
 CREATE TABLE communication_log_obj_lookup (
     id bigserial NOT NULL,
     communication_log_object_id BIGINT NOT NULL,
-    object_type VARCHAR (200) NOT NULL,
+    object_type VARCHAR (191) NOT NULL,
     object_id BIGINT NOT NULL,
     PRIMARY KEY(id)
 );
@@ -3070,7 +3070,7 @@ CREATE TABLE form_draft (
     id serial NOT NULL,
     object_type VARCHAR (100) NOT NULL,
     object_id INTEGER NOT NULL,
-    action VARCHAR (200) NOT NULL,
+    action VARCHAR (191) NOT NULL,
     title VARCHAR (255) NULL,
     content TEXT NOT NULL,
     create_time timestamp(0) NOT NULL,

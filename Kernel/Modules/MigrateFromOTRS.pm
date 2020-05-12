@@ -203,8 +203,11 @@ sub Run {
                 @Taskorder = qw(
                     OTOBODatabaseMigrate
                     OTOBOCopyFilesFromOTRS
-                    OTOBOMigrateConfigFromOTRS
+                    OTOBOCacheCleanup
                     OTOBORebuildConfigCleanup
+                    OTOBOMigrateConfigFromOTRS
+                    OTOBOCacheCleanup:1
+                    OTOBORebuildConfigCleanup:1
                     OTOBONotificationMigrate
                     OTOBOAutoResponseTemplatesMigrate
                     OTOBOResponseTemplatesMigrate
@@ -213,9 +216,10 @@ sub Run {
                     OTOBOACLDeploy
                     OTOBOMigrateWebServiceConfiguration
                     OTOBOProcessDeploy
+                    OTOBOCacheCleanup:2
                     OTOBORebuildConfig
-                    OTOBORebuildConfigCleanup:1
-                    OTOBOCacheCleanup
+                    OTOBORebuildConfigCleanup:2
+                    OTOBOCacheCleanup:3
                     OTOBOInvalidSettingsCheck
                 );
             }

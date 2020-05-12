@@ -30,6 +30,7 @@ our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
     'Kernel::System::Log',
+    'Kernel::System::SysConfig'
 );
 
 =head1 NAME
@@ -149,6 +150,9 @@ sub Run {
         );
 
         if ( !$DataTransferResult ) {
+
+            $Self->DisableSecureMode();
+
             $Result{Message}    = $Self->{LanguageObject}->Translate( "Copy database." );
             $Result{Comment}    = $Self->{LanguageObject}->Translate( "System was unable to complete data transfer." );
             $Result{Successful} = 0;
@@ -156,11 +160,12 @@ sub Run {
         }
     }
 
+    $Self->DisableSecureMode();
+
     $Result{Message}    = $Self->{LanguageObject}->Translate( "Copy database." );
     $Result{Comment}    = $Self->{LanguageObject}->Translate( "Data transfer completed." );
     $Result{Successful} = 1;
     return \%Result;
-
 }
 
 1;

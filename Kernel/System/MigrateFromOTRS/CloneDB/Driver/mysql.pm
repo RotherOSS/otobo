@@ -177,7 +177,7 @@ sub BlobColumnsList {
     $Param{DBObject}->Prepare(
         SQL => "
             SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
-            WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND DATA_TYPE = 'longblob'",
+            WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND DATA_TYPE = 'longblob';",
 
             Bind => [
                 \$Param{DBName}, \$Param{Table},
@@ -187,7 +187,7 @@ sub BlobColumnsList {
     my %Result;
     while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
         my $TCString = "$Param{Table}.$Row[0]";
-        $Result{$TCString} = $Row[1];
+        $Result{$TCString} = '1';
     }
     return \%Result;
 }

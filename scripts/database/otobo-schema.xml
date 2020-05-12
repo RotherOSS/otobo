@@ -4,7 +4,7 @@
 <!-- acl - all acls from the editor -->
 <Table Name="acl">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Type="VARCHAR" Size="200"/>
+    <Column Name="name" Required="true" Type="VARCHAR" Size="191"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="description" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
@@ -39,7 +39,7 @@
 <!-- valid - all valid states -->
 <Table Name="valid">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
@@ -56,7 +56,7 @@
 <!-- user - all users -->
 <Table Name="users">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="login" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="login" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="pw" Required="true" Size="128" Type="VARCHAR"/>
     <Column Name="title" Required="false" Size="50" Type="VARCHAR"/>
     <Column Name="first_name" Required="true" Size="100" Type="VARCHAR"/>
@@ -92,9 +92,9 @@
 </Table>
 
 <!-- group - all groups -->
-<Table Name="groups">
+<Table Name="groups_table">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -133,7 +133,7 @@
         <Reference Local="change_by" Foreign="id"/>
         <Reference Local="user_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="groups">
+    <ForeignKey ForeignTable="groups_table">
         <Reference Local="group_id" Foreign="id"/>
     </ForeignKey>
 </Table>
@@ -160,7 +160,7 @@
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="groups">
+    <ForeignKey ForeignTable="groups_table">
         <Reference Local="group_id" Foreign="id"/>
     </ForeignKey>
     <ForeignKey ForeignTable="roles">
@@ -190,7 +190,7 @@
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="groups">
+    <ForeignKey ForeignTable="groups_table">
         <Reference Local="group_id" Foreign="id"/>
     </ForeignKey>
 </Table>
@@ -218,7 +218,7 @@
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="groups">
+    <ForeignKey ForeignTable="groups_table">
         <Reference Local="group_id" Foreign="id"/>
     </ForeignKey>
 </Table>
@@ -226,7 +226,7 @@
 <!-- role - all roles -->
 <Table Name="roles">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -305,7 +305,7 @@
 <!-- salutation - all salutations -->
 <Table Name="salutation">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="text" Required="true" Size="3000" Type="VARCHAR"/>
     <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
@@ -329,7 +329,7 @@
 <!-- signature - all signatures -->
 <Table Name="signature">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="text" Required="true" Size="3000" Type="VARCHAR"/>
     <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
@@ -400,7 +400,7 @@
 <!-- follow_up_possible values  -->
 <Table Name="follow_up_possible">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -422,7 +422,7 @@
 <!-- queue - all system queues -->
 <Table Name="queue">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="group_id" Required="true" Type="INTEGER"/>
     <Column Name="unlock_timeout" Required="false" Type="INTEGER"/>
     <Column Name="first_response_time" Required="false" Type="INTEGER"/>
@@ -462,7 +462,7 @@
     <ForeignKey ForeignTable="signature">
         <Reference Local="signature_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="groups">
+    <ForeignKey ForeignTable="groups_table">
         <Reference Local="group_id" Foreign="id"/>
     </ForeignKey>
     <ForeignKey ForeignTable="follow_up_possible">
@@ -490,7 +490,7 @@
 <!-- ticket_priority - all ticket priorities -->
 <Table Name="ticket_priority">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -508,7 +508,7 @@
 <!-- ticket_type - all ticket types -->
 <Table Name="ticket_type">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -529,7 +529,7 @@
 <!-- ticket_lock_type - all ticket lock types -->
 <Table Name="ticket_lock_type">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -550,7 +550,7 @@
 <!-- ticket_state - all ticket states -->
 <Table Name="ticket_state">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="type_id" Required="true" Type="SMALLINT"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
@@ -576,7 +576,7 @@
 <!-- ticket_state_type - all ticket state types -->
 <Table Name="ticket_state_type">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -595,7 +595,7 @@
 <Table Name="ticket">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
     <Column Name="tn" Required="true" Size="50" Type="VARCHAR"/>
-    <Column Name="title" Required="false" Size="255" Type="VARCHAR"/>
+    <Column Name="title" Required="false" Size="191" Type="VARCHAR"/>
     <Column Name="queue_id" Required="true" Type="INTEGER"/>
     <Column Name="ticket_lock_id" Required="true" Type="SMALLINT"/>
     <Column Name="type_id" Required="false" Type="SMALLINT"/>
@@ -606,7 +606,7 @@
     <Column Name="ticket_priority_id" Required="true" Type="SMALLINT"/>
     <Column Name="ticket_state_id" Required="true" Type="SMALLINT"/>
     <Column Name="customer_id" Required="false" Size="150" Type="VARCHAR"/>
-    <Column Name="customer_user_id" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="customer_user_id" Required="false" Size="191" Type="VARCHAR"/>
     <Column Name="timeout" Required="true" Type="INTEGER"/>
     <Column Name="until_time" Required="true" Type="INTEGER"/>
     <Column Name="escalation_time" Required="true" Type="INTEGER"/>
@@ -817,7 +817,7 @@
 <!-- ticket_history_type - all history types -->
 <Table Name="ticket_history_type">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -864,7 +864,7 @@
 <Table Name="ticket_index">
     <Column Name="ticket_id" Required="true" Type="BIGINT"/>
     <Column Name="queue_id" Required="true" Type="INTEGER"/>
-    <Column Name="queue" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="queue" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="group_id" Required="true" Type="INTEGER"/>
     <Column Name="s_lock" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="s_state" Required="true" Size="200" Type="VARCHAR"/>
@@ -884,7 +884,7 @@
     <ForeignKey ForeignTable="queue">
         <Reference Local="queue_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="groups">
+    <ForeignKey ForeignTable="groups_table">
         <Reference Local="group_id" Foreign="id"/>
     </ForeignKey>
 </Table>
@@ -902,7 +902,7 @@
 
 <!-- ticket_loop_protection -->
 <Table Name="ticket_loop_protection">
-    <Column Name="sent_to" Required="true" Size="250" Type="VARCHAR"/>
+    <Column Name="sent_to" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="sent_date" Required="true" Size="150" Type="VARCHAR"/>
     <Index Name="ticket_loop_protection_sent_to">
         <IndexColumn Name="sent_to"/>
@@ -915,7 +915,7 @@
 <!-- article_sender_type - all possibles sender types (e. g. agent, system, customer, ...) -->
 <Table Name="article_sender_type">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -960,7 +960,7 @@
 
 <Table Name="communication_channel">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="module" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="package_name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="channel_data" Required="true" Type="LONGBLOB"/>
@@ -1067,7 +1067,7 @@
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
     <Column Name="ticket_id" Required="true" Type="BIGINT"/>
     <Column Name="article_id" Required="true" Type="BIGINT"/>
-    <Column Name="article_key" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="article_key" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="article_value" Required="false" Size="1800000" Type="VARCHAR"/>
     <Index Name="article_search_index_ticket_id">
         <IndexColumn Name="ticket_id"/>
@@ -1141,7 +1141,7 @@
 <Table Name="article_data_mime_send_error">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
     <Column Name="article_id" Required="true" Type="BIGINT"/>
-    <Column Name="message_id" Required="false" Type="VARCHAR" Size="200"/>
+    <Column Name="message_id" Required="false" Type="VARCHAR" Size="191"/>
     <Column Name="log_message" Required="false" Type="VARCHAR" Size="1800000"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Index Name="article_data_mime_transmission_message_id">
@@ -1201,7 +1201,7 @@
 <!-- standard_template - -->
 <Table Name="standard_template">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="text" Required="false" Size="10000" Type="VARCHAR"/>
     <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="template_type" Required="true" Size="100" Type="VARCHAR" Default="Answer"/>
@@ -1246,7 +1246,7 @@
 <!-- standard_attachment -->
 <Table Name="standard_attachment">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="content_type" Required="true" Size="250" Type="VARCHAR"/>
     <Column Name="content" Required="true" Type="LONGBLOB"/>
     <Column Name="filename" Required="true" Size="250" Type="VARCHAR"/>
@@ -1292,7 +1292,7 @@
 <!-- auto_response_type - -->
 <Table Name="auto_response_type">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -1314,7 +1314,7 @@
 <!-- auto_response - -->
 <Table Name="auto_response">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="text0" Required="false" Size="6000" Type="VARCHAR"/>
     <Column Name="text1" Required="false" Size="6000" Type="VARCHAR"/>
     <Column Name="type_id" Required="true" Type="SMALLINT"/>
@@ -1368,7 +1368,7 @@
 <!-- service - service -->
 <Table Name="service">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -1420,7 +1420,7 @@
 <!-- sla -->
 <Table Name="sla">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="calendar_name" Required="false" Size="100" Type="VARCHAR"/>
     <Column Name="first_response_time" Required="true" Type="INTEGER"/>
     <Column Name="first_response_notify" Required="false" Type="SMALLINT"/>
@@ -1491,7 +1491,7 @@
 <!-- customer user -->
 <Table Name="customer_user">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="login" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="login" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="email" Required="true" Size="150" Type="VARCHAR"/>
     <Column Name="customer_id" Required="true" Size="150" Type="VARCHAR"/>
     <Column Name="pw" Required="false" Size="128" Type="VARCHAR"/>
@@ -1525,7 +1525,7 @@
 
 <!-- customer preferences -->
 <Table Name="customer_preferences">
-    <Column Name="user_id" Required="true" Size="250" Type="VARCHAR"/>
+    <Column Name="user_id" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="preferences_key" Required="true" Size="150" Type="VARCHAR"/>
     <Column Name="preferences_value" Required="false" Size="250" Type="VARCHAR"/>
     <Index Name="customer_preferences_user_id">
@@ -1536,7 +1536,7 @@
 <!-- customer company -->
 <Table Name="customer_company">
     <Column Name="customer_id" Required="true" PrimaryKey="true" Size="150" Type="VARCHAR"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="street" Required="false" Size="200" Type="VARCHAR"/>
     <Column Name="zip" Required="false" Size="200" Type="VARCHAR"/>
     <Column Name="city" Required="false" Size="200" Type="VARCHAR"/>
@@ -1600,7 +1600,7 @@
 
 <!-- postmaster_filter -->
 <Table Name="postmaster_filter">
-    <Column Name="f_name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="f_name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="f_stop" Required="false" Type="SMALLINT"/>
     <Column Name="f_type" Required="true" Size="20" Type="VARCHAR"/>
     <Column Name="f_key" Required="true" Size="200" Type="VARCHAR"/>
@@ -1613,7 +1613,7 @@
 
 <!-- generic_agent_jobs -->
 <Table Name="generic_agent_jobs">
-    <Column Name="job_name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="job_name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="job_key" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="job_value" Required="false" Size="200" Type="VARCHAR"/>
     <Index Name="generic_agent_jobs_job_name">
@@ -1623,8 +1623,8 @@
 
 <!-- search_profile -->
 <Table Name="search_profile">
-    <Column Name="login" Required="true" Size="200" Type="VARCHAR"/>
-    <Column Name="profile_name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="login" Required="true" Size="191" Type="VARCHAR"/>
+    <Column Name="profile_name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="profile_type" Required="true" Size="30" Type="VARCHAR"/>
     <Column Name="profile_key" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="profile_value" Required="false" Size="200" Type="VARCHAR"/>
@@ -1660,7 +1660,7 @@
 <!-- notification_event -->
 <Table Name="notification_event">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -1705,8 +1705,8 @@
 <!-- notification_event_item -->
 <Table Name="notification_event_item">
     <Column Name="notification_id" Required="true" Type="INTEGER"/>
-    <Column Name="event_key" Required="true" Size="200" Type="VARCHAR"/>
-    <Column Name="event_value" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="event_key" Required="true" Size="191" Type="VARCHAR"/>
+    <Column Name="event_value" Required="true" Size="191" Type="VARCHAR"/>
     <ForeignKey ForeignTable="notification_event">
         <Reference Foreign="id" Local="notification_id"/>
     </ForeignKey>
@@ -1851,7 +1851,7 @@
     <Column Name="backend_key" Required="true" Size="160" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Index Name="virtual_fs_filename">
-        <IndexColumn Name="filename" Size="255"/>
+        <IndexColumn Name="filename" Size="191"/>
     </Index>
     <Index Name="virtual_fs_backend">
         <IndexColumn Name="backend" Size="60"/>
@@ -1878,7 +1878,7 @@
     <Column Name="content" Required="false" Type="LONGBLOB"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Index Name="virtual_fs_db_filename">
-        <IndexColumn Name="filename" Size="255"/>
+        <IndexColumn Name="filename" Size="191"/>
     </Index>
 </Table>
 
@@ -1905,7 +1905,7 @@
 <!-- gi_webservice_config -->
 <Table Name="gi_webservice_config">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="config" Required="true" Type="LONGBLOB"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -2039,7 +2039,7 @@
     <!-- internal fields are protected -->
     <Column Name="internal_field" Required="true" Type="SMALLINT" Default="0"/>
     <!-- the internal field name to be used in response templates, allow only lowercase letters and numbers -->
-    <Column Name="name" Required="true" Type="VARCHAR" Size="200"/>
+    <Column Name="name" Required="true" Type="VARCHAR" Size="191"/>
     <!-- label, always translate -->
     <Column Name="label" Required="true" Type="VARCHAR" Size="200"/>
     <!-- order defines the DF backend display order on all the masks -->
@@ -2070,7 +2070,7 @@
 <!-- object names for dynamic field values -->
 <Table Name="dynamic_field_obj_id_name">
     <Column Name="object_id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="object_name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="object_name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="object_type" Required="true" Size="100" Type="VARCHAR"/>
     <Unique Name="dynamic_field_object_name">
         <UniqueColumn Name="object_name"/>
@@ -2294,7 +2294,7 @@
 
 <Table Name="sysconfig_default">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="250" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="description" Required="true" Type="LONGBLOB"/>
     <Column Name="navigation" Required="true" Size="200" Type="VARCHAR"/>
 
@@ -2343,7 +2343,7 @@
 <Table Name="sysconfig_default_version">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="sysconfig_default_id" Type="INTEGER" />
-    <Column Name="name" Required="true" Size="250" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="description" Required="true" Type="LONGBLOB"/>
     <Column Name="navigation" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="is_invisible" Required="true" Type="SMALLINT"/>
@@ -2381,7 +2381,7 @@
 <Table Name="sysconfig_modified">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="sysconfig_default_id" Required="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="250" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="user_id" Required="false" Type="INTEGER"/>
     <Column Name="is_valid" Required="true" Type="SMALLINT"/>
     <Column Name="user_modification_active" Required="true" Type="SMALLINT"/>
@@ -2419,7 +2419,7 @@
 <Table Name="sysconfig_modified_version">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="sysconfig_default_version_id" Required="true" Type="INTEGER"/>
-    <Column Name="name" Required="true" Size="250" Type="VARCHAR"/>
+    <Column Name="name" Required="true" Size="191" Type="VARCHAR"/>
     <Column Name="user_id" Required="false" Type="INTEGER"/>
     <Column Name="is_valid" Required="true" Type="SMALLINT"/>
     <Column Name="user_modification_active" Required="true" Type="SMALLINT"/>
@@ -2489,7 +2489,7 @@
     <Unique Name="calendar_name">
         <UniqueColumn Name="name" />
     </Unique>
-    <ForeignKey ForeignTable="groups">
+    <ForeignKey ForeignTable="groups_table">
         <Reference Local="group_id" Foreign="id" />
     </ForeignKey>
     <ForeignKey ForeignTable="valid">
@@ -2624,9 +2624,9 @@
 <Table Name="communication_log">
     <Column Name="id" Required="true"  PrimaryKey="true" Type="BIGINT" AutoIncrement="true"/>
     <Column Name="insert_fingerprint" Required="false" Size="64" Type="VARCHAR"/>
-    <Column Name="transport" Required="true" Type="VARCHAR" Size="200"/>
-    <Column Name="direction" Required="true" Type="VARCHAR" Size="200"/>
-    <Column Name="status" Required="true" Type="VARCHAR" Size="200"/>
+    <Column Name="transport" Required="true" Type="VARCHAR" Size="191"/>
+    <Column Name="direction" Required="true" Type="VARCHAR" Size="191"/>
+    <Column Name="status" Required="true" Type="VARCHAR" Size="191"/>
     <Column Name="account_type" Required="false" Size="200" Type="VARCHAR"/>
     <Column Name="account_id" Required="false" Size="200" Type="VARCHAR"/>
     <Column Name="start_time" Required="true" Type="DATE"/>
@@ -2650,7 +2650,7 @@
     <Column Name="insert_fingerprint" Required="false" Size="64" Type="VARCHAR"/>
     <Column Name="communication_id" Required="true" Type="BIGINT"/>
     <Column Name="object_type" Required="true" Type="VARCHAR" Size="50"/>
-    <Column Name="status" Required="true" Type="VARCHAR" Size="200" />
+    <Column Name="status" Required="true" Type="VARCHAR" Size="191" />
     <Column Name="start_time" Required="true" Type="DATE"/>
     <Column Name="end_time" Required="false" Type="DATE"/>
     <ForeignKey ForeignTable="communication_log">
@@ -2667,7 +2667,7 @@
 <Table Name="communication_log_object_entry">
     <Column Name="id" Required="true" PrimaryKey="true" Type="BIGINT" AutoIncrement="true"/>
     <Column Name="communication_log_object_id" Required="true" Type="BIGINT"/>
-    <Column Name="log_key" Required="true" Type="VARCHAR" Size="200"/>
+    <Column Name="log_key" Required="true" Type="VARCHAR" Size="191"/>
     <Column Name="log_value" Required="true" Type="VARCHAR" Size="1800000" />
     <Column Name="priority" Required="true" Type="VARCHAR" Size="50"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -2682,7 +2682,7 @@
 <Table Name="communication_log_obj_lookup">
     <Column Name="id" Required="true" PrimaryKey="true" Type="BIGINT" AutoIncrement="true"/>
     <Column Name="communication_log_object_id" Required="true" Type="BIGINT"/>
-    <Column Name="object_type" Required="true" Type="VARCHAR" Size="200"/>
+    <Column Name="object_type" Required="true" Type="VARCHAR" Size="191"/>
     <Column Name="object_id" Required="true" Type="BIGINT"/>
     <ForeignKey ForeignTable="communication_log_object">
         <Reference Local="communication_log_object_id" Foreign="id"/>
@@ -2698,7 +2698,7 @@
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER" />
     <Column Name="object_type" Required="true" Size="100" Type="VARCHAR" />
     <Column Name="object_id" Required="true" Type="INTEGER" />
-    <Column Name="action" Required="true" Size="200" Type="VARCHAR" />
+    <Column Name="action" Required="true" Size="191" Type="VARCHAR" />
     <Column Name="title" Required="false" Size="255" Type="VARCHAR" />
     <Column Name="content" Required="true" Type="LONGBLOB" />
     <Column Name="create_time" Required="true" Type="DATE" />

@@ -96,7 +96,6 @@ sub LoadPreferences {
 
 sub PreProcessSQL {
     my ( $Self, $SQLRef ) = @_;
-    $Self->_FixMysqlUTF8($SQLRef);
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput($SQLRef);
     return;
 }
@@ -110,8 +109,6 @@ sub PreProcessBindData {
 
     for ( my $I = 0; $I < $Size; $I++ ) {
 
-        $Self->_FixMysqlUTF8( \$BindRef->[$I] );
-
         # DBD::mysql 4.042+ requires data to be octets, so we encode the data on our own.
         #   The mysql_enable_utf8 flag seems to be unusable because it treats ALL data as UTF8 unless
         #   it has a custom bind data type like SQL_BLOB.
@@ -119,22 +116,6 @@ sub PreProcessBindData {
         #   See also https://bugs.otobo.org/show_bug.cgi?id=12677.
         $EncodeObject->EncodeOutput( \$BindRef->[$I] );
     }
-    return;
-}
-
-# Replace any unicode characters that need more than three bytes in UTF8
-#   with the unicode replacement character. MySQL's utf8 encoding only
-#   supports three bytes. In future we might want to use utf8mb4 (supported
-#   since 5.5.3+), but that will lead to problems with key sizes on mysql.
-# See also http://mathiasbynens.be/notes/mysql-utf8mb4.
-sub _FixMysqlUTF8 {
-    my ( $Self, $StringRef ) = @_;
-
-    return if !$$StringRef;
-    return if !Encode::is_utf8($$StringRef);
-
-    $$StringRef =~ s/([\x{10000}-\x{10FFFF}])/"\x{FFFD}"/eg;
-
     return;
 }
 

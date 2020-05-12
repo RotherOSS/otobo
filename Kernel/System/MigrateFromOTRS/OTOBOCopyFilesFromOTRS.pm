@@ -121,7 +121,7 @@ sub Run {
             Password    => $Param{OTRSData}->{Password},
             Path        => $Param{OTRSData}->{OTRSHome},
             Port        => $Param{OTRSData}->{Port},
-            Filename    => 'RELEASE',
+#            Filename    => 'RELEASE',
             UserID      => 1,
         );
     }
@@ -151,8 +151,7 @@ sub Run {
         my $OTOBOPathFile = $OTOBOHome.$File;
         my $OTRSPathFile = $OTRS6path.$File;
 
-        if ( $OTOBOPathFile =~ /Config\.pm/) {
-
+	if ( $OTOBOPathFile =~ /Config\.pm/) {
             $OTOBODBParam{DatabaseHost} = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseHost');
             $OTOBODBParam{Database}     = $Kernel::OM->Get('Kernel::Config')->Get('Database');
             $OTOBODBParam{DatabaseUser} = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseUser');
@@ -169,6 +168,7 @@ sub Run {
                 if ( $Param{OTRSData}->{OTRSLocation} eq 'localhost' ) {
                     $ExitCode = system( "cp $OTRSPathFile $OTOBOPathFile" );
                 } else {
+#                    $ExitCode = system( "mv $OTRSPathFile $OTOBOPathFile" );
                     $ExitCode = system( "mv $OTRSPathFile $OTOBOPathFile" );
                 }
 
@@ -228,6 +228,8 @@ sub Run {
         }
     }
 
+    $Self->DisableSecureMode();
+
     $Result{Message}    = $Self->{LanguageObject}->Translate( "Copy and migrate files from OTRS" );
     $Result{Comment}    = $Self->{LanguageObject}->Translate( "All needed files copied and migrated, perfect!" );
     $Result{Successful} = 1;
@@ -266,6 +268,14 @@ sub ReConfigure {
         }
         else {
             my $NewConfig = $_;
+
+            # Replace old path with OTOBO path
+            $NewConfig =~ s/$Param{Home}/$ConfigFile/;
+
+            # Need to remove SecureMode
+            if ( $NewConfig =~ /SecureMode/ ) {
+                next;
+            }
 
             # Replace config with %Param.
             for my $Key ( sort keys %Param ) {

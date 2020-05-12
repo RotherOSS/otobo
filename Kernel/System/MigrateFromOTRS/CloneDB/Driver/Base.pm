@@ -287,15 +287,15 @@ sub DataTransfer {
         my $DateTimeObject = $Kernel::OM->Create( 'Kernel::System::DateTime');
         my $Epoch = $DateTimeObject->ToEpoch();
 
-#        $CacheObject->Set(
-#            Type  => 'OTRSMigration',
-#            Key   => 'MigrationState',
-#            Value => {
-#                Task        => 'OTOBODatabaseMigrate',
-#                SubTask     => "Copy table: $Table",
-#                StartTime   => $Epoch,
-#            },
-#        );
+        $CacheObject->Set(
+            Type  => 'OTRSMigration',
+            Key   => 'MigrationState',
+            Value => {
+                Task        => 'OTOBODatabaseMigrate',
+                SubTask     => "Copy table: $Table",
+                StartTime   => $Epoch,
+            },
+        );
         print STDERR "Copy table: $Table\n";
 
         # Get info if this table is already migrated
@@ -312,11 +312,14 @@ sub DataTransfer {
         my $BlobColumnsRef = $Self->BlobColumnsList(
             Table    => $Table,
             DBName   => $Param{DBInfo}->{DBName},
-            DBObject => $TargetDBObject,
+            DBObject => $Param{OTRSDBObject},
         ) || {};
 
         my %BlobColumns = %{$BlobColumnsRef};
-
+if (IsHashRefWithData(\%BlobColumns)){
+use Data::Dumper;
+print STDERR "BlobColumns: ".Dumper($BlobColumnsRef)."\n";
+}
         # Get the list of columns of this table to be able to
         #   generate correct INSERT statements.
         my $ColumnRef = $Self->ColumnsList(
@@ -347,7 +350,6 @@ sub DataTransfer {
         # Remove if not exist in hash
         @ColumnsOTRS = grep { ! exists $TmpOTOBOHash{$_} } @ColumnsOTRS;
 
-use Data::Dumper;
 print STDERR "ColumnsOTRS: ".Dumper(\@ColumnsOTRS)."\n";
         # If true, we have more columns in OTRS table and we need to add the column to otobo
         if ( IsArrayRefWithData(\@ColumnsOTRS) ) {
@@ -428,9 +430,9 @@ print STDERR "Result: $Result\n";
 
                 # TODO Rother OSS: Verify if column is not a blob.
                 #next COLUMNVALUES if !$Self->{BlobColumns}->{ lc "$Table.$Column" };
-                next COLUMNVALUES if $BlobColumns{"$Table.$Column"};
+                #next COLUMNVALUES if $BlobColumns{ "$Table.$Column" };
 
-                # check enconding for column value
+                # check encoding for column value
                 if ( !eval { Encode::is_utf8( $ColumnValue, 1 ) } ) {
 
                     # replace invalid characters with � (U+FFFD, Unicode replacement character)

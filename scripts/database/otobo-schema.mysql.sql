@@ -6,7 +6,7 @@
 # ----------------------------------------------------------
 CREATE TABLE acl (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     description VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE acl_sync (
 # ----------------------------------------------------------
 CREATE TABLE valid (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE valid (
 # ----------------------------------------------------------
 CREATE TABLE users (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    login VARCHAR (200) NOT NULL,
+    login VARCHAR (191) NOT NULL,
     pw VARCHAR (128) NOT NULL,
     title VARCHAR (50) NULL,
     first_name VARCHAR (100) NOT NULL,
@@ -70,11 +70,11 @@ CREATE TABLE user_preferences (
     INDEX user_preferences_user_id (user_id)
 );
 # ----------------------------------------------------------
-#  create table groups
+#  create table groups_table
 # ----------------------------------------------------------
-CREATE TABLE groups (
+CREATE TABLE groups_table (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -149,7 +149,7 @@ CREATE TABLE group_customer (
 # ----------------------------------------------------------
 CREATE TABLE roles (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -195,7 +195,7 @@ CREATE TABLE personal_services (
 # ----------------------------------------------------------
 CREATE TABLE salutation (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     text TEXT NOT NULL,
     content_type VARCHAR (250) NULL,
     comments VARCHAR (250) NULL,
@@ -212,7 +212,7 @@ CREATE TABLE salutation (
 # ----------------------------------------------------------
 CREATE TABLE signature (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     text TEXT NOT NULL,
     content_type VARCHAR (250) NULL,
     comments VARCHAR (250) NULL,
@@ -265,7 +265,7 @@ CREATE TABLE system_maintenance (
 # ----------------------------------------------------------
 CREATE TABLE follow_up_possible (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -280,7 +280,7 @@ CREATE TABLE follow_up_possible (
 # ----------------------------------------------------------
 CREATE TABLE queue (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     group_id INTEGER NOT NULL,
     unlock_timeout INTEGER NULL,
     first_response_time INTEGER NULL,
@@ -320,7 +320,7 @@ CREATE TABLE queue_preferences (
 # ----------------------------------------------------------
 CREATE TABLE ticket_priority (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -334,7 +334,7 @@ CREATE TABLE ticket_priority (
 # ----------------------------------------------------------
 CREATE TABLE ticket_type (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -348,7 +348,7 @@ CREATE TABLE ticket_type (
 # ----------------------------------------------------------
 CREATE TABLE ticket_lock_type (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -362,7 +362,7 @@ CREATE TABLE ticket_lock_type (
 # ----------------------------------------------------------
 CREATE TABLE ticket_state (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     type_id SMALLINT NOT NULL,
     valid_id SMALLINT NOT NULL,
@@ -378,7 +378,7 @@ CREATE TABLE ticket_state (
 # ----------------------------------------------------------
 CREATE TABLE ticket_state_type (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -393,7 +393,7 @@ CREATE TABLE ticket_state_type (
 CREATE TABLE ticket (
     id BIGINT NOT NULL AUTO_INCREMENT,
     tn VARCHAR (50) NOT NULL,
-    title VARCHAR (255) NULL,
+    title VARCHAR (191) NULL,
     queue_id INTEGER NOT NULL,
     ticket_lock_id SMALLINT NOT NULL,
     type_id SMALLINT NULL,
@@ -404,7 +404,7 @@ CREATE TABLE ticket (
     ticket_priority_id SMALLINT NOT NULL,
     ticket_state_id SMALLINT NOT NULL,
     customer_id VARCHAR (150) NULL,
-    customer_user_id VARCHAR (250) NULL,
+    customer_user_id VARCHAR (191) NULL,
     timeout INTEGER NOT NULL,
     until_time INTEGER NOT NULL,
     escalation_time INTEGER NOT NULL,
@@ -486,7 +486,7 @@ CREATE TABLE ticket_history (
 # ----------------------------------------------------------
 CREATE TABLE ticket_history_type (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -515,7 +515,7 @@ CREATE TABLE ticket_watcher (
 CREATE TABLE ticket_index (
     ticket_id BIGINT NOT NULL,
     queue_id INTEGER NOT NULL,
-    queue VARCHAR (200) NOT NULL,
+    queue VARCHAR (191) NOT NULL,
     group_id INTEGER NOT NULL,
     s_lock VARCHAR (200) NOT NULL,
     s_state VARCHAR (200) NOT NULL,
@@ -535,7 +535,7 @@ CREATE TABLE ticket_lock_index (
 #  create table ticket_loop_protection
 # ----------------------------------------------------------
 CREATE TABLE ticket_loop_protection (
-    sent_to VARCHAR (250) NOT NULL,
+    sent_to VARCHAR (191) NOT NULL,
     sent_date VARCHAR (150) NOT NULL,
     INDEX ticket_loop_protection_sent_date (sent_date),
     INDEX ticket_loop_protection_sent_to (sent_to)
@@ -545,7 +545,7 @@ CREATE TABLE ticket_loop_protection (
 # ----------------------------------------------------------
 CREATE TABLE article_sender_type (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -572,7 +572,7 @@ CREATE TABLE article_flag (
 # ----------------------------------------------------------
 CREATE TABLE communication_channel (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     module VARCHAR (200) NOT NULL,
     package_name VARCHAR (200) NOT NULL,
     channel_data LONGBLOB NOT NULL,
@@ -640,7 +640,7 @@ CREATE TABLE article_search_index (
     id BIGINT NOT NULL AUTO_INCREMENT,
     ticket_id BIGINT NOT NULL,
     article_id BIGINT NOT NULL,
-    article_key VARCHAR (200) NOT NULL,
+    article_key VARCHAR (191) NOT NULL,
     article_value MEDIUMTEXT NULL,
     PRIMARY KEY(id),
     INDEX article_search_index_article_id (article_id, article_key),
@@ -686,7 +686,7 @@ CREATE TABLE article_data_mime_attachment (
 CREATE TABLE article_data_mime_send_error (
     id BIGINT NOT NULL AUTO_INCREMENT,
     article_id BIGINT NOT NULL,
-    message_id VARCHAR (200) NULL,
+    message_id VARCHAR (191) NULL,
     log_message MEDIUMTEXT NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id),
@@ -728,7 +728,7 @@ CREATE TABLE time_accounting (
 # ----------------------------------------------------------
 CREATE TABLE standard_template (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     text TEXT NULL,
     content_type VARCHAR (250) NULL,
     template_type VARCHAR (100) NOT NULL DEFAULT 'Answer',
@@ -757,7 +757,7 @@ CREATE TABLE queue_standard_template (
 # ----------------------------------------------------------
 CREATE TABLE standard_attachment (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     content_type VARCHAR (250) NOT NULL,
     content LONGBLOB NOT NULL,
     filename VARCHAR (250) NOT NULL,
@@ -788,7 +788,7 @@ CREATE TABLE standard_template_attachment (
 # ----------------------------------------------------------
 CREATE TABLE auto_response_type (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     comments VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -803,7 +803,7 @@ CREATE TABLE auto_response_type (
 # ----------------------------------------------------------
 CREATE TABLE auto_response (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     text0 TEXT NULL,
     text1 TEXT NULL,
     type_id SMALLINT NOT NULL,
@@ -836,7 +836,7 @@ CREATE TABLE queue_auto_response (
 # ----------------------------------------------------------
 CREATE TABLE service (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     valid_id SMALLINT NOT NULL,
     comments VARCHAR (250) NULL,
     create_time DATETIME NOT NULL,
@@ -871,7 +871,7 @@ CREATE TABLE service_customer_user (
 # ----------------------------------------------------------
 CREATE TABLE sla (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     calendar_name VARCHAR (100) NULL,
     first_response_time INTEGER NOT NULL,
     first_response_notify SMALLINT NULL,
@@ -923,7 +923,7 @@ CREATE TABLE sessions (
 # ----------------------------------------------------------
 CREATE TABLE customer_user (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    login VARCHAR (200) NOT NULL,
+    login VARCHAR (191) NOT NULL,
     email VARCHAR (150) NOT NULL,
     customer_id VARCHAR (150) NOT NULL,
     pw VARCHAR (128) NULL,
@@ -950,7 +950,7 @@ CREATE TABLE customer_user (
 #  create table customer_preferences
 # ----------------------------------------------------------
 CREATE TABLE customer_preferences (
-    user_id VARCHAR (250) NOT NULL,
+    user_id VARCHAR (191) NOT NULL,
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value VARCHAR (250) NULL,
     INDEX customer_preferences_user_id (user_id)
@@ -960,7 +960,7 @@ CREATE TABLE customer_preferences (
 # ----------------------------------------------------------
 CREATE TABLE customer_company (
     customer_id VARCHAR (150) NOT NULL,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     street VARCHAR (200) NULL,
     zip VARCHAR (200) NULL,
     city VARCHAR (200) NULL,
@@ -1012,7 +1012,7 @@ CREATE TABLE mail_account (
 #  create table postmaster_filter
 # ----------------------------------------------------------
 CREATE TABLE postmaster_filter (
-    f_name VARCHAR (200) NOT NULL,
+    f_name VARCHAR (191) NOT NULL,
     f_stop SMALLINT NULL,
     f_type VARCHAR (20) NOT NULL,
     f_key VARCHAR (200) NOT NULL,
@@ -1024,7 +1024,7 @@ CREATE TABLE postmaster_filter (
 #  create table generic_agent_jobs
 # ----------------------------------------------------------
 CREATE TABLE generic_agent_jobs (
-    job_name VARCHAR (200) NOT NULL,
+    job_name VARCHAR (191) NOT NULL,
     job_key VARCHAR (200) NOT NULL,
     job_value VARCHAR (200) NULL,
     INDEX generic_agent_jobs_job_name (job_name)
@@ -1033,8 +1033,8 @@ CREATE TABLE generic_agent_jobs (
 #  create table search_profile
 # ----------------------------------------------------------
 CREATE TABLE search_profile (
-    login VARCHAR (200) NOT NULL,
-    profile_name VARCHAR (200) NOT NULL,
+    login VARCHAR (191) NOT NULL,
+    profile_name VARCHAR (191) NOT NULL,
     profile_type VARCHAR (30) NOT NULL,
     profile_key VARCHAR (200) NOT NULL,
     profile_value VARCHAR (200) NULL,
@@ -1069,7 +1069,7 @@ CREATE TABLE web_upload_cache (
 # ----------------------------------------------------------
 CREATE TABLE notification_event (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     valid_id SMALLINT NOT NULL,
     comments VARCHAR (250) NULL,
     create_time DATETIME NOT NULL,
@@ -1099,8 +1099,8 @@ CREATE TABLE notification_event_message (
 # ----------------------------------------------------------
 CREATE TABLE notification_event_item (
     notification_id INTEGER NOT NULL,
-    event_key VARCHAR (200) NOT NULL,
-    event_value VARCHAR (200) NOT NULL,
+    event_key VARCHAR (191) NOT NULL,
+    event_value VARCHAR (191) NOT NULL,
     INDEX notification_event_item_event_key (event_key),
     INDEX notification_event_item_event_value (event_value),
     INDEX notification_event_item_notification_id (notification_id)
@@ -1192,7 +1192,7 @@ CREATE TABLE virtual_fs (
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id),
     INDEX virtual_fs_backend (backend(60)),
-    INDEX virtual_fs_filename (filename(255))
+    INDEX virtual_fs_filename (filename(191))
 );
 # ----------------------------------------------------------
 #  create table virtual_fs_preferences
@@ -1213,7 +1213,7 @@ CREATE TABLE virtual_fs_db (
     content LONGBLOB NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id),
-    INDEX virtual_fs_db_filename (filename(255))
+    INDEX virtual_fs_db_filename (filename(191))
 );
 # ----------------------------------------------------------
 #  create table package_repository
@@ -1238,7 +1238,7 @@ CREATE TABLE package_repository (
 # ----------------------------------------------------------
 CREATE TABLE gi_webservice_config (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     config LONGBLOB NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -1328,7 +1328,7 @@ CREATE TABLE dynamic_field_value (
 CREATE TABLE dynamic_field (
     id INTEGER NOT NULL AUTO_INCREMENT,
     internal_field SMALLINT NOT NULL DEFAULT 0,
-    name VARCHAR (200) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     label VARCHAR (200) NOT NULL,
     field_order INTEGER NOT NULL,
     field_type VARCHAR (200) NOT NULL,
@@ -1347,7 +1347,7 @@ CREATE TABLE dynamic_field (
 # ----------------------------------------------------------
 CREATE TABLE dynamic_field_obj_id_name (
     object_id INTEGER NOT NULL AUTO_INCREMENT,
-    object_name VARCHAR (200) NOT NULL,
+    object_name VARCHAR (191) NOT NULL,
     object_type VARCHAR (100) NOT NULL,
     PRIMARY KEY(object_id),
     UNIQUE INDEX dynamic_field_object_name (object_name, object_type)
@@ -1518,7 +1518,7 @@ CREATE TABLE cloud_service_config (
 # ----------------------------------------------------------
 CREATE TABLE sysconfig_default (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    name VARCHAR (250) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     description LONGBLOB NOT NULL,
     navigation VARCHAR (200) NOT NULL,
     is_invisible SMALLINT NOT NULL,
@@ -1550,7 +1550,7 @@ CREATE TABLE sysconfig_default (
 CREATE TABLE sysconfig_default_version (
     id INTEGER NOT NULL AUTO_INCREMENT,
     sysconfig_default_id INTEGER NULL,
-    name VARCHAR (250) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     description LONGBLOB NOT NULL,
     navigation VARCHAR (200) NOT NULL,
     is_invisible SMALLINT NOT NULL,
@@ -1578,7 +1578,7 @@ CREATE TABLE sysconfig_default_version (
 CREATE TABLE sysconfig_modified (
     id INTEGER NOT NULL AUTO_INCREMENT,
     sysconfig_default_id INTEGER NOT NULL,
-    name VARCHAR (250) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     user_id INTEGER NULL,
     is_valid SMALLINT NOT NULL,
     user_modification_active SMALLINT NOT NULL,
@@ -1598,7 +1598,7 @@ CREATE TABLE sysconfig_modified (
 CREATE TABLE sysconfig_modified_version (
     id INTEGER NOT NULL AUTO_INCREMENT,
     sysconfig_default_version_id INTEGER NOT NULL,
-    name VARCHAR (250) NOT NULL,
+    name VARCHAR (191) NOT NULL,
     user_id INTEGER NULL,
     is_valid SMALLINT NOT NULL,
     user_modification_active SMALLINT NOT NULL,
@@ -1740,9 +1740,9 @@ CREATE TABLE mail_queue (
 CREATE TABLE communication_log (
     id BIGINT NOT NULL AUTO_INCREMENT,
     insert_fingerprint VARCHAR (64) NULL,
-    transport VARCHAR (200) NOT NULL,
-    direction VARCHAR (200) NOT NULL,
-    status VARCHAR (200) NOT NULL,
+    transport VARCHAR (191) NOT NULL,
+    direction VARCHAR (191) NOT NULL,
+    status VARCHAR (191) NOT NULL,
     account_type VARCHAR (200) NULL,
     account_id VARCHAR (200) NULL,
     start_time DATETIME NOT NULL,
@@ -1761,7 +1761,7 @@ CREATE TABLE communication_log_object (
     insert_fingerprint VARCHAR (64) NULL,
     communication_id BIGINT NOT NULL,
     object_type VARCHAR (50) NOT NULL,
-    status VARCHAR (200) NOT NULL,
+    status VARCHAR (191) NOT NULL,
     start_time DATETIME NOT NULL,
     end_time DATETIME NULL,
     PRIMARY KEY(id),
@@ -1774,7 +1774,7 @@ CREATE TABLE communication_log_object (
 CREATE TABLE communication_log_object_entry (
     id BIGINT NOT NULL AUTO_INCREMENT,
     communication_log_object_id BIGINT NOT NULL,
-    log_key VARCHAR (200) NOT NULL,
+    log_key VARCHAR (191) NOT NULL,
     log_value MEDIUMTEXT NOT NULL,
     priority VARCHAR (50) NOT NULL,
     create_time DATETIME NOT NULL,
@@ -1787,7 +1787,7 @@ CREATE TABLE communication_log_object_entry (
 CREATE TABLE communication_log_obj_lookup (
     id BIGINT NOT NULL AUTO_INCREMENT,
     communication_log_object_id BIGINT NOT NULL,
-    object_type VARCHAR (200) NOT NULL,
+    object_type VARCHAR (191) NOT NULL,
     object_id BIGINT NOT NULL,
     PRIMARY KEY(id),
     INDEX communication_log_obj_lookup_target (object_type, object_id)
@@ -1799,7 +1799,7 @@ CREATE TABLE form_draft (
     id INTEGER NOT NULL AUTO_INCREMENT,
     object_type VARCHAR (100) NOT NULL,
     object_id INTEGER NOT NULL,
-    action VARCHAR (200) NOT NULL,
+    action VARCHAR (191) NOT NULL,
     title VARCHAR (255) NULL,
     content LONGBLOB NOT NULL,
     create_time DATETIME NOT NULL,

@@ -59,7 +59,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my %Result;
-    
+
     # Set cache object with taskinfo and starttime to show current state in frontend
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
     my $DateTimeObject = $Kernel::OM->Create( 'Kernel::System::DateTime');
@@ -125,6 +125,8 @@ sub Run {
 
     # Write ZZZAuto.pm
     $Success = $SysConfigObject->ConfigurationDeploySync();
+
+    $Self->DisableSecureMode();
 
     if ( !$Success ) {
         $Result{Message}    = $Self->{LanguageObject}->Translate( "Migrate configuration settings." );

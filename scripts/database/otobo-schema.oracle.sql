@@ -8,7 +8,7 @@ SET SQLBLANKLINES ON;
 -- ----------------------------------------------------------
 CREATE TABLE acl (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     comments VARCHAR2 (250) NULL,
     description VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE acl_sync (
 -- ----------------------------------------------------------
 CREATE TABLE valid (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
@@ -123,7 +123,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE users (
     id NUMBER (12, 0) NOT NULL,
-    login VARCHAR2 (200) NOT NULL,
+    login VARCHAR2 (191) NOT NULL,
     pw VARCHAR2 (128) NOT NULL,
     title VARCHAR2 (50) NULL,
     first_name VARCHAR2 (100) NOT NULL,
@@ -190,11 +190,11 @@ END;
 --
 ;
 -- ----------------------------------------------------------
---  create table groups
+--  create table groups_table
 -- ----------------------------------------------------------
-CREATE TABLE groups (
+CREATE TABLE groups_table (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -203,16 +203,16 @@ CREATE TABLE groups (
     change_by NUMBER (12, 0) NOT NULL,
     CONSTRAINT groups_name UNIQUE (name)
 );
-ALTER TABLE groups ADD CONSTRAINT PK_groups PRIMARY KEY (id);
+ALTER TABLE groups_table ADD CONSTRAINT PK_groups_table PRIMARY KEY (id);
 BEGIN
-    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_groups';
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_groups_table';
 EXCEPTION
     WHEN OTHERS THEN NULL;
 END;
 /
 --
 ;
-CREATE SEQUENCE SE_groups
+CREATE SEQUENCE SE_groups_table
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -221,19 +221,19 @@ CACHE 20
 ORDER
 ;
 BEGIN
-    EXECUTE IMMEDIATE 'DROP TRIGGER SE_groups_t';
+    EXECUTE IMMEDIATE 'DROP TRIGGER SE_groups_table_t';
 EXCEPTION
     WHEN OTHERS THEN NULL;
 END;
 /
 --
 ;
-CREATE OR REPLACE TRIGGER SE_groups_t
-BEFORE INSERT ON groups
+CREATE OR REPLACE TRIGGER SE_groups_table_t
+BEFORE INSERT ON groups_table
 FOR EACH ROW
 BEGIN
     IF :new.id IS NULL THEN
-        SELECT SE_groups.nextval
+        SELECT SE_groups_table.nextval
         INTO :new.id
         FROM DUAL;
     END IF;
@@ -362,7 +362,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE roles (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -487,7 +487,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE salutation (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     text VARCHAR2 (3000) NOT NULL,
     content_type VARCHAR2 (250) NULL,
     comments VARCHAR2 (250) NULL,
@@ -541,7 +541,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE signature (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     text VARCHAR2 (3000) NOT NULL,
     content_type VARCHAR2 (250) NULL,
     comments VARCHAR2 (250) NULL,
@@ -705,7 +705,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE follow_up_possible (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -757,7 +757,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE queue (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     group_id NUMBER (12, 0) NOT NULL,
     unlock_timeout NUMBER (12, 0) NULL,
     first_response_time NUMBER (12, 0) NULL,
@@ -848,7 +848,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE ticket_priority (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -899,7 +899,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE ticket_type (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -950,7 +950,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE ticket_lock_type (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -1001,7 +1001,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE ticket_state (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     comments VARCHAR2 (250) NULL,
     type_id NUMBER (5, 0) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
@@ -1054,7 +1054,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE ticket_state_type (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     comments VARCHAR2 (250) NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -1106,7 +1106,7 @@ END;
 CREATE TABLE ticket (
     id NUMBER (20, 0) NOT NULL,
     tn VARCHAR2 (50) NOT NULL,
-    title VARCHAR2 (255) NULL,
+    title VARCHAR2 (191) NULL,
     queue_id NUMBER (12, 0) NOT NULL,
     ticket_lock_id NUMBER (5, 0) NOT NULL,
     type_id NUMBER (5, 0) NULL,
@@ -1117,7 +1117,7 @@ CREATE TABLE ticket (
     ticket_priority_id NUMBER (5, 0) NOT NULL,
     ticket_state_id NUMBER (5, 0) NOT NULL,
     customer_id VARCHAR2 (150) NULL,
-    customer_user_id VARCHAR2 (250) NULL,
+    customer_user_id VARCHAR2 (191) NULL,
     timeout NUMBER (12, 0) NOT NULL,
     until_time NUMBER (12, 0) NOT NULL,
     escalation_time NUMBER (12, 0) NOT NULL,
@@ -1490,7 +1490,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE ticket_history_type (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -1570,7 +1570,7 @@ END;
 CREATE TABLE ticket_index (
     ticket_id NUMBER (20, 0) NOT NULL,
     queue_id NUMBER (12, 0) NOT NULL,
-    queue VARCHAR2 (200) NOT NULL,
+    queue VARCHAR2 (191) NOT NULL,
     group_id NUMBER (12, 0) NOT NULL,
     s_lock VARCHAR2 (200) NOT NULL,
     s_state VARCHAR2 (200) NOT NULL,
@@ -1618,7 +1618,7 @@ END;
 --  create table ticket_loop_protection
 -- ----------------------------------------------------------
 CREATE TABLE ticket_loop_protection (
-    sent_to VARCHAR2 (250) NOT NULL,
+    sent_to VARCHAR2 (191) NOT NULL,
     sent_date VARCHAR2 (150) NOT NULL
 );
 BEGIN
@@ -1642,7 +1642,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE article_sender_type (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -1720,7 +1720,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE communication_channel (
     id NUMBER (20, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     module VARCHAR2 (200) NOT NULL,
     package_name VARCHAR2 (200) NOT NULL,
     channel_data CLOB NOT NULL,
@@ -1941,7 +1941,7 @@ CREATE TABLE article_search_index (
     id NUMBER (20, 0) NOT NULL,
     ticket_id NUMBER (20, 0) NOT NULL,
     article_id NUMBER (20, 0) NOT NULL,
-    article_key VARCHAR2 (200) NOT NULL,
+    article_key VARCHAR2 (191) NOT NULL,
     article_value CLOB NULL
 );
 ALTER TABLE article_search_index ADD CONSTRAINT PK_article_search_index PRIMARY KEY (id);
@@ -2126,7 +2126,7 @@ END;
 CREATE TABLE article_data_mime_send_error (
     id NUMBER (20, 0) NOT NULL,
     article_id NUMBER (20, 0) NOT NULL,
-    message_id VARCHAR2 (200) NULL,
+    message_id VARCHAR2 (191) NULL,
     log_message CLOB NULL,
     create_time DATE NOT NULL
 );
@@ -2236,7 +2236,7 @@ END;
 --
 ;
 BEGIN
-    EXECUTE IMMEDIATE 'CREATE INDEX article_data_otobo_chat_artic16 ON article_data_otobo_chat (article_id)';
+    EXECUTE IMMEDIATE 'CREATE INDEX article_data_otobo_chat_artia8 ON article_data_otobo_chat (article_id)';
 EXCEPTION
   WHEN OTHERS THEN NULL;
 END;
@@ -2307,7 +2307,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE standard_template (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     text CLOB NULL,
     content_type VARCHAR2 (250) NULL,
     template_type VARCHAR2 (100) DEFAULT 'Answer' NOT NULL,
@@ -2373,7 +2373,7 @@ CREATE TABLE queue_standard_template (
 -- ----------------------------------------------------------
 CREATE TABLE standard_attachment (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     content_type VARCHAR2 (250) NOT NULL,
     content CLOB NOT NULL,
     filename VARCHAR2 (250) NOT NULL,
@@ -2478,7 +2478,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE auto_response_type (
     id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -2530,7 +2530,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE auto_response (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     text0 CLOB NULL,
     text1 CLOB NULL,
     type_id NUMBER (5, 0) NOT NULL,
@@ -2637,7 +2637,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE service (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     comments VARCHAR2 (250) NULL,
     create_time DATE NOT NULL,
@@ -2730,7 +2730,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE sla (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     calendar_name VARCHAR2 (100) NULL,
     first_response_time NUMBER (12, 0) NOT NULL,
     first_response_notify NUMBER (5, 0) NULL,
@@ -2877,7 +2877,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE customer_user (
     id NUMBER (12, 0) NOT NULL,
-    login VARCHAR2 (200) NOT NULL,
+    login VARCHAR2 (191) NOT NULL,
     email VARCHAR2 (150) NOT NULL,
     customer_id VARCHAR2 (150) NOT NULL,
     pw VARCHAR2 (128) NULL,
@@ -2941,7 +2941,7 @@ END;
 --  create table customer_preferences
 -- ----------------------------------------------------------
 CREATE TABLE customer_preferences (
-    user_id VARCHAR2 (250) NOT NULL,
+    user_id VARCHAR2 (191) NOT NULL,
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250) NULL
 );
@@ -2958,7 +2958,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE customer_company (
     customer_id VARCHAR2 (150) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     street VARCHAR2 (200) NULL,
     zip VARCHAR2 (200) NULL,
     city VARCHAR2 (200) NULL,
@@ -3061,7 +3061,7 @@ END;
 --  create table postmaster_filter
 -- ----------------------------------------------------------
 CREATE TABLE postmaster_filter (
-    f_name VARCHAR2 (200) NOT NULL,
+    f_name VARCHAR2 (191) NOT NULL,
     f_stop NUMBER (5, 0) NULL,
     f_type VARCHAR2 (20) NOT NULL,
     f_key VARCHAR2 (200) NOT NULL,
@@ -3080,7 +3080,7 @@ END;
 --  create table generic_agent_jobs
 -- ----------------------------------------------------------
 CREATE TABLE generic_agent_jobs (
-    job_name VARCHAR2 (200) NOT NULL,
+    job_name VARCHAR2 (191) NOT NULL,
     job_key VARCHAR2 (200) NOT NULL,
     job_value VARCHAR2 (200) NULL
 );
@@ -3096,8 +3096,8 @@ END;
 --  create table search_profile
 -- ----------------------------------------------------------
 CREATE TABLE search_profile (
-    login VARCHAR2 (200) NOT NULL,
-    profile_name VARCHAR2 (200) NOT NULL,
+    login VARCHAR2 (191) NOT NULL,
+    profile_name VARCHAR2 (191) NOT NULL,
     profile_type VARCHAR2 (30) NOT NULL,
     profile_key VARCHAR2 (200) NOT NULL,
     profile_value VARCHAR2 (200) NULL
@@ -3146,7 +3146,7 @@ CREATE TABLE web_upload_cache (
 -- ----------------------------------------------------------
 CREATE TABLE notification_event (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     comments VARCHAR2 (250) NULL,
     create_time DATE NOT NULL,
@@ -3264,8 +3264,8 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE notification_event_item (
     notification_id NUMBER (12, 0) NOT NULL,
-    event_key VARCHAR2 (200) NOT NULL,
-    event_value VARCHAR2 (200) NOT NULL
+    event_key VARCHAR2 (191) NOT NULL,
+    event_value VARCHAR2 (191) NOT NULL
 );
 BEGIN
     EXECUTE IMMEDIATE 'CREATE INDEX notification_event_item_even64 ON notification_event_item (event_key)';
@@ -3709,7 +3709,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE gi_webservice_config (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     config CLOB NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -4070,7 +4070,7 @@ END;
 CREATE TABLE dynamic_field (
     id NUMBER (12, 0) NOT NULL,
     internal_field NUMBER (5, 0) DEFAULT 0 NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     label VARCHAR2 (200) NOT NULL,
     field_order NUMBER (12, 0) NOT NULL,
     field_type VARCHAR2 (200) NOT NULL,
@@ -4126,7 +4126,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE dynamic_field_obj_id_name (
     object_id NUMBER (12, 0) NOT NULL,
-    object_name VARCHAR2 (200) NOT NULL,
+    object_name VARCHAR2 (191) NOT NULL,
     object_type VARCHAR2 (100) NOT NULL,
     CONSTRAINT dynamic_field_object_name UNIQUE (object_name, object_type)
 );
@@ -4709,7 +4709,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE sysconfig_default (
     id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (250) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     description CLOB NOT NULL,
     navigation VARCHAR2 (200) NOT NULL,
     is_invisible NUMBER (5, 0) NOT NULL,
@@ -4778,7 +4778,7 @@ END;
 CREATE TABLE sysconfig_default_version (
     id NUMBER (12, 0) NOT NULL,
     sysconfig_default_id NUMBER (12, 0) NULL,
-    name VARCHAR2 (250) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     description CLOB NOT NULL,
     navigation VARCHAR2 (200) NOT NULL,
     is_invisible NUMBER (5, 0) NOT NULL,
@@ -4850,7 +4850,7 @@ END;
 CREATE TABLE sysconfig_modified (
     id NUMBER (12, 0) NOT NULL,
     sysconfig_default_id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (250) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     user_id NUMBER (12, 0) NULL,
     is_valid NUMBER (5, 0) NOT NULL,
     user_modification_active NUMBER (5, 0) NOT NULL,
@@ -4907,7 +4907,7 @@ END;
 CREATE TABLE sysconfig_modified_version (
     id NUMBER (12, 0) NOT NULL,
     sysconfig_default_version_id NUMBER (12, 0) NOT NULL,
-    name VARCHAR2 (250) NOT NULL,
+    name VARCHAR2 (191) NOT NULL,
     user_id NUMBER (12, 0) NULL,
     is_valid NUMBER (5, 0) NOT NULL,
     user_modification_active NUMBER (5, 0) NOT NULL,
@@ -5350,9 +5350,9 @@ END;
 CREATE TABLE communication_log (
     id NUMBER (20, 0) NOT NULL,
     insert_fingerprint VARCHAR2 (64) NULL,
-    transport VARCHAR2 (200) NOT NULL,
-    direction VARCHAR2 (200) NOT NULL,
-    status VARCHAR2 (200) NOT NULL,
+    transport VARCHAR2 (191) NOT NULL,
+    direction VARCHAR2 (191) NOT NULL,
+    status VARCHAR2 (191) NOT NULL,
     account_type VARCHAR2 (200) NULL,
     account_id VARCHAR2 (200) NULL,
     start_time DATE NOT NULL,
@@ -5436,7 +5436,7 @@ CREATE TABLE communication_log_object (
     insert_fingerprint VARCHAR2 (64) NULL,
     communication_id NUMBER (20, 0) NOT NULL,
     object_type VARCHAR2 (50) NOT NULL,
-    status VARCHAR2 (200) NOT NULL,
+    status VARCHAR2 (191) NOT NULL,
     start_time DATE NOT NULL,
     end_time DATE NULL
 );
@@ -5500,7 +5500,7 @@ END;
 CREATE TABLE communication_log_object_entry (
     id NUMBER (20, 0) NOT NULL,
     communication_log_object_id NUMBER (20, 0) NOT NULL,
-    log_key VARCHAR2 (200) NOT NULL,
+    log_key VARCHAR2 (191) NOT NULL,
     log_value CLOB NOT NULL,
     priority VARCHAR2 (50) NOT NULL,
     create_time DATE NOT NULL
@@ -5557,7 +5557,7 @@ END;
 CREATE TABLE communication_log_obj_lookup (
     id NUMBER (20, 0) NOT NULL,
     communication_log_object_id NUMBER (20, 0) NOT NULL,
-    object_type VARCHAR2 (200) NOT NULL,
+    object_type VARCHAR2 (191) NOT NULL,
     object_id NUMBER (20, 0) NOT NULL
 );
 ALTER TABLE communication_log_obj_lookup ADD CONSTRAINT PK_communication_log_obj_loo00 PRIMARY KEY (id);
@@ -5613,7 +5613,7 @@ CREATE TABLE form_draft (
     id NUMBER (12, 0) NOT NULL,
     object_type VARCHAR2 (100) NOT NULL,
     object_id NUMBER (12, 0) NOT NULL,
-    action VARCHAR2 (200) NOT NULL,
+    action VARCHAR2 (191) NOT NULL,
     title VARCHAR2 (255) NULL,
     content CLOB NOT NULL,
     create_time DATE NOT NULL,

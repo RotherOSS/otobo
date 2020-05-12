@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Scalar::Util qw(weaken);
-#use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',

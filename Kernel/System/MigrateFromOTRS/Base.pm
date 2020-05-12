@@ -676,10 +676,10 @@ sub CopyFileAndSaveAsTmp {
     # We need to copy a directory if Filename not given
     if ( !$Param{Filename} ) {
         # $RsyncExec .= '-ar -e "ssh -p ' . $Param{Port} . '" ' . $Param{SSHUser} . '@' . $Param{FQDN} . ':' . $Param{Path} . ' ' .$TempDir;
-        $RsyncExec .= "-a -e \"sshpass -p $Param{Password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p $Param{Port}\" $Param{SSHUser}\@$Param{FQDN}:$Param{Path} $TempDir"
+        $RsyncExec .= "-a -v --exclude=\".*\" --exclude=\"var/tmp\" --exclude=\"var/run\" -e \"sshpass -p $Param{Password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p $Param{Port}\" $Param{SSHUser}\@$Param{FQDN}:$Param{Path}/* $TempDir/"
     } else {
         # $RsyncExec .= '-a -e "ssh -p ' . $Param{Port} . '" ' . $Param{SSHUser} . '@' . $Param{FQDN} . ':' . $Param{Path} . '/' . $Param{Filename} . ' ' .$TempDir;
-        $RsyncExec .= "-a -e \"sshpass -p $Param{Password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p $Param{Port}\" $Param{SSHUser}\@$Param{FQDN}:$Param{Path}/$Param{Filename} $TempDir"
+        $RsyncExec .= "-a -v -e \"sshpass -p $Param{Password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p $Param{Port}\" $Param{SSHUser}\@$Param{FQDN}:$Param{Path}/$Param{Filename} $TempDir/"
 
     }
 
@@ -804,274 +804,47 @@ Clean up the cache.
 sub CacheCleanup {
     my ( $Self, %Param ) = @_;
 
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        KeepTypes => ['OTRSMigration'],
+    );
 
     return 1;
 }
 
-=head2 ExecuteXMLDBArray()
+=head2 CacheCleanup()
 
-Parse and execute an XML array.
+Disable secure mode after copying data.
 
-    $DBUpdateTo6Object->ExecuteXMLDBArray(
-        XMLArray          => \@XMLArray,
-        Old2NewTableNames => {                                        # optional
-            'article'            => 'article_data_mime',
-            'article_plain'      => 'article_data_mime_plain',
-            'article_attachment' => 'article_data_mime_attachment',
-        },
-    );
+    $DBUpdateTo6Object->DisableSecureMode();
 
 =cut
 
-sub ExecuteXMLDBArray {
+sub DisableSecureMode {
     my ( $Self, %Param ) = @_;
 
-    # Check needed stuff.
-    if ( !IsArrayRefWithData( $Param{XMLArray} ) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need XMLArray!",
-        );
-        return;
-    }
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    XMLSTRING:
-    for my $XMLString ( @{ $Param{XMLArray} } ) {
-
-        # new table
-        if ( $XMLString =~ m{ <(?:Table|TableCreate) \s+ Name="([^"]+)" }xms ) {
-
-            my $TableName = $1;
-            return if !$TableName;
-
-            # check if table exists already
-            my $TableExists = $Self->TableExists(
-                Table => $TableName,
-            );
-
-            next XMLSTRING if $TableExists;
-        }
-
-        # alter table (without renaming the table!)
-        elsif ( $XMLString =~ m{ <TableAlter \s+ Name="([^"]+)" }xms ) {
-
-            my $TableName = $1;
-            return if !$TableName;
-
-            # check if table exists
-            my $TableExists = $Self->TableExists(
-                Table => $TableName,
-            );
-
-            # the table must still exist
-            next XMLSTRING if !$TableExists;
-
-            # check if there is a table mapping hash
-            if ( IsHashRefWithData( $Param{Old2NewTableNames} ) ) {
-
-                # check if there is a new table name in the mapping
-                my $NewTableName = $Param{Old2NewTableNames}->{$TableName} || '';
-                if ($NewTableName) {
-
-                    # check if new table exists already
-                    my $NewTableExists = $Self->TableExists(
-                        Table => $NewTableName,
-                    );
-
-                    # the new table must not yet exist
-                    next XMLSTRING if $NewTableExists;
-                }
-            }
-
-            # extract columns that should be added
-            if ( $XMLString =~ m{ <ColumnAdd \s+ Name="([^"]+)" }xms ) {
-
-                my $ColumnName = $1;
-                return if !$ColumnName;
-
-                my $ColumnExists = $Self->ColumnExists(
-                    Table  => $TableName,
-                    Column => $ColumnName,
-                );
-
-                # skip creating the column if the column exists already
-                next XMLSTRING if $ColumnExists;
-            }
-
-            # extract columns that should be dropped
-            if ( $XMLString =~ m{ <ColumnDrop \s+ Name="([^"]+)" }xms ) {
-
-                my $ColumnName = $1;
-                return if !$ColumnName;
-
-                my $ColumnExists = $Self->ColumnExists(
-                    Table  => $TableName,
-                    Column => $ColumnName,
-                );
-
-                # skip dropping the column if the column does not exist
-                next XMLSTRING if !$ColumnExists;
-            }
-
-            # extract indexes that should be added
-            if ( $XMLString =~ m{<IndexCreate \s+ Name="([^"]+)" }xms ) {
-
-                my $IndexName = $1;
-                return if !$IndexName;
-
-                my $IndexExists = $Self->IndexExists(
-                    Table => $TableName,
-                    Index => $IndexName,
-                );
-
-                # skip the index creation if it already exits
-                next XMLSTRING if $IndexExists;
-            }
-        }
-
-        # rename table
-        elsif ( $XMLString =~ m{ <TableAlter \s+ NameOld="([^"]+)" \s+ NameNew="([^"]+)" }xms ) {
-
-            my $OldTableName = $1;
-            my $NewTableName = $2;
-
-            return if !$OldTableName;
-            return if !$NewTableName;
-
-            # check if old table exists
-            my $OldTableExists = $Self->TableExists(
-                Table => $OldTableName,
-            );
-
-            # the old table must still exist
-            next XMLSTRING if !$OldTableExists;
-
-            # check if new table exists already
-            my $NewTableExists = $Self->TableExists(
-                Table => $NewTableName,
-            );
-
-            # the new table must not yet exist
-            next XMLSTRING if $NewTableExists;
-        }
-
-        # drop table
-        elsif ( $XMLString =~ m{ <TableDrop \s+ Name="([^"]+)" }xms ) {
-
-            my $TableName = $1;
-            return if !$TableName;
-
-            # check if table still exists
-            my $TableExists = $Self->TableExists(
-                Table => $TableName,
-            );
-
-            # skip if table has already been deleted
-            next XMLSTRING if !$TableExists;
-        }
-
-        # insert data
-        elsif ( $XMLString =~ m{ <Insert \s+ Table="([^"]+)" }xms ) {
-
-            my $TableName = $1;
-            return if !$TableName;
-
-            # extract id column and value for auto increment fields
-            if ( $XMLString =~ m{ <Data \s+ Key="([^"]+)" \s+ Type="AutoIncrement"> (\d+) }xms ) {
-
-                my $ColumnName  = $1;
-                my $ColumnValue = $2;
-
-                return if !$ColumnName;
-                return if !$ColumnValue;
-
-                # check if value exists already
-                return if !$DBObject->Prepare(
-                    SQL   => "SELECT $ColumnName FROM $TableName WHERE $ColumnName = ?",
-                    Bind  => [ \$ColumnValue ],
-                    Limit => 1,
-                );
-
-                my $Exists;
-                while ( my @Row = $DBObject->FetchrowArray() ) {
-                    $Exists = $Row[0];
-                }
-
-                # skip this entry if it exists already
-                next XMLSTRING if $Exists;
-            }
-        }
-
-        # TODO: Add more special handling for other operations as needed!
-
-        # execute the XML string
-        return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
-    }
-
-    return 1;
-}
-
-=head2 ExecuteXMLDBString()
-
-Parse and execute an XML string.
-
-    $DBUpdateTo6Object->ExecuteXMLDBString(
-        XMLString => '
-            <TableAlter Name="gi_webservice_config">
-                <ColumnDrop Name="config_md5"/>
-            </TableAlter>
-        ',
+    my %Setting = $SysConfigObject->SettingGet(
+        Name            => 'SecureMode',  # (required) Setting name
+        NoCache         => 1,                # (optional) Do not create cache.
+        UserID          => 1,                # Required only if OverriddenInXML is set.
     );
 
-=cut
-
-sub ExecuteXMLDBString {
-    my ( $Self, %Param ) = @_;
-
-    # Check needed stuff.
-    if ( !$Param{XMLString} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need XMLString!",
-        );
-        return;
+    if ( $Setting{EffectiveValue} eq '0' ) {
+        return 1;
     }
 
-    my $XMLString = $Param{XMLString};
-
-    # Create database specific SQL and PostSQL commands out of XML.
-    my @SQL;
-    my @SQLPost;
-    my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
-    my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
-
-    my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
-
-    # Create database specific SQL.
-    push @SQL, $DBObject->SQLProcessor(
-        Database => \@XMLARRAY,
+    my $Success = $SysConfigObject->SettingsSet(
+        UserID   => 1,                                      # (required) UserID
+        Comments => 'Disable SecureMode for migration.',                   # (optional) Comment
+        Settings => [                                       # (required) List of settings to update.
+            {
+                Name                   => 'SecureMode',  # (required)
+                EffectiveValue         => '0',          # (optional)
+            },
+        ],
     );
-
-    # Create database specific PostSQL.
-    push @SQLPost, $DBObject->SQLProcessorPost();
-
-    # Execute SQL.
-    for my $SQL ( @SQL, @SQLPost ) {
-        my $Success = $DBObject->Do( SQL => $SQL );
-        if ( !$Success ) {
-            # print STDERR "\n";
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Error during execution of '$SQL'!",
-            );
-            return;
-        }
-    }
-
-    return 1;
+    return $Success;
 }
 
 =head2 TableExists()
