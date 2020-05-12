@@ -33,10 +33,39 @@ use lib '/opt/otobo/Custom';
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 
-use CGI;
 use CGI::Emulate::PSGI;
 use Module::Refresh;
 use Plack::Builder;
+
+# Preload frequently used modules to speed up client spawning.
+use CGI ();
+use CGI::Carp ();
+
+# enable this if you use mysql
+#use DBD::mysql ();
+#use Kernel::System::DB::mysql;
+
+# enable this if you use postgresql
+#use DBD::Pg ();
+#use Kernel::System::DB::postgresql;
+
+# enable this if you use oracle
+#use DBD::Oracle ();
+#use Kernel::System::DB::oracle;
+
+# Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
+#   could take more than 30 seconds.
+eval { require Net::DNS };
+
+# Preload DateTime, an expensive external dependency.
+use DateTime ();
+
+# Preload dependencies that are always used.
+use Template ();
+use Encode qw(:all);
+
+# this might improve performance
+CGI->compile(':cgi');
 
 # Workaround: some parts of OTOBO use exit to interrupt the control flow.
 #   This would kill the Plack server, so just use die instead.
