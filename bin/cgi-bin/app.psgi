@@ -91,13 +91,6 @@ my $App = CGI::Emulate::PSGI->handler(
             $ENV{SCRIPT_NAME} = 'index.pl';                                   ## no critic
         }
 
-        eval {
-
-            # Reload files in @INC that have changed since the last request.
-            Module::Refresh->refresh();
-        };
-        warn $@ if $@;
-
         my $Profile;
         if ( $ENV{NYTPROF} && $ENV{REQUEST_URI} =~ /NYTProf=([\w-]+)/ ) {
             $Profile = 1;
@@ -128,8 +121,33 @@ builder {
     # Same as: ScriptAlias /otobo/ "/opt/otobo/bin/cgi-bin/"
     # Access checking is done by $App.
     mount '/otobo'     => builder {
-	    enable "Plack::Middleware::ErrorDocument",
-	        403 => '/otobo/index.pl';  # forbidden files
-            $App;
-       }
+
+        # do some pre- and postprocessing in the middleware
+        enable sub {
+            my $app = shift;
+            sub {
+                my $env = shift;
+
+                # Reload files in @INC that have changed since the last request.
+                # This is a replacement for:
+                #    PerlModule Apache2::Reload
+                #    PerlInitHandler Apache2::Reload
+                eval {
+                    Module::Refresh->refresh();
+                };
+                warn $@ if $@;
+
+                my $res = $app->($env);
+
+                # do postprocessing
+
+                return $res;
+            };
+        };
+
+        enable "Plack::Middleware::ErrorDocument",
+            403 => '/otobo/index.pl';  # forbidden files
+
+        $App;
+    }
 };
