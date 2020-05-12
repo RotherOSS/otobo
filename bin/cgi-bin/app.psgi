@@ -27,11 +27,9 @@ use strict;
 use warnings;
 use 5.24.0;
 
-# use ../../ as lib location
-use FindBin qw($Bin);
-use lib "$Bin/../..";
-use lib "$Bin/../../Kernel/cpan-lib";
-use lib "$Bin/../../Custom";
+use lib '/opt/otobo/';
+use lib '/opt/otobo/Kernel/cpan-lib';
+use lib '/opt/otobo/Custom';
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 
