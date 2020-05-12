@@ -104,7 +104,7 @@ my $App = CGI::Emulate::PSGI->handler(
 
         # Load the requested script
         eval {
-            do "/opt/otobo/bin/cgin-bin/$ENV{SCRIPT_NAME}";
+            do "/opt/otobo/bin/cgi-bin/$ENV{SCRIPT_NAME}";
         };
         if ( $@ && $@ ne "exit called\n" ) {
             warn $@;
