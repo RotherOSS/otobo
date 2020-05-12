@@ -116,24 +116,25 @@ my $App = CGI::Emulate::PSGI->handler(
     },
 );
 
-# Small helper function to determine the path to a static file
-my $StaticPath = sub {
+# Small helper function to determine the path to a static file.
+# This sub operates on the topic variable $_
+my $StaticPathSub = sub {
 
-    # Everything in otobo-web/js or otobo-web/skins is a static file.
-    return 0 if $_ !~ m{-web/js/|-web/skins/};
+    # Everything in otobo-web/ is a static file.
+    return 0 unless m{^/otobo-web/};
 
     # Return only the relative path.
-    $_ =~ s{^.*?-web/(js/.*|skins/.*)}{$1}smx;
+    s{^/otobo-web/}{};
 
-    return $_;
+    return 1;
 };
 
-# Create a Static middleware to serve static files directly without invoking the OTOBO
-#   application handler.
+# Middleware to serve static files directly without invoking the OTOBO application handler.
+# Same as 'Alias /otobo-web/ "/opt/otobo/var/httpd/htdocs/"' in Apache2
 builder {
     enable 'Static',
-        path        => $StaticPath,
-        root        => "/opt/otobo/var/httpd/htdocs",
+        path        => $StaticPathSub,
+        root        => '/opt/otobo/var/httpd/htdocs/',
         pass_trough => 0;
     $App;
 }
