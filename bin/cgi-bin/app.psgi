@@ -83,14 +83,6 @@ my $App = CGI::Emulate::PSGI->handler(
         # Cleanup values from previous requests.
         CGI::initialize_globals();
 
-        # Populate SCRIPT_NAME as OTOBO needs it in some places.
-        ( $ENV{SCRIPT_NAME} ) = $ENV{PATH_INFO} =~ m{/([A-Za-z\-_]+\.pl)};    ## no critic
-
-        # Fallback to agent login if we could not determine handle...
-        if ( !defined $ENV{SCRIPT_NAME} || ! -e "/opt/otobo/bin/cgi-bin/$ENV{SCRIPT_NAME}" ) {
-            $ENV{SCRIPT_NAME} = 'index.pl';                                   ## no critic
-        }
-
         # Load the requested script
         eval {
             do "/opt/otobo/bin/cgi-bin/$ENV{SCRIPT_NAME}";
@@ -134,6 +126,15 @@ builder {
                 if ( $ENV{NYTPROF} && $ENV{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ) {
                     $ProfilingIsOn = 1;
                     DB::enable_profile("nytprof-$1.out");
+                }
+
+                # Populate SCRIPT_NAME as OTOBO needs it in some places.
+                # TODO: This is almost certainly a misuse of SCRIPT_NAME
+                ( $env->{SCRIPT_NAME} ) = $env->{PATH_INFO} =~ m{/([A-Za-z\-_]+\.pl)};
+
+                # Fallback to agent login if we could not determine handle...
+                if ( !defined $env->{SCRIPT_NAME} || ! -e "/opt/otobo/bin/cgi-bin/$env->{SCRIPT_NAME}" ) {
+                    $env->{SCRIPT_NAME} = 'index.pl';
                 }
 
                 my $res = $app->($env);
