@@ -89,6 +89,7 @@ use Module::Refresh;
 
 # OTOBO modules
 use Kernel::System::Web::InterfaceAgent ();
+use Kernel::System::Web::InterfaceCustomer ();
 use Kernel::System::ObjectManager;
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
@@ -123,14 +124,23 @@ my $MiddleWare = sub {
             DB::enable_profile("nytprof-$1.out");
         }
 
-        # Populate SCRIPT_NAME as OTOBO needs it in some places.
-        # TODO: This is almost certainly a misuse of SCRIPT_NAME
-        ( $env->{SCRIPT_NAME} ) = $env->{PATH_INFO} =~ m{/([A-Za-z\-_]+\.pl)};
+        # $env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo/' or '/otobo/index.pl'
+        # $env->{PATH_INFO} contains the path after the $env->{SCRIPT_NAME}. Can be e.g. 'rpc.pl' or ''
+        # The extracted OTOBOHandle is something like index.pl, customer.pl, or rpc.pl
+        my ($OTOBOHandle) = ( $env->{SCRIPT_NAME} . $env->{PATH_INFO} ) =~ m{/([A-Za-z\-_]+\.pl)};
 
         # Fallback to agent login if we could not determine handle...
-        if ( !defined $env->{SCRIPT_NAME} || ! -e "/opt/otobo/bin/cgi-bin/$env->{SCRIPT_NAME}" ) {
-            $env->{SCRIPT_NAME} = 'index.pl';
+        if ( !defined $OTOBOHandle || ! -e "/opt/otobo/bin/cgi-bin/$OTOBOHandle" ) {
+            $OTOBOHandle = 'index.pl';
         }
+
+        # for further reference in $App
+        $env->{'otobo.handle'} = $OTOBOHandle;
+
+        # Populate $ENV{SCRIPT_NAME} as OTOBO needs it in some places.
+        # TODO: This is almost certainly a misuse of $ENV{SCRIPT_NAME}
+        $ENV{SCRIPT_NAME}      = $OTOBOHandle;
+        $env->{SCRIPT_NAME}    = $OTOBOHandle;  # needed for Plack::App::CGIBin
 
         # do the work
         my $res = $app->($env);
@@ -170,12 +180,33 @@ my $App = builder {
                 local *STDERR = $env->{'psgi.errors'};
                 local $Kernel::OM = Kernel::System::ObjectManager->new();
 
-                my $Interface = Kernel::System::Web::InterfaceAgent->new(
-                    Debug      => $Debug,
-                    WebRequest => $WebRequest,
-                );
+                # find the relevant interface class
+                my $Interface;
+                {
+                    my $OTOBOHandle = $env->{'otobo.handle'} // 'index.pl';
+                    if ( $OTOBOHandle eq 'index.pl' ) {
+                        $Interface = Kernel::System::Web::InterfaceAgent->new(
+                            Debug      => $Debug,
+                            WebRequest => $WebRequest,
+                        );
+                    }
+                    elsif ( $OTOBOHandle eq 'customer.pl' ) {
+                        $Interface = Kernel::System::Web::InterfaceCustomer->new(
+                            Debug      => $Debug,
+                            WebRequest => $WebRequest,
+                        );
+                    }
+                    else {
 
-                warn "XXX: calling the Run method again\n";
+                        # fallback
+                        $Interface //= Kernel::System::Web::InterfaceAgent->new(
+                            Debug      => $Debug,
+                            WebRequest => $WebRequest,
+                        );
+                    }
+                }
+
+                # do the work
                 $Interface->Run;
             }
         }
@@ -184,7 +215,6 @@ my $App = builder {
         seek( $stdout, 0, SEEK_SET ) or croak("Can't seek stdout handle: $!");
 
         my $res = CGI::Parse::PSGI::parse_cgi_output($stdout);
-        warn Dumper( 'ZZZ', $res->@[0,1] );
 
         return $res;
     };
@@ -212,8 +242,9 @@ builder {
             Plack::App::File->new(root => '/opt/otobo/var/httpd/htdocs')->to_app;
         };
 
-    # Port of index.pl to Plack
-    mount '/otobo/index.pl' => $App;
+    # Port of index.pl, customer.pl to Plack
+    mount '/otobo/index.pl'    => $App;
+    mount '/otobo/customer.pl' => $App;
 
     # Serve the remaining CGI-scripts in bin/cgi-bin.
     # Same as: ScriptAlias /otobo/ "/opt/otobo/bin/cgi-bin/"
