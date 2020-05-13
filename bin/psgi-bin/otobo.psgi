@@ -53,12 +53,18 @@ use lib '/opt/otobo/Custom';
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 
+use Data::Dumper;
+
 use Plack::Builder;
 use Plack::Middleware::ErrorDocument;
 use Plack::Middleware::Header;
 use Plack::App::File;
 use Plack::App::CGIBin;
 use Module::Refresh;
+
+# load agent web interface
+use Kernel::System::Web::InterfaceAgent ();
+use Kernel::System::ObjectManager;
 
 # for future use:
 #use Plack::Middleware::CamelcadeDB;
@@ -97,6 +103,7 @@ CGI::PSGI->compile(':cgi');
 
 print STDERR "PLEASE NOTE THAT PLACK SUPPORT IS AS OF MAY 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
 
+# some pre- and postprocessing for the dynamic content
 my $MiddleWare = sub {
     my $app = shift;
 
@@ -138,6 +145,38 @@ my $MiddleWare = sub {
     };
 };
 
+# a port of index.pl to PSGI
+my $IndexApp = sub {
+    my $env = shift;
+
+    # set up the CGI-Object from the PSGI environemnt
+    my $WebRequest = CGI::PSGI->new($env);
+
+    # 0=off;1=on;
+    my $Debug = 0;
+
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+
+    my $Interface = Kernel::System::Web::InterfaceAgent->new(
+        Debug      => $Debug,
+        WebRequest => $WebRequest,
+    );
+
+    # Wrap the Run method in CGI::Emulate::PSGI in order to catch headers, status code, and content.
+    my $app = CGI::Emulate::PSGI->handler(
+        sub {
+            warn "XXX: calling the Run method\n";
+            $Interface->Run;
+        }
+    );
+
+    my $res = $app->($env);
+
+    warn Dumper( 'YYY', $res->@[0,1] );
+
+    return $res;
+};
+
 builder {
     # Server the static files in var/httpd/httpd.
     # Same as: Alias /otobo-web/ "/opt/otobo/var/httpd/htdocs/"
@@ -160,7 +199,17 @@ builder {
             Plack::App::File->new(root => '/opt/otobo/var/httpd/htdocs')->to_app;
         };
 
-    # TODO: Port bin/cgi-bin/index.pl, or bin/fcgi-bin/index.pl, to Plack
+    # Port of bin/cgi-bin/index.pl, or bin/fcgi-bin/index.pl, to Plack
+    mount '/otobo/index.pl'     => builder {
+
+        # do some pre- and postprocessing in an inline middleware
+        enable $MiddleWare;
+
+        enable "Plack::Middleware::ErrorDocument",
+            403 => '/otobo/index.pl';  # forbidden files
+
+        $IndexApp;
+    };
 
     # Serve the CGI-scripts in bin/cgi-bin.
     # Same as: ScriptAlias /otobo/ "/opt/otobo/bin/cgi-bin/"
