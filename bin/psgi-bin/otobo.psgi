@@ -92,6 +92,7 @@ use Kernel::System::Web::InterfaceAgent ();
 use Kernel::System::Web::InterfaceCustomer ();
 use Kernel::System::Web::InterfaceInstaller ();
 use Kernel::System::Web::InterfaceMigrateFromOTRS ();
+use Kernel::GenericInterface::Provider;
 use Kernel::System::ObjectManager;
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
@@ -180,12 +181,23 @@ my $App = builder {
                 # no need to bend STDIN, as input is handled by CGI::PSGI
                 local *STDOUT = $stdout;
                 local *STDERR = $env->{'psgi.errors'};
-                local $Kernel::OM = Kernel::System::ObjectManager->new();
+
+                my $OTOBOHandle = $env->{'otobo.handle'} // 'index.pl';
+
+                # nph-genericinterface.pl has specific logging
+                my @ObjectManagerArgs;
+                if ( $OTOBOHandle eq 'npt-genericinterface.pl' ) {
+                    push  @ObjectManagerArgs,
+                        'Kernel::System::Log' => {
+                            LogPrefix => 'GenericInterfaceProvider',
+                        },
+                }
+
+                local $Kernel::OM = Kernel::System::ObjectManager->new(@ObjectManagerArgs);
 
                 # find the relevant interface class
                 my $Interface;
                 {
-                    my $OTOBOHandle = $env->{'otobo.handle'} // 'index.pl';
                     if ( $OTOBOHandle eq 'index.pl' ) {
                         $Interface = Kernel::System::Web::InterfaceAgent->new(
                             Debug      => $Debug,
@@ -206,6 +218,12 @@ my $App = builder {
                     }
                     elsif ( $OTOBOHandle eq 'migration.pl' ) {
                         $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
+                            Debug      => $Debug,
+                            WebRequest => $WebRequest,
+                        );
+                    }
+                    elsif ( $OTOBOHandle eq 'nph-genericinterface.pl' ) {
+                        $Interface = Kernel::GenericInterface::Provider->new(
                             Debug      => $Debug,
                             WebRequest => $WebRequest,
                         );
