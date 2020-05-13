@@ -16,12 +16,32 @@
 # along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.txt.
 # --
 
-# To profile single requests, install Devel::NYTProf and start this script as
-# PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/cgi-bin/app.psgi
-# then append &NYTProf=mymarker to a request.
-# This creates a file called nytprof-mymarker.out, which you can process with
-# nytprofhtml -f nytprof-mymarker.out
-# Then point your browser at nytprof/index.html
+=head1 NAME
+
+otobo.psgi - OTOBO PSGI application
+
+=head1 SYNOPSIS
+
+    # the default webserver
+    plackup bin/psgi-bin/otobo.psgi
+
+    # Starman
+    plackup --server Starman bin/psgi-bin/otobo.psgi
+
+=head1 DESCRIPTION
+
+A PSGI application.
+
+=head1 Profiling
+
+To profile single requests, install Devel::NYTProf and start this script as
+PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/psgi-bin/otobo.psgi
+then append &NYTProf=mymarker to a request.
+This creates a file called nytprof-mymarker.out, which you can process with
+nytprofhtml -f nytprof-mymarker.out
+Then point your browser at nytprof/index.html
+
+=cut
 
 use strict;
 use warnings;
