@@ -97,6 +97,47 @@ CGI::PSGI->compile(':cgi');
 
 print STDERR "PLEASE NOTE THAT PLACK SUPPORT IS AS OF MAY 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
 
+my $MiddleWare = sub {
+    my $app = shift;
+
+    return sub {
+        my $env = shift;
+
+        # Reload files in @INC that have changed since the last request.
+        # This is a replacement for:
+        #    PerlModule Apache2::Reload
+        #    PerlInitHandler Apache2::Reload
+        eval {
+            Module::Refresh->refresh();
+        };
+        warn $@ if $@;
+
+        # check whether this request runs under Devel::NYTProf
+        my $ProfilingIsOn = 0;
+        if ( $ENV{NYTPROF} && $ENV{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ) {
+            $ProfilingIsOn = 1;
+            DB::enable_profile("nytprof-$1.out");
+        }
+
+        # Populate SCRIPT_NAME as OTOBO needs it in some places.
+        # TODO: This is almost certainly a misuse of SCRIPT_NAME
+        ( $env->{SCRIPT_NAME} ) = $env->{PATH_INFO} =~ m{/([A-Za-z\-_]+\.pl)};
+
+        # Fallback to agent login if we could not determine handle...
+        if ( !defined $env->{SCRIPT_NAME} || ! -e "/opt/otobo/bin/cgi-bin/$env->{SCRIPT_NAME}" ) {
+            $env->{SCRIPT_NAME} = 'index.pl';
+        }
+
+        # do the work
+        my $res = $app->($env);
+
+        # clean up profiling, write the output file
+        DB::finish_profile() if $ProfilingIsOn;
+
+        return $res;
+    };
+};
+
 builder {
     # Server the static files in var/httpd/httpd.
     # Same as: Alias /otobo-web/ "/opt/otobo/var/httpd/htdocs/"
@@ -119,51 +160,15 @@ builder {
             Plack::App::File->new(root => '/opt/otobo/var/httpd/htdocs')->to_app;
         };
 
+    # TODO: Port bin/cgi-bin/index.pl, or bin/fcgi-bin/index.pl, to Plack
+
     # Serve the CGI-scripts in bin/cgi-bin.
     # Same as: ScriptAlias /otobo/ "/opt/otobo/bin/cgi-bin/"
     # Access checking is done by the application.
     mount '/otobo'     => builder {
 
         # do some pre- and postprocessing in an inline middleware
-        enable sub {
-            my $app = shift;
-            sub {
-                my $env = shift;
-
-                # Reload files in @INC that have changed since the last request.
-                # This is a replacement for:
-                #    PerlModule Apache2::Reload
-                #    PerlInitHandler Apache2::Reload
-                eval {
-                    Module::Refresh->refresh();
-                };
-                warn $@ if $@;
-
-                # check whether this request runs under Devel::NYTProf
-                my $ProfilingIsOn = 0;
-                if ( $ENV{NYTPROF} && $ENV{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ) {
-                    $ProfilingIsOn = 1;
-                    DB::enable_profile("nytprof-$1.out");
-                }
-
-                # Populate SCRIPT_NAME as OTOBO needs it in some places.
-                # TODO: This is almost certainly a misuse of SCRIPT_NAME
-                ( $env->{SCRIPT_NAME} ) = $env->{PATH_INFO} =~ m{/([A-Za-z\-_]+\.pl)};
-
-                # Fallback to agent login if we could not determine handle...
-                if ( !defined $env->{SCRIPT_NAME} || ! -e "/opt/otobo/bin/cgi-bin/$env->{SCRIPT_NAME}" ) {
-                    $env->{SCRIPT_NAME} = 'index.pl';
-                }
-
-                # do the work
-                my $res = $app->($env);
-
-                # clean up profiling, write the output file
-                DB::finish_profile() if $ProfilingIsOn;
-
-                return $res;
-            };
-        };
+        enable $MiddleWare;
 
         enable "Plack::Middleware::ErrorDocument",
             403 => '/otobo/index.pl';  # forbidden files
