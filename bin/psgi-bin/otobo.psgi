@@ -90,6 +90,7 @@ use Module::Refresh;
 # OTOBO modules
 use Kernel::System::Web::InterfaceAgent ();
 use Kernel::System::Web::InterfaceCustomer ();
+use Kernel::System::Web::InterfacePublic ();
 use Kernel::System::Web::InterfaceInstaller ();
 use Kernel::System::Web::InterfaceMigrateFromOTRS ();
 use Kernel::GenericInterface::Provider;
@@ -206,6 +207,12 @@ my $App = builder {
                     }
                     elsif ( $OTOBOHandle eq 'customer.pl' ) {
                         $Interface = Kernel::System::Web::InterfaceCustomer->new(
+                            Debug      => $Debug,
+                            WebRequest => $WebRequest,
+                        );
+                    }
+                    elsif ( $OTOBOHandle eq 'public.pl' ) {
+                        $Interface = Kernel::System::Web::InterfacePublic->new(
                             Debug      => $Debug,
                             WebRequest => $WebRequest,
                         );
