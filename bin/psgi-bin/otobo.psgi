@@ -51,10 +51,18 @@ use lib '/opt/otobo/';
 use lib '/opt/otobo/Kernel/cpan-lib';
 use lib '/opt/otobo/Custom';
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 
+# core modules
 use Data::Dumper;
+use POSIX 'SEEK_SET';
 
+# CPAN modules
+use DateTime ();
+use Template ();
+use Encode qw(:all);
+use CGI::PSGI ();
+use CGI::Parse::PSGI ();
+use CGI::Carp ();
 use Plack::Builder;
 use Plack::Middleware::ErrorDocument;
 use Plack::Middleware::Header;
@@ -62,18 +70,12 @@ use Plack::App::File;
 use Plack::App::CGIBin;
 use Module::Refresh;
 
-# load agent web interface
-use Kernel::System::Web::InterfaceAgent ();
-use Kernel::System::ObjectManager;
 
 # for future use:
 #use Plack::Middleware::CamelcadeDB;
 #use Plack::Middleware::Expires;
 #use Plack::Middleware::Debug;
 
-# Preload frequently used modules to speed up client spawning.
-use CGI::PSGI ();
-use CGI::Carp ();
 
 # enable this if you use mysql
 #use DBD::mysql ();
@@ -87,16 +89,13 @@ use CGI::Carp ();
 #use DBD::Oracle ();
 #use Kernel::System::DB::oracle;
 
+# OTOBO modules
+use Kernel::System::Web::InterfaceAgent ();
+use Kernel::System::ObjectManager;
+
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.
 eval { require Net::DNS };
-
-# Preload DateTime, an expensive external dependency.
-use DateTime ();
-
-# Preload dependencies that are always used.
-use Template ();
-use Encode qw(:all);
 
 # this might improve performance
 CGI::PSGI->compile(':cgi');
@@ -155,24 +154,33 @@ my $IndexApp = sub {
     # 0=off;1=on;
     my $Debug = 0;
 
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $stdout  = IO::File->new_tmpfile;
 
-    my $Interface = Kernel::System::Web::InterfaceAgent->new(
-        Debug      => $Debug,
-        WebRequest => $WebRequest,
-    );
+    {
+        my $saver = SelectSaver->new("::STDOUT");
 
-    # Wrap the Run method in CGI::Emulate::PSGI in order to catch headers, status code, and content.
-    my $app = CGI::Emulate::PSGI->handler(
-        sub {
-            warn "XXX: calling the Run method\n";
+        {
+            # no need to bend STDIN, as input is handled by CGI::PSGI
+            local *STDOUT = $stdout;
+            local *STDERR = $env->{'psgi.errors'};
+            local $Kernel::OM = Kernel::System::ObjectManager->new();
+
+            my $Interface = Kernel::System::Web::InterfaceAgent->new(
+                Debug      => $Debug,
+                WebRequest => $WebRequest,
+            );
+
+            warn "XXX: calling the Run method again\n";
             $Interface->Run;
         }
-    );
 
-    my $res = $app->($env);
+    }
 
-    warn Dumper( 'YYY', $res->@[0,1] );
+    # start reading the output from the start
+    seek( $stdout, 0, SEEK_SET ) or croak("Can't seek stdout handle: $!");
+
+    my $res = CGI::Parse::PSGI::parse_cgi_output($stdout);
+    warn Dumper( 'ZZZ', $res->@[0,1] );
 
     return $res;
 };
