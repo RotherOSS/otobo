@@ -90,6 +90,7 @@ use Module::Refresh;
 # OTOBO modules
 use Kernel::System::Web::InterfaceAgent ();
 use Kernel::System::Web::InterfaceCustomer ();
+use Kernel::System::Web::InterfaceInstaller ();
 use Kernel::System::ObjectManager;
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
@@ -192,6 +193,12 @@ my $App = builder {
                     }
                     elsif ( $OTOBOHandle eq 'customer.pl' ) {
                         $Interface = Kernel::System::Web::InterfaceCustomer->new(
+                            Debug      => $Debug,
+                            WebRequest => $WebRequest,
+                        );
+                    }
+                    elsif ( $OTOBOHandle eq 'installer.pl' ) {
+                        $Interface = Kernel::System::Web::InterfaceInstaller->new(
                             Debug      => $Debug,
                             WebRequest => $WebRequest,
                         );
