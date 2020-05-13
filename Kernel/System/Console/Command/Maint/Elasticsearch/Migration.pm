@@ -29,6 +29,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::CustomerCompany',
     'Kernel::System::CustomerUser',
+    'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
 );
@@ -50,6 +51,32 @@ sub Configure {
 
 sub PreRun {
     my ( $Self, %Param ) = @_;
+
+    # check whether elastic search web service is enabled and if not, activate it
+    my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+
+    my $ESWebservice = $WebserviceObject->WebserviceGet(
+        Name => 'Elasticsearch',
+    );
+
+    if ( !$ESWebservice ) {
+        $Self->Print("<red>Elasticsearch webservice not found! Unable to continue.</red>\n");
+        die;
+    }
+
+    if ( $ESWebservice->{ValidID} != 1 ) {
+        $Self->Print("<yellow>Elasticsearch webservice is now activated. If you don't want to keep it enabled, please disable it manually in the admin interface, after the migration is complete.</yellow>\n");
+        my $Success = $WebserviceObject->WebserviceUpdate(
+            %{ $ESWebservice },
+            ValidID => 1,
+            UserID  => 1,
+        );
+
+        if ( !$Success ) {
+            $Self->Print("<red>Elasticsearch webservice could not be activated! Unable to continue.</red>\n");
+            die;
+        }
+    }
 
     return;
 }
