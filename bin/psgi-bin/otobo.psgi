@@ -70,12 +70,10 @@ use Plack::App::File;
 use Plack::App::CGIBin;
 use Module::Refresh;
 
-
 # for future use:
 #use Plack::Middleware::CamelcadeDB;
 #use Plack::Middleware::Expires;
 #use Plack::Middleware::Debug;
-
 
 # enable this if you use mysql
 #use DBD::mysql ();
@@ -145,44 +143,51 @@ my $MiddleWare = sub {
 };
 
 # a port of index.pl to PSGI
-my $IndexApp = sub {
-    my $env = shift;
+my $App = builder {
+    enable "Plack::Middleware::ErrorDocument",
+        403 => '/otobo/index.pl';  # forbidden files
 
-    # set up the CGI-Object from the PSGI environemnt
-    my $WebRequest = CGI::PSGI->new($env);
+    # do some pre- and postprocessing in an inline middleware
+    enable $MiddleWare;
 
-    # 0=off;1=on;
-    my $Debug = 0;
+    sub {
+        my $env = shift;
 
-    my $stdout  = IO::File->new_tmpfile;
+        # set up the CGI-Object from the PSGI environemnt
+        my $WebRequest = CGI::PSGI->new($env);
 
-    {
-        my $saver = SelectSaver->new("::STDOUT");
+        # 0=off;1=on;
+        my $Debug = 0;
+
+        my $stdout  = IO::File->new_tmpfile;
 
         {
-            # no need to bend STDIN, as input is handled by CGI::PSGI
-            local *STDOUT = $stdout;
-            local *STDERR = $env->{'psgi.errors'};
-            local $Kernel::OM = Kernel::System::ObjectManager->new();
+            my $saver = SelectSaver->new("::STDOUT");
 
-            my $Interface = Kernel::System::Web::InterfaceAgent->new(
-                Debug      => $Debug,
-                WebRequest => $WebRequest,
-            );
+            {
+                # no need to bend STDIN, as input is handled by CGI::PSGI
+                local *STDOUT = $stdout;
+                local *STDERR = $env->{'psgi.errors'};
+                local $Kernel::OM = Kernel::System::ObjectManager->new();
 
-            warn "XXX: calling the Run method again\n";
-            $Interface->Run;
+                my $Interface = Kernel::System::Web::InterfaceAgent->new(
+                    Debug      => $Debug,
+                    WebRequest => $WebRequest,
+                );
+
+                warn "XXX: calling the Run method again\n";
+                $Interface->Run;
+            }
         }
 
-    }
+        # start reading the output from the start
+        seek( $stdout, 0, SEEK_SET ) or croak("Can't seek stdout handle: $!");
 
-    # start reading the output from the start
-    seek( $stdout, 0, SEEK_SET ) or croak("Can't seek stdout handle: $!");
+        my $res = CGI::Parse::PSGI::parse_cgi_output($stdout);
+        warn Dumper( 'ZZZ', $res->@[0,1] );
 
-    my $res = CGI::Parse::PSGI::parse_cgi_output($stdout);
-    warn Dumper( 'ZZZ', $res->@[0,1] );
-
-    return $res;
+        return $res;
+    };
 };
 
 builder {
@@ -207,19 +212,10 @@ builder {
             Plack::App::File->new(root => '/opt/otobo/var/httpd/htdocs')->to_app;
         };
 
-    # Port of bin/cgi-bin/index.pl, or bin/fcgi-bin/index.pl, to Plack
-    mount '/otobo/index.pl'     => builder {
+    # Port of index.pl to Plack
+    mount '/otobo/index.pl' => $App;
 
-        # do some pre- and postprocessing in an inline middleware
-        enable $MiddleWare;
-
-        enable "Plack::Middleware::ErrorDocument",
-            403 => '/otobo/index.pl';  # forbidden files
-
-        $IndexApp;
-    };
-
-    # Serve the CGI-scripts in bin/cgi-bin.
+    # Serve the remaining CGI-scripts in bin/cgi-bin.
     # Same as: ScriptAlias /otobo/ "/opt/otobo/bin/cgi-bin/"
     # Access checking is done by the application.
     mount '/otobo'     => builder {
