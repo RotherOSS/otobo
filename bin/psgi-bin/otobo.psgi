@@ -129,23 +129,18 @@ my $MiddleWare = sub {
             DB::enable_profile("nytprof-$1.out");
         }
 
-        # $env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo/' or '/otobo/index.pl'
-        # $env->{PATH_INFO} contains the path after the $env->{SCRIPT_NAME}. Can be e.g. 'rpc.pl' or ''
-        # The extracted OTOBOHandle is something like index.pl, customer.pl, or rpc.pl
-        my ($OTOBOHandle) = ( $env->{SCRIPT_NAME} . $env->{PATH_INFO} ) =~ m{/([A-Za-z\-_]+\.pl)};
+        # $env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
+        # $env->{PATH_INFO} contains the path after the $env->{SCRIPT_NAME}. Can be e.g. '/rpc.pl' or ''
+        # The extracted ScriptFileName is something like index.pl, customer.pl, or rpc.pl
+        my ($ScriptFileName) = ( $env->{SCRIPT_NAME} . $env->{PATH_INFO} ) =~ m{/([A-Za-z\-_]+\.pl)};
 
         # Fallback to agent login if we could not determine handle...
-        if ( !defined $OTOBOHandle || ! -e "/opt/otobo/bin/cgi-bin/$OTOBOHandle" ) {
-            $OTOBOHandle = 'index.pl';
+        if ( !defined $ScriptFileName || ! -e "/opt/otobo/bin/cgi-bin/$ScriptFileName" ) {
+            $ScriptFileName = 'index.pl';
         }
 
         # for further reference in $App
-        $env->{'otobo.handle'} = $OTOBOHandle;
-
-        # Populate $ENV{SCRIPT_NAME} as OTOBO needs it in some places.
-        # TODO: This is almost certainly a misuse of $ENV{SCRIPT_NAME}
-        $ENV{SCRIPT_NAME}      = $OTOBOHandle;
-        $env->{SCRIPT_NAME}    = $OTOBOHandle;  # needed for Plack::App::CGIBin
+        $env->{'otobo.script_file_name'} = $ScriptFileName;
 
         # do the work
         my $res = $app->($env);
@@ -190,11 +185,11 @@ my $App = builder {
                 local *STDOUT = $stdout;
                 local *STDERR = $env->{'psgi.errors'};
 
-                my $OTOBOHandle = $env->{'otobo.handle'} // 'index.pl';
+                my $ScriptFileName = $env->{'otobo.script_file_name'} // 'index.pl';
 
                 # nph-genericinterface.pl has specific logging
                 my @ObjectManagerArgs;
-                if ( $OTOBOHandle eq 'npt-genericinterface.pl' ) {
+                if ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
                     push  @ObjectManagerArgs,
                         'Kernel::System::Log' => {
                             LogPrefix => 'GenericInterfaceProvider',
@@ -206,37 +201,37 @@ my $App = builder {
                 # find the relevant interface class
                 my $Interface;
                 {
-                    if ( $OTOBOHandle eq 'index.pl' ) {
+                    if ( $ScriptFileName eq 'index.pl' ) {
                         $Interface = Kernel::System::Web::InterfaceAgent->new(
                             Debug      => $Debug,
                             WebRequest => $WebRequest,
                         );
                     }
-                    elsif ( $OTOBOHandle eq 'customer.pl' ) {
+                    elsif ( $ScriptFileName eq 'customer.pl' ) {
                         $Interface = Kernel::System::Web::InterfaceCustomer->new(
                             Debug      => $Debug,
                             WebRequest => $WebRequest,
                         );
                     }
-                    elsif ( $OTOBOHandle eq 'public.pl' ) {
+                    elsif ( $ScriptFileName eq 'public.pl' ) {
                         $Interface = Kernel::System::Web::InterfacePublic->new(
                             Debug      => $Debug,
                             WebRequest => $WebRequest,
                         );
                     }
-                    elsif ( $OTOBOHandle eq 'installer.pl' ) {
+                    elsif ( $ScriptFileName eq 'installer.pl' ) {
                         $Interface = Kernel::System::Web::InterfaceInstaller->new(
                             Debug      => $Debug,
                             WebRequest => $WebRequest,
                         );
                     }
-                    elsif ( $OTOBOHandle eq 'migration.pl' ) {
+                    elsif ( $ScriptFileName eq 'migration.pl' ) {
                         $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
                             Debug      => $Debug,
                             WebRequest => $WebRequest,
                         );
                     }
-                    elsif ( $OTOBOHandle eq 'nph-genericinterface.pl' ) {
+                    elsif ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
                         $Interface = Kernel::GenericInterface::Provider->new(
                             Debug      => $Debug,
                             WebRequest => $WebRequest,

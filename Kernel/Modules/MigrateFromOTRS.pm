@@ -600,7 +600,8 @@ sub _Finish {
     # prepare link
     my $Host = $ENV{HTTP_HOST} || $Param{ConfigObject}->Get('FQDN');
     $Host =~ s/\/$//;
-    my $OTOBOHandle = $ENV{SCRIPT_NAME};
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $OTOBOHandle = $ParamObject->{Query}->script_name . $ParamObject->{Query}->path_info;
     $OTOBOHandle =~ s/migration\.pl/index.pl/;
 
     return {

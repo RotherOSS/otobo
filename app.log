@@ -1,0 +1,55 @@
+PLEASE NOTE THAT PLACK SUPPORT IS AS OF MAY 2020 EXPERIMENTAL AND NOT SUPPORTED!
+HTTP::Server::PSGI: Accepting connections at http://0:5000/
+127.0.0.1 - - [13/May/2020:17:02:44 +0200] "GET /otobo/index.pl?Action=Logout;ChallengeToken=1fvzw9XdPfy1J7X3z1k9RG6R2rPi2BgD; HTTP/1.1" 200 13438 "http://bernhard-hp-250-g6-notebook-pc:5000/otobo/index.pl?Action=AgentDashboard" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0"
+127.0.0.1 - - [13/May/2020:17:02:44 +0200] "GET /otobo-web/skins/Agent/default/css-cache/CommonCSS_7a1b95fde2573c427ae4e74a119fa467.css HTTP/1.1" 200 151484 "http://bernhard-hp-250-g6-notebook-pc:5000/otobo/index.pl?Action=Logout;ChallengeToken=1fvzw9XdPfy1J7X3z1k9RG6R2rPi2BgD;" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0"
+127.0.0.1 - - [13/May/2020:17:02:44 +0200] "GET /otobo-web/skins/Agent/default/css/thirdparty/ui-theme/jquery-ui.css HTTP/1.1" 200 20677 "http://bernhard-hp-250-g6-notebook-pc:5000/otobo/index.pl?Action=Logout;ChallengeToken=1fvzw9XdPfy1J7X3z1k9RG6R2rPi2BgD;" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0"
+127.0.0.1 - - [13/May/2020:17:02:44 +0200] "GET /otobo-web/common/css/font-awesome.min.css HTTP/1.1" 200 31000 "http://bernhard-hp-250-g6-notebook-pc:5000/otobo/index.pl?Action=Logout;ChallengeToken=1fvzw9XdPfy1J7X3z1k9RG6R2rPi2BgD;" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0"
+127.0.0.1 - - [13/May/2020:17:02:44 +0200] "GET /otobo-web/js/js-cache/CommonJS_9ac902563c9cc8d68345753d04cc4653.js HTTP/1.1" 200 1420408 "http://bernhard-hp-250-g6-notebook-pc:5000/otobo/index.pl?Action=Logout;ChallengeToken=1fvzw9XdPfy1J7X3z1k9RG6R2rPi2BgD;" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0"
+127.0.0.1 - - [13/May/2020:17:02:44 +0200] "GET /otobo-web/js/js-cache/TranslationJS_de_39d9130e9c5ca70e97272ba082675e57.js HTTP/1.1" 200 28328 "http://bernhard-hp-250-g6-notebook-pc:5000/otobo/index.pl?Action=Logout;ChallengeToken=1fvzw9XdPfy1J7X3z1k9RG6R2rPi2BgD;" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0"
+127.0.0.1 - - [13/May/2020:17:02:44 +0200] "GET /otobo-web/js/js-cache/TemplateJS_4fa2176bea3019b94349dff440aa9600.js HTTP/1.1" 200 24346 "http://bernhard-hp-250-g6-notebook-pc:5000/otobo/index.pl?Action=Logout;ChallengeToken=1fvzw9XdPfy1J7X3z1k9RG6R2rPi2BgD;" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0"
+127.0.0.1 - - [13/May/2020:17:02:44 +0200] "GET /otobo-web/js/ads.js HTTP/1.1" 200 910 "http://bernhard-hp-250-g6-notebook-pc:5000/otobo/index.pl?Action=Logout;ChallengeToken=1fvzw9XdPfy1J7X3z1k9RG6R2rPi2BgD;" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0"
+127.0.0.1 - - [13/May/2020:17:02:44 +0200] "GET /otobo-web/js/js-cache/ModuleJS_625e1e66e71f4ba98629d654da6059aa.js HTTP/1.1" 200 1731 "http://bernhard-hp-250-g6-notebook-pc:5000/otobo/index.pl?Action=Logout;ChallengeToken=1fvzw9XdPfy1J7X3z1k9RG6R2rPi2BgD;" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0"
+127.0.0.1 - - [13/May/2020:17:02:44 +0200] "GET /otobo-web/skins/Agent/default/css-cache/ResponsiveCSS_8cbac7095e5de228e78f34f0ca2e7492.css HTTP/1.1" 200 23253 "http://bernhard-hp-250-g6-notebook-pc:5000/otobo/index.pl?Action=Logout;ChallengeToken=1fvzw9XdPfy1J7X3z1k9RG6R2rPi2BgD;" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0"
+127.0.0.1 - - [13/May/2020:17:02:44 +0200] "GET /otobo-web/skins/Agent/default/img/Otobo_Wortmarke_Digital_Blau_RGB.svg HTTP/1.1" 200 3132 "http://bernhard-hp-250-g6-notebook-pc:5000/otobo/index.pl?Action=Logout;ChallengeToken=1fvzw9XdPfy1J7X3z1k9RG6R2rPi2BgD;" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0"
+127.0.0.1 - - [13/May/2020:17:02:44 +0200] "GET /otobo-web/skins/Agent/default/img/otobo-signet.svg HTTP/1.1" 200 1572 "http://bernhard-hp-250-g6-notebook-pc:5000/otobo-web/skins/Agent/default/css-cache/CommonCSS_7a1b95fde2573c427ae4e74a119fa467.css" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0"
+[Wed May 13 17:02:47 2020] plackup: Use of uninitialized value $ENV{"SERVER_SOFTWARE"} in pattern match (m//) at /opt/otobo/Kernel/Output/HTML/Layout.pm line 629.
+127.0.0.1 - - [13/May/2020:17:02:47 +0200] "POST /otobo/index.pl HTTP/1.1" 302 99 "http://bernhard-hp-250-g6-notebook-pc:5000/otobo/index.pl?Action=Logout;ChallengeToken=1fvzw9XdPfy1J7X3z1k9RG6R2rPi2BgD;" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0"
+ERROR: OTOBO-CGI-31 Perl: 5.30.0 OS: linux Time: Wed May 13 15:02:48 2020
+
+ Message: Can't locate Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm in @INC (you may need to install the Kernel::Output::HTML::Notification::AgentCloudServicesDisabled module) (@INC contains: /home/bernhard/devel/OTOBO/otobo/bin/Custom /home/bernhard/devel/OTOBO/otobo/bin/Kernel/cpan-lib /home/bernhard/devel/OTOBO/otobo/bin /opt/otobo/Custom /opt/otobo/Kernel/cpan-lib /opt/otobo/ /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.30.0 /usr/local/share/perl/5.30.0 /usr/lib/x86_64-linux-gnu/perl5/5.30 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl/5.30 /usr/share/perl/5.30 /usr/local/lib/site_perl /usr/lib/x86_64-linux-gnu/perl-base) at /opt/otobo/Kernel/System/Main.pm line 94.
+
+
+ Traceback (13671): 
+   Module: Kernel::Output::HTML::Layout::NavigationBar Line: 3308
+   Module: Kernel::Modules::AgentDashboardCommon::Run Line: 853
+   Module: Kernel::System::Web::InterfaceAgent::Run Line: 1204
+   Module: Plack::Sandbox::_2fhome_2fbernhard_2fdevel_2fOTOBO_2fotobo_2fbin_2fpsgi_2dbin_2fotobo_2epsgi::__ANON__ Line: 251
+   Module: Plack::Sandbox::_2fhome_2fbernhard_2fdevel_2fOTOBO_2fotobo_2fbin_2fpsgi_2dbin_2fotobo_2epsgi::__ANON__ Line: 146
+   Module: Plack::Middleware::ForceEnv::call (v0.02) Line: 18
+   Module: Plack::Component::__ANON__ Line: 50
+   Module: Plack::Middleware::ErrorDocument::call Line: 15
+   Module: Plack::Component::__ANON__ Line: 50
+   Module: Plack::App::URLMap::call Line: 71
+   Module: Plack::Component::__ANON__ Line: 50
+   Module: Plack::Middleware::Lint::call Line: 24
+   Module: Plack::Component::__ANON__ Line: 50
+   Module: Plack::Middleware::StackTrace::try {...}  Line: 38
+   Module: (eval) (v0.30) Line: 100
+   Module: Try::Tiny::try (v0.30) Line: 93
+   Module: Plack::Middleware::StackTrace::call Line: 42
+   Module: Plack::Component::__ANON__ Line: 50
+   Module: Plack::Middleware::AccessLog::call Line: 27
+   Module: Plack::Component::__ANON__ Line: 50
+   Module: Plack::Middleware::ContentLength::call Line: 10
+   Module: Plack::Component::__ANON__ Line: 50
+   Module: (eval) Line: 145
+   Module: Plack::Util::run_app Line: 145
+   Module: HTTP::Server::PSGI::handle_connection Line: 182
+   Module: HTTP::Server::PSGI::accept_loop Line: 141
+   Module: HTTP::Server::PSGI::run Line: 63
+   Module: Plack::Handler::HTTP::Server::PSGI::run Line: 14
+   Module: Plack::Loader::run Line: 84
+   Module: Plack::Runner::run Line: 277
+
+127.0.0.1 - - [13/May/2020:17:02:48 +0200] "GET /otobo/index.pl? HTTP/1.1" 200 79217 "http://bernhard-hp-250-g6-notebook-pc:5000/otobo/index.pl?Action=Logout;ChallengeToken=1fvzw9XdPfy1J7X3z1k9RG6R2rPi2BgD;" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0"
+127.0.0.1 - - [13/May/2020:17:02:48 +0200] "GET /otobo-web/skins/Agent/default/img/logo_bg.png HTTP/1.1" 200 8182 "http://bernhard-hp-250-g6-notebook-pc:5000/otobo/index.pl?" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0"
