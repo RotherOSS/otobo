@@ -156,7 +156,7 @@ my $MiddleWare = sub {
     };
 };
 
-# a port of index.pl to PSGI
+# Port of index.pl, customer.pl, public.pl, installer.pl, migration.pl, nph-genericinterface.pl to Plack.
 my $App = builder {
     enable "Plack::Middleware::ErrorDocument",
         403 => '/otobo/index.pl';  # forbidden files
@@ -281,11 +281,15 @@ builder {
             Plack::App::File->new(root => '/opt/otobo/var/httpd/htdocs')->to_app;
         };
 
-    # Port of index.pl, customer.pl to Plack
-    mount '/otobo/index.pl'    => $App;
-    mount '/otobo/customer.pl' => $App;
+    # Port of index.pl, customer.pl, public.pl, installer.pl, migration.pl, nph-genericinterface.pl to Plack.
+    mount '/otobo/index.pl'                => $App;
+    mount '/otobo/customer.pl'             => $App;
+    mount '/otobo/public.pl'               => $App;
+    mount '/otobo/installer.pl'            => $App;
+    mount '/otobo/migration.pl'            => $App;
+    mount '/otobo/nph-genericinterface.pl' => $App;
 
-    # Serve the remaining CGI-scripts in bin/cgi-bin.
+    # Serve the remaining CGI-scripts in bin/cgi-bin. E.g. rpc.pl.
     # Same as: ScriptAlias /otobo/ "/opt/otobo/bin/cgi-bin/"
     # Access checking is done by the application.
     mount '/otobo'     => builder {
