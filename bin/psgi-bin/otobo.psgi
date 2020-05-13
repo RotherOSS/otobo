@@ -66,6 +66,7 @@ use CGI::Carp ();
 use Plack::Builder;
 use Plack::Middleware::ErrorDocument;
 use Plack::Middleware::Header;
+use Plack::Middleware::ForceEnv;
 use Plack::App::File;
 use Plack::App::CGIBin;
 use Module::Refresh;
@@ -158,8 +159,13 @@ my $MiddleWare = sub {
 
 # Port of index.pl, customer.pl, public.pl, installer.pl, migration.pl, nph-genericinterface.pl to Plack.
 my $App = builder {
+
     enable "Plack::Middleware::ErrorDocument",
         403 => '/otobo/index.pl';  # forbidden files
+
+    # GATEWAY_INTERFACE is used for determining whether a command runs in a web context
+    enable ForceEnv =>
+        GATEWAY_INTERFACE => 'CGI/1.1';
 
     # do some pre- and postprocessing in an inline middleware
     enable $MiddleWare;
@@ -168,6 +174,7 @@ my $App = builder {
         my $env = shift;
 
         # set up the CGI-Object from the PSGI environemnt
+        # Call CGI::initialize_globals() implicitly
         my $WebRequest = CGI::PSGI->new($env);
 
         # 0=off;1=on;
@@ -294,15 +301,16 @@ builder {
     # Access checking is done by the application.
     mount '/otobo'     => builder {
 
-        # do some pre- and postprocessing in an inline middleware
-        enable $MiddleWare;
-
         enable "Plack::Middleware::ErrorDocument",
             403 => '/otobo/index.pl';  # forbidden files
 
+        # do some pre- and postprocessing in an inline middleware
+        enable $MiddleWare;
+
         # Execute the scripts in the appropriate environment.
         # The scripts are actually compiled by CGI::Compile,
-        # CGI::initialize_globals() is called implicitly.
+        # CGI::initialize_globals() is called implicitly by CGI::Compile
+        # $ENV{GATEWAY_INTERFACE} is set implicitly by CGI::Emulate::PSGI
         Plack::App::CGIBin->new(root => '/opt/otobo/bin/cgi-bin')->to_app;
     };
 };
