@@ -66,7 +66,7 @@ use Module::Refresh;
 #use Plack::Middleware::Debug;
 
 # Preload frequently used modules to speed up client spawning.
-use CGI ();
+use CGI::PSGI ();
 use CGI::Carp ();
 
 # enable this if you use mysql
@@ -93,7 +93,7 @@ use Template ();
 use Encode qw(:all);
 
 # this might improve performance
-CGI->compile(':cgi');
+CGI::PSGI->compile(':cgi');
 
 print STDERR "PLEASE NOTE THAT PLACK SUPPORT IS AS OF MAY 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
 
