@@ -25,86 +25,132 @@
 
 use strict;
 use warnings;
+use 5.24.0;
 
-# use ../../ as lib location
-use FindBin qw($Bin);
-use lib "$Bin/../..";
-use lib "$Bin/../../Kernel/cpan-lib";
-use lib "$Bin/../../Custom";
+use lib '/opt/otobo/';
+use lib '/opt/otobo/Kernel/cpan-lib';
+use lib '/opt/otobo/Custom';
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 
-use CGI;
-use CGI::Emulate::PSGI;
-use Module::Refresh;
 use Plack::Builder;
+use Plack::Middleware::ErrorDocument;
+use Plack::Middleware::Header;
+use Plack::App::File;
+use Plack::App::CGIBin;
+use Module::Refresh;
 
-# Workaround: some parts of OTOBO use exit to interrupt the control flow.
-#   This would kill the Plack server, so just use die instead.
-BEGIN {
-    *CORE::GLOBAL::exit = sub { die "exit called\n"; };
-}
+# for future use:
+#use Plack::Middleware::CamelcadeDB;
+#use Plack::Middleware::Expires;
+#use Plack::Middleware::Debug;
 
-print STDERR "PLEASE NOTE THAT PLACK SUPPORT IS CURRENTLY EXPERIMENTAL AND NOT SUPPORTED!\n";
+# Preload frequently used modules to speed up client spawning.
+use CGI ();
+use CGI::Carp ();
 
-my $App = CGI::Emulate::PSGI->handler(
-    sub {
+# enable this if you use mysql
+#use DBD::mysql ();
+#use Kernel::System::DB::mysql;
 
-        # Cleanup values from previous requests.
-        CGI::initialize_globals();
+# enable this if you use postgresql
+#use DBD::Pg ();
+#use Kernel::System::DB::postgresql;
 
-        # Populate SCRIPT_NAME as OTOBO needs it in some places.
-        ( $ENV{SCRIPT_NAME} ) = $ENV{PATH_INFO} =~ m{/([A-Za-z\-_]+\.pl)};    ## no critic
+# enable this if you use oracle
+#use DBD::Oracle ();
+#use Kernel::System::DB::oracle;
 
-        # Fallback to agent login if we could not determine handle...
-        if ( !defined $ENV{SCRIPT_NAME} || !-e "$Bin/$ENV{SCRIPT_NAME}" ) {
-            $ENV{SCRIPT_NAME} = 'index.pl';                                   ## no critic
-        }
+# Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
+#   could take more than 30 seconds.
+eval { require Net::DNS };
 
-        eval {
+# Preload DateTime, an expensive external dependency.
+use DateTime ();
 
-            # Reload files in @INC that have changed since the last request.
-            Module::Refresh->refresh();
-        };
-        warn $@ if $@;
+# Preload dependencies that are always used.
+use Template ();
+use Encode qw(:all);
 
-        my $Profile;
-        if ( $ENV{NYTPROF} && $ENV{REQUEST_URI} =~ /NYTProf=([\w-]+)/ ) {
-            $Profile = 1;
-            DB::enable_profile("nytprof-$1.out");
-        }
+# this might improve performance
+CGI->compile(':cgi');
 
-        # Load the requested script
-        eval {
-            do "$Bin/$ENV{SCRIPT_NAME}";
-        };
-        if ( $@ && $@ ne "exit called\n" ) {
-            warn $@;
-        }
+print STDERR "PLEASE NOTE THAT PLACK SUPPORT IS AS OF MAY 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
 
-        if ($Profile) {
-            DB::finish_profile();
-        }
-    },
-);
-
-# Small helper function to determine the path to a static file
-my $StaticPath = sub {
-
-    # Everything in otobo-web/js or otobo-web/skins is a static file.
-    return 0 if $_ !~ m{-web/js/|-web/skins/};
-
-    # Return only the relative path.
-    $_ =~ s{^.*?-web/(js/.*|skins/.*)}{$1}smx;
-    return $_;
-};
-
-# Create a Static middleware to serve static files directly without invoking the OTOBO
-#   application handler.
 builder {
-    enable "Static",
-        path        => $StaticPath,
-        root        => "$Bin/../../var/httpd/htdocs",
-        pass_trough => 0;
-    $App;
-}
+    # Server the static files in var/httpd/httpd.
+    # Same as: Alias /otobo-web/ "/opt/otobo/var/httpd/htdocs/"
+    # Access is granted for all.
+    # Set the Cache-Control headers as in apache2-httpd.include.conf
+    mount '/otobo-web' => builder {
+
+            # Cache css-cache for 30 days
+            enable_if { $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css-cache/.*\.(?:css|CSS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=2592000 must-revalidate' ];
+
+            # Cache css thirdparty for 4 hours, including icon fonts
+            enable_if { $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css/thirdparty/.*\.(?:css|CSS|woff|svn)$} } 'Header', set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
+
+            # Cache js-cache for 30 days
+            enable_if { $_[0]->{PATH_INFO} =~ m{js/js-cache/.*\.(?:js|JS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=2592000 must-revalidate' ];
+
+            # Cache js thirdparty for 4 hours
+            enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
+
+            Plack::App::File->new(root => '/opt/otobo/var/httpd/htdocs')->to_app;
+        };
+
+    # Serve the CGI-scripts in bin/cgi-bin.
+    # Same as: ScriptAlias /otobo/ "/opt/otobo/bin/cgi-bin/"
+    # Access checking is done by the application.
+    mount '/otobo'     => builder {
+
+        # do some pre- and postprocessing in an inline middleware
+        enable sub {
+            my $app = shift;
+            sub {
+                my $env = shift;
+
+                # Reload files in @INC that have changed since the last request.
+                # This is a replacement for:
+                #    PerlModule Apache2::Reload
+                #    PerlInitHandler Apache2::Reload
+                eval {
+                    Module::Refresh->refresh();
+                };
+                warn $@ if $@;
+
+                # check whether this request runs under Devel::NYTProf
+                my $ProfilingIsOn = 0;
+                if ( $ENV{NYTPROF} && $ENV{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ) {
+                    $ProfilingIsOn = 1;
+                    DB::enable_profile("nytprof-$1.out");
+                }
+
+                # Populate SCRIPT_NAME as OTOBO needs it in some places.
+                # TODO: This is almost certainly a misuse of SCRIPT_NAME
+                ( $env->{SCRIPT_NAME} ) = $env->{PATH_INFO} =~ m{/([A-Za-z\-_]+\.pl)};
+
+                # Fallback to agent login if we could not determine handle...
+                if ( !defined $env->{SCRIPT_NAME} || ! -e "/opt/otobo/bin/cgi-bin/$env->{SCRIPT_NAME}" ) {
+                    $env->{SCRIPT_NAME} = 'index.pl';
+                }
+
+                # do the work
+                my $res = $app->($env);
+
+                # clean up profiling, write the output file
+                DB::finish_profile() if $ProfilingIsOn;
+
+                return $res;
+            };
+        };
+
+        enable "Plack::Middleware::ErrorDocument",
+            403 => '/otobo/index.pl';  # forbidden files
+
+        # Execute the scripts in the appropriate environment.
+        # The scripts are actually compiled by CGI::Compile,
+        # CGI::initialize_globals() is called implicitly.
+        Plack::App::CGIBin->new(root => '/opt/otobo/bin/cgi-bin')->to_app;
+    };
+};
