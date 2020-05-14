@@ -6896,7 +6896,7 @@ sub TicketMergeLinkedObjects {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # Delete all duplicate links relations between merged tickets.
-    # See bug#12994 (https://bugs.otobo.org/show_bug.cgi?id=12994).
+    # See bug#12994 (https://bugs.otrs.org/show_bug.cgi?id=12994).
     $DBObject->Prepare(
         SQL => '
             SELECT target_key

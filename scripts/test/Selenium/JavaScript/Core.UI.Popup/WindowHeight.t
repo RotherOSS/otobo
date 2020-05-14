@@ -66,7 +66,7 @@ $Selenium->RunTest(
         # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # Test for bug#11205 (http://bugs.otobo.org/show_bug.cgi?id=11205).
+        # Test for bug#11205 (http://bugs.otrs.org/show_bug.cgi?id=11205).
         # Check screen size to open popup according to available screen height.
         # Open popup with default height,
         # after that open popup with adjusted height.

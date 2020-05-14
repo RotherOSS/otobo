@@ -168,7 +168,7 @@ my @Tests = (
 
 for my $Test (@Tests) {
 
-    # Change line endings in the package source, see http://bugs.otobo.org/show_bug.cgi?id=9838 for more information.
+    # Change line endings in the package source, see http://bugs.otrs.org/show_bug.cgi?id=9838 for more information.
     if ( $Test->{ChangeLineEndings} ) {
         $Test->{Package} =~ s{\n}{\r\n}xmsg;
     }

@@ -130,7 +130,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText", 'css' )->send_keys('Test Process Body');
 
         # Check if default value for title is shown.
-        # See bug#13937 https://bugs.otobo.org/show_bug.cgi?id=13937.
+        # See bug#13937 https://bugs.otrs.org/show_bug.cgi?id=13937.
         my $TitleValue = 'Test Process Title Default';
 
         $Self->Is(

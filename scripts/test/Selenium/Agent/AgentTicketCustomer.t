@@ -226,7 +226,7 @@ $Selenium->RunTest(
         );
 
         # Select new customer and verify customer field value is not cleared after focus lost.
-        # See bug#13880 (https://bugs.otobo.org/show_bug.cgi?id=13880).
+        # See bug#13880 (https://bugs.otrs.org/show_bug.cgi?id=13880).
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->clear();
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->send_keys( $TestCustomers[0] );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );

@@ -5273,7 +5273,7 @@ bin/otobo.Daemon.pl status\').',
         'Client Connection Charset' => 'Koneksi klien charset',
         'Setting character_set_client needs to be utf8.' => 'Pengaturan character_set_client perlu utf 8.',
         'Server Database Charset' => 'Server database charset',
-        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
             '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Tabel charset',

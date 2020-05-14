@@ -275,7 +275,7 @@ $Success = $SysConfigDBObject->DefaultSettingUnlock(
 
 # Make sure that there is enough time between two ConfigurationDeploy() calls.
 # DeploymentModifiedVersionList() method works with timestamps, so it can return
-# data which was deployed in previous deployment. See https://bugs.otobo.org/show_bug.cgi?id=13071.
+# data which was deployed in previous deployment. See https://bugs.otrs.org/show_bug.cgi?id=13071.
 $HelperObject->FixedTimeAddSeconds(2);
 
 %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
