@@ -70,11 +70,13 @@ nytprof*.out
 .tidyall.d
 perltidy.LOG.old
 bin/otobo.CodePolicy.pl
+Kernel/cpan-lib/Perl/Tidy*
 TidyAll
 Kernel/cpan-lib/Locale/PO.pm
 scripts/install-git-hooks.pl
 scripts/uninstall-git-hooks.pl
 CodePolicy*
+OTOBOCodePolicy*
 perltidy.LOG
 
 # ITSM
