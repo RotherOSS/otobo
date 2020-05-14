@@ -1809,7 +1809,7 @@ Core.UI.InputFields = (function (TargetNS) {
                             Focused = this;
 
                             // In modernize field selection disable 'backspace' key functionality.
-                            // See bug#14011 (https://bugs.otobo.org/show_bug.cgi?id=14011).
+                            // See bug#14011 (https://bugs.otrs.org/show_bug.cgi?id=14011).
                             $('.jstree .jstree-anchor').on('keydown', function (e) {
                                 if (e.which === 8 && !$(e.target).is('input')) {
                                     return false;

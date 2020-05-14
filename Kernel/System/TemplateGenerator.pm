@@ -1316,8 +1316,8 @@ sub _Replace {
                 # Change time to recipient's timezone if needed
                 # and later append timezone information.
                 # For more information,
-                # see bug#13865 (https://bugs.otobo.org/show_bug.cgi?id=13865)
-                # and bug#14270 (https://bugs.otobo.org/show_bug.cgi?id=14270).
+                # see bug#13865 (https://bugs.otrs.org/show_bug.cgi?id=13865)
+                # and bug#14270 (https://bugs.otrs.org/show_bug.cgi?id=14270).
                 if ($RecipientTimeZone) {
                     my $DateTimeObject = $Kernel::OM->Create(
                         'Kernel::System::DateTime',
@@ -2020,7 +2020,7 @@ sub _RemoveUnSupportedTag {
     }
 
     # Cleanup all not supported tags with and without number, e.g. OTOBO_CUSTOMER_BODY and OTOBO_CUSTOMER_BODY[n].
-    # See https://bugs.otobo.org/show_bug.cgi?id=14369 and https://bugs.otobo.org/show_bug.cgi?id=10825.
+    # See https://bugs.otrs.org/show_bug.cgi?id=14369 and https://bugs.otrs.org/show_bug.cgi?id=10825.
     my $NotSupportedTag = $Start . "(?:" . join( "|", @{ $Param{ListOfUnSupportedTag} } ) . ")(\\[.*?\\])?" . $End;
     $Param{Text} =~ s/$NotSupportedTag/-/gi;
 

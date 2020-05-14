@@ -478,7 +478,7 @@ $Selenium->RunTest(
         );
 
         # Try to navigate to invalid Communication ID,
-        #   see bug#13523 (https://bugs.otobo.org/show_bug.cgi?id=13523).
+        #   see bug#13523 (https://bugs.otrs.org/show_bug.cgi?id=13523).
         my $RandomNumber = $Helper->GetRandomNumber();
         $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AdminCommunicationLog;Subaction=Zoom;CommunicationID=$RandomNumber"

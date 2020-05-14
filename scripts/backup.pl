@@ -368,7 +368,7 @@ if ( defined $Opts{r} ) {
 }
 
 # If error occurs this functions remove incomlete backup folder to avoid the impression
-#   that the backup was ok (see http://bugs.otobo.org/show_bug.cgi?id=10665).
+#   that the backup was ok (see http://bugs.otrs.org/show_bug.cgi?id=10665).
 sub RemoveIncompleteBackup {
 
     # get parameters

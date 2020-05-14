@@ -959,7 +959,7 @@ sub SQLProcessor {
 
         # make a deep copy in order to prevent modyfing the input data
         # see also Bug#12764 - Database function SQLProcessor() modifies given parameter data
-        # https://bugs.otobo.org/show_bug.cgi?id=12764
+        # https://bugs.otrs.org/show_bug.cgi?id=12764
         my @Database = @{
             $Kernel::OM->Get('Kernel::System::Storable')->Clone(
                 Data => $Param{Database},

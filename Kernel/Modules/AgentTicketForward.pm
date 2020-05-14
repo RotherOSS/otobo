@@ -1075,7 +1075,7 @@ sub SendEmail {
         }
     }
 
-    # Make sure sender is correct one. See bug#14872 ( https://bugs.otobo.org/show_bug.cgi?id=14872 ).
+    # Make sure sender is correct one. See bug#14872 ( https://bugs.otrs.org/show_bug.cgi?id=14872 ).
     $GetParam{From} = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
         QueueID => $Ticket{QueueID},
         UserID  => $Self->{UserID},

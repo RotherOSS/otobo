@@ -460,7 +460,7 @@ for my $Test (@Tests) {
     }
 }
 
-# Test bug#14646 (https://bugs.otobo.org/show_bug.cgi?id=14646).
+# Test bug#14646 (https://bugs.otrs.org/show_bug.cgi?id=14646).
 # DynamicField value set with <OTOBO_CUSTOMER_DATA_*> tag.
 %Ticket = $TicketObject->TicketGet(
     TicketID      => $TicketID,

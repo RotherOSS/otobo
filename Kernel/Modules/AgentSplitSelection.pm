@@ -157,8 +157,8 @@ sub Run {
     my %AclActionLookup = reverse %AclAction;
 
     # Build split selection based on availability of corresponding registered modules and ACL restrictions.
-    # See bug#13690 (https://bugs.otobo.org/show_bug.cgi?id=13690) and
-    #   bug#13947 (https://bugs.otobo.org/show_bug.cgi?id=13947) respectively.
+    # See bug#13690 (https://bugs.otrs.org/show_bug.cgi?id=13690) and
+    #   bug#13947 (https://bugs.otrs.org/show_bug.cgi?id=13947) respectively.
     my %SplitSelectionContent;
     if ( $ConfigObject->Get('Frontend::Module')->{AgentTicketPhone} && $AclActionLookup{AgentTicketPhone} ) {
         $SplitSelectionContent{PhoneTicket} = Translatable('Phone ticket');

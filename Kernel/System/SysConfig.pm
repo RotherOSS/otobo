@@ -2842,7 +2842,7 @@ sub ConfigurationNavigationTree {
     );
 
     # For AgentPreference take into account which settings are Forbidden to update by user or disabled when counting
-    #   settings. See bug#13488 (https://bugs.otobo.org/show_bug.cgi?id=13488).
+    #   settings. See bug#13488 (https://bugs.otrs.org/show_bug.cgi?id=13488).
     if ( $Param{Action} && $Param{Action} eq 'AgentPreferences' ) {
 
         # Get List of all modified settings which are valid and forbidden to update by user.

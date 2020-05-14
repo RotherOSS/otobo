@@ -476,7 +476,7 @@ $Self->True(
     "CustomerCompanyList() with Search - Valid 0 param",
 );
 
-# Test bug#14861 (https://bugs.otobo.org/show_bug.cgi?id=14861).
+# Test bug#14861 (https://bugs.otrs.org/show_bug.cgi?id=14861).
 # Remove CustomerCompanyValid from config map.
 delete $Data->{CustomerCompanyValid};
 
