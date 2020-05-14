@@ -5277,7 +5277,7 @@ sub Data {
         'Client Connection Charset' => 'クライアントコネクションのキャラクターセット',
         'Setting character_set_client needs to be utf8.' => 'character_set_client は utf8 に設定する必要があります',
         'Server Database Charset' => 'データーベースサーバーのキャラクターセット',
-        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
             '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Table キャラクターセット',

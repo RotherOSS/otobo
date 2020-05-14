@@ -355,7 +355,7 @@ $Selenium->RunTest(
         }
 
         # Disable 'Frontend::Module###AgentTicketEmail' does not remove split target 'Email ticket'.
-        # See bug#13690 (https://bugs.otobo.org/show_bug.cgi?id=13690) for more information.
+        # See bug#13690 (https://bugs.otrs.org/show_bug.cgi?id=13690) for more information.
         $Helper->ConfigSettingChange(
             Valid => 0,
             Key   => "Frontend::Module###AgentTicketEmail",
@@ -394,7 +394,7 @@ $Selenium->RunTest(
             JavaScript => 'return !$(".Dialog.Modal").length;'
         );
 
-        # Check customer information widget (https://bugs.otobo.org/show_bug.cgi?id=14414).
+        # Check customer information widget (https://bugs.otrs.org/show_bug.cgi?id=14414).
         # Enable AgentTicketEmail frontend module.
         $Helper->ConfigSettingChange(
             Valid => 1,

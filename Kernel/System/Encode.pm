@@ -160,7 +160,7 @@ sub Convert {
 
     # this is a workaround for following bug in Encode::HanExtra
     # https://rt.cpan.org/Public/Bug/Display.html?id=71720
-    # see also http://bugs.otobo.org/show_bug.cgi?id=10121
+    # see also http://bugs.otrs.org/show_bug.cgi?id=10121
     # distributed charsets by Encode::HanExtra
     # http://search.cpan.org/~jhi/perl-5.8.1/ext/Encode/lib/Encode/Supported.pod
     my %AdditionalChineseCharsets = (
@@ -353,7 +353,7 @@ sub ConfigureOutputFileHandle {
     return if ref $Param{FileHandle} ne 'GLOB';
 
     # http://www.perlmonks.org/?node_id=644786
-    # http://bugs.otobo.org/show_bug.cgi?id=12100
+    # http://bugs.otrs.org/show_bug.cgi?id=12100
     binmode( $Param{FileHandle}, ':utf8' );    ## no critic
 
     return 1;

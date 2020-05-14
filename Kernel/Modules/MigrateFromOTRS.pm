@@ -561,15 +561,6 @@ sub _Finish {
         UserID      => 1,
     );
 
-    # If running under PerlEx, reload the application (and thus the configuration).
-    if (
-        exists $ENV{'GATEWAY_INTERFACE'}
-        && $ENV{'GATEWAY_INTERFACE'} eq "CGI-PerlEx"
-        )
-    {
-        PerlEx::ReloadAll();
-    }
-
     # check web server - is a restart needed?
     my $Webserver;
 

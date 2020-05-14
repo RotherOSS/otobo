@@ -982,7 +982,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
         }
 
         // Reinitialize events for Customer Users table on update.
-        // See bug#14737 for more details (https://bugs.otobo.org/show_bug.cgi?id=14737).
+        // See bug#14737 for more details (https://bugs.otrs.org/show_bug.cgi?id=14737).
         if (!$.isEmptyObject(Core.Agent.SwitchToCustomerAction)) {
             Core.Agent.SwitchToCustomerAction.Init();
         }

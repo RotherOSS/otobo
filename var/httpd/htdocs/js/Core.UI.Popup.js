@@ -503,7 +503,7 @@ Core.UI.Popup = (function (TargetNS) {
                     PopupFeatures += ',left=' + ((window.screen.left || 0) + PopupProfiles[PopupProfile].Left);
                     PopupFeatures += ',width=' + PopupProfiles[PopupProfile].Width;
 
-                    // Bug#11205 (http://bugs.otobo.org/show_bug.cgi?id=11205)
+                    // Bug#11205 (http://bugs.otrs.org/show_bug.cgi?id=11205)
                     // On small screens (still wide enough to open a popup)
                     // it can happen, that the popup window is higher than the screen height
                     // In this case, reduce the popup height to fit into the screen

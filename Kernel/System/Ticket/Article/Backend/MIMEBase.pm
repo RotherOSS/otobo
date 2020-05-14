@@ -340,7 +340,7 @@ sub ArticleCreate {
     }
 
     # Generate unique fingerprint for searching created article in database to prevent race conditions
-    #   (see https://bugs.otobo.org/show_bug.cgi?id=12438).
+    #   (see https://bugs.otrs.org/show_bug.cgi?id=12438).
     my $RandomString = $MainObject->GenerateRandomString(
         Length => 32,
     );
@@ -368,7 +368,7 @@ sub ArticleCreate {
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
     # Check if there are additional To's from InvolvedAgent and InformAgent.
-    #   See bug#13422 (https://bugs.otobo.org/show_bug.cgi?id=13422).
+    #   See bug#13422 (https://bugs.otrs.org/show_bug.cgi?id=13422).
     if ( $Param{ForceNotificationToUserID} && ref $Param{ForceNotificationToUserID} eq 'ARRAY' ) {
         my $NewTo = '';
         USER:

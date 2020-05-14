@@ -383,7 +383,7 @@ $Selenium->RunTest(
         }
 
         # Check adding new notification text.
-        #   See bug bug#13883 - (https://bugs.otobo.org/show_bug.cgi?id=13883).
+        #   See bug bug#13883 - (https://bugs.otrs.org/show_bug.cgi?id=13883).
         my @Languages = (
             {
                 Language => 'Deutsch - German',

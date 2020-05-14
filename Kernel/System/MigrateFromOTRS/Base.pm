@@ -106,7 +106,7 @@ sub CleanLicenseHeader {
 
     if (! $Parse ) {
 
-        print STDERR "File extension for file $FilePathAndName is not active - please check if you need to add a new regexp.";
+        print STDERR "File extension for file $FilePathAndName is not active - please check if you need to add a new regexp.\n";
 
         close $FileHandle;
         return 1;

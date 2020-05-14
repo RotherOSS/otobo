@@ -5272,7 +5272,7 @@ sub Data {
         'Client Connection Charset' => 'Zeichensatz der Client-Verbindung',
         'Setting character_set_client needs to be utf8.' => 'Einstellung character_set_client muss \'utf8\' sein.',
         'Server Database Charset' => 'Zeichensatz des Datenbank-Servers',
-        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
             '',
         'The setting character_set_database needs to be \'utf8\'.' => 'Die Einstellung character_set_database muss \'utf8\' sein.',
         'Table Charset' => 'Zeichensatz der Tabellen',

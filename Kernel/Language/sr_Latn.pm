@@ -5277,7 +5277,7 @@ sub Data {
         'Client Connection Charset' => 'Karakterset za povezivanje klijenta',
         'Setting character_set_client needs to be utf8.' => 'Podešavanje character_set_client mora biti utf8.',
         'Server Database Charset' => 'Karakterset serverske baze podataka',
-        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
             '',
         'The setting character_set_database needs to be \'utf8\'.' => 'Podešavanje character_set_database mora biti \'utf8\'.',
         'Table Charset' => 'Tabela karakterseta',

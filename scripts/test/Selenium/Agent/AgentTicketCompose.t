@@ -486,7 +486,7 @@ $Selenium->RunTest(
             "Default customer visibility is honored",
         );
 
-        # Test bug #11810 - http://bugs.otobo.org/show_bug.cgi?id=11810.
+        # Test bug #11810 - http://bugs.otrs.org/show_bug.cgi?id=11810.
         # Translate ticket data tags (e.g. <OTOBO_TICKET_State> ) in standard template.
         $Kernel::OM->ObjectParamAdd(
             'Kernel::Language' => {
@@ -647,7 +647,7 @@ $Selenium->RunTest(
         );
 
         # Check if Ticket number is shown correctly in text field.
-        # See bug#133995 https://bugs.otobo.org/show_bug.cgi?id=13995
+        # See bug#133995 https://bugs.otrs.org/show_bug.cgi?id=13995
         my $TicketNumber = $TicketObject->TicketNumberLookup(
             TicketID => $TicketID,
         );

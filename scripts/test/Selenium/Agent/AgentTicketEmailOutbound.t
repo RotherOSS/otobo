@@ -224,7 +224,7 @@ $Selenium->RunTest(
             'Ticket email outbound completed'
         );
 
-        # Check email sending multiplication (see bug#14694 - https://bugs.otobo.org/show_bug.cgi?id=14694).
+        # Check email sending multiplication (see bug#14694 - https://bugs.otrs.org/show_bug.cgi?id=14694).
         # Navigate to AgentTicketEmailOutbound screen of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketEmailOutbound;TicketID=$TicketID");
 

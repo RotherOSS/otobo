@@ -179,7 +179,7 @@ $Selenium->RunTest(
         }
 
         # Check if PendingDiffTime set to 0 submits phone inbound form if state not pending.
-        # See bug#13906 https://bugs.otobo.org/show_bug.cgi?id=13906.
+        # See bug#13906 https://bugs.otrs.org/show_bug.cgi?id=13906.
 
         # Setup 'PendingDiffTime' config to 0 seconds.
         $Helper->ConfigSettingChange(
