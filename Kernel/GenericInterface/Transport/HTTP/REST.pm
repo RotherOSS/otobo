@@ -111,7 +111,7 @@ sub ProviderProcessRequest {
 
     my $Operation;
     my %URIData;
-    my $RequestURI = $ENV{REQUEST_URI} || $ENV{PATH_INFO};
+    my $RequestURI = $ENV{REQUEST_URI};
     $RequestURI =~ s{.*Webservice(?:ID)?\/[^\/]+(\/.*)$}{$1}xms;
 
     # Remove any query parameter from the URL
@@ -913,9 +913,8 @@ sub _Output {
     # Prepare protocol.
     my $Protocol = defined $ENV{SERVER_PROTOCOL} ? $ENV{SERVER_PROTOCOL} : 'HTTP/1.0';
 
-    # FIXME: according to SOAP::Transport::HTTP the previous should only be used
-    #   for IIS to imitate nph- behavior
-    #   for all other browser 'Status:' should be used here
+    # FIXME: according to SOAP::Transport::HTTP the previous should not be used
+    #   for all supported browsers 'Status:' should be used here
     #   this breaks apache though
 
     # prepare data
