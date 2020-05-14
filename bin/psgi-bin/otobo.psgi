@@ -159,8 +159,10 @@ my $App = builder {
         403 => '/otobo/index.pl';  # forbidden files
 
     # GATEWAY_INTERFACE is used for determining whether a command runs in a web context
+    # OTOBO_RUNS_UNDER_PSGI is a signal that PSGI is used
     enable ForceEnv =>
-        GATEWAY_INTERFACE => 'CGI/1.1';
+        OTOBO_RUNS_UNDER_PSGI => '1',
+        GATEWAY_INTERFACE     => 'CGI/1.1';
 
     # do some pre- and postprocessing in an inline middleware
     enable $MiddleWare;
