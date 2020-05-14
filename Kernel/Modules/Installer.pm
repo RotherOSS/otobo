@@ -698,15 +698,6 @@ sub Run {
             Name => 'DatabaseResultItemDone',
         );
 
-        # If running under PerlEx, reload the application (and thus the configuration).
-        if (
-            exists $ENV{'GATEWAY_INTERFACE'}
-            && $ENV{'GATEWAY_INTERFACE'} eq "CGI-PerlEx"
-            )
-        {
-            PerlEx::ReloadAll();
-        }
-
         $LayoutObject->Block(
             Name => 'DatabaseResultSuccess',
         );
@@ -946,15 +937,6 @@ sub Run {
             Force       => 1,
             UserID      => 1,
         );
-
-        # If running under PerlEx, reload the application (and thus the configuration).
-        if (
-            exists $ENV{'GATEWAY_INTERFACE'}
-            && $ENV{'GATEWAY_INTERFACE'} eq "CGI-PerlEx"
-            )
-        {
-            PerlEx::ReloadAll();
-        }
 
         # Set a generated password for the 'root@localhost' account.
         my $UserObject = $Kernel::OM->Get('Kernel::System::User');
