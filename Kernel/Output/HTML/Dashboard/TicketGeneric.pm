@@ -723,7 +723,7 @@ sub Run {
             }
 
             # Filter is used and is not in user prefered values, show no results.
-            # See bug#12808 ( https://bugs.otobo.org/show_bug.cgi?id=12808 ).
+            # See bug#12808 ( https://bugs.otrs.org/show_bug.cgi?id=12808 ).
             if (
                 $Filter
                 && IsArrayRefWithData( $TicketSearchSummary{ $Self->{Filter} }->{$Filter} )
@@ -820,7 +820,7 @@ sub Run {
                 }
 
                 # Filter is used and is not in user prefered values, show no results.
-                # See bug#12808 ( https://bugs.otobo.org/show_bug.cgi?id=12808 ).
+                # See bug#12808 ( https://bugs.otrs.org/show_bug.cgi?id=12808 ).
                 if (
                     $Filter
                     && IsArrayRefWithData( $TicketSearchSummary{$Type}->{$Filter} )
@@ -2196,7 +2196,7 @@ sub _ColumnFilterJSON {
 
         # Keys must be link encoded for dynamic fields because they are added to URL during filtering
         # and can contain characters like '&', ';', etc.
-        # See bug#14497 - https://bugs.otobo.org/show_bug.cgi?id=14497.
+        # See bug#14497 - https://bugs.otrs.org/show_bug.cgi?id=14497.
         my $Encoding = ( $Param{ColumnName} =~ m/^DynamicField_/ ) ? 1 : 0;
 
         # Set possible values.

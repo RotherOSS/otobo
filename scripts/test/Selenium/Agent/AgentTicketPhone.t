@@ -346,7 +346,7 @@ $Selenium->RunTest(
         );
 
         # Select SubQueue on loading screen.
-        # Bug#12819 ( https://bugs.otobo.org/show_bug.cgi?id=12819 ) - queue contains spaces in the name.
+        # Bug#12819 ( https://bugs.otrs.org/show_bug.cgi?id=12819 ) - queue contains spaces in the name.
         # Navigate to AgentTicketPhone screen again to check selecting a queue after loading screen.
         $QueueValue = $QueueID2 . "||Junk::SubQueue $RandomID  $RandomID";
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhone");

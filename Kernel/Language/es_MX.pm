@@ -5271,7 +5271,7 @@ sub Data {
         'Client Connection Charset' => 'Juego de Caracteres de la Conexión del Cliente',
         'Setting character_set_client needs to be utf8.' => 'Configura character_set_client a un valor de utf8.',
         'Server Database Charset' => 'Juego de Caracteres del Servidor de Base de Datos',
-        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
             '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Juego de Caracter de la Tabla',

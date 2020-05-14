@@ -210,7 +210,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
         });
 
         // Prevent form submit, if To, CC or Bcc are not correctly saved yet
-        // see http://bugs.otobo.org/show_bug.cgi?id=10022 for details
+        // see http://bugs.otrs.org/show_bug.cgi?id=10022 for details
         $('#submitRichText').on('click', function (Event) {
             var ToCustomer = $('#ToCustomer').val() || '',
                 CcCustomer = $('#CcCustomer').val() || '',

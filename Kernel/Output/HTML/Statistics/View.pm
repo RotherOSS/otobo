@@ -1111,7 +1111,7 @@ sub RestrictionsWidget {
                 ? 'DynamicFieldWithTreeView' : '';
 
             # Take into account config 'IncludeUnknownTicketCustomers' for CustomerID restriction field.
-            # See bug#14869 (https://bugs.otobo.org/show_bug.cgi?id=14869).
+            # See bug#14869 (https://bugs.otrs.org/show_bug.cgi?id=14869).
             if (
                 $ObjectAttribute->{Element} eq 'CustomerID'
                 && !$ConfigObject->Get('Ticket::IncludeUnknownTicketCustomers')

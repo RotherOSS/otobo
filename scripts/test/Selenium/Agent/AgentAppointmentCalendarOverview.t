@@ -864,7 +864,7 @@ $Selenium->RunTest(
         $Selenium->find_element( '.fc-agendaWeek-button', 'css' )->click();
 
         # Go to other screen to check if selected Timeline will be saved on return to Calendar overview.
-        # See bug#14629 - https://bugs.otobo.org/show_bug.cgi?id=14629.
+        # See bug#14629 - https://bugs.otrs.org/show_bug.cgi?id=14629.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=${TicketID}");
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview");
 

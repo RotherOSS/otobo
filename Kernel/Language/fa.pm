@@ -5276,7 +5276,7 @@ sub Data {
         'Client Connection Charset' => 'اتصال مشتری نویسهگان',
         'Setting character_set_client needs to be utf8.' => 'تنظیم character_set_client نیاز به UTF8 باشد.',
         'Server Database Charset' => 'سرور مجموعه کاراکتر پایگاه',
-        'This character set is not yet supported, please see https://bugs.otobo.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
             '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'جدول مجموعه کاراکتر',

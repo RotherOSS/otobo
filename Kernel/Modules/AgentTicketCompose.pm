@@ -1372,7 +1372,7 @@ sub Run {
             last ARTICLEMETADATA;
         }
 
-        # Merge ticket data with article data, see bug#13995 (https://bugs.otobo.org/show_bug.cgi?id=13995).
+        # Merge ticket data with article data, see bug#13995 (https://bugs.otrs.org/show_bug.cgi?id=13995).
         %Data = ( %Ticket, %Data );
 
         # If article is not a MIMEBase article, get customer recipients from the backend.

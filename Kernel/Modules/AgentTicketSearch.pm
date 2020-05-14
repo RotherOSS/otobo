@@ -651,7 +651,7 @@ sub Run {
         # Special behavior for the fulltext search toolbar module:
         # - Check full text string to see if contents is a ticket number.
         # - If exists and not in print or CSV mode, redirect to the ticket.
-        # See http://bugs.otobo.org/show_bug.cgi?id=4238 for details.
+        # See http://bugs.otrs.org/show_bug.cgi?id=4238 for details.
         #   The original problem was that tickets with customer reply will be
         #   found by a fulltext search (ticket number is in the subjects), but
         #   'new' tickets will not be found.
@@ -961,7 +961,7 @@ sub Run {
                 );
 
                 # Transform EscalationTime and EscalationTimeWorkingTime to a human readable format.
-                # See bug#13088 (https://bugs.otobo.org/show_bug.cgi?id=13088).
+                # See bug#13088 (https://bugs.otrs.org/show_bug.cgi?id=13088).
                 $Info{EscalationTime} = $LayoutObject->CustomerAgeInHours(
                     Age   => $Info{EscalationTime},
                     Space => ' ',

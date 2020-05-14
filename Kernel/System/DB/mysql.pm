@@ -113,7 +113,7 @@ sub PreProcessBindData {
         #   The mysql_enable_utf8 flag seems to be unusable because it treats ALL data as UTF8 unless
         #   it has a custom bind data type like SQL_BLOB.
         #
-        #   See also https://bugs.otobo.org/show_bug.cgi?id=12677.
+        #   See also https://bugs.otrs.org/show_bug.cgi?id=12677.
         $EncodeObject->EncodeOutput( \$BindRef->[$I] );
     }
     return;

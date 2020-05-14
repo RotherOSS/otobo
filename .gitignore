@@ -16,11 +16,10 @@ var/log/ssl_request_log
 .vscode
 .vimrc
 
-# OTRS
+# OTOBO
 .procmailrc
 /ARCHIVE
 doc/manual/en
-doc/en/otrs_business_solution_book.pdf
 Kernel/Config/Backups/
 Kernel/Config/Files/ZZZ*.pm
 Kernel/Config/Files/User/*
@@ -67,15 +66,15 @@ var/httpd/htdocs/skins/Customer/default/css/*Fred*css
 # NYTProf
 nytprof*.out
 
-# OTRSCodePolicy
+# CodePolicy
 .tidyall.d
 perltidy.LOG.old
-bin/otrs.CodePolicy.pl
+bin/otobo.CodePolicy.pl
 TidyAll
 Kernel/cpan-lib/Locale/PO.pm
 scripts/install-git-hooks.pl
 scripts/uninstall-git-hooks.pl
-OTRSCodePolicy*
+CodePolicy*
 perltidy.LOG
 
 # ITSM
@@ -84,22 +83,10 @@ bin/CodeInstall.pl
 bin/ModuleCode.pl
 bin/DatabaseInstall.pl
 
-# OTRSCodeHub
+# CodeHub
 var/git
 
-# STORM
-Kernel/Config/Files/XML/OTRSStorm.xml
-Kernel/Modules/AdminSTORM.pm
-Kernel/Output/HTML/Templates/Standard/AdminSTORM.tt
-Kernel/Output/HTML/Templates/Standard/NotificationEvent/Email/TLP-Amber.tt
-Kernel/Output/HTML/Templates/Standard/NotificationEvent/Email/TLP-Green.tt
-Kernel/Output/HTML/Templates/Standard/NotificationEvent/Email/TLP-Red.tt
-Kernel/Output/HTML/Templates/Standard/NotificationEvent/Email/TLP-White.tt
-var/httpd/htdocs/skins/Agent/storm/*
-var/packagesetup/OTRSSTORM.pm
-OTRSSTORM.sopm
-
-# OTRSContinuousIntegrationProvisioner (vagrant VMs)
+# ContinuousIntegrationProvisioner (vagrant VMs)
 .cache
 .ssh
 .viminfo

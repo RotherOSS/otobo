@@ -343,7 +343,7 @@ JAVASCRIPT
         );
 
         # Add all possible prefix values to check for inputed values see bug#12854
-        # ( https://bugs.otobo.org/show_bug.cgi?id=12854 ).
+        # ( https://bugs.otrs.org/show_bug.cgi?id=12854 ).
         $Count = 1;
         for my $Prefix ( '[Not]', '[RegExp]', '[regexp]', '[NotRegExp]', '[Notregexp]' ) {
             $Selenium->find_element( "#Prefixes option[Value='$Prefix']", 'css' )->click();
@@ -453,7 +453,7 @@ JAVASCRIPT
                 "return typeof(\$) === 'function' && \$('a[href*=\"Action=AdminACL;Subaction=ACLCopy;ID=$ACLID\"]').length;"
         );
 
-        # Create another copy of the same ACL, see bug#13204 (https://bugs.otobo.org/show_bug.cgi?id=13204).
+        # Create another copy of the same ACL, see bug#13204 (https://bugs.otrs.org/show_bug.cgi?id=13204).
         $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLCopy;ID=$ACLID;' )]")
             ->VerifiedClick();
 

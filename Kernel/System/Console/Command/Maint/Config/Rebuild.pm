@@ -66,7 +66,7 @@ sub PreRun {
     my $ShowMessage   = 1;
 
     # Make sure that only one rebuild config command is running at the same time. Wait up to 2 minutes
-    #    until other instances are done (see https://bugs.otobo.org/show_bug.cgi?id=14259).
+    #    until other instances are done (see https://bugs.otrs.org/show_bug.cgi?id=14259).
     PID:
     while ( $WaitedSeconds <= $Time ) {
         my %PID = $PIDObject->PIDGet(
