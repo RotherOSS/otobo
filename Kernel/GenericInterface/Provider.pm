@@ -73,8 +73,7 @@ and returns an appropriate answer based on the requested web service.
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # On Microsoft IIS 7.0, $ENV{REQUEST_URI} is not set. See bug#9172.
-    my $RequestURI = $ENV{REQUEST_URI} || $ENV{PATH_INFO};
+    my $RequestURI = $ENV{REQUEST_URI};
 
     #
     # Locate and verify the desired web service based on the request URI and load its configuration data.
