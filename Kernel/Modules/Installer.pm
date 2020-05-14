@@ -997,8 +997,7 @@ sub Run {
             }
         }
 
-        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-        my $OTOBOHandle = $ParamObject->{Query}->script_name . $ParamObject->{Query}->path_info;
+        my $OTOBOHandle = $ENV{SCRIPT_NAME};
         $OTOBOHandle =~ s/\/(.*)\/installer\.pl/$1/;
         my $Output =
             $LayoutObject->Header(

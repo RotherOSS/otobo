@@ -12,6 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
+local $ENV{SCRIPT_NAME} = 'index.pl';
+
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 $Kernel::OM->ObjectParamAdd(
