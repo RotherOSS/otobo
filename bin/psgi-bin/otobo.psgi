@@ -54,22 +54,20 @@ use lib '/opt/otobo/Custom';
 
 # core modules
 use Data::Dumper;
-use POSIX 'SEEK_SET';
 
 # CPAN modules
 use DateTime ();
 use Template ();
 use Encode qw(:all);
-use CGI::PSGI ();
-use CGI::Parse::PSGI ();
+use CGI ();
 use CGI::Carp ();
+use CGI::Emulate::PSGI ();
+use Module::Refresh;
 use Plack::Builder;
 use Plack::Middleware::ErrorDocument;
 use Plack::Middleware::Header;
 use Plack::Middleware::ForceEnv;
 use Plack::App::File;
-use Plack::App::CGIBin;
-use Module::Refresh;
 
 # for future use:
 #use Plack::Middleware::CamelcadeDB;
@@ -102,7 +100,7 @@ use Kernel::System::ObjectManager;
 eval { require Net::DNS };
 
 # this might improve performance
-CGI::PSGI->compile(':cgi');
+CGI->compile(':cgi');
 
 print STDERR "PLEASE NOTE THAT PLACK SUPPORT IS AS OF MAY 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
 
@@ -167,103 +165,81 @@ my $App = builder {
     # do some pre- and postprocessing in an inline middleware
     enable $MiddleWare;
 
-    sub {
-        my $env = shift;
+    # Set the appropriate %ENV and file handles
+    CGI::Emulate::PSGI->handler(
 
-        # set up the CGI-Object from the PSGI environemnt
-        # Call CGI::initialize_globals() implicitly
-        my $WebRequest = CGI::PSGI->new($env);
+        # logic taken from the scripts in bin/cgi-bin
+        sub {
+            my $env = shift;
 
-        # 0=off;1=on;
-        my $Debug = 0;
+            # make sure to have a clean CGI.pm for each request, see CGI::Compile
+            CGI::initialize_globals() if defined &CGI::initialize_globals;
 
-        my $stdout  = IO::File->new_tmpfile;
+            # 0=off;1=on;
+            my $Debug = 0;
 
-        {
-            my $saver = SelectSaver->new("::STDOUT");
+            # set in $MiddleWare
+            my $ScriptFileName = $env->{'otobo.script_file_name'} // 'index.pl';
 
-            {
-                # no need to bend STDIN, as input is handled by CGI::PSGI
-                local *STDOUT = $stdout;
-                local *STDERR = $env->{'psgi.errors'};
-
-                my $ScriptFileName = $env->{'otobo.script_file_name'} // 'index.pl';
-
-                # nph-genericinterface.pl has specific logging
-                my @ObjectManagerArgs;
-                if ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
-                    push  @ObjectManagerArgs,
-                        'Kernel::System::Log' => {
-                            LogPrefix => 'GenericInterfaceProvider',
-                        },
-                }
-
-                local $Kernel::OM = Kernel::System::ObjectManager->new(@ObjectManagerArgs);
-
-                # find the relevant interface class
-                my $Interface;
-                {
-                    if ( $ScriptFileName eq 'index.pl' ) {
-                        $Interface = Kernel::System::Web::InterfaceAgent->new(
-                            Debug      => $Debug,
-                            WebRequest => $WebRequest,
-                        );
-                    }
-                    elsif ( $ScriptFileName eq 'customer.pl' ) {
-                        $Interface = Kernel::System::Web::InterfaceCustomer->new(
-                            Debug      => $Debug,
-                            WebRequest => $WebRequest,
-                        );
-                    }
-                    elsif ( $ScriptFileName eq 'public.pl' ) {
-                        $Interface = Kernel::System::Web::InterfacePublic->new(
-                            Debug      => $Debug,
-                            WebRequest => $WebRequest,
-                        );
-                    }
-                    elsif ( $ScriptFileName eq 'installer.pl' ) {
-                        $Interface = Kernel::System::Web::InterfaceInstaller->new(
-                            Debug      => $Debug,
-                            WebRequest => $WebRequest,
-                        );
-                    }
-                    elsif ( $ScriptFileName eq 'migration.pl' ) {
-                        $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
-                            Debug      => $Debug,
-                            WebRequest => $WebRequest,
-                        );
-                    }
-                    elsif ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
-                        $Interface = Kernel::GenericInterface::Provider->new(
-                            Debug      => $Debug,
-                            WebRequest => $WebRequest,
-                        );
-                    }
-                    else {
-
-                        # fallback
-                        $Interface //= Kernel::System::Web::InterfaceAgent->new(
-                            Debug      => $Debug,
-                            WebRequest => $WebRequest,
-                        );
-                    }
-                }
-
-                # do the work
-                $Interface->Run;
+            # nph-genericinterface.pl has specific logging
+            my @ObjectManagerArgs;
+            if ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
+                push  @ObjectManagerArgs,
+                    'Kernel::System::Log' => {
+                        LogPrefix => 'GenericInterfaceProvider',
+                    },
             }
+
+            local $Kernel::OM = Kernel::System::ObjectManager->new(@ObjectManagerArgs);
+
+            # find the relevant interface class
+            my $Interface;
+            {
+                if ( $ScriptFileName eq 'index.pl' ) {
+                    $Interface = Kernel::System::Web::InterfaceAgent->new(
+                        Debug      => $Debug,
+                    );
+                }
+                elsif ( $ScriptFileName eq 'customer.pl' ) {
+                    $Interface = Kernel::System::Web::InterfaceCustomer->new(
+                        Debug      => $Debug,
+                    );
+                }
+                elsif ( $ScriptFileName eq 'public.pl' ) {
+                    $Interface = Kernel::System::Web::InterfacePublic->new(
+                        Debug      => $Debug,
+                    );
+                }
+                elsif ( $ScriptFileName eq 'installer.pl' ) {
+                    $Interface = Kernel::System::Web::InterfaceInstaller->new(
+                        Debug      => $Debug,
+                    );
+                }
+                elsif ( $ScriptFileName eq 'migration.pl' ) {
+                    $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
+                        Debug      => $Debug,
+                    );
+                }
+                elsif ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
+                    $Interface = Kernel::GenericInterface::Provider->new();
+                }
+                else {
+
+                    # fallback
+                    $Interface = Kernel::System::Web::InterfaceAgent->new(
+                        Debug      => $Debug,
+                    );
+                }
+            }
+
+            # do the work
+            $Interface->Run;
         }
-
-        # start reading the output from the start
-        seek( $stdout, 0, SEEK_SET ) or croak("Can't seek stdout handle: $!");
-
-        my $res = CGI::Parse::PSGI::parse_cgi_output($stdout);
-
-        return $res;
-    };
+    );
 };
 
 builder {
+
     # Server the static files in var/httpd/httpd.
     # Same as: Alias /otobo-web/ "/opt/otobo/var/httpd/htdocs/"
     # Access is granted for all.
@@ -285,29 +261,13 @@ builder {
             Plack::App::File->new(root => '/opt/otobo/var/httpd/htdocs')->to_app;
         };
 
-    # Port of index.pl, customer.pl, public.pl, installer.pl, migration.pl, nph-genericinterface.pl to Plack.
+    # Wrap the CGI-scripts in bin/cgi-bin.
+    # The pathes are explicit so the $ENV{SCRIPT_NAME} is set the same way as under mod_perl
     mount '/otobo/index.pl'                => $App;
     mount '/otobo/customer.pl'             => $App;
     mount '/otobo/public.pl'               => $App;
     mount '/otobo/installer.pl'            => $App;
     mount '/otobo/migration.pl'            => $App;
     mount '/otobo/nph-genericinterface.pl' => $App;
-
-    # Serve the remaining CGI-scripts in bin/cgi-bin. E.g. rpc.pl.
-    # Same as: ScriptAlias /otobo/ "/opt/otobo/bin/cgi-bin/"
-    # Access checking is done by the application.
-    mount '/otobo'     => builder {
-
-        enable "Plack::Middleware::ErrorDocument",
-            403 => '/otobo/index.pl';  # forbidden files
-
-        # do some pre- and postprocessing in an inline middleware
-        enable $MiddleWare;
-
-        # Execute the scripts in the appropriate environment.
-        # The scripts are actually compiled by CGI::Compile,
-        # CGI::initialize_globals() is called implicitly by CGI::Compile
-        # $ENV{GATEWAY_INTERFACE} is set implicitly by CGI::Emulate::PSGI
-        Plack::App::CGIBin->new(root => '/opt/otobo/bin/cgi-bin')->to_app;
-    };
+    mount '/otobo/rpc.pl'                  => $App;
 };
