@@ -12,5 +12,5 @@ and they will be used if the theme is selected.
 
 It also works for unit test files. Just place them in Custom/scripts/test.
 
-If you use Apache + mod_perl or PerlEx, any Perl module files placed in this directory
+If you use Apache + mod_perl or PSGI, any Perl module files placed in this directory
 will only be loaded by your web server after you restarted it.

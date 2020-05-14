@@ -101,13 +101,8 @@ to get the error back
 sub Error {
     my ( $Self, %Param ) = @_;
 
-    # Workaround, do not check cgi_error() with perlex, CGI module is not
-    # working with perlex.
-    if ( $ENV{'GATEWAY_INTERFACE'} && $ENV{'GATEWAY_INTERFACE'} =~ /^CGI-PerlEx/ ) {
-        return;
-    }
-
     return if !$Self->{Query}->cgi_error();
+
     ## no critic
     return $Self->{Query}->cgi_error() . ' - POST_MAX=' . ( $CGI::POST_MAX / 1024 ) . 'KB';
     ## use critic
