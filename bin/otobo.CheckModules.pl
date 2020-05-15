@@ -102,29 +102,35 @@ my %DistToInstType = (
     freebsd => 'ports',
 );
 
+# Used for the generation of a cpanfile.
+my %FeatureDescription = (
+    mysql        => 'Support for database MySQL',
+    odbc         => 'Support for database access via ODBC',
+    oracle       => 'Support for database Oracle',
+    postgresql   => 'Support for database PostgreSQL',
+);
+
 my $OSDist;
 eval {
     require Linux::Distribution;    ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
     import Linux::Distribution;
     $OSDist = Linux::Distribution::distribution_name() || '';
 };
-if ( !defined $OSDist ) {
-    $OSDist = $^O;
-}
+$OSDist //= $^O;
 
-my $PrintAllModules;
-my $PrintPackageList;
-my $PrintCpanfile;
-my $PrintHelp;
+my $DoPrintAllModules;
+my $DoPrintPackageList;
+my $DoPrintCpanfile;
+my $DoPrintHelp;
 GetOptions(
-    all       => \$PrintAllModules,
-    list      => \$PrintPackageList,
-    cpanfile  => \$PrintCpanfile,
-    'help|h'  => \$PrintHelp,
+    all       => \$DoPrintAllModules,
+    list      => \$DoPrintPackageList,
+    cpanfile  => \$DoPrintCpanfile,
+    'help|h'  => \$DoPrintHelp,
 );
 
 # check needed params
-if ($PrintHelp) {
+if ($DoPrintHelp) {
     print "\n";
     print "Print all required and optional packages of OTOBO.\n";
     print "Optionally limit to the required but missing packages or modules.\n";
@@ -146,13 +152,16 @@ if ($PrintHelp) {
 my $Options = shift || '';
 my $NoColors;
 
-if ( $PrintCpanfile || $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
+if ( $DoPrintCpanfile || $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
     $NoColors = 1;
 }
 
 my $ExitCode = 0;    # success
 
-# config
+# This is the reference for Perl modules that are required by OTOBO.
+# Modules that are required are marked by setting 'Required' to 1.
+# Dependent packages can be declared by setting 'Depends' to a ref to an array of hash refs.
+# The key 'Features' is only used for supporting features when creating a cpanfile.
 my @NeededModules = (
     {
         Module    => 'Apache::DBI',
@@ -254,6 +263,7 @@ my @NeededModules = (
         Module    => 'DBD::mysql',
         Required  => 0,
         Comment   => 'Required to connect to a MySQL database.',
+        Features  => ['mysql'],
         InstTypes => {
             aptget => 'libdbd-mysql-perl',
             emerge => 'dev-perl/DBD-mysql',
@@ -272,6 +282,7 @@ my @NeededModules = (
             },
         ],
         Comment   => 'Required to connect to a MS-SQL database.',
+        Features  => ['odbc'],
         InstTypes => {
             aptget => 'libdbd-odbc-perl',
             emerge => undef,
@@ -284,6 +295,7 @@ my @NeededModules = (
         Module    => 'DBD::Oracle',
         Required  => 0,
         Comment   => 'Required to connect to a Oracle database.',
+        Features  => ['oracle'],
         InstTypes => {
             aptget => undef,
             emerge => undef,
@@ -296,6 +308,7 @@ my @NeededModules = (
         Module    => 'DBD::Pg',
         Required  => 0,
         Comment   => 'Required to connect to a PostgreSQL database.',
+        Features  => ['postgresql'],
         InstTypes => {
             aptget => 'libdbd-pg-perl',
             emerge => 'dev-perl/DBD-Pg',
@@ -606,16 +619,11 @@ my @NeededModules = (
     },
 );
 
-if ($PrintCpanfile) {
-
-    for my $Module ( @NeededModules ) {
-        if ( $Module->{Required} ) {
-            say "requires '$Module->{Module}';";
-        }
-    }
+if ($DoPrintCpanfile) {
+    PrintCpanfile( \@NeededModules, 1, 1 );
 }
-elsif ($PrintPackageList) {
-    my %PackageList = _PackageList( \@NeededModules );
+elsif ($DoPrintPackageList) {
+    my %PackageList = CollectPackageInfo( \@NeededModules );
 
     if ( IsArrayRefWithData( $PackageList{Packages} ) ) {
 
@@ -635,10 +643,10 @@ else {
     my $Depends = 0;
 
     for my $Module (@NeededModules) {
-        _Check( $Module, $Depends, $NoColors );
+        Check( $Module, $Depends, $NoColors );
     }
 
-    if ($PrintAllModules) {
+    if ($DoPrintAllModules) {
         print "\nBundled modules:\n\n";
 
         my %PerlInfo = Kernel::System::Environment->PerlInfoGet(
@@ -646,7 +654,7 @@ else {
         );
 
         for my $Module ( sort keys %{ $PerlInfo{Modules} } ) {
-            _Check(
+            Check(
                 {
                     Module   => $Module,
                     Required => 1,
@@ -658,7 +666,7 @@ else {
     }
 }
 
-sub _Check {
+sub Check {
     my ( $Module, $Depends, $NoColors ) = @_;
 
     print "  " x ( $Depends + 1 );
@@ -670,7 +678,7 @@ sub _Check {
     if ($Version) {
 
         # cleanup version number
-        my $CleanedVersion = _VersionClean(
+        my $CleanedVersion = CleanVersion(
             Version => $Version,
         );
 
@@ -698,7 +706,7 @@ sub _Check {
             for my $Item ( @{ $Module->{VersionsNotSupported} } ) {
 
                 # cleanup item version number
-                my $ItemVersion = _VersionClean(
+                my $ItemVersion = CleanVersion(
                     Version => $Item->{Version},
                 );
 
@@ -721,7 +729,7 @@ sub _Check {
             ITEM:
             for my $Item ( @{ $Module->{VersionsRecommended} } ) {
 
-                my $ItemVersion = _VersionClean(
+                my $ItemVersion = CleanVersion(
                     Version => $Item->{Version},
                 );
 
@@ -735,7 +743,7 @@ sub _Check {
         if ( $Module->{VersionRequired} ) {
 
             # cleanup item version number
-            my $RequiredModuleVersion = _VersionClean(
+            my $RequiredModuleVersion = CleanVersion(
                 Version => $Module->{VersionRequired},
             );
 
@@ -780,7 +788,7 @@ sub _Check {
         my $Color    = 'yellow';
 
         # OS Install Command
-        my %InstallCommand = _GetInstallCommand($Module);
+        my %InstallCommand = GetInstallCommand($Module);
 
         # create example installation string for module
         my $InstallText = '';
@@ -814,14 +822,14 @@ sub _Check {
 
     if ( $Module->{Depends} ) {
         for my $ModuleSub ( @{ $Module->{Depends} } ) {
-            _Check( $ModuleSub, $Depends + 1, $NoColors );
+            Check( $ModuleSub, $Depends + 1, $NoColors );
         }
     }
 
     return 1;
 }
 
-sub _PackageList {
+sub CollectPackageInfo {
     my ($PackageList) = @_;
 
     my $CMD;
@@ -836,14 +844,14 @@ sub _PackageList {
         my $Required = $Module->{Required};
         my $Version  = Kernel::System::Environment->ModuleVersionGet( Module => $Module->{Module} );
         if ( !$Version ) {
-            my %InstallCommand = _GetInstallCommand($Module);
+            my %InstallCommand = GetInstallCommand($Module);
 
             if ( $Module->{Depends} ) {
 
                 MODULESUB:
                 for my $ModuleSub ( @{ $Module->{Depends} } ) {
                     my $Required          = $Module->{Required};
-                    my %InstallCommandSub = _GetInstallCommand($ModuleSub);
+                    my %InstallCommandSub = GetInstallCommand($ModuleSub);
 
                     next MODULESUB if !IsHashRefWithData( \%InstallCommandSub );
                     next MODULESUB if !$Required;
@@ -870,7 +878,7 @@ sub _PackageList {
     );
 }
 
-sub _VersionClean {
+sub CleanVersion {
     my (%Param) = @_;
 
     return 0 if !$Param{Version};
@@ -890,7 +898,7 @@ sub _VersionClean {
     return int $CleanedVersion;
 }
 
-sub _GetInstallCommand {
+sub GetInstallCommand {
     my ($Module) = @_;
     my $CMD;
     my $SubCMD;
@@ -944,6 +952,43 @@ sub _GetInstallCommand {
         SubCMD  => $SubCMD,
         Package => $Package,
     );
+}
+
+sub PrintCpanfile {
+    my ($NeededModules, $FilterRequired, $HandleFeatures) = @_;
+
+    # print the required modules
+    # collect the modules per feature
+    my %ModulesForFeature;
+    MODULE:
+    for my $Module ( $NeededModules->@* ) {
+        if ( ! $FilterRequired || $Module->{Required} ) {
+            say "requires '$Module->{Module}';";
+
+            next MODULE;
+        }
+
+        next MODULE unless $HandleFeatures;
+        next MODULE unless $Module->{Features};
+        next MODULE unless $Module->{Features};
+        next MODULE unless ref $Module->{Features} eq 'ARRAY';
+
+        for my $Feature ( $Module->{Features}->@* ) {
+            $ModulesForFeature{$Feature} //= [];
+            push $ModulesForFeature{$Feature}->@*, $Module;
+        }
+    }
+
+    # now print out the features
+    for my $Feature ( sort keys %ModulesForFeature ) {
+        my $Desc = $FeatureDescription{$Feature} // "Suppport for $Feature";
+        say '';
+        say "feature '$Feature', '$Desc' => sub {";
+        PrintCpanfile( $ModulesForFeature{$Feature}, 0, 0 );
+        say '};';
+    }
+
+    return;
 }
 
 exit $ExitCode;
