@@ -421,6 +421,8 @@ my $App = builder {
 
 # Port of rpc.pl
 # See http://blogs.perl.org/users/confuseacat/2012/11/how-to-use-soaptransporthttpplack.html
+# TODO: this is not tested yet.
+# TODO: There can be problems when the wrapped objects expect a CGI environment.
 my $soap = SOAP::Transport::HTTP::Plack->new;
 
 my $RPCApp = builder {
