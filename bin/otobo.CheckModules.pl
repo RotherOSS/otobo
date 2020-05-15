@@ -102,6 +102,14 @@ my %DistToInstType = (
     freebsd => 'ports',
 );
 
+# Used for the generation of a cpanfile.
+my %FeatureDescription = (
+    mysql        => 'Support for database MySQL',
+    odbc         => 'Support for database access via ODBC',
+    oracle       => 'Support for database Oracle',
+    postgresql   => 'Support for database PostgreSQL',
+);
+
 my $OSDist;
 eval {
     require Linux::Distribution;    ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
@@ -146,13 +154,16 @@ if ($PrintHelp) {
 my $Options = shift || '';
 my $NoColors;
 
-if ( $PrintCpanfile || $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
+if ( $DoPrintCpanfile || $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
     $NoColors = 1;
 }
 
 my $ExitCode = 0;    # success
 
-# config
+# This is the reference for Perl modules that are required by OTOBO.
+# Modules that are required are marked by setting 'Required' to 1.
+# Dependent packages can be declared by setting 'Depends' to a ref to an array of hash refs.
+# The key 'Features' is only used for supporting features when creating a cpanfile.
 my @NeededModules = (
     {
         Module    => 'Apache::DBI',
@@ -254,6 +265,7 @@ my @NeededModules = (
         Module    => 'DBD::mysql',
         Required  => 0,
         Comment   => 'Required to connect to a MySQL database.',
+        Features  => ['mysql'],
         InstTypes => {
             aptget => 'libdbd-mysql-perl',
             emerge => 'dev-perl/DBD-mysql',
@@ -272,6 +284,7 @@ my @NeededModules = (
             },
         ],
         Comment   => 'Required to connect to a MS-SQL database.',
+        Features  => ['odbc'],
         InstTypes => {
             aptget => 'libdbd-odbc-perl',
             emerge => undef,
@@ -284,6 +297,7 @@ my @NeededModules = (
         Module    => 'DBD::Oracle',
         Required  => 0,
         Comment   => 'Required to connect to a Oracle database.',
+        Features  => ['oracle'],
         InstTypes => {
             aptget => undef,
             emerge => undef,
@@ -296,6 +310,7 @@ my @NeededModules = (
         Module    => 'DBD::Pg',
         Required  => 0,
         Comment   => 'Required to connect to a PostgreSQL database.',
+        Features  => ['postgresql'],
         InstTypes => {
             aptget => 'libdbd-pg-perl',
             emerge => 'dev-perl/DBD-Pg',
