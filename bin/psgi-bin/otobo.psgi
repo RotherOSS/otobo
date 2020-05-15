@@ -51,6 +51,185 @@ use lib '/opt/otobo/';
 use lib '/opt/otobo/Kernel/cpan-lib';
 use lib '/opt/otobo/Custom';
 
+# this package is used for rpc.pl
+package OTOBO::RPC {
+    use Kernel::System::ObjectManager;
+
+    sub new {
+        my $Self = shift;
+
+        my $Class = ref($Self) || $Self;
+        bless {} => $Class;
+
+        return $Self;
+    }
+
+    sub Dispatch {
+        my ( $Self, $User, $Pw, $Object, $Method, %Param ) = @_;
+
+        $User ||= '';
+        $Pw   ||= '';
+        local $Kernel::OM = Kernel::System::ObjectManager->new(
+            'Kernel::System::Log' => {
+                LogPrefix => 'OTOBO-RPC',
+            },
+        );
+
+        my %CommonObject;
+
+        $CommonObject{ConfigObject}          = $Kernel::OM->Get('Kernel::Config');
+        $CommonObject{CustomerCompanyObject} = $Kernel::OM->Get('Kernel::System::CustomerCompany');
+        $CommonObject{CustomerUserObject}    = $Kernel::OM->Get('Kernel::System::CustomerUser');
+        $CommonObject{EncodeObject}          = $Kernel::OM->Get('Kernel::System::Encode');
+        $CommonObject{GroupObject}           = $Kernel::OM->Get('Kernel::System::Group');
+        $CommonObject{LinkObject}            = $Kernel::OM->Get('Kernel::System::LinkObject');
+        $CommonObject{LogObject}             = $Kernel::OM->Get('Kernel::System::Log');
+        $CommonObject{PIDObject}             = $Kernel::OM->Get('Kernel::System::PID');
+        $CommonObject{QueueObject}           = $Kernel::OM->Get('Kernel::System::Queue');
+        $CommonObject{SessionObject}         = $Kernel::OM->Get('Kernel::System::AuthSession');
+        $CommonObject{TicketObject}          = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        # We want to keep providing the TimeObject as legacy API for now.
+        ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO6::TimeObject)
+        $CommonObject{TimeObject} = $Kernel::OM->Get('Kernel::System::Time');
+        $CommonObject{UserObject} = $Kernel::OM->Get('Kernel::System::User');
+
+        my $RequiredUser     = $CommonObject{ConfigObject}->Get('SOAP::User');
+        my $RequiredPassword = $CommonObject{ConfigObject}->Get('SOAP::Password');
+
+        if (
+            !defined $RequiredUser
+            || !length $RequiredUser
+            || !defined $RequiredPassword || !length $RequiredPassword
+            )
+        {
+            $CommonObject{LogObject}->Log(
+                Priority => 'notice',
+                Message  => "SOAP::User or SOAP::Password is empty, SOAP access denied!",
+            );
+            return;
+        }
+
+        if ( $User ne $RequiredUser || $Pw ne $RequiredPassword ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'notice',
+                Message  => "Auth for user $User (pw $Pw) failed!",
+            );
+            return;
+        }
+
+        if ( !$CommonObject{$Object} ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "No such Object $Object!",
+            );
+            return "No such Object $Object!";
+        }
+
+        return $CommonObject{$Object}->$Method(%Param);
+    }
+
+=item DispatchMultipleTicketMethods()
+
+to dispatch multiple ticket methods and get the TicketID
+
+    my $TicketID = $RPC->DispatchMultipleTicketMethods(
+        $SOAP_User,
+        $SOAP_Pass,
+        'TicketObject',
+        [ { Method => 'TicketCreate', Parameter => \%TicketData }, { Method => 'ArticleCreate', Parameter => \%ArticleData } ],
+    );
+
+=cut
+
+    sub DispatchMultipleTicketMethods {
+        my ( $Self, $User, $Pw, $Object, $MethodParamArrayRef ) = @_;
+
+        $User ||= '';
+        $Pw   ||= '';
+
+        # common objects
+        local $Kernel::OM = Kernel::System::ObjectManager->new(
+            'Kernel::System::Log' => {
+                LogPrefix => 'OTOBO-RPC',
+            },
+        );
+
+        my %CommonObject;
+
+        $CommonObject{ConfigObject}          = $Kernel::OM->Get('Kernel::Config');
+        $CommonObject{CustomerCompanyObject} = $Kernel::OM->Get('Kernel::System::CustomerCompany');
+        $CommonObject{CustomerUserObject}    = $Kernel::OM->Get('Kernel::System::CustomerUser');
+        $CommonObject{EncodeObject}          = $Kernel::OM->Get('Kernel::System::Encode');
+        $CommonObject{GroupObject}           = $Kernel::OM->Get('Kernel::System::Group');
+        $CommonObject{LinkObject}            = $Kernel::OM->Get('Kernel::System::LinkObject');
+        $CommonObject{LogObject}             = $Kernel::OM->Get('Kernel::System::Log');
+        $CommonObject{PIDObject}             = $Kernel::OM->Get('Kernel::System::PID');
+        $CommonObject{QueueObject}           = $Kernel::OM->Get('Kernel::System::Queue');
+        $CommonObject{SessionObject}         = $Kernel::OM->Get('Kernel::System::AuthSession');
+        $CommonObject{TicketObject}          = $Kernel::OM->Get('Kernel::System::Ticket');
+        $CommonObject{TimeObject}            = $Kernel::OM->Get('Kernel::System::Time');
+        $CommonObject{UserObject}            = $Kernel::OM->Get('Kernel::System::User');
+
+        my $RequiredUser     = $CommonObject{ConfigObject}->Get('SOAP::User');
+        my $RequiredPassword = $CommonObject{ConfigObject}->Get('SOAP::Password');
+
+        if (
+            !defined $RequiredUser
+            || !length $RequiredUser
+            || !defined $RequiredPassword || !length $RequiredPassword
+            )
+        {
+            $CommonObject{LogObject}->Log(
+                Priority => 'notice',
+                Message  => "SOAP::User or SOAP::Password is empty, SOAP access denied!",
+            );
+            return;
+        }
+
+        if ( $User ne $RequiredUser || $Pw ne $RequiredPassword ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'notice',
+                Message  => "Auth for user $User (pw $Pw) failed!",
+            );
+            return;
+        }
+
+        if ( !$CommonObject{$Object} ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "No such Object $Object!",
+            );
+            return "No such Object $Object!";
+        }
+
+        my $TicketID;
+        my $Counter;
+
+        for my $MethodParamEntry ( @{$MethodParamArrayRef} ) {
+
+            my $Method    = $MethodParamEntry->{Method};
+            my %Parameter = %{ $MethodParamEntry->{Parameter} };
+
+            # push ticket id to params if there is no ticket id
+            if ( !$Parameter{TicketID} && $TicketID ) {
+                $Parameter{TicketID} = $TicketID;
+            }
+
+            my $ReturnValue = $CommonObject{$Object}->$Method(%Parameter);
+
+            # remember ticket id if method was TicketCreate
+            if ( !$Counter && $Object eq 'TicketObject' && $Method eq 'TicketCreate' ) {
+                $TicketID = $ReturnValue;
+            }
+
+            $Counter++;
+        }
+
+        return $TicketID;
+    }
+}
+
 
 # core modules
 use Data::Dumper;
@@ -68,6 +247,7 @@ use Plack::Middleware::ErrorDocument;
 use Plack::Middleware::Header;
 use Plack::Middleware::ForceEnv;
 use Plack::App::File;
+use SOAP::Transport::HTTP::Plack;
 
 # for future use:
 #use Plack::Middleware::CamelcadeDB;
@@ -238,6 +418,30 @@ my $App = builder {
     );
 };
 
+
+# Port of rpc.pl
+# See http://blogs.perl.org/users/confuseacat/2012/11/how-to-use-soaptransporthttpplack.html
+# TODO: this is not tested yet.
+# TODO: There can be problems when the wrapped objects expect a CGI environment.
+my $soap = SOAP::Transport::HTTP::Plack->new;
+
+my $RPCApp = builder {
+
+    # GATEWAY_INTERFACE is used for determining whether a command runs in a web context
+    # OTOBO_RUNS_UNDER_PSGI is a signal that PSGI is used
+    enable ForceEnv =>
+        OTOBO_RUNS_UNDER_PSGI => '1',
+        GATEWAY_INTERFACE     => 'CGI/1.1';
+
+    sub {
+        my $env = shift;
+
+        return $soap->dispatch_to(
+                'OTOBO::RPC'
+            )->handler( Plack::Request->new( $env ) );
+    };
+};
+
 builder {
 
     # Server the static files in var/httpd/httpd.
@@ -269,5 +473,5 @@ builder {
     mount '/otobo/installer.pl'            => $App;
     mount '/otobo/migration.pl'            => $App;
     mount '/otobo/nph-genericinterface.pl' => $App;
-    mount '/otobo/rpc.pl'                  => $App;
+    mount '/otobo/rpc.pl'                  => $RPCApp;
 };
