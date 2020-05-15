@@ -620,7 +620,7 @@ my @NeededModules = (
 );
 
 if ($DoPrintCpanfile) {
-    PrintCpanfile( \@NeededModules );
+    PrintCpanfile( \@NeededModules, 1, 1 );
 }
 elsif ($DoPrintPackageList) {
     my %PackageList = CollectPackageInfo( \@NeededModules );
@@ -955,12 +955,37 @@ sub GetInstallCommand {
 }
 
 sub PrintCpanfile {
-    my ($NeededModules) = @_;
+    my ($NeededModules, $FilterRequired, $HandleFeatures) = @_;
 
+    # print the required modules
+    # collect the modules per feature
+    my %ModulesForFeature;
+    MODULE:
     for my $Module ( $NeededModules->@* ) {
-        if ( $Module->{Required} ) {
+        if ( ! $FilterRequired || $Module->{Required} ) {
             say "requires '$Module->{Module}';";
+
+            next MODULE;
         }
+
+        next MODULE unless $HandleFeatures;
+        next MODULE unless $Module->{Features};
+        next MODULE unless $Module->{Features};
+        next MODULE unless ref $Module->{Features} eq 'ARRAY';
+
+        for my $Feature ( $Module->{Features}->@* ) {
+            $ModulesForFeature{$Feature} //= [];
+            push $ModulesForFeature{$Feature}->@*, $Module;
+        }
+    }
+
+    # now print out the features
+    for my $Feature ( sort keys %ModulesForFeature ) {
+        my $Desc = $FeatureDescription{$Feature} // "Suppport for $Feature";
+        say '';
+        say "feature '$Feature', '$Desc' => sub {";
+        PrintCpanfile( $ModulesForFeature{$Feature}, 0, 0 );
+        say '};';
     }
 
     return;
