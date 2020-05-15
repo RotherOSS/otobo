@@ -118,19 +118,19 @@ eval {
 };
 $OSDist //= $^O;
 
-my $PrintAllModules;
-my $PrintPackageList;
-my $PrintCpanfile;
-my $PrintHelp;
+my $DoPrintAllModules;
+my $DoPrintPackageList;
+my $DoPrintCpanfile;
+my $DoPrintHelp;
 GetOptions(
-    all       => \$PrintAllModules,
-    list      => \$PrintPackageList,
-    cpanfile  => \$PrintCpanfile,
-    'help|h'  => \$PrintHelp,
+    all       => \$DoPrintAllModules,
+    list      => \$DoPrintPackageList,
+    cpanfile  => \$DoPrintCpanfile,
+    'help|h'  => \$DoPrintHelp,
 );
 
 # check needed params
-if ($PrintHelp) {
+if ($DoPrintHelp) {
     print "\n";
     print "Print all required and optional packages of OTOBO.\n";
     print "Optionally limit to the required but missing packages or modules.\n";
@@ -619,15 +619,11 @@ my @NeededModules = (
     },
 );
 
-if ($PrintCpanfile) {
+if ($DoPrintCpanfile) {
 
-    for my $Module ( @NeededModules ) {
-        if ( $Module->{Required} ) {
-            say "requires '$Module->{Module}';";
-        }
-    }
+    _PrintCpanfile( \@NeededModules );
 }
-elsif ($PrintPackageList) {
+elsif ($DoPrintPackageList) {
     my %PackageList = _PackageList( \@NeededModules );
 
     if ( IsArrayRefWithData( $PackageList{Packages} ) ) {
@@ -651,7 +647,7 @@ else {
         _Check( $Module, $Depends, $NoColors );
     }
 
-    if ($PrintAllModules) {
+    if ($DoPrintAllModules) {
         print "\nBundled modules:\n\n";
 
         my %PerlInfo = Kernel::System::Environment->PerlInfoGet(
@@ -957,6 +953,18 @@ sub _GetInstallCommand {
         SubCMD  => $SubCMD,
         Package => $Package,
     );
+}
+
+sub _PrintCpanfile {
+    my ($NeededModules) = @_;
+
+    for my $Module ( $NeededModules->@* ) {
+        if ( $Module->{Required} ) {
+            say "requires '$Module->{Module}';";
+        }
+    }
+
+    return;
 }
 
 exit $ExitCode;
