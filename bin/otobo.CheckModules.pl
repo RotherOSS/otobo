@@ -116,9 +116,7 @@ eval {
     import Linux::Distribution;
     $OSDist = Linux::Distribution::distribution_name() || '';
 };
-if ( !defined $OSDist ) {
-    $OSDist = $^O;
-}
+$OSDist //= $^O;
 
 my $PrintAllModules;
 my $PrintPackageList;
