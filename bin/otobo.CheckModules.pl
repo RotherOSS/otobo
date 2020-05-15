@@ -620,11 +620,10 @@ my @NeededModules = (
 );
 
 if ($DoPrintCpanfile) {
-
-    _PrintCpanfile( \@NeededModules );
+    PrintCpanfile( \@NeededModules );
 }
 elsif ($DoPrintPackageList) {
-    my %PackageList = _PackageList( \@NeededModules );
+    my %PackageList = CollectPackageInfo( \@NeededModules );
 
     if ( IsArrayRefWithData( $PackageList{Packages} ) ) {
 
@@ -644,7 +643,7 @@ else {
     my $Depends = 0;
 
     for my $Module (@NeededModules) {
-        _Check( $Module, $Depends, $NoColors );
+        Check( $Module, $Depends, $NoColors );
     }
 
     if ($DoPrintAllModules) {
@@ -655,7 +654,7 @@ else {
         );
 
         for my $Module ( sort keys %{ $PerlInfo{Modules} } ) {
-            _Check(
+            Check(
                 {
                     Module   => $Module,
                     Required => 1,
@@ -667,7 +666,7 @@ else {
     }
 }
 
-sub _Check {
+sub Check {
     my ( $Module, $Depends, $NoColors ) = @_;
 
     print "  " x ( $Depends + 1 );
@@ -679,7 +678,7 @@ sub _Check {
     if ($Version) {
 
         # cleanup version number
-        my $CleanedVersion = _VersionClean(
+        my $CleanedVersion = CleanVersion(
             Version => $Version,
         );
 
@@ -707,7 +706,7 @@ sub _Check {
             for my $Item ( @{ $Module->{VersionsNotSupported} } ) {
 
                 # cleanup item version number
-                my $ItemVersion = _VersionClean(
+                my $ItemVersion = CleanVersion(
                     Version => $Item->{Version},
                 );
 
@@ -730,7 +729,7 @@ sub _Check {
             ITEM:
             for my $Item ( @{ $Module->{VersionsRecommended} } ) {
 
-                my $ItemVersion = _VersionClean(
+                my $ItemVersion = CleanVersion(
                     Version => $Item->{Version},
                 );
 
@@ -744,7 +743,7 @@ sub _Check {
         if ( $Module->{VersionRequired} ) {
 
             # cleanup item version number
-            my $RequiredModuleVersion = _VersionClean(
+            my $RequiredModuleVersion = CleanVersion(
                 Version => $Module->{VersionRequired},
             );
 
@@ -789,7 +788,7 @@ sub _Check {
         my $Color    = 'yellow';
 
         # OS Install Command
-        my %InstallCommand = _GetInstallCommand($Module);
+        my %InstallCommand = GetInstallCommand($Module);
 
         # create example installation string for module
         my $InstallText = '';
@@ -823,14 +822,14 @@ sub _Check {
 
     if ( $Module->{Depends} ) {
         for my $ModuleSub ( @{ $Module->{Depends} } ) {
-            _Check( $ModuleSub, $Depends + 1, $NoColors );
+            Check( $ModuleSub, $Depends + 1, $NoColors );
         }
     }
 
     return 1;
 }
 
-sub _PackageList {
+sub CollectPackageInfo {
     my ($PackageList) = @_;
 
     my $CMD;
@@ -845,14 +844,14 @@ sub _PackageList {
         my $Required = $Module->{Required};
         my $Version  = Kernel::System::Environment->ModuleVersionGet( Module => $Module->{Module} );
         if ( !$Version ) {
-            my %InstallCommand = _GetInstallCommand($Module);
+            my %InstallCommand = GetInstallCommand($Module);
 
             if ( $Module->{Depends} ) {
 
                 MODULESUB:
                 for my $ModuleSub ( @{ $Module->{Depends} } ) {
                     my $Required          = $Module->{Required};
-                    my %InstallCommandSub = _GetInstallCommand($ModuleSub);
+                    my %InstallCommandSub = GetInstallCommand($ModuleSub);
 
                     next MODULESUB if !IsHashRefWithData( \%InstallCommandSub );
                     next MODULESUB if !$Required;
@@ -879,7 +878,7 @@ sub _PackageList {
     );
 }
 
-sub _VersionClean {
+sub CleanVersion {
     my (%Param) = @_;
 
     return 0 if !$Param{Version};
@@ -899,7 +898,7 @@ sub _VersionClean {
     return int $CleanedVersion;
 }
 
-sub _GetInstallCommand {
+sub GetInstallCommand {
     my ($Module) = @_;
     my $CMD;
     my $SubCMD;
@@ -955,7 +954,7 @@ sub _GetInstallCommand {
     );
 }
 
-sub _PrintCpanfile {
+sub PrintCpanfile {
     my ($NeededModules) = @_;
 
     for my $Module ( $NeededModules->@* ) {
