@@ -701,6 +701,18 @@ my @NeededModules = (
             ports  => undef,
         },
     },
+    {
+        Module    => 'Starman',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'High-performance preforking PSGI/Plack web server',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
 );
 
 if ($DoPrintCpanfile) {
