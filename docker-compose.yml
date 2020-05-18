@@ -15,7 +15,7 @@ services:
   otobo-web:
     depends_on:
       - otobo-mariadb
-    image: otobodocker:latest
+    image: otobo-plack:latest
     ports:
       - '5000:80'
     restart: always

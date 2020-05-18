@@ -6,9 +6,9 @@
 
 # Here are some commands for Docker newbys:
 # show version:           sudo docker version
-# build an image:         sudo docker build -t otobodocker .
-# run the new image:      sudo docker run -v opt_otobo:/opt/otobo otobodocker .
-# log into the new image: sudo docker run  -v opt_otobo:/opt/otobo -it otobodocker bash
+# build an image:         sudo docker build -t otobo-plack .
+# run the new image:      sudo docker run -v opt_otobo:/opt/otobo otobo-plack .
+# log into the new image: sudo docker run  -v opt_otobo:/opt/otobo -it otobo-plack bash
 # show running images:    sudo docker ps
 # show available images:  sudo docker images
 # list volumes :          sudo docker volume ls
