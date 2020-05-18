@@ -451,6 +451,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Moo',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'Required by Math::Random::Secure in Kernel/cpan-lib',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module               => 'Net::DNS',
         Required             => 1,
         VersionsNotSupported => [
