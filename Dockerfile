@@ -3,6 +3,8 @@
 
 # See: https://perlmaven.com/getting-started-with-perl-on-docker
 # See: http://mfg.fhstp.ac.at/development/webdevelopment/docker-compose-ein-quick-start-guide/
+# See: https://github.com/juanluisbaptiste/docker-otrs/
+# See: http://not403.blogspot.com/search/label/otrs
 
 # Here are some commands for Docker newbys:
 # show version:           sudo docker version
