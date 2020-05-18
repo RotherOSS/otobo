@@ -24,19 +24,17 @@ FROM perl:5.30.2-buster
 RUN apt-get update
 RUN apt-get -y install tree vim nano default-mysql-client
 
-# install OTOBO
+# create /opt/otobo and use it as working dir
 RUN mkdir /opt/otobo
 COPY . /opt/otobo
-
-# continue working in /opt/otobo
 WORKDIR /opt/otobo
 
-# Found no easy way to install with --forec in the cpanfile
+# Found no easy way to install with --force in the cpanfile
 RUN cpanm --force XMLRPC::Transport::HTTP
 
 # The modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
 RUN (bin/otobo.CheckModules.pl --cpanfile > cpanfile) && cpanm --with-feature plack --installdeps .
 
-# just to see that it worked
-CMD pwd && tree /opt/otobo && perl -c bin/psgi-bin/otobo.psgi
+# start the webserver
+CMD plackup --server Starman --port 5000 bin/psgi-bin/otobo.psgi
