@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+  otobo-mariadb:
+    image: mariadb:10.5.3-bionic
+    volumes:
+      - db_data:/opt/otobo/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: otobo
+      MYSQL_DATABASE: otobo
+      MYSQL_USER: otobo
+      MYSQL_PASSWORD: otobo
+
+  otobo-web:
+    depends_on:
+      - otobo-mariadb
+    image: otobodocker:latest
+    ports:
+      - '5000:80'
+    restart: always
+    volumes:
+      - ./website:/opt/otobo
+    environment:
+volumes:
+  db_data: {}
