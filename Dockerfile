@@ -29,5 +29,7 @@ COPY . /opt/otobo
 # continue working in /opt/otobo
 WORKDIR /opt/otobo
 
+RUN (bin/otobo.CheckModules.pl --cpanfile > cpanfile) && cpanm --with-feature plack --installdeps .
+
 # just to see that it worked
-CMD pwd && tree /opt/otobo
+CMD pwd && tree /opt/otobo && perl -c bin/psgi-bin/otobo.psgi
