@@ -31,6 +31,9 @@ COPY . /opt/otobo
 # continue working in /opt/otobo
 WORKDIR /opt/otobo
 
+# Found no easy way to install with --forec in the cpanfile
+RUN cpanm --force XMLRPC::Transport::HTTP
+
 # The modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
 RUN (bin/otobo.CheckModules.pl --cpanfile > cpanfile) && cpanm --with-feature plack --installdeps .
