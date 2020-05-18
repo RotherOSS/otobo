@@ -35,7 +35,7 @@ RUN cpanm --force Net::Server
 
 # The modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
-RUN (bin/otobo.CheckModules.pl --cpanfile > cpanfile) && cpanm --with-feature plack --installdeps .
+RUN (bin/otobo.CheckModules.pl --cpanfile > cpanfile) && cpanm --with-feature plack --with-feature=mysql --installdeps .
 
 # start the webserver
 CMD plackup --server Starman --port 5000 bin/psgi-bin/otobo.psgi
