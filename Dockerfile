@@ -31,6 +31,7 @@ WORKDIR /opt/otobo
 
 # Found no easy way to install with --force in the cpanfile
 RUN cpanm --force XMLRPC::Transport::HTTP
+RUN cpanm --force Net::Server
 
 # The modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
