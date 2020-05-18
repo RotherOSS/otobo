@@ -508,7 +508,7 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Template',
+        Module    => 'Template::Toolkit',
         Required  => 1,
         Comment   => 'Template::Toolkit, the rendering engine of OTOBO.',
         InstTypes => {
