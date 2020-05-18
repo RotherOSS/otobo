@@ -3,9 +3,11 @@
 # See: https://perlmaven.com/getting-started-with-perl-on-docker
 
 # Here are some commands for Docker newbys:
-# show version:      sudo docker version
-# build an image:    sudo docker build -t otobodocker .
-# run the new image: sudo docker run otobodocker .
+# show version:           sudo docker version
+# build an image:         sudo docker build -t otobodocker .
+# run the new image:      sudo docker run otobodocker .
+# show running images:    sudo docker ps
+# show available images:  sudo docker images
 
 
 # use the latest Perl on Debian 10 (buster). As of 2020-05-15.
