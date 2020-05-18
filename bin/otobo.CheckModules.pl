@@ -207,6 +207,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'CGI::Emulate::PSGI',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'Support old fashioned CGI in a PSGI application',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Crypt::Eksblowfish::Bcrypt',
         Required  => 0,
         Comment   => 'For strong password hashing.',
@@ -451,6 +463,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Moo',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'Required by Math::Random::Secure in Kernel/cpan-lib',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module               => 'Net::DNS',
         Required             => 1,
         VersionsNotSupported => [
@@ -496,7 +520,67 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Template',
+        Module    => 'Plack',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'Plack::App::File',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'Serve static files',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'Plack::Middleware::Header',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'Set HTTP headers',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'Plack::Middleware::ForceEnv',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'Set environment variables',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'SOAP::Transport::HTTP::Plack',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'PSGI SOAP adapter',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'Template::Toolkit',
         Required  => 1,
         Comment   => 'Template::Toolkit, the rendering engine of OTOBO.',
         InstTypes => {
@@ -613,6 +697,18 @@ my @NeededModules = (
             aptget => 'libredis-fast-perl',
             emerge => undef,
             yum    => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'Starman',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'High-performance preforking PSGI/Plack web server',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
             zypper => undef,
             ports  => undef,
         },

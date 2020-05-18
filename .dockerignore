@@ -1,0 +1,7 @@
+cpanfile
+.git*
+.ssh
+build.log
+.idea
+otobo.iml
+.vim*
