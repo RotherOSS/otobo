@@ -20,7 +20,7 @@ FROM perl:5.30.2-buster
 
 # install some required Debian packages
 RUN apt-get update
-RUN apt-get -y install tree default-mysql-client
+RUN apt-get -y install tree vim nano default-mysql-client
 
 # install OTOBO
 RUN mkdir /opt/otobo
