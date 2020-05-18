@@ -29,6 +29,8 @@ COPY . /opt/otobo
 # continue working in /opt/otobo
 WORKDIR /opt/otobo
 
+# The modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
+# This hopefully reduces potential conflicts.
 RUN (bin/otobo.CheckModules.pl --cpanfile > cpanfile) && cpanm --with-feature plack --installdeps .
 
 # just to see that it worked
