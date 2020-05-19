@@ -19,16 +19,11 @@
 
 # use the latest Perl on Debian 10 (buster). As of 2020-05-15.
 # cpanm is already installed
-FROM perl:5.30.2-buster
+FROM perl:5.30.2-buster AS otobo-install-dependencies
 
 # install some required Debian packages
 RUN apt-get update
 RUN apt-get -y install tree vim nano default-mysql-client
-
-# create /opt/otobo and use it as working dir
-RUN mkdir /opt/otobo
-COPY . /opt/otobo
-WORKDIR /opt/otobo
 
 # Found no easy way to install with --force in the cpanfile
 RUN cpanm --force XMLRPC::Transport::HTTP
@@ -36,7 +31,20 @@ RUN cpanm --force Net::Server
 
 # The modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
-RUN (bin/otobo.CheckModules.pl --cpanfile > cpanfile) && cpanm --with-feature plack --with-feature=mysql --installdeps .
+# create /opt/otobo and use it as working dir
+COPY bin ./bin
+COPY Kernel ./Kernel
+RUN pwd
+RUN echo 'axxx' && tree
+RUN (./bin/otobo.CheckModules.pl --cpanfile > cpanfile) \
+    && cpanm --with-feature plack --with-feature=mysql --installdeps .
+
+FROM otobo-install-dependencies AS otobo-plack
+
+# create /opt/otobo and use it as working dir
+RUN mkdir /opt/otobo
+COPY . /opt/otobo
+WORKDIR /opt/otobo
 
 # start the webserver
 CMD plackup --server Starman --port 5000 bin/psgi-bin/otobo.psgi
