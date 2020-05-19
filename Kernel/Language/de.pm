@@ -3931,8 +3931,8 @@ sub Data {
         'Can\'t read %s!' => 'Kann %s nicht lesen!',
         'File is OK' => 'Datei ist OK',
         'Package has locally modified files.' => 'Das Paket enthält lokal angepasste Dateien.',
-        'Package not verified by the OTOBO Team! It is recommended not to use this package.' =>
-            'Paket wurde nicht von der OTOBO Gruppe verifiziert! Es wird empfohlen, dieses Paket nicht zu nutzen.',
+        'Package not verified by the OTOBO community!' =>
+            'Paket wurde nicht von der OTOBO Community verifiziert!',
         'Not Started' => 'Nicht gestartet',
         'Updated' => 'Aktualisiert',
         'Already up-to-date' => 'Bereits aktuell',
@@ -5149,10 +5149,10 @@ sub Data {
         'File is not installed!' => 'Datei ist nicht installiert!',
         'File is different!' => 'Datei unterschiedlich!',
         'Can\'t read file!' => 'Datei kann nicht gelesen werden!',
-        '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTOBO service contracts.</p>' =>
-            '<p>Falls Sie dieses Paket installieren, können folgende Probleme auftreten:</p><ul><li>Sicherheitsprobleme</li><li>Stabilitätsprobleme</li><li>Leistungsprobleme</li></ul><p>Bitte beachten Sie, dass von diesem Paket verursachte Probleme nicht durch OTOBO-Serviceverträge abgedeckt sind.</p>',
-        '<p>The installation of packages which are not verified by the OTOBO Team is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
-            '<p>Die Installation von Paketen, die nicht von der OTOBO Gruppe verifiziert worden sind, ist standardmäßig nicht möglich. Sie können die Installation nicht-verfizierter Pakete über die Systemkonfiguration "AllowNotVerifiedPackages" aktivieren.</p>',
+        '<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>' =>
+            '<p>Zusatzpakete können OTOBO um viele nützliche Features erweitern. Stellen Sie jedoch unbedingt sicher, dass dieses Paket aus einer vertrauenswürdigen Quelle stammt, da es OTOBO uneingeschränkt modifizieren kann.</p>'
+        '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
+            '<p>Die Installation von nicht verifizierten Paketen ist deaktiviert. Sie können die Installation nicht-verfizierter Pakete über die Systemkonfiguration "AllowNotVerifiedPackages" aktivieren.</p>',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>

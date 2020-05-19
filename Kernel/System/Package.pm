@@ -1883,10 +1883,10 @@ sub PackageVerify {
         $PackageVerifyInfo = {
             Description =>
                 Translatable(
-                "<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTOBO service contracts.</p>"
+                "<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>"
                 ),
             Title =>
-                Translatable('Package not verified by the OTOBO Team! It is recommended not to use this package.'),
+                Translatable('Package not verified by the OTOBO community!'),
             PackageInstallPossible => 1,
         };
     }
@@ -1895,10 +1895,10 @@ sub PackageVerify {
         $PackageVerifyInfo = {
             Description =>
                 Translatable(
-                '<p>The installation of packages which are not verified by the OTOBO Team is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>'
+                '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>'
                 ),
             Title =>
-                Translatable('Package not verified by the OTOBO Team! It is recommended not to use this package.'),
+                Translatable('Package not verified by the OTOBO community!'),
             PackageInstallPossible => 0,
         };
     }

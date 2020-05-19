@@ -525,13 +525,13 @@ sub Run {
             );
         }
 
-        if ( $Verified ne 'verified' ) {
+        if ( $Verified ne 'verified' && !$Kernel::OM->Get('Kernel::Config')->Get('Package::AllowNotVerifiedPackages') ) {
 
             $Output .= $LayoutObject->Notify(
                 Priority => 'Error',
                 Data     => "$Name $Version - "
                     . $LayoutObject->{LanguageObject}->Translate(
-                    "Package not verified by the OTOBO Team! It is recommended not to use this package."
+                    "Package not verified by the OTOBO Team!"
                     ),
             );
         }
@@ -1904,19 +1904,21 @@ sub Run {
         );
     }
 
-    VERIFICATION:
-    for my $Package ( sort keys %NotVerifiedPackages ) {
+    if ( !$Kernel::OM->Get('Kernel::Config')->Get('Package::AllowNotVerifiedPackages') ) {
+        VERIFICATION:
+        for my $Package ( sort keys %NotVerifiedPackages ) {
 
-        next VERIFICATION if !$Package;
-        next VERIFICATION if !$NotVerifiedPackages{$Package};
+            next VERIFICATION if !$Package;
+            next VERIFICATION if !$NotVerifiedPackages{$Package};
 
-        $Output .= $LayoutObject->Notify(
-            Priority => 'Error',
-            Data     => "$Package $NotVerifiedPackages{$Package} - "
-                . $LayoutObject->{LanguageObject}->Translate(
-                "Package not verified by the OTOBO Team! It is recommended not to use this package."
-                ),
-        );
+            $Output .= $LayoutObject->Notify(
+                Priority => 'Error',
+                Data     => "$Package $NotVerifiedPackages{$Package} - "
+                    . $LayoutObject->{LanguageObject}->Translate(
+                    "Package not verified by the OTOBO Team!"
+                    ),
+            );
+        }
     }
 
     if ( !$Self->{CloudServicesDisabled} ) {
