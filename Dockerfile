@@ -24,12 +24,12 @@
 FROM perl:5.30.2-buster AS otobo-install-dependencies
 
 # install some required Debian packages
-RUN apt-get update
-RUN apt-get -y install tree vim nano default-mysql-client
+RUN apt-get update \
+    && apt-get -y --no-install-recommends install tree vim nano default-mysql-client \
+    && rm -rf /var/lib/apt/lists/*
 
 # Found no easy way to install with --force in the cpanfile
-RUN cpanm --force XMLRPC::Transport::HTTP
-RUN cpanm --force Net::Server
+RUN cpanm --force XMLRPC::Transport::HTTP Net::Server
 
 # The modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
