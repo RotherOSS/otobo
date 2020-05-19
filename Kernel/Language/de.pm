@@ -5150,7 +5150,7 @@ sub Data {
         'File is different!' => 'Datei unterschiedlich!',
         'Can\'t read file!' => 'Datei kann nicht gelesen werden!',
         '<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>' =>
-            '<p>Zusatzpakete können OTOBO um viele nützliche Features erweitern. Stellen Sie jedoch unbedingt sicher, dass dieses Paket aus einer vertrauenswürdigen Quelle stammt, da es OTOBO uneingeschränkt modifizieren kann.</p>'
+            '<p>Zusatzpakete können OTOBO um viele nützliche Features erweitern. Stellen Sie jedoch unbedingt sicher, dass dieses Paket aus einer vertrauenswürdigen Quelle stammt, da es OTOBO uneingeschränkt modifizieren kann.</p>',
         '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
             '<p>Die Installation von nicht verifizierten Paketen ist deaktiviert. Sie können die Installation nicht-verfizierter Pakete über die Systemkonfiguration "AllowNotVerifiedPackages" aktivieren.</p>',
 
