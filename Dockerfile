@@ -5,6 +5,7 @@
 # See: http://mfg.fhstp.ac.at/development/webdevelopment/docker-compose-ein-quick-start-guide/
 # See: https://github.com/juanluisbaptiste/docker-otrs/
 # See: http://not403.blogspot.com/search/label/otrs
+# See: https://forums.docker.com/t/command-to-remove-all-unused-images
 
 # Here are some commands for Docker newbys:
 # show version:           sudo docker version
