@@ -21,7 +21,7 @@
 
 # use the latest Perl on Debian 10 (buster). As of 2020-05-15.
 # cpanm is already installed
-FROM perl:5.30.2-buster AS otobo-install-dependencies
+FROM perl:5.30.2-buster
 
 # install some required Debian packages
 RUN apt-get update \
