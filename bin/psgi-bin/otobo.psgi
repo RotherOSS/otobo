@@ -282,7 +282,7 @@ eval { require Net::DNS };
 # this might improve performance
 CGI->compile(':cgi');
 
-print STDERR "PLEASE NOTE THAT PLACK SUPPORT IS AS OF MAY 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
+warn "PLEASE NOTE THAT PLACK SUPPORT IS AS OF MAY 19th 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
 
 # some pre- and postprocessing for the dynamic content
 my $MiddleWare = sub {
@@ -307,18 +307,6 @@ my $MiddleWare = sub {
             DB::enable_profile("nytprof-$1.out");
         }
 
-        # $env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
-        # $env->{PATH_INFO} contains the path after the $env->{SCRIPT_NAME}. Can be e.g. '/rpc.pl' or ''
-        # The extracted ScriptFileName is something like index.pl, customer.pl, or rpc.pl
-        my ($ScriptFileName) = ( $env->{SCRIPT_NAME} . $env->{PATH_INFO} ) =~ m{/([A-Za-z\-_]+\.pl)};
-
-        # Fallback to agent login if we could not determine handle...
-        if ( !defined $ScriptFileName || ! -e "/opt/otobo/bin/cgi-bin/$ScriptFileName" ) {
-            $ScriptFileName = 'index.pl';
-        }
-
-        # for further reference in $App
-        $env->{'otobo.script_file_name'} = $ScriptFileName;
 
         # do the work
         my $res = $app->($env);
@@ -350,16 +338,19 @@ my $App = builder {
 
         # logic taken from the scripts in bin/cgi-bin
         sub {
-            my $env = shift;
-
             # make sure to have a clean CGI.pm for each request, see CGI::Compile
             CGI::initialize_globals() if defined &CGI::initialize_globals;
 
             # 0=off;1=on;
             my $Debug = 0;
 
-            # set in $MiddleWare
-            my $ScriptFileName = $env->{'otobo.script_file_name'} // 'index.pl';
+            # $ENV{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
+            # $ENV{PATH_INFO} contains the path after the $ENV{SCRIPT_NAME}. Can be e.g. '/rpc.pl' or ''
+            # The extracted ScriptFileName should be something like index.pl, customer.pl, or rpc.pl
+            my ($ScriptFileName) = ( ( $ENV{SCRIPT_NAME} // '' ) . ( $ENV{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
+
+            # Fallback to agent login if we could not determine handle...
+            $ScriptFileName //= 'index.pl';
 
             # nph-genericinterface.pl has specific logging
             my @ObjectManagerArgs;
@@ -406,6 +397,7 @@ my $App = builder {
                 else {
 
                     # fallback
+                    warn " using fallback InterfaceAgeng for ScriptFileName: '$ScriptFileName'\n";
                     $Interface = Kernel::System::Web::InterfaceAgent->new(
                         Debug      => $Debug,
                     );
