@@ -162,6 +162,9 @@ my $ExitCode = 0;    # success
 # Modules that are required are marked by setting 'Required' to 1.
 # Dependent packages can be declared by setting 'Depends' to a ref to an array of hash refs.
 # The key 'Features' is only used for supporting features when creating a cpanfile.
+#
+# ATTENTION: when makeing changes here then make sure that you also regenerate the cpanfile
+#           bin/otobo.CheckModules.pl --cpanfile > cpanfile
 my @NeededModules = (
     {
         Module    => 'Apache::DBI',
@@ -716,6 +719,12 @@ my @NeededModules = (
 );
 
 if ($DoPrintCpanfile) {
+    say <<'END_HEADER';
+# Do not change this file manually.
+# Instead adapt bin/otobo.CheckModules.pl and call
+#    ./bin/otobo.CheckModules.pl --cpanfile > cpanfile
+END_HEADER
+
     PrintCpanfile( \@NeededModules, 1, 1 );
 }
 elsif ($DoPrintPackageList) {
