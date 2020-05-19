@@ -1,4 +1,3 @@
-cpanfile
 .git*
 .ssh
 build.log
