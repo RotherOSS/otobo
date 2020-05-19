@@ -42,6 +42,10 @@ RUN mkdir /opt/otobo
 COPY . /opt/otobo
 WORKDIR /opt/otobo
 
+# Creating the image is like the first installation
+# TODO: the changed Config.pm is not saved after installer.pl has executed
+RUN cp Kernel/Config.pm.dist Kernel/Config.pm
+
 # TODO: configure cron
 
 # start the webserver
