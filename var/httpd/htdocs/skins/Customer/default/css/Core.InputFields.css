@@ -361,7 +361,7 @@ label.oooFocus.LabelError {
     cursor: pointer;
 }
 
-input[type='checkbox'] {
+.Row input[type='checkbox'] {
     width: 16px;
     height: 16px;
     border: 0;
