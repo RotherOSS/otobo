@@ -921,7 +921,7 @@ sub ArticleAttachment {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTOBO project (L<https://otobo.de/>).
+This software is part of the OTOBO project (L<https://otobo.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
