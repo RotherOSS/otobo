@@ -318,6 +318,17 @@ my $MiddleWare = sub {
     };
 };
 
+# The most basic App
+my $HelloApp = sub {
+    my $env = shift;
+
+    return [
+        '200',
+        [ 'Content-Type' => 'text/plain' ],
+        [ "Hallo Welt!" ], # or IO::Handle-like object
+    ];
+};
+
 # Port of index.pl, customer.pl, public.pl, installer.pl, migration.pl, nph-genericinterface.pl to Plack.
 my $App = builder {
 
@@ -456,6 +467,9 @@ builder {
 
             Plack::App::File->new(root => '/opt/otobo/var/httpd/htdocs')->to_app;
         };
+
+    # the most basic App
+    mount '/hello'                         => $HelloApp;
 
     # Wrap the CGI-scripts in bin/cgi-bin.
     # The pathes are explicit so the $ENV{SCRIPT_NAME} is set the same way as under mod_perl
