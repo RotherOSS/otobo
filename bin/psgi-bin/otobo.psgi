@@ -25,8 +25,8 @@ otobo.psgi - OTOBO PSGI application
     # the default webserver
     plackup bin/psgi-bin/otobo.psgi
 
-    # Starman
-    plackup --server Starman bin/psgi-bin/otobo.psgi
+    # Gazelle
+    plackup --server Gazelle bin/psgi-bin/otobo.psgi
 
 =head1 DESCRIPTION
 

@@ -50,4 +50,4 @@ RUN cp Kernel/Config.pm.dist Kernel/Config.pm
 
 # start the webserver
 # TODO: call run.sh that also calls Cron.sh
-CMD plackup --server Starman --port 5000 bin/psgi-bin/otobo.psgi
+CMD plackup --server Gazelle --port 5000 bin/psgi-bin/otobo.psgi

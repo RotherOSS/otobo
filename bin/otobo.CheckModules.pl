@@ -354,6 +354,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Gazelle',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'High-performance preforking PSGI/Plack web server',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module              => 'IO::Socket::SSL',
         Required            => 0,
         Comment             => 'Required for SSL connections to web and mail servers.',
@@ -700,18 +712,6 @@ my @NeededModules = (
             aptget => 'libredis-fast-perl',
             emerge => undef,
             yum    => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
-        Module    => 'Starman',
-        Required  => 0,
-        Features   => ['plack'],
-        Comment   => 'High-performance preforking PSGI/Plack web server',
-        InstTypes => {
-            aptget => undef,
-            emerge => undef,
             zypper => undef,
             ports  => undef,
         },
