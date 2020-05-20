@@ -724,10 +724,6 @@ sub LoadDefaults {
     # agent interface notification module to check the admin user id
     # (don't work with user id 1 notification)
     $Self->{'Frontend::NotifyModule'} = {
-        '1000-CloudServicesDisabled' => {
-            Group  => 'admin',
-            Module => 'Kernel::Output::HTML::Notification::AgentCloudServicesDisabled',
-        },
         '2000-UID-Check' => {
             Module => 'Kernel::Output::HTML::Notification::UIDCheck',
         },
