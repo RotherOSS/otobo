@@ -1062,13 +1062,21 @@ sub GetInstallCommand {
 sub PrintCpanfile {
     my ($NeededModules, $FilterRequired, $HandleFeatures) = @_;
 
+    # Indent the statements in the feature sections
+    my $Indent = $FilterRequired ? '' : '    ';
+
     # print the required modules
     # collect the modules per feature
     my %ModulesForFeature;
     MODULE:
     for my $Module ( $NeededModules->@* ) {
         if ( ! $FilterRequired || $Module->{Required} ) {
-            say "requires '$Module->{Module}';";
+            my $Comment = $Module->{Comment};
+            if ( $Comment ) {
+                $Comment =~ s/\n/\n$Indent\#/g;
+                say $Indent, "# $Comment";
+            }
+            say $Indent, "requires '$Module->{Module}';";
 
             next MODULE;
         }
