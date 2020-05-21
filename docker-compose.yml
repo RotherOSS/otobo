@@ -22,7 +22,12 @@ services:
       #MYSQL_USER: otobo
       #MYSQL_PASSWORD: otobo
 
-  otobo-web:
+    command: --max_allowed_packet=68157440 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb-log-file-size=268435456
+
+  web:
+    # use ./Dockerfile for building, image otobo-web
+    build:
+      context: .
     depends_on:
       - db
     restart: always
