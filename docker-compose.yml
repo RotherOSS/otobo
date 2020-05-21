@@ -1,26 +1,38 @@
+# most current docker-compose version as of 2020-05-21
 version: '3.3'
 
 services:
-  otobo-mariadb:
+
+  # the database
+  db:
     image: mariadb:10.5.3-bionic
-    volumes:
-      - db_data:/opt/otobo/var/lib/mysql
     restart: always
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+    # Expose the mysql default port to the host
+    ports:
+      - "3306:3306"
+
+    # Set the db root passward
+    # the database 'otobo' and the db user 'otobo' are created by installer.pl
     environment:
-      MYSQL_ROOT_PASSWORD: otobo
-      MYSQL_DATABASE: otobo
-      MYSQL_USER: otobo
-      MYSQL_PASSWORD: otobo
+      MYSQL_ROOT_PASSWORD: otobo_root_db_passwd
+      #MYSQL_DATABASE: otobo
+      #MYSQL_USER: otobo
+      #MYSQL_PASSWORD: otobo
 
   otobo-web:
     depends_on:
-      - otobo-mariadb
-    image: otobo-plack:latest
-    ports:
-      - '5000:80'
+      - db
     restart: always
+    # Expose the Plack default port to the host
+    ports:
+      - "5000:5000"
     volumes:
-      - ./website:/opt/otobo
-    environment:
+      - opt_otobo:/opt/otobo
+
+# no volumnes need to be exposed across services
 volumes:
-  db_data: {}
+  mariadb_data: {}
+  opt_otobo: {}
