@@ -282,7 +282,7 @@ eval { require Net::DNS };
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT PLACK SUPPORT IS AS OF MAY 19th 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
+warn "PLEASE NOTE THAT PLACK SUPPORT IS AS OF MAY 21st 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
 
 # some pre- and postprocessing for the dynamic content
 my $MiddleWare = sub {
