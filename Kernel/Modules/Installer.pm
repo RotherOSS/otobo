@@ -1465,6 +1465,9 @@ sub CheckMailConfiguration {
 sub _CheckConfig {
     my ( $Self, %Param ) = @_;
 
+    # make sure that the currently configured database is used
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Config', 'Kernel::System::DB' ] );
+
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
     my @Result = $SysConfigObject->ConfigurationSearch(
