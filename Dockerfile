@@ -48,6 +48,7 @@ RUN cp Kernel/Config.pm.dist Kernel/Config.pm
 
 # TODO: configure cron
 
+# start the OTOBO daemon
 # start the webserver
-# TODO: call run.sh that also calls Cron.sh
-CMD plackup --server Gazelle --port 5000 bin/psgi-bin/otobo.psgi
+# start the Cron watchdog
+ENTRYPOINT ["/opt/otobo/bin/docker/entrypoint.sh"]
