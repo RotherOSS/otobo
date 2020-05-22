@@ -517,7 +517,7 @@ sub Run {
                 # Note that 'FLUSH PRIVILEGES' is not needed here since at least MySQL 5.6
                 @Statements = (
                     "CREATE DATABASE `$DB{DBName}` charset utf8mb4",
-                    "CREATE USER `$DB{OTOBODBUser}`\@`$DB{Host}` IDENTIFIED WITH mysql_native_password BY '$DB{OTOBODBPassword}'",
+                    "CREATE USER `$DB{OTOBODBUser}`\@`$DB{Host}` IDENTIFIED WITH mysql_native_password AS PASSWORD('$DB{OTOBODBPassword}')",
                     "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTOBODBUser}`\@`$DB{Host}` WITH GRANT OPTION",
                 );
             }
