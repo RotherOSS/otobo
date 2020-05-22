@@ -25,8 +25,8 @@ otobo.psgi - OTOBO PSGI application
     # the default webserver
     plackup bin/psgi-bin/otobo.psgi
 
-    # Starman
-    plackup --server Starman bin/psgi-bin/otobo.psgi
+    # Gazelle
+    plackup --server Gazelle bin/psgi-bin/otobo.psgi
 
 =head1 DESCRIPTION
 
@@ -282,7 +282,7 @@ eval { require Net::DNS };
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT PLACK SUPPORT IS AS OF MAY 19th 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
+warn "PLEASE NOTE THAT PLACK SUPPORT IS AS OF MAY 21st 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
 
 # some pre- and postprocessing for the dynamic content
 my $MiddleWare = sub {
@@ -316,6 +316,38 @@ my $MiddleWare = sub {
 
         return $res;
     };
+};
+
+# The most basic App
+my $HelloApp = sub {
+    my $env = shift;
+
+    return [
+        '200',
+        [ 'Content-Type' => 'text/plain' ],
+        [ "Hallo Welt!" ], # or IO::Handle-like object
+    ];
+};
+
+# Server the static files in var/httpd/httpd.
+# Same as: Alias /otobo-web/ "/opt/otobo/var/httpd/htdocs/"
+# Access is granted for all.
+# Set the Cache-Control headers as in apache2-httpd.include.conf
+my $StaticApp = builder {
+
+    # Cache css-cache for 30 days
+    enable_if { $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css-cache/.*\.(?:css|CSS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=2592000 must-revalidate' ];
+
+    # Cache css thirdparty for 4 hours, including icon fonts
+    enable_if { $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css/thirdparty/.*\.(?:css|CSS|woff|svn)$} } 'Header', set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
+
+    # Cache js-cache for 30 days
+    enable_if { $_[0]->{PATH_INFO} =~ m{js/js-cache/.*\.(?:js|JS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=2592000 must-revalidate' ];
+
+    # Cache js thirdparty for 4 hours
+    enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
+
+    Plack::App::File->new(root => '/opt/otobo/var/httpd/htdocs')->to_app;
 };
 
 # Port of index.pl, customer.pl, public.pl, installer.pl, migration.pl, nph-genericinterface.pl to Plack.
@@ -437,33 +469,20 @@ my $RPCApp = builder {
 builder {
 
     # Server the static files in var/httpd/httpd.
-    # Same as: Alias /otobo-web/ "/opt/otobo/var/httpd/htdocs/"
-    # Access is granted for all.
-    # Set the Cache-Control headers as in apache2-httpd.include.conf
-    mount '/otobo-web' => builder {
+    mount '/otobo-web' => $StaticApp;
 
-            # Cache css-cache for 30 days
-            enable_if { $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css-cache/.*\.(?:css|CSS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=2592000 must-revalidate' ];
-
-            # Cache css thirdparty for 4 hours, including icon fonts
-            enable_if { $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css/thirdparty/.*\.(?:css|CSS|woff|svn)$} } 'Header', set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
-
-            # Cache js-cache for 30 days
-            enable_if { $_[0]->{PATH_INFO} =~ m{js/js-cache/.*\.(?:js|JS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=2592000 must-revalidate' ];
-
-            # Cache js thirdparty for 4 hours
-            enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
-
-            Plack::App::File->new(root => '/opt/otobo/var/httpd/htdocs')->to_app;
-        };
+    # the most basic App
+    mount '/hello'                         => $HelloApp;
 
     # Wrap the CGI-scripts in bin/cgi-bin.
-    # The pathes are explicit so the $ENV{SCRIPT_NAME} is set the same way as under mod_perl
+    # The pathes are such that $ENV{SCRIPT_NAME} is set the same way as under mod_perl
     mount '/otobo/index.pl'                => $App;
     mount '/otobo/customer.pl'             => $App;
     mount '/otobo/public.pl'               => $App;
     mount '/otobo/installer.pl'            => $App;
     mount '/otobo/migration.pl'            => $App;
     mount '/otobo/nph-genericinterface.pl' => $App;
+
+    # some SOAP stuff
     mount '/otobo/rpc.pl'                  => $RPCApp;
 };

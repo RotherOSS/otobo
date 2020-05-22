@@ -12,7 +12,7 @@
 # Here are some commands for Docker newbys:
 # show version:           sudo docker version
 # build an image:         sudo docker build --tag otobo-plack .
-# run the new image:      sudo docker run -p 5000:5000 -v opt_otobo:/opt/otobo otobo-plack
+# run the new image:      sudo docker run -p 5000:5000 otobo-plack
 # log into the new image: sudo docker run  -v opt_otobo:/opt/otobo -it otobo-plack bash
 # show running images:    sudo docker ps
 # show available images:  sudo docker images
@@ -50,4 +50,4 @@ RUN cp Kernel/Config.pm.dist Kernel/Config.pm
 
 # start the webserver
 # TODO: call run.sh that also calls Cron.sh
-CMD plackup --server Starman --port 5000 bin/psgi-bin/otobo.psgi
+CMD plackup --server Gazelle --port 5000 bin/psgi-bin/otobo.psgi

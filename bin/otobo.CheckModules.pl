@@ -354,6 +354,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Gazelle',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'High-performance preforking PSGI/Plack web server',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module              => 'IO::Socket::SSL',
         Required            => 0,
         Comment             => 'Required for SSL connections to web and mail servers.',
@@ -704,18 +716,6 @@ my @NeededModules = (
             ports  => undef,
         },
     },
-    {
-        Module    => 'Starman',
-        Required  => 0,
-        Features   => ['plack'],
-        Comment   => 'High-performance preforking PSGI/Plack web server',
-        InstTypes => {
-            aptget => undef,
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
 );
 
 if ($DoPrintCpanfile) {
@@ -1062,13 +1062,21 @@ sub GetInstallCommand {
 sub PrintCpanfile {
     my ($NeededModules, $FilterRequired, $HandleFeatures) = @_;
 
+    # Indent the statements in the feature sections
+    my $Indent = $FilterRequired ? '' : '    ';
+
     # print the required modules
     # collect the modules per feature
     my %ModulesForFeature;
     MODULE:
     for my $Module ( $NeededModules->@* ) {
         if ( ! $FilterRequired || $Module->{Required} ) {
-            say "requires '$Module->{Module}';";
+            my $Comment = $Module->{Comment};
+            if ( $Comment ) {
+                $Comment =~ s/\n/\n$Indent\#/g;
+                say $Indent, "# $Comment";
+            }
+            say $Indent, "requires '$Module->{Module}';";
 
             next MODULE;
         }
