@@ -25,7 +25,7 @@ FROM perl:5.30.2-buster
 
 # install some required Debian packages
 RUN apt-get update \
-    && apt-get -y --no-install-recommends install tree vim nano default-mysql-client \
+    && apt-get -y --no-install-recommends install tree vim nano default-mysql-client cron \
     && rm -rf /var/lib/apt/lists/*
 
 # Found no easy way to install with --force in the cpanfile
@@ -43,10 +43,8 @@ COPY . /opt/otobo
 WORKDIR /opt/otobo
 
 # Creating the image is like the first installation
-# TODO: the changed Config.pm is not saved after installer.pl has executed
-RUN cp Kernel/Config.pm.dist Kernel/Config.pm
-
-# TODO: configure cron
+# Activate the .dist files
+RUN cd Kernel && cp Config.pm.dist Config.pm && cd ../var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done
 
 # start the OTOBO daemon
 # start the webserver
