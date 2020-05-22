@@ -92,14 +92,23 @@ Core.Form.Validate = (function (TargetNS) {
             ErrorType = 'Error';
         }
 
-        // If the element, which has an validation error, is a richtext element, than manually trigger the focus event
-        if (Core.UI.RichTextEditor.IsEnabled($Element)) {
+        // TODO: find a nicer way to ensure focus only happens on submit
+        window.setTimeout(function () {
+            // If the element, which has an validation error, is a richtext element, trigger the focus event
+            if (Core.UI.RichTextEditor.IsEnabled($Element)) {
+                if ( $Element.closest('form').hasClass('oooSubmitted') ) {
+                    Core.UI.RichTextEditor.Focus($Element);
+                    Core.UI.ScrollTo( $Element.closest('.RichTextHolder') );
+                    //$Element.focus();
+                }
+            }
+        
             window.setTimeout(function () {
-                $Element.focus();
-            }, 0);
-        }
+                $Element.closest('form').removeClass('oooSubmitted');
+            }, 100);
+        }, 100);
 
-        // If the element is an Input Field, than manually trigger the focus event
+        // If the element is an Input Field, trigger the focus event
         if (Core.UI.InputFields.IsEnabled($Element)) {
             window.setTimeout(function () {
                 $('#' + $Element.data('modernized')).focus();
@@ -831,6 +840,9 @@ Core.Form.Validate = (function (TargetNS) {
                 errorPlacement: OnErrorElement,
                 submitHandler: OnSubmit,
                 ignore: '.' + Options.IgnoreClass
+            });
+            $(this).on('submit', function() {
+                $(this).addClass('oooSubmitted');
             });
         });
 

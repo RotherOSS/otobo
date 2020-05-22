@@ -143,6 +143,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
             Core.App.Publish('Event.UI.RichTextEditor.InstanceReady', [Editor]);
         });
+//oldreturn;
 
         // The format for the language is different between OTOBO and CKEditor (see bug#8024)
         // To correct this, we replace "_" with "-" in the language (e.g. zh_CN becomes zh-cn)
@@ -229,6 +230,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         }
 
         Editor = CKEDITOR.replace(EditorID, EditorConfig);
+//oldreturn;
 
         // check if creating CKEditor was successful
         // might be a problem on mobile devices e.g.
@@ -262,6 +264,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     }
                 }
             };
+//oldreturn;
 
             // Redefine 'writeCssText' function because of unnecessary sorting of CSS properties (bug#12848).
             /* eslint-disable no-unused-vars */
@@ -317,12 +320,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 });
             }
 
-            // mainly needed for client-side validation
-            // TODO: not always wanted - disabled for otobo
-            //$EditorArea.focus(function () {
-            //    TargetNS.Focus($EditorArea);
-            //    Core.UI.ScrollTo($("label[for=" + $EditorArea.attr('id') + "]"));
-            //});
+            $EditorArea.focus(function () {
+                TargetNS.Focus($EditorArea);
+                Core.UI.ScrollTo( $EditorArea.closest('.RichTextHolder') );
+            });
         }
     };
 
