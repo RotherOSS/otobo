@@ -1661,11 +1661,11 @@ sub Footer {
             || $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'UnitTestMode' ) // 0;
     }
 
-    # Set an array with pending states.
-    my @PendingStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+    # Set an array with pending states. Skip for installer and migration script.
+    my @PendingStateIDs = $ConfigObject->Get('SecureMode') ? $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
         StateType => [ 'pending reminder', 'pending auto' ],
         Result    => 'ID',
-    );
+    ) : ();
 
     # add JS data
     my %JSConfig = (
