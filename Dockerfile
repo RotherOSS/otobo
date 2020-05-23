@@ -55,8 +55,8 @@ RUN cpanm --force XMLRPC::Transport::HTTP Net::Server \
 # copy the OTOBO installation to /opt/otobo and use it as working dir
 COPY --chown=otobo:otobo . /opt/otobo
 
-# TODO: set permissions
-# RUN bin/docker/set_permissions.pl
+# set permissions
+RUN perl bin/docker/set_permissions.pl
 
 # Activate the .dist files
 RUN cd Kernel && cp Config.pm.dist Config.pm \
