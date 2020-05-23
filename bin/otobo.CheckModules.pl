@@ -535,6 +535,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Path::Class',
+        Required  => 0,
+        Features  => ['plack'],
+        Comment   => 'Neater path manipulation and some utils',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Plack',
         Required  => 0,
         Features   => ['plack'],
