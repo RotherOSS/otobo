@@ -8,7 +8,7 @@
 # start the Daemon and set up the Cron watchdog
 # assume that we are in /opt/otobo
 mkdir var/tmp
-./bin/Cron.sh start root
+./bin/Cron.sh start
 perl ./bin/otobo.Daemon.pl start
 
 # maintainance jobs
