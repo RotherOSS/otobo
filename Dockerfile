@@ -48,9 +48,8 @@ COPY cpanfile ./cpanfile
 # the modules with ignorable test failures with the option --force.
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
-RUN cpanm --force XMLRPC::Transport::HTTP Net::Server \
-    && cpanm --force Net::Server \
-    && cpanm --with-feature plack --with-feature=mysql --installdeps .
+RUN cpanm --force XMLRPC::Transport::HTTP Net::Server
+RUN cpanm --with-feature plack --with-feature=mysql --installdeps .
 
 # copy the OTOBO installation to /opt/otobo and use it as working dir
 COPY --chown=otobo:otobo . /opt/otobo
