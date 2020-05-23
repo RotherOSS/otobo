@@ -28,14 +28,16 @@ RUN apt-get update \
     && apt-get -y --no-install-recommends install tree vim nano default-mysql-client cron \
     && rm -rf /var/lib/apt/lists/*
 
-# Found no easy way to install with --force in the cpanfile
-RUN cpanm --force XMLRPC::Transport::HTTP Net::Server
-
-# The modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
-# This hopefully reduces potential conflicts.
 # A minimal copy so that the Docker cache is not busted
 COPY cpanfile ./cpanfile
-RUN  cpanm --with-feature plack --with-feature=mysql --installdeps .
+
+# Found no easy way to install with --force in the cpanfile. Therefore install
+# the modules with ignorable test failures with the option --force.
+# Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
+# This hopefully reduces potential conflicts.
+RUN cpanm --force XMLRPC::Transport::HTTP Net::Server \
+    && cpanm --force Net::Server \
+    && RUN  cpanm --with-feature plack --with-feature=mysql --installdeps .
 
 # create /opt/otobo and use it as working dir
 RUN mkdir /opt/otobo
