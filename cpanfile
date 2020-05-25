@@ -45,6 +45,8 @@ feature 'plack', 'Suppport for plack' => sub {
     requires 'CGI::Emulate::PSGI';
     # High-performance preforking PSGI/Plack web server
     requires 'Gazelle';
+    # Used with the -R option of plackup. Restart the server when files have changed.
+    requires 'Linux::Inotify2';
     # Required by Math::Random::Secure in Kernel/cpan-lib
     requires 'Moo';
     # Neater path manipulation and some utils
