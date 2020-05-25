@@ -36,8 +36,11 @@ RUN cpanm --with-feature plack --with-feature=mysql --installdeps .
 # copy the OTOBO installation to /opt/otobo and use it as working dir
 COPY --chown=otobo:otobo . /opt/otobo
 
-# Activate the .dist files
-RUN cd Kernel && cp Config.pm.dist Config.pm \
+# Activate the .dist files.
+# Use 'db' instead of the localhost as the default database host.
+RUN cd Kernel \
+    && cp Config.pm.dist Config.pm \
+    && perl -pi -e "s/'127.0.0.1';/'db'; # adapted by Dockerfile/" Config.pm \
     && cd ../var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done
 
 # set permissions
