@@ -31,7 +31,7 @@ use Getopt::Long();
 my $OTOBODirectory       = dirname($RealBin);
 my $OTOBODirectoryLength = length($OTOBODirectory);
 
-my $OtrsUser = 'otobo';    # default: otobo
+my $OTOBOUser = 'otobo';    # default: otobo
 my $WebGroup = '';        # Try to find a default from predefined group list, take the first match.
 
 WEBGROUP:
@@ -44,7 +44,7 @@ for my $GroupCheck (qw(wwwrun apache www-data www _www)) {
 }
 
 my $AdminGroup = 'root';    # default: root
-my ( $Help, $DryRun, $SkipArticleDir, @SkipRegex, $OtrsUserID, $WebGroupID, $AdminGroupID );
+my ( $Help, $DryRun, $SkipArticleDir, @SkipRegex, $OTOBOUserID, $WebGroupID, $AdminGroupID );
 
 sub PrintUsage {
     print <<EOF;
@@ -100,7 +100,7 @@ my $ExitStatus = 0;
 sub Run {
     Getopt::Long::GetOptions(
         'help'             => \$Help,
-        'otobo-user=s'      => \$OtrsUser,
+        'otobo-user=s'      => \$OTOBOUser,
         'web-group=s'      => \$WebGroup,
         'admin-group=s'    => \$AdminGroup,
         'dry-run'          => \$DryRun,
@@ -119,8 +119,8 @@ sub Run {
     }
 
     # check params
-    $OtrsUserID = getpwnam $OtrsUser;
-    if ( !$OtrsUser || !defined $OtrsUserID ) {
+    $OTOBOUserID = getpwnam $OTOBOUser;
+    if ( !$OTOBOUser || !defined $OTOBOUserID ) {
         print STDERR "ERROR: --otobo-user is missing or invalid.\n";
         exit 1;
     }
@@ -189,7 +189,7 @@ sub SetFilePermissions {
 
     ## no critic (ProhibitLeadingZeros)
     # Writable by default, owner OTOBO and group webserver.
-    my ( $TargetPermission, $TargetUserID, $TargetGroupID ) = ( 0660, $OtrsUserID, $WebGroupID );
+    my ( $TargetPermission, $TargetUserID, $TargetGroupID ) = ( 0660, $OTOBOUserID, $WebGroupID );
     if ( -d $File ) {
 
         # SETGID for all directories so that both OTOBO and the web server can write to the files.

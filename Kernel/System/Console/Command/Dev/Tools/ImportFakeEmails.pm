@@ -317,11 +317,11 @@ sub _CleanSpoolFiles {
     my $StartAt = $Param{StartAt};
     my $StopAt  = $Param{StopAt};
 
-    my $OtrsDir = __FILE__;
-    $OtrsDir =~ s/\/Kernel.*$//i;
+    my $OTOBODir = __FILE__;
+    $OTOBODir =~ s/\/Kernel.*$//i;
 
     my @SpoolFilesFailedUnlink = ();
-    my @SpoolFiles             = glob "${ OtrsDir }/var/spool/problem-email-*";
+    my @SpoolFiles             = glob "${ OTOBODir }/var/spool/problem-email-*";
     for my $SpoolFile (@SpoolFiles) {
         my @FileStat = stat $SpoolFile;
 
