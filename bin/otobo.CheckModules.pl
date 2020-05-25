@@ -394,6 +394,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Linux::Inotify2',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'Used with the -R option of plackup. Restart the server when files have changed.',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module   => 'List::Util::XS',
         Required => 1,
         Comment =>

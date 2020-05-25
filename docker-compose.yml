@@ -1,16 +1,5 @@
-# useful commands:
-# docker-compose down
-# docker-compose build
-# docker-compose up
-# docker-compose ps
-# docker inspect <container>
-
-# start a new installation, all previous data will be lost
-# docker-compose down
-# docker-compose build   # when the code has changed
-# docker volume ls # should report otobo_mariadb_data and otobo_opt_otobo
-# docker volume rm otobo_mariadb_data otobo_opt_otobo
-# docker volume ls # should show no otobo volumes
+# Docker compose file for OTOBO webserver and database.
+# See also DOCKER.md.
 
 # most current docker-compose file version, as of 2020-05-21
 version: '3.3'
@@ -28,7 +17,7 @@ services:
     ports:
       - "5001:3306"
 
-    # Set the db root passward
+    # Set the db root password
     # the database 'otobo' and the db user 'otobo' are created by installer.pl
     environment:
       MYSQL_ROOT_PASSWORD: otobo_root_db_passwd

@@ -241,7 +241,6 @@ use Encode qw(:all);
 use CGI ();
 use CGI::Carp ();
 use CGI::Emulate::PSGI ();
-use Module::Refresh;
 use Plack::Builder;
 use Plack::Middleware::ErrorDocument;
 use Plack::Middleware::Header;
@@ -277,28 +276,21 @@ use Kernel::System::ObjectManager;
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.
-eval { require Net::DNS };
+eval {
+    require Net::DNS
+};
 
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT PLACK SUPPORT IS AS OF MAY 21st 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
+warn "PLEASE NOTE THAT PLACK SUPPORT IS AS OF MAY 25th 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
 
-# some pre- and postprocessing for the dynamic content
-my $MiddleWare = sub {
+# conditionally enable profiling
+my $NYTProfMiddleWare = sub {
     my $app = shift;
 
     return sub {
         my $env = shift;
-
-        # Reload files in @INC that have changed since the last request.
-        # This is a replacement for:
-        #    PerlModule Apache2::Reload
-        #    PerlInitHandler Apache2::Reload
-        eval {
-            Module::Refresh->refresh();
-        };
-        warn $@ if $@;
 
         # check whether this request runs under Devel::NYTProf
         my $ProfilingIsOn = 0;
@@ -362,8 +354,8 @@ my $App = builder {
         OTOBO_RUNS_UNDER_PSGI => '1',
         GATEWAY_INTERFACE     => 'CGI/1.1';
 
-    # do some pre- and postprocessing in an inline middleware
-    enable $MiddleWare;
+    # conditionally enable profiling
+    enable $NYTProfMiddleWare;
 
     # Set the appropriate %ENV and file handles
     CGI::Emulate::PSGI->handler(
