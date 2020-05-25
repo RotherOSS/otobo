@@ -112,6 +112,27 @@ sub CleanLicenseHeader {
         return 1;
     }
 
+    # check whether the file is already in otobo style
+    my $NewStyle = 1;
+    LINE:
+    for my $OTOBOLine ( split( "\n", $Parse->{New}[0] ) ) {
+        my $FileLine = <$FileHandle>;
+        chomp( $FileLine );
+        if ( $OTOBOLine && $OTOBOLine ne $FileLine ) {
+            $NewStyle = 0;
+            last LINE;
+        }
+    }
+    close $FileHandle;
+
+    if ( $NewStyle ) {
+        print STDERR "License of $FilePathAndName seems to already be formatted in otobo style - ignoring.\n";
+        return 1;
+    }
+
+    # reopen file to reset to first line
+    open my $FileHandle, "< $FilePathAndName" or print STDERR "Error: $!";
+
     my $Good = 1;
     my $ExtraLicenses;
     BLOCK:
