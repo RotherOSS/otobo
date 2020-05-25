@@ -50,8 +50,15 @@ Core.UI.oooWidget = (function (TargetNS) {
             $(this).parent().parent('.oooWidget').hide();
         });
 
+        // close on escape
+        $(document).keyup( function(e) {
+            if ( e.key === "Escape" || e.key === "Esc" ) {
+                $('.oooWidget').hide();
+            }
+        });
+
         /*
-        // close on blur
+        // close on "blur"
         $(document).on('click', function() {
             $('.oooWidget:visible').hide();
         });
