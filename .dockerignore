@@ -11,7 +11,6 @@ otobo.iml
 Kernel/Config.pm
 Kernel/Config/Files/ZZZAAuto.pm
 otobo.iml
-var/cron/*
 var/log/Daemon/
 var/run/
 var/tmp/

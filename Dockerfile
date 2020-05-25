@@ -10,10 +10,11 @@
 # See: https://stackoverflow.com/questions/34814669/when-does-docker-image-cache-invalidation-occur
 
 # Here are some commands for Docker newbys:
+# start over:             sudo docker system prune -a
 # show version:           sudo docker version
-# build an image:         sudo docker build --tag otobo-plack .
-# run the new image:      sudo docker run -p 5000:5000 otobo-plack
-# log into the new image: sudo docker run  -v opt_otobo:/opt/otobo -it otobo-plack bash
+# build an image:         sudo docker build --tag otobo-web .
+# run the new image:      sudo docker run -p 5000:5000 otobo-web
+# log into the new image: sudo docker run  -v opt_otobo:/opt/otobo -it otobo-web bash
 # show running images:    sudo docker ps
 # show available images:  sudo docker images
 # list volumes :          sudo docker volume ls
@@ -25,29 +26,43 @@ FROM perl:5.30.2-buster
 
 # install some required Debian packages
 RUN apt-get update \
-    && apt-get -y --no-install-recommends install tree vim nano default-mysql-client \
+    && apt-get -y --no-install-recommends install tree vim nano default-mysql-client cron \
     && rm -rf /var/lib/apt/lists/*
 
-# Found no easy way to install with --force in the cpanfile
-RUN cpanm --force XMLRPC::Transport::HTTP Net::Server
+# create the otobo user
+#   --system                group is 'nogroup', no login shell
+#   --user-group            create group 'otobo' and add the user to the created group
+#   --home-dir /opt/otobo   set $HOME of the user
+#   --create-home           create /opt/otobo
+#   --comment 'OTOBO user'  complete name of the user
+#   --shell /bin/bash       set the login shell, not used here because otobo is system user
+RUN useradd --system --user-group --home-dir /opt/otobo --create-home --comment 'OTOBO user' otobo
 
-# The modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
-# This hopefully reduces potential conflicts.
-# A minimal copy so that the Docker cache is not busted
-COPY cpanfile ./cpanfile
-RUN  cpanm --with-feature plack --with-feature=mysql --installdeps .
-
-# create /opt/otobo and use it as working dir
-RUN mkdir /opt/otobo
-COPY . /opt/otobo
+# continue in otobo home
 WORKDIR /opt/otobo
 
-# Creating the image is like the first installation
-# TODO: the changed Config.pm is not saved after installer.pl has executed
-RUN cp Kernel/Config.pm.dist Kernel/Config.pm
+# A minimal copy so that the Docker cache is not busted
+COPY cpanfile ./cpanfile
 
-# TODO: configure cron
+# Found no easy way to install with --force in the cpanfile. Therefore install
+# the modules with ignorable test failures with the option --force.
+# Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
+# This hopefully reduces potential conflicts.
+RUN cpanm --force XMLRPC::Transport::HTTP Net::Server
+RUN cpanm --with-feature plack --with-feature=mysql --installdeps .
 
+# copy the OTOBO installation to /opt/otobo and use it as working dir
+COPY --chown=otobo:otobo . /opt/otobo
+
+# set permissions
+RUN perl bin/docker/set_permissions.pl
+
+# Activate the .dist files
+RUN cd Kernel && cp Config.pm.dist Config.pm \
+    && cd ../var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done
+
+# start the OTOBO daemon
 # start the webserver
-# TODO: call run.sh that also calls Cron.sh
-CMD plackup --server Gazelle --port 5000 bin/psgi-bin/otobo.psgi
+# start the Cron watchdog
+USER otobo
+ENTRYPOINT ["/opt/otobo/bin/docker/entrypoint.sh"]

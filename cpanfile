@@ -47,6 +47,8 @@ feature 'plack', 'Suppport for plack' => sub {
     requires 'Gazelle';
     # Required by Math::Random::Secure in Kernel/cpan-lib
     requires 'Moo';
+    # Neater path manipulation and some utils
+    requires 'Path::Class';
     # Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)
     requires 'Plack';
     # Serve static files
