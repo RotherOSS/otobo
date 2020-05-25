@@ -1,24 +1,6 @@
 # This is the build file for the OTOBO docker image.
+# See also DOCKER.md.
 # The database will run in a separate container. See docker-compose.yml
-
-# See: https://perlmaven.com/getting-started-with-perl-on-docker
-# See: http://mfg.fhstp.ac.at/development/webdevelopment/docker-compose-ein-quick-start-guide/
-# See: https://github.com/juanluisbaptiste/docker-otrs/
-# See: http://not403.blogspot.com/search/label/otrs
-# See: https://forums.docker.com/t/command-to-remove-all-unused-images
-# See: https://www.docker.com/blog/intro-guide-to-dockerfile-best-practices/
-# See: https://stackoverflow.com/questions/34814669/when-does-docker-image-cache-invalidation-occur
-
-# Here are some commands for Docker newbys:
-# start over:             sudo docker system prune -a
-# show version:           sudo docker version
-# build an image:         sudo docker build --tag otobo-web .
-# run the new image:      sudo docker run -p 5000:5000 otobo-web
-# log into the new image: sudo docker run  -v opt_otobo:/opt/otobo -it otobo-web bash
-# show running images:    sudo docker ps
-# show available images:  sudo docker images
-# list volumes :          sudo docker volume ls
-# inspect a volumne:      sudo docker volume inspect opt_otobo
 
 # use the latest Perl on Debian 10 (buster). As of 2020-05-15.
 # cpanm is already installed
