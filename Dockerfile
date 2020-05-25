@@ -36,12 +36,12 @@ RUN cpanm --with-feature plack --with-feature=mysql --installdeps .
 # copy the OTOBO installation to /opt/otobo and use it as working dir
 COPY --chown=otobo:otobo . /opt/otobo
 
-# set permissions
-RUN perl bin/docker/set_permissions.pl
-
 # Activate the .dist files
 RUN cd Kernel && cp Config.pm.dist Config.pm \
     && cd ../var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done
+
+# set permissions
+RUN perl bin/docker/set_permissions.pl
 
 # start the OTOBO daemon
 # start the webserver
