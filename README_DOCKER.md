@@ -51,7 +51,10 @@ Note that all previous data will be lost.
 * docker-compose up # start again
 * Check sanity at [hello](http://localhost:5000/hello)
 * Run the installer at [installer.pl](http://localhost:5000/otobo/installer.pl)
-    * use 'db' for the database host
+    * Keep the default 'db' for the database host
+* Restart the Daemon as the Daemon still has the old Config.pm with the old DatabasePW
+    * docker exec -it otobo_web_1  perl bin/otobo.Daemon.pl stop
+    * docker exec -it otobo_web_1  perl bin/otobo.Daemon.pl start
 
 ## Other userful Docker commands
 
