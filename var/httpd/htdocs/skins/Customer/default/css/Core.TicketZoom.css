@@ -327,6 +327,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     #oooArticleListExpanded > li > div {
         margin-left: 24px;
         margin-right: 24px;
+        padding-bottom: 24px;
     }
 
 }
@@ -340,6 +341,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     #oooArticleListExpanded > li > div {
         margin-left: 56px;
         margin-right: 56px;
+        padding-bottom: 24px;
     }
 
 }
@@ -480,6 +482,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 iframe {
     width: 100%;
+    max-height: 80vh;
 }
 
 .ActionRow {
