@@ -238,7 +238,7 @@ sub Start {
         print STDOUT "\nDebug information is stored in the daemon log files localed under: $LogDir\n\n";
     }
 
-    LOOP:
+    DAEMON_CHECKER_LOOP:
     while ($DaemonChecker) {
 
         # do nothing while the Daemon is suspendend
@@ -292,7 +292,7 @@ sub Start {
                 );
 
                 my $DaemonObject;
-                LOOP:
+                CHILD_RUN_LOOP:
                 while ($ChildRun) {
 
                     # Create daemon object if not exists.
@@ -316,12 +316,13 @@ sub Start {
                     # Wait 10 seconds if creation of object is not possible.
                     if ( !$DaemonObject ) {
                         sleep 10;
-                        last LOOP;
+
+                        last CHILD_RUN_LOOP;
                     }
 
                     METHOD:
                     for my $Method ( 'PreRun', 'Run', 'PostRun' ) {
-                        last LOOP if !eval { $DaemonObject->$Method() };
+                        last CHILD_RUN_LOOP if !eval { $DaemonObject->$Method() };
                     }
                 }
 
