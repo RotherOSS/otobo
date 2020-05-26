@@ -492,33 +492,47 @@ sub Run {
             if ( $DB{InstallType} eq 'CreateDB' ) {
 
                 # Determine current host for MySQL account.
-                my $ConnectionID;
-                my $StatementHandle = $DBH->prepare("select connection_id()");
-                $StatementHandle->execute();
-                while ( my @Row = $StatementHandle->fetchrow_array() ) {
-                    $ConnectionID = $Row[0];
-                }
+                my $Host;
+                if ( $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
 
-                $StatementHandle = $DBH->prepare("show processlist");
-                $StatementHandle->execute();
-                PROCESSLIST:
-                while ( my @Row = $StatementHandle->fetchrow_array() ) {
-                    if ( $Row[0] eq $ConnectionID ) {
-                        $DB{Host} = $Row[2];
-                        last PROCESSLIST;
+                    # When running under Docker we assume that the database also runs in the subnet provided by Docker.
+                    # This is the case when the standard docker-compose.yml is used.
+                    # In this network the IP-addresses are not static therefore we can't use the same IP address
+                    # as seen when installer.pl runs.
+                    # Using 'web' does not work because 'skip-name-resolve' is set.
+                    # For now allow the complete network.
+                    $Host = '%';
+                }
+                else {
+                    # In the non-Docker case we want the IP-Address as database host.
+                    my $ConnectionID;
+                    my $StatementHandleConnectionId = $DBH->prepare("select connection_id()");
+                    $StatementHandleConnectionId->execute();
+                    while ( ($ConnectionID) = $StatementHandleConnectionId->fetchrow_array() ) {
                     }
-                }
 
-                # Strip off port, i.e. 'localhost:14962' should become 'localhost'.
-                $DB{Host} =~ s{:\d*\z}{}xms;
+                    my $StatementHandleProcessList = $DBH->prepare("show processlist");
+                    $StatementHandleProcessList->execute();
+                    PROCESSLIST:
+                    while ( my @Row = $StatementHandleProcessList->fetchrow_array() ) {
+                        if ( $Row[0] eq $ConnectionID ) {
+                            $Host = $Row[2];
+
+                            last PROCESSLIST;
+                        }
+                    }
+
+                    # Strip off port, i.e. 'localhost:14962' should become 'localhost'.
+                    $Host =~ s{:\d*\z}{}xms;
+                }
 
                 # 'CREATE USER ... IDENTIFIED WITH ...' is used because in MySQL 8 user can no longer be created with 'GRANT'
                 # 'IDENTIFIED WITH mysql_native_password' is supported since at least MySQL 5.6
                 # Note that 'FLUSH PRIVILEGES' is not needed here since at least MySQL 5.6
                 @Statements = (
                     "CREATE DATABASE `$DB{DBName}` charset utf8mb4",
-                    "CREATE USER `$DB{OTOBODBUser}`\@`$DB{Host}` IDENTIFIED WITH mysql_native_password AS PASSWORD('$DB{OTOBODBPassword}')",
-                    "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTOBODBUser}`\@`$DB{Host}` WITH GRANT OPTION",
+                    "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password AS PASSWORD('$DB{OTOBODBPassword}')",
+                    "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTOBODBUser}`\@`$Host` WITH GRANT OPTION",
                 );
             }
 
@@ -953,7 +967,7 @@ sub Run {
         }
 
         # check web server - is a restart needed?
-        my $Webserver;
+        my $Webserver = '';
 
         # Only if we have mod_perl we have to restart.
         if ( exists $ENV{MOD_PERL} ) {
@@ -967,6 +981,9 @@ sub Run {
                     $Webserver = 'service httpd restart';
                 }
             }
+        }
+        elsif ( exists $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+            # usually no restart required as 'plackup -R' is recommended
         }
 
         # Check if Apache::Reload is loaded.
