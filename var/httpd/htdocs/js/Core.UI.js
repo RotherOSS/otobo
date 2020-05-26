@@ -565,7 +565,7 @@ Core.UI = (function (TargetNS) {
                 CGIHandle = Core.Config.Get('CGIHandle'),
                 SessionToken = '',
                 SessionName,
-                Customer = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName');
+                CustomerInterface = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName');
 
             if (!FormID || !SelectedFiles || !$DropObj || !ChallengeToken) {
                 return false;
@@ -621,8 +621,8 @@ Core.UI = (function (TargetNS) {
                 }
             });
 
-            var UploadTmpl = ( Customer ? 'AjaxDnDUpload/AttachmentItemUploadingCustomer' : 'AjaxDnDUpload/AttachmentItemUploading' ),
-                AttachTmpl = ( Customer ? 'AjaxDnDUpload/AttachmentItemCustomer'          : 'AjaxDnDUpload/AttachmentItem' );
+            var UploadTmpl = ( CustomerInterface ? 'AjaxDnDUpload/AttachmentItemUploadingCustomer' : 'AjaxDnDUpload/AttachmentItemUploading' ),
+                AttachTmpl = ( CustomerInterface ? 'AjaxDnDUpload/AttachmentItemCustomer'          : 'AjaxDnDUpload/AttachmentItem' );
 
             $.each(SelectedFiles, function(index, File) {
 
@@ -682,7 +682,7 @@ Core.UI = (function (TargetNS) {
                 $ContainerObj.find('.AttachmentList').show();
 
                 // add show more/less element
-                if ( Customer && $ContainerObj.find('.AttachmentList > tbody > tr').length === 3 && $('.AttachmentList > tbody > .oooToggleML', $ContainerObj).length === 0 ) {
+                if ( CustomerInterface && $ContainerObj.find('.AttachmentList > tbody > tr').length === 3 && $('.AttachmentList > tbody > .oooToggleML', $ContainerObj).length === 0 ) {
                     var ToggleHTML = Core.Template.Render('AjaxDnDUpload/ToggleMoreLessCustomer', {});
                     $('.AttachmentList > tbody', $ContainerObj).addClass('oooRetracted').append(ToggleHTML);
 
@@ -697,6 +697,13 @@ Core.UI = (function (TargetNS) {
 
                 $(AttachmentItem).prependTo($ContainerObj.find('.AttachmentList tbody')).fadeIn();
                 $CurrentRowObj = $ContainerObj.find('.AttachmentList tbody tr:first-child');
+
+                // set final width of the upload progress bar
+                if ( CustomerInterface ) {
+                    $CurrentRowObj.find('.ProgressContainer').css({
+                        width: $CurrentRowObj.width(),
+                    });
+                }
 
                 Upload = new FormData();
                 Upload.append('Files', File);
@@ -752,7 +759,7 @@ Core.UI = (function (TargetNS) {
                                     return;
                                 }
 
-                                if ( !Customer ) {
+                                if ( !CustomerInterface ) {
                                     $TargetObj
                                         .find('.Filetype')
                                         .text(Attachment.ContentType);
@@ -868,7 +875,7 @@ Core.UI = (function (TargetNS) {
                     ObjectID: $(this).data('object-id'),
                     FieldID: $(this).data('field-id'),
                 },
-                Customer = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName');
+                CustomerInterface = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName');
 
             $TriggerObj.closest('.AttachmentListContainer').find('.Busy').fadeIn();
 
@@ -879,7 +886,7 @@ Core.UI = (function (TargetNS) {
                         $(this).remove();
 
                         // remove show more/less element
-                        if ( Customer && $AttachmentListContainerObj.find('.AttachmentList > tbody > tr').length === 4 && $('.AttachmentList > tbody > .oooToggleML', $AttachmentListContainerObj).length ) {
+                        if ( CustomerInterface && $AttachmentListContainerObj.find('.AttachmentList > tbody > tr').length === 4 && $('.AttachmentList > tbody > .oooToggleML', $AttachmentListContainerObj).length ) {
                             $('.AttachmentList > tbody > .oooToggleML', $AttachmentListContainerObj).remove();
                             $('.AttachmentList > .oooRetracted').removeClass('oooRetracted');
                         }
@@ -913,10 +920,10 @@ Core.UI = (function (TargetNS) {
         $('input[type=file].AjaxDnDUpload').each(function() {
 
             var IsMultiple = ($(this).attr('multiple') == 'multiple'),
-                Customer = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName'),
+                CustomerInterface = Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName'),
                 UploadContainer = Core.Template.Render('AjaxDnDUpload/UploadContainer', {
                     'IsMultiple': IsMultiple,
-                    'Customer'  : Customer
+                    'Customer'  : CustomerInterface
                 });
 
             // Only initialize events once per attachment field.

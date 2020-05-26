@@ -352,6 +352,7 @@ div.DnDUpload.Uploading .UploadRunning {
 
 table.AttachmentList {
     width: 100%;
+    table-layout: fixed;
 }
 
 table.AttachmentList tr {
@@ -368,6 +369,7 @@ table.AttachmentList td {
 }
 
 table.AttachmentList .Filetype {
+    position: relative;
     width: 16px;
     padding-left: 16px;
 }
@@ -378,22 +380,31 @@ table.AttachmentList .Filetype i {
 }
 
 table.AttachmentList .Filename {
-    width: calc( 75% - 45px );
+    width: 75%;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
 }
 
+table.AttachmentList .ProgressContainer {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    height: 4px;
+    width: 0px;
+}
+
 table.AttachmentList .Progress {
     display: block;
     height: 4px;
-    margin: 3px 0px;
-    background: #f92;
+    border-radius: 2px;
+    background-color: #001bff;
+    background-color: var(--colMainLight);
     width: 0px;
 }
 
 table.AttachmentList .Filesize {
-    width: calc( 25% - 43px );
+    width: 25%;
     text-align: right;
 }
 
