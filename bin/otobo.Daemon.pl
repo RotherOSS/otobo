@@ -19,16 +19,20 @@ use strict;
 use warnings;
 use utf8;
 
-use File::Basename;
+use File::Basename qw(basename dirname);
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
+# core modules
 use File::Path qw();
 use Time::HiRes qw(sleep);
 use Fcntl qw(:flock);
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::ObjectManager;
 
 print STDOUT "\nManage the OTOBO daemon process.\n\n";
@@ -41,9 +45,11 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 
 # Don't allow to run these scripts as root.
 if ( $> == 0 ) {    # $EFFECTIVE_USER_ID
-    print STDERR
-        "Error: You cannot run otobo.Daemon.pl as root. Please run it as the 'otobo' user or with the help of su:\n";
-    print STDERR "  su -c \"bin/otobo.Daemon.pl ...\" -s /bin/bash otobo\n";
+    print STDERR <<'END_MSG';
+Error: You cannot run otobo.Daemon.pl as root. Please run it as the 'otobo' user or with the help of su:
+  su -c "bin/otobo.Daemon.pl ..." -s /bin/bash otobo
+END_MSG
+
     exit 1;
 }
 
@@ -56,6 +62,7 @@ my $NodeID = $ConfigObject->Get('NodeID') || 1;
 # check NodeID, if does not match its impossible to continue
 if ( $NodeID !~ m{ \A \d+ \z }xms && $NodeID > 0 && $NodeID < 1000 ) {
     print STDERR "NodeID '$NodeID' is invalid. Change the NodeID to a number between 1 and 999.";
+
     exit 1;
 }
 
@@ -72,12 +79,14 @@ if ( !-d $LogDir ) {
 
     if ( !-d $LogDir ) {
         print STDERR "Failed to create path: $LogDir";
+
         exit 1;
     }
 }
 
 if ( !@ARGV ) {
     PrintUsage();
+
     exit 0;
 }
 
@@ -126,11 +135,13 @@ elsif (
 elsif ( $ARGV[1] ) {
     print STDERR "Invalid option: $ARGV[1]\n\n";
     PrintUsage();
+
     exit 0;
 }
 
 # check for action
 if ( lc $ARGV[0] eq 'start' ) {
+
     exit 1 if !Start();
     exit 0;
 }
@@ -146,6 +157,7 @@ elsif ( lc $ARGV[0] eq 'status' ) {
 }
 else {
     PrintUsage();
+
     exit 0;
 }
 
@@ -192,17 +204,15 @@ sub Start {
 
     if ( !$LockSuccess ) {
         print "Daemon already running!\n";
+
         exit 0;
     }
-
-    # Get daemon modules from SysConfig.
-    my $DaemonModuleConfig = $Kernel::OM->Get('Kernel::Config')->Get('DaemonModules') || {};
 
     # Create daemon module hash.
     my %DaemonModules = _GetDaemonModules();
 
     my $DaemonChecker = 1;
-    my $DaemonSuspend;
+    my $DaemonSuspend = 0;
     local $SIG{INT}  = sub { $DaemonChecker = 0; $DaemonSuspend  = 0; };
     local $SIG{TERM} = sub { $DaemonChecker = 0; $DaemonStopWait = 5; $DaemonSuspend = 0; };
     local $SIG{CHLD} = "IGNORE";
@@ -223,17 +233,55 @@ sub Start {
         $DaemonSuspend = 0;
     };
 
+    # Linux::Inotify2 is not yet required. Therefore it might not be available.
+    my $LinuxInotify2IsAvailable = eval {
+        require Linux::Inotify2;
+        Linux::Inotify2->import();
+
+        return 1;
+    };
+
+    # Watch the Config files for modifications and force a reload of the Config.
+    if ( $LinuxInotify2IsAvailable ) {
+
+        my $Inotify   = Linux::Inotify2->new or die "unable to create new inotify object: $!";
+        my $Home      = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+        my $Callback  = sub {
+
+            # an alternative could be to send a SIGHUP signal,
+            # but there is a possibility that Eventhandlers also change the config and this would be messy
+            _ForceReloadConfigurationFiles();
+            $Kernel::OM->ObjectsDiscard(
+                Objects => [ 'Kernel::Config', ],
+            );
+        };
+
+        for my $ConfigFile ( "$Home/Kernel/Config.pm", "$Home/Kernel/ZZZAuto.pm" ) {
+            $Inotify->watch( $ConfigFile, Linux::Inotify2::IN_MODIFY(), $Callback );
+        }
+    }
+
     print STDOUT "Daemon started\n";
     if ($Debug) {
         print STDOUT "\nDebug information is stored in the daemon log files localed under: $LogDir\n\n";
     }
 
-    LOOP:
+    DAEMON_CHECKER_LOOP:
     while ($DaemonChecker) {
 
+        # do nothing while the Daemon is suspendend
         if ($DaemonSuspend) {
             sleep .5;
-            next LOOP;
+
+            next DAEMON_CHECKER_LOOP;
+        }
+
+        # The Damon should only run in secure mode
+        if ( !$Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
+            $DaemonChecker = 0;
+            print STDOUT "Stopping the Deamon as SecureMode is not activated.\n";
+
+            next DAEMON_CHECKER_LOOP;
         }
 
         MODULE:
@@ -261,7 +309,7 @@ sub Start {
                 local $SIG{CHLD} = "IGNORE";
 
                 # Force reload configuration files.
-                _ReloadConfigurationFiles();
+                _ForceReloadConfigurationFiles();
 
                 local $Kernel::OM = Kernel::System::ObjectManager->new(
                     'Kernel::System::Log' => {
@@ -281,7 +329,7 @@ sub Start {
                 );
 
                 my $DaemonObject;
-                LOOP:
+                CHILD_RUN_LOOP:
                 while ($ChildRun) {
 
                     # Create daemon object if not exists.
@@ -305,12 +353,13 @@ sub Start {
                     # Wait 10 seconds if creation of object is not possible.
                     if ( !$DaemonObject ) {
                         sleep 10;
-                        last LOOP;
+
+                        last CHILD_RUN_LOOP;
                     }
 
                     METHOD:
                     for my $Method ( 'PreRun', 'Run', 'PostRun' ) {
-                        last LOOP if !eval { $DaemonObject->$Method() };
+                        last CHILD_RUN_LOOP if !eval { $DaemonObject->$Method() };
                     }
                 }
 
@@ -678,19 +727,18 @@ sub _StopDaemonModules {
     return 1;
 }
 
-sub _ReloadConfigurationFiles {
+# make sure that all configs are reread when Kernel::Config is loaded again
+sub _ForceReloadConfigurationFiles {
 
     my $ConfigFilesLocation = 'Kernel/Config/Files/';
     my $ConfigDirectory     = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/' . $ConfigFilesLocation;
-
-    my %Seen;
-    my @Glob = glob "$ConfigDirectory/*.pm";
+    my @ConfigFileNames     = glob "$ConfigDirectory/*.pm";
 
     FILENAME:
-    for my $Filename (@Glob) {
+    for my $Filename (@ConfigFileNames) {
         next FILENAME if !-e $Filename;
 
-        my $Basename = File::Basename::basename($Filename);
+        my $Basename = basename($Filename);
         delete $INC{ $ConfigFilesLocation . $Basename };
     }
 
