@@ -46,8 +46,11 @@ RUN cd Kernel \
 # set permissions
 RUN perl bin/docker/set_permissions.pl
 
+# run all services as the user otobo
 # start the OTOBO daemon
 # start the webserver
 # start the Cron watchdog
+# Tell the webapplication that it runs in a container.
 USER otobo
+ENV OTOBO_RUNS_UNDER_DOCKER 1
 ENTRYPOINT ["/opt/otobo/bin/docker/entrypoint.sh"]

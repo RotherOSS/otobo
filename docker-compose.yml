@@ -13,9 +13,11 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
 
-    # Expose the mysql default port to the host
-    ports:
-      - "5001:3306"
+    # do not expose the mysql default port to the docker host host
+    # use 'docker exec -it otobo_db_1 mysql ...' when access is needed
+    # because the the otobo DB user is allowed for the complete Docker network
+    # ports:
+      #- "5001:3306"
 
     # Set the db root password
     # the database 'otobo' and the db user 'otobo' are created by installer.pl
