@@ -19,16 +19,20 @@ use strict;
 use warnings;
 use utf8;
 
-use File::Basename;
+use File::Basename qw(basename dirname);
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
+# core modules
 use File::Path qw();
 use Time::HiRes qw(sleep);
 use Fcntl qw(:flock);
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::ObjectManager;
 
 print STDOUT "\nManage the OTOBO daemon process.\n\n";
@@ -41,9 +45,11 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 
 # Don't allow to run these scripts as root.
 if ( $> == 0 ) {    # $EFFECTIVE_USER_ID
-    print STDERR
-        "Error: You cannot run otobo.Daemon.pl as root. Please run it as the 'otobo' user or with the help of su:\n";
-    print STDERR "  su -c \"bin/otobo.Daemon.pl ...\" -s /bin/bash otobo\n";
+    print STDERR <<'END_MSG';
+Error: You cannot run otobo.Daemon.pl as root. Please run it as the 'otobo' user or with the help of su:
+  su -c "bin/otobo.Daemon.pl ..." -s /bin/bash otobo
+END_MSG
+
     exit 1;
 }
 
@@ -56,6 +62,7 @@ my $NodeID = $ConfigObject->Get('NodeID') || 1;
 # check NodeID, if does not match its impossible to continue
 if ( $NodeID !~ m{ \A \d+ \z }xms && $NodeID > 0 && $NodeID < 1000 ) {
     print STDERR "NodeID '$NodeID' is invalid. Change the NodeID to a number between 1 and 999.";
+
     exit 1;
 }
 
@@ -72,12 +79,14 @@ if ( !-d $LogDir ) {
 
     if ( !-d $LogDir ) {
         print STDERR "Failed to create path: $LogDir";
+
         exit 1;
     }
 }
 
 if ( !@ARGV ) {
     PrintUsage();
+
     exit 0;
 }
 
@@ -126,11 +135,13 @@ elsif (
 elsif ( $ARGV[1] ) {
     print STDERR "Invalid option: $ARGV[1]\n\n";
     PrintUsage();
+
     exit 0;
 }
 
 # check for action
 if ( lc $ARGV[0] eq 'start' ) {
+
     exit 1 if !Start();
     exit 0;
 }
@@ -146,6 +157,7 @@ elsif ( lc $ARGV[0] eq 'status' ) {
 }
 else {
     PrintUsage();
+
     exit 0;
 }
 
@@ -192,6 +204,7 @@ sub Start {
 
     if ( !$LockSuccess ) {
         print "Daemon already running!\n";
+
         exit 0;
     }
 
@@ -202,7 +215,7 @@ sub Start {
     my %DaemonModules = _GetDaemonModules();
 
     my $DaemonChecker = 1;
-    my $DaemonSuspend;
+    my $DaemonSuspend = 0;
     local $SIG{INT}  = sub { $DaemonChecker = 0; $DaemonSuspend  = 0; };
     local $SIG{TERM} = sub { $DaemonChecker = 0; $DaemonStopWait = 5; $DaemonSuspend = 0; };
     local $SIG{CHLD} = "IGNORE";
@@ -231,6 +244,7 @@ sub Start {
     LOOP:
     while ($DaemonChecker) {
 
+        # do nothing while the Daemon is suspendend
         if ($DaemonSuspend) {
             sleep .5;
             next LOOP;
@@ -261,7 +275,7 @@ sub Start {
                 local $SIG{CHLD} = "IGNORE";
 
                 # Force reload configuration files.
-                _ReloadConfigurationFiles();
+                _ForceReloadConfigurationFiles();
 
                 local $Kernel::OM = Kernel::System::ObjectManager->new(
                     'Kernel::System::Log' => {
@@ -678,19 +692,18 @@ sub _StopDaemonModules {
     return 1;
 }
 
-sub _ReloadConfigurationFiles {
+# make sure that all configs are reread when Kernel::Config is loaded again
+sub _ForceReloadConfigurationFiles {
 
     my $ConfigFilesLocation = 'Kernel/Config/Files/';
     my $ConfigDirectory     = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/' . $ConfigFilesLocation;
-
-    my %Seen;
-    my @Glob = glob "$ConfigDirectory/*.pm";
+    my @ConfigFileNames     = glob "$ConfigDirectory/*.pm";
 
     FILENAME:
-    for my $Filename (@Glob) {
+    for my $Filename (@ConfigFileNames) {
         next FILENAME if !-e $Filename;
 
-        my $Basename = File::Basename::basename($Filename);
+        my $Basename = basename($Filename);
         delete $INC{ $ConfigFilesLocation . $Basename };
     }
 
