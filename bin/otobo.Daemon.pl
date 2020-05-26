@@ -233,6 +233,34 @@ sub Start {
         $DaemonSuspend = 0;
     };
 
+    # Linux::Inotify2 is not yet required. Therefore it might not be available.
+    my $LinuxInotify2IsAvailable = eval {
+        require Linux::Inotify2;
+        Linux::Inotify2->import();
+
+        return 1;
+    };
+
+    # Watch the Config files for modifications and force a reload of the Config.
+    if ( $LinuxInotify2IsAvailable ) {
+
+        my $Inotify   = Linux::Inotify2->new or die "unable to create new inotify object: $!";
+        my $Home      = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+        my $Callback  sub {
+
+            # an alternative could be to send a SIGHUP signal,
+            # but there is a possibility that Eventhandlers also change the config and this would be messy
+            _ForceReloadConfigurationFiles();
+            $Kernel::OM->ObjectsDiscard(
+                Objects => [ 'Kernel::Config', ],
+            );
+        };
+
+        for my $ConfigFn ( "$Home/Kernel/Config.pm", "$Home/Kernel/ZZZAuto.pm" ) {
+            $Inotify->watch( $ConfigFile, IN_MODIFY, $Callback );
+        }
+    }
+
     print STDOUT "Daemon started\n";
     if ($Debug) {
         print STDOUT "\nDebug information is stored in the daemon log files localed under: $LogDir\n\n";
