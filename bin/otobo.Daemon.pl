@@ -279,6 +279,7 @@ sub Start {
         # The Damon should only run in secure mode
         if ( !$Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
             $DaemonChecker = 0;
+            print STDOUT "Stopping the Deamon as SecureMode is not activated.\n";
 
             next DAEMON_CHECKER_LOOP;
         }
