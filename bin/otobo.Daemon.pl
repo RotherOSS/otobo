@@ -208,9 +208,6 @@ sub Start {
         exit 0;
     }
 
-    # Get daemon modules from SysConfig.
-    my $DaemonModuleConfig = $Kernel::OM->Get('Kernel::Config')->Get('DaemonModules') || {};
-
     # Create daemon module hash.
     my %DaemonModules = _GetDaemonModules();
 
