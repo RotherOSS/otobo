@@ -272,7 +272,15 @@ sub Start {
         # do nothing while the Daemon is suspendend
         if ($DaemonSuspend) {
             sleep .5;
-            next LOOP;
+
+            next DAEMON_CHECKER_LOOP;
+        }
+
+        # The Damon should only run in secure mode
+        if ( !$Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
+            $DaemonChecker = 0;
+
+            next DAEMON_CHECKER_LOOP;
         }
 
         MODULE:
