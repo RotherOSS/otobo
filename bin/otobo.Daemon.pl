@@ -246,7 +246,7 @@ sub Start {
 
         my $Inotify   = Linux::Inotify2->new or die "unable to create new inotify object: $!";
         my $Home      = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-        my $Callback  sub {
+        my $Callback  = sub {
 
             # an alternative could be to send a SIGHUP signal,
             # but there is a possibility that Eventhandlers also change the config and this would be messy
@@ -257,7 +257,7 @@ sub Start {
         };
 
         for my $ConfigFn ( "$Home/Kernel/Config.pm", "$Home/Kernel/ZZZAuto.pm" ) {
-            $Inotify->watch( $ConfigFile, IN_MODIFY, $Callback );
+            $Inotify->watch( $ConfigFile, Linux::Inotify2::IN_MODIFY(), $Callback );
         }
     }
 
