@@ -256,7 +256,7 @@ sub Start {
             );
         };
 
-        for my $ConfigFn ( "$Home/Kernel/Config.pm", "$Home/Kernel/ZZZAuto.pm" ) {
+        for my $ConfigFile ( "$Home/Kernel/Config.pm", "$Home/Kernel/ZZZAuto.pm" ) {
             $Inotify->watch( $ConfigFile, Linux::Inotify2::IN_MODIFY(), $Callback );
         }
     }
