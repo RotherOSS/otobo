@@ -1,4 +1,4 @@
-#!/usr/bin/perl -X
+#!/usr/bin/env perl
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
