@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
+# no command line arguments are handled
+
 # Start up OTOBO Daemon and the webserver
 # Run a watchdog over the Daemon via Cron
 
-# no command line arguments are handled
-
-# start the Daemon and set up the Cron watchdog
 # assume that we are in /opt/otobo
-# TODO: this might not work when the database is not yet created and configured
-mkdir var/tmp
+mkdir -p var/tmp
+
+# set up the cronjobs as they are declared in var/cron
 ./bin/Cron.sh start
 perl ./bin/otobo.Daemon.pl start
 
