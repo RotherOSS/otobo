@@ -43,12 +43,10 @@ Only the image for the webserver needs to be build. For MariaDb the image from D
 Note that all previous data will be lost.
 
 * sudo service docker restart    # workaround when sometimes the cached images are not available
-* docker-compose down
-* docker-compose build   # when the code has changed
-* docker volume ls # should report otobo_mariadb_data and otobo_opt_otobo
-* docker volume rm otobo_mariadb_data otobo_opt_otobo
-* docker volume ls # should show no otobo volumes
-* docker-compose up # start again
+* docker-compose down -v         # volumes are also removed
+* docker-compose build           # when the code has changed
+* docker volume ls               # should show no otobo volumes
+* docker-compose up              # start again, with fresh volumes
 * Check sanity at [hello](http://localhost:5000/hello)
 * Run the installer at [installer.pl](http://localhost:5000/otobo/installer.pl)
     * Keep the default 'db' for the database host
