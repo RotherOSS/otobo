@@ -1,4 +1,4 @@
-#!/usr/bin/env -S perl -X
+#!/usr/bin/env perl
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
@@ -16,7 +16,7 @@
 # --
 
 use strict;
-use warnings; # NOTE: this is kind of useless as the -X flag is set
+use warnings;
 use utf8;
 
 use File::Basename qw(basename dirname);
