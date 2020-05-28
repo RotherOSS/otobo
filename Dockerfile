@@ -51,6 +51,7 @@ RUN perl bin/docker/set_permissions.pl
 # start the webserver
 # start the Cron watchdog
 # Tell the webapplication that it runs in a container.
-USER otobo
+# The entrypoint takes one command: 'web' or 'cron'
 ENV OTOBO_RUNS_UNDER_DOCKER 1
-ENTRYPOINT ["/opt/otobo/bin/docker/entrypoint.sh"]
+ENV OTOBO_USER otobo
+ENTRYPOINT ["bin/docker/entrypoint.sh"]

@@ -33,6 +33,8 @@ services:
     # use ./Dockerfile for building, image otobo-web
     build:
       context: .
+    # give a name to the build image so that the service 'cron' can reuse it
+    image: otobo_web:latest
     depends_on:
       - db
     restart: always
@@ -41,6 +43,13 @@ services:
       - "5000:5000"
     volumes:
       - opt_otobo:/opt/otobo
+    command: web
+
+  cron:
+    image: otobo_web:latest
+    volumes:
+      - opt_otobo:/opt/otobo
+    command: cron
 
 # no volumnes need to be exposed across services
 volumes:
