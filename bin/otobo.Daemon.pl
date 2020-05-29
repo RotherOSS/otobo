@@ -256,7 +256,11 @@ sub Start {
             );
         };
 
-        for my $ConfigFile ( "$Home/Kernel/Config.pm", "$Home/Kernel/ZZZAuto.pm" ) {
+        for my $ConfigFile (
+            "$Home/Kernel/Config.pm",
+            map {  "$Home/Kernel/$_.pm" } qw(ZZZAuto ZZZAAuto ZZZACL ZZZProcessManagement)
+        )
+        {
             $Inotify->watch( $ConfigFile, Linux::Inotify2::IN_MODIFY(), $Callback );
         }
     }
