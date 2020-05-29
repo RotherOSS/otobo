@@ -48,8 +48,12 @@ RUN cd Kernel \
     && cd ../var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done
 
 # make sure that var/tmp exists and generate the crontab for OTOBO_USER
+# Set PATH as the required perl is located in /usr/local/bin/perl.
 USER $OTOBO_USER
 RUN mkdir -p var/tmp \
+    && echo "# File added by Dockerfile"                                 >  var/cron/aab_path \
+    && echo "# Let '/usr/bin/env perl' find perl 5.30 in /usr/local/bin" >> var/cron/aab_path \
+    && echo "PATH=/usr/local/bin:/usr/bin:/bin"                          >> var/cron/aab_path \
     && ./bin/Cron.sh start
 USER root
 
