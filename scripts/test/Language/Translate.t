@@ -39,7 +39,7 @@ my @Tests = (
         OriginalString    => 'OTOBOLanguageUnitTest::Test1',
         TranslationString => 'Test1',
         TranslationResult => 'Test1',
-        Parameters        => ['Hallo'],                       # test with not needed parameter
+        Parameters        => ['Hallo'],                        # test with not needed parameter
     },
     {
         OriginalString    => 'OTOBOLanguageUnitTest::Test2',

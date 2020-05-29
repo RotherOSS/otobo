@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::AdminACL;
 
 use strict;
@@ -373,11 +372,11 @@ sub Run {
 
             my $Success = $ACLObject->ACLsNeedSyncReset();
 
-            # remove preselection cache TODO: rebuild the cache properly (a simple $FieldRestrictionsObject->SetACLPreselectionCache(); uses the old ACLs)
+# remove preselection cache TODO: rebuild the cache properly (a simple $FieldRestrictionsObject->SetACLPreselectionCache(); uses the old ACLs)
             my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
             $CacheObject->Delete(
-                Type  => 'TicketACL',      # only [a-zA-Z0-9_] chars usable
-                Key   => 'Preselection',
+                Type => 'TicketACL',      # only [a-zA-Z0-9_] chars usable
+                Key  => 'Preselection',
             );
 
             if ($Success) {

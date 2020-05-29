@@ -98,8 +98,8 @@ $Selenium->RunTest(
         );
 
         my $OTOBOCommunityIsInstalled = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCommunityIsInstalled();
-        my $OBTeaser                = $LanguageObject->Translate('More Business Fields');
-        my $OBTeaserFound           = index( $Selenium->get_page_source(), $OBTeaser ) > -1;
+        my $OBTeaser                  = $LanguageObject->Translate('More Business Fields');
+        my $OBTeaserFound             = index( $Selenium->get_page_source(), $OBTeaser ) > -1;
         if ( !$OTOBOCommunityIsInstalled ) {
             $Self->True(
                 $OBTeaserFound,

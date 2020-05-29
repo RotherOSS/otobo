@@ -39,7 +39,7 @@ sub new {
     bless( $Self, $Type );
 
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-    my $ZnunyHelperObject           = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
+    my $ZnunyHelperObject  = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
 
     my $DynamicFields = $DynamicFieldObject->GetValidDynamicFields();
     $Self->{DynamicFields} = $DynamicFields;
@@ -58,14 +58,14 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get objects
-    my $ConfigObject                = $Kernel::OM->Get('Kernel::Config');
-    my $LogObject                   = $Kernel::OM->Get('Kernel::System::Log');
-    my $SysConfigObject             = $Kernel::OM->Get('Kernel::System::SysConfig');
-    my $ZnunyHelperObject           = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
-    my $LayoutObject                = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ParamObject                 = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $LanguageObject              = $Kernel::OM->Get('Kernel::Language');
-    my $DynamicFieldObject          = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+    my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
+    my $SysConfigObject    = $Kernel::OM->Get('Kernel::System::SysConfig');
+    my $ZnunyHelperObject  = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
+    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LanguageObject     = $Kernel::OM->Get('Kernel::Language');
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     $Self->{Subaction} = $ParamObject->GetParam( Param => 'Subaction' ) || '';
 
@@ -486,7 +486,7 @@ sub _ShowEdit {
     if ( $Param{Message} && $Param{Priority} ) {
         $Output .= $LayoutObject->Notify(
             Priority => $Param{Priority} || 'Info',
-            Info => $Param{Message},
+            Info     => $Param{Message},
         );
     }
 

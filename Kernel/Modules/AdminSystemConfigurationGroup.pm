@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::AdminSystemConfigurationGroup;
 
 use strict;
@@ -499,8 +498,8 @@ sub Run {
         my $Output = $LayoutObject->Output(
             TemplateFile => 'SystemConfiguration/SettingsList',
             Data         => {
-                SettingList             => \@SettingList,
-                ConfigLevel             => $ConfigLevel
+                SettingList => \@SettingList,
+                ConfigLevel => $ConfigLevel
             },
         );
 
@@ -740,13 +739,13 @@ sub Run {
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminSystemConfigurationGroup',
         Data         => {
-            Tree                    => \%Tree,
-            Path                    => \@Path,
-            RootNavigation          => $RootNavigation,
-            SettingList             => \@SettingList,
-            CategoriesStrg          => $Self->_GetCategoriesStrg(),
-            InvalidSettings         => $Self->_CheckInvalidSettings(),
-            ConfigLevel             => $ConfigLevel,
+            Tree            => \%Tree,
+            Path            => \@Path,
+            RootNavigation  => $RootNavigation,
+            SettingList     => \@SettingList,
+            CategoriesStrg  => $Self->_GetCategoriesStrg(),
+            InvalidSettings => $Self->_CheckInvalidSettings(),
+            ConfigLevel     => $ConfigLevel,
         },
     );
     $Output .= $LayoutObject->Footer();

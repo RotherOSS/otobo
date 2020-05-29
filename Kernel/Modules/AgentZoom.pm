@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 #
 # LEGACY: This module redirects to AgentTicketZoom. It should be kept for a while
 #   because existing legacy/upgraded systems have it in their notifications.

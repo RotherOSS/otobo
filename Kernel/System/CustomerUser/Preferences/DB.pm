@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::CustomerUser::Preferences::DB;
 
 use strict;
@@ -250,6 +249,7 @@ sub DeleteOnePreference {
 
     return 1;
 }
+
 # EO Rother OSS
 
 1;

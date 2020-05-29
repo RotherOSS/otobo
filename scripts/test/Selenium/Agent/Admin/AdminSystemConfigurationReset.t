@@ -26,9 +26,9 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        my $Helper             = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper               = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $OTOBOCommunityObject = $Kernel::OM->Get('Kernel::System::OTOBOCommunity');
-        my $SysConfigObject    = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my $SysConfigObject      = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(

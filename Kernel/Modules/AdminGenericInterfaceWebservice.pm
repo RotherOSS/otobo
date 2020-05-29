@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::AdminGenericInterfaceWebservice;
 
 use strict;
@@ -919,7 +918,7 @@ sub _ShowEdit {
 
         my %Frontend;
 
-        if ( 0 && %ExampleWebServicesData ) { # OTOBOCommunity installed
+        if ( 0 && %ExampleWebServicesData ) {    # OTOBOCommunity installed
             $Frontend{ExampleWebServiceList} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->BuildSelection(
                 Name         => 'ExampleWebService',
                 Data         => \%ExampleWebServicesData,

@@ -274,10 +274,10 @@ for my $Test (@Tests) {
         UnlockOnAway         => 1,
         AutoResponseType     => $Test->{AutoResponseType},
         OrigHeader           => {
-            From          => '"test" <test@localunittest.com>',
-            To            => $QueueName,
-            Subject       => 'UnitTest article one',
-            Body          => 'UnitTest body',
+            From           => '"test" <test@localunittest.com>',
+            To             => $QueueName,
+            Subject        => 'UnitTest article one',
+            Body           => 'UnitTest body',
             'X-OTOBO-Loop' => 'yes'
 
         },
@@ -331,10 +331,10 @@ for my $Test (@Tests) {
         UnlockOnAway         => 1,
         AutoResponseType     => $Test->{AutoResponseType},
         OrigHeader           => {
-            From          => '"test" <test@localunittest.com>',
-            To            => $QueueName,
-            Subject       => 'UnitTest article one',
-            Body          => 'UnitTest body',
+            From           => '"test" <test@localunittest.com>',
+            To             => $QueueName,
+            Subject        => 'UnitTest article one',
+            Body           => 'UnitTest body',
             'X-OTOBO-Loop' => 'no'
 
         },

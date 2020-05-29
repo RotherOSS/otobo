@@ -63,7 +63,7 @@
                         <input type="text" id="DBSID" name="DBSID" class="W50pc" value="[% Data.DBSID %]" />
                     </div>
                     <div class="Clear" class="oooOracle Hidden"></div>
-                    
+
                     <label for="DBPort" class="oooOracle Hidden">[% Translate("Port") | html %]:</label>
                     <div class="Field oooOracle Hidden">
                         <input type="text" id="DBPort" name="DBPort" class="W50pc" value="[% Data.DBPort %]" />
@@ -95,7 +95,7 @@
 
                     <div class="Clear"></div>
                 </fieldset>
-                
+
                 <div class="Spacing Right">
                     <button type="button" class="CallForAction" id="ButtonBack"><span>[% Translate("Back") | html %]</span></button>
                     <button class="Primary CallForAction Disabled HideMe" type="submit" id="FormSubmit" disabled><span>[% Translate("Next") | html %]</span></button>

@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::Console::Command::Admin::Package::List;
 
 use strict;
@@ -71,8 +70,8 @@ sub Run {
         return $Self->ExitCodeOk();
     }
 
-    my $PackageNameOption             = $Self->GetOption('package-name');
-    my $ShowDeploymentInfoOption      = $Self->GetOption('show-deployment-info');
+    my $PackageNameOption        = $Self->GetOption('package-name');
+    my $ShowDeploymentInfoOption = $Self->GetOption('show-deployment-info');
 
     # Get package object
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');

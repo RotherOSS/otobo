@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Output::HTML::Notification::CustomerOnline;
 
 use parent 'Kernel::Output::HTML::Base';
@@ -71,7 +70,7 @@ sub Run {
 
         return $LayoutObject->Notify(
             Priority => 'Success',
-            Info => $LayoutObject->{LanguageObject}->Translate(
+            Info     => $LayoutObject->{LanguageObject}->Translate(
                 'Online Customer: %s',
                 $Param{Message},
             ),

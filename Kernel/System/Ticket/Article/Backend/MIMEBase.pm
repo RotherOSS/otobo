@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::Ticket::Article::Backend::MIMEBase;
 
 use strict;
@@ -1323,13 +1322,14 @@ sub BackendSearchableFieldsGet {
             Type       => 'Text',
             Filterable => 1,
         },
-# non-filtered subject
-#        'MIMEBase_Subject_nf' => {
-#            Label      => 'Subject',
-#            Key        => 'MIMEBase_Subject_nf',
-#            Type       => 'Text',
-#            Filterable => 0,
-#        },
+
+        # non-filtered subject
+        #        'MIMEBase_Subject_nf' => {
+        #            Label      => 'Subject',
+        #            Key        => 'MIMEBase_Subject_nf',
+        #            Type       => 'Text',
+        #            Filterable => 0,
+        #        },
     );
 
     if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::IndexAttachmentNames') ) {

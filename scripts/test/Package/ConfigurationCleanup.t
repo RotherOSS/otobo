@@ -148,7 +148,7 @@ my $String1 = qq|<?xml version="1.0" encoding="utf-8" ?>
     <Name>TestPackage1</Name>
     <Version>0.0.1</Version>
     <Vendor>Rother OSS GmbH</Vendor>
-    <URL>https://otrs.com/</URL>
+    <URL>https://otobo.de/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <Description Lang="en">TestPackage1.</Description>
     <Framework>$Version</Framework>
@@ -165,7 +165,7 @@ my $String2 = qq|<?xml version="1.0" encoding="utf-8" ?>
     <Name>TestPackage2</Name>
     <Version>0.0.1</Version>
     <Vendor>Rother OSS GmbH</Vendor>
-    <URL>https://otrs.com/</URL>
+    <URL>https://otobo.de/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <Description Lang="en">TestPackage2.</Description>
     <Framework>$Version</Framework>
@@ -182,7 +182,7 @@ my $String3 = qq|<?xml version="1.0" encoding="utf-8" ?>
     <Name>TestPackage2</Name>
     <Version>0.0.2</Version>
     <Vendor>Rother OSS GmbH</Vendor>
-    <URL>https://otrs.com/</URL>
+    <URL>https://otobo.de/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <Description Lang="en">TestPackage2.</Description>
     <Framework>$Version</Framework>

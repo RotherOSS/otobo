@@ -128,10 +128,10 @@ my @Tests = (
     #
     {
         Config => {
-            Type         => 'Date',
+            Type          => 'Date',
             OTOBOTimeZone => 'UTC',
-            UserTimeZone => 'Europe/Berlin',
-            Common       => {
+            UserTimeZone  => 'Europe/Berlin',
+            Common        => {
                 DynamicFieldConfig => $DynamicFieldConfigsByType{Date},
             },
             EditFieldRender => {
@@ -187,10 +187,10 @@ my @Tests = (
     },
     {
         Config => {
-            Type         => 'Date',
+            Type          => 'Date',
             OTOBOTimeZone => 'Europe/Berlin',
-            UserTimeZone => 'America/New_York',
-            Common       => {
+            UserTimeZone  => 'America/New_York',
+            Common        => {
                 DynamicFieldConfig => $DynamicFieldConfigsByType{Date},
             },
             EditFieldRender => {
@@ -250,10 +250,10 @@ my @Tests = (
     #
     {
         Config => {
-            Type         => 'DateTime',
+            Type          => 'DateTime',
             OTOBOTimeZone => 'UTC',
-            UserTimeZone => 'Europe/Berlin',
-            Common       => {
+            UserTimeZone  => 'Europe/Berlin',
+            Common        => {
                 DynamicFieldConfig => $DynamicFieldConfigsByType{DateTime},
             },
             EditFieldRender => {
@@ -327,10 +327,10 @@ my @Tests = (
     },
     {
         Config => {
-            Type         => 'DateTime',
+            Type          => 'DateTime',
             OTOBOTimeZone => 'Europe/Berlin',
-            UserTimeZone => 'America/New_York',
-            Common       => {
+            UserTimeZone  => 'America/New_York',
+            Common        => {
                 DynamicFieldConfig => $DynamicFieldConfigsByType{DateTime},
             },
             EditFieldRender => {
@@ -404,10 +404,10 @@ my @Tests = (
     },
     {
         Config => {
-            Type         => 'DateTime',
+            Type          => 'DateTime',
             OTOBOTimeZone => 'Europe/Berlin',
-            UserTimeZone => 'Europe/Berlin',
-            Common       => {
+            UserTimeZone  => 'Europe/Berlin',
+            Common        => {
                 DynamicFieldConfig => $DynamicFieldConfigsByType{DateTime},
             },
             EditFieldRender => {

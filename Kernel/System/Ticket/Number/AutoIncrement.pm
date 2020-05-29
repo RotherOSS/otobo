@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 #
 # Generates auto increment ticket numbers like ss.... (e. g. 1010138, 1010139, ...)
 # --

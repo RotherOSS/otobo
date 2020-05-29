@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::DB;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Pod::FunctionPod)
 

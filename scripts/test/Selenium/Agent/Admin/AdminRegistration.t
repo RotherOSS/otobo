@@ -156,8 +156,8 @@ EOS
 
         for my $Test (@Tests) {
 
-            $Selenium->find_element( "#OTOBOID",   'css' )->clear();
-            $Selenium->find_element( "#OTOBOID",   'css' )->send_keys( $Test->{Value} );
+            $Selenium->find_element( "#OTOBOID",  'css' )->clear();
+            $Selenium->find_element( "#OTOBOID",  'css' )->send_keys( $Test->{Value} );
             $Selenium->find_element( "#Password", 'css' )->clear();
             $Selenium->find_element( "#Password", 'css' )->send_keys( $Test->{Value} );
             $Selenium->find_element( "#Submit",   'css' )->click();

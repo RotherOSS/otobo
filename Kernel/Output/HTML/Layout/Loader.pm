@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Output::HTML::Layout::Loader;
 
 use strict;
@@ -634,7 +633,7 @@ sub LoaderCreateCustomerCSSCalls {
 
     # now handle module specific CSS
     my $LoaderAction = $Self->{Action} || 'Login';
-    $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
+    $LoaderAction = 'Login'         if ( $LoaderAction eq 'Logout' );
     $LoaderAction = 'CustomerLogin' if ( $LoaderAction eq 'Login' );
 
     {

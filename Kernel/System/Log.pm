@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::Log;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::PODSpelling)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)

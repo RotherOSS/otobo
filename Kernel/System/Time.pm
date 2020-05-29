@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::Time;
 
 use strict;
@@ -619,4 +618,3 @@ the enclosed file COPYING for license information (GPL). If you
 did not receive this file, see L<https://www.gnu.org/licenses/gpl-3.0.txt>.
 
 =cut
-

@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::Console::Command::Dev::Tools::Migrate::OTRSToOTOBO;
 
 use strict;
@@ -73,7 +72,7 @@ sub Configure {
         Name        => 'target',
         Description => "Specify the directory where the cleaned OTOBO code should be placed.",
         Required    => 1,
-        HasValue   => 1,
+        HasValue    => 1,
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddArgument(
@@ -93,7 +92,7 @@ sub PreRun {
 
     my $Source = $Self->GetArgument('source');
 
-    if ( !-r ( $Source ) ) {
+    if ( !-r ($Source) ) {
         die "File $Source does not exist / cannot be read.\n";
     }
 
@@ -111,23 +110,24 @@ sub Run {
     my $MigraionBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
     $Self->Print("<green>Read unclean code or opm package...</green>\n");
 
-    my $Source              = $Self->GetArgument('source');
+    my $Source = $Self->GetArgument('source');
 
     # If option cleanall is active, we execute all availible clean modules.
-    my $CleanALL            = $Self->GetOption('cleanall');
-    my $CleanPath           = $Self->GetOption('cleanpath')  || $CleanALL;
-    my $CleanLicenseHeader  = $Self->GetOption('cleanlicense') || $CleanALL;
-    my $CleanContent        = $Self->GetOption('cleancontent') || $CleanALL;
-    my $TargetDirectory     = $Self->GetOption('target');
-    my $SourceIsOPMOrDir    = 'Dir';
+    my $CleanALL           = $Self->GetOption('cleanall');
+    my $CleanPath          = $Self->GetOption('cleanpath') || $CleanALL;
+    my $CleanLicenseHeader = $Self->GetOption('cleanlicense') || $CleanALL;
+    my $CleanContent       = $Self->GetOption('cleancontent') || $CleanALL;
+    my $TargetDirectory    = $Self->GetOption('target');
+    my $SourceIsOPMOrDir   = 'Dir';
     my $TmpDirectory;
 
     if ( -f $Source ) {
+
         # Source is a file, hope opm (Need to check?)...
         $SourceIsOPMOrDir = 'OPM';
 
         # Create tempdir if opm package given
-        $TmpDirectory =  $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
+        $TmpDirectory = $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
     }
 
     # List of all dir and files
@@ -140,24 +140,24 @@ sub Run {
     my @ParserIgnoreDirAndFile = $MigraionBaseObject->IgnorePathList();
 
     # We need to check if a opm package is given
-    if ( $SourceIsOPMOrDir eq 'OPM' && -d $TargetDirectory) {
+    if ( $SourceIsOPMOrDir eq 'OPM' && -d $TargetDirectory ) {
 
         # OPM package is given, so we need to extract it to a tmp dir
         my $SOPMCreate = $MigraionBaseObject->CopyOPMtoSOPMAndClean(
-            Source     => $Source,
-            TmpDirectory  => $TmpDirectory,
+            Source       => $Source,
+            TmpDirectory => $TmpDirectory,
         );
         $Self->Print("<green>Copy .opm file to Package.sopm: Done.</green>\n");
 
         # Add $TempDir path to $Source, so we can go on
         $Source = $MigraionBaseObject->ExtractOPMPackage(
-            Source     => $Source,
-            TmpDirectory  => $TmpDirectory,
+            Source       => $Source,
+            TmpDirectory => $TmpDirectory,
         );
         $Self->Print("<green>Extract OPM package: Done.</green>\n");
     }
 
-    if ( $Source && -d $TargetDirectory) {
+    if ( $Source && -d $TargetDirectory ) {
         @UncleanDirAndFileList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => $Source,
             Filter    => '*',
@@ -172,6 +172,7 @@ sub Run {
                 $RwPath =~ s/$TmpDirectory//g;
                 $RwPath = $TargetDirectory . $RwPath;
             }
+
             # No TmpDirectory exists
             elsif ( $SourceIsOPMOrDir eq 'Dir' ) {
                 $RwPath =~ s/$Source//g;
@@ -180,9 +181,9 @@ sub Run {
 
             # Write file to output directory
             $MigraionBaseObject->HandleFile(
-                File     => $File,
-                RwPath   => $RwPath,
-                Target   => $TargetDirectory,
+                File            => $File,
+                RwPath          => $RwPath,
+                Target          => $TargetDirectory,
                 UncleanFileList => \@UncleanFileList,
             );
             $Self->Print("<green>Write content to TargetDirectory $TargetDirectory: Done.</green>\n");
@@ -195,15 +196,17 @@ sub Run {
             # Check wich paths we should ignore
             my $ParseNot;
             TYPE:
-            for my $Type ( @ParserIgnoreDirAndFile ) {
+            for my $Type (@ParserIgnoreDirAndFile) {
                 if ( $File =~ $Type ) {
                     $ParseNot = 1;
                     last TYPE;
                 }
             }
 
-            if ( $ParseNot ) {
-                $Self->Print("<yellow>Ignore directory setting for $File is active - please check if you need to add a new regexp.</yellow>\n");
+            if ($ParseNot) {
+                $Self->Print(
+                    "<yellow>Ignore directory setting for $File is active - please check if you need to add a new regexp.</yellow>\n"
+                );
                 next FILE;
 
             }
@@ -211,24 +214,24 @@ sub Run {
             # Clean content of files if $CleanContent option is defined
             if ($CleanContent) {
                 $MigraionBaseObject->CleanOTRSFileToOTOBOStyle(
-                    File     => $File,
-                    UserID   => 1,
+                    File   => $File,
+                    UserID => 1,
                 );
             }
 
             # Clean header and license in files
             if ($CleanLicenseHeader) {
                 $MigraionBaseObject->CleanLicenseHeader(
-                    File     => $File,
-                    UserID   => 1,
+                    File   => $File,
+                    UserID => 1,
                 );
             }
 
             # If option cleanpath is given, clean path and filename
             if ($CleanPath) {
                 $MigraionBaseObject->ChangePathFileName(
-                    File     => $File,
-                    UserID   => 1,
+                    File   => $File,
+                    UserID => 1,
                 );
             }
         }

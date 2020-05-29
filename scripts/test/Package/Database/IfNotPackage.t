@@ -141,7 +141,7 @@ my %Packages = (
     <Name>Package1$RandomID</Name>
     <Version>1.0.1</Version>
     <Vendor>Rother OSS GmbH</Vendor>
-    <URL>https://otrs.com/</URL>
+    <URL>https://otobo.de/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <Description Lang="en">OTOBO Community Edition. For more information, please have a look at the official documentation at https://doc.otobo.org/doc/manual/otobo-business-solution/6.0/en/html/.</Description>
     <Framework>$OTOBOVersion</Framework>
@@ -165,7 +165,7 @@ EOF
     <Name>Package2$RandomID</Name>
     <Version>1.0.1</Version>
     <Vendor>Rother OSS GmbH</Vendor>
-    <URL>https://otrs.com/</URL>
+    <URL>https://otobo.de/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <Description Lang="en">OTOBO Community Edition. For more information, please have a look at the official documentation at https://doc.otobo.org/doc/manual/otobo-business-solution/6.0/en/html/.</Description>
     <Framework>$OTOBOVersion</Framework>

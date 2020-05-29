@@ -73,7 +73,7 @@
         </Value>
     </Setting>
     <!-- SMS -->
-<!-- RotherToDo: Transports 
+<!-- RotherToDo: Transports
     <Setting Name="CloudService::Admin::Module###200-SMS" Required="0" Valid="1">
         <Description Translatable="1">Cloud service admin module registration for the transport layer.</Description>
         <Navigation>CloudService::Admin::ModuleRegistration</Navigation>

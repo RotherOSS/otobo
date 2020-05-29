@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::AdminPackageManager;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
@@ -525,7 +524,8 @@ sub Run {
             );
         }
 
-        if ( $Verified ne 'verified' && !$Kernel::OM->Get('Kernel::Config')->Get('Package::AllowNotVerifiedPackages') ) {
+        if ( $Verified ne 'verified' && !$Kernel::OM->Get('Kernel::Config')->Get('Package::AllowNotVerifiedPackages') )
+        {
 
             $Output .= $LayoutObject->Notify(
                 Priority => 'Error',

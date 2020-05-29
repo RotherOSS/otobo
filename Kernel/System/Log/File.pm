@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 
 package Kernel::System::Log::File;

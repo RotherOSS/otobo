@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::GenericInterface::Invoker::Test::Test;
 
 use strict;

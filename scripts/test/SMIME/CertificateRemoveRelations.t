@@ -155,8 +155,8 @@ if ( !$SMIMEObject ) {
 }
 
 # OpenSSL 0.9.x hashes.
-my $Check1Hash       = '980a83c7';
-my $Check2Hash       = '999bcb2f';
+my $Check1Hash        = '980a83c7';
+my $Check2Hash        = '999bcb2f';
 my $OTOBORootCAHash   = '1a01713f';
 my $OTOBORDCAHash     = '7807c24e';
 my $OTOBOLabCAHash    = '2fc24258';
@@ -164,8 +164,8 @@ my $OTOBOUserCertHash = 'eab039b6';
 
 # OpenSSL 1.0.0 hashes.
 if ($UseNewHashes) {
-    $Check1Hash       = 'f62a2257';
-    $Check2Hash       = '35c7d865';
+    $Check1Hash        = 'f62a2257';
+    $Check2Hash        = '35c7d865';
     $OTOBORootCAHash   = '7835cf94';
     $OTOBORDCAHash     = 'b5d19fb9';
     $OTOBOLabCAHash    = '19545811';

@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::CustomerDashboardCommon;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
@@ -39,35 +38,38 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $MainObject   = $Kernel::OM->Get( 'Kernel::System::Main' );
-    my $LayoutObject = $Kernel::OM->Get( 'Kernel::Output::HTML::Layout' );
-    my $ConfigObject = $Kernel::OM->Get( 'Kernel::Config' );
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # the tiles used on the dashboard
-    my $UsedTiles = $ConfigObject->Get( 'CustomerDashboard::Tiles' );
+    my $UsedTiles = $ConfigObject->Get('CustomerDashboard::Tiles');
 
     my $Output = $LayoutObject->CustomerHeader();
 
     my $TileHTML;
+
     # generate the html of the individual tiles
     my %OrderUsed;
-    for my $Tile ( sort { $UsedTiles->{$a}{Order} <=> $UsedTiles->{$b}{Order} } keys %{ $UsedTiles } ) {
+    for my $Tile ( sort { $UsedTiles->{$a}{Order} <=> $UsedTiles->{$b}{Order} } keys %{$UsedTiles} ) {
 
         # check if the registration for each tile is valid
-        if ( !$UsedTiles->{ $Tile }{Module} ) {
-            if ( !$UsedTiles->{ $Tile }{Template} ) {
+        if ( !$UsedTiles->{$Tile}{Module} ) {
+            if ( !$UsedTiles->{$Tile}{Template} ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message  => "Registration for tile $Tile of CustomerDashboard is invalid! Either Module or Template needed.",
+                    Message =>
+                        "Registration for tile $Tile of CustomerDashboard is invalid! Either Module or Template needed.",
                 );
                 return;
             }
 
-            $UsedTiles->{ $Tile }{Module} = "Kernel::Output::HTML::CustomerDashboard::Tile_Common";
+            $UsedTiles->{$Tile}{Module} = "Kernel::Output::HTML::CustomerDashboard::Tile_Common";
         }
 
         # set the backend file
-        my $BackendModule = $UsedTiles->{ $Tile }{Module};
+        my $BackendModule = $UsedTiles->{$Tile}{Module};
+
         # check if backend field exists
         if ( !$MainObject->Require($BackendModule) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -76,15 +78,17 @@ sub Run {
             );
             return;
         }
+
         # create a backend object
         my $BackendObject = $BackendModule->new();
 
         # check if the Order is an unique number
-        my $TileID = sprintf("%02d", $UsedTiles->{ $Tile }{Order});
-        if ( $TileID !~ /^\d+$/ || ++$OrderUsed{ $TileID } > 1 ) {
+        my $TileID = sprintf( "%02d", $UsedTiles->{$Tile}{Order} );
+        if ( $TileID !~ /^\d+$/ || ++$OrderUsed{$TileID} > 1 ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Registration for tile $Tile of CustomerDashboard is invalid! Order needs to be a unique number.",
+                Message =>
+                    "Registration for tile $Tile of CustomerDashboard is invalid! Order needs to be a unique number.",
             );
             return;
         }
@@ -92,28 +96,30 @@ sub Run {
         # get the HTML
         $TileHTML .= $BackendObject->Run(
             TileID   => $TileID,
-            Template => $UsedTiles->{ $Tile }{Template} || '',
-            Config   => $UsedTiles->{ $Tile }{Config} || {},
+            Template => $UsedTiles->{$Tile}{Template} || '',
+            Config   => $UsedTiles->{$Tile}{Config} || {},
             UserID   => $Self->{UserID},
         );
     }
 
-    # get the real name 
+    # get the real name
     my $HeaderText = $ConfigObject->Get('CustomerDashboard::Configuration::Text');
-    for my $Subst ( qw/UserTitle UserFirstname UserLastname UserEmail UserLogin/ ) {
+    for my $Subst (qw/UserTitle UserFirstname UserLastname UserEmail UserLogin/) {
         my $Value = $Self->{$Subst} || '';
         $HeaderText->{Name} =~ s/$Subst/$Value/g;
     }
-    
+
     # AddJSData for ES
-    my $ESActive = $ConfigObject->Get( 'Elasticsearch::Active' );
+    my $ESActive = $ConfigObject->Get('Elasticsearch::Active');
 
     $LayoutObject->AddJSData(
         Key   => 'ESActive',
         Value => $ESActive,
     );
 
-    my $NewTicketAccessKey = $ConfigObject->Get( 'CustomerFrontend::Navigation' )->{'CustomerTicketMessage'}{'002-Ticket'}[0]{'AccessKey'} || '';
+    my $NewTicketAccessKey
+        = $ConfigObject->Get('CustomerFrontend::Navigation')->{'CustomerTicketMessage'}{'002-Ticket'}[0]{'AccessKey'}
+        || '';
 
     $Output .= $LayoutObject->Output(
         TemplateFile => 'CustomerDashboard',

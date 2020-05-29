@@ -42,8 +42,8 @@ Returns 1 on success
 sub CheckPreviousRequirement {
     my ( $Self, %Param ) = @_;
 
-        return 1;
-    }
+    return 1;
+}
 
 =head1 NAME
 
@@ -55,21 +55,21 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # Set cache object with taskinfo and starttime to show current state in frontend
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-    my $DateTimeObject = $Kernel::OM->Create( 'Kernel::System::DateTime');
-    my $Epoch = $DateTimeObject->ToEpoch();
+    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $Epoch          = $DateTimeObject->ToEpoch();
 
     $CacheObject->Set(
         Type  => 'OTRSMigration',
         Key   => 'MigrationState',
         Value => {
-            Task        => 'OTOBOACLDeploy',
-            SubTask     => "Deploy new ACL settings.",
-            StartTime   => $Epoch,
+            Task      => 'OTOBOACLDeploy',
+            SubTask   => "Deploy new ACL settings.",
+            StartTime => $Epoch,
         },
     );
 
-    my  %Result;
+    my %Result;
     my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
 
     my $ACLDump = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL')->ACLDump(
@@ -79,8 +79,8 @@ sub Run {
     );
 
     if ( !$ACLDump ) {
-        $Result{Message}    = $Self->{LanguageObject}->Translate( "Deploy the ACL configuration." );
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( "There was an error synchronizing the ACLs." );
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Deploy the ACL configuration.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate("There was an error synchronizing the ACLs.");
         $Result{Successful} = 0;
 
         return \%Result;
@@ -88,15 +88,15 @@ sub Run {
 
     my $Success = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL')->ACLsNeedSyncReset();
     if ( !$Success ) {
-        $Result{Message}    = $Self->{LanguageObject}->Translate( "Deploy the ACL configuration." );
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( "There was an error setting the entity sync status." );
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Deploy the ACL configuration.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate("There was an error setting the entity sync status.");
         $Result{Successful} = 0;
 
         return \%Result;
     }
 
-    $Result{Message}    = $Self->{LanguageObject}->Translate( "Deploy the ACL configuration." );
-    $Result{Comment}    = $Self->{LanguageObject}->Translate( "Deployment completed, perfect!" );
+    $Result{Message}    = $Self->{LanguageObject}->Translate("Deploy the ACL configuration.");
+    $Result{Comment}    = $Self->{LanguageObject}->Translate("Deployment completed, perfect!");
     $Result{Successful} = 1;
 
     return \%Result;

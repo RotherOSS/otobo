@@ -406,8 +406,8 @@ $Selenium->RunTest(
         $Element->is_displayed();
 
         my $OTOBOCommunityIsInstalled = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCommunityIsInstalled();
-        my $OTOBOSTORMIsInstalled    = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOSTORMIsInstalled();
-        my $OTOBOCONTROLIsInstalled  = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCONTROLIsInstalled();
+        my $OTOBOSTORMIsInstalled     = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOSTORMIsInstalled();
+        my $OTOBOCONTROLIsInstalled   = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCONTROLIsInstalled();
 
         my $FooterMessage;
         if ($OTOBOSTORMIsInstalled) {

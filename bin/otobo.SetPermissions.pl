@@ -32,7 +32,7 @@ my $OTOBODirectory       = dirname($RealBin);
 my $OTOBODirectoryLength = length($OTOBODirectory);
 
 my $OTOBOUser = 'otobo';    # default: otobo
-my $WebGroup = '';        # Try to find a default from predefined group list, take the first match.
+my $WebGroup  = '';         # Try to find a default from predefined group list, take the first match.
 
 WEBGROUP:
 for my $GroupCheck (qw(wwwrun apache www-data www _www)) {
@@ -100,7 +100,7 @@ my $ExitStatus = 0;
 sub Run {
     Getopt::Long::GetOptions(
         'help'             => \$Help,
-        'otobo-user=s'      => \$OTOBOUser,
+        'otobo-user=s'     => \$OTOBOUser,
         'web-group=s'      => \$WebGroup,
         'admin-group=s'    => \$AdminGroup,
         'dry-run'          => \$DryRun,

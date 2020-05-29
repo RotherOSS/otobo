@@ -35,7 +35,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::MigrateFromOTRS::OTOBODatabaseCharsetCheck - Checks if MySQL database is using correct charset.
+Kernel::System::MigrateFromOTRS::OTOBODatabaseMigrate - Checks if MySQL database is using correct charset.
 
 =cut
 
@@ -73,7 +73,7 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need $Key!"
             );
-            $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if OTOBO version is correct." );
+            $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
             $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
             $Result{Successful} = 0;
             return \%Result;
@@ -87,21 +87,21 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need DBData->$Key!"
             );
-            $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if OTOBO version is correct." );
+            $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
             $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
             $Result{Successful} = 0;
             return \%Result;
         }
     }
 
-    if ($Param{DBData}->{DBType} =~ /oracle/) {
+    if ( $Param{DBData}->{DBType} =~ /oracle/ ) {
         for my $Key (qw(DBSID DBPort)) {
             if ( !$Param{DBData}->{$Key} ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Need DBData->$Key!"
                 );
-                $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if OTOBO version is correct." );
+                $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
                 $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s for Oracle db!', $Key );
                 $Result{Successful} = 0;
                 return \%Result;
@@ -110,17 +110,17 @@ sub Run {
     }
 
     # Set cache object with taskinfo and starttime to show current state in frontend
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-    my $DateTimeObject = $Kernel::OM->Create( 'Kernel::System::DateTime');
-    my $Epoch = $DateTimeObject->ToEpoch();
+    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $Epoch          = $DateTimeObject->ToEpoch();
 
     $CacheObject->Set(
         Type  => 'OTRSMigration',
         Key   => 'MigrationState',
         Value => {
-            Task        => 'OTOBODatabaseMigrate',
-            SubTask     => "Copy Database from type $Param{DBData}->{DBType} to OTOBO DB.",
-            StartTime   => $Epoch,
+            Task      => 'OTOBODatabaseMigrate',
+            SubTask   => "Copy Database from type $Param{DBData}->{DBType} to OTOBO DB.",
+            StartTime => $Epoch,
         },
     );
 
@@ -133,8 +133,8 @@ sub Run {
     );
 
     if ( !$SourceDBObject ) {
-        $Result{Message}    = $Self->{LanguageObject}->Translate( "Copy database." );
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( "System was unable to connect to OTRS database." );
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Copy database.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate("System was unable to connect to OTRS database.");
         $Result{Successful} = 0;
         return \%Result;
     }
@@ -145,16 +145,16 @@ sub Run {
 
     if ($SanityResult) {
         my $DataTransferResult = $CloneDBBackendObject->DataTransfer(
-            OTRSDBObject => $SourceDBObject,
-            OTRSDBSettings       => $Param{DBData},
+            OTRSDBObject   => $SourceDBObject,
+            OTRSDBSettings => $Param{DBData},
         );
 
         if ( !$DataTransferResult ) {
 
             $Self->DisableSecureMode();
 
-            $Result{Message}    = $Self->{LanguageObject}->Translate( "Copy database." );
-            $Result{Comment}    = $Self->{LanguageObject}->Translate( "System was unable to complete data transfer." );
+            $Result{Message}    = $Self->{LanguageObject}->Translate("Copy database.");
+            $Result{Comment}    = $Self->{LanguageObject}->Translate("System was unable to complete data transfer.");
             $Result{Successful} = 0;
             return \%Result;
         }
@@ -162,8 +162,8 @@ sub Run {
 
     $Self->DisableSecureMode();
 
-    $Result{Message}    = $Self->{LanguageObject}->Translate( "Copy database." );
-    $Result{Comment}    = $Self->{LanguageObject}->Translate( "Data transfer completed." );
+    $Result{Message}    = $Self->{LanguageObject}->Translate("Copy database.");
+    $Result{Comment}    = $Self->{LanguageObject}->Translate("Data transfer completed.");
     $Result{Successful} = 1;
     return \%Result;
 }

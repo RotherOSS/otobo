@@ -77,7 +77,7 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test</Name>
   <Version>0.0.1</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
   <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
@@ -122,7 +122,7 @@ my $StringSecond = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>TestSecond</Name>
   <Version>0.0.1</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
   <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
@@ -320,7 +320,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test</Name>
   <Version>0.0.1</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
   <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
@@ -383,7 +383,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test2</Name>
   <Version>0.0.1</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
@@ -408,7 +408,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>TestOSDetection1</Name>
   <Version>0.0.1</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
@@ -433,7 +433,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>TestOSDetection2</Name>
   <Version>0.0.1</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
@@ -468,7 +468,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test2</Name>
   <Version>0.0.1</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
@@ -492,7 +492,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test2</Name>
   <Version>0.0.1</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
@@ -518,7 +518,7 @@ my $String1 = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test2</Name>
   <Version>0.0.1</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
@@ -540,7 +540,7 @@ my $String2 = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test3</Name>
   <Version>0.0.1</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
@@ -563,7 +563,7 @@ my $String3 = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test3</Name>
   <Version>0.0.2</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
@@ -581,7 +581,7 @@ my $String3a = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test3</Name>
   <Version>0.0.3</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
@@ -607,7 +607,7 @@ my $String3b = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test3</Name>
   <Version>0.0.3</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
@@ -708,7 +708,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test2</Name>
   <Version>0.0.1</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
@@ -730,7 +730,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test2</Name>
   <Version>0.0.1</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
@@ -752,7 +752,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test2</Name>
   <Version>0.0.1</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
@@ -816,7 +816,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test2</Name>
   <Version>0.0.1</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
@@ -890,7 +890,7 @@ my $FileNotAllowedString = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>
   <Name>FilesNotAllowed</Name>
   <Version>0.0.1</Version>
   <Vendor>Rother OSS GmbH</Vendor>
-  <URL>https://otobo.org/</URL>
+  <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang=\"en\">A test package.</Description>
   <Description Lang=\"de\">Ein Test Paket.</Description>
@@ -964,7 +964,7 @@ if ( !$DeveloperSystem ) {
       <Name>TestFrameworkFileCheck</Name>
       <Version>0.0.1</Version>
       <Vendor>Rother OSS GmbH</Vendor>
-      <URL>https://otobo.org/</URL>
+      <URL>https://otobo.de/</URL>
       <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
       <Description Lang="en">A test package.</Description>
       <Description Lang="de">Ein Test Paket.</Description>
@@ -1038,7 +1038,7 @@ if ( !$DeveloperSystem ) {
       <Name>TestFrameworkFileCheck</Name>
       <Version>0.0.1</Version>
       <Vendor>Rother OSS GmbH</Vendor>
-      <URL>https://otobo.org/</URL>
+      <URL>https://otobo.de/</URL>
       <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
       <Description Lang="en">A test package.</Description>
       <Description Lang="de">Ein Test Paket.</Description>

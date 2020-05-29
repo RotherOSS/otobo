@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 #
 # Generates ticket numbers like yyyymmddss.... (e. g. 200206231010138)
 # --

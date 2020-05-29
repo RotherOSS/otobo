@@ -107,7 +107,7 @@ my %AutoResponseTemplate = (
     Response    => 'S:&nbsp;&lt;OTOBO_TICKET_State&gt;',    # include non-breaking space (bug#12097)
     ContentType => 'text/html',
     AddressID   => 1,
-    TypeID      => 4,                                      # auto reply/new ticket
+    TypeID      => 4,                                       # auto reply/new ticket
     UserID      => 1,
 );
 my $AutoResponseID = $AutoResponseObject->AutoResponseAdd(%AutoResponseTemplate);

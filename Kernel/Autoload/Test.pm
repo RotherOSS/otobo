@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 use Kernel::System::Valid;
 
 package Kernel::System::Valid;    ## no critic

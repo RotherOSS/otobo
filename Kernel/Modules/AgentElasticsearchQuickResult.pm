@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 package Kernel::Modules::AgentElasticsearchQuickResult;
 ## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
@@ -41,7 +40,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     return $Self;
@@ -66,24 +65,24 @@ sub Run {
     my $Count                 = $ConfigObject->Get('Elasticsearch::QuickSearchSettings')->{'TicketResultCount'};
 
     if ( $Self->{Subaction} eq 'SearchUpdate' ) {
-        
+
         my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
         # check module permissions to determine whether results can be shown
         my %Permission;
         MODULE:
-        for my $Module ( qw/AgentTicketZoom AdminCustomerCompany AdminCustomerUser/ ) {
-            my $ModuleReg = $ConfigObject->Get('Frontend::Module')->{ $Module };
+        for my $Module (qw/AgentTicketZoom AdminCustomerCompany AdminCustomerUser/) {
+            my $ModuleReg = $ConfigObject->Get('Frontend::Module')->{$Module};
 
             # module is not configured
             if ( !$ModuleReg ) {
-                $Permission{ $Module } = 0;
+                $Permission{$Module} = 0;
                 next MODULE;
             }
 
             # no restrictions
             if ( ref $ModuleReg->{GroupRo} eq 'ARRAY' && !scalar @{ $ModuleReg->{GroupRo} } ) {
-                $Permission{ $Module } = 1;
+                $Permission{$Module} = 1;
                 next MODULE;
             }
 
@@ -98,8 +97,8 @@ sub Run {
                         GroupName => $GroupName,
                         Type      => 'ro',
                     );
-                    
-                    $Permission{ $Module } = 1;
+
+                    $Permission{$Module} = 1;
                     next MODULE;
                 }
             }
@@ -111,7 +110,7 @@ sub Run {
 
                 );
                 if ($HasPermission) {
-                    $Permission{ $Module } = 1;
+                    $Permission{$Module} = 1;
                 }
             }
         }
@@ -120,16 +119,18 @@ sub Run {
         my ( @TicketIDs, @CustomerIDs, @CustomerUserIDs );
 
         if ( $Permission{AgentTicketZoom} ) {
+
             # Search ticket by ES sort by age. Show $Size results (default to 10 in SysConfig)
             @TicketIDs = $ESObject->TicketSearch(
-                Fulltext            => $ParamObject->GetParam( Param => 'FulltextES' ),
-                UserID              => $Self->{UserID},
-                Limit               => $Count,
-                Result              => 'FULL',
+                Fulltext => $ParamObject->GetParam( Param => 'FulltextES' ),
+                UserID   => $Self->{UserID},
+                Limit    => $Count,
+                Result   => 'FULL',
             );
         }
 
         if ( $Permission{AdminCustomerCompany} ) {
+
             # Search customer by ES.
             @CustomerIDs = $ESObject->CustomerCompanySearch(
                 IndexName => 'customer',
@@ -140,6 +141,7 @@ sub Run {
         }
 
         if ( $Permission{AdminCustomerUser} ) {
+
             # Search customer user by ES.
             @CustomerUserIDs = $ESObject->CustomerUserSearch(
                 IndexName => 'customeruser',
@@ -149,34 +151,34 @@ sub Run {
             );
         }
 
-        # Start to fill the blockdata for the template (See Kernel/Output/HTML/Templates/Standard/AgentElasticsearchQuickResult.tt)
-        if ( @TicketIDs ) {
+# Start to fill the blockdata for the template (See Kernel/Output/HTML/Templates/Standard/AgentElasticsearchQuickResult.tt)
+        if (@TicketIDs) {
             my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
-            my %Queues = $QueueObject->QueueList( Valid => 0 );
+            my %Queues      = $QueueObject->QueueList( Valid => 0 );
 
             # Block ticket data
             for my $Ticket (@TicketIDs) {
-        
+
                 #my %TicketParam = $TicketObject->TicketGet( TicketID => $TicketID );
-                my ( $TicketID, $TicketParam ) = ( %{ $Ticket } );
-        
+                my ( $TicketID, $TicketParam ) = ( %{$Ticket} );
+
                 $LayoutObject->Block(
                     Name => 'Record',
                     Data => {
                         TicketID => $TicketID,
                     },
                 );
-        
+
                 my $Age = $LayoutObject->CustomerAge(
                     Age   => $TicketParam->{Age},
                     Space => ' ',
                 );
-        
+
                 $LayoutObject->Block(
                     Name => 'RecordTicketNumber',
                     Data => {
                         TicketID     => $TicketID,
-                        TicketTitle => $TicketParam->{Title},
+                        TicketTitle  => $TicketParam->{Title},
                         TicketNumber => $TicketParam->{TicketNumber},
                     },
                 );
@@ -198,15 +200,16 @@ sub Run {
                 $LayoutObject->Block(
                     Name => 'RecordTicketAge',
                     Data => {
-                        TicketID  => $TicketID,
+                        TicketID    => $TicketID,
                         TicketTitle => $TicketParam->{Title},
-                        TicketAge => $Age,
+                        TicketAge   => $Age,
                     },
                 );
             }
         }
 
-        if ( @CustomerIDs ) {
+        if (@CustomerIDs) {
+
             # Block customer
             for my $CustomerID (@CustomerIDs) {
                 $LayoutObject->Block(
@@ -215,7 +218,7 @@ sub Run {
                         CustomerID => $CustomerID,
                     },
                 );
-        
+
                 my %CustomerCompanyData = $CustomerCompanyObject->CustomerCompanyGet(
                     CustomerID => $CustomerID,
                 );
@@ -226,7 +229,7 @@ sub Run {
                         CustomerID          => $CustomerID,
                     },
                 );
-        
+
                 $LayoutObject->Block(
                     Name => 'RecordCustomerCompanyComment',
                     Data => {
@@ -234,38 +237,39 @@ sub Run {
                         CustomerID             => $CustomerID,
                     },
                 );
-        
+
                 $LayoutObject->Block(
                     Name => 'RecordCustomerCompanyID',
                     Data => {
                         CustomerID => $CustomerID,
                     },
                 );
-        
+
             }
         }
 
-        if ( @CustomerUserIDs ) {
+        if (@CustomerUserIDs) {
+
             # Block customer user
             for my $CustomerUserID (@CustomerUserIDs) {
                 my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
                     User => $CustomerUserID,
                 );
-        
+
                 $LayoutObject->Block(
                     Name => 'RecordCustomerUser',
                     Data => {
                         CustomerUserID => $CustomerUserID,
                     },
                 );
-        
+
                 $LayoutObject->Block(
                     Name => 'RecordCustomerUserID',
                     Data => {
                         CustomerUserID => $CustomerUserID,
                     },
                 );
-        
+
                 $LayoutObject->Block(
                     Name => 'RecordCustomerUserName',
                     Data => {
@@ -273,7 +277,7 @@ sub Run {
                         CustomerUserID   => $CustomerUserID,
                     },
                 );
-        
+
                 $LayoutObject->Block(
                     Name => 'RecordCustomerUserCompany',
                     Data => {
@@ -281,7 +285,7 @@ sub Run {
                         CustomerID          => $CustomerUserData{CustomerID},
                     },
                 );
-        
+
             }
         }
 

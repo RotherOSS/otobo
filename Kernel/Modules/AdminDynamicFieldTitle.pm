@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::AdminDynamicFieldTitle;
 use strict;
 use warnings;
@@ -34,6 +33,7 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
     # Store last entity screen.
     $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
         SessionID => $Self->{SessionID},
@@ -98,7 +98,7 @@ sub _Add {
     my $FieldTypeName = $ConfigObject->Get('DynamicFields::Driver')->{ $GetParam{FieldType} }->{DisplayName} || '';
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    
+
     return $Self->_ShowScreen(
         %Param,
         %GetParam,
@@ -116,8 +116,7 @@ sub _AddAction {
     my %GetParam;
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-
-    for my $Needed ( qw(Name Label FieldOrder ) ) {
+    for my $Needed (qw(Name Label FieldOrder )) {
         $GetParam{$Needed} = $ParamObject->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
             $Errors{ $Needed . 'ServerError' }        = 'ServerError';
@@ -159,6 +158,7 @@ sub _AddAction {
 
         # check if field order is numeric and positive
         if ( $GetParam{FontSize} !~ m{\A (?: \d )+ \z}xms ) {
+
             # add server error error class
             $Errors{FontSizeServerError}        = 'ServerError';
             $Errors{FontSizeServerErrorMessage} = Translatable('The field must be numeric.');
@@ -204,13 +204,13 @@ sub _AddAction {
 
     # set specific config
     my $FieldConfig = {
-        FontSize             => $GetParam{FontSize},
-        FontColor            => $GetParam{FontColor},
-        FontTemplate         => $GetParam{FontTemplate},
-        ActivateTemplate     => $GetParam{ActivateTemplate},
-        CBFontStyleItalic    => $GetParam{CBFontStyleItalic},
-        CBFontStyleBold      => $GetParam{CBFontStyleBold},
-        CBFontStyleUnderLine => $GetParam{CBFontStyleUnderLine},
+        FontSize                  => $GetParam{FontSize},
+        FontColor                 => $GetParam{FontColor},
+        FontTemplate              => $GetParam{FontTemplate},
+        ActivateTemplate          => $GetParam{ActivateTemplate},
+        CBFontStyleItalic         => $GetParam{CBFontStyleItalic},
+        CBFontStyleBold           => $GetParam{CBFontStyleBold},
+        CBFontStyleUnderLine      => $GetParam{CBFontStyleUnderLine},
         CBFontStyleItalicValue    => $GetParam{CBFontStyleItalicValue},
         CBFontStyleBoldValue      => $GetParam{CBFontStyleBoldValue},
         CBFontStyleUnderLineValue => $GetParam{CBFontStyleUnderLineValue},
@@ -385,11 +385,12 @@ sub _ChangeAction {
         }
     }
     if ( $GetParam{FontSize} ) {
+
         # check if field order is numeric and positive
         if ( $GetParam{FontSize} !~ m{\A (?: \d )+ \z}xms ) {
 
             # add server error error class
-            $Errors{FontSizeServerError}        = 'ServerError';
+            $Errors{FontSizeServerError}              = 'ServerError';
             $Errors{FontSizeServerServerErrorMessage} = Translatable('The field must be numeric.');
         }
     }
@@ -457,17 +458,18 @@ sub _ChangeAction {
             Mode => 'Change',
         );
     }
+
     # set specific config
     my $FieldConfig = {
-        FontSize     => $GetParam{FontSize},
-        FontColor    => $GetParam{FontColor},
-        FontTemplate => $GetParam{FontTemplate},
-        ActivateTemplate => $GetParam{ActivateTemplate},
-        CBFontStyleItalic => $GetParam{CBFontStyleItalic},
-        CBFontStyleBold => $GetParam{CBFontStyleBold},
-        CBFontStyleUnderLine => $GetParam{CBFontStyleUnderLine},
-        CBFontStyleItalicValue => $GetParam{CBFontStyleItalicValue},
-        CBFontStyleBoldValue => $GetParam{CBFontStyleBoldValue},
+        FontSize                  => $GetParam{FontSize},
+        FontColor                 => $GetParam{FontColor},
+        FontTemplate              => $GetParam{FontTemplate},
+        ActivateTemplate          => $GetParam{ActivateTemplate},
+        CBFontStyleItalic         => $GetParam{CBFontStyleItalic},
+        CBFontStyleBold           => $GetParam{CBFontStyleBold},
+        CBFontStyleUnderLine      => $GetParam{CBFontStyleUnderLine},
+        CBFontStyleItalicValue    => $GetParam{CBFontStyleItalicValue},
+        CBFontStyleBoldValue      => $GetParam{CBFontStyleBoldValue},
         CBFontStyleUnderLineValue => $GetParam{CBFontStyleUnderLineValue},
     };
 
@@ -557,7 +559,6 @@ sub _ShowScreen {
     }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-     
 
     # header
     my $Output = $LayoutObject->Header();
@@ -600,7 +601,7 @@ sub _ShowScreen {
                 . $DynamicfieldNamesList{$OrderNumber};
         }
     }
-    
+
     my $DynamicFieldOrderStrg = $LayoutObject->BuildSelection(
         Data          => \%OrderNamesList,
         Name          => 'FieldOrder',
@@ -622,40 +623,43 @@ sub _ShowScreen {
         Class        => 'Modernize W50pc',
     );
 
-    my $FontSize = ( defined $Param{FontSize} ? $Param{FontSize} : '12' ); 
+    my $FontSize = ( defined $Param{FontSize} ? $Param{FontSize} : '12' );
 
     my $FontColor = ( defined $Param{FontColor} ? $Param{FontColor} : '#000000' );
-    
+
     my $ActivateTemplate = ( defined $Param{ActivateTemplate} ? $Param{ActivateTemplate} : '' );
-    
+
     my $CBFontStyleItalicValue = ( defined $Param{CBFontStyleItalicValue} ? $Param{CBFontStyleItalicValue} : '' );
-    my $CBFontStyleBoldValue = ( defined $Param{CBFontStyleBoldValue} ? $Param{CBFontStyleBoldValue} : '' );
-    my $CBFontStyleUnderLineValue = ( defined $Param{CBFontStyleUnderLineValue} ? $Param{CBFontStyleUnderLineValue} : '' );
+    my $CBFontStyleBoldValue   = ( defined $Param{CBFontStyleBoldValue}   ? $Param{CBFontStyleBoldValue}   : '' );
+    my $CBFontStyleUnderLineValue
+        = ( defined $Param{CBFontStyleUnderLineValue} ? $Param{CBFontStyleUnderLineValue} : '' );
 
     my $CBFontStyleItalic = ( defined $Param{CBFontStyleItalic} ? $Param{CBFontStyleItalic} : $CBFontStyleItalicValue );
-    my $CBFontStyleBold = ( defined $Param{CBFontStyleBold} ? $Param{CBFontStyleBold} : $CBFontStyleBoldValue );
-    my $CBFontStyleUnderLine = ( defined $Param{CBFontStyleUnderLine} ? $Param{CBFontStyleUnderLine} : $CBFontStyleUnderLineValue );
-    
+    my $CBFontStyleBold   = ( defined $Param{CBFontStyleBold}   ? $Param{CBFontStyleBold}   : $CBFontStyleBoldValue );
+    my $CBFontStyleUnderLine
+        = ( defined $Param{CBFontStyleUnderLine} ? $Param{CBFontStyleUnderLine} : $CBFontStyleUnderLineValue );
+
     #build template selection
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $TemplateList = $ConfigObject->Get('AdminDynamicFieldTitle::Templates');
     my %TemplateName;
-    for my $ActiveTemplate ( keys %{$TemplateList} ){
+    for my $ActiveTemplate ( sort keys %{$TemplateList} ) {
         $TemplateName{$ActiveTemplate} = $TemplateList->{$ActiveTemplate}->{Name};
-        my $TemplateParam =  $ConfigObject->Get('AdminDynamicFieldTitle::Templates')->{$ActiveTemplate};
+        my $TemplateParam = $ConfigObject->Get('AdminDynamicFieldTitle::Templates')->{$ActiveTemplate};
         $LayoutObject->AddJSData(
             Key   => $TemplateName{$ActiveTemplate},
             Value => $TemplateParam,
         );
     }
-    #since the key of the hash %TemplateName is not equal to the value, selected template needs to be resolved during change 
-    my $SelectedTemplate; 
+
+#since the key of the hash %TemplateName is not equal to the value, selected template needs to be resolved during change
+    my $SelectedTemplate;
     if ( defined $Param{FontTemplate} ) {
-        $SelectedTemplate = $TemplateList->{$Param{FontTemplate}}->{Name};
+        $SelectedTemplate = $TemplateList->{ $Param{FontTemplate} }->{Name};
     }
 
     #build selection with the correct $SelectedTemplate
-    my $FontTemplate = $LayoutObject->BuildSelection( 
+    my $FontTemplate = $LayoutObject->BuildSelection(
         Data          => \%TemplateName,
         Name          => 'FontTemplate',
         SelectedValue => $SelectedTemplate || '',
@@ -687,16 +691,16 @@ sub _ShowScreen {
         );
 
         #ActivateTemplate value has the value 'on'. This needs to be translated to 'checked'
-        if ( defined $ActivateTemplate && $ActivateTemplate eq 'on' ){
+        if ( defined $ActivateTemplate && $ActivateTemplate eq 'on' ) {
             $ActivateTemplate = 'checked';
         }
-        if ( defined $CBFontStyleItalic && $CBFontStyleItalic eq 'on' ){
+        if ( defined $CBFontStyleItalic && $CBFontStyleItalic eq 'on' ) {
             $CBFontStyleItalic = 'checked';
         }
-        if ( defined $CBFontStyleBold && $CBFontStyleBold eq 'on' ){
+        if ( defined $CBFontStyleBold && $CBFontStyleBold eq 'on' ) {
             $CBFontStyleBold = 'checked';
         }
-        if ( defined $CBFontStyleUnderLine && $CBFontStyleUnderLine eq 'on' ){
+        if ( defined $CBFontStyleUnderLine && $CBFontStyleUnderLine eq 'on' ) {
             $CBFontStyleUnderLine = 'checked';
         }
 
@@ -755,21 +759,22 @@ sub _ShowScreen {
             ValidityStrg          => $ValidityStrg,
             DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
             ReadonlyInternalField => $ReadonlyInternalField,
+
             #FontStyle             => $FontStyle,
             #FontWeight            => $FontWeight,
-            FontSize              => $FontSize,
-            FontColor             => $FontColor,
-            FontTemplate          => $FontTemplate,
-            ActivateTemplate      => $ActivateTemplate,
-            CBFontStyleItalic     => $CBFontStyleItalic,
-            CBFontStyleBold       => $CBFontStyleBold,
-            CBFontStyleUnderLine  => $CBFontStyleUnderLine,
-            CBFontStyleItalicValue     => $CBFontStyleItalicValue,
-            CBFontStyleBoldValue       => $CBFontStyleBoldValue,
-            CBFontStyleUnderLineValue  => $CBFontStyleUnderLineValue,
+            FontSize                  => $FontSize,
+            FontColor                 => $FontColor,
+            FontTemplate              => $FontTemplate,
+            ActivateTemplate          => $ActivateTemplate,
+            CBFontStyleItalic         => $CBFontStyleItalic,
+            CBFontStyleBold           => $CBFontStyleBold,
+            CBFontStyleUnderLine      => $CBFontStyleUnderLine,
+            CBFontStyleItalicValue    => $CBFontStyleItalicValue,
+            CBFontStyleBoldValue      => $CBFontStyleBoldValue,
+            CBFontStyleUnderLineValue => $CBFontStyleUnderLineValue,
         }
     );
-    
+
     $Output .= $LayoutObject->Footer();
 
     return $Output;

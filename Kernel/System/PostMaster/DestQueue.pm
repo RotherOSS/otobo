@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::PostMaster::DestQueue;
 
 use strict;
@@ -154,7 +153,7 @@ sub GetTrustedQueueID {
         ObjectLogType => 'Message',
         Priority      => 'Debug',
         Key           => 'Kernel::System::PostMaster::DestQueue',
-        Value         => "Existing X-OTOBO-Queue header: $GetParam{'X-OTOBO-Queue'} (MessageID:$GetParam{'Message-ID'})!",
+        Value => "Existing X-OTOBO-Queue header: $GetParam{'X-OTOBO-Queue'} (MessageID:$GetParam{'Message-ID'})!",
     );
 
     # get dest queue

@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Output::Template::Provider;
 ## no critic(Perl::Critic::Policy::OTOBO::RequireCamelCase)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)

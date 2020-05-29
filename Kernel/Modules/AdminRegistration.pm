@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::AdminRegistration;
 
 use strict;
@@ -119,11 +118,11 @@ sub Run {
 
     elsif ( $Self->{Subaction} eq 'CheckOTOBOID' ) {
 
-        my $OTOBOID   = $ParamObject->GetParam( Param => 'OTOBOID' )   || '';
+        my $OTOBOID  = $ParamObject->GetParam( Param => 'OTOBOID' )  || '';
         my $Password = $ParamObject->GetParam( Param => 'Password' ) || '';
 
         my %Response = $RegistrationObject->TokenGet(
-            OTOBOID   => $OTOBOID,
+            OTOBOID  => $OTOBOID,
             Password => $Password,
         );
 
@@ -200,7 +199,7 @@ sub Run {
             },
         );
 
-        my $EntitlementStatus  = 'forbidden';
+        my $EntitlementStatus = 'forbidden';
 
         $LayoutObject->Block(
             Name => 'OTOBOIDValidation',
@@ -246,7 +245,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Register' ) {
 
         my %GetParam;
-        $GetParam{Token}  = $ParamObject->GetParam( Param => 'Token' );
+        $GetParam{Token}   = $ParamObject->GetParam( Param => 'Token' );
         $GetParam{OTOBOID} = $ParamObject->GetParam( Param => 'OTOBOID' );
 
         my $Output = $LayoutObject->Header();
@@ -279,9 +278,9 @@ sub Run {
         $LayoutObject->Block(
             Name => 'Registration',
             Data => {
-                FQDN        => $ConfigObject->Get('FQDN'),
+                FQDN         => $ConfigObject->Get('FQDN'),
                 OTOBOVersion => $ConfigObject->Get('Version'),
-                PerlVersion => sprintf( "%vd", $^V ),
+                PerlVersion  => sprintf( "%vd", $^V ),
                 %Param,
                 %GetParam,
                 %OSInfo,
@@ -304,7 +303,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Deregister' ) {
 
         my %GetParam;
-        $GetParam{Token}  = $ParamObject->GetParam( Param => 'Token' );
+        $GetParam{Token}   = $ParamObject->GetParam( Param => 'Token' );
         $GetParam{OTOBOID} = $ParamObject->GetParam( Param => 'OTOBOID' );
 
         my $Output = $LayoutObject->Header();
@@ -355,7 +354,7 @@ sub Run {
 
             $RegistrationObject->Register(
                 Token              => $GetParam{Token},
-                OTOBOID             => $GetParam{OTOBOID},
+                OTOBOID            => $GetParam{OTOBOID},
                 SupportDataSending => $GetParam{SupportDataSending} || 'No',
                 Type               => $GetParam{Type},
                 Description        => $GetParam{Description},
@@ -432,9 +431,9 @@ sub Run {
         $LayoutObject->Block(
             Name => 'Edit',
             Data => {
-                FQDN        => $ConfigObject->Get('FQDN'),
+                FQDN         => $ConfigObject->Get('FQDN'),
                 OTOBOVersion => $ConfigObject->Get('Version'),
-                PerlVersion => sprintf( "%vd", $^V ),
+                PerlVersion  => sprintf( "%vd", $^V ),
                 %Param,
             },
         );
@@ -491,7 +490,7 @@ sub Run {
 
         $RegistrationObject->Deregister(
             OTOBOID => $ParamObject->GetParam( Param => 'OTOBOID' ),
-            Token  => $ParamObject->GetParam( Param => 'Token' ),
+            Token   => $ParamObject->GetParam( Param => 'Token' ),
         );
 
         return $LayoutObject->Redirect(
@@ -614,7 +613,7 @@ sub _SentDataOverview {
             PerlVersion        => sprintf( "%vd", $^V ),
             OSType             => $OSInfo{OS},
             OSVersion          => $OSInfo{OSName},
-            OTOBOVersion        => $ConfigObject->Get('Version'),
+            OTOBOVersion       => $ConfigObject->Get('Version'),
             FQDN               => $ConfigObject->Get('FQDN'),
             DatabaseVersion    => $Kernel::OM->Get('Kernel::System::DB')->Version(),
             SupportDataSending => $Param{SupportDataSending} || $RegistrationData{SupportDataSending} || 'No',

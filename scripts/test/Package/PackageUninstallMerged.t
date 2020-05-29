@@ -55,7 +55,7 @@ if ( !$DeveloperSystem ) {
       <Name>Test</Name>
       <Version>0.0.1</Version>
       <Vendor>Rother OSS GmbH</Vendor>
-      <URL>https://otrs.com/</URL>
+      <URL>https://otobo.de/</URL>
       <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
       <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
       <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
@@ -95,7 +95,7 @@ if ( !$DeveloperSystem ) {
       <Name>Test</Name>
       <Version>0.0.1</Version>
       <Vendor>Rother OSS GmbH</Vendor>
-      <URL>https://otrs.com/</URL>
+      <URL>https://otobo.de/</URL>
       <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
       <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
       <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>

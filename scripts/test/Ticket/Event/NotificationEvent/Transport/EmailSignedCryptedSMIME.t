@@ -251,9 +251,9 @@ if ( !$SMIMEObject ) {
 #
 
 # OpenSSL 0.9.x hashes
-my $Check1Hash       = '980a83c7';
-my $Check2Hash       = '999bcb2f';
-my $Check3Hash       = 'c3857c0d';
+my $Check1Hash        = '980a83c7';
+my $Check2Hash        = '999bcb2f';
+my $Check3Hash        = 'c3857c0d';
 my $OTOBORootCAHash   = '1a01713f';
 my $OTOBORDCAHash     = '7807c24e';
 my $OTOBOLabCAHash    = '2fc24258';
@@ -261,9 +261,9 @@ my $OTOBOUserCertHash = 'eab039b6';
 
 # OpenSSL 1.0.0 hashes
 if ($UseNewHashes) {
-    $Check1Hash       = 'f62a2257';
-    $Check2Hash       = '35c7d865';
-    $Check3Hash       = 'a2ba8622';
+    $Check1Hash        = 'f62a2257';
+    $Check2Hash        = '35c7d865';
+    $Check3Hash        = 'a2ba8622';
     $OTOBORootCAHash   = '7835cf94';
     $OTOBORDCAHash     = 'b5d19fb9';
     $OTOBOLabCAHash    = '19545811';
@@ -628,13 +628,13 @@ for my $Test (@Tests) {
         Data    => $Test->{Data},
         Message => {
             en => {
-                Subject     => 'JobName',
-                Body        => 'JobName <OTOBO_TICKET_TicketID> <OTOBO_CONFIG_SendmailModule> <OTOBO_OWNER_UserFirstname>',
+                Subject => 'JobName',
+                Body    => 'JobName <OTOBO_TICKET_TicketID> <OTOBO_CONFIG_SendmailModule> <OTOBO_OWNER_UserFirstname>',
                 ContentType => 'text/plain',
             },
             de => {
-                Subject     => 'JobName',
-                Body        => 'JobName <OTOBO_TICKET_TicketID> <OTOBO_CONFIG_SendmailModule> <OTOBO_OWNER_UserFirstname>',
+                Subject => 'JobName',
+                Body    => 'JobName <OTOBO_TICKET_TicketID> <OTOBO_CONFIG_SendmailModule> <OTOBO_OWNER_UserFirstname>',
                 ContentType => 'text/plain',
             },
         },

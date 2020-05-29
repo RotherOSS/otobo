@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Output::HTML::Notification::CustomerUserTimeZoneCheck;
 
 use parent 'Kernel::Output::HTML::Base';
@@ -58,7 +57,7 @@ sub Run {
 
     # If OTOBOTimeZone and UserDefaultTimeZone match and are not set to UTC, don't show a notification,
     # because in this case it almost certainly means that only this time zone is relevant.
-    my $OTOBOTimeZone        = Kernel::System::DateTime->OTOBOTimeZoneGet();
+    my $OTOBOTimeZone       = Kernel::System::DateTime->OTOBOTimeZoneGet();
     my $UserDefaultTimeZone = Kernel::System::DateTime->UserDefaultTimeZoneGet();
     return '' if $OTOBOTimeZone eq $UserDefaultTimeZone && $OTOBOTimeZone ne 'UTC';
 

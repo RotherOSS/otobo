@@ -1199,7 +1199,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemConfiguration");
 
         my $OTOBOCommunityIsInstalled = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCommunityIsInstalled();
-        my $OBTeaserFound           = index( $Selenium->get_page_source(), 'supports versioning, rollback and' ) > -1;
+        my $OBTeaserFound             = index( $Selenium->get_page_source(), 'supports versioning, rollback and' ) > -1;
         if ( !$OTOBOCommunityIsInstalled ) {
             $Self->True(
                 $OBTeaserFound,

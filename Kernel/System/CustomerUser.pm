@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::CustomerUser;
 
 use strict;
@@ -1568,6 +1567,7 @@ sub DeleteOnePreference {
     # call old api
     return $Self->{PreferencesObject}->DeleteOnePreference(%Param);
 }
+
 # EO Rother OSS
 
 sub DESTROY {

@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::CloudService::Backend::Run;
 
 use strict;
@@ -308,7 +307,7 @@ sub Request {
 
         $OTOBOIDAuth = $JSONObject->Encode(
             Data => {
-                OTOBOID   => $Param{OTOBOID},
+                OTOBOID  => $Param{OTOBOID},
                 Password => $Param{Password},
             },
         );
@@ -347,7 +346,7 @@ sub Request {
                 Action       => 'PublicCloudService',
                 RequestData  => $RequestData,
                 UniqueIDAuth => $UniqueIDAuth,
-                OTOBOIDAuth   => $OTOBOIDAuth,
+                OTOBOIDAuth  => $OTOBOIDAuth,
             },
         );
 

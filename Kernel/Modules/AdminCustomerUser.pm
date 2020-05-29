@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::AdminCustomerUser;
 
 use strict;
@@ -376,7 +375,7 @@ sub Run {
                 );
             }
 
-# Rother OSS - Reset Preferences UserLastPwChangeTime  last login after password reset
+            # Rother OSS - Reset Preferences UserLastPwChangeTime  last login after password reset
 
             if ( $CurrentUserData{UserPassword} ne $GetParam{UserPassword} ) {
 
@@ -387,7 +386,7 @@ sub Run {
 
             }
 
-# EO Rother OSS
+            # EO Rother OSS
 
             if ( $UpdateSuccess || $UpdateOnlyPreferences ) {
 

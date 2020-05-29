@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::AgentTicketSearch;
 
 use strict;
@@ -775,35 +774,43 @@ sub Run {
         else {
             # get data from cache
             my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-            my $CacheData = $CacheObject->Get(
+            my $CacheData   = $CacheObject->Get(
                 Type => 'TicketSearch',
-                Key  => ( $GetParam{FulltextES} || '' ).'_SortBy_'.$Self->{SortBy}.'_OrderBy_'.$Self->{OrderBy},
+                Key  => ( $GetParam{FulltextES} || '' ) . '_SortBy_' . $Self->{SortBy} . '_OrderBy_' . $Self->{OrderBy},
             );
+
             # take ticketids from cache if available, else perform ES search
             if ( defined $CacheData ) {
                 @ViewableTicketIDs = @{$CacheData};
-            }else{
+            }
+            else {
                 my $ESObject = $Kernel::OM->Get('Kernel::System::Elasticsearch');
-                my $Count = $ConfigObject->Get('Elasticsearch::MaxArticleSearch');
-                # TODO please consider sorting via ES. For fields with type text, mapping for sorting must be the keyword version, e.g. Title.keyword!
-                #my $Field = $Mapping->{ticket}->{mappings}->{properties}->{ $Param{Sort} }->{fields};
-                #$Param{Sort} .= ( defined $Field ) ? '.' . ( %{$Field} )[0] : '';
-                if ( ( defined $GetParam{FulltextES} ) && ( !defined $GetParam{Fulltext} ) ){
+                my $Count    = $ConfigObject->Get('Elasticsearch::MaxArticleSearch');
+
+# TODO please consider sorting via ES. For fields with type text, mapping for sorting must be the keyword version, e.g. Title.keyword!
+#my $Field = $Mapping->{ticket}->{mappings}->{properties}->{ $Param{Sort} }->{fields};
+#$Param{Sort} .= ( defined $Field ) ? '.' . ( %{$Field} )[0] : '';
+                if ( ( defined $GetParam{FulltextES} ) && ( !defined $GetParam{Fulltext} ) ) {
                     @ViewableTicketIDs = $ESObject->TicketSearch(
-                        Fulltext            => $GetParam{FulltextES},
-                        UserID              => $Self->{UserID},
-                        UserLogin           => $Self->{UserLogin},
-                        CustomerUserID      => $Self->{CustomerUserIDLogin} || '',
-                        SortBy              => $Self->{SortBy},
-                        OrderBy             => $Self->{OrderBy},
-                        Limit               => $Count,
-                        Result              => 'ARRAY',
+                        Fulltext       => $GetParam{FulltextES},
+                        UserID         => $Self->{UserID},
+                        UserLogin      => $Self->{UserLogin},
+                        CustomerUserID => $Self->{CustomerUserIDLogin} || '',
+                        SortBy         => $Self->{SortBy},
+                        OrderBy        => $Self->{OrderBy},
+                        Limit          => $Count,
+                        Result         => 'ARRAY',
                     );
+
                     # set cache for ES results
-                    if( $CacheObject ) {
+                    if ($CacheObject) {
                         $CacheObject->Set(
-                            Type  => 'TicketSearch',
-                            Key   => $GetParam{FulltextES} .'_SortBy_'.$Self->{SortBy}.'_OrderBy_'.$Self->{OrderBy},
+                            Type => 'TicketSearch',
+                            Key  => $GetParam{FulltextES}
+                                . '_SortBy_'
+                                . $Self->{SortBy}
+                                . '_OrderBy_'
+                                . $Self->{OrderBy},
                             Value => \@ViewableTicketIDs,
                             TTL   => $GetParam{CacheTTL} || 60 * 4,
                         );

@@ -247,12 +247,12 @@ for my $Test (@Tests) {
     }
 
     $Kernel::OM->ObjectsDiscard(
-        Objects => [ 'Kernel::System::Package' ],
+        Objects => ['Kernel::System::Package'],
     );
 
     # Redefine key features to prevent real network communications and use local results for this test.
     no warnings qw( once redefine );    ## no critic
-    local *Kernel::System::Package::PackageOnlineList             = sub {
+    local *Kernel::System::Package::PackageOnlineList = sub {
         return do "$TestPath/$Test->{PackageOnlineList}";
     };
     local *Kernel::System::Package::PackageOnlineGet = sub {
@@ -317,7 +317,7 @@ for my $Test (@Tests) {
 }
 continue {
     $Kernel::OM->ObjectsDiscard(
-        Objects => [ 'Kernel::System::Package' ],
+        Objects => ['Kernel::System::Package'],
     );
 }
 

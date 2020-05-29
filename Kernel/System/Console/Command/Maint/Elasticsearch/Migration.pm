@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::Console::Command::Maint::Elasticsearch::Migration;
 
 use strict;
@@ -23,6 +22,8 @@ use warnings;
 use Time::HiRes();
 
 use parent qw(Kernel::System::Console::BaseCommand);
+
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ForeachToFor)
 
 our @ObjectDependencies = (
     'Kernel::System::Elasticsearch',
@@ -65,9 +66,11 @@ sub PreRun {
     }
 
     if ( $ESWebservice->{ValidID} != 1 ) {
-        $Self->Print("<yellow>Elasticsearch webservice is now activated. If you don't want to keep it enabled, please disable it manually in the admin interface, after the migration is complete.</yellow>\n");
+        $Self->Print(
+            "<yellow>Elasticsearch webservice is now activated. If you don't want to keep it enabled, please disable it manually in the admin interface, after the migration is complete.</yellow>\n"
+        );
         my $Success = $WebserviceObject->WebserviceUpdate(
-            %{ $ESWebservice },
+            %{$ESWebservice},
             ValidID => 1,
             UserID  => 1,
         );
@@ -84,7 +87,7 @@ sub PreRun {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $ESObject = $Kernel::OM->Get('Kernel::System::Elasticsearch');
+    my $ESObject     = $Kernel::OM->Get('Kernel::System::Elasticsearch');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # test the connection to the server
@@ -114,13 +117,13 @@ sub Run {
     );
 
     # Create Index
-    my $NShards = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings')->{NS};
+    my $NShards   = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings')->{NS};
     my $NReplicas = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings')->{NR};
 
     my %Request = (
         settings => {
             index => {
-                number_of_shards => $NShards,
+                number_of_shards   => $NShards,
                 number_of_replicas => $NReplicas,
             },
             'index.mapping.total_fields.limit' => 2000,
@@ -148,7 +151,7 @@ sub Run {
         Request   => \%Request,
     );
 
-    if ( $Success ) {
+    if ($Success) {
         $Self->Print("<green>Ticket index created.</green>\n");
     }
     else {
@@ -161,7 +164,7 @@ sub Run {
 
     my %Pipeline = (
         description => "Extract external attachment information",
-        processors => [
+        processors  => [
             {
                 foreach => {
                     field     => "Attachments",
@@ -177,18 +180,18 @@ sub Run {
                 foreach => {
                     field     => "Attachments",
                     processor => {
-                        remove    => {
+                        remove => {
                             field => "_ingest._value.data"
                         }
                     }
                 }
             }
-        ] 
-    ); 
-    $Success = $ESObject->CreatePipeline( 
+        ]
+    );
+    $Success = $ESObject->CreatePipeline(
         Request => \%Pipeline,
     );
-    if ( $Success ) {
+    if ($Success) {
         $Self->Print("<green>Pipeline set up.</green>\n");
     }
     else {
@@ -199,8 +202,8 @@ sub Run {
     my $Count      = 0;
     my $MicroSleep = $Self->GetOption('micro-sleep');
 
-    my $Percent10 = ( sort {$a<=>$b} ( 10, int( $#TicketIDs / 10 ) ) )[1];
-    my $Percent1  = ( sort {$a<=>$b} ( 1, int( $#TicketIDs / 100 ) ) )[1];
+    my $Percent10 = ( sort { $a <=> $b } ( 10, int( $#TicketIDs / 10 ) ) )[1];
+    my $Percent1  = ( sort { $a <=> $b } ( 1,  int( $#TicketIDs / 100 ) ) )[1];
 
     if ( $#TicketIDs > 100 ) {
         $Self->Print("<yellow>Tickets are transfered. This can take a while.</yellow>\n");
@@ -211,14 +214,14 @@ sub Run {
 
         $Count++;
 
-        # create the ticket    
+        # create the ticket
         $ESObject->TicketCreate(
             TicketID => $TicketID,
         );
 
         # create the articles
         my @ArticleList = $ArticleObject->ArticleList( TicketID => $TicketID );
-        for my $Article ( @ArticleList ) {
+        for my $Article (@ArticleList) {
             $ESObject->ArticleCreate(
                 TicketID  => $TicketID,
                 ArticleID => $Article->{ArticleID},
@@ -233,7 +236,7 @@ sub Run {
             );
         }
         elsif ( $#TicketIDs > 50 && $Count % $Percent1 == 0 ) {
-            $Self->Print( ". " );
+            $Self->Print(". ");
         }
 
         Time::HiRes::usleep($MicroSleep) if $MicroSleep;
@@ -255,7 +258,7 @@ sub Run {
     %Request = (
         settings => {
             index => {
-                number_of_shards => $NShards,
+                number_of_shards   => $NShards,
                 number_of_replicas => $NReplicas,
             },
             'index.mapping.total_fields.limit' => 2000,
@@ -274,7 +277,7 @@ sub Run {
         Request   => \%Request,
     );
 
-    if ( $Success ) {
+    if ($Success) {
         $Self->Print("<green>Customer index created.</green>\n");
     }
     else {
@@ -283,14 +286,14 @@ sub Run {
     }
 
     $Count = 0;
-    my $CustomerCount = scalar ( keys %CustomerCompanyList );
+    my $CustomerCount = scalar( keys %CustomerCompanyList );
 
     CUSTOMERID:
-    for my $CustomerID ( keys %CustomerCompanyList ) {
+    for my $CustomerID ( sort keys %CustomerCompanyList ) {
 
         $Count++;
 
-        # create the ticket    
+        # create the ticket
         $ESObject->CustomerCompanyAdd(
             CustomerID => $CustomerID,
         );
@@ -310,7 +313,7 @@ sub Run {
 
     # Migrate customeruser
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-    my %CustomerUserList = $CustomerUserObject->CustomerSearch(
+    my %CustomerUserList   = $CustomerUserObject->CustomerSearch(
         UserLogin => '*',
         Valid     => 1,
     );
@@ -325,7 +328,7 @@ sub Run {
     %Request = (
         settings => {
             index => {
-                number_of_shards => $NShards,
+                number_of_shards   => $NShards,
                 number_of_replicas => $NReplicas,
             },
             'index.mapping.total_fields.limit' => 2000,
@@ -344,7 +347,7 @@ sub Run {
         Request   => \%Request,
     );
 
-    if ( $Success ) {
+    if ($Success) {
         $Self->Print("<green>CustomerUser index created.</green>\n");
     }
     else {
@@ -353,14 +356,14 @@ sub Run {
     }
 
     $Count = 0;
-    my $CustomerUserCount = scalar ( keys %CustomerUserList );
+    my $CustomerUserCount = scalar( keys %CustomerUserList );
 
     CUSTOMERUSERID:
-    for my $CustomerUserID ( keys %CustomerUserList ) {
+    for my $CustomerUserID ( sort keys %CustomerUserList ) {
 
         $Count++;
 
-        # create the ticket    
+        # create the ticket
         $ESObject->CustomerUserAdd(
             UserLogin => $CustomerUserID,
         );

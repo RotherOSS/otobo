@@ -136,16 +136,16 @@ sub Load {
         },
     };
     $Self->{'PostMaster::PreCreateFilterModule'}->{'000-TestPackage-FollowUpArticleVisibilityCheck'} = {
-        'ArticleType'                 => 'email-internal',
-        'Module'                      => 'Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck',
-        'SenderType'                  => 'customer',
+        'ArticleType'                  => 'email-internal',
+        'Module'                       => 'Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck',
+        'SenderType'                   => 'customer',
         'X-OTOBO-ArticleType'          => 'email-internal',
         'X-OTOBO-FollowUp-ArticleType' => 'email-external'
     };
     $Self->{'PostMaster::CheckFollowUpModule'}->{'0100-TestPackage-Subject'} = {
-        'ArticleType'                 => 'email-external',
-        'Module'                      => 'Kernel::System::PostMaster::FollowUpCheck::Subject',
-        'SenderType'                  => 'customer',
+        'ArticleType'                  => 'email-external',
+        'Module'                       => 'Kernel::System::PostMaster::FollowUpCheck::Subject',
+        'SenderType'                   => 'customer',
         'X-OTOBO-ArticleType'          => 'email-internal',
         'X-OTOBO-FollowUp-ArticleType' => 'email-external'
     };

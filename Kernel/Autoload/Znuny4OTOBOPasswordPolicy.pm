@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 use Kernel::Output::HTML::Layout;
 
 package Kernel::Output::HTML::Layout;    ## no critic
@@ -29,7 +28,7 @@ our @ObjectDependencies = (
 
 # disable redefine warnings in this scope
 {
-    no warnings 'redefine'; ## no critic
+    no warnings 'redefine';              ## no critic
 
     # backup original Redirect()
     my $Redirect = \&Kernel::Output::HTML::Layout::Redirect;
@@ -38,8 +37,12 @@ our @ObjectDependencies = (
     *Kernel::Output::HTML::Layout::Redirect = sub {
         my ( $Self, %Param ) = @_;
 
-        return if $Param{OP} && $Param{OP} =~ /AgentTimeAccountingEdit/ && $Self->{Action} =~ /^(CustomerPassword|AgentPassword|AdminPackage|AdminSystemConfiguration|CustomerAccept)/;
-	return &{$Redirect}( $Self, %Param );
+        return
+               if $Param{OP}
+            && $Param{OP} =~ /AgentTimeAccountingEdit/
+            && $Self->{Action}
+            =~ /^(CustomerPassword|AgentPassword|AdminPackage|AdminSystemConfiguration|CustomerAccept)/;
+        return &{$Redirect}( $Self, %Param );
     }
 }
 

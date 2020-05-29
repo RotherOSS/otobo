@@ -570,11 +570,11 @@ for my $Test (@Tests) {
             scalar(
                 grep { $_->{Data} =~ m/'ResponseContent' \s+ => \s+ 'Event=TicketCreate&TicketID=$TicketID'/smx }
                     @{ $LogData->[0]->{Data} }
-            ) +
-            scalar(
+                ) +
+                scalar(
                 grep { $_->{Data} =~ m/'ResponseContent' \s+ => \s+ 'TicketID=$TicketID&Event=TicketCreate'/smx }
                     @{ $LogData->[0]->{Data} }
-            ),
+                ),
             1,
             "$Test->{Name} event handler communication result data found ('ResponseContent' => 'TicketID=$TicketID')",
         );

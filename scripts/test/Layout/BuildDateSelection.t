@@ -45,7 +45,7 @@ my @Tests = (
 
     {
         Name           => 'No options',
-        OTOBOTimeZone   => 'UTC',
+        OTOBOTimeZone  => 'UTC',
         UserTimeZone   => undef,
         DateTimeString => '2016-02-10 09:04:23',                            # in OTOBO time zone
         Config         => {},
@@ -61,7 +61,7 @@ my @Tests = (
     },
     {
         Name           => 'No options',
-        OTOBOTimeZone   => 'UTC',
+        OTOBOTimeZone  => 'UTC',
         UserTimeZone   => 'Europe/Berlin',
         DateTimeString => '2016-02-10 23:04:23',                            # in OTOBO time zone
         Config         => {},
@@ -77,7 +77,7 @@ my @Tests = (
     },
     {
         Name           => 'Long Format',
-        OTOBOTimeZone   => 'UTC',
+        OTOBOTimeZone  => 'UTC',
         UserTimeZone   => undef,
         DateTimeString => '2016-02-10 09:04:23',    # in OTOBO time zone
         Config         => {
@@ -101,7 +101,7 @@ my @Tests = (
     },
     {
         Name           => 'Long Format',
-        OTOBOTimeZone   => 'Europe/Berlin',
+        OTOBOTimeZone  => 'Europe/Berlin',
         UserTimeZone   => 'America/New_York',
         DateTimeString => '2016-05-01 04:24:06',    # in OTOBO time zone
         Config         => {
@@ -125,7 +125,7 @@ my @Tests = (
     },
     {
         Name           => 'Optional',
-        OTOBOTimeZone   => 'UTC',
+        OTOBOTimeZone  => 'UTC',
         UserTimeZone   => undef,
         DateTimeString => '2016-10-02 09:04:23',    # in OTOBO time zone
         Config         => {
@@ -146,7 +146,7 @@ my @Tests = (
     },
     {
         Name           => 'Optional',
-        OTOBOTimeZone   => 'Europe/Berlin',
+        OTOBOTimeZone  => 'Europe/Berlin',
         UserTimeZone   => 'Europe/Berlin',
         DateTimeString => '2016-10-02 00:04:23',    # in OTOBO time zone
         Config         => {
@@ -167,7 +167,7 @@ my @Tests = (
     },
     {
         Name           => 'No Options (Input)',
-        OTOBOTimeZone   => 'Europe/Berlin',
+        OTOBOTimeZone  => 'Europe/Berlin',
         UserTimeZone   => 'Europe/Berlin',
         DateTimeString => '2016-10-02 00:04:23',    # in OTOBO time zone
         Config         => {},
@@ -183,7 +183,7 @@ my @Tests = (
     },
     {
         Name           => 'Long Format (Input)',
-        OTOBOTimeZone   => 'Europe/Berlin',
+        OTOBOTimeZone  => 'Europe/Berlin',
         UserTimeZone   => 'UTC',
         DateTimeString => '2016-10-02 00:04:23',    # in OTOBO time zone
         Config         => {
@@ -198,7 +198,7 @@ my @Tests = (
     },
     {
         Name           => 'Optional (Input)',
-        OTOBOTimeZone   => 'UTC',
+        OTOBOTimeZone  => 'UTC',
         UserTimeZone   => 'Europe/Berlin',
         DateTimeString => '2016-06-08 23:04:23',    # in OTOBO time zone
         Config         => {
@@ -215,7 +215,7 @@ my @Tests = (
     # TODO: add more tests for the different parameters here!
     {
         Name           => 'Disabled',
-        OTOBOTimeZone   => 'UTC',
+        OTOBOTimeZone  => 'UTC',
         UserTimeZone   => undef,
         DateTimeString => '2016-06-08 23:04:23',    # in OTOBO time zone
         Config         => {
@@ -238,7 +238,7 @@ my @Tests = (
     },
     {
         Name           => 'Disabled Long Format',
-        OTOBOTimeZone   => 'UTC',
+        OTOBOTimeZone  => 'UTC',
         UserTimeZone   => 'Europe/Berlin',
         DateTimeString => '2014-06-08 23:24:23',    # in OTOBO time zone
         Config         => {
@@ -263,7 +263,7 @@ my @Tests = (
     },
     {
         Name           => 'Disabled Optional',
-        OTOBOTimeZone   => 'UTC',
+        OTOBOTimeZone  => 'UTC',
         UserTimeZone   => undef,
         DateTimeString => '2014-06-08 23:24:23',    # in OTOBO time zone
         Config         => {
@@ -285,7 +285,7 @@ my @Tests = (
     },
     {
         Name           => 'Disabled (Input)',
-        OTOBOTimeZone   => 'UTC',
+        OTOBOTimeZone  => 'UTC',
         UserTimeZone   => undef,
         DateTimeString => '2014-06-08 23:24:23',    # in OTOBO time zone
         Config         => {
@@ -303,7 +303,7 @@ my @Tests = (
     },
     {
         Name           => 'Disabled (Input)',
-        OTOBOTimeZone   => 'UTC',
+        OTOBOTimeZone  => 'UTC',
         UserTimeZone   => 'Europe/Berlin',
         DateTimeString => '2014-06-09 01:24:23',    # in OTOBO time zone
         Config         => {
@@ -321,7 +321,7 @@ my @Tests = (
     },
     {
         Name           => 'Disabled Long Format (Input)',
-        OTOBOTimeZone   => 'UTC',
+        OTOBOTimeZone  => 'UTC',
         UserTimeZone   => undef,
         DateTimeString => '2014-06-08 23:24:23',            # in OTOBO time zone
         Config         => {
@@ -337,7 +337,7 @@ my @Tests = (
     },
     {
         Name           => 'Disabled Long Format (Input)',
-        OTOBOTimeZone   => 'UTC',
+        OTOBOTimeZone  => 'UTC',
         UserTimeZone   => 'Europe/Berlin',
         DateTimeString => '2014-06-08 23:24:23',            # in OTOBO time zone
         Config         => {
@@ -353,7 +353,7 @@ my @Tests = (
     },
     {
         Name           => 'Disabled Optional (Input)',
-        OTOBOTimeZone   => 'UTC',
+        OTOBOTimeZone  => 'UTC',
         UserTimeZone   => undef,
         DateTimeString => '2014-06-08 23:24:23',         # in OTOBO time zone
         Config         => {
@@ -369,7 +369,7 @@ my @Tests = (
     },
     {
         Name           => 'Disabled Optional (Input)',
-        OTOBOTimeZone   => 'UTC',
+        OTOBOTimeZone  => 'UTC',
         UserTimeZone   => 'Europe/Berlin',
         DateTimeString => '2014-06-08 23:24:23',         # in OTOBO time zone
         Config         => {

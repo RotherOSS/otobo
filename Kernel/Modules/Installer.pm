@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::Installer;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Print)
@@ -526,9 +525,9 @@ sub Run {
                     $Host =~ s{:\d*\z}{}xms;
                 }
 
-                # 'CREATE USER ... IDENTIFIED WITH ...' is used because in MySQL 8 user can no longer be created with 'GRANT'
-                # 'IDENTIFIED WITH mysql_native_password' is supported since at least MySQL 5.6
-                # Note that 'FLUSH PRIVILEGES' is not needed here since at least MySQL 5.6
+           # 'CREATE USER ... IDENTIFIED WITH ...' is used because in MySQL 8 user can no longer be created with 'GRANT'
+           # 'IDENTIFIED WITH mysql_native_password' is supported since at least MySQL 5.6
+           # Note that 'FLUSH PRIVILEGES' is not needed here since at least MySQL 5.6
                 @Statements = (
                     "CREATE DATABASE `$DB{DBName}` charset utf8mb4",
                     "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password AS PASSWORD('$DB{OTOBODBPassword}')",
@@ -983,6 +982,7 @@ sub Run {
             }
         }
         elsif ( exists $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+
             # usually no restart required as 'plackup -R' is recommended
         }
 
@@ -1006,12 +1006,12 @@ sub Run {
         $LayoutObject->Block(
             Name => 'Finish',
             Data => {
-                Item       => Translatable('Finished'),
-                Step       => $StepCounter,
-                Host       => $ENV{HTTP_HOST} || $ConfigObject->Get('FQDN'),
+                Item        => Translatable('Finished'),
+                Step        => $StepCounter,
+                Host        => $ENV{HTTP_HOST} || $ConfigObject->Get('FQDN'),
                 OTOBOHandle => $OTOBOHandle,
-                Webserver  => $Webserver,
-                Password   => $Password,
+                Webserver   => $Webserver,
+                Password    => $Password,
             },
         );
         if ($Webserver) {

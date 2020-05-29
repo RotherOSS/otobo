@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::Package;
 
 use strict;
@@ -4936,7 +4935,9 @@ sub _ConfigurationDeploy {
     # TODO: specify otobo needs for this, implement and remove "&& 0"
     # if this is a Packageupgrade and if there is a ZZZAutoOTOBO5.pm file in the backup location
     # (this file has been copied there during the migration from OTOBO 5 to OTOBO 10)
-    if ( ( IsHashRefWithData( $Self->{MergedPackages} ) || $Param{Action} eq 'PackageUpgrade' ) && -e $OTOBO5ConfigFile && 0)
+    if (   ( IsHashRefWithData( $Self->{MergedPackages} ) || $Param{Action} eq 'PackageUpgrade' )
+        && -e $OTOBO5ConfigFile
+        && 0 )
     {
 
         # delete categories cache
@@ -4992,7 +4993,7 @@ sub _ConfigurationDeploy {
         my $Success = $Kernel::OM->Get('Kernel::System::SysConfig::Migration')->MigrateConfigEffectiveValues(
             FileClass       => 'Kernel::Config::Backups::ZZZAutoOTOBO5',
             FilePath        => $OTOBO5ConfigFile,
-            PackageSettings => \@PackageSettings,                         # only migrate the given package settings
+            PackageSettings => \@PackageSettings,                          # only migrate the given package settings
             NoOutput => 1,    # we do not want to print status output to the screen
         );
 

@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::Console::Command::Maint::SMIME::KeysRefresh;
 
 use strict;

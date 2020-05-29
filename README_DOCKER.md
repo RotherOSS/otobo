@@ -80,4 +80,3 @@ Note that all previous data will be lost.
 * [cleanup](https://forums.docker.com/t/command-to-remove-all-unused-images)
 * [Dockerfile best practices](https://www.docker.com/blog/intro-guide-to-dockerfile-best-practices/)
 * [Docker cache invalidation](https://stackoverflow.com/questions/34814669/when-does-docker-image-cache-invalidation-occur)
-

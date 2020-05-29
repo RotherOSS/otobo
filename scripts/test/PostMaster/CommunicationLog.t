@@ -238,7 +238,7 @@ my $GetMailAcountLastCommunicationLog = sub {
 };
 
 # Get postmaster sample emails.
-my $OTOBODIR  = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+my $OTOBODIR = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my @FileList = glob "${ OTOBODIR }/scripts/test/sample/PostMaster/*.box";
 my %Emails   = ();
 

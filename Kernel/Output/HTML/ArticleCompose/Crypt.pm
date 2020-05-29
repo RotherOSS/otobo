@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Output::HTML::ArticleCompose::Crypt;
 
 use parent 'Kernel::Output::HTML::Base';

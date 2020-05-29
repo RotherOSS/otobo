@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Output::HTML::Statistics::View;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::PodChecker)

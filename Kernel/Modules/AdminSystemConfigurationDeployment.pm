@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::AdminSystemConfigurationDeployment;
 
 use strict;
@@ -211,10 +210,10 @@ sub Run {
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSystemConfigurationDeployment',
             Data         => {
-                SettingList             => \@Settings,
-                AdvancedMode            => $AdvancedMode,
-                DeploymentRestore       => $DeploymentRestore,
-                Readonly                => 1,
+                SettingList       => \@Settings,
+                AdvancedMode      => $AdvancedMode,
+                DeploymentRestore => $DeploymentRestore,
+                Readonly          => 1,
             },
         );
 

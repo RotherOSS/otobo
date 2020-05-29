@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::GenericInterface::Event::Handler;
 
 use strict;
@@ -70,7 +69,7 @@ sub Run {
             return;
         }
     }
-    
+
     # param event will be also passed
     $Param{Data} = {
         Event => $Param{Event},

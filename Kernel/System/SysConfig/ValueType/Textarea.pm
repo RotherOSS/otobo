@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::SysConfig::ValueType::Textarea;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
 

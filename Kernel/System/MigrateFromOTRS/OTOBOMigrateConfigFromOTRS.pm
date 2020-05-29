@@ -46,8 +46,8 @@ Returns 1 on success
 sub CheckPreviousRequirement {
     my ( $Self, %Param ) = @_;
 
-        return 1;
-    }
+    return 1;
+}
 
 =head1 NAME
 
@@ -61,29 +61,29 @@ sub Run {
     my %Result;
 
     # Set cache object with taskinfo and starttime to show current state in frontend
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-    my $DateTimeObject = $Kernel::OM->Create( 'Kernel::System::DateTime');
-    my $Epoch = $DateTimeObject->ToEpoch();
+    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $Epoch          = $DateTimeObject->ToEpoch();
 
     $CacheObject->Set(
         Type  => 'OTRSMigration',
         Key   => 'MigrationState',
         Value => {
-            Task        => 'OTOBOMigrateConfigFromOTRS',
-            SubTask     => "Migrate configuration to OTOBO.",
-            StartTime   => $Epoch,
+            Task      => 'OTOBOMigrateConfigFromOTRS',
+            SubTask   => "Migrate configuration to OTOBO.",
+            StartTime => $Epoch,
         },
     );
 
-    my $Success = 1;
+    my $Success         = 1;
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-    # -------------------------
+    #
     # Clean SysConfig database
-    # -------------------------
+    #
 
     # Create tempdir to save sysconfig export tmp
-    my $TmpDirectory =  $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
+    my $TmpDirectory = $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
 
     # Dump only changed SysConfig entrys in string $Export
     my $Export = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationDump(
@@ -91,36 +91,37 @@ sub Run {
     );
 
     if ( !$Export ) {
-        $Result{Message}    = $Self->{LanguageObject}->Translate( "Migrate configuration settings." );
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( "An error occured during SysConfig data migration or no configuration exists." );
+        $Result{Message} = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
+        $Result{Comment} = $Self->{LanguageObject}
+            ->Translate("An error occured during SysConfig data migration or no configuration exists.");
         $Result{Successful} = 1;
         return \%Result;
     }
 
     # Write opm content to new sopm file
     $Success = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-        Directory   => $TmpDirectory,
-        Filename    => 'SysConfigDump.sysconf',
+        Directory  => $TmpDirectory,
+        Filename   => 'SysConfigDump.sysconf',
         Content    => \$Export,
-        Mode       => 'utf8',                                                     # binmode|utf8
-        Type       => 'Local',                                                    # optional - Local|Attachment|MD5
-        Permission => '660',                                                      # unix file permissions
+        Mode       => 'utf8',                    # binmode|utf8
+        Type       => 'Local',                   # optional - Local|Attachment|MD5
+        Permission => '660',                     # unix file permissions
     );
 
     $Success = $Self->CleanOTRSFileToOTOBOStyle(
-        File          => $TmpDirectory.'/'.'SysConfigDump.sysconf',
-        UserID        => 1,
+        File   => $TmpDirectory . '/' . 'SysConfigDump.sysconf',
+        UserID => 1,
     );
 
     # We need a yaml string
     my $YAMLString = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-        Location => $TmpDirectory.'/'.'SysConfigDump.sysconf',
-        Mode       => 'utf8',
+        Location => $TmpDirectory . '/' . 'SysConfigDump.sysconf',
+        Mode     => 'utf8',
     );
 
     $Success = $SysConfigObject->ConfigurationLoad(
-        ConfigurationYAML   => ${$YAMLString},     # a YAML string in the format of L<ConfigurationDump()>
-        UserID              => 123,
+        ConfigurationYAML => ${$YAMLString},    # a YAML string in the format of L<ConfigurationDump()>
+        UserID            => 123,
     );
 
     # Write ZZZAuto.pm
@@ -129,14 +130,14 @@ sub Run {
     $Self->DisableSecureMode();
 
     if ( !$Success ) {
-        $Result{Message}    = $Self->{LanguageObject}->Translate( "Migrate configuration settings." );
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( "An error occured during SysConfig data migration." );
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate("An error occured during SysConfig data migration.");
         $Result{Successful} = 0;
         return \%Result;
     }
 
-    $Result{Message}    = $Self->{LanguageObject}->Translate( "Migrate configuration settings." );
-    $Result{Comment}    = $Self->{LanguageObject}->Translate( "SysConfig data migration completed." );
+    $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
+    $Result{Comment}    = $Self->{LanguageObject}->Translate("SysConfig data migration completed.");
     $Result{Successful} = 1;
     return \%Result;
 }

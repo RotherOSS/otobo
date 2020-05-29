@@ -99,14 +99,14 @@
                                     <p class="FieldExplanation">[% Translate("Template") | html %]</p>
                                 </div>
                                 <div class="Clear"></div>
-                                
+
 
                                 <label class="Mandatory" for="CBFontStyle"> [% Translate("Style") | html %]:</label>
                                 <div class="Field">
                                     <input type="checkbox" id="CBFontStyleBold" name="CBFontStyleBold" [% Data.CBFontStyleBold | html %] > [% Translate("bold") | html %]
-                                    <input type="hidden" id="CBFontStyleBoldValue" name="CBFontStyleBoldValue" value="[% Data.CBFontStyleBoldValue | html %]" > 
+                                    <input type="hidden" id="CBFontStyleBoldValue" name="CBFontStyleBoldValue" value="[% Data.CBFontStyleBoldValue | html %]" >
                                     <input type="checkbox" id="CBFontStyleItalic" name="CBFontStyleItalic" [% Data.CBFontStyleItalic | html %] > [% Translate("italic") | html %]
-                                    <input type="hidden" id="CBFontStyleItalicValue" name="CBFontStyleItalicValue" value="[% Data.CBFontStyleItalicValue | html %]" > 
+                                    <input type="hidden" id="CBFontStyleItalicValue" name="CBFontStyleItalicValue" value="[% Data.CBFontStyleItalicValue | html %]" >
                                     <input type="checkbox" id="CBFontStyleUnderLine" name="CBFontStyleUnderLine" [% Data.CBFontStyleUnderLine | html %] > [% Translate("underline") | html %]
                                     <input type="hidden" id="CBFontStyleUnderLineValue" name="CBFontStyleUnderLineValue" value="[% Data.CBFontStyleUnderLineValue | html %]" >
                                     <p class="FieldExplanation">[% Translate("Font style of the label.") | html %]</p>
@@ -121,7 +121,7 @@
                                     <p class="FieldExplanation">[% Translate("Font size of the label.") | html %]</p>
                                 </div>
                                 <div class="Clear"></div>
-                                
+
                                 <label class="Mandatory" for="FontColor"><span class="Marker">*</span> [% Translate("Color") | html %]:</label>
                                 <div class="Field">
                                     <input id="FontColor" class="W50pc [% Data.FontColorServerError | html %] Validate_Required" type="text" maxlength="200" value="[% Data.FontColor | html %]" name="FontColor"/>

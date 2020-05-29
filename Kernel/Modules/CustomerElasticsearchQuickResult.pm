@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 package Kernel::Modules::CustomerElasticsearchQuickResult;
 ## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
@@ -41,7 +40,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self         = {%Param};
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     return $Self;
@@ -67,11 +66,11 @@ sub Run {
 
     my $ESStrLength = length $ParamObject->GetParam( Param => 'FulltextES' );
 
-    # Subaction eq SearchUpdate is returned by on click and on input events of the ESfulltext-field. See Core.UI.Elasticsearch.js
+# Subaction eq SearchUpdate is returned by on click and on input events of the ESfulltext-field. See Core.UI.Elasticsearch.js
     if ( $Self->{Subaction} eq 'SearchUpdate' && $ESStrLength > 1 ) {
 
         # Add filter for customer company if the company tickets are not disabled.
-        my %Selection;        
+        my %Selection;
         if ( !$DisableCompanyTickets ) {
             my %AccessibleCustomers = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupContextCustomers(
                 CustomerUserID => $Self->{UserID},
@@ -92,12 +91,12 @@ sub Run {
             Result         => 'FULL',
         );
 
-        # Start to fill the blockdata for the template (See Kernel/Output/HTML/Templates/Standard/CustomerElasticsearchQuickResult.tt)
-        # Block ticket data
+# Start to fill the blockdata for the template (See Kernel/Output/HTML/Templates/Standard/CustomerElasticsearchQuickResult.tt)
+# Block ticket data
         for my $Ticket (@TicketIDs) {
 
             # we only have one key and one value in each array element
-            my ( $TicketID, $TicketParam ) = ( %{ $Ticket } );
+            my ( $TicketID, $TicketParam ) = ( %{$Ticket} );
 
             $LayoutObject->Block(
                 Name => 'Record',

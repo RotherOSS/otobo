@@ -85,8 +85,8 @@ my @Tests = (
     --",
     },
     {
-        Name           => 'Test unsupported tags',
-        Signature      => 'Test: <OTOBO_AGENT_SUBJECT> <OTOBO_AGENT_BODY> <OTOBO_CUSTOMER_BODY> <OTOBO_CUSTOMER_SUBJECT>',
+        Name      => 'Test unsupported tags',
+        Signature => 'Test: <OTOBO_AGENT_SUBJECT> <OTOBO_AGENT_BODY> <OTOBO_CUSTOMER_BODY> <OTOBO_CUSTOMER_SUBJECT>',
         ExpectedResult => 'Test: - - - -',
     },
     {

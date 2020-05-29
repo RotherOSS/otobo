@@ -575,7 +575,6 @@ for my $ModuleFile (@BackendModuleFiles) {
         "#$Module - CreateSessionID()",
     );
 
-
     for my $Count ( 1 .. 2 ) {
 
         my %NewSessionData = (

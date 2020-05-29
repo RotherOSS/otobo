@@ -386,9 +386,9 @@ my @Tests = (
         Name           => 'Effective Value',
         Key            => 'PostMaster::PreCreateFilterModule###000-FollowUpArticleVisibilityCheck',
         EffectiveValue => {
-            'Module'                      => 'Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck',
-            'IsVisibleForCustomer'        => '0',
-            'SenderType'                  => 'customer',
+            'Module'                       => 'Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck',
+            'IsVisibleForCustomer'         => '0',
+            'SenderType'                   => 'customer',
             'X-OTOBO-IsVisibleForCustomer' => '0',
             'X-OTOBO-FollowUp-IsVisibleForCustomer' => '1',
         },
@@ -400,8 +400,8 @@ my @Tests = (
         EffectiveValue => {
             'Module' => 'Kernel::System::PostMaster::FollowUpCheck::Subject',
             ,
-            'IsVisibleForCustomer'                 => '1',
-            'SenderType'                           => 'customer',
+            'IsVisibleForCustomer'                  => '1',
+            'SenderType'                            => 'customer',
             'X-OTOBO-IsVisibleForCustomer'          => '0',
             'X-OTOBO-FollowUp-IsVisibleForCustomer' => '1',
         },

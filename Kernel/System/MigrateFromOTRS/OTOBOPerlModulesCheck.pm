@@ -41,7 +41,7 @@ Returns 1 on success
 sub CheckPreviousRequirement {
     my ( $Self, %Param ) = @_;
 
-        return 1;
+    return 1;
 }
 
 =head1 Run()
@@ -58,31 +58,31 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my %Result;
-    my $Home    = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
     # Set cache object with taskinfo and starttime to show current state in frontend
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-    my $DateTimeObject = $Kernel::OM->Create( 'Kernel::System::DateTime');
-    my $Epoch = $DateTimeObject->ToEpoch();
+    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $Epoch          = $DateTimeObject->ToEpoch();
 
     $CacheObject->Set(
         Type  => 'OTRSMigration',
         Key   => 'MigrationState',
         Value => {
-            Task        => 'OTOBOPerlModulesCheck',
-            SubTask     => "Check if all needed Perl modules have been installed.",
-            StartTime   => $Epoch,
+            Task      => 'OTOBOPerlModulesCheck',
+            SubTask   => "Check if all needed Perl modules have been installed.",
+            StartTime => $Epoch,
         },
     );
 
-# Rother OSS TODO: Need Perlbinary?
-#    my $PerlBinary = $^X;
+    # Rother OSS TODO: Need Perlbinary?
+    #    my $PerlBinary = $^X;
     my $ScriptPath = "$Home/bin/otobo.CheckModules.pl";
 
     # verify check modules script exist
     if ( !-e $ScriptPath ) {
-        $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if all needed Perl modules have been installed." );
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( '%s script does not exist.', $ScriptPath );
+        $Result{Message} = $Self->{LanguageObject}->Translate("Check if all needed Perl modules have been installed.");
+        $Result{Comment} = $Self->{LanguageObject}->Translate( '%s script does not exist.', $ScriptPath );
         $Result{Successful} = 0;
         return \%Result;
     }
@@ -90,13 +90,16 @@ sub Run {
     my $ExitCode = system("$ScriptPath");
 
     if ( $ExitCode != 0 ) {
-            $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if all needed Perl modules have been installed." );
-            $Result{Comment}    = $Self->{LanguageObject}->Translate( "One or more required Perl modules are missing. Please install them as recommended, and run the migration script again." );
-            $Result{Successful} = 0;
-            return \%Result;
+        $Result{Message} = $Self->{LanguageObject}->Translate("Check if all needed Perl modules have been installed.");
+        $Result{Comment}
+            = $Self->{LanguageObject}->Translate(
+            "One or more required Perl modules are missing. Please install them as recommended, and run the migration script again."
+            );
+        $Result{Successful} = 0;
+        return \%Result;
     }
-    $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if all needed Perl modules have been installed." );
-    $Result{Comment}    = $Self->{LanguageObject}->Translate( "All required Perl modules have been installed, perfect!" );
+    $Result{Message}    = $Self->{LanguageObject}->Translate("Check if all needed Perl modules have been installed.");
+    $Result{Comment}    = $Self->{LanguageObject}->Translate("All required Perl modules have been installed, perfect!");
     $Result{Successful} = 1;
     return \%Result;
 }

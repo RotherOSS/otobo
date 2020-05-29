@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::PublicRepository;
 
 use strict;
@@ -73,7 +72,7 @@ sub Run {
         }
         $Index .= "</otobo_package_list>\n";
         return $LayoutObject->Attachment(
-            Type        => 'inline',     # inline|attachment
+            Type        => 'inline',      # inline|attachment
             Filename    => 'otobo.xml',
             ContentType => 'text/xml',
             Content     => $Index,

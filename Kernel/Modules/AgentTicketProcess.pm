@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::AgentTicketProcess;
 
 use strict;
@@ -4830,7 +4829,7 @@ sub _StoreActivityDialog {
                 # get the current server Time-stamp
                 my $DateTimeObject   = $Kernel::OM->Create('Kernel::System::DateTime');
                 my $CurrentTimeStamp = $DateTimeObject->ToString();
-                my $OTOBOTimeZone     = $DateTimeObject->OTOBOTimeZoneGet();
+                my $OTOBOTimeZone    = $DateTimeObject->OTOBOTimeZoneGet();
                 $TicketParam{Title} = "$Param{ProcessName} - $CurrentTimeStamp ($OTOBOTimeZone)";
 
                 # use article subject from the web request if any

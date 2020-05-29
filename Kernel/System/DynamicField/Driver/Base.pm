@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::DynamicField::Driver::Base;
 
 use strict;
@@ -94,7 +93,6 @@ sub SearchFieldPreferences {
 
     return \@Preferences;
 }
-
 
 =head2 EditLabelRender()
 
@@ -189,7 +187,7 @@ EOF
     else {
 
         # opening tag
-        $HTMLString = "<label id='$LabelID' for='$Name'".
+        $HTMLString = "<label id='$LabelID' for='$Name'" .
             ( $Param{Mandatory} ? " class='Mandatory'>\n" : ">\n" );
 
         # text

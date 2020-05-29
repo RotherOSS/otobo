@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::SupportDataCollector::PluginAsynchronous::OTOBO::ConcurrentUsers;
 
 use strict;

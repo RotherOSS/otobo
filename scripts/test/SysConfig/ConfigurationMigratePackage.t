@@ -44,9 +44,9 @@ $HelperObject->ConfigSettingChange(
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->{Home};
 
-my $TestFile             = 'ZZZAutoOTOBO5.pm';
-my $TestPath             = $Home . '/scripts/test/sample/SysConfig/Migration/Package/';
-my $TestLocation         = $TestPath . $TestFile;
+my $TestFile              = 'ZZZAutoOTOBO5.pm';
+my $TestPath              = $Home . '/scripts/test/sample/SysConfig/Migration/Package/';
+my $TestLocation          = $TestPath . $TestFile;
 my $OTOBO5ConfigFileClass = "Kernel::Config::Backups::ZZZAutoOTOBO5";
 my $OTOBO5ConfigFile      = "$Home/Kernel/Config/Backups/ZZZAutoOTOBO5.pm";
 
@@ -351,9 +351,9 @@ my @Tests = (
     {
         Name           => 'PostMaster::PreCreateFilterModule###000-TestPackage-FollowUpArticleVisibilityCheck',
         EffectiveValue => {
-            'Module'                      => 'Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck',
-            'IsVisibleForCustomer'        => '0',
-            'SenderType'                  => 'customer',
+            'Module'                       => 'Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck',
+            'IsVisibleForCustomer'         => '0',
+            'SenderType'                   => 'customer',
             'X-OTOBO-IsVisibleForCustomer' => '0',
             'X-OTOBO-FollowUp-IsVisibleForCustomer' => '1',
         },
@@ -361,9 +361,9 @@ my @Tests = (
     {
         Name           => 'PostMaster::CheckFollowUpModule###0100-TestPackage-Subject',
         EffectiveValue => {
-            'Module'                               => 'Kernel::System::PostMaster::FollowUpCheck::Subject',
-            'IsVisibleForCustomer'                 => '1',
-            'SenderType'                           => 'customer',
+            'Module'                                => 'Kernel::System::PostMaster::FollowUpCheck::Subject',
+            'IsVisibleForCustomer'                  => '1',
+            'SenderType'                            => 'customer',
             'X-OTOBO-IsVisibleForCustomer'          => '0',
             'X-OTOBO-FollowUp-IsVisibleForCustomer' => '1',
         },

@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::Registration;
 
 use strict;
@@ -275,7 +274,7 @@ sub Register {
         PerlVersion        => sprintf( "%vd", $^V ),
         OSType             => $OSInfo{OS},
         OSVersion          => $OSInfo{OSName},
-        OTOBOVersion        => $ConfigObject->Get('Version'),
+        OTOBOVersion       => $ConfigObject->Get('Version'),
         FQDN               => $ConfigObject->Get('FQDN'),
         DatabaseVersion    => $Kernel::OM->Get('Kernel::System::DB')->Version(),
         SupportDataSending => $SupportDataSending,
@@ -318,7 +317,7 @@ sub Register {
                         OldUniqueID => $OldRegistration{UniqueID} || '',
                         OldAPIKey   => $OldRegistration{APIKey} || '',
                         Token       => $Param{Token},
-                        OTOBOID      => $Param{OTOBOID},
+                        OTOBOID     => $Param{OTOBOID},
                         Type        => $Param{Type},
                         Description => $Param{Description},
                     },
@@ -550,7 +549,7 @@ sub RegistrationDataGet {
             PerlVersion     => sprintf( "%vd", $^V ),
             OSType          => $OSInfo{OS},
             OSVersion       => $OSInfo{OSName},
-            OTOBOVersion     => $ConfigObject->Get('Version'),
+            OTOBOVersion    => $ConfigObject->Get('Version'),
             FQDN            => $ConfigObject->Get('FQDN'),
             DatabaseVersion => $Kernel::OM->Get('Kernel::System::DB')->Version(),
         };
@@ -613,7 +612,7 @@ sub RegistrationUpdateSend {
         PerlVersion     => sprintf( "%vd", $^V ),
         OSType          => $OSInfo{OS},
         OSVersion       => $OSInfo{OSName},
-        OTOBOVersion     => $ConfigObject->Get('Version'),
+        OTOBOVersion    => $ConfigObject->Get('Version'),
         FQDN            => $ConfigObject->Get('FQDN'),
         DatabaseVersion => $Kernel::OM->Get('Kernel::System::DB')->Version(),
     );
@@ -911,7 +910,7 @@ sub Deregister {
                     Operation => $Operation,
                     Data      => {
                         APIVersion => $Self->{APIVersion},
-                        OTOBOID     => $Param{OTOBOID},
+                        OTOBOID    => $Param{OTOBOID},
                         Token      => $Param{Token},
                         APIKey     => $RegistrationInfo{APIKey},
                         UniqueID   => $RegistrationInfo{UniqueID},

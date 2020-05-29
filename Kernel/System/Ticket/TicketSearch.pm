@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::Ticket::TicketSearch;
 
 use strict;
@@ -2675,7 +2674,7 @@ sub TicketSearch {
             Type => 'TicketSearch',
             Key  => $SQLSelect . $SQLFrom . $SQLExt . $Result . $Limit,
         );
-        
+
         if ( defined $CacheData ) {
             if ( ref $CacheData eq 'HASH' ) {
                 return %{$CacheData};
@@ -2693,7 +2692,7 @@ sub TicketSearch {
             return;
         }
     }
-    
+
     # database query
     my %Tickets;
     my @TicketIDs;

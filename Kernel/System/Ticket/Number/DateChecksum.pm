@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 #
 # The algorithm to calculate the checksum is derived from the one
 # Deutsche Bundesbahn (german railway company) uses for calculation

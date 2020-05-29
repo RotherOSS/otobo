@@ -277,17 +277,17 @@ sub BlobColumnsList {
             SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
             WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND DATA_TYPE = 'CLOB';",
 
-            Bind => [
-                \$Param{DBName}, \$Param{Table},
-            ],
-        ) || return {};
+        Bind => [
+            \$Param{DBName}, \$Param{Table},
+        ],
+    ) || return {};
 
-        my %Result;
-        while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
-            my $TCString = "$Param{Table}.$Row[0]";
-            $Result{$TCString} = $Row[1];
-        }
-        return \%Result;
+    my %Result;
+    while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
+        my $TCString = "$Param{Table}.$Row[0]";
+        $Result{$TCString} = $Row[1];
+    }
+    return \%Result;
 }
 
 1;

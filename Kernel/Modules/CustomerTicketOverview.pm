@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::CustomerTicketOverview;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
@@ -42,7 +41,7 @@ sub Run {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    
+
     # disable output of customer company tickets
     my $DisableCompanyTickets = $ConfigObject->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
 
@@ -199,9 +198,12 @@ sub Run {
     }
 
     if ( $Self->{Subaction} eq 'Search' ) {
+
         # check whether company tickets are shown
-        my %Selection = @CustomerIDs ? 
-            ( CustomerIDRaw        => \@CustomerIDs ) :
+        my %Selection = @CustomerIDs
+            ?
+            ( CustomerIDRaw => \@CustomerIDs )
+            :
             ( CustomerUserLoginRaw => $Self->{UserID} );
 
         $Filters{Search} = {
@@ -246,7 +248,7 @@ sub Run {
                     SortBy              => $SortBy,
                     CustomerUserID      => $Self->{UserID},
                     Permission          => 'ro',
-                    Fulltext            => $ParamObject->GetParam( Param => 'Fulltext'),
+                    Fulltext            => $ParamObject->GetParam( Param => 'Fulltext' ),
                     FullTextIndex       => 1,
                     ContentSearchPrefix => '*',
                     ContentSearchSuffix => '*',
@@ -334,6 +336,7 @@ sub Run {
     else {
 
         if ( $AllTickets > $PageShown ) {
+
             # create pagination
             my $Link = 'SortBy=' . $LayoutObject->Ascii2Html( Text => $SortBy )
                 . ';OrderBy=' . $LayoutObject->Ascii2Html( Text => $OrderByCurrent )
@@ -435,7 +438,7 @@ sub Run {
                 Data => {
                     %Param,
                     %{ $NavBarFilter{$Key} },
-                    Fulltext => $ParamObject->GetParam( Param => 'Fulltext'), 
+                    Fulltext => $ParamObject->GetParam( Param => 'Fulltext' ),
                 },
             );
         }
@@ -584,17 +587,17 @@ sub Run {
         );
 
         # show tickets
-#       $Counter = 0;
-#       for my $TicketID (@ViewableTickets) {
-#           $Counter++;
-#           if (
-#               $Counter >= $StartHit
-#               && $Counter < ( $PageShown + $StartHit )
-#               )
-#           {
-#               $Self->ShowTicketStatus( TicketID => $TicketID );
-#           }
-#       }
+        #       $Counter = 0;
+        #       for my $TicketID (@ViewableTickets) {
+        #           $Counter++;
+        #           if (
+        #               $Counter >= $StartHit
+        #               && $Counter < ( $PageShown + $StartHit )
+        #               )
+        #           {
+        #               $Self->ShowTicketStatus( TicketID => $TicketID );
+        #           }
+        #       }
 
         my $TicketListObject = $Kernel::OM->Get('Kernel::Output::HTML::TicketOverview::CustomerList');
         $TicketListHTML = $TicketListObject->Run(
@@ -623,14 +626,16 @@ sub Run {
     );
 
     # AddJSData for ES
-    my $ESActive = $ConfigObject->Get( 'Elasticsearch::Active' );
+    my $ESActive = $ConfigObject->Get('Elasticsearch::Active');
 
     $LayoutObject->AddJSData(
         Key   => 'ESActive',
         Value => $ESActive,
     );
 
-    my $NewTicketAccessKey = $ConfigObject->Get( 'CustomerFrontend::Navigation' )->{'CustomerTicketMessage'}{'002-Ticket'}[0]{'AccessKey'} || '';
+    my $NewTicketAccessKey
+        = $ConfigObject->Get('CustomerFrontend::Navigation')->{'CustomerTicketMessage'}{'002-Ticket'}[0]{'AccessKey'}
+        || '';
 
     $Output .= $LayoutObject->Output(
         TemplateFile => 'CustomerTicketOverview',
@@ -639,9 +644,10 @@ sub Run {
             %PageNav,
             AccessKey      => $NewTicketAccessKey,
             TicketListHTML => $TicketListHTML,
-            Fulltext       => $ParamObject->GetParam( Param => 'Fulltext' ), 
+            Fulltext       => $ParamObject->GetParam( Param => 'Fulltext' ),
         },
     );
+
     # build NavigationBar
     $Output .= $LayoutObject->CustomerNavigationBar();
 

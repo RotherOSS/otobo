@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::AdminSystemConfiguration;
 
 use strict;
@@ -483,10 +482,10 @@ sub Run {
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSystemConfigurationView',
             Data         => {
-                Type                    => 'CustomList',
-                SettingList             => \@SettingList,
-                SettingListInvalid      => \@SettingListInvalid,
-                CategoriesStrg          => $Self->_GetCategoriesStrg(),
+                Type               => 'CustomList',
+                SettingList        => \@SettingList,
+                SettingListInvalid => \@SettingListInvalid,
+                CategoriesStrg     => $Self->_GetCategoriesStrg(),
             },
         );
         $Output .= $LayoutObject->Footer();
@@ -634,8 +633,8 @@ sub Run {
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSystemConfiguration',
             Data         => {
-                ManualVersion           => $ManualVersion,
-                SettingCount            => scalar @SettingList,
+                ManualVersion => $ManualVersion,
+                SettingCount  => scalar @SettingList,
                 %OutputData,
             },
         );

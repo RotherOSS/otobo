@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Output::HTML::ArticleAction::ReinstallPackageLink;
 
 use strict;
@@ -95,9 +94,9 @@ sub GetConfig {
     my %MenuItem = (
         ItemType    => 'Link',
         Description => Translatable('Re-install Package'),
-        Name  => Translatable('Re-install'),
-        Link  => 'Action=AdminPackageManager',
-        Class => undef,
+        Name        => Translatable('Re-install'),
+        Link        => 'Action=AdminPackageManager',
+        Class       => undef,
     );
 
     return ( \%MenuItem );

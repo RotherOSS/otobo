@@ -88,7 +88,7 @@
 
                     <div class="Clear"></div>
                 </fieldset>
-                
+
                 <div class="Spacing Right">
                     <button type="button" class="CallForAction" id="ButtonBack"><span>[% Translate("Back") | html %]</span></button>
                     <button class="Primary CallForAction Disabled HideMe" type="submit" id="FormSubmit" disabled><span>[% Translate("Next") | html %]</span></button>

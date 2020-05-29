@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::AdminCloudServices;
 
 use strict;
@@ -47,8 +46,8 @@ sub Run {
 sub _ShowOverview {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # check if cloud services are disabled
     my $CloudServicesDisabled = $ConfigObject->Get('CloudServices::Disabled') || 0;
@@ -105,8 +104,8 @@ sub _ShowOverview {
         $LayoutObject->Block(
             Name => 'OverviewResultRow',
             Data => {
-                CloudService            => $CloudServiceList{$CloudService},
-                SystemIsRegistered      => $SystemIsRegistered,
+                CloudService       => $CloudServiceList{$CloudService},
+                SystemIsRegistered => $SystemIsRegistered,
             },
         );
     }

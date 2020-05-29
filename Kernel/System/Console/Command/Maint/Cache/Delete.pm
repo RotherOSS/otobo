@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::Console::Command::Maint::Cache::Delete;
 
 use strict;
@@ -47,7 +46,7 @@ sub Configure {
         Name        => 'keeptype',
         Description => 'Define the type of cache which should be NOT deleted (e.g. Ticket or StdAttachment).',
         Required    => 0,
-	Multiple    => 1,
+        Multiple    => 1,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
     );
@@ -58,14 +57,14 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my %Options;
-    $Options{Expired}   = $Self->GetOption('expired');
-    $Options{Type}      = $Self->GetOption('type');
+    $Options{Expired} = $Self->GetOption('expired');
+    $Options{Type}    = $Self->GetOption('type');
     my @KeepTypes;
 
     # Get keeptypes
     KEEP:
     for my $KeepType ( @{ $Self->GetOption('keeptype') // [] } ) {
-	push (@KeepTypes, $KeepType);
+        push( @KeepTypes, $KeepType );
     }
     $Options{KeepTypes} = \@KeepTypes;
 

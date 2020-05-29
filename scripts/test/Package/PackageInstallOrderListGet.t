@@ -283,15 +283,15 @@ my @Tests = (
         Success        => 1,
         ExpectedResult => {
             InstallOrder => {
-                FAQ                     => 1,
-                Fred                    => 1,
+                FAQ                      => 1,
+                Fred                     => 1,
                 OTOBOAppointmentCalendar => 1,
                 OTOBOCloneDB             => 1,
                 OTOBOCodePolicy          => 1,
                 OTOBOMasterSlave         => 1,
-                Survey                  => 1,
-                SystemMonitoring        => 1,
-                TimeAccounting          => 1,
+                Survey                   => 1,
+                SystemMonitoring         => 1,
+                TimeAccounting           => 1,
             },
             Failed => {},
         },
@@ -328,13 +328,13 @@ my @Tests = (
         Success        => 1,
         ExpectedResult => {
             InstallOrder => {
-                ImportExport                                    => 1,
-                GeneralCatalog                                  => 7,
-                ITSMChangeManagement                            => 1,
-                ITSMConfigurationManagement                     => 2,
-                ITSMCore                                        => 6,
-                ITSMIncidentProblemManagement                   => 1,
-                ITSMServiceLevelManagement                      => 1,
+                ImportExport                                     => 1,
+                GeneralCatalog                                   => 7,
+                ITSMChangeManagement                             => 1,
+                ITSMConfigurationManagement                      => 2,
+                ITSMCore                                         => 6,
+                ITSMIncidentProblemManagement                    => 1,
+                ITSMServiceLevelManagement                       => 1,
                 OTOBOGenericInterfaceITSMConfigurationManagement => 1,
             },
             Failed => {},
@@ -385,7 +385,7 @@ my @Tests = (
                 ITSMCore                      => 6,
                 ITSMIncidentProblemManagement => 1,
                 ITSMServiceLevelManagement    => 1,
-                OTOBOITSMConfigItemReference   => 1,
+                OTOBOITSMConfigItemReference  => 1,
             },
             Failed => {},
         },
@@ -634,10 +634,10 @@ TEST:
 for my $Test (@Tests) {
 
     $Kernel::OM->ObjectsDiscard(
-        Objects => [ 'Kernel::System::Package' ],
+        Objects => ['Kernel::System::Package'],
     );
 
-    my $PackageObject      = $Kernel::OM->Get('Kernel::System::Package');
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 
     my %Result = $PackageObject->PackageInstallOrderListGet( %{ $Test->{Config} } );
 
@@ -659,7 +659,7 @@ for my $Test (@Tests) {
 }
 continue {
     $Kernel::OM->ObjectsDiscard(
-        Objects => [ 'Kernel::System::Package' ],
+        Objects => ['Kernel::System::Package'],
     );
 }
 
