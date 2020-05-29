@@ -9,12 +9,6 @@ if [ $UID -eq 0 ]; then
         # But this is OK, as Cron will restart it and it will run when SecureMode = 1.
         su -c "./bin/otobo.Daemon.pl start" "$OTOBO_USER"
 
-        # assume that we are in /opt/otobo
-        su -c "mkdir -p var/tmp" "$OTOBO_USER"
-
-        # set up the cronjobs as they are declared in var/cron
-        su -c "./bin/Cron.sh start" "$OTOBO_USER"
-
         # Run a watchdog over the Daemon via Cron
         # run cron in the foreground
         exec cron -f
