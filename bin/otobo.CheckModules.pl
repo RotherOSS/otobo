@@ -490,6 +490,30 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Mojolicious',
+        Required  => 0,
+        Features   => ['mojo'],
+        Comment   => 'a web framework that makes web development fun again',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'Mojolicious::Plugin::DBViewer',
+        Required  => 0,
+        Features   => ['mojo'],
+        Comment   => 'Mojolicious plugin to display database information on browser',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Moo',
         Required  => 0,
         Features   => ['plack'],

@@ -25,6 +25,13 @@ requires 'XML::LibXML';
 # Required for fast YAML processing.
 requires 'YAML::XS';
 
+feature 'mojo', 'Suppport for mojo' => sub {
+    # a web framework that makes web development fun again
+    requires 'Mojolicious';
+    # Mojolicious plugin to display database information on browser
+    requires 'Mojolicious::Plugin::DBViewer';
+};
+
 feature 'mysql', 'Support for database MySQL' => sub {
     # Required to connect to a MySQL database.
     requires 'DBD::mysql';
