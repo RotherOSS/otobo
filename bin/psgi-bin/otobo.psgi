@@ -249,6 +249,7 @@ use Plack::Middleware::Header;
 use Plack::Middleware::ForceEnv;
 use Plack::App::File;
 use SOAP::Transport::HTTP::Plack;
+use Mojo::Server::PSGI; # for dbviewer
 
 # for future use:
 #use Plack::Middleware::CamelcadeDB;
@@ -312,6 +313,28 @@ my $NYTProfMiddleWare = sub {
     };
 };
 
+# conditionally enable profiling
+my $AdminOnlyMiddeware = sub {
+    my $app = shift;
+
+    return sub {
+        my $env = shift;
+
+        # TODO: actually check for admin permission
+        my $is_admin = 1;
+
+        # deny access for non-admins
+        return [
+            403,
+            [ 'Content-Type' => 'text/plain' ],
+            [ '403 Forbidden' ]
+        ] unless $is_admin;
+
+        # do the work
+        return $app->($env);
+    };
+};
+
 # The most basic App
 my $HelloApp = sub {
     my $env = shift;
@@ -321,6 +344,18 @@ my $HelloApp = sub {
         [ 'Content-Type' => 'text/plain' ],
         [ "Hallo 🌍!" ], # or IO::Handle-like object
     ];
+};
+
+# an app for inspecting the database
+my $DBViewerApp = builder {
+
+    # allow access only for admins
+    enable $AdminOnlyMiddeware;
+
+    my $server = Mojo::Server::PSGI->new;
+    $server->load_app("$Bin/../mojo-bin/dbviewer.pl");
+
+    sub { $server->run(@_) };
 };
 
 # Server the static files in var/httpd/httpd.
@@ -341,7 +376,7 @@ my $StaticApp = builder {
     # Cache js thirdparty for 4 hours
     enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
 
-    Plack::App::File->new(root => "$Bin/../../var/httpd/htdocs')->to_app;
+    Plack::App::File->new(root => "$Bin/../../var/httpd/htdocs")->to_app;
 };
 
 # Port of index.pl, customer.pl, public.pl, installer.pl, migration.pl, nph-genericinterface.pl to Plack.
@@ -467,6 +502,9 @@ builder {
 
     # the most basic App
     mount '/hello'                         => $HelloApp;
+
+    # OTOBO DBViewer, actually /dbviewer/dbviewer: TODO: use Plack::Middleware::Rewrite
+    mount '/dbviewer'                      => $DBViewerApp;
 
     # Wrap the CGI-scripts in bin/cgi-bin.
     # The pathes are such that $ENV{SCRIPT_NAME} is set the same way as under mod_perl
