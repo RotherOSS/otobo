@@ -35,6 +35,7 @@ use lib "$Bin/../../Custom";
 
 # CPAN modules
 use Mojolicious::Lite;
+use Mojo::Exception qw(check);
 
 # OTOBO modules
 use Kernel::System::ObjectManager;
@@ -42,6 +43,7 @@ use Kernel::System::ObjectManager;
 plugin 'TagHelpers';
 
 # Get the database connection from the OTOBO config
+my $Prefix = 'dbviewer', # actually same as default
 my ($DSN);
 {
     local $Kernel::OM = Kernel::System::ObjectManager->new();
@@ -59,17 +61,30 @@ my ($DSN);
             dsn        => $DSN,
             user       => $DatabaseUser,
             password   => $DatabasePw,
-            prefix     => 'dbviewer', # actually same as default
+            Prefix     => $Prefix,
             site_title => 'OTOBO DB Viewer',
         );
     };
+
+    # write a neater error message
+    check (
+        default => sub {
+            get "/$Prefix" => sub {
+                my $c = shift;
+
+                $c->render(
+                    text => "Sorry, @{[ $c->tag( code => $DSN ) ]} is not available. Did you run installer.pl?"
+                );
+            };
+        },
+    );
 }
 
 get '/' => sub {
     my $c = shift;
 
     $c->render(
-        text => "Hello 🌍! See @{[ $c->link_to( DBViewer => 'dbviewer') ]} for the database @{[ $c->tag( 'code', $DSN) ]}."
+        text => "Hello 🌍! See @{[ $c->link_to( 'OTOBO DBViewer' => $Prefix) ]} for the database @{[ $c->tag( code => $DSN) ]}."
     );
 };
 
