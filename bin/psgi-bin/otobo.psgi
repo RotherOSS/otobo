@@ -47,9 +47,11 @@ use strict;
 use warnings;
 use 5.24.0;
 
-use lib '/opt/otobo/';
-use lib '/opt/otobo/Kernel/cpan-lib';
-use lib '/opt/otobo/Custom';
+# use ../../ as lib location
+use FindBin qw($Bin);
+use lib "$Bin/../..";
+use lib "$Bin/../../Kernel/cpan-lib";
+use lib "$Bin/../../Custom";
 
 # this package is used for rpc.pl
 package OTOBO::RPC {
@@ -339,7 +341,7 @@ my $StaticApp = builder {
     # Cache js thirdparty for 4 hours
     enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
 
-    Plack::App::File->new(root => '/opt/otobo/var/httpd/htdocs')->to_app;
+    Plack::App::File->new(root => "$Bin/../../var/httpd/htdocs')->to_app;
 };
 
 # Port of index.pl, customer.pl, public.pl, installer.pl, migration.pl, nph-genericinterface.pl to Plack.
@@ -461,7 +463,7 @@ my $RPCApp = builder {
 builder {
 
     # Server the static files in var/httpd/httpd.
-    mount '/otobo-web' => $StaticApp;
+    mount '/otobo-web'                     => $StaticApp;
 
     # the most basic App
     mount '/hello'                         => $HelloApp;
