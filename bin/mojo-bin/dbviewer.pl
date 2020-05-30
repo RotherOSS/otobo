@@ -39,14 +39,23 @@ use Mojolicious::Lite;
 # OTOBO modules
 use Kernel::System::ObjectManager;
 
-get '/' => sub {
-    my $c = shift;
-
+# Get the database connection from the OTOBO config
+my ($DSN, $DatabaseUser, $DatabasePw);
+{
     local $Kernel::OM = Kernel::System::ObjectManager->new();
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    $c->render(text => 'Hello 🌍!');
+    $DSN          = $ConfigObject->Get('TestDatabaseDSN')  || $ConfigObject->Get('DatabaseDSN');
+    $DatabaseUser = $ConfigObject->Get('TestDatabaseUser') || $ConfigObject->Get('DatabaseUser');
+    $DatabasePw   = $ConfigObject->Get('TestDatabasePw')   || $ConfigObject->Get('DatabasePw');
+}
+
+
+get '/' => sub {
+    my $c = shift;
+
+    $c->render(text => 'Hello 🌍!' . join ',', $DSN, $DatabaseUser, $DatabasePw);
 };
 
 app->start;
