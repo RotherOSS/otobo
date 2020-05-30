@@ -25,7 +25,7 @@ otobo.psgi - OTOBO PSGI application
     # the default webserver
     plackup bin/psgi-bin/otobo.psgi
 
-    # Gazelle
+    # using the webserver Gazelle
     plackup --server Gazelle bin/psgi-bin/otobo.psgi
 
 =head1 DESCRIPTION
@@ -352,6 +352,15 @@ my $DBViewerApp = builder {
     # allow access only for admins
     enable $AdminOnlyMiddeware;
 
+    # rewrite PATH_INFO, not sure why, but at least it seems to work
+    enable 'Rewrite', request => sub {
+        $_ ||= '/dbviewer/';
+        $_ = '/dbviewer/' if $_ eq '/';
+        $_ = '/dbviewer' . $_;
+
+        1;
+    };
+
     my $server = Mojo::Server::PSGI->new;
     $server->load_app("$Bin/../mojo-bin/dbviewer.pl");
 
@@ -503,7 +512,7 @@ builder {
     # the most basic App
     mount '/hello'                         => $HelloApp;
 
-    # OTOBO DBViewer, actually /dbviewer/dbviewer: TODO: use Plack::Middleware::Rewrite
+    # OTOBO DBViewer
     mount '/dbviewer'                      => $DBViewerApp;
 
     # Wrap the CGI-scripts in bin/cgi-bin.

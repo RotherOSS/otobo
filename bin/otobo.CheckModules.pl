@@ -607,6 +607,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Plack::Middleware::ForceEnv',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'Set environment variables',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Plack::Middleware::Header',
         Required  => 0,
         Features   => ['plack'],
@@ -619,7 +631,7 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Plack::Middleware::ForceEnv',
+        Module    => 'Plack::Middleware::Rewrite',
         Required  => 0,
         Features   => ['plack'],
         Comment   => 'Set environment variables',

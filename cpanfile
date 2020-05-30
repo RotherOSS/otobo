@@ -62,10 +62,12 @@ feature 'plack', 'Suppport for plack' => sub {
     requires 'Plack';
     # Serve static files
     requires 'Plack::App::File';
+    # Set environment variables
+    requires 'Plack::Middleware::ForceEnv';
     # Set HTTP headers
     requires 'Plack::Middleware::Header';
     # Set environment variables
-    requires 'Plack::Middleware::ForceEnv';
+    requires 'Plack::Middleware::Rewrite';
     # PSGI SOAP adapter
     requires 'SOAP::Transport::HTTP::Plack';
 };
