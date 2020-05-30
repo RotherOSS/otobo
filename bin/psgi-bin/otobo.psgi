@@ -320,15 +320,34 @@ my $AdminOnlyMiddeware = sub {
     return sub {
         my $env = shift;
 
-        # TODO: actually check for admin permission
-        my $is_admin = 1;
+        my $UserIsAdmin = 1;
+        # TODO: actually check whether user is admin
+        # TODO: get session id
+        #if ( !$SessionObject->CheckSessionID( SessionID => $Param{SessionID} ) ) {
+        #}
+        # get session data
+        #my %UserData = $SessionObject->GetSessionIDData(
+            #SessionID => $Param{SessionID},
+        #);
+        #use Data::Dumper;
+        #warn Dumper( \%UserData );
+
+        #local $Kernel::OM = Kernel::System::ObjectManager->new();
+        #my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+        #warn Dumper( $GroupObject );
+        #my $UserIsAdmin = $GroupObject->PermissionCheck(
+                #UserID    => $UserData{UserID},
+                #GroupName => 'admin',
+                #Type      => 'rw',
+        #);
+        #warn Dumper( $UserIsAdmin );
 
         # deny access for non-admins
         return [
             403,
             [ 'Content-Type' => 'text/plain' ],
             [ '403 Forbidden' ]
-        ] unless $is_admin;
+        ] unless $UserIsAdmin;
 
         # do the work
         return $app->($env);
