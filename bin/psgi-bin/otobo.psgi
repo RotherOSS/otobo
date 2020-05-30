@@ -317,7 +317,7 @@ my $HelloApp = sub {
     return [
         '200',
         [ 'Content-Type' => 'text/plain' ],
-        [ "Hallo Welt!" ], # or IO::Handle-like object
+        [ "Hallo 🌍!" ], # or IO::Handle-like object
     ];
 };
 
