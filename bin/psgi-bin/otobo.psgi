@@ -360,7 +360,7 @@ my $HelloApp = sub {
 
     return [
         '200',
-        [ 'Content-Type' => 'text/plain' ],
+        [ 'Content-Type' => 'text/plain;charset=utf-8' ],
         [ "Hallo 🌍!" ], # or IO::Handle-like object
     ];
 };
