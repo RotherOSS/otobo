@@ -336,7 +336,6 @@ my $AdminOnlyMiddeware = sub {
             my $PlackRequest = Plack::Request->new($env);
 
             # check whether the browser sends the SessionID cookie
-            # TODO: this doesn't work because the cookie is in the path /otobo
             my $SessionID = $PlackRequest->cookies->{$SessionName};
 
             return 0 unless $SessionID;
@@ -344,6 +343,8 @@ my $AdminOnlyMiddeware = sub {
             my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
             return 0 unless $SessionObject;
+            # TODO: this doesn't work, maybe because the table 'session' is not filled.
+            #       maybe some issue with the cache
             return 0 unless $SessionObject->CheckSessionID( SessionID => $SessionID );
 
             # get session data
@@ -559,8 +560,8 @@ builder {
     # the most basic App
     mount '/hello'                         => $HelloApp;
 
-    # OTOBO DBViewer
-    mount '/dbviewer'                      => $DBViewerApp;
+    # OTOBO DBViewer, must be below /otobo because of the session cookie
+    mount '/otobo/dbviewer'                => $DBViewerApp;
 
     # Wrap the CGI-scripts in bin/cgi-bin.
     # The pathes are such that $ENV{SCRIPT_NAME} is set the same way as under mod_perl
