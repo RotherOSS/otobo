@@ -234,7 +234,6 @@ to dispatch multiple ticket methods and get the TicketID
 
 
 # core modules
-use Data::Dumper;
 
 # CPAN modules
 use DateTime ();
@@ -320,27 +319,56 @@ my $AdminOnlyMiddeware = sub {
     return sub {
         my $env = shift;
 
-        my $UserIsAdmin = 1;
-        # TODO: actually check whether user is admin
-        # TODO: get session id
-        #if ( !$SessionObject->CheckSessionID( SessionID => $Param{SessionID} ) ) {
-        #}
-        # get session data
-        #my %UserData = $SessionObject->GetSessionIDData(
-            #SessionID => $Param{SessionID},
-        #);
-        #use Data::Dumper;
-        #warn Dumper( \%UserData );
+        # Find out whether user is admin via the session.
+        # Passing the session ID via POST or GET is not supported.
+        my $UserIsAdmin = eval {
+            local $Kernel::OM = Kernel::System::ObjectManager->new();
 
-        #local $Kernel::OM = Kernel::System::ObjectManager->new();
-        #my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
-        #warn Dumper( $GroupObject );
-        #my $UserIsAdmin = $GroupObject->PermissionCheck(
-                #UserID    => $UserData{UserID},
-                #GroupName => 'admin',
-                #Type      => 'rw',
-        #);
-        #warn Dumper( $UserIsAdmin );
+            my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+            return 0 unless $ConfigObject;
+            return 0 unless $ConfigObject->Get('SessionUseCookie');
+
+            my $SessionName  = $ConfigObject->Get('SessionName');
+
+            return 0 unless $SessionName;
+
+            my $PlackRequest = Plack::Request->new($env);
+
+            # check whether the browser sends the SessionID cookie
+            # TODO: this doesn't work because the cookie is in the path /otobo
+            my $SessionID = $PlackRequest->cookies->{$SessionName};
+
+            return 0 unless $SessionID;
+
+            my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+
+            return 0 unless $SessionObject;
+            return 0 unless $SessionObject->CheckSessionID( SessionID => $SessionID );
+
+            # get session data
+            my %UserData = $SessionObject->GetSessionIDData(
+                SessionID => $SessionID,
+            );
+
+            return 0 unless $UserData{UserID};
+
+            my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+
+            return 0 unless $GroupObject;
+
+            my $IsAdmin =  $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'admin',
+                Type      => 'rw',
+            );
+
+            return $IsAdmin;
+        };
+        if ($@) {
+            # deny access when anything goes wrong
+            $UserIsAdmin = 0;
+        }
 
         # deny access for non-admins
         return [
