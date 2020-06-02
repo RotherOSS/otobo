@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 # root handles 'cron' and defers 'web' to the OTOBO user
-if [ $UID -eq 0 ]; then
+# Also check whether $UID is set, as 'exec su user ...' apparently does not set $UID
+if [ -z "$UID" ] && [ $UID -eq 0 ]; then
     echo "otobo_user: $OTOBO_USER";
     if [ "$1" = "cron" ]; then
         # Start the OTOBO Daemon.
@@ -21,8 +22,6 @@ if [ $UID -eq 0 ]; then
     # nothing will be executed beyond that line,
     # because exec replaces running process with the new one
 fi
-
-echo "The command $1 will be run from user $UID."
 
 if [ "$1" = "web" ]; then
     # maintainance jobs
