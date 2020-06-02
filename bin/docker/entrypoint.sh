@@ -2,8 +2,7 @@
 
 # root handles 'cron' and defers 'web' to the OTOBO user
 # Also check whether $UID is set, as 'exec su user ...' apparently does not set $UID
-if [ -z "$UID" ] && [ $UID -eq 0 ]; then
-    echo "otobo_user: $OTOBO_USER";
+if [ ! -z "$UID" ] && [ $UID -eq 0 ]; then
     if [ "$1" = "cron" ]; then
         # Start the OTOBO Daemon.
         # The Daemon will exit immediately when SecureMode = 0.
