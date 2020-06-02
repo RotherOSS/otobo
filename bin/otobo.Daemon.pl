@@ -608,7 +608,7 @@ sub _LogFilesCleanup {
     my %Param = @_;
 
     # skip cleanup if OTOBO log rotation is not enabled
-    my $RotationType = lc $Kernel::OM->Get('Kernel::Config')->Get('Daemon::Log::RotationType') || 'otobo';
+    my $RotationType = lc ( $Kernel::OM->Get('Kernel::Config')->Get('Daemon::Log::RotationType') || 'otobo' );
     return 1 if $RotationType ne 'otobo';
 
     my @LogFiles = glob "$LogDir/*.log";

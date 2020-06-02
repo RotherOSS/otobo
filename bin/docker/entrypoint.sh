@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # root handles 'cron' and defers 'web' to the OTOBO user
-if [ $UID -eq 0 ]; then
-    echo "otobo_user: $OTOBO_USER";
+# Also check whether $UID is set, as 'exec su user ...' apparently does not set $UID
+if [ ! -z "$UID" ] && [ $UID -eq 0 ]; then
     if [ "$1" = "cron" ]; then
         # Start the OTOBO Daemon.
         # The Daemon will exit immediately when SecureMode = 0.
@@ -22,8 +22,6 @@ if [ $UID -eq 0 ]; then
     # because exec replaces running process with the new one
 fi
 
-echo "The command $1 will be run from user $UID."
-
 if [ "$1" = "web" ]; then
     # maintainance jobs
     # TODO: decide whether it makes sense to run these jobs on startup
@@ -31,7 +29,8 @@ if [ "$1" = "web" ]; then
     #perl ./bin/otobo.Console.pl Maint::Cache::Delete
 
     # Start the webserver
-    plackup --server Gazelle -R Kernel,bin/psgi-bin/otobo.psgi --port 5000 bin/psgi-bin/otobo.psgi
+    # Watch for changes in the modules and the config files, otobo.psgi is watched implicitly
+    plackup --server Gazelle -R Kernel --port 5000 bin/psgi-bin/otobo.psgi
 
 else
     echo "Unknown option $1. Exiting."

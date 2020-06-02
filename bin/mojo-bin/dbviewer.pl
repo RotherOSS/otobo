@@ -41,6 +41,13 @@ use Mojo::Exception qw(check);
 use Kernel::System::ObjectManager;
 
 plugin 'TagHelpers';
+plugin 'Config';
+
+# Avoid the warning: 'Your secret passphrase needs to be changed'.
+# Allow users to set up their safer secrets in dbviewer.conf
+if (my $secrets = app->config->{secrets}) {
+    app->secrets($secrets);
+}
 
 # Get the database connection from the OTOBO config
 my $Prefix = 'dbviewer', # actually same as default
@@ -63,6 +70,12 @@ my ($DSN);
             password   => $DatabasePw,
             Prefix     => $Prefix,
             site_title => 'OTOBO DB Viewer',
+            join => {
+                users => [
+                    'LEFT JOIN group_user   ON group_user.user_id = users.id',
+                    'LEFT JOIN groups_table ON groups_table.id    = group_user.group_id',
+                ],
+            }
         );
     };
 
