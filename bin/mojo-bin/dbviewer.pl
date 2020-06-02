@@ -41,6 +41,13 @@ use Mojo::Exception qw(check);
 use Kernel::System::ObjectManager;
 
 plugin 'TagHelpers';
+plugin 'Config';
+
+# Avoid the warning: 'Your secret passphrase needs to be changed'.
+# Allow users to set up their safer secrets in dbviewer.conf
+if (my $secrets = app->config->{secrets}) {
+    app->secrets($secrets);
+}
 
 # Get the database connection from the OTOBO config
 my $Prefix = 'dbviewer', # actually same as default
