@@ -25,7 +25,7 @@ otobo.psgi - OTOBO PSGI application
     # the default webserver
     plackup bin/psgi-bin/otobo.psgi
 
-    # Gazelle
+    # using the webserver Gazelle
     plackup --server Gazelle bin/psgi-bin/otobo.psgi
 
 =head1 DESCRIPTION
@@ -47,9 +47,11 @@ use strict;
 use warnings;
 use 5.24.0;
 
-use lib '/opt/otobo/';
-use lib '/opt/otobo/Kernel/cpan-lib';
-use lib '/opt/otobo/Custom';
+# use ../../ as lib location
+use FindBin qw($Bin);
+use lib "$Bin/../..";
+use lib "$Bin/../../Kernel/cpan-lib";
+use lib "$Bin/../../Custom";
 
 # this package is used for rpc.pl
 package OTOBO::RPC {
@@ -232,7 +234,6 @@ to dispatch multiple ticket methods and get the TicketID
 
 
 # core modules
-use Data::Dumper;
 
 # CPAN modules
 use DateTime ();
@@ -247,6 +248,7 @@ use Plack::Middleware::Header;
 use Plack::Middleware::ForceEnv;
 use Plack::App::File;
 use SOAP::Transport::HTTP::Plack;
+use Mojo::Server::PSGI; # for dbviewer
 
 # for future use:
 #use Plack::Middleware::CamelcadeDB;
@@ -310,15 +312,107 @@ my $NYTProfMiddleWare = sub {
     };
 };
 
+# conditionally enable profiling
+my $AdminOnlyMiddeware = sub {
+    my $app = shift;
+
+    return sub {
+        my $env = shift;
+
+        # Find out whether user is admin via the session.
+        # Passing the session ID via POST or GET is not supported.
+        my $UserIsAdmin = eval {
+            local $Kernel::OM = Kernel::System::ObjectManager->new();
+
+            my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+            return 0 unless $ConfigObject;
+            return 0 unless $ConfigObject->Get('SessionUseCookie');
+
+            my $SessionName  = $ConfigObject->Get('SessionName');
+
+            return 0 unless $SessionName;
+
+            my $PlackRequest = Plack::Request->new($env);
+
+            # check whether the browser sends the SessionID cookie
+            my $SessionID = $PlackRequest->cookies->{$SessionName};
+
+            return 0 unless $SessionID;
+
+            my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+
+            return 0 unless $SessionObject;
+            # TODO: this doesn't work, maybe because the table 'session' is not filled.
+            #       maybe some issue with the cache
+            return 0 unless $SessionObject->CheckSessionID( SessionID => $SessionID );
+
+            # get session data
+            my %UserData = $SessionObject->GetSessionIDData(
+                SessionID => $SessionID,
+            );
+
+            return 0 unless $UserData{UserID};
+
+            my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+
+            return 0 unless $GroupObject;
+
+            my $IsAdmin =  $GroupObject->PermissionCheck(
+                UserID    => $UserData{UserID},
+                GroupName => 'admin',
+                Type      => 'rw',
+            );
+
+            return $IsAdmin;
+        };
+        if ($@) {
+            # deny access when anything goes wrong
+            $UserIsAdmin = 0;
+        }
+
+        # deny access for non-admins
+        return [
+            403,
+            [ 'Content-Type' => 'text/plain' ],
+            [ '403 Forbidden' ]
+        ] unless $UserIsAdmin;
+
+        # do the work
+        return $app->($env);
+    };
+};
+
 # The most basic App
 my $HelloApp = sub {
     my $env = shift;
 
     return [
         '200',
-        [ 'Content-Type' => 'text/plain' ],
-        [ "Hallo Welt!" ], # or IO::Handle-like object
+        [ 'Content-Type' => 'text/plain;charset=utf-8' ],
+        [ "Hallo 🌍!" ], # or IO::Handle-like object
     ];
+};
+
+# an app for inspecting the database
+my $DBViewerApp = builder {
+
+    # allow access only for admins
+    enable $AdminOnlyMiddeware;
+
+    # rewrite PATH_INFO, not sure why, but at least it seems to work
+    enable 'Rewrite', request => sub {
+        $_ ||= '/dbviewer/';
+        $_ = '/dbviewer/' if $_ eq '/';
+        $_ = '/dbviewer' . $_;
+
+        1;
+    };
+
+    my $server = Mojo::Server::PSGI->new;
+    $server->load_app("$Bin/../mojo-bin/dbviewer.pl");
+
+    sub { $server->run(@_) };
 };
 
 # Server the static files in var/httpd/httpd.
@@ -339,7 +433,7 @@ my $StaticApp = builder {
     # Cache js thirdparty for 4 hours
     enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
 
-    Plack::App::File->new(root => '/opt/otobo/var/httpd/htdocs')->to_app;
+    Plack::App::File->new(root => "$Bin/../../var/httpd/htdocs")->to_app;
 };
 
 # Port of index.pl, customer.pl, public.pl, installer.pl, migration.pl, nph-genericinterface.pl to Plack.
@@ -461,10 +555,13 @@ my $RPCApp = builder {
 builder {
 
     # Server the static files in var/httpd/httpd.
-    mount '/otobo-web' => $StaticApp;
+    mount '/otobo-web'                     => $StaticApp;
 
     # the most basic App
     mount '/hello'                         => $HelloApp;
+
+    # OTOBO DBViewer, must be below /otobo because of the session cookie
+    mount '/otobo/dbviewer'                => $DBViewerApp;
 
     # Wrap the CGI-scripts in bin/cgi-bin.
     # The pathes are such that $ENV{SCRIPT_NAME} is set the same way as under mod_perl

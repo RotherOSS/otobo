@@ -165,7 +165,6 @@ sub Run {
 
     # check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
-    my $BrowserHasCookie = 0;
     if ( $ConfigObject->Get('SessionUseCookie') ) {
         $Param{SessionIDCookie} = $ParamObject->GetCookie( Key => $Param{SessionName} );
         if ( $Param{SessionIDCookie} ) {
