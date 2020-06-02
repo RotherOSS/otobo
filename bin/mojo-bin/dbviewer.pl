@@ -70,6 +70,12 @@ my ($DSN);
             password   => $DatabasePw,
             Prefix     => $Prefix,
             site_title => 'OTOBO DB Viewer',
+            join => {
+                users => [
+                    'LEFT JOIN group_user   ON group_user.user_id = users.id',
+                    'LEFT JOIN groups_table ON groups_table.id    = group_user.group_id',
+                ],
+            }
         );
     };
 
