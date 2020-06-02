@@ -409,7 +409,7 @@ my $DBViewerApp = builder {
     enable 'Rewrite', request => sub {
         $_ ||= '/dbviewer/';
         $_ = '/dbviewer/' if $_ eq '/';
-        $_ = '/dbviewer' . $_;
+        $_ = '/otobo/dbviewer' . $_;
 
         1;
     };
