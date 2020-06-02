@@ -15,7 +15,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Output::HTML::Preferences::Password;
 
 use strict;
@@ -220,10 +219,8 @@ sub Run {
         return;
     }
 
-# Rother OSS - PasswordMin3of4
-    # check min 3 of 4 Gross-/Kleinbuchstaben, Zahlen, Sonderzeichen
+    # check min 3 of lower case, upper case, numbers, special characters
     if ( $Config->{PasswordMin3of4} ) {
-
         my $PwCount = 0;
         if ($Pw =~ /\d/ ) {
             $PwCount++;
@@ -243,11 +240,7 @@ sub Run {
             return;
         }
     }
-# EO Rother OSS
 
-# ---
-# Znuny4OTOBO-PasswordPolicy
-# ---
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     # md5 sum for new pw, needed for password history
@@ -274,7 +267,6 @@ sub Run {
             return;
         }
     }
-# ---
 
     # set new password
     my $Success = $Self->{UserObject}->SetPassword(
@@ -283,9 +275,6 @@ sub Run {
     );
     return if !$Success;
 
-# ---
-# Znuny4OTOBO-PasswordPolicy
-# ---
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
     # set password change time
@@ -324,7 +313,6 @@ sub Run {
             );
         }
     }
-# ---
 
     $Self->{Message} = $LanguageObject->Translate('Preferences updated successfully!');
     return 1;

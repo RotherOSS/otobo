@@ -3054,7 +3054,7 @@ sub Data {
         'Warning' => 'Warnung',
 
         # Template: Tile_NewTicket
-        'Issue<br/>a ticket' => 'Ticket<br/>erstellen',
+        'Issue%sa ticket' => 'Ticket%serstellen',
 
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Ereignisinformation',

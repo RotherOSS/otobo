@@ -25,6 +25,7 @@ our @ObjectDependencies = (
     'Kernel::Language',
     'Kernel::System::DB',
     'Kernel::System::DateTime',
+    'Kernel::System::Queue',
     'Kernel::System::Ticket',
 );
 

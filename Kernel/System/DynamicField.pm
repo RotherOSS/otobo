@@ -1514,11 +1514,10 @@ sub GetValidDynamicFields {
     my ( $Self, %Param ) = @_;
 
     my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     my $DynamicFieldValid = $ConfigObject->Get('Znuny4OTOBOAdvancedDynamicFields::DynamicFieldValid');
 
-    my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
+    my $DynamicFieldList = $Self->DynamicFieldListGet(
         ResultType => 'HASH',
         Valid      => $DynamicFieldValid,
     );

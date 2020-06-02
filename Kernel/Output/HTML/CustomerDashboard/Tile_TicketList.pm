@@ -20,6 +20,15 @@ package Kernel::Output::HTML::CustomerDashboard::Tile_TicketList;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::Output::HTML::TicketOverview::CustomerList',
+    'Kernel::System::CustomerGroup',
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+
 sub new {
     my ( $Type, %Param ) = @_;
 

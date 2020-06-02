@@ -16,7 +16,7 @@
 
 <div id='oooContent'>
     <div id='oooHeader'>
-        <h1>[% Translate("Your Tickets") %]</h1>
+        <h1>[% Translate("Your Tickets") | html %]</h1>
         <div id="oooSearchBox">
             <form action="[% Env("CGIHandle") %]" method="post" name="compose">
                 <input type="hidden" name="Action" value="CustomerTicketOverview"/>
@@ -28,7 +28,7 @@
                 </h3>
             </form>
         </div>
-        <a id='oooHeaderButton' href="[% Env("Baselink") %]Action=CustomerTicketMessage" title="[% Translate("New Ticket") | html %] ([% Data.AccessKey | html %])" accesskey="[% Data.AccessKey | html %]"><button><i class="ooofo ooofo-add"></i><span> [% Translate("New Ticket") %]</span></button></a>
+        <a id='oooHeaderButton' href="[% Env("Baselink") %]Action=CustomerTicketMessage" title="[% Translate("New Ticket") | html %] ([% Data.AccessKey | html %])" accesskey="[% Data.AccessKey | html %]"><button><i class="ooofo ooofo-add"></i><span> [% Translate("New Ticket") | html %]</span></button></a>
     </div>
     <div id='oooMainBox'>
         <div id='oooTicketListHeader'>

@@ -1362,6 +1362,8 @@ sub _ChangeFileInfo {
 }
 sub _ChangeLicenseHeaderRules {
 
+    ## nofilter(TidyAll::Plugin::OTOBO::Common::CustomizationMarkers)
+
     return (
         {
 File => qr/\.pl$/,

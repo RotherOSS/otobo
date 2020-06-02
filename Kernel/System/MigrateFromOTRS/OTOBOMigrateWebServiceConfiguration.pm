@@ -24,9 +24,12 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Language',
-    'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
+    'Kernel::System::DB',
+    'Kernel::System::GenericInterface::Webservice',
+    'Kernel::System::Main',
+    'Kernel::System::XML',
     'Kernel::Config',
 );
 

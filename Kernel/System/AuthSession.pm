@@ -24,6 +24,7 @@ use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Cache',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::SystemData',

@@ -14,11 +14,14 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Output::HTML::CustomerDashboard::Tile_Common;
 
 use strict;
 use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::Output::HTML::Layout',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;

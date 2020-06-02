@@ -22,6 +22,8 @@ use utf8;
 use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
+## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
+
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,

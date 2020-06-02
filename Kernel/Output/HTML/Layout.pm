@@ -33,6 +33,7 @@ our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::Chat',
     'Kernel::System::CustomerGroup',
+    'Kernel::System::CustomerUser',
     'Kernel::System::DateTime',
     'Kernel::System::Group',
     'Kernel::System::Encode',

@@ -757,28 +757,28 @@ sub Run {
                     TypeID             => 'TypeID',
                 );
                 if ( $ACLPreselection && !$InitialRun ) {
-                    CHECK:
+                    FIELD:
                     for my $FieldID ( keys %Check ) {
                         if ( !$ACLPreselection->{Fields}{ $FieldID } ) {
                             $Kernel::OM->Get('Kernel::System::Log')->Log(
                                 Priority => 'debug',
                                 Message  => "$FieldID not defined in TicketACL preselection rules!"
                             );
-                            next CHECK;
+                            next FIELD;
                         }
                         if ( $Autoselect && $Autoselect->{ $FieldID } && $ChangedElements{ $FieldID } ){
-                            next CHECK;
+                            next FIELD;
                         }
                         for my $Element ( keys %ChangedElements ) {
                             if ( $ACLPreselection->{Rules}{Ticket}{ $Element }{ $FieldID } || $Self->{InternalDependancy}{ $Element }{ $FieldID } ) {
-                                next CHECK;
+                                next FIELD;
                             }
                             if ( !$ACLPreselection->{Fields}{ $Element } ) {
                                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => 'debug',
                                     Message  => "$Element not defined in TicketACL preselection rules!"
                                 );
-                                next CHECK;
+                                next FIELD;
                             }
                         }
                         # delete unaffected fields
@@ -787,8 +787,9 @@ sub Run {
                 }
 
                 # for each standard field which has to be checked, run the defined method
+                METHOD:
                 for my $Field ( @{ $Self->{FieldMethods} } ) {
-                    next if !$Check{ $Field->{FieldID} };
+                    next METHOD if !$Check{ $Field->{FieldID} };
 
                     # use $Check{ $Field->{FieldID} } for Dest=>QueueID
                     $StdFieldValues{ $Check{ $Field->{FieldID} } } = $Field->{Method}->(
@@ -902,7 +903,7 @@ sub Run {
                 $GetParam{DynamicField} = {
                     %{ $GetParam{DynamicField} },
                     %{ $CurFieldStates{NewValues} },
-                },
+                };
             }
 
             # if dynamic fields changed, check standard fields again
@@ -1987,28 +1988,28 @@ sub Run {
                     TypeID             => 'TypeID',
                 );
                 if ( $ACLPreselection ) {
-                    CHECK:
+                    FIELD:
                     for my $FieldID ( keys %Check ) {
                         if ( !$ACLPreselection->{Fields}{ $FieldID } ) {
                             $Kernel::OM->Get('Kernel::System::Log')->Log(
                                 Priority => 'debug',
                                 Message  => "$FieldID not defined in TicketACL preselection rules!"
                             );
-                            next CHECK;
+                            next FIELD;
                         }
                         if ( $Autoselect && $Autoselect->{ $FieldID } && $ChangedElements{ $FieldID } ){
-                            next CHECK;
+                            next FIELD;
                         }
                         for my $Element ( keys %ChangedElements ) {
                             if ( $ACLPreselection->{Rules}{Ticket}{ $Element }{ $FieldID } || $Self->{InternalDependancy}{ $Element }{ $FieldID } ) {
-                                next CHECK;
+                                next FIELD;
                             }
                             if ( !$ACLPreselection->{Fields}{ $Element } ) {
                                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => 'debug',
                                     Message  => "$Element not defined in TicketACL preselection rules!"
                                 );
-                                next CHECK;
+                                next FIELD;
                             }
                         }
                         # delete unaffected fields
@@ -2017,8 +2018,9 @@ sub Run {
                 }
 
                 # for each standard field which has to be checked, run the defined method
+                METHOD:
                 for my $Field ( @{ $Self->{FieldMethods} } ) {
-                    next if !$Check{ $Field->{FieldID} };
+                    next METHOD if !$Check{ $Field->{FieldID} };
 
                     # use $Check{ $Field->{FieldID} } for Dest=>QueueID
                     $StdFieldValues{ $Check{ $Field->{FieldID} } } = $Field->{Method}->(
@@ -2132,7 +2134,7 @@ sub Run {
                 $GetParam{DynamicField} = {
                     %{ $GetParam{DynamicField} },
                     %{ $CurFieldStates{NewValues} },
-                },
+                };
             }
 
             # if dynamic fields changed, check standard fields again

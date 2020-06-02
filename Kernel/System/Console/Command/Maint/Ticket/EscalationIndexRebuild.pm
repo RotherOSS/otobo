@@ -33,14 +33,9 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    # ---
-    # Znuny4OTOBO-EscalationSuspend
-    # ---
-    #     $Self->Description('Completely rebuild the ticket escalation index.');
-        my $Description = "RebuildEscalationIndexOnline - Rebuild Escalation Index\n";
+    my $Description = "RebuildEscalationIndexOnline - Rebuild Escalation Index\n";
 
-        $Self->Description($Description);
-    # ---
+    $Self->Description($Description);
 
     $Self->AddOption(
         Name        => 'micro-sleep',
@@ -64,11 +59,7 @@ sub Run {
     # get all tickets
     my @TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
         Result     => 'ARRAY',
-# ---
-# Znuny4OTOBO-EscalationSuspend
-# ---
-        States => $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates'),
-# ---
+        States     => $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates'),
         Limit      => 100_000_000,
         UserID     => 1,
         Permission => 'ro',
@@ -84,11 +75,7 @@ sub Run {
 
         $Kernel::OM->Get('Kernel::System::Ticket')->TicketEscalationIndexBuild(
             TicketID => $TicketID,
-# ---
-# Znuny4OTOBO-EscalationSuspend
-# ---
             Suspend  => 1,
-# ---
             UserID   => 1,
         );
 

@@ -24,6 +24,8 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Cache',
+    'Kernel::System::DynamicField',
     'Kernel::System::Log',
 );
 

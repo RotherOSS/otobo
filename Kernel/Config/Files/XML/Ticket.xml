@@ -5374,7 +5374,7 @@
         </Value>
     </Setting>
     <Setting Name="Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
-        <Description Translatable="1">Fulltext search using Elasticsearch</Description>
+        <Description Translatable="1">Fulltext search using Elasticsearch.</Description>
         <Navigation>Frontend::Agent::ToolBar</Navigation>
         <Value>
             <Hash>
@@ -12264,7 +12264,7 @@ Thanks for your help!
     </Setting>
 
     <Setting Name="AdminDynamicFieldTitle::Templates###001-Template" Required="0" Valid="1">
-        <Description Translatable="1">Create Templates for AdminDynamicFieldTitle</Description>
+        <Description Translatable="1">Create Templates for AdminDynamicFieldTitle.</Description>
         <Navigation>AdminDynamicFieldTitle::Template</Navigation>
         <Value>
             <Hash>
@@ -12278,7 +12278,7 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="AdminDynamicFieldTitle::Templates###002-Template" Required="0" Valid="1">
-        <Description Translatable="1">Create Templates for AdminDynamicFieldTitle</Description>
+        <Description Translatable="1">Create Templates for AdminDynamicFieldTitle.</Description>
         <Navigation>AdminDynamicFieldTitle::Template</Navigation>
         <Value>
             <Hash>
@@ -12292,7 +12292,7 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="AdminDynamicFieldTitle::Templates###003-Template" Required="0" Valid="0">
-        <Description Translatable="1">Create Templates for AdminDynamicFieldTitle</Description>
+        <Description Translatable="1">Create Templates for AdminDynamicFieldTitle.</Description>
         <Navigation>AdminDynamicFieldTitle::Template</Navigation>
         <Value>
             <Hash>
@@ -12306,7 +12306,7 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="AdminDynamicFieldTitle::Templates###004-Template" Required="0" Valid="0">
-        <Description Translatable="1">Create Templates for AdminDynamicFieldTitle</Description>
+        <Description Translatable="1">Create Templates for AdminDynamicFieldTitle.</Description>
         <Navigation>AdminDynamicFieldTitle::Template</Navigation>
         <Value>
             <Hash>

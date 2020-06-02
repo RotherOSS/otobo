@@ -25,6 +25,7 @@ use Kernel::Language qw(Translatable);
 use Digest::MD5 qw(md5_hex);
 
 our @ObjectDependencies = (
+    'Kernel::System::CommunicationChannel',
     'Kernel::System::CustomerUser',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',

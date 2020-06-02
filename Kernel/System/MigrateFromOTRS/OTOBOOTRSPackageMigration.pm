@@ -24,9 +24,12 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Language',
-    'Kernel::System::Package',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+    'Kernel::System::MigrateFromOTRS::CloneDB::Backend',
+    'Kernel::System::Package',
 );
 
 =head2 CheckPreviousRequirement()

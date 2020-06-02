@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
 
 package Kernel::Modules::BasePassword;
 

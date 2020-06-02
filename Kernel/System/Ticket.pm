@@ -2574,9 +2574,6 @@ sub TicketEscalationIndexBuild {
 
     return if !%Ticket;
 
-# ---
-# Znuny4OTOBO-EscalationSuspend
-# ---
     # get states in which to suspend escalations
     my @SuspendStates      = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') ? @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') } : ();
     my $SuspendStateActive = 0;
@@ -2586,22 +2583,15 @@ sub TicketEscalationIndexBuild {
         $SuspendStateActive = 1;
         last STATE;
     }
-# ---
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-# ---
-# Znuny4OTOBO-EscalationSuspend
-# ---
-#
-        # cancel whole escalation
-        my $EscalationSuspendCancelEscalation = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendCancelEscalation');
+    # cancel whole escalation
+    my $EscalationSuspendCancelEscalation = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendCancelEscalation');
 
-        # do no escalations on (merge|close|remove) tickets
-#         if ( $Ticket{StateType} && $Ticket{StateType} =~ /^(merge|close|remove)/i ) {
-        if ( ( $Ticket{StateType} && $Ticket{StateType} =~ /^(merge|close|remove)/i ) || ($EscalationSuspendCancelEscalation && $SuspendStateActive) ) {
-# ---
+    # do no escalations on (merge|close|remove) tickets
+    if ( ( $Ticket{StateType} && $Ticket{StateType} =~ /^(merge|close|remove)/i ) || ($EscalationSuspendCancelEscalation && $SuspendStateActive) ) {
 
         # update escalation times with 0
         my %EscalationTimes = (
@@ -2618,30 +2608,20 @@ sub TicketEscalationIndexBuild {
             next TIME if !$Ticket{$Key};
 
             # update ticket table
-# ---
-# Znuny4OTOBO-EscalationSuspend
-# ---
-#                $DBObject->Do(
-#                    SQL =>
-#                        "UPDATE ticket SET $EscalationTimes{$Key} = 0, change_time = current_timestamp, "
-#                        . " change_by = ? WHERE id = ?",
-#                    Bind => [ \$Param{UserID}, \$Ticket{TicketID}, ],
-#                );
-                my $SQL = "UPDATE ticket SET $EscalationTimes{$Key} = 0";
-                my @Bind;
-                if ( !$Param{Suspend} || !$SuspendStateActive ) {
-                    $SQL .= ', change_time = current_timestamp, change_by = ?';
-                    push @Bind, \$Param{UserID};
-                }
-                $SQL .= " WHERE id = ?";
-                push @Bind, \$Ticket{TicketID};
+            my $SQL = "UPDATE ticket SET $EscalationTimes{$Key} = 0";
+            my @Bind;
+            if ( !$Param{Suspend} || !$SuspendStateActive ) {
+                $SQL .= ', change_time = current_timestamp, change_by = ?';
+                push @Bind, \$Param{UserID};
+            }
+            $SQL .= " WHERE id = ?";
+            push @Bind, \$Ticket{TicketID};
 
-                # update ticket table
-                $DBObject->Do(
-                    SQL  => $SQL,
-                    Bind => \@Bind,
-                );
-# ---
+            # update ticket table
+            $DBObject->Do(
+                SQL  => $SQL,
+                Bind => \@Bind,
+            );
         }
 
         # clear ticket cache
@@ -2664,15 +2644,30 @@ sub TicketEscalationIndexBuild {
 
     # update first response (if not responded till now)
     if ( !$Escalation{FirstResponseTime} ) {
-# ---
-# Znuny4OTOBO-EscalationSuspend
-# ---
-#            $DBObject->Do(
-#                SQL =>
-#                    'UPDATE ticket SET escalation_response_time = 0, change_time = current_timestamp, '
-#                    . ' change_by = ? WHERE id = ?',
-#                Bind => [ \$Param{UserID}, \$Ticket{TicketID}, ]
-#            );
+        my $SQL = "UPDATE ticket SET escalation_response_time = 0";
+        my @Bind;
+        if ( !$Param{Suspend} || !$SuspendStateActive ) {
+            $SQL .= ', change_time = current_timestamp, change_by = ?';
+            push @Bind, \$Param{UserID};
+        }
+        $SQL .= " WHERE id = ?";
+        push @Bind, \$Ticket{TicketID};
+
+        $DBObject->Do(
+            SQL  => $SQL,
+            Bind => \@Bind,
+        );
+    }
+    else {
+
+        # check if first response is already done
+        my %FirstResponseDone = $Self->_TicketGetFirstResponse(
+            TicketID => $Ticket{TicketID},
+            Ticket   => \%Ticket,
+        );
+
+        # update first response time to 0
+        if (%FirstResponseDone) {
             my $SQL = "UPDATE ticket SET escalation_response_time = 0";
             my @Bind;
             if ( !$Param{Suspend} || !$SuspendStateActive ) {
@@ -2686,62 +2681,10 @@ sub TicketEscalationIndexBuild {
                 SQL  => $SQL,
                 Bind => \@Bind,
             );
-# ---
-    }
-    else {
-
-        # check if first response is already done
-        my %FirstResponseDone = $Self->_TicketGetFirstResponse(
-            TicketID => $Ticket{TicketID},
-            Ticket   => \%Ticket,
-        );
-
-        # update first response time to 0
-        if (%FirstResponseDone) {
-# ---
-# Znuny4OTOBO-EscalationSuspend
-# ---
-#                $DBObject->Do(
-#                    SQL =>
-#                        'UPDATE ticket SET escalation_response_time = 0, change_time = current_timestamp, '
-#                        . ' change_by = ? WHERE id = ?',
-#                    Bind => [ \$Param{UserID}, \$Ticket{TicketID}, ]
-#                );
-                my $SQL = "UPDATE ticket SET escalation_response_time = 0";
-                my @Bind;
-                if ( !$Param{Suspend} || !$SuspendStateActive ) {
-                    $SQL .= ', change_time = current_timestamp, change_by = ?';
-                    push @Bind, \$Param{UserID};
-                }
-                $SQL .= " WHERE id = ?";
-                push @Bind, \$Ticket{TicketID};
-
-                $DBObject->Do(
-                    SQL  => $SQL,
-                    Bind => \@Bind,
-                );
-# ---
         }
 
         # update first response time to expected escalation destination time
         else {
-# ---
-# Znuny4OTOBO-EscalationSuspend
-# ---
-#                my $DateTimeObject = $Kernel::OM->Create(
-#                    'Kernel::System::DateTime',
-#                    ObjectParams => {
-#                        String => $Ticket{Created},
-#                        }
-#                );
-
-#                $DateTimeObject->Add(
-#                    AsWorkingTime => 1,
-#                    Calendar      => $Escalation{Calendar},
-#                    Seconds       => $Escalation{FirstResponseTime} * 60,
-#                );
-
-#                my $DestinationTime = $DateTimeObject->ToEpoch();
             my $DestinationTime = $Self->TicketEscalationSuspendCalculate(
                 TicketID     => $Ticket{TicketID},
                 StartTime    => $Ticket{Created},
@@ -2750,13 +2693,6 @@ sub TicketEscalationIndexBuild {
                 Suspended    => $SuspendStateActive,
             );
 
-            # update first response time to $DestinationTime
-#                $DBObject->Do(
-#                    SQL =>
-#                        'UPDATE ticket SET escalation_response_time = ?, change_time = current_timestamp, '
-#                        . ' change_by = ? WHERE id = ?',
-#                    Bind => [ \$DestinationTime, \$Param{UserID}, \$Ticket{TicketID}, ]
-#                );
             my $SQL  = "UPDATE ticket SET escalation_response_time = ?";
             my @Bind = ( \$DestinationTime );
             if ( !$Param{Suspend} || !$SuspendStateActive ) {
@@ -2769,7 +2705,6 @@ sub TicketEscalationIndexBuild {
                 SQL  => $SQL,
                 Bind => \@Bind,
             );
-# ---
 
             # remember escalation time
             $EscalationTime = $DestinationTime;
@@ -2778,14 +2713,6 @@ sub TicketEscalationIndexBuild {
 
     # update update && do not escalate in "pending auto" for escalation update time
     if ( !$Escalation{UpdateTime} || $Ticket{StateType} =~ /^(pending)/i ) {
-# ---
-# Znuny4OTOBO-EscalationSuspend
-# ---
-#            $DBObject->Do(
-#                SQL => 'UPDATE ticket SET escalation_update_time = 0, change_time = current_timestamp, '
-#                    . ' change_by = ? WHERE id = ?',
-#                Bind => [ \$Param{UserID}, \$Ticket{TicketID}, ]
-#            );
         my $SQL = "UPDATE ticket SET escalation_update_time = 0";
         my @Bind;
         if ( !$Param{Suspend} || !$SuspendStateActive ) {
@@ -2799,7 +2726,6 @@ sub TicketEscalationIndexBuild {
             SQL  => $SQL,
             Bind => \@Bind,
         );
-# ---
     }
     else {
 
@@ -2868,24 +2794,6 @@ sub TicketEscalationIndexBuild {
         }
         if ($LastSenderTime) {
 
-# ---
-# Znuny4OTOBO-EscalationSuspend
-# ---
-#                 # create datetime object
-#                 my $DateTimeObject = $Kernel::OM->Create(
-#                     'Kernel::System::DateTime',
-#                     ObjectParams => {
-#                         String => $LastSenderTime,
-#                         }
-#                 );
-
-#                 $DateTimeObject->Add(
-#                     Seconds       => $Escalation{UpdateTime} * 60,
-#                     AsWorkingTime => 1,
-#                     Calendar      => $Escalation{Calendar},
-#                 );
-
-#                 my $DestinationTime = $DateTimeObject->ToEpoch();
             my $DestinationTime = $Self->TicketEscalationSuspendCalculate(
                 TicketID     => $Ticket{TicketID},
                 StartTime    => $LastSenderTime,
@@ -2894,13 +2802,6 @@ sub TicketEscalationIndexBuild {
                 Suspended    => $SuspendStateActive,
             );
 
-            # update update time to $DestinationTime
-#                $DBObject->Do(
-#                    SQL =>
-#                        'UPDATE ticket SET escalation_update_time = ?, change_time = current_timestamp, '
-#                        . ' change_by = ? WHERE id = ?',
-#                    Bind => [ \$DestinationTime, \$Param{UserID}, \$Ticket{TicketID}, ]
-#                );
             my $SQL  = "UPDATE ticket SET escalation_update_time = ?";
             my @Bind = ( \$DestinationTime );
             if ( !$Param{Suspend} || !$SuspendStateActive ) {
@@ -2913,7 +2814,6 @@ sub TicketEscalationIndexBuild {
                 SQL  => $SQL,
                 Bind => \@Bind,
             );
-# ---
 
             # remember escalation time
             if ( $EscalationTime == 0 || $DestinationTime < $EscalationTime ) {
@@ -2923,15 +2823,6 @@ sub TicketEscalationIndexBuild {
 
         # else, no not escalate, because latest sender was agent
         else {
-# ---
-# Znuny4OTOBO-EscalationSuspend
-# ---
-#                $DBObject->Do(
-#                    SQL =>
-#                        'UPDATE ticket SET escalation_update_time = 0, change_time = current_timestamp, '
-#                        . ' change_by = ? WHERE id = ?',
-#                    Bind => [ \$Param{UserID}, \$Ticket{TicketID}, ]
-#                );
             my $SQL = "UPDATE ticket SET escalation_update_time = 0";
             my @Bind;
             if ( !$Param{Suspend} || !$SuspendStateActive ) {
@@ -2945,21 +2836,11 @@ sub TicketEscalationIndexBuild {
                 SQL  => $SQL,
                 Bind => \@Bind,
             );
-# ---
         }
     }
 
     # update solution
     if ( !$Escalation{SolutionTime} ) {
-# ---
-# Znuny4OTOBO-EscalationSuspend
-# ---
-#            $DBObject->Do(
-#                SQL =>
-#                    'UPDATE ticket SET escalation_solution_time = 0, change_time = current_timestamp, '
-#                    . ' change_by = ? WHERE id = ?',
-#                Bind => [ \$Param{UserID}, \$Ticket{TicketID}, ],
-#            );
         my $SQL = "UPDATE ticket SET escalation_solution_time = 0";
         my @Bind;
         if ( !$Param{Suspend} || !$SuspendStateActive ) {
@@ -2973,7 +2854,6 @@ sub TicketEscalationIndexBuild {
             SQL  => $SQL,
             Bind => \@Bind,
         );
-# ---
     }
     else {
 
@@ -2985,15 +2865,6 @@ sub TicketEscalationIndexBuild {
 
         # update solution time to 0
         if (%SolutionDone) {
-# ---
-# Znuny4OTOBO-EscalationSuspend
-# ---
-#                $DBObject->Do(
-#                    SQL =>
-#                        'UPDATE ticket SET escalation_solution_time = 0, change_time = current_timestamp, '
-#                        . ' change_by = ? WHERE id = ?',
-#                    Bind => [ \$Param{UserID}, \$Ticket{TicketID}, ],
-#                );
             my $SQL = "UPDATE ticket SET escalation_solution_time = 0";
             my @Bind;
             if ( !$Param{Suspend} || !$SuspendStateActive ) {
@@ -3007,28 +2878,9 @@ sub TicketEscalationIndexBuild {
                 SQL  => $SQL,
                 Bind => \@Bind,
             );
-# ---
         }
         else {
 
-# ---
-# Znuny4OTOBO-EscalationSuspend
-# ---
-#                 # get datetime object
-#                 my $DateTimeObject = $Kernel::OM->Create(
-#                     'Kernel::System::DateTime',
-#                     ObjectParams => {
-#                         String => $Ticket{Created},
-#                         }
-#                 );
-
-#                 $DateTimeObject->Add(
-#                     Seconds       => $Escalation{SolutionTime} * 60,
-#                     AsWorkingTime => 1,
-#                     Calendar      => $Escalation{Calendar},
-#                 );
-
-#                 my $DestinationTime = $DateTimeObject->ToEpoch();
             my $DestinationTime = $Self->TicketEscalationSuspendCalculate(
                 TicketID     => $Ticket{TicketID},
                 StartTime    => $Ticket{Created},
@@ -3038,12 +2890,6 @@ sub TicketEscalationIndexBuild {
             );
 
             # update solution time to $DestinationTime
-#                $DBObject->Do(
-#                    SQL =>
-#                        'UPDATE ticket SET escalation_solution_time = ?, change_time = current_timestamp, '
-#                        . ' change_by = ? WHERE id = ?',
-#                    Bind => [ \$DestinationTime, \$Param{UserID}, \$Ticket{TicketID}, ],
-#                );
             my $SQL  = "UPDATE ticket SET escalation_solution_time = ?";
             my @Bind = ( \$DestinationTime );
             if ( !$Param{Suspend} || !$SuspendStateActive ) {
@@ -3057,7 +2903,6 @@ sub TicketEscalationIndexBuild {
                 SQL  => $SQL,
                 Bind => \@Bind,
             );
-# ---
 
             # remember escalation time
             if ( $EscalationTime == 0 || $DestinationTime < $EscalationTime ) {
@@ -3068,14 +2913,6 @@ sub TicketEscalationIndexBuild {
 
     # update escalation time (< escalation time)
     if ( defined $EscalationTime ) {
-# ---
-# Znuny4OTOBO-EscalationSuspend
-# ---
-#            $DBObject->Do(
-#                SQL => 'UPDATE ticket SET escalation_time = ?, change_time = current_timestamp, '
-#                    . ' change_by = ? WHERE id = ?',
-#                Bind => [ \$EscalationTime, \$Param{UserID}, \$Ticket{TicketID}, ],
-#            );
         my $SQL  = "UPDATE ticket SET escalation_time = ?";
         my @Bind = ( \$EscalationTime );
         if ( !$Param{Suspend} || !$SuspendStateActive ) {
@@ -3089,7 +2926,6 @@ sub TicketEscalationIndexBuild {
             SQL  => $SQL,
             Bind => \@Bind,
         );
-# ---
     }
 
     # clear ticket cache
@@ -8410,37 +8246,11 @@ sub _TicketGetClosed { ## no critic
         UserID => $Param{UserID} || 1,
     );
 
-# ---
-# Znuny4OTOBO-EscalationSuspend
-# ---
-#         # create datetime object
-#         my $DateTimeObject = $Kernel::OM->Create(
-#             'Kernel::System::DateTime',
-#             ObjectParams => {
-#                 String => $Param{Ticket}->{Created},
-#                 }
-#         );
-
-#         my $SolutionTimeObj = $Kernel::OM->Create(
-#             'Kernel::System::DateTime',
-#             ObjectParams => {
-#                 String => $Data{Closed},
-#                 }
-#         );
-
-#         my $DeltaObj = $DateTimeObject->Delta(
-#             DateTimeObject => $SolutionTimeObj,
-#             ForWorkingTime => 1,
-#             Calendar       => $Escalation{Calendar},
-#         );
-
-#         my $WorkingTime = $DeltaObj ? $DeltaObj->{AbsoluteSeconds} : 0;
     my $WorkingTime = $Self->TicketWorkingTimeSuspendCalculate(
         TicketID  => $Param{Ticket}->{TicketID},
         StartTime => $Param{Ticket}->{Created},
         Calendar  => $Escalation{Calendar},
     );
-# ---
 
     $Data{SolutionInMin} = int( $WorkingTime / 60 );
 

@@ -29,6 +29,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::AuthSession',
+    'Kernel::System::Cache',
     'Kernel::System::CustomerAuth',
     'Kernel::System::CustomerGroup',
     'Kernel::System::CustomerUser',

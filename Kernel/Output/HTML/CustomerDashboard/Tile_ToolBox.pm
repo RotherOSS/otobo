@@ -20,6 +20,10 @@ package Kernel::Output::HTML::CustomerDashboard::Tile_ToolBox;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Output::HTML::Layout',
+);
+
 sub new {
     my ( $Type, %Param ) = @_;
 

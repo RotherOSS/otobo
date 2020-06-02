@@ -23,7 +23,7 @@
             </p>
             <div class="oooAttachments oooWidget">
                 <div class="oooSection">
-                    <h3>[% Translate('Attachments') %]</h3>
+                    <h3>[% Translate('Attachments') | html %]</h3>
                     <i class='ooofo ooofo-close oooClose'></i>
                     [% FOREACH Attachment IN Data.Attachments %]
                     <div>
@@ -47,7 +47,7 @@
                 </p>
                 <div class="oooInfoBox oooWidget">
                     <div class="oooSection">
-                        <h3>[% Translate('Article Information') %]</h3>
+                        <h3>[% Translate('Article Information') | html %]</h3>
                         <i class='ooofo ooofo-close oooClose'></i>
                         [% FOREACH ArticleField IN Data.ArticleMetaFields %]
                         <!-- show accounted time and dynamic fields -->

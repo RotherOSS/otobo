@@ -126,7 +126,7 @@ for my $Operator ( '>', '<', '>=', '<=', '==', '!=' ) {
         'Comparison via ' . $Operator . ' with undef instead of DateTime object must fail',
     );
 
-    ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO6::TimeObject)
+    ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
     $Self->False(
         eval( '$DateTimeObject ' . $Operator . ' $Kernel::OM->Create("Kernel::System::Time")' ),    ## no critic
         'Comparison via ' . $Operator . ' with Time object instead of DateTime object must fail',

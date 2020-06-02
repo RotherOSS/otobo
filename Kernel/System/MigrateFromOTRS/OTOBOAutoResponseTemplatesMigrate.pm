@@ -154,7 +154,7 @@ sub Run {
     return \%Result;
 }
 
-
+1;
 
 =head1 TERMS AND CONDITIONS
 

@@ -660,7 +660,7 @@ $Self->False(
     $Delta,
     'Delta working time calculation with invalid DateTime object must fail.',
 );
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO6::TimeObject)
+## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
 $Delta = $DateTimeObject->Delta(
     DateTimeObject => $Kernel::OM->Get('Kernel::System::Time'),
     ForWorkingTime => 1,

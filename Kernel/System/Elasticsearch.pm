@@ -19,8 +19,6 @@ package Kernel::System::Elasticsearch;
 
 use strict;
 use warnings;
-use Data::Dumper;
-use Kernel::System::VariableCheck qw( :all );
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -28,6 +26,8 @@ our @ObjectDependencies = (
     'Kernel::System::User',
     'Kernel::System::Group',
 );
+
+use Kernel::System::VariableCheck qw( :all );
 
 =head1 NAME
 

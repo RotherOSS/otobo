@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::UnitTest::Helper;
 
 use strict;
@@ -438,8 +437,8 @@ sub FixedTimeAddSeconds {
 
 # See http://perldoc.perl.org/5.10.0/perlsub.html#Overriding-Built-in-Functions
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO6::TimeObject)
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO6::DateTime)
+## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
+## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::DateTime)
 sub _MockPerlTimeHandling {
     no warnings 'redefine';    ## no critic
     *CORE::GLOBAL::time = sub {
