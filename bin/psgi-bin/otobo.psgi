@@ -343,8 +343,13 @@ my $AdminOnlyMiddeware = sub {
             my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
             return 0 unless $SessionObject;
-            # TODO: this doesn't work, maybe because the table 'session' is not filled.
-            #       maybe some issue with the cache
+
+            # The session is checked by the modules in Kernel/System/AuthSession.
+            # These module rely on some enviromnent variables.
+            # As PSGI works without messing with the environment, explicitly set those vars here.
+            local $ENV{REMOTE_ADDR}     = $env->{REMOTE_ADDR};
+            local $ENV{HTTP_USER_AGENT} = $env->{HTTP_USER_AGENT};
+
             return 0 unless $SessionObject->CheckSessionID( SessionID => $SessionID );
 
             # get session data
@@ -404,7 +409,7 @@ my $DBViewerApp = builder {
     enable 'Rewrite', request => sub {
         $_ ||= '/dbviewer/';
         $_ = '/dbviewer/' if $_ eq '/';
-        $_ = '/dbviewer' . $_;
+        $_ = '/otobo/dbviewer' . $_;
 
         1;
     };

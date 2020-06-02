@@ -45,7 +45,8 @@ WORKDIR $OTOBO_HOME
 RUN cd Kernel \
     && cp Config.pm.dist Config.pm \
     && perl -pi -e "s/'127.0.0.1';/'db'; # adapted by Dockerfile/" Config.pm \
-    && cd ../var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done
+    && cd ../var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done \
+    && cd ../.. && mkdir var/stats
 
 # make sure that var/tmp exists and generate the crontab for OTOBO_USER
 # Set PATH as the required perl is located in /usr/local/bin/perl.
