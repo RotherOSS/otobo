@@ -69,7 +69,7 @@ Note that all previous data will be lost.
 * Check sanity at [hello](http://localhost:5000/hello)
 * Run the installer at [installer.pl](http://localhost:5000/otobo/installer.pl)
     * Keep the default 'db' for the database host
-    * Log to file /proc/self/fd/1
+    * Log to file /opt/otobo/var/log/otobo.log
 
 ## Other userful Docker commands
 
