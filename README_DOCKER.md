@@ -65,9 +65,7 @@ Note that all previous data will be lost.
 
 * `sudo service docker restart`    # workaround when sometimes the cached images are not available
 * `docker-compose down -v`         # volumes are also removed
-* `docker-compose build`           # when the code has changed
-* `docker volume ls`               # should show no otobo volumes
-* `docker-compose up`              # start again, with fresh volumes
+* `docker-compose up --build`      # rebuild when the Dockerfile or the code has changed
 * Check sanity at [hello](http://localhost:5000/hello)
 * Run the installer at [installer.pl](http://localhost:5000/otobo/installer.pl)
     * Keep the default 'db' for the database host
