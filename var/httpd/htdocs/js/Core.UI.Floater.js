@@ -22,7 +22,7 @@ Core.UI = Core.UI || {};
 /**
  * @namespace Core.UI.Floater
  * @memberof Core.UI
- * @author 
+ * @author
  * @description
  *      This namespace contains the Floater code.
  */

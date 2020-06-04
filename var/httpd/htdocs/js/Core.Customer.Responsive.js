@@ -22,7 +22,7 @@ Core.Customer = Core.Customer || {};
 /**
  * @namespace Core.Customer.Responsive
  * @memberof Core.Customer
- * @author 
+ * @author
  * @description
  *      This namespace contains the responsive functionality.
  */

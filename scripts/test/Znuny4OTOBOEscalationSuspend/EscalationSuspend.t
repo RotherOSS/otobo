@@ -230,7 +230,7 @@ my $PendingDateTime = $Kernel::OM->Create(
     'Kernel::System::DateTime',
     ObjectParams => {
         String => $Ticket{Created},
-        }
+    }
 );
 $PendingDateTime->Add( Minutes => $Pending );
 

@@ -44,15 +44,15 @@ sub new {
     bless( $Self, $Type );
 
     # check needed params and store them in $Self
-    for my $Needed ( qw/DebuggerObject WebserviceID/ ) {
-        if ( !$Param{ $Needed } ) {
+    for my $Needed (qw/DebuggerObject WebserviceID/) {
+        if ( !$Param{$Needed} ) {
             return {
                 Success      => 0,
                 ErrorMessage => "Need $Needed!"
             };
         }
 
-        $Self->{ $Needed } = $Param{ $Needed };
+        $Self->{$Needed} = $Param{$Needed};
     }
 
     return $Self;
@@ -83,8 +83,8 @@ sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
     # check needed
-    for my $Needed ( qw/IndexName/ ) {
-        if ( !defined $Param{Data}{ $Needed } ) {
+    for my $Needed (qw/IndexName/) {
+        if ( !defined $Param{Data}{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
@@ -94,16 +94,16 @@ sub PrepareRequest {
     }
 
     my $IndexName = $Param{Data}{IndexName} || {};
-    my $Request = $Param{Data}{Request} || {};
-    my $API     = $Param{Data}{API} || {};
+    my $Request   = $Param{Data}{Request}   || {};
+    my $API       = $Param{Data}{API}       || {};
 
     return {
         Success => 1,
         Data    => {
-            %{ $IndexName },
-            %{ $Request },
-            %{ $API },
-    	},
+            %{$IndexName},
+            %{$Request},
+            %{$API},
+        },
     };
 
 }
@@ -143,6 +143,7 @@ sub HandleResponse {
     }
 
     my @Return;
+
     # gather the returned info
     if ( $Param{Data}{hits}{hits} ) {
         @Return = map { $_->{_source} } @{ $Param{Data}{hits}{hits} };

@@ -39,7 +39,7 @@ Core.UI.NavigationBar = (function (TargetNS) {
     function NavBarShrink() {
         $('#oooNavigation').off('mouseleave', NavBarShrink);
         // desktop mode
-        if ( $(window).width() >= 768 ) {
+        if ($(window).width() >= 768) {
             $('#oooNavBarExpand').show();
             $('#oooLogo').hide();
             $('#oooSignet').show();
@@ -58,7 +58,7 @@ Core.UI.NavigationBar = (function (TargetNS) {
             $('#oooNavBarModuleIcons').hide().fadeOut(100);
             $('#oooUser').hide().fadeOut(100);
         }
-    };
+    }
 
     /**
      * @name Init
@@ -82,7 +82,7 @@ Core.UI.NavigationBar = (function (TargetNS) {
             $('#oooNavBarModuleIcons').show();
             $('#oooUser').show();
 
-            setTimeout( function() {
+            setTimeout(function() {
                 // only trigger if still expanded
                 $('.oooExpanded > #oooNavBarExpand').hide();
                 $('.oooExpanded #oooSignet').hide();
@@ -92,7 +92,7 @@ Core.UI.NavigationBar = (function (TargetNS) {
             $('#oooNavigation').addClass("oooExpanded");
 
             // shrinks the NavBar again on mouseleave
-            setTimeout( function() {
+            setTimeout(function() {
                 $('#oooNavBarModuleIcons > a > .oooNavBarDescription > h3').each(function() {
                     $(this).show();
                 });
@@ -109,7 +109,7 @@ Core.UI.NavigationBar = (function (TargetNS) {
             // if we switched from desktop to mobile
             $('.oooExpanded #oooLogo').show();
 
-            setTimeout( function() {
+            setTimeout(function() {
                 $('#oooNavBarModuleIcons > a > .oooNavBarDescription > h3').each(function() {
                     $(this).show();
                 });
@@ -119,7 +119,7 @@ Core.UI.NavigationBar = (function (TargetNS) {
                 $('#oooUser').show().fadeIn(100);
                 $('#oooNavBarModuleIcons').show().fadeIn(100);
             }, 40);
-            setTimeout( function() {
+            setTimeout(function() {
                 $('#oooMobileMenuClose').show().fadeIn(100);
                 // shrinks the NavBar again on mouseleave
                 $('#oooNavigation').on('mouseleave', NavBarShrink);

@@ -22,7 +22,7 @@ Core.Agent = Core.Agent || {};
 /**
  * @namespace Core.Agent.TicketFormDraft
  * @memberof Core.Agent.Admin
- * @author 
+ * @author
  * @description
  *      This namespace contains the special module functions for the ticket FormDraft functionality.
  */

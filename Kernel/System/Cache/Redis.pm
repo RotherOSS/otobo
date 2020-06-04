@@ -35,7 +35,7 @@ sub new {
     bless( $Self, $Type );
 
     # Store Redis config
-    my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     $Self->{Config} = {
         Address        => $ConfigObject->Get('Cache::Redis')->{Server}         || '127.0.0.1:6379',
         DatabaseNumber => $ConfigObject->Get('Cache::Redis')->{DatabaseNumber} || 0,
@@ -73,7 +73,7 @@ sub Set {
         # Wrap the data, because we don't know, what user expects
         # to get from cache: reference to SCALAR or common SCALAR
         my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
-        my $Data = $StorableObject->Serialize(
+        my $Data           = $StorableObject->Serialize(
             Data => {
                 _Data => $Param{Value},
             },
@@ -124,7 +124,7 @@ sub Get {
     return if !$Value;
 
     my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
-    my $Data = $StorableObject->Deserialize(
+    my $Data           = $StorableObject->Deserialize(
         Data => $Value,
     );
 
@@ -219,7 +219,7 @@ sub _Connect {
     return if $Self->{Redis};
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-    my $Loaded = $MainObject->Require(
+    my $Loaded     = $MainObject->Require(
         $Self->{Config}{RedisFast} ? 'Redis::Fast' : 'Redis',
     );
     return if !$Loaded;
@@ -233,7 +233,8 @@ sub _Connect {
         }
         if (
             $Self->{Config}{DatabaseNumber}
-            && !$Self->{Redis}->select( $Self->{Config}{DatabaseNumber} ) )
+            && !$Self->{Redis}->select( $Self->{Config}{DatabaseNumber} )
+            )
         {
             die "Can't select database '$Self->{Config}{DatabaseNumber}'!";
         }

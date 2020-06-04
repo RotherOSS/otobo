@@ -21,7 +21,7 @@ var Core = Core || {};
 /**
  * @namespace Core.TicketProcess
  * @memberof Core
- * @author 
+ * @author
  * @description
  *      This namespace contains the special module functions for TicketProcesses in Agent and Customer interface.
  */

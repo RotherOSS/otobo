@@ -22,7 +22,7 @@ Core.UI = Core.UI || {};
 /**
  * @namespace Core.UI.Table
  * @memberof Core.UI
- * @author 
+ * @author
  * @description
  *      This namespace contains table specific functions.
  */

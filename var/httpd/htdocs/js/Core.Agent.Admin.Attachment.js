@@ -23,7 +23,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 /**
  * @namespace Core.Agent.Admin.Attachment
  * @memberof Core.Agent.Admin
- * @author 
+ * @author
  * @description
  *      This namespace contains the special module function for Attachment module.
  */

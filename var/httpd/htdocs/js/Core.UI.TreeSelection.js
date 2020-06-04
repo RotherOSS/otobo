@@ -22,7 +22,7 @@ Core.UI = Core.UI || {};
 /**
  * @namespace Core.UI.TreeSelection
  * @memberof Core.UI
- * @author 
+ * @author
  * @description
  *      Tree Selection for Queue, Service, etc. with JSTree.
  */

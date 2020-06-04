@@ -15,6 +15,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
 
 package Kernel::System::Ticket;
 
@@ -59,6 +60,7 @@ our @ObjectDependencies = (
     'Kernel::System::TemplateGenerator',
     'Kernel::System::DateTime',
     'Kernel::System::Ticket::Article',
+    'Kernel::System::Time',
     'Kernel::System::Type',
     'Kernel::System::User',
     'Kernel::System::Valid',
@@ -2575,7 +2577,10 @@ sub TicketEscalationIndexBuild {
     return if !%Ticket;
 
     # get states in which to suspend escalations
-    my @SuspendStates      = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') ? @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') } : ();
+    my @SuspendStates
+        = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates')
+        ? @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') }
+        : ();
     my $SuspendStateActive = 0;
     STATE:
     for my $State (@SuspendStates) {
@@ -2588,10 +2593,13 @@ sub TicketEscalationIndexBuild {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # cancel whole escalation
-    my $EscalationSuspendCancelEscalation = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendCancelEscalation');
+    my $EscalationSuspendCancelEscalation
+        = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendCancelEscalation');
 
     # do no escalations on (merge|close|remove) tickets
-    if ( ( $Ticket{StateType} && $Ticket{StateType} =~ /^(merge|close|remove)/i ) || ($EscalationSuspendCancelEscalation && $SuspendStateActive) ) {
+    if (   ( $Ticket{StateType} && $Ticket{StateType} =~ /^(merge|close|remove)/i )
+        || ( $EscalationSuspendCancelEscalation && $SuspendStateActive ) )
+    {
 
         # update escalation times with 0
         my %EscalationTimes = (
@@ -2941,7 +2949,10 @@ sub TicketEscalationSuspendCalculate {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get states in which to suspend escalations
-    my @SuspendStates = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') ? @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') } : ();
+    my @SuspendStates
+        = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates')
+        ? @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') }
+        : ();
 
     # get stateid->state map
     my %StateList = $Kernel::OM->Get('Kernel::System::State')->StateList(
@@ -3026,7 +3037,8 @@ sub TicketEscalationSuspendCalculate {
                 $UpdateDiffTime -= $WorkingTime;
             }
             else {
-                my $LoopProtectionMax = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendLoopProtection') || 500;
+                my $LoopProtectionMax
+                    = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendLoopProtection') || 500;
 
                 # target time reached, calculate exact time
                 my $Substract;
@@ -3055,7 +3067,7 @@ sub TicketEscalationSuspendCalculate {
                         # value and if not store the difference to
                         # the bigger steps so we can substract them
                         # later from the calculated destination time
-                        if (!$Substract) {
+                        if ( !$Substract ) {
                             $Substract = 3600 - $UpdateDiffTime;
                         }
 
@@ -3065,7 +3077,7 @@ sub TicketEscalationSuspendCalculate {
                     }
 
                     $DestinationTime += $UpdateDiffTime;
-                    $UpdateDiffTime -= $WorkingTime;
+                    $UpdateDiffTime  -= $WorkingTime;
 
                     $LoopProtection++;
 
@@ -3073,7 +3085,8 @@ sub TicketEscalationSuspendCalculate {
 
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
-                        Message  => "Error: $LoopProtectionMax SuspendEscalatedTickets iterations for Ticket with TicketID '$Param{TicketID}', Calendar '$Param{Calendar}', UpdateDiffTime '$UpdateDiffTime', DestinationTime '$DestinationTime'.",
+                        Message =>
+                            "Error: $LoopProtectionMax SuspendEscalatedTickets iterations for Ticket with TicketID '$Param{TicketID}', Calendar '$Param{Calendar}', UpdateDiffTime '$UpdateDiffTime', DestinationTime '$DestinationTime'.",
                     );
                     last UPDATETIME;
                 }
@@ -3197,13 +3210,16 @@ sub TicketWorkingTimeSuspendCalculate {
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
     # get states in which to suspend escalations
-    my @SuspendStates = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') ? @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') } : ();
+    my @SuspendStates
+        = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates')
+        ? @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') }
+        : ();
     my @ClosedStates = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
         StateType => ['closed'],
         Result    => 'Name',
     );
 
-    my @SuspendAndClosedStates = (@SuspendStates, @ClosedStates);
+    my @SuspendAndClosedStates = ( @SuspendStates, @ClosedStates );
 
     # get stateid->state map
     my %StateList = $Kernel::OM->Get('Kernel::System::State')->StateList(
@@ -3300,7 +3316,7 @@ sub RebuildEscalationIndex {
     my ( $Self, %Param ) = @_;
 
     # get all tickets
-    my @TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
+    my @TicketIDs = $Self->TicketSearch(
 
         # result (required)
         Result => 'ARRAY',
@@ -3316,7 +3332,7 @@ sub RebuildEscalationIndex {
     my $Count = 0;
     for my $TicketID (@TicketIDs) {
         $Count++;
-        $Kernel::OM->Get('Kernel::System::Ticket')->TicketEscalationIndexBuild(
+        $Self->TicketEscalationIndexBuild(
             TicketID => $TicketID,
             Suspend  => 1,
             UserID   => 1,
@@ -3612,12 +3628,12 @@ sub TicketCustomerSet {
 
     # trigger event
     $Self->EventHandler(
-        Event         => 'TicketCustomerUpdate',
-        Data          => {
+        Event => 'TicketCustomerUpdate',
+        Data  => {
             TicketID      => $Param{TicketID},
             TicketCreated => $Param{TicketCreated} || 0,
         },
-        UserID        => $Param{UserID},
+        UserID => $Param{UserID},
     );
 
     return 1;
@@ -8186,7 +8202,7 @@ Collect attributes of (last) closing for given ticket.
 
 =cut
 
-sub _TicketGetClosed { ## no critic
+sub _TicketGetClosed {    ## no critic
     my ( $Self, %Param ) = @_;
 
     # check needed stuff

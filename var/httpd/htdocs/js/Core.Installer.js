@@ -21,7 +21,7 @@ var Core = Core || {};
 /**
  * @namespace Core.Installer
  * @memberof Core
- * @author 
+ * @author
  * @description
  *      This namespace contains the special module functions for Installer.
  */

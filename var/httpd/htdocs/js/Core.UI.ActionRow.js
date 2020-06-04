@@ -22,7 +22,7 @@ Core.UI = Core.UI || {};
 /**
  * @namespace Core.UI.ActionRow
  * @memberof Core.UI
- * @author 
+ * @author
  * @description
  *      Action row functionality.
  */

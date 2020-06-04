@@ -15,6 +15,8 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::Pod::SpellCheck)
+
 package Kernel::System::ZnunyHelper;
 
 use strict;
@@ -496,7 +498,7 @@ sub _ValidDynamicFieldScreenListGet {
 
         REGISTRATION:
         for my $Registration ( sort keys %{$ScreenRegistrations} ) {
-            if ($Registration =~ m{^ITSM.*}xmsi){
+            if ( $Registration =~ m{^ITSM.*}xmsi ) {
                 my $IsInstalled = $PackageObject->PackageIsInstalled(
                     Name => $Registration,
                 );
@@ -594,7 +596,7 @@ sub _DefaultColumnsGet {
             $FrontendPath = "Ticket::Frontend::$View";
         }
 
-        my @Keys = split '###', $FrontendPath;
+        my @Keys   = split '###', $FrontendPath;
         my $Config = $ConfigObject->Get( $Keys[0] );
 
         # check if config has DefaultColumns attribute and set it
@@ -697,7 +699,7 @@ sub _DefaultColumnsEnable {
             $FrontendPath = "Ticket::Frontend::$View";
         }
 
-        my @Keys = split '###', $FrontendPath;
+        my @Keys   = split '###', $FrontendPath;
         my $Config = $ConfigObject->Get( $Keys[0] );
 
         # check if config has DefaultColumns attribute and set it
@@ -838,7 +840,7 @@ sub _DefaultColumnsDisable {
             $FrontendPath = "Ticket::Frontend::$View";
         }
 
-        my @Keys = split '###', $FrontendPath;
+        my @Keys   = split '###', $FrontendPath;
         my $Config = $ConfigObject->Get( $Keys[0] );
 
         # check if config has DefaultColumns attribute and set it
@@ -1483,14 +1485,6 @@ sub _DynamicFieldsDisable {
 =item _DynamicFieldsCreateIfNotExists()
 
 creates all dynamic fields that are necessary
-
-Usable Snippets (SublimeTextAdjustments):
-    otrs.dynamicfield.config.text
-    otrs.dynamicfield.config.checkbox
-    otrs.dynamicfield.config.datetime
-    otrs.dynamicfield.config.dropdown
-    otrs.dynamicfield.config.textarea
-    otrs.dynamicfield.config.multiselect
 
     my @DynamicFields = (
         {
@@ -2341,9 +2335,9 @@ sub _PostMasterFilterConfigImport {
     my $Format = lc( $Param{Format} // 'yml' );
 
     my $Filter;
-    if ($Format eq 'yml'){
+    if ( $Format eq 'yml' ) {
         $Filter = $YAMLObject->Load(
-            Data => ${$Param{Filter}},
+            Data => ${ $Param{Filter} },
         );
     }
     return $Self->_PostMasterFilterCreateIfNotExists( @{$Filter} );
@@ -3198,7 +3192,7 @@ sub _GeneralCatalogItemCreateIfNotExists {
         UserID  => 1,
     );
 
-    return if !$ItemID;
+    return         if !$ItemID;
     return $ItemID if !$Param{PermissionGroup};
 
     my $GroupID = $GroupObject->GroupLookup(
@@ -3286,8 +3280,8 @@ sub _ITSMConfigItemDefinitionCreate {
     # check which type of import file is present (Perl structure or YAML).
     my $BaseClassFilePath = $Home . '/scripts/cmdb_classes/' . ( $Param{ClassFile} || $Param{Class} );
 
-    my $ClassFilePath     = $BaseClassFilePath . '.yml';
-    my $ClassFileIsYAML   = 1;
+    my $ClassFilePath   = $BaseClassFilePath . '.yml';
+    my $ClassFileIsYAML = 1;
     if ( !-f $ClassFilePath ) {
         $ClassFilePath   = $BaseClassFilePath . '.config';
         $ClassFileIsYAML = 0;
@@ -3316,9 +3310,10 @@ sub _ITSMConfigItemDefinitionCreate {
     if (
         !$ClassFileIsYAML
         && $YAMLConfigItemDefinitionExpected
-    ) {
+        )
+    {
         # Turn Perl config item file into Perl structure.
-        $Content = eval $Content; ## no critic
+        $Content = eval $Content;    ## no critic
         return if !defined $Content;
 
         # Turn Perl structure into YAML.
@@ -3329,7 +3324,8 @@ sub _ITSMConfigItemDefinitionCreate {
     elsif (
         $ClassFileIsYAML
         && !$YAMLConfigItemDefinitionExpected
-    ) {
+        )
+    {
         # Turn YAML config item file into Perl structure.
         $Content = $YAMLObject->Load(
             Data => $Content,
@@ -3547,7 +3543,7 @@ sub _ITSMConfigItemVersionAdd {
     my $ValidObject          = $Kernel::OM->Get('Kernel::System::Valid');
 
     my $ConfigItemID = $Param{ConfigItemID};
-    my %ConfigItem = %{ $Param{XMLData} || {} };
+    my %ConfigItem   = %{ $Param{XMLData} || {} };
 
     my %Version = $Self->_ITSMVersionGet(
         ConfigItemID => $ConfigItemID,
@@ -3648,7 +3644,6 @@ sub _ITSMConfigItemVersionAdd {
 
     return $VersionID;
 }
-
 
 =item _ITSMConfigItemVersionExists()
 
@@ -4122,7 +4117,7 @@ sub _WebserviceCreate {
     WEBSERVICE:
     for my $WebserviceName ( sort keys %{$Webservices} ) {
 
-        my $WebserviceID = $Self->_ItemReverseListGet( $WebserviceName, %WebserviceListReversed );
+        my $WebserviceID           = $Self->_ItemReverseListGet( $WebserviceName, %WebserviceListReversed );
         my $UpdateOrCreateFunction = 'WebserviceAdd';
 
         if ($WebserviceID) {
@@ -4246,7 +4241,7 @@ sub _WebserviceDelete {
 
 =item _WebservicesGet()
 
-gets a list of .yml files from $OTRS/scripts/webservices
+gets a list of .yml files from $OTOBO/scripts/webservices
 
     my $Result = $ZnunyHelperObject->_WebservicesGet(
         SubDir => 'Znuny4OTRSAssetDesk', # optional
@@ -4525,7 +4520,7 @@ sub _ProcessCreate {
 
 =item _ProcessesGet()
 
-gets a list of .yml files from $OTRS/scripts/processes
+gets a list of .yml files from $OTOBO/scripts/processes
 
     my $Result = $ZnunyHelperObject->_ProcessesGet(
         SubDir => 'Znuny4OTRSAssetDesk', # optional
@@ -4832,7 +4827,7 @@ sub _ModuleGroupAdd {
     return if !IsHashRefWithData($FrontendList);
 
     # Split module "path" (e. g. Admin###001-Framework)
-    my $Module = $Param{Module};
+    my $Module             = $Param{Module};
     my @ModulePathElements = split '###', $Module;
 
     my $ModuleRegistration = $FrontendList;
@@ -4945,7 +4940,7 @@ sub _ModuleGroupRemove {
     return if !IsHashRefWithData($FrontendList);
 
     # Split module "path" (e. g. Admin###001-Framework)
-    my $Module = $Param{Module};
+    my $Module             = $Param{Module};
     my @ModulePathElements = split '###', $Module;
 
     my $ModuleRegistration = $FrontendList;
@@ -5005,7 +5000,6 @@ sub _ModuleGroupRemove {
 
     return 1;
 }
-
 
 =item _NotificationEventCreate()
 
@@ -5095,7 +5089,7 @@ sub _NotificationEventCreate {
         );
         %NotificationEventReversed = reverse %NotificationEventReversed;
 
-        my $ItemID = $Self->_ItemReverseListGet( $NotificationEvent->{Name}, %NotificationEventReversed );
+        my $ItemID  = $Self->_ItemReverseListGet( $NotificationEvent->{Name}, %NotificationEventReversed );
         my $ValidID = $NotificationEvent->{ValidID} // $ValidObject->ValidLookup(
             Valid => 'valid',
         );
@@ -5670,7 +5664,7 @@ sub _ArticleActionsRemove {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (L<https://otrs.org/>).
+This software is part of the OTOBO project (L<https://otobo.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you

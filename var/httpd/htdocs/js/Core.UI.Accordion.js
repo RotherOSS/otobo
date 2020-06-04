@@ -22,7 +22,7 @@ Core.UI = Core.UI || {};
 /**
  * @namespace Core.UI.Accordion
  * @memberof Core.UI
- * @author 
+ * @author
  * @description
  *      This namespace contains the Accordion code.
  */

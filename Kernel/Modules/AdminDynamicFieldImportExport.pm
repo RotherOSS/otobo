@@ -49,15 +49,15 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get objects
-    my $ConfigObject                = $Kernel::OM->Get('Kernel::Config');
-    my $DynamicFieldObject          = $Kernel::OM->Get('Kernel::System::DynamicField');
-    my $LogObject                   = $Kernel::OM->Get('Kernel::System::Log');
-    my $LayoutObject                = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ParamObject                 = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $TimeObject                  = $Kernel::OM->Get('Kernel::System::Time');
-    my $YAMLObject                  = $Kernel::OM->Get('Kernel::System::YAML');
-    my $ZnunyHelperObject           = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
-    my $CacheObject                 = $Kernel::OM->Get('Kernel::System::Cache');
+    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
+    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $TimeObject         = $Kernel::OM->Get('Kernel::System::Time');
+    my $YAMLObject         = $Kernel::OM->Get('Kernel::System::YAML');
+    my $ZnunyHelperObject  = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
+    my $CacheObject        = $Kernel::OM->Get('Kernel::System::Cache');
 
     my $DynamicFields = $DynamicFieldObject->GetValidDynamicFields();
     $Self->{DynamicFields} = $DynamicFields;
@@ -294,10 +294,10 @@ sub Run {
 sub _Mask {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject                = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ConfigObject                = $Kernel::OM->Get('Kernel::Config');
-    my $LogObject                   = $Kernel::OM->Get('Kernel::System::Log');
-    my $DynamicFieldObject          = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+    my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     $LayoutObject->Block( Name => 'ActionOverview' );
 

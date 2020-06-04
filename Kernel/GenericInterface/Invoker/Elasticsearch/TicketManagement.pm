@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::GenericInterface::Invoker::Elasticsearch::TicketManagement;
 
 use strict;
@@ -44,15 +43,15 @@ sub new {
     bless( $Self, $Type );
 
     # check needed params and store them in $Self
-    for my $Needed ( qw/DebuggerObject WebserviceID/ ) {
-        if ( !$Param{ $Needed } ) {
+    for my $Needed (qw/DebuggerObject WebserviceID/) {
+        if ( !$Param{$Needed} ) {
             return {
                 Success      => 0,
                 ErrorMessage => "Need $Needed!"
             };
         }
 
-        $Self->{ $Needed } = $Param{ $Needed };
+        $Self->{$Needed} = $Param{$Needed};
     }
 
     return $Self;
@@ -83,10 +82,10 @@ sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
     # check needed
-    for my $Needed ( qw/Event/ ) {
+    for my $Needed (qw/Event/) {
         if ( !$Param{Data}{$Needed} ) {
             return {
-                Success => 0,
+                Success      => 0,
                 ErrorMessage => "Need $Needed!",
             };
         }
@@ -97,26 +96,27 @@ sub PrepareRequest {
 
     # handle all events which are neither update nor creation first
     # delete the ticket
-    if ( $Param{Data}{Event} eq 'TicketDelete' ){
+    if ( $Param{Data}{Event} eq 'TicketDelete' ) {
         my %Content = (
-            query => { 
+            query => {
                 term => {
-                    TicketID => $Param{Data}{TicketID}, 
+                    TicketID => $Param{Data}{TicketID},
                 }
-            } 
+            }
         );
         return {
             Success => 1,
             Data    => {
-                docapi   => '_delete_by_query',
-                id => '',
+                docapi => '_delete_by_query',
+                id     => '',
                 %Content,
             },
         };
     }
 
     # archive flag update
-    if ( $Param{Data}{Event} eq 'TicketArchiveFlagUpdate' ){
+    if ( $Param{Data}{Event} eq 'TicketArchiveFlagUpdate' ) {
+
         # delete archived tickets
         if ( $Param{Data}{ArchiveFlag} eq 'y' ) {
             my %Content = (
@@ -129,8 +129,8 @@ sub PrepareRequest {
             return {
                 Success => 1,
                 Data    => {
-                    docapi   => '_delete_by_query',
-                    id => '',
+                    docapi => '_delete_by_query',
+                    id     => '',
                     %Content,
                 },
             };
@@ -150,7 +150,7 @@ sub PrepareRequest {
             my @ArticleList = $ArticleObject->ArticleList(
                 TicketID => $Param{Data}{TicketID}
             );
-            for my $Article ( @ArticleList ) {
+            for my $Article (@ArticleList) {
                 $ESObject->ArticleCreate(
                     TicketID  => $Param{Data}{TicketID},
                     ArticleID => $Article->{ArticleID},
@@ -161,7 +161,7 @@ sub PrepareRequest {
         return {
             Success           => 1,
             StopCommunication => 1,
-        }
+        };
     }
 
     # put a temporary attachment
@@ -170,65 +170,65 @@ sub PrepareRequest {
         # get file format to be ingested
         my $FileFormat = $ConfigObject->Get('Elasticsearch::IngestAttachmentFormat');
 
-        my $MaxFilesize = $ConfigObject->Get('Elasticsearch::IngestMaxFilesize');
-        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $MaxFilesize    = $ConfigObject->Get('Elasticsearch::IngestMaxFilesize');
+        my $ArticleObject  = $Kernel::OM->Get('Kernel::System::Ticket::Article');
         my $ArticleBackend = $ArticleObject->BackendForArticle(
-            TicketID => $Param{Data}{TicketID},
+            TicketID  => $Param{Data}{TicketID},
             ArticleID => $Param{Data}{ArticleID},
         );
-        
+
         my @Attachments;
         ATTACHMENT:
-        for my $AttachmentIndex ( keys %{ $Param{Data}{AttachmentIndex} } ) {
+        for my $AttachmentIndex ( sort keys %{ $Param{Data}{AttachmentIndex} } ) {
             my %ArticleAttachment = $ArticleBackend->ArticleAttachment(
                 ArticleID => $Param{Data}{ArticleID},
                 FileID    => $AttachmentIndex,
             );
             use MIME::Base64;
             use Encode qw(encode);
-            my $FileName =  $ArticleAttachment{Filename};
-            my $FileType =  $ArticleAttachment{ContentType};
-            my $FileSize =  $ArticleAttachment{FilesizeRaw};
-           
-            # Ingest attachment if only filesize less than defined in sysconfig
-            next if $FileSize > $MaxFilesize;
+            my $FileName = $ArticleAttachment{Filename};
+            my $FileType = $ArticleAttachment{ContentType};
+            my $FileSize = $ArticleAttachment{FilesizeRaw};
 
-            my @Format = split /\//,$FileType;
-            
-            if ( grep( /^$Format[1]$/i, @{$FileFormat} ) ){
-                my $Encoded =  encode_base64($ArticleAttachment{Content});
+            # Ingest attachment if only filesize less than defined in sysconfig
+            next ATTACHMENT if $FileSize > $MaxFilesize;
+
+            my @Format = split /\//, $FileType;
+
+            if ( grep {/^$Format[1]$/i} @{$FileFormat} ) {
+                my $Encoded = encode_base64( $ArticleAttachment{Content} );
                 $Encoded =~ s/\n//g;
                 my %Data;
                 $Data{filename} = $FileName;
-                $Data{data} = $Encoded;
-                push ( @Attachments, \%Data );
+                $Data{data}     = $Encoded;
+                push( @Attachments, \%Data );
             }
         }
         my %Content = (
             Attachments => \@Attachments,
         );
- 
+
         return {
             Success => 1,
             Data    => {
-                docapi   => '_doc',
-                path => 'Attachments',
-                id => '',
+                docapi => '_doc',
+                path   => 'Attachments',
+                id     => '',
                 %Content,
             },
         };
-    } 
+    }
 
     # post attachment to the ticket index
     if ( $Param{Data}{Event} eq 'PostAttachmentContent' ) {
         return {
             Success => 1,
-            Data => {
-                docapi   => '_update',
-                id => $Param{Data}{TicketID},
-                %{$Param{Data}{Content}},
+            Data    => {
+                docapi => '_update',
+                id     => $Param{Data}{TicketID},
+                %{ $Param{Data}{Content} },
             }
-        }
+        };
     }
 
     # queue update: if changed, we need to change the groupid of all tickets within that queue
@@ -237,10 +237,10 @@ sub PrepareRequest {
         if ( $Param{Data}{Queue}{GroupID} ne $Param{Data}{OldQueue}{GroupID} ) {
             return {
                 Success => 1,
-                Data => {
-                    docapi   => '_update_by_query',
-                    id => '',
-                    query => {
+                Data    => {
+                    docapi => '_update_by_query',
+                    id     => '',
+                    query  => {
                         term => {
                             QueueID => $Param{Data}{Queue}{QueueID},
                         },
@@ -261,14 +261,14 @@ sub PrepareRequest {
             return {
                 Success           => 1,
                 StopCommunication => 1,
-            }
+            };
         }
 
     }
 
     # handle the regular updating and creation
     # get needed objects
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     # gather all fields which have to be stored
@@ -277,9 +277,10 @@ sub PrepareRequest {
 
     my %DataToStore;
     if ( $Param{Data}{Event} =~ /^Article/ ) {
+
         # standard fields
         for my $Field ( @{ $Store->{Article} }, @{ $Search->{Article} } ) {
-            $DataToStore{ $Field } = 1;
+            $DataToStore{$Field} = 1;
         }
 
         DYNAMICFIELD:
@@ -297,7 +298,7 @@ sub PrepareRequest {
     else {
         # standard fields
         for my $Field ( @{ $Store->{Ticket} }, @{ $Search->{Ticket} } ) {
-            $DataToStore{ $Field } = 1;
+            $DataToStore{$Field} = 1;
         }
 
         DYNAMICFIELD:
@@ -325,9 +326,10 @@ sub PrepareRequest {
 
     # ticket create
     if ( $Param{Data}{Event} eq 'TicketCreate' ) {
- 
+
         # get the ticket
-        my $GetDynamicFields = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
+        my $GetDynamicFields
+            = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
         my %Ticket = $TicketObject->TicketGet(
             TicketID      => $Param{Data}{TicketID},
             DynamicFields => $GetDynamicFields,
@@ -335,8 +337,8 @@ sub PrepareRequest {
         %Content = ( map { $_ => $Ticket{$_} } keys %DataToStore );
 
         # initialize article array
-        $Content{ArticlesExternal} = [];
-        $Content{ArticlesInternal} = [];
+        $Content{ArticlesExternal}    = [];
+        $Content{ArticlesInternal}    = [];
         $Content{AttachmentsExternal} = [];
         $Content{AttachmentsInternal} = [];
 
@@ -344,7 +346,7 @@ sub PrepareRequest {
         my $DateTimeObject = $Kernel::OM->Create(
             'Kernel::System::DateTime',
             ObjectParams => {
-                String   => $Content{Created},
+                String => $Content{Created},
             }
         );
         $Content{Created} = $DateTimeObject->ToEpoch();
@@ -357,37 +359,38 @@ sub PrepareRequest {
     elsif ( $Param{Data}{Event} eq 'ArticleCreate' ) {
 
         # get the article
-        my $GetDynamicFields = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
-        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $GetDynamicFields
+            = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
+        my $ArticleObject  = $Kernel::OM->Get('Kernel::System::Ticket::Article');
         my $ArticleBackend = $ArticleObject->BackendForArticle(
-            TicketID => $Param{Data}{TicketID},
+            TicketID  => $Param{Data}{TicketID},
             ArticleID => $Param{Data}{ArticleID},
         );
         my %Article = $ArticleBackend->ArticleGet(
-            TicketID => $Param{Data}{TicketID},
-            ArticleID => $Param{Data}{ArticleID},
+            TicketID      => $Param{Data}{TicketID},
+            ArticleID     => $Param{Data}{ArticleID},
             DynamicFields => $GetDynamicFields,
         );
         my %ArticleContent = ( map { $_ => $Article{$_} } keys %DataToStore );
-        my $Destination = $Article{IsVisibleForCustomer} ? 'External' : 'Internal';
+        my $Destination    = $Article{IsVisibleForCustomer} ? 'External' : 'Internal';
 
         # put attachment and ingest it into tmpattachment
         my %AttachmentIndex = $ArticleBackend->ArticleAttachmentIndex(
-            ArticleID        => $Param{Data}{ArticleID},
-            ExcludeHTMLBody  => 1,
+            ArticleID       => $Param{Data}{ArticleID},
+            ExcludeHTMLBody => 1,
         );
         my @AttachmentArray;
-        if( %AttachmentIndex ) {
+        if (%AttachmentIndex) {
             my $RequesterObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
-            my $Result = $RequesterObject->Run(
+            my $Result          = $RequesterObject->Run(
                 WebserviceID => $Self->{WebserviceID},
                 Invoker      => 'TicketIngestAttachment',
                 Asynchronous => 0,
                 Data         => {
-                    Event       => 'PutTMPAttachment',
-                    TicketID    => $Param{Data}{TicketID},
-                    ArticleID   => $Param{Data}{ArticleID},
-                    Destination => $Destination,
+                    Event           => 'PutTMPAttachment',
+                    TicketID        => $Param{Data}{TicketID},
+                    ArticleID       => $Param{Data}{ArticleID},
+                    Destination     => $Destination,
                     AttachmentIndex => \%AttachmentIndex,
                 },
             );
@@ -397,10 +400,10 @@ sub PrepareRequest {
                 id => $Result->{Data}->{_id},
             );
             my %API = (
-                docapi => '_doc', 
+                docapi => '_doc',
             );
             my %IndexName = (
-                index => 'tmpattachments', 
+                index => 'tmpattachments',
             );
 
             # get the ingested attachment
@@ -409,25 +412,25 @@ sub PrepareRequest {
                 Invoker      => 'UtilsIngest_GET',
                 Asynchronous => 0,
                 Data         => {
-                    IndexName   => \%IndexName,
-                    Request    => \%Request,
-                    API         => \%API,
+                    IndexName => \%IndexName,
+                    Request   => \%Request,
+                    API       => \%API,
                 },
             );
 
-            for my $AttachmentAttr ( @{ $Result->{Data}->{_source}->{Attachments} }  ) {
+            for my $AttachmentAttr ( @{ $Result->{Data}->{_source}->{Attachments} } ) {
                 my %Attachment = (
                     Filename => $AttachmentAttr->{filename},
-                    Content  => $AttachmentAttr->{attachment}->{content}, 
+                    Content  => $AttachmentAttr->{attachment}->{content},
                 );
                 push @AttachmentArray, \%Attachment;
             }
 
             %Content = (
                 script => {
-                    source => 'ctx._source.Attachments'.$Destination.'.addAll(params.new)',
+                    source => 'ctx._source.Attachments' . $Destination . '.addAll(params.new)',
                     params => {
-                        new =>  \@AttachmentArray,
+                        new => \@AttachmentArray,
                     },
                 },
             );
@@ -438,9 +441,9 @@ sub PrepareRequest {
                 Invoker      => 'TicketManagement',
                 Asynchronous => 0,
                 Data         => {
-                    Event       => 'PostAttachmentContent',
-                    TicketID    => $Param{Data}{TicketID},
-                    Content     => \%Content,
+                    Event    => 'PostAttachmentContent',
+                    TicketID => $Param{Data}{TicketID},
+                    Content  => \%Content,
                 },
             );
 
@@ -450,16 +453,16 @@ sub PrepareRequest {
                 Invoker      => 'UtilsIngest_DELETE',
                 Asynchronous => 0,
                 Data         => {
-                    IndexName   => \%IndexName,
-                    Request    => \%Request,
-                    API         => \%API,
+                    IndexName => \%IndexName,
+                    Request   => \%Request,
+                    API       => \%API,
                 },
             );
         }
 
         %Content = (
             script => {
-                source => 'ctx._source.Articles'.$Destination.'.addAll(params.new)',
+                source => 'ctx._source.Articles' . $Destination . '.addAll(params.new)',
                 params => {
                     new => [ \%ArticleContent ],
                 },
@@ -471,17 +474,18 @@ sub PrepareRequest {
     }
 
     # diverse updates
-    else{
+    else {
         # at ticket creation customerupdate is sent before ticketcreate and not needed here
-        if ( $Param{Data}{Event} eq 'TicketCustomerUpdate' && $Param{Data}{TicketCreated} == 1) {
+        if ( $Param{Data}{Event} eq 'TicketCustomerUpdate' && $Param{Data}{TicketCreated} == 1 ) {
             return {
                 Success           => 1,
                 StopCommunication => 1,
-            }
+            };
         }
 
         # get the ticket
-        my $GetDynamicFields = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
+        my $GetDynamicFields
+            = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
         my %Ticket = $TicketObject->TicketGet(
             TicketID     => $Param{Data}{TicketID},
             DynamicField => $GetDynamicFields,
@@ -491,9 +495,9 @@ sub PrepareRequest {
         delete $DataToStore{Created};
         delete $DataToStore{TicketNumber};
 
-        %Content = ( 
-            doc => { map { $_ => $Ticket{$_} } keys %DataToStore }, 
-        ); 
+        %Content = (
+            doc => { map { $_ => $Ticket{$_} } keys %DataToStore },
+        );
         $API = '_update';
 
     }
@@ -565,16 +569,13 @@ sub HandleResponse {
         };
     }
 
-
     return {
         Success => 1,
         Data    => $Param{Data},
     };
 }
 
-
 1;
-
 
 =head1 TERMS AND CONDITIONS
 

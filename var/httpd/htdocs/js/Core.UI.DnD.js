@@ -22,7 +22,7 @@ Core.UI = Core.UI || {};
 /**
  * @namespace Core.UI.DnD
  * @memberof Core.UI
- * @author 
+ * @author
  * @description
  *      Drag and Drop.
  */

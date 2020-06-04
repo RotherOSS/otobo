@@ -64,7 +64,7 @@ sub Run {
                 return;
             }
 
-            $UsedTiles->{$Tile}{Module} = "Kernel::Output::HTML::CustomerDashboard::Tile_Common";
+            $UsedTiles->{$Tile}{Module} = "Kernel::Output::HTML::CustomerDashboard::TileCommon";
         }
 
         # set the backend file

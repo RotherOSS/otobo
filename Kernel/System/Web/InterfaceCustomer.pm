@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::Web::InterfaceCustomer;
 
 use strict;
@@ -241,14 +240,16 @@ sub Run {
     elsif ( $Param{Action} eq 'Login' ) {
         my $User;
         my $AuthObject = $Kernel::OM->Get('Kernel::System::CustomerAuth');
+
         # get params
         my $PostUser = $ParamObject->GetParam( Param => 'User' ) || '';
 
         my $PreventBruteForceConfig = $ConfigObject->Get('SimpleBruteForceProtection::GeneralSettings');
-        
+
         # if simplebruteforceconfig is valid
-        if( $PreventBruteForceConfig ) {
-            # check if the login is banned 
+        if ($PreventBruteForceConfig) {
+
+            # check if the login is banned
             my $CacheObject   = $Kernel::OM->Get('Kernel::System::Cache');
             my $CheckHashUser = $CacheObject->Get(
                 Type => 'BannedLoginsCustomer',
@@ -256,31 +257,35 @@ sub Run {
             );
 
             # check if Cache CheckHashUser exists
-            if( $CheckHashUser ) {
+            if ($CheckHashUser) {
                 my %BanStatus = $Self->_CheckAndRemoveFromBannedList(
-                    PostUser                => $PostUser, 
+                    PostUser                => $PostUser,
                     PreventBruteForceConfig => $PreventBruteForceConfig,
                 );
-    
-                if( $BanStatus{Banned} ) { 
+
+                if ( $BanStatus{Banned} ) {
+
                     # output error message
                     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
                     $LayoutObject->Print(
                         Output => \$LayoutObject->CustomerLogin(
                             %Param,
-                            Title       => 'Login',
-                            Message     => $LayoutObject->{LanguageObject}->Translate( 'Too many failed login attempts, please retry in %s s.', $BanStatus{ResidualTime} ),
+                            Title   => 'Login',
+                            Message => $LayoutObject->{LanguageObject}->Translate(
+                                'Too many failed login attempts, please retry in %s s.',
+                                $BanStatus{ResidualTime}
+                            ),
                             LoginFailed => 1,
                             MessageType => 'Error',
                             User        => $PostUser,
                         ),
                     );
                     return;
-                }            
+                }
             }
         }
 
-        my $PostPw   = $ParamObject->GetParam(
+        my $PostPw = $ParamObject->GetParam(
             Param => 'Password',
             Raw   => 1
         ) || '';
@@ -330,27 +335,31 @@ sub Run {
                 return;
             }
 
-            if ( $PreventBruteForceConfig ) {
+            if ($PreventBruteForceConfig) {
+
                 # prevent brute force
                 my $Banned = $Self->_StoreFailedLogins(
-                    PostUser => $PostUser,
+                    PostUser                => $PostUser,
                     PreventBruteForceConfig => $PreventBruteForceConfig,
                 );
 
-                if( $Banned ){
+                if ($Banned) {
                     $LayoutObject->Print(
                         Output => \$LayoutObject->CustomerLogin(
                             %Param,
-                            Title       => 'Login',
-                            Message     => $LayoutObject->{LanguageObject}->Translate( 'Too many failed login attempts, please retry in %s s.', $PreventBruteForceConfig->{BanDuration} ),
+                            Title   => 'Login',
+                            Message => $LayoutObject->{LanguageObject}->Translate(
+                                'Too many failed login attempts, please retry in %s s.',
+                                $PreventBruteForceConfig->{BanDuration}
+                            ),
                             LoginFailed => 1,
                             MessageType => 'Error',
                             User        => $PostUser,
                         ),
                     );
 
-                    return; 
-                }  
+                    return;
+                }
             }
 
             # show normal login
@@ -482,7 +491,7 @@ sub Run {
             },
         );
         my $OTOBOUserTimeZoneOffset = $DateTimeObject->Format( Format => '%{offset}' ) / 60;
-        my $BrowserTimeZoneOffset  = ( $ParamObject->GetParam( Param => 'TimeZoneOffset' ) || 0 ) * -1;
+        my $BrowserTimeZoneOffset   = ( $ParamObject->GetParam( Param => 'TimeZoneOffset' ) || 0 ) * -1;
 
         # TimeZoneOffsetDifference contains the difference of the time zone offset between
         # the user's OTOBO time zone setting and the one reported by the user's browser.
@@ -1442,32 +1451,33 @@ sub Run {
 =cut
 
 sub _StoreFailedLogins {
-    my ($Self, %Param ) = @_;
-    my $CurrentTimeObject= $Kernel::OM->Create('Kernel::System::DateTime');
+    my ( $Self, %Param ) = @_;
+    my $CurrentTimeObject   = $Kernel::OM->Create('Kernel::System::DateTime');
     my $CurrentNewTimeStamp = $CurrentTimeObject->ToString();
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-    my $CheckHash = $CacheObject->Get(
-        Type => 'FailedLoginsCustomer', 
+    my $CacheObject         = $Kernel::OM->Get('Kernel::System::Cache');
+    my $CheckHash           = $CacheObject->Get(
+        Type => 'FailedLoginsCustomer',
         Key  => $Param{PostUser},
     );
-    
+
     if ( !$CheckHash ) {
-        $CacheObject->Set( 
-            Type  => 'FailedLoginsCustomer', 
-            Key   => $Param{PostUser}, 
-            Value => [ $CurrentNewTimeStamp ],
+        $CacheObject->Set(
+            Type  => 'FailedLoginsCustomer',
+            Key   => $Param{PostUser},
+            Value => [$CurrentNewTimeStamp],
             TTL   => $Param{PreventBruteForceConfig}{KeepCacheDuration},
         );
 
         return 0;
     }
 
-    my @LoginTryArray = @{ $CheckHash };
+    my @LoginTryArray = @{$CheckHash};
 
     # delete expired cache entries
     LOGIN:
-    for my $LoginTime ( @{ $CheckHash } ) {
-        my $LoginTimeObject = $Kernel::OM->Create( 'Kernel::System::DateTime',
+    for my $LoginTime ( @{$CheckHash} ) {
+        my $LoginTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
             ObjectParams => {
                 String => $LoginTime,
             },
@@ -1486,17 +1496,17 @@ sub _StoreFailedLogins {
 
     # add new failed login to cache
     push @LoginTryArray, $CurrentNewTimeStamp;
-    $CacheObject->Set( 
-        Type  => 'FailedLoginsCustomer', 
-        Key   => $Param{PostUser}, 
+    $CacheObject->Set(
+        Type  => 'FailedLoginsCustomer',
+        Key   => $Param{PostUser},
         Value => \@LoginTryArray,
         TTL   => $Param{PreventBruteForceConfig}{KeepCacheDuration},
     );
 
     if ( scalar @LoginTryArray >= $Param{PreventBruteForceConfig}{MaxAttempt} ) {
         $CacheObject->Set(
-            Type  => 'BannedLoginsCustomer', 
-            Key   => $Param{PostUser}, 
+            Type  => 'BannedLoginsCustomer',
+            Key   => $Param{PostUser},
             Value => $CurrentNewTimeStamp,
             TTL   => $Param{PreventBruteForceConfig}{BanDuration},
         );
@@ -1513,10 +1523,10 @@ sub _CheckAndRemoveFromBannedList {
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     my $BanTime = $CacheObject->Get(
-        Type => 'BannedLoginsCustomer', 
-        Key  =>  $Param{PostUser}, 
+        Type => 'BannedLoginsCustomer',
+        Key  => $Param{PostUser},
     );
-    
+
     if ( !$BanTime ) {
         return (
             Banned => 0,
@@ -1524,8 +1534,9 @@ sub _CheckAndRemoveFromBannedList {
     }
 
     # calculate elapsed time
-    my $CurTimeObject = $Kernel::OM->Create('Kernel::System::DateTime'); 
-    my $BanTimeObject = $Kernel::OM->Create( 'Kernel::System::DateTime',
+    my $CurTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $BanTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
         ObjectParams => {
             String => $BanTime,
         },
@@ -1533,12 +1544,12 @@ sub _CheckAndRemoveFromBannedList {
     my $Offset = $CurTimeObject->Delta(
         DateTimeObject => $BanTimeObject,
     );
-    
+
     # if the ban duration has been surpassed, delete the cache entry
-    if( $Offset->{AbsoluteSeconds} > $Param{PreventBruteForceConfig}{BanDuration} ) {
-        $CacheObject->Delete( 
-            Type => 'BannedLoginsCustomer', 
-            Key  => $Param{PostUser}, 
+    if ( $Offset->{AbsoluteSeconds} > $Param{PreventBruteForceConfig}{BanDuration} ) {
+        $CacheObject->Delete(
+            Type => 'BannedLoginsCustomer',
+            Key  => $Param{PostUser},
         );
         return (
             Banned => 0,

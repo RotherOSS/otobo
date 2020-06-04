@@ -22,7 +22,7 @@ Core.Agent = Core.Agent || {};
 /**
  * @namespace Core.Agent.Preferences
  * @memberof Core.Agent
- * @author 
+ * @author
  * @description
  *      This namespace contains the special module functions for the AgentPreferences module.
  */

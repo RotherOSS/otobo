@@ -22,7 +22,7 @@ Core.Form = Core.Form || {};
 /**
  * @namespace Core.Form.Validate
  * @memberof Core.Form
- * @author 
+ * @author
  * @description
  *      This namespace contains all validation functions.
  */
@@ -96,13 +96,13 @@ Core.Form.Validate = (function (TargetNS) {
         window.setTimeout(function () {
             // If the element, which has an validation error, is a richtext element, trigger the focus event
             if (Core.UI.RichTextEditor.IsEnabled($Element)) {
-                if ( $Element.closest('form').hasClass('oooSubmitted') ) {
+                if ($Element.closest('form').hasClass('oooSubmitted')) {
                     Core.UI.RichTextEditor.Focus($Element);
-                    Core.UI.ScrollTo( $Element.closest('.RichTextHolder') );
+                    Core.UI.ScrollTo($Element.closest('.RichTextHolder'));
                     //$Element.focus();
                 }
             }
-        
+
             window.setTimeout(function () {
                 $Element.closest('form').removeClass('oooSubmitted');
             }, 100);

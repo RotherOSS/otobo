@@ -22,7 +22,7 @@ Core.Agent = Core.Agent || {};
 /**
  * @namespace Core.Agent.TicketProcess
  * @memberof Core.Agent
- * @author 
+ * @author
  * @description
  *      This namespace contains the special module functions for TicketProcess.
  */

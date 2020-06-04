@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::DynamicField;
 
 use strict;
@@ -1513,7 +1512,7 @@ Returns:
 sub GetValidDynamicFields {
     my ( $Self, %Param ) = @_;
 
-    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $DynamicFieldValid = $ConfigObject->Get('Znuny4OTOBOAdvancedDynamicFields::DynamicFieldValid');
 

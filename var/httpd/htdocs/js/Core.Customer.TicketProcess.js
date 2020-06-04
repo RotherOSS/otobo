@@ -22,7 +22,7 @@ Core.Customer = Core.Customer || {};
 /**
  * @namespace Core.Customer.TicketProcess
  * @memberof Core.Customer
- * @author 
+ * @author
  * @description
  *      This namespace contains the special module functions for TicketProcess.
  */

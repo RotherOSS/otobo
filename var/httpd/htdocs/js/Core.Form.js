@@ -21,7 +21,7 @@ var Core = Core || {};
 /**
  * @namespace Core.Form
  * @memberof Core
- * @author 
+ * @author
  * @description
  *      This namespace contains all form functions.
  */
@@ -344,7 +344,7 @@ Core.Form = (function (TargetNS) {
 
             // get possible values
             $('#' + FieldID + ' option').each(function() {
-                RawValues.push( $.trim( $(this).text() ) );
+                RawValues.push($.trim($(this).text()));
             });
 
             // remove possible empty value
@@ -363,17 +363,17 @@ Core.Form = (function (TargetNS) {
                 Field.parent().hide();
                 $("label[for='" + FieldID + "']").hide();
             }
-            else if ( $('#'+ FieldID).parent().parent('div.Row').hasClass('ooo.ACLHidden') == false ) {
+            else if ($('#'+ FieldID).parent().parent('div.Row').hasClass('ooo.ACLHidden') == false) {
                 // show field
                 Field.parent().parent('div.Row').show();
                 Field.parent().show();
                 $("label[for='" + FieldID + "']").show();
 
                 // init modernization on select fields hidden initially
-                Core.UI.InputFields.InitSelect( $('select#'+ FieldID) );
+                Core.UI.InputFields.InitSelect($('select#'+ FieldID));
             }
         });
-    };
+    }
 
     /**
      * This makes all forms submittable by using Ctrl+Enter inside textareas.

@@ -26,7 +26,7 @@ Core.Agent.Admin.ProcessManagement = Core.Agent.Admin.ProcessManagement || {};
 /**
  * @namespace Core.Agent.Admin.ProcessManagement.Canvas
  * @memberof Core.Agent.Admin.ProcessManagement
- * @author 
+ * @author
  * @description
  *      This namespace contains the special module functions for the ProcessManagement Diagram Canvas module.
  */

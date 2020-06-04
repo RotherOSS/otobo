@@ -23,7 +23,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 /**
  * @namespace Core.Agent.Admin.GenericInterfaceWebserviceHistory
  * @memberof Core.Agent.Admin
- * @author 
+ * @author
  * @description
  *      This namespace contains the special module functions for the GenericInterface WebserviceHistory module.
  */

@@ -23,7 +23,7 @@ Core.UI.Table = Core.UI.Table || {};
 /**
  * @namespace Core.UI.Table.Sort
  * @memberof Core.UI.Table
- * @author 
+ * @author
  * @description
  *      This namespace contains all functions for client side table sorting.
  */

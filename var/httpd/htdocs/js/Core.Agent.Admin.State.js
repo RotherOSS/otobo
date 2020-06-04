@@ -23,7 +23,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 /**
  * @namespace Core.Agent.Admin.State
  * @memberof Core.Agent.Admin
- * @author 
+ * @author
  * @description
  *      This namespace contains the special function for AdminState module.
  */

@@ -23,7 +23,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 /**
  * @namespace Core.Agent.Admin.SLA
  * @memberof Core.Agent.Admin
- * @author 
+ * @author
  * @description
  *      This namespace contains the special function for AdminSLA module.
  */

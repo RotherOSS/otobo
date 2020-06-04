@@ -20,13 +20,13 @@ var Core = Core || {};
 
 /**
  * @namespace Core
- * @author 
+ * @author
  */
 
 /**
  * @namespace Core.Agent
  * @memberof Core
- * @author 
+ * @author
  * @description
  *      This namespace contains the config options and functions.
  */

@@ -44,7 +44,7 @@ Returns 1 on success
 sub CheckPreviousRequirement {
     my ( $Self, %Param ) = @_;
 
-        return 1;
+    return 1;
 }
 
 =head1 NAME
@@ -57,19 +57,19 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my %Result;
-    
+
     # Set cache object with taskinfo and starttime to show current state in frontend
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-    my $DateTimeObject = $Kernel::OM->Create( 'Kernel::System::DateTime');
-    my $Epoch = $DateTimeObject->ToEpoch();
+    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $Epoch          = $DateTimeObject->ToEpoch();
 
     $CacheObject->Set(
         Type  => 'OTRSMigration',
         Key   => 'MigrationState',
         Value => {
-            Task        => 'OTOBOSalutationsMigrate',
-            SubTask     => "Migrate salutation templates to OTOBO.",
-            StartTime   => $Epoch,
+            Task      => 'OTOBOSalutationsMigrate',
+            SubTask   => "Migrate salutation templates to OTOBO.",
+            StartTime => $Epoch,
         },
     );
 
@@ -78,8 +78,8 @@ sub Run {
 
         # ATTENTION, don't use opening or closing tags here (< or >)
         # because old notifications can contain quoted tags (&lt; or &gt;)
-        'OTRS_'     => 'OTOBO_',
-        'OTRS'      => 'OTOBO',
+        'OTRS_' => 'OTOBO_',
+        'OTRS'  => 'OTOBO',
     );
 
     # get needed objects
@@ -94,9 +94,9 @@ sub Run {
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
         push @Salutations, {
-            ID      => $Row[0],
-            Name    => $Row[1],
-            Text    => $Row[2],
+            ID   => $Row[0],
+            Name => $Row[1],
+            Text => $Row[2],
         };
     }
 
@@ -142,8 +142,8 @@ sub Run {
             ],
         );
     }
-    $Result{Message}    = $Self->{LanguageObject}->Translate( "Migrate database table salutation." );
-    $Result{Comment}    = $Self->{LanguageObject}->Translate( "Migration completed, perfect!" );
+    $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate database table salutation.");
+    $Result{Comment}    = $Self->{LanguageObject}->Translate("Migration completed, perfect!");
     $Result{Successful} = 1;
 
     return \%Result;

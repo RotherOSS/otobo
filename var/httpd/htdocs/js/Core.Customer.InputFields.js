@@ -32,7 +32,6 @@ Core.Customer.InputFields = (function (TargetNS) {
      * @name Init
      * @memberof Core.Customer.InputFields
      * @function
-     * @returns {Boolean} False if browser is not supported
      * @description
      *      enables input css
      */

@@ -22,7 +22,7 @@ Core.Agent = Core.Agent || {};
 /**
  * @namespace Core.Agent.Statistics
  * @memberof Core.Agent
- * @author 
+ * @author
  * @description
  *      This namespace contains the special module functions for the Statistics module.
  */

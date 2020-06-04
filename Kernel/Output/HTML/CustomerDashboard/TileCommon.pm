@@ -13,7 +13,38 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-<a id="oooTile[% Data.TileID | html %]" class="oooTile oooTile_NewTicket" href="[% Env("Baselink") %]Action=CustomerTicketMessage">
-    <h1 style="color: [% Data.Color | html %]">[% Translate("Issue%sa ticket") %] | html | ReplacePlaceholders('<br/>') %]</h1>
-    <h1 style="color: [% Data.Color | html %]"><i class="ooofo ooofo-add"></i></h1>
-</a>
+
+package Kernel::Output::HTML::CustomerDashboard::TileCommon;
+
+use strict;
+use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::Output::HTML::Layout',
+);
+
+sub new {
+    my ( $Type, %Param ) = @_;
+
+    # allocate new hash for object
+    my $Self = {%Param};
+    bless( $Self, $Type );
+
+    return $Self;
+}
+
+sub Run {
+    my ( $Self, %Param ) = @_;
+
+    my $Content = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Output(
+        TemplateFile => $Param{Template},
+        Data         => {
+            TileID => $Param{TileID},
+            %{ $Param{Config} },
+        },
+    );
+
+    return $Content;
+}
+
+1;

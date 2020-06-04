@@ -22,7 +22,7 @@ Core.Agent = Core.Agent || {};
 /**
  * @namespace Core.Agent.Header
  * @memberof Core.Agent
- * @author 
+ * @author
  * @description
  *      This namespace contains the functions for handling Header in framework.
  */
@@ -49,7 +49,7 @@ Core.Agent.Header = (function (TargetNS) {
         Core.Agent.CustomerInformationCenterSearch.InitAutocomplete($('#ToolBarCICSearchCustomerID'), "SearchCustomerID");
         Core.Agent.CustomerUserInformationCenterSearch.InitAutocomplete($('#ToolBarCICSearchCustomerUser'), "SearchCustomerUser");
 
-        // Initialize full text search via ES 
+        // Initialize full text search via ES
         Core.UI.Elasticsearch.InitSearchField($('#FulltextES'), "AgentElasticsearchQuickResult");
 
         // Initialize full text search

@@ -21,7 +21,7 @@ var Core = Core || {};
 /**
  * @namespace Core.Customer
  * @memberof Core
- * @author 
+ * @author
  * @description
  *      This namespace contains all global functions for the customer interface.
  */
@@ -103,7 +103,7 @@ Core.Customer = (function (TargetNS) {
 
         // move customer notifications between header and content
         $('#oooCustomerNotifications').insertAfter('#oooHeader');
-        if ( $('#oooCustomerNotifications > div').length == 0 ) {
+        if ($('#oooCustomerNotifications > div').length == 0) {
             $('#oooCustomerNotifications').hide();
         }
     };

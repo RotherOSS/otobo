@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::GenericInterface::Invoker::Elasticsearch::CustomerUserManagement;
 
 use strict;
@@ -26,7 +25,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::GenericInterface::Invoker::Elasticsearch::Create - GenericInterface test Invoker backend
+Kernel::GenericInterface::Invoker::Elasticsearch::CustomerUserManagement - GenericInterface test Invoker backend
 
 =head1 PUBLIC INTERFACE
 
@@ -45,15 +44,15 @@ sub new {
     bless( $Self, $Type );
 
     # check needed params and store them in $Self
-    for my $Needed ( qw/DebuggerObject WebserviceID/ ) {
-        if ( !$Param{ $Needed } ) {
+    for my $Needed (qw/DebuggerObject WebserviceID/) {
+        if ( !$Param{$Needed} ) {
             return {
                 Success      => 0,
                 ErrorMessage => "Need $Needed!"
             };
         }
 
-        $Self->{ $Needed } = $Param{ $Needed };
+        $Self->{$Needed} = $Param{$Needed};
     }
 
     return $Self;
@@ -84,10 +83,10 @@ sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
     # check needed
-    for my $Needed ( qw/Event/ ) {
+    for my $Needed (qw/Event/) {
         if ( !$Param{Data}{$Needed} ) {
             return {
-                Success => 0,
+                Success      => 0,
                 ErrorMessage => "Need $Needed!",
             };
         }
@@ -96,21 +95,21 @@ sub PrepareRequest {
     # delete the company from elasticsearch - only called from the delete Webservice
     if ( $Param{Data}{Event} eq 'CustomerUserDelete' ) {
         my %Content = (
-            query => { 
+            query => {
                 term => {
-                    UserLogin => $Param{Data}{UserLogin}, 
+                    UserLogin => $Param{Data}{UserLogin},
                 }
-            } 
+            }
         );
         return {
             Success => 1,
             Data    => {
-                docapi   => '_delete_by_query',
-                id => '',
+                docapi => '_delete_by_query',
+                id     => '',
                 %Content,
             },
         };
-    };
+    }
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -119,29 +118,31 @@ sub PrepareRequest {
     my $Search = $ConfigObject->Get('Elasticsearch::CustomerUserSearchFields');
 
     my %DataToStore;
-    for my $Field ( @{ $Store }, @{ $Search } ) {
-        $DataToStore{ $Field } = 1;
-    } 
+    for my $Field ( @{$Store}, @{$Search} ) {
+        $DataToStore{$Field} = 1;
+    }
 
     # prepare request
     my %Content = ( map { $_ => $Param{Data}{NewData}{$_} } keys %DataToStore );
     my $API;
 
-    # create a new customeruser 
+    # create a new customeruser
     if ( $Param{Data}{Event} eq 'CustomerUserAdd' ) {
+
         # do nothing for invalid companies
         if ( $Param{Data}{NewData}{ValidID} != 1 ) {
             return {
-                Success => 1,
+                Success           => 1,
                 StopCommunication => 1,
             };
         }
 
-        $API = '_doc';        
+        $API = '_doc';
     }
 
     # customeruser update
     elsif ( $Param{Data}{Event} eq 'CustomerUserUpdate' ) {
+
         # if the Customer is set to invalid, delete it
         if ( $Param{Data}{NewData}{ValidID} != 1 ) {
             if ( $Param{Data}{OldData}{ValidID} == 1 ) {
@@ -160,7 +161,7 @@ sub PrepareRequest {
             }
 
             return {
-                Success => 1,
+                Success           => 1,
                 StopCommunication => 1,
             };
         }
@@ -175,15 +176,15 @@ sub PrepareRequest {
                 Invoker      => 'CustomerUserManagement',
                 Asynchronous => 0,
                 Data         => {
-                    Event      => 'CustomerUserDelete',
-                    UserLogin  => $Param{Data}{OldData}{UserLogin},
+                    Event     => 'CustomerUserDelete',
+                    UserLogin => $Param{Data}{OldData}{UserLogin},
                 },
             );
 
             # if the old company was invalid, just return
             if ( $Param{Data}{OldData}{ValidID} != 1 ) {
                 return {
-                    Success => 1,
+                    Success           => 1,
                     StopCommunication => 1,
                 };
             }
@@ -200,7 +201,7 @@ sub PrepareRequest {
 
             else {
                 %Content = (
-                    doc => { %Content },
+                    doc => {%Content},
                 );
 
                 $API = '_update';
@@ -274,7 +275,6 @@ sub HandleResponse {
         };
     }
 
-
     return {
         Success => 1,
         Data    => $Param{Data},
@@ -282,7 +282,6 @@ sub HandleResponse {
 }
 
 1;
-
 
 =head1 TERMS AND CONDITIONS
 

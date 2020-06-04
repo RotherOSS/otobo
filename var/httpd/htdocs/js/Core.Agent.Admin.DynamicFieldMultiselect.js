@@ -23,7 +23,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 /**
  * @namespace Core.Agent.Admin.DynamicFieldMultiselect
  * @memberof Core.Agent.Admin
- * @author 
+ * @author
  * @description
  *      This namespace contains the special module functions for the DynamicFieldMultiselect module.
  */

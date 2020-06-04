@@ -66,7 +66,7 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need $Key!"
             );
-            $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if OTOBO version is correct." );
+            $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
             $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
             $Result{Successful} = 0;
             return \%Result;
@@ -80,7 +80,7 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need OTRSData->$Key!"
             );
-            $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if OTOBO and OTRS connect is possible." );
+            $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
             $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
             $Result{Successful} = 0;
             return \%Result;
@@ -88,32 +88,33 @@ sub Run {
     }
 
     # Set cache object with taskinfo and starttime to show current state in frontend
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-    my $DateTimeObject = $Kernel::OM->Create( 'Kernel::System::DateTime');
-    my $Epoch = $DateTimeObject->ToEpoch();
+    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $Epoch          = $DateTimeObject->ToEpoch();
 
     $CacheObject->Set(
         Type  => 'OTRSMigration',
         Key   => 'MigrationState',
         Value => {
-            Task        => 'OTOBOOTRSConnectionCheck',
-            SubTask     => "Check if a connection via ssh or local is possible.",
-            StartTime   => $Epoch,
+            Task      => 'OTOBOOTRSConnectionCheck',
+            SubTask   => "Check if a connection via ssh or local is possible.",
+            StartTime => $Epoch,
         },
     );
 
-    if ($Param{OTRSData}->{OTRSLocation} eq 'localhost') {
-        $OTRSHome = $Param{OTRSData}->{OTRSHome}.'/Kernel/Config.pm';
-    } else {
+    if ( $Param{OTRSData}->{OTRSLocation} eq 'localhost' ) {
+        $OTRSHome = $Param{OTRSData}->{OTRSHome} . '/Kernel/Config.pm';
+    }
+    else {
         # Need to copy OTRS Kernel/Config.pm file and get path to it back
-        $OTRSHome = $Self->CopyFileAndSaveAsTmp (
-            FQDN        => $Param{OTRSData}->{FQDN},
-            SSHUser     => $Param{OTRSData}->{SSHUser},
-            Password    => $Param{OTRSData}->{Password},
-            Path        => $Param{OTRSData}->{OTRSHome}.'/Kernel/',
-            Port        => $Param{OTRSData}->{Port},
-            Filename    => 'Config.pm',
-            UserID      => 1,
+        $OTRSHome = $Self->CopyFileAndSaveAsTmp(
+            FQDN     => $Param{OTRSData}->{FQDN},
+            SSHUser  => $Param{OTRSData}->{SSHUser},
+            Password => $Param{OTRSData}->{Password},
+            Path     => $Param{OTRSData}->{OTRSHome} . '/Kernel/',
+            Port     => $Param{OTRSData}->{Port},
+            Filename => 'Config.pm',
+            UserID   => 1,
         );
     }
 
@@ -122,15 +123,16 @@ sub Run {
             Priority => 'error',
             Message  => "Can't open Kernel/Config.pm file from OTRSHome: $Param{OTRSData}->{OTRSHome}!",
         );
-        $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if OTOBO and OTRS connect is possible." );
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Can\'t open Kernel/Config.pm file from OTRSHome: %s!', $Param{OTRSData}->{OTRSHome} );
+        $Result{Message} = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
+        $Result{Comment} = $Self->{LanguageObject}
+            ->Translate( 'Can\'t open Kernel/Config.pm file from OTRSHome: %s!', $Param{OTRSData}->{OTRSHome} );
         $Result{Successful} = 0;
         return \%Result;
     }
 
     # Check OTOBO version
     $ResultOTOBO = $Self->_CheckOTOBOVersion();
-    if ($ResultOTOBO->{Successful} == 0) {
+    if ( $ResultOTOBO->{Successful} == 0 ) {
         return $ResultOTOBO;
     }
 
@@ -138,13 +140,13 @@ sub Run {
     $ResultOTRS = $Self->_CheckOTRSVersion(
         OTRSHome => $OTRSHome,
     );
-    if ($ResultOTRS->{Successful} == 0) {
+    if ( $ResultOTRS->{Successful} == 0 ) {
         return $ResultOTRS;
     }
 
     # Everything if correct, return
-    $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if OTOBO and OTRS connect is possible." );
-    $Result{Comment}    = $ResultOTOBO->{Comment}.' '.$ResultOTRS->{Comment};
+    $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
+    $Result{Comment}    = $ResultOTOBO->{Comment} . ' ' . $ResultOTRS->{Comment};
     $Result{Successful} = 1;
 
     return \%Result;
@@ -154,19 +156,19 @@ sub _CheckOTOBOVersion {
     my ( $Self, %Param ) = @_;
 
     my %Result;
-    my $OTOBOHome    = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $OTOBOHome = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
     # load Kernel/Config.pm file
     if ( !-e "$OTOBOHome/Kernel/Config.pm" ) {
-        $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if OTOBO version is correct." );
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate( '%s does not exist!', "$OTOBOHome/Kernel/Config.pm" );
         $Result{Successful} = 0;
         return \%Result;
     }
 
     # Everything if correct, return 1
-    $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if OTOBO version is correct." );
-    $Result{Comment}    = $Self->{LanguageObject}->Translate( "OTOBO Home exists." );
+    $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
+    $Result{Comment}    = $Self->{LanguageObject}->Translate("OTOBO Home exists.");
     $Result{Successful} = 1;
 
     return \%Result;
@@ -176,27 +178,27 @@ sub _CheckOTRSVersion {
     my ( $Self, %Param ) = @_;
 
     my %Result;
-    my $OTRSHome    = $Param{OTRSHome};
+    my $OTRSHome = $Param{OTRSHome};
 
     # load Kernel/Config.pm file
     if ( !-e "$OTRSHome" ) {
-        $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if we are able to connect to OTRS Home." );
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( "Can't connect to OTRS file directory." );
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if we are able to connect to OTRS Home.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate("Can't connect to OTRS file directory.");
         $Result{Successful} = 0;
         return \%Result;
     }
 
     # load Kernel/Config.pm file
-    if ( ! $Self->_CheckConfigpmAndWriteCache( ConfigpmPath => $OTRSHome ) ) {
-        $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if we are able to connect to OTRS Home." );
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( "Can't connect to OTRS file directory." );
+    if ( !$Self->_CheckConfigpmAndWriteCache( ConfigpmPath => $OTRSHome ) ) {
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if we are able to connect to OTRS Home.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate("Can't connect to OTRS file directory.");
         $Result{Successful} = 0;
         return \%Result;
     }
 
     # Everything is correct, return %Result
-    $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if we are able to connect to OTRS Home." );
-    $Result{Comment}    = $Self->{LanguageObject}->Translate( "Connect to OTRS file directory is possible." );
+    $Result{Message}    = $Self->{LanguageObject}->Translate("Check if we are able to connect to OTRS Home.");
+    $Result{Comment}    = $Self->{LanguageObject}->Translate("Connect to OTRS file directory is possible.");
     $Result{Successful} = 1;
     return \%Result;
 }
@@ -210,11 +212,11 @@ sub _CheckConfigpmAndWriteCache {
     # Build config options to save in cache.
     # ConfigOption => CacheKeyName
     my %COptions = (
-        DatabaseHost    => 'DBHost',
-        Database        => 'DBName',
-        DatabaseUser    => 'DBUser',
-        DatabasePw      => 'DBPassword',
-        DatabaseDSN     => 'DBDSN',
+        DatabaseHost => 'DBHost',
+        Database     => 'DBName',
+        DatabaseUser => 'DBUser',
+        DatabasePw   => 'DBPassword',
+        DatabaseDSN  => 'DBDSN',
     );
 
     my %CacheOptions;
@@ -227,8 +229,8 @@ sub _CheckConfigpmAndWriteCache {
     while (<$In>) {
 
         # Search config option value and save in %CacheOptions{CacheKey} => ConfigOption
-        if ( /^\s*\$Self->\{['"\s]*(\w+)['"\s]*\}\s*=\s*['"](.+)['"]\s*;/ ) {
-            for my $Key ( keys %COptions ) {
+        if (/^\s*\$Self->\{['"\s]*(\w+)['"\s]*\}\s*=\s*['"](.+)['"]\s*;/) {
+            for my $Key ( sort keys %COptions ) {
                 if ( lc($1) eq lc($Key) ) {
                     $CacheOptions{ $COptions{$Key} } = $2;
                     next CONFIGLINE;
@@ -243,9 +245,11 @@ sub _CheckConfigpmAndWriteCache {
 
     if ( $DBType =~ /mysql/ ) {
         $CacheOptions{DBType} = 'mysql';
-    } elsif ( $DBType =~ /Pg/  ){
+    }
+    elsif ( $DBType =~ /Pg/ ) {
         $CacheOptions{DBType} = 'postgresql';
-    } elsif ( $DBType =~ /Oracle/  ){
+    }
+    elsif ( $DBType =~ /Oracle/ ) {
         $CacheOptions{DBType} = 'oracle';
         $CacheOptions{DBPort} = ( $CacheOptions{DBDSN} =~ /^DBI:.*:(\d+)/ );
     }
@@ -254,14 +258,14 @@ sub _CheckConfigpmAndWriteCache {
         Type  => 'OTRSMigration',
         Key   => 'OTRSDBSettings',
         Value => {
-            DBType => $CacheOptions{DBType},
-            DBHost => $CacheOptions{DBHost},
-            DBUser => $CacheOptions{DBUser},
+            DBType     => $CacheOptions{DBType},
+            DBHost     => $CacheOptions{DBHost},
+            DBUser     => $CacheOptions{DBUser},
             DBPassword => $CacheOptions{DBPassword},
-            DBName => $CacheOptions{DBName},
-            DBDSN => $CacheOptions{DBDSN},
-            DBSID => $CacheOptions{DBSID} || '',
-            DBPort => $CacheOptions{DBPort} || '',
+            DBName     => $CacheOptions{DBName},
+            DBDSN      => $CacheOptions{DBDSN},
+            DBSID      => $CacheOptions{DBSID} || '',
+            DBPort     => $CacheOptions{DBPort} || '',
         },
     );
 

@@ -22,7 +22,7 @@ Core.SystemConfiguration = Core.SystemConfiguration || {};
 /**
  * @namespace Core.SystemConfiguration
  * @memberof Core
- * @author 
+ * @author
  * @description
  *      This namespace contains the special functions for SystemConfiguration.VacationDays module.
  */

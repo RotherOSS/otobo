@@ -22,7 +22,7 @@ Core.Agent = Core.Agent || {};
 /**
  * @namespace Core.Agent.TicketEmailOutbound
  * @memberof Core.Agent
- * @author 
+ * @author
  * @description
  *      This namespace contains special module functions for TicketEmailOutbound.
  */

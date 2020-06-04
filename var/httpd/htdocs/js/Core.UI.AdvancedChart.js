@@ -24,7 +24,7 @@ Core.UI = Core.UI || {};
 /**
  * @namespace Core.UI.AdvancedChart
  * @memberof Core.UI
- * @author 
+ * @author
  * @description
  *      Chart drawing.
  */

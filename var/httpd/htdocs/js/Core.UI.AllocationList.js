@@ -22,7 +22,7 @@ Core.UI = Core.UI || {};
 /**
  * @namespace Core.UI.AllocationList
  * @memberof Core.UI
- * @author 
+ * @author
  * @description
  *      Support for Allocation Lists (sortable lists).
  */

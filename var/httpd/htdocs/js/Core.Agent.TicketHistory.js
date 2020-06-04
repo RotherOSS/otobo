@@ -22,7 +22,7 @@ Core.Agent = Core.Agent || {};
 /**
  * @namespace Core.Agent.TicketHistory
  * @memberof Core.Agent
- * @author 
+ * @author
  * @description
  *      This namespace contains the TicketHistory functions.
  */

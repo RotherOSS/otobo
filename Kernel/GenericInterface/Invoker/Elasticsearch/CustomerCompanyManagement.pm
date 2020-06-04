@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::GenericInterface::Invoker::Elasticsearch::CustomerCompanyManagement;
 
 use strict;
@@ -26,7 +25,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::GenericInterface::Invoker::Elasticsearch::Create - GenericInterface test Invoker backend
+Kernel::GenericInterface::Invoker::Elasticsearch::CustomerCompanyManagement - GenericInterface test Invoker backend
 
 =head1 PUBLIC INTERFACE
 
@@ -45,15 +44,15 @@ sub new {
     bless( $Self, $Type );
 
     # check needed params and store them in $Self
-    for my $Needed ( qw/DebuggerObject WebserviceID/ ) {
-        if ( !$Param{ $Needed } ) {
+    for my $Needed (qw/DebuggerObject WebserviceID/) {
+        if ( !$Param{$Needed} ) {
             return {
                 Success      => 0,
                 ErrorMessage => "Need $Needed!"
             };
         }
 
-        $Self->{ $Needed } = $Param{ $Needed };
+        $Self->{$Needed} = $Param{$Needed};
     }
 
     return $Self;
@@ -84,10 +83,10 @@ sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
     # check needed
-    for my $Needed ( qw/CustomerID Event/ ) {
+    for my $Needed (qw/CustomerID Event/) {
         if ( !$Param{Data}{$Needed} ) {
             return {
-                Success => 0,
+                Success      => 0,
                 ErrorMessage => "Need $Needed!",
             };
         }
@@ -96,21 +95,21 @@ sub PrepareRequest {
     # delete the company from elasticsearch - only called from the delete Webservice
     if ( $Param{Data}{Event} eq 'CustomerCompanyDelete' ) {
         my %Content = (
-            query => { 
+            query => {
                 term => {
-                    CustomerID => $Param{Data}{CustomerID}, 
+                    CustomerID => $Param{Data}{CustomerID},
                 }
-            } 
+            }
         );
         return {
             Success => 1,
             Data    => {
-                docapi   => '_delete_by_query',
-                id => '',
+                docapi => '_delete_by_query',
+                id     => '',
                 %Content,
             },
         };
-    };
+    }
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -118,29 +117,31 @@ sub PrepareRequest {
     my $Store  = $ConfigObject->Get('Elasticsearch::CustomerCompanyStoreFields');
     my $Search = $ConfigObject->Get('Elasticsearch::CustomerCompanySearchFields');
     my %DataToStore;
-    for my $Field ( @{ $Store }, @{ $Search } ) {
-        $DataToStore{ $Field } = 1;
-    } 
+    for my $Field ( @{$Store}, @{$Search} ) {
+        $DataToStore{$Field} = 1;
+    }
 
     # prepare request
     my %Content = ( map { $_ => $Param{Data}{NewData}{$_} } keys %DataToStore );
     my $API;
 
-    # create a new company 
+    # create a new company
     if ( $Param{Data}{Event} eq 'CustomerCompanyAdd' ) {
+
         # do nothing for invalid companies
         if ( $Param{Data}{NewData}{ValidID} != 1 ) {
             return {
-                Success => 1,
+                Success           => 1,
                 StopCommunication => 1,
             };
         }
 
-        $API = '_doc';        
+        $API = '_doc';
     }
 
     # company update
     elsif ( $Param{Data}{Event} eq 'CustomerCompanyUpdate' ) {
+
         # if the Customer is set to invalid, delete it
         if ( $Param{Data}{NewData}{ValidID} != 1 ) {
             if ( $Param{Data}{OldData}{ValidID} == 1 ) {
@@ -159,7 +160,7 @@ sub PrepareRequest {
             }
 
             return {
-                Success => 1,
+                Success           => 1,
                 StopCommunication => 1,
             };
         }
@@ -182,7 +183,7 @@ sub PrepareRequest {
             # if the old company was invalid, just return
             if ( $Param{Data}{OldData}{ValidID} != 1 ) {
                 return {
-                    Success => 1,
+                    Success           => 1,
                     StopCommunication => 1,
                 };
             }
@@ -199,7 +200,7 @@ sub PrepareRequest {
 
             else {
                 %Content = (
-                    doc => { %Content },
+                    doc => {%Content},
                 );
 
                 $API = '_update';
@@ -273,7 +274,6 @@ sub HandleResponse {
         };
     }
 
-
     return {
         Success => 1,
         Data    => $Param{Data},
@@ -281,7 +281,6 @@ sub HandleResponse {
 }
 
 1;
-
 
 =head1 TERMS AND CONDITIONS
 

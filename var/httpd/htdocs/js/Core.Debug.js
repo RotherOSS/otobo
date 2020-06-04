@@ -21,7 +21,7 @@ var Core = Core || {};
 /**
  * @namespace Core.Debug
  * @memberof Core
- * @author 
+ * @author
  * @description
  *      This namespace contains all debug functions.
  */

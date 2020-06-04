@@ -41,12 +41,12 @@ Core.Customer.Search = (function (TargetNS) {
             $('#oooSearch').focus();
 
             // TODO: include FAQ to ES
-            if ( Core.Config.Get('ESActive') == 1 && Core.Config.Get('Action') !== 'CustomerFAQExplorer' && Core.Config.Get('Action') !== 'CustomerFAQZoom' ){
-                Core.UI.Elasticsearch.InitSearchField( $('#oooSearch'), "CustomerElasticsearchQuickResult");
+            if (Core.Config.Get('ESActive') == 1 && Core.Config.Get('Action') !== 'CustomerFAQExplorer' && Core.Config.Get('Action') !== 'CustomerFAQZoom'){
+                Core.UI.Elasticsearch.InitSearchField($('#oooSearch'), "CustomerElasticsearchQuickResult");
             }
 
             $('#oooSearch').on('blur', function () {
-                setTimeout( function() {
+                setTimeout(function() {
                     $('#oooSearch').removeClass('oooFull');
                     $('#oooSearch').val('');
                 },60);

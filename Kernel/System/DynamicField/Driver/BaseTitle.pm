@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::DynamicField::Driver::BaseTitle;
 
 use strict;
@@ -108,13 +107,12 @@ sub EditFieldRender {
     my ( $Self, %Param ) = @_;
 
     # take config from field config
-    my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
-    my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
-    my $FieldLabel  = $Param{DynamicFieldConfig}->{Label};
+    my $FieldConfig       = $Param{DynamicFieldConfig}->{Config};
+    my $FieldName         = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $FieldLabel        = $Param{DynamicFieldConfig}->{Label};
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
         Text => $FieldLabel,
     );
-
 
     # call EditLabelRender on the common Driver
     my $TitleString = $Self->EditTitleRender(
@@ -455,9 +453,9 @@ sub ValueLookup {
 
 =head2 EditTitleRender()
 
-creates the labeltitle HTML to be used in edit masks.
+creates the title HTML to be used in edit masks.
 
-    my $LabelTitleHTML = $BackendObject->EditLabelTitleRender(
+    my $LabelTitleHTML = $BackendObject->EditTitleRender(
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
         FieldName          => 'TheField',               # the value to be set on the 'for' attribute
         AdditionalText     => 'Between'                 # other text to be placed next to FieldName
@@ -503,27 +501,30 @@ sub EditTitleRender {
     my $TitleText = $Param{DynamicFieldConfig}->{Label};
 
     my $TitleFontStyle;
-    if ($Param{DynamicFieldConfig}->{Config}->{CBFontStyleItalicValue} eq "on"){
-        $TitleFontStyle = 'italic'
-    }else{
-        $TitleFontStyle = 'normal'
+    if ( $Param{DynamicFieldConfig}->{Config}->{CBFontStyleItalicValue} eq "on" ) {
+        $TitleFontStyle = 'italic';
+    }
+    else {
+        $TitleFontStyle = 'normal';
     }
 
     my $TitleFontWeight;
-    if ($Param{DynamicFieldConfig}->{Config}->{CBFontStyleBoldValue} eq "on"){
-        $TitleFontWeight = 'bold'
-    }else{
-        $TitleFontWeight = 'normal'
+    if ( $Param{DynamicFieldConfig}->{Config}->{CBFontStyleBoldValue} eq "on" ) {
+        $TitleFontWeight = 'bold';
+    }
+    else {
+        $TitleFontWeight = 'normal';
     }
 
     my $TitleFontUnderLine;
-    if ($Param{DynamicFieldConfig}->{Config}->{CBFontStyleUnderLineValue} eq "on"){
-        $TitleFontUnderLine = 'underline'
-    }else{
-        $TitleFontUnderLine = 'none'
+    if ( $Param{DynamicFieldConfig}->{Config}->{CBFontStyleUnderLineValue} eq "on" ) {
+        $TitleFontUnderLine = 'underline';
+    }
+    else {
+        $TitleFontUnderLine = 'none';
     }
 
-    my $TitleFontSize  = $Param{DynamicFieldConfig}->{Config}->{FontSize}."px";
+    my $TitleFontSize  = $Param{DynamicFieldConfig}->{Config}->{FontSize} . "px";
     my $TitleFontColor = $Param{DynamicFieldConfig}->{Config}->{FontColor};
     my $TitleID        = $Param{FieldName};
 
@@ -544,6 +545,7 @@ EOF
         );
         $HTMLString .= ")";
     }
+
     #$HTMLString .= ":\n";
 
     # closing tag

@@ -21,7 +21,7 @@ var Core = Core || {};
 /**
  * @namespace Core.JSON
  * @memberof Core
- * @author 
+ * @author
  * @description
  *      Contains the code for the JSON functions.
  */

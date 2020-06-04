@@ -51,8 +51,8 @@ Core.UI.oooWidget = (function (TargetNS) {
         });
 
         // close on escape
-        $(document).keyup( function(e) {
-            if ( e.key === "Escape" || e.key === "Esc" ) {
+        $(document).keyup(function(e) {
+            if (e.key === "Escape" || e.key === "Esc") {
                 $('.oooWidget').hide();
             }
         });

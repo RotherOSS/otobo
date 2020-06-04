@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::AuthSession;
 
 use strict;
@@ -171,7 +170,7 @@ sub CreateSessionID {
 
     my $SessionLimit;
     if ( $Param{UserType} eq 'User' ) {
-            $SessionLimit = $Self->{AgentSessionLimit};
+        $SessionLimit = $Self->{AgentSessionLimit};
     }
     elsif ( $Param{UserType} eq 'Customer' && $Self->{CustomerSessionLimit} ) {
         $SessionLimit = $Self->{CustomerSessionLimit};

@@ -91,10 +91,9 @@ sub Run {
 
     if ( $ExitCode != 0 ) {
         $Result{Message} = $Self->{LanguageObject}->Translate("Check if all needed Perl modules have been installed.");
-        $Result{Comment}
-            = $Self->{LanguageObject}->Translate(
+        $Result{Comment} = $Self->{LanguageObject}->Translate(
             "One or more required Perl modules are missing. Please install them as recommended, and run the migration script again."
-            );
+        );
         $Result{Successful} = 0;
         return \%Result;
     }

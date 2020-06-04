@@ -44,11 +44,11 @@ my %Options = (
     OTRS6path      => '/opt/otrs/',
 );
 Getopt::Long::GetOptions(
-    'help',                      \$Options{Help},
-    'non-interactive',           \$Options{NonInteractive},
-    'OTRS-6-path',               \$Options{OTRS6path},
-    'timing',                    \$Options{Timing},
-    'verbose',                   \$Options{Verbose},
+    'help',            \$Options{Help},
+    'non-interactive', \$Options{NonInteractive},
+    'OTRS-6-path',     \$Options{OTRS6path},
+    'timing',          \$Options{Timing},
+    'verbose',         \$Options{Verbose},
 );
 
 {
@@ -78,15 +78,16 @@ Please run it as the 'otobo' user or with the help of su:
     su -c \"$0\" -s /bin/bash otobo
 ";
     }
-my $Result;
-    $Result = $Kernel::OM->Create('Kernel::System::MigrateFromOTRS')->Run(
-        OTRSHomePath => '/opt/otrs/',
-        Task => 'OTOBOPerlModulesCheck',
-        CommandlineOptions =>  \%Options,
-        UserID => 1,
+
+    my $Result = $Kernel::OM->Create('Kernel::System::MigrateFromOTRS')->Run(
+        OTRSHomePath       => '/opt/otrs/',
+        Task               => 'OTOBOPerlModulesCheck',
+        CommandlineOptions => \%Options,
+        UserID             => 1,
     );
-use Data::Dumper;
-print "Result: ".Dumper($Result);
+
+    print "Result: " . $Kernel::OM->Get('Kernel::System::Main')->Dump($Result);
+
     exit 0;
 }
 

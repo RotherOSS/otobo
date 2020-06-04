@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::GenericInterface::Invoker::Elasticsearch::Search;
 
 use strict;
@@ -45,15 +44,15 @@ sub new {
     bless( $Self, $Type );
 
     # check needed params and store them in $Self
-    for my $Needed ( qw/DebuggerObject WebserviceID/ ) {
-        if ( !$Param{ $Needed } ) {
+    for my $Needed (qw/DebuggerObject WebserviceID/) {
+        if ( !$Param{$Needed} ) {
             return {
                 Success      => 0,
                 ErrorMessage => "Need $Needed!"
             };
         }
 
-        $Self->{ $Needed } = $Param{ $Needed };
+        $Self->{$Needed} = $Param{$Needed};
     }
 
     return $Self;
@@ -84,8 +83,8 @@ sub PrepareRequest {
     my ( $Self, %Param ) = @_;
 
     # check needed
-    for my $Needed ( qw/IndexName/ ) {
-        if ( !$Param{Data}{ $Needed } ) {
+    for my $Needed (qw/IndexName/) {
+        if ( !$Param{Data}{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
@@ -121,7 +120,8 @@ sub PrepareRequest {
 
     # define return data
     if ( $Param{Data}{Return} ) {
-        $SearchQuery{_source}{includes} = IsArrayRefWithData( $Param{Data}{Return} ) ? $Param{Data}{Return} : [ $Param{Data}{Return} ];
+        $SearchQuery{_source}{includes}
+            = IsArrayRefWithData( $Param{Data}{Return} ) ? $Param{Data}{Return} : [ $Param{Data}{Return} ];
     }
 
     # return size
@@ -133,13 +133,13 @@ sub PrepareRequest {
     if ( $Param{Data}{Sort} ) {
         $SearchQuery{sort} = $Param{Data}{Sort};
     }
-    
+
     return {
         Success => 1,
         Data    => {
-    	    index => $Param{Data}{IndexName},
+            index => $Param{Data}{IndexName},
             %SearchQuery,
-    	},
+        },
     };
 
 }
@@ -181,6 +181,7 @@ sub HandleResponse {
     #TODO more specific error handling
 
     my @Return;
+
     # gather the returned info
     if ( $Param{Data}{hits}{hits} ) {
         @Return = map { $_->{_source} } @{ $Param{Data}{hits}{hits} };

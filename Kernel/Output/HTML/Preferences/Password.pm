@@ -169,8 +169,8 @@ sub Run {
 
     # compare pws
     if ( $Pw ne $Pw1 ) {
-        $Self->{Error}
-            = $LanguageObject->Translate('Can\'t update password, the new password and the repeated password do not match.');
+        $Self->{Error} = $LanguageObject->Translate(
+            'Can\'t update password, the new password and the repeated password do not match.');
         return;
     }
 
@@ -222,21 +222,23 @@ sub Run {
     # check min 3 of lower case, upper case, numbers, special characters
     if ( $Config->{PasswordMin3of4} ) {
         my $PwCount = 0;
-        if ($Pw =~ /\d/ ) {
+        if ( $Pw =~ /\d/ ) {
             $PwCount++;
         }
-        if ($Pw =~ /[A-Z]/ ) {
+        if ( $Pw =~ /[A-Z]/ ) {
             $PwCount++;
         }
-        if ($Pw =~ /[a-z]/ ) {
+        if ( $Pw =~ /[a-z]/ ) {
             $PwCount++;
         }
         if ( $Pw =~ /\W/ ) {
             $PwCount++;
         }
-        if ($PwCount < 3) {
+        if ( $PwCount < 3 ) {
             $Self->{Error}
-                = $LanguageObject->Translate('Can\'t update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!');
+                = $LanguageObject->Translate(
+                'Can\'t update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!'
+                );
             return;
         }
     }
@@ -262,8 +264,7 @@ sub Run {
             next HISTORY if $MD5Pw ne $Param{UserData}->{$HistoryKey};
 
             # if already used, complain about
-            $Self->{Error}
-                = "Can\'t update password, this password has already been used. Please choose a new one!";
+            $Self->{Error} = "Can\'t update password, this password has already been used. Please choose a new one!";
             return;
         }
     }
@@ -275,18 +276,19 @@ sub Run {
     );
     return if !$Success;
 
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $SystemTime     = $DateTimeObject->ToEpoch();
 
     # set password change time
     $Self->{UserObject}->SetPreferences(
         UserID => $Param{UserData}->{UserID},
         Key    => 'UserLastPwChangeTime',
-        Value  => $TimeObject->SystemTime(),
+        Value  => $SystemTime,
     );
     $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
         SessionID => $Self->{SessionID},
         Key       => 'UserLastPwChangeTime',
-        Value     => $TimeObject->SystemTime(),
+        Value     => $SystemTime,
     );
 
     # set password history

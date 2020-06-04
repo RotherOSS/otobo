@@ -14,8 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
-package Kernel::Output::HTML::CustomerDashboard::Tile_TicketList;
+package Kernel::Output::HTML::CustomerDashboard::TileTicketList;
 
 use strict;
 use warnings;
@@ -51,15 +50,15 @@ sub Run {
         return '';
     }
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
+    my $TicketObject     = $Kernel::OM->Get('Kernel::System::Ticket');
     my $TicketListObject = $Kernel::OM->Get('Kernel::Output::HTML::TicketOverview::CustomerList');
 
     my %Filter = (
         CustomerUserID => $Param{UserID},
         StateType      => $Param{Config}{StateType} || '',
-        SortBy         => $Param{Config}{SortBy}    || 'Age',
-        OrderBy        => $Param{Config}{OrderBy}   || 'Down',
+        SortBy         => $Param{Config}{SortBy} || 'Age',
+        OrderBy        => $Param{Config}{OrderBy} || 'Down',
         Permission     => 'ro',
     );
 
@@ -69,7 +68,8 @@ sub Run {
         if ( $ConfigObject->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess') ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => 'Company Tickets can not be shown with Ticket::Frontend::CustomerDisableCompanyTicketAccess set!',
+                Message =>
+                    'Company Tickets can not be shown with Ticket::Frontend::CustomerDisableCompanyTicketAccess set!',
             );
             return '';
         }
@@ -78,11 +78,11 @@ sub Run {
             CustomerUserID => $Param{UserID},
         );
 
-        $Filter{CustomerIDRaw} = [ sort keys %AccessibleCustomers ],
+        $Filter{CustomerIDRaw} = [ sort keys %AccessibleCustomers ];
 
     }
     else {
-        $Filter{CustomerUserLoginRaw} = $Param{UserID},
+        $Filter{CustomerUserLoginRaw} = $Param{UserID};
     }
 
     # get the viewable tickets
@@ -121,8 +121,8 @@ sub Run {
     }
     else {
 
-        if ( $Param{Config}{MaxTickets} && $Param{Config}{MaxTickets}-1 < $#ViewableTickets ) {
-            @ViewableTickets = @ViewableTickets[ 0 .. $Param{Config}{MaxTickets}-1 ];
+        if ( $Param{Config}{MaxTickets} && $Param{Config}{MaxTickets} - 1 < $#ViewableTickets ) {
+            @ViewableTickets = @ViewableTickets[ 0 .. $Param{Config}{MaxTickets} - 1 ];
         }
 
         $TicketListHTML = $TicketListObject->Run(
@@ -132,7 +132,7 @@ sub Run {
     }
 
     my $Content = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Output(
-        TemplateFile => 'Dashboard/Tile_TicketList',
+        TemplateFile => 'Dashboard/TileTicketList',
         Data         => {
             TileID         => $Param{TileID},
             TicketListHTML => $TicketListHTML,

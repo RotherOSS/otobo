@@ -22,7 +22,7 @@ Core.App = Core.App || {};
 /**
  * @namespace Core.App.Responsive
  * @memberof Core.App
- * @author 
+ * @author
  * @description
  *      This namespace contains the responsive functionality.
  */

@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::Elasticsearch;
 
 use strict;
@@ -22,9 +21,16 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::GenericInterface::Requester',
+    'Kernel::System::CustomerCompany',
+    'Kernel::System::CustomerGroup',
+    'Kernel::System::CustomerUser',
+    'Kernel::System::DynamicField',
+    'Kernel::System::GenericInterface::Webservice',
+    'Kernel::System::Group',
+    'Kernel::System::Log',
     'Kernel::System::Ticket',
     'Kernel::System::User',
-    'Kernel::System::Group',
 );
 
 use Kernel::System::VariableCheck qw( :all );
@@ -54,7 +60,7 @@ sub new {
 
     # get the Elasticsearch webservice id
     my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
-    my $Webservice = $WebserviceObject->WebserviceGet(
+    my $Webservice       = $WebserviceObject->WebserviceGet(
         Name => 'Elasticsearch',
     );
 
@@ -116,10 +122,10 @@ sub TicketSearch {
     my ( $Self, %Param ) = @_;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $ResultType   = $Param{Result}  || 'ARRAY';
-    my $OrderBy      = $Param{OrderBy} || ['Down', 'Down'];
-    my $SortBy       = $Param{SortBy}  || ['Score', 'Age'];
-    my $Limit        = $Param{Limit}   || 10000;
+    my $ResultType   = $Param{Result} || 'ARRAY';
+    my $OrderBy      = $Param{OrderBy} || [ 'Down', 'Down' ];
+    my $SortBy       = $Param{SortBy} || [ 'Score', 'Age' ];
+    my $Limit        = $Param{Limit} || 10000;
 
     # check required params
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
@@ -161,15 +167,15 @@ sub TicketSearch {
             Type   => $Param{Permission} || 'ro',
             Result => 'HASH',
         );
- 
+
         # return if we have no permissions
         return if !%GroupList;
- 
+
         # get all customer ids
         my @CustomerIDs = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerIDs(
             User => $Param{CustomerUserID},
         );
- 
+
         # prepare combination of customer<->group access
         # add default combination first ( CustomerIDs + CustomerUserID <-> rw access groups )
         # this group will always be added (ensures previous behavior)
@@ -179,6 +185,7 @@ sub TicketSearch {
             CustomerUserID => $Param{CustomerUserID},
             GroupIDs       => [ sort keys %GroupList ],
         };
+
         # add all combinations based on group access for other CustomerIDs (if available)
         # only active if customer group support and extra permission context are enabled
         my $CustomerGroupObject    = $Kernel::OM->Get('Kernel::System::CustomerGroup');
@@ -186,10 +193,10 @@ sub TicketSearch {
             SysConfigName => '100-CustomerID-other',
         );
         if ( $Kernel::OM->Get('Kernel::Config')->Get('CustomerGroupSupport') && $ExtraPermissionContext ) {
- 
+
             # add lookup for CustomerID
             my %CustomerIDsLookup = map { $_ => $_ } @CustomerIDs;
- 
+
             # for all CustomerIDs get groups with access to other CustomerIDs
             my %ExtraPermissionGroups;
             CUSTOMERID:
@@ -201,14 +208,14 @@ sub TicketSearch {
                     Result     => 'HASH',
                 );
                 next CUSTOMERID if !%CustomerIDExtraPermissionGroups;
- 
+
                 # add to groups
                 %ExtraPermissionGroups = (
                     %ExtraPermissionGroups,
                     %CustomerIDExtraPermissionGroups,
                 );
             }
- 
+
             # add all unique accessible Group<->Customer combinations to query
             # for performance reasons all groups corresponsing with a unique customer id combination
             #   will be combined into one part
@@ -221,11 +228,11 @@ sub TicketSearch {
                     Result  => 'ID',
                 );
                 next GROUPID if !@ExtraCustomerIDs;
- 
+
                 # exclude own CustomerIDs for performance reasons
                 my @MergedCustomerIDs = grep { !$CustomerIDsLookup{$_} } @ExtraCustomerIDs;
                 next GROUPID if !@MergedCustomerIDs;
- 
+
                 # remember combination
                 my $CustomerIDString = join ',', sort @MergedCustomerIDs;
                 if ( !$CustomerIDCombinations{$CustomerIDString} ) {
@@ -235,11 +242,11 @@ sub TicketSearch {
                 }
                 push @{ $CustomerIDCombinations{$CustomerIDString}->{GroupIDs} }, $GroupID;
             }
- 
+
             # add to query combinations
             push @CustomerGroupPermission, sort values %CustomerIDCombinations;
         }
- 
+
         # now add all combinations to query:
         # this will compile a search restriction based on customer_id/customer_user_id and group
         #   and will match if any of the permission combination is met
@@ -247,23 +254,23 @@ sub TicketSearch {
         #     ( <CustomerUserID> OR <CUSTOMERID1> ) AND ( <GROUPID1> )
         # or
         #     ( <CustomerID1> OR <CUSTOMERID2> OR <CUSTOMERID3> ) AND ( <GROUPID1> OR <GROUPID2> )
-        my @CustomerIDGroupCombinations; 
+        my @CustomerIDGroupCombinations;
         ENTRY:
         for my $Entry (@CustomerGroupPermission) {
             my $DirectConditions;
             my @CustomerIDs;
- 
+
             if ( IsArrayRefWithData( $Entry->{CustomerIDs} ) ) {
                 push @CustomerIDs, @{ $Entry->{CustomerIDs} };
             }
- 
+
             if ( @CustomerIDs && $Entry->{CustomerUserID} ) {
                 $DirectConditions = {
                     bool => {
                         should => [
-                            {  
+                            {
                                 term => {
-                                    CustomerUserID => $Entry->{CustomerUserID},  
+                                    CustomerUserID => $Entry->{CustomerUserID},
                                 },
                             },
                             {
@@ -275,7 +282,7 @@ sub TicketSearch {
                     },
                 };
             }
-            elsif ( @CustomerIDs ) {
+            elsif (@CustomerIDs) {
                 $DirectConditions = {
                     terms => {
                         CustomerID => \@CustomerIDs,
@@ -292,7 +299,7 @@ sub TicketSearch {
             else {
                 next ENTRY;
             }
- 
+
             push @CustomerIDGroupCombinations, {
                 bool => {
                     filter => [
@@ -307,7 +314,7 @@ sub TicketSearch {
             };
 
         }
-    
+
         if ( scalar @CustomerIDGroupCombinations == 1 ) {
             push @Filters, $CustomerIDGroupCombinations[0];
         }
@@ -323,22 +330,23 @@ sub TicketSearch {
 
     # fulltext search
     if ( $Param{Fulltext} ) {
+
         # get fields to search
         my $FulltextFields = $ConfigObject->Get('Elasticsearch::TicketSearchFields');
-        my @SearchFields = @{ $FulltextFields->{Ticket} };
-        push @SearchFields, ( map { "ArticlesExternal.$_" } @{ $FulltextFields->{Article} } );
+        my @SearchFields   = @{ $FulltextFields->{Ticket} };
+        push @SearchFields, ( map {"ArticlesExternal.$_"} @{ $FulltextFields->{Article} } );
         push @SearchFields, ( "AttachmentsExternal.Content", "AttachmentsExternal.Filename" );
 
         # add internal fields
         if ( $Param{UserID} ) {
-            push @SearchFields, ( map { "ArticlesInternal.$_" } @{ $FulltextFields->{Article} } );
+            push @SearchFields, ( map {"ArticlesInternal.$_"} @{ $FulltextFields->{Article} } );
             push @SearchFields, ( "AttachmentsInternal.Content", "AttachmentsInternal.Filename" );
-        }     
+        }
 
         # handle dynamic fields
         if ( $FulltextFields->{DynamicField} ) {
             my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-            my $CustomerFields = $ConfigObject->Get('Ticket::Frontend::CustomerTicketZoom###DynamicField');
+            my $CustomerFields     = $ConfigObject->Get('Ticket::Frontend::CustomerTicketZoom###DynamicField');
 
             DYNAMICFIELD:
             for my $DynamicFieldName ( @{ $FulltextFields->{DynamicField} } ) {
@@ -349,30 +357,35 @@ sub TicketSearch {
 
                 # agent search
                 if ( $Param{UserID} ) {
+
                     # add all ticket dynamic fields
                     if ( $DynamicField->{ObjectType} eq 'Ticket' ) {
                         push @SearchFields, "DynamicField_$DynamicFieldName";
                     }
-                    
+
                     # add article dynamicfields for both internal and external articles
                     elsif ( $DynamicField->{ObjectType} eq 'Article' ) {
-                        push @SearchFields, ( "ArticlesExternal.DynamicField_$DynamicFieldName", "ArticlesInternal.DynamicField_$DynamicFieldName" );
+                        push @SearchFields,
+                            (
+                            "ArticlesExternal.DynamicField_$DynamicFieldName",
+                            "ArticlesInternal.DynamicField_$DynamicFieldName"
+                            );
                     }
                 }
 
                 # customer search
                 else {
                     # check if dynamic field is visible for customers
-                    next DYNAMICFIELD if ( !$CustomerFields || !$CustomerFields->{ $DynamicFieldName } );
+                    next DYNAMICFIELD if ( !$CustomerFields || !$CustomerFields->{$DynamicFieldName} );
 
                     # add ticket dynamic fields
                     if ( $DynamicField->{ObjectType} eq 'Ticket' ) {
                         push @SearchFields, "DynamicField_$DynamicFieldName";
                     }
-                    
+
                     # add article dynamicfields for external articles
                     elsif ( $DynamicField->{ObjectType} eq 'Article' ) {
-                        push @SearchFields, ( "ArticlesExternal.DynamicField_$DynamicFieldName" );
+                        push @SearchFields, ("ArticlesExternal.DynamicField_$DynamicFieldName");
                     }
                 }
             }
@@ -385,24 +398,25 @@ sub TicketSearch {
                 query  => "*$Param{Fulltext}*",
             },
         };
-        
+
     }
 
     # define the return type
-    my $Return = ( $ResultType eq 'HASH' ) ? [ qw(TicketID TicketNumber) ] :
-                 ( $ResultType eq 'FULL' ) ? '' :'TicketID';
+    my $Return = ( $ResultType eq 'HASH' ) ? [qw(TicketID TicketNumber)] :
+        ( $ResultType eq 'FULL' ) ? '' : 'TicketID';
 
     # define the sorting
     my @Sort;
     my %O2E = qw(Down desc Up asc);
     if ( !ref($SortBy) ) {
-        $SortBy  = [ $SortBy ];
-        $OrderBy = [ $OrderBy ];
+        $SortBy  = [$SortBy];
+        $OrderBy = [$OrderBy];
     }
-    for my $i ( 0..$#{ $SortBy } ) {
-        
+    for my $i ( 0 .. $#{$SortBy} ) {
+
         # score is Elasticsearch specific
         if ( $SortBy->[$i] eq 'Score' ) { $SortBy->[$i] = '_score' }
+
         # age is not stored in Elasticsearch
         if ( $SortBy->[$i] eq 'Age' ) {
             $SortBy->[$i]  = 'Created';
@@ -437,11 +451,12 @@ sub TicketSearch {
     }
 
     elsif ( $ResultType eq 'FULL' ) {
+
         # age has to be calulated
         my $Now = $Kernel::OM->Create(
             'Kernel::System::DateTime'
         )->ToEpoch();
-        
+
         for my $Data ( @{ $Result->{Data} } ) {
             $Data->{Age} = $Now - $Data->{Created};
         }
@@ -457,10 +472,10 @@ sub TicketSearch {
 sub CustomerCompanySearch {
     my ( $Self, %Param ) = @_;
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $ResultType   = $Param{Result}  || 'ARRAY';
-    my $Limit        = $Param{Limit}   || 10000;
-    
-    my ( @Musts, @Filters ) ;
+    my $ResultType   = $Param{Result} || 'ARRAY';
+    my $Limit        = $Param{Limit} || 10000;
+
+    my ( @Musts, @Filters );
     if ( $Param{Fulltext} ) {
 
         my $FulltextFields = $ConfigObject->Get('Elasticsearch::CustomerCompanySearchFields');
@@ -499,10 +514,10 @@ sub CustomerCompanySearch {
 sub CustomerUserSearch {
     my ( $Self, %Param ) = @_;
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $ResultType   = $Param{Result}  || 'ARRAY';
-    my $Limit        = $Param{Limit}   || 10000;
-    
-    my ( @Musts, @Filters ) ;
+    my $ResultType   = $Param{Result} || 'ARRAY';
+    my $Limit        = $Param{Limit} || 10000;
+
+    my ( @Musts, @Filters );
     if ( $Param{Fulltext} ) {
 
         my $FulltextFields = $ConfigObject->Get('Elasticsearch::CustomerUserSearchFields');
@@ -609,7 +624,7 @@ sub CustomerCompanyAdd {
     my ( $Self, %Param ) = @_;
 
     my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
-    my %CustomerCompany = $CustomerCompanyObject->CustomerCompanyGet(
+    my %CustomerCompany       = $CustomerCompanyObject->CustomerCompanyGet(
         CustomerID => $Param{CustomerID},
     );
 
@@ -642,7 +657,7 @@ sub CustomerUserAdd {
     my ( $Self, %Param ) = @_;
 
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-    my %CustomerUser = $CustomerUserObject->CustomerUserDataGet(
+    my %CustomerUser       = $CustomerUserObject->CustomerUserDataGet(
         User => $Param{UserLogin},
     );
 
@@ -651,8 +666,8 @@ sub CustomerUserAdd {
         Invoker      => 'CustomerUserManagement',
         Asynchronous => 0,
         Data         => {
-            Event      => 'CustomerUserAdd',
-            NewData    => \%CustomerUser,
+            Event   => 'CustomerUserAdd',
+            NewData => \%CustomerUser,
         }
     );
 
@@ -696,16 +711,15 @@ Create a new index.
 
 =cut
 
-sub CreateIndex{
+sub CreateIndex {
     my ( $Self, %Param ) = @_;
-
 
     my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
         WebserviceID => $Self->{WebserviceID},
         Invoker      => 'Utils_PUT',
         Asynchronous => 0,
         Data         => {
-            IndexName => $Param{IndexName}, 
+            IndexName => $Param{IndexName},
             Request   => $Param{Request},
         }
     );
@@ -724,7 +738,7 @@ Drop a complete index.
 
 =cut
 
-sub DropIndex{
+sub DropIndex {
     my ( $Self, %Param ) = @_;
 
     my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
@@ -739,7 +753,7 @@ sub DropIndex{
 
 }
 
-sub DeletePipeline{
+sub DeletePipeline {
     my ( $Self, %Param ) = @_;
 
     my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
@@ -755,7 +769,7 @@ sub DeletePipeline{
 
 }
 
-sub CreatePipeline{
+sub CreatePipeline {
     my ( $Self, %Param ) = @_;
 
     my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
@@ -764,7 +778,7 @@ sub CreatePipeline{
         Asynchronous => 0,
         Data         => {
             IndexName => '',
-            Request => $Param{Request},
+            Request   => $Param{Request},
         }
     );
 
@@ -772,4 +786,3 @@ sub CreatePipeline{
 
 }
 1;
-

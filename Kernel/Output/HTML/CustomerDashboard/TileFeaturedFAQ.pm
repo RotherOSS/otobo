@@ -14,8 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
-package Kernel::Output::HTML::CustomerDashboard::Tile_ToolBox;
+package Kernel::Output::HTML::CustomerDashboard::TileFeaturedFAQ;
 
 use strict;
 use warnings;
@@ -37,23 +36,8 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    my %Links  = reverse %{ $Param{Config}{Links} };
-    my %Images = reverse %{ $Param{Config}{Images} };
-
-    for my $Key ( sort { $a <=> $b } keys %Links ) {
-        $LayoutObject->Block(
-            Name => 'Link',
-            Data => {
-                Link  => $Links{$Key},
-                Image => $Images{$Key},
-            },
-        );
-    }
-
-    my $Content = $LayoutObject->Output(
-        TemplateFile => 'Dashboard/Tile_ToolBox',
+    my $Content = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Output(
+        TemplateFile => 'Dashboard/TileFeaturedFAQ',
         Data         => {
             TileID => $Param{TileID},
             %{ $Param{Config} },

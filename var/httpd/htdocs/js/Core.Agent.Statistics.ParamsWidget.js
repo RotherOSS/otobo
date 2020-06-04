@@ -23,7 +23,7 @@ Core.Agent.Statistics = Core.Agent.Statistics || {};
 /**
  * @namespace Core.Agent.Statistics.ParamsWidget
  * @memberof Core.Agent.Statistics
- * @author 
+ * @author
  * @description
  *      This namespace contains the special module functions for the Statistics module.
  */

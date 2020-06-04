@@ -22,7 +22,7 @@ Core.UI = Core.UI || {};
 /**
  * @namespace Core.UI.Resizable
  * @memberof Core.UI
- * @author 
+ * @author
  * @description
  *      Contains the code for resizable elements.
  */

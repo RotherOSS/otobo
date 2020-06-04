@@ -12265,7 +12265,7 @@ Thanks for your help!
 
     <Setting Name="AdminDynamicFieldTitle::Templates###001-Template" Required="0" Valid="1">
         <Description Translatable="1">Create Templates for AdminDynamicFieldTitle.</Description>
-        <Navigation>AdminDynamicFieldTitle::Template</Navigation>
+        <Navigation>Core::DynamicFields::TitleTemplates</Navigation>
         <Value>
             <Hash>
                 <Item Key="Name">Template1</Item>
@@ -12279,7 +12279,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="AdminDynamicFieldTitle::Templates###002-Template" Required="0" Valid="1">
         <Description Translatable="1">Create Templates for AdminDynamicFieldTitle.</Description>
-        <Navigation>AdminDynamicFieldTitle::Template</Navigation>
+        <Navigation>Core::DynamicFields::TitleTemplates</Navigation>
         <Value>
             <Hash>
                 <Item Key="Name">Template2</Item>
@@ -12293,7 +12293,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="AdminDynamicFieldTitle::Templates###003-Template" Required="0" Valid="0">
         <Description Translatable="1">Create Templates for AdminDynamicFieldTitle.</Description>
-        <Navigation>AdminDynamicFieldTitle::Template</Navigation>
+        <Navigation>Core::DynamicFields::TitleTemplates</Navigation>
         <Value>
             <Hash>
                 <Item Key="Name">Template3</Item>
@@ -12307,7 +12307,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="AdminDynamicFieldTitle::Templates###004-Template" Required="0" Valid="0">
         <Description Translatable="1">Create Templates for AdminDynamicFieldTitle.</Description>
-        <Navigation>AdminDynamicFieldTitle::Template</Navigation>
+        <Navigation>Core::DynamicFields::TitleTemplates</Navigation>
         <Value>
             <Hash>
                 <Item Key="Name">Template4</Item>

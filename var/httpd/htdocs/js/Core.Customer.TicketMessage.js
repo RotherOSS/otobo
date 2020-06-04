@@ -22,7 +22,7 @@ Core.Customer = Core.Customer || {};
 /**
  * @namespace Core.Customer.TicketMessage
  * @memberof Core.Customer
- * @author 
+ * @author
  * @description
  *      This namespace contains module functions for CustomerTicketMessage.
  */

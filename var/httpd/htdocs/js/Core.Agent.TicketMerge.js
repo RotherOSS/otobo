@@ -22,7 +22,7 @@ Core.Agent = Core.Agent || {};
 /**
  * @namespace Core.Agent.TicketMerge
  * @memberof Core.Agent
- * @author 
+ * @author
  * @description
  *      This namespace contains the TicketMerge functions.
  */

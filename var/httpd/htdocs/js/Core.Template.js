@@ -23,7 +23,7 @@ var Core = Core || {};
 /**
  * @namespace Core.Template
  * @memberof Core
- * @author 
+ * @author
  * @description
  *      This namespace contains initialization functionalities.
  */

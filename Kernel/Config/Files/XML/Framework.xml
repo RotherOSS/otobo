@@ -7022,7 +7022,7 @@ via the Preferences button after logging in.
         <Value>
             <Hash>
                 <Item Key="Order">1</Item>
-                <Item Key="Template">Dashboard/Tile_NewTicket</Item>
+                <Item Key="Template">Dashboard/TileNewTicket</Item>
                 <Item Key="Config">
                     <Hash>
                         <Item Key="Color">#001bff</Item>
@@ -7037,7 +7037,7 @@ via the Preferences button after logging in.
         <Value>
             <Hash>
                 <Item Key="Order">2</Item>
-                <Item Key="Template">Dashboard/Tile_FeaturedLink</Item>
+                <Item Key="Template">Dashboard/TileFeaturedLink</Item>
                 <Item Key="Config">
                     <Hash>
                         <Item Key="TextColor">#ffffff</Item>
@@ -7057,7 +7057,7 @@ via the Preferences button after logging in.
         <Value>
             <Hash>
                 <Item Key="Order">3</Item>
-                <Item Key="Module">Kernel::Output::HTML::CustomerDashboard::Tile_TicketList</Item>
+                <Item Key="Module">Kernel::Output::HTML::CustomerDashboard::TileTicketList</Item>
                 <Item Key="Config">
                     <Hash>
                         <Item Key="Text">Your last tickets</Item>
@@ -7077,7 +7077,7 @@ via the Preferences button after logging in.
         <Value>
             <Hash>
                 <Item Key="Order">4</Item>
-                <Item Key="Template">Dashboard/Tile_PlainText</Item>
+                <Item Key="Template">Dashboard/TilePlainText</Item>
                 <Item Key="Config">
                     <Hash>
                         <Item Key="HeaderText">Message of the day</Item>
@@ -7095,7 +7095,7 @@ via the Preferences button after logging in.
         <Value>
             <Hash>
                 <Item Key="Order">5</Item>
-                <Item Key="Module">Kernel::Output::HTML::CustomerDashboard::Tile_ToolBox</Item>
+                <Item Key="Module">Kernel::Output::HTML::CustomerDashboard::TileToolBox</Item>
                 <Item Key="Config">
                     <Hash>
                         <Item Key="Text">Your external tools</Item>
@@ -7127,7 +7127,7 @@ via the Preferences button after logging in.
         <Value>
             <Hash>
                 <Item Key="Order">6</Item>
-                <Item Key="Template">Dashboard/Tile_PlainPicture</Item>
+                <Item Key="Template">Dashboard/TilePlainPicture</Item>
                 <Item Key="Config">
                     <Hash>
                         <Item Key="Text">Overview</Item>
@@ -9051,8 +9051,8 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="Elasticsearch::IngestAttachmentFormat" Required="0" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Format to be ingested</Description>
-        <Navigation>Elasticsearch::Settings</Navigation>
+        <Description Translatable="1">Format to be ingested.</Description>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Array>
                 <Item>pdf</Item>
@@ -9073,28 +9073,28 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Elasticsearch::Active" Required="0" Valid="0">
         <Description Translatable="1">Activate Elasticsearch.</Description>
-        <Navigation>Elasticsearch::Settings</Navigation>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Elasticsearch::IngestMaxFilesize" Required="0" Valid="1">
         <Description Translatable="1">Maximum file size for the ingest plugin.</Description>
-        <Navigation>Elasticsearch::Settings</Navigation>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">50000000</Item>
         </Value>
     </Setting>
     <Setting Name="Elasticsearch::MaxArticleSearch" Required="0" Valid="1">
         <Description Translatable="1">Maximal number of results returned by ES per field.</Description>
-        <Navigation>Elasticsearch::Settings</Navigation>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">10000</Item>
         </Value>
     </Setting>
     <Setting Name="Elasticsearch::TicketStoreFields" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!</Description>
-        <Navigation>Elasticsearch::Settings</Navigation>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Hash>
                 <Item Key="Ticket">
@@ -9123,7 +9123,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Elasticsearch::TicketSearchFields" Required="0" Valid="1">
         <Description Translatable="1">Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!</Description>
-        <Navigation>Elasticsearch::Settings</Navigation>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Hash>
                 <Item Key="Ticket">
@@ -9155,7 +9155,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Elasticsearch::CustomerCompanyStoreFields" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Fields stored in the customer company index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.</Description>
-        <Navigation>Elasticsearch::Settings</Navigation>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Array>
                 <Item>CustomerID</Item>
@@ -9164,7 +9164,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Elasticsearch::CustomerCompanySearchFields" Required="0" Valid="1">
         <Description Translatable="1">Fields of the customer company index, used for the company fulltext search. Fields are also stored, but are not mandatory for the overall functionality.</Description>
-        <Navigation>Elasticsearch::Settings</Navigation>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Array>
                 <Item>CustomerCompanyURL</Item>
@@ -9180,7 +9180,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Elasticsearch::CustomerUserStoreFields" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Fields stored in the customer user index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory.</Description>
-        <Navigation>Elasticsearch::Settings</Navigation>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Array>
                 <Item>UserLogin</Item>
@@ -9190,7 +9190,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Elasticsearch::CustomerUserSearchFields" Required="0" Valid="1">
         <Description Translatable="1">Fields to be searched in ticket index. Fields are also stored, but are not mandatory for the overall functionality.</Description>
-        <Navigation>Elasticsearch::Settings</Navigation>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Array>
                 <Item>UserFirstname</Item>
@@ -9203,7 +9203,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Elasticsearch::ArticleIndexCreationSettings" Required="0" Valid="1">
         <Description Translatable="1">Number of shards (NS) and replicas (NR) for the index.</Description>
-        <Navigation>Elasticsearch::Settings</Navigation>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Hash>
                 <Item Key="NS">1</Item>
@@ -9213,7 +9213,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Elasticsearch::QuickSearchSettings" Required="0" Valid="1">
         <Description Translatable="1">Maximum number of results returned from the quick result.</Description>
-        <Navigation>Elasticsearch::Settings</Navigation>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Hash>
                 <Item Key="TicketResultCount" ValueType="String" ValueRegex="^\d+$">10</Item>

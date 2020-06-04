@@ -22,7 +22,7 @@ Core.Agent = Core.Agent || {};
 /**
  * @namespace Core.Agent.TicketForward
  * @memberof Core.Agent
- * @author 
+ * @author
  * @description
  *      This namespace contains the TicketForward functions.
  */

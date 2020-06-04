@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::System::SysConfig::Migration;
 
 use strict;
@@ -1857,8 +1856,8 @@ sub MigrateConfigEffectiveValues {
 
                         # migrate (and split) the frontend module settings
                         my $Result = $Self->_MigrateFrontendModuleSetting(
-                            FrontendSettingName => $SettingName,
-                            FrontendModuleName  => $SettingKeyFirstLevel,
+                            FrontendSettingName  => $SettingName,
+                            FrontendModuleName   => $SettingKeyFirstLevel,
                             OTOBO5EffectiveValue => $OTOBO5EffectiveValue,
                             OTOBO6Setting        => \%OTOBO6Setting,
                         );
@@ -1906,7 +1905,7 @@ sub MigrateConfigEffectiveValues {
                         my %Old2NewKeyMapping = (
                             'X-OTOBO-ArticleType'          => 'X-OTOBO-IsVisibleForCustomer',
                             'X-OTOBO-FollowUp-ArticleType' => 'X-OTOBO-FollowUp-IsVisibleForCustomer',
-                            'ArticleType'                 => 'IsVisibleForCustomer',
+                            'ArticleType'                  => 'IsVisibleForCustomer',
                         );
 
                         OLDKEY:

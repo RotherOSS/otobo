@@ -23,7 +23,7 @@ Core.Agent.LinkObject = Core.Agent.LinkObject || {};
 /**
  * @namespace Core.Agent.LinkObject.SearchForm
  * @memberof Core.Agent.LinkObject
- * @author 
+ * @author
  * @description
  *      This namespace contains search form functions for LinkObject screen.
  */

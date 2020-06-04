@@ -23,7 +23,7 @@ var Core = Core || {};
 /**
  * @namespace Core.App
  * @memberof Core
- * @author 
+ * @author
  * @description
  *      This namespace contains main app functionalities.
  */

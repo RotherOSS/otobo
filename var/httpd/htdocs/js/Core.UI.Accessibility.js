@@ -22,7 +22,7 @@ Core.UI = Core.UI || {};
 /**
  * @namespace Core.UI.Accessibility
  * @memberof Core.UI
- * @author 
+ * @author
  * @description
  *      This namespace contains all accessibility related functions.
  */

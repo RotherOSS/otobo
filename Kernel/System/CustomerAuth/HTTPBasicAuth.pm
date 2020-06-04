@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
+
 # Note:
 #
 # If you use this module, you should use as fallback the following
@@ -22,7 +23,6 @@
 # $Self->{CustomerPanelLoginURL} = 'http://host.example.com/not-authorised-for-otobo.html';
 #
 # $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/thanks-for-using-otobo.html';
-# --
 
 package Kernel::System::CustomerAuth::HTTPBasicAuth;
 

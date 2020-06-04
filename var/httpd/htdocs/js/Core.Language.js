@@ -21,7 +21,7 @@ var Core = Core || {};
 /**
  * @namespace Core.Language
  * @memberof Core
- * @author 
+ * @author
  * @description
  *      Provides functions for translating strings in JavaScript functions.
  */

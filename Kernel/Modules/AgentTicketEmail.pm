@@ -907,8 +907,10 @@ sub Run {
                             next FIELD;
                         }
                         for my $Element ( sort keys %ChangedElements ) {
-                            if (   $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
-                                || $Self->{InternalDependancy}{$Element}{$FieldID} )
+                            if (
+                                $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
+                                || $Self->{InternalDependancy}{$Element}{$FieldID}
+                                )
                             {
                                 next FIELD;
                             }
@@ -964,8 +966,10 @@ sub Run {
                     }
 
                     # check whether current selected value is still valid for the field
-                    if ( $GetParam{ $Field->{FieldID} }
-                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } } )
+                    if (
+                        $GetParam{ $Field->{FieldID} }
+                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } }
+                        )
                     {
                         # if not empty the field
                         $GetParam{ $Check{ $Field->{FieldID} } } = '';
@@ -1073,8 +1077,10 @@ sub Run {
 
             # don't set a default value for hidden fields
             my %UseDefault = ();
-            if ( !$DynFieldStates{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"}
-                && ( $DynamicFieldConfig->{FieldType} ne 'Date' || $DynamicFieldConfig->{FieldType} ne 'DateTime' ) )
+            if (
+                !$DynFieldStates{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"}
+                && ( $DynamicFieldConfig->{FieldType} ne 'Date' || $DynamicFieldConfig->{FieldType} ne 'DateTime' )
+                )
             {
                 %UseDefault = (
                     UseDefaultValue      => 0,
@@ -2248,8 +2254,10 @@ sub Run {
                             next FIELD;
                         }
                         for my $Element ( sort keys %ChangedElements ) {
-                            if (   $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
-                                || $Self->{InternalDependancy}{$Element}{$FieldID} )
+                            if (
+                                $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
+                                || $Self->{InternalDependancy}{$Element}{$FieldID}
+                                )
                             {
                                 next FIELD;
                             }
@@ -2305,8 +2313,10 @@ sub Run {
                     }
 
                     # check whether current selected value is still valid for the field
-                    if ( $GetParam{ $Field->{FieldID} }
-                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } } )
+                    if (
+                        $GetParam{ $Field->{FieldID} }
+                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } }
+                        )
                     {
                         # if not empty the field
                         $GetParam{ $Check{ $Field->{FieldID} } } = '';
@@ -2419,8 +2429,7 @@ sub Run {
         for my $Index ( sort keys %{ $DynFieldStates{Fields} } ) {
             my $DynamicFieldConfig = $Self->{DynamicField}->[$Index];
 
-            my $DataValues
-                = $DynFieldStates{Fields}{$Index}{NotACLReducible}
+            my $DataValues = $DynFieldStates{Fields}{$Index}{NotACLReducible}
                 ? $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}
                 :
                 (

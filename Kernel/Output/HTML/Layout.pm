@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Output::HTML::Layout;
 
 use strict;
@@ -1439,26 +1438,26 @@ sub Header {
                 %Modules = ( $Object->Run( %Param, Config => $Jobs{$Job} ), %Modules );
             }
 
-# Rother OSS TODO: Not so nice implemented, review
+            # Rother OSS TODO: Not so nice implemented, review
 
-            my $ToolBarItemSeparatorShortcut = 0;
+            my $ToolBarItemSeparatorShortcut  = 0;
             my $ToolBarItemSeparatorMyTickets = 0;
-            my $ToolBarItemSeparatorSearch = 0;
+            my $ToolBarItemSeparatorSearch    = 0;
 
             # Check which seperator is needed
             SHORTCUTAVAILIBLE:
             for my $Key ( sort keys %Modules ) {
                 next SHORTCUTAVAILIBLE if !%{ $Modules{$Key} };
 
-                if ($Modules{$Key}{Block} eq 'ToolBarItem') {
+                if ( $Modules{$Key}{Block} eq 'ToolBarItem' ) {
                     $ToolBarItemSeparatorMyTickets = 1;
                     next SHORTCUTAVAILIBLE;
                 }
-                elsif ($Modules{$Key}{Block} eq 'ToolBarItemShortcut') {
+                elsif ( $Modules{$Key}{Block} eq 'ToolBarItemShortcut' ) {
                     $ToolBarItemSeparatorShortcut = 1;
                     next SHORTCUTAVAILIBLE;
                 }
-                elsif ($Modules{$Key}{Block} =~ m/ToolBarSearch.*/ ) {
+                elsif ( $Modules{$Key}{Block} =~ m/ToolBarSearch.*/ ) {
                     $ToolBarItemSeparatorSearch = 1;
                     next SHORTCUTAVAILIBLE;
                 }
@@ -1489,7 +1488,8 @@ sub Header {
             }
 
             # Check if shortcut needed
-            if ($ToolBarItemSeparatorMyTickets == 1) {
+            if ( $ToolBarItemSeparatorMyTickets == 1 ) {
+
                 # Show separator between shortcuts and my tickets
                 $Self->Block(
                     Name => "ToolBarItemSeparatorMyTickets",
@@ -1501,6 +1501,7 @@ sub Header {
             for my $Key ( sort keys %Modules ) {
                 next MODULE if !%{ $Modules{$Key} };
                 next MODULE if $Modules{$Key}{Block} eq 'ToolBarItemShortcut';
+
                 # For ToolBarSearchFulltext module take into consideration SearchInArchive settings.
                 # See bug#13790 (https://bugs.otrs.org/show_bug.cgi?id=13790).
                 if ( $ConfigObject->Get('Ticket::ArchiveSystem') && $Modules{$Key}->{Block} eq 'ToolBarSearchFulltext' )
@@ -1521,7 +1522,8 @@ sub Header {
             }
 
             # Check if shortcut needed
-            if ($ToolBarItemSeparatorSearch == 1) {
+            if ( $ToolBarItemSeparatorSearch == 1 ) {
+
                 # Show separator between shortcuts and my tickets
                 $Self->Block(
                     Name => "ToolBarItemSeparatorSearch",
@@ -1663,10 +1665,12 @@ sub Footer {
     }
 
     # Set an array with pending states. Skip for installer and migration script.
-    my @PendingStateIDs = $ConfigObject->Get('SecureMode') ? $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+    my @PendingStateIDs = $ConfigObject->Get('SecureMode')
+        ? $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
         StateType => [ 'pending reminder', 'pending auto' ],
         Result    => 'ID',
-    ) : ();
+        )
+        : ();
 
     # add JS data
     my %JSConfig = (
@@ -4083,7 +4087,7 @@ sub CustomerLogin {
 
     # define color scheme
     my $ColorDefinitions = $ConfigObject->Get('CustomerColorDefinitions');
-    for my $Color ( keys %{ $ColorDefinitions } ) {
+    for my $Color ( sort keys %{$ColorDefinitions} ) {
         $Param{ColorDefinitions} .= "--col$Color:$ColorDefinitions->{ $Color };";
     }
 
@@ -4200,14 +4204,15 @@ sub CustomerHeader {
     if ( defined $ConfigObject->Get('CustomerLogo') ) {
         my %CustomerLogo = %{ $ConfigObject->Get('CustomerLogo') };
 
-        for my $Statement ( qw(URLSignet) ) {
-            next if !$CustomerLogo{ $Statement };
+        LOGO:
+        for my $Statement (qw(URLSignet)) {
+            next LOGO if !$CustomerLogo{$Statement};
 
-            if ( $CustomerLogo{ $Statement } !~ /(http|ftp|https):\//i ) {
-                $Param{ $Statement } = $WebPath . $CustomerLogo{ $Statement };
+            if ( $CustomerLogo{$Statement} !~ /(http|ftp|https):\//i ) {
+                $Param{$Statement} = $WebPath . $CustomerLogo{$Statement};
             }
             else {
-                $Param{ $Statement } = $CustomerLogo{ $Statement };
+                $Param{$Statement} = $CustomerLogo{$Statement};
             }
         }
     }
@@ -4218,7 +4223,7 @@ sub CustomerHeader {
 
     # define color scheme
     my $ColorDefinitions = $ConfigObject->Get('CustomerColorDefinitions');
-    for my $Color ( keys %{ $ColorDefinitions } ) {
+    for my $Color ( sort keys %{$ColorDefinitions} ) {
         $Param{ColorDefinitions} .= "--col$Color:$ColorDefinitions->{ $Color };";
     }
 
@@ -4543,7 +4548,7 @@ sub CustomerNavigationBar {
 
             # Show as main menu.
             if ( $Item->{Type} eq 'Menu' ) {
-               $NavBarModule{$Key} = $Item;
+                $NavBarModule{$Key} = $Item;
             }
 
             # show as sub of main menu
@@ -4595,58 +4600,59 @@ sub CustomerNavigationBar {
     #   Therefore we just highlight the first one.
     my $SelectedFlag;
 
-	ITEM:
+    ITEM:
     for my $Item ( sort keys %NavBarModule ) {
         next ITEM if !%{ $NavBarModule{$Item} };
         next ITEM if $Item eq 'Sub';
 
-		my $SVGString;
-		if ( $NavBarModule{$Item}{svgIcon} ) {
-			if ( $NavBarModule{$Item}{svgIcon} !~ /\.svg$/i ) {
-				$Kernel::OM->Get('Kernel::System::Log')->Log(
-					Caller   => 1,
-             		Priority => 'error',
-             		Message  => "$Item: 'svgIcon' has to be an .svg-file!",
-         		);
-			}
+        my $SVGString;
+        if ( $NavBarModule{$Item}{svgIcon} ) {
+            if ( $NavBarModule{$Item}{svgIcon} !~ /\.svg$/i ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Caller   => 1,
+                    Priority => 'error',
+                    Message  => "$Item: 'svgIcon' has to be an .svg-file!",
+                );
+            }
 
-            my $Home = $ConfigObject->Get('Home');
-			open my $File, "< $Home/$NavBarModule{$Item}{svgIcon}";
-			if ( $File ) {
-				while (<$File>) {
-					$SVGString .= $_;
-				}
-			}
-			else {
-				$Kernel::OM->Get('Kernel::System::Log')->Log(
-					Caller   => 1,
-             		Priority => 'error',
-             		Message  => "Could not open $NavBarModule{$Item}{svgIcon}: $!",
-         		);
-			}
-		}
+            my $Home   = $ConfigObject->Get('Home');
+            my $SVGRef = $MainObject->FileRead(
+                Location => "$Home/$NavBarModule{$Item}{svgIcon}",
+            );
 
-		if ( !$SVGString ) {
-			$SVGString =
+            if ($SVGRef) {
+                $SVGString = ${$SVGRef};
+            }
+            else {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Caller   => 1,
+                    Priority => 'error',
+                    Message  => "Could not open $NavBarModule{$Item}{svgIcon}: $!",
+                );
+            }
+        }
 
-'<svg xmlns="http://www.w3.org/2000/svg" id="radio_button_unchecked-24px" width="50" height="50" viewBox="0 0 50 50">
+        if ( !$SVGString ) {
+            $SVGString =
+
+                '<svg xmlns="http://www.w3.org/2000/svg" id="radio_button_unchecked-24px" width="50" height="50" viewBox="0 0 50 50">
     <defs>
-    	<style>
- 			.cls-1{fill:none}
- 		</style>
- 	</defs>
- 	<path id="Pfad_13735" d="M0 0h50v50H0z" class="cls-1" data-name="Pfad 13735"/>
- 	<path id="Pfad_13736" d="M22.637 2a20.637 20.637 0 1 0 20.638 20.637A20.645 20.645 0 0 0 22.637 2zm0 37.147a16.51 16.51 0 1 1 16.51-16.51 16.505 16.505 0 0 1-16.51 16.51z" data-name="Pfad 13736" transform="translate(2.363 2.362)"/>
+        <style>
+            .cls-1{fill:none}
+        </style>
+    </defs>
+    <path id="Pfad_13735" d="M0 0h50v50H0z" class="cls-1" data-name="Pfad 13735"/>
+    <path id="Pfad_13736" d="M22.637 2a20.637 20.637 0 1 0 20.638 20.637A20.645 20.645 0 0 0 22.637 2zm0 37.147a16.51 16.51 0 1 1 16.51-16.51 16.505 16.505 0 0 1-16.51 16.51z" data-name="Pfad 13736" transform="translate(2.363 2.362)"/>
  </svg>';
 
-		}
+        }
 
         $Self->Block(
             Name => $NavBarModule{$Item}->{Block} || 'Item',
-			Data => {
-				%{ $NavBarModule{$Item} },
-				SVG => $SVGString,
-			},
+            Data => {
+                %{ $NavBarModule{$Item} },
+                SVG => $SVGString,
+            },
         );
     }
 
@@ -4672,15 +4678,14 @@ sub CustomerNavigationBar {
     }
 
     my %User = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-        User          => $Self->{UserLogin},
+        User => $Self->{UserLogin},
     );
     $Param{UserName} = "$User{UserFirstname} $User{UserLastname}";
 
     # generate avatar
     if ( $ConfigObject->Get('Frontend::AvatarEngine') eq 'Gravatar' && $Self->{UserEmail} ) {
         my $DefaultIcon = $ConfigObject->Get('Frontend::Gravatar::DefaultImage') || 'mm';
-        $Param{Avatar}
-            = '//www.gravatar.com/avatar/' . md5_hex( lc $Self->{UserEmail} ) . '?s=100&d=' . $DefaultIcon;
+        $Param{Avatar} = '//www.gravatar.com/avatar/' . md5_hex( lc $Self->{UserEmail} ) . '?s=100&d=' . $DefaultIcon;
     }
     else {
         $Param{UserInitials} = substr( $User{UserFirstName}, 0, 1 ) . substr( $User{UserLastName}, 0, 1 );
@@ -4688,19 +4693,20 @@ sub CustomerNavigationBar {
 
     # define (custom) logo
     my $WebPath = $ConfigObject->Get('Frontend::WebPath');
-    $Param{URLLogo} = $WebPath . 'skins/Customer/default/img/otobo_logo_simple_w.svg';
+    $Param{URLLogo}   = $WebPath . 'skins/Customer/default/img/otobo_logo_simple_w.svg';
     $Param{URLSignet} = $WebPath . 'skins/Customer/default/img/otobo_signet_w.svg';
     if ( defined $ConfigObject->Get('CustomerLogo') ) {
         my %CustomerLogo = %{ $ConfigObject->Get('CustomerLogo') };
 
-        for my $Statement ( qw(URLLogo URLSignet) ) {
-            next if !$CustomerLogo{ $Statement };
+        LOGO:
+        for my $Statement (qw(URLLogo URLSignet)) {
+            next LOGO if !$CustomerLogo{$Statement};
 
-            if ( $CustomerLogo{ $Statement } !~ /(http|ftp|https):\//i ) {
-                $Param{ $Statement } = $WebPath . $CustomerLogo{ $Statement };
+            if ( $CustomerLogo{$Statement} !~ /(http|ftp|https):\//i ) {
+                $Param{$Statement} = $WebPath . $CustomerLogo{$Statement};
             }
             else {
-                $Param{ $Statement } = $CustomerLogo{ $Statement };
+                $Param{$Statement} = $CustomerLogo{$Statement};
             }
         }
     }
@@ -6318,14 +6324,14 @@ sub CustomerSetRichTextParameters {
         ];
         @ToolbarMidi = [
             [
-                'Bold',         'Italic', 'Underline', 'Strike',  '-', 'NumberedList',
-                'BulletedList', '-',      'Link',      'Unlink',  '-', 'HorizontalRule',
-                '-',            'Undo',   'Redo',      '-',       'Maximize'
+                'Bold',         'Italic', 'Underline', 'Strike', '-', 'NumberedList',
+                'BulletedList', '-',      'Link',      'Unlink', '-', 'HorizontalRule',
+                '-',            'Undo',   'Redo',      '-',      'Maximize'
             ],
             '/',
             [
-                'FontSize', '-',           'TextColor',  'BGColor',     'RemoveFormat', 
-                '-',        'SpecialChar', 'SplitQuote', 'RemoveQuote',
+                'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat',
+                '-', 'SpecialChar', 'SplitQuote', 'RemoveQuote',
             ]
         ];
         @ToolbarMini = [

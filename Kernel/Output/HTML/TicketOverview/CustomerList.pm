@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Output::HTML::TicketOverview::CustomerList;
 
 use strict;
@@ -70,6 +69,7 @@ sub Run {
 
     # generate empty message
     if ( scalar @{ $Param{TicketIDs} } == 0 ) {
+
         # customeruser has no tickets at all
         if ( $Param{NoAllTotal} ) {
             if ( $Param{CustomText} ) {
@@ -84,6 +84,7 @@ sub Run {
                 );
             }
         }
+
         # customeruser has no tickets under the current filter
         else {
             $LayoutObject->Block(
@@ -92,8 +93,11 @@ sub Run {
         }
     }
 
-    my $TicketStart = $Param{StartHit}  ? $Param{StartHit} - 1 : 0;
-    my $TicketEnd   = $Param{PageShown} ? ( sort {$a<=>$b} ( $Param{PageShown} - 1 + $TicketStart, $#{ $Param{TicketIDs} } ) )[0] : $#{ $Param{TicketIDs} };
+    my $TicketStart = $Param{StartHit} ? $Param{StartHit} - 1 : 0;
+    my $TicketEnd
+        = $Param{PageShown}
+        ? ( sort { $a <=> $b } ( $Param{PageShown} - 1 + $TicketStart, $#{ $Param{TicketIDs} } ) )[0]
+        : $#{ $Param{TicketIDs} };
 
     # generate ticket list
     for my $TicketID ( @{ $Param{TicketIDs} }[ $TicketStart .. $TicketEnd ] ) {
@@ -180,20 +184,20 @@ sub Run {
 
         # standard ticket categories
         CAT:
-        for my $CatName ( qw/Queue Owner/ ) {
-            next CAT if !$Ticket{ $CatName };
-            if ( $CategoryConfig->{ $CatName } ) {
-                my $Conf = $CategoryConfig->{ $CatName };
+        for my $CatName (qw/Queue Owner/) {
+            next CAT if !$Ticket{$CatName};
+            if ( $CategoryConfig->{$CatName} ) {
+                my $Conf = $CategoryConfig->{$CatName};
 
-                if ( $Conf->{ColorSelection}{ $Ticket{ $CatName } } ) {
+                if ( $Conf->{ColorSelection}{ $Ticket{$CatName} } ) {
                     push @{ $Categories{ $Conf->{Order} } }, {
-                        Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $Ticket{ $CatName }" : $Ticket{ $CatName },
-                        Color => $Conf->{ColorSelection}{ $Ticket{ $CatName } },
+                        Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $Ticket{ $CatName }" : $Ticket{$CatName},
+                        Color => $Conf->{ColorSelection}{ $Ticket{$CatName} },
                     };
                 }
                 elsif ( $Conf->{ColorDefault} ) {
                     push @{ $Categories{ $Conf->{Order} } }, {
-                        Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $Ticket{ $CatName }" : $Ticket{ $CatName },
+                        Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $Ticket{ $CatName }" : $Ticket{$CatName},
                         Color => $Conf->{ColorDefault},
                     };
                 }
@@ -212,8 +216,10 @@ sub Run {
             FieldFilter => $DynamicFieldFilter || {},
         );
 
-        my %DynamicFieldCategories = $CategoryConfig->{DynamicField} ?
-            map { $CategoryConfig->{DynamicField}{ $_ }{DynamicField} => $_ } keys %{ $CategoryConfig->{DynamicField} } : ();
+        my %DynamicFieldCategories = $CategoryConfig->{DynamicField}
+            ?
+            map { $CategoryConfig->{DynamicField}{$_}{DynamicField} => $_ } keys %{ $CategoryConfig->{DynamicField} }
+            : ();
 
         # Dynamic fields
         # cycle trough the activated Dynamic Fields for this screen
@@ -273,7 +279,7 @@ sub Run {
         );
 
         for my $Order ( sort { $a <=> $b } keys %Categories ) {
-            for my $Category ( @{ $Categories{ $Order } } ) {
+            for my $Category ( @{ $Categories{$Order} } ) {
                 $LayoutObject->Block(
                     Name => 'Categories',
                     Data => $Category,

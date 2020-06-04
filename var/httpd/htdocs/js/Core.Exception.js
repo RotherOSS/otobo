@@ -21,7 +21,7 @@ var Core = Core || {};
 /**
  * @namespace Core.Exception
  * @memberof Core
- * @author 
+ * @author
  * @description
  *      This namespace contains the functions for handling application errors.
  */

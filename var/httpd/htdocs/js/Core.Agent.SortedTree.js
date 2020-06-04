@@ -22,7 +22,7 @@ Core.Agent = Core.Agent || {};
 /**
  * @namespace Core.Agent.SortedTree
  * @memberof Core.Agent
- * @author 
+ * @author
  * @description
  *      This namespace contains the SortedTree functions.
  */

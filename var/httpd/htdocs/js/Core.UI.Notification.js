@@ -22,7 +22,7 @@ Core.UI = Core.UI || {};
 /**
  * @namespace Core.UI.Notification
  * @memberof Core.UI
- * @author 
+ * @author
  * @description
  *      Popup windows.
  */

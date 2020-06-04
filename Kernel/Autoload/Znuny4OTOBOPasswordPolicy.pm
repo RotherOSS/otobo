@@ -38,7 +38,7 @@ our @ObjectDependencies = (
         my ( $Self, %Param ) = @_;
 
         return
-               if $Param{OP}
+            if $Param{OP}
             && $Param{OP} =~ /AgentTimeAccountingEdit/
             && $Self->{Action}
             =~ /^(CustomerPassword|AgentPassword|AdminPackage|AdminSystemConfiguration|CustomerAccept)/;

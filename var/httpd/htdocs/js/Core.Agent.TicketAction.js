@@ -22,7 +22,7 @@ Core.Agent = Core.Agent || {};
 /**
  * @namespace Core.Agent.TicketAction
  * @memberof Core.Agent
- * @author 
+ * @author
  * @description
  *      This namespace contains functions for all ticket action popups.
  */

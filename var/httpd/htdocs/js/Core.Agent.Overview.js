@@ -22,7 +22,7 @@ Core.Agent = Core.Agent || {};
 /**
  * @namespace Core.Agent.Overview
  * @memberof Core.Agent
- * @author 
+ * @author
  * @description
  *      This namespace contains the View functions.
  */

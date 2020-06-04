@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::CustomerTicketZoom;
 
 use strict;
@@ -43,8 +42,14 @@ sub new {
 
     # methods which are used to determine the possible values of the standard fields
     $Self->{FieldMethods} = [
-        { FieldID => 'PriorityID'        , Method => \&_GetPriorities },
-        { FieldID => 'NextStateID'       , Method => \&_GetNextStates },
+        {
+            FieldID => 'PriorityID',
+            Method  => \&_GetPriorities
+        },
+        {
+            FieldID => 'NextStateID',
+            Method  => \&_GetNextStates
+        },
     ];
 
     # dependancies of standard fields which are not defined via ACLs - here for consistency
@@ -277,10 +282,10 @@ sub Run {
 
         # use the FieldIDs, which are found in AgentTicketPhone/Email, and CustomerTicketMessage
         my %Uniformity = (
-            StateID    => 'NextStateID',
+            StateID => 'NextStateID',
         );
-        if ( $ElementChanged && $Uniformity{ $ElementChanged }) {
-            $ElementChanged = $Uniformity{ $ElementChanged };
+        if ( $ElementChanged && $Uniformity{$ElementChanged} ) {
+            $ElementChanged = $Uniformity{$ElementChanged};
         }
 
         my $FieldRestrictionsObject = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
@@ -289,6 +294,7 @@ sub Run {
         # track changing standard fields
         my $ACLPreselection;
         if ( $ConfigObject->Get('TicketACL::ACLPreselection') ) {
+
             # get cached preselection rules
             my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
             $ACLPreselection = $CacheObject->Get(
@@ -304,7 +310,7 @@ sub Run {
             StdFields => 0,
             Fields    => 0,
         );
-        my %ChangedElements    = $ElementChanged ? ( $ElementChanged => 1 ) : ();
+        my %ChangedElements        = $ElementChanged ? ( $ElementChanged => 1 ) : ();
         my %ChangedElementsDFStart = $ElementChanged ? ( $ElementChanged => 1 ) : ();
         my %ChangedStdFields;
 
@@ -320,31 +326,33 @@ sub Run {
             # determine standard field input
             until ( $Convergence{StdFields} ) {
 
-            my %NewChangedElements;
+                my %NewChangedElements;
 
                 # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
                 my %Check = (
-                    NextStateID        => 'NextStateID',
-                    PriorityID         => 'PriorityID',
+                    NextStateID => 'NextStateID',
+                    PriorityID  => 'PriorityID',
                 );
-                if ( $ACLPreselection ) {
+                if ($ACLPreselection) {
                     FIELD:
-                    for my $FieldID ( keys %Check ) {
-                        if ( !$ACLPreselection->{Fields}{ $FieldID } ) {
+                    for my $FieldID ( sort keys %Check ) {
+                        if ( !$ACLPreselection->{Fields}{$FieldID} ) {
                             $Kernel::OM->Get('Kernel::System::Log')->Log(
                                 Priority => 'debug',
                                 Message  => "$FieldID not defined in TicketACL preselection rules!"
                             );
                             next FIELD;
                         }
-                        if ( $Autoselect && $Autoselect->{ $FieldID } && $ChangedElements{ $FieldID } ){
+                        if ( $Autoselect && $Autoselect->{$FieldID} && $ChangedElements{$FieldID} ) {
                             next FIELD;
                         }
-                        for my $Element ( keys %ChangedElements ) {
-                            if ( $ACLPreselection->{Rules}{Ticket}{ $Element }{ $FieldID } || $Self->{InternalDependancy}{ $Element }{ $FieldID } ) {
+                        for my $Element ( sort keys %ChangedElements ) {
+                            if (   $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
+                                || $Self->{InternalDependancy}{$Element}{$FieldID} )
+                            {
                                 next FIELD;
                             }
-                            if ( !$ACLPreselection->{Fields}{ $Element } ) {
+                            if ( !$ACLPreselection->{Fields}{$Element} ) {
                                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => 'debug',
                                     Message  => "$Element not defined in TicketACL preselection rules!"
@@ -352,8 +360,9 @@ sub Run {
                                 next FIELD;
                             }
                         }
+
                         # delete unaffected fields
-                        delete $Check{ $FieldID };
+                        delete $Check{$FieldID};
                     }
                 }
 
@@ -375,14 +384,16 @@ sub Run {
                     if ( $Field->{FieldID} eq 'Dest' ) {
                         TOs:
                         for my $QueueID ( sort keys %{ $StdFieldValues{QueueID} } ) {
-                            next TOs if ( $StdFieldValues{QueueID}{ $QueueID } eq '-' );
-                            $StdFieldValues{Dest}{"$QueueID||$StdFieldValues{QueueID}{ $QueueID }"} = $StdFieldValues{QueueID}{ $QueueID };
+                            next TOs if ( $StdFieldValues{QueueID}{$QueueID} eq '-' );
+                            $StdFieldValues{Dest}{"$QueueID||$StdFieldValues{QueueID}{ $QueueID }"}
+                                = $StdFieldValues{QueueID}{$QueueID};
                         }
 
                         # check current selection of QueueID (Dest will be done together with the other fields)
-                        if ( $GetParam{QueueID} && !$StdFieldValues{Dest}{ $GetParam{ Dest } } ) {
+                        if ( $GetParam{QueueID} && !$StdFieldValues{Dest}{ $GetParam{Dest} } ) {
                             $GetParam{QueueID} = '';
                         }
+
                         # autoselect
                         elsif ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
                             $GetParam{QueueID} = $FieldRestrictionsObject->Autoselect(
@@ -392,11 +403,13 @@ sub Run {
                     }
 
                     # check whether current selected value is still valid for the field
-                    if ( $GetParam{ $Field->{FieldID} } && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } } ) {
+                    if ( $GetParam{ $Field->{FieldID} }
+                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } } )
+                    {
                         # if not empty the field
                         $GetParam{ $Check{ $Field->{FieldID} } } = '';
                         $NewChangedElements{ $Field->{FieldID} } = 1;
-                        $ChangedStdFields{ $Field->{FieldID} } = 1;
+                        $ChangedStdFields{ $Field->{FieldID} }   = 1;
                     }
 
                     # autoselect
@@ -406,11 +419,10 @@ sub Run {
                         ) || '';
                         if ( $GetParam{ $Field->{FieldID} } ) {
                             $NewChangedElements{ $Field->{FieldID} } = 1;
-                            $ChangedStdFields{ $Field->{FieldID} } = 1;
+                            $ChangedStdFields{ $Field->{FieldID} }   = 1;
                         }
                     }
                 }
-
 
                 if ( !%NewChangedElements ) {
                     $Convergence{StdFields} = 1;
@@ -434,26 +446,27 @@ sub Run {
 
             }
 
-            %ChangedElements = %ChangedElementsDFStart;
+            %ChangedElements        = %ChangedElementsDFStart;
             %ChangedElementsDFStart = ();
 
             # check dynamic fields
             my %CurFieldStates;
-            if ( %ChangedElements ) {
+            if (%ChangedElements) {
+
                 # get values and visibility of dynamic fields
                 %CurFieldStates = $FieldRestrictionsObject->GetFieldStates(
-                    TicketObject        => $TicketObject,
-                    DynamicFields       => $FollowUpDynamicField,
+                    TicketObject              => $TicketObject,
+                    DynamicFields             => $FollowUpDynamicField,
                     DynamicFieldBackendObject => $BackendObject,
-                    ChangedElements     => \%ChangedElements,                      # optional to reduce ACL evaluation
-                    Action              => $Self->{Action},
-                    TicketID            => $Self->{TicketID},
-                    FormID              => $Self->{FormID},
-                    CustomerUser        => $Self->{UserID},
-                    GetParam            => { %GetParam },
-                    Autoselect          => $Autoselect,
-                    ACLPreselection     => $ACLPreselection,
-                    LoopProtection      => \$LoopProtection,
+                    ChangedElements           => \%ChangedElements,       # optional to reduce ACL evaluation
+                    Action                    => $Self->{Action},
+                    TicketID                  => $Self->{TicketID},
+                    FormID                    => $Self->{FormID},
+                    CustomerUser              => $Self->{UserID},
+                    GetParam                  => {%GetParam},
+                    Autoselect                => $Autoselect,
+                    ACLPreselection           => $ACLPreselection,
+                    LoopProtection            => \$LoopProtection,
                 );
 
                 # combine FieldStates
@@ -489,21 +502,27 @@ sub Run {
 
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
-        for my $Index ( keys %{ $DynFieldStates{Fields} } ) {
-            my $DynamicFieldConfig = $FollowUpDynamicField->[ $Index ];
+        for my $Index ( sort keys %{ $DynFieldStates{Fields} } ) {
+            my $DynamicFieldConfig = $FollowUpDynamicField->[$Index];
 
-            my $DataValues = $DynFieldStates{Fields}{ $Index }{NotACLReducible} ? $GetParam{DynamicField}{ "DynamicField_$DynamicFieldConfig->{Name}" } :
-                ( $BackendObject->BuildSelectionDataGet(
+            my $DataValues
+                = $DynFieldStates{Fields}{$Index}{NotACLReducible}
+                ? $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}
+                :
+                (
+                $BackendObject->BuildSelectionDataGet(
                     DynamicFieldConfig => $DynamicFieldConfig,
-                    PossibleValues     => $DynFieldStates{Fields}{ $Index }{PossibleValues},
-                    Value              => $GetParam{DynamicField}{ "DynamicField_$DynamicFieldConfig->{Name}" },
-                ) || $DynFieldStates{Fields}{ $Index }{PossibleValues} );
+                    PossibleValues     => $DynFieldStates{Fields}{$Index}{PossibleValues},
+                    Value              => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+                    )
+                    || $DynFieldStates{Fields}{$Index}{PossibleValues}
+                );
 
             # add dynamic field to the list of fields to update
             push @DynamicFieldAJAX, {
                 Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data        => $DataValues,
-                SelectedID  => $GetParam{DynamicField}{ "DynamicField_$DynamicFieldConfig->{Name}" },
+                SelectedID  => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
                 Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
                 Max         => 100,
             };
@@ -511,11 +530,11 @@ sub Run {
 
         # define dynamic field visibility
         my %FieldVisibility;
-        if ( IsHashRefWithData($DynFieldStates{Visibility}) ) {
+        if ( IsHashRefWithData( $DynFieldStates{Visibility} ) ) {
             push @DynamicFieldAJAX, {
-                Name        => 'Restrictions_Visibility',
-                Data        => $DynFieldStates{Visibility},
-            }
+                Name => 'Restrictions_Visibility',
+                Data => $DynFieldStates{Visibility},
+            };
         }
 
         # build AJAX return for the standard fields
@@ -531,13 +550,13 @@ sub Run {
             },
         );
         my %Diversity = reverse %Uniformity;
-        for my $Field ( keys %StdFieldValues ) {
+        for my $Field ( sort keys %StdFieldValues ) {
             push @StdFieldAJAX, {
-                Name         => $Diversity{ $Field },
-                Data         => $StdFieldValues{ $Field },
-                SelectedID   => $GetParam{ $Field },
-                %{ $Attributes{ $Field } },
-            }
+                Name       => $Diversity{$Field},
+                Data       => $StdFieldValues{$Field},
+                SelectedID => $GetParam{$Field},
+                %{ $Attributes{$Field} },
+            };
         }
         my $JSON = $LayoutObject->BuildSelectionJSON(
             [
@@ -649,8 +668,10 @@ sub Run {
 
         # skip validation of hidden fields
         my %Visibility;
+
         # transform dynamic field data into DFName => DFName pair
-        my %DynamicFieldAcl = map { $_->{Name} => $_->{Name} } @{ $FollowUpDynamicField };
+        my %DynamicFieldAcl = map { $_->{Name} => $_->{Name} } @{$FollowUpDynamicField};
+
         # call ticket ACLs for DynamicFields to check field visibility
         my $ACLResult = $TicketObject->TicketAcl(
             %GetParam,
@@ -661,15 +682,15 @@ sub Run {
             Data           => \%DynamicFieldAcl,
             TicketID       => $Self->{TicketID},
         );
-        if ( $ACLResult ) {
-            %Visibility = map { 'DynamicField_'.$_->{Name} => 0 } @{ $FollowUpDynamicField };
+        if ($ACLResult) {
+            %Visibility = map { 'DynamicField_' . $_->{Name} => 0 } @{$FollowUpDynamicField};
             my %AclData = $TicketObject->TicketAclData();
-            for my $Field ( keys %AclData ) {
-                $Visibility{ 'DynamicField_'.$Field } = 1;
+            for my $Field ( sort keys %AclData ) {
+                $Visibility{ 'DynamicField_' . $Field } = 1;
             }
         }
         else {
-            %Visibility = map { 'DynamicField_'.$_->{Name} => 1 } @{ $FollowUpDynamicField };
+            %Visibility = map { 'DynamicField_' . $_->{Name} => 1 } @{$FollowUpDynamicField};
         }
 
         # create html strings for all dynamic fields
@@ -721,39 +742,39 @@ sub Run {
                 }
             }
 
-			my $ValidationResult;
+            my $ValidationResult;
 
             # do not validate invisible fields
             if ( $Visibility{ $DynamicFieldConfig->{Name} } ) {
-            	$ValidationResult = $BackendObject->EditFieldValueValidate(
-                	DynamicFieldConfig   => $DynamicFieldConfig,
-                	PossibleValuesFilter => $PossibleValuesFilter,
-                	ParamObject          => $ParamObject,
-                	Mandatory =>
-                    	$Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} }
-                    	== 2,
-            	);
+                $ValidationResult = $BackendObject->EditFieldValueValidate(
+                    DynamicFieldConfig   => $DynamicFieldConfig,
+                    PossibleValuesFilter => $PossibleValuesFilter,
+                    ParamObject          => $ParamObject,
+                    Mandatory =>
+                        $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} }
+                        == 2,
+                );
 
-            	if ( !IsHashRefWithData($ValidationResult) ) {
-                	my $Output = $LayoutObject->CustomerHeader(
-                    	Title => Translatable('Error'),
-                	);
-                	$Output .= $LayoutObject->CustomerError(
-                    	Message => $LayoutObject->{LanguageObject}
-                        	->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
-                    	Comment => Translatable('Please contact the administrator.'),
-                	);
-                	$Output .= $LayoutObject->CustomerFooter();
-                	return $Output;
-           		}
+                if ( !IsHashRefWithData($ValidationResult) ) {
+                    my $Output = $LayoutObject->CustomerHeader(
+                        Title => Translatable('Error'),
+                    );
+                    $Output .= $LayoutObject->CustomerError(
+                        Message => $LayoutObject->{LanguageObject}
+                            ->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
+                        Comment => Translatable('Please contact the administrator.'),
+                    );
+                    $Output .= $LayoutObject->CustomerFooter();
+                    return $Output;
+                }
 
                 # propagate validation error to the Error variable to be detected by the frontend
                 if ( $ValidationResult->{ServerError} ) {
                     $Error{ $DynamicFieldConfig->{Name} } = ' ServerError';
-            
+
                     # make FollowUp visible to correctly show the error
                     $GetParam{FollowUpVisible} = 'Visible';
-				}
+                }
             }
 
             # get field html
@@ -785,7 +806,7 @@ sub Run {
                 TicketStateID => $Ticket{StateID},
                 %GetParam,
                 DynamicFieldHTML => \%DynamicFieldHTML,
-				Visibility 		 => \%Visibility,
+                Visibility       => \%Visibility,
             );
             $Output .= $LayoutObject->CustomerNavigationBar();
             $Output .= $LayoutObject->CustomerFooter();
@@ -950,7 +971,7 @@ sub Run {
         for my $DynamicFieldConfig ( @{$FollowUpDynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
-            next DYNAMICFIELD if !$Visibility{ "DynamicField_$DynamicFieldConfig->{Name}" };
+            next DYNAMICFIELD if !$Visibility{"DynamicField_$DynamicFieldConfig->{Name}"};
 
             # set the value
             my $Success = $BackendObject->ValueSet(
@@ -967,7 +988,7 @@ sub Run {
         for my $DynamicFieldConfig ( @{$FollowUpDynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Article';
-            next DYNAMICFIELD if !$Visibility{ "DynamicField_$DynamicFieldConfig->{Name}" };
+            next DYNAMICFIELD if !$Visibility{"DynamicField_$DynamicFieldConfig->{Name}"};
 
             # set the value
             my $Success = $BackendObject->ValueSet(
@@ -1049,22 +1070,26 @@ sub Run {
             # Only get values for Ticket fields (all screens based on AgentTickeActionCommon
             # generates a new article, then article fields will be always empty at the beginning).
             # Value is stored in the database from Ticket.
-            $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+            $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
         }
     }
 
     my $FieldRestrictionsObject = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
     my $Autoselect              = $ConfigObject->Get('TicketACL::Autoselect') || undef;
+
     # gather fields which are supposed to be hidden when autoselected
     my $HideAutoselectedJSON;
-    if ( $Autoselect ) {
-        my @HideAutoselected = grep { !ref( $Autoselect->{ $_ } ) && $Autoselect->{ $_ } == 2 } keys %{ $Autoselect };
+    if ($Autoselect) {
+        my @HideAutoselected = grep { !ref( $Autoselect->{$_} ) && $Autoselect->{$_} == 2 } keys %{$Autoselect};
         if ( $Autoselect->{DynamicField} ) {
-            push @HideAutoselected, map { "DynamicField_".$_ } ( grep { $Autoselect->{DynamicField}{ $_ } == 2 } keys %{ $Autoselect->{DynamicField} } );
+            push @HideAutoselected,
+                map { "DynamicField_" . $_ }
+                ( grep { $Autoselect->{DynamicField}{$_} == 2 } keys %{ $Autoselect->{DynamicField} } );
         }
 
-        if ( @HideAutoselected ) {
-            my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
+        if (@HideAutoselected) {
+            my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
             $HideAutoselectedJSON = $JSONObject->Encode(
                 Data => \@HideAutoselected,
             );
@@ -1074,6 +1099,7 @@ sub Run {
     # track changing standard fields
     my $ACLPreselection;
     if ( $ConfigObject->Get('TicketACL::ACLPreselection') ) {
+
         # get cached preselection rules
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
         $ACLPreselection = $CacheObject->Get(
@@ -1089,7 +1115,7 @@ sub Run {
         StdFields => 0,
         Fields    => 0,
     );
-    my %ChangedElements    = ();
+    my %ChangedElements        = ();
     my %ChangedElementsDFStart = ();
     my %ChangedStdFields;
 
@@ -1111,27 +1137,29 @@ sub Run {
 
             # which standard fields to check - FieldID => GetParamValue (neccessary for Dest)
             my %Check = (
-                NextStateID        => 'NextStateID',
-                PriorityID         => 'PriorityID',
+                NextStateID => 'NextStateID',
+                PriorityID  => 'PriorityID',
             );
             if ( $ACLPreselection && !$InitialRun ) {
                 FIELD:
-                for my $FieldID ( keys %Check ) {
-                    if ( !$ACLPreselection->{Fields}{ $FieldID } ) {
+                for my $FieldID ( sort keys %Check ) {
+                    if ( !$ACLPreselection->{Fields}{$FieldID} ) {
                         $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => 'debug',
                             Message  => "$FieldID not defined in TicketACL preselection rules!"
                         );
                         next FIELD;
                     }
-                    if ( $Autoselect && $Autoselect->{ $FieldID } && $ChangedElements{ $FieldID } ){
+                    if ( $Autoselect && $Autoselect->{$FieldID} && $ChangedElements{$FieldID} ) {
                         next FIELD;
                     }
-                    for my $Element ( keys %ChangedElements ) {
-                        if ( $ACLPreselection->{Rules}{Ticket}{ $Element }{ $FieldID } || $Self->{InternalDependancy}{ $Element }{ $FieldID } ) {
+                    for my $Element ( sort keys %ChangedElements ) {
+                        if (   $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
+                            || $Self->{InternalDependancy}{$Element}{$FieldID} )
+                        {
                             next FIELD;
                         }
-                        if ( !$ACLPreselection->{Fields}{ $Element } ) {
+                        if ( !$ACLPreselection->{Fields}{$Element} ) {
                             $Kernel::OM->Get('Kernel::System::Log')->Log(
                                 Priority => 'debug',
                                 Message  => "$Element not defined in TicketACL preselection rules!"
@@ -1139,8 +1167,9 @@ sub Run {
                             next FIELD;
                         }
                     }
+
                     # delete unaffected fields
-                    delete $Check{ $FieldID };
+                    delete $Check{$FieldID};
                 }
             }
 
@@ -1162,14 +1191,16 @@ sub Run {
                 if ( $Field->{FieldID} eq 'Dest' ) {
                     TOs:
                     for my $QueueID ( sort keys %{ $StdFieldValues{QueueID} } ) {
-                        next TOs if ( $StdFieldValues{QueueID}{ $QueueID } eq '-' );
-                        $StdFieldValues{Dest}{"$QueueID||$StdFieldValues{QueueID}{ $QueueID }"} = $StdFieldValues{QueueID}{ $QueueID };
+                        next TOs if ( $StdFieldValues{QueueID}{$QueueID} eq '-' );
+                        $StdFieldValues{Dest}{"$QueueID||$StdFieldValues{QueueID}{ $QueueID }"}
+                            = $StdFieldValues{QueueID}{$QueueID};
                     }
 
                     # check current selection of QueueID (Dest will be done together with the other fields)
-                    if ( $GetParam{QueueID} && !$StdFieldValues{Dest}{ $GetParam{ Dest } } ) {
+                    if ( $GetParam{QueueID} && !$StdFieldValues{Dest}{ $GetParam{Dest} } ) {
                         $GetParam{QueueID} = '';
                     }
+
                     # autoselect
                     elsif ( !$GetParam{QueueID} && $Autoselect && $Autoselect->{Dest} ) {
                         $GetParam{QueueID} = $FieldRestrictionsObject->Autoselect(
@@ -1179,11 +1210,13 @@ sub Run {
                 }
 
                 # check whether current selected value is still valid for the field
-                if ( $GetParam{ $Field->{FieldID} } && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } } ) {
+                if ( $GetParam{ $Field->{FieldID} }
+                    && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } } )
+                {
                     # if not empty the field
                     $GetParam{ $Check{ $Field->{FieldID} } } = '';
                     $NewChangedElements{ $Field->{FieldID} } = 1;
-                    $ChangedStdFields{ $Field->{FieldID} } = 1;
+                    $ChangedStdFields{ $Field->{FieldID} }   = 1;
                 }
 
                 # autoselect
@@ -1193,7 +1226,7 @@ sub Run {
                     ) || '';
                     if ( $GetParam{ $Field->{FieldID} } ) {
                         $NewChangedElements{ $Field->{FieldID} } = 1;
-                        $ChangedStdFields{ $Field->{FieldID} } = 1;
+                        $ChangedStdFields{ $Field->{FieldID} }   = 1;
                     }
                 }
             }
@@ -1220,26 +1253,27 @@ sub Run {
 
         }
 
-        %ChangedElements = %ChangedElementsDFStart;
+        %ChangedElements        = %ChangedElementsDFStart;
         %ChangedElementsDFStart = ();
 
         # check dynamic fields
         my %CurFieldStates;
         if ( %ChangedElements || $InitialRun ) {
+
             # get values and visibility of dynamic fields
             %CurFieldStates = $FieldRestrictionsObject->GetFieldStates(
-                TicketObject        => $TicketObject,
-                DynamicFields       => $FollowUpDynamicField,
+                TicketObject              => $TicketObject,
+                DynamicFields             => $FollowUpDynamicField,
                 DynamicFieldBackendObject => $BackendObject,
-                ChangedElements     => \%ChangedElements,                      # optional to reduce ACL evaluation
-                Action              => $Self->{Action},
-                TicketID            => $Self->{TicketID},
-                FormID              => $Self->{FormID},
-                CustomerUser        => $Self->{UserID},
-                GetParam            => \%GetParam,
-                Autoselect          => $Autoselect,
-                ACLPreselection     => $ACLPreselection,
-                LoopProtection      => \$LoopProtection,
+                ChangedElements           => \%ChangedElements,       # optional to reduce ACL evaluation
+                Action                    => $Self->{Action},
+                TicketID                  => $Self->{TicketID},
+                FormID                    => $Self->{FormID},
+                CustomerUser              => $Self->{UserID},
+                GetParam                  => \%GetParam,
+                Autoselect                => $Autoselect,
+                ACLPreselection           => $ACLPreselection,
+                LoopProtection            => \$LoopProtection,
             );
 
             # combine FieldStates
@@ -1271,22 +1305,23 @@ sub Run {
         $InitialRun = 0;
     }
 
-
     # create html strings for all dynamic fields
     my %DynamicFieldHTML;
 
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $i ( 0..$#{ $FollowUpDynamicField } ) {
-        next DYNAMICFIELD if !IsHashRefWithData( $FollowUpDynamicField->[ $i ] );
+    for my $i ( 0 .. $#{$FollowUpDynamicField} ) {
+        next DYNAMICFIELD if !IsHashRefWithData( $FollowUpDynamicField->[$i] );
 
-        my $DynamicFieldConfig = $FollowUpDynamicField->[ $i ];
+        my $DynamicFieldConfig = $FollowUpDynamicField->[$i];
 
         # don't set a default value for hidden fields
         my %UseDefault = ();
-        if ( !$DynFieldStates{Visibility}{ "DynamicField_$DynamicFieldConfig->{Name}" } && ( $DynamicFieldConfig->{FieldType} ne 'Date' || $DynamicFieldConfig->{FieldType} ne 'DateTime' ) ) {
+        if ( !$DynFieldStates{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"}
+            && ( $DynamicFieldConfig->{FieldType} ne 'Date' || $DynamicFieldConfig->{FieldType} ne 'DateTime' ) )
+        {
             %UseDefault = (
-                UseDefaultValue => 0,
+                UseDefaultValue      => 0,
                 OverridePossibleNone => 1,
             );
         }
@@ -1294,13 +1329,16 @@ sub Run {
         # get field html
         $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } = $BackendObject->EditFieldRender(
             DynamicFieldConfig   => $DynamicFieldConfig,
-            PossibleValuesFilter => defined $DynFieldStates{Fields}{ $i } ? $DynFieldStates{Fields}{ $i }{PossibleValues} : undef,,
+            PossibleValuesFilter => defined $DynFieldStates{Fields}{$i}
+            ? $DynFieldStates{Fields}{$i}{PossibleValues}
+            : undef,
+            ,
             Mandatory       => $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
             LayoutObject    => $LayoutObject,
             ParamObject     => $ParamObject,
             AJAXUpdate      => 1,
             UpdatableFields => $Self->_GetFieldsToUpdate(),
-            Value           => $GetParam{DynamicField}{ "DynamicField_$DynamicFieldConfig->{Name}" },
+            Value           => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
             %UseDefault,
         );
     }
@@ -1323,11 +1361,11 @@ sub Run {
         TicketStateID => $Ticket{StateID},
         %GetParam,
         StateID          => $GetParam{NextStateID},
-        TicketStateID    => $GetParam{NextStateID}, # TODO: check whether this right
+        TicketStateID    => $GetParam{NextStateID},        # TODO: check whether this right
         AclAction        => \%AclAction,
         DynamicFieldHTML => \%DynamicFieldHTML,
-        HideAutoselected         => $HideAutoselectedJSON,
-        Visibility               => $DynFieldStates{Visibility},
+        HideAutoselected => $HideAutoselectedJSON,
+        Visibility       => $DynFieldStates{Visibility},
     );
 
     # return if HTML email
@@ -1752,28 +1790,30 @@ sub _Mask {
 
     # standard ticket categories
     CAT:
-    for my $CatName ( qw/Queue Owner/ ) {
-        next CAT if !$Param{ $CatName };
-        if ( $CategoryConfig->{ $CatName } ) {
-            my $Conf = $CategoryConfig->{ $CatName };
+    for my $CatName (qw/Queue Owner/) {
+        next CAT if !$Param{$CatName};
+        if ( $CategoryConfig->{$CatName} ) {
+            my $Conf = $CategoryConfig->{$CatName};
 
-            if ( $Conf->{ColorSelection}{ $Param{ $CatName } } ) {
+            if ( $Conf->{ColorSelection}{ $Param{$CatName} } ) {
                 push @{ $Categories{ $Conf->{Order} } }, {
-                    Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $Param{ $CatName }" : $Param{ $CatName },
-                    Color => $Conf->{ColorSelection}{ $Param{ $CatName } },
+                    Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $Param{ $CatName }" : $Param{$CatName},
+                    Color => $Conf->{ColorSelection}{ $Param{$CatName} },
                 };
             }
             elsif ( $Conf->{ColorDefault} ) {
                 push @{ $Categories{ $Conf->{Order} } }, {
-                    Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $Param{ $CatName }" : $Param{ $CatName },
+                    Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $Param{ $CatName }" : $Param{$CatName},
                     Color => $Conf->{ColorDefault},
                 };
             }
         }
     }
 
-    my %DynamicFieldCategories = $CategoryConfig->{DynamicField} ?
-        map { $CategoryConfig->{DynamicField}{ $_ }{DynamicField} => $_ } keys %{ $CategoryConfig->{DynamicField} } : ();
+    my %DynamicFieldCategories = $CategoryConfig->{DynamicField}
+        ?
+        map { $CategoryConfig->{DynamicField}{$_}{DynamicField} => $_ } keys %{ $CategoryConfig->{DynamicField} }
+        : ();
 
     # get the dynamic fields for ticket object
     my $DynamicField = $DynamicFieldObject->DynamicFieldListGet(
@@ -1871,10 +1911,10 @@ sub _Mask {
     }
 
     # prepare categories for header and info block
-    if ( %Categories ) {
+    if (%Categories) {
         $LayoutObject->Block( Name => 'InfoCategories' );
         for my $Order ( sort { $a <=> $b } keys %Categories ) {
-            for my $Category ( @{ $Categories{ $Order } } ) {
+            for my $Category ( @{ $Categories{$Order} } ) {
                 $LayoutObject->Block(
                     Name => 'Categories',
                     Data => $Category,
@@ -2015,7 +2055,7 @@ sub _Mask {
     my $LastSenderType = '';
     my $ArticleHTML    = '';
 
-    for my $ArticleTmp (reverse @ArticleBox) {
+    for my $ArticleTmp ( reverse @ArticleBox ) {
         my %Article = %$ArticleTmp;
 
         # check if article should be expanded (visible)
@@ -2165,6 +2205,7 @@ sub _Mask {
         );
 
         if ( $Param{HideAutoselected} ) {
+
             # add Autoselect JS
             $LayoutObject->AddJSOnDocumentComplete(
                 Code => "Core.Form.InitHideAutoselected({ FieldIDs: $Param{HideAutoselected} });",
@@ -2245,6 +2286,7 @@ sub _Mask {
         }
 
         my $SeparateDynamicFields = $ConfigObject->Get('Ticket::CustomerFrontend::SeparateDynamicFields');
+
         # Dynamic fields
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
@@ -2260,8 +2302,9 @@ sub _Mask {
             my $DynamicFieldHTML = $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} };
 
             my %Hidden;
+
             # hide field
-            if ( !$Param{Visibility}{ "DynamicField_$DynamicFieldConfig->{Name}" } ) {
+            if ( !$Param{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"} ) {
                 %Hidden = (
                     HiddenClass => ' ooo.ACLHidden',
                     HiddenStyle => 'style=display:none;',
@@ -2326,13 +2369,11 @@ sub _Mask {
     my ( $Avatar, $UserInitials );
     if ( $ConfigObject->Get('Frontend::AvatarEngine') eq 'Gravatar' && $CustomerUser{UserEmail} ) {
         my $DefaultIcon = $ConfigObject->Get('Frontend::Gravatar::DefaultImage') || 'mm';
-        $Avatar
-            = '//www.gravatar.com/avatar/' . md5_hex( lc $CustomerUser{UserEmail} ) . '?s=100&d=' . $DefaultIcon;
+        $Avatar = '//www.gravatar.com/avatar/' . md5_hex( lc $CustomerUser{UserEmail} ) . '?s=100&d=' . $DefaultIcon;
     }
     else {
         $UserInitials = substr( $CustomerUser{UserFirstName}, 0, 1 ) . substr( $CustomerUser{UserLastName}, 0, 1 );
     }
-
 
     # select the output template
     return $LayoutObject->Output(

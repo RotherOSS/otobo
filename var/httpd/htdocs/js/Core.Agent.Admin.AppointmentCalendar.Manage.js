@@ -26,7 +26,7 @@ Core.Agent.Admin.AppointmentCalendar = Core.Agent.AppointmentCalendar || {};
 /**
  * @namespace Core.Agent.Admin.AppointmentCalendar.Manage
  * @memberof Core.Agent.AppointmentCalendar
- * @author 
+ * @author
  * @description
  *      This namespace contains the appointment calendar management functions.
  */

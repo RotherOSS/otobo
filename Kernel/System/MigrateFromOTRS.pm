@@ -23,6 +23,7 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
+    'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::SysConfig',
 );
@@ -65,7 +66,6 @@ run migration task
 sub Run {
     my ( $Self, %Param ) = @_;
 
-
     # check needed stuff
     for my $Needed (qw(Task UserID)) {
         if ( !$Param{$Needed} ) {
@@ -85,7 +85,7 @@ sub Run {
         %Param,
     );
 
-    if ($PrevResult == 1) {
+    if ( $PrevResult == 1 ) {
         $Result = $Self->_ExecuteComponent(
             Component => 'Run',
             %Param,
@@ -102,13 +102,16 @@ sub _ExecutePreCheck {
 
     my @Tasks = $Self->_TasksGet();
 
-    if ($Param{Task} ne 'All' ) {
+    if ( $Param{Task} ne 'All' ) {
+
         # laufe rückwärts über die indizes
-        for my $i (reverse 0 .. $#Tasks) {
+        for my $i ( reverse 0 .. $#Tasks ) {
+
             # bedingung trifft zu
-            my %TaskModul = %{$Tasks[$i]};
-            my $Module = $TaskModul{Module};
+            my %TaskModul = %{ $Tasks[$i] };
+            my $Module    = $TaskModul{Module};
             if ( $Param{Task} ne $Module ) {
+
                 # entferne genau ein element ein stelle $i
                 splice @Tasks, $i, 1;
             }
@@ -116,14 +119,18 @@ sub _ExecutePreCheck {
     }
 
     if ( !$Tasks[0]->{Module} ) {
-        print STDERR "No valid Module " . $Tasks[0]->{Module} . " found. Perhaps you need to add the new check to ".'$Self->_TasksGet().';
+        print STDERR "No valid Module "
+            . $Tasks[0]->{Module}
+            . " found. Perhaps you need to add the new check to "
+            . '$Self->_TasksGet().';
         $Result = 0;
     }
-#    use Data::Dumper;
-#    print STDERR "Tasks: ".Dumper(\@Tasks)."\n";
+
+    #    use Data::Dumper;
+    #    print STDERR "Tasks: ".Dumper(\@Tasks)."\n";
     # Get the number of total steps.
-    my $Steps               = scalar @Tasks;
-    my $CurrentStep         = 1;
+    my $Steps       = scalar @Tasks;
+    my $CurrentStep = 1;
 
     TASK:
     for my $Task (@Tasks) {
@@ -138,11 +145,11 @@ sub _ExecutePreCheck {
         }
 
         # Run module.
-#        $Kernel::OM->ObjectParamAdd(
-#            "Kernel::System::MigrateFromOTRS::$Task->{Module}" => {
-#                Opts => $Self->{Opts},
-#            },
-#        );
+        #        $Kernel::OM->ObjectParamAdd(
+        #            "Kernel::System::MigrateFromOTRS::$Task->{Module}" => {
+        #                Opts => $Self->{Opts},
+        #            },
+        #        );
 
         $Self->{TaskObjects}->{$ModuleName} //= $Kernel::OM->Create($ModuleName);
         if ( !$Self->{TaskObjects}->{$ModuleName} ) {
@@ -174,13 +181,16 @@ sub _ExecuteComponent {
 
     my @Tasks = $Self->_TasksGet();
 
-    if ($Param{Task} ne 'All' ) {
+    if ( $Param{Task} ne 'All' ) {
+
         # laufe rückwärts über die indizes
-        for my $i (reverse 0 .. $#Tasks) {
+        for my $i ( reverse 0 .. $#Tasks ) {
+
             # bedingung trifft zu
-            my %TaskModul = %{$Tasks[$i]};
-            my $Module = $TaskModul{Module};
+            my %TaskModul = %{ $Tasks[$i] };
+            my $Module    = $TaskModul{Module};
             if ( $Param{Task} ne $Module ) {
+
                 # entferne genau ein element ein stelle $i
                 splice @Tasks, $i, 1;
             }
@@ -188,16 +198,21 @@ sub _ExecuteComponent {
     }
 
     if ( !$Tasks[0]->{Module} ) {
-        $Result{Message}    = $Tasks[0]->{Module};
-        $Result{Comment}    = "No valid Module " . $Tasks[0]->{Module} . " found. Perhaps you need to add the new check to ".'$Self->_TasksGet().';
+        $Result{Message} = $Tasks[0]->{Module};
+        $Result{Comment}
+            = "No valid Module "
+            . $Tasks[0]->{Module}
+            . " found. Perhaps you need to add the new check to "
+            . '$Self->_TasksGet().';
         $Result{Successful} = 0;
 
     }
-#    use Data::Dumper;
-#    print STDERR "Tasks: ".Dumper(\@Tasks)."\n";
+
+    #    use Data::Dumper;
+    #    print STDERR "Tasks: ".Dumper(\@Tasks)."\n";
     # Get the number of total steps.
-    my $Steps               = scalar @Tasks;
-    my $CurrentStep         = 1;
+    my $Steps       = scalar @Tasks;
+    my $CurrentStep = 1;
 
     TASK:
     for my $Task (@Tasks) {
@@ -218,12 +233,14 @@ sub _ExecuteComponent {
 
         # Execute Run-Component
         if ( $Self->{TaskObjects}->{$ModuleName}->can("Run") ) {
+
             # print STDERR "    Step $CurrentStep of $Steps: $Task->{Message} ...\n";
-            $Result{$Task->{Module}} = $Self->{TaskObjects}->{$ModuleName}->Run(%Param);
+            $Result{ $Task->{Module} } = $Self->{TaskObjects}->{$ModuleName}->Run(%Param);
 
             # Add counter to $Result.
-            $Result{$Task->{Module}}->{CurrentStep} = $CurrentStep;
+            $Result{ $Task->{Module} }->{CurrentStep} = $CurrentStep;
         }
+
         # Do not handle timing if task has no appropriate component.
         else {
             next TASK;

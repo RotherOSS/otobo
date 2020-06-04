@@ -24,7 +24,7 @@ Core.Agent = Core.Agent || {};
 /**
  * @namespace Core.Agent.AppointmentCalendar
  * @memberof Core.Agent
- * @author 
+ * @author
  * @description
  *      This namespace contains the appointment calendar functions.
  */

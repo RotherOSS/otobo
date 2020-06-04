@@ -46,7 +46,7 @@ Returns 1 on success
 sub CheckPreviousRequirement {
     my ( $Self, %Param ) = @_;
 
-        return 1;
+    return 1;
 }
 
 =head1 NAME
@@ -62,20 +62,20 @@ sub Run {
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-    
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+
     # Set cache object with taskinfo and starttime to show current state in frontend
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-    my $DateTimeObject = $Kernel::OM->Create( 'Kernel::System::DateTime');
-    my $Epoch = $DateTimeObject->ToEpoch();
+    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $Epoch          = $DateTimeObject->ToEpoch();
 
     $CacheObject->Set(
         Type  => 'OTRSMigration',
         Key   => 'MigrationState',
         Value => {
-            Task        => 'OTOBOMigrateWebServiceConfiguration',
-            SubTask     => "Migrate webservices and add OTOBO ElasticSearch services.",
-            StartTime   => $Epoch,
+            Task      => 'OTOBOMigrateWebServiceConfiguration',
+            SubTask   => "Migrate webservices and add OTOBO ElasticSearch services.",
+            StartTime => $Epoch,
         },
     );
 
@@ -85,8 +85,8 @@ sub Run {
         Valid => 0,
     );
     if ( !IsHashRefWithData($WebserviceList) ) {
-        $Result{Message}    = $Self->{LanguageObject}->Translate( "Migrate web service configuration." );
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( "No web service existent, done." );
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate("No web service existent, done.");
         $Result{Successful} = 1;
         return \%Result;
     }
@@ -121,8 +121,9 @@ sub Run {
     my $DirOfSQLFiles = $ConfigObject->Get('Home') . '/scripts/webservices/otobo-initial_insert-webservice.xml';
 
     if ( !-f $DirOfSQLFiles ) {
-        $Result{Message}    = $Self->{LanguageObject}->Translate( "Migrate web service configuration." );
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Can\'t add web service for Elasticsearch. File %s not found!.', $DirOfSQLFiles );
+        $Result{Message} = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
+        $Result{Comment} = $Self->{LanguageObject}
+            ->Translate( 'Can\'t add web service for Elasticsearch. File %s not found!.', $DirOfSQLFiles );
         $Result{Successful} = 0;
         return \%Result;
     }
@@ -137,8 +138,11 @@ sub Run {
         Database => \@XMLArray,
     );
 
-    $Result{Message}    = $Self->{LanguageObject}->Translate( "Migrate web service configuration." );
-    $Result{Comment}    = $Self->{LanguageObject}->Translate( "Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed." );
+    $Result{Message} = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
+    $Result{Comment}
+        = $Self->{LanguageObject}->Translate(
+        "Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed."
+        );
     $Result{Successful} = 1;
     return \%Result;
 }

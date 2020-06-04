@@ -22,7 +22,7 @@ Core.UI = Core.UI || {};
 /**
  * @namespace Core.UI.Autocomplete
  * @memberof Core.UI
- * @author 
+ * @author
  * @description
  *      This namespace contains autocomplete specific functions.
  */

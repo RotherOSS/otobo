@@ -174,7 +174,7 @@
             [% Data.Articles %]
 [% END %]
         </ul>
-# Widgets        
+# Widgets
         <div id='oooTicketInfo' class='oooWidget'>
             <div class='oooWHead'>
                 <h2>[% Translate('Information') | html %]</h2>
@@ -250,4 +250,3 @@
 # EO Widgets
     </div>
 </div>
-
