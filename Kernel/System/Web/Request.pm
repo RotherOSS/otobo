@@ -353,6 +353,52 @@ sub GetCookie {
     return $Self->{Query}->cookie( $Param{Key} );
 }
 
+=head2 RemoteAddr
+
+get the remote address of the HTTP client.
+This is a wrapper around CGI::remote_addr().
+
+    my $RemoteAddre = $ParamObject->RemoteAddr();
+
+=cut
+
+sub RemoteAddr {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->remote_addr( @Params );
+}
+
+=head2 HTTP
+
+get the HTTP environment variable. Called with a single argument get the specific environment variable.
+This is a wrapper around CGI::http().
+
+    my $UserAgent = $ParamObject->HTTP('USER_AGENT');
+
+=cut
+
+sub HTTP {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->http( @Params );
+}
+
+=head2 HTTPS
+
+same as HTTP(), but operate on the HTTPS environment varibles.
+This is a wrapper around CGI::https().
+
+    my $UserAgent = $ParamObject->HTTPS('USER_AGENT');
+
+=cut
+
+sub HTTPS {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->https( @Params );
+}
+
+
 =head2 IsAJAXRequest()
 
 checks if the current request was sent by AJAX

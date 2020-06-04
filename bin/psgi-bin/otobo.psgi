@@ -242,6 +242,7 @@ use Encode qw(:all);
 use CGI ();
 use CGI::Carp ();
 use CGI::Emulate::PSGI ();
+use CGI::PSGI;
 use Plack::Builder;
 use Plack::Response;
 use Plack::Middleware::ErrorDocument;
@@ -320,7 +321,15 @@ my $AdminOnlyMiddeware = sub {
     return sub {
         my $env = shift;
 
-        local $Kernel::OM = Kernel::System::ObjectManager->new();
+        local $Kernel::OM = Kernel::System::ObjectManager->new;
+
+        # Create the underlying CGI object from the PSGI environment
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::Web::Request' => {
+                WebRequest => CGI::PSGI->new($env),
+            },
+        );
+
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         my $PlackRequest = Plack::Request->new($env);
@@ -377,13 +386,15 @@ my $AdminOnlyMiddeware = sub {
 
         # deny access for non-admins
         if ( ! $UserIsAdmin ) {
-            my $Message = '403 forbidden. ';
-            $Message .= $UserLogin ? 'Not logged in.' : "User $UserLogin has no admin privileges.";
+            my $Message = $UserLogin ?
+                "User $UserLogin has no admin privileges."
+                :
+                'Not logged in.';
 
             return [
                 403,
                 [ 'Content-Type' => 'text/plain;charset=utf-8' ],
-                [ $Message ]
+                [ '403 permission denied.', "\n", $Message ]
             ];
         }
 

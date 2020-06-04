@@ -50,6 +50,8 @@ feature 'oracle', 'Support for database Oracle' => sub {
 feature 'plack', 'Suppport for plack' => sub {
     # Support old fashioned CGI in a PSGI application
     requires 'CGI::Emulate::PSGI';
+    # Adapt CGI.pm to the PSGI protocol
+    requires 'CGI::PSGI';
     # High-performance preforking PSGI/Plack web server
     requires 'Gazelle';
     # Used with the -R option of plackup. Restart the server when files have changed.
