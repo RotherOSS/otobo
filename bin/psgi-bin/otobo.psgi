@@ -323,7 +323,8 @@ my $AdminOnlyMiddeware = sub {
 
         local $Kernel::OM = Kernel::System::ObjectManager->new;
 
-        # Create the underlying CGI object from the PSGI environment
+        # Create the underlying CGI object from the PSGI environment.
+        # The AuthSession modules use this object for getting info about the request.
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::Web::Request' => {
                 WebRequest => CGI::PSGI->new($env),
@@ -352,13 +353,6 @@ my $AdminOnlyMiddeware = sub {
             my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
             return ( 0, undef ) unless $SessionObject;
-
-            # The session is checked by the modules in Kernel/System/AuthSession.
-            # These module rely on some enviromnent variables.
-            # As PSGI works without messing with the environment, explicitly set those vars here.
-            local $ENV{REMOTE_ADDR}     = $env->{REMOTE_ADDR};
-            local $ENV{HTTP_USER_AGENT} = $env->{HTTP_USER_AGENT};
-
             return ( 0, undef ) unless $SessionObject->CheckSessionID( SessionID => $SessionID );
 
             # get session data
