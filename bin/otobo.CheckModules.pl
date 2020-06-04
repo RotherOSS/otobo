@@ -222,6 +222,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'CGI::PSGI',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'Adapt CGI.pm to the PSGI protocol',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Crypt::Eksblowfish::Bcrypt',
         Required  => 0,
         Comment   => 'For strong password hashing.',

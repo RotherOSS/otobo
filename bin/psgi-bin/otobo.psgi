@@ -242,6 +242,7 @@ use Encode qw(:all);
 use CGI ();
 use CGI::Carp ();
 use CGI::Emulate::PSGI ();
+use CGI::PSGI;
 use Plack::Builder;
 use Plack::Response;
 use Plack::Middleware::ErrorDocument;
@@ -320,48 +321,45 @@ my $AdminOnlyMiddeware = sub {
     return sub {
         my $env = shift;
 
-        local $Kernel::OM = Kernel::System::ObjectManager->new();
+        local $Kernel::OM = Kernel::System::ObjectManager->new;
+
+        # Create the underlying CGI object from the PSGI environment.
+        # The AuthSession modules use this object for getting info about the request.
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::Web::Request' => {
+                WebRequest => CGI::PSGI->new($env),
+            },
+        );
+
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         my $PlackRequest = Plack::Request->new($env);
 
         # Find out whether user is admin via the session.
         # Passing the session ID via POST or GET is not supported.
-        my $UserIsAdmin = eval {
+        my ( $UserIsAdmin, $UserLogin ) = eval {
 
-            return 0 unless $ConfigObject->Get('SessionUseCookie');
+            return ( 0, undef ) unless $ConfigObject->Get('SessionUseCookie');
 
             my $SessionName  = $ConfigObject->Get('SessionName');
 
-            return 0 unless $SessionName;
+            return ( 0, undef ) unless $SessionName;
 
             # check whether the browser sends the SessionID cookie
-            my $SessionID = $PlackRequest->cookies->{$SessionName};
-
-            return 0 unless $SessionID;
-
             my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+            my $SessionID     = $PlackRequest->cookies->{$SessionName};
 
-            return 0 unless $SessionObject;
-
-            # The session is checked by the modules in Kernel/System/AuthSession.
-            # These module rely on some enviromnent variables.
-            # As PSGI works without messing with the environment, explicitly set those vars here.
-            local $ENV{REMOTE_ADDR}     = $env->{REMOTE_ADDR};
-            local $ENV{HTTP_USER_AGENT} = $env->{HTTP_USER_AGENT};
-
-            return 0 unless $SessionObject->CheckSessionID( SessionID => $SessionID );
+            return ( 0, undef ) unless $SessionObject;
+            return ( 0, undef ) unless $SessionObject->CheckSessionID( SessionID => $SessionID );
 
             # get session data
             my %UserData = $SessionObject->GetSessionIDData(
                 SessionID => $SessionID,
             );
 
-            return 0 unless $UserData{UserID};
-
             my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
-            return 0 unless $GroupObject;
+            return ( 0, $UserData{UserLogin} ) unless $GroupObject;
 
             my $IsAdmin =  $GroupObject->PermissionCheck(
                 UserID    => $UserData{UserID},
@@ -369,36 +367,26 @@ my $AdminOnlyMiddeware = sub {
                 Type      => 'rw',
             );
 
-            return $IsAdmin;
+            return ( $IsAdmin, $UserData{UserLogin} );
         };
         if ($@) {
             # deny access when anything goes wrong
             $UserIsAdmin = 0;
+            $UserLogin   = undef;
         }
 
-        # deny access for non-admins, redirect to the login page
+        # deny access for non-admins
         if ( ! $UserIsAdmin ) {
+            my $Message = $UserLogin ?
+                "User $UserLogin has no admin privileges."
+                :
+                'Not logged in.';
 
-            # redirect to alternate login
-            my $LoginURI;
-            if ( $ConfigObject->Get('LoginURL') ) {
-                $LoginURI = URI->new($ConfigObject->Get('LoginURL'));
-            }
-            else {
-
-                # go from otobo/dbviewer to otobo/index.pl
-                $LoginURI = $PlackRequest->base;
-                my @PathSegments = $LoginURI->path_segments;
-                $PathSegments[-1] = 'index.pl';
-                $LoginURI->path_segments(@PathSegments);
-            }
-            my $RequestedURL = join '?', '../dbviewer', $PlackRequest->query_string;
-            $LoginURI->query_form( Reason => 'LoginFailed', RequestedURL => $RequestedURL );
-
-            my $PlackResponse = Plack::Response->new;
-            $PlackResponse->redirect($LoginURI);
-
-            return $PlackResponse->finalize;
+            return [
+                403,
+                [ 'Content-Type' => 'text/plain;charset=utf-8' ],
+                [ '403 permission denied.', "\n", $Message ]
+            ];
         }
 
         # user is authorised, now do the work
