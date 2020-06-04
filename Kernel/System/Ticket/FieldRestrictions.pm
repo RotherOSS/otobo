@@ -622,8 +622,8 @@ sub SetACLPreselectionCache {
 
             # Ticket Rules
             if ( $ACL->{$Impact}->{Ticket} ) {
+                AFFECTED:
                 for my $Affected ( sort keys %{ $ACL->{$Impact}->{Ticket} } ) {
-                    AFFECTED:
                     if ( !$Fields{$Affected} ) {
                         $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => 'info',
