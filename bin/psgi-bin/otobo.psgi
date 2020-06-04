@@ -357,8 +357,6 @@ my $AdminOnlyMiddeware = sub {
                 SessionID => $SessionID,
             );
 
-            return 0 unless $UserData{UserID};
-
             my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
             return 0 unless $GroupObject;
