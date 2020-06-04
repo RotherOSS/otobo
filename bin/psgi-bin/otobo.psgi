@@ -346,11 +346,8 @@ my $AdminOnlyMiddeware = sub {
             return ( 0, undef ) unless $SessionName;
 
             # check whether the browser sends the SessionID cookie
-            my $SessionID = $PlackRequest->cookies->{$SessionName};
-
-            return ( 0, undef ) unless $SessionID;
-
             my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+            my $SessionID     = $PlackRequest->cookies->{$SessionName};
 
             return ( 0, undef ) unless $SessionObject;
             return ( 0, undef ) unless $SessionObject->CheckSessionID( SessionID => $SessionID );
