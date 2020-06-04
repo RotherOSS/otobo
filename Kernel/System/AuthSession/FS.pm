@@ -217,8 +217,8 @@ sub CreateSessionID {
 
     # get remote address and the http user agent
     my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $RemoteAddr      = $ParamObject->RemoteAddr()      || 'none';
-    my $RemoteUserAgent = $ParamObject->HTTP('USER_AGEN') || 'none';
+    my $RemoteAddr      = $ParamObject->RemoteAddr()       || 'none';
+    my $RemoteUserAgent = $ParamObject->HTTP('USER_AGENT') || 'none';
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
