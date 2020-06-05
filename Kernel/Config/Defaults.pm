@@ -60,6 +60,8 @@ of L<Kernel::Config>, even though they are actually implemented here.
 
 loads the default values of settings that are required to run OTOBO even
 when it was not fully configured yet.
+Some of the default values depend on the environment variable OTOBO_RUNS_UNDER_DOCKER.
+This workaround is implemented because syslog is usually not available in a docker container.
 
 =cut
 
@@ -362,8 +364,12 @@ sub LoadDefaults {
     # LogModule                                           #
     # --------------------------------------------------- #
     # (log backend module)
-    $Self->{LogModule} = 'Kernel::System::Log::SysLog';
+    $Self->{LogModule} = $ENV{OTOBO_RUNS_UNDER_DOCKER} ?
+        'Kernel::System::Log::File'
+        :
+        'Kernel::System::Log::SysLog';
 
+    # alternatively
 #    $Self->{'LogModule'} = 'Kernel::System::Log::File';
 
     # param for LogModule Kernel::System::Log::SysLog
@@ -376,7 +382,12 @@ sub LoadDefaults {
     $Self->{'LogModule::SysLog::Charset'} = 'utf-8';
 
     # param for LogModule Kernel::System::Log::File (required!)
-    $Self->{'LogModule::LogFile'} = '/tmp/otobo.log';
+    # In the docker case the logfile is located below /opt/otobo,
+    # which means that it will stick around when the container is shut down.
+    $Self->{'LogModule::LogFile'} = $ENV{OTOBO_RUNS_UNDER_DOCKER} ?
+        '/opt/otobo/var/log/otobo.log'
+        :
+        '/tmp/otobo.log';
 
     # param if the date (yyyy-mm) should be added as suffix to
     # logfile [0|1]
