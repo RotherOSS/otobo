@@ -832,7 +832,7 @@ sub CacheCleanup {
     return 1;
 }
 
-=head2 CacheCleanup()
+=head2 DisableSecureMode()
 
 Disable secure mode after copying data.
 
