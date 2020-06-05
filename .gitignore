@@ -96,3 +96,6 @@ var/git
 .mysql_history
 .passwd
 backup_es
+
+# Docker
+.env
