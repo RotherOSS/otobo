@@ -16,7 +16,7 @@
 
 
 # Default configuration for OTOBO. All changes to this file will be lost after an
-#   update, please use AdminSystemConfiguration to configure your system.
+# update, please use AdminSystemConfiguration to configure your system.
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
 
@@ -26,11 +26,11 @@ use strict;
 use warnings;
 use utf8;
 
-# Perl 5.16.0 is the required minimum version to use OTOBO.
-use 5.016_000;
+# Perl 5.24.0 is the required minimum version to use OTOBO.
+use 5.24.0;
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
-use File::Basename;
+use File::Basename qw(dirname);
 use FindBin qw($Bin);
 use lib dirname($Bin);
 use lib dirname($Bin) . '/Kernel/cpan-lib';
