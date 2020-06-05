@@ -375,8 +375,6 @@ sub LoadDefaults {
     # replaces with ?)
     $Self->{'LogModule::SysLog::Charset'} = 'utf-8';
 
-#    $Self->{'LogModule::SysLog::Charset'} = 'utf-8';
-
     # param for LogModule Kernel::System::Log::File (required!)
     $Self->{'LogModule::LogFile'} = '/tmp/otobo.log';
 
