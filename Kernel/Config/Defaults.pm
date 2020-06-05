@@ -16,7 +16,7 @@
 
 
 # Default configuration for OTOBO. All changes to this file will be lost after an
-#   update, please use AdminSystemConfiguration to configure your system.
+# update, please use AdminSystemConfiguration to configure your system.
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
 
@@ -26,11 +26,11 @@ use strict;
 use warnings;
 use utf8;
 
-# Perl 5.16.0 is the required minimum version to use OTOBO.
-use 5.016_000;
+# Perl 5.24.0 is the required minimum version to use OTOBO.
+use 5.24.0;
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
-use File::Basename;
+use File::Basename qw(dirname);
 use FindBin qw($Bin);
 use lib dirname($Bin);
 use lib dirname($Bin) . '/Kernel/cpan-lib';
@@ -60,6 +60,8 @@ of L<Kernel::Config>, even though they are actually implemented here.
 
 loads the default values of settings that are required to run OTOBO even
 when it was not fully configured yet.
+Some of the default values depend on the environment variable OTOBO_RUNS_UNDER_DOCKER.
+This workaround is implemented because syslog is usually not available in a docker container.
 
 =cut
 
@@ -75,8 +77,9 @@ sub LoadDefaults {
     # system data                                         #
     # --------------------------------------------------- #
     # SecureMode
-    # Disables the use of web-installer (installer.pl).
-    # GenericAgent, PackageManager and SQL Box can only be used if SecureMode is enabled.
+    # When SecureMode is activated the use of web-installer (installer.pl) is disabled.
+    # GenericAgent, PackageManager and SQL Box can only be used when SecureMode is enabled.
+    # SecureMode is deactivated here, so that installer.pl can run.
     $Self->{SecureMode} = 0;
 
     # SystemID
@@ -361,8 +364,12 @@ sub LoadDefaults {
     # LogModule                                           #
     # --------------------------------------------------- #
     # (log backend module)
-    $Self->{LogModule} = 'Kernel::System::Log::SysLog';
+    $Self->{LogModule} = $ENV{OTOBO_RUNS_UNDER_DOCKER} ?
+        'Kernel::System::Log::File'
+        :
+        'Kernel::System::Log::SysLog';
 
+    # alternatively
 #    $Self->{'LogModule'} = 'Kernel::System::Log::File';
 
     # param for LogModule Kernel::System::Log::SysLog
@@ -374,10 +381,13 @@ sub LoadDefaults {
     # replaces with ?)
     $Self->{'LogModule::SysLog::Charset'} = 'utf-8';
 
-#    $Self->{'LogModule::SysLog::Charset'} = 'utf-8';
-
     # param for LogModule Kernel::System::Log::File (required!)
-    $Self->{'LogModule::LogFile'} = '/tmp/otobo.log';
+    # In the docker case the logfile is located below /opt/otobo,
+    # which means that it will stick around when the container is shut down.
+    $Self->{'LogModule::LogFile'} = $ENV{OTOBO_RUNS_UNDER_DOCKER} ?
+        '/opt/otobo/var/log/otobo.log'
+        :
+        '/tmp/otobo.log';
 
     # param if the date (yyyy-mm) should be added as suffix to
     # logfile [0|1]
@@ -1951,20 +1961,22 @@ sub new {
         my @Files = glob("$Self->{Home}/Kernel/Config/Files/*.pm");
 
         # Resorting the filelist.
-        my @NewFileOrderPre  = ();
-        my @NewFileOrderPost = ();
+        {
+            my @NewFileOrderPre;
+            my @NewFileOrderPost;
 
-        for my $File (@Files) {
+            for my $File (@Files) {
 
-            if ( $File =~ /Ticket/ ) {
-                push @NewFileOrderPre, $File;
+                if ( $File =~ m/Ticket/ ) {
+                    push @NewFileOrderPre, $File;
+                }
+                else {
+                    push @NewFileOrderPost, $File;
+                }
             }
-            else {
-                push @NewFileOrderPost, $File;
-            }
+
+            @Files = ( @NewFileOrderPre, @NewFileOrderPost );
         }
-
-        @Files = ( @NewFileOrderPre, @NewFileOrderPost );
 
         FILE:
         for my $File (@Files) {
