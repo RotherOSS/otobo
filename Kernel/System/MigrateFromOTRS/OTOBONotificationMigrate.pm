@@ -44,7 +44,7 @@ Returns 1 on success
 sub CheckPreviousRequirement {
     my ( $Self, %Param ) = @_;
 
-        return 1;
+    return 1;
 }
 
 =head1 NAME
@@ -56,25 +56,25 @@ Kernel::System::MigrateFromOTRS::OTOBONotificationMigrate - Migrate Notification
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my  %Result;
-    
+    my %Result;
+
     # Set cache object with taskinfo and starttime to show current state in frontend
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-    my $DateTimeObject = $Kernel::OM->Create( 'Kernel::System::DateTime');
-    my $Epoch = $DateTimeObject->ToEpoch();
+    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $Epoch          = $DateTimeObject->ToEpoch();
 
     $CacheObject->Set(
         Type  => 'OTRSMigration',
         Key   => 'MigrationState',
         Value => {
-            Task        => 'OTOBONotificationMigrate',
-            SubTask     => "Migrate notifications to OTOBO.",
-            StartTime   => $Epoch,
+            Task      => 'OTOBONotificationMigrate',
+            SubTask   => "Migrate notifications to OTOBO.",
+            StartTime => $Epoch,
         },
     );
 
-    $Result{Message}    = $Self->{LanguageObject}->Translate( "Migrate database table notification." );
-    $Result{Comment}    = $Self->{LanguageObject}->Translate( "Migration failed." );
+    $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate database table notification.");
+    $Result{Comment}    = $Self->{LanguageObject}->Translate("Migration failed.");
     $Result{Successful} = 0;
 
     # map wrong to correct tags
@@ -82,7 +82,7 @@ sub Run {
 
         # ATTENTION, don't use opening or closing tags here (< or >)
         # because old notifications can contain quoted tags (&lt; or &gt;)
-        'OTRS_'     => 'OTOBO_',
+        'OTRS_' => 'OTOBO_',
     );
 
     # get needed objects
@@ -145,14 +145,14 @@ sub Run {
             ],
         );
     }
-    $Result{Message}    = $Self->{LanguageObject}->Translate( "Migrate database table notification." );
-    $Result{Comment}    = $Self->{LanguageObject}->Translate( "Migration completed, perfect!" );
+    $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate database table notification.");
+    $Result{Comment}    = $Self->{LanguageObject}->Translate("Migration completed, perfect!");
     $Result{Successful} = 1;
 
     return \%Result;
 }
 
-
+1;
 
 =head1 TERMS AND CONDITIONS
 

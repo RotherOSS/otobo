@@ -46,12 +46,12 @@ Returns 1 on success
 sub CheckPreviousRequirement {
     my ( $Self, %Param ) = @_;
 
-        return 1;
-    }
+    return 1;
+}
 
 =head1 NAME
 
-Kernel::System::MigrateFromOTRS::OTOBOMigrateConfigFromOTRS - Copy OTRS Data to OTOBO Server
+Kernel::System::MigrateFromOTRS::OTOBOCopyFilesFromOTRS - Copy OTRS Data to OTOBO Server
 
 =cut
 
@@ -61,7 +61,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $OTRS6path;
-    my $OTOBOHome    = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $OTOBOHome = $Kernel::OM->Get('Kernel::Config')->Get('Home');
     my %OTOBODBParam;
     my %Result;
     my $Success = 1;
@@ -69,17 +69,17 @@ sub Run {
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
     # Set cache object with taskinfo and starttime to show current state in frontend
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-    my $DateTimeObject = $Kernel::OM->Create( 'Kernel::System::DateTime');
-    my $Epoch = $DateTimeObject->ToEpoch();
+    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $Epoch          = $DateTimeObject->ToEpoch();
 
     $CacheObject->Set(
         Type  => 'OTRSMigration',
         Key   => 'MigrationState',
         Value => {
-            Task        => 'OTOBOCopyFilesFromOTRS',
-            SubTask     => "Copy files from OTRS to OTOBO.",
-            StartTime   => $Epoch,
+            Task      => 'OTOBOCopyFilesFromOTRS',
+            SubTask   => "Copy files from OTRS to OTOBO.",
+            StartTime => $Epoch,
         },
     );
 
@@ -90,7 +90,7 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need $Key!"
             );
-            $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if OTOBO version is correct." );
+            $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
             $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
             $Result{Successful} = 0;
             return \%Result;
@@ -104,25 +104,27 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need OTRSData->$Key!"
             );
-            $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if OTOBO and OTRS connect is possible." );
+            $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
             $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
             $Result{Successful} = 0;
             return \%Result;
         }
     }
 
-    if ($Param{OTRSData}->{OTRSLocation} eq 'localhost') {
+    if ( $Param{OTRSData}->{OTRSLocation} eq 'localhost' ) {
         $OTRS6path = $Param{OTRSData}->{OTRSHome};
-    } else {
+    }
+    else {
         # Need to copy OTRS RELEASE file and get path to it back
-        $OTRS6path = $Self->CopyFileAndSaveAsTmp (
-            FQDN        => $Param{OTRSData}->{FQDN},
-            SSHUser     => $Param{OTRSData}->{SSHUser},
-            Password    => $Param{OTRSData}->{Password},
-            Path        => $Param{OTRSData}->{OTRSHome},
-            Port        => $Param{OTRSData}->{Port},
-#            Filename    => 'RELEASE',
-            UserID      => 1,
+        $OTRS6path = $Self->CopyFileAndSaveAsTmp(
+            FQDN     => $Param{OTRSData}->{FQDN},
+            SSHUser  => $Param{OTRSData}->{SSHUser},
+            Password => $Param{OTRSData}->{Password},
+            Path     => $Param{OTRSData}->{OTRSHome},
+            Port     => $Param{OTRSData}->{Port},
+
+            #            Filename    => 'RELEASE',
+            UserID => 1,
         );
     }
 
@@ -131,27 +133,28 @@ sub Run {
             Priority => 'error',
             Message  => "Can't open RELEASE file from OTRSHome: $Param{OTRSData}->{OTRSHome}!",
         );
-        $Result{Message}    = $Self->{LanguageObject}->Translate( "Check if OTOBO and OTRS connect is possible." );
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Can\'t open RELEASE file from OTRSHome: %s!', $Param{OTRSData}->{OTRSHome} );
+        $Result{Message} = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
+        $Result{Comment} = $Self->{LanguageObject}
+            ->Translate( 'Can\'t open RELEASE file from OTRSHome: %s!', $Param{OTRSData}->{OTRSHome} );
         $Result{Successful} = 0;
         return \%Result;
     }
 
-    # ------------------------------------------------
+    #
     # Copy files from OTRS to OTOBO and clean content
-    # ------------------------------------------------
+    #
 
     # Get filelist with needed files for copy from OTRS
     my @FileList = $Self->CopyFileListfromOTRSToOTOBO();
 
     # Now we copy and clean the files in for{}
     FILE:
-    for my $File ( @FileList ) {
+    for my $File (@FileList) {
 
-        my $OTOBOPathFile = $OTOBOHome.$File;
-        my $OTRSPathFile = $OTRS6path.$File;
+        my $OTOBOPathFile = $OTOBOHome . $File;
+        my $OTRSPathFile  = $OTRS6path . $File;
 
-	if ( $OTOBOPathFile =~ /Config\.pm/) {
+        if ( $OTOBOPathFile =~ /Config\.pm/ ) {
             $OTOBODBParam{DatabaseHost} = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseHost');
             $OTOBODBParam{Database}     = $Kernel::OM->Get('Kernel::Config')->Get('Database');
             $OTOBODBParam{DatabaseUser} = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseUser');
@@ -163,30 +166,35 @@ sub Run {
         # First we copy the file from OTRS HOME to OTOBO HOME
         if ( -e $OTRSPathFile ) {
             my $ExitCode;
+
             # We copy only the content, if OTRS exists on localhost, otherwise we move the content from tmp
             if ( -f $OTRSPathFile ) {
                 if ( $Param{OTRSData}->{OTRSLocation} eq 'localhost' ) {
-                    $ExitCode = system( "cp $OTRSPathFile $OTOBOPathFile" );
-                } else {
-#                    $ExitCode = system( "mv $OTRSPathFile $OTOBOPathFile" );
-                    $ExitCode = system( "mv $OTRSPathFile $OTOBOPathFile" );
+                    $ExitCode = system("cp $OTRSPathFile $OTOBOPathFile");
+                }
+                else {
+                    #                    $ExitCode = system( "mv $OTRSPathFile $OTOBOPathFile" );
+                    $ExitCode = system("mv $OTRSPathFile $OTOBOPathFile");
                 }
 
-            } elsif (-d $OTRSPathFile ) {
+            }
+            elsif ( -d $OTRSPathFile ) {
                 if ( $Param{OTRSData}->{OTRSLocation} eq 'localhost' ) {
-                    $ExitCode = system( "cp -r $OTRSPathFile/* $OTOBOPathFile" );
-                } else {
-                    $ExitCode = system( "mv $OTRSPathFile/* $OTOBOPathFile" );
+                    $ExitCode = system("cp -r $OTRSPathFile/* $OTOBOPathFile");
+                }
+                else {
+                    $ExitCode = system("mv $OTRSPathFile/* $OTOBOPathFile");
                 }
             }
-            if ( $ExitCode && $ExitCode != 0 && $ExitCode != 256) {
+            if ( $ExitCode && $ExitCode != 0 && $ExitCode != 256 ) {
                 print STDERR "EXIT: $ExitCode \n OTRSPath: $OTRSPathFile\n OTOBO: $OTOBOPathFile\n ";
                 $Result{Message}    = "Copy and migrate files from OTRS";
                 $Result{Comment}    = "Can\'t copy or move files from OTRS!";
                 $Result{Successful} = 0;
                 return \%Result;
             }
-        } else {
+        }
+        else {
             next FILE;
         }
 
@@ -195,43 +203,44 @@ sub Run {
 
             # Clean license header
             $Self->CleanLicenseHeaderInDir(
-                Path         => $OTOBOPathFile,
-                Filter       => '*',
-                Recursive    => 1,
-                UserID       => 1,
+                Path      => $OTOBOPathFile,
+                Filter    => '*',
+                Recursive => 1,
+                UserID    => 1,
             );
 
             $Self->CleanOTRSFilesToOTOBOStyleInDir(
-                Path         => $OTOBOPathFile,
-                Filter       => '*',
-                Recursive    => 1,
-                UserID       => 1,
+                Path      => $OTOBOPathFile,
+                Filter    => '*',
+                Recursive => 1,
+                UserID    => 1,
             );
         }
+
         # We need to copy only a single file
         elsif ( -f $OTOBOPathFile ) {
 
             $Self->CleanLicenseHeader(
-                File          => $OTOBOPathFile,
-                UserID        => 1,
+                File   => $OTOBOPathFile,
+                UserID => 1,
             );
 
             $Self->CleanOTRSFileToOTOBOStyle(
-                File          => $OTOBOPathFile,
-                UserID        => 1,
+                File   => $OTOBOPathFile,
+                UserID => 1,
             );
         }
 
         # At least we need to reconfigure database settings in Kernel Config.pm.
-        if ( $OTOBOPathFile =~ /Config\.pm/) {
+        if ( $OTOBOPathFile =~ /Config\.pm/ ) {
             $Self->ReConfigure(%OTOBODBParam);
         }
     }
 
     $Self->DisableSecureMode();
 
-    $Result{Message}    = $Self->{LanguageObject}->Translate( "Copy and migrate files from OTRS" );
-    $Result{Comment}    = $Self->{LanguageObject}->Translate( "All needed files copied and migrated, perfect!" );
+    $Result{Message}    = $Self->{LanguageObject}->Translate("Copy and migrate files from OTRS");
+    $Result{Comment}    = $Self->{LanguageObject}->Translate("All needed files copied and migrated, perfect!");
     $Result{Successful} = 1;
 
     return \%Result;
@@ -254,12 +263,14 @@ sub ReConfigure {
     }
 
     # Read config file.
-    my $ConfigFile = $ConfigObject->Get("Home")."/Kernel/Config.pm";
+    my $ConfigFile = $ConfigObject->Get("Home") . "/Kernel/Config.pm";
     ## no critic
-    open( my $In, '<', $ConfigFile )
+    open( my $In, '<:encoding(utf-8)', $ConfigFile )
         || return "Can't open $ConfigFile: $!";
     ## use critic
     my $Config = '';
+
+    LINE:
     while (<$In>) {
 
         # Skip empty lines or comments.
@@ -274,10 +285,11 @@ sub ReConfigure {
 
             # Need to remove SecureMode
             if ( $NewConfig =~ /SecureMode/ ) {
-                next;
+                next LINE;
             }
 
             # Replace config with %Param.
+            CONFIGKEY:
             for my $Key ( sort keys %Param ) {
 
                 # Database passwords can contain characters like '@' or '$' and should be single-quoted
@@ -285,11 +297,12 @@ sub ReConfigure {
                 if ( $Key eq 'DatabasePw' || $Key eq 'DatabaseHost' ) {
                     $NewConfig =~
                         s/(\$Self->\{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = '$Param{$Key}';/g;
+                    next CONFIGKEY;
                 }
-                else {
-                    $NewConfig =~
-                        s/(\$Self->\{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = "$Param{$Key}";/g;
-                }
+
+                $NewConfig =~
+                    s/(\$Self->\{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = "$Param{$Key}";/g;
+
             }
             $Config .= $NewConfig;
         }
@@ -298,7 +311,7 @@ sub ReConfigure {
 
     # Write new config file.
     ## no critic
-    open( my $Out, '>:utf8', $ConfigFile )
+    open( my $Out, '>:encoding(utf-8)', $ConfigFile )
         || return "Can't open $ConfigFile: $!";
     print $Out $Config;
     ## use critic

@@ -205,11 +205,7 @@ sub Run {
                 @Taskorder = qw(
                     OTOBODatabaseMigrate
                     OTOBOCopyFilesFromOTRS
-                    OTOBOCacheCleanup
-                    OTOBORebuildConfigCleanup
                     OTOBOMigrateConfigFromOTRS
-                    OTOBOCacheCleanup:1
-                    OTOBORebuildConfigCleanup:1
                     OTOBONotificationMigrate
                     OTOBOAutoResponseTemplatesMigrate
                     OTOBOResponseTemplatesMigrate
@@ -218,11 +214,7 @@ sub Run {
                     OTOBOACLDeploy
                     OTOBOMigrateWebServiceConfiguration
                     OTOBOProcessDeploy
-                    OTOBOCacheCleanup:2
-                    OTOBORebuildConfig
-                    OTOBORebuildConfigCleanup:2
-                    OTOBOCacheCleanup:3
-                    OTOBOInvalidSettingsCheck
+                    OTOBOCacheCleanup
                 );
             }
             my %NextTask = map { $Taskorder[$_] => $Taskorder[ $_ + 1 ] // '' } ( 0 .. $#Taskorder );

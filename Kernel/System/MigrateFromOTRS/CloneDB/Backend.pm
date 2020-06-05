@@ -85,10 +85,10 @@ sub new {
     #$BlobColumns{"mail_queue.raw_message"} = 1;
 
     my %CheckEncodingColumns;
-    $CheckEncodingColumns{"article_data_mime.a_body"} = 1;
+    $CheckEncodingColumns{"article_data_mime.a_body"}              = 1;
     $CheckEncodingColumns{"article_data_mime_attachment.filename"} = 1;
 
-#    $Self->{BlobColumns}          = \%BlobColumns;
+    #    $Self->{BlobColumns}          = \%BlobColumns;
     $Self->{CheckEncodingColumns} = \%CheckEncodingColumns;
 
     # get main object
@@ -233,25 +233,25 @@ sub DataTransfer {
         return;
     }
 
-#    # set the target db specific backend
-#    my $OTOBODBBackend = 'CloneDB' . $Param{DBInfo}->{'OTOBODBType'} . 'Object';
-#
-#    if ( !$Self->{$OTOBODBBackend} ) {
-#        $Kernel::OM->Get('Kernel::System::Log')->Log(
-#            Priority => 'error',
-#            Message  => "Backend $Param{DBInfo}->{'OTOBODBType'} is invalid!",
-#        );
-#
-#        return;
-#    }
+    #    # set the target db specific backend
+    #    my $OTOBODBBackend = 'CloneDB' . $Param{DBInfo}->{'OTOBODBType'} . 'Object';
+    #
+    #    if ( !$Self->{$OTOBODBBackend} ) {
+    #        $Kernel::OM->Get('Kernel::System::Log')->Log(
+    #            Priority => 'error',
+    #            Message  => "Backend $Param{DBInfo}->{'OTOBODBType'} is invalid!",
+    #        );
+    #
+    #        return;
+    #    }
 
     # call DataTransfer on the specific backend
     my $DataTransfer = $Self->{$SourceDBBackend}->DataTransfer(
         OTRSDBObject  => $Param{OTRSDBObject},
         OTRSDBBackend => $Self->{$SourceDBBackend},
         DBInfo        => $Param{OTRSDBSettings},
-        DryRun          => $Param{DryRun},
-        Force           => $Param{Force},
+        DryRun        => $Param{DryRun},
+        Force         => $Param{Force},
     );
 
     return $DataTransfer;
@@ -295,14 +295,16 @@ sub SanityChecks {
     # perform sanity checks
     my $SanityChecks = $Self->{$CloneDBBackend}->SanityChecks(
         OTRSDBObject => $Param{OTRSDBObject},
-        DryRun         => $Param{DryRun},
-        Force          => $Param{Force},
+        DryRun       => $Param{DryRun},
+        Force        => $Param{Force},
     );
 
     return $SanityChecks;
 }
 
 1;
+
+=back
 
 =head1 TERMS AND CONDITIONS
 

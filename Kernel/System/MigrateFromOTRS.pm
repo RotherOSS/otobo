@@ -23,9 +23,10 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
-    'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::SysConfig',
+    'Kernel::System::MigrateFromOTRS::Base',
+    'Kernel::System::Log',
 );
 
 =head1 NAME
@@ -191,7 +192,7 @@ sub _ExecuteComponent {
             my $Module    = $TaskModul{Module};
             if ( $Param{Task} ne $Module ) {
 
-                # entferne genau ein element ein stelle $i
+                # entferne genau ein element an Stelle $i
                 splice @Tasks, $i, 1;
             }
         }
@@ -199,8 +200,7 @@ sub _ExecuteComponent {
 
     if ( !$Tasks[0]->{Module} ) {
         $Result{Message} = $Tasks[0]->{Module};
-        $Result{Comment}
-            = "No valid Module "
+        $Result{Comment} = "No valid Module "
             . $Tasks[0]->{Module}
             . " found. Perhaps you need to add the new check to "
             . '$Self->_TasksGet().';
@@ -208,8 +208,6 @@ sub _ExecuteComponent {
 
     }
 
-    #    use Data::Dumper;
-    #    print STDERR "Tasks: ".Dumper(\@Tasks)."\n";
     # Get the number of total steps.
     my $Steps       = scalar @Tasks;
     my $CurrentStep = 1;
@@ -253,102 +251,10 @@ sub _ExecuteComponent {
 sub _TasksGet {
     my ( $Self, %Param ) = @_;
 
-    my @Tasks = (
-        {
-            Message => 'Check filesystem connect',
-            Module  => 'OTOBOOTRSConnectionCheck',
-        },
-        {
-            Message => 'Check database connect',
-            Module  => 'OTOBOOTRSDBCheck',
-        },
-        {
-            Message => 'Check framework version',
-            Module  => 'OTOBOFrameworkVersionCheck',
-        },
-        {
-            Message => 'Check required Perl modules',
-            Module  => 'OTOBOPerlModulesCheck',
-        },
-        {
-            Message => 'Check installed CPAN modules for known vulnerabilities',
-            Module  => 'OTOBOOTRSPackageCheck',
-        },
-        {
-            Message => 'Copy needed files from OTRS',
-            Module  => 'OTOBOCopyFilesFromOTRS',
-        },
-        {
-            Message => 'Check if database has been backed up',
-            Module  => 'OTOBOOTRSPackageMigration',
-        },
-        {
-            Message => 'Migrate database to OTOBO',
-            Module  => 'OTOBODatabaseMigrate',
-        },
-        {
-            Message => 'Migrate notification tags in Ticket notifications',
-            Module  => 'OTOBONotificationMigrate',
-        },
-        {
-            Message => 'Migrate salutations to OTOBO style',
-            Module  => 'OTOBOSalutationsMigrate',
-        },
-        {
-            Message => 'Migrate signatures to OTOBO style',
-            Module  => 'OTOBOSignaturesMigrate',
-        },
-        {
-            Message => 'Migrate response templates to OTOBO style',
-            Module  => 'OTOBOResponseTemplatesMigrate',
-        },
-        {
-            Message => 'Migrate auto response templates to OTOBO style',
-            Module  => 'OTOBOAutoResponseTemplatesMigrate',
-        },
-        {
-            Message => 'Migrate webservices and add OTOBO ElasticSearch services.',
-            Module  => 'OTOBOMigrateWebServiceConfiguration',
-        },
-        {
-            Message => 'Clean up the cache',
-            Module  => 'OTOBOCacheCleanup',
-        },
-        {
-            Message => 'Refresh configuration cache',
-            Module  => 'OTOBORebuildConfigCleanup',
-        },
-        {
-            Message => 'Migrate OTRS configuration',
-            Module  => 'OTOBOMigrateConfigFromOTRS',
-        },
-        {
-            Message => 'Refresh configuration cache after migration of OTRS 6 settings',
-            Module  => 'OTOBORebuildConfig',
-        },
-        {
-            Message => 'Clean up the cache',
-            Module  => 'OTOBOCacheCleanup',
-        },
-        {
-            Message => 'Refresh configuration cache another time',
-            Module  => 'OTOBORebuildConfigCleanup',
-        },
-        {
-            Message => 'Deploy ACLs',
-            Module  => 'OTOBOACLDeploy',
-        },
-        {
-            Message => 'Deploy processes',
-            Module  => 'OTOBOProcessDeploy',
-        },
-        {
-            Message => 'Check invalid settings',
-            Module  => 'OTOBOInvalidSettingsCheck',
-        },
-    );
+    my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
 
-    return @Tasks;
+    my @SecurityCheck = $MigrationBaseObject->TaskSecurityCheck();
+    return @SecurityCheck;
 }
 
 1;

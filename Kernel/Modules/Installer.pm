@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+
 package Kernel::Modules::Installer;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Print)
@@ -525,12 +526,12 @@ sub Run {
                     $Host =~ s{:\d*\z}{}xms;
                 }
 
-           # 'CREATE USER ... IDENTIFIED WITH ...' is used because in MySQL 8 user can no longer be created with 'GRANT'
-           # 'IDENTIFIED WITH mysql_native_password' is supported since at least MySQL 5.6
-           # Note that 'FLUSH PRIVILEGES' is not needed here since at least MySQL 5.6
+                # 'CREATE USER ... IDENTIFIED WITH ...' is used because in MySQL 8 user can no longer be created with 'GRANT'
+                # 'IDENTIFIED WITH mysql_native_password' is supported since at least MySQL 5.6
+                # Note that 'FLUSH PRIVILEGES' is not needed here since at least MySQL 5.6
                 @Statements = (
-                    "CREATE DATABASE `$DB{DBName}` charset utf8mb4",
-                    "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password AS PASSWORD('$DB{OTOBODBPassword}')",
+                    "CREATE DATABASE `$DB{DBName}` charset utf8mb4 DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci",
+                    "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password BY '$DB{OTOBODBPassword}'",
                     "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTOBODBUser}`\@`$Host` WITH GRANT OPTION",
                 );
             }
@@ -982,7 +983,6 @@ sub Run {
             }
         }
         elsif ( exists $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
-
             # usually no restart required as 'plackup -R' is recommended
         }
 
@@ -1006,12 +1006,12 @@ sub Run {
         $LayoutObject->Block(
             Name => 'Finish',
             Data => {
-                Item        => Translatable('Finished'),
-                Step        => $StepCounter,
-                Host        => $ENV{HTTP_HOST} || $ConfigObject->Get('FQDN'),
+                Item       => Translatable('Finished'),
+                Step       => $StepCounter,
+                Host       => $ENV{HTTP_HOST} || $ConfigObject->Get('FQDN'),
                 OTOBOHandle => $OTOBOHandle,
-                Webserver   => $Webserver,
-                Password    => $Password,
+                Webserver  => $Webserver,
+                Password   => $Password,
             },
         );
         if ($Webserver) {
@@ -1271,7 +1271,7 @@ sub CheckDBRequirements {
             $Result{Successful} = 0;
             $Result{Message}    = $LayoutObject->{LanguageObject}->Translate(
                 "Wrong database collation (%s is %s, but it needs to be utf8mb4).",
-                'character_set_database',
+                'character_set_server',
                 $Charset->[0]->[1],
             );
         }
@@ -1279,7 +1279,7 @@ sub CheckDBRequirements {
             $Result{Successful} = 0;
             $Result{Message}    = $LayoutObject->{LanguageObject}->Translate(
                 "Wrong database collation (%s is %s, but it needs to be utf8mb4).",
-                'character_set_database',
+                'character_set_server',
                 $Charset->[0]->[1],
             );
         }

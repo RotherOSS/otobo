@@ -15,11 +15,14 @@
 # --
 
 package Kernel::System::MigrateFromOTRS::Base;    ## no critic
+## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
+## nofilter(TidyAll::Plugin::OTOBO::Common::CustomizationMarkers)
 
 use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Data::Dumper;
 use File::Basename;
 use File::Copy;
 use File::Path qw(make_path);
@@ -32,6 +35,8 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::Language',
     'Kernel::System::FileTemp',
+    'Kernel::System::DB',
+    'Kernel::System::SysConfig',
 );
 
 =head1 NAME
@@ -82,56 +87,42 @@ sub CleanLicenseHeader {
     my $NewContent;
 
     # Open file
-    open my $FileHandle, "< $FilePathAndName" or print STDERR "Error: $!";
+    open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName );
 
     if ( !$FileHandle ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "File $FilePathAndName is empty / could not be read.",
+
+        # Log info to apache error log and OTOBO log (syslog or file)
+        $Self->MigrationLog(
+            String   => "File $FilePathAndName is empty / could not be read.",
+            Priority => "error",
         );
         close $FileHandle;
         return 1;
     }
+
     # Read parse content from _ChangeLicenseHeaderRules
     my @Parser = $Self->_ChangeLicenseHeaderRules();
 
     my $Parse;
     TYPE:
-    for my $Type ( @Parser ) {
+    for my $Type (@Parser) {
         if ( $FilePathAndName =~ /$Type->{File}/ ) {
             $Parse = $Type;
             last TYPE;
         }
     }
 
-    if (! $Parse ) {
+    if ( !$Parse ) {
 
-        print STDERR "File extension for file $FilePathAndName is not active - please check if you need to add a new regexp.\n";
-
+        # Log info to apache error log and OTOBO log (syslog or file)
+        $Self->MigrationLog(
+            String =>
+                "File extension for file $FilePathAndName is not active - please check if you need to add a new regexp.",
+            Priority => "info",
+        );
         close $FileHandle;
         return 1;
     }
-
-    # check whether the file is already in otobo style
-    my $NewStyle = 1;
-    LINE:
-    for my $OTOBOLine ( split( "\n", $Parse->{New}[0] ) ) {
-        my $FileLine = <$FileHandle>;
-        chomp( $FileLine );
-        if ( $OTOBOLine && $OTOBOLine ne $FileLine ) {
-            $NewStyle = 0;
-            last LINE;
-        }
-    }
-    close $FileHandle;
-
-    if ( $NewStyle ) {
-        print STDERR "License of $FilePathAndName seems to already be formatted in otobo style - ignoring.\n";
-        return 1;
-    }
-
-    # reopen file to reset to first line
-    open my $FileHandle, "< $FilePathAndName" or print STDERR "Error: $!";
 
     my $Good = 1;
     my $ExtraLicenses;
@@ -139,7 +130,7 @@ sub CleanLicenseHeader {
     for my $Block ( @{ $Parse->{Old} } ) {
         if ( $Block->{while} ) {
             $_ = <$FileHandle>;
-            until ( /$Block->{until}/ ) {
+            until (/$Block->{until}/) {
                 if ( !$_ || !/$Block->{while}/ ) {
                     $Good = 0;
                     last BLOCK;
@@ -163,9 +154,11 @@ sub CleanLicenseHeader {
         }
     }
     if ( !$Good ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Could not replace license header of $FilePathAndName.",
+
+        # Log info to apache error log and OTOBO log (syslog or file)
+        $Self->MigrationLog(
+            String   => "Could not replace license header of $FilePathAndName.",
+            Priority => "error",
         );
         close $FileHandle;
         return;
@@ -173,7 +166,7 @@ sub CleanLicenseHeader {
 
     if ( $Parse->{New} ) {
         $NewContent = $Parse->{New}[0];
-        if ( $ExtraLicenses ) {
+        if ($ExtraLicenses) {
             $NewContent .= $ExtraLicenses;
         }
         if ( $Parse->{New}[1] ) {
@@ -187,11 +180,12 @@ sub CleanLicenseHeader {
     close $FileHandle;
 
     my $ContentRefNew = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-        Location   => $FilePathAndName,
-        Content    => \$NewContent,
-    #        Mode       => 'utf8',                                                     # binmode|utf8
-        Type       => 'Local',                                                    # optional - Local|Attachment|MD5
-        Permission => '660',                                                      # unix file permissions
+        Location => $FilePathAndName,
+        Content  => \$NewContent,
+
+        #        Mode       => 'utf8',                                                     # binmode|utf8
+        Type       => 'Local',    # optional - Local|Attachment|MD5
+        Permission => '660',      # unix file permissions
     );
 
     return 1;
@@ -242,8 +236,8 @@ sub CleanLicenseHeaderInDir {
     for my $File (@UncleanDirAndFileList) {
 
         $Self->CleanLicenseHeader(
-            File          => $File,
-            UserID        => 1,
+            File   => $File,
+            UserID => 1,
         );
     }
 
@@ -285,31 +279,34 @@ sub CleanOTRSFileToOTOBOStyle {
     }
 
     my $FilePathAndName = $Param{File};
-    my $Suffix = $Param{File};
+    my $Suffix          = $Param{File};
     $Suffix =~ s/^.*\.//g;
 
-    my($Filename, $Dirs, $SuffixNotWork) = fileparse($FilePathAndName);
+    my ( $Filename, $Dirs, $SuffixNotWork ) = fileparse($FilePathAndName);
 
     # Read parse content from _ChangeLicenseHeaderRules
-    my @ParserRegEx = _ChangeFileInfo();
+    my @ParserRegEx        = _ChangeFileInfo();
     my @ParserRegExLicence = _ChangeLicenseHeaderRules();
 
     my $NewContent;
-    open my $FileHandle, "< $FilePathAndName"  or print STDERR "Error: $!";
+    open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName );
 
     if ( !$FileHandle ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "File $FilePathAndName is empty / could not be read.",
+
+        # Log info to apache error log and OTOBO log (syslog or file)
+        $Self->MigrationLog(
+            String   => "File $FilePathAndName is empty / could not be read.",
+            Priority => 'error',
         );
         close $FileHandle;
         return;
     }
 
-    while (my $Line = <$FileHandle>) {
+    while ( my $Line = <$FileHandle> ) {
 
         TYPE:
-        for my $Type ( @ParserRegEx ) {
+        for my $Type (@ParserRegEx) {
+
             # TODO: Check if work proper. Check if parse is build for this filetyp || All
             next TYPE if $Suffix !~ /$Type->{FileTyp}/ && $Type->{FileTyp} ne 'All';
             my $Search = $Type->{Search};
@@ -318,7 +315,7 @@ sub CleanOTRSFileToOTOBOStyle {
             $Line =~ s/$Search/$Change/g;
 
             # If $1 exist, we need to check if we change OTOBO_XXX from ParserRegEx
-            if (my $Tmp = $1) {
+            if ( my $Tmp = $1 ) {
                 $Line =~ s/OTOBO_XXX/$Tmp/g;
             }
         }
@@ -328,11 +325,12 @@ sub CleanOTRSFileToOTOBOStyle {
     close $FileHandle;
 
     my $ContentRefNew = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-        Location   => $FilePathAndName,
-        Content    => \$NewContent,
-#        Mode       => 'utf8',                                                     # binmode|utf8
-        Type       => 'Local',                                                    # optional - Local|Attachment|MD5
-        Permission => '660',                                                      # unix file permissions
+        Location => $FilePathAndName,
+        Content  => \$NewContent,
+
+        #        Mode       => 'utf8',                                                     # binmode|utf8
+        Type       => 'Local',    # optional - Local|Attachment|MD5
+        Permission => '660',      # unix file permissions
     );
     return 1;
 }
@@ -382,8 +380,8 @@ sub CleanOTRSFilesToOTOBOStyleInDir {
     for my $File (@UncleanDirAndFileList) {
 
         $Self->CleanOTRSFileToOTOBOStyle(
-            File          => $File,
-            UserID        => 1,
+            File   => $File,
+            UserID => 1,
         );
     }
     return 1;
@@ -404,16 +402,17 @@ change the path and filenames from otrs to otobo
 sub ChangePathFileName {
     my ( $Self, %Param ) = @_;
 
-    my $File = $Param{File};
+    my $File    = $Param{File};
     my $NewFile = $Param{File};
-    my $Suffix = $Param{File};
+    my $Suffix  = $Param{File};
     $Suffix =~ s/^.*\.//g;
 
     # Read parse content from _ChangeFilePath
     my @ParserRegEx = $Self->_ChangeFilePath();
 
     TYPE:
-    for my $Type ( @ParserRegEx ) {
+    for my $Type (@ParserRegEx) {
+
         # TODO: Check if work proper. Check if parse is build for this filetyp || All
         next TYPE if $Suffix !~ /$Type->{FileTyp}/ && $Type->{FileTyp} ne 'All';
         my $Search = $Type->{Search};
@@ -422,35 +421,39 @@ sub ChangePathFileName {
         $NewFile =~ s/$Search/$Change/g;
     }
 
-    if ($NewFile eq $File) {
+    if ( $NewFile eq $File ) {
         return 1;
     }
 
-    # Check if new dir exists
-    my $NewFileDirname  = dirname($NewFile);
-    if (! -d $NewFileDirname ) {
-        make_path($NewFileDirname) or
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "Can\'t create directory $NewFileDirname: $!",
+    # Check if new directory exists
+    my $NewFileDirname = dirname($NewFile);
+    if ( !-d $NewFileDirname ) {
+        make_path($NewFileDirname) ||
+
+            # Log info to apache error log and OTOBO log (syslog or file)
+            $Self->MigrationLog(
+            String   => "Can\'t create directory $NewFileDirname: $!",
+            Priority => 'error',
             );
     }
-    $Kernel::OM->Get('Kernel::System::Log')->Log(
+
+    # Log info to apache error log and OTOBO log (syslog or file)
+    $Self->MigrationLog(
+        String   => 'Move file ' . $File . 'to' . $NewFile . ', cause cleanpath option is given.',
         Priority => 'notice',
-        Message  => "Move file $File to $NewFile, cause cleanpath option is given.",
     );
 
-    move($File, $NewFile) or
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "The move operation failed: $!",
+    move( $File, $NewFile ) ||
+
+        # Log info to apache error log and OTOBO log (syslog or file)
+        $Self->MigrationLog(
+        String   => "The move operation failed: $!",
+        Priority => 'error',
         );
     return 1;
 }
 
 =head2 HandleFile()
-
-TODO: HandleFile
 
     my $Return = $OTRSToOTOBOObject->HandleFile(
         Target          => "/tmp/test.opm",
@@ -471,7 +474,7 @@ sub HandleFile {
     my $RwPath          = $Param{RwPath};
     my $UncleanFileList = $Param{UncleanFileList};
 
-    # First we need to check if we need to create a dir
+    # First we need to check if we need to create a directory
     if ( -d $DirOrFile ) {
 
         my $Directory        = $RwPath;
@@ -486,15 +489,18 @@ sub HandleFile {
             next DIRECTORY if -d $DirectoryCurrent;
 
             if ( mkdir $DirectoryCurrent ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'notice',
-                    Message  => "Create directory: $DirectoryCurrent.",
+
+                # Log info to apache error log and OTOBO log (syslog or file)
+                $Self->MigrationLog(
+                    String   => "Create directory: $DirectoryCurrent.",
+                    Priority => "notice",
                 );
             }
             else {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "Can't create directory: $DirectoryCurrent: $!",
+                # Log info to apache error log and OTOBO log (syslog or file)
+                $Self->MigrationLog(
+                    String   => "Can't create directory: $DirectoryCurrent: $!",
+                    Priority => "error",
                 );
             }
         }
@@ -513,24 +519,23 @@ sub HandleFile {
     my $Content = ${$ContentRef};
 
     # Perhaps we need to exclude files later?
-#            $File =~ s{^.*/(.+?)\.tt}{$1}smx;
+    #            $File =~ s{^.*/(.+?)\.tt}{$1}smx;
 
     # do translation
 
     if ( !$Content ) {
-        # print STDERR "Can't work with file $Param{File}.\n";
         return;
     }
     my $File = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-        Location   => $RwPath,
-        Content    => \$Content,
-#        Mode       => 'utf8',                                                     # binmode|utf8
-        Type       => 'Local',                                                    # optional - Local|Attachment|MD5
-        Permission => '660',                                                      # unix file permissions
+        Location => $RwPath,
+        Content  => \$Content,
+
+        #        Mode       => 'utf8',                                                     # binmode|utf8
+        Type       => 'Local',    # optional - Local|Attachment|MD5
+        Permission => '660',      # unix file permissions
     );
 
     if ( !$File ) {
-        # print STDERR "File $RwPath could not be written.\n";
         return;
     }
     else {
@@ -556,24 +561,27 @@ create from .opm file a new clean .sopm file
 sub CopyOPMtoSOPMAndClean {
     my ( $Self, %Param ) = @_;
 
-    my $SourcePath = $Param{Source};
+    my $SourcePath   = $Param{Source};
     my $TmpDirectory = $Param{TmpDirectory};
 
     # Export opm file to sopm file
     # Open open file again to get content
     my $ContentRefOPM = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
         Location => $SourcePath,
-#        Mode     => 'utf8',        # optional - binmode|utf8
+
+        #        Mode     => 'utf8',        # optional - binmode|utf8
         #Type            => 'Local',   # optional - Local|Attachment|MD5
         #Result          => 'SCALAR',  # optional - SCALAR|ARRAY
     );
 
     if ( !$ContentRefOPM || ref $ContentRefOPM ne 'SCALAR' || !defined $$ContentRefOPM ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "File $SourcePath is empty / could not be read."
+
+        # Log info to apache error log and OTOBO log (syslog or file)
+        $Self->MigrationLog(
+            String   => "File $SourcePath is empty / could not be read.",
+            Priority => "error",
         );
-        return ;
+        return;
     }
 
     my $BaseName = basename($SourcePath);
@@ -581,18 +589,21 @@ sub CopyOPMtoSOPMAndClean {
 
     # Write opm content to new sopm file
     my $SOPMFile = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-        Directory   => $TmpDirectory,
-        Filename    => $BaseName,
-        Content    => $ContentRefOPM,
-#        Mode       => 'utf8',                                                     # binmode|utf8
-        Type       => 'Local',                                                    # optional - Local|Attachment|MD5
-        Permission => '660',                                                      # unix file permissions
+        Directory => $TmpDirectory,
+        Filename  => $BaseName,
+        Content   => $ContentRefOPM,
+
+        #        Mode       => 'utf8',                                                     # binmode|utf8
+        Type       => 'Local',    # optional - Local|Attachment|MD5
+        Permission => '660',      # unix file permissions
     );
 
     if ( !$SOPMFile ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => ".sopm File $SOPMFile could not be written."
+
+        # Log info to apache error log and OTOBO log (syslog or file)
+        $Self->MigrationLog(
+            String   => ".sopm File $SOPMFile could not be written.",
+            Priority => "error",
         );
         return;
     }
@@ -602,7 +613,7 @@ sub CopyOPMtoSOPMAndClean {
 
 =head2 ExtractOPMPackage()
 
-get a file or dir from remote system, save to tmp dir, return Path.
+get a file or directory from remote system, save to tmp directory, return Path.
 
     my $ReturnPath = $OTRSToOTOBOObject->ExtractOPMPackage(
         Source        => "/opt/otrs/",
@@ -617,14 +628,15 @@ get a file or dir from remote system, save to tmp dir, return Path.
 sub ExtractOPMPackage {
     my ( $Self, %Param ) = @_;
 
-    my $SourcePath = $Param{Source};
+    my $SourcePath   = $Param{Source};
     my $TmpDirectory = $Param{TmpDirectory};
 
     # Export package content
     my $FileString;
     my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
         Location => $SourcePath,
-#        Mode     => 'utf8',
+
+        #        Mode     => 'utf8',
     );
     $FileString = ${$ContentRef};
 
@@ -632,31 +644,34 @@ sub ExtractOPMPackage {
         String => $FileString,
     );
 
-    my $Success  = $Kernel::OM->Get('Kernel::System::Package')->PackageExport(
+    my $Success = $Kernel::OM->Get('Kernel::System::Package')->PackageExport(
         String => $FileString,
         Home   => $TmpDirectory,
     );
 
-    if (! $Success) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Export failed of package $SourcePath to tempdir $TmpDirectory."
+    if ( !$Success ) {
+
+        # Log info to apache error log and OTOBO log (syslog or file)
+        $Self->MigrationLog(
+            String   => "Export failed of package $SourcePath to tempdir $TmpDirectory.",
+            Priority => "error",
         );
         return;
-    } else {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Files export of package $SourcePath to $TmpDirectory done."
+    }
+    else {
+        # Log info to apache error log and OTOBO log (syslog or file)
+        $Self->MigrationLog(
+            String   => "Files export of package $SourcePath to $TmpDirectory done.",
+            Priority => "error",
         );
     }
 
     return $TmpDirectory;
 }
 
-
 =head2 CopyFileAndSaveAsTmp()
 
-get a file or dir from remote system, save to tmp dir, return Path.
+get a file or directory from remote system, save to tmp directory, return Path.
 
     my $ReturnPath = $OTRSToOTOBOObject->CopyFileAndSaveAsTmp(
         FQDN        => "192.68.0.1",
@@ -696,28 +711,34 @@ sub CopyFileAndSaveAsTmp {
 
     # We need to copy a directory if Filename not given
     if ( !$Param{Filename} ) {
-        # $RsyncExec .= '-ar -e "ssh -p ' . $Param{Port} . '" ' . $Param{SSHUser} . '@' . $Param{FQDN} . ':' . $Param{Path} . ' ' .$TempDir;
-        $RsyncExec .= "-a -v --exclude=\".*\" --exclude=\"var/tmp\" --exclude=\"var/run\" -e \"sshpass -p $Param{Password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p $Param{Port}\" $Param{SSHUser}\@$Param{FQDN}:$Param{Path}/* $TempDir/"
-    } else {
-        # $RsyncExec .= '-a -e "ssh -p ' . $Param{Port} . '" ' . $Param{SSHUser} . '@' . $Param{FQDN} . ':' . $Param{Path} . '/' . $Param{Filename} . ' ' .$TempDir;
-        $RsyncExec .= "-a -v -e \"sshpass -p $Param{Password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p $Param{Port}\" $Param{SSHUser}\@$Param{FQDN}:$Param{Path}/$Param{Filename} $TempDir/"
+
+# $RsyncExec .= '-ar -e "ssh -p ' . $Param{Port} . '" ' . $Param{SSHUser} . '@' . $Param{FQDN} . ':' . $Param{Path} . ' ' .$TempDir;
+        $RsyncExec
+            .= "-a -v --exclude=\".*\" --exclude=\"var/tmp\" --exclude=\"var/run\" -e \"sshpass -p $Param{Password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p $Param{Port}\" $Param{SSHUser}\@$Param{FQDN}:$Param{Path}/* $TempDir/";
+    }
+    else {
+# $RsyncExec .= '-a -e "ssh -p ' . $Param{Port} . '" ' . $Param{SSHUser} . '@' . $Param{FQDN} . ':' . $Param{Path} . '/' . $Param{Filename} . ' ' .$TempDir;
+        $RsyncExec
+            .= "-a -v -e \"sshpass -p $Param{Password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p $Param{Port}\" $Param{SSHUser}\@$Param{FQDN}:$Param{Path}/$Param{Filename} $TempDir/";
 
     }
 
     # Execute rsync
     if ( my $System = system($RsyncExec) == 0 ) {
-        print STDERR "System1: $System Filename: $Param{Filename}\n";
+
         # If filename exists, we need to return path + filename
-        if ($Param{Filename}) {
-            return $TempDir.'/'.$Param{Filename};
-        } else {
+        if ( $Param{Filename} ) {
+            return $TempDir . '/' . $Param{Filename};
+        }
+        else {
             return $TempDir;
         }
-    } else {
-        print STDERR "System2: $System \n";
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Can't copy per rsync: $RsyncExec!"
+    }
+    else {
+        # Log info to apache error log and OTOBO log (syslog or file)
+        $Self->MigrationLog(
+            String   => "Can't copy per rsync: $RsyncExec!",
+            Priority => "error",
         );
         return;
     }
@@ -743,30 +764,6 @@ sub RebuildConfig {
 
     my $CleanUp = $Param{CleanUpIfPossible} ? 1 : 0;
 
-    if ($CleanUp) {
-        my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
-
-        PACKAGE:
-        for my $Package ( $PackageObject->RepositoryList() ) {
-
-            # Only check the deployment state of the XML configuration files for performance reasons.
-            #   Otherwise, this would be too slow on systems with many packages.
-            $CleanUp = $PackageObject->_ConfigurationFilesDeployCheck(
-                Name    => $Package->{Name}->{Content},
-                Version => $Package->{Version}->{Content},
-            );
-
-            # Stop if any package has its configuration wrong deployed, configuration cleanup should not
-            #   take place in the lines below. Otherwise modified setting values can be lost.
-            if ( !$CleanUp ) {
-                if ($Verbose) {
-                    # print STDERR "\n    Configuration cleanup was not possible as packages are not correctly deployed!\n";
-                }
-                last PACKAGE;
-            }
-        }
-    }
-
     # Convert XML files to entries in the database
     if (
         !$SysConfigObject->ConfigurationXML2DB(
@@ -776,22 +773,31 @@ sub RebuildConfig {
         )
         )
     {
-        # print STDERR "\n\n    Error:There was a problem writing XML to DB.\n";
+        # Log info to apache error log and OTOBO log (syslog or file)
+        $Self->MigrationLog(
+            String   => "There was a problem writing XML to DB.",
+            Priority => "error",
+        );
         return;
     }
 
     # Rebuild ZZZAAuto.pm with current values
     if (
         !$SysConfigObject->ConfigurationDeploy(
-            Comments     => $Param{Comments} || "Configuration Rebuild",
-            AllSettings  => 1,
-            Force        => 1,
-            NoValidation => 1,
-            UserID       => 1,
+            Comments    => $Param{Comments} || "Configuration Rebuild",
+            AllSettings => 1,
+            Force       => 1,
+
+            #            NoValidation => 1,
+            UserID => 1,
         )
         )
     {
-        # print STDERR "\n\n    Error:There was a problem writing ZZZAAuto.pm.\n";
+        # Log info to apache error log and OTOBO log (syslog or file)
+        $Self->MigrationLog(
+            String   => "There was a problem writing XML to DB.",
+            Priority => "error",
+        );
         return;
     }
 
@@ -800,10 +806,6 @@ sub RebuildConfig {
         if ( $Module =~ m/ZZZAA?uto\.pm$/ ) {
             delete $INC{$Module};
         }
-    }
-
-    if ($Verbose) {
-        # print STDERR "\n    If you see warnings about 'Subroutine Load redefined', that's fine, no need to worry!\n";
     }
 
     return 1 if $Param{UnitTestMode};
@@ -832,7 +834,7 @@ sub CacheCleanup {
     return 1;
 }
 
-=head2 CacheCleanup()
+=head2 DisableSecureMode()
 
 Disable secure mode after copying data.
 
@@ -846,9 +848,10 @@ sub DisableSecureMode {
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
     my %Setting = $SysConfigObject->SettingGet(
-        Name            => 'SecureMode',  # (required) Setting name
-        NoCache         => 1,                # (optional) Do not create cache.
-        UserID          => 1,                # Required only if OverriddenInXML is set.
+        Name => 'SecureMode',    # (required) Setting name
+
+        #        NoCache         => 1,                # (optional) Do not create cache.
+        #        UserID          => 1,                # Required only if OverriddenInXML is set.
     );
 
     if ( $Setting{EffectiveValue} eq '0' ) {
@@ -857,11 +860,11 @@ sub DisableSecureMode {
 
     my $Success = $SysConfigObject->SettingsSet(
         UserID   => 1,                                      # (required) UserID
-        Comments => 'Disable SecureMode for migration.',                   # (optional) Comment
+        Comments => 'Disable SecureMode for migration.',    # (optional) Comment
         Settings => [                                       # (required) List of settings to update.
             {
-                Name                   => 'SecureMode',  # (required)
-                EffectiveValue         => '0',          # (optional)
+                Name           => 'SecureMode',             # (required)
+                EffectiveValue => '0',                      # (optional)
             },
         ],
     );
@@ -1015,51 +1018,6 @@ sub IndexExists {
     return 1;
 }
 
-=head2 GetTaskConfig()
-
-Clean up the cache.
-
-    $DBUpdateTo6Object->GetTaskConfig( Module => "TaskModuleName");
-
-=cut
-
-sub GetTaskConfig {
-    my ( $Self, %Param ) = @_;
-
-    # Check needed stuff.
-    if ( !$Param{Module} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need Module!',
-        );
-        return;
-    }
-
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-    my $File = $Home . '/Kernel::System/DBUpdateTo6/TaskConfig/' . $Param{Module} . '.yml';
-
-    if ( !-e $File ) {
-        $File .= '.dist';
-
-        if ( !-e $File ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Couldn't find $File!",
-            );
-            return;
-        }
-    }
-
-    my $FileRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-        Location => $File,
-    );
-
-    # Convert configuration to Perl data structure for easier handling.
-    my $ConfigData = $Kernel::OM->Get('Kernel::System::YAML')->Load( Data => ${$FileRef} );
-
-    return $ConfigData;
-}
-
 =head2 SettingUpdate()
 
 Update an existing SysConfig Setting in a migration context. It will skip updating both read-only and already modified
@@ -1104,17 +1062,11 @@ sub SettingUpdate {
 
     # Skip settings which already have been modified in the meantime.
     if ( $CurrentSetting{ModifiedID} && !$Param{ContinueOnModified} ) {
-        if ( $Param{Verbose} ) {
-            # print STDERR "\n        - Setting '$Param{Name}' is already modified in the system skipping...\n\n";
-        }
         return 1;
     }
 
     # Skip this setting if it is a read-only setting.
     if ( $CurrentSetting{IsReadonly} ) {
-        if ( $Param{Verbose} ) {
-            # print STDERR "\n        - Setting '$Param{Name}' is is set to read-only skipping...\n\n";
-        }
         return 1;
     }
 
@@ -1135,6 +1087,57 @@ sub SettingUpdate {
     return $Result{Success};
 }
 
+=head2 MigrationLog()
+
+MigrationLog the given string to OTOBO AND Apache Log for debugging migration.
+
+    my $Result = $DBUpdateTo6Object->MigrationLog(
+        String => 'Logentry...',
+        Priority => notice, error, info, debug (See LogObject Priority)
+        HashRef   => \%HashRef,     Optional
+        ArrayRef  => \@ArrayRef,    Optional
+    );
+
+Returns 1 if ok, otherwise false.
+
+=cut
+
+sub MigrationLog {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(String Priority)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    # Log to OTRS system log (syslog or file)
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Priority => $Param{Priority},
+        Message  => $Param{String},
+    );
+
+    # Log to apache error log
+    print STDERR $Param{Priority} . ": " . $Param{String} . "\n";
+
+    if ( IsHashRefWithData( $Param{HashRef} ) ) {
+        print STDERR Dumper( $Param{HashRef} ) . "\n";
+    }
+
+    if ( IsArrayRefWithData( $Param{ArrayRef} ) ) {
+        print STDERR Dumper( $Param{ArrayRef} ) . "\n";
+    }
+
+    print STDERR "\n\n";
+
+    return 1;
+}
+
 sub PackageMigrateIgnorePackages {
 
     return (
@@ -1142,17 +1145,20 @@ sub PackageMigrateIgnorePackages {
             {
                 PackageName => 'ShowDynamicField',
                 IgnoreType  => 'Ignore',
-                Comment     => 'HideShow package integrated in OTOBO standard is in a better version. We only migrate the config and database data.',
+                Comment =>
+                    'HideShow package integrated in OTOBO standard is in a better version. We only migrate the config and database data.',
             },
             {
                 PackageName => 'TicketForms',
                 IgnoreType  => 'Ignore',
-                Comment     => 'TicketForms package is integrated in OTOBO standard in a better version. We only migrate the config and database data.',
+                Comment =>
+                    'TicketForms package is integrated in OTOBO standard in a better version. We only migrate the config and database data.',
             },
             {
                 PackageName => 'RotherOSS-LongEscalationPerformanceBoost',
                 IgnoreType  => 'Ignore',
-                Comment     => 'RotherOSS-LongEscalationPerformanceBoost package is integrated in OTOBO standard in a better version.',
+                Comment =>
+                    'RotherOSS-LongEscalationPerformanceBoost package is integrated in OTOBO standard in a better version.',
             },
             {
                 PackageName => 'Znuny4OTRS-AdvancedDynamicFields',
@@ -1167,7 +1173,7 @@ sub PackageMigrateIgnorePackages {
             {
                 PackageName => 'Znuny4OTRS-EscalationSuspend',
                 IgnoreType  => 'Ignore',
-                Comment     => 'Znuny4OTRS-EscalationSuspend package is integrated in OTOBO standard in a newer version.',
+                Comment => 'Znuny4OTRS-EscalationSuspend package is integrated in OTOBO standard in a newer version.',
             },
             {
                 PackageName => 'Znuny4OTRS-ExternalURLJump',
@@ -1188,16 +1194,57 @@ sub PackageMigrateIgnorePackages {
     );
 }
 
+sub ResetConfigOption {
+    return {
+        'Frontend::ToolBarModule###110-Ticket::AgentTicketQueue'      => 1,
+        'Frontend::ToolBarModule###120-Ticket::AgentTicketStatus'     => 1,
+        'Frontend::ToolBarModule###130-Ticket::AgentTicketEscalation' => 1,
+        'Frontend::ToolBarModule###140-Ticket::AgentTicketPhone'      => 1,
+        'Frontend::ToolBarModule###150-Ticket::AgentTicketEmail'      => 1,
+        'Frontend::ToolBarModule###160-Ticket::AgentTicketProcess'    => 1,
+        'Frontend::ToolBarModule###170-Ticket::TicketResponsible'     => 1,
+        'Frontend::ToolBarModule###180-Ticket::TicketWatcher'         => 1,
+        'Frontend::ToolBarModule###200-Ticket::AgentTicketService'    => '1',
+        'Frontend::ToolBarModule###210-Ticket::TicketSearchProfile'   => '1',
+        'Frontend::ToolBarModule###220-Ticket::TicketSearchFulltext'  => '1',
+        'Frontend::ToolBarModule###230-CICSearchCustomerID'           => '1',
+        'Frontend::ToolBarModule###240-CICSearchCustomerUser'         => '1',
+        'Frontend::ToolBarModule###90-FAQ::AgentFAQAdd'               => '1',
+        'AgentLogo'                                                   => '1',
+        'AgentLoginLogo'                                              => '1',
+        'AgentLogoCustom###default'                                   => '1',
+        'AgentLogoCustom###highcontrast'                              => '1',
+        'AgentLogoCustom###ivory'                                     => '1',
+        'AgentLogoCustom###ivory-slim'                                => '1',
+        'CustomerLogo'                                                => '1',
+        'PDF::LogoFile'                                               => '1',
+        'Package::RepositoryList'                                     => '1',
+    };
+}
+
 sub DBSkipTables {
     return {
-        communication_log => 1,
-        communication_log_obj_lookup => 1,
-        communication_log_object => 1,
+        communication_log              => 1,
+        communication_log_obj_lookup   => 1,
+        communication_log_object       => 1,
         communication_log_object_entry => 1,
-        cloud_service_config => 1,
-        article_data_otrs_chat => 1,
-        web_upload_cache => 1,
-        sessions => 1,
+        cloud_service_config           => 1,
+        package_repository             => 1,
+        web_upload_cache               => 1,
+        sessions                       => 1,
+        scheduler_recurrent_task       => '1',
+        process_id                     => '1',
+        cloud_service_config           => '1',
+        gi_debugger_entry              => '1',
+        gi_debugger_entry_content      => '1',
+    };
+}
+
+# OTOBO Table Name => OTRS Table Name
+sub DBRenameTables {
+    return {
+        groups                 => 'groups_table',
+        article_data_otrs_chat => 'article_data_otobo_chat',
     };
 }
 
@@ -1240,7 +1287,7 @@ sub _ChangeFilePath {
                 Change  => 'DynamicFieldDB',
             },
         ),
-    )
+    );
 }
 
 sub IgnorePathList {
@@ -1342,6 +1389,11 @@ sub _ChangeFileInfo {
                 Change  => '"otobo"'
             },
             {
+                FileTyp => 'All',
+                Search  => '\$Self-\>\{\'SecureMode\'\} \=  \'1\'\;',
+                Change  => '$Self->{\'SecureMode\'} =  \'0\';'
+            },
+            {
                 FileTyp => 'opm',
                 Search  => '\<Framework.*\>6\..*\<\/Framework\>',
                 Change  => '<Framework>10.0.x</Framework>'
@@ -1358,39 +1410,38 @@ sub _ChangeFileInfo {
             },
         ),
 
-    )
+    );
 }
-sub _ChangeLicenseHeaderRules {
 
-    ## nofilter(TidyAll::Plugin::OTOBO::Common::CustomizationMarkers)
+sub _ChangeLicenseHeaderRules {
 
     return (
         {
-File => qr/\.pl$/,
-Old => [
-    {
-        until => qr/^#!\/usr\/bin\/perl\s*$/,
-    },
-    {
-        until => qr/^# --/,
-    },
-    {
-        while => qr/^#.+/,
-        nkeep  => qr/^#.+otobo/i,
-        until => qr/^# --/,
-    },
-    {
-        while => qr/^#( |$)/,
-        until => qr/^# --/,
-    },
-],
-New => [
-    "#!/usr/bin/env perl
+            File => qr/\.pl$/,
+            Old  => [
+                {
+                    until => qr/^#!\/usr\/bin\/perl\s*$/,
+                },
+                {
+                    until => qr/^# --/,
+                },
+                {
+                    while => qr/^#.+/,
+                    nkeep => qr/^#.+otobo/i,
+                    until => qr/^# --/,
+                },
+                {
+                    while => qr/^#( |$)/,
+                    until => qr/^# --/,
+                },
+            ],
+            New => [
+                "#!/usr/bin/perl
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 ",
-"# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+                "# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.org/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1402,30 +1453,30 @@ New => [
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 ",
-    ],
+            ],
         },
         {
-File => qr/\.(pm|tt|t)$/,
-Old => [
-    {
-        until => qr/^# --/,
-    },
-    {
-        while => qr/^#.+/,
-        nkeep => qr/^#.+otobo/i,
-        until => qr/^# --/,
-    },
-    {
-        while => qr/^# /,
-        until => qr/^# --/,
-    },
-],
-New => [
-    "# --
+            File => qr/\.(pm|tt|t)$/,
+            Old  => [
+                {
+                    until => qr/^# --/,
+                },
+                {
+                    while => qr/^#.+/,
+                    nkeep => qr/^#.+otobo/i,
+                    until => qr/^# --/,
+                },
+                {
+                    while => qr/^# /,
+                    until => qr/^# --/,
+                },
+            ],
+            New => [
+                "# --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 ",
-"# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+                "# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.org/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1437,30 +1488,30 @@ New => [
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 ",
-    ],
+            ],
         },
         {
-File => qr/\.(js|js\.save)$/,
-Old => [
-    {
-        until => qr/^\/\/ --/,
-    },
-    {
-        while => qr/^\/\/ /,
-        nkeep => qr/^\/\/.+otobo/i,
-        until => qr/^\/\/ --/,
-    },
-    {
-        while => qr/^\/\/ /,
-        until => qr/^\/\/ --/,
-    },
-],
-New => [
-    "// --
+            File => qr/\.(js|js\.save)$/,
+            Old  => [
+                {
+                    until => qr/^\/\/ --/,
+                },
+                {
+                    while => qr/^\/\/ /,
+                    nkeep => qr/^\/\/.+otobo/i,
+                    until => qr/^\/\/ --/,
+                },
+                {
+                    while => qr/^\/\/ /,
+                    until => qr/^\/\/ --/,
+                },
+            ],
+            New => [
+                "// --
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 ",
-"// Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+                "// Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.org/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -1471,29 +1522,29 @@ New => [
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 ",
-    ],
+            ],
         },
         {
-File => qr/\.(css|css\.save)$/,
-Old => [
-    {
-        until => qr/^\/\*/,
-    },
-    {
-        while => qr/.?/,
-        nkeep => qr/otobo/i,
-        until => qr/^\s*$/,
-    },
-    {
-        while => qr/.?/,
-        until => qr/\*\//,
-    },
-],
-New => [
-    "/* OTOBO is a web-based ticketing system for service organisations.
+            File => qr/\.(css|css\.save)$/,
+            Old  => [
+                {
+                    until => qr/^\/\*/,
+                },
+                {
+                    while => qr/.?/,
+                    nkeep => qr/otobo/i,
+                    until => qr/^\s*$/,
+                },
+                {
+                    while => qr/.?/,
+                    until => qr/\*\//,
+                },
+            ],
+            New => [
+                "/* OTOBO is a web-based ticketing system for service organisations.
 
 ",
-"Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+                "Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.org/
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -1505,8 +1556,92 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 ",
-    ],
+            ],
         },
+    );
+}
+
+sub TaskSecurityCheck {
+
+    return (
+        (
+            {
+                Message => 'Check filesystem connect',
+                Module  => 'OTOBOOTRSConnectionCheck',
+            },
+            {
+                Message => 'Check database connect',
+                Module  => 'OTOBOOTRSDBCheck',
+            },
+            {
+                Message => 'Check framework version',
+                Module  => 'OTOBOFrameworkVersionCheck',
+            },
+            {
+                Message => 'Check required Perl modules',
+                Module  => 'OTOBOPerlModulesCheck',
+            },
+            {
+                Message => 'Check installed CPAN modules for known vulnerabilities',
+                Module  => 'OTOBOOTRSPackageCheck',
+            },
+            {
+                Message => 'Copy needed files from OTRS',
+                Module  => 'OTOBOCopyFilesFromOTRS',
+            },
+            {
+                Message => 'Migrate database to OTOBO',
+                Module  => 'OTOBODatabaseMigrate',
+            },
+            {
+                Message => 'Migrate notification tags in Ticket notifications',
+                Module  => 'OTOBONotificationMigrate',
+            },
+            {
+                Message => 'Migrate salutations to OTOBO style',
+                Module  => 'OTOBOSalutationsMigrate',
+            },
+            {
+                Message => 'Migrate signatures to OTOBO style',
+                Module  => 'OTOBOSignaturesMigrate',
+            },
+            {
+                Message => 'Migrate response templates to OTOBO style',
+                Module  => 'OTOBOResponseTemplatesMigrate',
+            },
+            {
+                Message => 'Migrate auto response templates to OTOBO style',
+                Module  => 'OTOBOAutoResponseTemplatesMigrate',
+            },
+            {
+                Message => 'Migrate webservices and add OTOBO ElasticSearch services.',
+                Module  => 'OTOBOMigrateWebServiceConfiguration',
+            },
+            {
+                Message => 'Clean up the cache',
+                Module  => 'OTOBOCacheCleanup',
+            },
+            {
+                Message => 'Migrate OTRS configuration',
+                Module  => 'OTOBOMigrateConfigFromOTRS',
+            },
+            {
+                Message => 'Refresh configuration cache after migration of OTRS 6 settings',
+                Module  => 'OTOBORebuildConfig',
+            },
+            {
+                Message => 'Clean up the cache',
+                Module  => 'OTOBOCacheCleanup',
+            },
+            {
+                Message => 'Deploy ACLs',
+                Module  => 'OTOBOACLDeploy',
+            },
+            {
+                Message => 'Deploy processes',
+                Module  => 'OTOBOProcessDeploy',
+            },
+        ),
     );
 }
 

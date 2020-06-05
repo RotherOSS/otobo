@@ -31,6 +31,8 @@ our @ObjectDependencies = (
     'Kernel::System::FileTemp',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
+    'Kernel::System::MigrateFromOTRS::Base',
+    'Kernel::System::SysConfig::DB',
 );
 
 =head2 CheckPreviousRequirement()
@@ -61,9 +63,14 @@ sub Run {
     my %Result;
 
     # Set cache object with taskinfo and starttime to show current state in frontend
-    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
-    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-    my $Epoch          = $DateTimeObject->ToEpoch();
+    my $CacheObject         = $Kernel::OM->Get('Kernel::System::Cache');
+    my $DateTimeObject      = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
+    my $SysConfigObject     = $Kernel::OM->Get('Kernel::System::SysConfig');
+    my $SysConfigDBObject   = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+    my $Epoch   = $DateTimeObject->ToEpoch();
+    my $Success = 1;
 
     $CacheObject->Set(
         Type  => 'OTRSMigration',
@@ -75,9 +82,6 @@ sub Run {
         },
     );
 
-    my $Success         = 1;
-    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
     #
     # Clean SysConfig database
     #
@@ -88,6 +92,7 @@ sub Run {
     # Dump only changed SysConfig entrys in string $Export
     my $Export = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationDump(
         SkipDefaultSettings => 1,
+        SkipUserSettings    => 1,
     );
 
     if ( !$Export ) {
@@ -119,15 +124,67 @@ sub Run {
         Mode     => 'utf8',
     );
 
-    $Success = $SysConfigObject->ConfigurationLoad(
+    $SysConfigObject->ConfigurationLoad(
         ConfigurationYAML => ${$YAMLString},    # a YAML string in the format of L<ConfigurationDump()>
-        UserID            => 123,
+        UserID            => 1,
     );
 
-    # Write ZZZAuto.pm
-    $Success = $SysConfigObject->ConfigurationDeploySync();
-
     $Self->DisableSecureMode();
+
+    # Reset config options defined in Base.pm ResetConfigOption
+    my $ResetConfigRef = $MigrationBaseObject->ResetConfigOption();
+    my %ResetConfig    = %{$ResetConfigRef};
+
+    for my $Configname ( sort keys %ResetConfig ) {
+
+        # Lock all settings to be able to update them if needed.
+        my $ExclusiveLockGUID = $SysConfigDBObject->DefaultSettingLock(
+            UserID  => 1,
+            LockAll => 1,
+        );
+
+        my $Result = $SysConfigObject->SettingReset(
+            Name              => $Configname,
+            ExclusiveLockGUID => $ExclusiveLockGUID,
+            UserID            => 1,
+        );
+
+        # Log info to apache error log and OTOBO log (syslog or file)
+        $MigrationBaseObject->MigrationLog(
+            String =>
+                "Reset config option $Configname, cause some changes in OTOBO. Please check the settings manualy.",
+            Priority => "notice",
+        );
+    }
+
+    # Convert XML files to entries in the database
+    if (
+        !$SysConfigObject->ConfigurationXML2DB(
+            Force   => 1,
+            UserID  => 1,
+            CleanUp => 1,
+        )
+        )
+    {
+        # Log info to apache error log and OTOBO log (syslog or file)
+        $MigrationBaseObject->MigrationLog(
+            String   => "There was a problem writing XML to DB.",
+            Priority => "error",
+        );
+        $Result{Message} = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
+        $Result{Comment}
+            = $Self->{LanguageObject}->Translate("An error occured during SysConfig migration when writing XML to DB.");
+        $Result{Successful} = 0;
+        return \%Result;
+    }
+
+    # Write ZZZAuto.pm
+    $Success = $SysConfigObject->ConfigurationDeploy(
+        Comments    => $Param{Comments} || "Migrate Configuration from OTRS to OTOBO",
+        AllSettings => 1,
+        Force       => 1,
+        UserID      => 1,
+    );
 
     if ( !$Success ) {
         $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate configuration settings.");

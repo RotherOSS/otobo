@@ -151,16 +151,12 @@ sub Run {
 
         if ( !$DataTransferResult ) {
 
-            $Self->DisableSecureMode();
-
             $Result{Message}    = $Self->{LanguageObject}->Translate("Copy database.");
             $Result{Comment}    = $Self->{LanguageObject}->Translate("System was unable to complete data transfer.");
             $Result{Successful} = 0;
             return \%Result;
         }
     }
-
-    $Self->DisableSecureMode();
 
     $Result{Message}    = $Self->{LanguageObject}->Translate("Copy database.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Data transfer completed.");

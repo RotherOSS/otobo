@@ -24,13 +24,13 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Language',
+    'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
+    'Kernel::Config',
     'Kernel::System::DB',
-    'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Main',
     'Kernel::System::XML',
-    'Kernel::Config',
 );
 
 =head2 CheckPreviousRequirement()
@@ -139,10 +139,9 @@ sub Run {
     );
 
     $Result{Message} = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
-    $Result{Comment}
-        = $Self->{LanguageObject}->Translate(
+    $Result{Comment} = $Self->{LanguageObject}->Translate(
         "Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed."
-        );
+    );
     $Result{Successful} = 1;
     return \%Result;
 }
