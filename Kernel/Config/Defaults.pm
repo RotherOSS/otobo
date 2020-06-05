@@ -1950,20 +1950,22 @@ sub new {
         my @Files = glob("$Self->{Home}/Kernel/Config/Files/*.pm");
 
         # Resorting the filelist.
-        my @NewFileOrderPre  = ();
-        my @NewFileOrderPost = ();
+        {
+            my @NewFileOrderPre;
+            my @NewFileOrderPost;
 
-        for my $File (@Files) {
+            for my $File (@Files) {
 
-            if ( $File =~ /Ticket/ ) {
-                push @NewFileOrderPre, $File;
+                if ( $File =~ m/Ticket/ ) {
+                    push @NewFileOrderPre, $File;
+                }
+                else {
+                    push @NewFileOrderPost, $File;
+                }
             }
-            else {
-                push @NewFileOrderPost, $File;
-            }
+
+            @Files = ( @NewFileOrderPre, @NewFileOrderPost );
         }
-
-        @Files = ( @NewFileOrderPre, @NewFileOrderPost );
 
         FILE:
         for my $File (@Files) {
