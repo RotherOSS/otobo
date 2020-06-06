@@ -1263,26 +1263,6 @@ sub CheckDBRequirements {
                 );
             }
         }
-
-        # Check character_set_database value.
-        my $Charset = $Result{DBH}->selectall_arrayref("SHOW variables LIKE 'character_set_database'");
-
-        if ( $Charset->[0]->[1] =~ /utf8$/i ) {
-            $Result{Successful} = 0;
-            $Result{Message}    = $LayoutObject->{LanguageObject}->Translate(
-                "Wrong database collation (%s is %s, but it needs to be utf8mb4).",
-                'character_set_server',
-                $Charset->[0]->[1],
-            );
-        }
-        elsif ( $Charset->[0]->[1] !~ /utf8mb4/i ) {
-            $Result{Successful} = 0;
-            $Result{Message}    = $LayoutObject->{LanguageObject}->Translate(
-                "Wrong database collation (%s is %s, but it needs to be utf8mb4).",
-                'character_set_server',
-                $Charset->[0]->[1],
-            );
-        }
     }
 
     # Delete not necessary key/value pairs.
