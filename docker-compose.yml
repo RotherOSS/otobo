@@ -19,13 +19,12 @@ services:
     # ports:
       #- "5001:3306"
 
-    # Set the db root password
-    # the database 'otobo' and the db user 'otobo' are created by installer.pl
+    # Set the db root password which has to be entered when running otobo/installer.pl.
+    # The passwort is secrect and can be stored in the file .env.
+    # The content of the .env file is something like:
+    # MYSQL_ROOT_PASSWORD=otobo_root_db_passwd
     environment:
-      MYSQL_ROOT_PASSWORD: otobo_root_db_passwd
-      #MYSQL_DATABASE: otobo
-      #MYSQL_USER: otobo
-      #MYSQL_PASSWORD: otobo
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
     command: --max_allowed_packet=68157440 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb-log-file-size=268435456
 

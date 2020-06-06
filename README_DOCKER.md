@@ -49,6 +49,7 @@ Only the image for the webserver needs to be build. For MariaDb the image from D
 
 ## Starting the containers
 
+* Make sure that the secret MySQL root password is set up in the file .env
 * run `docker-compose up`
 
 ## Inspect the running containers
