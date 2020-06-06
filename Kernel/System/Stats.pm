@@ -1382,8 +1382,25 @@ sub Import {
     if ( !$XMLHash[0] ) {
         shift @XMLHash;
     }
-    my $StatsXML = $XMLHash[0]->{otobo_stats}->[1];
+    
+    # We love to import OTRS stats too, so we need to check
+    my $StatsXML;
+    if ( $XMLHash[0]->{otobo_stats}->[1] ) {
 
+        $StatsXML = $XMLHash[0]->{otobo_stats}->[1];
+
+    } elsif ( $XMLHash[0]->{otrs_stats}->[1] ) {
+
+        $StatsXML = $XMLHash[0]->{otrs_stats}->[1];
+
+    } else {
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Can't import Stat, because the required element otobo_stats or otrs_stats is not available!"
+        );
+        return;
+    }
     # Get new StatID
     my @Keys = $XMLObject->XMLHashSearch(
         Type => 'Stats',
