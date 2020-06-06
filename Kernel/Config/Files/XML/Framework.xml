@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_config version="2.0" init="Framework">
     <Setting Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otobo/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.</Description>
+        <Description Translatable="1">Enabling SecureMode disables the web installer (http://yourhost.example.com/otobo/installer.pl) and the migrations. This is done in order to prevent the system from being hijacked. When SecureMode is not enabled the system can be reinstalled. In this case the current basic configuration will be used to pre-populate the questions within the installer script. Enabling SecureMode also enables GenericAgent, PackageManager and SQL Box.</Description>
         <Navigation>Core</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
