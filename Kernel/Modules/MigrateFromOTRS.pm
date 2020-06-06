@@ -207,6 +207,7 @@ sub Run {
                     OTOBOCopyFilesFromOTRS
                     OTOBOMigrateConfigFromOTRS
                     OTOBONotificationMigrate
+                    OTOBOStatsMigrate
                     OTOBOAutoResponseTemplatesMigrate
                     OTOBOResponseTemplatesMigrate
                     OTOBOSalutationsMigrate

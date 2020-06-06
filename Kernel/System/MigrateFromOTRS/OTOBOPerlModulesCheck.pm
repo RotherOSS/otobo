@@ -88,7 +88,7 @@ sub Run {
         return \%Result;
     }
 
-    my $ExitCode = system("$ScriptPath");
+    my $ExitCode = system("$ScriptPath -list");
 
     if ( $ExitCode != 0 ) {
         $Result{Message} = $Self->{LanguageObject}->Translate("Check if all needed Perl modules have been installed.");

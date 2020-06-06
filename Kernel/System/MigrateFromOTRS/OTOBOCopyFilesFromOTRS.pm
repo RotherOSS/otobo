@@ -147,6 +147,9 @@ sub Run {
     # Get filelist with needed files for copy from OTRS
     my @FileList = $Self->CopyFileListfromOTRSToOTOBO();
 
+    # Get filelist we only copy and not clean
+    my @DoNotCleanFileList = $Self->DoNotCleanFileList();
+
     # Now we copy and clean the files in for{}
     FILE:
     for my $File (@FileList) {
@@ -173,7 +176,6 @@ sub Run {
                     $ExitCode = system("cp $OTRSPathFile $OTOBOPathFile");
                 }
                 else {
-                    #                    $ExitCode = system( "mv $OTRSPathFile $OTOBOPathFile" );
                     $ExitCode = system("mv $OTRSPathFile $OTOBOPathFile");
                 }
 
@@ -196,6 +198,13 @@ sub Run {
         }
         else {
             next FILE;
+        }
+
+        # check if we need to clean the file
+        for my $NotClean ( @DoNotCleanFileList ) {
+            if ( $NotClean eq $File ) {
+                next FILE;
+            }
         }
 
         # We need to clean files inside a directory
