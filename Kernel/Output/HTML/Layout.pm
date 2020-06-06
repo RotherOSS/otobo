@@ -156,7 +156,7 @@ sub new {
     $Self->{Charset}     = $Self->{UserCharset};                            # just for compat.
     $Self->{SessionID}   = $Param{SessionID} || '';
     $Self->{SessionName} = $Param{SessionName} || 'SessionID';
-    $Self->{CGIHandle}   = $ENV{SCRIPT_NAME} || 'No-$ENV{"SCRIPT_NAME"}';
+    $Self->{CGIHandle}   = $Kernel::OM->Get('Kernel::System::Web::Request')->ScriptName() || 'No-$ENV{"SCRIPT_NAME"}';
 
     # baselink
     $Self->{Baselink} = $Self->{CGIHandle} . '?';

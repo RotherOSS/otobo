@@ -20,6 +20,7 @@ use utf8;
 
 use vars (qw($Self));
 
+# This setting will be picked up whenever an instance of Kernel::System::Web::Request is created.
 local $ENV{SCRIPT_NAME} = 'index.pl';
 
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
