@@ -1146,7 +1146,7 @@ sub PackageMigrateIgnorePackages {
                 PackageName => 'ShowDynamicField',
                 IgnoreType  => 'Ignore',
                 Comment =>
-                    'HideShow package integrated in OTOBO standard is in a better version. We only migrate the config and database data.',
+                    'HideShow package is in OTOBO standard integrated in a better version. We only migrate the config and database data.',
             },
             {
                 PackageName => 'TicketForms',
@@ -1188,7 +1188,37 @@ sub PackageMigrateIgnorePackages {
             {
                 PackageName => 'Znuny4OTRS-AutoCheckbox',
                 IgnoreType  => 'Uninstall',
-                Comment     => 'This pZnuny4OTRS-EscalationSuspendackage is not needed for OTOBO, we uninstall it',
+                Comment     => 'Znuny4OTRS-AutoCheckbox is not needed for OTOBO, we uninstall it',
+            },
+            {
+                PackageName => 'OTRSBruteForceAttackProtection',
+                IgnoreType  => 'Ignore',
+                Comment     => 'OTRSBruteForceAttackProtection package is integrated in OTOBO standard in a newer version.',
+            },
+            {
+                PackageName => 'OTRSEscalationSuspend',
+                IgnoreType  => 'Ignore',
+                Comment     => 'OTRSEscalationSuspend package is integrated in OTOBO standard in a newer version.',
+            },
+            {
+                PackageName => 'OTRSDynamicFieldDatabase',
+                IgnoreType  => 'Ignore',
+                Comment     => 'OTRSDynamicFieldDatabase package is integrated in OTOBO standard in a newer version.',
+            },
+            {
+                PackageName => 'OTRSDynamicFieldAttachment',
+                IgnoreType  => 'Ignore',
+                Comment     => 'OTRSDynamicFieldAttachment package is integrated in OTOBO standard in a newer version.',
+            },
+            {
+                PackageName => 'OTRSDynamicFieldWebService',
+                IgnoreType  => 'Ignore',
+                Comment     => 'OTRSDynamicFieldWebService package is integrated in OTOBO standard in a newer version.',
+            },
+            {
+                PackageName => 'OTRSSystemConfigurationHistory',
+                IgnoreType  => 'Ignore',
+                Comment     => 'OTRSSystemConfigurationHistory is not needed for OTOBO. We only migrate the config and database data.',
             },
         )
     );
@@ -1252,6 +1282,7 @@ sub CopyFileListfromOTRSToOTOBO {
     return (
         '/Kernel/Config.pm',
         '/Kernel/Config.po',
+        '/var/httpd/htdocs/index.html',
         '/var/cron',
         '/var/article',
         '/var/stats',
