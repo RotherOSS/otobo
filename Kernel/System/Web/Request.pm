@@ -358,7 +358,7 @@ sub GetCookie {
 get the remote address of the HTTP client.
 This is a wrapper around CGI::remote_addr().
 
-    my $RemoteAddre = $ParamObject->RemoteAddr();
+    my $RemoteAddr = $ParamObject->RemoteAddr();
 
 =cut
 
@@ -366,6 +366,36 @@ sub RemoteAddr {
     my ( $Self, @Params ) = @_;
 
     return $Self->{Query}->remote_addr( @Params );
+}
+
+=head2 ScriptName
+
+return the script name as a partial URL, for self-referring scripts.
+This is a wrapper around CGI::script_name().
+
+    my $ScriptName = $ParamObject->ScriptName();
+
+=cut
+
+sub ScriptName {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->script_name( @Params );
+}
+
+=head2 PathInfo
+
+Returns additional path information from the script URL.
+This is a wrapper around CGI::path_info().
+
+    my $PathInfo = $ParamObject->PathInfo();
+
+=cut
+
+sub PathInfo {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->path_info( @Params );
 }
 
 =head2 HTTP

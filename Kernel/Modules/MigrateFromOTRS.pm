@@ -585,10 +585,10 @@ sub _Finish {
         }
     }
 
-    # prepare link
+    # prepare link to the agent interface
     my $Host = $ENV{HTTP_HOST} || $Param{ConfigObject}->Get('FQDN');
     $Host =~ s/\/$//;
-    my $OTOBOHandle = $ENV{SCRIPT_NAME};
+    my $OTOBOHandle = $Kernel::OM->Get('Kernel::System::Web::Request')->ScriptName();
     $OTOBOHandle =~ s/migration\.pl/index.pl/;
 
     return {
@@ -596,7 +596,6 @@ sub _Finish {
         OTOBOHandle => $OTOBOHandle,
         Host        => $Host,
     };
-
 }
 
 sub _CheckConfig {

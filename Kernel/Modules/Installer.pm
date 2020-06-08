@@ -526,12 +526,27 @@ sub Run {
                     $Host =~ s{:\d*\z}{}xms;
                 }
 
-                # 'CREATE USER ... IDENTIFIED WITH ...' is used because in MySQL 8 user can no longer be created with 'GRANT'
-                # 'IDENTIFIED WITH mysql_native_password' is supported since at least MySQL 5.6
-                # Note that 'FLUSH PRIVILEGES' is not needed here since at least MySQL 5.6
+                # SQL for creating the OTOBO user.
+                # An explicit statement for user creation is needed because MySQL 8 no longer
+                # supports implicit user creation via the 'GRANT PRIVILEGES' statement.
+                # Also note that there are multiple authentication plugins for MySQL/MariaDB.
+                # 'mysql_native_password' works without an encrypted DB connection and is used here.
+                # The advantage is that no encryption keys have to be set up.
+                # The syntax for CREATE USER is not completely the same between MySQL and MariaDB. Therfore
+                # a case switch must be used here.
+                my $CreateUserSQL = "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password";
+                {
+                    if ( $DBH->{server_info} =~ m/mariadb/i ) {
+                        $CreateUserSQL .= " BY '$DB{OTOBODBPassword}'",
+                    }
+                    else {
+                        $CreateUserSQL .= " AS PASSWORD('$DB{OTOBODBPassword}')",
+                    }
+                }
+
                 @Statements = (
                     "CREATE DATABASE `$DB{DBName}` charset utf8mb4 DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci",
-                    "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$DB{OTOBODBPassword}'",
+                    $CreateUserSQL,
                     "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTOBODBUser}`\@`$Host` WITH GRANT OPTION",
                 );
             }
@@ -996,7 +1011,7 @@ sub Run {
             }
         }
 
-        my $OTOBOHandle = $ENV{SCRIPT_NAME};
+        my $OTOBOHandle = $ParamObject->ScriptName();
         $OTOBOHandle =~ s/\/(.*)\/installer\.pl/$1/;
         my $Output =
             $LayoutObject->Header(
