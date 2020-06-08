@@ -712,12 +712,11 @@ sub CopyFileAndSaveAsTmp {
     # We need to copy a directory if Filename not given
     if ( !$Param{Filename} ) {
 
-# $RsyncExec .= '-ar -e "ssh -p ' . $Param{Port} . '" ' . $Param{SSHUser} . '@' . $Param{FQDN} . ':' . $Param{Path} . ' ' .$TempDir;
         $RsyncExec
             .= "-a -v --exclude=\".*\" --exclude=\"var/tmp\" --exclude=\"var/run\" -e \"sshpass -p $Param{Password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p $Param{Port}\" $Param{SSHUser}\@$Param{FQDN}:$Param{Path}/* $TempDir/";
     }
     else {
-# $RsyncExec .= '-a -e "ssh -p ' . $Param{Port} . '" ' . $Param{SSHUser} . '@' . $Param{FQDN} . ':' . $Param{Path} . '/' . $Param{Filename} . ' ' .$TempDir;
+
         $RsyncExec
             .= "-a -v -e \"sshpass -p $Param{Password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p $Param{Port}\" $Param{SSHUser}\@$Param{FQDN}:$Param{Path}/$Param{Filename} $TempDir/";
 
@@ -1678,6 +1677,10 @@ sub TaskSecurityCheck {
             {
                 Message => 'Deploy processes',
                 Module  => 'OTOBOProcessDeploy',
+            },
+            {
+                Message => 'Migrate postmaster filter from OTRS to OTOBO',
+                Module  => 'OTOBOPostmasterFilterMigrate',
             },
         ),
     );

@@ -39,22 +39,4 @@ place regularly, or benefit from an inhouse training seminar that covers all the
 
 Software requirements
 =====================
-Perl
-- Perl 5.16.0 or higher
-
-Webserver
-- Apache2 + mod_perl2 or higher (recommended)
-- Webserver with CGI support (CGI is not recommended)
-
-Databases
-- MySQL 5.0 or higher (MySQL 8+ is [not supported](https://bugs.otrs.org/show_bug.cgi?id=13866))
-- MariaDB
-- PostgreSQL 9.2 or higher
-- Oracle 10g or higher
-
-Browsers
-- Use a modern web browser.
-- These browsers are not supported:
-  - Internet Explorer before version 11 (OTRS 9 will not support Internet Explorer anymore)
-  - Firefox before version 31
-  - Safari before version 6
+The software and hardware requirements [can be found in our documentation.](https://doc.otobo.org/manual/installation/stable/en/content/requirements.html)

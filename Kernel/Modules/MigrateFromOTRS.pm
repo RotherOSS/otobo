@@ -212,6 +212,7 @@ sub Run {
                     OTOBOResponseTemplatesMigrate
                     OTOBOSalutationsMigrate
                     OTOBOSignaturesMigrate
+                    OTOBOPostmasterFilterMigrate
                     OTOBOACLDeploy
                     OTOBOMigrateWebServiceConfiguration
                     OTOBOProcessDeploy

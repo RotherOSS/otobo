@@ -87,6 +87,13 @@ sub Run {
     }
 
     my $Success = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL')->ACLsNeedSyncReset();
+
+    # remove preselection cache TODO: rebuild the cache properly (a simple $FieldRestrictionsObject->SetACLPreselectionCache(); uses the old ACLs)
+    $CacheObject->Delete(
+        Type => 'TicketACL',
+        Key  => 'Preselection',
+    );
+
     if ( !$Success ) {
         $Result{Message}    = $Self->{LanguageObject}->Translate("Deploy the ACL configuration.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("There was an error setting the entity sync status.");

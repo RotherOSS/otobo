@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::MigrateFromOTRS::OTOBOStatsMigrate;    ## no critic
+package Kernel::System::MigrateFromOTRS::OTOBOPostmasterFilterMigrate;    ## no critic
 
 use strict;
 use warnings;
@@ -49,7 +49,7 @@ sub CheckPreviousRequirement {
 
 =head1 NAME
 
-Kernel::System::MigrateFromOTRS::OTOBOStatsMigrate - Migrate Notification table to OTOBO.
+Kernel::System::MigrateFromOTRS::OTOBOPostmasterFilterMigrate - Migrate Notification table to OTOBO.
 
 =cut
 
@@ -67,58 +67,56 @@ sub Run {
         Type  => 'OTRSMigration',
         Key   => 'MigrationState',
         Value => {
-            Task      => 'OTOBOStatsMigrate',
-            SubTask   => "Migrate statistics to OTOBO.",
+            Task      => 'OTOBOPostmasterFilterMigrate',
+            SubTask   => "Migrate postmaster filter to OTOBO.",
             StartTime => $Epoch,
         },
     );
 
-    $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate statistics.");
+    $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate postmaster filter.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Migration failed.");
     $Result{Successful} = 0;
 
     # map wrong to correct tags
-    my %StatsTagsOld2New = (
+    my %PFOld2New = (
 
-        'otrs_stats' => 'otobo_stats',
+        'X-OTRS-' => 'X-OTOBO-',
     );
 
     # get needed objects
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    my $XMLType = 'Stats';
     return \%Result if !$DBObject->Prepare(
-        SQL => 'SELECT xml_type, xml_key, xml_content_key, xml_content_value FROM xml_storage WHERE xml_type = ?',
-        Bind => [ \$XMLType, ],
+        SQL => 'SELECT f_name, f_type, f_key, f_value FROM postmaster_filter',
     );
 
     # get all stats entrys
-    my @StatsEntrys;
+    my @PFEntrys;
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
-        push @StatsEntrys, {
-            xml_type            => $Row[0],
-            xml_key             => $Row[1],
-            xml_content_key     => $Row[2],
-            xml_content_value   => $Row[3],
+        push @PFEntrys, {
+            f_name    => $Row[0],
+            f_type    => $Row[1],
+            f_key     => $Row[2],
+            f_value   => $Row[3],
         };
     }
 
     STATSENTRY:
-    for my $Entry (@StatsEntrys) {
+    for my $Entry (@PFEntrys) {
 
         # remember if we need to replace something
         my $NeedToReplace;
 
         # get old notification tag
-        for my $OldTag ( sort keys %StatsTagsOld2New ) {
+        for my $OldTag ( sort keys %PFOld2New ) {
 
             # get new notification tag
-            my $NewTag = $StatsTagsOld2New{$OldTag};
+            my $NewTag = $PFOld2New{$OldTag};
 
-            # replace tags in Subject and Text
+            # replace tags only in f_key
             ATTRIBUTE:
-            for my $Attribute (qw(xml_content_key xml_content_value)) {
+            for my $Attribute (qw(f_key)) {
 
                 # only if old tags are found
                 next ATTRIBUTE if $Entry->{$Attribute} !~ m{$OldTag}xms;
@@ -136,18 +134,18 @@ sub Run {
 
         # update the database
         $DBObject->Do(
-            SQL => 'UPDATE xml_storage
-                SET xml_content_key = ?, xml_content_value = ?
-                WHERE xml_key = ? AND xml_type = ?',
+            SQL => 'UPDATE postmaster_filter
+                SET f_key = ?
+                WHERE f_name = ? AND f_type = ? AND f_value = ?',
             Bind => [
-                \$Entry->{xml_content_key},
-                \$Entry->{xml_content_value},
-                \$Entry->{xml_key},
-                \$Entry->{xml_type},
+                \$Entry->{f_key},
+                \$Entry->{f_name},
+                \$Entry->{f_type},
+                \$Entry->{f_value},
             ],
         );
     }
-    $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate statistics.");
+    $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate postmaster filter.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Migration completed, perfect!");
     $Result{Successful} = 1;
 

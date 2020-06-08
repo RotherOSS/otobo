@@ -163,9 +163,6 @@
                                                     </tr>
                                                     <tr>
                                                         <td valign="top" class="bodyContent" style="border-bottom: 1px solid #eee; background-color: #fff; padding: 15px; font-size: 13px;">
-    # We need to perform some postprocessing on the notification content as it is neccessary to use inline CSS styles
-    #   for best mail client compatibility. In particular, OTOBO uses <div> elements with inline CSS instead of <blockquote>.
-    #   Here we also change the inline style of this <div> to match with the current design.
                                                             [% Data.Body
                                                             .replace('<p>', '<div>')
                                                             .replace('</p>', '</div>')
