@@ -545,8 +545,8 @@ sub Run {
                 }
 
                 @Statements = (
-                    $CreateUserSQL,
                     "CREATE DATABASE `$DB{DBName}` charset utf8mb4 DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci",
+                    $CreateUserSQL,
                     "GRANT ALL PRIVILEGES ON `$DB{DBName}`.* TO `$DB{OTOBODBUser}`\@`$Host` WITH GRANT OPTION",
                 );
             }
