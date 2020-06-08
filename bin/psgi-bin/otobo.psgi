@@ -287,7 +287,7 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT PLACK SUPPORT IS AS OF MAY 25th 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
+warn "PLEASE NOTE THAT PLACK SUPPORT IS AS OF JUNE 6TH 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
 
 # conditionally enable profiling
 my $NYTProfMiddleWare = sub {
@@ -473,8 +473,9 @@ my $App = builder {
             # 0=off;1=on;
             my $Debug = 0;
 
+            # %ENV has to be used here as the PSGI is not passed as an arg to this anonymous sub.
             # $ENV{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
-            # $ENV{PATH_INFO} contains the path after the $ENV{SCRIPT_NAME}. Can be e.g. '/rpc.pl' or ''
+            # $ENV{PATH_INFO} contains the path after the $ENV{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
             # The extracted ScriptFileName should be something like index.pl, customer.pl, or rpc.pl
             my ($ScriptFileName) = ( ( $ENV{SCRIPT_NAME} // '' ) . ( $ENV{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
 
@@ -574,8 +575,8 @@ builder {
     # OTOBO DBViewer, must be below /otobo because of the session cookie
     mount '/otobo/dbviewer'                => $DBViewerApp;
 
-    # Wrap the CGI-scripts in bin/cgi-bin.
-    # The pathes are such that $ENV{SCRIPT_NAME} is set the same way as under mod_perl
+    # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
+    # The pathes are such that $ENV{SCRIPT_NAME} and $ENV{PATH_INFO} are set up just like they are set up under mod_perl,
     mount '/otobo/index.pl'                => $App;
     mount '/otobo/customer.pl'             => $App;
     mount '/otobo/public.pl'               => $App;

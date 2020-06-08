@@ -996,7 +996,7 @@ sub Run {
             }
         }
 
-        my $OTOBOHandle = $ENV{SCRIPT_NAME};
+        my $OTOBOHandle = $ParamObject->ScriptName();
         $OTOBOHandle =~ s/\/(.*)\/installer\.pl/$1/;
         my $Output =
             $LayoutObject->Header(
