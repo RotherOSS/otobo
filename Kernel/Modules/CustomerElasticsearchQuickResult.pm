@@ -14,13 +14,11 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 package Kernel::Modules::CustomerElasticsearchQuickResult;
-## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
+## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
 use strict;
 use warnings;
-use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
 
@@ -61,13 +59,14 @@ sub Run {
     my $LayoutObject          = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $TicketObject          = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ESObject              = $Kernel::OM->Get('Kernel::System::Elasticsearch');
-    my $Count                 = $ConfigObject->Get('Elasticsearch::QuickSearchSettings')->{'TicketResultCount'};
     my $DisableCompanyTickets = $ConfigObject->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
 
+    my $SearchObjects = $ConfigObject->Get('Elasticsearch::QuickSearchShow');
+    my $Count = $SearchObjects->{Ticket} ? $SearchObjects->{Ticket}{Count} : 0;
     my $ESStrLength = length $ParamObject->GetParam( Param => 'FulltextES' );
 
-# Subaction eq SearchUpdate is returned by on click and on input events of the ESfulltext-field. See Core.UI.Elasticsearch.js
-    if ( $Self->{Subaction} eq 'SearchUpdate' && $ESStrLength > 1 ) {
+    # Subaction eq SearchUpdate is returned by on click and on input events of the ESfulltext-field. See Core.UI.Elasticsearch.js
+    if ( $Self->{Subaction} eq 'SearchUpdate' && $ESStrLength > 1  && $Count ) {
 
         # Add filter for customer company if the company tickets are not disabled.
         my %Selection;
@@ -91,8 +90,7 @@ sub Run {
             Result         => 'FULL',
         );
 
-# Start to fill the blockdata for the template (See Kernel/Output/HTML/Templates/Standard/CustomerElasticsearchQuickResult.tt)
-# Block ticket data
+        # Block ticket data
         for my $Ticket (@TicketIDs) {
 
             # we only have one key and one value in each array element

@@ -18,138 +18,80 @@
     <form action="[% Env("CGIHandle") %]" method="post" id="ElasticsearchQuickResult">
         <input type="hidden" name="Action" value="[% Env("Action") %]"/>
         <input type="hidden" name="Subaction" value="Redirect"/>
-        <table class="TableSmall NoCellspacing">
+
 [% IF Data.Tickets %]
+        <table class="TableSmall NoCellspacing">
             <thead>
                 <tr>
-                    <th class="OverviewHeader TicketNumber">
-                        <a name="OverviewControl"  title="[% Translate("Ticketnumber") | html  %]">Ticket#</a>
+[% RenderBlockStart("TicketHeader") %]
+                    <th class="OverviewHeader">
+                        <p name="OverviewControl"  title="[% Translate(Data.Header) | html  %]">[% Translate(Data.Header) | html  %]</p>
                     </th>
-                    <th class="OverviewHeader TicketTitle">
-                        <a name="OverviewControl"  title="[% Translate("Title") | html  %]">[% Translate("Title") | html  %]</a>
-                    </th>
-                    <th class="OverviewHeader TicketQueue">
-                        <a name="OverviewControl"  title="[% Translate("Queue") | html %]">[% Translate("Queue") | html %]</a>
-                    </th>
-                    <th class="OverviewHeader TicketAge">
-                        <a name="OverviewControl"  title="[% Translate("Age") | html %]">[% Translate("Age") | html %]</a>
-                    </th>
+[% RenderBlockEnd("TicketHeader") %]
                 </tr>
             </thead>
             <tbody>
-
-[% RenderBlockStart("Record") %]
-                <tr id="TicketID_[% Data.TicketID | html %]" class="MasterAction">
-
-[% RenderBlockStart("RecordTicketNumber") %]
+[% RenderBlockStart("RecordTicket") %]
+                <tr class="MasterAction">
+[% RenderBlockStart("TicketEntry") %]
                     <td>
-                        <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.TicketNumber %]</a>
+                        <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.Entry | html %]</a>
                     </td>
-[% RenderBlockEnd("RecordTicketNumber") %]
-[% RenderBlockStart("RecordTicketTitle") %]
-                    <td>
-                        <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.TicketTitle %]</a>
-                    </td>
-[% RenderBlockEnd("RecordTicketTitle") %]
-[% RenderBlockStart("RecordTicketQueue") %]
-                    <td>
-                        <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.TicketQueue %]</a>
-                    </td>
-[% RenderBlockEnd("RecordTicketQueue") %]
-[% RenderBlockStart("RecordTicketAge") %]
-                    <td>
-                        <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[%  Data.Title | html %]" class="MasterActionLink">[% Data.TicketAge %]</a>
-                    </td>
-[% RenderBlockEnd("RecordTicketAge") %]
-
+[% RenderBlockEnd("TicketEntry") %]
                 </tr>
-[% RenderBlockEnd("Record") %]
+[% RenderBlockEnd("RecordTicket") %]
             </tbody>
+        </table>
 [% END %]
 
 [% IF Data.Companies %]
+        <table class="TableSmall NoCellspacing">
             <thead>
                 <tr>
-                    <th class="OverviewHeader CustomerCompanyID">
-                        <a name="OverviewControl"  title="CustomerID"> [% Translate("Customer ID") | html %] </a>
+[% RenderBlockStart("CompanyHeader") %]
+                    <th class="OverviewHeader">
+                        <p name="OverviewControl"  title="[% Translate(Data.Header) | html  %]">[% Translate(Data.Header) | html  %]</p>
                     </th>
-                    <th class="OverviewHeader CustomerCompanyName">
-                        <a name="OverviewControl"  title="CustomerCompanyName"> [% Translate("Customer") | html %] </a>
-                    </th>
-                    <th class="OverviewHeader CustomerCompanyComment">
-                        <a name="OverviewControl"  title="CustomerCompanyComment"> [% Translate("Comment") | html %] </a>
-                    </th>
+[% RenderBlockEnd("CompanyHeader") %]
                 </tr>
             </thead>
             <tbody>
-
 [% RenderBlockStart("RecordCustomer") %]
-                <tr id="CustomerID_[% Data.CustomerID | html %]" class="MasterAction">
-
-[% RenderBlockStart("RecordCustomerCompanyID") %]
+                <tr class="MasterAction">
+[% RenderBlockStart("CompanyEntry") %]
                     <td>
-                        <a href="[% Env("Baselink") %]Action=AgentCustomerInformationCenter;CustomerID=[% Data.CustomerID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.CustomerID %]</a>
+                        <a href="[% Env("Baselink") %]Action=AgentCustomerInformationCenter;CustomerID=[% Data.CustomerKey | uri %]" title="[% Data.CustomerKey | html %]" class="MasterActionLink">[% Data.Entry | html %]</a>
                     </td>
-[% RenderBlockEnd("RecordCustomerCompanyID") %]
-
-[% RenderBlockStart("RecordCustomerCompanyName") %]
-                    <td>
-                        <a href="[% Env("Baselink") %]Action=AgentCustomerInformationCenter;CustomerID=[% Data.CustomerID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.CustomerCompanyName %]</a>
-                    </td>
-[% RenderBlockEnd("RecordCustomerCompanyName") %]
-
-[% RenderBlockStart("RecordCustomerCompanyComment") %]
-                    <td>
-                        <a href="[% Env("Baselink") %]Action=AgentCustomerInformationCenter;CustomerID=[% Data.CustomerID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.CustomerCompanyComment %]</a>
-                    </td>
-[% RenderBlockEnd("RecordCustomerCompanyComment") %]
-
+[% RenderBlockEnd("CompanyEntry") %]
                 </tr>
 [% RenderBlockEnd("RecordCustomer") %]
             </tbody>
+        </table>
 [% END %]
 
 [% IF Data.CustomerUsers %]
+        <table class="TableSmall NoCellspacing">
             <thead>
                 <tr>
-                    <th class="OverviewHeader CustomerUserID">
-                        <a name="OverviewControl"  title="CustomerUserID"> [% Translate ("Username") %] </a>
+[% RenderBlockStart("CustomerUserHeader") %]
+                    <th class="OverviewHeader">
+                        <p name="OverviewControl"  title="[% Translate(Data.Header) | html  %]">[% Translate(Data.Header) | html  %]</p>
                     </th>
-                    <th class="OverviewHeader CustomerUserName">
-                        <a name="OverviewControl"  title="CustomerUserName"> [% Translate ("Name") %] </a>
-                    </th>
-                    <th class="OverviewHeader CustomerUserCompany">
-                        <a name="OverviewControl"  title="CustomerUserCompany"> [% Translate ("Customer") %] </a>
-                    </th>
+[% RenderBlockEnd("CustomerUserHeader") %]
                 </tr>
             </thead>
             <tbody>
-
 [% RenderBlockStart("RecordCustomerUser") %]
-                <tr id="CustomerUserID_[% Data.CustomerUserID | html %]" class="MasterAction">
-
-[% RenderBlockStart("RecordCustomerUserID") %]
+                <tr class="MasterAction">
+[% RenderBlockStart("CustomerUserEntry") %]
                     <td>
-                        <a href="[% Env("Baselink") %]Action=AgentCustomerUserInformationCenter;CustomerUserID=[% Data.CustomerUserID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.CustomerUserID %]</a>
+                        <a href="[% Env("Baselink") %]Action=AgentCustomerUserInformationCenter;CustomerUserID=[% Data.CustomerUserKey | uri %]" title="[% Data.CustomerUserKey | html %]" class="MasterActionLink">[% Data.Entry | html %]</a>
                     </td>
-[% RenderBlockEnd("RecordCustomerUserID") %]
-
-[% RenderBlockStart("RecordCustomerUserName") %]
-                    <td>
-                        <a href="[% Env("Baselink") %]Action=AgentCustomerUserInformationCenter;CustomerUserID=[% Data.CustomerUserID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.CustomerUserName %]</a>
-                    </td>
-[% RenderBlockEnd("RecordCustomerUserName") %]
-
-[% RenderBlockStart("RecordCustomerUserCompany") %]
-                    <td>
-                        <a href="[% Env("Baselink") %]Action=AgentCustomerInformationCenter;CustomerID=[% Data.CustomerID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.CustomerUserCompany %]</a>
-                    </td>
-[% RenderBlockEnd("RecordCustomerUserCompany") %]
-
+[% RenderBlockEnd("CustomerUserEntry") %]
                 </tr>
 [% RenderBlockEnd("RecordCustomerUser") %]
             </tbody>
-[% END %]
         </table>
+[% END %]
     </form>
 </div>

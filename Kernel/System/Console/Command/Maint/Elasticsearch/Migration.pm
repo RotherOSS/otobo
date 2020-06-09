@@ -40,6 +40,14 @@ sub Configure {
 
     $Self->Description('Migrate existing tickets, customers and customerusers to Elasticsearch.');
     $Self->AddOption(
+        Name => 'target',
+        Description =>
+            "Specify which objects will be migrated. t: Tickets; u: CustomerUsers; c: CustomerCompanies; If not specified, 'tuc' (all three) will be handled.",
+        Required   => 0,
+        HasValue   => 1,
+        ValueRegex => qr/^[tuc]+$/smx,
+    );
+    $Self->AddOption(
         Name        => 'micro-sleep',
         Description => "Specify microseconds to sleep after every ticket to reduce system load (e.g. 1000).",
         Required    => 0,
@@ -87,8 +95,8 @@ sub PreRun {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $ESObject     = $Kernel::OM->Get('Kernel::System::Elasticsearch');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ESObject = $Kernel::OM->Get('Kernel::System::Elasticsearch');
+    my $Config   = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
 
     # test the connection to the server
     if ( !$ESObject->TestConnection() ) {
@@ -96,7 +104,215 @@ sub Run {
         return 0;
     }
 
-    # Migrate ticket and articles
+    my $Targets    = $Self->GetOption('target') || 'tuc';
+    my $MicroSleep = $Self->GetOption('micro-sleep');
+
+    if ( $Targets =~ /c/ ) {
+        $Self->MigrateCompanies(
+            ESObject  => $ESObject,
+            NShards   => $Config->{NS},
+            NReplicas => $Config->{NR},
+            Sleep     => $MicroSleep,
+        );
+    }
+
+    if ( $Targets =~ /u/ ) {
+        $Self->MigrateCustomerUsers(
+            ESObject  => $ESObject,
+            NShards   => $Config->{NS},
+            NReplicas => $Config->{NR},
+            Sleep     => $MicroSleep,
+        );
+    }
+
+    if ( $Targets =~ /t/ ) {
+        $Self->MigrateTickets(
+            ESObject  => $ESObject,
+            NShards   => $Config->{NS},
+            NReplicas => $Config->{NR},
+            Sleep     => $MicroSleep,
+        );
+    }
+
+    return $Self->ExitCodeOk();
+}
+
+sub MigrateCompanies {
+    my ( $Self, %Param ) = @_;
+
+    my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
+    my %CustomerCompanyList   = $CustomerCompanyObject->CustomerCompanyList(
+        Limit => 0,
+    );
+
+    my %IndexName = (
+        index => 'customer',
+    );
+    my $Success = $Param{ESObject}->DropIndex(
+        IndexName => \%IndexName,
+    );
+    if ( !$Success ) {
+        $Self->Print(
+            "<yellow>The previous error messages are likely the result of trying to drop a nonexistent index and can then be ignored.</yellow>\n"
+        );
+    }
+
+    my %Request = (
+        settings => {
+            index => {
+                number_of_shards   => $Param{NShards},
+                number_of_replicas => $Param{NReplicas},
+            },
+            'index.mapping.total_fields.limit' => 2000,
+        },
+        mappings => {
+            properties => {
+                CustomerID => {
+                    type => 'keyword',
+                },
+            }
+        },
+    );
+
+    $Success = $Param{ESObject}->CreateIndex(
+        IndexName => \%IndexName,
+        Request   => \%Request,
+    );
+
+    if ($Success) {
+        $Self->Print("<green>Customer index created.</green>\n");
+    }
+    else {
+        $Self->Print("<red>Customer index could not be created!</red>\n");
+        return 0;
+    }
+
+    my $Count         = 0;
+    my $CustomerCount = scalar( keys %CustomerCompanyList );
+
+    my $Errors = 0;
+    CUSTOMERID:
+    for my $CustomerID ( sort keys %CustomerCompanyList ) {
+
+        $Count++;
+
+        # create the ticket
+        if ( !$Param{ESObject}->CustomerCompanyAdd( CustomerID => $CustomerID ) ) {
+            $Errors++;
+        }
+
+        # show progress and potentially sleep
+        if ( $Count % 500 == 0 ) {
+            my $Percent = int( $Count / ( $CustomerCount / 100 ) );
+            $Self->Print(
+                "<yellow>$Count</yellow> of <yellow>$CustomerCount</yellow> processed (<yellow>$Percent %</yellow> done).\n"
+            );
+        }
+
+        Time::HiRes::usleep( $Param{Sleep} ) if $Param{Sleep};
+    }
+
+    if ($Errors) {
+        $Self->Print("<yellow>CustomerCompany transfer complete. $Errors error(s) occured!</yellow>\n");
+    }
+    else {
+        $Self->Print("<green>CustomerCompany transfer complete.</green>\n");
+    }
+
+    return 1;
+
+}
+
+sub MigrateCustomerUsers {
+    my ( $Self, %Param ) = @_;
+
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my %CustomerUserList   = $CustomerUserObject->CustomerSearch(
+        Search => '*',
+        Valid  => 1,
+    );
+
+    my %IndexName = (
+        index => 'customeruser',
+    );
+    my $Success = $Param{ESObject}->DropIndex(
+        IndexName => \%IndexName
+    );
+    if ( !$Success ) {
+        $Self->Print(
+            "<yellow>Previous error messages are likely the result of trying to drop a nonexistent index and can then be ignored.</yellow>\n"
+        );
+    }
+
+    my %Request = (
+        settings => {
+            index => {
+                number_of_shards   => $Param{NShards},
+                number_of_replicas => $Param{NReplicas},
+            },
+            'index.mapping.total_fields.limit' => 2000,
+        },
+        mappings => {
+            properties => {
+                UserLogin => {
+                    type => 'keyword',
+                },
+            }
+        }
+    );
+
+    $Success = $Param{ESObject}->CreateIndex(
+        IndexName => \%IndexName,
+        Request   => \%Request,
+    );
+
+    if ($Success) {
+        $Self->Print("<green>CustomerUser index created.</green>\n");
+    }
+    else {
+        $Self->Print("<red>CustomerUser index could not be created!</red>\n");
+        return 0;
+    }
+
+    my $Count             = 0;
+    my $CustomerUserCount = scalar( keys %CustomerUserList );
+
+    my $Errors = 0;
+    CUSTOMERUSERID:
+    for my $CustomerUserID ( sort keys %CustomerUserList ) {
+
+        $Count++;
+
+        # create the ticket
+        if ( !$Param{ESObject}->CustomerUserAdd( UserLogin => $CustomerUserID ) ) {
+            $Errors++;
+        }
+
+        # show progress and potentially sleep
+        if ( $Count % 500 == 0 ) {
+            my $Percent = int( $Count / ( $CustomerUserCount / 100 ) );
+            $Self->Print(
+                "<yellow>$Count</yellow> of <yellow>$CustomerUserCount</yellow> processed (<yellow>$Percent %</yellow> done).\n"
+            );
+        }
+
+        Time::HiRes::usleep( $Param{Sleep} ) if $Param{Sleep};
+    }
+
+    if ($Errors) {
+        $Self->Print("<yellow>CustomerUser transfer complete. $Errors error(s) occured!</yellow>\n");
+    }
+    else {
+        $Self->Print("<green>CustomerUser transfer complete.</green>\n");
+    }
+
+    return 1;
+
+}
+
+sub MigrateTickets {
+    my ( $Self, %Param ) = @_;
+
     my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
@@ -112,19 +328,20 @@ sub Run {
         index => 'ticket',
     );
 
-    my $Success = $ESObject->DropIndex(
+    my $Success = $Param{ESObject}->DropIndex(
         IndexName => \%IndexName,
     );
-
-    # Create Index
-    my $NShards   = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings')->{NS};
-    my $NReplicas = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings')->{NR};
+    if ( !$Success ) {
+        $Self->Print(
+            "<yellow>Previous error messages are likely the result of trying to drop a nonexistent index and can then be ignored.</yellow>\n"
+        );
+    }
 
     my %Request = (
         settings => {
             index => {
-                number_of_shards   => $NShards,
-                number_of_replicas => $NReplicas,
+                number_of_shards   => $Param{NShards},
+                number_of_replicas => $Param{NReplicas},
             },
             'index.mapping.total_fields.limit' => 2000,
         },
@@ -146,7 +363,7 @@ sub Run {
         }
     );
 
-    $Success = $ESObject->CreateIndex(
+    $Success = $Param{ESObject}->CreateIndex(
         IndexName => \%IndexName,
         Request   => \%Request,
     );
@@ -160,7 +377,7 @@ sub Run {
     }
 
     # put the attachment pipeline to the ticket index
-    $Success = $ESObject->DeletePipeline();
+    $Success = $Param{ESObject}->DeletePipeline();
 
     my %Pipeline = (
         description => "Extract external attachment information",
@@ -188,7 +405,7 @@ sub Run {
             }
         ]
     );
-    $Success = $ESObject->CreatePipeline(
+    $Success = $Param{ESObject}->CreatePipeline(
         Request => \%Pipeline,
     );
     if ($Success) {
@@ -199,33 +416,35 @@ sub Run {
         return 0;
     }
 
-    my $Count      = 0;
-    my $MicroSleep = $Self->GetOption('micro-sleep');
-
+    my $Count     = 0;
     my $Percent10 = ( sort { $a <=> $b } ( 10, int( $#TicketIDs / 10 ) ) )[1];
-    my $Percent1  = ( sort { $a <=> $b } ( 1,  int( $#TicketIDs / 100 ) ) )[1];
+    my $Percent1  = ( sort { $a <=> $b } ( 1, int( $#TicketIDs / 100 ) ) )[1];
 
     if ( $#TicketIDs > 100 ) {
-        $Self->Print("<yellow>Tickets are transfered. This can take a while.</yellow>\n");
+        $Self->Print(
+            "<yellow>Tickets are transfered. This can take several hours, depending on the number of tickets.</yellow>\n"
+        );
     }
 
+    my $Errors = 0;
     TICKETID:
     for my $TicketID (@TicketIDs) {
 
         $Count++;
 
         # create the ticket
-        $ESObject->TicketCreate(
-            TicketID => $TicketID,
-        );
+        if ( !$Param{ESObject}->TicketCreate( TicketID => $TicketID ) ) {
+            $Errors++;
+        }
 
         # create the articles
         my @ArticleList = $ArticleObject->ArticleList( TicketID => $TicketID );
         for my $Article (@ArticleList) {
-            $ESObject->ArticleCreate(
+            $Success = $Param{ESObject}->ArticleCreate(
                 TicketID  => $TicketID,
                 ArticleID => $Article->{ArticleID},
             );
+            $Errors++ if !$Success;
         }
 
         # show progress and potentially sleep
@@ -236,152 +455,22 @@ sub Run {
             );
         }
         elsif ( $#TicketIDs > 50 && $Count % $Percent1 == 0 ) {
+            local $| = 1;
             $Self->Print(". ");
         }
 
-        Time::HiRes::usleep($MicroSleep) if $MicroSleep;
+        Time::HiRes::usleep( $Param{Sleep} ) if $Param{Sleep};
     }
 
-    $Self->Print("<green>Ticket transfer complete.</green>\n");
-
-    # Migrate customercompany
-    my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
-    my %CustomerCompanyList   = $CustomerCompanyObject->CustomerCompanyList();
-
-    %IndexName = (
-        index => 'customer',
-    );
-    $Success = $ESObject->DropIndex(
-        IndexName => \%IndexName,
-    );
-
-    %Request = (
-        settings => {
-            index => {
-                number_of_shards   => $NShards,
-                number_of_replicas => $NReplicas,
-            },
-            'index.mapping.total_fields.limit' => 2000,
-        },
-        mappings => {
-            properties => {
-                CustomerID => {
-                    type => 'keyword',
-                },
-            }
-        },
-    );
-
-    $Success = $ESObject->CreateIndex(
-        IndexName => \%IndexName,
-        Request   => \%Request,
-    );
-
-    if ($Success) {
-        $Self->Print("<green>Customer index created.</green>\n");
+    if ($Errors) {
+        $Self->Print("<yellow>Ticket transfer complete. $Errors error(s) occured!</yellow>\n");
     }
     else {
-        $Self->Print("<red>Customer index could not be created!</red>\n");
-        return 0;
+        $Self->Print("<green>Ticket transfer complete.</green>\n");
     }
 
-    $Count = 0;
-    my $CustomerCount = scalar( keys %CustomerCompanyList );
+    return 1;
 
-    CUSTOMERID:
-    for my $CustomerID ( sort keys %CustomerCompanyList ) {
-
-        $Count++;
-
-        # create the ticket
-        $ESObject->CustomerCompanyAdd(
-            CustomerID => $CustomerID,
-        );
-
-        # show progress and potentially sleep
-        if ( $Count % 500 == 0 ) {
-            my $Percent = int( $Count / ( $CustomerCount / 100 ) );
-            $Self->Print(
-                "<yellow>$Count</yellow> of <yellow>$CustomerCount</yellow> processed (<yellow>$Percent %</yellow> done).\n"
-            );
-        }
-
-        Time::HiRes::usleep($MicroSleep) if $MicroSleep;
-    }
-
-    $Self->Print("<green>CustomerCompany transfer complete.</green>\n");
-
-    # Migrate customeruser
-    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-    my %CustomerUserList   = $CustomerUserObject->CustomerSearch(
-        UserLogin => '*',
-        Valid     => 1,
-    );
-
-    %IndexName = (
-        index => 'customeruser',
-    );
-    $Success = $ESObject->DropIndex(
-        IndexName => \%IndexName
-    );
-
-    %Request = (
-        settings => {
-            index => {
-                number_of_shards   => $NShards,
-                number_of_replicas => $NReplicas,
-            },
-            'index.mapping.total_fields.limit' => 2000,
-        },
-        mappings => {
-            properties => {
-                UserLogin => {
-                    type => 'keyword',
-                },
-            }
-        }
-    );
-
-    $Success = $ESObject->CreateIndex(
-        IndexName => \%IndexName,
-        Request   => \%Request,
-    );
-
-    if ($Success) {
-        $Self->Print("<green>CustomerUser index created.</green>\n");
-    }
-    else {
-        $Self->Print("<red>CustomerUser index could not be created!</red>\n");
-        return 0;
-    }
-
-    $Count = 0;
-    my $CustomerUserCount = scalar( keys %CustomerUserList );
-
-    CUSTOMERUSERID:
-    for my $CustomerUserID ( sort keys %CustomerUserList ) {
-
-        $Count++;
-
-        # create the ticket
-        $ESObject->CustomerUserAdd(
-            UserLogin => $CustomerUserID,
-        );
-
-        # show progress and potentially sleep
-        if ( $Count % 500 == 0 ) {
-            my $Percent = int( $Count / ( $CustomerUserCount / 100 ) );
-            $Self->Print(
-                "<yellow>$Count</yellow> of <yellow>$CustomerUserCount</yellow> processed (<yellow>$Percent %</yellow> done).\n"
-            );
-        }
-
-        Time::HiRes::usleep($MicroSleep) if $MicroSleep;
-    }
-
-    $Self->Print("<green>CustomerUser transfer complete.</green>\n");
-
-    return $Self->ExitCodeOk();
 }
 
 1;

@@ -20,7 +20,6 @@ package Kernel::Modules::AgentElasticsearchQuickResult;
 
 use strict;
 use warnings;
-use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
 
@@ -58,13 +57,13 @@ sub Run {
     my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
     my $ParamObject           = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $LayoutObject          = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $TicketObject          = $Kernel::OM->Get('Kernel::System::Ticket');
     my $CustomerUserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
     my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
     my $ESObject              = $Kernel::OM->Get('Kernel::System::Elasticsearch');
-    my $Count                 = $ConfigObject->Get('Elasticsearch::QuickSearchSettings')->{'TicketResultCount'};
 
     if ( $Self->{Subaction} eq 'SearchUpdate' ) {
+
+        my $SearchObjects = $ConfigObject->Get('Elasticsearch::QuickSearchShow');
 
         my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
@@ -116,37 +115,41 @@ sub Run {
         }
 
         # get objects
-        my ( @TicketIDs, @CustomerIDs, @CustomerUserIDs );
+        my ( @TicketIDs, @CustomerKeys, @CustomerUserKeys );
 
-        if ( $Permission{AgentTicketZoom} ) {
+        if ( $SearchObjects->{Ticket} && $SearchObjects->{Ticket}{Count} && $Permission{AgentTicketZoom} ) {
 
             # Search ticket by ES sort by age. Show $Size results (default to 10 in SysConfig)
             @TicketIDs = $ESObject->TicketSearch(
                 Fulltext => $ParamObject->GetParam( Param => 'FulltextES' ),
                 UserID   => $Self->{UserID},
-                Limit    => $Count,
+                Limit    => $SearchObjects->{Ticket}{Count},
                 Result   => 'FULL',
             );
         }
 
-        if ( $Permission{AdminCustomerCompany} ) {
-
+        if (
+            $SearchObjects->{CustomerCompany}
+            && $SearchObjects->{CustomerCompany}{Count}
+            && $Permission{AdminCustomerCompany}
+            )
+        {
             # Search customer by ES.
-            @CustomerIDs = $ESObject->CustomerCompanySearch(
+            @CustomerKeys = $ESObject->CustomerCompanySearch(
                 IndexName => 'customer',
                 Fulltext  => $ParamObject->GetParam( Param => 'FulltextES' ),
-                Limit     => $Count,
+                Limit     => $SearchObjects->{CustomerCompany}{Count},
                 Result    => 'ARRAY',
             );
         }
 
-        if ( $Permission{AdminCustomerUser} ) {
-
+        if ( $SearchObjects->{CustomerUser} && $SearchObjects->{CustomerUser}{Count} && $Permission{AdminCustomerUser} )
+        {
             # Search customer user by ES.
-            @CustomerUserIDs = $ESObject->CustomerUserSearch(
+            @CustomerUserKeys = $ESObject->CustomerUserSearch(
                 IndexName => 'customeruser',
                 Fulltext  => $ParamObject->GetParam( Param => 'FulltextES' ),
-                Limit     => $Count,
+                Limit     => $SearchObjects->{CustomerUser}{Count},
                 Result    => 'ARRAY',
             );
         }
@@ -156,136 +159,118 @@ sub Run {
             my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
             my %Queues      = $QueueObject->QueueList( Valid => 0 );
 
+            for my $Attr ( @{ $SearchObjects->{Ticket}{Attributes} } ) {
+                $LayoutObject->Block(
+                    Name => 'TicketHeader',
+                    Data => {
+                        Header => $SearchObjects->{Ticket}{AttributeHeader}{$Attr},
+                    },
+                );
+            }
+
             # Block ticket data
             for my $Ticket (@TicketIDs) {
 
-                #my %TicketParam = $TicketObject->TicketGet( TicketID => $TicketID );
                 my ( $TicketID, $TicketParam ) = ( %{$Ticket} );
 
                 $LayoutObject->Block(
-                    Name => 'Record',
-                    Data => {
-                        TicketID => $TicketID,
-                    },
+                    Name => 'RecordTicket',
+                    Data => {},
                 );
 
-                my $Age = $LayoutObject->CustomerAge(
-                    Age   => $TicketParam->{Age},
-                    Space => ' ',
-                );
+                for my $Attr ( @{ $SearchObjects->{Ticket}{Attributes} } ) {
 
-                $LayoutObject->Block(
-                    Name => 'RecordTicketNumber',
-                    Data => {
-                        TicketID     => $TicketID,
-                        TicketTitle  => $TicketParam->{Title},
-                        TicketNumber => $TicketParam->{TicketNumber},
-                    },
-                );
-                $LayoutObject->Block(
-                    Name => 'RecordTicketTitle',
-                    Data => {
-                        TicketID    => $TicketID,
-                        TicketTitle => $TicketParam->{Title},
-                    },
-                );
-                $LayoutObject->Block(
-                    Name => 'RecordTicketQueue',
-                    Data => {
-                        TicketID    => $TicketID,
-                        TicketTitle => $TicketParam->{Title},
-                        TicketQueue => $Queues{ $TicketParam->{QueueID} },
-                    },
-                );
-                $LayoutObject->Block(
-                    Name => 'RecordTicketAge',
-                    Data => {
-                        TicketID    => $TicketID,
-                        TicketTitle => $TicketParam->{Title},
-                        TicketAge   => $Age,
-                    },
-                );
+                    # prepare special attributes
+                    if ( $Attr eq 'Age' ) {
+                        $TicketParam->{Age} = $LayoutObject->CustomerAge(
+                            Age   => $TicketParam->{Age},
+                            Space => ' ',
+                        );
+                    }
+                    elsif ( $Attr eq 'Queue' ) {
+                        $TicketParam->{Queue} = $TicketParam->{Queue} // $Queues{ $TicketParam->{QueueID} };
+                    }
+
+                    # block entry
+                    $LayoutObject->Block(
+                        Name => 'TicketEntry',
+                        Data => {
+                            TicketID => $TicketID,
+                            Title    => $TicketParam->{Title},
+                            Entry    => $TicketParam->{$Attr},
+                        },
+                    );
+                }
             }
         }
 
-        if (@CustomerIDs) {
+        if (@CustomerKeys) {
+            for my $Attr ( @{ $SearchObjects->{CustomerCompany}{Attributes} } ) {
+                $LayoutObject->Block(
+                    Name => 'CompanyHeader',
+                    Data => {
+                        Header => $SearchObjects->{CustomerCompany}{AttributeHeader}{$Attr},
+                    },
+                );
+            }
 
             # Block customer
-            for my $CustomerID (@CustomerIDs) {
+            for my $CustomerKey (@CustomerKeys) {
+                my %CustomerCompanyData = $CustomerCompanyObject->CustomerCompanyGet(
+                    CustomerID => $CustomerKey,
+                );
+
                 $LayoutObject->Block(
                     Name => 'RecordCustomer',
-                    Data => {
-                        CustomerID => $CustomerID,
-                    },
+                    Data => {},
                 );
 
-                my %CustomerCompanyData = $CustomerCompanyObject->CustomerCompanyGet(
-                    CustomerID => $CustomerID,
-                );
-                $LayoutObject->Block(
-                    Name => 'RecordCustomerCompanyName',
-                    Data => {
-                        CustomerCompanyName => $CustomerCompanyData{CustomerCompanyName},
-                        CustomerID          => $CustomerID,
-                    },
-                );
+                for my $Attr ( @{ $SearchObjects->{CustomerCompany}{Attributes} } ) {
 
-                $LayoutObject->Block(
-                    Name => 'RecordCustomerCompanyComment',
-                    Data => {
-                        CustomerCompanyComment => $CustomerCompanyData{CustomerCompanyComment},
-                        CustomerID             => $CustomerID,
-                    },
-                );
-
-                $LayoutObject->Block(
-                    Name => 'RecordCustomerCompanyID',
-                    Data => {
-                        CustomerID => $CustomerID,
-                    },
-                );
-
+                    # block entry
+                    $LayoutObject->Block(
+                        Name => 'CompanyEntry',
+                        Data => {
+                            CustomerKey => $CustomerKey,
+                            Entry       => $CustomerCompanyData{$Attr},
+                        },
+                    );
+                }
             }
         }
 
-        if (@CustomerUserIDs) {
+        if (@CustomerUserKeys) {
+            for my $Attr ( @{ $SearchObjects->{CustomerUser}{Attributes} } ) {
+                $LayoutObject->Block(
+                    Name => 'CustomerUserHeader',
+                    Data => {
+                        Header => $SearchObjects->{CustomerUser}{AttributeHeader}{$Attr},
+                    },
+                );
+            }
 
             # Block customer user
-            for my $CustomerUserID (@CustomerUserIDs) {
+            for my $CustomerUserKey (@CustomerUserKeys) {
                 my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
-                    User => $CustomerUserID,
+                    User => $CustomerUserKey,
                 );
 
                 $LayoutObject->Block(
                     Name => 'RecordCustomerUser',
-                    Data => {
-                        CustomerUserID => $CustomerUserID,
-                    },
+                    Data => {},
                 );
 
-                $LayoutObject->Block(
-                    Name => 'RecordCustomerUserID',
-                    Data => {
-                        CustomerUserID => $CustomerUserID,
-                    },
-                );
+                for my $Attr ( @{ $SearchObjects->{CustomerUser}{Attributes} } ) {
 
-                $LayoutObject->Block(
-                    Name => 'RecordCustomerUserName',
-                    Data => {
-                        CustomerUserName => $CustomerUserData{UserFullname},
-                        CustomerUserID   => $CustomerUserID,
-                    },
-                );
-
-                $LayoutObject->Block(
-                    Name => 'RecordCustomerUserCompany',
-                    Data => {
-                        CustomerUserCompany => $CustomerUserData{CustomerCompanyName},
-                        CustomerID          => $CustomerUserData{CustomerID},
-                    },
-                );
-
+                    # block entry
+                    $LayoutObject->Block(
+                        Name => 'CustomerUserEntry',
+                        Data => {
+                            CustomerUserKey => $CustomerUserKey,
+                            Entry           => $CustomerUserData{$Attr},
+                        },
+                    );
+                }
             }
         }
 
@@ -295,8 +280,8 @@ sub Run {
             Data         => {
                 %Param,
                 Tickets       => scalar @TicketIDs,
-                Companies     => scalar @CustomerIDs,
-                CustomerUsers => scalar @CustomerUserIDs,
+                Companies     => scalar @CustomerKeys,
+                CustomerUsers => scalar @CustomerUserKeys,
             }
         );
 

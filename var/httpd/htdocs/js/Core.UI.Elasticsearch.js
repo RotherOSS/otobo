@@ -40,7 +40,7 @@ Core.UI.Elasticsearch = (function (TargetNS) {
     /**
      * @name InitSearchField
      * @memberof Core.UI.Elasticsearch
-     * @param {jQueryObject} $Input
+     * @param {jQueryObject} $InputField
      * @param {String} Action
      * @description
      *      This function initializes an Elasticsearch search field.
@@ -142,6 +142,7 @@ Core.UI.Elasticsearch = (function (TargetNS) {
      * @name OpenDialog
      * @memberof Core.UI.Elasticsearch
      * @function
+     * @param {String} Response
      * @description
      *      Opens the Elasticsearch quick result dialog.
      */

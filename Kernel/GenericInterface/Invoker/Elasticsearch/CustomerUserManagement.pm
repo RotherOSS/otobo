@@ -19,8 +19,6 @@ package Kernel::GenericInterface::Invoker::Elasticsearch::CustomerUserManagement
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData);
-
 our $ObjectManagerDisabled = 1;
 
 =head1 NAME
@@ -126,11 +124,39 @@ sub PrepareRequest {
     my %Content = ( map { $_ => $Param{Data}{NewData}{$_} } keys %DataToStore );
     my $API;
 
+    # set CustomerKey
+    my $BackendConfig = $ConfigObject->Get( $Param{Data}{NewData}{Source} );
+    my $CustomerKeyES = "UserLogin";
+    if ( $BackendConfig->{CustomerKey} ) {
+        $CustomerKeyES = "";
+        ITEM:
+        for my $Item ( @{ $BackendConfig->{Map} } ) {
+            if ( $Item->[2] eq $BackendConfig->{CustomerKey} ) {
+                $CustomerKeyES = $Item->[0];
+                last ITEM;
+            }
+        }
+    }
+
+    # do nothing for invalid customer users
+    if ( !$CustomerKeyES || !$Param{Data}{NewData}{$CustomerKeyES} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'debug',
+            Message  => "No entry for '$CustomerKeyES' - source: $Param{Data}{NewData}{Source}.",
+        );
+        return {
+            Success           => 1,
+            StopCommunication => 1,
+        };
+    }
+
+    $Content{CustomerKey} = $Param{Data}{NewData}{$CustomerKeyES};
+
     # create a new customeruser
     if ( $Param{Data}{Event} eq 'CustomerUserAdd' ) {
 
-        # do nothing for invalid companies
-        if ( $Param{Data}{NewData}{ValidID} != 1 ) {
+        # do nothing for invalid customer users
+        if ( defined $Param{Data}{NewData}{ValidID} && $Param{Data}{NewData}{ValidID} != 1 ) {
             return {
                 Success           => 1,
                 StopCommunication => 1,

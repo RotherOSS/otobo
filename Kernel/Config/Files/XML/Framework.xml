@@ -9050,6 +9050,15 @@ via the Preferences button after logging in.
                 </Hash>
         </Value>
     </Setting>
+    <Setting Name="Elasticsearch::ExcludedQueues" Required="0" Valid="1">
+        <Description Translatable="1">Tickets in the following queues will not be stored on the Elasticsearch server. To apply this to existing tickets, the ticket migration has to be run via console, after changing this option.</Description>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
+        <Value>
+            <Array>
+                <Item>Junk</Item>
+            </Array>
+        </Value>
+    </Setting>
     <Setting Name="Elasticsearch::IngestAttachmentFormat" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Format to be ingested.</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
@@ -9211,13 +9220,73 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Elasticsearch::QuickSearchSettings" Required="0" Valid="1">
-        <Description Translatable="1">Maximum number of results returned from the quick result.</Description>
+    <Setting Name="Elasticsearch::QuickSearchShow" Required="0" Valid="1">
+        <Description Translatable="1">Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Hash>
-                <Item Key="TicketResultCount" ValueType="String" ValueRegex="^\d+$">10</Item>
-            </Hash>
+                <Item Key="Ticket">
+                    <Hash>
+                        <Item Key="Count">10</Item>
+                        <Item Key="Attributes">
+                            <Array>
+                                <Item>TicketNumber</Item>
+                                <Item>Title</Item>
+                                <Item>Queue</Item>
+                                <Item>Age</Item>
+                            </Array>
+                        </Item>
+                        <Item Key="AttributeHeader">
+                            <Hash>
+                                <Item Key="TicketNumber">Ticket#</Item>
+                                <Item Key="Title">Title</Item>
+                                <Item Key="Queue">Queue</Item>
+                                <Item Key="Age">Age</Item>
+                            </Hash>
+                        </Item>
+                    </Hash>
+                </Item>
+                <Item Key="CustomerCompany">
+                    <Hash>
+                        <Item Key="Count">5</Item>
+                        <Item Key="Attributes">
+                            <Array>
+                                <Item>CustomerCompanyName</Item>
+                                <Item>CustomerID</Item>
+                                <Item>CustomerCompanyComment</Item>
+                            </Array>
+                        </Item>
+                        <Item Key="AttributeHeader">
+                            <Hash>
+                                <Item Key="CustomerCompanyName">Name</Item>
+                                <Item Key="CustomerID">ID</Item>
+                                <Item Key="CustomerCompanyComment">Comment</Item>
+                            </Hash>
+                        </Item>
+                    </Hash>
+                </Item>
+                <Item Key="CustomerUser">
+                    <Hash>
+                        <Item Key="Count">5</Item>
+                        <Item Key="Attributes">
+                            <Array>
+                                <Item>UserLogin</Item>
+                                <Item>UserFullName</Item>
+                                <Item>UserEmail</Item>
+                                <Item>CustomerCompanyName</Item>
+                            </Array>
+                        </Item>
+                        <Item Key="AttributeHeader">
+                            <Hash>
+                                <Item Key="UserLogin">Login</Item>
+                                <Item Key="UserFullName">Name</Item>
+                                <Item Key="UserEmail">Email</Item>
+                                <Item Key="CustomerCompanyName">Company</Item>
+                            </Hash>
+                        </Item>
+                    </Hash>
+                </Item>
+             </Hash>
         </Value>
     </Setting>
     <Setting Name="Frontend::Module###AgentElasticsearchQuickResult" Required="0" Valid="1">
