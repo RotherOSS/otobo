@@ -536,11 +536,11 @@ sub Run {
                 # a case switch must be used here.
                 my $CreateUserSQL = "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password";
                 {
-                    if ( $DBH->{server_info} =~ m/mariadb/i ) {
-                        $CreateUserSQL .= " BY '$DB{OTOBODBPassword}'",
+                    if ( $DBH->{mysql_serverinfo} =~ m/mariadb/i ) {
+                        $CreateUserSQL .= " AS PASSWORD('$DB{OTOBODBPassword}')",
                     }
                     else {
-                        $CreateUserSQL .= " AS PASSWORD('$DB{OTOBODBPassword}')",
+                        $CreateUserSQL .= " BY '$DB{OTOBODBPassword}'",
                     }
                 }
 
