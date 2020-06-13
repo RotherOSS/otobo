@@ -31,7 +31,6 @@ Kernel::System::Ticket::TicketSearch - ticket search lib
 
 All ticket search functions.
 
-
 =head2 TicketSearch()
 
 To find tickets in your system.
@@ -40,7 +39,7 @@ To find tickets in your system.
         # result (optional, default is 'HASH')
         Result => 'ARRAY' || 'HASH' || 'COUNT',
 
-        # result limit (optional, default is 10000)
+        # limit the number of found tickets (optional, default is 10000)
         Limit => 100,
 
         # Use TicketSearch as a ticket filter on a single ticket,
@@ -315,7 +314,7 @@ To find tickets in your system.
         CustomerUserID => 123,
         Permission     => 'ro' || 'rw', # optional, default is 'ro'
 
-        # CacheTTL, cache search result in seconds (optional)
+        # CacheTTL, cache search result in seconds (optional, the default is four minutes)
         CacheTTL => 60 * 15,
     );
 
@@ -1049,7 +1048,7 @@ sub TicketSearch {
 
             # add all unique accessible Group<->Customer combinations to query
             # for performance reasons all groups corresponsing with a unique customer id combination
-            #   will be combined into one part
+            # will be combined into one part
             my %CustomerIDCombinations;
             GROUPID:
             for my $GroupID ( sort keys %ExtraPermissionGroups ) {
