@@ -52,6 +52,8 @@ feature 'plack', 'Suppport for plack' => sub {
     requires 'CGI::Emulate::PSGI';
     # Adapt CGI.pm to the PSGI protocol
     requires 'CGI::PSGI';
+    # Sane persistent database connection
+    requires 'DBIx::Connector';
     # High-performance preforking PSGI/Plack web server
     requires 'Gazelle';
     # Used with the -R option of plackup. Restart the server when files have changed.

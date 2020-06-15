@@ -19,10 +19,23 @@ package Kernel::System::DB;
 
 use strict;
 use warnings;
+use feature qw(state);
 
-use DBI;
+# core modules
 use List::Util();
 
+# CPAN modules
+use DBI;
+
+my $DBIxConnectorIsUsed;
+BEGIN {
+    $DBIxConnectorIsUsed = $ENV{OTOBO_RUNS_UNDER_PSGI} ? 1 : 0;
+}
+
+# DBIx::Connector is not used under mod_perl
+use if $DBIxConnectorIsUsed, 'DBIx::Connector';
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -178,7 +191,7 @@ to connect to a database
 sub Connect {
     my $Self = shift;
 
-    # check database handle
+    # check database handle by doing a Ping every once in a while
     if ( $Self->{dbh} ) {
 
         my $PingTimeout = 10;        # Only ping every 10 seconds (see bug#12383).
@@ -209,12 +222,36 @@ sub Connect {
     }
 
     # db connect
-    $Self->{dbh} = DBI->connect(
-        $Self->{DSN},
-        $Self->{USER},
-        $Self->{PW},
-        $Self->{Backend}->{'DB::Attribute'},
-    );
+    if ( $DBIxConnectorIsUsed ) {
+
+        state %Cache;
+
+        # This is copied from DBI::connect_cached()
+        my $CacheKey = do {
+            local $^W;
+            join "!\001", $Self->{DSN}, $Self->{USER}, $Self->{PW}, DBI::_concat_hash_sorted($Self->{Backend}->{'DB::Attribute'}, "=\001", ",\001", 0, 0);
+        };
+
+        # use the cachec connector unless this is the first call to Kernel::System::DB::Connect()
+        # TODO: investigate whether RaiseError, AutoInactiveDestroy, and AutoCommit are set as needed
+        $Cache{$CacheKey} //= DBIx::Connector->new(
+            $Self->{DSN},
+            $Self->{USER},
+            $Self->{PW},
+            $Self->{Backend}->{'DB::Attribute'},
+        );
+
+        # the method reuses existing connection that are still pinging
+        $Self->{dbh}       = $Cache{$CacheKey}->dbh();
+    }
+    else {
+        $Self->{dbh} = DBI->connect(
+            $Self->{DSN},
+            $Self->{USER},
+            $Self->{PW},
+            $Self->{Backend}->{'DB::Attribute'},
+        );
+    }
 
     if ( !$Self->{dbh} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -230,6 +267,7 @@ sub Connect {
     }
 
     # set utf-8 on for PostgreSQL
+    # Note: This is untested for the PSGI-case
     if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
         $Self->{dbh}->{pg_enable_utf8} = 1;
     }
@@ -1795,6 +1833,38 @@ sub Ping {
     }
 
     return $Self->{dbh}->ping();
+}
+
+=head2 BeginWork()
+
+start a transaction
+
+    my $Success = $DBObject->BeginWork()
+
+=cut
+
+sub BeginWork {
+    my ( $Self ) = @_;
+
+    # exception when there is no database handle
+    return $Self->{dbh}->begin_work();
+}
+
+=head2 Rollback()
+
+rollback a transaction
+
+    my $Success = $DBObject->Rollback()
+
+=cut
+
+sub Rollback {
+    my ( $Self ) = @_;
+
+    my $DatabaseHandle =  $Self->{dbh};
+
+    return 1 if !$DatabaseHandle; # no need to rollback
+    return $DatabaseHandle->rollback();
 }
 
 =begin Internal:

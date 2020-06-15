@@ -317,10 +317,11 @@ Starts a database transaction (in order to isolate the test from the static data
 =cut
 
 sub BeginWork {
-    my ( $Self, %Param ) = @_;
+    my ( $Self ) = @_;
+
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     $DBObject->Connect();
-    return $DBObject->{dbh}->begin_work();
+    return $DBObject->BeginWork();
 }
 
 =head2 Rollback()
@@ -332,8 +333,9 @@ Rolls back the current database transaction.
 =cut
 
 sub Rollback {
-    my ( $Self, %Param ) = @_;
-    my $DatabaseHandle = $Kernel::OM->Get('Kernel::System::DB')->{dbh};
+    my ( $Self ) = @_;
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # if there is no database handle, there's nothing to rollback
     if ($DatabaseHandle) {
