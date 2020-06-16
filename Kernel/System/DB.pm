@@ -224,27 +224,36 @@ sub Connect {
     # db connect
     if ( $DBIxConnectorIsUsed ) {
 
-        state %Cache;
+        # The defaults for the attributes RaiseError and AutoInactiveDestroy differ between DBI
+        # and DBIx::Connector. For DBI they are off per default, but for DBIx::Connector there on per default.
+        # RaiseError: expllicitly turn it off as this was the previous setup in OTOBO.
+        #             This is OK as the the methods run(), txn(), and svp() are not used in OTOBO.
+        # AutoInactiveDestroy: Concerns only behavior on forks and such.
+        #                      Keep it activated as it is important for DBIx::Connector.
+        my %ConnectAttributes = (
+            RaiseError => 0,
+            %{ $Self->{Backend}->{'DB::Attribute'} },
+        );
 
-        # This is copied from DBI::connect_cached()
+        # Generation of the cache key is copied from DBI::connect_cached()
         my $CacheKey = do {
             local $^W;
-            join "!\001", $Self->{DSN}, $Self->{USER}, $Self->{PW}, DBI::_concat_hash_sorted($Self->{Backend}->{'DB::Attribute'}, "=\001", ",\001", 0, 0);
+            join "!\001", $Self->{DSN}, $Self->{USER}, $Self->{PW}, DBI::_concat_hash_sorted(\%ConnectAttributes, "=\001", ",\001", 0, 0);
         };
 
-        # use the cachec connector unless this is the first call to Kernel::System::DB::Connect()
-        # TODO: investigate whether RaiseError, AutoInactiveDestroy, and AutoCommit are set as needed
+        # Use the cached connector when available. Otherwise create a new connector.
+        state %Cache;
         $Cache{$CacheKey} //= DBIx::Connector->new(
             $Self->{DSN},
             $Self->{USER},
             $Self->{PW},
-            $Self->{Backend}->{'DB::Attribute'},
         );
 
-        # the method reuses existing connection that are still pinging
-        $Self->{dbh}       = $Cache{$CacheKey}->dbh();
+        # this method reuses an existing connection that is still pinging
+        $Self->{dbh} = $Cache{$CacheKey}->dbh();
     }
     else {
+        # When Apache::DBI is loaded a cached connection might be used
         $Self->{dbh} = DBI->connect(
             $Self->{DSN},
             $Self->{USER},
