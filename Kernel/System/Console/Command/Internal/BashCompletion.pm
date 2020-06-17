@@ -98,7 +98,14 @@ sub Run {
         # Hide options that are already on the commandline
         @Options = grep { $CompLine !~ m/(^|\s)\Q$_\E(\s|=|$)/xms } @Options;
 
-        print join( "\n", @Options );
+        # when in doubt expand to a filename
+        # Note that this does not consider whether the last options takes an argument.
+        # Also note that this does not consider whether the command takes positional arguments.
+        if ( !@Options && $CurrentWord && $CurrentWord !~ m/^-/ ) {
+            @Options = glob "$CurrentWord*";
+        }
+
+        print join "\n", @Options;
     }
 
     return $Self->ExitCodeOk();
