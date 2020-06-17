@@ -302,7 +302,7 @@ sub CustomerSearch {
 
 =head2 CustomerSearchDetail()
 
-To find customer user in the system.
+To find customer users in the system.
 
 The search criteria are logically AND connected.
 When a list is passed as criteria, the individual members are OR connected.
@@ -314,7 +314,7 @@ The count of results is returned when the parameter C<Result = 'COUNT'> is passe
 
     my $CustomerUserIDsRef = $CustomerUserObject->CustomerSearchDetail(
 
-        # all search fields possible which are defined in CustomerUser::EnhancedSearchFields
+        # all fields which are defined in a CustomerUserMap, except password fields, are searchable
         UserLogin     => 'example*',                                    # (optional)
         UserFirstname => 'Firstn*',                                     # (optional)
 
@@ -342,8 +342,7 @@ The count of results is returned when the parameter C<Result = 'COUNT'> is passe
         OrderBy => [ 'UserLogin', 'UserCustomerID' ],                   # (optional)
         # ignored if the result type is 'COUNT'
         # default: [ 'UserLogin' ]
-        # (all search fields possible which are defined in
-        CustomerUser::EnhancedSearchFields)
+        # (all fields which are defined in a CustomerUserMap can be used for ordering)
 
         # Additional information for OrderBy:
         # The OrderByDirection can be specified for each OrderBy attribute.
@@ -546,7 +545,7 @@ sub CustomerUserSearchFields {
             next ENTRY if $SearchFieldsExists{$SearchFieldName};
             next ENTRY if $SearchFieldName =~ m{(Password|Pw)\d*$}smxi;
 
-            # Remeber the already collected search field name.
+            # Remember the already collected search field name.
             $SearchFieldsExists{$SearchFieldName} = 1;
 
             my %FieldConfig = $Self->GetFieldConfig(
