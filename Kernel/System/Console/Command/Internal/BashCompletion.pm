@@ -64,26 +64,24 @@ sub Run {
     if ( $PreviousWord =~ m/otobo\.Console\.pl/xms ) {
 
         # Get all matching commands
-        my @CommandList = $Self->ListAllCommands();
-        @CommandList = map { my $T = $_; $T =~ s/^Kernel::System::Console::Command:://xms; $T } @CommandList;
+        my @CommandList = map { s/^Kernel::System::Console::Command:://xmsr } $Self->ListAllCommands();
         if ($CurrentWord) {
             @CommandList = grep { $_ =~ m/\Q$CurrentWord\E/xms } @CommandList;
         }
-        print join( "\n", @CommandList );
+        print join "\n", @CommandList;
     }
 
     # We are looking for an option/argument
     else {
         # We need to extract the command name from the command line if present.
         my $CompLine = $ENV{COMP_LINE};
-        if ( !$CompLine || !$CompLine =~ m/otobo\.Console\.pl/ ) {
+        if ( !$CompLine || $CompLine !~ m/otobo\.Console\.pl/ ) {
             $Self->ExitCodeError();
         }
         $CompLine =~ s/.*otobo\.Console\.pl\s*//xms;
-        my @Elements = split( m/\s+/, $CompLine );
 
         # Try to create the command object to get its options
-        my $CommandName = $Elements[0];
+        my ($CommandName) = split /\s+/, $CompLine;
         my $CommandPath = 'Kernel::System::Console::Command::' . $CommandName;
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( $CommandPath, Silent => 1 ) ) {
             return $Self->ExitCodeOk();
@@ -100,11 +98,17 @@ sub Run {
         # Hide options that are already on the commandline
         @Options = grep { $CompLine !~ m/(^|\s)\Q$_\E(\s|=|$)/xms } @Options;
 
-        print join( "\n", @Options );
+        # when in doubt expand to a filename
+        # Note that this does not consider whether the last options takes an argument.
+        # Also note that this does not consider whether the command takes positional arguments.
+        if ( !@Options && $CurrentWord && $CurrentWord !~ m/^-/ ) {
+            @Options = glob "$CurrentWord*";
+        }
+
+        print join "\n", @Options;
     }
 
     return $Self->ExitCodeOk();
-
 }
 
 1;
