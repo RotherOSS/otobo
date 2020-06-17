@@ -64,26 +64,24 @@ sub Run {
     if ( $PreviousWord =~ m/otobo\.Console\.pl/xms ) {
 
         # Get all matching commands
-        my @CommandList = $Self->ListAllCommands();
-        @CommandList = map { my $T = $_; $T =~ s/^Kernel::System::Console::Command:://xms; $T } @CommandList;
+        my @CommandList = map { s/^Kernel::System::Console::Command:://xmsr } $Self->ListAllCommands();
         if ($CurrentWord) {
             @CommandList = grep { $_ =~ m/\Q$CurrentWord\E/xms } @CommandList;
         }
-        print join( "\n", @CommandList );
+        print join "\n", @CommandList;
     }
 
     # We are looking for an option/argument
     else {
         # We need to extract the command name from the command line if present.
         my $CompLine = $ENV{COMP_LINE};
-        if ( !$CompLine || !$CompLine =~ m/otobo\.Console\.pl/ ) {
+        if ( !$CompLine || $CompLine !~ m/otobo\.Console\.pl/ ) {
             $Self->ExitCodeError();
         }
         $CompLine =~ s/.*otobo\.Console\.pl\s*//xms;
-        my @Elements = split( m/\s+/, $CompLine );
 
         # Try to create the command object to get its options
-        my $CommandName = $Elements[0];
+        my ($CommandName) = split /\s+/, $CompLine;
         my $CommandPath = 'Kernel::System::Console::Command::' . $CommandName;
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( $CommandPath, Silent => 1 ) ) {
             return $Self->ExitCodeOk();
@@ -104,7 +102,6 @@ sub Run {
     }
 
     return $Self->ExitCodeOk();
-
 }
 
 1;
