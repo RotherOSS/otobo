@@ -317,10 +317,11 @@ Starts a database transaction (in order to isolate the test from the static data
 =cut
 
 sub BeginWork {
-    my ( $Self, %Param ) = @_;
+    my ( $Self ) = @_;
+
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     $DBObject->Connect();
-    return $DBObject->{dbh}->begin_work();
+    return $DBObject->BeginWork();
 }
 
 =head2 Rollback()
@@ -328,18 +329,14 @@ sub BeginWork {
     $Helper->Rollback()
 
 Rolls back the current database transaction.
+Should only be called when BeginWork() has been called before.
 
 =cut
 
 sub Rollback {
-    my ( $Self, %Param ) = @_;
-    my $DatabaseHandle = $Kernel::OM->Get('Kernel::System::DB')->{dbh};
+    my ( $Self ) = @_;
 
-    # if there is no database handle, there's nothing to rollback
-    if ($DatabaseHandle) {
-        return $DatabaseHandle->rollback();
-    }
-    return 1;
+    return $Kernel::OM->Get('Kernel::System::DB')->Rollback();
 }
 
 =head2 GetTestHTTPHostname()
@@ -440,7 +437,7 @@ sub FixedTimeAddSeconds {
 ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
 ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::DateTime)
 sub _MockPerlTimeHandling {
-    no warnings 'redefine';    ## no critic
+    no warnings 'once';    ## no critic
     *CORE::GLOBAL::time = sub {
         return defined $FixedTime ? $FixedTime : CORE::time();
     };

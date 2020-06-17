@@ -344,6 +344,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'DBIx::Connector',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'Sane persistent database connection',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Digest::SHA',    # Supposed to be in perlcore, but seems to be missing on some distributions.
         Required  => 1,
         InstTypes => {
