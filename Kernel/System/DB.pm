@@ -1861,7 +1861,8 @@ sub BeginWork {
 
 =head2 Rollback()
 
-rollback a transaction
+roll back the current transaction.
+Useful only when BeginWork() has been called before.
 
     my $Success = $DBObject->Rollback()
 
