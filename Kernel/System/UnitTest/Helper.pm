@@ -329,19 +329,14 @@ sub BeginWork {
     $Helper->Rollback()
 
 Rolls back the current database transaction.
+Should only be called when BeginWork() has been called before.
 
 =cut
 
 sub Rollback {
     my ( $Self ) = @_;
 
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    # if there is no database handle, there's nothing to rollback
-    if ($DatabaseHandle) {
-        return $DatabaseHandle->rollback();
-    }
-    return 1;
+    return $Kernel::OM->Get('Kernel::System::DB')->Rollback();
 }
 
 =head2 GetTestHTTPHostname()
