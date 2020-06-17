@@ -738,7 +738,7 @@ sub TicketListShow {
     my $Object = $Backends->{$View}->{Module}->new( %{$Env} );
     return if !$Object;
 
-    # retireve filter values
+    # retrieve filter values
     if ( $Param{FilterContentOnly} ) {
         return $Object->FilterContent(
             %Param,
