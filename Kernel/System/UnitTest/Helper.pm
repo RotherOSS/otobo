@@ -437,7 +437,7 @@ sub FixedTimeAddSeconds {
 ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
 ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::DateTime)
 sub _MockPerlTimeHandling {
-    no warnings 'redefine';    ## no critic
+    no warnings 'once';    ## no critic
     *CORE::GLOBAL::time = sub {
         return defined $FixedTime ? $FixedTime : CORE::time();
     };
