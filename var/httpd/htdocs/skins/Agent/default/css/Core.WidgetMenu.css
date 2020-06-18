@@ -572,7 +572,7 @@ span.Pagination span.PaginationLimit {
     margin-right: 2px;
     padding: 1px 3px;
     font-size: 11px;
-    font-family: Helvetica, sans-serif;
+    font-family: inherit;
     text-align: right;
 }
 

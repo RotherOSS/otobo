@@ -25,7 +25,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 body {
-    font-family: Helvetica,"Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 12px;
     text-align: left;
     position: relative;
@@ -1333,7 +1333,7 @@ iframe.TextOption.CustomerUserAddressBook {
 #ChatStartDialog form textarea {
     width: 380px;
     height: 30px;
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: Arial, sans-serif;
     padding: 3px;
 }
 
@@ -1367,7 +1367,7 @@ iframe.TextOption.CustomerUserAddressBook {
 * Bug #8288: Autocomplete search results show up in Times font when using Internet Explorer
 */
 .ui-menu-item {
-    font-family: Helvetica, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .ui-menu .ui-menu-item a {
@@ -1711,7 +1711,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     position: relative;
     margin: 4px 23px 3px;
     color: #fff;
-    font-family: Helvetica, Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
     line-height: 18px;
     z-index: 4;

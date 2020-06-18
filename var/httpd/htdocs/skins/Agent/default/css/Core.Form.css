@@ -32,7 +32,7 @@ textarea,
 select[multiple=multiple] {
     border: 1px solid #C9C9C9;
     border-top-color: #C0C0C0;
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     /* Opera 10.5 has per default a grey background */
     background-color: #FFF;
     -webkit-box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
