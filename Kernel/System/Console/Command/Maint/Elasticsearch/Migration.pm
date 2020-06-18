@@ -230,6 +230,7 @@ sub MigrateCustomerUsers {
     my %CustomerUserList   = $CustomerUserObject->CustomerSearch(
         Search => '*',
         Valid  => 1,
+        Limit  => 4_000_000,
     );
 
     my %IndexName = (
