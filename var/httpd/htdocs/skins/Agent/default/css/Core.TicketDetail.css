@@ -551,12 +551,12 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 
 .ItemRow a {
     line-height: 14px;
-    color: #000;
+    color: #00023c;
     text-decoration: underline;
 }
 
 .ItemRow a:hover {
-    color: #666;
+    color: #001bff;
 }
 
 /**
@@ -598,7 +598,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 }
 
 .MessageBrowser a.Close:hover {
-    color: #000;
+    color: #00023c;
 }
 
 /**
@@ -739,7 +739,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 }
 
 .UseArticleColors #ArticleTable a {
-    color: #000;
+    color: #00023c;
 }
 
 .UseArticleColors #ArticleTable i.fa-spin {
@@ -911,7 +911,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 }
 
 .TimelineView > ul > li.Important:hover h3 .fa-info-circle {
-    color: #000;
+    color: #00023c;
 }
 
 .TimelineView > ul > li.HasArticle h3 strong {
@@ -986,7 +986,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 }
 
 .TimelineView > ul > li h3 a:hover {
-    color: #000;
+    color: #00023c;
 }
 
 .TimelineView > ul > li h3:last-child {
@@ -1089,7 +1089,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
     height: 15px;
     left: -34px;
     top: 4px;
-    background-color: #000;
+    background-color: #00023c;
 }
 
 .TimelineView ul:first-child li:hover h3 > span,
@@ -1133,7 +1133,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 }
 
 .TimelineView li ul li.AttachmentsLink:hover {
-    color: #000;
+    color: #00023c;
 }
 
 .TimelineView > span {
@@ -1199,7 +1199,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
     text-align: center;
     background: none;
     width: auto;
-    color: #000;
+    color: #00023c;
     margin: 0px;
     padding: 0px;
     margin-top: 4px;
@@ -1286,7 +1286,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 
 .UseArticleColors .TimelineView .TypeTicketAutoAction h3 {
     background-color: #ffffd1;
-    color: #000;
+    color: #00023c;
 }
 
 .UseArticleColors .TimelineView ul.ListLeft .TypeTicketAutoAction h3:after {
@@ -1295,7 +1295,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 
 .UseArticleColors .TimelineView .TypeNoteInternal h3 {
     background-color: #FFCCCC;
-    color: #000;
+    color: #00023c;
 }
 
 .UseArticleColors .TimelineView ul.ListLeft .TypeNoteInternal h3:after {
@@ -1351,7 +1351,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 
 .ArticleAttachments li h5 {
     font-size: 12px;
-    color: #000;
+    color: #00023c;
     margin-bottom: 1px;
     text-overflow: ellipsis;
     overflow: hidden;
