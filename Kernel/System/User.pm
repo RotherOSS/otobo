@@ -1292,7 +1292,8 @@ sub _UserCacheClear {
     my @CacheKeys;
 
     # Delete cache for all possible FirstnameLastNameOrder settings as this might be overridden by users.
-    for my $FirstnameLastNameOrder ( 0 .. 8 ) {
+    # See _UserFullname() for the number of variants.
+    for my $FirstnameLastNameOrder ( 0 .. 9 ) {
         for my $ActiveLevel1 ( 0 .. 1 ) {
             for my $ActiveLevel2 ( 0 .. 1 ) {
                 push @CacheKeys, (
@@ -1460,7 +1461,7 @@ can be configured.
         UserFirstname => 'Test',
         UserLastname  => 'Person',
         UserLogin     => 'tp',
-        NameOrder     => 0,         # optional 0, 1, 2, 3, 4, 5
+        NameOrder     => 0,         # optional 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
     );
 
 =cut
@@ -1527,6 +1528,9 @@ sub _UserFullname {
     elsif ( $FirstnameLastNameOrder eq '9' ) {
         $UserFullname = $Param{UserLastname} . $Param{UserFirstname};
     }
+
+    # Note: when adding name order variants, than _UserCacheClear() must be adapted too
+
     return $UserFullname;
 }
 
