@@ -19,8 +19,6 @@ package Kernel::GenericInterface::Invoker::Elasticsearch::CustomerCompanyManagem
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData);
-
 our $ObjectManagerDisabled = 1;
 
 =head1 NAME
@@ -116,6 +114,7 @@ sub PrepareRequest {
     # gather all fields which have to be stored
     my $Store  = $ConfigObject->Get('Elasticsearch::CustomerCompanyStoreFields');
     my $Search = $ConfigObject->Get('Elasticsearch::CustomerCompanySearchFields');
+
     my %DataToStore;
     for my $Field ( @{$Store}, @{$Search} ) {
         $DataToStore{$Field} = 1;
@@ -125,11 +124,39 @@ sub PrepareRequest {
     my %Content = ( map { $_ => $Param{Data}{NewData}{$_} } keys %DataToStore );
     my $API;
 
+    # set CustomerCompanyKey
+    my $BackendConfig        = $ConfigObject->Get( $Param{Data}{NewData}{Source} );
+    my $CustomerCompanyKeyES = "CustomerID";
+    if ( $BackendConfig->{CustomerCompanyKey} ) {
+        $CustomerCompanyKeyES = "";
+        ITEM:
+        for my $Item ( @{ $BackendConfig->{Map} } ) {
+            if ( $Item->[2] eq $BackendConfig->{CustomerCompanyKey} ) {
+                $CustomerCompanyKeyES = $Item->[0];
+                last ITEM;
+            }
+        }
+    }
+
+    # do nothing for invalid customer companies
+    if ( !$CustomerCompanyKeyES || !$Param{Data}{NewData}{$CustomerCompanyKeyES} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'debug',
+            Message  => "No entry for '$CustomerCompanyKeyES' - source: $Param{Data}{NewData}{Source}.",
+        );
+        return {
+            Success           => 1,
+            StopCommunication => 1,
+        };
+    }
+
+    $Content{CustomerCompanyKey} = $Param{Data}{NewData}{$CustomerCompanyKeyES};
+
     # create a new company
     if ( $Param{Data}{Event} eq 'CustomerCompanyAdd' ) {
 
         # do nothing for invalid companies
-        if ( $Param{Data}{NewData}{ValidID} != 1 ) {
+        if ( defined $Param{Data}{NewData}{ValidID} && $Param{Data}{NewData}{ValidID} != 1 ) {
             return {
                 Success           => 1,
                 StopCommunication => 1,

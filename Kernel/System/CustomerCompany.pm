@@ -480,7 +480,7 @@ The count of results is returned when the parameter C<Result = 'COUNT'> is passe
 
     my $CustomerCompanyIDsRef = $CustomerCompanyObject->CustomerCompanySearchDetail(
 
-        # all search fields possible which are defined in CustomerCompany::EnhancedSearchFields
+        # all fields in a CustomerCompanyMap are searchable
         CustomerID          => 'example*',                                  # (optional)
         CustomerCompanyName => 'Name*',                                     # (optional)
 
@@ -504,8 +504,7 @@ The count of results is returned when the parameter C<Result = 'COUNT'> is passe
         OrderBy => [ 'CustomerID', 'CustomerCompanyCountry' ],              # (optional)
         # ignored if the result type is 'COUNT'
         # default: [ 'CustomerID' ]
-        # (all search fields possible which are defined in
-        CustomerCompany::EnhancedSearchFields)
+        # (all fields which are in a CustomerCompanyMap can be used for ordering)
 
         # Additional information for OrderBy:
         # The OrderByDirection can be specified for each OrderBy attribute.

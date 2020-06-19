@@ -19,6 +19,8 @@ package Kernel::System::Elasticsearch;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw( :all );
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::GenericInterface::Requester',
@@ -32,8 +34,6 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket',
     'Kernel::System::User',
 );
-
-use Kernel::System::VariableCheck qw( :all );
 
 =head1 NAME
 
@@ -122,10 +122,10 @@ sub TicketSearch {
     my ( $Self, %Param ) = @_;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $ResultType   = $Param{Result} || 'ARRAY';
-    my $OrderBy      = $Param{OrderBy} || [ 'Down', 'Down' ];
-    my $SortBy       = $Param{SortBy} || [ 'Score', 'Age' ];
-    my $Limit        = $Param{Limit} || 10000;
+    my $ResultType   = $Param{Result}  || 'ARRAY';
+    my $OrderBy      = $Param{OrderBy} || ['Down', 'Down'];
+    my $SortBy       = $Param{SortBy}  || ['Score', 'Age'];
+    my $Limit        = $Param{Limit}   || 10000;
 
     # check required params
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
@@ -329,7 +329,7 @@ sub TicketSearch {
     }
 
     # fulltext search
-    if ( $Param{Fulltext} ) {
+    if ( defined $Param{Fulltext} ) {
 
         # get fields to search
         my $FulltextFields = $ConfigObject->Get('Elasticsearch::TicketSearchFields');
@@ -472,11 +472,11 @@ sub TicketSearch {
 sub CustomerCompanySearch {
     my ( $Self, %Param ) = @_;
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $ResultType   = $Param{Result} || 'ARRAY';
-    my $Limit        = $Param{Limit} || 10000;
+    my $ResultType   = $Param{Result}  || 'ARRAY';
+    my $Limit        = $Param{Limit}   || 10000;
 
-    my ( @Musts, @Filters );
-    if ( $Param{Fulltext} ) {
+    my ( @Musts, @Filters ) ;
+    if ( defined $Param{Fulltext} ) {
 
         my $FulltextFields = $ConfigObject->Get('Elasticsearch::CustomerCompanySearchFields');
 
@@ -487,7 +487,8 @@ sub CustomerCompanySearch {
             },
         };
     }
-    my $Return = 'CustomerID';
+    # the return usually will be CustomerID, but it can be different for custom backends
+    my $Return = 'CustomerCompanyKey';
 
     my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
         WebserviceID => $Self->{WebserviceID},
@@ -503,7 +504,7 @@ sub CustomerCompanySearch {
     );
 
     if ( $ResultType eq 'ARRAY' ) {
-        return ( map { $_->{CustomerID} } @{ $Result->{Data} } );
+        return ( map { $_->{CustomerCompanyKey} } @{ $Result->{Data} } );
     }
     elsif ( $ResultType eq 'COUNT' ) {
         return scalar @{ $Result->{Data} };
@@ -514,11 +515,11 @@ sub CustomerCompanySearch {
 sub CustomerUserSearch {
     my ( $Self, %Param ) = @_;
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $ResultType   = $Param{Result} || 'ARRAY';
-    my $Limit        = $Param{Limit} || 10000;
+    my $ResultType   = $Param{Result}  || 'ARRAY';
+    my $Limit        = $Param{Limit}   || 10000;
 
-    my ( @Musts, @Filters );
-    if ( $Param{Fulltext} ) {
+    my ( @Musts, @Filters ) ;
+    if ( defined $Param{Fulltext} ) {
 
         my $FulltextFields = $ConfigObject->Get('Elasticsearch::CustomerUserSearchFields');
 
@@ -529,7 +530,8 @@ sub CustomerUserSearch {
             },
         };
     }
-    my $Return = ( $ResultType eq 'HASH' ) ? [qw(UserLogin UserFullname)] : 'UserLogin';
+    # the return usually will be UserLogin, but it can be different for custom backends
+    my $Return = ( $ResultType eq 'HASH' ) ? [qw(CustomerKey UserFullname)] : 'CustomerKey';
 
     my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
         WebserviceID => $Self->{WebserviceID},
@@ -544,10 +546,10 @@ sub CustomerUserSearch {
         }
     );
     if ( $ResultType eq 'HASH' ) {
-        return ( map { { $_->{UserLogin} => $_->{UserFullname} } } @{ $Result->{Data} } );
+        return ( map { { $_->{CustomerKey} => $_->{UserFullname} } } @{ $Result->{Data} } );
     }
     elsif ( $ResultType eq 'ARRAY' ) {
-        return ( map { $_->{UserLogin} } @{ $Result->{Data} } );
+        return ( map { $_->{CustomerKey} } @{ $Result->{Data} } );
     }
     elsif ( $ResultType eq 'COUNT' ) {
         return scalar @{ $Result->{Data} };
@@ -785,4 +787,5 @@ sub CreatePipeline {
     return $Result->{Success};
 
 }
+
 1;

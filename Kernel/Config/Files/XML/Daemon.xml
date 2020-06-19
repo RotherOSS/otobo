@@ -835,4 +835,23 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Daemon::SchedulerCronTaskManager::Task###ElasticSearchIndexRebuild" Required="0" Valid="0">
+        <Description Translatable="1">Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time.</Description>
+        <Navigation>Daemon::SchedulerCronTaskManager::Task</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="TaskName">ElasticSearchIndexRebuild</Item>
+                <Item Key="Schedule">0 1 * * 6</Item>
+                <Item Key="Module">Kernel::System::Console::Command::Maint::Elasticsearch::Migration</Item>
+                <Item Key="Function">Execute</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                        <Item>--target</Item>
+                        <Item>uc</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
 </otobo_config>

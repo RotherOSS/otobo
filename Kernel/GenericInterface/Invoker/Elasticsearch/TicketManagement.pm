@@ -169,6 +169,7 @@ sub PrepareRequest {
 
         # get file format to be ingested
         my $FileFormat = $ConfigObject->Get('Elasticsearch::IngestAttachmentFormat');
+        my %FormatHash = map { $_ => 1 } @{$FileFormat};
 
         my $MaxFilesize    = $ConfigObject->Get('Elasticsearch::IngestMaxFilesize');
         my $ArticleObject  = $Kernel::OM->Get('Kernel::System::Ticket::Article');
@@ -184,6 +185,8 @@ sub PrepareRequest {
                 ArticleID => $Param{Data}{ArticleID},
                 FileID    => $AttachmentIndex,
             );
+            next ATTACHMENT if !%ArticleAttachment;
+
             use MIME::Base64;
             use Encode qw(encode);
             my $FileName = $ArticleAttachment{Filename};
@@ -192,10 +195,12 @@ sub PrepareRequest {
 
             # Ingest attachment if only filesize less than defined in sysconfig
             next ATTACHMENT if $FileSize > $MaxFilesize;
+            $FileType =~ /^.*?\/([\d\w]+)/;
+            my $TypeFormat = $1;
+            $FileName =~ /\.([\d\w]+)$/;
+            my $NameFormat = $1;
 
-            my @Format = split /\//, $FileType;
-
-            if ( grep {/^$Format[1]$/i} @{$FileFormat} ) {
+            if ( $FormatHash{$TypeFormat} || $FormatHash{$NameFormat} ) {
                 my $Encoded = encode_base64( $ArticleAttachment{Content} );
                 $Encoded =~ s/\n//g;
                 my %Data;
@@ -275,6 +280,83 @@ sub PrepareRequest {
     my $Store  = $ConfigObject->Get('Elasticsearch::TicketStoreFields');
     my $Search = $ConfigObject->Get('Elasticsearch::TicketSearchFields');
 
+    # exclusions
+    my $ExcludedQueues = $ConfigObject->Get('Elasticsearch::ExcludedQueues');
+    $ExcludedQueues = $ExcludedQueues ? { map { $_ => 1 } @{$ExcludedQueues} } : undef;
+
+    # excluded queues
+    if ($ExcludedQueues) {
+        my %Ticket = $TicketObject->TicketGet(
+            TicketID => $Param{Data}{TicketID},
+        );
+
+        # if the queue is changed, check if the ticket has to be created or deleted in ES
+        if ( $Param{Data}{Event} eq 'TicketQueueUpdate' ) {
+
+            # return if both, old and new queue are excluded
+            if ( $ExcludedQueues->{ $Ticket{Queue} } && $ExcludedQueues->{ $Param{Data}{OldTicketData}{Queue} } ) {
+                return {
+                    Success           => 1,
+                    StopCommunication => 1,
+                };
+            }
+
+            # delete ticket, if moved to excluded queue
+            elsif ( $ExcludedQueues->{ $Ticket{Queue} } ) {
+                my %Content = (
+                    query => {
+                        term => {
+                            TicketID => $Param{Data}{TicketID},
+                        }
+                    }
+                );
+                return {
+                    Success => 1,
+                    Data    => {
+                        docapi => '_delete_by_query',
+                        id     => '',
+                        %Content,
+                    },
+                };
+            }
+
+            # restore ticket, if moved from excluded queue
+            elsif ( $ExcludedQueues->{ $Ticket{Queue} } ) {
+                my $ESObject      = $Kernel::OM->Get('Kernel::System::Elasticsearch');
+                my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+                # create the ticket
+                $ESObject->TicketCreate(
+                    TicketID => $Param{Data}{TicketID},
+                );
+
+                # create the articles
+                my @ArticleList = $ArticleObject->ArticleList(
+                    TicketID => $Param{Data}{TicketID}
+                );
+                for my $Article (@ArticleList) {
+                    $ESObject->ArticleCreate(
+                        TicketID  => $Param{Data}{TicketID},
+                        ArticleID => $Article->{ArticleID},
+                    );
+                }
+
+                return {
+                    Success           => 1,
+                    StopCommunication => 1,
+                };
+            }
+        }
+
+        # in all other cases just skip tickets in excluded queues
+        elsif ( $ExcludedQueues->{ $Ticket{Queue} } ) {
+            return {
+                Success           => 1,
+                StopCommunication => 1,
+            };
+        }
+    }
+
     my %DataToStore;
     if ( $Param{Data}{Event} =~ /^Article/ ) {
 
@@ -334,6 +416,8 @@ sub PrepareRequest {
             TicketID      => $Param{Data}{TicketID},
             DynamicFields => $GetDynamicFields,
         );
+
+        # set content
         %Content = ( map { $_ => $Ticket{$_} } keys %DataToStore );
 
         # initialize article array
