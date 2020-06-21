@@ -44,15 +44,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: it@otobo.de\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Michael Reuther <michael.reuther@otrs.com>, 2020\n"
-"Language-Team: German (https://www.transifex.com/otrs/teams/23435/de/)\n"
+"PO-Revision-Date: 2020-06-19 10:01+0000\n"
+"Last-Translator: sr <sr@otrs.ch>\n"
+"Language-Team: German <http://localhost/projects/otobo10/otobo/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.1\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -2435,16 +2437,12 @@ msgid "Ticket changed between"
 msgstr "Ticket geändert zwischen"
 
 #. Template: AdminGenericAgent
-#, fuzzy
-#| msgid "Last changed times"
 msgid "Last close times"
-msgstr "Letzte Änderungszeiten"
+msgstr "Letzte Schließzeiten"
 
 #. Template: AdminGenericAgent
-#, fuzzy
-#| msgid "No close time settings."
 msgid "No last close time settings."
-msgstr "Keine Schließzeit-Einstellungen."
+msgstr "Keine Einstellungen für letzte Schließzeit."
 
 #. Template: AdminGenericAgent
 #, fuzzy
