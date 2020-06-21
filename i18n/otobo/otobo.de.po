@@ -46,7 +46,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: it@otobo.de\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-06-19 10:01+0000\n"
+"PO-Revision-Date: 2020-06-22 10:49+0000\n"
 "Last-Translator: sr <sr@otrs.ch>\n"
 "Language-Team: German <http://localhost/projects/otobo10/otobo/de/>\n"
 "Language: de\n"
@@ -54,7 +54,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.1\n"
+"X-Generator: Weblate 4.1.1\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -2445,16 +2445,12 @@ msgid "No last close time settings."
 msgstr "Keine Einstellungen für letzte Schließzeit."
 
 #. Template: AdminGenericAgent
-#, fuzzy
-#| msgid "Ticket closed"
 msgid "Ticket last close"
-msgstr "Ticket geschlossen"
+msgstr "Ticket zuletzt geschlossen"
 
 #. Template: AdminGenericAgent
-#, fuzzy
-#| msgid "Ticket closed between"
 msgid "Ticket last close between"
-msgstr "Ticket geschlossen zwischen"
+msgstr "Ticket zuletzt geschlossen zwischen"
 
 #. Template: AdminGenericAgent
 msgid "Close times"
@@ -7723,6 +7719,11 @@ msgid ""
 "article (current for Answer and Forward, latest for Note template type). "
 "This tag is not supported for other template types."
 msgstr ""
+"Um die ersten 20 Betreff Zeichen des aktuellen / letzten Agenten Artikel "
+"ausgegeben. Dabei wird der aktuelle Artikel für die Template Typen "
+"``Antworten`` und ``Weiterleiten`` ausgegeben und der letzte Artikel für den "
+"Template Type ``Notiz``. Für andere Template Typen wird dieser Notification "
+"Tag nicht unterstützt."
 
 #. Template: AdminTemplate
 msgid ""
