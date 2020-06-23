@@ -407,7 +407,7 @@ sub Run {
                         && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } } )
                     {
                         # if not empty the field
-                        $GetParam{ $Check{ $Field->{FieldID} } } = '';
+                        $GetParam{ $Field->{FieldID} } = '';
                         $NewChangedElements{ $Field->{FieldID} } = 1;
                         $ChangedStdFields{ $Field->{FieldID} }   = 1;
                     }
@@ -1214,7 +1214,7 @@ sub Run {
                     && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } } )
                 {
                     # if not empty the field
-                    $GetParam{ $Check{ $Field->{FieldID} } } = '';
+                    $GetParam{ $Field->{FieldID} } = '';
                     $NewChangedElements{ $Field->{FieldID} } = 1;
                     $ChangedStdFields{ $Field->{FieldID} }   = 1;
                 }
