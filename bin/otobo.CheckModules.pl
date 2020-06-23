@@ -108,6 +108,8 @@ my %FeatureDescription = (
     odbc         => 'Support for database access via ODBC',
     oracle       => 'Support for database Oracle',
     postgresql   => 'Support for database PostgreSQL',
+    docker       => 'Optional modules that are included in the Docker image',
+    optional     => 'Modules that are not required',
 );
 
 my $OSDist;
@@ -1161,6 +1163,15 @@ sub PrintCpanfile {
     my %ModulesForFeature;
     MODULE:
     for my $Module ( $NeededModules->@* ) {
+
+        # put all not required modules into 'optional'
+        if ( $FilterRequired && ! $Module->{Required} ) {
+            my $Feature = 'optional';
+            $ModulesForFeature{$Feature} //= [];
+            push $ModulesForFeature{$Feature}->@*, $Module;
+        }
+
+        # print out the requirements, either because it is required, or because it is a feature
         if ( ! $FilterRequired || $Module->{Required} ) {
             my $Comment = $Module->{Comment};
             if ( $Comment ) {
