@@ -25,6 +25,21 @@ requires 'XML::LibXML';
 # Required for fast YAML processing.
 requires 'YAML::XS';
 
+feature 'docker', 'Suppport for docker' => sub {
+    # For strong password hashing.
+    requires 'Crypt::Eksblowfish::Bcrypt';
+    # Recommended for faster AJAX/JavaScript handling.
+    requires 'JSON::XS';
+    # Required for IMAP TLS connections.
+    requires 'Mail::IMAPClient';
+    # Required for directory authentication.
+    requires 'Net::LDAP';
+    # Recommended for faster CSV handling.
+    requires 'Text::CSV_XS';
+    # Required for Generic Interface XSLT mapping module.
+    requires 'XML::LibXSLT';
+};
+
 feature 'mojo', 'Suppport for mojo' => sub {
     # a web framework that makes web development fun again
     requires 'Mojolicious';
