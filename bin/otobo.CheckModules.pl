@@ -108,6 +108,8 @@ my %FeatureDescription = (
     odbc         => 'Support for database access via ODBC',
     oracle       => 'Support for database Oracle',
     postgresql   => 'Support for database PostgreSQL',
+    docker       => 'Optional modules that are included in the Docker image',
+    optional     => 'Modules that are not required',
 );
 
 my $OSDist;
@@ -237,6 +239,7 @@ my @NeededModules = (
         Module    => 'Crypt::Eksblowfish::Bcrypt',
         Required  => 0,
         Comment   => 'For strong password hashing.',
+        Features   => ['docker'],
         InstTypes => {
             aptget => 'libcrypt-eksblowfish-perl',
             emerge => 'dev-perl/Crypt-Eksblowfish',
@@ -410,6 +413,7 @@ my @NeededModules = (
         Module    => 'JSON::XS',
         Required  => 0,
         Comment   => 'Recommended for faster AJAX/JavaScript handling.',
+        Features   => ['docker'],
         InstTypes => {
             aptget => 'libjson-xs-perl',
             emerge => 'dev-perl/JSON-XS',
@@ -456,6 +460,7 @@ my @NeededModules = (
         VersionRequired => '3.22',
         Comment         => 'Required for IMAP TLS connections.',
         Required        => 0,
+        Features        => ['docker'],
         InstTypes       => {
             aptget => 'libmail-imapclient-perl',
             emerge => 'dev-perl/Mail-IMAPClient',
@@ -484,6 +489,7 @@ my @NeededModules = (
                 Module    => 'Authen::SASL',
                 Required  => 0,
                 Comment   => 'Required for MD5 authentication mechanisms in IMAP connections.',
+                Features  => ['docker'],
                 InstTypes => {
                     aptget => 'libauthen-sasl-perl',
                     emerge => 'dev-perl/Authen-SASL',
@@ -570,6 +576,7 @@ my @NeededModules = (
         Module    => 'Net::LDAP',
         Required  => 0,
         Comment   => 'Required for directory authentication.',
+        Features  => ['docker'],
         InstTypes => {
             aptget => 'libnet-ldap-perl',
             emerge => 'dev-perl/perl-ldap',
@@ -704,6 +711,7 @@ my @NeededModules = (
         Module    => 'Text::CSV_XS',
         Required  => 0,
         Comment   => 'Recommended for faster CSV handling.',
+        Features  => ['docker'],
         InstTypes => {
             aptget => 'libtext-csv-xs-perl',
             emerge => 'dev-perl/Text-CSV_XS',
@@ -736,6 +744,7 @@ my @NeededModules = (
         Module    => 'XML::LibXSLT',
         Required  => 0,
         Comment   => 'Required for Generic Interface XSLT mapping module.',
+        Features  => ['docker'],
         InstTypes => {
             aptget => 'libxml-libxslt-perl',
             zypper => 'perl-XML-LibXSLT',
@@ -1154,6 +1163,15 @@ sub PrintCpanfile {
     my %ModulesForFeature;
     MODULE:
     for my $Module ( $NeededModules->@* ) {
+
+        # put all not required modules into 'optional'
+        if ( $FilterRequired && ! $Module->{Required} ) {
+            my $Feature = 'optional';
+            $ModulesForFeature{$Feature} //= [];
+            push $ModulesForFeature{$Feature}->@*, $Module;
+        }
+
+        # print out the requirements, either because it is required, or because it is a feature
         if ( ! $FilterRequired || $Module->{Required} ) {
             my $Comment = $Module->{Comment};
             if ( $Comment ) {
