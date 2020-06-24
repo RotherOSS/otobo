@@ -50,7 +50,18 @@ services:
       - opt_otobo:/opt/otobo
     command: cron
 
+  # a container running ElasticSearch
+  elastic:
+    image: elasticsearch:7.8.0
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+
+
 # no volumnes need to be exposed across services
 volumes:
   mariadb_data: {}
   opt_otobo: {}
+  elasticsearch_data: {}
