@@ -1,9 +1,8 @@
+# dot files are usually not needed in the image
+**/.*
+!.bash_completion
+
 # files that might be generated during development
-.bash_history
-.git*
-.idea
-.ssh
-.vim*
 build.log
 otobo.iml
 
