@@ -1,11 +1,11 @@
-# Some info regarding running OTOBO as a Docker container
+# Some info regarding running OTOBO under Docker.
 
-The idea is that at least three containers are used.
-All containers are built and managed via Docker compose.
+The standard use case ist that four containers are started.
+These containers are managed via Docker compose.
 
 ## Containers
 
-### Container otobo_web_3
+### Container otobo_web_1
 
 OTOBO webserver on port 5000.
 
@@ -17,13 +17,17 @@ Cron and the OTOBO Daemon.
 
 Run the relational database MariaDB on port 3306.
 
+### Container otobo_elastic_1
+
+Run Elastic Search on the ports 9200 and 9300.
+
 ## Volumes
 
-Two volumes are created on the host:
+Three volumes are created on the host:
 
-* **otobo_opt_otobo** containing `/opt/otobo` on the webserver container
-* **otobo_mariadb_data** containing `/var/lib/mysql` on the database container
-
+* **otobo_opt_otobo** containing `/opt/otobo` on the container `web` and `cron`.
+* **otobo_mariadb_data** containing `/var/lib/mysql` on the container `db`.
+* **otobo_elasticsearch_data** containing `/usr/share/elasticsearch/datal` on the container `elastic`.
 
 ## Source files
 
