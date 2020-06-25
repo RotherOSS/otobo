@@ -4,7 +4,7 @@
 
 # use the latest Perl on Debian 10 (buster). As of 2020-05-15.
 # cpanm is already installed
-FROM perl:5.30.2-buster
+FROM perl:5.32.0-buster
 
 USER root
 
