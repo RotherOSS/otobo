@@ -37,6 +37,8 @@ The relevant files for running OTOBO with Docker are:
 * `Dockerfile`
 * The scripts in `bin/docker`
 
+Note that the files `docker-compose.yml` and `Dockerfile` will be moved to `scripts\docker`.
+
 ## Requirements
 
 The minimal versions that have been tested are listed here. Older versions might work as well.
