@@ -46,9 +46,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: it@otobo.de\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-06-22 10:49+0000\n"
-"Last-Translator: sr <sr@otrs.ch>\n"
-"Language-Team: German <http://localhost/projects/otobo10/otobo/de/>\n"
+"PO-Revision-Date: 2020-06-25 17:01+0000\n"
+"Last-Translator: Grit Rother <mr@otobo.de>\n"
+"Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/>"
+"\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -94,11 +95,11 @@ msgid ""
 "file needs to be in .yml format as exported by the ACL editor module."
 msgstr ""
 "Hier können Sie über eine Konfigurationsdatei ACLs ins System importieren. "
-"Diese Datei muss das vom ACL Editor verwendete .yml Format haben."
+"Diese Datei muss das vom ACL-Editor verwendete .yml-Format haben."
 
 #. Template: AdminACL
 msgid "This field is required."
-msgstr "Dieses Feld wird benötigt."
+msgstr "Dieses Feld ist ein Pflichtfeld."
 
 #. Template: AdminACL
 msgid "Overwrite existing ACLs?"
@@ -145,7 +146,7 @@ msgid ""
 msgstr ""
 "Hinweis: Diese Tabelle stellt die Ausführungsreihenfolge der ACLs dar. Wenn "
 "Sie die Reihenfolge ändern möchten, ändern Sie bitte die Namen der "
-"betroffenen ACLs."
+"jeweiligen ACLs."
 
 #. Template: AdminACL
 msgid "ACL name"
@@ -205,13 +206,13 @@ msgid ""
 "screen or 'PropertiesDatabase' to match attributes of the current ticket "
 "that are in the database."
 msgstr ""
-"Stellt die Filterbedingungen dieser ACL ein. Verwenden Sie 'Properties' um "
+"Stellt die Filterbedingungen dieser ACL ein. Verwenden Sie 'Properties', um "
 "den Wert aus dem aktuellen Bildschirm zu prüfen oder 'PropertiesDatabase' "
 "für den Wert des Tickets, wie es in der Datenbank gespeichert ist."
 
 #. Template: AdminACLEdit
 msgid "Change settings"
-msgstr "Werte ändern"
+msgstr "Wertänderungen"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -284,7 +285,7 @@ msgstr "Kalenderverwaltung"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Calendar"
-msgstr "Neuen Kalender hinzufügen"
+msgstr "Kalender hinzufügen"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
@@ -1025,7 +1026,7 @@ msgid ""
 "It is highly recommended to send this data to OTRS Group in order to get "
 "better support."
 msgstr ""
-"Es wird empfohlen, diese Daten an die OTRS Gruppe zu senden, um bessere "
+"Es wird empfohlen, diese Daten an das OTOBO Team zu senden, um bessere "
 "Unterstützung zu erhalten."
 
 #. Template: AdminCloudServiceSupportDataCollector
@@ -1042,7 +1043,7 @@ msgid ""
 "OTRS Group."
 msgstr ""
 "Diese Einstellung aktiviert das Senden zusätzlicher Support-Informationen an "
-"die OTRS Gruppe."
+"das OTOBO-Team."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -1058,8 +1059,8 @@ msgid ""
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
 msgstr ""
-"Um das Senden der Daten zu aktivieren, registrieren Sie bitte Ihr System bei "
-"der OTRS Gruppe oder aktualisieren Sie Ihre Systemregistrierung (aktivieren "
+"Um das Senden der Daten zu aktivieren, registrieren Sie bitte Ihr System "
+"beim OTOBO-Team oder aktualisieren Sie Ihre Systemregistrierung (aktivieren "
 "Sie die Option 'Supportdaten senden'.)"
 
 #. Template: AdminCloudServiceSupportDataCollector
@@ -1079,7 +1080,7 @@ msgid ""
 "System registration is a service of OTRS Group, which provides a lot of "
 "advantages!"
 msgstr ""
-"Die Systemregistrierung ist ein Service der OTRS Gruppe, der Ihnen viele "
+"Die Systemregistrierung ist ein Service von Team OTOBO, der Ihnen viele "
 "Vorteile sichert!"
 
 #. Template: AdminCloudServices
@@ -1087,7 +1088,7 @@ msgid ""
 "Please note that the use of OTRS cloud services requires the system to be "
 "registered."
 msgstr ""
-"Bitte beachten Sie, dass die Verwendung von OTRS Cloud-Services ein "
+"Bitte beachten Sie, dass die Verwendung von OTOBO Cloud-Services ein "
 "registriertes System voraussetzt."
 
 #. Template: AdminCloudServices
@@ -2802,7 +2803,7 @@ msgid ""
 "This OTRS error handling backend module will be called internally to process "
 "the error handling mechanism."
 msgstr ""
-"Das OTRS Fehlerbehandlungs-Modul-Backend wird intern aufgerufen um die "
+"Das OTOBO Fehlerbehandlungs-Modul-Backend wird intern aufgerufen um die "
 "Fehlerbehandlung auszuführen."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
@@ -2967,8 +2968,8 @@ msgid ""
 "if a retry is scheduled."
 msgstr ""
 "Sofern für eine Anfrage mehr als ein Modul ausgeführt wird, welches die "
-"Planung von Wiederholungen ermöglicht,  dann ist das zuletzt ausgeführte "
-"Modul maßgeblich für die Entscheidung ob eine Wiederholung eingeplant wird."
+"Planung von Wiederholungen ermöglicht, ist das zuletzt ausgeführte Modul "
+"maßgeblich für die Entscheidung ob eine Wiederholung eingeplant wird."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Request retry options"
@@ -3062,11 +3063,11 @@ msgid ""
 "retries would be triggered at 10:01 (1 minute), 10:03 (2 minutes), 10:07 (4 "
 "minutes), 10:12 (8=>5 minutes), 10:17, ..."
 msgstr ""
-"Beispiel: Wenn eine Anfrage initial um 10:00 Uhr mit dem initialen Abstand  "
+"Beispiel: Wenn eine Anfrage initial um 10:00 Uhr mit dem initialen Abstand "
 "'1 Minute', dem Wiederholungsfaktor '2' und dem maximalen Intervall von '5 "
-"Minuten' ausgeführt wird, würden Wiederholungen um 10:01 Uhr (1 Minute), "
-"10:03 Uhr (2 Minuten), 10:07 Uhr (4 Minuten), 10:12 Uhr (8=>5 Minuten), "
-"10:17 Uhr, ... ausgeführt."
+"Minuten' ausgeführt wird, würden Wiederholungen um 10:01 Uhr (1 Minute), 10:"
+"03 Uhr (2 Minuten), 10:07 Uhr (4 Minuten), 10:12 Uhr (8=>5 Minuten), 10:17 "
+"Uhr, ... ausgeführt."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry count"
@@ -3199,8 +3200,8 @@ msgid ""
 "The data from the invoker of OTRS will be processed by this mapping, to "
 "transform it to the kind of data the remote system expects."
 msgstr ""
-"Die Daten des Invokers von OTRS werden von diesem Mapping verarbeitet, um "
-"sie so umzuformen, wie das entfernte System die Daten benötigt."
+"Die Daten des OTOBO-Invokers werden von diesem Mapping verarbeitet, um sie "
+"so umzuformen, wie das entfernte System die Daten benötigt."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for incoming response data"
@@ -3212,7 +3213,7 @@ msgid ""
 "kind of data the invoker of OTRS expects."
 msgstr ""
 "Die Antwort-Daten des entfernten Systems werden von diesem Mapping "
-"verarbeitet, um sie so umzuformen, wie der Invoker von OTRS sie benötigt."
+"verarbeitet, um sie so umzuformen, wie der Invoker von OTOBO sie benötigt."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous"
@@ -3247,7 +3248,7 @@ msgid ""
 "Asynchronous event triggers are handled by the OTRS Scheduler Daemon in "
 "background (recommended)."
 msgstr ""
-"Asynchrone Ereignisauslöser werden vom OTRS Scheduler Daemon im Hintergrund "
+"Asynchrone Ereignisauslöser werden vom OTOBO Scheduler Daemon im Hintergrund "
 "verarbeitet (empfohlen)."
 
 #. Template: AdminGenericInterfaceInvokerDefault
@@ -3621,7 +3622,7 @@ msgid ""
 "This OTRS operation backend module will be called internally to process the "
 "request, generating data for the response."
 msgstr ""
-"Dieses OTRS-Operation-Backend-Modul wird intern aufgerufen, um die "
+"Dieses OTOBO-Operation-Backend-Modul wird intern aufgerufen, um die "
 "Anforderung zu bearbeiten und Daten für die Antwort zu generieren."
 
 #. Template: AdminGenericInterfaceOperationDefault
@@ -3634,7 +3635,7 @@ msgid ""
 "kind of data OTRS expects."
 msgstr ""
 "Die Daten der eingehenden Anfrage werden von diesem Mapping verarbeitet, um "
-"sie so umzuformen, wie die OTRS-Operation sie benötigt."
+"sie so umzuformen, wie die OTOBO-Operation sie benötigt."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for outgoing response data"
@@ -3704,7 +3705,7 @@ msgid ""
 "Here you can specify the maximum size (in bytes) of REST messages that OTRS "
 "will process."
 msgstr ""
-"Bestimmen Sie die maximale Größe (in Bytes) für REST-Nachrichten, die OTRS "
+"Bestimmen Sie die maximale Größe (in Bytes) für REST-Nachrichten, die OTOBO "
 "akzeptieren soll."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -3740,7 +3741,7 @@ msgstr ""
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)"
 msgstr ""
-"z. B. https://www.otrs.com:10745/api/v1.0 (ohne abschließenden Backslash)"
+"z. B. https://www.otobo.de:10745/api/v1.0 (ohne abschließenden Backslash)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
@@ -3846,7 +3847,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/SOAP/certificate.pem"
-msgstr "z.B. /opt/otrs/var/certificates/SOAP/certificate.pem"
+msgstr "z.B. /opt/otobo/var/certificates/SOAP/certificate.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key"
@@ -3888,7 +3889,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem"
-msgstr "z. B. /opt/otrs/var/certificates/SOAP/CA/ca.pem"
+msgstr "z. B. /opt/otobo/var/certificates/SOAP/CA/ca.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) Directory"
@@ -3904,7 +3905,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/SOAP/CA"
-msgstr "z. B. /opt/otrs/var/certificates/SOAP/CA"
+msgstr "z. B. /opt/otobo/var/certificates/SOAP/CA"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
@@ -3942,7 +3943,7 @@ msgstr "Der Standard-HTTP-Befehl für die Anfragen."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otrs.com:8000/Webservice/Example"
-msgstr "z.B. https://local.otrs.com:8000/Webservice/Example"
+msgstr "z.B. https://local.otobo.com:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set SOAPAction"
@@ -4018,8 +4019,8 @@ msgid ""
 "e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/"
 "actions"
 msgstr ""
-"z. B. urn:otrs-com:soap:functions oder http://www.otrs.com/GenericInterface/"
-"actions"
+"z. B. urn:otobo-com:soap:functions oder http://www.otobo.com/"
+"GenericInterface/actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name scheme"
@@ -4076,7 +4077,7 @@ msgid ""
 "will process."
 msgstr ""
 "Hier können Sie eine Maximalgröße für SOAP-Nachrichten (in Bytes) angeben, "
-"die OTRS verarbeitet."
+"die OTOBO verarbeitet."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Encoding"
@@ -4242,13 +4243,13 @@ msgstr "Debug-Level"
 msgid ""
 "In provider mode, OTRS offers web services which are used by remote systems."
 msgstr ""
-"Im Modus \"Provider\" bietet OTRS Web-Services an, die von externen Systemen "
-"genutzt werden."
+"Im Modus \"Provider\" bietet OTOBO Web-Services an, die von externen "
+"Systemen genutzt werden."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "In requester mode, OTRS uses web services of remote systems."
 msgstr ""
-"Im Modus \"Requester\" nutzt OTRS selbst Web-Services von externen Systemen."
+"Im Modus \"Requester\" nutzt OTOBO selbst Web-Services von externen Systemen."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Network transport"
@@ -4462,7 +4463,7 @@ msgid ""
 "arrival time (for priority etc.) will be kept and used, for example in "
 "PostMaster filters."
 msgstr ""
-"Wird dem Konto vertraut, bleiben die eingehenden X-OTRS-Header (für "
+"Wird dem Konto vertraut, bleiben die eingehenden X-OTOBO-Header (für "
 "Priorität usw.) erhalten und werden benutzt, zum Beispiel in Postmaster-"
 "Filtern."
 
@@ -4720,8 +4721,8 @@ msgid ""
 "You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values "
 "from the current ticket."
 msgstr ""
-"Sie können OTRS-Tags wie <OTRS_TICKET_DynamicField_...> nutzen, um Werte des "
-"aktuellen Tickets einzufügen."
+"Sie können OTOBO-Tags wie <OTOBO_TICKET_DynamicField_...> nutzen, um Werte "
+"des aktuellen Tickets einzufügen."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
@@ -4818,7 +4819,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Go to the OTRS customer portal"
-msgstr "Gehen Sie zum OTRS-Kundenportal"
+msgstr "Gehen Sie zum OTOBO-Kundenportal"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "%s will be available soon. Please check again in a few days."
@@ -4856,7 +4857,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Package installation requires patch level update of OTRS."
-msgstr "Paketinstallation benötigt ein Patchlevel-Update von OTRS."
+msgstr "Paketinstallation benötigt ein Patchlevel-Update von OTOBO."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Please visit our customer portal and file a request."
@@ -4868,18 +4869,18 @@ msgstr "Alles Weitere wird als Teil Ihres Vertrages durchgeführt."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Your installed OTRS version is %s."
-msgstr "Die Version Ihres installierten OTRS ist %s."
+msgstr "Die Version Ihrer OTOBO-Installation ist %s."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "To install this package, you need to update to OTRS %s or higher."
 msgstr ""
-"Um dieses Paket zu installieren, müssen Sie zuerst OTRS auf Version %s oder "
+"Um dieses Paket zu installieren, müssen Sie zuerst OTOBO auf Version %s oder "
 "neuer aktualisieren."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "To install this package, the Maximum OTRS Version is %s."
 msgstr ""
-"Um dieses Paket zu installieren, können sie OTRS bis maximal zur Version %s "
+"Um dieses Paket zu installieren, können sie OTOBO bis maximal zur Version %s "
 "verwenden."
 
 #. Template: AdminOTRSBusinessNotInstalled
@@ -4889,7 +4890,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Why should I keep OTRS up to date?"
-msgstr "Warum sollte ich OTRS aktuell halten?"
+msgstr "Warum sollte ich OTOBO aktuell halten?"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "You will receive updates about relevant security issues."
@@ -4899,7 +4900,7 @@ msgstr "Sie erhalten Updates über relevante Sicherheitsprobleme."
 msgid "You will receive updates for all other relevant OTRS issues"
 msgstr ""
 "Sie erhalten Updates für alle anderen relevanten Probleme im Zusammenhang "
-"mit OTRS"
+"mit OTOBO"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
@@ -4921,7 +4922,7 @@ msgstr "Downgrade abbrechen und zurück"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Go to OTRS Package Manager"
-msgstr "Zum OTRS Paket-Manager wechseln"
+msgstr "Zum OTOBO Paket-Manager wechseln"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
@@ -4995,7 +4996,7 @@ msgstr "Unterstützung für PGP ist deaktiviert"
 
 #. Template: AdminPGP
 msgid "To be able to use PGP in OTRS, you have to enable it first."
-msgstr "Um PGP in OTRS verwenden zu können, müssen Sie es zuerst aktivieren."
+msgstr "Um PGP in OTOBO verwenden zu können, müssen Sie es zuerst aktivieren."
 
 #. Template: AdminPGP
 msgid "Enable PGP support"
@@ -5093,11 +5094,11 @@ msgstr "Paketinformation"
 
 #. Template: AdminPackageManager
 msgid "Package installation requires a patch level update of OTRS."
-msgstr "Paketinstallation benötigt ein Patchlevel-Update von OTRS."
+msgstr "Paketinstallation benötigt ein Patchlevel-Update von OTOBO."
 
 #. Template: AdminPackageManager
 msgid "Package update requires a patch level update of OTRS."
-msgstr "Paket-Update benötigt ein Patchlevel-Update von OTRS."
+msgstr "Paket-Update benötigt ein Patchlevel-Update von OTOBO."
 
 #. Template: AdminPackageManager
 msgid ""
@@ -5109,13 +5110,13 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Please note that your installed OTRS version is %s."
-msgstr "Bitte beachten Sie, dass Ihre installierte OTRS-Version %s ist."
+msgstr "Bitte beachten Sie, dass Ihre installierte OTOBO-Version %s ist."
 
 #. Template: AdminPackageManager
 msgid ""
 "To install this package, you need to update OTRS to version %s or newer."
 msgstr ""
-"Um dieses Paket zu installieren, müssen Sie zunächst OTRS auf Version %s "
+"Um dieses Paket zu installieren, müssen Sie zunächst OTOBO auf Version %s "
 "oder neuer aktualisieren."
 
 #. Template: AdminPackageManager
@@ -7384,8 +7385,8 @@ msgid ""
 "There are currently no settings available. Please make sure to run 'otrs."
 "Console.pl Maint::Config::Rebuild' before using the software."
 msgstr ""
-"Aktuell sind keine Einstellungen verfügbar. Bitte  führen Sie 'otrs.Console."
-"pl Maint::Config::Rebuild' aus, bevor Sie die Software nutzen."
+"Aktuell sind keine Einstellungen verfügbar. Bitte führen Sie "
+"'otrs.Console.pl Maint::Config::Rebuild' aus, bevor Sie die Software nutzen."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Changes Deployment"
@@ -7493,7 +7494,7 @@ msgid ""
 "This group doesn't contain any settings. Please try navigating to one of its "
 "sub groups."
 msgstr ""
-"Diese Gruppe enthält selbst keine Einstellungen. Versuchen Sie,  in eine der "
+"Diese Gruppe enthält selbst keine Einstellungen. Versuchen Sie, in eine der "
 "verfügbaren Untergruppen zu navigieren."
 
 #. Template: AdminSystemConfigurationImportExport
@@ -7719,11 +7720,10 @@ msgid ""
 "article (current for Answer and Forward, latest for Note template type). "
 "This tag is not supported for other template types."
 msgstr ""
-"Um die ersten 20 Betreff Zeichen des aktuellen / letzten Agenten Artikel "
-"ausgegeben. Dabei wird der aktuelle Artikel für die Template Typen "
-"``Antworten`` und ``Weiterleiten`` ausgegeben und der letzte Artikel für den "
-"Template Type ``Notiz``. Für andere Template Typen wird dieser Notification "
-"Tag nicht unterstützt."
+"Ruft die ersten 20 Buchstaben des Betreffs des aktuellen/letzten Agenten-"
+"Artikels ab (des aktuellen für die Vorlagen-Typen Antwort und Weiterleiten, "
+"des letzten für Notizen). Für andere Vorlagen-Typen wird der Tag nicht "
+"unterstützt."
 
 #. Template: AdminTemplate
 msgid ""
@@ -7731,6 +7731,9 @@ msgid ""
 "(current for Answer and Forward, latest for Note template type). This tag is "
 "not supported for other template types."
 msgstr ""
+"Ruft die ersten 5 Zeilen des Bodys des aktuellen/letzten Agenten-Artikels ab "
+"(des aktuellen für die Vorlagen-Typen Antwort und Weiterleiten, des letzten "
+"für Notizen). Für andere Vorlagen-Typen wird der Tag nicht unterstützt."
 
 #. Template: AdminTemplate
 msgid ""
@@ -7738,6 +7741,9 @@ msgid ""
 "(current for Answer and Forward, latest for Note template type). This tag is "
 "not supported for other template types."
 msgstr ""
+"Ruft die ersten 20 Buchstaben des Betreffs des aktuellen/letzten Artikels ab "
+"(des aktuellen für die Vorlagen-Typen Antwort und Weiterleiten, des letzten "
+"für Notizen). Für andere Vorlagen-Typen wird der Tag nicht unterstützt."
 
 #. Template: AdminTemplate
 msgid ""
@@ -7745,10 +7751,13 @@ msgid ""
 "for Answer and Forward, latest for Note template type). This tag is not "
 "supported for other template types."
 msgstr ""
+"Ruft die ersten 5 Zeilen des Bodys des aktuellen/letzten Artikels ab (des "
+"aktuellen für die Vorlagen-Typen Antwort und Weiterleiten, des letzten für "
+"Notizen). Für andere Vorlagen-Typen wird der Tag nicht unterstützt."
 
 #. Template: AdminTemplate
 msgid "Create type templates only supports this smart tags"
-msgstr "Vorlagen für das Erstellen unterstützen nur diese \"smart tags\""
+msgstr "Vorlagen für das Erstellen unterstützen nur diese \"Smart Tags\""
 
 #. Template: AdminTemplate
 msgid "Example template"
@@ -7820,11 +7829,11 @@ msgstr "Agent bearbeiten"
 
 #. Template: AdminUser
 msgid "Edit personal preferences for this agent"
-msgstr "Persönliche Einstellungen des Agenten bearbeiten"
+msgstr "Persönliche Einstellungen dieses Agenten bearbeiten"
 
 #. Template: AdminUser
 msgid "Agents will be needed to handle tickets."
-msgstr "Agenten werden für die Verarbeitung von Tickets benötigt."
+msgstr "Agenten werden für die Bearbeitung von Tickets benötigt."
 
 #. Template: AdminUser
 msgid "Don't forget to add a new agent to groups and/or roles!"
@@ -7866,11 +7875,11 @@ msgstr "Wird für ein leeres Feld automatisch generiert."
 
 #. Template: AdminUser
 msgid "Mobile"
-msgstr "Mobiltelefon"
+msgstr "Mobil"
 
 #. Template: AdminUser
 msgid "Effective Permissions for Agent"
-msgstr "Effektive Berechtigungen für Agent"
+msgstr "Gültige Berechtigungen für den Agenten"
 
 #. Template: AdminUser
 msgid "This agent has no group permissions."
@@ -7881,17 +7890,17 @@ msgid ""
 "Table above shows effective group permissions for the agent. The matrix "
 "takes into account all inherited permissions (e.g. via roles)."
 msgstr ""
-"Die obige Tabelle zeigt die effektiven Gruppenberechtigungen für den "
-"Agenten. Die Matrix berücksichtigt dabei auch alle vererbten Berechtigungen "
-"(z.B. durch Rollen)."
+"Die obige Tabelle zeigt alle gültigen Gruppenberechtigungen für den Agenten. "
+"Die Matrix berücksichtigt dabei auch alle vererbten Berechtigungen (z.B. "
+"durch Rollen)."
 
 #. Template: AdminUserGroup
 msgid "Manage Agent-Group Relations"
-msgstr "Zuordnungen von Agent und Gruppe verwalten"
+msgstr "Zuordnungen von Agenten und Gruppe verwalten"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Agenda Overview"
-msgstr "Agendaübersicht"
+msgstr "Agenda-Übersicht"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Manage Calendars"
@@ -7911,7 +7920,7 @@ msgstr "Ganztägig"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Repeat"
-msgstr "Wiederholung"
+msgstr "Wiederholen"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Notification"
@@ -7935,7 +7944,7 @@ msgstr ""
 
 #. Template: AgentAppointmentCalendarOverview
 msgid "Add new Appointment"
-msgstr "Einen neuen Termin hinzufügen"
+msgstr "Neuen Termin hinzufügen"
 
 #. Template: AgentAppointmentCalendarOverview
 msgid "Calendars"
@@ -7963,19 +7972,19 @@ msgstr "Bitte setzen Sie einen Wert nach dem Startdatum."
 
 #. Template: AgentAppointmentEdit
 msgid "This an occurrence of a repeating appointment."
-msgstr "Dies ist ein Vorkommnis eines sich wiederholenden Termins."
+msgstr "Dies ist ein Element eines sich wiederholenden Termins."
 
 #. Template: AgentAppointmentEdit
 msgid "Click here to see the parent appointment."
-msgstr "Klicken Sie hier, um den Eltern-Termin anzuzeigen."
+msgstr "Klicken Sie hier, um den übergeordneten Termin anzuzeigen."
 
 #. Template: AgentAppointmentEdit
 msgid "Click here to edit the parent appointment."
-msgstr "Klicken Sie hier, um den Eltern-Termin zu bearbeiten."
+msgstr "Klicken Sie hier, um den übergeordneten Termin zu bearbeiten."
 
 #. Template: AgentAppointmentEdit
 msgid "Frequency"
-msgstr "Frequenz"
+msgstr "Häufigkeit"
 
 #. Template: AgentAppointmentEdit
 msgid "Every"
@@ -7999,7 +8008,7 @@ msgstr "Jahr(e)"
 
 #. Template: AgentAppointmentEdit
 msgid "On"
-msgstr "An"
+msgstr "am"
 
 #. Template: AgentAppointmentEdit
 msgid "Monday"
@@ -8302,7 +8311,7 @@ msgid ""
 "After 5 minutes, check that the OTRS Daemon is running in the system ('bin/"
 "otrs.Daemon.pl status')."
 msgstr ""
-"Prüfen Sie nach 5 Minuten, ob der OTRS Daemon läuft  ('bin/otrs.Daemon.pl "
+"Prüfen Sie nach 5 Minuten, ob der OTRS Daemon läuft ('bin/otrs.Daemon.pl "
 "status')."
 
 #. Template: AgentDashboard
@@ -8680,7 +8689,7 @@ msgstr "Einstellung speichern"
 #. Template: AgentPreferences
 msgid "Did you know? You can help translating OTRS at %s."
 msgstr ""
-"Haben Sie gewusst, dass Sie bei der Übersetzung von OTRS unter %s helfen "
+"Haben Sie gewusst, dass Sie unter %s bei der Übersetzung von OTOBO helfen "
 "können?"
 
 #. Template: SettingsList
@@ -9274,7 +9283,7 @@ msgstr "Dieses Ticket auswählen"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Sender"
-msgstr "Sender"
+msgstr "Absender"
 
 #. Template: AgentTicketOverviewMedium
 msgid "First Response Time"
@@ -9558,7 +9567,7 @@ msgstr "Ungelesene Artikel"
 
 #. Template: AgentTicketZoom
 msgid "Via"
-msgstr "Via"
+msgstr "via"
 
 #. Template: AgentTicketZoom
 msgid "Important"
@@ -10419,11 +10428,12 @@ msgid "Port"
 msgstr "Port"
 
 #. Template: InstallerFinish
+#, fuzzy
 msgid ""
 "To be able to use OTRS you have to enter the following line in your command "
 "line (Terminal/Shell) as root."
 msgstr ""
-"Um OTRS nutzen zu können, müssen die die folgenden Zeilen als root in die "
+"Um OTOBO nutzen zu können, müssen Sie die folgenden Zeilen als root in die "
 "Befehlszeile (Terminal/Shell) eingeben."
 
 #. Template: InstallerFinish
@@ -10432,7 +10442,7 @@ msgstr "Starten Sie ihren Webserver neu"
 
 #. Template: InstallerFinish
 msgid "After doing so your OTRS is up and running."
-msgstr "Danach ist OTRS startklar."
+msgstr "Danach ist OTOBO startklar."
 
 #. Template: InstallerFinish
 msgid "Start page"
@@ -10440,11 +10450,11 @@ msgstr "Startseite"
 
 #. Template: InstallerFinish
 msgid "Your OTRS Team"
-msgstr "Ihr OTRS-Team"
+msgstr "Ihr OTOBO-Team"
 
 #. Template: InstallerLicense
 msgid "Don't accept license"
-msgstr "Lizenz _nicht_ akzeptieren"
+msgstr "Lizenz nicht akzeptieren"
 
 #. Template: InstallerLicense
 msgid "Accept license and continue"
@@ -10459,12 +10469,12 @@ msgid ""
 "The identifier of the system. Each ticket number and each HTTP session ID "
 "contain this number."
 msgstr ""
-"Der System-Identifizierer. Jede Ticketnummer und jede HTTP-Sitzungs-ID "
+"Der System-Identifikator. Jede Ticketnummer und jede HTTP-Sitzungs-ID "
 "enthalten diese Nummer."
 
 #. Template: InstallerSystem
 msgid "System FQDN"
-msgstr "System FQDN"
+msgstr "System-FQDN"
 
 #. Template: InstallerSystem
 msgid "Fully qualified domain name of your system."
@@ -11019,7 +11029,7 @@ msgid ""
 "This group doesn't contain any settings. Please try navigating to one of its "
 "sub groups or another group."
 msgstr ""
-"Diese Gruppe enthält selbst keine Einstellungen. Versuchen Sie,  in eine der "
+"Diese Gruppe enthält selbst keine Einstellungen. Versuchen Sie, in eine der "
 "verfügbaren Untergruppen oder eine andere Gruppe zu navigieren."
 
 #. Template: SettingsListCompare
@@ -17367,11 +17377,11 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket owner update notification"
-msgstr "Benachrichtigung über Änderung des  Ticket-Besitzers"
+msgstr "Benachrichtigung über Änderung des Ticket-Besitzers"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket responsible update notification"
-msgstr "Benachrichtigung über Änderung des  Ticket-Verantwortlichen"
+msgstr "Benachrichtigung über Änderung des Ticket-Verantwortlichen"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket new note notification"
@@ -19192,7 +19202,7 @@ msgid ""
 "Allows having a medium format ticket overview (CustomerInfo => 1 - shows "
 "also the customer information)."
 msgstr ""
-"Ermöglicht eine Ticket-Übersicht mit einigen Ticketinformationen  (Customer "
+"Ermöglicht eine Ticket-Übersicht mit einigen Ticketinformationen (Customer "
 "=> 1 - zeigt auch die Kundeninformation)."
 
 #. SysConfig
@@ -19673,16 +19683,13 @@ msgstr ""
 "der Betreff nach einer gültigen Ticketnummer durchsucht wird."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Checks if an E-Mail is a followup to an existing ticket by searching the "
-#| "subject for a valid ticket number."
 msgid ""
 "Checks if an email is a follow-up to an existing ticket with external ticket "
 "number which can be found by ExternalTicketNumberRecognition filter module."
 msgstr ""
-"Prüft, ob eine E-Mail ein Follow-Up zu einem bestehenden Ticket ist, indem "
-"der Betreff nach einer gültigen Ticketnummer durchsucht wird."
+"Prüft, ob eine E-Mail ein Follow-up zu einem bestehenden Ticket mit externer "
+"Ticketnummer ist, welches mit dem ExternalTicketNumberRecognition Filter "
+"gefunden werden kann."
 
 #. SysConfig
 msgid ""
@@ -20460,17 +20467,17 @@ msgid ""
 "mapping, you have to also activate the Ticket::EventModulePost###4100-"
 "DynamicFieldFromCustomerUser setting."
 msgstr ""
-"Definiert eine Zuordnung zwischen Variablen der Kundenbenutzerdaten "
-"(Schlüssel) und dynamischen Feldern eines Ticket (Werte). Somit können Sie "
-"Kundenbenutzerdaten eines Tickets in dynamische Felder speichern. Die "
+"Definiert eine Zuordnung zwischen den Variablen zu Kundenbenutzerdaten "
+"(Schlüssel) und dynamischen Feldern eines Tickets (Werte). Somit können Sie "
+"die Kundenbenutzerdaten eines Tickets in dynamische Felder speichern. Diese "
 "dynamischen Felder müssen im System vorhanden sein und sollten für "
-"AgentTicketFreeText aktiviert werden, damit sie eingestellt / manuell durch "
+"AgentTicketFreeText aktiviert werden, damit sie definiert / manuell durch "
 "den Agenten aktualisiert werden können. Sie dürfen nicht für "
 "AgentTicketPhone, AgentTicketEmail und AgentTicketCustomer aktiviert werden. "
-"Wenn dies der Fall ist, so haben sie Vorrang gegenüber den automatisch "
-"gesetzten Werten.  Um dieses Mapping zu verwenden, müssen Sie auch "
-"dieTicketTicket Einstellung Ticket::EventModulePost###4100-"
-"DynamicFieldFromCustomerUser aktivieren."
+"Werden sie dies, so haben sie Vorrang gegenüber den automatisch gesetzten "
+"Werten. Um dieses Mapping zu verwenden, müssen Sie auch die Ticket-"
+"Einstellung Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser "
+"aktivieren."
 
 #. SysConfig
 msgid ""
@@ -22129,7 +22136,7 @@ msgid ""
 "Defines the default ticket type for new customer tickets in the customer "
 "interface."
 msgstr ""
-"Definiert den Standard-Ticket-Typ für neue Kundentickets in der  "
+"Definiert den Standard-Ticket-Typ für neue Kundentickets in der "
 "Kundenoberfläche."
 
 #. SysConfig
@@ -23835,7 +23842,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Disable autocomplete in the login screen."
-msgstr ""
+msgstr "Autovervollständigen in der Anmeldemaske deaktivieren."
 
 #. SysConfig
 msgid "Disable cloud services"
@@ -25513,14 +25520,15 @@ msgid ""
 "\"bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild\" for initial index "
 "creation."
 msgstr ""
-"IndexAccelerator: Auswahl des Backend-Moduls für TicketViewAccelerator. "
-"\"RuntimeDB\" generiert jede Queue-Ansicht  dynamisch aus der Tickettabelle "
-"(keine Performance-Probleme bis zu etwa 60.000 Tickets insgesamt und 6.000 "
-"offenen Tickets im System). \"StaticDB\" ist das stärkste Modul, es benutzt "
-"zusätzliche Tabelle für den Ticket-Index, die wie eine Übersicht "
-"funktioniert (empfohlen bei mehr als 80.000 Tickets insgesamt und 6.000 "
-"offenen Tickets im System). Benutzen Sie das Kommando \"bin/otrs.Console.pl "
-"Maint::Ticket::QueueIndexRebuild\" für den initialen Indexaufbau."
+"IndexAccelerator: Auswahl des Backend-Moduls für das Modul "
+"TicketViewAccelerator. „RuntimeDB“ generiert jede Queue-Ansicht  dynamisch "
+"aus der Tickettabelle (keine Performance-Probleme bis etwa 60.000 Tickets "
+"insgesamt und 6.000 offenen Tickets im System). \"StaticDB\" ist das "
+"stärkste Modul, es nutzt eine zusätzliche Tabelle für den Ticket-Index, die "
+"wie eine Übersicht funktioniert (empfohlen ab mehr als 80.000 Tickets "
+"insgesamt und 6.000 offenen Tickets im System). Verwenden Sie das Kommando "
+"\"bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild\" für den initialen "
+"Indexaufbau."
 
 #. SysConfig
 msgid ""
@@ -26225,7 +26233,7 @@ msgstr ""
 #. SysConfig
 msgid "Module to generate accounted time ticket statistics."
 msgstr ""
-"Modul zur Generierung von Statistiken  für die benötigte Bearbeitungszeit."
+"Modul zur Generierung von Statistiken für die benötigte Bearbeitungszeit."
 
 #. SysConfig
 msgid ""
@@ -29456,9 +29464,9 @@ msgid ""
 "Shows a preview of the ticket overview (CustomerInfo => 1 - shows also "
 "Customer-Info, CustomerInfoMaxSize max. size in characters of Customer-Info)."
 msgstr ""
-"Ermöglicht eine Ticket-Übersicht mit einigen Ticketinformationen  (Customer "
-"=> 1 - zeigt auch die Kundeninformation, CustomerInfoMaxSize steuert die "
-"maximale Anzahl an Zeichen der Kundeninformation)."
+"Zeigt eine Vorschau der Ticket-Übersicht mit einigen Ticketinformationen an ("
+"CustomerInfo => 1 - zeigt auch Kundeninformation an, CustomerInfoMaxSize "
+"steuert die maximale Anzahl angezeigter Zeichen in der Kundeninformation)."
 
 #. SysConfig
 msgid ""
@@ -30491,7 +30499,7 @@ msgid ""
 "in queue view."
 msgstr ""
 "Diese Einstellung zeigt die Sortier-Attribute aller Übersichtsansichten, "
-"nicht nur in der   Queue-Ansicht."
+"nicht nur in der Queue-Ansicht."
 
 #. SysConfig
 msgid "This will allow the system to send text messages via SMS."
