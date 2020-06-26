@@ -1,13 +1,13 @@
 # Translators:
-# OTRS SDN BHD <otrssdnbhd@gmail.com>, 2019
+# OTOBO SDN BHD <otobosdnbhd@gmail.com>, 2019
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: OTRS SDN BHD <otrssdnbhd@gmail.com>, 2019\n"
-"Language-Team: Thai (Thailand) (https://www.transifex.com/otrs/teams/23435/"
+"Last-Translator: OTOBO SDN BHD <otobosdnbhd@gmail.com>, 2019\n"
+"Language-Team: Thai (Thailand) (https://www.transifex.com/otobo/teams/23435/"
 "th_TH/)\n"
 "Language: th_TH\n"
 "MIME-Version: 1.0\n"
@@ -936,9 +936,9 @@ msgstr "ข้อมูลสนับสนุนตอนนี้จะแส
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
-"It is highly recommended to send this data to OTRS Group in order to get "
+"It is highly recommended to send this data to Rother OSS GmbH in order to get "
 "better support."
-msgstr "ขอแนะนำให้ส่งข้อมูลนี้ไปยังกลุ่มOTRS เพื่อให้ได้รับการสนับสนุนที่ดีขึ้น"
+msgstr "ขอแนะนำให้ส่งข้อมูลนี้ไปยังกลุ่มOTOBO เพื่อให้ได้รับการสนับสนุนที่ดีขึ้น"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -951,8 +951,8 @@ msgstr "ส่งข้อมูลการสนับสนุน"
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "This will allow the system to send additional support data information to "
-"OTRS Group."
-msgstr "ซึ่งจะช่วยให้ระบบสามารถส่งข้อมูลการสนับสนุนเพิ่มเติมไปยังกลุ่มOTRS"
+"Rother OSS GmbH."
+msgstr "ซึ่งจะช่วยให้ระบบสามารถส่งข้อมูลการสนับสนุนเพิ่มเติมไปยังกลุ่มOTOBO"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -964,11 +964,11 @@ msgstr "ระบบการลงทะเบียน"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
-"To enable data sending, please register your system with OTRS Group or "
+"To enable data sending, please register your system with Rother OSS GmbH or "
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
 msgstr ""
-"เพื่อเปิดใช้งานการส่งข้อมูลกรุณาลงทะเบียนระบบของคุณกับกลุ่มOTRSหรืออัปเดตข้อมูลการลงทะเบียนระบบของคุณ "
+"เพื่อเปิดใช้งานการส่งข้อมูลกรุณาลงทะเบียนระบบของคุณกับกลุ่มOTOBOหรืออัปเดตข้อมูลการลงทะเบียนระบบของคุณ "
 "(ต้องแน่ใจว่าได้เปิดใช้งาน 'ตัวเลือกการส่งข้อมูลสนับสนุน'.)"
 
 #. Template: AdminCloudServiceSupportDataCollector
@@ -983,15 +983,15 @@ msgstr "ระบบการลงทะเบียนถูกปิดใช
 
 #. Template: AdminCloudServices
 msgid ""
-"System registration is a service of OTRS Group, which provides a lot of "
+"System registration is a service of Rother OSS GmbH, which provides a lot of "
 "advantages!"
-msgstr "ระบบการลงทะเบียนคือหนึ่งในการบริการของ OTRS ซึ่งมีประโยชน์มาก!"
+msgstr "ระบบการลงทะเบียนคือหนึ่งในการบริการของ OTOBO ซึ่งมีประโยชน์มาก!"
 
 #. Template: AdminCloudServices
 msgid ""
-"Please note that the use of OTRS cloud services requires the system to be "
+"Please note that the use of OTOBO cloud services requires the system to be "
 "registered."
-msgstr "โปรดทราบว่าการใช้บริการคลาวด์ของ OTRSต้องใช้ระบบที่จะถูกลงทะเบียน"
+msgstr "โปรดทราบว่าการใช้บริการคลาวด์ของ OTOBOต้องใช้ระบบที่จะถูกลงทะเบียน"
 
 #. Template: AdminCloudServices
 msgid "Register this system"
@@ -2620,7 +2620,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"This OTRS error handling backend module will be called internally to process "
+"This OTOBO error handling backend module will be called internally to process "
 "the error handling mechanism."
 msgstr ""
 
@@ -2913,9 +2913,9 @@ msgstr "ผู้ร้องขอเบื้องหลัง"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
-"This OTRS invoker backend module will be called to prepare the data to be "
+"This OTOBO invoker backend module will be called to prepare the data to be "
 "sent to the remote system, and to process its response data."
-msgstr "โมดูลผู้ร้องขอเบื้องหลังของOTRSนี้จะถูกเรียกเพื่อเตรียมข้อมูลที่จะส่งไปยังระบบระยะไกลและเพื่อประมวลผลข้อมูลการตอบสนอง"
+msgstr "โมดูลผู้ร้องขอเบื้องหลังของOTOBOนี้จะถูกเรียกเพื่อเตรียมข้อมูลที่จะส่งไปยังระบบระยะไกลและเพื่อประมวลผลข้อมูลการตอบสนอง"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for outgoing request data"
@@ -2927,10 +2927,10 @@ msgstr "การกำหนดค่า"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
-"The data from the invoker of OTRS will be processed by this mapping, to "
+"The data from the invoker of OTOBO will be processed by this mapping, to "
 "transform it to the kind of data the remote system expects."
 msgstr ""
-"ข้อมูลจากผู้ร้องขอของOTRS  "
+"ข้อมูลจากผู้ร้องขอของOTOBO  "
 "จะถูกดำเนินการจากแผนที่นี้เพื่อเปลี่ยนมันไปเป็นประเภทของข้อมูลที่คาดว่าเป็นระบบจากระยะไกล"
 
 #. Template: AdminGenericInterfaceInvokerDefault
@@ -2940,10 +2940,10 @@ msgstr "แผนที่สำหรับข้อมูลการตอบ
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "The response data will be processed by this mapping, to transform it to the "
-"kind of data the invoker of OTRS expects."
+"kind of data the invoker of OTOBO expects."
 msgstr ""
 "ข้อมูลการตอบสนองจะถูกประมวลผลโดยแผนที่นี้เพื่อเปลี่ยนมันไปเป็นข้อมูลผู้ร้องขอตามการคาดการของ "
-"OTRS "
+"OTOBO "
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous"
@@ -2973,10 +2973,10 @@ msgstr "ในการเพิ่มกิจกรรมใหม่เลื
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
-"Asynchronous event triggers are handled by the OTRS Scheduler Daemon in "
+"Asynchronous event triggers are handled by the OTOBO Scheduler Daemon in "
 "background (recommended)."
 msgstr ""
-"ตัวกระตุ้นกิจกรรมที่ไม่ตรงกันจะถูกจัดการโดย OTRS Scheduler Daemon ในเบื้องหลัง (แนะนำ)"
+"ตัวกระตุ้นกิจกรรมที่ไม่ตรงกันจะถูกจัดการโดย OTOBO Scheduler Daemon ในเบื้องหลัง (แนะนำ)"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -3318,9 +3318,9 @@ msgstr "การดำเนินงานเบื้องหลัง"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
-"This OTRS operation backend module will be called internally to process the "
+"This OTOBO operation backend module will be called internally to process the "
 "request, generating data for the response."
-msgstr "โมดูลผู้ร้องขอเบื้องหลังของOTRSนี้จะถูกเรียกจากภายในเพื่อเพื่อดำเนินการตามคำขอและสร้างข้อมูลสำหรับการตอบสนอง"
+msgstr "โมดูลผู้ร้องขอเบื้องหลังของOTOBOนี้จะถูกเรียกจากภายในเพื่อเพื่อดำเนินการตามคำขอและสร้างข้อมูลสำหรับการตอบสนอง"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for incoming request data"
@@ -3329,9 +3329,9 @@ msgstr "แผนที่สำหรับข้อมูลการร้อ
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "The request data will be processed by this mapping, to transform it to the "
-"kind of data OTRS expects."
+"kind of data OTOBO expects."
 msgstr ""
-"ข้อมูลการร้องขอจะถูกประมวลผลโดยแผนที่นี้เพื่อเปลี่ยนมันไปเป็นข้อมูลตามการคาดการของ OTRS"
+"ข้อมูลการร้องขอจะถูกประมวลผลโดยแผนที่นี้เพื่อเปลี่ยนมันไปเป็นข้อมูลตามการคาดการของ OTOBO"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for outgoing response data"
@@ -3394,9 +3394,9 @@ msgstr "ข้อมูลในช่องนี้ควรจะเป็น
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
-"Here you can specify the maximum size (in bytes) of REST messages that OTRS "
+"Here you can specify the maximum size (in bytes) of REST messages that OTOBO "
 "will process."
-msgstr "คุณสามารถระบุขนาดสูงสุด(ไบต์)ของข้อความREST ที่นี่ว่าOTRS จะดำเนินการ"
+msgstr "คุณสามารถระบุขนาดสูงสุด(ไบต์)ของข้อความREST ที่นี่ว่าOTOBO จะดำเนินการ"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Send Keep-Alive"
@@ -3425,9 +3425,9 @@ msgid "URI to indicate specific location for accessing a web service."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)"
+msgid "e.g https://www.otobo.com:10745/api/v1.0 (without trailing backslash)"
 msgstr ""
-"เช่น https://www.otrs.com:10745/api/v1.0 (โดยไม่ต้องต่อท้ายด้วยเครื่องหมาย backslash)"
+"เช่น https://www.otobo.com:10745/api/v1.0 (โดยไม่ต้องต่อท้ายด้วยเครื่องหมาย backslash)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
@@ -3524,7 +3524,7 @@ msgid ""
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g. /opt/otrs/var/certificates/SOAP/certificate.pem"
+msgid "e.g. /opt/otobo/var/certificates/SOAP/certificate.pem"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -3538,7 +3538,7 @@ msgid ""
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g. /opt/otrs/var/certificates/SOAP/key.pem"
+msgid "e.g. /opt/otobo/var/certificates/SOAP/key.pem"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -3560,8 +3560,8 @@ msgid ""
 msgstr "เส้นทางแบบเต็มและชื่อของผู้มีอำนาจในการรับรองไฟล์ใบรับรองเพื่อตรวจใบรับรอง SSL"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem"
-msgstr "เช่น /opt/otrs/var/certificates/SOAP/CA/ca.pem"
+msgid "e.g. /opt/otobo/var/certificates/SOAP/CA/ca.pem"
+msgstr "เช่น /opt/otobo/var/certificates/SOAP/CA/ca.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) Directory"
@@ -3574,8 +3574,8 @@ msgid ""
 msgstr "เส้นทางแบบเต็มของไดเรกทอรีผู้มีสิทธิ์ออกใบรับรองซึ่งใบรับรองCAจะถูกเก็บไว้ในระบบไฟล์"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g. /opt/otrs/var/certificates/SOAP/CA"
-msgstr "เช่น /opt/otrs/var/certificates/SOAP/CA"
+msgid "e.g. /opt/otobo/var/certificates/SOAP/CA"
+msgstr "เช่น /opt/otobo/var/certificates/SOAP/CA"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
@@ -3609,7 +3609,7 @@ msgid "The default HTTP command to use for the requests."
 msgstr "คำสั่ง HTTP เริ่มต้นที่จะใช้สำหรับการร้องขอ"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
-msgid "e.g. https://local.otrs.com:8000/Webservice/Example"
+msgid "e.g. https://local.otobo.com:8000/Webservice/Example"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
@@ -3680,10 +3680,10 @@ msgstr "URI ที่จะให้วิธีการ SOAPตามบริ
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
-"e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/"
+"e.g urn:otobo-com:soap:functions or http://www.otobo.com/GenericInterface/"
 "actions"
 msgstr ""
-"เช่น  urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/"
+"เช่น  urn:otobo-com:soap:functions or http://www.otobo.com/GenericInterface/"
 "actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
@@ -3729,9 +3729,9 @@ msgstr "ชื่อการตอบสนองข้อความฟรี
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
-"Here you can specify the maximum size (in bytes) of SOAP messages that OTRS "
+"Here you can specify the maximum size (in bytes) of SOAP messages that OTOBO "
 "will process."
-msgstr "คุณสามารถระบุขนาดสูงสุด(ไบต์)ของข้อความSOAP ที่OTRS จะดำเนินการที่นี้"
+msgstr "คุณสามารถระบุขนาดสูงสุด(ไบต์)ของข้อความSOAP ที่OTOBO จะดำเนินการที่นี้"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Encoding"
@@ -3879,12 +3879,12 @@ msgstr "เกณฑ์การแก้ปัญหา"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
-"In provider mode, OTRS offers web services which are used by remote systems."
-msgstr "ในโหมดผู้ให้บริการ OTRS เสนอบริการเว็บที่ใช้โดยระบบทางไกล"
+"In provider mode, OTOBO offers web services which are used by remote systems."
+msgstr "ในโหมดผู้ให้บริการ OTOBO เสนอบริการเว็บที่ใช้โดยระบบทางไกล"
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "In requester mode, OTRS uses web services of remote systems."
-msgstr "ในโหมดการร้องขอ, OTRSใช้บริการเว็บของระบบทางไกล"
+msgid "In requester mode, OTOBO uses web services of remote systems."
+msgstr "ในโหมดการร้องขอ, OTOBOใช้บริการเว็บของระบบทางไกล"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Network transport"
@@ -4079,7 +4079,7 @@ msgstr ""
 
 #. Template: AdminMailAccount
 msgid ""
-"If your account is marked as trusted, the X-OTRS headers already existing at "
+"If your account is marked as trusted, the X-OTOBO headers already existing at "
 "arrival time (for priority etc.) will be kept and used, for example in "
 "PostMaster filters."
 msgstr ""
@@ -4321,35 +4321,35 @@ msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
-"You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values "
+"You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values "
 "from the current ticket."
 msgstr ""
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Manage %s"
 msgstr "จัดการ% s"
 
-#. Template: AdminOTRSBusinessInstalled
-msgid "Downgrade to ((OTRS)) Community Edition"
+#. Template: AdminOTOBOCommunityInstalled
+msgid "Downgrade to ((OTOBO)) Community Edition"
 msgstr ""
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Read documentation"
 msgstr "อ่านเอกสาร"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
-"%s makes contact regularly with cloud.otrs.com to check on available updates "
+"%s makes contact regularly with cloud.otobo.com to check on available updates "
 "and the validity of the underlying contract."
 msgstr ""
-"%s ทำการติดต่อเป็นประจำกับ cloud.otrs."
+"%s ทำการติดต่อเป็นประจำกับ cloud.otobo."
 "comเพื่อตรวจสอบการปรับปรุงที่มีและความถูกต้องของสัญญาพื้นฐาน"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Unauthorized Usage Detected"
 msgstr "ตรวจพบการใช้งานที่ไม่ได้รับอนุญาต"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "This system uses the %s without a proper license! Please make contact with "
 "%s to renew or activate your contract!"
@@ -4357,26 +4357,26 @@ msgstr ""
 "ระบบนี้ใช้ %s โดยไม่มีใบอนุญาตที่ถูกต้อง! กรุณาโทรติดต่อกับ %s "
 "เพื่อต่ออายุหรือเปิดใช้งานสัญญาของคุณ!"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s not Correctly Installed"
 msgstr "%s ไม่ได้ติดตั้งอย่างถูกต้อง"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "Your %s is not correctly installed. Please reinstall it with the button "
 "below."
 msgstr "%s ของคุณไม่ได้ติดตั้งอย่างถูกต้อง โปรดติดตั้งด้วยปุ่มด้านล่าง"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Reinstall %s"
 msgstr "การติดตั้งใหม่% s"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "Your %s is not correctly installed, and there is also an update available."
 msgstr "%s ของคุณไม่ได้ติดตั้งอย่างถูกต้องและยังมีการปรับปรุงที่พร้อมใช้งานอีกด้วย"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "You can either reinstall your current version or perform an update with the "
 "buttons below (update recommended)."
@@ -4384,173 +4384,173 @@ msgstr ""
 "คุณสามารถติดตั้งเวอร์ชันปัจจุบันของคุณหรือดำเนินการอัพเดตด้วยปุ่มด้านล่างดังกล่าว "
 "(แนะนำให้ทำการอัพเดต)"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Update %s"
 msgstr "อัพเดท% s"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s Not Yet Available"
 msgstr "% s ยังไม่สามารถใช้ได้"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s will be available soon."
 msgstr "% s จะพร้อมใช้งานเร็ว ๆ นี้"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s Update Available"
 msgstr "%s การอัปเดตที่พร้อมใช้งาน"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
 msgstr "การอัปเดตสำหรับ% s ของคุณพร้อมใช้งาน โปรดอัปเดตโดยเร็วที่สุด!"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s Correctly Deployed"
 msgstr "%s ถูกนำไปใช้อย่างถูกต้อง"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Congratulations, your %s is correctly installed and up to date!"
 msgstr "ขอแสดงความยินดี %s ของคุณมีการติดตั้งอย่างถูกต้องและเป็นเวอร์ชั่นล่าสุด"
 
-#. Template: AdminOTRSBusinessNotInstalled
-msgid "Go to the OTRS customer portal"
+#. Template: AdminOTOBOCommunityNotInstalled
+msgid "Go to the OTOBO customer portal"
 msgstr ""
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "%s will be available soon. Please check again in a few days."
 msgstr "%s จะสามารถใช้ได้ในเร็ว ๆ นี้ กรุณาตรวจสอบอีกครั้งภายในไม่กี่วันนี้"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Please have a look at %s for more information."
 msgstr "โปรดดูได้ที่ %s สำหรับข้อมูลเพิ่มเติม"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid ""
-"Your ((OTRS)) Community Edition is the base for all future actions. Please "
+"Your ((OTOBO)) Community Edition is the base for all future actions. Please "
 "register first before you continue with the upgrade process of %s!"
 msgstr ""
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid ""
 "Before you can benefit from %s, please contact %s to get your %s contract."
 msgstr "ก่อนที่คุณจะสามารถได้รับประโยชน์จาก %s กรุณาติดต่อ %s เพื่อรับสัญญาของคุณ %s"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid ""
-"Connection to cloud.otrs.com via HTTPS couldn't be established. Please make "
-"sure that your OTRS can connect to cloud.otrs.com via port 443."
+"Connection to cloud.otobo.com via HTTPS couldn't be established. Please make "
+"sure that your OTOBO can connect to cloud.otobo.com via port 443."
 msgstr ""
-"การเชื่อมต่อกับ cloud.otrs.com ผ่าน HTTPS ไม่สามารถยืนยันได โปรดตรวจสอบว่า "
-"OTRSของคุณคุณสามารถเชื่อมต่อกับ cloud.otrs.com ผ่านทางพอร์ต443"
+"การเชื่อมต่อกับ cloud.otobo.com ผ่าน HTTPS ไม่สามารถยืนยันได โปรดตรวจสอบว่า "
+"OTOBOของคุณคุณสามารถเชื่อมต่อกับ cloud.otobo.com ผ่านทางพอร์ต443"
 
-#. Template: AdminOTRSBusinessNotInstalled
-msgid "Package installation requires patch level update of OTRS."
+#. Template: AdminOTOBOCommunityNotInstalled
+msgid "Package installation requires patch level update of OTOBO."
 msgstr ""
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Please visit our customer portal and file a request."
 msgstr ""
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Everything else will be done as part of your contract."
 msgstr ""
 
-#. Template: AdminOTRSBusinessNotInstalled
-msgid "Your installed OTRS version is %s."
+#. Template: AdminOTOBOCommunityNotInstalled
+msgid "Your installed OTOBO version is %s."
 msgstr ""
 
-#. Template: AdminOTRSBusinessNotInstalled
-msgid "To install this package, you need to update to OTRS %s or higher."
+#. Template: AdminOTOBOCommunityNotInstalled
+msgid "To install this package, you need to update to OTOBO %s or higher."
 msgstr ""
 
-#. Template: AdminOTRSBusinessNotInstalled
-msgid "To install this package, the Maximum OTRS Version is %s."
+#. Template: AdminOTOBOCommunityNotInstalled
+msgid "To install this package, the Maximum OTOBO Version is %s."
 msgstr ""
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "To install this package, the required Framework version is %s."
 msgstr ""
 
-#. Template: AdminOTRSBusinessNotInstalled
-msgid "Why should I keep OTRS up to date?"
+#. Template: AdminOTOBOCommunityNotInstalled
+msgid "Why should I keep OTOBO up to date?"
 msgstr ""
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "You will receive updates about relevant security issues."
 msgstr ""
 
-#. Template: AdminOTRSBusinessNotInstalled
-msgid "You will receive updates for all other relevant OTRS issues"
+#. Template: AdminOTOBOCommunityNotInstalled
+msgid "You will receive updates for all other relevant OTOBO issues"
 msgstr ""
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
 msgstr "ด้วยสัญญาที่มีอยู่ของคุณคุณสามารถใช้ส่วนเล็ก ๆ ของ %s"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid ""
 "If you would like to take full advantage of the %s get your contract "
 "upgraded now! Contact %s."
 msgstr "ถ้าคุณต้องการที่จะรับประโยชน์สูงสุดจาก %s อัพเกรดสัญญาของคุณตอนนี้! ติดต่อ% s"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Cancel downgrade and go back"
 msgstr "ยกเลิกการดาวน์เกรดแล้วย้อนกลับ"
 
-#. Template: AdminOTRSBusinessUninstall
-msgid "Go to OTRS Package Manager"
-msgstr "ไปยังตัวจัดการแพคเกจ OTRS "
+#. Template: AdminOTOBOCommunityUninstall
+msgid "Go to OTOBO Package Manager"
+msgstr "ไปยังตัวจัดการแพคเกจ OTOBO "
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid ""
 "Sorry, but currently you can't downgrade due to the following packages which "
 "depend on %s:"
 msgstr "ขออภัยขณะนี้คุณไม่สามารถดาวน์เกรดเนื่องจากการแพคเกจดังต่อไปนี้ซึ่งขึ้นอยู่กับ %s:"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Vendor"
 msgstr "ผู้จำหน่าย"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid ""
 "Please uninstall the packages first using the package manager and try again."
 msgstr "โปรดถอนการติดตั้งแพคเกจแรกโดยใช้ตัวจัดการแพคเกจและลองอีกครั้ง"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid ""
-"You are about to downgrade to ((OTRS)) Community Edition and will lose the "
+"You are about to downgrade to ((OTOBO)) Community Edition and will lose the "
 "following features and all data related to these:"
 msgstr ""
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Chat"
 msgstr "แชท"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Report Generator"
 msgstr "ตัวสร้างรายงาน"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Timeline view in ticket zoom"
 msgstr "มุมมองเส้นเวลาในการซูมตั๋ว"
 
-#. Template: AdminOTRSBusinessUninstall
-msgid "DynamicField ContactWithData"
+#. Template: AdminOTOBOCommunityUninstall
+msgid "DynamicField ContactWD"
 msgstr "ฟิลด์แบบไดนามิค ติดต่อกับข้อมูล"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "DynamicField Database"
 msgstr "ฟิลด์แบบไดนามิค ฐานข้อมูล"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "SLA Selection Dialog"
 msgstr "SLA การเลือกไดอะล็อก"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Ticket Attachment View"
 msgstr "มุมมองตั๋วที่มีเอกสารแนบ"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "The %s skin"
 msgstr "สกิน %s"
 
@@ -4567,8 +4567,8 @@ msgid "PGP support is disabled"
 msgstr "การสนับสนุน PGP จะถูกปิดใช้งาน"
 
 #. Template: AdminPGP
-msgid "To be able to use PGP in OTRS, you have to enable it first."
-msgstr "เพื่อให้สามารถใช้ PGP ใน OTRS คุณต้องเปิดการใช้งานก่อน"
+msgid "To be able to use PGP in OTOBO, you have to enable it first."
+msgstr "เพื่อให้สามารถใช้ PGP ใน OTOBO คุณต้องเปิดการใช้งานก่อน"
 
 #. Template: AdminPGP
 msgid "Enable PGP support"
@@ -4661,38 +4661,38 @@ msgid "package information"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Package installation requires a patch level update of OTRS."
+msgid "Package installation requires a patch level update of OTOBO."
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Package update requires a patch level update of OTRS."
+msgid "Package update requires a patch level update of OTOBO."
 msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
-"If you are a OTRS Business Solution™ customer, please visit our customer "
+"If you are a OTOBO Business Solution™ customer, please visit our customer "
 "portal and file a request."
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Please note that your installed OTRS version is %s."
+msgid "Please note that your installed OTOBO version is %s."
 msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
-"To install this package, you need to update OTRS to version %s or newer."
+"To install this package, you need to update OTOBO to version %s or newer."
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "This package can only be installed on OTRS version %s or older."
+msgid "This package can only be installed on OTOBO version %s or older."
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "This package can only be installed on OTRS version %s or newer."
+msgid "This package can only be installed on OTOBO version %s or newer."
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "You will receive updates for all other relevant OTRS issues."
+msgid "You will receive updates for all other relevant OTOBO issues."
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -4744,8 +4744,8 @@ msgid "Cloud services are currently disabled."
 msgstr "บริการคลาวด์ถูกปิดการใช้งานในขณะนี้"
 
 #. Template: AdminPackageManager
-msgid "OTRS Verify™ can not continue!"
-msgstr "OTRS Verify™ ไม่สามารถดำเนินการต่อไป!"
+msgid "OTOBO Verify™ can not continue!"
+msgstr "OTOBO Verify™ ไม่สามารถดำเนินการต่อไป!"
 
 #. Template: AdminPackageManager
 msgid "Enable cloud services"
@@ -4772,8 +4772,8 @@ msgid "Local Repository"
 msgstr "พื้นที่เก็บข้อมูลท้องถิ่น"
 
 #. Template: AdminPackageManager
-msgid "This package is verified by OTRSverify (tm)"
-msgstr "แพคเกจนี้ถูกตรวจสอบโดยOTRSverify (tm)"
+msgid "This package is verified by OTOBOverify (tm)"
+msgstr "แพคเกจนี้ถูกตรวจสอบโดยOTOBOverify (tm)"
 
 #. Template: AdminPackageManager
 msgid "Uninstall"
@@ -5818,7 +5818,7 @@ msgid "Register System"
 msgstr ""
 
 #. Template: AdminRegistration
-msgid "Validate OTRS-ID"
+msgid "Validate OTOBO-ID"
 msgstr ""
 
 #. Template: AdminRegistration
@@ -5842,8 +5842,8 @@ msgid "Overview of registered systems"
 msgstr "ภาพรวมของระบบการลงทะเบียน"
 
 #. Template: AdminRegistration
-msgid "This system is registered with OTRS Group."
-msgstr "ระบบนี้มีการลงทะเบียนกับกลุ่ม OTRS"
+msgid "This system is registered with Rother OSS GmbH."
+msgstr "ระบบนี้มีการลงทะเบียนกับกลุ่ม OTOBO"
 
 #. Template: AdminRegistration
 msgid "System type"
@@ -5863,9 +5863,9 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid ""
-"Please note that you can't register your system if OTRS Daemon is not "
+"Please note that you can't register your system if OTOBO Daemon is not "
 "running correctly!"
-msgstr "โปรดทราบว่าคุณไม่สามารถลงทะเบียนระบบของคุณ ถ้าหาก OTRS Daemon ทำงานไม่ถูกต้อง!"
+msgstr "โปรดทราบว่าคุณไม่สามารถลงทะเบียนระบบของคุณ ถ้าหาก OTOBO Daemon ทำงานไม่ถูกต้อง!"
 
 #. Template: AdminRegistration
 msgid "Instructions"
@@ -5884,22 +5884,22 @@ msgstr ""
 "หรือมีสัญญาการให้บริการที่ถูกต้อง"
 
 #. Template: AdminRegistration
-msgid "OTRS-ID Login"
-msgstr "OTRS-ID เข้าสู่ระบบ "
+msgid "OTOBO-ID Login"
+msgstr "OTOBO-ID เข้าสู่ระบบ "
 
 #. Template: AdminRegistration
 msgid "Read more"
 msgstr "อ่านเพิ่มเติม"
 
 #. Template: AdminRegistration
-msgid "You need to log in with your OTRS-ID to register your system."
-msgstr "คุณจำเป็นต้องเข้าสู่ระบบID OTRSเพื่อลงทะเบียนระบบของคุณ"
+msgid "You need to log in with your OTOBO-ID to register your system."
+msgstr "คุณจำเป็นต้องเข้าสู่ระบบID OTOBOเพื่อลงทะเบียนระบบของคุณ"
 
 #. Template: AdminRegistration
 msgid ""
-"Your OTRS-ID is the email address you used to sign up on the OTRS.com "
+"Your OTOBO-ID is the email address you used to sign up on the OTOBO.com "
 "webpage."
-msgstr "ID OTRS ของคุณคือที่อยู่อีเมลที่คุณใช้ในการลงทะเบียนในหน้าเว็บ OTRS.com"
+msgstr "ID OTOBO ของคุณคือที่อยู่อีเมลที่คุณใช้ในการลงทะเบียนในหน้าเว็บ OTOBO.com"
 
 #. Template: AdminRegistration
 msgid "Data Protection"
@@ -5928,16 +5928,16 @@ msgid "We will inform you about our new services and offerings soon."
 msgstr "เราจะแจ้งให้คุณทราบเกี่ยวกับบริการใหม่ของเราและการให้บริการในเร็ว ๆ นี้"
 
 #. Template: AdminRegistration
-msgid "Can I use OTRS without being registered?"
-msgstr "ฉันสามารถใช้ OTRS โดยไม่ต้องลงทะเบียนหรือไม่?"
+msgid "Can I use OTOBO without being registered?"
+msgstr "ฉันสามารถใช้ OTOBO โดยไม่ต้องลงทะเบียนหรือไม่?"
 
 #. Template: AdminRegistration
 msgid "System registration is optional."
 msgstr "การลงทะเบียนระบบเป็นแค่ทางเลือกหนึ่ง"
 
 #. Template: AdminRegistration
-msgid "You can download and use OTRS without being registered."
-msgstr "คุณสามารถดาวน์โหลดและ OTRS โดยไม่ต้องลงทะเบียน"
+msgid "You can download and use OTOBO without being registered."
+msgstr "คุณสามารถดาวน์โหลดและ OTOBO โดยไม่ต้องลงทะเบียน"
 
 #. Template: AdminRegistration
 msgid "Is it possible to deregister?"
@@ -5952,15 +5952,15 @@ msgid "Which data is transfered when registering?"
 msgstr "ข้อมูลใดจะถูกโอนเมื่อลงทะเบียน?"
 
 #. Template: AdminRegistration
-msgid "A registered system sends the following data to OTRS Group:"
-msgstr "ระบบที่จดทะเบียนส่งข้อมูลต่อไปนี้ไปยังกลุ่ม OTRS:"
+msgid "A registered system sends the following data to Rother OSS GmbH:"
+msgstr "ระบบที่จดทะเบียนส่งข้อมูลต่อไปนี้ไปยังกลุ่ม OTOBO:"
 
 #. Template: AdminRegistration
 msgid ""
-"Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System "
+"Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System "
 "and Perl version."
 msgstr ""
-"ชื่อโดเมนที่ผ่านการรับรองอย่างเต็มรูปแบบ (FQDN) เวอร์ชั่นของ OTRS, ฐานข้อมูล, "
+"ชื่อโดเมนที่ผ่านการรับรองอย่างเต็มรูปแบบ (FQDN) เวอร์ชั่นของ OTOBO, ฐานข้อมูล, "
 "ระบบปฏิบัติการและ เวอร์ชันของ Perl"
 
 #. Template: AdminRegistration
@@ -5978,8 +5978,8 @@ msgid ""
 msgstr "คำอธิบายและชนิดของระบบที่คุณระบุจะช่วยให้คุณระบุและจัดการรายละเอียดของระบบการลงทะเบียนของคุณ"
 
 #. Template: AdminRegistration
-msgid "How often does my OTRS system send updates?"
-msgstr "ระบบOTRS ของฉันมีการส่งการอัพเดตบ่อยแค่ใหน?"
+msgid "How often does my OTOBO system send updates?"
+msgstr "ระบบOTOBO ของฉันมีการส่งการอัพเดตบ่อยแค่ใหน?"
 
 #. Template: AdminRegistration
 msgid ""
@@ -5996,16 +5996,16 @@ msgid "If you deregister your system, you will lose these benefits:"
 msgstr "ถ้าคุณยกเลิกการลงทะเบียนระบบของคุณ คุณจะสูญเสียผลประโยชน์เหล่านี้:"
 
 #. Template: AdminRegistration
-msgid "You need to log in with your OTRS-ID to deregister your system."
-msgstr "คุณจำเป็นต้องเข้าสู่ระบบด้วย ID OTRSเพื่อยกเลิกการลงทะเบียนระบบของคุณ"
+msgid "You need to log in with your OTOBO-ID to deregister your system."
+msgstr "คุณจำเป็นต้องเข้าสู่ระบบด้วย ID OTOBOเพื่อยกเลิกการลงทะเบียนระบบของคุณ"
 
 #. Template: AdminRegistration
-msgid "OTRS-ID"
-msgstr "ID OTRS"
+msgid "OTOBO-ID"
+msgstr "ID OTOBO"
 
 #. Template: AdminRegistration
-msgid "You don't have an OTRS-ID yet?"
-msgstr "คุณยังไม่มีID OTRS ใช่หรือไม่?"
+msgid "You don't have an OTOBO-ID yet?"
+msgstr "คุณยังไม่มีID OTOBO ใช่หรือไม่?"
 
 #. Template: AdminRegistration
 msgid "Sign up now"
@@ -6025,9 +6025,9 @@ msgstr "ถัดไป"
 
 #. Template: AdminRegistration
 msgid ""
-"This data will be frequently transferred to OTRS Group when you register "
+"This data will be frequently transferred to Rother OSS GmbH when you register "
 "this system."
-msgstr "ข้อมูลนี้จะถูกโอนไปยังกลุ่มOTRS บ่อยครั้งเมื่อคุณลงทะเบียนระบบนี้"
+msgstr "ข้อมูลนี้จะถูกโอนไปยังกลุ่มOTOBO บ่อยครั้งเมื่อคุณลงทะเบียนระบบนี้"
 
 #. Template: AdminRegistration
 msgid "Attribute"
@@ -6038,8 +6038,8 @@ msgid "FQDN"
 msgstr "FQDN"
 
 #. Template: AdminRegistration
-msgid "OTRS Version"
-msgstr "เวอร์ชั่นของ OTRS"
+msgid "OTOBO Version"
+msgstr "เวอร์ชั่นของ OTOBO"
 
 #. Template: AdminRegistration
 msgid "Operating System"
@@ -6058,8 +6058,8 @@ msgid "Register"
 msgstr "ลงทะเบียน"
 
 #. Template: AdminRegistration
-msgid "Continuing with this step will deregister the system from OTRS Group."
-msgstr "ดำเนินการต่อด้วยขั้นตอนนี้จะยกเลิกการลงทะเบียนระบบจากกลุ่มOTRS"
+msgid "Continuing with this step will deregister the system from Rother OSS GmbH."
+msgstr "ดำเนินการต่อด้วยขั้นตอนนี้จะยกเลิกการลงทะเบียนระบบจากกลุ่มOTOBO"
 
 #. Template: AdminRegistration
 msgid "Deregister"
@@ -6247,8 +6247,8 @@ msgid "SMIME support is disabled"
 msgstr "การสนับสนุน SMIME จะถูกปิดใช้งาน"
 
 #. Template: AdminSMIME
-msgid "To be able to use SMIME in OTRS, you have to enable it first."
-msgstr "เพื่อให้สามารถใช้ SMIME ใน OTRS คุณต้องเปิดการใช้งานก่อน"
+msgid "To be able to use SMIME in OTOBO, you have to enable it first."
+msgstr "เพื่อให้สามารถใช้ SMIME ใน OTOBO คุณต้องเปิดการใช้งานก่อน"
 
 #. Template: AdminSMIME
 msgid "Enable SMIME support"
@@ -6622,8 +6622,8 @@ msgid "This state is used in the following config settings:"
 msgstr ""
 
 #. Template: AdminSupportDataCollector
-msgid "Sending support data to OTRS Group is not possible!"
-msgstr "ไม่สามารถส่งข้อมูลการสนับสนุนให้กับกลุ่มOTRS"
+msgid "Sending support data to Rother OSS GmbH is not possible!"
+msgstr "ไม่สามารถส่งข้อมูลการสนับสนุนให้กับกลุ่มOTOBO"
 
 #. Template: AdminSupportDataCollector
 msgid "Enable Cloud Services"
@@ -6631,10 +6631,10 @@ msgstr "เปิดใช้บริการคลาวด์"
 
 #. Template: AdminSupportDataCollector
 msgid ""
-"This data is sent to OTRS Group on a regular basis. To stop sending this "
+"This data is sent to Rother OSS GmbH on a regular basis. To stop sending this "
 "data please update your system registration."
 msgstr ""
-"ข้อมูลนี้จะถูกส่งไปยังกลุ่มOTRS เป็นประจำ "
+"ข้อมูลนี้จะถูกส่งไปยังกลุ่มOTOBO เป็นประจำ "
 "หากต้องการหยุดการส่งข้อมูลนี้โปรดอัปเดตการลงทะเบียนในระบบของคุณ"
 
 #. Template: AdminSupportDataCollector
@@ -6691,7 +6691,7 @@ msgid "Sending"
 msgstr "กำลังส่ง"
 
 #. Template: AdminSupportDataCollector
-msgid "The support bundle will be sent to OTRS Group via email automatically."
+msgid "The support bundle will be sent to Rother OSS GmbH via email automatically."
 msgstr "กลุ่มสนับสนุนจะถูกส่งไปยังกลุ่มการตรวจสอบแล้วผ่านทางอีเมล์โดยอัตโนมัติ"
 
 #. Template: AdminSupportDataCollector
@@ -6701,10 +6701,10 @@ msgstr "ดาวน์โหลดไฟล์"
 #. Template: AdminSupportDataCollector
 msgid ""
 "A file containing the support bundle will be downloaded to the local system. "
-"Please save the file and send it to the OTRS Group, using an alternate "
+"Please save the file and send it to the Rother OSS GmbH, using an alternate "
 "method."
 msgstr ""
-"ไฟล์ที่ประกอบด้วยกำสนับสนุนจะถูกดาวน์โหลดไปยังระบบภายใน กรุณาบันทึกไฟล์และส่งไปยังกลุ่มOTRS "
+"ไฟล์ที่ประกอบด้วยกำสนับสนุนจะถูกดาวน์โหลดไปยังระบบภายใน กรุณาบันทึกไฟล์และส่งไปยังกลุ่มOTOBO "
 "โดยใช้วิธีอื่น"
 
 #. Template: AdminSupportDataCollector
@@ -6801,7 +6801,7 @@ msgstr ""
 
 #. Template: AdminSystemConfiguration
 msgid ""
-"There are currently no settings available. Please make sure to run 'otrs."
+"There are currently no settings available. Please make sure to run 'otobo."
 "Console.pl Maint::Config::Rebuild' before using the software."
 msgstr ""
 
@@ -7630,39 +7630,39 @@ msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid ""
-"The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
+"The OTOBO Daemon is a daemon process that performs asynchronous tasks, e.g. "
 "ticket escalation triggering, email sending, etc."
 msgstr ""
-"OTRS Daemon เป็นกระบวนการดีมอนที่ดำเนินงานไม่ตรงกันเช่น เพิ่มตั๋ววิกฤติ, การส่งอีเมล์และอื่น ๆ"
+"OTOBO Daemon เป็นกระบวนการดีมอนที่ดำเนินงานไม่ตรงกันเช่น เพิ่มตั๋ววิกฤติ, การส่งอีเมล์และอื่น ๆ"
 
 #. Template: AgentDaemonInfo
-msgid "A running OTRS Daemon is mandatory for correct system operation."
-msgstr "OTRS Daemon ที่ใช้งานมีผลบังคับใช้สำหรับการทำงานของระบบที่ถูกต้อง"
+msgid "A running OTOBO Daemon is mandatory for correct system operation."
+msgstr "OTOBO Daemon ที่ใช้งานมีผลบังคับใช้สำหรับการทำงานของระบบที่ถูกต้อง"
 
 #. Template: AgentDaemonInfo
-msgid "Starting the OTRS Daemon"
-msgstr "เริ่มต้น OTRS Daemon"
+msgid "Starting the OTOBO Daemon"
+msgstr "เริ่มต้น OTOBO Daemon"
 
 #. Template: AgentDaemonInfo
 msgid ""
 "Make sure that the file '%s' exists (without .dist extension). This cron job "
-"will check every 5 minutes if the OTRS Daemon is running and start it if "
+"will check every 5 minutes if the OTOBO Daemon is running and start it if "
 "needed."
 msgstr ""
 "ตรวจสอบให้แน่ใจว่าไฟล์ '%s' มีอยู่ (โดยไม่มีนามสกุล .dist) งาน cron นี้จะตรวจสอบทุกๆ 5 "
-"นาทีถ้าOTRS Daemonกำลังทำงานอยู่และเริ่มต้นมันถ้าจำเป็น"
+"นาทีถ้าOTOBO Daemonกำลังทำงานอยู่และเริ่มต้นมันถ้าจำเป็น"
 
 #. Template: AgentDaemonInfo
 msgid ""
-"Execute '%s start' to make sure the cron jobs of the 'otrs' user are active."
-msgstr "ดำเนิน '%sการเริ่มต้น' เพื่อให้แน่ใจว่างาน cron ของผู้ใช้ 'otrs' มีการใช้งาน"
+"Execute '%s start' to make sure the cron jobs of the 'otobo' user are active."
+msgstr "ดำเนิน '%sการเริ่มต้น' เพื่อให้แน่ใจว่างาน cron ของผู้ใช้ 'otobo' มีการใช้งาน"
 
 #. Template: AgentDaemonInfo
 msgid ""
-"After 5 minutes, check that the OTRS Daemon is running in the system ('bin/"
-"otrs.Daemon.pl status')."
+"After 5 minutes, check that the OTOBO Daemon is running in the system ('bin/"
+"otobo.Daemon.pl status')."
 msgstr ""
-"หลังจาก 5 นาทีตรวจสอบดูว่า OTRS Daemonกำลังทำงานในระบบ ('bin / otrs.Daemon.pl "
+"หลังจาก 5 นาทีตรวจสอบดูว่า OTOBO Daemonกำลังทำงานในระบบ ('bin / otobo.Daemon.pl "
 "status')"
 
 #. Template: AgentDashboard
@@ -7926,13 +7926,13 @@ msgid ""
 "link this item to other objects."
 msgstr ""
 
-#. Template: AgentOTRSBusinessBlockScreen
+#. Template: AgentOTOBOCommunityBlockScreen
 msgid "Unauthorized usage of %s detected"
 msgstr ""
 
-#. Template: AgentOTRSBusinessBlockScreen
+#. Template: AgentOTOBOCommunityBlockScreen
 msgid ""
-"If you decide to downgrade to ((OTRS)) Community Edition, you will lose all "
+"If you decide to downgrade to ((OTOBO)) Community Edition, you will lose all "
 "database tables and data related to %s."
 msgstr ""
 
@@ -8018,8 +8018,8 @@ msgid "Save this setting"
 msgstr ""
 
 #. Template: AgentPreferences
-msgid "Did you know? You can help translating OTRS at %s."
-msgstr "คุณรู้หรือไม่ว่าคุณสามารถช่วยแปลOTRSที่% s ?"
+msgid "Did you know? You can help translating OTOBO at %s."
+msgstr "คุณรู้หรือไม่ว่าคุณสามารถช่วยแปลOTOBOที่% s ?"
 
 #. Template: SettingsList
 msgid "Reset to default"
@@ -8061,7 +8061,7 @@ msgid "Add Statistics"
 msgstr ""
 
 #. Template: AgentStatisticsAdd
-msgid "Read more about statistics in OTRS"
+msgid "Read more about statistics in OTOBO"
 msgstr ""
 
 #. Template: AgentStatisticsAdd
@@ -9377,7 +9377,7 @@ msgstr "ช่องข้อมูลตั๋ว"
 #. Template: Error
 msgid ""
 "Really a bug? 5 out of 10 bug reports result from a wrong or incomplete "
-"installation of OTRS."
+"installation of OTOBO."
 msgstr ""
 
 #. Template: Error
@@ -9437,7 +9437,7 @@ msgid "Notifications"
 msgstr ""
 
 #. Template: Header
-msgid "Notifications (OTRS Business Solution™)"
+msgid "Notifications (OTOBO Business Solution™)"
 msgstr ""
 
 #. Template: Header
@@ -9633,12 +9633,12 @@ msgid "Install Type"
 msgstr "การติดตั้งประเภท"
 
 #. Template: InstallerDBStart
-msgid "Create a new database for OTRS"
-msgstr "สร้างฐานข้อมูลใหม่สำหรับ OTRS"
+msgid "Create a new database for OTOBO"
+msgstr "สร้างฐานข้อมูลใหม่สำหรับ OTOBO"
 
 #. Template: InstallerDBStart
-msgid "Use an existing database for OTRS"
-msgstr "ใช้ฐานข้อมูลที่มีอยู่แล้วสำหรับ OTRS"
+msgid "Use an existing database for OTOBO"
+msgstr "ใช้ฐานข้อมูลที่มีอยู่แล้วสำหรับ OTOBO"
 
 #. Template: InstallerDBmssql
 msgid ""
@@ -9674,9 +9674,9 @@ msgstr "ใหม่"
 
 #. Template: InstallerDBmssql
 msgid ""
-"A new database user with limited permissions will be created for this OTRS "
+"A new database user with limited permissions will be created for this OTOBO "
 "system."
-msgstr "ผู้ใช้ฐานข้อมูลใหม่ที่มีการจำกัดสิทธิ์จะถูกสร้างขึ้นสำหรับระบบ OTRSนี้"
+msgstr "ผู้ใช้ฐานข้อมูลใหม่ที่มีการจำกัดสิทธิ์จะถูกสร้างขึ้นสำหรับระบบ OTOBOนี้"
 
 #. Template: InstallerDBmssql
 msgid "Repeat Password"
@@ -9700,26 +9700,26 @@ msgstr "พอร์ต"
 
 #. Template: InstallerFinish
 msgid ""
-"To be able to use OTRS you have to enter the following line in your command "
+"To be able to use OTOBO you have to enter the following line in your command "
 "line (Terminal/Shell) as root."
 msgstr ""
-"เพื่อให้สามารถใช้OTRS คุณจะต้องป้อนบรรทัดต่อไปนี้ในบรรทัดคำสั่งของคุณ (เทอร์มิ / Shell)เป็นหลัก"
+"เพื่อให้สามารถใช้OTOBO คุณจะต้องป้อนบรรทัดต่อไปนี้ในบรรทัดคำสั่งของคุณ (เทอร์มิ / Shell)เป็นหลัก"
 
 #. Template: InstallerFinish
 msgid "Restart your webserver"
 msgstr "รีสตาร์ทเว็บเซิร์ฟเวอร์ของคุณ"
 
 #. Template: InstallerFinish
-msgid "After doing so your OTRS is up and running."
-msgstr "หลังจากทำเช่นนั้น OTRS ของคุณจะขึ้นและทำงาน"
+msgid "After doing so your OTOBO is up and running."
+msgstr "หลังจากทำเช่นนั้น OTOBO ของคุณจะขึ้นและทำงาน"
 
 #. Template: InstallerFinish
 msgid "Start page"
 msgstr "หน้าแรก"
 
 #. Template: InstallerFinish
-msgid "Your OTRS Team"
-msgstr "ทีมOTRS ของคุณ"
+msgid "Your OTOBO Team"
+msgstr "ทีมOTOBO ของคุณ"
 
 #. Template: InstallerLicense
 msgid "Don't accept license"
@@ -9852,11 +9852,11 @@ msgstr ""
 
 #. Template: MobileNotAvailableWidget
 msgid ""
-"Sorry, but this feature of OTRS is currently not available for mobile "
+"Sorry, but this feature of OTOBO is currently not available for mobile "
 "devices. If you'd like to use it, you can either switch to desktop mode or "
 "use your regular desktop device."
 msgstr ""
-"ขออภัยฟีเจอร์นี้ของOTRS ไม่สามารถใช้งานกับโทรศัพท์มือถือได้ขณะนี้ "
+"ขออภัยฟีเจอร์นี้ของOTOBO ไม่สามารถใช้งานกับโทรศัพท์มือถือได้ขณะนี้ "
 "หากคุณต้องการที่จะใช้มันคุณสามารถสลับไปยังโหมดเดสก์ทอปหรือเดสก์ทอปของคุณตามปกติ"
 
 #. Template: Motd
@@ -9941,9 +9941,9 @@ msgstr "ยินดีต้อนรับ"
 
 #. Template: PublicDefault
 msgid ""
-"This is the default public interface of OTRS! There was no action parameter "
+"This is the default public interface of OTOBO! There was no action parameter "
 "given."
-msgstr "นี่คืออินเตอร์เฟซสาธารณะเริ่มต้นของ OTRS! ไม่มีพารามิเตอร์การกระทำที่กำหนด"
+msgstr "นี่คืออินเตอร์เฟซสาธารณะเริ่มต้นของ OTOBO! ไม่มีพารามิเตอร์การกระทำที่กำหนด"
 
 #. Template: PublicDefault
 msgid ""
@@ -10350,15 +10350,15 @@ msgstr ""
 msgid "Navigation"
 msgstr ""
 
-#. Template: OTRSBusinessTeaser
+#. Template: OTOBOCommunityTeaser
 msgid ""
 "With %s, System Configuration supports versioning, rollback and user-"
 "specific configuration settings."
 msgstr ""
 
 #. Template: Test
-msgid "OTRS Test Page"
-msgstr "หน้าการทดสอบ OTRS"
+msgid "OTOBO Test Page"
+msgstr "หน้าการทดสอบ OTOBO"
 
 #. Template: Test
 msgid "Unlock"
@@ -10563,10 +10563,10 @@ msgstr "ข้อมูลACL จากฐานข้อมูลไม่ไ�
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
-"ACLs could not be Imported due to a unknown error, please check OTRS logs "
+"ACLs could not be Imported due to a unknown error, please check OTOBO logs "
 "for more information"
 msgstr ""
-"ACLsไม่สามารถนำเข้าเนื่องจากข้อผิดพลาดที่ไม่ทราบโปรดตรวจสอบการล็อก OTRS สำหรับข้อมูลเพิ่มเติม"
+"ACLsไม่สามารถนำเข้าเนื่องจากข้อผิดพลาดที่ไม่ทราบโปรดตรวจสอบการล็อก OTOBO สำหรับข้อมูลเพิ่มเติม"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "The following ACLs have been added successfully: %s"
@@ -10756,9 +10756,9 @@ msgstr "มีข้อผิดพลาดในการสร้างกา
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid ""
 "Notifications could not be Imported due to a unknown error, please check "
-"OTRS logs for more information"
+"OTOBO logs for more information"
 msgstr ""
-"ไม่สามารถนำเข้าการแจ้งเตือนได้เนื่องจากข้อผิดพลาดที่ไม่ทราบโปรดตรวจสอบการล็อก OTRS "
+"ไม่สามารถนำเข้าการแจ้งเตือนได้เนื่องจากข้อผิดพลาดที่ไม่ทราบโปรดตรวจสอบการล็อก OTOBO "
 "สำหรับข้อมูลเพิ่มเติม"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
@@ -11560,25 +11560,25 @@ msgstr "ต้องการไฟล์ที่จะนำเข้า!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid ""
-"The imported file has not valid YAML content! Please check OTRS log for "
+"The imported file has not valid YAML content! Please check OTOBO log for "
 "details"
-msgstr "ไฟล์ที่นำเข้ามีเนื้อหา YAML ที่ไม่ถูกต้อง! โปรดตรวจสอบบันทึก OTRS สำหรับรายละเอียด"
+msgstr "ไฟล์ที่นำเข้ามีเนื้อหา YAML ที่ไม่ถูกต้อง! โปรดตรวจสอบบันทึก OTOBO สำหรับรายละเอียด"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" deleted!"
 msgstr "ลบ Web service \"%s\" แล้ว"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
-msgid "OTRS as provider"
-msgstr "OTRS เป็นผู้ให้บริการ"
+msgid "OTOBO as provider"
+msgstr "OTOBO เป็นผู้ให้บริการ"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Operations"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
-msgid "OTRS as requester"
-msgstr "OTRS เป็นผู้ร้องขอ"
+msgid "OTOBO as requester"
+msgstr "OTOBO เป็นผู้ร้องขอ"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Invokers"
@@ -11666,35 +11666,35 @@ msgstr ""
 msgid "Visible to customer"
 msgstr ""
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "Your system was successfully upgraded to %s."
 msgstr "ระบบของคุณประสบความสำเร็จในการอัพเกรดเปน % s"
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "There was a problem during the upgrade to %s."
 msgstr "มีปัญหาเกิดขึ้นระหว่างการอัพเกรดเป็น% s"
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "%s was correctly reinstalled."
 msgstr "% s ได้รับการติดตั้งอย่างถูกต้อง"
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "There was a problem reinstalling %s."
 msgstr "มีปัญหาในการติดตั้งอีกครั้ง% s"
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "Your %s was successfully updated."
 msgstr "% s ของคุณอัพเดตเรียบร้อยแล้ว"
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "There was a problem during the upgrade of %s."
 msgstr "มีปัญหาเกิดขึ้นระหว่างการอัพเกรดของ% s"
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "%s was correctly uninstalled."
 msgstr "% sได้ยกเลิกการติดตั้งอย่างถูกต้อง"
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "There was a problem uninstalling %s."
 msgstr "มีปัญหาในการถอนการติดตั้ง% s "
 
@@ -11718,11 +11718,11 @@ msgstr "ต้องการคีย์ param เพื่อดาวน์�
 msgid ""
 "Sorry, Apache::Reload is needed as PerlModule and PerlInitHandler in Apache "
 "config file. See also scripts/apache2-httpd.include.conf. Alternatively, you "
-"can use the command line tool bin/otrs.Console.pl to install packages!"
+"can use the command line tool bin/otobo.Console.pl to install packages!"
 msgstr ""
 "ขออภัย Apache::Reload เป็นสิ่งจำเป็นเช่นเดียวกับ PerlModule และ PerlInitHandler "
 "ในไฟล์ config Apache ดูเพิ่มเติมที่ scripts/apache2-httpd.include.conf "
-"หรือคุณสามารถใช้คำสั่งเครื่องมือขีดเส้น bin/otrs.Console.pl เพื่อติดตั้งแพคเกจ!"
+"หรือคุณสามารถใช้คำสั่งเครื่องมือขีดเส้น bin/otobo.Console.pl เพื่อติดตั้งแพคเกจ!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
@@ -11750,9 +11750,9 @@ msgstr "แพคเกจมีการปรับเปลี่ยนไฟ
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
-"Package not verified by the OTRS Group! It is recommended not to use this "
+"Package not verified by the Rother OSS GmbH! It is recommended not to use this "
 "package."
-msgstr "แพคเกจยังไม่ได้รับการตรวจสอบโดยกลุ่ม OTRS! ขอแนะนำไม่ให้ใช้แพคเกจนี้"
+msgstr "แพคเกจยังไม่ได้รับการตรวจสอบโดยกลุ่ม OTOBO! ขอแนะนำไม่ให้ใช้แพคเกจนี้"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not Started"
@@ -11829,16 +11829,16 @@ msgid ""
 msgstr "ไม่ได้ตรวจสอบแพคเกจเนื่องจากปัญหาการสื่อสารกับเซิร์ฟเวอร์การตรวจสอบ!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
-msgid "Can't connect to OTRS Feature Add-on list server!"
-msgstr "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์คุณสมบัติ OTRS ที่อยู่ในรายการAdd-on !"
+msgid "Can't connect to OTOBO Feature Add-on list server!"
+msgstr "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์คุณสมบัติ OTOBO ที่อยู่ในรายการAdd-on !"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
-msgid "Can't get OTRS Feature Add-on list from server!"
-msgstr "ไม่สามารถได้รับคุณสมบัติของเซิร์ฟเวอร์ OTRS ที่อยู่ในรายการAdd-on !"
+msgid "Can't get OTOBO Feature Add-on list from server!"
+msgstr "ไม่สามารถได้รับคุณสมบัติของเซิร์ฟเวอร์ OTOBO ที่อยู่ในรายการAdd-on !"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
-msgid "Can't get OTRS Feature Add-on from server!"
-msgstr "ไม่สามารถได้รับคุณสมบัติ OTRS Add-on จากเซิร์ฟเวอร์!"
+msgid "Can't get OTOBO Feature Add-on from server!"
+msgstr "ไม่สามารถได้รับคุณสมบัติ OTOBO Add-on จากเซิร์ฟเวอร์!"
 
 #. Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
 msgid "No such filter: %s"
@@ -12294,7 +12294,7 @@ msgstr "การนำเข้าไม่ได้รับอนุญาต
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid ""
 "System Configuration could not be imported due to an unknown error, please "
-"check OTRS logs for more information."
+"check OTOBO logs for more information."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
@@ -12304,7 +12304,7 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeployment.pm
 msgid ""
 "Some imported settings are not present in the current state of the "
-"configuration or it was not possible to update them. Please check the OTRS "
+"configuration or it was not possible to update them. Please check the OTOBO "
 "log for more information."
 msgstr ""
 
@@ -13620,8 +13620,8 @@ msgid "Directory \"%s\" not found!"
 msgstr "ไม่พบไดเรกเทอรี \"%s\"!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
-msgid "Install OTRS"
-msgstr "การติดตั้งOTRS"
+msgid "Install OTOBO"
+msgstr "การติดตั้งOTOBO"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Intro"
@@ -13688,8 +13688,8 @@ msgid "Create Database"
 msgstr "สร้างฐานข้อมูล"
 
 #. Perl Module: Kernel/Modules/Installer.pm
-msgid "Install OTRS - Error"
-msgstr "ติดตั้ง OTRS - ข้อผิดพลาด"
+msgid "Install OTOBO - Error"
+msgstr "ติดตั้ง OTOBO - ข้อผิดพลาด"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "File \"%s/%s.xml\" not found!"
@@ -13835,7 +13835,7 @@ msgid "Print this article"
 msgstr "พิมพ์บทความนี้"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at sales@otrs.com"
+msgid "Contact us at hallo@otobo.de"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
@@ -13851,7 +13851,7 @@ msgid "Unmark"
 msgstr "ยกเลิกการมาร์ค"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
-msgid "Upgrade to OTRS Business Solution™"
+msgid "Upgrade to OTOBO Business Solution™"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
@@ -14025,11 +14025,11 @@ msgid "The start time of a ticket has been set after the end time!"
 msgstr "เวลาเริ่มต้นของตั๋วจะต้องตั้งค่าหลังเวลาสิ้นสุด!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
-msgid "Can't connect to OTRS News server!"
+msgid "Can't connect to OTOBO News server!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
-msgid "Can't get OTRS News from server!"
+msgid "Can't get OTOBO News from server!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
@@ -14207,24 +14207,24 @@ msgid "Archive search"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
-msgid "Enable cloud services to unleash all OTRS features!"
-msgstr "เปิดใช้บริการคลาวด์เพื่อเปิดใช้งานคุณสมบัติ OTRS ทั้งหมด!"
+msgid "Enable cloud services to unleash all OTOBO features!"
+msgstr "เปิดใช้บริการคลาวด์เพื่อเปิดใช้งานคุณสมบัติ OTOBO ทั้งหมด!"
 
-#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr "%s อัพเกรดเป็น %s ในขณะนี้! %s"
 
-#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
 msgid "Please verify your license data!"
 msgstr ""
 
-#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
 msgstr "ใบอนุญาตสำหรับ% s ของคุณกำลังจะหมดอายุ กรุณาโทรติดต่อกับ% s เพื่อต่อสัญญาของคุณ!"
 
-#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
@@ -14260,8 +14260,8 @@ msgid ""
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-msgid "OTRS Daemon is not running."
-msgstr "OTRS Daemonไม่ทำงาน"
+msgid "OTOBO Daemon is not running."
+msgstr "OTOBO Daemonไม่ทำงาน"
 
 #. Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
 msgid "You have Out of Office enabled, would you like to disable it?"
@@ -14269,7 +14269,7 @@ msgstr "คุณไม่อยู่ที่สำนักงานที่
 
 #. Perl Module: Kernel/Output/HTML/Notification/PackageManagerCheckNotVerifiedPackages.pm
 msgid ""
-"The installation of packages which are not verified by the OTRS Group is "
+"The installation of packages which are not verified by the Rother OSS GmbH is "
 "activated. These packages could threaten your whole system! It is "
 "recommended not to use unverified packages."
 msgstr ""
@@ -14566,7 +14566,7 @@ msgstr "ยังไม่สามารถเข้าสู่ระบบใ
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
-"You have exceeded the number of concurrent agents - contact sales@otrs.com."
+"You have exceeded the number of concurrent agents - contact hallo@otobo.de."
 msgstr ""
 
 #. Perl Module: Kernel/System/AuthSession.pm
@@ -14576,7 +14576,7 @@ msgstr ""
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
 "Login rejected! You have exceeded the maximum number of concurrent Agents! "
-"Contact sales@otrs.com immediately!"
+"Contact hallo@otobo.de immediately!"
 msgstr ""
 
 #. Perl Module: Kernel/System/AuthSession.pm
@@ -14739,12 +14739,12 @@ msgid ""
 "<p>If you continue to install this package, the following issues may occur:</"
 "p><ul><li>Security problems</li><li>Stability problems</li><li>Performance "
 "problems</li></ul><p>Please note that issues that are caused by working with "
-"this package are not covered by OTRS service contracts.</p>"
+"this package are not covered by OTOBO service contracts.</p>"
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
-"<p>The installation of packages which are not verified by the OTRS Group is "
+"<p>The installation of packages which are not verified by the Rother OSS GmbH is "
 "not possible by default. You can activate the installation of not verified "
 "packages via the \"AllowNotVerifiedPackages\" system configuration setting.</"
 "p>"
@@ -15091,7 +15091,7 @@ msgstr ""
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
 msgid ""
 "Tables with invalid default values were found. In order to fix it "
-"automatically, please run: bin/otrs.Console.pl Maint::Database::Check --"
+"automatically, please run: bin/otobo.Console.pl Maint::Database::Check --"
 "repair"
 msgstr ""
 
@@ -15190,21 +15190,21 @@ msgstr ""
 msgid "PostgreSQL 9.2 or higher is required."
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTRS.pm
-msgid "OTRS Disk Partition"
-msgstr "แบ่งดิสก์ OTRS "
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
+msgid "OTOBO Disk Partition"
+msgstr "แบ่งดิสก์ OTOBO "
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
 msgid "Disk Usage"
 msgstr "การใช้งานดิสก์"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
-msgid "The partition where OTRS is located is almost full."
-msgstr "แบ่ง OTRS เมื่อความจำใกล้เต็ม"
+msgid "The partition where OTOBO is located is almost full."
+msgstr "แบ่ง OTOBO เมื่อความจำใกล้เต็ม"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
-msgid "The partition where OTRS is located has no disk space problems."
-msgstr "แบ่ง OTRS เมื่อควาจุของดิสก์ไม่มีปัญหา"
+msgid "The partition where OTOBO is located has no disk space problems."
+msgstr "แบ่ง OTOBO เมื่อควาจุของดิสก์ไม่มีปัญหา"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
 msgid "Disk Partitions Usage"
@@ -15283,139 +15283,139 @@ msgstr "พื้นที่การแลกเปลี่ยนฟรีค
 msgid "There should be no more than 200 MB swap space used."
 msgstr "พื้นที่การแลกเปลี่ยนที่ถูกใช้ควรจะมีมากกว่า 200 MB "
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ArticleSearchIndexStatus.pm
-msgid "OTRS"
-msgstr "OTRS"
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
+msgid "OTOBO"
+msgstr "OTOBO"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ArticleSearchIndexStatus.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
 msgid "Article Search Index Status"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ArticleSearchIndexStatus.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
 msgid "Indexed Articles"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ArticlesPerCommunicationChannel.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticlesPerCommunicationChannel.pm
 msgid "Articles Per Communication Channel"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLog.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Incoming communications"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLog.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Outgoing communications"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLog.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Failed communications"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLog.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Average processing time of communications (s)"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLogAccountStatus.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "Communication Log Account Status (last 24 hours)"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLogAccountStatus.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "No connections found."
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLogAccountStatus.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "ok"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLogAccountStatus.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "permanent connection errors"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLogAccountStatus.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "intermittent connection errors"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ConfigSettings.pm
 msgid "Config Settings"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ConfigSettings.pm
 msgid "Could not determine value."
 msgstr "ไม่สามารถกำหนดค่า"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DaemonRunning.pm
 msgid "Daemon"
 msgstr "Daemon"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DaemonRunning.pm
 msgid "Daemon is running."
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DaemonRunning.pm
 msgid "Daemon is not running."
 msgstr " Daemon ไม่ทำงาน"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Database Records"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Tickets"
 msgstr "ตั๋ว"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Ticket History Entries"
 msgstr "ประวัติการป้อนตั๋ว"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Articles"
 msgstr "บทความ"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Attachments (DB, Without HTML)"
 msgstr "สิ่งที่แนบมา (DB ปราศจาก HTML)"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Customers With At Least One Ticket"
 msgstr "ลูกค้ามีอย่างน้อยหนึ่งตั๋ว"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Dynamic Field Values"
 msgstr "ค่าไดนามิกฟิลด์"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Invalid Dynamic Fields"
 msgstr "ฟิลด์แบบไดนามิกที่ไม่ถูกต้อง"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Invalid Dynamic Field Values"
 msgstr "ค่าฟิลด์แบบไดนามิกที่ไม่ถูกต้อง"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "GenericInterface Webservices"
 msgstr "GenericInterface Webservices"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Process Tickets"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Months Between First And Last Ticket"
 msgstr "เดือนที่อยู่ระหว่างตั๋วใบแรกและใบสุดท้าย"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Tickets Per Month (avg)"
 msgstr "ตั๋วต่อเดือน (เฉลี่ย)"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Open Tickets"
 msgstr "เปิดตั๋ว"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DefaultSOAPUser.pm
 msgid "Default SOAP Username And Password"
 msgstr "ชื่อและรหัสผ่านเริ่มต้นของSOAP"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DefaultSOAPUser.pm
 msgid ""
 "Security risk: you use the default setting for SOAP::User and SOAP::"
 "Password. Please change it."
@@ -15423,11 +15423,11 @@ msgstr ""
 "ความเสี่ยงด้านความปลอดภัย: คุณใช้การตั้งค่าเริ่มต้นสำหรับ SOAP :: ผู้ใช้และSOAP ::รหัสผ่าน "
 "กรุณาเปลี่ยนมัน"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultUser.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DefaultUser.pm
 msgid "Default Admin Password"
 msgstr "รหัสผ่านเริ่มต้นของผู้ดูแลระบบ"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultUser.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DefaultUser.pm
 msgid ""
 "Security risk: the agent account root@localhost still has the default "
 "password. Please change it or invalidate the account."
@@ -15435,113 +15435,113 @@ msgstr ""
 "ความเสี่ยงด้านความปลอดภัย: บัญชีเอเย่นต์ root@localhost ยังคงใช้รหัสผ่านเริ่มต้น "
 "กรุณาเปลี่ยนหรือโมฆะบัญชี"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/EmailQueue.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/EmailQueue.pm
 msgid "Email Sending Queue"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/EmailQueue.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/EmailQueue.pm
 msgid "Emails queued for sending"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FQDN.pm
 msgid "FQDN (domain name)"
 msgstr "FQDN (ชื่อโดเมน)"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FQDN.pm
 msgid "Please configure your FQDN setting."
 msgstr "โปรดกำหนดการตั้งค่า FQDN ของคุณ"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FQDN.pm
 msgid "Domain Name"
 msgstr "ชื่อโดเมน"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FQDN.pm
 msgid "Your FQDN setting is invalid."
 msgstr "การตั้งค่า FQDN คุณไม่ถูกต้อง"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FileSystemWritable.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FileSystemWritable.pm
 msgid "File System Writable"
 msgstr "ระบบไฟล์สามารถเขียนได้"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FileSystemWritable.pm
-msgid "The file system on your OTRS partition is not writable."
-msgstr "ระบบไฟล์ในการแบ่งOTRS ของคุณไม่สามารถเขียนได้"
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FileSystemWritable.pm
+msgid "The file system on your OTOBO partition is not writable."
+msgstr "ระบบไฟล์ในการแบ่งOTOBO ของคุณไม่สามารถเขียนได้"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid "Legacy Configuration Backups"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid "No legacy configuration backup files found."
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files found in Kernel/Config/Backups folder, but "
 "they might still be required by some packages."
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files are no longer needed for the installed "
 "packages, please remove them from Kernel/Config/Backups folder."
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Installation Status"
 msgstr "สถานะการติดตั้งแพคเกจ"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages have locally modified files."
 msgstr "แพคเกจบางส่วนมีการปรับเปลี่ยนไฟล์ภายในเครื่อง"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not correctly installed."
 msgstr "แพคเกจบางแพคเกจไม่ถูกติดตั้งอย่างถูกต้อง"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Verification Status"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid ""
-"Some packages are not verified by the OTRS Group! It is recommended not to "
+"Some packages are not verified by the Rother OSS GmbH! It is recommended not to "
 "use this packages."
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Framework Version Status"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not allowed for the current framework version."
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageList.pm
 msgid "Package List"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SessionConfigSettings.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SessionConfigSettings.pm
 msgid "Session Config Settings"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SpoolMails.pm
 msgid "Spooled Emails"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
-msgid "There are emails in var/spool that OTRS could not process."
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SpoolMails.pm
+msgid "There are emails in var/spool that OTOBO could not process."
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
 msgstr "การตั้งค่า SystemID ของคุณไม่ถูกต้อง มันประกอบด้วยตัวเลขเพียงอย่างเดียว"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/DefaultType.pm
 msgid "Default Ticket Type"
 msgstr "สถานะเริ่มต้นของประเภทตั๋ว"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/DefaultType.pm
 msgid ""
 "The configured default ticket type is invalid or missing. Please change the "
 "setting Ticket::Type::Default and select a valid ticket type."
@@ -15549,11 +15549,11 @@ msgstr ""
 "กำหนดค่าประเภทตั๋วเริ่มต้นนี้ไม่ถูกต้องหรือขาดหายไป กรุณาเปลี่ยนการตั้งค่า Ticket::Type::"
 "Default และเลือกประเภทของตั๋วที่ถูกต้อง"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/IndexModule.pm
 msgid "Ticket Index Module"
 msgstr "โมดูลตั๋วดัชนี"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/IndexModule.pm
 msgid ""
 "You have more than 60,000 tickets and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
@@ -15561,23 +15561,23 @@ msgstr ""
 "คุณมีมากกว่า 60,000 ตั๋วและควรใช้แบ็กเอนด์ StaticDB ดูคู่มือผู้ดูแลระบบ (ปรับแต่งประสิทธิภาพ) "
 "สำหรับข้อมูลเพิ่มเติม"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "Invalid Users with Locked Tickets"
 msgstr "ผู้ใช้ไม่ถูกต้องกับตั๋วล็อค"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "There are invalid users with locked tickets."
 msgstr "มีผู้ใช้ที่ไม่ถูกต้องกับตั๋วที่ถูกล็อคอยู่"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/OpenTickets.pm
 msgid "You should not have more than 8,000 open tickets in your system."
 msgstr "คุณไม่ควรมีตั๋วที่เปิดอยู่มากกว่า 8,000 ตั๋วในระบบของคุณ"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/SearchIndexModule.pm
 msgid "Ticket Search Index Module"
 msgstr "โมดูลการค้นหาตั๋วดัชนี"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/SearchIndexModule.pm
 msgid ""
 "The indexing process forces the storage of the original article text in the "
 "article search index, without executing filters or applying stop word lists. "
@@ -15585,73 +15585,73 @@ msgid ""
 "fulltext searches."
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid "Orphaned Records In ticket_lock_index Table"
 msgstr "บันทึกกำพร้าในตาราง ticket_lock_index "
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid ""
-"Table ticket_lock_index contains orphaned records. Please run bin/otrs."
+"Table ticket_lock_index contains orphaned records. Please run bin/otobo."
 "Console.pl \"Maint::Ticket::QueueIndexCleanup\" to clean the StaticDB index."
 msgstr ""
-" ตาราง ticket_lock_index ประกอบด้วยบันทึกกำพร้า โปรดเรียกใช้ bin / otrs.Console.pl"
+" ตาราง ticket_lock_index ประกอบด้วยบันทึกกำพร้า โปรดเรียกใช้ bin / otobo.Console.pl"
 "\"Maint::Ticket::QueueIndexCleanup\" เพื่อลบดัชนี StaticDB"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid "Orphaned Records In ticket_index Table"
 msgstr "บันทึกกำพร้าในตาราง ticket_index "
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid ""
-"Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl "
+"Table ticket_index contains orphaned records. Please run bin/otobo.Console.pl "
 "\"Maint::Ticket::QueueIndexCleanup\" to clean the StaticDB index."
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "Time Settings"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "Server time zone"
 msgstr "โซนเวลาเซิร์ฟเวอร์"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS time zone"
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
+msgid "OTOBO time zone"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS time zone is not set."
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
+msgid "OTOBO time zone is not set."
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "User default time zone"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "User default time zone is not set."
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "Calendar time zone is not set."
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/AgentSkinUsage.pm
 msgid "UI - Agent Skin Usage"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/AgentThemeUsage.pm
 msgid "UI - Agent Theme Usage"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/SpecialStats.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
 msgid "UI - Special Statistics"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/SpecialStats.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
 msgid "Agents using custom main menu ordering"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/SpecialStats.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
 msgid "Agents using favourites for the admin overview"
 msgstr ""
 
@@ -15668,8 +15668,8 @@ msgid "MPM model"
 msgstr "โมเดล MPM "
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
-msgid "OTRS requires apache to be run with the 'prefork' MPM model."
-msgstr "OTRS  ต้องการให้ Apache จะทำงานกับโมเดล MPM  'prefork' "
+msgid "OTOBO requires apache to be run with the 'prefork' MPM model."
+msgstr "OTOBO  ต้องการให้ Apache จะทำงานกับโมเดล MPM  'prefork' "
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "CGI Accelerator Usage"
@@ -15747,11 +15747,11 @@ msgstr "เวอร์ชั่นของ Webserver"
 msgid "Could not determine webserver version."
 msgstr "ไม่สามารถตรวจสอบเวอร์ชั่นของเว็บเซิร์ฟเวอร์"
 
-#. Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+#. Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTOBO/ConcurrentUsers.pm
 msgid "Concurrent Users Details"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+#. Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTOBO/ConcurrentUsers.pm
 msgid "Concurrent Users"
 msgstr "ผู้ใช้งานร่วมกัน"
 
@@ -15828,11 +15828,11 @@ msgid "Disabled"
 msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/Date.pm
-msgid "System was not able to calculate user Date in OTRSTimeZone!"
+msgid "System was not able to calculate user Date in OTOBOTimeZone!"
 msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/DateTime.pm
-msgid "System was not able to calculate user DateTime in OTRSTimeZone!"
+msgid "System was not able to calculate user DateTime in OTOBOTimeZone!"
 msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
@@ -15938,203 +15938,203 @@ msgstr "สร้างบัญชีใหม่เรียบร้อยแ
 msgid "Action \"%s\" not found!"
 msgstr "ไม่พบการกระทำ \"%s\"!"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "invalid-temporarily"
 msgstr "ไม่ถูกต้องชั่วคราว"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Group for default access."
 msgstr "กลุ่มสำหรับการเข้าถึงเริ่มต้น"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Group of all administrators."
 msgstr "กลุ่มของผู้บริหารทั้งหมด"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Group for statistics access."
 msgstr "กลุ่มสำหรับการเข้าถึงสถิติ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "new"
 msgstr "ใหม่"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All new state types (default: viewable)."
 msgstr "ประเภทสถานะใหม่ทั้งหมด (ค่าเริ่มต้น: สามารถดูได้)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "open"
 msgstr "เปิด"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All open state types (default: viewable)."
 msgstr "ประเภทสถานะเปิดทั้งหมด (ค่าเริ่มต้น: สามารถดูได้)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "closed"
 msgstr "ปิด"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All closed state types (default: not viewable)."
 msgstr "ประเภทสถานะปิดทั้งหมด (ค่าเริ่มต้น: ไม่สามารถดูได้)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending reminder"
 msgstr "การแจ้งเตือนที่ค้างอยู่"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'pending reminder' state types (default: viewable)."
 msgstr "ประเภทสถานะ 'ค้างอยู่แบบแจ้งเตือน' ทั้งหมด (ค่าเริ่มต้น: สามารถดูได้)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending auto"
 msgstr "อยู่ระหว่างดำเนินการอัตโนมัติ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'pending auto *' state types (default: viewable)."
 msgstr "ประเภทสถานะ 'ค้างอัตโนมัติ' ทั้งหมด (ค่าเริ่มต้น: สามารถดูได้)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "removed"
 msgstr "ลบออก"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'removed' state types (default: not viewable)."
 msgstr "ประเภทสถานะ 'ถูกลบออก' ทั้งหมด (ค่าเริ่มต้น: ไม่สามารถดูได้)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "merged"
 msgstr "ผสาน"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "State type for merged tickets (default: not viewable)."
 msgstr "ประเภทสถานะสำหรับตั๋วที่ถูกผสาน (ค่าเริ่มต้น: ไม่สามารถดูได้)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "New ticket created by customer."
 msgstr "ตั๋วใหม่ที่สร้างขึ้นโดยลูกค้า"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "closed successful"
 msgstr "การปิดที่ประสบความสำเร็จ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is closed successful."
 msgstr "ตั๋วถูกปิดด้วยความสำเร็จ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "closed unsuccessful"
 msgstr "การปิดที่ไม่ประสบความสำเร็จ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is closed unsuccessful."
 msgstr "ตั๋วถูกปิดไม่สำเร็จ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Open tickets."
 msgstr "เปิดตั๋ว"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Customer removed ticket."
 msgstr "ลูกค้าลบตั๋วออก"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is pending for agent reminder."
 msgstr "ตั๋วค้างอยู่สำหรับแจ้งเตือนเอเย่นต์"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending auto close+"
 msgstr "อยู่ระหว่างดำเนินการปิดอัตโนมัติ +"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is pending for automatic close."
 msgstr "ตั๋วค้างอยู่สำหรับปิดอัตโนมัติ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending auto close-"
 msgstr "อยู่ระหว่างดำเนินการปิดอัตโนมัติ -"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "State for merged tickets."
 msgstr "สถานะสำหรับตั๋วที่ถูกผสาน"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "system standard salutation (en)"
 msgstr "ระบบคำขึ้นต้นมาตรฐาน (en)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Standard Salutation."
 msgstr "คำขึ้นต้นมาตรฐาน"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "system standard signature (en)"
 msgstr "ระบบลายเซ็นมาตรฐาน (en)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Standard Signature."
 msgstr "ลายเซ็นมาตรฐาน"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Standard Address."
 msgstr "ที่อยู่มาตรฐาน"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "possible"
 msgstr "ความเป็นไปได้"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Follow-ups for closed tickets are possible. Ticket will be reopened."
 msgstr "การติดตามตั๋วที่ปิดแล้วเป็นไปได้ที่ตั๋วจะถูกเปิด"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "reject"
 msgstr "ปฏิเสธ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. No new ticket will be "
 "created."
 msgstr "เป็นไปไม่ได้ที่จะติดตามตั๋วที่ปิดแล้วและไม่มีการสร้างตั๋วใหม่"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "new ticket"
 msgstr "ตั๋วใหม่"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. A new ticket will be created."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Postmaster queue."
 msgstr "คิวPostmaster"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All default incoming tickets."
 msgstr "ตั๋วเริ่มต้นขาเข้าทั้งหมด"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All junk tickets."
 msgstr "ตั๋วขยะทั้งหมด"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All misc tickets."
 msgstr "ตั๋ว miscทั้งหมด"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reply"
 msgstr "ตอบกลับอัตโนมัติ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Automatic reply which will be sent out after a new ticket has been created."
 msgstr "การตอบกลับอัตโนมัติจะถูกส่งออกมาหลังจากที่ตั๋วใหม่ถูกสร้างขึ้น"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reject"
 msgstr "ปฏิเสธอัตโนมัติ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Automatic reject which will be sent out after a follow-up has been rejected "
 "(in case queue follow-up option is \"reject\")."
@@ -16142,11 +16142,11 @@ msgstr ""
 "การปฏิเสธอัตโนมัติจะถูกส่งออกมาหลังจากที่การติดตามถูกปฏิเสธ (ในกรณีที่ตัวเลือกคิวติดตามคือ "
 "\"ปฏิเสธ\")"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto follow up"
 msgstr "ติดตามอัตโนมัติ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Automatic confirmation which is sent out after a follow-up has been received "
 "for a ticket (in case queue follow-up option is \"possible\")."
@@ -16154,11 +16154,11 @@ msgstr ""
 "การยืนยันอัตโนมัติจะถูกส่งออกมาหลังจากที่การติดตามได้รับตั๋ว (ในกรณีที่ตัวเลือกคิวติดตามคือ "
 "\"เป็นไปได้\")"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reply/new ticket"
 msgstr "ตอบกลับอัตโนมัติ/ตั๋วใหม่"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Automatic response which will be sent out after a follow-up has been "
 "rejected and a new ticket has been created (in case queue follow-up option "
@@ -16167,181 +16167,181 @@ msgstr ""
 "การตอบสนองอัตโนมัติจะถูกส่งออกมาหลังจากที่การติดตามถูกปฏิเสธและตั๋วใหม่ถูกสร้างขึ้น "
 "(ในกรณีที่ตัวเลือกคิวติดตามคือ \"ตั๋วใหม่\")"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto remove"
 msgstr "ลบออกอัตโนมัติ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Auto remove will be sent out after a customer removed the request."
 msgstr "การลบอัตโนมัติจะถูกส่งออกมาหลังจากที่ลูกค้าลบการร้องขอออก"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reply (after new ticket has been created)"
 msgstr "การตอบกลับเริ่มต้น (หลังจากตั๋วใหม่ถูกสร้างขึ้น)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reject (after follow-up and rejected of a closed ticket)"
 msgstr "การปฏิเสธเริ่มต้น (หลังจากติดตามและปฏิเสธตั๋วปิด)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "default follow-up (after a ticket follow-up has been added)"
 msgstr "การติดตามเริ่มต้น (หลังจากตั๋วติดตามได้รับการเพิ่ม)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "default reject/new ticket created (after closed follow-up with new ticket "
 "creation)"
 msgstr "การปฏิเสธเริ่มต้น / ตั๋วใหม่ถูกสร้างขึ้น (หลังจากปิดการติดตามด้วยการสร้างตั๋วใหม่)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Unclassified"
 msgstr "ไม่จำแนก"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "1 very low"
 msgstr "1 ต่ำมาก"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "2 low"
 msgstr "2 ต่ำ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "3 normal"
 msgstr "3 ปกติ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "4 high"
 msgstr "4 สูง"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "5 very high"
 msgstr "5 สูงมาก"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "unlock"
 msgstr "ปลดล็อค"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "lock"
 msgstr "ล็อค"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "tmp_lock"
 msgstr "tmp_lock"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "agent"
 msgstr "เอเย่นต์"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "system"
 msgstr "ระบบ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "customer"
 msgstr "ลูกค้า"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket create notification"
 msgstr "การแจ้งเตือนการสร้างตั๋ว"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification each time a new ticket is created in one of "
 "your \"My Queues\" or \"My Services\"."
 msgstr ""
 "คุณจะได้รับการแจ้งเตือนทุกครั้งที่ตั๋วใหม่ถูกสร้างขึ้นในหนึ่งของ \"คิวของฉัน\" หรือ \"บริการของฉัน\""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
 msgstr "ตั๋วติดตามการแจ้งเตือน (ปลดล็อค)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification if a customer sends a follow-up to an "
 "unlocked ticket which is in your \"My Queues\" or \"My Services\"."
 msgstr ""
 "คุณจะได้รับการแจ้งเตือนหากลูกค้าส่งติดตามตั๋วปลดล็อคซึ่งอยู่ใน \"คิวของฉัน\" หรือ \"บริการของฉัน\""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
 msgstr "ตั๋วติดตามการแจ้งเตือน (ล็อค)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification if a customer sends a follow-up to a locked "
 "ticket of which you are the ticket owner or responsible."
 msgstr "คุณจะได้รับการแจ้งเตือนหากลูกค้าส่งติดตามตั๋วล็อคที่คุณเป็นเจ้าของตั๋วหรือผู้รับผิดชอบ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket lock timeout notification"
 msgstr "การแจ้งเตือนตั๋วล็อคหมดเวลา"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification as soon as a ticket owned by you is "
 "automatically unlocked."
 msgstr "คุณจะได้รับการแจ้งเตือนทันทีที่ตั๋วที่คุณเป็นเจ้าของถูกปลดล็อกโดยอัตโนมัติ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket owner update notification"
 msgstr "การแจ้งเตือนการอัพเดตของเจ้าของตั๋ว"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket responsible update notification"
 msgstr "การแจ้งเตือนการอัพเดตผู้รับผิดชอบตั๋ว"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket new note notification"
 msgstr "การแจ้งเตือนตั๋วโน้ตใหม่"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket queue update notification"
 msgstr "การแจ้งเตือนการอัพเดตตั๋วคิว"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification if a ticket is moved into one of your \"My "
 "Queues\"."
 msgstr "คุณจะได้รับการแจ้งเตือนหากตั๋วจะถูกย้ายไปเป็นหนึ่งใน \"คิวของฉัน\""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket pending reminder notification (locked)"
 msgstr "ตั๋วเตือนที่ค้างอยู่การแจ้งเตือน (ล็อค)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket pending reminder notification (unlocked)"
 msgstr "ตั๋วเตือนที่ค้างอยู่การแจ้งเตือน (ปลดล็อค)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket escalation notification"
 msgstr "การแจ้งเตือนการขยายตั๋ว"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket escalation warning notification"
 msgstr "การแจ้งเตือนคำเตือนการขยายตั๋ว"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket service update notification"
 msgstr "การแจ้งเตือนการอัพเดตตั๋วการบริการ"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification if a ticket's service is changed to one of "
 "your \"My Services\"."
 msgstr "คุณจะได้รับการแจ้งเตือนหากบริการจองตั๋วมีการเปลี่ยนแปลงให้เป็นหนึ่งใน \"บริการของฉัน\""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Appointment reminder notification"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification each time a reminder time is reached for one "
 "of your appointments."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket email delivery failure notification"
 msgstr ""
 
@@ -16580,7 +16580,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
-"This option is currently disabled because the OTRS Daemon is not running."
+"This option is currently disabled because the OTOBO Daemon is not running."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
@@ -16924,8 +16924,8 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr "กรุณากรอกค่าอย่างน้อยหนึ่งคำค้นหาหรือ* ในการค้นหาอะไรก็ตาม"
 
 #. JS File: Core.Agent.Daemon
-msgid "Information about the OTRS Daemon"
-msgstr "ข้อมูลเกี่ยวกับOTRS Daemon"
+msgid "Information about the OTOBO Daemon"
+msgstr "ข้อมูลเกี่ยวกับOTOBO Daemon"
 
 #. JS File: Core.Agent.Dashboard
 msgid "Please check the fields marked as red for valid inputs."
@@ -17274,23 +17274,23 @@ msgstr ""
 msgid "Complex %s with %s arguments"
 msgstr ""
 
-#. JS File: OTRSLineChart
+#. JS File: OTOBOLineChart
 msgid "No Data Available."
 msgstr ""
 
-#. JS File: OTRSMultiBarChart
+#. JS File: OTOBOMultiBarChart
 msgid "Grouped"
 msgstr "จัดกลุ่ม"
 
-#. JS File: OTRSMultiBarChart
+#. JS File: OTOBOMultiBarChart
 msgid "Stacked"
 msgstr "ซ้อนกัน"
 
-#. JS File: OTRSStackedAreaChart
+#. JS File: OTOBOStackedAreaChart
 msgid "Stream"
 msgstr "สตรีม"
 
-#. JS File: OTRSStackedAreaChart
+#. JS File: OTOBOStackedAreaChart
 msgid "Expanded"
 msgstr "มีการขยาย"
 
@@ -17557,10 +17557,10 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Adds a suffix with the actual year and month to the OTRS log file. A logfile "
+"Adds a suffix with the actual year and month to the OTOBO log file. A logfile "
 "for every month will be created."
 msgstr ""
-"เพิ่มคำต่อท้ายกับปีและเดือนที่เกิดขึ้นจริงไปยังแฟ้มบันทึกของOTRS  แฟ้มบันทึกสำหรับทุกเดือนจะถูกสร้างขึ้น"
+"เพิ่มคำต่อท้ายกับปีและเดือนที่เกิดขึ้นจริงไปยังแฟ้มบันทึกของOTOBO  แฟ้มบันทึกสำหรับทุกเดือนจะถูกสร้างขึ้น"
 
 #. SysConfig
 msgid ""
@@ -17762,7 +17762,7 @@ msgid "All CustomerIDs of a customer user."
 msgstr ""
 
 #. SysConfig
-msgid "All attachments (OTRS Business Solution™)"
+msgid "All attachments (OTOBO Business Solution™)"
 msgstr ""
 
 #. SysConfig
@@ -18165,7 +18165,7 @@ msgstr "ขึ้นอยู่กับการตั้งค่าทั่
 
 #. SysConfig
 msgid ""
-"Basic fulltext index settings. Execute \"bin/otrs.Console.pl Maint::Ticket::"
+"Basic fulltext index settings. Execute \"bin/otobo.Console.pl Maint::Ticket::"
 "FulltextIndex --rebuild\" in order to generate a new index."
 msgstr ""
 
@@ -18378,12 +18378,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Checks the availability of OTRS Business Solution™ for this system."
-msgstr "ตรวจสอบความพร้อมของOTRS Business Solution™ สำหรับระบบนี้"
+msgid "Checks the availability of OTOBO Business Solution™ for this system."
+msgstr "ตรวจสอบความพร้อมของOTOBO Business Solution™ สำหรับระบบนี้"
 
 #. SysConfig
-msgid "Checks the entitlement status of OTRS Business Solution™."
-msgstr "ตรวจสอบสถานะด้านสิทธิของOTRS Business Solution™ "
+msgid "Checks the entitlement status of OTOBO Business Solution™."
+msgstr "ตรวจสอบสถานะด้านสิทธิของOTOBO Business Solution™ "
 
 #. SysConfig
 msgid "Child"
@@ -18578,8 +18578,8 @@ msgid ""
 msgstr "กำหนดค่าฐานข้อมูลสะท้อนของ อ่านเท่านั้น ที่คุณต้องการใช้"
 
 #. SysConfig
-msgid "Configure sending of support data to OTRS Group for improved support."
-msgstr "กำหนดค่าการส่งข้อมูลการสนับสนุนให้กับกลุ่มOTRS สำหรับการสนับสนุนที่ดีขึ้น"
+msgid "Configure sending of support data to Rother OSS GmbH for improved support."
+msgstr "กำหนดค่าการส่งข้อมูลการสนับสนุนให้กับกลุ่มOTOBO สำหรับการสนับสนุนที่ดีขึ้น"
 
 #. SysConfig
 msgid ""
@@ -18595,7 +18595,7 @@ msgid ""
 "Configures a default TicketDynamicField setting. \"Name\" defines the "
 "dynamic field which should be used, \"Value\" is the data that will be set, "
 "and \"Event\" defines the trigger event. Please check the developer manual "
-"(https://doc.otrs.com/doc/), chapter \"Ticket Event Module\"."
+"(https://doc.otobo.com/doc/), chapter \"Ticket Event Module\"."
 msgstr ""
 
 #. SysConfig
@@ -19044,12 +19044,12 @@ msgstr ""
 msgid ""
 "Define a filter for html output to add links behind a defined string. The "
 "element Image allows two input kinds. At once the name of an image (e.g. faq."
-"png). In this case the OTRS image path will be used. The second possiblity "
+"png). In this case the OTOBO image path will be used. The second possiblity "
 "is to insert the link to the image."
 msgstr ""
 "กำหนดตัวกรองสำหรับการแสดงผล HTMLเพื่อเพิ่มการเชื่อมโยงที่อยู่เบื้องหลังของอักขระที่กำหนดไว้ "
 "องค์ประกอบของภาพที่จะช่วยให้สามารถป้อนข้อมูลสองชนิดได้ หนึ่งคือชื่อของภาพ (เช่น faq."
-"png)ในกรณีนี้เส้นทางของภาพOTRS จะถูกนำมาใช้ สองคือการแทรกการเชื่อมโยงไปยังภาพ"
+"png)ในกรณีนี้เส้นทางของภาพOTOBO จะถูกนำมาใช้ สองคือการแทรกการเชื่อมโยงไปยังภาพ"
 
 #. SysConfig
 msgid ""
@@ -19175,45 +19175,45 @@ msgstr "กำหนดรายการลูกค้าซึ่งจะส
 msgid ""
 "Defines a filter for html output to add links behind CVE numbers. The "
 "element Image allows two input kinds. At once the name of an image (e.g. faq."
-"png). In this case the OTRS image path will be used. The second possiblity "
+"png). In this case the OTOBO image path will be used. The second possiblity "
 "is to insert the link to the image."
 msgstr ""
 "กำหนดตัวกรองสำหรับการแสดงผล HTMLเพื่อเพิ่มการเชื่อมโยงที่อยู่เบื้องหลังของหมายเลข CVE "
 "องค์ประกอบของภาพที่จะช่วยให้สามารถป้อนข้อมูลสองชนิดได้ หนึ่งคือชื่อของภาพ (เช่น faq."
-"png)ในกรณีนี้เส้นทางของภาพOTRS จะถูกนำมาใช้ สองคือการแทรกการเชื่อมโยงไปยังภาพ"
+"png)ในกรณีนี้เส้นทางของภาพOTOBO จะถูกนำมาใช้ สองคือการแทรกการเชื่อมโยงไปยังภาพ"
 
 #. SysConfig
 msgid ""
 "Defines a filter for html output to add links behind MSBulletin numbers. The "
 "element Image allows two input kinds. At once the name of an image (e.g. faq."
-"png). In this case the OTRS image path will be used. The second possiblity "
+"png). In this case the OTOBO image path will be used. The second possiblity "
 "is to insert the link to the image."
 msgstr ""
 "กำหนดตัวกรองสำหรับการแสดงผล HTMLเพื่อเพิ่มการเชื่อมโยงที่อยู่เบื้องหลังของหมายเลข "
 "MSBulletin องค์ประกอบของภาพที่จะช่วยให้สามารถป้อนข้อมูลสองชนิดได้ หนึ่งคือชื่อของภาพ (เช่น "
-"faq.png)ในกรณีนี้เส้นทางของภาพOTRS จะถูกนำมาใช้ สองคือการแทรกการเชื่อมโยงไปยังภาพ"
+"faq.png)ในกรณีนี้เส้นทางของภาพOTOBO จะถูกนำมาใช้ สองคือการแทรกการเชื่อมโยงไปยังภาพ"
 
 #. SysConfig
 msgid ""
 "Defines a filter for html output to add links behind a defined string. The "
 "element Image allows two input kinds. At once the name of an image (e.g. faq."
-"png). In this case the OTRS image path will be used. The second possiblity "
+"png). In this case the OTOBO image path will be used. The second possiblity "
 "is to insert the link to the image."
 msgstr ""
 "กำหนดตัวกรองสำหรับการแสดงผล HTMLเพื่อเพิ่มการเชื่อมโยงที่อยู่เบื้องหลังของอักขระที่กำหนดไว้ "
 "องค์ประกอบของภาพที่จะช่วยให้สามารถป้อนข้อมูลสองชนิดได้ หนึ่งคือชื่อของภาพ (เช่น faq."
-"png)ในกรณีนี้เส้นทางของภาพOTRS จะถูกนำมาใช้ สองคือการแทรกการเชื่อมโยงไปยังภาพ"
+"png)ในกรณีนี้เส้นทางของภาพOTOBO จะถูกนำมาใช้ สองคือการแทรกการเชื่อมโยงไปยังภาพ"
 
 #. SysConfig
 msgid ""
 "Defines a filter for html output to add links behind bugtraq numbers. The "
 "element Image allows two input kinds. At once the name of an image (e.g. faq."
-"png). In this case the OTRS image path will be used. The second possiblity "
+"png). In this case the OTOBO image path will be used. The second possiblity "
 "is to insert the link to the image."
 msgstr ""
 "กำหนดตัวกรองสำหรับการแสดงผล HTMLเพื่อเพิ่มการเชื่อมโยงที่อยู่เบื้องหลังของหมายเลข bugtraq "
 "องค์ประกอบของภาพที่จะช่วยให้สามารถป้อนข้อมูลสองชนิดได้ หนึ่งคือชื่อของภาพ (เช่น faq."
-"png)ในกรณีนี้เส้นทางของภาพOTRS จะถูกนำมาใช้ สองคือการแทรกการเชื่อมโยงไปยังภาพ"
+"png)ในกรณีนี้เส้นทางของภาพOTOBO จะถูกนำมาใช้ สองคือการแทรกการเชื่อมโยงไปยังภาพ"
 
 #. SysConfig
 msgid ""
@@ -19584,10 +19584,10 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines if the communication between this system and OTRS Group servers that "
+"Defines if the communication between this system and Rother OSS GmbH servers that "
 "provide cloud services is possible. If set to 'Disable cloud services', some "
 "functionality will be lost such as system registration, support data "
-"sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS "
+"sending, upgrading to and use of OTOBO Business Solution™, OTOBO Verify™, OTOBO "
 "News and product News dashboard widgets, among others."
 msgstr ""
 
@@ -19738,7 +19738,7 @@ msgstr "กำหนดคิวที่ตั๋วถูกนำมาใช
 #. SysConfig
 msgid ""
 "Defines the HTTP hostname for the support data collection with the public "
-"module 'PublicSupportDataCollector' (e.g. used from the OTRS Daemon)."
+"module 'PublicSupportDataCollector' (e.g. used from the OTOBO Daemon)."
 msgstr ""
 
 #. SysConfig
@@ -19921,7 +19921,7 @@ msgstr ""
 msgid ""
 "Defines the default front-end (HTML) theme to be used by the agents and "
 "customers. If you like, you can add your own theme. Please refer the "
-"administrator manual located at https://doc.otrs.com/doc/."
+"administrator manual located at https://doc.otobo.com/doc/."
 msgstr ""
 
 #. SysConfig
@@ -20486,10 +20486,10 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines the fully qualified domain name of the system. This setting is used "
-"as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging "
+"as a variable, OTOBO_CONFIG_FQDN which is found in all forms of messaging "
 "used by the application, to build links to the tickets within your system."
 msgstr ""
-"กำหนดชื่อโดเมนที่มีคุณสมบัติครบถ้วนของระบบ การตั้งค่านี้จะถูกใช้เป็นตัวแปร OTRS_CONFIG_FQDN "
+"กำหนดชื่อโดเมนที่มีคุณสมบัติครบถ้วนของระบบ การตั้งค่านี้จะถูกใช้เป็นตัวแปร OTOBO_CONFIG_FQDN "
 "ซึ่งพบได้ในรูปแบบของการส่งข้อความทั้งหมดที่ใช้โดยแอพลิเคชั่นเพื่อใช้ในการสร้างการเชื่อมโยงไปตั๋วภายในระบบของคุณ"
 
 #. SysConfig
@@ -20784,11 +20784,11 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines the list of online repositories. Another installations can be used "
-"as repository, for example: Key=\"http://example.com/otrs/public.pl?"
+"as repository, for example: Key=\"http://example.com/otobo/public.pl?"
 "Action=PublicRepository;File=\" and Content=\"Some Name\"."
 msgstr ""
 "กำหนดรายชื่อที่เก็บออนไลน์ การติดตั้งอื่นๆสามารถใช้เป็นพื้นที่เก็บข้อมูล ตัวอย่างเช่น : Key="
-"\"http://example.com/otrs/public.pl?Action=PublicRepository;File=\" and "
+"\"http://example.com/otobo/public.pl?Action=PublicRepository;File=\" and "
 "Content=\"Some Name\"."
 
 #. SysConfig
@@ -20828,11 +20828,11 @@ msgstr ""
 msgid ""
 "Defines the maximal size (in bytes) for file uploads via the browser. "
 "Warning: Setting this option to a value which is too low could cause many "
-"masks in your OTRS instance to stop working (probably any mask which takes "
+"masks in your OTOBO instance to stop working (probably any mask which takes "
 "input from the user)."
 msgstr ""
 "กำหนดขนาดสูงสุด (ไบต์) สำหรับไฟล์ที่อัปโหลดผ่านทางเบราว์เซอร์ คำเตือน: "
-"การตั้งค่าตัวเลือกนี้ไปเป็นค่าซึ่งอยู่ในระดับต่ำเกินไปอาจก่อให้เกิดมาสก์จำนวนมากในตัวอย่างของOTRS "
+"การตั้งค่าตัวเลือกนี้ไปเป็นค่าซึ่งอยู่ในระดับต่ำเกินไปอาจก่อให้เกิดมาสก์จำนวนมากในตัวอย่างของOTOBO "
 "ของคุณเพื่อหยุดการทำงาน (อาจจะเป็นมาสก์ใด ๆที่จะนำข้อมูลจากผู้ใช้)"
 
 #. SysConfig
@@ -20912,16 +20912,16 @@ msgstr "กำหนดโมดูลเพื่อแสดงการแจ
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in different interfaces on "
-"different occasions for OTRS Business Solution™."
+"different occasions for OTOBO Business Solution™."
 msgstr ""
-"กำหนดโมดูลเพื่อแสดงการแจ้งเตือนในอินเตอร์เฟซที่แตกต่างกันในโอกาสที่แตกต่างกันสำหรับ OTRS "
+"กำหนดโมดูลเพื่อแสดงการแจ้งเตือนในอินเตอร์เฟซที่แตกต่างกันในโอกาสที่แตกต่างกันสำหรับ OTOBO "
 "Business Solution™."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface if the "
-"OTRS Daemon is not running."
-msgstr "กำหนดโมดูลเพื่อแสดงการแจ้งเตือนในอินเตอร์เฟซเอเย่นต์ถ้า OTRS Daemonไม่ได้ทำงานอยู่"
+"OTOBO Daemon is not running."
+msgstr "กำหนดโมดูลเพื่อแสดงการแจ้งเตือนในอินเตอร์เฟซเอเย่นต์ถ้า OTOBO Daemonไม่ได้ทำงานอยู่"
 
 #. SysConfig
 msgid ""
@@ -21002,7 +21002,7 @@ msgid ""
 "Defines the module to send emails. \"DoNotSendEmail\" doesn't send emails at "
 "all. Any of the \"SMTP\" mechanisms use a specified (external) mailserver. "
 "\"Sendmail\" directly uses the sendmail binary of your operating system. "
-"\"Test\" doesn't send emails, but writes them to $OTRS_HOME/var/tmp/"
+"\"Test\" doesn't send emails, but writes them to $OTOBO_HOME/var/tmp/"
 "CacheFileStorable/EmailTest/ for testing purposes."
 msgstr ""
 
@@ -21040,8 +21040,8 @@ msgid "Defines the name of the key for customer sessions."
 msgstr "กำหนดชื่อของคีย์สำหรับเซสชั่นของลูกค้า"
 
 #. SysConfig
-msgid "Defines the name of the session key. E.g. Session, SessionID or OTRS."
-msgstr "กำหนดชื่อของคีย์เซสชั่น เช่น Session, SessionID or OTRS"
+msgid "Defines the name of the session key. E.g. Session, SessionID or OTOBO."
+msgstr "กำหนดชื่อของคีย์เซสชั่น เช่น Session, SessionID or OTOBO"
 
 #. SysConfig
 msgid "Defines the name of the table where the user preferences are stored."
@@ -21363,7 +21363,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines the shown links in the footer area of the customer and public "
-"interface of this OTRS system. The value in \"Key\" is the external URL, the "
+"interface of this OTOBO system. The value in \"Key\" is the external URL, the "
 "value in \"Content\" is the shown label."
 msgstr ""
 
@@ -21442,11 +21442,11 @@ msgid ""
 "Defines the system identifier. Every ticket number and http session string "
 "contains this ID. This ensures that only tickets which belong to your system "
 "will be processed as follow-ups (useful when communicating between two "
-"instances of OTRS)."
+"instances of OTOBO)."
 msgstr ""
 "กำหนดตัวบ่งชี้ระบบ ทุกๆหมายเลขตั๋วและสตริงเซสชั่นของ http "
 "ที่มีไอดีนี้เพื่อให้แน่ใจว่าเฉพาะตั๋วที่อยู่ในระบบของคุณที่จะถูกประมวลผลขณะที่ติดตาม "
-"(มีประโยชน์เมื่อการติดต่อสื่อสารระหว่างสองกรณีของOTRS)"
+"(มีประโยชน์เมื่อการติดต่อสื่อสารระหว่างสองกรณีของOTOBO)"
 
 #. SysConfig
 msgid ""
@@ -21501,7 +21501,7 @@ msgstr "กำหนดโซนเวลาของปฏิทินที่
 msgid ""
 "Defines the timeout (in seconds, minimum is 20 seconds) for the support data "
 "collection with the public module 'PublicSupportDataCollector' (e.g. used "
-"from the OTRS Daemon)."
+"from the OTOBO Daemon)."
 msgstr ""
 
 #. SysConfig
@@ -21519,14 +21519,14 @@ msgid ""
 "be specified here. Since this has no affect on the web server's settings or "
 "behavior, it will not change the method of access to the application and, if "
 "it is wrong, it will not prevent you from logging into the application. This "
-"setting is only used as a variable, OTRS_CONFIG_HttpType which is found in "
+"setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in "
 "all forms of messaging used by the application, to build links to the "
 "tickets within your system."
 msgstr ""
 "กำหนดประเภทของโปรโตคอลที่ใช้โดยเว็บเซิร์ฟเวอร์ที่จะให้บริการแอพลิเคชัน หากโปรโตคอล HTTPS "
 "จะถูกนำมาใช้แทน http ธรรมดาจะต้องมีการระบุไว้ที่นี่ "
 "เนื่องจากไม่มีผลต่อการตั้งค่าหรือพฤติกรรมเว็บเซิร์ฟเวอร์ก็จะไม่เปลี่ยนวิธีการในการเข้าถึงแอพลิเคชันและถ้ามันไม่ถูกต้องก็จะไม่ป้องกันคุณจากการเข้าสู่แอพลิเคชัน "
-"การตั้งค่านี้จะถูกใช้เป็นตัวแปร OTRS_CONFIG_HttpType "
+"การตั้งค่านี้จะถูกใช้เป็นตัวแปร OTOBO_CONFIG_HttpType "
 "ซึ่งพบได้ในทุกรูปแบบของข้อความที่ใช้โดยโปรแกรมเพื่อสร้างการเชื่อมโยงตั๋วภายในระบบของคุณเท่านั้น"
 
 #. SysConfig
@@ -21565,9 +21565,9 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines the valid states for unlocked tickets. To unlock tickets the script "
-"\"bin/otrs.Console.pl Maint::Ticket::UnlockTimeout\" can be used."
+"\"bin/otobo.Console.pl Maint::Ticket::UnlockTimeout\" can be used."
 msgstr ""
-"กำหนดสถานะที่ถูกต้องของตั๋วปลดล็อค เพื่อปลดล็อคตั๋วสคริปต์นี้สามารถนำมาใช้ \"bin/otrs.Console."
+"กำหนดสถานะที่ถูกต้องของตั๋วปลดล็อค เพื่อปลดล็อคตั๋วสคริปต์นี้สามารถนำมาใช้ \"bin/otobo.Console."
 "pl Maint::Ticket::UnlockTimeout\""
 
 #. SysConfig
@@ -21682,8 +21682,8 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Deploy and manage OTRS Business Solution™."
-msgstr "ปรับใช้และจัดการ OTRS Business Solution™."
+msgid "Deploy and manage OTOBO Business Solution™."
+msgstr "ปรับใช้และจัดการ OTOBO Business Solution™."
 
 #. SysConfig
 msgid "Detached"
@@ -21809,11 +21809,11 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
+"Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTOBO to be "
 "included as an IFrame in other websites. Disabling this HTTP header can be a "
 "security issue! Only disable it, if you know what you are doing!"
 msgstr ""
-"ปิดการใช้งานส่วนหัวของ HTTP \"X-Frame-Options: SAMEORIGIN\" เพื่อช่วยให้ OTRS "
+"ปิดการใช้งานส่วนหัวของ HTTP \"X-Frame-Options: SAMEORIGIN\" เพื่อช่วยให้ OTOBO "
 "ถูกรวมเป็น IFrame ในเว็บไซต์อื่น ๆ ปิดการใช้งานส่วนหัวของ HTTP "
 "นี้อาจจะเกิดปัญหาด้านความปลอดภัย! ปิดการใช้งานเมื่อคุณรู้ว่าสิ่งที่คุณกำลังทำคืออะไรเท่านั้น!"
 
@@ -21839,7 +21839,7 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Disables the web installer (http://yourhost.example.com/otrs/installer.pl), "
+"Disables the web installer (http://yourhost.example.com/otobo/installer.pl), "
 "to prevent the system from being hijacked. If not enabled, the system can be "
 "reinstalled and the current basic configuration will be used to pre-populate "
 "the questions within the installer script. If enabled, it also disables the "
@@ -22156,12 +22156,12 @@ msgstr "เปิดใช้งานตัวกรอง"
 #. SysConfig
 msgid ""
 "Enables PGP support. When PGP support is enabled for signing and encrypting "
-"mail, it is HIGHLY recommended that the web server runs as the OTRS user. "
+"mail, it is HIGHLY recommended that the web server runs as the OTOBO user. "
 "Otherwise, there will be problems with the privileges when accessing .gnupg "
 "folder."
 msgstr ""
 "เปิดใช้การสนับสนุน PGP เมื่อการสนับสนุน PGP "
-"เปิดใช้งานสำหรับการเซ็นชื่อและการเข้ารหัสอีเมลจึงขอแนะนำว่าเว็บเซิร์ฟเวอร์รันฐานะผู้ใช้ OTRS "
+"เปิดใช้งานสำหรับการเซ็นชื่อและการเข้ารหัสอีเมลจึงขอแนะนำว่าเว็บเซิร์ฟเวอร์รันฐานะผู้ใช้ OTOBO "
 "มิฉะนั้นจะมีปัญหาเกี่ยวกับสิทธิพิเศษเมื่อมีการเข้าถึงโฟลเดอร์ .gnupg"
 
 #. SysConfig
@@ -22370,7 +22370,7 @@ msgstr ""
 "หรือการอ้างอิงข้อมูลส่วนหัวสำหรับอีเมลที่ไม่ได้หมายเลขตั๋วในเนื้อเรื่อง"
 
 #. SysConfig
-msgid "Executes follow-up checks on OTRS Header 'X-OTRS-Bounce'."
+msgid "Executes follow-up checks on OTOBO Header 'X-OTOBO-Bounce'."
 msgstr ""
 
 #. SysConfig
@@ -22433,19 +22433,19 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Filter for debugging ACLs. Note: More ticket attributes can be added in the "
-"format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>."
+"format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>."
 msgstr ""
 "ตัวกรองสำหรับการดีบัก ACLs หมายเหตุ: คุณลักษณะตั๋วเพิ่มเติมสามารถเพิ่มในรูปแบบ "
-"<OTRS_TICKET_Attribute> เช่น <OTRS_TICKET_Priority>"
+"<OTOBO_TICKET_Attribute> เช่น <OTOBO_TICKET_Priority>"
 
 #. SysConfig
 msgid ""
 "Filter for debugging Transitions. Note: More filters can be added in the "
-"format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>."
+"format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>."
 msgstr ""
 "ตัวกรองสำหรับการดีบักการเปลี่ยนภาพ หมายเหตุ: "
-"ตัวกรองเพิ่มเติมสามารถเพิ่มในรูปแบบ<OTRS_TICKET_Attribute> เช่น "
-"<OTRS_TICKET_Priority>"
+"ตัวกรองเพิ่มเติมสามารถเพิ่มในรูปแบบ<OTOBO_TICKET_Attribute> เช่น "
+"<OTOBO_TICKET_Priority>"
 
 #. SysConfig
 msgid "Filter incoming emails."
@@ -22751,7 +22751,7 @@ msgid ""
 "Helps to extend your articles full-text search (From, To, Cc, Subject and "
 "Body search). It will strip all articles and will build an index after "
 "article creation, increasing fulltext searches about 50%. To create an "
-"initial index use \"bin/otrs.Console.pl Maint::Ticket::FulltextIndex --"
+"initial index use \"bin/otobo.Console.pl Maint::Ticket::FulltextIndex --"
 "rebuild\"."
 msgstr ""
 
@@ -22945,11 +22945,11 @@ msgstr ""
 msgid ""
 "If \"LDAP\" was selected for Customer::Authmodule, you can check if the user "
 "is allowed to authenticate because he is in a posixGroup, e.g. user needs to "
-"be in a group xyz to use OTRS. Specify the group, who may access the system."
+"be in a group xyz to use OTOBO. Specify the group, who may access the system."
 msgstr ""
 "หาก \"LDAP\" ถูกเลือกให้ Customer::AuthModule "
 "คุณสามารถตรวจสอบว่าผู้ใช้ที่ได้รับอนุญาตในการตรวจสอบเพราะเขาอยู่ใน posixGroup เช่น "
-"ผู้ใช้ต้องการที่จะอยู่ในกลุ่ม xyz เพื่อใช้ OTRS ระบุกลุ่มที่อาจเข้าสู่ระบบ"
+"ผู้ใช้ต้องการที่จะอยู่ในกลุ่ม xyz เพื่อใช้ OTOBO ระบุกลุ่มที่อาจเข้าสู่ระบบ"
 
 #. SysConfig
 msgid ""
@@ -23068,15 +23068,15 @@ msgstr "หากเปิดใช้งานเดมอนจะเปลี
 msgid ""
 "If enabled the daemon will use this directory to create its PID files. Note: "
 "Please stop the daemon before any change and use this setting only if <"
-"$OTRSHome>/var/run/ can not be used."
+"$OTOBOHome>/var/run/ can not be used."
 msgstr ""
 
 #. SysConfig
-msgid "If enabled, OTRS will deliver all CSS files in minified form."
+msgid "If enabled, OTOBO will deliver all CSS files in minified form."
 msgstr ""
 
 #. SysConfig
-msgid "If enabled, OTRS will deliver all JavaScript files in minified form."
+msgid "If enabled, OTOBO will deliver all JavaScript files in minified form."
 msgstr ""
 
 #. SysConfig
@@ -23085,7 +23085,7 @@ msgstr "หากเปิดใช้งาน ตั๋วโทรศัพ�
 
 #. SysConfig
 msgid ""
-"If enabled, the OTRS version tag will be removed from the Webinterface, the "
+"If enabled, the OTOBO version tag will be removed from the Webinterface, the "
 "HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this "
 "option, please make sure to delete the cache."
 msgstr ""
@@ -23120,7 +23120,7 @@ msgstr ""
 msgid ""
 "If enabled, users that haven't selected a time zone yet will be notified to "
 "do so. Note: Notification will not be shown if (1) user has not yet selected "
-"a time zone and (2) OTRSTimeZone and UserDefaultTimeZone do match and (3) "
+"a time zone and (2) OTOBOTimeZone and UserDefaultTimeZone do match and (3) "
 "are not set to UTC."
 msgstr ""
 
@@ -23159,7 +23159,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "If this setting is enabled, it is possible to install packages which are not "
-"verified by OTRS Group. These packages could threaten your whole system!"
+"verified by Rother OSS GmbH. These packages could threaten your whole system!"
 msgstr ""
 
 #. SysConfig
@@ -23210,7 +23210,7 @@ msgid ""
 "tickets in the system). \"StaticDB\" is the most powerful module, it uses an "
 "extra ticket-index table that works like a view (recommended if more than "
 "80.000 and 6.000 open tickets are stored in the system). Use the command "
-"\"bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild\" for initial index "
+"\"bin/otobo.Console.pl Maint::Ticket::QueueIndexRebuild\" for initial index "
 "creation."
 msgstr ""
 
@@ -23588,7 +23588,7 @@ msgid "Malay"
 msgstr "ภาษามาเล"
 
 #. SysConfig
-msgid "Manage OTRS Group cloud services."
+msgid "Manage Rother OSS GmbH cloud services."
 msgstr ""
 
 #. SysConfig
@@ -23730,7 +23730,7 @@ msgid "Merged Ticket (%s/%s) to (%s/%s)."
 msgstr ""
 
 #. SysConfig
-msgid "Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>."
+msgid "Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>."
 msgstr ""
 
 #. SysConfig
@@ -23933,11 +23933,11 @@ msgid "New process ticket"
 msgstr "ตั๋วกระบวนการใหม่"
 
 #. SysConfig
-msgid "News about OTRS releases!"
-msgstr "ข่าวเกี่ยวกับการเผยแพร่OTRS !"
+msgid "News about OTOBO releases!"
+msgstr "ข่าวเกี่ยวกับการเผยแพร่OTOBO !"
 
 #. SysConfig
-msgid "News about OTRS."
+msgid "News about OTOBO."
 msgstr ""
 
 #. SysConfig
@@ -24003,23 +24003,23 @@ msgid "Number of tickets to be displayed in each page."
 msgstr ""
 
 #. SysConfig
-msgid "OTRS Group Services"
+msgid "Rother OSS GmbH Services"
 msgstr ""
 
 #. SysConfig
-msgid "OTRS News"
-msgstr "ข่าวOTRS"
+msgid "OTOBO News"
+msgstr "ข่าวOTOBO"
 
 #. SysConfig
 msgid ""
-"OTRS can use one or more readonly mirror databases for expensive operations "
+"OTOBO can use one or more readonly mirror databases for expensive operations "
 "like fulltext search or statistics generation. Here you can specify the DSN "
 "for the first mirror database."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"OTRS doesn't support recurring Appointments without end date or number of "
+"OTOBO doesn't support recurring Appointments without end date or number of "
 "iterations. During import process, it might happen that ICS file contains "
 "such Appointments. Instead, system creates all Appointments in the past, "
 "plus Appointments for the next N months (120 months/10 years by default)."
@@ -24712,8 +24712,8 @@ msgid "Reports"
 msgstr "รายงาน"
 
 #. SysConfig
-msgid "Reports (OTRS Business Solution™)"
-msgstr "รายงาน (OTRS Business Solution™)"
+msgid "Reports (OTOBO Business Solution™)"
+msgstr "รายงาน (OTOBO Business Solution™)"
 
 #. SysConfig
 msgid ""
@@ -24824,7 +24824,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Resource Overview (OTRS Business Solution™)"
+msgid "Resource Overview (OTOBO Business Solution™)"
 msgstr ""
 
 #. SysConfig
@@ -24917,7 +24917,7 @@ msgstr ""
 msgid ""
 "Saves the attachments of articles. \"DB\" stores all data in the database "
 "(not recommended for storing big attachments). \"FS\" stores the data on the "
-"filesystem; this is faster but the webserver should run under the OTRS user. "
+"filesystem; this is faster but the webserver should run under the OTOBO user. "
 "You can switch between the modules even on a system that is already in "
 "production without any loss of data. Note: Searching for attachment names is "
 "not supported when \"FS\" is used."
@@ -25004,7 +25004,7 @@ msgid "Select your preferred layout for the software."
 msgstr ""
 
 #. SysConfig
-msgid "Select your preferred theme for OTRS."
+msgid "Select your preferred theme for OTOBO."
 msgstr ""
 
 #. SysConfig
@@ -25059,7 +25059,7 @@ msgid "Sends customer notifications just to the mapped customer."
 msgstr ""
 
 #. SysConfig
-msgid "Sends registration information to OTRS group."
+msgid "Sends registration information to OTOBO group."
 msgstr ""
 
 #. SysConfig
@@ -25482,7 +25482,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Sets the prefix to the scripts folder on the server, as configured on the "
-"web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias "
+"web server. This setting is used as a variable, OTOBO_CONFIG_ScriptAlias "
 "which is found in all forms of messaging used by the application, to build "
 "links to the tickets within the system."
 msgstr ""
@@ -25758,7 +25758,7 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Sets the time zone being used internally by OTRS to e. g. store dates and "
+"Sets the time zone being used internally by OTOBO to e. g. store dates and "
 "times in the database. WARNING: This setting must not be changed once set "
 "and tickets or any other data containing date/time have been created."
 msgstr ""
@@ -25767,7 +25767,7 @@ msgstr ""
 msgid ""
 "Sets the time zone that will be assigned to newly created users and will be "
 "used for users that haven't yet set a time zone. This is the time zone being "
-"used as default to convert date and time between the OTRS time zone and the "
+"used as default to convert date and time between the OTOBO time zone and the "
 "user's time zone."
 msgstr ""
 
@@ -26219,7 +26219,7 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows a teaser link in the menu for the ticket attachment view of OTRS "
+"Shows a teaser link in the menu for the ticket attachment view of OTOBO "
 "Business Solution™."
 msgstr ""
 
@@ -26282,7 +26282,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Shows information on how to start OTRS Daemon"
+msgid "Shows information on how to start OTOBO Daemon"
 msgstr ""
 
 #. SysConfig
@@ -26553,8 +26553,8 @@ msgstr ""
 msgid ""
 "Specifies the email address that should be used by the application when "
 "sending notifications. The email address is used to build the complete "
-"display name for the notification master (i.e. \"OTRS Notifications\" "
-"otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in "
+"display name for the notification master (i.e. \"OTOBO Notifications\" "
+"otobo@your.example.com). You can use the OTOBO_CONFIG_FQDN variable as set in "
 "your configuation, or choose another email address."
 msgstr ""
 
@@ -26580,7 +26580,7 @@ msgstr ""
 msgid ""
 "Specifies the name that should be used by the application when sending "
 "notifications. The sender name is used to build the complete display name "
-"for the notification master (i.e. \"OTRS Notifications\" otrs@your.example."
+"for the notification master (i.e. \"OTOBO Notifications\" otobo@your.example."
 "com)."
 msgstr ""
 
@@ -26655,7 +26655,7 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Specify the channel to be used to fetch OTRS Business Solution™ updates. "
+"Specify the channel to be used to fetch OTOBO Business Solution™ updates. "
 "Warning: Development releases might not be complete, your system might "
 "experience unrecoverable errors and on extreme cases could become "
 "unresponsive!"
@@ -26980,7 +26980,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "This module is part of the admin area of OTRS."
+msgid "This module is part of the admin area of OTOBO."
 msgstr ""
 
 #. SysConfig
@@ -27025,7 +27025,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "This setting is deprecated. Set OTRSTimeZone instead."
+msgid "This setting is deprecated. Set OTOBOTimeZone instead."
 msgstr ""
 
 #. SysConfig
@@ -27209,7 +27209,7 @@ msgid "To view HTML attachments."
 msgstr ""
 
 #. SysConfig
-msgid "Toggles display of OTRS FeatureAddons list in PackageManager."
+msgid "Toggles display of OTOBO FeatureAddons list in PackageManager."
 msgstr ""
 
 #. SysConfig
@@ -27279,7 +27279,7 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Type of daemon log rotation to use: Choose 'OTRS' to let OTRS system to "
+"Type of daemon log rotation to use: Choose 'OTOBO' to let OTOBO system to "
 "handle the file rotation, or choose 'External' to use a 3rd party rotation "
 "mechanism (i.e. logrotate). Note: External rotation mechanism requires its "
 "own and independent configuration."
@@ -27466,16 +27466,16 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Your email with ticket number \"<OTRS_TICKET>\" is bounced to "
-"\"<OTRS_BOUNCE_TO>\". Contact this address for further information."
+"Your email with ticket number \"<OTOBO_TICKET>\" is bounced to "
+"\"<OTOBO_BOUNCE_TO>\". Contact this address for further information."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Your email with ticket number \"<OTRS_TICKET>\" is merged to "
-"\"<OTRS_MERGE_TO_TICKET>\"."
+"Your email with ticket number \"<OTOBO_TICKET>\" is merged to "
+"\"<OTOBO_MERGE_TO_TICKET>\"."
 msgstr ""
-"อีเมล์ของคุณที่มีหมายเลขตั๋ว \"<OTRS_TICKET>\" ถูกรวมกับ \"<OTRS_MERGE_TO_TICKET>\"."
+"อีเมล์ของคุณที่มีหมายเลขตั๋ว \"<OTOBO_TICKET>\" ถูกรวมกับ \"<OTOBO_MERGE_TO_TICKET>\"."
 
 #. SysConfig
 msgid ""

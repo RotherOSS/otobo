@@ -6,14 +6,14 @@
 # 洋 王 <fkaxc2002@gmail.com>, 2018
 # Jerry Du <jerry.du@athub.com>, 2018
 # Udo Bretz, 2018
-# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
+# Carlos Rodríguez <carlos.rodriguez@otobo.com>, 2018
 # Chenry Lee <chenrylee@qq.com>, 2018
 # 文浩坚 <never.min@gmail.com>, 2018
 # 陈德文 <sggggy@gmail.com>, 2018
 # 张梦 <adoeh@sina.com>, 2018
-# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Martin Gruner <martin.gruner@otobo.com>, 2018
 # 汇民 王 <whuim@163.com>, 2019
-# Bob Tao <bob.tao@otrs.com>, 2019
+# Bob Tao <bob.tao@otobo.com>, 2019
 # 汇民 王 <whuim@qq.com>, 2019
 #
 msgid ""
@@ -22,8 +22,8 @@ msgstr ""
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
 "PO-Revision-Date: 2020-01-31 03:51+0000\n"
 "Last-Translator: Huimin Wang <whuim@qq.com>\n"
-"Language-Team: Chinese (Simplified) <https://translate.app.otrs.com/projects/"
-"otrs-6/otrs/zh_Hans/>\n"
+"Language-Team: Chinese (Simplified) <https://translate.app.otobo.com/projects/"
+"otobo-6/otobo/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -953,9 +953,9 @@ msgstr "当前的支持数据只是在系统中显示。"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
-"It is highly recommended to send this data to OTRS Group in order to get "
+"It is highly recommended to send this data to Rother OSS GmbH in order to get "
 "better support."
-msgstr "极力推荐将支持数据发送给OTRS集团以便获得更好的支持。"
+msgstr "极力推荐将支持数据发送给OTOBO集团以便获得更好的支持。"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -968,8 +968,8 @@ msgstr "发送支持数据"
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "This will allow the system to send additional support data information to "
-"OTRS Group."
-msgstr "允许系统发送额外的支持数据信息给OTRS集团。"
+"Rother OSS GmbH."
+msgstr "允许系统发送额外的支持数据信息给OTOBO集团。"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -981,11 +981,11 @@ msgstr "系统注册"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
-"To enable data sending, please register your system with OTRS Group or "
+"To enable data sending, please register your system with Rother OSS GmbH or "
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
 msgstr ""
-"为了启用数据发送功能，请将您的系统注册到OTRS集团或更新您的注册信息（确保激活"
+"为了启用数据发送功能，请将您的系统注册到OTOBO集团或更新您的注册信息（确保激活"
 "了“发送支持数据”选项。）"
 
 #. Template: AdminCloudServiceSupportDataCollector
@@ -1000,15 +1000,15 @@ msgstr "本系统的系统注册功能已被禁用，请检查你的配置。"
 
 #. Template: AdminCloudServices
 msgid ""
-"System registration is a service of OTRS Group, which provides a lot of "
+"System registration is a service of Rother OSS GmbH, which provides a lot of "
 "advantages!"
-msgstr "系统注册是OTRS集团的一项服务，它为您提供了很多好处!"
+msgstr "系统注册是OTOBO集团的一项服务，它为您提供了很多好处!"
 
 #. Template: AdminCloudServices
 msgid ""
-"Please note that the use of OTRS cloud services requires the system to be "
+"Please note that the use of OTOBO cloud services requires the system to be "
 "registered."
-msgstr "请注意：为了使用OTRS云服务，需要先注册系统。"
+msgstr "请注意：为了使用OTOBO云服务，需要先注册系统。"
 
 #. Template: AdminCloudServices
 msgid "Register this system"
@@ -2642,9 +2642,9 @@ msgstr "错误处理模块后端"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"This OTRS error handling backend module will be called internally to process "
+"This OTOBO error handling backend module will be called internally to process "
 "the error handling mechanism."
-msgstr "这个OTRS错误处理后端模块将被内部调用以处理错误处理机制。"
+msgstr "这个OTOBO错误处理后端模块将被内部调用以处理错误处理机制。"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Processing options"
@@ -2959,10 +2959,10 @@ msgstr "调用程序后端"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
-"This OTRS invoker backend module will be called to prepare the data to be "
+"This OTOBO invoker backend module will be called to prepare the data to be "
 "sent to the remote system, and to process its response data."
 msgstr ""
-"这个OTRS调用程序后端模块被调用后，负责准备需要发送给远程系统的数据，并处理它"
+"这个OTOBO调用程序后端模块被调用后，负责准备需要发送给远程系统的数据，并处理它"
 "的响应数据。"
 
 #. Template: AdminGenericInterfaceInvokerDefault
@@ -2975,10 +2975,10 @@ msgstr "配置"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
-"The data from the invoker of OTRS will be processed by this mapping, to "
+"The data from the invoker of OTOBO will be processed by this mapping, to "
 "transform it to the kind of data the remote system expects."
 msgstr ""
-"这个映射将对OTRS调用程序输出的数据进行处理，将它转换为远程系统所期待的数据。"
+"这个映射将对OTOBO调用程序输出的数据进行处理，将它转换为远程系统所期待的数据。"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for incoming response data"
@@ -2987,8 +2987,8 @@ msgstr "映射入站请求数据"
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "The response data will be processed by this mapping, to transform it to the "
-"kind of data the invoker of OTRS expects."
-msgstr "这个映射将对响应数据进行处理，将它转换为OTRS调用程序所期待的数据。"
+"kind of data the invoker of OTOBO expects."
+msgstr "这个映射将对响应数据进行处理，将它转换为OTOBO调用程序所期待的数据。"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous"
@@ -3018,9 +3018,9 @@ msgstr "要添加新事件，请选择事件对象和事件名称，然后单击
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
-"Asynchronous event triggers are handled by the OTRS Scheduler Daemon in "
+"Asynchronous event triggers are handled by the OTOBO Scheduler Daemon in "
 "background (recommended)."
-msgstr "异步的事件触发器将由后端的OTRS调度程序守护进程处理（推荐）。"
+msgstr "异步的事件触发器将由后端的OTOBO调度程序守护进程处理（推荐）。"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -3368,9 +3368,9 @@ msgstr "操作后端"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
-"This OTRS operation backend module will be called internally to process the "
+"This OTOBO operation backend module will be called internally to process the "
 "request, generating data for the response."
-msgstr "这个OTRS操作后端模块将被调用，以便处理请求、生成响应数据。"
+msgstr "这个OTOBO操作后端模块将被调用，以便处理请求、生成响应数据。"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for incoming request data"
@@ -3379,8 +3379,8 @@ msgstr "映射传入请求数据"
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "The request data will be processed by this mapping, to transform it to the "
-"kind of data OTRS expects."
-msgstr "这个映射将对请求数据进行处理，将它转换为OTRS所期待的数据。"
+"kind of data OTOBO expects."
+msgstr "这个映射将对请求数据进行处理，将它转换为OTOBO所期待的数据。"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for outgoing response data"
@@ -3442,9 +3442,9 @@ msgstr "这个字段值应该是一个整数。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
-"Here you can specify the maximum size (in bytes) of REST messages that OTRS "
+"Here you can specify the maximum size (in bytes) of REST messages that OTOBO "
 "will process."
-msgstr "在这里你可以指定OTRS能够处理的REST消息的最大长度(以字节为单位)。"
+msgstr "在这里你可以指定OTOBO能够处理的REST消息的最大长度(以字节为单位)。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Send Keep-Alive"
@@ -3473,8 +3473,8 @@ msgid "URI to indicate specific location for accessing a web service."
 msgstr "用于指示访问Web服务的特定位置的URI。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)"
-msgstr "例如：https://www.otrs.com:10745/api/v1.0 (最后不带斜杠/)"
+msgid "e.g https://www.otobo.com:10745/api/v1.0 (without trailing backslash)"
+msgstr "例如：https://www.otobo.com:10745/api/v1.0 (最后不带斜杠/)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
@@ -3571,8 +3571,8 @@ msgid ""
 msgstr "SSL客户端证书文件的完整路径和名称（必须为PEM、DER或PKCS＃12格式）。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g. /opt/otrs/var/certificates/SOAP/certificate.pem"
-msgstr "例如： /opt/otrs/var/certificates/SOAP/certificate.pem"
+msgid "e.g. /opt/otobo/var/certificates/SOAP/certificate.pem"
+msgstr "例如： /opt/otobo/var/certificates/SOAP/certificate.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key"
@@ -3585,8 +3585,8 @@ msgid ""
 msgstr "SSL客户端证书密钥文件的完整路径和名称（如果尚未包含在证书文件中）。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g. /opt/otrs/var/certificates/SOAP/key.pem"
-msgstr "例如： /opt/otrs/var/certificates/SOAP/key.pem"
+msgid "e.g. /opt/otobo/var/certificates/SOAP/key.pem"
+msgstr "例如： /opt/otobo/var/certificates/SOAP/key.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key Password"
@@ -3607,8 +3607,8 @@ msgid ""
 msgstr "用来验证SSL证书的认证机构证书文件的完整路径和名称。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem"
-msgstr "例如：/opt/otrs/var/certificates/SOAP/CA/ca.pem"
+msgid "e.g. /opt/otobo/var/certificates/SOAP/CA/ca.pem"
+msgstr "例如：/opt/otobo/var/certificates/SOAP/CA/ca.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) Directory"
@@ -3621,8 +3621,8 @@ msgid ""
 msgstr "认证机构目录的完整路径，文件系统中存储CA证书的地方。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g. /opt/otrs/var/certificates/SOAP/CA"
-msgstr "例如：/opt/otrs/var/certificates/SOAP/CA"
+msgid "e.g. /opt/otobo/var/certificates/SOAP/CA"
+msgstr "例如：/opt/otobo/var/certificates/SOAP/CA"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
@@ -3655,8 +3655,8 @@ msgid "The default HTTP command to use for the requests."
 msgstr "用于请求的默认HTTP命令。"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
-msgid "e.g. https://local.otrs.com:8000/Webservice/Example"
-msgstr "例如： https://local.otrs.com:8000/Webservice/Example"
+msgid "e.g. https://local.otobo.com:8000/Webservice/Example"
+msgstr "例如： https://local.otobo.com:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set SOAPAction"
@@ -3726,10 +3726,10 @@ msgstr "为SOAP方法指定URI(通用资源标识符), 以便消除二义性。"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
-"e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/"
+"e.g urn:otobo-com:soap:functions or http://www.otobo.com/GenericInterface/"
 "actions"
 msgstr ""
-"例如：urn:otrs-com:soap:functions或http://www.otrs.com/GenericInterface/"
+"例如：urn:otobo-com:soap:functions或http://www.otobo.com/GenericInterface/"
 "actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
@@ -3775,9 +3775,9 @@ msgstr "回复名称自由文本"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
-"Here you can specify the maximum size (in bytes) of SOAP messages that OTRS "
+"Here you can specify the maximum size (in bytes) of SOAP messages that OTOBO "
 "will process."
-msgstr "在这里你可以指定OTRS能够处理的SOAP消息的最大长度(以字节为单位)。"
+msgstr "在这里你可以指定OTOBO能够处理的SOAP消息的最大长度(以字节为单位)。"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Encoding"
@@ -3930,12 +3930,12 @@ msgstr "调试阀值"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
-"In provider mode, OTRS offers web services which are used by remote systems."
-msgstr "在提供方模式中，OTRS为远程系统提供Web服务。"
+"In provider mode, OTOBO offers web services which are used by remote systems."
+msgstr "在提供方模式中，OTOBO为远程系统提供Web服务。"
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "In requester mode, OTRS uses web services of remote systems."
-msgstr "在请求方模式中，OTRS使用远程系统的Web服务。"
+msgid "In requester mode, OTOBO uses web services of remote systems."
+msgstr "在请求方模式中，OTOBO使用远程系统的Web服务。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Network transport"
@@ -4129,11 +4129,11 @@ msgstr "同一帐户的所有传入电子邮件将在所选的队列中分派。
 
 #. Template: AdminMailAccount
 msgid ""
-"If your account is marked as trusted, the X-OTRS headers already existing at "
+"If your account is marked as trusted, the X-OTOBO headers already existing at "
 "arrival time (for priority etc.) will be kept and used, for example in "
 "PostMaster filters."
 msgstr ""
-"如果你的帐户被标记为受信任，则在到达时间已经存在的X-OTRS标头（优先级等）将被"
+"如果你的帐户被标记为受信任，则在到达时间已经存在的X-OTOBO标头（优先级等）将被"
 "保留并被使用，例如用于邮箱管理员过滤器。"
 
 #. Template: AdminMailAccount
@@ -4372,232 +4372,232 @@ msgstr "使用逗号或分号分隔电子邮件地址。"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
-"You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values "
+"You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values "
 "from the current ticket."
 msgstr ""
-"你可以使用诸如<OTRS_TICKET_DynamicField_...>之类的OTRS标签来插入当前工单中的"
+"你可以使用诸如<OTOBO_TICKET_DynamicField_...>之类的OTOBO标签来插入当前工单中的"
 "值。"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Manage %s"
 msgstr "管理 %s"
 
-#. Template: AdminOTRSBusinessInstalled
-msgid "Downgrade to ((OTRS)) Community Edition"
-msgstr "降级为 ((OTRS)) 社区版"
+#. Template: AdminOTOBOCommunityInstalled
+msgid "Downgrade to ((OTOBO)) Community Edition"
+msgstr "降级为 ((OTOBO)) 社区版"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Read documentation"
 msgstr "阅读文档"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
-"%s makes contact regularly with cloud.otrs.com to check on available updates "
+"%s makes contact regularly with cloud.otobo.com to check on available updates "
 "and the validity of the underlying contract."
-msgstr "%s 定期连接到cloud.otrs.com检查可用更新，并验证合同的有效性。"
+msgstr "%s 定期连接到cloud.otobo.com检查可用更新，并验证合同的有效性。"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Unauthorized Usage Detected"
 msgstr "检测到未经授权的使用"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "This system uses the %s without a proper license! Please make contact with "
 "%s to renew or activate your contract!"
 msgstr "该系统所使用的 %s 许可证无效！ 请与%s联系续订或激活您的合同！"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s not Correctly Installed"
 msgstr "%s 没有正确安装"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "Your %s is not correctly installed. Please reinstall it with the button "
 "below."
 msgstr "%s 没有正确安装，请点击下面的按钮重新安装。"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Reinstall %s"
 msgstr "重新安装 %s"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "Your %s is not correctly installed, and there is also an update available."
 msgstr "%s 没有正确安装，已经有了可用的更新版本。"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid ""
 "You can either reinstall your current version or perform an update with the "
 "buttons below (update recommended)."
 msgstr "你可以重新安装当前版本，或者安装新版本（推荐更新到新版本）。"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Update %s"
 msgstr "更新 %s"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s Not Yet Available"
 msgstr "%s 还不可用"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s will be available soon."
 msgstr "%s 很快就可用了。"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s Update Available"
 msgstr "%s 更新可用"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
 msgstr "%s 有更新版本可用了！请尽早更新！"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "%s Correctly Deployed"
 msgstr "%s 已经正确地部署"
 
-#. Template: AdminOTRSBusinessInstalled
+#. Template: AdminOTOBOCommunityInstalled
 msgid "Congratulations, your %s is correctly installed and up to date!"
 msgstr "恭喜，你的%s 已经正确地安装到最新版本！"
 
-#. Template: AdminOTRSBusinessNotInstalled
-msgid "Go to the OTRS customer portal"
-msgstr "访问OTRS客户门户"
+#. Template: AdminOTOBOCommunityNotInstalled
+msgid "Go to the OTOBO customer portal"
+msgstr "访问OTOBO客户门户"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "%s will be available soon. Please check again in a few days."
 msgstr "%s 很快就可用了，请过几天再检查一次。"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Please have a look at %s for more information."
 msgstr "有关更多信息,请查看 %s。"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid ""
-"Your ((OTRS)) Community Edition is the base for all future actions. Please "
+"Your ((OTOBO)) Community Edition is the base for all future actions. Please "
 "register first before you continue with the upgrade process of %s!"
-msgstr " ((OTRS)) 社区版是所有特色功能的基础，继续升级到%s 前请先注册！"
+msgstr " ((OTOBO)) 社区版是所有特色功能的基础，继续升级到%s 前请先注册！"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid ""
 "Before you can benefit from %s, please contact %s to get your %s contract."
 msgstr "在从%s 受益之前，请先联系%s 以获得%s 合同。"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid ""
-"Connection to cloud.otrs.com via HTTPS couldn't be established. Please make "
-"sure that your OTRS can connect to cloud.otrs.com via port 443."
+"Connection to cloud.otobo.com via HTTPS couldn't be established. Please make "
+"sure that your OTOBO can connect to cloud.otobo.com via port 443."
 msgstr ""
-"不能通过HTTPS连接到cloud.otrs.com，请确保你的OTRS系统能够通过端口443连接到"
-"cloud.otrs.com。"
+"不能通过HTTPS连接到cloud.otobo.com，请确保你的OTOBO系统能够通过端口443连接到"
+"cloud.otobo.com。"
 
-#. Template: AdminOTRSBusinessNotInstalled
-msgid "Package installation requires patch level update of OTRS."
-msgstr "软件包安装需要更新OTRS的补丁级别。"
+#. Template: AdminOTOBOCommunityNotInstalled
+msgid "Package installation requires patch level update of OTOBO."
+msgstr "软件包安装需要更新OTOBO的补丁级别。"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Please visit our customer portal and file a request."
 msgstr "请访问我们的客户门户并提出请求。"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "Everything else will be done as part of your contract."
 msgstr "一切都将作为您的合同的一部分完成。"
 
-#. Template: AdminOTRSBusinessNotInstalled
-msgid "Your installed OTRS version is %s."
-msgstr "您安装的OTRS版本是%s。"
+#. Template: AdminOTOBOCommunityNotInstalled
+msgid "Your installed OTOBO version is %s."
+msgstr "您安装的OTOBO版本是%s。"
 
-#. Template: AdminOTRSBusinessNotInstalled
-msgid "To install this package, you need to update to OTRS %s or higher."
-msgstr "要安装此软件包，您需要更新到OTRS %s或更高版本。"
+#. Template: AdminOTOBOCommunityNotInstalled
+msgid "To install this package, you need to update to OTOBO %s or higher."
+msgstr "要安装此软件包，您需要更新到OTOBO %s或更高版本。"
 
-#. Template: AdminOTRSBusinessNotInstalled
-msgid "To install this package, the Maximum OTRS Version is %s."
-msgstr "要安装此软件包，OTRS最高版本为%s。"
+#. Template: AdminOTOBOCommunityNotInstalled
+msgid "To install this package, the Maximum OTOBO Version is %s."
+msgstr "要安装此软件包，OTOBO最高版本为%s。"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "To install this package, the required Framework version is %s."
 msgstr "要安装此软件包，所需的框架版本为%s。"
 
-#. Template: AdminOTRSBusinessNotInstalled
-msgid "Why should I keep OTRS up to date?"
-msgstr "为什么要保持OTRS是最新的？"
+#. Template: AdminOTOBOCommunityNotInstalled
+msgid "Why should I keep OTOBO up to date?"
+msgstr "为什么要保持OTOBO是最新的？"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "You will receive updates about relevant security issues."
 msgstr "您将收到有关安全问题的更新。"
 
-#. Template: AdminOTRSBusinessNotInstalled
-msgid "You will receive updates for all other relevant OTRS issues"
-msgstr "您将收到所有其他OTRS相关问题的更新"
+#. Template: AdminOTOBOCommunityNotInstalled
+msgid "You will receive updates for all other relevant OTOBO issues"
+msgstr "您将收到所有其他OTOBO相关问题的更新"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
 msgstr "当前的合同表明你只能使用%s 的小部分功能。"
 
-#. Template: AdminOTRSBusinessNotInstalled
+#. Template: AdminOTOBOCommunityNotInstalled
 msgid ""
 "If you would like to take full advantage of the %s get your contract "
 "upgraded now! Contact %s."
 msgstr "如欲发挥%s 的全部优势，请升级合同！联系%s。"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Cancel downgrade and go back"
 msgstr "取消降级并返回"
 
-#. Template: AdminOTRSBusinessUninstall
-msgid "Go to OTRS Package Manager"
-msgstr "进入 OTRS 软件包管理"
+#. Template: AdminOTOBOCommunityUninstall
+msgid "Go to OTOBO Package Manager"
+msgstr "进入 OTOBO 软件包管理"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid ""
 "Sorry, but currently you can't downgrade due to the following packages which "
 "depend on %s:"
 msgstr "当前不能降级，因为以下软件包依赖%s："
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Vendor"
 msgstr "提供者"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid ""
 "Please uninstall the packages first using the package manager and try again."
 msgstr "请在软件包管理模块中先删除这些软件包，然后再试一次。"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid ""
-"You are about to downgrade to ((OTRS)) Community Edition and will lose the "
+"You are about to downgrade to ((OTOBO)) Community Edition and will lose the "
 "following features and all data related to these:"
-msgstr "你打算降级到 ((OTRS)) 社区版，以下功能特性和相关数据将全部丢失："
+msgstr "你打算降级到 ((OTOBO)) 社区版，以下功能特性和相关数据将全部丢失："
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Chat"
 msgstr "聊天"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Report Generator"
 msgstr "报表生成器"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Timeline view in ticket zoom"
 msgstr "以时间轴视图展开工单"
 
-#. Template: AdminOTRSBusinessUninstall
-msgid "DynamicField ContactWithData"
-msgstr "动态字段ContactWithData"
+#. Template: AdminOTOBOCommunityUninstall
+msgid "DynamicField ContactWD"
+msgstr "动态字段ContactWD"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "DynamicField Database"
 msgstr "动态字段Database"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "SLA Selection Dialog"
 msgstr "SLA选择对话框"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "Ticket Attachment View"
 msgstr "工单附件视图"
 
-#. Template: AdminOTRSBusinessUninstall
+#. Template: AdminOTOBOCommunityUninstall
 msgid "The %s skin"
 msgstr "%s 皮肤"
 
@@ -4614,8 +4614,8 @@ msgid "PGP support is disabled"
 msgstr "PGP支持已禁用"
 
 #. Template: AdminPGP
-msgid "To be able to use PGP in OTRS, you have to enable it first."
-msgstr "要在OTRS中使用PGP，你必须首先启用它。"
+msgid "To be able to use PGP in OTOBO, you have to enable it first."
+msgstr "要在OTOBO中使用PGP，你必须首先启用它。"
 
 #. Template: AdminPGP
 msgid "Enable PGP support"
@@ -4706,39 +4706,39 @@ msgid "package information"
 msgstr "软件包信息"
 
 #. Template: AdminPackageManager
-msgid "Package installation requires a patch level update of OTRS."
-msgstr "安装软件包需要将OTRS补丁级别更新。"
+msgid "Package installation requires a patch level update of OTOBO."
+msgstr "安装软件包需要将OTOBO补丁级别更新。"
 
 #. Template: AdminPackageManager
-msgid "Package update requires a patch level update of OTRS."
-msgstr "升级软件包需要将OTRS补丁级别更新。"
+msgid "Package update requires a patch level update of OTOBO."
+msgstr "升级软件包需要将OTOBO补丁级别更新。"
 
 #. Template: AdminPackageManager
 msgid ""
-"If you are a OTRS Business Solution™ customer, please visit our customer "
+"If you are a OTOBO Business Solution™ customer, please visit our customer "
 "portal and file a request."
-msgstr "如果您是OTRS 商业版™客户，请访问我们的客户门户并提交请求。"
+msgstr "如果您是OTOBO 商业版™客户，请访问我们的客户门户并提交请求。"
 
 #. Template: AdminPackageManager
-msgid "Please note that your installed OTRS version is %s."
-msgstr "请注意，您安装的OTRS版本是%s。"
+msgid "Please note that your installed OTOBO version is %s."
+msgstr "请注意，您安装的OTOBO版本是%s。"
 
 #. Template: AdminPackageManager
 msgid ""
-"To install this package, you need to update OTRS to version %s or newer."
-msgstr "安装这个软件包，你需要升级OTRS版本到%s或者更高。"
+"To install this package, you need to update OTOBO to version %s or newer."
+msgstr "安装这个软件包，你需要升级OTOBO版本到%s或者更高。"
 
 #. Template: AdminPackageManager
-msgid "This package can only be installed on OTRS version %s or older."
-msgstr "这个软件包只能安装在OTRS版本%s或者更低。"
+msgid "This package can only be installed on OTOBO version %s or older."
+msgstr "这个软件包只能安装在OTOBO版本%s或者更低。"
 
 #. Template: AdminPackageManager
-msgid "This package can only be installed on OTRS version %s or newer."
-msgstr "这个软件包只能安装在OTRS版本%s或者更高。"
+msgid "This package can only be installed on OTOBO version %s or newer."
+msgstr "这个软件包只能安装在OTOBO版本%s或者更高。"
 
 #. Template: AdminPackageManager
-msgid "You will receive updates for all other relevant OTRS issues."
-msgstr "你将收到所有其他有关OTRS问题的更新。"
+msgid "You will receive updates for all other relevant OTOBO issues."
+msgstr "你将收到所有其他有关OTOBO问题的更新。"
 
 #. Template: AdminPackageManager
 msgid "How can I do a patch level update if I don’t have a contract?"
@@ -4788,8 +4788,8 @@ msgid "Cloud services are currently disabled."
 msgstr "云服务当前被禁用了。"
 
 #. Template: AdminPackageManager
-msgid "OTRS Verify™ can not continue!"
-msgstr "OTRS Verify™（OTRS验证）不能继续！"
+msgid "OTOBO Verify™ can not continue!"
+msgstr "OTOBO Verify™（OTOBO验证）不能继续！"
 
 #. Template: AdminPackageManager
 msgid "Enable cloud services"
@@ -4816,8 +4816,8 @@ msgid "Local Repository"
 msgstr "本地软件仓库"
 
 #. Template: AdminPackageManager
-msgid "This package is verified by OTRSverify (tm)"
-msgstr "此软件包已通过OTRSverify(tm)的验证"
+msgid "This package is verified by OTOBOverify (tm)"
+msgstr "此软件包已通过OTOBOverify(tm)的验证"
 
 #. Template: AdminPackageManager
 msgid "Uninstall"
@@ -5865,8 +5865,8 @@ msgid "Register System"
 msgstr "注册系统"
 
 #. Template: AdminRegistration
-msgid "Validate OTRS-ID"
-msgstr "验证OTRS-ID"
+msgid "Validate OTOBO-ID"
+msgstr "验证OTOBO-ID"
 
 #. Template: AdminRegistration
 msgid "Deregister System"
@@ -5889,8 +5889,8 @@ msgid "Overview of registered systems"
 msgstr "注册系统概述"
 
 #. Template: AdminRegistration
-msgid "This system is registered with OTRS Group."
-msgstr "本系统已注册到OTRS集团。"
+msgid "This system is registered with Rother OSS GmbH."
+msgstr "本系统已注册到OTOBO集团。"
 
 #. Template: AdminRegistration
 msgid "System type"
@@ -5910,9 +5910,9 @@ msgstr "系统注册不可能"
 
 #. Template: AdminRegistration
 msgid ""
-"Please note that you can't register your system if OTRS Daemon is not "
+"Please note that you can't register your system if OTOBO Daemon is not "
 "running correctly!"
-msgstr "请注意：如果OTRS守护进程没有正确运行，你就不能注册你的系统！"
+msgstr "请注意：如果OTOBO守护进程没有正确运行，你就不能注册你的系统！"
 
 #. Template: AdminRegistration
 msgid "Instructions"
@@ -5930,22 +5930,22 @@ msgstr ""
 "请注意：如果你正在使用%s 或具有一个有效的服务合同，你就不能取消你的系统注册。"
 
 #. Template: AdminRegistration
-msgid "OTRS-ID Login"
-msgstr "OTRS-ID登陆"
+msgid "OTOBO-ID Login"
+msgstr "OTOBO-ID登陆"
 
 #. Template: AdminRegistration
 msgid "Read more"
 msgstr "阅读更多"
 
 #. Template: AdminRegistration
-msgid "You need to log in with your OTRS-ID to register your system."
-msgstr "为了注册系统，需要你先使用OTRS-ID进行登陆。"
+msgid "You need to log in with your OTOBO-ID to register your system."
+msgstr "为了注册系统，需要你先使用OTOBO-ID进行登陆。"
 
 #. Template: AdminRegistration
 msgid ""
-"Your OTRS-ID is the email address you used to sign up on the OTRS.com "
+"Your OTOBO-ID is the email address you used to sign up on the OTOBO.com "
 "webpage."
-msgstr "OTRS-ID是你在OTRS.com网站注册的电子邮箱地址。"
+msgstr "OTOBO-ID是你在OTOBO.com网站注册的电子邮箱地址。"
 
 #. Template: AdminRegistration
 msgid "Data Protection"
@@ -5975,16 +5975,16 @@ msgid "We will inform you about our new services and offerings soon."
 msgstr "有了新的服务和产品我们能很快通知你。"
 
 #. Template: AdminRegistration
-msgid "Can I use OTRS without being registered?"
-msgstr "如果不进行系统注册，我还可以使用OTRS吗?"
+msgid "Can I use OTOBO without being registered?"
+msgstr "如果不进行系统注册，我还可以使用OTOBO吗?"
 
 #. Template: AdminRegistration
 msgid "System registration is optional."
 msgstr "系统注册是可选的。"
 
 #. Template: AdminRegistration
-msgid "You can download and use OTRS without being registered."
-msgstr "不进行注册，你仍然可以下载和使用OTRS。"
+msgid "You can download and use OTOBO without being registered."
+msgstr "不进行注册，你仍然可以下载和使用OTOBO。"
 
 #. Template: AdminRegistration
 msgid "Is it possible to deregister?"
@@ -5999,14 +5999,14 @@ msgid "Which data is transfered when registering?"
 msgstr "注册后，哪些数据会被上传?"
 
 #. Template: AdminRegistration
-msgid "A registered system sends the following data to OTRS Group:"
-msgstr "注册过的系统会将以下数据上传给OTRS集团："
+msgid "A registered system sends the following data to Rother OSS GmbH:"
+msgstr "注册过的系统会将以下数据上传给OTOBO集团："
 
 #. Template: AdminRegistration
 msgid ""
-"Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System "
+"Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System "
 "and Perl version."
-msgstr "域名(FQDN)、OTRS版本、数据库、操作系统和Perl版本。"
+msgstr "域名(FQDN)、OTOBO版本、数据库、操作系统和Perl版本。"
 
 #. Template: AdminRegistration
 msgid "Why do I have to provide a description for my system?"
@@ -6023,8 +6023,8 @@ msgid ""
 msgstr "注册系统描述和类型有助于您识别和管理系统的细节。"
 
 #. Template: AdminRegistration
-msgid "How often does my OTRS system send updates?"
-msgstr "我的OTRS系统上传数据的频度?"
+msgid "How often does my OTOBO system send updates?"
+msgstr "我的OTOBO系统上传数据的频度?"
 
 #. Template: AdminRegistration
 msgid ""
@@ -6041,16 +6041,16 @@ msgid "If you deregister your system, you will lose these benefits:"
 msgstr "如果你取消注册你的系统，你将失去以下好处："
 
 #. Template: AdminRegistration
-msgid "You need to log in with your OTRS-ID to deregister your system."
-msgstr "为了取消注册你的系统，你需要以OTRS-ID登录。"
+msgid "You need to log in with your OTOBO-ID to deregister your system."
+msgstr "为了取消注册你的系统，你需要以OTOBO-ID登录。"
 
 #. Template: AdminRegistration
-msgid "OTRS-ID"
-msgstr "OTRS-ID"
+msgid "OTOBO-ID"
+msgstr "OTOBO-ID"
 
 #. Template: AdminRegistration
-msgid "You don't have an OTRS-ID yet?"
-msgstr "还没有OTRS-ID吗？"
+msgid "You don't have an OTOBO-ID yet?"
+msgstr "还没有OTOBO-ID吗？"
 
 #. Template: AdminRegistration
 msgid "Sign up now"
@@ -6070,9 +6070,9 @@ msgstr "下一步"
 
 #. Template: AdminRegistration
 msgid ""
-"This data will be frequently transferred to OTRS Group when you register "
+"This data will be frequently transferred to Rother OSS GmbH when you register "
 "this system."
-msgstr "注册本系统后，这个数据会经常传送给OTRS集团。"
+msgstr "注册本系统后，这个数据会经常传送给OTOBO集团。"
 
 #. Template: AdminRegistration
 msgid "Attribute"
@@ -6083,8 +6083,8 @@ msgid "FQDN"
 msgstr "正式域名"
 
 #. Template: AdminRegistration
-msgid "OTRS Version"
-msgstr "OTRS版本"
+msgid "OTOBO Version"
+msgstr "OTOBO版本"
 
 #. Template: AdminRegistration
 msgid "Operating System"
@@ -6103,8 +6103,8 @@ msgid "Register"
 msgstr "注册"
 
 #. Template: AdminRegistration
-msgid "Continuing with this step will deregister the system from OTRS Group."
-msgstr "继续这一步将从OTRS集团取消注册本系统。"
+msgid "Continuing with this step will deregister the system from Rother OSS GmbH."
+msgstr "继续这一步将从OTOBO集团取消注册本系统。"
 
 #. Template: AdminRegistration
 msgid "Deregister"
@@ -6292,8 +6292,8 @@ msgid "SMIME support is disabled"
 msgstr "SMIME支持已禁用"
 
 #. Template: AdminSMIME
-msgid "To be able to use SMIME in OTRS, you have to enable it first."
-msgstr "要在OTRS中使用SMIME，你必须首先启用它。"
+msgid "To be able to use SMIME in OTOBO, you have to enable it first."
+msgstr "要在OTOBO中使用SMIME，你必须首先启用它。"
 
 #. Template: AdminSMIME
 msgid "Enable SMIME support"
@@ -6661,8 +6661,8 @@ msgid "This state is used in the following config settings:"
 msgstr "这个状态已用于以下的系统配置设置："
 
 #. Template: AdminSupportDataCollector
-msgid "Sending support data to OTRS Group is not possible!"
-msgstr "不能将支持数据发送给OTRS集团！"
+msgid "Sending support data to Rother OSS GmbH is not possible!"
+msgstr "不能将支持数据发送给OTOBO集团！"
 
 #. Template: AdminSupportDataCollector
 msgid "Enable Cloud Services"
@@ -6670,10 +6670,10 @@ msgstr "启用云服务"
 
 #. Template: AdminSupportDataCollector
 msgid ""
-"This data is sent to OTRS Group on a regular basis. To stop sending this "
+"This data is sent to Rother OSS GmbH on a regular basis. To stop sending this "
 "data please update your system registration."
 msgstr ""
-"这些数据被定期发送到OTRS集团，要停止发送这些数据，请更新你的系统注册配置。"
+"这些数据被定期发送到OTOBO集团，要停止发送这些数据，请更新你的系统注册配置。"
 
 #. Template: AdminSupportDataCollector
 msgid ""
@@ -6729,8 +6729,8 @@ msgid "Sending"
 msgstr "发送中"
 
 #. Template: AdminSupportDataCollector
-msgid "The support bundle will be sent to OTRS Group via email automatically."
-msgstr "支持数据包会自动通过电子邮件方式发送给OTRS集团。"
+msgid "The support bundle will be sent to Rother OSS GmbH via email automatically."
+msgstr "支持数据包会自动通过电子邮件方式发送给OTOBO集团。"
 
 #. Template: AdminSupportDataCollector
 msgid "Download File"
@@ -6739,11 +6739,11 @@ msgstr "下载文件"
 #. Template: AdminSupportDataCollector
 msgid ""
 "A file containing the support bundle will be downloaded to the local system. "
-"Please save the file and send it to the OTRS Group, using an alternate "
+"Please save the file and send it to the Rother OSS GmbH, using an alternate "
 "method."
 msgstr ""
 "包含支持数据包的文件已经可以下载到本地。请保存文件，然后通过其他方法把这个文"
-"件发送给OTRS集团。"
+"件发送给OTOBO集团。"
 
 #. Template: AdminSupportDataCollector
 msgid "Error: Support data could not be collected (%s)."
@@ -6841,10 +6841,10 @@ msgstr "在所有设置中搜索..."
 
 #. Template: AdminSystemConfiguration
 msgid ""
-"There are currently no settings available. Please make sure to run 'otrs."
+"There are currently no settings available. Please make sure to run 'otobo."
 "Console.pl Maint::Config::Rebuild' before using the software."
 msgstr ""
-"目前没有可用的设置。 在使用软件之前，请确保运行 'otrs.Console.pl Maint::"
+"目前没有可用的设置。 在使用软件之前，请确保运行 'otobo.Console.pl Maint::"
 "Config::Rebuild'。"
 
 #. Template: AdminSystemConfigurationDeployment
@@ -7680,38 +7680,38 @@ msgstr "客户用户信息中心"
 
 #. Template: AgentDaemonInfo
 msgid ""
-"The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
+"The OTOBO Daemon is a daemon process that performs asynchronous tasks, e.g. "
 "ticket escalation triggering, email sending, etc."
-msgstr "OTRS守护进程用来执行异步任务，例如：触发工单升级、发送电子邮件等等。"
+msgstr "OTOBO守护进程用来执行异步任务，例如：触发工单升级、发送电子邮件等等。"
 
 #. Template: AgentDaemonInfo
-msgid "A running OTRS Daemon is mandatory for correct system operation."
-msgstr "OTRS守护进程正常运行是正确的系统操作所必需的。"
+msgid "A running OTOBO Daemon is mandatory for correct system operation."
+msgstr "OTOBO守护进程正常运行是正确的系统操作所必需的。"
 
 #. Template: AgentDaemonInfo
-msgid "Starting the OTRS Daemon"
-msgstr "正在启动OTRS守护进程"
+msgid "Starting the OTOBO Daemon"
+msgstr "正在启动OTOBO守护进程"
 
 #. Template: AgentDaemonInfo
 msgid ""
 "Make sure that the file '%s' exists (without .dist extension). This cron job "
-"will check every 5 minutes if the OTRS Daemon is running and start it if "
+"will check every 5 minutes if the OTOBO Daemon is running and start it if "
 "needed."
 msgstr ""
-"确保存在文件“%s”（没有.dist扩展名）。这个CRON任务会每5分钟检查一次OTRS守护进"
+"确保存在文件“%s”（没有.dist扩展名）。这个CRON任务会每5分钟检查一次OTOBO守护进"
 "程是否在运行，并在需要时启动它。"
 
 #. Template: AgentDaemonInfo
 msgid ""
-"Execute '%s start' to make sure the cron jobs of the 'otrs' user are active."
-msgstr "执行'%s start'确保'otrs'用户的cron任务是活动的。"
+"Execute '%s start' to make sure the cron jobs of the 'otobo' user are active."
+msgstr "执行'%s start'确保'otobo'用户的cron任务是活动的。"
 
 #. Template: AgentDaemonInfo
 msgid ""
-"After 5 minutes, check that the OTRS Daemon is running in the system ('bin/"
-"otrs.Daemon.pl status')."
+"After 5 minutes, check that the OTOBO Daemon is running in the system ('bin/"
+"otobo.Daemon.pl status')."
 msgstr ""
-"5分钟后，在系统中执行'bin/otrs.Daemon.pl status'，检查OTRS守护进程是否正常运"
+"5分钟后，在系统中执行'bin/otobo.Daemon.pl status'，检查OTOBO守护进程是否正常运"
 "行。"
 
 #. Template: AgentDashboard
@@ -7975,15 +7975,15 @@ msgid ""
 "link this item to other objects."
 msgstr "目前没有链接。 请点击顶部的“创建新链接”将此项目链接到其他对象。"
 
-#. Template: AgentOTRSBusinessBlockScreen
+#. Template: AgentOTOBOCommunityBlockScreen
 msgid "Unauthorized usage of %s detected"
 msgstr "检测到未经授权的使用 %s"
 
-#. Template: AgentOTRSBusinessBlockScreen
+#. Template: AgentOTOBOCommunityBlockScreen
 msgid ""
-"If you decide to downgrade to ((OTRS)) Community Edition, you will lose all "
+"If you decide to downgrade to ((OTOBO)) Community Edition, you will lose all "
 "database tables and data related to %s."
-msgstr "如果决定降级到 ((OTRS)) 社区版，会丢失%s相关的所有数据库表及其数据。"
+msgstr "如果决定降级到 ((OTOBO)) 社区版，会丢失%s相关的所有数据库表及其数据。"
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -8069,8 +8069,8 @@ msgid "Save this setting"
 msgstr "保存该设置"
 
 #. Template: AgentPreferences
-msgid "Did you know? You can help translating OTRS at %s."
-msgstr "你知道吗? 你也可以通过%s帮助翻译 OTRS。"
+msgid "Did you know? You can help translating OTOBO at %s."
+msgstr "你知道吗? 你也可以通过%s帮助翻译 OTOBO。"
 
 #. Template: SettingsList
 msgid "Reset to default"
@@ -8112,7 +8112,7 @@ msgid "Add Statistics"
 msgstr "添加统计"
 
 #. Template: AgentStatisticsAdd
-msgid "Read more about statistics in OTRS"
+msgid "Read more about statistics in OTOBO"
 msgstr "详细了解OTR关于统计的信息"
 
 #. Template: AgentStatisticsAdd
@@ -9431,8 +9431,8 @@ msgstr "工单字段"
 #. Template: Error
 msgid ""
 "Really a bug? 5 out of 10 bug reports result from a wrong or incomplete "
-"installation of OTRS."
-msgstr "真的是一个BUG吗？十个BUG报告有五个起因于错误或不完整的OTRS安装。"
+"installation of OTOBO."
+msgstr "真的是一个BUG吗？十个BUG报告有五个起因于错误或不完整的OTOBO安装。"
 
 #. Template: Error
 msgid ""
@@ -9492,8 +9492,8 @@ msgid "Notifications"
 msgstr "通知"
 
 #. Template: Header
-msgid "Notifications (OTRS Business Solution™)"
-msgstr "通知 (OTRS商业版)"
+msgid "Notifications (OTOBO Business Solution™)"
+msgstr "通知 (OTOBO商业版)"
 
 #. Template: Header
 msgid "Personal preferences"
@@ -9688,12 +9688,12 @@ msgid "Install Type"
 msgstr "安装类型"
 
 #. Template: InstallerDBStart
-msgid "Create a new database for OTRS"
-msgstr "为OTRS创建新的数据库"
+msgid "Create a new database for OTOBO"
+msgstr "为OTOBO创建新的数据库"
 
 #. Template: InstallerDBStart
-msgid "Use an existing database for OTRS"
-msgstr "使用现有的OTRS数据库"
+msgid "Use an existing database for OTOBO"
+msgstr "使用现有的OTOBO数据库"
 
 #. Template: InstallerDBmssql
 msgid ""
@@ -9727,9 +9727,9 @@ msgstr "New（新建）"
 
 #. Template: InstallerDBmssql
 msgid ""
-"A new database user with limited permissions will be created for this OTRS "
+"A new database user with limited permissions will be created for this OTOBO "
 "system."
-msgstr "已经为OTRS系统创建了新的数据库普通用户。"
+msgstr "已经为OTOBO系统创建了新的数据库普通用户。"
 
 #. Template: InstallerDBmssql
 msgid "Repeat Password"
@@ -9753,26 +9753,26 @@ msgstr "端口"
 
 #. Template: InstallerFinish
 msgid ""
-"To be able to use OTRS you have to enter the following line in your command "
+"To be able to use OTOBO you have to enter the following line in your command "
 "line (Terminal/Shell) as root."
 msgstr ""
-"为了能够使用OTRS, 您必须以root身份在命令行中(Terminal/Shell)输入以下行。"
+"为了能够使用OTOBO, 您必须以root身份在命令行中(Terminal/Shell)输入以下行。"
 
 #. Template: InstallerFinish
 msgid "Restart your webserver"
 msgstr "重启web服务器"
 
 #. Template: InstallerFinish
-msgid "After doing so your OTRS is up and running."
-msgstr "完成这些后，您的OTRS系统就启动并运行了。"
+msgid "After doing so your OTOBO is up and running."
+msgstr "完成这些后，您的OTOBO系统就启动并运行了。"
 
 #. Template: InstallerFinish
 msgid "Start page"
 msgstr "开始页面"
 
 #. Template: InstallerFinish
-msgid "Your OTRS Team"
-msgstr "OTRS团队"
+msgid "Your OTOBO Team"
+msgstr "OTOBO团队"
 
 #. Template: InstallerLicense
 msgid "Don't accept license"
@@ -9905,11 +9905,11 @@ msgstr "功能不可用"
 
 #. Template: MobileNotAvailableWidget
 msgid ""
-"Sorry, but this feature of OTRS is currently not available for mobile "
+"Sorry, but this feature of OTOBO is currently not available for mobile "
 "devices. If you'd like to use it, you can either switch to desktop mode or "
 "use your regular desktop device."
 msgstr ""
-"抱歉，当前的OTRS不能用于移动终端。如果你想在移动终端上使用，你可以切换到桌面"
+"抱歉，当前的OTOBO不能用于移动终端。如果你想在移动终端上使用，你可以切换到桌面"
 "模式或使用普通桌面终端。"
 
 #. Template: Motd
@@ -9994,9 +9994,9 @@ msgstr "欢迎"
 
 #. Template: PublicDefault
 msgid ""
-"This is the default public interface of OTRS! There was no action parameter "
+"This is the default public interface of OTOBO! There was no action parameter "
 "given."
-msgstr "这是OTRS默认的公共界面！没有操作参数。"
+msgstr "这是OTOBO默认的公共界面！没有操作参数。"
 
 #. Template: PublicDefault
 msgid ""
@@ -10403,15 +10403,15 @@ msgstr "取消编辑当前设置。"
 msgid "Navigation"
 msgstr "导航"
 
-#. Template: OTRSBusinessTeaser
+#. Template: OTOBOCommunityTeaser
 msgid ""
 "With %s, System Configuration supports versioning, rollback and user-"
 "specific configuration settings."
 msgstr "使用%s，系统配置支持版本控制、回滚和用户特定的配置设置。"
 
 #. Template: Test
-msgid "OTRS Test Page"
-msgstr "OTRS测试页"
+msgid "OTOBO Test Page"
+msgstr "OTOBO测试页"
 
 #. Template: Test
 msgid "Unlock"
@@ -10618,9 +10618,9 @@ msgstr "数据库中的ACL信息与系统配置不一致，请部署所有ACL。
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
-"ACLs could not be Imported due to a unknown error, please check OTRS logs "
+"ACLs could not be Imported due to a unknown error, please check OTOBO logs "
 "for more information"
-msgstr "由于未知错误不能导入ACL，请检查OTRS日志以获得更多信息"
+msgstr "由于未知错误不能导入ACL，请检查OTOBO日志以获得更多信息"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "The following ACLs have been added successfully: %s"
@@ -10634,7 +10634,7 @@ msgstr "下列ACL已经成功更新：%s"
 msgid ""
 "There where errors adding/updating the following ACLs: %s. Please check the "
 "log file for more information."
-msgstr "在添加/更新下列ACL：%s 时出现一些错误，请检查OTRS日志以获得更多信息。"
+msgstr "在添加/更新下列ACL：%s 时出现一些错误，请检查OTOBO日志以获得更多信息。"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "This field is required"
@@ -10809,8 +10809,8 @@ msgstr "创建通知时出现了一个错误"
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid ""
 "Notifications could not be Imported due to a unknown error, please check "
-"OTRS logs for more information"
-msgstr "由于一个未知错误不能导入通知，请检查OTRS日志以获取更多信息"
+"OTOBO logs for more information"
+msgstr "由于一个未知错误不能导入通知，请检查OTOBO日志以获取更多信息"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "The following Notifications have been added successfully: %s"
@@ -10824,7 +10824,7 @@ msgstr "下列通知已成功更新：%s"
 msgid ""
 "There where errors adding/updating the following Notifications: %s. Please "
 "check the log file for more information."
-msgstr "添加/更新下列通知时出现错误：%s，请检查OTRS日志以获取更多信息。"
+msgstr "添加/更新下列通知时出现错误：%s，请检查OTOBO日志以获取更多信息。"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Notification updated!"
@@ -11609,25 +11609,25 @@ msgstr "导入需要一个文件！"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid ""
-"The imported file has not valid YAML content! Please check OTRS log for "
+"The imported file has not valid YAML content! Please check OTOBO log for "
 "details"
-msgstr "导入的文件没有有效的YAML内容！请检查OTRS日志以获取详细信息"
+msgstr "导入的文件没有有效的YAML内容！请检查OTOBO日志以获取详细信息"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" deleted!"
 msgstr "Web服务“%s”已经删除！"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
-msgid "OTRS as provider"
-msgstr "OTRS作为服务提供方"
+msgid "OTOBO as provider"
+msgstr "OTOBO作为服务提供方"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Operations"
 msgstr "操作"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
-msgid "OTRS as requester"
-msgstr "OTRS作为服务请求方"
+msgid "OTOBO as requester"
+msgstr "OTOBO作为服务请求方"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Invokers"
@@ -11715,35 +11715,35 @@ msgstr "客户不可见"
 msgid "Visible to customer"
 msgstr "对客户可见"
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "Your system was successfully upgraded to %s."
 msgstr "你的系统已成功更新到 %s。"
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "There was a problem during the upgrade to %s."
 msgstr "升级到%s的过程中出现问题。"
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "%s was correctly reinstalled."
 msgstr "%s 已经成功重装。"
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "There was a problem reinstalling %s."
 msgstr "重装 %s 时遇到了一个问题。"
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "Your %s was successfully updated."
 msgstr "你的 %s 已经成功更新。"
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "There was a problem during the upgrade of %s."
 msgstr "升级 %s 时遇到了一个问题。"
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "%s was correctly uninstalled."
 msgstr "%s 已经成功卸载。"
 
-#. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
+#. Perl Module: Kernel/Modules/AdminOTOBOCommunity.pm
 msgid "There was a problem uninstalling %s."
 msgstr "卸载 %s 时遇到了一个问题。"
 
@@ -11767,10 +11767,10 @@ msgstr "需要参数“密钥”才能下载！"
 msgid ""
 "Sorry, Apache::Reload is needed as PerlModule and PerlInitHandler in Apache "
 "config file. See also scripts/apache2-httpd.include.conf. Alternatively, you "
-"can use the command line tool bin/otrs.Console.pl to install packages!"
+"can use the command line tool bin/otobo.Console.pl to install packages!"
 msgstr ""
 "抱歉，在Apache配置文件中需要Apache::Reload作为PerlModule和PerlInitHandler。另"
-"请查看scripts/apache2-httpd.include.conf。或者您也可以使用命令行工具bin/otrs."
+"请查看scripts/apache2-httpd.include.conf。或者您也可以使用命令行工具bin/otobo."
 "Console.pl来安装软件包！"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -11799,9 +11799,9 @@ msgstr "软件包中有本地修改过的文件。"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
-"Package not verified by the OTRS Group! It is recommended not to use this "
+"Package not verified by the Rother OSS GmbH! It is recommended not to use this "
 "package."
-msgstr "扩展包未经OTRS检验！不推荐使用该扩展包."
+msgstr "扩展包未经OTOBO检验！不推荐使用该扩展包."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not Started"
@@ -11878,16 +11878,16 @@ msgid ""
 msgstr "不能验证软件包，因为与验证服务器无法正常通信！"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
-msgid "Can't connect to OTRS Feature Add-on list server!"
-msgstr "不能连接到OTRS附加功能列表服务器！"
+msgid "Can't connect to OTOBO Feature Add-on list server!"
+msgstr "不能连接到OTOBO附加功能列表服务器！"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
-msgid "Can't get OTRS Feature Add-on list from server!"
-msgstr "不能从服务器获取OTRS附加功能列表！"
+msgid "Can't get OTOBO Feature Add-on list from server!"
+msgstr "不能从服务器获取OTOBO附加功能列表！"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
-msgid "Can't get OTRS Feature Add-on from server!"
-msgstr "不能从服务器获取OTRS附加功能！"
+msgid "Can't get OTOBO Feature Add-on from server!"
+msgstr "不能从服务器获取OTOBO附加功能！"
 
 #. Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
 msgid "No such filter: %s"
@@ -12343,8 +12343,8 @@ msgstr "不允许导入！"
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid ""
 "System Configuration could not be imported due to an unknown error, please "
-"check OTRS logs for more information."
-msgstr "由于一个未知错误不能导入系统配置，请检查OTRS日志以获取更多信息。"
+"check OTOBO logs for more information."
+msgstr "由于一个未知错误不能导入系统配置，请检查OTOBO日志以获取更多信息。"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Category Search"
@@ -12353,10 +12353,10 @@ msgstr "搜索类别"
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeployment.pm
 msgid ""
 "Some imported settings are not present in the current state of the "
-"configuration or it was not possible to update them. Please check the OTRS "
+"configuration or it was not possible to update them. Please check the OTOBO "
 "log for more information."
 msgstr ""
-"某些导入的设置不在配置的当前状态中，或者无法进行更新。 请查看OTRS日志了解更多"
+"某些导入的设置不在配置的当前状态中，或者无法进行更新。 请查看OTOBO日志了解更多"
 "信息。"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
@@ -13666,8 +13666,8 @@ msgid "Directory \"%s\" not found!"
 msgstr "没有找到目录“%s”！"
 
 #. Perl Module: Kernel/Modules/Installer.pm
-msgid "Install OTRS"
-msgstr "安装OTRS"
+msgid "Install OTOBO"
+msgstr "安装OTOBO"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Intro"
@@ -13732,8 +13732,8 @@ msgid "Create Database"
 msgstr "创建数据库"
 
 #. Perl Module: Kernel/Modules/Installer.pm
-msgid "Install OTRS - Error"
-msgstr "安装OTRS - 错误"
+msgid "Install OTOBO - Error"
+msgstr "安装OTOBO - 错误"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "File \"%s/%s.xml\" not found!"
@@ -13878,8 +13878,8 @@ msgid "Print this article"
 msgstr "打印信件"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-msgid "Contact us at sales@otrs.com"
-msgstr "请通过sales@otrs.com联系我们"
+msgid "Contact us at hallo@otobo.de"
+msgstr "请通过hallo@otobo.de联系我们"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
@@ -13894,8 +13894,8 @@ msgid "Unmark"
 msgstr "取消标记"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
-msgid "Upgrade to OTRS Business Solution™"
-msgstr "更新到OTRS商业版"
+msgid "Upgrade to OTOBO Business Solution™"
+msgstr "更新到OTOBO商业版"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install Package"
@@ -14072,12 +14072,12 @@ msgid "The start time of a ticket has been set after the end time!"
 msgstr "工单开始时间被设置在结束时间之后！"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
-msgid "Can't connect to OTRS News server!"
-msgstr "无法连接OTRS新闻服务器！"
+msgid "Can't connect to OTOBO News server!"
+msgstr "无法连接OTOBO新闻服务器！"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
-msgid "Can't get OTRS News from server!"
-msgstr "无法从服务器获取OTRS新闻！"
+msgid "Can't get OTOBO News from server!"
+msgstr "无法从服务器获取OTOBO新闻！"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
 msgid "Can't connect to Product News server!"
@@ -14255,24 +14255,24 @@ msgid "Archive search"
 msgstr "归档搜索"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
-msgid "Enable cloud services to unleash all OTRS features!"
-msgstr "启用云服务以激活OTRS的所有功能！"
+msgid "Enable cloud services to unleash all OTOBO features!"
+msgstr "启用云服务以激活OTOBO的所有功能！"
 
-#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
 msgid "%s Upgrade to %s now! %s"
 msgstr "现在升级%s到%s！%s"
 
-#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
 msgid "Please verify your license data!"
 msgstr "请验证您的许可证数据！"
 
-#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
 msgstr "您的%s的许可证即将过期， 请与%s联系续订您的合同！"
 
-#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTOBOCommunity.pm
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
@@ -14307,8 +14307,8 @@ msgid ""
 msgstr "一次系统维护将开始于：%s，预计结束时间为：%s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-msgid "OTRS Daemon is not running."
-msgstr "OTRS守护进程没有运行。"
+msgid "OTOBO Daemon is not running."
+msgstr "OTOBO守护进程没有运行。"
 
 #. Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
 msgid "You have Out of Office enabled, would you like to disable it?"
@@ -14316,11 +14316,11 @@ msgstr "你已设置为不在办公室，是否取消它?"
 
 #. Perl Module: Kernel/Output/HTML/Notification/PackageManagerCheckNotVerifiedPackages.pm
 msgid ""
-"The installation of packages which are not verified by the OTRS Group is "
+"The installation of packages which are not verified by the Rother OSS GmbH is "
 "activated. These packages could threaten your whole system! It is "
 "recommended not to use unverified packages."
 msgstr ""
-"使用了没有通过OTRS集团验证的软件包，这些软件包可能会威胁到您的整个系统！ 建议"
+"使用了没有通过OTOBO集团验证的软件包，这些软件包可能会威胁到您的整个系统！ 建议"
 "不要使用未经验证的软件包。"
 
 #. Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
@@ -14615,8 +14615,8 @@ msgstr "当前正在执行计划内的系统维护，暂时无法登录。"
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
-"You have exceeded the number of concurrent agents - contact sales@otrs.com."
-msgstr "你已经超出了并发服务人员的最大数，请联系sales@otrs.com。"
+"You have exceeded the number of concurrent agents - contact hallo@otobo.de."
+msgstr "你已经超出了并发服务人员的最大数，请联系hallo@otobo.de。"
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Please note that the session limit is almost reached."
@@ -14625,8 +14625,8 @@ msgstr "请注意，会话数即将达到极限。"
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
 "Login rejected! You have exceeded the maximum number of concurrent Agents! "
-"Contact sales@otrs.com immediately!"
-msgstr "登录被拒绝！已经达到服务人员最大并发数！请立即联系sales@otrs.com！"
+"Contact hallo@otobo.de immediately!"
+msgstr "登录被拒绝！已经达到服务人员最大并发数！请立即联系hallo@otobo.de！"
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Session limit reached! Please try again later."
@@ -14787,20 +14787,20 @@ msgid ""
 "<p>If you continue to install this package, the following issues may occur:</"
 "p><ul><li>Security problems</li><li>Stability problems</li><li>Performance "
 "problems</li></ul><p>Please note that issues that are caused by working with "
-"this package are not covered by OTRS service contracts.</p>"
+"this package are not covered by OTOBO service contracts.</p>"
 msgstr ""
 "<p>如果安装这个扩展包，可能导致以下问题：</p><ul><li>安全问题</li><li>稳定问"
-"题</li><li>性能问题</li></ul><p>请注意，使用此软件包所引起的问题不在OTRS服务"
+"题</li><li>性能问题</li></ul><p>请注意，使用此软件包所引起的问题不在OTOBO服务"
 "合同范围内。</p>"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
-"<p>The installation of packages which are not verified by the OTRS Group is "
+"<p>The installation of packages which are not verified by the Rother OSS GmbH is "
 "not possible by default. You can activate the installation of not verified "
 "packages via the \"AllowNotVerifiedPackages\" system configuration setting.</"
 "p>"
 msgstr ""
-"<p>默认情况下，无法安装未经OTRS集团验证的软件包。 您可以通过系统配置设"
+"<p>默认情况下，无法安装未经OTOBO集团验证的软件包。 您可以通过系统配置设"
 "置“AllowNotVerifiedPackages”激活安装未经验证的软件包。</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
@@ -15144,10 +15144,10 @@ msgstr "无效的默认值"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
 msgid ""
 "Tables with invalid default values were found. In order to fix it "
-"automatically, please run: bin/otrs.Console.pl Maint::Database::Check --"
+"automatically, please run: bin/otobo.Console.pl Maint::Database::Check --"
 "repair"
 msgstr ""
-"找到具有无效的默认值的表。 为了自动修复它，请运行：bin/otrs.Console.pl "
+"找到具有无效的默认值的表。 为了自动修复它，请运行：bin/otobo.Console.pl "
 "Maint::Database::Check --repair"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
@@ -15245,21 +15245,21 @@ msgstr "发现下面的序列可能有错误的名称， 请手动重命名。"
 msgid "PostgreSQL 9.2 or higher is required."
 msgstr "需要PostgreSQL 9.2或更高版本。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTRS.pm
-msgid "OTRS Disk Partition"
-msgstr "OTRS磁盘分区"
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
+msgid "OTOBO Disk Partition"
+msgstr "OTOBO磁盘分区"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
 msgid "Disk Usage"
 msgstr "硬盘使用情况"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
-msgid "The partition where OTRS is located is almost full."
-msgstr "OTRS分区已经快满了。"
+msgid "The partition where OTOBO is located is almost full."
+msgstr "OTOBO分区已经快满了。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
-msgid "The partition where OTRS is located has no disk space problems."
-msgstr "OTRS分区没有磁盘空间问题了。"
+msgid "The partition where OTOBO is located has no disk space problems."
+msgstr "OTOBO分区没有磁盘空间问题了。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
 msgid "Disk Partitions Usage"
@@ -15338,149 +15338,149 @@ msgstr "需要至少60%的可用交换空间。"
 msgid "There should be no more than 200 MB swap space used."
 msgstr "交换空间不应该使用超过200MB。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ArticleSearchIndexStatus.pm
-msgid "OTRS"
-msgstr "OTRS"
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
+msgid "OTOBO"
+msgstr "OTOBO"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ArticleSearchIndexStatus.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
 msgid "Article Search Index Status"
 msgstr "信件搜索索引状态"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ArticleSearchIndexStatus.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
 msgid "Indexed Articles"
 msgstr "索引过的信件"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ArticlesPerCommunicationChannel.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticlesPerCommunicationChannel.pm
 msgid "Articles Per Communication Channel"
 msgstr "信件/通信渠道"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLog.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Incoming communications"
 msgstr "传入的通信"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLog.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Outgoing communications"
 msgstr "外发的通信"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLog.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Failed communications"
 msgstr "失败的通信"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLog.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Average processing time of communications (s)"
 msgstr "通信平均处理时间"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLogAccountStatus.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "Communication Log Account Status (last 24 hours)"
 msgstr "通讯日志帐号状态（最近24小时）"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLogAccountStatus.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "No connections found."
 msgstr "找不到连接。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLogAccountStatus.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "ok"
 msgstr "OK"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLogAccountStatus.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "permanent connection errors"
 msgstr "永久性连接错误"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLogAccountStatus.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "intermittent connection errors"
 msgstr "间歇性连接错误"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ConfigSettings.pm
 msgid "Config Settings"
 msgstr "配置设置"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ConfigSettings.pm
 msgid "Could not determine value."
 msgstr "不能确定参数值。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DaemonRunning.pm
 msgid "Daemon"
 msgstr "守护进程"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DaemonRunning.pm
 msgid "Daemon is running."
 msgstr "守护进程正在运行。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DaemonRunning.pm
 msgid "Daemon is not running."
 msgstr "守护进程没有运行。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Database Records"
 msgstr "数据库记录"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Tickets"
 msgstr "工单"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Ticket History Entries"
 msgstr "工单历史条目"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Articles"
 msgstr "信件"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Attachments (DB, Without HTML)"
 msgstr "附件（DB，不包括HTML文件）"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Customers With At Least One Ticket"
 msgstr "至少有一个工单的客户"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Dynamic Field Values"
 msgstr "动态字段值"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Invalid Dynamic Fields"
 msgstr "无效的动态字段"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Invalid Dynamic Field Values"
 msgstr "无效的动态字段值"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "GenericInterface Webservices"
 msgstr "通用接口Web服务"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Process Tickets"
 msgstr "流程工单"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Months Between First And Last Ticket"
 msgstr "最早和最后工单的月数"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Tickets Per Month (avg)"
 msgstr "平均每月工单数"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Open Tickets"
 msgstr "处理中的工单"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DefaultSOAPUser.pm
 msgid "Default SOAP Username And Password"
 msgstr "默认的SOAP用户名和密码"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DefaultSOAPUser.pm
 msgid ""
 "Security risk: you use the default setting for SOAP::User and SOAP::"
 "Password. Please change it."
 msgstr "安全风险：你使用了默认的SOAP::User和SOAP::Password设置，请修改。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultUser.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DefaultUser.pm
 msgid "Default Admin Password"
 msgstr "默认的系统管理员密码"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultUser.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DefaultUser.pm
 msgid ""
 "Security risk: the agent account root@localhost still has the default "
 "password. Please change it or invalidate the account."
@@ -15488,47 +15488,47 @@ msgstr ""
 "安全风险：服务人员帐户root@localhost还在使用默认密码。请修改密码或禁用此帐"
 "户。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/EmailQueue.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/EmailQueue.pm
 msgid "Email Sending Queue"
 msgstr "电子邮件发送队列"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/EmailQueue.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/EmailQueue.pm
 msgid "Emails queued for sending"
 msgstr "已排队准备发送的电子邮件"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FQDN.pm
 msgid "FQDN (domain name)"
 msgstr "正式域名"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FQDN.pm
 msgid "Please configure your FQDN setting."
 msgstr "请配置您的正式域名。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FQDN.pm
 msgid "Domain Name"
 msgstr "域名"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FQDN.pm
 msgid "Your FQDN setting is invalid."
 msgstr "您的正式域名无效。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FileSystemWritable.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FileSystemWritable.pm
 msgid "File System Writable"
 msgstr "文件系统是可写的"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FileSystemWritable.pm
-msgid "The file system on your OTRS partition is not writable."
-msgstr "OTRS分区所有文件系统是不可写的。"
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FileSystemWritable.pm
+msgid "The file system on your OTOBO partition is not writable."
+msgstr "OTOBO分区所有文件系统是不可写的。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid "Legacy Configuration Backups"
 msgstr "遗留的配置备份"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid "No legacy configuration backup files found."
 msgstr "找不到遗留的配置备份文件。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files found in Kernel/Config/Backups folder, but "
 "they might still be required by some packages."
@@ -15536,7 +15536,7 @@ msgstr ""
 "在 Kernel/Config/Backups 文件夹中找到的旧版配置备份文件，但某些软件包可能仍然"
 "需要它们。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files are no longer needed for the installed "
 "packages, please remove them from Kernel/Config/Backups folder."
@@ -15544,61 +15544,61 @@ msgstr ""
 "已安装的软件包不再需要旧的配置备份文件，请从 Kernel/Config/Backups 文件夹中删"
 "除它们。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Installation Status"
 msgstr "软件包安装状态"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages have locally modified files."
 msgstr "一些软件包有在本地修改过的文件。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not correctly installed."
 msgstr "一些软件包没有正确安装。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Verification Status"
 msgstr "软件包验证状态"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid ""
-"Some packages are not verified by the OTRS Group! It is recommended not to "
+"Some packages are not verified by the Rother OSS GmbH! It is recommended not to "
 "use this packages."
-msgstr "一些软件包未经OTRS团队验证！不推荐使用该扩展包。"
+msgstr "一些软件包未经OTOBO团队验证！不推荐使用该扩展包。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Framework Version Status"
 msgstr "软件包框架版本状态"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not allowed for the current framework version."
 msgstr "一些软件包无法在当前的框架版本中使用。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageList.pm
 msgid "Package List"
 msgstr "软件包列表"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SessionConfigSettings.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SessionConfigSettings.pm
 msgid "Session Config Settings"
 msgstr "会话配置设置"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SpoolMails.pm
 msgid "Spooled Emails"
 msgstr "假脱机邮件"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
-msgid "There are emails in var/spool that OTRS could not process."
-msgstr "var/spool 目录下有一些OTRS无法处理的邮件。"
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SpoolMails.pm
+msgid "There are emails in var/spool that OTOBO could not process."
+msgstr "var/spool 目录下有一些OTOBO无法处理的邮件。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
 msgstr "您的系统ID设置无效，它只能包含数字。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/DefaultType.pm
 msgid "Default Ticket Type"
 msgstr "默认工单类型"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/DefaultType.pm
 msgid ""
 "The configured default ticket type is invalid or missing. Please change the "
 "setting Ticket::Type::Default and select a valid ticket type."
@@ -15606,11 +15606,11 @@ msgstr ""
 "配置的默认工单类型无效或缺失，请修改设置Ticket::Type::Default，选择一个有效的"
 "工单类型。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/IndexModule.pm
 msgid "Ticket Index Module"
 msgstr "工单索引模块"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/IndexModule.pm
 msgid ""
 "You have more than 60,000 tickets and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
@@ -15618,23 +15618,23 @@ msgstr ""
 "您已经超过60000个工单，应该使用后端静态数据库。请参阅管理员手册（性能调优部"
 "分）查阅更多信息。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "Invalid Users with Locked Tickets"
 msgstr "有锁定的工单的无效用户"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "There are invalid users with locked tickets."
 msgstr "出现了有锁定的工单的无效用户。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/OpenTickets.pm
 msgid "You should not have more than 8,000 open tickets in your system."
 msgstr "您的系统不能有超过8000个处理中的工单。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/SearchIndexModule.pm
 msgid "Ticket Search Index Module"
 msgstr "工单搜索索引模块"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/SearchIndexModule.pm
 msgid ""
 "The indexing process forces the storage of the original article text in the "
 "article search index, without executing filters or applying stop word lists. "
@@ -15644,75 +15644,75 @@ msgstr ""
 "索引进程强制将原始信件文本存储在信件搜索索引中，而不执行过滤器或应用停用词列"
 "表。 这将增加搜索索引的大小，从而可能减慢全文搜索。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid "Orphaned Records In ticket_lock_index Table"
 msgstr "ticket_lock_index 表中的孤儿记录"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid ""
-"Table ticket_lock_index contains orphaned records. Please run bin/otrs."
+"Table ticket_lock_index contains orphaned records. Please run bin/otobo."
 "Console.pl \"Maint::Ticket::QueueIndexCleanup\" to clean the StaticDB index."
 msgstr ""
-"ticket_lock_index 表中包含孤儿记录。请运行bin/otrs.Console.pl \"Maint::"
+"ticket_lock_index 表中包含孤儿记录。请运行bin/otobo.Console.pl \"Maint::"
 "Ticket::QueueIndexCleanup\"清理静态数据库的索引。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid "Orphaned Records In ticket_index Table"
 msgstr "ticket_index 表中的孤儿记录"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid ""
-"Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl "
+"Table ticket_index contains orphaned records. Please run bin/otobo.Console.pl "
 "\"Maint::Ticket::QueueIndexCleanup\" to clean the StaticDB index."
 msgstr ""
-"ticket_index表中包含孤儿记录，请运行bin/otrs.Console.pl \"Maint::Ticket::"
+"ticket_index表中包含孤儿记录，请运行bin/otobo.Console.pl \"Maint::Ticket::"
 "QueueIndexCleanup\"，清理静态数据库的索引。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "Time Settings"
 msgstr "时间设置"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "Server time zone"
 msgstr "服务器时区"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS time zone"
-msgstr "OTRS时区"
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
+msgid "OTOBO time zone"
+msgstr "OTOBO时区"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS time zone is not set."
-msgstr "OTRS时区未设置。"
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
+msgid "OTOBO time zone is not set."
+msgstr "OTOBO时区未设置。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "User default time zone"
 msgstr "用户默认时区"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "User default time zone is not set."
 msgstr "用户默认时区未设置。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "Calendar time zone is not set."
 msgstr "日历时区未设置。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/AgentSkinUsage.pm
 msgid "UI - Agent Skin Usage"
 msgstr "用户界面 - 服务人员皮肤用法"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/AgentThemeUsage.pm
 msgid "UI - Agent Theme Usage"
 msgstr "用户界面 - 服务人员主题用法"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/SpecialStats.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
 msgid "UI - Special Statistics"
 msgstr "用户界面 - 特殊的统计"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/SpecialStats.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
 msgid "Agents using custom main menu ordering"
 msgstr "服务人员使用定制的主菜单排序"
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/SpecialStats.pm
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
 msgid "Agents using favourites for the admin overview"
 msgstr "服务人员在系统管理概览使用收藏夹"
 
@@ -15729,8 +15729,8 @@ msgid "MPM model"
 msgstr "MPM多路处理模块"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
-msgid "OTRS requires apache to be run with the 'prefork' MPM model."
-msgstr "OTRS需要apache运行“prefork”MPM多路处理模块。"
+msgid "OTOBO requires apache to be run with the 'prefork' MPM model."
+msgstr "OTOBO需要apache运行“prefork”MPM多路处理模块。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "CGI Accelerator Usage"
@@ -15807,11 +15807,11 @@ msgstr "WEB服务器版本"
 msgid "Could not determine webserver version."
 msgstr "不能确定WEB服务器版本。"
 
-#. Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+#. Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTOBO/ConcurrentUsers.pm
 msgid "Concurrent Users Details"
 msgstr "并发用户详细信息"
 
-#. Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
+#. Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTOBO/ConcurrentUsers.pm
 msgid "Concurrent Users"
 msgstr "并发用户数"
 
@@ -15888,12 +15888,12 @@ msgid "Disabled"
 msgstr "已禁用"
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/Date.pm
-msgid "System was not able to calculate user Date in OTRSTimeZone!"
-msgstr "系统无法在OTRSTimeZone中计算用户的日期！"
+msgid "System was not able to calculate user Date in OTOBOTimeZone!"
+msgstr "系统无法在OTOBOTimeZone中计算用户的日期！"
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/DateTime.pm
-msgid "System was not able to calculate user DateTime in OTRSTimeZone!"
-msgstr "系统无法在OTRSTimeZone中计算用户的日期时间！"
+msgid "System was not able to calculate user DateTime in OTOBOTimeZone!"
+msgstr "系统无法在OTOBOTimeZone中计算用户的日期时间！"
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
 msgid "Value is not correct! Please, consider updating this module."
@@ -15998,223 +15998,223 @@ msgstr "帐户创建成功。登录信息发送到%s，请查收邮件。"
 msgid "Action \"%s\" not found!"
 msgstr "没有找到操作“%s”！"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "invalid-temporarily"
 msgstr "暂时无效"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Group for default access."
 msgstr "具有默认权限的组。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Group of all administrators."
 msgstr "所有管理员的组。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Group for statistics access."
 msgstr "具有统计权限的组。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "new"
 msgstr "new-新建"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All new state types (default: viewable)."
 msgstr "所有新工单的状态类型（默认：可查看）。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "open"
 msgstr "open-处理中"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All open state types (default: viewable)."
 msgstr "所有处理中的工单的状态类型（默认：可查看）。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "closed"
 msgstr "closed-已关闭"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All closed state types (default: not viewable)."
 msgstr "所有已关闭工单的状态类型（默认：不可查看）。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending reminder"
 msgstr "挂起提醒"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'pending reminder' state types (default: viewable)."
 msgstr "所有挂起提醒的工单的状态类型（默认：可查看）。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending auto"
 msgstr "等待自动"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'pending auto *' state types (default: viewable)."
 msgstr "所有等待自动成功/失败关闭的工单的状态类型（默认：可查看）。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "removed"
 msgstr "removed-已删除"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'removed' state types (default: not viewable)."
 msgstr "所有已移除工单的状态类型（默认：不可查看）。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "merged"
 msgstr "merged-已合并"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "State type for merged tickets (default: not viewable)."
 msgstr "合并的工单的状态类型（默认：不可查看）。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "New ticket created by customer."
 msgstr "客户创建的新工单。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "closed successful"
 msgstr "closed successful-成功关闭"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is closed successful."
 msgstr "工单已经成功关闭。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "closed unsuccessful"
 msgstr "closed unsuccessful-失败关闭"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is closed unsuccessful."
 msgstr "工单没有成功关闭。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Open tickets."
 msgstr "处理工单。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Customer removed ticket."
 msgstr "客户移除工单。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is pending for agent reminder."
 msgstr "工单为服务人员提醒而挂起。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending auto close+"
 msgstr "挂起等待成功关闭"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is pending for automatic close."
 msgstr "工单等待自动关闭而挂起。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending auto close-"
 msgstr "挂起等待失败关闭"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "State for merged tickets."
 msgstr "已合并工单的状态。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "system standard salutation (en)"
 msgstr "系统标准问候语（英）"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Standard Salutation."
 msgstr "标准问候语。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "system standard signature (en)"
 msgstr "系统标准签名（英）"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Standard Signature."
 msgstr "标准签名。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Standard Address."
 msgstr "标准地址。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "possible"
 msgstr "可能"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Follow-ups for closed tickets are possible. Ticket will be reopened."
 msgstr "跟进已关闭工单是可能的，这将会重新处理工单。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "reject"
 msgstr "拒绝"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. No new ticket will be "
 "created."
 msgstr "跟进已关闭工单是不可能的，不会创建新工单。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "new ticket"
 msgstr "新建工单"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. A new ticket will be created."
 msgstr "不能跟进已关闭工单，这将会创建一个新的工单。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Postmaster queue."
 msgstr "邮箱管理员队列。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All default incoming tickets."
 msgstr "所有默认进入的工单。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All junk tickets."
 msgstr "所有的垃圾工单。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "All misc tickets."
 msgstr "所有的杂项工单。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reply"
 msgstr "auto reply-自动回复"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Automatic reply which will be sent out after a new ticket has been created."
 msgstr "创建新工单后会发送自动答复。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reject"
 msgstr "auto reject 自动拒绝"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Automatic reject which will be sent out after a follow-up has been rejected "
 "(in case queue follow-up option is \"reject\")."
 msgstr "跟进工单被拒绝后会发送自动拒绝（在队列跟进选项设置为“拒绝”时）。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto follow up"
 msgstr "auto follow up-自动跟进"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Automatic confirmation which is sent out after a follow-up has been received "
 "for a ticket (in case queue follow-up option is \"possible\")."
 msgstr "跟进工单被接受后会发送自动确认（在队列跟进选项设置为“可能”时）。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reply/new ticket"
 msgstr "自动回复/新工单"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Automatic response which will be sent out after a follow-up has been "
 "rejected and a new ticket has been created (in case queue follow-up option "
@@ -16223,85 +16223,85 @@ msgstr ""
 "跟进工单被拒绝并创建新工单后会发送自动响应（在队列跟进选项设置为“新建工"
 "单”时）。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto remove"
 msgstr "auto remove-自动移除"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Auto remove will be sent out after a customer removed the request."
 msgstr "客户移除请求后会发送自动移除。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reply (after new ticket has been created)"
 msgstr "默认答复（新工单创建后）"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reject (after follow-up and rejected of a closed ticket)"
 msgstr "默认拒绝（跟进已关闭工单被拒绝后）"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "default follow-up (after a ticket follow-up has been added)"
 msgstr "默认跟进（添加工单跟进后）"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "default reject/new ticket created (after closed follow-up with new ticket "
 "creation)"
 msgstr "默认拒绝并创建新工单（跟进已关闭工单则创建新工单）"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Unclassified"
 msgstr "未分类"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "1 very low"
 msgstr "1-非常低"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "2 low"
 msgstr "2-低"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "3 normal"
 msgstr "3-正常"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "4 high"
 msgstr "4-高"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "5 very high"
 msgstr "5-非常高"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "unlock"
 msgstr "未锁定"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "lock"
 msgstr "锁定"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "tmp_lock"
 msgstr "临时锁"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "agent"
 msgstr "服务人员"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "system"
 msgstr "系统"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "customer"
 msgstr "客户"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket create notification"
 msgstr "工单创建通知"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification each time a new ticket is created in one of "
 "your \"My Queues\" or \"My Services\"."
@@ -16309,11 +16309,11 @@ msgstr ""
 "每当创建一个新的工单，且该工单所属队列或服务在你设置的“我的队列”或“我的服"
 "务”中时，你都将收到一个通知。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
 msgstr "工单跟进通知（解锁）"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification if a customer sends a follow-up to an "
 "unlocked ticket which is in your \"My Queues\" or \"My Services\"."
@@ -16321,11 +16321,11 @@ msgstr ""
 "如果一个客户用户发送了一个跟进到一个解锁工单，且该工单所属队列或服务在你设置"
 "的“我的队列”或“我的服务”中时，你都将收到一个通知。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
 msgstr "工单跟进通知（锁定）"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification if a customer sends a follow-up to a locked "
 "ticket of which you are the ticket owner or responsible."
@@ -16333,75 +16333,75 @@ msgstr ""
 "如果一个客户用户发送了一个跟进到你是所有者或负责人的工单时，你都将收到一个通"
 "知。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket lock timeout notification"
 msgstr "工单锁定超时通知"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification as soon as a ticket owned by you is "
 "automatically unlocked."
 msgstr "你是所有者的工单一被自动解锁你就会收到一个通知。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket owner update notification"
 msgstr "工单所有者更新通知"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket responsible update notification"
 msgstr "工单负责人更新通知"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket new note notification"
 msgstr "工单添加备注通知"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket queue update notification"
 msgstr "工单队列更新通知"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification if a ticket is moved into one of your \"My "
 "Queues\"."
 msgstr "如果一个工单被转移到了你设置的“我的队列”之一，你将收到一个通知。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket pending reminder notification (locked)"
 msgstr "工单挂起提醒通知（锁定）"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket pending reminder notification (unlocked)"
 msgstr "工单挂起提醒通知（解锁）"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket escalation notification"
 msgstr "工单升级通知"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket escalation warning notification"
 msgstr "工单升级警告通知"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket service update notification"
 msgstr "工单服务更新通知"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification if a ticket's service is changed to one of "
 "your \"My Services\"."
 msgstr "如果一个工单的服务变更为你设置的“我的服务”之一，你将收到一个通知。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Appointment reminder notification"
 msgstr "预约提醒通知"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification each time a reminder time is reached for one "
 "of your appointments."
 msgstr "每当你的一个预约到达提醒时间时，你就会收到一个通知。"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket email delivery failure notification"
 msgstr "工单邮件发送失败通知"
 
@@ -16638,8 +16638,8 @@ msgstr "由于正在进行软件包升级，因此目前已被禁用。"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
-"This option is currently disabled because the OTRS Daemon is not running."
-msgstr "由于OTRS守护进程没有运行，这个选项当前被禁用。"
+"This option is currently disabled because the OTOBO Daemon is not running."
+msgstr "由于OTOBO守护进程没有运行，这个选项当前被禁用。"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
@@ -16989,8 +16989,8 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr "请至少输入一个搜索条件或输入*搜索所有。"
 
 #. JS File: Core.Agent.Daemon
-msgid "Information about the OTRS Daemon"
-msgstr "关于OTRS守护进程的信息"
+msgid "Information about the OTOBO Daemon"
+msgstr "关于OTOBO守护进程的信息"
 
 #. JS File: Core.Agent.Dashboard
 msgid "Please check the fields marked as red for valid inputs."
@@ -17343,23 +17343,23 @@ msgstr "这是%s"
 msgid "Complex %s with %s arguments"
 msgstr "复杂%s，带有%s参数"
 
-#. JS File: OTRSLineChart
+#. JS File: OTOBOLineChart
 msgid "No Data Available."
 msgstr "没有可用数据。"
 
-#. JS File: OTRSMultiBarChart
+#. JS File: OTOBOMultiBarChart
 msgid "Grouped"
 msgstr "分组的"
 
-#. JS File: OTRSMultiBarChart
+#. JS File: OTOBOMultiBarChart
 msgid "Stacked"
 msgstr "堆叠的"
 
-#. JS File: OTRSStackedAreaChart
+#. JS File: OTOBOStackedAreaChart
 msgid "Stream"
 msgstr "流"
 
-#. JS File: OTRSStackedAreaChart
+#. JS File: OTOBOStackedAreaChart
 msgid "Expanded"
 msgstr "展开的"
 
@@ -17624,9 +17624,9 @@ msgstr "已添加来自客户的网页请求。"
 
 #. SysConfig
 msgid ""
-"Adds a suffix with the actual year and month to the OTRS log file. A logfile "
+"Adds a suffix with the actual year and month to the OTOBO log file. A logfile "
 "for every month will be created."
-msgstr "为OTRS日志文件添加实际年月的后缀，每月创建一个日志文件。"
+msgstr "为OTOBO日志文件添加实际年月的后缀，每月创建一个日志文件。"
 
 #. SysConfig
 msgid ""
@@ -17821,8 +17821,8 @@ msgid "All CustomerIDs of a customer user."
 msgstr "一个客户用户的所有客户ID。"
 
 #. SysConfig
-msgid "All attachments (OTRS Business Solution™)"
-msgstr "所有附件（OTRS商业解决方案）"
+msgid "All attachments (OTOBO Business Solution™)"
+msgstr "所有附件（OTOBO商业解决方案）"
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
@@ -18235,10 +18235,10 @@ msgstr "基于全局富文本设置"
 
 #. SysConfig
 msgid ""
-"Basic fulltext index settings. Execute \"bin/otrs.Console.pl Maint::Ticket::"
+"Basic fulltext index settings. Execute \"bin/otobo.Console.pl Maint::Ticket::"
 "FulltextIndex --rebuild\" in order to generate a new index."
 msgstr ""
-"基本的全文索引设置。执行 \"bin/otrs.Console.pl Maint::Ticket::FulltextIndex "
+"基本的全文索引设置。执行 \"bin/otobo.Console.pl Maint::Ticket::FulltextIndex "
 "--rebuild\" 以生成一个新索引。"
 
 #. SysConfig
@@ -18450,12 +18450,12 @@ msgstr ""
 "在跟进工单的工单编号检测时检查系统ID。如果不启用，系统ID将在使用系统后更改。"
 
 #. SysConfig
-msgid "Checks the availability of OTRS Business Solution™ for this system."
-msgstr "检查本系统的OTRS商业版可用性。"
+msgid "Checks the availability of OTOBO Business Solution™ for this system."
+msgstr "检查本系统的OTOBO商业版可用性。"
 
 #. SysConfig
-msgid "Checks the entitlement status of OTRS Business Solution™."
-msgstr "检查OTRS商业版的权利状态。"
+msgid "Checks the entitlement status of OTOBO Business Solution™."
+msgstr "检查OTOBO商业版的权利状态。"
 
 #. SysConfig
 msgid "Child"
@@ -18676,7 +18676,7 @@ msgid ""
 msgstr "配置任何您想要使用的额外只读镜像数据库。"
 
 #. SysConfig
-msgid "Configure sending of support data to OTRS Group for improved support."
+msgid "Configure sending of support data to Rother OSS GmbH for improved support."
 msgstr "配置为提升支持效果而发送给OTRDS集团的支持数据。"
 
 #. SysConfig
@@ -18693,11 +18693,11 @@ msgid ""
 "Configures a default TicketDynamicField setting. \"Name\" defines the "
 "dynamic field which should be used, \"Value\" is the data that will be set, "
 "and \"Event\" defines the trigger event. Please check the developer manual "
-"(https://doc.otrs.com/doc/), chapter \"Ticket Event Module\"."
+"(https://doc.otobo.com/doc/), chapter \"Ticket Event Module\"."
 msgstr ""
 "配置默认的TicketDynamicField（工单动态字段）设置，“Name（名称）”定义要使用的"
 "动态字段，“Value（值）”是要设置的数值，“Event（事件）”定义触发的事件。请检查"
-"开发手册 (https://doc.otrs.com/doc/) 的“Ticket Event Module（工单事件模"
+"开发手册 (https://doc.otobo.com/doc/) 的“Ticket Event Module（工单事件模"
 "块）”章节。"
 
 #. SysConfig
@@ -19144,11 +19144,11 @@ msgstr ""
 msgid ""
 "Define a filter for html output to add links behind a defined string. The "
 "element Image allows two input kinds. At once the name of an image (e.g. faq."
-"png). In this case the OTRS image path will be used. The second possiblity "
+"png). In this case the OTOBO image path will be used. The second possiblity "
 "is to insert the link to the image."
 msgstr ""
 "在HTML输出结果中为预定义字符串添加链接的过滤器。图像元素允许两种输入方式：第"
-"一种是用图像的名称（例如：faq.png），在这种情况下会使用OTRS的图像路径；第二种"
+"一种是用图像的名称（例如：faq.png），在这种情况下会使用OTOBO的图像路径；第二种"
 "是插入图像的链接。"
 
 #. SysConfig
@@ -19292,44 +19292,44 @@ msgstr "定义一个客户条目，以在客户信息块的尾部生成一个谷
 msgid ""
 "Defines a filter for html output to add links behind CVE numbers. The "
 "element Image allows two input kinds. At once the name of an image (e.g. faq."
-"png). In this case the OTRS image path will be used. The second possiblity "
+"png). In this case the OTOBO image path will be used. The second possiblity "
 "is to insert the link to the image."
 msgstr ""
 "定义HTML输出结果中在CVE号码后面添加链接的过滤器。图像元素允许两种输入方式：第"
-"一种是用图像的名称（如faq.png），在这种情况下会使用OTRS的图像路径；第二种是插"
+"一种是用图像的名称（如faq.png），在这种情况下会使用OTOBO的图像路径；第二种是插"
 "入图像的链接。"
 
 #. SysConfig
 msgid ""
 "Defines a filter for html output to add links behind MSBulletin numbers. The "
 "element Image allows two input kinds. At once the name of an image (e.g. faq."
-"png). In this case the OTRS image path will be used. The second possiblity "
+"png). In this case the OTOBO image path will be used. The second possiblity "
 "is to insert the link to the image."
 msgstr ""
 "定义HTML输出结果中在微软公告号码后面添加链接的过滤器。图像元素允许两种输入方"
-"式：第一种是用图像的名称（如faq.png），在这种情况下会使用OTRS的图像路径；第二"
+"式：第一种是用图像的名称（如faq.png），在这种情况下会使用OTOBO的图像路径；第二"
 "种是插入图像的链接。"
 
 #. SysConfig
 msgid ""
 "Defines a filter for html output to add links behind a defined string. The "
 "element Image allows two input kinds. At once the name of an image (e.g. faq."
-"png). In this case the OTRS image path will be used. The second possiblity "
+"png). In this case the OTOBO image path will be used. The second possiblity "
 "is to insert the link to the image."
 msgstr ""
 "在HTML输出结果中为预定义字符串添加链接的过滤器。图像元素允许两种输入方式：第"
-"一种是用图像的名称（如faq.png），在这种情况下会使用OTRS的图像路径；第二种是插"
+"一种是用图像的名称（如faq.png），在这种情况下会使用OTOBO的图像路径；第二种是插"
 "入图像的链接。"
 
 #. SysConfig
 msgid ""
 "Defines a filter for html output to add links behind bugtraq numbers. The "
 "element Image allows two input kinds. At once the name of an image (e.g. faq."
-"png). In this case the OTRS image path will be used. The second possiblity "
+"png). In this case the OTOBO image path will be used. The second possiblity "
 "is to insert the link to the image."
 msgstr ""
 "定义HTML输出结果中在BUG追踪号码后面添加链接的过滤器。图像元素允许两种输入方"
-"式：第一种是用图像的名称（如faq.png），在这种情况下会使用OTRS的图像路径；第二"
+"式：第一种是用图像的名称（如faq.png），在这种情况下会使用OTOBO的图像路径；第二"
 "种是插入图像的链接。"
 
 #. SysConfig
@@ -19708,15 +19708,15 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines if the communication between this system and OTRS Group servers that "
+"Defines if the communication between this system and Rother OSS GmbH servers that "
 "provide cloud services is possible. If set to 'Disable cloud services', some "
 "functionality will be lost such as system registration, support data "
-"sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS "
+"sending, upgrading to and use of OTOBO Business Solution™, OTOBO Verify™, OTOBO "
 "News and product News dashboard widgets, among others."
 msgstr ""
-"定义本系统能否与OTRS集团提供云服务的服务器通信。如果设置为“禁用云服务”，某些"
-"功能如系统注册、发送支持数据、升级到OTRS Business Solution™（OTRS商业解决方"
-"案）、OTRS Verify™（OTRS验证）、仪表板中的OTRS新闻和产品新闻小部件等将失效。"
+"定义本系统能否与OTOBO集团提供云服务的服务器通信。如果设置为“禁用云服务”，某些"
+"功能如系统注册、发送支持数据、升级到OTOBO Business Solution™（OTOBO商业解决方"
+"案）、OTOBO Verify™（OTOBO验证）、仪表板中的OTOBO新闻和产品新闻小部件等将失效。"
 
 #. SysConfig
 msgid ""
@@ -19868,9 +19868,9 @@ msgstr "定义将工单作为日历事件显示的队列。"
 #. SysConfig
 msgid ""
 "Defines the HTTP hostname for the support data collection with the public "
-"module 'PublicSupportDataCollector' (e.g. used from the OTRS Daemon)."
+"module 'PublicSupportDataCollector' (e.g. used from the OTOBO Daemon)."
 msgstr ""
-"使用公共模块 'PublicSupportDataCollector' （如用于OTRS守护进程的模块）定义用"
+"使用公共模块 'PublicSupportDataCollector' （如用于OTOBO守护进程的模块）定义用"
 "于搜集支持数据的HTTP主机名。"
 
 #. SysConfig
@@ -20066,10 +20066,10 @@ msgstr ""
 msgid ""
 "Defines the default front-end (HTML) theme to be used by the agents and "
 "customers. If you like, you can add your own theme. Please refer the "
-"administrator manual located at https://doc.otrs.com/doc/."
+"administrator manual located at https://doc.otobo.com/doc/."
 msgstr ""
 "定义服务人员和客户使用的默认前端主题（HTML）。如果您喜欢，您可以添加您自己的"
-"主题。请参考管理员手册https://doc.otrs.com/doc/ 。"
+"主题。请参考管理员手册https://doc.otobo.com/doc/ 。"
 
 #. SysConfig
 msgid ""
@@ -20621,10 +20621,10 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines the fully qualified domain name of the system. This setting is used "
-"as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging "
+"as a variable, OTOBO_CONFIG_FQDN which is found in all forms of messaging "
 "used by the application, to build links to the tickets within your system."
 msgstr ""
-"定义本系统的正式域名。这个设置用于变量OTRS_CONFIG_FQDN，在所有的消息表单中使"
+"定义本系统的正式域名。这个设置用于变量OTOBO_CONFIG_FQDN，在所有的消息表单中使"
 "用，以创建系统内部到工单的链接。"
 
 #. SysConfig
@@ -20870,11 +20870,11 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines the list of online repositories. Another installations can be used "
-"as repository, for example: Key=\"http://example.com/otrs/public.pl?"
+"as repository, for example: Key=\"http://example.com/otobo/public.pl?"
 "Action=PublicRepository;File=\" and Content=\"Some Name\"."
 msgstr ""
 "定义在线软件仓库列表。另一个用于安装的软件仓库，例如：键=\"http://example."
-"com/otrs/public.pl?Action=PublicRepository;File=\" ，值=\"Some Name\"。"
+"com/otobo/public.pl?Action=PublicRepository;File=\" ，值=\"Some Name\"。"
 
 #. SysConfig
 msgid ""
@@ -20911,11 +20911,11 @@ msgstr ""
 msgid ""
 "Defines the maximal size (in bytes) for file uploads via the browser. "
 "Warning: Setting this option to a value which is too low could cause many "
-"masks in your OTRS instance to stop working (probably any mask which takes "
+"masks in your OTOBO instance to stop working (probably any mask which takes "
 "input from the user)."
 msgstr ""
 "定义通过浏览器上传文件的最大尺寸（单位：字节）。警告：这个选项设置过小将使您"
-"的OTRS实例出现许多遮罩屏幕导致停止工作（可能是需要用户输入的任何遮罩屏幕）。"
+"的OTOBO实例出现许多遮罩屏幕导致停止工作（可能是需要用户输入的任何遮罩屏幕）。"
 
 #. SysConfig
 msgid "Defines the maximal valid time (in seconds) for a session id."
@@ -20993,14 +20993,14 @@ msgstr "定义云服务被禁用时显示一个通知消息的模块。"
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in different interfaces on "
-"different occasions for OTRS Business Solution™."
-msgstr "定义在不同界面不同场合显示OTRS商业版通知的模块。"
+"different occasions for OTOBO Business Solution™."
+msgstr "定义在不同界面不同场合显示OTOBO商业版通知的模块。"
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface if the "
-"OTRS Daemon is not running."
-msgstr "定义服务人员界面如果OTRS守护进程没有运行就显示一个通知的模块。"
+"OTOBO Daemon is not running."
+msgstr "定义服务人员界面如果OTOBO守护进程没有运行就显示一个通知的模块。"
 
 #. SysConfig
 msgid ""
@@ -21085,12 +21085,12 @@ msgid ""
 "Defines the module to send emails. \"DoNotSendEmail\" doesn't send emails at "
 "all. Any of the \"SMTP\" mechanisms use a specified (external) mailserver. "
 "\"Sendmail\" directly uses the sendmail binary of your operating system. "
-"\"Test\" doesn't send emails, but writes them to $OTRS_HOME/var/tmp/"
+"\"Test\" doesn't send emails, but writes them to $OTOBO_HOME/var/tmp/"
 "CacheFileStorable/EmailTest/ for testing purposes."
 msgstr ""
 "定义发送电子邮件的模块。 “DoNotSendEmail”根本不发送电子邮件。 任何“SMTP”机制"
 "都使用指定的（外部）邮件服务器。 “Sendmail”直接使用操作系统的sendmail二进制文"
-"件。 “Test”不会发送电子邮件，而是将它们写入$OTRS_HOME/var/tmp/"
+"件。 “Test”不会发送电子邮件，而是将它们写入$OTOBO_HOME/var/tmp/"
 "CacheFileStorable/EmailTest/ 以用于测试目的。"
 
 #. SysConfig
@@ -21127,8 +21127,8 @@ msgid "Defines the name of the key for customer sessions."
 msgstr "定义客户会话中关键词的名称。"
 
 #. SysConfig
-msgid "Defines the name of the session key. E.g. Session, SessionID or OTRS."
-msgstr "定义会话中关键词的名称，如Session、SessionID或OTRS。"
+msgid "Defines the name of the session key. E.g. Session, SessionID or OTOBO."
+msgstr "定义会话中关键词的名称，如Session、SessionID或OTOBO。"
 
 #. SysConfig
 msgid "Defines the name of the table where the user preferences are stored."
@@ -21471,10 +21471,10 @@ msgstr "定义在服务人员界面客户用户通讯录搜索结果屏幕中显
 #. SysConfig
 msgid ""
 "Defines the shown links in the footer area of the customer and public "
-"interface of this OTRS system. The value in \"Key\" is the external URL, the "
+"interface of this OTOBO system. The value in \"Key\" is the external URL, the "
 "value in \"Content\" is the shown label."
 msgstr ""
-"定义OTRS系统的客户和公共界面中页脚区域显示的链接。 “Key（键）”中的值是外部网"
+"定义OTOBO系统的客户和公共界面中页脚区域显示的链接。 “Key（键）”中的值是外部网"
 "址，“Content（内容）”中的值是显示的文字。"
 
 #. SysConfig
@@ -21552,10 +21552,10 @@ msgid ""
 "Defines the system identifier. Every ticket number and http session string "
 "contains this ID. This ensures that only tickets which belong to your system "
 "will be processed as follow-ups (useful when communicating between two "
-"instances of OTRS)."
+"instances of OTOBO)."
 msgstr ""
 "定义本系统的标识符。每个工单编号和HTTP会话字符串均包含这个ID。这确保只有属于"
-"本系统的工单才会被跟进处理（在两套OTRS实例间通信时有用）。"
+"本系统的工单才会被跟进处理（在两套OTOBO实例间通信时有用）。"
 
 #. SysConfig
 msgid ""
@@ -21607,9 +21607,9 @@ msgstr "定义一个指定日历（可能在以后分配给一个指定的队列
 msgid ""
 "Defines the timeout (in seconds, minimum is 20 seconds) for the support data "
 "collection with the public module 'PublicSupportDataCollector' (e.g. used "
-"from the OTRS Daemon)."
+"from the OTOBO Daemon)."
 msgstr ""
-"使用公共模块“PublicSupportDataCollector”（例如用于OTRS守护进程的模块）来定义"
+"使用公共模块“PublicSupportDataCollector”（例如用于OTOBO守护进程的模块）来定义"
 "支持数据收集的超时（以秒为单位，最小为20秒）。"
 
 #. SysConfig
@@ -21627,14 +21627,14 @@ msgid ""
 "be specified here. Since this has no affect on the web server's settings or "
 "behavior, it will not change the method of access to the application and, if "
 "it is wrong, it will not prevent you from logging into the application. This "
-"setting is only used as a variable, OTRS_CONFIG_HttpType which is found in "
+"setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in "
 "all forms of messaging used by the application, to build links to the "
 "tickets within your system."
 msgstr ""
 "定义本系统的WEB服务器使用的协议类型。如果要用HTTPS协议代替明文的HTTP协议，就"
 "在这里指定。 因为这个设置并不影响WEB服务器的设置或行为，所以不会改变访问本系"
 "统的方式。 如果设置错误，也不会阻止您登录系统。这个设置只是作为一个变量"
-"OTRS_CONFIG_HttpType使用，可以在系统使用的所有消息的表单中找到，用来创建在系"
+"OTOBO_CONFIG_HttpType使用，可以在系统使用的所有消息的表单中找到，用来创建在系"
 "统内到工单的链接。"
 
 #. SysConfig
@@ -21678,9 +21678,9 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines the valid states for unlocked tickets. To unlock tickets the script "
-"\"bin/otrs.Console.pl Maint::Ticket::UnlockTimeout\" can be used."
+"\"bin/otobo.Console.pl Maint::Ticket::UnlockTimeout\" can be used."
 msgstr ""
-"定义解锁的工单有效的状态。为解锁工单，可以使用脚本\"bin/otrs.Console.pl "
+"定义解锁的工单有效的状态。为解锁工单，可以使用脚本\"bin/otobo.Console.pl "
 "Maint::Ticket::UnlockTimeout\"。"
 
 #. SysConfig
@@ -21792,8 +21792,8 @@ msgid ""
 msgstr "启用后，如果发生了任何的AJAX错误，就在前端传递扩展的调试信息。"
 
 #. SysConfig
-msgid "Deploy and manage OTRS Business Solution™."
-msgstr "部署并管理OTRS商业版。"
+msgid "Deploy and manage OTOBO Business Solution™."
+msgstr "部署并管理OTOBO商业版。"
 
 #. SysConfig
 msgid "Detached"
@@ -21920,11 +21920,11 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
+"Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTOBO to be "
 "included as an IFrame in other websites. Disabling this HTTP header can be a "
 "security issue! Only disable it, if you know what you are doing!"
 msgstr ""
-"禁用HHTP头\"X-Frame-Options: SAMEORIGIN\" 以便允许OTRS可以包含在其它网址的"
+"禁用HHTP头\"X-Frame-Options: SAMEORIGIN\" 以便允许OTOBO可以包含在其它网址的"
 "IFrame框架中。禁用这个HTTP头可能有安全问题！仅在您知道您在干什么时才禁用它！"
 
 #. SysConfig
@@ -21949,13 +21949,13 @@ msgstr "当工单关闭时，取消到最近浏览页/仪表板的重定向。"
 
 #. SysConfig
 msgid ""
-"Disables the web installer (http://yourhost.example.com/otrs/installer.pl), "
+"Disables the web installer (http://yourhost.example.com/otobo/installer.pl), "
 "to prevent the system from being hijacked. If not enabled, the system can be "
 "reinstalled and the current basic configuration will be used to pre-populate "
 "the questions within the installer script. If enabled, it also disables the "
 "GenericAgent, PackageManager and SQL Box."
 msgstr ""
-"禁用WEB安装程序(http://yourhost.example.com/otrs/installer.pl)，防止系统被劫"
+"禁用WEB安装程序(http://yourhost.example.com/otobo/installer.pl)，防止系统被劫"
 "持。如果不启用，系统能够被重新安装，当前的基本配置将被安装脚本的预设问题替"
 "换。如果启用了，还同时禁用了通用代理、软件包管理和SQL查询窗口。"
 
@@ -22274,11 +22274,11 @@ msgstr "启用的过滤器。"
 #. SysConfig
 msgid ""
 "Enables PGP support. When PGP support is enabled for signing and encrypting "
-"mail, it is HIGHLY recommended that the web server runs as the OTRS user. "
+"mail, it is HIGHLY recommended that the web server runs as the OTOBO user. "
 "Otherwise, there will be problems with the privileges when accessing .gnupg "
 "folder."
 msgstr ""
-"启用PGP支持。当启用PGP签名和加密邮件时，强烈推荐以OTRS用户运行WEB服务器，否"
+"启用PGP支持。当启用PGP签名和加密邮件时，强烈推荐以OTOBO用户运行WEB服务器，否"
 "则，访问.pnugp目录会有权限问题。"
 
 #. SysConfig
@@ -22484,8 +22484,8 @@ msgid ""
 msgstr "为主题中没有工单编号的邮件执行回复或引用头的跟进检查。"
 
 #. SysConfig
-msgid "Executes follow-up checks on OTRS Header 'X-OTRS-Bounce'."
-msgstr "对OTRS头'X-OTRS-Bounce'执行后续检查。"
+msgid "Executes follow-up checks on OTOBO Header 'X-OTOBO-Bounce'."
+msgstr "对OTOBO头'X-OTOBO-Bounce'执行后续检查。"
 
 #. SysConfig
 msgid ""
@@ -22546,18 +22546,18 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Filter for debugging ACLs. Note: More ticket attributes can be added in the "
-"format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>."
+"format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>."
 msgstr ""
-"调试ACL的过滤器。注意：可以按以下格式添加更多的工单属性 <OTRS_TICKET_属性>，"
-"例如：<OTRS_TICKET_Priority>。"
+"调试ACL的过滤器。注意：可以按以下格式添加更多的工单属性 <OTOBO_TICKET_属性>，"
+"例如：<OTOBO_TICKET_Priority>。"
 
 #. SysConfig
 msgid ""
 "Filter for debugging Transitions. Note: More filters can be added in the "
-"format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>."
+"format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>."
 msgstr ""
-"调试转换的过滤器。注意：可以按以下格式添加更多的过滤器 <OTRS_TICKET_属性>，例"
-"如：<OTRS_TICKET_Priority>。"
+"调试转换的过滤器。注意：可以按以下格式添加更多的过滤器 <OTOBO_TICKET_属性>，例"
+"如：<OTOBO_TICKET_Priority>。"
 
 #. SysConfig
 msgid "Filter incoming emails."
@@ -22868,11 +22868,11 @@ msgid ""
 "Helps to extend your articles full-text search (From, To, Cc, Subject and "
 "Body search). It will strip all articles and will build an index after "
 "article creation, increasing fulltext searches about 50%. To create an "
-"initial index use \"bin/otrs.Console.pl Maint::Ticket::FulltextIndex --"
+"initial index use \"bin/otobo.Console.pl Maint::Ticket::FulltextIndex --"
 "rebuild\"."
 msgstr ""
 "帮助扩展信件全文搜索（发件人、收件人、抄送、主题和正文搜索）。它将在信件创建"
-"后条带化所有信件并建立索引，提升全文搜索50%的效率。可使用命令 \"bin/otrs."
+"后条带化所有信件并建立索引，提升全文搜索50%的效率。可使用命令 \"bin/otobo."
 "Console.pl Maint::Ticket::FulltextIndex --rebuild\" 来创建初始索引。"
 
 #. SysConfig
@@ -23078,10 +23078,10 @@ msgstr ""
 msgid ""
 "If \"LDAP\" was selected for Customer::Authmodule, you can check if the user "
 "is allowed to authenticate because he is in a posixGroup, e.g. user needs to "
-"be in a group xyz to use OTRS. Specify the group, who may access the system."
+"be in a group xyz to use OTOBO. Specify the group, who may access the system."
 msgstr ""
 "如果Customer::AuthModule（客户认证模块）选择“LDAP”，您可以检查在posixGroup组"
-"中的用户是否允许认证，例如：用户需要在组xyz才能使用OTRS。指定这个有权访问系统"
+"中的用户是否允许认证，例如：用户需要在组xyz才能使用OTOBO。指定这个有权访问系统"
 "的组名。"
 
 #. SysConfig
@@ -23214,18 +23214,18 @@ msgstr "如果启用了此选项，守护进程的标准输出流将重定向到
 msgid ""
 "If enabled the daemon will use this directory to create its PID files. Note: "
 "Please stop the daemon before any change and use this setting only if <"
-"$OTRSHome>/var/run/ can not be used."
+"$OTOBOHome>/var/run/ can not be used."
 msgstr ""
 "如果启用，守护程序将使用此目录创建其PID文件。 注意：请在任何更改之前停止守护"
-"程序，并且只有在不使用<$OTRSHome>/var/run/时才使用此设置。"
+"程序，并且只有在不使用<$OTOBOHome>/var/run/时才使用此设置。"
 
 #. SysConfig
-msgid "If enabled, OTRS will deliver all CSS files in minified form."
-msgstr "如果启用，OTRS将以最小化的形式提供所有CSS文件。"
+msgid "If enabled, OTOBO will deliver all CSS files in minified form."
+msgstr "如果启用，OTOBO将以最小化的形式提供所有CSS文件。"
 
 #. SysConfig
-msgid "If enabled, OTRS will deliver all JavaScript files in minified form."
-msgstr "如果启用了此选项，OTRS将用压缩格式传送所有的JavaScript文件。"
+msgid "If enabled, OTOBO will deliver all JavaScript files in minified form."
+msgstr "如果启用了此选项，OTOBO将用压缩格式传送所有的JavaScript文件。"
 
 #. SysConfig
 msgid "If enabled, TicketPhone and TicketEmail will be open in new windows."
@@ -23233,12 +23233,12 @@ msgstr "如果启用了此选项，电话工单和邮件工单将在新窗口中
 
 #. SysConfig
 msgid ""
-"If enabled, the OTRS version tag will be removed from the Webinterface, the "
+"If enabled, the OTOBO version tag will be removed from the Webinterface, the "
 "HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this "
 "option, please make sure to delete the cache."
 msgstr ""
 "如果启用了此选项，将从WEB界面、HTTP头信息和外发邮件的X-Headers头信息中移除"
-"OTRS版本标签。注意：如果你要修改这个选项，请确保清空缓存。"
+"OTOBO版本标签。注意：如果你要修改这个选项，请确保清空缓存。"
 
 #. SysConfig
 msgid "If enabled, the cache data be held in memory."
@@ -23275,11 +23275,11 @@ msgstr ""
 msgid ""
 "If enabled, users that haven't selected a time zone yet will be notified to "
 "do so. Note: Notification will not be shown if (1) user has not yet selected "
-"a time zone and (2) OTRSTimeZone and UserDefaultTimeZone do match and (3) "
+"a time zone and (2) OTOBOTimeZone and UserDefaultTimeZone do match and (3) "
 "are not set to UTC."
 msgstr ""
 "如果启用，那么尚未选择时区的用户将被通知选择时区。 注意：如果（1）用户尚未选"
-"择时区，并且（2）OTRSTimeZone和UserDefaultTimeZone相同，（3）未设置为UTC，则"
+"择时区，并且（2）OTOBOTimeZone和UserDefaultTimeZone相同，（3）未设置为UTC，则"
 "不会显示通知。"
 
 #. SysConfig
@@ -23326,9 +23326,9 @@ msgstr "如果这个正则表达式匹配了，自动响应不会发送任何消
 #. SysConfig
 msgid ""
 "If this setting is enabled, it is possible to install packages which are not "
-"verified by OTRS Group. These packages could threaten your whole system!"
+"verified by Rother OSS GmbH. These packages could threaten your whole system!"
 msgstr ""
-"如果启用了本设置，就可以安装未经 OTRS集团验证的软件包。这些软件包可能会威胁到"
+"如果启用了本设置，就可以安装未经 OTOBO集团验证的软件包。这些软件包可能会威胁到"
 "您的整个系统！"
 
 #. SysConfig
@@ -23384,14 +23384,14 @@ msgid ""
 "tickets in the system). \"StaticDB\" is the most powerful module, it uses an "
 "extra ticket-index table that works like a view (recommended if more than "
 "80.000 and 6.000 open tickets are stored in the system). Use the command "
-"\"bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild\" for initial index "
+"\"bin/otobo.Console.pl Maint::Ticket::QueueIndexRebuild\" for initial index "
 "creation."
 msgstr ""
 "索引加速器：选择您的后端工单视图加速器模块。“RuntimeDB（运行时数据库）”实时生"
 "成每个队列视图（工单总数不超过60000个且系统打开的工单不超过6000个时没有性能问"
 "题）。“StaticDB（静态数据库）是最强大的模块，它使用额外的类似于视图的工单索引"
 "表（工单总数超过80000且系统打开的工单超过6000时推荐使用），使用命令\"bin/"
-"otrs.Console.pl Maint::Ticket::QueueIndexRebuild\"来初始化索引。"
+"otobo.Console.pl Maint::Ticket::QueueIndexRebuild\"来初始化索引。"
 
 #. SysConfig
 msgid ""
@@ -23780,8 +23780,8 @@ msgid "Malay"
 msgstr "马来语"
 
 #. SysConfig
-msgid "Manage OTRS Group cloud services."
-msgstr "管理 OTRS 集团云服务。"
+msgid "Manage Rother OSS GmbH cloud services."
+msgstr "管理 OTOBO 集团云服务。"
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
@@ -23926,8 +23926,8 @@ msgid "Merged Ticket (%s/%s) to (%s/%s)."
 msgstr "已将工单(%s/%s)合并到(%s/%s)。"
 
 #. SysConfig
-msgid "Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>."
-msgstr "合并工单<OTRS_TICKET>到 <OTRS_MERGE_TO_TICKET>。"
+msgid "Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>."
+msgstr "合并工单<OTOBO_TICKET>到 <OTOBO_MERGE_TO_TICKET>。"
 
 #. SysConfig
 msgid "Minute"
@@ -24137,12 +24137,12 @@ msgid "New process ticket"
 msgstr "新的流程工单"
 
 #. SysConfig
-msgid "News about OTRS releases!"
-msgstr "OTRS版本新闻！"
+msgid "News about OTOBO releases!"
+msgstr "OTOBO版本新闻！"
 
 #. SysConfig
-msgid "News about OTRS."
-msgstr "OTRS新闻。"
+msgid "News about OTOBO."
+msgstr "OTOBO新闻。"
 
 #. SysConfig
 msgid ""
@@ -24207,30 +24207,30 @@ msgid "Number of tickets to be displayed in each page."
 msgstr "每页显示的工单数量。"
 
 #. SysConfig
-msgid "OTRS Group Services"
-msgstr "OTRS集团服务"
+msgid "Rother OSS GmbH Services"
+msgstr "OTOBO集团服务"
 
 #. SysConfig
-msgid "OTRS News"
-msgstr "OTRS新闻"
+msgid "OTOBO News"
+msgstr "OTOBO新闻"
 
 #. SysConfig
 msgid ""
-"OTRS can use one or more readonly mirror databases for expensive operations "
+"OTOBO can use one or more readonly mirror databases for expensive operations "
 "like fulltext search or statistics generation. Here you can specify the DSN "
 "for the first mirror database."
 msgstr ""
-"OTRS能够使用一个或多个只读镜像数据库以扩展操作（如全文搜索或生成统计报表）。"
+"OTOBO能够使用一个或多个只读镜像数据库以扩展操作（如全文搜索或生成统计报表）。"
 "您可以在这里指定第一个镜像数据库的DSN（数据源名称）。"
 
 #. SysConfig
 msgid ""
-"OTRS doesn't support recurring Appointments without end date or number of "
+"OTOBO doesn't support recurring Appointments without end date or number of "
 "iterations. During import process, it might happen that ICS file contains "
 "such Appointments. Instead, system creates all Appointments in the past, "
 "plus Appointments for the next N months (120 months/10 years by default)."
 msgstr ""
-"OTRS不支持对没有结束日期或没有重复次数的预约做循环处理。在导入过程中，可能有"
+"OTOBO不支持对没有结束日期或没有重复次数的预约做循环处理。在导入过程中，可能有"
 "ICS文件包含了此类预约。作为替代，系统将所有的此类预约创建为已过去的预约，然后"
 "加上接下来的N个月(默认120个月或10年)的重复预约。"
 
@@ -25074,8 +25074,8 @@ msgid "Reports"
 msgstr "报表"
 
 #. SysConfig
-msgid "Reports (OTRS Business Solution™)"
-msgstr "报表 (OTRS商业版)"
+msgid "Reports (OTOBO Business Solution™)"
+msgstr "报表 (OTOBO商业版)"
 
 #. SysConfig
 msgid ""
@@ -25186,8 +25186,8 @@ msgid ""
 msgstr "如果工单转移到另一个队列，重置并解锁工单所有者。"
 
 #. SysConfig
-msgid "Resource Overview (OTRS Business Solution™)"
-msgstr "资源概览（OTRS商业版）"
+msgid "Resource Overview (OTOBO Business Solution™)"
+msgstr "资源概览（OTOBO商业版）"
 
 #. SysConfig
 msgid "Responsible Tickets"
@@ -25283,13 +25283,13 @@ msgstr "命令输出样例"
 msgid ""
 "Saves the attachments of articles. \"DB\" stores all data in the database "
 "(not recommended for storing big attachments). \"FS\" stores the data on the "
-"filesystem; this is faster but the webserver should run under the OTRS user. "
+"filesystem; this is faster but the webserver should run under the OTOBO user. "
 "You can switch between the modules even on a system that is already in "
 "production without any loss of data. Note: Searching for attachment names is "
 "not supported when \"FS\" is used."
 msgstr ""
 "保存信件的附件。“数据库”在数据库中存储所有数据（不推荐在存储大容量附件时使"
-"用）。“文件系统”在文件系统中保存数据；这个选项更快但WEB服务器要以OTRS用户运"
+"用）。“文件系统”在文件系统中保存数据；这个选项更快但WEB服务器要以OTOBO用户运"
 "行。即使是在生产环境您也可以在这两种模式间切换，而不会丢失数据。备注：使用“文"
 "件系统”时不能搜索附件名。"
 
@@ -25374,8 +25374,8 @@ msgid "Select your preferred layout for the software."
 msgstr "选择你喜欢的软件布局。"
 
 #. SysConfig
-msgid "Select your preferred theme for OTRS."
-msgstr "选择你喜欢的OTRS界面主题。"
+msgid "Select your preferred theme for OTOBO."
+msgstr "选择你喜欢的OTOBO界面主题。"
 
 #. SysConfig
 msgid "Selects the cache backend to use."
@@ -25441,8 +25441,8 @@ msgid "Sends customer notifications just to the mapped customer."
 msgstr "仅给映射的客户用户发送客户通知。"
 
 #. SysConfig
-msgid "Sends registration information to OTRS group."
-msgstr "发送注册信息到OTRS集团。"
+msgid "Sends registration information to OTOBO group."
+msgstr "发送注册信息到OTOBO集团。"
 
 #. SysConfig
 msgid ""
@@ -25877,12 +25877,12 @@ msgstr "设置要用于PGP二进制文件的首选摘要。"
 #. SysConfig
 msgid ""
 "Sets the prefix to the scripts folder on the server, as configured on the "
-"web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias "
+"web server. This setting is used as a variable, OTOBO_CONFIG_ScriptAlias "
 "which is found in all forms of messaging used by the application, to build "
 "links to the tickets within the system."
 msgstr ""
 "设置配置的web服务器上脚本目录的前缀，这个设置用于变量"
-"OTRS_CONFIG_ScriptAlias，此变量可在系统的所有消息表单中找到，用来在系统内创建"
+"OTOBO_CONFIG_ScriptAlias，此变量可在系统的所有消息表单中找到，用来在系统内创建"
 "到工单的链接。"
 
 #. SysConfig
@@ -26156,22 +26156,22 @@ msgstr "设置服务人员界面工单负责人屏幕的工单类型（需要启
 
 #. SysConfig
 msgid ""
-"Sets the time zone being used internally by OTRS to e. g. store dates and "
+"Sets the time zone being used internally by OTOBO to e. g. store dates and "
 "times in the database. WARNING: This setting must not be changed once set "
 "and tickets or any other data containing date/time have been created."
 msgstr ""
-"将OTRS内部使用的时区设置如在数据库中存储日期和时间。 警告：此设置一旦设置就不"
+"将OTOBO内部使用的时区设置如在数据库中存储日期和时间。 警告：此设置一旦设置就不"
 "能更改，包含日期/时间的工单或其他数据已据此创建。"
 
 #. SysConfig
 msgid ""
 "Sets the time zone that will be assigned to newly created users and will be "
 "used for users that haven't yet set a time zone. This is the time zone being "
-"used as default to convert date and time between the OTRS time zone and the "
+"used as default to convert date and time between the OTOBO time zone and the "
 "user's time zone."
 msgstr ""
 "设置将分配给新创建的用户的时区，并将用于尚未设置时区的用户。 这是默认使用的时"
-"区，用于转换OTRS时区与用户时区之间的日期和时间。"
+"区，用于转换OTOBO时区与用户时区之间的日期和时间。"
 
 #. SysConfig
 msgid "Sets the timeout (in seconds) for http/ftp downloads."
@@ -26756,9 +26756,9 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows a teaser link in the menu for the ticket attachment view of OTRS "
+"Shows a teaser link in the menu for the ticket attachment view of OTOBO "
 "Business Solution™."
-msgstr "在OTRS 商业版™的工单附件视图的菜单中显示一个头部预览链接。"
+msgstr "在OTOBO 商业版™的工单附件视图的菜单中显示一个头部预览链接。"
 
 #. SysConfig
 msgid "Shows all both ro and rw queues in the queue view."
@@ -26821,8 +26821,8 @@ msgid ""
 msgstr "以树形或列表形式显示系统中存在的父/子队列的清单。"
 
 #. SysConfig
-msgid "Shows information on how to start OTRS Daemon"
-msgstr "显示如何启动OTRS守护进程的信息"
+msgid "Shows information on how to start OTOBO Daemon"
+msgstr "显示如何启动OTOBO守护进程的信息"
 
 #. SysConfig
 msgid ""
@@ -27114,12 +27114,12 @@ msgstr "指定存储私有SSL证书的目录。"
 msgid ""
 "Specifies the email address that should be used by the application when "
 "sending notifications. The email address is used to build the complete "
-"display name for the notification master (i.e. \"OTRS Notifications\" "
-"otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in "
+"display name for the notification master (i.e. \"OTOBO Notifications\" "
+"otobo@your.example.com). You can use the OTOBO_CONFIG_FQDN variable as set in "
 "your configuation, or choose another email address."
 msgstr ""
 "指定系统发送通知的邮件地址。这个邮件地址用来创建通知管理员的完整显示名称（如"
-"\"OTRS通知\"otrs@your.example.com），您可以使用配置的变量OTRS_CONFIG_FQDN，或"
+"\"OTOBO通知\"otobo@your.example.com），您可以使用配置的变量OTOBO_CONFIG_FQDN，或"
 "者选择另外的邮件地址。"
 
 #. SysConfig
@@ -27144,11 +27144,11 @@ msgstr "指定用户需要rw（读写）权限的组，以便他们可以编辑�
 msgid ""
 "Specifies the name that should be used by the application when sending "
 "notifications. The sender name is used to build the complete display name "
-"for the notification master (i.e. \"OTRS Notifications\" otrs@your.example."
+"for the notification master (i.e. \"OTOBO Notifications\" otobo@your.example."
 "com)."
 msgstr ""
 "指定系统发送通知的姓名，这个发件人姓名用于创建通知管理员完整的显示名称（如"
-"\"OTRS通知\"otrs@your.example.com）。"
+"\"OTOBO通知\"otobo@your.example.com）。"
 
 #. SysConfig
 msgid ""
@@ -27224,12 +27224,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Specify the channel to be used to fetch OTRS Business Solution™ updates. "
+"Specify the channel to be used to fetch OTOBO Business Solution™ updates. "
 "Warning: Development releases might not be complete, your system might "
 "experience unrecoverable errors and on extreme cases could become "
 "unresponsive!"
 msgstr ""
-"指定获取OTRS商业版更新的通道。警告：开发版可能无法完成更新，您的系统可能经历"
+"指定获取OTOBO商业版更新的通道。警告：开发版可能无法完成更新，您的系统可能经历"
 "无法恢复的错误，并且系统在极端情况下可能变得无法响应！"
 
 #. SysConfig
@@ -27579,8 +27579,8 @@ msgid ""
 msgstr "每次请求时这个模块和它的PreRun()函数（如果定义了）将被执行。"
 
 #. SysConfig
-msgid "This module is part of the admin area of OTRS."
-msgstr "这个模块是OTRS系统管理的一部分。"
+msgid "This module is part of the admin area of OTOBO."
+msgstr "这个模块是OTOBO系统管理的一部分。"
 
 #. SysConfig
 msgid ""
@@ -27626,8 +27626,8 @@ msgstr ""
 "国家时格外有用。"
 
 #. SysConfig
-msgid "This setting is deprecated. Set OTRSTimeZone instead."
-msgstr "此设置已弃用。 替代方式是设置OTRSTimeZone。"
+msgid "This setting is deprecated. Set OTOBOTimeZone instead."
+msgstr "此设置已弃用。 替代方式是设置OTOBOTimeZone。"
 
 #. SysConfig
 msgid ""
@@ -27810,8 +27810,8 @@ msgid "To view HTML attachments."
 msgstr "查看HTML附件。"
 
 #. SysConfig
-msgid "Toggles display of OTRS FeatureAddons list in PackageManager."
-msgstr "在软件包管理器中显示/不显示OTRS扩展功能。"
+msgid "Toggles display of OTOBO FeatureAddons list in PackageManager."
+msgstr "在软件包管理器中显示/不显示OTOBO扩展功能。"
 
 #. SysConfig
 msgid ""
@@ -27890,12 +27890,12 @@ msgstr "根据需要调整系统。"
 
 #. SysConfig
 msgid ""
-"Type of daemon log rotation to use: Choose 'OTRS' to let OTRS system to "
+"Type of daemon log rotation to use: Choose 'OTOBO' to let OTOBO system to "
 "handle the file rotation, or choose 'External' to use a 3rd party rotation "
 "mechanism (i.e. logrotate). Note: External rotation mechanism requires its "
 "own and independent configuration."
 msgstr ""
-"要使用的守护程序日志循环类型：选择“OTRS”以使OTRS系统处理文件循环，或选择“外"
+"要使用的守护程序日志循环类型：选择“OTOBO”以使OTOBO系统处理文件循环，或选择“外"
 "部”以使用第三方循环机制（如logrotate）。 注意：外部循环机制需要使用其自身的配"
 "置。"
 
@@ -28092,18 +28092,18 @@ msgstr "是，但隐藏已归档的工单"
 
 #. SysConfig
 msgid ""
-"Your email with ticket number \"<OTRS_TICKET>\" is bounced to "
-"\"<OTRS_BOUNCE_TO>\". Contact this address for further information."
+"Your email with ticket number \"<OTOBO_TICKET>\" is bounced to "
+"\"<OTOBO_BOUNCE_TO>\". Contact this address for further information."
 msgstr ""
-"您的工单号为“<OTRS_TICKET>”的邮件已经退回给“<OTRS_BOUNCE_TO>”，请联系这个地址"
+"您的工单号为“<OTOBO_TICKET>”的邮件已经退回给“<OTOBO_BOUNCE_TO>”，请联系这个地址"
 "以获得更多的信息。"
 
 #. SysConfig
 msgid ""
-"Your email with ticket number \"<OTRS_TICKET>\" is merged to "
-"\"<OTRS_MERGE_TO_TICKET>\"."
+"Your email with ticket number \"<OTOBO_TICKET>\" is merged to "
+"\"<OTOBO_MERGE_TO_TICKET>\"."
 msgstr ""
-"您的单号为\"<OTRS_TICKET>\"的邮件已被合并到工单\"<OTRS_MERGE_TO_TICKET>\" 。"
+"您的单号为\"<OTOBO_TICKET>\"的邮件已被合并到工单\"<OTOBO_MERGE_TO_TICKET>\" 。"
 
 #. SysConfig
 msgid ""
