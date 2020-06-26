@@ -22,13 +22,16 @@ package Kernel::Modules::Installer;
 use strict;
 use warnings;
 
-use DBI;
+# core modules
 use Net::Domain qw(hostfqdn);
+
+# CPAN modules
+use DBI;
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
-
-use vars qw(%INC);
 
 sub new {
     my ( $Type, %Param ) = @_;
