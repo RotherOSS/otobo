@@ -43,11 +43,13 @@ WORKDIR $OTOBO_HOME
 
 # Activate the .dist files.
 # Use 'db' instead of the localhost as the default database host.
-RUN cd Kernel \
+RUN mkdir -p var/stats \
+    && mkdir -p var/packages \
+    && (echo ". ~/.bash_completion" >> .bash_aliases ) \
+    && cd Kernel \
     && cp Config.pm.dist Config.pm \
     && perl -pi -e "s/'127.0.0.1';/'db'; # adapted by Dockerfile/" Config.pm \
-    && cd ../var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done \
-    && cd ../.. && mkdir var/stats && mkdir var/packages
+    && cd ../var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done
 
 # make sure that var/tmp exists and generate the crontab for OTOBO_USER
 # Set PATH as the required perl is located in /usr/local/bin/perl.
