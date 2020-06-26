@@ -411,6 +411,21 @@ my $HelloApp = sub {
     ];
 };
 
+# handler for /otobo
+# Redirect to otobo/index.pl when in doubt
+my $RedirectOtoboApp = sub {
+    my $env = shift;
+
+    my $req = Plack::Request->new($env);
+    my $uri = $req->base;
+    $uri->path($uri->path . '/index.pl');
+
+    my $res = Plack::Response->new();
+    $res->redirect($uri);
+
+    return $res->finalize;
+};
+
 # an app for inspecting the database
 my $DBViewerApp = builder {
 
@@ -585,6 +600,7 @@ builder {
 
     # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
     # The pathes are such that $ENV{SCRIPT_NAME} and $ENV{PATH_INFO} are set up just like they are set up under mod_perl,
+    mount '/otobo'                         => $RedirectOtoboApp; #redirect to /otobo/index.pl when in doubt
     mount '/otobo/index.pl'                => $App;
     mount '/otobo/customer.pl'             => $App;
     mount '/otobo/public.pl'               => $App;
