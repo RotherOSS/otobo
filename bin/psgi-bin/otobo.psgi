@@ -32,6 +32,12 @@ otobo.psgi - OTOBO PSGI application
 
 A PSGI application.
 
+=head1 DEPENDENCIES
+
+There are some requirements for running this application. Do something like:
+
+    cpanm --with-feature=mojo --with-feature=plack --with-feature=mysql  --installdeps .
+
 =head1 Profiling
 
 To profile single requests, install Devel::NYTProf and start this script as
@@ -287,7 +293,7 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT PLACK SUPPORT IS AS OF JUNE 6TH 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
+warn "PLEASE NOTE THAT PLACK SUPPORT IS AS OF JUNE 26TH 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
 
 # conditionally enable profiling
 my $NYTProfMiddleWare = sub {
@@ -403,6 +409,21 @@ my $HelloApp = sub {
         [ 'Content-Type' => 'text/plain;charset=utf-8' ],
         [ "Hallo 🌍!" ], # or IO::Handle-like object
     ];
+};
+
+# handler for /otobo
+# Redirect to otobo/index.pl when in doubt
+my $RedirectOtoboApp = sub {
+    my $env = shift;
+
+    my $req = Plack::Request->new($env);
+    my $uri = $req->base;
+    $uri->path($uri->path . '/index.pl');
+
+    my $res = Plack::Response->new();
+    $res->redirect($uri);
+
+    return $res->finalize;
 };
 
 # an app for inspecting the database
@@ -579,6 +600,7 @@ builder {
 
     # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
     # The pathes are such that $ENV{SCRIPT_NAME} and $ENV{PATH_INFO} are set up just like they are set up under mod_perl,
+    mount '/otobo'                         => $RedirectOtoboApp; #redirect to /otobo/index.pl when in doubt
     mount '/otobo/index.pl'                => $App;
     mount '/otobo/customer.pl'             => $App;
     mount '/otobo/public.pl'               => $App;
