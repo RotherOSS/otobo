@@ -40,7 +40,7 @@ my $AdminGroup = 'root';    # default: root
 my ( $Help, $DryRun, $SkipArticleDir, @SkipRegex );
 
 sub PrintUsage {
-    print <<EOF;
+    print <<'END_USAGE';
 
 Set OTOBO file permissions.
 
@@ -61,7 +61,7 @@ Using this script without any options it will try to detect the correct user and
 
     perl bin/docker/set_permissions.pl
 
-EOF
+END_USAGE
 
     return;
 }
