@@ -76,7 +76,6 @@ EOF
 my @IgnoreFiles = (
     qr{^/\.git}smx,
     qr{^/\.tidyall}smx,
-    qr{^/\.tx}smx,
     qr{^/\.settings}smx,
     qr{^/\.ssh}smx,
     qr{^/\.gpg}smx,
