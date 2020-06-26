@@ -32,6 +32,12 @@ otobo.psgi - OTOBO PSGI application
 
 A PSGI application.
 
+=head1 DEPENDENCIES
+
+There are some requirements for running this application. Do something like:
+
+    cpanm --with-feature=mojo --with-feature=plack --with-feature=mysql  --installdeps .
+
 =head1 Profiling
 
 To profile single requests, install Devel::NYTProf and start this script as
@@ -287,7 +293,7 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT PLACK SUPPORT IS AS OF JUNE 6TH 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
+warn "PLEASE NOTE THAT PLACK SUPPORT IS AS OF JUNE 26TH 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
 
 # conditionally enable profiling
 my $NYTProfMiddleWare = sub {
