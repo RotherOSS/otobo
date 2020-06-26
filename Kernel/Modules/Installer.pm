@@ -507,19 +507,15 @@ sub Run {
                     $Host = '%';
                 }
                 else {
-                    # In the non-Docker case we want the IP-Address as database host.
-                    my $ConnectionID;
-                    my $StatementHandleConnectionId = $DBH->prepare("select connection_id()");
-                    $StatementHandleConnectionId->execute();
-                    while ( ($ConnectionID) = $StatementHandleConnectionId->fetchrow_array() ) {
-                    }
+                    # In the non-Docker case we want the IP-address of the current connection as database host.
+                    my ($ConnectionID) = $DBH->selectrow_array('select connection_id()');
 
-                    my $StatementHandleProcessList = $DBH->prepare("show processlist");
+                    my $StatementHandleProcessList = $DBH->prepare('show processlist');
                     $StatementHandleProcessList->execute();
                     PROCESSLIST:
-                    while ( my @Row = $StatementHandleProcessList->fetchrow_array() ) {
-                        if ( $Row[0] eq $ConnectionID ) {
-                            $Host = $Row[2];
+                    while ( my ($ProcessID, undef, $ProcessHost) = $StatementHandleProcessList->fetchrow_array() ) {
+                        if ( $ProcessID eq $ConnectionID ) {
+                            $Host = $ProcessHost;
 
                             last PROCESSLIST;
                         }
