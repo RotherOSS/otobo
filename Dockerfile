@@ -21,7 +21,7 @@ COPY cpanfile ./cpanfile
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
 RUN cpanm --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
-RUN cpanm --with-feature=mysql --with-feature plack --with-feature=mojo --installdeps .
+RUN cpanm --with-feature=mysql --with-feature=plack --with-feature=mojo --installdeps .
 
 
 # create the otobo user
