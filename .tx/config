@@ -1,8 +1,0 @@
-[main]
-host = https://www.transifex.com
-
-[OTOBO.10]
-file_filter = i18n/otobo/otobo.<lang>.po
-source_file = i18n/otobo/otobo.pot
-source_lang = en
-type = PO

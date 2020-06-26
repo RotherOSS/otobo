@@ -15,20 +15,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use strict;
+use 5.24.0;
 use warnings;
-use feature qw(say);
 
-use File::Basename qw(dirname);
+# core modules
+use File::Find qw();
+use File::stat qw();
+use Getopt::Long qw();
 use FindBin qw($RealBin);
-use lib dirname($RealBin);
-use lib dirname($RealBin) . '/Kernel/cpan-lib';
-use lib dirname($RealBin) . '/Custom';
 
-use File::Find();
+# CPAN modules
 use Path::Class qw(dir);
-use File::stat();
-use Getopt::Long();
+
+# OTOBO modules
 
 # bin/docker/set_permissions.pl is two levels down
 my $OTOBODirectory       = dir($RealBin)->parent->parent->stringify;
