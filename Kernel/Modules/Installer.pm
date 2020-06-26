@@ -19,7 +19,7 @@ package Kernel::Modules::Installer;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Print)
 
-use strict;
+use 5.24.0;
 use warnings;
 
 # core modules
@@ -85,17 +85,10 @@ sub Run {
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    # TODO: This seams to be deprecated now
-    # Read installer.json if it exists.
-    #   It contains options set by Windows Installer
-    if ( -f "$Self->{Path}/var/tmp/installer.json" ) {
-        my $JSONString = $MainObject->FileRead(
-            Location => "$Self->{Path}/var/tmp/installer.json",
-        );
-        $Self->{Options} = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
-            Data => $$JSONString,
-        );
-    }
+    # There used to be support for setting installer option in var/tmp/installer.json
+    # This approach is no longer supported. However we keep $Self->{Options} as
+    # this functionality might be resurrected in future.
+    $Self->{Options} //= {};
 
     # Check if License option needs to be skipped.
     if ( $Self->{Subaction} eq 'License' && $Self->{Options}->{SkipLicense} ) {
@@ -109,13 +102,12 @@ sub Run {
 
     $Self->{Subaction} = 'Intro' if !$Self->{Subaction};
 
-    # Build steps.
-    my @Steps = qw(License Database General Finish);
-    my $StepCounter;
+    # Set up the build steps.
+    # The license step is not needed when it is turned off in $Self->{Options}.
+    my @Steps = qw(Database General Finish);
+    unshift @Steps, 'License' if ! $Self->{Options}->{SkipLicense};
 
-    # TODO: This seams to be deprecated now
-    # No license step needed if defined in .json file.
-    shift @Steps if $Self->{Options}->{SkipLicense};
+    my $StepCounter;
 
     # Build header - but only if we're not in AJAX mode.
     if ( $Self->{Subaction} ne 'CheckRequirements' ) {
@@ -454,6 +446,8 @@ sub Run {
         {
             $DBCredentials{$Param} = $ParamObject->GetParam( Param => $Param ) || '';
         }
+
+        # Overriding DBCredentials is currently not used.
         %DBCredentials = %{ $Self->{Options} } if $Self->{Options}->{DBType};
 
         # Get and check params and connect to DB.
