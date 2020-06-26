@@ -25,16 +25,15 @@ RUN cpanm --with-feature=mysql --with-feature=plack --with-feature=mojo --instal
 
 
 # create the otobo user
-#   --system                group is 'nogroup', no login shell
 #   --user-group            create group 'otobo' and add the user to the created group
 #   --home-dir /opt/otobo   set $HOME of the user
 #   --create-home           create /opt/otobo
-#   --comment 'OTOBO user'  complete name of the user
 #   --shell /bin/bash       set the login shell, not used here because otobo is system user
+#   --comment 'OTOBO user'  complete name of the user
 ENV OTOBO_USER otobo
 ENV OTOBO_GROUP otobo
 ENV OTOBO_HOME /opt/otobo
-RUN useradd --system --user-group --home-dir $OTOBO_HOME --create-home --comment 'OTOBO user' $OTOBO_USER
+RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER
 
 # copy the OTOBO installation to /opt/otobo and use it as the working dir
 # skip the files set up in .dockerignore
@@ -59,9 +58,9 @@ RUN mkdir -p var/tmp \
     && echo "# Let '/usr/bin/env perl' find perl 5.30 in /usr/local/bin" >> var/cron/aab_path \
     && echo "PATH=/usr/local/bin:/usr/bin:/bin"                          >> var/cron/aab_path \
     && ./bin/Cron.sh start
-USER root
 
 # set permissions
+USER root
 RUN perl bin/docker/set_permissions.pl
 
 # start the webserver
