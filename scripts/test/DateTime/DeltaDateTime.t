@@ -136,4 +136,6 @@ $Self->False(
     'Delta calculation with invalid DateTime object must fail.',
 );
 
+$Self->DoneTesting();
+
 1;

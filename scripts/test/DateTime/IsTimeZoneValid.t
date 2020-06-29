@@ -77,4 +77,6 @@ for my $TestConfig (@TestConfigs) {
     );
 }
 
+$Self->DoneTesting();
+
 1;

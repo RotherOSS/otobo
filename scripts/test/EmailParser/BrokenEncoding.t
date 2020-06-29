@@ -56,4 +56,6 @@ $Self->Is(
     "Found files",
 );
 
+$Self->DoneTesting();
+
 1;

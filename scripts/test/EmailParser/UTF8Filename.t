@@ -59,4 +59,6 @@ $Self->Is(
     "UTF8 attachment",
 );
 
+$Self->DoneTesting();
+
 1;

@@ -141,4 +141,6 @@ for my $ModuleFile (@BackendModuleFiles) {
     $CacheObject->CleanUp();
 }
 
+$Self->DoneTesting();
+
 1;

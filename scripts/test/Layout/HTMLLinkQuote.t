@@ -81,4 +81,6 @@ $Self->True(
     "Layout.t - to handle the whole test file it takes " . ( time() - $StartTime ) . " seconds.",
 );
 
+$Self->DoneTesting();
+
 1;

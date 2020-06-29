@@ -187,4 +187,6 @@ $Self->False(
     "Singleton EncodeObject cannot be fetched via Create()",
 );
 
+$Self->DoneTesting();
+
 1;

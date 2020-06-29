@@ -216,4 +216,6 @@ for my $Engine (qw(YAML::XS YAML)) {
     }
 }
 
+$Self->DoneTesting();
+
 1;

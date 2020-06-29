@@ -132,4 +132,6 @@ $Self->True(
     "Do() DROP TABLE",
 );
 
+$Self->DoneTesting();
+
 1;

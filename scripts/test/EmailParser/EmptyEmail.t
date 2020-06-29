@@ -71,4 +71,6 @@ $Self->Is(
     "Empty attachment size",
 );
 
+$Self->DoneTesting();
+
 1;

@@ -121,4 +121,6 @@ for my $ListType (qw(tree list)) {
     }
 }
 
+$Self->DoneTesting();
+
 1;

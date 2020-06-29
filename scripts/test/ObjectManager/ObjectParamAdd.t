@@ -81,4 +81,6 @@ $Self->IsDeeply(
     'ObjectParamAdd removed key',
 );
 
+$Self->DoneTesting();
+
 1;

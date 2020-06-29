@@ -99,4 +99,6 @@ $Self->False(
     'Format() with wrong parameter name must fail.',
 );
 
+$Self->DoneTesting();
+
 1;

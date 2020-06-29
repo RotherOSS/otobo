@@ -30,4 +30,6 @@ $Self->True(
     "Valid table found.",
 );
 
+$Self->DoneTesting();
+
 1;

@@ -53,4 +53,6 @@ $Self->True(
     "DBObject Version() $Version contains a version number (found $Number)",
 );
 
+$Self->DoneTesting();
+
 1;
