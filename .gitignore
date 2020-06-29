@@ -99,3 +99,8 @@ backup_es
 
 # Docker
 .env
+
+# Temporary files while running the unit tests
+bin/otobo.CheckDB.pl
+DeleteMePlease
+Test
