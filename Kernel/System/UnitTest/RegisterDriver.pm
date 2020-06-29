@@ -18,9 +18,6 @@ package Kernel::System::UnitTest::RegisterDriver;
 use 5.24.0;
 use warnings;
 
-use parent 'Exporter';
-our @EXPORT = qw($Self);
-
 # core modules
 
 # CPAN modules
@@ -38,7 +35,8 @@ sub import {
         },
     );
 
-    $Kernel::System::UnitTest::RegisterDriver::Self = $Kernel::OM->Create(
+
+    $main::Self = $Kernel::OM->Create(
         'Kernel::System::UnitTest::Driver',
         ObjectParams => {
             Verbose      => 10000000000000,
@@ -46,18 +44,14 @@ sub import {
         },
     );
 
-    # Provide $Self as 'Kernel::System::UnitTest' for convenience.
+    # Provide $main::Self for convenience in test script
     $Kernel::OM->ObjectInstanceRegister(
         Package      => 'Kernel::System::UnitTest::Driver',
-        Object       => $Kernel::System::UnitTest::RegisterDriver::Self,
+        Object       => $main::Self,
         Dependencies => [],
     );
 
-    $Kernel::System::UnitTest::RegisterDriver::Self->{OutputBuffer} = '';
-
-    # Exports $Self to the callers namespace.
-    # @_ is usually empty.
-    Kernel::System::UnitTest::RegisterDriver->export_to_level(1, @_);
+    $main::Self->{OutputBuffer} = '';
 }
 
 1;
