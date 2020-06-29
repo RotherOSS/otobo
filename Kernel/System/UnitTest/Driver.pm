@@ -552,9 +552,9 @@ sub _Print {
     $Self->{TestCount}++;
     if ($ResultOk) {
         if ( $Self->{Verbose} ) {
-            print { $Self->{OriginalSTDOUT} } " "
-                . $Self->_Color( 'green', "ok" )
-                . " $Self->{TestCount} - $ShortMessage\n";
+            say { $Self->{OriginalSTDOUT} }
+                $Self->_Color( 'green', 'ok' ),
+                " $Self->{TestCount} - $ShortMessage";
         }
         else {
             print { $Self->{OriginalSTDOUT} } $Self->_Color( 'green', "." );
@@ -567,9 +567,9 @@ sub _Print {
         if ( !$Self->{Verbose} ) {
             say { $Self->{OriginalSTDOUT} } "";
         }
-        print { $Self->{OriginalSTDOUT} } " "
-            . $Self->_Color( 'red', "not ok" )
-            . " $Self->{TestCount} - $ShortMessage\n";
+        say { $Self->{OriginalSTDOUT} }
+            $Self->_Color( 'red', "not ok" ),
+            " $Self->{TestCount} - $ShortMessage";
         $Self->{ResultData}->{TestNotOk}++;
         $Self->{ResultData}->{Results}->{ $Self->{TestCount} }->{Status}  = 'not ok';
         $Self->{ResultData}->{Results}->{ $Self->{TestCount} }->{Message} = $Message;
