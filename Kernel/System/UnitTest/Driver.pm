@@ -147,7 +147,16 @@ sub Run {
         }
 
         # HERE the actual tests are run.
-        my $TestSuccess = eval ${$UnitTestFile};              ## no critic
+        # The test scripts do not necessarily use Kernel::System::UnitTest framework.
+        # Therefore skip the unconforming scripts.
+        my $TestSuccess;
+        if ( index( ${$UnitTestFile}, 'use vars (qw(\$Self));') ) {
+            $TestSuccess = eval ${$UnitTestFile};              ## no critic
+        }
+        else {
+            $TestSuccess = 1;
+            say STDERR "Skipped $File at it doesn't use Kernel::System::UnitTest::Driver";
+        }
 
         if ( !$TestSuccess ) {
             if ($@) {
