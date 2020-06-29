@@ -63,4 +63,6 @@ $Self->Is(
     "Unparseable content part",
 );
 
+$Self->DoneTesting();
+
 1;

@@ -257,4 +257,6 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
     }
 }
 
+$Self->DoneTesting();
+
 1;

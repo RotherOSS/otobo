@@ -59,4 +59,6 @@ $Self->Is(
     "Attachment content type is stored in one line",
 );
 
+$Self->DoneTesting();
+
 1;

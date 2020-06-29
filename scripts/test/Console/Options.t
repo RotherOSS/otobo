@@ -27,4 +27,6 @@ my $Output = qx{"$^X" bin/otobo.Console.pl Maint::Ticket::PendingCheck --quiet};
 
 $Self->False( scalar( $Output =~ /\S/ ), "No output with --quiet" );
 
+$Self->DoneTesting();
+
 1;

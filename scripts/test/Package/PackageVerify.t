@@ -243,4 +243,6 @@ for my $Package (@Packages) {
 # Cache cleanup.
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
+$Self->DoneTesting();
+
 1;

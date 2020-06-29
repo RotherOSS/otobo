@@ -53,4 +53,6 @@ $Self->Is(
     "Nested message filename",
 );
 
+$Self->DoneTesting();
+
 1;

@@ -135,4 +135,6 @@ for my $Directory ( sort @DirectoriesToSearch ) {
 # cleanup cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
+$Self->DoneTesting();
+
 1;

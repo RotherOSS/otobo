@@ -68,4 +68,6 @@ $Self->Is(
 # Clean-up
 unlink $XXEFilename;
 
+$Self->DoneTesting();
+
 1;

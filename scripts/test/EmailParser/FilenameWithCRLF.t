@@ -60,4 +60,6 @@ $Self->Is(
     "Filename with multiple newlines removed",
 );
 
+$Self->DoneTesting();
+
 1;

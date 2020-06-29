@@ -77,4 +77,6 @@ $Self->IsDeeply(
     '%INC hash unchanged by invalid load',
 );
 
+$Self->DoneTesting();
+
 1;

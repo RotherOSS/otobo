@@ -70,4 +70,6 @@ $Self->IsNot(
     "OM returns its own ValidObject",
 );
 
+$Self->DoneTesting();
+
 1;

@@ -201,4 +201,6 @@ for my $DefaultConfigEntry ( sort keys %{$DefaultConfig} ) {
     }
 }
 
+$Self->DoneTesting();
+
 1;

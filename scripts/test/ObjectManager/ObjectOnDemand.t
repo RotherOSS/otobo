@@ -58,4 +58,6 @@ $Self->False(
     'Kernel::System::Log is a dependency of Kernel::System::Valid, but was not yet loaded',
 );
 
+$Self->DoneTesting();
+
 1;

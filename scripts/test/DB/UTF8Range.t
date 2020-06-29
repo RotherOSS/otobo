@@ -145,4 +145,6 @@ $Self->True(
     "DROP TABLE",
 );
 
+$Self->DoneTesting();
+
 1;

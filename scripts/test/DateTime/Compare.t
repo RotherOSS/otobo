@@ -259,4 +259,6 @@ $Self->False(
     'Comparison with invalid DateTime object via Compare must fail.',
 );
 
+$Self->DoneTesting();
+
 1;

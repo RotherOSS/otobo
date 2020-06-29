@@ -415,4 +415,6 @@ $Self->True(
     'LinkQuote - Performance on large data set',
 );
 
+$Self->DoneTesting();
+
 1;

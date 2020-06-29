@@ -54,4 +54,6 @@ $Self->Is(
     'Check complicated to header',
 );
 
+$Self->DoneTesting();
+
 1;

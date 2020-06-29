@@ -57,4 +57,6 @@ $Self->Is(
     "First attachment",
 );
 
+$Self->DoneTesting();
+
 1;
