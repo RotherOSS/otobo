@@ -18,11 +18,6 @@ package Kernel::System::UnitTest::RegisterDriver;
 use 5.24.0;
 use warnings;
 
-# assuming that tests will be run from the otobo dir
-use lib '.';
-use lib 'Kernel/cpan-lib';
-use lib 'Custom';
-
 use parent 'Exporter';
 our @EXPORT = qw($Self);
 
