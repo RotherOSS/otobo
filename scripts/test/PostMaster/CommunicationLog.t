@@ -18,14 +18,17 @@ use strict;
 use warnings;
 use utf8;
 
+# Set up the test driver $Self when we are running as a standalone script.
+use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+
+use vars (qw($Self));
+
 use IO::File;
 use File::stat;
 
 use Kernel::System::MailAccount::POP3;
 use Kernel::System::MailAccount::IMAP;
 use Kernel::System::PostMaster;
-
-use vars (qw($Self));
 
 # The tests presented here try to ensure that the communication-log entries
 #   keep the correct status after some predefined situations.

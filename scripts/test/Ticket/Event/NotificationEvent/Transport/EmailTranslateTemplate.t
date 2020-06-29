@@ -19,10 +19,13 @@ use strict;
 use warnings;
 use utf8;
 
-use Kernel::System::MailQueue;
-use Kernel::Language;
+# Set up the test driver $Self when we are running as a standalone script.
+use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
 
 use vars (qw($Self));
+
+use Kernel::System::MailQueue;
+use Kernel::Language;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
