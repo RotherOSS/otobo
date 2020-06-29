@@ -13,22 +13,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use 5.24.0;
-use warnings;
-use utf8;
-
 =head1 NAME
 
 NutsAndBolts.t - the most basic test script
 
 =head1 SYNOPSIS
 
-    # a test script that emits TAP
+    # a test script that emits TAP without using Kernel::System::UnitTest::Driver
 
 =head1 DESCRIPTION
 
 Essentially just for checking whether the environment is sane.
-Especially for checking whether C<Dev::UnitTest::Run> handles test scripts as expected.
+Especially for checking whether C<Dev::UnitTest::Run> ignores test scripts that
+do not use the L<Kernel::System::UnitTest> framework.
 
 =SEE ALSO
 
@@ -36,5 +33,10 @@ L<Test::Tutorial>
 
 =cut
 
+use 5.24.0;
+use warnings;
+use utf8;
+
+# just a dummy test that succeeds
 say '1..1';
-say 1 + 1 == 2 ? 'ok 1' : 'not ok 1';
+say 'ok 1 - success';
