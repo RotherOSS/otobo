@@ -16,17 +16,20 @@
 
 package Kernel::System::UnitTest::Driver;
 
-use strict;
+use 5.24.0;
 use warnings;
 
+# core modules
 use Storable();
-use Term::ANSIColor();
-use Text::Diff;
 use Time::HiRes();
+use Term::ANSIColor();
 
+# CPAN modules
+use Text::Diff;
+
+# OTOBO modules
 # UnitTest helper must be loaded to override the builtin time functions!
 use Kernel::System::UnitTest::Helper;
-
 use Kernel::System::VariableCheck qw(DataIsDifferent);
 
 our @ObjectDependencies = (
@@ -37,7 +40,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::UnitTest::Driver - unit test file execution wrapper
+Kernel::System::UnitTest::Driver - unit test file execution wrapper, test subroutines
 
 =head1 PUBLIC INTERFACE
 
@@ -542,7 +545,7 @@ sub _Print {
     }
     else {
         if ( !$Self->{Verbose} ) {
-            print { $Self->{OriginalSTDOUT} } "\n";
+            say { $Self->{OriginalSTDOUT} } "";
         }
         print { $Self->{OriginalSTDOUT} } " "
             . $Self->_Color( 'red', "not ok" )
@@ -552,7 +555,7 @@ sub _Print {
         $Self->{ResultData}->{Results}->{ $Self->{TestCount} }->{Message} = $Message;
 
         # Failure summary: only the first line
-        my $TestFailureDetails = ( split m/\r?\n/, $Message )[0];
+        my ($TestFailureDetails) = split m/\r?\n/, $Message, 2;
 
         # And only without details
         $TestFailureDetails =~ s{\s*\(.+\Z}{};
