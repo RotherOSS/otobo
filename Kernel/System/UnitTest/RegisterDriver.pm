@@ -69,7 +69,6 @@ sub import {
 END {
     # trigger Kernel::System::UnitTest::Helper::DESTROY()
     # perform cleanup actions, including some tests, in Kernel::System::UnitTest::Helper::DESTROY
-    undef $main::Helper;
     $Kernel::OM->ObjectsDiscard(
         Objects            => ['Kernel::System::UnitTest::Helper'],
     );
@@ -77,8 +76,6 @@ END {
     # print the plan
     my $Driver = $Kernel::OM->Get( 'Kernel::System::UnitTest::Driver' );
     $Driver->DoneTesting();
-
-    undef $Kernel::OM;
 }
 
 1;
