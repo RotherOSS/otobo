@@ -40,7 +40,13 @@ use warnings;
 # OTOBO modules
 use Kernel::System::ObjectManager;
 
+my $OriginalPID; # see the END block
+
 sub import {
+
+    # remember the id of the process that loaded this module.
+    $OriginalPID = $$;
+
     # RegisterDriver is meant for test scripts,
     # meaning that each sript has it's own process.
     # This means that we don't have to localize $Kernel::OM.
@@ -67,15 +73,19 @@ sub import {
 }
 
 END {
-    # trigger Kernel::System::UnitTest::Helper::DESTROY()
-    # perform cleanup actions, including some tests, in Kernel::System::UnitTest::Helper::DESTROY
-    $Kernel::OM->ObjectsDiscard(
-        Objects            => ['Kernel::System::UnitTest::Helper'],
-    );
+    # Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker, and maybe other modules, is forking processes.
+    # But we want no cleanup in the child processes.
+    if ( $$ == $OriginalPID ) {
+        # trigger Kernel::System::UnitTest::Helper::DESTROY()
+        # perform cleanup actions, including some tests, in Kernel::System::UnitTest::Helper::DESTROY
+        $Kernel::OM->ObjectsDiscard(
+            Objects            => ['Kernel::System::UnitTest::Helper'],
+        );
 
-    # print the plan
-    my $Driver = $Kernel::OM->Get( 'Kernel::System::UnitTest::Driver' );
-    $Driver->DoneTesting();
+        # print the plan
+        my $Driver = $Kernel::OM->Get( 'Kernel::System::UnitTest::Driver' );
+        $Driver->DoneTesting();
+    }
 }
 
 1;
