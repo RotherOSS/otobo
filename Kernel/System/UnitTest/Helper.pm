@@ -605,8 +605,6 @@ sub DESTROY {
         }
     }
 
-    $Self->{UnitTestDriverObject}->DoneTesting();
-
     return;
 }
 

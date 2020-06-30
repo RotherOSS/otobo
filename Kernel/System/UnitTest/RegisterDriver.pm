@@ -28,30 +28,39 @@ use Kernel::System::ObjectManager;
 sub import {
     # RegisterDriver is meant for test scripts,
     # meaning that each sript has it's own process.
-    # This means that we don't have to localize $Kernel::OM
+    # This means that we don't have to localize $Kernel::OM.
     $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Log' => {
             LogPrefix => 'OTOBO-otobo.UnitTest',
         },
     );
 
-
-    $main::Self = $Kernel::OM->Create(
-        'Kernel::System::UnitTest::Driver',
-        ObjectParams => {
-            Verbose      => 10000000000000,
+    # The Kernel::System::UnitTest::Driver should particpate in the regular object cleanup
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::UnitTest::Driver' => {
+            Verbose      => 1,
             ANSI         => 0,
-        },
+        }
     );
-
-    # Provide $main::Self for convenience in test script
-    $Kernel::OM->ObjectInstanceRegister(
-        Package      => 'Kernel::System::UnitTest::Driver',
-        Object       => $main::Self,
-        Dependencies => [],
-    );
+    $main::Self = $Kernel::OM->Get( 'Kernel::System::UnitTest::Driver' );
 
     $main::Self->{OutputBuffer} = '';
+
+    return;
+}
+
+END {
+    # perform cleanup actions, including some tests, in Kernel::System::UnitTest::Helper::DESTROY
+    undef $main::Helper;
+    $Kernel::OM->ObjectsDiscard(
+        Objects            => ['Kernel::System::UnitTest::Helper'],
+    );
+
+    # print the plan
+    my $Driver = $Kernel::OM->Get( 'Kernel::System::UnitTest::Driver' );
+    $Driver->DoneTesting();
+
+    undef $Kernel::OM;
 }
 
 1;
