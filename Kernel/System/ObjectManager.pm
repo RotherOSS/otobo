@@ -274,12 +274,16 @@ sub _ObjectBuild {
     #   Kernel::Config::Defaults), so assume [] in this case.
     my $Dependencies = [];
 
-    no strict 'refs';    ## no critic
-    my %ObjectManagerFlags = %{ $Package . '::ObjectManagerFlags' };
-    use strict 'refs';
+    my %ObjectManagerFlags;
+    {
+        no strict 'refs';    ## no critic
+
+        %ObjectManagerFlags = %{ $Package . '::ObjectManagerFlags' };
+    }
 
     if ( $Package ne 'Kernel::Config' ) {
         no strict 'refs';    ## no critic
+
         if ( !exists ${ $Package . '::' }{ObjectDependencies} ) {
             $Self->_DieWithError( Error => "$Package does not declare its object dependencies!" );
         }
@@ -305,8 +309,6 @@ sub _ObjectBuild {
                 );
             }
         }
-
-        use strict 'refs';
     }
     $Self->{ObjectDependencies}->{$Package} = $Dependencies;
 
