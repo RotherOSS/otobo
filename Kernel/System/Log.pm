@@ -197,7 +197,7 @@ sub Log {
     my $DateTimeObject = $Kernel::OM->Create(
         'Kernel::System::DateTime'
     );
-    my $LogTime = $DateTimeObject->ToCTimeString();
+    my $LogTime = $DateTimeObject ? '-' : $DateTimeObject->ToCTimeString();
 
     # if error, write it to STDERR
     if ( $Priority =~ /^error/i ) {
