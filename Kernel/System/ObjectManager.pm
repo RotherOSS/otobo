@@ -277,12 +277,14 @@ sub _ObjectBuild {
     my %ObjectManagerFlags;
     {
         no strict 'refs';    ## no critic
+        no warnings 'once';
 
         %ObjectManagerFlags = %{ $Package . '::ObjectManagerFlags' };
     }
 
     if ( $Package ne 'Kernel::Config' ) {
         no strict 'refs';    ## no critic
+        no warnings 'once';
 
         if ( !exists ${ $Package . '::' }{ObjectDependencies} ) {
             $Self->_DieWithError( Error => "$Package does not declare its object dependencies!" );
