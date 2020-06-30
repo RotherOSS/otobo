@@ -20,7 +20,7 @@ package Kernel::System::ObjectManager;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 
-use strict;
+use 5.24.0;
 use warnings;
 
 use Carp ();
@@ -532,12 +532,13 @@ sub ObjectsDiscard {
     # second step: post-order recursive traversal
     my %Seen;
     my @OrderedObjects;
-    my $Traverser;
-    $Traverser = sub {
+    my $Traverser = sub {
         my ($Object) = @_;
+
         return if $Seen{$Object}++;
+
         for my $ReverseDependency ( sort keys %{ $ReverseDependencies{$Object} } ) {
-            $Traverser->($ReverseDependency);
+            __SUB__->($ReverseDependency);
         }
         push @OrderedObjects, $Object;
     };
