@@ -55,16 +55,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: possebon <possebon@gmail.com>, 2020\n"
-"Language-Team: Portuguese (Brazil) (https://www.transifex.com/otobo/"
-"teams/23435/pt_BR/)\n"
+"PO-Revision-Date: 2020-07-01 12:03+0000\n"
+"Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
+"Language-Team: Portuguese (Brazil) <http://translate.otobo.org/projects/"
+"otobo10/otobo/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.1.1\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -2380,7 +2382,7 @@ msgstr "Campos dinâmicos"
 
 #. Template: AdminGenericAgent
 msgid "Add dynamic field"
-msgstr ""
+msgstr "Adicionar campo dinâmico"
 
 #. Template: AdminGenericAgent
 msgid "Create times"
@@ -2435,20 +2437,14 @@ msgid "Ticket changed between"
 msgstr "Chamado alterado entre"
 
 #. Template: AdminGenericAgent
-#, fuzzy
-#| msgid "Last changed times"
 msgid "Last close times"
-msgstr "Última alteração"
+msgstr "Últimos horários de fechamento"
 
 #. Template: AdminGenericAgent
-#, fuzzy
-#| msgid "No close time settings."
 msgid "No last close time settings."
-msgstr "Ignorar horários de fechamento"
+msgstr "Nenhuma última configuração de fechamento"
 
 #. Template: AdminGenericAgent
-#, fuzzy
-#| msgid "Ticket closed"
 msgid "Ticket last close"
 msgstr "Chamado fechado"
 
@@ -4173,6 +4169,8 @@ msgid ""
 "Here you can activate Ready2Adopt web services showcasing our best practices "
 "that are a part of %s."
 msgstr ""
+"Aqui você pode ativar os serviços Ready2Adopt, mostrando nossas melhores "
+"práticas que fazem parte de %s."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -4714,7 +4712,7 @@ msgstr "Gerenciar %s"
 
 #. Template: AdminOTOBOCommunityInstalled
 msgid "Downgrade to ((OTOBO)) Community Edition"
-msgstr ""
+msgstr "Downgrade para ((OTOBO)) Community Edition"
 
 #. Template: AdminOTOBOCommunityInstalled
 msgid "Read documentation"
@@ -4819,6 +4817,8 @@ msgid ""
 "Your ((OTOBO)) Community Edition is the base for all future actions. Please "
 "register first before you continue with the upgrade process of %s!"
 msgstr ""
+"Seu ((OTOBO)) Community Edition é a base para todas as ações futuras. "
+"Registre-se primeiro antes de continuar com o processo de atualização de %s!"
 
 #. Template: AdminOTOBOCommunityNotInstalled
 msgid ""
@@ -4923,6 +4923,8 @@ msgid ""
 "You are about to downgrade to ((OTOBO)) Community Edition and will lose the "
 "following features and all data related to these:"
 msgstr ""
+"Você está prestes a fazer o downgrade para ((OTOBO)) Community Edition e "
+"perderá os seguintes recursos e todos os dados relacionados a estes:"
 
 #. Template: AdminOTOBOCommunityUninstall
 msgid "Chat"
@@ -7059,7 +7061,7 @@ msgstr "Finalizar"
 
 #. Template: AdminSession
 msgid "Detail View for SessionID: %s - %s"
-msgstr ""
+msgstr "Visualização de detalhes para SessionID: %s - %s"
 
 #. Template: AdminSignature
 msgid "Signature Management"
@@ -7301,6 +7303,8 @@ msgid ""
 "This system address cannot be set to invalid, because it is used in one or "
 "more queue(s) or auto response(s)."
 msgstr ""
+"Esse endereço de e-mail não pode ser invalidado, porque é usado em uma ou "
+"mais fila(s) ou auto resposta(s)."
 
 #. Template: AdminSystemConfiguration
 msgid "online administrator documentation"
