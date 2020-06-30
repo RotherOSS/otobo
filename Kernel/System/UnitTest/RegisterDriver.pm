@@ -15,6 +15,21 @@
 
 package Kernel::System::UnitTest::RegisterDriver;
 
+=head1 NAME
+
+Kernel::System::UnitTest::RegisterDriver - another helper for unit tests
+
+=head1 SYNOPSIS
+
+    # Set up the test driver $Self when we are running as a standalone script.
+    use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+
+=head1 DESCRIPTION
+
+Support for running test scripts as standalone scripts.
+
+=cut
+
 use 5.24.0;
 use warnings;
 
@@ -29,6 +44,7 @@ sub import {
     # RegisterDriver is meant for test scripts,
     # meaning that each sript has it's own process.
     # This means that we don't have to localize $Kernel::OM.
+    # This is good, we are in a subroutine that does not eval the test script.
     $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Log' => {
             LogPrefix => 'OTOBO-otobo.UnitTest',
@@ -36,10 +52,11 @@ sub import {
     );
 
     # The Kernel::System::UnitTest::Driver should particpate in the regular object cleanup
+    # The default DataDiffType is used.
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::UnitTest::Driver' => {
-            Verbose      => 1,
-            ANSI         => 0,
+            Verbose      => 1,  # always verbose, as TAP consumer can create summaries
+            ANSI         => 0,  # no coloring, as TAP consumers can do the presentation
         }
     );
     $main::Self = $Kernel::OM->Get( 'Kernel::System::UnitTest::Driver' );
@@ -50,6 +67,7 @@ sub import {
 }
 
 END {
+    # trigger Kernel::System::UnitTest::Helper::DESTROY()
     # perform cleanup actions, including some tests, in Kernel::System::UnitTest::Helper::DESTROY
     undef $main::Helper;
     $Kernel::OM->ObjectsDiscard(
