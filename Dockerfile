@@ -47,9 +47,8 @@ WORKDIR $OTOBO_HOME
 # Use the docker specific Config.pm.dist file.
 RUN mkdir -p var/stats var/packages var/tmp \
     && (echo ". ~/.bash_completion" >> .bash_aliases ) \
-    && cd Kernel \
-    && cp Config.pm.dist Config.pm \
-    && perl -pi -e "s/'127.0.0.1';/'db'; # adapted by Dockerfile/" Config.pm \
+    && cp scripts/docker/Config.pm.dist Kernel/Config.pm \
+    && cd Kernel && perl -pi -e "s/'127.0.0.1';/'db'; # adapted by Dockerfile/" Config.pm \
     && cd ../var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done
 
 # make sure that var/tmp exists and generate the crontab for OTOBO_USER
