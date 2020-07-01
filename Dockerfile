@@ -45,18 +45,20 @@ WORKDIR $OTOBO_HOME
 # Enable bash completion.
 # Activate the .dist files.
 # Use the docker specific Config.pm.dist file.
-RUN mkdir -p var/stats var/packages var/tmp \
+RUN mkdir -p var/stats var/packages \
     && (echo ". ~/.bash_completion" >> .bash_aliases ) \
     && cp scripts/docker/Config.pm.dist Kernel/Config.pm \
     && cd Kernel && perl -pi -e "s/'127.0.0.1';/'db'; # adapted by Dockerfile/" Config.pm \
     && cd ../var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done
 
-# make sure that var/tmp exists and generate the crontab for OTOBO_USER
-# Set PATH as the required perl is located in /usr/local/bin/perl.
+# Generate and install the crontab for the user $OTOBO_USER.
+# Explicitly set PATH as the required perl is located in /usr/local/bin/perl.
+# var/tmp is created by $OTOBO_USER as bin/Cron.sh used this dir.
 USER $OTOBO_USER
-RUN echo "# File added by Dockerfile"                                 >  var/cron/aab_path \
-    && echo "# Let '/usr/bin/env perl' find perl 5.30 in /usr/local/bin" >> var/cron/aab_path \
-    && echo "PATH=/usr/local/bin:/usr/bin:/bin"                          >> var/cron/aab_path \
+RUN mkdir -p var/tmp \
+    && echo "# File added by Dockerfile"                             >  var/cron/aab_path \
+    && echo "# Let '/usr/bin/env perl' find perl in /usr/local/bin"  >> var/cron/aab_path \
+    && echo "PATH=/usr/local/bin:/usr/bin:/bin"                      >> var/cron/aab_path \
     && ./bin/Cron.sh start
 
 # set permissions
