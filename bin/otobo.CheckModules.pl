@@ -238,8 +238,8 @@ my @NeededModules = (
     {
         Module    => 'Crypt::Eksblowfish::Bcrypt',
         Required  => 0,
+        Features  => ['docker'],
         Comment   => 'For strong password hashing.',
-        Features   => ['docker'],
         InstTypes => {
             aptget => 'libcrypt-eksblowfish-perl',
             emerge => 'dev-perl/Crypt-Eksblowfish',
@@ -292,8 +292,8 @@ my @NeededModules = (
     {
         Module    => 'DBD::mysql',
         Required  => 0,
-        Comment   => 'Required to connect to a MySQL database.',
         Features  => ['mysql'],
+        Comment   => 'Required to connect to a MySQL database.',
         InstTypes => {
             aptget => 'libdbd-mysql-perl',
             emerge => 'dev-perl/DBD-mysql',
@@ -302,8 +302,9 @@ my @NeededModules = (
         },
     },
     {
-        Module               => 'DBD::ODBC',
-        Required             => 0,
+        Module    => 'DBD::ODBC',
+        Required  => 0,
+        Features  => ['odbc'],
         VersionsNotSupported => [
             {
                 Version => '1.23',
@@ -312,7 +313,6 @@ my @NeededModules = (
             },
         ],
         Comment   => 'Required to connect to a MS-SQL database.',
-        Features  => ['odbc'],
         InstTypes => {
             aptget => 'libdbd-odbc-perl',
             emerge => undef,
@@ -324,8 +324,8 @@ my @NeededModules = (
     {
         Module    => 'DBD::Oracle',
         Required  => 0,
-        Comment   => 'Required to connect to a Oracle database.',
         Features  => ['oracle'],
+        Comment   => 'Required to connect to a Oracle database.',
         InstTypes => {
             aptget => undef,
             emerge => undef,
@@ -337,8 +337,8 @@ my @NeededModules = (
     {
         Module    => 'DBD::Pg',
         Required  => 0,
-        Comment   => 'Required to connect to a PostgreSQL database.',
         Features  => ['postgresql'],
+        Comment   => 'Required to connect to a PostgreSQL database.',
         InstTypes => {
             aptget => 'libdbd-pg-perl',
             emerge => 'dev-perl/DBD-Pg',
@@ -412,8 +412,8 @@ my @NeededModules = (
     {
         Module    => 'JSON::XS',
         Required  => 0,
+        Features  => ['docker'],
         Comment   => 'Recommended for faster AJAX/JavaScript handling.',
-        Features   => ['docker'],
         InstTypes => {
             aptget => 'libjson-xs-perl',
             emerge => 'dev-perl/JSON-XS',
@@ -458,9 +458,9 @@ my @NeededModules = (
     {
         Module          => 'Mail::IMAPClient',
         VersionRequired => '3.22',
-        Comment         => 'Required for IMAP TLS connections.',
         Required        => 0,
         Features        => ['docker'],
+        Comment         => 'Required for IMAP TLS connections.',
         InstTypes       => {
             aptget => 'libmail-imapclient-perl',
             emerge => 'dev-perl/Mail-IMAPClient',
@@ -789,6 +789,7 @@ my @NeededModules = (
         Module    => 'Redis',
         Required  => 0,
         Comment   => 'For usage with Redis Cache Server.',
+        Features  => ['redis'],
         InstTypes => {
             aptget => 'libredis-perl',
             emerge => 'dev-perl/Redis',
@@ -800,6 +801,7 @@ my @NeededModules = (
     {
         Module    => 'Redis::Fast',
         Required  => 0,
+        Features  => ['redis'],
         Comment   => 'Recommended for usage with Redis Cache Server. (it`s compatible with `Redis`, but **~2x faster**)',
         InstTypes => {
             aptget => 'libredis-fast-perl',

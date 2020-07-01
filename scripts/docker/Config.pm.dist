@@ -57,6 +57,10 @@ Elasticsearch is activated as there is a Docker container running ElasticSearch.
 Log to the file F</opt/otobo/var/log/otobo.log>.
 As this location is on a volume that is imported from the host.
 
+=item CacheModule
+
+Use Redis for caching.
+
 =back
 
 =cut
@@ -109,9 +113,12 @@ sub Load {
     # ---------------------------------------------------- #
     # setting for running OTOBO under Docker, see the POD  #
     # ---------------------------------------------------- #
-    $Self->{'Elasticsearch::Active'} = 1;
-    $Self->{'LogModule'}             = 'Kernel::System::Log::File';
-    $Self->{'LogModule::LogFile'}    = '/opt/otobo/var/log/otobo.log'
+    $Self->{'Elasticsearch::Active'}       = 1;
+    $Self->{'LogModule'}                   = 'Kernel::System::Log::File';
+    $Self->{'LogModule::LogFile'}          = '/opt/otobo/var/log/otobo.log';
+    $Self->{'Cache::Module'}               = 'Kernel::System::Cache::Redis';
+    $Self->{'Cache::Redis'}->{'RedisFast'} = 1;
+    $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
 
     # ---------------------------------------------------- #
     # insert your own config settings "here"               #

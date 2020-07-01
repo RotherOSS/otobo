@@ -166,3 +166,10 @@ feature 'postgresql', 'Support for database PostgreSQL' => sub {
     # Required to connect to a PostgreSQL database.
     requires 'DBD::Pg';
 };
+
+feature 'redis', 'Suppport for redis' => sub {
+    # For usage with Redis Cache Server.
+    requires 'Redis';
+    # Recommended for usage with Redis Cache Server. (it`s compatible with `Redis`, but **~2x faster**)
+    requires 'Redis::Fast';
+};

@@ -59,9 +59,16 @@ services:
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
 
+  # a container running Redis
+  redis:
+    image: redis:6.0.5-alpine
+    volumes:
+      - redis_data:/data
+
 
 # no volumnes need to be exposed across services
 volumes:
   mariadb_data: {}
   opt_otobo: {}
   elasticsearch_data: {}
+  redis_data: {}
