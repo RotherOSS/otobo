@@ -48,6 +48,7 @@ WORKDIR $OTOBO_HOME
 RUN mkdir -p var/stats var/packages \
     && (echo ". ~/.bash_completion" >> .bash_aliases ) \
     && cp scripts/docker/Config.pm.dist Kernel/Config.pm \
+    && cp Kernel/Config.pod.dist Kernel/Config.pod \
     && cd var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done
 
 # Generate and install the crontab for the user $OTOBO_USER.
