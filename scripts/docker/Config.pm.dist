@@ -13,19 +13,46 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-#  Note:
-#
-#  -->> Most OTOBO configuration should be done via the OTOBO web interface
-#       and the SysConfig. Only for some configuration, such as database
-#       credentials and customer data source changes, you should edit this
-#       file. For changes do customer data sources you can copy the definitions
-#       from Kernel/Config/Defaults.pm and paste them in this file.
-#       Config.pm will not be overwritten when updating OTOBO.
-# --
 
 package Kernel::Config;
 
-use strict;
+=head1 NAME
+
+Kernel::Config - settings that can be adapted by the user
+
+=head1 SYNOPSIS
+
+    use Kernel::System::ObjectManager;
+
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+
+    my $Config = $Kernel::OM->Get('Kernel::Config');
+    my $Home   = $Config->Get('Home');
+
+=head1 DESCRIPTION
+
+Most OTOBO configuration should be done via the OTOBO web interface
+and the SysConfig. Only for some configuration, such as database
+credentials and customer data source changes, you should edit this
+file. For changes do customer data sources you can copy the definitions
+from F<Kernel/Config/Defaults.pm> and paste them into this file.
+The file F<Kernel/Config.pm> will not be overwritten when updating OTOBO.
+
+This specific F<Kernel/Config.pm> originated from F<scripts/docker/Config.pm.dist>.
+That dist file contains some settings specific to OTOBO under Docker.
+
+=over 4
+
+=item $Self->{DatabaseHost}
+
+The setting is I<db> instead of I<127.0.0.1>. This is because under Docker
+the MySQL database is running in a separate container.
+
+=back
+
+=cut
+
+use 5.24.0;
 use warnings;
 use utf8;
 
