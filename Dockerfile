@@ -51,6 +51,15 @@ RUN mkdir -p var/stats var/packages \
     && cp Kernel/Config.pod.dist Kernel/Config.pod \
     && cd var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done
 
+# Under Docker the Elasticsearch Daemon in running on the host 'elastic' instead of '127.0.0.1'.
+# The webservice configuration is in a YAML file and it is not obvious how
+# to change settings for webservices.
+# So we take the easy was out and do the change directly in the XML file,
+# before installer.pl has run.
+RUN cd scripts/database \
+    && cp otobo-initial_insert.xml otobo-initial_insert.xml.orig \
+    && perl -pi -e "s{Host: http://localhost:9200}{Host: http://elastic:9200}" otobo-initial_insert.xml
+
 # Generate and install the crontab for the user $OTOBO_USER.
 # Explicitly set PATH as the required perl is located in /usr/local/bin/perl.
 # var/tmp is created by $OTOBO_USER as bin/Cron.sh used this dir.
