@@ -1,6 +1,6 @@
 # Some info regarding running OTOBO under Docker.
 
-The standard use case ist that four containers are started.
+The standard use case ist that altogether five containers are started.
 These containers are managed via Docker compose.
 
 ## Containers
@@ -21,13 +21,18 @@ Run the relational database MariaDB on port 3306.
 
 Run Elastic Search on the ports 9200 and 9300.
 
+### Container otobo_redis_1
+
+Run Redis as the caching service.
+
 ## Volumes
 
-Three volumes are created on the host:
+Some volumes are created on the host. These allow starting and stopping the services without loosing data.
 
 * **otobo_opt_otobo** containing `/opt/otobo` on the container `web` and `cron`.
 * **otobo_mariadb_data** containing `/var/lib/mysql` on the container `db`.
 * **otobo_elasticsearch_data** containing `/usr/share/elasticsearch/datal` on the container `elastic`.
+* **otobo_redis_data** containing data on the container `redis`.
 
 ## Source files
 
