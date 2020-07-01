@@ -18,6 +18,9 @@ use strict;
 use warnings;
 use utf8;
 
+# Set up the test driver $Self when we are running as a standalone script.
+use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+
 use vars (qw($Self));
 
 # get DB object
@@ -141,5 +144,7 @@ $Self->True(
     $DBObject->Do( SQL => 'DROP TABLE test_utf8_range' ) || 0,
     "DROP TABLE",
 );
+
+$Self->DoneTesting();
 
 1;

@@ -14,24 +14,17 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use strict;
+use 5.24.0;
 use warnings;
 use utf8;
 
+# Set up the test driver $Self when we are running as a standalone script.
+use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+
 use vars (qw($Self));
 
-my $ChecksumFileNotPresent = sub {
-    $Self->False(
-        1,
-        'Archive unit test requires the checksum file (ARCHIVE) to be present and valid. Please first call the following command to create it: bin/otobo.CheckSum.pl -a create'
-    );
-    return 1;
-};
-
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-
 my $ChecksumFile = "$Home/ARCHIVE";
 
 # Checksum file content as an array ref.
@@ -42,63 +35,69 @@ my $ChecksumFileArrayRef = $MainObject->FileRead(
     Result          => 'ARRAY',
     DisableWarnings => 1,
 );
-return $ChecksumFileNotPresent->() if !$ChecksumFileArrayRef || !@{$ChecksumFileArrayRef};
 
-my $ChecksumFileSize = -s $ChecksumFile;
-$Self->True(
-    $ChecksumFileSize && $ChecksumFileSize > 2**10 && $ChecksumFileSize < 2**20,
-    'Checksum file size in expected range (> 1KB && < 1MB)'
-);
+# This should be a SKIP-block
 
-my $ErrorsFound;
+if ( !$ChecksumFileArrayRef || !@{$ChecksumFileArrayRef} ) {
+    $Self->False(
+        1,
+        'Archive unit test requires the checksum file (ARCHIVE) to be present and valid. Please first call the following command to create it: bin/otobo.CheckSum.pl -a create'
+    );
+}
+else {
 
-# Verify MD5 digests in the checksum file.
-LINE:
-while ( my $Line = shift @{$ChecksumFileArrayRef} ) {
-    my @Entry = split '::', $Line;
-    next LINE if @Entry < 2;
-
-    chomp $Entry[1];
-    my $Filename = "$Home/$Entry[1]";
-
-    if ( !-f $Filename ) {
-        $Self->False(
-            1,
-            "$Filename not found"
-        );
-        next LINE;
-    }
-
-    if ( $Filename =~ /Cron|CHANGES|apache2-perl-startup/ ) {
-
-        # Skip files with expected changes.
-        next LINE;
-    }
-
-    if ( -e "$Filename.save" ) {
-
-        # Ignore files overwritten by packages.
-        next LINE;
-    }
-
-    my $Digest = $MainObject->MD5sum(
-        Filename => $Filename,
+    my $ChecksumFileSize = -s $ChecksumFile;
+    $Self->True(
+        $ChecksumFileSize && $ChecksumFileSize > 2**10 && $ChecksumFileSize < 2**20,
+        'Checksum file size in expected range (> 1KB && < 1MB)'
     );
 
-    # To save data, we only record errors of files, no positive results.
-    if ( $Digest ne $Entry[0] ) {
-        $Self->Is(
-            $Digest,
-            $Entry[0],
-            "$Filename digest"
-        );
-        $ErrorsFound++;
-    }
-}
+    my $ErrorsFound;
 
-$Self->False(
-    $ErrorsFound,
-    "Mismatches in file list",
-);
+    # Verify MD5 digests in the checksum file.
+    LINE:
+    while ( my $Line = shift @{$ChecksumFileArrayRef} ) {
+        chomp $Line;
+
+        my ($MD5Sum, $Filename) = split /::/, $Line, 2;
+
+        next LINE if !$MD5Sum;
+        next LINE if !$Filename;
+
+        $Filename = "$Home/$Filename";
+
+        if ( !-f $Filename ) {
+            $Self->False(
+                1,
+                "$Filename not found"
+            );
+            next LINE;
+        }
+
+        # Skip files with expected changes.
+        next LINE if $Filename =~ m/Cron|CHANGES|apache2-perl-startup/;
+
+        # Skip logfiles
+        next LINE if $Filename =~ m/var\/log/;
+
+        # Ignore files overwritten by packages.
+        next LINE if -e "$Filename.save";
+
+        my $ComputedMD5Sum = $MainObject->MD5sum(
+            Filename => $Filename,
+        );
+
+        # To save data, we only record errors of files, no positive results.
+        if ( $ComputedMD5Sum ne $MD5Sum ) {
+            $Self->Is( $ComputedMD5Sum, $MD5Sum, "$Filename digest");
+            $ErrorsFound++;
+        }
+    }
+
+    $Self->False(
+        $ErrorsFound,
+        "Mismatches in file list",
+    );
+}
 
 1;

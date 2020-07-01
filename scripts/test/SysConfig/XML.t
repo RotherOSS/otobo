@@ -18,10 +18,13 @@
 use strict;
 use warnings;
 
-# prevent used once warning
-use Kernel::System::ObjectManager;
+# Set up the test driver $Self when we are running as a standalone script.
+use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
 
 use vars (qw($Self));
+
+# prevent used once warning
+use Kernel::System::ObjectManager;
 
 my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
 $Self->True(
@@ -598,5 +601,7 @@ for my $Test (@Tests) {
         $Test->{Description} . ': SettingLisParse(): Result must match expected one.',
     );
 }
+
+$Self->DoneTesting();
 
 1;

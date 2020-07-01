@@ -15,16 +15,15 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use strict;
+use 5.24.0;
 use warnings;
+use utf8;
 
-use File::Basename;
+use File::Basename qw(dirname);
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
-
-use vars qw($RealBin);
 
 use Getopt::Std;
 use Digest::MD5 qw(md5_hex);
@@ -131,12 +130,12 @@ sub ProcessDirectory {
         # ignore directories
         next FILE if $File =~ m{^doc/}smx;
         next FILE if $File =~ m{^var/tmp}smx;
+        next FILE if $File =~ m{^var/log}smx;
         next FILE if $File =~ m{^var/article}smx;
         next FILE if $File =~ m{js-cache}smx;
         next FILE if $File =~ m{css-cache}smx;
 
         # next if not readable
-        # print "File: $File\n";
         open( my $In, '<', $OrigFile ) || die "ERROR: $!";    ## no critic
 
         my $DigestGenerator = Digest::MD5->new();

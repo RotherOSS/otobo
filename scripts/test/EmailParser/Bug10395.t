@@ -18,6 +18,9 @@ use strict;
 use warnings;
 use utf8;
 
+# Set up the test driver $Self when we are running as a standalone script.
+use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+
 use vars (qw($Self));
 
 use Kernel::System::EmailParser;
@@ -50,5 +53,7 @@ $Self->Is(
     '"dev.mydomain.somewhere - Oddział 3 w Warszawie, testtes A1" <dev@ib.pl>, "dev.mydomain.somewhere - Oddział 3 w Warszawie, testtes A1" <dev@ib.pl>, "dev.mydomain.somewhere - Oddział 3 w Warszawie, testtes A1" <dev@ib.pl>',
     'Check complicated to header',
 );
+
+$Self->DoneTesting();
 
 1;

@@ -20,7 +20,7 @@ package Kernel::System::ObjectManager;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 
-use strict;
+use 5.24.0;
 use warnings;
 
 use Carp ();
@@ -274,12 +274,18 @@ sub _ObjectBuild {
     #   Kernel::Config::Defaults), so assume [] in this case.
     my $Dependencies = [];
 
-    no strict 'refs';    ## no critic
-    my %ObjectManagerFlags = %{ $Package . '::ObjectManagerFlags' };
-    use strict 'refs';
+    my %ObjectManagerFlags;
+    {
+        no strict 'refs';    ## no critic
+        no warnings 'once';
+
+        %ObjectManagerFlags = %{ $Package . '::ObjectManagerFlags' };
+    }
 
     if ( $Package ne 'Kernel::Config' ) {
         no strict 'refs';    ## no critic
+        no warnings 'once';
+
         if ( !exists ${ $Package . '::' }{ObjectDependencies} ) {
             $Self->_DieWithError( Error => "$Package does not declare its object dependencies!" );
         }
@@ -305,8 +311,6 @@ sub _ObjectBuild {
                 );
             }
         }
-
-        use strict 'refs';
     }
     $Self->{ObjectDependencies}->{$Package} = $Dependencies;
 
@@ -532,12 +536,13 @@ sub ObjectsDiscard {
     # second step: post-order recursive traversal
     my %Seen;
     my @OrderedObjects;
-    my $Traverser;
-    $Traverser = sub {
+    my $Traverser = sub {
         my ($Object) = @_;
+
         return if $Seen{$Object}++;
+
         for my $ReverseDependency ( sort keys %{ $ReverseDependencies{$Object} } ) {
-            $Traverser->($ReverseDependency);
+            __SUB__->($ReverseDependency);
         }
         push @OrderedObjects, $Object;
     };

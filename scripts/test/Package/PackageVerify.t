@@ -17,9 +17,13 @@
 use strict;
 use warnings;
 use utf8;
-use Kernel::System::CloudService::Backend::Run;
+
+# Set up the test driver $Self when we are running as a standalone script.
+use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
 
 use vars (qw($Self));
+
+use Kernel::System::CloudService::Backend::Run;
 
 my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 my $OTOBOVersion  = $Kernel::OM->Get('Kernel::Config')->Get('Version');
@@ -238,5 +242,7 @@ for my $Package (@Packages) {
 
 # Cache cleanup.
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+
+$Self->DoneTesting();
 
 1;

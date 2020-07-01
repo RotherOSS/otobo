@@ -16,12 +16,14 @@
 
 use strict;
 use warnings;
+
+# Set up the test driver $Self when we are running as a standalone script.
+use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+
 use vars (qw($Self));
 
-#
 # This test makes sure that object dependencies are only created when
 # the object actively asks for them, not earlier.
-#
 
 use Kernel::System::ObjectManager;
 
@@ -55,5 +57,7 @@ $Self->False(
     exists $Kernel::OM->{Objects}->{'Kernel::System::Log'},
     'Kernel::System::Log is a dependency of Kernel::System::Valid, but was not yet loaded',
 );
+
+$Self->DoneTesting();
 
 1;

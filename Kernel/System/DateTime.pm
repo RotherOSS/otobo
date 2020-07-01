@@ -18,10 +18,11 @@ package Kernel::System::DateTime;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Translatable)
 
-use strict;
+use 5.24.0;
 use warnings;
 
 use Exporter qw(import);
+
 our %EXPORT_TAGS = (    ## no critic
     all => [
         'OTOBOTimeZoneGet',
@@ -30,11 +31,17 @@ our %EXPORT_TAGS = (    ## no critic
         'UserDefaultTimeZoneGet',
     ],
 );
+
 Exporter::export_ok_tags('all');
 
+# core modules
 use DateTime;
 use DateTime::TimeZone;
 use Scalar::Util qw( looks_like_number );
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw( IsArrayRefWithData IsHashRefWithData );
 
 our %ObjectManagerFlags = (
@@ -159,9 +166,27 @@ sub new {
     # Create the CPAN/Perl DateTime object.
     my $CPANDateTimeObject = $Self->_CPANDateTimeObjectCreate(%Param);
 
-    if ( ref $CPANDateTimeObject ne 'DateTime' ) {
+    # a safeguard for infinite loops
+    state $CreationFailedLastTime = 0;
 
-        # Add debugging information.
+    if ( ref $CPANDateTimeObject eq 'DateTime' ) {
+        $CreationFailedLastTime = 0;
+    }
+    elsif ( $CreationFailedLastTime ) {
+
+        # For some reason the CPAN DateTime object could not be created.
+        # This is usually logged with the subroutine Kernel::System::Log::Log().
+        # However Kernel::System::Log::Log() also wants to create a CPAN DateTime object.
+        # When the creation failed once it is likely that it will fail the next time too.
+        # So let's break out of this recursion loop.
+        return;
+    }
+    else {
+        # The creation of the DateTime Object failed.
+        # Log that with the attached debugging information.
+        # Also set a guard so that we don't enter an infinite loop.
+        $CreationFailedLastTime = 1;
+
         my $Parameters = $Kernel::OM->Get('Kernel::System::Main')->Dump(
             \%Param,
         );
@@ -188,6 +213,7 @@ sub new {
     }
 
     $Self->{CPANDateTimeObject} = $CPANDateTimeObject;
+
     return $Self;
 }
 

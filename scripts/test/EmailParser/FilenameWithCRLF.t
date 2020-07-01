@@ -18,6 +18,9 @@ use strict;
 use warnings;
 use utf8;
 
+# Set up the test driver $Self when we are running as a standalone script.
+use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+
 use vars (qw($Self));
 
 use Kernel::System::EmailParser;
@@ -56,5 +59,7 @@ $Self->Is(
     'Test__test_test_test_dokument.eml',
     "Filename with multiple newlines removed",
 );
+
+$Self->DoneTesting();
 
 1;

@@ -16,17 +16,20 @@
 
 package Kernel::System::UnitTest::Driver;
 
-use strict;
+use 5.24.0;
 use warnings;
 
+# core modules
 use Storable();
-use Term::ANSIColor();
-use Text::Diff;
 use Time::HiRes();
+use Term::ANSIColor();
 
+# CPAN modules
+use Text::Diff;
+
+# OTOBO modules
 # UnitTest helper must be loaded to override the builtin time functions!
 use Kernel::System::UnitTest::Helper;
-
 use Kernel::System::VariableCheck qw(DataIsDifferent);
 
 our @ObjectDependencies = (
@@ -37,7 +40,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::UnitTest::Driver - unit test file execution wrapper
+Kernel::System::UnitTest::Driver - unit test file execution wrapper, test subroutines
 
 =head1 PUBLIC INTERFACE
 
@@ -144,7 +147,16 @@ sub Run {
         }
 
         # HERE the actual tests are run.
-        my $TestSuccess = eval ${$UnitTestFile};              ## no critic
+        # The test scripts do not necessarily use Kernel::System::UnitTest framework.
+        # Therefore skip the unconforming scripts.
+        my $TestSuccess;
+        if ( index( ${$UnitTestFile}, 'use vars (qw(\$Self));') ) {
+            $TestSuccess = eval ${$UnitTestFile};              ## no critic
+        }
+        else {
+            $TestSuccess = 1;
+            say STDERR "Skipped $File at it doesn't use Kernel::System::UnitTest::Driver";
+        }
 
         if ( !$TestSuccess ) {
             if ($@) {
@@ -491,6 +503,26 @@ sub AttachSeleniumScreenshot {
     return;
 }
 
+=head2 DoneTesting()
+
+Print out a test plan. This assumes that the number of test that have
+run so far is exactly the number of tests that should run.
+This effectively disables the check of the test plan.
+
+    $Driver->DoneTesting();
+
+=cut
+
+sub DoneTesting {
+    my ($Self) = @_;
+
+    my $TestCountTotal = $Self->{ResultData}->{TestOk} // 0;
+    $TestCountTotal += $Self->{ResultData}->{TestNotOk} // 0;
+    say { $Self->{OriginalSTDOUT} } "1..$TestCountTotal";
+
+    return;
+}
+
 =begin Internal:
 
 =cut
@@ -529,9 +561,9 @@ sub _Print {
     $Self->{TestCount}++;
     if ($ResultOk) {
         if ( $Self->{Verbose} ) {
-            print { $Self->{OriginalSTDOUT} } " "
-                . $Self->_Color( 'green', "ok" )
-                . " $Self->{TestCount} - $ShortMessage\n";
+            say { $Self->{OriginalSTDOUT} }
+                $Self->_Color( 'green', 'ok' ),
+                " $Self->{TestCount} - $ShortMessage";
         }
         else {
             print { $Self->{OriginalSTDOUT} } $Self->_Color( 'green', "." );
@@ -542,17 +574,17 @@ sub _Print {
     }
     else {
         if ( !$Self->{Verbose} ) {
-            print { $Self->{OriginalSTDOUT} } "\n";
+            say { $Self->{OriginalSTDOUT} } "";
         }
-        print { $Self->{OriginalSTDOUT} } " "
-            . $Self->_Color( 'red', "not ok" )
-            . " $Self->{TestCount} - $ShortMessage\n";
+        say { $Self->{OriginalSTDOUT} }
+            $Self->_Color( 'red', "not ok" ),
+            " $Self->{TestCount} - $ShortMessage";
         $Self->{ResultData}->{TestNotOk}++;
         $Self->{ResultData}->{Results}->{ $Self->{TestCount} }->{Status}  = 'not ok';
         $Self->{ResultData}->{Results}->{ $Self->{TestCount} }->{Message} = $Message;
 
         # Failure summary: only the first line
-        my $TestFailureDetails = ( split m/\r?\n/, $Message )[0];
+        my ($TestFailureDetails) = split m/\r?\n/, $Message, 2;
 
         # And only without details
         $TestFailureDetails =~ s{\s*\(.+\Z}{};

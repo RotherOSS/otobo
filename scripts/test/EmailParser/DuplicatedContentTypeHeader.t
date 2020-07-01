@@ -18,6 +18,9 @@ use strict;
 use warnings;
 use utf8;
 
+# Set up the test driver $Self when we are running as a standalone script.
+use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+
 use vars (qw($Self));
 
 use Kernel::System::EmailParser;
@@ -55,5 +58,7 @@ $Self->Is(
     'image/tiff; name="Cisco_fax.tif"; application=faxbw image/tiff; name="Cisco_fax.tif"; application=faxbw',
     "Attachment content type is stored in one line",
 );
+
+$Self->DoneTesting();
 
 1;

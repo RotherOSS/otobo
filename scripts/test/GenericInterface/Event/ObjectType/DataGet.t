@@ -19,9 +19,12 @@ use strict;
 use warnings;
 use utf8;
 
-use Kernel::System::VariableCheck qw(:all);
+# Set up the test driver $Self when we are running as a standalone script.
+use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
 
 use vars (qw($Self));
+
+use Kernel::System::VariableCheck qw(:all);
 
 # Get the Dynamic Field Objects configuration
 my %RegisteredEvents = $Kernel::OM->Get('Kernel::System::Event')->EventList();
