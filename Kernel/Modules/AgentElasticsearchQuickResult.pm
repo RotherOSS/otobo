@@ -70,7 +70,7 @@ sub Run {
         # check module permissions to determine whether results can be shown
         my %Permission;
         MODULE:
-        for my $Module (qw/AgentTicketZoom AdminCustomerCompany AdminCustomerUser/) {
+        for my $Module (qw/AgentTicketZoom AdminCustomerCompany AdminCustomerUser AgentITSMConfigItemZoom/) {
             my $ModuleReg = $ConfigObject->Get('Frontend::Module')->{$Module};
 
             # module is not configured
@@ -115,7 +115,7 @@ sub Run {
         }
 
         # get objects
-        my ( @TicketIDs, @CustomerKeys, @CustomerUserKeys );
+        my ( @TicketIDs, @CustomerKeys, @CustomerUserKeys, @ConfigItems );
 
         if ( $SearchObjects->{Ticket} && $SearchObjects->{Ticket}{Count} && $Permission{AgentTicketZoom} ) {
 
@@ -136,7 +136,6 @@ sub Run {
         {
             # Search customer by ES.
             @CustomerKeys = $ESObject->CustomerCompanySearch(
-                IndexName => 'customer',
                 Fulltext  => $ParamObject->GetParam( Param => 'FulltextES' ),
                 Limit     => $SearchObjects->{CustomerCompany}{Count},
                 Result    => 'ARRAY',
@@ -147,14 +146,24 @@ sub Run {
         {
             # Search customer user by ES.
             @CustomerUserKeys = $ESObject->CustomerUserSearch(
-                IndexName => 'customeruser',
                 Fulltext  => $ParamObject->GetParam( Param => 'FulltextES' ),
                 Limit     => $SearchObjects->{CustomerUser}{Count},
                 Result    => 'ARRAY',
             );
         }
 
-# Start to fill the blockdata for the template (See Kernel/Output/HTML/Templates/Standard/AgentElasticsearchQuickResult.tt)
+        if ( $SearchObjects->{ConfigItem} && $SearchObjects->{ConfigItem}{Count} && $Permission{AgentITSMConfigItemZoom} )
+        {
+            # Search customer user by ES.
+            @ConfigItems = $ESObject->ConfigItemSearch(
+                Fulltext  => $ParamObject->GetParam( Param => 'FulltextES' ),
+                Limit     => $SearchObjects->{ConfigItem}{Count},
+                Result    => 'FULL',
+                UserID   => $Self->{UserID},
+            );
+        }
+
+        # Start to fill the blockdata for the template
         if (@TicketIDs) {
             my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
             my %Queues      = $QueueObject->QueueList( Valid => 0 );
@@ -186,6 +195,19 @@ sub Run {
                             Age   => $TicketParam->{Age},
                             Space => ' ',
                         );
+                    }
+                    elsif ( $Attr eq 'Created' ) {
+                        my $CreatedFormat = $ConfigObject->Get('Elasticsearch::QuickSearchCreatedFormat');
+                        if ( $CreatedFormat ) {
+                            $TicketParam->{Created} = $Kernel::OM->Create(
+                                'Kernel::System::DateTime',
+                                ObjectParams => {
+                                    Epoch => $TicketParam->{Created},
+                                }
+                            )->Format(
+                                Format => $CreatedFormat,
+                            );
+                        }
                     }
                     elsif ( $Attr eq 'Queue' ) {
                         $TicketParam->{Queue} = $TicketParam->{Queue} // $Queues{ $TicketParam->{QueueID} };
@@ -274,6 +296,40 @@ sub Run {
             }
         }
 
+        if (@ConfigItems) {
+            for my $Attr ( @{ $SearchObjects->{ConfigItem}{Attributes} } ) {
+                $LayoutObject->Block(
+                    Name => 'ConfigItemHeader',
+                    Data => {
+                        Header => $SearchObjects->{ConfigItem}{AttributeHeader}{$Attr},
+                    },
+                );
+            }
+
+            # Block ticket data
+            for my $ConfigItem (@ConfigItems) {
+
+                my ( $ConfigItemID, $ConfigItemParam ) = ( %{$ConfigItem} );
+
+                $LayoutObject->Block(
+                    Name => 'RecordConfigItem',
+                    Data => {},
+                );
+
+                # block entries
+                for my $Attr ( @{ $SearchObjects->{ConfigItem}{Attributes} } ) {
+                    $LayoutObject->Block(
+                        Name => 'ConfigItemEntry',
+                        Data => {
+                            ConfigItemID => $ConfigItemID,
+                            Title    => $ConfigItemParam->{Title},
+                            Entry    => $ConfigItemParam->{$Attr},
+                        },
+                    );
+                }
+            }
+        }
+
         # Create output
         my $Output = $LayoutObject->Output(
             TemplateFile => 'AgentElasticsearchQuickResult',
@@ -282,6 +338,7 @@ sub Run {
                 Tickets       => scalar @TicketIDs,
                 Companies     => scalar @CustomerKeys,
                 CustomerUsers => scalar @CustomerUserKeys,
+                ConfigItems   => scalar @ConfigItems,
             }
         );
 

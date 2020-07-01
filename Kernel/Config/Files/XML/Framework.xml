@@ -9220,73 +9220,84 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Elasticsearch::QuickSearchShow" Required="0" Valid="1">
+    <Setting Name="Elasticsearch::QuickSearchCreatedFormat" Required="0" Valid="0">
+        <Description Translatable="1">Format of Creation date shown for tickets. As an example '%Y-%m-%d %H:%M:%S' would be interpreted as '2020-01-22 18:07:23'. Please refer to http://search.cpan.org/~drolsky/DateTime-1.21/lib/DateTime.pm#strftime_Patterns.</Description>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
+        <Value>
+            <Item ValueType="String">%d.%m.%Y %H:%M</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Elasticsearch::QuickSearchShow###Ticket" Required="0" Valid="1">
         <Description Translatable="1">Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Hash>
-                <Item Key="Ticket">
+                <Item Key="Count">10</Item>
+                <Item Key="Attributes">
+                    <Array>
+                        <Item>TicketNumber</Item>
+                        <Item>Title</Item>
+                        <Item>Queue</Item>
+                        <Item>Age</Item>
+                    </Array>
+                </Item>
+                <Item Key="AttributeHeader">
                     <Hash>
-                        <Item Key="Count">10</Item>
-                        <Item Key="Attributes">
-                            <Array>
-                                <Item>TicketNumber</Item>
-                                <Item>Title</Item>
-                                <Item>Queue</Item>
-                                <Item>Age</Item>
-                            </Array>
-                        </Item>
-                        <Item Key="AttributeHeader">
-                            <Hash>
-                                <Item Key="TicketNumber">Ticket#</Item>
-                                <Item Key="Title">Title</Item>
-                                <Item Key="Queue">Queue</Item>
-                                <Item Key="Age">Age</Item>
-                            </Hash>
-                        </Item>
+                        <Item Key="TicketNumber">Ticket#</Item>
+                        <Item Key="Title">Title</Item>
+                        <Item Key="Queue">Queue</Item>
+                        <Item Key="Age">Age</Item>
                     </Hash>
                 </Item>
-                <Item Key="CustomerCompany">
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Elasticsearch::QuickSearchShow###CustomerCompany" Required="0" Valid="1">
+        <Description Translatable="1">Objects to search for, how many entries and which attributs to show.</Description>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Count">5</Item>
+                <Item Key="Attributes">
+                    <Array>
+                        <Item>CustomerCompanyName</Item>
+                        <Item>CustomerID</Item>
+                        <Item>CustomerCompanyComment</Item>
+                    </Array>
+                </Item>
+                <Item Key="AttributeHeader">
                     <Hash>
-                        <Item Key="Count">5</Item>
-                        <Item Key="Attributes">
-                            <Array>
-                                <Item>CustomerCompanyName</Item>
-                                <Item>CustomerID</Item>
-                                <Item>CustomerCompanyComment</Item>
-                            </Array>
-                        </Item>
-                        <Item Key="AttributeHeader">
-                            <Hash>
-                                <Item Key="CustomerCompanyName">Name</Item>
-                                <Item Key="CustomerID">ID</Item>
-                                <Item Key="CustomerCompanyComment">Comment</Item>
-                            </Hash>
-                        </Item>
+                        <Item Key="CustomerCompanyName">Name</Item>
+                        <Item Key="CustomerID">ID</Item>
+                        <Item Key="CustomerCompanyComment">Comment</Item>
                     </Hash>
                 </Item>
-                <Item Key="CustomerUser">
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Elasticsearch::QuickSearchShow###CustomerUser" Required="0" Valid="1">
+        <Description Translatable="1">Objects to search for, how many entries and which attributs to show.</Description>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Count">5</Item>
+                <Item Key="Attributes">
+                    <Array>
+                        <Item>UserLogin</Item>
+                        <Item>UserFullName</Item>
+                        <Item>UserEmail</Item>
+                        <Item>CustomerCompanyName</Item>
+                    </Array>
+                </Item>
+                <Item Key="AttributeHeader">
                     <Hash>
-                        <Item Key="Count">5</Item>
-                        <Item Key="Attributes">
-                            <Array>
-                                <Item>UserLogin</Item>
-                                <Item>UserFullName</Item>
-                                <Item>UserEmail</Item>
-                                <Item>CustomerCompanyName</Item>
-                            </Array>
-                        </Item>
-                        <Item Key="AttributeHeader">
-                            <Hash>
-                                <Item Key="UserLogin">Login</Item>
-                                <Item Key="UserFullName">Name</Item>
-                                <Item Key="UserEmail">Email</Item>
-                                <Item Key="CustomerCompanyName">Company</Item>
-                            </Hash>
-                        </Item>
+                        <Item Key="UserLogin">Login</Item>
+                        <Item Key="UserFullName">Name</Item>
+                        <Item Key="UserEmail">Email</Item>
+                        <Item Key="CustomerCompanyName">Company</Item>
                     </Hash>
                 </Item>
-             </Hash>
+            </Hash>
         </Value>
     </Setting>
     <Setting Name="Frontend::Module###AgentElasticsearchQuickResult" Required="0" Valid="1">

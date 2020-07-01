@@ -20,6 +20,7 @@
         <input type="hidden" name="Subaction" value="Redirect"/>
 
 [% IF Data.Tickets %]
+        <h3>[% Translate("Tickets") | html  %]</h3>
         <table class="TableSmall NoCellspacing">
             <thead>
                 <tr>
@@ -45,6 +46,7 @@
 [% END %]
 
 [% IF Data.Companies %]
+        <h3>[% Translate("Customers") | html  %]</h3>
         <table class="TableSmall NoCellspacing">
             <thead>
                 <tr>
@@ -70,6 +72,7 @@
 [% END %]
 
 [% IF Data.CustomerUsers %]
+        <h3>[% Translate("Customer Users") | html  %]</h3>
         <table class="TableSmall NoCellspacing">
             <thead>
                 <tr>
@@ -93,5 +96,32 @@
             </tbody>
         </table>
 [% END %]
+
+[% IF Data.ConfigItems %]
+        <h3>[% Translate("ConfigItems") | html  %]</h3>
+        <table class="TableSmall NoCellspacing">
+            <thead>
+                <tr>
+[% RenderBlockStart("ConfigItemHeader") %]
+                    <th class="OverviewHeader">
+                        <p name="OverviewControl"  title="[% Translate(Data.Header) | html  %]">[% Translate(Data.Header) | html  %]</p>
+                    </th>
+[% RenderBlockEnd("ConfigItemHeader") %]
+                </tr>
+            </thead>
+            <tbody>
+[% RenderBlockStart("RecordConfigItem") %]
+                <tr class="MasterAction">
+[% RenderBlockStart("ConfigItemEntry") %]
+                    <td>
+                        <a href="[% Env("Baselink") %]Action=AgentITSMConfigItemZoom;ConfigItemID=[% Data.ConfigItemID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.Entry | html %]</a>
+                    </td>
+[% RenderBlockEnd("ConfigItemEntry") %]
+                </tr>
+[% RenderBlockEnd("RecordConfigItem") %]
+            </tbody>
+        </table>
+[% END %]
+
     </form>
 </div>

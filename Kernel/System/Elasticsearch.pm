@@ -472,10 +472,10 @@ sub TicketSearch {
 sub CustomerCompanySearch {
     my ( $Self, %Param ) = @_;
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $ResultType   = $Param{Result}  || 'ARRAY';
-    my $Limit        = $Param{Limit}   || 10000;
+    my $ResultType   = $Param{Result} || 'ARRAY';
+    my $Limit        = $Param{Limit}  || 10000;
 
-    my ( @Musts, @Filters ) ;
+    my ( @Musts, @Filters );
     if ( defined $Param{Fulltext} ) {
 
         my $FulltextFields = $ConfigObject->Get('Elasticsearch::CustomerCompanySearchFields');
@@ -487,6 +487,7 @@ sub CustomerCompanySearch {
             },
         };
     }
+
     # the return usually will be CustomerID, but it can be different for custom backends
     my $Return = 'CustomerCompanyKey';
 
@@ -515,10 +516,10 @@ sub CustomerCompanySearch {
 sub CustomerUserSearch {
     my ( $Self, %Param ) = @_;
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $ResultType   = $Param{Result}  || 'ARRAY';
-    my $Limit        = $Param{Limit}   || 10000;
+    my $ResultType   = $Param{Result} || 'ARRAY';
+    my $Limit        = $Param{Limit}  || 10000;
 
-    my ( @Musts, @Filters ) ;
+    my ( @Musts, @Filters );
     if ( defined $Param{Fulltext} ) {
 
         my $FulltextFields = $ConfigObject->Get('Elasticsearch::CustomerUserSearchFields');
@@ -530,6 +531,7 @@ sub CustomerUserSearch {
             },
         };
     }
+
     # the return usually will be UserLogin, but it can be different for custom backends
     my $Return = ( $ResultType eq 'HASH' ) ? [qw(CustomerKey UserFullname)] : 'CustomerKey';
 
@@ -554,6 +556,119 @@ sub CustomerUserSearch {
     elsif ( $ResultType eq 'COUNT' ) {
         return scalar @{ $Result->{Data} };
     }
+}
+
+=head2 ConfigItemSearch()
+
+Performs a config item search via Elasticsearch.
+
+    $ESObject->ConfigItemSearch(
+        Fulltext => $String,
+        Limit    => 20,     # optional
+        Result   => ARRAY,  # optional, ARRAY (default) | FULL
+
+    );
+
+=cut
+
+sub ConfigItemSearch {
+    my ( $Self, %Param ) = @_;
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ResultType   = $Param{Result} || 'ARRAY';
+    my $Limit        = $Param{Limit}  || 10000;
+
+    # check required params
+    for my $Needed ( qw/UserID Fulltext/ ) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    my ( @Musts, @Filters );
+
+    # get general catalog object
+    my $GeneralCatalogObject = $Kernel::OM->Get('Kernel::System::GeneralCatalog');
+
+    # get class list
+    my $ClassList = $GeneralCatalogObject->ItemList(
+        Class => 'ITSM::ConfigItem::Class',
+    );
+
+    # get config item object
+    my $ConfigItemObject = $Kernel::OM->Get('Kernel::System::ITSMConfigItem');
+
+    # check for access rights on the classes
+    for my $ClassID ( sort keys %{$ClassList} ) {
+        my $HasAccess = $ConfigItemObject->Permission(
+            Type    => 'ro',
+            Scope   => 'Class',
+            ClassID => $ClassID,
+            UserID  => $Param{UserID},
+        );
+
+        delete $ClassList->{$ClassID} if !$HasAccess;
+    }
+
+    # set up class filter corresponding to the access rights    
+    push @Filters, {
+        bool => {
+            filter => [
+                {
+                    terms => {
+                        ClassID => [ keys %{$ClassList} ],
+                    },
+                },
+            ],
+        },
+    };
+
+    if ( defined $Param{Fulltext} ) {
+
+        my $FulltextFields = $ConfigObject->Get('Elasticsearch::ConfigItemSearchFields');
+        my @SearchFields = (
+            @{ $FulltextFields->{Basic} },
+            @{ $FulltextFields->{XML} },
+        );
+
+        if ( $FulltextFields->{Attachments} ) {
+            push @SearchFields, ('Attachments.Content', 'Attachments.Filename');
+        }
+
+        push @Musts, {
+            query_string => {
+                fields => \@SearchFields,
+                query  => "*$Param{Fulltext}*",
+            },
+        };
+    }
+
+    # define the return type
+    my $Return = ( $ResultType eq 'FULL' ) ? '' : 'ConfigItemID';
+
+    my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'Search',
+        Asynchronous => 0,
+        Data         => {
+            IndexName => 'configitem',
+            Must      => \@Musts,
+            Filter    => \@Filters,
+            Limit     => $Limit,
+            Return    => $Return,
+        }
+    );
+
+    if ( $ResultType eq 'FULL' ) {
+        return ( map { { $_->{ConfigItemID} => $_ } } @{ $Result->{Data} } );
+    }
+    else {
+        return ( map { $_->{ConfigItemID} } @{ $Result->{Data} } );
+    }
+
 }
 
 =head2 TicketCreate()
@@ -674,6 +789,85 @@ sub CustomerUserAdd {
     );
 
     return $Result->{Success};
+
+}
+
+=head2 ConfigItemCreate()
+
+Explicitly creates a config item in the Elasticsearch database. Happens mostly event based in a productive system.
+
+    $ESObject->ConfigItemCreate(
+        ConfigItemID => $ConfigItemID,
+    );
+
+=cut
+
+sub ConfigItemCreate {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw/ConfigItemID/) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    my $RequesterObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
+
+    # create the config item
+    my $Result = $RequesterObject->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'ConfigItemManagement',
+        Asynchronous => 0,
+        Data         => {
+            Event        => 'ConfigItemCreate',
+            ConfigItemID => $Param{ConfigItemID},
+        }
+    );
+    return if !$Result->{Success};
+
+    # update the version
+    $Result = $RequesterObject->Run(
+        WebserviceID => $Self->{WebserviceID},
+        Invoker      => 'ConfigItemManagement',
+        Asynchronous => 0,
+        Data         => {
+            Event        => 'VersionCreate',
+            ConfigItemID => $Param{ConfigItemID},
+        }
+    );
+
+    # update the attachments
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ConfigItemSearchFields')->{'Attachments'} ) {
+        my $ConfigItemObject = $Kernel::OM->Get('Kernel::System::ITSMConfigItem');
+
+        my @Attachments = $ConfigItemObject->ConfigItemAttachmentList(
+            ConfigItemID => $Param{ConfigItemID},
+        );
+
+        for my $AttachmentName ( @Attachments ) {
+            my $Attachment = $ConfigItemObject->ConfigItemAttachmentGet(
+                ConfigItemID => $Param{ConfigItemID},
+                Filename     => $AttachmentName,
+            );
+
+            $Result = $RequesterObject->Run(
+                WebserviceID => $Self->{WebserviceID},
+                Invoker      => 'ConfigItemManagement',
+                Asynchronous => 0,
+                Data         => {
+                    %{$Attachment},
+                    Event        => 'AttachmentAddPost',
+                    ConfigItemID => $Param{ConfigItemID},
+                }
+            );
+        }
+    }
+    
+    return 1;
 
 }
 

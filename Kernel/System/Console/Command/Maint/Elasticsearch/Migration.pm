@@ -33,6 +33,7 @@ our @ObjectDependencies = (
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
+    'Kernel::System::Package',
 );
 
 sub Configure {
@@ -42,10 +43,10 @@ sub Configure {
     $Self->AddOption(
         Name => 'target',
         Description =>
-            "Specify which objects will be migrated. t: Tickets; u: CustomerUsers; c: CustomerCompanies; If not specified, 'tuc' (all three) will be handled.",
+            "Specify which objects will be migrated. t: Tickets; u: CustomerUsers; c: CustomerCompanies; i: ITSMConfigItems; If not specified, 'tuci' (all four) will be handled.",
         Required   => 0,
         HasValue   => 1,
-        ValueRegex => qr/^[tuc]+$/smx,
+        ValueRegex => qr/^[tuci]+$/smx,
     );
     $Self->AddOption(
         Name        => 'micro-sleep',
@@ -104,7 +105,7 @@ sub Run {
         return 0;
     }
 
-    my $Targets    = $Self->GetOption('target') || 'tuc';
+    my $Targets    = $Self->GetOption('target') || 'tuci';
     my $MicroSleep = $Self->GetOption('micro-sleep');
 
     if ( $Targets =~ /c/ ) {
@@ -127,6 +128,15 @@ sub Run {
 
     if ( $Targets =~ /t/ ) {
         $Self->MigrateTickets(
+            ESObject  => $ESObject,
+            NShards   => $Config->{NS},
+            NReplicas => $Config->{NR},
+            Sleep     => $MicroSleep,
+        );
+    }
+
+    if ( $Targets =~ /i/ ) {
+        $Self->MigrateConfigItems(
             ESObject  => $ESObject,
             NShards   => $Config->{NS},
             NReplicas => $Config->{NR},
@@ -468,6 +478,123 @@ sub MigrateTickets {
     }
     else {
         $Self->Print("<green>Ticket transfer complete.</green>\n");
+    }
+
+    return 1;
+
+}
+
+sub MigrateConfigItems {
+    my ( $Self, %Param ) = @_;
+
+    # check whether ITSMConfigurationManagment is installed
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+    my $IsInstalled = $PackageObject->PackageIsInstalled(
+        Name   => 'ITSMConfigurationManagement',
+    );
+    if ( !$IsInstalled ) {
+        $Self->Print("<green>Skipping ITSMConfigItems (ITSMConfigurationManagment not installed)...</green>\n");
+        return 1;
+    }
+
+    my $GeneralCatalogObject = $Kernel::OM->Get('Kernel::System::GeneralCatalog');
+    my $ConfigItemObject = $Kernel::OM->Get('Kernel::System::ITSMConfigItem');
+
+    my $ClassList = $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemList(
+        Class => 'ITSM::ConfigItem::Class',
+    );
+
+    my $ExcludedClasses = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ExcludedCIClasses');
+    $ExcludedClasses = { map { $_ => 1 } @{$ExcludedClasses} };
+
+    my @ConfigItems;
+    CLASS:
+    for my $Class ( keys %{ $ClassList } ) {
+        next CLASS if $ExcludedClasses->{$Class};
+
+        my $ConfigItemListRef = $ConfigItemObject->ConfigItemResultList(
+            ClassID => $Class,
+        );
+        push @ConfigItems, ( map { $_->{ConfigItemID} } @{$ConfigItemListRef} );
+    }
+
+    my %IndexName = (
+        index => 'configitem',
+    );
+    my $Success = $Param{ESObject}->DropIndex(
+        IndexName => \%IndexName,
+    );
+    if ( !$Success ) {
+        $Self->Print(
+            "<yellow>The previous error messages are likely the result of trying to drop a nonexistent index and can then be ignored.</yellow>\n"
+        );
+    }
+
+    my %Request = (
+        settings => {
+            index => {
+                number_of_shards   => $Param{NShards},
+                number_of_replicas => $Param{NReplicas},
+            },
+            'index.mapping.total_fields.limit' => 2000,
+        },
+        mappings => {
+            properties => {
+                ConfigItemID => {
+                    type => 'integer',
+                },
+                ClassID => {
+                    type => 'integer',
+                },
+                CurDeplStateID => {
+                    type => 'integer',
+                },
+            }
+        },
+    );
+
+    $Success = $Param{ESObject}->CreateIndex(
+        IndexName => \%IndexName,
+        Request   => \%Request,
+    );
+
+    if ($Success) {
+        $Self->Print("<green>ConfigItem index created.</green>\n");
+    }
+    else {
+        $Self->Print("<red>ConfigItem index could not be created!</red>\n");
+        return 0;
+    }
+
+    my $Count   = 0;
+    my $CICount = scalar( @ConfigItems );
+
+    my $Errors = 0;
+    for my $ConfigItemID ( @ConfigItems ) {
+
+        $Count++;
+
+        # create the ticket
+        if ( !$Param{ESObject}->ConfigItemCreate( ConfigItemID => $ConfigItemID ) ) {
+            $Errors++;
+        }
+
+        # show progress and potentially sleep
+        if ( $Count % 1000 == 0 ) {
+            my $Percent = int( $Count / ( $CICount / 100 ) );
+            $Self->Print(
+                "<yellow>$Count</yellow> of <yellow>$CICount</yellow> processed (<yellow>$Percent %</yellow> done).\n"
+            );
+        }
+
+        Time::HiRes::usleep( $Param{Sleep} ) if $Param{Sleep};
+    }
+
+    if ($Errors) {
+        $Self->Print("<yellow>CustomerCompany transfer complete. $Errors error(s) occured!</yellow>\n");
+    }
+    else {
+        $Self->Print("<green>CustomerCompany transfer complete.</green>\n");
     }
 
     return 1;
