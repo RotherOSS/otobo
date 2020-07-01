@@ -44,9 +44,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: it@otobo.de\n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-06-25 17:01+0000\n"
+"PO-Revision-Date: 2020-07-01 12:03+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/>"
 "\n"
@@ -1407,7 +1407,7 @@ msgstr "Kunden-Gruppen-Zuordnungen verwalten"
 
 #. Template: AdminCustomerGroup
 msgid "Notice"
-msgstr "Bemerkung"
+msgstr "Hinweis"
 
 #. Template: AdminCustomerGroup
 msgid "This feature is disabled!"
@@ -1581,7 +1581,7 @@ msgstr "Für diese E-Mail-Adresse ist die MX-Prüfung fehlgeschlagen."
 #. Template: AdminCustomerUser
 msgid "DNS problem, please check your configuration and the error log."
 msgstr ""
-"DNS-Problem, bitte prüfen Sie ihre Konfiguration und das Fehlerprotokoll."
+"DNS-Problem, bitte prüfen Sie Ihre Konfiguration und das Fehlerprotokoll."
 
 #. Template: AdminCustomerUser
 msgid "The syntax of this email address is incorrect."
@@ -2787,7 +2787,7 @@ msgstr "Allgemeine Optionen"
 msgid ""
 "The name can be used to distinguish different error handling configurations."
 msgstr ""
-"Der Name kann dazu genutzt werden, um unterschiedliche Konfigurationen zur "
+"Der Name kann verwendet werden, um unterschiedliche Konfigurationen zur "
 "Fehlerbehandlung voneinander zu unterscheiden."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
@@ -2796,14 +2796,14 @@ msgstr "Bitte geben Sie einen eindeutigen Namen für diesen Web-Service an."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error handling module backend"
-msgstr "Fehlerbehandlungs-Modul-Backend"
+msgstr "Fehlerbehandlungs-Backend"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "This OTOBO error handling backend module will be called internally to process "
 "the error handling mechanism."
 msgstr ""
-"Das OTOBO Fehlerbehandlungs-Modul-Backend wird intern aufgerufen um die "
+"Das OTOBO Fehlerbehandlungs-Backend wird intern aufgerufen, um die "
 "Fehlerbehandlung auszuführen."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
@@ -2831,7 +2831,7 @@ msgstr "Operation-Filter"
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected operations."
 msgstr ""
-"Ausführung des Fehlerbehandlungs-Moduls nur für die ausgewählten Operations."
+"Ausführung des Fehlerbehandlungs-Moduls nur für die ausgewählten Operationen."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
@@ -2840,7 +2840,7 @@ msgid ""
 "filter."
 msgstr ""
 "Hinweis: Für Fehler, welche beim Empfangen der eingehenden Anfragedaten "
-"auftreten ist die Operation unbestimmt. Filter für diese Verarbeitungsphase "
+"auftreten, ist die Operation unbestimmt. Filter für diese Verarbeitungsphase "
 "sollten keinen Operation-Filter nutzen."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
@@ -2869,8 +2869,8 @@ msgid ""
 "Error message subject and data (as seen in the debugger error entry) will "
 "considered for a match."
 msgstr ""
-"Titel und Inhalt der Fehlermeldung (wie im entsprechenden Debugger-Eintrag "
-"ersichtlich) werden auf Übereinstimmungen geprüft."
+"Titel und Inhalt der Fehlermeldung (wie im entsprechenden Debugger-Fehler-"
+"Eintrag ersichtlich) werden auf Übereinstimmungen geprüft."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
@@ -2882,14 +2882,14 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
-msgstr "Filter für Verarbeitungsphasen"
+msgstr "Filter für Fehler-Verarbeitungsphasen"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Only execute error handling module on errors that occur during specific "
 "processing stages."
 msgstr ""
-"Ausführung des Fehlerbehandlungs-Moduls nur für die ausgewählten "
+"Ausführen des Fehlerbehandlungs-Moduls nur für die ausgewählten "
 "Verarbeitungsphasen."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
@@ -2957,9 +2957,8 @@ msgid ""
 "Default behavior of GenericInterface web services is to send each request "
 "exactly once and not to reschedule after errors."
 msgstr ""
-"Das standardmäßige Verhalten von GenericInterface Web-Services ist es, jede "
-"Anfrage nur genau einmal zu versenden und diese nach dem Auftreten von "
-"Fehlern nicht neu einzuplanen."
+"Standardmäßig versenden GenericInterface Web-Services jede Anfrage nur genau "
+"einmal und planen diese nach dem Auftreten von Fehlern nicht erneut ein."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2980,8 +2979,8 @@ msgid ""
 "Retry options are applied when requests cause error handling module "
 "execution (based on processing options)."
 msgstr ""
-"Wiederholungsoptionen werden angewendet, wenn Anfragen die Ausführung von "
-"Fehlerbehandlungs-Modulen verursachen (basierend auf Verarbeitungsoptionen)."
+"Wiederholungsoptionen werden angewendet, wenn Anfragen zur Ausführung des "
+"Fehlerbehandlungs-Moduls führen (basiert auf Verarbeitungsoptionen)."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Schedule retry"
@@ -3006,9 +3005,9 @@ msgid ""
 "Note: This and all further retry intervals are based on the error handling "
 "module execution time for the initial request."
 msgstr ""
-"Hinweis: Der Abstand für diese sowie alle weiteren Wiederholungen wird "
-"basierend auf der Ausführungszeit des Fehlerbehandlungs-Moduls für die "
-"initiale Anfrage berechnet."
+"Hinweis: Das Intervall für diese sowie alle weiteren Wiederholungen wird auf "
+"Basis der Ausführungszeit des Fehlerbehandlungs-Moduls für die initiale "
+"Anfrage berechnet."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Factor for further retries"
@@ -3019,8 +3018,8 @@ msgid ""
 "If a request returns an error even after a first retry, define if subsequent "
 "retries are triggered using the same interval or in increasing intervals."
 msgstr ""
-"Geben Sie an, ob weitere Wiederholungen mit dem selben Intervall oder in "
-"aufsteigenden Abständen geplant werden sollen, sofern eine Anfrage nach der "
+"Geben Sie an, ob weitere Wiederholungen mit demselben Intervall oder in "
+"wachsenden Abständen geplant werden sollen, sofern eine Anfrage bei der "
 "ersten Wiederholung noch fehlerhaft ist."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
@@ -3116,9 +3115,9 @@ msgid ""
 "discarded (based on the error handling module execution time for the initial "
 "request)."
 msgstr ""
-"Maximaler Zeitraum für Wiederholungen von fehlschlagenden Anfragen bevor "
-"diese verworfen werden (basierend auf der Ausführungszeit des "
-"Fehlerbehandlungs-Moduls für die initiale Anfrage)."
+"Maximaler Zeitraum für die Wiederholung fehlschlagener Anfragen bevor diese "
+"verworfen werden (basierend auf der Ausführungszeit des Fehlerbehandlungs-"
+"Moduls für die initiale Anfrage)."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -3490,8 +3489,8 @@ msgid ""
 "<DataSetName>' (see debugger output of actual requests for details)."
 msgstr ""
 "Diese Datensätze werden in die Datenstruktur unter '/DataInclude/"
-"<DatensatzName>' dargestellt (in der Ausgabe des Debugger sehen Sie Details "
-"der tatsächlichen Struktur)."
+"<DatensatzName>' dargestellt (Details in der Debugger-Ausgabe zu "
+"tatsächlichen Anfragen)."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data key regex filters (before mapping)"
@@ -5012,7 +5011,8 @@ msgid ""
 "Please check the configuration using the button below."
 msgstr ""
 "PGP-Unterstützung ist aktiviert, aber die Konfiguration ist fehlerhaft. "
-"Bitte überprüfen Sie die Konfiguration mit der untenstehenden Schaltfläche."
+"Bitte überprüfen Sie die Konfiguration mit einem Klick auf die Schaltfläche "
+"unten."
 
 #. Template: AdminPGP
 msgid "Configure it here!"
@@ -5169,10 +5169,10 @@ msgid ""
 "currently only accepts packages up to %s MB). Please adapt the "
 "max_allowed_packet setting of your database in order to avoid errors."
 msgstr ""
-"Stellen Sie sicher, dass Ihre Datenbank Pakete über %s MB akzeptiert "
-"(Derzeit werden nur Pakete bis %s MB akzeptiert). Bitte passen Sie die "
-"Einstellung max_allowed_packet Ihrer Datenbank-Konfiguration an, um Fehler "
-"zu vermeiden."
+"Passen Sie Ihre Datenbank so an, dass Pakete über %s MB akzeptiert werden "
+"(aktuell: Pakete bis %s MB). Bitte passen Sie die Einstellung "
+"\"max_allowed_packet\" Ihrer Datenbank-Konfiguration an, um Fehler zu "
+"vermeiden."
 
 #. Template: AdminPackageManager
 msgid "Install"
@@ -6806,8 +6806,8 @@ msgid ""
 "Please check the configuration using the button below."
 msgstr ""
 "S/MIME-Unterstützung ist zwar aktiviert, jedoch fehlerhaft konfiguriert. "
-"Bitte prüfen Sie die Konfiguration durch Klicken der nachfolgenden "
-"Schaltfläche."
+"Bitte überprüfen Sie die Konfiguration mit einem Klick auf die Schaltfläche "
+"unten."
 
 #. Template: AdminSMIME
 msgid "Check SMIME configuration"
@@ -8459,8 +8459,8 @@ msgid ""
 "The configuration for this statistic widget contains errors, please review "
 "your settings."
 msgstr ""
-"Die Konfiguration für dieses Statistik-Widget enthält Fehler, bitte prüfen "
-"Sie ihre Einstellungen."
+"Die Konfiguration für dieses Statistik-Widget enthält Fehler, bitte "
+"überprüfen Sie Ihre Einstellungen."
 
 #. Template: AgentDashboardStats
 msgid "Download as SVG file"
@@ -8688,9 +8688,7 @@ msgstr "Einstellung speichern"
 
 #. Template: AgentPreferences
 msgid "Did you know? You can help translating OTOBO at %s."
-msgstr ""
-"Haben Sie gewusst, dass Sie unter %s bei der Übersetzung von OTOBO helfen "
-"können?"
+msgstr "Schon gewusst? Unter %s können Sie zur Übersetzung von OTOBO beitragen."
 
 #. Template: SettingsList
 msgid "Reset to default"
@@ -10428,7 +10426,6 @@ msgid "Port"
 msgstr "Port"
 
 #. Template: InstallerFinish
-#, fuzzy
 msgid ""
 "To be able to use OTOBO you have to enter the following line in your command "
 "line (Terminal/Shell) as root."
@@ -11348,8 +11345,8 @@ msgid ""
 "ACLs could not be Imported due to a unknown error, please check OTOBO logs "
 "for more information"
 msgstr ""
-"ACLs konnten aufgrund eines unbekannten Fehlers nicht importiert werden, "
-"bitte prüfen Sie das Systemprotokoll für mehr Information"
+"Die ACLs konnten wegen eines unbekannten Fehlers nicht importiert werden. "
+"Weitere Informationen finden Sie in den OTOBO Logdateien"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "The following ACLs have been added successfully: %s"
@@ -11365,7 +11362,7 @@ msgid ""
 "log file for more information."
 msgstr ""
 "Beim Hinzufügen/Aktualisieren der folgenden ACLs sind Fehler aufgetreten: "
-"%s. Bitte prüfen Sie das Systemprotokoll für mehr Informationen."
+"%s. Weitere Informationen finden Sie in der Protokolldatei."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "This field is required"
@@ -11373,7 +11370,7 @@ msgstr "Dieses Feld wird benötigt"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error creating the ACL"
-msgstr "Es gab einen Fehler beim Erstellen der ACL"
+msgstr "Beim Erstellen der ACL ist ein Fehler aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Need ACLID!"
@@ -11393,7 +11390,7 @@ msgstr "Beim Setzen des Synchronisations-Status ist ein Fehler aufgetreten."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error synchronizing the ACLs."
-msgstr "Es gab einen Fehler beim Synchronisieren der ACLs."
+msgstr "Beim Synchronisieren der ACLs ist ein Fehler aufgetreten."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "ACL %s could not be deleted"
@@ -11401,7 +11398,8 @@ msgstr "ACL %s konnte nicht gelöscht werden"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error getting data for ACL with ID %s"
-msgstr "Es gab einen Fehler beim Holen der Daten für die ACL mit der ID %s"
+msgstr ""
+"Beim Ermitteln der Daten für die ACL mit der ID %s ist ein Fehler aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "%s (copy) %s"
@@ -11546,9 +11544,8 @@ msgid ""
 "Notifications could not be Imported due to a unknown error, please check "
 "OTOBO logs for more information"
 msgstr ""
-"Benachrichtigungen konnten aufgrund eines unbekannten Fehlers nicht "
-"importiert werden. Bitte prüfen Sie das Systemprotokoll für mehr "
-"Informationen"
+"Benachrichtigungen konnten wegen eines unbekannten Fehlers nicht importiert "
+"werden. Weitere Informationen in den OTOBO Logdateien"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "The following Notifications have been added successfully: %s"
@@ -11564,7 +11561,7 @@ msgid ""
 "check the log file for more information."
 msgstr ""
 "Beim Hinzufügen/Aktualisieren der folgenden Benachrichtigungen sind Fehler "
-"aufgetreten: %s. Bitte prüfen Sie das Systemprotokoll für mehr Informationen."
+"aufgetreten: %s. Weitere Informationen finden Sie in der Log-Datei."
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Notification updated!"
@@ -11670,7 +11667,7 @@ msgstr "Aufzeichnen"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Debug"
-msgstr "Fehlersuche"
+msgstr "Debug"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Info"
@@ -11809,8 +11806,8 @@ msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for "
 "more details."
 msgstr ""
-"Konnte die Reihenfolge der Dynamischen Felder nicht zurücksetzen, bitte "
-"prüfen Sie das Systemprotokoll für mehr Informationen."
+"Konnte die Reihenfolge der Dynamischen Felder nicht zurücksetzen. Weitere "
+"Informationen im Fehlerprotokoll."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Undefined subaction."
@@ -12439,7 +12436,7 @@ msgstr "Alle Agenten mit Schreibberechtigung für das Ticket"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to the ticket's queue"
-msgstr "Alle Agenten, die die Queue des Tickets abonniert haben"
+msgstr "Alle Agenten, welche die Queue des Tickets abonniert haben"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to the ticket's service"
@@ -12703,8 +12700,8 @@ msgstr "Beim Erstellen des Prozesses ist ein Fehler aufgetreten"
 msgid ""
 "There was an error setting the entity sync status for Process entity: %s"
 msgstr ""
-"Beim Setzen des Synchronisations-Status für Prozess %s ist ein Fehler "
-"aufgetreten"
+"Beim Setzen des Synchronisations-Status für Prozess-Eintrag %s ist ein "
+"Fehler aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not get data for ProcessID %s"
@@ -12720,7 +12717,7 @@ msgstr "Prozess %s konnte nicht gelöscht werden"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error synchronizing the processes."
-msgstr "Beim Synchronisieren des Prozesses ist ein Fehler aufgetreten."
+msgstr "Beim Synchronisieren der Prozesse ist ein Fehler aufgetreten."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The %s:%s is still in use"
@@ -12737,7 +12734,8 @@ msgstr "Konnte %s:%s nicht löschen"
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error setting the entity sync status for %s entity: %s"
 msgstr ""
-"Beim Setzen des Synchronisations-Status für %s %s ist ein Fehler aufgetreten"
+"Beim Setzen des Synchronisations-Status für %s Einheit %s ist ein Fehler "
+"aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not get %s"
@@ -12802,7 +12800,9 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Error while saving the Activity to the database!"
-msgstr "Während des Speicherns der Aktivität ist ein Fehler aufgetreten!"
+msgstr ""
+"Während des Speicherns der Aktivität in der Datenbank ist ein Fehler "
+"aufgetreten!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "This subaction is not valid"
@@ -12882,7 +12882,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error creating the Transition"
-msgstr "Beim Erstellen der Transition ist ein Fehler aufgetreten"
+msgstr "Beim Erstellen des Übergangs ist ein Fehler aufgetreten"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid ""
@@ -13138,9 +13138,8 @@ msgid ""
 "System Configuration could not be imported due to an unknown error, please "
 "check OTOBO logs for more information."
 msgstr ""
-"Systemkonfiguration konnte nicht importiert werden, aufgrund eines "
-"unbekannten Fehlers. Bitte überprüfe Sie das Systemprotokoll für "
-"weitergehende Informationen."
+"Systemkonfiguration konnte wegen eines unbekannten Fehlers nicht importiert "
+"werden. Weitere Informationen finden Sie in den OTOBO Log-Dateien."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Category Search"
@@ -14402,7 +14401,7 @@ msgid ""
 "Error: the file could not be deleted properly. Please contact your "
 "administrator (missing FileID)."
 msgstr ""
-"Fehler: die Datei konnte nicht korrekt gelöscht werden. Bitte kontaktieren "
+"Fehler: Die Datei konnte nicht korrekt gelöscht werden. Bitte kontaktieren "
 "Sie Ihren Administrator (fehlende FileID)."
 
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
@@ -14436,8 +14435,7 @@ msgstr "Prüfen Sie die Sysconfig-Einstellungen für %s::TicketTypeDefault."
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid ""
 "You don't have sufficient permissions for ticket creation in default queue."
-msgstr ""
-"Sie haben keine ausreichenden Rechte zur Ticket-Anlage in der Default-Queue"
+msgstr "Sie sind nicht berechtigt, Tickets in der Standard-Queue anzulegen."
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
@@ -14580,7 +14578,7 @@ msgstr "Datenbank erstellen"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTOBO - Error"
-msgstr "OTOBO-Installation - Fehler"
+msgstr "OTOBO-Installation – Fehler"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "File \"%s/%s.xml\" not found!"
@@ -14634,9 +14632,9 @@ msgid ""
 "max_allowed_packet setting of your database in order to avoid errors."
 msgstr ""
 "Fehler: Bitte stellen Sie sicher, dass Ihre Datenbank Pakete größer als %s "
-"MB akzeptiert (derzeit werden nur Pakete bis zu einer Größe von %s MB "
-"akzeptiert). Bitte passen Sie die Einstellung max_allowed_packet Ihrer "
-"Datenbank an, um Fehler zu vermeiden."
+"MB akzeptiert (aktuell: Pakete bis zu einer Größe von %s MB). Bitte passen "
+"Sie die Einstellung max_allowed_packet Ihrer Datenbank an, um Fehler zu "
+"vermeiden."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
@@ -14644,7 +14642,7 @@ msgid ""
 "least %s MB (current: %s MB, recommended: %s MB). For more information, "
 "please have a look at %s."
 msgstr ""
-"Fehler: Bitte erhöhen Sie den Wert für innodb_log_file_size in Ihrer "
+"Fehler: Bitte setzen Sie den Wert für innodb_log_file_size in Ihrer "
 "Datenbank-Konfiguration auf mindestens %s MB (aktuell: %s MB, empfohlen: %s "
 "MB). Mehr Informationen finden Sie unter %s."
 
@@ -14670,7 +14668,7 @@ msgstr "Ungültige URL!"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "There was an error exporting the calendar!"
-msgstr "Es ist ein Fehler beim Exportieren des Kalenders aufgetreten!"
+msgstr "Beim Exportieren des Kalenders ist ein Fehler aufgetreten!"
 
 #. Perl Module: Kernel/Modules/PublicRepository.pm
 msgid "Need config Package::RepositoryAccessRegExp"
@@ -16030,7 +16028,7 @@ msgstr "Prüfung Tabellenexistenz"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
 msgid "Internal Error: Could not open file."
-msgstr "Interner Fehler: Konnte datei nicht öffnen."
+msgstr "Interner Fehler: Konnte Datei nicht öffnen."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
 msgid "Table Check"
@@ -16358,7 +16356,7 @@ msgstr "Dauerhafte Verbindungsfehler"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "intermittent connection errors"
-msgstr "Unregelmäßige Verbindungsfehler"
+msgstr "Vorübergehende Verbindungsfehler"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ConfigSettings.pm
 msgid "Config Settings"
@@ -17496,8 +17494,8 @@ msgid ""
 "There was an error deleting the attachment. Please check the logs for more "
 "information."
 msgstr ""
-"Es ist ein Fehler beim Entfernen des Anhangs aufgetreten. Bitte prüfen Sie "
-"die Protokolle für mehr Informationen."
+"Beim Löschen des Anhangs ist ein Fehler aufgetreten. Weitere Informationen "
+"in den Log-Dateien."
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid "Attachment was deleted successfully."
@@ -17766,7 +17764,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Error during AJAX communication"
-msgstr "Fehler während AJAX-Kommunikation"
+msgstr "Fehler während der AJAX-Kommunikation"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid ""
@@ -17931,8 +17929,8 @@ msgid ""
 "There was an error. Please save all settings you are editing and check the "
 "logs for more information."
 msgstr ""
-"Es sind Fehler aufgetreten. Bitte speichern Sie alle Einstellungen, die Sie "
-"derzeit bearbeiten und prüfen Sie die Protokolle für mehr Informationen."
+"Ein Fehler ist aufgetreten. Bitte speichern Sie alle Einstellungen, die Sie "
+"derzeit bearbeiten und prüfen Sie die Lod-Dateien auf weitere Informationen."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Reset option is required!"
@@ -18262,12 +18260,12 @@ msgstr ""
 #. JS File: Core.Exception
 msgid "An error occurred! Please check the browser error log for more details!"
 msgstr ""
-"Ein Fehler ist aufgetreten! Bitte prüfen Sie das Protokoll Ihres Webbrowsers "
-"für mehr Details!"
+"Ein Fehler ist aufgetreten! Weitere Details entnehmen Sie bitte dem "
+"Fehlerprotokoll Ihres Webbrowsers!"
 
 #. JS File: Core.Form.Validate
 msgid "One or more errors occurred!"
-msgstr "Ein oder mehrere Fehler sind aufgetreten!"
+msgstr "Einer oder mehrere Fehler sind aufgetreten!"
 
 #. JS File: Core.Installer
 msgid "Mail check successful."
@@ -18276,7 +18274,8 @@ msgstr "Konfigurationsprüfung erfolgreich."
 #. JS File: Core.Installer
 msgid "Error in the mail settings. Please correct and try again."
 msgstr ""
-"Fehler in der Mail-Konfiguration. Bitte korrigieren und nochmals probieren."
+"Fehler in der E-Mail-Konfiguration. Bitte korrigieren Sie diese und "
+"versuchen Sie es erneut."
 
 #. JS File: Core.SystemConfiguration
 msgid "Open this node in a new window"
@@ -18510,12 +18509,13 @@ msgstr ""
 "\n"
 "Sehr geehrter Kunde,\n"
 "\n"
-"Leider enthält der von Ihnen verwendete Betreff keine gültige Ticketnummer, "
+"leider enthält der von Ihnen verwendete Betreff keine gültige Ticketnummer, "
+"\n"
 "so dass diese E-Mail nicht automatisch verarbeitet werden kann.\n"
 "\n"
 "Bitte erstellen Sie ein neues Ticket im Kundenbereich.\n"
 "\n"
-"Danke für Ihr Verständnis!\n"
+"Vielen Dank für Ihr Verständnis!\n"
 "\n"
 "Ihr Helpdesk-Team\n"
 
@@ -18551,7 +18551,7 @@ msgstr "(BenutzerLogin) Vorname Nachname"
 
 #. SysConfig
 msgid "(UserLogin) Lastname Firstname"
-msgstr "(UserLogin) Lastname Firstname"
+msgstr "(BenutzerLogin) Nachname Vorname"
 
 #. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
@@ -18762,7 +18762,7 @@ msgstr "Abo für Benutzer \"%s\" eingetragen."
 
 #. SysConfig
 msgid "Added system request (%s)."
-msgstr "Systemanfrage (%s) hinzugefügt"
+msgstr "Systemanfrage (%s) hinzugefügt."
 
 #. SysConfig
 msgid "Added web request from customer."
@@ -20254,10 +20254,9 @@ msgid ""
 "block. Setting CustomerUserLogin to 1 searches for tickets based on login "
 "name rather than CustomerID."
 msgstr ""
-"Kunden-Tickets (Symbol), die die geschlossenen Tickets eines Kunden als "
-"Infoblock anzeigt. Setzen Sie die Einstellung CustomerUserLogin auf 1 um "
-"Tickets auf Basis des Login-Namens zu suchen anstatt auf Basis der "
-"CustomerID."
+"Kunden-Element (Symbol), das die geschlossenen Tickets dieses Kunden als "
+"Infoblock anzeigt. Setzen Sie die Einstellung \"CustomerUserLogin\" auf 1, "
+"um Tickets auf Basis des Login-Namens statt der CustomerID zu suchen."
 
 #. SysConfig
 msgid ""
@@ -20265,9 +20264,9 @@ msgid ""
 "block. Setting CustomerUserLogin to 1 searches for tickets based on login "
 "name rather than CustomerID."
 msgstr ""
-"Kunden-Tickets (Symbol), die die offenen Tickets eines Kunden als Infoblock "
-"anzeigt. Setzen Sie die Einstellung CustomerUserLogin auf 1 um Tickets auf "
-"Basis des Login-Namens zu suchen anstatt auf Basis der CustomerID."
+"Kunden-Elememt (Symbol), das die offenen Tickets dieses Kunden als Infoblock "
+"anzeigt. Setzen Sie die Einstellung \"CustomerUserLogin\" auf 1, um Tickets "
+"auf Basis des Login-Namens statt der CustomerID zu suchen."
 
 #. SysConfig
 msgid "Customer preferences."
@@ -20590,7 +20589,7 @@ msgid ""
 "Defines a customer item, which generates a LinkedIn icon at the end of a "
 "customer info block."
 msgstr ""
-"Definiert einen Punkt, welcher ein LinedIn-Symbol am Endes der "
+"Definiert ein Kunden-Element, welches ein LinkedIn-Symbol am Endes der "
 "Kundeninformation hinzufügt."
 
 #. SysConfig
@@ -20598,15 +20597,15 @@ msgid ""
 "Defines a customer item, which generates a XING icon at the end of a "
 "customer info block."
 msgstr ""
-"Definiert einen Punkt, welcher ein XINGSymbol am Endes der Kundeninformation "
-"hinzufügt."
+"Definiert ein Kunden-Element, welches ein XING-Symbol am Endes der "
+"Kundeninformation hinzufügt."
 
 #. SysConfig
 msgid ""
 "Defines a customer item, which generates a google icon at the end of a "
 "customer info block."
 msgstr ""
-"Definiert einen Punkt, welcher ein GoogleSymbol am Endes der "
+"Definiert ein Kunden-Element, welches ein Google-Symbol am Endes der "
 "Kundeninformation hinzufügt."
 
 #. SysConfig
@@ -20614,7 +20613,7 @@ msgid ""
 "Defines a customer item, which generates a google maps icon at the end of a "
 "customer info block."
 msgstr ""
-"Definiert einen Punkt, welcher ein Google-Maps-Symbol am Endes der "
+"Definiert ein Kunden-Element, welches ein Google-Maps-Symbol am Endes der "
 "Kundeninformation hinzufügt."
 
 #. SysConfig
@@ -20770,7 +20769,8 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines all the parameters for this item in the customer preferences."
-msgstr "Definiert alle Parameter für Kunden-Einstellungen."
+msgstr ""
+"Definiert alle Parameter für dieses Element in den Kunden-Einstellungen."
 
 #. SysConfig
 msgid ""
@@ -20783,14 +20783,14 @@ msgid ""
 "'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to "
 "control)."
 msgstr ""
-"Legt alle Parameter für diesen Eintrag in den Kunden-Einstellungen fest. "
-"'PasswordRegExp' erlaubt das prüfen von Passworten gegen einen regulären "
-"Ausdruck. Legen Sie Mindestlänge für Passworte mit 'PasswordMinSize' fest. "
-"Legen Sie fest, ob das Passwort mindestens zwei Kleinbuchstaben und zwei "
-"Großbuchstaben enthalten muss, indem Sie die entsprechende Option auf '1' "
-"setzen. 'PasswordMin2Characters' legt fest, ob mindestens zwei Buchstaben-"
-"Zeichen erforderlich sind. 'PasswordNeedDigit' legt fest, ob das Passwort "
-"mindestens eine Zahl enthalten muss."
+"Legt alle Parameter für dieses Element in den Kunden-Einstellungen fest. Mit "
+"'PasswordRegExp' können Passwörter gegen einen regulären Ausdruck geprüft "
+"werden. Mit 'PasswordMinSize' definieren Sie die Mindestlänge von "
+"Passwörtern. Bestimmen Sie, ob das Passwort mindestens zwei Kleinbuchstaben "
+"und zwei Großbuchstaben enthalten muss, indem Sie die entsprechende Option "
+"auf '1' setzen. 'PasswordMin2Characters' legt fest, dass mindestens zwei "
+"Buchstaben-Zeichen erforderlich sind. 'PasswordNeedDigit' legt fest, dass "
+"das Passwort mindestens eine Ziffer enthalten muss."
 
 #. SysConfig
 msgid "Defines all the parameters for this notification transport."
@@ -21087,8 +21087,9 @@ msgid ""
 "stored in their preferences and therefore are not using two-factor "
 "authentication."
 msgstr ""
-"Steuert, ob Agenten, die die Zweifaktor-Authentifizierung nicht nutzen, sich "
-"im System einloggen dürfen."
+"Steuert, ob Agenten, die kein gemeinsames Geheimnis in ihren Einstellungen "
+"hinterlegt haben und folglich die Zweifaktor-Authentifizierung nicht nutzen, "
+"sich im System einloggen dürfen."
 
 #. SysConfig
 msgid ""
@@ -21096,8 +21097,9 @@ msgid ""
 "secret stored in their preferences and therefore are not using two-factor "
 "authentication."
 msgstr ""
-"Steuert, ob Kunden, die die Zweifaktor-Authentifizierung nicht nutzen, sich "
-"im System einloggen dürfen."
+"Steuert, ob Kunden, die kein gemeinsames Geheimnis in ihren Einstellungen "
+"hinterlegt haben und folglich die Zweifaktor-Authentifizierung nicht nutzen, "
+"sich im System einloggen dürfen."
 
 #. SysConfig
 msgid ""
@@ -22637,7 +22639,7 @@ msgid ""
 "logged to the gi_debugger_entry_content table."
 msgstr ""
 "Legt die maximale Größe von Antworten des GenericInterfaces fest, die in der "
-"gi_debugger_entry_content-Tabelle gespeichert werden (in Kilobyte)."
+"„gi_debugger_entry_content“-Tabelle gespeichert werden (in Kilobyte)."
 
 #. SysConfig
 msgid ""
@@ -23383,7 +23385,7 @@ msgid ""
 "the error screens of the application."
 msgstr ""
 "Definiert die E-Mail-Adresse des System-Administrators. Sie wird in den "
-"Fehleranzeigen des Programms angezeigt."
+"Fehlermeldungen angezeigt."
 
 #. SysConfig
 msgid ""
@@ -23672,8 +23674,8 @@ msgid ""
 "Delivers extended debugging information in the frontend in case any AJAX "
 "errors occur, if enabled."
 msgstr ""
-"Liefert erweiterte Debugging-Informationen im Frontend im Fall, dass AJAX-"
-"Fehler auftreten, wenn aktiviert."
+"Liefert im Frontend erweiterte Debugging-Informationen zu AJAX-Fehlern, wenn "
+"aktiviert."
 
 #. SysConfig
 msgid "Deploy and manage OTOBO Business Solution™."
@@ -23735,7 +23737,7 @@ msgid ""
 "Determines the next possible ticket states, for process tickets in the "
 "customer interface."
 msgstr ""
-"Bestimmt die die möglichen Folge-Ticket-Status für Prozesstickets im "
+"Bestimmt die möglichen Folge-Ticket-Status für Prozesstickets im "
 "Kundenbereich."
 
 #. SysConfig
@@ -24294,10 +24296,10 @@ msgid ""
 "template caching for production environments for it will cause a massive "
 "performance drop! This setting should only be disabled for debugging reasons!"
 msgstr ""
-"Schaltet das Caching von Templates an oder aus. Warnung: Schalten Sie auf "
-"Produktivsystemen das Template-Caching nicht ab, da hierdurch massive "
-"Performance-Beeinträchtigungen auftreten werden. Diese Einstellung sollte "
-"nur zur Fehlerbehebung abgeschaltet werden!"
+"Schaltet das Caching von Vorlagen an oder aus. Warnung: Schalten Sie das "
+"Vorlagen-Caching auf Produktivsystemen nicht ab, da dies massive Performance-"
+"Beeinträchtigungen auslösen würde. Diese Einstellung sollte nur zur "
+"Fehlerbehebung abgeschaltet werden!"
 
 #. SysConfig
 msgid "Enables or disables the debug mode over frontend interface."
@@ -24308,8 +24310,9 @@ msgid ""
 "Enables or disables the ticket watcher feature, to keep track of tickets "
 "without being the owner nor the responsible."
 msgstr ""
-"Aktiviert oder deaktiviert das Ticket beobachten-Feature, das das beobachten "
-"von Tickets erlaubt, ohne der Besitzer oder Verantwortliche zu sein."
+"Aktiviert oder deaktiviert das \"Ticket beobachten\"-Feature, das ein "
+"Beobachten von Tickets erlaubt, ohne deren Besitzer oder Verantwortlicher zu "
+"sein."
 
 #. SysConfig
 msgid ""
@@ -24333,8 +24336,8 @@ msgid ""
 "Enables ticket bulk action feature for the agent frontend to work on more "
 "than one ticket at a time."
 msgstr ""
-"Aktiviert das Stapelverarbeitungs-Feature für das Agenten-Interface, das das "
-"gleichzeitige Bearbeiten von mehreren Tickets erlaubt."
+"Aktiviert das Stapelverarbeitungs-Feature im Agentenbereich, das ein "
+"gleichzeitiges Bearbeiten mehrerer Tickets erlaubt."
 
 #. SysConfig
 msgid "Enables ticket bulk action feature only for the listed groups."
@@ -24344,8 +24347,8 @@ msgstr ""
 #. SysConfig
 msgid "Enables ticket responsible feature, to keep track of a specific ticket."
 msgstr ""
-"Aktiviert das Verantwortlicher-Feature, das das Verfolgen von Tickets "
-"erlaubt."
+"Aktiviert das \"Verantwortlicher\"-Feature, das ein Verfolgen relevanter "
+"Tickets erlaubt."
 
 #. SysConfig
 msgid "Enables ticket type feature."
@@ -24590,9 +24593,8 @@ msgid ""
 "Filter for debugging Transitions. Note: More filters can be added in the "
 "format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>."
 msgstr ""
-"Filter zum Debuggen von Transitions. Hinweis: Weitere Filter können im "
-"Format <OTOBO_TICKET_Attribute> (z. B. <OTOBO_TICKET_Priority>) hinzugefügt "
-"werden."
+"Filter zum Debuggen von Übergängen. Hinweis: Weitere Filter können im Format "
+"<OTOBO_TICKET_Attribute> (z. B. <OTOBO_TICKET_Priority>) hinzugefügt werden."
 
 #. SysConfig
 msgid "Filter incoming emails."
@@ -24834,8 +24836,7 @@ msgstr "GenericInterface Web-Service Mapping Benutzeroberfläche"
 
 #. SysConfig
 msgid "GenericInterface module registration for an error handling module."
-msgstr ""
-"Modulregistrierung für ein Fehlerbehandlungs-Modul des GenericInterface."
+msgstr "GenericInterface Modulregistrierung für ein Fehlerbehandlungs-Modul."
 
 #. SysConfig
 msgid "GenericInterface module registration for the invoker layer."
@@ -25205,7 +25206,7 @@ msgid ""
 "If \"Sendmail\" was selected as SendmailModule, the location of the sendmail "
 "binary and the needed options must be specified."
 msgstr ""
-"Wenn \"Sendmail\" als als SendmailModule konfiguriert wurde, müssen hier der "
+"Wenn \"Sendmail\" als SendmailModule konfiguriert wurde, müssen hier der "
 "Pfad zum Sendmail-binary und die benötigten Optionen hinterlegt werden."
 
 #. SysConfig
@@ -25297,20 +25298,19 @@ msgstr ""
 
 #. SysConfig
 msgid "If enabled debugging information for ACLs is logged."
-msgstr ""
-"Wenn aktiviert, werden Informationen zur Fehlerbehebung für ACLs geloggt."
+msgstr "Wenn aktiviert, werden Debugging-Informationen für ACLs geloggt."
 
 #. SysConfig
 msgid "If enabled debugging information for transitions is logged."
 msgstr ""
-"Wenn aktiviert, werden Informationen zur Fehlerbehebung für Transitions in "
+"Wenn aktiviert, werden Debugging-Informationen für Übergänge in "
 "Prozesstickets geloggt."
 
 #. SysConfig
 msgid ""
 "If enabled the daemon will redirect the standard error stream to a log file."
 msgstr ""
-"Aktivieren um die Fehler-Ausgabe des Daemons in eine Log-Datei umzuleiten."
+"Aktivieren, um die Fehler-Ausgabe des Daemons in eine Log-Datei umzuleiten."
 
 #. SysConfig
 msgid ""
@@ -25465,8 +25465,8 @@ msgid ""
 "If this setting is enabled, local modifications will not be highlighted as "
 "errors in the package manager and support data collector."
 msgstr ""
-"Wenn die Einstellung aktiv ist, werden lokale Änderungen nicht als Fehler in "
-"der Supportdaten-Analyse angezeigt."
+"Wenn die Einstellung aktiv ist, werden lokale Änderungen in der "
+"Paketverwaltung und Supportdaten-Analyse nicht als Fehler angezeigt."
 
 #. SysConfig
 msgid ""
@@ -25520,15 +25520,14 @@ msgid ""
 "\"bin/otobo.Console.pl Maint::Ticket::QueueIndexRebuild\" for initial index "
 "creation."
 msgstr ""
-"IndexAccelerator: Auswahl des Backend-Moduls für das Modul "
-"TicketViewAccelerator. „RuntimeDB“ generiert jede Queue-Ansicht  dynamisch "
-"aus der Tickettabelle (keine Performance-Probleme bis etwa 60.000 Tickets "
-"insgesamt und 6.000 offenen Tickets im System). \"StaticDB\" ist das "
-"stärkste Modul, es nutzt eine zusätzliche Tabelle für den Ticket-Index, die "
-"wie eine Übersicht funktioniert (empfohlen ab mehr als 80.000 Tickets "
-"insgesamt und 6.000 offenen Tickets im System). Verwenden Sie das Kommando "
-"\"bin/otobo.Console.pl Maint::Ticket::QueueIndexRebuild\" für den initialen "
-"Indexaufbau."
+"IndexAccelerator: Auswahl des Backend-Moduls für das „TicketViewAccelerator“-"
+"Modul. „RuntimeDB“ generiert jede Queue-Ansicht dynamisch aus der "
+"Tickettabelle (keine Performance-Probleme bis etwa 60.000 Tickets insgesamt "
+"und 6.000 offene Tickets im System). „StaticDB“ ist das stärkste Modul, es "
+"nutzt eine zusätzliche Tabelle für den Ticket-Index, die wie eine Übersicht "
+"funktioniert (empfohlen ab mehr als 80.000 Tickets insgesamt und 6.000 "
+"offenen Tickets im System). Verwenden Sie das Kommando „bin/otobo.Console.pl "
+"Maint::Ticket::QueueIndexRebuild“ für den initialen Indexaufbau."
 
 #. SysConfig
 msgid ""
@@ -26055,8 +26054,8 @@ msgid ""
 "Maximal auto email responses to own email-address a day, configurable by "
 "email address (Loop-Protection)."
 msgstr ""
-"Maximale Anzahl von automatischen E-Mail-Antworten zur eigenen E-Mailadresse "
-"pro Tag (Loop-Protection)"
+"Maximale Anzahl automatischer E-Mail-Antworten zur eigenen E-Mail-Adresse "
+"pro Tag (Loop-Protection)."
 
 #. SysConfig
 msgid ""
@@ -27076,8 +27075,8 @@ msgid ""
 "Parameters for the pages (in which the communication log entries are shown) "
 "of the communication log overview."
 msgstr ""
-"Parameter der Seiten (die die Verbindungsprotokoll-Einträge zeigen) für die "
-"Verbindungsprotokoll-Übersicht."
+"Parameter für die einzelnen Seiten der Verbindungsprotokoll-Übersicht (auf "
+"denen Einträge des Verbindungsprotokoll angezeigt werden)."
 
 #. SysConfig
 msgid ""
@@ -27961,9 +27960,9 @@ msgid ""
 "With 'debug' you get all logging messages. The order of log levels is: "
 "'debug', 'info', 'notice' and 'error'."
 msgstr ""
-"Legt die minimale Protokoll-Ebene fest. Wählen Sie \"error\" aus, werden nur "
-"Fehler protokolliert. Mit \"debug\" erhalten Sie alle Einträge. Die "
-"Reihenfolge der Ebenen ist debug, info, notice und error."
+"Legt die minimale Protokoll-Ebene fest. Wählen Sie „Fehler“ aus, werden nur "
+"Fehler protokolliert. Mit „Debug“ erhalten Sie alle Log-Einträge. Die "
+"Reihenfolge der Ebenen ist Debug, Info, Hinweis und Fehler."
 
 #. SysConfig
 msgid "Set this ticket to pending"
@@ -28133,9 +28132,9 @@ msgid ""
 "Sets the default error message for the login screen on Agent and Customer "
 "interface, it's shown when a running system maintenance period is active."
 msgstr ""
-"Legt die Standard-Fehlermeldung für den Anmelde-Bildschirm im Agenten- und "
-"Kundenbereich fest, die angezeigt wird, wenn sich das System gerade in einer "
-"Wartungsperiode befindet."
+"Legt die Standard-Fehlermeldung fest, die auf der Anmeldemaske des Agenten- "
+"und Kundenbereichs angezeigt wird, wenn sich das System gerade im "
+"Wartungsmodus befindet."
 
 #. SysConfig
 msgid "Sets the default link type of split tickets in the agent interface."
@@ -29014,15 +29013,15 @@ msgid ""
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
 msgstr ""
-"Zeigt einen Link zum Ändern des Kunden, der das Ticket eröffnet hat im "
-"Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen "
-"Link kann durch Angabe von \"Group\" als Schlüssel und Inhalten wie \"rw:"
-"group1;move_into:group2\" als Wert konfiguriert werden. Um Elemente des "
-"Ticketmenüs zu gruppieren, kann \"ClusterName\" als Schlüssel und ein "
-"beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im "
-"Benutzer interface angezeigt werden soll. Verwenden Sie \"ClusterPriority\", "
-"um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des "
-"Ticketmenüs zu steuern."
+"Zeigt in der TicketZoom-Ansicht im Agentenbereich einen Menülink zum Ändern "
+"des Kunden an, der das Ticket eröffnet hat. Über die Angabe von \"Group\" "
+"als Schlüssel und Inhalten wie \"rw:group1;move_into:group2\" als Wert kann "
+"gesteuert werden, welchen Agenten dieser Link angezeigt werden soll und "
+"welchen nicht. Um Elemente des Ticketmenüs zu gruppieren, können Sie "
+"\"ClusterName\" als Schlüssel und in \"Content\" einen beliebigen Namen als "
+"Wert verwenden, unter dem das Cluster in der Oberfläche angezeigt werden "
+"soll. Verwenden Sie \"ClusterPriority\", um die Anzeigereihenfolge der "
+"verschiedenen Cluster innerhalb des Menüs zu steuern."
 
 #. SysConfig
 msgid ""
@@ -30040,10 +30039,9 @@ msgid ""
 "experience unrecoverable errors and on extreme cases could become "
 "unresponsive!"
 msgstr ""
-"Legt fest, welcher Kanal für Aktualisierungen der OTOBO Business Solution™ "
-"verwendet werden soll. Warnung: Die Verwendung von Entwicklungs-Versionen "
-"führt möglicherweise dazu, dass Ihr System in einen fehlerhaften und/oder "
-"unbenutzbaren Zustand gerät!"
+"Legt fest, welcher Kanal für Aktualisierungen verwendet werden soll. Warnung:"
+" Die Verwendung von Entwicklungs-Versionen kann dazu führen, dass Ihr System "
+"in einen fehlerhaften und/oder unbenutzbaren Zustand gerät!"
 
 #. SysConfig
 msgid "Specify the password to authenticate for the first mirror database."
@@ -31038,7 +31036,7 @@ msgstr "Inhalt"
 
 #. SysConfig
 msgid "attachment"
-msgstr "attachment"
+msgstr "Anhang"
 
 #. SysConfig
 msgid "bounce"
@@ -31050,11 +31048,11 @@ msgstr "Verfassen"
 
 #. SysConfig
 msgid "debug"
-msgstr "debug"
+msgstr "Debug"
 
 #. SysConfig
 msgid "error"
-msgstr "error"
+msgstr "Fehler"
 
 #. SysConfig
 msgid "forward"
@@ -31074,7 +31072,7 @@ msgstr "normal"
 
 #. SysConfig
 msgid "notice"
-msgstr "notice"
+msgstr "Hinweis"
 
 #. SysConfig
 msgid "pending"
