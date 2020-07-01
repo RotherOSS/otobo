@@ -40,23 +40,34 @@ RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash 
 COPY --chown=$OTOBO_USER:$OTOBO_GROUP . $OTOBO_HOME
 WORKDIR $OTOBO_HOME
 
+# Some initial setup.
+# Create dirs.
+# Enable bash completion.
 # Activate the .dist files.
-# Use 'db' instead of the localhost as the default database host.
-RUN mkdir -p var/stats \
-    && mkdir -p var/packages \
+# Use the docker specific Config.pm.dist file.
+RUN mkdir -p var/stats var/packages \
     && (echo ". ~/.bash_completion" >> .bash_aliases ) \
-    && cd Kernel \
-    && cp Config.pm.dist Config.pm \
-    && perl -pi -e "s/'127.0.0.1';/'db'; # adapted by Dockerfile/" Config.pm \
-    && cd ../var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done
+    && cp scripts/docker/Config.pm.dist Kernel/Config.pm \
+    && cp Kernel/Config.pod.dist Kernel/Config.pod \
+    && cd var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done
 
-# make sure that var/tmp exists and generate the crontab for OTOBO_USER
-# Set PATH as the required perl is located in /usr/local/bin/perl.
+# Under Docker the Elasticsearch Daemon in running on the host 'elastic' instead of '127.0.0.1'.
+# The webservice configuration is in a YAML file and it is not obvious how
+# to change settings for webservices.
+# So we take the easy was out and do the change directly in the XML file,
+# before installer.pl has run.
+RUN cd scripts/database \
+    && cp otobo-initial_insert.xml otobo-initial_insert.xml.orig \
+    && perl -pi -e "s{Host: http://localhost:9200}{Host: http://elastic:9200}" otobo-initial_insert.xml
+
+# Generate and install the crontab for the user $OTOBO_USER.
+# Explicitly set PATH as the required perl is located in /usr/local/bin/perl.
+# var/tmp is created by $OTOBO_USER as bin/Cron.sh used this dir.
 USER $OTOBO_USER
 RUN mkdir -p var/tmp \
-    && echo "# File added by Dockerfile"                                 >  var/cron/aab_path \
-    && echo "# Let '/usr/bin/env perl' find perl 5.30 in /usr/local/bin" >> var/cron/aab_path \
-    && echo "PATH=/usr/local/bin:/usr/bin:/bin"                          >> var/cron/aab_path \
+    && echo "# File added by Dockerfile"                             >  var/cron/aab_path \
+    && echo "# Let '/usr/bin/env perl' find perl in /usr/local/bin"  >> var/cron/aab_path \
+    && echo "PATH=/usr/local/bin:/usr/bin:/bin"                      >> var/cron/aab_path \
     && ./bin/Cron.sh start
 
 # set permissions

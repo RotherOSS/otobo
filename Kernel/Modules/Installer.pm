@@ -496,7 +496,7 @@ sub Run {
                     # This is the case when the standard docker-compose.yml is used.
                     # In this network the IP-addresses are not static therefore we can't use the same IP address
                     # as seen when installer.pl runs.
-                    # Using 'web' does not work because 'skip-name-resolve' is set.
+                    # Using 'db' does not work because 'skip-name-resolve' is set.
                     # For now allow the complete network.
                     $Host = '%';
                 }
