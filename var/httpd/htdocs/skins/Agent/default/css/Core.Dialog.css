@@ -269,6 +269,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     text-overflow: ellipsis;
 }
 
+#ElasticsearchQuickResult h3 {
+    padding: 8px 0px 4px 20px;
+    margin: 0px;
+}
+
 /* Error screens in overlays */
 
 .Dialog.Modal #AppWrapper > #Header,
