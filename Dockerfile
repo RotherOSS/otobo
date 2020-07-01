@@ -40,10 +40,12 @@ RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash 
 COPY --chown=$OTOBO_USER:$OTOBO_GROUP . $OTOBO_HOME
 WORKDIR $OTOBO_HOME
 
+# Some initial setup.
+# Create dirs.
+# Enable bash completion.
 # Activate the .dist files.
-# Use 'db' instead of the localhost as the default database host.
-RUN mkdir -p var/stats \
-    && mkdir -p var/packages \
+# Use the docker specific Config.pm.dist file.
+RUN mkdir -p var/stats var/packages var/tmp \
     && (echo ". ~/.bash_completion" >> .bash_aliases ) \
     && cd Kernel \
     && cp Config.pm.dist Config.pm \
@@ -53,8 +55,7 @@ RUN mkdir -p var/stats \
 # make sure that var/tmp exists and generate the crontab for OTOBO_USER
 # Set PATH as the required perl is located in /usr/local/bin/perl.
 USER $OTOBO_USER
-RUN mkdir -p var/tmp \
-    && echo "# File added by Dockerfile"                                 >  var/cron/aab_path \
+RUN echo "# File added by Dockerfile"                                 >  var/cron/aab_path \
     && echo "# Let '/usr/bin/env perl' find perl 5.30 in /usr/local/bin" >> var/cron/aab_path \
     && echo "PATH=/usr/local/bin:/usr/bin:/bin"                          >> var/cron/aab_path \
     && ./bin/Cron.sh start
