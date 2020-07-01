@@ -43,10 +43,14 @@ That dist file contains some settings specific to OTOBO under Docker.
 
 =over 4
 
-=item $Self->{DatabaseHost}
+=item DatabaseHost
 
 The setting is I<db> instead of I<127.0.0.1>. This is because under Docker
 the MySQL database is running in a separate container.
+
+=item Elasticsearch::Active
+
+Elasticsearch is activated as there is a Docker container running ElasticSearch.
 
 =back
 
@@ -96,6 +100,11 @@ sub Load {
     # fs root directory
     # ---------------------------------------------------- #
     $Self->{Home} = '/opt/otobo';
+
+    # ---------------------------------------------------- #
+    # setting for running OTOBO under Docker               #
+    # ---------------------------------------------------- #
+    $Self->{'Elasticsearch::Active'} = 1;
 
     # ---------------------------------------------------- #
     # insert your own config settings "here"               #
