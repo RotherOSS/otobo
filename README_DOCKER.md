@@ -33,9 +33,10 @@ Three volumes are created on the host:
 
 The relevant files for running OTOBO with Docker are:
 
-* docker-compose.yml`
+* `docker-compose.yml`
 * `Dockerfile`
 * The scripts in `bin/docker`
+* The setup and config files in `scripts/docker`
 
 Note that the files `docker-compose.yml` and `Dockerfile` will be moved to `scripts\docker`.
 

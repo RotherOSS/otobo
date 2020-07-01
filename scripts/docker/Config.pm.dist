@@ -37,7 +37,7 @@ sub Load {
     # ---------------------------------------------------- #
 
     # The database host
-    $Self->{DatabaseHost} = '127.0.0.1';
+    $Self->{DatabaseHost} = 'db';
 
     # The database name
     $Self->{Database} = 'otobo';
