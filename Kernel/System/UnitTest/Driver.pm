@@ -16,8 +16,9 @@
 
 package Kernel::System::UnitTest::Driver;
 
-use 5.24.0;
+use 5.24.0; # note that this enables the 'unicode_eval' feature
 use warnings;
+use utf8;
 
 # core modules
 use Storable();
@@ -102,8 +103,13 @@ sub Run {
 
     my $File = $Param{File};
 
+    # The referenced string will be executed with eval.
+    # Test scripts are expected to be UTF-8 encoded and thus the file
+    # must be read in with the mode '<:utf8'. This is especially relevant
+    # when the fearure 'unicode_eval' is activated.
     my $UnitTestFile = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
         Location => $File,
+        Mode     => 'utf8',
     );
 
     if ( !$UnitTestFile ) {
