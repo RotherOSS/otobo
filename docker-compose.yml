@@ -53,6 +53,7 @@ services:
   # a container running ElasticSearch
   elastic:
     image: elasticsearch:7.8.0
+    restart: always
     environment:
       discovery.type: single-node
       ES_JAVA_OPTS: -Xms512m -Xmx512m
@@ -62,6 +63,7 @@ services:
   # a container running Redis
   redis:
     image: redis:6.0.5-alpine
+    restart: always
     volumes:
       - redis_data:/data
 

@@ -84,6 +84,27 @@ Note that all previous data will be lost.
     * Keep the default 'db' for the database host
     * Log to file /opt/otobo/var/log/otobo.log
 
+## Running with nginx as a reverse proxy for supporting HTTPS
+
+### Build the image
+
+`docker build  -t otobo_nginx -f scripts/docker/nginx.Dockerfile .`
+
+### Run the container separate from otobo web
+
+Nginx running in a the otobo nginx container should forward to port 5000 of the host.
+This should work because the otobo we container exposes port 5000.
+
+See https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container
+
+On the host find the IP of host in the network of the nginx container. E.g. 172.17.0.1.
+Run `ip a` and find the ip in the docker0 network adapter.
+Or `ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'`
+
+`docker run -p 80:80 otobo_nginx`
+
+### Run the container
+
 ## Other userful Docker commands
 
 * start over:             `docker system prune -a`
