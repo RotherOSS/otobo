@@ -1,8 +1,7 @@
-# This is the build file for the OTOBO docker image.
-# See also DOCKER.md.
-# The database will run in a separate container. See docker-compose.yml
+# This is the build file for the OTOBO web docker image.
+# See also README_DOCKER.md.
 
-# use the latest Perl on Debian 10 (buster). As of 2020-05-15.
+# use the latest Perl on Debian 10 (buster). As of 2020-07-02.
 # cpanm is already installed
 FROM perl:5.32.0-buster
 
