@@ -52,9 +52,10 @@ The minimal versions that have been tested are listed here. Older versions might
 * Docker 19.03.08
 * Docker compose 1.25.0
 
-## Building the image
+## Building the docker image for otobo web
 
-Only the image for the webserver needs to be build. For MariaDb the image from DockerHub is used.
+Only the image for the webserver needs to be built. This image is also used for otobo cron.
+For the other service the image from http://hub.docker.com is used.
 
 * cd into the toplevel OTOBO source dir, which contains docker-compose.yml
 * run `docker-compose build`
@@ -88,31 +89,29 @@ Note that all previous data will be lost.
 
 ### Build the nginx image
 
-The image contains nginx and openssl along with an adapted config. But no sensible editor.
+The image contains nginx and openssl along with an adapted config. But there is no sensible editor.
+The config for nginx is located in /etc/nginx.
 
 `docker build --tag otobo_nginx --file scripts/docker/nginx.Dockerfile .`
 
-### Create a stopped container
+### Create a self-signed TLS certificate and private key
 
-We need a container to which the TLS certificate and the private key can be added.
+Nginx need for TLS a certificate and a private key.
+For testing and development a self-signed certificate can be used. In the general case
+registered certificates must be used.
 
-`docker run -e DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+') --publish 443:443 --publish 80:80 --name otobo_nginx_1 otobo_nginx`
+`sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout otobo_nginx-selfsigned.key -out otobo_nginx-selfsigned.crt`
 
-Note that the container will exit immediately as some files are missing.
+### Store the certificate in a volume
 
-### Add the TLS certificate and the private key.
+The certificate and the private key are stored in a volume, so that they can be used by nginx later on.
 
-For TLS nginx needs a certificate and a private key. For this README we use the self generated certificate.
-For production use your registered certificate and set the environment vars SSL_CERTIFICATE and SSL_CERTIFICATE_KEY
-when running the image.
+`docker volume create otobo_nginx_ssl`
+`sudo cp otobo_nginx-selfsigned.key otobo_nginx-selfsigned.crt $(docker volume inspect --format '{{ .Mountpoint }}' otobo_nginx_ssl)`
 
-`sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ../nginx-selfsigned.key -out ../nginx-selfsigned.crt`
-
-`sudo docker cp ../nginx-selfsigned.key otobo_nginx_1:/etc/ssl/private`
-`docker cp ../nginx-selfsigned.crt otobo_nginx_1:/etc/ssl/certs`
-
-Use `docker commit`for saving the container with the certificates. And make sure that the commited container
-does not leak from your secured server.
+In the general case the companys certificate and private key can be copied into the volume.
+The names of the copied files can be set via environment options when starting the container. E.g.
+`-e SSL_CERTIFICATE=/etc/nginx/ssl/acme.crt -e SSL_CERTIFICATE_KEY=/etc/nginx/ssl/acme.key`
 
 ### Run the container separate from otobo web
 
@@ -129,11 +128,11 @@ On the host find the IP of host in the network of the nginx container. E.g. 172.
 Run `ip a` and find the ip in the docker0 network adapter.
 Or `ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'`
 
-`docker run -e DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+') --publish 443:443 --publish 80:80 --name otobo_nginx_1 otobo_nginx`
+`docker run -e DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+') --volume=otobo_nginx_ssl:/etc/nginx/ssl --publish 443:443 --publish 80:80 --name otobo_nginx_1 otobo_nginx`
 
 In some cases the default DOCKER_HOST, as defined in scripts/docker/nginx.Docker, suffices:
 
-`docker run --publish 443:443 --publish 80:80 --detach --name otobo_nginx_1 otobo_nginx`
+`docker run --volume=otobo_nginx_ssl:/etc/nginx/ssl --publish 443:443 --publish 80:80 --name otobo_nginx_1 otobo_nginx`
 
 ### Run nginx in same container as the OTOBO webapp
 

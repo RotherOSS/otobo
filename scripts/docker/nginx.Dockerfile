@@ -15,8 +15,8 @@ ENV DOCKER_HOST          172.17.0.1
 
 # Not that these file need to be copied into a container.
 # Alternatively /etc/ssl can be exported as a volume to the host.
-ENV SSL_CERTIFICATE      /etc/ssl/certs/nginx-selfsigned.crt
-ENV SSL_CERTIFICATE_KEY  /etc/ssl/private/nginx-selfsigned.key
+ENV SSL_CERTIFICATE      /etc/nginx/ssl/otobo_nginx-selfsigned.crt
+ENV SSL_CERTIFICATE_KEY  /etc/nginx/ssl/otobo_nginx-selfsigned.key
 
 WORKDIR /etc/nginx
 
