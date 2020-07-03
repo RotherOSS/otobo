@@ -88,7 +88,7 @@ Note that all previous data will be lost.
 
 ### Build the nginx image
 
-The image contains nginx along with an adapted config and the static files.
+The image contains nginx and openssl along with an adapted config. But no sensible editor.
 
 `docker build --tag otobo_nginx --file scripts/docker/nginx.Dockerfile .`
 

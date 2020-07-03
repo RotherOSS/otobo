@@ -18,12 +18,10 @@ ENV DOCKER_HOST          172.17.0.1
 ENV SSL_CERTIFICATE      /etc/ssl/certs/nginx-selfsigned.crt
 ENV SSL_CERTIFICATE_KEY  /etc/ssl/private/nginx-selfsigned.key
 
-# let nginx handle the static content
-# The static files must be readable by the user nginx.
-COPY --chown=nginx:nginx var/httpd/htdocs /usr/share/nginx/html/otobo-web
+WORKDIR /etc/nginx
 
 # move the old config out of the way
-RUN mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.hidden
+RUN mv conf.d/default.conf conf.d/default.conf.hidden
 
 # new nginx config, will be modified by /docker-entrypoint.d/20-envsubst-on-templates.sh
 # See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx

@@ -30,22 +30,8 @@ server {
 
     #access_log  /var/log/nginx/host.access.log  main;
 
-    location /otobo-web {
-        root   /usr/share/nginx/html;
-        # /otobo-web/index.html redirects to /otobo/index.pl
-        index  index.html;
-    }
-
-    #error_page  404              /404.html;
-
-    # redirect server error pages to the static page /50x.html
-    error_page   500 502 503 504  /50x.html;
-    location = /50x.html {
-        root   /usr/share/nginx/html;
-    }
-
     # proxy to the otobo webapp accessible from the host
-    location /otobo {
-        proxy_pass   http://${DOCKER_HOST}:5000/otobo;
+    location / {
+        proxy_pass   http://${DOCKER_HOST}:5000/;
     }
 }
