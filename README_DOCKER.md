@@ -145,3 +145,4 @@ TODO
 * [Dockerfile best practices](https://www.docker.com/blog/intro-guide-to-dockerfile-best-practices/)
 * [Docker cache invalidation](https://stackoverflow.com/questions/34814669/when-does-docker-image-cache-invalidation-occur)
 * [DOCKER_HOST](https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container)
+* [Environment](https://vsupalov.com/docker-arg-env-variable-guide/)
