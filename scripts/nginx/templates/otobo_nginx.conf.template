@@ -12,7 +12,8 @@ server {
 
     server_name  localhost;
 
-    return 302 https://$server_name$request_uri;
+    # 301 Moved Permanently, (in 'SEO-speak', it is said that the 'link-juice' is sent to the new URL).
+    return 301 https://$server_name$request_uri;
 }
 
 # serve HTTPS
