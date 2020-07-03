@@ -13,3 +13,10 @@ otobo.iml
 var/log/Daemon/
 var/run/
 var/tmp/
+
+# in case somebody generated keys or certificates
+**/.cert
+**/.crt
+**/.csr
+**/.key
+**/.pem

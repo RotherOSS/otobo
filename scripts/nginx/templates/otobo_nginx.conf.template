@@ -3,12 +3,30 @@
 # TODO: set caching headers for the static files.
 
 # This config is based on default.conf in the nginx installation
+
+
+# don't server HTTP
 server {
-    listen       80;
-    listen  [::]:80;
+    listen 80;
+    listen [::]:80;
+
     server_name  localhost;
 
-    #charset koi8-r;
+    return 302 https://$server_name$request_uri;
+}
+
+# serve HTTPS
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    # see https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04
+    include snippets/ssl-params.conf;
+    ssl_certificate     ${SSL_CERTIFICATE}
+    ssl_certificate_key ${SSL_CERTIFICATE_KEY}
+
+    server_name  localhost;
+
     #access_log  /var/log/nginx/host.access.log  main;
 
     location /otobo-web {
@@ -20,7 +38,6 @@ server {
     #error_page  404              /404.html;
 
     # redirect server error pages to the static page /50x.html
-    #
     error_page   500 502 503 504  /50x.html;
     location = /50x.html {
         root   /usr/share/nginx/html;

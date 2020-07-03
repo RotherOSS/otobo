@@ -90,7 +90,7 @@ Note that all previous data will be lost.
 
 The image contains nginx along with an adapted config and the static files.
 
-`docker build  -t otobo_nginx -f scripts/docker/nginx.Dockerfile .`
+`docker build --tag otobo_nginx --file scripts/docker/nginx.Dockerfile .`
 
 ### Run the container separate from otobo web
 
@@ -100,17 +100,27 @@ Nginx running in a separate container should forward to port 5000 of the host.
 This should work because the otobo web container exposes port 5000.
 See https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container
 
-`docker run -p 80:80 otobo_nginx`
-
 On the host find the IP of host in the network of the nginx container. E.g. 172.17.0.1.
 Run `ip a` and find the ip in the docker0 network adapter.
 Or `ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'`
 
-`docker run -e DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+') -p 80:80 otobo_nginx`
+`docker run -e DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+') --publish 80:80 --name otobo_nginx_1 otobo_nginx`
 
 In some cases the default DOCKER_HOST, as defined in scripts/docker/nginx.Docker, suffices:
 
-`docker run -p 80:80 otobo_nginx`
+`docker run --publish 80:80 --name otobo_nginx_1 otobo_nginx`
+
+For TLS nginx needs a certificate and a private key. For this README we use the self generated certificate.
+For production use your registered certificate and set the environment vars SSL_CERTIFICATE and SSL_CERTIFICATE_KEY
+when running the image.
+
+`sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ../nginx-selfsigned.key -out ../nginx-selfsigned.crt`
+
+`sudo docker cp ../nginx-selfsigned.key otobo_nginx_1:/etc/ssl/private`
+`docker cp ../nginx-selfsigned.crt otobo_nginx_1:/etc/ssl/cert`
+
+Use `docker commit`for saving the container with the certificates. And make sure that the commited container
+does not leak from your secured server.
 
 ### Run nginx in same container as the OTOBO webapp
 
@@ -123,7 +133,7 @@ TODO
 * start over:             `docker system prune -a`
 * show version:           `docker version`
 * build an image:         `docker build --tag otobo-web .`
-* run the new image:      `docker run -p 5000:5000 otobo-web`
+* run the new image:      `docker run --publish 5000:5000 otobo-web`
 * log into the new image: `docker run  -v opt_otobo:/opt/otobo -it otobo-web bash`
 * show running images:    `docker ps`
 * show available images:  `docker images`
@@ -146,3 +156,4 @@ TODO
 * [Docker cache invalidation](https://stackoverflow.com/questions/34814669/when-does-docker-image-cache-invalidation-occur)
 * [DOCKER_HOST](https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container)
 * [Environment](https://vsupalov.com/docker-arg-env-variable-guide/)
+* [Self signed certificate](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04)
