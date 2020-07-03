@@ -67,7 +67,8 @@ RUN mkdir -p var/tmp \
     && echo "# File added by Dockerfile"                             >  var/cron/aab_path \
     && echo "# Let '/usr/bin/env perl' find perl in /usr/local/bin"  >> var/cron/aab_path \
     && echo "PATH=/usr/local/bin:/usr/bin:/bin"                      >> var/cron/aab_path \
-    && ./bin/Cron.sh start
+    && ./bin/Cron.sh start \
+    && cp scripts/vim/.vimrc .
 
 # set permissions
 USER root

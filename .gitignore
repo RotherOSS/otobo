@@ -99,8 +99,16 @@ backup_es
 
 # Docker
 .env
+.env_*
 
 # Temporary files while running the unit tests
 bin/otobo.CheckDB.pl
 DeleteMePlease
 Test
+
+# in case somebody generated keys or certificates
+*.cert
+*.crt
+*.csr
+*.key
+*.pem

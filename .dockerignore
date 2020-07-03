@@ -1,6 +1,7 @@
 # dot files are usually not needed in the image
 **/.*
 !.bash_completion
+!scripts/vim/.vimrc
 
 # files that might be generated during development
 build.log
@@ -13,3 +14,10 @@ otobo.iml
 var/log/Daemon/
 var/run/
 var/tmp/
+
+# in case somebody generated keys or certificates
+**/*.cert
+**/*.crt
+**/*.csr
+**/*.key
+**/*.pem
