@@ -27,4 +27,5 @@ RUN mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.hidden
 
 # new nginx config, will be modified by /docker-entrypoint.d/20-envsubst-on-templates.sh
 # See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx
-COPY scripts/nginx/templates scripts/nginx/snippets /etc/nginx/
+COPY scripts/nginx/templates/ templates
+COPY scripts/nginx/snippets/  snippets
