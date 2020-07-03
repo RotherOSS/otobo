@@ -92,23 +92,15 @@ The image contains nginx and openssl along with an adapted config. But no sensib
 
 `docker build --tag otobo_nginx --file scripts/docker/nginx.Dockerfile .`
 
-### Run the container separate from otobo web
+### Create a stopped container
 
-This is a example for the general case where there is an already existing reverse proxy.
+We need a container to which the TLS certificate and the private key can be added.
 
-Nginx running in a separate container should forward to port 5000 of the host.
-This should work because the otobo web container exposes port 5000.
-See https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container
+`docker run -e DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+') --publish 443:443 --publish 80:80 --name otobo_nginx_1 otobo_nginx`
 
-On the host find the IP of host in the network of the nginx container. E.g. 172.17.0.1.
-Run `ip a` and find the ip in the docker0 network adapter.
-Or `ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'`
+Note that the container will exit immediately as some files are missing.
 
-`docker run -e DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+') --publish 80:80 --name otobo_nginx_1 otobo_nginx`
-
-In some cases the default DOCKER_HOST, as defined in scripts/docker/nginx.Docker, suffices:
-
-`docker run --publish 80:80 --name otobo_nginx_1 otobo_nginx`
+### Add the TLS certificate and the private key.
 
 For TLS nginx needs a certificate and a private key. For this README we use the self generated certificate.
 For production use your registered certificate and set the environment vars SSL_CERTIFICATE and SSL_CERTIFICATE_KEY
@@ -117,10 +109,31 @@ when running the image.
 `sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ../nginx-selfsigned.key -out ../nginx-selfsigned.crt`
 
 `sudo docker cp ../nginx-selfsigned.key otobo_nginx_1:/etc/ssl/private`
-`docker cp ../nginx-selfsigned.crt otobo_nginx_1:/etc/ssl/cert`
+`docker cp ../nginx-selfsigned.crt otobo_nginx_1:/etc/ssl/certs`
 
 Use `docker commit`for saving the container with the certificates. And make sure that the commited container
 does not leak from your secured server.
+
+### Run the container separate from otobo web
+
+This is only an example. In the general case where there is an already existing reverse proxy.
+
+Nginx running in a separate container should forward to port 5000 of the host.
+This should work because the otobo web container exposes port 5000.
+However the container does know the IP of the docker host. Therefore the host must tell the container
+the relevant IP.
+
+See https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container
+
+On the host find the IP of host in the network of the nginx container. E.g. 172.17.0.1.
+Run `ip a` and find the ip in the docker0 network adapter.
+Or `ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'`
+
+`docker run -e DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+') --publish 443:443 --publish 80:80 --name otobo_nginx_1 otobo_nginx`
+
+In some cases the default DOCKER_HOST, as defined in scripts/docker/nginx.Docker, suffices:
+
+`docker run --publish 443:443 --publish 80:80 --detach --name otobo_nginx_1 otobo_nginx`
 
 ### Run nginx in same container as the OTOBO webapp
 
