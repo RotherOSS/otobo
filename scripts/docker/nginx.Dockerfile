@@ -4,6 +4,10 @@
 # use the latest nginx
 FROM nginx:mainline
 
+# mostly for documentation
+EXPOSE 80/tcp
+EXPOSE 443/tcp
+
 # This setting works in the devel environment.
 # In the general case DOCKER_HOST can be set when starting the container:
 #   docker run -e DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+') -p 80:80 otobo_nginx
