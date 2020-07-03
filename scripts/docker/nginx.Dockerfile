@@ -9,9 +9,12 @@ EXPOSE 80/tcp
 EXPOSE 443/tcp
 
 # This setting works in the devel environment.
-# In the general case DOCKER_HOST can be set when starting the container:
-#   docker run -e DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+') -p 80:80 otobo_nginx
-ENV DOCKER_HOST          172.17.0.1
+# In the general case OTOBO_NGINX_WEB_HOST can be set when starting the container:
+#   docker run -e OTOBO_NGINX_WEB_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+') -p 443:443 otobo_nginx
+# Attention: specify OTOBO_WEB_PORT to 5000 in .env when
+# starting HTTP with 'docker-compose -f docker-compose.yml up'
+ENV OTOBO_NGINX_WEB_HOST          172.17.0.1
+ENV OTOBO_NGINX_WEB_PORT          5000
 
 # Not that these file need to be copied into a container.
 # Alternatively /etc/ssl can be exported as a volume to the host.

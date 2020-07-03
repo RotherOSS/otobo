@@ -32,6 +32,6 @@ server {
 
     # proxy to the otobo webapp accessible from the host
     location / {
-        proxy_pass   http://${DOCKER_HOST}:5000/;
+        proxy_pass   http://${OTOBO_NGINX_WEB_HOST}:${OTOBO_NGINX_WEB_PORT}/;
     }
 }

@@ -1,5 +1,8 @@
-# Docker compose file for OTOBO webserver and database.
-# See also DOCKER.md.
+# Docker compose file for the OTOBO webapp.
+# Note that only HTTP is supported in docker-compose.yml
+# The default port is 80. This setting can be overriden with OTOBO_WEB_PORT=81 in the .env file.
+# For HTTPS see docker-compose_https.yml.
+# See also README_DOCKER.md.
 
 # most current docker-compose file version, as of 2020-05-21
 version: '3.3'
@@ -24,28 +27,33 @@ services:
     # The content of the .env file is something like:
     # MYSQL_ROOT_PASSWORD=otobo_root_db_passwd
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-otobo_root}
 
     command: --max_allowed_packet=68157440 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb-log-file-size=268435456
 
   web:
-    # use ./Dockerfile for building, image otobo-web
+    # use ./Dockerfile for building, image otobo_web
     build:
       context: .
-    # give a name to the build image so that the service 'cron' can reuse it
+      dockerfile: scripts/docker/web.Dockerfile
+    # give a name to the built image so that the service 'cron' can reuse it
     image: otobo_web:latest
     depends_on:
       - db
+      - elastic
+      - redis
     restart: always
-    # Expose the Plack default port to the host
+    # expose the HTTP port to the host
     ports:
-      - "5000:5000"
+      - "${OTOBO_WEB_PORT:-80}:5000"
     volumes:
       - opt_otobo:/opt/otobo
     command: web
 
   cron:
     image: otobo_web:latest
+    depends_on:
+      - web
     volumes:
       - opt_otobo:/opt/otobo
     command: cron

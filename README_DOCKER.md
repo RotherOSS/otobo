@@ -39,11 +39,13 @@ Some volumes are created on the host. These allow starting and stopping the serv
 The relevant files for running OTOBO with Docker are:
 
 * `docker-compose.yml`
-* `Dockerfile`
+* `docker-compose_https.yml`
+* `scripts/docker/web.Dockerfile`
+* `scripts/docker/nginx.Dockerfile`
 * The scripts in `bin/docker`
-* The setup and config files in `scripts/docker`
+* More setup and config files in `scripts/docker`
 
-Note that the files `docker-compose.yml` and `Dockerfile` will be moved to `scripts\docker`.
+Note that the files `docker-compose.yml` and `docker-compose_https.yml` will be moved to `scripts\docker`.
 
 ## Requirements
 
@@ -62,7 +64,8 @@ For the other service the image from http://hub.docker.com is used.
 
 ## Starting the containers
 
-* Make sure that the secret MySQL root password is set up in the file .env
+* Make sure that the secret MySQL root password is set up in the file .env. Per default the not so secret 'otobo_root' is used.
+* If HTTP should not run on port 80 then set OTOBO_WEB_PORT in the .env file.
 * run `docker-compose up`
 
 ## Inspect the running containers
@@ -117,8 +120,10 @@ The names of the copied files can be set via environment options when starting t
 
 This is only an example. In the general case where there is an already existing reverse proxy.
 
-Nginx running in a separate container should forward to port 5000 of the host.
-This should work because the otobo web container exposes port 5000.
+Start the HTTP webserver in the port 5000. This is done by setting OTOBO_WEB_PORT in .env.
+
+Nginx running in a separate container should forward to port 80 of the host.
+This should work because the otobo web container exposes port 80.
 However the container does know the IP of the docker host. Therefore the host must tell the container
 the relevant IP.
 
@@ -128,15 +133,16 @@ On the host find the IP of host in the network of the nginx container. E.g. 172.
 Run `ip a` and find the ip in the docker0 network adapter.
 Or `ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'`
 
-`docker run -e DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+') --volume=otobo_nginx_ssl:/etc/nginx/ssl --publish 443:443 --publish 80:80 --name otobo_nginx_1 otobo_nginx`
+`docker run -e OTOBO_NGINX_WEB_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+') --volume=otobo_nginx_ssl:/etc/nginx/ssl --publish 443:443 --publish 80:80 --name otobo_nginx_1 otobo_nginx`
 
-In some cases the default DOCKER_HOST, as defined in scripts/docker/nginx.Docker, suffices:
+In some cases the default OTOBO_NGINX_WEB_HOST, as defined in scripts/docker/nginx.Docker, suffices:
 
 `docker run --volume=otobo_nginx_ssl:/etc/nginx/ssl --publish 443:443 --publish 80:80 --name otobo_nginx_1 otobo_nginx`
 
 ### Run nginx in same container as the OTOBO webapp
 
 This is the standard way of running the OTOBO webapp under HTTPS.
+`docker-compose -f docker-compose_https.yml up --build`.
 
 TODO
 
@@ -144,8 +150,8 @@ TODO
 
 * start over:             `docker system prune -a`
 * show version:           `docker version`
-* build an image:         `docker build --tag otobo-web .`
-* run the new image:      `docker run --publish 5000:5000 otobo-web`
+* build an image:         `docker build --tag otobo-web --file=scripts/docker/web.Dockerfile .`
+* run the new image:      `docker run --publish 80:5000 otobo-web`
 * log into the new image: `docker run  -v opt_otobo:/opt/otobo -it otobo-web bash`
 * show running images:    `docker ps`
 * show available images:  `docker images`
@@ -166,6 +172,6 @@ TODO
 * [cleanup](https://forums.docker.com/t/command-to-remove-all-unused-images)
 * [Dockerfile best practices](https://www.docker.com/blog/intro-guide-to-dockerfile-best-practices/)
 * [Docker cache invalidation](https://stackoverflow.com/questions/34814669/when-does-docker-image-cache-invalidation-occur)
-* [DOCKER_HOST](https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container)
+* [Docker Host IP](https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container)
 * [Environment](https://vsupalov.com/docker-arg-env-variable-guide/)
 * [Self signed certificate](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04)
