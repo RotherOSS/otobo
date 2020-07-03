@@ -82,28 +82,41 @@ Note that all previous data will be lost.
 * Check sanity at [hello](http://localhost:5000/hello)
 * Run the installer at [installer.pl](http://localhost:5000/otobo/installer.pl)
     * Keep the default 'db' for the database host
-    * Log to file /opt/otobo/var/log/otobo.log
+    * Keep logging to the file /opt/otobo/var/log/otobo.log
 
 ## Running with nginx as a reverse proxy for supporting HTTPS
 
-### Build the image
+### Build the nginx image
+
+The image contains nginx along with an adapted config and the static files.
 
 `docker build  -t otobo_nginx -f scripts/docker/nginx.Dockerfile .`
 
 ### Run the container separate from otobo web
 
-Nginx running in a the otobo nginx container should forward to port 5000 of the host.
-This should work because the otobo we container exposes port 5000.
+This is a example for the general case where there is an already existing reverse proxy.
 
+Nginx running in a separate container should forward to port 5000 of the host.
+This should work because the otobo web container exposes port 5000.
 See https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container
+
+`docker run -p 80:80 otobo_nginx`
 
 On the host find the IP of host in the network of the nginx container. E.g. 172.17.0.1.
 Run `ip a` and find the ip in the docker0 network adapter.
 Or `ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'`
 
+`docker run -e DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+') -p 80:80 otobo_nginx`
+
+In some cases the default DOCKER_HOST, as defined in scripts/docker/nginx.Docker, suffices:
+
 `docker run -p 80:80 otobo_nginx`
 
-### Run the container
+### Run nginx in same container as the OTOBO webapp
+
+This is the standard way of running the OTOBO webapp under HTTPS.
+
+TODO
 
 ## Other userful Docker commands
 
@@ -131,3 +144,4 @@ Or `ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'`
 * [cleanup](https://forums.docker.com/t/command-to-remove-all-unused-images)
 * [Dockerfile best practices](https://www.docker.com/blog/intro-guide-to-dockerfile-best-practices/)
 * [Docker cache invalidation](https://stackoverflow.com/questions/34814669/when-does-docker-image-cache-invalidation-occur)
+* [DOCKER_HOST](https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container)

@@ -26,9 +26,8 @@ server {
         root   /usr/share/nginx/html;
     }
 
-    # proxy to the otobo webapp
-    # TODO: support the env var $DOCKER_HOST
+    # proxy to the otobo webapp accessible from the host
     location /otobo {
-        proxy_pass   http://172.17.0.1:5000/otobo;
+        proxy_pass   http://${DOCKER_HOST}:5000/otobo;
     }
 }
