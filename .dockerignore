@@ -15,8 +15,8 @@ var/run/
 var/tmp/
 
 # in case somebody generated keys or certificates
-**/.cert
-**/.crt
-**/.csr
-**/.key
-**/.pem
+**/*.cert
+**/*.crt
+**/*.csr
+**/*.key
+**/*.pem

@@ -104,3 +104,10 @@ backup_es
 bin/otobo.CheckDB.pl
 DeleteMePlease
 Test
+
+# in case somebody generated keys or certificates
+*.cert
+*.crt
+*.csr
+*.key
+*.pem
