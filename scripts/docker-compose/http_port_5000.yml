@@ -1,0 +1,10 @@
+# Run the OTOBO web app via HTTP on the port 5000.
+# This might be handy when another webserver already occupies port 80.
+# See also README_DOCKER.md.
+
+# most current docker-compose file version, as of 2020-05-21
+version: '3.3'
+
+services:
+  web:
+      - "5000:5000"
