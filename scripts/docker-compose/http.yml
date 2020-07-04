@@ -1,0 +1,12 @@
+# Run the OTOBO web app via HTTP on the port $OTOBO_WEB_HTTP_PORT or port 80 per default.
+# The HTTP port is set up in a extension file because there are use cases that have no HTTP port exposed.
+# See also README_DOCKER.md.
+
+# most current docker-compose file version, as of 2020-05-21
+version: '3.3'
+
+services:
+
+  web:
+    ports:
+      - "${OTOBO_WEB_HTTP_PORT:-80}:5000"

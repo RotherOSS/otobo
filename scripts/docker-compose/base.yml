@@ -1,31 +1,13 @@
 # Docker compose file for the OTOBO webapp.
-# In addition to docker-compose.yml there is a nginx reverse proxy.
-# Not that only HTTPS and the port 443 is exposed.
-# Note that this can't done in a overried file, as the HTTP port needs to be removed.
-# TODO: maybe this can't be worked around with settings in .env file
+# Note that no port is exposed as both HTTP and HTTPS are supported.
+# For HTTP see the extension file scripts/docker-compose/http.yml.
+# For HTTPS see the extension file scripts/docker-compose/https.yml.
 # See also README_DOCKER.md.
 
 # most current docker-compose file version, as of 2020-05-21
 version: '3.3'
 
 services:
-
-  nginx:
-    # use scrips/docker/nginx.Dockerfile for building, image otobo_nginx
-    build:
-      context: .
-      dockerfile: scripts/docker/nginx.Dockerfile
-    image: otobo_nginx:latest
-    depends_on:
-      - web
-    volumes:
-      - nginx_ssl:/etc/nginx/ssl
-    ports:
-      - "443:443"
-    # inside the docker network the host and the port is fixed
-    environment:
-      OTOBO_NGINX_WEB_HOST: web
-      OTOBO_NGINX_WEB_PORT: 5000
 
   # the database
   db:
@@ -61,9 +43,10 @@ services:
       - elastic
       - redis
     restart: always
-    # don't expose the HTTP port to the host
+    # The HTTP port might be specified in a docker-compose extension file, e.g. scripts/docker-compose/http.yml.
+    # For HTTPS no HTTP port is exposed.
     #ports:
-      #- "${OTOBO_WEB_PORT:-80}:5000"
+    #    - "80:5000"
     volumes:
       - opt_otobo:/opt/otobo
     command: web
@@ -100,4 +83,3 @@ volumes:
   opt_otobo: {}
   elasticsearch_data: {}
   redis_data: {}
-  nginx_ssl: {}
