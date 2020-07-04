@@ -2539,9 +2539,6 @@ sub ConfigurationXML2DB {
         $XMLFilename =~ s{$Directory(.*\.xml)\z}{$1}gmsx;
         $XMLFilename =~ s{\A/}{}gmsx;
 
-        # Remove comments.
-        ${$ConfigFile} =~ s{<!--.*?-->}{}gs;
-
         my @ParsedSettings = $SysConfigXMLObject->SettingListParse(
             XMLInput    => ${$ConfigFile},
             XMLFilename => $XMLFilename,
