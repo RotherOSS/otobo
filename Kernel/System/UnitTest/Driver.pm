@@ -16,14 +16,14 @@
 
 package Kernel::System::UnitTest::Driver;
 
-use 5.24.0; # note that this enables the 'unicode_eval' feature
+use v5.24;     # note that this enables the 'unicode_eval' feature
 use warnings;
 use utf8;
 
 # core modules
-use Storable();
-use Time::HiRes();
-use Term::ANSIColor();
+use Storable qw();
+use Time::HiRes qw();
+use Term::ANSIColor qw();
 
 # CPAN modules
 use Text::Diff;

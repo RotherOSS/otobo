@@ -49,9 +49,9 @@ Then point your browser at nytprof/index.html
 
 =cut
 
-use strict;
+use v5.24;
 use warnings;
-use 5.24.0;
+use utf8;
 
 # use ../../ as lib location
 use FindBin qw($Bin);
