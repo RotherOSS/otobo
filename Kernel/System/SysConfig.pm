@@ -2460,7 +2460,7 @@ sub ConfigurationXML2DB {
     # Load xml config files, ordered by file name
     my @Files = $MainObject->DirectoryRead(
         Directory => $Directory,
-        Filter    => "*.xml",
+        Filter    => '*.xml',
     );
 
     my $CacheObject        = $Kernel::OM->Get('Kernel::System::Cache');
@@ -2521,9 +2521,8 @@ sub ConfigurationXML2DB {
             next FILE;
         }
 
-        # Check otobo_config Init attribute.
-        $$ConfigFile =~ m{<otobo_config.*?init="(.*?)"}gsmx;
-        my $InitValue = $1;
+        # Extract otobo_config Init attribute. E.g. 'Framework', 'Config'
+        my ($InitValue) = ${$ConfigFile} =~ m{<otobo_config.*?init="(.*?)"}gsmx;
 
         # Check if InitValue is Valid.
         if ( !defined $SettingsByInit{$InitValue} ) {
@@ -2544,7 +2543,7 @@ sub ConfigurationXML2DB {
             XMLFilename => $XMLFilename,
         );
 
-        @{ $SettingsByInit{$InitValue} } = ( @{ $SettingsByInit{$InitValue} }, @ParsedSettings );
+        push @{ $SettingsByInit{$InitValue} }, @ParsedSettings;
 
         # There might be an error parsing file. If we cache the result, error message will not be present.
         if (@ParsedSettings) {
@@ -5089,11 +5088,10 @@ sub _FileWriteAtomic {
         }
     }
 
-    my $TempFilename = $Param{Filename} . '.' . $$;
-    my $FH;
+    my $TempFilename = $Param{Filename} . '.' . $$; # append the processs id
 
     ## no critic
-    if ( !open( $FH, ">$Self->{FileMode}", $TempFilename ) ) {
+    if ( !open( my $FH, ">$Self->{FileMode}", $TempFilename ) ) {
         ## use critic
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
