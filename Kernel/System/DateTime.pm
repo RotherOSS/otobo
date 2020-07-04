@@ -18,7 +18,7 @@ package Kernel::System::DateTime;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Translatable)
 
-use 5.24.0;
+use strict;
 use warnings;
 
 use Exporter qw(import);

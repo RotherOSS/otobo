@@ -19,7 +19,7 @@ package Kernel::Modules::Installer;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Print)
 
-use 5.24.0;
+use strict;
 use warnings;
 
 # core modules

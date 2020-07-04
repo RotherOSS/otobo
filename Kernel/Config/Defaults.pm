@@ -22,12 +22,9 @@
 
 package Kernel::Config::Defaults;
 
-use strict;
+use v5.24;      # Perl 5.24.0 is the required minimum version to use OTOBO.
 use warnings;
 use utf8;
-
-# Perl 5.24.0 is the required minimum version to use OTOBO.
-use 5.24.0;
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename qw(dirname);
