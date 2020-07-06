@@ -1,3 +1,4 @@
+OTOBO_DB_ROOT_PASSWORD=otobo_root
 COMPOSE_PROJECT_NAME=otobo
 COMPOSE_PATH_SEPARATOR=:
 COMPOSE_FILE=scripts/docker-compose/base.yml:scripts/docker-compose/http.yml
