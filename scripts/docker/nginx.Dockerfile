@@ -18,8 +18,8 @@ ENV OTOBO_NGINX_WEB_PORT          5000
 
 # Not that these file need to be copied into a container.
 # Alternatively /etc/ssl can be exported as a volume to the host.
-ENV SSL_CERTIFICATE      /etc/nginx/ssl/otobo_nginx-selfsigned.crt
-ENV SSL_CERTIFICATE_KEY  /etc/nginx/ssl/otobo_nginx-selfsigned.key
+ENV OTOBO_NGINX_SSL_CERTIFICATE      /etc/nginx/ssl/otobo_nginx-selfsigned.crt
+ENV OTOBO_NGINX_SSL_CERTIFICATE_KEY  /etc/nginx/ssl/otobo_nginx-selfsigned.key
 
 WORKDIR /etc/nginx
 
