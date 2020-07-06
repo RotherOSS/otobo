@@ -3148,7 +3148,7 @@ sub _Mask {
 
                 # ACL hidden fields cannot be mandatory
                 if ( $Config->{DynamicField}->{ $ArticleTypeDynamicField->{Name} } == 2 ) {
-                    $ArticleTypeDynamicField->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/;
+                    $ArticleTypeDynamicField->{Field} =~ s/(class=.+?Validate_(Depending)?Required)/$1_IfVisible/;
                 }
             }
 
