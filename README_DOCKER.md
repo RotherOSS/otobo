@@ -82,6 +82,10 @@ Same as .docker_compose_env_http but $OTOBO_WEB_HTTP_PORT is already set to 5000
 
 The root password for MySQL. Must be set for running otobo db.
 
+### OTOBO_WEB_ROOT_HTTP_PORT
+
+Set in case the HTTP-Port should deviate from the standard port 80.
+
 ### COMPOSE_PROJECT_NAME
 
 The project name is used as a prefix for the generated volumes and containers.
