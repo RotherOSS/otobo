@@ -404,10 +404,16 @@ my $AdminOnlyMiddeware = sub {
 my $HelloApp = sub {
     my $env = shift;
 
+    # Initially $Message is a string with active UTF8-flag.
+    # But turn it into a byte array, at that is wanted by Plack.
+    # The actual bytes are not changed.
+    my $Message = "Hallo 🌍!";
+    utf8::encode( $Message );
+
     return [
         '200',
         [ 'Content-Type' => 'text/plain;charset=utf-8' ],
-        [ "Hallo 🌍!" ], # or IO::Handle-like object
+        [ $Message ],
     ];
 };
 
