@@ -23,8 +23,8 @@ server {
 
     # see https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04
     include snippets/ssl-params.conf;
-    ssl_certificate     ${SSL_CERTIFICATE};
-    ssl_certificate_key ${SSL_CERTIFICATE_KEY};
+    ssl_certificate     ${OTOBO_NGINX_SSL_CERTIFICATE};
+    ssl_certificate_key ${OTOBO_NGINX_SSL_CERTIFICATE_KEY};
 
     server_name  localhost;
 
