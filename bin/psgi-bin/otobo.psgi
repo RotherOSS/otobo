@@ -479,6 +479,9 @@ my $App = builder {
     enable 'Plack::Middleware::ErrorDocument',
         403 => '/otobo/index.pl';  # forbidden files
 
+    # a simplistic detection whether we are behind a revers proxy
+    enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
+
     # GATEWAY_INTERFACE is used for determining whether a command runs in a web context
     # Per default it would enable mysql_auto_reconnect.
     # But mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
