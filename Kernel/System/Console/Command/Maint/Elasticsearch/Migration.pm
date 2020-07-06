@@ -507,15 +507,11 @@ sub MigrateConfigItems {
     my $ExcludedClasses = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ExcludedCIClasses');
     $ExcludedClasses = { map { $_ => 1 } @{$ExcludedClasses} };
 
-    my @ConfigItems;
+    my @ActiveClasses;
     CLASS:
     for my $Class ( keys %{ $ClassList } ) {
         next CLASS if $ExcludedClasses->{$Class};
-
-        my $ConfigItemListRef = $ConfigItemObject->ConfigItemResultList(
-            ClassID => $Class,
-        );
-        push @ConfigItems, ( map { $_->{ConfigItemID} } @{$ConfigItemListRef} );
+        push @ActiveClasses, $Class;
     }
 
     my %IndexName = (
@@ -566,11 +562,18 @@ sub MigrateConfigItems {
         return 0;
     }
 
+    # if currently no active classes are defined, return
+    return 1 if !@ActiveClasses;
+
+    my $ConfigItems = $ConfigItemObject->ConfigItemSearch(
+        ClassIDs     => [ @ActiveClasses ],
+    );
+
     my $Count   = 0;
-    my $CICount = scalar( @ConfigItems );
+    my $CICount = scalar( @{ $ConfigItems } );
 
     my $Errors = 0;
-    for my $ConfigItemID ( @ConfigItems ) {
+    for my $ConfigItemID ( @{ $ConfigItems } ) {
 
         $Count++;
 
@@ -591,10 +594,10 @@ sub MigrateConfigItems {
     }
 
     if ($Errors) {
-        $Self->Print("<yellow>CustomerCompany transfer complete. $Errors error(s) occured!</yellow>\n");
+        $Self->Print("<yellow>ConfigItem transfer complete. $Errors error(s) occured!</yellow>\n");
     }
     else {
-        $Self->Print("<green>CustomerCompany transfer complete.</green>\n");
+        $Self->Print("<green>ConfigItem transfer complete.</green>\n");
     }
 
     return 1;
