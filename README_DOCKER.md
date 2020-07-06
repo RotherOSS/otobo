@@ -33,6 +33,7 @@ Some volumes are created on the host. These allow starting and stopping the serv
 * **otobo_mariadb_data** containing `/var/lib/mysql` on the container `db`.
 * **otobo_elasticsearch_data** containing `/usr/share/elasticsearch/datal` on the container `elastic`.
 * **otobo_redis_data** containing data on the container `redis`.
+* **otobo_nginx_ssl** contains the TLS files, certificate and private key
 
 ## Source files
 
@@ -55,6 +56,43 @@ The minimal versions that have been tested are listed here. Older versions might
 * Docker 19.03.08
 * Docker compose 1.25.0
 
+## Setting up the the environment for Docker Compose
+
+Choose one of
+
+* .docker_compose_env_http
+* .docker_compose_env_https
+* .docker_compose_env_http_port_5000
+
+and merge it with an maybe already existing file .env.
+
+### .docker_compose_env_http
+
+Run HTTP on port 80 or on the port specified in $OTOBO_WEB_HTTP_PORT.
+
+### .docker_compose_env_https
+
+Run HTTPS on port 80 or on the port specified in $OTOBO_WEB_HTTPS_PORT.
+
+### .docker_compose_env_http_port_5000
+
+Same as .docker_compose_env_http but $OTOBO_WEB_HTTP_PORT is already set to 5000
+
+### COMPOSE_PROJECT_NAME
+
+The project name is used as a prefix for the generated volumes and containers.
+Must be set because the compose file is located in scripts/docker-compose and thus docker-compose
+would be used per default.
+
+### COMPOSE_PATH_SEPARATOR
+
+Seperator for the value of COMPOSE_FILE
+
+### COMPOSE_FILE
+
+Use scripts/docker-compose/base.yml as the base and add the wanted extensions.
+The location of the base file determines the project dir.
+
 ## Building the docker image for otobo web and otobo nginx
 
 Only the image for otobo web and otobo nginx need to be built. The image otobe web is also used for otobo cron.
@@ -62,20 +100,18 @@ For the other service the images are pulled http://hub.docker.com.
 TODO: also pull the OTOBO images from http://hub.docker.com
 
 * cd into the toplevel OTOBO source dir, which contains the subdir scripts.
-* run `docker-compose --project-dir . -f scripts/docker-compose/base.yml -f scripts/docker-compose/https.yml build`
-* merge .docker_compose_env_http into .env so that you can omit the `-f scripts/docker-compose/base.yml -f scripts/docker-compose/http.yml`
+* run `docker-compose build`
 
 ## Starting the containers
 
 * Make sure that the secret MySQL root password is set up in the file .env. Per default the not so secret 'otobo_root' is used.
 * If HTTP should not run on port 80 then also set OTOBO_WEB_HTTP_PORT in the .env file.
-* run `docker-compose --project-dir . -f scripts/docker-compose/base.yml -f scripts/docker-compose/http.yml up`
+* run `docker-compose up`
 * open http://localhost/hello as a sanity check
 
 ## For the curious: inspect the running containers
 
 * `docker-compose ps`
-* `docker-compose --project-dir . -f scripts/docker-compose/base.yml -f scripts/docker-compose/http.yml ps`
 * `docker volume ls`
 
 ## Install OTOBO
@@ -84,15 +120,15 @@ Install OTOBO by opening http://localhost/otobo/installer.pl.
 
 ## Stopping the running containers
 
-* `docker-compose --project-dir . -f scripts/docker-compose/base.yml -f scripts/docker-compose/http.yml down`
+* `docker-compose down`
 
 ## An example workflow for restarting with a new installation
 
 Note that all previous data will be lost.
 
 * `sudo service docker restart`    # workaround when sometimes the cached images are not available
-* `docker-compose --project-dir . -f scripts/docker-compose/base.yml -f scripts/docker-compose/http.yml down -v`         # volumes are also removed
-* `docker-compose --project-dir . -f scripts/docker-compose/base.yml -f scripts/docker-compose/http.yml up --build`      # rebuild when the Dockerfile or the code has changed
+* `docker-compose down -v`         # volumes are also removed
+* `docker-compose up --build`     # rebuild when the Dockerfile or the code has changed
 * Check sanity at [hello](http://localhost:5000/hello)
 * Run the installer at [installer.pl](http://localhost:5000/otobo/installer.pl)
     * Keep the default 'db' for the database host
@@ -131,7 +167,7 @@ The names of the copied files can be set via environment options when starting t
 This is only an example. In the general case where there is an already existing reverse proxy.
 
 Start the HTTP webserver on port 5000.
-`docker-compose --project-dir . -f scripts/docker-compose/base.yml -f scripts/docker-compose/http_port_5000.yml up`
+`docker-compose up`
 
 Nginx running in a separate container should forward to port 80 of the host.
 This should work because the otobo web container exposes port 80.
@@ -154,7 +190,7 @@ In some cases the default OTOBO_NGINX_WEB_HOST, as defined in scripts/docker/ngi
 
 This is the way of running the OTOBO webapp under HTTPS when there is no existing reverse proxy.
 
-`docker-compose --project-dir . -f scripts/docker-compose/base.yml -f scripts/docker-compose/https.yml up --build`.
+`docker-compose up --build`.
 
 ## Useful Docker commands
 
@@ -172,8 +208,8 @@ This is the way of running the OTOBO webapp under HTTPS when there is no existin
 
 ## Useful Docker compose commands
 
-* check config:           `docker-compose --project-dir -f scripts/docker-compose/base.yml -f scripts/docker-compose/https.yml  config`
-* check containers:       `docker-compose --project-dir -f scripts/docker-compose/base.yml -f scripts/docker-compose/https.yml  ps`
+* check config:           `docker-compose config`
+* check containers:       `docker-compose ps`
 
 ## Resources
 

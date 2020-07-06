@@ -15,9 +15,9 @@ services:
   #    - "${OTOBO_WEB_HTTP_PORT:-80}:5000"
 
   nginx:
-    # use scrips/docker/nginx.Dockerfile for building, image otobo_nginx
+    # the project-dir is scripts/docker-compose
     build:
-      context: .
+      context: ../..
       dockerfile: scripts/docker/nginx.Dockerfile
     image: otobo_nginx:latest
     depends_on:
