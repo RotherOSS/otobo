@@ -1014,12 +1014,13 @@ sub Run {
         $LayoutObject->Block(
             Name => 'Finish',
             Data => {
-                Item       => Translatable('Finished'),
-                Step       => $StepCounter,
-                Host       => $ENV{HTTP_HOST} || $ConfigObject->Get('FQDN'),
+                Item        => Translatable('Finished'),
+                Step        => $StepCounter,
+                Host        => $ENV{HTTP_HOST} || $ConfigObject->Get('FQDN'),
+                Scheme      => ( ($ENV{HTTPS} && $ENV{HTTPS} eq 'ON') ? 'https' : 'http' ),
                 OTOBOHandle => $OTOBOHandle,
-                Webserver  => $Webserver,
-                Password   => $Password,
+                Webserver   => $Webserver,
+                Password    => $Password,
             },
         );
         if ($Webserver) {

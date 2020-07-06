@@ -27,7 +27,7 @@ services:
     # The HTTP port is exposed, but only redirects to HTTPS
     ports:
       - "${OTOBO_WEB_HTTPS_PORT:-443}:443"
-      - "${OTOBO_WEB_HTTP_PORT:-80}:5000"
+      - "${OTOBO_WEB_HTTP_PORT:-80}:80"
     # inside the docker network the host and the port is fixed
     environment:
       OTOBO_NGINX_WEB_HOST: web

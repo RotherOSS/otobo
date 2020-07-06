@@ -662,6 +662,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Plack::Middleware::ReverseProxy',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'Twist some HTTP variables so that the reverse proxy is transparent',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Plack::Middleware::Rewrite',
         Required  => 0,
         Features   => ['plack'],
