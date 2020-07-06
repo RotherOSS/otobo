@@ -1,7 +1,9 @@
 # Some info regarding running OTOBO under Docker.
 
-The standard use case ist that altogether five containers are started.
+For running OTOBO under HTTP altogether five containers are started.
+For HTTPS an additional container running nginx is started.
 These containers are managed via Docker compose.
+The setup is controlled via the file .env.
 
 ## Containers
 
@@ -13,7 +15,7 @@ OTOBO webserver on port 5000.
 
 Cron and the OTOBO Daemon.
 
-### Container otobo_web_1
+### Container otobo_db_1
 
 Run the relational database MariaDB on port 3306.
 
@@ -25,6 +27,10 @@ Run Elastic Search on the ports 9200 and 9300.
 
 Run Redis as the caching service.
 
+### Container otobo_nginx_1
+
+Run nginx as a reverse proxy for providing HTTPS support.
+
 ## Volumes
 
 Some volumes are created on the host. These allow starting and stopping the services without loosing data.
@@ -33,17 +39,18 @@ Some volumes are created on the host. These allow starting and stopping the serv
 * **otobo_mariadb_data** containing `/var/lib/mysql` on the container `db`.
 * **otobo_elasticsearch_data** containing `/usr/share/elasticsearch/datal` on the container `elastic`.
 * **otobo_redis_data** containing data on the container `redis`.
-* **otobo_nginx_ssl** contains the TLS files, certificate and private key
+* **otobo_nginx_ssl** contains the TLS files, certificate and private key, must be initialzed manually
 
 ## Source files
 
 The relevant files for running OTOBO with Docker are:
 
+* `.docker_compose_env_http`
+* `.docker_compose_env_https`
+* `.docker_compose_env_http_port_5000`
 * `scripts/docker-compose/base.yml`
 * `scripts/docker-compose/http.yml`
-* `scripts/docker-compose/http_port_5000.yml`
 * `scripts/docker-compose/https.yml`
-* `.docker_compose_env_*`
 * `scripts/docker/web.Dockerfile`
 * `scripts/docker/nginx.Dockerfile`
 * The scripts in `bin/docker`
@@ -112,12 +119,36 @@ For the other service the images are pulled http://hub.docker.com.
 TODO: also pull the OTOBO images from http://hub.docker.com
 
 * cd into the toplevel OTOBO source dir, which contains the subdir scripts.
+* Double check your .env file.
 * run `docker-compose build`
+
+## Set up TLS
+
+This step is only needed for HTTPS support.
+
+### Create a self-signed TLS certificate and private key
+
+Nginx need for TLS a certificate and a private key.
+For testing and development a self-signed certificate can be used. In the general case
+registered certificates must be used.
+
+`sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout otobo_nginx-selfsigned.key -out otobo_nginx-selfsigned.crt`
+
+### Store the certificate in a volume
+
+The certificate and the private key are stored in a volume, so that they can be used by nginx later on.
+
+`docker volume create otobo_nginx_ssl`
+`sudo cp otobo_nginx-selfsigned.key otobo_nginx-selfsigned.crt $(docker volume inspect --format '{{ .Mountpoint }}' otobo_nginx_ssl)`
+
+In the general case the companys certificate and private key can be copied into the volume.
+The names of the copied files can be set via environment options when starting the container. E.g.
+`-e SSL_CERTIFICATE=/etc/nginx/ssl/acme.crt -e SSL_CERTIFICATE_KEY=/etc/nginx/ssl/acme.key`
 
 ## Starting the containers
 
-* Make sure that the secret MySQL root password is set up in the file .env. Per default the not so secret 'otobo_root' is used.
 * If HTTP should not run on port 80 then also set OTOBO_WEB_HTTP_PORT in the .env file.
+* If HTTPS should not run on port 443 then also set OTOBO_WEB_HTTPS_PORT in the .env file.
 * run `docker-compose up`
 * open http://localhost/hello as a sanity check
 
@@ -146,7 +177,9 @@ Note that all previous data will be lost.
     * Keep the default 'db' for the database host
     * Keep logging to the file /opt/otobo/var/log/otobo.log
 
-## Running with nginx as a reverse proxy for supporting HTTPS
+## Running with a seperate nginx as a reverse proxy for supporting HTTPS
+
+This is basically an example for running OTOBO behind an external reverse proxy.
 
 ### Build the nginx image
 
@@ -157,28 +190,17 @@ The config for nginx is located in /etc/nginx.
 
 ### Create a self-signed TLS certificate and private key
 
-Nginx need for TLS a certificate and a private key.
-For testing and development a self-signed certificate can be used. In the general case
-registered certificates must be used.
-
-`sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout otobo_nginx-selfsigned.key -out otobo_nginx-selfsigned.crt`
+See above.
 
 ### Store the certificate in a volume
 
-The certificate and the private key are stored in a volume, so that they can be used by nginx later on.
-
-`docker volume create otobo_nginx_ssl`
-`sudo cp otobo_nginx-selfsigned.key otobo_nginx-selfsigned.crt $(docker volume inspect --format '{{ .Mountpoint }}' otobo_nginx_ssl)`
-
-In the general case the companys certificate and private key can be copied into the volume.
-The names of the copied files can be set via environment options when starting the container. E.g.
-`-e SSL_CERTIFICATE=/etc/nginx/ssl/acme.crt -e SSL_CERTIFICATE_KEY=/etc/nginx/ssl/acme.key`
+See above.
 
 ### Run the container separate from otobo web
 
 This is only an example. In the general case where there is an already existing reverse proxy.
 
-Start the HTTP webserver on port 5000.
+Start the HTTP webserver on port 5000. Make sure that port 5000 is set in .env.
 `docker-compose up`
 
 Nginx running in a separate container should forward to port 80 of the host.
@@ -197,12 +219,6 @@ Or `ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'`
 In some cases the default OTOBO_NGINX_WEB_HOST, as defined in scripts/docker/nginx.Docker, suffices:
 
 `docker run --volume=otobo_nginx_ssl:/etc/nginx/ssl --publish 443:443 --publish 80:80 --name otobo_nginx_1 otobo_nginx`
-
-### Run nginx in same container as the OTOBO webapp
-
-This is the way of running the OTOBO webapp under HTTPS when there is no existing reverse proxy.
-
-`docker-compose up --build`.
 
 ## Useful Docker commands
 
