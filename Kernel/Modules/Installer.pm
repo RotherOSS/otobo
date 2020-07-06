@@ -21,6 +21,7 @@ package Kernel::Modules::Installer;
 
 use strict;
 use warnings;
+use feature qw(fc);
 
 # core modules
 use Net::Domain qw(hostfqdn);
@@ -1017,7 +1018,7 @@ sub Run {
                 Item        => Translatable('Finished'),
                 Step        => $StepCounter,
                 Host        => $ENV{HTTP_HOST} || $ConfigObject->Get('FQDN'),
-                Scheme      => ( ($ENV{HTTPS} && $ENV{HTTPS} eq 'ON') ? 'https' : 'http' ),
+                Scheme      => ( ($ENV{HTTPS} && fc($ENV{HTTPS}) eq fc('ON') ) ? 'https' : 'http' ),
                 OTOBOHandle => $OTOBOHandle,
                 Webserver   => $Webserver,
                 Password    => $Password,
