@@ -98,6 +98,7 @@ if ( ! $BailOut ) {
                 . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;"
         );
         $BailOut = 1;
+   }
 }
 
 my ( $AgentSessionValid, $CustomerSessionValid );
