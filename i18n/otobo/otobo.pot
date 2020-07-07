@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-04-23 11:41+0000\n"
+"POT-Creation-Date: 2020-07-07 11:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -7439,7 +7439,11 @@ msgid "Details view"
 msgstr ""
 
 #. Template: AgentElasticsearchQuickResult
-msgid "Ticketnumber"
+msgid "Tickets"
+msgstr ""
+
+#. Template: AgentElasticsearchQuickResult
+msgid "ConfigItems"
 msgstr ""
 
 #. Template: AgentInfo
@@ -8819,10 +8823,6 @@ msgid "Page"
 msgstr ""
 
 #. Template: CustomerTicketOverview
-msgid "Tickets"
-msgstr ""
-
-#. Template: CustomerTicketOverview
 msgid "Sort"
 msgstr ""
 
@@ -8946,8 +8946,8 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#. Template: Tile_NewTicket
-msgid "Issue<br/>a ticket"
+#. Template: TileNewTicket
+msgid "Issue%sa ticket"
 msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
@@ -11339,7 +11339,7 @@ msgid "Package has locally modified files."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
-msgid "Package not verified by the OTOBO Team! It is recommended not to use this package."
+msgid "Package not verified by the OTOBO Team!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -13290,10 +13290,6 @@ msgstr ""
 msgid "Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s."
 msgstr ""
 
-#. Perl Module: Kernel/Modules/Installer.pm
-msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
-msgstr ""
-
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig."
 msgstr ""
@@ -14030,6 +14026,14 @@ msgstr ""
 msgid "It is currently not possible to login due to a scheduled system maintenance."
 msgstr ""
 
+#. Perl Module: Kernel/System/AuthSession.pm
+msgid "Session limit reached! Please try again later."
+msgstr ""
+
+#. Perl Module: Kernel/System/AuthSession.pm
+msgid "Session per user limit reached!"
+msgstr ""
+
 #. Perl Module: Kernel/System/AuthSession/DB.pm
 msgid "Session invalid. Please log in again."
 msgstr ""
@@ -14246,24 +14250,16 @@ msgstr ""
 msgid "OTRS Version is correct: %s."
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOInvalidSettingsCheck.pm
-msgid "Check for invalid configuration settings."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOInvalidSettingsCheck.pm
-msgid "Invalid setting detected."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOInvalidSettingsCheck.pm
-msgid "No invalid setting detected, perfect!"
-msgstr ""
-
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "Migrate configuration settings."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig data migration or no configuration exists."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
+msgid "An error occured during SysConfig migration when writing XML to DB."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
@@ -14342,10 +14338,6 @@ msgstr ""
 msgid "The same packages are installed on both systems, perfect!"
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageMigration.pm
-msgid "Check if %s!"
-msgstr ""
-
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "Check if all needed Perl modules have been installed."
 msgstr ""
@@ -14362,16 +14354,12 @@ msgstr ""
 msgid "All required Perl modules have been installed, perfect!"
 msgstr ""
 
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPostmasterFilterMigrate.pm
+msgid "Migrate postmaster filter."
+msgstr ""
+
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOProcessDeploy.pm
 msgid "Deploy the process management configuration."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBORebuildConfig.pm
-msgid "OTOBO config rebuild."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBORebuildConfigCleanup.pm
-msgid "OTOBO Config cleanup."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOResponseTemplatesMigrate.pm
@@ -14384,6 +14372,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSignaturesMigrate.pm
 msgid "Migrate database table signature."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOStatsMigrate.pm
+msgid "Migrate statistics."
 msgstr ""
 
 #. Perl Module: Kernel/System/NotificationEvent.pm
@@ -14423,11 +14415,15 @@ msgid "Can't read file!"
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
-msgid "<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTOBO service contracts.</p>"
+msgid "<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>"
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
-msgid "<p>The installation of packages which are not verified by the OTOBO Team is not possible by default. You can activate the installation of not verified packages via the \"AllowNotVerifiedPackages\" system configuration setting.</p>"
+msgid "Package not verified by the OTOBO community!"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"AllowNotVerifiedPackages\" system configuration setting.</p>"
 msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
@@ -15479,7 +15475,7 @@ msgid "Chat Message Text"
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
-msgid "Too many fail attempts, please retry again later"
+msgid "Too many failed login attempts, please retry in %s s."
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
@@ -17738,6 +17734,10 @@ msgid "Checks if an E-Mail is a followup to an existing ticket by searching the 
 msgstr ""
 
 #. SysConfig
+msgid "Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module."
+msgstr ""
+
+#. SysConfig
 msgid "Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system."
 msgstr ""
 
@@ -17962,7 +17962,7 @@ msgid "Create New process ticket."
 msgstr ""
 
 #. SysConfig
-msgid "Create Templates for AdminDynamicFieldTitle"
+msgid "Create Templates for AdminDynamicFieldTitle."
 msgstr ""
 
 #. SysConfig
@@ -20034,6 +20034,10 @@ msgid "Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTOBO to be 
 msgstr ""
 
 #. SysConfig
+msgid "Disable autocomplete in the login screen."
+msgstr ""
+
+#. SysConfig
 msgid "Disable cloud services"
 msgstr ""
 
@@ -20043,10 +20047,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Disables the redirection to the last screen overview / dashboard after a ticket is closed."
-msgstr ""
-
-#. SysConfig
-msgid "Disables the web installer (http://yourhost.example.com/otobo/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box."
 msgstr ""
 
 #. SysConfig
@@ -20402,6 +20402,10 @@ msgid "Enables ticket watcher feature only for the listed groups."
 msgstr ""
 
 #. SysConfig
+msgid "Enabling SecureMode disables the web installer (http://yourhost.example.com/otobo/installer.pl) and the migrations. This is done in order to prevent the system from being hijacked. When SecureMode is not enabled the system can be reinstalled. In this case the current basic configuration will be used to pre-populate the questions within the installer script. Enabling SecureMode also enables GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
 msgid "English (Canada)"
 msgstr ""
 
@@ -20650,7 +20654,11 @@ msgid "Forces to unlock tickets after being moved to another queue."
 msgstr ""
 
 #. SysConfig
-msgid "Format to be ingested"
+msgid "Format of Creation date shown for tickets. As an example '%Y-%m-%d %H:%M:%S' would be interpreted as '2020-01-22 18:07:23'. Please refer to http://search.cpan.org/~drolsky/DateTime-1.21/lib/DateTime.pm#strftime_Patterns."
+msgstr ""
+
+#. SysConfig
+msgid "Format to be ingested."
 msgstr ""
 
 #. SysConfig
@@ -20722,7 +20730,7 @@ msgid "Fulltext search"
 msgstr ""
 
 #. SysConfig
-msgid "Fulltext search using Elasticsearch"
+msgid "Fulltext search using Elasticsearch."
 msgstr ""
 
 #. SysConfig
@@ -20839,6 +20847,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Go to dashboard!"
+msgstr ""
+
+#. SysConfig
+msgid "Good PGP signature."
 msgstr ""
 
 #. SysConfig
@@ -21199,6 +21211,10 @@ msgstr ""
 
 #. SysConfig
 msgid "It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in \"Key\" should match the domain, and the value in \"Content\" should be a valid theme on your system. Please see the example entries for the proper form of the regex."
+msgstr ""
+
+#. SysConfig
+msgid "It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm."
 msgstr ""
 
 #. SysConfig
@@ -21618,10 +21634,6 @@ msgid "Maximum number of active calendars in overview screens. Please note that 
 msgstr ""
 
 #. SysConfig
-msgid "Maximum number of results returned from the quick result."
-msgstr ""
-
-#. SysConfig
 msgid "Maximum number of tickets to be displayed in the result of a search in the agent interface."
 msgstr ""
 
@@ -21834,6 +21846,14 @@ msgid "Next possible ticket states after adding a phone note in the ticket phone
 msgstr ""
 
 #. SysConfig
+msgid "No public key found."
+msgstr ""
+
+#. SysConfig
+msgid "No valid OpenPGP data found."
+msgstr ""
+
+#. SysConfig
 msgid "None"
 msgstr ""
 
@@ -21878,10 +21898,6 @@ msgid "Number of tickets to be displayed in each page of a search result in the 
 msgstr ""
 
 #. SysConfig
-msgid "Number of tickets to be displayed in each page."
-msgstr ""
-
-#. SysConfig
 msgid "OTOBO News"
 msgstr ""
 
@@ -21895,6 +21911,14 @@ msgstr ""
 
 #. SysConfig
 msgid "OTOBO doesn't support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default)."
+msgstr ""
+
+#. SysConfig
+msgid "Objects to search for, how many entries and which attributs to show."
+msgstr ""
+
+#. SysConfig
+msgid "Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch."
 msgstr ""
 
 #. SysConfig
@@ -22290,7 +22314,7 @@ msgid "Protection against CSRF (Cross Site Request Forgery) exploits (for more i
 msgstr ""
 
 #. SysConfig
-msgid "Protection against brute force attacks. MaxAttempt: How many failed login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered."
+msgid "Protection against brute force attacks. MaxAttempt: How many login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered."
 msgstr ""
 
 #. SysConfig
@@ -22323,6 +22347,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
+msgstr ""
+
+#. SysConfig
+msgid "Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time."
 msgstr ""
 
 #. SysConfig
@@ -22922,7 +22950,15 @@ msgid "Sets the inactivity time (in seconds) to pass before a session is killed 
 msgstr ""
 
 #. SysConfig
+msgid "Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime."
+msgstr ""
+
+#. SysConfig
 msgid "Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
@@ -23426,10 +23462,6 @@ msgid "Shows all both ro and rw tickets in the service view."
 msgstr ""
 
 #. SysConfig
-msgid "Shows all open tickets (even if they are locked) in the escalation view of the agent interface."
-msgstr ""
-
-#. SysConfig
 msgid "Shows all the articles of the ticket (expanded) in the agent zoom view."
 msgstr ""
 
@@ -23567,6 +23599,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled."
+msgstr ""
+
+#. SysConfig
+msgid "Signature data."
 msgstr ""
 
 #. SysConfig
@@ -23862,6 +23898,26 @@ msgid "Thai"
 msgstr ""
 
 #. SysConfig
+msgid "The PGP signature is expired."
+msgstr ""
+
+#. SysConfig
+msgid "The PGP signature was made by a revoked key, this could mean that the signature is forged."
+msgstr ""
+
+#. SysConfig
+msgid "The PGP signature was made by an expired key."
+msgstr ""
+
+#. SysConfig
+msgid "The PGP signature with the keyid has not been verified successfully."
+msgstr ""
+
+#. SysConfig
+msgid "The PGP signature with the keyid is good."
+msgstr ""
+
+#. SysConfig
 msgid "The agent skin's InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins."
 msgstr ""
 
@@ -23914,23 +23970,7 @@ msgid "The logo and signet shown in the header of the customer interface. The UR
 msgstr ""
 
 #. SysConfig
-msgid "The logo shown in the header of the agent interface for the skin \"High Contrast\". See \"AgentLogo\" for further description."
-msgstr ""
-
-#. SysConfig
 msgid "The logo shown in the header of the agent interface for the skin \"default\". See \"AgentLogo\" for further description."
-msgstr ""
-
-#. SysConfig
-msgid "The logo shown in the header of the agent interface for the skin \"ivory\". See \"AgentLogo\" for further description."
-msgstr ""
-
-#. SysConfig
-msgid "The logo shown in the header of the agent interface for the skin \"ivory-slim\". See \"AgentLogo\" for further description."
-msgstr ""
-
-#. SysConfig
-msgid "The logo shown in the header of the agent interface for the skin \"slim\". See \"AgentLogo\" for further description."
 msgstr ""
 
 #. SysConfig
@@ -24011,6 +24051,10 @@ msgstr ""
 
 #. SysConfig
 msgid "This is the default orange - black skin."
+msgstr ""
+
+#. SysConfig
+msgid "This key is not certified with a trusted signature!"
 msgstr ""
 
 #. SysConfig
@@ -24219,6 +24263,10 @@ msgstr ""
 
 #. SysConfig
 msgid "TicketNumber"
+msgstr ""
+
+#. SysConfig
+msgid "Tickets in the following queues will not be stored on the Elasticsearch server. To apply this to existing tickets, the ticket migration has to be run via console, after changing this option."
 msgstr ""
 
 #. SysConfig
