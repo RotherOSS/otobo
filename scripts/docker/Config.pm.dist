@@ -61,6 +61,10 @@ As this location is on a volume that is imported from the host.
 
 Use Redis for caching.
 
+=item TestHTTPHostname
+
+Set to I<localhost:5000> for running the test scripts in the otobo_web_1 container.
+
 =back
 
 =cut
@@ -119,6 +123,8 @@ sub Load {
     $Self->{'Cache::Module'}               = 'Kernel::System::Cache::Redis';
     $Self->{'Cache::Redis'}->{'RedisFast'} = 1;
     $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
+    $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
+    $Self->{'TestHTTPHostname'}            = 'localhost:5000';
 
     # ---------------------------------------------------- #
     # insert your own config settings "here"               #
