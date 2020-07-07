@@ -698,6 +698,17 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Sub::Exporter',
+        Required  => 1,
+        Comment   => 'needed by Kernel/cpan-lib/Crypt/Random/Source.pm',
+        InstTypes => {
+            aptget => 'libsub-exporter-perl',
+            emerge => 'dev-perl/Sub-Exporter',
+            zypper => 'perl-Sub-Exporter',
+            ports  => 'devel/p5-Sub-Exporter',
+        },
+    },
+    {
         Module    => 'Template::Toolkit',
         Required  => 1,
         Comment   => 'Template::Toolkit, the rendering engine of OTOBO.',
