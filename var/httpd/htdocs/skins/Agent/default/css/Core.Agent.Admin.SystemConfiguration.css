@@ -364,7 +364,7 @@ h2.SearchResults {
 
 .TableLike.DeploymentData label {
     padding-top: 1px;
-    color: #000;
+    color: #00023c;
 }
 
 .TableLike.DeploymentData .FieldExplanation {
@@ -791,8 +791,8 @@ h2.SearchResults {
 
 .WidgetSimple .WidgetMenu > a:focus,
 .WidgetSimple .WidgetMenu > span:focus {
-    border-color: #000;
-    color: #000;
+    border-color: #00023c;
+    color: #00023c;
 }
 
 .WidgetSimple.MenuExpanded .WidgetMenu > a,

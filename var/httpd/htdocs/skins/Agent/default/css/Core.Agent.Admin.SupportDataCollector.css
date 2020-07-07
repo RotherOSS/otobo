@@ -71,7 +71,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .AdminSupportDataCollector .CheckResults > li.CheckResultOK:hover > p {
-    color: #000;
+    color: #00023c;
 }
 
 .AdminSupportDataCollector .CheckResultProblem p {

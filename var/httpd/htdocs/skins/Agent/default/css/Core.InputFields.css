@@ -96,7 +96,7 @@ div.InputField_InputContainer {
 }
 
 #Header div.InputField_Container {
-    color: #000;
+    color: #00023c;
 }
 
 #ToolBar li.Extended form div.InputField_Container * {
@@ -137,7 +137,7 @@ div.InputField_InputContainer .InputField_Search {
 a.InputField_Action {
     position: absolute;
     display: block;
-    color: #000;
+    color: #00023c;
     top: 5px;
 }
 
@@ -254,7 +254,7 @@ div.InputField_ToolbarContainer ul li:last-child:after {
 }
 
 div.InputField_ToolbarContainer ul li a {
-    color: #000;
+    color: #00023c;
     display: inline-block;
     margin: 2px 5px;
     font-size: 11px;
@@ -262,7 +262,7 @@ div.InputField_ToolbarContainer ul li a {
 }
 
 div.InputField_ToolbarContainer i {
-    color: #000;
+    color: #00023c;
 }
 
 div.InputField_ToolbarContainer ul li a:hover {
@@ -334,7 +334,7 @@ div.InputField_ToolbarContainer ul li a:hover {
 
 .jstree-InputField .jstree-anchor {
     display: inline-block;
-    color: black;
+    color: #00023c;
     white-space: nowrap;
     padding: 0 4px 0 1px;
     margin: 0;

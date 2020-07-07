@@ -63,7 +63,7 @@ ul.Tablelike li:hover {
 }
 
 ul.Tablelike li:hover a {
-    color: #000;
+    color: #00023c;
 }
 
 ul.Tablelike li.Header {
@@ -721,7 +721,7 @@ ul.WidgetTooltip li a:hover i {
 
 .CallForAction:hover,
 .CallForAction:focus {
-    color: #000;
+    color: #00023c;
     border-color: #aaa;
 }
 
@@ -761,7 +761,7 @@ ul.WidgetTooltip li a:hover i {
 .cke_dialog_footer_buttons td a.cke_dialog_ui_button span {
     font-size: 11px;
     line-height: auto;
-    color: #000;
+    color: #00023c;
     font-weight: bold;
 }
 
@@ -1238,7 +1238,7 @@ input.FilterBox {
 }
 
 .UserStatusIcon.Offline i {
-    color: #000;
+    color: #00023c;
 }
 
 .UserStatusIcon.Unavailable i {

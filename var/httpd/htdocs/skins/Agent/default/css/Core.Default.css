@@ -397,8 +397,8 @@ span.ReadyForUpload {
 }
 
 div.DnDUpload:focus {
-    border-color: #000;
-    color: #000;
+    border-color: #00023c;
+    color: #00023c;
 }
 
 input.AjaxDnDUpload.Error + div.DnDUpload {
@@ -510,7 +510,7 @@ table.AttachmentList .Delete {
 }
 
 table.AttachmentList .AttachmentDelete:focus i {
-    color: #000;
+    color: #00023c;
 }
 
 table.AttachmentList.DataTable thead th {
@@ -747,7 +747,7 @@ table.AttachmentList.DataTable thead th {
 }
 
 .BreadCrumb a {
-    color: #000;
+    color: #00023c;
     position: relative;
 }
 
@@ -1858,7 +1858,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     .TableFilterContainer .FilterRemove:focus,
     .TableFilterContainer .FilterRemove:hover,
     .TableFilterContainer .FilterRemove:active {
-        color: #000;
+        color: #00023c;
     }
 
     .TableFilterContainer input,

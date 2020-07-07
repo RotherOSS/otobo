@@ -242,7 +242,7 @@ body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
 }
 
 .OverviewLarge h2 a {
-    color: #000;
+    color: #00023c;
     display: block;
     overflow: hidden;
     white-space: nowrap;
@@ -363,7 +363,7 @@ body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
 }
 
 .OverviewLarge .Preview li.Active h3 a {
-    color: #000;
+    color: #00023c;
 }
 
 .OverviewLarge li:hover .Preview li.Active h3 a {

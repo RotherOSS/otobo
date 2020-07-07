@@ -67,7 +67,7 @@ tbody tr.UnreadArticles td {
 
 .DataTable tr:hover,
 .TableSmall tr:hover {
-    color: #000;
+    color: #00023c;
 }
 
 table tr.MasterAction {
@@ -230,7 +230,7 @@ table tr.MasterAction {
 }
 
 .DataTable tr:hover td a {
-    color: #000;
+    color: #00023c;
 }
 
 .DataTable td:first-child input {
@@ -370,7 +370,7 @@ td.Attachment {
 }
 
 .TableSmall thead span {
-    color: #000;
+    color: #00023c;
 }
 
 .TableSmall thead .UnreadArticles a {
@@ -393,7 +393,7 @@ thead .SortAscending a,
 thead .headerSortUp a,
 thead .SortDescending a,
 thead .headerSortDown a {
-    color: #000;
+    color: #00023c;
 }
 
 .TableSmall thead a span,
@@ -462,7 +462,7 @@ thead .headerSortDown a {
 
 .TableSmall tr:hover td a,
 .TableSmall tr.Active td a {
-    color: #000;
+    color: #00023c;
 }
 
 .TableSmall td a.DynamicFieldLink {
@@ -506,7 +506,7 @@ thead .headerSortDown a {
 .DataTable tbody td span.Direction.Incoming .fa-long-arrow-left,
 .TableSmall tbody td span.Direction.Outgoing .fa-long-arrow-right,
 .DataTable tbody td span.Direction.Outgoing .fa-long-arrow-right {
-    color: #000;
+    color: #00023c;
     font-size: 12px;
 }
 
@@ -525,7 +525,7 @@ thead .headerSortDown a {
 
 .TableSmall tbody td a.Attachment i,
 .DataTable tbody td a.Attachment i {
-    color: #000;
+    color: #00023c;
 }
 
 .TableSmall td h2 {
@@ -924,7 +924,7 @@ td a i {
 tr:hover td i,
 tr:hover td a i,
 td a:hover i {
-    color: #000;
+    color: #00023c;
 }
 
 } /* end @media */

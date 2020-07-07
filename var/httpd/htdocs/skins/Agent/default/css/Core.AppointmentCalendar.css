@@ -300,7 +300,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     .FieldInline {
         display: inline-block;
-        color: #000;
+        color: #00023c;
         margin-left: 5px;
     }
 
@@ -319,7 +319,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
 
     tr td a#RestoreDefaultSettings:hover i {
-        color: #000;
+        color: #00023c;
     }
 
     .Field.Info a {
