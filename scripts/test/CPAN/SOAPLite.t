@@ -58,10 +58,6 @@ $Helper->ConfigSettingChange(
 # get remote host with some precautions for certain unit test systems
 my $Host = $Helper->GetTestHTTPHostname();
 
-# skip this test on Plack
-# TODO: fix this
-return 1 if $Host =~ m{:5000};
-
 # prepare RPC config
 my $Proxy = $ConfigObject->Get('HttpType')
     . '://'
