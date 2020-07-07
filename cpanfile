@@ -14,6 +14,8 @@ requires 'Digest::SHA';
 requires 'List::Util::XS';
 requires 'LWP::UserAgent';
 requires 'Net::DNS';
+# needed by Kernel/cpan-lib/Crypt/Random/Source.pm
+requires 'Sub::Exporter';
 # Template::Toolkit, the rendering engine of OTOBO.
 requires 'Template::Toolkit';
 # The fast data stash for Template::Toolkit.
