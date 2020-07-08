@@ -112,16 +112,6 @@ Seperator for the value of COMPOSE_FILE
 Use scripts/docker-compose/base.yml as the base and add the wanted extensions.
 The location of the base file determines the project dir.
 
-## Building the docker image for otobo web and otobo nginx
-
-Only the image for otobo web and otobo nginx need to be built. The image otobe web is also used for otobo cron.
-For the other service the images are pulled http://hub.docker.com.
-TODO: also pull the OTOBO images from http://hub.docker.com
-
-* cd into the toplevel OTOBO source dir, which contains the subdir scripts.
-* Double check your .env file.
-* run `docker-compose build`
-
 ## Set up TLS
 
 This step is only needed for HTTPS support.
@@ -147,7 +137,22 @@ For this make sure that files are declared in your .env file. E.g.
 `OTOBO_NGINX_SSL_CERTIFICATE=/etc/nginx/ssl/acme.crt`
 `OTOBO_NGINX_SSL_CERTIFICATE_KEY=/etc/nginx/ssl/acme.key`
 
+## Building the docker image for otobo web and otobo nginx
+
+This step not needed when the images from http://hub.docker.com are used.
+
+Only the image for otobo web and otobo nginx need to be built. The image otobe web is also used for otobo cron.
+For the other service the images are pulled http://hub.docker.com.
+
+* cd into the toplevel OTOBO source dir, which contains the subdir scripts.
+* Double check your .env file.
+* run `docker-compose build`
+
 ## Starting the containers
+
+The docker images are pulled from https://hub.docker.com unless they are already available locally.
+
+TODO: actually provide the images on https://hub.docker.com.
 
 * If HTTP should not run on port 80 then also set OTOBO_WEB_HTTP_PORT in the .env file.
 * If HTTPS should not run on port 443 then also set OTOBO_WEB_HTTPS_PORT in the .env file.
