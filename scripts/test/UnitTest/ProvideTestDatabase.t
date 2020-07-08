@@ -31,51 +31,52 @@ if ( !$Success ) {
         0,
         'Test database could not be provided, skipping test',
     );
-    return 1;
 }
-$Self->True(
-    $Success,
-    'ProvideTestDatabase - Database cleared',
-);
+else {
+    $Self->True(
+        $Success,
+        'ProvideTestDatabase - Database cleared',
+    );
 
-my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-my @Tables   = $DBObject->ListTables();
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my @Tables   = $DBObject->ListTables();
 
-$Self->Is(
-    scalar @Tables,
-    0,
-    'No tables found',
-);
+    $Self->Is(
+        scalar @Tables,
+        0,
+        'No tables found',
+    );
 
-my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
-my @DatabaseXMLFiles = (
-    "$Home/scripts/database/otobo-schema.xml",
-    "$Home/scripts/database/otobo-initial_insert.xml",
-);
+    my @DatabaseXMLFiles = (
+        "$Home/scripts/database/otobo-schema.xml",
+        "$Home/scripts/database/otobo-initial_insert.xml",
+    );
 
-$Success = $Helper->ProvideTestDatabase(
-    DatabaseXMLFiles => \@DatabaseXMLFiles,
-);
+    $Success = $Helper->ProvideTestDatabase(
+        DatabaseXMLFiles => \@DatabaseXMLFiles,
+    );
 
-$Self->True(
-    $Success,
-    'ProvideTestDatabase - Load and execute XML files',
-);
+    $Self->True(
+        $Success,
+        'ProvideTestDatabase - Load and execute XML files',
+    );
 
-@Tables = $DBObject->ListTables();
+    @Tables = $DBObject->ListTables();
 
-# Count number of table elements in OTOBO schema for comparison.
-my $XMLString = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-    Location => $DatabaseXMLFiles[0],
-);
-my $TableCount = () = ( ${$XMLString} =~ /<Table/g );
+    # Count number of table elements in OTOBO schema for comparison.
+    my $XMLString = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+        Location => $DatabaseXMLFiles[0],
+    );
+    my $TableCount = () = ( ${$XMLString} =~ /<Table/g );
 
-$Self->Is(
-    scalar @Tables,
-    $TableCount,
-    'OTOBO tables found',
-);
+    $Self->Is(
+        scalar @Tables,
+        $TableCount,
+        'OTOBO tables found',
+    );
+}
 
 # Cleanup is done by TmpDatabaseCleanup().
 

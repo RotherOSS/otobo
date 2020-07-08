@@ -33,74 +33,75 @@ for my $Dependency ( 'Devel::REPL', 'Data::Printer' ) {
 
 if ($DependencyMissing) {
     $Self->True( 1, "Not all prerequisites installed, skipping tests" );
-    return 1;
 }
+else {
 
-my @Tests = (
-    {
-        Name     => 'Hello World',
-        Code     => "'Hello World!';",
-        Result   => '"Hello World!"',
-        ExitCode => 0,
-    },
-    {
-        Name     => 'OTOBO Version string',
-        Code     => '$Kernel::OM->Get("Kernel::Config")->Get("Version");',
-        Result   => '"' . $ConfigObject->Get('Version') . '"',
-        ExitCode => 0,
-    },
-    {
-        Name     => 'OTOBO Version variable',
-        Code     => 'my $OTOBOVersion = $Kernel::OM->Get("Kernel::Config")->Get("Version");',
-        Result   => '"' . $ConfigObject->Get('Version') . '"',
-        ExitCode => 0,
-    },
-    {
-        Name   => 'Hash variable',
-        Code   => 'my %Hash = ( Test1 => 1, Test2 => 2 )',
-        Result => '\ {
-    Test1   1,
-    Test2   2
-}',
-        ExitCode => 0,
-    },
-    {
-        Name   => 'List variable',
-        Code   => 'my @List = ( "Test1", 1, "Test1", 2 )',
-        Result => '\ [
-    [0] "Test1",
-    [1] 1,
-    [2] "Test1",
-    [3] 2
-]',
-        ExitCode => 0,
-    },
-);
+    my @Tests = (
+        {
+            Name     => 'Hello World',
+            Code     => "'Hello World!';",
+            Result   => '"Hello World!"',
+            ExitCode => 0,
+        },
+        {
+            Name     => 'OTOBO Version string',
+            Code     => '$Kernel::OM->Get("Kernel::Config")->Get("Version");',
+            Result   => '"' . $ConfigObject->Get('Version') . '"',
+            ExitCode => 0,
+        },
+        {
+            Name     => 'OTOBO Version variable',
+            Code     => 'my $OTOBOVersion = $Kernel::OM->Get("Kernel::Config")->Get("Version");',
+            Result   => '"' . $ConfigObject->Get('Version') . '"',
+            ExitCode => 0,
+        },
+        {
+            Name   => 'Hash variable',
+            Code   => 'my %Hash = ( Test1 => 1, Test2 => 2 )',
+            Result => '\ {
+        Test1   1,
+        Test2   2
+    }',
+            ExitCode => 0,
+        },
+        {
+            Name   => 'List variable',
+            Code   => 'my @List = ( "Test1", 1, "Test1", 2 )',
+            Result => '\ [
+        [0] "Test1",
+        [1] 1,
+        [2] "Test1",
+        [3] 2
+    ]',
+            ExitCode => 0,
+        },
+    );
 
-for my $Test (@Tests) {
+    for my $Test (@Tests) {
 
-    my $Result;
-    my $ExitCode;
-    {
-        local *STDOUT;
-        open STDOUT, '>:encoding(UTF-8)', \$Result;
-        $ExitCode = $CommandObject->Execute( '--eval', $Test->{Code} );
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );
+        my $Result;
+        my $ExitCode;
+        {
+            local *STDOUT;
+            open STDOUT, '>:encoding(UTF-8)', \$Result;
+            $ExitCode = $CommandObject->Execute( '--eval', $Test->{Code} );
+            $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );
+        }
+
+        $Self->Is(
+            $ExitCode,
+            $Test->{ExitCode},
+            "Dev::Tools::Shell exit code '$Test->{Name}'",
+        );
+
+        chomp $Result;
+
+        $Self->Is(
+            $Result,
+            $Test->{Result},
+            "Dev::Tools::Shell output '$Test->{Name}'",
+        );
     }
-
-    $Self->Is(
-        $ExitCode,
-        $Test->{ExitCode},
-        "Dev::Tools::Shell exit code '$Test->{Name}'",
-    );
-
-    chomp $Result;
-
-    $Self->Is(
-        $Result,
-        $Test->{Result},
-        "Dev::Tools::Shell output '$Test->{Name}'",
-    );
 }
 
 1;

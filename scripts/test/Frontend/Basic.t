@@ -72,6 +72,8 @@ $UserAgent->cookie_jar( {} );    # keep cookies
 my $Response = $UserAgent->get(
     $AgentBaseURL . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;"
 );
+
+my $BailOut = 0;
 if ( !$Response->is_success() ) {
     $Self->True(
         0,
@@ -79,132 +81,140 @@ if ( !$Response->is_success() ) {
             . $AgentBaseURL
             . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;"
     );
-    return 1;
+    $BailOut = 1;
 }
 
-$Response = $UserAgent->get(
-    $CustomerBaseURL . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;"
-);
+if ( ! $BailOut ) {
 
-if ( !$Response->is_success() ) {
-    $Self->True(
-        0,
-        "Could not login to customer interface, aborting! URL: "
-            . $CustomerBaseURL
-            . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;"
+    $Response = $UserAgent->get(
+        $CustomerBaseURL . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;"
     );
-    return 1;
+
+    if ( !$Response->is_success() ) {
+        $Self->True(
+            0,
+            "Could not login to customer interface, aborting! URL: "
+                . $CustomerBaseURL
+                . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;"
+        );
+        $BailOut = 1;
+   }
 }
 
 my ( $AgentSessionValid, $CustomerSessionValid );
 
-# Get session info from cookie
-$UserAgent->cookie_jar()->scan(
-    sub {
-        if ( $_[1] eq $ConfigObject->Get('SessionName') && $_[2] ) {
-            $AgentSessionValid = 1;
-        }
-        if ( $_[1] eq $ConfigObject->Get('CustomerPanelSessionName') && $_[2] ) {
-            $CustomerSessionValid = 1;
-        }
-    }
-);
-
-if ( !$AgentSessionValid ) {
-    $Self->True( 0, "Could not login to agent interface, aborting" );
-    return 1;
-}
-if ( !$CustomerSessionValid ) {
-    $Self->True( 0, "Could not login to customer interface, aborting" );
-    return 1;
-}
-
-my %Frontends = (
-    $AgentBaseURL    => $ConfigObject->Get('Frontend::Module'),
-    $CustomerBaseURL => $ConfigObject->Get('CustomerFrontend::Module'),
-    $PublicBaseURL   => $ConfigObject->Get('PublicFrontend::Module'),
-);
-
-for my $BaseURL ( sort keys %Frontends ) {
-
-    FRONTEND:
-    for my $Frontend ( sort keys %{ $Frontends{$BaseURL} } ) {
-
-        next FRONTEND if $Frontend =~ m/Login|Logout/;
-
-        my $URL = $BaseURL . "Action=$Frontend";
-
-        my $Status;
-        TRY:
-        for my $Try ( 1 .. 2 ) {
-
-            $Response = $UserAgent->get($URL);
-
-            $Status = scalar $Response->code();
-            my $StatusGroup = substr $Status, 0, 1;
-
-            last TRY if $StatusGroup ne 5;
-        }
-
-        $Self->Is(
-            $Status,
-            200,
-            "Module $Frontend status code ($URL)",
-        );
-
-        $Self->True(
-            scalar $Response->header('Content-type'),
-            "Module $Frontend content type ($URL)",
-        );
-
-        $Self->False(
-            scalar $Response->header('X-OTOBO-Login'),
-            "Module $Frontend is no OTOBO login screen ($URL)",
-        );
-
-        # check response contents
-        if ( $Response->header('Content-type') =~ 'html' ) {
-            $Self->True(
-                scalar $Response->content() =~ m{<body|<div|<script}xms,
-                "Module $Frontend returned HTML ($URL)",
-            );
-
-            # Inspect all full HTML responses for robots information.
-            if ( $Response->content() =~ m{<head>} ) {
-
-                # Check robots information.
-                if ( $BaseURL !~ m{public\.pl} ) {
-                    $Self->True(
-                        index( $Response->content(), '<meta name="robots" content="noindex,nofollow" />' ) > 0,
-                        "Module $Frontend sends 'noindex' robots information.",
-                    );
-                }
-                else {
-
-                    next FRONTEND if $Frontend =~ m/PublicDownloads|PublicURLRedirect/;
-
-                    $Self->True(
-                        index( $Response->content(), '<meta name="robots" content="index,follow" />' ) > 0,
-                        "Module $Frontend sends 'index' robots information.",
-                    );
-                }
+if ( ! $BailOut ) {
+    # Get session info from cookie
+    $UserAgent->cookie_jar()->scan(
+        sub {
+            if ( $_[1] eq $ConfigObject->Get('SessionName') && $_[2] ) {
+                $AgentSessionValid = 1;
+            }
+            if ( $_[1] eq $ConfigObject->Get('CustomerPanelSessionName') && $_[2] ) {
+                $CustomerSessionValid = 1;
             }
         }
-        elsif ( $Response->header('Content-type') =~ 'json' ) {
+    );
 
-            my $Data = $JSONObject->Decode(
-                Data => $Response->content()
-            );
-
-            $Self->True(
-                scalar $Data,
-                "Module $Frontend returned valid JSON data ($URL)",
-            );
-        }
+    if ( !$AgentSessionValid ) {
+        $Self->True( 0, "Could not login to agent interface, aborting" );
+        $BailOut = 1;
+    }
+    if ( !$CustomerSessionValid ) {
+        $Self->True( 0, "Could not login to customer interface, aborting" );
+        $BailOut = 1;
     }
 }
 
-# cleanup cache
-$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+if ( ! $BailOut ) {
+
+    my %Frontends = (
+        $AgentBaseURL    => $ConfigObject->Get('Frontend::Module'),
+        $CustomerBaseURL => $ConfigObject->Get('CustomerFrontend::Module'),
+        $PublicBaseURL   => $ConfigObject->Get('PublicFrontend::Module'),
+    );
+
+    for my $BaseURL ( sort keys %Frontends ) {
+
+        FRONTEND:
+        for my $Frontend ( sort keys %{ $Frontends{$BaseURL} } ) {
+
+            next FRONTEND if $Frontend =~ m/Login|Logout/;
+
+            my $URL = $BaseURL . "Action=$Frontend";
+
+            my $Status;
+            TRY:
+            for my $Try ( 1 .. 2 ) {
+
+                $Response = $UserAgent->get($URL);
+
+                $Status = scalar $Response->code();
+                my $StatusGroup = substr $Status, 0, 1;
+
+                last TRY if $StatusGroup ne 5;
+            }
+
+            $Self->Is(
+                $Status,
+                200,
+                "Module $Frontend status code ($URL)",
+            );
+
+            $Self->True(
+                scalar $Response->header('Content-type'),
+                "Module $Frontend content type ($URL)",
+            );
+
+            $Self->False(
+                scalar $Response->header('X-OTOBO-Login'),
+                "Module $Frontend is no OTOBO login screen ($URL)",
+            );
+
+            # check response contents
+            if ( $Response->header('Content-type') =~ 'html' ) {
+                $Self->True(
+                    scalar $Response->content() =~ m{<body|<div|<script}xms,
+                    "Module $Frontend returned HTML ($URL)",
+                );
+
+                # Inspect all full HTML responses for robots information.
+                if ( $Response->content() =~ m{<head>} ) {
+
+                    # Check robots information.
+                    if ( $BaseURL !~ m{public\.pl} ) {
+                        $Self->True(
+                            index( $Response->content(), '<meta name="robots" content="noindex,nofollow" />' ) > 0,
+                            "Module $Frontend sends 'noindex' robots information.",
+                        );
+                    }
+                    else {
+
+                        next FRONTEND if $Frontend =~ m/PublicDownloads|PublicURLRedirect/;
+
+                        $Self->True(
+                            index( $Response->content(), '<meta name="robots" content="index,follow" />' ) > 0,
+                            "Module $Frontend sends 'index' robots information.",
+                        );
+                    }
+                }
+            }
+            elsif ( $Response->header('Content-type') =~ 'json' ) {
+
+                my $Data = $JSONObject->Decode(
+                    Data => $Response->content()
+                );
+
+                $Self->True(
+                    scalar $Data,
+                    "Module $Frontend returned valid JSON data ($URL)",
+                );
+            }
+        }
+    }
+
+    # cleanup cache
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+}
 
 1;

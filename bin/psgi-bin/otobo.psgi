@@ -499,6 +499,9 @@ my $App = builder {
     # conditionally enable profiling
     enable $NYTProfMiddleWare;
 
+    # check ever 10s for changed Perl modules
+    enable 'Plack::Middleware::Refresh';
+
     # Set the appropriate %ENV and file handles
     CGI::Emulate::PSGI->handler(
 
@@ -513,7 +516,10 @@ my $App = builder {
             # %ENV has to be used here as the PSGI is not passed as an arg to this anonymous sub.
             # $ENV{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
             # $ENV{PATH_INFO} contains the path after the $ENV{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
-            # The extracted ScriptFileName should be something like index.pl, customer.pl, or rpc.pl
+            # The extracted ScriptFileName should be something like:
+            #     nph-genericinterface.pl, index.pl, customer.pl, or rpc.pl
+            # Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
+            # are gracefully ignored.
             my ($ScriptFileName) = ( ( $ENV{SCRIPT_NAME} // '' ) . ( $ENV{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
 
             # Fallback to agent login if we could not determine handle...

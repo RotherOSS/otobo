@@ -425,7 +425,7 @@ my @NeededModules = (
         Module    => 'Linux::Inotify2',
         Required  => 0,
         Features   => ['plack'],
-        Comment   => 'Used with the -R option of plackup. Restart the server when files have changed.',
+        Comment   => 'Used when plackup is run with the -R option. This option restarts the server when files have changed.',
         InstTypes => {
             aptget => undef,
             emerge => undef,
@@ -662,6 +662,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Plack::Middleware::Refresh',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'Watch for changed modules in %INC',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Plack::Middleware::ReverseProxy',
         Required  => 0,
         Features   => ['plack'],
@@ -695,6 +707,17 @@ my @NeededModules = (
             emerge => undef,
             zypper => undef,
             ports  => undef,
+        },
+    },
+    {
+        Module    => 'Sub::Exporter',
+        Required  => 1,
+        Comment   => 'needed by Kernel/cpan-lib/Crypt/Random/Source.pm',
+        InstTypes => {
+            aptget => 'libsub-exporter-perl',
+            emerge => 'dev-perl/Sub-Exporter',
+            zypper => 'perl-Sub-Exporter',
+            ports  => 'devel/p5-Sub-Exporter',
         },
     },
     {
