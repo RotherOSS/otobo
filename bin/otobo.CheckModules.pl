@@ -662,6 +662,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Plack::Middleware::Refresh',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'Watch for changed modules in %INC',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Plack::Middleware::ReverseProxy',
         Required  => 0,
         Features   => ['plack'],

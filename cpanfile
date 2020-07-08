@@ -114,6 +114,8 @@ feature 'optional', 'Modules that are not required' => sub {
     requires 'Plack::Middleware::ForceEnv';
     # Set HTTP headers
     requires 'Plack::Middleware::Header';
+    # Watch for changed modules in %INC
+    requires 'Plack::Middleware::Refresh';
     # Twist some HTTP variables so that the reverse proxy is transparent
     requires 'Plack::Middleware::ReverseProxy';
     # Set environment variables
@@ -160,6 +162,8 @@ feature 'plack', 'Suppport for plack' => sub {
     requires 'Plack::Middleware::ForceEnv';
     # Set HTTP headers
     requires 'Plack::Middleware::Header';
+    # Watch for changed modules in %INC
+    requires 'Plack::Middleware::Refresh';
     # Twist some HTTP variables so that the reverse proxy is transparent
     requires 'Plack::Middleware::ReverseProxy';
     # Set environment variables

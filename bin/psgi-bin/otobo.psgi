@@ -499,6 +499,9 @@ my $App = builder {
     # conditionally enable profiling
     enable $NYTProfMiddleWare;
 
+    # check ever 10s for changed Perl modules
+    enable 'Plack::Middleware::Refresh';
+
     # Set the appropriate %ENV and file handles
     CGI::Emulate::PSGI->handler(
 
