@@ -48,13 +48,15 @@ The relevant files for running OTOBO with Docker are:
 * `.docker_compose_env_http`
 * `.docker_compose_env_https`
 * `.docker_compose_env_http_port_5000`
-* `scripts/docker-compose/base.yml`
-* `scripts/docker-compose/http.yml`
-* `scripts/docker-compose/https.yml`
-* `scripts/docker/web.Dockerfile`
-* `scripts/docker/nginx.Dockerfile`
+* `scripts/docker-compose/otobo-base.yml`
+* `scripts/docker-compose/otobo-override-http.yml`
+* `scripts/docker-compose/otobp-override-https.yml`
+* `otobo.web.dockerfile`
+* `otobo.nginx.dockerfile`
 * The scripts in `bin/docker`
 * More setup and config files in `scripts/docker`
+
+The file .env is also relavant. This is the file that needs to be created by the user.
 
 ## Requirements
 
@@ -109,8 +111,8 @@ Seperator for the value of COMPOSE_FILE
 
 ### COMPOSE_FILE
 
-Use scripts/docker-compose/base.yml as the base and add the wanted extensions.
-The location of the base file determines the project dir.
+Use scripts/docker-compose/otobo-base.yml as the base and add the wanted extension files.
+E.g scripts/docker-compose/otobo-override-http.yml or scripts/docker-compose/otobo-override-https.yml.
 
 ## Set up TLS
 
@@ -178,7 +180,7 @@ Note that all previous data will be lost.
 
 * `sudo service docker restart`    # workaround when sometimes the cached images are not available
 * `docker-compose down -v`         # volumes are also removed
-* `docker-compose up --build`     # rebuild when the Dockerfile or the code has changed
+* `docker-compose up --build`      # rebuild when the Dockerfile or the code has changed
 * Check sanity at [hello](http://localhost:5000/hello)
 * Run the installer at [installer.pl](http://localhost:5000/otobo/installer.pl)
     * Keep the default 'db' for the database host
@@ -193,7 +195,7 @@ This is basically an example for running OTOBO behind an external reverse proxy.
 The image contains nginx and openssl along with an adapted config. But there is no sensible editor.
 The config for nginx is located in /etc/nginx.
 
-`docker build --tag otobo_nginx --file scripts/docker/nginx.Dockerfile .`
+`docker build --tag otobo_nginx --file otobo.nginx.dockerfile .`
 
 ### Create a self-signed TLS certificate and private key
 
@@ -231,7 +233,7 @@ In some cases the default OTOBO_NGINX_WEB_HOST, as defined in scripts/docker/ngi
 
 * start over:             `docker system prune -a`
 * show version:           `docker version`
-* build an image:         `docker build --tag otobo-web --file=scripts/docker/web.Dockerfile .`
+* build an image:         `docker build --tag otobo-web --file=otobo.web.Dockerfile .`
 * run the new image:      `docker run --publish 80:5000 otobo-web`
 * log into the new image: `docker run  -v opt_otobo:/opt/otobo -it otobo-web bash`
 * show running images:    `docker ps`
