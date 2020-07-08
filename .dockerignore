@@ -1,7 +1,10 @@
-# dot files are usually not needed in the image
-**/.*
+# Dot files in the root dir are usually not needed in the image.
+# The file .bash_completion is an exception from that rule.
+# Note that scripts/.vimrc and the .keep files in some subdirs are explicitly wanted.
+# The .keep files force git to keep the directories.
+.*
+**/.keep
 !.bash_completion
-!scripts/vim/.vimrc
 
 # files that might be generated during development
 build.log
@@ -9,7 +12,7 @@ otobo.iml
 
 # this is for the case when the image is not created from a clean git checkout
 Kernel/Config.pm
-Kernel/Config/Files/ZZZAAuto.pm
+Kernel/Config/Files/*Auto.pm
 otobo.iml
 var/log/Daemon/
 var/run/

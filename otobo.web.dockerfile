@@ -40,10 +40,11 @@ WORKDIR $OTOBO_HOME
 
 RUN echo "'$OTOBO_HOME'"
 RUN pwd
-RUN ls
-RUN ls var
-RUN ls Kernel/
-RUN ls Kernel/Config.pm.docker.dist
+RUN ls -a
+RUN ls -a var
+RUN ls -a Kernel/
+RUN ls -a scripts/vim
+RUN ls -a Kernel/Config.pm.docker.dist
 RUN uname -a
 RUN tree Kernel
 RUN false
@@ -70,7 +71,7 @@ RUN cd scripts/database \
 
 # Generate and install the crontab for the user $OTOBO_USER.
 # Explicitly set PATH as the required perl is located in /usr/local/bin/perl.
-# var/tmp is created by $OTOBO_USER as bin/Cron.sh used this dir.
+# var/tmp is created by $OTOBO_USER as bin/Cron.sh uses this dir.
 USER $OTOBO_USER
 RUN mkdir -p var/tmp \
     && echo "# File added by Dockerfile"                             >  var/cron/aab_path \
