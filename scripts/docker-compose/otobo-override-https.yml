@@ -18,7 +18,7 @@ services:
     # the project-dir is scripts/docker-compose
     build:
       context: ../..
-      dockerfile: scripts/docker/nginx.Dockerfile
+      dockerfile: otobo.nginx.dockerfile
     image: otobo_nginx:latest
     depends_on:
       - web

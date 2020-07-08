@@ -35,7 +35,7 @@ services:
     # use ./Dockerfile for building, image otobo_web
     build:
       context: ../..
-      dockerfile: scripts/docker/web.Dockerfile
+      dockerfile: otobo.web.dockerfile
     # give a name to the built image so that the service 'cron' can reuse it
     image: otobo_web:latest
     depends_on:
