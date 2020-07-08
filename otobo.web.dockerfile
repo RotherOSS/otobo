@@ -19,8 +19,8 @@ COPY cpanfile ./cpanfile
 # the modules with ignorable test failures with the option --force.
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
-RUN cpanm --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
-RUN cpanm --with-feature=mysql --with-feature=plack --with-feature=mojo --with-feature=docker --with-feature=redis --with-feature=test --installdeps .
+#RUN cpanm --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
+#RUN cpanm --with-feature=mysql --with-feature=plack --with-feature=mojo --with-feature=docker --with-feature=redis --with-feature=test --installdeps .
 
 # create the otobo user
 #   --user-group            create group 'otobo' and add the user to the created group
@@ -37,6 +37,14 @@ RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash 
 # skip the files set up in .dockerignore
 COPY --chown=$OTOBO_USER:$OTOBO_GROUP . $OTOBO_HOME
 WORKDIR $OTOBO_HOME
+
+RUN echo "'$OTOBO_HOME'"
+RUN pwd
+RUN ls
+RUN ls var
+RUN ls Kernel/Config.pm.docker.dist
+RUN ls Kernel/Config.pm.docker.dist
+RUN uname -a
 
 # Some initial setup.
 # Create dirs.
