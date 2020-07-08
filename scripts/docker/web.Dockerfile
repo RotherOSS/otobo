@@ -20,8 +20,7 @@ COPY cpanfile ./cpanfile
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
 RUN cpanm --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
-RUN cpanm --with-feature=mysql --with-feature=plack --with-feature=mojo --with-feature=docker --with-feature=redis --installdeps .
-
+RUN cpanm --with-feature=mysql --with-feature=plack --with-feature=mojo --with-feature=docker --with-feature=redis --with-feature=test --installdeps .
 
 # create the otobo user
 #   --user-group            create group 'otobo' and add the user to the created group

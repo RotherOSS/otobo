@@ -122,6 +122,8 @@ feature 'optional', 'Modules that are not required' => sub {
     requires 'Plack::Middleware::Rewrite';
     # PSGI SOAP adapter
     requires 'SOAP::Transport::HTTP::Plack';
+    # a quick compile check
+    requires 'Test::Compile';
     # Recommended for faster CSV handling.
     requires 'Text::CSV_XS';
     # Required for Generic Interface XSLT mapping module.
@@ -182,4 +184,9 @@ feature 'redis', 'Suppport for redis' => sub {
     requires 'Redis';
     # Recommended for usage with Redis Cache Server. (it`s compatible with `Redis`, but **~2x faster**)
     requires 'Redis::Fast';
+};
+
+feature 'test', 'Modules needed for running the unit tests' => sub {
+    # a quick compile check
+    requires 'Test::Compile';
 };

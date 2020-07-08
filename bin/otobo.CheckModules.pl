@@ -110,6 +110,7 @@ my %FeatureDescription = (
     postgresql   => 'Support for database PostgreSQL',
     docker       => 'Optional modules that are included in the Docker image',
     optional     => 'Modules that are not required',
+    test         => 'Modules needed for running the unit tests',
 );
 
 my $OSDist;
@@ -740,6 +741,18 @@ my @NeededModules = (
             emerge => 'dev-perl/Template-Toolkit',
             zypper => 'perl-Template-Toolkit',
             ports  => 'www/p5-Template-Toolkit',
+        },
+    },
+    {
+        Module    => 'Test::Compile',
+        Required  => 0,
+        Features   => ['test'],
+        Comment   => 'a quick compile check',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
         },
     },
     {
