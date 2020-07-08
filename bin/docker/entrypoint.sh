@@ -29,10 +29,13 @@ if [ "$1" = "web" ]; then
     #perl ./bin/otobo.Console.pl Maint::Cache::Delete
 
     # Start the webserver
-    # Watch for changes in the modules and the config files, otobo.psgi is watched implicitly
-    plackup --server Gazelle -R Kernel --port 5000 bin/psgi-bin/otobo.psgi
+    #   For development enable the -R option.
+    #   This watches for changes in the modules and the config files and otobo.psgi is watched implicitly
+    #   plackup --server Gazelle -R Kernel --port 5000 bin/psgi-bin/otobo.psgi
+    plackup --server Gazelle --port 5000 bin/psgi-bin/otobo.psgi
 
 else
     echo "Unknown option $1. Exiting."
+
     exit -1
 fi

@@ -1966,7 +1966,7 @@ sub new {
         for my $File (@Files) {
 
             # do not use ZZZ files
-            if ( $Param{Level} && $Param{Level} eq 'Default' && $File =~ /ZZZ/ ) {
+            if ( $Param{Level} && $Param{Level} eq 'Default' && $File =~ m/ZZZ/ ) {
                 next FILE;
             }
 

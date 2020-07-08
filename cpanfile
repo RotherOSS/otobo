@@ -88,7 +88,7 @@ feature 'optional', 'Modules that are not required' => sub {
     requires 'IO::Socket::SSL';
     # Recommended for faster AJAX/JavaScript handling.
     requires 'JSON::XS';
-    # Used with the -R option of plackup. Restart the server when files have changed.
+    # Used when plackup is run with the -R option. This option restarts the server when files have changed.
     requires 'Linux::Inotify2';
     # Required for IMAP TLS connections.
     requires 'Mail::IMAPClient';
@@ -114,6 +114,8 @@ feature 'optional', 'Modules that are not required' => sub {
     requires 'Plack::Middleware::ForceEnv';
     # Set HTTP headers
     requires 'Plack::Middleware::Header';
+    # Watch for changed modules in %INC
+    requires 'Plack::Middleware::Refresh';
     # Twist some HTTP variables so that the reverse proxy is transparent
     requires 'Plack::Middleware::ReverseProxy';
     # Set environment variables
@@ -146,7 +148,7 @@ feature 'plack', 'Suppport for plack' => sub {
     requires 'DBIx::Connector';
     # High-performance preforking PSGI/Plack web server
     requires 'Gazelle';
-    # Used with the -R option of plackup. Restart the server when files have changed.
+    # Used when plackup is run with the -R option. This option restarts the server when files have changed.
     requires 'Linux::Inotify2';
     # Required by Math::Random::Secure in Kernel/cpan-lib
     requires 'Moo';
@@ -160,6 +162,8 @@ feature 'plack', 'Suppport for plack' => sub {
     requires 'Plack::Middleware::ForceEnv';
     # Set HTTP headers
     requires 'Plack::Middleware::Header';
+    # Watch for changed modules in %INC
+    requires 'Plack::Middleware::Refresh';
     # Twist some HTTP variables so that the reverse proxy is transparent
     requires 'Plack::Middleware::ReverseProxy';
     # Set environment variables
