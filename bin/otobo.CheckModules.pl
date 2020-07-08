@@ -426,7 +426,7 @@ my @NeededModules = (
         Module    => 'Linux::Inotify2',
         Required  => 0,
         Features   => ['plack'],
-        Comment   => 'Used with the -R option of plackup. Restart the server when files have changed.',
+        Comment   => 'Used when plackup is run with the -R option. This option restarts the server when files have changed.',
         InstTypes => {
             aptget => undef,
             emerge => undef,
@@ -655,6 +655,18 @@ my @NeededModules = (
         Required  => 0,
         Features   => ['plack'],
         Comment   => 'Set HTTP headers',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'Plack::Middleware::Refresh',
+        Required  => 0,
+        Features   => ['plack'],
+        Comment   => 'Watch for changed modules in %INC',
         InstTypes => {
             aptget => undef,
             emerge => undef,

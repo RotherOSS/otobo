@@ -73,7 +73,7 @@ my $RemoteSystem =
     . $Host
     . '/'
     . $ConfigObject->Get('ScriptAlias')
-    . '/nph-genericinterface.pl/WebserviceID/'
+    . 'nph-genericinterface.pl/WebserviceID/'
     . $WebserviceID;
 
 my $Home  = $ConfigObject->Get('Home');

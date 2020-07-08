@@ -610,8 +610,8 @@ sub DESTROY {
 
 =head2 ConfigSettingChange()
 
-temporarily change a configuration setting system wide to another value,
-both in the current ConfigObject and also in the system configuration on disk.
+temporarily change a configuration setting system wide to another value.
+The setting is changed both in the current ConfigObject and also in the system configuration on disk.
 
 This will be reset when the Helper object is destroyed.
 
@@ -679,6 +679,9 @@ EOF
         Mode     => 'utf8',
         Content  => \$Content,
     ) || die "Could not write $FileName";
+
+    # There is no need to restart the webserver as the changed config
+    # is picked up by Kernel::Config::new() for every request.
 
     return 1;
 }
