@@ -1,5 +1,4 @@
 # dot files are usually not needed in the image
-**/.*
 !.bash_completion
 !scripts/vim/.vimrc
 
