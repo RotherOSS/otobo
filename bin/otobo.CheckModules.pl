@@ -110,6 +110,7 @@ my %FeatureDescription = (
     postgresql   => 'Support for database PostgreSQL',
     docker       => 'Optional modules that are included in the Docker image',
     optional     => 'Modules that are not required',
+    test         => 'Modules needed for running the unit tests',
 );
 
 my $OSDist;
@@ -744,6 +745,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Test::Compile',
+        Required  => 0,
+        Features   => ['test'],
+        Comment   => 'a quick compile check',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Text::CSV_XS',
         Required  => 0,
         Comment   => 'Recommended for faster CSV handling.',
@@ -1216,7 +1229,43 @@ sub PrintCpanfile {
                 $Comment =~ s/\n/\n$Indent\#/g;
                 say $Indent, "# $Comment";
             }
-            say $Indent, "requires '$Module->{Module}';";
+
+            if ( $Module->{VersionsRecommended} ) {
+                my $VersionsRecommended = 0;
+                ITEM:
+                for my $Item ( @{ $Module->{VersionsRecommended} } ) {
+                    say $Indent, "# Please consider updating to version $Item->{Version} or higher: $Item->{Comment}";
+                }
+            }
+
+            # there may be additional restrictions on the versions
+            my $VersionRequirement = '';
+            {
+                my @Conditions;
+
+                if ( $Module->{VersionRequired} ) {
+                    push @Conditions, ">= $Module->{VersionRequired}";
+                }
+
+                if ( $Module->{VersionsNotSupported} ) {
+
+                    my $VersionsNotSupported = 0;
+                    ITEM:
+                    for my $Item ( @{ $Module->{VersionsNotSupported} } ) {
+                        say $Indent, "# Version $Item->{Version} not supported: $Item->{Comment}";
+                        push @Conditions, "!= $Item->{Version}";
+                    }
+                }
+
+                # assemble the argument for the 'requires' command
+                if ( @Conditions ) {
+                    $VersionRequirement = qq{, "@{[ join ', ', @Conditions ]}"};
+                }
+            }
+
+            my @Filters;
+            say $Indent, "requires '$Module->{Module}'$VersionRequirement;";
+            say '';
 
             next MODULE;
         }
