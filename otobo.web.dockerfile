@@ -38,16 +38,14 @@ RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash 
 COPY --chown=$OTOBO_USER:$OTOBO_GROUP . $OTOBO_HOME
 WORKDIR $OTOBO_HOME
 
-RUN echo "'$OTOBO_HOME'"
-RUN pwd
-RUN ls -a
-RUN ls -a var
-RUN ls -a Kernel/
-RUN ls -a scripts/vim
-RUN ls -a Kernel/Config.pm.docker.dist
-RUN uname -a
-RUN tree Kernel
-RUN false
+# uncomment these steps when strange behavior must be investigated
+#RUN echo "'$OTOBO_HOME'"
+#RUN whoami
+#RUN pwd
+#RUN uname -a
+#RUN ls -a
+#RUN tree Kernel
+#RUN false
 
 # Some initial setup.
 # Create dirs.
