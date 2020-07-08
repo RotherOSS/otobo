@@ -106,6 +106,25 @@
                         </p>
                     </div>
                     <div class="Clear"></div>
+
+                    <h4>
+                        [% Translate("Elasticsearch") | html %]
+                    </h4>
+                    <div class="Clear"></div>
+
+                    <label for="ESInit">[% Translate("Initialize Elasticsearch") | html %]:</label>
+                    <div class="Field">
+                        [% IF Data.ESActive %]
+                        <p class="FieldExplanation">
+                            [% Translate("Elasticsearch server was found, and it has been activated automatically for OTOBO.") | html %]
+                        </p>
+                        [% ELSE %]
+                        <p class="FieldExplanation">
+                            [% Translate("Seemingly either no clean Elasticsearch server is running, or it is not using the standard configuration. To activate Elasticsearch manually, please edit the web service in the admin interface if necessary, activate 'Elasticsearch::Active' and 'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext' in the SysConfig and run the otobo.Console command 'Maint::Elasticsearch::Migration'.") | html %]
+                        </p>
+                        [% END %]
+                    </div>
+                    <div class="Clear"></div>
                 </fieldset>
 
                 <div class="SpacingTop Right">

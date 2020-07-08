@@ -45,7 +45,7 @@ WORKDIR $OTOBO_HOME
 # Use the docker specific Config.pm.dist file.
 RUN mkdir -p var/stats var/packages \
     && (echo ". ~/.bash_completion" >> .bash_aliases ) \
-    && cp scripts/docker/Config.pm.dist Kernel/Config.pm \
+    && cp Kernel/Config.pm.docker.dist Kernel/Config.pm \
     && cp Kernel/Config.pod.dist Kernel/Config.pod \
     && cd var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done
 

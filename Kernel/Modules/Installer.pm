@@ -18,6 +18,7 @@
 package Kernel::Modules::Installer;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Print)
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ForeachToFor)
 
 use strict;
 use warnings;
@@ -783,6 +784,223 @@ sub Run {
 
         # Read FQDN using Net::Domain and pre-populate the field.
         $Param{FQDN} = hostfqdn();
+
+        # try initializing Elasticsearch
+        my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+        my $ESObject = $Kernel::OM->Get('Kernel::System::Elasticsearch');
+
+        my $ESWebservice = $WebserviceObject->WebserviceGet(
+            Name => 'Elasticsearch',
+        );
+        my $Success = 0;
+
+        # activate it
+        if ( $ESWebservice ) {
+            $Success = $WebserviceObject->WebserviceUpdate(
+                %{$ESWebservice},
+                ValidID => 1,
+                UserID  => 1,
+            );
+        }
+
+        # test the connection
+        if ( $Success && !$ESObject->TestConnection() ) {
+            $Success = 0;
+        }
+
+        # active ES in the SysConf
+        if ( $Success ) {
+            # SysConfig
+            my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+            my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+                LockAll => 1,
+                Force   => 1,
+                UserID  => 1,
+            );
+            $Success = $SysConfigObject->SettingUpdate(
+                Name              => 'Elasticsearch::Active',
+                IsValid           => 1,
+                UserID            => 1,
+                ExclusiveLockGUID => $ExclusiveLockGUID,
+            );
+            $SysConfigObject->SettingUnlock(
+                UnlockAll => 1,
+            );
+        }
+
+        # initialize standard indices
+        if ( $Success ) {
+            my $Errors;
+
+            my $IndexConfig = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
+            my %Pipeline = (
+                description => "Extract external attachment information",
+                processors  => [
+                    {
+                        foreach => {
+                            field     => "Attachments",
+                            processor => {
+                                attachment => {
+                                    target_field => "_ingest._value.attachment",
+                                    field        => "_ingest._value.data"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        foreach => {
+                            field     => "Attachments",
+                            processor => {
+                                remove => {
+                                    field => "_ingest._value.data"
+                                }
+                            }
+                        }
+                    }
+                ]
+            );
+            $Success = $ESObject->CreatePipeline(
+                Request => \%Pipeline,
+            );
+            $Errors++ if !$Success;
+
+            my %IndexName = (
+                index => 'customer',
+            );
+            my %Request = (
+                settings => {
+                    index => {
+                        number_of_shards   => $IndexConfig->{NS},
+                        number_of_replicas => $IndexConfig->{NR},
+                    },
+                    'index.mapping.total_fields.limit' => 2000,
+                },
+                mappings => {
+                    properties => {
+                        CustomerID => {
+                            type => 'keyword',
+                        },
+                    }
+                },
+            );
+            $Success = $ESObject->CreateIndex(
+                IndexName => \%IndexName,
+                Request   => \%Request,
+            );
+            $Errors++ if !$Success;
+
+            %IndexName = (
+                index => 'customeruser',
+            );
+            %Request = (
+                settings => {
+                    index => {
+                        number_of_shards   => $IndexConfig->{NS},
+                        number_of_replicas => $IndexConfig->{NR},
+                    },
+                    'index.mapping.total_fields.limit' => 2000,
+                },
+                mappings => {
+                    properties => {
+                        UserLogin => {
+                            type => 'keyword',
+                        },
+                    }
+                },
+            );
+            $Success = $ESObject->CreateIndex(
+                IndexName => \%IndexName,
+                Request   => \%Request,
+            );
+            $Errors++ if !$Success;
+
+            %IndexName = (
+                index => 'ticket',
+            );
+            %Request = (
+                settings => {
+                    index => {
+                        number_of_shards   => $IndexConfig->{NS},
+                        number_of_replicas => $IndexConfig->{NR},
+                    },
+                    'index.mapping.total_fields.limit' => 2000,
+                },
+                mappings => {
+                    properties => {
+                        GroupID => {
+                            type => 'integer',
+                        },
+                        QueueID => {
+                            type => 'integer',
+                        },
+                        CustomerID => {
+                            type => 'keyword',
+                        },
+                        CustomerUserID => {
+                            type => 'keyword',
+                        },
+                    }
+                },
+            );
+            $Success = $ESObject->CreateIndex(
+                IndexName => \%IndexName,
+                Request   => \%Request,
+            );
+            $Errors++ if !$Success;
+
+            if ( $Errors ) {
+                $Success = 0;
+            }
+        }
+
+        if ( $Success ) {
+            my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+            my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+                LockAll => 1,
+                Force   => 1,
+                UserID  => 1,
+            );
+            my %Setting = $SysConfigObject->SettingGet(
+                Name              => 'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext',
+            );
+            $SysConfigObject->SettingUpdate(
+                Name              => 'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext',
+                IsValid           => 1,
+                UserID            => 1,
+                ExclusiveLockGUID => $ExclusiveLockGUID,
+                EffectiveValue    => $Setting{EffectiveValue},
+            );
+            $SysConfigObject->SettingUnlock(
+                UnlockAll => 1,
+            );
+        }
+        else {
+            # disable in case of failure
+            $WebserviceObject->WebserviceUpdate(
+                %{$ESWebservice},
+                ValidID => 2,
+                UserID  => 1,
+            );
+            # SysConfig
+            my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+            my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+                LockAll => 1,
+                Force   => 1,
+                UserID  => 1,
+            );
+            $SysConfigObject->SettingUpdate(
+                Name              => 'Elasticsearch::Active',
+                IsValid           => 0,
+                UserID            => 1,
+                ExclusiveLockGUID => $ExclusiveLockGUID,
+            );
+            $SysConfigObject->SettingUnlock(
+                UnlockAll => 1,
+            );
+        }
+
+        # show the status in the GUI
+        $Param{ESActive} = $Success;
 
         my $Output =
             $LayoutObject->Header(

@@ -9084,7 +9084,7 @@ via the Preferences button after logging in.
         <Description Translatable="1">Activate Elasticsearch.</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
-            <Item ValueType="Checkbox">0</Item>
+            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Elasticsearch::IngestMaxFilesize" Required="0" Valid="1">
