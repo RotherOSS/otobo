@@ -1792,7 +1792,7 @@ Requester:
           Command: PUT
           Controller: /:index
       Timeout: ''30''
-    Type: HTTP::REST', 1, 1, current_timestamp, 1, current_timestamp);
+    Type: HTTP::REST', 2, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table gi_webservice_config_history
 -- ----------------------------------------------------------
