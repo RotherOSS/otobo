@@ -1,7 +1,7 @@
 # Dot files in the root dir are usually not needed in the image.
 # The file .bash_completion is an exception from that rule.
 # Note that scripts/.vimrc and the .keep files in some subdirs are explicitly wanted.
-# The .keep files force git to keep the directories.
+# The .keep files force git to keep the directories they are not needed in the image.
 .*
 **/.keep
 !.bash_completion
