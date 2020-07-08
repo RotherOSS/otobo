@@ -260,7 +260,7 @@ my @NeededModules = (
     {
         Module    => 'DateTime',
         Required  => 1,
-        VersionRequired => '1.09',
+        VersionRequired => '1.08',
         InstTypes => {
             aptget => 'libdatetime-perl',
             emerge => 'dev-perl/DateTime',
