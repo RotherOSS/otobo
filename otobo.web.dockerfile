@@ -42,9 +42,11 @@ RUN echo "'$OTOBO_HOME'"
 RUN pwd
 RUN ls
 RUN ls var
-RUN ls Kernel/Config.pm.docker.dist
+RUN ls Kernel/
 RUN ls Kernel/Config.pm.docker.dist
 RUN uname -a
+RUN tree Kernel
+RUN false
 
 # Some initial setup.
 # Create dirs.
