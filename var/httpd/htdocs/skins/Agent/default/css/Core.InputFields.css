@@ -69,7 +69,19 @@ div.InputField_InputContainer {
 }
 
 @media only screen and (min-width: 1025px) {
-    fieldset.TableLike > .Field > select.Modernize,
+    fieldset.TableLike > .Field > .Modernize#TypeID,
+    fieldset.TableLike > .Field > .Modernize#Dest,
+    fieldset.TableLike > .Field > .Modernize#NewQueueID,
+    fieldset.TableLike > .Field > .Modernize#ServiceID,
+    fieldset.TableLike > .Field > .Modernize#SLAID,
+    fieldset.TableLike > .Field > .Modernize#NewUserID,
+    fieldset.TableLike > .Field > .Modernize#NewOwnerID,
+    fieldset.TableLike > .Field > .Modernize#NewResponsibleID,
+    fieldset.TableLike > .Field > .Modernize#StandardTemplateID,
+    fieldset.TableLike > .Field > .Modernize#NextStateID,
+    fieldset.TableLike > .Field > .Modernize#NewStateID,
+    fieldset.TableLike > .Field > .Modernize#PriorityID,
+    fieldset.TableLike > .Field > .Modernize#NewPriorityID,
     fieldset.TableLike > .Row > .Field > select.Modernize {
         min-width: 300px;
     }
