@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.95262129599479;
+    $Self->{Completeness}        = 0.952156224572823;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3189,6 +3189,12 @@ sub Data {
         'CheckMXRecord' => 'MX-Records prüfen',
         'Email addresses that are manually entered are checked against the MX records found in DNS. Don\'t use this option if your DNS is slow or does not resolve public addresses.' =>
             'E-Mail-Adressen, die vom Benutzer angegeben werden, werden gegen die MX-Einträge im DNS geprüft. Verwenden Sie diese Option nicht, wenn Ihr DNS langsam ist oder öffentliche Adressen nicht auflösen kann.',
+        'Elasticsearch' => '',
+        'Initialize Elasticsearch' => '',
+        'Elasticsearch server was found, and it has been activated automatically for OTOBO.' =>
+            '',
+        'Seemingly either no clean Elasticsearch server is running, or it is not using the standard configuration. To activate Elasticsearch manually, please edit the web service in the admin interface if necessary, activate \'Elasticsearch::Active\' and \'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext\' in the SysConfig and run the otobo.Console command \'Maint::Elasticsearch::Migration\'.' =>
+            '',
 
         # Template: LinkObject
         'Delete link' => 'Verknüpfung löschen',
@@ -7585,7 +7591,6 @@ Ihr Helpdesk-Team
         'Edit contacts with data' => '',
         'Edit contacts with data.' => '',
         'Edit customer company' => 'Kundenunternehmen bearbeiten',
-        'Elasticsearch' => '',
         'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'E-Mail-Adressen',
         'Email Outbound' => 'Ausgehende E-Mail',

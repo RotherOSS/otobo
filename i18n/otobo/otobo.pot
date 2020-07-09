@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-07-07 11:19+0000\n"
+"POT-Creation-Date: 2020-07-09 14:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -9308,6 +9308,22 @@ msgstr ""
 
 #. Template: InstallerSystem
 msgid "Email addresses that are manually entered are checked against the MX records found in DNS. Don't use this option if your DNS is slow or does not resolve public addresses."
+msgstr ""
+
+#. Template: InstallerSystem
+msgid "Elasticsearch"
+msgstr ""
+
+#. Template: InstallerSystem
+msgid "Initialize Elasticsearch"
+msgstr ""
+
+#. Template: InstallerSystem
+msgid "Elasticsearch server was found, and it has been activated automatically for OTOBO."
+msgstr ""
+
+#. Template: InstallerSystem
+msgid "Seemingly either no clean Elasticsearch server is running, or it is not using the standard configuration. To activate Elasticsearch manually, please edit the web service in the admin interface if necessary, activate 'Elasticsearch::Active' and 'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext' in the SysConfig and run the otobo.Console command 'Maint::Elasticsearch::Migration'."
 msgstr ""
 
 #. Template: LinkObject
@@ -20299,10 +20315,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Edit customer company"
-msgstr ""
-
-#. SysConfig
-msgid "Elasticsearch"
 msgstr ""
 
 #. SysConfig

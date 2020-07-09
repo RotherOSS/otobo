@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.880332139368284;
+    $Self->{Completeness}        = 0.880878763222132;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -53,7 +53,7 @@ sub Data {
         'Deploy ACLs' => 'Implementar ACLs',
         'Export ACLs' => 'Exportar ACLs',
         'Filter for ACLs' => 'Filtrar por ACLs',
-        'Just start typing to filter...' => 'Basta começar a digitar para filtrar... ',
+        'Just start typing to filter...' => 'Apenas digite para filtrar',
         'Configuration Import' => 'Importar configurações',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             'Aqui você pode fazer o envio de um arquivo de configuração para importar ACLs para o seu sistema. O arquivo precisa estar no formato .yml como exportado pelo módulo de edição de ACL.',
@@ -115,7 +115,7 @@ sub Data {
         'Import Appointments' => 'Importar Compromissos',
         'Calendar Import' => 'Importar Calendário',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
-            'Aqui você pode carregar um arquivo de configuração para importar um calendário para seu sistema. O arquivo precisa ser em .yml  como o exportado pelo módulo de gerenciamento de calendário.',
+            'Aqui você pode carregar um arquivo de configuração para importar um calendário para seu sistema. O arquivo precisa ser em .yml como o exportado pelo módulo de gerenciamento de calendário.',
         'Overwrite existing entities' => 'Substituir entidades existentes',
         'Upload calendar configuration' => 'Carregar configuração do calendário',
         'Import Calendar' => 'Importar Calendário',
@@ -157,7 +157,7 @@ sub Data {
         'Add entry' => 'Adicionar entrada',
         'Add' => 'Adicionar',
         'Define rules for creating automatic appointments in this calendar based on ticket data.' =>
-            'Definir regras para criação automática de compromissos neste calendário baseado em dados de chamado. ',
+            'Definir regras para criação automática de compromissos neste calendário baseado em dados de chamado.',
         'Add Rule' => 'Adicionar regra',
         'Submit' => 'Enviar',
 
@@ -170,7 +170,7 @@ sub Data {
         'Upload' => 'Enviar',
         'Update existing appointments?' => 'Atualizar compromissos existentes?',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
-            'Todos os compromissos no calendário com o mesmo UniqueID serão sobrescrito.  ',
+            'Todos os compromissos no calendário com o mesmo UniqueID serão sobrescrito.',
         'Upload calendar' => 'Carregar calendário',
         'Import appointments' => 'Importar compromissos',
 
@@ -227,7 +227,7 @@ sub Data {
         'Upgrade to %s' => 'Atualize para %s',
         'Please activate this transport in order to use it.' => 'Por favor ative este transporte para usá-lo.',
         'No data found' => 'Dados não encontrado',
-        'No notification method found.' => 'Método de notificação não existente',
+        'No notification method found.' => 'Método de notificação não existente.',
         'Notification Text' => 'Texto da notificação',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             'Esta linguagem não está presente ou habilitada no sistema. Este texto de notificação pode ser excluído se não for mais necessário.',
@@ -242,7 +242,7 @@ sub Data {
         'You can use the following tags' => 'Você pode usar os seguintes rótulos',
         'To get the first 20 character of the appointment title.' => 'Para obter os 20 primeiros caracteres do título do compromisso.',
         'To get the appointment attribute' => 'Para obter o atributo compromisso',
-        ' e. g.' => 'ex.',
+        ' e. g.' => ' ex.',
         'To get the calendar attribute' => 'Para obter o atributo calendário',
         'Attributes of the recipient user for the notification' => 'Atributos do usuário destinatário da notificação',
         'Config options' => 'Opções de Configuração',
@@ -256,7 +256,7 @@ sub Data {
             'Um artigo será criado se as notificações são enviadas para o usuário ou para um endereço de e-mail adicional.',
         'Email template' => 'Template de e-mail',
         'Use this template to generate the complete email (only for HTML emails).' =>
-            'Use este modelo para gerar o e-mail completo (somente para e-mails HTML)',
+            'Use este modelo para gerar o e-mail completo (somente para e-mails HTML).',
         'Enable email security' => 'Habilitar segurança de email',
         'Email security level' => 'Nível de segurança do email',
         'If signing key/certificate is missing' => 'Se a assinatura de chave/certificado está faltando',
@@ -375,7 +375,7 @@ sub Data {
         'No accounts found.' => 'Nenhuma conta encontrada.',
         'Communication Log Details (%s)' => 'Detalhes do log de comunicação (%s)',
         'Direction' => 'Direção',
-        'Start Time' => 'Tempo inicial ',
+        'Start Time' => 'Tempo inicial',
         'End Time' => 'Tempo final',
         'No communication log entries found.' => 'Não foram encontradas entradas de log de comunicação.',
 
@@ -432,7 +432,7 @@ sub Data {
         'Edit Customer Default Groups' => 'Editar os grupos-padrão para clientes',
         'These groups are automatically assigned to all customers.' => 'Estes grupos serão atribuídos automaticamente a todos os clientes.',
         'You can manage these groups via the configuration setting "CustomerGroupCompanyAlwaysGroups".' =>
-            'Você pode gerenciar estes grupos através do parâmetro de configuração "CustomerGroupCompanyAlwaysGroups"',
+            'Você pode gerenciar estes grupos através do parâmetro de configuração "CustomerGroupCompanyAlwaysGroups".',
         'Filter for Groups' => 'Filtrar por Grupos',
         'Select the customer:group permissions.' => 'Selecione as permissões cliente:grupo.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
@@ -506,7 +506,7 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Você pode gerenciar estes grupos através do parâmetro de configuração "CustomerGroupAlwaysGroups".',
         'Filter for groups' => 'Filtrar por grupos',
-        'Select the customer user - group permissions.' => 'Selecione as permissões usuário cliente - grupo',
+        'Select the customer user - group permissions.' => 'Selecione as permissões usuário cliente - grupo.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             'Se nada for selecionado então não existem permissões neste grupo (chamados não estarão disponíveis para o usuário cliente).',
         'Customer User Default Groups:' => 'Grupos padrão para usuários clientes:',
@@ -766,7 +766,7 @@ sub Data {
         'Filter for Jobs' => 'Filtrar por Jobs',
         'Filter for jobs' => 'Filtrar por jobs',
         'Last run' => 'Última Execução',
-        'Run Now!' => 'Executar Agora',
+        'Run Now!' => 'Executar Agora!',
         'Delete this task' => 'Excluir esta Tarefa',
         'Run this task' => 'Executar esta Tarefa',
         'Job Settings' => 'Configurações de Tarefa',
@@ -800,7 +800,7 @@ sub Data {
         '(e. g. U5150)' => '(ex.: 12345654321)',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Pesquisa textual completa no artigo (ex. "Mur*lo" ou "Gleyc*").',
         'To' => 'Para',
-        'Cc' => 'Cópia ',
+        'Cc' => 'Cc',
         'Service' => 'Serviço',
         'Service Level Agreement' => 'Acordo de Nível de Serviço',
         'Queue' => 'Fila',
@@ -812,7 +812,7 @@ sub Data {
         'Dynamic fields' => 'Campos dinâmicos',
         'Add dynamic field' => 'Adicionar campo dinâmico',
         'Create times' => 'Horários de criação',
-        'No create time settings.' => 'Sem configurações de horário de criação',
+        'No create time settings.' => 'Sem configurações de horário de criação.',
         'Ticket created' => 'Chamado criado',
         'Ticket created between' => 'Chamado criado entre',
         'and' => 'e',
@@ -825,19 +825,19 @@ sub Data {
         'Ticket changed' => 'Chamado alterado',
         'Ticket changed between' => 'Chamado alterado entre',
         'Last close times' => 'Últimos horários de fechamento',
-        'No last close time settings.' => 'Nenhuma última configuração de fechamento',
+        'No last close time settings.' => 'Nenhuma última configuração de fechamento.',
         'Ticket last close' => 'Chamado fechado',
-        'Ticket last close between' => '',
+        'Ticket last close between' => 'Último fechamento do ticket entre',
         'Close times' => 'Horários de fechamento',
-        'No close time settings.' => 'Ignorar horários de fechamento',
+        'No close time settings.' => 'Ignorar horários de fechamento.',
         'Ticket closed' => 'Chamado fechado',
         'Ticket closed between' => 'Chamado fechado entre',
         'Pending times' => 'Horários pendentes',
-        'No pending time settings.' => 'Sem configuração de horário pendente',
+        'No pending time settings.' => 'Sem configuração de horário pendente.',
         'Ticket pending time reached' => 'Prazo de chamado pendente expirado',
         'Ticket pending time reached between' => 'Prazo de chamado pendente expirado entre',
         'Escalation times' => 'Prazos de escalação',
-        'No escalation time settings.' => 'Sem configuração de prazo de escalação',
+        'No escalation time settings.' => 'Sem configuração de prazo de escalação.',
         'Ticket escalation time reached' => 'Prazos de escalações expirado',
         'Ticket escalation time reached between' => 'Prazos de escalação expirado entre',
         'Escalation - first response time' => 'Escalação - prazo da resposta inicial',
@@ -901,7 +901,7 @@ sub Data {
         'Time' => 'Hora',
         'Communication ID' => 'ID da Comunicação',
         'Remote IP' => 'IP Remoto',
-        'Loading' => 'Carregando...',
+        'Loading' => 'Carregando',
         'Select a single request to see its details.' => 'Selecione uma única requisição para ver os seus detalhes.',
         'Filter by type' => 'Filtrar por tipo',
         'Filter from' => 'Filtrar de',
@@ -931,7 +931,7 @@ sub Data {
         'Only execute error handling module for selected operations.' => 'Somente execute o módulo de tratamento de erros para as operações selecionadas.',
         'Note: Operation is undetermined for errors occuring while receiving incoming request data. Filters involving this error stage should not use operation filter.' =>
             'Nota: Operação é indeterminada para erros ocorridos ao receber requisição de dados de entrada. Filtros envolvendo este estágio de erro não devem utilizar filtro de operação.',
-        'Invoker filter' => 'Filtro invocador.',
+        'Invoker filter' => 'Filtro invocador',
         'Only execute error handling module for selected invokers.' => 'Execute apenas o módulo de tratamento de erros para pessoas invocadas selecionadas.',
         'Error message content filter' => 'Filtro de conteúdo da mensagem de erro',
         'Enter a regular expression to restrict which error messages should cause error handling module execution.' =>
@@ -948,7 +948,7 @@ sub Data {
         'Error code' => 'Código de erro',
         'An error identifier for this error handling module.' => 'Um identificador de erro para este módulo de tratamento de erros.',
         'This identifier will be available in XSLT-Mapping and shown in debugger output.' =>
-            'Este identificador estará disponível no mapeamento XSLT (XSLT-Mapping) e será mostrado na console de debug',
+            'Este identificador estará disponível no mapeamento XSLT (XSLT-Mapping) e será mostrado na console de depuração.',
         'Error message' => 'Mensagem de erro',
         'An error explanation for this error handling module.' => 'Uma explicação de erro para este módulo de tratamento de erros.',
         'This message will be available in XSLT-Mapping and shown in debugger output.' =>
@@ -988,7 +988,7 @@ sub Data {
             'Exemplo: Se uma solicitação for inicialmente acionada às 10:00 com intervalo inicial em \'1 minuto\', fator de nova tentativa em \'2\' e intervalo máximo em \'5 minutos\', as novas tentativas serão acionadas às 10:01 (1 minuto), 10 : 03 (2 minutos), 10:07 (4 minutos), 10:12 (8 => 5 minutos), 10:17, ...',
         'Maximum retry count' => 'Contagem máxima de repetição',
         'Maximum number of retries before a failing request is discarded, not counting the initial request.' =>
-            'Número máximo de tentativas antes do descarte de uma requisição falhada, sem contar a requisição inicial',
+            'Número máximo de tentativas antes do descarte de uma requisição falhada, sem contar a requisição inicial.',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum retry count at \'2\', retries would be triggered at 10:01 and 10:02 only.' =>
             'Exemplo: Se uma solicitação for inicialmente acionada às 10:00 com intervalo inicial em \'1 minuto\', fator de nova tentativa em \'2\' e contagem máxima de novas tentativas em \'2\', as novas tentativas serão acionadas somente às 10h01 e 10h02.',
         'Note: Maximum retry count might not be reached if a maximum retry period is configured as well and reached earlier.' =>
@@ -1014,11 +1014,11 @@ sub Data {
         'Invoker backend' => 'Backend do Invocador',
         'This OTOBO invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             'Este módulo de backend do invoker do OTOBO será chamado para preparar os dados que serão enviados para o sistema remoto, e para processar os dados da resposta.',
-        'Mapping for outgoing request data' => 'Mapeamento para os dados de saída da requisição.',
+        'Mapping for outgoing request data' => 'Mapeamento para os dados de saída da requisição',
         'Configure' => 'Configurar',
         'The data from the invoker of OTOBO will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             'Os dados do invoker do OTOBO serão processados através deste mapeamento, para transformá-los no tipo de dados esperado pelo sistema remoto.',
-        'Mapping for incoming response data' => 'Mapeamento para os dados de chegada da resposta.',
+        'Mapping for incoming response data' => 'Mapeamento para os dados de chegada da resposta',
         'The response data will be processed by this mapping, to transform it to the kind of data the invoker of OTOBO expects.' =>
             'Os dados da resposta serão processados através deste mapeamento, para transformá-los no tipo de dados esperado pelo invoker do OTOBO.',
         'Asynchronous' => 'Assíncrono',
@@ -1054,12 +1054,12 @@ sub Data {
         # Template: AdminGenericInterfaceMappingSimple
         'Mapping Simple' => 'Mapeamento Simple',
         'Default rule for unmapped keys' => 'Regra padrão para chaves não mapeadas',
-        'This rule will apply for all keys with no mapping rule.' => 'Esta regra se aplica para todas as chaves sem regra de mapeamento',
-        'Default rule for unmapped values' => 'Regra padrão para valores não mapeados.',
+        'This rule will apply for all keys with no mapping rule.' => 'Esta regra se aplica para todas as chaves sem regra de mapeamento.',
+        'Default rule for unmapped values' => 'Regra padrão para valores não mapeados',
         'This rule will apply for all values with no mapping rule.' => 'Esta regra será aplicada para todos os valores sem regra de mapeamento.',
         'New key map' => 'Novo mapa de chave',
         'Add key mapping' => 'Adicionar mapeamento de chave',
-        'Mapping for Key ' => 'Mapeamento por Chave',
+        'Mapping for Key ' => 'Mapeamento por Chave ',
         'Remove key mapping' => 'Remover mapeamento de chave',
         'Key mapping' => 'Chave mapeada',
         'Map key' => 'Chave de mapa',
@@ -1133,7 +1133,7 @@ sub Data {
             'O nome é normalmente usado para chamar esta operação de web service a partir de um sistema remoto.',
         'Operation backend' => 'Backend de operação',
         'This OTOBO operation backend module will be called internally to process the request, generating data for the response.' =>
-            'Este módulo de backend de operação do OTOBO será chamado internamente para processar a requisição, gerando dados para a resposta',
+            'Este módulo de backend de operação do OTOBO será chamado internamente para processar a requisição, gerando dados para a resposta.',
         'Mapping for incoming request data' => 'Mapeamento para dados de chegada da requisição',
         'The request data will be processed by this mapping, to transform it to the kind of data OTOBO expects.' =>
             'Os dados requisitados serão processados por este mapeamento, para transformá-los no tipo de dados esperado pelo OTOBO.',
@@ -1171,7 +1171,7 @@ sub Data {
         'Authentication' => 'Autenticação',
         'An optional authentication mechanism to access the remote system.' =>
             'Um mecanismo opcional de autenticação para acessar o sistema remoto.',
-        'BasicAuth User' => 'Usuário BasicAuth ',
+        'BasicAuth User' => 'Usuário BasicAuth',
         'The user name to be used to access the remote system.' => 'Nome de usuário para acesso ao sistema remoto.',
         'BasicAuth Password' => 'Senha BasicAuth',
         'The password for the privileged user.' => 'A senha para o usuário privilegiado.',
@@ -2266,7 +2266,7 @@ sub Data {
         'Your email address is' => 'Seu endereço de e-mail é',
 
         # Template: AdminTemplateAttachment
-        'Manage Template-Attachment Relations' => '',
+        'Manage Template-Attachment Relations' => 'Gerenciar relação de Modelos-Anexos',
         'Toggle active for all' => 'Chavear ativado para todos',
         'Link %s to selected %s' => 'Associar %s ao %s selecionado',
 
@@ -3027,7 +3027,7 @@ sub Data {
         'Profile' => 'Perfil',
         'e. g. 10*5155 or 105658*' => 'ex. 10*5155 ou 105658*',
         'CustomerID' => 'ID do Cliente',
-        'Fulltext Search in Tickets (e. g. "John*n" or "Will*")' => '',
+        'Fulltext Search in Tickets (e. g. "John*n" or "Will*")' => 'Busca Completa nos Chamados (ex. "John*n" or "Will*")',
         'Types' => 'Tipos',
         'Time Restrictions' => 'Restrições de tempo',
         'No time settings' => 'Sem configurações de tempo',
@@ -3036,8 +3036,8 @@ sub Data {
         'Only tickets created' => 'Apenas chamados criados',
         'Date range' => 'Período de data',
         'Only tickets created between' => 'Apenas chamados criados entre',
-        'Ticket Archive System' => '',
-        'Save Search as Template?' => '',
+        'Ticket Archive System' => 'Sistema de arquivamento de Ticket',
+        'Save Search as Template?' => 'Salvar busca como modelo?',
         'Save as Template?' => 'Salvar como Modelo?',
         'Save as Template' => 'Salvar como Modelo',
         'Template Name' => 'Nome do Modelo',
@@ -3194,6 +3194,12 @@ sub Data {
         'CheckMXRecord' => 'Verificar Registro MX',
         'Email addresses that are manually entered are checked against the MX records found in DNS. Don\'t use this option if your DNS is slow or does not resolve public addresses.' =>
             'Endereços de e-mail que são inseridos manualmente são confrontados com os registros MX encontrados no DNS. Não use esta opção se o seu DNS é lento ou não resolve endereços públicos.',
+        'Elasticsearch' => '',
+        'Initialize Elasticsearch' => '',
+        'Elasticsearch server was found, and it has been activated automatically for OTOBO.' =>
+            '',
+        'Seemingly either no clean Elasticsearch server is running, or it is not using the standard configuration. To activate Elasticsearch manually, please edit the web service in the admin interface if necessary, activate \'Elasticsearch::Active\' and \'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext\' in the SysConfig and run the otobo.Console command \'Maint::Elasticsearch::Migration\'.' =>
+            '',
 
         # Template: LinkObject
         'Delete link' => 'Excluir link',
@@ -3834,7 +3840,7 @@ sub Data {
         'This sub-action is not valid' => 'Está sub ação não é válida',
         'xor' => 'xor',
         'String' => 'String',
-        'Regexp' => '',
+        'Regexp' => 'Regexp',
         'Validation Module' => 'Módulo de validação',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
@@ -7590,7 +7596,6 @@ Obrigado pela ajuda!
         'Edit contacts with data' => '',
         'Edit contacts with data.' => '',
         'Edit customer company' => 'Editar empresa de cliente',
-        'Elasticsearch' => '',
         'Elasticsearch quick result module.' => '',
         'Email Addresses' => 'Endereços de E-mail',
         'Email Outbound' => 'E-mail Enviado',
