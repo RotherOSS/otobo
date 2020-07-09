@@ -28,13 +28,18 @@ my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my $ChecksumFile = "$Home/ARCHIVE";
 
 # Checksum file content as an array ref.
-my $ChecksumFileArrayRef = $MainObject->FileRead(
-    Location        => $ChecksumFile,
-    Mode            => 'utf8',
-    Type            => 'Local',
-    Result          => 'ARRAY',
-    DisableWarnings => 1,
-);
+# It is OK when ARCHIVE does not exist.
+# But when ARCHIVE exists then it should be valid.
+my $ChecksumFileArrayRef;
+if ( -e $ChecksumFile ) {
+    $ChecksumFileArrayRef = $MainObject->FileRead(
+        Location        => $ChecksumFile,
+        Mode            => 'utf8',
+        Type            => 'Local',
+        Result          => 'ARRAY',
+        DisableWarnings => 1,
+    );
+}
 
 # This should be a SKIP-block
 
