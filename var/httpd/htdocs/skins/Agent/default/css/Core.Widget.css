@@ -676,8 +676,7 @@ ul.WidgetTooltip li a:hover i {
 }
 
 .cke_dialog_footer_buttons a.cke_dialog_ui_button:hover {
-    background-color: #e5e5e5;
-    border-color: #999;
+    background-color: #0000fc;
 }
 
 .CallForAction.Hidden {
@@ -761,7 +760,7 @@ ul.WidgetTooltip li a:hover i {
 .cke_dialog_footer_buttons td a.cke_dialog_ui_button span {
     font-size: 11px;
     line-height: auto;
-    color: #00023c;
+    color: #fff;
     font-weight: bold;
 }
 

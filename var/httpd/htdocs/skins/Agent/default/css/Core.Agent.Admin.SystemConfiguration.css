@@ -1522,7 +1522,7 @@ h2.SearchResults {
 
 .SidebarColumn .WidgetSimple.SystemConfigurationTree .SystemConfigurationCategories {
     display: inline-block;
-    width: 85%;
+    width: 80%;
 }
 
 .RTL .SidebarColumn .WidgetSimple.SystemConfigurationTree .SystemConfigurationCategories {
