@@ -23,6 +23,12 @@ var/tmp/
 # in case somebody generated keys or certificates
 **/*.cert
 **/*.crt
+!scripts/test/sample/SMIME/SMIME*.crt
 **/*.csr
 **/*.key
+!scripts/test/sample/SMIME/SMIME*.key
 **/*.pem
+!Kernel/cpan-lib/Mozilla/CA/cacert.pem
+!scripts/test/sample/SMIME/SMIME*.pem
+!scripts/test/sample/SSL/*.pem
+**/*.chain
