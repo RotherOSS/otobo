@@ -19,8 +19,8 @@ COPY cpanfile ./cpanfile
 # the modules with ignorable test failures with the option --force.
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
-#RUN cpanm --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
-#RUN cpanm --with-feature=mysql --with-feature=plack --with-feature=mojo --with-feature=docker --with-feature=redis --with-feature=test --installdeps .
+RUN cpanm --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
+RUN cpanm --with-feature=mysql --with-feature=plack --with-feature=mojo --with-feature=docker --with-feature=redis --with-feature=test --installdeps .
 
 # create the otobo user
 #   --user-group            create group 'otobo' and add the user to the created group
@@ -38,15 +38,14 @@ RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash 
 COPY --chown=$OTOBO_USER:$OTOBO_GROUP . $OTOBO_HOME
 WORKDIR $OTOBO_HOME
 
-RUN echo "'$OTOBO_HOME'"
-RUN pwd
-RUN ls
-RUN ls var
-RUN ls Kernel/
-RUN ls Kernel/Config.pm.docker.dist
-RUN uname -a
-RUN tree Kernel
-RUN false
+# uncomment these steps when strange behavior must be investigated
+#RUN echo "'$OTOBO_HOME'"
+#RUN whoami
+#RUN pwd
+#RUN uname -a
+#RUN ls -a
+#RUN tree Kernel
+#RUN false
 
 # Some initial setup.
 # Create dirs.
@@ -70,7 +69,7 @@ RUN cd scripts/database \
 
 # Generate and install the crontab for the user $OTOBO_USER.
 # Explicitly set PATH as the required perl is located in /usr/local/bin/perl.
-# var/tmp is created by $OTOBO_USER as bin/Cron.sh used this dir.
+# var/tmp is created by $OTOBO_USER as bin/Cron.sh uses this dir.
 USER $OTOBO_USER
 RUN mkdir -p var/tmp \
     && echo "# File added by Dockerfile"                             >  var/cron/aab_path \

@@ -36,7 +36,7 @@ our %EXPORT_TAGS = (    ## no critic
 Exporter::export_ok_tags('all');
 
 # core modules
-use DateTime;
+use DateTime 1.08; # need 1.08 because Kernel::System::DateTime overrides _core_time()
 use DateTime::TimeZone;
 use Scalar::Util qw( looks_like_number );
 

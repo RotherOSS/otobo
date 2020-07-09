@@ -57,9 +57,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-07-01 12:03+0000\n"
+"PO-Revision-Date: 2020-07-09 01:03+0000\n"
 "Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
-"Language-Team: Portuguese (Brazil) <http://translate.otobo.org/projects/otobo10/otobo/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) <http://translate.otobo.org/projects/"
+"otobo10/otobo/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -93,7 +94,7 @@ msgstr "Filtrar por ACLs"
 
 #. Template: AdminACL
 msgid "Just start typing to filter..."
-msgstr "Basta começar a digitar para filtrar... "
+msgstr "Apenas digite para filtrar"
 
 #. Template: AdminACL
 msgid "Configuration Import"
@@ -285,7 +286,10 @@ msgstr "Importar Calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module."
-msgstr "Aqui você pode carregar um arquivo de configuração para importar um calendário para seu sistema. O arquivo precisa ser em .yml  como o exportado pelo módulo de gerenciamento de calendário."
+msgstr ""
+"Aqui você pode carregar um arquivo de configuração para importar um "
+"calendário para seu sistema. O arquivo precisa ser em .yml como o exportado "
+"pelo módulo de gerenciamento de calendário."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Overwrite existing entities"
@@ -429,7 +433,9 @@ msgstr "Adicionar"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Define rules for creating automatic appointments in this calendar based on ticket data."
-msgstr "Definir regras para criação automática de compromissos neste calendário baseado em dados de chamado. "
+msgstr ""
+"Definir regras para criação automática de compromissos neste calendário "
+"baseado em dados de chamado."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Rule"
@@ -465,7 +471,8 @@ msgstr "Atualizar compromissos existentes?"
 
 #. Template: AdminAppointmentImport
 msgid "All existing appointments in the calendar with same UniqueID will be overwritten."
-msgstr "Todos os compromissos no calendário com o mesmo UniqueID serão sobrescrito.  "
+msgstr ""
+"Todos os compromissos no calendário com o mesmo UniqueID serão sobrescrito."
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
@@ -661,7 +668,7 @@ msgstr "Dados não encontrado"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No notification method found."
-msgstr "Método de notificação não existente"
+msgstr "Método de notificação não existente."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Text"
@@ -717,7 +724,7 @@ msgstr "Para obter o atributo compromisso"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid " e. g."
-msgstr "ex."
+msgstr " ex."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the calendar attribute"
@@ -757,7 +764,8 @@ msgstr "Template de e-mail"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Use this template to generate the complete email (only for HTML emails)."
-msgstr "Use este modelo para gerar o e-mail completo (somente para e-mails HTML)"
+msgstr ""
+"Use este modelo para gerar o e-mail completo (somente para e-mails HTML)."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Enable email security"
@@ -941,7 +949,10 @@ msgstr "Registro do Sistema"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "To enable data sending, please register your system with Rother OSS GmbH or update your system registration information (make sure to activate the 'send support data' option.)"
-msgstr "Para habilitar o envio de dados, por favor registre seu sistema no Grupo OTOBO ou atualize a informação de registro de seu sistema (tenha certeza de ativar a opção 'enviar dados de suporte')."
+msgstr ""
+"Para habilitar o envio de dados, por favor registre seu sistema no Grupo "
+"OTOBO ou atualize a informação de registro de seu sistema (tenha certeza de "
+"ativar a opção 'enviar dados de suporte'.)"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -1133,7 +1144,7 @@ msgstr "Direção"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Start Time"
-msgstr "Tempo inicial "
+msgstr "Tempo inicial"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "End Time"
@@ -1277,7 +1288,9 @@ msgstr "Estes grupos serão atribuídos automaticamente a todos os clientes."
 
 #. Template: AdminCustomerGroup
 msgid "You can manage these groups via the configuration setting \"CustomerGroupCompanyAlwaysGroups\"."
-msgstr "Você pode gerenciar estes grupos através do parâmetro de configuração \"CustomerGroupCompanyAlwaysGroups\""
+msgstr ""
+"Você pode gerenciar estes grupos através do parâmetro de configuração "
+"\"CustomerGroupCompanyAlwaysGroups\"."
 
 #. Template: AdminCustomerGroup
 msgid "Filter for Groups"
@@ -1505,7 +1518,7 @@ msgstr "Filtrar por grupos"
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
-msgstr "Selecione as permissões usuário cliente - grupo"
+msgstr "Selecione as permissões usuário cliente - grupo."
 
 #. Template: AdminCustomerUserGroup
 msgid "If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user)."
@@ -1929,7 +1942,7 @@ msgstr "Última Execução"
 
 #. Template: AdminGenericAgent
 msgid "Run Now!"
-msgstr "Executar Agora"
+msgstr "Executar Agora!"
 
 #. Template: AdminGenericAgent
 msgid "Delete this task"
@@ -2049,7 +2062,7 @@ msgstr "Para"
 
 #. Template: AdminGenericAgent
 msgid "Cc"
-msgstr "Cópia "
+msgstr "Cc"
 
 #. Template: AdminGenericAgent
 msgid "Service"
@@ -2097,7 +2110,7 @@ msgstr "Horários de criação"
 
 #. Template: AdminGenericAgent
 msgid "No create time settings."
-msgstr "Sem configurações de horário de criação"
+msgstr "Sem configurações de horário de criação."
 
 #. Template: AdminGenericAgent
 msgid "Ticket created"
@@ -2149,17 +2162,15 @@ msgstr "Últimos horários de fechamento"
 
 #. Template: AdminGenericAgent
 msgid "No last close time settings."
-msgstr "Nenhuma última configuração de fechamento"
+msgstr "Nenhuma última configuração de fechamento."
 
 #. Template: AdminGenericAgent
 msgid "Ticket last close"
 msgstr "Chamado fechado"
 
 #. Template: AdminGenericAgent
-#, fuzzy
-#| msgid "Ticket closed between"
 msgid "Ticket last close between"
-msgstr ""
+msgstr "Último fechamento do ticket entre"
 
 #. Template: AdminGenericAgent
 msgid "Close times"
@@ -2167,7 +2178,7 @@ msgstr "Horários de fechamento"
 
 #. Template: AdminGenericAgent
 msgid "No close time settings."
-msgstr "Ignorar horários de fechamento"
+msgstr "Ignorar horários de fechamento."
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed"
@@ -2183,7 +2194,7 @@ msgstr "Horários pendentes"
 
 #. Template: AdminGenericAgent
 msgid "No pending time settings."
-msgstr "Sem configuração de horário pendente"
+msgstr "Sem configuração de horário pendente."
 
 #. Template: AdminGenericAgent
 msgid "Ticket pending time reached"
@@ -2199,7 +2210,7 @@ msgstr "Prazos de escalação"
 
 #. Template: AdminGenericAgent
 msgid "No escalation time settings."
-msgstr "Sem configuração de prazo de escalação"
+msgstr "Sem configuração de prazo de escalação."
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached"
@@ -2427,7 +2438,7 @@ msgstr "IP Remoto"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Loading"
-msgstr "Carregando..."
+msgstr "Carregando"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Select a single request to see its details."
@@ -2519,7 +2530,7 @@ msgstr "Nota: Operação é indeterminada para erros ocorridos ao receber requis
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Invoker filter"
-msgstr "Filtro invocador."
+msgstr "Filtro invocador"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected invokers."
@@ -2563,7 +2574,9 @@ msgstr "Um identificador de erro para este módulo de tratamento de erros."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "This identifier will be available in XSLT-Mapping and shown in debugger output."
-msgstr "Este identificador estará disponível no mapeamento XSLT (XSLT-Mapping) e será mostrado na console de debug"
+msgstr ""
+"Este identificador estará disponível no mapeamento XSLT (XSLT-Mapping) e "
+"será mostrado na console de depuração."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message"
@@ -2659,7 +2672,9 @@ msgstr "Contagem máxima de repetição"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum number of retries before a failing request is discarded, not counting the initial request."
-msgstr "Número máximo de tentativas antes do descarte de uma requisição falhada, sem contar a requisição inicial"
+msgstr ""
+"Número máximo de tentativas antes do descarte de uma requisição falhada, sem "
+"contar a requisição inicial."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Example: If a request is initially triggered at 10:00 with initial interval at '1 minute', retry factor at '2' and maximum retry count at '2', retries would be triggered at 10:01 and 10:02 only."
@@ -2723,7 +2738,7 @@ msgstr "Este módulo de backend do invoker do OTOBO será chamado para preparar 
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for outgoing request data"
-msgstr "Mapeamento para os dados de saída da requisição."
+msgstr "Mapeamento para os dados de saída da requisição"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Configure"
@@ -2735,7 +2750,7 @@ msgstr "Os dados do invoker do OTOBO serão processados através deste mapeament
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for incoming response data"
-msgstr "Mapeamento para os dados de chegada da resposta."
+msgstr "Mapeamento para os dados de chegada da resposta"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "The response data will be processed by this mapping, to transform it to the kind of data the invoker of OTOBO expects."
@@ -2847,11 +2862,11 @@ msgstr "Regra padrão para chaves não mapeadas"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "This rule will apply for all keys with no mapping rule."
-msgstr "Esta regra se aplica para todas as chaves sem regra de mapeamento"
+msgstr "Esta regra se aplica para todas as chaves sem regra de mapeamento."
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped values"
-msgstr "Regra padrão para valores não mapeados."
+msgstr "Regra padrão para valores não mapeados"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "This rule will apply for all values with no mapping rule."
@@ -2867,7 +2882,7 @@ msgstr "Adicionar mapeamento de chave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping for Key "
-msgstr "Mapeamento por Chave"
+msgstr "Mapeamento por Chave "
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove key mapping"
@@ -3087,7 +3102,9 @@ msgstr "Backend de operação"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "This OTOBO operation backend module will be called internally to process the request, generating data for the response."
-msgstr "Este módulo de backend de operação do OTOBO será chamado internamente para processar a requisição, gerando dados para a resposta"
+msgstr ""
+"Este módulo de backend de operação do OTOBO será chamado internamente para "
+"processar a requisição, gerando dados para a resposta."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for incoming request data"
@@ -3195,7 +3212,7 @@ msgstr "Um mecanismo opcional de autenticação para acessar o sistema remoto."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "BasicAuth User"
-msgstr "Usuário BasicAuth "
+msgstr "Usuário BasicAuth"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The user name to be used to access the remote system."
@@ -6531,7 +6548,7 @@ msgstr "Seu endereço de e-mail é"
 
 #. Template: AdminTemplateAttachment
 msgid "Manage Template-Attachment Relations"
-msgstr ""
+msgstr "Gerenciar relação de Modelos-Anexos"
 
 #. Template: AdminTemplateAttachment
 msgid "Toggle active for all"
@@ -7292,6 +7309,8 @@ msgstr "Uso não autorizado de %s detectado"
 #. Template: AgentOTOBOCommunityBlockScreen
 msgid "If you decide to downgrade to ((OTOBO)) Community Edition, you will lose all database tables and data related to %s."
 msgstr ""
+"Se você decidir realizar o downgrade para o ((OTOBO)) Community Edition, "
+"você perderá todas as tabelas do banco de dados e dados relacionados ao %s"
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -8348,6 +8367,8 @@ msgstr "Visualização deste artigo não é possível por que o canal %s está f
 #. Template: Invalid
 msgid "This feature is part of the %s. Please contact us at %s for an upgrade."
 msgstr ""
+"Esse recurso faz parte do %s. Por favor, entre em contato em %s para uma "
+"atualização."
 
 #. Template: Invalid
 msgid "Please re-install %s package in order to display this article."
@@ -8587,7 +8608,7 @@ msgstr "ID do Cliente"
 
 #. Template: CustomerTicketSearch
 msgid "Fulltext Search in Tickets (e. g. \"John*n\" or \"Will*\")"
-msgstr ""
+msgstr "Busca Completa nos Chamados (ex. \"John*n\" or \"Will*\")"
 
 #. Template: CustomerTicketSearch
 msgid "Types"
@@ -8623,11 +8644,11 @@ msgstr "Apenas chamados criados entre"
 
 #. Template: CustomerTicketSearch
 msgid "Ticket Archive System"
-msgstr ""
+msgstr "Sistema de arquivamento de Ticket"
 
 #. Template: CustomerTicketSearch
 msgid "Save Search as Template?"
-msgstr ""
+msgstr "Salvar busca como modelo?"
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template?"
@@ -8751,7 +8772,7 @@ msgstr "Notificações"
 
 #. Template: Header
 msgid "Notifications (OTOBO Business Solution™)"
-msgstr ""
+msgstr "Notificações (OTOBO Business Solution™)"
 
 #. Template: Header
 msgid "Personal preferences"
@@ -10639,7 +10660,7 @@ msgstr "String"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Regexp"
-msgstr ""
+msgstr "Regexp"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Validation Module"
@@ -25320,4 +25341,3 @@ msgstr ""
 #. SysConfig
 msgid "Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes."
 msgstr ""
-
