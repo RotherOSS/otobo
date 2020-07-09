@@ -49,10 +49,12 @@ WORKDIR $OTOBO_HOME
 
 # Some initial setup.
 # Create dirs.
+# Create ARCHIVE
 # Enable bash completion.
 # Activate the .dist files.
 # Use the docker specific Config.pm.dist file.
 RUN mkdir -p var/stats var/packages \
+    && bin/otobo.CheckSum.pl -a create \
     && (echo ". ~/.bash_completion" >> .bash_aliases ) \
     && cp Kernel/Config.pm.docker.dist Kernel/Config.pm \
     && cp Kernel/Config.pod.dist Kernel/Config.pod \
