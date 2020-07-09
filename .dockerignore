@@ -2,9 +2,11 @@
 # The file .bash_completion is an exception from that rule.
 # Note that scripts/.vimrc and the .keep files in some subdirs are explicitly wanted.
 # The .keep files force git to keep the directories they are not needed in the image.
-.*
 **/.keep
-!.bash_completion
+.dockerignore
+.bash_aliases
+.git
+.gitignore
 
 # files that might be generated during development
 build.log
