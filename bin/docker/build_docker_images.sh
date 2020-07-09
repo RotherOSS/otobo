@@ -16,6 +16,6 @@
 # --
 
 # just a small helper for building the docker images locally
-docker build -f otobo.web.dockerfile .
-docker build -f otobo.nginx.dockerfile .
+docker build -f otobo.web.dockerfile   -t otobo_web   .
+docker build -f otobo.nginx.dockerfile -t otobo_nginx .
 
