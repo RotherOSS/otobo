@@ -15,7 +15,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-# just a small helper for building the docker images locally
-docker build -f otobo.web.dockerfile   -t otobo_web   .
-docker build -f otobo.nginx.dockerfile -t otobo_nginx .
-
+# Just a small helper for building the docker images locally.
+# For productive use please use the images from Docker Hub.
+docker build -f otobo.web.dockerfile   -t otobo   .
+docker build -f otobo.nginx.dockerfile -t otobo-nginx-webproxy .
