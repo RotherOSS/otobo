@@ -18,7 +18,6 @@ package Kernel::System::UnitTest::Driver;
 
 use strict;
 use warnings;
-use utf8;
 
 # core modules
 use Storable qw();
@@ -113,7 +112,6 @@ sub Run {
     # when the fearure 'unicode_eval' is activated.
     my $UnitTestFile = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
         Location => $File,
-        Mode     => 'utf8',
     );
 
     if ( !$UnitTestFile ) {
