@@ -16,7 +16,7 @@
 
 package Kernel::System::UnitTest::Driver;
 
-use v5.24;     # note that this enables the 'unicode_eval' feature
+use strict;
 use warnings;
 use utf8;
 
@@ -560,6 +560,11 @@ sub _Print {
     }
 
     if ( $Self->{Verbose} || !$ResultOk ) {
+
+        # Work around problem with leading \0 bytes in the output buffer
+        #   which breaks the unicode output. The reason is not certain, maybe because of
+        #   Perl's exception handling.
+        $Self->{OutputBuffer} =~ s{\0}{}g;
         print { $Self->{OriginalSTDOUT} } $Self->{OutputBuffer};
     }
     $Self->{OutputBuffer} = '';
