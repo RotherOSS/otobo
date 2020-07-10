@@ -70,6 +70,10 @@ sub new {
     $Self->{Verbose}      = $Param{Verbose};
     $Self->{DataDiffType} = ucfirst( lc( $Param{DataDiffType} || 'Table' ) );
 
+    # When Kernel::System::UnitTest is under test itself,
+    # then the output of the various instances should not be mangled
+    $Self->{SelfTest} = $Param{SelfTest};
+
     # We use an output buffering mechanism if Verbose is not set. Only failed tests will be output in this case.
 
     # Make sure stuff is always flushed to keep it in the right order.
@@ -561,17 +565,27 @@ sub _Print {
 
     if ( $Self->{Verbose} || !$ResultOk ) {
 
-        # Work around problem with leading \0 bytes in the output buffer
-        #   which breaks the unicode output. The reason is not certain, maybe because of
-        #   Perl's exception handling.
-        $Self->{OutputBuffer} =~ s{\0}{}g;
-        print { $Self->{OriginalSTDOUT} } $Self->{OutputBuffer};
+        if ( $Self->{SelfTest} ) {
+            # When Kernel::System::UnitTest is tested itself
+            # the we don't want to print the output of the tested functions,
+            # as this confused whoever is analysing the output.
+        }
+        else {
+            # Work around problem with leading \0 bytes in the output buffer
+            #  which breaks the unicode output. The reason is not certain, maybe because of
+            #  Perl's exception handling.
+            $Self->{OutputBuffer} =~ s{\0}{}g;
+            print { $Self->{OriginalSTDOUT} } $Self->{OutputBuffer};
+        }
     }
     $Self->{OutputBuffer} = '';
 
     $Self->{TestCount}++;
     if ($ResultOk) {
-        if ( $Self->{Verbose} ) {
+        if ( $Self->{SelfTest} ) {
+            # print nothing as Kernel::System::UnitTest is tested itself
+        }
+        elsif ( $Self->{Verbose} ) {
             say { $Self->{OriginalSTDOUT} }
                 $Self->_Color( 'green', 'ok' ),
                 " $Self->{TestCount} - $ShortMessage";
@@ -581,15 +595,21 @@ sub _Print {
         }
 
         $Self->{ResultData}->{TestOk}++;
+
         return 1;
     }
     else {
-        if ( !$Self->{Verbose} ) {
-            say { $Self->{OriginalSTDOUT} } "";
+        if ( $Self->{SelfTest} ) {
+            # print nothing as Kernel::System::UnitTest is tested itself
         }
-        say { $Self->{OriginalSTDOUT} }
-            $Self->_Color( 'red', "not ok" ),
-            " $Self->{TestCount} - $ShortMessage";
+        else {
+            if ( !$Self->{Verbose} ) {
+                say { $Self->{OriginalSTDOUT} } "";
+            }
+            say { $Self->{OriginalSTDOUT} }
+                $Self->_Color( 'red', "not ok" ),
+                " $Self->{TestCount} - $ShortMessage";
+        }
         $Self->{ResultData}->{TestNotOk}++;
         $Self->{ResultData}->{Results}->{ $Self->{TestCount} }->{Status}  = 'not ok';
         $Self->{ResultData}->{Results}->{ $Self->{TestCount} }->{Message} = $Message;
