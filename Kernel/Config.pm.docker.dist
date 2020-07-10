@@ -48,14 +48,11 @@ That dist file contains some settings specific to OTOBO under Docker.
 The setting is I<db> instead of I<127.0.0.1>. This is because under Docker
 the MySQL database is running in a separate container.
 
-=item Elasticsearch::Active
-
-Elasticsearch is activated as there is a Docker container running ElasticSearch.
-
 =item LogModule and LogModule::LogFile
 
+Syslog is not easily available in a Docker container.
 Log to the file F</opt/otobo/var/log/otobo.log>.
-As this location is on a volume that is imported from the host.
+As this specific location as it is located on the volume that is visible from the host.
 
 =item CacheModule
 
@@ -117,7 +114,6 @@ sub Load {
     # ---------------------------------------------------- #
     # setting for running OTOBO under Docker, see the POD  #
     # ---------------------------------------------------- #
-    $Self->{'Elasticsearch::Active'}       = 1;
     $Self->{'LogModule'}                   = 'Kernel::System::Log::File';
     $Self->{'LogModule::LogFile'}          = '/opt/otobo/var/log/otobo.log';
     $Self->{'Cache::Module'}               = 'Kernel::System::Cache::Redis';
