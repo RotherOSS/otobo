@@ -94,7 +94,7 @@ sub LoadDefaults {
 
     # HttpType
     # In case you use HTTPS instead of plain HTTP specify it here
-    $Self->{HttpType} = 'http';
+    $Self->{HttpType} = 'https';
 
     # ScriptAlias
     # Prefix to index.pl used as ScriptAlias in web config
