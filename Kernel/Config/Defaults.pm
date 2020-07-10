@@ -93,7 +93,7 @@ sub LoadDefaults {
     $Self->{FQDN} = 'yourhost.example.com';
 
     # HttpType
-    # In case you use HTTPS instead of plain HTTP specify it here
+    # Specify 'http' in case you want to use plain HTTP
     $Self->{HttpType} = 'https';
 
     # ScriptAlias
