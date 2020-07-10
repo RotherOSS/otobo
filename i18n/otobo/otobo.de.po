@@ -46,9 +46,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-07-01 12:03+0000\n"
+"PO-Revision-Date: 2020-07-10 15:41+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
-"Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/>\n"
+"Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/>"
+"\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23652,7 +23653,7 @@ msgstr "umgekehrt"
 
 #. SysConfig
 msgid "stats"
-msgstr "stats"
+msgstr "Stats"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "It is sometimes recommended to send this data to the OTOBO team in order to get better support."
@@ -25305,4 +25306,3 @@ msgstr ""
 #. SysConfig
 msgid "Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes."
 msgstr ""
-
