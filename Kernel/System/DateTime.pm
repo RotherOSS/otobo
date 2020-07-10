@@ -20,7 +20,6 @@ package Kernel::System::DateTime;
 
 use strict;
 use warnings;
-use feature qw(state);
 
 use Exporter qw(import);
 
@@ -167,26 +166,7 @@ sub new {
     # Create the CPAN/Perl DateTime object.
     my $CPANDateTimeObject = $Self->_CPANDateTimeObjectCreate(%Param);
 
-    # a safeguard for infinite loops
-    state $CreationFailedLastTime = 0;
-
-    if ( ref $CPANDateTimeObject eq 'DateTime' ) {
-        $CreationFailedLastTime = 0;
-    }
-    elsif ( $CreationFailedLastTime ) {
-
-        # For some reason the CPAN DateTime object could not be created.
-        # This is usually logged with the subroutine Kernel::System::Log::Log().
-        # However Kernel::System::Log::Log() also wants to create a CPAN DateTime object.
-        # When the creation failed once it is likely that it will fail the next time too.
-        # So let's break out of this recursion loop.
-        return;
-    }
-    else {
-        # The creation of the DateTime Object failed.
-        # Log that with the attached debugging information.
-        # Also set a guard so that we don't enter an infinite loop.
-        $CreationFailedLastTime = 1;
+    if ( ref $CPANDateTimeObject ne 'DateTime' ) {
 
         my $Parameters = $Kernel::OM->Get('Kernel::System::Main')->Dump(
             \%Param,
