@@ -19,3 +19,4 @@
 # For productive use please use the images from Docker Hub.
 docker build -f otobo.web.dockerfile   -t otobo   .
 docker build -f otobo.nginx.dockerfile -t otobo-nginx-webproxy .
+docker build -f otobo.elasticsearch.dockerfile -t otobo-elasticsearch .
