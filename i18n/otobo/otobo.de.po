@@ -46,7 +46,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-07-11 10:57+0000\n"
+"PO-Revision-Date: 2020-07-11 10:59+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/>"
 "\n"
@@ -24607,26 +24607,29 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!"
 msgstr ""
+"Passwort kann nicht aktualisiert werden. Es muss mindestens 3 von 4 "
+"Zeichenklassen (Kleinbuchstaben, Großbuchstaben, Ziffern, Sonderzeichen) "
+"enthalten!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
-msgstr ""
+msgstr "ACL-Konfiguration in Betrieb nehmen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deployment completed, perfect!"
-msgstr ""
+msgstr "Inbetriebnahme abgeschlossen. Glückwünsch!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_responses."
-msgstr ""
+msgstr "Mirgieren der Datenbanktabelle auto_responses."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration failed."
-msgstr ""
+msgstr "Migration fehlgeschlagen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_response."
-msgstr ""
+msgstr "Migrieren der Datenbanktabelle auto_response."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration completed, perfect!"
