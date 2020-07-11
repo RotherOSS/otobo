@@ -46,7 +46,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-07-11 15:03+0000\n"
+"PO-Revision-Date: 2020-07-11 15:25+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/>"
 "\n"
@@ -25454,22 +25454,36 @@ msgstr "Die PGP-Signatur mit der SchlüsselID ist gültig."
 #. SysConfig
 msgid "The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)"
 msgstr ""
+"Logo und Signet, die im Header des Kundenbereichs angezeigt werden. Die URL "
+"zur Grafik kann eine relative URL zum Skin-Image-Verzeichnis oder eine "
+"vollständige URL sein, die auf einen anderen Webserver zeigt. Das Signet "
+"wird auf 32px*32px skaliert, das Logo auf 196px*32px. (In der Mobile-Version "
+"werden beide mit einer Höhe von 24px und variabler Länge angezeigt.)"
 
 #. SysConfig
 msgid "This configuration defines all possible screens to enable or disable default columns."
 msgstr ""
+"Diese Konfigurationsoption definiert alle möglichen Oberflächen, auf denen "
+"Standard-Spalten aktiviert oder deaktiviert werden."
 
 #. SysConfig
 msgid "This configuration defines all possible screens to enable or disable dynamic fields."
 msgstr ""
+"Diese Konfiguration definiert alle möglichen Oberflächen, auf denen "
+"dynamische Felder aktiviert oder deaktiviert werden."
 
 #. SysConfig
 msgid "This configuration defines if only valids or all (invalids) dynamic fields should be shown."
 msgstr ""
+"Diese Konfiguration definiert, ob nur gültige oder alle (ungültige) "
+"dynamischen Felder angezeigt werden sollen."
 
 #. SysConfig
 msgid "This configuration defines the number of iterations that should be performed at max for calculating the WorkingTime for a Ticket. Attention: Setting this configuration to high can lead to performance issues."
 msgstr ""
+"Diese Konfiguration definiert die maximale Anzahl der Durchläufe zur "
+"Berechnung der Arbeitszeit für ein Ticket. Achtung: Wird diese Einstellung "
+"auf hoch gesetzt, können Performance-Probleme auftreten."
 
 #. SysConfig
 msgid "This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime."
