@@ -46,7 +46,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-07-10 15:41+0000\n"
+"PO-Revision-Date: 2020-07-11 10:00+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/>\n"
 "Language: de\n"
@@ -23657,18 +23657,27 @@ msgstr "Stats"
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "It is sometimes recommended to send this data to the OTOBO team in order to get better support."
 msgstr ""
+"In manchen Fällen ist es empfehlenswert, diese Daten an das OTOBO Team zu "
+"senden, um bessere Unterstützung zu erhalten."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "This will allow the system to send additional support data information to the OTOBO team."
 msgstr ""
+"Ermöglicht dem System, ergänzende Supportdaten an das OTOBO Team zu "
+"versenden."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the 'send support data' option.)"
 msgstr ""
+"Um das Senden der Daten zu aktivieren, registrieren Sie bitte Ihr System "
+"beim OTOBO-Team oder aktualisieren Sie Ihre Systemregistrierung (aktivieren "
+"Sie die Option 'Supportdaten senden'.)"
 
 #. Template: AdminCloudServices
 msgid "System registration is a service of OTOBO team, which provides a lot of advantages!"
 msgstr ""
+"Die Systemregistrierung ist ein Service von Team OTOBO, der Ihnen viele "
+"Vorteile sichert!"
 
 #. Template: AdminContactWD
 msgid "Contact with data management"
@@ -23688,15 +23697,17 @@ msgstr "Bitte geben Sie einen Suchbegriff ein, um nach Kunden zu suchen."
 
 #. Template: AdminDynamicField
 msgid "New OTOBO Community  Fields"
-msgstr ""
+msgstr "Neue OTOBO Community Felder"
 
 #. Template: AdminDynamicField
 msgid "Would you like to benefit from additional dynamic field types? You have full access to the following field types:"
 msgstr ""
+"Möchten Sie von den Vorteilen weiterer Felder profitieren? Sie haben vollen "
+"Zugriff auf folgende Feldtypen:"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Import / Export"
-msgstr ""
+msgstr "Import / Export"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Here you can upload a configuration file to import dynamic fields to your system. The file needs to be in .yml format as exported by dynamic field management module."
@@ -23824,7 +23835,7 @@ msgstr "Groß-/Kleinschreibung unterscheiden"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "%s - %s"
-msgstr ""
+msgstr "%s - %s"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the items you want to "
@@ -23952,7 +23963,7 @@ msgstr "Fontgröße der Beschriftung"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Color in hex."
-msgstr ""
+msgstr "Farbe als HEX-Wert."
 
 #. Template: AdminDynamicFieldWebService
 msgid "The web service to be executed for possible values."
@@ -23983,16 +23994,22 @@ msgid "Here you can specify an optional HTTP link for the field value in Overvie
 msgstr "Hier können Sie einen optionalen HTTP-Link für den Feldwert in Übersichten und Detailansichten angeben. Der optionale HTTP-Link funktioniert nur bei einfach ausgewählten Feldern."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
+#, fuzzy
 msgid "e.g https://www.otobo.ch:10745/api/v1.0 (without trailing backslash)"
 msgstr ""
+"z. B. https://www.otobo.ch:10745/api/v1.0 (ohne abschließenden Backslash)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "SSL hostname verification."
-msgstr ""
+msgstr "Verifiziert den SSL-Hostnamen."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing."
 msgstr ""
+"Abbrechen der Anfrage, wenn der Hostname nicht verifiziert werden kann. "
+"Nicht unbedacht deaktivieren! Der Verzicht auf eine Überprüfung stellt ein "
+"Sicherheitsrisiko dar! Möglichkeit der Deaktivierung vorwiegend für Tests "
+"mit selbstsignierten Zertifikaten oder wenn Sie genau wissen, was Sie tun."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otrs.com:8000/Webservice/Example"
@@ -24092,99 +24109,102 @@ msgstr "In diesem Lauf wurden keine Einstellungen in Betrieb genommen."
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "Change History"
-msgstr ""
+msgstr "Inbetriebnahme-Historie"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "Change History of %s"
-msgstr ""
+msgstr "Inbetriebnahme-Historie von %s"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "No modified values for this setting, the default value is used."
 msgstr ""
+"Keine Änderungen für diese Einstellung, der Standardwert wird verwendet."
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "Review users setting value"
-msgstr ""
+msgstr "Benutzeränderungen prüfen"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "Users Value"
-msgstr ""
+msgstr "Benutzeränderung"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "For"
-msgstr ""
+msgstr "für"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "Delete all user values."
-msgstr ""
+msgstr "Alle Benutzeränderungen verwerfen."
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "No user value for this setting."
-msgstr ""
+msgstr "Keine Benutzeränderung für diese Einstellung."
 
 #. Template: AgentDynamicFieldDBDetailedSearch
 msgid "Detailed search"
-msgstr ""
+msgstr "Detailsuche"
 
 #. Template: AgentDynamicFieldDBDetailedSearch
 msgid "Add an additional attribute"
-msgstr ""
+msgstr "Weiteres Attribut hinzufügen"
 
 #. Template: AgentDynamicFieldDBDetails
 msgid "Details view"
-msgstr ""
+msgstr "Detailansicht"
 
 #. Template: AgentElasticsearchQuickResult
 msgid "ConfigItems"
-msgstr ""
+msgstr "ConfigItems"
 
 #. Template: AgentPassword
 msgid "Password Policy"
-msgstr ""
+msgstr "Passwort-Richtlinie"
 
 #. Template: AgentPassword
 msgid "Your current password is older than %s days. You need to set a new one."
-msgstr ""
+msgstr "Ihr Passwort ist älter als %s Tage. Bitte vergeben Sie ein neues."
 
 #. Template: AgentPassword
 msgid "Repeat new password"
-msgstr ""
+msgstr "Neues Passwort wiederholen"
 
 #. Template: AgentPassword
 msgid "Password needs to be renewed every %s days."
-msgstr ""
+msgstr "Passwort muss in %s Tagen neu vergeben werden."
 
 #. Template: AgentPassword
 msgid "Password history is active, you can't use a password which was used the last %s times."
 msgstr ""
+"Die Passwort-Historie ist aktiv. Sie können keines Ihrer %s letzten "
+"Passwörter erneut verwenden."
 
 #. Template: AgentPassword
 msgid "Password length must be at least %s characters."
-msgstr ""
+msgstr "Passwort muss mindestens %s Zeichen lang sein."
 
 #. Template: AgentPassword
 msgid "Password requires at least two lower- and two uppercase characters."
-msgstr ""
+msgstr "Passwort muss mindestens zwei Groß- und zwei Kleinbuchstaben enthalten."
 
 #. Template: AgentPassword
 msgid "Password requires at least two characters."
-msgstr ""
+msgstr "Passwort muss mindestens zwei Zeichen lang sein."
 
 #. Template: AgentPassword
 msgid "Password requires at least one digit."
-msgstr ""
+msgstr "Passwort muss mindestens eine Ziffer enthalten."
 
 #. Template: AgentPassword
 msgid "Change config options"
-msgstr ""
+msgstr "Config-Optionen anpassen"
 
 #. Template: AgentPassword
 msgid "Admin permissions are required!"
-msgstr ""
+msgstr "Admin-Rechte erforderlich!"
 
 #. Template: CustomerAccept
 msgid "Yes, I accepted your license."
-msgstr ""
+msgstr "Ja, ich akzeptiere Ihre Bedingungen."
 
 #. Template: CustomerDashboard
 msgid "Ticket Search"
@@ -24192,7 +24212,7 @@ msgstr "Ticketsuche"
 
 #. Template: CustomerFooter
 msgid "Powered by %s"
-msgstr ""
+msgstr "Powered by %s"
 
 #. Template: CustomerLogin
 msgid "The browser you are using doesn't support css-grid. It's likely too old."
@@ -24208,15 +24228,17 @@ msgstr "Account anfordern"
 
 #. Template: CustomerPassword
 msgid "Change Password"
-msgstr ""
+msgstr "Passwort ändern"
 
 #. Template: CustomerPassword
 msgid "Password needs to contain at least 3 of the character classes: lower char, upper char, digit, special character."
 msgstr ""
+"Passwort muss mindestes 3 der folgenden Zeichenklassen enthalten: "
+"Kleinbuchstaben, Großbuchstaben, Ziffern, Sonderzeichen."
 
 #. Template: CustomerTicketList
 msgid "Nr."
-msgstr ""
+msgstr "Nr."
 
 #. Template: CustomerTicketList
 msgid "You have no tickets yet. Please click here, to create a new one."
@@ -24256,7 +24278,7 @@ msgstr "Weitere Aktionen"
 
 #. Template: MIMEBase
 msgid "Article Information"
-msgstr ""
+msgstr "Artikel-Informationen"
 
 #. Template: TileNewTicket
 msgid "Issue%sa ticket"
@@ -24268,19 +24290,22 @@ msgstr "Schweiz"
 
 #. Template: Copy
 msgid "Start migration"
-msgstr ""
+msgstr "Migration starten"
 
 #. Template: Copy
 msgid "Result of data migration"
-msgstr ""
+msgstr "Ergebnis der Datenmigration"
 
 #. Template: Copy
 msgid "Last successful task:"
-msgstr ""
+msgstr "Zuletzt erfolgreich ausgeführt:"
 
 #. Template: Copy
 msgid "Migration will restart from the last successfully finished task. Please do a complete rerun if you changed your system in the meantime."
 msgstr ""
+"Die Migration wird nach dem letzten erfolgreich durchgeführten Schritt "
+"wiederaufgenommen. Bitte gehen Sie zurück zum Anfang, wenn es inzwischen "
+"Änderungen an Ihrem System gegeben hat."
 
 #. Template: Copy
 msgid "Clean up and finish"
@@ -24293,6 +24318,9 @@ msgstr ""
 #. Template: Intro
 msgid "This migration script will lead you step by step through the process of migrating your ticket system from OTRS or ((OTRS)) Community Edition version 6 to OTOBO 10."
 msgstr ""
+"Dieses Migrationstool führt Sie Schritt für Schritt durch die Migration "
+"Ihres Ticketsystems von OTRS oder der ((OTRS)) Community Edition Version 6 "
+"zu OTOBO 10."
 
 #. Template: Intro
 msgid "There is no danger whatsoever for your original system: nothing is changed there."
@@ -24360,7 +24388,7 @@ msgstr ""
 
 #. Template: OTRSFileSettings
 msgid "OTRS server"
-msgstr ""
+msgstr "OTRS Server"
 
 #. Template: OTRSFileSettings
 msgid "SSH User"
@@ -24368,7 +24396,7 @@ msgstr ""
 
 #. Template: OTRSFileSettings
 msgid "OTRS home directory"
-msgstr ""
+msgstr "OTRS-Home-Verzeichnis"
 
 #. Template: OTRSFileSettings
 msgid "Check settings"
@@ -24529,10 +24557,12 @@ msgstr ""
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig."
 msgstr ""
+"Wenn Sie das Migrationstool MigrateFromOTRS erneut ausführen möchten, "
+"deaktivieren Sie \"SecureMode\" in der SysConfig."
 
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid "OTRS to OTOBO migration"
-msgstr ""
+msgstr "Migration von OTRS zu OTOBO"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Contact us at sales@otrs.com"
@@ -24585,14 +24615,16 @@ msgstr ""
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Check if OTOBO and OTRS connect is possible."
 msgstr ""
+"Überprüft, ob eine Verbindung zwischen OTRS und OTOBO hergestellt werden "
+"kann."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Can't open RELEASE file from OTRSHome: %s!"
-msgstr ""
+msgstr "Kann das RELEASE File in OTRSHome: %s nicht öffnen!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Copy and migrate files from OTRS"
-msgstr ""
+msgstr "Dateien aus OTRS werden kopiert und migriert."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "All needed files copied and migrated, perfect!"
@@ -24608,7 +24640,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to connect to OTRS database."
-msgstr ""
+msgstr "System konnte keine Verbindung zur OTRS-Datenbank herstellen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to complete data transfer."
@@ -24620,7 +24652,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO and OTRS version is correct."
-msgstr ""
+msgstr "Überprüft, ob die verwendeten OTOBO- und OTRS-Versionen korrekt sind."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "%s does not exist!"
@@ -24644,19 +24676,19 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTRS version is correct."
-msgstr ""
+msgstr "Überprüft, ob die OTRS Version korrekt ist."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTRS RELEASE file: %s: %s!"
-msgstr ""
+msgstr "Kann OTRS RELEASE File nicht lesen: %s: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTRS system found!"
-msgstr ""
+msgstr "Kein OTRS-System gefunden!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTRS Version is correct: %s."
-msgstr ""
+msgstr "OTRS-Version ist korrekt: %s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "Migrate configuration settings."
@@ -24700,7 +24732,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
-msgstr ""
+msgstr "Kann die Datei Kernel/Config.pm aus OTRSHome: %s nicht öffnen!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "OTOBO Home exists."
@@ -24708,15 +24740,15 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if we are able to connect to OTRS Home."
-msgstr ""
+msgstr "Überprüft, ob eine Verbindung zu OTRS Home hergestellt werden kann."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Can't connect to OTRS file directory."
-msgstr ""
+msgstr "Kann keine Verbindung zum OTRS-Dateiverzeichnis herstellen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Connect to OTRS file directory is possible."
-msgstr ""
+msgstr "Keine Verbindung zum OTRS-Dateiverzeichnis möglich."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Try database connect and sanity checks."
@@ -24725,6 +24757,7 @@ msgstr ""
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Connect to OTRS database or sanity checks failed."
 msgstr ""
+"Verbindung zur OTRS-Datenbank oder Plausibilitätsprüfung fehlgeschlagen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Database connect and sanity checks completed."
@@ -24736,7 +24769,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The following packages are only installed in OTRS:"
-msgstr ""
+msgstr "Folgende Pakete sind nur in OTRS installiert:"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "Please install (or uninstall) the packages before migration. If a package doesn't exist for OTOBO so far, please contact the OTOBO Team at bugs\\\\@otobo.org. We will find a solution."
@@ -24803,8 +24836,12 @@ msgid "Queues / Tickets"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
+#, fuzzy
 msgid "This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set 'utf8'."
 msgstr ""
+"Dieser Zeichensatz wird noch nicht unterstützt. Siehe dazu: https://bugs.otrs"
+".org/show_bug.cgi?id=12361. Bitte konvertieren Sie Ihre Datenbank in den "
+"Zeichensatz 'utf8'."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not verified by the OTOBO Team! It is recommended not to use this packages."
@@ -24817,6 +24854,8 @@ msgstr "Zu viele fehlgeschlagene Anmeldungen, bitte versuchen Sie es in %s s noc
 #. Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
 msgid "If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig."
 msgstr ""
+"Wenn Sie das Migrationstool MigrateFromOTRS erneut ausführen möchten, "
+"deaktivieren Sie \"SecureMode\" in der SysConfig."
 
 #. JS File: Core.Agent.Admin.SystemConfigurationUser
 msgid "Are you sure you want to remove all user values?"
