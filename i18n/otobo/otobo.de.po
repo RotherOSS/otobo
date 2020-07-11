@@ -46,7 +46,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-07-11 15:25+0000\n"
+"PO-Revision-Date: 2020-07-11 15:32+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/>"
 "\n"
@@ -25488,18 +25488,20 @@ msgstr ""
 #. SysConfig
 msgid "This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime."
 msgstr ""
+"Diese Konfiguration registriert ein OutputFilter-Modul, das die JavaScript-"
+"Funktionalität zur Entfernung der PendingTime (Warten bis) einbringt."
 
 #. SysConfig
 msgid "This key is not certified with a trusted signature!"
-msgstr ""
+msgstr "Dieser Schlüssel ist nicht mit einer vertrauten Signatur signiert!"
 
 #. SysConfig
 msgid "This module is being used to extend the password policy."
-msgstr ""
+msgstr "Dieses Modul ergänzt die Passwort-Richtlinie."
 
 #. SysConfig
 msgid "This module is part of the admin area of OTOBO Community Edition."
-msgstr ""
+msgstr "Diese Modul ist Teil des Admin-Bereichs von OTOBO."
 
 #. SysConfig
 msgid "Ticket Close"
@@ -25509,21 +25511,22 @@ msgstr ""
 msgid "Tickets in the following queues will not be stored on the Elasticsearch server. To apply this to existing tickets, the ticket migration has to be run via console, after changing this option."
 msgstr ""
 "Tickets in den folgenden Queues werden nicht auf dem Elasticsearch-Server "
-"gespeichert. Um diese Einstellungen auf vorhandene Tickets zu übernehmen, "
-"muss nach erfolgter Änderung eine Ticketmigration über die Konsole "
-"ausgeführt werden."
+"gespeichert. Um diese Einstellung auf vorhandene Tickets zu übernehmen, muss "
+"nach erfolgter Änderung eine Ticketmigration über die Konsole ausgeführt "
+"werden."
 
 #. SysConfig
 msgid "Tile registration for the CustomerDashboard. Module is required."
 msgstr ""
+"Kachel-Registrierung für das CustomerDashboard. Dieses Modul wird benötigt."
 
 #. SysConfig
 msgid "Use Redis::Fast instead of Redis."
-msgstr ""
+msgstr "Verwendet Redis::Fast statt Redis."
 
 #. SysConfig
 msgid "Use specified Redis logical database."
-msgstr ""
+msgstr "Verwendet die angegebene logische Redis-Datenbank."
 
 #. SysConfig
 msgid "Web Service"
