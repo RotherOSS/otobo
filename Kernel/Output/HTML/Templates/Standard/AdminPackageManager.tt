@@ -179,10 +179,10 @@
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                         </li>
                         <li>
-                            <a href="https://doc.otobo.org/doc/manual/admin/6.0/en/html/updating.html" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-external-link"></i>[% Translate("Go to updating instructions") | html %]</span></a>
+                            <a href="https://doc.otobo.org/manual/installation/stable/en/content/updating.html" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-external-link"></i>[% Translate("Go to updating instructions") | html %]</span></a>
                         </li>
                         <li>
-                            <a href="https://portal.otrs.com/" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-external-link"></i>[% Translate("Go to the OTOBO customer portal") | html %]</span></a>
+                            <a href="https://portal.rother-oss.com/otobo/customer.pl" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-external-link"></i>[% Translate("Go to the OTOBO customer portal") | html %]</span></a>
                         </li>
                     </ul>
                 </div>
