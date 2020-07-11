@@ -46,7 +46,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-07-11 15:32+0000\n"
+"PO-Revision-Date: 2020-07-11 15:47+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/>"
 "\n"
@@ -25535,18 +25535,28 @@ msgstr "Webservice"
 #. SysConfig
 msgid "Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. \"UserTitle\", \"UserFirstname\", \"UserLastname\", \"UserEmail\" and \"UserLogin\" will be substituted."
 msgstr ""
+"Willkommenstext für den Dashboard-Header. Die in \"Name\" definierten "
+"Variablen werden anstelle von %s in den als Willkommenstext definierten Text "
+"eingefügt. Mögliche Variablen: \"UserTitle\", \"UserFirstname\", "
+"\"UserLastname\", \"UserEmail\" und \"UserLogin\"."
 
 #. SysConfig
 msgid "Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2)."
 msgstr ""
+"Definiert, ob Felder automatisch befüllt (1), und ob automatisch befüllte "
+"Felder in den Ticketformularen ausgeblendet werden sollen (2)."
 
 #. SysConfig
 msgid "Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes."
 msgstr ""
+"Legt fest, ob die Ausführung der TicketACL durch Prüfen gecachter "
+"Abhängigkeiten zwischen Feldern umgangen werden kann. Die Funktion kann die "
+"Ladezeit von Ticketformularen verbessern, muss aber deaktiviert werden, wenn "
+"ACLModules für Ticket- und Form-ReturnTypes verwendet werden sollen."
 
 #. Template: InstallerSystem
 msgid "Initialize Elasticsearch"
-msgstr "Elasticsearch initialisieren"
+msgstr "Initialisiert Elasticsearch"
 
 #. Template: InstallerSystem
 msgid "Elasticsearch server was found, and it has been activated automatically for OTOBO."
@@ -25557,16 +25567,25 @@ msgid "Seemingly either no clean Elasticsearch server is running, or it is not u
 msgstr ""
 "Scheinbar läuft entweder kein sauberer Elasticsearch-Server oder es wird "
 "keine Standardkonfiguration verwendet. Um Elasticsearch manuell zu "
-"aktivieren, bearbeiten Sie bitte ggf. den Webserver im Admin-Bereich, "
-"aktivieren Sie 'Elasticsearch::Active' und "
+"aktivieren, bearbeiten Sie bitte ggf. den Webserver im Admin-Bereich. "
+"Aktivieren Sie 'Elasticsearch::Active' und "
 "'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext' in der "
 "Systemkonfiguration und führen Sie den otobo.Console-Befehl "
 "'Maint::Elasticsearch::Migration' aus."
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Contact us at hello@otobo.de"
-msgstr ""
+msgstr "Schreiben Sie uns an hello@otobo.de"
 
 #. SysConfig
 msgid "Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server's settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system."
 msgstr ""
+"Legt das Protokoll fest, das zur Auslieferung der Applikation durch den "
+"Webserver genutzt werden soll. Wenn http anstelle von https genutzt werden "
+"soll, muss dies hier festgelegt werden. Die Einstellung hat keine "
+"Auswirkungen auf die Konfiguration des Webservers und verändert nicht, wie "
+"auf die Applikation zugegriffen wird. Bei fehlerhafter Konfiguration "
+"verhindert die Einstellung nicht die Anmeldung am System. Diese Einstellung "
+"wird nur als Variable verwendet (OTOBO_CONFIG_HttpType), die in allen "
+"Nachrichten-Formularen zur Verfügung steht, um Links auf Tickets in Ihrem "
+"System zu generieren."
