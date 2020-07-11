@@ -753,7 +753,7 @@ ul.WidgetTooltip li a:hover i {
 }
 
 .CallForAction:disabled span {
-    color: graytext !important;
+    color: rgba(200,200,200,0.5) !important;
     cursor: default;
 }
 
