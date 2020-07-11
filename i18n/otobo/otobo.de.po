@@ -46,7 +46,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-07-11 10:59+0000\n"
+"PO-Revision-Date: 2020-07-11 11:27+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/>"
 "\n"
@@ -1559,11 +1559,13 @@ msgstr "Nutzen Sie externe Datenbanken als konfigurierbare Datenquellen für die
 
 #. Template: AdminDynamicField
 msgid "Web service"
-msgstr "Web-Service"
+msgstr "Webservice"
 
 #. Template: AdminDynamicField
 msgid "External web services can be configured as data sources for this dynamic field."
-msgstr "Für dieses Feld können externe Web-Services als Datenquelle konfiguriert werden."
+msgstr ""
+"Für dieses Feld können externe Webservices als Datenquelle konfiguriert "
+"werden."
 
 #. Template: AdminContactWD
 msgid "Contact with data"
@@ -2375,11 +2377,11 @@ msgstr "Alter"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "GenericInterface Web Service Management"
-msgstr "GenericInterface - Web-Service-Verwaltung"
+msgstr "GenericInterface - Webservice-Verwaltung"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Service Management"
-msgstr "Web-Service-Verwaltung"
+msgstr "Webservice-Verwaltung"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Debugger"
@@ -2387,7 +2389,7 @@ msgstr "Debugger"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Go back to web service"
-msgstr "Zurück zum Web-Service"
+msgstr "Zurück zum Webservice"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Clear"
@@ -2395,7 +2397,7 @@ msgstr "Leeren"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Do you really want to clear the debug log of this web service?"
-msgstr "Möchten Sie wirklich das Debug-Protokoll dieses Web-Services löschen?"
+msgstr "Möchten Sie wirklich das Debug-Protokoll dieses Webservices löschen?"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Request List"
@@ -2471,7 +2473,7 @@ msgstr "Der Name kann verwendet werden, um unterschiedliche Konfigurationen zur 
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Please provide a unique name for this web service."
-msgstr "Bitte geben Sie einen eindeutigen Namen für diesen Web-Service an."
+msgstr "Bitte geben Sie einen eindeutigen Namen für diesen Webservice an."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error handling module backend"
@@ -2579,7 +2581,9 @@ msgstr "Dieses Modul erlaubt die Konfiguration von geplanten Wiederholungen für
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Default behavior of GenericInterface web services is to send each request exactly once and not to reschedule after errors."
-msgstr "Standardmäßig versenden GenericInterface Web-Services jede Anfrage nur genau einmal und planen diese nach dem Auftreten von Fehlern nicht erneut ein."
+msgstr ""
+"Standardmäßig versenden GenericInterface Webservices jede Anfrage nur genau "
+"einmal und planen diese nach dem Auftreten von Fehlern nicht erneut ein."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "If more than one module capable of scheduling a retry is executed for an individual request, the module executed last is authoritative and determines if a retry is scheduled."
@@ -2699,7 +2703,9 @@ msgstr "Invoker-Details"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "The name is typically used to call up an operation of a remote web service."
-msgstr "Der Name wird typischerweise genutzt, um eine Operation eines entfernten Web-Services aufzurufen."
+msgstr ""
+"Der Name wird typischerweise genutzt, um eine Operation eines entfernten "
+"Webservice aufzurufen."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
@@ -2763,7 +2769,7 @@ msgstr "Synchrone Ereignisauslöser werden direkt während der laufenden Web-Anf
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "GenericInterface Invoker Event Settings for Web Service %s"
-msgstr "GenericInterface Invoker Ereignis-Einstellungen für Web-Service %s"
+msgstr "GenericInterface Invoker Ereignis-Einstellungen für Webservice %s"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Go back to"
@@ -3067,7 +3073,9 @@ msgstr "Operation-Details"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "The name is typically used to call up this web service operation from a remote system."
-msgstr "Der Name wird typischerweise benutzt, um die Web-Service-Operation von einem entfernten System aus aufzurufen."
+msgstr ""
+"Der Name wird typischerweise benutzt, um die Webservice-Operation von einem "
+"entfernten System aus aufzurufen."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation backend"
@@ -3159,7 +3167,9 @@ msgstr "Endpunkt"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "URI to indicate specific location for accessing a web service."
-msgstr "URI zur Angabe eines bestimmten Standorts für den Zugriff auf einen Webdienst."
+msgstr ""
+"URI zur Angabe eines bestimmten Standorts für den Zugriff auf einen "
+"Webservice."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g https://www.otobo.com:10745/api/v1.0 (without trailing backslash)"
@@ -3363,11 +3373,11 @@ msgstr "Wählen Sie, wie die SOAPAction konstruiert werden soll."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Some web services require a specific construction."
-msgstr "Einige Web-Service benötigen eine spezifische Konstruktion."
+msgstr "Einige Webservices benötigen eine spezifische Konstruktion."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Some web services send a specific construction."
-msgstr "Einige Web-Services senden eine spezifische Konstruktion."
+msgstr "Einige Webservices senden eine spezifische Konstruktion."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction separator"
@@ -3379,7 +3389,7 @@ msgstr "Zu nutzendes Trennzeichen zwischen dem Namespace und der SOAP-Operation.
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Usually .Net web services use \"/\" as separator."
-msgstr "Normalerweise verwenden .Net-basierte Web-Services \"/\" als Trenner."
+msgstr "Normalerweise verwenden .Net-basierte Webservices \"/\" als Trenner."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction free text"
@@ -3475,15 +3485,15 @@ msgstr "Sortierung für ausgehende XML-Felder (Struktur unterhalb des Funktionsa
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add Web Service"
-msgstr "Web-Service hinzufügen"
+msgstr "Webservice hinzufügen"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Edit Web Service"
-msgstr "Web-Service bearbeiten"
+msgstr "Webservice bearbeiten"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone Web Service"
-msgstr "Web-Service klonen"
+msgstr "Webservice klonen"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
@@ -3495,11 +3505,11 @@ msgstr "Klonen"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Export Web Service"
-msgstr "Web-Service exportieren"
+msgstr "Webservice exportieren"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import web service"
-msgstr "Web-Services importieren"
+msgstr "Webservices importieren"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration File"
@@ -3507,11 +3517,15 @@ msgstr "Konfigurationsdatei"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The file must be a valid web service configuration YAML file."
-msgstr "Die Datei muss eine gültige Web-Service-Konfigurationsdatei im YAML-Format sein."
+msgstr ""
+"Die Datei muss eine gültige Webservice-Konfigurationsdatei im YAML-Format "
+"sein."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Here you can specify a name for the webservice. If this field is empty, the name of the configuration file is used as name."
-msgstr "Hier können Sie einen Namen für den Web-Service angeben. Bleibt dieses Feld leer, wird der Dateiname der Konfigurationsdatei als Name verwendet."
+msgstr ""
+"Hier können Sie einen Namen für den Webservice angeben. Bleibt dieses Feld "
+"leer, wird der Dateiname der Konfigurationsdatei als Name verwendet."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import"
@@ -3523,15 +3537,15 @@ msgstr "Konfigurationshistorie"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete web service"
-msgstr "Web-Service löschen"
+msgstr "Webservice löschen"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Do you really want to delete this web service?"
-msgstr "Wollen Sie diesen Web-Service wirklich löschen?"
+msgstr "Wollen Sie diesen Webservice wirklich löschen?"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Ready2Adopt Web Services"
-msgstr "Ready2Adopt-Web-Services"
+msgstr "Ready2Adopt-Webservices"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Here you can activate Ready2Adopt web services showcasing our best practices that are a part of %s."
@@ -3543,7 +3557,7 @@ msgstr "Bitte beachten Sie, dass diese Webservices von anderen Modulen abhängen
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import Ready2Adopt web service"
-msgstr "Ready2Adopt-Web-Services importieren"
+msgstr "Ready2Adopt-Webservices importieren"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated Ready2Adopt web services."
@@ -3575,11 +3589,14 @@ msgstr "Debug-Level"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "In provider mode, OTOBO offers web services which are used by remote systems."
-msgstr "Im Modus \"Provider\" bietet OTOBO Web-Services an, die von externen Systemen genutzt werden."
+msgstr ""
+"Im Modus \"Provider\" bietet OTOBO Webdervices an, die von externen Systemen "
+"genutzt werden."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "In requester mode, OTOBO uses web services of remote systems."
-msgstr "Im Modus \"Requester\" nutzt OTOBO selbst Web-Services von externen Systemen."
+msgstr ""
+"Im Modus \"Requester\" nutzt OTOBO selbst Webservices von externen Systemen."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Network transport"
@@ -3607,7 +3624,9 @@ msgstr "Operations sind einzelne Systemfunktionen, die entfernte Systeme aufrufe
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Invokers prepare data for a request to a remote web service, and process its response data."
-msgstr "Invoker bereiten Daten für eine Anfrage an einen externen Web-Service auf und verarbeiten die Antwortdaten."
+msgstr ""
+"Invoker bereiten Daten für eine Anfrage an einen externen Webservice auf und "
+"verarbeiten die Antwortdaten."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Controller"
@@ -3635,11 +3654,13 @@ msgstr "Historie"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Go back to Web Service"
-msgstr "Zurück zum Web-Service"
+msgstr "Zurück zum Webservice"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Here you can view older versions of the current web service's configuration, export or even restore them."
-msgstr "Hier können Sie ältere Versionen der Konfiguration dieses Web-Services einsehen, exportieren oder wiederherstellen."
+msgstr ""
+"Hier können Sie ältere Versionen der Konfiguration dieses Webservice "
+"einsehen, exportieren oder wiederherstellen."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Configuration History List"
@@ -3659,19 +3680,21 @@ msgstr "Wählen Sie eine Konfigurationsversion aus, um die Details zu sehen."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Export web service configuration"
-msgstr "Web-Service-Konfiguration exportieren"
+msgstr "Webservice-Konfiguration exportieren"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Restore web service configuration"
-msgstr "Web-Service-Konfiguration wiederherstellen"
+msgstr "Webservice-Konfiguration wiederherstellen"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Do you really want to restore this version of the web service configuration?"
-msgstr "Wollen Sie diese Version der Web-Service-Konfiguration wirklich wiederherstellen?"
+msgstr ""
+"Wollen Sie diese Version der Webservice-Konfiguration wirklich "
+"wiederherstellen?"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Your current web service configuration will be overwritten."
-msgstr "Ihre aktuelle Konfiguration wird überschrieben."
+msgstr "Ihre aktuelle Webservice-Konfiguration wird überschrieben."
 
 #. Template: AdminGroup
 msgid "Group Management"
@@ -10231,7 +10254,7 @@ msgstr "Datenbank (%s)"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Web service (%s)"
-msgstr "Web-Service (%s)"
+msgstr "Webservice (%s)"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Contact with data (%s)"
@@ -10371,11 +10394,11 @@ msgstr "Bitte entfernen Sie die folgenden Worte, da sie nicht für die Ticket-Au
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "Need WebserviceID!"
-msgstr "Benötige Web-Service-ID!"
+msgstr "Benötige Webdervice-ID!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "Could not get data for WebserviceID %s"
-msgstr "Konnte keine Daten für Web-Service-ID %s ermitteln"
+msgstr "Konnte keine Daten für Webservice-ID %s ermitteln"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "ascending"
@@ -10407,7 +10430,7 @@ msgstr "Fehlerbehandlungs-Typ %s nicht registriert"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Could not update web service"
-msgstr "Web-Service konnte nicht aktualisiert werden"
+msgstr "Webservice konnte nicht aktualisiert werden"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Need ErrorHandling"
@@ -10611,7 +10634,7 @@ msgstr "Das Ereignis %s ist nicht gültig."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Could not update configuration data for WebserviceID %s"
-msgstr "Konnte Konfigurationsdaten für Web-Service-ID %s nicht aktualisieren"
+msgstr "Konnte Konfigurationsdaten für Webservice-ID %s nicht aktualisieren"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "This sub-action is not valid"
@@ -10739,19 +10762,19 @@ msgstr "Datei oder Verzeichnis nicht gefunden."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There is another web service with the same name."
-msgstr "Es existiert bereits ein Web-Service mit demselben Namen."
+msgstr "Es existiert bereits ein Webservice mit demselben Namen."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There was an error updating the web service."
-msgstr "Beim Aktualisieren des Web-Service ist ein Fehler aufgetreten."
+msgstr "Beim Aktualisieren des Webservice ist ein Fehler aufgetreten."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There was an error creating the web service."
-msgstr "Beim Erstellen des Web-Service ist ein Fehler aufgetreten."
+msgstr "Beim Erstellen des Webservice ist ein Fehler aufgetreten."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" created!"
-msgstr "Web-Service \"%s\" erstellt!"
+msgstr "Webservice \"%s\" erstellt!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need Name!"
@@ -10759,7 +10782,7 @@ msgstr "Name benötigt!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need ExampleWebService!"
-msgstr "Benötige Beispiel-Web-Service!"
+msgstr "Benötige Beispiel-Webservice!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not load %s."
@@ -10779,7 +10802,7 @@ msgstr "Die importierte Datei enthält ungültigen YAML-Inhalt. Bitte prüfen Si
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" deleted!"
-msgstr "Web-Service \"%s\" gelöscht!"
+msgstr "Webservice \"%s\" gelöscht!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "OTOBO as provider"
@@ -14431,7 +14454,7 @@ msgstr "Werte in ungültigen Dynamischen Feldern"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "GenericInterface Webservices"
-msgstr "GenericInterface-Web-Services"
+msgstr "GenericInterface-Webservices"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Process Tickets"
@@ -15447,7 +15470,7 @@ msgstr "Diese Operation löschen"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceWebservice
 msgid "Clone web service"
-msgstr "Web-Service klonen"
+msgstr "Webservice klonen"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceWebservice
 msgid "Delete operation"
@@ -17365,7 +17388,7 @@ msgstr "Ticket-Typen erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage web services."
-msgstr "Web-Services erstellen und verwalten."
+msgstr "Webservices erstellen und verwalten."
 
 #. SysConfig
 msgid "Create new Ticket."
@@ -19981,15 +20004,15 @@ msgstr "GenericInterface TransportHTTPSOAP Benutzeroberfläche"
 
 #. SysConfig
 msgid "GenericInterface Web Service GUI"
-msgstr "GenericInterface Web-Services-Benutzeroberfläche"
+msgstr "GenericInterface Webservices-Benutzeroberfläche"
 
 #. SysConfig
 msgid "GenericInterface Web Service History GUI"
-msgstr "GenericInterface Web-Service Verlauf Benutzeroberfläche"
+msgstr "GenericInterface Webservice-Historie-Benutzeroberfläche"
 
 #. SysConfig
 msgid "GenericInterface Web Service Mapping GUI"
-msgstr "GenericInterface Web-Service Mapping Benutzeroberfläche"
+msgstr "GenericInterface Webservice-Mapping-Benutzeroberfläche"
 
 #. SysConfig
 msgid "GenericInterface module registration for an error handling module."
@@ -21317,7 +21340,9 @@ msgstr "Personen"
 
 #. SysConfig
 msgid "Performs the configured action for each event (as an Invoker) for each configured web service."
-msgstr "Führt die konfigurierte Aktion für jedes Ereignis für jeden konfigurierten Web-Service aus (als Invoker)."
+msgstr ""
+"Führt die konfigurierte Aktion für jedes Ereignis für jeden konfigurierten "
+"Webservice aus (als Invoker)."
 
 #. SysConfig
 msgid "Permitted width for compose email windows."
@@ -23541,7 +23566,7 @@ msgstr "Wir führen eine geplante Wartung durch. Wir werden bald wieder online s
 
 #. SysConfig
 msgid "Web Services"
-msgstr "Web-Services"
+msgstr "Webservices"
 
 #. SysConfig
 msgid "Web View"
@@ -24621,7 +24646,7 @@ msgstr "Inbetriebnahme abgeschlossen. Glückwünsch!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_responses."
-msgstr "Mirgieren der Datenbanktabelle auto_responses."
+msgstr "Migrieren der Datenbanktabelle auto_responses."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration failed."
@@ -24633,19 +24658,19 @@ msgstr "Migrieren der Datenbanktabelle auto_response."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration completed, perfect!"
-msgstr ""
+msgstr "Migration abgeschlossen. Glückwunsch!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "OTOBO Cache cleanup."
-msgstr ""
+msgstr "OTOBO Cache leeren."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "Completed."
-msgstr ""
+msgstr "Abgeschlossen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Check if OTOBO version is correct."
-msgstr ""
+msgstr "Überprüft, ob die OTOBO Version korrekt ist."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Check if OTOBO and OTRS connect is possible."
@@ -24659,19 +24684,19 @@ msgstr "Kann das RELEASE File in OTRSHome: %s nicht öffnen!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Copy and migrate files from OTRS"
-msgstr "Dateien aus OTRS werden kopiert und migriert."
+msgstr "Kopiert und migriert Dateien aus OTRS"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "All needed files copied and migrated, perfect!"
-msgstr ""
+msgstr "Alle Dateien wurden kopiert und migriert. Glückwunsch!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Need %s for Oracle db!"
-msgstr ""
+msgstr "%s für Oracle DB erforderlich!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Copy database."
-msgstr ""
+msgstr "Kopiert die Datenbank."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to connect to OTRS database."
@@ -24679,11 +24704,11 @@ msgstr "System konnte keine Verbindung zur OTRS-Datenbank herstellen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to complete data transfer."
-msgstr ""
+msgstr "System konnte den Datentransfer nicht abschließen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Data transfer completed."
-msgstr ""
+msgstr "Datentransfer abgeschlossen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO and OTRS version is correct."
@@ -24691,23 +24716,24 @@ msgstr "Überprüft, ob die verwendeten OTOBO- und OTRS-Versionen korrekt sind."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "%s does not exist!"
-msgstr ""
+msgstr "%s nicht vorhanden!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTOBO RELEASE file: %s: %s!"
-msgstr ""
+msgstr "Kann OTOBO RELEASE File nicht lesen: %s: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTOBO system found!"
-msgstr ""
+msgstr "Kein OTOBO-System gefunden!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "You are trying to run this script on the wrong framework version %s!"
 msgstr ""
+"Sie versuchen das Skript in der falschen Framework-Version %s auszuführen!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTOBO Version is correct: %s."
-msgstr ""
+msgstr "OTOBO-Version ist korrekt: %s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTRS version is correct."
@@ -24727,39 +24753,47 @@ msgstr "OTRS-Version ist korrekt: %s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "Migrate configuration settings."
-msgstr ""
+msgstr "Migriert die Konfigurationseinstellungen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig data migration or no configuration exists."
 msgstr ""
+"Bei der Migration der SysConfig-Daten ist ein Fehler aufgetreten oder es ist "
+"keine Konfiguration vorhanden."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig migration when writing XML to DB."
 msgstr ""
+"Bei der Migration der SysConfig-Daten ist ein Fehler beim Schreiben der XML-"
+"Werte in die DB aufgetreten."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig data migration."
-msgstr ""
+msgstr "Bei der Migration der SysConfig-Daten ist ein Fehler aufgetreten."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "SysConfig data migration completed."
-msgstr ""
+msgstr "Migration der SysConfig-Daten abgeschlossen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Migrate web service configuration."
-msgstr ""
+msgstr "Migration der Webservice-Konfiguration."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "No web service existent, done."
-msgstr ""
+msgstr "Kein Webservice vorhanden, fertig."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Can't add web service for Elasticsearch. File %s not found!."
 msgstr ""
+"Kann den Webservice für Elasticsearch nicht hinzufügen. Datei %s nicht "
+"gefunden."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed."
 msgstr ""
+"Migration abgeschlossen. Bitte aktivieren Sie den Webservice unter Admin -> "
+"Webservice, sobald die Elasticsearch-Installation abgeschlossen ist."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
 msgid "Migrate database table notification."
