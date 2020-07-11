@@ -13,6 +13,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+# This test script does not work with Kernel::System::UnitTest::Driver.
+# __SKIP_BY_KERNEL_SYSTEM_UNITTEST_DRIVER__
+
 =head1 NAME
 
 NutsAndBolts.t - the most basic test script

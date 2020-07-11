@@ -322,12 +322,12 @@ my @NeededModules = (
     {
         Module    => 'Moo',
         Required  => 1,
-        Comment   => 'Required by Math::Random::Secure in Kernel/cpan-lib',
+        Comment   => 'Required for random number generator.',
         InstTypes => {
-            aptget => undef,
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
+            aptget => 'libmoo-perl',
+            emerge => 'dev-perl/Moo',
+            zypper => 'perl-Moo',
+            ports  => 'devel/p5-Moo',
         },
     },
     {

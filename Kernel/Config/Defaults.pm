@@ -93,8 +93,8 @@ sub LoadDefaults {
     $Self->{FQDN} = 'yourhost.example.com';
 
     # HttpType
-    # In case you use HTTPS instead of plain HTTP specify it here
-    $Self->{HttpType} = 'http';
+    # Specify 'http' in case you want to use plain HTTP
+    $Self->{HttpType} = 'https';
 
     # ScriptAlias
     # Prefix to index.pl used as ScriptAlias in web config

@@ -46,10 +46,10 @@ div.TooltipErrorMessage {
 
 .AJAXLoader {
     display: inline-block;
-    width: 14px;
+    width: 0px;
     height: 14px;
     margin-bottom: 18px;
-    margin-left: 16px;
+    margin-left: 0px;
     position: relative;
     vertical-align: bottom;
 }
@@ -58,9 +58,9 @@ div.TooltipErrorMessage {
     -webkit-animation: fa-spin 2s infinite linear;
     animation: fa-spin 2s infinite linear;
     position: absolute;
-    left: 0px;
+    left: 16px;
     top: 0px;
-    width: 100%;
+    width: 14px;
     height: 100%;
     line-height: 14px;
     content: "\f1ce";

@@ -177,8 +177,8 @@ my %Check = (
         Modulus =>
             'B686AD697981A5A387792F3F301062EF520F6966AE21421995C1AB63BF4AB974D250E8764F9B341364B0842FA59C9FFECCB0243ABF802FAF28DFDCE3C2315FC74D6BA81F09AB5F333A0EDAFFDDCB941792F4C0E57AC0413E205E89D4E61D39B0F144FAF3E7064FD97131DC1E723044E4B0DEAA17E83C0B0697C1BB65B11D997C6A3EAB148FFAB3ECF60CB9E17BE0DABAE087F488BCA29C14D597DE024F1A0EBA6F435EFA03B1EBCBBB5D1107CBBD72CC8B0202AE76BEA0672B24A75C82031BC2DE9B82CDC25316F7DDEC9D32BF9C4FF2858424AA371D2E96F71170AAB3167ED9FA5A2C525C53B8ECE725034339DC3DAC32D3840D1D3ACFB42DB67C9817142019',
         Subject => [
-            'C= DE ST= Bayern L= Straubing O=  CN= unittest emailAddress= unittest@example.org',
-            'C =  DE, ST =  Bayern, L =  Straubing, O =  , CN =  unittest, emailAddress =  unittest@example.org',
+            'C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest emailAddress= unittest@example.org',
+            'C =  DE, ST =  Bayern, L =  Straubing, O =  OTRS AG, CN =  unittest, emailAddress =  unittest@example.org',
         ],
         Hash        => $CheckHash1,
         Private     => 'No',
@@ -186,8 +186,8 @@ my %Check = (
         Type        => 'cert',
         Fingerprint => 'E9:F9:8D:54:74:35:E6:AC:9F:81:E5:D5:82:0E:6C:27:B2:B0:D4:18',
         Issuer      => [
-            '/C= DE/ST= Bayern/L= Straubing/O= /CN= unittest/emailAddress= unittest@example.org',
-            'C =  DE, ST =  Bayern, L =  Straubing, O =  , CN =  unittest, emailAddress =  unittest@example.org',
+            '/C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest/emailAddress= unittest@example.org',
+            'C =  DE, ST =  Bayern, L =  Straubing, O =  OTRS AG, CN =  unittest, emailAddress =  unittest@example.org',
         ],
         Email          => 'unittest@example.org',
         ShortEndDate   => '2026-01-15',
@@ -199,8 +199,8 @@ my %Check = (
         Modulus =>
             'CFAF52AC9AD837F66289E6BAB9BBF96BD3173FE26EA06E72939E921528AFA6197C1FF941BEBEE1FD424353E725531A5521BA8BE7A796C0668E3FBFBEC9926D6B972E0513EDF12A81299328B62C132BB63D0B3942A2A194DE46814E84E2E959437DC5FC36F2F51E3B6913A0AF9DC1275495DE10EB2DA57913D725CAFBBCB8A2A476EF71B70A66AD7BFD9A2E37EB9C26BE41D5C5F9207C4CBA24AC0CE97367622CC14D717ACF54FF6111EA0BD62EB2D73D684FF8119AFDFA196233EF8DD2F31001F86621146A187236F30677E4639377AE53B7FAFE7B2C497832F736E566D86260DBC0E4720FE267E61646462CECF8A8353034CD6F8C9D617B86E3EB2EC3477237',
         Subject => [
-            'C= DE ST= Bayern L= Straubing O=  CN= unittest2 emailAddress= unittest2@example.org',
-            'C =  DE, ST =  Bayern, L =  Straubing, O =  , CN =  unittest2, emailAddress =  unittest2@example.org',
+            'C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest2 emailAddress= unittest2@example.org',
+            'C =  DE, ST =  Bayern, L =  Straubing, O =  OTRS AG, CN =  unittest2, emailAddress =  unittest2@example.org',
         ],
         Hash        => $CheckHash2,
         Private     => 'No',
@@ -208,8 +208,8 @@ my %Check = (
         Fingerprint => 'AD:E4:99:93:45:CB:82:E3:1E:4B:0F:92:12:8D:21:26:3D:16:77:87',
         Type        => 'cert',
         Issuer      => [
-            '/C= DE/ST= Bayern/L= Straubing/O= /CN= unittest2/emailAddress= unittest2@example.org',
-            'C =  DE, ST =  Bayern, L =  Straubing, O =  , CN =  unittest2, emailAddress =  unittest2@example.org',
+            '/C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest2/emailAddress= unittest2@example.org',
+            'C =  DE, ST =  Bayern, L =  Straubing, O =  OTRS AG, CN =  unittest2, emailAddress =  unittest2@example.org',
         ],
         Email          => 'unittest2@example.org',
         EndDate        => 'Jan 15 13:29:18 2026 GMT',
@@ -221,8 +221,8 @@ my %Check = (
         Modulus =>
             'EA59D299CD8751ED3DDC34EE92AAC16FF6D1763D4DA58AA925F3691174299ACB7529651B277220A07AF7A6E72D3D151E2885ABCD8AAB4D9F6C9B7ABC2806D21C037C323112EC3644A3C67AF228C20B5B5B62790F9FC3B69FCD2BE7927ADF34CFFEB43EA0F4FD33003F8154CDC299C7268049ABDBB206720D9EA92D69721776F67C4970C778163CAE4D3CC2E5C7DF2654BCAFB8AC33FEEFA2D88531A65A2AD4AD6B83F3D7AF8C2334B0F598C7E112E6BA36A6D3FB828F052930CF492FDBA0C97C6B0685A6A1B4B11DC63A2EA1AFAA541A68364B1EC1A209AC7139283EFA8ECC4F8E2BA7096956BAE21278C4DEB61D2EE8FD774EC911DCEEE82CFC3171D24A9F89',
         Subject => [
-            'C= DE ST= Bayern L= Straubing OU=  CN= unittest emailAddress= unittest3@example.org',
-            'C =  DE, ST =  Bayern, L =  Straubing, OU =  , CN =  unittest, emailAddress =  unittest3@example.org',
+            'C= DE ST= Bayern L= Straubing OU= OTRS AG CN= unittest emailAddress= unittest3@example.org',
+            'C =  DE, ST =  Bayern, L =  Straubing, OU =  OTRS AG, CN =  unittest, emailAddress =  unittest3@example.org',
         ],
         Hash        => $CheckHash3,
         Private     => 'No',
@@ -230,8 +230,8 @@ my %Check = (
         Fingerprint => '91:49:EA:53:42:B3:2F:02:7E:C1:D6:6F:C9:20:FA:26:8B:9C:4F:CF',
         Type        => 'cert',
         Issuer      => [
-            '/C= DE/ST= Bayern/L= Straubing/OU= /CN= unittest/emailAddress= unittest3@example.org',
-            'C =  DE, ST =  Bayern, L =  Straubing, OU =  , CN =  unittest, emailAddress =  unittest3@example.org',
+            '/C= DE/ST= Bayern/L= Straubing/OU= OTRS AG/CN= unittest/emailAddress= unittest3@example.org',
+            'C =  DE, ST =  Bayern, L =  Straubing, OU =  OTRS AG, CN =  unittest, emailAddress =  unittest3@example.org',
         ],
 
         # this is the display for alternate names (SubjectAltName)
@@ -1107,6 +1107,39 @@ xqdO7PfndBF8qwrJ7S91
 -----END CERTIFICATE-----
 ',
     };
+    $CertInfo{'SmimeTest_4'} = {
+        Serial      => 'F8903502A91B01F6',
+        Fingerprint => '24:99:51:50:FD:79:12:D9:EF:2D:D9:FB:52:59:03:9D:16:A6:6B:6C',
+        Modulus =>
+            'D6CD6043671BE6E0BF1F0A36F16C8ECF9DE5128E4176CD73D79B2F8662EEE9FFB81FB95DEE8776E70BFD74BDFE06C2BA3D72FCE7C8E3572AC78AFC2E184BE22AB03994E5529022CBFC94C08A868E49D64FD327F567B77453469DFED0150FEB4708F5605EB46D116591B62DF11D351E77922FE8C01705AE25F03F266536F6865B05405AF61BE73FDFB5EA583147A26617589C8C411AE6F3119408DEC57C8922420F7F7D682347A3D5E48149E2B2156E407CA3AC5DFDC90839995A19EA3300C0637CA79050A1CA063BD6A15BE7ADE4CFECE5EBFF5C38DC22BDBFE85D93B02AA1B2591F2C6125ACF9EAA35C2612B45D6E693C87A95404C49DA3267E7E2CCDD55B1F',
+        StartDate      => 'Apr 21 09:00:03 2020 GMT',
+        EndDate        => 'Apr 21 09:00:03 2023 GMT',
+        ShortStartDate => '2020-04-21',
+        ShortEndDate   => '2023-04-21',
+        CertString =>
+            '-----BEGIN CERTIFICATE-----
+MIIDpTCCAo2gAwIBAgIJAPiQNQKpGwH2MA0GCSqGSIb3DQEBCwUAMGkxCzAJBgNV
+BAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRlcm5ldCBX
+aWRnaXRzIFB0eSBMdGQxIjAgBgkqhkiG9w0BCQEWE290cnMtc21pbWVAdGVzdC5j
+b20wHhcNMjAwNDIxMDkwMDAzWhcNMjMwNDIxMDkwMDAzWjBpMQswCQYDVQQGEwJB
+VTETMBEGA1UECAwKU29tZS1TdGF0ZTEhMB8GA1UECgwYSW50ZXJuZXQgV2lkZ2l0
+cyBQdHkgTHRkMSIwIAYJKoZIhvcNAQkBFhNvdHJzLXNtaW1lQHRlc3QuY29tMIIB
+IjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1s1gQ2cb5uC/Hwo28WyOz53l
+Eo5Bds1z15svhmLu6f+4H7ld7od25wv9dL3+BsK6PXL858jjVyrHivwuGEviKrA5
+lOVSkCLL/JTAioaOSdZP0yf1Z7d0U0ad/tAVD+tHCPVgXrRtEWWRti3xHTUed5Iv
+6MAXBa4l8D8mZTb2hlsFQFr2G+c/37XqWDFHomYXWJyMQRrm8xGUCN7FfIkiQg9/
+fWgjR6PV5IFJ4rIVbkB8o6xd/ckIOZlaGeozAMBjfKeQUKHKBjvWoVvnreTP7OXr
+/1w43CK9v+hdk7AqobJZHyxhJaz56qNcJhK0XW5pPIepVATEnaMmfn4szdVbHwID
+AQABo1AwTjAdBgNVHQ4EFgQU0u3XYwDgyDjt6gnYvd4v8DMMHM0wHwYDVR0jBBgw
+FoAU0u3XYwDgyDjt6gnYvd4v8DMMHM0wDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0B
+AQsFAAOCAQEAC5Zd1seqLW5ruKufDmpDH1KIZEqz3AsBYKefZw0diEzI/ft5EzrT
+WLwcQXkBnXFvqwCotXz7nJB1LySJJhtImw66LOwxfEXsJZkY7H5T5rEzwBjdfWnA
+vv0g1i6lpqZdURoFUHBQnyWJvclVEz4bwqa1KsUE3u/3ZF+QmuEnEZgOpbCIK/Sc
+sH+W6vdhIrHPYvQ6igv8o2q4TfrqFHprPBIp8g4oWSujaoE2ySS2Pn0m51Hq3UpW
+DL6+MLq3ZSgZ1ft9cu8KPTLz/qu1+c4l+4PEz9XB6oqEpIv3nhGpWdiOxZSLz0PU
+BpHuCHy9nGFvhO7+foE1HG3lETI+IZNq8A==
+-----END CERTIFICATE-----',
+    };
 
     # 0.9.x hash
     my $CommonHash = 'b93941b5';
@@ -1116,16 +1149,21 @@ xqdO7PfndBF8qwrJ7S91
         $CommonHash = '9d993e95';
     }
 
-    for my $Number ( 0 .. 3 ) {
+    TEST:
+    for my $Number ( 0 .. 4 ) {
+
+        if ( $Number == 4 ) {
+            $CommonHash = '5739b67a';
+        }
 
         # insert the common content
         $CertInfo{ 'SmimeTest_' . $Number }->{Subject} =
-            'C= MX ST= Jalisco L= Guadalajara O= OTRS OU= Research and Development CN= otobo.org emailAddress= smime@test.com';
+            'C= MX ST= Jalisco L= Guadalajara O= OTRS OU= Research and Development CN= otrs.org emailAddress= smime@test.com';
         $CertInfo{ 'SmimeTest_' . $Number }->{Hash}    = $CommonHash;
         $CertInfo{ 'SmimeTest_' . $Number }->{Private} = 'No';
         $CertInfo{ 'SmimeTest_' . $Number }->{Type}    = 'cert';
         $CertInfo{ 'SmimeTest_' . $Number }->{Issuer} =
-            'C= MX/ST= Jalisco/L= Guadalajara/O= OTRS/OU= Research and Development/CN= otobo.org/emailAddress= smime@test.com';
+            'C= MX/ST= Jalisco/L= Guadalajara/O= OTRS/OU= Research and Development/CN= otrs.org/emailAddress= smime@test.com';
         $CertInfo{ 'SmimeTest_' . $Number }->{Email} = 'smime@test.com';
 
         # add every SmimeTest_N certificate
@@ -1143,6 +1181,27 @@ xqdO7PfndBF8qwrJ7S91
         my @Result = $SMIMEObject->CertificateSearch(
             Search => 'smime@test.com',
         );
+
+        # Check if CertificateSearch() returns correct results. See bug#15075.
+        if ( $Number == 4 ) {
+            $Self->Is(
+                scalar @Result,
+                $Number,
+                "Searched parameter smime\@test.com returned correct number of keys",
+            );
+
+            my @Result1 = $SMIMEObject->CertificateSearch(
+                Search => 'otrs-smime@test.com',
+            );
+
+            $Self->Is(
+                scalar @Result1,
+                1,
+                "Searched parameter otrs-smime\@test.com returned correct number of keys",
+            );
+
+            next TEST;
+        }
 
         $Self->Is(
             ( scalar @Result ),
@@ -1277,11 +1336,45 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 0w07C53r3xsbkSL6m0dU3Z0O7ax2wcCLAA0mA5JfqsMdn59ACA9aEw==
 -----END RSA PRIVATE KEY-----',
     };
+    $Private{SmimeTest_4} = {
+        CertString => '-----BEGIN ENCRYPTED PRIVATE KEY-----
+MIIFDjBABgkqhkiG9w0BBQ0wMzAbBgkqhkiG9w0BBQwwDgQI/1GIQ7WT0eMCAggA
+MBQGCCqGSIb3DQMHBAh99UZsx7rgPASCBMi/sXXyuw9TLMwJeIgATmxLi57TvHrJ
+RF6J2MQMXh15zw6VR1Jc2aqD9i2wg5zUnR1kKq6anjCXBiOqamsuDkdRTYdNT4Up
+bVWR+uEweqDy42JA5qsgSjACV3DiAPRK49+T1aoX6nmrBYaNwvCPuOwYOCLzIriD
+LtbROuESugH31dlGaWKyUE6uwuNzVPBJ8EYox+xxU+ffqjsntjp/ItzOHkbXcMub
+3bYjJDPky8qeyi1ZymjXoF8PEcQG5TjpXpaAkxTarSg0VsnR0ClAkVOZOJqKDvZG
+LLioUC0k31oeElrUfG7LsSnoroXwbqYgLtkjrOiC41nrTDzjGRm3epeL8SrCEpPm
+hUPEF9kDSTKKVS69+DjnMWiN+bBlinbyon/7+Fg0LSDIHuYsd1V3ofXThF2nJRzj
+xf5MVOl4JhznbE+SeVqDyRQSu4x10ZE3v3OPG/38YraRuqZJ8p3NFTeMVVj5MbDU
+91qQ7/WxUAgwlwHYnB2b+DG8teGI9i2G1opYoEOwnlmVK0WZmWiDrDxXlgx5cctV
+IbiXun6Z8y7FBV02Db/szM6kPYUW8Gih8HuxH8Qs70d+S/xKQPJ/Sby99KYELpUL
+ZPAoVrVriUjLzcQbgkAZJv1MbWOnSR9Oi9VJgE7VjhcNEwieodKBtaDkJgqbc0LV
+0bVSt8S8Jkwa5gEj1hIGbQuYZSxuJIorKZxAtcvsDcLI8o4fgJcMkNSfglgtqlg0
+na/a4arHdORgfN7NZG+J7fYcKz8AJwHPZeX1yzFlOPZeeyMt9rc9C3cwVIxVd0ir
+vhdlwxMSF2ITqI7timvyrA1fYQ4ddQxtnGRAFCXWgw1VcO1xtx6ZBgcxzd49M9wG
+pz5OeH6oneQ69hyh3JwpT8GWsRhc9NP/j60cgvnbeM/9LhCggTfxJ4+W2SbUqEwJ
+orNZwPRDYjtTMF3aQeIUrAt1EA78rz+/jp8wlqVg5u5e+XeB7PKBA+V/rd2yYCGu
+NkGt2LbmU9lPv40PApwB2vV8H8xfFYOQZxuD1/ZxD/cWlWE+tLmVWObyKCWE0SMb
+Bs3U1yyn9Ye/3Nzd9F8SEt05FigxiiAi4kunAibptxAgn1i+VOgnznzsAgb2FULb
+72bvhNppUx5sQctLwx9Y4Rx8s31v+cHYmRhtOFlSf3NPjXi8Cd7ty6s3nz+u717Z
+AYIeZCYESNzcEilwTNmWR7Jer2khYomCQeL8c50Rb2gswRyoVJT0FW+Uap7Bj32D
+6XnYdj2FJ3BLv7hlt3UiZtoIogPalXO8kvHXZmL3vwjzDS5zDJKxSylBJqW6ziLD
+VjK6Ug6csLlA/wi8k+m/9FsZA9/4TJBSt31kxrO6SWksYGuM1CSncsiDvV0RsxPU
+iuvyC1IVNCsd9vbrQZW7qf7566HgT8s+LEfYnxSdoivgmOth7u+ZbqlVhtlV4z8C
+5A0poWwY5KEKXXDZkziZE5AGOMMZwbz7vQGg/o3kNmPpAdMvjEiHs/X6VPwU2NUM
++2SxFoCe3ZDvzG4WcbU03lRG/FICdiH9saHEKOMBK2DJZEaYRW2CbE+bZ+gpx1Yw
+faa6+0BmHRbzp5vT7QsyBdTFJmQ427rw5uVzPfapltVCq1pQOV6FK2+iB8tDhcHj
+HZ4=
+-----END ENCRYPTED PRIVATE KEY-----
+',
+    };
 
     my $OriginalPrivateListCount = $SMIMEObject->PrivateList();
 
     # test privates
-    for my $Number ( 0 .. 3 ) {
+    TEST:
+    for my $Number ( 0 .. 4 ) {
         my %Result = $SMIMEObject->PrivateAdd(
             Private => $Private{ 'SmimeTest_' . $Number }->{CertString},
             Secret  => 'smime',
@@ -1305,8 +1398,42 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         my @Result = $SMIMEObject->PrivateSearch(
             Search => 'smime@test.com',
         );
-        my $Counter      = $Number + 1;
-        my $ResultNumber = scalar @Result;
+
+        my $ResultNumber;
+
+        # Check if PrivateSearch() returns correct results. See bug#15075.
+        if ( $Number == 4 ) {
+            $ResultNumber = scalar @Result;
+            $Self->Is(
+                $ResultNumber,
+                $Number,
+                "Searched parameter smime\@test.com returned correct number of keys",
+            );
+
+            my @Result1 = $SMIMEObject->PrivateSearch(
+                Search => 'otrs-smime@test.com',
+            );
+
+            my $ResultNumber1 = scalar @Result1;
+            $Self->Is(
+                $ResultNumber1,
+                1,
+                "Searched parameter otrs-smime\@test.com returned correct number of keys",
+            );
+
+            my @PrivateList = $SMIMEObject->PrivateList();
+            $ResultNumber = scalar @PrivateList;
+            $Self->Is(
+                $ResultNumber,
+                5,
+                "Private list must be return also $ResultNumber",
+            );
+
+            next TEST;
+        }
+
+        my $Counter = $Number + 1;
+        $ResultNumber = scalar @Result;
         $Self->Is(
             $ResultNumber,
             $Counter,
