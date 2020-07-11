@@ -46,7 +46,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-07-11 15:47+0000\n"
+"PO-Revision-Date: 2020-07-12 01:16+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/>"
 "\n"
@@ -23725,13 +23725,13 @@ msgstr "Bitte geben Sie einen Suchbegriff ein, um nach Kunden zu suchen."
 
 #. Template: AdminDynamicField
 msgid "New OTOBO Community  Fields"
-msgstr "Neue OTOBO Community Felder"
+msgstr "Neue OTOBO Felder"
 
 #. Template: AdminDynamicField
 msgid "Would you like to benefit from additional dynamic field types? You have full access to the following field types:"
 msgstr ""
-"Möchten Sie von den Vorteilen weiterer Felder profitieren? Sie haben vollen "
-"Zugriff auf folgende Feldtypen:"
+"Möchten Sie die Vorteile weiterer dynamischer Felder nutzen? Sie haben "
+"vollen Zugriff auf folgende Feldtypen:"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Import / Export"
@@ -23839,7 +23839,9 @@ msgstr "Tabelle / Ansicht"
 
 #. Template: AdminDynamicFieldDB
 msgid "Must be unique column from the table entered in Table/View."
-msgstr "Muss eine eindeutige Spalte der in Tabelle/Ansicht eingetragenen Tabelle sein. "
+msgstr ""
+"Muss eine eindeutige Spalte der in Tabelle/Ansicht eingetragenen Tabelle "
+"sein."
 
 #. Template: AdminDynamicFieldDB
 msgid "CacheTTL"
@@ -23983,11 +23985,11 @@ msgstr "unterstrichen"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Font style of the label."
-msgstr "Fontstil der Beschriftung"
+msgstr "Fontstil der Beschriftung."
 
 #. Template: AdminDynamicFieldTitle
 msgid "Font size of the label."
-msgstr "Fontgröße der Beschriftung"
+msgstr "Fontgröße der Beschriftung."
 
 #. Template: AdminDynamicFieldTitle
 msgid "Color in hex."
@@ -24126,7 +24128,7 @@ msgstr "Inbetriebnahme wiederherstellen."
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Export this deployment."
-msgstr "Inbetriebnahme exportieren"
+msgstr "Inbetriebnahme exportieren."
 
 #. Template: AdminSystemConfigurationDeploymentHistoryDetails
 msgid "Deployment Details"
@@ -24338,13 +24340,13 @@ msgstr ""
 
 #. Template: Copy
 msgid "Clean up and finish"
-msgstr "Bereinigung und Abschluss"
+msgstr "System wird bereinigt und fertiggestellt"
 
 #. Template: Finish
 msgid "The migration is complete, thank you for trying out OTOBO - we hope you will like it."
 msgstr ""
-"Die Migration ist abgeschlossen. Danke, dass Sie OTOBO ausprobieren - wir "
-"hoffen, es gefällt Ihnen!"
+"Die Migration ist abgeschlossen. Danke, dass Sie OTOBO verwenden – wir "
+"hoffen, Sie mögen es!"
 
 #. Template: Intro
 msgid "This migration script will lead you step by step through the process of migrating your ticket system from OTRS or ((OTRS)) Community Edition version 6 to OTOBO 10."
@@ -24362,14 +24364,14 @@ msgstr ""
 #. Template: Intro
 msgid "Instructions and details on migration prerequisites can be found in the migration manual. We strongly recommend reading it before starting migration."
 msgstr ""
-"Eine Migrationsanleitung und Details zur Migration finden Sie im "
-"Migrationshandbuch. Wir empfehlen dringend, dieses zu lesen, bevor Sie die "
-"Migration starten."
+"Eine Migrationsanleitung sowie Details zu den Migrationsvoraussetzungen "
+"finden Sie im Migrationshandbuch. Wir empfehlen dringend, dieses zu lesen, "
+"bevor Sie die Migration starten."
 
 #. Template: Intro
 msgid "In case you have to suspend migration, you can resume it anytime at the same point as long as the cache has not been deleted."
 msgstr ""
-"Sollten Sie die Migration unterbrechen müssen, können Sie diese jederzeit an "
+"Falls Sie die Migration unterbrechen müssen, können Sie diese jederzeit an "
 "der gleichen Stelle wiederaufnehmen, solange der Cache nicht gelöscht wurde."
 
 #. Template: Intro
@@ -24382,9 +24384,9 @@ msgstr ""
 msgid " Anyone with access to this page, or read permission for the OTOBO Home Directory will be able to read them. If you abort the migration, you are given the option to clear the cache by visiting this page again."
 msgstr ""
 " Sie können von jeder Person mit Zugang zu dieser Seite oder "
-"Leseberechtigung im OTOBO Home-Verzeichnis gelesen werden. Wenn Sie den "
-"Cache nach Abbrechen der Migration löschen möchten, rufen Sie diese Seite "
-"einfach erneut auf."
+"Leseberechtigung im OTOBO Home-Verzeichnis gelesen werden. Wenn Sie deshalb "
+"den Cache nach Abbrechen der Migration löschen möchten, rufen Sie einfach "
+"diese Seite erneut auf."
 
 #. Template: Intro
 msgid "If you need support, just ask our experts – either at"
@@ -24407,8 +24409,8 @@ msgstr "Daten im Cache gefunden"
 #. Template: Intro
 msgid "You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress."
 msgstr ""
-"Ihre Migration wird dort wieder aufgenommen, wo Sie zuletzt unterbrochen "
-"wurde. Möchten Sie die Migration erneut bei Null starten, verwerfen Sie alle "
+"Ihre Migration wird dort wieder aufgenommen, wo sie unterbrochen wurde. "
+"Möchten Sie die Migration erneut bei Null starten, verwerfen Sie alle "
 "bisherigen Änderungen."
 
 #. Template: Intro
@@ -24466,16 +24468,15 @@ msgstr "Prüfung der Einstellungen erfolgreich."
 
 #. Template: PreChecks
 msgid "Execute migration pre-checks"
-msgstr "Prüfungen vor der Migration"
+msgstr "Vorprüfungen zur Migration"
 
 #. Template: SettingHistoryListCompare
-#, fuzzy
 msgid "On "
 msgstr "zu "
 
 #. Template: SettingHistoryListCompare
 msgid "Reset to this value"
-msgstr "Diesen Wert zurücksetzen"
+msgstr "Auf diesen Wert zurücksetzen"
 
 #. Template: UsersSettingListCompare
 msgid "Delete user's value."
@@ -24495,7 +24496,7 @@ msgstr "Klicken und Dateien auswählen oder hier ablegen."
 
 #. JS Template: MigrationState
 msgid "Time needed"
-msgstr "Wird bearbeitet"
+msgstr "Dauer"
 
 #. JS Template: PackageResolve
 msgid "Package"
@@ -24540,8 +24541,8 @@ msgstr "Fehler beim Anlegen des Kontakts!"
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No sources found, at least one \"Contact with data\" dynamic field must be added to the system!"
 msgstr ""
-"Keine Quellen gefunden. Bitte ergänzen Sie mindestens ein dynamisches Feld "
-"\"Kontakt mit Daten\"!"
+"Keine Quellen gefunden. Bitte fügen Sie dem System mindestens ein "
+"dynamisches Feld \"Kontaktdaten\" hinzu!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No data found for given source!"
@@ -24573,11 +24574,11 @@ msgstr "Diese Inbetriebnahme enthält keine Einstellungsänderungen!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
 msgid "No DeploymentID received!"
-msgstr "Keine InbetriebnahmeID erhalten!"
+msgstr "Keine InbetriebnahmeID empfangen!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "No setting name received!"
-msgstr "Keinen Einstellungsnamen erhalten!"
+msgstr "Keinen Einstellungsnamen empfangen!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Modified Version"
@@ -24628,7 +24629,7 @@ msgstr "Kontaktieren Sie uns unter sales@otrs.com"
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, the new password and the repeated password do not match."
 msgstr ""
-"Passwort kann nicht aktualisiert werden! Die eingegebenen Werte sind "
+"Passwort kann nicht aktualisiert werden! Die eingegebenen Passwörter sind "
 "unterschiedlich."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
@@ -24644,11 +24645,11 @@ msgstr "ACL-Konfiguration in Betrieb nehmen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deployment completed, perfect!"
-msgstr "Inbetriebnahme abgeschlossen. Glückwünsch!"
+msgstr "Inbetriebnahme abgeschlossen. Glückwunsch!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_responses."
-msgstr "Migrieren der Datenbanktabelle 'auto_responses'."
+msgstr "Migrieren der Datenbanktabelle \"auto_responses\"."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration failed."
@@ -24656,7 +24657,7 @@ msgstr "Migration fehlgeschlagen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_response."
-msgstr "Migrieren der Datenbanktabelle 'auto_response'."
+msgstr "Migrieren der Datenbanktabelle \"auto_response\"."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration completed, perfect!"
@@ -24766,7 +24767,7 @@ msgstr ""
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig migration when writing XML to DB."
 msgstr ""
-"Bei der Migration der SysConfig-Daten ist ein Fehler beim Schreiben der XML-"
+"Beim Migrieren der SysConfig-Daten ist ein Fehler beim Schreiben der XML-"
 "Werte in die DB aufgetreten."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
@@ -24799,7 +24800,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
 msgid "Migrate database table notification."
-msgstr "Migrieren der Datenbanktabelle 'notification'."
+msgstr "Migrieren der Datenbanktabelle \"notification\"."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
@@ -24834,7 +24835,9 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Database connect and sanity checks completed."
-msgstr "Verbindung zur Datenbank und Plausibilitätsprüfungen abgeschlossen."
+msgstr ""
+"Verbindung zur Datenbank hergestellt und Plausibilitätsprüfungen "
+"abgeschlossen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "Check if all necessary packages are installed."
@@ -24853,8 +24856,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The same packages are installed on both systems, perfect!"
-msgstr ""
-"Auf den beiden Systemen, sind die gleichen Pakete installiert, sehr gut!"
+msgstr "Auf beiden Systemen sind die gleichen Pakete installiert, sehr gut!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "Check if all needed Perl modules have been installed."
@@ -24884,15 +24886,15 @@ msgstr "Inbetriebnahme der Prozessmanagement-Konfiguration."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOResponseTemplatesMigrate.pm
 msgid "Migrate database table response_template."
-msgstr "Migrieren der Datenbanktabelle 'response_template'."
+msgstr "Migrieren der Datenbanktabelle \"response_template\"."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSalutationsMigrate.pm
 msgid "Migrate database table salutation."
-msgstr "Migrieren der Datenbanktabelle 'salutation'."
+msgstr "Migrieren der Datenbanktabelle \"salutation\"."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSignaturesMigrate.pm
 msgid "Migrate database table signature."
-msgstr "Migrieren der Datenbanktabelle 'signature'."
+msgstr "Migrieren der Datenbanktabelle \"signature\"."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOStatsMigrate.pm
 msgid "Migrate statistics."
@@ -24949,7 +24951,7 @@ msgstr "Möchten Sie wirklich alle Benutzeränderungen verwerfen?"
 
 #. JS File: Core.Agent.DynamicFieldDBSearch
 msgid "This dynamic field database value is already selected."
-msgstr "Diese dynamische Feld vom Typ Datenbank ist bereits ausgewählt."
+msgstr "Dieses dynamische Feld vom Typ Datenbank ist bereits ausgewählt."
 
 #. SysConfig
 msgid "Activate Elasticsearch."
@@ -24963,7 +24965,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Admin Contact With Data"
-msgstr "AdminContactWithData"
+msgstr "Admin Contact With Data"
 
 #. SysConfig
 msgid "Admin contact with data."
@@ -25005,14 +25007,14 @@ msgstr ""
 msgid "Agent frontend module registration (disable 'Edit contacts with data' link if if there is no source field configured)."
 msgstr ""
 "Frontend-Modulregistrierung im Agent-Interface (deaktivieren Sie den Link "
-"'Kontaktdaten bearbeiten', wenn kein entsprechendes Quelldeld konfiguriert "
+"'Kontaktdaten bearbeiten', wenn kein entsprechendes Quellfeld konfiguriert "
 "wurde)."
 
 #. SysConfig
 msgid "AgentTicketZoom widget that displays Contact with data dynamic field in the side bar."
 msgstr ""
-"AgentTicketZoom-Widget, mit dem das dynamsiche Feld 'Kontaktdaten' in der "
-"Seitenleiste angezeigt wird."
+"AgentTicketZoom-Widget, welches das dynamsiche Feld 'Kontaktdaten' in der "
+"Seitenleiste anzeigt."
 
 #. SysConfig
 msgid "Autoloading of Znuny4OTOBOPasswordPolicy extensions."
@@ -25021,8 +25023,8 @@ msgstr "Automatisches Laden der 'Znuny4OTOBOPasswordPolicy'-Erweiterungen."
 #. SysConfig
 msgid "Cancel whole escalation if ticket is in configured suspend state (EscalationSuspendStates). Ticket will not escalate at all in configured suspend state. No escalation times are shown. Ticket will not be shown in escalation view."
 msgstr ""
-"Vollständiges Aussetzen der Eskalation, solange sich das Ticket in einem zum "
-"Aussetzen der Eskalation konfigurierten Status (EscalationSuspendStates) "
+"Vollständiges Unterbinden der Eskalation, solange sich das Ticket in einem "
+"zum Aussetzen der Eskalation konfigurierten Status (EscalationSuspendStates) "
 "befindet. In all diesen Status wird die Ticketeskalation vollständig "
 "unterbrochen. Es werden keine Eskalationszeiten angezeigt und das Ticket "
 "wird nicht in der Übersicht eskalierter Tickets aufgeführt."
@@ -25052,23 +25054,30 @@ msgstr ""
 
 #. SysConfig
 msgid "Color definitions for the customer interface."
-msgstr ""
+msgstr "Farbdefinitionen für den Kundenbereich."
 
 #. SysConfig
 msgid "Configure sending of support data to OTOBO Team for improved support."
 msgstr ""
+"Konfigurieren Sie das Senden von Supportdaten an das OTOBO-Team für besseren "
+"Support."
 
 #. SysConfig
 msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/doc/), chapter \"Ticket Event Module\"."
 msgstr ""
+"Konfiguriert eine Standardeinstellung für TicketDynamicField. \"Name\" "
+"definiert das Dynamische Feld, das verwendet werden soll, \"Wert\" sind die "
+"Daten, die gesetzt werden sollen, und \"Ereignis\" definiert das "
+"Auslöseereignis. Bitte beachten Sie das Entwicklerhandbuch (https://doc.otobo"
+".com/doc/), Kapitel \"Ticket Event Module\"."
 
 #. SysConfig
 msgid "Create Templates for AdminDynamicFieldTitle."
-msgstr ""
+msgstr "Erstellt Vorlagen für AdminDynamicFieldTitle."
 
 #. SysConfig
 msgid "Customer Dashboard"
-msgstr ""
+msgstr "Kunden-Dashboard"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Detailed Search"
@@ -25084,7 +25093,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer Password."
-msgstr ""
+msgstr "Kunden-Passwort."
 
 #. SysConfig
 msgid "Customer dynamic field database detailed search."
@@ -25101,30 +25110,37 @@ msgstr ""
 #. SysConfig
 msgid "Defines if the communication between this system and the servers that provide cloud services is possible. If set to 'Disable cloud services', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others."
 msgstr ""
+"Legt fest, ob eine Kommunikation zwischen diesem System und den Servern, "
+"über die Cloud Services angeboten werden, möglich ist. Deaktivieren Sie hier "
+"die Cloud Services, geht ein Teil der Funktionalität wie der Versand von "
+"Supportdaten, Package Verify™ und die Product News Dashboard Widgets "
+"verloren."
 
 #. SysConfig
 msgid "Defines the body for the quick close action, which gets used for ticket history in the agent interface."
 msgstr ""
+"Definiert den Body für die Aktion \"Sofort Schließen\", die in der Ticket-"
+"Historie im Agentenbereich verwendet wird."
 
 #. SysConfig
 msgid "Defines the close state for quick close."
-msgstr ""
+msgstr "Definiert den Schließen-Status für \"Sofort Schließen\"."
 
 #. SysConfig
 msgid "Defines the communication chanel for the quick close article action."
 msgstr ""
-"Definiert den Kommunikationskanal für die Artikelaktion 'Sofort schließen'."
+"Definiert den Kommunikationskanal für die Artikelaktion \"Sofort schließen\"."
 
 #. SysConfig
 msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/doc/."
 msgstr ""
-"Definiert das von Agenten und Kunden zu nutzende Standard (HTML-)Theme. Sie "
-"können Ihr eigenes Theme hinzufügen. Details dazu entnehmen Sie bitte dem "
-"Admin-Handbuch auf https://doc.otobo.org/doc/."
+"Definiert das von Agenten und Kunden zu nutzende Standard (HTML-)Theme. Auf "
+"Wunsch können Sie hier ein eigenes Theme hinzufügen. Details dazu entnehmen "
+"Sie bitte dem Admin-Handbuch auf https://doc.otobo.org/doc/."
 
 #. SysConfig
 msgid "Defines the filter that processes the HTML templates."
-msgstr "Definiert den zum Verarbeiten der HTML-Vorlagen benutzten Filter."
+msgstr "Definiert den zum Verarbeiten der HTML-Vorlagen verwendeten Filter."
 
 #. SysConfig
 msgid "Defines the source dynamic field for storing historical data."
@@ -25133,7 +25149,7 @@ msgstr "Definiert das dynamische Quell-Feld zum Speichern historischer Daten."
 #. SysConfig
 msgid "Defines the subject for the quick close action, which gets used for ticket history in the agent interface."
 msgstr ""
-"Definiert das Subjekt für die Aktion \"Sofort Schließen\", die in der Ticket-"
+"Definiert den Betreff für die Aktion \"Sofort Schließen\", die in der Ticket-"
 "Historie im Agentenbereich verwendet wird."
 
 #. SysConfig
@@ -25154,7 +25170,7 @@ msgstr "Dynamic Fields-Oberfläche für Datenbank-Felder"
 
 #. SysConfig
 msgid "Dynamic Fields Web Service Backend GUI"
-msgstr "Dynamic Fields-Oberfläche für Webservice"
+msgstr "Dynamic Fields-Oberfläche für Webservice-Felder"
 
 #. SysConfig
 msgid "DynamicFieldScreen"
@@ -25181,7 +25197,7 @@ msgid "Enabling SecureMode disables the web installer (http://yourhost.example.c
 msgstr ""
 "Aktivieren des SecureMode deaktiviert den Web-Installer (http://yourhost."
 "example.com/otobo/installer.pl) und die Migration. Dies geschieht, um zu "
-"verhindern, dass das System gehijackt wird. Ist der SecureMode nicht "
+"verhindern, dass das System gehijackt werden kann. Ist der SecureMode nicht "
 "aktiviert, kann das System jederzeit neu aufgesetzt werden. In diesem Fall "
 "wird die aktuelle Grundkonfiguration verwendet, um das Installer-Skript "
 "vorzubefüllen. Mit der Aktivierung des SecureMode werden außerdem "
@@ -25212,14 +25228,14 @@ msgstr ""
 #. SysConfig
 msgid "Fields stored in the customer company index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory."
 msgstr ""
-"Felder die im Kundenindex gespeichert werden und für andere Belange neben "
+"Felder, die im Kundenindex gespeichert werden und für andere Belange neben "
 "der Volltextsuche genutzt werden. Alle Felder sind für die "
 "Gesamtfunktionalität erforderlich."
 
 #. SysConfig
 msgid "Fields stored in the customer user index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory."
 msgstr ""
-"Felder die im Kundenbenutzerindex gespeichert werden und für andere Belange "
+"Felder, die im Kundenbenutzerindex gespeichert werden und für andere Belange "
 "neben der Volltextsuche genutzt werden. Alle Felder sind für die "
 "Gesamtfunktionalität erforderlich."
 
@@ -25242,7 +25258,7 @@ msgstr ""
 msgid "Format of Creation date shown for tickets. As an example '%Y-%m-%d %H:%M:%S' would be interpreted as '2020-01-22 18:07:23'. Please refer to http://search.cpan.org/~drolsky/DateTime-1.21/lib/DateTime.pm#strftime_Patterns."
 msgstr ""
 "Format des zu Tickets angegebenen Erstellungsdatums. Beispiel: '%Y-%m-%d "
-"%H:%M:%S' würde als '2020-01-22 18:07:23' angezeigt. Weitere Informationen "
+"%H:%M:%S' wird als '2020-01-22 18:07:23' angezeigt. Weitere Informationen "
 "unter http://search.cpan.org/~drolsky/DateTime-1.21/lib/DateTime."
 "pm#strftime_Patterns."
 
@@ -25252,7 +25268,7 @@ msgstr "Einzulesendes Format."
 
 #. SysConfig
 msgid "Frontend module registration for the admin interface."
-msgstr "Frontend-Modulregistrierung im Agent-Interface."
+msgstr "Frontend-Modulregistrierung im Agentenbereich."
 
 #. SysConfig
 msgid "Fulltext search using Elasticsearch."
@@ -25265,12 +25281,13 @@ msgstr "FulltextES"
 #. SysConfig
 msgid "Generate HTML comment hooks for the specified blocks so that filters can use them."
 msgstr ""
-"Generiert HTML Kommentar-Anker für die definierten Blöcke, die Filter nutzen "
-"können."
+"Generiert HTML-Kommentar-Anker für die angegebenen Blöcke, damit Filter "
+"diese nutzen können."
 
 #. SysConfig
 msgid "GenericInterface module registration for the PassThrough invoker layer."
-msgstr "Modulregistrierung für PassThrough Invoker-Layer des GenericInterface."
+msgstr ""
+"Modulregistrierung für den PassThrough Invoker-Layer des GenericInterface."
 
 #. SysConfig
 msgid "Good PGP signature."
@@ -25293,7 +25310,7 @@ msgstr ""
 msgid "It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm."
 msgstr ""
 "Die PGP-Signatur konnte nicht geprüft werden. Mögliche Ursachen sind ein "
-"fehlender Öffentlicher Schlüssel oder ein nicht unterstützter Algorythmus."
+"fehlender öffentlicher Schlüssel oder ein nicht unterstützter Algorythmus."
 
 #. SysConfig
 msgid "Jump to Znuny!"
@@ -25342,7 +25359,7 @@ msgstr "Services von Team OTOBO"
 #. SysConfig
 msgid "Objects to search for, how many entries and which attributs to show."
 msgstr ""
-"Objekte, nach denen gesucht werden soll, wie viele Einträge und welche "
+"Definiert, nach welchen Objekten gesucht, wie viele Einträge und welche "
 "Attribute angezeigt werden sollen."
 
 #. SysConfig
@@ -25360,7 +25377,7 @@ msgstr ""
 #. SysConfig
 msgid "Protection against brute force attacks. MaxAttempt: How many login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered."
 msgstr ""
-"Schutz vor Brute-Force-Angriffen. MaxAttempt: Wie viele Anmledeversuche "
+"Schutz vor Brute-Force-Angriffen. MaxAttempt: Wie viele Anmeldeversuche "
 "zugelassen werden, bevor ein Anwender gesperrt wird. BanDuration: Dauer der "
 "Sperre. KeepCacheDuration: Wie lange fehlgeschlagene Anmeldeversuche "
 "gespeichert werden."
@@ -25493,7 +25510,8 @@ msgstr ""
 
 #. SysConfig
 msgid "This key is not certified with a trusted signature!"
-msgstr "Dieser Schlüssel ist nicht mit einer vertrauten Signatur signiert!"
+msgstr ""
+"Dieser Schlüssel ist nicht mit einer Signatur signiert, der vertraut wird!"
 
 #. SysConfig
 msgid "This module is being used to extend the password policy."
@@ -25511,7 +25529,7 @@ msgstr ""
 msgid "Tickets in the following queues will not be stored on the Elasticsearch server. To apply this to existing tickets, the ticket migration has to be run via console, after changing this option."
 msgstr ""
 "Tickets in den folgenden Queues werden nicht auf dem Elasticsearch-Server "
-"gespeichert. Um diese Einstellung auf vorhandene Tickets zu übernehmen, muss "
+"gespeichert. Um diese Einstellung für vorhandene Tickets zu übernehmen, muss "
 "nach erfolgter Änderung eine Ticketmigration über die Konsole ausgeführt "
 "werden."
 
@@ -25550,9 +25568,9 @@ msgstr ""
 msgid "Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes."
 msgstr ""
 "Legt fest, ob die Ausführung der TicketACL durch Prüfen gecachter "
-"Abhängigkeiten zwischen Feldern umgangen werden kann. Die Funktion kann die "
-"Ladezeit von Ticketformularen verbessern, muss aber deaktiviert werden, wenn "
-"ACLModules für Ticket- und Form-ReturnTypes verwendet werden sollen."
+"Abhängigkeiten zwischen Feldern umgangen werden kann. Diese Funktion kann "
+"die Ladezeit von Ticketformularen verbessern, muss aber deaktiviert werden, "
+"wenn ACLModules für Ticket- und Form-ReturnTypes verwendet werden sollen."
 
 #. Template: InstallerSystem
 msgid "Initialize Elasticsearch"
