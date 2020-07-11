@@ -46,7 +46,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-07-11 11:27+0000\n"
+"PO-Revision-Date: 2020-07-11 11:31+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/>"
 "\n"
@@ -25112,7 +25112,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Dynamic Fields Web Service Backend GUI"
-msgstr ""
+msgstr "Dynamic Fields-Oberfläche für Webservice"
 
 #. SysConfig
 msgid "DynamicFieldScreen"
