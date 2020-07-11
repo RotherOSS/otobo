@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.563222131814483;
+    $Self->{Completeness}        = 0.563059397884459;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4693,7 +4693,7 @@ sub Data {
         'Print this article' => 'Cetak tiket ini',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at sales@otrs.com' => '',
+        'Contact us at hello@otobo.de' => '',
         'Get Help' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
@@ -5667,7 +5667,7 @@ sub Data {
         'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
             '',
 
-        # Database XML Definition: scripts/database/otobo-initial_insert.xml
+        # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => 'tidak sah-sementara',
         'Group for default access.' => 'Kumpulan untuk akses lalai.',
         'Group of all administrators.' => 'Kumpulan seluruh pentadbir.',
@@ -7404,8 +7404,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             '',
         'Defines the two-factor module to authenticate agents.' => 'Mentakrifkan modul dua-faktor untuk mengesahkan agen.',
         'Defines the two-factor module to authenticate customers.' => 'Mentakrifkan modul dua-faktor untuk mengesahkan pelanggan.',
-        'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            'Mentakrifkan jenis protokol, yang digunakan oleh pelayan web, untuk menyerahkan permohonan itu. Jika protokol https akan digunakan dan bukannya http kosong, ia perlu dinyatakan di sini. Oleh kerana ini telah tidak memberi kesan pada tetapan pelayan web atau tingkah laku, ia tidak akan mengubah kaedah akses kepada permohonan itu dan, jika ia adalah salah, ia tidak akan menghalang anda daripada masuk ke aplikasi. Tetapan ini hanya digunakan sebagai pembolehubah, OTOBO_CONFIG_HttpType yang terdapat dalam semua bentuk mesej yang digunakan oleh permohonan itu, untuk membina pautan kepada tiket dalam sistem anda.',
+        'Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             'Mentakrifkan aksara yang digunakan untuk kuota emel teks kosong dalam skrin karang tiket bagi antara muka ejen. Jika ini adalah kosong atau tidak aktif, emel asal tidak akan diberikan tetapi dilampirkan pada respon.',
         'Defines the user identifier for the customer panel.' => 'Mentakrifkan pengecam pengguna untuk panel pelanggan.',

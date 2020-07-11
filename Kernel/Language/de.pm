@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.952156224572823;
+    $Self->{Completeness}        = 0.951830756712775;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4694,7 +4694,7 @@ sub Data {
         'Print this article' => 'Diesen Artikel drucken',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at sales@otrs.com' => 'Kontaktieren Sie uns unter sales@otrs.com',
+        'Contact us at hello@otobo.de' => '',
         'Get Help' => 'Hilfe',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
@@ -5668,7 +5668,7 @@ sub Data {
         'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
             '',
 
-        # Database XML Definition: scripts/database/otobo-initial_insert.xml
+        # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => 'ungültig-temporär',
         'Group for default access.' => 'Gruppe für den Standardzugriff.',
         'Group of all administrators.' => 'Gruppe aller Administratoren.',
@@ -7402,8 +7402,8 @@ Ihr Helpdesk-Team
             'Legt den Timeout in Sekunden für die Sammlung von Supportdaten des öffentlichen Moduls \'PublicSupportDataCollector\' fest, das z. B. vom OTOBO Daemon genutzt wird (min. 20 Sekunden).',
         'Defines the two-factor module to authenticate agents.' => 'Definiert das Modul für die Zwei-Faktor-Authentifizierung von Agenten.',
         'Defines the two-factor module to authenticate customers.' => 'Definiert das Modul für die Zwei-Faktor-Authentifizierung von Kunden.',
-        'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            'Legt das Protokoll fest, das zur Auslieferung der Applikation durch den Webserver genutzt werden soll. Wenn https anstelle von http genutzt werden soll, muss dies hier festgelegt werden. Die Einstellung hat keine Auswirkungen auf die Konfiguration des Webservers und verändert nicht, wie auf die Applikation zugegriffen wird. Bei fehlerhafter Konfiguration verhindert die Einstellung nicht die Anmeldung am System. Diese Einstellung wird nur als Variable verwendet (OTOBO_CONFIG_HttpType), die in allen Nachrichten-Formularen zur Verfügung steht, um Links auf Tickets in Ihr System zu generieren.',
+        'Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             'Legt das genutzte Zeichen für Zitate in Plaintext-E-Mails im Verfassen-Bildschirm des Agentenbereichs fest. Bleibt das Feld leer oder ist die Einstellung nicht aktiviert, wird die ursprüngliche E-Mail nicht zitiert, sondern an die Antwort angehängt.',
         'Defines the user identifier for the customer panel.' => 'Definiert den Benutzer-Identifier für das Kunden-Interface.',
@@ -9216,7 +9216,7 @@ Ihr Helpdesk-Team
         'phone' => 'Telefonanruf',
         'responsible' => 'Verantwortlicher',
         'reverse' => 'umgekehrt',
-        'stats' => 'stats',
+        'stats' => 'Stats',
 
     };
 

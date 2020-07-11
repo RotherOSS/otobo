@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.548738812042311;
+    $Self->{Completeness}        = 0.548576078112286;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -4697,7 +4697,7 @@ sub Data {
         'Print this article' => 'พิมพ์บทความนี้',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at sales@otrs.com' => '',
+        'Contact us at hello@otobo.de' => '',
         'Get Help' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
@@ -5671,7 +5671,7 @@ sub Data {
         'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
             '',
 
-        # Database XML Definition: scripts/database/otobo-initial_insert.xml
+        # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => 'ไม่ถูกต้องชั่วคราว',
         'Group for default access.' => 'กลุ่มสำหรับการเข้าถึงเริ่มต้น',
         'Group of all administrators.' => 'กลุ่มของผู้บริหารทั้งหมด',
@@ -7408,8 +7408,8 @@ Thanks for your help!
             '',
         'Defines the two-factor module to authenticate agents.' => 'กำหนดโมดูลสองปัจจัยในการตรวจสอบเอเย่นต์',
         'Defines the two-factor module to authenticate customers.' => 'กำหนดโมดูลสองปัจจัยในการตรวจสอบลูกค้า',
-        'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            'กำหนดประเภทของโปรโตคอลที่ใช้โดยเว็บเซิร์ฟเวอร์ที่จะให้บริการแอพลิเคชัน หากโปรโตคอล HTTPS จะถูกนำมาใช้แทน http ธรรมดาจะต้องมีการระบุไว้ที่นี่ เนื่องจากไม่มีผลต่อการตั้งค่าหรือพฤติกรรมเว็บเซิร์ฟเวอร์ก็จะไม่เปลี่ยนวิธีการในการเข้าถึงแอพลิเคชันและถ้ามันไม่ถูกต้องก็จะไม่ป้องกันคุณจากการเข้าสู่แอพลิเคชัน การตั้งค่านี้จะถูกใช้เป็นตัวแปร OTOBO_CONFIG_HttpType ซึ่งพบได้ในทุกรูปแบบของข้อความที่ใช้โดยโปรแกรมเพื่อสร้างการเชื่อมโยงตั๋วภายในระบบของคุณเท่านั้น',
+        'Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             'กำหนดตัวอักษรที่ใช้สำหรับการอ้างในอีเมลธรรมดาในหน้าจอการเขียนตั๋วของอินเตอร์เฟซเอเย่นต์ ถ้าว่างเปล่าหรือไม่ใช้งานอีเมลต้นฉบับจะไม่ถูกการอ้างแต่ผนวกเข้ากับการตอบสนอง',
         'Defines the user identifier for the customer panel.' => 'กำหนดตัวระบุผู้ใช้สำหรับแผงลูกค้า',

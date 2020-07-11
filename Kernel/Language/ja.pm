@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.713425549227014;
+    $Self->{Completeness}        = 0.713100081366965;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4700,7 +4700,7 @@ sub Data {
         'Print this article' => 'この記事を印刷',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at sales@otrs.com' => 'sales@otrs.comまでご連絡下さい。',
+        'Contact us at hello@otobo.de' => '',
         'Get Help' => 'ヘルプを得る',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
@@ -5674,7 +5674,7 @@ sub Data {
         'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
             '',
 
-        # Database XML Definition: scripts/database/otobo-initial_insert.xml
+        # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => '無効-暫定',
         'Group for default access.' => '一般ユーザ用のデフォルトグループ',
         'Group of all administrators.' => '管理者用グループ',
@@ -7415,8 +7415,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Defines the two-factor module to authenticate agents.' => '',
         'Defines the two-factor module to authenticate customers.' => '',
-        'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            'アプリケーションにサービスを提供するWebサーバが使用するプロトコルの種類を定義します。 HTTPSプロトコルをプレーンHTTPの代わりに使用する場合はここで指定する必要があります。これがないWebサーバの設定や行動に影響を与えるので、アプリケーションへのアクセスの方法を変更しないと、それが間違っている場合、アプリケーションにログインできなくなることがあります。この設定は、システム内でのチケットへのリンクを構成するためにアプリケーションが使用するメッセージングのすべての形態で発見されている変数、OTOBO_CONFIG_HttpTypeとして使用されます。',
+        'Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             '',
         'Defines the user identifier for the customer panel.' => '顧客パネルのためのユーザ識別子を定義します。',

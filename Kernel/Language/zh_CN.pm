@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.93100081366965;
+    $Self->{Completeness}        = 0.930675345809601;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4700,7 +4700,7 @@ sub Data {
         'Print this article' => '打印信件',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at sales@otrs.com' => '请通过sales@otrs.com联系我们',
+        'Contact us at hello@otobo.de' => '',
         'Get Help' => '获取帮助',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
@@ -5674,7 +5674,7 @@ sub Data {
         'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
             '',
 
-        # Database XML Definition: scripts/database/otobo-initial_insert.xml
+        # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => '暂时无效',
         'Group for default access.' => '具有默认权限的组。',
         'Group of all administrators.' => '所有管理员的组。',
@@ -7406,8 +7406,8 @@ Thanks for your help!
             '使用公共模块“PublicSupportDataCollector”（例如用于OTOBO守护进程的模块）来定义支持数据收集的超时（以秒为单位，最小为20秒）。',
         'Defines the two-factor module to authenticate agents.' => '定义服务人员的双因素身份验证模块。',
         'Defines the two-factor module to authenticate customers.' => '定义客户的双因素身份验证模块。',
-        'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            '定义本系统的WEB服务器使用的协议类型。如果要用HTTPS协议代替明文的HTTP协议，就在这里指定。 因为这个设置并不影响WEB服务器的设置或行为，所以不会改变访问本系统的方式。 如果设置错误，也不会阻止您登录系统。这个设置只是作为一个变量OTOBO_CONFIG_HttpType使用，可以在系统使用的所有消息的表单中找到，用来创建在系统内到工单的链接。',
+        'Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             '定义服务人员界面工单编写屏幕使用的普通文本邮件引用字符。如果这个设置为空或不激活，原始邮件将不会被引用而是追加到回复内容中。',
         'Defines the user identifier for the customer panel.' => '定义客户门户的用户标识符。',

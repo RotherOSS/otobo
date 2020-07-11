@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.93100081366965;
+    $Self->{Completeness}        = 0.930675345809601;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4700,7 +4700,7 @@ sub Data {
         'Print this article' => 'Odštampaj ovaj članak',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at sales@otrs.com' => 'Kontaktirajte nas na sales@otrs.com',
+        'Contact us at hello@otobo.de' => '',
         'Get Help' => 'Traži pomoć',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
@@ -5674,7 +5674,7 @@ sub Data {
         'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
             '',
 
-        # Database XML Definition: scripts/database/otobo-initial_insert.xml
+        # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => 'nevažeći-privremeno',
         'Group for default access.' => 'Grupa za podrazumevan pristup.',
         'Group of all administrators.' => 'Grupa svih administratora.',
@@ -7408,8 +7408,8 @@ Vaša tehnička podrška
             'Definiše predviđeno vreme (u sekundama, minimum je 20 sekundi) za prikupljanje podataka podrške putem modula javog interfejsa \'PublicSupportDataCollector\' (npr. kad se koristi putem OTOBO sistemskog servisa).',
         'Defines the two-factor module to authenticate agents.' => 'Određuje dvofaktorski modul za identifikaciju operatera.',
         'Defines the two-factor module to authenticate customers.' => 'Određuje dvofaktorski modul za identifikaciju klijenata.',
-        'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            'Definiše tip protokola korišćenog od strane veb servera, za potrebe aplikacije. Ako se koristi https protokol umesto plain http, mora biti ovde naznačeno. Pošto ovo nema uticaja na podešavanja ili ponašanje veb servera, neće promeniti način pristupa aplikaciji i, ako je to pogrešno, neće vas sprečiti da se prijavite u aplikaciju. Ovo podešavanje se koristi samo kao promenljiva, OTOBO_CONFIG_HttpType koja se nalazi u svim oblicima poruka korišćenih od strane aplikacije, da izgrade veze sa tiketima u vašem sistemu.',
+        'Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             'Definiše korišćene karaktere za plaintext imejl navode u prikazu ekrana otvorenog tiketa interfejsa operatera. Ukoliko je ovo prazno ili neaktivno, originalni imejlovi neće biti navedeni, nego dodati odgovoru.',
         'Defines the user identifier for the customer panel.' => 'Određuje identifikator klijenta za klijentski panel.',

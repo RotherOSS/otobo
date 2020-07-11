@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.906427990235964;
+    $Self->{Completeness}        = 0.906102522375915;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4694,7 +4694,7 @@ sub Data {
         'Print this article' => '이 기사 인쇄',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at sales@otrs.com' => 'sales@otrs.com으로 문의하십시오.',
+        'Contact us at hello@otobo.de' => '',
         'Get Help' => '도움말 보기',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
@@ -5668,7 +5668,7 @@ sub Data {
         'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
             '',
 
-        # Database XML Definition: scripts/database/otobo-initial_insert.xml
+        # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => '유효하지 않은 일시적',
         'Group for default access.' => '기본 액세스 그룹.',
         'Group of all administrators.' => '모든 관리자 그룹.',
@@ -7402,8 +7402,8 @@ Thanks for your help!
             '공개 모듈 \'PublicSupportDataCollector\'(예 : OTOBO 데몬에서 사용)를 사용하여 지원 데이터 수집에 대한 시간 초과 (최소, 20 초)를 정의합니다.',
         'Defines the two-factor module to authenticate agents.' => '에이전트를 인증할 2요소 모듈을 정의합니다.',
         'Defines the two-factor module to authenticate customers.' => '고객을 인증할 2요소 모듈을 정의합니다.',
-        'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            '응용 프로그램을 제공하기 위해 웹 서버에서 사용하는 프로토콜 유형을 정의합니다. https 프로토콜이 일반 http 대신 사용되는 경우 여기에 지정해야합니다. 이것은 웹 서버의 설정이나 동작에 영향을 미치지 않으므로 응용 프로그램에 대한 액세스 방법을 변경하지 않으며, 틀린 경우 응용 프로그램에 로그인하지 못하게하지 않습니다. 이 설정은 응용 프로그램에서 사용하는 모든 형식의 메시징에서 찾을 수있는 OTOBO_CONFIG_HttpType 변수로만 사용되어 시스템 내의 티켓에 대한 링크를 만듭니다.',
+        'Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             '에이전트 인터페이스의 티켓 작성 화면에서 일반 텍스트 전자 메일 따옴표에 사용되는 문자를 정의합니다. 비어 있거나 비활성 인 경우 원래 이메일은 인용되지 않고 응답에 추가됩니다.',
         'Defines the user identifier for the customer panel.' => '고객 패널에 대한 사용자 ID를 정의합니다.',

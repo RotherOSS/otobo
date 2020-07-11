@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.880878763222132;
+    $Self->{Completeness}        = 0.880553295362083;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4699,7 +4699,7 @@ sub Data {
         'Print this article' => 'Imprimir este artigo',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at sales@otrs.com' => 'Contacte-nos em sales@otrs.com',
+        'Contact us at hello@otobo.de' => '',
         'Get Help' => 'Solicitar Ajuda',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
@@ -5673,7 +5673,7 @@ sub Data {
         'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
             '',
 
-        # Database XML Definition: scripts/database/otobo-initial_insert.xml
+        # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => 'inválido-temporariamente',
         'Group for default access.' => 'Grupo de acesso padrão',
         'Group of all administrators.' => 'Grupo de todos os administradores.',
@@ -7407,8 +7407,8 @@ Obrigado pela ajuda!
             '',
         'Defines the two-factor module to authenticate agents.' => 'Define o módulo de autenticação de dois fatores para autenticar agentes.',
         'Defines the two-factor module to authenticate customers.' => 'Define o módulo de autenticação de dois fatores para autenticar clientes.',
-        'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            'Define o tipo de protocolo utilizado pelo servidor web para servir a aplicação. Se o protocolo https for utilizado no lugar do http básico, isto deve ser especificado aqui. Como isto não tem efeito nas definições ou no comportamento do servidor web, isto não irá alterar o método que a aplicação será acessada e, se estiver errado, isto não irá prevenir a realização de login na aplicação. Esta definição só é utilizada como a variável OTOBO_CONFIG_HttpType que pode ser encontrada em todas as formas de messageria utlizada pela aplicação para construir links para tickets dentro do seu sistema.',
+        'Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             '',
         'Defines the user identifier for the customer panel.' => '',

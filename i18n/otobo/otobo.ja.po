@@ -14912,375 +14912,375 @@ msgstr "新規アカウントを作成しました。ログイン情報を %s �
 msgid "Action \"%s\" not found!"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "invalid-temporarily"
 msgstr "無効-暫定"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Group for default access."
 msgstr "一般ユーザ用のデフォルトグループ"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Group of all administrators."
 msgstr "管理者用グループ"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Group for statistics access."
 msgstr "レポート・レポート操作用のグループ"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "new"
 msgstr "新規"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All new state types (default: viewable)."
 msgstr "全ての新規ステータス・タイプ（デフォルト：表示可能）"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "open"
 msgstr "対応中"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All open state types (default: viewable)."
 msgstr "全ての対応中ステータス・タイプ（デフォルト：表示可能）"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "closed"
 msgstr "クローズ"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All closed state types (default: not viewable)."
 msgstr "全ての完了ステータス・タイプ（デフォルト：表示可能）"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending reminder"
 msgstr "保留中 (期限付)"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'pending reminder' state types (default: viewable)."
 msgstr "全ての 'ペンディング・リマインダー' ステータス・タイプ（デフォルト：表示可能）"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending auto"
 msgstr "保留中 (自動)"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'pending auto *' state types (default: viewable)."
 msgstr "全ての保留中 (自動) ステータス・タイプ（デフォルト：表示可能）"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "removed"
 msgstr "削除"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'removed' state types (default: not viewable)."
 msgstr "全ての削除ステータス・タイプ（デフォルト：表示不可能）"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "merged"
 msgstr "結合済"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "State type for merged tickets (default: not viewable)."
 msgstr "マージされたチケットのステータス・タイプ (デフォルト：表示不可)"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "New ticket created by customer."
 msgstr "顧客が作成した新規チケット"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "closed successful"
 msgstr "クローズ (成功)"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is closed successful."
 msgstr "チケットは成功としてクローズされました。"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "closed unsuccessful"
 msgstr "クローズ (不成功)"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is closed unsuccessful."
 msgstr "チケットは不成功としてクローズされました。"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Open tickets."
 msgstr "対応中チケット"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Customer removed ticket."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is pending for agent reminder."
 msgstr "担当者のリマインダーのチケットは保留中です。"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending auto close+"
 msgstr "保留 (自動クローズ＋)"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is pending for automatic close."
 msgstr "チケットは自動クローズ設定月で保留されました。"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending auto close-"
 msgstr "保留 (自動クローズ－)"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "State for merged tickets."
 msgstr "マージされたチケットのステータス"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "system standard salutation (en)"
 msgstr "システム標準の挨拶文 (日本語)"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Standard Salutation."
 msgstr "標準の挨拶文"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "system standard signature (en)"
 msgstr "システム標準の署名 (日本語)"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Standard Signature."
 msgstr "標準の署名"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Standard Address."
 msgstr "標準のアドレス"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "possible"
 msgstr "可能"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Follow-ups for closed tickets are possible. Ticket will be reopened."
 msgstr "クローズ・チケットに対するフォローアップが可能です。チケットは再オープンされます。"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "reject"
 msgstr "拒否"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Follow-ups for closed tickets are not possible. No new ticket will be created."
 msgstr "クローズ・チケットへのフォローアップはできません。新規チケットも作成されません。"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "new ticket"
 msgstr "新規チケット"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Follow-ups for closed tickets are not possible. A new ticket will be created."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Postmaster queue."
 msgstr "ポストマスター・キュー"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All default incoming tickets."
 msgstr "デフォルトでは全てのチケットが入ります。"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All junk tickets."
 msgstr "全てのジャンクチケット"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All misc tickets."
 msgstr "全ての未分類チケット"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reply"
 msgstr "自動返答"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Automatic reply which will be sent out after a new ticket has been created."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reject"
 msgstr "自動リジェクト"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Automatic reject which will be sent out after a follow-up has been rejected (in case queue follow-up option is \"reject\")."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto follow up"
 msgstr "自動フォローアップ"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Automatic confirmation which is sent out after a follow-up has been received for a ticket (in case queue follow-up option is \"possible\")."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reply/new ticket"
 msgstr "自動返答/新規チケット"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Automatic response which will be sent out after a follow-up has been rejected and a new ticket has been created (in case queue follow-up option is \"new ticket\")."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto remove"
 msgstr "自動除去"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Auto remove will be sent out after a customer removed the request."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reply (after new ticket has been created)"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reject (after follow-up and rejected of a closed ticket)"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default follow-up (after a ticket follow-up has been added)"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reject/new ticket created (after closed follow-up with new ticket creation)"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Unclassified"
 msgstr "未分類"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "1 very low"
 msgstr "1 最低"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "2 low"
 msgstr "2 低"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "3 normal"
 msgstr "3 中"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "4 high"
 msgstr "4 高"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "5 very high"
 msgstr "5 最高"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "unlock"
 msgstr "ロック解除"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "lock"
 msgstr "ロック"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "tmp_lock"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "agent"
 msgstr "担当者"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "system"
 msgstr "システム"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "customer"
 msgstr "顧客"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket create notification"
 msgstr "新規作成通知"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "You will receive a notification each time a new ticket is created in one of your \"My Queues\" or \"My Services\"."
 msgstr "\"My Queues\"および\"My Services\"に新しいチケットが作成されると、通知を受信します。"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
 msgstr "チケット・フォローアップ通知 (ロック解除)"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "You will receive a notification if a customer sends a follow-up to an unlocked ticket which is in your \"My Queues\" or \"My Services\"."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
 msgstr "チケット・フォローアップ通知 (ロック)"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket lock timeout notification"
 msgstr "ロック期限切れチケット通知"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "You will receive a notification as soon as a ticket owned by you is automatically unlocked."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket owner update notification"
 msgstr "チケットの所有者変更通知"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket responsible update notification"
 msgstr "チケットの責任者変更通知"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket new note notification"
 msgstr "チケットのノート追加通知"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket queue update notification"
 msgstr "チケット・キュー更新通知"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "You will receive a notification if a ticket is moved into one of your \"My Queues\"."
 msgstr "\"My Queues\"で指定しているキューにチケットが移動された際に通知されます。"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket pending reminder notification (locked)"
 msgstr "チケットのペンディングリマインダー通知(ロック中)"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket pending reminder notification (unlocked)"
 msgstr "チケットのペンティングリマインダー通知(未ロック)"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket escalation notification"
 msgstr "チケットのエスカレーション通知"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket escalation warning notification"
 msgstr "チケットのエスカレーション警告通知"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket service update notification"
 msgstr "チケット・サービス更新通知"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "You will receive a notification if a ticket's service is changed to one of your \"My Services\"."
 msgstr "My Servidesに登録しているチケットのサービスが変更された場合に通知されます。"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Appointment reminder notification"
 msgstr "予約リマインダーの通知"
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "You will receive a notification each time a reminder time is reached for one of your appointments."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otobo-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket email delivery failure notification"
 msgstr "チケット送信失敗通知"
 
@@ -25011,7 +25011,7 @@ msgstr ""
 msgid "Edit contacts with data."
 msgstr ""
 
-#. SysConfig
+#. Template: InstallerSystem
 msgid "Elasticsearch"
 msgstr ""
 
@@ -25297,5 +25297,25 @@ msgstr ""
 
 #. SysConfig
 msgid "Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes."
+msgstr ""
+
+#. Template: InstallerSystem
+msgid "Initialize Elasticsearch"
+msgstr ""
+
+#. Template: InstallerSystem
+msgid "Elasticsearch server was found, and it has been activated automatically for OTOBO."
+msgstr ""
+
+#. Template: InstallerSystem
+msgid "Seemingly either no clean Elasticsearch server is running, or it is not using the standard configuration. To activate Elasticsearch manually, please edit the web service in the admin interface if necessary, activate 'Elasticsearch::Active' and 'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext' in the SysConfig and run the otobo.Console command 'Maint::Elasticsearch::Migration'."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
+msgid "Contact us at hello@otobo.de"
+msgstr ""
+
+#. SysConfig
+msgid "Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server's settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system."
 msgstr ""
 

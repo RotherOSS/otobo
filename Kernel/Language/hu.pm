@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.932628152969894;
+    $Self->{Completeness}        = 0.932302685109845;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4699,7 +4699,7 @@ sub Data {
         'Print this article' => 'Bejegyzés nyomtatása',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at sales@otrs.com' => 'Vegye fel velünk a kapcsolatot a sales@otrs.com címen',
+        'Contact us at hello@otobo.de' => '',
         'Get Help' => 'Segítségkérés',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
@@ -5673,7 +5673,7 @@ sub Data {
         'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
             '',
 
-        # Database XML Definition: scripts/database/otobo-initial_insert.xml
+        # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => 'átmenetileg érvénytelen',
         'Group for default access.' => 'Csoport az alapértelmezett hozzáféréshez.',
         'Group of all administrators.' => 'Az összes adminisztrátor csoportja.',
@@ -7407,8 +7407,8 @@ Az Ön segélyszolgálat csapata
             'Meghatározza az időkorlátot (másodpercben, a minimum 20 másodperc) a támogatási adatok gyűjtéséhez a nyilvános „PublicSupportDataCollector” modullal (például az OTOBO démonból használva).',
         'Defines the two-factor module to authenticate agents.' => 'Meghatározza azt a kétlépcsős modult, amely hitelesíti az ügyintézőket.',
         'Defines the two-factor module to authenticate customers.' => 'Meghatározza azt a kétlépcsős modult, amely hitelesíti az ügyfeleket.',
-        'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            'Meghatározza a webkiszolgáló által használt protokoll típusát az alkalmazás kiszolgálásához. Ha https protokollt fognak használni az egyszerű http helyett, akkor azt itt kell megadni. Mivel ez nem befolyásolja a webkiszolgáló beállításait vagy viselkedését, ezért nem fogja megváltoztatni az alkalmazáshoz való hozzáférés módját, és ha rossz, nem fogja megakadályozni az alkalmazásba való belépést. Ezt a beállítást csak az OTOBO_CONFIG_HttpType változójaként használják, amely az alkalmazás által használt üzenetküldés összes űrlapján megtalálható a jegyekre mutató hivatkozások készítéséhez a rendszeren belül.',
+        'Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+            '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             'Meghatározza az egyszerű szöveges e-mail idézetekhez használt karaktert az ügyintézői felület jegyválasz képernyőjén. Ha ez üres vagy inaktív, akkor az eredeti levelek nem lesznek idézve, viszont hozzáfűzésre kerülnek a válaszhoz.',
         'Defines the user identifier for the customer panel.' => 'Meghatározza a felhasználói azonosítót az ügyfélpanelhez.',
