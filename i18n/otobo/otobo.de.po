@@ -46,9 +46,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-07-11 10:00+0000\n"
+"PO-Revision-Date: 2020-07-11 10:49+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
-"Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/>\n"
+"Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/>"
+"\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23663,8 +23664,8 @@ msgstr ""
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "This will allow the system to send additional support data information to the OTOBO team."
 msgstr ""
-"Ermöglicht dem System, ergänzende Supportdaten an das OTOBO Team zu "
-"versenden."
+"Diese Einstellung aktiviert das Senden zusätzlicher Support-Informationen an "
+"das OTOBO-Team."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the 'send support data' option.)"
@@ -24007,9 +24008,10 @@ msgstr "Verifiziert den SSL-Hostnamen."
 msgid "Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing."
 msgstr ""
 "Abbrechen der Anfrage, wenn der Hostname nicht verifiziert werden kann. "
-"Nicht unbedacht deaktivieren! Der Verzicht auf eine Überprüfung stellt ein "
-"Sicherheitsrisiko dar! Möglichkeit der Deaktivierung vorwiegend für Tests "
-"mit selbstsignierten Zertifikaten oder wenn Sie genau wissen, was Sie tun."
+"Achtung! Nicht unbedacht deaktivieren. Der Verzicht auf eine Überprüfung "
+"stellt ein Sicherheitsrisiko dar! Möglichkeit der Deaktivierung vorwiegend "
+"für Tests mit selbstsignierten Zertifikaten oder wenn Sie genau wissen, was "
+"Sie tun."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otrs.com:8000/Webservice/Example"
@@ -24170,13 +24172,13 @@ msgstr "Neues Passwort wiederholen"
 
 #. Template: AgentPassword
 msgid "Password needs to be renewed every %s days."
-msgstr "Passwort muss in %s Tagen neu vergeben werden."
+msgstr "Passwort muss alle %s Tage neu vergeben werden."
 
 #. Template: AgentPassword
 msgid "Password history is active, you can't use a password which was used the last %s times."
 msgstr ""
-"Die Passwort-Historie ist aktiv. Sie können keines Ihrer %s letzten "
-"Passwörter erneut verwenden."
+"Die Passwort-Historie ist aktiv. Sie können keines der %s letzten Passwörter "
+"erneut verwenden."
 
 #. Template: AgentPassword
 msgid "Password length must be at least %s characters."
@@ -24309,11 +24311,13 @@ msgstr ""
 
 #. Template: Copy
 msgid "Clean up and finish"
-msgstr ""
+msgstr "Bereinigung und Abschluss"
 
 #. Template: Finish
 msgid "The migration is complete, thank you for trying out OTOBO - we hope you will like it."
 msgstr ""
+"Die Migration ist abgeschlossen. Danke, dass Sie OTOBO ausprobieren - wir "
+"hoffen, es gefällt Ihnen!"
 
 #. Template: Intro
 msgid "This migration script will lead you step by step through the process of migrating your ticket system from OTRS or ((OTRS)) Community Edition version 6 to OTOBO 10."
@@ -24325,66 +24329,89 @@ msgstr ""
 #. Template: Intro
 msgid "There is no danger whatsoever for your original system: nothing is changed there."
 msgstr ""
+"Es besteht keinerlei Risiko für Ihr Ausgangssystem: Dort wird nichts "
+"geändert."
 
 #. Template: Intro
 msgid "Instructions and details on migration prerequisites can be found in the migration manual. We strongly recommend reading it before starting migration."
 msgstr ""
+"Eine Migrationsanleitung und Details zur Migration finden Sie im "
+"Migrationshandbuch. Wir empfehlen dringend, dieses zu lesen, bevor Sie die "
+"Migration starten."
 
 #. Template: Intro
 msgid "In case you have to suspend migration, you can resume it anytime at the same point as long as the cache has not been deleted."
 msgstr ""
+"Sollten Sie die Migration unterbrechen müssen, können Sie diese jederzeit an "
+"der gleichen Stelle wiederaufnehmen, solange der Cache nicht gelöscht wurde."
 
 #. Template: Intro
 msgid "All entered passwords are cached until the migration is finished."
 msgstr ""
+"Alle eingegebenen Passwörter werden bis zum Ende der Migration "
+"zwischengespeichert."
 
 #. Template: Intro
 msgid " Anyone with access to this page, or read permission for the OTOBO Home Directory will be able to read them. If you abort the migration, you are given the option to clear the cache by visiting this page again."
 msgstr ""
+" Sie können von jeder Person mit Zugang zu dieser Seite oder "
+"Leseberechtigung im OTOBO Home-Verzeichnis gelesen werden. Wenn Sie den "
+"Cache nach Abbrechen der Migration löschen möchten, rufen Sie diese Seite "
+"einfach erneut auf."
 
 #. Template: Intro
 msgid "If you need support, just ask our experts – either at"
 msgstr ""
+"Wenn Sie Unterstützung benötigen, fragen Sie einfach unsere Experten – "
+"entweder im"
 
 #. Template: Intro
 msgid "OTOBO forum"
-msgstr ""
+msgstr "OTOBO Forum"
 
 #. Template: Intro
 msgid "or directly via mail to"
-msgstr ""
+msgstr "oder direkt per Mail an"
 
 #. Template: Intro
 msgid "Cached data found"
-msgstr ""
+msgstr "Daten im Cache gefunden"
 
 #. Template: Intro
 msgid "You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress."
 msgstr ""
+"Ihre Migration wird dort wieder aufgenommen, wo Sie zuletzt unterbrochen "
+"wurde. Möchten Sie die Migration erneut bei Null starten, verwerfen Sie alle "
+"bisherigen Änderungen."
 
 #. Template: Intro
 msgid "An error occured."
-msgstr ""
+msgstr "Ein Fehler ist aufgetreten."
 
 #. Template: Intro
 msgid "Discard previous progress"
-msgstr ""
+msgstr "Bisherige Änderungen verwerfen"
 
 #. Template: Intro
 msgid "Insecure HTTP connection"
-msgstr ""
+msgstr "Unsichere HTTP-Verbindung"
 
 #. Template: Intro
 msgid "You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead."
 msgstr ""
+"Sie führen das Migrations-Tool über http aus. Das ist ausgesprochen "
+"unsicher! Während der Migration geben Sie verschiedene Passwörter ein, die "
+"dann unverschlüsselt übertragen werden. Jede Person, die sich zwischen Sie "
+"und den OTOBO Server schaltet, kann diese Passwörter abfangen. Bitte erwägen "
+"Sie, stattdessen https zu nutzen."
 
 #. Template: Intro
 msgid "Continue anyways :("
-msgstr ""
+msgstr "Dennoch fortfahren :("
 
 #. Template: Intro
 msgid " Continue anyways :("
-msgstr ""
+msgstr " Dennoch fortfahren :("
 
 #. Template: OTRSFileSettings
 msgid "OTRS server"
@@ -24392,7 +24419,7 @@ msgstr "OTRS Server"
 
 #. Template: OTRSFileSettings
 msgid "SSH User"
-msgstr ""
+msgstr "SSH-Benutzer"
 
 #. Template: OTRSFileSettings
 msgid "OTRS home directory"
@@ -24400,87 +24427,88 @@ msgstr "OTRS-Home-Verzeichnis"
 
 #. Template: OTRSFileSettings
 msgid "Check settings"
-msgstr ""
+msgstr "Überprüft die Einstellungen"
 
 #. Template: OTRSFileSettings
 msgid "Result of settings check"
-msgstr ""
+msgstr "Ergebnis der Überprüfung"
 
 #. Template: OTRSFileSettings
 msgid "Settings check successful."
-msgstr ""
+msgstr "Prüfung der Einstellungen erfolgreich."
 
 #. Template: PreChecks
 msgid "Execute migration pre-checks"
-msgstr ""
+msgstr "Prüfungen vor der Migration"
 
 #. Template: SettingHistoryListCompare
+#, fuzzy
 msgid "On "
-msgstr ""
+msgstr "zu "
 
 #. Template: SettingHistoryListCompare
 msgid "Reset to this value"
-msgstr ""
+msgstr "Diesen Wert zurücksetzen"
 
 #. Template: UsersSettingListCompare
 msgid "Delete user's value."
-msgstr ""
+msgstr "Benutzeränderung verwerfen."
 
 #. JS Template: ToggleMoreLessCustomer
 msgid "Show all"
-msgstr ""
+msgstr "Alle anzeigen"
 
 #. JS Template: ToggleMoreLessCustomer
 msgid "Show less"
-msgstr ""
+msgstr "Weniger anzeigen"
 
 #. JS Template: UploadContainer
 msgid "Click to select or drop files here."
-msgstr "Klicken zum Auswählen, oder Dateien hier ablegen."
+msgstr "Klicken und Dateien auswählen oder hier ablegen."
 
 #. JS Template: MigrationState
 msgid "Time needed"
-msgstr ""
+msgstr "Wird bearbeitet"
 
 #. JS Template: PackageResolve
 msgid "Package"
-msgstr ""
+msgstr "Paket"
 
 #. JS Template: PackageResolve
 msgid "Uninstall from OTOBO"
-msgstr ""
+msgstr "Deinstallieren"
 
 #. JS Template: PackageResolve
 msgid "Ignore"
-msgstr ""
+msgstr "Ignorieren"
 
 #. JS Template: PackageResolve
 msgid "Migrate"
-msgstr ""
+msgstr "Migrieren"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No contact is given!"
-msgstr ""
+msgstr "Keine Kontaktdaten!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No data found for given contact in given source!"
-msgstr ""
+msgstr "Konnte keine Daten zum Kontakt in der angegebenen Quelle finden!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Contact updated!"
-msgstr ""
+msgstr "Kontakt aktualisiert!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No field data found!"
-msgstr ""
+msgstr "Keine Felddaten gefunden!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Contact created!"
-msgstr ""
+msgstr "Kontakt angelegt!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Error creating contact!"
-msgstr ""
+msgstr "Fehler beim Anlegen des Kontakts!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No sources found, at least one \"Contact with data\" dynamic field must be added to the system!"
@@ -25364,4 +25392,3 @@ msgstr ""
 #. SysConfig
 msgid "Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server's settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system."
 msgstr ""
-
