@@ -46,7 +46,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-07-11 10:49+0000\n"
+"PO-Revision-Date: 2020-07-11 10:57+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/>"
 "\n"
@@ -24513,14 +24513,16 @@ msgstr "Fehler beim Anlegen des Kontakts!"
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No sources found, at least one \"Contact with data\" dynamic field must be added to the system!"
 msgstr ""
+"Keine Quellen gefunden. Bitte ergänzen Sie mindestens ein dynamisches Feld "
+"\"Kontakt mit Daten\"!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No data found for given source!"
-msgstr ""
+msgstr "Keine Daten in der angegebenen Quelle gefunden!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldContactWD.pm
 msgid "This field key is duplicated."
-msgstr ""
+msgstr "Dieser Feldschlüssel existiert bereits."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were saved."
@@ -24536,51 +24538,51 @@ msgstr "Einstellungen wurden zurückgesetzt."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package not verified by the OTOBO Team!"
-msgstr ""
+msgstr "Paket wurde nicht vom OTOBO Team verifiziert!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
 msgid "This deployment does not contain changes in the setting values!"
-msgstr ""
+msgstr "Diese Inbetriebnahme enthält keine Einstellungsänderungen!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
 msgid "No DeploymentID received!"
-msgstr ""
+msgstr "Keine InbetriebnahmeID erhalten!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "No setting name received!"
-msgstr ""
+msgstr "Keinen Einstellungsnamen erhalten!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Modified Version"
-msgstr ""
+msgstr "Geänderte Version"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Reset To Default"
-msgstr ""
+msgstr "Auf den Standard zurückgesetzt"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Default Version"
-msgstr ""
+msgstr "Standardversion"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "No setting name or modified version id received!"
-msgstr ""
+msgstr "Keinen Einstellungsnamen oder ID einer geänderten Version erhalten!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Was not possible to revert the historical value!"
-msgstr ""
+msgstr "Zurücksetzen auf den historischen Wert war nicht möglich!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
 msgid "Missing setting name or modified id!"
-msgstr ""
+msgstr "Fehlender Einstellungsname oder geänderte ID!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
 msgid "System was not able to delete the user setting values!"
-msgstr ""
+msgstr "Das System konnte die Benutzeränderungen nicht verwerfen!"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "This feature is not available."
-msgstr ""
+msgstr "Diese Funktion ist nicht verfügbar."
 
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig."
@@ -24599,6 +24601,8 @@ msgstr "Kontaktieren Sie uns unter sales@otrs.com"
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, the new password and the repeated password do not match."
 msgstr ""
+"Passwort kann nicht aktualisiert werden! Die eingegebenen Werte sind "
+"unterschiedlich."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!"
