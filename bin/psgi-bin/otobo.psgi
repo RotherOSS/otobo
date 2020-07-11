@@ -293,7 +293,7 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT PLACK SUPPORT IS AS OF JUNE 26TH 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
+warn "PLEASE NOTE THAT AS OF JULY 11TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
 
 # conditionally enable profiling
 my $NYTProfMiddleWare = sub {
@@ -609,6 +609,9 @@ my $RPCApp = builder {
 
 builder {
 
+    # for debugging
+    #enable 'Plack::Middleware::TrafficLog';
+
     # Server the static files in var/httpd/httpd.
     mount '/otobo-web'                     => $StaticApp;
 
@@ -630,4 +633,7 @@ builder {
 
     # some SOAP stuff
     mount '/otobo/rpc.pl'                  => $RPCApp;
+
+    # for debugging
+    #mount '/'                              => $HelloApp;
 };
