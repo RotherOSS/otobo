@@ -609,6 +609,9 @@ my $RPCApp = builder {
 
 builder {
 
+    # for debugging
+    #enable 'Plack::Middleware::TrafficLog';
+
     # Server the static files in var/httpd/httpd.
     mount '/otobo-web'                     => $StaticApp;
 
@@ -630,4 +633,7 @@ builder {
 
     # some SOAP stuff
     mount '/otobo/rpc.pl'                  => $RPCApp;
+
+    # for debugging
+    #mount '/'                              => $HelloApp;
 };
