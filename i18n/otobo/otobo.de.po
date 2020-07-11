@@ -46,7 +46,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-07-11 11:49+0000\n"
+"PO-Revision-Date: 2020-07-11 13:59+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/>"
 "\n"
@@ -20136,7 +20136,9 @@ msgstr "Wenn \"DB\" als Customer::AuthModule ausgewählt ist, muss hier der Name
 
 #. SysConfig
 msgid "If \"DB\" was selected for SessionModule, a table in database where session data will be stored must be specified."
-msgstr "Wenn \"DB\" als Sitzungsmodul ausgewählt ist, muss hier der Name der Tabelle, in der Sitzungsdaten gespeichert werden sollen, hinterlegt werden."
+msgstr ""
+"Wenn \"DB\" als SessionModule ausgewählt ist, muss hier der Name der "
+"Tabelle, in der Sitzungsdaten gespeichert werden sollen, hinterlegt werden."
 
 #. SysConfig
 msgid "If \"FS\" was selected for SessionModule, a directory where the session data will be stored must be specified."
@@ -24646,7 +24648,7 @@ msgstr "Inbetriebnahme abgeschlossen. Glückwünsch!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_responses."
-msgstr "Migrieren der Datenbanktabelle auto_responses."
+msgstr "Migrieren der Datenbanktabelle 'auto_responses'."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration failed."
@@ -24654,7 +24656,7 @@ msgstr "Migration fehlgeschlagen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_response."
-msgstr "Migrieren der Datenbanktabelle auto_response."
+msgstr "Migrieren der Datenbanktabelle 'auto_response'."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration completed, perfect!"
@@ -24797,7 +24799,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
 msgid "Migrate database table notification."
-msgstr ""
+msgstr "Migrieren der Datenbanktabelle 'notification'."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
@@ -24805,7 +24807,7 @@ msgstr "Kann die Datei Kernel/Config.pm aus OTRSHome: %s nicht öffnen!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "OTOBO Home exists."
-msgstr ""
+msgstr "OTOBO Home vorhanden."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if we are able to connect to OTRS Home."
@@ -24822,6 +24824,8 @@ msgstr "Keine Verbindung zum OTRS-Dateiverzeichnis möglich."
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Try database connect and sanity checks."
 msgstr ""
+"Versucht eine Verbindung zur Datenbank herzustellen und "
+"Plausibilitätsprüfungen durchzuführen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Connect to OTRS database or sanity checks failed."
@@ -24830,11 +24834,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Database connect and sanity checks completed."
-msgstr ""
+msgstr "Verbindung zur Datenbank und Plausibilitätsprüfungen abgeschlossen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "Check if all necessary packages are installed."
-msgstr ""
+msgstr "Prüft, ob alle benötigten Pakete installiert wurden."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The following packages are only installed in OTRS:"
@@ -24843,50 +24847,56 @@ msgstr "Folgende Pakete sind nur in OTRS installiert:"
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "Please install (or uninstall) the packages before migration. If a package doesn't exist for OTOBO so far, please contact the OTOBO Team at bugs\\\\@otobo.org. We will find a solution."
 msgstr ""
+"Bitte installieren (oder deinstallieren) Sie die Pakete vor der Migration. "
+"Ist ein Paket bisher nicht für OTOBO verfügbar, wenden Sie sich bitte via "
+"bugs\\\\@otobo.org an das OTOBO Team. Wir finden eine Lösung."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The same packages are installed on both systems, perfect!"
 msgstr ""
+"Auf den beiden Systemen, sind die gleichen Pakete installiert, sehr gut!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "Check if all needed Perl modules have been installed."
-msgstr ""
+msgstr "Prüft, ob alle erforderlichen Perl-Module installiert wurden."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "%s script does not exist."
-msgstr ""
+msgstr "%s Skript nicht vorhanden."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "One or more required Perl modules are missing. Please install them as recommended, and run the migration script again."
 msgstr ""
+"Eines oder mehrere der benötigten Perl-Module fehlen. Bitte installieren Sie "
+"diese wie empfohlen und führen Sie das Migrationstool erneut aus."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "All required Perl modules have been installed, perfect!"
-msgstr ""
+msgstr "Alle erforderlichen Perl-Module wurden installiert. Bestens!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPostmasterFilterMigrate.pm
 msgid "Migrate postmaster filter."
-msgstr ""
+msgstr "Migration der Postmaster-Filter."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOProcessDeploy.pm
 msgid "Deploy the process management configuration."
-msgstr ""
+msgstr "Inbetriebnahme der Prozessmanagement-Konfiguration."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOResponseTemplatesMigrate.pm
 msgid "Migrate database table response_template."
-msgstr ""
+msgstr "Migrieren der Datenbanktabelle 'response_template'."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSalutationsMigrate.pm
 msgid "Migrate database table salutation."
-msgstr ""
+msgstr "Migrieren der Datenbanktabelle 'salutation'."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSignaturesMigrate.pm
 msgid "Migrate database table signature."
-msgstr ""
+msgstr "Migrieren der Datenbanktabelle 'signature'."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOStatsMigrate.pm
 msgid "Migrate statistics."
-msgstr ""
+msgstr "Migration der Statistiken."
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>"
@@ -24898,11 +24908,14 @@ msgstr "Paket wurde nicht von der OTOBO Community verifiziert!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"AllowNotVerifiedPackages\" system configuration setting.</p>"
-msgstr "<p>Die Installation von nicht verifizierten Paketen ist deaktiviert. Sie können die Installation nicht-verfizierter Pakete über die Systemkonfiguration \"AllowNotVerifiedPackages\" aktivieren.</p>"
+msgstr ""
+"<p>Die Installation von nicht verifizierten Paketen ist deaktiviert. Sie "
+"können die Installation nicht-verfizierter Pakete in der Systemkonfiguration "
+"über die Einstellung \"AllowNotVerifiedPackages\" aktivieren.</p>"
 
 #. Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
 msgid "Queues / Tickets"
-msgstr ""
+msgstr "Queues / Tickets"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 #, fuzzy
@@ -24914,11 +24927,15 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not verified by the OTOBO Team! It is recommended not to use this packages."
-msgstr "Einige Pakete wurden nicht von der OTOBO Gruppe verifiziert! Es wird empfohlen, diese Pakete nicht zu nutzen."
+msgstr ""
+"Einige Pakete wurden noch nicht vom OTOBO Team verifiziert. Es wird "
+"empfohlen, diese Pakete nicht zu nutzen."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Too many failed login attempts, please retry in %s s."
-msgstr "Zu viele fehlgeschlagene Anmeldungen, bitte versuchen Sie es in %s s nocheinmal."
+msgstr ""
+"Zu viele fehlgeschlagene Anmeldungen, bitte versuchen Sie es in %s s noch "
+"einmal."
 
 #. Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
 msgid "If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig."
@@ -24928,11 +24945,11 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfigurationUser
 msgid "Are you sure you want to remove all user values?"
-msgstr ""
+msgstr "Möchten Sie wirklich alle Benutzeränderungen verwerfen?"
 
 #. JS File: Core.Agent.DynamicFieldDBSearch
 msgid "This dynamic field database value is already selected."
-msgstr ""
+msgstr "Diese dynamische Feld vom Typ Datenbank ist bereits ausgewählt."
 
 #. SysConfig
 msgid "Activate Elasticsearch."
@@ -24941,14 +24958,16 @@ msgstr "Aktiviert Elasticsearch."
 #. SysConfig
 msgid "Activates Rendering of DynamicFields outside of the DynamicField block."
 msgstr ""
+"Aktiviert das Rendern dynamischer Felder außerhalb des Blocks für dynamische "
+"Felder."
 
 #. SysConfig
 msgid "Admin Contact With Data"
-msgstr ""
+msgstr "AdminContactWithData"
 
 #. SysConfig
 msgid "Admin contact with data."
-msgstr ""
+msgstr "Admin-Bereich Kontaktdaten."
 
 #. SysConfig
 msgid "Agent Contact With Data Search"
@@ -24985,26 +25004,43 @@ msgstr ""
 #. SysConfig
 msgid "Agent frontend module registration (disable 'Edit contacts with data' link if if there is no source field configured)."
 msgstr ""
+"Frontend-Modulregistrierung im Agent-Interface (deaktivieren Sie den Link "
+"'Kontaktdaten bearbeiten', wenn kein entsprechendes Quelldeld konfiguriert "
+"wurde)."
 
 #. SysConfig
 msgid "AgentTicketZoom widget that displays Contact with data dynamic field in the side bar."
 msgstr ""
+"AgentTicketZoom-Widget, mit dem das dynamsiche Feld 'Kontaktdaten' in der "
+"Seitenleiste angezeigt wird."
 
 #. SysConfig
 msgid "Autoloading of Znuny4OTOBOPasswordPolicy extensions."
-msgstr ""
+msgstr "Automatisches Laden der 'Znuny4OTOBOPasswordPolicy'-Erweiterungen."
 
 #. SysConfig
 msgid "Cancel whole escalation if ticket is in configured suspend state (EscalationSuspendStates). Ticket will not escalate at all in configured suspend state. No escalation times are shown. Ticket will not be shown in escalation view."
 msgstr ""
+"Vollständiges Aussetzen der Eskalation, solange sich das Ticket in einem zum "
+"Aussetzen der Eskalation konfigurierten Status (EscalationSuspendStates) "
+"befindet. In all diesen Status wird die Ticketeskalation vollständig "
+"unterbrochen. Es werden keine Eskalationszeiten angezeigt und das Ticket "
+"wird nicht in der Übersicht eskalierter Tickets aufgeführt."
 
 #. SysConfig
 msgid "Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash."
 msgstr ""
+"In der Ticketdarstellung genutzte Kategorien. Ist keine Standard-Farbe "
+"vorgegeben, wird das Element nicht angezeigt, wenn im Farb-Hash kein "
+"entsprechender Wert definiert ist."
 
 #. SysConfig
 msgid "Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash."
 msgstr ""
+"In der Ticketdarstellung genutzte Kategorien. Die Reihenfolge wird nur "
+"verwendet, um die Ausgangspositionierung vor dem Größenarrangement zu "
+"bestimmen. Ist keine Standard-Farbe vorgegeben, wird das Element nicht "
+"angezeigt, wenn im Farb-Hash kein entsprechender Wert definiert ist."
 
 #. SysConfig
 msgid "Change Ticket"
@@ -25077,22 +25113,29 @@ msgstr ""
 #. SysConfig
 msgid "Defines the communication chanel for the quick close article action."
 msgstr ""
+"Definiert den Kommunikationskanal für die Artikelaktion 'Sofort schließen'."
 
 #. SysConfig
 msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/doc/."
 msgstr ""
+"Definiert das von Agenten und Kunden zu nutzende Standard (HTML-)Theme. Sie "
+"können Ihr eigenes Theme hinzufügen. Details dazu entnehmen Sie bitte dem "
+"Admin-Handbuch auf https://doc.otobo.org/doc/."
 
 #. SysConfig
 msgid "Defines the filter that processes the HTML templates."
-msgstr ""
+msgstr "Definiert den zum Verarbeiten der HTML-Vorlagen benutzten Filter."
 
 #. SysConfig
 msgid "Defines the source dynamic field for storing historical data."
 msgstr ""
+"Definiert das ursprüngliche dynamische Feld zum Speichern historischer Daten."
 
 #. SysConfig
 msgid "Defines the subject for the quick close action, which gets used for ticket history in the agent interface."
 msgstr ""
+"Definiert das Subjekt für die Aktion \"Sofort Schließen\", die in der Ticket-"
+"Historie im Agentenbereich verwendet wird."
 
 #. SysConfig
 msgid "Defines the target dynamic fields for storing historical data."
@@ -25190,7 +25233,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Fulltext search using Elasticsearch."
-msgstr ""
+msgstr "Volltextsuche mit Elasticsearch."
 
 #. SysConfig
 msgid "FulltextES"
@@ -25271,6 +25314,9 @@ msgstr ""
 #. SysConfig
 msgid "Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch."
 msgstr ""
+"Definiert, nach welchen Objekten gesucht wird, wie viele Einträge und welche "
+"Attribute angezeigt werden sollen. Alle Ticket-Attribute außer der Queue "
+"müssen explizit via Elasticsearch gespeichert werden."
 
 #. SysConfig
 msgid "Output filter to inject the necessary Dynamic field names in hidden input."
@@ -25287,6 +25333,9 @@ msgstr ""
 #. SysConfig
 msgid "Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time."
 msgstr ""
+"Baut die Elasticsearch-Indizes neu auf – zum Beispiel, wenn Kundenbenutzer "
+"via LDAP authentifiziert werden. Achtung: Sehr ineffizient, da jedes Mal der "
+"gesamte Index neu aufgebaut wird."
 
 #. SysConfig
 msgid "Rebuilds the ACL preselection cache."
@@ -25395,6 +25444,10 @@ msgstr ""
 #. SysConfig
 msgid "Tickets in the following queues will not be stored on the Elasticsearch server. To apply this to existing tickets, the ticket migration has to be run via console, after changing this option."
 msgstr ""
+"Tickets in den folgenden Queues werden nicht auf dem Elasticsearch-Server "
+"gespeichert. Um diese Einstellungen auf vorhandene Tickets zu übernehmen, "
+"muss nach erfolgter Änderung eine Ticketmigration über die Konsole "
+"ausgeführt werden."
 
 #. SysConfig
 msgid "Tile registration for the CustomerDashboard. Module is required."
@@ -25426,15 +25479,22 @@ msgstr ""
 
 #. Template: InstallerSystem
 msgid "Initialize Elasticsearch"
-msgstr ""
+msgstr "Elasticsearch initialisieren"
 
 #. Template: InstallerSystem
 msgid "Elasticsearch server was found, and it has been activated automatically for OTOBO."
-msgstr ""
+msgstr "Elasticsearch-Server gefunden und automatisch für OTOBO aktiviert."
 
 #. Template: InstallerSystem
 msgid "Seemingly either no clean Elasticsearch server is running, or it is not using the standard configuration. To activate Elasticsearch manually, please edit the web service in the admin interface if necessary, activate 'Elasticsearch::Active' and 'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext' in the SysConfig and run the otobo.Console command 'Maint::Elasticsearch::Migration'."
 msgstr ""
+"Scheinbar läuft entweder kein sauberer Elasticsearch-Server oder es wird "
+"keine Standardkonfiguration verwendet. Um Elasticsearch manuell zu "
+"aktivieren, bearbeiten Sie bitte ggf. den Webserver im Admin-Bereich, "
+"aktivieren Sie 'Elasticsearch::Active' und "
+"'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext' in der "
+"Systemkonfiguration und führen Sie den otobo.Console-Befehl "
+"'Maint::Elasticsearch::Migration' aus."
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Contact us at hello@otobo.de"
