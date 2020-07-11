@@ -46,7 +46,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-07-11 11:36+0000\n"
+"PO-Revision-Date: 2020-07-11 11:49+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/>"
 "\n"
@@ -24936,7 +24936,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Activate Elasticsearch."
-msgstr ""
+msgstr "Aktiviert Elasticsearch."
 
 #. SysConfig
 msgid "Activates Rendering of DynamicFields outside of the DynamicField block."
@@ -25128,11 +25128,11 @@ msgstr ""
 
 #. Template: InstallerSystem
 msgid "Elasticsearch"
-msgstr ""
+msgstr "Elasticsearch"
 
 #. SysConfig
 msgid "Elasticsearch quick result module."
-msgstr ""
+msgstr "Dynamische Voranzeige der Elasticsearch-Suchergebnisse."
 
 #. SysConfig
 msgid "Enabling SecureMode disables the web installer (http://yourhost.example.com/otobo/installer.pl) and the migrations. This is done in order to prevent the system from being hijacked. When SecureMode is not enabled the system can be reinstalled. In this case the current basic configuration will be used to pre-populate the questions within the installer script. Enabling SecureMode also enables GenericAgent, PackageManager and SQL Box."
@@ -25152,7 +25152,7 @@ msgstr ""
 "Felder des Ticket-Index, die für die Ticket-Volltextsuche verwendet werden. "
 "Auch die Felder werden gespeichert, sind aber für die Gesamtfunktionalität "
 "nicht erforderlich. Werden Felder ergänzt, die aktualisiert werden können ("
-"insbesondere dynamische Felder), muss das entsprechende Update-Ereignis zum "
+"insbesondere dynamische Felder), muss das entsprechende Update-Event zum "
 "TicketManagement-Invoker des Elasticsearch-Webservice hinzugefügt werden!"
 
 #. SysConfig
@@ -25166,6 +25166,11 @@ msgstr ""
 #. SysConfig
 msgid "Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!"
 msgstr ""
+"Felder des Ticket-Index, die für andere Zwecke als die Volltextsuche "
+"verwendet werden. Alle Felder sind für die Gesamtfunktionalität "
+"erforderlich. Werden Felder ergänzt, die aktualisiert werden können ("
+"insbesondere dynamische Felder), muss das entsprechende Update-Event zum "
+"TicketManagement-Invoker des Elasticsearch-Webservice hinzugefügt werden!"
 
 #. SysConfig
 msgid "Fields to be searched in ticket index. Fields are also stored, but are not mandatory for the overall functionality."
