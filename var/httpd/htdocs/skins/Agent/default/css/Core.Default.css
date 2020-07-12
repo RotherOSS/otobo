@@ -1053,7 +1053,7 @@ div.UnreadArticles i {
     top: 0px;
     z-index: 2;
     font-size: 14px;
-    color: #bfbfce;
+    color: #fef235;
 }
 
 span.UnreadArticles em,
@@ -1063,7 +1063,7 @@ div.UnreadArticles em {
 
 span.UnreadArticles i:first-child,
 div.UnreadArticles i:first-child {
-    color: #777 !important;
+    color: #bfbfce !important;
     font-size: 16px;
     z-index: 1;
     left: -1px;
@@ -1072,7 +1072,7 @@ div.UnreadArticles i:first-child {
 
 span.UnreadArticles.Remarkable i,
 div.UnreadArticles.Remarkable i {
-    color: #f5af36;
+    color: #001bff;
 }
 
 span.UnreadArticles.Ordinary,
@@ -1099,7 +1099,7 @@ span.ImportantArticles em {
 }
 
 span.ImportantArticles i {
-    color: #C10505;
+    color: #f9bcb2;
 }
 
 /**
@@ -1870,6 +1870,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     }
 
     .fa {
-        color: #00023c !important;
+        color: #00023c;
     }
 }
