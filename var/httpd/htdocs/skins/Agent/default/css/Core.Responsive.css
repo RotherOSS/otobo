@@ -66,7 +66,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         white-space: nowrap;
         overflow-x: scroll;
         border: 0px;
-        background: #222;
+        background: #00023c;
         overflow: auto;
         height: 0px;
     }
@@ -136,7 +136,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     }
 
     #ToolBar li i {
-        color: #FF9922;
+        color: #fef235;
         text-shadow: none;
         font-size: 20px;
         top: -15px;
@@ -210,7 +210,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     .ResponsiveHandle {
         font-size: 30px;
-        color: #FF9922;
+        color: #fef235;
         cursor: pointer;
         display: block;
         position: fixed;
@@ -218,7 +218,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         width: 25px;
         height: 30px;
         padding: 5px 10px;
-        background: #222222;
+        background: #00023c;
         background-color: rgba(22, 22, 22, 0.5);
         text-align: center;
         z-index: 999;
@@ -247,7 +247,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         top: 0px;
         height: 100%;
         position: fixed;
-        background: #222;
+        background: #00023c;
         width: 280px;
         overflow: auto;
     }
@@ -292,7 +292,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     #Navigation > .Selected,
     #Navigation > li:hover {
-        color: #FF9922;
+        color: #fef235;
     }
 
     #Navigation > .Active > ul {
@@ -674,7 +674,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         width: 280px;
         right: -300px;
         overflow: auto;
-        background: #222;
+        background: #00023c;
         padding: 0px 10px;
     }
 
