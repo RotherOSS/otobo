@@ -295,7 +295,7 @@ ul.ContextFunctions li:last-child:hover > a {
 .Actions li a:hover,
 .Actions li span:hover,
 .OverviewZoom a:hover {
-    border-color: #f5af36;
+    border-color: #bfbfce;
 }
 
 .Actions li.NoHover:hover a {

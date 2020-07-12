@@ -757,7 +757,7 @@ table.AttachmentList.DataTable thead th {
     width: 0px;
     content: "";
     bottom: 0px;
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid #bfbfce;
     transition: all ease 0.3s;
 }
 
