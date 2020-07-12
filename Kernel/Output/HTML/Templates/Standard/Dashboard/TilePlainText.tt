@@ -15,5 +15,5 @@
 # --
 <div id="oooTile[% Data.TileID | html %]" class="oooTile oooTile_PlainText" style="background-color: [% Data.BackgroundColor | html %];">
     <h2 style="color: [% Data.TextColor | html %]">[% Translate(Data.HeaderText) | html %]</h2>
-    <h3 style="color: [% Data.TextColor | html %]">[% Translate(Data.MainText) | html %]</h3>
+    <h3 style="color: [% Data.TextColor | html %]">[% FILTER html_line_break %][% Translate(Data.MainText) | html %][% END %]</h3>
 </div>

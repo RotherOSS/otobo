@@ -7081,7 +7081,7 @@ via the Preferences button after logging in.
                 <Item Key="Config">
                     <Hash>
                         <Item Key="HeaderText">Message of the day</Item>
-                        <Item Key="MainText">Hello World! :)</Item>
+                        <Item Key="MainText" ValueType="Textarea">Hello World! :)</Item>
                         <Item Key="TextColor">#00023c</Item>
                         <Item Key="BackgroundColor">#fff</Item>
                     </Hash>
