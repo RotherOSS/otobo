@@ -1058,6 +1058,10 @@ div.UnreadArticles i:first-child {
     top: -1px;
 }
 
+th span.UnreadArticles i {
+    color: #7f809d;
+}
+
 span.UnreadArticles.Remarkable i,
 div.UnreadArticles.Remarkable i {
     color: #001bff;
@@ -1078,7 +1082,7 @@ span.ImportantArticles {
     height: 16px;
     float: right;
     margin: -2px 0px 0px 23px;
-    color: #C10505;
+    color: #ea2400;
     font-size: 13px;
 }
 
@@ -1087,7 +1091,7 @@ span.ImportantArticles em {
 }
 
 span.ImportantArticles i {
-    color: #f9bcb2;
+    color: #ea2400;
 }
 
 /**
