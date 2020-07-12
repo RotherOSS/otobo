@@ -59,7 +59,7 @@ ul.Tablelike li:nth-child(even) {
 }
 
 ul.Tablelike li:hover {
-    background: #FCB24B;
+    background: #fffccc;
 }
 
 ul.Tablelike li:hover a {

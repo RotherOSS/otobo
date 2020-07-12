@@ -146,7 +146,7 @@ body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
 
 .OverviewLarge > li:hover > .Content,
 .OverviewLarge > li:hover {
-    border-left-color: #FCB24B !important;
+    border-left-color: #fef235 !important;
 }
 
 .OverviewLarge > li:last-child {
