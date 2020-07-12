@@ -380,7 +380,11 @@ This is a wrapper around CGI::script_name().
 sub ScriptName {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->script_name( @Params );
+    # fix erroneous double slashes at the beginning of SCRIPT_NAME as it worked in OTRS
+    my $ScriptName = $Self->{Query}->script_name( @Params );
+    $ScriptName =~ s{^//+}{/};
+
+    return $ScriptName;
 }
 
 =head2 PathInfo
