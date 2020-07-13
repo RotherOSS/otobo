@@ -25299,3 +25299,39 @@ msgstr ""
 msgid "Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server's settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system."
 msgstr ""
 
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPSOAP
+msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPSOAP
+msgid "e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions"
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "Mit einem Klick erkläre ich meine Zustimmung."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
+msgid "Can't add web service for Elasticsearch. File %s not found!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
+msgid "Please convert your database to the character set 'utf8mb4'."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
+msgid "There were tables found which do not have 'utf8mb4' as charset."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
+msgid "Some packages are not verified by the OTOBO Team."
+msgstr ""
+
+#. SysConfig
+msgid "Jump to OTOBO!"
+msgstr ""
+
