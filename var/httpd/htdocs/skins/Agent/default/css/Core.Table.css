@@ -287,7 +287,7 @@ table tr.MasterAction {
 .TableSmall {
     width: 100%;
     font-size: 12px;
-    color: #303030;
+    color: #00023c;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     background: #FFF;
@@ -457,7 +457,7 @@ thead .headerSortDown a {
 }
 
 .TableSmall td a {
-    color: #303030;
+    color: #00023c;
 }
 
 .TableSmall tr:hover td a,
