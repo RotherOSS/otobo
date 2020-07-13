@@ -123,7 +123,7 @@ sub Run {
     if ( !-f $DirOfSQLFiles ) {
         $Result{Message} = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
         $Result{Comment} = $Self->{LanguageObject}
-            ->Translate( 'Can\'t add web service for Elasticsearch. File %s not found!.', $DirOfSQLFiles );
+            ->Translate( 'Can\'t add web service for Elasticsearch. File %s not found!', $DirOfSQLFiles );
         $Result{Successful} = 0;
         return \%Result;
     }
