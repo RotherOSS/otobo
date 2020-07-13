@@ -297,7 +297,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .ItemListGrid.WithIcons > li span.Icons i {
-    color: #888;
+    color: #7f809d;
     font-size: 20px;
 }
 
@@ -334,7 +334,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    color: #555;
+    color: #00023c;
 }
 
 
