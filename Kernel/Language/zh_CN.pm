@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.930675345809601;
+    $Self->{Completeness}        = 0.930489988604916;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -1165,7 +1165,7 @@ sub Data {
         'Endpoint' => '端点',
         'URI to indicate specific location for accessing a web service.' =>
             '用于指示访问Web服务的特定位置的URI。',
-        'e.g https://www.otobo.ch:10745/api/v1.0 (without trailing backslash)' =>
+        'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
             '',
         'Timeout' => '超时',
         'Timeout value for requests.' => '请求的超时值。',
@@ -1221,7 +1221,7 @@ sub Data {
         'The default HTTP command to use for the requests.' => '用于请求的默认HTTP命令。',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'e.g. https://local.otrs.com:8000/Webservice/Example' => '例如： https://local.otrs.com:8000/Webservice/Example',
+        'e.g. https://local.otobo.de:8000/Webservice/Example' => '',
         'Set SOAPAction' => '设置SOAP动作',
         'Set to "Yes" in order to send a filled SOAPAction header.' => '设置为“是”，发送填写了的SOAPAction 头。',
         'Set to "No" in order to send an empty SOAPAction header.' => '设置为“否”，发送空白SOAPAction 头。',
@@ -1241,7 +1241,7 @@ sub Data {
         'Text to be used to as SOAPAction.' => '要用作SOAPAction的文本。',
         'Namespace' => '命名空间',
         'URI to give SOAP methods a context, reducing ambiguities.' => '为SOAP方法指定URI(通用资源标识符), 以便消除二义性。',
-        'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
+        'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
             '',
         'Request name scheme' => '请求名称方案',
         'Select how SOAP request function wrapper should be constructed.' =>
@@ -2936,7 +2936,7 @@ sub Data {
         'go back to the previous page' => '返回上一页',
 
         # Template: CustomerAccept
-        'Yes, I accepted your license.' => '',
+        'Mit einem Klick erkläre ich meine Zustimmung.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -5096,7 +5096,7 @@ sub Data {
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
         'Migrate web service configuration.' => '',
         'No web service existent, done.' => '',
-        'Can\'t add web service for Elasticsearch. File %s not found!.' =>
+        'Can\'t add web service for Elasticsearch. File %s not found!' =>
             '',
         'Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed.' =>
             '',
@@ -5287,12 +5287,11 @@ sub Data {
         'Client Connection Charset' => '客户端连接字符集',
         'Setting character_set_client needs to be utf8.' => 'character_set_client 需要设置为utf8。',
         'Server Database Charset' => '服务器端数据库字符集',
-        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+        'Please convert your database to the character set \'utf8mb4\'.' =>
             '',
-        'The setting character_set_database needs to be \'utf8\'.' => 'character_set_database 需要设置为\'utf8\'。',
         'Table Charset' => '表字符集',
-        'There were tables found which do not have \'utf8\' as charset.' =>
-            '字符集没有设置成 \'utf8\'的表。',
+        'There were tables found which do not have \'utf8mb4\' as charset.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
         'InnoDB Log File Size' => 'InnoDB日志文件大小',
@@ -5476,8 +5475,7 @@ sub Data {
         'Some packages have locally modified files.' => '一些软件包有在本地修改过的文件。',
         'Some packages are not correctly installed.' => '一些软件包没有正确安装。',
         'Package Verification Status' => '软件包验证状态',
-        'Some packages are not verified by the OTOBO Team! It is recommended not to use this packages.' =>
-            '',
+        'Some packages are not verified by the OTOBO Team.' => '',
         'Package Framework Version Status' => '软件包框架版本状态',
         'Some packages are not allowed for the current framework version.' =>
             '一些软件包无法在当前的框架版本中使用。',
@@ -7958,7 +7956,7 @@ Thanks for your help!
         'Ivory (Slim)' => '象牙白（修身版）',
         'Japanese' => '日语',
         'JavaScript function for the search frontend.' => '搜索界面的JavaScript函数。',
-        'Jump to Znuny!' => '',
+        'Jump to OTOBO!' => '',
         'Korean' => '韩语',
         'Language' => '语言',
         'Large' => '详细',
@@ -9051,8 +9049,6 @@ Thanks for your help!
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '每次请求时这个模块和它的PreRun()函数（如果定义了）将被执行。',
         'This module is being used to extend the password policy.' => '',
-        'This module is part of the admin area of OTOBO Community Edition.' =>
-            '',
         'This module is part of the admin area of OTOBO.' => '这个模块是OTOBO系统管理的一部分。',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             '这个选项定义存储流程管理活动条目ID的动态字段。',

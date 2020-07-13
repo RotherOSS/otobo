@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.398209926769731;
+    $Self->{Completeness}        = 0.398339573498291;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1167,7 +1167,7 @@ sub Data {
         'Endpoint' => 'Point d\'extrémité',
         'URI to indicate specific location for accessing a web service.' =>
             '',
-        'e.g https://www.otobo.ch:10745/api/v1.0 (without trailing backslash)' =>
+        'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
             '',
         'Timeout' => '',
         'Timeout value for requests.' => '',
@@ -1223,7 +1223,7 @@ sub Data {
         'The default HTTP command to use for the requests.' => 'La commande HTTP par défaut à utiliser pour les requêtes.',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'e.g. https://local.otrs.com:8000/Webservice/Example' => '',
+        'e.g. https://local.otobo.de:8000/Webservice/Example' => '',
         'Set SOAPAction' => '',
         'Set to "Yes" in order to send a filled SOAPAction header.' => '',
         'Set to "No" in order to send an empty SOAPAction header.' => '',
@@ -1243,7 +1243,7 @@ sub Data {
         'Text to be used to as SOAPAction.' => '',
         'Namespace' => 'Espace de nommage',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'Identifiant uniforme de ressource (URI) pour offrir un contexte aux méthodes du protocole SOAP et réduire ainsi les ambiguïtés.',
-        'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
+        'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
             '',
         'Request name scheme' => '',
         'Select how SOAP request function wrapper should be constructed.' =>
@@ -2938,7 +2938,7 @@ sub Data {
         'go back to the previous page' => 'Revenir à la page précédente',
 
         # Template: CustomerAccept
-        'Yes, I accepted your license.' => '',
+        'Mit einem Klick erkläre ich meine Zustimmung.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -5098,7 +5098,7 @@ sub Data {
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
         'Migrate web service configuration.' => '',
         'No web service existent, done.' => '',
-        'Can\'t add web service for Elasticsearch. File %s not found!.' =>
+        'Can\'t add web service for Elasticsearch. File %s not found!' =>
             '',
         'Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed.' =>
             '',
@@ -5289,11 +5289,10 @@ sub Data {
         'Client Connection Charset' => '',
         'Setting character_set_client needs to be utf8.' => '',
         'Server Database Charset' => '',
-        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+        'Please convert your database to the character set \'utf8mb4\'.' =>
             '',
-        'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => '',
-        'There were tables found which do not have \'utf8\' as charset.' =>
+        'There were tables found which do not have \'utf8mb4\' as charset.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
@@ -5478,8 +5477,7 @@ sub Data {
         'Some packages have locally modified files.' => '',
         'Some packages are not correctly installed.' => 'Des paquets ne sont pas correctement installés.',
         'Package Verification Status' => '',
-        'Some packages are not verified by the OTOBO Team! It is recommended not to use this packages.' =>
-            '',
+        'Some packages are not verified by the OTOBO Team.' => '',
         'Package Framework Version Status' => '',
         'Some packages are not allowed for the current framework version.' =>
             '',
@@ -7951,7 +7949,7 @@ Thanks for your help!
         'Ivory (Slim)' => '',
         'Japanese' => 'Japonais',
         'JavaScript function for the search frontend.' => '',
-        'Jump to Znuny!' => '',
+        'Jump to OTOBO!' => '',
         'Korean' => '',
         'Language' => 'Langue',
         'Large' => 'Grand',
@@ -9044,8 +9042,6 @@ Thanks for your help!
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '',
         'This module is being used to extend the password policy.' => '',
-        'This module is part of the admin area of OTOBO Community Edition.' =>
-            '',
         'This module is part of the admin area of OTOBO.' => '',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             '',

@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.932302685109845;
+    $Self->{Completeness}        = 0.932117857724239;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1164,7 +1164,7 @@ sub Data {
         'Endpoint' => 'Végpont',
         'URI to indicate specific location for accessing a web service.' =>
             'Adott helyet jelző URI egy webszolgáltatáshoz való hozzáféréshez.',
-        'e.g https://www.otobo.ch:10745/api/v1.0 (without trailing backslash)' =>
+        'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
             '',
         'Timeout' => 'Időkorlát',
         'Timeout value for requests.' => 'Időkorlátérték a kérésekhez.',
@@ -1220,7 +1220,7 @@ sub Data {
         'The default HTTP command to use for the requests.' => 'A kéréseknél használandó alapértelmezett HTTP parancs.',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'e.g. https://local.otrs.com:8000/Webservice/Example' => 'például https://local.otrs.com:8000/Webservice/Example',
+        'e.g. https://local.otobo.de:8000/Webservice/Example' => '',
         'Set SOAPAction' => 'SOAP-művelet beállítása',
         'Set to "Yes" in order to send a filled SOAPAction header.' => 'Állítsa „Igen” értékre egy kitöltött SOAP-művelet fejléc küldéséhez.',
         'Set to "No" in order to send an empty SOAPAction header.' => 'Állítsa „Nem” értékre egy üres SOAP-művelet fejléc küldéséhez.',
@@ -1240,7 +1240,7 @@ sub Data {
         'Text to be used to as SOAPAction.' => 'SOAP-műveletként használandó szöveg.',
         'Namespace' => 'Névtér',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI egy környezethez való SOAP metódusok adásához csökkentve a kétértelműséget.',
-        'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
+        'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
             '',
         'Request name scheme' => 'Kérés névséma',
         'Select how SOAP request function wrapper should be constructed.' =>
@@ -2935,7 +2935,7 @@ sub Data {
         'go back to the previous page' => 'visszatérés az előző oldalra',
 
         # Template: CustomerAccept
-        'Yes, I accepted your license.' => '',
+        'Mit einem Klick erkläre ich meine Zustimmung.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -5095,7 +5095,7 @@ sub Data {
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
         'Migrate web service configuration.' => '',
         'No web service existent, done.' => '',
-        'Can\'t add web service for Elasticsearch. File %s not found!.' =>
+        'Can\'t add web service for Elasticsearch. File %s not found!' =>
             '',
         'Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed.' =>
             '',
@@ -5286,12 +5286,11 @@ sub Data {
         'Client Connection Charset' => 'Kliens kapcsolat karakterkészlete',
         'Setting character_set_client needs to be utf8.' => 'A character_set_client beállításnak utf8 értékűnek kell lennie.',
         'Server Database Charset' => 'Kiszolgáló adatbázis karakterkészlete',
-        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+        'Please convert your database to the character set \'utf8mb4\'.' =>
             '',
-        'The setting character_set_database needs to be \'utf8\'.' => 'A character_set_database beállításnak „utf8” értékűnek kell lennie.',
         'Table Charset' => 'Tábla karakterkészlete',
-        'There were tables found which do not have \'utf8\' as charset.' =>
-            'Olyan táblák találhatók, amelyek nem „utf8” karakterkészletűek.',
+        'There were tables found which do not have \'utf8mb4\' as charset.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
         'InnoDB Log File Size' => 'InnoDB naplófájl méret',
@@ -5475,8 +5474,7 @@ sub Data {
         'Some packages have locally modified files.' => 'Néhány csomag helyileg módosított fájlokkal rendelkezik.',
         'Some packages are not correctly installed.' => 'Néhány csomag nincs megfelelően telepítve.',
         'Package Verification Status' => 'Csomagellenőrzési állapot',
-        'Some packages are not verified by the OTOBO Team! It is recommended not to use this packages.' =>
-            '',
+        'Some packages are not verified by the OTOBO Team.' => '',
         'Package Framework Version Status' => 'Csomag keretrendszer verziójának állapota',
         'Some packages are not allowed for the current framework version.' =>
             'Néhány csomag nem engedélyezett a jelenlegi keretrendszer verzióhoz.',
@@ -7959,7 +7957,7 @@ Az Ön segélyszolgálat csapata
         'Ivory (Slim)' => 'Elefántcsont (karcsú)',
         'Japanese' => 'Japán',
         'JavaScript function for the search frontend.' => 'JavaScript függvény a keresési előtétprogramhoz.',
-        'Jump to Znuny!' => '',
+        'Jump to OTOBO!' => '',
         'Korean' => 'Koreai',
         'Language' => 'Nyelv',
         'Large' => 'Nagy',
@@ -9052,8 +9050,6 @@ Az Ön segélyszolgálat csapata
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'Ez a modul és annak PreRun() függvénye lesz végrehajtva minden kérésnél, ha meg van határozva. Ez a modul néhány felhasználói beállítás ellenőrzéséhez vagy az új alkalmazásokkal kapcsolatos hírek megjelenítéséhez hasznos.',
         'This module is being used to extend the password policy.' => '',
-        'This module is part of the admin area of OTOBO Community Edition.' =>
-            '',
         'This module is part of the admin area of OTOBO.' => 'Ez a modul az OTOBO adminisztrációs területének a része.',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             'Ez a beállítás határozza meg azt a dinamikus mezőt, amelyben a folyamatkezelő tevékenység-entitás azonosítója tárolva van.',
