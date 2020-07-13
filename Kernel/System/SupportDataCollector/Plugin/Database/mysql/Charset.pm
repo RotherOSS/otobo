@@ -72,7 +72,7 @@ sub Run {
                 ),
             );
         }
-	    else {
+        else {
             $Self->AddResultOk(
                 Identifier => 'ServerEncoding',
                 Label      => Translatable('Server Database Charset'),
