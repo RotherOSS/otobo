@@ -68,22 +68,6 @@ sub new {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # OTRS stores binary data in some columns. On some database systems,
-    #   these are handled differently (data is converted to base64-encoding before
-    #   it is stored. Here is the list of these columns which need special treatment.
-
-    # Create function BlobColumnsList to get this info.
-    # TODO: Remove after testing
-    #my %BlobColumns;
-    #$BlobColumns{"article_data_mime_plain.body"} = 1;
-    #$BlobColumns{"article_data_mime_attachment.content"} = 1;
-    #$BlobColumns{"virtual_fs_db.content"} = 1;
-    #$BlobColumns{"web_upload_cache.content"} = 1;
-    #$BlobColumns{"standard_attachment.content"} = 1;
-    #$BlobColumns{"faq_attachment.content"} = 1;
-    #$BlobColumns{"change_template.content"} = 1;
-    #$BlobColumns{"mail_queue.raw_message"} = 1;
-
     my %CheckEncodingColumns;
     $CheckEncodingColumns{"article_data_mime.a_body"}              = 1;
     $CheckEncodingColumns{"article_data_mime_attachment.filename"} = 1;
@@ -222,33 +206,37 @@ sub DataTransfer {
     }
 
     # set the source db specific backend
-    my $SourceDBBackend = 'CloneDB' . $Param{OTRSDBSettings}->{DBType} . 'Object';
+    my $SourceDBBackend = 'CloneDB' . $Param{OTRSDBObject}->{'DB::Type'} . 'Object';
 
     if ( !$Self->{$SourceDBBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend " . $Param{OTRSDBSettings}->{DBType} . " is invalid!",
+            Message  => "Backend " . $Param{OTRSDBObject}->{'DB::Type'} . " is invalid!",
         );
 
         return;
     }
 
-    #    # set the target db specific backend
-    #    my $OTOBODBBackend = 'CloneDB' . $Param{DBInfo}->{'OTOBODBType'} . 'Object';
-    #
-    #    if ( !$Self->{$OTOBODBBackend} ) {
-    #        $Kernel::OM->Get('Kernel::System::Log')->Log(
-    #            Priority => 'error',
-    #            Message  => "Backend $Param{DBInfo}->{'OTOBODBType'} is invalid!",
-    #        );
-    #
-    #        return;
-    #    }
+    # get OTOBO db object
+    my $OTOBODBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # set the target db specific backend
+    my $OTOBODBBackend = 'CloneDB' . $OTOBODBObject->{'DB::Type'} . 'Object';
+
+    if ( !$Self->{$OTOBODBBackend} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Backend $OTOBODBObject->{'DB::Type'} is invalid!",
+    );
+
+        return;
+    }
 
     # call DataTransfer on the specific backend
     my $DataTransfer = $Self->{$SourceDBBackend}->DataTransfer(
         OTRSDBObject  => $Param{OTRSDBObject},
-        OTRSDBBackend => $Self->{$SourceDBBackend},
+        OTOBODBObject  => $OTOBODBObject,
+        OTOBODBBackend => $Self->{$OTOBODBBackend},
         DBInfo        => $Param{OTRSDBSettings},
         DryRun        => $Param{DryRun},
         Force         => $Param{Force},
@@ -281,12 +269,12 @@ sub SanityChecks {
     }
 
     # set the clone db specific backend
-    my $CloneDBBackend = 'CloneDB' . $Kernel::OM->Get('Kernel::System::DB')->{'DB::Type'} . 'Object';
+    my $CloneDBBackend = 'CloneDB' . $Param{OTRSDBObject}->{'DB::Type'} . 'Object';
 
     if ( !$Self->{$CloneDBBackend} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend " . $Kernel::OM->Get('Kernel::System::DB')->{'DB::Type'} . " is invalid!",
+            Message  => "Backend " . $Param{OTRSDBObject}->{'DB::Type'} . " is invalid!",
         );
 
         return;

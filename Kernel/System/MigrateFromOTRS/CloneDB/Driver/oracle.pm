@@ -290,6 +290,143 @@ sub BlobColumnsList {
     return \%Result;
 }
 
+#
+#
+# Get column infos
+# return DATA_TYPE
+
+sub GetColumnInfos {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DBObject DBName Table Column)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    $Param{DBObject}->Prepare(
+        SQL => "
+            SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE
+            FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_CATALOG = ?
+            AND TABLE_NAME = ? AND COLUMN_NAME = ?",
+
+        Bind => [
+            \$Param{DBName}, \$Param{Table}, \$Param{Column},
+        ],
+    ) || return {};
+
+    my %Result;
+    while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
+        $Result{COLUMN}      = $Row[0];
+        $Result{DATA_TYPE}   = $Row[1];
+        $Result{LENGTH}      = $Row[2];
+        $Result{IS_NULLABLE} = $Row[3];
+    }
+    return \%Result;
+}
+
+#
+#
+# Translate column infos
+# return DATA_TYPE
+
+sub TranslateColumnInfos {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DBType ColumnInfos)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    my %ColumnInfos = %{ $Param{ColumnInfos} };
+
+    my %Result;
+
+    if ( $Param{DBType} =~ /mysql/ ) {
+        $Result{varchar}    = 'VARCHAR';
+        $Result{int}        = 'INTEGER';
+        $Result{datetime}   = 'DATETIME';
+        $Result{smallint}   = 'SMALLINT';
+        $Result{longblob}   = 'LONGBLOB';
+        $Result{mediumtext} = 'MEDIUMTEXT';
+    }
+    elsif ( $Param{DBType} =~ /postgresql/ ) {
+        $Result{VARCHAR}    = 'VARCHAR';
+        $Result{INTEGER}    = 'INTEGER';
+        $Result{DATETIME}   = 'timestamp';
+        $Result{SMALLINT}   = 'SMALLINT';
+        $Result{LONGBLOB}   = 'TEXT';
+        $Result{mediumtext} = 'VARCHAR';
+    }
+    elsif ( $Param{DBType} =~ /oracle/ ) {
+        $Result{VARCHAR}    = 'VARCHAR2';
+        $Result{INTEGER}    = 'NUMBER';
+        $Result{DATETIME}   = 'DATE';
+        $Result{SMALLINT}   = 'NUMBER';
+        $Result{LONGBLOB}   = 'CLOB';
+        $Result{mediumtext} = 'CLOB';
+    }
+    $ColumnInfos{DATA_TYPE} = $Result{ $Param{ColumnInfos}->{DATA_TYPE} };
+
+    return \%ColumnInfos;
+}
+
+#
+#
+# Alter table add column
+#
+sub AlterTableAddColumn {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DBObject Table Column ColumnInfos)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    my %ColumnInfos = %{ $Param{ColumnInfos} };
+
+    my $SQL = "ALTER TABLE $Param{Table} ADD $Param{Column} $ColumnInfos{DATA_TYPE}";
+
+    if ( $ColumnInfos{LENGTH} ) {
+        $SQL .= " \($ColumnInfos{LENGTH}\)";
+    }
+
+    if ( $ColumnInfos{IS_NULLABLE} =~ /no/ ) {
+        $SQL .= " NOT NULL";
+    }
+
+    my $Success = $Param{DBObject}->Do(
+        SQL => $SQL,
+    );
+
+    if ( !$Success ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Could not execute SQL statement: $SQL.",
+        );
+        return;
+    }
+    return 1;
+}
+
+
 1;
 
 =back

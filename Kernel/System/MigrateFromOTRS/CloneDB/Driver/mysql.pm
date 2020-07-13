@@ -264,19 +264,19 @@ sub TranslateColumnInfos {
         $Result{mediumtext} = 'MEDIUMTEXT';
     }
     elsif ( $Param{DBType} =~ /postgresql/ ) {
-        $Result{VARCHAR}    = 'VARCHAR';
-        $Result{INTEGER}    = 'INTEGER';
-        $Result{DATETIME}   = 'timestamp';
-        $Result{SMALLINT}   = 'SMALLINT';
-        $Result{LONGBLOB}   = 'TEXT';
+        $Result{varchar}    = 'VARCHAR';
+        $Result{int}        = 'INTEGER';
+        $Result{datetime}   = 'timestamp';
+        $Result{smallint}   = 'SMALLINT';
+        $Result{longblob}   = 'TEXT';
         $Result{mediumtext} = 'VARCHAR';
     }
     elsif ( $Param{DBType} =~ /oracle/ ) {
         $Result{VARCHAR}    = 'VARCHAR2';
-        $Result{INTEGER}    = 'NUMBER';
-        $Result{DATETIME}   = 'DATE';
-        $Result{SMALLINT}   = 'NUMBER';
-        $Result{LONGBLOB}   = 'CLOB';
+        $Result{int}        = 'NUMBER';
+        $Result{datetime}   = 'DATE';
+        $Result{smallint}   = 'NUMBER';
+        $Result{longblob}   = 'CLOB';
         $Result{mediumtext} = 'CLOB';
     }
     $ColumnInfos{DATA_TYPE} = $Result{ $Param{ColumnInfos}->{DATA_TYPE} };

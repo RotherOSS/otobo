@@ -179,7 +179,7 @@ sub DataTransfer {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(OTRSDBObject OTRSDBBackend DBInfo)) {
+    for my $Needed (qw(OTRSDBObject OTOBODBObject OTOBODBBackend DBInfo)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -201,7 +201,7 @@ sub DataTransfer {
     my %RenameTables    = %{$RenameTablesRef};
 
     # get OTOBO db object
-    my $TargetDBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $TargetDBObject = $Param{OTOBODBObject};
 
     # get a list of tables on OTRS DB
     my @Tables = $Self->TablesList(
@@ -209,7 +209,7 @@ sub DataTransfer {
     );
 
     # get a list of tables on OTOBO DB
-    my @OTOBOTables = $Self->TablesList(
+    my @OTOBOTables = $Param{OTOBODBBackend}->TablesList(
         DBObject => $TargetDBObject,
     );
 
@@ -217,13 +217,9 @@ sub DataTransfer {
     if ( $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
         $TargetDBObject->Do( SQL => 'SET FOREIGN_KEY_CHECKS = 0' );
 
-    }
-    elsif ( $TargetDBObject->{'DB::Type'} eq 'postgresql' ) {
-        $TargetDBObject->Do( SQL => 'SET CONSTRAINTS ALL DEFERRED' );
-    }
-    elsif ( $TargetDBObject->{'DB::Type'} eq 'oracle' ) {
+    } elsif ( $TargetDBObject->{'DB::Type'} eq 'postgresql' ) {
+            $TargetDBObject->Do( SQL => 'set session_replication_role to replica;' );
 
-        # TODO: $TargetDBObject->Do( SQL  => 'SET FOREIGN_KEY_CHECKS = 0' );
     }
 
     # Delete OTOBO content from table
@@ -309,7 +305,7 @@ sub DataTransfer {
             Priority => "notice",
         );
 
-        # get a list of blob columns from OTOBO DB
+        # get a list of blob columns from OTRS DB
         my $BlobColumnsRef = $Self->BlobColumnsList(
             Table    => $Table,
             DBName   => $Param{DBInfo}->{DBName},
@@ -342,7 +338,7 @@ sub DataTransfer {
             );
 
             # Get OTOBO Column infos
-            my $ColumnOTOBOInfos = $Self->GetColumnInfos(
+            my $ColumnOTOBOInfos = $Param{OTOBODBBackend}->GetColumnInfos(
                 Table    => $RenameTables{$Table} // $Table,
                 DBName   => $ConfigObject->Get('Database'),
                 DBObject => $TargetDBObject,
@@ -351,7 +347,7 @@ sub DataTransfer {
 
             # First we need to check if the Table / Column exists in the OTOBO DB. If not,
             # we don´t need to cut the content I think.
-            if ( IsHashRefWithData($ColumnOTOBOInfos) ) {
+            if ( IsHashRefWithData($ColumnOTOBOInfos) && $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
                 if ( $ColumnInfos->{DATA_TYPE} eq 'varchar' && $ColumnInfos->{LENGTH} > $ColumnOTOBOInfos->{LENGTH} ) {
                     $ShortenColumn{$Column} = $Column;
 
@@ -368,7 +364,7 @@ sub DataTransfer {
         my @ColumnsOTRS;
         push( @ColumnsOTRS, @{$ColumnRef} );
 
-        my $ColumnRefOTOBO = $Self->ColumnsList(
+        my $ColumnRefOTOBO = $Param{OTOBODBBackend}->ColumnsList(
             Table    => $RenameTables{$Table} // $Table,
             DBName   => $ConfigObject->Get('Database'),
             DBObject => $TargetDBObject,
@@ -396,12 +392,12 @@ sub DataTransfer {
                     Column   => $Column,
                 );
 
-                my $TranslatedColumnInfos = $Self->TranslateColumnInfos(
+                my $TranslatedColumnInfos = $Param{OTOBODBBackend}->TranslateColumnInfos(
                     ColumnInfos => $ColumnInfos,
-                    DBType      => $TargetDBObject->{'DB::Type'},
+                    DBType      => $Param{OTRSDBObject}->{'DB::Type'},
                 );
 
-                my $Result = $Self->AlterTableAddColumn(
+                my $Result = $Param{OTOBODBBackend}->AlterTableAddColumn(
                     Table       => $RenameTables{$Table} // $Table,
                     DBObject    => $TargetDBObject,
                     Column      => $Column,
@@ -508,6 +504,12 @@ sub DataTransfer {
             );
         }
     }
+
+    if ( $TargetDBObject->{'DB::Type'} eq 'postgresql' ) {
+            $TargetDBObject->Do( SQL => 'set session_replication_role to default;' );
+
+    }
+
     return 1;
 }
 
