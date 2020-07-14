@@ -72,7 +72,7 @@ sub Run {
                 ),
             );
         }
-	else ( $Row[1] =~ /utf8mb4/i ) {
+        else {
             $Self->AddResultOk(
                 Identifier => 'ServerEncoding',
                 Label      => Translatable('Server Database Charset'),

@@ -1041,7 +1041,7 @@ div.UnreadArticles i {
     top: 0px;
     z-index: 2;
     font-size: 14px;
-    color: #fef235;
+    color: #e5e5eb;
 }
 
 span.UnreadArticles em,
@@ -1058,13 +1058,9 @@ div.UnreadArticles i:first-child {
     top: -1px;
 }
 
-th span.UnreadArticles i {
-    color: #7f809d;
-}
-
 span.UnreadArticles.Remarkable i,
 div.UnreadArticles.Remarkable i {
-    color: #001bff;
+    color: #000099;
 }
 
 span.UnreadArticles.Ordinary,
@@ -1073,7 +1069,7 @@ div.UnreadArticles.Ordinary {
 }
 
 tbody tr:hover span.UnreadArticles i {
-    color: #fff;
+    color: #c4cdfa;
 }
 
 span.ImportantArticles {

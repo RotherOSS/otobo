@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.906102522375915;
+    $Self->{Completeness}        = 0.905909164903142;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -1159,7 +1159,7 @@ sub Data {
         'Endpoint' => '종점',
         'URI to indicate specific location for accessing a web service.' =>
             '웹 서비스에 액세스하기위한 특정 위치를 나타내는 URI.',
-        'e.g https://www.otobo.ch:10745/api/v1.0 (without trailing backslash)' =>
+        'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
             '',
         'Timeout' => '제한시간',
         'Timeout value for requests.' => '요청에 대한 시간 초과값 입니다.',
@@ -1215,7 +1215,7 @@ sub Data {
         'The default HTTP command to use for the requests.' => '요청에 사용할 기본 HTTP 명령입니다.',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'e.g. https://local.otrs.com:8000/Webservice/Example' => '예 : https://local.otrs.com:8000/Webservice/Example',
+        'e.g. https://local.otobo.de:8000/Webservice/Example' => '',
         'Set SOAPAction' => 'SOAPAction 설정',
         'Set to "Yes" in order to send a filled SOAPAction header.' => '채워진 SOAPAction 헤더를 보내려면 "Yes"로 설정하십시오.',
         'Set to "No" in order to send an empty SOAPAction header.' => '빈 SOAPAction 헤더를 보내려면 "아니오"로 설정하십시오.',
@@ -1235,7 +1235,7 @@ sub Data {
         'Text to be used to as SOAPAction.' => 'SOAPAction로서 사용되는 텍스트.',
         'Namespace' => '네임 스페이스',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI는 SOAP 메소드에 컨텍스트를 제공하여 모호성을 줄입니다.',
-        'e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
+        'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
             '',
         'Request name scheme' => '요청 이름 체계',
         'Select how SOAP request function wrapper should be constructed.' =>
@@ -2930,7 +2930,7 @@ sub Data {
         'go back to the previous page' => '이전 페이지로 돌아가기',
 
         # Template: CustomerAccept
-        'Yes, I accepted your license.' => '',
+        'Mit einem Klick erkläre ich meine Zustimmung.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -5090,7 +5090,7 @@ sub Data {
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
         'Migrate web service configuration.' => '',
         'No web service existent, done.' => '',
-        'Can\'t add web service for Elasticsearch. File %s not found!.' =>
+        'Can\'t add web service for Elasticsearch. File %s not found!' =>
             '',
         'Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed.' =>
             '',
@@ -5281,12 +5281,11 @@ sub Data {
         'Client Connection Charset' => '클라이언트 연결 문자 세트',
         'Setting character_set_client needs to be utf8.' => 'character_set_client 설정은 utf8이어야합니다.',
         'Server Database Charset' => '서버 데이터베이스 문자 세트',
-        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+        'Please convert your database to the character set \'utf8mb4\'.' =>
             '',
-        'The setting character_set_database needs to be \'utf8\'.' => '설정 character_set_database는 \'utf8\'이어야합니다.',
         'Table Charset' => '표 문자 집합',
-        'There were tables found which do not have \'utf8\' as charset.' =>
-            '\'utf8\'이없는 테이블이 charset으로 발견되었습니다.',
+        'There were tables found which do not have \'utf8mb4\' as charset.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
         'InnoDB Log File Size' => 'InnoDB 로그 파일 사이즈',
@@ -5470,8 +5469,7 @@ sub Data {
         'Some packages have locally modified files.' => '일부 패키지에는 로컬로 수정된 파일이 있습니다.',
         'Some packages are not correctly installed.' => '일부 패키지가 올바르게 설치되지 않았습니다.',
         'Package Verification Status' => '패키지 확인 상태',
-        'Some packages are not verified by the OTOBO Team! It is recommended not to use this packages.' =>
-            '',
+        'Some packages are not verified by the OTOBO Team.' => '',
         'Package Framework Version Status' => '패키지 프레임 워크 버전 상태',
         'Some packages are not allowed for the current framework version.' =>
             '일부 패키지는 현재 프레임 워크 버전에 허용되지 않습니다.',
@@ -7954,7 +7952,7 @@ Thanks for your help!
         'Ivory (Slim)' => '아이보리(슬림)',
         'Japanese' => '일본어',
         'JavaScript function for the search frontend.' => '검색 프론트 엔드 용 JavaScript 함수.',
-        'Jump to Znuny!' => '',
+        'Jump to OTOBO!' => '',
         'Korean' => '',
         'Language' => '언어',
         'Large' => '큰',
@@ -9047,8 +9045,6 @@ Thanks for your help!
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '이 모듈과 PreRun () 함수는 모든 요청에 ​​대해 정의 된 경우 실행됩니다. 이 모듈은 일부 사용자 옵션을 확인하거나 새 응용 프로그램에 대한 뉴스를 표시하는 데 유용합니다.',
         'This module is being used to extend the password policy.' => '',
-        'This module is part of the admin area of OTOBO Community Edition.' =>
-            '',
         'This module is part of the admin area of OTOBO.' => '이 모듈은 OTOBO의 관리 영역의 일부입니다.',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             '이 옵션은 프로세스 관리 활동 엔티티ID가 저장되는 동적 필드를 정의합니다.',

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-07-11 09:59+0000\n"
+"POT-Creation-Date: 2020-07-13 13:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3475,7 +3475,7 @@ msgid "URI to indicate specific location for accessing a web service."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g https://www.otobo.ch:10745/api/v1.0 (without trailing backslash)"
+msgid "e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -3651,7 +3651,7 @@ msgid "The default HTTP command to use for the requests."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
-msgid "e.g. https://local.otrs.com:8000/Webservice/Example"
+msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
@@ -3719,7 +3719,7 @@ msgid "URI to give SOAP methods a context, reducing ambiguities."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
-msgid "e.g urn:otobo-com:soap:functions or http://www.otrs.com/GenericInterface/actions"
+msgid "e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
@@ -8611,7 +8611,7 @@ msgid "go back to the previous page"
 msgstr ""
 
 #. Template: CustomerAccept
-msgid "Yes, I accepted your license."
+msgid "Mit einem Klick erkläre ich meine Zustimmung."
 msgstr ""
 
 #. Template: TicketCustomerIDSelection
@@ -14295,7 +14295,7 @@ msgid "No web service existent, done."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
-msgid "Can't add web service for Elasticsearch. File %s not found!."
+msgid "Can't add web service for Elasticsearch. File %s not found!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
@@ -14759,11 +14759,7 @@ msgid "Server Database Charset"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
-msgid "This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set 'utf8'."
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
-msgid "The setting character_set_database needs to be 'utf8'."
+msgid "Please convert your database to the character set 'utf8mb4'."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
@@ -14771,7 +14767,7 @@ msgid "Table Charset"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
-msgid "There were tables found which do not have 'utf8' as charset."
+msgid "There were tables found which do not have 'utf8mb4' as charset."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
@@ -15167,7 +15163,7 @@ msgid "Package Verification Status"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
-msgid "Some packages are not verified by the OTOBO Team! It is recommended not to use this packages."
+msgid "Some packages are not verified by the OTOBO Team."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
@@ -21254,7 +21250,7 @@ msgid "JavaScript function for the search frontend."
 msgstr ""
 
 #. SysConfig
-msgid "Jump to Znuny!"
+msgid "Jump to OTOBO!"
 msgstr ""
 
 #. SysConfig
@@ -24075,10 +24071,6 @@ msgstr ""
 
 #. SysConfig
 msgid "This module is being used to extend the password policy."
-msgstr ""
-
-#. SysConfig
-msgid "This module is part of the admin area of OTOBO Community Edition."
 msgstr ""
 
 #. SysConfig
