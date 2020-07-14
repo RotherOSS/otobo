@@ -529,13 +529,13 @@ sub Run {
                 # The advantage is that no encryption keys have to be set up.
                 # The syntax for CREATE USER is not completely the same between MySQL and MariaDB. Therfore
                 # a case switch must be used here.
-                my $CreateUserSQL = "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password";
+                my $CreateUserSQL;
                 {
                     if ( $DBH->{mysql_serverinfo} =~ m/mariadb/i ) {
-                        $CreateUserSQL .= " AS PASSWORD('$DB{OTOBODBPassword}')",
+                        $CreateUserSQL .= "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$DB{OTOBODBPassword}'",
                     }
                     else {
-                        $CreateUserSQL .= " BY '$DB{OTOBODBPassword}'",
+                        $CreateUserSQL .= "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password BY '$DB{OTOBODBPassword}'",
                     }
                 }
 
