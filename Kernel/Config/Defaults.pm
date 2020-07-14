@@ -22,12 +22,9 @@
 
 package Kernel::Config::Defaults;
 
-use strict;
+use v5.24;      # Perl 5.24.0 is the required minimum version to use OTOBO.
 use warnings;
 use utf8;
-
-# Perl 5.24.0 is the required minimum version to use OTOBO.
-use 5.24.0;
 
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename qw(dirname);
@@ -96,8 +93,8 @@ sub LoadDefaults {
     $Self->{FQDN} = 'yourhost.example.com';
 
     # HttpType
-    # In case you use HTTPS instead of plain HTTP specify it here
-    $Self->{HttpType} = 'http';
+    # Specify 'http' in case you want to use plain HTTP
+    $Self->{HttpType} = 'https';
 
     # ScriptAlias
     # Prefix to index.pl used as ScriptAlias in web config
@@ -1969,7 +1966,7 @@ sub new {
         for my $File (@Files) {
 
             # do not use ZZZ files
-            if ( $Param{Level} && $Param{Level} eq 'Default' && $File =~ /ZZZ/ ) {
+            if ( $Param{Level} && $Param{Level} eq 'Default' && $File =~ m/ZZZ/ ) {
                 next FILE;
             }
 

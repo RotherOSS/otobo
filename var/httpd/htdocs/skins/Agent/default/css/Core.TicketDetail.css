@@ -819,7 +819,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 .UseArticleColors .customer-email-external:hover > td,
 .UseArticleColors .customer-note-external:hover > td,
 .UseArticleColors .customer-phone:hover > td {
-    background: #FCB24B !important;
+    background: #fffccc !important;
 }
 
 /**

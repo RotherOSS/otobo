@@ -47,8 +47,8 @@
 [% RenderBlockEnd("Restart") %]
                     <label>[% Translate("Start page") | html %]:</label>
                     <div class="Field">
-                        <a href="http://[% Data.Host | html %]/[% Data.OTOBOHandle %]/index.pl">
-                            http://[% Data.Host | html %]/[% Data.OTOBOHandle %]/index.pl
+                        <a href="[% Data.Scheme || 'http' %]://[% Data.Host | html %]/[% Data.OTOBOHandle %]/index.pl">
+                            [% Data.Scheme || 'http' %]://[% Data.Host | html %]/[% Data.OTOBOHandle %]/index.pl
                         </a>
                     </div>
                     <div class="Clear"></div>

@@ -558,7 +558,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     left: 0px;
     display: block;
     z-index: 99;
-    background: #333;
+    background: #00023c;
     min-width: 100%;
 }
 
@@ -576,11 +576,11 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 }
 
 #Navigation > .Active > ul > li:hover {
-    background: #f5af36;
+    background: #fef235;
 }
 
 #Navigation > .Active > ul > li:hover > a {
-    color: #000;
+    color: #00023c;
 }
 
 #Navigation > .Active > ul > li > a {

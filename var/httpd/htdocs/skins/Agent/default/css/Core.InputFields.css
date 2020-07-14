@@ -69,7 +69,19 @@ div.InputField_InputContainer {
 }
 
 @media only screen and (min-width: 1025px) {
-    fieldset.TableLike > .Field > select.Modernize,
+    fieldset.TableLike > .Field > .Modernize#TypeID,
+    fieldset.TableLike > .Field > .Modernize#Dest,
+    fieldset.TableLike > .Field > .Modernize#NewQueueID,
+    fieldset.TableLike > .Field > .Modernize#ServiceID,
+    fieldset.TableLike > .Field > .Modernize#SLAID,
+    fieldset.TableLike > .Field > .Modernize#NewUserID,
+    fieldset.TableLike > .Field > .Modernize#NewOwnerID,
+    fieldset.TableLike > .Field > .Modernize#NewResponsibleID,
+    fieldset.TableLike > .Field > .Modernize#StandardTemplateID,
+    fieldset.TableLike > .Field > .Modernize#NextStateID,
+    fieldset.TableLike > .Field > .Modernize#NewStateID,
+    fieldset.TableLike > .Field > .Modernize#PriorityID,
+    fieldset.TableLike > .Field > .Modernize#NewPriorityID,
     fieldset.TableLike > .Row > .Field > select.Modernize {
         min-width: 300px;
     }
@@ -96,7 +108,7 @@ div.InputField_InputContainer {
 }
 
 #Header div.InputField_Container {
-    color: #000;
+    color: #00023c;
 }
 
 #ToolBar li.Extended form div.InputField_Container * {
@@ -137,7 +149,7 @@ div.InputField_InputContainer .InputField_Search {
 a.InputField_Action {
     position: absolute;
     display: block;
-    color: #000;
+    color: #00023c;
     top: 5px;
 }
 
@@ -254,7 +266,7 @@ div.InputField_ToolbarContainer ul li:last-child:after {
 }
 
 div.InputField_ToolbarContainer ul li a {
-    color: #000;
+    color: #00023c;
     display: inline-block;
     margin: 2px 5px;
     font-size: 11px;
@@ -262,7 +274,7 @@ div.InputField_ToolbarContainer ul li a {
 }
 
 div.InputField_ToolbarContainer i {
-    color: #000;
+    color: #00023c;
 }
 
 div.InputField_ToolbarContainer ul li a:hover {
@@ -334,7 +346,7 @@ div.InputField_ToolbarContainer ul li a:hover {
 
 .jstree-InputField .jstree-anchor {
     display: inline-block;
-    color: black;
+    color: #00023c;
     white-space: nowrap;
     padding: 0 4px 0 1px;
     margin: 0;
@@ -464,13 +476,13 @@ div.InputField_ToolbarContainer ul li a:hover {
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow:hover,
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-hovered,
 .jstree-InputField .jstree-focused > .jstree-wholerow {
-    background-color: #fef235;
+    background-color: #fffccc;
 }
 
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked:hover,
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked.jstree-wholerow-hovered,
 .jstree-InputField .jstree-focused > .jstree-wholerow-clicked {
-    background-color: #f72;
+    background-color: #fef235;
 }
 
 .jstree-InputField .Disabled > .jstree-wholerow:hover,

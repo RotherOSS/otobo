@@ -30,8 +30,9 @@ Support for running test scripts as standalone scripts.
 
 =cut
 
-use 5.24.0;
+use v5.24;
 use warnings;
+use utf8;
 
 # core modules
 

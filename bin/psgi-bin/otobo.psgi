@@ -49,9 +49,9 @@ Then point your browser at nytprof/index.html
 
 =cut
 
-use strict;
+use v5.24;
 use warnings;
-use 5.24.0;
+use utf8;
 
 # use ../../ as lib location
 use FindBin qw($Bin);
@@ -293,7 +293,7 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT PLACK SUPPORT IS AS OF JUNE 26TH 2020 EXPERIMENTAL AND NOT SUPPORTED!\n";
+warn "PLEASE NOTE THAT AS OF JULY 11TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
 
 # conditionally enable profiling
 my $NYTProfMiddleWare = sub {
@@ -404,10 +404,16 @@ my $AdminOnlyMiddeware = sub {
 my $HelloApp = sub {
     my $env = shift;
 
+    # Initially $Message is a string with active UTF8-flag.
+    # But turn it into a byte array, at that is wanted by Plack.
+    # The actual bytes are not changed.
+    my $Message = "Hallo 🌍!";
+    utf8::encode( $Message );
+
     return [
         '200',
         [ 'Content-Type' => 'text/plain;charset=utf-8' ],
-        [ "Hallo 🌍!" ], # or IO::Handle-like object
+        [ $Message ],
     ];
 };
 
@@ -433,13 +439,14 @@ my $DBViewerApp = builder {
     enable $AdminOnlyMiddeware;
 
     # rewrite PATH_INFO, not sure why, but at least it seems to work
-    enable 'Rewrite', request => sub {
-        $_ ||= '/dbviewer/';
-        $_ = '/dbviewer/' if $_ eq '/';
-        $_ = '/otobo/dbviewer' . $_;
+    enable 'Plack::Middleware::Rewrite',
+        request => sub {
+            $_ ||= '/dbviewer/';
+            $_ = '/dbviewer/' if $_ eq '/';
+            $_ = '/otobo/dbviewer' . $_;
 
-        1;
-    };
+            1;
+        };
 
     my $server = Mojo::Server::PSGI->new;
     $server->load_app("$Bin/../mojo-bin/dbviewer.pl");
@@ -454,16 +461,20 @@ my $DBViewerApp = builder {
 my $StaticApp = builder {
 
     # Cache css-cache for 30 days
-    enable_if { $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css-cache/.*\.(?:css|CSS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=2592000 must-revalidate' ];
+    enable_if { $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css-cache/.*\.(?:css|CSS)$} } 'Plack::Middleware::Header',
+        set => [ 'Cache-Control' => 'max-age=2592000 must-revalidate' ];
 
     # Cache css thirdparty for 4 hours, including icon fonts
-    enable_if { $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css/thirdparty/.*\.(?:css|CSS|woff|svn)$} } 'Header', set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
+    enable_if { $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css/thirdparty/.*\.(?:css|CSS|woff|svn)$} } 'Plack::Middleware::Header',
+        set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
 
     # Cache js-cache for 30 days
-    enable_if { $_[0]->{PATH_INFO} =~ m{js/js-cache/.*\.(?:js|JS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=2592000 must-revalidate' ];
+    enable_if { $_[0]->{PATH_INFO} =~ m{js/js-cache/.*\.(?:js|JS)$} } 'Plack::Middleware::Header',
+        set => [ 'Cache-Control' => 'max-age=2592000 must-revalidate' ];
 
     # Cache js thirdparty for 4 hours
-    enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Header', set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
+    enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Plack::Middleware::Header',
+        set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
 
     Plack::App::File->new(root => "$Bin/../../var/httpd/htdocs")->to_app;
 };
@@ -471,19 +482,25 @@ my $StaticApp = builder {
 # Port of index.pl, customer.pl, public.pl, installer.pl, migration.pl, nph-genericinterface.pl to Plack.
 my $App = builder {
 
-    enable "Plack::Middleware::ErrorDocument",
+    enable 'Plack::Middleware::ErrorDocument',
         403 => '/otobo/index.pl';  # forbidden files
+
+    # a simplistic detection whether we are behind a revers proxy
+    enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
 
     # GATEWAY_INTERFACE is used for determining whether a command runs in a web context
     # Per default it would enable mysql_auto_reconnect.
     # But mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
     # OTOBO_RUNS_UNDER_PSGI indicates that PSGI is used.
-    enable ForceEnv =>
+    enable 'Plack::Middleware::ForceEnv',
         OTOBO_RUNS_UNDER_PSGI => '1',
         GATEWAY_INTERFACE     => 'CGI/1.1';
 
     # conditionally enable profiling
     enable $NYTProfMiddleWare;
+
+    # check ever 10s for changed Perl modules
+    enable 'Plack::Middleware::Refresh';
 
     # Set the appropriate %ENV and file handles
     CGI::Emulate::PSGI->handler(
@@ -499,7 +516,10 @@ my $App = builder {
             # %ENV has to be used here as the PSGI is not passed as an arg to this anonymous sub.
             # $ENV{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
             # $ENV{PATH_INFO} contains the path after the $ENV{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
-            # The extracted ScriptFileName should be something like index.pl, customer.pl, or rpc.pl
+            # The extracted ScriptFileName should be something like:
+            #     nph-genericinterface.pl, index.pl, customer.pl, or rpc.pl
+            # Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
+            # are gracefully ignored.
             my ($ScriptFileName) = ( ( $ENV{SCRIPT_NAME} // '' ) . ( $ENV{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
 
             # Fallback to agent login if we could not determine handle...
@@ -574,7 +594,7 @@ my $RPCApp = builder {
 
     # GATEWAY_INTERFACE is used for determining whether a command runs in a web context
     # OTOBO_RUNS_UNDER_PSGI is a signal that PSGI is used
-    enable ForceEnv =>
+    enable 'Plack::Middleware::ForceEnv',
         OTOBO_RUNS_UNDER_PSGI => '1',
         GATEWAY_INTERFACE     => 'CGI/1.1';
 
@@ -588,6 +608,9 @@ my $RPCApp = builder {
 };
 
 builder {
+
+    # for debugging
+    #enable 'Plack::Middleware::TrafficLog';
 
     # Server the static files in var/httpd/httpd.
     mount '/otobo-web'                     => $StaticApp;
@@ -610,4 +633,7 @@ builder {
 
     # some SOAP stuff
     mount '/otobo/rpc.pl'                  => $RPCApp;
+
+    # for debugging
+    #mount '/'                              => $HelloApp;
 };

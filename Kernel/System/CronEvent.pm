@@ -86,6 +86,19 @@ sub NextEventGet {
     my $StartDateTime = $Param{StartDateTime} || $Kernel::OM->Create('Kernel::System::DateTime');
     return if !$StartDateTime;
 
+    # Calculations are only made in UTC time zone to prevent errors with times that
+    # would not exist in the given time zone (e. g. on/around daylight saving time switch).
+    # CPAN DateTime fails if trying to create a object of a non-existing
+    # time in the given time zone. Converting it to UTC and back has the desired effect.
+    my $OTRSTimeZone = $StartDateTime->OTRSTimeZoneGet();
+    my $TimeZoneChanged;
+    if ( $OTRSTimeZone ne 'UTC' ) {
+        $StartDateTime->ToTimeZone(
+            TimeZone => 'UTC'
+        );
+        $TimeZoneChanged = 1;
+    }
+
     # init cron object
     my $CronObject = $Self->_Init(
         Schedule      => $Param{Schedule},
@@ -98,14 +111,21 @@ sub NextEventGet {
     my $EventDateTime = $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {
-            Year   => $Year + 1900,
-            Month  => $Month + 1,
-            Day    => $Day,
-            Hour   => $Hour,
-            Minute => $Min,
-            Second => $Sec,
+            Year     => $Year + 1900,
+            Month    => $Month + 1,
+            Day      => $Day,
+            Hour     => $Hour,
+            Minute   => $Min,
+            Second   => $Sec,
+            TimeZone => 'UTC'
         },
     );
+
+    if ($TimeZoneChanged) {
+        $EventDateTime->ToTimeZone(
+            TimeZone => $OTRSTimeZone
+        );
+    }
 
     return $EventDateTime->ToString();
 }

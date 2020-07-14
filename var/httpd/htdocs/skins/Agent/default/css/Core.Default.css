@@ -397,8 +397,8 @@ span.ReadyForUpload {
 }
 
 div.DnDUpload:focus {
-    border-color: #000;
-    color: #000;
+    border-color: #00023c;
+    color: #00023c;
 }
 
 input.AjaxDnDUpload.Error + div.DnDUpload {
@@ -510,7 +510,7 @@ table.AttachmentList .Delete {
 }
 
 table.AttachmentList .AttachmentDelete:focus i {
-    color: #000;
+    color: #00023c;
 }
 
 table.AttachmentList.DataTable thead th {
@@ -747,7 +747,7 @@ table.AttachmentList.DataTable thead th {
 }
 
 .BreadCrumb a {
-    color: #000;
+    color: #00023c;
     position: relative;
 }
 
@@ -757,7 +757,7 @@ table.AttachmentList.DataTable thead th {
     width: 0px;
     content: "";
     bottom: 0px;
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid #bfbfce;
     transition: all ease 0.3s;
 }
 
@@ -872,7 +872,7 @@ table.AttachmentList.DataTable thead th {
 
 .MessageBox {
     margin: 0px;
-    background: #F7AE40;
+    background: #fffccc;
     position: relative;
     z-index: 1;
 }
@@ -893,7 +893,17 @@ table.AttachmentList.DataTable thead th {
 
 .MessageBox p,
 .MessageBox a {
-    color: #442A0B;
+    color: rgba(0,2,60,0.8);
+}
+
+.MessageBox.Info a,
+.MessageBox.Error a {
+    transition: color ease 0.3s;
+}
+
+.MessageBox a:hover,
+.MessageBox a:hover {
+    color: #00023c;
 }
 
 .MessageBox a:hover {
@@ -905,18 +915,11 @@ table.AttachmentList.DataTable thead th {
 }
 
 .MessageBox.Error {
-    background: #b8384e;
+    background: #f9bcb2;
 }
 
 .MessageBox.Confirmation {
-    background: #049E35;
-}
-
-.MessageBox.Error p,
-.MessageBox.Error a,
-.MessageBox.Confirmation p,
-.MessageBox.Confirmation a {
-    color: rgba(255, 255, 255, 0.8);
+    background: #c4cdfa;
 }
 
 .MessageBox p a:after {
@@ -931,22 +934,7 @@ table.AttachmentList.DataTable thead th {
 }
 
 .MessageBox.Info {
-    background-color: #2A5464;
-}
-
-.MessageBox.Info p,
-.MessageBox.Info a {
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.MessageBox.Info a,
-.MessageBox.Error a {
-    transition: color ease 0.3s;
-}
-
-.MessageBox.Info a:hover,
-.MessageBox.Error a:hover {
-    color: #fff;
+    background-color: #c4cdfa;
 }
 
 .MessageBox a.Button:after {
@@ -963,15 +951,15 @@ table.AttachmentList.DataTable thead th {
 }
 
 .MessageBox.Info a.Button {
-    background-color: #3E6C7C;
+    background-color: #000099;
 }
 
 .MessageBox.Info a.Button:hover {
-    background-color: #4B7C8E;
+    background-color: #001bff;
 }
 
 .MessageBox.Info a.Button i {
-    color: #89C6D1;
+    color: #fef235;
 }
 
 form .MessageBox{
@@ -1053,7 +1041,7 @@ div.UnreadArticles i {
     top: 0px;
     z-index: 2;
     font-size: 14px;
-    color: #bfbfce;
+    color: #e5e5eb;
 }
 
 span.UnreadArticles em,
@@ -1063,7 +1051,7 @@ div.UnreadArticles em {
 
 span.UnreadArticles i:first-child,
 div.UnreadArticles i:first-child {
-    color: #777 !important;
+    color: #bfbfce !important;
     font-size: 16px;
     z-index: 1;
     left: -1px;
@@ -1072,7 +1060,7 @@ div.UnreadArticles i:first-child {
 
 span.UnreadArticles.Remarkable i,
 div.UnreadArticles.Remarkable i {
-    color: #f5af36;
+    color: #000099;
 }
 
 span.UnreadArticles.Ordinary,
@@ -1081,7 +1069,7 @@ div.UnreadArticles.Ordinary {
 }
 
 tbody tr:hover span.UnreadArticles i {
-    color: #fff;
+    color: #c4cdfa;
 }
 
 span.ImportantArticles {
@@ -1090,7 +1078,7 @@ span.ImportantArticles {
     height: 16px;
     float: right;
     margin: -2px 0px 0px 23px;
-    color: #C10505;
+    color: #ea2400;
     font-size: 13px;
 }
 
@@ -1099,7 +1087,7 @@ span.ImportantArticles em {
 }
 
 span.ImportantArticles i {
-    color: #C10505;
+    color: #ea2400;
 }
 
 /**
@@ -1858,7 +1846,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     .TableFilterContainer .FilterRemove:focus,
     .TableFilterContainer .FilterRemove:hover,
     .TableFilterContainer .FilterRemove:active {
-        color: #000;
+        color: #00023c;
     }
 
     .TableFilterContainer input,
@@ -1870,6 +1858,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     }
 
     .fa {
-        color: #00023c !important;
+        color: #00023c;
     }
 }

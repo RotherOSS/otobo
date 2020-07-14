@@ -191,7 +191,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 .oooTile_PlainText > h3 {
 	align-self: start;
     max-height: 100%;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 /* IE */

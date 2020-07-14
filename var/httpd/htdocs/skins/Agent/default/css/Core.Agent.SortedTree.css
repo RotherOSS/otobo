@@ -56,7 +56,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     top: -1px;
     display: none;
     background: none;
-    color: #000;
+    color: #00023c;
 }
 
 .SortableList li span:hover > span.Icon {
@@ -72,7 +72,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .SortableList li span input:focus {
-    color: #000;
+    color: #00023c;
 }
 
 .SortableList li span em {

@@ -110,14 +110,17 @@ my %IgnoreEntries = (
     'CustomerFrontend::CommonParam' => 1,
     'PublicFrontend::CommonParam'   => 1,
 
-    # This settings are modified in framework.xml and needs to be excluded from this test.
+    # These settings are modified in framework.xml and needs to be excluded from this test.
     'Loader::Module::Admin'                    => 1,
     'Loader::Module::AdminLog'                 => 1,
     'Loader::Module::AdminSystemConfiguration' => 1,
     'Loader::Module::CustomerLogin'            => 1,
 
-    # This settings is modified in daemon.xml and needs to be excluded from this test.
+    # These settings is modified in daemon.xml and needs to be excluded from this test.
     'DaemonModules' => 1,
+
+    # These settings may have been adapted for the UnitTest
+    'HttpType' => 1,
 );
 
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');

@@ -108,6 +108,12 @@ sub Run {
     my $Targets    = $Self->GetOption('target') || 'tuci';
     my $MicroSleep = $Self->GetOption('micro-sleep');
 
+    if ( $Targets =~ /t|i/ ) {
+        $Self->CreateAttachmentPipeline(
+            ESObject  => $ESObject,
+        );
+    }
+
     if ( $Targets =~ /c/ ) {
         $Self->MigrateCompanies(
             ESObject  => $ESObject,
@@ -145,6 +151,54 @@ sub Run {
     }
 
     return $Self->ExitCodeOk();
+}
+
+sub CreateAttachmentPipeline {
+    my ( $Self, %Param ) = @_;
+
+    # setup the attachment pipeline
+    my $Success = $Param{ESObject}->DeletePipeline();
+
+    my %Pipeline = (
+        description => "Extract external attachment information",
+        processors  => [
+            {
+                foreach => {
+                    field     => "Attachments",
+                    processor => {
+                        attachment => {
+                            target_field => "_ingest._value.attachment",
+                            field        => "_ingest._value.data"
+                        }
+                    }
+                }
+            },
+            {
+                foreach => {
+                    field     => "Attachments",
+                    processor => {
+                        remove => {
+                            field => "_ingest._value.data"
+                        }
+                    }
+                }
+            }
+        ]
+    );
+
+    $Success = $Param{ESObject}->CreatePipeline(
+        Request => \%Pipeline,
+    );
+
+    if ($Success) {
+        $Self->Print("<green>Attachment pipeline set up.</green>\n");
+    }
+    else {
+        $Self->Print("<red>Attachment pipeline could not be set up!</red>\n");
+        return 0;
+    }
+
+    return 1;
 }
 
 sub MigrateCompanies {
@@ -195,6 +249,12 @@ sub MigrateCompanies {
     else {
         $Self->Print("<red>Customer index could not be created!</red>\n");
         return 0;
+    }
+
+    # return if no StoreFields are defined
+    if ( !$Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::CustomerCompanyStoreFields') ) {
+        $Self->Print("<yellow>No CustomerCompanyStoreFields are defined.</yellow>\n");
+        return 1;
     }
 
     my $Count         = 0;
@@ -283,6 +343,12 @@ sub MigrateCustomerUsers {
     else {
         $Self->Print("<red>CustomerUser index could not be created!</red>\n");
         return 0;
+    }
+
+    # return if no StoreFields are defined
+    if ( !$Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::CustomerUserStoreFields') ) {
+        $Self->Print("<yellow>No CustomerUserStoreFields are defined.</yellow>\n");
+        return 1;
     }
 
     my $Count             = 0;
@@ -387,44 +453,10 @@ sub MigrateTickets {
         return 0;
     }
 
-    # put the attachment pipeline to the ticket index
-    $Success = $Param{ESObject}->DeletePipeline();
-
-    my %Pipeline = (
-        description => "Extract external attachment information",
-        processors  => [
-            {
-                foreach => {
-                    field     => "Attachments",
-                    processor => {
-                        attachment => {
-                            target_field => "_ingest._value.attachment",
-                            field        => "_ingest._value.data"
-                        }
-                    }
-                }
-            },
-            {
-                foreach => {
-                    field     => "Attachments",
-                    processor => {
-                        remove => {
-                            field => "_ingest._value.data"
-                        }
-                    }
-                }
-            }
-        ]
-    );
-    $Success = $Param{ESObject}->CreatePipeline(
-        Request => \%Pipeline,
-    );
-    if ($Success) {
-        $Self->Print("<green>Pipeline set up.</green>\n");
-    }
-    else {
-        $Self->Print("<red>Pipeline could not be set up!</red>\n");
-        return 0;
+    # return if no StoreFields are defined
+    if ( !$Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::TicketStoreFields') ) {
+        $Self->Print("<yellow>No TicketStoreFields are defined.</yellow>\n");
+        return 1;
     }
 
     my $Count     = 0;
@@ -507,15 +539,11 @@ sub MigrateConfigItems {
     my $ExcludedClasses = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ExcludedCIClasses');
     $ExcludedClasses = { map { $_ => 1 } @{$ExcludedClasses} };
 
-    my @ConfigItems;
+    my @ActiveClasses;
     CLASS:
     for my $Class ( keys %{ $ClassList } ) {
         next CLASS if $ExcludedClasses->{$Class};
-
-        my $ConfigItemListRef = $ConfigItemObject->ConfigItemResultList(
-            ClassID => $Class,
-        );
-        push @ConfigItems, ( map { $_->{ConfigItemID} } @{$ConfigItemListRef} );
+        push @ActiveClasses, $Class;
     }
 
     my %IndexName = (
@@ -566,11 +594,24 @@ sub MigrateConfigItems {
         return 0;
     }
 
+    # return if no StoreFields are defined
+    if ( !$Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ConfigItemStoreFields') ) {
+        $Self->Print("<yellow>No ConfigItemStoreFields are defined.</yellow>\n");
+        return 1;
+    }
+
+    # if currently no active classes are defined, return
+    return 1 if !@ActiveClasses;
+
+    my $ConfigItems = $ConfigItemObject->ConfigItemSearch(
+        ClassIDs     => [ @ActiveClasses ],
+    );
+
     my $Count   = 0;
-    my $CICount = scalar( @ConfigItems );
+    my $CICount = scalar( @{ $ConfigItems } );
 
     my $Errors = 0;
-    for my $ConfigItemID ( @ConfigItems ) {
+    for my $ConfigItemID ( @{ $ConfigItems } ) {
 
         $Count++;
 
@@ -591,10 +632,10 @@ sub MigrateConfigItems {
     }
 
     if ($Errors) {
-        $Self->Print("<yellow>CustomerCompany transfer complete. $Errors error(s) occured!</yellow>\n");
+        $Self->Print("<yellow>ConfigItem transfer complete. $Errors error(s) occured!</yellow>\n");
     }
     else {
-        $Self->Print("<green>CustomerCompany transfer complete.</green>\n");
+        $Self->Print("<green>ConfigItem transfer complete.</green>\n");
     }
 
     return 1;

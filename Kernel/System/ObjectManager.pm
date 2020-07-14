@@ -20,8 +20,9 @@ package Kernel::System::ObjectManager;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 
-use 5.24.0;
+use strict;
 use warnings;
+use feature qw(current_sub);
 
 use Carp ();
 use Scalar::Util qw(weaken);

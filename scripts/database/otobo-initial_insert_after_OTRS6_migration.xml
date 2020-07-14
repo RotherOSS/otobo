@@ -119,7 +119,7 @@ Requester:
           Controller: /:index
       Timeout: '30'
     Type: HTTP::REST</Data>
-        <Data Key="valid_id">1</Data>
+        <Data Key="valid_id">2</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>

@@ -1087,7 +1087,7 @@ Get plain article/email from storage. This is a delegate method from active back
 Returns:
 
     $PlainMessage = '
-        From: OTOBO Feedback <marketing@otrs.com>
+        From: OTOBO Feedback <marketing@otobo.de>
         To: Your OTOBO System <otobo@localhost>
         Subject: Welcome to OTOBO!
         Content-Type: text/plain; charset=utf-8

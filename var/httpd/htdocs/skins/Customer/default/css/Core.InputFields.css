@@ -523,6 +523,12 @@ div.InputField_Selection > .Remove {
     left: 8px;
 }
 
+/* readonly */
+input[readonly=readonly] {
+    border: none !important;
+    cursor: default !important;
+}
+
 /* jstree stuff */
 
 .jstree-node > .jstree-wholerow {

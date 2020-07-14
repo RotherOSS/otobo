@@ -86,7 +86,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .ControlRow li:hover > a {
-    color: #000;
+    color: #00023c;
 }
 
 .ControlRow li.Active > a,
@@ -166,7 +166,7 @@ ul.ContextFunctions li:last-child:hover > a {
     font-size: 13px;
     line-height: 24px;
     font-weight: bold;
-    color: #000;
+    color: #00023c;
     text-shadow: 0 1px 0 #D4D4D4;
     margin-bottom: 2px;
 }
@@ -295,7 +295,7 @@ ul.ContextFunctions li:last-child:hover > a {
 .Actions li a:hover,
 .Actions li span:hover,
 .OverviewZoom a:hover {
-    border-color: #f5af36;
+    border-color: #bfbfce;
 }
 
 .Actions li.NoHover:hover a {
@@ -527,7 +527,7 @@ form.Pagination a {
 }
 
 span.Pagination a {
-    color: #000;
+    color: #00023c;
 }
 
 span.Pagination a:hover {

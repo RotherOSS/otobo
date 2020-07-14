@@ -72,13 +72,13 @@ div.EventDetails {
 }
 
 .SettingsWidget label.Checked {
-    color: #000;
+    color: #00023c;
 }
 
 .SettingsWidget label:hover {
     background-color: #ddd;
     border-color: #ccc;
-    color: #000;
+    color: #00023c;
     border: 1px solid #ccc;
     padding: 1px 1px 1px 24px;
 }

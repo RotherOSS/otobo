@@ -59,11 +59,11 @@ ul.Tablelike li:nth-child(even) {
 }
 
 ul.Tablelike li:hover {
-    background: #FCB24B;
+    background: #fffccc;
 }
 
 ul.Tablelike li:hover a {
-    color: #000;
+    color: #00023c;
 }
 
 ul.Tablelike li.Header {
@@ -676,8 +676,7 @@ ul.WidgetTooltip li a:hover i {
 }
 
 .cke_dialog_footer_buttons a.cke_dialog_ui_button:hover {
-    background-color: #e5e5e5;
-    border-color: #999;
+    background-color: #0000fc;
 }
 
 .CallForAction.Hidden {
@@ -721,7 +720,7 @@ ul.WidgetTooltip li a:hover i {
 
 .CallForAction:hover,
 .CallForAction:focus {
-    color: #000;
+    color: #00023c;
     border-color: #aaa;
 }
 
@@ -754,14 +753,14 @@ ul.WidgetTooltip li a:hover i {
 }
 
 .CallForAction:disabled span {
-    color: graytext !important;
+    color: rgba(200,200,200,0.5) !important;
     cursor: default;
 }
 
 .cke_dialog_footer_buttons td a.cke_dialog_ui_button span {
     font-size: 11px;
     line-height: auto;
-    color: #000;
+    color: #fff;
     font-weight: bold;
 }
 
@@ -1238,7 +1237,7 @@ input.FilterBox {
 }
 
 .UserStatusIcon.Offline i {
-    color: #000;
+    color: #00023c;
 }
 
 .UserStatusIcon.Unavailable i {

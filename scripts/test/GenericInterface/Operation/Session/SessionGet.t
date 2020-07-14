@@ -118,7 +118,7 @@ my $RemoteSystem =
     . $Host
     . '/'
     . $ConfigObject->Get('ScriptAlias')
-    . '/nph-genericinterface.pl/WebserviceID/'
+    . 'nph-genericinterface.pl/WebserviceID/'
     . $WebserviceID;
 
 my $WebserviceConfig = {
@@ -391,7 +391,7 @@ my @Tests = (
                     },
                     {
                         Key   => 'UserRemoteAddr',
-                        Value => 'none',
+                        Value => '127.0.0.1',
                     },
                     {
                         Key   => 'UserRemoteUserAgent',
@@ -443,7 +443,7 @@ my @Tests = (
                     },
                     {
                         Key   => 'UserRemoteAddr',
-                        Value => 'none',
+                        Value => '127.0.0.1',
                     },
                     {
                         Key   => 'UserRemoteUserAgent',

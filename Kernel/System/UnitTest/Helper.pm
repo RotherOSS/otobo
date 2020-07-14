@@ -428,7 +428,9 @@ sub FixedTimeAddSeconds {
     my ( $Self, $SecondsToAdd ) = @_;
 
     return if !defined $FixedTime;
+
     $FixedTime += $SecondsToAdd;
+
     return;
 }
 
@@ -456,19 +458,15 @@ sub _MockPerlTimeHandling {
         return CORE::gmtime($Time);
     };
 
-    # Newer versions of DateTime provide a function _core_time() to override for time simulations.
-    *DateTime::_core_time = sub {    ## no critic
-        return defined $FixedTime ? $FixedTime : CORE::time();
-    };
+    # Versions of DateTime >0 1.08 provide a function _core_time().
+    # _core_time() is overriden for time simulations. Perl should not warn about it.
+    {
+        no warnings 'redefine'; # yes, we want to override
 
-    # Make sure versions of DateTime also use _core_time() it by overriding now() as well.
-    *DateTime::now = sub {
-        my $Self = shift;
-        return $Self->from_epoch(
-            epoch => $Self->_core_time(),
-            @_
-        );
-    };
+        *DateTime::_core_time = sub {    ## no critic
+            return $FixedTime // CORE::time();
+        };
+    }
 
     # This is needed to reload objects that directly use the native time functions
     #   to get a hold of the overrides.
@@ -610,8 +608,8 @@ sub DESTROY {
 
 =head2 ConfigSettingChange()
 
-temporarily change a configuration setting system wide to another value,
-both in the current ConfigObject and also in the system configuration on disk.
+temporarily change a configuration setting system wide to another value.
+The setting is changed both in the current ConfigObject and also in the system configuration on disk.
 
 This will be reset when the Helper object is destroyed.
 
@@ -679,6 +677,9 @@ EOF
         Mode     => 'utf8',
         Content  => \$Content,
     ) || die "Could not write $FileName";
+
+    # There is no need to restart the webserver as the changed config
+    # is picked up by Kernel::Config::new() for every request.
 
     return 1;
 }

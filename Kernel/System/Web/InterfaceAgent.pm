@@ -59,8 +59,7 @@ create agent web interface object. Do not use it directly, instead use:
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Web::InterfaceAgent' => {
             Debug   => 0,
-            WebRequest => CGI::Fast->new(), # optional, e. g. if fast cgi is used,
-                                            # the CGI object is already provided
+            WebRequest => CGI::PSGI->new($env), # optional, e. g. if PSGI is used
         }
     );
     my $InterfaceAgent = $Kernel::OM->Get('Kernel::System::Web::InterfaceAgent');

@@ -61,7 +61,7 @@ create customer web interface object
     my $Debug = 0;
     my $InterfaceCustomer = Kernel::System::Web::InterfaceCustomer->new(
         Debug      => $Debug,
-        WebRequest => CGI::Fast->new(), # optional, e. g. if fast cgi is used, the CGI object is already provided
+        WebRequest => CGI::PSGI->new($env), # optional, e. g. if PSGI is used
     );
 
 =cut

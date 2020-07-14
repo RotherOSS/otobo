@@ -394,6 +394,101 @@ my @Tests = (
         ],
     },
     {
+        Name     => 'ExampleAoHEmpty',
+        Commands => [
+            {
+                Hover => '.Content',
+            },
+            {
+                JqueryClick => '.SettingEdit',
+            },
+            {
+                JqueryClick => '.Setting > .Array > .AddArrayItem',
+            },
+            {
+                JqueryClick => '.Setting > .Array > .AddArrayItem',
+            },
+            {
+                JqueryClick => '.Setting > .Array > .AddArrayItem',
+            },
+            {
+                JqueryClick => '.Setting > .Array > .ArrayItem:nth-of-type(2) > .RemoveButton',
+            },
+            {
+                Select => '.Setting > .Array > .ArrayItem:nth-of-type(1) .HashItem:nth-of-type(1) input',
+            },
+            {
+                # Key
+                Write => '1st',
+            },
+            {
+                JqueryClick => '.Setting > .Array > .ArrayItem:nth-of-type(1) .HashItem:nth-of-type(1) .AddKey',
+            },
+            {
+                Select =>
+                    '.Setting > .Array > .ArrayItem:nth-of-type(1) .HashItem:nth-of-type(1) .SettingContent input',
+            },
+            {
+                # Value
+                Write => '1',
+            },
+            {
+                Select => '.Setting > .Array > .ArrayItem:nth-of-type(2) .HashItem:nth-of-type(1) input',
+            },
+            {
+                # Key
+                Write => '2nd',
+            },
+            {
+                JqueryClick => '.Setting > .Array > .ArrayItem:nth-of-type(2) .HashItem:nth-of-type(1) .AddKey',
+            },
+            {
+                Select =>
+                    '.Setting > .Array > .ArrayItem:nth-of-type(2) .HashItem:nth-of-type(1) .SettingContent input',
+            },
+            {
+                # Value
+                Write => '2',
+            },
+            {
+                JqueryClick => '.Setting > .Array > .ArrayItem:nth-of-type(2) .AddHashKey',
+            },
+            {
+                Select => '.Setting > .Array > .ArrayItem:nth-of-type(2) .HashItem:nth-of-type(2) input',
+            },
+            {
+                # Key
+                Write => '3th',
+            },
+            {
+                JqueryClick => '.Setting > .Array > .ArrayItem:nth-of-type(2) .HashItem:nth-of-type(2) .AddKey',
+            },
+            {
+                Select =>
+                    '.Setting > .Array > .ArrayItem:nth-of-type(2) .HashItem:nth-of-type(2) .SettingContent input',
+            },
+            {
+                # Value
+                Write => '3',
+            },
+            {
+                JqueryClick => '.Update',
+            },
+            {
+                Select => 'input',
+            },
+        ],
+        ExpectedResult => [
+            {
+                '1st' => '1',
+            },
+            {
+                '2nd' => '2',
+                '3th' => '3',
+            },
+        ],
+    },
+    {
         Name     => 'ExampleAoHDate',
         Commands => [
             {

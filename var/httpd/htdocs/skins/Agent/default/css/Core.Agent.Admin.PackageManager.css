@@ -46,7 +46,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .UpgradeAllDialog tr:hover > td {
-    color: #000;
+    color: #00023c;
 }
 
 .IntroInstall {

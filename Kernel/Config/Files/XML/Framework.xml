@@ -82,10 +82,10 @@
         </Value>
     </Setting>
     <Setting Name="HttpType" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server's settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.</Description>
+        <Description Translatable="1">Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server's settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="Select" SelectedID="http">
+            <Item ValueType="Select" SelectedID="https">
                 <Item ValueType="Option" Value="http">http</Item>
                 <Item ValueType="Option" Value="https">https</Item>
             </Item>
@@ -6319,7 +6319,7 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Module###AdminRegistration" Required="0" Valid="1">
+    <Setting Name="Frontend::Module###AdminRegistration" Required="0" Valid="0">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
         <Value>
@@ -6371,7 +6371,7 @@ via the Preferences button after logging in.
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Frontend::NavigationModule###AdminRegistration" Required="0" Valid="1">
+    <Setting Name="Frontend::NavigationModule###AdminRegistration" Required="0" Valid="0">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
@@ -7081,7 +7081,7 @@ via the Preferences button after logging in.
                 <Item Key="Config">
                     <Hash>
                         <Item Key="HeaderText">Message of the day</Item>
-                        <Item Key="MainText">Hello World! :)</Item>
+                        <Item Key="MainText" ValueType="Textarea">Hello World! :)</Item>
                         <Item Key="TextColor">#00023c</Item>
                         <Item Key="BackgroundColor">#fff</Item>
                     </Hash>
@@ -9084,7 +9084,7 @@ via the Preferences button after logging in.
         <Description Translatable="1">Activate Elasticsearch.</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
-            <Item ValueType="Checkbox">0</Item>
+            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Elasticsearch::IngestMaxFilesize" Required="0" Valid="1">
@@ -9543,8 +9543,8 @@ via the Preferences button after logging in.
                             </Array>
                         </Item>
                         <Item Key="Description" Translatable="1"></Item>
-                        <Item Key="Name" Translatable="1">Jump to Znuny!</Item>
-                        <Item Key="Link">Action=ExternalURLJump;URL=http://znuny.com/</Item>
+                        <Item Key="Name" Translatable="1">Jump to OTOBO!</Item>
+                        <Item Key="Link">Action=ExternalURLJump;URL=http://otobo.de/</Item>
                         <Item Key="LinkOption">target="_blank"</Item>
                         <Item Key="NavBar">JumptoExternalURL</Item>
                         <Item Key="Type">Menu</Item>
@@ -9596,9 +9596,9 @@ via the Preferences button after logging in.
                             <Array>
                             </Array>
                         </Item>
-                        <Item Key="Description" Translatable="1">Jump to Znuny!</Item>
-                        <Item Key="Name" Translatable="1">Jump to Znuny!</Item>
-                        <Item Key="Link">Action=ExternalURLJump;URL=http://znuny.com/</Item>
+                        <Item Key="Description" Translatable="1">Jump to OTOBO!</Item>
+                        <Item Key="Name" Translatable="1">Jump to OTOBO!</Item>
+                        <Item Key="Link">Action=ExternalURLJump;URL=http://otobo.de/</Item>
                         <Item Key="LinkOption">target="_blank"</Item>
                         <Item Key="NavBar"></Item>
                         <Item Key="Type"></Item>

@@ -1414,7 +1414,7 @@ sub Run {
         );
         my %ChangedElements        = $ElementChanged ? ( $ElementChanged => 1 ) : ();
         my %ChangedElementsDFStart = $ElementChanged ? ( $ElementChanged => 1 ) : ();
-        my %ChangedStdFields;
+        my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? ( $ElementChanged => 1 ) : ();
 
         my $LoopProtection = 100;
         my %StdFieldValues;
@@ -3148,7 +3148,7 @@ sub _Mask {
 
                 # ACL hidden fields cannot be mandatory
                 if ( $Config->{DynamicField}->{ $ArticleTypeDynamicField->{Name} } == 2 ) {
-                    $ArticleTypeDynamicField->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/;
+                    $ArticleTypeDynamicField->{Field} =~ s/(class=.+?Validate_(Depending)?Required)/$1_IfVisible/;
                 }
             }
 

@@ -111,7 +111,7 @@ sub Run {
                 Label      => Translatable('Package Verification Status'),
                 Value      => join( ', ', @NotVerifiedPackages ),
                 Message    => Translatable(
-                    'Some packages are not verified by the OTOBO Team! It is recommended not to use this packages.'
+                    'Some packages are not verified by the OTOBO Team.'
                 ),
             );
         }
@@ -121,7 +121,7 @@ sub Run {
                 Label      => Translatable('Package Verification Status'),
                 Value      => join( ', ', @NotVerifiedPackages ),
                 Message    => Translatable(
-                    'Some packages are not verified by the OTOBO Team! It is recommended not to use this packages.'
+                    'Some packages are not verified by the OTOBO Team.'
                 ),
             );
         }

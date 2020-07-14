@@ -26,7 +26,7 @@ use vars (qw($Self));
 use Kernel::System::UnitTest;
 
 my $UnitTestObject = Kernel::System::UnitTest::Driver->new(
-    Output => 'none',
+    SelfTest => 1,
 );
 
 my @TestTrueFalse = (
@@ -93,7 +93,6 @@ for my $Test (@TestTrueFalse) {
             !$False,
             "False() - $Test->{Name}",
         );
-
     }
 }
 

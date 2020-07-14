@@ -51,7 +51,7 @@ create param object. Do not use it directly, instead use:
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Web::Request' => {
-            WebRequest   => CGI::Fast->new(), # optional, e. g. if fast cgi is used
+            WebRequest => CGI::PSGI->new($env), # optional, e. g. if PSGI is used
         }
     );
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
@@ -380,7 +380,11 @@ This is a wrapper around CGI::script_name().
 sub ScriptName {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->script_name( @Params );
+    # fix erroneous double slashes at the beginning of SCRIPT_NAME as it worked in OTRS
+    my $ScriptName = $Self->{Query}->script_name( @Params );
+    $ScriptName =~ s{^//+}{/};
+
+    return $ScriptName;
 }
 
 =head2 PathInfo

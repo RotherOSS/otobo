@@ -439,6 +439,14 @@ Core.AJAX = (function (TargetNS) {
                     Field.removeClass("Validate_Required");
                     Field.addClass("Validate_Required_IfVisible");
                 }
+                else if ( Field.hasClass("Validate_DependingRequiredAND") == true ) {
+                    Field.removeClass("Validate_DependingRequiredAND");
+                    Field.addClass("Validate_DependingRequired_IfVisibleAND");
+                }
+                else if ( Field.hasClass("Validate_DependingRequiredOR") == true ) {
+                    Field.removeClass("Validate_DependingRequiredOR");
+                    Field.addClass("Validate_DependingRequired_IfVisibleOR");
+                }
             }
             // field has to be shown again
             else if ( Field.parent().parent('div.Row').hasClass("ooo.ACLHidden") == true ) {
@@ -452,6 +460,14 @@ Core.AJAX = (function (TargetNS) {
                 if ( Field.hasClass("Validate_Required_IfVisible") == true ) {
                     Field.removeClass("Validate_Required_IfVisible");
                     Field.addClass("Validate_Required");
+                }
+                else if ( Field.hasClass("Validate_DependingRequired_IfVisibleAND") == true ) {
+                    Field.removeClass("Validate_DependingRequired_IfVisibleAND");
+                    Field.addClass("Validate_DependingRequiredAND");
+                }
+                else if ( Field.hasClass("Validate_DependingRequired_IfVisibleOR") == true ) {
+                    Field.removeClass("Validate_DependingRequired_IfVisibleOR");
+                    Field.addClass("Validate_DependingRequiredOR");
                 }
 
                 // init modernization on select fields hidden initially
