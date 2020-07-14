@@ -1698,11 +1698,9 @@ sub _CheckConfig {
 
     return 1 if @Result;
 
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-
+    # read files in Kernel/Config/Files/XML
     return $SysConfigObject->ConfigurationXML2DB(
         UserID    => 1,
-        Directory => "$Home/Kernel/Config/Files/XML",
         Force     => 1,
         CleanUp   => 1,
     );

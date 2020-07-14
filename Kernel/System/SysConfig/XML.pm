@@ -144,8 +144,7 @@ sub SettingListParse {
     # Remove comments <!-- ... -->.
     $XMLContent =~ s{<!--.*?-->}{}gsm;
 
-    $XMLContent =~ m{otobo_config.*?version="(.*?)"};
-    my $ConfigVersion = $1;
+    my ($ConfigVersion) = $XMLContent =~ m{otobo_config.*?version="(.*?)"};
 
     if ( $ConfigVersion ne '2.0' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -169,6 +168,7 @@ sub SettingListParse {
     # Fetch XML of Setting elements.
     my @ParsedSettings;
 
+    # Note: this is strange. This allows invalid XML to be used as configuration files.
     SETTING:
     while (
         $XMLContent =~ m{(?<RawSetting> <Setting[ ]+ .*? Name="(?<SettingName> .*? )" .*? > .*? </Setting> )}smxg
