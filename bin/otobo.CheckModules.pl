@@ -881,6 +881,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Test2::V0',
+        Required  => 0,
+        Features   => ['devel:test'],
+        Comment   => 'basic test functions',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Mojolicious',
         Required  => 0,
         Features   => ['devel:dbviewer'],

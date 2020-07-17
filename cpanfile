@@ -21,7 +21,7 @@ requires 'List::Util::XS';
 
 requires 'LWP::UserAgent';
 
-# Required by Math::Random::Secure in Kernel/cpan-lib
+# Required for random number generator.
 requires 'Moo';
 
 # Version 0.60 not supported: This version is broken and not useable! Please upgrade to a higher version.
@@ -95,6 +95,9 @@ feature 'devel:dbviewer', 'Suppport for devel:dbviewer' => sub {
 feature 'devel:test', 'Suppport for devel:test' => sub {
     # a quick compile check
     requires 'Test::Compile';
+
+    # basic test functions
+    requires 'Test2::V0';
 
 };
 
@@ -278,6 +281,9 @@ feature 'optional', 'Suppport for optional' => sub {
 
     # a quick compile check
     requires 'Test::Compile';
+
+    # basic test functions
+    requires 'Test2::V0';
 
     # a web framework that makes web development fun again
     requires 'Mojolicious';
