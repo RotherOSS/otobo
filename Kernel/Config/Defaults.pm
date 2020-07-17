@@ -26,12 +26,17 @@ use v5.24;      # Perl 5.24.0 is the required minimum version to use OTOBO.
 use warnings;
 use utf8;
 
-# prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
-use File::Basename qw(dirname);
-use FindBin qw($Bin);
-use lib dirname($Bin);
-use lib dirname($Bin) . '/Kernel/cpan-lib';
-use lib dirname($Bin) . '/Custom';
+# Note: @INC is no longer modified here.
+#       Using $FindBin::Bin in a module is problematic because there is no guarantee
+#       that the script that is using the module is at the expected location.
+#       An example is compile testing with Test::Compile. There dirname($Bin) evaluates
+#       to /opt/otobo/Kernel/System. This makes 'use Datetime' actually load
+#       /opt/otobo/Kernel/System/DateTime.pm. And this is not wanted.
+#use File::Basename qw(dirname);
+#use FindBin qw($Bin);
+#use lib dirname($Bin);
+#use lib dirname($Bin) . '/Kernel/cpan-lib';
+#use lib dirname($Bin) . '/Custom';
 
 use File::stat;
 use Digest::MD5;
