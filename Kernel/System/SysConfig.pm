@@ -5088,22 +5088,26 @@ sub _FileWriteAtomic {
         }
     }
 
+    # write to a temp file
     my $TempFilename = $Param{Filename} . '.' . $$; # append the processs id
-
-    ## no critic
-    if ( !open( my $FH, ">$Self->{FileMode}", $TempFilename ) ) {
+    {
+        ## no critic
+        my $Success = open( my $FH, ">$Self->{FileMode}", $TempFilename );
         ## use critic
+        if ( ! $Success ) {
 
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Can't open file $TempFilename: $!",
-        );
-        return;
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Can't open file $TempFilename: $!",
+            );
+
+            return;
+        }
+
+        print $FH ${ $Param{Content} };
     }
 
-    print $FH ${ $Param{Content} };
-    close $FH;
-
+    # make the file available, atomically
     if ( !rename $TempFilename, $Param{Filename} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
