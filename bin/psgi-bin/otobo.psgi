@@ -325,7 +325,28 @@ my $NYTProfMiddleWare = sub {
     };
 };
 
-# conditionally enable profiling
+# Fix for environment settings in the FCGI-Proxy case.
+# E.g. when apaches2-httpd-fcgi.include.conf is used.
+my $FixFCGIProxyMiddleware = sub {
+    my $app = shift;
+
+    return sub {
+        my $env = shift;
+
+        # In the apaches2-httpd-fcgi.include.conf case all incoming request should be handled.
+        # This means that otobo.psgi expects that SCRIPT_NAME is either '' or '/' and that
+        # PATH_INFO is something like '/otobo/index.pl'.
+        # But we get PATH_INFO = '' and SCRIPT_NAME = '/otobo/index.pl'.
+        if ( $env->{PATH_INFO} eq '' && ( $env->{SCRIPT_NAME} ne ''  && $env->{SCRIPT_NAME} ne '/' ) ) {
+            ($env->{PATH_INFO}, $env->{SCRIPT_NAME}) = ($env->{SCRIPT_NAME}, '/');
+        }
+
+        # user is authorised, now do the work
+        return $app->($env);
+    }
+};
+
+# check whether the logged in user has admin privs
 my $AdminOnlyMiddeware = sub {
     my $app = shift;
 
@@ -635,6 +656,9 @@ builder {
 
     # for debugging
     #enable 'Plack::Middleware::TrafficLog';
+
+    # fixing PATH_INFO
+    enable_if { ($_[0]->{FCGI_ROLE} // '') eq 'RESPONDER' } $FixFCGIProxyMiddleware;
 
     # Server the static files in var/httpd/httpd.
     mount '/otobo-web'                     => $StaticApp;
