@@ -240,6 +240,7 @@ to dispatch multiple ticket methods and get the TicketID
 
 
 # core modules
+use Data::Dumper;
 
 # CPAN modules
 use DateTime ();
@@ -293,7 +294,11 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT AS OF JULY 11TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
+warn "PLEASE NOTE THAT AS OF JULY 18TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
+
+################################################################################
+# Middlewares
+################################################################################
 
 # conditionally enable profiling
 my $NYTProfMiddleWare = sub {
@@ -400,14 +405,33 @@ my $AdminOnlyMiddeware = sub {
     };
 };
 
+################################################################################
+# Apps
+################################################################################
+
 # The most basic App
 my $HelloApp = sub {
-    my $env = shift;
+    my $Env = shift;
 
     # Initially $Message is a string with active UTF8-flag.
     # But turn it into a byte array, at that is wanted by Plack.
     # The actual bytes are not changed.
     my $Message = "Hallo 🌍!";
+    utf8::encode( $Message );
+
+    return [
+        '200',
+        [ 'Content-Type' => 'text/plain;charset=utf-8' ],
+        [ $Message ],
+    ];
+};
+
+# Sometimes useful for debugging
+my $DumpEnvApp = sub {
+    my $Env = shift;
+
+    local $Data::Dumper::Sortkeys = 1;
+    my $Message .= Dumper( [ "DumpEnvApp:", scalar localtime, $Env ] );
     utf8::encode( $Message );
 
     return [
@@ -633,7 +657,7 @@ builder {
 
     # some SOAP stuff
     mount '/otobo/rpc.pl'                  => $RPCApp;
-
-    # for debugging
-    #mount '/'                              => $HelloApp;
 };
+
+# for debugging, only dump the PSGI environment
+#$DumpEnvApp;
