@@ -57,8 +57,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-07-15 09:14+0000\n"
-"Last-Translator: sr <sr@otrs.ch>\n"
+"PO-Revision-Date: 2020-07-19 23:09+0000\n"
+"Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://translate.otobo.org/projects/"
 "otobo10/otobo/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -3559,6 +3559,8 @@ msgstr "Importar web service Ready2Adopt "
 #. Template: AdminGenericInterfaceWebservice
 msgid "Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated Ready2Adopt web services."
 msgstr ""
+"Deseja se beneficiar dos serviços da Web criados por especialistas? Atualize "
+"para %s para importar alguns serviços sofisticados do Ready2Adopt."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "After you save the configuration you will be redirected again to the edit screen."
@@ -4711,6 +4713,8 @@ msgstr "Aqui você pode ativar processos Ready2Adopt que demonstram nossas boas 
 #. Template: AdminProcessManagement
 msgid "Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated Ready2Adopt processes."
 msgstr ""
+"Deseja se beneficiar de processos criados por especialistas? Atualize para "
+"%s importar alguns sofisticados processos Ready2Adopt."
 
 #. Template: AdminProcessManagement
 msgid "Import Ready2Adopt process"
@@ -6499,18 +6503,30 @@ msgstr "Modelo"
 #. Template: AdminTemplate
 msgid "To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types."
 msgstr ""
+"Para obter os 20 primeiros caracteres do assunto do artigo atual/mais "
+"recente do agente (atual para Resposta e Encaminhamento, mais recente para o "
+"tipo de modelo Nota). Esta tag não é suportada para outros tipos de modelo."
 
 #. Template: AdminTemplate
 msgid "To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types."
 msgstr ""
+"Para obter as 5 primeiras linhas do corpo do artigo atual/mais recente do "
+"agente (atual para Resposta e Encaminhamento, mais recente para o tipo de "
+"modelo Nota). Esta tag não é suportada para outros tipos de modelo."
 
 #. Template: AdminTemplate
 msgid "To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types."
 msgstr ""
+"Para obter os 20 primeiros caracteres do assunto do artigo atual/mais "
+"recente (atual para Resposta e Encaminhamento, mais recente para o tipo de "
+"modelo Nota). Esta tag não é suportada para outros tipos de modelo."
 
 #. Template: AdminTemplate
 msgid "To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types."
 msgstr ""
+"Para obter as 5 primeiras linhas do corpo do artigo atual/mais recente ("
+"atual para resposta e encaminhamento, mais recente para o tipo de modelo de "
+"nota). Esta tag não é suportada para outros tipos de modelo."
 
 #. Template: AdminTemplate
 msgid "Create type templates only supports this smart tags"
@@ -10614,7 +10630,7 @@ msgstr "Não podemos registrar módulos para invoker"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Could not get backend for Invoker %s"
-msgstr ""
+msgstr "Não foi possível obter back-end para o Invoker %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "The event %s is not valid."
@@ -10646,11 +10662,11 @@ msgstr "Módulo de validação"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Simple Mapping for Outgoing Data"
-msgstr ""
+msgstr "Mapeamento simples para dados de saída"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Simple Mapping for Incoming Data"
-msgstr ""
+msgstr "Mapeamento simples para dados recebidos"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get registered configuration for action type %s"
@@ -10682,11 +10698,11 @@ msgstr "Ignorar (descartar valor/par de valor)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "XSLT Mapping for Outgoing Data"
-msgstr ""
+msgstr "Mapeamento XSLT para dados enviados"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "XSLT Mapping for Incoming Data"
-msgstr ""
+msgstr "Mapeamento XSLT para dados recebidos"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Could not find required library %s"
@@ -10695,38 +10711,49 @@ msgstr "Não foi possível encontrar a biblioteca necessária %s"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing request data before processing (RequesterRequestInput)"
 msgstr ""
+"Dados da solicitação de saída antes do processamento (RequesterRequestInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing request data before mapping (RequesterRequestPrepareOutput)"
 msgstr ""
+"Dados da solicitação de saída antes do mapeamento "
+"(RequesterRequestPrepareOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing request data after mapping (RequesterRequestMapOutput)"
 msgstr ""
+"Dados da solicitação de saída após o mapeamento (RequesterRequestMapOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming response data before mapping (RequesterResponseInput)"
 msgstr ""
+"Dados de resposta recebidos antes do mapeamento (RequesterResponseInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing error handler data after error handling (RequesterErrorHandlingOutput)"
 msgstr ""
+"Dados do manipulador de erros de saída após o tratamento de erros "
+"(RequesterErrorHandlingOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming request data before mapping (ProviderRequestInput)"
 msgstr ""
+"Dados de solicitação de entrada antes do mapeamento (ProviderRequestInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming request data after mapping (ProviderRequestMapOutput)"
 msgstr ""
+"Dados de solicitação de entrada após o mapeamento (ProviderRequestMapOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing response data before mapping (ProviderResponseInput)"
-msgstr ""
+msgstr "Dados de resposta de saída antes do mapeamento (ProviderResponseInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing error handler data after error handling (ProviderErrorHandlingOutput)"
 msgstr ""
+"Dados do manipulador de erros de saída após o tratamento de erros "
+"(ProviderErrorHandlingOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
@@ -11995,10 +12022,14 @@ msgstr "Ticket (%s) não está desbloqueado!"
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "The following tickets were ignored because they are locked by another agent or you don't have write access to tickets: %s."
 msgstr ""
+"Os seguintes tickets foram ignorados porque estão bloqueados por outro "
+"agente ou você não tem acesso de gravação aos tickets: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "The following ticket was ignored because it is locked by another agent or you don't have write access to ticket: %s."
 msgstr ""
+"Os seguintes tickets foram ignorados porque estão bloqueados por outro "
+"agente ou você não tem acesso de gravação aos tickets: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "You need to select at least one ticket."
@@ -12027,6 +12058,7 @@ msgstr "Os Tickets a seguir foram bloqueados: %s"
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Article subject will be empty if the subject contains only the ticket hook!"
 msgstr ""
+"O assunto do artigo estará vazio se o assunto contiver apenas o ticket hook!"
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
@@ -12678,7 +12710,7 @@ msgstr "Nenhum ID do Ticket para o ID da Nota (%s)!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "HTML body attachment is missing!"
-msgstr ""
+msgstr "Falta o anexo do corpo HTML!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
 msgid "FileID and ArticleID are needed!"
@@ -12699,6 +12731,7 @@ msgstr "Valide configuração no SysConfig para %s::TicketTypeDefault."
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "You don't have sufficient permissions for ticket creation in default queue."
 msgstr ""
+"Você não tem permissões suficientes para a criação de tickets na fila padrão."
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
@@ -12886,7 +12919,7 @@ msgstr "Error: Defina o valor para innodb_log_file_size no seu banco de dados pa
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
-msgstr ""
+msgstr "Collation de banco de dados incorreto (%s é %s, mas precisa ser utf8)."
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
@@ -13819,6 +13852,10 @@ msgstr "<p>Se você continuar a instalar este pacote, as seguintes questões pod
 #. Perl Module: Kernel/System/Package.pm
 msgid "<p>The installation of packages which are not verified by the Rother OSS GmbH is not possible by default. You can activate the installation of not verified packages via the \"AllowNotVerifiedPackages\" system configuration setting.</p>"
 msgstr ""
+"<p> A instalação de pacotes que não são verificados pelo Rother OSS GmbH não "
+"é possível por padrão. Você pode ativar a instalação de pacotes não "
+"verificados através da configuração do sistema \"AllowNotVerifiedPackages\". "
+"</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -14059,14 +14096,20 @@ msgstr "Tempo Máximo de Primeira Resposta (impactado pela configuração de esc
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Working Time Average (affected by escalation configuration)"
 msgstr ""
+"Média do tempo de trabalho da primeira resposta (afetada pela configuração "
+"da escalação)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Min Working Time (affected by escalation configuration)"
 msgstr ""
+"Tempo mínimo de trabalho da primeira resposta (afetado pela configuração da "
+"escalação)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Max Working Time (affected by escalation configuration)"
 msgstr ""
+"Tempo Máximo de Trabalho da Primeira Resposta (afetado pela configuração da "
+"escalação)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Number of Tickets (affected by escalation configuration)"
@@ -14159,6 +14202,9 @@ msgstr "Valores Padrão Inválidos"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
 msgid "Tables with invalid default values were found. In order to fix it automatically, please run: bin/otobo.Console.pl Maint::Database::Check --repair"
 msgstr ""
+"Foram encontradas tabelas com valores padrão inválidos. Para corrigi-lo "
+"automaticamente, execute run: bin/otobo.Console.pl Maint::Database::Check "
+"--repair"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "Maximum Query Size"
@@ -14243,6 +14289,8 @@ msgstr "Sequências de Chave Primária"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
 msgid "The following sequences with possible wrong names have been found. Please rename them manually."
 msgstr ""
+"As seguintes sequences com possíveis nomes errados foram encontradas. "
+"Renomeie-os manualmente."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
 msgid "PostgreSQL 9.2 or higher is required."
@@ -14302,15 +14350,20 @@ msgstr "Nem todos os módulos Perl não foram correctamente instalados."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
-msgstr ""
+msgstr "Auditoria de Módulos Perl"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number."
 msgstr ""
+"O CPAN::Audit relatou que um ou mais módulos Perl instalados possuem "
+"vulnerabilidades conhecidas. Observe que pode haver falsos positivos para "
+"distribuições que consertam os módulos Perl sem alterar o número da versão."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "CPAN::Audit did not report any known vulnerabilities in the installed Perl modules."
 msgstr ""
+"CPAN::Audit não relatou nenhuma vulnerabilidade conhecida nos módulos Perl "
+"instalados."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Free Swap Space (%)"
@@ -14519,6 +14572,8 @@ msgstr "Nenhum arquivo de backup de legado de configuração foi encontrado."
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid "Legacy configuration backup files found in Kernel/Config/Backups folder, but they might still be required by some packages."
 msgstr ""
+"Arquivos de backup de configuração herdados encontrados na pasta Kernel/"
+"Config/Backups, mas ainda podem ser exigidos por alguns pacotes."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid "Legacy configuration backup files are no longer needed for the installed packages, please remove them from Kernel/Config/Backups folder."
@@ -25374,4 +25429,4 @@ msgstr ""
 
 #. SysConfig
 msgid "Jump to OTOBO!"
-msgstr ""
+msgstr "Ir para OTOBO!"
