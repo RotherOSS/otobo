@@ -413,7 +413,7 @@ my @NeededModules = (
         },
     },
     {
-        Module   => 'Unicode::Collate::Locale',
+        Module   => 'Unicode::Collate',
         Required => 1,
         Comment  => 'For internationalised sorting',
         InstTypes => {

@@ -46,7 +46,7 @@ requires 'XML::LibXML';
 requires 'YAML::XS';
 
 # For internationalised sorting
-requires 'Unicode::Collate::Locale';
+requires 'Unicode::Collate';
 
 
 feature 'apache:mod_perl', 'Suppport for apache:mod_perl' => sub {
