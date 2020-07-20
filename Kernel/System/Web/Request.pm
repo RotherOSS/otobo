@@ -402,6 +402,21 @@ sub RequestURI {
     return $Self->{Query}->request_uri( @Params );
 }
 
+=head2 ContentType
+
+Returns content-type header.
+This is a wrapper around CGI::content_type().
+
+    my $ContentType = $ParamObject->ContentType();
+
+=cut
+
+sub ContentType {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->content_type( @Params );
+}
+
 =head2 PathInfo
 
 Returns additional path information from the script URL.
