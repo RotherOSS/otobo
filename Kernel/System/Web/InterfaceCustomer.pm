@@ -117,17 +117,10 @@ sub Run {
     # Check if https forcing is active, and redirect if needed.
     if ( $ConfigObject->Get('HTTPSForceRedirect') ) {
 
-        # Some web servers do not set HTTPS environment variable, so it's not possible to easily know if we are using
-        #   https protocol. Look also for similarly named keys in environment hash, since this should prevent loops in
-        #   certain cases.
-        if (
-            (
-                !defined $ENV{HTTPS}
-                && !grep {/^HTTPS(?:_|$)/} keys %ENV
-            )
-            || $ENV{HTTPS} ne 'on'
-            )
-        {
+        # Allow HTTPS to be 'on' in a case insensitive way.
+        # In OTOBO 10.0.1 it had to be lowercase 'on'.
+        my $HTTPS = $ParamObject->HTTPS('HTTPS') // '';
+        if ( lc($HTTPS) ne 'on' ) {
             my $Host = $ENV{HTTP_HOST} || $ConfigObject->Get('FQDN');
 
             # Redirect with 301 code. Add two new lines at the end, so HTTP headers are validated correctly.

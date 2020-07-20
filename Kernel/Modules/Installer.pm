@@ -1225,6 +1225,7 @@ sub Run {
 
         my $OTOBOHandle = $ParamObject->ScriptName();
         $OTOBOHandle =~ s/\/(.*)\/installer\.pl/$1/;
+        my $HTTPS = $ParamObject->HTTPS('HTTPS');
         my $Output =
             $LayoutObject->Header(
             Title => "$Title - "
@@ -1236,7 +1237,7 @@ sub Run {
                 Item        => Translatable('Finished'),
                 Step        => $StepCounter,
                 Host        => $ENV{HTTP_HOST} || $ConfigObject->Get('FQDN'),
-                Scheme      => ( ($ENV{HTTPS} && fc($ENV{HTTPS}) eq fc('ON') ) ? 'https' : 'http' ),
+                Scheme      => ( ($HTTPS && lc $HTTPS eq 'on' ) ? 'https' : 'http' ),
                 OTOBOHandle => $OTOBOHandle,
                 Webserver   => $Webserver,
                 Password    => $Password,
