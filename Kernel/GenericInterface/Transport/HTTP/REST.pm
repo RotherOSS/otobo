@@ -165,7 +165,7 @@ sub ProviderProcessRequest {
         }
     }
 
-    my $RequestMethod = $ENV{'REQUEST_METHOD'} || 'GET';
+    my $RequestMethod = $ParamObject->RequestMethod() || 'GET';
     ROUTE:
     for my $CurrentOperation ( sort keys %{ $Config->{RouteOperationMapping} } ) {
 

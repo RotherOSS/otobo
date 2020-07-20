@@ -2703,7 +2703,8 @@ sub Attachment {
     $EncodeObject->EncodeOutput( \$Param{Content} );
 
     # fix for firefox HEAD problem
-    if ( !$ENV{REQUEST_METHOD} || $ENV{REQUEST_METHOD} ne 'HEAD' ) {
+    my $RequestMethod = $Kernel::OM->Get('Kernel::System::Web::Request')->RequestMethod();
+    if ( !$RequestMethod || $RequestMethod ne 'HEAD' ) {
         $Output .= $Param{Content};
     }
 

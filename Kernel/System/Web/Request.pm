@@ -462,6 +462,21 @@ sub EnvQueryString {
     return $Self->{Query}->env_query_string( @Params );
 }
 
+=head2 RequestMethod
+
+Usually either GET or POST.
+This is a wrapper around CGI::request_method().
+
+    my $RequestMethod = $ParamObject->RequestMethod();
+
+=cut
+
+sub RequestMethod {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->request_method( @Params );
+}
+
 =head2 PathInfo
 
 Returns additional path information from the script URL.
