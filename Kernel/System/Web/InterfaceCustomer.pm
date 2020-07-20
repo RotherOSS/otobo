@@ -111,8 +111,9 @@ sub Run {
     my $Self = shift;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    my $QueryString = $ENV{QUERY_STRING} || '';
+    my $QueryString = $ParamObject->EnvQueryString() || '';
 
     # Check if https forcing is active, and redirect if needed.
     if ( $ConfigObject->Get('HTTPSForceRedirect') ) {
@@ -128,8 +129,6 @@ sub Run {
             return;
         }
     }
-
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my %Param;
 

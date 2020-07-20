@@ -447,6 +447,21 @@ sub ContentType {
     return $Self->{Query}->content_type( @Params );
 }
 
+=head2 EnvQueryString
+
+Returns the original query string.
+This is a wrapper around CGI::env_query_string().
+
+    my $QueryString = $ParamObject->EnvQueryString();
+
+=cut
+
+sub EnvQueryString {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->env_query_string( @Params );
+}
+
 =head2 PathInfo
 
 Returns additional path information from the script URL.
