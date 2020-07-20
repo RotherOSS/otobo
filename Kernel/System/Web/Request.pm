@@ -387,6 +387,22 @@ sub ScriptName {
     return $ScriptName;
 }
 
+=head2 ServerSoftware
+
+return info which server is running.
+This is a wrapper around CGI::server_software().
+
+    my $ServerSoftware = $ParamObject->ServerSoftware();
+
+=cut
+
+sub ServerSoftware {
+    my ( $Self, @Params ) = @_;
+
+    # fix erroneous double slashes at the beginning of SCRIPT_NAME as it worked in OTRS
+    return $Self->{Query}->server_software( @Params );
+}
+
 =head2 RequestURI
 
 Returns the interpreted pathname of the requested document or CGI (relative to the document root). Or undef if not set.
