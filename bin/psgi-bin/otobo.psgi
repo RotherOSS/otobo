@@ -305,7 +305,7 @@ my $NYTProfMiddleWare = sub {
     my $app = shift;
 
     return sub {
-        my $env = shift;
+        my $Env = shift;
 
         # check whether this request runs under Devel::NYTProf
         my $ProfilingIsOn = 0;
@@ -316,7 +316,7 @@ my $NYTProfMiddleWare = sub {
 
 
         # do the work
-        my $res = $app->($env);
+        my $res = $app->($Env);
 
         # clean up profiling, write the output file
         DB::finish_profile() if $ProfilingIsOn;
@@ -331,18 +331,18 @@ my $FixFCGIProxyMiddleware = sub {
     my $app = shift;
 
     return sub {
-        my $env = shift;
+        my $Env = shift;
 
         # In the apaches2-httpd-fcgi.include.conf case all incoming request should be handled.
         # This means that otobo.psgi expects that SCRIPT_NAME is either '' or '/' and that
         # PATH_INFO is something like '/otobo/index.pl'.
         # But we get PATH_INFO = '' and SCRIPT_NAME = '/otobo/index.pl'.
-        if ( $env->{PATH_INFO} eq '' && ( $env->{SCRIPT_NAME} ne ''  && $env->{SCRIPT_NAME} ne '/' ) ) {
-            ($env->{PATH_INFO}, $env->{SCRIPT_NAME}) = ($env->{SCRIPT_NAME}, '/');
+        if ( $Env->{PATH_INFO} eq '' && ( $Env->{SCRIPT_NAME} ne ''  && $Env->{SCRIPT_NAME} ne '/' ) ) {
+            ($Env->{PATH_INFO}, $Env->{SCRIPT_NAME}) = ($Env->{SCRIPT_NAME}, '/');
         }
 
         # user is authorised, now do the work
-        return $app->($env);
+        return $app->($Env);
     }
 };
 
@@ -351,7 +351,7 @@ my $AdminOnlyMiddeware = sub {
     my $app = shift;
 
     return sub {
-        my $env = shift;
+        my $Env = shift;
 
         local $Kernel::OM = Kernel::System::ObjectManager->new;
 
@@ -364,13 +364,11 @@ my $AdminOnlyMiddeware = sub {
         # The AuthSession modules use this object for getting info about the request.
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::Web::Request' => {
-                WebRequest => CGI::PSGI->new($env),
+                WebRequest => CGI::PSGI->new($Env),
             },
         );
 
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-        my $PlackRequest = Plack::Request->new($env);
+        my $PlackRequest = Plack::Request->new($Env);
 
         # Find out whether user is admin via the session.
         # Passing the session ID via POST or GET is not supported.
@@ -427,7 +425,7 @@ my $AdminOnlyMiddeware = sub {
         }
 
         # user is authorised, now do the work
-        return $app->($env);
+        return $app->($Env);
     };
 };
 
@@ -470,9 +468,9 @@ my $DumpEnvApp = sub {
 # handler for /otobo
 # Redirect to otobo/index.pl when in doubt
 my $RedirectOtoboApp = sub {
-    my $env = shift;
+    my $Env = shift;
 
-    my $req = Plack::Request->new($env);
+    my $req = Plack::Request->new($Env);
     my $uri = $req->base;
     $uri->path($uri->path . '/index.pl');
 
@@ -557,6 +555,8 @@ my $App = builder {
 
         # logic taken from the scripts in bin/cgi-bin
         sub {
+            my $Env = shift;
+
             # make sure to have a clean CGI.pm for each request, see CGI::Compile
             CGI::initialize_globals() if defined &CGI::initialize_globals;
 
@@ -582,6 +582,9 @@ my $App = builder {
                     'Kernel::System::Log' => {
                         LogPrefix => 'GenericInterfaceProvider',
                     },
+                    'Kernel::System::Web::Request' => {
+                        #WebRequest => CGI::PSGI->new($Env), TODO: enable when CGI::Emulate::PSGI is removed
+                    },
             }
 
             local $Kernel::OM = Kernel::System::ObjectManager->new(@ObjectManagerArgs);
@@ -592,26 +595,31 @@ my $App = builder {
                 if ( $ScriptFileName eq 'index.pl' ) {
                     $Interface = Kernel::System::Web::InterfaceAgent->new(
                         Debug      => $Debug,
+                        #WebRequest => CGI::PSGI->new($Env), TODO: enable when CGI::Emulate::PSGI is removed
                     );
                 }
                 elsif ( $ScriptFileName eq 'customer.pl' ) {
                     $Interface = Kernel::System::Web::InterfaceCustomer->new(
                         Debug      => $Debug,
+                        #WebRequest => CGI::PSGI->new($Env), TODO: enable when CGI::Emulate::PSGI is removed
                     );
                 }
                 elsif ( $ScriptFileName eq 'public.pl' ) {
                     $Interface = Kernel::System::Web::InterfacePublic->new(
                         Debug      => $Debug,
+                        #WebRequest => CGI::PSGI->new($Env), TODO: enable when CGI::Emulate::PSGI is removed
                     );
                 }
                 elsif ( $ScriptFileName eq 'installer.pl' ) {
                     $Interface = Kernel::System::Web::InterfaceInstaller->new(
                         Debug      => $Debug,
+                        #WebRequest => CGI::PSGI->new($Env), TODO: enable when CGI::Emulate::PSGI is removed
                     );
                 }
                 elsif ( $ScriptFileName eq 'migration.pl' ) {
                     $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
                         Debug      => $Debug,
+                        #WebRequest => CGI::PSGI->new($Env), TODO: enable when CGI::Emulate::PSGI is removed
                     );
                 }
                 elsif ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
@@ -649,11 +657,11 @@ my $RPCApp = builder {
         GATEWAY_INTERFACE     => 'CGI/1.1';
 
     sub {
-        my $env = shift;
+        my $Env = shift;
 
         return $soap->dispatch_to(
                 'OTOBO::RPC'
-            )->handler( Plack::Request->new( $env ) );
+            )->handler( Plack::Request->new( $Env ) );
     };
 };
 
