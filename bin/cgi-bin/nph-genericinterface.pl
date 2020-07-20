@@ -15,6 +15,8 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+# NOTE: When using PSGI /opt/otobo/nph-genericinterface.pl is handled by scripts/psgi-bin/otobo.psgi.
+
 use strict;
 use warnings;
 

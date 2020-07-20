@@ -387,6 +387,21 @@ sub ScriptName {
     return $ScriptName;
 }
 
+=head2 RequestURI
+
+Returns the interpreted pathname of the requested document or CGI (relative to the document root). Or undef if not set.
+This is a wrapper around CGI::request_uri().
+
+    my $RequestURI = $ParamObject->RequestURI();
+
+=cut
+
+sub RequestURI {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->request_uri( @Params );
+}
+
 =head2 PathInfo
 
 Returns additional path information from the script URL.

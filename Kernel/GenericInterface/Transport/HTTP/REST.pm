@@ -106,11 +106,15 @@ sub ProviderProcessRequest {
         );
     }
 
+    # The HTTP::REST support works with a request object.
+    # Just like Kernel::System::Web::InterfaceAgent.
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
     my $Operation;
     my %URIData;
-    my $RequestURI = $ENV{REQUEST_URI};
+    my $RequestURI = $ParamObject->RequestURI();
     $RequestURI =~ s{.*Webservice(?:ID)?\/[^\/]+(\/.*)$}{$1}xms;
 
     # Remove any query parameter from the URL
