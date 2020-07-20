@@ -579,7 +579,8 @@ sub Run {
 
         my $SkinSelectedHostBased;
         my $DefaultSkinHostBased = $ConfigObject->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
-        if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
+        my $Host = $ParamObject->HTTP('HOST');
+        if ( $DefaultSkinHostBased && $Host ) {
             REGEXP:
             for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
 
@@ -588,7 +589,7 @@ sub Run {
                 next REGEXP if !$DefaultSkinHostBased->{$RegExp};
 
                 # check if regexp is matching
-                if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
+                if ( $Host =~ m/$RegExp/i ) {
                     $SkinSelectedHostBased = $DefaultSkinHostBased->{$RegExp};
                 }
             }

@@ -385,7 +385,8 @@ EOF
 
     # force a theme based on host name
     my $DefaultThemeHostBased = $ConfigObject->Get('DefaultTheme::HostBased');
-    if ( $DefaultThemeHostBased && $ENV{HTTP_HOST} ) {
+    my $Host = $ParamObject->HTTP('HOST');
+    if ( $DefaultThemeHostBased && $Host ) {
 
         THEME:
         for my $RegExp ( sort keys %{$DefaultThemeHostBased} ) {
@@ -396,7 +397,7 @@ EOF
             next THEME if !$DefaultThemeHostBased->{$RegExp};
 
             # check if regexp is matching
-            if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
+            if ( $Host =~ m/$RegExp/i ) {
                 $Theme = $DefaultThemeHostBased->{$RegExp};
             }
         }

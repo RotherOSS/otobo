@@ -109,7 +109,7 @@ sub Run {
         # In OTOBO 10.0.1 it had to be lowercase 'on'.
         my $HTTPS = $ParamObject->HTTPS('HTTPS') // '';
         if ( lc($HTTPS) ne 'on' ) {
-            my $Host = $ENV{HTTP_HOST} || $ConfigObject->Get('FQDN');
+            my $Host = $ParamObject->HTTP('HOST') || $ConfigObject->Get('FQDN');
 
             # Redirect with 301 code. Add two new lines at the end, so HTTP headers are validated correctly.
             print "Status: 301 Moved Permanently\nLocation: https://$Host$ENV{REQUEST_URI}\n\n";
