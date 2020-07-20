@@ -42,6 +42,8 @@ my %PmFileFails = (
     'Kernel/cpan-lib/PDF/API2/Win32.pm'          => 'Win32 is not supported',
     'Kernel/cpan-lib/SOAP/Lite.pm'               => 'some strangeness concerning SOAP::Constants',
     'Kernel/cpan-lib/URI/urn/isbn.pm'            => 'Business::ISBN is not required',
+    'Kernel/System/UnitTest/RegisterDriver.pm'   => 'Kernel/System is in @INC, wrong DateTime.pm is loaded',
+    'Kernel/System/UnitTest/Selenium.pm'         => 'Kernel/System is in @INC, wrong DateTime.pm is loaded',
 );
 
 foreach my $PmFile ( $Internal->all_pm_files(@Dirs) ) {
