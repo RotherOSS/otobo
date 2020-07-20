@@ -45,6 +45,9 @@ requires 'XML::LibXML';
 # Required for fast YAML processing.
 requires 'YAML::XS';
 
+# For internationalised sorting
+requires 'Unicode::Collate::Locale';
+
 
 feature 'apache:mod_perl', 'Suppport for apache:mod_perl' => sub {
     # Improves Performance on Apache webservers dramatically.

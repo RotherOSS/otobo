@@ -412,6 +412,16 @@ my @NeededModules = (
             ports  => 'textproc/p5-YAML-LibYAML',
         },
     },
+    {
+        Module   => 'Unicode::Collate::Locale',
+        Required => 1,
+        Comment  => 'For internationalised sorting',
+        InstTypes => {
+            # This is a core Perl module which should be available on most distributions.
+            # Redhat seems to be an exception. See https://github.com/RotherOSS/otobo/issues/219
+            yum    => 'perl-Unicode-Collate',
+        },
+    },
 
 # Feature db
     {
