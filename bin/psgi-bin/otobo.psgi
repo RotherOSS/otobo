@@ -309,7 +309,7 @@ my $NYTProfMiddleWare = sub {
 
         # check whether this request runs under Devel::NYTProf
         my $ProfilingIsOn = 0;
-        if ( $ENV{NYTPROF} && $ENV{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ) {
+        if ( $ENV{NYTPROF} && $Env->{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ) {
             $ProfilingIsOn = 1;
             DB::enable_profile("nytprof-$1.out");
         }
@@ -563,14 +563,13 @@ my $App = builder {
             # 0=off;1=on;
             my $Debug = 0;
 
-            # %ENV has to be used here as the PSGI is not passed as an arg to this anonymous sub.
-            # $ENV{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
-            # $ENV{PATH_INFO} contains the path after the $ENV{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
+            # $Env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
+            # $Env->{PATH_INFO} contains the path after the $Env->{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
             # The extracted ScriptFileName should be something like:
             #     nph-genericinterface.pl, index.pl, customer.pl, or rpc.pl
             # Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
             # are gracefully ignored.
-            my ($ScriptFileName) = ( ( $ENV{SCRIPT_NAME} // '' ) . ( $ENV{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
+            my ($ScriptFileName) = ( ( $Env->{SCRIPT_NAME} // '' ) . ( $Env->{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
 
             # Fallback to agent login if we could not determine handle...
             $ScriptFileName //= 'index.pl';
@@ -683,7 +682,7 @@ builder {
     mount '/otobo/dbviewer'                => $DBViewerApp;
 
     # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
-    # The pathes are such that $ENV{SCRIPT_NAME} and $ENV{PATH_INFO} are set up just like they are set up under mod_perl,
+    # The pathes are such that $Env->{SCRIPT_NAME} and $Env->{PATH_INFO} are set up just like they are set up under mod_perl,
     mount '/otobo'                         => $RedirectOtoboApp; #redirect to /otobo/index.pl when in doubt
     mount '/otobo/index.pl'                => $App;
     mount '/otobo/customer.pl'             => $App;
