@@ -387,6 +387,21 @@ sub ScriptName {
     return $ScriptName;
 }
 
+=head2 ServerProtocol
+
+return info about the protocol.
+This is a wrapper around CGI::server_protocol().
+
+    my $ServerProtocol = $ParamObject->ServerProtocol();
+
+=cut
+
+sub ServerProtocol {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->server_protocol( @Params );
+}
+
 =head2 ServerSoftware
 
 return info which server is running.
@@ -399,7 +414,6 @@ This is a wrapper around CGI::server_software().
 sub ServerSoftware {
     my ( $Self, @Params ) = @_;
 
-    # fix erroneous double slashes at the beginning of SCRIPT_NAME as it worked in OTRS
     return $Self->{Query}->server_software( @Params );
 }
 
