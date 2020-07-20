@@ -227,7 +227,11 @@ sub ProviderProcessRequest {
         );
     }
 
-    my $Length = $ENV{'CONTENT_LENGTH'};
+    # The post data has already been read in. This should be safe
+    # as $CGI::POST_MAX has been set as an emergency brake.
+    # For Checking the length we can therefor use the actual length.
+    my $Content = $ParamObject->GetParam( Param => 'POSTDATA' );
+    my $Length  = length $Content;
 
     # No length provided, return the information we have.
     # Also return for 'GET' method because it does not allow sending an entity-body in requests.
@@ -251,15 +255,11 @@ sub ProviderProcessRequest {
         );
     }
 
-    # Read request.
-    my $Content;
-    read STDIN, $Content, $Length;
-
-    # If there is no STDIN data it might be caused by fastcgi already having read the request.
-    # In this case we need to get the data from CGI.
+    # There might be a different request method.
+    # NOTE: this is kept only for compatability with older versions
     if ( !IsStringWithData($Content) && $RequestMethod ne 'GET' ) {
         my $ParamName = $RequestMethod . 'DATA';
-        $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
+        $Content = $ParamObject->GetParam(
             Param => $ParamName,
         );
     }

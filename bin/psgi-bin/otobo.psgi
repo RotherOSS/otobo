@@ -355,6 +355,11 @@ my $AdminOnlyMiddeware = sub {
 
         local $Kernel::OM = Kernel::System::ObjectManager->new;
 
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+        # avoid vulnerability where a large POST is submitted
+        $CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;    ## no critic
+
         # Create the underlying CGI object from the PSGI environment.
         # The AuthSession modules use this object for getting info about the request.
         $Kernel::OM->ObjectParamAdd(
