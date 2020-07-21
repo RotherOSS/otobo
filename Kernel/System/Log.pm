@@ -200,7 +200,7 @@ sub Log {
     my $LogTime = $DateTimeObject->ToCTimeString();
 
     # if error, write it to STDERR
-    if ( $Priority =~ /^error/i ) {
+    if ( $Priority =~ m/^error/i ) {
 
         ## no critic
         my $Error = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: "
@@ -209,7 +209,8 @@ sub Log {
 
         $Error .= " Message: $Message\n\n";
 
-        if ( %ENV && $ENV{GATEWAY_INTERFACE}  ) ) {
+        # more info when we are in a web context
+        if ( $ENV{GATEWAY_INTERFACE} ) {
 
             my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
             my $RemoteAddr  = $ParamObject->RemoteAddr() || '-';
