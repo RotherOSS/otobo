@@ -29,6 +29,9 @@ otobo.psgi - OTOBO PSGI application
     # using the webserver Gazelle
     plackup --server Gazelle bin/psgi-bin/otobo.psgi
 
+    # with profiling (untested)
+    PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/psgi-bin/otobo.psgi
+
 =head1 DESCRIPTION
 
 A PSGI application.
@@ -42,16 +45,20 @@ There are some requirements for running this application. Do something like:
           --with-feature=div:bcrypt --with-feature=performance:json --with-feature=mail:imap  \
           --with-feature=mail:sasl --with-feature=div:ldap --with-feature=performance:csv \
           --with-feature=div:xslt --with-feature=performance:redis --with-feature=devel:test \
-          --installdeps .\
+          --installdeps .
 
 =head1 Profiling
 
-To profile single requests, install Devel::NYTProf and start this script as
-PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/psgi-bin/otobo.psgi
-then append &NYTProf=mymarker to a request.
+To profile single requests, install Devel::NYTProf and start this script as:
+
+    PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/psgi-bin/otobo.psgi
+
+For actual profiling append C<&NYTProf=mymarker> to a request.
 This creates a file called nytprof-mymarker.out, which you can process with
-nytprofhtml -f nytprof-mymarker.out
-Then point your browser at nytprof/index.html
+
+    nytprofhtml -f nytprof-mymarker.out
+
+Then point your browser at nytprof/index.html.
 
 =cut
 
@@ -60,12 +67,13 @@ use warnings;
 use utf8;
 
 # use ../../ as lib location
-use FindBin qw($Bin);
-use lib "$Bin/../..";
-use lib "$Bin/../../Kernel/cpan-lib";
-use lib "$Bin/../../Custom";
+use FindBin;
+use lib "$FindBin::Bin/../..";
+use lib "$FindBin::Bin/../../Kernel/cpan-lib";
+use lib "$FindBin::Bin/../../Custom";
 
 # this package is used for rpc.pl
+# UNTESTED
 package OTOBO::RPC {
     use Kernel::System::ObjectManager;
 
@@ -301,13 +309,13 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT AS OF JULY 18TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
+warn "PLEASE NOTE THAT AS OF JULY 21ST 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
 
 ################################################################################
 # Middlewares
 ################################################################################
 
-# conditionally enable profiling
+# conditionally enable profiling, UNTESTED
 my $NYTProfMiddleWare = sub {
     my $app = shift;
 
