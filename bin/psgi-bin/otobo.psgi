@@ -66,7 +66,7 @@ use v5.24;
 use warnings;
 use utf8;
 
-# use ../../ as lib location
+# expect that otobo.psgi is two level below the OTOBO root dir
 use FindBin;
 use lib "$FindBin::Bin/../..";
 use lib "$FindBin::Bin/../../Kernel/cpan-lib";
@@ -512,7 +512,7 @@ my $DBViewerApp = builder {
         };
 
     my $server = Mojo::Server::PSGI->new;
-    $server->load_app("$Bin/../mojo-bin/dbviewer.pl");
+    $server->load_app("$FindBin::Bin/../mojo-bin/dbviewer.pl");
 
     sub { $server->run(@_) };
 };
@@ -539,7 +539,7 @@ my $StaticApp = builder {
     enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Plack::Middleware::Header',
         set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
 
-    Plack::App::File->new(root => "$Bin/../../var/httpd/htdocs")->to_app;
+    Plack::App::File->new(root => "$FindBin::Bin/../../var/httpd/htdocs")->to_app;
 };
 
 # Port of index.pl, customer.pl, public.pl, migration.pl, nph-genericinterface.pl to Plack.
