@@ -56,7 +56,6 @@ foreach my $File ( $Internal->all_pm_files(@Dirs) ) {
 }
 
 diag( 'look at the Perl scripts' );
-
 foreach my $File ( $Internal->all_pl_files(@Dirs) ) {
     if ( $CompileFails{$File} ) {
         my $todo = todo "$File: $CompileFails{$File}";
@@ -67,6 +66,20 @@ foreach my $File ( $Internal->all_pl_files(@Dirs) ) {
     }
 }
 
-diag( 'look at the Perl modules' );
+diag( 'look at Perl code with an unusual extension' );
+{
+    my @Files = (
+        'bin/psgi-bin/otobo.psgi',
+    );
+    foreach my $File ( @Files ) {
+        if ( $CompileFails{$File} ) {
+            my $todo = todo "$File: $CompileFails{$File}";
+            ok( $Internal->pl_file_compiles($File), "$File compiles" );
+        }
+        else {
+            ok( $Internal->pl_file_compiles($File), "$File compiles" );
+        }
+    }
+}
 
 done_testing();
