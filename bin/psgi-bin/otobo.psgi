@@ -430,7 +430,7 @@ my $AdminOnlyMiddeware = sub {
 # Apps
 ################################################################################
 
-# The most basic App
+# The most basic App, no permission check
 my $HelloApp = sub {
     my $Env = shift;
 
@@ -447,7 +447,7 @@ my $HelloApp = sub {
     ];
 };
 
-# Sometimes useful for debugging
+# Sometimes useful for debugging, no permission check
 my $DumpEnvApp = sub {
     my $Env = shift;
 
@@ -463,7 +463,7 @@ my $DumpEnvApp = sub {
 };
 
 # handler for /otobo
-# Redirect to otobo/index.pl when in doubt
+# Redirect to otobo/index.pl when in doubt, no permission check
 my $RedirectOtoboApp = sub {
     my $env = shift;
 
@@ -477,7 +477,7 @@ my $RedirectOtoboApp = sub {
     return $res->finalize;
 };
 
-# an app for inspecting the database
+# an app for inspecting the database, logged in user must be an admin
 my $DBViewerApp = builder {
 
     # allow access only for admins
@@ -496,7 +496,9 @@ my $DBViewerApp = builder {
     my $server = Mojo::Server::PSGI->new;
     $server->load_app("$Bin/../mojo-bin/dbviewer.pl");
 
-    sub { $server->run(@_) };
+    sub {
+        $server->run(@_)
+    };
 };
 
 # Server the static files in var/httpd/httpd.
@@ -525,6 +527,7 @@ my $StaticApp = builder {
 };
 
 # Port of index.pl, customer.pl, public.pl, installer.pl, migration.pl, nph-genericinterface.pl to Plack.
+# with permission check
 my $App = builder {
 
     enable 'Plack::Middleware::ErrorDocument',
@@ -652,6 +655,7 @@ my $RPCApp = builder {
     };
 };
 
+# The final PSGI application
 builder {
 
     # for debugging
