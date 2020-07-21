@@ -542,8 +542,8 @@ my $StaticApp = builder {
     Plack::App::File->new(root => "$FindBin::Bin/../../var/httpd/htdocs")->to_app;
 };
 
-# Port of index.pl, customer.pl, public.pl, migration.pl, nph-genericinterface.pl to Plack.
-my $App = builder {
+# Port of customer.pl, public.pl, migration.pl, nph-genericinterface.pl to Plack.
+my $AppWithCGIEmulatePSGI = builder {
 
     enable 'Plack::Middleware::ErrorDocument',
         403 => '/otobo/index.pl';  # forbidden files
@@ -606,13 +606,7 @@ my $App = builder {
             # find the relevant interface class
             my $Interface;
             {
-                if ( $ScriptFileName eq 'index.pl' ) {
-                    $Interface = Kernel::System::Web::InterfaceAgent->new(
-                        Debug      => $Debug,
-                        #WebRequest => CGI::PSGI->new($Env), TODO: enable when CGI::Emulate::PSGI is removed
-                    );
-                }
-                elsif ( $ScriptFileName eq 'customer.pl' ) {
+                if ( $ScriptFileName eq 'customer.pl' ) {
                     $Interface = Kernel::System::Web::InterfaceCustomer->new(
                         Debug      => $Debug,
                         #WebRequest => CGI::PSGI->new($Env), TODO: enable when CGI::Emulate::PSGI is removed
@@ -649,8 +643,8 @@ my $App = builder {
     );
 };
 
-# Port of installer.pl to Plack.
-my $AppNoEmulate = builder {
+# Port of installer.pl, index.pl to Plack.
+my $OTOBOApp = builder {
 
     enable 'Plack::Middleware::ErrorDocument',
         403 => '/otobo/index.pl';  # forbidden files
@@ -707,7 +701,13 @@ my $AppNoEmulate = builder {
                 # find the relevant interface class
                 my $Interface;
                 {
-                    if ( $ScriptFileName eq 'installer.pl' ) {
+                    if ( $ScriptFileName eq 'index.pl' ) {
+                        $Interface = Kernel::System::Web::InterfaceAgent->new(
+                            Debug      => $Debug,
+                            WebRequest => CGI::PSGI->new($Env),
+                        );
+                    }
+                    elsif ( $ScriptFileName eq 'installer.pl' ) {
                         $Interface = Kernel::System::Web::InterfaceInstaller->new(
                             Debug      => $Debug,
                             WebRequest => CGI::PSGI->new($Env),
@@ -779,12 +779,12 @@ builder {
     # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
     # The pathes are such that $Env->{SCRIPT_NAME} and $Env->{PATH_INFO} are set up just like they are set up under mod_perl,
     mount '/otobo'                         => $RedirectOtoboApp; #redirect to /otobo/index.pl when in doubt
-    mount '/otobo/index.pl'                => $App;
-    mount '/otobo/customer.pl'             => $App;
-    mount '/otobo/public.pl'               => $App;
-    mount '/otobo/installer.pl'            => $AppNoEmulate;
-    mount '/otobo/migration.pl'            => $App;
-    mount '/otobo/nph-genericinterface.pl' => $App;
+    mount '/otobo/index.pl'                => $OTOBOApp;
+    mount '/otobo/customer.pl'             => $AppWithCGIEmulatePSGI;
+    mount '/otobo/public.pl'               => $AppWithCGIEmulatePSGI;
+    mount '/otobo/installer.pl'            => $OTOBOApp;
+    mount '/otobo/migration.pl'            => $AppWithCGIEmulatePSGI;
+    mount '/otobo/nph-genericinterface.pl' => $AppWithCGIEmulatePSGI;
 
     # some SOAP stuff
     mount '/otobo/rpc.pl'                  => $RPCApp;
