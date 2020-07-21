@@ -73,7 +73,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $RequestURI = $ENV{REQUEST_URI};
+    my $RequestURI = $ParamObject->RequestURI();
 
     #
     # Locate and verify the desired web service based on the request URI and load its configuration data.

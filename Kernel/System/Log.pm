@@ -213,7 +213,7 @@ sub Log {
 
             my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
             my $RemoteAddr  = $ParamObject->RemoteAddr() || '-';
-            my $RequestURI  = $ENV{REQUEST_URI} || '-';
+            my $RequestURI  = $ParamObject->RequestURI() || '-';
 
             $Error .= " RemoteAddress: $RemoteAddr\n";
             $Error .= " RequestURI: $RequestURI\n\n";
