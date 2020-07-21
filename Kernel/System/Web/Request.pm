@@ -368,6 +368,21 @@ sub RemoteAddr {
     return $Self->{Query}->remote_addr( @Params );
 }
 
+=head2 RemoteUser
+
+get the remote user.
+This is a wrapper around CGI::remote_user().
+
+    my $RemoteUser = $ParamObject->RemoteUser();
+
+=cut
+
+sub RemoteUser {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->remote_user( @Params );
+}
+
 =head2 ScriptName
 
 return the script name as a partial URL, for self-referring scripts.
