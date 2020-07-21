@@ -209,12 +209,13 @@ sub Log {
 
         $Error .= " Message: $Message\n\n";
 
-        if ( %ENV && ( $ENV{REMOTE_ADDR} || $ENV{REQUEST_URI} ) ) {
+        if ( %ENV && $ENV{GATEWAY_INTERFACE}  ) ) {
 
-            my $RemoteAddress = $ENV{REMOTE_ADDR} || '-';
-            my $RequestURI    = $ENV{REQUEST_URI} || '-';
+            my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+            my $RemoteAddr  = $ParamObject->RemoteAddr() || '-';
+            my $RequestURI  = $ENV{REQUEST_URI} || '-';
 
-            $Error .= " RemoteAddress: $RemoteAddress\n";
+            $Error .= " RemoteAddress: $RemoteAddr\n";
             $Error .= " RequestURI: $RequestURI\n\n";
         }
 

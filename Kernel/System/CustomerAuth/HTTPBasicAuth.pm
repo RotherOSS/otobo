@@ -76,7 +76,7 @@ sub Auth {
     # get params
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $User        = $ENV{REMOTE_USER} || $ParamObject->HTTP('REMOTE_USER');
-    my $RemoteAddr  = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
+    my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
 
     # return on on user
     if ( !$User ) {

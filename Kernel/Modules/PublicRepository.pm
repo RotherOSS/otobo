@@ -47,10 +47,12 @@ sub Run {
         );
     }
     else {
-        if ( $ENV{REMOTE_ADDR} !~ /^$AccessControlRexExp$/ ) {
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+        my $RemoteAddr  = $ParamObject->RemoteAddr() || '';
+        if ( $RemoteAddr !~ /^$AccessControlRexExp$/ ) {
             return $LayoutObject->CustomerErrorScreen(
                 Message =>
-                    $LayoutObject->{LanguageObject}->Translate( 'Authentication failed from %s!', $ENV{REMOTE_ADDR} ),
+                    $LayoutObject->{LanguageObject}->Translate( 'Authentication failed from %s!', $RemoteAddr ),
             );
         }
     }

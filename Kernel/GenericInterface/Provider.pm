@@ -72,6 +72,7 @@ and returns an appropriate answer based on the requested web service.
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $RequestURI = $ENV{REQUEST_URI};
 
     #
@@ -132,7 +133,7 @@ sub Run {
         DebuggerConfig    => $Webservice->{Config}->{Debugger},
         WebserviceID      => $Webservice->{ID},
         CommunicationType => 'Provider',
-        RemoteIP          => $ENV{REMOTE_ADDR},
+        RemoteIP          => $ParamObject->RemoteAddr(),
     );
 
     if ( ref $DebuggerObject ne 'Kernel::GenericInterface::Debugger' ) {
