@@ -247,6 +247,7 @@ to dispatch multiple ticket methods and get the TicketID
 
 # core modules
 use Data::Dumper;
+use POSIX 'SEEK_SET';
 
 # CPAN modules
 use DateTime ();
@@ -674,7 +675,7 @@ my $AppNoEmulate = builder {
             my $saver = SelectSaver->new("::STDOUT");
             {
                 local *STDOUT = $stdout;
-                local *STDERR = $env->{'psgi.errors'};
+                local *STDERR = $Env->{'psgi.errors'};
 
                 # make sure to have a clean CGI.pm for each request, see CGI::Compile
                 CGI::initialize_globals() if defined &CGI::initialize_globals;
@@ -693,7 +694,7 @@ my $AppNoEmulate = builder {
                 # Fallback to agent login if we could not determine handle...
                 $ScriptFileName //= 'index.pl';
 
-                local $Kernel::OM = Kernel::System::ObjectManager->new(@ObjectManagerArgs);
+                local $Kernel::OM = Kernel::System::ObjectManager->new();
 
                 # find the relevant interface class
                 my $Interface;
