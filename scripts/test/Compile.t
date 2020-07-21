@@ -29,12 +29,12 @@ use Test::Compile::Internal;
 my $Internal = Test::Compile::Internal->new;
 my @Dirs = qw(Kernel Custom scripts bin);
 
-diag( 'look at the Perl modules' );
-
-my %PmFileFails = (
+# List of files that are know to have compile issues.
+# NOTE: Please create an issue when adding to this list and the reason is not acceptable.
+my %CompileFails = (
     'Kernel/System/Auth/Radius.pm'               => 'Authen::Radius is not required',
     'Kernel/System/CustomerAuth/Radius.pm'       => 'Authen::Radius is not required',
-    'Kernel/System/SysConfig/Migration.pm'       => 'scripts/MigrateFromOTRS/Base.pm does not exist',
+    'Kernel/System/SysConfig/Migration.pm'       => 'see https://github.com/RotherOSS/otobo/issues/213',
     'Kernel/cpan-lib/Devel/REPL/Plugin/OTOBO.pm' => 'Devel::REPL::Plugin is not required',
     'Kernel/cpan-lib/Font/TTF/Win32.pm'          => 'Win32 is not supported',
     'Kernel/cpan-lib/LWP/Authen/Ntlm.pm'         => 'Authen::NLTM is not required',
@@ -44,29 +44,29 @@ my %PmFileFails = (
     'Kernel/cpan-lib/URI/urn/isbn.pm'            => 'Business::ISBN is not required',
 );
 
-foreach my $PmFile ( $Internal->all_pm_files(@Dirs) ) {
-    if ( $PmFileFails{$PmFile} ) {
-        my $todo = todo "$PmFile: $PmFileFails{$PmFile}";
-        ok( $Internal->pm_file_compiles($PmFile), "$PmFile compiles" );
+diag( 'look at the Perl modules' );
+foreach my $File ( $Internal->all_pm_files(@Dirs) ) {
+    if ( $CompileFails{$File} ) {
+        my $todo = todo "$File: $CompileFails{$File}";
+        ok( $Internal->pm_file_compiles($File), "$File compiles" );
     }
     else {
-        ok( $Internal->pm_file_compiles($PmFile), "$PmFile compiles" );
+        ok( $Internal->pm_file_compiles($File), "$File compiles" );
     }
 }
 
 diag( 'look at the Perl scripts' );
 
-my %PlFileFails = (
-);
-
-foreach my $PlFile ( $Internal->all_pl_files(@Dirs) ) {
-    if ( $PlFileFails{$PlFile} ) {
-        my $todo = todo "$PlFile: $PlFileFails{$PlFile}";
-        ok( $Internal->pl_file_compiles($PlFile), "$PlFile compiles" );
+foreach my $File ( $Internal->all_pl_files(@Dirs) ) {
+    if ( $CompileFails{$File} ) {
+        my $todo = todo "$File: $CompileFails{$File}";
+        ok( $Internal->pl_file_compiles($File), "$File compiles" );
     }
     else {
-        ok( $Internal->pl_file_compiles($PlFile), "$PlFile compiles" );
+        ok( $Internal->pl_file_compiles($File), "$File compiles" );
     }
 }
+
+diag( 'look at the Perl modules' );
 
 done_testing();
