@@ -35,19 +35,21 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 
-# Set the timezone of root@localhost to UTC.
-# This is needed for 'DateTime - pass' and for 'Date - pass'
-$Kernel::OM->Get('Kernel::System::User')->SetPreferences(
-    Key    => 'UserTimeZone',
-    Value  => 'UTC',
-    UserID => 1,
-);
-
 # Get needed objects
 my $HelperObject      = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
 my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
 my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+# Set the timezone of root@localhost to UTC.
+# This is needed for 'DateTime - pass' and for 'Date - pass'
+# This statement must be executed after Kernel::System::UnitTest::Helper is loaded,
+# so that the old state will be restored.
+$Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+    Key    => 'UserTimeZone',
+    Value  => 'UTC',
+    UserID => 1,
+);
 
 $HelperObject->FixedTimeSet();
 
