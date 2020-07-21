@@ -480,6 +480,9 @@ my $RedirectOtoboApp = sub {
 # an app for inspecting the database, logged in user must be an admin
 my $DBViewerApp = builder {
 
+    # a simplistic detection whether we are behind a revers proxy
+    enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
+
     # allow access only for admins
     enable $AdminOnlyMiddeware;
 
