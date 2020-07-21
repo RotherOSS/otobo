@@ -5,15 +5,17 @@
 # This config is based on default.conf in the nginx installation
 
 
-# don't server HTTP
+# Do not serve HTTP, redirect to HTTPS instead.
+# See https://linuxize.com/post/redirect-http-to-https-in-nginx/.
 server {
     listen 80;
     listen [::]:80;
 
-    server_name  localhost;
+    # catch all domains
+    server_name _;
 
     # 301 Moved Permanently, (in 'SEO-speak', it is said that the 'link-juice' is sent to the new URL).
-    return 301 https://$server_name$request_uri;
+    return 301 https://$host$request_uri;
 }
 
 # serve HTTPS
