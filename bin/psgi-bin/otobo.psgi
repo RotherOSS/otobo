@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,6 +38,11 @@ A PSGI application.
 There are some requirements for running this application. Do something like:
 
     cpanm --with-feature=mojo --with-feature=plack --with-feature=mysql  --installdeps .
+    cpanm --with-feature=db:mysql --with-feature=plack --with-feature=devel:dbviewer \
+          --with-feature=div:bcrypt --with-feature=performance:json --with-feature=mail:imap  \
+          --with-feature=mail:sasl --with-feature=div:ldap --with-feature=performance:csv \
+          --with-feature=div:xslt --with-feature=performance:redis --with-feature=devel:test \
+          --installdeps .\
 
 =head1 Profiling
 
@@ -527,7 +533,7 @@ my $StaticApp = builder {
     Plack::App::File->new(root => "$Bin/../../var/httpd/htdocs")->to_app;
 };
 
-# Port of index.pl, customer.pl, public.pl, installer.pl, migration.pl, nph-genericinterface.pl to Plack.
+# Port of index.pl, customer.pl, public.pl, migration.pl, nph-genericinterface.pl to Plack.
 my $App = builder {
 
     enable 'Plack::Middleware::ErrorDocument',
@@ -609,12 +615,6 @@ my $App = builder {
                         #WebRequest => CGI::PSGI->new($Env), TODO: enable when CGI::Emulate::PSGI is removed
                     );
                 }
-                elsif ( $ScriptFileName eq 'installer.pl' ) {
-                    $Interface = Kernel::System::Web::InterfaceInstaller->new(
-                        Debug      => $Debug,
-                        #WebRequest => CGI::PSGI->new($Env), TODO: enable when CGI::Emulate::PSGI is removed
-                    );
-                }
                 elsif ( $ScriptFileName eq 'migration.pl' ) {
                     $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
                         Debug      => $Debug,
@@ -627,7 +627,7 @@ my $App = builder {
                 else {
 
                     # fallback
-                    warn " using fallback InterfaceAgeng for ScriptFileName: '$ScriptFileName'\n";
+                    warn " using fallback InterfaceAgent for ScriptFileName: '$ScriptFileName'\n";
                     $Interface = Kernel::System::Web::InterfaceAgent->new(
                         Debug      => $Debug,
                     );
@@ -638,6 +638,92 @@ my $App = builder {
             $Interface->Run;
         }
     );
+};
+
+# Port of installer.pl to Plack.
+my $AppNoEmulate = builder {
+
+    enable 'Plack::Middleware::ErrorDocument',
+        403 => '/otobo/index.pl';  # forbidden files
+
+    # a simplistic detection whether we are behind a revers proxy
+    enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
+
+    # GATEWAY_INTERFACE is used for determining whether a command runs in a web context
+    # Per default it would enable mysql_auto_reconnect.
+    # But mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
+    # OTOBO_RUNS_UNDER_PSGI indicates that PSGI is used.
+    enable 'Plack::Middleware::ForceEnv',
+        OTOBO_RUNS_UNDER_PSGI => '1',
+        GATEWAY_INTERFACE     => 'CGI/1.1';
+
+    # conditionally enable profiling
+    enable $NYTProfMiddleWare;
+
+    # check ever 10s for changed Perl modules
+    enable 'Plack::Middleware::Refresh';
+
+    # No need to set %ENV or redirect STDIN.
+    # But STDOUT and STDERR is still like in CGI scripts.
+    # logic taken from the scripts in bin/cgi-bin and from CGI::Emulate::PSGI
+    sub {
+        my $Env = shift;
+
+        my $stdout  = IO::File->new_tmpfile;
+        {
+            my $saver = SelectSaver->new("::STDOUT");
+            {
+                local *STDOUT = $stdout;
+                local *STDERR = $env->{'psgi.errors'};
+
+                # make sure to have a clean CGI.pm for each request, see CGI::Compile
+                CGI::initialize_globals() if defined &CGI::initialize_globals;
+
+                # 0=off;1=on;
+                my $Debug = 0;
+
+                # $Env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
+                # $Env->{PATH_INFO} contains the path after the $Env->{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
+                # The extracted ScriptFileName should be something like:
+                #     nph-genericinterface.pl, index.pl, customer.pl, or rpc.pl
+                # Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
+                # are gracefully ignored.
+                my ($ScriptFileName) = ( ( $Env->{SCRIPT_NAME} // '' ) . ( $Env->{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
+
+                # Fallback to agent login if we could not determine handle...
+                $ScriptFileName //= 'index.pl';
+
+                local $Kernel::OM = Kernel::System::ObjectManager->new(@ObjectManagerArgs);
+
+                # find the relevant interface class
+                my $Interface;
+                {
+                    if ( $ScriptFileName eq 'installer.pl' ) {
+                        $Interface = Kernel::System::Web::InterfaceInstaller->new(
+                            Debug      => $Debug,
+                            WebRequest => CGI::PSGI->new($Env),
+                        );
+                    }
+                    else {
+
+                        # fallback
+                        warn " using fallback InterfaceAgent for ScriptFileName: '$ScriptFileName'\n";
+                        $Interface = Kernel::System::Web::InterfaceAgent->new(
+                            Debug      => $Debug,
+                        );
+                    }
+                }
+
+                # do the work
+                $Interface->Run;
+            }
+        }
+
+        seek( $stdout, 0, SEEK_SET )
+            or croak("Can't seek stdout handle: $!");
+
+        return CGI::Parse::PSGI::parse_cgi_output($stdout);
+    };
 };
 
 
@@ -687,7 +773,7 @@ builder {
     mount '/otobo/index.pl'                => $App;
     mount '/otobo/customer.pl'             => $App;
     mount '/otobo/public.pl'               => $App;
-    mount '/otobo/installer.pl'            => $App;
+    mount '/otobo/installer.pl'            => $AppNoEmulate;
     mount '/otobo/migration.pl'            => $App;
     mount '/otobo/nph-genericinterface.pl' => $App;
 
