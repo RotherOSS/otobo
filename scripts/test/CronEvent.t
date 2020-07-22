@@ -24,27 +24,6 @@ use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitT
 
 use vars (qw($Self));
 
-# Broken on certain Perl 5.28 versions due to a Perl crash that we can't work around.
-my @BlacklistPerlVersions = (
-    v5.26.1,
-    v5.26.3,
-    v5.28.1,
-    v5.28.2,
-    v5.30.0,
-    v5.30.1,
-    v5.30.2,
-    v5.30.3,
-);
-
-# disable the blacklist, so that we have a chance to encounter the problem.
-@BlacklistPerlVersions = ();
-
-if ( grep { $^V eq $_ } @BlacklistPerlVersions ) {
-    $Self->True( 1, "Current Perl version $^V is known to be buggy for this test, skipping." );
-    $Self->DoneTesting();
-    return 1;
-}
-
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 $ConfigObject->Set(
     Key   => 'OTOBOTimeZone',
