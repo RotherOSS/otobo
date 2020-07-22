@@ -36,14 +36,18 @@ my @BlacklistPerlVersions = (
     v5.30.3,
 );
 
+# disable the blacklist, so that we have a chance to encounter the problem.
+@BlacklistPerlVersions = ();
+
 if ( grep { $^V eq $_ } @BlacklistPerlVersions ) {
     $Self->True( 1, "Current Perl version $^V is known to be buggy for this test, skipping." );
+    $Self->DoneTesting();
     return 1;
 }
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 $ConfigObject->Set(
-    Key   => 'OTRSTimeZone',
+    Key   => 'OTOBOTimeZone',
     Value => 'UTC',
 );
 
@@ -294,7 +298,7 @@ for my $Test (@Tests) {
 
     if ( $Test->{Config}->{TimeZone} ) {
         $ConfigObject->Set(
-            Key   => 'OTRSTimeZone',
+            Key   => 'OTOBOTimeZone',
             Value => $Test->{Config}->{TimeZone},
         );
     }
@@ -326,10 +330,10 @@ for my $Test (@Tests) {
         );
     }
 
-    # Reset back OTRSTimeZone if it was changed.
+    # Reset back OTOBOTimeZone if it was changed.
     if ( $Test->{Config}->{TimeZone} ) {
         $ConfigObject->Set(
-            Key   => 'OTRSTimeZone',
+            Key   => 'OTOBOTimeZone',
             Value => 'UTC',
         );
     }
@@ -472,7 +476,7 @@ for my $Test (@Tests) {
 
     if ( $Test->{Config}->{TimeZone} ) {
         $ConfigObject->Set(
-            Key   => 'OTRSTimeZone',
+            Key   => 'OTOBOTimeZone',
             Value => $Test->{Config}->{TimeZone},
         );
     }
@@ -512,10 +516,10 @@ for my $Test (@Tests) {
         );
     }
 
-    # Reset back OTRSTimeZone if it was changed.
+    # Reset back OTOBOTimeZone if it was changed.
     if ( $Test->{Config}->{TimeZone} ) {
         $ConfigObject->Set(
-            Key   => 'OTRSTimeZone',
+            Key   => 'OTOBOTimeZone',
             Value => 'UTC',
         );
     }
@@ -676,7 +680,7 @@ for my $Test (@Tests) {
 
     if ( $Test->{Config}->{TimeZone} ) {
         $ConfigObject->Set(
-            Key   => 'OTRSTimeZone',
+            Key   => 'OTOBOTimeZone',
             Value => $Test->{Config}->{TimeZone},
         );
     }
@@ -708,10 +712,10 @@ for my $Test (@Tests) {
         );
     }
 
-    # Reset back OTRSTimeZone if it was changed.
+    # Reset back OTOBOTimeZone if it was changed.
     if ( $Test->{Config}->{TimeZone} ) {
         $ConfigObject->Set(
-            Key   => 'OTRSTimeZone',
+            Key   => 'OTOBOTimeZone',
             Value => 'UTC',
         );
     }
