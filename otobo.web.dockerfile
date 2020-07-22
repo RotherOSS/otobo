@@ -47,16 +47,14 @@ WORKDIR $OTOBO_HOME
 #RUN tree Kernel
 #RUN false
 
-# Under Docker the Elasticsearch Daemon in running on the host 'elastic' instead of '127.0.0.1'.
+# Under Docker the Elasticsearch Daemon is running on the host 'elastic' instead of '127.0.0.1'.
 # The webservice configuration is in a YAML file and it is not obvious how
 # to change settings for webservices.
 # So we take the easy was out and do the change directly in the XML file,
 # before installer.pl has run.
-# Doing this already in the initial database insert allows the installer
-# to pick up the changed host and to check whether ES is available.
-RUN cd scripts/database \
-    && cp otobo-initial_insert.xml otobo-initial_insert.xml.orig \
-    && perl -pi -e "s{Host: http://localhost:9200}{Host: http://elastic:9200}" otobo-initial_insert.xml
+# Doing this already in the initial database insert allows installer.pl
+# to pick up the changed host and to check whether Elasticsearch is available.
+RUN perl -p -i.orig -e "s{Host: http://localhost:9200}{Host: http://elastic:9200}" scripts/database/otobo-initial_insert.xml
 
 # Some initial setup.
 # Create dirs.
@@ -64,7 +62,7 @@ RUN cd scripts/database \
 # Enable bash completion.
 # Activate the .dist files.
 # Use the docker specific Config.pm.dist file.
-RUN mkdir -p var/stats var/packages \
+RUN mkdir -p var/stats var/packages var/article  \
     && bin/otobo.CheckSum.pl -a create \
     && (echo ". ~/.bash_completion" >> .bash_aliases ) \
     && cp Kernel/Config.pm.docker.dist Kernel/Config.pm \

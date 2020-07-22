@@ -3,24 +3,43 @@
 # Note that scripts/.vimrc and the .keep files in some subdirs are explicitly wanted.
 # The .keep files force git to keep the directories they are not needed in the image.
 **/.keep
+**/.#*
 .dockerignore
 .bash_aliases
 .git
 .gitignore
+.gitconfig
+
+# the development folder is not needed
+development
 
 # files that might be generated during development
 build.log
 otobo.iml
 
+# editor swap files
+**/*.sw?
+**/*~
+
+# files only needed only for building the docker image
+bin/docker/build_docker_images.sh
+
+# files only needed for Apache
+scripts/apache*
+bin/cgi-bin
+
 # this is for the case when the image is not created from a clean git checkout
 Kernel/Config.pm
 Kernel/Config/Files/*Auto.pm
-otobo.iml
-var/log/Daemon/
+var/article/*
+var/log/*
 var/run/
+var/sessions/*
+var/spool/*
 var/tmp/
 
-# in case somebody generated keys or certificates
+# in case somebody generated keys or certificates,
+# but keep the sample files needed for the unit tests
 **/*.cert
 **/*.crt
 !scripts/test/sample/SMIME/SMIME*.crt
