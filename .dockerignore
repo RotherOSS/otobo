@@ -8,6 +8,9 @@
 .git
 .gitignore
 
+# the development folder is not needed
+development
+
 # files that might be generated during development
 build.log
 otobo.iml
@@ -20,7 +23,8 @@ var/log/Daemon/
 var/run/
 var/tmp/
 
-# in case somebody generated keys or certificates
+# in case somebody generated keys or certificates,
+# but keep the sample files needed for the unit tests
 **/*.cert
 **/*.crt
 !scripts/test/sample/SMIME/SMIME*.crt
