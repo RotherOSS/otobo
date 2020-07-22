@@ -8,6 +8,7 @@
 .bash_aliases
 .git
 .gitignore
+.gitconfig
 
 # the development folder is not needed
 development
