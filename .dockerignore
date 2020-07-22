@@ -17,6 +17,10 @@ development
 build.log
 otobo.iml
 
+# editor swap files
+**/*.sw?
+**/*~
+
 # files only needed only for building the docker image
 bin/docker/build_docker_images.sh
 
