@@ -27,6 +27,10 @@ bin/docker/build_docker_images.sh
 # files only needed for Apache
 scripts/apache*
 bin/cgi-bin
+Kernel/cpan-lib/Apache2
+Kernel/cpan-lib/Apache
+Kernel/cpan-lib/CGI/Apache.pm
+Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
 
 # this is for the case when the image is not created from a clean git checkout
 Kernel/Config.pm
