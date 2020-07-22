@@ -118,17 +118,17 @@ sub Run {
     my @SQLPost;
 
     # Check/get SQL schema directory
-    my $DirOfSQLFiles = $ConfigObject->Get('Home') . '/scripts/webservices/otobo-initial_insert-webservice.xml';
+    my $DBXMLFile = $ConfigObject->Get('Home') . '/scripts/webservices/otobo-initial_insert-webservice.xml';
 
-    if ( !-f $DirOfSQLFiles ) {
+    if ( !-f $DBXMLFile ) {
         $Result{Message} = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
         $Result{Comment} = $Self->{LanguageObject}
-            ->Translate( 'Can\'t add web service for Elasticsearch. File %s not found!', $DirOfSQLFiles );
+            ->Translate( 'Can\'t add web service for Elasticsearch. File %s not found!', $DBXMLFile );
         $Result{Successful} = 0;
         return \%Result;
     }
     my $XML = $MainObject->FileRead(
-        Location => $DirOfSQLFiles,
+        Location => $DBXMLFile,
     );
     my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse(
         String => $XML,
