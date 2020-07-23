@@ -15,9 +15,8 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use strict;
 use warnings;
-use feature qw(say);
+use 5.024;
 
 use File::Basename;
 use FindBin qw($RealBin);
