@@ -12,6 +12,10 @@ RUN apt-get update \
     && apt-get -y --no-install-recommends install tree vim nano default-mysql-client cron \
     && rm -rf /var/lib/apt/lists/*
 
+# We want an UTF-8 console
+ENV LC_ALL C.UTF-8
+ENV LANG C.UTF-8
+
 # A minimal copy so that the Docker cache is not busted
 COPY cpanfile ./cpanfile
 
