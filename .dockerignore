@@ -24,6 +24,7 @@ prove_*.out
 
 # files only needed only for building the docker image
 bin/docker/build_docker_images.sh
+otobo.*.dockerfile
 
 # files only needed for Apache
 scripts/apache*
