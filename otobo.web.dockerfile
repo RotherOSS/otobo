@@ -32,9 +32,9 @@ RUN cpanm --with-feature=db:mysql --with-feature=plack --with-feature=devel:dbvi
 #   --create-home           create /opt/otobo
 #   --shell /bin/bash       set the login shell, not used here because otobo is system user
 #   --comment 'OTOBO user'  complete name of the user
-ENV OTOBO_USER otobo
+ENV OTOBO_USER  otobo
 ENV OTOBO_GROUP otobo
-ENV OTOBO_HOME /opt/otobo
+ENV OTOBO_HOME  /opt/otobo
 RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER
 
 # copy the OTOBO installation to /opt/otobo and use it as the working dir
@@ -65,11 +65,11 @@ RUN perl -p -i.orig -e "s{Host: http://localhost:9200}{Host: http://elastic:9200
 # Create ARCHIVE
 # Enable bash completion.
 # Activate the .dist files.
-# Use the docker specific Config.pm.dist file.
-RUN mkdir -p var/stats var/packages var/article  \
+# Config.pm.docker.dist will be copied to Config.pm in entrypoint.sh,
+# unless Config.pm already exists
+RUN install -d var/stats var/packages var/article \
     && bin/otobo.CheckSum.pl -a create \
     && (echo ". ~/.bash_completion" >> .bash_aliases ) \
-    && cp Kernel/Config.pm.docker.dist Kernel/Config.pm \
     && cp Kernel/Config.pod.dist Kernel/Config.pod \
     && cd var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done
 
@@ -84,9 +84,24 @@ RUN mkdir -p var/tmp \
     && ./bin/Cron.sh start \
     && cp scripts/vim/.vimrc .
 
-# set permissions
+# First set permissions.
+# At this point /opt/otobo looks fairly sane. But we might have a previous
+# version of OTOBO already installed in a volume.
+# Therefore move /opt/otobo out of the way.
+# But make sure that the empty die /opt/otobo remains and stays writable by $OTOBO_USER.
+# Merging current and next version is left to entrypoint.sh.
+# TODO: simplify
 USER root
-RUN perl bin/docker/set_permissions.pl
+RUN otobo_next="/var/otobo/otobo_next" \
+    && perl bin/docker/set_permissions.pl \
+    && install --group $OTOBO_GROUP --owner $OTOBO_USER -d $otobo_next \
+    && install --group $OTOBO_GROUP --owner $OTOBO_USER bin/docker/entrypoint.sh /var/otobo \
+    && touch /var/otobo/upgrade.log \
+    && chown $OTOBO_USER:$OTOBO_GROUP /var/otobo/upgrade.log \
+    && chown $OTOBO_USER:$OTOBO_GROUP $OTOBO_HOME \
+    && mv $OTOBO_HOME/* $otobo_next \
+    && touch $otobo_next/docker_firsttime \
+    && chown $OTOBO_USER:$OTOBO_GROUP $otobo_next/docker_firsttime
 
 # start the webserver
 # start the OTOBO daemon
@@ -94,4 +109,4 @@ RUN perl bin/docker/set_permissions.pl
 # Tell the webapplication that it runs in a container.
 # The entrypoint takes one command: 'web' or 'cron', web switches to OTOBO_USER
 ENV OTOBO_RUNS_UNDER_DOCKER 1
-ENTRYPOINT ["bin/docker/entrypoint.sh"]
+ENTRYPOINT ["/var/otobo/entrypoint.sh"]
