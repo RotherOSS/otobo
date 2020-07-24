@@ -42,8 +42,6 @@ my %PmFileFails = (
     'Kernel/cpan-lib/PDF/API2/Win32.pm'          => 'Win32 is not supported',
     'Kernel/cpan-lib/SOAP/Lite.pm'               => 'some strangeness concerning SOAP::Constants',
     'Kernel/cpan-lib/URI/urn/isbn.pm'            => 'Business::ISBN is not required',
-    'Kernel/System/UnitTest/RegisterDriver.pm'   => 'Kernel/System is in @INC, wrong DateTime.pm is loaded',
-    'Kernel/System/UnitTest/Selenium.pm'         => 'Kernel/System is in @INC, wrong DateTime.pm is loaded',
 );
 
 foreach my $PmFile ( $Internal->all_pm_files(@Dirs) ) {
@@ -69,6 +67,17 @@ foreach my $PlFile ( $Internal->all_pl_files(@Dirs) ) {
     else {
         ok( $Internal->pl_file_compiles($PlFile), "$PlFile compiles" );
     }
+}
+
+diag( 'look at some shell scripts' );
+
+my @ShellScripts = (
+    'bin/docker/entrypoint.sh',
+    'bin/Cron.sh',
+);
+for my $File ( @ShellScripts ) {
+    my $compile_errors = `bash -n "$File" 2>&1`;
+    is( $compile_errors, '', "$File compiles" );
 }
 
 done_testing();
