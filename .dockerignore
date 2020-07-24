@@ -16,7 +16,7 @@ development
 # files that might be generated during development
 build.log
 otobo.iml
-prove_*.out
+*.out
 
 # editor swap files
 **/*.sw?
