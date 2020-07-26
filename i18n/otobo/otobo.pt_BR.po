@@ -57,7 +57,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-07-19 23:09+0000\n"
+"PO-Revision-Date: 2020-07-26 22:17+0000\n"
 "Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://translate.otobo.org/projects/"
 "otobo10/otobo/pt_BR/>\n"
@@ -14578,6 +14578,8 @@ msgstr ""
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid "Legacy configuration backup files are no longer needed for the installed packages, please remove them from Kernel/Config/Backups folder."
 msgstr ""
+"Os arquivos de backup de configuração herdados não são mais necessários para "
+"os pacotes instalados. Remova-os de Kernel/Config/Backups folder."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Installation Status"
@@ -14662,6 +14664,10 @@ msgstr "Módulo de Índice da Pesquisa de Tickets"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/SearchIndexModule.pm
 msgid "The indexing process forces the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches."
 msgstr ""
+"O processo de indexação força o armazenamento do texto do artigo original no "
+"índice de pesquisa do artigo, sem executar filtros ou aplicar listas de "
+"palavras interrompidas. Isso aumentará o tamanho do índice de pesquisa e, "
+"portanto, poderá desacelerar as pesquisas de texto completo."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid "Orphaned Records In ticket_lock_index Table"
@@ -14785,11 +14791,13 @@ msgstr "Apache::Reload ou Apache2::Reload precisa ser usado como PerlModulo e Pe
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Apache2::DBI Usage"
-msgstr ""
+msgstr "Uso do Apache2::DBI"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Apache2::DBI should be used to get a better performance  with pre-established database connections."
 msgstr ""
+"Apache2::DBI deve ser usado para obter um melhor desempenho com conexões de "
+"banco de dados pré-estabelecidas."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Environment Variables"
@@ -14977,7 +14985,7 @@ msgstr "O endereço de email não é permitido para cadastro. Por favor entre em
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
-msgstr ""
+msgstr "Adicionado via painel do cliente (%s)"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Customer user can't be added!"
@@ -15150,6 +15158,8 @@ msgstr "rejeitar"
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Follow-ups for closed tickets are not possible. No new ticket will be created."
 msgstr ""
+"Não são possíveis acompanhamento em tickets fechados. Nenhum novo ticket "
+"será criado."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "new ticket"
@@ -15158,6 +15168,8 @@ msgstr "novo chamado"
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Follow-ups for closed tickets are not possible. A new ticket will be created."
 msgstr ""
+"Não são possíveis acompanhamento em tickets fechados. Um novo ticket será "
+"criado."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Postmaster queue."
@@ -15190,6 +15202,8 @@ msgstr "Autorrejeitar"
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Automatic reject which will be sent out after a follow-up has been rejected (in case queue follow-up option is \"reject\")."
 msgstr ""
+"Rejeição automática, que será enviada após a rejeição de um acompanhamento "
+"em um ticket (caso a opção de acompanhamento da fila seja \"rejeitar\")."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto follow up"
@@ -15198,6 +15212,8 @@ msgstr "Autorrevisão"
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Automatic confirmation which is sent out after a follow-up has been received for a ticket (in case queue follow-up option is \"possible\")."
 msgstr ""
+"Confirmação automática que é enviada após o recebimento de um acompanhamento "
+"de um ticket (caso a opção de acompanhamento da fila seja \"possível\")."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reply/new ticket"
@@ -15206,6 +15222,9 @@ msgstr "Autorresposta/novo chamado"
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Automatic response which will be sent out after a follow-up has been rejected and a new ticket has been created (in case queue follow-up option is \"new ticket\")."
 msgstr ""
+"Resposta automática que será enviada após a rejeição de um acompanhamento e "
+"a criação de um novo ticket (caso a opção de acompanhamento da fila seja "
+"\"novo ticket\")."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto remove"
@@ -15214,6 +15233,7 @@ msgstr "Autorremover"
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Auto remove will be sent out after a customer removed the request."
 msgstr ""
+"A remoção automática será enviada após um cliente remover a solicitação."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reply (after new ticket has been created)"
@@ -15226,10 +15246,14 @@ msgstr "Rejeição padrão (após rejeição do acompanhamento de um chamado fec
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default follow-up (after a ticket follow-up has been added)"
 msgstr ""
+"acompanhamento padrão (depois que um acompanhamento foi adicionado em um "
+"ticket)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reject/new ticket created (after closed follow-up with new ticket creation)"
 msgstr ""
+"rejeição padrão/novo ticket criado (após acompanhamento fechado com a "
+"criação de novo ticket)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Unclassified"
@@ -15294,6 +15318,8 @@ msgstr "Notificação de revisão de chamado (desbloqueado)"
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "You will receive a notification if a customer sends a follow-up to an unlocked ticket which is in your \"My Queues\" or \"My Services\"."
 msgstr ""
+"Você receberá uma notificação se um cliente enviar um acompanhamento para um "
+"ticket desbloqueado que esteja em \"Minhas filas\" ou \"Meus serviços\"."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
@@ -15302,6 +15328,8 @@ msgstr "Notificação de revisão de chamado (bloqueado)"
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible."
 msgstr ""
+"Você receberá uma notificação se um cliente enviar um acompanhamento para um "
+"ticket bloqueado, do qual você é o proprietário ou responsável."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket lock timeout notification"
@@ -15429,7 +15457,7 @@ msgstr "Delindo o campo e seus dados.  Isto pode levar um tempo…"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove this dynamic field"
-msgstr ""
+msgstr "Remova este campo dinâmico"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove selection"
@@ -15437,7 +15465,7 @@ msgstr "Remover tradução"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Do you really want to delete this generic agent job?"
-msgstr ""
+msgstr "Deseja realmente excluir este trabalho de agente genérico?"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Delete this Event Trigger"
@@ -15557,7 +15585,7 @@ msgstr "A atualização de um pacote finalizou recentemente. Clique aqui para ve
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from get package upgrade result."
-msgstr ""
+msgstr "Nenhuma resposta do resultado da atualização do pacote."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
@@ -15573,7 +15601,7 @@ msgstr "Atualizar Todos Pacotes"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from package upgrade all."
-msgstr ""
+msgstr "Nenhuma resposta para atualizar todos os pacotes."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
@@ -16042,6 +16070,8 @@ msgstr "Recarregar página (%ss)"
 #. JS File: Core.Debug
 msgid "Namespace %s could not be initialized, because %s could not be found."
 msgstr ""
+"Não foi possível inicializar o namespace %s, porque não foi possível "
+"encontrar %s."
 
 #. JS File: Core.Exception
 msgid "An error occurred! Please check the browser error log for more details!"
@@ -16061,7 +16091,7 @@ msgstr "Erro nas configurações de e-mail. Por favor, corrija e tente novamente
 
 #. JS File: Core.SystemConfiguration
 msgid "Open this node in a new window"
-msgstr ""
+msgstr "Abra este nó em uma nova janela"
 
 #. JS File: Core.SystemConfiguration
 msgid "Please add values for all keys before saving the setting."
@@ -16292,6 +16322,7 @@ msgstr " 7 minutos"
 #. SysConfig
 msgid "\"Slim\" skin which tries to save screen space for power users."
 msgstr ""
+"Skin \"Slim\" que tenta economizar espaço na tela para usuários avançados."
 
 #. SysConfig
 msgid "%s"
@@ -16459,7 +16490,7 @@ msgstr "E-mail adicionado (%s)."
 
 #. SysConfig
 msgid "Added follow-up to ticket [%s]. %s"
-msgstr ""
+msgstr "Adicionado acompanhamento do ticket [%s]. %s"
 
 #. SysConfig
 msgid "Added link to ticket \"%s\"."
@@ -16499,19 +16530,19 @@ msgstr "Adiciona endereços de e-mail de clientes para destinatários na tela de
 
 #. SysConfig
 msgid "Adds the one time vacation days for the indicated calendar."
-msgstr ""
+msgstr "Adiciona os dias de férias únicos para o calendário indicado."
 
 #. SysConfig
 msgid "Adds the one time vacation days."
-msgstr ""
+msgstr "Adiciona os dias de férias únicas."
 
 #. SysConfig
 msgid "Adds the permanent vacation days for the indicated calendar."
-msgstr ""
+msgstr "Adiciona os dias de férias permanentes para o calendário indicado."
 
 #. SysConfig
 msgid "Adds the permanent vacation days."
-msgstr ""
+msgstr "Adiciona os dias de férias permanentes."
 
 #. SysConfig
 msgid "Admin"
@@ -16588,6 +16619,10 @@ msgstr "Módulo de interface de agente para acesso pesquisa CIC pela nav bar. Co
 #. SysConfig
 msgid "Agent interface module to access fulltext search via nav bar. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"Módulo de interface do agente para acessar a pesquisa de texto completo via "
+"barra de navegação. Controle de acesso adicional para mostrar ou não esse "
+"link pode ser feito usando Chave \"Group\" e conteúdo como \"rw"
+":group1;move_into:group2\"."
 
 #. SysConfig
 msgid "Agent interface module to access search profiles via nav bar. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
@@ -16616,10 +16651,13 @@ msgstr "Módulo de notificação da interface de agente para visualizar o númer
 #. SysConfig
 msgid "AgentTicketZoom widget that displays a table of objects linked to the ticket."
 msgstr ""
+"Widget AgentTicketZoom que exibe uma tabela de objetos vinculados ao ticket."
 
 #. SysConfig
 msgid "AgentTicketZoom widget that displays customer information for the ticket in the side bar."
 msgstr ""
+"Widget AgentTicketZoom que exibe informações do cliente para o ticket na "
+"barra lateral."
 
 #. SysConfig
 msgid "AgentTicketZoom widget that displays ticket data in the side bar."
