@@ -20,14 +20,10 @@ function handle_docker_firsttime() {
         print_error "the volume $OTOBO_HOME is not mounted" && exit 1
     elif [ ! "$(ls -A $OTOBO_HOME)" ]; then
         # first the simple case: there is no previous installation
-        cp -r "$otobo_next"/* $OTOBO_HOME
-        # Use the docker specific Config.pm.dist file.
-        cp --no-clobber $OTOBO_HOME/Kernel/Config.pm.docker.dist $OTOBO_HOME/Kernel/Config.pm
-        # Config.pod might have been adapted too, dont overwrite it
-        cp --no-clobber $OTOBO_HOME/Kernel/Config.pod.dist       $OTOBO_HOME/Kernel/Config.pod
+        upgrade_patchlevel_release
     else
         if [ "$(compare_versions "$otobo_next/RELEASE" "$OTOBO_HOME/RELEASE")" = "1" ]; then
-            upgrade_patchlevel_release
+            upgrade_patchlevel_release_with_reinstall
         fi
     fi
 
@@ -87,8 +83,19 @@ function upgrade_patchlevel_release() {
     # for now we only copy files
     # Changed files are overwritten, new files are not deleted
     cp --recursive $otobo_next/* $OTOBO_HOME
-    rm $OTOBO_HOME/docker_firsttime
+
+    # clean up
+    rm -f $OTOBO_HOME/docker_firsttime
+    rm -f $OTOBO_HOME/docker_firsttime_handled
+
+    # Use the docker specific Config.pm.dist file.
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pm.docker.dist $OTOBO_HOME/Kernel/Config.pm
+    # Config.pod might have been adapted too, dont overwrite it
+    cp --no-clobber $OTOBO_HOME/Kernel/Config.pod.dist       $OTOBO_HOME/Kernel/Config.pod
+}
+
+function upgrade_patchlevel_release_with_reinstall() {
+    upgrade_patchlevel_release
 
     # reinstall package
     # Not that this works only if OTOBO has been properly configured
@@ -168,6 +175,10 @@ if [ "$1" = "upgrade_patchlevel_release" ]; then
     exit $?
 fi
 
+if [ "$1" = "upgrade_patchlevel_release_with_reinstall" ]; then
+    upgrade_patchlevel_release_with_reinstall
+    exit $?
+fi
 
 # as a fallback execute the passed command
 exec_whatever $@
