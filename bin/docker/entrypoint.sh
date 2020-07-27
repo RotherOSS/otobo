@@ -3,7 +3,7 @@
 # Note that in the docker image this file will be located in /var/otobo.
 
 ################################################################################
-# Declare variables
+# Declare file scoped variables
 ################################################################################
 
 otobo_next="/var/otobo/otobo_next"
@@ -12,6 +12,7 @@ otobo_next="/var/otobo/otobo_next"
 # Declare functions
 ################################################################################
 
+# does a version check before upgrading
 function handle_docker_firsttime() {
 
     if [ ! -d  $OTOBO_HOME ]; then
@@ -23,8 +24,7 @@ function handle_docker_firsttime() {
         # Use the docker specific Config.pm.dist file.
         cp --no-clobber $OTOBO_HOME/Kernel/Config.pm.docker.dist $OTOBO_HOME/Kernel/Config.pm
     else
-        is_version_greater_than "$otobo_next/RELEASE" "$OTOBO_HOME/RELEASE"
-        if [ $? -eq 1 ]; then
+        if [ "$(compare_versions "$otobo_next/RELEASE" "$OTOBO_HOME/RELEASE")" = "1" ]; then
             upgrade_patchlevel_release
         fi
     fi
@@ -89,7 +89,7 @@ function upgrade_patchlevel_release() {
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pm.docker.dist $OTOBO_HOME/Kernel/Config.pm
 
     # reinstall package
-    # TODO: otobo can't get access to the database
+    # Not that this works only if OTOBO has been properly configured
     $OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll >> /var/otobo/upgrade.log 2>&1
 }
 
@@ -105,22 +105,28 @@ extract_version_from_release_file () {
     echo $current_version
 }
 
-# gives logical output
+# prints logical output
+# empty strings in questionable cases
+# -1 if $1 less the $2
+# 0 if $1 equals $2
 # 1 if $1 greater $2
-# 0 otherwise
-# bash best practice might be the other way araound, but who knows
-is_version_greater_than () {
+# The comparison is aware of the version semantics.
+compare_versions () {
     local first_version="$(extract_version_from_release_file $1)"
     local second_version="$(extract_version_from_release_file $2)"
 
-    # equal is not greater
-    [[ "$first_version" = "$second_version" ]] && return 0
+    # refuse to compare versions like 10.0.x.
+    # This indicates development and the developer must decide herself.
+    # upgrade can be forced with the command 'upgrade_patchlevel_release'
+    [[ "$first_version"  =~ [^0-9.] ]] && echo "" && return 1
+    [[ "$second_version" =~ [^0-9.] ]] && echo "" && return 2
 
-    local greater_version=$(echo -e "$first_version\n$second_version" | sed '/^$/d' | sort --version-sort --reverse | head -1)
+    local lower_version=$(echo -e "$first_version\n$second_version" | sed '/^$/d' | sort --version-sort | head -1)
+    [[ "$first_version" = "$lower_version" ]] && echo "-1" && return 0
 
-    [[ "$greater_version" = "$first_version" ]] && return 1
+    echo "1" && return 0
 
-    return 0
+    return 3
 }
 
 ################################################################################
