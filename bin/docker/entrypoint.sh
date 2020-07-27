@@ -23,6 +23,8 @@ function handle_docker_firsttime() {
         cp -r "$otobo_next"/* $OTOBO_HOME
         # Use the docker specific Config.pm.dist file.
         cp --no-clobber $OTOBO_HOME/Kernel/Config.pm.docker.dist $OTOBO_HOME/Kernel/Config.pm
+        # Config.pod might have been adapted too, dont overwrite it
+        cp --no-clobber $OTOBO_HOME/Kernel/Config.pod.dist       $OTOBO_HOME/Kernel/Config.pod
     else
         if [ "$(compare_versions "$otobo_next/RELEASE" "$OTOBO_HOME/RELEASE")" = "1" ]; then
             upgrade_patchlevel_release
