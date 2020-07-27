@@ -39,9 +39,9 @@ RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash 
 
 # copy the OTOBO installation to /opt/otobo and use it as the working dir
 # skip the files set up in .dockerignore
-ARG OTOBO_VAR=/var/otobo
-COPY --chown=$OTOBO_USER:$OTOBO_GROUP . $OTOBO_VAR/otobo_next
-WORKDIR $OTOBO_VAR/otobo_next
+ARG OTOBO_INSTALL=/opt/otobo_install
+COPY --chown=$OTOBO_USER:$OTOBO_GROUP . $OTOBO_INSTALL/otobo_next
+WORKDIR $OTOBO_INSTALL/otobo_next
 
 # uncomment these steps when strange behavior must be investigated
 #RUN echo "'$OTOBO_HOME'"
@@ -57,8 +57,8 @@ WORKDIR $OTOBO_VAR/otobo_next
 # set up entrypoint, upgrade.log, docker_firsttime
 # Finally set permissions.
 RUN install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME \
-    && install --owner $OTOBO_USER --group $OTOBO_GROUP -D bin/docker/entrypoint.sh $OTOBO_VAR/entrypoint.sh \
-    && install --owner $OTOBO_USER --group $OTOBO_GROUP /dev/null $OTOBO_VAR/upgrade.log \
+    && install --owner $OTOBO_USER --group $OTOBO_GROUP -D bin/docker/entrypoint.sh $OTOBO_INSTALL/entrypoint.sh \
+    && install --owner $OTOBO_USER --group $OTOBO_GROUP /dev/null $OTOBO_INSTALL/upgrade.log \
     && install --owner $OTOBO_USER --group $OTOBO_GROUP /dev/null docker_firsttime \
     && perl bin/docker/set_permissions.pl
 
@@ -101,10 +101,12 @@ RUN ( cd var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done )
 # Create ARCHIVE as the last step
 RUN bin/otobo.CheckSum.pl -a create
 
-# Up to now we have prepared /var/otobo/otobo_next.
-# Merging /var/otobo/otobo_next and /opt/otobo is left to /var/otobo/entrypoint.sh.
+# Up to now we have prepared /opt/otobo_install/otobo_next.
+# Merging /opt/otobo_install/otobo_next and /opt/otobo is left to /opt/otobo_install/entrypoint.sh.
 # Note that for supporting 'cron' we need to start as root.
 USER root
 WORKDIR $OTOBO_HOME
 ENV OTOBO_RUNS_UNDER_DOCKER 1
-ENTRYPOINT ["/var/otobo/entrypoint.sh"]
+
+# for some reason $OTOBO_INSTALL can't be used here
+ENTRYPOINT ["/opt/otobo_install/entrypoint.sh"]

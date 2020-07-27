@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 
-# Note that in the docker image this file will be located in /var/otobo.
+# Note that in the docker image this file will be available as
+# /opt/otobo_install/entrypoint.sh .
 
 ################################################################################
 # Declare file scoped variables
 ################################################################################
 
-otobo_next="/var/otobo/otobo_next"
+otobo_next="/opt/otobo_install/otobo_next"
+upgrade_log="/opt/otobo_install/upgrade.log"
 
 ################################################################################
 # Declare functions
@@ -99,7 +101,7 @@ function upgrade_patchlevel_release_with_reinstall() {
 
     # reinstall package
     # Not that this works only if OTOBO has been properly configured
-    $OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll >> /var/otobo/upgrade.log 2>&1
+    $OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll >> $upgrade_log 2>&1
 }
 
 print_error() {
