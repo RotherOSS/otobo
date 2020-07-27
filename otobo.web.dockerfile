@@ -52,6 +52,25 @@ WORKDIR $OTOBO_VAR/otobo_next
 #RUN tree Kernel
 #RUN false
 
+# Some initial setup that needs to be done by root.
+# Make sure that /opt/otobo exists and is writable by $OTOBO_USER.
+# set up entrypoint, upgrade.log, docker_firsttime
+# Finally set permissions.
+RUN install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME \
+    && install --owner $OTOBO_USER --group $OTOBO_GROUP -D bin/docker/entrypoint.sh $OTOBO_VAR/entrypoint.sh \
+    && install --owner $OTOBO_USER --group $OTOBO_GROUP /dev/null $OTOBO_VAR/upgrade.log \
+    && install --owner $OTOBO_USER --group $OTOBO_GROUP /dev/null docker_firsttime \
+    && perl bin/docker/set_permissions.pl
+
+# start the webserver
+# start the OTOBO daemon
+# start the Cron watchdog
+# Tell the webapplication that it runs in a container.
+# The entrypoint takes one command: 'web' or 'cron', web switches to OTOBO_USER
+USER $OTOBO_USER
+
+# More setup that can be done by the user otobo
+
 # Under Docker the Elasticsearch Daemon is running on the host 'elastic' instead of '127.0.0.1'.
 # The webservice configuration is in a YAML file and it is not obvious how
 # to change settings for webservices.
@@ -61,50 +80,31 @@ WORKDIR $OTOBO_VAR/otobo_next
 # to pick up the changed host and to check whether Elasticsearch is available.
 RUN perl -p -i.orig -e "s{Host: http://localhost:9200}{Host: http://elastic:9200}" scripts/database/otobo-initial_insert.xml
 
-# Some initial setup.
 # Create dirs.
-# Create ARCHIVE
 # Enable bash completion.
-# Activate the .dist files.
+# Add a .vimrc.
 # Config.pm.docker.dist will be copied to Config.pm in entrypoint.sh,
 # unless Config.pm already exists
-RUN install -d var/stats var/packages var/article \
-    && bin/otobo.CheckSum.pl -a create \
+RUN install -d var/stats var/packages var/article var/tmp \
     && (echo ". ~/.bash_completion" >> .bash_aliases ) \
-    && cp Kernel/Config.pod.dist Kernel/Config.pod \
-    && cd var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done
+    && install scripts/vim/.vimrc .vimrc
 
+# Activate the .dist files for cron.
 # Generate and install the crontab for the user $OTOBO_USER.
 # Explicitly set PATH as the required perl is located in /usr/local/bin/perl.
-# var/tmp is created by $OTOBO_USER as bin/Cron.sh uses this dir.
-USER $OTOBO_USER
-RUN mkdir -p var/tmp \
+RUN ( cd var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done ) \
     && echo "# File added by Dockerfile"                             >  var/cron/aab_path \
     && echo "# Let '/usr/bin/env perl' find perl in /usr/local/bin"  >> var/cron/aab_path \
     && echo "PATH=/usr/local/bin:/usr/bin:/bin"                      >> var/cron/aab_path \
-    && ./bin/Cron.sh start \
-    && cp scripts/vim/.vimrc .
+    && ./bin/Cron.sh start
 
-# First set permissions.
-# At this point /opt/otobo looks fairly sane. But we might have a previous
-# version of OTOBO already installed in a volume.
-# Therefore move /opt/otobo out of the way.
-# But make sure that the empty die /opt/otobo remains and stays writable by $OTOBO_USER.
-# Merging current and next version is left to entrypoint.sh.
-# TODO: avoid switching USER so often
+# Create ARCHIVE as the last step
+RUN bin/otobo.CheckSum.pl -a create
+
+# Up to now we have prepared /var/otobo/otobo_next.
+# Merging /var/otobo/otobo_next and /opt/otobo is left to /var/otobo/entrypoint.sh.
+# Note that for supporting 'cron' we need to start as root.
 USER root
-RUN install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME \
-    && install --group $OTOBO_GROUP --owner $OTOBO_USER -D bin/docker/entrypoint.sh $OTOBO_VAR/entrypoint.sh \
-    && install --group $OTOBO_GROUP --owner $OTOBO_USER -D /dev/null $OTOBO_VAR/upgrade.log \
-    && install --group $OTOBO_GROUP --owner $OTOBO_USER /dev/null docker_firsttime \
-    && perl bin/docker/set_permissions.pl
-
-# start the webserver
-# start the OTOBO daemon
-# start the Cron watchdog
-# Tell the webapplication that it runs in a container.
-# The entrypoint takes one command: 'web' or 'cron', web switches to OTOBO_USER
-USER $OTOBO_USER
 WORKDIR $OTOBO_HOME
 ENV OTOBO_RUNS_UNDER_DOCKER 1
 ENTRYPOINT ["/var/otobo/entrypoint.sh"]
