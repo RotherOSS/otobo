@@ -139,7 +139,7 @@ sub ProcessDirectory {
         next FILE if $File =~ m{css-cache}smx;
 
         # next if not readable
-        open( my $In, '<', $OrigFile ) || die "ERROR: $!";    ## no critic
+        open my $In, '<', $OrigFile or die "ERROR: $!";
 
         my $DigestGenerator = Digest::MD5->new();
         $DigestGenerator->addfile($In);
