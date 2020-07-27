@@ -113,6 +113,9 @@ sub ProcessDirectory {
         # ignore source code directories, ARCHIVE file
         next FILE if $File =~ m{/.git|/ARCHIVE}smx;
 
+        # ignore files used for docker version obgrades
+        next FILE if $File =~ m{/docker_firsttime}smx;
+
         # if it's a directory
         if ( -d $File ) {
             ProcessDirectory($File);
