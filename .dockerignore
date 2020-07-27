@@ -30,7 +30,8 @@ otobo.*.dockerfile
 scripts/apache*
 bin/cgi-bin
 Kernel/cpan-lib/Apache2
-Kernel/cpan-lib/Apache
+# keep Apache::DBI for now, as otobo.CheckModules.pl complains about it, see https://github.com/RotherOSS/otobo/issues/258
+#Kernel/cpan-lib/Apache
 Kernel/cpan-lib/CGI/Apache.pm
 Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
 
