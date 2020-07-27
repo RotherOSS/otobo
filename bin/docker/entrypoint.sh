@@ -142,6 +142,7 @@ fi
 
 # now running as $OTOBO_USER
 
+# Start the webserver
 if [ "$1" = "web" ]; then
     # first check whether the container is started with a new image
     if [ -f "$otobo_next/docker_firsttime" ]; then
@@ -151,6 +152,14 @@ if [ "$1" = "web" ]; then
     # start webserver
     exec_web
 fi
+
+# copy otobo_next without checking docker_firsttime or RELEASE
+# useful during development
+if [ "$1" = "upgrade_patchlevel_release" ]; then
+    upgrade_patchlevel_release
+    exit $?
+fi
+
 
 # as a fallback execute the passed command
 exec_whatever
