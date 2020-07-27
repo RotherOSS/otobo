@@ -91,7 +91,7 @@ RUN mkdir -p var/tmp \
 # Therefore move /opt/otobo out of the way.
 # But make sure that the empty die /opt/otobo remains and stays writable by $OTOBO_USER.
 # Merging current and next version is left to entrypoint.sh.
-# TODO: simplify
+# TODO: avoid switching USER so often
 USER root
 RUN install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME \
     && install --group $OTOBO_GROUP --owner $OTOBO_USER -D bin/docker/entrypoint.sh $OTOBO_VAR/entrypoint.sh \
@@ -104,5 +104,7 @@ RUN install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME \
 # start the Cron watchdog
 # Tell the webapplication that it runs in a container.
 # The entrypoint takes one command: 'web' or 'cron', web switches to OTOBO_USER
+USER $OTOBO_USER
+WORKDIR $OTOBO_HOME
 ENV OTOBO_RUNS_UNDER_DOCKER 1
 ENTRYPOINT ["/var/otobo/entrypoint.sh"]
