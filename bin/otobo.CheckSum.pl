@@ -113,6 +113,9 @@ sub ProcessDirectory {
         # ignore source code directories, ARCHIVE file
         next FILE if $File =~ m{/.git|/ARCHIVE}smx;
 
+        # ignore files used for docker version obgrades
+        next FILE if $File =~ m{/docker_firsttime}smx;
+
         # if it's a directory
         if ( -d $File ) {
             ProcessDirectory($File);
@@ -136,7 +139,7 @@ sub ProcessDirectory {
         next FILE if $File =~ m{css-cache}smx;
 
         # next if not readable
-        open( my $In, '<', $OrigFile ) || die "ERROR: $!";    ## no critic
+        open my $In, '<', $OrigFile or die "ERROR: $!";
 
         my $DigestGenerator = Digest::MD5->new();
         $DigestGenerator->addfile($In);
