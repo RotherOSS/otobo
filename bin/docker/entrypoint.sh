@@ -51,7 +51,7 @@ function exec_cron() {
     # The Daemon will exit immediately when SecureMode = 0.
     # But this is OK, as Cron will restart it and it will run when SecureMode = 1.
     # Also gracefully handle the case when /opt/otobo is not populated yet.
-    if [ -f "./bin/otobo.Daemon.pl" ]; then
+    if [ ! -f "$otobo_next/docker_firsttime" ] && [ -f "./bin/otobo.Daemon.pl" ]; then
         su -c "./bin/otobo.Daemon.pl start" "$OTOBO_USER"
     fi
 
