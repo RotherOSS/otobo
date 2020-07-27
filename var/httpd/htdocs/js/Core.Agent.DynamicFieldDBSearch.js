@@ -135,6 +135,19 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         $('.WidgetSimple.Collapsed .WidgetAction.Toggle').on('click', function () {
             InitDynamicFields();
         });
+
+        // change the position of the label for DB fields
+        if ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') ) {
+            $('fieldset > .Row').each( function() {
+                var $DBField = $('.Field > input.DynamicFieldDB', $(this)).first();
+
+                if ( $DBField.length ) {
+                    // set the label in front of the results box
+                    $('label', $(this)).insertBefore( $('.Field > .Field', $(this)) );
+                }
+            });
+        }
+
     };
 
     /**
@@ -512,7 +525,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         // lock the text field and hide the detailed search dialog
         // if only single select is allowed
         if (!SelectAllowed) {
-            $('#' + Field).prop('readonly', true);
+            $('#' + Field).attr('readonly', "readonly");
             $('#DynamicFieldDBDetailedSearch_' + Field).hide();
         }
 
