@@ -41,7 +41,7 @@ function handle_docker_firsttime() {
 # Or do upgrades.
 # Or list files.
 function exec_whatever() {
-    exec "$@"
+    exec $@
 }
 
 # First try to start the OTOBO Daemon and the continue with cron
@@ -170,4 +170,4 @@ fi
 
 
 # as a fallback execute the passed command
-exec_whatever
+exec_whatever $@
