@@ -39,8 +39,9 @@ RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash 
 
 # copy the OTOBO installation to /opt/otobo and use it as the working dir
 # skip the files set up in .dockerignore
-COPY --chown=$OTOBO_USER:$OTOBO_GROUP . $OTOBO_HOME
-WORKDIR $OTOBO_HOME
+ARG OTOBO_VAR=/var/otobo
+COPY --chown=$OTOBO_USER:$OTOBO_GROUP . $OTOBO_VAR/otobo_next
+WORKDIR $OTOBO_VAR/otobo_next
 
 # uncomment these steps when strange behavior must be investigated
 #RUN echo "'$OTOBO_HOME'"
@@ -92,16 +93,11 @@ RUN mkdir -p var/tmp \
 # Merging current and next version is left to entrypoint.sh.
 # TODO: simplify
 USER root
-RUN otobo_next="/var/otobo/otobo_next" \
-    && perl bin/docker/set_permissions.pl \
-    && install --group $OTOBO_GROUP --owner $OTOBO_USER -d $otobo_next \
-    && install --group $OTOBO_GROUP --owner $OTOBO_USER bin/docker/entrypoint.sh /var/otobo \
-    && touch /var/otobo/upgrade.log \
-    && chown $OTOBO_USER:$OTOBO_GROUP /var/otobo/upgrade.log \
-    && chown $OTOBO_USER:$OTOBO_GROUP $OTOBO_HOME \
-    && mv $OTOBO_HOME/* $otobo_next \
-    && touch $otobo_next/docker_firsttime \
-    && chown $OTOBO_USER:$OTOBO_GROUP $otobo_next/docker_firsttime
+RUN install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME \
+    && install --group $OTOBO_GROUP --owner $OTOBO_USER -D bin/docker/entrypoint.sh $OTOBO_VAR/entrypoint.sh \
+    && install --group $OTOBO_GROUP --owner $OTOBO_USER -D /dev/null $OTOBO_VAR/upgrade.log \
+    && install --group $OTOBO_GROUP --owner $OTOBO_USER /dev/null docker_firsttime \
+    && perl bin/docker/set_permissions.pl
 
 # start the webserver
 # start the OTOBO daemon
