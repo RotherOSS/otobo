@@ -16,7 +16,7 @@ RUN packages=$( echo \
         "tree ack vim nano screen" \
         "default-mysql-client" \
         "postgresql-client" \
-        "odbcinst1debian2 libodbc1 odbcinst unixodbc" \
+        "odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc" \
         "sqlite libsqliteodbc" \
         "cron" \
     ) \
