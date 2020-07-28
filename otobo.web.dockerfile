@@ -8,11 +8,17 @@ FROM perl:5.32.0-buster
 USER root
 
 # install some required and optional Debian packages
-RUN packages=$( echo "tree" \
+# For ODBC see https://blog.devart.com/installing-and-configuring-odbc-driver-on-linux.html
+# TODO: oracle client
+# TODO: LDAP
+RUN packages=$( echo \
+        "tree" \
         "vim" \
         "nano" \
         "screen" \
         "default-mysql-client" \
+        "postgresql-client" \
+        "odbcinst1debian2 libodbc1 odbcinst unixodbc" \
         "cron" \
     ) \
     && apt-get update \
