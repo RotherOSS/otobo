@@ -37,7 +37,22 @@ COPY cpanfile ./cpanfile
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
 RUN cpanm --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
-RUN cpanm --with-feature=db:mysql --with-feature=plack --with-feature=devel:dbviewer --with-feature=div:bcrypt --with-feature=performance:json --with-feature=mail:imap --with-feature=mail:sasl --with-feature=div:ldap --with-feature=performance:csv --with-feature=div:xslt --with-feature=performance:redis --with-feature=devel:test --installdeps .
+RUN cpanm \
+    --with-feature=db:mysql \
+    --with-feature=db:postgresql \
+    --with-feature=db:odbc \
+    --with-feature=plack \
+    --with-feature=devel:dbviewer \
+    --with-feature=div:bcrypt \
+    --with-feature=performance:json \
+    --with-feature=mail:imap \
+    --with-feature=mail:sasl \
+    --with-feature=div:ldap \
+    --with-feature=performance:csv \
+    --with-feature=div:xslt \
+    --with-feature=performance:redis \
+    --with-feature=devel:test \
+    --installdeps .
 
 # create the otobo user
 #   --user-group            create group 'otobo' and add the user to the created group
