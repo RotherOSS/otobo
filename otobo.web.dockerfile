@@ -17,7 +17,7 @@ RUN packages=$( echo \
         "default-mysql-client" \
         "postgresql-client" \
         "odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc" \
-        "sqlite libsqliteodbc" \
+        "sqlite3 libsqliteodbc" \
         "cron" \
     ) \
     && apt-get update \
