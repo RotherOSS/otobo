@@ -86,6 +86,12 @@ feature 'db:postgresql', 'Support for database PostgreSQL' => sub {
 
 };
 
+feature 'db:sqlite', 'Support for database SQLLite' => sub {
+    # Required to connect to a SQLite database.
+    requires 'DBD::SQLite';
+
+};
+
 feature 'devel:dbviewer', 'Suppport for devel:dbviewer' => sub {
     # a web framework that makes web development fun again
     requires 'Mojolicious';
@@ -186,6 +192,9 @@ feature 'optional', 'Suppport for optional' => sub {
 
     # Required to connect to a PostgreSQL database.
     requires 'DBD::Pg';
+
+    # Required to connect to a SQLite database.
+    requires 'DBD::SQLite';
 
     # Improves Performance on Apache webservers dramatically.
     requires 'ModPerl::Util';

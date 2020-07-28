@@ -128,6 +128,7 @@ my %FeatureDescription = (
     'db:odbc'         => 'Support for database access via ODBC',
     'db:oracle'       => 'Support for database Oracle',
     'db:postgresql'   => 'Support for database PostgreSQL',
+    'db:sqlite'       => 'Support for database SQLLite',
     'apache'          => 'Recommended features for setups using apache',
     'mail'            => 'Features enabling communication with a mail-server',
     'performance'     => 'Optional features which can increase performance',
@@ -478,6 +479,14 @@ my @NeededModules = (
             emerge => 'dev-perl/DBD-Pg',
             zypper => 'perl-DBD-Pg',
             ports  => 'databases/p5-DBD-Pg',
+        },
+    },
+    {
+        Module    => 'DBD::SQLite',
+        Required  => 0,
+        Features  => ['db:sqlite'],
+        Comment   => 'Required to connect to a SQLite database.',
+        InstTypes => {
         },
     },
 

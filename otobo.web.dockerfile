@@ -9,16 +9,15 @@ USER root
 
 # install some required and optional Debian packages
 # For ODBC see https://blog.devart.com/installing-and-configuring-odbc-driver-on-linux.html
+# For ODBC for SQLIte, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
 # TODO: oracle client
 # TODO: LDAP
 RUN packages=$( echo \
-        "tree" \
-        "vim" \
-        "nano" \
-        "screen" \
+        "tree ack vim nano screen" \
         "default-mysql-client" \
         "postgresql-client" \
-        "odbcinst1debian2 libodbc1 odbcinst unixodbc" \
+        "odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc" \
+        "sqlite3 libsqliteodbc" \
         "cron" \
     ) \
     && apt-get update \
@@ -41,6 +40,7 @@ RUN cpanm \
     --with-feature=db:mysql \
     --with-feature=db:postgresql \
     --with-feature=db:odbc \
+    --with-feature=db:sqlite \
     --with-feature=plack \
     --with-feature=devel:dbviewer \
     --with-feature=div:bcrypt \
@@ -122,9 +122,9 @@ RUN install -d var/stats var/packages var/article var/tmp \
 # Explicitly set PATH as the required perl is located in /usr/local/bin/perl.
 RUN ( cd var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done ) \
     &&  { \
-            echo "# File added by Dockerfile" \
-            && echo "# Let '/usr/bin/env perl' find perl in /usr/local/bin" \
-            && echo "PATH=/usr/local/bin:/usr/bin:/bin" \
+            echo "# File added by Dockerfile"; \
+            echo "# Let '/usr/bin/env perl' find perl in /usr/local/bin"; \
+            echo "PATH=/usr/local/bin:/usr/bin:/bin"; \
 	    } >> var/cron/aab_path \
     && ./bin/Cron.sh start
 
