@@ -20,8 +20,9 @@ function handle_docker_firsttime() {
     if [ ! -d  $OTOBO_HOME ]; then
         # it is required that /opt/otobo is mounted
         print_error "the volume $OTOBO_HOME is not mounted" && exit 1
-    elif [ ! "$(ls -A $OTOBO_HOME)" ]; then
+    elif [ ! "$(ls $OTOBO_HOME)" ]; then
         # first the simple case: there is no previous installation
+        # use a simle 'ls' for checking dir content, hidden files like .bashrc are ignored
         upgrade_patchlevel_release
     else
         if [ "$(compare_versions "$otobo_next/RELEASE" "$OTOBO_HOME/RELEASE")" = "1" ]; then
