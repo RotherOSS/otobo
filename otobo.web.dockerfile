@@ -7,9 +7,22 @@ FROM perl:5.32.0-buster
 
 USER root
 
-# install some required Debian packages
-RUN apt-get update \
-    && apt-get -y --no-install-recommends install tree vim nano default-mysql-client cron \
+# install some required and optional Debian packages
+# For ODBC see https://blog.devart.com/installing-and-configuring-odbc-driver-on-linux.html
+# TODO: oracle client
+# TODO: LDAP
+RUN packages=$( echo \
+        "tree" \
+        "vim" \
+        "nano" \
+        "screen" \
+        "default-mysql-client" \
+        "postgresql-client" \
+        "odbcinst1debian2 libodbc1 odbcinst unixodbc" \
+        "cron" \
+    ) \
+    && apt-get update \
+    && apt-get -y --no-install-recommends install $packages \
     && rm -rf /var/lib/apt/lists/*
 
 # We want an UTF-8 console
@@ -24,7 +37,22 @@ COPY cpanfile ./cpanfile
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
 RUN cpanm --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
-RUN cpanm --with-feature=db:mysql --with-feature=plack --with-feature=devel:dbviewer --with-feature=div:bcrypt --with-feature=performance:json --with-feature=mail:imap --with-feature=mail:sasl --with-feature=div:ldap --with-feature=performance:csv --with-feature=div:xslt --with-feature=performance:redis --with-feature=devel:test --installdeps .
+RUN cpanm \
+    --with-feature=db:mysql \
+    --with-feature=db:postgresql \
+    --with-feature=db:odbc \
+    --with-feature=plack \
+    --with-feature=devel:dbviewer \
+    --with-feature=div:bcrypt \
+    --with-feature=performance:json \
+    --with-feature=mail:imap \
+    --with-feature=mail:sasl \
+    --with-feature=div:ldap \
+    --with-feature=performance:csv \
+    --with-feature=div:xslt \
+    --with-feature=performance:redis \
+    --with-feature=devel:test \
+    --installdeps .
 
 # create the otobo user
 #   --user-group            create group 'otobo' and add the user to the created group
@@ -93,9 +121,11 @@ RUN install -d var/stats var/packages var/article var/tmp \
 # Generate and install the crontab for the user $OTOBO_USER.
 # Explicitly set PATH as the required perl is located in /usr/local/bin/perl.
 RUN ( cd var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done ) \
-    && echo "# File added by Dockerfile"                             >  var/cron/aab_path \
-    && echo "# Let '/usr/bin/env perl' find perl in /usr/local/bin"  >> var/cron/aab_path \
-    && echo "PATH=/usr/local/bin:/usr/bin:/bin"                      >> var/cron/aab_path \
+    &&  { \
+            echo "# File added by Dockerfile" \
+            && echo "# Let '/usr/bin/env perl' find perl in /usr/local/bin" \
+            && echo "PATH=/usr/local/bin:/usr/bin:/bin" \
+	    } >> var/cron/aab_path \
     && ./bin/Cron.sh start
 
 # Create ARCHIVE as the last step
