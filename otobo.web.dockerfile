@@ -9,16 +9,15 @@ USER root
 
 # install some required and optional Debian packages
 # For ODBC see https://blog.devart.com/installing-and-configuring-odbc-driver-on-linux.html
+# For ODBC for SQLIte, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
 # TODO: oracle client
 # TODO: LDAP
 RUN packages=$( echo \
-        "tree" \
-        "vim" \
-        "nano" \
-        "screen" \
+        "tree ack vim nano screen" \
         "default-mysql-client" \
         "postgresql-client" \
         "odbcinst1debian2 libodbc1 odbcinst unixodbc" \
+        "sqlite libsqliteodbc" \
         "cron" \
     ) \
     && apt-get update \
@@ -41,6 +40,7 @@ RUN cpanm \
     --with-feature=db:mysql \
     --with-feature=db:postgresql \
     --with-feature=db:odbc \
+    --with-feature=db:sqlite \
     --with-feature=plack \
     --with-feature=devel:dbviewer \
     --with-feature=div:bcrypt \
