@@ -9,7 +9,7 @@ USER root
 
 # install some required Debian packages
 RUN apt-get update \
-    && apt-get -y --no-install-recommends install tree vim nano default-mysql-client cron \
+    && apt-get -y --no-install-recommends install tree vim nano screen  default-mysql-client cron \
     && rm -rf /var/lib/apt/lists/*
 
 # We want an UTF-8 console
@@ -93,9 +93,11 @@ RUN install -d var/stats var/packages var/article var/tmp \
 # Generate and install the crontab for the user $OTOBO_USER.
 # Explicitly set PATH as the required perl is located in /usr/local/bin/perl.
 RUN ( cd var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done ) \
-    && echo "# File added by Dockerfile"                             >  var/cron/aab_path \
-    && echo "# Let '/usr/bin/env perl' find perl in /usr/local/bin"  >> var/cron/aab_path \
-    && echo "PATH=/usr/local/bin:/usr/bin:/bin"                      >> var/cron/aab_path \
+    &&  { \
+            echo "# File added by Dockerfile" \
+            && echo "# Let '/usr/bin/env perl' find perl in /usr/local/bin" \
+            && echo "PATH=/usr/local/bin:/usr/bin:/bin" \
+	    } >> var/cron/aab_path \
     && ./bin/Cron.sh start
 
 # Create ARCHIVE as the last step
