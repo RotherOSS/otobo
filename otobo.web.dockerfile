@@ -7,9 +7,16 @@ FROM perl:5.32.0-buster
 
 USER root
 
-# install some required Debian packages
-RUN apt-get update \
-    && apt-get -y --no-install-recommends install tree vim nano screen  default-mysql-client cron \
+# install some required and optional Debian packages
+RUN packages=$( echo "tree" \
+        "vim" \
+        "nano" \
+        "screen" \
+        "default-mysql-client" \
+        "cron" \
+    ) \
+    && apt-get update \
+    && apt-get -y --no-install-recommends install $packages \
     && rm -rf /var/lib/apt/lists/*
 
 # We want an UTF-8 console
