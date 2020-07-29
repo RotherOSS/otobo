@@ -29,6 +29,7 @@ $Kernel::OM->ObjectParamAdd(
         RestoreDatabase => 1,
     },
 );
+
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my %DefaultSettingAddTemplate = (
@@ -69,9 +70,9 @@ my $SetingsXML = << 'EOF',
 </otobo_config>
 EOF
 
-    # Get SysConfig XML object.
-    my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
-my $SysConfigObject        = $Kernel::OM->Get('Kernel::System::SysConfig');
+# Get SysConfig XML object.
+my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
+my $SysConfigObject    = $Kernel::OM->Get('Kernel::System::SysConfig');
 
 my @DefaultSettingAddParams = $SysConfigXMLObject->SettingListParse(
     %DefaultSettingAddTemplate,
