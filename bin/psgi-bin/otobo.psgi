@@ -542,8 +542,8 @@ my $StaticApp = builder {
     Plack::App::File->new(root => "$FindBin::Bin/../../var/httpd/htdocs")->to_app;
 };
 
-# Port of customer.pl, public.pl, migration.pl, nph-genericinterface.pl to Plack.
-my $AppWithCGIEmulatePSGI = builder {
+# Port of nph-genericinterface.pl to Plack.
+my $GenericInterfaceApp = builder {
 
     enable 'Plack::Middleware::ErrorDocument',
         403 => '/otobo/index.pl';  # forbidden files
@@ -575,75 +575,21 @@ my $AppWithCGIEmulatePSGI = builder {
             # make sure to have a clean CGI.pm for each request, see CGI::Compile
             CGI::initialize_globals() if defined &CGI::initialize_globals;
 
-            # 0=off;1=on;
-            my $Debug = 0;
-
-            # $Env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
-            # $Env->{PATH_INFO} contains the path after the $Env->{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
-            # The extracted ScriptFileName should be something like:
-            #     nph-genericinterface.pl, index.pl, customer.pl, or rpc.pl
-            # Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
-            # are gracefully ignored.
-            my ($ScriptFileName) = ( ( $Env->{SCRIPT_NAME} // '' ) . ( $Env->{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
-
-            # Fallback to agent login if we could not determine handle...
-            $ScriptFileName //= 'index.pl';
-
             # nph-genericinterface.pl has specific logging
-            my @ObjectManagerArgs;
-            if ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
-                push  @ObjectManagerArgs,
-                    'Kernel::System::Log' => {
+            local $Kernel::OM = Kernel::System::ObjectManager->new(
+                'Kernel::System::Log' => {
                         LogPrefix => 'GenericInterfaceProvider',
                     },
-                    'Kernel::System::Web::Request' => {
-                        #WebRequest => CGI::PSGI->new($Env), TODO: enable when CGI::Emulate::PSGI is removed
-                    },
-            }
-
-            local $Kernel::OM = Kernel::System::ObjectManager->new(@ObjectManagerArgs);
-
-            # find the relevant interface class
-            my $Interface;
-            {
-                if ( $ScriptFileName eq 'customer.pl' ) {
-                    $Interface = Kernel::System::Web::InterfaceCustomer->new(
-                        Debug      => $Debug,
-                        #WebRequest => CGI::PSGI->new($Env), TODO: enable when CGI::Emulate::PSGI is removed
-                    );
-                }
-                elsif ( $ScriptFileName eq 'public.pl' ) {
-                    $Interface = Kernel::System::Web::InterfacePublic->new(
-                        Debug      => $Debug,
-                        #WebRequest => CGI::PSGI->new($Env), TODO: enable when CGI::Emulate::PSGI is removed
-                    );
-                }
-                elsif ( $ScriptFileName eq 'migration.pl' ) {
-                    $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
-                        Debug      => $Debug,
-                        #WebRequest => CGI::PSGI->new($Env), TODO: enable when CGI::Emulate::PSGI is removed
-                    );
-                }
-                elsif ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
-                    $Interface = Kernel::GenericInterface::Provider->new();
-                }
-                else {
-
-                    # fallback
-                    warn " using fallback InterfaceAgent for ScriptFileName: '$ScriptFileName'\n";
-                    $Interface = Kernel::System::Web::InterfaceAgent->new(
-                        Debug      => $Debug,
-                    );
-                }
-            }
+            );
 
             # do the work
-            $Interface->Run;
+            Kernel::GenericInterface::Provider->new()->Run;
         }
     );
 };
 
-# Port of installer.pl, index.pl to Plack.
+# Port of installer.pl, index.pl, customer.pl, public.pl, migration.pl to Plack.
+# Trying to do without CGI::Emulate::PSGI.
 my $OTOBOApp = builder {
 
     enable 'Plack::Middleware::ErrorDocument',
@@ -679,9 +625,6 @@ my $OTOBOApp = builder {
                 local *STDOUT = $stdout;
                 local *STDERR = $Env->{'psgi.errors'};
 
-                # make sure to have a clean CGI.pm for each request, see CGI::Compile
-                CGI::initialize_globals() if defined &CGI::initialize_globals;
-
                 # 0=off;1=on;
                 my $Debug = 0;
 
@@ -709,6 +652,24 @@ my $OTOBOApp = builder {
                     }
                     elsif ( $ScriptFileName eq 'installer.pl' ) {
                         $Interface = Kernel::System::Web::InterfaceInstaller->new(
+                            Debug      => $Debug,
+                            WebRequest => CGI::PSGI->new($Env),
+                        );
+                    }
+                    elsif ( $ScriptFileName eq 'customer.pl' ) {
+                        $Interface = Kernel::System::Web::InterfaceCustomer->new(
+                            Debug      => $Debug,
+                            WebRequest => CGI::PSGI->new($Env),
+                        );
+                    }
+                    elsif ( $ScriptFileName eq 'public.pl' ) {
+                        $Interface = Kernel::System::Web::InterfacePublic->new(
+                            Debug      => $Debug,
+                            WebRequest => CGI::PSGI->new($Env),
+                        );
+                    }
+                    elsif ( $ScriptFileName eq 'migration.pl' ) {
+                        $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
                             Debug      => $Debug,
                             WebRequest => CGI::PSGI->new($Env),
                         );
@@ -780,11 +741,11 @@ builder {
     # The pathes are such that $Env->{SCRIPT_NAME} and $Env->{PATH_INFO} are set up just like they are set up under mod_perl,
     mount '/otobo'                         => $RedirectOtoboApp; #redirect to /otobo/index.pl when in doubt
     mount '/otobo/index.pl'                => $OTOBOApp;
-    mount '/otobo/customer.pl'             => $AppWithCGIEmulatePSGI;
-    mount '/otobo/public.pl'               => $AppWithCGIEmulatePSGI;
+    mount '/otobo/customer.pl'             => $OTOBOApp;
+    mount '/otobo/public.pl'               => $OTOBOApp;
     mount '/otobo/installer.pl'            => $OTOBOApp;
-    mount '/otobo/migration.pl'            => $AppWithCGIEmulatePSGI;
-    mount '/otobo/nph-genericinterface.pl' => $AppWithCGIEmulatePSGI;
+    mount '/otobo/migration.pl'            => $OTOBOApp;
+    mount '/otobo/nph-genericinterface.pl' => $GenericInterfaceApp;
 
     # some SOAP stuff
     mount '/otobo/rpc.pl'                  => $RPCApp;
