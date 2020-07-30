@@ -23,6 +23,7 @@ use utf8;
 use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
 
 use vars (qw($Self));
+
 use Kernel::System::VariableCheck qw(:all);
 
 ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
@@ -33,13 +34,16 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 
-my $HelperObject      = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
-my $TicketObject      = $Kernel::OM->Get('Kernel::System::Ticket');
-my $QueueObject       = $Kernel::OM->Get('Kernel::System::Queue');
-my $TimeObject        = $Kernel::OM->Get('Kernel::System::Time');
-my $CacheObject       = $Kernel::OM->Get('Kernel::System::Cache');
-my $ZnunyHelperObject = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
+my $HelperObject         = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+my $QueueObject          = $Kernel::OM->Get('Kernel::System::Queue');
+my $TimeObject           = $Kernel::OM->Get('Kernel::System::Time');
+my $CacheObject          = $Kernel::OM->Get('Kernel::System::Cache');
+my $ZnunyHelperObject    = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
+my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+    ChannelName => 'Internal',
+);
 
 # Disable transaction mode for escalation index ticket event module
 my $TicketEventModulePostConfig = $ConfigObject->Get('Ticket::EventModulePost');
@@ -136,7 +140,7 @@ if ($QueueID) {
 }
 
 # create a ticket for testing
-my $TicketID = $HelperObject->TicketCreate(
+my $TicketID = $TicketObject->TicketCreate(
     Title         => $MyTicketName,
     Queue         => $MyQueueName,             # or QueueID => 123,
     Lock          => 'unlock',
@@ -169,7 +173,7 @@ my %Ticket = $TicketObject->TicketGet(
 );
 
 # we need an article to check SenderType (agent|customer)
-my $ArticleID = $HelperObject->ArticleCreate(
+my $ArticleID = $ArticleBackendObject->ArticleCreate(
     TicketID             => $TicketID,
     ChannelName          => 'Internal',
     IsVisibleForCustomer => 0,
@@ -416,7 +420,7 @@ my $SystemTime = $TimeObject->SystemTime();
 
 if ( $SystemTime gt $SystemPendingTime ) {
 
-    $ArticleID = $HelperObject->ArticleCreate(
+    $ArticleID = $ArticleBackendObject->ArticleCreate(
         TicketID             => $TicketID,
         ChannelName          => 'Internal',
         IsVisibleForCustomer => 1,
