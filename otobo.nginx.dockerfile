@@ -9,6 +9,7 @@ ARG GIT_COMMIT=unspecified
 ARG GIT_BRANCH=unspecified
 
 # add some additional meta info to the image
+LABEL maintainer="Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>"
 LABEL git_commit=$GIT_COMMIT
 LABEL git_branch=$GIT_BRANCH
 
