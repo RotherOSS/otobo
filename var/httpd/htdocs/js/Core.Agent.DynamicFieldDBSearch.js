@@ -118,7 +118,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         function InitDynamicFields($Context) {
             var ActiveAutoComplete = Core.Config.Get('ActiveAutoComplete');
 
-            $('.DynamicFieldDB:visible', $Context).each(function () {
+            $('.DynamicFieldDB[type="text"]', $Context).each(function () {
                 TargetNS.InitElement($(this).attr('id'), ActiveAutoComplete);
             });
         }
