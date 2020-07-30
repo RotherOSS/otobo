@@ -332,6 +332,7 @@ sub TimeStamp2SystemTime {
 =head2 Date2SystemTime()
 
 converts a structured date array to system time of OTOBO.
+In this context system time is the epoch.
 
     my $SystemTime = $TimeObject->Date2SystemTime(
         Year   => 2004,
@@ -375,9 +376,7 @@ sub Date2SystemTime {
         return;
     }
 
-    my $SystemTime = $DateTimeObject->ToEpoch();
-
-    return $SystemTime;
+    return $DateTimeObject->ToEpoch();
 }
 
 =head2 ServerLocalTimeOffsetSeconds()
