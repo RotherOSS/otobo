@@ -5,6 +5,15 @@
 # cpanm is already installed
 FROM perl:5.32.0-buster
 
+# take arguments that were passed via --build-arg
+ARG OTOBO_INSTALL=/opt/otobo_install
+ARG GIT_COMMIT=unspecified
+ARG GIT_BRANCH=unspecified
+
+# add some additional meta info to the image
+LABEL git_commit=$GIT_COMMIT
+LABEL git_branch=$GIT_BRANCH
+
 USER root
 
 # install some required and optional Debian packages
@@ -67,7 +76,6 @@ RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash 
 
 # copy the OTOBO installation to /opt/otobo and use it as the working dir
 # skip the files set up in .dockerignore
-ARG OTOBO_INSTALL=/opt/otobo_install
 COPY --chown=$OTOBO_USER:$OTOBO_GROUP . $OTOBO_INSTALL/otobo_next
 WORKDIR $OTOBO_INSTALL/otobo_next
 

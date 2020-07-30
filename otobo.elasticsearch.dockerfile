@@ -4,6 +4,14 @@
 # Use 7.8.0, because latest flag is not available
 FROM docker.elastic.co/elasticsearch/elasticsearch:7.8.0
 
+# take arguments that were passed via --build-arg
+ARG GIT_COMMIT=unspecified
+ARG GIT_BRANCH=unspecified
+
+# add some additional meta info to the image
+LABEL git_commit=$GIT_COMMIT
+LABEL git_branch=$GIT_BRANCH
+
 # Install important plugins
 RUN bin/elasticsearch-plugin install --batch ingest-attachment
 RUN bin/elasticsearch-plugin install --batch analysis-icu
