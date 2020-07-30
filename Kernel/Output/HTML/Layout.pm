@@ -110,8 +110,9 @@ sub new {
 
     # Determine the language to use based on the browser setting, if there
     #   is none yet.
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     if ( !$Self->{UserLanguage} ) {
-        my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
+        my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ParamObject->HTTP('HTTP_ACCEPT_LANGUAGE') || '';
         my %Data             = %{ $ConfigObject->Get('DefaultUsedLanguages') };
         LANGUAGE:
         for my $BrowserLang (@BrowserLanguages) {
@@ -156,7 +157,7 @@ sub new {
     $Self->{Charset}     = $Self->{UserCharset};                            # just for compat.
     $Self->{SessionID}   = $Param{SessionID} || '';
     $Self->{SessionName} = $Param{SessionName} || 'SessionID';
-    $Self->{CGIHandle}   = $Kernel::OM->Get('Kernel::System::Web::Request')->ScriptName() || 'No-$ENV{"SCRIPT_NAME"}';
+    $Self->{CGIHandle}   = $ParamObject->ScriptName() || 'No-$ENV{"SCRIPT_NAME"}';
 
     # baselink
     $Self->{Baselink} = $Self->{CGIHandle} . '?';
@@ -218,12 +219,12 @@ EOF
     $Self->{BrowserJavaScriptSupport} = 1;
     $Self->{BrowserRichText}          = 1;
 
-    my $HttpUserAgent = ( defined $ENV{HTTP_USER_AGENT} ? lc $ENV{HTTP_USER_AGENT} : '' );
+    my $HttpUserAgent = lc ( $ParamObject->HTTP('USER_AGENT') // '' );
 
     if ( !$HttpUserAgent ) {
         $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
     }
-    elsif ($HttpUserAgent) {
+    else {
 
         # check, if we are on a mobile platform.
         # tablets are handled like desktops
@@ -384,7 +385,8 @@ EOF
 
     # force a theme based on host name
     my $DefaultThemeHostBased = $ConfigObject->Get('DefaultTheme::HostBased');
-    if ( $DefaultThemeHostBased && $ENV{HTTP_HOST} ) {
+    my $Host = $ParamObject->HTTP('HOST');
+    if ( $DefaultThemeHostBased && $Host ) {
 
         THEME:
         for my $RegExp ( sort keys %{$DefaultThemeHostBased} ) {
@@ -395,7 +397,7 @@ EOF
             next THEME if !$DefaultThemeHostBased->{$RegExp};
 
             # check if regexp is matching
-            if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
+            if ( $Host =~ m/$RegExp/i ) {
                 $Theme = $DefaultThemeHostBased->{$RegExp};
             }
         }
@@ -2701,7 +2703,8 @@ sub Attachment {
     $EncodeObject->EncodeOutput( \$Param{Content} );
 
     # fix for firefox HEAD problem
-    if ( !$ENV{REQUEST_METHOD} || $ENV{REQUEST_METHOD} ne 'HEAD' ) {
+    my $RequestMethod = $Kernel::OM->Get('Kernel::System::Web::Request')->RequestMethod();
+    if ( !$RequestMethod || $RequestMethod ne 'HEAD' ) {
         $Output .= $Param{Content};
     }
 

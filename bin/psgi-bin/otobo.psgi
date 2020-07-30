@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,6 +29,9 @@ otobo.psgi - OTOBO PSGI application
     # using the webserver Gazelle
     plackup --server Gazelle bin/psgi-bin/otobo.psgi
 
+    # with profiling (untested)
+    PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/psgi-bin/otobo.psgi
+
 =head1 DESCRIPTION
 
 A PSGI application.
@@ -37,15 +41,24 @@ A PSGI application.
 There are some requirements for running this application. Do something like:
 
     cpanm --with-feature=mojo --with-feature=plack --with-feature=mysql  --installdeps .
+    cpanm --with-feature=db:mysql --with-feature=plack --with-feature=devel:dbviewer \
+          --with-feature=div:bcrypt --with-feature=performance:json --with-feature=mail:imap  \
+          --with-feature=mail:sasl --with-feature=div:ldap --with-feature=performance:csv \
+          --with-feature=div:xslt --with-feature=performance:redis --with-feature=devel:test \
+          --installdeps .
 
 =head1 Profiling
 
-To profile single requests, install Devel::NYTProf and start this script as
-PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/psgi-bin/otobo.psgi
-then append &NYTProf=mymarker to a request.
+To profile single requests, install Devel::NYTProf and start this script as:
+
+    PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/psgi-bin/otobo.psgi
+
+For actual profiling append C<&NYTProf=mymarker> to a request.
 This creates a file called nytprof-mymarker.out, which you can process with
-nytprofhtml -f nytprof-mymarker.out
-Then point your browser at nytprof/index.html
+
+    nytprofhtml -f nytprof-mymarker.out
+
+Then point your browser at nytprof/index.html.
 
 =cut
 
@@ -53,13 +66,14 @@ use v5.24;
 use warnings;
 use utf8;
 
-# use ../../ as lib location
-use FindBin qw($Bin);
-use lib "$Bin/../..";
-use lib "$Bin/../../Kernel/cpan-lib";
-use lib "$Bin/../../Custom";
+# expect that otobo.psgi is two level below the OTOBO root dir
+use FindBin;
+use lib "$FindBin::Bin/../..";
+use lib "$FindBin::Bin/../../Kernel/cpan-lib";
+use lib "$FindBin::Bin/../../Custom";
 
 # this package is used for rpc.pl
+# UNTESTED
 package OTOBO::RPC {
     use Kernel::System::ObjectManager;
 
@@ -241,6 +255,7 @@ to dispatch multiple ticket methods and get the TicketID
 
 # core modules
 use Data::Dumper;
+use POSIX 'SEEK_SET';
 
 # CPAN modules
 use DateTime ();
@@ -294,29 +309,29 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT AS OF JULY 18TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
+warn "PLEASE NOTE THAT AS OF JULY 21ST 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
 
 ################################################################################
 # Middlewares
 ################################################################################
 
-# conditionally enable profiling
+# conditionally enable profiling, UNTESTED
 my $NYTProfMiddleWare = sub {
     my $app = shift;
 
     return sub {
-        my $env = shift;
+        my $Env = shift;
 
         # check whether this request runs under Devel::NYTProf
         my $ProfilingIsOn = 0;
-        if ( $ENV{NYTPROF} && $ENV{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ) {
+        if ( $ENV{NYTPROF} && $Env->{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ) {
             $ProfilingIsOn = 1;
             DB::enable_profile("nytprof-$1.out");
         }
 
 
         # do the work
-        my $res = $app->($env);
+        my $res = $app->($Env);
 
         # clean up profiling, write the output file
         DB::finish_profile() if $ProfilingIsOn;
@@ -331,18 +346,18 @@ my $FixFCGIProxyMiddleware = sub {
     my $app = shift;
 
     return sub {
-        my $env = shift;
+        my $Env = shift;
 
         # In the apaches2-httpd-fcgi.include.conf case all incoming request should be handled.
         # This means that otobo.psgi expects that SCRIPT_NAME is either '' or '/' and that
         # PATH_INFO is something like '/otobo/index.pl'.
         # But we get PATH_INFO = '' and SCRIPT_NAME = '/otobo/index.pl'.
-        if ( $env->{PATH_INFO} eq '' && ( $env->{SCRIPT_NAME} ne ''  && $env->{SCRIPT_NAME} ne '/' ) ) {
-            ($env->{PATH_INFO}, $env->{SCRIPT_NAME}) = ($env->{SCRIPT_NAME}, '/');
+        if ( $Env->{PATH_INFO} eq '' && ( $Env->{SCRIPT_NAME} ne ''  && $Env->{SCRIPT_NAME} ne '/' ) ) {
+            ($Env->{PATH_INFO}, $Env->{SCRIPT_NAME}) = ($Env->{SCRIPT_NAME}, '/');
         }
 
         # user is authorised, now do the work
-        return $app->($env);
+        return $app->($Env);
     }
 };
 
@@ -351,21 +366,24 @@ my $AdminOnlyMiddeware = sub {
     my $app = shift;
 
     return sub {
-        my $env = shift;
+        my $Env = shift;
 
         local $Kernel::OM = Kernel::System::ObjectManager->new;
+
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+        # avoid vulnerability where a large POST is submitted
+        $CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;    ## no critic
 
         # Create the underlying CGI object from the PSGI environment.
         # The AuthSession modules use this object for getting info about the request.
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::Web::Request' => {
-                WebRequest => CGI::PSGI->new($env),
+                WebRequest => CGI::PSGI->new($Env),
             },
         );
 
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-        my $PlackRequest = Plack::Request->new($env);
+        my $PlackRequest = Plack::Request->new($Env);
 
         # Find out whether user is admin via the session.
         # Passing the session ID via POST or GET is not supported.
@@ -422,7 +440,7 @@ my $AdminOnlyMiddeware = sub {
         }
 
         # user is authorised, now do the work
-        return $app->($env);
+        return $app->($Env);
     };
 };
 
@@ -465,9 +483,9 @@ my $DumpEnvApp = sub {
 # handler for /otobo
 # Redirect to otobo/index.pl when in doubt, no permission check
 my $RedirectOtoboApp = sub {
-    my $env = shift;
+    my $Env = shift;
 
-    my $req = Plack::Request->new($env);
+    my $req = Plack::Request->new($Env);
     my $uri = $req->base;
     $uri->path($uri->path . '/index.pl');
 
@@ -497,7 +515,7 @@ my $DBViewerApp = builder {
         };
 
     my $server = Mojo::Server::PSGI->new;
-    $server->load_app("$Bin/../mojo-bin/dbviewer.pl");
+    $server->load_app("$FindBin::Bin/../mojo-bin/dbviewer.pl");
 
     sub {
         $server->run(@_)
@@ -526,12 +544,11 @@ my $StaticApp = builder {
     enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Plack::Middleware::Header',
         set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
 
-    Plack::App::File->new(root => "$Bin/../../var/httpd/htdocs")->to_app;
+    Plack::App::File->new(root => "$FindBin::Bin/../../var/httpd/htdocs")->to_app;
 };
 
-# Port of index.pl, customer.pl, public.pl, installer.pl, migration.pl, nph-genericinterface.pl to Plack.
-# with permission check
-my $App = builder {
+# Port of nph-genericinterface.pl to Plack.
+my $GenericInterfaceApp = builder {
 
     enable 'Plack::Middleware::ErrorDocument',
         403 => '/otobo/index.pl';  # forbidden files
@@ -558,80 +575,130 @@ my $App = builder {
 
         # logic taken from the scripts in bin/cgi-bin
         sub {
+            my $Env = shift;
+
             # make sure to have a clean CGI.pm for each request, see CGI::Compile
             CGI::initialize_globals() if defined &CGI::initialize_globals;
 
-            # 0=off;1=on;
-            my $Debug = 0;
-
-            # %ENV has to be used here as the PSGI is not passed as an arg to this anonymous sub.
-            # $ENV{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
-            # $ENV{PATH_INFO} contains the path after the $ENV{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
-            # The extracted ScriptFileName should be something like:
-            #     nph-genericinterface.pl, index.pl, customer.pl, or rpc.pl
-            # Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
-            # are gracefully ignored.
-            my ($ScriptFileName) = ( ( $ENV{SCRIPT_NAME} // '' ) . ( $ENV{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
-
-            # Fallback to agent login if we could not determine handle...
-            $ScriptFileName //= 'index.pl';
-
             # nph-genericinterface.pl has specific logging
-            my @ObjectManagerArgs;
-            if ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
-                push  @ObjectManagerArgs,
-                    'Kernel::System::Log' => {
+            local $Kernel::OM = Kernel::System::ObjectManager->new(
+                'Kernel::System::Log' => {
                         LogPrefix => 'GenericInterfaceProvider',
                     },
-            }
-
-            local $Kernel::OM = Kernel::System::ObjectManager->new(@ObjectManagerArgs);
-
-            # find the relevant interface class
-            my $Interface;
-            {
-                if ( $ScriptFileName eq 'index.pl' ) {
-                    $Interface = Kernel::System::Web::InterfaceAgent->new(
-                        Debug      => $Debug,
-                    );
-                }
-                elsif ( $ScriptFileName eq 'customer.pl' ) {
-                    $Interface = Kernel::System::Web::InterfaceCustomer->new(
-                        Debug      => $Debug,
-                    );
-                }
-                elsif ( $ScriptFileName eq 'public.pl' ) {
-                    $Interface = Kernel::System::Web::InterfacePublic->new(
-                        Debug      => $Debug,
-                    );
-                }
-                elsif ( $ScriptFileName eq 'installer.pl' ) {
-                    $Interface = Kernel::System::Web::InterfaceInstaller->new(
-                        Debug      => $Debug,
-                    );
-                }
-                elsif ( $ScriptFileName eq 'migration.pl' ) {
-                    $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
-                        Debug      => $Debug,
-                    );
-                }
-                elsif ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
-                    $Interface = Kernel::GenericInterface::Provider->new();
-                }
-                else {
-
-                    # fallback
-                    warn " using fallback InterfaceAgeng for ScriptFileName: '$ScriptFileName'\n";
-                    $Interface = Kernel::System::Web::InterfaceAgent->new(
-                        Debug      => $Debug,
-                    );
-                }
-            }
+            );
 
             # do the work
-            $Interface->Run;
+            Kernel::GenericInterface::Provider->new()->Run;
         }
     );
+};
+
+# Port of installer.pl, index.pl, customer.pl, public.pl, migration.pl to Plack.
+# Trying to do without CGI::Emulate::PSGI.
+my $OTOBOApp = builder {
+
+    enable 'Plack::Middleware::ErrorDocument',
+        403 => '/otobo/index.pl';  # forbidden files
+
+    # a simplistic detection whether we are behind a revers proxy
+    enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
+
+    # GATEWAY_INTERFACE is used for determining whether a command runs in a web context
+    # Per default it would enable mysql_auto_reconnect.
+    # But mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
+    # OTOBO_RUNS_UNDER_PSGI indicates that PSGI is used.
+    enable 'Plack::Middleware::ForceEnv',
+        OTOBO_RUNS_UNDER_PSGI => '1',
+        GATEWAY_INTERFACE     => 'CGI/1.1';
+
+    # conditionally enable profiling
+    enable $NYTProfMiddleWare;
+
+    # check ever 10s for changed Perl modules
+    enable 'Plack::Middleware::Refresh';
+
+    # No need to set %ENV or redirect STDIN.
+    # But STDOUT and STDERR is still like in CGI scripts.
+    # logic taken from the scripts in bin/cgi-bin and from CGI::Emulate::PSGI
+    sub {
+        my $Env = shift;
+
+        my $stdout  = IO::File->new_tmpfile;
+        {
+            my $saver = SelectSaver->new("::STDOUT");
+            {
+                local *STDOUT = $stdout;
+                local *STDERR = $Env->{'psgi.errors'};
+
+                # 0=off;1=on;
+                my $Debug = 0;
+
+                # $Env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
+                # $Env->{PATH_INFO} contains the path after the $Env->{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
+                # The extracted ScriptFileName should be something like:
+                #     nph-genericinterface.pl, index.pl, customer.pl, or rpc.pl
+                # Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
+                # are gracefully ignored.
+                my ($ScriptFileName) = ( ( $Env->{SCRIPT_NAME} // '' ) . ( $Env->{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
+
+                # Fallback to agent login if we could not determine handle...
+                $ScriptFileName //= 'index.pl';
+
+                local $Kernel::OM = Kernel::System::ObjectManager->new();
+
+                # find the relevant interface class
+                my $Interface;
+                {
+                    if ( $ScriptFileName eq 'index.pl' ) {
+                        $Interface = Kernel::System::Web::InterfaceAgent->new(
+                            Debug      => $Debug,
+                            WebRequest => CGI::PSGI->new($Env),
+                        );
+                    }
+                    elsif ( $ScriptFileName eq 'installer.pl' ) {
+                        $Interface = Kernel::System::Web::InterfaceInstaller->new(
+                            Debug      => $Debug,
+                            WebRequest => CGI::PSGI->new($Env),
+                        );
+                    }
+                    elsif ( $ScriptFileName eq 'customer.pl' ) {
+                        $Interface = Kernel::System::Web::InterfaceCustomer->new(
+                            Debug      => $Debug,
+                            WebRequest => CGI::PSGI->new($Env),
+                        );
+                    }
+                    elsif ( $ScriptFileName eq 'public.pl' ) {
+                        $Interface = Kernel::System::Web::InterfacePublic->new(
+                            Debug      => $Debug,
+                            WebRequest => CGI::PSGI->new($Env),
+                        );
+                    }
+                    elsif ( $ScriptFileName eq 'migration.pl' ) {
+                        $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
+                            Debug      => $Debug,
+                            WebRequest => CGI::PSGI->new($Env),
+                        );
+                    }
+                    else {
+
+                        # fallback
+                        warn " using fallback InterfaceAgent for ScriptFileName: '$ScriptFileName'\n";
+                        $Interface = Kernel::System::Web::InterfaceAgent->new(
+                            Debug      => $Debug,
+                        );
+                    }
+                }
+
+                # do the work
+                $Interface->Run;
+            }
+        }
+
+        seek( $stdout, 0, SEEK_SET )
+            or croak("Can't seek stdout handle: $!");
+
+        return CGI::Parse::PSGI::parse_cgi_output($stdout);
+    };
 };
 
 
@@ -650,11 +717,11 @@ my $RPCApp = builder {
         GATEWAY_INTERFACE     => 'CGI/1.1';
 
     sub {
-        my $env = shift;
+        my $Env = shift;
 
         return $soap->dispatch_to(
                 'OTOBO::RPC'
-            )->handler( Plack::Request->new( $env ) );
+            )->handler( Plack::Request->new( $Env ) );
     };
 };
 
@@ -677,14 +744,14 @@ builder {
     mount '/otobo/dbviewer'                => $DBViewerApp;
 
     # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
-    # The pathes are such that $ENV{SCRIPT_NAME} and $ENV{PATH_INFO} are set up just like they are set up under mod_perl,
+    # The pathes are such that $Env->{SCRIPT_NAME} and $Env->{PATH_INFO} are set up just like they are set up under mod_perl,
     mount '/otobo'                         => $RedirectOtoboApp; #redirect to /otobo/index.pl when in doubt
-    mount '/otobo/index.pl'                => $App;
-    mount '/otobo/customer.pl'             => $App;
-    mount '/otobo/public.pl'               => $App;
-    mount '/otobo/installer.pl'            => $App;
-    mount '/otobo/migration.pl'            => $App;
-    mount '/otobo/nph-genericinterface.pl' => $App;
+    mount '/otobo/index.pl'                => $OTOBOApp;
+    mount '/otobo/customer.pl'             => $OTOBOApp;
+    mount '/otobo/public.pl'               => $OTOBOApp;
+    mount '/otobo/installer.pl'            => $OTOBOApp;
+    mount '/otobo/migration.pl'            => $OTOBOApp;
+    mount '/otobo/nph-genericinterface.pl' => $GenericInterfaceApp;
 
     # some SOAP stuff
     mount '/otobo/rpc.pl'                  => $RPCApp;
