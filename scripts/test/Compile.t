@@ -82,4 +82,15 @@ diag( 'look at Perl code with an unusual extension' );
     }
 }
 
+diag( 'look at some shell scripts' );
+
+my @ShellScripts = (
+    'bin/docker/entrypoint.sh',
+    'bin/Cron.sh',
+);
+for my $File ( @ShellScripts ) {
+    my $compile_errors = `bash -n "$File" 2>&1`;
+    is( $compile_errors, '', "$File compiles" );
+}
+
 done_testing();

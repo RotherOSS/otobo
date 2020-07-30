@@ -24,17 +24,17 @@ use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitT
 
 use vars (qw($Self));
 
-use Kernel::System::VariableCheck qw( IsArrayRefWithData IsHashRefWithData );
-
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-
-        RestoreDatabase => 1,
-    },
-);
-
 my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+# NOTE: This test script uses SettingsSet and thus creates
+# own deployments. Therefore we must handle DB Restore on our own.
+# This is because we need to do a deployment after DB is restored.
+my $StartedTransaction = $HelperObject->BeginWork();
+$Self->True(
+    $StartedTransaction,
+    'Started database transaction.',
+);
 
 # Ticket::SubjectFwd
 # Ticket::SubjectRe
@@ -83,6 +83,8 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
+
+    # Note that SettingsSet forces an deployment
     my $Success = $SysConfigObject->SettingsSet(
         %{ $Test->{Params} },
     );
@@ -114,6 +116,27 @@ $Self->Is(
     $SettingRe{EffectiveValue},
     'RE###',
     'Check deployed EffectiveValue for Ticket::SubjectRe.',
+);
+
+my $RollbackSuccess = $HelperObject->Rollback();
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+$Self->True(
+    $RollbackSuccess,
+    'Rolled back all database changes and cleaned up the cache.',
+);
+
+# The SysConfig tables are rolled back. Thus ConfigurationDeploy() takes
+# ZZZAAuto.pm back to the state before the test script started.
+my %Result = $SysConfigObject->ConfigurationDeploy(
+    Comments    => 'Revert changes.',
+    UserID      => 1,
+    Force       => 1,
+    AllSettings => 1,
+);
+
+$Self->True(
+    $Result{Success},
+    'Configuration restored.',
 );
 
 1;

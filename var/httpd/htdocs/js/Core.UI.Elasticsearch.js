@@ -125,6 +125,7 @@ Core.UI.Elasticsearch = (function (TargetNS) {
                     // open a new dialog, if it doesn't exist
                     if ( typeof $Dialog[0] == 'undefined' ) {
                         OpenDialog( Response );
+                        $InputField.focus();
                     }
 
                     // update the dialog

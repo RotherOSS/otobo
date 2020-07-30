@@ -511,11 +511,44 @@ sub AttachSeleniumScreenshot {
     return;
 }
 
+=head2 Plan
+
+Explicitly declare the expected number of tests.
+The required parameter B<Tests> sets the expected number of tests.
+
+=cut
+
+sub Plan {
+    my ( $Self, %Param ) = @_;
+
+    say { $Self->{OriginalSTDOUT} } "1..$Param{Tests}";
+
+    # used by the method PlanWasSubmitted()
+    $Self->{PlanWasSubmitted} = 1;
+
+    return;
+}
+
+=head2 PlanWasSubmitted
+
+Inspect whether a plan has already been submitted. Returns either 1 or 0.
+Can be called for deciding whether DoneTesting() should be called.
+
+=cut
+
+sub PlanWasSubmitted {
+    my ($Self) = @_;
+
+    return 1 if $Self->{PlanWasSubmitted};
+    return 0;
+}
+
 =head2 DoneTesting()
 
 Print out a test plan. This assumes that the number of test that have
 run so far is exactly the number of tests that should run.
 This effectively disables the check of the test plan.
+This method is called automatically in Kernel::System::UnitTest::RegisterDriver.
 
     $Driver->DoneTesting();
 
@@ -526,9 +559,8 @@ sub DoneTesting {
 
     my $TestCountTotal = $Self->{ResultData}->{TestOk} // 0;
     $TestCountTotal += $Self->{ResultData}->{TestNotOk} // 0;
-    say { $Self->{OriginalSTDOUT} } "1..$TestCountTotal";
 
-    return;
+    return $Self->Plan( Tests => $TestCountTotal );
 }
 
 =begin Internal:

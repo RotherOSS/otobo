@@ -88,6 +88,7 @@ div.InputField_Container {
     padding: 0px;
     display: inline-block;
 }
+
 div.InputField_InputContainer {
     position: relative;
     height: 100%;
@@ -103,6 +104,7 @@ div.InputField_InputContainer {
 
 .InputField_Search,
 input.DynamicFieldText:not([type=checkbox]),
+input.DynamicFieldDB,
 .InputField_Autocomplete {
     /* overwrite js-generated width */
     width: calc( 100% - 32px ) !important;
@@ -212,6 +214,7 @@ input.oooFull ~ label,
 .Field:hover ~ label,
 .Field.oooFull ~ label,
 .oooSelected ~ label,
+.DynamicFieldDB:hover ~ label,
 .InputField_Container:hover ~ label {
     top: -29px;
     font-size: 10px;
@@ -238,6 +241,7 @@ textarea.oooFull:focus,
 .Row > input:focus ~ label,
 label.oooFocus,
 .Field ~ label.oooFocus,
+.DynamicFieldDB:hover ~ label.oooFocus,
 .InputField_Container ~ label.oooFocus {
     top: -29px;
     font-size: 10px;

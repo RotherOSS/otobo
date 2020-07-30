@@ -23,22 +23,14 @@ use utf8;
 use File::Find qw();
 use File::stat qw();
 use Getopt::Long qw();
-use FindBin qw($RealBin);
+use Data::Dumper;
 
 # CPAN modules
 use Path::Class qw(dir);
 
 # OTOBO modules
 
-# bin/docker/set_permissions.pl is two levels down
-my $OTOBODirectory       = dir($RealBin)->parent->parent->stringify;
-my $OTOBODirectoryLength = length $OTOBODirectory;
-
-# the webserver runs under the user otobo
-my $OtoboUser  = 'otobo';    # default: otobo
-my $WebGroup   = 'otobo';    # the user otobo is in the group otobo
-my $AdminGroup = 'root';    # default: root
-my ( $Help, $DryRun, $SkipArticleDir, @SkipRegex );
+my ( $DryRun ); # file scoped for convenience
 
 sub PrintUsage {
     print <<'END_USAGE';
@@ -46,11 +38,12 @@ sub PrintUsage {
 Set OTOBO file permissions.
 
 Usage:
- otobo.SetPermissions.pl [--otobo-user=<OTOBO_USER>] [--web-group=<WEB_GROUP>] [--admin-group=<ADMIN_GROUP>] [--skip-article-dir] [--skip-regex="REGEX"] [--dry-run]
+ otobo.SetPermissions.pl [--dir=<DIR>] [--otobo-user=<OTOBO_USER>] [--otobo-group=<OTOBO_GROUP>] [--admin-group=<ADMIN_GROUP>] [--skip-article-dir] [--skip-regex="REGEX"] [--dry-run] dir
 
 Options:
+ [--dir=<DIR>]                 - directory where permissions are to be set, defaults to '.'.
  [--otobo-user=<OTOBO_USER>]   - OTOBO user, defaults to 'otobo'.
- [--web-group=<WEB_GROUP>]     - Web server group, defaults to 'otobo'
+ [--otobo-group=<OTOBO_GROUP>] - OTOBO group, defaults to 'otobo'
  [--admin-group=<ADMIN_GROUP>] - Admin group, defaults to 'root'.
  [--skip-article-dir]          - Skip var/article as it might take too long on some systems.
  [--skip-regex="REGEX"]        - Add another skip regex like "^/var/my/directory". Paths start with / but are relative to the OTOBO directory. --skip-regex can be specified multiple times.
@@ -83,7 +76,7 @@ my @ExecutableFiles = (
     qr{^/var/git/hooks/(?:pre|post)-receive$}smx,
 );
 
-# Special files that must not be written by web server user.
+# Special files that must not be written by webserver user.
 my @ProtectedFiles = (
     qr{^/\.fetchmailrc$}smx,
     qr{^/\.procmailrc$}smx,
@@ -92,10 +85,17 @@ my @ProtectedFiles = (
 my $ExitStatus = 0;
 
 sub Run {
+    my $OtoboDirectory = '.';       # default: the current working dir
+    my $OtoboUser      = 'otobo';   # default: otobo
+    my $OtoboGroup     = 'otobo';   # the user otobo is in the group otobo
+    my $AdminGroup     = 'root';    # default: root
+    my ( $Help, $SkipArticleDir, @SkipRegex  );
+
     Getopt::Long::GetOptions(
         'help'             => \$Help,
+        'dir=s'            => \$OtoboDirectory,
         'otobo-user=s'     => \$OtoboUser,
-        'web-group=s'      => \$WebGroup,
+        'otobo-group=s'    => \$OtoboGroup,
         'admin-group=s'    => \$AdminGroup,
         'dry-run'          => \$DryRun,
         'skip-article-dir' => \$SkipArticleDir,
@@ -115,26 +115,42 @@ sub Run {
     }
 
     # check params
-    my $OtoboUserID = getpwnam $OtoboUser;
-    if ( !$OtoboUser || !defined $OtoboUserID ) {
-        print STDERR "ERROR: --otobo-user is missing or invalid.\n";
+
+    if ( !$OtoboDirectory ) {
+        say STDERR "ERROR: --dir is missing.";
 
         exit 1;
     }
 
-    my $WebGroupID = getgrnam $WebGroup;
-    if ( !$WebGroup || !defined $WebGroupID ) {
-        print STDERR "ERROR: --web-group is missing or invalid.\n";
+    if ( ! -d $OtoboDirectory ) {
+        say STDERR "ERROR: $OtoboDirectory isn't a directory";
+
+        exit 1;
+    }
+
+    my $OtoboUserID = getpwnam $OtoboUser;
+    if ( !$OtoboUser || !defined $OtoboUserID ) {
+        say STDERR "ERROR: --otobo-user is missing or invalid.";
+
+        exit 1;
+    }
+
+    my $OtoboGroupID = getgrnam $OtoboGroup;
+    if ( !$OtoboGroup || !defined $OtoboGroupID ) {
+        say STDERR "ERROR: --otobo-group is missing or invalid.";
 
         exit 1;
     }
 
     my $AdminGroupID = getgrnam $AdminGroup;
     if ( !$AdminGroup || !defined $AdminGroupID ) {
-        print STDERR "ERROR: --admin-group is invalid.\n";
+        say STDERR "ERROR: --admin-group is invalid.";
 
         exit 1;
     }
+
+    # Continue with the absolute path, mainly for consistency.
+    $OtoboDirectory = dir($OtoboDirectory)->absolute->stringify;
 
     if ( defined $SkipArticleDir ) {
         push @IgnoreFiles, qr{^/var/article}smx;
@@ -144,23 +160,23 @@ sub Run {
         push @IgnoreFiles, qr{$Regex}smx;
     }
 
-    say "Setting permissions on $OTOBODirectory";
+    say "Setting permissions on $OtoboDirectory";
     File::Find::find(
         {
             wanted   => sub {
-                    SetPermissions( $OtoboUserID, $WebGroupID, $AdminGroupID );
+                    SetPermissions( $OtoboDirectory, $OtoboUserID, $OtoboGroupID, $AdminGroupID );
                 },
             no_chdir => 1,
             follow   => 1,
         },
-        $OTOBODirectory,
+        $OtoboDirectory,
     );
 
     exit $ExitStatus;
 }
 
 sub SetPermissions {
-    my ( $OtoboUserID, $WebGroupID, $AdminGroupID ) = @_;
+    my ( $OtoboDirectory, $OtoboUserID, $OtoboGroupID, $AdminGroupID ) = @_;
 
     # First get a canonical full filename
     my $File = $File::Find::fullname;
@@ -169,14 +185,15 @@ sub SetPermissions {
     return if !defined $File;
 
     # Make sure it is inside the OTOBO directory to avoid following symlinks outside
-    if ( substr( $File, 0, $OTOBODirectoryLength ) ne $OTOBODirectory ) {
+    my $OtoboDirectoryLength = length $OtoboDirectory;
+    if ( substr( $File, 0, $OtoboDirectoryLength ) ne $OtoboDirectory ) {
         $File::Find::prune = 1;    # don't descend into subdirectories
 
         return;
     }
 
     # Now get a canonical relative filename under the OTOBO directory
-    my $RelativeFile = substr( $File, $OTOBODirectoryLength ) || '/';
+    my $RelativeFile = substr( $File, $OtoboDirectoryLength ) || '/';
 
     for my $IgnoreRegex (@IgnoreFiles) {
         if ( $RelativeFile =~ $IgnoreRegex ) {
@@ -188,17 +205,17 @@ sub SetPermissions {
     }
 
     # Ok, get target permissions for file
-    SetFilePermissions( $File, $RelativeFile, $OtoboUserID, $WebGroupID, $AdminGroupID );
+    SetFilePermissions( $File, $RelativeFile, $OtoboUserID, $OtoboGroupID, $AdminGroupID );
 
     return;
 }
 
 sub SetFilePermissions {
-    my ( $File, $RelativeFile, $OtoboUserID, $WebGroupID, $AdminGroupID ) = @_;
+    my ( $File, $RelativeFile, $OtoboUserID, $OtoboGroupID, $AdminGroupID ) = @_;
 
     ## no critic (ProhibitLeadingZeros)
     # Writable by default, owner OTOBO and group webserver.
-    my ( $TargetPermission, $TargetUserID, $TargetGroupID ) = ( 0660, $OtoboUserID, $WebGroupID );
+    my ( $TargetPermission, $TargetUserID, $TargetGroupID ) = ( 0660, $OtoboUserID, $OtoboGroupID );
     if ( -d $File ) {
 
         # SETGID for all directories so that both OTOBO and the web server can write to the files.
