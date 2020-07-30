@@ -43,17 +43,21 @@
             <fieldset class="TableLike FixedLabel SpacingTop">
 
 [% RenderBlockStart("SearchField") %]
-                <label for="[% Data.FieldName | html %]" id="Label_[% Data.FieldName | html %]">[% Data.FieldLabel | html %]:</label>
-                <div class="Field" id="Field_[% Data.FieldName | html %]">
-                    <input type="text" name="DetailedSearch_[% Data.FieldKey | html %]_[% Data.FieldName | html %]" id="[% Data.FieldName | html %]" value="[% Data.FieldValue | html %]" class="W75pc" />
-                    <a href="#" id="RemoveValue_[% Data.FieldName | html %]_[% Data.FieldKey | html %]" class="RemoveButton" title="[% Translate("Remove value") | html %]"><i class="fa fa-minus-square-o"></i></a>
+                <div id="Field_[% Data.FieldName | html %]">
+                    <label for="[% Data.FieldName | html %]" id="Label_[% Data.FieldName | html %]">[% Data.FieldLabel | html %]:</label>
+                    <div class="Field">
+                        <input type="text" name="DetailedSearch_[% Data.FieldKey | html %]_[% Data.FieldName | html %]" id="[% Data.FieldName | html %]" value="[% Data.FieldValue | html %]" class="W75pc" />
+                        <a href="#" id="RemoveValue_[% Data.FieldName | html %]_[% Data.FieldKey | html %]" class="RemoveButton" title="[% Translate("Remove value") | html %]"><i class="fa fa-minus-square-o"></i></a>
+                    </div>
                 </div>
 [% RenderBlockEnd("SearchField") %]
 [% RenderBlockStart("SearchFieldHidden") %]
-                <label for="[% Data.FieldName | html %]" class="Hidden" id="Label_[% Data.FieldName | html %]">[% Data.FieldLabel | html %]:</label>
-                <div class="Field Hidden" id="Field_[% Data.FieldName | html %]">
-                    <input type="text" name="DetailedSearch_[% Data.FieldKey | html %]_[% Data.FieldName | html %]" id="[% Data.FieldName | html %]" value="[% Data.FieldValue | html %]" class="W75pc" />
-                    <a href="#" id="RemoveValue_[% Data.FieldName | html %]_[% Data.FieldKey | html %]" class="RemoveButton" title="[% Translate("Remove value") | html %]"><i class="fa fa-minus-square-o"></i></a>
+                <div id="Field_[% Data.FieldName | html %]" class="Hidden">
+                    <label for="[% Data.FieldName | html %]" id="Label_[% Data.FieldName | html %]">[% Data.FieldLabel | html %]:</label>
+                    <div class="Field">
+                        <input type="text" name="DetailedSearch_[% Data.FieldKey | html %]_[% Data.FieldName | html %]" id="[% Data.FieldName | html %]" value="[% Data.FieldValue | html %]" class="W75pc" />
+                        <a href="#" id="RemoveValue_[% Data.FieldName | html %]_[% Data.FieldKey | html %]" class="RemoveButton" title="[% Translate("Remove value") | html %]"><i class="fa fa-minus-square-o"></i></a>
+                    </div>
                 </div>
 [% RenderBlockEnd("SearchFieldHidden") %]
 
@@ -72,9 +76,10 @@
                 </fieldset>
 
                 <div class="Center SpacingTop">
-                    <button id="Search" class="Primary CallForAction" value="Run search">
+                    <button id="Search" class="Primary CallForAction oooS" value="Run search">
                         <span>
-                            <i class="fa fa-search"> [% Translate("Run search") | html %]</i>
+                            <i class="fa fa-search"></i>
+                            [% Translate("Run search") | html %]
                         </span>
                     </button>
                 </div>

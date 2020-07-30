@@ -19,9 +19,9 @@ package Kernel::Modules::CustomerDynamicFieldDBDetailedSearch;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
-
 our $ObjectManagerDisabled = 1;
+
+use Kernel::System::VariableCheck qw(:all);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -141,6 +141,15 @@ sub Run {
             },
         );
 
+        # Map column names to labels.
+        my %ColumnLabels;
+        for my $Key ( sort keys %{ $DynamicFieldConfig->{Config}->{PossibleValues} } ) {
+            if ( $Key =~ m/^FieldName_(\d+)$/ ) {
+                $ColumnLabels{ $DynamicFieldConfig->{Config}->{PossibleValues}->{$Key} }
+                    = $DynamicFieldConfig->{Config}->{PossibleValues}->{"FieldLabel_$1"};
+            }
+        }
+
         # built the table header
         HEADER:
         for my $Header ( @{ $Result{Columns} } ) {
@@ -151,7 +160,7 @@ sub Run {
             $LayoutObject->Block(
                 Name => 'SearchResultHeader',
                 Data => {
-                    SearchResultHeader => $Header,
+                    SearchResultHeader => $ColumnLabels{$Header},
                 },
             );
         }
@@ -273,7 +282,8 @@ sub Run {
             }
             else {
                 # prepare the select items
-                $FieldList{$FieldKey} = $PreparedPossibleValues->{$FieldKey}->{"FieldName_$FieldKey"};
+                $FieldList{ $FieldKey . '_' . $PreparedPossibleValues->{$FieldKey}->{"FieldName_$FieldKey"} }
+                    = $PreparedPossibleValues->{$FieldKey}->{"FieldLabel_$FieldKey"};
 
                 # add the hidden search fields
                 $LayoutObject->Block(
