@@ -4,6 +4,8 @@
 # use the latest nginx
 FROM nginx:mainline
 
+LABEL maintainer="Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>"
+
 # mostly for documentation
 EXPOSE 80/tcp
 EXPOSE 443/tcp

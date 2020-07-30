@@ -5,6 +5,8 @@
 # cpanm is already installed
 FROM perl:5.32.0-buster
 
+LABEL maintainer="Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>"
+
 USER root
 
 # install some required and optional Debian packages
