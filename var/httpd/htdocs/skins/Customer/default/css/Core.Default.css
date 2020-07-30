@@ -153,3 +153,7 @@ button.oooXS {
 .Center {
     text-align: center;
 }
+
+.Hidden {
+    display: none;
+}

@@ -8,6 +8,10 @@ FROM nginx:mainline
 EXPOSE 80/tcp
 EXPOSE 443/tcp
 
+# We want an UTF-8 console
+ENV LC_ALL C.UTF-8
+ENV LANG C.UTF-8
+
 # This setting works in the devel environment.
 # In the general case OTOBO_NGINX_WEB_HOST can be set when starting the container:
 #   docker run -e OTOBO_NGINX_WEB_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+') -p 443:443 otobo_nginx

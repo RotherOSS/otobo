@@ -62,7 +62,7 @@ my $SettingsXML = << 'EOF',
 </otobo_config>
 EOF
 
-    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+my $SysConfigObject    = $Kernel::OM->Get('Kernel::System::SysConfig');
 my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
 
 my @DefaultSettingAddParams = $SysConfigXMLObject->SettingListParse(

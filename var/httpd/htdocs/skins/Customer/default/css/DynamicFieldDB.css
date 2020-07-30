@@ -67,6 +67,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     margin: 5px 0 0 235px;
 }
 
+.DynamicFieldDB + a {
+    display: inline-block;
+    position: relative;
+    left: -48px;
+    width: 14px;
+}
+
+.DynamicFieldDB ~ label {
+    left: calc( -100% + 10px );
+}
+
 /*
  * FF3.6 has a problem with setting the position:relative only on :hover state.
  * As a workaround it is set always and a special z-index on hover.
