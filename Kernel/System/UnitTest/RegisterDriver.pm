@@ -84,7 +84,9 @@ sub import {
 
             # print the test plan
             my $Driver = $Kernel::OM->Get( 'Kernel::System::UnitTest::Driver' );
-            $Driver->DoneTesting();
+            if ( ! $Driver->PlanWasSubmitted() ) {
+                $Driver->DoneTesting();
+            }
         }
     }
 }

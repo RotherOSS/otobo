@@ -22,7 +22,10 @@ use utf8;
 use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
 
 use vars (qw($Self));
+
 use Kernel::System::VariableCheck qw(:all);
+
+$Self->Plan( Tests => 5 );
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -34,7 +37,7 @@ my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
-my $TimeObject   = $Kernel::OM->Get('Kernel::System::ZnunyTime');
+my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
 # Disable transaction mode for escalation index ticket event module
 my $TicketEventModulePostConfig = $ConfigObject->Get('Ticket::EventModulePost');
@@ -98,16 +101,25 @@ $ConfigObject->Set(
 
 # Ticket creation
 # solution time is then 2016-04-14 18:50:08
-$HelperObject->FixedTimeSetByTimeStamp('2016-04-12 16:50:08');    # Tuesday
-my $TicketID = $HelperObject->TicketCreate(
-    QueueID => $QueueID,
+$HelperObject->FixedTimeSet(
+    $TimeObject->TimeStamp2SystemTime( String => '2016-04-12 16:50:08' )
+); # Tuesday
+my $TicketID = $TicketObject->TicketCreate(
+    UserID        => 1,
+    State         => 'new',                    # or StateID => 5,
+    Lock          => 'unlock',
+    Priority      => '3 normal',               # or PriorityID => 2,
+    QueueID       => $QueueID,
+    OwnerID       => 1,
 );
 
 # Set pending reminder
 # TicketEscalationSuspendCalculate will add 4 minutes to prevent escalation
 # pending reminder is configured as suspend state
 # solution time is then 2016-04-14 18:54:08
-$HelperObject->FixedTimeSetByTimeStamp('2016-04-12 16:52:53');    # Tuesday
+$HelperObject->FixedTimeSet(
+    $TimeObject->TimeStamp2SystemTime( String => '2016-04-12 16:52:53' )
+);    # Tuesday
 $TicketObject->TicketStateSet(
     State    => 'pending reminder',
     TicketID => $TicketID,
@@ -124,7 +136,9 @@ $TicketObject->TicketPendingTimeSet(
 # = 16:56:53 and 17:00:02 - 16:56:53 = 3:09
 # open is not configured as suspend state, meaning, the new solution time
 # solution time is then 2016-04-14 18:57:17
-$HelperObject->FixedTimeSetByTimeStamp('2016-04-12 17:00:02');    # Tuesday
+$HelperObject->FixedTimeSet(
+    $TimeObject->TimeStamp2SystemTime( String => '2016-04-12 17:00:02' )
+);    # Tuesday
 $TicketObject->TicketStateSet(
     State    => 'open',
     TicketID => $TicketID,
@@ -139,7 +153,9 @@ $TicketObject->TicketPendingTimeSet(
 # Set pending reminder
 # this adds another 4 minutes to the solution time
 # new solution time: 2016-04-15 08:01:17
-$HelperObject->FixedTimeSetByTimeStamp('2016-05-31 08:37:10');    # Tuesday
+$HelperObject->FixedTimeSet(
+    $TimeObject->TimeStamp2SystemTime( String => '2016-05-31 08:37:10' )
+);    # Tuesday
 $TicketObject->TicketStateSet(
     State    => 'pending reminder',
     TicketID => $TicketID,

@@ -106,11 +106,15 @@ sub ProviderProcessRequest {
         );
     }
 
+    # The HTTP::REST support works with a request object.
+    # Just like Kernel::System::Web::InterfaceAgent.
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
     my $Operation;
     my %URIData;
-    my $RequestURI = $ENV{REQUEST_URI};
+    my $RequestURI = $ParamObject->RequestURI();
     $RequestURI =~ s{.*Webservice(?:ID)?\/[^\/]+(\/.*)$}{$1}xms;
 
     # Remove any query parameter from the URL
@@ -161,7 +165,7 @@ sub ProviderProcessRequest {
         }
     }
 
-    my $RequestMethod = $ENV{'REQUEST_METHOD'} || 'GET';
+    my $RequestMethod = $ParamObject->RequestMethod() || 'GET';
     ROUTE:
     for my $CurrentOperation ( sort keys %{ $Config->{RouteOperationMapping} } ) {
 
@@ -223,7 +227,11 @@ sub ProviderProcessRequest {
         );
     }
 
-    my $Length = $ENV{'CONTENT_LENGTH'};
+    # The post data has already been read in. This should be safe
+    # as $CGI::POST_MAX has been set as an emergency brake.
+    # For Checking the length we can therefor use the actual length.
+    my $Content = $ParamObject->GetParam( Param => 'POSTDATA' );
+    my $Length  = length $Content;
 
     # No length provided, return the information we have.
     # Also return for 'GET' method because it does not allow sending an entity-body in requests.
@@ -247,15 +255,11 @@ sub ProviderProcessRequest {
         );
     }
 
-    # Read request.
-    my $Content;
-    read STDIN, $Content, $Length;
-
-    # If there is no STDIN data it might be caused by fastcgi already having read the request.
-    # In this case we need to get the data from CGI.
+    # There might be a different request method.
+    # NOTE: this is kept only for compatability with older versions
     if ( !IsStringWithData($Content) && $RequestMethod ne 'GET' ) {
         my $ParamName = $RequestMethod . 'DATA';
-        $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
+        $Content = $ParamObject->GetParam(
             Param => $ParamName,
         );
     }
@@ -269,18 +273,18 @@ sub ProviderProcessRequest {
     }
 
     # Convert char-set if necessary.
-    my $ContentCharset;
-    if ( $ENV{'CONTENT_TYPE'} =~ m{ \A .* charset= ["']? ( [^"']+ ) ["']? \z }xmsi ) {
-        $ContentCharset = $1;
-    }
-    if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
-        $Content = $EncodeObject->Convert2CharsetInternal(
-            Text => $Content,
-            From => $ContentCharset,
-        );
-    }
-    else {
-        $EncodeObject->EncodeInput( \$Content );
+    {
+        my $ContentType = $ParamObject->ContentType();
+        my ($ContentCharset) = $ContentType =~ m{ \A .* charset= ["']? ( [^"']+ ) ["']? \z }xmsi;
+        if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
+            $Content = $EncodeObject->Convert2CharsetInternal(
+                Text => $Content,
+                From => $ContentCharset,
+            );
+        }
+        else {
+            $EncodeObject->EncodeInput( \$Content );
+        }
     }
 
     # Send received data to debugger.
@@ -910,7 +914,8 @@ sub _Output {
     }
 
     # Prepare protocol.
-    my $Protocol = defined $ENV{SERVER_PROTOCOL} ? $ENV{SERVER_PROTOCOL} : 'HTTP/1.0';
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $Protocol = $ParamObject->ServerProtocol() // 'HTTP/1.0';
 
     # FIXME: according to SOAP::Transport::HTTP the previous should not be used
     #   for all supported browsers 'Status:' should be used here
