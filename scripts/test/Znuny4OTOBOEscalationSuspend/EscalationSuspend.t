@@ -22,9 +22,13 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
 
+use Kernel::System::VariableCheck qw(:all);
+
 use vars (qw($Self));
 
-use Kernel::System::VariableCheck qw(:all);
+# explicitly declare the number of tests. This makes is obvious when the
+# test script prematurely exits
+$Self->Plan( Tests => 26 );
 
 ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
 
@@ -47,7 +51,6 @@ my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->
 
 # Disable transaction mode for escalation index ticket event module
 my $TicketEventModulePostConfig = $ConfigObject->Get('Ticket::EventModulePost');
-
 my $EscalationIndexName = '9990-EscalationIndex';
 
 $Self->True(
