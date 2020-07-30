@@ -75,7 +75,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .DynamicFieldDB ~ label {
-    left: calc( -100% + 10px );
+    left: calc( -100% + 2px );
 }
 
 /*

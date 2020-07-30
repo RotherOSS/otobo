@@ -157,3 +157,59 @@ button.oooXS {
 .Hidden {
     display: none;
 }
+
+/**
+ * @subsection jQuery autocomplete
+ */
+ul.ui-autocomplete {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+    overflow-x: hidden;
+    overflow-y: none;
+}
+
+.ui-autocomplete .ui-widget-content,
+.ui-autocomplete .ui-menu-item {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: 0.35px;
+    color: #00023c;
+    color: var(--colTextDark);
+}
+
+.ui-autocomplete .ui-menu-item {
+    padding: 4px 0px 4px 24px !important;
+}
+
+.ui-autocomplete .ui-menu-item:first-child {
+    padding-top: 8px !important;
+}
+
+.ui-autocomplete .ui-menu-item:last-child {
+    padding-bottom: 8px !important;
+}
+
+.ui-autocomplete .ui-menu-item-wrapper {
+    padding: 4px 8px 4px 8px;
+    border-radius: 5px;
+}
+
+.ui-autocomplete .ui-menu-item:hover,
+.ui-autocomplete .ui-menu-item:focus,
+.ui-autocomplete .ui-menu-item:active {
+    background: #fff;
+    border: none;
+    margin: 0;
+}
+
+.ui-autocomplete .ui-menu-item-wrapper.ui-state-active {
+    background: #f7f7f9;
+    background: var(--colBGLight);
+    border: none;
+    margin: 0;
+}
