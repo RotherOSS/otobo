@@ -4,6 +4,14 @@
 # use the latest nginx
 FROM nginx:mainline
 
+# take arguments that were passed via --build-arg
+ARG GIT_COMMIT=unspecified
+ARG GIT_BRANCH=unspecified
+
+# add some additional meta info to the image
+LABEL git_commit=$GIT_COMMIT
+LABEL git_branch=$GIT_BRANCH
+
 # mostly for documentation
 EXPOSE 80/tcp
 EXPOSE 443/tcp
