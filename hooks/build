@@ -1,1 +1,3 @@
+#!/bin/sh
+
 docker build --build-arg "GIT_COMMIT=$SOURCE_COMMIT" --build-arg "GIT_BRANCH=$SOURCE_BRANCH" -f $DOCKERFILE_PATH -t $IMAGE_NAME .
