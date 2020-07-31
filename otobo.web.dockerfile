@@ -10,11 +10,6 @@ ARG OTOBO_INSTALL=/opt/otobo_install
 ARG GIT_COMMIT=unspecified
 ARG GIT_BRANCH=unspecified
 
-# add some additional meta info to the image
-LABEL maintainer="Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>"
-LABEL git_commit=$GIT_COMMIT
-LABEL git_branch=$GIT_BRANCH
-
 USER root
 
 # install some required and optional Debian packages
@@ -146,6 +141,12 @@ RUN bin/otobo.CheckSum.pl -a create
 USER root
 WORKDIR $OTOBO_HOME
 ENV OTOBO_RUNS_UNDER_DOCKER 1
+
+# Add some additional meta info to the image.
+# This done near the end as changes labels invalidate the layer cache.
+LABEL maintainer="Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>"
+LABEL git_commit=$GIT_COMMIT
+LABEL git_branch=$GIT_BRANCH
 
 # for some reason $OTOBO_INSTALL can't be used here
 ENTRYPOINT ["/opt/otobo_install/entrypoint.sh"]

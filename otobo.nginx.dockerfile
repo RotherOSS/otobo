@@ -8,11 +8,6 @@ FROM nginx:mainline
 ARG GIT_COMMIT=unspecified
 ARG GIT_BRANCH=unspecified
 
-# add some additional meta info to the image
-LABEL maintainer="Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>"
-LABEL git_commit=$GIT_COMMIT
-LABEL git_branch=$GIT_BRANCH
-
 # mostly for documentation
 EXPOSE 80/tcp
 EXPOSE 443/tcp
@@ -43,3 +38,9 @@ RUN mv conf.d/default.conf conf.d/default.conf.hidden
 # See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx
 COPY scripts/nginx/templates/ templates
 COPY scripts/nginx/snippets/  snippets
+
+# Add some additional meta info to the image.
+# This done near the end as changes labels invalidate the layer cache.
+LABEL maintainer="Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>"
+LABEL git_commit=$GIT_COMMIT
+LABEL git_branch=$GIT_BRANCH
