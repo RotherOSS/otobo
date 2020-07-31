@@ -2,7 +2,17 @@
 # See also README_DOCKER.md.
 
 # Use 7.8.0, because latest flag is not available
+# This image is based on CentOS 7. The User is root.
 FROM docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+
+# install system tools
+RUN packages=$( echo \
+        "less" \
+        "nano" \
+        "tree" \
+        "vim" \
+    ) \
+    && yum install -y $packages
 
 # Install important plugins
 RUN bin/elasticsearch-plugin install --batch ingest-attachment
