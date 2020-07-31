@@ -8,11 +8,6 @@ FROM docker.elastic.co/elasticsearch/elasticsearch:7.8.0
 ARG GIT_COMMIT=unspecified
 ARG GIT_BRANCH=unspecified
 
-# add some additional meta info to the image
-LABEL maintainer="Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>"
-LABEL git_commit=$GIT_COMMIT
-LABEL git_branch=$GIT_BRANCH
-
 # Install important plugins
 RUN bin/elasticsearch-plugin install --batch ingest-attachment
 RUN bin/elasticsearch-plugin install --batch analysis-icu
@@ -20,3 +15,9 @@ RUN bin/elasticsearch-plugin install --batch analysis-icu
 # We want an UTF-8 console
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
+
+# Add some additional meta info to the image.
+# This done near the end as changes labels invalidate the layer cache.
+LABEL maintainer="Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>"
+LABEL git_commit=$GIT_COMMIT
+LABEL git_branch=$GIT_BRANCH
