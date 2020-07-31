@@ -47,4 +47,4 @@ RUN mv conf.d/default.conf conf.d/default.conf.hidden
 COPY scripts/nginx/templates/ templates
 COPY scripts/nginx/snippets/  snippets
 
-LABEL maintainer="Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>"
+LABEL maintainer="Team OTOBO <dev@otobo.org>"

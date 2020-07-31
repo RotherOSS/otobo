@@ -145,7 +145,7 @@ USER root
 WORKDIR $OTOBO_HOME
 ENV OTOBO_RUNS_UNDER_DOCKER 1
 
-LABEL maintainer="Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>"
+LABEL maintainer="Team OTOBO <dev@otobo.org>"
 
 # for some reason $OTOBO_INSTALL can't be used here
 ENTRYPOINT ["/opt/otobo_install/entrypoint.sh"]

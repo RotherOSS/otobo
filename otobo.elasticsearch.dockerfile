@@ -18,7 +18,7 @@ RUN packages=$( echo \
 RUN bin/elasticsearch-plugin install --batch ingest-attachment
 RUN bin/elasticsearch-plugin install --batch analysis-icu
 
-LABEL maintainer="Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>"
+LABEL maintainer="Team OTOBO <dev@otobo.org>"
 
 # We want an UTF-8 console
 ENV LC_ALL C.UTF-8

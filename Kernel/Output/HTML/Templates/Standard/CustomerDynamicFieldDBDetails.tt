@@ -28,11 +28,12 @@
             <fieldset class="TableLike" id="FilterFieldset" field="DynamicField_[% Data.DynamicFieldName | html %]">
 
 [% RenderBlockStart("DetailsRow") %]
-                <label for="FieldFilter[% Data.ColumnHead | html %]">[% Data.ColumnHead | html %]:</label>
-                <div class="Field">
-                    [% Data.ColumnData | html %]
+                <div>
+                    <label for="FieldFilter[% Data.ColumnHead | html %]">[% Data.ColumnHead | html %]:</label>
+                    <div class="Field">
+                        [% Data.ColumnData | html %]
+                    </div>
                 </div>
-                <div class="Clear"></div>
 [% RenderBlockEnd("DetailsRow") %]
 
             </fieldset>
