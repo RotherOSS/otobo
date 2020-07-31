@@ -563,6 +563,23 @@ sub DoneTesting {
     return $Self->Plan( Tests => $TestCountTotal );
 }
 
+=head2 Note()
+
+Print out notes to STDOUT. The parameter B<Note> will be split into lines and each line
+is prepended by '# '. A trailing newline will be added when there isn't on yet.
+
+=cut
+
+sub Note {
+    my ($Self, %Param) = @_;
+
+    my $Note = $Param{Note} // '';
+    chomp $Note;
+    print { $Self->{OriginalSTDOUT} } map { "# $_\n" } split /\n/, $Note;
+
+    return;
+}
+
 =begin Internal:
 
 =cut
