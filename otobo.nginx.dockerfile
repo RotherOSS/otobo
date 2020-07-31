@@ -1,12 +1,24 @@
 # This is the build file for the OTOBO nginx docker image.
 # See also README_DOCKER.md.
 
-# use the latest nginx
+# Use the latest nginx.
+# This image is based on Debian 10 (Buster). The User is root.
 FROM nginx:mainline
 
 # take arguments that were passed via --build-arg
 ARG GIT_COMMIT=unspecified
 ARG GIT_BRANCH=unspecified
+
+# install some required and optional Debian packages
+RUN packages=$( echo \
+        "less" \
+        "nano" \
+        "tree" \
+        "vim" \
+    ) \
+    && apt-get update \
+    && apt-get -y --no-install-recommends install $packages \
+    && rm -rf /var/lib/apt/lists/*
 
 # mostly for documentation
 EXPOSE 80/tcp
