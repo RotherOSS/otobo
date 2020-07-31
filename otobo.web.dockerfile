@@ -1,11 +1,10 @@
 # This is the build file for the OTOBO web docker image.
 # See also README_DOCKER.md.
 
-# use the latest Perl on Debian 10 (buster). As of 2020-07-02.
-# cpanm is already installed
+# Use the latest Perl as of 2020-07-31.
+# This image is based on Debian 10 (Buster). The User is root.
+# cpanm is already installed,
 FROM perl:5.32.0-buster
-
-LABEL maintainer="Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>"
 
 USER root
 
@@ -15,12 +14,18 @@ USER root
 # TODO: oracle client
 # TODO: LDAP
 RUN packages=$( echo \
-        "tree ack vim nano screen" \
-        "default-mysql-client" \
-        "postgresql-client" \
-        "odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc" \
-        "sqlite3 libsqliteodbc" \
+        "ack" \
         "cron" \
+        "default-mysql-client" \
+        "ldap-utils" \
+        "less" \
+        "nano" \
+        "odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc" \
+        "postgresql-client" \
+        "sqlite3 libsqliteodbc" \
+        "telnet" \
+        "tree" \
+        "vim" \
     ) \
     && apt-get update \
     && apt-get -y --no-install-recommends install $packages \
@@ -139,6 +144,8 @@ RUN bin/otobo.CheckSum.pl -a create
 USER root
 WORKDIR $OTOBO_HOME
 ENV OTOBO_RUNS_UNDER_DOCKER 1
+
+LABEL maintainer="Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>"
 
 # for some reason $OTOBO_INSTALL can't be used here
 ENTRYPOINT ["/opt/otobo_install/entrypoint.sh"]
