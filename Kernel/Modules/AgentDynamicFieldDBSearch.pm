@@ -282,6 +282,15 @@ sub Run {
         my $CacheTTL  = $DynamicFieldConfig->{Config}->{CacheTTL};
         my $CacheType = 'DynamicFieldDB';
 
+        # if db output is filtered, add the filter to the CacheKey
+        for my $Key ( sort keys %{ $DynamicFieldConfig->{Config}{PossibleValues} } ) {
+            if ( $Key =~ /^FieldFilter_/ && $DynamicFieldConfig->{Config}{PossibleValues}{$Key} =~ /^(DynamicField_.+)/ ) {
+                my $Content = $Param{ $1 } // '';
+                my ($FieldNo) = $Key =~ /^FieldFilter_(\d+)/;
+                $CacheKey .= ";$FieldNo:$Content";
+            }
+        }
+
         if ($CacheTTL) {
 
             my $CacheResult = $Kernel::OM->Get('Kernel::System::Cache')->Get(
