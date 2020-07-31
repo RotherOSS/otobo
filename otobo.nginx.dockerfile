@@ -4,8 +4,6 @@
 # use the latest nginx
 FROM nginx:mainline
 
-LABEL maintainer="Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>"
-
 # mostly for documentation
 EXPOSE 80/tcp
 EXPOSE 443/tcp
@@ -36,3 +34,5 @@ RUN mv conf.d/default.conf conf.d/default.conf.hidden
 # See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx
 COPY scripts/nginx/templates/ templates
 COPY scripts/nginx/snippets/  snippets
+
+LABEL maintainer="Team OTOBO <dev@otobo.org>"

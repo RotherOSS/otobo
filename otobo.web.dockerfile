@@ -5,8 +5,6 @@
 # cpanm is already installed
 FROM perl:5.32.0-buster
 
-LABEL maintainer="Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>"
-
 USER root
 
 # install some required and optional Debian packages
@@ -139,6 +137,8 @@ RUN bin/otobo.CheckSum.pl -a create
 USER root
 WORKDIR $OTOBO_HOME
 ENV OTOBO_RUNS_UNDER_DOCKER 1
+
+LABEL maintainer="Team OTOBO <dev@otobo.org>"
 
 # for some reason $OTOBO_INSTALL can't be used here
 ENTRYPOINT ["/opt/otobo_install/entrypoint.sh"]
