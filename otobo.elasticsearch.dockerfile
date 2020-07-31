@@ -18,6 +18,6 @@ ENV LANG C.UTF-8
 
 # Add some additional meta info to the image.
 # This done near the end as changes labels invalidate the layer cache.
-LABEL maintainer="Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>"
+LABEL maintainer="Team OTOBO <dev@otobo.org>"
 LABEL git_commit=$GIT_COMMIT
 LABEL git_branch=$GIT_BRANCH

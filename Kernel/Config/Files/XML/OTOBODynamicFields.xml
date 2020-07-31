@@ -262,6 +262,7 @@
                 <Item Key="CSS">
                     <Array>
                         <Item>DynamicFieldDB.css</Item>
+                        <Item>Core.DynamicFieldDBDetail.css</Item>
                     </Array>
                 </Item>
                 <Item Key="JavaScript">
@@ -302,6 +303,7 @@
                 <Item Key="CSS">
                     <Array>
                         <Item>DynamicFieldDB.css</Item>
+                        <Item>Core.DynamicFieldDBDetail.css</Item>
                     </Array>
                 </Item>
                 <Item Key="JavaScript">

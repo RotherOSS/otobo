@@ -4,6 +4,11 @@
 
 # This config is based on default.conf in the nginx installation
 
+proxy_send_timeout 120;
+proxy_read_timeout 300;
+proxy_buffering    off;
+tcp_nodelay        on;
+
 
 # Do not serve HTTP, redirect to HTTPS instead.
 # See https://linuxize.com/post/redirect-http-to-https-in-nginx/.
@@ -29,6 +34,9 @@ server {
     ssl_certificate_key ${OTOBO_NGINX_SSL_CERTIFICATE_KEY};
 
     server_name  localhost;
+
+    # allow large uploads of files
+    client_max_body_size 1G;
 
     #access_log  /var/log/nginx/host.access.log  main;
 

@@ -36,7 +36,8 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # get params
     for (qw(DynamicFieldName TicketID)) {
@@ -62,8 +63,6 @@ sub Run {
     {
         $ResultLimit = $DynamicFieldConfig->{Config}->{ResultLimit};
     }
-
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # ---------------------------------------------------------- #
     # DetailedSearch
