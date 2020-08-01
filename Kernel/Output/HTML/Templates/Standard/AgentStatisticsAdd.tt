@@ -43,8 +43,8 @@
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
                     <li>
-# Rother OSS / TODO Redirect directly to statistic doc.
-                        <a href="https://otobo.ch/de/otobo-dokumentation-und-handbuecher/" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-book"></i>[% Translate("Read more about statistics in OTOBO") | html %]</span></a>
+# Rother OSS / TODO OTOBO Redirect directly to statistic doc.
+                        <a href="https://otobo.de/de/dokumentation/" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-book"></i>[% Translate("Read more about statistics in OTOBO") | html %]</span></a>
                     </li>
                 </ul>
             </div>
