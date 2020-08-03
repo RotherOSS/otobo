@@ -19,11 +19,13 @@ package Kernel::System::UnitTest::Helper;
 use strict;
 use warnings;
 
+# core modules
 use File::Path qw(rmtree);
 
-# Load DateTime so that we can override functions for the FixedTimeSet().
-use DateTime;
+# CPAN modules
+use DateTime;      # Load DateTime so that we can override functions for the FixedTimeSet().
 
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::SysConfig;
 
@@ -44,7 +46,6 @@ our @ObjectDependencies = (
 
 Kernel::System::UnitTest::Helper - unit test helper functions
 
-
 =head2 new()
 
 construct a helper object.
@@ -64,6 +65,31 @@ construct a helper object.
     );
     my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+Valid parameters are:
+
+=over 4
+
+=item SkipSSLVerify
+
+=item UseTmpArticleDir
+
+=item RestoreDatabase
+
+=item DisableAsyncCalls
+
+=item ExecuteInternalTests
+
+Decide whether Kernel::System::UnitTests::Helper executes internal tests.
+The default is true. The flag can be set to 0 in order to avoid weird test numbering.
+An example is where DESTROY is called within forked processes.
+
+=item UnitTestDriverObject
+
+Pass in the UnitTestDriverObject explicitly. This is useful in the cases when
+the managed objects have been discarded.
+
+=back
+
 =cut
 
 sub new {
@@ -75,7 +101,11 @@ sub new {
 
     $Self->{Debug} = $Param{Debug} || 0;
 
-    $Self->{UnitTestDriverObject} = $Kernel::OM->Get('Kernel::System::UnitTest::Driver');
+    # Decide whether the UnitTestDriverObject should actually execute tests
+    $Self->{ExecuteInternalTests} = $Param{ExecuteInternalTests} // 1;
+
+    # object for internal tests
+    $Self->{UnitTestDriverObject} = $Param{UnitTestDriverObject} // $Kernel::OM->Get('Kernel::System::UnitTest::Driver');
 
     # Override Perl's built-in time handling mechanism to set a fixed time if needed.
     $Self->_MockPerlTimeHandling();
@@ -93,7 +123,10 @@ sub new {
         $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0;    ## no critic
 
         $Self->{RestoreSSLVerify} = 1;
-        $Self->{UnitTestDriverObject}->True( 1, 'Skipping SSL certificates verification' );
+
+        if ( $Self->{ExecuteInternalTests} ) {
+            $Self->{UnitTestDriverObject}->True( 1, 'Skipping SSL certificates verification' );
+        }
     }
 
     # switch article dir to a temporary one to avoid collisions
@@ -104,8 +137,9 @@ sub new {
     if ( $Param{RestoreDatabase} ) {
         $Self->{RestoreDatabase} = 1;
         my $StartedTransaction = $Self->BeginWork();
-        $Self->{UnitTestDriverObject}->True( $StartedTransaction, 'Started database transaction.' );
-
+        if ( $Self->{ExecuteInternalTests} ) {
+            $Self->{UnitTestDriverObject}->True( $StartedTransaction, 'Started database transaction.' );
+        }
     }
 
     if ( $Param{DisableAsyncCalls} ) {
@@ -206,7 +240,9 @@ sub TestUserCreate {
     $Self->{TestUsers} ||= [];
     push( @{ $Self->{TestUsers} }, $TestUserID );
 
-    $Self->{UnitTestDriverObject}->True( 1, "Created test user $TestUserID" );
+    if ( $Self->{ExecuteInternalTests} ) {
+        $Self->{UnitTestDriverObject}->True( 1, "Created test user $TestUserID" );
+    }
 
     # Add user to groups.
     GROUP_NAME:
@@ -231,7 +267,12 @@ sub TestUserCreate {
             UserID => 1,
         ) || die "Could not add test user $TestUserLogin to group $GroupName";
 
-        $Self->{UnitTestDriverObject}->True( 1, "Added test user $TestUserLogin to group $GroupName" );
+        if ( $Self->{ExecuteInternalTests} ) {
+            $Self->{UnitTestDriverObject}->True(
+                1,
+                "Added test user $TestUserLogin to group $GroupName"
+            );
+        }
     }
 
     # Set user language.
@@ -241,7 +282,10 @@ sub TestUserCreate {
         Key    => 'UserLanguage',
         Value  => $UserLanguage,
     );
-    $Self->{UnitTestDriverObject}->True( 1, "Set user UserLanguage to $UserLanguage" );
+
+    if ( $Self->{ExecuteInternalTests} ) {
+        $Self->{UnitTestDriverObject}->True( 1, "Set user UserLanguage to $UserLanguage" );
+    }
 
     return wantarray ? ( $TestUserLogin, $TestUserID ) : $TestUserLogin;
 }
@@ -294,7 +338,9 @@ sub TestCustomerUserCreate {
     $Self->{TestCustomerUsers} ||= [];
     push( @{ $Self->{TestCustomerUsers} }, $TestUser );
 
-    $Self->{UnitTestDriverObject}->True( 1, "Created test customer user $TestUser" );
+    if ( $Self->{ExecuteInternalTests} ) {
+        $Self->{UnitTestDriverObject}->True( 1, "Created test customer user $TestUser" );
+    }
 
     # Set customer user language.
     my $UserLanguage = $Param{Language} || 'en';
@@ -303,7 +349,10 @@ sub TestCustomerUserCreate {
         Key    => 'UserLanguage',
         Value  => $UserLanguage,
     );
-    $Self->{UnitTestDriverObject}->True( 1, "Set customer user UserLanguage to $UserLanguage" );
+
+    if ( $Self->{ExecuteInternalTests} ) {
+        $Self->{UnitTestDriverObject}->True( 1, "Set customer user UserLanguage to $UserLanguage" );
+    }
 
     return $TestUser;
 }
@@ -525,15 +574,21 @@ sub DESTROY {
 
         $Self->{RestoreSSLVerify} = 0;
 
-        $Self->{UnitTestDriverObject}->True( 1, 'Restored SSL certificates verification' );
+        if ( $Self->{ExecuteInternalTests} ) {
+            $Self->{UnitTestDriverObject}->True( 1, 'Restored SSL certificates verification' );
+        }
     }
 
     # restore database, clean caches
     if ( $Self->{RestoreDatabase} ) {
         my $RollbackSuccess = $Self->Rollback();
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
-        $Self->{UnitTestDriverObject}
-            ->True( $RollbackSuccess, 'Rolled back all database changes and cleaned up the cache.' );
+        if ( $Self->{ExecuteInternalTests} ) {
+            $Self->{UnitTestDriverObject}->True(
+                $RollbackSuccess,
+                'Rolled back all database changes and cleaned up the cache.'
+            );
+        }
     }
 
     # disable email checks to create new user
@@ -569,7 +624,9 @@ sub DESTROY {
                 ChangeUserID => 1,
             );
 
-            $Self->{UnitTestDriverObject}->True( $Success, "Set test user $TestUser to invalid" );
+            if ( $Self->{ExecuteInternalTests} ) {
+                $Self->{UnitTestDriverObject}->True( $Success, "Set test user $TestUser to invalid" );
+            }
         }
     }
 
@@ -597,9 +654,12 @@ sub DESTROY {
                 UserID  => 1,
             );
 
-            $Self->{UnitTestDriverObject}->True(
-                $Success, "Set test customer user $TestCustomerUser to invalid"
-            );
+            if ( $Self->{ExecuteInternalTests} ) {
+                $Self->{UnitTestDriverObject}->True(
+                    $Success,
+                    "Set test customer user $TestCustomerUser to invalid"
+                );
+            }
         }
     }
 
