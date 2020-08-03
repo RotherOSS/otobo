@@ -25,7 +25,7 @@ use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-$Self->Plan( Tests => 5 );
+$Self->Plan( Tests => 4 );
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
