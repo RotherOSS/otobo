@@ -24,16 +24,20 @@ use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitT
 
 use vars (qw($Self));
 
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+# set up object properties
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        ExecuteInternalTests => 0,
+    },
+);
 
-my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-my $CacheType = 'UnitTestTicketCounter';
-
+my $Helper     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
+my $CacheType  = 'UnitTestTicketCounter';
 my $ChildCount = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::TicketCreateNumber::ChildCount') || 5;
-
 my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
+# testing with three test users
 my $TestUserLogin1 = $Helper->TestUserCreate(
     Groups => [ 'admin', 'users' ],
 ) || die "Did not get test user";
@@ -52,6 +56,9 @@ my $TestUserLogin3 = $Helper->TestUserCreate(
 my $TestUserID3 = $UserObject->UserLookup(
     UserLogin => $TestUserLogin3,
 );
+
+# plan for two tests per user and child
+$Self->Plan( Tests => 2 * 3 * $ChildCount );
 
 my $FileBase = << 'EOF';
 # OTOBO config file (automatically generated)
@@ -151,6 +158,7 @@ for my $TargetUserID ( $TestUserID1, $TestUserID2, $TestUserID3 ) {
     for my $ChildIndex ( 1 .. $ChildCount ) {
 
         my %Data = %{ $ChildData{$ChildIndex} };
+
         next CHILDINDEX if !$Data{DeploymentID};
 
         $Self->Is(
