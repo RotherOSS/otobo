@@ -83,6 +83,11 @@ Decide whether Kernel::System::UnitTests::Helper executes internal tests.
 The default is true. The flag can be set to 0 in order to avoid weird test numbering.
 An example is where DESTROY is called within forked processes.
 
+=item UnitTestDriverObject
+
+Pass in the UnitTestDriverObject explicitly. This is useful in the cases when
+the managed objects have been discarded.
+
 =back
 
 =cut
@@ -100,7 +105,7 @@ sub new {
     $Self->{ExecuteInternalTests} = $Param{ExecuteInternalTests} // 1;
 
     # object for internal tests
-    $Self->{UnitTestDriverObject} = $Kernel::OM->Get('Kernel::System::UnitTest::Driver');
+    $Self->{UnitTestDriverObject} = $Param{UnitTestDriverObject} // $Kernel::OM->Get('Kernel::System::UnitTest::Driver');
 
     # Override Perl's built-in time handling mechanism to set a fixed time if needed.
     $Self->_MockPerlTimeHandling();
