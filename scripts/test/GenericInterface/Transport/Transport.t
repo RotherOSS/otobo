@@ -388,4 +388,7 @@ for my $Fail ( 0 .. 1 ) {
     }
 }
 
+
+$Self->DoneTesting();
+
 1;

@@ -203,4 +203,7 @@ for my $DynamicField ( sort keys %DynamicFieldConfigs ) {
 }
 
 # we don't need any cleanup
+
+$Self->DoneTesting();
+
 1;

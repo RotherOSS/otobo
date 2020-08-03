@@ -211,4 +211,7 @@ my @DefaultSettingAddParams = $SysConfigXMLObject->SettingListParse(
     );
 }
 
+
+$Self->DoneTesting();
+
 1;

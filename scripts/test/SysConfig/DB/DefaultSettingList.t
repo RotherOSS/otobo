@@ -161,4 +161,7 @@ $Self->True(
     'SystemConfiguration::MaximumDeployments is present (Invisible).'
 );
 
+
+$Self->DoneTesting();
+
 1;

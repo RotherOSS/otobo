@@ -482,4 +482,7 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
 # cleanup cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
+
+$Self->DoneTesting();
+
 1;

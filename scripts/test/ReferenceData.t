@@ -87,4 +87,7 @@ for my $Country (@CountryList) {
     );
 }
 
+
+$Self->DoneTesting();
+
 1;

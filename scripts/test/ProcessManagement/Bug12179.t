@@ -341,4 +341,7 @@ for my $Counter ( 1, 2 ) {
 
 # cleanup is done by RestoreDatabase.
 
+
+$Self->DoneTesting();
+
 1;

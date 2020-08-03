@@ -197,4 +197,7 @@ $Self->Is(
     "Disabled X-Powered-By header",
 );
 
+
+$Self->DoneTesting();
+
 1;

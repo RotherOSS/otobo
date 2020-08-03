@@ -236,4 +236,7 @@ for my $Task (@List) {
     );
 }
 
+
+$Self->DoneTesting();
+
 1;

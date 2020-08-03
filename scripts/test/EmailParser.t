@@ -957,4 +957,7 @@ $Self->Is(
     "#25 GetParam(WHAT => 'Envelope-To') usage of EmailParser in Entity mode",
 );
 
+
+$Self->DoneTesting();
+
 1;

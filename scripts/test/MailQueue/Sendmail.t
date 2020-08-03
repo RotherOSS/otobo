@@ -223,4 +223,7 @@ for my $Test (@Tests) {
 
 # restore to the previous state is done by RestoreDatabase
 
+
+$Self->DoneTesting();
+
 1;

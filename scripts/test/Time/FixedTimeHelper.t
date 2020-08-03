@@ -72,4 +72,7 @@ $Self->True(
     "Back to original time",
 );
 
+
+$Self->DoneTesting();
+
 1;

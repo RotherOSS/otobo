@@ -141,4 +141,7 @@ for my $Test (@OperationTests) {
     }
 }
 
+
+$Self->DoneTesting();
+
 1;

@@ -729,4 +729,7 @@ for my $Test (@Test) {
     );
 }
 
+
+$Self->DoneTesting();
+
 1;

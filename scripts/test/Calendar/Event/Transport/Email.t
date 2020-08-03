@@ -356,6 +356,6 @@ for my $Test (@Tests) {
     $Count++;
 }
 
-1;
+$Self->DoneTesting();
 
-# cleanup is done by RestoreDatabase.
+1;

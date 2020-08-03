@@ -109,4 +109,7 @@ else {
     );
 }
 
+
+$Self->DoneTesting();
+
 1;

@@ -82,4 +82,7 @@ $Self->True(
     "No commands found.",
 );
 
+
+$Self->DoneTesting();
+
 1;

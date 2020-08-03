@@ -98,4 +98,7 @@ for my $StatID ( sort { int $a <=> int $b } keys %{$Stats} ) {
 
 # cleanup is done by RestoreDatabase.
 
+
+$Self->DoneTesting();
+
 1;

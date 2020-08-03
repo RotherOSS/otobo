@@ -139,4 +139,7 @@ $Self->True(
     'Configuration restored.',
 );
 
+
+$Self->DoneTesting();
+
 1;

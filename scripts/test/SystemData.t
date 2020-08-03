@@ -294,4 +294,7 @@ for my $Key ( sort keys %Group ) {
 
 # cleanup is done by RestoreDatabase
 
+
+$Self->DoneTesting();
+
 1;

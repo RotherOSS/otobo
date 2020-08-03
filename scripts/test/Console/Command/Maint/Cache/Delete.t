@@ -171,4 +171,7 @@ $Self->Is(
     "Delete all remaining caches",
 );
 
+
+$Self->DoneTesting();
+
 1;

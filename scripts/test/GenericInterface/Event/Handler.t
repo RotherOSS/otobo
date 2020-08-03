@@ -648,4 +648,7 @@ $Self->Is(
     "Daemon has original state again.",
 );
 
+
+$Self->DoneTesting();
+
 1;

@@ -1302,4 +1302,7 @@ for my $WebserviceID (@WebserviceIDs) {
 # cleanup cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
+
+$Self->DoneTesting();
+
 1;

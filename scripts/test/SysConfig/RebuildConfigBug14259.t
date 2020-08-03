@@ -118,4 +118,7 @@ $CacheObject->CleanUp(
     Type => $CacheType,
 );
 
+
+$Self->DoneTesting();
+
 1;

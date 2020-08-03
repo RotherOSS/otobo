@@ -2966,4 +2966,7 @@ $Self->True(
 
 # cleanup cache is done by RestoreDatabase
 
+
+$Self->DoneTesting();
+
 1;

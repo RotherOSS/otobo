@@ -71,4 +71,7 @@ $Self->True(
     "Test string found in log",
 );
 
+
+$Self->DoneTesting();
+
 1;
