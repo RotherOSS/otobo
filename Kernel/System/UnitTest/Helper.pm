@@ -44,7 +44,6 @@ our @ObjectDependencies = (
 
 Kernel::System::UnitTest::Helper - unit test helper functions
 
-
 =head2 new()
 
 construct a helper object.
@@ -63,6 +62,20 @@ construct a helper object.
         },
     );
     my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+Valid parameters are:
+
+=over 4
+
+=item SkipSSLVerify
+
+=item UseTmpArticleDir
+
+=item RestoreDatabase
+
+=item DisableAsyncCalls
+
+=back
 
 =cut
 
