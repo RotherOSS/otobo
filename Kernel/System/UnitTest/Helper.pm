@@ -550,7 +550,7 @@ sub DESTROY {
     my $Self = shift;
 
     # reset time freeze
-    FixedTimeUnset();
+    $Self->FixedTimeUnset();
 
     # Cleanup temporary database if it was set up.
     $Self->TestDatabaseCleanup() if $Self->{ProvideTestDatabase};
