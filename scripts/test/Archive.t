@@ -44,8 +44,8 @@ if ( -e $ChecksumFile ) {
 # This should be a SKIP-block
 
 if ( !$ChecksumFileArrayRef || !@{$ChecksumFileArrayRef} ) {
-    $Self->False(
-        1,
+    $Self->True(
+        0,
         'Archive unit test requires the checksum file (ARCHIVE) to be present and valid. Please first call the following command to create it: bin/otobo.CheckSum.pl -a create'
     );
 }
@@ -71,11 +71,8 @@ else {
 
         $Filename = "$Home/$Filename";
 
-        if ( !-f $Filename ) {
-            $Self->False(
-                1,
-                "$Filename not found"
-            );
+        if ( ! -f $Filename ) {
+            $Self->False( 1, "$Filename not found" );
             next LINE;
         }
 
@@ -108,7 +105,6 @@ else {
         "Mismatches in file list",
     );
 }
-
 
 $Self->DoneTesting();
 
