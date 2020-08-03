@@ -45,4 +45,7 @@ use vars (qw($Self));
 #     "Admin::Package::ReinstallAll exit code",
 # );
 
+
+$Self->DoneTesting();
+
 1;

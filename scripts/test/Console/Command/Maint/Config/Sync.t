@@ -40,4 +40,7 @@ $Self->Is(
     "Exit code",
 );
 
+
+$Self->DoneTesting();
+
 1;

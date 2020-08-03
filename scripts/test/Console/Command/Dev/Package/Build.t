@@ -33,4 +33,7 @@ $Self->Is(
     "Dev::Package::Build exit code without arguments",
 );
 
+
+$Self->DoneTesting();
+
 1;

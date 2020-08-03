@@ -49,4 +49,7 @@ for my $Template (@Templates) {
     );
 }
 
+
+$Self->DoneTesting();
+
 1;

@@ -153,4 +153,7 @@ for my $Directory ( $CertPath, $PrivatePath ) {
     );
 }
 
+
+$Self->DoneTesting();
+
 1;

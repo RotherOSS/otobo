@@ -198,4 +198,7 @@ $CheckUpload->(
     Content    => $EscapedContentSVG,
 );
 
+
+$Self->DoneTesting();
+
 1;

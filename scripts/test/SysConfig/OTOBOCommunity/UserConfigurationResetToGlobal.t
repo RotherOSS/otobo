@@ -291,4 +291,7 @@ $Self->True(
     'Revert changes.'
 );
 
+
+$Self->DoneTesting();
+
 1;

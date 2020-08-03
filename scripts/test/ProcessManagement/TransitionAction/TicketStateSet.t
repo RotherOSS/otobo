@@ -376,7 +376,9 @@ $Self->True(
     "TicketDelete() - $TicketID",
 );
 
-# cleanUp casche
+# clean up cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+
+$Self->DoneTesting();
 
 1;

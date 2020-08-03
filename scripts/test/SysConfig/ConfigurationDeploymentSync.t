@@ -229,4 +229,7 @@ $Self->Is(
     "Finish ConfigurationDeploymentSync() result",
 );
 
+
+$Self->DoneTesting();
+
 1;

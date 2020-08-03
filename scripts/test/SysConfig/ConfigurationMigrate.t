@@ -477,4 +477,7 @@ if ( -e $TestLocation ) {
     }
 }
 
+
+$Self->DoneTesting();
+
 1;

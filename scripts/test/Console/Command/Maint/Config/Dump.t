@@ -47,4 +47,7 @@ $Self->Is(
     "Result",
 );
 
+
+$Self->DoneTesting();
+
 1;

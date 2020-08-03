@@ -210,4 +210,7 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
 
 # cleanup is done by RestoreDatabase
 
+
+$Self->DoneTesting();
+
 1;

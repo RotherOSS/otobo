@@ -87,4 +87,7 @@ for my $Key ( sort keys %CustomerData ) {
 
 # cleanup is done by RestoreDatabase
 
+
+$Self->DoneTesting();
+
 1;

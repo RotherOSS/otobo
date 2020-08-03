@@ -106,7 +106,7 @@ feature 'devel:test', 'Suppport for devel:test' => sub {
     requires 'Test::Compile';
 
     # basic test functions
-    requires 'Test2::V0';
+    requires 'Test2::Suite';
 
 };
 
@@ -295,7 +295,7 @@ feature 'optional', 'Suppport for optional' => sub {
     requires 'Test::Compile';
 
     # basic test functions
-    requires 'Test2::V0';
+    requires 'Test2::Suite';
 
     # a web framework that makes web development fun again
     requires 'Mojolicious';

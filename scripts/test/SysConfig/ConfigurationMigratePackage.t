@@ -430,4 +430,7 @@ $Self->False(
     "UnitTest OTOBO5Config file is deleted",
 );
 
+
+$Self->DoneTesting();
+
 1;

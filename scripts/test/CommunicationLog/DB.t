@@ -635,4 +635,7 @@ $TestObjectLogDelete->();
 $TestObjectLogGet->();
 $TestObjectLogEntryList->();
 
+
+$Self->DoneTesting();
+
 1;

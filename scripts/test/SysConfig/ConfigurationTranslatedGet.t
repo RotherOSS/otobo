@@ -204,4 +204,7 @@ for my $Language ( sort keys %Languages ) {
     );
 }
 
+
+$Self->DoneTesting();
+
 1;

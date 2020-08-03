@@ -28,7 +28,7 @@ use vars (qw($Self));
 
 # explicitly declare the number of tests. This makes is obvious when the
 # test script prematurely exits
-$Self->Plan( Tests => 26 );
+$Self->Plan( Tests => 25 );
 
 ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
 

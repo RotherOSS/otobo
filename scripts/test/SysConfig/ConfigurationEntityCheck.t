@@ -211,4 +211,7 @@ for my $Test (@Tests3) {
     );
 }
 
+
+$Self->DoneTesting();
+
 1;

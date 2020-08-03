@@ -217,4 +217,7 @@ $Self->False(
     'Asynchronous task not scheduled'
 );
 
+
+$Self->DoneTesting();
+
 1;

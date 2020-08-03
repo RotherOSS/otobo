@@ -889,4 +889,7 @@ continue {
     $TestCount++;
 }
 
+
+$Self->DoneTesting();
+
 1;

@@ -405,4 +405,7 @@ $Self->Is(
 );
 $DeployAndCheck->();
 
+
+$Self->DoneTesting();
+
 1;

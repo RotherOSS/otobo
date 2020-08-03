@@ -41,4 +41,7 @@ $Self->Is(
     "Dev::Tools::Migrate::ConfigXMLStructure exit code not existing directory",
 );
 
+
+$Self->DoneTesting();
+
 1;

@@ -81,4 +81,7 @@ foreach my $File (@SupportFiles) {
 
 # Cleanup cache is done by RestoreDatabase.
 
+
+$Self->DoneTesting();
+
 1;

@@ -219,4 +219,7 @@ $Self->True(
 
 # Restore to the previous state is done by RestoreDatabase.
 
+
+$Self->DoneTesting();
+
 1;

@@ -48,4 +48,7 @@ $Self->Is(
     "Autoload correctly added a new function to Kernel::System::Valid",
 );
 
+
+$Self->DoneTesting();
+
 1;

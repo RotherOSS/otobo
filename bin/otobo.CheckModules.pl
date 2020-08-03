@@ -899,7 +899,7 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Test2::V0',
+        Module    => 'Test2::Suite',
         Required  => 0,
         Features   => ['devel:test'],
         Comment   => 'basic test functions',

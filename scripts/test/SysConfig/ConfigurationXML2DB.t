@@ -1445,4 +1445,7 @@ $CacheObject->CleanUp(
     Type => 'SysConfigDefaultList',
 );
 
+
+$Self->DoneTesting();
+
 1;

@@ -325,4 +325,6 @@ else {
     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::UnitTest::Selenium'] );
 }
 
+$Self->DoneTesting();
+
 1;

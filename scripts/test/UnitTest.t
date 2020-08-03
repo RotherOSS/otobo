@@ -296,4 +296,7 @@ for my $Value1 ( \%Hash1, \%Hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
     }
 }
 
+
+$Self->DoneTesting();
+
 1;

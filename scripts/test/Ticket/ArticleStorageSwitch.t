@@ -212,4 +212,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
 
 # cleanup is done by RestoreDatabase.
 
+
+$Self->DoneTesting();
+
 1;

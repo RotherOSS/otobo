@@ -125,4 +125,7 @@ for my $Test (@Tests) {
     $HelperObject->FixedTimeUnset();
 }
 
+
+$Self->DoneTesting();
+
 1;

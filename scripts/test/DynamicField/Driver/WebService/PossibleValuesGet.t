@@ -682,4 +682,7 @@ for my $Cache (
     );
 }
 
+
+$Self->DoneTesting();
+
 1;

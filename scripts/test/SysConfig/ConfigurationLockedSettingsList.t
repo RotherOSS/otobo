@@ -237,4 +237,7 @@ $Self->Is(
     "Locked UserLogin is correct"
 );
 
+
+$Self->DoneTesting();
+
 1;

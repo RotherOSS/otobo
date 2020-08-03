@@ -454,4 +454,7 @@ for my $Module (qw(DB)) {
 
 # cleanup is done by RestoreDatabase
 
+
+$Self->DoneTesting();
+
 1;

@@ -29,14 +29,14 @@ export SOURCE_BRANCH=$(git branch --show-current)
 # build otobo:local
 export DOCKERFILE_PATH=otobo.web.dockerfile
 export IMAGE_NAME=otobo:local
-hooks/build
+hooks/build || exit 1
 
 # build otobo-nginx-webproxy:local
 export DOCKERFILE_PATH=otobo.nginx.dockerfile
 export IMAGE_NAME=otobo-nginx-webproxy:local
-hooks/build
+hooks/build || exit 1
 
 # build otobo-elasticsearch:local
 export DOCKERFILE_PATH=otobo.elasticsearch.dockerfile
 export IMAGE_NAME=otobo-elasticsearch:local
-hooks/build
+hooks/build || exit 1

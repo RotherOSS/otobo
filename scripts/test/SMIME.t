@@ -2972,4 +2972,7 @@ File::Path::rmtree($PrivatePath);
 
 # cleanup is done by RestoreDatabase
 
+
+$Self->DoneTesting();
+
 1;

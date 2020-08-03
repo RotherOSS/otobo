@@ -213,4 +213,7 @@ $Self->True(
     'OTOBO_CUSTOMER_BODY found and translated in the notification!'
 );
 
+
+$Self->DoneTesting();
+
 1;

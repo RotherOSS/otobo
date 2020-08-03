@@ -550,16 +550,7 @@ sub DESTROY {
     my $Self = shift;
 
     # reset time freeze
-    FixedTimeUnset();
-
-    # FixedDateTimeObjectUnset();
-
-    if ( $Self->{DestroyLog} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Helper is destroyed!"
-        );
-    }
+    $Self->FixedTimeUnset();
 
     # Cleanup temporary database if it was set up.
     $Self->TestDatabaseCleanup() if $Self->{ProvideTestDatabase};
@@ -574,19 +565,21 @@ sub DESTROY {
 
         $Self->{RestoreSSLVerify} = 0;
 
-        if ( $Self->{ExecuteInternalTests} ) {
-            $Self->{UnitTestDriverObject}->True( 1, 'Restored SSL certificates verification' );
-        }
+        $Self->{UnitTestDriverObject}->Note( Note => 'Restored SSL certificates verification' );
     }
 
     # restore database, clean caches
     if ( $Self->{RestoreDatabase} ) {
         my $RollbackSuccess = $Self->Rollback();
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
-        if ( $Self->{ExecuteInternalTests} ) {
-            $Self->{UnitTestDriverObject}->True(
-                $RollbackSuccess,
-                'Rolled back all database changes and cleaned up the cache.'
+        if ( $RollbackSuccess ) {
+            $Self->{UnitTestDriverObject}->Note(
+                Note => 'Rolled back all database changes and cleaned up the cache.'
+            );
+        }
+        else {
+            $Self->{UnitTestDriverObject}->Note(
+                Note => 'Problems encountered when rolling back all database changes and cleaning up the cache.'
             );
         }
     }
@@ -624,8 +617,11 @@ sub DESTROY {
                 ChangeUserID => 1,
             );
 
-            if ( $Self->{ExecuteInternalTests} ) {
-                $Self->{UnitTestDriverObject}->True( $Success, "Set test user $TestUser to invalid" );
+            if ( $Success ) {
+                $Self->{UnitTestDriverObject}->Note( Note => "Set test user $TestUser to invalid" );
+            }
+            else {
+                $Self->{UnitTestDriverObject}->Note( Note => "Problem encountered when setting $TestUser to invalid" );
             }
         }
     }
@@ -654,11 +650,11 @@ sub DESTROY {
                 UserID  => 1,
             );
 
-            if ( $Self->{ExecuteInternalTests} ) {
-                $Self->{UnitTestDriverObject}->True(
-                    $Success,
-                    "Set test customer user $TestCustomerUser to invalid"
-                );
+            if ( $Success ) {
+                $Self->{UnitTestDriverObject}->Note( Note => "Set test customer user $TestCustomerUser to invalid" );
+            }
+            else {
+                $Self->{UnitTestDriverObject}->Note( Note => "Problem encountered when setting $TestCustomerUser to invalid" );
             }
         }
     }
@@ -816,6 +812,7 @@ sub CustomFileCleanup {
             Location => $File,
         ) || die "Could not delete $File";
     }
+
     return 1;
 }
 
@@ -1044,6 +1041,7 @@ sub TestDatabaseCleanup {
             Priority => 'error',
             Message  => 'Please call ProvideTestDatabase() first!',
         );
+
         return;
     }
 
@@ -1052,7 +1050,7 @@ sub TestDatabaseCleanup {
     # Get a list of all tables in database.
     my @Tables = $DBObject->ListTables();
 
-    if ( scalar @Tables ) {
+    if ( @Tables ) {
         my $TableList = join ', ', sort @Tables;
         my $DBType    = $DBObject->{'DB::Type'};
 
@@ -1101,12 +1099,14 @@ sub TestDatabaseCleanup {
             while ( my @Row = $DBObject->FetchrowArray() ) {
                 push @Sequences, $Row[0];
             }
-            return if scalar @Sequences;
+
+            return if @Sequences;
         }
 
         # Check if all tables have been dropped.
         @Tables = $DBObject->ListTables();
-        return if scalar @Tables;
+
+        return if @Tables;
     }
 
     return 1;

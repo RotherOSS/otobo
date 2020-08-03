@@ -351,4 +351,7 @@ $Self->IsDeeply(
     },
     'Make sure that all other parts of cache are deleted (they are expired).'
 );
+
+$Self->DoneTesting();
+
 1;

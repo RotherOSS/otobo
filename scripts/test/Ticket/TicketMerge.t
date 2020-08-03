@@ -563,4 +563,7 @@ $Self->True(
 
 # Cleanup is done by RestoreDatabase.
 
+
+$Self->DoneTesting();
+
 1;
