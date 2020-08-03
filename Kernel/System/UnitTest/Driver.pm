@@ -523,24 +523,7 @@ sub Plan {
 
     say { $Self->{OriginalSTDOUT} } "1..$Param{Tests}";
 
-    # used by the method PlanWasSubmitted()
-    $Self->{PlanWasSubmitted} = 1;
-
     return;
-}
-
-=head2 PlanWasSubmitted
-
-Inspect whether a plan has already been submitted. Returns either 1 or 0.
-Can be called for deciding whether DoneTesting() should be called.
-
-=cut
-
-sub PlanWasSubmitted {
-    my ($Self) = @_;
-
-    return 1 if $Self->{PlanWasSubmitted};
-    return 0;
 }
 
 =head2 DoneTesting()
@@ -557,6 +540,9 @@ This method is called automatically in Kernel::System::UnitTest::RegisterDriver.
 sub DoneTesting {
     my ($Self) = @_;
 
+    # DoneTesting() is disabled when running via Dev::UnitTest::Run
+    return 0 if caller ne 'main';
+
     my $TestCountTotal = $Self->{ResultData}->{TestOk} // 0;
     $TestCountTotal += $Self->{ResultData}->{TestNotOk} // 0;
 
@@ -565,7 +551,7 @@ sub DoneTesting {
 
 =head2 Note()
 
-Print out notes to STDOUT. The parameter B<Note> will be split into lines and each line
+Print out a note to STDOUT. The parameter B<Note> will be split into lines and each line
 is prepended by '# '. A trailing newline will be added when there isn't on yet.
 
 =cut

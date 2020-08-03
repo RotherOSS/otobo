@@ -81,12 +81,6 @@ sub import {
             $Kernel::OM->ObjectsDiscard(
                 Objects            => ['Kernel::System::UnitTest::Helper'],
             );
-
-            # print the test plan
-            my $Driver = $Kernel::OM->Get( 'Kernel::System::UnitTest::Driver' );
-            if ( ! $Driver->PlanWasSubmitted() ) {
-                $Driver->DoneTesting();
-            }
         }
     }
 }
