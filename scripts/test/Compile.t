@@ -31,7 +31,7 @@ my @Dirs = qw(Kernel Custom scripts bin);
 
 # List of files that are know to have compile issues.
 # NOTE: Please create an issue when adding to this list and the reason is not acceptable.
-my %CompileFails = (
+my %FailureIsAccepted = (
     'Kernel/System/Auth/Radius.pm'               => 'Authen::Radius is not required',
     'Kernel/System/CustomerAuth/Radius.pm'       => 'Authen::Radius is not required',
     'Kernel/System/SysConfig/Migration.pm'       => 'see https://github.com/RotherOSS/otobo/issues/213',
@@ -44,10 +44,12 @@ my %CompileFails = (
     'Kernel/cpan-lib/URI/urn/isbn.pm'            => 'Business::ISBN is not required',
 );
 
-diag( 'look at the Perl modules' );
+note( 'check syntax of the Perl modules' );
+
 foreach my $File ( $Internal->all_pm_files(@Dirs) ) {
-    if ( $CompileFails{$File} ) {
-        my $todo = todo "$File: $CompileFails{$File}";
+    if ( $FailureIsAccepted{$File} ) {
+        my $todo = todo "$File: $FailureIsAccepted{$File}";
+
         ok( $Internal->pm_file_compiles($File), "$File compiles" );
     }
     else {
@@ -55,10 +57,12 @@ foreach my $File ( $Internal->all_pm_files(@Dirs) ) {
     }
 }
 
-diag( 'look at the Perl scripts' );
+note( 'check syntax of the Perl scripts' );
+
 foreach my $File ( $Internal->all_pl_files(@Dirs) ) {
-    if ( $CompileFails{$File} ) {
-        my $todo = todo "$File: $CompileFails{$File}";
+    if ( $FailureIsAccepted{$File} ) {
+        my $todo = todo "$File: $FailureIsAccepted{$File}";
+
         ok( $Internal->pl_file_compiles($File), "$File compiles" );
     }
     else {
@@ -72,8 +76,9 @@ diag( 'look at Perl code with an unusual extension' );
         'bin/psgi-bin/otobo.psgi',
     );
     foreach my $File ( @Files ) {
-        if ( $CompileFails{$File} ) {
-            my $todo = todo "$File: $CompileFails{$File}";
+        if ( $FailureIsAccepted{$File} ) {
+            my $todo = todo "$File: $FailureIsAccepted{$File}";
+
             ok( $Internal->pl_file_compiles($File), "$File compiles" );
         }
         else {
@@ -82,7 +87,7 @@ diag( 'look at Perl code with an unusual extension' );
     }
 }
 
-diag( 'look at some shell scripts' );
+note( 'check syntax of some shell scripts' );
 
 my @ShellScripts = (
     'bin/docker/entrypoint.sh',
@@ -91,6 +96,17 @@ my @ShellScripts = (
 for my $File ( @ShellScripts ) {
     my $compile_errors = `bash -n "$File" 2>&1`;
     is( $compile_errors, '', "$File compiles" );
+}
+
+note( 'check syntax of hook scripts, when the dir hooks exists' );
+
+SKIP: {
+    skip 'no hooks dir' if ! -d 'hooks';
+
+    for my $File ( glob 'hooks/*' ) {
+        my $compile_errors = `bash -n "$File" 2>&1`;
+        is( $compile_errors, '', "$File compiles" );
+    }
 }
 
 done_testing();

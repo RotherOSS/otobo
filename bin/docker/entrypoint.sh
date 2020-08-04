@@ -31,9 +31,8 @@ function handle_docker_firsttime() {
     fi
 
     # we are done, docker_firstime has been handled
+    # $otobo_next is not removed, it is kept for future reference
     mv $otobo_next/docker_firsttime $otobo_next/docker_firsttime_handled
-
-    # TODO: maybe clean up $otobo_next
 }
 
 # An easy way to start bash.
@@ -83,9 +82,11 @@ function exec_web() {
 # preserve added files in the previous
 function upgrade_patchlevel_release() {
     # TODO: maybe backup /opt/otobo, in case somebody did change important files
-    # for now we only copy files
-    # Changed files are overwritten, new files are not deleted
-    cp --recursive $otobo_next/* $OTOBO_HOME
+    # Copy files recursively.
+    # Changed files are overwritten, new files are not deleted.
+    # File attributes are preserved.
+    # Copying $otobo_next/. makes it irrelevant whether $OTOBO_HOME already exists.
+    cp --archive $otobo_next/. $OTOBO_HOME
 
     # clean up
     rm -f $OTOBO_HOME/docker_firsttime
