@@ -24,6 +24,7 @@ otobo.iml
 
 # files only needed only for building the docker image
 bin/docker/build_docker_images.sh
+hooks
 otobo.*.dockerfile
 
 # files only needed for Apache
