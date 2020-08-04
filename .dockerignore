@@ -1,11 +1,10 @@
-# Dot files in the root dir are usually not needed in the image.
-# The file .bash_completion is an exception from that rule.
-# Note that scripts/.vimrc and the .keep files in some subdirs are explicitly wanted.
-# The .keep files force git to keep the directories they are not needed in the image.
+# Dot files are kept per default.
+# The not wanted dot files are listed here explicitly.
+# The .keep files force git to keep the directories, they are not needed in the image.
 **/.keep
-**/.#*
-.dockerignore
 .bash_aliases
+
+# Files for git are not needed in the image.
 .git
 .gitignore
 .gitconfig
@@ -18,11 +17,13 @@ build.log
 otobo.iml
 *.out
 
-# editor swap files
+# editor swap files, other temporary files
+**/.#*
 **/*.sw?
 **/*~
 
 # files only needed only for building the docker image
+.dockerignore
 bin/docker/build_docker_images.sh
 hooks
 otobo.*.dockerfile
