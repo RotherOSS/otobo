@@ -15,7 +15,7 @@ echo "tag before: -->$DOCKER_TAG<--"
 echo "tag after: -->$DOCKER_TAG<--"
 
 # assign the additional label 'latest'
-local tag=latest-test-289
+tag=latest-test-289
 echo "cmd : -->docker tag $IMAGE_NAME ${DOCKER_REPO}:${tag}<--"
 docker tag $IMAGE_NAME ${DOCKER_REPO}:${tag}
 echo "cmd : -->docker push ${DOCKER_REPO}:${tag}<--"
