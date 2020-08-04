@@ -8,7 +8,7 @@
 ################################################################################
 
 otobo_next="/opt/otobo_install/otobo_next"
-upgrade_log="/opt/otobo_install/upgrade.log"
+upgrade_log="/opt/otobo/var/log/upgrade.log"
 
 ################################################################################
 # Declare functions
@@ -26,7 +26,8 @@ function handle_docker_firsttime() {
         upgrade_patchlevel_release
     else
         if [ "$(compare_versions "$otobo_next/RELEASE" "$OTOBO_HOME/RELEASE")" = "1" ]; then
-            upgrade_patchlevel_release_with_reinstall
+            upgrade_patchlevel_release
+            reinstall_all
         fi
     fi
 
@@ -81,12 +82,19 @@ function exec_web() {
 
 # preserve added files in the previous
 function upgrade_patchlevel_release() {
-    # TODO: maybe backup /opt/otobo, in case somebody did change important files
+    # TODO: maybe create a backup of /opt/otobo, in case somebody did change important files
+
     # Copy files recursively.
     # Changed files are overwritten, new files are not deleted.
     # File attributes are preserved.
     # Copying $otobo_next/. makes it irrelevant whether $OTOBO_HOME already exists.
     cp --archive $otobo_next/. $OTOBO_HOME
+
+    {
+        date
+        echo "Copied $otobo_next to $OTOBO_HOME"
+        echo
+    } >> $upgrade_log
 
     # clean up
     rm -f $OTOBO_HOME/docker_firsttime
@@ -98,12 +106,15 @@ function upgrade_patchlevel_release() {
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pod.dist       $OTOBO_HOME/Kernel/Config.pod
 }
 
-function upgrade_patchlevel_release_with_reinstall() {
-    upgrade_patchlevel_release
+function reinstall_all() {
 
     # reinstall package
     # Not that this works only if OTOBO has been properly configured
-    $OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll >> $upgrade_log 2>&1
+    {
+        date
+        ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll 2>&1)
+        echo
+    } >> $upgrade_log
 }
 
 print_error() {
@@ -174,13 +185,14 @@ fi
 
 # copy otobo_next without checking docker_firsttime or RELEASE
 # useful during development
-if [ "$1" = "upgrade_patchlevel_release" ]; then
+if [ "$1" = "upgrade" ]; then
     upgrade_patchlevel_release
     exit $?
 fi
 
-if [ "$1" = "upgrade_patchlevel_release_with_reinstall" ]; then
-    upgrade_patchlevel_release_with_reinstall
+if [ "$1" = "upgrade_reinstall" ]; then
+    upgrade_patchlevel_release
+    reinstall_all
     exit $?
 fi
 
