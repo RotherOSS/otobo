@@ -78,4 +78,15 @@ for my $File ( @ShellScripts ) {
     is( $compile_errors, '', "$File compiles" );
 }
 
+note( 'check syntax of hook scripts, when the dir hooks exists' );
+
+SKIP: {
+    skip 'no hooks dir' if ! -d 'hooks';
+
+    for my $File ( glob 'hooks/*' ) {
+        my $compile_errors = `bash -n "$File" 2>&1`;
+        is( $compile_errors, '', "$File compiles" );
+    }
+}
+
 done_testing();

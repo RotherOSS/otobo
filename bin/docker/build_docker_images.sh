@@ -15,6 +15,11 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+# NOTE: Do not set DOCKER_REPO in this script.
+#       Because DOCKER_REPO is misused in hook scripts as an indication
+#       that the script is called by an automated Docker Hub build.
+#       Setting IMAGE_NAME is OK.
+
 # Just a small helper for building the docker images locally.
 # For productive use please use the images from Docker Hub.
 docker build -f otobo.web.dockerfile   -t otobo   .
