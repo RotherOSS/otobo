@@ -22,6 +22,6 @@
 
 # Just a small helper for building the docker images locally.
 # For productive use please use the images from Docker Hub.
-docker build -f otobo.web.dockerfile   -t otobo   .
-docker build -f otobo.nginx.dockerfile -t otobo-nginx-webproxy .
-docker build -f otobo.elasticsearch.dockerfile -t otobo-elasticsearch .
+docker build -f otobo.web.dockerfile   -t otobo:local   .
+docker build -f otobo.nginx.dockerfile -t otobo-nginx-webproxy:local .
+docker build -f otobo.elasticsearch.dockerfile -t otobo-elasticsearch:local .
