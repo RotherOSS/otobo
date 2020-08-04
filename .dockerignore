@@ -28,6 +28,9 @@ bin/docker/build_docker_images.sh
 hooks
 otobo.*.dockerfile
 
+# files only needed only for continous integration
+.otobo-ci.yml
+
 # files only needed for Apache
 scripts/apache*
 bin/cgi-bin
