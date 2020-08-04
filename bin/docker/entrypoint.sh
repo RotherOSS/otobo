@@ -26,7 +26,8 @@ function handle_docker_firsttime() {
         upgrade_patchlevel_release
     else
         if [ "$(compare_versions "$otobo_next/RELEASE" "$OTOBO_HOME/RELEASE")" = "1" ]; then
-            upgrade_patchlevel_release_with_reinstall
+            upgrade_patchlevel_release
+            reinstall_all
         fi
     fi
 
@@ -184,13 +185,14 @@ fi
 
 # copy otobo_next without checking docker_firsttime or RELEASE
 # useful during development
-if [ "$1" = "upgrade_patchlevel_release" ]; then
+if [ "$1" = "upgrade" ]; then
     upgrade_patchlevel_release
     exit $?
 fi
 
-if [ "$1" = "upgrade_patchlevel_release_with_reinstall" ]; then
-    upgrade_patchlevel_release_with_reinstall
+if [ "$1" = "upgrade_reinstall" ]; then
+    upgrade_patchlevel_release
+    reinstall_all
     exit $?
 fi
 
