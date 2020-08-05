@@ -52,7 +52,7 @@ jobs:
             - name: set up Kernel/Config.pm
               run: 'cp --no-clobber Kernel/Config.pm.docker.dist Kernel/Config.pm'
             - name: Remove Apache scripts and modules
-            - run: >
+              run: >
                 rm -r
                 scripts/apache*
                 bin/cgi-bin
