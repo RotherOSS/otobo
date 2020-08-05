@@ -12,6 +12,8 @@ requires 'Date::Format';
 
 requires 'DateTime', ">= 1.08";
 
+requires 'Convert::BinHex';
+
 requires 'DBI';
 
 requires 'Digest::SHA';

@@ -278,6 +278,16 @@ my @NeededModules = (
         ],
     },
     {
+        Module    => 'Convert::BinHex',
+        Required  => 1,
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'DBI',
         Required  => 1,
         InstTypes => {
