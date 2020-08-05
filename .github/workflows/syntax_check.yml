@@ -53,6 +53,8 @@ jobs:
             # the setup is just like otobo.web.dockerfile and .dockerignore
             - name: set up Kernel/Config.pm
               run: 'cp --no-clobber Kernel/Config.pm.docker.dist Kernel/Config.pm'
+            - name: fix Kernel/Config/Defaults.pm
+              run: "perl -pi -e 's/^use lib /# disabled by syntax_check.yml: use lib/' Kernel/Config/Defaults.pm"
             - name: Remove Apache scripts and modules
               run: >
                 rm -r
