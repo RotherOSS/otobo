@@ -24,10 +24,12 @@ jobs:
 
         steps:
             - uses: actions/checkout@v2
+
+            # some diagnostics
             - name: perl -V
               run: perl -V
             - name: env
-              run: env
+              run: env | sort
 #            - name: Install Dependencies
 #              run: > # a block scalar, lines are folded with a space
 #                cpanm
