@@ -1,13 +1,13 @@
 # adapted from https://raku-advent.blog/2019/12/06/put-some-github-actions-in-your-raku-repositories/
-name: 'Happy Stanislaus day'
+name: 'prove scripts/test/Compile.t'
 on: [push]
 
 jobs:
-    seasonal_greetings:
+    syntax_check:
         runs-on: 'ubuntu-latest'
 
         strategy:
-            fail-fast: false
+            fail-fast: true
             matrix:
                 perl-version:
                     - '5.32'
@@ -20,5 +20,33 @@ jobs:
             image: 'perldocker/perl-tester:${{ matrix.perl-version }}'
 
         steps:
-            - name: 'All the best Stanislaus!'
-              run: 'echo "Merry name day, Stanislaus!"'
+            - uses: actions/checkout@v2
+            - name: perl -V
+              run: perl -V
+            - name: whoami
+              run: whoami
+            - name: pwd
+              run: pwd
+            - name: ls
+              run: ls -A
+            - name: Install Dependencies
+              run: > # a block scalar, lines are folded with a space
+                cpanm
+                --with-feature=db:mysql
+                --with-feature=db:postgresql
+                --with-feature=db:odbc
+                --with-feature=db:sqlite
+                --with-feature=plack
+                --with-feature=devel:dbviewer
+                --with-feature=div:bcrypt
+                --with-feature=performance:json
+                --with-feature=mail:imap
+                --with-feature=mail:sasl
+                --with-feature=div:ldap
+                --with-feature=performance:csv
+                --with-feature=div:xslt
+                --with-feature=performance:redis
+                --with-feature=devel:test
+                --installdeps .
+            - name: prove
+              run: 'prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t'

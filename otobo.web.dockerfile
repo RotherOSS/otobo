@@ -83,7 +83,7 @@ WORKDIR $OTOBO_INSTALL/otobo_next
 #RUN whoami
 #RUN pwd
 #RUN uname -a
-#RUN ls -a
+#RUN ls -A
 #RUN tree Kernel
 #RUN false
 
