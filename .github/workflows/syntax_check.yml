@@ -20,7 +20,7 @@ jobs:
         container:
 #            image: 'perldocker/perl-tester:${{ matrix.perl-version }}'
             # using a working OTOBO images avoids the need to install dependencies
-            image: 'rotheross/otobo:latest'
+            image: 'rotheross/otobo:devel'
 
         steps:
             - uses: actions/checkout@v2
