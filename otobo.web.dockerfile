@@ -53,6 +53,7 @@ RUN cpanm \
     --with-feature=div:bcrypt \
     --with-feature=performance:json \
     --with-feature=mail:imap \
+    --with-feature=mail:ntlm \
     --with-feature=mail:sasl \
     --with-feature=div:ldap \
     --with-feature=performance:csv \
