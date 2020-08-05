@@ -1,7 +1,7 @@
 # adapted from https://raku-advent.blog/2019/12/06/put-some-github-actions-in-your-raku-repositories/
 name: 'prove scripts/test/Compile.t'
 
-on: [push pull_request]
+on: ['push']
 
 jobs:
     syntax_check:
