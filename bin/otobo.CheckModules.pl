@@ -15,8 +15,8 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use warnings;
 use 5.024;
+use warnings;
 
 use File::Basename;
 use FindBin qw($RealBin);
@@ -278,6 +278,16 @@ my @NeededModules = (
         ],
     },
     {
+        Module    => 'Convert::BinHex',
+        Required  => 1,
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'DBI',
         Required  => 1,
         InstTypes => {
@@ -345,6 +355,17 @@ my @NeededModules = (
             emerge => 'dev-perl/Net-DNS',
             zypper => 'perl-Net-DNS',
             ports  => 'dns/p5-Net-DNS',
+        },
+    },
+    {
+        Module    => 'Net::SMTP::SSL',
+        Required  => 1,
+        Comment   => 'Required by Kernel/cpan-lib/Mail/Mailer/smtps.pm',
+        InstTypes => {
+            aptget => 'libmoo-perl',
+            emerge => 'dev-perl/Moo',
+            zypper => 'perl-Moo',
+            ports  => 'devel/p5-Moo',
         },
     },
     {
@@ -886,6 +907,18 @@ my @NeededModules = (
     },
 
 # Feature devel
+    {
+        Module    => 'Clone',
+        Required  => 0,
+        Features   => ['devel:test'],
+        Comment   => 'a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
     {
         Module    => 'Test::Compile',
         Required  => 0,

@@ -27,6 +27,7 @@ RUN packages=$( echo \
         "nano" \
         "odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc" \
         "postgresql-client" \
+        "redis-tools" \
         "sqlite3 libsqliteodbc" \
         "telnet" \
         "tree" \
@@ -61,6 +62,7 @@ RUN cpanm \
     --with-feature=div:bcrypt \
     --with-feature=performance:json \
     --with-feature=mail:imap \
+    --with-feature=mail:ntlm \
     --with-feature=mail:sasl \
     --with-feature=div:ldap \
     --with-feature=performance:csv \
@@ -90,7 +92,7 @@ WORKDIR $OTOBO_INSTALL/otobo_next
 #RUN whoami
 #RUN pwd
 #RUN uname -a
-#RUN ls -a
+#RUN ls -A
 #RUN tree Kernel
 #RUN false
 

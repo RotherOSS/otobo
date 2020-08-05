@@ -12,6 +12,8 @@ requires 'Date::Format';
 
 requires 'DateTime', ">= 1.08";
 
+requires 'Convert::BinHex';
+
 requires 'DBI';
 
 requires 'Digest::SHA';
@@ -26,6 +28,9 @@ requires 'Moo';
 
 # Version 0.60 not supported: This version is broken and not useable! Please upgrade to a higher version.
 requires 'Net::DNS', "!= 0.60";
+
+# Required by Kernel/cpan-lib/Mail/Mailer/smtps.pm
+requires 'Net::SMTP::SSL';
 
 # needed by Kernel/cpan-lib/Crypt/Random/Source.pm
 requires 'Sub::Exporter';
@@ -102,6 +107,9 @@ feature 'devel:dbviewer', 'Suppport for devel:dbviewer' => sub {
 };
 
 feature 'devel:test', 'Suppport for devel:test' => sub {
+    # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
+    requires 'Clone';
+
     # a quick compile check
     requires 'Test::Compile';
 
@@ -290,6 +298,9 @@ feature 'optional', 'Suppport for optional' => sub {
 
     # Recommended for XML processing.
     requires 'XML::Parser';
+
+    # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
+    requires 'Clone';
 
     # a quick compile check
     requires 'Test::Compile';
