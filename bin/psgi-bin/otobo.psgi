@@ -339,6 +339,25 @@ my $NYTProfMiddleWare = sub {
     };
 };
 
+# Set some entries in %ENV.
+# GATEWAY_INTERFACE is used for determining whether a command runs in a web context
+# Per default it would enable mysql_auto_reconnect.
+# But mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
+# OTOBO_RUNS_UNDER_PSGI indicates that PSGI is used.
+my $SetEnvMiddleWare = sub {
+    my $app = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # only the side effects are important
+        $ENV{OTOBO_RUNS_UNDER_PSGI} = '1';
+        $ENV{GATEWAY_INTERFACE}     = 'CGI/1.1';
+
+        return $app->($Env);
+    };
+};
+
 # Fix for environment settings in the FCGI-Proxy case.
 # E.g. when apaches2-httpd-fcgi.include.conf is used.
 my $FixFCGIProxyMiddleware = sub {
@@ -566,6 +585,9 @@ my $GenericInterfaceApp = builder {
     # conditionally enable profiling
     enable $NYTProfMiddleWare;
 
+    # set %ENV
+    enable $SetEnvMiddleWare:
+
     # check ever 10s for changed Perl modules
     enable 'Plack::Middleware::Refresh';
 
@@ -612,6 +634,9 @@ my $OTOBOApp = builder {
 
     # conditionally enable profiling
     enable $NYTProfMiddleWare;
+
+    # set %ENV
+    enable $SetEnvMiddleWare:
 
     # check ever 10s for changed Perl modules
     enable 'Plack::Middleware::Refresh';
