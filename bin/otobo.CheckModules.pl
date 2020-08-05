@@ -887,6 +887,18 @@ my @NeededModules = (
 
 # Feature devel
     {
+        Module    => 'Clone',
+        Required  => 0,
+        Features   => ['devel:test'],
+        Comment   => 'a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Test::Compile',
         Required  => 0,
         Features   => ['devel:test'],

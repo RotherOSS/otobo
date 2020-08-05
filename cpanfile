@@ -102,6 +102,9 @@ feature 'devel:dbviewer', 'Suppport for devel:dbviewer' => sub {
 };
 
 feature 'devel:test', 'Suppport for devel:test' => sub {
+    # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
+    requires 'Clone';
+
     # a quick compile check
     requires 'Test::Compile';
 
@@ -290,6 +293,9 @@ feature 'optional', 'Suppport for optional' => sub {
 
     # Recommended for XML processing.
     requires 'XML::Parser';
+
+    # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
+    requires 'Clone';
 
     # a quick compile check
     requires 'Test::Compile';
