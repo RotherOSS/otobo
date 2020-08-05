@@ -1,52 +1,56 @@
 # adapted from https://raku-advent.blog/2019/12/06/put-some-github-actions-in-your-raku-repositories/
 name: 'prove scripts/test/Compile.t'
-on: [push]
+
+# individual commits may break syntax, but syntax should be checked before merging a PR
+on: [pull_request]
 
 jobs:
     syntax_check:
         runs-on: 'ubuntu-latest'
 
-        strategy:
-            fail-fast: true
-            matrix:
-                perl-version:
-                    - '5.32'
-                    - '5.30'
-                    - '5.28'
-                    - '5.26'
-                    - '5.24'
+#        strategy:
+#            fail-fast: true
+#            matrix:
+#                perl-version:
+#                    - '5.32'
+#                    - '5.30'
+#                    - '5.28'
+#                    - '5.26'
+#                    - '5.24'
 
         container:
-            image: 'perldocker/perl-tester:${{ matrix.perl-version }}'
+#            image: 'perldocker/perl-tester:${{ matrix.perl-version }}'
+            # using a working OTOBO images avoids the need to install dependencies
+            image: 'rotheross/otobo:latest'
 
         steps:
             - uses: actions/checkout@v2
             - name: perl -V
               run: perl -V
-            - name: whoami
-              run: whoami
-            - name: pwd
-              run: pwd
+#            - name: whoami
+#              run: whoami
+#            - name: pwd
+#              run: pwd
             - name: ls
               run: ls -A
-            - name: Install Dependencies
-              run: > # a block scalar, lines are folded with a space
-                cpanm
-                --with-feature=db:mysql
-                --with-feature=db:postgresql
-                --with-feature=db:odbc
-                --with-feature=db:sqlite
-                --with-feature=plack
-                --with-feature=devel:dbviewer
-                --with-feature=div:bcrypt
-                --with-feature=performance:json
-                --with-feature=mail:imap
-                --with-feature=mail:sasl
-                --with-feature=div:ldap
-                --with-feature=performance:csv
-                --with-feature=div:xslt
-                --with-feature=performance:redis
-                --with-feature=devel:test
-                --installdeps .
+#            - name: Install Dependencies
+#              run: > # a block scalar, lines are folded with a space
+#                cpanm
+#                --with-feature=db:mysql
+#                --with-feature=db:postgresql
+#                --with-feature=db:odbc
+#                --with-feature=db:sqlite
+#                --with-feature=plack
+#                --with-feature=devel:dbviewer
+#                --with-feature=div:bcrypt
+#                --with-feature=performance:json
+#                --with-feature=mail:imap
+#                --with-feature=mail:sasl
+#                --with-feature=div:ldap
+#                --with-feature=performance:csv
+#                --with-feature=div:xslt
+#                --with-feature=performance:redis
+#                --with-feature=devel:test
+#                --installdeps .
             - name: prove
               run: 'prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t'
