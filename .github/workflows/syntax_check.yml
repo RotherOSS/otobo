@@ -26,12 +26,8 @@ jobs:
             - uses: actions/checkout@v2
             - name: perl -V
               run: perl -V
-#            - name: whoami
-#              run: whoami
-#            - name: pwd
-#              run: pwd
-            - name: ls
-              run: ls -A
+            - name: env
+              run: env
 #            - name: Install Dependencies
 #              run: > # a block scalar, lines are folded with a space
 #                cpanm
@@ -51,7 +47,19 @@ jobs:
 #                --with-feature=performance:redis
 #                --with-feature=devel:test
 #                --installdeps .
+
+            # the setup is just like otobo.web.dockerfile and .dockerignore
             - name: set up Kernel/Config.pm
               run: 'cp --no-clobber Kernel/Config.pm.docker.dist Kernel/Config.pm'
+            - name: Remove Apache scripts and modules
+            - run: >
+                rm -r
+                scripts/apache*
+                bin/cgi-bin
+                Kernel/cpan-lib/Apache2
+                Kernel/cpan-lib/CGI/Apache.pm
+                Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
+
+            # The actual test step
             - name: prove
               run: 'prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t'
