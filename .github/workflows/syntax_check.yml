@@ -1,0 +1,9 @@
+name: "Merry Stanislaus day"
+on: [push]
+
+jobs:
+  seasonal_greetings:
+    runs_on: ubuntu-latest
+    steps:
+      - name: All the best Stanislaus!
+        run: echo Merry name day, Stanislaus!
