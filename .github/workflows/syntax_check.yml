@@ -1,8 +1,7 @@
 # adapted from https://raku-advent.blog/2019/12/06/put-some-github-actions-in-your-raku-repositories/
 name: 'prove scripts/test/Compile.t'
 
-# individual commits may break syntax, but syntax should be checked before merging a PR
-on: [pull_request]
+on: [push pull_request]
 
 jobs:
     syntax_check:
