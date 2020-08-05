@@ -51,5 +51,7 @@ jobs:
 #                --with-feature=performance:redis
 #                --with-feature=devel:test
 #                --installdeps .
+            - name: set up Config.pm
+              run: 'cp --no-clobber Kernel/Config.pm.docker.dist Kernel/Config.pm'
             - name: prove
               run: 'prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t'
