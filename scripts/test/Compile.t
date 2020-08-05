@@ -38,7 +38,6 @@ my %FailureIsAccepted = (
     'Kernel/System/SysConfig/Migration.pm'       => 'scripts/MigrateFromOTRS/Base.pm does not exist',
     'Kernel/cpan-lib/Devel/REPL/Plugin/OTOBO.pm' => 'Devel::REPL::Plugin is not required',
     'Kernel/cpan-lib/Font/TTF/Win32.pm'          => 'Win32 is not supported',
-    'Kernel/cpan-lib/LWP/Authen/Ntlm.pm'         => 'Authen::NLTM is not required',
     'Kernel/cpan-lib/LWP/Protocol/GHTTP.pm'      => 'HTTP::GHTTP is not required',
     'Kernel/cpan-lib/PDF/API2/Win32.pm'          => 'Win32 is not supported',
     'Kernel/cpan-lib/SOAP/Lite.pm'               => 'some strangeness concerning SOAP::Constants',

@@ -8,6 +8,7 @@
 .git
 .gitignore
 .gitconfig
+.github
 
 # the development folder is not needed
 development

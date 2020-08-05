@@ -1,0 +1,70 @@
+# adapted from https://raku-advent.blog/2019/12/06/put-some-github-actions-in-your-raku-repositories/
+name: 'prove scripts/test/Compile.t'
+
+on: ['push']
+
+jobs:
+    syntax_check:
+        runs-on: 'ubuntu-latest'
+
+#        strategy:
+#            fail-fast: true
+#            matrix:
+#                perl-version:
+#                    - '5.32'
+#                    - '5.30'
+#                    - '5.28'
+#                    - '5.26'
+#                    - '5.24'
+
+        container:
+#            image: 'perldocker/perl-tester:${{ matrix.perl-version }}'
+            # using a working OTOBO images avoids the need to install dependencies
+            image: 'rotheross/otobo:devel'
+
+        steps:
+            - uses: actions/checkout@v2
+
+            # some diagnostics
+            - name: perl -V
+              run: perl -V
+            - name: env
+              run: env | sort
+#            - name: Install Dependencies
+#              run: > # a block scalar, lines are folded with a space
+#                cpanm
+#                --with-feature=db:mysql
+#                --with-feature=db:postgresql
+#                --with-feature=db:odbc
+#                --with-feature=db:sqlite
+#                --with-feature=plack
+#                --with-feature=devel:dbviewer
+#                --with-feature=div:bcrypt
+#                --with-feature=performance:json
+#                --with-feature=mail:imap
+#                --with-feature=mail:ntlm
+#                --with-feature=mail:sasl
+#                --with-feature=div:ldap
+#                --with-feature=performance:csv
+#                --with-feature=div:xslt
+#                --with-feature=performance:redis
+#                --with-feature=devel:test
+#                --installdeps .
+
+            # the setup is just like otobo.web.dockerfile and .dockerignore
+            - name: set up Kernel/Config.pm
+              run: 'cp --no-clobber Kernel/Config.pm.docker.dist Kernel/Config.pm'
+            - name: fix Kernel/Config/Defaults.pm
+              run: "perl -pi -e 's/^use lib /# disabled by syntax_check.yml: use lib/' Kernel/Config/Defaults.pm"
+            - name: Remove Apache scripts and modules
+              run: >
+                rm -r
+                scripts/apache*
+                bin/cgi-bin
+                Kernel/cpan-lib/Apache2
+                Kernel/cpan-lib/CGI/Apache.pm
+                Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
+
+            # The actual test step
+            - name: prove
+              run: 'prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t'
