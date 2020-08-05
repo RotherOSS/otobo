@@ -29,6 +29,9 @@ requires 'Moo';
 # Version 0.60 not supported: This version is broken and not useable! Please upgrade to a higher version.
 requires 'Net::DNS', "!= 0.60";
 
+# Required by Kernel/cpan-lib/Mail/Mailer/smtps.pm
+requires 'Net::SMTP::SSL';
+
 # needed by Kernel/cpan-lib/Crypt/Random/Source.pm
 requires 'Sub::Exporter';
 

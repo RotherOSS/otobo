@@ -15,8 +15,8 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use warnings;
 use 5.024;
+use warnings;
 
 use File::Basename;
 use FindBin qw($RealBin);
@@ -355,6 +355,17 @@ my @NeededModules = (
             emerge => 'dev-perl/Net-DNS',
             zypper => 'perl-Net-DNS',
             ports  => 'dns/p5-Net-DNS',
+        },
+    },
+    {
+        Module    => 'Net::SMTP::SSL',
+        Required  => 1,
+        Comment   => 'Required by Kernel/cpan-lib/Mail/Mailer/smtps.pm',
+        InstTypes => {
+            aptget => 'libmoo-perl',
+            emerge => 'dev-perl/Moo',
+            zypper => 'perl-Moo',
+            ports  => 'devel/p5-Moo',
         },
     },
     {
