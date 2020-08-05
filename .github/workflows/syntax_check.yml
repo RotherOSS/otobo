@@ -1,10 +1,24 @@
 # adapted from https://raku-advent.blog/2019/12/06/put-some-github-actions-in-your-raku-repositories/
-name: "Happy Stanislaus day"
+name: 'Happy Stanislaus day'
 on: [push]
 
 jobs:
-  seasonal_greetings:
-    runs-on: ubuntu-latest
-    steps:
-      - name: All the best Stanislaus!
-        run: echo Merry name day, Stanislaus!
+    seasonal_greetings:
+        runs-on: 'ubuntu-latest'
+
+        strategy:
+            fail-fast: false
+            matrix:
+            perl-version:
+                - '5.32'
+                - '5.30'
+                - '5.28'
+                - '5.26'
+                - '5.24'
+
+        container:
+            image: 'perldocker/perl-tester:${{ matrix.perl-version }}'
+
+        steps:
+            - name: 'All the best Stanislaus!'
+              run: 'echo "Merry name day, Stanislaus!"'
