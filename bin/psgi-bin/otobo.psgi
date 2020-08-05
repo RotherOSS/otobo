@@ -40,7 +40,6 @@ A PSGI application.
 
 There are some requirements for running this application. Do something like:
 
-    cpanm --with-feature=mojo --with-feature=plack --with-feature=mysql  --installdeps .
     cpanm --with-feature=db:mysql --with-feature=plack --with-feature=devel:dbviewer \
           --with-feature=div:bcrypt --with-feature=performance:json --with-feature=mail:imap  \
           --with-feature=mail:sasl --with-feature=div:ldap --with-feature=performance:csv \
