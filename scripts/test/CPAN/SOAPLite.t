@@ -75,7 +75,7 @@ my $SOAPObject;
     my $URI = $ConfigObject->Get('HttpType')
         . '://'
         . $Host
-        . '/Core';
+        . '/OTOBO::RPC';
     $Self->Note( Note => "SOAP::Lite proxy: $Proxy" );
     $Self->Note( Note => "SOAP::Lite uri: $URI" );
     $SOAPObject = SOAP::Lite->new(
