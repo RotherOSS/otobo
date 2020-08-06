@@ -23,18 +23,23 @@ use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitT
 
 use vars (qw($Self));
 
+# core modules
+
+# CPAN modules
 use SOAP::Lite;
 
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+# set up object params
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-
         RestoreDatabase => 1,
     },
 );
+
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $RandomID = $Helper->GetRandomID();
@@ -43,7 +48,7 @@ my $RandomID = $Helper->GetRandomID();
 my $SOAPUser     = 'User' . $RandomID;
 my $SOAPPassword = $RandomID;
 
-# update sysconfig settings
+# update sysconfig settings, but do not deploy them
 $Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'SOAP::User',
@@ -58,30 +63,28 @@ $Helper->ConfigSettingChange(
 # get remote host with some precautions for certain unit test systems
 my $Host = $Helper->GetTestHTTPHostname();
 
-# prepare RPC config
-my $Proxy = $ConfigObject->Get('HttpType')
-    . '://'
-    . $Host
-    . '/'
-    . $ConfigObject->Get('ScriptAlias')
-    . '/rpc.pl';
-
-my $URI = $ConfigObject->Get('HttpType')
-    . '://'
-    . $Host
-    . '/Core';
-
 # Create SOAP Object and use RPC interface to test SOAP Lite
-my $SOAPObject = SOAP::Lite->new(
-    proxy => $Proxy,
-    uri   => $URI,
-);
+my $SOAPObject;
+{
+    my $Proxy = $ConfigObject->Get('HttpType')
+        . '://'
+        . $Host
+        . '/'
+        . $ConfigObject->Get('ScriptAlias')
+        . 'rpc.pl';
+    my $URI = $ConfigObject->Get('HttpType')
+        . '://'
+        . $Host
+        . '/OTOBO::RPC';
+    $Self->Note( Note => "SOAP::Lite proxy: $Proxy" );
+    $Self->Note( Note => "SOAP::Lite uri: $URI" );
+    $SOAPObject = SOAP::Lite->new(
+        proxy => $Proxy,
+        uri   => $URI,
+    );
+}
 
 # Tests for number of params in SOAP call
-# SOAP::Lite 0.715 is broken in line 1993, this file was patched in CPAN directory in order to fix
-# this problem. There is a similar problem reported in SOAP::Lite bug tracker in:
-# http://sourceforge.net/tracker/?func=detail&aid=3547564&group_id=66000&atid=513017
-
 my @Tests = (
     {
         Name   => 'TimeObject::SystemTime() - No parameters',
@@ -176,9 +179,6 @@ for my $Test (@Tests) {
         "$Test->{Name}: Message result should have a value",
     );
 }
-
-# cleanup cache is done by RestoreDatabase
-
 
 $Self->DoneTesting();
 
