@@ -22,11 +22,17 @@ use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitT
 
 use vars (qw($Self));
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::ObjectManager;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new();
 
 $Self->True( $Kernel::OM, 'Could build object manager' );
+$Self->Is( ref $Kernel::OM, 'Kernel::System::ObjectManager', 'object manager is a Kernel::System::ObjectManager' );
 
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -61,7 +67,9 @@ my $Home = $ConfigObject->Get('Home');
 # get main object
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-my %OperationChecked;
+
+# for avoiding duplicate word
+my %OperationAlreadyChecked;
 
 my @DirectoriesToSearch = (
     '/bin',
@@ -73,21 +81,32 @@ my @DirectoriesToSearch = (
     '/var/packagesetup'
 );
 
-for my $Directory ( sort @DirectoriesToSearch ) {
+DIRECTORY:
+for my $Directory ( map { $Home . $_ } sort @DirectoriesToSearch ) {
+
+    # Custom/Kernel and var/packagesetup do not necessarily exist
+    if ( ! -d $Directory ) {
+        $Self->Note( Note => "$Directory does not exist" );
+
+        next DIRECTORY;
+    }
+
     my @FilesInDirectory = $MainObject->DirectoryRead(
-        Directory => $Home . $Directory,
+        Directory => $Directory,
         Filter    => [ '*.pm', '*.pl' ],
         Recursive => 1,
     );
 
-    LOCATION:
-    for my $Location (@FilesInDirectory) {
+    $Self->Note( Note => sprintf "%d files in directory $Directory", scalar @FilesInDirectory );
+
+    for my $Location ( sort @FilesInDirectory) {
         my $ContentSCALARRef = $MainObject->FileRead(
             Location => $Location,
         );
 
         my $Module = $Location;
         $Module =~ s{$Home\/+}{}msx;
+        my $NumMatches = 0;
 
         # check if file contains a call to another module using Object manager
         #    for example: $Kernel::OM->Get('Kernel::Config')->Get('Home');
@@ -102,9 +121,11 @@ for my $Directory ( sort @DirectoriesToSearch ) {
             =~ m{ \$Kernel::OM \s* -> \s* Get\( \s* '([^']+)'\) \s* -> \s* ([a-zA-Z1-9]+)\( }msxg
             )
         {
+            # solely for reporting
+            $NumMatches++;
 
             # skip if the function for the object was already checked before
-            next OPERATION if $OperationChecked{"$1->$2()"};
+            next OPERATION if $OperationAlreadyChecked{"$1->$2()"};
 
             # skip crypt object if it is not configured
             next OPERATION if $1 eq 'Kernel::System::Crypt::SMIME'          && $SkipCryptSMIME;
@@ -116,19 +137,29 @@ for my $Directory ( sort @DirectoriesToSearch ) {
             next OPERATION if $1 eq 'Kernel::System::Calendar::Appointment' && $SkipCalendar;
             next OPERATION if $1 eq 'Kernel::System::Calendar::Team'        && $SkipTeam;
 
-            # load object
-            my $Object = $Kernel::OM->Get("$1");
+            # load object, Get will throw an exception when the module can't be loaded
+            my $Object = eval {
+                return $Kernel::OM->Get($1);
+            };
+            $Self->True( $Object, "Instance of $1 is available" );
+
+            my $Description = "$Module | $1->$2()";
+
+            # no need to call can when there is no object
+            if ( ! $Object ) {
+                $Self->True( 0, "Instance of $1 is available" );
+
+                next OPERATION;
+            }
 
             my $Success = $Object->can($2);
-
-            $Self->True(
-                $Success,
-                "$Module | $1->$2()",
-            );
+            $Self->True( $Success, $Description );
 
             # remember the already checked operation
-            $OperationChecked{"$1->$2()"} = 1;
+            $OperationAlreadyChecked{"$1->$2()"} = 1;
         }
+
+        $Self->Note( Note => "Looked at $NumMatches matches in $Location" );
     }
 }
 
