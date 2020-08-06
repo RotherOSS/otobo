@@ -34,7 +34,6 @@ my @Dirs = qw(Kernel Custom scripts bin);
 my %FailureIsAccepted = (
     'Kernel/System/Auth/Radius.pm'               => 'Authen::Radius is not required',
     'Kernel/System/CustomerAuth/Radius.pm'       => 'Authen::Radius is not required',
-    'Kernel/System/SysConfig/Migration.pm'       => 'see https://github.com/RotherOSS/otobo/issues/213',
     'Kernel/cpan-lib/Devel/REPL/Plugin/OTOBO.pm' => 'Devel::REPL::Plugin is not required',
     'Kernel/cpan-lib/Font/TTF/Win32.pm'          => 'Win32 is not supported',
     'Kernel/cpan-lib/LWP/Protocol/GHTTP.pm'      => 'HTTP::GHTTP is not required',
