@@ -631,11 +631,14 @@ my $OTOBOApp = builder {
     sub {
         my $Env = shift;
 
-        my $stdout  = IO::File->new_tmpfile;
+        # Capture the output written by $Installer->Run().
+        # This output includes the  HTTP headers of the response.
+        # TODO: Investigate whether $Stdout could be a in memory Perl scalar opened as a file handle.
+        my $Stdout  = IO::File->new_tmpfile;
         {
-            my $saver = SelectSaver->new("::STDOUT");
+            my $Saver = SelectSaver->new('::STDOUT');
             {
-                local *STDOUT = $stdout;
+                local *STDOUT = $Stdout;
                 local *STDERR = $Env->{'psgi.errors'};
 
                 # 0=off;1=on;
@@ -702,10 +705,9 @@ my $OTOBOApp = builder {
             }
         }
 
-        seek( $stdout, 0, SEEK_SET )
-            or croak("Can't seek stdout handle: $!");
+        seek( $Stdout, 0, SEEK_SET ) or croak("Can't seek \$Stdout handle: $!");
 
-        return CGI::Parse::PSGI::parse_cgi_output($stdout);
+        return CGI::Parse::PSGI::parse_cgi_output($Stdout);
     };
 };
 
