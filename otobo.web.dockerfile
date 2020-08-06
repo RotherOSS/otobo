@@ -98,11 +98,10 @@ WORKDIR $OTOBO_INSTALL/otobo_next
 
 # Some initial setup that needs to be done by root.
 # Make sure that /opt/otobo exists and is writable by $OTOBO_USER.
-# set up entrypoint, upgrade.log, docker_firsttime
+# set up entrypoint.sh and docker_firsttime
 # Finally set permissions.
 RUN install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME \
     && install --owner $OTOBO_USER --group $OTOBO_GROUP -D bin/docker/entrypoint.sh $OTOBO_INSTALL/entrypoint.sh \
-    && install --owner $OTOBO_USER --group $OTOBO_GROUP /dev/null $OTOBO_INSTALL/upgrade.log \
     && install --owner $OTOBO_USER --group $OTOBO_GROUP /dev/null docker_firsttime \
     && perl bin/docker/set_permissions.pl
 
