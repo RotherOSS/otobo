@@ -19,9 +19,7 @@ package Kernel::System::SysConfig::Migration;
 use strict;
 use warnings;
 
-use parent qw(scripts::MigrateFromOTRS::Base);
-
-use List::Util qw(first);
+use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',

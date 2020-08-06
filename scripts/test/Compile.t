@@ -35,7 +35,6 @@ note( 'check syntax of the Perl modules' );
 my %FailureIsAccepted = (
     'Kernel/System/Auth/Radius.pm'               => 'Authen::Radius is not required',
     'Kernel/System/CustomerAuth/Radius.pm'       => 'Authen::Radius is not required',
-    'Kernel/System/SysConfig/Migration.pm'       => 'scripts/MigrateFromOTRS/Base.pm does not exist',
     'Kernel/cpan-lib/Devel/REPL/Plugin/OTOBO.pm' => 'Devel::REPL::Plugin is not required',
     'Kernel/cpan-lib/Font/TTF/Win32.pm'          => 'Win32 is not supported',
     'Kernel/cpan-lib/LWP/Protocol/GHTTP.pm'      => 'HTTP::GHTTP is not required',
