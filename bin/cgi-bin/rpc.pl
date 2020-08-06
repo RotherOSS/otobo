@@ -27,9 +27,9 @@ use lib "$Bin/../../Custom";
 use SOAP::Transport::HTTP;
 use Kernel::System::ObjectManager;
 
-SOAP::Transport::HTTP::CGI->dispatch_to('Core')->handle();
+SOAP::Transport::HTTP::CGI->dispatch_to('OTOBO::RPC')->handle();
 
-package Core;
+package OTOBO::RPC;
 
 sub new {
     my $Self = shift;
