@@ -41,14 +41,14 @@ RUN packages=$( echo \
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
-# install the modules, that take a long time to install, early in order to make rebuilds faster
-RUN cpanm Net::DNS Gazelle
-
+# The modules Net::DNS and Gazelle take a long time to build and test.
+# Install them early in order to make rebuilds faster.
 # Found no easy way to install with --force in the cpanfile. Therefore install
 # the modules with ignorable test failures with the option --force.
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
-RUN cpanm --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
+RUN cpanm Net::DNS Gazelle \
+    && cpanm --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
 
 # A minimal copy so that the Docker cache is not busted
 COPY cpanfile ./cpanfile
