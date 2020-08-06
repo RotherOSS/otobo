@@ -19,7 +19,7 @@ accompanying [COPYING](COPYING) file for more details.
 
 Documentation
 =============
-You can find documentation [online](https://doc.otobo.de/). The source code of OTOBO and its public extension
+You can find documentation [online](https://doc.otobo.org/). The source code of OTOBO and its public extension
 modules is available on [github](https://github.com/RotherOSS).
 
 
