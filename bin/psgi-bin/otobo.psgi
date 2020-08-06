@@ -267,8 +267,8 @@ use CGI::PSGI;
 use Plack::Builder;
 use Plack::Response;
 use Plack::Middleware::ErrorDocument;
-use Plack::Middleware::Header;
 use Plack::Middleware::ForceEnv;
+use Plack::Middleware::Header;
 use Plack::App::File;
 use SOAP::Transport::HTTP::Plack;
 use Mojo::Server::PSGI; # for dbviewer
@@ -336,6 +336,25 @@ my $NYTProfMiddleWare = sub {
         DB::finish_profile() if $ProfilingIsOn;
 
         return $res;
+    };
+};
+
+# Set some entries in %ENV.
+# GATEWAY_INTERFACE is used for determining whether a command runs in a web context
+# Per default it would enable mysql_auto_reconnect.
+# But mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
+# OTOBO_RUNS_UNDER_PSGI indicates that PSGI is used.
+my $SetEnvMiddleWare = sub {
+    my $app = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # only the side effects are important
+        $ENV{OTOBO_RUNS_UNDER_PSGI} = '1';
+        $ENV{GATEWAY_INTERFACE}     = 'CGI/1.1';
+
+        return $app->($Env);
     };
 };
 
@@ -555,16 +574,11 @@ my $GenericInterfaceApp = builder {
     # a simplistic detection whether we are behind a revers proxy
     enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
 
-    # GATEWAY_INTERFACE is used for determining whether a command runs in a web context
-    # Per default it would enable mysql_auto_reconnect.
-    # But mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
-    # OTOBO_RUNS_UNDER_PSGI indicates that PSGI is used.
-    enable 'Plack::Middleware::ForceEnv',
-        OTOBO_RUNS_UNDER_PSGI => '1',
-        GATEWAY_INTERFACE     => 'CGI/1.1';
-
     # conditionally enable profiling
     enable $NYTProfMiddleWare;
+
+    # set %ENV
+    enable $SetEnvMiddleWare;
 
     # check ever 10s for changed Perl modules
     enable 'Plack::Middleware::Refresh';
@@ -602,16 +616,11 @@ my $OTOBOApp = builder {
     # a simplistic detection whether we are behind a revers proxy
     enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
 
-    # GATEWAY_INTERFACE is used for determining whether a command runs in a web context
-    # Per default it would enable mysql_auto_reconnect.
-    # But mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
-    # OTOBO_RUNS_UNDER_PSGI indicates that PSGI is used.
-    enable 'Plack::Middleware::ForceEnv',
-        OTOBO_RUNS_UNDER_PSGI => '1',
-        GATEWAY_INTERFACE     => 'CGI/1.1';
-
     # conditionally enable profiling
     enable $NYTProfMiddleWare;
+
+    # set %ENV
+    enable $SetEnvMiddleWare;
 
     # check ever 10s for changed Perl modules
     enable 'Plack::Middleware::Refresh';
