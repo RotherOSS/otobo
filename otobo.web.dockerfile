@@ -6,11 +6,6 @@
 # cpanm is already installed,
 FROM perl:5.32.0-buster
 
-# take arguments that were passed via --build-arg
-ARG OTOBO_INSTALL=/opt/otobo_install
-ARG GIT_COMMIT=unspecified
-ARG GIT_BRANCH=unspecified
-
 # Some initial setup that needs to be done by root.
 USER root
 
@@ -151,9 +146,11 @@ WORKDIR $OTOBO_HOME
 ENV OTOBO_RUNS_UNDER_DOCKER 1
 
 # Add some additional meta info to the image.
-# This done near the end as changes labels invalidate the layer cache.
+# This done near the end as changed labels and changed args invalidate the layer cache.
 LABEL maintainer="Team OTOBO <dev@otobo.org>"
+ARG GIT_COMMIT=unspecified
 LABEL git_commit=$GIT_COMMIT
+ARG GIT_BRANCH=unspecified
 LABEL git_branch=$GIT_BRANCH
 
 # for some reason $OTOBO_INSTALL can't be used here
