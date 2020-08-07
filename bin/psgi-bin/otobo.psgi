@@ -645,12 +645,13 @@ my $OTOBOApp = builder {
         # Fallback to agent login if we could not determine handle...
         $ScriptFileName //= 'index.pl';
 
-        # make sure that the managed objects will be recreated for the current request
-        local $Kernel::OM = Kernel::System::ObjectManager->new();
-
         # InterfaceInstaller has been converted to returning a string instead of printing the STDOUT.
         # This means that we don't have to capture STDOUT
         if ( $ScriptFileName eq 'installer.pl' ) {
+
+            # make sure that the managed objects will be recreated for the current request
+            local $Kernel::OM = Kernel::System::ObjectManager->new();
+
             my $Interface = Kernel::System::Web::InterfaceInstaller->new(
                 Debug      => $Debug,
                 WebRequest => CGI::PSGI->new($Env),
@@ -659,7 +660,7 @@ my $OTOBOApp = builder {
             # do the work
             my $HeaderAndContent = $Interface->HeaderAndContent();
 
-            # UTF-8 encoding it expected
+            # UTF-8 encoding is expected
             utf8::encode($HeaderAndContent);
 
             # return a PSGI response
@@ -675,6 +676,9 @@ my $OTOBOApp = builder {
             {
                 local *STDOUT = $Stdout;
                 local *STDERR = $Env->{'psgi.errors'};
+
+                # make sure that the managed objects will be recreated for the current request
+                local $Kernel::OM = Kernel::System::ObjectManager->new();
 
                 # find the relevant interface class
                 my $Interface;
