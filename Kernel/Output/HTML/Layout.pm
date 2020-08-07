@@ -947,16 +947,16 @@ sub FatalError {
     $Output .= $Self->Footer();
 
     if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
-        # use the regular flow, the OS process is not terminated
-        return $Output;
-    }
-    else {
-        # Terminate the process under Apache/mod_perl.
-        # Apparently there were some bad consequnces from using the regular flow.
-        $Self->Print( Output => \$Output );
 
-        exit;
+        # The exception should be caught be Plack::Middleware::HTTPExceptions
+        die Kernel::System::Web::Exception->new( Content => $Output );
     }
+
+    # Terminate the process under Apache/mod_perl.
+    # Apparently there were some bad consequnces from using the regular flow.
+    $Self->Print( Output => \$Output );
+
+    exit;
 }
 
 sub SecureMode {
@@ -4394,16 +4394,16 @@ sub CustomerFatalError {
     $Output .= $Self->CustomerFooter();
 
     if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
-        # use the regular flow, the OS process is not terminated
-        return $Output;
-    }
-    else {
-        # Terminate the process under Apache/mod_perl.
-        # Apparently there were some bad consequnces from using the regular flow.
-        $Self->Print( Output => \$Output );
 
-        exit;
+        # The exception should be caught be Plack::Middleware::HTTPExceptions
+        die Kernel::System::Web::Exception->new( Content => $Output );
     }
+
+    # Terminate the process under Apache/mod_perl.
+    # Apparently there were some bad consequnces from using the regular flow.
+    $Self->Print( Output => \$Output );
+
+    exit;
 }
 
 sub CustomerNavigationBar {

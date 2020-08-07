@@ -263,6 +263,7 @@ use Encode qw(:all);
 use CGI ();
 use CGI::Carp ();
 use CGI::Emulate::PSGI ();
+use CGI::Parse::PSGI qw(parse_cgi_output);
 use CGI::PSGI;
 use Plack::Builder;
 use Plack::Response;
@@ -296,6 +297,7 @@ use Kernel::System::Web::InterfaceCustomer ();
 use Kernel::System::Web::InterfacePublic ();
 use Kernel::System::Web::InterfaceInstaller ();
 use Kernel::System::Web::InterfaceMigrateFromOTRS ();
+use Kernel::System::Web::Exception ();
 use Kernel::GenericInterface::Provider;
 use Kernel::System::ObjectManager;
 
@@ -625,6 +627,9 @@ my $OTOBOApp = builder {
     # check ever 10s for changed Perl modules
     enable 'Plack::Middleware::Refresh';
 
+    # we might catch an instance of Kernel::System::Web::Exception
+    enable 'HTTPExceptions';
+
     # No need to set %ENV or redirect STDIN.
     # But STDOUT and STDERR is still like in CGI scripts.
     # logic taken from the scripts in bin/cgi-bin and from CGI::Emulate::PSGI
@@ -664,7 +669,7 @@ my $OTOBOApp = builder {
             utf8::encode($HeaderAndContent);
 
             # return a PSGI response
-            return CGI::Parse::PSGI::parse_cgi_output(\$HeaderAndContent);
+            return parse_cgi_output(\$HeaderAndContent);
         }
 
         # Capture the output written by $Installer->Run().
@@ -710,7 +715,7 @@ my $OTOBOApp = builder {
             }
         }
 
-        return CGI::Parse::PSGI::parse_cgi_output(\$Buffer);
+        return parse_cgi_output(\$Buffer);
     };
 };
 

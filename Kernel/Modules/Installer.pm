@@ -39,10 +39,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # Allocate new hash for object.
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless { %Param }, $Type;
 }
 
 sub Run {
@@ -76,9 +73,12 @@ sub Run {
         );
     }
 
-    # Check/get SQL schema directory
+    # Get and check the SQL schema directory
     my $DirOfSQLFiles = $Self->{Path} . '/scripts/database';
     if ( !-d $DirOfSQLFiles ) {
+
+        # PSGI: throw exception
+        # non-PSGI: print to STDOUT and exit
         $LayoutObject->FatalError(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" not found!', $DirOfSQLFiles ),
             Comment => Translatable('Please contact the administrator.'),
@@ -102,7 +102,7 @@ sub Run {
         $Self->{Subaction} = 'DBCreate';
     }
 
-    $Self->{Subaction} = 'Intro' if !$Self->{Subaction};
+    $Self->{Subaction} ||= 'Intro';
 
     # Set up the build steps.
     # The license step is not needed when it is turned off in $Self->{Options}.
@@ -168,21 +168,22 @@ sub Run {
     # Print intro form.
     my $Title = $LayoutObject->{LanguageObject}->Translate('Install OTOBO');
     if ( $Self->{Subaction} eq 'Intro' ) {
-        my $Output =
-            $LayoutObject->Header(
-            Title => "$Title - "
-                . $LayoutObject->{LanguageObject}->Translate('Intro')
-            );
+
+        # activate the Intro block
         $LayoutObject->Block(
             Name => 'Intro',
             Data => {}
         );
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'Installer',
-            Data         => {},
-        );
-        $Output .= $LayoutObject->Footer();
-        return $Output;
+
+        return join '',
+            $LayoutObject->Header(
+                Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Intro')
+            ),
+            $LayoutObject->Output(
+                TemplateFile => 'Installer',
+                Data         => {},
+            ),
+            $LayoutObject->Footer();
     }
 
     # Print license from.
@@ -230,9 +231,9 @@ sub Run {
         }
 
         my %Databases = (
-            mysql      => "MySQL",
-            postgresql => "PostgreSQL",
-            oracle     => "Oracle",
+            mysql      => 'MySQL',
+            postgresql => 'PostgreSQL',
+            oracle     => 'Oracle',
         );
 
         # Build the select field for the InstallerDBStart.tt.
@@ -607,6 +608,7 @@ sub Run {
                     Data         => {},
                 );
                 $Output .= $LayoutObject->Footer();
+
                 return $Output;
             }
             else {
