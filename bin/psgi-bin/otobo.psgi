@@ -669,12 +669,14 @@ my $OTOBOApp = builder {
 
         # Capture the output written by $Installer->Run().
         # This output includes the  HTTP headers of the response.
-        # TODO: Investigate whether $Stdout could be a in memory Perl scalar opened as a file handle.
-        my $Stdout  = IO::File->new_tmpfile;
+        my $Buffer = '';
         {
+            # write an UTF-8 encoded string into $Buffer
+            open my $CaptureStdoutFH, '>:encoding(UTF-8)', \$Buffer or die "Can't open buffer as a filehandle: $!";
+
             my $Saver = SelectSaver->new('::STDOUT');
             {
-                local *STDOUT = $Stdout;
+                local *STDOUT = $CaptureStdoutFH;
                 local *STDERR = $Env->{'psgi.errors'};
 
                 # make sure that the managed objects will be recreated for the current request
@@ -708,9 +710,7 @@ my $OTOBOApp = builder {
             }
         }
 
-        seek( $Stdout, 0, SEEK_SET ) or croak("Can't seek \$Stdout handle: $!");
-
-        return CGI::Parse::PSGI::parse_cgi_output($Stdout);
+        return CGI::Parse::PSGI::parse_cgi_output(\$Buffer);
     };
 };
 
