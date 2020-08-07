@@ -659,6 +659,10 @@ my $OTOBOApp = builder {
             # do the work
             my $HeaderAndContent = $Interface->HeaderAndContent();
 
+            # UTF-8 encoding it expected
+            utf8::encode($HeaderAndContent);
+
+            # return a PSGI response
             return CGI::Parse::PSGI::parse_cgi_output(\$HeaderAndContent);
         }
 
