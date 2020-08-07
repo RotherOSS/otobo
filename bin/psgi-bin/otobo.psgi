@@ -631,6 +631,42 @@ my $OTOBOApp = builder {
     sub {
         my $Env = shift;
 
+        # 0=off;1=on;
+        my $Debug = 0;
+
+        # $Env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
+        # $Env->{PATH_INFO} contains the path after the $Env->{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
+        # The extracted ScriptFileName should be something like:
+        #     nph-genericinterface.pl, index.pl, customer.pl, or rpc.pl
+        # Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
+        # are gracefully ignored.
+        my ($ScriptFileName) = ( ( $Env->{SCRIPT_NAME} // '' ) . ( $Env->{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
+
+        # Fallback to agent login if we could not determine handle...
+        $ScriptFileName //= 'index.pl';
+
+        # InterfaceInstaller has been converted to returning a string instead of printing the STDOUT.
+        # This means that we don't have to capture STDOUT
+        if ( $ScriptFileName eq 'installer.pl' ) {
+
+            # make sure that the managed objects will be recreated for the current request
+            local $Kernel::OM = Kernel::System::ObjectManager->new();
+
+            my $Interface = Kernel::System::Web::InterfaceInstaller->new(
+                Debug      => $Debug,
+                WebRequest => CGI::PSGI->new($Env),
+            );
+
+            # do the work
+            my $HeaderAndContent = $Interface->HeaderAndContent();
+
+            # UTF-8 encoding is expected
+            utf8::encode($HeaderAndContent);
+
+            # return a PSGI response
+            return CGI::Parse::PSGI::parse_cgi_output(\$HeaderAndContent);
+        }
+
         # Capture the output written by $Installer->Run().
         # This output includes the  HTTP headers of the response.
         # TODO: Investigate whether $Stdout could be a in memory Perl scalar opened as a file handle.
@@ -641,20 +677,7 @@ my $OTOBOApp = builder {
                 local *STDOUT = $Stdout;
                 local *STDERR = $Env->{'psgi.errors'};
 
-                # 0=off;1=on;
-                my $Debug = 0;
-
-                # $Env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
-                # $Env->{PATH_INFO} contains the path after the $Env->{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
-                # The extracted ScriptFileName should be something like:
-                #     nph-genericinterface.pl, index.pl, customer.pl, or rpc.pl
-                # Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
-                # are gracefully ignored.
-                my ($ScriptFileName) = ( ( $Env->{SCRIPT_NAME} // '' ) . ( $Env->{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
-
-                # Fallback to agent login if we could not determine handle...
-                $ScriptFileName //= 'index.pl';
-
+                # make sure that the managed objects will be recreated for the current request
                 local $Kernel::OM = Kernel::System::ObjectManager->new();
 
                 # find the relevant interface class
@@ -662,12 +685,6 @@ my $OTOBOApp = builder {
                 {
                     if ( $ScriptFileName eq 'index.pl' ) {
                         $Interface = Kernel::System::Web::InterfaceAgent->new(
-                            Debug      => $Debug,
-                            WebRequest => CGI::PSGI->new($Env),
-                        );
-                    }
-                    elsif ( $ScriptFileName eq 'installer.pl' ) {
-                        $Interface = Kernel::System::Web::InterfaceInstaller->new(
                             Debug      => $Debug,
                             WebRequest => CGI::PSGI->new($Env),
                         );
