@@ -19,6 +19,11 @@ package Kernel::System::Web::InterfaceInstaller;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
@@ -35,7 +40,7 @@ Kernel::System::Web::InterfaceInstaller - the installer web interface
 
 =head1 DESCRIPTION
 
-This module generated the content for I<installer.pl>.
+This module generates the content for F<installer.pl>.
 
 =head1 PUBLIC INTERFACE
 
@@ -61,12 +66,10 @@ sub new {
     # get debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
+    # register object params
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'Installer',
-        },
-        'Kernel::Output::HTML::Layout' => {
-            InstallerOnly => 1,
         },
         'Kernel::System::Web::Request' => {
             WebRequest => $Param{WebRequest} || 0,
