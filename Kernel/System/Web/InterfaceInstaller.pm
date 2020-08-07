@@ -35,27 +35,28 @@ Kernel::System::Web::InterfaceInstaller - the installer web interface
 
 =head1 DESCRIPTION
 
-the global installer web interface
+This module generated the content for I<installer.pl>.
 
 =head1 PUBLIC INTERFACE
 
 =head2 new()
 
-create installer web interface object
+create a web interface object
 
     use Kernel::System::Web::InterfaceInstaller;
 
-    my $Debug = 0;
-    my $Interface = Kernel::System::Web::InterfaceInstaller->new( Debug => $Debug );
+    my $Interface = Kernel::System::Web::InterfaceInstaller->new();
+
+    # with debugging enabled
+    my $Interface = Kernel::System::Web::InterfaceInstaller->new( Debug => 1 );
 
 =cut
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    # start with an empty hash for the new object
+    my $Self = bless {}, $Type;
 
     # get debug level
     $Self->{Debug} = $Param{Debug} || 0;
@@ -72,9 +73,7 @@ sub new {
         },
     );
 
-    # debug info
     if ( $Self->{Debug} ) {
-
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => 'Global handle started...',
