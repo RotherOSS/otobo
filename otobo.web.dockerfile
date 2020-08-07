@@ -6,6 +6,12 @@
 # cpanm is already installed,
 FROM perl:5.32.0-buster
 
+# take arguments that were passed via --build-arg
+ARG OTOBO_INSTALL=/opt/otobo_install
+ARG GIT_COMMIT=unspecified
+ARG GIT_BRANCH=unspecified
+
+# Some initial setup that needs to be done by root.
 USER root
 
 # install some required and optional Debian packages
@@ -137,12 +143,19 @@ RUN bin/otobo.CheckSum.pl -a create
 
 # Up to now we have prepared /opt/otobo_install/otobo_next.
 # Merging /opt/otobo_install/otobo_next and /opt/otobo is left to /opt/otobo_install/entrypoint.sh.
-# Note that for supporting 'cron' we need to start as root.
+# Note that for supporting the command 'cron' we need to start as root.
+# For all other commands entrypoint.sh switches to the user otobo.
 USER root
 WORKDIR $OTOBO_HOME
+
+# Tell the webapplication that it runs in a container.
 ENV OTOBO_RUNS_UNDER_DOCKER 1
 
+# Add some additional meta info to the image.
+# This done near the end as changes labels invalidate the layer cache.
 LABEL maintainer="Team OTOBO <dev@otobo.org>"
+LABEL git_commit=$GIT_COMMIT
+LABEL git_branch=$GIT_BRANCH
 
 # for some reason $OTOBO_INSTALL can't be used here
 ENTRYPOINT ["/opt/otobo_install/entrypoint.sh"]
