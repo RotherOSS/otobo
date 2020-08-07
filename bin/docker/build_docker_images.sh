@@ -22,6 +22,26 @@
 
 # Just a small helper for building the docker images locally.
 # For productive use please use the images from Docker Hub.
-docker build -f otobo.web.dockerfile           -t otobo:local                .
-docker build -f otobo.nginx.dockerfile         -t otobo-nginx-webproxy:local .
-docker build -f otobo.elasticsearch.dockerfile -t otobo-elasticsearch:local  .
+
+# The variable that are defined here follow the same convention as in
+# https://docs.docker.com/docker-hub/builds/advanced/.
+# This means that local build can use the same build hook as Docker Hub builds.
+
+# set general environment variables
+export SOURCE_COMMIT=$(git rev-parse HEAD)
+export SOURCE_BRANCH=$(git branch --show-current)
+
+# build otobo:local
+export DOCKERFILE_PATH=otobo.web.dockerfile
+export IMAGE_NAME=otobo:local
+hooks/build || exit 1
+
+# build otobo-nginx-webproxy:local
+export DOCKERFILE_PATH=otobo.nginx.dockerfile
+export IMAGE_NAME=otobo-nginx-webproxy:local
+hooks/build || exit 1
+
+# build otobo-elasticsearch:local
+export DOCKERFILE_PATH=otobo.elasticsearch.dockerfile
+export IMAGE_NAME=otobo-elasticsearch:local
+hooks/build || exit 1

@@ -6,13 +6,12 @@
 # cpanm is already installed,
 FROM perl:5.32.0-buster
 
+# Some initial setup that needs to be done by root.
 USER root
 
 # install some required and optional Debian packages
 # For ODBC see https://blog.devart.com/installing-and-configuring-odbc-driver-on-linux.html
 # For ODBC for SQLIte, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
-# TODO: oracle client
-# TODO: LDAP
 RUN packages=$( echo \
         "ack" \
         "cron" \
@@ -36,14 +35,18 @@ RUN packages=$( echo \
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
-# A minimal copy so that the Docker cache is not busted
-COPY cpanfile ./cpanfile
-
+# The modules Net::DNS and Gazelle take a long time to build and test.
+# Install them early in order to make rebuilds faster.
+#
 # Found no easy way to install with --force in the cpanfile. Therefore install
 # the modules with ignorable test failures with the option --force.
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
-RUN cpanm --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
+RUN cpanm Net::DNS Gazelle \
+    && cpanm --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
+
+# A minimal copy so that the Docker cache is not busted
+COPY cpanfile ./cpanfile
 RUN cpanm \
     --with-feature=db:mysql \
     --with-feature=db:postgresql \
@@ -89,21 +92,15 @@ WORKDIR $OTOBO_INSTALL/otobo_next
 #RUN tree Kernel
 #RUN false
 
-# Some initial setup that needs to be done by root.
 # Make sure that /opt/otobo exists and is writable by $OTOBO_USER.
-# set up entrypoint, upgrade.log, docker_firsttime
+# set up entrypoint.sh and docker_firsttime
 # Finally set permissions.
 RUN install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME \
     && install --owner $OTOBO_USER --group $OTOBO_GROUP -D bin/docker/entrypoint.sh $OTOBO_INSTALL/entrypoint.sh \
-    && install --owner $OTOBO_USER --group $OTOBO_GROUP /dev/null $OTOBO_INSTALL/upgrade.log \
     && install --owner $OTOBO_USER --group $OTOBO_GROUP /dev/null docker_firsttime \
     && perl bin/docker/set_permissions.pl
 
-# start the webserver
-# start the OTOBO daemon
-# start the Cron watchdog
-# Tell the webapplication that it runs in a container.
-# The entrypoint takes one command: 'web' or 'cron', web switches to OTOBO_USER
+# perform build steps that can be done as the user otobo.
 USER $OTOBO_USER
 
 # More setup that can be done by the user otobo
@@ -120,8 +117,7 @@ RUN perl -p -i.orig -e "s{Host: http://localhost:9200}{Host: http://elastic:9200
 # Create dirs.
 # Enable bash completion.
 # Add a .vimrc.
-# Config.pm.docker.dist will be copied to Config.pm in entrypoint.sh,
-# unless Config.pm already exists
+# Config.pm.docker.dist will be copied to Config.pm in entrypoint.sh when it does not already exist.
 RUN install -d var/stats var/packages var/article var/tmp \
     && (echo ". ~/.bash_completion" >> .bash_aliases ) \
     && install scripts/vim/.vimrc .vimrc
@@ -142,12 +138,21 @@ RUN bin/otobo.CheckSum.pl -a create
 
 # Up to now we have prepared /opt/otobo_install/otobo_next.
 # Merging /opt/otobo_install/otobo_next and /opt/otobo is left to /opt/otobo_install/entrypoint.sh.
-# Note that for supporting 'cron' we need to start as root.
+# Note that for supporting the command 'cron' we need to start as root.
+# For all other commands entrypoint.sh switches to the user otobo.
 USER root
 WORKDIR $OTOBO_HOME
+
+# Tell the webapplication that it runs in a container.
 ENV OTOBO_RUNS_UNDER_DOCKER 1
 
+# Add some additional meta info to the image.
+# This done near the end as changed labels and changed args invalidate the layer cache.
 LABEL maintainer="Team OTOBO <dev@otobo.org>"
+ARG GIT_COMMIT=unspecified
+LABEL git_commit=$GIT_COMMIT
+ARG GIT_BRANCH=unspecified
+LABEL git_branch=$GIT_BRANCH
 
 # for some reason $OTOBO_INSTALL can't be used here
 ENTRYPOINT ["/opt/otobo_install/entrypoint.sh"]
