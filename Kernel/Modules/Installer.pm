@@ -672,6 +672,7 @@ sub Run {
         # Create database tables and insert initial values.
         my @SQLPost;
         for my $SchemaFile (qw(otobo-schema otobo-initial_insert)) {
+
             if ( !-f "$DirOfSQLFiles/$SchemaFile.xml" ) {
                 $LayoutObject->FatalError(
                     Message => $LayoutObject->{LanguageObject}
@@ -700,8 +701,17 @@ sub Run {
             # If we parsed the schema, catch post instructions.
             @SQLPost = $DBObject->SQLProcessorPost() if $SchemaFile eq 'otobo-schema';
 
+            SQL:
             for my $SQL (@SQL) {
-                $DBObject->Do( SQL => $SQL );
+                my $Success = $DBObject->Do( SQL => $SQL );
+
+                next SQL if $Success;
+
+                # an statement was no correct, no idea how this could be handled
+                $LayoutObject->FatalError(
+                    Message => Translatable('Execution of SQL statement failed: ') . $DBI::errstr,
+                    Comment => $SQL,
+                );
             }
 
             $LayoutObject->Block(
