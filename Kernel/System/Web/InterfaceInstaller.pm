@@ -83,15 +83,15 @@ sub new {
     return $Self;
 }
 
-=head2 Run()
+=head2 HeaderAndContent()
 
-execute the object
+execute the object and return the generated content as a string.
 
-    $Interface->Run();
+    $Interface->HeaderAndContent();
 
 =cut
 
-sub Run {
+sub HeaderAndContent {
     my $Self = shift;
 
     # get common framework params
@@ -113,44 +113,38 @@ sub Run {
 
     # check secure mode
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
-        print $LayoutObject->Header();
-        print $LayoutObject->Error(
-            Message => Translatable('SecureMode active!'),
-            Comment => Translatable(
-                'If you want to re-run the Installer, disable the SecureMode in the SysConfig.'
+        return join '',
+            $LayoutObject->Header(),
+            $LayoutObject->Error(
+                Message => Translatable('SecureMode active!'),
+                Comment => Translatable(
+                    'If you want to re-run the Installer, disable the SecureMode in the SysConfig.'
+                ),
             ),
-        );
-        print $LayoutObject->Footer();
+            $LayoutObject->Footer();
     }
 
     # run modules if a version value exists
-    elsif ( $Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
+    if ( $Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
 
-        # proof of concept! - create $GenericObject
+        # create $GenericObject
         my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
             %Param,
             Debug => $Self->{Debug},
         );
 
-        print $GenericObject->Run();
+        return $GenericObject->Run();
     }
 
-    # else print an error screen
-    else {
-
-        # create new LayoutObject with '%Param'
-        print $LayoutObject->Header();
-        print $LayoutObject->Error(
+    # print an error screen as the fallback
+    return join '',
+        $LayoutObject->Header();
+        $LayoutObject->Error(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Action "%s" not found!', $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),
-        );
-        print $LayoutObject->Footer();
-    }
-
-    return;
+        ),
+        $LayoutObject->Footer();
 }
-
-1;
 
 =head1 TERMS AND CONDITIONS
 
@@ -161,3 +155,5 @@ the enclosed file COPYING for license information (GPL). If you
 did not receive this file, see L<https://www.gnu.org/licenses/gpl-3.0.txt>.
 
 =cut
+
+1;

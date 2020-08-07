@@ -38,4 +38,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new();
 # 0 = debug messages off; 1 = debug messages on;
 my $Debug = 0;
 my $Interface = Kernel::System::Web::InterfaceInstaller->new( Debug => $Debug );
-$Interface->Run();
+
+# do the work and give the response to the webserver
+print $Interface->HeaderAndContent();
