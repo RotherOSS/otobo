@@ -19,6 +19,11 @@ package Kernel::System::Web::InterfaceMigrateFromOTRS;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
@@ -35,13 +40,13 @@ Kernel::System::Web::InterfaceMigrateFromOTRS - the migration web interface
 
 =head1 DESCRIPTION
 
-the global installer web interface
+This module generates the content for F<migration.pl>.
 
 =head1 PUBLIC INTERFACE
 
 =head2 new()
 
-create installer web interface object
+create migration web interface object
 
     use Kernel::System::Web::InterfaceMigrateFromOTRS;
 
@@ -60,21 +65,17 @@ sub new {
     # get debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
+    # register object params, these params will be passed when the object is created
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'MigrateFromOTRS',
-        },
-        'Kernel::Output::HTML::Layout' => {
-            InstallerOnly => 1,
         },
         'Kernel::System::Web::Request' => {
             WebRequest => $Param{WebRequest} || 0,
         },
     );
 
-    # debug info
     if ( $Self->{Debug} ) {
-
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => 'Global handle started...',
