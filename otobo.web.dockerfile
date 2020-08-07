@@ -79,6 +79,7 @@ RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash 
 
 # copy the OTOBO installation to /opt/otobo and use it as the working dir
 # skip the files set up in .dockerignore
+ARG OTOBO_INSTALL=/opt/otobo_install
 COPY --chown=$OTOBO_USER:$OTOBO_GROUP . $OTOBO_INSTALL/otobo_next
 WORKDIR $OTOBO_INSTALL/otobo_next
 

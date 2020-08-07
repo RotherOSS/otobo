@@ -31,6 +31,10 @@
 export SOURCE_COMMIT=$(git rev-parse HEAD)
 export SOURCE_BRANCH=$(git branch --show-current)
 
+# for local build include a file that gives quick info about the build
+rm -f local_docker_build_*
+touch local_docker_build_$(hostname)_$(date +'%F-%H%M%S')
+
 # build otobo:local
 export DOCKERFILE_PATH=otobo.web.dockerfile
 export IMAGE_NAME=otobo:local
