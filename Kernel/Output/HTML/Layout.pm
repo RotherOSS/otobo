@@ -89,7 +89,10 @@ sub new {
     delete $Self->{BlockData};
 
     # empty action if not defined
-    $Self->{Action} = '' if !defined $Self->{Action};
+    $Self->{Action} //= '';
+
+    # use the old behavior per default, where printing to STDOUT is the thing to do
+    $Self->{StdoutIsCaptured} //= 1;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -945,7 +948,11 @@ sub FatalError {
     $Output .= $Self->Error(%Param);
     $Output .= $Self->Footer();
 
-    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+    if ( ! $Self->{StdoutIsCaptured} ) {
+
+        # Modify the output by applying the output filters.
+        # The method Print() does not actually print because it honors StdoutIsCaptured.
+        $Self->Print( Output => \$Output );
 
         # The exception is caught be Plack::Middleware::HTTPExceptions
         die Kernel::System::Web::Exception->new( Content => $Output );
@@ -1784,6 +1791,12 @@ sub Print {
                 TemplateFile => $Param{TemplateFile} || '',
             );
         }
+    }
+
+    # The content referenced by $Param{Output} has been modified.
+    # Do not print the output when is is handled directly for generating a PSGI response.
+    if ( ! $Self->{StdoutIsCaptured} ) {
+        return 1;
     }
 
     # There seems to be a bug in FastCGI that it cannot handle unicode output properly.
@@ -4393,9 +4406,13 @@ sub CustomerFatalError {
     $Output .= $Self->CustomerError(%Param);
     $Output .= $Self->CustomerFooter();
 
-    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+    if ( ! $Self->{StdoutIsCaptured} ) {
 
-        # The exception should be caught be Plack::Middleware::HTTPExceptions
+        # Modify the output by applying the output filters.
+        # The method Print() does not actually print because it honors StdoutIsCaptured.
+        $Self->Print( Output => \$Output );
+
+        # The exception is caught be Plack::Middleware::HTTPExceptions
         die Kernel::System::Web::Exception->new( Content => $Output );
     }
 
