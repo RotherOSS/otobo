@@ -80,8 +80,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless { %Param }, $Type;
 
     # set debug
     $Self->{Debug} = 0;
@@ -948,14 +947,15 @@ sub FatalError {
 
     if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
 
-        # The exception should be caught be Plack::Middleware::HTTPExceptions
+        # The exception is caught be Plack::Middleware::HTTPExceptions
         die Kernel::System::Web::Exception->new( Content => $Output );
     }
 
-    # Terminate the process under Apache/mod_perl.
-    # Apparently there were some bad consequnces from using the regular flow.
+    # print to STDOUT in the non-PSGI case or when STDOUT is captured
     $Self->Print( Output => \$Output );
 
+    # Terminate the process under Apache/mod_perl.
+    # Apparently there were some bad consequnces from using the regular flow.
     exit;
 }
 
@@ -4399,10 +4399,11 @@ sub CustomerFatalError {
         die Kernel::System::Web::Exception->new( Content => $Output );
     }
 
-    # Terminate the process under Apache/mod_perl.
-    # Apparently there were some bad consequnces from using the regular flow.
+    # print to STDOUT in the non-PSGI case or when STDOUT is captured
     $Self->Print( Output => \$Output );
 
+    # Terminate the process under Apache/mod_perl.
+    # Apparently there were some bad consequnces from using the regular flow.
     exit;
 }
 
