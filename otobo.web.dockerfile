@@ -23,6 +23,7 @@ RUN packages=$( echo \
         "postgresql-client" \
         "redis-tools" \
         "sqlite3 libsqliteodbc" \
+        "rsync" \
         "telnet" \
         "tree" \
         "vim" \
