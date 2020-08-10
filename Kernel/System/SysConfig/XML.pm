@@ -191,8 +191,9 @@ sub SettingListParse {
         next SETTING if !IsStringWithData($RawSetting);
         next SETTING if !IsStringWithData($SettingName);
 
+        # no need need to parse XML again, we already have a parse tree
         my $PerlStructure = $XMLSimpleObject->XMLIn(
-            XMLInput => $RawSetting,
+            XMLInput => $SettingNode,
             Options  => {
                 KeepRoot     => 1,
                 ForceArray   => 1,
