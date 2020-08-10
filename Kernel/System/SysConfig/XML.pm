@@ -22,6 +22,7 @@ use warnings;
 # core modules
 
 # CPAN modules
+use XML::LibXML;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw( :all );
@@ -144,9 +145,7 @@ sub SettingListParse {
 
     my $XMLContent = $Param{XMLInput};
 
-    # Remove comments <!-- ... -->.
-    $XMLContent =~ s{<!--.*?-->}{}gsm;
-
+    # check sanity by inspecting the otobo_config version
     my ($ConfigVersion) = $XMLContent =~ m{otobo_config.*?version="(.*?)"};
 
     if ( $ConfigVersion ne '2.0' ) {
@@ -173,15 +172,18 @@ sub SettingListParse {
     # Fetch XML of Setting elements.
     my @ParsedSettings;
 
-    # Note: this is strange. This allows invalid XML to be used as configuration files.
-    SETTING:
-    while (
-        $XMLContent =~ m{(?<RawSetting> <Setting[ ]+ .*? Name="(?<SettingName> .*? )" .*? > .*? </Setting> )}smxg
-        )
-    {
+    # Use libxml for finding the Nodes with the name 'Setting'
+    my @SettingNodes = eval {
+        my $Parser = XML::LibXML->new();
+        my $Document = $Parser->parse_string( $XMLContent );
 
-        my $RawSetting  = $+{RawSetting};
-        my $SettingName = $+{SettingName};
+        return $Document->findnodes('descendant-or-self::Setting[@Name]');
+    };
+
+    SETTING:
+    for my $SettingNode ( @SettingNodes ) {
+        my $RawSetting  = $SettingNode->toString(0); # the original content
+        my $SettingName = $SettingNode->getAttribute( 'Name' );
 
         next SETTING if !IsStringWithData($RawSetting);
         next SETTING if !IsStringWithData($SettingName);
