@@ -528,10 +528,10 @@ my @Tests = (
         <Value>
             <Array>
                 <Item>1</Item>
-#               <Item>2</Item>
+#               <Item>not commented out</Item>
 <!--
-                <Item>2</Item>
-                <Item>2</Item>
+                <Item>commented out</Item>
+                <Item>commented out</Item>
 -->
                 <Item>2</Item>
             </Array>
@@ -566,6 +566,9 @@ my @Tests = (
                                             'Content' => '1',
                                         },
                                         {
+                                            'Content' => 'not commented out',
+                                        },
+                                        {
                                             'Content' => '2',
                                         },
                                     ],
@@ -580,7 +583,7 @@ my @Tests = (
         <Value>
             <Array>
                 <Item>1</Item>
-
+#               <Item>not commented out</Item>
 
                 <Item>2</Item>
             </Array>
@@ -598,7 +601,7 @@ for my $Test (@Tests) {
     $Self->IsDeeply(
         \@Result,
         $Test->{ExpectedResult},
-        $Test->{Description} . ': SettingLisParse(): Result must match expected one.',
+        $Test->{Description} . ': SettingListParse(): Result must match expected one.',
     );
 }
 
