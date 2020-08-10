@@ -144,9 +144,6 @@ sub SettingListParse {
 
     my $XMLContent = $Param{XMLInput};
 
-    # Remove all lines that starts with comment (#).
-    $XMLContent =~ s{^#.*?$}{}gm;
-
     # Remove comments <!-- ... -->.
     $XMLContent =~ s{<!--.*?-->}{}gsm;
 
