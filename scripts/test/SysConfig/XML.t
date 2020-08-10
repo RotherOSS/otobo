@@ -448,33 +448,33 @@ my @Tests = (
             ',
         },
         ExpectedResult => [
-            {                                                                    
-                'XMLContentParsed' => {                                            
-                    'Description' => [                                               
-                        {                                                              
-                            'Content' => 'Test 2.',                                      
-                            'Translatable' => '1'                                        
-                        }                                                              
-                    ],                                                               
-                    'Name' => 'Test2',                                               
-                    'Navigation' => [                                                
-                        {                                                              
-                            'Content' => 'Core::Ticket'                                  
-                        }                                                              
-                    ],                                                               
-                    'Required' => '1',                                               
-                    'Valid' => '1',                                                  
-                    'Value' => [                                                     
-                        {                                                              
-                            'Item' => [                                                  
-                                {                                                          
-                                    'Content' => '/usr/bin/gpg',                             
-                                    'ValueType' => 'File'                                    
-                                }                                                          
-                            ]                                                            
-                        }                                                              
-                    ]                                                                
-                },                                                                 
+            {
+                'XMLContentParsed' => {
+                    'Description' => [
+                        {
+                            'Content' => 'Test 2.',
+                            'Translatable' => '1'
+                        }
+                    ],
+                    'Name' => 'Test2',
+                    'Navigation' => [
+                        {
+                            'Content' => 'Core::Ticket'
+                        }
+                    ],
+                    'Required' => '1',
+                    'Valid' => '1',
+                    'Value' => [
+                        {
+                            'Item' => [
+                                {
+                                    'Content' => '/usr/bin/gpg',
+                                    'ValueType' => 'File'
+                                }
+                            ]
+                        }
+                    ]
+                },
                 'XMLContentRaw' => '<Setting Name="Test2" Required="1" Valid="1">
         <Description Translatable="1">Test 2.</Description>
         <Navigation>Core::Ticket</Navigation>
@@ -482,8 +482,8 @@ my @Tests = (
             <Item ValueType="File">/usr/bin/gpg</Item>
         </Value>
     </Setting>',
-                'XMLFilename' => undef                                             
-            }                                                                    
+                'XMLFilename' => undef
+            }
         ]
     },
     {
