@@ -132,7 +132,10 @@ Returns:
 sub SettingListParse {
     my ( $Type, %Param ) = @_;
 
-    if ( !IsStringWithData( $Param{XMLInput} ) ) {
+    my $XMLContent  = $Param{XMLInput};
+    my $XMLFilename = $Param{XMLFilename} // '';
+
+    if ( !IsStringWithData( $XMLContent ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Parameter XMLInput needs to be a string!",
@@ -141,17 +144,14 @@ sub SettingListParse {
         return;
     }
 
-    my $XMLSimpleObject = $Kernel::OM->Get('Kernel::System::XML::Simple');
-
-    my $XMLContent = $Param{XMLInput};
-
     # check sanity by inspecting the otobo_config version
     my ($ConfigVersion) = $XMLContent =~ m{otobo_config.*?version="(.*?)"};
+    $ConfigVersion //= '';
 
     if ( $ConfigVersion ne '2.0' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Invalid XML format found in $Param{XMLFilename} (version must be 2.0)! File skipped.",
+            Message  => "Invalid XML format found in $XMLFilename (version must be 2.0)! File skipped.",
         );
 
         return;
@@ -165,9 +165,12 @@ sub SettingListParse {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Old ConfigItem $SettingName detected in $Param{XMLFilename}!"
+            Message  => "Old ConfigItem $SettingName detected in $XMLFilename!"
         );
     }
+
+    # needed for creating a Perl data structure per Setting node
+    my $XMLSimpleObject = $Kernel::OM->Get('Kernel::System::XML::Simple');
 
     # Fetch XML of Setting elements.
     my @ParsedSettings;
@@ -203,6 +206,7 @@ sub SettingListParse {
                 Priority => 'error',
                 Message  => "Resulting Perl structure must be a hash reference with data!",
             );
+
             next SETTING;
         }
 
