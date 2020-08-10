@@ -19,16 +19,21 @@ package Kernel::System::SysConfig::XML;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw( :all );
+
 our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::XML::Simple',
 );
 
-use Kernel::System::VariableCheck qw( :all );
-
 =head1 NAME
 
-Kernel::System::SysConfig::XML - Manage system configuration settings in XML.
+Kernel::System::SysConfig::XML - Manage system configuration settings in XML files
 
 =head1 PUBLIC INTERFACE
 
@@ -131,6 +136,7 @@ sub SettingListParse {
             Priority => 'error',
             Message  => "Parameter XMLInput needs to be a string!",
         );
+
         return;
     }
 
@@ -217,8 +223,6 @@ sub SettingListParse {
     return @ParsedSettings;
 }
 
-1;
-
 =head1 TERMS AND CONDITIONS
 
 This software is part of the OTOBO project (L<https://otobo.org/>).
@@ -228,3 +232,5 @@ the enclosed file COPYING for license information (GPL). If you
 did not receive this file, see L<https://www.gnu.org/licenses/gpl-3.0.txt>.
 
 =cut
+
+1;

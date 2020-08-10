@@ -598,7 +598,7 @@ for my $Test (@Tests) {
     $Self->IsDeeply(
         \@Result,
         $Test->{ExpectedResult},
-        $Test->{Description} . ': SettingLisParse(): Result must match expected one.',
+        $Test->{Description} . ': SettingListParse(): Result must match expected one.',
     );
 }
 
