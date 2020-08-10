@@ -154,9 +154,11 @@ sub SettingListParse {
             Priority => 'error',
             Message  => "Invalid XML format found in $Param{XMLFilename} (version must be 2.0)! File skipped.",
         );
+
         return;
     }
 
+    # check sanity by looking for old-style settings
     while ( $XMLContent =~ m{<ConfigItem.*?Name="(.*?)"}smxg ) {
 
         # Old style ConfigItem detected.
@@ -207,6 +209,7 @@ sub SettingListParse {
                 Priority => 'error',
                 Message  => "Resulting Perl structure must have Setting elements!",
             );
+
             next SETTING;
         }
 

@@ -23,8 +23,13 @@ use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitT
 
 use vars (qw($Self));
 
-# prevent used once warning
-use Kernel::System::ObjectManager;
+# core modules
+
+# CPAN modules
+#use Test2::V0; # For development the output of is() is more useful
+
+# OTOBO modules
+use Kernel::System::ObjectManager; # prevent used once warning
 
 my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
 $Self->True(
@@ -589,6 +594,7 @@ my @Tests = (
             </Array>
         </Value>
     </Setting>',
+                'XMLFilename' => undef,
             },
         ],
     },
@@ -598,6 +604,12 @@ for my $Test (@Tests) {
 
     my @Result = $SysConfigXMLObject->SettingListParse( %{ $Test->{Config} } );
 
+    # For development the output of is() is more useful
+    #is(
+    #    \@Result,
+    #    $Test->{ExpectedResult},
+    #    $Test->{Description} . ': SettingListParse(): checking with is',
+    #);
     $Self->IsDeeply(
         \@Result,
         $Test->{ExpectedResult},
