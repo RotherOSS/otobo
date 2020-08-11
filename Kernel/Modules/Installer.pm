@@ -22,7 +22,6 @@ package Kernel::Modules::Installer;
 
 use strict;
 use warnings;
-use feature qw(fc);
 
 # core modules
 use Net::Domain qw(hostfqdn);
@@ -38,7 +37,7 @@ our $ObjectManagerDisabled = 1;
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # Allocate new hash for object.
+    # Allocate new hash for object and initialize with the passed params
     return bless { %Param }, $Type;
 }
 
@@ -48,6 +47,7 @@ sub Run {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    # installing is only possible when SecureMode is not active
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
         $LayoutObject->FatalError(
             Message => Translatable('SecureMode active!'),
@@ -363,6 +363,7 @@ sub Run {
                 },
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
         elsif ( $DBType eq 'postgresql' ) {
