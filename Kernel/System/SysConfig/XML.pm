@@ -49,13 +49,10 @@ Create an object. Do not use it directly, instead use:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 SettingListParse()
@@ -130,11 +127,12 @@ Returns:
 =cut
 
 sub SettingListParse {
-    my ( $Type, %Param ) = @_;
+    my ( $Self, %Param ) = @_;
 
     my $XMLContent  = $Param{XMLInput};
     my $XMLFilename = $Param{XMLFilename} // '';
 
+    # check sanity by looking whether we have data
     if ( !IsStringWithData( $XMLContent ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -229,15 +227,5 @@ sub SettingListParse {
 
     return @ParsedSettings;
 }
-
-=head1 TERMS AND CONDITIONS
-
-This software is part of the OTOBO project (L<https://otobo.org/>).
-
-This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see L<https://www.gnu.org/licenses/gpl-3.0.txt>.
-
-=cut
 
 1;
