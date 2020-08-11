@@ -142,29 +142,70 @@ sub SettingListParse {
         return;
     }
 
-    # check sanity by inspecting the otobo_config version
-    my ($ConfigVersion) = $XMLContent =~ m{otobo_config.*?version="(.*?)"};
-    $ConfigVersion //= '';
+    # try to parse the XML
+    my $Document = eval {
+        my $Parser = XML::LibXML->new();
 
-    if ( $ConfigVersion ne '2.0' ) {
+        return $Parser->parse_string( $XMLContent );
+    };
+    if ( $@ ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Invalid XML format found in $XMLFilename (version must be 2.0)! File skipped.",
+            Message  => "Invalid XML format found in $XMLFilename: $@",
         );
 
         return;
     }
 
+    # Don't require that 'otobo_config' is the root in order to be compatible older behavior
+    my $ConfigNode;
+    {
+        ( $ConfigNode, my @OtherConfigNodes) = $Document->findnodes('descendant-or-self::otobo_config');
+
+        if ( ! $ConfigNode ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Invalid XML format found in $XMLFilename: node 'otobo_config' not found",
+            );
+
+            return;
+        }
+
+        if ( @OtherConfigNodes ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Invalid XML format found in $XMLFilename: multiple 'otobo_config' nodes found",
+            );
+
+            return;
+        }
+    }
+
+    # check the config version
+    {
+        my $ConfigVersion = $ConfigNode->getAttribute('version') // '';
+        if ( $ConfigVersion ne '2.0' ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Invalid XML format found in $XMLFilename: version must be 2.0",
+            );
+
+            return;
+        }
+    }
+
     # check sanity by looking for old-style settings
-    while ( $XMLContent =~ m{<ConfigItem.*?Name="(.*?)"}smxg ) {
+    {
+        my (@OldStyleNodes) = $ConfigNode->findnodes('ConfigItem');
 
-        # Old style ConfigItem detected.
-        my $SettingName = $1;
+        for my $Node ( @OldStyleNodes ) {
+            my $SettingName = $Node->getAttribute('Name') // '';
 
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Old ConfigItem $SettingName detected in $XMLFilename!"
-        );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Old ConfigItem $SettingName detected in $XMLFilename!"
+            );
+        }
     }
 
     # needed for creating a Perl data structure per Setting node
