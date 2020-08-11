@@ -420,6 +420,7 @@ sub GetTestHTTPHostname {
     return $Host;
 }
 
+# used for mocking time
 my $FixedTime;
 
 =head2 FixedTimeSet()
@@ -463,6 +464,7 @@ sub FixedTimeUnset {
     my ($Self) = @_;
 
     undef $FixedTime;
+
     return;
 }
 
@@ -489,21 +491,26 @@ sub FixedTimeAddSeconds {
 ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::DateTime)
 sub _MockPerlTimeHandling {
     no warnings 'once';    ## no critic
+
+    # These overrides won't be reverted in DESTROY()
+
     *CORE::GLOBAL::time = sub {
-        return defined $FixedTime ? $FixedTime : CORE::time();
+        return $FixedTime // CORE::time();
     };
+
     *CORE::GLOBAL::localtime = sub {
         my ($Time) = @_;
-        if ( !defined $Time ) {
-            $Time = defined $FixedTime ? $FixedTime : CORE::time();
-        }
+
+        $Time //= $FixedTime // CORE::time();
+
         return CORE::localtime($Time);
     };
+
     *CORE::GLOBAL::gmtime = sub {
         my ($Time) = @_;
-        if ( !defined $Time ) {
-            $Time = defined $FixedTime ? $FixedTime : CORE::time();
-        }
+
+        $Time //= $FixedTime // CORE::time();
+
         return CORE::gmtime($Time);
     };
 
@@ -590,7 +597,7 @@ sub DESTROY {
 
     # cleanup temporary article directory
     if ( $Self->{TmpArticleDir} && -d $Self->{TmpArticleDir} ) {
-        File::Path::rmtree( $Self->{TmpArticleDir} );
+        rmtree( $Self->{TmpArticleDir} );
     }
 
     # invalidate test users
