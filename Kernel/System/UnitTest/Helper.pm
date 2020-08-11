@@ -519,10 +519,29 @@ sub _MockPerlTimeHandling {
     {
         no warnings 'redefine'; # yes, we want to override
 
-
         *DateTime::_core_time = sub {    ## no critic
             return $FixedTime // CORE::time();
         };
+    }
+
+    # This is needed to reload objects that directly use the native time functions
+    #   to get a hold of the overrides.
+    my @Objects = (
+        'Kernel::System::Time',
+        'Kernel::System::DB',
+        'Kernel::System::Cache::FileStorable',
+        'Kernel::System::PID',
+    );
+
+    for my $Object (@Objects) {
+        my $FilePath = $Object;
+        $FilePath =~ s{::}{/}xmsg;
+        $FilePath .= '.pm';
+        if ( $INC{$FilePath} ) {
+            no warnings 'redefine';    ## no critic
+            delete $INC{$FilePath};
+            require $FilePath;         ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
+        }
     }
 
     return 1;
