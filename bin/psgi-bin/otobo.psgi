@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # --
-# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ otobo.psgi - OTOBO PSGI application
 
 =head1 SYNOPSIS
 
-    # the default webserver
+    # using the default webserver
     plackup bin/psgi-bin/otobo.psgi
 
     # using the webserver Gazelle
@@ -36,7 +36,24 @@ A PSGI application.
 
 There are some requirements for running this application. Do something like:
 
-    cpanm --with-feature=mojo --with-feature=plack --with-feature=mysql  --installdeps .
+    cpanm \
+    --with-feature=db:mysql \
+    --with-feature=db:postgresql \
+    --with-feature=db:odbc \
+    --with-feature=db:sqlite \
+    --with-feature=plack \
+    --with-feature=devel:dbviewer \
+    --with-feature=div:bcrypt \
+    --with-feature=performance:json \
+    --with-feature=mail:imap \
+    --with-feature=mail:ntlm \
+    --with-feature=mail:sasl \
+    --with-feature=div:ldap \
+    --with-feature=performance:csv \
+    --with-feature=div:xslt \
+    --with-feature=performance:redis \
+    --with-feature=devel:test \
+    --installdeps .
 
 =head1 Profiling
 
