@@ -63,6 +63,7 @@ use Pod::Usage qw(pod2usage);
 # CPAN modules
 use Path::Class qw(file dir);
 use DBI;
+use Readonly;
 
 # OTOBO modules
 use Kernel::System::ObjectManager;
@@ -78,6 +79,12 @@ sub Main {
     if ( $HelpFlag ) {
         pod2usage({ -exitval => 0, -verbose => 2});
     }
+
+    # TODO: get the relevant settings from Config.pm
+    Readonly my $DBName           => 'otobo';
+    Readonly my $OTOBODBUser      => 'otobo';
+    Readonly my $OTOBODBPassword  => 'otobo';
+    Readonly my $DBType           => 'mysql';
 
     $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Log' => {
@@ -97,6 +104,7 @@ sub Main {
         my ( $Success, $Message ) = CheckDBRequirements(
             DBUser     => 'root',
             DBPassword => $DBPassword,
+            DBName     => $DBName,
         );
 
         say $Message if defined $Message;
@@ -104,15 +112,45 @@ sub Main {
         return 0 if !$Success;
     }
 
-    return 1 if ! DbCreateUser();
+    {
+        my ( $Success, $Message ) = DBCreateUser(
+            DBUser           => 'root',
+            DBPassword       => $DBPassword,
+            DBName           => $DBName,
+            OTOBODBUser      => $OTOBODBUser,
+            OTOBODBPassword  => $OTOBODBPassword,
+        );
 
-    return 1 if ! DbCreateSchema();
+        say $Message if defined $Message;
 
-    return 1 if ! DbInitialInsert();
+        return 0 if !$Success;
+    }
 
-    return 1 if ! AdaptConfig();
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::DB' => {
+            DatabaseUser => $OTOBODBUser,
+            DatabasePw   => $OTOBODBPassword,
+            Type         => $DBType,
+        },
+    );
 
-    return 1 if ! DeactivateElasticsearch();
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $Home = $ConfigObject->Get('Home');
+
+    for my $XMLFile (qw(otobo-schema otobo-initial_insert)) {
+        # the xml file contains the database name 'otobo' hardcoded
+        my ( $Success, $Message ) = ExecuteSQL(
+            XMLFile          => "$Home/scripts/database/$XMLFile.xml",
+        );
+
+        say $Message if defined $Message;
+
+        return 0 if !$Success;
+    }
+
+    return 0 if ! AdaptConfig();
+
+    return 0 if ! DeactivateElasticsearch();
 
     # looks good
     return 0;
@@ -184,32 +222,44 @@ sub CheckSystemRequirements {
     return 1, 'all system requirements are met';
 }
 
-sub CheckDBRequirements {
-    my %Params = @_;
+sub DBConnect {
+    my %Param = @_;
 
     # check the params
-    for my $Key ( grep { ! $Params{$_} } qw(DBUser DBPassword ) ) {
+    for my $Key ( grep { ! $Param{$_} } qw(DBUser DBPassword ) ) {
         return 0, "CheckSystemRequirements: the parameter '$Key' is required";
     }
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    # verify that some expected settings are available
+    KEY:
+    for my $Key ( qw(Database DatabaseUser DatabasePw DatabaseDSN DatabaseHost) ) {
+
+        next KEY if $ConfigObject->Get($Key);
+
+        return 0, qq{setting '$Key' is not configured};
+    }
+
     # verify that the connection to the DB is possible, password was passed on command line
-    my $DSN = $ConfigObject->Get('DatabaseDSN');
+    my $DatabaseHost = $ConfigObject->Get('DatabaseHost');
+    my $DSN = "DBI:mysql:mysql;host=$DatabaseHost;";
 
-    if ( ! $DSN ) {
-        return 0, q{setting 'DatabaseDSN' is not configured};
-    }
-
-    my $DBSchema = $ConfigObject->Get('Database');
-
-    if ( ! $DBSchema ) {
-        return 0, q{setting 'Database' is not configured};
-    }
-
-    my $DBHandle = DBI->connect($DSN, $Params{DBUser}, $Params{DBPassword});
+    my $DBHandle = DBI->connect($DSN, $Param{DBUser}, $Param{DBPassword});
     if ( ! $DBHandle ) {
         return 0, $DBI::errstr;
+    }
+
+    return $DBHandle;
+}
+
+sub CheckDBRequirements {
+    my %Param = @_;
+
+    my ( $DBHandle, $Message ) = DBConnect( %Param );
+
+    if ( ! $DBHandle ) {
+        return 0, $Message;
     }
 
     # check whether the database is alive
@@ -219,34 +269,116 @@ sub CheckDBRequirements {
     }
 
     # verify that the database does not exist yet
-    my $TableInfoSth = $DBHandle->table_info( '%', $DBSchema, '%', 'TABLE' );
+    my $TableInfoSth = $DBHandle->table_info( '%', $Param{DBName}, '%', 'TABLE' );
     my $Rows = $TableInfoSth->fetchall_arrayref;
 
     if ( $Rows->@* ) {
-        return 0, "the schema '$DBSchema' already exists";
+        return 0, "the schema '$Param{DBName}' already exists";
     }
 
     return 1, 'all database requirements are met';
 }
 
-sub DbCreateUser {
-    return;
+# specific for MySQL
+sub DBCreateUser {
+    my %Param = @_;
+
+    # check the params
+    for my $Key ( grep { ! $Param{$_} } qw(DBUser DBPassword DBName OTOBODBUser OTOBODBPassword) ) {
+        return 0, "CheckSystemRequirements: the parameter '$Key' is required";
+    }
+
+    my ( $DBHandle, $Message ) = DBConnect( %Param );
+
+    if ( ! $DBHandle ) {
+        return 0, $Message;
+    }
+
+    # As we are running under Docker we assume that the database also runs in the subnet provided by Docker.
+    # This is the case when the standard docker-compose.yml is used.
+    # In this network the IP-addresses are not static therefore we can't use the same IP address
+    # as seen when installer.pl runs.
+    # Using 'db' does not work because 'skip-name-resolve' is set.
+    # For now allow the complete network.
+    my $Host = '%';
+
+    # SQL for creating the OTOBO user.
+    # An explicit statement for user creation is needed because MySQL 8 no longer
+    # supports implicit user creation via the 'GRANT PRIVILEGES' statement.
+    # Also note that there are multiple authentication plugins for MySQL/MariaDB.
+    # 'mysql_native_password' works without an encrypted DB connection and is used here.
+    # The advantage is that no encryption keys have to be set up.
+    # The syntax for CREATE USER is not completely the same between MySQL and MariaDB. Therfore
+    # a case switch must be used here.
+    my $CreateUserSQL;
+    {
+        if ( $DBHandle->{mysql_serverinfo} =~ m/mariadb/i ) {
+            $CreateUserSQL .= "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$Param{OTOBODBPassword}'",
+        }
+        else {
+            $CreateUserSQL .= "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password BY '$Param{OTOBODBPassword}'",
+        }
+    }
+
+    my @Statements = (
+        "CREATE DATABASE `$Param{DBName}` charset utf8mb4 DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci",
+        $CreateUserSQL,
+        "GRANT ALL PRIVILEGES ON `$Param{DBName}`.* TO `$Param{OTOBODBUser}`\@`$Host` WITH GRANT OPTION",
+    );
+
+    for my $Statement ( @Statements ) {
+        # do() returns undef in the error case
+        my $Success = defined $DBHandle->do($Statement);
+        if ( ! $Success ) {
+            return 0, $DBHandle->errstr;
+        }
+    }
+
+    return 1;
 }
 
-sub DbCreateSchema {
-    return;
-}
+sub ExecuteSQL {
+    my %Param = @_;
 
-sub DbInitialInsert {
-    return;
+    # check the params
+    for my $Key ( grep { ! $Param{$_} } qw(XMLFile) ) {
+        return 0, "CheckSystemRequirements: the parameter '$Key' is required";
+    }
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+    my $XML = $MainObject->FileRead(
+        Location  => $Param{XMLFile},
+    );
+    my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse(
+        String => $XML,
+    );
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my @SQL = $DBObject->SQLProcessor(
+        Database => \@XMLArray,
+    );
+
+    # If we parsed the schema, catch post instructions.
+    push @SQL, $DBObject->SQLProcessorPost() if $Param{XMLFile} =~ m/otobo-schema/;
+
+    SQL:
+    for my $SQL (@SQL) {
+        my $Success = $DBObject->Do( SQL => $SQL );
+
+        next SQL if $Success;
+
+        return 0, $DBI::errstr;
+    }
+
+    return 1;
 }
 
 sub AdaptConfig {
-    return;
+    return 1;
 }
 
 sub DeactivateElasticsearch {
-    return;
+    return 1;
 }
 
 # do it
