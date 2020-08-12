@@ -63,7 +63,7 @@ use Pod::Usage qw(pod2usage);
 # CPAN modules
 use Path::Class qw(file dir);
 use DBI;
-use Readonly;
+#use Const::Fast; # TODO: as dependency
 
 # OTOBO modules
 use Kernel::System::ObjectManager;
@@ -81,10 +81,11 @@ sub Main {
     }
 
     # TODO: get the relevant settings from Config.pm
-    Readonly my $DBName           => 'otobo';
-    Readonly my $OTOBODBUser      => 'otobo';
-    Readonly my $OTOBODBPassword  => 'otobo';
-    Readonly my $DBType           => 'mysql';
+    # TODO: declare then as constants with Const::Fast
+    my $DBName           = 'otobo';
+    my $OTOBODBUser      = 'otobo';
+    my $OTOBODBPassword  = 'otobo';
+    my $DBType           = 'mysql';
 
     $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Log' => {
