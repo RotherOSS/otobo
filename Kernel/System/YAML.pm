@@ -210,4 +210,6 @@ sub _AddUTF8Flag {
 
 =end Internal:
 
+=cut
+
 1;

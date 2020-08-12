@@ -266,6 +266,8 @@ sub request {                                                                   
     return $Response;
 }
 
-1;
-
 =end Internal:
+
+=cut
+
+1;

@@ -1456,4 +1456,6 @@ sub _ValidateUser {
 
 =end Internal:
 
+=cut
+
 1;

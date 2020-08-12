@@ -1035,4 +1035,6 @@ sub _Error {
 
 =end Internal:
 
+=cut
+
 1;

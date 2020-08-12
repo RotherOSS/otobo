@@ -2238,4 +2238,6 @@ sub _TicketAppointmentUpdate {
 
 =end Internal:
 
+=cut
+
 1;

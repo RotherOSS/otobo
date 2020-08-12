@@ -585,4 +585,6 @@ sub _HandleError {
 
 =end Internal:
 
+=cut
+
 1;

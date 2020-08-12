@@ -2356,4 +2356,6 @@ sub _TicketUpdate {
 
 =end Internal:
 
+=cut
+
 1;

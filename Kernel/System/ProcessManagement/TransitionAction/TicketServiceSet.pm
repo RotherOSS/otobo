@@ -315,4 +315,6 @@ sub _CheckService {
 
 =end Internal:
 
+=cut
+
 1;

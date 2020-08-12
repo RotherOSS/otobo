@@ -1461,4 +1461,6 @@ sub _SOAPOutputTypesGet {
 
 =end Internal:
 
+=cut
+
 1;

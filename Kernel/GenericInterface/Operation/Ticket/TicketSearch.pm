@@ -843,4 +843,6 @@ sub _CreateTimeSettings {
 
 =end Internal:
 
+=cut
+
 1;

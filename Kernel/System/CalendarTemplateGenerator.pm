@@ -669,4 +669,6 @@ sub _Replace {
 
 =end Internal:
 
+=cut
+
 1;

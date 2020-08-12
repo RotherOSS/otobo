@@ -308,4 +308,6 @@ sub _CheckSLA {
 
 =end Internal:
 
+=cut
+
 1;

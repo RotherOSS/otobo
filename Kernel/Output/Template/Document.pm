@@ -367,4 +367,6 @@ sub _PrecalculateBlockHookSubscriptions {
 
 =end Internal:
 
+=cut
+
 1;

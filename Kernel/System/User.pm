@@ -1536,8 +1536,6 @@ sub _UserFullname {
 
 =end Internal:
 
-=cut
-
 =head2 UserLoginExistsCheck()
 
 return 1 if another user with this login (username) already exists

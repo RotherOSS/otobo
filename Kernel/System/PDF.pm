@@ -3728,4 +3728,6 @@ sub DESTROY {
 
 =end Internal:
 
+=cut
+
 1;

@@ -225,4 +225,6 @@ sub _AuthCustomerUser {
 
 =end Internal:
 
+=cut
+
 1;

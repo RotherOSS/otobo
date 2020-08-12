@@ -470,4 +470,6 @@ sub _ConfigCheck {
 
 =end Internal:
 
+=cut
+
 1;

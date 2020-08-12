@@ -1742,4 +1742,6 @@ sub _TicketCreate {
 
 =end Internal:
 
+=cut
+
 1;

@@ -1276,4 +1276,6 @@ sub _ACLMigrateFrom33 {
 
 =end Internal:
 
+=cut
+
 1;

@@ -6444,4 +6444,6 @@ sub UserInitialsGet {
 
 =end Internal:
 
+=cut
+
 1;

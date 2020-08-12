@@ -2823,4 +2823,6 @@ sub _CWDiff {
 
 =end Internal:
 
+=cut
+
 1;
