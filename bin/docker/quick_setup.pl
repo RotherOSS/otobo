@@ -340,6 +340,9 @@ sub DBCreateUser {
 sub ExecuteSQL {
     my %Param = @_;
 
+    # unfortunately we have some interdependencies here
+    state @SQLPost;
+
     # check the params
     for my $Key ( grep { ! $Param{$_} } qw(XMLFile) ) {
         return 0, "CheckSystemRequirements: the parameter '$Key' is required";
@@ -358,17 +361,18 @@ sub ExecuteSQL {
         Database => \@XMLArray,
     );
 
-    # If we parsed the schema, catch post instructions.
-    push @SQL, $DBObject->SQLProcessorPost() if $Param{XMLFile} =~ m/otobo-schema/;
-
     SQL:
-    for my $SQL (@SQL) {
+    for my $SQL (@SQL, @SQLPost) {
         my $Success = $DBObject->Do( SQL => $SQL );
 
         next SQL if $Success;
 
         return 0, $DBI::errstr;
     }
+
+    # If we parsed the schema, catch post instructions.
+    # they will run after the initial insert
+    push @SQLPost, $DBObject->SQLProcessorPost() if $Param{XMLFile} =~ m/otobo-schema/;
 
     return 1;
 }
