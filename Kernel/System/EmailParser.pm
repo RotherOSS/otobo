@@ -1113,14 +1113,6 @@ sub _MailAddressParse {
 
 =end Internal:
 
-=head1 TERMS AND CONDITIONS
-
-This software is part of the OTOBO project (L<https://otobo.org/>).
-
-This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see L<https://www.gnu.org/licenses/gpl-3.0.txt>.
-
 =cut
 
 1;
