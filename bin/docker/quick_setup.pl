@@ -64,6 +64,7 @@ use Pod::Usage qw(pod2usage);
 use Path::Class qw(file dir);
 use DBI;
 use Const::Fast qw(const);
+use File::Slurp qw(edit_file_lines);
 
 # OTOBO modules
 use Kernel::System::ObjectManager;
@@ -80,11 +81,19 @@ sub Main {
         pod2usage({ -exitval => 0, -verbose => 2});
     }
 
-    # TODO: get the relevant settings from Config.pm
-    const my $DBName           => 'otobo';
-    const my $OTOBODBUser      => 'otobo';
-    const my $OTOBODBPassword  => 'otobo';
-    const my $DBType           => 'mysql';
+    # we could stick with the default password from Kernel/Config.pm, but let's change it anyways
+    # NOTE: do this before creating the instance of Kernel::Config,
+    const my $OTOBODBPassword  =>  'otobo';
+    if ( -f -r -w 'Kernel/Config.pm' ) {
+        my $Now = scalar localtime;
+        my $Who = $0;
+        edit_file_lines(
+            sub {
+                s/ 'some-pass';/ '$OTOBODBPassword'; # changed by $Who at $Now/;
+            },
+            'Kernel/Config.pm'
+        );
+    }
 
     $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Log' => {
@@ -99,12 +108,18 @@ sub Main {
         return 0 if !$Success;
     }
 
+    # we can rely on Kernel::Config now
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    const my $DBName           => $ConfigObject->Get('Database');
+    const my $OTOBODBUser      => $ConfigObject->Get('DatabaseUser');
+    const my $DBType           => 'mysql';
+
     {
         # in the Docker use case we can safely assume tha we are dealing with MySQL
         my ( $Success, $Message ) = CheckDBRequirements(
-            DBUser     => 'root',
             DBPassword => $DBPassword,
-            DBName     => $DBName,
+            DBName     => $DBName, # for checking that the database does not exist yet
         );
 
         say $Message if defined $Message;
@@ -113,10 +128,9 @@ sub Main {
     }
 
     {
-        my ( $Success, $Message ) = DBCreateUser(
-            DBUser           => 'root',
-            DBPassword       => $DBPassword,
+        my ( $Success, $Message ) = DBCreateUserAndDatabase(
             DBName           => $DBName,
+            DBPassword       => $DBPassword,
             OTOBODBUser      => $OTOBODBUser,
             OTOBODBPassword  => $OTOBODBPassword,
         );
@@ -133,8 +147,6 @@ sub Main {
             Type         => $DBType,
         },
     );
-
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # create the XML-Schema, do the initial inserts, add constraints
     {
@@ -186,7 +198,7 @@ sub Main {
 
     # looks good
     say 'For running the unit tests please stop the container otobo_cron_1';
-    say 'Finished';
+    say "Finished running $0";
 
     return 0;
 }
@@ -257,15 +269,33 @@ sub CheckSystemRequirements {
     return 1, 'all system requirements are met';
 }
 
-sub DBConnect {
+sub DBConnectAsRoot {
     my %Param = @_;
 
     # check the params
-    for my $Key ( grep { ! $Param{$_} } qw(DBUser DBPassword ) ) {
+    for my $Key ( grep { ! $Param{$_} } qw(DBPassword ) ) {
         my $SubName = (caller(0))[3];
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
+
+    # verify that the connection to the DB is possible, password was passed on command line
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $DatabaseHost = $ConfigObject->Get('DatabaseHost');
+    my $DSN = "DBI:mysql:database=mysql;host=$DatabaseHost;";
+
+    warn "DSN: '$DSN'";
+    warn "Password: '$Param{DBPassword}'";
+    my $DBHandle = DBI->connect($DSN, 'root', $Param{DBPassword});
+    if ( ! $DBHandle ) {
+        return 0, $DBI::errstr;
+    }
+
+    return $DBHandle, "connected to '$DSN' as root";
+}
+
+sub CheckDBRequirements {
+    my %Param = @_;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -278,22 +308,8 @@ sub DBConnect {
         return 0, qq{setting '$Key' is not configured};
     }
 
-    # verify that the connection to the DB is possible, password was passed on command line
-    my $DatabaseHost = $ConfigObject->Get('DatabaseHost');
-    my $DSN = "DBI:mysql:mysql;host=$DatabaseHost;";
-
-    my $DBHandle = DBI->connect($DSN, $Param{DBUser}, $Param{DBPassword});
-    if ( ! $DBHandle ) {
-        return 0, $DBI::errstr;
-    }
-
-    return $DBHandle;
-}
-
-sub CheckDBRequirements {
-    my %Param = @_;
-
-    my ( $DBHandle, $Message ) = DBConnect( %Param );
+    # try to connect as root to mysql
+    my ( $DBHandle, $Message ) = DBConnectAsRoot( %Param );
 
     if ( ! $DBHandle ) {
         return 0, $Message;
@@ -317,17 +333,17 @@ sub CheckDBRequirements {
 }
 
 # specific for MySQL
-sub DBCreateUser {
+sub DBCreateUserAndDatabase {
     my %Param = @_;
 
     # check the params
-    for my $Key ( grep { ! $Param{$_} } qw(DBUser DBPassword DBName OTOBODBUser OTOBODBPassword) ) {
+    for my $Key ( grep { ! $Param{$_} } qw(DBPassword DBName OTOBODBUser OTOBODBPassword) ) {
         my $SubName = (caller(0))[3];
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
 
-    my ( $DBHandle, $Message ) = DBConnect( %Param );
+    my ( $DBHandle, $Message ) = DBConnectAsRoot( %Param );
 
     if ( ! $DBHandle ) {
         return 0, $Message;
