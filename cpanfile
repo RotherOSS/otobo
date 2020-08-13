@@ -136,6 +136,12 @@ feature 'div:ldap', 'Suppport for div:ldap' => sub {
 
 };
 
+feature 'div:readonly', 'Suppport for div:readonly' => sub {
+    # Support for readonly Perl variables
+    requires 'Const::Fast';
+
+};
+
 feature 'div:ssl', 'Suppport for div:ssl' => sub {
     # Required for SSL connections to web and mail servers.
     # Please consider updating to version 2.066 or higher: This version fixes email sending (bug#14357).
@@ -298,6 +304,9 @@ feature 'optional', 'Suppport for optional' => sub {
 
     # Recommended for XML processing.
     requires 'XML::Parser';
+
+    # Support for readonly Perl variables
+    requires 'Const::Fast';
 
     # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
     requires 'Clone';

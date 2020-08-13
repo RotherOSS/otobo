@@ -905,6 +905,18 @@ my @NeededModules = (
             ports  => 'textproc/p5-XML-Parser',
         },
     },
+    {
+        Module    => 'Const::Fast',
+        Required  => 0,
+        Features  => ['div:readonly'],
+        Comment   => 'Support for readonly Perl variables',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
 
 # Feature devel
     {

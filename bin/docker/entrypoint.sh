@@ -36,6 +36,12 @@ function handle_docker_firsttime() {
     mv $otobo_next/docker_firsttime $otobo_next/docker_firsttime_handled
 }
 
+# An easy way to get to a working system.
+function exec_quick_setup() {
+    shift 1
+    exec bin/docker/quick_setup.pl $@
+}
+
 # An easy way to start bash.
 # Or do upgrades.
 # Or list files.
@@ -189,6 +195,10 @@ if [ "$1" = "upgrade_reinstall" ]; then
     upgrade_patchlevel_release
     reinstall_all
     exit $?
+fi
+
+if [ "$1" = "quick_setup" ]; then
+    exec_quick_setup
 fi
 
 # as a fallback execute the passed command
