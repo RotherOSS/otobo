@@ -175,7 +175,13 @@ sub Main {
         return 0 if !$Success;
     }
 
-    return 0 if ! DeactivateElasticsearch();
+    {
+        my ( $Success, $Message ) = DeactivateElasticsearch();
+
+        say $Message if defined $Message;
+
+        return 0 if !$Success;
+    }
 
     # looks good
     say 'Finished';
@@ -505,6 +511,27 @@ sub AdaptSettings {
 }
 
 sub DeactivateElasticsearch {
+
+    my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+    my $ESWebservice = $WebserviceObject->WebserviceGet(
+        Name => 'Elasticsearch',
+    );
+
+    # nothing to do when there is no Elasticsearch webservice
+    return 1 if ! $ESWebservice;
+    return 1 if $ESWebservice->{ValidID} != 1; # not valid
+
+    # deactivate the Elasticsearch webservice
+    my $Success = $WebserviceObject->WebserviceUpdate(
+        $ESWebservice->%*,
+        ValidID => 2, # invalid
+        UserID  => 1,
+    );
+
+    if ( ! $Success ) {
+        return 0, 'Could not deactivate Elasticsearch';
+    }
+
     return 1;
 }
 
