@@ -64,6 +64,7 @@ use Pod::Usage qw(pod2usage);
 use Path::Class qw(file dir);
 use DBI;
 use Const::Fast qw(const);
+use File::Slurp qw(edit_file_lines);
 
 # OTOBO modules
 use Kernel::System::ObjectManager;
@@ -80,11 +81,19 @@ sub Main {
         pod2usage({ -exitval => 0, -verbose => 2});
     }
 
-    # TODO: get the relevant settings from Config.pm
-    const my $DBName           => 'otobo';
-    const my $OTOBODBUser      => 'otobo';
-    const my $OTOBODBPassword  => 'otobo';
-    const my $DBType           => 'mysql';
+    # we could stick with the default password from Kernel/Config.pm, but let's change it anyways
+    # NOTE: do this before creating the instance of Kernel::Config,
+    const my $OTOBODBPassword  =>  'otobo';
+    if ( -f -r -w 'Kernel/Config.pm' ) {
+        my $Now = scalar localtime;
+        my $Who = $0;
+        edit_file_lines(
+            sub {
+                s/ 'some-pass';/ '$OTOBODBPassword'; # changed by $Who at $Now/;
+            },
+            'Kernel/Config.pm'
+        );
+    }
 
     $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Log' => {
@@ -98,6 +107,13 @@ sub Main {
 
         return 0 if !$Success;
     }
+
+    # we can rely on Kernel::Config now
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    const my $DBName           => $ConfigObject->Get('Database');
+    const my $OTOBODBUser      => $ConfigObject->Get('DatabaseUser');
+    const my $DBType           => 'mysql';
 
     {
         # in the Docker use case we can safely assume tha we are dealing with MySQL
