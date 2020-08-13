@@ -160,11 +160,26 @@ sub Main {
 
         return 0 if !$Success;
     }
-    return 0 if ! AdaptConfig();
+
+    {
+        # These setting are required for running the test suite
+        my @NewSettings = (
+            [ 'DefaultLanguage' => 'en' ],
+            [ 'HttpType'        => 'http' ],
+        );
+
+        my ( $Success, $Message ) = AdaptSettings( Settings => \@NewSettings);
+
+        say $Message if defined $Message;
+
+        return 0 if !$Success;
+    }
 
     return 0 if ! DeactivateElasticsearch();
 
     # looks good
+    say 'Finished';
+
     return 0;
 }
 
@@ -437,7 +452,55 @@ sub SetRootAtLocalhostPassword {
 
 }
 
-sub AdaptConfig {
+sub AdaptSettings {
+    my %Param = @_;
+
+    # check the params
+    for my $Key ( grep { ! $Param{$_} } qw(Settings) ) {
+        my $SubName = (caller(0))[3];
+
+        return 0, "$SubName: the parameter '$Key' is required";
+    }
+
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+    # read files in Kernel/Config/Files/XML and store config in DB
+    $SysConfigObject->ConfigurationXML2DB(
+        UserID    => 1,
+        Force     => 1,
+        CleanUp   => 1,
+    ) || return 0, 'Could not save config in DB';
+
+    my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+        LockAll => 1,
+        Force   => 1,
+        UserID  => 1,
+    );
+
+    for my $KeyValue ( $Param{Settings}->@* ) {
+
+        my ( $Key, $Value ) = $KeyValue->@*;
+
+        # Update config item via sys config object.
+        $SysConfigObject->SettingUpdate(
+            Name              => $Key,
+            IsValid           => 1,
+            EffectiveValue    => $Value,
+            UserID            => 1,
+            ExclusiveLockGUID => $ExclusiveLockGUID,
+        );
+    }
+
+    $SysConfigObject->SettingUnlock( UnlockAll => 1 );
+
+    # 'Rebuild' the configuration.
+    $SysConfigObject->ConfigurationDeploy(
+        Comments    => "Quick setup deployment",
+        AllSettings => 1,
+        Force       => 1,
+        UserID      => 1,
+    );
+
     return 1;
 }
 
