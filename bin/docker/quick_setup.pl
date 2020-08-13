@@ -166,6 +166,7 @@ sub Main {
         my @NewSettings = (
             [ 'DefaultLanguage' => 'en' ],
             [ 'HttpType'        => 'http' ],
+            [ 'SecureMode'      => 1 ],
         );
 
         my ( $Success, $Message ) = AdaptSettings( Settings => \@NewSettings);
