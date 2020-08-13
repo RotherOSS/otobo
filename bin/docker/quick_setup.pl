@@ -63,7 +63,7 @@ use Pod::Usage qw(pod2usage);
 # CPAN modules
 use Path::Class qw(file dir);
 use DBI;
-#use Const::Fast; # TODO: as dependency
+use Const::Fast qw(const);
 
 # OTOBO modules
 use Kernel::System::ObjectManager;
@@ -81,11 +81,10 @@ sub Main {
     }
 
     # TODO: get the relevant settings from Config.pm
-    # TODO: declare then as constants with Const::Fast
-    my $DBName           = 'otobo';
-    my $OTOBODBUser      = 'otobo';
-    my $OTOBODBPassword  = 'otobo';
-    my $DBType           = 'mysql';
+    const my $DBName           => 'otobo';
+    const my $OTOBODBUser      => 'otobo';
+    const my $OTOBODBPassword  => 'otobo';
+    const my $DBType           => 'mysql';
 
     $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Log' => {
