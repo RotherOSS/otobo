@@ -42,6 +42,15 @@ function exec_quick_setup() {
     exec bin/docker/quick_setup.pl $@
 }
 
+# An easy way to run the testsuit
+function exec_test_suite() {
+    pwd
+    upgrade_patchlevel_release
+    shift 1
+    bin/docker/quick_setup.pl $@
+    exec prove -I . -I Kernel/cpan-lib -I Custom --verbose -r scripts/test > prove_$(date +'%F-%H%M%S').out 2>&1
+}
+
 # An easy way to start bash.
 # Or do upgrades.
 # Or list files.
@@ -199,6 +208,10 @@ fi
 
 if [ "$1" = "quick_setup" ]; then
     exec_quick_setup
+fi
+
+if [ "$1" = "test_suite" ]; then
+    exec_test_suite
 fi
 
 # as a fallback execute the passed command
