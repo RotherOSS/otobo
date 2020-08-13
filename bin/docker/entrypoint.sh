@@ -64,11 +64,6 @@ function exec_cron() {
 # Start the webserver
 function exec_web() {
 
-    # maintainance jobs
-    # TODO: decide whether it makes sense to run these jobs on startup or on upgrade
-    #perl ./bin/otobo.Console.pl Maint::Config::Rebuild
-    #perl ./bin/otobo.Console.pl Maint::Cache::Delete
-
     #   For development omit the --env option, thus setting PLACK_ENV to its default value 'development'.
     #   This enables additional middlewares that are useful durching development.
     #   For development also enable the -R option.
