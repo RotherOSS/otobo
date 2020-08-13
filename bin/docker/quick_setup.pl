@@ -185,6 +185,7 @@ sub Main {
     }
 
     # looks good
+    say 'For running the unit tests please stop the container otobo_cron_1';
     say 'Finished';
 
     return 0;
