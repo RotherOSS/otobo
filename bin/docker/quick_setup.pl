@@ -232,7 +232,9 @@ sub DBConnect {
 
     # check the params
     for my $Key ( grep { ! $Param{$_} } qw(DBUser DBPassword ) ) {
-        return 0, "CheckSystemRequirements: the parameter '$Key' is required";
+        my $SubName = (caller(0))[3];
+
+        return 0, "$SubName: the parameter '$Key' is required";
     }
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -290,7 +292,9 @@ sub DBCreateUser {
 
     # check the params
     for my $Key ( grep { ! $Param{$_} } qw(DBUser DBPassword DBName OTOBODBUser OTOBODBPassword) ) {
-        return 0, "CheckSystemRequirements: the parameter '$Key' is required";
+        my $SubName = (caller(0))[3];
+
+        return 0, "$SubName: the parameter '$Key' is required";
     }
 
     my ( $DBHandle, $Message ) = DBConnect( %Param );
@@ -347,7 +351,9 @@ sub ExecuteSQL {
 
     # check the params
     for my $Key ( grep { ! $Param{$_} } qw(XMLFiles) ) {
-        return 0, "CheckSystemRequirements: the parameter '$Key' is required";
+        my $SubName = (caller(0))[3];
+
+        return 0, "$SubName: the parameter '$Key' is required";
     }
 
     # unfortunately we have some interdependencies here
