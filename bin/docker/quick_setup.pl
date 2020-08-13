@@ -153,6 +153,13 @@ sub Main {
         return 0 if !$Success;
     }
 
+    {
+        my ( $Success, $Message ) = SetRootAtLocalhostPassword();
+
+        say $Message if defined $Message;
+
+        return 0 if !$Success;
+    }
     return 0 if ! AdaptConfig();
 
     return 0 if ! DeactivateElasticsearch();
@@ -365,7 +372,7 @@ sub ExecuteSQL {
     for my $XMLFile ( $Param{XMLFiles}->@* ) {
 
         my $XML = $MainObject->FileRead(
-            Location  => $Param{XMLFile},
+            Location  => $XMLFile,
         );
         my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse(
             String => $XML,
@@ -386,7 +393,7 @@ sub ExecuteSQL {
 
         # If we parsed the schema, catch post instructions.
         # they will run after the initial insert
-        push @SQLPost, $DBObject->SQLProcessorPost() if $Param{XMLFile} =~ m/otobo-schema/;
+        push @SQLPost, $DBObject->SQLProcessorPost() if $XMLFile =~ m/otobo-schema/;
     }
 
     # now do the actions that must run after the initial insert
@@ -400,6 +407,34 @@ sub ExecuteSQL {
     }
 
     return 1;
+}
+
+sub SetRootAtLocalhostPassword {
+    my %Param = @_;
+
+    # check the params
+    for my $Key ( grep { ! $Param{$_} } qw() ) {
+        my $SubName = (caller(0))[3];
+
+        return 0, "$SubName: the parameter '$Key' is required";
+    }
+
+    # Set a generated password for the 'root@localhost' account.
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+    my $Password   = $UserObject->GenerateRandomPassword( Size => 16 );
+    my $Success    = $UserObject->SetPassword(
+        UserLogin => 'root@localhost',
+        PW        => $Password,
+    );
+
+    if ( ! $Success ) {
+        return 0, 'Password for root@localhost could not be set';
+    }
+
+    # Protocol http is fine, as there is an automatic redirect
+    # TODO: is there a way to find out the host and the port
+    return 1, "URL: http://localhost/otobo/index.pl, user: root\@localhost, pw: $Password";
+
 }
 
 sub AdaptConfig {
