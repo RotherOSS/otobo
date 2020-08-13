@@ -48,7 +48,7 @@ function exec_test_suite() {
     upgrade_patchlevel_release
     shift 1
     bin/docker/quick_setup.pl $@
-    exec prove -I . -I Kernel/cpan-lib -I Custom --verbose -r scripts/test > prove_$(date +'%F-%H%M%S').out 2>&1
+    exec bin/docker/run_test_suite.sh
 }
 
 # An easy way to start bash.
