@@ -209,6 +209,7 @@ sub Run {
             Data         => {},
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -227,6 +228,7 @@ sub Run {
                 ),
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
 
@@ -263,6 +265,7 @@ sub Run {
             Data         => {},
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -317,7 +320,7 @@ sub Run {
         my $DBType        = $ParamObject->GetParam( Param => 'DBType' );
         my $DBInstallType = $ParamObject->GetParam( Param => 'DBInstallType' );
 
-        # Use MainObject to generate a password.
+        # generate a random password for OTOBODBUser
         my $GeneratedPassword = $MainObject->GenerateRandomString();
 
         if ( $DBType eq 'mysql' ) {
@@ -406,6 +409,7 @@ sub Run {
                 },
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
         elsif ( $DBType eq 'oracle' ) {
@@ -430,6 +434,7 @@ sub Run {
                 },
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
         else {
@@ -653,6 +658,7 @@ sub Run {
                 ),
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
 
@@ -745,6 +751,7 @@ sub Run {
             TemplateFile => 'Installer',
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -1052,6 +1059,7 @@ sub Run {
             Data         => {},
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -1147,6 +1155,7 @@ sub Run {
             Data         => {},
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -1200,7 +1209,7 @@ sub Run {
             PW        => $Password,
         );
 
-        # TODO: This seams to be deprecated now.
+        # TODO: This seems to be deprecated now.
         # Remove installer file with pre-configured options.
         if ( -f "$Self->{Path}/var/tmp/installer.json" ) {
             unlink "$Self->{Path}/var/tmp/installer.json";
@@ -1270,6 +1279,7 @@ sub Run {
             Data         => {},
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -1298,7 +1308,7 @@ sub ReConfigure {
     my $ConfigFile = "$Self->{Path}/Kernel/Config.pm";
     ## no critic
     open( my $In, '<', $ConfigFile )
-        || return "Can't open $ConfigFile: $!";
+        or return "Can't open $ConfigFile: $!";
     ## use critic
     my $Config = '';
     while (<$In>) {
@@ -1332,7 +1342,7 @@ sub ReConfigure {
     # Write new config file.
     ## no critic
     open( my $Out, '>:utf8', $ConfigFile )
-        || return "Can't open $ConfigFile: $!";
+        or return "Can't open $ConfigFile: $!";
     print $Out $Config;
     ## use critic
     close $Out;
