@@ -135,12 +135,17 @@ sub Main {
     );
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $Home = $ConfigObject->Get('Home');
 
-    for my $XMLFile (qw(otobo-schema otobo-initial_insert)) {
-        # the xml file contains the database name 'otobo' hardcoded
+    # create the XML-Schema, do the initial inserts, add constraints
+    {
+        my $Home = $ConfigObject->Get('Home');
+
+        # the xml files contain the database name 'otobo' hardcoded
         my ( $Success, $Message ) = ExecuteSQL(
-            XMLFile          => "$Home/scripts/database/$XMLFile.xml",
+            XMLFiles => [
+                "$Home/scripts/database/otobo-schema.xml",
+                "$Home/scripts/database/otobo-initial_insert.xml",
+            ],
         );
 
         say $Message if defined $Message;
@@ -340,39 +345,53 @@ sub DBCreateUser {
 sub ExecuteSQL {
     my %Param = @_;
 
-    # unfortunately we have some interdependencies here
-    state @SQLPost;
-
     # check the params
-    for my $Key ( grep { ! $Param{$_} } qw(XMLFile) ) {
+    for my $Key ( grep { ! $Param{$_} } qw(XMLFiles) ) {
         return 0, "CheckSystemRequirements: the parameter '$Key' is required";
     }
 
+    # unfortunately we have some interdependencies here
+    my @SQLPost;
+
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-    my $XML = $MainObject->FileRead(
-        Location  => $Param{XMLFile},
-    );
-    my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse(
-        String => $XML,
-    );
-
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-    my @SQL = $DBObject->SQLProcessor(
-        Database => \@XMLArray,
-    );
 
+    for my $XMLFile ( $Param{XMLFiles}->@* ) {
+
+        my $XML = $MainObject->FileRead(
+            Location  => $Param{XMLFile},
+        );
+        my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse(
+            String => $XML,
+        );
+
+        my @SQL = $DBObject->SQLProcessor(
+            Database => \@XMLArray,
+        );
+
+        SQL:
+        for my $SQL (@SQL) {
+            my $Success = $DBObject->Do( SQL => $SQL );
+
+            next SQL if $Success;
+
+            return 0, $DBI::errstr;
+        }
+
+        # If we parsed the schema, catch post instructions.
+        # they will run after the initial insert
+        push @SQLPost, $DBObject->SQLProcessorPost() if $Param{XMLFile} =~ m/otobo-schema/;
+    }
+
+    # now do the actions that must run after the initial insert
     SQL:
-    for my $SQL (@SQL, @SQLPost) {
+    for my $SQL (@SQLPost) {
         my $Success = $DBObject->Do( SQL => $SQL );
 
         next SQL if $Success;
 
         return 0, $DBI::errstr;
     }
-
-    # If we parsed the schema, catch post instructions.
-    # they will run after the initial insert
-    push @SQLPost, $DBObject->SQLProcessorPost() if $Param{XMLFile} =~ m/otobo-schema/;
 
     return 1;
 }
