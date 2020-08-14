@@ -145,12 +145,14 @@ sub OSInfoGet {
         $OSName = "$OSMap{$^O} $BSDVersion";
     }
 
+    my $User = getlogin || getpwuid($<) || $ENV{USER} || $ENV{USERNAME};
+
     # collect OS data
     my %EnvOS = (
         Hostname     => hostname_long(),
         OSName       => $OSName || 'Unknown version',
         Distribution => $Distribution,
-        User         => $ENV{USER} || $ENV{USERNAME},
+        User         => $User,
         Path         => $ENV{PATH},
         HostType     => $ENV{HOSTTYPE},
         LcCtype      => $ENV{LC_CTYPE},

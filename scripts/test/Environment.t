@@ -28,10 +28,11 @@ my $EnvironmentObject = $Kernel::OM->Get('Kernel::System::Environment');
 
 my %OSInfo = $EnvironmentObject->OSInfoGet();
 
-for my $Attribute (qw(Hostname OS OSName User)) {
+for my $Key (qw(Hostname OS OSName User)) {
+    $Self->Note( Note => "got '$OSInfo{$Key}' for $Key" );
     $Self->True(
-        $OSInfo{$Attribute},
-        "OSInfoGet - returned $Attribute",
+        $OSInfo{$Key},
+        "OSInfoGet - returned $Key",
     );
 }
 
@@ -92,6 +93,7 @@ $Self->False(
 my %DBInfo = $EnvironmentObject->DBInfoGet();
 
 for my $Key (qw(Database Host Type User Version)) {
+    $Self->Note( Note => "got '$DBInfo{$Key}' for $Key" );
     $Self->True(
         $DBInfo{$Key} =~ /\w\w/,
         "DBInfoGet - returned value for $Key",
@@ -101,6 +103,7 @@ for my $Key (qw(Database Host Type User Version)) {
 my %OTOBOInfo = $EnvironmentObject->OTOBOInfoGet();
 
 for my $Key (qw(Version Home Host Product SystemID DefaultLanguage)) {
+    $Self->Note( Note => "got '$OTOBOInfo{$Key}' for $Key" );
     $Self->True(
         $OTOBOInfo{$Key},
         "OTOBOInfoGet - returned value for $Key",
