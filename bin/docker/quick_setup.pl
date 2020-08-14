@@ -98,6 +98,7 @@ sub Main {
 
     const my $DBName           => $ConfigObject->Get('Database');
     const my $OTOBODBUser      => $ConfigObject->Get('DatabaseUser');
+    const my $OTOBODBPassword  => $ConfigObject->Get('DatabasePw');
     const my $DBType           => 'mysql';
 
     {
