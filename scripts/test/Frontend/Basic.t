@@ -172,7 +172,8 @@ if ( ! $BailOut ) {
             );
 
             # check response contents
-            if ( $Response->header('Content-type') =~ 'html' ) {
+            my $ContentType =  $Response->header('Content-type') // '';
+            if ( $ContentType =~ m/html/ ) {
                 $Self->True(
                     scalar $Response->content() =~ m{<body|<div|<script}xms,
                     "Module $Frontend returned HTML ($URL)",
@@ -199,7 +200,7 @@ if ( ! $BailOut ) {
                     }
                 }
             }
-            elsif ( $Response->header('Content-type') =~ 'json' ) {
+            elsif ( $ContentType =~ m/json/ ) {
 
                 my $Data = $JSONObject->Decode(
                     Data => $Response->content()
@@ -208,6 +209,21 @@ if ( ! $BailOut ) {
                 $Self->True(
                     scalar $Data,
                     "Module $Frontend returned valid JSON data ($URL)",
+                );
+            }
+            elsif ( $ContentType =~ m/plain/ ) {
+
+                $Self->True(
+                    1,
+                    "everything can be plain text",
+                );
+            }
+            else {
+                # emit a test result also when a status of 500 is returned
+                # This makes results more comparable.
+                $Self->True(
+                    0,
+                    "Unexpected content type '$ContentType'",
                 );
             }
         }
