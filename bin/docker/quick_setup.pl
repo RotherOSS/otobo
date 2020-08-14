@@ -270,8 +270,6 @@ sub DBConnectAsRoot {
     my $DatabaseHost = $ConfigObject->Get('DatabaseHost');
     my $DSN = "DBI:mysql:database=mysql;host=$DatabaseHost;";
 
-    warn "DSN: '$DSN'";
-    warn "Password: '$Param{DBPassword}'";
     my $DBHandle = DBI->connect($DSN, 'root', $Param{DBPassword});
     if ( ! $DBHandle ) {
         return 0, $DBI::errstr;
