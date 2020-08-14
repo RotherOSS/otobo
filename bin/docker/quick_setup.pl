@@ -64,7 +64,6 @@ use Pod::Usage qw(pod2usage);
 use Path::Class qw(file dir);
 use DBI;
 use Const::Fast qw(const);
-use File::Slurp qw(edit_file_lines);
 
 # OTOBO modules
 use Kernel::System::ObjectManager;
@@ -79,20 +78,6 @@ sub Main {
 
     if ( $HelpFlag ) {
         pod2usage({ -exitval => 0, -verbose => 2});
-    }
-
-    # we could stick with the default password from Kernel/Config.pm, but let's change it anyways
-    # NOTE: do this before creating the instance of Kernel::Config,
-    const my $OTOBODBPassword  =>  'otobo';
-    if ( -f -r -w 'Kernel/Config.pm' ) {
-        my $Now = scalar localtime;
-        my $Who = $0;
-        edit_file_lines(
-            sub {
-                s/ 'some-pass';/ '$OTOBODBPassword'; # changed by $Who at $Now/;
-            },
-            'Kernel/Config.pm'
-        );
     }
 
     $Kernel::OM = Kernel::System::ObjectManager->new(
@@ -113,6 +98,7 @@ sub Main {
 
     const my $DBName           => $ConfigObject->Get('Database');
     const my $OTOBODBUser      => $ConfigObject->Get('DatabaseUser');
+    const my $OTOBODBPassword  => $ConfigObject->Get('DatabasePw');
     const my $DBType           => 'mysql';
 
     {
@@ -284,8 +270,6 @@ sub DBConnectAsRoot {
     my $DatabaseHost = $ConfigObject->Get('DatabaseHost');
     my $DSN = "DBI:mysql:database=mysql;host=$DatabaseHost;";
 
-    warn "DSN: '$DSN'";
-    warn "Password: '$Param{DBPassword}'";
     my $DBHandle = DBI->connect($DSN, 'root', $Param{DBPassword});
     if ( ! $DBHandle ) {
         return 0, $DBI::errstr;

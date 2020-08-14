@@ -36,18 +36,6 @@ function handle_docker_firsttime() {
     mv $otobo_next/docker_firsttime $otobo_next/docker_firsttime_handled
 }
 
-# An easy way to get to a working system.
-function exec_quick_setup() {
-    exec bin/docker/quick_setup.pl $@
-}
-
-# An easy way to run the testsuit
-function exec_test_suite() {
-    upgrade_patchlevel_release
-    bin/docker/quick_setup.pl $@
-    exec bin/docker/run_test_suite.sh
-}
-
 # An easy way to start bash.
 # Or do upgrades.
 # Or list files.
@@ -111,17 +99,6 @@ function upgrade_patchlevel_release() {
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pm.docker.dist $OTOBO_HOME/Kernel/Config.pm
     # Config.pod might have been adapted too, dont overwrite it
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pod.dist       $OTOBO_HOME/Kernel/Config.pod
-}
-
-function reinstall_all() {
-
-    # reinstall package
-    # Not that this works only if OTOBO has been properly configured
-    {
-        date
-        ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll 2>&1)
-        echo
-    } >> $upgrade_log
 }
 
 print_error() {
@@ -195,22 +172,6 @@ fi
 if [ "$1" = "upgrade" ]; then
     upgrade_patchlevel_release
     exit $?
-fi
-
-if [ "$1" = "upgrade_reinstall" ]; then
-    upgrade_patchlevel_release
-    reinstall_all
-    exit $?
-fi
-
-if [ "$1" = "quick_setup" ]; then
-    shift 1
-    exec_quick_setup $@
-fi
-
-if [ "$1" = "test_suite" ]; then
-    shift 1
-    exec_test_suite $@
 fi
 
 # as a fallback execute the passed command
