@@ -32,6 +32,7 @@ use LWP::UserAgent;
 
 use Kernel::System::UnitTest::Helper;
 
+my $Debug = 0;
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
 
@@ -140,6 +141,7 @@ if ( ! $BailOut ) {
         for my $Frontend ( sort keys %{ $Frontends{$BaseURL} } ) {
 
             next FRONTEND if $Frontend =~ m/Login|Logout/;
+            #next FRONTEND if $Frontend !~ m/AgentAppointmentEdit/;
 
             my $URL = $BaseURL . "Action=$Frontend";
 
@@ -173,6 +175,7 @@ if ( ! $BailOut ) {
 
             # check response contents
             my $ContentType =  $Response->header('Content-type') // '';
+            $Self->Note( Note => "Response:\n" . $Response->as_string ) if $Debug;
             if ( $ContentType =~ m/html/ ) {
                 $Self->True(
                     scalar $Response->content() =~ m{<body|<div|<script}xms,

@@ -511,6 +511,21 @@ sub AttachSeleniumScreenshot {
     return;
 }
 
+=head2 Plan
+
+Explicitly declare the expected number of tests.
+The required parameter B<Tests> sets the expected number of tests.
+
+=cut
+
+sub Plan {
+    my ( $Self, %Param ) = @_;
+
+    say { $Self->{OriginalSTDOUT} } "1..$Param{Tests}";
+
+    return;
+}
+
 =head2 DoneTesting()
 
 Print out a test plan. This assumes that the number of test that have
@@ -527,6 +542,23 @@ sub DoneTesting {
     my $TestCountTotal = $Self->{ResultData}->{TestOk} // 0;
     $TestCountTotal += $Self->{ResultData}->{TestNotOk} // 0;
     say { $Self->{OriginalSTDOUT} } "1..$TestCountTotal";
+
+    return;
+}
+
+=head2 Note()
+
+Print out a note to STDOUT. The parameter B<Note> will be split into lines and each line
+is prepended by '# '. A trailing newline will be added when there isn't on yet.
+
+=cut
+
+sub Note {
+    my ($Self, %Param) = @_;
+
+    my $Note = $Param{Note} // '';
+    chomp $Note;
+    print { $Self->{OriginalSTDOUT} } map { "# $_\n" } split /\n/, $Note;
 
     return;
 }
