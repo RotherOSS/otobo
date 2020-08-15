@@ -4400,16 +4400,21 @@ sub CustomerFatalError {
     $Output .= $Self->CustomerFooter();
 
     if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
-        # use the regular flow, the OS process is not terminated
-        return $Output;
-    }
-    else {
-        # Terminate the process under Apache/mod_perl.
-        # Apparently there were some bad consequnces from using the regular flow.
-        $Self->Print( Output => \$Output );
 
-        exit;
+        # Modify the output by applying the output filters.
+        $Self->ApplyOutputFilters( Output => \$Output );
+
+        # The exception is caught be Plack::Middleware::HTTPExceptions
+        die Kernel::System::Web::Exception->new( Content => $Output );
     }
+
+    # print to STDOUT in the non-PSGI case or when STDOUT is captured
+    # Output filters are also applied in Print()
+    $Self->Print( Output => \$Output );
+
+    # Terminate the process under Apache/mod_perl.
+    # Apparently there were some bad consequences from using the regular flow.
+    exit;
 }
 
 sub CustomerNavigationBar {
