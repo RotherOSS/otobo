@@ -1724,64 +1724,74 @@ sub Footer {
     );
 }
 
+sub ApplyOutputFilters {
+    my ( $Self, %Param ) = @_;
+
+    # return early when there is nothing to do
+    return 1 if !$Self->{FilterContent};
+    return 1 if ref $Self->{FilterContent} ne 'HASH';
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    # extract filter list
+    my %FilterList = %{ $Self->{FilterContent} };
+
+    # apply the filters
+    FILTER:
+    for my $Filter ( sort keys %FilterList ) {
+
+        # extract filter config
+        my $FilterConfig = $FilterList{$Filter};
+
+        next FILTER if !$FilterConfig;
+        next FILTER if ref $FilterConfig ne 'HASH';
+
+        # extract template list
+        my $TemplateList = $FilterConfig->{Templates};
+
+        # check template list
+        if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message =>
+                    "Please add a template list to output filter $FilterConfig->{Module} "
+                    . "to improve performance. Use ALL if OutputFilter should modify all "
+                    . "templates of the system (deprecated).",
+            );
+        }
+
+        # check template list
+        if ( $Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL} ) {
+            next FILTER if !$TemplateList->{ $Param{TemplateFile} };
+        }
+
+        next FILTER if !$MainObject->Require( $FilterConfig->{Module} );
+
+        # create new instance
+        my $Object = $FilterConfig->{Module}->new(
+            %{$Self},
+            LayoutObject => $Self,
+        );
+
+        next FILTER if !$Object;
+
+        # run output filter
+        $Object->Run(
+            %{$FilterConfig},
+            Data         => $Param{Output},
+            TemplateFile => $Param{TemplateFile} || '',
+        );
+    }
+
+    return 1;
+}
+
 sub Print {
     my ( $Self, %Param ) = @_;
 
-    # run output content filters
-    if ( $Self->{FilterContent} && ref $Self->{FilterContent} eq 'HASH' ) {
-
-        # extract filter list
-        my %FilterList = %{ $Self->{FilterContent} };
-
-        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-        FILTER:
-        for my $Filter ( sort keys %FilterList ) {
-
-            # extract filter config
-            my $FilterConfig = $FilterList{$Filter};
-
-            next FILTER if !$FilterConfig;
-            next FILTER if ref $FilterConfig ne 'HASH';
-
-            # extract template list
-            my $TemplateList = $FilterConfig->{Templates};
-
-            # check template list
-            if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
-
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message =>
-                        "Please add a template list to output filter $FilterConfig->{Module} "
-                        . "to improve performance. Use ALL if OutputFilter should modify all "
-                        . "templates of the system (deprecated).",
-                );
-            }
-
-            # check template list
-            if ( $Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL} ) {
-                next FILTER if !$TemplateList->{ $Param{TemplateFile} };
-            }
-
-            next FILTER if !$MainObject->Require( $FilterConfig->{Module} );
-
-            # create new instance
-            my $Object = $FilterConfig->{Module}->new(
-                %{$Self},
-                LayoutObject => $Self,
-            );
-
-            next FILTER if !$Object;
-
-            # run output filter
-            $Object->Run(
-                %{$FilterConfig},
-                Data         => $Param{Output},
-                TemplateFile => $Param{TemplateFile} || '',
-            );
-        }
-    }
+    # the string referenced by $Param{Content} might be modified here
+    $Self->ApplyOutputFilters( %Param );
 
     # There seems to be a bug in FastCGI that it cannot handle unicode output properly.
     #   Work around this by converting to an utf8 byte stream instead.
