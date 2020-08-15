@@ -1006,6 +1006,8 @@ sub FatalDie {
     if ( !$Param{Message} ) {
         $Param{Message} = $Param{BackendMessage};
     }
+
+    # Strings are not caught by Plack::Middleware::HTTPExceptions
     die $Param{Message};
 }
 
