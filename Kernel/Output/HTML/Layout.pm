@@ -19,9 +19,13 @@ package Kernel::Output::HTML::Layout;
 use strict;
 use warnings;
 
-use URI::Escape qw();
+# core modules
 use Digest::MD5 qw(md5_hex);
 
+# CPAN modules
+use URI::Escape qw();
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -70,25 +74,13 @@ create a new object. Do not use it directly, instead use:
     );
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-From the web installer, a special Option C<InstallerOnly> is passed
-to indicate that a database connection is not yet available.
-
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new(
-        'Kernel::Output::HTML::Layout' => {
-            InstallerOnly => 1,
-        },
-    );
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
 =cut
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
+    my $Self = bless { %Param }, $Type;
 
     # set debug
     $Self->{Debug} = 0;
@@ -97,7 +89,7 @@ sub new {
     delete $Self->{BlockData};
 
     # empty action if not defined
-    $Self->{Action} = '' if !defined $Self->{Action};
+    $Self->{Action} //= '';
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
