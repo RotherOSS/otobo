@@ -91,6 +91,9 @@ sub new {
     # empty action if not defined
     $Self->{Action} //= '';
 
+    # use the old behavior per default, where printing to STDOUT is the thing to do
+    $Self->{StdoutIsCaptured} //= 1;
+
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get/set some common params
@@ -215,7 +218,7 @@ EOF
     if ( !$HttpUserAgent ) {
         $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
     }
-    elsif ($HttpUserAgent) {
+    else {
 
         # check, if we are on a mobile platform.
         # tablets are handled like desktops
@@ -376,7 +379,8 @@ EOF
 
     # force a theme based on host name
     my $DefaultThemeHostBased = $ConfigObject->Get('DefaultTheme::HostBased');
-    if ( $DefaultThemeHostBased && $ENV{HTTP_HOST} ) {
+    my $Host = $ENV{HTTP_HOST};
+    if ( $DefaultThemeHostBased && $Host ) {
 
         THEME:
         for my $RegExp ( sort keys %{$DefaultThemeHostBased} ) {
@@ -387,7 +391,7 @@ EOF
             next THEME if !$DefaultThemeHostBased->{$RegExp};
 
             # check if regexp is matching
-            if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
+            if ( $Host =~ m/$RegExp/i ) {
                 $Theme = $DefaultThemeHostBased->{$RegExp};
             }
         }
