@@ -66,9 +66,6 @@ sub new {
     # get debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # use the old behavior per default, where printing to STDOUT is the thing to do
-    $Self->{StdoutIsCaptured} = $Param{StdoutIsCaptured} // 1;
-
     # register object params
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
@@ -112,7 +109,6 @@ sub HeaderAndContent {
     $Kernel::OM->ObjectParamAdd(
         'Kernel::Output::HTML::Layout' => {
             %Param,
-            StdoutIsCaptured => $Self->{StdoutIsCaptured},
         },
     );
 

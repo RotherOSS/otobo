@@ -680,7 +680,6 @@ my $OTOBOApp = builder {
             # do the work, return a not encoded Perl string.
             my $HeaderAndContent = Kernel::System::Web::InterfaceInstaller->new(
                 %InterfaceParams,
-                StdoutIsCaptured => 0,
             )->HeaderAndContent();
 
             # UTF-8 encoding is expected

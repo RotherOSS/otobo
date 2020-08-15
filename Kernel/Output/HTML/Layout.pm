@@ -91,9 +91,6 @@ sub new {
     # empty action if not defined
     $Self->{Action} //= '';
 
-    # use the old behavior per default, where printing to STDOUT is the thing to do
-    $Self->{StdoutIsCaptured} //= 1;
-
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get/set some common params
@@ -948,7 +945,7 @@ sub FatalError {
     $Output .= $Self->Error(%Param);
     $Output .= $Self->Footer();
 
-    if ( ! $Self->{StdoutIsCaptured} ) {
+    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
 
         # Modify the output by applying the output filters.
         $Self->ApplyOutputFilters( Output => \$Output );
@@ -4412,7 +4409,7 @@ sub CustomerFatalError {
     $Output .= $Self->CustomerError(%Param);
     $Output .= $Self->CustomerFooter();
 
-    if ( ! $Self->{StdoutIsCaptured} ) {
+    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
 
         # Modify the output by applying the output filters.
         $Self->ApplyOutputFilters( Output => \$Output );
