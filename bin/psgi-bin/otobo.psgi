@@ -1,5 +1,6 @@
 #!/usr/bin/env perl
 # --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify
@@ -28,6 +29,9 @@ otobo.psgi - OTOBO PSGI application
     # using the webserver Gazelle
     plackup --server Gazelle bin/psgi-bin/otobo.psgi
 
+    # with profiling (untested)
+    PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/psgi-bin/otobo.psgi
+
 =head1 DESCRIPTION
 
 A PSGI application.
@@ -38,31 +42,36 @@ There are some requirements for running this application. Do something like:
 
     cpanm \
     --with-feature=db:mysql \
-    --with-feature=db:postgresql \
     --with-feature=db:odbc \
+    --with-feature=db:postgresql \
     --with-feature=db:sqlite \
-    --with-feature=plack \
     --with-feature=devel:dbviewer \
+    --with-feature=devel:test \
     --with-feature=div:bcrypt \
-    --with-feature=performance:json \
+    --with-feature=div:ldap \
+    --with-feature=div:readonly \
+    --with-feature=div:xslt \
     --with-feature=mail:imap \
     --with-feature=mail:ntlm \
     --with-feature=mail:sasl \
-    --with-feature=div:ldap \
     --with-feature=performance:csv \
-    --with-feature=div:xslt \
+    --with-feature=performance:json \
     --with-feature=performance:redis \
-    --with-feature=devel:test \
+    --with-feature=plack \
     --installdeps .
 
 =head1 Profiling
 
-To profile single requests, install Devel::NYTProf and start this script as
-PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/psgi-bin/otobo.psgi
-then append &NYTProf=mymarker to a request.
+To profile single requests, install Devel::NYTProf and start this script as:
+
+    PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/psgi-bin/otobo.psgi
+
+For actual profiling append C<&NYTProf=mymarker> to a request.
 This creates a file called nytprof-mymarker.out, which you can process with
-nytprofhtml -f nytprof-mymarker.out
-Then point your browser at nytprof/index.html
+
+    nytprofhtml -f nytprof-mymarker.out
+
+Then point your browser at nytprof/index.html.
 
 =cut
 
@@ -70,13 +79,14 @@ use v5.24;
 use warnings;
 use utf8;
 
-# use ../../ as lib location
-use FindBin qw($Bin);
-use lib "$Bin/../..";
-use lib "$Bin/../../Kernel/cpan-lib";
-use lib "$Bin/../../Custom";
+# expect that otobo.psgi is two level below the OTOBO root dir
+use FindBin;
+use lib "$FindBin::Bin/../..";
+use lib "$FindBin::Bin/../../Kernel/cpan-lib";
+use lib "$FindBin::Bin/../../Custom";
 
 # this package is used for rpc.pl
+# UNTESTED
 package OTOBO::RPC {
     use Kernel::System::ObjectManager;
 
@@ -270,8 +280,8 @@ use CGI::PSGI;
 use Plack::Builder;
 use Plack::Response;
 use Plack::Middleware::ErrorDocument;
-use Plack::Middleware::Header;
 use Plack::Middleware::ForceEnv;
+use Plack::Middleware::Header;
 use Plack::App::File;
 use SOAP::Transport::HTTP::Plack;
 use Mojo::Server::PSGI; # for dbviewer
@@ -299,6 +309,7 @@ use Kernel::System::Web::InterfaceCustomer ();
 use Kernel::System::Web::InterfacePublic ();
 use Kernel::System::Web::InterfaceInstaller ();
 use Kernel::System::Web::InterfaceMigrateFromOTRS ();
+use Kernel::System::Web::Exception ();
 use Kernel::GenericInterface::Provider;
 use Kernel::System::ObjectManager;
 
@@ -311,29 +322,29 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT AS OF JULY 18TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
+warn "PLEASE NOTE THAT AS OF AUGUST 15TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
 
 ################################################################################
 # Middlewares
 ################################################################################
 
-# conditionally enable profiling
+# conditionally enable profiling, UNTESTED
 my $NYTProfMiddleWare = sub {
     my $app = shift;
 
     return sub {
-        my $env = shift;
+        my $Env = shift;
 
         # check whether this request runs under Devel::NYTProf
         my $ProfilingIsOn = 0;
-        if ( $ENV{NYTPROF} && $ENV{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ) {
+        if ( $ENV{NYTPROF} && $Env->{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ) {
             $ProfilingIsOn = 1;
             DB::enable_profile("nytprof-$1.out");
         }
 
 
         # do the work
-        my $res = $app->($env);
+        my $res = $app->($Env);
 
         # clean up profiling, write the output file
         DB::finish_profile() if $ProfilingIsOn;
@@ -348,18 +359,18 @@ my $FixFCGIProxyMiddleware = sub {
     my $app = shift;
 
     return sub {
-        my $env = shift;
+        my $Env = shift;
 
         # In the apaches2-httpd-fcgi.include.conf case all incoming request should be handled.
         # This means that otobo.psgi expects that SCRIPT_NAME is either '' or '/' and that
         # PATH_INFO is something like '/otobo/index.pl'.
         # But we get PATH_INFO = '' and SCRIPT_NAME = '/otobo/index.pl'.
-        if ( $env->{PATH_INFO} eq '' && ( $env->{SCRIPT_NAME} ne ''  && $env->{SCRIPT_NAME} ne '/' ) ) {
-            ($env->{PATH_INFO}, $env->{SCRIPT_NAME}) = ($env->{SCRIPT_NAME}, '/');
+        if ( $Env->{PATH_INFO} eq '' && ( $Env->{SCRIPT_NAME} ne ''  && $Env->{SCRIPT_NAME} ne '/' ) ) {
+            ($Env->{PATH_INFO}, $Env->{SCRIPT_NAME}) = ($Env->{SCRIPT_NAME}, '/');
         }
 
         # user is authorised, now do the work
-        return $app->($env);
+        return $app->($Env);
     }
 };
 
@@ -368,7 +379,7 @@ my $AdminOnlyMiddeware = sub {
     my $app = shift;
 
     return sub {
-        my $env = shift;
+        my $Env = shift;
 
         local $Kernel::OM = Kernel::System::ObjectManager->new;
 
@@ -376,13 +387,13 @@ my $AdminOnlyMiddeware = sub {
         # The AuthSession modules use this object for getting info about the request.
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::Web::Request' => {
-                WebRequest => CGI::PSGI->new($env),
+                WebRequest => CGI::PSGI->new($Env),
             },
         );
 
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        my $PlackRequest = Plack::Request->new($env);
+        my $PlackRequest = Plack::Request->new($Env);
 
         # Find out whether user is admin via the session.
         # Passing the session ID via POST or GET is not supported.
@@ -439,7 +450,7 @@ my $AdminOnlyMiddeware = sub {
         }
 
         # user is authorised, now do the work
-        return $app->($env);
+        return $app->($Env);
     };
 };
 
@@ -482,9 +493,9 @@ my $DumpEnvApp = sub {
 # handler for /otobo
 # Redirect to otobo/index.pl when in doubt, no permission check
 my $RedirectOtoboApp = sub {
-    my $env = shift;
+    my $Env = shift;
 
-    my $req = Plack::Request->new($env);
+    my $req = Plack::Request->new($Env);
     my $uri = $req->base;
     $uri->path($uri->path . '/index.pl');
 
@@ -514,7 +525,7 @@ my $DBViewerApp = builder {
         };
 
     my $server = Mojo::Server::PSGI->new;
-    $server->load_app("$Bin/../mojo-bin/dbviewer.pl");
+    $server->load_app("$FindBin::Bin/../mojo-bin/dbviewer.pl");
 
     sub {
         $server->run(@_)
@@ -543,12 +554,17 @@ my $StaticApp = builder {
     enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Plack::Middleware::Header',
         set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
 
-    Plack::App::File->new(root => "$Bin/../../var/httpd/htdocs")->to_app;
+    Plack::App::File->new(root => "$FindBin::Bin/../../var/httpd/htdocs")->to_app;
 };
+
+# Port of nph-genericinterface.pl to Plack.
+#my $GenericInterfaceApp = builder {
+    # TODO
+#};
 
 # Port of index.pl, customer.pl, public.pl, installer.pl, migration.pl, nph-genericinterface.pl to Plack.
 # with permission check
-my $App = builder {
+my $OTOBOApp = builder {
 
     enable 'Plack::Middleware::ErrorDocument',
         403 => '/otobo/index.pl';  # forbidden files
@@ -569,6 +585,9 @@ my $App = builder {
 
     # check ever 10s for changed Perl modules
     enable 'Plack::Middleware::Refresh';
+
+    # we might catch an instance of Kernel::System::Web::Exception
+    enable 'Plack::Middleware::HTTPExceptions';
 
     # Set the appropriate %ENV and file handles
     CGI::Emulate::PSGI->handler(
@@ -667,11 +686,11 @@ my $RPCApp = builder {
         GATEWAY_INTERFACE     => 'CGI/1.1';
 
     sub {
-        my $env = shift;
+        my $Env = shift;
 
         return $soap->dispatch_to(
                 'OTOBO::RPC'
-            )->handler( Plack::Request->new( $env ) );
+            )->handler( Plack::Request->new( $Env ) );
     };
 };
 
@@ -694,14 +713,15 @@ builder {
     mount '/otobo/dbviewer'                => $DBViewerApp;
 
     # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
-    # The pathes are such that $ENV{SCRIPT_NAME} and $ENV{PATH_INFO} are set up just like they are set up under mod_perl,
+    # The pathes are such that $Env->{SCRIPT_NAME} and $Env->{PATH_INFO} are set up just like they are set up under mod_perl,
     mount '/otobo'                         => $RedirectOtoboApp; #redirect to /otobo/index.pl when in doubt
-    mount '/otobo/index.pl'                => $App;
-    mount '/otobo/customer.pl'             => $App;
-    mount '/otobo/public.pl'               => $App;
-    mount '/otobo/installer.pl'            => $App;
-    mount '/otobo/migration.pl'            => $App;
-    mount '/otobo/nph-genericinterface.pl' => $App;
+    mount '/otobo/index.pl'                => $OTOBOApp;
+    mount '/otobo/customer.pl'             => $OTOBOApp;
+    mount '/otobo/public.pl'               => $OTOBOApp;
+    mount '/otobo/installer.pl'            => $OTOBOApp;
+    mount '/otobo/migration.pl'            => $OTOBOApp;
+    # mount '/otobo/nph-genericinterface.pl' => $GenericInterfaceApp; # TODO
+    mount '/otobo/nph-genericinterface.pl' => $OTOBOApp;
 
     # some SOAP stuff
     mount '/otobo/rpc.pl'                  => $RPCApp;
