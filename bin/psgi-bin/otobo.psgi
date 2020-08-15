@@ -587,7 +587,7 @@ my $OTOBOApp = builder {
     enable 'Plack::Middleware::Refresh';
 
     # we might catch an instance of Kernel::System::Web::Exception
-    enable 'HTTPExceptions';
+    enable 'Plack::Middleware::HTTPExceptions';
 
     # Set the appropriate %ENV and file handles
     CGI::Emulate::PSGI->handler(
