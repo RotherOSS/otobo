@@ -276,7 +276,6 @@ use Encode qw(:all);
 use CGI ();
 use CGI::Carp ();
 use CGI::Emulate::PSGI ();
-use CGI::Parse::PSGI qw(parse_cgi_output);
 use CGI::PSGI;
 use Plack::Builder;
 use Plack::Response;
