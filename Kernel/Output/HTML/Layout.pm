@@ -1007,6 +1007,8 @@ sub FatalDie {
     if ( !$Param{Message} ) {
         $Param{Message} = $Param{BackendMessage};
     }
+
+    # Strings are not caught by Plack::Middleware::HTTPExceptions
     die $Param{Message};
 }
 
@@ -4424,7 +4426,7 @@ sub CustomerFatalError {
     $Self->Print( Output => \$Output );
 
     # Terminate the process under Apache/mod_perl.
-    # Apparently there were some bad consequnces from using the regular flow.
+    # Apparently there were some bad consequences from using the regular flow.
     exit;
 }
 

@@ -324,7 +324,7 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT AS OF JULY 21ST 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
+warn "PLEASE NOTE THAT AS OF AUGUST 15TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
 
 ################################################################################
 # Middlewares
@@ -598,6 +598,9 @@ my $GenericInterfaceApp = builder {
 
     # check ever 10s for changed Perl modules
     enable 'Plack::Middleware::Refresh';
+
+    # we might catch an instance of Kernel::System::Web::Exception
+    enable 'Plack::Middleware::HTTPExceptions';
 
     # Set the appropriate %ENV and file handles
     CGI::Emulate::PSGI->handler(
