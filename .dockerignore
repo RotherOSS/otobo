@@ -32,7 +32,7 @@ otobo.*.dockerfile
 # files only needed only for continous integration
 .otobo-ci.yml
 
-# files only needed for Apache
+# files only needed for Apache, see also Kernel::System::Environment where the ignored modules are special cased
 scripts/apache*
 bin/cgi-bin
 Kernel/cpan-lib/Apache2

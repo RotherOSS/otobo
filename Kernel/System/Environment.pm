@@ -242,18 +242,14 @@ sub PerlInfoGet {
 
     # collect perl data
     my %EnvPerl = (
-        PerlVersion => sprintf "%vd",
-        $^V,
+        PerlVersion => sprintf '%vd', $^V,
     );
 
-    my %Modules;
     if ( $Param{BundledModules} ) {
 
-        for my $Module (
-            qw(
+        my @ModuleList = qw(
             parent
             Algorithm::Diff
-            Apache::DBI
             CGI
             Class::Inspector
             Crypt::PasswdMD5
@@ -288,16 +284,25 @@ sub PerlInfoGet {
             Types::TypeTiny
             YAML
             URI
-            )
-            )
-        {
-            $Modules{$Module} = $Self->ModuleVersionGet( Module => $Module );
-        }
-    }
+        );
 
-    # add modules list
-    if (%Modules) {
-        $EnvPerl{Modules} = \%Modules;
+        # some modules are only expected in a non-Docker environment.
+        # See .dockerignore.
+        if ( ! $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
+            push @ModuleList, qw(
+                Apache::DBI
+                Apache2::Reload
+                CGI::Apache
+            );
+        }
+
+        # add module and version
+        my %ModuleToVersion;
+        for my $Module ( @ModuleList ) {
+            $ModuleToVersion{$Module} = $Self->ModuleVersionGet( Module => $Module );
+        }
+
+        $EnvPerl{Modules} = \%ModuleToVersion;
     }
 
     return %EnvPerl;
