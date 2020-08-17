@@ -173,7 +173,7 @@ sub Auth {
             $AuthSyncBackend = $ConfigObject->Get("AuthModule{$Count}::UseSyncBackend");
         }
 
-        # for backwards compatibility, OTOBO 3.1.1, 3.1.2 and 3.1.3 used this wrong format (see bug#8387)
+        # for backwards compatibility, OTRS 3.1.1, 3.1.2 and 3.1.3 used this wrong format (see bug#8387)
 
         # sync with configured auth backend
         if ( defined $AuthSyncBackend ) {

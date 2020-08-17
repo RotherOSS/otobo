@@ -2244,7 +2244,7 @@ sub SignerCertRelationDelete {
 =head2 CheckCertPath()
 
 Checks and fixes the private secret files that do not have an index. (Needed because this
-changed during the migration from OTOBO 3.0 to 3.1.)
+changed during the migration from OTRS 3.0 to 3.1.)
 
 Checks and fixed certificates, private keys and secrets files to have a correct name
 depending on the current OpenSSL hash algorithm.
@@ -2265,7 +2265,7 @@ sub CheckCertPath {
 
     # normalize private secret file names
     #
-    # in otobo 3.0 private secret files are stored in format like 12345678.p, from otobo 3.1 this
+    # in OTRS 3.0 private secret files are stored in format like 12345678.p, from OTRS 3.1 this
     # files must be in a format like 12345678.0.p where .0 could be from 0 to 9 depending on the
     # private key file name.
 
@@ -2359,7 +2359,7 @@ sub _FetchAttributesFromCert {
     # cause for openssl 1.0.0 that the -CApath option (e.g. in verify function) will not find the
     # CA files in the path, due that openssl search for the file names based in current algorithm
     #
-    # -subject_hash_old was used in otobo in the past (to keep the old hashes style, and perhaps to
+    # -subject_hash_old was used in OTRS in the past (to keep the old hashes style, and perhaps to
     # ease a migration between openssl versions ) but now is not recommended anymore.
 
     # testing new solution

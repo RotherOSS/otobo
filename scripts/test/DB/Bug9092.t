@@ -87,7 +87,7 @@ then re-add the foreign keyconstraints again.
 
 my @Tests = (
 
-    # article flag table as defined in OTOBO 3.1
+    # article flag table as defined in OTRS 3.1
     '<Table Name="bug9092">
         <Column Name="article_id" Required="true" Type="BIGINT"/>
         <Column Name="article_key" Required="true" Size="50" Type="VARCHAR"/>

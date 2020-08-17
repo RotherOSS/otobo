@@ -325,7 +325,7 @@ sub TransitionCheck {
 
         my $ConditionLinking = $Transitions->{$TransitionEntityID}->{ConditionLinking} || '';
 
-        # If we don't have a ConditionLinking set it to 'and' by default compatibility with OTOBO 3.3.x
+        # If we don't have a ConditionLinking set it to 'and' by default compatibility with OTRS 3.3.x
         if ( !$ConditionLinking ) {
             $ConditionLinking = $Transitions->{$TransitionEntityID}->{Condition}->{Type} || 'and';
         }

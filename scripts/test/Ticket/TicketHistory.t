@@ -176,7 +176,7 @@ my @Tests = (
                     DynamicFieldBug10856 => 'TestValue',
                 },
 
-                # history entry for a dynamic field update of OTOBO 3.3
+                # history entry for a dynamic field update of OTRS 3.3
                 HistoryAdd => {
                     HistoryType => 'TicketDynamicFieldUpdate',
                     Name =>
@@ -205,7 +205,7 @@ my @Tests = (
                     DynamicFieldBug10856 => 'TestValue',
                 },
 
-                # history entry for a dynamic field update of OTOBO 4
+                # history entry for a dynamic field update of OTRS 4
                 HistoryAdd => {
                     HistoryType => 'TicketDynamicFieldUpdate',
                     Name =>
