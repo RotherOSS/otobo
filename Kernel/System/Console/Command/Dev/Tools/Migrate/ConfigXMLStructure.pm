@@ -19,12 +19,13 @@ package Kernel::System::Console::Command::Dev::Tools::Migrate::ConfigXMLStructur
 use strict;
 use warnings;
 use v5.24.0;
+use namespace::clean;
 use utf8;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
 # core modules
-use File::Copy qw(move);
+use File::Copy qw(copy);
 
 # CPAN modules
 
