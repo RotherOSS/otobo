@@ -248,7 +248,6 @@ sub PerlInfoGet {
     if ( $Param{BundledModules} ) {
 
         my @ModuleList = qw(
-            parent
             Algorithm::Diff
             CGI
             Class::Inspector
