@@ -45,7 +45,6 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Scheduler',
-    'Kernel::System::SysConfig::Migration',
     'Kernel::System::SysConfig::XML',
     'Kernel::System::SystemData',
     'Kernel::System::XML',
@@ -4991,17 +4990,9 @@ sub _ConfigurationDeploy {
         # sort the settings
         @PackageSettings = sort @PackageSettings;
 
-        # run the migration of the effective values (only for the package settings)
-        my $Success = $Kernel::OM->Get('Kernel::System::SysConfig::Migration')->MigrateConfigEffectiveValues(
-            FileClass       => 'Kernel::Config::Backups::ZZZAutoOTOBO5',
-            FilePath        => $OTOBO5ConfigFile,
-            PackageSettings => \@PackageSettings,                          # only migrate the given package settings
-            NoOutput => 1,    # we do not want to print status output to the screen
-        );
-
         # deploy only the package settings
         # (even if the migration of the effective values was not or only party successfull)
-        $Success = $SysConfigObject->ConfigurationDeploy(
+        my $Success = $SysConfigObject->ConfigurationDeploy(
             Comments      => $Param{Comments},
             NoValidation  => 1,
             UserID        => 1,

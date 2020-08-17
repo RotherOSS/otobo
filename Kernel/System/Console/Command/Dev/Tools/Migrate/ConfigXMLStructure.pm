@@ -31,7 +31,6 @@ use File::Copy qw(copy);
 
 our @ObjectDependencies = (
     'Kernel::System::Main',
-    'Kernel::System::SysConfig::Migration',
 );
 
 sub Configure {
