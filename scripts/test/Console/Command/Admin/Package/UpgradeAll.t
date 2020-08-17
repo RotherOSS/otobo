@@ -28,7 +28,7 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
-# Initialize test database based on fresh OTOBO 6 schema.
+# Initialize test database based on fresh OTOBO 10 schema.
 my $Success = $Helper->ProvideTestDatabase(
     DatabaseXMLFiles => [
         "$Home/scripts/database/otobo-schema.xml",
@@ -45,7 +45,7 @@ if ( !$Success ) {
 else {
     $Self->True(
         $Success,
-        'ProvideTestDatabase - Load and execute OTOBO 6 XML files',
+        'ProvideTestDatabase - Load and execute OTOBO 10 XML files',
     );
 
     my @List = $Kernel::OM->Get('Kernel::System::Package')->RepositoryList(

@@ -84,7 +84,7 @@ my $DefaultID = $SysConfigDBObject->DefaultSettingAdd(
     <Description Translatable="1">Test.</Description>
     <Navigation>Core</Navigation>
     <Value>
-        <Item ValueType="String" ValueRegex="">OTOBO 6</Item>
+        <Item ValueType="String" ValueRegex="">OTOBO 10</Item>
     </Value>
 </Setting>
 EOF
@@ -109,7 +109,7 @@ EOF
                 Item => [
                     {
                         ValueType  => 'String',
-                        Content    => 'OTOBO 6',
+                        Content    => 'OTOBO 10',
                         ValueRegex => '',
                     },
                 ],
@@ -117,7 +117,7 @@ EOF
         ],
     },
     XMLFilename    => 'UnitTest.xml',
-    EffectiveValue => 'OTOBO 6',
+    EffectiveValue => 'OTOBO 10',
     UserID         => 1,
 );
 $Self->IsNot(
@@ -215,7 +215,7 @@ $Success = $SysConfigDBObject->DefaultSettingUpdate(
     <Description Translatable="1">Test.</Description>
     <Navigation>Core</Navigation>
     <Value>
-        <Item ValueType="String" ValueRegex="">OTOBO 6 Update</Item>
+        <Item ValueType="String" ValueRegex="">OTOBO 10 Update</Item>
     </Value>
 </Setting>
 EOF
@@ -240,14 +240,14 @@ EOF
                 Item => [
                     {
                         ValueType  => 'String',
-                        Content    => 'OTOBO 6 Update',
+                        Content    => 'OTOBO 10 Update',
                         ValueRegex => '',
                     },
                 ],
             },
         ],
     },
-    EffectiveValue => 'OTOBO 6 Update',
+    EffectiveValue => 'OTOBO 10 Update',
     XMLFilename    => 'UnitTest.xml',
     UserID         => 1,
 );
@@ -302,7 +302,7 @@ $ExclusiveLockGUID = $SysConfigDBObject->DefaultSettingLock(
 my $ModifiedID = $SysConfigDBObject->ModifiedSettingAdd(
     DefaultID         => $DefaultID,
     Name              => "UnitTest",
-    EffectiveValue    => 'OTOBO 6 Modified',
+    EffectiveValue    => 'OTOBO 10 Modified',
     ExclusiveLockGUID => $ExclusiveLockGUID,
     UserID            => 1,
 );
@@ -370,7 +370,7 @@ $Success = $SysConfigDBObject->ModifiedSettingUpdate(
     DefaultID              => $DefaultID,
     Name                   => "UnitTest",
     UserModificationActive => 0,
-    EffectiveValue         => 'OTOBO 6 Modified Update',
+    EffectiveValue         => 'OTOBO 10 Modified Update',
     ExclusiveLockGUID      => $ExclusiveLockGUID,
     UserID                 => 1,
 );
