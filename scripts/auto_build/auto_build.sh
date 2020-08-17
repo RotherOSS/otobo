@@ -40,7 +40,7 @@ if ! test $PATH_TO_CVS_SRC || ! test $VERSION || ! test $RELEASE; then
     echo ""
     echo "Usage: auto_build.sh <PATH_TO_CVS_SRC> <VERSION> <BUILD>"
     echo ""
-    echo "  Try: auto_build.sh /home/ernie/src/otobo 3.1.0.beta1 01"
+    echo "  Try: auto_build.sh /home/ernie/src/otobo 10.1.0.beta1 01"
     echo ""
     exit 1;
 else

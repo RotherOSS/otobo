@@ -658,7 +658,7 @@ Core.Form.Validate = (function (TargetNS) {
     });
 
     // Backwards compatibility: these methods are deprecated, do not use them!
-    // They will be removed in OTOBO 3.1.
+    // They will be removed at an unspecified time.
     $.validator.addClassRules("Validate_RequiredDropdown", {
         Validate_Required: true
     });
