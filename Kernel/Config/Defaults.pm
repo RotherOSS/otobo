@@ -1240,7 +1240,7 @@ You can log in via the following URL:
     # (The customer panel db-uid.) [default: 1]
     $Self->{CustomerPanelUserID} = 1;
 
-    # CustomerGroupSupport (0 = compat. to OTOBO 1.1 or lower)
+    # CustomerGroupSupport (0 = compatible to previous behavior)
     # (if this is 1, the you need to set the group <-> customer user
     # relations! http://host/otobo/index.pl?Action=AdminCustomerUserGroup
     # otherway, each user is ro/rw in each group!)
