@@ -37,7 +37,7 @@ otobo-ticket (creation/follow-up via email - NOT!! from the
 customer-interface)
 the msg-attachment is converted to a plain text-file and renamed to e.g.
 "file-n".
-this happens with otobo 2.0 and also with 2.2.
+this happens with OTRS 2.0 and also with 2.2.
 
 see also :
 [Ticket#2007060642000226] email attachments of type .msg (Outlook-Message)
@@ -134,7 +134,7 @@ customer-interface)&nbsp; <o:p></o:p></span></pre><pre><span
 lang=3DEN-US>the msg-attachment is converted to a plain text-file and =
 renamed to e.g.<o:p></o:p></span></pre><pre><span
 lang=3DEN-US>&quot;file-n&quot;.<o:p></o:p></span></pre><pre><span =
-lang=3DEN-US>this happens with otobo 2.0 and also with =
+lang=3DEN-US>this happens with OTRS 2.0 and also with =
 2.2.<o:p></o:p></span></pre><pre><span
 lang=3DEN-US><o:p>&nbsp;</o:p></span></pre><pre><span lang=3DEN-US>see =
 also :<o:p></o:p></span></pre><pre><span

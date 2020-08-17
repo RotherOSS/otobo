@@ -271,7 +271,7 @@ Return example:
         #System Address Data
         'ID'              => '1',
         'Name'            => 'otobo@localhost',
-        'Address'         => 'otobo@localhost',  #Compatibility with OTOBO 2.1
+        'Address'         => 'otobo@localhost',  # Compatibility with OTRS 2.1
         'Realname'        => 'OTOBO System',
         'Comment'         => 'Standard Address.',
         'ValidID'         => '1',
@@ -334,7 +334,7 @@ sub AutoResponseGetByTypeQueueID {
         ID => $Data{SystemAddressID},
     );
 
-    # COMPAT: 2.1
+    # compat with OTRS 2.1
     $Data{Address} = $Address{Name};
 
     # return both, sender attributes and auto response attributes
