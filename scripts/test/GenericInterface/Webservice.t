@@ -854,14 +854,16 @@ my @Tests = (
         },
     },
 
+    # TODO: it's not clear whether any updating is actually performed.
+    # See https://github.com/RotherOSS/otobo/issues/362
     {
-        Name          => 'test 27 - Upgrade configuration scheme for Migration from OTOBO 5 to OTOBO 6',
+        Name          => 'test 27 - Upgrade configuration scheme for Migration from OTRS 6 to OTOBO 10',
         SuccessAdd    => 1,
         SuccessUpdate => 1,
         HistoryCount  => 2,
         Add           => {
             Config => {
-                Description => 'Test for auto-update OTOBO 5 -> 6.',
+                Description => 'Test for auto-update OTRS 6 -> OTOBO 10.',
                 Debugger    => {
                     DebugThreshold => 'debug',
                 },
@@ -905,7 +907,7 @@ my @Tests = (
             ValidID        => 1,
             UserID         => 1,
             ExpectedConfig => {
-                Description => 'Test for auto-update OTOBO 5 -> 6.',
+                Description => 'Test for auto-update OTRS 6 -> OTOBO 10.',
                 Debugger    => {
                     DebugThreshold => 'debug',
                 },
@@ -955,7 +957,7 @@ my @Tests = (
         },
         Update => {
             Config => {
-                Description => 'Test for auto-update OTOBO 5 -> 6.',
+                Description => 'Test for auto-update OTRS 6 -> OTOBO 10.',
                 Debugger    => {
                     DebugThreshold => 'debug',
                 },
@@ -988,7 +990,7 @@ my @Tests = (
             ValidID        => 1,
             UserID         => 1,
             ExpectedConfig => {
-                Description => 'Test for auto-update OTOBO 5 -> 6.',
+                Description => 'Test for auto-update OTRS 6 -> OTOBO 10.',
                 Debugger    => {
                     DebugThreshold => 'debug',
                 },
