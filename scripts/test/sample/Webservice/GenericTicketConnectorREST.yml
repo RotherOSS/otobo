@@ -195,7 +195,7 @@ Requester:
   Transport:
     Config:
       DefaultCommand: GET
-      Host: http://localhost/otobo6-devel4/nph-genericinterface.pl/Webservice/GenericTicketConnectorREST
+      Host: http://localhost/otobo10-devel4/nph-genericinterface.pl/Webservice/GenericTicketConnectorREST
       InvokerControllerMapping:
         Update on Queue Move:
           Controller: /TicketUpdate
