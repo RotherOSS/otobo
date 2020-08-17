@@ -31,13 +31,10 @@ our $ObjectManagerDisabled = 1;
 use vars qw(%INC);
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ( $Class, %Param ) = @_;
 
     # Allocate new hash for object.
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless { %Param }, $Class;
 }
 
 sub Run {
@@ -512,7 +509,6 @@ sub Run {
     $Output .= $LayoutObject->Footer();
 
     return $Output;
-
 }
 
 sub _Finish {

@@ -1,5 +1,5 @@
 # Translators:
-# OTOBO365 <info@otobo365.com>, 2018
+# OTRS365 <info@otrs365.com>, 2018
 # Thomas Szteliga <github@websafe.pl>, 2018
 # Paweł Bogusławski <pawel.boguslawski@ib.pl>, 2018
 # Udo Bretz, 2018

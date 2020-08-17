@@ -16,24 +16,33 @@
 
 package Kernel::System::Console::Command::Dev::Tools::Migrate::ConfigXMLStructure;
 
-use strict;
+use v5.24.0;
 use warnings;
+use utf8;
 
-use File::Basename;
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+use File::Copy qw(copy);
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Main',
-    'Kernel::System::SysConfig::Migration',
 );
 
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Migrate XML configuration files from OTOBO 5 to OTOBO 10.');
+    $Self->Description(<<'END_DESC');
+Migrate XML configuration files from OTRS 6.0.x to OTOBO 10.0.x.
+The original XML files will be saved with the extension .bak_otrs_6.
+END_DESC
     $Self->AddOption(
         Name        => 'source-directory',
-        Description => "Directory which contains configuration XML files that needs to be migrated.",
+        Description => 'Directory which contains configuration XML files that needs to be migrated.',
         Required    => 1,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
@@ -47,7 +56,7 @@ sub PreRun {
 
     # Perform any custom validations here. Command execution can be stopped with die().
     my $Directory = $Self->GetOption('source-directory');
-    if ( $Directory && !-d $Directory ) {
+    if ( $Directory && ! -d $Directory ) {
         die "Directory $Directory does not exist.\n";
     }
 
@@ -70,54 +79,66 @@ sub Run {
 
     if ( !@Files ) {
         $Self->PrintError("No XML files found in $Directory.");
+
         return $Self->ExitCodeError();
-    }
-
-    if ( !-d "$Directory/XML" ) {
-
-        # Create XML directory
-        mkdir "$Directory/XML";
     }
 
     FILE:
     for my $File (@Files) {
 
-        my $TargetPath = "$Directory/XML/" . basename($File);
+        my $BackupFile = $File . '.bak_otrs_6';
+        if ( ! copy( $File, $BackupFile ) ) {
+            die "Could not create the backup file $BackupFile: $!";
+        }
 
-        $Self->Print("$File -> $TargetPath...");
+        $Self->Print("copied $File -> $BackupFile");
 
         # Read XML file
         my $ContentRef = $MainObject->FileRead(
             Location => $File,
             Mode     => 'utf8',
         );
+        my $Content = $ContentRef->$*;
 
-        # Get file name without extension
-        my $FileName = $File;
-        $FileName =~ s{^.*/(.*?)\..*$}{$1}gsmx;
+        # sanity checks
+        if ( $Content !~ m{<otrs_config} ) {
+            $Self->Print("skipping $File as it has no element otrs_config");
 
-        # Migrate
-        my $Result = $Kernel::OM->Get('Kernel::System::SysConfig::Migration')->MigrateXMLStructure(
-            Content => $$ContentRef,
-            Name    => $FileName,
-        );
+            next FILE;
+        }
+        if ( $Content !~ m{<otrs_config.*?init="(.+?)"} ) {
+            $Self->Print("skipping $File as the element otrs_config has no init attribute");
 
-        if ( !$Result ) {
-            $Self->Print("<red>Failed.</red>\n");
             next FILE;
         }
 
-        # Save result
-        my $Success = $MainObject->FileWrite(
-            Location => $TargetPath,
-            Content  => \$Result,
+        if ( $Content !~ m{<otrs_config.*?version="2.0"} ) {
+            $Self->Print("skipping $File as the element otrs_config is not version 2.0");
+
+            next FILE;
+        }
+
+        # now the actual transformation
+        $Content =~ s{^<otrs_config}{<otobo_config}gsmx;
+        $Content =~ s{^</otrs_config}{</otobo_config}gsmx;
+
+        # Save result in the original file
+        my $SaveSuccess = $MainObject->FileWrite(
+            Location => $File,
+            Content  => \$Content,
             Mode     => 'utf8',
         );
+        if ( ! $SaveSuccess ) {
+            $Self->Print("<red>Failed. Could not overwrite $File.</red>\n");
 
-        $Self->Print(" <green>Done.</green>\n");
+            next FILE;
+        }
+
+        $Self->Print(" <green>Done with $File.</green>\n");
     }
 
     $Self->Print("\n<green>Done.</green>\n");
+
     return $Self->ExitCodeOk();
 }
 
