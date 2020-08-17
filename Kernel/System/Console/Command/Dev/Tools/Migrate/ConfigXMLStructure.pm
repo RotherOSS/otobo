@@ -16,13 +16,14 @@
 
 package Kernel::System::Console::Command::Dev::Tools::Migrate::ConfigXMLStructure;
 
-use strict;
+use v5.24.0;
 use warnings;
+use utf8;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
 # core modules
-use File::Copy qw(move);
+use File::Copy qw(copy);
 
 # CPAN modules
 
@@ -98,36 +99,43 @@ sub Run {
             Location => $File,
             Mode     => 'utf8',
         );
+        my $Content = $ContentRef->$*;
 
-        # Get file name without extension
-        my $FileName = $File;
-        $FileName =~ s{^.*/(.*?)\..*$}{$1}gsmx;
+        # sanity checks
+        if ( $Content !~ m{<otrs_config} ) {
+            $Self->Print("skipping $File as it has no element otrs_config");
 
-        # Migrate
-        my $Result = $Kernel::OM->Get('Kernel::System::SysConfig::Migration')->MigrateXMLStructure(
-            Content => $$ContentRef,
-            Name    => $FileName,
-        );
-
-        if ( ! $Result ) {
-            $Self->Print("<red>Failed migration $File</red>\n");
+            next FILE;
+        }
+        if ( $Content !~ m{<otrs_config.*?init="(.+?)"} ) {
+            $Self->Print("skipping $File as the element otrs_config has no init attribute");
 
             next FILE;
         }
 
+        if ( $Content !~ m{<otrs_config.*?version="2.0"} ) {
+            $Self->Print("skipping $File as the element otrs_config is not version 2.0");
+
+            next FILE;
+        }
+
+        # now the actual transformation
+        $Content =~ s{^<otrs_config}{<otobo_config}gsmx;
+        $Content =~ s{^</otrs_config}{</otobo_config}gsmx;
+
         # Save result in the original file
-        my $Success = $MainObject->FileWrite(
+        my $SaveSuccess = $MainObject->FileWrite(
             Location => $File,
-            Content  => \$Result,
+            Content  => \$Content,
             Mode     => 'utf8',
         );
-        if ( ! $$Success ) {
+        if ( ! $SaveSuccess ) {
             $Self->Print("<red>Failed. Could not overwrite $File.</red>\n");
 
             next FILE;
         }
 
-        $Self->Print(" <green>Done.</green>\n");
+        $Self->Print(" <green>Done with $File.</green>\n");
     }
 
     $Self->Print("\n<green>Done.</green>\n");
