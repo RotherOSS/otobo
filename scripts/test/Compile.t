@@ -46,9 +46,14 @@ note( 'check syntax of the Perl modules' );
 
 foreach my $File ( $Internal->all_pm_files(@Dirs) ) {
     if ( $FailureIsAccepted{$File} ) {
-        my $todo = todo "$File: $FailureIsAccepted{$File}";
+        if ( ! -e $File ) {
+            ok( 0, "$File does not exist, but marked as failing" );
+        }
+        else {
+            my $todo = todo "$File: $FailureIsAccepted{$File}";
 
-        ok( $Internal->pm_file_compiles($File), "$File compiles" );
+            ok( $Internal->pm_file_compiles($File), "$File compiles" );
+        }
     }
     else {
         ok( $Internal->pm_file_compiles($File), "$File compiles" );
