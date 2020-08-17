@@ -37,6 +37,7 @@ $Self->Is( ref $Kernel::OM, 'Kernel::System::ObjectManager', 'object manager is 
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+# depending on the config some missing module can be ignores
 my $SkipCryptSMIME;
 if ( !$ConfigObject->Get('SMIME') ) {
     $SkipCryptSMIME = 1;
@@ -60,6 +61,19 @@ if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Calend
 my $SkipTeam;
 if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Calendar::Team', Silent => 1 ) ) {
     $SkipTeam = 1;
+}
+
+# depending on the installed packages some module can be ignored
+my $SkipITSM;
+{
+    # check whether ITSMConfigurationManagment is installed
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+    my $IsInstalled = $PackageObject->PackageIsInstalled(
+        Name   => 'ITSMConfigurationManagement',
+    );
+    if ( !$IsInstalled ) {
+        $SkipITSM = 1;
+    }
 }
 
 my $Home = $ConfigObject->Get('Home');
@@ -136,6 +150,8 @@ for my $Directory ( map { $Home . $_ } sort @DirectoriesToSearch ) {
             next OPERATION if $1 eq 'Kernel::System::Calendar'              && $SkipCalendar;
             next OPERATION if $1 eq 'Kernel::System::Calendar::Appointment' && $SkipCalendar;
             next OPERATION if $1 eq 'Kernel::System::Calendar::Team'        && $SkipTeam;
+            next OPERATION if $1 eq 'Kernel::System::GeneralCatalog'        && $SkipITSM;
+            next OPERATION if $1 eq 'Kernel::System::ITSMConfigItem'        && $SkipITSM;
 
             # load object, Get will throw an exception when the module can't be loaded
             my $Object = eval {
