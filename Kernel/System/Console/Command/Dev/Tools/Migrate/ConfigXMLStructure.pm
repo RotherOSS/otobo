@@ -19,8 +19,14 @@ package Kernel::System::Console::Command::Dev::Tools::Migrate::ConfigXMLStructur
 use strict;
 use warnings;
 
-use File::Basename;
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+use File::Copy qw(move);
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Main',
@@ -30,10 +36,13 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Migrate XML configuration files from OTOBO 5 to OTOBO 10.');
+    $Self->Description(<<'END_DESC');
+Migrate XML configuration files from OTRS 6.0.x to OTOBO 10.0.x.
+The original XML files will be saved with the extension .bak_otrs_6.
+END_DESC
     $Self->AddOption(
         Name        => 'source-directory',
-        Description => "Directory which contains configuration XML files that needs to be migrated.",
+        Description => 'Directory which contains configuration XML files that needs to be migrated.',
         Required    => 1,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
@@ -47,7 +56,7 @@ sub PreRun {
 
     # Perform any custom validations here. Command execution can be stopped with die().
     my $Directory = $Self->GetOption('source-directory');
-    if ( $Directory && !-d $Directory ) {
+    if ( $Directory && ! -d $Directory ) {
         die "Directory $Directory does not exist.\n";
     }
 
@@ -70,21 +79,19 @@ sub Run {
 
     if ( !@Files ) {
         $Self->PrintError("No XML files found in $Directory.");
+
         return $Self->ExitCodeError();
-    }
-
-    if ( !-d "$Directory/XML" ) {
-
-        # Create XML directory
-        mkdir "$Directory/XML";
     }
 
     FILE:
     for my $File (@Files) {
 
-        my $TargetPath = "$Directory/XML/" . basename($File);
+        my $BackupFile = $File . '.bak_otrs_6';
+        if ( ! copy( $File, $BackupFile ) ) {
+            die "Could not create the backup file $BackupFile: $!";
+        }
 
-        $Self->Print("$File -> $TargetPath...");
+        $Self->Print("copied $File -> $BackupFile");
 
         # Read XML file
         my $ContentRef = $MainObject->FileRead(
@@ -102,22 +109,29 @@ sub Run {
             Name    => $FileName,
         );
 
-        if ( !$Result ) {
-            $Self->Print("<red>Failed.</red>\n");
+        if ( ! $Result ) {
+            $Self->Print("<red>Failed migration $File</red>\n");
+
             next FILE;
         }
 
-        # Save result
+        # Save result in the original file
         my $Success = $MainObject->FileWrite(
-            Location => $TargetPath,
+            Location => $File,
             Content  => \$Result,
             Mode     => 'utf8',
         );
+        if ( ! $$Success ) {
+            $Self->Print("<red>Failed. Could not overwrite $File.</red>\n");
+
+            next FILE;
+        }
 
         $Self->Print(" <green>Done.</green>\n");
     }
 
     $Self->Print("\n<green>Done.</green>\n");
+
     return $Self->ExitCodeOk();
 }
 
