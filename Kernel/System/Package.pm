@@ -4925,104 +4925,20 @@ sub _ConfigurationDeploy {
         return;
     }
 
-    # get OTOBO home directory
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-
-    # build file location for OTOBO5 config file
-    my $OTOBO5ConfigFile = "$Home/Kernel/Config/Backups/ZZZAutoOTOBO5.pm";
-
-    # TODO: specify otobo needs for this, implement and remove "&& 0"
-    # if this is a Packageupgrade and if there is a ZZZAutoOTOBO5.pm file in the backup location
-    # (this file has been copied there during the migration from OTOBO 5 to OTOBO 10)
-    if (
-        ( IsHashRefWithData( $Self->{MergedPackages} ) || $Param{Action} eq 'PackageUpgrade' )
-        && -e $OTOBO5ConfigFile
-        && 0
-        )
     {
-
-        # delete categories cache
-        $Kernel::OM->Get('Kernel::System::Cache')->Delete(
-            Type => 'SysConfig',
-            Key  => 'ConfigurationCategoriesGet',
-        );
-
-        # get all config categories
-        my %Categories = $SysConfigObject->ConfigurationCategoriesGet();
-
-        # to store all setting names from this package
-        my @PackageSettings;
-
-        # get all config files names for this package
-        CONFIGXMLFILE:
-        for my $ConfigXMLFile ( @{ $Categories{ $Param{Package} }->{Files} } ) {
-
-            my $FileLocation = "$Home/Kernel/Config/Files/XML/$ConfigXMLFile";
-
-            # get the content of the XML file
-            my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-                Location => $FileLocation,
-                Mode     => 'utf8',
-                Result   => 'SCALAR',
-            );
-
-            # check error, but continue
-            if ( !$ContentRef ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "Could not read content of $FileLocation!",
-                );
-                next CONFIGXMLFILE;
-            }
-
-            # get all settings from this package
-            my @SettingList = $Kernel::OM->Get('Kernel::System::SysConfig::XML')->SettingListParse(
-                XMLInput    => ${$ContentRef},
-                XMLFilename => $ConfigXMLFile,
-            );
-
-            # get all the setting names from this file
-            for my $Setting (@SettingList) {
-                push @PackageSettings, $Setting->{XMLContentParsed}->{Name};
-            }
-        }
-
-        # sort the settings
-        @PackageSettings = sort @PackageSettings;
-
-        # deploy only the package settings
-        # (even if the migration of the effective values was not or only party successfull)
-        my $Success = $SysConfigObject->ConfigurationDeploy(
-            Comments      => $Param{Comments},
-            NoValidation  => 1,
-            UserID        => 1,
-            Force         => 1,
-            DirtySettings => \@PackageSettings,
-        );
-
-        # check error
-        if ( !$Success ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Could not deploy configuration!",
-            );
-            return;
-        }
-    }
-
-    else {
-
         my $Success = $SysConfigObject->ConfigurationDeploy(
             Comments => $Param{Comments},
             NotDirty => 1,
             UserID   => 1,
             Force    => 1,
         );
+
         if ( !$Success ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Could not deploy configuration!",
             );
+
             return;
         }
     }
