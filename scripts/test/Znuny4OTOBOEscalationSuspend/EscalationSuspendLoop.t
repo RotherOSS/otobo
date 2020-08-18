@@ -25,7 +25,7 @@ use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-$Self->Plan( Tests => 4 );
+$Self->Plan( Tests => 7 );
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -99,7 +99,7 @@ my $QueueID = $QueueObject->QueueAdd(
 $ConfigObject->Set(
     Key   => 'TimeWorkingHours',
     Value => {
-        'Mon' => [ 8 .. 18 ],    # 11 h
+        'Mon' => [ 8 .. 18 ],    # 11 h, from 8:00 to 18:59:59
         'Tue' => [ 8 .. 18 ],
         'Wed' => [ 8 .. 18 ],
         'Thu' => [ 8 .. 18 ],
@@ -110,7 +110,12 @@ $ConfigObject->Set(
 );
 
 # Ticket creation
-# solution time is then 2016-04-14 18:50:08
+# Solution time is 24 h after ticket creation.
+# Tuesday:   02:09:52 h
+# Wednesday: 11:00:00 h
+# Thursday : 10:50:08 h
+# sum:       24:00:00 h
+# Solution time: Thursday 08:00 + 10:50:08 h = 2016-04-14 18:50:08
 $HelperObject->FixedTimeSet(
     $TimeObject->TimeStamp2SystemTime( String => '2016-04-12 16:50:08' )
 ); # Tuesday
@@ -122,6 +127,32 @@ my $TicketID = $TicketObject->TicketCreate(
     QueueID       => $QueueID,
     OwnerID       => 1,
 );
+
+{
+    # Rebuild escalation index and test result
+    $TicketObject->TicketEscalationIndexBuild(
+        TicketID => $TicketID,
+        Suspend  => 2,
+        UserID   => 1,
+    );
+
+    my %Ticket = $TicketObject->TicketGet(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+
+    # Solution time is 2016-04-15 08:01:17
+    my $SolutionTime = $TimeObject->TimeStamp2SystemTime( String => '2016-04-14 18:50:08' );
+
+    $Self->Is(
+        $Ticket{SolutionTimeDestinationTime},
+        $SolutionTime,
+        'SolutionTimeDestinationTime calculated correctly'
+    );
+    $Self->Note( Note => "expected solution time: " . localtime( $SolutionTime ) );
+    $Self->Note( Note => "computed solution time: " . localtime( $Ticket{SolutionTimeDestinationTime} ) );
+}
+
 
 # Set pending reminder
 # TicketEscalationSuspendCalculate will add 4 minutes to prevent escalation
@@ -140,6 +171,32 @@ $TicketObject->TicketPendingTimeSet(
     TicketID => $TicketID,
     UserID   => 1,
 );
+
+{
+    # Rebuild escalation index and test result
+    $TicketObject->TicketEscalationIndexBuild(
+        TicketID => $TicketID,
+        Suspend  => 2,
+        UserID   => 1,
+    );
+
+    my %Ticket = $TicketObject->TicketGet(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+
+    # Solution time is 2016-04-15 08:01:17
+    my $SolutionTime = $TimeObject->TimeStamp2SystemTime( String => '2016-04-14 18:54:08' );
+
+    $Self->Is(
+        $Ticket{SolutionTimeDestinationTime},
+        $SolutionTime,
+        'SolutionTimeDestinationTime calculated correctly'
+    );
+    $Self->Note( Note => "expected solution time: " . localtime( $SolutionTime ) );
+    $Self->Note( Note => "computed solution time: " . localtime( $Ticket{SolutionTimeDestinationTime} ) );
+}
+
 
 # Set status "open"
 # This leads to +3:09 minutes because 16:52:53 from above + 4 minutes (see above)
@@ -160,9 +217,35 @@ $TicketObject->TicketPendingTimeSet(
     UserID   => 1,
 );
 
+{
+    # Rebuild escalation index and test result
+    $TicketObject->TicketEscalationIndexBuild(
+        TicketID => $TicketID,
+        Suspend  => 2,
+        UserID   => 1,
+    );
+
+    my %Ticket = $TicketObject->TicketGet(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+
+    # Solution time is 2016-04-15 08:01:17
+    my $SolutionTime = $TimeObject->TimeStamp2SystemTime( String => '2016-04-14 18:57:17' );
+
+    $Self->Is(
+        $Ticket{SolutionTimeDestinationTime},
+        $SolutionTime,
+        'SolutionTimeDestinationTime calculated correctly'
+    );
+    $Self->Note( Note => "expected solution time: " . localtime( $SolutionTime ) );
+    $Self->Note( Note => "computed solution time: " . localtime( $Ticket{SolutionTimeDestinationTime} ) );
+}
+
+
 # Set pending reminder
 # this adds another 4 minutes to the solution time
-# new solution time: 2016-04-15 08:01:17
+# new solution time: Friday 2016-04-15 08:01:17
 $HelperObject->FixedTimeSet(
     $TimeObject->TimeStamp2SystemTime( String => '2016-05-31 08:37:10' )
 );    # Tuesday
@@ -177,26 +260,30 @@ $TicketObject->TicketPendingTimeSet(
     UserID   => 1,
 );
 
-# Rebuild escalation index and test result
-$TicketObject->TicketEscalationIndexBuild(
-    TicketID => $TicketID,
-    Suspend  => 1,
-    UserID   => 1,
-);
+{
+    # Rebuild escalation index and test result
+    $TicketObject->TicketEscalationIndexBuild(
+        TicketID => $TicketID,
+        Suspend  => 1,
+        UserID   => 1,
+    );
 
-my %Ticket = $TicketObject->TicketGet(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
+    my %Ticket = $TicketObject->TicketGet(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
 
-# Solution time is 2016-04-15 08:01:17
-my $SolutionTime = $TimeObject->TimeStamp2SystemTime( String => '2016-04-15 08:01:17' );
+    # Solution time is 2016-04-15 08:01:17
+    my $SolutionTime = $TimeObject->TimeStamp2SystemTime( String => '2016-04-15 08:01:17' );
 
-$Self->Is(
-    $Ticket{SolutionTimeDestinationTime},
-    $SolutionTime,
-    'SolutionTimeDestinationTime calculated correctly'
-);
+    $Self->Is(
+        $Ticket{SolutionTimeDestinationTime},
+        $SolutionTime,
+        'SolutionTimeDestinationTime calculated correctly'
+    );
+    $Self->Note( Note => "expected solution time: " . localtime( $SolutionTime ) );
+    $Self->Note( Note => "computed solution time: " . localtime( $Ticket{SolutionTimeDestinationTime} ) );
+}
 
 $HelperObject->FixedTimeUnset();
 
