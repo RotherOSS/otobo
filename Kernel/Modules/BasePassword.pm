@@ -14,8 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
-
 package Kernel::Modules::BasePassword;
 
 use strict;
@@ -30,7 +28,7 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::User',
     'Kernel::System::Web::Request',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
 );
 
 sub PreRun {
@@ -38,7 +36,7 @@ sub PreRun {
 
     my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
     my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
-    my $TimeObject        = $Kernel::OM->Get('Kernel::System::Time');
+    my $DateTimeObject    = $Kernel::OM->Get('Kernel::System::DateTime');
 
     # cancel password action if an AgentInfo should be shown
     # to prevent enless redirect loop
@@ -59,7 +57,7 @@ sub PreRun {
 
     # redirect if password change time is in scope
     my $PasswordMaxValidTimeInSeconds = $Config->{Password}->{PasswordMaxValidTimeInDays} * 60 * 60 * 24;
-    my $PasswordMaxValidTill          = $TimeObject->SystemTime() - $PasswordMaxValidTimeInSeconds;
+    my $PasswordMaxValidTill          = $DateTimeObject->ToEpoch() - $PasswordMaxValidTimeInSeconds;
 
     # skip public frontends
     my $FrontendType = $Self->_FrontendTypeGet();
