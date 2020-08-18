@@ -36,7 +36,7 @@ sub PreRun {
 
     my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
     my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
-    my $DateTimeObject    = $Kernel::OM->Get('Kernel::System::DateTime');
+    my $DateTimeObject    = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # cancel password action if an AgentInfo should be shown
     # to prevent enless redirect loop
