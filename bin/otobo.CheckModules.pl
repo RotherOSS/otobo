@@ -308,18 +308,6 @@ my @NeededModules = (
         },
     },
     {
-        Module   => 'List::Util::XS',
-        Required => 1,
-        Comment =>
-            "Do a 'force install Scalar::Util' via cpan shell to fix this problem. Please make sure to have an c compiler and make installed before.",
-        InstTypes => {
-            aptget => 'libscalar-list-utils-perl',
-            emerge => 'perl-core/Scalar-List-Utils',
-            zypper => 'perl-Scalar-List-Utils',
-            ports  => 'lang/p5-Scalar-List-Utils',
-        },
-    },
-    {
         Module    => 'LWP::UserAgent',
         Required  => 1,
         InstTypes => {
