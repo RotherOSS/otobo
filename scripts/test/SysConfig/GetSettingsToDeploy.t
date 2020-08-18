@@ -200,7 +200,7 @@ my %DefaultSettingVersionGetLast1 = $SysConfigDBObject->DefaultSettingVersionGet
 );
 $Self->True(
     \%DefaultSettingVersionGetLast1,
-    'DefaultSettingVersionGetLast get version for default.',
+    'DefaultSettingVersionGetLast get version for default 1.',
 );
 
 my $DefaultSettingVersionID1 = $DefaultSettingVersionGetLast1{DefaultVersionID};
@@ -237,7 +237,7 @@ my %DefaultSettingVersionGetLast2 = $SysConfigDBObject->DefaultSettingVersionGet
 );
 $Self->True(
     \%DefaultSettingVersionGetLast2,
-    'DefaultSettingVersionGetLast get version for default.',
+    'DefaultSettingVersionGetLast get version for default 2.',
 );
 
 my $DefaultSettingVersionID2 = $DefaultSettingVersionGetLast2{DefaultVersionID};
