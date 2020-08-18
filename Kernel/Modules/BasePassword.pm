@@ -58,8 +58,8 @@ sub PreRun {
     return if $Module =~ /(LDAP|HTTPBasicAuth|Radius)/i;
 
     # redirect if password change time is in scope
-    my $PasswordMaxValidTimeInDays = $Config->{Password}->{PasswordMaxValidTimeInDays} * 60 * 60 * 24;
-    my $PasswordMaxValidTill       = $TimeObject->SystemTime() - $PasswordMaxValidTimeInDays;
+    my $PasswordMaxValidTimeInSeconds = $Config->{Password}->{PasswordMaxValidTimeInDays} * 60 * 60 * 24;
+    my $PasswordMaxValidTill          = $TimeObject->SystemTime() - $PasswordMaxValidTimeInSeconds;
 
     # skip public frontends
     my $FrontendType = $Self->_FrontendTypeGet();
