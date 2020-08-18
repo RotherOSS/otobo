@@ -20,6 +20,7 @@ package Kernel::System::DateTime;
 
 use strict;
 use warnings;
+use feature qw(state);
 
 use Exporter qw(import);
 
@@ -37,7 +38,8 @@ Exporter::export_ok_tags('all');
 # core modules
 use DateTime 1.08; # need 1.08 because Kernel::System::DateTime overrides _core_time()
 use DateTime::TimeZone;
-use Scalar::Util qw( looks_like_number );
+use Scalar::Util qw(looks_like_number);
+use List::Util qw(none);
 
 # CPAN modules
 
@@ -313,9 +315,8 @@ sub Set {
     # Delete parameters that are not allowed for set method
     delete $CPANDateTimeParams->{time_zone};
 
-    my $Result;
-    eval {
-        $Result = $Self->{CPANDateTimeObject}->set( %{$CPANDateTimeParams} );
+    my $Result = eval {
+        $Self->{CPANDateTimeObject}->set( %{$CPANDateTimeParams} );
     };
 
     return $Result;
@@ -1037,9 +1038,8 @@ sub Compare {
         return;
     }
 
-    my $Result;
-    eval {
-        $Result = DateTime->compare(
+    my $Result = eval {
+        DateTime->compare(
             $Self->{CPANDateTimeObject},
             $Param{DateTimeObject}->{CPANDateTimeObject}
         );
@@ -1137,6 +1137,7 @@ sub Validate {
     }
 
     my $DateTimeObject = $Self->_CPANDateTimeObjectCreate(%Param);
+
     return if !$DateTimeObject;
 
     return 1;
@@ -1445,8 +1446,7 @@ sub TimeZoneList {
     my @TimeZones = @{ DateTime::TimeZone->all_names() };
 
     # add missing UTC time zone for certain DateTime versions
-    my %TimeZones = map { $_ => 1 } @TimeZones;
-    if ( !exists $TimeZones{UTC} ) {
+    if ( none { $_ eq 'UTC' } @TimeZones ) {
         push @TimeZones, 'UTC';
     }
 
@@ -1512,8 +1512,6 @@ Returns:
 
 =cut
 
-my %ValidTimeZones;    # Cache for all instances.
-
 sub IsTimeZoneValid {
     my ( $Self, %Param ) = @_;
 
@@ -1530,9 +1528,7 @@ sub IsTimeZoneValid {
     # allow DateTime internal time zone in 'floating'
     return 1 if $Param{TimeZone} eq 'floating';
 
-    if ( !%ValidTimeZones ) {
-        %ValidTimeZones = map { $_ => 1 } @{ $Self->TimeZoneList() };
-    }
+    state %ValidTimeZones = map { $_ => 1 } @{ $Self->TimeZoneList() };
 
     return $ValidTimeZones{ $Param{TimeZone} } ? 1 : 0;
 }
