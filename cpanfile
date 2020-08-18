@@ -18,9 +18,6 @@ requires 'DBI';
 
 requires 'Digest::SHA';
 
-# Do a 'force install Scalar::Util' via cpan shell to fix this problem. Please make sure to have an c compiler and make installed before.
-requires 'List::Util::XS';
-
 requires 'LWP::UserAgent';
 
 # Required for random number generator.
