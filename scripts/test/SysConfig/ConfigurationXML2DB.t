@@ -1406,18 +1406,23 @@ for my $Test (@Tests) {
 
         for my $Item ( @{ $Test->{ExpectedResult} } ) {
 
-            my @Found = grep { $DefaultSettingList[$_]->{Name} eq $Item->{Name} } 0 .. $#DefaultSettingList;
+            my ($FoundSetting, @OtherFoundSettings) = grep { $_->{Name} eq $Item->{Name} } @DefaultSettingList;
 
             $Self->True(
-                scalar @Found,
-                "Check if Config item ($Item->{Name}) is there.",
+                $FoundSetting,
+                "Config item ($Item->{Name}) is there.",
             );
 
-            if ( scalar @Found ) {
+            $Self->False(
+                scalar @OtherFoundSettings,
+                "Only a single item ($Item->{Name}) is there.",
+            );
+
+            if ( $FoundSetting ) {
 
                 # Compare
                 $Self->IsDeeply(
-                    $DefaultSettingList[ $Found[0] ],
+                    $FoundSetting,
                     $Item,
                     "Check Config Item ($Item->{Name}) deeply.",
                 );
