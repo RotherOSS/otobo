@@ -39,6 +39,16 @@ my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
 my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
+# for this script activate the default EscalationSuspendStates
+$ConfigObject->Set(
+    Key   => 'EscalationSuspendStates',
+    Value => [
+            'pending auto close+',
+            'pending auto close-',
+            'pending reminder',
+        ],
+);
+
 # Disable transaction mode for escalation index ticket event module
 my $TicketEventModulePostConfig = $ConfigObject->Get('Ticket::EventModulePost');
 my $EscalationIndexName         = '9990-EscalationIndex';
