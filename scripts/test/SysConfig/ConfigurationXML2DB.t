@@ -1034,7 +1034,7 @@ my @Tests = (
         <Description Translatable="1">Sets the default body text for notes.</Description>
         <Navigation>Frontend::Agent::Ticket::ViewPriority</Navigation>
         <Value>
-            <Item ValueType="Textarea"></Item>
+            <Item ValueType="Textarea"/>
         </Value>
     </Setting>'
             },
