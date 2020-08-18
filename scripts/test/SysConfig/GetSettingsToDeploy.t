@@ -58,7 +58,7 @@ return if !$DBObject->Do(
 #
 # Prepare valid config XML and Perl
 #
-my $ValidSettingXML = <<'EOF',
+my $ValidSettingXML = <<'END_XML';
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_config version="2.0" init="Framework">
     <Setting Name="Test1" Required="1" Valid="1">
@@ -68,7 +68,6 @@ my $ValidSettingXML = <<'EOF',
             <Item ValueType="String" ValueRegex=".*">Test setting 1</Item>
         </Value>
     </Setting>
-        <<'EOF',
     <Setting Name="Test2" Required="1" Valid="1">
         <Description Translatable="1">Test 2.</Description>
         <Navigation>Core::Ticket</Navigation>
@@ -77,9 +76,9 @@ my $ValidSettingXML = <<'EOF',
         </Value>
     </Setting>
 </otobo_config>
-EOF
+END_XML
 
-    my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
+my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
 
 my @DefaultSettingAddParams = $SysConfigXMLObject->SettingListParse(
     XMLInput => $ValidSettingXML,
@@ -201,7 +200,7 @@ my %DefaultSettingVersionGetLast1 = $SysConfigDBObject->DefaultSettingVersionGet
 );
 $Self->True(
     \%DefaultSettingVersionGetLast1,
-    'DefaultSettingVersionGetLast get version for default.',
+    'DefaultSettingVersionGetLast get version for default 1.',
 );
 
 my $DefaultSettingVersionID1 = $DefaultSettingVersionGetLast1{DefaultVersionID};
@@ -238,7 +237,7 @@ my %DefaultSettingVersionGetLast2 = $SysConfigDBObject->DefaultSettingVersionGet
 );
 $Self->True(
     \%DefaultSettingVersionGetLast2,
-    'DefaultSettingVersionGetLast get version for default.',
+    'DefaultSettingVersionGetLast get version for default 2.',
 );
 
 my $DefaultSettingVersionID2 = $DefaultSettingVersionGetLast2{DefaultVersionID};
