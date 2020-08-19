@@ -173,9 +173,16 @@ sub CleanUp {
     # Connect to Redis if not connected
     return if !$Self->{Redis} && !$Self->_Connect();
 
+    # Delete all types when $Param{KeepTypes} is not set or references an empty array.
+    # Otherwise remove the kept types from the list of to be deleted types.
+    my @KeepTypes;
+    if ( $Param{KeepTypes} && ref $Param{KeepTypes} eq 'ARRAY' ) {
+        @KeepTypes = $Param{KeepTypes}->@*;
+    }
     eval {
-        if ( !$Param{Type} && !$Param{KeepTypes} ) {
+        if ( !$Param{Type} && !@KeepTypes ) {
             $Self->{Redis}->flushdb();
+
             return 1;
         }
 
