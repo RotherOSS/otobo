@@ -15,8 +15,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
-
 package Kernel::System::Ticket;
 
 use strict;
@@ -2959,6 +2957,9 @@ sub TicketEscalationSuspendCalculate {
         UserID => 1,
     );
 
+    # for parsing the dates from the database
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
     # check for suspend times
     my @StateHistory;
     $DBObject->Prepare(
@@ -2974,7 +2975,7 @@ sub TicketEscalationSuspendCalculate {
         push @StateHistory, {
             StateID     => $Row[0],
             Created     => $Row[1],
-            CreatedUnix => $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
+            CreatedUnix => $DateTimeObject->TimeStamp2SystemTime(
                 String => $Row[1],
             ),
             State => $StateList{ $Row[0] },
@@ -2990,7 +2991,7 @@ sub TicketEscalationSuspendCalculate {
     }
 
     # start time in unix format
-    my $DestinationTime = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
+    my $DestinationTime = $DateTimeObject->TimeStamp2SystemTime(
         String => $Param{StartTime},
     );
 
@@ -3139,7 +3140,7 @@ sub TicketEscalationSuspendCalculate {
     elsif ( !$UpdateDiffTime && $Kernel::OM->Get('Kernel::Config')->Get('SuspendEscalatedTickets') ) {
 
         # start time in unix format
-        my $InterimDestinationTime = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
+        my $InterimDestinationTime = $DateTimeObject->TimeStamp2SystemTime(
             String => $Param{StartTime},
         );
 
@@ -3207,7 +3208,6 @@ sub TicketWorkingTimeSuspendCalculate {
 
     # get required objects
     my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
     # get states in which to suspend escalations
     my @SuspendStates
@@ -3226,6 +3226,12 @@ sub TicketWorkingTimeSuspendCalculate {
         UserID => 1,
     );
 
+    # for parsing the dates from the database
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
+    # For computing the working time
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     # check for suspend times
     my @StateHistory;
     $DBObject->Prepare(
@@ -3238,7 +3244,7 @@ sub TicketWorkingTimeSuspendCalculate {
         Bind => [ \$Param{TicketID} ],
     );
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        my $CreatedUnix = $TimeObject->TimeStamp2SystemTime(
+        my $CreatedUnix = $DateTimeObject->TimeStamp2SystemTime(
             String => $Row[1],
         );
         push @StateHistory, {
@@ -3250,7 +3256,7 @@ sub TicketWorkingTimeSuspendCalculate {
     }
 
     # start time in unix format
-    my $DestinationTime = $TimeObject->TimeStamp2SystemTime(
+    my $DestinationTime = $DateTimeObject->TimeStamp2SystemTime(
         String => $Param{StartTime},
     );
 

@@ -1593,6 +1593,138 @@ sub SystemTimeZoneGet {
     return DateTime::TimeZone->new( name => 'local' )->name();
 }
 
+=head2 TimeStamp2SystemTime()
+
+converts a given time stamp to local system time.
+Different formats are recognised and handled.
+This method is similar, but not equivalent, to _StringToHash().
+
+    my $SystemTime = $TimeObject->TimeStamp2SystemTime(
+        String => '2004-08-14 22:45:00',
+    );
+
+=cut
+
+sub TimeStamp2SystemTime {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{String} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need String!',
+        );
+
+        return;
+    }
+
+    my %DateTimeParams;
+
+    # match iso date format
+    if ( $Param{String} =~ /(\d{4})-(\d{1,2})-(\d{1,2})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
+        %DateTimeParams = (
+            Year   => $1,
+            Month  => $2,
+            Day    => $3,
+            Hour   => $4,
+            Minute => $5,
+            Second => $6,
+        );
+    }
+
+    # match iso date format (wrong format)
+    elsif ( $Param{String} =~ /(\d{1,2})-(\d{1,2})-(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
+        %DateTimeParams = (
+            Year   => $3,
+            Month  => $2,
+            Day    => $1,
+            Hour   => $4,
+            Minute => $5,
+            Second => $6,
+        );
+    }
+
+    # match euro time format
+    elsif ( $Param{String} =~ /(\d{1,2})\.(\d{1,2})\.(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
+        %DateTimeParams = (
+            Year   => $3,
+            Month  => $2,
+            Day    => $1,
+            Hour   => $4,
+            Minute => $5,
+            Second => $6,
+        );
+    }
+
+    # match yyyy-mm-ddThh:mm:ss+tt:zz time format
+    elsif (
+        $Param{String}
+        =~ /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})(\+|\-)((\d{1,2}):(\d{1,2}))/i
+        )
+    {
+        %DateTimeParams = (
+            Year   => $1,
+            Month  => $2,
+            Day    => $3,
+            Hour   => $4,
+            Minute => $5,
+            Second => $6,
+        );
+    }
+
+    # match mail time format
+    elsif (
+        $Param{String}
+        =~ /((...),\s+|)(\d{1,2})\s(...)\s(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})\s((\+|\-)(\d{2})(\d{2})|...)/
+        )
+    {
+        my @MonthMap    = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
+        my $Month       = 1;
+        my $MonthString = $4;
+        for my $MonthCount ( 0 .. $#MonthMap ) {
+            if ( $MonthString =~ /$MonthMap[$MonthCount]/i ) {
+                $Month = $MonthCount + 1;
+            }
+        }
+        %DateTimeParams = (
+            Year   => $5,
+            Month  => $Month,
+            Day    => $3,
+            Hour   => $6,
+            Minute => $7,
+            Second => $8,
+        );    # + $Self->{TimeSecDiff};
+    }
+    elsif (    # match yyyy-mm-ddThh:mm:ssZ
+        $Param{String} =~ /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})Z$/
+        )
+    {
+        %DateTimeParams = (
+            Year   => $1,
+            Month  => $2,
+            Day    => $3,
+            Hour   => $4,
+            Minute => $5,
+            Second => $6,
+        );
+    }
+
+    # return error
+    if ( ! %DateTimeParams ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Invalid Date '$Param{String}'!",
+        );
+    }
+
+    # Create the CPAN/Perl DateTime object.
+    # TimeZone and locale are taken care of in _CPANDateTimeObjectCreate().
+    my $CPANDateTimeObject = $Self->_CPANDateTimeObjectCreate(%DateTimeParams);
+
+    return $CPANDateTimeObject->epoch;
+}
+
+
 =begin Internal:
 
 =head2 _ToCPANDateTimeParamNames()
