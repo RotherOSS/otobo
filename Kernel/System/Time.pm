@@ -128,7 +128,6 @@ sub SystemTime2TimeStamp {
         return;
     }
 
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->SystemTime2Date(%Param);
     if ( defined $Param{Type} && $Param{Type} eq 'Short' ) {
         my ( $CSec, $CMin, $CHour, $CDay, $CMonth, $CYear ) = $Self->SystemTime2Date(
             SystemTime => $Self->SystemTime(),
@@ -138,6 +137,9 @@ sub SystemTime2TimeStamp {
         }
         return "$Year-$Month-$Day $Hour:$Min:$Sec";
     }
+
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->SystemTime2Date(%Param);
+
     return "$Year-$Month-$Day $Hour:$Min:$Sec";
 }
 
