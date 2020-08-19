@@ -186,22 +186,22 @@ sub CleanUp {
             return 1;
         }
 
-        my @TypeList;
+        my @ToBeDeletedTypes;
         if ( $Param{Type} ) {
-            push @TypeList, $Param{Type};
+            push @ToBeDeletedTypes, $Param{Type};
         }
         else {
-            @TypeList = $Self->{Redis}->smembers($NamespaceKey);
+            @ToBeDeletedTypes = $Self->{Redis}->smembers($NamespaceKey);
         }
 
         if ( $Param{KeepTypes} ) {
             my $KeepTypesRegex = join( '|', map {"\Q$_\E"} @{ $Param{KeepTypes} } );
-            @TypeList = grep { $_ !~ m{/$KeepTypesRegex/?$}smx } @TypeList;
+            @ToBeDeletedTypes = grep { $_ !~ m{/$KeepTypesRegex/?$}smx } @ToBeDeletedTypes;
         }
 
-        return 1 if !@TypeList;
+        return 1 if !@ToBeDeletedTypes;
 
-        for my $Type (@TypeList) {
+        for my $Type (@ToBeDeletedTypes) {
             my ( $Cursor, $KeysRef ) = ( 0, [] );
             do {
                 ( $Cursor, $KeysRef ) = $Self->{Redis}->scan( $Cursor, MATCH => "$Type:*" );
