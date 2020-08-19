@@ -33,7 +33,7 @@ $ConfigObject->Set(
 my $SystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
 # NextEventGet() tests
-my @Tests = (
+my @TestsNextEventGet = (
     {
         Name    => 'No Params',
         Config  => {},
@@ -273,7 +273,7 @@ my @Tests = (
 # get cron event object
 my $CronEventObject = $Kernel::OM->Get('Kernel::System::CronEvent');
 
-for my $Test (@Tests) {
+for my $Test (@TestsNextEventGet) {
 
     if ( $Test->{Config}->{TimeZone} ) {
         $ConfigObject->Set(
@@ -319,7 +319,7 @@ for my $Test (@Tests) {
 }
 
 # NextEventList() tests
-@Tests = (
+my @TestsNextEventList = (
     {
         Name    => 'No Params',
         Config  => {},
@@ -460,9 +460,6 @@ for my $Test (@Tests) {
         ],
         Success => 1,
     },
-);
-
-=for never
 
     # Looks like the daylight savings switch is problematic.
     # See https://github.com/RotherOSS/otobo/issues/238
@@ -492,10 +489,9 @@ for my $Test (@Tests) {
         ],
         Success => 1,
     },
+);
 
-=cut
-
-for my $Test (@Tests) {
+for my $Test (@TestsNextEventList) {
 
     if ( $Test->{Config}->{TimeZone} ) {
         $ConfigObject->Set(
@@ -549,7 +545,7 @@ for my $Test (@Tests) {
 }
 
 # PreviousEventList() tests
-@Tests = (
+my @TestsPreviousEventList = (
     {
         Name    => 'No Params',
         Config  => {},
@@ -687,9 +683,6 @@ for my $Test (@Tests) {
         ExpectedValue => '2015-12-31 23:58:00',
         Success       => 1,
     },
-);
-
-=for never
 
     # Looks like the daylight savings switch is problematic.
     # See https://github.com/RotherOSS/otobo/issues/238
@@ -703,10 +696,9 @@ for my $Test (@Tests) {
         ExpectedValue => '2021-03-28 01:30:00',
         Success       => 1,
     },
+);
 
-=cut
-
-for my $Test (@Tests) {
+for my $Test (@TestsPreviousEventList) {
 
     if ( $Test->{Config}->{TimeZone} ) {
         $ConfigObject->Set(
@@ -752,7 +744,7 @@ for my $Test (@Tests) {
 }
 
 # GenericAgentSchedule2CronTab() tests
-@Tests = (
+my @TestsGenericAgentSchedule2CronTab = (
     {
         Name    => 'Empty Config',
         Config  => {},
@@ -990,7 +982,7 @@ for my $Test (@Tests) {
 );
 
 TESTCASE:
-for my $Test (@Tests) {
+for my $Test (@TestsGenericAgentSchedule2CronTab) {
 
     my $Schedule = $CronEventObject->GenericAgentSchedule2CronTab( %{ $Test->{Config} } );
 
