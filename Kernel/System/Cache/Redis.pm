@@ -175,12 +175,12 @@ sub CleanUp {
 
     # Delete all types when $Param{KeepTypes} is not set or references an empty array.
     # Otherwise remove the kept types from the list of to be deleted types.
-    my @KeepTypes;
+    my %TypeIsKept;
     if ( $Param{KeepTypes} && ref $Param{KeepTypes} eq 'ARRAY' ) {
-        @KeepTypes = $Param{KeepTypes}->@*;
+        %TypeIsKept = map { $_ => 1 } ( $Param{KeepTypes}->@* );
     }
     eval {
-        if ( !$Param{Type} && !@KeepTypes ) {
+        if ( !$Param{Type} && !%TypeIsKept ) {
             $Self->{Redis}->flushdb();
 
             return 1;
@@ -194,9 +194,9 @@ sub CleanUp {
             @ToBeDeletedTypes = $Self->{Redis}->smembers($NamespaceKey);
         }
 
-        if ( $Param{KeepTypes} ) {
-            my $KeepTypesRegex = join( '|', map {"\Q$_\E"} @{ $Param{KeepTypes} } );
-            @ToBeDeletedTypes = grep { $_ !~ m{/$KeepTypesRegex/?$}smx } @ToBeDeletedTypes;
+        # filter the types that should be kept
+        if ( %TypeIsKept ) {
+            @ToBeDeletedTypes = grep { ! $TypeIsKept{$_} } @ToBeDeletedTypes;
         }
 
         return 1 if !@ToBeDeletedTypes;
