@@ -164,7 +164,7 @@ $Self->Is(
 
 $Self->Is(
     $XPoweredByHeader,
-    "OTOBO (https://otrs.com/)",
+    "OTOBO (https://otobo.org/)",
     "Default X-Powered-By header",
 );
 
