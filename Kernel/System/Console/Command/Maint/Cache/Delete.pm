@@ -56,23 +56,27 @@ sub Configure {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my %Options;
-    $Options{Expired} = $Self->GetOption('expired');
-    $Options{Type}    = $Self->GetOption('type');
-    my @KeepTypes;
+    # collect options for the method CleanUp of the cache object
+    my %CleanUpOptions;
+    $CleanUpOptions{Expired} = $Self->GetOption('expired');
+    $CleanUpOptions{Type}    = $Self->GetOption('type');
 
-    # Get keeptypes
-    KEEP:
-    for my $KeepType ( @{ $Self->GetOption('keeptype') // [] } ) {
-        push( @KeepTypes, $KeepType );
+    # Set option KeepTypes for the CleanUp() method.
+    # When no --keeptype option is passed then a reference to an empty array is set and
+    # this indicates that all types are deleted.
+    {
+        my @KeepTypes;
+        for my $KeepType ( @{ $Self->GetOption('keeptype') // [] } ) {
+            push @KeepTypes, $KeepType;
+        }
+        $CleanUpOptions{KeepTypes} = \@KeepTypes;
     }
-    $Options{KeepTypes} = \@KeepTypes;
 
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     $Self->Print("<yellow>Deleting cache...</yellow>\n");
-    if ( !$CacheObject->CleanUp(%Options) ) {
+    if ( !$CacheObject->CleanUp(%CleanUpOptions) ) {
         return $Self->ExitCodeError();
     }
     $Self->Print("<green>Done.</green>\n");
