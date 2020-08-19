@@ -90,9 +90,9 @@ sub NextEventGet {
     # would not exist in the given time zone (e. g. on/around daylight saving time switch).
     # CPAN DateTime fails if trying to create a object of a non-existing
     # time in the given time zone. Converting it to UTC and back has the desired effect.
-    my $OTRSTimeZone = $StartDateTime->OTRSTimeZoneGet();
+    my $OTOBOTimeZone = $StartDateTime->OTOBOTimeZoneGet();
     my $TimeZoneChanged;
-    if ( $OTRSTimeZone ne 'UTC' ) {
+    if ( $OTOBOTimeZone ne 'UTC' ) {
         $StartDateTime->ToTimeZone(
             TimeZone => 'UTC'
         );
@@ -123,7 +123,7 @@ sub NextEventGet {
 
     if ($TimeZoneChanged) {
         $EventDateTime->ToTimeZone(
-            TimeZone => $OTRSTimeZone
+            TimeZone => $OTOBOTimeZone
         );
     }
 
