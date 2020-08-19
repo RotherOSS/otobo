@@ -148,11 +148,10 @@ Creates a DateTime object. Do not use new() directly, instead use the object man
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ( $Class, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Class;
 
     # CPAN DateTime: only use English descriptions and abbreviations internally.
     #   This has nothing to do with the user's locale settings in OTOBO.
@@ -162,6 +161,7 @@ sub new {
     #   by the Clone() method).
     if ( $Param{_CPANDateTimeObject} ) {
         $Self->{CPANDateTimeObject} = $Param{_CPANDateTimeObject};
+
         return $Self;
     }
 
@@ -1834,7 +1834,6 @@ sub _CPANDateTimeObjectCreate {
         );
     }
 
-    my $CPANDateTimeObject;
     my $TimeZone = $Param{TimeZone} || $Self->OTOBOTimeZoneGet();
 
     if ( !$Self->IsTimeZoneValid( TimeZone => $TimeZone ) ) {
@@ -1858,8 +1857,8 @@ sub _CPANDateTimeObjectCreate {
             return;
         }
 
-        eval {
-            $CPANDateTimeObject = DateTime->from_epoch(
+        my $CPANDateTimeObject =  eval {
+            DateTime->from_epoch(
                 epoch     => $Param{Epoch},
                 time_zone => $TimeZone,
                 locale    => $Self->{Locale},
@@ -1891,8 +1890,8 @@ sub _CPANDateTimeObjectCreate {
         # Create DateTime object
         my $DateTimeParams = $Self->_ToCPANDateTimeParamNames(%Param);
 
-        eval {
-            $CPANDateTimeObject = DateTime->new(
+        my $CPANDateTimeObject = eval {
+            DateTime->new(
                 %{$DateTimeParams},
                 locale => $Self->{Locale},
             );
@@ -1902,8 +1901,8 @@ sub _CPANDateTimeObjectCreate {
     }
 
     # Create object with current date/time.
-    eval {
-        $CPANDateTimeObject = DateTime->now(
+    my $CPANDateTimeObject = eval {
+        DateTime->now(
             time_zone => $TimeZone,
             locale    => $Self->{Locale},
         );
