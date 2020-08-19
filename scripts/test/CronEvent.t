@@ -1010,10 +1010,6 @@ for my $Test (@TestsGenericAgentSchedule2CronTab) {
         undef,
         "$Test->{Name} GenericAgentSchedule2CronTab() - next event should not be undef",
     );
-
 }
-
-
-$Self->DoneTesting();
 
 1;
