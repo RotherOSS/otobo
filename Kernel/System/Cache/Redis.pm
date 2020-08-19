@@ -173,28 +173,35 @@ sub CleanUp {
     # Connect to Redis if not connected
     return if !$Self->{Redis} && !$Self->_Connect();
 
+    # Delete all types when $Param{KeepTypes} is not set or references an empty array.
+    # Otherwise remove the kept types from the list of to be deleted types.
+    my %TypeIsKept;
+    if ( $Param{KeepTypes} && ref $Param{KeepTypes} eq 'ARRAY' ) {
+        %TypeIsKept = map { $_ => 1 } ( $Param{KeepTypes}->@* );
+    }
     eval {
-        if ( !$Param{Type} && !$Param{KeepTypes} ) {
+        if ( !$Param{Type} && !%TypeIsKept ) {
             $Self->{Redis}->flushdb();
+
             return 1;
         }
 
-        my @TypeList;
+        my @ToBeDeletedTypes;
         if ( $Param{Type} ) {
-            push @TypeList, $Param{Type};
+            push @ToBeDeletedTypes, $Param{Type};
         }
         else {
-            @TypeList = $Self->{Redis}->smembers($NamespaceKey);
+            @ToBeDeletedTypes = $Self->{Redis}->smembers($NamespaceKey);
         }
 
-        if ( $Param{KeepTypes} ) {
-            my $KeepTypesRegex = join( '|', map {"\Q$_\E"} @{ $Param{KeepTypes} } );
-            @TypeList = grep { $_ !~ m{/$KeepTypesRegex/?$}smx } @TypeList;
+        # filter the types that should be kept
+        if ( %TypeIsKept ) {
+            @ToBeDeletedTypes = grep { ! $TypeIsKept{$_} } @ToBeDeletedTypes;
         }
 
-        return 1 if !@TypeList;
+        return 1 if !@ToBeDeletedTypes;
 
-        for my $Type (@TypeList) {
+        for my $Type (@ToBeDeletedTypes) {
             my ( $Cursor, $KeysRef ) = ( 0, [] );
             do {
                 ( $Cursor, $KeysRef ) = $Self->{Redis}->scan( $Cursor, MATCH => "$Type:*" );
