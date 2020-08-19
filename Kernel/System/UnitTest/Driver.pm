@@ -541,9 +541,8 @@ sub DoneTesting {
 
     my $TestCountTotal = $Self->{ResultData}->{TestOk} // 0;
     $TestCountTotal += $Self->{ResultData}->{TestNotOk} // 0;
-    say { $Self->{OriginalSTDOUT} } "1..$TestCountTotal";
 
-    return;
+    return $Self->Plan( Tests => $TestCountTotal );
 }
 
 =head2 Note()
