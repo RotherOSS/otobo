@@ -308,18 +308,6 @@ my @NeededModules = (
         },
     },
     {
-        Module   => 'List::Util::XS',
-        Required => 1,
-        Comment =>
-            "Do a 'force install Scalar::Util' via cpan shell to fix this problem. Please make sure to have an c compiler and make installed before.",
-        InstTypes => {
-            aptget => 'libscalar-list-utils-perl',
-            emerge => 'perl-core/Scalar-List-Utils',
-            zypper => 'perl-Scalar-List-Utils',
-            ports  => 'lang/p5-Scalar-List-Utils',
-        },
-    },
-    {
         Module    => 'LWP::UserAgent',
         Required  => 1,
         InstTypes => {
@@ -903,6 +891,18 @@ my @NeededModules = (
             emerge => 'dev-perl/XML-Parser',
             zypper => 'perl-XML-Parser',
             ports  => 'textproc/p5-XML-Parser',
+        },
+    },
+    {
+        Module    => 'Const::Fast',
+        Required  => 0,
+        Features  => ['div:readonly'],
+        Comment   => 'Support for readonly Perl variables',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
         },
     },
 

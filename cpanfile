@@ -18,9 +18,6 @@ requires 'DBI';
 
 requires 'Digest::SHA';
 
-# Do a 'force install Scalar::Util' via cpan shell to fix this problem. Please make sure to have an c compiler and make installed before.
-requires 'List::Util::XS';
-
 requires 'LWP::UserAgent';
 
 # Required for random number generator.
@@ -133,6 +130,12 @@ feature 'div:hanextra', 'Suppport for div:hanextra' => sub {
 feature 'div:ldap', 'Suppport for div:ldap' => sub {
     # Required for directory authentication.
     requires 'Net::LDAP';
+
+};
+
+feature 'div:readonly', 'Suppport for div:readonly' => sub {
+    # Support for readonly Perl variables
+    requires 'Const::Fast';
 
 };
 
@@ -298,6 +301,9 @@ feature 'optional', 'Suppport for optional' => sub {
 
     # Recommended for XML processing.
     requires 'XML::Parser';
+
+    # Support for readonly Perl variables
+    requires 'Const::Fast';
 
     # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
     requires 'Clone';
