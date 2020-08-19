@@ -8,13 +8,16 @@ var/log/ssl_request_log
 .settings
 .includepath
 .DS_Store
-*.swp
-*.swo
-*~
 .profile
 .vstags
 .vscode
 .vimrc
+
+# Editor swap files
+*.swn
+*.swp
+*.swo
+*~
 
 # OTOBO
 .procmailrc
