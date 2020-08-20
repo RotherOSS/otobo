@@ -281,10 +281,10 @@ my @NeededModules = (
         Module    => 'Convert::BinHex',
         Required  => 1,
         InstTypes => {
-            aptget => undef,
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
+            aptget => 'libconvert-binhex-perl',
+            emerge => 'dev-perl/Convert-BinHex',
+            zypper => 'perl-Convert-BinHex',
+            ports  => 'converters/p5-Convert-BinHex'
         },
     },
     {
@@ -350,10 +350,10 @@ my @NeededModules = (
         Required  => 1,
         Comment   => 'Required by Kernel/cpan-lib/Mail/Mailer/smtps.pm',
         InstTypes => {
-            aptget => 'libmoo-perl',
-            emerge => 'dev-perl/Moo',
-            zypper => 'perl-Moo',
-            ports  => 'devel/p5-Moo',
+            aptget => 'libnet-smtp-ssl-perl',
+            emerge => 'dev-perl/Net-SMTP-SSL',
+            zypper => 'perl-Net-SMTP-SSL',
+            ports  => 'devel/p5-Net-SMTP-SSL',
         },
     },
     {
