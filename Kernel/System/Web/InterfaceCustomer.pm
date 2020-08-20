@@ -307,6 +307,7 @@ sub Run {
             $Kernel::OM->ObjectParamAdd(
                 'Kernel::Output::HTML::Layout' => {
                     SetCookies => {
+                        # set a cookie tentatively for checking cookie support
                         OTOBOBrowserHasCookie => $ParamObject->SetCookie(
                             Key      => 'OTOBOBrowserHasCookie',
                             Value    => 1,
@@ -511,6 +512,7 @@ sub Run {
                         Secure   => $CookieSecureAttribute,
                         HTTPOnly => 1,
                     ),
+                    # delete the OTOBOBrowserHasCookie cookie
                     OTOBOBrowserHasCookie => $ParamObject->SetCookie(
                         Key      => 'OTOBOBrowserHasCookie',
                         Value    => '',
