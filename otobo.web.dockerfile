@@ -50,21 +50,22 @@ RUN cpanm Net::DNS Gazelle \
 COPY cpanfile ./cpanfile
 RUN cpanm \
     --with-feature=db:mysql \
-    --with-feature=db:postgresql \
     --with-feature=db:odbc \
+    --with-feature=db:postgresql \
     --with-feature=db:sqlite \
-    --with-feature=plack \
     --with-feature=devel:dbviewer \
+    --with-feature=devel:test \
     --with-feature=div:bcrypt \
-    --with-feature=performance:json \
+    --with-feature=div:ldap \
+    --with-feature=div:readonly \
+    --with-feature=div:xslt \
     --with-feature=mail:imap \
     --with-feature=mail:ntlm \
     --with-feature=mail:sasl \
-    --with-feature=div:ldap \
     --with-feature=performance:csv \
-    --with-feature=div:xslt \
+    --with-feature=performance:json \
     --with-feature=performance:redis \
-    --with-feature=devel:test \
+    --with-feature=plack \
     --installdeps .
 
 # create the otobo user
