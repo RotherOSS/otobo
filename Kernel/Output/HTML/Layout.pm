@@ -674,11 +674,9 @@ sub Login {
         # always set a cookie, so that at the time the user submits
         # the password, we know already if the browser supports cookies.
         # ( the session cookie isn't available at that time ).
-        my $CookieSecureAttribute = 0;
-        if ( $ConfigObject->Get('HttpType') eq 'https' ) {
 
-            # Restrict Cookie to HTTPS if it is used.
-            $CookieSecureAttribute = 1;
+        # Restrict Cookie to HTTPS if it is used.
+        my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
         }
         $Self->{SetCookies}->{OTOBOBrowserHasCookie} = $Kernel::OM->Get('Kernel::System::Web::Request')->SetCookie(
             Key      => 'OTOBOBrowserHasCookie',
@@ -3912,11 +3910,9 @@ sub CustomerLogin {
         # always set a cookie, so that at the time the user submits
         # the password, we know already if the browser supports cookies.
         # ( the session cookie isn't available at that time ).
-        my $CookieSecureAttribute = 0;
-        if ( $ConfigObject->Get('HttpType') eq 'https' ) {
 
-            # Restrict Cookie to HTTPS if it is used.
-            $CookieSecureAttribute = 1;
+        # Restrict Cookie to HTTPS if it is used.
+        my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
         }
         $Self->{SetCookies}->{OTOBOBrowserHasCookie} = $Kernel::OM->Get('Kernel::System::Web::Request')->SetCookie(
             Key      => 'OTOBOBrowserHasCookie',

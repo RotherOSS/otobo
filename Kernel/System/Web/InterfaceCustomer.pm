@@ -175,12 +175,8 @@ sub Run {
         }
     }
 
-    my $CookieSecureAttribute;
-    if ( $ConfigObject->Get('HttpType') eq 'https' ) {
-
-        # Restrict Cookie to HTTPS if it is used.
-        $CookieSecureAttribute = 1;
-    }
+    # Restrict Cookie to HTTPS if it is used.
+    my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::Output::HTML::Layout' => {

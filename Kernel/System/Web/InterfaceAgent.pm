@@ -181,12 +181,8 @@ sub Run {
         },
     );
 
-    my $CookieSecureAttribute;
-    if ( $ConfigObject->Get('HttpType') eq 'https' ) {
-
-        # Restrict Cookie to HTTPS if it is used.
-        $CookieSecureAttribute = 1;
-    }
+    # Restrict Cookie to HTTPS if it is used.
+    my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
 
     my $DBCanConnect = $Kernel::OM->Get('Kernel::System::DB')->Connect();
 
