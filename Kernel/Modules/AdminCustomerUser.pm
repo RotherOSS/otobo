@@ -133,12 +133,8 @@ sub Run {
             $Expires = '';
         }
 
-        my $SecureAttribute;
-        if ( $ConfigObject->Get('HttpType') eq 'https' ) {
-
-            # Restrict Cookie to HTTPS if it is used.
-            $SecureAttribute = 1;
-        }
+        # Restrict Cookie to HTTPS if it is used.
+        my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
 
         my $LayoutObject = Kernel::Output::HTML::Layout->new(
             %{$Self},
@@ -148,7 +144,7 @@ sub Run {
                     Value    => $NewSessionID,
                     Expires  => $Expires,
                     Path     => $ConfigObject->Get('ScriptAlias'),
-                    Secure   => scalar $SecureAttribute,
+                    Secure   => $CookieSecureAttribute,
                     HTTPOnly => 1,
                 ),
             },
