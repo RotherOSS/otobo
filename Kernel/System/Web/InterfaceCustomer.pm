@@ -512,7 +512,7 @@ sub Run {
                         Value    => $NewSessionID,
                         Expires  => $Expires,
                         Path     => $ConfigObject->Get('ScriptAlias'),
-                        Secure   => scalar $CookieSecureAttribute,
+                        Secure   => $CookieSecureAttribute,
                         HTTPOnly => 1,
                     ),
                     OTOBOBrowserHasCookie => $ParamObject->SetCookie(
@@ -582,12 +582,13 @@ sub Run {
         $Kernel::OM->ObjectParamAdd(
             'Kernel::Output::HTML::Layout' => {
                 SetCookies => {
+                    # delete the OTOBO session cookie
                     SessionIDCookie => $ParamObject->SetCookie(
                         Key      => $Param{SessionName},
                         Value    => '',
                         Expires  => '-1y',
                         Path     => $ConfigObject->Get('ScriptAlias'),
-                        Secure   => scalar $CookieSecureAttribute,
+                        Secure   => $CookieSecureAttribute,
                         HTTPOnly => 1,
                     ),
                 },
@@ -1094,12 +1095,13 @@ sub Run {
             $Kernel::OM->ObjectParamAdd(
                 'Kernel::Output::HTML::Layout' => {
                     SetCookies => {
+                        # delete the OTOBO session cookie
                         SessionIDCookie => $ParamObject->SetCookie(
                             Key      => $Param{SessionName},
                             Value    => '',
                             Expires  => '-1y',
                             Path     => $ConfigObject->Get('ScriptAlias'),
-                            Secure   => scalar $CookieSecureAttribute,
+                            Secure   => $CookieSecureAttribute,
                             HTTPOnly => 1,
                         ),
                     },

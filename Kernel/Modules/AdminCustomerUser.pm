@@ -148,7 +148,7 @@ sub Run {
                     Value    => $NewSessionID,
                     Expires  => $Expires,
                     Path     => $ConfigObject->Get('ScriptAlias'),
-                    Secure   => scalar $SecureAttribute,
+                    Secure   => $CookieSecureAttribute,
                     HTTPOnly => 1,
                 ),
             },
