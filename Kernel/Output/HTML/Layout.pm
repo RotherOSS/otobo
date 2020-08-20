@@ -677,11 +677,17 @@ sub Login {
 
         # Restrict Cookie to HTTPS if it is used.
         my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
+
+        my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
+        if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
+            $Expires = '';
         }
+
+        # set a cookie tentatively for checking cookie support
         $Self->{SetCookies}->{OTOBOBrowserHasCookie} = $Kernel::OM->Get('Kernel::System::Web::Request')->SetCookie(
             Key      => 'OTOBOBrowserHasCookie',
             Value    => 1,
-            Expires  => '+1y',
+            Expires  => $Expires,
             Path     => $ConfigObject->Get('ScriptAlias'),
             Secure   => $CookieSecureAttribute,
             HttpOnly => 1,
@@ -3913,11 +3919,17 @@ sub CustomerLogin {
 
         # Restrict Cookie to HTTPS if it is used.
         my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
+
+        my $Expires = '+' . $ConfigObject->Get('SessionMaxTime') . 's';
+        if ( !$ConfigObject->Get('SessionUseCookieAfterBrowserClose') ) {
+            $Expires = '';
         }
+
+        # set a cookie tentatively for checking cookie support
         $Self->{SetCookies}->{OTOBOBrowserHasCookie} = $Kernel::OM->Get('Kernel::System::Web::Request')->SetCookie(
             Key      => 'OTOBOBrowserHasCookie',
             Value    => 1,
-            Expires  => '+1y',
+            Expires  => $Expires,
             Path     => $ConfigObject->Get('ScriptAlias'),
             Secure   => $CookieSecureAttribute,
             HttpOnly => 1,
