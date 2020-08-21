@@ -96,7 +96,6 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        my $Note = '';
         my %Errors;
         $GetParam{CustomerCompanyID} = $ParamObject->GetParam( Param => 'CustomerCompanyID' );
 
@@ -329,7 +328,6 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        my $Note = '';
         my %Errors;
 
         my $CustomerCompanyKey = $ConfigObject->Get( $GetParam{Source} )->{CustomerCompanyKey};
