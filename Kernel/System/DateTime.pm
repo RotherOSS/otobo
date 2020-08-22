@@ -730,6 +730,72 @@ sub Subtract {
     return 1;
 }
 
+=head2 WorkingTime()
+
+get the working time in seconds between these local system times.
+
+    my $WorkingTime = $TimeObject->WorkingTime(
+        StartTime => $Created,
+        StopTime  => $TimeObject->SystemTime(),
+    );
+
+    my $WorkingTime = $TimeObject->WorkingTime(
+        StartTime => $Created,
+        StopTime  => $TimeObject->SystemTime(),
+        Calendar  => 3, # '' is default
+    );
+
+=cut
+
+sub WorkingTime {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(StartTime StopTime)) {
+        if ( !defined $Param{$_} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!",
+            );
+            return;
+        }
+    }
+
+    return 0 if $Param{StartTime} >= $Param{StopTime};
+
+    my $StartDateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            Epoch    => $Param{StartTime},
+            TimeZone => $Self->{TimeZone},
+        },
+    );
+
+    my $StopDateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            Epoch    => $Param{StopTime},
+            TimeZone => $Self->{TimeZone},
+        },
+    );
+
+    my $Delta = $StartDateTimeObject->Delta(
+        DateTimeObject => $StopDateTimeObject,
+        ForWorkingTime => 1,
+        Calendar       => $Param{Calendar},
+    );
+
+    if ( !IsHashRefWithData($Delta) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Error calculating working time.',
+        );
+        return;
+    }
+
+    return $Delta->{AbsoluteSeconds};
+}
+
 =head2 Delta()
 
 Calculates delta between this and another DateTime object. Optionally calculates the working time between the two.
