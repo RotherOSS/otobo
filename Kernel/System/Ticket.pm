@@ -3026,7 +3026,7 @@ sub TicketEscalationSuspendCalculate {
         else {
 
             # calculate working time if no suspend state
-            my $WorkingTime = $Kernel::OM->Get('Kernel::System::Time')->WorkingTime(
+            my $WorkingTime = $DateTimeObject->WorkingTime(
                 StartTime => $DestinationTime,
                 StopTime  => $Row->{CreatedUnix},
                 Calendar  => $Param{Calendar},
@@ -3046,7 +3046,7 @@ sub TicketEscalationSuspendCalculate {
                 my $LoopProtection = 0;
                 UPDATETIME:
                 while ($UpdateDiffTime) {
-                    $WorkingTime = $Kernel::OM->Get('Kernel::System::Time')->WorkingTime(
+                    $WorkingTime = $DateTimeObject->WorkingTime(
                         StartTime => $DestinationTime,
                         StopTime  => $DestinationTime + $UpdateDiffTime,
                         Calendar  => $Param{Calendar},
@@ -3178,7 +3178,7 @@ sub TicketEscalationSuspendCalculate {
             else {
 
                 # calculate working time if state is suspend state
-                my $WorkingTime = $Kernel::OM->Get('Kernel::System::Time')->WorkingTime(
+                my $WorkingTime = $DateTimeObject->WorkingTime(
                     StartTime => $InterimDestinationTime,
                     StopTime  => $Row->{CreatedUnix},
                     Calendar  => $Param{Calendar},
@@ -3228,9 +3228,6 @@ sub TicketWorkingTimeSuspendCalculate {
 
     # for parsing the dates from the database
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-
-    # For computing the working time
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
     # check for suspend times
     my @StateHistory;
@@ -3287,7 +3284,7 @@ sub TicketWorkingTimeSuspendCalculate {
         if ( !$SuspendState ) {
 
             # calculate working time if no suspend state
-            my $WorkingTime = $TimeObject->WorkingTime(
+            my $WorkingTime = $DateTimeObject->WorkingTime(
                 StartTime => $DestinationTime,
                 StopTime  => $Row->{CreatedUnix},
                 Calendar  => $Param{Calendar},
