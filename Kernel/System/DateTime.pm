@@ -810,7 +810,12 @@ sub WorkingTime {
         return;
     }
 
-    return $Delta->{AbsoluteSeconds};
+    # clean up the unset attributes from the method Delta()
+    for my $Key ( qw(Years Months Weeks Days ) ) {
+        delete $Delta->{$Key};
+    }
+
+    return $Delta;
 }
 
 =head2 Delta()
