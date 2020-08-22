@@ -1683,7 +1683,7 @@ sub SystemTimeZoneGet {
 
 =head2 TimeStamp2SystemTime()
 
-converts a given time stamp to local system time.
+converts a given time stamp to system time.
 Different formats are recognised and handled.
 This method is similar, but not equivalent, to _StringToHash().
 
@@ -1806,8 +1806,11 @@ sub TimeStamp2SystemTime {
     }
 
     # Create the CPAN/Perl DateTime object.
-    # TimeZone and locale are taken care of in _CPANDateTimeObjectCreate().
-    my $CPANDateTimeObject = $Self->_CPANDateTimeObjectCreate(%DateTimeParams);
+    # The time zone is the time zone of the current object.
+    my $CPANDateTimeObject = $Self->_CPANDateTimeObjectCreate(
+        %DateTimeParams,
+        TimeZone => $Self->{CPANDateTimeObject}->time_zone()->name(),
+    );
 
     return $CPANDateTimeObject->epoch;
 }
