@@ -48,6 +48,8 @@ $Self->Is(
 #
 my @TimeStamp2SystemTimeTests = (
     {
+        # TODO: incorrect expected result: Z indicates Zulu time, that is UTC
+        #       See the command: date -d"2005-10-20T10:00:00Z" +%s
         String         => '2005-10-20T10:00:00Z',
         ExpectedResult => 1129795200,
     },
