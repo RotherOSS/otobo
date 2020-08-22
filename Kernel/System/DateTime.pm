@@ -732,18 +732,35 @@ sub Subtract {
 
 =head2 WorkingTime()
 
-get the working time in seconds between these local system times.
+get the working time in seconds between the two required system times
+C<StartTime> and C<StopTime>.
+The time of the object on which the method is called is irrelevant.
+However the time zone of that object is used as the default time zone
+for the working time calculation.
+The parameter C<Calendar> is optional.
 
-    my $WorkingTime = $TimeObject->WorkingTime(
-        StartTime => $Created,
-        StopTime  => $TimeObject->SystemTime(),
+
+    my $WorkingTimeInSeconds = $DateTimeObject->WorkingTime(
+        StartTime => scalar time(),
+        StopTime  => $StopDateTimeObject->SystemTime(),
     );
 
-    my $WorkingTime = $TimeObject->WorkingTime(
-        StartTime => $Created,
-        StopTime  => $TimeObject->SystemTime(),
+    my $WorkingTime = $DateTimeObject->WorkingTime(
+        StartTime => $StartDateTimeObject->SystemTime(),
+        StopTime  => $DateTimeObject->SystemTime(),
         Calendar  => 3, # '' is default
     );
+
+Returns in case of success:
+
+    my $WorkingTime = {
+        Hours           => 2,
+        Minutes         => 5,
+        Seconds         => 459,
+        AbsoluteSeconds => 42084759,    # complete delta in seconds
+    };
+
+Returns an empty list in case of failure.
 
 =cut
 
