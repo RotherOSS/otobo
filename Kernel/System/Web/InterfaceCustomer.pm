@@ -168,12 +168,8 @@ sub Run {
         }
     }
 
-    my $CookieSecureAttribute;
-    if ( $ConfigObject->Get('HttpType') eq 'https' ) {
-
-        # Restrict Cookie to HTTPS if it is used.
-        $CookieSecureAttribute = 1;
-    }
+    # Restrict Cookie to HTTPS if it is used.
+    my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::Output::HTML::Layout' => {
@@ -304,6 +300,7 @@ sub Run {
             $Kernel::OM->ObjectParamAdd(
                 'Kernel::Output::HTML::Layout' => {
                     SetCookies => {
+                        # set a cookie tentatively for checking cookie support
                         OTOBOBrowserHasCookie => $ParamObject->SetCookie(
                             Key      => 'OTOBOBrowserHasCookie',
                             Value    => 1,
@@ -505,9 +502,10 @@ sub Run {
                         Value    => $NewSessionID,
                         Expires  => $Expires,
                         Path     => $ConfigObject->Get('ScriptAlias'),
-                        Secure   => scalar $CookieSecureAttribute,
+                        Secure   => $CookieSecureAttribute,
                         HTTPOnly => 1,
                     ),
+                    # delete the OTOBOBrowserHasCookie cookie
                     OTOBOBrowserHasCookie => $ParamObject->SetCookie(
                         Key      => 'OTOBOBrowserHasCookie',
                         Value    => '',
@@ -575,12 +573,13 @@ sub Run {
         $Kernel::OM->ObjectParamAdd(
             'Kernel::Output::HTML::Layout' => {
                 SetCookies => {
+                    # delete the OTOBO session cookie
                     SessionIDCookie => $ParamObject->SetCookie(
                         Key      => $Param{SessionName},
                         Value    => '',
                         Expires  => '-1y',
                         Path     => $ConfigObject->Get('ScriptAlias'),
-                        Secure   => scalar $CookieSecureAttribute,
+                        Secure   => $CookieSecureAttribute,
                         HTTPOnly => 1,
                     ),
                 },
@@ -1087,12 +1086,13 @@ sub Run {
             $Kernel::OM->ObjectParamAdd(
                 'Kernel::Output::HTML::Layout' => {
                     SetCookies => {
+                        # delete the OTOBO session cookie
                         SessionIDCookie => $ParamObject->SetCookie(
                             Key      => $Param{SessionName},
                             Value    => '',
                             Expires  => '-1y',
                             Path     => $ConfigObject->Get('ScriptAlias'),
-                            Secure   => scalar $CookieSecureAttribute,
+                            Secure   => $CookieSecureAttribute,
                             HTTPOnly => 1,
                         ),
                     },

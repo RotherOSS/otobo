@@ -1,4 +1,4 @@
-# --
+# -rn-
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
@@ -19,10 +19,15 @@ package Kernel::System::Cache::FileStorable;
 use strict;
 use warnings;
 
+# core modules
 use POSIX;
 use Digest::MD5 qw();
 use File::Path qw();
 use File::Find qw();
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -192,25 +197,34 @@ sub CleanUp {
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    my @TypeList = $MainObject->DirectoryRead(
+    # Returns absolute pathes without trailing '/' for directories
+    my @ToBeDeletedTypes = $MainObject->DirectoryRead(
         Directory => $Self->{CacheDirectory},
         Filter    => $Param{Type} || '*',
     );
 
-    if ( $Param{KeepTypes} ) {
+    # Delete all types when $Param{KeepTypes} is not set or references an empty array.
+    # Otherwise remove the kept types from the list of to be deleted types.
+    if ( $Param{KeepTypes} && ref $Param{KeepTypes} eq 'ARRAY' && $Param{KeepTypes}->@* ) {
         my $KeepTypesRegex = join( '|', map {"\Q$_\E"} @{ $Param{KeepTypes} } );
-        @TypeList = grep { $_ !~ m{/$KeepTypesRegex/?$}smx } @TypeList;
+
+        # first '/' needed because the members of @ToBeDeletedTypes contains absolute pathes.
+        # second optional '/' is to be on the safe side
+        @ToBeDeletedTypes = grep { $_ !~ m{/$KeepTypesRegex/?$}smx } @ToBeDeletedTypes;
     }
 
-    return 1 if !@TypeList;
+    return 1 if !@ToBeDeletedTypes;
 
     my $FileCallback = sub {
 
         my $CacheFile = $File::Find::name;
 
-        # Remove directory if it is empty
+        # Remove directory which should be empty by now.
+        # Don't remove it when it is not empty. This could happen when
+        # new entries are enterd while CleanUp is still running.
         if ( -d $CacheFile ) {
             rmdir $CacheFile;
+
             return;
         }
 
@@ -228,6 +242,7 @@ sub CleanUp {
                 my $Storage = eval {
                     $Kernel::OM->Get('Kernel::System::Storable')->Deserialize( Data => ${$Content} );
                 };
+
                 return if ( ref $Storage eq 'HASH' && $Storage->{TTL} > time() );
             }
         }
@@ -250,7 +265,7 @@ sub CleanUp {
             wanted   => $FileCallback,
             no_chdir => 1,
         },
-        @TypeList
+        @ToBeDeletedTypes
     );
 
     return 1;
