@@ -625,7 +625,7 @@ my $GenericInterfaceApp = builder {
     );
 };
 
-# Port of installer.pl, index.pl, customer.pl, public.pl, migration.pl to Plack.
+# Port of installer.pl, index.pl, customer.pl, public.pl, and migration.pl to Plack.
 # Trying to do without CGI::Emulate::PSGI.
 my $OTOBOApp = builder {
 
@@ -672,15 +672,21 @@ my $OTOBOApp = builder {
 
         # InterfaceInstaller has been converted to returning a string instead of printing the STDOUT.
         # This means that we don't have to capture STDOUT
-        if ( $ScriptFileName eq 'installer.pl' ) {
+        if ( $ScriptFileName eq 'installer.pl' || $ScriptFileName eq 'migration.pl' ) {
 
             # make sure that the managed objects will be recreated for the current request
             local $Kernel::OM = Kernel::System::ObjectManager->new();
 
-            # do the work, return a not encoded Perl string.
-            my $HeaderAndContent = Kernel::System::Web::InterfaceInstaller->new(
-                %InterfaceParams,
-            )->HeaderAndContent();
+            # do the work, return a not encoded Perl string from the appropriate interface module
+            my $HeaderAndContent = eval {
+                if ( $ScriptFileName eq 'installer.pl' ) {
+                    return Kernel::System::Web::InterfaceInstaller->new( %InterfaceParams );
+                }
+
+                if ( $ScriptFileName eq 'migration.pl' ) {
+                    return Kernel::System::Web::InterfaceMigrateFromOTRS->new( %InterfaceParams );
+                }
+            }->HeaderAndContent();
 
             # UTF-8 encoding is expected
             utf8::encode($HeaderAndContent);
@@ -715,9 +721,6 @@ my $OTOBOApp = builder {
                     }
                     elsif ( $ScriptFileName eq 'public.pl' ) {
                         $Interface = Kernel::System::Web::InterfacePublic->new( %InterfaceParams );
-                    }
-                    elsif ( $ScriptFileName eq 'migration.pl' ) {
-                        $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new( %InterfaceParams );
                     }
                     else {
 
