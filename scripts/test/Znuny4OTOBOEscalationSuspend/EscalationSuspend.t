@@ -30,8 +30,6 @@ use vars (qw($Self));
 # test script prematurely exits
 $Self->Plan( Tests => 25 );
 
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
-
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,
@@ -42,7 +40,6 @@ my $HelperObject         = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
 my $QueueObject          = $Kernel::OM->Get('Kernel::System::Queue');
-my $TimeObject           = $Kernel::OM->Get('Kernel::System::Time');
 my $CacheObject          = $Kernel::OM->Get('Kernel::System::Cache');
 my $ZnunyHelperObject    = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
 my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
@@ -89,7 +86,6 @@ my $MyTicketName   = "MyTestTicket";
 my $Pending        = 5;                # minutes
 my $Success;
 my $TicketEscalationIndexBuild;
-my $TicketEscalationSuspendCalculat;
 my $TicketWorkingTimeSuspendCalculate;
 my %TicketGetClosed;
 my $TicketGetClosed;
@@ -416,7 +412,10 @@ $Self->Is(
     '$Ticket{Created}',
 );
 
-my $SystemTime = $TimeObject->SystemTime();
+my $SystemTime = $Kernel::OM->Create(
+    'Kernel::System::DateTime',
+    ObjectParams => {},
+)->ToEpoch();
 
 # if systemTime is greater SystemPendingTime Create CustomerArticle..
 # Der Kunde Antwortet via E-Mail mit den fehlenden Informationen. Das Ticket wird in den Status "open"
@@ -485,7 +484,7 @@ sleep(10);
 $SuspendStateActive = 1;
 
 #return $DestinationTime = $StartTime + $ResponseTime - $EscalatedTime;
-$TicketEscalationSuspendCalculat = $TicketObject->TicketEscalationSuspendCalculate(
+my $TicketEscalationSuspendCalculat = $TicketObject->TicketEscalationSuspendCalculate(
     StartTime    => $Ticket{Created},
     TicketID     => $TicketID,
     ResponseTime => $Escalation{UpdateTime},
@@ -493,9 +492,12 @@ $TicketEscalationSuspendCalculat = $TicketObject->TicketEscalationSuspendCalcula
     Suspended    => $SuspendStateActive,       # should be 1
 );
 
-my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
-    SystemTime => $TicketEscalationSuspendCalculat,
-);
+my $TimeStamp = $Kernel::OM->Create(
+    'Kernel::System::DateTime',
+    ObjectParams => {
+        Epoch => $TicketEscalationSuspendCalculat,
+    }
+)->ToString();
 
 $Self->IsNot(
     $TimeStamp,
