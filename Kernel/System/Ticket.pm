@@ -58,7 +58,6 @@ our @ObjectDependencies = (
     'Kernel::System::TemplateGenerator',
     'Kernel::System::DateTime',
     'Kernel::System::Ticket::Article',
-    'Kernel::System::Time',
     'Kernel::System::Type',
     'Kernel::System::User',
     'Kernel::System::Valid',
@@ -3123,11 +3122,22 @@ sub TicketEscalationSuspendCalculate {
         }
 
         # some time left? calculate reminder as usual
-        $DestinationTime = $Kernel::OM->Get('Kernel::System::Time')->DestinationTime(
-            StartTime => $StartTime,
-            Time      => $UpdateDiffTime,
-            Calendar  => $Param{Calendar},
+
+        # DateTimeObject using OTOBO time zone per default
+        my $DestinationDateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                Epoch    => $StartTime,
+            },
         );
+
+        $DestinationDateTimeObject->Add(
+            Seconds       => $UpdateDiffTime,
+            AsWorkingTime => 1,
+            Calendar      => $Param{Calendar},
+        );
+
+        return $DestinationDateTimeObject->ToEpoch();
     }
 
     # If there is no "UpdateDiffTime" left, the ticket is escalated.
