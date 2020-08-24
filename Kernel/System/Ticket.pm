@@ -2940,6 +2940,14 @@ sub TicketEscalationIndexBuild {
     return 1;
 }
 
+=head2 TicketEscalationSuspendCalculate()
+
+consider the suspend states in the escalation computation
+
+Returns: system time for the relevant escalation
+
+=cut
+
 sub TicketEscalationSuspendCalculate {
     my ( $Self, %Param ) = @_;
 
@@ -2990,12 +2998,12 @@ sub TicketEscalationSuspendCalculate {
         $UpdateDiffTime += 4 * 60;
     }
 
-    # start time in unix format
+    # start time in seconds since 1970
     my $DestinationTime = $DateTimeObject->TimeStamp2SystemTime(
         String => $Param{StartTime},
     );
 
-    # loop through state changes
+    # loop through state changes, modifying $DestinationTime
     my $SuspendState = 0;
 
     ROW:
@@ -4128,7 +4136,8 @@ sub TicketPendingTimeSet {
                     String => $Param{String}
                 }
             );
-            return if ( !$DateTimeObject );
+
+            return if !$DateTimeObject;
 
             $Time = $DateTimeObject->ToEpoch();
 
