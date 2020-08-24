@@ -743,13 +743,13 @@ The parameter C<Calendar> is optional.
     my $WorkingTimeInSeconds = $DateTimeObject->WorkingTime(
         StartTime => scalar time(),
         StopTime  => $StopDateTimeObject->SystemTime(),
-    );
+    )->{AbsoluteSeconds};
 
     my $WorkingTime = $DateTimeObject->WorkingTime(
         StartTime => $StartDateTimeObject->SystemTime(),
         StopTime  => $DateTimeObject->SystemTime(),
         Calendar  => 3, # '' is default
-    );
+    )->{AbsoluteSeconds};
 
 Returns in case of success:
 
