@@ -3116,7 +3116,10 @@ sub TicketEscalationSuspendCalculate {
 
         # use current timestamp if we are suspended
         if ($SuspendState) {
-            $StartTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+            $StartTime = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {},
+            )->ToEpoch();
         }
 
         # some time left? calculate reminder as usual
@@ -3176,7 +3179,10 @@ sub TicketEscalationSuspendCalculate {
         if ( $Param{Suspended} ) {
 
             # use current timestamp, because current state should be suspended
-            $StartTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+            $StartTime = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {},
+            )->ToEpoch();
         }
         else {
             # use time of last non-suspend state
