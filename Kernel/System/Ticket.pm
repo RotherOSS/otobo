@@ -3031,7 +3031,7 @@ sub TicketEscalationSuspendCalculate {
                 StartTime => $DestinationTime,
                 StopTime  => $Row->{CreatedUnix},
                 Calendar  => $Param{Calendar},
-            );
+            )->{AbsoluteSeconds};
             if ( $WorkingTime < $UpdateDiffTime ) {
 
                 # move destination time, substract diff time
@@ -3051,7 +3051,7 @@ sub TicketEscalationSuspendCalculate {
                         StartTime => $DestinationTime,
                         StopTime  => $DestinationTime + $UpdateDiffTime,
                         Calendar  => $Param{Calendar},
-                    );
+                    )->{AbsoluteSeconds};
 
                     # if we got no working time we are come to an non-working our
                     # so we might want to move in bigger stepts of one hour (3600)
@@ -3166,7 +3166,7 @@ sub TicketEscalationSuspendCalculate {
                     StartTime => $InterimDestinationTime,
                     StopTime  => $Row->{CreatedUnix},
                     Calendar  => $Param{Calendar},
-                );
+                )->{AbsoluteSeconds};
 
                 # count time from unsuspended status
                 $EscalatedTime += $WorkingTime;
@@ -3272,7 +3272,7 @@ sub TicketWorkingTimeSuspendCalculate {
                 StartTime => $DestinationTime,
                 StopTime  => $Row->{CreatedUnix},
                 Calendar  => $Param{Calendar},
-            );
+            )->{AbsoluteSeconds};
 
             $WorkingTimeUnsuspended += $WorkingTime;
         }
@@ -8254,7 +8254,7 @@ sub _TicketGetClosed {    ## no critic
         TicketID  => $Param{Ticket}->{TicketID},
         StartTime => $Param{Ticket}->{Created},
         Calendar  => $Escalation{Calendar},
-    );
+    )->{AbsoluteSeconds};
 
     $Data{SolutionInMin} = int( $WorkingTime / 60 );
 
