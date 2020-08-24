@@ -21,11 +21,17 @@ package Kernel::System::MigrateFromOTRS::Base;    ## no critic
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+use List::Util qw(first);
 use Data::Dumper;
 use File::Basename;
 use File::Copy;
 use File::Path qw(make_path);
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
@@ -102,15 +108,7 @@ sub CleanLicenseHeader {
 
     # Read parse content from _ChangeLicenseHeaderRules
     my @Parser = $Self->_ChangeLicenseHeaderRules();
-
-    my $Parse;
-    TYPE:
-    for my $Type (@Parser) {
-        if ( $FilePathAndName =~ /$Type->{File}/ ) {
-            $Parse = $Type;
-            last TYPE;
-        }
-    }
+    my $Parse = first { $FilePathAndName =~ m/$_->{File}/ } @Parser;
 
     if ( !$Parse ) {
 
