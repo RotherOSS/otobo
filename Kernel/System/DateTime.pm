@@ -1709,7 +1709,7 @@ sub TimeStamp2SystemTime {
     my %DateTimeParams;
 
     # match iso date format
-    if ( $Param{String} =~ /(\d{4})-(\d{1,2})-(\d{1,2})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
+    if ( $Param{String} =~ m/(\d{4})-(\d{1,2})-(\d{1,2})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
         %DateTimeParams = (
             Year   => $1,
             Month  => $2,
@@ -1721,7 +1721,7 @@ sub TimeStamp2SystemTime {
     }
 
     # match iso date format (wrong format)
-    elsif ( $Param{String} =~ /(\d{1,2})-(\d{1,2})-(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
+    elsif ( $Param{String} =~ m/(\d{1,2})-(\d{1,2})-(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
         %DateTimeParams = (
             Year   => $3,
             Month  => $2,
@@ -1733,7 +1733,7 @@ sub TimeStamp2SystemTime {
     }
 
     # match euro time format
-    elsif ( $Param{String} =~ /(\d{1,2})\.(\d{1,2})\.(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
+    elsif ( $Param{String} =~ m/(\d{1,2})\.(\d{1,2})\.(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
         %DateTimeParams = (
             Year   => $3,
             Month  => $2,
@@ -1747,7 +1747,7 @@ sub TimeStamp2SystemTime {
     # match yyyy-mm-ddThh:mm:ss+tt:zz time format
     elsif (
         $Param{String}
-        =~ /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})(\+|\-)((\d{1,2}):(\d{1,2}))/i
+        =~ m/(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})(\+|\-)((\d{1,2}):(\d{1,2}))/i
         )
     {
         %DateTimeParams = (
