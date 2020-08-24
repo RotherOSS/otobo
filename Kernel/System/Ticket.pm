@@ -8273,7 +8273,7 @@ sub _TicketGetClosed {    ## no critic
         TicketID  => $Param{Ticket}->{TicketID},
         StartTime => $Param{Ticket}->{Created},
         Calendar  => $Escalation{Calendar},
-    )->{AbsoluteSeconds};
+    );
 
     $Data{SolutionInMin} = int( $WorkingTime / 60 );
 
