@@ -429,7 +429,7 @@ makes it possible to override the system time as long as this object lives.
 You can pass an optional time parameter that should be used, if not,
 the current system time will be used.
 
-All calls to methods of Kernel::System::Time and Kernel::System::DateTime will
+All calls to methods of Kernel::System::DateTime will
 use the given time afterwards.
 
     $HelperObject->FixedTimeSet(366475757);         # with Timestamp
@@ -487,7 +487,6 @@ sub FixedTimeAddSeconds {
 
 # See http://perldoc.perl.org/5.10.0/perlsub.html#Overriding-Built-in-Functions
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
 ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::DateTime)
 sub _MockPerlTimeHandling {
     no warnings 'once';    ## no critic
@@ -527,7 +526,6 @@ sub _MockPerlTimeHandling {
     # This is needed to reload objects that directly use the native time functions
     #   to get a hold of the overrides.
     my @Objects = (
-        'Kernel::System::Time',
         'Kernel::System::DB',
         'Kernel::System::Cache::FileStorable',
         'Kernel::System::PID',

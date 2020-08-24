@@ -20,6 +20,7 @@ package Kernel::System::DateTime;
 
 use strict;
 use warnings;
+use feature qw(state);
 
 use Exporter qw(import);
 
@@ -37,7 +38,8 @@ Exporter::export_ok_tags('all');
 # core modules
 use DateTime 1.08; # need 1.08 because Kernel::System::DateTime overrides _core_time()
 use DateTime::TimeZone;
-use Scalar::Util qw( looks_like_number );
+use Scalar::Util qw(looks_like_number);
+use List::Util qw(none);
 
 # CPAN modules
 
@@ -146,11 +148,10 @@ Creates a DateTime object. Do not use new() directly, instead use the object man
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ( $Class, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Class;
 
     # CPAN DateTime: only use English descriptions and abbreviations internally.
     #   This has nothing to do with the user's locale settings in OTOBO.
@@ -160,6 +161,7 @@ sub new {
     #   by the Clone() method).
     if ( $Param{_CPANDateTimeObject} ) {
         $Self->{CPANDateTimeObject} = $Param{_CPANDateTimeObject};
+
         return $Self;
     }
 
@@ -313,9 +315,8 @@ sub Set {
     # Delete parameters that are not allowed for set method
     delete $CPANDateTimeParams->{time_zone};
 
-    my $Result;
-    eval {
-        $Result = $Self->{CPANDateTimeObject}->set( %{$CPANDateTimeParams} );
+    my $Result = eval {
+        $Self->{CPANDateTimeObject}->set( %{$CPANDateTimeParams} );
     };
 
     return $Result;
@@ -729,6 +730,94 @@ sub Subtract {
     return 1;
 }
 
+=head2 WorkingTime()
+
+get the working time in seconds between the two required system times
+C<StartTime> and C<StopTime>.
+The time of the object on which the method is called is irrelevant.
+However the time zone of that object is used as the default time zone
+for the working time calculation.
+The parameter C<Calendar> is optional.
+
+
+    my $WorkingTimeInSeconds = $DateTimeObject->WorkingTime(
+        StartTime => scalar time(),
+        StopTime  => $StopDateTimeObject->SystemTime(),
+    )->{AbsoluteSeconds};
+
+    my $WorkingTime = $DateTimeObject->WorkingTime(
+        StartTime => $StartDateTimeObject->SystemTime(),
+        StopTime  => $DateTimeObject->SystemTime(),
+        Calendar  => 3, # '' is default
+    )->{AbsoluteSeconds};
+
+Returns in case of success:
+
+    my $WorkingTime = {
+        Hours           => 2,
+        Minutes         => 5,
+        Seconds         => 459,
+        AbsoluteSeconds => 42084759,    # complete delta in seconds
+    };
+
+Returns an empty list in case of failure.
+
+=cut
+
+sub WorkingTime {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(StartTime StopTime)) {
+        if ( !defined $Param{$_} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!",
+            );
+            return;
+        }
+    }
+
+    return 0 if $Param{StartTime} >= $Param{StopTime};
+
+    my $StartDateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            Epoch    => $Param{StartTime},
+            TimeZone => $Self->{TimeZone},
+        },
+    );
+
+    my $StopDateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            Epoch    => $Param{StopTime},
+            TimeZone => $Self->{TimeZone},
+        },
+    );
+
+    my $Delta = $StartDateTimeObject->Delta(
+        DateTimeObject => $StopDateTimeObject,
+        ForWorkingTime => 1,
+        Calendar       => $Param{Calendar},
+    );
+
+    if ( !IsHashRefWithData($Delta) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Error calculating working time.',
+        );
+        return;
+    }
+
+    # clean up the unset attributes from the method Delta()
+    for my $Key ( qw(Years Months Weeks Days ) ) {
+        delete $Delta->{$Key};
+    }
+
+    return $Delta;
+}
+
 =head2 Delta()
 
 Calculates delta between this and another DateTime object. Optionally calculates the working time between the two.
@@ -1037,9 +1126,8 @@ sub Compare {
         return;
     }
 
-    my $Result;
-    eval {
-        $Result = DateTime->compare(
+    my $Result = eval {
+        DateTime->compare(
             $Self->{CPANDateTimeObject},
             $Param{DateTimeObject}->{CPANDateTimeObject}
         );
@@ -1137,6 +1225,7 @@ sub Validate {
     }
 
     my $DateTimeObject = $Self->_CPANDateTimeObjectCreate(%Param);
+
     return if !$DateTimeObject;
 
     return 1;
@@ -1445,8 +1534,7 @@ sub TimeZoneList {
     my @TimeZones = @{ DateTime::TimeZone->all_names() };
 
     # add missing UTC time zone for certain DateTime versions
-    my %TimeZones = map { $_ => 1 } @TimeZones;
-    if ( !exists $TimeZones{UTC} ) {
+    if ( none { $_ eq 'UTC' } @TimeZones ) {
         push @TimeZones, 'UTC';
     }
 
@@ -1512,8 +1600,6 @@ Returns:
 
 =cut
 
-my %ValidTimeZones;    # Cache for all instances.
-
 sub IsTimeZoneValid {
     my ( $Self, %Param ) = @_;
 
@@ -1530,9 +1616,7 @@ sub IsTimeZoneValid {
     # allow DateTime internal time zone in 'floating'
     return 1 if $Param{TimeZone} eq 'floating';
 
-    if ( !%ValidTimeZones ) {
-        %ValidTimeZones = map { $_ => 1 } @{ $Self->TimeZoneList() };
-    }
+    state %ValidTimeZones = map { $_ => 1 } @{ $Self->TimeZoneList() };
 
     return $ValidTimeZones{ $Param{TimeZone} } ? 1 : 0;
 }
@@ -1596,6 +1680,141 @@ Returns:
 sub SystemTimeZoneGet {
     return DateTime::TimeZone->new( name => 'local' )->name();
 }
+
+=head2 TimeStamp2SystemTime()
+
+converts a given time stamp to system time.
+Different formats are recognised and handled.
+This method is similar, but not equivalent, to _StringToHash().
+
+    my $SystemTime = $TimeObject->TimeStamp2SystemTime(
+        String => '2004-08-14 22:45:00',
+    );
+
+=cut
+
+sub TimeStamp2SystemTime {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{String} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need String!',
+        );
+
+        return;
+    }
+
+    my %DateTimeParams;
+
+    # match iso date format
+    if ( $Param{String} =~ /(\d{4})-(\d{1,2})-(\d{1,2})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
+        %DateTimeParams = (
+            Year   => $1,
+            Month  => $2,
+            Day    => $3,
+            Hour   => $4,
+            Minute => $5,
+            Second => $6,
+        );
+    }
+
+    # match iso date format (wrong format)
+    elsif ( $Param{String} =~ /(\d{1,2})-(\d{1,2})-(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
+        %DateTimeParams = (
+            Year   => $3,
+            Month  => $2,
+            Day    => $1,
+            Hour   => $4,
+            Minute => $5,
+            Second => $6,
+        );
+    }
+
+    # match euro time format
+    elsif ( $Param{String} =~ /(\d{1,2})\.(\d{1,2})\.(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
+        %DateTimeParams = (
+            Year   => $3,
+            Month  => $2,
+            Day    => $1,
+            Hour   => $4,
+            Minute => $5,
+            Second => $6,
+        );
+    }
+
+    # match yyyy-mm-ddThh:mm:ss+tt:zz time format
+    elsif (
+        $Param{String}
+        =~ /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})(\+|\-)((\d{1,2}):(\d{1,2}))/i
+        )
+    {
+        %DateTimeParams = (
+            Year   => $1,
+            Month  => $2,
+            Day    => $3,
+            Hour   => $4,
+            Minute => $5,
+            Second => $6,
+        );
+    }
+
+    # match mail time format
+    elsif (
+        $Param{String}
+        =~ /((...),\s+|)(\d{1,2})\s(...)\s(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})\s((\+|\-)(\d{2})(\d{2})|...)/
+        )
+    {
+        my @MonthMap    = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
+        my $Month       = 1;
+        my $MonthString = $4;
+        for my $MonthCount ( 0 .. $#MonthMap ) {
+            if ( $MonthString =~ /$MonthMap[$MonthCount]/i ) {
+                $Month = $MonthCount + 1;
+            }
+        }
+        %DateTimeParams = (
+            Year   => $5,
+            Month  => $Month,
+            Day    => $3,
+            Hour   => $6,
+            Minute => $7,
+            Second => $8,
+        );    # + $Self->{TimeSecDiff};
+    }
+    elsif (    # match yyyy-mm-ddThh:mm:ssZ
+        $Param{String} =~ /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})Z$/
+        )
+    {
+        %DateTimeParams = (
+            Year   => $1,
+            Month  => $2,
+            Day    => $3,
+            Hour   => $4,
+            Minute => $5,
+            Second => $6,
+        );
+    }
+
+    # return error
+    if ( ! %DateTimeParams ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Invalid Date '$Param{String}'!",
+        );
+    }
+
+    # Create the CPAN/Perl DateTime object.
+    # The time zone is the time zone of the current object.
+    my $CPANDateTimeObject = $Self->_CPANDateTimeObjectCreate(
+        %DateTimeParams,
+        TimeZone => $Self->{CPANDateTimeObject}->time_zone()->name(),
+    );
+
+    return $CPANDateTimeObject->epoch;
+}
+
 
 =begin Internal:
 
@@ -1838,7 +2057,6 @@ sub _CPANDateTimeObjectCreate {
         );
     }
 
-    my $CPANDateTimeObject;
     my $TimeZone = $Param{TimeZone} || $Self->OTOBOTimeZoneGet();
 
     if ( !$Self->IsTimeZoneValid( TimeZone => $TimeZone ) ) {
@@ -1862,8 +2080,8 @@ sub _CPANDateTimeObjectCreate {
             return;
         }
 
-        eval {
-            $CPANDateTimeObject = DateTime->from_epoch(
+        my $CPANDateTimeObject =  eval {
+            DateTime->from_epoch(
                 epoch     => $Param{Epoch},
                 time_zone => $TimeZone,
                 locale    => $Self->{Locale},
@@ -1895,8 +2113,8 @@ sub _CPANDateTimeObjectCreate {
         # Create DateTime object
         my $DateTimeParams = $Self->_ToCPANDateTimeParamNames(%Param);
 
-        eval {
-            $CPANDateTimeObject = DateTime->new(
+        my $CPANDateTimeObject = eval {
+            DateTime->new(
                 %{$DateTimeParams},
                 locale => $Self->{Locale},
             );
@@ -1906,8 +2124,8 @@ sub _CPANDateTimeObjectCreate {
     }
 
     # Create object with current date/time.
-    eval {
-        $CPANDateTimeObject = DateTime->now(
+    my $CPANDateTimeObject = eval {
+        DateTime->now(
             time_zone => $TimeZone,
             locale    => $Self->{Locale},
         );

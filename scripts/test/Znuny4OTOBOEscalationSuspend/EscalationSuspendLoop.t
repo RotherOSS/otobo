@@ -37,7 +37,6 @@ my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
-my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
 # for this script activate the default EscalationSuspendStates
 $ConfigObject->Set(
@@ -117,7 +116,12 @@ $ConfigObject->Set(
 # sum:       24:00:00 h
 # Solution time: Thursday 08:00 + 10:50:08 h = 2016-04-14 18:50:08
 $HelperObject->FixedTimeSet(
-    $TimeObject->TimeStamp2SystemTime( String => '2016-04-12 16:50:08' )
+    $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => '2016-04-12 16:50:08',
+        },
+    )
 ); # Tuesday
 my $TicketID = $TicketObject->TicketCreate(
     UserID        => 1,
@@ -142,7 +146,13 @@ my $TicketID = $TicketObject->TicketCreate(
     );
 
     # Solution time is 2016-04-15 08:01:17
-    my $SolutionTime = $TimeObject->TimeStamp2SystemTime( String => '2016-04-14 18:50:08' );
+    my $SolutionTime = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => '2016-04-14 18:50:08'
+        }
+    )->ToEpoch();
+
 
     $Self->Is(
         $Ticket{SolutionTimeDestinationTime},
@@ -159,7 +169,12 @@ my $TicketID = $TicketObject->TicketCreate(
 # pending reminder is configured as suspend state
 # solution time is then 2016-04-14 18:54:08
 $HelperObject->FixedTimeSet(
-    $TimeObject->TimeStamp2SystemTime( String => '2016-04-12 16:52:53' )
+    $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => '2016-04-12 16:52:53',
+        },
+    )
 );    # Tuesday
 $TicketObject->TicketStateSet(
     State    => 'pending reminder',
@@ -186,7 +201,13 @@ $TicketObject->TicketPendingTimeSet(
     );
 
     # Solution time is 2016-04-15 08:01:17
-    my $SolutionTime = $TimeObject->TimeStamp2SystemTime( String => '2016-04-14 18:54:08' );
+    my $SolutionTime = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => '2016-04-14 18:54:08'
+        },
+    )->ToEpoch();
+
 
     $Self->Is(
         $Ticket{SolutionTimeDestinationTime},
@@ -204,7 +225,12 @@ $TicketObject->TicketPendingTimeSet(
 # open is not configured as suspend state, meaning, the new solution time
 # solution time is then 2016-04-14 18:57:17
 $HelperObject->FixedTimeSet(
-    $TimeObject->TimeStamp2SystemTime( String => '2016-04-12 17:00:02' )
+    $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => '2016-04-12 17:00:02',
+        },
+    )
 );    # Tuesday
 $TicketObject->TicketStateSet(
     State    => 'open',
@@ -231,7 +257,13 @@ $TicketObject->TicketPendingTimeSet(
     );
 
     # Solution time is 2016-04-15 08:01:17
-    my $SolutionTime = $TimeObject->TimeStamp2SystemTime( String => '2016-04-14 18:57:17' );
+    my $SolutionTime = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => '2016-04-14 18:57:17'
+        },
+    )->ToEpoch();
+
 
     $Self->Is(
         $Ticket{SolutionTimeDestinationTime},
@@ -247,7 +279,12 @@ $TicketObject->TicketPendingTimeSet(
 # this adds another 4 minutes to the solution time
 # new solution time: Friday 2016-04-15 08:01:17
 $HelperObject->FixedTimeSet(
-    $TimeObject->TimeStamp2SystemTime( String => '2016-05-31 08:37:10' )
+    $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => '2016-05-31 08:37:10',
+        },
+    )
 );    # Tuesday
 $TicketObject->TicketStateSet(
     State    => 'pending reminder',
@@ -274,7 +311,12 @@ $TicketObject->TicketPendingTimeSet(
     );
 
     # Solution time is 2016-04-15 08:01:17
-    my $SolutionTime = $TimeObject->TimeStamp2SystemTime( String => '2016-04-15 08:01:17' );
+    my $SolutionTime = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => '2016-04-15 08:01:17'
+        },
+    )->ToEpoch();
 
     $Self->Is(
         $Ticket{SolutionTimeDestinationTime},
