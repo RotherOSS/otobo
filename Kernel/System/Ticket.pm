@@ -3143,7 +3143,7 @@ sub TicketEscalationSuspendCalculate {
     # If there is no "UpdateDiffTime" left, the ticket is escalated.
     # calculate exact escalation time and also suspend escalation for escalated tickets!
     # This is a special customer wish and can be activated via config. By default this option is inactive.
-    elsif ( !$UpdateDiffTime && $Kernel::OM->Get('Kernel::Config')->Get('SuspendEscalatedTickets') ) {
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('SuspendEscalatedTickets') ) {
 
         # start time in unix format
         my $InterimDestinationTime = $DateTimeObject->TimeStamp2SystemTime(
@@ -3198,8 +3198,11 @@ sub TicketEscalationSuspendCalculate {
             # use time of last non-suspend state
             $StartTime = $InterimDestinationTime;
         }
-        $DestinationTime = $StartTime + $ResponseTime - $EscalatedTime;
+
+        return $StartTime + $ResponseTime - $EscalatedTime;
     }
+
+    # neither $UpdateDiffTime nor $Kernel::OM->Get('Kernel::Config')->Get('SuspendEscalatedTickets')
     return $DestinationTime;
 }
 
