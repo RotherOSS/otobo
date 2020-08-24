@@ -2955,10 +2955,11 @@ sub TicketEscalationSuspendCalculate {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get states in which to suspend escalations
-    my @SuspendStates
-        = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates')
-        ? @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') }
-        : ();
+    my %IsSuspendState;
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') ) {
+        my @SuspendStates = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates')->@*;
+        %IsSuspendState = map { $_ => 1 } @SuspendStates;
+    }
 
     # get stateid->state map
     my %StateList = $Kernel::OM->Get('Kernel::System::State')->StateList(
@@ -3013,16 +3014,8 @@ sub TicketEscalationSuspendCalculate {
             next ROW if !$Row->{State};
 
             # old state change, remember if suspend state
-            $SuspendState = 0;
-            STATE:
-            for my $State (@SuspendStates) {
+            $SuspendState = $IsSuspendState{ $Row->{State} } ? 1 : 0;
 
-                next STATE if $Row->{State} ne $State;
-
-                $SuspendState = 1;
-
-                last STATE;
-            }
             next ROW;
         }
 
@@ -3114,15 +3107,7 @@ sub TicketEscalationSuspendCalculate {
         next ROW if !$Row->{State};
 
         # remember if suspend state
-        $SuspendState = 0;
-        STATE:
-        for my $State (@SuspendStates) {
-            next STATE if $Row->{State} ne $State;
-
-            $SuspendState = 1;
-
-            last STATE;
-        }
+        $SuspendState = $IsSuspendState{ $Row->{State} } ? 1 : 0;
     }
 
     if ($UpdateDiffTime) {
@@ -3166,16 +3151,7 @@ sub TicketEscalationSuspendCalculate {
 
             # check if current state should be suspended
             if ( $Row->{State} ) {
-                $SuspendState = 0;
-                STATE:
-                for my $State (@SuspendStates) {
-
-                    next STATE if $Row->{State} ne $State;
-
-                    $SuspendState = 1;
-
-                    last STATE;
-                }
+                $SuspendState = $IsSuspendState{ $Row->{State} } ? 1 : 0;
             }
 
             if ( !$SuspendState ) {
