@@ -102,7 +102,7 @@ sub CleanLicenseHeader {
             String   => "File $FilePathAndName is empty / could not be read.",
             Priority => "error",
         );
-        close $FileHandle;
+
         return 1;
     }
 
@@ -118,7 +118,7 @@ sub CleanLicenseHeader {
                 "File extension for file $FilePathAndName is not active - please check if you need to add a new regexp.",
             Priority => "info",
         );
-        close $FileHandle;
+
         return 1;
     }
 
@@ -158,7 +158,7 @@ sub CleanLicenseHeader {
             String   => "Could not replace license header of $FilePathAndName.",
             Priority => "error",
         );
-        close $FileHandle;
+
         return;
     }
 
@@ -174,8 +174,6 @@ sub CleanLicenseHeader {
     while (<$FileHandle>) {
         $NewContent .= $_;
     }
-
-    close $FileHandle;
 
     my $ContentRefNew = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Location => $FilePathAndName,
