@@ -21,14 +21,16 @@ package Kernel::Modules::MigrateFromOTRS;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use DBI;
-use Net::Domain qw(hostfqdn);
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
-
-use vars qw(%INC);
 
 sub new {
     my ( $Class, %Param ) = @_;
@@ -40,7 +42,7 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $CacheTTL = 60 * 60 * 24 * 7;
+    my $CacheTTL = 60 * 60 * 24 * 7; # 1 week
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
