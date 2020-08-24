@@ -784,7 +784,7 @@ sub WorkingTime {
         'Kernel::System::DateTime',
         ObjectParams => {
             Epoch    => $Param{StartTime},
-            TimeZone => $Self->{TimeZone},
+            TimeZone => $Self->{CPANDateTimeObject}->time_zone()->name(),
         },
     );
 
@@ -792,7 +792,7 @@ sub WorkingTime {
         'Kernel::System::DateTime',
         ObjectParams => {
             Epoch    => $Param{StopTime},
-            TimeZone => $Self->{TimeZone},
+            TimeZone => $Self->{CPANDateTimeObject}->time_zone()->name(),
         },
     );
 
@@ -1153,7 +1153,7 @@ Returns:
 sub ToTimeZone {
     my ( $Self, %Param ) = @_;
 
-    for my $RequiredParam (qw( TimeZone )) {
+    for my $RequiredParam ( qw(TimeZone) ) {
         if ( !defined $Param{$RequiredParam} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 'Priority' => 'Error',
@@ -1603,7 +1603,7 @@ Returns:
 sub IsTimeZoneValid {
     my ( $Self, %Param ) = @_;
 
-    for my $RequiredParam (qw( TimeZone )) {
+    for my $RequiredParam ( qw(TimeZone) ) {
         if ( !defined $Param{$RequiredParam} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 'Priority' => 'Error',
