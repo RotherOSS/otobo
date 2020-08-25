@@ -784,7 +784,7 @@ sub WorkingTime {
         'Kernel::System::DateTime',
         ObjectParams => {
             Epoch    => $Param{StartTime},
-            TimeZone => $Self->{TimeZone},
+            TimeZone => $Self->{CPANDateTimeObject}->time_zone()->name(),
         },
     );
 
@@ -792,7 +792,7 @@ sub WorkingTime {
         'Kernel::System::DateTime',
         ObjectParams => {
             Epoch    => $Param{StopTime},
-            TimeZone => $Self->{TimeZone},
+            TimeZone => $Self->{CPANDateTimeObject}->time_zone()->name(),
         },
     );
 
@@ -1153,7 +1153,7 @@ Returns:
 sub ToTimeZone {
     my ( $Self, %Param ) = @_;
 
-    for my $RequiredParam (qw( TimeZone )) {
+    for my $RequiredParam ( qw(TimeZone) ) {
         if ( !defined $Param{$RequiredParam} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 'Priority' => 'Error',
@@ -1603,7 +1603,7 @@ Returns:
 sub IsTimeZoneValid {
     my ( $Self, %Param ) = @_;
 
-    for my $RequiredParam (qw( TimeZone )) {
+    for my $RequiredParam ( qw(TimeZone) ) {
         if ( !defined $Param{$RequiredParam} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 'Priority' => 'Error',
@@ -1708,8 +1708,10 @@ sub TimeStamp2SystemTime {
 
     my %DateTimeParams;
 
-    # match iso date format
-    if ( $Param{String} =~ /(\d{4})-(\d{1,2})-(\d{1,2})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
+    # Match iso date format, with space as date time separator, no time zone
+    # Note: this can be considered broken because no time zone is accepted.
+    #       See https://tools.ietf.org/html/rfc3339
+    if ( $Param{String} =~ m/(\d{4})-(\d{1,2})-(\d{1,2})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
         %DateTimeParams = (
             Year   => $1,
             Month  => $2,
@@ -1720,8 +1722,8 @@ sub TimeStamp2SystemTime {
         );
     }
 
-    # match iso date format (wrong format)
-    elsif ( $Param{String} =~ /(\d{1,2})-(\d{1,2})-(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
+    # match iso date format (wrong format), with space as date time separator, no time zone
+    elsif ( $Param{String} =~ m/(\d{1,2})-(\d{1,2})-(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
         %DateTimeParams = (
             Year   => $3,
             Month  => $2,
@@ -1733,7 +1735,7 @@ sub TimeStamp2SystemTime {
     }
 
     # match euro time format
-    elsif ( $Param{String} =~ /(\d{1,2})\.(\d{1,2})\.(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
+    elsif ( $Param{String} =~ m/(\d{1,2})\.(\d{1,2})\.(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
         %DateTimeParams = (
             Year   => $3,
             Month  => $2,
@@ -1744,10 +1746,11 @@ sub TimeStamp2SystemTime {
         );
     }
 
-    # match yyyy-mm-ddThh:mm:ss+tt:zz time format
+    # match yyyy-mm-ddThh:mm:ss with optional time zone
+    # Note: see #391 for a better approach
     elsif (
         $Param{String}
-        =~ /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})(\+|\-)((\d{1,2}):(\d{1,2}))/i
+        =~ m/(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})(Z|[+-]\d{1,2}:?(?:\d{2})?)?/i
         )
     {
         %DateTimeParams = (
@@ -1758,6 +1761,24 @@ sub TimeStamp2SystemTime {
             Minute => $5,
             Second => $6,
         );
+
+        # DateTime seems to be picky about the format of the offset, e.g. '+00' is not allowed
+        if ( $7 ) {
+            my $Offset = $7;
+            if ( $Offset eq 'Z' ) {
+                $DateTimeParams{TimeZone} = $Offset;
+            }
+            elsif ( $Offset !~ m/:/ ) {
+                $DateTimeParams{TimeZone} = sprintf '%+03d:00', $Offset;
+            }
+            elsif ( $Offset =~ m/^([+-]\d):(.*)/ ) {
+                # e.g. +5:45
+                $DateTimeParams{TimeZone} = sprintf '%+03d:%02d', $1, $2;
+            }
+            else {
+                $DateTimeParams{TimeZone} = $Offset;
+            }
+        }
     }
 
     # match mail time format
@@ -1783,19 +1804,6 @@ sub TimeStamp2SystemTime {
             Second => $8,
         );    # + $Self->{TimeSecDiff};
     }
-    elsif (    # match yyyy-mm-ddThh:mm:ssZ
-        $Param{String} =~ /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})Z$/
-        )
-    {
-        %DateTimeParams = (
-            Year   => $1,
-            Month  => $2,
-            Day    => $3,
-            Hour   => $4,
-            Minute => $5,
-            Second => $6,
-        );
-    }
 
     # return error
     if ( ! %DateTimeParams ) {
@@ -1805,11 +1813,12 @@ sub TimeStamp2SystemTime {
         );
     }
 
+    # The default time zone is the time zone of the current object.
+    $DateTimeParams{TimeZone} ||= $Self->{CPANDateTimeObject}->time_zone()->name();
+
     # Create the CPAN/Perl DateTime object.
-    # The time zone is the time zone of the current object.
     my $CPANDateTimeObject = $Self->_CPANDateTimeObjectCreate(
-        %DateTimeParams,
-        TimeZone => $Self->{CPANDateTimeObject}->time_zone()->name(),
+        %DateTimeParams
     );
 
     return $CPANDateTimeObject->epoch;
@@ -1957,7 +1966,7 @@ sub _StringToHash {
 
         # Check if the rest 'OffsetOrTZ' is an offset or timezone.
         #   If isn't an offset consider it a timezone
-        if ( $OffsetOrTZ !~ m/(\+|\-)\d{2}:?\d{2}/i ) {
+        if ( $OffsetOrTZ ne 'Z' && $OffsetOrTZ !~ m/[+-]\d{2}:?(?:\d{2})?/i ) {
 
             # Make sure the time zone is valid. Otherwise, assume UTC.
             if ( !$Self->IsTimeZoneValid( TimeZone => $OffsetOrTZ ) ) {
@@ -2034,6 +2043,16 @@ Creates a CPAN DateTime object which will be stored within this object and used 
         TimeZone => 'Europe/Berlin',        # optional, defaults to setting of SysConfig OTOBOTimeZone
     );
 
+    # For setting the time zone one may also pass an offset or 'Z'
+    my $CPANDateTimeObject = $DateTimeObject->_CPANDateTimeObjectCreate(
+        String   => '2016-08-14 22:45:00',
+        TimeZone => '-03:30',        # Newfoundland
+    );
+    my $CPANDateTimeObject = $DateTimeObject->_CPANDateTimeObjectCreate(
+        String   => '2016-08-14 22:45:00',
+        TimeZone => 'Z',        # Zulu time is same as UTC
+    );
+
 =cut
 
 sub _CPANDateTimeObjectCreate {
@@ -2057,15 +2076,17 @@ sub _CPANDateTimeObjectCreate {
         );
     }
 
-    my $TimeZone = $Param{TimeZone} || $Self->OTOBOTimeZoneGet();
+    my $OffsetOrTZ = $Param{TimeZone} || $Self->OTOBOTimeZoneGet();
 
-    if ( !$Self->IsTimeZoneValid( TimeZone => $TimeZone ) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            'Priority' => 'Error',
-            'Message'  => "Invalid value for TimeZone: $TimeZone.",
-        );
+    if ( $OffsetOrTZ ne 'Z' && $OffsetOrTZ !~ m/[+-]\d{2}:?(?:\d{2})?/i ) {
+        if ( !$Self->IsTimeZoneValid( TimeZone => $OffsetOrTZ ) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                'Priority' => 'Error',
+                'Message'  => "Invalid value for TimeZone: $OffsetOrTZ.",
+            );
 
-        return;
+            return;
+        }
     }
 
     # Create object from epoch
@@ -2083,7 +2104,7 @@ sub _CPANDateTimeObjectCreate {
         my $CPANDateTimeObject =  eval {
             DateTime->from_epoch(
                 epoch     => $Param{Epoch},
-                time_zone => $TimeZone,
+                time_zone => $OffsetOrTZ,
                 locale    => $Self->{Locale},
             );
         };
@@ -2091,7 +2112,7 @@ sub _CPANDateTimeObjectCreate {
         return $CPANDateTimeObject;
     }
 
-    $Param{TimeZone} = $TimeZone;
+    $Param{TimeZone} = $OffsetOrTZ;
 
     # Check if date/time params were given, excluding time zone
     my $DateTimeParamsGiven = %Param && ( !defined $Param{TimeZone} || keys %Param > 1 );
@@ -2106,6 +2127,7 @@ sub _CPANDateTimeObjectCreate {
                     'Priority' => 'Error',
                     'Message'  => "Missing parameter $RequiredParam.",
                 );
+
                 return;
             }
         }
@@ -2119,6 +2141,13 @@ sub _CPANDateTimeObjectCreate {
                 locale => $Self->{Locale},
             );
         };
+        if ( $@ ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                'Priority' => 'Error',
+                'Message'  => "Could not create DateTime object: $@",
+            );
+
+        }
 
         return $CPANDateTimeObject;
     }
@@ -2126,7 +2155,7 @@ sub _CPANDateTimeObjectCreate {
     # Create object with current date/time.
     my $CPANDateTimeObject = eval {
         DateTime->now(
-            time_zone => $TimeZone,
+            time_zone => $OffsetOrTZ,
             locale    => $Self->{Locale},
         );
     };
