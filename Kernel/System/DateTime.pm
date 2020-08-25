@@ -1813,11 +1813,12 @@ sub TimeStamp2SystemTime {
         );
     }
 
+    # The default time zone is the time zone of the current object.
+    $DateTimeParams{TimeZone} ||= $Self->{CPANDateTimeObject}->time_zone()->name();
+
     # Create the CPAN/Perl DateTime object.
-    # The time zone is the time zone of the current object.
     my $CPANDateTimeObject = $Self->_CPANDateTimeObjectCreate(
-        %DateTimeParams,
-        TimeZone => $Self->{CPANDateTimeObject}->time_zone()->name(),
+        %DateTimeParams
     );
 
     return $CPANDateTimeObject->epoch;
