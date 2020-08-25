@@ -2133,6 +2133,13 @@ sub _CPANDateTimeObjectCreate {
                 locale => $Self->{Locale},
             );
         };
+        if ( $@ ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                'Priority' => 'Error',
+                'Message'  => "Could not create DateTime object: $@",
+            );
+
+        }
 
         return $CPANDateTimeObject;
     }
