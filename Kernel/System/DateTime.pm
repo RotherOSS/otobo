@@ -1708,7 +1708,9 @@ sub TimeStamp2SystemTime {
 
     my %DateTimeParams;
 
-    # match iso date format
+    # Match iso date format, with space as date time separator, no time zone
+    # Note: this can be considered broken because no time zone is accepted.
+    #       See https://tools.ietf.org/html/rfc3339
     if ( $Param{String} =~ m/(\d{4})-(\d{1,2})-(\d{1,2})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
         %DateTimeParams = (
             Year   => $1,
@@ -1720,7 +1722,7 @@ sub TimeStamp2SystemTime {
         );
     }
 
-    # match iso date format (wrong format)
+    # match iso date format (wrong format), with space as date time separator, no time zone
     elsif ( $Param{String} =~ m/(\d{1,2})-(\d{1,2})-(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
         %DateTimeParams = (
             Year   => $3,
@@ -1744,7 +1746,8 @@ sub TimeStamp2SystemTime {
         );
     }
 
-    # match yyyy-mm-ddThh:mm:ss+tt:zz time format
+    # match yyyy-mm-ddThh:mm:ss with optional time zone
+    # Note: see #391 for a better approach
     elsif (
         $Param{String}
         =~ m/(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})(\+|\-)((\d{1,2}):(\d{1,2}))/i
@@ -2034,6 +2037,16 @@ Creates a CPAN DateTime object which will be stored within this object and used 
         TimeZone => 'Europe/Berlin',        # optional, defaults to setting of SysConfig OTOBOTimeZone
     );
 
+    # For setting the time zone one may also pass an offset or 'Z'
+    my $CPANDateTimeObject = $DateTimeObject->_CPANDateTimeObjectCreate(
+        String   => '2016-08-14 22:45:00',
+        TimeZone => '-03:30',        # Newfoundland
+    );
+    my $CPANDateTimeObject = $DateTimeObject->_CPANDateTimeObjectCreate(
+        String   => '2016-08-14 22:45:00',
+        TimeZone => 'Z',        # Zulu time is same as UTC
+    );
+
 =cut
 
 sub _CPANDateTimeObjectCreate {
@@ -2106,6 +2119,7 @@ sub _CPANDateTimeObjectCreate {
                     'Priority' => 'Error',
                     'Message'  => "Missing parameter $RequiredParam.",
                 );
+
                 return;
             }
         }
