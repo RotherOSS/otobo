@@ -38,8 +38,23 @@ my @TimeStamp2SystemTimeTests = (
         ExpectedResult => 1129802400,
     },
     {
-        Description    => 'UTC with offset 0:00',
+        Description    => 'UTC with offset +00:00',
         String         => '2005-10-20T10:00:00+00:00',
+        ExpectedResult => 1129802400,
+    },
+    {
+        Description    => 'UTC with offset -00:00',
+        String         => '2005-10-20T10:00:00-00:00',
+        ExpectedResult => 1129802400,
+    },
+    {
+        Description    => 'UTC with offset -00',
+        String         => '2005-10-20T10:00:00-00',
+        ExpectedResult => 1129802400,
+    },
+    {
+        Description    => 'UTC with offset +0',
+        String         => '2005-10-20T10:00:00+0',
         ExpectedResult => 1129802400,
     },
     {
@@ -48,8 +63,13 @@ my @TimeStamp2SystemTimeTests = (
         ExpectedResult => 1129795200,
     },
     {
-        Description    => 'Europe/Belgrade in ISO8601, with space separator',
+        Description    => 'Europe/Belgrade in ISO-8601, with space as separator',
         String         => '2005-10-20 10:00:00',
+        ExpectedResult => 1129795200,
+    },
+    {
+        Description    => 'Europe/Belgrade in ISO-8601, with T as separator',
+        String         => '2005-10-20T10:00:00',
         ExpectedResult => 1129795200,
     },
     {
