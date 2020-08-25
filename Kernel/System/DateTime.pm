@@ -1966,7 +1966,7 @@ sub _StringToHash {
 
         # Check if the rest 'OffsetOrTZ' is an offset or timezone.
         #   If isn't an offset consider it a timezone
-        if ( $OffsetOrTZ !~ m/(\+|\-)\d{2}:?\d{2}/i ) {
+        if ( $OffsetOrTZ ne 'Z' && $OffsetOrTZ !~ m/[+-]\d{2}:?(?:\d{2})?/i ) {
 
             # Make sure the time zone is valid. Otherwise, assume UTC.
             if ( !$Self->IsTimeZoneValid( TimeZone => $OffsetOrTZ ) ) {
