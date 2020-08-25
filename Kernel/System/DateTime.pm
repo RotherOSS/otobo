@@ -1965,8 +1965,15 @@ sub _StringToHash {
         };
 
         # Check if the rest 'OffsetOrTZ' is an offset or timezone.
-        #   If isn't an offset consider it a timezone
-        if ( $OffsetOrTZ ne 'Z' && $OffsetOrTZ !~ m/[+-]\d{2}:?(?:\d{2})?/i ) {
+        # Explicit support for Zulu time.
+        # Then ff isn't an offset consider it a timezone.
+        if ( $OffsetOrTZ eq 'Z' ) {
+            return {
+                %{$DateTimeHash},
+                TimeZone => 'UTC',
+            };
+        }
+        elsif ( $OffsetOrTZ !~ m/[+-]\d{2}:?(?:\d{2})?/i ) {
 
             # Make sure the time zone is valid. Otherwise, assume UTC.
             if ( !$Self->IsTimeZoneValid( TimeZone => $OffsetOrTZ ) ) {
