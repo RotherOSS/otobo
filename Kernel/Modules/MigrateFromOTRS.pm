@@ -406,6 +406,7 @@ sub Run {
                 NextTask => 'OTOBODatabaseMigrate',
             },
         );
+
         if ( $Defaults{ $Self->{Subaction} } ) {
             %FieldData = %{ $Defaults{ $Self->{Subaction} } };
         }
@@ -459,8 +460,13 @@ sub Run {
     #        );
     #    }
 
-    # cache progress
-    if ( $Self->{Subaction} ne 'Intro' ) {
+    if ( $Self->{Subaction} eq 'Intro' ) {
+        # for the HTTP check in Intro.tt
+        my $HTTPS = $ParamObject->HTTPS('HTTPS');
+        $FieldData{Scheme} = ($HTTPS && lc $HTTPS eq 'on' ) ? 'https' : 'http';
+    }
+    else {
+        # cache progress
         $CacheObject->Set(
             Type  => 'OTRSMigration',
             Key   => 'Intro',
