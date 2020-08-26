@@ -51,13 +51,13 @@
 # Ricardo von Staa <ricardo.von.staa@otrs.com>, 2019
 # Lucas Trombim <ltrombim1@gmail.com>, 2019
 # possebon <possebon@gmail.com>, 2020
-#
+# José Junior <jjunior@serviceup.com.br>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-07-31 11:42+0000\n"
-"PO-Revision-Date: 2020-07-26 22:17+0000\n"
+"PO-Revision-Date: 2020-08-26 20:44+0000\n"
 "Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://translate.otobo.org/projects/"
 "otobo10/otobo/pt_BR/>\n"
@@ -31057,7 +31057,7 @@ msgstr "Envie o seu certificado S/MME."
 
 #. SysConfig
 msgid "Use Redis::Fast instead of Redis."
-msgstr ""
+msgstr "Use Redis::Fast em vez de Redis."
 
 #. SysConfig
 msgid ""
