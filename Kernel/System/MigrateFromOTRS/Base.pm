@@ -1595,91 +1595,87 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 sub TaskSecurityCheck {
-
-    return (
-        (
-            {
-                Message => 'Check filesystem connect',
-                Module  => 'OTOBOOTRSConnectionCheck',
-            },
-            {
-                Message => 'Check database connect',
-                Module  => 'OTOBOOTRSDBCheck',
-            },
-            {
-                Message => 'Check framework version',
-                Module  => 'OTOBOFrameworkVersionCheck',
-            },
-            {
-                Message => 'Check required Perl modules',
-                Module  => 'OTOBOPerlModulesCheck',
-            },
-            {
-                Message => 'Check installed CPAN modules for known vulnerabilities',
-                Module  => 'OTOBOOTRSPackageCheck',
-            },
-            {
-                Message => 'Copy needed files from OTRS',
-                Module  => 'OTOBOCopyFilesFromOTRS',
-            },
-            {
-                Message => 'Migrate database to OTOBO',
-                Module  => 'OTOBODatabaseMigrate',
-            },
-            {
-                Message => 'Migrate notification tags in Ticket notifications',
-                Module  => 'OTOBONotificationMigrate',
-            },
-            {
-                Message => 'Migrate salutations to OTOBO style',
-                Module  => 'OTOBOSalutationsMigrate',
-            },
-            {
-                Message => 'Migrate signatures to OTOBO style',
-                Module  => 'OTOBOSignaturesMigrate',
-            },
-            {
-                Message => 'Migrate response templates to OTOBO style',
-                Module  => 'OTOBOResponseTemplatesMigrate',
-            },
-            {
-                Message => 'Migrate auto response templates to OTOBO style',
-                Module  => 'OTOBOAutoResponseTemplatesMigrate',
-            },
-            {
-                Message => 'Migrate webservices and add OTOBO ElasticSearch services.',
-                Module  => 'OTOBOMigrateWebServiceConfiguration',
-            },
-            {
-                Message => 'Clean up the cache',
-                Module  => 'OTOBOCacheCleanup',
-            },
-            {
-                Message => 'Migrate OTRS configuration',
-                Module  => 'OTOBOMigrateConfigFromOTRS',
-            },
-            {
-                Message => 'Migrate stats from OTRS to OTOBO',
-                Module  => 'OTOBOStatsMigrate',
-            },
-            {
-                Message => 'Clean up the cache',
-                Module  => 'OTOBOCacheCleanup',
-            },
-            {
-                Message => 'Deploy ACLs',
-                Module  => 'OTOBOACLDeploy',
-            },
-            {
-                Message => 'Deploy processes',
-                Module  => 'OTOBOProcessDeploy',
-            },
-            {
-                Message => 'Migrate postmaster filter from OTRS to OTOBO',
-                Module  => 'OTOBOPostmasterFilterMigrate',
-            },
-        ),
-    );
+    return
+        {
+            Message => 'Check filesystem connect',
+            Module  => 'OTOBOOTRSConnectionCheck',
+        },
+        {
+            Message => 'Check database connect',
+            Module  => 'OTOBOOTRSDBCheck',
+        },
+        {
+            Message => 'Check framework version',
+            Module  => 'OTOBOFrameworkVersionCheck',
+        },
+        {
+            Message => 'Check required Perl modules',
+            Module  => 'OTOBOPerlModulesCheck',
+        },
+        {
+            Message => 'Check installed CPAN modules for known vulnerabilities',
+            Module  => 'OTOBOOTRSPackageCheck',
+        },
+        {
+            Message => 'Copy needed files from OTRS',
+            Module  => 'OTOBOCopyFilesFromOTRS',
+        },
+        {
+            Message => 'Migrate database to OTOBO',
+            Module  => 'OTOBODatabaseMigrate',
+        },
+        {
+            Message => 'Migrate notification tags in Ticket notifications',
+            Module  => 'OTOBONotificationMigrate',
+        },
+        {
+            Message => 'Migrate salutations to OTOBO style',
+            Module  => 'OTOBOSalutationsMigrate',
+        },
+        {
+            Message => 'Migrate signatures to OTOBO style',
+            Module  => 'OTOBOSignaturesMigrate',
+        },
+        {
+            Message => 'Migrate response templates to OTOBO style',
+            Module  => 'OTOBOResponseTemplatesMigrate',
+        },
+        {
+            Message => 'Migrate auto response templates to OTOBO style',
+            Module  => 'OTOBOAutoResponseTemplatesMigrate',
+        },
+        {
+            Message => 'Migrate webservices and add OTOBO ElasticSearch services.',
+            Module  => 'OTOBOMigrateWebServiceConfiguration',
+        },
+        {
+            Message => 'Clean up the cache',
+            Module  => 'OTOBOCacheCleanup',
+        },
+        {
+            Message => 'Migrate OTRS configuration',
+            Module  => 'OTOBOMigrateConfigFromOTRS',
+        },
+        {
+            Message => 'Migrate stats from OTRS to OTOBO',
+            Module  => 'OTOBOStatsMigrate',
+        },
+        {
+            Message => 'Clean up the cache',
+            Module  => 'OTOBOCacheCleanup',
+        },
+        {
+            Message => 'Deploy ACLs',
+            Module  => 'OTOBOACLDeploy',
+        },
+        {
+            Message => 'Deploy processes',
+            Module  => 'OTOBOProcessDeploy',
+        },
+        {
+            Message => 'Migrate postmaster filter from OTRS to OTOBO',
+            Module  => 'OTOBOPostmasterFilterMigrate',
+        };
 }
 
 1;
