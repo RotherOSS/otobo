@@ -74,149 +74,111 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
 
-    my $Result;
-    my $PrevResult;
-
-    $PrevResult = $Self->_ExecutePreCheck(
-        Component => 'CheckPreviousRequirement',
+    my $PreCheckIsOK = $Self->_ExecutePreCheck(
         %Param,
     );
 
-    if ( $PrevResult == 1 ) {
-        $Result = $Self->_ExecuteComponent(
-            Component => 'Run',
-            %Param,
-        );
-    }
+    # don't attempt to run when the pre check failed
+    return if ! $PreCheckIsOK;
 
-    return $Result;
+    return $Self->_ExecuteRun( %Param );
 }
 
 sub _ExecutePreCheck {
     my ( $Self, %Param ) = @_;
 
-    my $Result = 0;
+    # determine the relevant tasks
+    my @Tasks;
+    {
+        my @AllTasks = grep { $_ && $_->{Module} } $Self->_TasksGet();
 
-    my @Tasks = $Self->_TasksGet();
-
-    if ( $Param{Task} ne 'All' ) {
-
-        # laufe rückwärts über die indizes
-        for my $i ( reverse 0 .. $#Tasks ) {
-
-            # bedingung trifft zu
-            my %TaskModul = %{ $Tasks[$i] };
-            my $Module    = $TaskModul{Module};
-            if ( $Param{Task} ne $Module ) {
-
-                # entferne genau ein element ein stelle $i
-                splice @Tasks, $i, 1;
-            }
+        if ( $Param{Task} eq 'All' ) {
+            @Tasks = @AllTasks;
+        }
+        else {
+            @Tasks = grep { $_->{Module} eq $Param{Task} } @AllTasks;
         }
     }
 
-    if ( !$Tasks[0]->{Module} ) {
-        print STDERR "No valid Module "
-            . $Tasks[0]->{Module}
-            . " found. Perhaps you need to add the new check to "
-            . '$Self->_TasksGet().';
-        $Result = 0;
+    if ( !@Tasks ) {
+        print STDERR "No valid Module $Param{Task} found. ",
+            q{Perhaps you need to add the new check to $Self->_TasksGet().};
+
+        return 0;
     }
 
-    #    use Data::Dumper;
-    #    print STDERR "Tasks: ".Dumper(\@Tasks)."\n";
-    # Get the number of total steps.
-    my $Steps       = scalar @Tasks;
-    my $CurrentStep = 1;
+    my $IsOK = 0;
 
     TASK:
     for my $Task (@Tasks) {
 
-        next TASK if !$Task;
-        next TASK if !$Task->{Module};
-
         my $ModuleName = "Kernel::System::MigrateFromOTRS::$Task->{Module}";
 
+        # NOTE: This looks strange. When one check succeeded and next check can't be loaded that the
+        # check succeeds altogether.
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName) ) {
             last TASK;
         }
 
-        # Run module.
-        #        $Kernel::OM->ObjectParamAdd(
-        #            "Kernel::System::MigrateFromOTRS::$Task->{Module}" => {
-        #                Opts => $Self->{Opts},
-        #            },
-        #        );
-
+        # NOTE: see the note above
         $Self->{TaskObjects}->{$ModuleName} //= $Kernel::OM->Create($ModuleName);
         if ( !$Self->{TaskObjects}->{$ModuleName} ) {
             last TASK;
         }
 
         # Execute previous check, printing a different message
-        elsif ( $Self->{TaskObjects}->{$ModuleName}->can("CheckPreviousRequirement") ) {
+        # NOTE: when last check succeeds the the check succeeds altogether
+        elsif ( $Self->{TaskObjects}->{$ModuleName}->can('CheckPreviousRequirement') ) {
 
-            $Result = $Self->{TaskObjects}->{$ModuleName}->CheckPreviousRequirement(%Param);
+            $IsOK = $Self->{TaskObjects}->{$ModuleName}->CheckPreviousRequirement(%Param);
 
         }
 
-        # Do not handle timing if task has no appropriate component.
+        # Do not handle CheckPreviousRequirement if task has no appropriate method.
         else {
             next TASK;
         }
-
-        $CurrentStep++;
     }
 
-    return $Result;
+    return $IsOK;
 }
 
-sub _ExecuteComponent {
+sub _ExecuteRun {
     my ( $Self, %Param ) = @_;
 
-    my %Result;
+    # determine the relevant tasks
+    my @Tasks;
+    {
+        my @AllTasks = grep { $_ && $_->{Module} } $Self->_TasksGet();
 
-    my @Tasks = $Self->_TasksGet();
-
-    if ( $Param{Task} ne 'All' ) {
-
-        # laufe rückwärts über die indizes
-        for my $i ( reverse 0 .. $#Tasks ) {
-
-            # bedingung trifft zu
-            my %TaskModul = %{ $Tasks[$i] };
-            my $Module    = $TaskModul{Module};
-            if ( $Param{Task} ne $Module ) {
-
-                # entferne genau ein element an Stelle $i
-                splice @Tasks, $i, 1;
-            }
+        if ( $Param{Task} eq 'All' ) {
+            @Tasks = @AllTasks;
+        }
+        else {
+            @Tasks = grep { $_->{Module} eq $Param{Task} } @AllTasks;
         }
     }
 
-    if ( !$Tasks[0]->{Module} ) {
-        $Result{Message} = $Tasks[0]->{Module};
-        $Result{Comment} = "No valid Module "
-            . $Tasks[0]->{Module}
-            . " found. Perhaps you need to add the new check to "
-            . '$Self->_TasksGet().';
-        $Result{Successful} = 0;
+    if ( !@Tasks ) {
 
+        return {
+            Message    => "invalid task $Param{Task}",
+            Comment    => "No valid Module $Param{Task} found. "
+                . qq{Perhaps you need to add the new check to $Self->_TasksGet().},
+            Successful => 0,
+        };
     }
 
-    # Get the number of total steps.
-    my $Steps       = scalar @Tasks;
     my $CurrentStep = 1;
+    my %Result;
 
     TASK:
     for my $Task (@Tasks) {
-
-        next TASK if !$Task;
-        next TASK if !$Task->{Module};
 
         my $ModuleName = "Kernel::System::MigrateFromOTRS::$Task->{Module}";
 
@@ -230,21 +192,21 @@ sub _ExecuteComponent {
         }
 
         # Execute Run-Component
-        if ( $Self->{TaskObjects}->{$ModuleName}->can("Run") ) {
+        if ( $Self->{TaskObjects}->{$ModuleName}->can('Run') ) {
 
-            # print STDERR "    Step $CurrentStep of $Steps: $Task->{Message} ...\n";
             $Result{ $Task->{Module} } = $Self->{TaskObjects}->{$ModuleName}->Run(%Param);
 
             # Add counter to $Result.
             $Result{ $Task->{Module} }->{CurrentStep} = $CurrentStep;
         }
 
-        # Do not handle timing if task has no appropriate component.
+        # Do not handle Run if task has no appropriate method.
         else {
             next TASK;
         }
         $CurrentStep++;
     }
+
     return \%Result;
 }
 
@@ -254,6 +216,7 @@ sub _TasksGet {
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
 
     my @SecurityCheck = $MigrationBaseObject->TaskSecurityCheck();
+
     return @SecurityCheck;
 }
 

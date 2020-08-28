@@ -54,11 +54,6 @@ Returns 1 on success
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $ResultOTRS;
-    my $ResultOTOBO;
-    my $OTRSHome;
-    my %Result;
-
     # check needed stuff
     for my $Key (qw(OTRSData)) {
         if ( !$Param{$Key} ) {
@@ -66,9 +61,11 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need $Key!"
             );
+            my %Result;
             $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
             $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
             $Result{Successful} = 0;
+
             return \%Result;
         }
     }
@@ -80,9 +77,11 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need OTRSData->$Key!"
             );
+            my %Result;
             $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
             $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
             $Result{Successful} = 0;
+
             return \%Result;
         }
     }
@@ -102,6 +101,7 @@ sub Run {
         },
     );
 
+    my $OTRSHome;
     if ( $Param{OTRSData}->{OTRSLocation} eq 'localhost' ) {
         $OTRSHome = $Param{OTRSData}->{OTRSHome} . '/Kernel/Config.pm';
     }
@@ -123,33 +123,35 @@ sub Run {
             Priority => 'error',
             Message  => "Can't open Kernel/Config.pm file from OTRSHome: $Param{OTRSData}->{OTRSHome}!",
         );
+        my %Result;
         $Result{Message} = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
         $Result{Comment} = $Self->{LanguageObject}
             ->Translate( 'Can\'t open Kernel/Config.pm file from OTRSHome: %s!', $Param{OTRSData}->{OTRSHome} );
         $Result{Successful} = 0;
+
         return \%Result;
     }
 
     # Check OTOBO version
-    $ResultOTOBO = $Self->_CheckOTOBOVersion();
+    my $ResultOTOBO = $Self->_CheckOTOBOVersion();
     if ( $ResultOTOBO->{Successful} == 0 ) {
         return $ResultOTOBO;
     }
 
     # Check OTRS version
-    $ResultOTRS = $Self->_CheckOTRSVersion(
+    my $ResultOTRS = $Self->_CheckOTRSVersion(
         OTRSHome => $OTRSHome,
     );
     if ( $ResultOTRS->{Successful} == 0 ) {
         return $ResultOTRS;
     }
 
-    # Everything if correct, return
-    $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
-    $Result{Comment}    = $ResultOTOBO->{Comment} . ' ' . $ResultOTRS->{Comment};
-    $Result{Successful} = 1;
-
-    return \%Result;
+    # Everything is correct, return that info
+    return {
+        Message    => $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible."),
+        Comment    => "$ResultOTOBO->{Comment}  $ResultOTRS->{Comment}",
+        Successful => 1,
+    };
 }
 
 sub _CheckOTOBOVersion {
@@ -177,29 +179,34 @@ sub _CheckOTOBOVersion {
 sub _CheckOTRSVersion {
     my ( $Self, %Param ) = @_;
 
-    my %Result;
     my $OTRSHome = $Param{OTRSHome};
 
     # load Kernel/Config.pm file
     if ( !-e "$OTRSHome" ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Check if we are able to connect to OTRS Home.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("Can't connect to OTRS file directory.");
         $Result{Successful} = 0;
+
         return \%Result;
     }
 
     # load Kernel/Config.pm file
     if ( !$Self->_CheckConfigpmAndWriteCache( ConfigpmPath => $OTRSHome ) ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Check if we are able to connect to OTRS Home.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("Can't connect to OTRS file directory.");
         $Result{Successful} = 0;
+
         return \%Result;
     }
 
     # Everything is correct, return %Result
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Check if we are able to connect to OTRS Home.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Connect to OTRS file directory is possible.");
     $Result{Successful} = 1;
+
     return \%Result;
 }
 

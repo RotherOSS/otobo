@@ -46,26 +46,29 @@ This module generates the content for F<migration.pl>.
 
 =head2 new()
 
-create migration web interface object
+create the web interface object for 'migration.pl'.
 
     use Kernel::System::Web::InterfaceMigrateFromOTRS;
 
-    my $Debug = 0;
-    my $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new( Debug => $Debug );
+    my $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new();
+
+    # with debugging enabled
+    my $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
+        Debug => 1
+    );
 
 =cut
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    # start with an empty hash for the new object
+    my $Self = bless {}, $Type;
 
     # get debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # register object params, these params will be passed when the object is created
+    # register object params
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'MigrateFromOTRS',
@@ -85,25 +88,26 @@ sub new {
     return $Self;
 }
 
-=head2 Run()
+=head2 HeaderAndContent()
 
-execute the object
+execute the object and return the generated content as a string.
 
-    $Interface->Run();
+    $Interface->HeaderAndContent();
 
 =cut
 
-sub Run {
+sub HeaderAndContent {
     my $Self = shift;
 
     # get common framework params
     my %Param;
+    {
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-
-    $Param{Action}     = $ParamObject->GetParam( Param => 'Action' )     || 'MigrateFromOTRS';
-    $Param{Subaction}  = $ParamObject->GetParam( Param => 'Subaction' )  || '';
-    $Param{NextScreen} = $ParamObject->GetParam( Param => 'NextScreen' ) || '';
+        $Param{Action}     = $ParamObject->GetParam( Param => 'Action' )     || 'MigrateFromOTRS';
+        $Param{Subaction}  = $ParamObject->GetParam( Param => 'Subaction' )  || '';
+        $Param{NextScreen} = $ParamObject->GetParam( Param => 'NextScreen' ) || '';
+    }
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::Output::HTML::Layout' => {
@@ -115,41 +119,37 @@ sub Run {
 
     # check secure mode
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
-        print $LayoutObject->Header();
-        print $LayoutObject->Error(
-            Message => Translatable('SecureMode active!'),
-            Comment => Translatable(
-                'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.'
+        return join '',
+            $LayoutObject->Header(),
+            $LayoutObject->Error(
+                Message => Translatable('SecureMode active!'),
+                Comment => Translatable(
+                    'If you want to re-run migration.pl, then disable the SecureMode in the SysConfig.'
+                ),
             ),
-        );
-        print $LayoutObject->Footer();
+            $LayoutObject->Footer();
     }
 
     # run modules if a version value exists
-    elsif ( $Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
+    if ( $Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
 
-        # proof of concept! - create $GenericObject
+        # create $GenericObject
         my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
             %Param,
             Debug => $Self->{Debug},
         );
 
-        print $GenericObject->Run();
+        return $GenericObject->Run();
     }
 
-    # else print an error screen
-    else {
-
-        # create new LayoutObject with '%Param'
-        print $LayoutObject->Header();
-        print $LayoutObject->Error(
+    # print an error screen as the fallback
+    return join '',
+        $LayoutObject->Header(),
+        $LayoutObject->Error(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Action "%s" not found!', $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),
-        );
-        print $LayoutObject->Footer();
-    }
-
-    return;
+        ),
+        $LayoutObject->Footer();
 }
 
 1;

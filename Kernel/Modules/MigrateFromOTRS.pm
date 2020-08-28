@@ -21,14 +21,16 @@ package Kernel::Modules::MigrateFromOTRS;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use DBI;
-use Net::Domain qw(hostfqdn);
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
-
-use vars qw(%INC);
 
 sub new {
     my ( $Class, %Param ) = @_;
@@ -40,7 +42,7 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $CacheTTL = 60 * 60 * 24 * 7;
+    my $CacheTTL = 60 * 60 * 24 * 7; # 1 week
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -301,17 +303,20 @@ sub Run {
             };
         }
 
-        # return AJAX response
+        # Return AJAX response content as as Perl string.
+        # The output should not be encoded because the content
+        # will be encoded in otobo.psgi. Double encoding is bad.
         my $OutputJSON = $LayoutObject->JSONEncode( Data => $Return );
         return $LayoutObject->Attachment(
             ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $OutputJSON,
             Type        => 'inline',
             NoCache     => 1,
+            NoEncode    => 1, # return a Perl string that may have characters greater 255
         );
     }
 
-    # if this is not an AJAX request, build the html for the current subaction
+    # if this is not an AJAX request, then build the html for the current subaction
 
     # generate current title
     my $Title     = $LayoutObject->{LanguageObject}->Translate('OTRS to OTOBO migration');

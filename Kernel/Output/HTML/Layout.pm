@@ -2614,7 +2614,7 @@ returns browser output to display/download a attachment
                                                #   scripts, flash etc.
     );
 
-    or for AJAX html snippets
+or for AJAX html snippets
 
     $HTML = $LayoutObject->Attachment(
         Type        => 'inline',        # optional, default: attachment, possible: inline|attachment
@@ -2623,6 +2623,18 @@ returns browser output to display/download a attachment
         Charset     => 'utf-8',         # optional
         Content     => $Content,
         NoCache     => 1,               # optional
+    );
+
+or when running under PSGI where the content will be encoded later
+
+    $HTML = $LayoutObject->Attachment(
+        Type        => 'inline',        # optional, default: attachment, possible: inline|attachment
+        Filename    => 'FileName.html', # optional
+        ContentType => 'text/html',
+        Charset     => 'utf-8',         # optional
+        Content     => $Content,
+        NoCache     => 1,               # optional
+        NoEncode    => 1,               # optional
     );
 
 =cut
@@ -2711,9 +2723,11 @@ sub Attachment {
     }
 
     # disable utf8 flag, to write binary to output
-    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
-    $EncodeObject->EncodeOutput( \$Output );
-    $EncodeObject->EncodeOutput( \$Param{Content} );
+    if ( ! $Param{NoEncode} ) {
+        my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+        $EncodeObject->EncodeOutput( \$Output );
+        $EncodeObject->EncodeOutput( \$Param{Content} );
+    }
 
     # fix for firefox HEAD problem
     my $RequestMethod = $Kernel::OM->Get('Kernel::System::Web::Request')->RequestMethod();

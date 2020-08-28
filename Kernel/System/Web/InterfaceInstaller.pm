@@ -46,14 +46,16 @@ This module generates the content for F<installer.pl>.
 
 =head2 new()
 
-create a web interface object
+create the web interface object for 'installer.pl'.
 
     use Kernel::System::Web::InterfaceInstaller;
 
     my $Interface = Kernel::System::Web::InterfaceInstaller->new();
 
     # with debugging enabled
-    my $Interface = Kernel::System::Web::InterfaceInstaller->new( Debug => 1 );
+    my $Interface = Kernel::System::Web::InterfaceInstaller->new(
+        Debug => 1
+    );
 
 =cut
 
@@ -99,12 +101,13 @@ sub HeaderAndContent {
 
     # get common framework params
     my %Param;
+    {
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-
-    $Param{Action}     = $ParamObject->GetParam( Param => 'Action' )     || 'Installer';
-    $Param{Subaction}  = $ParamObject->GetParam( Param => 'Subaction' )  || '';
-    $Param{NextScreen} = $ParamObject->GetParam( Param => 'NextScreen' ) || '';
+        $Param{Action}     = $ParamObject->GetParam( Param => 'Action' )     || 'Installer';
+        $Param{Subaction}  = $ParamObject->GetParam( Param => 'Subaction' )  || '';
+        $Param{NextScreen} = $ParamObject->GetParam( Param => 'NextScreen' ) || '';
+    }
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::Output::HTML::Layout' => {
@@ -121,7 +124,7 @@ sub HeaderAndContent {
             $LayoutObject->Error(
                 Message => Translatable('SecureMode active!'),
                 Comment => Translatable(
-                    'If you want to re-run the Installer, disable the SecureMode in the SysConfig.'
+                    'If you want to re-run installer.pl, then disable the SecureMode in the SysConfig.'
                 ),
             ),
             $LayoutObject->Footer();
@@ -141,7 +144,7 @@ sub HeaderAndContent {
 
     # print an error screen as the fallback
     return join '',
-        $LayoutObject->Header();
+        $LayoutObject->Header(),
         $LayoutObject->Error(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Action "%s" not found!', $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),
