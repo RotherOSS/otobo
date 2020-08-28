@@ -197,7 +197,7 @@ sub _CheckOTOBOVersion {
         $Result{Successful} = 0;
         return \%Result;
     }
-    if ( $Version !~ /^10\.0(.*)$/ ) {
+    if ( $Version !~ m/^10\.1(.*)$/ ) {
         $Result{Message} = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
         $Result{Comment} = $Self->{LanguageObject}
             ->Translate( 'You are trying to run this script on the wrong framework version %s!', $Version );
