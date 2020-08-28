@@ -55,7 +55,8 @@ sub new {
 
 =head2 Encode()
 
-Encode a perl data structure to a JSON string.
+Serialise a perl data structure as a JSON string.
+The result will be Perl string that may have code points greater 255.
 
     my $JSONString = $JSONObject->Encode(
         Data     => $Data,
@@ -77,7 +78,9 @@ sub Encode {
         return;
     }
 
-    # create json object
+    # create a JSON object
+    # The backend JSON::XS the default backend when it is available.
+    # As a fallback the backend JSON::PP is used.
     my $JSONObject = JSON->new();
 
     $JSONObject->allow_nonref(1);
@@ -92,17 +95,27 @@ sub Encode {
         $JSONObject->pretty(1);
     }
 
-    # get JSON-encoded presentation of perl structure
-    my $JSONEncoded = $JSONObject->encode( $Param{Data} ) || '""';
+    # Serialise the Perl data structure into the format JSON.
+    # The attribute utf8 of $JSONObject is not set. This means
+    # that the result of encode() will be a Perl string that may
+    # contain character with a code point greater 255.
+    # Unicode LS and PS are not replaced. But see below.
+    # $Param{Data}->{sample_newline} = "\x{2028}" if ref $Param{Data} eq 'HASH';
+    my $JSONEncoded = $JSONObject->encode( $Param{Data} ) || q{""};
+    #use Devel::Peek;
+    #Dump( $JSONEncoded );
 
-    # Special handling for unicode line terminators (\u2028 and \u2029),
-    # they are allowed in JSON but not in JavaScript
-    # see: http://timelessrepo.com/json-isnt-a-javascript-subset
+    # Special handling of problematic unicode code points:
+    #   U+02028 - LINE SEPARATOR
+    #   U+02029 - PARAGRAPH SEPARATOR
+    # They are allowed in JSON but not in JavaScript.
+    # See: http://timelessrepo.com/json-isnt-a-javascript-subset
+    # Of course using raw JSON as JavaScript can be considered as a bug too.
     #
-    # Should be fixed in JSON module, but bug report is still open
-    # see: https://rt.cpan.org/Public/Bug/Display.html?id=75755
+    # A relevant bug report is still open as of 2020-08-28.
+    # See: https://rt.cpan.org/Public/Bug/Display.html?id=75755
     #
-    # Therefore must be encoded manually
+    # Therefore they must be encoded manually.
     $JSONEncoded =~ s/\x{2028}/\\u2028/xmsg;
     $JSONEncoded =~ s/\x{2029}/\\u2029/xmsg;
 
