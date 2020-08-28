@@ -22,6 +22,7 @@ use strict;
 use warnings;
 
 # core modules
+use Data::Dumper;
 
 # CPAN modules
 use DBI;
@@ -303,17 +304,20 @@ sub Run {
             };
         }
 
-        # return AJAX response
+        # Return AJAX response content as as Perl string.
+        # The output should not be encoded because the content
+        # will be encoded in otobo.psgi. Double encoding is bad.
         my $OutputJSON = $LayoutObject->JSONEncode( Data => $Return );
         return $LayoutObject->Attachment(
             ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $OutputJSON,
             Type        => 'inline',
             NoCache     => 1,
+            NoEncode    => 1, # return a Perl string that may have characters greater 255
         );
     }
 
-    # if this is not an AJAX request, build the html for the current subaction
+    # if this is not an AJAX request, then build the html for the current subaction
 
     # generate current title
     my $Title     = $LayoutObject->{LanguageObject}->Translate('OTRS to OTOBO migration');
