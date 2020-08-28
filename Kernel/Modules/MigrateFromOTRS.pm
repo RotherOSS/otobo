@@ -22,7 +22,6 @@ use strict;
 use warnings;
 
 # core modules
-use Data::Dumper;
 
 # CPAN modules
 use DBI;
