@@ -1,3 +1,10 @@
 #!/bin/sh
 
-docker build --build-arg "GIT_COMMIT=$SOURCE_COMMIT" --build-arg "GIT_BRANCH=$SOURCE_BRANCH" -f $DOCKERFILE_PATH -t $IMAGE_NAME .
+docker build\
+ --build-arg "BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"\
+ --build-arg "DOCKER_TAG=$DOCKER_TAG"\
+ --build-arg "GIT_COMMIT=$SOURCE_COMMIT"\
+ --build-arg "GIT_REPO=$(git config --get remote.origin.url)"\
+ -f $DOCKERFILE_PATH\
+ -t $IMAGE_NAME\
+ .
