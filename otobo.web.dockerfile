@@ -158,6 +158,7 @@ ARG BUILD_DATE=unspecified
 ARG DOCKER_TAG=unspecified
 ARG GIT_COMMIT=unspecified
 ARG GIT_REPO=unspecified
+LABEL maintainer='Team OTOBO <dev@otobo.org>'
 LABEL org.opencontainers.image.authors='Team OTOBO <dev@otobo.org>'
 LABEL org.opencontainers.image.created=$BUILD_DATE
 LABEL org.opencontainers.image.description='OTOBO is the new open source ticket system with strong functionality AND a great look'
