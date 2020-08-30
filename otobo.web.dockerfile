@@ -79,11 +79,10 @@ ENV OTOBO_GROUP otobo
 ENV OTOBO_HOME  /opt/otobo
 RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER
 
-# copy the OTOBO installation to /opt/otobo and use it as the working dir
+# copy the OTOBO installation to /opt/otobo_install/otobo_next and use it as the working dir
 # skip the files set up in .dockerignore
-ARG OTOBO_INSTALL=/opt/otobo_install
-COPY --chown=$OTOBO_USER:$OTOBO_GROUP . $OTOBO_INSTALL/otobo_next
-WORKDIR $OTOBO_INSTALL/otobo_next
+COPY --chown=$OTOBO_USER:$OTOBO_GROUP . /opt/otobo_install/otobo_next
+WORKDIR /opt/otobo_install/otobo_next
 
 # uncomment these steps when strange behavior must be investigated
 #RUN echo "'$OTOBO_HOME'"
@@ -98,7 +97,7 @@ WORKDIR $OTOBO_INSTALL/otobo_next
 # set up entrypoint.sh and docker_firsttime
 # Finally set permissions.
 RUN install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME \
-    && install --owner $OTOBO_USER --group $OTOBO_GROUP -D bin/docker/entrypoint.sh $OTOBO_INSTALL/entrypoint.sh \
+    && install --owner $OTOBO_USER --group $OTOBO_GROUP -D bin/docker/entrypoint.sh /opt/otobo_install/entrypoint.sh \
     && install --owner $OTOBO_USER --group $OTOBO_GROUP /dev/null docker_firsttime \
     && perl bin/docker/set_permissions.pl
 
