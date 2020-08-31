@@ -43,6 +43,6 @@ LABEL org.opencontainers.image.licenses='GNU General Public License v3.0 or late
 LABEL org.opencontainers.image.revision=$GIT_COMMIT
 LABEL org.opencontainers.image.source=$GIT_REPO
 LABEL org.opencontainers.image.title='OTOBO elasticsearch'
-LABEL org.opencontainers.image.url=$GIT_REPO
+LABEL org.opencontainers.image.url=https://github.com/RotherOSS/otobo
 LABEL org.opencontainers.image.vendor='Rother OSS GmbH'
 LABEL org.opencontainers.image.version=$DOCKER_TAG
