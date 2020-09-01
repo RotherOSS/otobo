@@ -102,7 +102,7 @@ my %DistToInstType = (
 );
 
 # defines a set of features considered standard for non docker environments
-my %StandardFeatures = (
+my %IsStandardFeature = (
     'db:mysql'         => 1,
     'apache:mod_perl'  => 1,
     'mail'             => 1,
@@ -981,7 +981,7 @@ END_HEADER
 elsif ( $DoPrintInstCommand ) {
 
     my @SelectedModules;
-    my %UsedFeatures = @FeatureInstList ? map { $_ => 1 } @FeatureInstList : %StandardFeatures;
+    my %FeatureIsUsed = @FeatureInstList ? map { $_ => 1 } @FeatureInstList : %IsStandardFeature;
 
     for my $Module ( @NeededModules ) {
         if ( $Module->{Required} ) {
@@ -989,7 +989,7 @@ elsif ( $DoPrintInstCommand ) {
         }
         elsif ( $Module->{Features} ) {
             for my $Feature ( @{ $Module->{Features} } ) {
-                if ( $UsedFeatures{ $Feature } || $UsedFeatures{ ( split( /:/, $Feature ) )[0] } ) {
+                if ( $FeatureIsUsed{ $Feature } || $FeatureIsUsed{ ( split( /:/, $Feature ) )[0] } ) {
                     push @SelectedModules, $Module;
                 }
             }
@@ -1042,9 +1042,9 @@ else {
         $Features{zzznone} = 1;
     }
     else {
-        $StandardFeatures{aaacore} = 1;
-        $StandardFeatures{zzznone} = 1;
-        %Features = @FeatureList ? map { $_ => 1 } @FeatureList : %StandardFeatures;
+        $IsStandardFeature{aaacore} = 1;
+        $IsStandardFeature{zzznone} = 1;
+        %Features = @FeatureList ? map { $_ => 1 } @FeatureList : %IsStandardFeature;
     }
 
     my %PrintFeatures;
