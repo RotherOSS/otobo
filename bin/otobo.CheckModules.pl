@@ -119,6 +119,27 @@ my %IsStandardFeature = (
     'div:hanextra'     => 1,
 );
 
+# defines a set of features considered standard for docker environments
+my %IsDockerFeature = (
+    'db:mysql'           => 1,
+    'db:odbc'            => 1,
+    'db:postgresql'      => 1,
+    'db:sqlite'          => 1,
+    'devel:dbviewer'     => 1,
+    'devel:test'         => 1,
+    'div:bcrypt'         => 1,
+    'div:ldap'           => 1,
+    'div:readonly'       => 1,
+    'div:xslt'           => 1,
+    'mail:imap'          => 1,
+    'mail:ntlm'          => 1,
+    'mail:sasl'          => 1,
+    'performance:csv'    => 1,
+    'performance:json'   => 1,
+    'performance:redis'  => 1,
+    'plack'              => 1,
+);
+
 # Used for the generation of a cpanfile.
 my %FeatureDescription = (
     'aaacore'         => 'Required packages',
@@ -150,18 +171,20 @@ my $DoPrintInstCommand;
 my $DoPrintPackageList;
 my $DoPrintFeatures;
 my $DoPrintCpanfile;
+my $DoPrintDockerCpanfile;
 my $DoPrintHelp;
 my @FeatureList;
 my @FeatureInstList;
 GetOptions(
-    'help|h'      => \$DoPrintHelp,
-    inst          => \$DoPrintInstCommand,
-    list          => \$DoPrintPackageList,
-    all           => \$DoPrintAllModules,
-    features      => \$DoPrintFeatures,
-    'finst=s{1,}' => \@FeatureInstList,
-    'flist=s{1,}' => \@FeatureList,
-    cpanfile      => \$DoPrintCpanfile,
+    'help|h'          => \$DoPrintHelp,
+    inst              => \$DoPrintInstCommand,
+    list              => \$DoPrintPackageList,
+    all               => \$DoPrintAllModules,
+    features          => \$DoPrintFeatures,
+    'finst=s{1,}'     => \@FeatureInstList,
+    'flist=s{1,}'     => \@FeatureList,
+    cpanfile          => \$DoPrintCpanfile,
+    'docker-cpanfile' => \$DoPrintDockerCpanfile,
 );
 
 if ( @FeatureList ) {
@@ -170,7 +193,7 @@ if ( @FeatureList ) {
 elsif ( @FeatureInstList ) {
     $DoPrintInstCommand = 1;
 }
-elsif ( !$DoPrintAllModules && !$DoPrintInstCommand && !$DoPrintPackageList && !$DoPrintFeatures && !$DoPrintCpanfile ) {
+elsif ( !$DoPrintAllModules && !$DoPrintInstCommand && !$DoPrintPackageList && !$DoPrintFeatures && !$DoPrintCpanfile && !$DoPrintDockerCpanfile ) {
     $DoPrintHelp = 1;
 }
 
@@ -193,6 +216,7 @@ if ($DoPrintHelp) {
     printf " %-22s - %s\n", '[-flist <features>]', 'Print a list of all packages belonging to at least one of the listed features.';
     printf " %-22s - %s\n", '[-finst <features>]', 'Print the console command to install all missing packages belonging to at least one of the listed features via the system package manager.';
     printf " %-22s - %s\n", '[-cpanfile]',         'Print a cpanfile with the required modules regardless whether they are already available.';
+    printf " %-22s - %s\n", '[-docker-cpanfile]',  'Print a cpanfile with the required modules for a Docker-based installation.';
     print "\n";
 
     exit 1;
@@ -201,7 +225,7 @@ if ($DoPrintHelp) {
 my $Options = shift || '';
 my $NoColors;
 
-if ( $DoPrintCpanfile || $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
+if ( $DoPrintCpanfile || $DoPrintDockerCpanfile || $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
     $NoColors = 1;
 }
 
@@ -976,7 +1000,16 @@ if ( $DoPrintCpanfile ) {
 #    ./bin/otobo.CheckModules.pl --cpanfile > cpanfile
 END_HEADER
 
-    PrintCpanfile( \@NeededModules, 1, 1 );
+    PrintCpanfile( \@NeededModules, 1, 1, 0 );
+}
+elsif ( $DoPrintDockerCpanfile) {
+    say <<'END_HEADER';
+# Do not change this file manually.
+# Instead adapt bin/otobo.CheckModules.pl and call
+#    ./bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
+END_HEADER
+
+    PrintCpanfile( \@NeededModules, 1, 1, 1 );
 }
 elsif ( $DoPrintInstCommand ) {
 
@@ -1390,7 +1423,7 @@ sub GetInstallCommand {
 }
 
 sub PrintCpanfile {
-    my ($NeededModules, $FilterRequired, $HandleFeatures) = @_;
+    my ($NeededModules, $FilterRequired, $HandleFeatures, $ForDocker) = @_;
 
     # Indent the statements in the feature sections
     my $Indent = $FilterRequired ? '' : '    ';
@@ -1468,12 +1501,25 @@ sub PrintCpanfile {
     }
 
     # now print out the features
+    FEATURE:
     for my $Feature ( sort keys %ModulesForFeature ) {
-        my $Desc = $FeatureDescription{$Feature} // "Suppport for $Feature";
+
+        # print empty line for neater output
         say '';
-        say "feature '$Feature', '$Desc' => sub {";
-        PrintCpanfile( $ModulesForFeature{$Feature}, 0, 0 );
-        say '};';
+
+        # When a cpanfile for Docker is generated then filter out the not-needed features
+        if ( $ForDocker && ! $IsDockerFeature{$Feature} ) {
+            say "# Feature '$Feature' is not needed for Docker\n";
+
+            next FEATURE;
+        }
+
+        # Don't declare the features in the Docker case
+        my $PoundOrEmpty = $ForDocker ? '# ' : '';
+        my $Desc = $FeatureDescription{$Feature} // "Suppport for $Feature";
+        say "${PoundOrEmpty}feature '$Feature', '$Desc' => sub {";
+        PrintCpanfile( $ModulesForFeature{$Feature}, 0, 0, $ForDocker );
+        say "${PoundOrEmpty}};";
     }
 
     return;
