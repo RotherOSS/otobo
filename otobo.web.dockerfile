@@ -50,12 +50,14 @@ ENV PATH "/opt/otobo_install/local/bin:${PATH}"
 # TODO: go back to install via the cpanfile
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
-RUN install -d /opt/otobo_install && cpanm Net::DNS Gazelle \
-    && cpanm --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
-# A minimal copy so that the Docker cache is not busted
+RUN install -d /opt/otobo_install
 WORKDIR /opt/otobo_install
+RUN cpanm Carton Net::DNS Gazelle \
+    && cpanm --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
+# A minimal copy of the Docker specific cpanfile, so that the Docker cache is not busted
+# carton install will create cpanfile.snapshot. Currently this file is only used for documentation.
 COPY cpanfile.docker cpanfile
-RUN cpanm --installdeps .
+RUN carton install
 
 # create the otobo user
 #   --user-group            create group 'otobo' and add the user to the created group
