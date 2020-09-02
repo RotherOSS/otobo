@@ -335,6 +335,9 @@ my $NYTProfMiddleWare = sub {
     return sub {
         my $Env = shift;
 
+        # this is used only for Support Data Collection
+        $Env->{SERVER_SOFTWARE} //= 'otobo.psgi';
+
         # check whether this request runs under Devel::NYTProf
         my $ProfilingIsOn = 0;
         if ( $ENV{NYTPROF} && $Env->{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ) {
