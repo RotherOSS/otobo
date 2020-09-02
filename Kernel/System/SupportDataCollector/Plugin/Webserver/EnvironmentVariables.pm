@@ -26,7 +26,7 @@ use Kernel::Language qw(Translatable);
 our @ObjectDependencies = ();
 
 sub GetDisplayPath {
-    return Translatable('Webserver') . '/' . Translatable('Environment Variables');
+    return join '/', Translatable('Webserver'), Translatable('Environment Variables');
 }
 
 sub Run {
