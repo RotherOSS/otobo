@@ -23,7 +23,9 @@ use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
 use Kernel::Language qw(Translatable);
 
-our @ObjectDependencies = ();
+our @ObjectDependencies = (
+    'Kernel::System::Web::Request',
+);
 
 sub GetDisplayPath {
     return Translatable('Webserver');
