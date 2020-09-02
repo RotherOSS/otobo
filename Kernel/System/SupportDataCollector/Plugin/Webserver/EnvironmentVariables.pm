@@ -26,16 +26,16 @@ use Kernel::Language qw(Translatable);
 our @ObjectDependencies = ();
 
 sub GetDisplayPath {
-    return Translatable('Webserver') . '/' . Translatable('Environment Variables');
+    return join '/', Translatable('Webserver'), Translatable('Environment Variables');
 }
 
 sub Run {
     my $Self = shift;
 
-    my %Environment = %ENV;
-
     # Skip the plugin, if the support data collection isn't running in a web request.
     return $Self->GetResults() if !$ENV{GATEWAY_INTERFACE};
+
+    my %Environment = %ENV;
 
     for my $NotNeededString (
         qw(
