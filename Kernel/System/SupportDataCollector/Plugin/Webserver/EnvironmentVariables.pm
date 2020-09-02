@@ -32,10 +32,10 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    my %Environment = %ENV;
-
     # Skip the plugin, if the support data collection isn't running in a web request.
     return $Self->GetResults() if !$ENV{GATEWAY_INTERFACE};
+
+    my %Environment = %ENV;
 
     for my $NotNeededString (
         qw(
