@@ -38,12 +38,12 @@ sub Run {
     return $Self->GetResults() if !$ENV{GATEWAY_INTERFACE};
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $Version = $ParamObject->ServerSoftware();
+    my $ServerSoftware = $ParamObject->ServerSoftware();
 
-    if ($Version) {
+    if ($ServerSoftware) {
         $Self->AddResultInformation(
             Label => Translatable('Webserver Version'),
-            Value => $ENV{SERVER_SOFTWARE},
+            Value => $ServerSoftware,
         );
     }
     else {
