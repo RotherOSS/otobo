@@ -28,7 +28,7 @@ our @ObjectDependencies = (
 );
 
 sub GetDisplayPath {
-    return Translatable('Webserver');
+    return join '/', Translatable('Webserver'), Translatable('PSGI Environment');
 }
 
 sub Run {
@@ -45,14 +45,22 @@ sub Run {
 
     # Accessing the Query attribute directly is a bit hackish
     my $PSGIEnv = $ParamObject->{Query}->env();
-    my %IsIgnored = map { $_ => 1 } qw(
-            HTTP_REFERER HTTP_CACHE_CONTROL HTTP_COOKIE HTTP_USER_AGENT
-            HTTP_ACCEPT_LANGUAGE HTTP_ACCEPT_ENCODING HTTP_ACCEPT
-            QUERY_STRING REQUEST_METHOD REQUEST_URI SCRIPT_NAME
-            ALLUSERSPROFILE      APPDATA              LOCALAPPDATA   COMMONPROGRAMFILES
-            PROGRAMDATA          PROGRAMFILES         PSMODULEPATH   PUBLIC
-            SYSTEMDRIVE          SYSTEMROOT           TEMP           WINDIR
-            USERPROFILE          REMOTE_PORT
+    my %KeyIsIgnored = map { $_ => 1 } qw(
+            HTTP_REFERER
+            HTTP_CACHE_CONTROL
+            HTTP_COOKIE
+            HTTP_USER_AGENT
+            HTTP_ACCEPT_LANGUAGE
+            HTTP_ACCEPT_ENCODING
+            HTTP_ACCEPT
+            QUERY_STRING
+            REQUEST_METHOD REQUEST_URI
+            SCRIPT_NAME
+            REMOTE_PORT
+            ALLUSERSPROFILE      APPDATA        LOCALAPPDATA   COMMONPROGRAMFILES
+            PROGRAMDATA          PROGRAMFILES   PSMODULEPATH   PUBLIC
+            SYSTEMDRIVE          SYSTEMROOT     TEMP           WINDIR
+            USERPROFILE
         );
 
     for my $Variable ( sort { $a cmp $b } grep { ! $IsIgnored{$_} } keys $PSGIEnv->%* ) {
