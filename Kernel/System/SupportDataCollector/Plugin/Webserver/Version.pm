@@ -39,12 +39,13 @@ sub Run {
     # Skip the plugin, if the support data collection isn't running in a web request.
     return $Self->GetResults() if !$ENV{GATEWAY_INTERFACE};
 
-    my $Version = $ENV{SERVER_SOFTWARE};
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ServerSoftware = $ParamObject->ServerSoftware();
 
-    if ($Version) {
+    if ($ServerSoftware) {
         $Self->AddResultInformation(
             Label => Translatable('Webserver Version'),
-            Value => $ENV{SERVER_SOFTWARE},
+            Value => $ServerSoftware,
         );
     }
     else {
