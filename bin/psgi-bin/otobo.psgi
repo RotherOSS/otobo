@@ -653,6 +653,9 @@ my $OTOBOApp = builder {
     sub {
         my $Env = shift;
 
+        # this is used only for Support Data Collection
+        $Env->{SERVER_SOFTWARE} //= 'otobo.psgi';
+
         # $Env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
         # $Env->{PATH_INFO} contains the path after the $Env->{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
         # The extracted ScriptFileName should be something like:

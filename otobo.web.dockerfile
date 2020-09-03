@@ -36,37 +36,28 @@ RUN packages=$( echo \
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
+# modules are installed in /opt/otobo_install/local
+ENV PERL5LIB /opt/otobo_install/local/lib/perl5
+ENV PERL_CPANM_OPT "--local-lib /opt/otobo_install/local"
+ENV PATH "/opt/otobo_install/local/bin:${PATH}"
+
 # The modules Net::DNS and Gazelle take a long time to build and test.
 # Install them early in order to make rebuilds faster.
+# TODO: go back to install via the cpanfile
 #
 # Found no easy way to install with --force in the cpanfile. Therefore install
 # the modules with ignorable test failures with the option --force.
+# TODO: go back to install via the cpanfile
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
-RUN cpanm Net::DNS Gazelle \
+RUN install -d /opt/otobo_install
+WORKDIR /opt/otobo_install
+RUN cpanm Carton Net::DNS Gazelle \
     && cpanm --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
-
-# A minimal copy so that the Docker cache is not busted
-COPY cpanfile ./cpanfile
-RUN cpanm \
-    --with-feature=db:mysql \
-    --with-feature=db:odbc \
-    --with-feature=db:postgresql \
-    --with-feature=db:sqlite \
-    --with-feature=devel:dbviewer \
-    --with-feature=devel:test \
-    --with-feature=div:bcrypt \
-    --with-feature=div:ldap \
-    --with-feature=div:readonly \
-    --with-feature=div:xslt \
-    --with-feature=mail:imap \
-    --with-feature=mail:ntlm \
-    --with-feature=mail:sasl \
-    --with-feature=performance:csv \
-    --with-feature=performance:json \
-    --with-feature=performance:redis \
-    --with-feature=plack \
-    --installdeps .
+# A minimal copy of the Docker specific cpanfile, so that the Docker cache is not busted
+# carton install will create cpanfile.snapshot. Currently this file is only used for documentation.
+COPY cpanfile.docker cpanfile
+RUN carton install
 
 # create the otobo user
 #   --user-group            create group 'otobo' and add the user to the created group
@@ -157,7 +148,6 @@ ENTRYPOINT ["/opt/otobo_install/entrypoint.sh"]
 ARG BUILD_DATE=unspecified
 ARG DOCKER_TAG=unspecified
 ARG GIT_COMMIT=unspecified
-ARG GIT_REPO=unspecified
 LABEL maintainer='Team OTOBO <dev@otobo.org>'
 LABEL org.opencontainers.image.authors='Team OTOBO <dev@otobo.org>'
 LABEL org.opencontainers.image.created=$BUILD_DATE

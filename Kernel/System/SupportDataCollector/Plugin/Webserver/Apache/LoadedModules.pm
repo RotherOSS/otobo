@@ -32,9 +32,8 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    my %Environment = %ENV;
-
     # No web request or no apache webserver with mod_perl, skip this check.
+    # Using ENV is OK in this context
     if (
         !$ENV{GATEWAY_INTERFACE}
         || !$ENV{SERVER_SOFTWARE}

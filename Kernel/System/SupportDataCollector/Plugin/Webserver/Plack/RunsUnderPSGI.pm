@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::SupportDataCollector::Plugin::Webserver::Version;
+package Kernel::System::SupportDataCollector::Plugin::Webserver::Plack::RunsUnderPSGI;
 
 use strict;
 use warnings;
@@ -23,9 +23,7 @@ use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
 use Kernel::Language qw(Translatable);
 
-our @ObjectDependencies = (
-    'Kernel::System::Web::Request',
-);
+our @ObjectDependencies = ();
 
 sub GetDisplayPath {
     return Translatable('Webserver');
@@ -34,25 +32,15 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    # Skip the plugin, if the support data collection isn't running in a web request.
+    # No web request or no Plack based webserver skip this check.
     return $Self->GetResults() if !$ENV{GATEWAY_INTERFACE};
+    return $Self->GetResults() if !$ENV{OTOBO_RUNS_UNDER_PSGI};
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $ServerSoftware = $ParamObject->ServerSoftware();
-
-    if ($ServerSoftware) {
-        $Self->AddResultInformation(
-            Label => Translatable('Webserver Version'),
-            Value => $ServerSoftware,
-        );
-    }
-    else {
-        $Self->AddResultProblem(
-            Label   => Translatable('Webserver Version'),
-            Value   => '',
-            Message => Translatable('Could not determine webserver version.')
-        );
-    }
+    $Self->AddResultOk(
+        Identifier => 'RunsUnderPSGI',
+        Label      => Translatable('Runs under PSGI'),
+        Value      => 1,
+    );
 
     return $Self->GetResults();
 }
