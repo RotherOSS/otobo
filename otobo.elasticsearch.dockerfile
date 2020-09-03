@@ -5,10 +5,6 @@
 # This image is based on CentOS 7. The User is root.
 FROM docker.elastic.co/elasticsearch/elasticsearch:7.8.0
 
-# take arguments that were passed via --build-arg
-ARG GIT_COMMIT=unspecified
-ARG GIT_BRANCH=unspecified
-
 # install system tools
 RUN packages=$( echo \
         "less" \
