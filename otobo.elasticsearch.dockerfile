@@ -10,13 +10,12 @@ ARG GIT_COMMIT=unspecified
 ARG GIT_BRANCH=unspecified
 
 # install system tools
-RUN packages=$( echo \
-        "less" \
-        "nano" \
-        "tree" \
-        "vim" \
-    ) \
-    && yum install -y $packages
+# hadolint ignore=DL3008
+RUN yum install -y\
+ "less"\
+ "nano"\
+ "tree"\
+ "vim"
 
 # Install important plugins
 RUN bin/elasticsearch-plugin install --batch ingest-attachment

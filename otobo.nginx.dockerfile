@@ -10,15 +10,14 @@ ARG GIT_COMMIT=unspecified
 ARG GIT_BRANCH=unspecified
 
 # install some required and optional Debian packages
-RUN packages=$( echo \
-        "less" \
-        "nano" \
-        "tree" \
-        "vim" \
-    ) \
-    && apt-get update \
-    && apt-get -y --no-install-recommends install $packages \
-    && rm -rf /var/lib/apt/lists/*
+# hadolint ignore=DL3008
+RUN apt-get update\
+ && apt-get -y --no-install-recommends install\
+ "less"\
+ "nano"\
+ "tree"\
+ "vim"\
+ && rm -rf /var/lib/apt/lists/*
 
 # mostly for documentation
 EXPOSE 80/tcp
