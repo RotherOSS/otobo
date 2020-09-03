@@ -1612,14 +1612,16 @@ sub _MaskNew {
 
     # services
     if ( $ConfigObject->Get('Ticket::Service') && $Config->{Service} ) {
-        my %Services;
-        if ( $Param{QueueID} || $Param{TicketID} ) {
-            %Services = $TicketObject->TicketServiceList(
-                %Param,
-                Action         => $Self->{Action},
-                CustomerUserID => $Self->{UserID},
-            );
-        }
+        # use either the real QueueID, or the TicketID, or 1 as QueueID
+        my $TmpQueueID = $Param{QueueID} ? $Param{QueueID} :
+            $Param{TicketID} ? undef : 1;
+
+        my %Services = $TicketObject->TicketServiceList(
+            %Param,
+            QueueID        => $TmpQueueID,
+            Action         => $Self->{Action},
+            CustomerUserID => $Self->{UserID},
+        );
 
         $Param{ServiceStrg} = $LayoutObject->BuildSelection(
             Data       => \%Services,
