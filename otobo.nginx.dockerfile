@@ -5,10 +5,6 @@
 # This image is based on Debian 10 (Buster). The User is root.
 FROM nginx:mainline
 
-# take arguments that were passed via --build-arg
-ARG GIT_COMMIT=unspecified
-ARG GIT_BRANCH=unspecified
-
 # install some required and optional Debian packages
 # hadolint ignore=DL3008
 RUN apt-get update\
