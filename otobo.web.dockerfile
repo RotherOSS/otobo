@@ -133,6 +133,7 @@ RUN bin/otobo.CheckSum.pl -a create
 # Merging /opt/otobo_install/otobo_next and /opt/otobo is left to /opt/otobo_install/entrypoint.sh.
 # Note that for supporting the command 'cron' we need to start as root.
 # For all other commands entrypoint.sh switches to the user otobo.
+# hadolint ignore=DL3002
 USER root
 WORKDIR $OTOBO_HOME
 
