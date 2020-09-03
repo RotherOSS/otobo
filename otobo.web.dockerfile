@@ -69,7 +69,7 @@ ENV OTOBO_GROUP otobo
 ENV OTOBO_HOME  /opt/otobo
 RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER
 
-# copy the OTOBO installation to /opt/otobo and use it as the working dir
+# copy the OTOBO installation to /opt/otobo_install/otobo_next and use it as the working dir
 # skip the files set up in .dockerignore
 COPY --chown=$OTOBO_USER:$OTOBO_GROUP . /opt/otobo_install/otobo_next
 WORKDIR /opt/otobo_install/otobo_next
@@ -140,12 +140,25 @@ WORKDIR $OTOBO_HOME
 # Tell the webapplication that it runs in a container.
 ENV OTOBO_RUNS_UNDER_DOCKER 1
 
-# Add some additional meta info to the image.
-# This done near the end as changed labels and changed args invalidate the layer cache.
-LABEL maintainer="Team OTOBO <dev@otobo.org>"
-ARG GIT_COMMIT=unspecified
-LABEL git_commit=$GIT_COMMIT
-ARG GIT_BRANCH=unspecified
-LABEL git_branch=$GIT_BRANCH
-
+# the entrypoint is not in the volume
 ENTRYPOINT ["/opt/otobo_install/entrypoint.sh"]
+
+# Add some additional meta info to the image.
+# This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.
+# The labels are compliant with https://github.com/opencontainers/image-spec/blob/master/annotations.md .
+# For the standard build args passed by hub.docker.com see https://docs.docker.com/docker-hub/builds/advanced/.
+ARG BUILD_DATE=unspecified
+ARG DOCKER_TAG=unspecified
+ARG GIT_COMMIT=unspecified
+LABEL maintainer='Team OTOBO <dev@otobo.org>'
+LABEL org.opencontainers.image.authors='Team OTOBO <dev@otobo.org>'
+LABEL org.opencontainers.image.created=$BUILD_DATE
+LABEL org.opencontainers.image.description='OTOBO is the new open source ticket system with strong functionality AND a great look'
+LABEL org.opencontainers.image.documentation='https://otobo.org'
+LABEL org.opencontainers.image.licenses='GNU General Public License v3.0 or later'
+LABEL org.opencontainers.image.revision=$GIT_COMMIT
+LABEL org.opencontainers.image.source=$GIT_REPO
+LABEL org.opencontainers.image.title='OTOBO'
+LABEL org.opencontainers.image.url=https://github.com/RotherOSS/otobo
+LABEL org.opencontainers.image.vendor='Rother OSS GmbH'
+LABEL org.opencontainers.image.version=$DOCKER_TAG
