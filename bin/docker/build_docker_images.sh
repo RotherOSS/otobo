@@ -29,7 +29,7 @@
 
 # set general environment variables
 export SOURCE_COMMIT=$(git rev-parse HEAD)
-export SOURCE_BRANCH=$(git branch --show-current)
+export DOCKER_TAG=local
 
 # build otobo:local
 export DOCKERFILE_PATH=otobo.web.dockerfile
