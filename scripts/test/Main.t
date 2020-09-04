@@ -834,6 +834,17 @@ for my $Test (@Tests) {
     );
 }
 
+# verify that irand() is not available as a method
+{
+    $Self->False( $MainObject->can('irand'), 'Kernel::System::Main::irand() is not supported' );
+
+    my $RandonNumber = eval {
+        $MainObject->irandsss(22);
+    };
+    $Self->True( $@ =~ m/Can't locate object method "irand"/ , "Kernel::System::Main::irand() not located" );
+    $Self->False( $RandonNumber, "Kernel::System::Main::irand() did not return anything" );
+}
+
 $Self->DoneTesting();
 
 1;
