@@ -839,9 +839,10 @@ for my $Test (@Tests) {
     $Self->False( $MainObject->can('irand'), 'Kernel::System::Main::irand() is not supported' );
 
     my $RandonNumber = eval {
-        $MainObject->irandsss(22);
+        $MainObject->irand(22);
     };
-    $Self->True( $@ =~ m/Can't locate object method "irand"/ , "Kernel::System::Main::irand() not located" );
+    my $ExceptionMatches = $@ =~ m/Can't locate object method "irand"/ ? 1 : 0;
+    $Self->True( $ExceptionMatches, "Kernel::System::Main::irand() not located" );
     $Self->False( $RandonNumber, "Kernel::System::Main::irand() did not return anything" );
 }
 
