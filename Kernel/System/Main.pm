@@ -21,6 +21,7 @@ package Kernel::System::Main;
 use strict;
 use warnings;
 
+# core modules
 use Digest::MD5 qw(md5_hex);
 use Data::Dumper;
 use File::stat;
@@ -28,9 +29,17 @@ use Unicode::Normalize;
 use List::Util qw();
 use Fcntl qw(:flock);
 use Encode;
-use Math::Random::Secure qw();
 
+# CPAN modules
+use Math::Random::Secure qw(irand);
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(IsStringWithData);
+
+# md5_hex, LOCK_SH, LOCK_EX, LOCK_NB, LOCK_UN, irand, IsStringWithData
+# should not be available as methods.
+# On the other hand, new should not be purged.
+use namespace::autoclean;
 
 our @ObjectDependencies = (
     'Kernel::System::Encode',
@@ -1066,19 +1075,11 @@ sub GenerateRandomString {
         @DictionaryChars = @{ $Param{Dictionary} };
     }
 
+    # assuming that there are no dictionaries larger than 2^32
     my $DictionaryLength = scalar @DictionaryChars;
 
     # generate the string
-    my $String;
-
-    for ( 1 .. $Length ) {
-
-        my $Key = int Math::Random::Secure::rand $DictionaryLength;
-
-        $String .= $DictionaryChars[$Key];
-    }
-
-    return $String;
+    return join '', map { $DictionaryChars[ irand($DictionaryLength) ] } ( 1 .. $Length );
 }
 
 =begin Internal:

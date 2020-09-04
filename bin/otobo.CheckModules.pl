@@ -24,13 +24,17 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use Kernel::System::Environment;
-use Kernel::System::VariableCheck qw( :all );
-
+# core modules
 use ExtUtils::MakeMaker;
 use File::Path;
 use Getopt::Long;
 use Term::ANSIColor;
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::Environment;
+use Kernel::System::VariableCheck qw( :all );
 
 my %InstTypeToCMD = (
 
@@ -350,6 +354,17 @@ my @NeededModules = (
             emerge => 'dev-perl/Moo',
             zypper => 'perl-Moo',
             ports  => 'devel/p5-Moo',
+        },
+    },
+    {
+        Module    => 'namespace::autoclean',
+        Required  => 1,
+        Comment   => 'clean up imported methodes',
+        InstTypes => {
+            aptget => 'libnamespace-autoclean-perl',
+            emerge => 'dev-perl/namespace-autoclean',
+            zypper => 'perl-namespace-autoclean',
+            ports  => 'devel/p5-namespace-autoclean',
         },
     },
     {
