@@ -357,14 +357,14 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'namespace::clean',
+        Module    => 'namespace::autoclean',
         Required  => 1,
         Comment   => 'clean up imported methodes',
         InstTypes => {
-            aptget => 'libnamespace-clean-perl',
-            emerge => 'dev-perl/namespace-clean',
-            zypper => 'perl-namespace-clean',
-            ports  => 'devel/p5-namespace-clean',
+            aptget => 'libnamespace-autoclean-perl',
+            emerge => 'dev-perl/namespace-autoclean',
+            zypper => 'perl-namespace-autoclean',
+            ports  => 'devel/p5-namespace-autoclean',
         },
     },
     {

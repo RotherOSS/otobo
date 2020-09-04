@@ -37,8 +37,9 @@ use Math::Random::Secure qw(irand);
 use Kernel::System::VariableCheck qw(IsStringWithData);
 
 # md5_hex, LOCK_SH, LOCK_EX, LOCK_NB, LOCK_UN, irand, IsStringWithData
-# should not be available as methods
-use namespace::clean;
+# should not be available as methods.
+# On the other hand, new should not be purged.
+use namespace::autoclean;
 
 our @ObjectDependencies = (
     'Kernel::System::Encode',
