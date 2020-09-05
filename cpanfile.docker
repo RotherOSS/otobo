@@ -23,6 +23,9 @@ requires 'LWP::UserAgent';
 # Required for random number generator.
 requires 'Moo';
 
+# clean up imported methodes
+requires 'namespace::autoclean';
+
 # Version 0.60 not supported: This version is broken and not useable! Please upgrade to a higher version.
 requires 'Net::DNS', "!= 0.60";
 

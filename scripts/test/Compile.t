@@ -68,7 +68,7 @@ foreach my $File ( $Internal->all_pl_files(@Dirs) ) {
     }
 }
 
-diag( 'look at Perl code with an unusual extension' );
+note( 'look at Perl code with an unusual extension' );
 {
     my @Files = (
         'bin/psgi-bin/otobo.psgi',
@@ -86,14 +86,20 @@ diag( 'look at Perl code with an unusual extension' );
 }
 
 note( 'check syntax of some shell scripts' );
+{
+    my @ShellScripts = (
+        'bin/docker/entrypoint.sh',
+    );
 
-my @ShellScripts = (
-    'bin/docker/entrypoint.sh',
-    'bin/Cron.sh',
-);
-for my $File ( @ShellScripts ) {
-    my $compile_errors = `bash -n "$File" 2>&1`;
-    is( $compile_errors, '', "$File compiles" );
+    if ( ! $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
+        push @ShellScripts;
+            'bin/Cron.sh';
+    }
+
+    for my $File ( @ShellScripts ) {
+        my $compile_errors = `bash -n "$File" 2>&1`;
+        is( $compile_errors, '', "$File compiles" );
+    }
 }
 
 note( 'check syntax of hook scripts, when the dir hooks exists' );

@@ -26,6 +26,7 @@ otobo.iml
 # files only needed only for building the docker image
 .dockerignore
 bin/docker/build_docker_images.sh
+bin/docker/lint_docker_files.sh
 hooks
 otobo.*.dockerfile
 
@@ -39,6 +40,10 @@ Kernel/cpan-lib/Apache2
 Kernel/cpan-lib/Apache
 Kernel/cpan-lib/CGI/Apache.pm
 Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
+
+# no need for cronjobs in Docker image
+var/cron
+bin/Cron.sh
 
 # this is for the case when the image is not created from a clean git checkout
 Kernel/Config.pm
