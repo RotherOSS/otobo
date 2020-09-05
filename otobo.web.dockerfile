@@ -113,19 +113,6 @@ RUN install -d var/stats var/packages var/article var/tmp \
     && (echo ". ~/.bash_completion" >> .bash_aliases ) \
     && install scripts/vim/.vimrc .vimrc
 
-# Activate the .dist files for cron.
-# Generate and install the crontab for the user $OTOBO_USER.
-# Explicitly set PATH as the required perl is located in /usr/local/bin/perl.
-WORKDIR /opt/otobo_install/otobo_next/var/cron
-RUN ( for foo in *.dist; do cp "$foo" "${foo%.dist}"; done )\
- &&  {\
-    echo "# File added by Dockerfile";\
-    echo "# Let '/usr/bin/env perl' find perl in /usr/local/bin";\
-    echo "PATH=/usr/local/bin:/usr/bin:/bin";\
- } >> aab_path\
- && ../../bin/Cron.sh start
-WORKDIR /opt/otobo_install/otobo_next
-
 # Create ARCHIVE as the last step
 RUN bin/otobo.CheckSum.pl -a create
 
@@ -133,8 +120,6 @@ RUN bin/otobo.CheckSum.pl -a create
 # Merging /opt/otobo_install/otobo_next and /opt/otobo is left to /opt/otobo_install/entrypoint.sh.
 # Note that for supporting the command 'cron' we need to start as root.
 # For all other commands entrypoint.sh switches to the user otobo.
-# hadolint ignore=DL3002
-USER root
 WORKDIR $OTOBO_HOME
 
 # Tell the webapplication that it runs in a container.

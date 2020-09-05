@@ -33,6 +33,7 @@ function handle_docker_firsttime() {
 
     # we are done, docker_firstime has been handled
     # $otobo_next is not removed, it is kept for future reference
+    # Note that docker_firsttime_handled is only available in otobo_web_1
     mv $otobo_next/docker_firsttime $otobo_next/docker_firsttime_handled
 }
 
@@ -43,22 +44,18 @@ function exec_whatever() {
     exec $@
 }
 
-# First try to start the OTOBO Daemon and the continue with cron
-function exec_cron() {
-
-    # Start the OTOBO Daemon.
-    # The Daemon will exit immediately when SecureMode = 0.
-    # But this is OK, as Cron will restart it and it will run when SecureMode = 1.
-    # Also gracefully handle the case when /opt/otobo is not populated yet.
-    if [ ! -f "$otobo_next/docker_firsttime" ] && [ -f "./bin/otobo.Daemon.pl" ]; then
-        su -c "./bin/otobo.Daemon.pl start" "$OTOBO_USER"
-    fi
-
-    # Run a watchdog over the Daemon via Cron
-    # run cron in the foreground
-    exec cron -f
-    # nothing will be executed beyond this line,
-    # because exec replaces running process with the new one
+# Every 2 minutes try to start, or restart, the OTOBO Daemon.
+# The Daemon will exit immediately when SecureMode = 0.
+# But this is OK, as Cron will restart it and it will run when SecureMode = 1.
+# Also gracefully handle the case when /opt/otobo is not populated yet.
+# The watch command will be run in the forground.
+function run_daemon() {
+    while true; do
+        if [ -f "bin/otobo.Daemon.pl" ]; then
+            bin/otobo.Daemon.pl start
+        fi
+        sleep 120
+    done
 }
 
 # Start the webserver
@@ -143,20 +140,18 @@ compare_versions () {
 # Do the work
 ################################################################################
 
-# root handles 'cron' and defers everything else to the OTOBO user
-# Also check whether $UID is set, as 'exec su user ...' apparently does not set $UID
+# container should not be run as root
 if [ ! -z "$UID" ] && [ $UID -eq 0 ]; then
-    if [ "$1" = "cron" ]; then
-        exec_cron
-    fi
-
-    # everything else is run as otobo
-    exec su "$OTOBO_USER" "$0" -- "$@"
-    # nothing will be executed beyond that line,
-    # because exec replaces running process with the new one
+    exit 1
 fi
 
 # now running as $OTOBO_USER
+
+# Run the OTOBO Daemon the webserver
+if [ "$1" = "daemon" ]; then
+    run_daemon
+    exit $?
+fi
 
 # Start the webserver
 if [ "$1" = "web" ]; then
@@ -165,7 +160,7 @@ if [ "$1" = "web" ]; then
         handle_docker_firsttime
     fi
 
-    # start webserver
+    # the start webserver
     exec_web
 fi
 
