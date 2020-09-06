@@ -18,6 +18,7 @@
 use strict;
 use warnings;
 use utf8;
+use feature qw(say);
 
 use File::Basename qw(basename dirname);
 use FindBin qw($RealBin);
@@ -283,7 +284,7 @@ sub Start {
         # The Damon should only run in secure mode
         if ( !$Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
             $DaemonChecker = 0;
-            print STDOUT "Stopping the Deamon as SecureMode is not activated.\n";
+            say STDOUT "Stopping the OTOBO Daemon as SecureMode is not activated.";
 
             next DAEMON_CHECKER_LOOP;
         }

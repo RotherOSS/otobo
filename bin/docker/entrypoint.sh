@@ -49,13 +49,40 @@ function exec_whatever() {
 # But this is OK, as Cron will restart it and it will run when SecureMode = 1.
 # Also gracefully handle the case when /opt/otobo is not populated yet.
 # The watch command will be run in the forground.
-function run_daemon() {
+function start_and_check_daemon() {
+
+    # Docker is stopping containers by sending a SIGTERM signal to the PID=1 process.
+    # As a fallback it sends SIGKILL after waiting 10s.
+    # In the otobo_daemon_1 case the PID=1 process is this script.
+    # Catch the SIGTERM signal and stop the child processes.
+    # See also https://hynek.me/articles/docker-signals/.
+    trap stop_daemon SIGTERM
+
+    sleep_pid=
     while true; do
         if [ -f "bin/otobo.Daemon.pl" ]; then
             bin/otobo.Daemon.pl start
         fi
-        sleep 120
+        # the '&' activates the builtin job control system
+        # remember the PID of sleep, so that the process can be terminated in stop_daemon()
+        sleep 120 & sleep_pid=$!
+
+        # wait until the sleep exits or until a signal arrives,
+        # which means that the stop_daemon() can run without having to wait for the sleep command
+        wait $sleep_pid
+        sleep_pid=
     done
+}
+
+# clean up the OTOBO daemon process
+function stop_daemon() {
+    if [ -f "bin/otobo.Daemon.pl" ]; then
+        bin/otobo.Daemon.pl stop
+        [[ $sleep_pid ]] && kill "$sleep_pid"
+    fi
+
+    # claim that everything is fine
+    exit 0
 }
 
 # Start the webserver
@@ -149,7 +176,7 @@ fi
 
 # Run the OTOBO Daemon the webserver
 if [ "$1" = "daemon" ]; then
-    run_daemon
+    start_and_check_daemon
     exit $?
 fi
 
