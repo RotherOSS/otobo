@@ -17,6 +17,7 @@
 
 use strict;
 use warnings;
+use feature qq(say);
 
 # use ../ as lib location
 use File::Basename;
@@ -25,19 +26,20 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
+# core modules
 use Getopt::Std;
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
-my $DB            = '';
-my $DBDump        = '';
-my $DecompressCMD = '';
-my $Installed     = 0;
 getopt( 'hbd', \%Opts );
+
 if ( exists $Opts{h} ) {
-    print <<EOF;
+    print <<'END_HELP';
 
 Restore an OTOBO system from backup.
 
@@ -49,26 +51,32 @@ Options:
  -d                     - Target OTOBO home directory.
  [-h]                   - Display help for this command.
 
-EOF
+END_HELP
+
     exit 1;
 }
 if ( !$Opts{b} ) {
-    print STDERR "ERROR: Need -b for backup directory\n";
+    say STDERR "ERROR: Need -b for backup directory";
+
     exit 1;
 }
 elsif ( !-d $Opts{b} ) {
-    print STDERR "ERROR: No such directory: $Opts{b}\n";
+    say STDERR "ERROR: No such directory: $Opts{b}";
+
     exit 1;
 }
 if ( !$Opts{d} ) {
-    print STDERR "ERROR: Need -d for destination directory\n";
+    say STDERR "ERROR: Need -d for destination directory";
+
     exit 1;
 }
 elsif ( !-d $Opts{d} ) {
-    print STDERR "ERROR: No such directory: $Opts{d}\n";
+    say STDERR "ERROR: No such directory: $Opts{d}";
+
     exit 1;
 }
 
+my $DecompressCMD = '';
 if ( -e File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.bz2' ) ) {
     $DecompressCMD = 'bunzip2';
 }
@@ -78,14 +86,14 @@ else {
 
 # check needed programs
 for my $CMD ( 'cp', 'tar', $DecompressCMD ) {
-    $Installed = 0;
+    my $IsInstalled = 0;
     open( my $Input, '-|', "which $CMD" );    ## no critic
     while (<$Input>) {
-        $Installed = 1;
+        $IsInstalled = 1;
     }
-    close $Input;
-    if ( !$Installed ) {
-        print STDERR "ERROR: Can't locate $CMD!\n";
+    if ( !$IsInstalled ) {
+        say STDERR "ERROR: Can't locate $CMD!";
+
         exit 1;
     }
 }
@@ -96,11 +104,11 @@ chdir( $Opts{d} );
 my $ConfigBackupGz  = File::Spec->catfile( $Opts{b}, 'Config.tar.gz' );
 my $ConfigBackupBz2 = File::Spec->catfile( $Opts{b}, 'Config.tar.bz2' );
 if ( -e $ConfigBackupGz ) {
-    print "Restore $ConfigBackupGz ...\n";
+    say "Restore $ConfigBackupGz ...";
     system("tar -xzf $ConfigBackupGz");
 }
 elsif ( -e $ConfigBackupBz2 ) {
-    print "Restore $ConfigBackupBz2 ...\n";
+    say "Restore $ConfigBackupBz2 ...";
     system("tar -xjf $ConfigBackupBz2");
 }
 
@@ -124,18 +132,20 @@ if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
 }
 
 # check db backup support
+my $DB            = '';
+my $DBDump        = '';
 if ( $DatabaseDSN =~ m/:mysql/i ) {
     $DB     = 'MySQL';
     $DBDump = 'mysql';
 
-    $Installed = 0;
+    my $IsInstalled = 0;
     open( my $Input, '-|', "which $DBDump" );    ## no critic
     while (<$Input>) {
-        $Installed = 1;
+        $IsInstalled = 1;
     }
-    close $Input;
-    if ( !$Installed ) {
-        print STDERR "ERROR: Can't locate $DBDump!\n";
+    if ( !$IsInstalled ) {
+        say STDERR "ERROR: Can't locate $DBDump!";
+
         exit 1;
     }
 }
@@ -146,19 +156,21 @@ elsif ( $DatabaseDSN =~ m/:pg/i ) {
         $DatabaseHost = '';
     }
 
-    $Installed = 0;
+    my $IsInstalled = 0;
     open( my $Input, '-|', "which $DBDump" );    ## no critic
     while (<$Input>) {
-        $Installed = 1;
+        $IsInstalled = 1;
     }
     close $Input;
-    if ( !$Installed ) {
-        print STDERR "ERROR: Can't locate $DBDump!\n";
+    if ( !$IsInstalled ) {
+        say STDERR "ERROR: Can't locate $DBDump!";
+
         exit 1;
     }
 }
 else {
-    print STDERR "ERROR: Can't backup, no database dump support!\n";
+    say STDERR "ERROR: Can't backup, no database dump support!";
+
     exit 1;
 }
 
@@ -170,8 +182,9 @@ if ( $DB =~ m/mysql/i ) {
         $Check++;
     }
     if ($Check) {
-        print STDERR
-            "ERROR: Already existing tables in this database. A empty database is required for restore!\n";
+        say STDERR
+            "ERROR: Already existing tables in this database. A empty database is required for restore!";
+
         exit 1;
     }
 }
@@ -185,8 +198,9 @@ else {
         $Check++;
     }
     if ($Check) {
-        print STDERR
-            "ERROR: Already existing tables in this database. A empty database is required for restore!\n";
+        say STDERR
+            "ERROR: Already existing tables in this database. A empty database is required for restore!";
+
         exit 1;
     }
 }
@@ -199,11 +213,11 @@ chdir($Home);
 my $ApplicationBackupGz  = File::Spec->catfile( $Opts{b}, 'Application.tar.gz' );
 my $ApplicationBackupBz2 = File::Spec->catfile( $Opts{b}, 'Application.tar.bz2' );
 if ( -e $ApplicationBackupGz ) {
-    print "Restore $ApplicationBackupGz ...\n";
+    say "Restore $ApplicationBackupGz ...";
     system("tar -xzf $ApplicationBackupGz");
 }
 elsif ( -e $ApplicationBackupBz2 ) {
-    print "Restore $ApplicationBackupBz2 ...\n";
+    say "Restore $ApplicationBackupBz2 ...";
     system("tar -xjf $ApplicationBackupBz2");
 }
 
@@ -211,11 +225,11 @@ elsif ( -e $ApplicationBackupBz2 ) {
 my $VarDirBackupGz  = File::Spec->catfile( $Opts{b}, 'VarDir.tar.gz' );
 my $VarDirBackupBz2 = File::Spec->catfile( $Opts{b}, 'VarDir.tar.bz2' );
 if ( -e $VarDirBackupGz ) {
-    print "Restore $VarDirBackupGz ...\n";
+    say "Restore $VarDirBackupGz ...";
     system("tar -xzf $VarDirBackupGz");
 }
 elsif ( -e $VarDirBackupBz2 ) {
-    print "Restore $VarDirBackupBz2 ...\n";
+    say "Restore $VarDirBackupBz2 ...";
     system("tar -xjf $VarDirBackupBz2");
 }
 
@@ -223,11 +237,11 @@ elsif ( -e $VarDirBackupBz2 ) {
 my $DataDirBackupGz  = File::Spec->catfile( $Opts{b}, 'DataDir.tar.gz' );
 my $DataDirBackupBz2 = File::Spec->catfile( $Opts{b}, 'DataDir.tar.bz2' );
 if ( -e $DataDirBackupGz ) {
-    print "Restore $DataDirBackupGz ...\n";
+    say "Restore $DataDirBackupGz ...";
     system("tar -xzf $DataDirBackupGz");
 }
 if ( -e $DataDirBackupBz2 ) {
-    print "Restore $DataDirBackupBz2 ...\n";
+    say "Restore $DataDirBackupBz2 ...";
     system("tar -xjf $DataDirBackupBz2");
 }
 
@@ -235,18 +249,18 @@ if ( -e $DataDirBackupBz2 ) {
 my $DatabaseBackupGz  = File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.gz' );
 my $DatabaseBackupBz2 = File::Spec->catfile( $Opts{b}, 'DatabaseBackup.sql.bz2' );
 if ( $DB =~ m/mysql/i ) {
-    print "create $DB\n";
+    say "create $DB";
     if ($DatabasePw) {
         $DatabasePw = "-p'$DatabasePw'";
     }
     if ( -e $DatabaseBackupGz ) {
-        print "Restore database into $DB ...\n";
+        say "Restore database into $DB ...";
         system(
             "gunzip -c $DatabaseBackupGz | mysql -f -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database"
         );
     }
     elsif ( -e $DatabaseBackupBz2 ) {
-        print "Restore database into $DB ...\n";
+        say "Restore database into $DB ...";
         system(
             "bunzip2 -c $DatabaseBackupBz2 | mysql -f -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database"
         );
@@ -263,7 +277,7 @@ else {
         if ($DatabasePw) {
             $ENV{'PGPASSWORD'} = $DatabasePw;    ## no critic
         }
-        print "Restore database into $DB ...\n";
+        say "Restore database into $DB ...";
         system(
             "gunzip -c $DatabaseBackupGz | psql -U$DatabaseUser $DatabaseHost $Database"
         );
@@ -274,7 +288,7 @@ else {
         if ($DatabasePw) {
             $ENV{'PGPASSWORD'} = $DatabasePw;    ## no critic
         }
-        print "Restore database into $DB ...\n";
+        say "Restore database into $DB ...";
         system(
             "bunzip2 -c $DatabaseBackupBz2 | psql -U$DatabaseUser $DatabaseHost $Database"
         );
