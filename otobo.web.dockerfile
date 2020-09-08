@@ -12,25 +12,24 @@ USER root
 # install some required and optional Debian packages
 # For ODBC see https://blog.devart.com/installing-and-configuring-odbc-driver-on-linux.html
 # For ODBC for SQLIte, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
-RUN packages=$( echo \
-        "ack" \
-        "cron" \
-        "default-mysql-client" \
-        "ldap-utils" \
-        "less" \
-        "nano" \
-        "odbcinst1debian2 libodbc1 odbcinst unixodbc-dev unixodbc" \
-        "postgresql-client" \
-        "redis-tools" \
-        "sqlite3 libsqliteodbc" \
-        "rsync" \
-        "telnet" \
-        "tree" \
-        "vim" \
-    ) \
-    && apt-get update \
-    && apt-get -y --no-install-recommends install $packages \
-    && rm -rf /var/lib/apt/lists/*
+# hadolint ignore=DL3008
+RUN apt-get update\
+ && apt-get -y --no-install-recommends install\
+ "ack"\
+ "cron"\
+ "default-mysql-client"\
+ "ldap-utils"\
+ "less"\
+ "nano"\
+ "odbcinst1debian2" "libodbc1" "odbcinst" "unixodbc-dev" "unixodbc"\
+ "postgresql-client"\
+ "redis-tools"\
+ "sqlite3" "libsqliteodbc"\
+ "rsync"\
+ "telnet"\
+ "tree"\
+ "vim"\
+ && rm -rf /var/lib/apt/lists/*
 
 # We want an UTF-8 console
 ENV LC_ALL C.UTF-8
