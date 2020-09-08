@@ -20,7 +20,7 @@ jobs:
         container:
 #            image: 'perldocker/perl-tester:${{ matrix.perl-version }}'
             # using a working OTOBO images avoids the need to install dependencies
-            image: 'rotheross/otobo:devel'
+            image: 'rotheross/otobo:devel-rel-10_0'
 
         steps:
             - uses: actions/checkout@v2
@@ -33,22 +33,23 @@ jobs:
 #            - name: Install Dependencies
 #              run: > # a block scalar, lines are folded with a space
 #                cpanm
-#                --with-feature=db:mysql
-#                --with-feature=db:postgresql
-#                --with-feature=db:odbc
-#                --with-feature=db:sqlite
-#                --with-feature=plack
-#                --with-feature=devel:dbviewer
-#                --with-feature=div:bcrypt
-#                --with-feature=performance:json
-#                --with-feature=mail:imap
-#                --with-feature=mail:ntlm
-#                --with-feature=mail:sasl
-#                --with-feature=div:ldap
-#                --with-feature=performance:csv
-#                --with-feature=div:xslt
-#                --with-feature=performance:redis
-#                --with-feature=devel:test
+#                --with-feature=db:mysql \
+#                --with-feature=db:odbc \
+#                --with-feature=db:postgresql \
+#                --with-feature=db:sqlite \
+#                --with-feature=devel:dbviewer \
+#                --with-feature=devel:test \
+#                --with-feature=div:bcrypt \
+#                --with-feature=div:ldap \
+#                --with-feature=div:readonly \
+#                --with-feature=div:xslt \
+#                --with-feature=mail:imap \
+#                --with-feature=mail:ntlm \
+#                --with-feature=mail:sasl \
+#                --with-feature=performance:csv \
+#                --with-feature=performance:json \
+#                --with-feature=performance:redis \
+#                --with-feature=plack \
 #                --installdeps .
 
             # the setup is just like otobo.web.dockerfile and .dockerignore
