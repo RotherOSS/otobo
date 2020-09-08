@@ -48,6 +48,9 @@ var/article/*
 var/cron/*
 !var/cron/*.dist
 
+# locally installed Perl module
+local
+
 # Fred
 Fred.sopm
 CHANGES-Fred
