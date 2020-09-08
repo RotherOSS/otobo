@@ -15,9 +15,10 @@ RUN apt-get update\
  "vim"\
  && rm -rf /var/lib/apt/lists/*
 
-# mostly for documentation
-EXPOSE 80/tcp
-EXPOSE 443/tcp
+# No need to run on the low ports 80 and 443,
+# even though this would be possible as the master process runs as root.
+EXPOSE 8080/tcp
+EXPOSE 8443/tcp
 
 # We want an UTF-8 console
 ENV LC_ALL C.UTF-8
