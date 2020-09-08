@@ -17,6 +17,7 @@
 
 use strict;
 use warnings;
+use feature qw(say);
 
 # use ../ as lib location
 use File::Basename;
@@ -24,17 +25,17 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
+# core modules
 use Getopt::Std;
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
-my $Compress    = '';
-my $CompressCMD = '';
-my $CompressEXT = '';
 my $DB          = '';
-my $DBDump      = '';
 getopt( 'hcrtd', \%Opts );
 
 if ( exists $Opts{h} ) {
@@ -65,35 +66,32 @@ Output:
  DatabaseBackup.sql.gz  - Database dump.
 
 EOF
+
     exit 1;
 }
 
 # check backup dir
 if ( !$Opts{d} ) {
-    print STDERR "ERROR: Need -d for backup directory\n";
+    say STDERR "ERROR: Need -d for backup directory";
+
     exit 1;
 }
 elsif ( !-d $Opts{d} ) {
-    print STDERR "ERROR: No such directory: $Opts{d}\n";
+    say STDERR "ERROR: No such directory: $Opts{d}";
+
     exit 1;
 }
 
 # check compress mode
+my ($Compress, $CompressCMD, $CompressEXT) = ('z', 'gzip', 'gz');
 if ( $Opts{c} && $Opts{c} =~ m/bzip2/i ) {
     $Compress    = 'j';
     $CompressCMD = 'bzip2';
     $CompressEXT = 'bz2';
 }
-else {
-    $Compress    = 'z';
-    $CompressCMD = 'gzip';
-    $CompressEXT = 'gz';
-}
 
 # check backup type
-my $DBOnlyBackup = 0;
-my $FullBackup   = 0;
-
+my ($DBOnlyBackup, $FullBackup) = (0, 0);
 if ( $Opts{t} && $Opts{t} eq 'dbonly' ) {
     $DBOnlyBackup = 1;
 }
@@ -124,32 +122,34 @@ if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
 }
 
 # check db backup support
+my $DBDumpCmd = '';
 if ( $DatabaseDSN =~ m/:mysql/i ) {
     $DB     = 'MySQL';
-    $DBDump = 'mysqldump';
+    $DBDumpCmd = 'mysqldump';
 }
 elsif ( $DatabaseDSN =~ m/:pg/i ) {
     $DB     = 'PostgreSQL';
-    $DBDump = 'pg_dump';
+    $DBDumpCmd = 'pg_dump';
     if ( $DatabaseDSN !~ m/host=/i ) {
         $DatabaseHost = '';
     }
 }
 else {
-    print STDERR "ERROR: Can't backup, no database dump support!\n";
+    say STDERR "ERROR: Can't backup, no database dump support!";
+
     exit(1);
 }
 
 # check needed programs
-for my $CMD ( 'cp', 'tar', $DBDump, $CompressCMD ) {
-    my $Installed = 0;
+for my $CMD ( 'cp', 'tar', $DBDumpCmd, $CompressCMD ) {
+    my $IsInstalled = 0;
     open my $In, '-|', "which $CMD";    ## no critic
     while (<$In>) {
-        $Installed = 1;
+        $IsInstalled = 1;
     }
-    close $In;
-    if ( !$Installed ) {
-        print STDERR "ERROR: Can't locate $CMD!\n";
+    if ( !$IsInstalled ) {
+        say STDERR "ERROR: Can't locate $CMD!";
+
         exit 1;
     }
 }
@@ -176,16 +176,16 @@ if ( !mkdir($Directory) ) {
 
 # backup application
 if ($DBOnlyBackup) {
-    print "Backup of filesystem data disabled by parameter dbonly ... \n";
+    say "Backup of filesystem data disabled by parameter dbonly ... ";
 }
 else {
     # backup Kernel/Config.pm
     print "Backup $Directory/Config.tar.$CompressEXT ... ";
     if ( !system("tar -c -$Compress -f $Directory/Config.tar.$CompressEXT Kernel/Config*") ) {
-        print "done\n";
+        say "done";
     }
     else {
-        print "failed\n";
+        say "failed";
         RemoveIncompleteBackup($Directory);
         die "Backup failed\n";
     }
@@ -194,10 +194,10 @@ else {
         print "Backup $Directory/Application.tar.$CompressEXT ... ";
         my $Excludes = "--exclude=var/tmp --exclude=js-cache --exclude=css-cache --exclude=.git";
         if ( !system("tar $Excludes -c -$Compress -f $Directory/Application.tar.$CompressEXT .") ) {
-            print "done\n";
+            say "done";
         }
         else {
-            print "failed\n";
+            say "failed";
             RemoveIncompleteBackup($Directory);
             die "Backup failed\n";
         }
@@ -242,15 +242,15 @@ if ( $DB =~ m/mysql/i ) {
     }
     if (
         !system(
-            "( $DBDump -u $DatabaseUser $DatabasePw -h $DatabaseHost $Database || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
+            "( $DBDumpCmd -u $DatabaseUser $DatabasePw -h $DatabaseHost $Database || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
         )
         && !-f $ErrorIndicationFileName
         )
     {
-        print "done\n";
+        say "done";
     }
     else {
-        print "failed\n";
+        say "failed";
         if ( -f $ErrorIndicationFileName ) {
             unlink $ErrorIndicationFileName;
         }
@@ -272,15 +272,15 @@ else {
 
     if (
         !system(
-            "( $DBDump $DatabaseHost -U $DatabaseUser $Database || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
+            "( $DBDumpCmd $DatabaseHost -U $DatabaseUser $Database || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
         )
         && !-f $ErrorIndicationFileName
         )
     {
-        print "done\n";
+        say "done";
     }
     else {
-        print "failed\n";
+        say "failed";
         if ( -f $ErrorIndicationFileName ) {
             unlink $ErrorIndicationFileName;
         }
@@ -356,7 +356,7 @@ if ( defined $Opts{r} ) {
                 }
             }
             if ( rmdir($Directory) ) {
-                print "done\n";
+                say "done";
             }
             else {
                 die "failed\n";
@@ -384,10 +384,10 @@ sub RemoveIncompleteBackup {
         }
     }
     if ( rmdir($Directory) ) {
-        print STDERR "done\n";
+        say STDERR "done";
     }
     else {
-        print STDERR "failed\n";
+        say STDERR "failed";
     }
 
     return;
