@@ -156,8 +156,6 @@ ENV OTOBO_RUNS_UNDER_DOCKER 1
 LABEL maintainer="Team OTOBO <dev@otobo.org>"
 ARG GIT_COMMIT=unspecified
 LABEL git_commit=$GIT_COMMIT
-ARG GIT_BRANCH=unspecified
-LABEL git_branch=$GIT_BRANCH
 
 # for some reason $OTOBO_INSTALL can't be used here
 ENTRYPOINT ["/opt/otobo_install/entrypoint.sh"]
