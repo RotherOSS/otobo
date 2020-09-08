@@ -12,6 +12,7 @@ USER root
 # install some required and optional Debian packages
 # For ODBC see https://blog.devart.com/installing-and-configuring-odbc-driver-on-linux.html
 # For ODBC for SQLIte, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
+# Create /opt/otobo_install already here, in order to reduce the number of build layers.
 # hadolint ignore=DL3008
 RUN apt-get update\
  && apt-get -y --no-install-recommends install\
@@ -29,34 +30,37 @@ RUN apt-get update\
  "telnet"\
  "tree"\
  "vim"\
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/*\
+ && install -d /opt/otobo_install
 
 # We want an UTF-8 console
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
-# modules are installed in /opt/otobo_install/local
-ENV PERL5LIB /opt/otobo_install/local/lib/perl5
-ENV PERL_CPANM_OPT "--local-lib /opt/otobo_install/local"
-ENV PATH "/opt/otobo_install/local/bin:${PATH}"
+# required modules are installed in /opt/otobo_install/local
+# additional local modules might be installed in /opt/otobo/local
+ENV PERL5LIB "/opt/otobo_install/local/lib/perl5:/opt/otobo/local/lib/perl5"
+ENV PATH "/opt/otobo_install/local/bin:/opt/otobo/local/bin:${PATH}"
 
+# Install packages from CPAN into the local lib /opt/otobo_install/local.
+#
 # The modules Net::DNS and Gazelle take a long time to build and test.
-# Install them early in order to make rebuilds faster.
+# Install them early in a separate RUN in order to make rebuilds faster.
 # TODO: go back to install via the cpanfile
 #
 # Found no easy way to install with --force in the cpanfile. Therefore install
 # the modules with ignorable test failures with the option --force.
 # TODO: go back to install via the cpanfile
+#
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
-RUN install -d /opt/otobo_install
-WORKDIR /opt/otobo_install
-RUN cpanm Carton Net::DNS Gazelle \
-    && cpanm --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
-# A minimal copy of the Docker specific cpanfile, so that the Docker cache is not busted
+#
 # carton install will create cpanfile.snapshot. Currently this file is only used for documentation.
+WORKDIR /opt/otobo_install
 COPY cpanfile.docker cpanfile
-RUN carton install
+RUN cpanm --local-lib local Carton Net::DNS Gazelle\
+ && cpanm --local-lib local --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
+RUN PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install
 
 # create the otobo user
 #   --user-group            create group 'otobo' and add the user to the created group

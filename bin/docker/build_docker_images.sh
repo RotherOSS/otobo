@@ -31,17 +31,17 @@
 export SOURCE_COMMIT=$(git rev-parse HEAD)
 export DOCKER_TAG=local-rel-10_1
 
-# build otobo:local-rel-10_1
+# build otobo
 export DOCKERFILE_PATH=otobo.web.dockerfile
-export IMAGE_NAME=otobo:local-rel-10_1
+export IMAGE_NAME=otobo:$DOCKER_TAG
 hooks/build || exit 1
 
-# build otobo-nginx-webproxy:local-rel-10_1
+# build otobo-nginx-webproxy
 export DOCKERFILE_PATH=otobo.nginx.dockerfile
-export IMAGE_NAME=otobo-nginx-webproxy:local-rel-10_1
+export IMAGE_NAME=otobo-nginx-webproxy:$DOCKER_TAG
 hooks/build || exit 1
 
-# build otobo-elasticsearch:local-rel-10_1
+# build otobo-elasticsearch
 export DOCKERFILE_PATH=otobo.elasticsearch.dockerfile
-export IMAGE_NAME=otobo-elasticsearch:local-rel-10_1
+export IMAGE_NAME=otobo-elasticsearch:$DOCKER_TAG
 hooks/build || exit 1
