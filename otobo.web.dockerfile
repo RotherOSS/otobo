@@ -35,6 +35,10 @@ RUN apt-get update\
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
+# additional local modules might be installed in /opt/otobo/local
+ENV PERL5LIB /opt/otobo/local/lib/perl5
+ENV PATH "/opt/otobo/local/bin:${PATH}"
+
 # The modules Net::DNS and Gazelle take a long time to build and test.
 # Install them early in order to make rebuilds faster.
 #
