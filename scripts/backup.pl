@@ -151,7 +151,7 @@ my $Directory = join '/',
     $SystemDTObject->Format( Format => '%Y-%m-%d_%H-%M' );
 
 if ( !mkdir($Directory) ) {
-    die "ERROR: Can't create directory: $Directory: $!\n";
+    die "ERROR: Can't create directory: $Directory: $!";
 }
 
 # backup application
@@ -167,7 +167,7 @@ else {
     else {
         say "failed";
         RemoveIncompleteBackup($Directory);
-        die "Backup failed\n";
+        die "Backup failed";
     }
 
     if ($FullBackup) {
@@ -179,7 +179,7 @@ else {
         else {
             say "failed";
             RemoveIncompleteBackup($Directory);
-            die "Backup failed\n";
+            die "Backup failed";
         }
     }
 
@@ -192,7 +192,7 @@ else {
         else {
             print "failed\n";
             RemoveIncompleteBackup($Directory);
-            die "Backup failed\n";
+            die "Backup failed";
         }
     }
 
@@ -205,7 +205,7 @@ else {
         else {
             print "failed\n";
             RemoveIncompleteBackup($Directory);
-            die "Backup failed\n";
+            die "Backup failed";
         }
     }
 }
@@ -235,7 +235,7 @@ if ( $DB =~ m/mysql/i ) {
             unlink $ErrorIndicationFileName;
         }
         RemoveIncompleteBackup($Directory);
-        die "Backup failed\n";
+        die "Backup failed";
     }
 }
 else {
@@ -265,7 +265,7 @@ else {
             unlink $ErrorIndicationFileName;
         }
         RemoveIncompleteBackup($Directory);
-        die "Backup failed\n";
+        die "Backup failed";
     }
 }
 
@@ -335,11 +335,12 @@ if ( defined $RemoveDays ) {
                     unlink $File;
                 }
             }
+
             if ( rmdir($Directory) ) {
-                say "done";
+                say 'done';
             }
             else {
-                die "failed\n";
+                die 'failed';
             }
         }
     }
