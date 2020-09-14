@@ -241,6 +241,12 @@ sub Connect {
             };
         }
 
+        # set utf-8 on for PostgreSQL
+        # Note: This is untested for the PSGI-case
+        if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
+            $ConnectAttributes{pg_enable_utf8} = 1;
+        }
+
         # The defaults for the attributes RaiseError and AutoInactiveDestroy differ
         # between DBI and DBIx::Connector.
         # For DBI they are off per default, but for DBIx::Connector they are on per default.
@@ -297,12 +303,6 @@ sub Connect {
         );
 
         return;
-    }
-
-    # set utf-8 on for PostgreSQL
-    # Note: This is untested for the PSGI-case
-    if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
-        $Self->{dbh}->{pg_enable_utf8} = 1;
     }
 
     if ( $Self->{SlaveDBObject} ) {
