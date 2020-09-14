@@ -316,20 +316,18 @@ if ( defined $RemoveDays ) {
 
         next DIRECTORY if !-d $Directory;
 
-        my $Leave = 0;
         for my $Data ( sort keys %LeaveBackups ) {
-            if ( $Directory =~ m/$Data/ ) {
-                $Leave = 1;
-            }
+            next DIRECTORY if $Directory =~ m/$Data/;
         }
-        if ( !$Leave ) {
 
+        {
             # remove files and directory
             print "deleting old backup in $Directory ... ";
             my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
                 Directory => $Directory,
                 Filter    => '*',
             );
+
             for my $File (@Files) {
                 if ( -e $File ) {
 
