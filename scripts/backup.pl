@@ -17,7 +17,7 @@
 
 use strict;
 use warnings;
-use feature qw(say);
+use v5.24.0;
 
 # use ../ as lib location
 use File::Basename;
