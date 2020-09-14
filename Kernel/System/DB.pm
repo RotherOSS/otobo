@@ -192,7 +192,7 @@ sub Connect {
     my $Self = shift;
 
     # check database handle by doing a Ping every once in a while
-    if ( $Self->{dbh} ) {
+    if ( !$DBIxConnectorIsUsed && $Self->{dbh} ) {
 
         my $PingTimeout = 10;        # Only ping every 10 seconds (see bug#12383).
         my $CurrentTime = time();    ## no critic
