@@ -225,8 +225,8 @@ sub Connect {
     if ( $DBIxConnectorIsUsed ) {
 
         # The defaults for the attributes RaiseError and AutoInactiveDestroy differ between DBI
-        # and DBIx::Connector. For DBI they are off per default, but for DBIx::Connector there on per default.
-        # RaiseError: expllicitly turn it off as this was the previous setup in OTOBO.
+        # and DBIx::Connector. For DBI they are off per default, but for DBIx::Connector they on per default.
+        # RaiseError: explicitly turn it off as this was the previous setup in OTOBO.
         #             This is OK as the the methods run(), txn(), and svp() are not used in OTOBO.
         # AutoInactiveDestroy: Concerns only behavior on forks and such.
         #                      Keep it activated as it is important for DBIx::Connector.
@@ -247,6 +247,7 @@ sub Connect {
             $Self->{DSN},
             $Self->{USER},
             $Self->{PW},
+            \%ConnectAttributes,
         );
 
         # this method reuses an existing connection that is still pinging
