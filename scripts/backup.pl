@@ -17,7 +17,7 @@
 
 use strict;
 use warnings;
-use feature qw(say);
+use v5.24.0;
 
 # use ../ as lib location
 use File::Basename;
@@ -26,7 +26,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 # core modules
-use Getopt::Std;
+use Getopt::Long qw(GetOptions);
 
 # CPAN modules
 
@@ -34,57 +34,36 @@ use Getopt::Std;
 use Kernel::System::ObjectManager;
 
 # get options
-my %Opts;
-my $DB          = '';
-getopt( 'hcrtd', \%Opts );
+my ($HelpFlag, $BackupDir, $CompressOption, $BackupType, $RemoveDays, $MaxAllowedPackage);
+GetOptions(
+    'help|h'                 => \$HelpFlag,
+    'backup-dir|d'           => \$BackupDir,
+    'compress|c=s'           => \$CompressOption,
+    'remove-old-backups|r=i' => \$RemoveDays,
+    'backup-type|t=s'        => \$BackupType,
+    'max-allowed-package=i'  => \$MaxAllowedPackage,
+) or PrintHelpAndExit();
 
-if ( exists $Opts{h} ) {
-    print <<EOF;
-
-Backup an OTOBO system.
-
-Usage:
- backup.pl -d /data_backup_dir [-c gzip|bzip2] [-r DAYS] [-t fullbackup|nofullbackup|dbonly]
-
-Options:
- -d                     - Directory where the backup files should place to.
- [-c]                   - Select the compression method (gzip|bzip2). Default: gzip.
- [-r DAYS]              - Remove backups which are more than DAYS days old.
- [-t]                   - Specify which data will be saved (fullbackup|nofullbackup|dbonly). Default: fullbackup.
- [-h]                   - Display help for this command.
-
-Help:
-Using -t fullbackup saves the database and the whole OTOBO home directory (except /var/tmp and cache directories).
-Using -t nofullbackup saves only the database, /Kernel/Config* and /var directories.
-With -t dbonly only the database will be saved.
-
-Output:
- Config.tar.gz          - Backup of /Kernel/Config* configuration files.
- Application.tar.gz     - Backup of application file system (in case of full backup).
- VarDir.tar.gz          - Backup of /var directory (in case of no full backup).
- DataDir.tar.gz         - Backup of article files.
- DatabaseBackup.sql.gz  - Database dump.
-
-EOF
-
-    exit 1;
+if ( $HelpFlag ) {
+    PrintHelpAndExit();
 }
 
 # check backup dir
-if ( !$Opts{d} ) {
+if ( !$BackupDir ) {
     say STDERR "ERROR: Need -d for backup directory";
 
     exit 1;
 }
-elsif ( !-d $Opts{d} ) {
-    say STDERR "ERROR: No such directory: $Opts{d}";
+
+if ( !-d $BackupDir ) {
+    say STDERR "ERROR: No such directory: $BackupDir";
 
     exit 1;
 }
 
 # check compress mode
 my ($Compress, $CompressCMD, $CompressEXT) = ('z', 'gzip', 'gz');
-if ( $Opts{c} && $Opts{c} =~ m/bzip2/i ) {
+if ( $CompressOption && $CompressOption =~ m/bzip2/i ) {
     $Compress    = 'j';
     $CompressCMD = 'bzip2';
     $CompressEXT = 'bz2';
@@ -92,10 +71,10 @@ if ( $Opts{c} && $Opts{c} =~ m/bzip2/i ) {
 
 # check backup type
 my ($DBOnlyBackup, $FullBackup) = (0, 0);
-if ( $Opts{t} && $Opts{t} eq 'dbonly' ) {
+if ( $BackupType && $BackupType eq 'dbonly' ) {
     $DBOnlyBackup = 1;
 }
-elsif ( $Opts{t} && $Opts{t} eq 'nofullbackup' ) {
+elsif ( $BackupType && $BackupType eq 'nofullbackup' ) {
     $FullBackup = 0;
 }
 else {
@@ -122,13 +101,13 @@ if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
 }
 
 # check db backup support
-my $DBDumpCmd = '';
+my ($DB, $DBDumpCmd) = ( '', '');
 if ( $DatabaseDSN =~ m/:mysql/i ) {
-    $DB     = 'MySQL';
+    $DB        = 'MySQL';
     $DBDumpCmd = 'mysqldump';
 }
 elsif ( $DatabaseDSN =~ m/:pg/i ) {
-    $DB     = 'PostgreSQL';
+    $DB        = 'PostgreSQL';
     $DBDumpCmd = 'pg_dump';
     if ( $DatabaseDSN !~ m/host=/i ) {
         $DatabaseHost = '';
@@ -164,14 +143,16 @@ if ( $Home !~ m{\/\z} ) {
 
 chdir($Home);
 
-# create directory name - this looks like 2013-09-09_22-19'
+# current time needed for the backup-dir and for removing old backups
 my $SystemDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
-my $Directory      = $SystemDTObject->Format(
-    Format => $Opts{d} . '/%Y-%m-%d_%H-%M',
-);
+
+# create directory name - this looks like 2013-09-09_22-19'
+my $Directory = join '/',
+    $BackupDir,
+    $SystemDTObject->Format( Format => '%Y-%m-%d_%H-%M' );
 
 if ( !mkdir($Directory) ) {
-    die "ERROR: Can't create directory: $Directory: $!\n";
+    die "ERROR: Can't create directory: $Directory: $!";
 }
 
 # backup application
@@ -187,7 +168,7 @@ else {
     else {
         say "failed";
         RemoveIncompleteBackup($Directory);
-        die "Backup failed\n";
+        die "Backup failed";
     }
 
     if ($FullBackup) {
@@ -199,7 +180,7 @@ else {
         else {
             say "failed";
             RemoveIncompleteBackup($Directory);
-            die "Backup failed\n";
+            die "Backup failed";
         }
     }
 
@@ -212,7 +193,7 @@ else {
         else {
             print "failed\n";
             RemoveIncompleteBackup($Directory);
-            die "Backup failed\n";
+            die "Backup failed";
         }
     }
 
@@ -225,7 +206,7 @@ else {
         else {
             print "failed\n";
             RemoveIncompleteBackup($Directory);
-            die "Backup failed\n";
+            die "Backup failed";
         }
     }
 }
@@ -237,25 +218,34 @@ my $ErrorIndicationFileName =
     . $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString();
 if ( $DB =~ m/mysql/i ) {
     print "Dump $DB data to $Directory/DatabaseBackup.sql.$CompressEXT ... ";
+
+    my @Options; # additional options to mysqldump
+
     if ($DatabasePw) {
-        $DatabasePw = "-p'$DatabasePw'";
+        push @Options, "-p'$DatabasePw'";
     }
+
+    if ( $MaxAllowedPackage ) {
+        push @Options, '--max-allowed-package', $MaxAllowedPackage;
+    }
+
     if (
         !system(
-            "( $DBDumpCmd -u $DatabaseUser $DatabasePw -h $DatabaseHost $Database || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
+            "( $DBDumpCmd -u $DatabaseUser @Options -h $DatabaseHost $Database || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
         )
         && !-f $ErrorIndicationFileName
         )
     {
-        say "done";
+        say 'done';
     }
     else {
-        say "failed";
+        say 'failed';
         if ( -f $ErrorIndicationFileName ) {
             unlink $ErrorIndicationFileName;
         }
         RemoveIncompleteBackup($Directory);
-        die "Backup failed\n";
+
+        die "Backup failed";
     }
 }
 else {
@@ -263,7 +253,7 @@ else {
 
     # set password via environment variable if there is one
     if ($DatabasePw) {
-        $ENV{'PGPASSWORD'} = $DatabasePw;    ## no critic
+        $ENV{PGPASSWORD} = $DatabasePw;    ## no critic
     }
 
     if ($DatabaseHost) {
@@ -285,12 +275,12 @@ else {
             unlink $ErrorIndicationFileName;
         }
         RemoveIncompleteBackup($Directory);
-        die "Backup failed\n";
+        die "Backup failed";
     }
 }
 
 # remove old backups only after everything worked well
-if ( defined $Opts{r} ) {
+if ( defined $RemoveDays ) {
     my %LeaveBackups;
 
     # we'll be substracting days to the current time
@@ -301,7 +291,7 @@ if ( defined $Opts{r} ) {
         $SystemDTObject->Add( Hours => 2 );
     }
 
-    for ( 0 .. $Opts{r} ) {
+    for ( 0 .. $RemoveDays ) {
 
         # legacy, old directories could be in the format 2013-4-8
         my @LegacyDirFormats = (
@@ -327,27 +317,27 @@ if ( defined $Opts{r} ) {
     }
 
     my @Directories = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-        Directory => $Opts{d},
+        Directory => $BackupDir,
         Filter    => '*',
     );
 
     DIRECTORY:
     for my $Directory (@Directories) {
-        next DIRECTORY if !-d $Directory;
-        my $Leave = 0;
-        for my $Data ( sort keys %LeaveBackups ) {
-            if ( $Directory =~ m/$Data/ ) {
-                $Leave = 1;
-            }
-        }
-        if ( !$Leave ) {
 
+        next DIRECTORY if !-d $Directory;
+
+        for my $Data ( sort keys %LeaveBackups ) {
+            next DIRECTORY if $Directory =~ m/$Data/;
+        }
+
+        {
             # remove files and directory
             print "deleting old backup in $Directory ... ";
             my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
                 Directory => $Directory,
                 Filter    => '*',
             );
+
             for my $File (@Files) {
                 if ( -e $File ) {
 
@@ -355,11 +345,12 @@ if ( defined $Opts{r} ) {
                     unlink $File;
                 }
             }
+
             if ( rmdir($Directory) ) {
-                say "done";
+                say 'done';
             }
             else {
-                die "failed\n";
+                die 'failed';
             }
         }
     }
@@ -391,4 +382,50 @@ sub RemoveIncompleteBackup {
     }
 
     return;
+}
+
+sub PrintHelpAndExit {
+    print <<'END_HELP';
+
+Backup an OTOBO system.
+
+Usage:
+ backup.pl -d /data_backup_dir [-c gzip|bzip2] [-r DAYS] [-t fullbackup|nofullbackup|dbonly]
+ backup.pl --backup-dir /data_backup_dir [--compress gzip|bzip2] [--remove-old-backups DAYS] [--backup-type fullbackup|nofullbackup|dbonly]
+
+Short options:
+ [-h]                   - Display help for this command.
+ -d                     - Directory where the backup files should place to.
+ [-c]                   - Select the compression method (gzip|bzip2). Default: gzip.
+ [-r DAYS]              - Remove backups which are more than DAYS days old.
+ [-t]                   - Specify which data will be saved (fullbackup|nofullbackup|dbonly). Default: fullbackup.
+
+
+Long options:
+ [--help]                     - same as -h
+ --backup-dir                 - same as -d
+ [--compress]                 - same as -c
+ [--remove-old-backups DAYS]  - same as -r
+ [--backup-type]              - same as -t
+
+Help:
+Using -t fullbackup saves the database and the whole OTOBO home directory (except /var/tmp and cache directories).
+Using -t nofullbackup saves only the database, /Kernel/Config* and /var directories.
+With -t dbonly only the database will be saved.
+
+Override the max allowed package size:
+When backing up a MySQL one might run into very large database fields. In this case the backup fails.
+For making the backup succeed one can explicitly add the parameter --max-allowed--package=<SIZE IN BYTES>.
+This setting will be passed on to the command mysqldump.
+
+Output:
+ Config.tar.gz          - Backup of /Kernel/Config* configuration files.
+ Application.tar.gz     - Backup of application file system (in case of full backup).
+ VarDir.tar.gz          - Backup of /var directory (in case of no full backup).
+ DataDir.tar.gz         - Backup of article files.
+ DatabaseBackup.sql.gz  - Database dump.
+
+END_HELP
+
+    exit 1;
 }
