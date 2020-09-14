@@ -223,6 +223,24 @@ sub Connect {
 
     my %ConnectAttributes;
     {
+        # Attribute for callbacks. See https://metacpan.org/pod/DBI#Callbacks
+        my %Callbacks;
+        if ( $Self->{Backend}->{'DB::Connect'} ) {
+
+            # run a command for initializing a session
+            my $SQL = $Self->{Backend}->{'DB::Connect'};
+            if ( $Self->{Backend}->{'DB::PreProcessSQL'} ) {
+                $Self->{Backend}->PreProcessSQL( \$SQL );
+            }
+            $Callbacks{connected} = sub {
+                my $DatabaseHandle = shift;
+
+                $DatabaseHandle->do($SQL);
+
+                return;
+            };
+        }
+
         # The defaults for the attributes RaiseError and AutoInactiveDestroy differ
         # between DBI and DBIx::Connector.
         # For DBI they are off per default, but for DBIx::Connector they are on per default.
@@ -233,9 +251,10 @@ sub Connect {
         #
         # Kernel::System::DB::mysql also sets mysql_auto_reconnect = 0.
         # This is fine, as this is the same setting as enforced by DBIx::Connector::Driver::mysql
-        my %ConnectAttributes = (
+        %ConnectAttributes = (
             RaiseError => 0,
-            %{ $Self->{Backend}->{'DB::Attribute'} },
+            Callbacks  => \%Callbacks,
+            $Self->{Backend}->{'DB::Attribute'}->%*,
         );
     }
 
@@ -278,10 +297,6 @@ sub Connect {
         );
 
         return;
-    }
-
-    if ( $Self->{Backend}->{'DB::Connect'} ) {
-        $Self->Do( SQL => $Self->{Backend}->{'DB::Connect'} );
     }
 
     # set utf-8 on for PostgreSQL
@@ -1880,7 +1895,7 @@ Useful only when BeginWork() has been called before.
 sub Rollback {
     my ( $Self ) = @_;
 
-    my $DatabaseHandle =  $Self->{dbh};
+    my $DatabaseHandle = $Self->{dbh};
 
     return 1 if !$DatabaseHandle; # no need to rollback
     return $DatabaseHandle->rollback();
