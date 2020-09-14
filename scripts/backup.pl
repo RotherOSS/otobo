@@ -34,13 +34,14 @@ use Getopt::Long qw(GetOptions);
 use Kernel::System::ObjectManager;
 
 # get options
-my ($HelpFlag, $BackupDir, $CompressOption, $BackupType, $RemoveDays);
+my ($HelpFlag, $BackupDir, $CompressOption, $BackupType, $RemoveDays, $MaxAllowedPackage);
 GetOptions(
     'help|h'                 => \$HelpFlag,
     'backup-dir|d'           => \$BackupDir,
     'compress|c=s'           => \$CompressOption,
     'remove-old-backups|r=i' => \$RemoveDays,
     'backup-type|t=s'        => \$BackupType,
+    'max-allowed-package=i'  => \$MaxAllowedPackage,
 ) or PrintHelpAndExit();
 
 if ( $HelpFlag ) {
@@ -102,11 +103,11 @@ if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
 # check db backup support
 my ($DB, $DBDumpCmd) = ( '', '');
 if ( $DatabaseDSN =~ m/:mysql/i ) {
-    $DB     = 'MySQL';
+    $DB        = 'MySQL';
     $DBDumpCmd = 'mysqldump';
 }
 elsif ( $DatabaseDSN =~ m/:pg/i ) {
-    $DB     = 'PostgreSQL';
+    $DB        = 'PostgreSQL';
     $DBDumpCmd = 'pg_dump';
     if ( $DatabaseDSN !~ m/host=/i ) {
         $DatabaseHost = '';
@@ -217,24 +218,33 @@ my $ErrorIndicationFileName =
     . $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString();
 if ( $DB =~ m/mysql/i ) {
     print "Dump $DB data to $Directory/DatabaseBackup.sql.$CompressEXT ... ";
+
+    my @Options; # additional options to mysqldump
+
     if ($DatabasePw) {
-        $DatabasePw = "-p'$DatabasePw'";
+        push @Options, "-p'$DatabasePw'";
     }
+
+    if ( $MaxAllowedPackage ) {
+        push @Options, '--max-allowed-package', $MaxAllowedPackage;
+    }
+
     if (
         !system(
-            "( $DBDumpCmd -u $DatabaseUser $DatabasePw -h $DatabaseHost $Database || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
+            "( $DBDumpCmd -u $DatabaseUser @Options -h $DatabaseHost $Database || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
         )
         && !-f $ErrorIndicationFileName
         )
     {
-        say "done";
+        say 'done';
     }
     else {
-        say "failed";
+        say 'failed';
         if ( -f $ErrorIndicationFileName ) {
             unlink $ErrorIndicationFileName;
         }
         RemoveIncompleteBackup($Directory);
+
         die "Backup failed";
     }
 }
@@ -243,7 +253,7 @@ else {
 
     # set password via environment variable if there is one
     if ($DatabasePw) {
-        $ENV{'PGPASSWORD'} = $DatabasePw;    ## no critic
+        $ENV{PGPASSWORD} = $DatabasePw;    ## no critic
     }
 
     if ($DatabaseHost) {
@@ -402,6 +412,11 @@ Help:
 Using -t fullbackup saves the database and the whole OTOBO home directory (except /var/tmp and cache directories).
 Using -t nofullbackup saves only the database, /Kernel/Config* and /var directories.
 With -t dbonly only the database will be saved.
+
+Override the max allowed package size:
+When backing up a MySQL one might run into very large database fields. In this case the backup fails.
+For making the backup succeed one can explicitly add the parameter --max-allowed--package=<SIZE IN BYTES>.
+This setting will be passed on to the command mysqldump.
 
 Output:
  Config.tar.gz          - Backup of /Kernel/Config* configuration files.
