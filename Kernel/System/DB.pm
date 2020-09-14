@@ -230,6 +230,9 @@ sub Connect {
         #             This is OK as the the methods run(), txn(), and svp() are not used in OTOBO.
         # AutoInactiveDestroy: Concerns only behavior on forks and such.
         #                      Keep it activated as it is important for DBIx::Connector.
+        #
+        # Kernel::System::DB::mysql also sets mysql_auto_reconnect = 0.
+        # This is fine, as this is the same setting as enforced by DBIx::Connector::Driver::mysql
         my %ConnectAttributes = (
             RaiseError => 0,
             %{ $Self->{Backend}->{'DB::Attribute'} },
