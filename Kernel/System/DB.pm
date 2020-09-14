@@ -221,11 +221,11 @@ sub Connect {
         );
     }
 
-    # db connect
-    if ( $DBIxConnectorIsUsed ) {
-
-        # The defaults for the attributes RaiseError and AutoInactiveDestroy differ between DBI
-        # and DBIx::Connector. For DBI they are off per default, but for DBIx::Connector they on per default.
+    my %ConnectAttributes;
+    {
+        # The defaults for the attributes RaiseError and AutoInactiveDestroy differ
+        # between DBI and DBIx::Connector.
+        # For DBI they are off per default, but for DBIx::Connector they are on per default.
         # RaiseError: explicitly turn it off as this was the previous setup in OTOBO.
         #             This is OK as the the methods run(), txn(), and svp() are not used in OTOBO.
         # AutoInactiveDestroy: Concerns only behavior on forks and such.
@@ -237,6 +237,10 @@ sub Connect {
             RaiseError => 0,
             %{ $Self->{Backend}->{'DB::Attribute'} },
         );
+    }
+
+    # db connect
+    if ( $DBIxConnectorIsUsed ) {
 
         # Generation of the cache key is copied from DBI::connect_cached()
         my $CacheKey = do {
@@ -253,7 +257,7 @@ sub Connect {
             \%ConnectAttributes,
         );
 
-        # this method reuses an existing connection that is still pinging
+        # this method reuses an existing connection when it is still pinging
         $Self->{dbh} = $Cache{$CacheKey}->dbh();
     }
     else {
@@ -262,7 +266,7 @@ sub Connect {
             $Self->{DSN},
             $Self->{USER},
             $Self->{PW},
-            $Self->{Backend}->{'DB::Attribute'},
+            \%ConnectAttributes,
         );
     }
 
@@ -272,6 +276,7 @@ sub Connect {
             Priority => 'Error',
             Message  => $DBI::errstr,
         );
+
         return;
     }
 
