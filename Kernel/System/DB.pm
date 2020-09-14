@@ -192,7 +192,7 @@ sub Connect {
     my $Self = shift;
 
     # check database handle by doing a Ping every once in a while
-    if ( $Self->{dbh} ) {
+    if ( !$DBIxConnectorIsUsed && $Self->{dbh} ) {
 
         my $PingTimeout = 10;        # Only ping every 10 seconds (see bug#12383).
         my $CurrentTime = time();    ## no critic
@@ -221,19 +221,51 @@ sub Connect {
         );
     }
 
-    # db connect
-    if ( $DBIxConnectorIsUsed ) {
+    my %ConnectAttributes;
+    {
+        # Attribute for callbacks. See https://metacpan.org/pod/DBI#Callbacks
+        my %Callbacks;
+        if ( $Self->{Backend}->{'DB::Connect'} ) {
 
-        # The defaults for the attributes RaiseError and AutoInactiveDestroy differ between DBI
-        # and DBIx::Connector. For DBI they are off per default, but for DBIx::Connector there on per default.
-        # RaiseError: expllicitly turn it off as this was the previous setup in OTOBO.
+            # run a command for initializing a session
+            my $SQL = $Self->{Backend}->{'DB::Connect'};
+            if ( $Self->{Backend}->{'DB::PreProcessSQL'} ) {
+                $Self->{Backend}->PreProcessSQL( \$SQL );
+            }
+            $Callbacks{connected} = sub {
+                my $DatabaseHandle = shift;
+
+                $DatabaseHandle->do($SQL);
+
+                return;
+            };
+        }
+
+        # set utf-8 on for PostgreSQL
+        # Note: This is untested for the PSGI-case
+        if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
+            $ConnectAttributes{pg_enable_utf8} = 1;
+        }
+
+        # The defaults for the attributes RaiseError and AutoInactiveDestroy differ
+        # between DBI and DBIx::Connector.
+        # For DBI they are off per default, but for DBIx::Connector they are on per default.
+        # RaiseError: explicitly turn it off as this was the previous setup in OTOBO.
         #             This is OK as the the methods run(), txn(), and svp() are not used in OTOBO.
         # AutoInactiveDestroy: Concerns only behavior on forks and such.
         #                      Keep it activated as it is important for DBIx::Connector.
-        my %ConnectAttributes = (
+        #
+        # Kernel::System::DB::mysql also sets mysql_auto_reconnect = 0.
+        # This is fine, as this is the same setting as enforced by DBIx::Connector::Driver::mysql
+        %ConnectAttributes = (
             RaiseError => 0,
-            %{ $Self->{Backend}->{'DB::Attribute'} },
+            Callbacks  => \%Callbacks,
+            $Self->{Backend}->{'DB::Attribute'}->%*,
         );
+    }
+
+    # db connect
+    if ( $DBIxConnectorIsUsed ) {
 
         # Generation of the cache key is copied from DBI::connect_cached()
         my $CacheKey = do {
@@ -247,9 +279,10 @@ sub Connect {
             $Self->{DSN},
             $Self->{USER},
             $Self->{PW},
+            \%ConnectAttributes,
         );
 
-        # this method reuses an existing connection that is still pinging
+        # this method reuses an existing connection when it is still pinging
         $Self->{dbh} = $Cache{$CacheKey}->dbh();
     }
     else {
@@ -258,7 +291,7 @@ sub Connect {
             $Self->{DSN},
             $Self->{USER},
             $Self->{PW},
-            $Self->{Backend}->{'DB::Attribute'},
+            \%ConnectAttributes,
         );
     }
 
@@ -268,17 +301,8 @@ sub Connect {
             Priority => 'Error',
             Message  => $DBI::errstr,
         );
+
         return;
-    }
-
-    if ( $Self->{Backend}->{'DB::Connect'} ) {
-        $Self->Do( SQL => $Self->{Backend}->{'DB::Connect'} );
-    }
-
-    # set utf-8 on for PostgreSQL
-    # Note: This is untested for the PSGI-case
-    if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
-        $Self->{dbh}->{pg_enable_utf8} = 1;
     }
 
     if ( $Self->{SlaveDBObject} ) {
@@ -1871,7 +1895,7 @@ Useful only when BeginWork() has been called before.
 sub Rollback {
     my ( $Self ) = @_;
 
-    my $DatabaseHandle =  $Self->{dbh};
+    my $DatabaseHandle = $Self->{dbh};
 
     return 1 if !$DatabaseHandle; # no need to rollback
     return $DatabaseHandle->rollback();
