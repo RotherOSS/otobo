@@ -37,11 +37,11 @@ use Kernel::System::ObjectManager;
 my ($HelpFlag, $BackupDir, $CompressOption, $BackupType, $RemoveDays, $MaxAllowedPackage);
 GetOptions(
     'help|h'                 => \$HelpFlag,
-    'backup-dir|d'           => \$BackupDir,
+    'backup-dir|d=s'         => \$BackupDir,
     'compress|c=s'           => \$CompressOption,
     'remove-old-backups|r=i' => \$RemoveDays,
     'backup-type|t=s'        => \$BackupType,
-    'max-allowed-package=i'  => \$MaxAllowedPackage,
+    'max-allowed-package=i'  => \$MaxAllowedPackage, # no short option
 ) or PrintHelpAndExit();
 
 if ( $HelpFlag ) {
