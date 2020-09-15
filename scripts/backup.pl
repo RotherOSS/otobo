@@ -415,7 +415,7 @@ With -t dbonly only the database will be saved.
 
 Override the max allowed package size:
 When backing up a MySQL one might run into very large database fields. In this case the backup fails.
-For making the backup succeed one can explicitly add the parameter --max-allowed--package=<SIZE IN BYTES>.
+For making the backup succeed one can explicitly add the parameter --max-allowed-package=<SIZE IN BYTES>.
 This setting will be passed on to the command mysqldump.
 
 Output:
