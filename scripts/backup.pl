@@ -226,7 +226,7 @@ if ( $DB =~ m/mysql/i ) {
     }
 
     if ( $MaxAllowedPackage ) {
-        push @Options, '--max-allowed-package', $MaxAllowedPackage;
+        push @Options, "--max-allowed-package=$MaxAllowedPackage";
     }
 
     if (
