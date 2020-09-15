@@ -34,14 +34,14 @@ use Getopt::Long qw(GetOptions);
 use Kernel::System::ObjectManager;
 
 # get options
-my ($HelpFlag, $BackupDir, $CompressOption, $BackupType, $RemoveDays, $MaxAllowedPackage);
+my ($HelpFlag, $BackupDir, $CompressOption, $BackupType, $RemoveDays, $MaxAllowedPacket);
 GetOptions(
     'help|h'                 => \$HelpFlag,
     'backup-dir|d=s'         => \$BackupDir,
     'compress|c=s'           => \$CompressOption,
     'remove-old-backups|r=i' => \$RemoveDays,
     'backup-type|t=s'        => \$BackupType,
-    'max-allowed-package=i'  => \$MaxAllowedPackage, # no short option
+    'max-allowed-packet=i'   => \$MaxAllowedPacket, # no short option for that special case
 ) or PrintHelpAndExit();
 
 if ( $HelpFlag ) {
@@ -225,8 +225,8 @@ if ( $DB =~ m/mysql/i ) {
         push @Options, "-p'$DatabasePw'";
     }
 
-    if ( $MaxAllowedPackage ) {
-        push @Options, "--max-allowed-package=$MaxAllowedPackage";
+    if ( $MaxAllowedPacket ) {
+        push @Options, "--max-allowed-packet=$MaxAllowedPacket";
     }
 
     if (
@@ -413,9 +413,9 @@ Using -t fullbackup saves the database and the whole OTOBO home directory (excep
 Using -t nofullbackup saves only the database, /Kernel/Config* and /var directories.
 With -t dbonly only the database will be saved.
 
-Override the max allowed package size:
+Override the max allowed packet size:
 When backing up a MySQL one might run into very large database fields. In this case the backup fails.
-For making the backup succeed one can explicitly add the parameter --max-allowed-package=<SIZE IN BYTES>.
+For making the backup succeed one can explicitly add the parameter --max-allowed-packet=<SIZE IN BYTES>.
 This setting will be passed on to the command mysqldump.
 
 Output:
