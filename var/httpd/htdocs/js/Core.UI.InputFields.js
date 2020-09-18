@@ -1332,10 +1332,15 @@ Core.UI.InputFields = (function (TargetNS) {
                 $SelectObj.hide();
 
                 // Check to see if we are dealing with tree view
+                // TODO: For initially hidden fields the AJAXLoader sits between the SelectObject and the TreeSelection; maybe switch to DynamicFieldWithTreeView completely, if getting rid of the TreeSelection is an option
                 $ShowTreeObj = $SelectObj.next('.ShowTreeSelection');
-                if ($SelectObj.data('tree') || $ShowTreeObj.length) {
+                if ($SelectObj.data('tree') || $ShowTreeObj.length || $SelectObj.hasClass('DynamicFieldWithTreeView')) {
                     if ($ShowTreeObj.length) {
                         $ShowTreeObj.hide();
+                    }
+                    else if ( $SelectObj.hasClass('DynamicFieldWithTreeView') ) {
+                        // Hide, even if the AJAX Loader or similar is present
+                        $SelectObj.nextAll('.ShowTreeSelection').hide();
                     }
                     $SelectObj.data('tree', true);
                     TreeView = true;
