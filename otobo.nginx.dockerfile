@@ -6,15 +6,14 @@
 FROM nginx:mainline
 
 # install some required and optional Debian packages
-RUN packages=$( echo \
-        "less" \
-        "nano" \
-        "tree" \
-        "vim" \
-    ) \
-    && apt-get update \
-    && apt-get -y --no-install-recommends install $packages \
-    && rm -rf /var/lib/apt/lists/*
+# hadolint ignore=DL3008
+RUN apt-get update\
+ && apt-get -y --no-install-recommends install\
+ "less"\
+ "nano"\
+ "tree"\
+ "vim"\
+ && rm -rf /var/lib/apt/lists/*
 
 # mostly for documentation
 EXPOSE 80/tcp
@@ -47,4 +46,23 @@ RUN mv conf.d/default.conf conf.d/default.conf.hidden
 COPY scripts/nginx/templates/ templates
 COPY scripts/nginx/snippets/  snippets
 
-LABEL maintainer="Team OTOBO <dev@otobo.org>"
+# Add some additional meta info to the image.
+# This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.
+# The labels are compliant with https://github.com/opencontainers/image-spec/blob/master/annotations.md .
+# For the standard build args passed by hub.docker.com see https://docs.docker.com/docker-hub/builds/advanced/.
+LABEL maintainer='Team OTOBO <dev@otobo.org>'
+LABEL org.opencontainers.image.authors='Team OTOBO <dev@otobo.org>'
+LABEL org.opencontainers.image.description='OTOBO is the new open source ticket system with strong functionality AND a great look'
+LABEL org.opencontainers.image.documentation='https://otobo.org'
+LABEL org.opencontainers.image.licenses='GNU General Public License v3.0 or later'
+LABEL org.opencontainers.image.title='OTOBO nginx'
+LABEL org.opencontainers.image.url=https://github.com/RotherOSS/otobo
+LABEL org.opencontainers.image.vendor='Rother OSS GmbH'
+ARG BUILD_DATE=unspecified
+LABEL org.opencontainers.image.created=$BUILD_DATE
+ARG GIT_COMMIT=unspecified
+LABEL org.opencontainers.image.revision=$GIT_COMMIT
+ARG GIT_REPO=unspecified
+LABEL org.opencontainers.image.source=$GIT_REPO
+ARG DOCKER_TAG=unspecified
+LABEL org.opencontainers.image.version=$DOCKER_TAG
