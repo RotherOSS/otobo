@@ -29,6 +29,7 @@ use LWP::UserAgent;
 use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::ObjectManager;
 
 # This test checks whether the /dbviewer route works
 
@@ -36,6 +37,11 @@ use Test2::V0;
 # even though this route could also be available outside Docker.
 skip_all 'not running under Docker' unless $ENV{OTOBO_RUNS_UNDER_DOCKER};
 
+$Kernel::OM = Kernel::System::ObjectManager->new(
+    'Kernel::System::Log' => {
+        LogPrefix => 'OTOBO-otobo.UnitTest',
+    },
+);
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -54,10 +60,12 @@ my $TestAdminUserLogin = $Helper->TestUserCreate(
 
 ok( $TestAdminUserLogin, 'test user created');
 
+# set up URLS
 my $BaseURL = join '',
     $ConfigObject->Get('HttpType'),
     '://',
     $Helper->GetTestHTTPHostname(),
+    '/',
     $ConfigObject->Get('ScriptAlias');
 
 my $AdminLoginURL = $BaseURL . "index.pl?Action=Login;User=$TestAdminUserLogin;Password=$TestAdminUserLogin;";
@@ -76,7 +84,6 @@ $UserAgent->cookie_jar( {} );    # keep cookies
 # Login as admin
 {
     my $Response = $UserAgent->get( $AdminLoginURL );
-
     ok( $Response->is_success(), "login to agent interface as admin user" );
 
     if ( !$Response->is_success() ) {
@@ -96,7 +103,8 @@ $UserAgent->cookie_jar( {} );    # keep cookies
         }
     );
 
-    ok( $AdminSessionValid, "login to agent interface as admin user" );
+    ok( $AdminSessionValid, 'valid session for admin user' );
+
     if ( !$AdminSessionValid ) {
         done_testing();
 
