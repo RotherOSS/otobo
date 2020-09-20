@@ -15,8 +15,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use 5.024;
+use strict;
 use warnings;
+use 5.024;
 
 use File::Basename;
 use FindBin qw($RealBin);
@@ -987,6 +988,18 @@ my @NeededModules = (
         Required  => 0,
         Features   => ['devel:test'],
         Comment   => 'contains Test2::API which is used in Kernel::System::UnitTest::Driver',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'Test2::Tools::HTTP',
+        Required  => 0,
+        Features   => ['devel:test'],
+        Comment   => 'testing PSGI apps and URLs',
         InstTypes => {
             aptget => undef,
             emerge => undef,

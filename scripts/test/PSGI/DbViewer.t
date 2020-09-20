@@ -27,6 +27,8 @@ use LWP::UserAgent;
 
 # CPAN modules
 use Test2::V0;
+use Test2::Tools::HTTP;
+use HTTP::Request::Common;
 
 # OTOBO modules
 use Kernel::System::ObjectManager;
@@ -72,28 +74,22 @@ my $AdminLoginURL = $BaseURL . "index.pl?Action=Login;User=$TestAdminUserLogin;P
 my $HelloURL      = $BaseURL . '../hello';
 my $DbViewerURL   = $BaseURL . 'dbviewer';
 
-my $UserAgent = LWP::UserAgent->new(
-    Timeout => 60,
-);
-$UserAgent->cookie_jar( {} );    # keep cookies
-
 # TODO: check HelloURL access allowed without login
 # TODO: check HelloURL content
 # TODO: check DbViewerURL access denied without login
 
 # Login as admin
 {
-    my $Response = $UserAgent->get( $AdminLoginURL );
-    ok( $Response->is_success(), "login to agent interface as admin user" );
-
-    if ( !$Response->is_success() ) {
-        # TODO: maybe bail out
-        done_testing();
-
-        exit;
-    }
+    http_request(
+        [ GET($AdminLoginURL), follow_redirects => 1 ],
+        http_response {
+            http_is_success();
+        },
+        'login to agent interface as admin user'
+    );
 
     # Get session info from cookie
+    my $UserAgent = http_ua();
     my $AdminSessionValid;
     $UserAgent->cookie_jar()->scan(
         sub {
@@ -104,26 +100,22 @@ $UserAgent->cookie_jar( {} );    # keep cookies
     );
 
     ok( $AdminSessionValid, 'valid session for admin user' );
-
-    if ( !$AdminSessionValid ) {
-        done_testing();
-
-        exit;
-    }
 }
 
 # check /dbviewer
 {
-    my $Response = $UserAgent->get($DbViewerURL);
-    my $Status   = $Response->code();
+    http_request(
+        [ GET($DbViewerURL), follow_redirects => 1 ],
+        http_response {
+            http_is_success();
+            http_content_type( 'text/html' );
+            # TODO: check response contents
+        },
+        'testing /dbviewer URL',
+    );
 
-    is( $Status, 200, "status of $DbViewerURL" );
-
-    ok( scalar $Response->header('Content-type'), "content type $DbViewerURL" );
-
-    ok( ! scalar $Response->header('X-OTOBO-Login'), "$DbViewerURL is no OTOBO login screen" );
-
-    # TODO: check response contents
+    # TODO: how can Test2::Tools::HTTP used for that test
+    #ok( ! scalar $Response->header('X-OTOBO-Login'), "$DbViewerURL is no OTOBO login screen" );
 }
 
 # cleanup cache
