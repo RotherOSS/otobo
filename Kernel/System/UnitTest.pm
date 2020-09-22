@@ -19,11 +19,16 @@ package Kernel::System::UnitTest;
 use strict;
 use warnings;
 
+# core modules
 use File::stat;
 use Storable();
 use Term::ANSIColor();
 use Time::HiRes();
+use TAP::Harness;
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 
 our @ObjectDependencies = (
@@ -75,10 +80,13 @@ Please note that the individual test files are not executed in the main process,
 but instead in separate forked child processes which are controlled by L<Kernel::System::UnitTest::Driver>.
 Their results will be transmitted to the main process via a local file.
 
+Tests listed in B<UnitTest::Blacklist> are not executed.
+
 =cut
 
 sub Run {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     $Self->{Verbose} = $Param{Verbose};
 
@@ -95,62 +103,76 @@ sub Run {
 
     my @TestsToExecute = @{ $Param{Tests} // [] };
 
-    my $UnitTestBlacklist = $ConfigObject->Get('UnitTest::Blacklist');
+    # Get blacklisted tests
     my @BlacklistedTests;
-    my @SkippedTests;
-    if ( IsHashRefWithData($UnitTestBlacklist) ) {
+    {
+        my $UnitTestBlacklist = $ConfigObject->Get('UnitTest::Blacklist');
+        if ( IsHashRefWithData($UnitTestBlacklist) ) {
 
-        CONFIGKEY:
-        for my $ConfigKey ( sort keys %{$UnitTestBlacklist} ) {
+            CONFIGKEY:
+            for my $ConfigKey ( sort keys $UnitTestBlacklist->%* ) {
 
-            next CONFIGKEY if !$ConfigKey;
-            next CONFIGKEY
-                if !$UnitTestBlacklist->{$ConfigKey} || !IsArrayRefWithData( $UnitTestBlacklist->{$ConfigKey} );
+                next CONFIGKEY if !$ConfigKey;
+                next CONFIGKEY
+                    if !$UnitTestBlacklist->{$ConfigKey} || !IsArrayRefWithData( $UnitTestBlacklist->{$ConfigKey} );
 
-            TEST:
-            for my $Test ( @{ $UnitTestBlacklist->{$ConfigKey} } ) {
+                TEST:
+                for my $Test ( @{ $UnitTestBlacklist->{$ConfigKey} } ) {
 
-                next TEST if !$Test;
+                    next TEST if !$Test;
 
-                push @BlacklistedTests, $Test;
+                    push @BlacklistedTests, $Test;
+                }
             }
         }
     }
-
-    my $StartTime      = CORE::time();                      # Use non-overridden time().
-    my $StartTimeHiRes = [ Time::HiRes::gettimeofday() ];
-
-    my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-        Directory => $Directory,
-        Filter    => '*.t',
-        Recursive => 1,
-    );
 
     my $NumberOfTestRuns = $Param{NumberOfTestRuns};
     if ( !$NumberOfTestRuns ) {
         $NumberOfTestRuns = 1;
     }
 
-    FILE:
-    for my $File (@Files) {
+    my $StartTime      = CORE::time();                      # Use non-overridden time().
+    my $StartTimeHiRes = [ Time::HiRes::gettimeofday() ];
 
-        # check if only some tests are requested
-        if ( @TestsToExecute && !grep { $File =~ /\/\Q$_\E\.t$/smx } @TestsToExecute ) {
-            next FILE;
+    my (@SkippedTests, @ActualTests);
+    {
+        my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+            Directory => $Directory,
+            Filter    => '*.t',
+            Recursive => 1,
+        );
+
+
+        FILE:
+        for my $File (@Files) {
+
+            # check if only some tests are requested
+            if ( @TestsToExecute && !grep { $File =~ /\/\Q$_\E\.t$/smx } @TestsToExecute ) {
+                next FILE;
+            }
+
+            # Check blacklisted files.
+            if ( @BlacklistedTests && grep { $File =~ m{\Q$Directory/$_\E$}smx } @BlacklistedTests ) {
+                push @SkippedTests, $File;
+
+                next FILE;
+            }
+
+            # Check if a file with the same path and name exists in the Custom folder.
+            my $CustomFile = $File =~ s{ \A $Home }{$Home/Custom}xmsr;
+            if ( -e $CustomFile ) {
+                push @ActualTests, $CustomFile;
+
+                next FILE;
+            }
+
+            push @ActualTests, $File;
         }
+    }
 
-        # Check blacklisted files.
-        if ( @BlacklistedTests && grep { $File =~ m{\Q$Directory/$_\E$}smx } @BlacklistedTests ) {
-            push @SkippedTests, $File;
-            next FILE;
-        }
-
-        # Check if a file with the same path and name exists in the Custom folder.
-        my $CustomFile = $File =~ s{ \A $Home }{$Home/Custom}xmsr;
-        if ( -e $CustomFile ) {
-            $File = $CustomFile;
-        }
-
+    # TODO: run with TAP::Harness
+    for my $File ( @ActualTests ) {
         for ( 1 .. $NumberOfTestRuns ) {
             $Self->_HandleFile(
                 PostTestScripts => $Param{PostTestScripts},
@@ -160,6 +182,7 @@ sub Run {
         }
     }
 
+    # TODO: get result data from TAP::Harness::runtests
     my $Duration = sprintf( '%.3f', Time::HiRes::tv_interval($StartTimeHiRes) );
 
     my $Host           = $ConfigObject->Get('FQDN');
@@ -266,6 +289,7 @@ sub _HandleFile {
         push @{ $Self->{NotOkInfo} }, [ $Param{File}, @{ delete $ResultData->{NotOkInfo} } ];
     }
 
+    # TODO: reactivate the callbacks
     for my $PostTestScript ( @{ $Param{PostTestScripts} // [] } ) {
         my $Commandline = $PostTestScript;
         $Commandline =~ s{%File%}{$Param{File}}ismxg;
