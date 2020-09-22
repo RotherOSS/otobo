@@ -27,6 +27,7 @@ use List::Util();
 # CPAN modules
 use DBI;
 
+# Set a flag indicating the PSGI case.
 my $DBIxConnectorIsUsed;
 BEGIN {
     $DBIxConnectorIsUsed = $ENV{OTOBO_RUNS_UNDER_PSGI} ? 1 : 0;
@@ -191,7 +192,9 @@ to connect to a database
 sub Connect {
     my $Self = shift;
 
-    # check database handle by doing a Ping every once in a while
+    # Primarily trust that an existing DB-connection is still alive.
+    # But ping the connection once in a while.
+    # Under PSGI we rely on DBI-Connector.
     if ( !$DBIxConnectorIsUsed && $Self->{dbh} ) {
 
         my $PingTimeout = 10;        # Only ping every 10 seconds (see bug#12383).
@@ -221,53 +224,52 @@ sub Connect {
         );
     }
 
-    my %ConnectAttributes;
-    {
-        # Attribute for callbacks. See https://metacpan.org/pod/DBI#Callbacks
-        my %Callbacks;
-        if ( $Self->{Backend}->{'DB::Connect'} ) {
-
-            # run a command for initializing a session
-            my $SQL = $Self->{Backend}->{'DB::Connect'};
-            if ( $Self->{Backend}->{'DB::PreProcessSQL'} ) {
-                $Self->{Backend}->PreProcessSQL( \$SQL );
-            }
-            $Callbacks{connected} = sub {
-                my $DatabaseHandle = shift;
-
-                $DatabaseHandle->do($SQL);
-
-                return;
-            };
-        }
-
-        # set utf-8 on for PostgreSQL
-        # Note: This is untested for the PSGI-case
-        if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
-            $ConnectAttributes{pg_enable_utf8} = 1;
-        }
-
-        # The defaults for the attributes RaiseError and AutoInactiveDestroy differ
-        # between DBI and DBIx::Connector.
-        # For DBI they are off per default, but for DBIx::Connector they are on per default.
-        # RaiseError: explicitly turn it off as this was the previous setup in OTOBO.
-        #             This is OK as the the methods run(), txn(), and svp() are not used in OTOBO.
-        # AutoInactiveDestroy: Concerns only behavior on forks and such.
-        #                      Keep it activated as it is important for DBIx::Connector.
-        #
-        # Kernel::System::DB::mysql also sets mysql_auto_reconnect = 0.
-        # This is fine, as this is the same setting as enforced by DBIx::Connector::Driver::mysql
-        %ConnectAttributes = (
-            RaiseError => 0,
-            Callbacks  => \%Callbacks,
-            $Self->{Backend}->{'DB::Attribute'}->%*,
-        );
-    }
-
     # db connect
     if ( $DBIxConnectorIsUsed ) {
 
+        my ( %ConnectAttributes, %Callbacks );
+        {
+            # Attribute for callbacks. See https://metacpan.org/pod/DBI#Callbacks
+            if ( $Self->{Backend}->{'DB::Connect'} ) {
+
+                # run a command for initializing a session
+                my $SQL = $Self->{Backend}->{'DB::Connect'};
+                if ( $Self->{Backend}->{'DB::PreProcessSQL'} ) {
+                    $Self->{Backend}->PreProcessSQL( \$SQL );
+                }
+                $Callbacks{connected} = sub {
+                    my $DatabaseHandle = shift;
+
+                    $DatabaseHandle->do($SQL);
+
+                    return;
+                };
+            }
+
+            # set utf-8 on for PostgreSQL
+            # Note: This is untested for the PSGI-case
+            if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
+                $ConnectAttributes{pg_enable_utf8} = 1;
+            }
+
+            # The defaults for the attributes RaiseError and AutoInactiveDestroy differ
+            # between DBI and DBIx::Connector.
+            # For DBI they are off per default, but for DBIx::Connector they are on per default.
+            # RaiseError: explicitly turn it off as this was the previous setup in OTOBO.
+            #             This is OK as the the methods run(), txn(), and svp() are not used in OTOBO.
+            # AutoInactiveDestroy: Concerns only behavior on forks and such.
+            #                      Keep it activated as it is important for DBIx::Connector.
+            #
+            # Kernel::System::DB::mysql also sets mysql_auto_reconnect = 0.
+            # This is fine, as this is the same setting as enforced by DBIx::Connector::Driver::mysql
+            %ConnectAttributes = (
+                RaiseError => 0,
+                $Self->{Backend}->{'DB::Attribute'}->%*,
+            );
+        }
+
         # Generation of the cache key is copied from DBI::connect_cached()
+        # The Callbacks are not part of the cache key in order to avoid serialised code.
         my $CacheKey = do {
             local $^W;
             join "!\001", $Self->{DSN}, $Self->{USER}, $Self->{PW}, DBI::_concat_hash_sorted(\%ConnectAttributes, "=\001", ",\001", 0, 0);
@@ -279,7 +281,10 @@ sub Connect {
             $Self->{DSN},
             $Self->{USER},
             $Self->{PW},
-            \%ConnectAttributes,
+            {
+                Callbacks  => \%Callbacks,
+                %ConnectAttributes,
+            }
         );
 
         # this method reuses an existing connection when it is still pinging
@@ -291,7 +296,7 @@ sub Connect {
             $Self->{DSN},
             $Self->{USER},
             $Self->{PW},
-            \%ConnectAttributes,
+            $Self->{Backend}->{'DB::Attribute'},
         );
     }
 
@@ -303,6 +308,19 @@ sub Connect {
         );
 
         return;
+    }
+
+    # In the PSGI case this is included in the connection attributes
+    if ( ! $DBIxConnectorIsUsed ) {
+        if ( $Self->{Backend}->{'DB::Connect'} ) {
+            $Self->Do( SQL => $Self->{Backend}->{'DB::Connect'} );
+        }
+
+        # set utf-8 on for PostgreSQL
+        # Note: This is untested for the PSGI-case
+        if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
+            $Self->{dbh}->{pg_enable_utf8} = 1;
+        }
     }
 
     if ( $Self->{SlaveDBObject} ) {
