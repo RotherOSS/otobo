@@ -70,7 +70,7 @@
                 </fieldset>
 
                 <fieldset class="TableLike Hidden ErrorMsg">
-                    <h4>[% Translate("Result of database check") | html %]</h4>
+                    <h4>[% Translate("Result of settings check") | html %]</h4>
 
                     <div class="Field">
                         <p id="ResultMessage" class="Error"></p>
