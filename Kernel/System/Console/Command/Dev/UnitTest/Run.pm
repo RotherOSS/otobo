@@ -60,62 +60,9 @@ sub Configure {
         ValueRegex  => qr/^(table|unified)$/ismx,
     );
     $Self->AddOption(
-        Name        => 'submit-url',
-        Description => "Send unit test results to a server (URL).",
-        Required    => 0,
-        HasValue    => 1,
-        ValueRegex  => qr/.*/smx,
-    );
-    $Self->AddOption(
-        Name        => 'submit-auth',
-        Description => "Authentication string for unit test result server.",
-        Required    => 0,
-        HasValue    => 1,
-        ValueRegex  => qr/.*/smx,
-    );
-    $Self->AddOption(
-        Name => 'submit-result-as-exit-code',
-        Description =>
-            "Specify if command return code should not indicate if tests were ok/not ok, but if submission was successful instead.",
-        Required => 0,
-        HasValue => 0,
-    );
-    $Self->AddOption(
-        Name        => 'job-id',
-        Description => "Job ID for unit test submission to server.",
-        Required    => 0,
-        HasValue    => 1,
-        ValueRegex  => qr/.*/smx,
-    );
-    $Self->AddOption(
-        Name        => 'scenario',
-        Description => "Scenario identifier for unit test submission to server.",
-        Required    => 0,
-        HasValue    => 1,
-        ValueRegex  => qr/.*/smx,
-    );
-    $Self->AddOption(
-        Name => 'attachment-path',
-        Description =>
-            "Send an additional file to the server, for example to submit the complete command output that has been redirected to a file.",
-        Required   => 0,
-        HasValue   => 1,
-        ValueRegex => qr/.*/smx,
-        Multiple   => 1
-    );
-    $Self->AddOption(
         Name => 'post-test-script',
         Description =>
             'Script(s) to execute after a test has been run. You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.',
-        Required   => 0,
-        HasValue   => 1,
-        ValueRegex => qr/.*/smx,
-        Multiple   => 1
-    );
-    $Self->AddOption(
-        Name => 'pre-submit-script',
-        Description =>
-            'Script(s) to execute after all tests have been executed and the results are about to be sent to the server.',
         Required   => 0,
         HasValue   => 1,
         ValueRegex => qr/.*/smx,
@@ -128,15 +75,13 @@ sub Configure {
         HasValue    => 1,
         ValueRegex  => qr/^\d+$/smx,
     );
+
     return;
 }
 
 sub PreRun {
     my ( $Self, %Param ) = @_;
 
-    if ( $Self->GetOption('submit-result-as-exit-code') && !$Self->GetOption('submit-url') ) {
-        die "Please specify a valid 'submit-url'.";
-    }
     return;
 }
 
@@ -155,22 +100,16 @@ sub Run {
     my $FunctionResult = $Kernel::OM->Get('Kernel::System::UnitTest')->Run(
         Tests                  => $Self->GetOption('test'),
         Directory              => $Self->GetOption('directory') || $DefaultDirectory,
-        JobID                  => $Self->GetOption('job-id'),
-        Scenario               => $Self->GetOption('scenario'),
-        SubmitURL              => $Self->GetOption('submit-url'),
-        SubmitAuth             => $Self->GetOption('submit-auth'),
-        SubmitResultAsExitCode => $Self->GetOption('submit-result-as-exit-code') || '',
         Verbose                => $Self->GetOption('verbose'),
         DataDiffType           => $Self->GetOption('data-diff-type'),
-        AttachmentPath         => $Self->GetOption('attachment-path'),
         PostTestScripts        => $Self->GetOption('post-test-script'),
-        PreSubmitScripts       => $Self->GetOption('pre-submit-script'),
         NumberOfTestRuns       => $Self->GetOption('test-runs'),
     );
 
     if ($FunctionResult) {
         return $Self->ExitCodeOk();
     }
+
     return $Self->ExitCodeError();
 }
 

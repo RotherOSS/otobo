@@ -28,12 +28,7 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::Encode',
-    'Kernel::System::JSON',
     'Kernel::System::Main',
-    'Kernel::System::Package',
-    'Kernel::System::SupportDataCollector',
-    'Kernel::System::WebUserAgent',
 );
 
 =head1 NAME
@@ -51,11 +46,11 @@ create unit test object. Do not use it directly, instead use:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type = shift;
+    my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{Debug} = $Param{Debug} || 0;
     $Self->{ANSI}  = $Param{ANSI};
@@ -71,15 +66,8 @@ run all or some tests located in C<scripts/test/**/*.t> and print the result.
         Name                   => ['JSON', 'User'],     # optional, execute certain test files only
         Directory              => 'Selenium',           # optional, execute tests in subdirectory
         Verbose                => 1,                    # optional (default 0), only show result details for all tests, not just failing
-        SubmitURL              => $URL,                 # optional, send results to unit test result server
-        SubmitAuth             => '0abc86125f0fd37baae' # optional authentication string for unit test result server
-        SubmitResultAsExitCode => 1,                    # optional, specify if exit code should not indicate if tests were ok/not ok, but if submission was successful instead
-        JobID                  => 12,                   # optional job ID for unit test submission to server
-        Scenario               => 'OTOBO 10 git',         # optional scenario identifier for unit test submission to server
         PostTestScripts        => ['...'],              # Script(s) to execute after a test has been run.
                                                         #  You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.
-        PreSubmitScripts       => ['...'],              # Script(s) to execute after all tests have been executed
-                                                        #  and the results are about to be sent to the server.
         NumberOfTestRuns       => 10,                   # optional (default 1), number of successive runs for every single unit test
     );
 
@@ -211,22 +199,6 @@ sub Run {
         print $Self->_Color( 'yellow', "No tests executed.\n" );
     }
 
-    if ( $Param{SubmitURL} ) {
-
-        for my $PreSubmitScript ( @{ $Param{PreSubmitScripts} // [] } ) {
-            system "$PreSubmitScript";
-        }
-
-        my $SubmitResultSuccess = $Self->_SubmitResults(
-            %Param,
-            StartTime => $StartTime,
-            Duration  => $Duration,
-        );
-        if ( $Param{SubmitResultAsExitCode} ) {
-            return $SubmitResultSuccess ? 1 : 0;
-        }
-    }
-
     return $Self->{TestCountNotOk} ? 0 : 1;
 }
 
@@ -250,6 +222,7 @@ sub _HandleFile {
         $Self->{TestCountNotOk} += 1;
 
         print $Self->_Color( 'red', "Could not create child process for $Param{File}.\n" );
+
         return;
     }
 
@@ -301,259 +274,6 @@ sub _HandleFile {
         system $Commandline;
     }
 
-    return 1;
-}
-
-sub _SubmitResults {
-    my ( $Self, %Param ) = @_;
-
-    my %SupportData = $Kernel::OM->Get('Kernel::System::SupportDataCollector')->Collect();
-    die "Could not collect SupportData.\n" if !$SupportData{Success};
-
-    # Limit number of screenshots in the result data, since it can grow very large.
-    #   Allow only up to 25 screenshots per submission (average size of 80kb per screenshot for a total of 2MB).
-    my $ScreenshotCountLimit = 25;
-    my $ScreenshotCount      = 0;
-
-    RESULT:
-    for my $Result ( sort keys %{ $Self->{ResultData} } ) {
-        next RESULT if !IsHashRefWithData( $Self->{ResultData}->{$Result}->{Results} );
-
-        TEST:
-        for my $Test ( sort keys %{ $Self->{ResultData}->{$Result}->{Results} } ) {
-            next TEST if !IsArrayRefWithData( $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots} );
-
-            # Get number of screenshots in this test. Note that this key is an array, and we support multiple
-            #   screenshots per one test.
-            my $TestScreenshotCount = scalar @{ $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots} };
-
-            # Check if number of screenshots for this result breaks the limit.
-            if ( $ScreenshotCount + $TestScreenshotCount > $ScreenshotCountLimit ) {
-                my $ScreenshotCountRemaining = $ScreenshotCountLimit - $ScreenshotCount;
-
-                # Allow only remaining number of screenshots.
-                if ( $ScreenshotCountRemaining > 0 ) {
-                    @{ $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots} }
-                        = @{ $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots} }[
-                        0,
-                        $ScreenshotCountRemaining
-                        ];
-                    $ScreenshotCount = $ScreenshotCountLimit;
-                }
-
-                # Remove all screenshots.
-                else {
-                    delete $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots};
-                }
-
-                # Include message about removal of screenshots.
-                $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Message}
-                    .= ' (Additional screenshots have been omitted from the report because of size constraint.)';
-
-                next TEST;
-            }
-
-            $ScreenshotCount += $TestScreenshotCount;
-        }
-    }
-
-    # Include Selenium information as part of the support data.
-    if ( IsHashRefWithData( $Self->{SeleniumData} ) ) {
-        push @{ $SupportData{Result} },
-            {
-            Value       => $Self->{SeleniumData}->{build}->{version} // 'N/A',
-            Label       => 'Selenium Server',
-            DisplayPath => 'Unit Test/Selenium Information',
-            Status      => 1,
-            },
-            {
-            Value       => $Self->{SeleniumData}->{java}->{version} // 'N/A',
-            Label       => 'Java',
-            DisplayPath => 'Unit Test/Selenium Information',
-            Status      => 1,
-            },
-            {
-            Value       => $Self->{SeleniumData}->{browserName} // 'N/A',
-            Label       => 'Browser Name',
-            DisplayPath => 'Unit Test/Selenium Information',
-            Status      => 1,
-            };
-        if ( $Self->{SeleniumData}->{browserName} && $Self->{SeleniumData}->{browserName} eq 'chrome' ) {
-            push @{ $SupportData{Result} },
-                {
-                Value       => $Self->{SeleniumData}->{version} // 'N/A',
-                Label       => 'Browser Version',
-                DisplayPath => 'Unit Test/Selenium Information',
-                Status      => 1,
-                },
-                {
-                Value       => $Self->{SeleniumData}->{chrome}->{chromedriverVersion} // 'N/A',
-                Label       => 'Chrome Driver',
-                DisplayPath => 'Unit Test/Selenium Information',
-                Status      => 1,
-                };
-        }
-        elsif ( $Self->{SeleniumData}->{browserName} && $Self->{SeleniumData}->{browserName} eq 'firefox' ) {
-            push @{ $SupportData{Result} },
-                {
-                Value       => $Self->{SeleniumData}->{browserVersion} // 'N/A',
-                Label       => 'Browser Version',
-                DisplayPath => 'Unit Test/Selenium Information',
-                Status      => 1,
-                },
-                {
-                Value       => $Self->{SeleniumData}->{'moz:geckodriverVersion'} // 'N/A',
-                Label       => 'Gecko Driver',
-                DisplayPath => 'Unit Test/Selenium Information',
-                Status      => 1,
-                };
-        }
-    }
-
-    # Include versioning information as part of the support data.
-    #   Get framework commit ID from the RELEASE file.
-    my $ReleaseFile = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-        Location => $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/RELEASE',
-    );
-
-    if ( ${$ReleaseFile} =~ /COMMIT\_ID\s=\s(.*)$/ ) {
-        my $FrameworkCommitID = $1;
-        push @{ $SupportData{Result} },
-            {
-            Value       => $FrameworkCommitID,
-            Label       => 'Framework',
-            DisplayPath => 'Unit Test/Versioning Information',
-            Identifier  => 'VersionHash',
-            Status      => 1,
-            };
-    }
-
-    # Get build commit IDs of all installed packages.
-    my @PackageList = $Kernel::OM->Get('Kernel::System::Package')->RepositoryList(
-        Result => 'short',
-    );
-
-    if ( IsArrayRefWithData( \@PackageList ) ) {
-        for my $Package (@PackageList) {
-            if ( $Package->{BuildCommitID} ) {
-                push @{ $SupportData{Result} },
-                    {
-                    Value       => $Package->{BuildCommitID},
-                    Label       => $Package->{Name},
-                    DisplayPath => 'Unit Test/Versioning Information',
-                    Identifier  => 'VersionHash',
-                    Status      => 1,
-                    };
-            }
-        }
-    }
-
-    my %SubmitData = (
-        Auth     => $Param{SubmitAuth} // '',
-        JobID    => $Param{JobID}      // '',
-        Scenario => $Param{Scenario}   // '',
-        Meta     => {
-            StartTime => $Param{StartTime},
-            Duration  => int $Param{Duration},      # CI master expects an integer here.
-            TestOk    => $Self->{TestCountOk},
-            TestNotOk => $Self->{TestCountNotOk},
-        },
-        SupportData => $SupportData{Result},
-        Results     => $Self->{ResultData},
-    );
-
-    print "=====================================================================\n";
-    print "Sending results to " . $Self->_Color( 'yellow', $Param{SubmitURL} ) . " ...\n";
-
-    # Flush possible output log files to be able to submit them.
-    *STDOUT->flush();
-    *STDERR->flush();
-
-    # Limit attachment sizes to 20MB in total.
-    my $AttachmentCount = scalar grep { -r $_ } @{ $Param{AttachmentPath} // [] };
-    my $AttachmentsSize = 1024 * 1024 * 20;
-
-    ATTACHMENT_PATH:
-    for my $AttachmentPath ( @{ $Param{AttachmentPath} // [] } ) {
-        my $FileHandle;
-        my $Content;
-
-        if ( !open $FileHandle, '<:encoding(UTF-8)', $AttachmentPath ) {    ## no-critic
-            print $Self->_Color( 'red', "Could not open file $AttachmentPath, skipping.\n" );
-            next ATTACHMENT_PATH;
-        }
-
-        # Read only allocated size of file to try to avoid out of memory error.
-        if ( !read $FileHandle, $Content, $AttachmentsSize / $AttachmentCount ) {    ## no-critic
-            print $Self->_Color( 'red', "Could not read file $AttachmentPath, skipping.\n" );
-            close $FileHandle;
-            next ATTACHMENT_PATH;
-        }
-
-        my $Stat = stat($AttachmentPath);
-
-        if ( !$Stat ) {
-            print $Self->_Color( 'red', "Cannot stat file $AttachmentPath, skipping.\n" );
-            close $FileHandle;
-            next ATTACHMENT_PATH;
-        }
-
-        # If file size exceeds the limit, include message about shortening at the end.
-        if ( $Stat->size() > $AttachmentsSize / $AttachmentCount ) {
-            $Content .= "\nThis file has been shortened because of size constraint.";
-        }
-
-        close $FileHandle;
-        $SubmitData{Attachments}->{$AttachmentPath} = $Content;
-    }
-
-    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
-
-    # Perform web service request and get response.
-    my %Response = $Kernel::OM->Get('Kernel::System::WebUserAgent')->Request(
-        Type => 'POST',
-        URL  => $Param{SubmitURL},
-        Data => {
-            Action      => 'PublicCIMaster',
-            Subaction   => 'TestResults',
-            RequestData => $JSONObject->Encode(
-                Data => \%SubmitData,
-            ),
-        },
-    );
-
-    if ( $Response{Status} ne '200 OK' ) {
-        print $Self->_Color( 'red', "Submission to server failed (status code '$Response{Status}').\n" );
-        return;
-    }
-
-    if ( !$Response{Content} ) {
-        print $Self->_Color( 'red', "Submission to server failed (no response).\n" );
-        return;
-    }
-
-    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput(
-        $Response{Content},
-    );
-
-    my $ResponseData = $JSONObject->Decode(
-        Data => ${ $Response{Content} },
-    );
-
-    if ( !$ResponseData ) {
-        print $Self->_Color( 'red', "Submission to server failed (invalid response).\n" );
-        return;
-    }
-
-    if ( !$ResponseData->{Success} && $ResponseData->{ErrorMessage} ) {
-        print $Self->_Color(
-            'red',
-            "Submission to server failed (error message '$ResponseData->{ErrorMessage}').\n"
-        );
-        return;
-    }
-
-    print $Self->_Color( 'green', "Submission was successful.\n" );
     return 1;
 }
 
