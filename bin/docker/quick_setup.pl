@@ -183,7 +183,7 @@ sub Main {
     }
 
     # looks good
-    say 'For running the unit tests please stop the container otobo_cron_1';
+    say 'For running the unit tests please stop the container otobo_daemon_1';
     say "Finished running $0";
 
     return 0;
