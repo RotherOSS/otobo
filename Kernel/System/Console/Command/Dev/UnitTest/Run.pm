@@ -29,7 +29,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Execute unit tests.');
+    $Self->Description('Execute unit tests using TAP::Harness.');
     $Self->AddOption(
         Name => 'test',
         Description =>
@@ -41,20 +41,20 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'directory',
-        Description => "Run all test files in the specified directory.",
+        Description => 'Run all test files in the specified directory.',
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddOption(
         Name        => 'verbose',
-        Description => "Show details for all tests, not just failing.",
+        Description => 'Show details for all tests, not just failing.',
         Required    => 0,
         HasValue    => 0,
     );
     $Self->AddOption(
         Name        => 'data-diff-type',
-        Description => "Choose which diff type to use for the data diff (table or unified).",
+        Description => 'Choose which diff type to use for the data diff (table or unified).',
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/^(table|unified)$/ismx,
@@ -106,10 +106,7 @@ sub Run {
         NumberOfTestRuns       => $Self->GetOption('test-runs'),
     );
 
-    if ($FunctionResult) {
-        return $Self->ExitCodeOk();
-    }
-
+    return $Self->ExitCodeOk() if $FunctionResult;
     return $Self->ExitCodeError();
 }
 
