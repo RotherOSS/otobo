@@ -374,10 +374,7 @@ This method is called automatically in Kernel::System::UnitTest::RegisterDriver.
 sub DoneTesting {
     my $Self = shift;
 
-    my $TestCountTotal = $Self->{ResultData}->{TestOk} // 0;
-    $TestCountTotal += $Self->{ResultData}->{TestNotOk} // 0;
-
-    return $Self->Plan( Tests => $TestCountTotal );
+    return $Self->Plan( Tests => $Self->{TestCount} );
 }
 
 =head2 Note()
@@ -418,8 +415,6 @@ sub _Print {
             say 'ok', " $Self->{TestCount} - $Message";
         }
 
-        $Self->{ResultData}->{TestOk}++;
-
         return 1;
     }
     else {
@@ -429,7 +424,6 @@ sub _Print {
         else {
             say "not ok", " $Self->{TestCount} - $Message";
         }
-        $Self->{ResultData}->{TestNotOk}++;
 
         return;
     }
