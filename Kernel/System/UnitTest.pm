@@ -106,7 +106,10 @@ sub Run {
 
     my @ExecuteTestPatterns = @{ $Param{Tests} // [] };
 
-    my $NumberOfTestRuns = $Param{NumberOfTestRuns} || 1;
+    my $NumberOfTestRuns = $Param{NumberOfTestRuns};
+    if ( !$NumberOfTestRuns ) {
+        $NumberOfTestRuns = 1;
+    }
 
     my $StartTime      = CORE::time();                      # Use non-overridden time().
     my $StartTimeHiRes = [ Time::HiRes::gettimeofday() ];
@@ -163,63 +166,71 @@ sub Run {
             if ( -e $CustomFile ) {
                 push @ActualTests, $CustomFile;
             }
-
-            push @ActualTests, $File;
+            else {
+                push @ActualTests, $File;
+            }
         }
     }
 
-    # TODO: run with TAP::Harness
-    for my $File ( @ActualTests ) {
-        for ( 1 .. $NumberOfTestRuns ) {
-            $Self->_HandleFile(
-                PostTestScripts => $Param{PostTestScripts},
-                File            => $File,
-                DataDiffType    => $Param{DataDiffType},
-            );
-        }
-    }
+    my %HarnessArgs = (
+        timer     => 1,
+        verbosity => 1,
+        lib       => [ $Home, "$Home/Kernel/cpan-lib", "$Home/Custom" ],
+    );
+    my $Harness = TAP::Harness->new( \%HarnessArgs );
+use Data::Dumper;
+warn Dumper( $Harness, \@ActualTests );
+    my $Aggregate = $Harness->runtests( @ActualTests );
 
-    # TODO: get result data from TAP::Harness::runtests
-    my $Duration = sprintf( '%.3f', Time::HiRes::tv_interval($StartTimeHiRes) );
+    #for my $File ( @ActualTests ) {
+    #    for ( 1 .. $NumberOfTestRuns ) {
+    #        $Self->_HandleFile(
+    #            PostTestScripts => $Param{PostTestScripts},
+    #            File            => $File,
+    #            DataDiffType    => $Param{DataDiffType},
+    #        );
+    #    }
+    #}
 
-    my $Host           = $ConfigObject->Get('FQDN');
-    my $TestCountTotal = ( $Self->{TestCountOk} // 0 ) + ( $Self->{TestCountNotOk} // 0 );
+    ## TODO: get result data from TAP::Harness::runtests
+    #my $Duration = sprintf( '%.3f', Time::HiRes::tv_interval($StartTimeHiRes) );
 
-    print "=====================================================================\n";
+    #my $Host           = $ConfigObject->Get('FQDN');
+    #my $TestCountTotal = ( $Self->{TestCountOk} // 0 ) + ( $Self->{TestCountNotOk} // 0 );
 
     if (@SkippedTests) {
         print "# Following blacklisted tests were skipped:\n";
         for my $SkippedTest (@SkippedTests) {
-            print '  ' . $Self->_Color( 'yellow', $SkippedTest ) . "\n";
+            print '#  ' . $Self->_Color( 'yellow', $SkippedTest ) . "\n";
         }
     }
 
-    printf(
-        "%s ran %s test(s) in %s for %s.\n",
-        $Self->_Color( 'yellow', $Host ),
-        $Self->_Color( 'yellow', $TestCountTotal ),
-        $Self->_Color( 'yellow', "${Duration}s" ),
-        $Self->_Color( 'yellow', $Product )
-    );
+    #printf(
+    #    "%s ran %s test(s) in %s for %s.\n",
+    #    $Self->_Color( 'yellow', $Host ),
+    #    $Self->_Color( 'yellow', $TestCountTotal ),
+    #    $Self->_Color( 'yellow', "${Duration}s" ),
+    #    $Self->_Color( 'yellow', $Product )
+    #);
 
-    if ( $Self->{TestCountNotOk} ) {
-        print $Self->_Color( 'red', "$Self->{TestCountNotOk} tests failed.\n" );
-        print " FailedTests:\n";
-        FAILEDFILE:
-        for my $FailedFile ( @{ $Self->{NotOkInfo} || [] } ) {
-            my ( $File, @Tests ) = @{ $FailedFile || [] };
-            next FAILEDFILE if !@Tests;
-            print sprintf "  %s %s\n", $File, join ", ", @Tests;
-        }
-    }
-    elsif ( $Self->{TestCountOk} ) {
-        print $Self->_Color( 'green', "All $Self->{TestCountOk} tests passed.\n" );
-    }
-    else {
-        print $Self->_Color( 'yellow', "No tests executed.\n" );
-    }
+    #if ( $Self->{TestCountNotOk} ) {
+    #    print $Self->_Color( 'red', "$Self->{TestCountNotOk} tests failed.\n" );
+    #    print " FailedTests:\n";
+    #    FAILEDFILE:
+    #    for my $FailedFile ( @{ $Self->{NotOkInfo} || [] } ) {
+    #        my ( $File, @Tests ) = @{ $FailedFile || [] };
+    #        next FAILEDFILE if !@Tests;
+    #        print sprintf "  %s %s\n", $File, join ", ", @Tests;
+    #    }
+    #}
+    #elsif ( $Self->{TestCountOk} ) {
+    #    print $Self->_Color( 'green', "All $Self->{TestCountOk} tests passed.\n" );
+    #}
+    #else {
+    #    print $Self->_Color( 'yellow', "No tests executed.\n" );
+    #}
 
-    return $Self->{TestCountNotOk} ? 0 : 1;
+    return $Aggregate->all_passed;
 }
 
 =begin Internal:

@@ -18,6 +18,8 @@ package Kernel::System::UnitTest::Driver;
 
 use strict;
 use warnings;
+use v5.24.0;
+use utf8;
 
 # core modules
 use Storable qw();
@@ -73,128 +75,7 @@ sub new {
     # then the output of the various instances should not be mangled
     $Self->{SelfTest} = $Param{SelfTest};
 
-    # We use an output buffering mechanism if Verbose is not set. Only failed tests will be output in this case.
-
-    # Make sure stuff is always flushed to keep it in the right order.
-    *STDOUT->autoflush(1);
-    *STDERR->autoflush(1);
-    $Self->{OriginalSTDOUT} = *STDOUT;
-    $Self->{OriginalSTDOUT}->autoflush(1);
-    $Self->{OutputBuffer} = '';
-
-    # Report results via file.
-    $Self->{ResultDataFile} = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/tmp/UnitTest.dump';
-    unlink $Self->{ResultDataFile};    # purge if exists
-
     return $Self;
-}
-
-=head2 Run()
-
-executes a single unit test file and provides it with an empty environment (fresh C<ObjectManager> instance).
-
-This method assumes that it runs in a dedicated child process just for this one unit test.
-This process forking is done in L<Kernel::System::UnitTest>, which creates one child process per test file.
-
-All results will be collected and written to a C<var/tmp/UnitTest.dump> file that the main process will
-load to collect all results.
-
-=cut
-
-sub Run {
-    my ( $Self, %Param ) = @_;
-
-    my $File = $Param{File};
-
-    # The referenced string will be executed with eval.
-    # Test scripts are expected to be UTF-8 encoded and thus the file
-    # must be read in with the mode '<:utf8'. This is especially relevant
-    # when the fearure 'unicode_eval' is activated.
-    my $UnitTestFile = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-        Location => $File,
-    );
-
-    if ( !$UnitTestFile ) {
-        $Self->True( 0, "ERROR: $!: $File" );
-        print STDERR "ERROR: $!: $File\n";
-        $Self->_SaveResults();
-        return;
-    }
-
-    print "+-------------------------------------------------------------------+\n";
-    print '  ' . $Self->_Color( 'yellow', $File ) . ":\n";
-    print "+-------------------------------------------------------------------+\n";
-
-    my $StartTime = [ Time::HiRes::gettimeofday() ];
-
-    # Create a new scope to be sure to destroy local object of the test files.
-    {
-        # Make sure every UT uses its own clean environment.
-        ## nofilter(TidyAll::Plugin::OTOBO::Perl::ObjectManagerCreation)
-        local $Kernel::OM = Kernel::System::ObjectManager->new(
-            'Kernel::System::Log' => {
-                LogPrefix => 'OTOBO-otobo.UnitTest',
-            },
-        );
-
-        # Provide $Self as 'Kernel::System::UnitTest' for convenience.
-        $Kernel::OM->ObjectInstanceRegister(
-            Package      => 'Kernel::System::UnitTest::Driver',
-            Object       => $Self,
-            Dependencies => [],
-        );
-
-        $Self->{OutputBuffer} = '';
-        local *STDOUT = *STDOUT;
-        local *STDERR = *STDERR;
-        if ( !$Self->{Verbose} ) {
-            undef *STDOUT;
-            undef *STDERR;
-            open STDOUT, '>:utf8', \$Self->{OutputBuffer};    ## no critic
-            open STDERR, '>:utf8', \$Self->{OutputBuffer};    ## no critic
-        }
-
-        # HERE the actual tests are run.
-        # The test scripts do not necessarily use Kernel::System::UnitTest framework.
-        # Therefore skip the unconforming scripts.
-        my $TestSuccess;
-        if ( ${$UnitTestFile} =~ m/__SKIP_BY_KERNEL_SYSTEM_UNITTEST_DRIVER__/ ) {
-            $TestSuccess = 1;
-            say STDERR "Skipped $File at it doesn't use Kernel::System::UnitTest::Driver";
-        }
-        else {
-            $TestSuccess = eval ${$UnitTestFile};              ## no critic
-        }
-
-        if ( !$TestSuccess ) {
-            if ($@) {
-                $Self->True( 0, "ERROR: Error in $File: $@" );
-            }
-            else {
-                $Self->True( 0, "ERROR: $File did not return a true value." );
-            }
-        }
-    }
-
-    $Self->{ResultData}->{Duration} = sprintf( '%.3f', Time::HiRes::tv_interval($StartTime) );
-
-    if ( $Self->{SeleniumData} ) {
-        $Self->{ResultData}->{SeleniumData} = $Self->{SeleniumData};
-    }
-
-    print { $Self->{OriginalSTDOUT} } "\n" if !$Self->{Verbose};
-
-    my $TestCountTotal = $Self->{ResultData}->{TestOk} // 0;
-    $TestCountTotal += $Self->{ResultData}->{TestNotOk} // 0;
-
-    printf(
-        "%s ran %s test(s) in %s.\n\n",
-        $File,
-        $Self->_Color( 'yellow', $TestCountTotal ),
-        $Self->_Color( 'yellow', "$Self->{ResultData}->{Duration}s" ),
-    );
-
-    return $Self->_SaveResults();
 }
 
 =head2 True()
@@ -519,9 +400,10 @@ The required parameter B<Tests> sets the expected number of tests.
 =cut
 
 sub Plan {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
-    say { $Self->{OriginalSTDOUT} } "1..$Param{Tests}";
+    say "1..$Param{Tests}";
 
     return;
 }
@@ -561,7 +443,7 @@ sub Note {
 
     my $Note = $Param{Note} // '';
     chomp $Note;
-    print { $Self->{OriginalSTDOUT} } map { "# $_\n" } split /\n/, $Note;
+    print map { "# $_\n" } split /\n/, $Note;
 
     return;
 }
@@ -593,7 +475,7 @@ sub _Print {
             #  which breaks the unicode output. The reason is not certain, maybe because of
             #  Perl's exception handling.
             $Self->{OutputBuffer} =~ s{\0}{}g;
-            print { $Self->{OriginalSTDOUT} } $Self->{OutputBuffer};
+            print $Self->{OutputBuffer};
         }
     }
     $Self->{OutputBuffer} = '';
@@ -604,12 +486,10 @@ sub _Print {
             # print nothing as Kernel::System::UnitTest is tested itself
         }
         elsif ( $Self->{Verbose} ) {
-            say { $Self->{OriginalSTDOUT} }
-                $Self->_Color( 'green', 'ok' ),
-                " $Self->{TestCount} - $ShortMessage";
+            say $Self->_Color( 'green', 'ok' ), " $Self->{TestCount} - $ShortMessage";
         }
         else {
-            print { $Self->{OriginalSTDOUT} } $Self->_Color( 'green', "." );
+            print $Self->_Color( 'green', "." );
         }
 
         $Self->{ResultData}->{TestOk}++;
@@ -622,11 +502,9 @@ sub _Print {
         }
         else {
             if ( !$Self->{Verbose} ) {
-                say { $Self->{OriginalSTDOUT} } "";
+                say '';
             }
-            say { $Self->{OriginalSTDOUT} }
-                $Self->_Color( 'red', "not ok" ),
-                " $Self->{TestCount} - $ShortMessage";
+            say $Self->_Color( 'red', "not ok" ), " $Self->{TestCount} - $ShortMessage";
         }
         $Self->{ResultData}->{TestNotOk}++;
         $Self->{ResultData}->{Results}->{ $Self->{TestCount} }->{Status}  = 'not ok';
