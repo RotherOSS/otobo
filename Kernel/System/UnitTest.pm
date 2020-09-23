@@ -75,7 +75,6 @@ run all or some tests located in C<scripts/test/**/*.t> and print the result.
         Verbose                => 1,                    # optional (default 0), only show result details for all tests, not just failing
         PostTestScripts        => ['...'],              # Script(s) to execute after a test has been run.
                                                         #  You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.
-        NumberOfTestRuns       => 10,                   # optional (default 1), number of successive runs for every single unit test
     );
 
 Please note that the individual test files are not executed in the main process,
@@ -95,9 +94,9 @@ sub Run {
     $Self->{Verbose} = $Param{Verbose};
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
     my $Product   = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version');
     my $Home      = $ConfigObject->Get('Home');
+
     my $Directory = "$Home/scripts/test";
     if ( $Param{Directory} ) {
         $Directory .= "/$Param{Directory}";
@@ -105,11 +104,6 @@ sub Run {
     }
 
     my @ExecuteTestPatterns = @{ $Param{Tests} // [] };
-
-    my $NumberOfTestRuns = $Param{NumberOfTestRuns};
-    if ( !$NumberOfTestRuns ) {
-        $NumberOfTestRuns = 1;
-    }
 
     my $StartTime      = CORE::time();                      # Use non-overridden time().
     my $StartTimeHiRes = [ Time::HiRes::gettimeofday() ];
@@ -144,7 +138,6 @@ sub Run {
             Filter    => '*.t',
             Recursive => 1,
         );
-
 
         FILE:
         for my $File (@Files) {
@@ -182,14 +175,13 @@ use Data::Dumper;
 warn Dumper( $Harness, \@ActualTests );
     my $Aggregate = $Harness->runtests( @ActualTests );
 
+    ## TODO: resurrect useful features from _HandleFile()
     #for my $File ( @ActualTests ) {
-    #    for ( 1 .. $NumberOfTestRuns ) {
     #        $Self->_HandleFile(
     #            PostTestScripts => $Param{PostTestScripts},
     #            File            => $File,
     #            DataDiffType    => $Param{DataDiffType},
     #        );
-    #    }
     #}
 
     ## TODO: get result data from TAP::Harness::runtests

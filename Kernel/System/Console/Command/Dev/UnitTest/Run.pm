@@ -68,13 +68,6 @@ sub Configure {
         ValueRegex => qr/.*/smx,
         Multiple   => 1
     );
-    $Self->AddOption(
-        Name        => 'test-runs',
-        Description => 'Number of successive runs for every single unit test, default 1.',
-        Required    => 0,
-        HasValue    => 1,
-        ValueRegex  => qr/^\d+$/smx,
-    );
 
     return;
 }
@@ -103,7 +96,6 @@ sub Run {
         Verbose                => $Self->GetOption('verbose'),
         DataDiffType           => $Self->GetOption('data-diff-type'),
         PostTestScripts        => $Self->GetOption('post-test-script'),
-        NumberOfTestRuns       => $Self->GetOption('test-runs'),
     );
 
     return $Self->ExitCodeOk() if $FunctionResult;
