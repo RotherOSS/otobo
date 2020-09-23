@@ -63,8 +63,6 @@ sub import {
     );
     $main::Self = $Kernel::OM->Get( 'Kernel::System::UnitTest::Driver' );
 
-    $main::Self->{OutputBuffer} = '';
-
     return;
 }
 

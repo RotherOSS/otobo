@@ -417,23 +417,6 @@ sub _Print {
         $ShortMessage = substr( $ShortMessage, 0, 2_000 ) . "[...]";
     }
 
-    if ( $Self->{Verbose} || !$ResultOk ) {
-
-        if ( $Self->{SelfTest} ) {
-            # When Kernel::System::UnitTest is tested itself
-            # the we don't want to print the output of the tested functions,
-            # as this confused whoever is analysing the output.
-        }
-        else {
-            # Work around problem with leading \0 bytes in the output buffer
-            #  which breaks the unicode output. The reason is not certain, maybe because of
-            #  Perl's exception handling.
-            $Self->{OutputBuffer} =~ s{\0}{}g;
-            print $Self->{OutputBuffer};
-        }
-    }
-    $Self->{OutputBuffer} = '';
-
     $Self->{TestCount}++;
     if ($ResultOk) {
         if ( $Self->{SelfTest} ) {
