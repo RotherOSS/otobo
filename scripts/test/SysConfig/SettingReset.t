@@ -309,4 +309,4 @@ for my $UserID ( $TestUserID1, $TestUserID2 ) {
 
 $Self->DoneTesting();
 
-1;
+

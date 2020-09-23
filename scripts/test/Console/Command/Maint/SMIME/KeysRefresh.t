@@ -461,4 +461,4 @@ File::Path::rmtree($PrivatePath);
 
 $Self->DoneTesting();
 
-1;
+

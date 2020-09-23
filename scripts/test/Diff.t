@@ -85,4 +85,4 @@ for my $Test (@CompareTests) {
 
 $Self->DoneTesting();
 
-1;
+

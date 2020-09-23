@@ -201,4 +201,4 @@ $CheckUpload->(
 
 $Self->DoneTesting();
 
-1;
+

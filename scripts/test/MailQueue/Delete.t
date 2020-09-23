@@ -217,4 +217,4 @@ $TestDeleteByMultipleColumns->();
 
 $Self->DoneTesting();
 
-1;
+

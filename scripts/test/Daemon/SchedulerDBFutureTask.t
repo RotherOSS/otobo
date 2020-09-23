@@ -583,4 +583,4 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
 
 $Self->DoneTesting();
 
-1;
+

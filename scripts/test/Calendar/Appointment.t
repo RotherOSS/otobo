@@ -3737,4 +3737,4 @@ for my $Test (@NotificationUpdateTests) {
 
 $Self->DoneTesting();
 
-1;
+

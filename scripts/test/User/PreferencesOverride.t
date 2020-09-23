@@ -88,4 +88,4 @@ for my $Key ( sort keys %UserData ) {
 
 $Self->DoneTesting();
 
-1;
+

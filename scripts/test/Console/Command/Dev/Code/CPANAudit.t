@@ -52,4 +52,4 @@ No advisories found
 
 $Self->DoneTesting();
 
-1;
+

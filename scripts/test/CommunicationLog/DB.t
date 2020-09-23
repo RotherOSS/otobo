@@ -638,4 +638,4 @@ $TestObjectLogEntryList->();
 
 $Self->DoneTesting();
 
-1;
+

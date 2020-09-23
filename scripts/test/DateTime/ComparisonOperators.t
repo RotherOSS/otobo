@@ -138,4 +138,4 @@ for my $Operator ( '>', '<', '>=', '<=', '==', '!=' ) {
 
 $Self->DoneTesting();
 
-1;
+

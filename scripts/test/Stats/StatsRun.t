@@ -101,4 +101,4 @@ for my $StatID ( sort { int $a <=> int $b } keys %{$Stats} ) {
 
 $Self->DoneTesting();
 
-1;
+

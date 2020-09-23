@@ -179,4 +179,4 @@ if ($InitialCounterID) {
 
 $Self->DoneTesting();
 
-1;
+

@@ -84,4 +84,4 @@ foreach my $File (@SupportFiles) {
 
 $Self->DoneTesting();
 
-1;
+

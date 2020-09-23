@@ -3014,4 +3014,4 @@ for my $Name (@ObjectNames) {
 
 $Self->DoneTesting();
 
-1;
+

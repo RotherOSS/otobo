@@ -83,4 +83,4 @@ for my $Order ( sort keys %Tests ) {
 
 $Self->DoneTesting();
 
-1;
+

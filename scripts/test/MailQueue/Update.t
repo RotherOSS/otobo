@@ -312,4 +312,4 @@ $Test->(
 
 $Self->DoneTesting();
 
-1;
+

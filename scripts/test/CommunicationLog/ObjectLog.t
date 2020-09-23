@@ -232,4 +232,4 @@ $TestObjectLog->();
 
 $Self->DoneTesting();
 
-1;
+

@@ -154,4 +154,4 @@ for my $Module (qw(DB FS)) {
 
 $Self->DoneTesting();
 
-1;
+

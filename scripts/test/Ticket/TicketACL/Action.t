@@ -1035,4 +1035,4 @@ $ExecuteTests->( Tests => \@Tests );
 
 $Self->DoneTesting();
 
-1;
+

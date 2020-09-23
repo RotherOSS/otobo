@@ -2649,4 +2649,4 @@ for ( my $Index = 0; $Index < scalar @Appointments; $Index++ ) {
 
 $Self->DoneTesting();
 
-1;
+

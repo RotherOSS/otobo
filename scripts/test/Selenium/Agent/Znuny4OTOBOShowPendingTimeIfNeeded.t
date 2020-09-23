@@ -155,4 +155,4 @@ $SeleniumObject->RunTest($SeleniumTest);
 
 $Self->DoneTesting();
 
-1;
+

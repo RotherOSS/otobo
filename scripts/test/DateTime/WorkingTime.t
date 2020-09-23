@@ -153,4 +153,4 @@ for my $Test (@WorkingTimeTests) {
 
 $Self->DoneTesting();
 
-1;
+

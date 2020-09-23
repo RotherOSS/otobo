@@ -184,4 +184,4 @@ $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 $Self->DoneTesting();
 
-1;
+

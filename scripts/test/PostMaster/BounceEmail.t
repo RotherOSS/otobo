@@ -540,4 +540,4 @@ $TestOriginalEmailAsAttachmentShouldNotBounce->();
 
 $Self->DoneTesting();
 
-1;
+

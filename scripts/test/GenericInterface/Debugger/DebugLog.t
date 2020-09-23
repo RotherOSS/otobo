@@ -536,4 +536,4 @@ for my $DebugLogID (@DebugLogIDs) {
 
 $Self->DoneTesting();
 
-1;
+

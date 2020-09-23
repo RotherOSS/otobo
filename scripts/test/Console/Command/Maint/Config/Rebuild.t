@@ -60,4 +60,4 @@ $Self->IsNot(
 
 $Self->DoneTesting();
 
-1;
+

@@ -131,4 +131,4 @@ for my $LinkEncodeTest (@LinkEncodeTests) {
 
 $Self->DoneTesting();
 
-1;
+

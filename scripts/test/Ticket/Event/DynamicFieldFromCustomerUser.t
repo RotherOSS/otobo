@@ -246,4 +246,4 @@ for my $DynamicFieldID (@AddedDynamicFieldIDs) {
 
 $Self->DoneTesting();
 
-1;
+

@@ -261,4 +261,4 @@ $Self->False(
 
 $Self->DoneTesting();
 
-1;
+

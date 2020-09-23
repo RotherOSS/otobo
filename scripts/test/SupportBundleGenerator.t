@@ -788,4 +788,4 @@ if ($ArchiveExists) {
 
 $Self->DoneTesting();
 
-1;
+

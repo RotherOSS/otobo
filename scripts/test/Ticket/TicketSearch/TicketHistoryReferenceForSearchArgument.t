@@ -181,4 +181,4 @@ for my $Arg (@ArgsWithReference) {
 
 $Self->DoneTesting();
 
-1;
+

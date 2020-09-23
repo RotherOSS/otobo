@@ -213,4 +213,4 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
 
 $Self->DoneTesting();
 
-1;
+

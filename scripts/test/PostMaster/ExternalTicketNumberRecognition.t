@@ -500,4 +500,4 @@ $ConfigObject->Set(
 
 $Self->DoneTesting();
 
-1;
+

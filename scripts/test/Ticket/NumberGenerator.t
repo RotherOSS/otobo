@@ -176,4 +176,4 @@ for my $Backend (qw(AutoIncrement Date DateChecksum)) {
 
 $Self->DoneTesting();
 
-1;
+

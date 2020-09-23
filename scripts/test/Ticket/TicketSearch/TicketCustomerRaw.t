@@ -185,4 +185,4 @@ for my $CustomerUserLogin (@CustomerLogins) {
 
 $Self->DoneTesting();
 
-1;
+

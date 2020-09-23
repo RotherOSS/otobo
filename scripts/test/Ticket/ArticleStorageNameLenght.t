@@ -335,4 +335,4 @@ for my $TicketID (@DeleteTicketList) {
 
 $Self->DoneTesting();
 
-1;
+

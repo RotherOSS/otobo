@@ -188,4 +188,4 @@ for my $File (@Files) {
 
 $Self->DoneTesting();
 
-1;
+

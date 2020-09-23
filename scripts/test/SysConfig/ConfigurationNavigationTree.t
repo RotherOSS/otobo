@@ -309,4 +309,4 @@ if ( $PackageObject->PackageIsInstalled( Name => $PackageName ) ) {
 
 $Self->DoneTesting();
 
-1;
+

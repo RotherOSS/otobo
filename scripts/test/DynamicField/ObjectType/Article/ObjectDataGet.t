@@ -247,4 +247,4 @@ continue {
 
 $Self->DoneTesting();
 
-1;
+

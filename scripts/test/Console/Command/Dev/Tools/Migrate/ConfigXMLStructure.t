@@ -105,4 +105,4 @@ my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
     );
 }
 
-1;
+

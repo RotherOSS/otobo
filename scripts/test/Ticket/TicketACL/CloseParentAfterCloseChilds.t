@@ -248,4 +248,4 @@ $CheckACLs->(
 
 $Self->DoneTesting();
 
-1;
+

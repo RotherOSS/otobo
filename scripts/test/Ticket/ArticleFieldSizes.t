@@ -177,4 +177,4 @@ for my $Test (@ArticleTests) {
 
 $Self->DoneTesting();
 
-1;
+

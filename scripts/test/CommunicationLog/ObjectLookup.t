@@ -248,4 +248,4 @@ $TestGet->();
 
 $Self->DoneTesting();
 
-1;
+

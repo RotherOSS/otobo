@@ -200,4 +200,4 @@ for my $Test (@JSTests) {
 
 $Self->DoneTesting();
 
-1;
+

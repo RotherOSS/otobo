@@ -138,4 +138,4 @@ for my $CustomerID (@CustomerCompanyIDs) {
 
 $Self->DoneTesting();
 
-1;
+

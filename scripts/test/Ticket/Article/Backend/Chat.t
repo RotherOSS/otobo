@@ -615,4 +615,4 @@ for my $Test (@ArticleDeleteTests) {
 
 $Self->DoneTesting();
 
-1;
+

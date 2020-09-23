@@ -490,4 +490,4 @@ $Self->Is(
 
 $Self->DoneTesting();
 
-1;
+

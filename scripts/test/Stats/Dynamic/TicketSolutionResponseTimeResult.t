@@ -483,4 +483,4 @@ $Kernel::OM->ObjectsDiscard(
 
 $Self->DoneTesting();
 
-1;
+

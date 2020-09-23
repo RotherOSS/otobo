@@ -742,4 +742,4 @@ for my $ModifiedVersionID ( sort @ModifiedVersions ) {
 
 $Self->DoneTesting();
 
-1;
+

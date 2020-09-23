@@ -338,4 +338,4 @@ for my $Test (@Tests) {
 
 $Self->DoneTesting();
 
-1;
+

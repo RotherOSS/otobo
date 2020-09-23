@@ -334,4 +334,4 @@ for my $Test (@FlagSearchTests) {
 
 $Self->DoneTesting();
 
-1;
+

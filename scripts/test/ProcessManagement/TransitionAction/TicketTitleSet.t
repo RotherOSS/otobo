@@ -395,4 +395,4 @@ for my $Title (@Titles) {
 
 $Self->DoneTesting();
 
-1;
+

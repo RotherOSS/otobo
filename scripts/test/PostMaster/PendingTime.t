@@ -563,4 +563,4 @@ $CommunicationLogObject->CommunicationStop(
 
 $Self->DoneTesting();
 
-1;
+

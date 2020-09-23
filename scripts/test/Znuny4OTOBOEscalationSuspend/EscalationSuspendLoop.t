@@ -329,4 +329,4 @@ $TicketObject->TicketPendingTimeSet(
 
 $HelperObject->FixedTimeUnset();
 
-1;
+

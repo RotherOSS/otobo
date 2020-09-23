@@ -279,4 +279,4 @@ for my $Item ( sort keys %{ $SecondTicketValues{ArticleUpdateJob} } ) {
 
 $Self->DoneTesting();
 
-1;
+

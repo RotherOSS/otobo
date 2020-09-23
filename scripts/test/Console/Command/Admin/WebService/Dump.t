@@ -145,4 +145,4 @@ if ( -e $TargetPath ) {
 
 $Self->DoneTesting();
 
-1;
+

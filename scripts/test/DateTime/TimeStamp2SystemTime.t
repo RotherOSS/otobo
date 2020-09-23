@@ -107,4 +107,4 @@ for my $Test (@TimeStamp2SystemTimeTests) {
     $Self->Is( $SystemTime, $Test->{ExpectedResult}, $Description );
 }
 
-1;
+

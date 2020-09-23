@@ -186,4 +186,4 @@ for my $TicketID ( sort keys %TicketIDs ) {
 
 $Self->DoneTesting();
 
-1;
+

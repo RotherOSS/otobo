@@ -240,4 +240,4 @@ for my $Ticket (@Tickets) {
 
 $Self->DoneTesting();
 
-1;
+

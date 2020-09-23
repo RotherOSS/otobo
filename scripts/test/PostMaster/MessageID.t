@@ -123,4 +123,4 @@ for my $File (qw(1 2 3 5 6 11 21)) {
 
 $Self->DoneTesting();
 
-1;
+

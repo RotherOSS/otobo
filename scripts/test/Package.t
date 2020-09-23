@@ -1145,4 +1145,4 @@ if ( !$DeveloperSystem ) {
 
 $Self->DoneTesting();
 
-1;
+

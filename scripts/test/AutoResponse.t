@@ -386,4 +386,4 @@ for my $TypeID ( sort keys %AutoResponseType ) {
 
 $Self->DoneTesting();
 
-1;
+

@@ -63,4 +63,4 @@ for ( 1 .. 2 ) {
 
 $Self->DoneTesting();
 
-1;
+

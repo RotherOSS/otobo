@@ -756,4 +756,4 @@ JAVASCRIPT
 
 $Self->DoneTesting();
 
-1;
+

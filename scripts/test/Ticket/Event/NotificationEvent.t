@@ -1715,4 +1715,4 @@ for my $ID ( $TicketID, $CustomerTicketID ) {
 
 $Self->DoneTesting();
 
-1;
+

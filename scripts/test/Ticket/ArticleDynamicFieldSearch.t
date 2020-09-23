@@ -462,4 +462,4 @@ for my $TicketID (@TestTicketIDs) {
 
 $Self->DoneTesting();
 
-1;
+

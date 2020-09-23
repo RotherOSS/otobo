@@ -698,4 +698,4 @@ for my $Count ( 1 .. 3 ) {
 
 $Self->DoneTesting();
 
-1;
+

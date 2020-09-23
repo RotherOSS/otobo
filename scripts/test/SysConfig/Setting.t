@@ -1439,4 +1439,4 @@ for my $IsDirty (@SettingDirtyNames) {
 
 $Self->DoneTesting();
 
-1;
+

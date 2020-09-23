@@ -301,4 +301,4 @@ if ( -e $SourcePath ) {
 
 $Self->DoneTesting();
 
-1;
+
