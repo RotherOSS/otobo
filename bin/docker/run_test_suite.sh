@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-prove -I . -I Kernel/cpan-lib -I Custom --verbose -r scripts/test > prove_$(date +'%F-%H%M%S').out 2>&1
+bin/otobo.Console.pl Dev::UnitTest::Run --verbose >prove_10_1_$(date +'%F-%H%M%S').out 2>&1
