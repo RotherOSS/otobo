@@ -19,7 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
-use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
 
@@ -30,7 +30,7 @@ my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Uni
 
 my @Tests = (
     {
-        Name   => "UnitTest 'User.t' (blacklisted)",
+        Name   => "UnitTest 'User.t' not executed because blacklisted",
         Test   => 'User',
         Config => {
             Valid => 1,
@@ -40,7 +40,7 @@ my @Tests = (
         TestExecuted => 0,
     },
     {
-        Name   => "UnitTest 'User.t' (whitelisted)",
+        Name   => "UnitTest 'User.t' executed because not blacklisted",
         Test   => 'User',
         Config => {
             Valid => 1,
@@ -51,45 +51,31 @@ my @Tests = (
     },
 );
 
+$Self->Plan( Tests => scalar @Tests );
+
 for my $Test (@Tests) {
 
     $Helper->ConfigSettingChange(
         %{ $Test->{Config} },
     );
 
-    my $Result;
-    my $ExitCode;
-
+    # run Dev::UnitTest::Run
+    my ( $ResultStdout, $ResultStderr, $ExitCode );
     {
         local *STDOUT;
-        open STDOUT, '>:encoding(UTF-8)', \$Result;
+        open STDOUT, '>:encoding(UTF-8)', \$ResultStdout;
+        local *STDERR;
+        open STDERR, '>:encoding(UTF-8)', \$ResultStderr;
 
-        $ExitCode = $CommandObject->Execute( '--test', $Test->{Test} );
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );
+        $ExitCode = $CommandObject->Execute( '--test', $Test->{Test}, '--quiet' );
     }
-
-    chomp $Result;
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$ResultStdout );
+use Data::Dumper;
+warn Dumper( [ $Test, 'out:', $ResultStdout, 'err:', $ResultStderr ] );
 
     # Check for executed tests message.
-    my $Success = $Result =~ m{ No \s+ tests \s+ executed\. }xms;
+    #$Self->Note( Note => $Result );
+    my $TestExecuted = $ResultStdout =~ m{Result: \s+ NOTESTS}xms ? 0 : 1;
 
-    if ( $Test->{TestExecuted} ) {
-
-        $Self->False(
-            $Success,
-            $Test->{Name} . ' - executed successfully.',
-        );
-    }
-    else {
-
-        $Self->True(
-            $Success,
-            $Test->{Name} . ' - not executed.',
-        );
-    }
+    $Self->Is( $TestExecuted, $Test->{TestExecuted}, $Test->{Name} );
 }
-
-
-$Self->DoneTesting();
-
-
