@@ -34,8 +34,6 @@ use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(DataIsDifferent);
 
 our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::Log',
     'Kernel::System::Main',
 );
 
@@ -95,7 +93,8 @@ if it's true, returning 1 in this case or undef, otherwise.
 =cut
 
 sub True {
-    my ( $Self, $True, $Name ) = @_;
+    my $Self = shift;
+    my ( $True, $Name ) = @_;
 
     if ( !$Name ) {
         return $Self->_Print( 0, 'Error: test name was not provided.' );
@@ -119,7 +118,8 @@ for a false value instead.
 =cut
 
 sub False {
-    my ( $Self, $False, $Name ) = @_;
+    my $Self = shift;
+    my ( $False, $Name ) = @_;
 
     if ( !$Name ) {
         return $Self->_Print( 0, 'Error: test name was not provided.' );
@@ -154,7 +154,8 @@ Returns 1 if the values were equal, or undef otherwise.
 =cut
 
 sub Is {
-    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
+    my $Self = shift;
+    my ( $Test, $ShouldBe, $Name ) = @_;
 
     if ( !$Name ) {
         return $Self->_Print( 0, 'Error: test name was not provided.' );
@@ -187,7 +188,8 @@ for inequality instead.
 =cut
 
 sub IsNot {
-    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
+    my $Self = shift;
+    my ( $Test, $ShouldBe, $Name ) = @_;
 
     if ( !$Name ) {
         return $Self->_Print( 0, 'Error: test name was not provided.' );
@@ -233,11 +235,11 @@ Returns 1 if the data structures are the same, or undef otherwise.
 =cut
 
 sub IsDeeply {
-    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
+    my $Self = shift;
+    my ( $Test, $ShouldBe, $Name ) = @_;
 
     if ( !$Name ) {
-        $Self->_Print( 0, 'Error: test name was not provided.' );
-        return;
+        return $Self->_Print( 0, 'Error: test name was not provided.' );
     }
 
     my $Diff = DataIsDifferent(
@@ -290,11 +292,11 @@ for inequality instead.
 =cut
 
 sub IsNotDeeply {
-    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
+    my $Self = shift;
+    my ( $Test, $ShouldBe, $Name ) = @_;
 
     if ( !$Name ) {
-        $Self->_Print( 0, 'Error: test name was not provided.' );
-        return;
+        return $Self->_Print( 0, 'Error: test name was not provided.' );
     }
 
     my $Diff = DataIsDifferent(
@@ -318,6 +320,7 @@ sub IsNotDeeply {
     else {
         my $TestDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($Test);
         my $Output   = "Actual data" . ":\n$TestDump\n";
+
         return $Self->_Print( 0, "$Name (the structures are wrongly equal, see below)\n$Output" );
     }
 }
@@ -334,8 +337,10 @@ together with the test results.
 
 =cut
 
+# TODO: currently not supported
 sub AttachSeleniumScreenshot {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     push @{ $Self->{ResultData}->{Results}->{ $Self->{TestCount} }->{Screenshots} },
         {
@@ -374,10 +379,7 @@ This method is called automatically in Kernel::System::UnitTest::RegisterDriver.
 =cut
 
 sub DoneTesting {
-    my ($Self) = @_;
-
-    # DoneTesting() is disabled when running via Dev::UnitTest::Run
-    return 0 if caller ne 'main';
+    my $Self = shift;
 
     my $TestCountTotal = $Self->{ResultData}->{TestOk} // 0;
     $TestCountTotal += $Self->{ResultData}->{TestNotOk} // 0;
@@ -393,7 +395,8 @@ is prepended by '# '. A trailing newline will be added when there isn't on yet.
 =cut
 
 sub Note {
-    my ($Self, %Param) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     my $Note = $Param{Note} // '';
     chomp $Note;
@@ -444,22 +447,6 @@ sub _Print {
             say "not ok", " $Self->{TestCount} - $ShortMessage";
         }
         $Self->{ResultData}->{TestNotOk}++;
-        $Self->{ResultData}->{Results}->{ $Self->{TestCount} }->{Status}  = 'not ok';
-        $Self->{ResultData}->{Results}->{ $Self->{TestCount} }->{Message} = $Message;
-
-        # Failure summary: only the first line
-        my ($TestFailureDetails) = split m/\r?\n/, $Message, 2;
-
-        # And only without details
-        $TestFailureDetails =~ s{\s*\(.+\Z}{};
-        if ( length $TestFailureDetails > 100 ) {
-            $TestFailureDetails = substr( $TestFailureDetails, 0, 100 ) . "[...]";
-        }
-
-        # Store information about failed tests, but only if we are running in a toplevel unit test object
-        #   that is actually processing files, and not in an embedded object that just runs individual tests.
-        push @{ $Self->{ResultData}->{NotOkInfo} }, sprintf "#%s - %s", $Self->{TestCount},
-            $TestFailureDetails;
 
         return;
     }

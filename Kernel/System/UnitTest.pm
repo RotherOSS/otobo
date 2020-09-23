@@ -20,6 +20,7 @@ use strict;
 use warnings;
 use v5.24.0;
 use utf8;
+use namespace::autoclean;
 
 # core modules
 use File::stat;

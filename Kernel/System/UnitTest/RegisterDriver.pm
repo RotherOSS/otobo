@@ -58,7 +58,6 @@ sub import {
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::UnitTest::Driver' => {
             Verbose      => 1,  # always verbose, as TAP::Harness creates the summaries
-            ANSI         => 0,  # no coloring, as TAP::Harness is responsible for the presentation
         }
     );
     $main::Self = $Kernel::OM->Get( 'Kernel::System::UnitTest::Driver' );
