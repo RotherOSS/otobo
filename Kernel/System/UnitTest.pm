@@ -25,7 +25,6 @@ use utf8;
 use File::stat;
 use Storable();
 use Term::ANSIColor();
-use Time::HiRes();
 use TAP::Harness;
 use List::Util qw(any);
 
@@ -99,8 +98,9 @@ sub Run {
 
     # some config stuff
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $Product      = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version');
     my $Home         = $ConfigObject->Get('Home');
+    my $Product      = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version');
+    my $Host         = $ConfigObject->Get('FQDN');
 
     # run tests in a subdir when requested
     my $Directory = "$Home/scripts/test";
@@ -108,9 +108,6 @@ sub Run {
         $Directory .= "/$DirectoryParam";
         $Directory =~ s/\.//g;
     }
-
-    my $StartTime      = CORE::time();                      # Use non-overridden time().
-    my $StartTimeHiRes = [ Time::HiRes::gettimeofday() ];
 
     # Determine which tests should be skipped because of UnitTest::Blacklist
     my (@SkippedTests, @ActualTests);
@@ -160,15 +157,14 @@ sub Run {
         }
     }
 
-    my %HarnessArgs = (
+    my $Harness = TAP::Harness->new({
         timer     => 1,
         verbosity => $Verbosity,
         # try to color the output when we are in an ANSI terminal
         color     => $Self->{ANSI},
         # these libs are additional, $ENV{PERL5LIB} is still honored
         lib       => [ $Home, "$Home/Kernel/cpan-lib", "$Home/Custom" ],
-    );
-    my $Harness = TAP::Harness->new( \%HarnessArgs );
+    });
 
     # Register a callback that triggered after a test script has run.
     # E.g. bin/otobo.Console.pl Dev::UnitTest::Run  --verbose --directory ACL --post-test-script 'echo file: %File%' --post-test-script 'echo ok: %TestOk%'  --post-test-script 'echo nok: %TestNotOk%' >prove_acl.out 2>&1
@@ -206,120 +202,22 @@ sub Run {
 
     my $Aggregate = $Harness->runtests( @ActualTests );
 
-    ## TODO: resurrect useful features from _HandleFile()
-    #for my $File ( @ActualTests ) {
-    #        $Self->_HandleFile(
-    #            Verbose         => $Param{Verbose},
-    #            PostTestScripts => $Param{PostTestScripts},
-    #            File            => $File,
-    #        );
-    #}
-
-    ## TODO: get result data from TAP::Harness::runtests
-    #my $Duration = sprintf( '%.3f', Time::HiRes::tv_interval($StartTimeHiRes) );
-
-    #my $Host           = $ConfigObject->Get('FQDN');
-    #my $TestCountTotal = ( $Self->{TestCountOk} // 0 ) + ( $Self->{TestCountNotOk} // 0 );
-
     if (@SkippedTests) {
         print "# Following blacklisted tests were skipped:\n";
         for my $SkippedTest (@SkippedTests) {
-            print '#  ' . $Self->_Color( 'yellow', $SkippedTest ) . "\n";
+            say '#  ' . $Self->_Color( 'yellow', $SkippedTest );
         }
     }
 
-    #printf(
-    #    "%s ran %s test(s) in %s for %s.\n",
-    #    $Self->_Color( 'yellow', $Host ),
-    #    $Self->_Color( 'yellow', $TestCountTotal ),
-    #    $Self->_Color( 'yellow', "${Duration}s" ),
-    #    $Self->_Color( 'yellow', $Product )
-    #);
-
-    #if ( $Self->{TestCountNotOk} ) {
-    #    print $Self->_Color( 'red', "$Self->{TestCountNotOk} tests failed.\n" );
-    #    print " FailedTests:\n";
-    #    FAILEDFILE:
-    #    for my $FailedFile ( @{ $Self->{NotOkInfo} || [] } ) {
-    #        my ( $File, @Tests ) = @{ $FailedFile || [] };
-    #        next FAILEDFILE if !@Tests;
-    #        print sprintf "  %s %s\n", $File, join ", ", @Tests;
-    #    }
-    #}
-    #elsif ( $Self->{TestCountOk} ) {
-    #    print $Self->_Color( 'green', "All $Self->{TestCountOk} tests passed.\n" );
-    #}
-    #else {
-    #    print $Self->_Color( 'yellow', "No tests executed.\n" );
-    #}
+    say sprintf
+        'ran tests for product %s on %s',
+        $Self->_Color( 'yellow', $Product ),
+        $Self->_Color( 'yellow', $Host );
 
     return $Aggregate->all_passed;
 }
 
 =begin Internal:
-
-=cut
-
-sub _HandleFile {
-    my ( $Self, %Param ) = @_;
-
-    my $ResultDataFile = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/tmp/UnitTest.dump';
-    unlink $ResultDataFile;
-
-    # Create a child process.
-    my $PID = fork;
-
-    # Could not create child.
-    if ( $PID < 0 ) {
-
-        $Self->{ResultData}->{ $Param{File} } = { TestNotOk => 1 };
-        $Self->{TestCountNotOk} += 1;
-
-        print $Self->_Color( 'red', "Could not create child process for $Param{File}.\n" );
-
-        return;
-    }
-
-    # We're in the child process.
-    if ( !$PID ) {
-
-        my $Driver = $Kernel::OM->Create(
-            'Kernel::System::UnitTest::Driver',
-            ObjectParams => {
-                Verbose      => $Param{Verbose},
-            },
-        );
-
-        $Driver->Run( File => $Param{File} );
-
-        exit 0;
-    }
-
-    # Wait for child process to finish.
-    waitpid( $PID, 0 );
-
-    my $ResultData = eval { Storable::retrieve($ResultDataFile) };
-
-    if ( !$ResultData ) {
-        print $Self->_Color( 'red', "Could not read result data for $Param{File}.\n" );
-        $ResultData->{TestNotOk}++;
-    }
-
-    $Self->{ResultData}->{ $Param{File} } = $ResultData;
-    $Self->{TestCountOk}    += $ResultData->{TestOk}    // 0;
-    $Self->{TestCountNotOk} += $ResultData->{TestNotOk} // 0;
-
-    $Self->{SeleniumData} //= $ResultData->{SeleniumData};
-
-    $Self->{NotOkInfo} //= [];
-    if ( $ResultData->{NotOkInfo} ) {
-
-        # Cut out from result data hash, as we don't need to send this to the server.
-        push @{ $Self->{NotOkInfo} }, [ $Param{File}, @{ delete $ResultData->{NotOkInfo} } ];
-    }
-
-    return 1;
-}
 
 =head2 _Color()
 
