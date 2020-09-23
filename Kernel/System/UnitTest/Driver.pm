@@ -20,9 +20,9 @@ use strict;
 use warnings;
 use v5.24.0;
 use utf8;
+use namespace::autoclean;
 
 # core modules
-use Storable qw();
 use Time::HiRes qw();
 use Term::ANSIColor qw();
 
@@ -69,7 +69,6 @@ sub new {
 
     $Self->{ANSI}         = $Param{ANSI};
     $Self->{Verbose}      = $Param{Verbose};
-    $Self->{DataDiffType} = ucfirst( lc( $Param{DataDiffType} || 'Table' ) );
 
     # When Kernel::System::UnitTest is under test itself,
     # then the output of the various instances should not be mangled
@@ -269,7 +268,7 @@ sub IsDeeply {
             \$TestDump,
             \$ShouldBeDump,
             {
-                STYLE      => $Self->{DataDiffType},
+                STYLE      => 'Table',
                 FILENAME_A => 'Actual data',
                 FILENAME_B => 'Expected data',
             }
@@ -280,39 +279,24 @@ sub IsDeeply {
             my @DiffLines = split( m{\n}, $Diff );
             $Diff = '';
 
+            # Diff type "Table"
             for my $DiffLine (@DiffLines) {
 
-                # Diff type "Table"
-                if ( $Self->{DataDiffType} eq 'Table' ) {
-
-                    # Line changed
-                    if ( substr( $DiffLine, 0, 1 ) eq '*' && substr( $DiffLine, -1, 1 ) eq '*' ) {
-                        $DiffLine = $Self->_Color( 'yellow', $DiffLine );
-                    }
-
-                    # Line added
-                    elsif ( substr( $DiffLine, 0, 1 ) eq '|' && substr( $DiffLine, -1, 1 ) eq '*' ) {
-                        $DiffLine = $Self->_Color( 'green', $DiffLine );
-                    }
-
-                    # Line removed
-                    elsif ( substr( $DiffLine, 0, 1 ) eq '*' && substr( $DiffLine, -1, 1 ) eq '|' ) {
-                        $DiffLine = $Self->_Color( 'red', $DiffLine );
-                    }
+                # Line changed
+                if ( substr( $DiffLine, 0, 1 ) eq '*' && substr( $DiffLine, -1, 1 ) eq '*' ) {
+                    $DiffLine = $Self->_Color( 'yellow', $DiffLine );
                 }
 
-                # Diff type "Unified"
-                else {
-                    # Line added
-                    if ( substr( $DiffLine, 0, 1 ) eq '+' && substr( $DiffLine, 0, 4 ) ne '+++ ' ) {
-                        $DiffLine = $Self->_Color( 'green', $DiffLine );
-                    }
-
-                    # Line removed
-                    elsif ( substr( $DiffLine, 0, 1 ) eq '-' && substr( $DiffLine, 0, 4 ) ne '--- ' ) {
-                        $DiffLine = $Self->_Color( 'red', $DiffLine );
-                    }
+                # Line added
+                elsif ( substr( $DiffLine, 0, 1 ) eq '|' && substr( $DiffLine, -1, 1 ) eq '*' ) {
+                    $DiffLine = $Self->_Color( 'green', $DiffLine );
                 }
+
+                # Line removed
+                elsif ( substr( $DiffLine, 0, 1 ) eq '*' && substr( $DiffLine, -1, 1 ) eq '|' ) {
+                    $DiffLine = $Self->_Color( 'red', $DiffLine );
+                }
+
                 $Diff .= $DiffLine . "\n";
             }
         }

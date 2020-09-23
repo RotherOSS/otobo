@@ -55,13 +55,6 @@ sub Configure {
         HasValue    => 0,
     );
     $Self->AddOption(
-        Name        => 'data-diff-type',
-        Description => 'Choose which diff type to use for the data diff (table or unified).',
-        Required    => 0,
-        HasValue    => 1,
-        ValueRegex  => qr/^(table|unified)$/ismx,
-    );
-    $Self->AddOption(
         Name => 'post-test-script',
         Description =>
             'Script(s) to execute after a test has been run. You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.',
@@ -96,7 +89,6 @@ sub Run {
         Tests                  => $Self->GetOption('test'),
         Directory              => $Self->GetOption('directory') || $DefaultDirectory,
         Verbose                => $Self->GetOption('verbose'),
-        DataDiffType           => $Self->GetOption('data-diff-type'),
         PostTestScripts        => $Self->GetOption('post-test-script'),
     );
 

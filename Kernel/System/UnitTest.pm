@@ -175,7 +175,6 @@ sub Run {
     #            Verbose         => $Param{Verbose},
     #            PostTestScripts => $Param{PostTestScripts},
     #            File            => $File,
-    #            DataDiffType    => $Param{DataDiffType},
     #        );
     #}
 
@@ -252,7 +251,6 @@ sub _HandleFile {
             ObjectParams => {
                 Verbose      => $Param{Verbose},
                 ANSI         => $Self->{ANSI},
-                DataDiffType => $Param{DataDiffType},
             },
         );
 
