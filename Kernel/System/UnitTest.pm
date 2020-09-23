@@ -58,7 +58,6 @@ sub new {
     # allocate new hash for object
     my $Self = bless {}, $Type;
 
-    $Self->{Verbose} = 0; # can be overridden in Run()
     $Self->{Debug}   = $Param{Debug} || 0;
     $Self->{ANSI}    = $Param{ANSI};
 
@@ -91,19 +90,22 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
 
-    $Self->{Verbose} = $Param{Verbose};
+    # handle parameters
+    my $Verbosity           = $Param{Verbose} // 0;
+    my @ExecuteTestPatterns = @{ $Param{Tests} // [] };
+    my $DirectoryParam      = $Param{Directory};
 
+    # some config stuff
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $Product   = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version');
-    my $Home      = $ConfigObject->Get('Home');
+    my $Product      = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version');
+    my $Home         = $ConfigObject->Get('Home');
 
+    # run tests in a subdir when requested
     my $Directory = "$Home/scripts/test";
-    if ( $Param{Directory} ) {
-        $Directory .= "/$Param{Directory}";
+    if ( $DirectoryParam ) {
+        $Directory .= "/$DirectoryParam";
         $Directory =~ s/\.//g;
     }
-
-    my @ExecuteTestPatterns = @{ $Param{Tests} // [] };
 
     my $StartTime      = CORE::time();                      # Use non-overridden time().
     my $StartTimeHiRes = [ Time::HiRes::gettimeofday() ];
@@ -111,7 +113,7 @@ sub Run {
     # Determine which tests should be skipped because of UnitTest::Blacklist
     my (@SkippedTests, @ActualTests);
     {
-        # Get blacklisted tests
+        # Get patterns for blacklisted tests
         my @BlacklistPatterns;
         my $UnitTestBlacklist = $ConfigObject->Get('UnitTest::Blacklist');
         if ( IsHashRefWithData($UnitTestBlacklist) ) {
@@ -156,28 +158,23 @@ sub Run {
 
             # Check if a file with the same path and name exists in the Custom folder.
             my $CustomFile = $File =~ s{ \A $Home }{$Home/Custom}xmsr;
-            if ( -e $CustomFile ) {
-                push @ActualTests, $CustomFile;
-            }
-            else {
-                push @ActualTests, $File;
-            }
+            push @ActualTests, -e $CustomFile ? $CustomFile : $File;
         }
     }
 
     my %HarnessArgs = (
         timer     => 1,
-        verbosity => 1,
+        verbosity => $Verbosity,
+        # these libs are additional, $ENV{PERL5LIB} is still honored
         lib       => [ $Home, "$Home/Kernel/cpan-lib", "$Home/Custom" ],
     );
     my $Harness = TAP::Harness->new( \%HarnessArgs );
-use Data::Dumper;
-warn Dumper( $Harness, \@ActualTests );
     my $Aggregate = $Harness->runtests( @ActualTests );
 
     ## TODO: resurrect useful features from _HandleFile()
     #for my $File ( @ActualTests ) {
     #        $Self->_HandleFile(
+    #            Verbose         => $Param{Verbose},
     #            PostTestScripts => $Param{PostTestScripts},
     #            File            => $File,
     #            DataDiffType    => $Param{DataDiffType},
@@ -255,7 +252,7 @@ sub _HandleFile {
         my $Driver = $Kernel::OM->Create(
             'Kernel::System::UnitTest::Driver',
             ObjectParams => {
-                Verbose      => $Self->{Verbose},
+                Verbose      => $Param{Verbose},
                 ANSI         => $Self->{ANSI},
                 DataDiffType => $Param{DataDiffType},
             },
