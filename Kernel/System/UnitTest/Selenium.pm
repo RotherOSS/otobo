@@ -19,6 +19,7 @@ package Kernel::System::UnitTest::Selenium;
 use strict;
 use warnings;
 
+use Devel::StackTrace();
 use MIME::Base64();
 use File::Path();
 use File::Temp();
