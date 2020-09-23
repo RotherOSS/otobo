@@ -18,6 +18,8 @@ package Kernel::System::Console::Command::Dev::UnitTest::Run;
 
 use strict;
 use warnings;
+use v5.24.0;
+use utf8;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 

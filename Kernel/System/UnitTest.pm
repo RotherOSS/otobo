@@ -18,6 +18,8 @@ package Kernel::System::UnitTest;
 
 use strict;
 use warnings;
+use v5.24.0;
+use utf8;
 
 # core modules
 use File::stat;
