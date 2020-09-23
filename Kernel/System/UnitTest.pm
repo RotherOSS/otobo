@@ -25,6 +25,7 @@ use Storable();
 use Term::ANSIColor();
 use Time::HiRes();
 use TAP::Harness;
+use List::Util qw(any);
 
 # CPAN modules
 
@@ -44,7 +45,7 @@ Kernel::System::UnitTest - functions to run all or some OTOBO unit tests
 
 =head2 new()
 
-create unit test object. Do not use it directly, instead use:
+create an unit test object. Do not use this subroutine directly. Use instead:
 
     my $UnitTestObject = $Kernel::OM->Get('Kernel::System::UnitTest');
 
@@ -57,8 +58,9 @@ sub new {
     # allocate new hash for object
     my $Self = bless {}, $Type;
 
-    $Self->{Debug} = $Param{Debug} || 0;
-    $Self->{ANSI}  = $Param{ANSI};
+    $Self->{Verbose} = 0; # can be overridden in Run()
+    $Self->{Debug}   = $Param{Debug} || 0;
+    $Self->{ANSI}    = $Param{ANSI};
 
     return $Self;
 }
@@ -82,6 +84,8 @@ Their results will be transmitted to the main process via a local file.
 
 Tests listed in B<UnitTest::Blacklist> are not executed.
 
+Tests in F<Custom/scripts/test> take precedence over the tests in F<scripts/test>.
+
 =cut
 
 sub Run {
@@ -92,20 +96,26 @@ sub Run {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $Product = $ConfigObject->Get('Product') . " " . $ConfigObject->Get('Version');
-    my $Home    = $ConfigObject->Get('Home');
-
+    my $Product   = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version');
+    my $Home      = $ConfigObject->Get('Home');
     my $Directory = "$Home/scripts/test";
     if ( $Param{Directory} ) {
         $Directory .= "/$Param{Directory}";
         $Directory =~ s/\.//g;
     }
 
-    my @TestsToExecute = @{ $Param{Tests} // [] };
+    my @ExecuteTestPatterns = @{ $Param{Tests} // [] };
 
-    # Get blacklisted tests
-    my @BlacklistedTests;
+    my $NumberOfTestRuns = $Param{NumberOfTestRuns} || 1;
+
+    my $StartTime      = CORE::time();                      # Use non-overridden time().
+    my $StartTimeHiRes = [ Time::HiRes::gettimeofday() ];
+
+    # Determine which tests should be skipped because of UnitTest::Blacklist
+    my (@SkippedTests, @ActualTests);
     {
+        # Get blacklisted tests
+        my @BlacklistPatterns;
         my $UnitTestBlacklist = $ConfigObject->Get('UnitTest::Blacklist');
         if ( IsHashRefWithData($UnitTestBlacklist) ) {
 
@@ -121,22 +131,11 @@ sub Run {
 
                     next TEST if !$Test;
 
-                    push @BlacklistedTests, $Test;
+                    push @BlacklistPatterns, $Test;
                 }
             }
         }
-    }
 
-    my $NumberOfTestRuns = $Param{NumberOfTestRuns};
-    if ( !$NumberOfTestRuns ) {
-        $NumberOfTestRuns = 1;
-    }
-
-    my $StartTime      = CORE::time();                      # Use non-overridden time().
-    my $StartTimeHiRes = [ Time::HiRes::gettimeofday() ];
-
-    my (@SkippedTests, @ActualTests);
-    {
         my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => $Directory,
             Filter    => '*.t',
@@ -148,12 +147,12 @@ sub Run {
         for my $File (@Files) {
 
             # check if only some tests are requested
-            if ( @TestsToExecute && !grep { $File =~ /\/\Q$_\E\.t$/smx } @TestsToExecute ) {
-                next FILE;
+            if ( @ExecuteTestPatterns ) {
+                next FILE unless any { $File =~ /\/\Q$_\E\.t$/smx } @ExecuteTestPatterns;
             }
 
             # Check blacklisted files.
-            if ( @BlacklistedTests && grep { $File =~ m{\Q$Directory/$_\E$}smx } @BlacklistedTests ) {
+            if ( any { $File =~ m{\Q$Directory/$_\E$}smx } @BlacklistPatterns ) {
                 push @SkippedTests, $File;
 
                 next FILE;
@@ -163,8 +162,6 @@ sub Run {
             my $CustomFile = $File =~ s{ \A $Home }{$Home/Custom}xmsr;
             if ( -e $CustomFile ) {
                 push @ActualTests, $CustomFile;
-
-                next FILE;
             }
 
             push @ActualTests, $File;
@@ -191,7 +188,7 @@ sub Run {
     print "=====================================================================\n";
 
     if (@SkippedTests) {
-        print "Following blacklisted tests were skipped:\n";
+        print "# Following blacklisted tests were skipped:\n";
         for my $SkippedTest (@SkippedTests) {
             print '  ' . $Self->_Color( 'yellow', $SkippedTest ) . "\n";
         }

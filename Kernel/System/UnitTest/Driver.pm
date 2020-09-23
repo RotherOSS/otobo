@@ -59,11 +59,11 @@ create unit test driver object. Do not use it directly, instead use:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type = shift;
+    my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{ANSI}         = $Param{ANSI};
     $Self->{Verbose}      = $Param{Verbose};
@@ -570,24 +570,9 @@ sub Note {
 
 =cut
 
-sub _SaveResults {
-    my ($Self) = @_;
-
-    if ( !$Self->{ResultData} ) {
-        $Self->True( 0, 'No result data found.' );
-    }
-
-    my $Success = Storable::nstore( $Self->{ResultData}, $Self->{ResultDataFile} );
-    if ( !$Success ) {
-        print STDERR $Self->_Color( 'red', "Could not store result data in $Self->{ResultDataFile}\n" );
-        return 0;
-    }
-
-    return 1;
-}
-
 sub _Print {
-    my ( $Self, $ResultOk, $Message ) = @_;
+    my $Self = shift;
+    my ( $ResultOk, $Message ) = @_;
 
     $Message ||= '->>No Name!<<-';
 
