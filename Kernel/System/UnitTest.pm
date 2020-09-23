@@ -169,6 +169,41 @@ sub Run {
         lib       => [ $Home, "$Home/Kernel/cpan-lib", "$Home/Custom" ],
     );
     my $Harness = TAP::Harness->new( \%HarnessArgs );
+
+    # Register a callback that triggered after a test script has run.
+    # E.g. bin/otobo.Console.pl Dev::UnitTest::Run  --verbose --directory ACL --post-test-script 'echo file: %File%' --post-test-script 'echo ok: %TestOk%'  --post-test-script 'echo nok: %TestNotOk%' >prove_acl.out 2>&1
+    # See also: https://metacpan.org/pod/distribution/Test-Harness/lib/TAP/Harness/Beyond.pod#Callbacks
+    if ( $Param{PostTestScripts} && ref $Param{PostTestScripts} eq 'ARRAY' && $Param{PostTestScripts}->@* ) {
+        my @PostTestScripts = $Param{PostTestScripts}->@*;
+
+        $Harness->callback( after_test => sub {
+                my ( $TestInfo, $Parser) = @_;
+
+                for my $PostTestScript ( @PostTestScripts ) {
+
+                    # command template as specified on the commant line
+                    my $Cmd = $PostTestScript;
+
+                    # It's not obvious when $TestInfo contains.
+                    # The first array element seems to be the test script name.
+                    my ($TestScript) = $TestInfo->@*;
+                    $Cmd =~ s{%File%}{$TestScript}ismxg;
+
+                    # $Parser is an instance of TAP::Parser, it represents the parsed TAP output
+                    my $TestOk = $Parser->actual_passed();
+                    $Cmd =~ s{%TestOk%}{$TestOk}iesmxg;
+                    my $TestNotOk = $Parser->actual_failed();
+                    $Cmd =~ s{%TestNotOk%}{$TestNotOk}iesmxg;
+                    #use Data::Dumper;
+                    #warn Dumper( [ 'LLL', $Cmd, $TestScript, $TestInfo, $Parser ] );
+
+                    # finally do the work
+                    system $Cmd;
+                }
+            }
+        );
+    }
+
     my $Aggregate = $Harness->runtests( @ActualTests );
 
     ## TODO: resurrect useful features from _HandleFile()
@@ -281,15 +316,6 @@ sub _HandleFile {
 
         # Cut out from result data hash, as we don't need to send this to the server.
         push @{ $Self->{NotOkInfo} }, [ $Param{File}, @{ delete $ResultData->{NotOkInfo} } ];
-    }
-
-    # TODO: reactivate the callbacks
-    for my $PostTestScript ( @{ $Param{PostTestScripts} // [] } ) {
-        my $Commandline = $PostTestScript;
-        $Commandline =~ s{%File%}{$Param{File}}ismxg;
-        $Commandline =~ s{%TestOk%}{$ResultData->{TestOk} // 0}iesmxg;
-        $Commandline =~ s{%TestNotOk%}{$ResultData->{TestNotOk} // 0}iesmxg;
-        system $Commandline;
     }
 
     return 1;
