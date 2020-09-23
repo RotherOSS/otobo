@@ -47,12 +47,7 @@ Kernel::System::UnitTest::Driver - unit test file execution wrapper, test subrou
 
 create unit test driver object. Do not use it directly, instead use:
 
-    my $Driver = $Kernel::OM->Create(
-        'Kernel::System::UnitTest::Driver',
-        ObjectParams => {
-            Verbose => $Self->{Verbose},
-        },
-    );
+    my $Driver = $Kernel::OM->Create( 'Kernel::System::UnitTest::Driver' );
 
 =cut
 
@@ -62,8 +57,6 @@ sub new {
 
     # allocate new hash for object
     my $Self = bless {}, $Type;
-
-    $Self->{Verbose}      = $Param{Verbose};
 
     # When Kernel::System::UnitTest is under test itself,
     # then the output of the various instances should not be mangled
@@ -415,21 +408,14 @@ sub _Print {
 
     $Message ||= '->>No Name!<<-';
 
-    my $ShortMessage = $Message;
-    if ( length $ShortMessage > 2_000 && !$Self->{Verbose} ) {
-        $ShortMessage = substr( $ShortMessage, 0, 2_000 ) . "[...]";
-    }
-
     $Self->{TestCount}++;
+
     if ($ResultOk) {
         if ( $Self->{SelfTest} ) {
             # print nothing as Kernel::System::UnitTest is tested itself
         }
-        elsif ( $Self->{Verbose} ) {
-            say 'ok', " $Self->{TestCount} - $ShortMessage";
-        }
         else {
-            print ".";
+            say 'ok', " $Self->{TestCount} - $Message";
         }
 
         $Self->{ResultData}->{TestOk}++;
@@ -441,10 +427,7 @@ sub _Print {
             # print nothing as Kernel::System::UnitTest is tested itself
         }
         else {
-            if ( !$Self->{Verbose} ) {
-                say '';
-            }
-            say "not ok", " $Self->{TestCount} - $ShortMessage";
+            say "not ok", " $Self->{TestCount} - $Message";
         }
         $Self->{ResultData}->{TestNotOk}++;
 

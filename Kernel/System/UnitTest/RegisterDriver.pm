@@ -53,18 +53,13 @@ sub import {
         },
     );
 
-    # The Kernel::System::UnitTest::Driver should particpate in the regular object cleanup
-    # The default DataDiffType is used.
-    $Kernel::OM->ObjectParamAdd(
-        'Kernel::System::UnitTest::Driver' => {
-            Verbose      => 1,  # always verbose, as TAP::Harness creates the summaries
-        }
-    );
+    # provide $Self in the test scripts
     $main::Self = $Kernel::OM->Get( 'Kernel::System::UnitTest::Driver' );
 
     return;
 }
 
+# NOTE: it is not obvious whether this is still needed
 {
     # remember the id of the process that loaded this module.
     my $OriginalPID = $$;
