@@ -24,7 +24,6 @@ use namespace::autoclean;
 
 # core modules
 use Time::HiRes qw();
-use Term::ANSIColor qw();
 
 # CPAN modules
 use Text::Diff;
@@ -54,7 +53,6 @@ create unit test driver object. Do not use it directly, instead use:
         'Kernel::System::UnitTest::Driver',
         ObjectParams => {
             Verbose => $Self->{Verbose},
-            ANSI    => $Self->{ANSI},
         },
     );
 
@@ -67,7 +65,6 @@ sub new {
     # allocate new hash for object
     my $Self = bless {}, $Type;
 
-    $Self->{ANSI}         = $Param{ANSI};
     $Self->{Verbose}      = $Param{Verbose};
 
     # When Kernel::System::UnitTest is under test itself,
@@ -274,37 +271,10 @@ sub IsDeeply {
             }
         );
 
-        # Provide colored diff.
-        if ( $Self->{ANSI} ) {
-            my @DiffLines = split( m{\n}, $Diff );
-            $Diff = '';
-
-            # Diff type "Table"
-            for my $DiffLine (@DiffLines) {
-
-                # Line changed
-                if ( substr( $DiffLine, 0, 1 ) eq '*' && substr( $DiffLine, -1, 1 ) eq '*' ) {
-                    $DiffLine = $Self->_Color( 'yellow', $DiffLine );
-                }
-
-                # Line added
-                elsif ( substr( $DiffLine, 0, 1 ) eq '|' && substr( $DiffLine, -1, 1 ) eq '*' ) {
-                    $DiffLine = $Self->_Color( 'green', $DiffLine );
-                }
-
-                # Line removed
-                elsif ( substr( $DiffLine, 0, 1 ) eq '*' && substr( $DiffLine, -1, 1 ) eq '|' ) {
-                    $DiffLine = $Self->_Color( 'red', $DiffLine );
-                }
-
-                $Diff .= $DiffLine . "\n";
-            }
-        }
-
         my $Output;
-        $Output .= $Self->_Color( 'yellow', "Diff" ) . ":\n$Diff\n";
-        $Output .= $Self->_Color( 'yellow', "Actual data" ) . ":\n$TestDump\n";
-        $Output .= $Self->_Color( 'yellow', "Expected data" ) . ":\n$ShouldBeDump\n";
+        $Output .= "Diff" . ":\n$Diff\n";
+        $Output .= "Actual data" . ":\n$TestDump\n";
+        $Output .= "Expected data" . ":\n$ShouldBeDump\n";
 
         return $Self->_Print( 0, "$Name (is not equal, see below)\n$Output" );
     }
@@ -347,7 +317,7 @@ sub IsNotDeeply {
     }
     else {
         my $TestDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($Test);
-        my $Output   = $Self->_Color( 'yellow', "Actual data" ) . ":\n$TestDump\n";
+        my $Output   = "Actual data" . ":\n$TestDump\n";
         return $Self->_Print( 0, "$Name (the structures are wrongly equal, see below)\n$Output" );
     }
 }
@@ -470,10 +440,10 @@ sub _Print {
             # print nothing as Kernel::System::UnitTest is tested itself
         }
         elsif ( $Self->{Verbose} ) {
-            say $Self->_Color( 'green', 'ok' ), " $Self->{TestCount} - $ShortMessage";
+            say 'ok', " $Self->{TestCount} - $ShortMessage";
         }
         else {
-            print $Self->_Color( 'green', "." );
+            print ".";
         }
 
         $Self->{ResultData}->{TestOk}++;
@@ -488,7 +458,7 @@ sub _Print {
             if ( !$Self->{Verbose} ) {
                 say '';
             }
-            say $Self->_Color( 'red', "not ok" ), " $Self->{TestCount} - $ShortMessage";
+            say "not ok", " $Self->{TestCount} - $ShortMessage";
         }
         $Self->{ResultData}->{TestNotOk}++;
         $Self->{ResultData}->{Results}->{ $Self->{TestCount} }->{Status}  = 'not ok';
@@ -510,22 +480,6 @@ sub _Print {
 
         return;
     }
-}
-
-=head2 _Color()
-
-this will color the given text (see Term::ANSIColor::color()) if
-ANSI output is available and active, otherwise the text stays unchanged.
-
-    my $PossiblyColoredText = $CommandObject->_Color('green', $Text);
-
-=cut
-
-sub _Color {
-    my ( $Self, $Color, $Text ) = @_;
-
-    return $Text if !$Self->{ANSI};
-    return Term::ANSIColor::color($Color) . $Text . Term::ANSIColor::color('reset');
 }
 
 =end Internal:

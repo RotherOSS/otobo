@@ -60,8 +60,8 @@ sub new {
     # allocate new hash for object
     my $Self = bless {}, $Type;
 
-    $Self->{Debug}   = $Param{Debug} || 0;
-    $Self->{ANSI}    = $Param{ANSI};
+    $Self->{Debug} = $Param{Debug} || 0;
+    $Self->{ANSI}  = $Param{ANSI}  || 0;
 
     return $Self;
 }
@@ -163,6 +163,8 @@ sub Run {
     my %HarnessArgs = (
         timer     => 1,
         verbosity => $Verbosity,
+        # try to color the output when we are in an ANSI terminal
+        color     => $Self->{ANSI},
         # these libs are additional, $ENV{PERL5LIB} is still honored
         lib       => [ $Home, "$Home/Kernel/cpan-lib", "$Home/Custom" ],
     );
@@ -250,7 +252,6 @@ sub _HandleFile {
             'Kernel::System::UnitTest::Driver',
             ObjectParams => {
                 Verbose      => $Param{Verbose},
-                ANSI         => $Self->{ANSI},
             },
         );
 
@@ -306,7 +307,10 @@ ANSI output is available and active, otherwise the text stays unchanged.
 sub _Color {
     my ( $Self, $Color, $Text ) = @_;
 
-    return $Text if !$Self->{ANSI};
+    # no coloring unless we are in an ANSI terminal
+    return $Text unless $Self->{ANSI};
+
+    # we are in an ANSI terminal
     return Term::ANSIColor::color($Color) . $Text . Term::ANSIColor::color('reset');
 }
 

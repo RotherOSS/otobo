@@ -57,8 +57,8 @@ sub import {
     # The default DataDiffType is used.
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::UnitTest::Driver' => {
-            Verbose      => 1,  # always verbose, as TAP consumer can create summaries
-            ANSI         => 0,  # no coloring, as TAP consumers can do the presentation
+            Verbose      => 1,  # always verbose, as TAP::Harness creates the summaries
+            ANSI         => 0,  # no coloring, as TAP::Harness is responsible for the presentation
         }
     );
     $main::Self = $Kernel::OM->Get( 'Kernel::System::UnitTest::Driver' );

@@ -78,7 +78,7 @@ sub Run {
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::UnitTest' => {
-            ANSI => $Self->{ANSI},
+            ANSI => $Self->{ANSI}, # as determined in Kernel::System::Console::BaseCommand
         },
     );
 
