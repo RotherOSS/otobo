@@ -121,17 +121,13 @@ sub Run {
             CONFIGKEY:
             for my $ConfigKey ( sort keys $UnitTestBlacklist->%* ) {
 
-                next CONFIGKEY if !$ConfigKey;
-                next CONFIGKEY
-                    if !$UnitTestBlacklist->{$ConfigKey} || !IsArrayRefWithData( $UnitTestBlacklist->{$ConfigKey} );
+                # check sanity of configuration, skip in case of problems
+                next CONFIGKEY unless $ConfigKey;
+                next CONFIGKEY unless $UnitTestBlacklist->{$ConfigKey};
+                next CONFIGKEY unless IsArrayRefWithData( $UnitTestBlacklist->{$ConfigKey} );
 
-                TEST:
-                for my $Test ( @{ $UnitTestBlacklist->{$ConfigKey} } ) {
-
-                    next TEST if !$Test;
-
-                    push @BlacklistPatterns, $Test;
-                }
+                # filter empty values
+                push @BlacklistPatterns, grep { $_ } $UnitTestBlacklist->{$ConfigKey}->@*;
             }
         }
 
