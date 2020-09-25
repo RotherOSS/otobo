@@ -1076,6 +1076,8 @@ sub GenerateRandomString {
     my $Self = shift;
     my %Param = @_;
 
+    # negative $Param{Length} produce an empty string
+    # fractional $Param{Length} is truncated to the integer portion
     my $Length = $Param{Length} || 16;
 
     # The standard list of characters in the dictionary. Don't use special chars here.
