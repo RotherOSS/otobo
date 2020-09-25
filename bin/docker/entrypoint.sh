@@ -127,6 +127,17 @@ function upgrade_patchlevel_release() {
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pod.dist       $OTOBO_HOME/Kernel/Config.pod
 }
 
+#function reinstall_all() {
+#
+#    # reinstall package
+#    # Not that this works only if OTOBO has been properly configured
+#    {
+#        date
+#        ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll 2>&1)
+#        echo
+#    } >> $upgrade_log
+#}
+
 print_error() {
     echo -e "\e[101m[ERROR]\e[0m $1"
 }
@@ -187,7 +198,7 @@ if [ "$1" = "web" ]; then
         handle_docker_firsttime
     fi
 
-    # the start webserver
+    # start webserver
     exec_web
 fi
 
@@ -197,6 +208,12 @@ if [ "$1" = "upgrade" ]; then
     upgrade_patchlevel_release
     exit $?
 fi
+
+#if [ "$1" = "upgrade_reinstall" ]; then
+#    upgrade_patchlevel_release
+#    reinstall_all
+#    exit $?
+#fi
 
 # as a fallback execute the passed command
 exec_whatever $@
