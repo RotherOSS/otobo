@@ -13,6 +13,11 @@ var/log/ssl_request_log
 .vscode
 .vimrc
 
+# files that might be generated during development
+build.log
+otobo.iml
+*.out
+
 # Editor swap files
 *.swn
 *.swp
@@ -68,9 +73,6 @@ var/fred
 var/httpd/htdocs/js/*Fred*js
 var/httpd/htdocs/skins/Agent/default/css/*Fred*css
 var/httpd/htdocs/skins/Customer/default/css/*Fred*css
-
-# NYTProf
-nytprof*.out
 
 # CodePolicy
 .tidyall.d

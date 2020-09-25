@@ -29,7 +29,8 @@
 
 # set general environment variables
 export SOURCE_COMMIT=$(git rev-parse HEAD)
-export DOCKER_TAG=local-rel-10_1
+otobo_version=$(perl -lne 'print $1 if /VERSION\s*=\s*(\S+)/' < RELEASE)
+export DOCKER_TAG="local-${otobo_version}"
 
 # build otobo
 export DOCKERFILE_PATH=otobo.web.dockerfile
