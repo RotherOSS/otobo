@@ -53,26 +53,36 @@ Kernel::System::Main - main object
 
 =head1 DESCRIPTION
 
-All main functions to load modules, die, and handle files.
+A collection of utility functions to:
+
+=over 4
+
+=item load modules
+
+=item die
+
+=item generate random strings
+
+=item handle files
+
+=cut
 
 =head1 PUBLIC INTERFACE
 
 =head2 new()
 
-create new object. Do not use it directly, instead use:
+create a new object. Do not use it directly, instead use:
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type = shift;
+    my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 Require()
@@ -1030,7 +1040,7 @@ sub DirectoryRead {
 =head2 GenerateRandomString()
 
 generate a random string of defined length, and of a defined alphabet.
-defaults to a length of 16 and alphanumerics ( 0..9, A-Z and a-z).
+Defaults to a length of 16 and alphanumerics ( 0..9, A-Z and a-z).
 
     my $String = $MainObject->GenerateRandomString();
 
@@ -1053,7 +1063,7 @@ with specific length and alphabet:
     my $String = $MainObject->GenerateRandomString(
         Length     => 32,
         Dictionary => [ 0..9, 'a'..'f' ], # hexadecimal
-        );
+    );
 
 returns
 
@@ -1063,8 +1073,11 @@ returns
 =cut
 
 sub GenerateRandomString {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
+    # negative $Param{Length} produce an empty string
+    # fractional $Param{Length} is truncated to the integer portion
     my $Length = $Param{Length} || 16;
 
     # The standard list of characters in the dictionary. Don't use special chars here.
