@@ -29,23 +29,25 @@ use Test::Compile::Internal;
 my $Internal = Test::Compile::Internal->new;
 my @Dirs = qw(Kernel Custom scripts bin);
 
-note( 'check syntax of the Perl modules' );
-
-# List the cases with known and accepted failures
+# List of files that are know to have compile issues.
+# NOTE: Please create an issue when adding to this list and the reason is not acceptable.
 my %FailureIsAccepted = (
     'Kernel/System/Auth/Radius.pm'               => 'Authen::Radius is not required',
     'Kernel/System/CustomerAuth/Radius.pm'       => 'Authen::Radius is not required',
     'Kernel/cpan-lib/Devel/REPL/Plugin/OTOBO.pm' => 'Devel::REPL::Plugin is not required',
-    'Kernel/cpan-lib/Font/TTF/Win32.pm'          => 'Win32 is not supported',
+    'Kernel/cpan-lib/Font/TTF/Win32.pm'          => 'Win32::Registry is not available, but never mind as Win32 is not supported',
     'Kernel/cpan-lib/LWP/Protocol/GHTTP.pm'      => 'HTTP::GHTTP is not required',
-    'Kernel/cpan-lib/PDF/API2/Win32.pm'          => 'Win32 is not supported',
+    'Kernel/cpan-lib/PDF/API2/Win32.pm'          => 'Win32::TieRegistry is not available, but never mind as Win32 is not supported',
     'Kernel/cpan-lib/SOAP/Lite.pm'               => 'some strangeness concerning SOAP::Constants',
     'Kernel/cpan-lib/URI/urn/isbn.pm'            => 'Business::ISBN is not required',
 );
 
+note( 'check syntax of the Perl modules' );
+
 foreach my $File ( $Internal->all_pm_files(@Dirs) ) {
     if ( $FailureIsAccepted{$File} ) {
         my $todo = todo "$File: $FailureIsAccepted{$File}";
+
         ok( $Internal->pm_file_compiles($File), "$File compiles" );
     }
     else {
@@ -58,6 +60,7 @@ note( 'check syntax of the Perl scripts' );
 foreach my $File ( $Internal->all_pl_files(@Dirs) ) {
     if ( $FailureIsAccepted{$File} ) {
         my $todo = todo "$File: $FailureIsAccepted{$File}";
+
         ok( $Internal->pl_file_compiles($File), "$File compiles" );
     }
     else {
@@ -65,15 +68,38 @@ foreach my $File ( $Internal->all_pl_files(@Dirs) ) {
     }
 }
 
-note( 'check syntax of some shell scripts' );
+note( 'look at Perl code with an unusual extension' );
+{
+    my @Files = (
+        'bin/psgi-bin/otobo.psgi',
+    );
+    foreach my $File ( @Files ) {
+        if ( $FailureIsAccepted{$File} ) {
+            my $todo = todo "$File: $FailureIsAccepted{$File}";
 
-my @ShellScripts = (
-    'bin/docker/entrypoint.sh',
-    'bin/Cron.sh',
-);
-for my $File ( @ShellScripts ) {
-    my $compile_errors = `bash -n "$File" 2>&1`;
-    is( $compile_errors, '', "$File compiles" );
+            ok( $Internal->pl_file_compiles($File), "$File compiles" );
+        }
+        else {
+            ok( $Internal->pl_file_compiles($File), "$File compiles" );
+        }
+    }
+}
+
+note( 'check syntax of some shell scripts' );
+{
+    my @ShellScripts = (
+        'bin/docker/entrypoint.sh',
+    );
+
+    if ( ! $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
+        push @ShellScripts;
+            'bin/Cron.sh';
+    }
+
+    for my $File ( @ShellScripts ) {
+        my $compile_errors = `bash -n "$File" 2>&1`;
+        is( $compile_errors, '', "$File compiles" );
+    }
 }
 
 note( 'check syntax of hook scripts, when the dir hooks exists' );

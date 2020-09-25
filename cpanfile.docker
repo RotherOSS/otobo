@@ -1,0 +1,233 @@
+# Do not change this file manually.
+# Instead adapt bin/otobo.CheckModules.pl and call
+#    ./bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
+
+# Required for compressed file generation (in perlcore).
+requires 'Archive::Tar';
+
+# Required for compressed file generation.
+requires 'Archive::Zip';
+
+requires 'Date::Format';
+
+requires 'DateTime', ">= 1.08";
+
+requires 'Convert::BinHex';
+
+requires 'DBI';
+
+requires 'Digest::SHA';
+
+requires 'LWP::UserAgent';
+
+# Required for random number generator.
+requires 'Moo';
+
+# clean up imported methodes
+requires 'namespace::autoclean';
+
+# Version 0.60 not supported: This version is broken and not useable! Please upgrade to a higher version.
+requires 'Net::DNS', "!= 0.60";
+
+# Required by Kernel/cpan-lib/Mail/Mailer/smtps.pm
+requires 'Net::SMTP::SSL';
+
+# needed by Kernel/cpan-lib/Crypt/Random/Source.pm
+requires 'Sub::Exporter';
+
+# Template::Toolkit, the rendering engine of OTOBO.
+requires 'Template::Toolkit';
+
+# The fast data stash for Template::Toolkit.
+requires 'Template::Stash::XS';
+
+# Required for high resolution timestamps.
+requires 'Time::HiRes';
+
+# Required for XML processing.
+requires 'XML::LibXML';
+
+# Required for fast YAML processing.
+requires 'YAML::XS';
+
+# For internationalised sorting
+requires 'Unicode::Collate';
+
+
+# Feature 'apache:mod_perl' is not needed for Docker
+
+
+# feature 'db:mysql', 'Support for database MySQL' => sub {
+    # Required to connect to a MySQL database.
+    requires 'DBD::mysql';
+
+# };
+
+# feature 'db:odbc', 'Support for database access via ODBC' => sub {
+    # Required to connect to a MS-SQL database.
+    # Version 1.23 not supported: This version is broken and not useable! Please upgrade to a higher version.
+    requires 'DBD::ODBC', "!= 1.23";
+
+# };
+
+# Feature 'db:oracle' is not needed for Docker
+
+
+# feature 'db:postgresql', 'Support for database PostgreSQL' => sub {
+    # Required to connect to a PostgreSQL database.
+    requires 'DBD::Pg';
+
+# };
+
+# feature 'db:sqlite', 'Support for database SQLLite' => sub {
+    # Required to connect to a SQLite database.
+    requires 'DBD::SQLite';
+
+# };
+
+# feature 'devel:dbviewer', 'Suppport for devel:dbviewer' => sub {
+    # a web framework that makes web development fun again
+    requires 'Mojolicious';
+
+    # Mojolicious plugin to display database information on browser
+    requires 'Mojolicious::Plugin::DBViewer';
+
+# };
+
+# feature 'devel:test', 'Suppport for devel:test' => sub {
+    # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
+    requires 'Clone';
+
+    # a quick compile check
+    requires 'Test::Compile';
+
+    # basic test functions
+    requires 'Test2::Suite';
+
+# };
+
+# feature 'div:bcrypt', 'Suppport for div:bcrypt' => sub {
+    # For strong password hashing.
+    requires 'Crypt::Eksblowfish::Bcrypt';
+
+# };
+
+# Feature 'div:hanextra' is not needed for Docker
+
+
+# feature 'div:ldap', 'Suppport for div:ldap' => sub {
+    # Required for directory authentication.
+    requires 'Net::LDAP';
+
+# };
+
+# feature 'div:readonly', 'Suppport for div:readonly' => sub {
+    # Support for readonly Perl variables
+    requires 'Const::Fast';
+
+# };
+
+# Feature 'div:ssl' is not needed for Docker
+
+
+# Feature 'div:xmlparser' is not needed for Docker
+
+
+# feature 'div:xslt', 'Suppport for div:xslt' => sub {
+    # Required for Generic Interface XSLT mapping module.
+    requires 'XML::LibXSLT';
+
+# };
+
+# Feature 'mail' is not needed for Docker
+
+
+# feature 'mail:imap', 'Suppport for mail:imap' => sub {
+    # Required for IMAP TLS connections.
+    requires 'Mail::IMAPClient', ">= 3.22";
+
+# };
+
+# feature 'mail:ntlm', 'Suppport for mail:ntlm' => sub {
+    # Required for NTLM authentication mechanism in IMAP connections.
+    requires 'Authen::NTLM';
+
+# };
+
+# feature 'mail:sasl', 'Suppport for mail:sasl' => sub {
+    # Required for MD5 authentication mechanisms in IMAP connections.
+    requires 'Authen::SASL';
+
+# };
+
+# Feature 'mail:ssl' is not needed for Docker
+
+
+# Feature 'optional' is not needed for Docker
+
+
+# feature 'performance:csv', 'Suppport for performance:csv' => sub {
+    # Recommended for faster CSV handling.
+    requires 'Text::CSV_XS';
+
+# };
+
+# feature 'performance:json', 'Suppport for performance:json' => sub {
+    # Recommended for faster AJAX/JavaScript handling.
+    requires 'JSON::XS';
+
+# };
+
+# feature 'performance:redis', 'Suppport for performance:redis' => sub {
+    # For usage with Redis Cache Server.
+    requires 'Redis';
+
+    # Recommended for usage with Redis Cache Server. (it`s compatible with `Redis`, but **~2x faster**)
+    requires 'Redis::Fast';
+
+# };
+
+# feature 'plack', 'Required packages if you want to use PSGI/Plack (experimental and advanced)' => sub {
+    # Support old fashioned CGI in a PSGI application
+    requires 'CGI::Emulate::PSGI';
+
+    # Adapt CGI.pm to the PSGI protocol
+    requires 'CGI::PSGI';
+
+    # Sane persistent database connection
+    requires 'DBIx::Connector';
+
+    # High-performance preforking PSGI/Plack web server
+    requires 'Gazelle';
+
+    # Used when plackup is run with the -R option. This option restarts the server when files have changed.
+    requires 'Linux::Inotify2';
+
+    # Neater path manipulation and some utils
+    requires 'Path::Class';
+
+    # Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)
+    requires 'Plack';
+
+    # Serve static files
+    requires 'Plack::App::File';
+
+    # Set environment variables
+    requires 'Plack::Middleware::ForceEnv';
+
+    # Set HTTP headers
+    requires 'Plack::Middleware::Header';
+
+    # Watch for changed modules in %INC
+    requires 'Plack::Middleware::Refresh';
+
+    # Twist some HTTP variables so that the reverse proxy is transparent
+    requires 'Plack::Middleware::ReverseProxy';
+
+    # Set environment variables
+    requires 'Plack::Middleware::Rewrite';
+
+    # PSGI SOAP adapter
+    requires 'SOAP::Transport::HTTP::Plack';
+
+# };

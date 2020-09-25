@@ -12,6 +12,7 @@ USER root
 # install some required and optional Debian packages
 # For ODBC see https://blog.devart.com/installing-and-configuring-odbc-driver-on-linux.html
 # For ODBC for SQLIte, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
+# Create /opt/otobo_install already here, in order to reduce the number of build layers.
 # hadolint ignore=DL3008
 RUN apt-get update\
  && apt-get -y --no-install-recommends install\
@@ -29,47 +30,37 @@ RUN apt-get update\
  "telnet"\
  "tree"\
  "vim"\
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/*\
+ && install -d /opt/otobo_install
 
 # We want an UTF-8 console
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
+# required modules are installed in /opt/otobo_install/local
 # additional local modules might be installed in /opt/otobo/local
-ENV PERL5LIB /opt/otobo/local/lib/perl5
-ENV PATH "/opt/otobo/local/bin:${PATH}"
+ENV PERL5LIB "/opt/otobo_install/local/lib/perl5:/opt/otobo/local/lib/perl5"
+ENV PATH "/opt/otobo_install/local/bin:/opt/otobo/local/bin:${PATH}"
 
+# Install packages from CPAN into the local lib /opt/otobo_install/local.
+#
 # The modules Net::DNS and Gazelle take a long time to build and test.
-# Install them early in order to make rebuilds faster.
+# Install them early in a separate RUN in order to make rebuilds faster.
+# TODO: go back to install via the cpanfile
 #
 # Found no easy way to install with --force in the cpanfile. Therefore install
 # the modules with ignorable test failures with the option --force.
+# TODO: go back to install via the cpanfile
+#
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
-RUN cpanm Net::DNS Gazelle \
-    && cpanm --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
-
-# A minimal copy so that the Docker cache is not busted
-COPY cpanfile ./cpanfile
-RUN cpanm \
-    --with-feature=db:mysql \
-    --with-feature=db:odbc \
-    --with-feature=db:postgresql \
-    --with-feature=db:sqlite \
-    --with-feature=devel:dbviewer \
-    --with-feature=devel:test \
-    --with-feature=div:bcrypt \
-    --with-feature=div:ldap \
-    --with-feature=div:readonly \
-    --with-feature=div:xslt \
-    --with-feature=mail:imap \
-    --with-feature=mail:ntlm \
-    --with-feature=mail:sasl \
-    --with-feature=performance:csv \
-    --with-feature=performance:json \
-    --with-feature=performance:redis \
-    --with-feature=plack \
-    --installdeps .
+#
+# carton install will create cpanfile.snapshot. Currently this file is only used for documentation.
+WORKDIR /opt/otobo_install
+COPY cpanfile.docker cpanfile
+RUN cpanm --local-lib local Carton Net::DNS Gazelle\
+ && cpanm --local-lib local --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
+RUN PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install
 
 # create the otobo user
 #   --user-group            create group 'otobo' and add the user to the created group
@@ -82,11 +73,10 @@ ENV OTOBO_GROUP otobo
 ENV OTOBO_HOME  /opt/otobo
 RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER
 
-# copy the OTOBO installation to /opt/otobo and use it as the working dir
+# copy the OTOBO installation to /opt/otobo_install/otobo_next and use it as the working dir
 # skip the files set up in .dockerignore
-ARG OTOBO_INSTALL=/opt/otobo_install
-COPY --chown=$OTOBO_USER:$OTOBO_GROUP . $OTOBO_INSTALL/otobo_next
-WORKDIR $OTOBO_INSTALL/otobo_next
+COPY --chown=$OTOBO_USER:$OTOBO_GROUP . /opt/otobo_install/otobo_next
+WORKDIR /opt/otobo_install/otobo_next
 
 # uncomment these steps when strange behavior must be investigated
 #RUN echo "'$OTOBO_HOME'"
@@ -101,7 +91,7 @@ WORKDIR $OTOBO_INSTALL/otobo_next
 # set up entrypoint.sh and docker_firsttime
 # Finally set permissions.
 RUN install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME \
-    && install --owner $OTOBO_USER --group $OTOBO_GROUP -D bin/docker/entrypoint.sh $OTOBO_INSTALL/entrypoint.sh \
+    && install --owner $OTOBO_USER --group $OTOBO_GROUP -D bin/docker/entrypoint.sh /opt/otobo_install/entrypoint.sh \
     && install --owner $OTOBO_USER --group $OTOBO_GROUP /dev/null docker_firsttime \
     && perl bin/docker/set_permissions.pl
 
@@ -127,17 +117,6 @@ RUN install -d var/stats var/packages var/article var/tmp \
     && (echo ". ~/.bash_completion" >> .bash_aliases ) \
     && install scripts/vim/.vimrc .vimrc
 
-# Activate the .dist files for cron.
-# Generate and install the crontab for the user $OTOBO_USER.
-# Explicitly set PATH as the required perl is located in /usr/local/bin/perl.
-RUN ( cd var/cron && for foo in *.dist; do cp $foo `basename $foo .dist`; done ) \
-    &&  { \
-            echo "# File added by Dockerfile"; \
-            echo "# Let '/usr/bin/env perl' find perl in /usr/local/bin"; \
-            echo "PATH=/usr/local/bin:/usr/bin:/bin"; \
-	    } >> var/cron/aab_path \
-    && ./bin/Cron.sh start
-
 # Create ARCHIVE as the last step
 RUN bin/otobo.CheckSum.pl -a create
 
@@ -145,7 +124,6 @@ RUN bin/otobo.CheckSum.pl -a create
 # Merging /opt/otobo_install/otobo_next and /opt/otobo is left to /opt/otobo_install/entrypoint.sh.
 # Note that for supporting the command 'cron' we need to start as root.
 # For all other commands entrypoint.sh switches to the user otobo.
-USER root
 WORKDIR $OTOBO_HOME
 
 # Tell the webapplication that it runs in a container.
