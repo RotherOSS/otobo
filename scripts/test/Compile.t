@@ -92,8 +92,7 @@ note( 'check syntax of some shell scripts' );
     );
 
     if ( ! $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
-        push @ShellScripts;
-            'bin/Cron.sh';
+        push @ShellScripts, 'bin/Cron.sh';
     }
 
     for my $File ( @ShellScripts ) {

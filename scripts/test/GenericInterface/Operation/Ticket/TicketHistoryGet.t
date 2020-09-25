@@ -20,7 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
-use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
 
@@ -1012,4 +1012,4 @@ for my $TicketID ( $TicketID1, $TicketID2 ) {
 
 $Self->DoneTesting();
 
-1;
+

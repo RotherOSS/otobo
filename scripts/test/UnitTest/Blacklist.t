@@ -16,12 +16,22 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0 qw(plan is note);
+
+# OTOBO modules
+use Kernel::System::ObjectManager;
+
+$Kernel::OM = Kernel::System::ObjectManager->new(
+    'Kernel::System::Log' => {
+        LogPrefix => 'OTOBO-otobo.UnitTest',
+    },
+);
 
 my $Helper   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $RandomID = $Helper->GetRandomID();
@@ -30,18 +40,18 @@ my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Uni
 
 my @Tests = (
     {
-        Name   => "UnitTest 'User.t' (blacklisted)",
-        Test   => 'User',
+        Name   => "UnitTest 'NutsAndBolts.t' not executed because blacklisted",
+        Test   => 'NutsAndBolts',
         Config => {
             Valid => 1,
             Key   => 'UnitTest::Blacklist###1000-UnitTest' . $RandomID,
-            Value => ['User.t'],
+            Value => ['NutsAndBolts.t'],
         },
         TestExecuted => 0,
     },
     {
-        Name   => "UnitTest 'User.t' (whitelisted)",
-        Test   => 'User',
+        Name   => "UnitTest 'NutsAndBolts.t' executed because not blacklisted",
+        Test   => 'NutsAndBolts',
         Config => {
             Valid => 1,
             Key   => 'UnitTest::Blacklist###1000-UnitTest' . $RandomID,
@@ -51,45 +61,33 @@ my @Tests = (
     },
 );
 
+plan( tests => scalar @Tests );
+
 for my $Test (@Tests) {
 
     $Helper->ConfigSettingChange(
         %{ $Test->{Config} },
     );
 
-    my $Result;
-    my $ExitCode;
-
+    # run Dev::UnitTest::Run
+    my ( $ResultStdout, $ResultStderr, $ExitCode );
     {
         local *STDOUT;
-        open STDOUT, '>:encoding(UTF-8)', \$Result;
+        open STDOUT, '>:encoding(UTF-8)', \$ResultStdout;
+        local *STDERR;
+        open STDERR, '>:encoding(UTF-8)', \$ResultStderr;
 
-        $ExitCode = $CommandObject->Execute( '--test', $Test->{Test} );
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );
+        $ExitCode = $CommandObject->Execute( '--test', $Test->{Test}, '--quiet' );
     }
 
-    chomp $Result;
+    # some diagnostics
+    $ResultStderr //= 'undef';
+    $ResultStdout //= 'undef';
+    note( "err: '$ResultStderr'" );
+    note( "out: '$ResultStdout'" );
 
     # Check for executed tests message.
-    my $Success = $Result =~ m{ No \s+ tests \s+ executed\. }xms;
+    my $TestExecuted = $ResultStdout =~ m{Result: \s+ NOTESTS}xms ? 0 : 1;
 
-    if ( $Test->{TestExecuted} ) {
-
-        $Self->False(
-            $Success,
-            $Test->{Name} . ' - executed successfully.',
-        );
-    }
-    else {
-
-        $Self->True(
-            $Success,
-            $Test->{Name} . ' - not executed.',
-        );
-    }
+    is( $TestExecuted, $Test->{TestExecuted}, $Test->{Name} );
 }
-
-
-$Self->DoneTesting();
-
-1;

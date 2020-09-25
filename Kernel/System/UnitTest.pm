@@ -18,22 +18,25 @@ package Kernel::System::UnitTest;
 
 use strict;
 use warnings;
+use v5.24.0;
+use utf8;
+use namespace::autoclean;
 
+# core modules
 use File::stat;
 use Storable();
 use Term::ANSIColor();
-use Time::HiRes();
+use TAP::Harness;
+use List::Util qw(any);
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::Encode',
-    'Kernel::System::JSON',
     'Kernel::System::Main',
-    'Kernel::System::Package',
-    'Kernel::System::SupportDataCollector',
-    'Kernel::System::WebUserAgent',
 );
 
 =head1 NAME
@@ -44,21 +47,21 @@ Kernel::System::UnitTest - functions to run all or some OTOBO unit tests
 
 =head2 new()
 
-create unit test object. Do not use it directly, instead use:
+create an unit test object. Do not use this subroutine directly. Use instead:
 
     my $UnitTestObject = $Kernel::OM->Get('Kernel::System::UnitTest');
 
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type = shift;
+    my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{Debug} = $Param{Debug} || 0;
-    $Self->{ANSI}  = $Param{ANSI};
+    $Self->{ANSI}  = $Param{ANSI}  || 0;
 
     return $Self;
 }
@@ -71,491 +74,151 @@ run all or some tests located in C<scripts/test/**/*.t> and print the result.
         Name                   => ['JSON', 'User'],     # optional, execute certain test files only
         Directory              => 'Selenium',           # optional, execute tests in subdirectory
         Verbose                => 1,                    # optional (default 0), only show result details for all tests, not just failing
-        SubmitURL              => $URL,                 # optional, send results to unit test result server
-        SubmitAuth             => '0abc86125f0fd37baae' # optional authentication string for unit test result server
-        SubmitResultAsExitCode => 1,                    # optional, specify if exit code should not indicate if tests were ok/not ok, but if submission was successful instead
-        JobID                  => 12,                   # optional job ID for unit test submission to server
-        Scenario               => 'OTOBO 10 git',         # optional scenario identifier for unit test submission to server
         PostTestScripts        => ['...'],              # Script(s) to execute after a test has been run.
                                                         #  You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.
-        PreSubmitScripts       => ['...'],              # Script(s) to execute after all tests have been executed
-                                                        #  and the results are about to be sent to the server.
-        NumberOfTestRuns       => 10,                   # optional (default 1), number of successive runs for every single unit test
     );
 
 Please note that the individual test files are not executed in the main process,
 but instead in separate forked child processes which are controlled by L<Kernel::System::UnitTest::Driver>.
 Their results will be transmitted to the main process via a local file.
 
+Tests listed in B<UnitTest::Blacklist> are not executed.
+
+Tests in F<Custom/scripts/test> take precedence over the tests in F<scripts/test>.
+
 =cut
 
 sub Run {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
-    $Self->{Verbose} = $Param{Verbose};
+    # handle parameters
+    my $Verbosity           = $Param{Verbose} // 0;
+    my @ExecuteTestPatterns = @{ $Param{Tests} // [] };
+    my $DirectoryParam      = $Param{Directory};
 
+    # some config stuff
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $Home         = $ConfigObject->Get('Home');
+    my $Product      = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version');
+    my $Host         = $ConfigObject->Get('FQDN');
 
-    my $Product = $ConfigObject->Get('Product') . " " . $ConfigObject->Get('Version');
-    my $Home    = $ConfigObject->Get('Home');
-
+    # run tests in a subdir when requested
     my $Directory = "$Home/scripts/test";
-    if ( $Param{Directory} ) {
-        $Directory .= "/$Param{Directory}";
+    if ( $DirectoryParam ) {
+        $Directory .= "/$DirectoryParam";
         $Directory =~ s/\.//g;
     }
 
-    my @TestsToExecute = @{ $Param{Tests} // [] };
+    # Determine which tests should be skipped because of UnitTest::Blacklist
+    my (@SkippedTests, @ActualTests);
+    {
+        # Get patterns for blacklisted tests
+        my @BlacklistPatterns;
+        my $UnitTestBlacklist = $ConfigObject->Get('UnitTest::Blacklist');
+        if ( IsHashRefWithData($UnitTestBlacklist) ) {
 
-    my $UnitTestBlacklist = $ConfigObject->Get('UnitTest::Blacklist');
-    my @BlacklistedTests;
-    my @SkippedTests;
-    if ( IsHashRefWithData($UnitTestBlacklist) ) {
+            CONFIGKEY:
+            for my $ConfigKey ( sort keys $UnitTestBlacklist->%* ) {
 
-        CONFIGKEY:
-        for my $ConfigKey ( sort keys %{$UnitTestBlacklist} ) {
+                # check sanity of configuration, skip in case of problems
+                next CONFIGKEY unless $ConfigKey;
+                next CONFIGKEY unless $UnitTestBlacklist->{$ConfigKey};
+                next CONFIGKEY unless IsArrayRefWithData( $UnitTestBlacklist->{$ConfigKey} );
 
-            next CONFIGKEY if !$ConfigKey;
-            next CONFIGKEY
-                if !$UnitTestBlacklist->{$ConfigKey} || !IsArrayRefWithData( $UnitTestBlacklist->{$ConfigKey} );
-
-            TEST:
-            for my $Test ( @{ $UnitTestBlacklist->{$ConfigKey} } ) {
-
-                next TEST if !$Test;
-
-                push @BlacklistedTests, $Test;
+                # filter empty values
+                push @BlacklistPatterns, grep { $_ } $UnitTestBlacklist->{$ConfigKey}->@*;
             }
         }
-    }
 
-    my $StartTime      = CORE::time();                      # Use non-overridden time().
-    my $StartTimeHiRes = [ Time::HiRes::gettimeofday() ];
+        my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+            Directory => $Directory,
+            Filter    => '*.t',
+            Recursive => 1,
+        );
 
-    my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-        Directory => $Directory,
-        Filter    => '*.t',
-        Recursive => 1,
-    );
+        FILE:
+        for my $File (@Files) {
 
-    my $NumberOfTestRuns = $Param{NumberOfTestRuns};
-    if ( !$NumberOfTestRuns ) {
-        $NumberOfTestRuns = 1;
-    }
+            # check if only some tests are requested
+            if ( @ExecuteTestPatterns ) {
+                next FILE unless any { $File =~ /\/\Q$_\E\.t$/smx } @ExecuteTestPatterns;
+            }
 
-    FILE:
-    for my $File (@Files) {
+            # Check blacklisted files.
+            if ( any { $File =~ m{\Q$Directory/$_\E$}smx } @BlacklistPatterns ) {
+                push @SkippedTests, $File;
 
-        # check if only some tests are requested
-        if ( @TestsToExecute && !grep { $File =~ /\/\Q$_\E\.t$/smx } @TestsToExecute ) {
-            next FILE;
-        }
+                next FILE;
+            }
 
-        # Check blacklisted files.
-        if ( @BlacklistedTests && grep { $File =~ m{\Q$Directory/$_\E$}smx } @BlacklistedTests ) {
-            push @SkippedTests, $File;
-            next FILE;
-        }
-
-        # Check if a file with the same path and name exists in the Custom folder.
-        my $CustomFile = $File =~ s{ \A $Home }{$Home/Custom}xmsr;
-        if ( -e $CustomFile ) {
-            $File = $CustomFile;
-        }
-
-        for ( 1 .. $NumberOfTestRuns ) {
-            $Self->_HandleFile(
-                PostTestScripts => $Param{PostTestScripts},
-                File            => $File,
-                DataDiffType    => $Param{DataDiffType},
-            );
+            # Check if a file with the same path and name exists in the Custom folder.
+            my $CustomFile = $File =~ s{ \A $Home }{$Home/Custom}xmsr;
+            push @ActualTests, -e $CustomFile ? $CustomFile : $File;
         }
     }
 
-    my $Duration = sprintf( '%.3f', Time::HiRes::tv_interval($StartTimeHiRes) );
+    my $Harness = TAP::Harness->new({
+        timer     => 1,
+        verbosity => $Verbosity,
+        # try to color the output when we are in an ANSI terminal
+        color     => $Self->{ANSI},
+        # these libs are additional, $ENV{PERL5LIB} is still honored
+        lib       => [ $Home, "$Home/Kernel/cpan-lib", "$Home/Custom" ],
+    });
 
-    my $Host           = $ConfigObject->Get('FQDN');
-    my $TestCountTotal = ( $Self->{TestCountOk} // 0 ) + ( $Self->{TestCountNotOk} // 0 );
+    # Register a callback that triggered after a test script has run.
+    # E.g. bin/otobo.Console.pl Dev::UnitTest::Run  --verbose --directory ACL --post-test-script 'echo file: %File%' --post-test-script 'echo ok: %TestOk%'  --post-test-script 'echo nok: %TestNotOk%' >prove_acl.out 2>&1
+    # See also: https://metacpan.org/pod/distribution/Test-Harness/lib/TAP/Harness/Beyond.pod#Callbacks
+    if ( $Param{PostTestScripts} && ref $Param{PostTestScripts} eq 'ARRAY' && $Param{PostTestScripts}->@* ) {
+        my @PostTestScripts = $Param{PostTestScripts}->@*;
 
-    print "=====================================================================\n";
+        $Harness->callback( after_test => sub {
+                my ( $TestInfo, $Parser) = @_;
+
+                for my $PostTestScript ( @PostTestScripts ) {
+
+                    # command template as specified on the commant line
+                    my $Cmd = $PostTestScript;
+
+                    # It's not obvious when $TestInfo contains.
+                    # The first array element seems to be the test script name.
+                    my ($TestScript) = $TestInfo->@*;
+                    $Cmd =~ s{%File%}{$TestScript}ismxg;
+
+                    # $Parser is an instance of TAP::Parser, it represents the parsed TAP output
+                    my $TestOk = $Parser->actual_passed();
+                    $Cmd =~ s{%TestOk%}{$TestOk}iesmxg;
+                    my $TestNotOk = $Parser->actual_failed();
+                    $Cmd =~ s{%TestNotOk%}{$TestNotOk}iesmxg;
+                    #use Data::Dumper;
+                    #warn Dumper( [ 'LLL', $Cmd, $TestScript, $TestInfo, $Parser ] );
+
+                    # finally do the work
+                    system $Cmd;
+                }
+            }
+        );
+    }
+
+    my $Aggregate = $Harness->runtests( @ActualTests );
 
     if (@SkippedTests) {
-        print "Following blacklisted tests were skipped:\n";
+        print "# Following blacklisted tests were skipped:\n";
         for my $SkippedTest (@SkippedTests) {
-            print '  ' . $Self->_Color( 'yellow', $SkippedTest ) . "\n";
+            say '#  ' . $Self->_Color( 'yellow', $SkippedTest );
         }
     }
 
-    printf(
-        "%s ran %s test(s) in %s for %s.\n",
-        $Self->_Color( 'yellow', $Host ),
-        $Self->_Color( 'yellow', $TestCountTotal ),
-        $Self->_Color( 'yellow', "${Duration}s" ),
-        $Self->_Color( 'yellow', $Product )
-    );
+    say sprintf
+        'ran tests for product %s on %s',
+        $Self->_Color( 'yellow', $Product ),
+        $Self->_Color( 'yellow', $Host );
 
-    if ( $Self->{TestCountNotOk} ) {
-        print $Self->_Color( 'red', "$Self->{TestCountNotOk} tests failed.\n" );
-        print " FailedTests:\n";
-        FAILEDFILE:
-        for my $FailedFile ( @{ $Self->{NotOkInfo} || [] } ) {
-            my ( $File, @Tests ) = @{ $FailedFile || [] };
-            next FAILEDFILE if !@Tests;
-            print sprintf "  %s %s\n", $File, join ", ", @Tests;
-        }
-    }
-    elsif ( $Self->{TestCountOk} ) {
-        print $Self->_Color( 'green', "All $Self->{TestCountOk} tests passed.\n" );
-    }
-    else {
-        print $Self->_Color( 'yellow', "No tests executed.\n" );
-    }
-
-    if ( $Param{SubmitURL} ) {
-
-        for my $PreSubmitScript ( @{ $Param{PreSubmitScripts} // [] } ) {
-            system "$PreSubmitScript";
-        }
-
-        my $SubmitResultSuccess = $Self->_SubmitResults(
-            %Param,
-            StartTime => $StartTime,
-            Duration  => $Duration,
-        );
-        if ( $Param{SubmitResultAsExitCode} ) {
-            return $SubmitResultSuccess ? 1 : 0;
-        }
-    }
-
-    return $Self->{TestCountNotOk} ? 0 : 1;
+    return $Aggregate->all_passed;
 }
 
 =begin Internal:
-
-=cut
-
-sub _HandleFile {
-    my ( $Self, %Param ) = @_;
-
-    my $ResultDataFile = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/tmp/UnitTest.dump';
-    unlink $ResultDataFile;
-
-    # Create a child process.
-    my $PID = fork;
-
-    # Could not create child.
-    if ( $PID < 0 ) {
-
-        $Self->{ResultData}->{ $Param{File} } = { TestNotOk => 1 };
-        $Self->{TestCountNotOk} += 1;
-
-        print $Self->_Color( 'red', "Could not create child process for $Param{File}.\n" );
-        return;
-    }
-
-    # We're in the child process.
-    if ( !$PID ) {
-
-        my $Driver = $Kernel::OM->Create(
-            'Kernel::System::UnitTest::Driver',
-            ObjectParams => {
-                Verbose      => $Self->{Verbose},
-                ANSI         => $Self->{ANSI},
-                DataDiffType => $Param{DataDiffType},
-            },
-        );
-
-        $Driver->Run( File => $Param{File} );
-
-        exit 0;
-    }
-
-    # Wait for child process to finish.
-    waitpid( $PID, 0 );
-
-    my $ResultData = eval { Storable::retrieve($ResultDataFile) };
-
-    if ( !$ResultData ) {
-        print $Self->_Color( 'red', "Could not read result data for $Param{File}.\n" );
-        $ResultData->{TestNotOk}++;
-    }
-
-    $Self->{ResultData}->{ $Param{File} } = $ResultData;
-    $Self->{TestCountOk}    += $ResultData->{TestOk}    // 0;
-    $Self->{TestCountNotOk} += $ResultData->{TestNotOk} // 0;
-
-    $Self->{SeleniumData} //= $ResultData->{SeleniumData};
-
-    $Self->{NotOkInfo} //= [];
-    if ( $ResultData->{NotOkInfo} ) {
-
-        # Cut out from result data hash, as we don't need to send this to the server.
-        push @{ $Self->{NotOkInfo} }, [ $Param{File}, @{ delete $ResultData->{NotOkInfo} } ];
-    }
-
-    for my $PostTestScript ( @{ $Param{PostTestScripts} // [] } ) {
-        my $Commandline = $PostTestScript;
-        $Commandline =~ s{%File%}{$Param{File}}ismxg;
-        $Commandline =~ s{%TestOk%}{$ResultData->{TestOk} // 0}iesmxg;
-        $Commandline =~ s{%TestNotOk%}{$ResultData->{TestNotOk} // 0}iesmxg;
-        system $Commandline;
-    }
-
-    return 1;
-}
-
-sub _SubmitResults {
-    my ( $Self, %Param ) = @_;
-
-    my %SupportData = $Kernel::OM->Get('Kernel::System::SupportDataCollector')->Collect();
-    die "Could not collect SupportData.\n" if !$SupportData{Success};
-
-    # Limit number of screenshots in the result data, since it can grow very large.
-    #   Allow only up to 25 screenshots per submission (average size of 80kb per screenshot for a total of 2MB).
-    my $ScreenshotCountLimit = 25;
-    my $ScreenshotCount      = 0;
-
-    RESULT:
-    for my $Result ( sort keys %{ $Self->{ResultData} } ) {
-        next RESULT if !IsHashRefWithData( $Self->{ResultData}->{$Result}->{Results} );
-
-        TEST:
-        for my $Test ( sort keys %{ $Self->{ResultData}->{$Result}->{Results} } ) {
-            next TEST if !IsArrayRefWithData( $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots} );
-
-            # Get number of screenshots in this test. Note that this key is an array, and we support multiple
-            #   screenshots per one test.
-            my $TestScreenshotCount = scalar @{ $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots} };
-
-            # Check if number of screenshots for this result breaks the limit.
-            if ( $ScreenshotCount + $TestScreenshotCount > $ScreenshotCountLimit ) {
-                my $ScreenshotCountRemaining = $ScreenshotCountLimit - $ScreenshotCount;
-
-                # Allow only remaining number of screenshots.
-                if ( $ScreenshotCountRemaining > 0 ) {
-                    @{ $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots} }
-                        = @{ $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots} }[
-                        0,
-                        $ScreenshotCountRemaining
-                        ];
-                    $ScreenshotCount = $ScreenshotCountLimit;
-                }
-
-                # Remove all screenshots.
-                else {
-                    delete $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots};
-                }
-
-                # Include message about removal of screenshots.
-                $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Message}
-                    .= ' (Additional screenshots have been omitted from the report because of size constraint.)';
-
-                next TEST;
-            }
-
-            $ScreenshotCount += $TestScreenshotCount;
-        }
-    }
-
-    # Include Selenium information as part of the support data.
-    if ( IsHashRefWithData( $Self->{SeleniumData} ) ) {
-        push @{ $SupportData{Result} },
-            {
-            Value       => $Self->{SeleniumData}->{build}->{version} // 'N/A',
-            Label       => 'Selenium Server',
-            DisplayPath => 'Unit Test/Selenium Information',
-            Status      => 1,
-            },
-            {
-            Value       => $Self->{SeleniumData}->{java}->{version} // 'N/A',
-            Label       => 'Java',
-            DisplayPath => 'Unit Test/Selenium Information',
-            Status      => 1,
-            },
-            {
-            Value       => $Self->{SeleniumData}->{browserName} // 'N/A',
-            Label       => 'Browser Name',
-            DisplayPath => 'Unit Test/Selenium Information',
-            Status      => 1,
-            };
-        if ( $Self->{SeleniumData}->{browserName} && $Self->{SeleniumData}->{browserName} eq 'chrome' ) {
-            push @{ $SupportData{Result} },
-                {
-                Value       => $Self->{SeleniumData}->{version} // 'N/A',
-                Label       => 'Browser Version',
-                DisplayPath => 'Unit Test/Selenium Information',
-                Status      => 1,
-                },
-                {
-                Value       => $Self->{SeleniumData}->{chrome}->{chromedriverVersion} // 'N/A',
-                Label       => 'Chrome Driver',
-                DisplayPath => 'Unit Test/Selenium Information',
-                Status      => 1,
-                };
-        }
-        elsif ( $Self->{SeleniumData}->{browserName} && $Self->{SeleniumData}->{browserName} eq 'firefox' ) {
-            push @{ $SupportData{Result} },
-                {
-                Value       => $Self->{SeleniumData}->{browserVersion} // 'N/A',
-                Label       => 'Browser Version',
-                DisplayPath => 'Unit Test/Selenium Information',
-                Status      => 1,
-                },
-                {
-                Value       => $Self->{SeleniumData}->{'moz:geckodriverVersion'} // 'N/A',
-                Label       => 'Gecko Driver',
-                DisplayPath => 'Unit Test/Selenium Information',
-                Status      => 1,
-                };
-        }
-    }
-
-    # Include versioning information as part of the support data.
-    #   Get framework commit ID from the RELEASE file.
-    my $ReleaseFile = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-        Location => $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/RELEASE',
-    );
-
-    if ( ${$ReleaseFile} =~ /COMMIT\_ID\s=\s(.*)$/ ) {
-        my $FrameworkCommitID = $1;
-        push @{ $SupportData{Result} },
-            {
-            Value       => $FrameworkCommitID,
-            Label       => 'Framework',
-            DisplayPath => 'Unit Test/Versioning Information',
-            Identifier  => 'VersionHash',
-            Status      => 1,
-            };
-    }
-
-    # Get build commit IDs of all installed packages.
-    my @PackageList = $Kernel::OM->Get('Kernel::System::Package')->RepositoryList(
-        Result => 'short',
-    );
-
-    if ( IsArrayRefWithData( \@PackageList ) ) {
-        for my $Package (@PackageList) {
-            if ( $Package->{BuildCommitID} ) {
-                push @{ $SupportData{Result} },
-                    {
-                    Value       => $Package->{BuildCommitID},
-                    Label       => $Package->{Name},
-                    DisplayPath => 'Unit Test/Versioning Information',
-                    Identifier  => 'VersionHash',
-                    Status      => 1,
-                    };
-            }
-        }
-    }
-
-    my %SubmitData = (
-        Auth     => $Param{SubmitAuth} // '',
-        JobID    => $Param{JobID}      // '',
-        Scenario => $Param{Scenario}   // '',
-        Meta     => {
-            StartTime => $Param{StartTime},
-            Duration  => int $Param{Duration},      # CI master expects an integer here.
-            TestOk    => $Self->{TestCountOk},
-            TestNotOk => $Self->{TestCountNotOk},
-        },
-        SupportData => $SupportData{Result},
-        Results     => $Self->{ResultData},
-    );
-
-    print "=====================================================================\n";
-    print "Sending results to " . $Self->_Color( 'yellow', $Param{SubmitURL} ) . " ...\n";
-
-    # Flush possible output log files to be able to submit them.
-    *STDOUT->flush();
-    *STDERR->flush();
-
-    # Limit attachment sizes to 20MB in total.
-    my $AttachmentCount = scalar grep { -r $_ } @{ $Param{AttachmentPath} // [] };
-    my $AttachmentsSize = 1024 * 1024 * 20;
-
-    ATTACHMENT_PATH:
-    for my $AttachmentPath ( @{ $Param{AttachmentPath} // [] } ) {
-        my $FileHandle;
-        my $Content;
-
-        if ( !open $FileHandle, '<:encoding(UTF-8)', $AttachmentPath ) {    ## no-critic
-            print $Self->_Color( 'red', "Could not open file $AttachmentPath, skipping.\n" );
-            next ATTACHMENT_PATH;
-        }
-
-        # Read only allocated size of file to try to avoid out of memory error.
-        if ( !read $FileHandle, $Content, $AttachmentsSize / $AttachmentCount ) {    ## no-critic
-            print $Self->_Color( 'red', "Could not read file $AttachmentPath, skipping.\n" );
-            close $FileHandle;
-            next ATTACHMENT_PATH;
-        }
-
-        my $Stat = stat($AttachmentPath);
-
-        if ( !$Stat ) {
-            print $Self->_Color( 'red', "Cannot stat file $AttachmentPath, skipping.\n" );
-            close $FileHandle;
-            next ATTACHMENT_PATH;
-        }
-
-        # If file size exceeds the limit, include message about shortening at the end.
-        if ( $Stat->size() > $AttachmentsSize / $AttachmentCount ) {
-            $Content .= "\nThis file has been shortened because of size constraint.";
-        }
-
-        close $FileHandle;
-        $SubmitData{Attachments}->{$AttachmentPath} = $Content;
-    }
-
-    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
-
-    # Perform web service request and get response.
-    my %Response = $Kernel::OM->Get('Kernel::System::WebUserAgent')->Request(
-        Type => 'POST',
-        URL  => $Param{SubmitURL},
-        Data => {
-            Action      => 'PublicCIMaster',
-            Subaction   => 'TestResults',
-            RequestData => $JSONObject->Encode(
-                Data => \%SubmitData,
-            ),
-        },
-    );
-
-    if ( $Response{Status} ne '200 OK' ) {
-        print $Self->_Color( 'red', "Submission to server failed (status code '$Response{Status}').\n" );
-        return;
-    }
-
-    if ( !$Response{Content} ) {
-        print $Self->_Color( 'red', "Submission to server failed (no response).\n" );
-        return;
-    }
-
-    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput(
-        $Response{Content},
-    );
-
-    my $ResponseData = $JSONObject->Decode(
-        Data => ${ $Response{Content} },
-    );
-
-    if ( !$ResponseData ) {
-        print $Self->_Color( 'red', "Submission to server failed (invalid response).\n" );
-        return;
-    }
-
-    if ( !$ResponseData->{Success} && $ResponseData->{ErrorMessage} ) {
-        print $Self->_Color(
-            'red',
-            "Submission to server failed (error message '$ResponseData->{ErrorMessage}').\n"
-        );
-        return;
-    }
-
-    print $Self->_Color( 'green', "Submission was successful.\n" );
-    return 1;
-}
 
 =head2 _Color()
 
@@ -569,7 +232,10 @@ ANSI output is available and active, otherwise the text stays unchanged.
 sub _Color {
     my ( $Self, $Color, $Text ) = @_;
 
-    return $Text if !$Self->{ANSI};
+    # no coloring unless we are in an ANSI terminal
+    return $Text unless $Self->{ANSI};
+
+    # we are in an ANSI terminal
     return Term::ANSIColor::color($Color) . $Text . Term::ANSIColor::color('reset');
 }
 

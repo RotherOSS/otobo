@@ -20,7 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
-use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
 
@@ -343,4 +343,4 @@ for my $Entity (qw(P-Test1 A-Test1 AD-Test1 T-Test1 TA-Test1)) {
 
 $Self->DoneTesting();
 
-1;
+

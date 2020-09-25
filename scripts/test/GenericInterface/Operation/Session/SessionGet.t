@@ -20,7 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
-use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
 
@@ -576,4 +576,4 @@ for my $SessionID ( $SessionID1, $SessionID2, $SessionID3, $SessionID4 ) {
 
 $Self->DoneTesting();
 
-1;
+

@@ -16,14 +16,14 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
-use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
-
-use vars (qw($Self));
-
+use Kernel::System::UnitTest::RegisterDriver;
 use Kernel::System::UnitTest;
+
+our $Self;
 
 my $UnitTestObject = Kernel::System::UnitTest::Driver->new(
     SelfTest => 1,
@@ -296,7 +296,4 @@ for my $Value1 ( \%Hash1, \%Hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
     }
 }
 
-
 $Self->DoneTesting();
-
-1;
