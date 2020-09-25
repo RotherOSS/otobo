@@ -40,3 +40,8 @@ place regularly, or benefit from an inhouse training seminar that covers all the
 Software requirements
 =====================
 The software and hardware requirements [can be found in our documentation.](https://doc.otobo.org/manual/installation/stable/en/content/requirements.html)
+
+How to contribute
+=================
+If you think you have found a bug, or have a request, please feel free to open an issue on [github](https://github.com/RotherOSS/otobo/issues) or visit our [forums](https://otobo.de/de/forums/otobo/otobo-forum/). As usual, please try to check, whether things are already reported and especially for bugs write your issues precise and complete, and try to describe how we can reproduce them. Feature request with no clear implementation plan at the moment are gathered in a dedicated [project](https://github.com/RotherOSS/otobo/projects/1).
+Please start a pull request, if you have implemented a feature, or fix yourself!
