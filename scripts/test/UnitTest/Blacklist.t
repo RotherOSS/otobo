@@ -16,12 +16,22 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0 qw(plan is note);
+
+# OTOBO modules
+use Kernel::System::ObjectManager;
+
+$Kernel::OM = Kernel::System::ObjectManager->new(
+    'Kernel::System::Log' => {
+        LogPrefix => 'OTOBO-otobo.UnitTest',
+    },
+);
 
 my $Helper   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $RandomID = $Helper->GetRandomID();
@@ -51,7 +61,7 @@ my @Tests = (
     },
 );
 
-$Self->Plan( Tests => scalar @Tests );
+plan( tests => scalar @Tests );
 
 for my $Test (@Tests) {
 
@@ -69,13 +79,15 @@ for my $Test (@Tests) {
 
         $ExitCode = $CommandObject->Execute( '--test', $Test->{Test}, '--quiet' );
     }
-    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$ResultStdout );
-use Data::Dumper;
-warn Dumper( [ $Test, 'out:', $ResultStdout, 'err:', $ResultStderr ] );
+
+    # some diagnostics
+    $ResultStderr //= 'undef';
+    $ResultStdout //= 'undef';
+    note( "err: '$ResultStderr'" );
+    note( "out: '$ResultStdout'" );
 
     # Check for executed tests message.
-    #$Self->Note( Note => $Result );
     my $TestExecuted = $ResultStdout =~ m{Result: \s+ NOTESTS}xms ? 0 : 1;
 
-    $Self->Is( $TestExecuted, $Test->{TestExecuted}, $Test->{Name} );
+    is( $TestExecuted, $Test->{TestExecuted}, $Test->{Name} );
 }
