@@ -26,20 +26,24 @@ otobo.iml
 # files only needed only for building the docker image
 .dockerignore
 bin/docker/build_docker_images.sh
+bin/docker/lint_docker_files.sh
 hooks
 otobo.*.dockerfile
 
 # files only needed only for continous integration
 .otobo-ci.yml
 
-# files only needed for Apache
+# files only needed for Apache, see also Kernel::System::Environment where the ignored modules are special cased
 scripts/apache*
 bin/cgi-bin
 Kernel/cpan-lib/Apache2
-# keep Apache::DBI for now, as otobo.CheckModules.pl complains about it, see https://github.com/RotherOSS/otobo/issues/258
-#Kernel/cpan-lib/Apache
+Kernel/cpan-lib/Apache
 Kernel/cpan-lib/CGI/Apache.pm
 Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
+
+# no need for cronjobs in Docker image
+var/cron
+bin/Cron.sh
 
 # this is for the case when the image is not created from a clean git checkout
 Kernel/Config.pm

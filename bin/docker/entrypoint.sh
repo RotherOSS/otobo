@@ -33,6 +33,7 @@ function handle_docker_firsttime() {
 
     # we are done, docker_firstime has been handled
     # $otobo_next is not removed, it is kept for future reference
+    # Note that docker_firsttime_handled is only available in otobo_web_1
     mv $otobo_next/docker_firsttime $otobo_next/docker_firsttime_handled
 }
 
@@ -43,35 +44,60 @@ function exec_whatever() {
     exec $@
 }
 
-# First try to start the OTOBO Daemon and the continue with cron
-function exec_cron() {
+# Every 2 minutes try to start, or restart, the OTOBO Daemon.
+# The Daemon will exit immediately when SecureMode = 0.
+# But this is OK, as Cron will restart it and it will run when SecureMode = 1.
+# Also gracefully handle the case when /opt/otobo is not populated yet.
+# The watch command will be run in the forground.
+function start_and_check_daemon() {
 
-    # Start the OTOBO Daemon.
-    # The Daemon will exit immediately when SecureMode = 0.
-    # But this is OK, as Cron will restart it and it will run when SecureMode = 1.
-    # Also gracefully handle the case when /opt/otobo is not populated yet.
-    if [ ! -f "$otobo_next/docker_firsttime" ] && [ -f "./bin/otobo.Daemon.pl" ]; then
-        su -c "./bin/otobo.Daemon.pl start" "$OTOBO_USER"
+    # Docker is stopping containers by sending a SIGTERM signal to the PID=1 process.
+    # As a fallback it sends SIGKILL after waiting 10s.
+    # In the otobo_daemon_1 case the PID=1 process is this script.
+    # Catch the SIGTERM signal and stop the child processes.
+    # See also https://hynek.me/articles/docker-signals/.
+    trap stop_daemon SIGTERM
+
+    sleep_pid=
+    while true; do
+        if [ -f "bin/otobo.Daemon.pl" ]; then
+            bin/otobo.Daemon.pl start
+        fi
+        # the '&' activates the builtin job control system
+        # remember the PID of sleep, so that the process can be terminated in stop_daemon()
+        sleep 120 & sleep_pid=$!
+
+        # wait until the sleep exits or until a signal arrives,
+        # which means that the stop_daemon() can run without having to wait for the sleep command
+        wait $sleep_pid
+        sleep_pid=
+    done
+}
+
+# clean up the OTOBO daemon process
+function stop_daemon() {
+    if [ -f "bin/otobo.Daemon.pl" ]; then
+        bin/otobo.Daemon.pl stop
+        [[ $sleep_pid ]] && kill "$sleep_pid"
     fi
 
-    # Run a watchdog over the Daemon via Cron
-    # run cron in the foreground
-    exec cron -f
-    # nothing will be executed beyond this line,
-    # because exec replaces running process with the new one
+    # claim that everything is fine
+    exit 0
 }
 
 # Start the webserver
 function exec_web() {
 
-    #   For development omit the --env option, thus setting PLACK_ENV to its default value 'development'.
-    #   This enables additional middlewares that are useful durching development.
-    #   For development also enable the -R option.
-    #   This watches for changes in the modules and the config files and otobo.psgi is watched implicitly
-    #     plackup --server Gazelle -R Kernel --port 5000 bin/psgi-bin/otobo.psgi
-    #
-    #   For debugging reload the complete application for each request
-    #     plackup -L Shotgun --port 5000 bin/psgi-bin/otobo.psgi
+    # For development omit the --env option, thus setting PLACK_ENV to its default value 'development'.
+    # This enables additional middlewares that are useful during development.
+    # For development also enable the -R option. This watches for changes in the modules and the config files.
+    # otobo.psgi is watched implicitly.
+    #   exec plackup --server Gazelle -R Kernel --port 5000 bin/psgi-bin/otobo.psgi
+
+    # For debugging reload the complete application for each request by passing -L Shotgun
+    #   exec plackup -L Shotgun --port 5000 bin/psgi-bin/otobo.psgi
+
+    # For production use Gazelle, which is implemented in C
     exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
 }
 
@@ -101,16 +127,16 @@ function upgrade_patchlevel_release() {
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pod.dist       $OTOBO_HOME/Kernel/Config.pod
 }
 
-function reinstall_all() {
-
-    # reinstall package
-    # Not that this works only if OTOBO has been properly configured
-    {
-        date
-        ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll 2>&1)
-        echo
-    } >> $upgrade_log
-}
+#function reinstall_all() {
+#
+#    # reinstall package
+#    # Not that this works only if OTOBO has been properly configured
+#    {
+#        date
+#        ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll 2>&1)
+#        echo
+#    } >> $upgrade_log
+#}
 
 print_error() {
     echo -e "\e[101m[ERROR]\e[0m $1"
@@ -152,20 +178,18 @@ compare_versions () {
 # Do the work
 ################################################################################
 
-# root handles 'cron' and defers everything else to the OTOBO user
-# Also check whether $UID is set, as 'exec su user ...' apparently does not set $UID
+# container should not be run as root
 if [ ! -z "$UID" ] && [ $UID -eq 0 ]; then
-    if [ "$1" = "cron" ]; then
-        exec_cron
-    fi
-
-    # everything else is run as otobo
-    exec su "$OTOBO_USER" "$0" -- "$@"
-    # nothing will be executed beyond that line,
-    # because exec replaces running process with the new one
+    exit 1
 fi
 
 # now running as $OTOBO_USER
+
+# Run the OTOBO Daemon the webserver
+if [ "$1" = "daemon" ]; then
+    start_and_check_daemon
+    exit $?
+fi
 
 # Start the webserver
 if [ "$1" = "web" ]; then
@@ -185,11 +209,11 @@ if [ "$1" = "upgrade" ]; then
     exit $?
 fi
 
-if [ "$1" = "upgrade_reinstall" ]; then
-    upgrade_patchlevel_release
-    reinstall_all
-    exit $?
-fi
+#if [ "$1" = "upgrade_reinstall" ]; then
+#    upgrade_patchlevel_release
+#    reinstall_all
+#    exit $?
+#fi
 
 # as a fallback execute the passed command
 exec_whatever $@
