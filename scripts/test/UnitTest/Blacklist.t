@@ -30,18 +30,18 @@ my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Uni
 
 my @Tests = (
     {
-        Name   => "UnitTest 'User.t' not executed because blacklisted",
-        Test   => 'User',
+        Name   => "UnitTest 'NutsAndBolts.t' not executed because blacklisted",
+        Test   => 'NutsAndBolts',
         Config => {
             Valid => 1,
             Key   => 'UnitTest::Blacklist###1000-UnitTest' . $RandomID,
-            Value => ['User.t'],
+            Value => ['NutsAndBolts.t'],
         },
         TestExecuted => 0,
     },
     {
-        Name   => "UnitTest 'User.t' executed because not blacklisted",
-        Test   => 'User',
+        Name   => "UnitTest 'NutsAndBolts.t' executed because not blacklisted",
+        Test   => 'NutsAndBolts',
         Config => {
             Valid => 1,
             Key   => 'UnitTest::Blacklist###1000-UnitTest' . $RandomID,
