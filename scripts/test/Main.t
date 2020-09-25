@@ -716,16 +716,16 @@ for my $Test (@Tests) {
 # Generate Random string tests
 {
     my $Token  = $MainObject->GenerateRandomString();
-    my $Length = length($Token);
     my $Desc   = 'no args';
 
+    # '0' is acceptable of For Length =>1, '00' is true already
     $Self->True(
-        $Token,
+        ( ($Token eq '0' || $Token) && ref $Token eq '' ),
         "GenerateRandomString - $Desc - generated",
     );
 
     $Self->Is(
-        $Length,
+        length $Token,
         16,
         "GenerateRandomString - $Desc - standard size is 16",
     );
@@ -733,16 +733,15 @@ for my $Test (@Tests) {
 
 {
     my $Token  = $MainObject->GenerateRandomString( Length => 0 );
-    my $Length = length($Token);
     my $Desc   = 'Length 0';
 
     $Self->True(
-        $Token,
+        ( ($Token eq '0' || $Token) && ref $Token eq '' ),
         "GenerateRandomString - $Desc - generated",
     );
 
     $Self->Is(
-        $Length,
+        length $Token,
         16,
         "GenerateRandomString - $Desc - standard size is 16",
     );
@@ -750,16 +749,15 @@ for my $Test (@Tests) {
 
 {
     my $Token  = $MainObject->GenerateRandomString( Length => 1 );
-    my $Length = length($Token);
     my $Desc   = 'Length 1';
 
     $Self->True(
-        $Token,
+        ( ($Token eq '0' || $Token) && ref $Token eq '' ),
         "GenerateRandomString - $Desc - generated",
     );
 
     $Self->Is(
-        $Length,
+        length $Token,
         1,
         "GenerateRandomString - $Desc - size is 1",
     );
@@ -767,16 +765,15 @@ for my $Test (@Tests) {
 
 {
     my $Token  = $MainObject->GenerateRandomString( Length => 8 );
-    my $Length = length $Token;
     my $Desc   = 'Length 8';
 
     $Self->True(
-        $Token,
+        ( ($Token eq '0' || $Token) && ref $Token eq '' ),
         "GenerateRandomString - $Desc - generated",
     );
 
     $Self->Is(
-        $Length,
+        length $Token,
         8,
         "GenerateRandomString - $Desc - size is 8",
     );
