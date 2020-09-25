@@ -30,7 +30,7 @@ use Path::Class qw(dir file);
 
 # OTOBO modules
 
-use vars (qw($Self));
+our $Self;
 
 $Self->Plan( Tests => 6 );
 
@@ -39,12 +39,15 @@ my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # error with non-existent dir
 {
-    local *STDOUT;
-    open STDOUT, '>:encoding(UTF-8)', \my $Result;
-    my $ExitCode = $CommandObject->Execute( "--source-directory", "$Home/Kernel/Config/Files/NotExisting/" );
-    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );
+    my ($ExitCode, $Result);
+    {
+        local *STDOUT;
+        open STDOUT, '>:encoding(UTF-8)', \$Result;
+        $ExitCode = $CommandObject->Execute( "--source-directory", "$Home/Kernel/Config/Files/NotExisting/" );
+    }
     $Self->Note( Note => $Result );
 
+    # exit code 1 indicates failure
     $Self->Is(
         $ExitCode,
         1,
@@ -62,12 +65,15 @@ my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
     my $SampleFile  = dir($Home)->file('scripts/test/sample/SysConfig/ConfigurationMigrateXMLStructure.xml');
     my $WorkFile    = $SampleFile->copy_to( $TestDir->file('ConfigurationMigrateXMLStructure.xml') );
 
-    local *STDOUT;
-    open STDOUT, '>:encoding(UTF-8)', \my $Result;
-    my $ExitCode = $CommandObject->Execute( "--source-directory", $TestDir->stringify );
-    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );
+    my ($ExitCode, $Result);
+    {
+        local *STDOUT;
+        open STDOUT, '>:encoding(UTF-8)', \$Result;
+        $ExitCode = $CommandObject->Execute( "--source-directory", $TestDir->stringify );
+    }
     $Self->Note( Note => $Result );
 
+    # exit code 0 indicates success
     $Self->Is(
         $ExitCode,
         0,
@@ -104,5 +110,3 @@ my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
         "Content of $WorkFile"
     );
 }
-
-
