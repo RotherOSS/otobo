@@ -18,10 +18,21 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0 qw(skip_all);
+
+# OTOBO modules
+use Kernel::System::ObjectManager;
+
+skip_all('disabled because it did not work under mod_perl');
+
+$Kernel::OM = Kernel::System::ObjectManager->new(
+    'Kernel::System::Log' => {
+        LogPrefix => 'OTOBO-otobo.UnitTest',
+    },
+);
 
 # Temporarily disabled to work around a mod_perl bug that occurs on Ubuntu 15.04 and gentoo atm (2016-01-29).
 #
@@ -35,17 +46,8 @@ use vars (qw($Self));
 #
 # Avoid this error by not reinstalling the installed packages in the UT scenarios so that mod_perl does not try to reload the packages.
 
-# my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Package::ReinstallAll');
+my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Package::ReinstallAll');
 
-# my $ExitCode = $CommandObject->Execute();
+my $ExitCode = $CommandObject->Execute();
 
-# $Self->Is(
-#     $ExitCode,
-#     0,
-#     "Admin::Package::ReinstallAll exit code",
-# );
-
-
-$Self->DoneTesting();
-
-
+is( $ExitCode, 0, 'Admin::Package::ReinstallAll exit code' );
