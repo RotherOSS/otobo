@@ -1,20 +1,21 @@
 # Config for nginx serving as a reverse proxy for the OTOBO web application.
-# The static files are served directly by nginx.
-# TODO: set caching headers for the static files.
 
 # This config is based on default.conf in the nginx installation
+
+# The master process runs as root.
+# When no user is configured then the workers will run as nobody.
+#user
 
 proxy_send_timeout 120;
 proxy_read_timeout 300;
 proxy_buffering    off;
 tcp_nodelay        on;
 
-
 # Do not serve HTTP, redirect to HTTPS instead.
 # See https://linuxize.com/post/redirect-http-to-https-in-nginx/.
 server {
-    listen 80;
-    listen [::]:80;
+    listen 8080;
+    listen [::]:8080;
 
     # catch all domains
     server_name _;
@@ -25,8 +26,8 @@ server {
 
 # serve HTTPS
 server {
-    listen 443 ssl;
-    listen [::]:443 ssl;
+    listen 8443 ssl;
+    listen [::]:8443 ssl;
 
     # see https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04
     include snippets/ssl-params.conf;
