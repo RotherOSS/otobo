@@ -220,7 +220,6 @@ sub SearchPreferences {
     return %UserID;
 }
 
-# Rother OSS Reset Password
 sub DeleteOnePreference {
     my ( $Self, %Param ) = @_;
 
@@ -249,7 +248,5 @@ sub DeleteOnePreference {
 
     return 1;
 }
-
-# EO Rother OSS
 
 1;

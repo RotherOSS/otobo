@@ -1523,8 +1523,6 @@ sub CustomerUserCustomerMemberList {
     }
 }
 
-# Rother OSS / Reset password
-
 =head2 DeleteOnePreference()
 
 get customer user preferences
@@ -1566,8 +1564,6 @@ sub DeleteOnePreference {
     # call old api
     return $Self->{PreferencesObject}->DeleteOnePreference(%Param);
 }
-
-# EO Rother OSS
 
 sub DESTROY {
     my $Self = shift;
