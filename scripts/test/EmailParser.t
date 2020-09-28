@@ -19,7 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
-use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
 
@@ -957,4 +957,7 @@ $Self->Is(
     "#25 GetParam(WHAT => 'Envelope-To') usage of EmailParser in Entity mode",
 );
 
-1;
+
+$Self->DoneTesting();
+
+

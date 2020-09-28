@@ -20,7 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
-use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
 
@@ -247,4 +247,7 @@ $Self->IsDeeply(
     "ConfigurationUsersModifiedSettingList() - Match with expected result from modified settings, just by users.",
 );
 
-1;
+
+$Self->DoneTesting();
+
+

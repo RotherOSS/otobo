@@ -19,7 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
-use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
 
@@ -36,8 +36,9 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::UnitTest::Helper' => {
-            RestoreDatabase  => 1,
-            UseTmpArticleDir => 1,
+            RestoreDatabase      => 1,
+            UseTmpArticleDir     => 1,
+            UnitTestDriverObject => $Self,
         },
     );
     my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
@@ -211,4 +212,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
 
 # cleanup is done by RestoreDatabase.
 
-1;
+
+$Self->DoneTesting();
+
+

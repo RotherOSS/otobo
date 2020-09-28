@@ -19,7 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
-use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
 
@@ -265,4 +265,7 @@ The IP address: 192.168.0.1
 
 # cleanup is done by RestoreDatabase
 
-1;
+
+$Self->DoneTesting();
+
+

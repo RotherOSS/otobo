@@ -20,10 +20,15 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
-use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
+
+our $Self;
+
+# explicitly declare the number of tests. This makes is obvious when the
+# test script prematurely exits
+$Self->Plan( Tests => 25 );
 
 ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
 
@@ -33,17 +38,19 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 
-my $HelperObject      = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
-my $TicketObject      = $Kernel::OM->Get('Kernel::System::Ticket');
-my $QueueObject       = $Kernel::OM->Get('Kernel::System::Queue');
-my $TimeObject        = $Kernel::OM->Get('Kernel::System::Time');
-my $CacheObject       = $Kernel::OM->Get('Kernel::System::Cache');
-my $ZnunyHelperObject = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
+my $HelperObject         = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+my $QueueObject          = $Kernel::OM->Get('Kernel::System::Queue');
+my $CacheObject          = $Kernel::OM->Get('Kernel::System::Cache');
+my $ZnunyHelperObject    = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
+my $TimeObject           = $Kernel::OM->Get('Kernel::System::Time');
+my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+    ChannelName => 'Internal',
+);
 
 # Disable transaction mode for escalation index ticket event module
 my $TicketEventModulePostConfig = $ConfigObject->Get('Ticket::EventModulePost');
-
 my $EscalationIndexName = '9990-EscalationIndex';
 
 $Self->True(
@@ -82,7 +89,6 @@ my $MyTicketName   = "MyTestTicket";
 my $Pending        = 5;                # minutes
 my $Success;
 my $TicketEscalationIndexBuild;
-my $TicketEscalationSuspendCalculat;
 my $TicketWorkingTimeSuspendCalculate;
 my %TicketGetClosed;
 my $TicketGetClosed;
@@ -136,7 +142,7 @@ if ($QueueID) {
 }
 
 # create a ticket for testing
-my $TicketID = $HelperObject->TicketCreate(
+my $TicketID = $TicketObject->TicketCreate(
     Title         => $MyTicketName,
     Queue         => $MyQueueName,             # or QueueID => 123,
     Lock          => 'unlock',
@@ -169,7 +175,7 @@ my %Ticket = $TicketObject->TicketGet(
 );
 
 # we need an article to check SenderType (agent|customer)
-my $ArticleID = $HelperObject->ArticleCreate(
+my $ArticleID = $ArticleBackendObject->ArticleCreate(
     TicketID             => $TicketID,
     ChannelName          => 'Internal',
     IsVisibleForCustomer => 0,
@@ -416,7 +422,7 @@ my $SystemTime = $TimeObject->SystemTime();
 
 if ( $SystemTime gt $SystemPendingTime ) {
 
-    $ArticleID = $HelperObject->ArticleCreate(
+    $ArticleID = $ArticleBackendObject->ArticleCreate(
         TicketID             => $TicketID,
         ChannelName          => 'Internal',
         IsVisibleForCustomer => 1,
@@ -478,7 +484,7 @@ sleep(10);
 $SuspendStateActive = 1;
 
 #return $DestinationTime = $StartTime + $ResponseTime - $EscalatedTime;
-$TicketEscalationSuspendCalculat = $TicketObject->TicketEscalationSuspendCalculate(
+my $TicketEscalationSuspendCalculat = $TicketObject->TicketEscalationSuspendCalculate(
     StartTime    => $Ticket{Created},
     TicketID     => $TicketID,
     ResponseTime => $Escalation{UpdateTime},
@@ -509,5 +515,3 @@ $Self->IsNot(
     '',
     'TicketWorkingTimeSuspendCalculate()   - WorkingTime:',
 );
-
-1;
