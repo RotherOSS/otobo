@@ -17,71 +17,30 @@
 
 use strict;
 use warnings;
+use v5.24;
+use utf8;
 
-use File::Basename;
+# use lib not needed, as only core modules are used
+
+# core modules
+use File::Basename qw(dirname);
 use FindBin qw($RealBin);
-use lib dirname($RealBin);
-use lib dirname($RealBin) . '/Kernel/cpan-lib';
-use lib dirname($RealBin) . '/Custom';
+use File::Find qw();
+use File::stat qw();
+use Getopt::Long qw();
 
-use File::Find();
-use File::stat();
-use Getopt::Long();
+# CPAN modules
 
-my $OTOBODirectory       = dirname($RealBin);
-my $OTOBODirectoryLength = length($OTOBODirectory);
+# OTOBO modules
 
-my $OTOBOUser = 'otobo';    # default: otobo
-my $WebGroup  = '';         # Try to find a default from predefined group list, take the first match.
+# some file scoped for convenience
+my ( $DryRun );
 
-# Check if OTOBO runs on docker
-my $RunOnDocker = $ENV{'OTOBO_RUNS_UNDER_DOCKER'};
-
-if ( $RunOnDocker && $RunOnDocker == 1 ) {
-
-    $OTOBOUser = $ENV{'OTOBO_USER'} || 'otobo';
-    $WebGroup  = $ENV{'OTOBO_GROUP'} || 'otobo';
-}
-else {
-
-    WEBGROUP:
-    for my $GroupCheck (qw(wwwrun apache www-data www _www)) {
-        my ($GroupName) = getgrnam $GroupCheck;
-        if ($GroupName) {
-            $WebGroup = $GroupName;
-            last WEBGROUP;
-        }
-    }
-}
-
-my $AdminGroup = 'root';    # default: root
-my ( $Help, $DryRun, $SkipArticleDir, @SkipRegex, $OTOBOUserID, $WebGroupID, $AdminGroupID );
-
-sub PrintUsage {
-    print <<EOF;
-
-Set OTOBO file permissions.
-
-Usage:
- otobo.SetPermissions.pl [--otobo-user=<OTOBO_USER>] [--web-group=<WEB_GROUP>] [--admin-group=<ADMIN_GROUP>] [--skip-article-dir] [--skip-regex="REGEX"] [--dry-run]
-
-Options:
- [--otobo-user=<OTOBO_USER>]     - OTOBO user, defaults to 'otobo'.
- [--web-group=<WEB_GROUP>]     - Web server group ('_www', 'www-data' or similar), try to find a default.
- [--admin-group=<ADMIN_GROUP>] - Admin group, defaults to 'root'.
- [--skip-article-dir]          - Skip var/article as it might take too long on some systems.
- [--skip-regex="REGEX"]        - Add another skip regex like "^/var/my/directory". Paths start with / but are relative to the OTOBO directory. --skip-regex can be specified multiple times.
- [--dry-run]                   - Only report, don't change.
- [--help]                      - Display help for this command.
-
-Help:
-Using this script without any options it will try to detect the correct user and group settings needed for your setup.
-
- otobo.SetPermissions.pl
-
-EOF
-    return;
-}
+# for determining the group
+my %DefaultGroupNames = (
+    Apache => [ qw(wwwrun apache www-data www _www) ],
+    PSGI   => [ qw(otobo) ],
+);
 
 # Files/directories that should be ignored and not recursed into.
 my @IgnoreFiles = (
@@ -108,63 +67,139 @@ my @ProtectedFiles = (
 
 my $ExitStatus = 0;
 
+sub PrintUsage {
+    my ($DefaultGroupNames) = @_;
+
+    print <<"END_USAGE";
+
+Set OTOBO file permissions.
+
+Usage:
+ otobo.SetPermissions.pl [--otobo-user=<OTOBO_USER>] [--web-group=<GROUP>] [--admin-group=<ADMIN_GROUP>] [--skip-article-dir] [--skip-regex="REGEX"] [--dry-run]
+
+Options:
+ [--otobo-user=<OTOBO_USER>]   - OTOBO user, defaults to 'otobo'.
+ [--web-group=<GROUP>]         - Web server group, per default the first found group is used.
+                                 PSGI:   @{[ join ', ', $DefaultGroupNames->{PSGI}->@* ]}
+                                 Apache: @{[ join ', ', $DefaultGroupNames->{Apache}->@* ]}
+ [--admin-group=<ADMIN_GROUP>] - Admin group, defaults to 'root'.
+ [--skip-article-dir]          - Skip var/article as it might take too long on some systems.
+ [--skip-regex="REGEX"]        - Add another skip regex like "^/var/my/directory". Paths start with / but are relative to the OTOBO directory. --skip-regex can be specified multiple times.
+ [--dry-run]                   - Only report, don't change.
+ [--help]                      - Display help for this command.
+
+Calling this script without any options it will try to detect the correct user and group settings needed for your setup.
+
+    otobo.SetPermissions.pl
+
+END_USAGE
+
+    return;
+}
+
 sub Run {
+
+    # default values for command line options
+    my $AdminGroup     = 'root';    # default: root
+    my $OtoboUser      = 'otobo';
+    my $Group          =  '';
+    my $Help           = 0;
+    my $SkipArticleDir = 0;
+    my @SkipRegex;
+
+    # for the default group we try some candidates
+    {
+        my @GroupCandidates = $ENV{OTOBO_RUNS_UNDER_DOCKER} ?
+            $DefaultGroupNames{PSGI}->@*
+            :
+            $DefaultGroupNames{Apache}->@*;
+
+        CANDIDATE:
+        for my $Candidate ( @GroupCandidates ) {
+            my ($GroupName) = getgrnam $Candidate;
+            if ($GroupName) {
+                $Group = $GroupName;
+
+                last CANDIDATE;
+            }
+        }
+    }
+
+    # under Docker the environment has higher precedence
+    if ( $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
+        $OtoboUser = $ENV{OTOBO_USER}  || $OtoboUser;
+        $Group     = $ENV{OTOBO_GROUP} || $Group;
+    }
+
     Getopt::Long::GetOptions(
-        'help'             => \$Help,
-        'otobo-user=s'     => \$OTOBOUser,
-        'web-group=s'      => \$WebGroup,
-        'admin-group=s'    => \$AdminGroup,
-        'dry-run'          => \$DryRun,
-        'skip-article-dir' => \$SkipArticleDir,
-        'skip-regex=s'     => \@SkipRegex,
+        'help'                    => \$Help,
+        'otobo-user=s'            => \$OtoboUser,
+        'web-group'               => \$Group,
+        'admin-group=s'           => \$AdminGroup,
+        'dry-run'                 => \$DryRun,
+        'skip-article-dir'        => \$SkipArticleDir,
+        'skip-regex=s'            => \@SkipRegex,
     );
 
-    if ( defined $Help ) {
-        PrintUsage();
+    if ( $Help ) {
+        PrintUsage(\%DefaultGroupNames);
+
         exit 0;
     }
 
     if ( $> != 0 ) {    # $EFFECTIVE_USER_ID
         print STDERR "ERROR: Please run this script as superuser (root).\n";
+
         exit 1;
     }
 
     # check params
-    $OTOBOUserID = getpwnam $OTOBOUser;
-    if ( !$OTOBOUser || !defined $OTOBOUserID ) {
-        print STDERR "ERROR: --otobo-user is missing or invalid.\n";
+    my $OtoboUserID = getpwnam $OtoboUser;
+    if ( !$OtoboUser || !defined $OtoboUserID ) {
+        say STDERR "ERROR: --otobo-user is missing or invalid.";
+
         exit 1;
     }
-    $WebGroupID = getgrnam $WebGroup;
-    if ( !$WebGroup || !defined $WebGroupID ) {
-        print STDERR "ERROR: --web-group is missing or invalid.\n";
+
+    my $GroupID = getgrnam $Group;
+    if ( !$Group || !defined $GroupID ) {
+        say STDERR "ERROR: --web-group is missing or invalid.";
         exit 1;
     }
-    $AdminGroupID = getgrnam $AdminGroup;
+
+    my $AdminGroupID = getgrnam $AdminGroup;
     if ( !$AdminGroup || !defined $AdminGroupID ) {
-        print STDERR "ERROR: --admin-group is invalid.\n";
+        say STDERR "ERROR: --admin-group is invalid.";
+
         exit 1;
     }
+
     if ( defined $SkipArticleDir ) {
         push @IgnoreFiles, qr{^/var/article}smx;
     }
+
     for my $Regex (@SkipRegex) {
         push @IgnoreFiles, qr{$Regex}smx;
     }
 
-    print "Setting permissions on $OTOBODirectory\n";
+    my $OtoboDirectory = dirname($RealBin);
+    say "Setting permissions on $OtoboDirectory";
     File::Find::find(
         {
-            wanted   => \&SetPermissions,
+            wanted   => sub {
+                    SetPermissions( $OtoboDirectory, $OtoboUserID, $GroupID, $AdminGroupID );
+                },
             no_chdir => 1,
             follow   => 1,
         },
-        $OTOBODirectory,
+        $OtoboDirectory,
     );
+
     exit $ExitStatus;
 }
 
 sub SetPermissions {
+    my ( $OtoboDirectory, $OtoboUserID, $GroupID, $AdminGroupID ) = @_;
 
     # First get a canonical full filename
     my $File = $File::Find::fullname;
@@ -173,34 +208,37 @@ sub SetPermissions {
     return if !defined $File;
 
     # Make sure it is inside the OTOBO directory to avoid following symlinks outside
-    if ( substr( $File, 0, $OTOBODirectoryLength ) ne $OTOBODirectory ) {
+    my $OtoboDirectoryLength = length $OtoboDirectory;
+    if ( substr( $File, 0, $OtoboDirectoryLength ) ne $OtoboDirectory ) {
         $File::Find::prune = 1;    # don't descend into subdirectories
+
         return;
     }
 
     # Now get a canonical relative filename under the OTOBO directory
-    my $RelativeFile = substr( $File, $OTOBODirectoryLength ) || '/';
+    my $RelativeFile = substr( $File, $OtoboDirectoryLength ) || '/';
 
     for my $IgnoreRegex (@IgnoreFiles) {
         if ( $RelativeFile =~ $IgnoreRegex ) {
             $File::Find::prune = 1;    # don't descend into subdirectories
-            print "Skipping $RelativeFile\n";
+            say "Skipping $RelativeFile";
+
             return;
         }
     }
 
     # Ok, get target permissions for file
-    SetFilePermissions( $File, $RelativeFile );
+    SetFilePermissions( $File, $RelativeFile, $OtoboUserID, $GroupID, $AdminGroupID );
 
     return;
 }
 
 sub SetFilePermissions {
-    my ( $File, $RelativeFile ) = @_;
+    my ( $File, $RelativeFile, $OtoboUserID, $GroupID, $AdminGroupID ) = @_;
 
     ## no critic (ProhibitLeadingZeros)
     # Writable by default, owner OTOBO and group webserver.
-    my ( $TargetPermission, $TargetUserID, $TargetGroupID ) = ( 0660, $OTOBOUserID, $WebGroupID );
+    my ( $TargetPermission, $TargetUserID, $TargetGroupID ) = ( 0660, $OtoboUserID, $GroupID );
     if ( -d $File ) {
 
         # SETGID for all directories so that both OTOBO and the web server can write to the files.
@@ -213,6 +251,7 @@ sub SetFilePermissions {
         for my $ExecutableRegex (@ExecutableFiles) {
             if ( $RelativeFile =~ $ExecutableRegex ) {
                 $TargetPermission = 0770;
+
                 last EXEXUTABLE_REGEX;
             }
         }
@@ -223,6 +262,7 @@ sub SetFilePermissions {
             if ( $RelativeFile =~ $ProtectedRegex ) {
                 $TargetPermission = -d $File ? 0750 : 0640;
                 $TargetGroupID    = $AdminGroupID;
+
                 last PROTECTED_REGEX;
             }
         }
@@ -253,6 +293,7 @@ sub SetFilePermissions {
             $ExitStatus = 1;
         }
     }
+
     if ( ( $Stat->uid() != $TargetUserID ) || ( $Stat->gid() != $TargetGroupID ) ) {
         if ( defined $DryRun ) {
             print sprintf(
@@ -276,7 +317,7 @@ sub SetFilePermissions {
     }
 
     return;
-    ## use critic
 }
 
+# do the work
 Run();
