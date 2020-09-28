@@ -67,8 +67,8 @@ my @ProtectedFiles = (
 
 my $ExitStatus = 0;
 
-sub PrintUsage {
-    my ($DefaultGroupNames) = @_;
+sub PrintUsageAndExit {
+    my ($DefaultGroupNames, $ExitCode) = @_;
 
     print <<"END_USAGE";
 
@@ -94,7 +94,7 @@ Calling this script without any options it will try to detect the correct user a
 
 END_USAGE
 
-    return;
+    exit $ExitCode;
 }
 
 sub Run {
@@ -139,12 +139,10 @@ sub Run {
         'dry-run'                 => \$DryRun,
         'skip-article-dir'        => \$SkipArticleDir,
         'skip-regex=s'            => \@SkipRegex,
-    );
+    ) or PrintUsageAndExit(\%DefaultGroupNames, 1);
 
     if ( $Help ) {
-        PrintUsage(\%DefaultGroupNames);
-
-        exit 0;
+        PrintUsageAndExit(\%DefaultGroupNames, 0);
     }
 
     if ( $> != 0 ) {    # $EFFECTIVE_USER_ID
