@@ -16,14 +16,14 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self));
-
 use Kernel::System::UnitTest;
+
+our $Self;
 
 my $UnitTestObject = Kernel::System::UnitTest::Driver->new(
     SelfTest => 1,

@@ -1010,7 +1010,6 @@ for my $Test (@TestsGenericAgentSchedule2CronTab) {
     );
 }
 
-
 $Self->DoneTesting();
 
 

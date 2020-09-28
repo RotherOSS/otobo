@@ -60,7 +60,7 @@ $Self->True(
     "Config entry found in docbook content",
 );
 
-print $Result;
+$Self->Note( Note => $Result );
 
 
 $Self->DoneTesting();
