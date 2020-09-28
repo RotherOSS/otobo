@@ -42,4 +42,4 @@ use utf8;
 
 # just a dummy test that succeeds
 say '1..1';
-say 'ok 1 - success';
+say 'ok 1 - easy success in NutsAndBolts.t';
