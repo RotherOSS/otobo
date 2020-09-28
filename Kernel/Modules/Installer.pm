@@ -783,6 +783,17 @@ sub Run {
             Class      => 'Modernize',
             SelectedID => $SystemIDs[ int( rand(100) ) ],    # random system ID
         );
+
+	$Param{SSLSupportString} = $LayoutObject->BuildSelection(
+            Data       => {
+                https => Translatable('https'),
+                http => Translatable('http'),
+	    },
+            Name       => 'HttpType',
+            Class      => 'Modernize',
+            SelectedID =>  'https',
+        );
+
         $Param{LanguageString} = $LayoutObject->BuildSelection(
             Data       => $ConfigObject->Get('DefaultUsedLanguages'),
             Name       => 'DefaultLanguage',
@@ -1084,7 +1095,7 @@ sub Run {
         );
 
         for my $SettingName (
-            qw(SystemID FQDN AdminEmail Organization LogModule LogModule::LogFile
+            qw(SystemID HttpType FQDN AdminEmail Organization LogModule LogModule::LogFile
             DefaultLanguage CheckMXRecord)
             )
         {
