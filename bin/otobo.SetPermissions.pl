@@ -119,7 +119,7 @@ sub Run {
     GetOptions(
         'help'                    => \$Help,
         'otobo-user=s'            => \$OtoboUser,
-        'web-group'               => \$Group,
+        'web-group=s'             => \$Group,
         'admin-group=s'           => \$AdminGroup,
         'dry-run'                 => \$DryRun,
         'skip-article-dir'        => \$SkipArticleDir,
