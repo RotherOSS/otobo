@@ -36,6 +36,15 @@
                     </div>
                     <div class="Clear"></div>
 
+                    <label for="HttpType">[% Translate("HTTP Type") | html %]:</label>
+                    <div class="Field">
+                        [% Data.SSLSupportString %]
+                        <p class="FieldExplanation">
+                            [% Translate("Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.") | html %]
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
                     <label for="FQDN">[% Translate("System FQDN") | html %]:</label>
                     <div class="Field">
                         <input type="text" id="FQDN" name="FQDN" value="[% Data.FQDN | html %]" class="W33pc">
