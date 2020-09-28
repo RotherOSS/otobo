@@ -27,7 +27,7 @@ use File::Basename qw(dirname);
 use FindBin qw($RealBin);
 use File::Find qw();
 use File::stat qw();
-use Getopt::Long qw();
+use Getopt::Long qw(GetOptions);
 
 # CPAN modules
 
@@ -99,17 +99,47 @@ END_USAGE
 
 sub Run {
 
-    # default values for command line options
-    my $AdminGroup     = 'root';    # default: root
-    my $OtoboUser      = 'otobo';
-    my $Group          =  '';
-    my $Help           = 0;
-    my $SkipArticleDir = 0;
-    my @SkipRegex;
+    if ( $> != 0 ) {    # $EFFECTIVE_USER_ID
+        print STDERR "ERROR: Please run this script as superuser (root).\n";
 
-    # for the default group we try some candidates
-    {
-        my @GroupCandidates = $ENV{OTOBO_RUNS_UNDER_DOCKER} ?
+        exit 1;
+    }
+
+    # default values for command line options
+    my $AdminGroup      = 'root';    # default: root
+    my $OtoboUser       =
+    my $Group           =  '';
+    my $Help            = 0;
+    my $SkipArticleDir  = 0;
+    my @SkipRegex;
+    my $RunsUnderDocker = $ENV{OTOBO_RUNS_UNDER_DOCKER} ? 1 : 0;
+
+    # parse the command line parameters
+    # for $OtoboUser and $Group the passed args have highest precedence
+    GetOptions(
+        'help'                    => \$Help,
+        'otobo-user=s'            => \$OtoboUser,
+        'web-group'               => \$Group,
+        'admin-group=s'           => \$AdminGroup,
+        'dry-run'                 => \$DryRun,
+        'skip-article-dir'        => \$SkipArticleDir,
+        'skip-regex=s'            => \@SkipRegex,
+        'runs-under-docker'       => \$RunsUnderDocker,
+    ) or PrintUsageAndExit(\%DefaultGroupNames, 1);
+
+    if ( $Help ) {
+        PrintUsageAndExit(\%DefaultGroupNames, 0);
+    }
+
+    # env vars has precedence under Docker
+    if ( $RunsUnderDocker ) {
+        $Group     ||= $ENV{OTOBO_GROUP};
+        $OtoboUser ||= $ENV{OTOBO_USER};
+    }
+
+    # for the default group we might have to try some candidates
+    if ( ! $Group ) {
+        my @GroupCandidates = $RunsUnderDocker ?
             $DefaultGroupNames{PSGI}->@*
             :
             $DefaultGroupNames{Apache}->@*;
@@ -125,31 +155,8 @@ sub Run {
         }
     }
 
-    # under Docker the environment has higher precedence
-    if ( $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
-        $OtoboUser = $ENV{OTOBO_USER}  || $OtoboUser;
-        $Group     = $ENV{OTOBO_GROUP} || $Group;
-    }
-
-    Getopt::Long::GetOptions(
-        'help'                    => \$Help,
-        'otobo-user=s'            => \$OtoboUser,
-        'web-group'               => \$Group,
-        'admin-group=s'           => \$AdminGroup,
-        'dry-run'                 => \$DryRun,
-        'skip-article-dir'        => \$SkipArticleDir,
-        'skip-regex=s'            => \@SkipRegex,
-    ) or PrintUsageAndExit(\%DefaultGroupNames, 1);
-
-    if ( $Help ) {
-        PrintUsageAndExit(\%DefaultGroupNames, 0);
-    }
-
-    if ( $> != 0 ) {    # $EFFECTIVE_USER_ID
-        print STDERR "ERROR: Please run this script as superuser (root).\n";
-
-        exit 1;
-    }
+    # now really the default user
+    $OtoboUser ||= 'otobo';
 
     # check params
     my $OtoboUserID = getpwnam $OtoboUser;
@@ -172,7 +179,7 @@ sub Run {
         exit 1;
     }
 
-    if ( defined $SkipArticleDir ) {
+    if ( $SkipArticleDir ) {
         push @IgnoreFiles, qr{^/var/article}smx;
     }
 
@@ -203,7 +210,7 @@ sub SetPermissions {
     my $File = $File::Find::fullname;
 
     # If the link is a dangling symbolic link, then fullname will be set to undef.
-    return if !defined $File;
+    return unless defined $File;
 
     # Make sure it is inside the OTOBO directory to avoid following symlinks outside
     my $OtoboDirectoryLength = length $OtoboDirectory;
@@ -275,7 +282,7 @@ sub SetFilePermissions {
     # There seem to be cases when stat does not work on a dangling link, skip in this case.
     my $Stat = File::stat::stat($File) || return;
     if ( ( $Stat->mode() & 07777 ) != $TargetPermission ) {
-        if ( defined $DryRun ) {
+        if ( $DryRun ) {
             print sprintf(
                 "$RelativeFile permissions %o -> %o\n",
                 $Stat->mode() & 07777,
@@ -293,7 +300,7 @@ sub SetFilePermissions {
     }
 
     if ( ( $Stat->uid() != $TargetUserID ) || ( $Stat->gid() != $TargetGroupID ) ) {
-        if ( defined $DryRun ) {
+        if ( $DryRun ) {
             print sprintf(
                 "$RelativeFile ownership %s:%s -> %s:%s\n",
                 $Stat->uid(),
