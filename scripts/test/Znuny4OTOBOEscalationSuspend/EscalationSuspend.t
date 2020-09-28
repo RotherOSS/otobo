@@ -24,7 +24,7 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use vars (qw($Self));
+our $Self;
 
 # explicitly declare the number of tests. This makes is obvious when the
 # test script prematurely exits
