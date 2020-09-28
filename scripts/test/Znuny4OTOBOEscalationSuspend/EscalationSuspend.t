@@ -30,8 +30,6 @@ our $Self;
 # test script prematurely exits
 $Self->Plan( Tests => 25 );
 
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
-
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,
