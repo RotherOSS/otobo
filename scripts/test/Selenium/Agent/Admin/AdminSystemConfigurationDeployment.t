@@ -180,3 +180,6 @@ $Selenium->RunTest(
 );
 
 
+$Self->DoneTesting();
+
+

@@ -177,3 +177,6 @@ for my $AllowCustomScriptExecution ( 0, 1 ) {
 # cleanup is done by RestoreDatabase
 
 
+$Self->DoneTesting();
+
+

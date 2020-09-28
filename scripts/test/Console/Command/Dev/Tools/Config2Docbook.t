@@ -63,3 +63,6 @@ $Self->True(
 print $Result;
 
 
+$Self->DoneTesting();
+
+

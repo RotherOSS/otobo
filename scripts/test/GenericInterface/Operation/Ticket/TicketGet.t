@@ -2190,3 +2190,6 @@ for my $TestFieldConfigItem (@TestFieldConfig) {
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 
+$Self->DoneTesting();
+
+

@@ -399,3 +399,6 @@ for my $CloudServiceID (@CloudServiceIDs) {
 # cleanup done by RestoreDatabase
 
 
+$Self->DoneTesting();
+
+

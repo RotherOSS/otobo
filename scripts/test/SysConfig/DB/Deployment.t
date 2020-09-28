@@ -1410,3 +1410,6 @@ for my $DeploymentID ( sort keys %List ) {
 }
 
 
+$Self->DoneTesting();
+
+

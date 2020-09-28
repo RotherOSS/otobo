@@ -184,3 +184,6 @@ for my $PackageString ( $String, $String2 ) {
 }
 
 
+$Self->DoneTesting();
+
+

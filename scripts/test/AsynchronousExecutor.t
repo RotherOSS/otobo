@@ -197,3 +197,7 @@ for my $File (@FileRemember) {
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     system("perl $Daemon start");
 }
+
+$Self->DoneTesting();
+
+

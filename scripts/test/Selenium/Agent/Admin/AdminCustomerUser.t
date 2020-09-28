@@ -594,3 +594,6 @@ $Selenium->RunTest(
 );
 
 
+$Self->DoneTesting();
+
+

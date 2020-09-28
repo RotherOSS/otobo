@@ -929,3 +929,6 @@ $Self->IsDeeply(
 # cleanup is done by RestoreDatabase.
 
 
+$Self->DoneTesting();
+
+

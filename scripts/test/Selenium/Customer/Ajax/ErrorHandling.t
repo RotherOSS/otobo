@@ -220,3 +220,6 @@ JAVASCRIPT
 );
 
 
+$Self->DoneTesting();
+
+

@@ -125,3 +125,6 @@ $Self->True(
 # restore to the previous state is done by RestoreDatabase
 
 
+$Self->DoneTesting();
+
+

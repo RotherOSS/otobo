@@ -220,3 +220,6 @@ for my $GroupName ( sort keys %GroupIDByGroupName ) {
 # Cleanup is done by RestoreDatabase.
 
 
+$Self->DoneTesting();
+
+

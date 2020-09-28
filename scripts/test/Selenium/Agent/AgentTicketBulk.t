@@ -803,3 +803,6 @@ $Selenium->RunTest(
 );
 
 
+$Self->DoneTesting();
+
+

@@ -289,3 +289,6 @@ if ($PluginKeyTicket) {
 }
 
 
+$Self->DoneTesting();
+
+

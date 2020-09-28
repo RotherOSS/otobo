@@ -198,3 +198,6 @@ for my $Test (@JSTests) {
 # cleanup cache is done by RestoreDatabase
 
 
+$Self->DoneTesting();
+
+

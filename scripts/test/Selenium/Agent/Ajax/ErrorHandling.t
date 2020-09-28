@@ -338,3 +338,6 @@ JAVASCRIPT
 );
 
 
+$Self->DoneTesting();
+
+

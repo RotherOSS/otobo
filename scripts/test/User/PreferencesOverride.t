@@ -86,3 +86,6 @@ for my $Key ( sort keys %UserData ) {
 # cleanup is done by RestoreDatabase
 
 
+$Self->DoneTesting();
+
+

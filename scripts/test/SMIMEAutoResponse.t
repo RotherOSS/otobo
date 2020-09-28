@@ -196,3 +196,6 @@ for my $Article (@Articles) {
 # Cleanup is done by RestoreDatabase.
 
 
+$Self->DoneTesting();
+
+

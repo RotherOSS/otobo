@@ -78,3 +78,6 @@ for my $Index ( 0 .. scalar @ResultSettings - 1 ) {
 }
 
 
+$Self->DoneTesting();
+
+

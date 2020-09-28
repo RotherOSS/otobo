@@ -478,3 +478,6 @@ if ( -e $TestLocation ) {
 }
 
 
+$Self->DoneTesting();
+
+

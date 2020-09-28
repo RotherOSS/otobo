@@ -111,3 +111,6 @@ for my $Key (qw(Version Home Host Product SystemID DefaultLanguage)) {
 }
 
 
+$Self->DoneTesting();
+
+

@@ -22,6 +22,11 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::ObjectManager;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new();
@@ -31,6 +36,7 @@ $Self->True( $Kernel::OM, 'Could build object manager' );
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+# depending on the config some missing modules can be ignored
 my $SkipCryptSMIME;
 if ( !$ConfigObject->Get('SMIME') ) {
     $SkipCryptSMIME = 1;

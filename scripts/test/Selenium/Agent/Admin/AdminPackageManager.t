@@ -361,3 +361,6 @@ if ($TestPackage) {
 }
 
 
+$Self->DoneTesting();
+
+

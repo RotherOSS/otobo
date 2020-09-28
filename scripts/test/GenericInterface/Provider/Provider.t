@@ -479,3 +479,6 @@ for my $RequestMethod (qw(get post)) {
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 
+$Self->DoneTesting();
+
+

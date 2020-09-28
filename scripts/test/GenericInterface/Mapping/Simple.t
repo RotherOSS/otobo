@@ -785,3 +785,6 @@ for my $Test (@MappingTests) {
 # cleanup is done by RestoreDatabase.
 
 
+$Self->DoneTesting();
+
+

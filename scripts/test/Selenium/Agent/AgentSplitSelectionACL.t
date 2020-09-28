@@ -247,3 +247,6 @@ EOF
 );
 
 
+$Self->DoneTesting();
+
+

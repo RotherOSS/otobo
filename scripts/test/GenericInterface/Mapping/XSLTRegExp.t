@@ -367,3 +367,6 @@ for my $Test (@MappingTests) {
 }
 
 
+$Self->DoneTesting();
+
+

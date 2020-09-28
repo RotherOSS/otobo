@@ -126,3 +126,6 @@ $CacheObject->CleanUp(
 );
 
 
+$Self->DoneTesting();
+
+

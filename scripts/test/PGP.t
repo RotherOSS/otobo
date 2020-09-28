@@ -696,3 +696,6 @@ for my $Count ( 1 .. 3 ) {
 # cleanup is done by RestoreDatabase
 
 
+$Self->DoneTesting();
+
+

@@ -175,3 +175,6 @@ for my $Test (@ArticleTests) {
 # cleanup is done by RestoreDatabase.
 
 
+$Self->DoneTesting();
+
+

@@ -403,3 +403,6 @@ $Selenium->RunTest(
 );
 
 
+$Self->DoneTesting();
+
+

@@ -98,6 +98,8 @@ for my $ValidIDKey ( sort keys %ValidList ) {
 }
 
 # cleanup cache is done by RestoreDatabase
-# DoneTesting() is called by Kernel::System::UnitTest::DoneTesting
+
+
+$Self->DoneTesting();
 
 

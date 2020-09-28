@@ -301,3 +301,6 @@ $Selenium->RunTest(
 );
 
 
+$Self->DoneTesting();
+
+

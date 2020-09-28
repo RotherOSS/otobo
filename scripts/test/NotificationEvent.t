@@ -1222,3 +1222,6 @@ for my $Count ( 1 .. 5 ) {
 # cleanup cache is done by RestoreDatabase
 
 
+$Self->DoneTesting();
+
+

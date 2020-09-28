@@ -154,3 +154,6 @@ my $SeleniumTest = sub {
 $SeleniumObject->RunTest($SeleniumTest);
 
 
+$Self->DoneTesting();
+
+

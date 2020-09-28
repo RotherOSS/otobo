@@ -242,3 +242,6 @@ for my $Backend (qw( FS DB )) {
 # cleanup is done by RestoreDatabase
 
 
+$Self->DoneTesting();
+
+

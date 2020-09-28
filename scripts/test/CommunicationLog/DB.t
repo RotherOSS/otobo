@@ -636,3 +636,6 @@ $TestObjectLogGet->();
 $TestObjectLogEntryList->();
 
 
+$Self->DoneTesting();
+
+

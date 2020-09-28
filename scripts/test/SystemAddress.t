@@ -337,3 +337,6 @@ $Self->False(
 # Cleanup is done by RestoreDatabase.
 
 
+$Self->DoneTesting();
+
+

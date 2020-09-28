@@ -98,3 +98,6 @@ for my $DeleteCounters ( 0, 1 ) {
 # Cleanup is done by RestoreDatabase.
 
 
+$Self->DoneTesting();
+
+

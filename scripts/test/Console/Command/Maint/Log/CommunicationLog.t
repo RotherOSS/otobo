@@ -288,3 +288,6 @@ for my $CommunicationListItem (@$CommunicationsList) {
 # cleanup is done by RestoreDatabase
 
 
+$Self->DoneTesting();
+
+

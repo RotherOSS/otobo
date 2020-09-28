@@ -5093,3 +5093,6 @@ for my $DynamicFieldID ( sort keys %{$DeleteFieldList} ) {
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 
+$Self->DoneTesting();
+
+

@@ -53,6 +53,9 @@ my $TestUserID3 = $UserObject->UserLookup(
     UserLogin => $TestUserLogin3,
 );
 
+# plan for two tests per user and child
+$Self->Plan( Tests => 2 * 3 * $ChildCount );
+
 my $FileBase = << 'EOF';
 # OTOBO config file (automatically generated)
 # VERSION:2.0

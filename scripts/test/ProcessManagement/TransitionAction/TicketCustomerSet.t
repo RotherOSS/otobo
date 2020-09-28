@@ -359,3 +359,6 @@ for my $Test (@Tests) {
 # Cleanup is done by RestoreDatabase.
 
 
+$Self->DoneTesting();
+
+

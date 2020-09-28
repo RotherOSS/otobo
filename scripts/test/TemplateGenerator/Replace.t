@@ -916,3 +916,6 @@ $RandomID",
 # Cleanup is done by RestoreDatabase.
 
 
+$Self->DoneTesting();
+
+

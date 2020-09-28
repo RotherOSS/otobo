@@ -184,3 +184,6 @@ for my $TicketID ( sort keys %TicketIDs ) {
 # cleanup is done by RestoreDatabase
 
 
+$Self->DoneTesting();
+
+

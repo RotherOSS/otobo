@@ -745,3 +745,6 @@ for my $ModuleFile (@BackendModuleFiles) {
 }
 
 
+$Self->DoneTesting();
+
+

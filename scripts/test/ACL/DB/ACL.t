@@ -737,3 +737,6 @@ $Self->IsDeeply(
 # cleanup done by RestoreDatabase
 
 
+$Self->DoneTesting();
+
+

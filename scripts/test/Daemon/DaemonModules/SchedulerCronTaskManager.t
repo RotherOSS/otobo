@@ -500,3 +500,6 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 
+$Self->DoneTesting();
+
+

@@ -67,3 +67,6 @@ $Self->Is(
 # cleanup is done by RestoreDatabase
 
 
+$Self->DoneTesting();
+
+

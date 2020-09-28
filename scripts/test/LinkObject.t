@@ -3012,3 +3012,6 @@ for my $Name (@ObjectNames) {
 # cleanup is done by RestoreDatabase
 
 
+$Self->DoneTesting();
+
+

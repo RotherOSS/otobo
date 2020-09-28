@@ -390,3 +390,6 @@ JAVASCRIPT
 );
 
 
+$Self->DoneTesting();
+
+

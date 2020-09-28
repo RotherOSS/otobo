@@ -22,10 +22,19 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+# core modules
+use File::Copy;
+
+# CPAN modules
+use Path::Class qw(dir file);
+
+# OTOBO modules
+
+our $Self;
+
+$Self->Plan( Tests => 6 );
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Tools::Migrate::ConfigXMLStructure');
-
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 my ( $Result, $ExitCode );
@@ -35,10 +44,9 @@ my ( $Result, $ExitCode );
     $ExitCode = $CommandObject->Execute( "--source-directory", "$Home/Kernel/Config/Files/NotExisting/" );
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );
 }
+
 $Self->Is(
     $ExitCode,
     1,
     "Dev::Tools::Migrate::ConfigXMLStructure exit code not existing directory",
 );
-
-

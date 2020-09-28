@@ -460,3 +460,6 @@ for my $TicketID (@TestTicketIDs) {
 # cleanup is done by RestoreDatabase.
 
 
+$Self->DoneTesting();
+
+

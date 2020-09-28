@@ -71,3 +71,6 @@ $Selenium->RunTest(
 );
 
 
+$Self->DoneTesting();
+
+

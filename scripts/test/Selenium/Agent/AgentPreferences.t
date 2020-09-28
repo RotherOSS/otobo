@@ -694,3 +694,6 @@ JAVASCRIPT
 );
 
 
+$Self->DoneTesting();
+
+

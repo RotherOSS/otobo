@@ -384,3 +384,6 @@ for my $TypeID ( sort keys %AutoResponseType ) {
 # cleanup is done by RestoreDatabase
 
 
+$Self->DoneTesting();
+
+

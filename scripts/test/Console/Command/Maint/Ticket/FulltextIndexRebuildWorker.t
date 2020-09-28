@@ -238,3 +238,6 @@ for my $Ticket (@Tickets) {
 # Cleanup cache is done by RestoreDatabase
 
 
+$Self->DoneTesting();
+
+

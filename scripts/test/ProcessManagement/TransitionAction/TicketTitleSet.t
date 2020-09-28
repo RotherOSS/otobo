@@ -393,3 +393,6 @@ for my $Title (@Titles) {
 # cleanup is done by RestoreDatabase.
 
 
+$Self->DoneTesting();
+
+
