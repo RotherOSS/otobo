@@ -17,22 +17,26 @@
 ## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
+use v5.24;
 use utf8;
-
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
 
 # core modules
 use File::Copy;
 
 # CPAN modules
+use Test2::V0;
 use Path::Class qw(dir file);
 
 # OTOBO modules
+use Kernel::System::ObjectManager;
 
-our $Self;
+plan( tests => 6 );
 
-$Self->Plan( Tests => 6 );
+$Kernel::OM = Kernel::System::ObjectManager->new(
+    'Kernel::System::Log' => {
+        LogPrefix => 'OTOBO-otobo.UnitTest',
+    },
+);
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Tools::Migrate::ConfigXMLStructure');
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
@@ -45,14 +49,10 @@ my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
         open STDOUT, '>:encoding(UTF-8)', \$Result;
         $ExitCode = $CommandObject->Execute( "--source-directory", "$Home/Kernel/Config/Files/NotExisting/" );
     }
-    $Self->Note( Note => $Result );
+    note( $Result );
 
     # exit code 1 indicates failure
-    $Self->Is(
-        $ExitCode,
-        1,
-        "Dev::Tools::Migrate::ConfigXMLStructure exit code not existing directory",
-    );
+    is( $ExitCode, 1, 'Dev::Tools::Migrate::ConfigXMLStructure exit code not existing directory' );
 }
 
 # actual migration
@@ -71,42 +71,30 @@ my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
         open STDOUT, '>:encoding(UTF-8)', \$Result;
         $ExitCode = $CommandObject->Execute( "--source-directory", $TestDir->stringify );
     }
-    $Self->Note( Note => $Result );
+    note( $Result );
 
     # exit code 0 indicates success
-    $Self->Is(
-        $ExitCode,
-        0,
-        "Dev::Tools::Migrate::ConfigXMLStructure success",
-    );
+    is( $ExitCode, 0, 'Dev::Tools::Migrate::ConfigXMLStructure success' );
 
-    # check whether to backup exists
+    # check whether the backup file exists
     my $BackupFile = $TestDir->file('ConfigurationMigrateXMLStructure.xml.bak_otrs_6');
-    $Self->Is(
-        -e $BackupFile,
-        1,
-        "$BackupFile exists",
-    );
+    ok( -e $BackupFile, "$BackupFile exists" );
 
     # Content of the backupfile
-    $Self->Is(
-        scalar $BackupFile->slurp,
-        scalar $SampleFile->slurp,
+    is(
+        [ $BackupFile->slurp ],
+        [ $SampleFile->slurp ],
         "Content of $BackupFile"
     );
 
     # check whether to migrated file exists
-    $Self->Is(
-        -e $WorkFile,
-        1,
-        "$WorkFile exists",
-    );
+    ok( -e $WorkFile, "$WorkFile exists" );
 
     # Content of the migrated file
-    my $ExpectedResultFile      = dir($Home)->file('scripts/test/sample/SysConfig/ConfigurationMigrateXMLStructureResult.xml');
-    $Self->Is(
-        scalar $WorkFile->slurp,
-        scalar $ExpectedResultFile->slurp,
+    my $ExpectedResultFile = dir($Home)->file('scripts/test/sample/SysConfig/ConfigurationMigrateXMLStructureResult.xml');
+    is(
+        [ $WorkFile->slurp ],
+        [ $ExpectedResultFile->slurp ],
         "Content of $WorkFile"
     );
 }
