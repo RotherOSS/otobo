@@ -89,11 +89,12 @@ WORKDIR /opt/otobo_install/otobo_next
 
 # Make sure that /opt/otobo exists and is writable by $OTOBO_USER.
 # set up entrypoint.sh and docker_firsttime
-# Finally set permissions.
+# Finally set permissions. Explicitly pass --runs-under-docker as
+# $ENV{OTOBO_RUNS_UNDER_DOCKER} is not yet set.
 RUN install --group $OTOBO_GROUP --owner $OTOBO_USER -d $OTOBO_HOME \
     && install --owner $OTOBO_USER --group $OTOBO_GROUP -D bin/docker/entrypoint.sh /opt/otobo_install/entrypoint.sh \
     && install --owner $OTOBO_USER --group $OTOBO_GROUP /dev/null docker_firsttime \
-    && perl bin/docker/set_permissions.pl
+    && perl bin/otobo.SetPermissions.pl --runs-under-docker
 
 # perform build steps that can be done as the user otobo.
 USER $OTOBO_USER
@@ -126,7 +127,7 @@ RUN bin/otobo.CheckSum.pl -a create
 # For all other commands entrypoint.sh switches to the user otobo.
 WORKDIR $OTOBO_HOME
 
-# Tell the webapplication that it runs in a container.
+# Tell the web application and bin/otobo.SetPermissions.pl that it runs in a container.
 ENV OTOBO_RUNS_UNDER_DOCKER 1
 
 # the entrypoint is not in the volume
