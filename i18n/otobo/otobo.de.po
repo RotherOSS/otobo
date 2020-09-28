@@ -40,22 +40,22 @@
 # Jens Bechtel <jens.bechtel@otrs.com>, 2019
 # Harald Eisenmenger <harald.eisenmenger@otrs.com>, 2019
 # Michael Reuther <michael.reuther@otrs.com>, 2020
-#
+# Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-09-23 08:34+0000\n"
-"PO-Revision-Date: 2020-07-12 01:16+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
-"Language-Team: German <http://translate.otobo.org/projects/otobo10/otobo/de/"
+"PO-Revision-Date: 2020-09-28 14:00+0000\n"
+"Last-Translator: Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>\n"
+"Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.1.1\n"
+"X-Generator: Weblate 4.2.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -18709,7 +18709,7 @@ msgid ""
 "logs for more information."
 msgstr ""
 "Ein Fehler ist aufgetreten. Bitte speichern Sie alle Einstellungen, die Sie "
-"derzeit bearbeiten und prüfen Sie die Lod-Dateien auf weitere Informationen."
+"derzeit bearbeiten und prüfen Sie die Log-Dateien auf weitere Informationen."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Reset option is required!"
