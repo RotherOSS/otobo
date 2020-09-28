@@ -343,5 +343,3 @@ for my $Counter ( 1, 2 ) {
 
 
 $Self->DoneTesting();
-
-

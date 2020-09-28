@@ -178,5 +178,3 @@ for my $Key ( 1 .. 3, 'ä', 'カス', '*' ) {
 
 
 $Self->DoneTesting();
-
-
