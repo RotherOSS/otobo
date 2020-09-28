@@ -48,4 +48,4 @@ $Self->Is(
     "Autoload correctly added a new function to Kernel::System::Valid",
 );
 
-1;
+

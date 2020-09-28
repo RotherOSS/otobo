@@ -174,4 +174,4 @@ $Self->Is(
 
 $HelperObject->FixedTimeUnset();
 
-1;
+

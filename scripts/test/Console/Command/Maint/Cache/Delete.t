@@ -171,4 +171,4 @@ $Self->Is(
     "Delete all remaining caches",
 );
 
-1;
+

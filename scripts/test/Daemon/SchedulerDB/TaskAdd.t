@@ -59,4 +59,4 @@ $Self->Is(
     "All tasks where created successfully",
 );
 
-1;
+

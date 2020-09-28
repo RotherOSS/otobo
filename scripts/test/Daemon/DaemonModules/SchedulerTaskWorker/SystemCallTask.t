@@ -287,4 +287,4 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     system("$^X $Daemon start");
 }
 
-1;
+

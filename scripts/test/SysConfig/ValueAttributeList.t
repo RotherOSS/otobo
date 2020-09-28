@@ -41,4 +41,4 @@ $Self->IsDeeply(
     "Check forbidden value types.",
 );
 
-1;
+

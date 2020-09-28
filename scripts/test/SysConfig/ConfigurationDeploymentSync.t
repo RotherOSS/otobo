@@ -229,4 +229,4 @@ $Self->Is(
     "Finish ConfigurationDeploymentSync() result",
 );
 
-1;
+

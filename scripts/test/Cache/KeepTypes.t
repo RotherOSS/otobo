@@ -180,4 +180,4 @@ for my $ModuleFile (@BackendModuleFiles) {
 
 $Self->DoneTesting();
 
-1;
+

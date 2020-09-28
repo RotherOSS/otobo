@@ -125,4 +125,4 @@ $Self->IsNot(
     "ConfigurationTranslatableStrings() cardinality (Full)",
 );
 
-1;
+

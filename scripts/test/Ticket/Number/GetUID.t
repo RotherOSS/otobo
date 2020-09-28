@@ -50,4 +50,4 @@ $Self->Is(
     "_GetUID() generated all UIDs."
 );
 
-1;
+

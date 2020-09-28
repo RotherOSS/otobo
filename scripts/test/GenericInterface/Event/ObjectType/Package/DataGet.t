@@ -93,4 +93,4 @@ for my $Test (@Tests) {
 }
 
 # Cleanup is done by RestoreDatabase.
-1;
+

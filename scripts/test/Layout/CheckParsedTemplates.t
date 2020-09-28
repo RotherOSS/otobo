@@ -185,4 +185,4 @@ for my $File (@Files) {
 
 # cleanup cache is done by RestoreDatabase
 
-1;
+

@@ -515,4 +515,4 @@ $Self->Is(
     'System time zone must match expected one.'
 );
 
-1;
+

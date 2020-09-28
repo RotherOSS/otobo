@@ -125,4 +125,4 @@ for my $Test (@Tests) {
     $HelperObject->FixedTimeUnset();
 }
 
-1;
+

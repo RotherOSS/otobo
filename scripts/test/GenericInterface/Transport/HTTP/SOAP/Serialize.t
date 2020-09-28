@@ -550,4 +550,4 @@ for my $Test (@SoapTests) {
     }
 }
 
-1;
+

@@ -402,4 +402,4 @@ $Selenium->RunTest(
 
 );
 
-1;
+

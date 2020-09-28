@@ -366,4 +366,4 @@ for my $Test (@MappingTests) {
     );
 }
 
-1;
+

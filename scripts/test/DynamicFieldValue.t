@@ -1098,4 +1098,4 @@ for my $TicketID (@CreatedTicketIds) {
 
 # cleanup is done by RestoreDatabase
 
-1;
+

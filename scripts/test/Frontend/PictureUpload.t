@@ -198,4 +198,4 @@ $CheckUpload->(
     Content    => $EscapedContentSVG,
 );
 
-1;
+

@@ -178,4 +178,4 @@ for my $Arg (@ArgsWithReference) {
     }
 }
 
-1;
+

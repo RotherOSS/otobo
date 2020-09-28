@@ -40,4 +40,4 @@ $Self->Is(
     "Exit code",
 );
 
-1;
+

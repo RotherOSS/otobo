@@ -379,4 +379,4 @@ $Self->True(
 # cleanUp casche
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
-1;
+

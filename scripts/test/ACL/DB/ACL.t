@@ -736,4 +736,4 @@ $Self->IsDeeply(
 
 # cleanup done by RestoreDatabase
 
-1;
+

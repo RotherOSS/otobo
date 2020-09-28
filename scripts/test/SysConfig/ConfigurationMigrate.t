@@ -477,4 +477,4 @@ if ( -e $TestLocation ) {
     }
 }
 
-1;
+

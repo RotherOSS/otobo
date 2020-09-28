@@ -40,4 +40,4 @@ $Self->Is(
     "Successful exit code"
 );
 
-1;
+

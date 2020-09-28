@@ -1010,4 +1010,4 @@ for my $Test (@TestsGenericAgentSchedule2CronTab) {
     );
 }
 
-1;
+

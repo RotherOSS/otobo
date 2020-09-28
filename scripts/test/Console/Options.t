@@ -29,4 +29,4 @@ $Self->False( scalar( $Output =~ /\S/ ), "No output with --quiet" );
 
 $Self->DoneTesting();
 
-1;
+

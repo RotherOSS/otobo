@@ -49,4 +49,4 @@ for my $Template (@Templates) {
     );
 }
 
-1;
+

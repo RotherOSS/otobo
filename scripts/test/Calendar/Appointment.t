@@ -3734,4 +3734,4 @@ for my $Test (@NotificationUpdateTests) {
     }
 }
 
-1;
+

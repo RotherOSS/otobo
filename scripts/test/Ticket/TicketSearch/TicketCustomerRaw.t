@@ -182,4 +182,4 @@ for my $CustomerUserLogin (@CustomerLogins) {
 
 # cleanup is done by RestoreDatabase.
 
-1;
+

@@ -179,4 +179,4 @@ for my $Test (@Tests) {
 
 # cleanup cache is done by RestoreDatabase
 
-1;
+

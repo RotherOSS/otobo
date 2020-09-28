@@ -189,4 +189,4 @@ $Self->Is(
 
 # cleanup cache is done by RestoreDatabase
 
-1;
+

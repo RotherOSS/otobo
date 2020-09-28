@@ -294,4 +294,4 @@ for my $Key ( sort keys %Group ) {
 
 # cleanup is done by RestoreDatabase
 
-1;
+

@@ -33,4 +33,4 @@ $Self->Is(
     "Dev::Package::Build exit code without arguments",
 );
 
-1;
+

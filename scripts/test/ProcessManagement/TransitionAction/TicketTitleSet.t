@@ -392,4 +392,4 @@ for my $Title (@Titles) {
 
 # cleanup is done by RestoreDatabase.
 
-1;
+

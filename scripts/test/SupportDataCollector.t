@@ -214,4 +214,4 @@ $Self->True(
 # cleanup cache
 $CacheObject->CleanUp();
 
-1;
+

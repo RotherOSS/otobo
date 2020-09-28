@@ -187,4 +187,4 @@ $Self->True(
     'MappingObject call data provided',
 );
 
-1;
+

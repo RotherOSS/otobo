@@ -71,4 +71,4 @@ $Self->True(
     "Test string found in log",
 );
 
-1;
+

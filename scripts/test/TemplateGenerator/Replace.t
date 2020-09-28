@@ -915,4 +915,4 @@ $RandomID",
 
 # Cleanup is done by RestoreDatabase.
 
-1;
+

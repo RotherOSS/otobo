@@ -42,4 +42,4 @@ $Self->Is(
     "Invalid stats number format",
 );
 
-1;
+

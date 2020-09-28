@@ -127,4 +127,4 @@ $Self->Is(
 
 # restore to the previous state is done by RestoreDatabase
 
-1;
+

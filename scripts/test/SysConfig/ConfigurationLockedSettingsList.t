@@ -237,4 +237,4 @@ $Self->Is(
     "Locked UserLogin is correct"
 );
 
-1;
+

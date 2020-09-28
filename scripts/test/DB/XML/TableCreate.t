@@ -151,4 +151,4 @@ for my $SQL (@SQL) {
 
 # cleanup cache is done by RestoreDatabase.
 
-1;
+

@@ -211,4 +211,4 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
 
 # cleanup is done by RestoreDatabase.
 
-1;
+

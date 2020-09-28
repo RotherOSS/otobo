@@ -105,4 +105,4 @@ $Self->True(
     "No commands found.",
 );
 
-1;
+

@@ -287,4 +287,4 @@ for my $CommunicationListItem (@$CommunicationsList) {
 
 # cleanup is done by RestoreDatabase
 
-1;
+

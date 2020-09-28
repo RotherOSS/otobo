@@ -33,4 +33,4 @@ $Self->Is(
     "Admin::Package::FileSearch exit code without arguments",
 );
 
-1;
+

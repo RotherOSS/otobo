@@ -442,4 +442,4 @@ $Self->True(
     "DynamicFieldID $DynamicFieldID is deleted."
 );
 
-1;
+

@@ -73,4 +73,4 @@ for my $ObjectType ( sort keys %{$DynamicFieldObjectTypeConfig} ) {
     );
 }
 
-1;
+

@@ -53,4 +53,4 @@ for my $Command (@Commands) {
     );
 }
 
-1;
+

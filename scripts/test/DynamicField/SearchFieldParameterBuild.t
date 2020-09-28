@@ -1514,4 +1514,4 @@ for my $Test (@Tests) {
 
 # we don't need any cleanup
 
-1;
+

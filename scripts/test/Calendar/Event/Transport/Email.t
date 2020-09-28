@@ -356,6 +356,4 @@ for my $Test (@Tests) {
     $Count++;
 }
 
-1;
-
 # cleanup is done by RestoreDatabase.

@@ -34,4 +34,4 @@ $Self->Is(
     "Dev::Tools::ConsoleStats exit code",
 );
 
-1;
+

@@ -612,4 +612,4 @@ for my $Test (@ArticleDeleteTests) {
 
 # Cleanup is done by RestoreDatabase.
 
-1;
+

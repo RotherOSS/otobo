@@ -673,4 +673,4 @@ $Self->False(
     'Delta working time calculation with invalid DateTime object must fail.',
 );
 
-1;
+

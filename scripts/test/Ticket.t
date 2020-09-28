@@ -2834,4 +2834,4 @@ $Self->True(
     "TicketCountByAttribute() for more then 1000 entries correct"
 );
 
-1;
+

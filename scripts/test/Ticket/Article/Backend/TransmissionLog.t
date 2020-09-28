@@ -138,4 +138,4 @@ $Object = $TransmissionLogObject->ArticleGetTransmissionError( ArticleID => $Art
 
 $Self->True( $Object->{Message} eq 'Test', 'Updated Status ok.' );
 
-1;
+

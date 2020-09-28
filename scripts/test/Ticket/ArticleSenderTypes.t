@@ -62,4 +62,4 @@ for my $Cache ( 0 .. 1 ) {
 
 # cleanup is done by RestoreDatabase.
 
-1;
+

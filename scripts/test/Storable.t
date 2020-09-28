@@ -145,4 +145,4 @@ for my $Test (@Tests) {
         "$Test->{Name} Deserialize() should be undef",
     );
 }
-1;
+

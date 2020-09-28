@@ -1032,4 +1032,4 @@ $ExecuteTests->( Tests => \@Tests );
 
 # cleanup is done by RestoreDatabase.
 
-1;
+

@@ -183,4 +183,4 @@ for my $TicketID ( sort keys %TicketIDs ) {
 
 # cleanup is done by RestoreDatabase
 
-1;
+

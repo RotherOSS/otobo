@@ -318,4 +318,4 @@ $Self->IsDeeply(
     "ConfigurationDeployGetLast() Deployment 2",
 );
 
-1;
+

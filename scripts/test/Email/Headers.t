@@ -197,4 +197,4 @@ $Self->Is(
     "Disabled X-Powered-By header",
 );
 
-1;
+

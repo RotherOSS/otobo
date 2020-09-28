@@ -983,4 +983,4 @@ for my $PermissionTest (@UserRoleGroupPermissionTests) {
 
 # cleanup is done by RestoreDatabase
 
-1;
+

@@ -459,4 +459,4 @@ for my $TicketID (@TestTicketIDs) {
 
 # cleanup is done by RestoreDatabase.
 
-1;
+

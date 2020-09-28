@@ -64,4 +64,4 @@ for my $EventType ( sort keys %RegisteredEvents ) {
     );
 }
 
-1;
+

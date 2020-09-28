@@ -802,4 +802,4 @@ $Selenium->RunTest(
     }
 );
 
-1;
+

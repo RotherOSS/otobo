@@ -82,4 +82,4 @@ for my $Test (@CompareTests) {
     }
 }
 
-1;
+

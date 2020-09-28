@@ -195,4 +195,4 @@ for my $Article (@Articles) {
 
 # Cleanup is done by RestoreDatabase.
 
-1;
+

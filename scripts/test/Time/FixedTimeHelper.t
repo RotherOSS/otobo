@@ -72,4 +72,4 @@ $Self->True(
     "Back to original time",
 );
 
-1;
+

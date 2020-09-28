@@ -140,4 +140,4 @@ $Self->True(
     'TicketDelete()',
 );
 
-1;
+

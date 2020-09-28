@@ -115,4 +115,4 @@ $Self->False(
     "TempDir() $TempDir removed after destroy",
 );
 
-1;
+

@@ -33,4 +33,4 @@ $Self->Is(
     "Maint::Database::MySQL::InnoDBMigration exit code",
 );
 
-1;
+

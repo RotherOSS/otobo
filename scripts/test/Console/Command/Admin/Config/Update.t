@@ -298,4 +298,4 @@ if ( -e $SourcePath ) {
 
 # cleanup is done by RestoreDatabase
 
-1;
+

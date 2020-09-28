@@ -33,4 +33,4 @@ $Self->Is(
     "Admin::Package::Reinstall exit code without arguments",
 );
 
-1;
+

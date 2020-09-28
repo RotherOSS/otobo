@@ -582,4 +582,4 @@ $Self->False(
     "TemplateObject must be correctly destroyed (no ring references)",
 );
 
-1;
+

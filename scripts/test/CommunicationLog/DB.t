@@ -635,4 +635,4 @@ $TestObjectLogDelete->();
 $TestObjectLogGet->();
 $TestObjectLogEntryList->();
 
-1;
+

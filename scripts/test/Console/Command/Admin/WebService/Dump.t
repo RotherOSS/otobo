@@ -142,4 +142,4 @@ if ( -e $TargetPath ) {
 
 # cleanup is done by RestoreDatabase
 
-1;
+

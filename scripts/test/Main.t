@@ -782,4 +782,4 @@ $Self->Is(
     'Test output for hex chars in 1000 generated random strings with hex dictionary',
 );
 
-1;
+

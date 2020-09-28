@@ -141,4 +141,4 @@ for my $Test (@OperationTests) {
     }
 }
 
-1;
+

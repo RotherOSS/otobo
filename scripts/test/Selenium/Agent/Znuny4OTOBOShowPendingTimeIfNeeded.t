@@ -153,4 +153,4 @@ my $SeleniumTest = sub {
 # finally run the test(s) in the browser
 $SeleniumObject->RunTest($SeleniumTest);
 
-1;
+

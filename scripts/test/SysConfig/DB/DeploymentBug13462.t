@@ -176,4 +176,4 @@ for my $TargetUserID ( $TestUserID1, $TestUserID2, $TestUserID3 ) {
     );
 }
 
-1;
+

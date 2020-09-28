@@ -521,4 +521,4 @@ for my $TestConfig (@TestConfigs) {
     );
 }
 
-1;
+

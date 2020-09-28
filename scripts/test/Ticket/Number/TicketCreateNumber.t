@@ -176,4 +176,4 @@ if ($InitialCounterID) {
     );
 }
 
-1;
+

@@ -70,4 +70,4 @@ unlink $XXEFilename;
 
 $Self->DoneTesting();
 
-1;
+

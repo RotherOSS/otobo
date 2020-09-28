@@ -336,4 +336,4 @@ $Self->False(
 
 # Cleanup is done by RestoreDatabase.
 
-1;
+

@@ -1019,4 +1019,4 @@ $Self->IsDeeply(
     "Test $TestCount: CustomerSearchDetail() special param 'CustomerCompanySearchCustomerIDs' (with more then 1000 values)."
 );
 
-1;
+

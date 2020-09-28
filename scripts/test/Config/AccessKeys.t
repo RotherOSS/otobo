@@ -89,4 +89,4 @@ $Self->False(
         . $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => \%UsedAccessKeys )
 );
 
-1;
+

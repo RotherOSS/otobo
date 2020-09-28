@@ -1709,4 +1709,4 @@ for my $DynamicFieldID (@AddedFieldIDs) {
 
 # cleanup is done by RestoreDatabase
 
-1;
+

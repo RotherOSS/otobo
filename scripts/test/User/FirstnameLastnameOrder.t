@@ -80,4 +80,4 @@ for my $Order ( sort keys %Tests ) {
 
 # cleanup is done by RestoreDatabase.
 
-1;
+

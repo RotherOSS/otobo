@@ -2646,4 +2646,4 @@ for ( my $Index = 0; $Index < scalar @Appointments; $Index++ ) {
     }
 }
 
-1;
+

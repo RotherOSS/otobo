@@ -316,4 +316,4 @@ for my $Test (@Tests) {
 # Cleanup cache.
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
-1;
+

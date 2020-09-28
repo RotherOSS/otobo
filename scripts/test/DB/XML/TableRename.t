@@ -422,4 +422,4 @@ for my $XML (@TableDropStatements) {
 
 # cleanup cache is done by RestoreDatabase.
 
-1;
+

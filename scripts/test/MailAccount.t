@@ -238,4 +238,4 @@ $Self->True(
     'MailAccountDelete() IMAP account',
 );
 
-1;
+

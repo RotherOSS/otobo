@@ -242,4 +242,4 @@ $Self->Is(
     "ConfigurationDirtySettingsList() - Should be empty.",
 );
 
-1;
+

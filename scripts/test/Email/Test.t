@@ -145,4 +145,4 @@ $Self->IsDeeply(
     'Test backend empty after final cleanup',
 );
 
-1;
+

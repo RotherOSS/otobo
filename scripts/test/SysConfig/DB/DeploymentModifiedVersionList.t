@@ -481,4 +481,4 @@ $Self->IsNot(
     "Restored original ZZZAAuto file",
 );
 
-1;
+

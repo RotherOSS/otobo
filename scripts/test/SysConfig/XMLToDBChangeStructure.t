@@ -164,4 +164,4 @@ $Self->True(
     "StateType setting should be present.",
 );
 
-1;
+

@@ -291,4 +291,4 @@ $Self->True(
     'Revert changes.'
 );
 
-1;
+

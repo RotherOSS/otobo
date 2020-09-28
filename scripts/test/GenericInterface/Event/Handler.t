@@ -648,4 +648,4 @@ $Self->Is(
     "Daemon has original state again.",
 );
 
-1;
+

@@ -533,4 +533,4 @@ for my $DebugLogID (@DebugLogIDs) {
 
 # cleanup is done by RestoreDatabase.
 
-1;
+

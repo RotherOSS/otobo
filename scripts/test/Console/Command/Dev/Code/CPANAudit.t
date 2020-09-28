@@ -49,4 +49,4 @@ No advisories found
     "Dev::Tools::CPANAudit reports no vulnerabilities",
 );
 
-1;
+

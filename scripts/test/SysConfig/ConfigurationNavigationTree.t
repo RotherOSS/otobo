@@ -306,4 +306,4 @@ if ( $PackageObject->PackageIsInstalled( Name => $PackageName ) ) {
     );
 }
 
-1;
+

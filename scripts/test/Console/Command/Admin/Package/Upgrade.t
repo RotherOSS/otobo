@@ -87,4 +87,4 @@ $Self->Is(
     "Admin::Package::Upgrade exit code without arguments",
 );
 
-1;
+

@@ -176,4 +176,4 @@ for my $Key ( 1 .. 3, 'ä', 'カス', '*' ) {
 
 # cleanup is done by RestoreDatabase
 
-1;
+

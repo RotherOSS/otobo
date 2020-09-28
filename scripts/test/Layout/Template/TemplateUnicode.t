@@ -60,4 +60,4 @@ for ( 1 .. 2 ) {
 
 # cleanup cache is done by RestoreDatabase
 
-1;
+

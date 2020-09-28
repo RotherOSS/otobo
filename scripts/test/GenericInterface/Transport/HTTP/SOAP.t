@@ -3142,4 +3142,4 @@ $Self->True(
     "Deleted web service $WebserviceID",
 );
 
-1;
+

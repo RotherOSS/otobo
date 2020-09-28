@@ -153,4 +153,4 @@ for my $Directory ( $CertPath, $PrivatePath ) {
     );
 }
 
-1;
+

@@ -173,4 +173,4 @@ $Self->True(
 
 # Cleanup is done by RestoreDatabase.
 
-1;
+

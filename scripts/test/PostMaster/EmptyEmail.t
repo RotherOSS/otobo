@@ -129,4 +129,4 @@ for my $Backend (qw(DB FS)) {
 
 # cleanup is done by RestoreDatabase.
 
-1;
+

@@ -330,4 +330,4 @@ else {
     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::UnitTest::Selenium'] );
 }
 
-1;
+

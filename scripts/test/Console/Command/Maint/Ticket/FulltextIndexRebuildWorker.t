@@ -237,4 +237,4 @@ for my $Ticket (@Tickets) {
 
 # Cleanup cache is done by RestoreDatabase
 
-1;
+

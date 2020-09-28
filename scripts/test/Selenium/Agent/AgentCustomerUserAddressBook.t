@@ -1072,4 +1072,4 @@ $Selenium->RunTest(
     }
 );
 
-1;
+

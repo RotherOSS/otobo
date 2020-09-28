@@ -499,4 +499,4 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
 # cleanup cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
-1;
+

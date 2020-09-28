@@ -134,4 +134,4 @@ $Self->Is(
     'FindAsciiSupersetEncoding falls back to ASCII',
 );
 
-1;
+

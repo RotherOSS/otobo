@@ -331,4 +331,4 @@ for my $Test (@FlagSearchTests) {
 
 # cleanup is done by RestoreDatabase.
 
-1;
+

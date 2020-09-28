@@ -154,4 +154,4 @@ $Self->True(
     'OperationObject call data provided',
 );
 
-1;
+

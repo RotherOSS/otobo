@@ -80,4 +80,4 @@ else {
 
 # Cleanup is done by TmpDatabaseCleanup().
 
-1;
+

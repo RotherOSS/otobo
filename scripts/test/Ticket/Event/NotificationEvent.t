@@ -1712,4 +1712,4 @@ for my $ID ( $TicketID, $CustomerTicketID ) {
     );
 }
 
-1;
+

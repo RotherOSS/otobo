@@ -2560,4 +2560,4 @@ $Self->IsDeeply(
 
 # cleanup is done by RestoreDatabase
 
-1;
+

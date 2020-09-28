@@ -125,4 +125,4 @@ $CacheObject->CleanUp(
     Type => $CacheType,
 );
 
-1;
+

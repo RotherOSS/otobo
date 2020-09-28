@@ -274,4 +274,4 @@ $Self->True(
     "Modified $Setting2{Name} still exists after _DBCleanUp.",
 );
 
-1;
+

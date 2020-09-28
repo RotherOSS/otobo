@@ -57,4 +57,4 @@ $Self->Is(
     "Error log after resetting",
 );
 
-1;
+

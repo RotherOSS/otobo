@@ -139,4 +139,4 @@ $Self->True(
     'Configuration restored.',
 );
 
-1;
+
