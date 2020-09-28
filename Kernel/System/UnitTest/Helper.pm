@@ -18,12 +18,13 @@ package Kernel::System::UnitTest::Helper;
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
 # core modules
 use File::Path qw(rmtree);
 
 # CPAN modules
-use DateTime;      # Load DateTime so that we can override functions for the FixedTimeSet().
+use DateTime 1.08;  # Load DateTime so that we can override functions for the FixedTimeSet().
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);

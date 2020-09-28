@@ -371,8 +371,6 @@ sub Run {
                 );
             }
 
-            # Rother OSS - Reset Preferences UserLastPwChangeTime  last login after password reset
-
             if ( $CurrentUserData{UserPassword} ne $GetParam{UserPassword} ) {
 
                 $UpdateSuccess = $CustomerUserObject->DeleteOnePreference(
@@ -381,8 +379,6 @@ sub Run {
                 );
 
             }
-
-            # EO Rother OSS
 
             if ( $UpdateSuccess || $UpdateOnlyPreferences ) {
 

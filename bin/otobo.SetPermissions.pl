@@ -34,12 +34,23 @@ my $OTOBODirectoryLength = length($OTOBODirectory);
 my $OTOBOUser = 'otobo';    # default: otobo
 my $WebGroup  = '';         # Try to find a default from predefined group list, take the first match.
 
-WEBGROUP:
-for my $GroupCheck (qw(wwwrun apache www-data www _www)) {
-    my ($GroupName) = getgrnam $GroupCheck;
-    if ($GroupName) {
-        $WebGroup = $GroupName;
-        last WEBGROUP;
+# Check if OTOBO runs on docker
+my $RunOnDocker = $ENV{'OTOBO_RUNS_UNDER_DOCKER'};
+
+if ( $RunOnDocker && $RunOnDocker == 1 ) {
+
+    $OTOBOUser = $ENV{'OTOBO_USER'} || 'otobo';
+    $WebGroup  = $ENV{'OTOBO_GROUP'} || 'otobo';
+}
+else {
+
+    WEBGROUP:
+    for my $GroupCheck (qw(wwwrun apache www-data www _www)) {
+        my ($GroupName) = getgrnam $GroupCheck;
+        if ($GroupName) {
+            $WebGroup = $GroupName;
+            last WEBGROUP;
+        }
     }
 }
 
@@ -86,6 +97,7 @@ my @IgnoreFiles = (
 my @ExecutableFiles = (
     qr{\.(?:pl|psgi|sh)$}smx,
     qr{^/var/git/hooks/(?:pre|post)-receive$}smx,
+    qr{^/hooks/build}smx,
 );
 
 # Special files that must not be written by web server user.

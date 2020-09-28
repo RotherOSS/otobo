@@ -65,12 +65,8 @@ sub PreRun {
     return if $FrontendType eq 'Public';
 
     # ignore pre application module if it is calling self
-    # Rother OSS / Licence before password
     return
         if $Self->{Action} =~ /^(CustomerPassword|AgentPassword|AdminPackage|AdminSystemConfiguration|CustomerAccept)/;
-
-    #    return if $Self->{Action} =~ /^(CustomerPassword|AgentPassword|AdminPackage|AdminSystemConfiguration)/;
-    # EO Rother OSS
 
     # if last change time is over x days
     if ( !$Self->{UserLastPwChangeTime} || $Self->{UserLastPwChangeTime} < $PasswordMaxValidTill ) {

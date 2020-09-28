@@ -76,8 +76,6 @@ sub Run {
         },
     );
 
-    # Rother OSS TODO: Need Perlbinary?
-    #    my $PerlBinary = $^X;
     my $ScriptPath = "$Home/bin/otobo.CheckModules.pl";
 
     # verify check modules script exist

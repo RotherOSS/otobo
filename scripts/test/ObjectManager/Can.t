@@ -37,7 +37,7 @@ $Self->Is( ref $Kernel::OM, 'Kernel::System::ObjectManager', 'object manager is 
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-# depending on the config some missing module can be ignores
+# depending on the config some missing modules can be ignored
 my $SkipCryptSMIME;
 if ( !$ConfigObject->Get('SMIME') ) {
     $SkipCryptSMIME = 1;

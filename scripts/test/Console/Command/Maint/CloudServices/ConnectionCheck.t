@@ -35,7 +35,4 @@ $Self->Is(
     "Maint::CloudServices::ConnectionCheck exit code",
 );
 
-
 $Self->DoneTesting();
-
-1;

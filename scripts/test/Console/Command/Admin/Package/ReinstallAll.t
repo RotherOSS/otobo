@@ -16,6 +16,7 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # core modules
@@ -27,6 +28,8 @@ use Test2::V0 qw(skip_all);
 use Kernel::System::ObjectManager;
 
 skip_all('disabled because it did not work under mod_perl');
+
+plan( tests => 1 );
 
 $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {

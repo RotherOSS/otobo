@@ -518,5 +518,3 @@ $Self->IsNot(
     '',
     'TicketWorkingTimeSuspendCalculate()   - WorkingTime:',
 );
-
-

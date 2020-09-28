@@ -204,9 +204,9 @@ sub Run {
     my $Aggregate = $Harness->runtests( @ActualTests );
 
     if (@SkippedTests) {
-        print "# Following blacklisted tests were skipped:\n";
+        print "Following blacklisted tests were skipped:\n";
         for my $SkippedTest (@SkippedTests) {
-            say '#  ' . $Self->_Color( 'yellow', $SkippedTest );
+            print '  ' . $Self->_Color( 'yellow', $SkippedTest ) . "\n";
         }
     }
 

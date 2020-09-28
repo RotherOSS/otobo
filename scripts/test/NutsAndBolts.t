@@ -13,9 +13,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-# This test script does not work with Kernel::System::UnitTest::Driver.
-# __SKIP_BY_KERNEL_SYSTEM_UNITTEST_DRIVER__
-
 =head1 NAME
 
 NutsAndBolts.t - the most basic test script
@@ -23,6 +20,7 @@ NutsAndBolts.t - the most basic test script
 =head1 SYNOPSIS
 
     # a test script that emits TAP without using Kernel::System::UnitTest::Driver
+    prove --verbose scripts/test/NutsAndBolts.t
 
 =head1 DESCRIPTION
 
@@ -36,8 +34,9 @@ L<Test::Tutorial>
 
 =cut
 
-use v5.24;
+use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # just a dummy test that succeeds
