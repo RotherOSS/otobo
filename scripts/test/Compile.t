@@ -87,13 +87,10 @@ note( 'look at Perl code with an unusual extension' );
 
 note( 'check syntax of some shell scripts' );
 {
-    my @ShellScripts = (
-        'bin/docker/entrypoint.sh',
-    );
+    my @ShellScripts = glob 'bin/docker/*.sh';
 
     if ( ! $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
-        push @ShellScripts;
-            'bin/Cron.sh';
+        push @ShellScripts, 'bin/Cron.sh';
     }
 
     for my $File ( @ShellScripts ) {
