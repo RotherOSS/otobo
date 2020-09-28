@@ -14,14 +14,15 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use v5.24;
+use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
@@ -71,11 +72,9 @@ else {
 
         $Filename = "$Home/$Filename";
 
-        if ( !-f $Filename ) {
-            $Self->False(
-                1,
-                "$Filename not found"
-            );
+        if ( ! -f $Filename ) {
+            $Self->False( 1, "$Filename found" );
+
             next LINE;
         }
 
@@ -109,7 +108,4 @@ else {
     );
 }
 
-
 $Self->DoneTesting();
-
-
