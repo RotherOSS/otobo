@@ -107,7 +107,7 @@ sub PreRun {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $MigraionBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
+    my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
     $Self->Print("<green>Read unclean code or opm package...</green>\n");
 
     my $Source = $Self->GetArgument('source');
@@ -137,20 +137,20 @@ sub Run {
     my @UncleanFileList;
 
     # Ignore path list
-    my @ParserIgnoreDirAndFile = $MigraionBaseObject->IgnorePathList();
+    my @ParserIgnoreDirAndFile = $MigrationBaseObject->IgnorePathList();
 
     # We need to check if a opm package is given
     if ( $SourceIsOPMOrDir eq 'OPM' && -d $TargetDirectory ) {
 
         # OPM package is given, so we need to extract it to a tmp dir
-        my $SOPMCreate = $MigraionBaseObject->CopyOPMtoSOPMAndClean(
+        my $SOPMCreate = $MigrationBaseObject->CopyOPMtoSOPMAndClean(
             Source       => $Source,
             TmpDirectory => $TmpDirectory,
         );
         $Self->Print("<green>Copy .opm file to Package.sopm: Done.</green>\n");
 
         # Add $TempDir path to $Source, so we can go on
-        $Source = $MigraionBaseObject->ExtractOPMPackage(
+        $Source = $MigrationBaseObject->ExtractOPMPackage(
             Source       => $Source,
             TmpDirectory => $TmpDirectory,
         );
@@ -180,7 +180,7 @@ sub Run {
             }
 
             # Write file to output directory
-            $MigraionBaseObject->HandleFile(
+            $MigrationBaseObject->HandleFile(
                 File            => $File,
                 RwPath          => $RwPath,
                 Target          => $TargetDirectory,
@@ -213,7 +213,7 @@ sub Run {
 
             # Clean content of files if $CleanContent option is defined
             if ($CleanContent) {
-                $MigraionBaseObject->CleanOTRSFileToOTOBOStyle(
+                $MigrationBaseObject->CleanOTRSFileToOTOBOStyle(
                     File   => $File,
                     UserID => 1,
                 );
@@ -221,7 +221,7 @@ sub Run {
 
             # Clean header and license in files
             if ($CleanLicenseHeader) {
-                $MigraionBaseObject->CleanLicenseHeader(
+                $MigrationBaseObject->CleanLicenseHeader(
                     File   => $File,
                     UserID => 1,
                 );
@@ -229,7 +229,7 @@ sub Run {
 
             # If option cleanpath is given, clean path and filename
             if ($CleanPath) {
-                $MigraionBaseObject->ChangePathFileName(
+                $MigrationBaseObject->ChangePathFileName(
                     File   => $File,
                     UserID => 1,
                 );

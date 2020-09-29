@@ -16,8 +16,9 @@
 
 package Kernel::System::Console::Command::Dev::Tools::Migrate::ConfigXMLStructure;
 
-use v5.24.0;
+use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 use parent qw(Kernel::System::Console::BaseCommand);
