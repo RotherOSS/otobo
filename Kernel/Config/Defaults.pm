@@ -22,28 +22,20 @@
 
 package Kernel::Config::Defaults;
 
-use v5.24;      # Perl 5.24.0 is the required minimum version to use OTOBO.
+use strict;
 use warnings;
+use v5.24;      # Perl 5.24.0 is the required minimum version to use OTOBO.
 use utf8;
 
-# Set up @INC even though that is usually done in the scripts.
-# NOTE: This assumes that the calling script is located in a subdir of the OTOBO root,
-#       e.g. /opt/otobo/bin.
-#       Using $FindBin::Bin in a module is problematic because there is no guarantee
-#       that the script that is using the module is at the expected location.
-#       An example is compile testing with Test::Compile. There dirname($Bin) evaluates
-#       to /opt/otobo/Kernel/System. This makes 'use Datetime' actually load
-#       /opt/otobo/Kernel/System/DateTime.pm. And this is not wanted.
-use File::Basename qw(dirname);
-use FindBin qw($Bin);
-use lib dirname($Bin);
-use lib dirname($Bin) . '/Kernel/cpan-lib';
-use lib dirname($Bin) . '/Custom';
-
+# core modules
 use File::stat;
 use Digest::MD5;
-
 use Exporter qw(import);
+
+# CPAN modules
+
+# OTOBO modules
+
 our @EXPORT = qw(Translatable); ## no critic (allow automatic export)
 
 our @ObjectDependencies = ();
@@ -1254,7 +1246,7 @@ You can log in via the following URL:
     # (The customer panel db-uid.) [default: 1]
     $Self->{CustomerPanelUserID} = 1;
 
-    # CustomerGroupSupport (0 = compat. to OTOBO 1.1 or lower)
+    # CustomerGroupSupport (0 = compatible to previous behavior)
     # (if this is 1, the you need to set the group <-> customer user
     # relations! http://host/otobo/index.pl?Action=AdminCustomerUserGroup
     # otherway, each user is ro/rw in each group!)
