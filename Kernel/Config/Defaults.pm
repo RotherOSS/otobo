@@ -22,14 +22,20 @@
 
 package Kernel::Config::Defaults;
 
-use v5.24;      # Perl 5.24.0 is the required minimum version to use OTOBO.
+use strict;
 use warnings;
+use v5.24;      # Perl 5.24.0 is the required minimum version to use OTOBO.
 use utf8;
 
+# core modules
 use File::stat;
 use Digest::MD5;
-
 use Exporter qw(import);
+
+# CPAN modules
+
+# OTOBO modules
+
 our @EXPORT = qw(Translatable); ## no critic (allow automatic export)
 
 our @ObjectDependencies = ();
