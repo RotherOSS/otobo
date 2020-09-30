@@ -18,7 +18,7 @@ package Kernel::System::UnitTest;
 
 use strict;
 use warnings;
-use v5.24.0;
+use v5.24;
 use utf8;
 use namespace::autoclean;
 
@@ -28,6 +28,7 @@ use Storable();
 use Term::ANSIColor();
 use TAP::Harness;
 use List::Util qw(any);
+use Sys::Hostname qw(hostname);
 
 # CPAN modules
 
@@ -101,7 +102,7 @@ sub Run {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $Home         = $ConfigObject->Get('Home');
     my $Product      = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version');
-    my $Host         = $ConfigObject->Get('FQDN');
+    my $Host         = hostname();
 
     # run tests in a subdir when requested
     my $Directory = "$Home/scripts/test";
@@ -211,7 +212,7 @@ sub Run {
     }
 
     say sprintf
-        'ran tests for product %s on %s',
+        'ran tests for product %s on host %s .',
         $Self->_Color( 'yellow', $Product ),
         $Self->_Color( 'yellow', $Host );
 
