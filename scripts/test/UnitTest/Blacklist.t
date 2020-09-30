@@ -22,7 +22,7 @@ use utf8;
 # core modules
 
 # CPAN modules
-use Test2::V0 qw(plan is note);
+use Test2::V0 qw(plan is note like);
 
 # OTOBO modules
 use Kernel::System::ObjectManager;
@@ -40,24 +40,26 @@ my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Uni
 
 my @Tests = (
     {
-        Name   => "UnitTest 'NutsAndBolts.t' not executed because blacklisted",
-        Test   => 'NutsAndBolts',
-        Config => {
+        Name                 => "UnitTest 'NutsAndBolts.t' not executed because blacklisted",
+        Test                 => 'NutsAndBolts',
+        SkipNutsAndBoltsTest => 0,
+        Config               => {
             Valid => 1,
             Key   => 'UnitTest::Blacklist###1000-UnitTest' . $RandomID,
             Value => ['NutsAndBolts.t'],
         },
-        TestExecuted => 0,
+        ResultPattern        => qr{Result: \s+ NOTESTS}x,
     },
     {
-        Name   => "UnitTest 'NutsAndBolts.t' executed because not blacklisted",
-        Test   => 'NutsAndBolts',
-        Config => {
+        Name                 => "UnitTest 'NutsAndBolts.t' executed because not blacklisted",
+        Test                 => 'NutsAndBolts',
+        SkipNutsAndBoltsTest => 1,
+        Config               => {
             Valid => 1,
             Key   => 'UnitTest::Blacklist###1000-UnitTest' . $RandomID,
             Value => [],
         },
-        TestExecuted => 1,
+        ResultPattern        => qr{\QParse errors: No plan found in TAP output\E},
     },
 );
 
@@ -65,9 +67,13 @@ plan( tests => scalar @Tests );
 
 for my $Test (@Tests) {
 
+    # override config
     $Helper->ConfigSettingChange(
         %{ $Test->{Config} },
     );
+
+    # override %ENV
+    local $ENV{SKIP_NUTSANDBOLTS_TEST} = $Test->{SkipNutsAndBoltsTest};
 
     # run Dev::UnitTest::Run
     my ( $ResultStdout, $ResultStderr, $ExitCode );
@@ -87,7 +93,5 @@ for my $Test (@Tests) {
     note( "out: '$ResultStdout'" );
 
     # Check for executed tests message.
-    my $TestExecuted = $ResultStdout =~ m{Result: \s+ NOTESTS}xms ? 0 : 1;
-
-    is( $TestExecuted, $Test->{TestExecuted}, $Test->{Name} );
+    like( $ResultStdout, $Test->{ResultPattern}, $Test->{Name} );
 }
