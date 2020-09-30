@@ -19,10 +19,18 @@ package Kernel::System::Console::Command::Maint::Ticket::EscalationIndexRebuild;
 
 use strict;
 use warnings;
-
-use Time::HiRes();
+use v5.24;
+use utf8;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+use Time::HiRes();
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -48,7 +56,8 @@ sub Configure {
 }
 
 sub Run {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     $Self->Print("<yellow>Rebuilding ticket escalation index...</yellow>\n");
 
@@ -89,6 +98,7 @@ sub Run {
     }
 
     $Self->Print("<green>Done.</green>\n");
+
     return $Self->ExitCodeOk();
 }
 
