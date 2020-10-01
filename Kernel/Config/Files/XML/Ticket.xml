@@ -14361,7 +14361,12 @@ Thanks for your help!
         <Value>
             <Hash>
                 <Item Key="TaskName">RebuildEscalationIndex</Item>
-                <Item Key="Schedule">*/4 * * * *</Item> <!-- default every 4 minutes -->
+                <!--
+                    run job every 4 minutes,
+                    don't change this as 4 minutes is hardcoded in
+                    Kernel::System::Ticket::TicketEscalationSuspendCalculate()
+                -->
+                <Item Key="Schedule">*/4 * * * *</Item>
                 <Item Key="Module">Kernel::System::Ticket</Item>
                 <Item Key="Function">RebuildEscalationIndex</Item>
                 <Item Key="MaximumParallelInstances">1</Item>
