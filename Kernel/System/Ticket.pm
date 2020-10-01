@@ -2323,6 +2323,9 @@ sub TicketEscalationPreferences {
     my %Ticket = %{ $Param{Ticket} };
 
     # get escalation properties
+    #  FirstResponseTime: in minutes according to business hours
+    #  UpdateTime:        in minutes according to business hours
+    #  Calendar:          numerical calendar id
     my %Escalation;
     if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service') && $Ticket{SLAID} ) {
 
@@ -2553,6 +2556,7 @@ build escalation index of one ticket with current settings (SLA, Queue, Calendar
     );
 
 The parameter B<Suspend> is passed by B<RebuildEscalationIndex> and by B<Maint::Ticket::EscalationIndexRebuild>.
+It's only use is to suppress the update of the change time and the change user of the ticket in specific cases.
 
 =cut
 
@@ -2578,7 +2582,7 @@ sub TicketEscalationIndexBuild {
         Silent        => 1,                  # Suppress warning if the ticket was deleted in the meantime.
     );
 
-    return if !%Ticket;
+    return unless %Ticket;
 
     # check whether the ticket is in a escalation suspend state
     # When EscalationSuspendStates is not active, then it counts as an empty list
@@ -2628,7 +2632,6 @@ sub TicketEscalationIndexBuild {
             next TIME if !$Ticket{$Key};
 
             # reset escalation time in the ticket table
-            # Don't mark the ticket as updated when escalation time is reset by RebuildEscalationIndex.
             my $SQL = "UPDATE ticket SET $EscalationTimes{$Key} = 0";
             my @Bind;
             if ( $MarkTicketAsModified ) {
@@ -3327,8 +3330,9 @@ sub TicketWorkingTimeSuspendCalculate {
 
 =head2 RebuildEscalationIndex
 
-Call B<TicketEscalationIndexBuild()> for all tickets that are in
-in as state listed in the SysConfig setting B<EscalationSuspendStates>.
+This method is a helper for the escalation suspend feature.
+It calls the method B<TicketEscalationIndexBuild()> for all tickets that are in
+in a state listed in the SysConfig setting B<EscalationSuspendStates>.
 
     my $Success = $TicketObject->RebuildEscalationIndex();
 
@@ -3344,13 +3348,8 @@ sub RebuildEscalationIndex {
 
     # get all tickets
     my @TicketIDs = $Self->TicketSearch(
-
-        # result (required)
-        Result => 'ARRAY',
-
-        States => $EscalationSuspendStates,
-
-        # result limit=
+        Result     => 'ARRAY',
+        States     => $EscalationSuspendStates, # restrict to the escalation suspend states
         Limit      => 100_000_000,
         UserID     => 1,
         Permission => 'ro',
@@ -3359,12 +3358,16 @@ sub RebuildEscalationIndex {
     my $Count = 0;
     for my $TicketID (@TicketIDs) {
         $Count++;
+
         $Self->TicketEscalationIndexBuild(
             TicketID => $TicketID,
             Suspend  => 1,
             UserID   => 1,
         );
-        if ( ( $Count / 2000 ) == int( $Count / 2000 ) ) {
+
+        # Assure the user that the process is still alive.
+        # Using print is permissible here, as RebuildEscalationIndex() is not called in a web context.
+        if ( $Count % 2000 == 0 ) {
             my $Percent = int( $Count / ( $#TicketIDs / 100 ) );
             print "<yellow>  $Count of $#TicketIDs processed ($Percent% done).</yellow>\n";
             $Kernel::OM->Get('Kernel::System::Log')->Log(
