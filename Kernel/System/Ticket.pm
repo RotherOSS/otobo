@@ -3022,7 +3022,7 @@ sub TicketEscalationSuspendCalculate {
             next ROW unless $Row->{State};
 
             # old state change, remember if suspend state
-            $SuspendState = $IsEscalationSuspendState{ $Row->{State} } ? 0 : 1;
+            $SuspendState = $IsEscalationSuspendState{ $Row->{State} } ? 1 : 0;
 
             next ROW;
         }
@@ -3115,7 +3115,7 @@ sub TicketEscalationSuspendCalculate {
         next ROW unless $Row->{State};
 
         # remember if suspend state
-        $SuspendState = $IsEscalationSuspendState{ $Row->{State} } ? 0 : 1;
+        $SuspendState = $IsEscalationSuspendState{ $Row->{State} } ? 1 : 0;
     }
 
     if ($UpdateDiffTime) {
@@ -3159,7 +3159,7 @@ sub TicketEscalationSuspendCalculate {
 
             # check if current state should be suspended
             if ( $Row->{State} ) {
-                $SuspendState = $IsEscalationSuspendState{ $Row->{State} } ? 0 : 1;
+                $SuspendState = $IsEscalationSuspendState{ $Row->{State} } ? 1 : 0;
             }
 
             if ( !$SuspendState ) {
