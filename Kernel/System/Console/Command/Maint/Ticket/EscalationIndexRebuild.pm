@@ -64,10 +64,11 @@ sub Run {
     # disable ticket events
     $Kernel::OM->Get('Kernel::Config')->{'Ticket::EventModulePost'} = {};
 
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # get all tickets
-    my @TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
+    my @TicketIDs = $TicketObject->TicketSearch(
         Result     => 'ARRAY',
-        States     => $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates'),
         Limit      => 100_000_000,
         UserID     => 1,
         Permission => 'ro',
@@ -81,9 +82,8 @@ sub Run {
 
         $Count++;
 
-        $Kernel::OM->Get('Kernel::System::Ticket')->TicketEscalationIndexBuild(
+        $TicketObject->TicketEscalationIndexBuild(
             TicketID => $TicketID,
-            Suspend  => 1,
             UserID   => 1,
         );
 
