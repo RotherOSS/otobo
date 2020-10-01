@@ -3336,15 +3336,22 @@ in a state listed in the SysConfig setting B<EscalationSuspendStates>.
 
     my $Success = $TicketObject->RebuildEscalationIndex();
 
+This method does nothing when the config setting B<EscalationSuspendStates> is not activated
+or when no escalation suspend states are configured.
+
+As a side effect, this method prints a progress indicator to STDOUT.
+
 =cut
 
 sub RebuildEscalationIndex {
     my ( $Self, %Param ) = @_;
 
-    # this is undef when EscalationSuspendStates is not activated
-    # This means that in TicketSearch() the condition States will be ignored,
-    # and thus all tickets will be found.
+    # $EscalationSuspendStates is undef when EscalationSuspendStates is not activated.
+    # Do nothing in this case.
     my $EscalationSuspendStates = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates');
+
+    return 1 unless $EscalationSuspendStates;
+    return 1 unless $EscalationSuspendStates->@*;
 
     # get all tickets
     my @TicketIDs = $Self->TicketSearch(
