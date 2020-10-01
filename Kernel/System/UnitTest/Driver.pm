@@ -356,6 +356,8 @@ sub AttachSeleniumScreenshot {
         Content  => $Param{Content},
         };
 
+    $Context->release();
+
     return;
 }
 
@@ -373,8 +375,10 @@ sub DoneTesting {
     my $Self = shift;
 
     my $Context = context();
+    my $Ret = $Context->done_testing();
+    $Context->release();
 
-    return $Context->done_testing();
+    return $Ret;
 }
 
 =head2 Note()
@@ -389,9 +393,10 @@ sub Note {
     my %Param = @_;
 
     my $Context = context();
-    my $Note = $Param{Note} // '';
+    my $Ret = $Context->note( $Param{Note} // '' );
+    $Context->release();
 
-    return $Context->note( $Note );
+    return $Ret;
 }
 
 =begin Internal:
