@@ -383,6 +383,7 @@ sub TicketSearch {
     }
 
     # check types of given arguments
+    # references to an empty array are not accepted
     ARGUMENT:
     for my $Key (
         qw(
@@ -400,6 +401,7 @@ sub TicketSearch {
             Priority => 'error',
             Message  => "The given param '$Key' is invalid or an empty array reference!",
         );
+
         return;
     }
 
@@ -674,6 +676,7 @@ sub TicketSearch {
     }
 
     # current state lookup
+    # param is ignored when the value is not defined
     if ( $Param{States} ) {
 
         # get state object
