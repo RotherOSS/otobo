@@ -19,6 +19,8 @@ use warnings;
 use v5.24;
 use utf8;
 
+use Test2::V0;
+
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
@@ -108,4 +110,4 @@ else {
     );
 }
 
-$Self->DoneTesting();
+done_testing();

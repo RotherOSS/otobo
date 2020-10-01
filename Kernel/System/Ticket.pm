@@ -2546,12 +2546,16 @@ build escalation index of one ticket with current settings (SLA, Queue, Calendar
     my $Success = $TicketObject->TicketEscalationIndexBuild(
         TicketID => $Param{TicketID},
         UserID   => $Param{UserID},
+        Suspend  => 1,    # optional
     );
+
+The parameter B<Suspend> is passed by B<RebuildEscalationIndex> and by B<Maint::Ticket::EscalationIndexRebuild>.
 
 =cut
 
 sub TicketEscalationIndexBuild {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
@@ -2573,29 +2577,37 @@ sub TicketEscalationIndexBuild {
 
     return if !%Ticket;
 
-    # get states in which to suspend escalations
-    my @SuspendStates
-        = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates')
-        ? @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') }
-        : ();
+    # check whether the ticket is in a escalation suspend state
+    # When EscalationSuspendStates is not active, then it counts as an empty list
     my $SuspendStateActive = 0;
-    STATE:
-    for my $State (@SuspendStates) {
-        next STATE if $Ticket{State} ne $State;
-        $SuspendStateActive = 1;
-        last STATE;
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') ) {
+        my %IsEscalationSuspendState = map
+            { $_ => 1 }
+            $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates')->@*;
+        if ( $IsEscalationSuspendState{ $Ticket{State} } ) {
+            $SuspendStateActive = 1;
+        }
     }
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    # Tickets are not marked as modified when this sub was called by RebuildEscalationIndex
+    # and the State is actually a escalation suspend state.
+    my $MarkTicketAsModified = 1;
+    if ( $Param{Suspend} && $SuspendStateActive ) {
+        $MarkTicketAsModified = 0;
+    }
 
-    # cancel whole escalation
-    my $EscalationSuspendCancelEscalation
-        = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendCancelEscalation');
+    # get objects
+    my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # do no escalations on (merge|close|remove) tickets
-    if (   ( $Ticket{StateType} && $Ticket{StateType} =~ /^(merge|close|remove)/i )
-        || ( $EscalationSuspendCancelEscalation && $SuspendStateActive ) )
+    # Do no escalation on (merge|close|remove) tickets.
+    # Cancel whole escalation when EscalationSuspendCancelEscalation is active
+    # and the ticket is in a escalation suspend state.
+    if (
+        ( $Ticket{StateType} && $Ticket{StateType} =~ m/^(merge|close|remove)/i )
+        ||
+        ( $ConfigObject->Get('EscalationSuspendCancelEscalation') && $SuspendStateActive )
+    )
     {
 
         # update escalation times with 0
@@ -2612,10 +2624,11 @@ sub TicketEscalationIndexBuild {
             # check if table update is needed
             next TIME if !$Ticket{$Key};
 
-            # update ticket table
+            # reset escalation time in the ticket table
+            # Don't mark the ticket as updated when escalation time is reset by RebuildEscalationIndex.
             my $SQL = "UPDATE ticket SET $EscalationTimes{$Key} = 0";
             my @Bind;
-            if ( !$Param{Suspend} || !$SuspendStateActive ) {
+            if ( $MarkTicketAsModified ) {
                 $SQL .= ', change_time = current_timestamp, change_by = ?';
                 push @Bind, \$Param{UserID};
             }
@@ -2651,7 +2664,7 @@ sub TicketEscalationIndexBuild {
     if ( !$Escalation{FirstResponseTime} ) {
         my $SQL = "UPDATE ticket SET escalation_response_time = 0";
         my @Bind;
-        if ( !$Param{Suspend} || !$SuspendStateActive ) {
+        if ( $MarkTicketAsModified ) {
             $SQL .= ', change_time = current_timestamp, change_by = ?';
             push @Bind, \$Param{UserID};
         }
@@ -2675,7 +2688,7 @@ sub TicketEscalationIndexBuild {
         if (%FirstResponseDone) {
             my $SQL = "UPDATE ticket SET escalation_response_time = 0";
             my @Bind;
-            if ( !$Param{Suspend} || !$SuspendStateActive ) {
+            if ( $MarkTicketAsModified ) {
                 $SQL .= ', change_time = current_timestamp, change_by = ?';
                 push @Bind, \$Param{UserID};
             }
@@ -2700,7 +2713,7 @@ sub TicketEscalationIndexBuild {
 
             my $SQL  = "UPDATE ticket SET escalation_response_time = ?";
             my @Bind = ( \$DestinationTime );
-            if ( !$Param{Suspend} || !$SuspendStateActive ) {
+            if ( $MarkTicketAsModified ) {
                 $SQL .= ', change_time = current_timestamp, change_by = ?';
                 push @Bind, \$Param{UserID};
             }
@@ -2720,7 +2733,7 @@ sub TicketEscalationIndexBuild {
     if ( !$Escalation{UpdateTime} || $Ticket{StateType} =~ /^(pending)/i ) {
         my $SQL = "UPDATE ticket SET escalation_update_time = 0";
         my @Bind;
-        if ( !$Param{Suspend} || !$SuspendStateActive ) {
+        if ( $MarkTicketAsModified ) {
             $SQL .= ', change_time = current_timestamp, change_by = ?';
             push @Bind, \$Param{UserID};
         }
@@ -2809,7 +2822,7 @@ sub TicketEscalationIndexBuild {
 
             my $SQL  = "UPDATE ticket SET escalation_update_time = ?";
             my @Bind = ( \$DestinationTime );
-            if ( !$Param{Suspend} || !$SuspendStateActive ) {
+            if ( $MarkTicketAsModified ) {
                 $SQL .= ', change_time = current_timestamp, change_by = ?';
                 push @Bind, \$Param{UserID};
             }
@@ -2830,7 +2843,7 @@ sub TicketEscalationIndexBuild {
         else {
             my $SQL = "UPDATE ticket SET escalation_update_time = 0";
             my @Bind;
-            if ( !$Param{Suspend} || !$SuspendStateActive ) {
+            if ( $MarkTicketAsModified ) {
                 $SQL .= ', change_time = current_timestamp, change_by = ?';
                 push @Bind, \$Param{UserID};
             }
@@ -2848,7 +2861,7 @@ sub TicketEscalationIndexBuild {
     if ( !$Escalation{SolutionTime} ) {
         my $SQL = "UPDATE ticket SET escalation_solution_time = 0";
         my @Bind;
-        if ( !$Param{Suspend} || !$SuspendStateActive ) {
+        if ( $MarkTicketAsModified ) {
             $SQL .= ', change_time = current_timestamp, change_by = ?';
             push @Bind, \$Param{UserID};
         }
@@ -2872,7 +2885,7 @@ sub TicketEscalationIndexBuild {
         if (%SolutionDone) {
             my $SQL = "UPDATE ticket SET escalation_solution_time = 0";
             my @Bind;
-            if ( !$Param{Suspend} || !$SuspendStateActive ) {
+            if ( $MarkTicketAsModified ) {
                 $SQL .= ', change_time = current_timestamp, change_by = ?';
                 push @Bind, \$Param{UserID};
             }
@@ -2897,7 +2910,7 @@ sub TicketEscalationIndexBuild {
             # update solution time to $DestinationTime
             my $SQL  = "UPDATE ticket SET escalation_solution_time = ?";
             my @Bind = ( \$DestinationTime );
-            if ( !$Param{Suspend} || !$SuspendStateActive ) {
+            if ( $MarkTicketAsModified ) {
                 $SQL .= ', change_time = current_timestamp, change_by = ?';
                 push @Bind, \$Param{UserID};
             }
@@ -2920,7 +2933,7 @@ sub TicketEscalationIndexBuild {
     if ( defined $EscalationTime ) {
         my $SQL  = "UPDATE ticket SET escalation_time = ?";
         my @Bind = ( \$EscalationTime );
-        if ( !$Param{Suspend} || !$SuspendStateActive ) {
+        if ( $MarkTicketAsModified ) {
             $SQL .= ', change_time = current_timestamp, change_by = ?';
             push @Bind, \$Param{UserID};
         }
@@ -3318,8 +3331,22 @@ sub TicketWorkingTimeSuspendCalculate {
     return $WorkingTimeUnsuspended;
 }
 
+=head2 RebuildEscalationIndex
+
+Call B<TicketEscalationIndexBuild()> for all tickets that are in
+in as state listed in the SysConfig setting B<EscalationSuspendStates>.
+
+    my $Success = $TicketObject->RebuildEscalationIndex();
+
+=cut
+
 sub RebuildEscalationIndex {
     my ( $Self, %Param ) = @_;
+
+    # this is undef when EscalationSuspendStates is not activated
+    # This means that in TicketSearch() the condition States will be ignored,
+    # and thus all tickets will be found.
+    my $EscalationSuspendStates = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates');
 
     # get all tickets
     my @TicketIDs = $Self->TicketSearch(
@@ -3327,9 +3354,9 @@ sub RebuildEscalationIndex {
         # result (required)
         Result => 'ARRAY',
 
-        States => $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates'),
+        States => $EscalationSuspendStates,
 
-        # result limit
+        # result limit=
         Limit      => 100_000_000,
         UserID     => 1,
         Permission => 'ro',
