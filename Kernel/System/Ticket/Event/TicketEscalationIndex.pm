@@ -28,10 +28,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 sub Run {
@@ -44,9 +41,11 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
+
     for (qw(TicketID)) {
         if ( !$Param{Data}->{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
