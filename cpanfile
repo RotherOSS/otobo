@@ -116,6 +116,9 @@ feature 'devel:test', 'Suppport for devel:test' => sub {
     # basic test functions
     requires 'Test2::Suite';
 
+    # contains Test2::API which is used in Kernel::System::UnitTest::Driver
+    requires 'Test::Simple';
+
 };
 
 feature 'div:bcrypt', 'Suppport for div:bcrypt' => sub {
@@ -316,6 +319,9 @@ feature 'optional', 'Suppport for optional' => sub {
 
     # basic test functions
     requires 'Test2::Suite';
+
+    # contains Test2::API which is used in Kernel::System::UnitTest::Driver
+    requires 'Test::Simple';
 
     # a web framework that makes web development fun again
     requires 'Mojolicious';

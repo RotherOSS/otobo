@@ -993,7 +993,8 @@ my @NeededModules = (
             zypper => undef,
             ports  => undef,
         },
-    }{
+    },
+    {
         Module    => 'Mojolicious',
         Required  => 0,
         Features   => ['devel:dbviewer'],
