@@ -2965,10 +2965,12 @@ sub TicketEscalationSuspendCalculate {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get states in which to suspend escalations
-    my @SuspendStates
-        = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates')
-        ? @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') }
-        : ();
+    my %IsEscalationSuspendState;
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') ) {
+        %IsEscalationSuspendState = map
+            { $_ => 1 }
+            $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates')->@*;
+    }
 
     # get stateid->state map
     my %StateList = $Kernel::OM->Get('Kernel::System::State')->StateList(
@@ -3017,19 +3019,11 @@ sub TicketEscalationSuspendCalculate {
     for my $Row (@StateHistory) {
         if ( $Row->{CreatedUnix} <= $DestinationTime ) {
 
-            next ROW if !$Row->{State};
+            next ROW unless $Row->{State};
 
             # old state change, remember if suspend state
-            $SuspendState = 0;
-            STATE:
-            for my $State (@SuspendStates) {
+            $SuspendState = $IsEscalationSuspendState{ $Row->{State} } ? 0 : 1;
 
-                next STATE if $Row->{State} ne $State;
-
-                $SuspendState = 1;
-
-                last STATE;
-            }
             next ROW;
         }
 
@@ -3118,18 +3112,10 @@ sub TicketEscalationSuspendCalculate {
             }
         }
 
-        next ROW if !$Row->{State};
+        next ROW unless $Row->{State};
 
         # remember if suspend state
-        $SuspendState = 0;
-        STATE:
-        for my $State (@SuspendStates) {
-            next STATE if $Row->{State} ne $State;
-
-            $SuspendState = 1;
-
-            last STATE;
-        }
+        $SuspendState = $IsEscalationSuspendState{ $Row->{State} } ? 0 : 1;
     }
 
     if ($UpdateDiffTime) {
@@ -3173,16 +3159,7 @@ sub TicketEscalationSuspendCalculate {
 
             # check if current state should be suspended
             if ( $Row->{State} ) {
-                $SuspendState = 0;
-                STATE:
-                for my $State (@SuspendStates) {
-
-                    next STATE if $Row->{State} ne $State;
-
-                    $SuspendState = 1;
-
-                    last STATE;
-                }
+                $SuspendState = $IsEscalationSuspendState{ $Row->{State} } ? 0 : 1;
             }
 
             if ( !$SuspendState ) {
@@ -3225,17 +3202,20 @@ sub TicketWorkingTimeSuspendCalculate {
     my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
-    # get states in which to suspend escalations
-    my @SuspendStates
-        = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates')
-        ? @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') }
-        : ();
-    my @ClosedStates = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
-        StateType => ['closed'],
-        Result    => 'Name',
-    );
+    # get states in which to suspend escalations or which are closed
+    my @SuspendAndClosedStates;
+    {
+        # the escalation suspend states
+        if ( $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') ) {
+            push @SuspendAndClosedStates, $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates')->@*;
+        }
 
-    my @SuspendAndClosedStates = ( @SuspendStates, @ClosedStates );
+        # the closed states
+        push @SuspendAndClosedStates, $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+            StateType => ['closed'],
+            Result    => 'Name',
+        );
+    }
 
     # get stateid->state map
     my %StateList = $Kernel::OM->Get('Kernel::System::State')->StateList(
