@@ -19,6 +19,8 @@ use strict;
 use warnings;
 use utf8;
 
+use Test2::V0;
+
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
@@ -58,7 +60,7 @@ my $TestUserID3 = $UserObject->UserLookup(
 );
 
 # plan for two tests per user and child
-$Self->Plan( Tests => 2 * 3 * $ChildCount );
+plan( 2 * 3 * $ChildCount );
 
 my $FileBase = << 'EOF';
 # OTOBO config file (automatically generated)

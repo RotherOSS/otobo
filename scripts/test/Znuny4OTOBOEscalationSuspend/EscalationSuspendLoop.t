@@ -18,6 +18,8 @@ use strict;
 use warnings;
 use utf8;
 
+use Test2::V0;
+
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
@@ -25,7 +27,7 @@ our $Self;
 
 use Kernel::System::VariableCheck qw(:all);
 
-$Self->Plan( Tests => 7 );
+plan( 7 );
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
