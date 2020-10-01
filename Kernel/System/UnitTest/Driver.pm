@@ -27,6 +27,7 @@ use Time::HiRes qw();
 
 # CPAN modules
 use Text::Diff;
+use Test2::API qw(context);
 
 # OTOBO modules
 # UnitTest helper must be loaded to override the builtin time functions!
@@ -89,15 +90,17 @@ sub True {
     my $Self = shift;
     my ( $True, $Name ) = @_;
 
+    my $Context = context();
+
     if ( !$Name ) {
-        return $Self->_Print( 0, 'Error: test name was not provided.' );
+        return $Self->_Print( $Context, 0, 'Error: test name was not provided.' );
     }
 
     if ($True) {
-        return $Self->_Print( 1, $Name );
+        return $Self->_Print( $Context, 1, $Name );
     }
     else {
-        return $Self->_Print( 0, $Name );
+        return $Self->_Print( $Context, 0, $Name );
     }
 }
 
@@ -114,15 +117,17 @@ sub False {
     my $Self = shift;
     my ( $False, $Name ) = @_;
 
+    my $Context = context();
+
     if ( !$Name ) {
-        return $Self->_Print( 0, 'Error: test name was not provided.' );
+        return $Self->_Print( $Context, 0, 'Error: test name was not provided.' );
     }
 
     if ( !$False ) {
-        return $Self->_Print( 1, $Name );
+        return $Self->_Print( $Context, 1, $Name );
     }
     else {
-        return $Self->_Print( 0, $Name );
+        return $Self->_Print( $Context, 0, $Name );
     }
 }
 
@@ -150,24 +155,26 @@ sub Is {
     my $Self = shift;
     my ( $Test, $ShouldBe, $Name ) = @_;
 
+    my $Context = context();
+
     if ( !$Name ) {
-        return $Self->_Print( 0, 'Error: test name was not provided.' );
+        return $Self->_Print( $Context, 0, 'Error: test name was not provided.' );
     }
 
     if ( !defined $Test && !defined $ShouldBe ) {
-        return $Self->_Print( 1, $Name );
+        return $Self->_Print( $Context, 1, $Name );
     }
     elsif ( !defined $Test && defined $ShouldBe ) {
-        return $Self->_Print( 0, "$Name (is 'undef' should be '$ShouldBe')" );
+        return $Self->_Print( $Context, 0, "$Name (is 'undef' should be '$ShouldBe')" );
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        return $Self->_Print( 0, "$Name (is '$Test' should be 'undef')" );
+        return $Self->_Print( $Context, 0, "$Name (is '$Test' should be 'undef')" );
     }
     elsif ( $Test eq $ShouldBe ) {
-        return $Self->_Print( 1, $Name );
+        return $Self->_Print( $Context, 1, $Name );
     }
     else {
-        return $Self->_Print( 0, "$Name (is '$Test' should be '$ShouldBe')" );
+        return $Self->_Print( $Context, 0, "$Name (is '$Test' should be '$ShouldBe')" );
     }
 }
 
@@ -184,24 +191,26 @@ sub IsNot {
     my $Self = shift;
     my ( $Test, $ShouldBe, $Name ) = @_;
 
+    my $Context = context();
+
     if ( !$Name ) {
-        return $Self->_Print( 0, 'Error: test name was not provided.' );
+        return $Self->_Print( $Context, 0, 'Error: test name was not provided.' );
     }
 
     if ( !defined $Test && !defined $ShouldBe ) {
-        return $Self->_Print( 0, "$Name (is 'undef')" );
+        return $Self->_Print( $Context, 0, "$Name (is 'undef')" );
     }
     elsif ( !defined $Test && defined $ShouldBe ) {
-        return $Self->_Print( 1, $Name );
+        return $Self->_Print( $Context, 1, $Name );
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        return $Self->_Print( 1, $Name );
+        return $Self->_Print( $Context, 1, $Name );
     }
     if ( $Test ne $ShouldBe ) {
-        return $Self->_Print( 1, $Name );
+        return $Self->_Print( $Context, 1, $Name );
     }
     else {
-        return $Self->_Print( 0, "$Name (is '$Test' should not be '$ShouldBe')" );
+        return $Self->_Print( $Context, 0, "$Name (is '$Test' should not be '$ShouldBe')" );
     }
 }
 
@@ -231,8 +240,10 @@ sub IsDeeply {
     my $Self = shift;
     my ( $Test, $ShouldBe, $Name ) = @_;
 
+    my $Context = context();
+
     if ( !$Name ) {
-        return $Self->_Print( 0, 'Error: test name was not provided.' );
+        return $Self->_Print( $Context, 0, 'Error: test name was not provided.' );
     }
 
     my $Diff = DataIsDifferent(
@@ -241,16 +252,16 @@ sub IsDeeply {
     );
 
     if ( !defined $Test && !defined $ShouldBe ) {
-        return $Self->_Print( 1, $Name );
+        return $Self->_Print( $Context, 1, $Name );
     }
     elsif ( !defined $Test && defined $ShouldBe ) {
-        return $Self->_Print( 0, "$Name (is 'undef' should be defined)" );
+        return $Self->_Print( $Context, 0, "$Name (is 'undef' should be defined)" );
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        return $Self->_Print( 0, "$Name (is defined should be 'undef')" );
+        return $Self->_Print( $Context, 0, "$Name (is defined should be 'undef')" );
     }
     elsif ( !$Diff ) {
-        return $Self->_Print( 1, $Name );
+        return $Self->_Print( $Context, 1, $Name );
     }
     else {
         my $TestDump     = $Kernel::OM->Get('Kernel::System::Main')->Dump($Test);
@@ -271,7 +282,7 @@ sub IsDeeply {
         $Output .= "Actual data" . ":\n$TestDump\n";
         $Output .= "Expected data" . ":\n$ShouldBeDump\n";
 
-        return $Self->_Print( 0, "$Name (is not equal, see below)\n$Output" );
+        return $Self->_Print( $Context, 0, "$Name (is not equal, see below)\n$Output" );
     }
 }
 
@@ -288,8 +299,10 @@ sub IsNotDeeply {
     my $Self = shift;
     my ( $Test, $ShouldBe, $Name ) = @_;
 
+    my $Context = context();
+
     if ( !$Name ) {
-        return $Self->_Print( 0, 'Error: test name was not provided.' );
+        return $Self->_Print( $Context, 0, 'Error: test name was not provided.' );
     }
 
     my $Diff = DataIsDifferent(
@@ -298,23 +311,23 @@ sub IsNotDeeply {
     );
 
     if ( !defined $Test && !defined $ShouldBe ) {
-        return $Self->_Print( 0, "$Name (is 'undef')" );
+        return $Self->_Print( $Context, 0, "$Name (is 'undef')" );
     }
     elsif ( !defined $Test && defined $ShouldBe ) {
-        return $Self->_Print( 1, $Name );
+        return $Self->_Print( $Context, 1, $Name );
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        return $Self->_Print( 1, $Name );
+        return $Self->_Print( $Context, 1, $Name );
     }
 
     if ($Diff) {
-        return $Self->_Print( 1, $Name );
+        return $Self->_Print( $Context, 1, $Name );
     }
     else {
         my $TestDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($Test);
         my $Output   = "Actual data" . ":\n$TestDump\n";
 
-        return $Self->_Print( 0, "$Name (the structures are wrongly equal, see below)\n$Output" );
+        return $Self->_Print( $Context, 0, "$Name (the structures are wrongly equal, see below)\n$Output" );
     }
 }
 
@@ -335,27 +348,15 @@ sub AttachSeleniumScreenshot {
     my $Self = shift;
     my %Param = @_;
 
+    my $Context = context();
+
     push @{ $Self->{ResultData}->{Results}->{ $Self->{TestCount} }->{Screenshots} },
         {
         Filename => $Param{Filename},
         Content  => $Param{Content},
         };
 
-    return;
-}
-
-=head2 Plan
-
-Explicitly declare the expected number of tests.
-The required parameter B<Tests> sets the expected number of tests.
-
-=cut
-
-sub Plan {
-    my $Self = shift;
-    my %Param = @_;
-
-    say "1..$Param{Tests}";
+    $Context->release();
 
     return;
 }
@@ -373,7 +374,11 @@ This effectively disables the check of the test plan.
 sub DoneTesting {
     my $Self = shift;
 
-    return $Self->Plan( Tests => $Self->{TestCount} );
+    my $Context = context();
+    my $Ret = $Context->done_testing();
+    $Context->release();
+
+    return $Ret;
 }
 
 =head2 Note()
@@ -387,11 +392,11 @@ sub Note {
     my $Self = shift;
     my %Param = @_;
 
-    my $Note = $Param{Note} // '';
-    chomp $Note;
-    print map { "# $_\n" } split /\n/, $Note;
+    my $Context = context();
+    my $Ret = $Context->note( $Param{Note} // '' );
+    $Context->release();
 
-    return;
+    return $Ret;
 }
 
 =begin Internal:
@@ -400,31 +405,31 @@ sub Note {
 
 sub _Print {
     my $Self = shift;
-    my ( $ResultOk, $Message ) = @_;
+    my ( $Context, $ResultOk, $Message ) = @_;
 
     $Message ||= '->>No Name!<<-';
 
-    $Self->{TestCount}++;
-
     if ($ResultOk) {
         if ( $Self->{SelfTest} ) {
+
             # print nothing as Kernel::System::UnitTest is tested itself
-        }
-        else {
-            say 'ok', " $Self->{TestCount} - $Message";
+            $Context->release();
+
+            return 1;
         }
 
-        return 1;
+        return $Context->pass_and_release($Message);
     }
     else {
         if ( $Self->{SelfTest} ) {
+
             # print nothing as Kernel::System::UnitTest is tested itself
-        }
-        else {
-            say "not ok", " $Self->{TestCount} - $Message";
+            $Context->release();
+
+            return 0;
         }
 
-        return;
+        return $Context->fail_and_release($Message);
     }
 }
 

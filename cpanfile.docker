@@ -104,6 +104,9 @@ requires 'Unicode::Collate';
     # basic test functions
     requires 'Test2::Suite';
 
+    # contains Test2::API which is used in Kernel::System::UnitTest::Driver
+    requires 'Test::Simple';
+
 # };
 
 # feature 'div:bcrypt', 'Suppport for div:bcrypt' => sub {
