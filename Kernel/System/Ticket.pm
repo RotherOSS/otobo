@@ -2323,6 +2323,9 @@ sub TicketEscalationPreferences {
     my %Ticket = %{ $Param{Ticket} };
 
     # get escalation properties
+    #  FirstResponseTime: in minutes according to business hours
+    #  UpdateTime:        in minutes according to business hours
+    #  Calendar:          numerical calendar id
     my %Escalation;
     if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service') && $Ticket{SLAID} ) {
 
@@ -2553,6 +2556,7 @@ build escalation index of one ticket with current settings (SLA, Queue, Calendar
     );
 
 The parameter B<Suspend> is passed by B<RebuildEscalationIndex> and by B<Maint::Ticket::EscalationIndexRebuild>.
+It's only use is to suppress the update of the change time and the change user of the ticket in specific cases.
 
 =cut
 
@@ -2578,7 +2582,7 @@ sub TicketEscalationIndexBuild {
         Silent        => 1,                  # Suppress warning if the ticket was deleted in the meantime.
     );
 
-    return if !%Ticket;
+    return unless %Ticket;
 
     # check whether the ticket is in a escalation suspend state
     # When EscalationSuspendStates is not active, then it counts as an empty list
@@ -2628,7 +2632,6 @@ sub TicketEscalationIndexBuild {
             next TIME if !$Ticket{$Key};
 
             # reset escalation time in the ticket table
-            # Don't mark the ticket as updated when escalation time is reset by RebuildEscalationIndex.
             my $SQL = "UPDATE ticket SET $EscalationTimes{$Key} = 0";
             my @Bind;
             if ( $MarkTicketAsModified ) {
@@ -2962,10 +2965,12 @@ sub TicketEscalationSuspendCalculate {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get states in which to suspend escalations
-    my @SuspendStates
-        = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates')
-        ? @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') }
-        : ();
+    my %IsEscalationSuspendState;
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') ) {
+        %IsEscalationSuspendState = map
+            { $_ => 1 }
+            $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates')->@*;
+    }
 
     # get stateid->state map
     my %StateList = $Kernel::OM->Get('Kernel::System::State')->StateList(
@@ -3014,19 +3019,11 @@ sub TicketEscalationSuspendCalculate {
     for my $Row (@StateHistory) {
         if ( $Row->{CreatedUnix} <= $DestinationTime ) {
 
-            next ROW if !$Row->{State};
+            next ROW unless $Row->{State};
 
             # old state change, remember if suspend state
-            $SuspendState = 0;
-            STATE:
-            for my $State (@SuspendStates) {
+            $SuspendState = $IsEscalationSuspendState{ $Row->{State} } ? 1 : 0;
 
-                next STATE if $Row->{State} ne $State;
-
-                $SuspendState = 1;
-
-                last STATE;
-            }
             next ROW;
         }
 
@@ -3115,18 +3112,10 @@ sub TicketEscalationSuspendCalculate {
             }
         }
 
-        next ROW if !$Row->{State};
+        next ROW unless $Row->{State};
 
         # remember if suspend state
-        $SuspendState = 0;
-        STATE:
-        for my $State (@SuspendStates) {
-            next STATE if $Row->{State} ne $State;
-
-            $SuspendState = 1;
-
-            last STATE;
-        }
+        $SuspendState = $IsEscalationSuspendState{ $Row->{State} } ? 1 : 0;
     }
 
     if ($UpdateDiffTime) {
@@ -3170,16 +3159,7 @@ sub TicketEscalationSuspendCalculate {
 
             # check if current state should be suspended
             if ( $Row->{State} ) {
-                $SuspendState = 0;
-                STATE:
-                for my $State (@SuspendStates) {
-
-                    next STATE if $Row->{State} ne $State;
-
-                    $SuspendState = 1;
-
-                    last STATE;
-                }
+                $SuspendState = $IsEscalationSuspendState{ $Row->{State} } ? 1 : 0;
             }
 
             if ( !$SuspendState ) {
@@ -3222,17 +3202,20 @@ sub TicketWorkingTimeSuspendCalculate {
     my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
-    # get states in which to suspend escalations
-    my @SuspendStates
-        = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates')
-        ? @{ $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') }
-        : ();
-    my @ClosedStates = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
-        StateType => ['closed'],
-        Result    => 'Name',
-    );
+    # get states in which to suspend escalations or which are closed
+    my @SuspendAndClosedStates;
+    {
+        # the escalation suspend states
+        if ( $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') ) {
+            push @SuspendAndClosedStates, $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates')->@*;
+        }
 
-    my @SuspendAndClosedStates = ( @SuspendStates, @ClosedStates );
+        # the closed states
+        push @SuspendAndClosedStates, $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+            StateType => ['closed'],
+            Result    => 'Name',
+        );
+    }
 
     # get stateid->state map
     my %StateList = $Kernel::OM->Get('Kernel::System::State')->StateList(
@@ -3327,30 +3310,33 @@ sub TicketWorkingTimeSuspendCalculate {
 
 =head2 RebuildEscalationIndex
 
-Call B<TicketEscalationIndexBuild()> for all tickets that are in
-in as state listed in the SysConfig setting B<EscalationSuspendStates>.
+This method is a helper for the escalation suspend feature.
+It calls the method B<TicketEscalationIndexBuild()> for all tickets that are in
+in a state listed in the SysConfig setting B<EscalationSuspendStates>.
 
     my $Success = $TicketObject->RebuildEscalationIndex();
+
+This method does nothing when the config setting B<EscalationSuspendStates> is not activated
+or when no escalation suspend states are configured.
+
+As a side effect, this method prints a progress indicator to STDOUT.
 
 =cut
 
 sub RebuildEscalationIndex {
     my ( $Self, %Param ) = @_;
 
-    # this is undef when EscalationSuspendStates is not activated
-    # This means that in TicketSearch() the condition States will be ignored,
-    # and thus all tickets will be found.
+    # $EscalationSuspendStates is undef when EscalationSuspendStates is not activated.
+    # Do nothing in this case.
     my $EscalationSuspendStates = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates');
+
+    return 1 unless $EscalationSuspendStates;
+    return 1 unless $EscalationSuspendStates->@*;
 
     # get all tickets
     my @TicketIDs = $Self->TicketSearch(
-
-        # result (required)
-        Result => 'ARRAY',
-
-        States => $EscalationSuspendStates,
-
-        # result limit=
+        Result     => 'ARRAY',
+        States     => $EscalationSuspendStates, # restrict to the escalation suspend states
         Limit      => 100_000_000,
         UserID     => 1,
         Permission => 'ro',
@@ -3359,12 +3345,16 @@ sub RebuildEscalationIndex {
     my $Count = 0;
     for my $TicketID (@TicketIDs) {
         $Count++;
+
         $Self->TicketEscalationIndexBuild(
             TicketID => $TicketID,
             Suspend  => 1,
             UserID   => 1,
         );
-        if ( ( $Count / 2000 ) == int( $Count / 2000 ) ) {
+
+        # Assure the user that the process is still alive.
+        # Using print is permissible here, as RebuildEscalationIndex() is not called in a web context.
+        if ( $Count % 2000 == 0 ) {
             my $Percent = int( $Count / ( $#TicketIDs / 100 ) );
             print "<yellow>  $Count of $#TicketIDs processed ($Percent% done).</yellow>\n";
             $Kernel::OM->Get('Kernel::System::Log')->Log(
