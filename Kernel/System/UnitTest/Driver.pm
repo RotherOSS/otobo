@@ -359,22 +359,6 @@ sub AttachSeleniumScreenshot {
     return;
 }
 
-=head2 Plan
-
-Explicitly declare the expected number of tests.
-The required parameter B<Tests> sets the expected number of tests.
-
-=cut
-
-sub Plan {
-    my $Self = shift;
-    my %Param = @_;
-
-    my $Context = context();
-
-    return $Context->plan( $Param{Tests} );
-}
-
 =head2 DoneTesting()
 
 Print out a test plan. This assumes that the number of test that have

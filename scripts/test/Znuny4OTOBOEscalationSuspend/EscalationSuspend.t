@@ -19,6 +19,8 @@ use strict;
 use warnings;
 use utf8;
 
+use Test2::VO;
+
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
@@ -28,7 +30,7 @@ our $Self;
 
 # explicitly declare the number of tests. This makes is obvious when the
 # test script prematurely exits
-$Self->Plan( Tests => 25 );
+plan( 25 );
 
 ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
 
