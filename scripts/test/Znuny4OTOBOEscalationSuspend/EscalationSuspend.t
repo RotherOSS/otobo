@@ -19,11 +19,13 @@ use strict;
 use warnings;
 use utf8;
 
-use Test2::VO;
+# core modules
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up the test driver $Self
 use Kernel::System::VariableCheck qw(:all);
 
 our $Self;
