@@ -69,16 +69,46 @@ my $BaseURL = join '',
     $Helper->GetTestHTTPHostname(),
     '/',
     $ConfigObject->Get('ScriptAlias');
-
 my $AdminLoginURL = $BaseURL . "index.pl?Action=Login;User=$TestAdminUserLogin;Password=$TestAdminUserLogin;";
 my $HelloURL      = $BaseURL . '../hello';
 my $DbViewerURL   = $BaseURL . 'dbviewer';
 
-# TODO: check HelloURL access allowed without login
-# TODO: check HelloURL content
-# TODO: check DbViewerURL access denied without login
+use Data::Dumper;
+note("hello: $HelloURL");
+note("login: $AdminLoginURL");
+note("dbview: $DbViewerURL");
+note( "access to /hello is allowed even without login" );
+{
+    http_request(
+        [ GET($HelloURL), follow_redirects => 1 ],
+        http_response {
+            http_is_success();
+            http_content_type( 'text/plain' );
+            http_content( match( qr/🌍/ ) );  # content should be "Hallo 🌍!";
+        },
+        'testing /hello URL, without login first',
+    );
+# so strange: wget http://localhost:5000/otobo/../hello works, but in test script we get the logi page
+note( Dumper( [ 'XXX', $HelloURL, http_tx->req, http_tx->res ] ) );
+}
 
-# Login as admin
+note( 'login required for access to /otobo/dbviewer' );
+{
+    http_request(
+        [ GET($DbViewerURL), follow_redirects => 1 ],
+        http_response {
+            http_is_success();
+            http_content_type( 'text/html' );
+            http_content( match( qr/./ ) ); # TODO: saner regex
+        },
+        'testing /dbviewer URL',
+    );
+
+    # TODO: how can Test2::Tools::HTTP used for that test
+    #ok( ! scalar $Response->header('X-OTOBO-Login'), "$DbViewerURL is no OTOBO login screen" );
+}
+
+note( 'login as admin' );
 {
     http_request(
         [ GET($AdminLoginURL), follow_redirects => 1 ],
@@ -102,16 +132,29 @@ my $DbViewerURL   = $BaseURL . 'dbviewer';
     ok( $AdminSessionValid, 'valid session for admin user' );
 }
 
-# check /dbviewer
+note( 'access to /hello is still allowed after login' );
+{
+    http_request(
+        [ GET($HelloURL), follow_redirects => 1 ],
+        http_response {
+            http_is_success();
+            http_content_type( 'text/plain' );
+            http_content( match( qr/🌍/ ) );  # content should be "Hallo 🌍!";
+        },
+        'testing /hello URL, without login first',
+    );
+}
+
+note( 'access to /otobo/dbviewer granted after login' );
 {
     http_request(
         [ GET($DbViewerURL), follow_redirects => 1 ],
         http_response {
             http_is_success();
             http_content_type( 'text/html' );
-            # TODO: check response contents
+            http_content( match( qr/./ ) ); # TODO: saner regex
         },
-        'testing /dbviewer URL',
+        'testing /otobo/dbviewer URL',
     );
 
     # TODO: how can Test2::Tools::HTTP used for that test
