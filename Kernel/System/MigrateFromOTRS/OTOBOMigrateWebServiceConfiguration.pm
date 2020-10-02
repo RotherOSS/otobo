@@ -23,7 +23,6 @@ use parent qw(Kernel::System::MigrateFromOTRS::Base);
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
-    'Kernel::Language',
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',

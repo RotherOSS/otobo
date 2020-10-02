@@ -18,17 +18,16 @@ package Kernel::System::MigrateFromOTRS::OTOBOCopyFilesFromOTRS;    ## no critic
 
 use strict;
 use warnings;
+
+# core modules
 use File::Copy qw(copy);
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
 our @ObjectDependencies = (
-    'Kernel::Language',
     'Kernel::Config',
-    'Kernel::System::Main',
     'Kernel::System::Log',
     'Kernel::System::SysConfig',
-    'Kernel::System::FileTemp',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
 );

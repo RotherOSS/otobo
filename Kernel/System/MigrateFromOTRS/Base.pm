@@ -39,7 +39,6 @@ use Kernel::System::VariableCheck qw(:all);
 our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::Package',
-    'Kernel::Config',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::Language',

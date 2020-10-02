@@ -23,7 +23,6 @@ use Kernel::System::VariableCheck qw(:all);
 use parent qw(Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base);
 
 our @ObjectDependencies = (
-    'Kernel::Config',
     'Kernel::System::Log',
 );
 
