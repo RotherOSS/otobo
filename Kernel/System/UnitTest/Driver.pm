@@ -50,20 +50,15 @@ create unit test driver object. Do not use it directly, instead use:
 
     my $Driver = $Kernel::OM->Create( 'Kernel::System::UnitTest::Driver' );
 
+No parameter is supported.
+
 =cut
 
 sub new {
-    my $Type = shift;
-    my %Param = @_;
+    my $Class = shift;
 
     # allocate new hash for object
-    my $Self = bless {}, $Type;
-
-    # When Kernel::System::UnitTest is under test itself,
-    # then the output of the various instances should not be mangled
-    $Self->{SelfTest} = $Param{SelfTest};
-
-    return $Self;
+    return bless {}, $Class;
 }
 
 =head2 True()
@@ -409,28 +404,8 @@ sub _Print {
 
     $Message ||= '->>No Name!<<-';
 
-    if ($ResultOk) {
-        if ( $Self->{SelfTest} ) {
-
-            # print nothing as Kernel::System::UnitTest is tested itself
-            $Context->release();
-
-            return 1;
-        }
-
-        return $Context->pass_and_release($Message);
-    }
-    else {
-        if ( $Self->{SelfTest} ) {
-
-            # print nothing as Kernel::System::UnitTest is tested itself
-            $Context->release();
-
-            return 0;
-        }
-
-        return $Context->fail_and_release($Message);
-    }
+    return $Context->pass_and_release($Message) if $ResultOk;
+    return $Context->fail_and_release($Message);
 }
 
 =end Internal:
