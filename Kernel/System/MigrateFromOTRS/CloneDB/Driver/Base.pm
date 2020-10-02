@@ -61,7 +61,7 @@ sub new {
     my $Class = shift;
 
     # allocate new hash for object
-    return bless {}, $Type;
+    return bless {}, $Class;
 }
 
 # Some up-front sanity checks
