@@ -71,7 +71,6 @@ sub Run {
         },
     );
 
-    my %Result;
     my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
 
     my $ACLDump = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL')->ACLDump(
@@ -81,6 +80,7 @@ sub Run {
     );
 
     if ( !$ACLDump ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Deploy the ACL configuration.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("There was an error synchronizing the ACLs.");
         $Result{Successful} = 0;
@@ -97,6 +97,7 @@ sub Run {
     );
 
     if ( !$Success ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Deploy the ACL configuration.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("There was an error setting the entity sync status.");
         $Result{Successful} = 0;
@@ -104,6 +105,7 @@ sub Run {
         return \%Result;
     }
 
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Deploy the ACL configuration.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Deployment completed, perfect!");
     $Result{Successful} = 1;

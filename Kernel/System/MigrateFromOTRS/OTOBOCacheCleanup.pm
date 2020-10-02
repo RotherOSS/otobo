@@ -55,8 +55,6 @@ sub CheckPreviousRequirement {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my %Result;
-
     # Set cache object with taskinfo and starttime to show current state in frontend
     my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
@@ -74,6 +72,7 @@ sub Run {
 
     $Self->CacheCleanup();
 
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("OTOBO Cache cleanup.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Completed.");
     $Result{Successful} = 1;

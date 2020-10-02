@@ -58,8 +58,6 @@ sub CheckPreviousRequirement {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my %Result;
-
     # Set cache object with taskinfo and starttime to show current state in frontend
     my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
@@ -84,6 +82,7 @@ sub Run {
     );
 
     if ( !$ProcessDump ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Deploy the process management configuration.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("There was an error synchronizing the processes.");
         $Result{Successful} = 0;
@@ -95,6 +94,7 @@ sub Run {
         UserID => 1,
     );
     if ( !$Success ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Deploy the process management configuration.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("There was an error setting the entity sync status.");
         $Result{Successful} = 0;
@@ -102,6 +102,7 @@ sub Run {
         return \%Result;
     }
 
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Deploy the process management configuration.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Deployment completed, perfect!");
     $Result{Successful} = 1;
