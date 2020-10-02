@@ -23,7 +23,6 @@ use v5.24.0;
 use utf8;
 
 # core modules
-use LWP::UserAgent;
 
 # CPAN modules
 use Test2::V0;
@@ -49,6 +48,7 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase   => 1,
         SkipSSLVerify     => 1,
         DisableAsyncCalls => 1,
     },
@@ -120,7 +120,5 @@ my $DbViewerURL   = $BaseURL . 'dbviewer';
 
 # cleanup cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
-
-# TODO: clean up the database, that is the test user
 
 done_testing();
