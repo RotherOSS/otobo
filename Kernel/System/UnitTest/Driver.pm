@@ -30,8 +30,7 @@ use Text::Diff;
 use Test2::API qw(context);
 
 # OTOBO modules
-# UnitTest helper must be loaded to override the builtin time functions!
-use Kernel::System::UnitTest::Helper;
+use Kernel::System::UnitTest::Helper; # needed to override the builtin time functions!
 use Kernel::System::VariableCheck qw(DataIsDifferent);
 
 our @ObjectDependencies = (
