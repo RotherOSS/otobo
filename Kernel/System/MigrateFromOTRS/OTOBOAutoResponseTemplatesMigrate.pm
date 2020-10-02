@@ -24,7 +24,6 @@ use parent qw(Kernel::System::MigrateFromOTRS::Base);
 use version;
 
 our @ObjectDependencies = (
-    'Kernel::Language',
     'Kernel::System::DB',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',

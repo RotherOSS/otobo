@@ -23,16 +23,13 @@ use File::Copy qw(copy);
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
 our @ObjectDependencies = (
-    'Kernel::Language',
-    'Kernel::Config',
     'Kernel::System::Main',
-    'Kernel::System::Log',
     'Kernel::System::SysConfig',
+    'Kernel::System::SysConfig::DB',
     'Kernel::System::FileTemp',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
     'Kernel::System::MigrateFromOTRS::Base',
-    'Kernel::System::SysConfig::DB',
 );
 
 =head2 CheckPreviousRequirement()

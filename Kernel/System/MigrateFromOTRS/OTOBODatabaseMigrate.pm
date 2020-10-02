@@ -24,13 +24,10 @@ use parent qw(Kernel::System::MigrateFromOTRS::Base);
 use version;
 
 our @ObjectDependencies = (
-    'Kernel::Language',
-    'Kernel::System::DB',
     'Kernel::System::MigrateFromOTRS::CloneDB::Backend',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
     'Kernel::System::Log',
-    'Kernel::System::SysConfig'
 );
 
 =head1 NAME

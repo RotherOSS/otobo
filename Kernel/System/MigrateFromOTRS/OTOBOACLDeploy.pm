@@ -22,8 +22,6 @@ use warnings;
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
 our @ObjectDependencies = (
-    'Kernel::Language',
-    'Kernel::Config',
     'Kernel::System::ACL::DB::ACL',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',

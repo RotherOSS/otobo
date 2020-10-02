@@ -27,10 +27,6 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Package',
-    'Kernel::System::DateTime',
-    'Kernel::System::XML',
-    'Kernel::System::Cache',
 );
 
 =head1 NAME
