@@ -70,8 +70,6 @@ Returns 1 on success.
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my %Result;
-
     # Set cache object with taskinfo and starttime to show current state in frontend
     my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
@@ -107,9 +105,11 @@ sub Run {
     );
 
     if ( !$SourceDBObject ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Try database connect and sanity checks.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("System was unable to connect to OTRS database.");
         $Result{Successful} = 0;
+
         return \%Result;
     }
 
@@ -118,17 +118,20 @@ sub Run {
     );
 
     if ( !$SanityResult ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Try database connect and sanity checks.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("Connect to OTRS database or sanity checks failed.");
         $Result{Successful} = 0;
+
         return \%Result;
     }
 
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Try database connect and sanity checks.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Database connect and sanity checks completed.");
     $Result{Successful} = 1;
-    return \%Result;
 
+    return \%Result;
 }
 
 1;

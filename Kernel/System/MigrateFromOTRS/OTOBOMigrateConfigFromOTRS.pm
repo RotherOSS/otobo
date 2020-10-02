@@ -64,8 +64,6 @@ sub CheckPreviousRequirement {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my %Result;
-
     # Set cache object with taskinfo and starttime to show current state in frontend
     my $CacheObject         = $Kernel::OM->Get('Kernel::System::Cache');
     my $DateTimeObject      = $Kernel::OM->Create('Kernel::System::DateTime');
@@ -74,7 +72,6 @@ sub Run {
     my $SysConfigDBObject   = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
     my $Epoch   = $DateTimeObject->ToEpoch();
-    my $Success = 1;
 
     $CacheObject->Set(
         Type  => 'OTRSMigration',
@@ -100,15 +97,17 @@ sub Run {
     );
 
     if ( !$Export ) {
+        my %Result;
         $Result{Message} = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
         $Result{Comment} = $Self->{LanguageObject}
             ->Translate("An error occured during SysConfig data migration or no configuration exists.");
         $Result{Successful} = 1;
+
         return \%Result;
     }
 
     # Write opm content to new sopm file
-    $Success = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
+    $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Directory  => $TmpDirectory,
         Filename   => 'SysConfigDump.sysconf',
         Content    => \$Export,
@@ -117,7 +116,7 @@ sub Run {
         Permission => '660',                     # unix file permissions
     );
 
-    $Success = $Self->CleanOTRSFileToOTOBOStyle(
+    $Self->CleanOTRSFileToOTOBOStyle(
         File   => $TmpDirectory . '/' . 'SysConfigDump.sysconf',
         UserID => 1,
     );
@@ -175,15 +174,17 @@ sub Run {
             String   => "There was a problem writing XML to DB.",
             Priority => "error",
         );
+        my %Result;
         $Result{Message} = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
         $Result{Comment}
             = $Self->{LanguageObject}->Translate("An error occured during SysConfig migration when writing XML to DB.");
         $Result{Successful} = 0;
+
         return \%Result;
     }
 
     # Write ZZZAuto.pm
-    $Success = $SysConfigObject->ConfigurationDeploy(
+    my $Success = $SysConfigObject->ConfigurationDeploy(
         Comments    => $Param{Comments} || "Migrate Configuration from OTRS to OTOBO",
         AllSettings => 1,
         Force       => 1,
@@ -191,15 +192,19 @@ sub Run {
     );
 
     if ( !$Success ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("An error occured during SysConfig data migration.");
         $Result{Successful} = 0;
+
         return \%Result;
     }
 
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("SysConfig data migration completed.");
     $Result{Successful} = 1;
+
     return \%Result;
 }
 

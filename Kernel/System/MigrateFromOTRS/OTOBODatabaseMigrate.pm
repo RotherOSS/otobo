@@ -62,8 +62,6 @@ sub CheckPreviousRequirement {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my %Result;
-
     # check needed stuff
     for my $Key (qw(DBData)) {
         if ( !$Param{$Key} ) {
@@ -71,9 +69,11 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need $Key!"
             );
+            my %Result;
             $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
             $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
             $Result{Successful} = 0;
+
             return \%Result;
         }
     }
@@ -85,9 +85,11 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need DBData->$Key!"
             );
+            my %Result;
             $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
             $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
             $Result{Successful} = 0;
+
             return \%Result;
         }
     }
@@ -99,9 +101,11 @@ sub Run {
                     Priority => 'error',
                     Message  => "Need DBData->$Key!"
                 );
+                my %Result;
                 $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
                 $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s for Oracle db!', $Key );
                 $Result{Successful} = 0;
+
                 return \%Result;
             }
         }
@@ -131,9 +135,11 @@ sub Run {
     );
 
     if ( !$SourceDBObject ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Copy database.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("System was unable to connect to OTRS database.");
         $Result{Successful} = 0;
+
         return \%Result;
     }
 
@@ -148,17 +154,20 @@ sub Run {
         );
 
         if ( !$DataTransferResult ) {
-
+            my %Result;
             $Result{Message}    = $Self->{LanguageObject}->Translate("Copy database.");
             $Result{Comment}    = $Self->{LanguageObject}->Translate("System was unable to complete data transfer.");
             $Result{Successful} = 0;
+
             return \%Result;
         }
     }
 
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Copy database.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Data transfer completed.");
     $Result{Successful} = 1;
+
     return \%Result;
 }
 

@@ -169,18 +169,20 @@ sub Run {
 sub _CheckOTOBOVersion {
     my ( $Self, %Param ) = @_;
 
-    my %Result;
     my $OTOBOHome = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
     # load Kernel/Config.pm file
     if ( !-e "$OTOBOHome/Kernel/Config.pm" ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate( '%s does not exist!', "$OTOBOHome/Kernel/Config.pm" );
         $Result{Successful} = 0;
+
         return \%Result;
     }
 
     # Everything if correct, return 1
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("OTOBO Home exists.");
     $Result{Successful} = 1;

@@ -64,12 +64,7 @@ sub CheckPreviousRequirement {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $OTRS6path;
     my $OTOBOHome = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-    my %OTOBODBParam;
-    my %Result;
-    my $Success = 1;
-
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
     # Set cache object with taskinfo and starttime to show current state in frontend
@@ -94,9 +89,11 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need $Key!"
             );
+            my %Result;
             $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
             $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
             $Result{Successful} = 0;
+
             return \%Result;
         }
     }
@@ -108,13 +105,17 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need OTRSData->$Key!"
             );
+
+            my %Result;
             $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
             $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
             $Result{Successful} = 0;
+
             return \%Result;
         }
     }
 
+    my $OTRS6path;
     if ( $Param{OTRSData}->{OTRSLocation} eq 'localhost' ) {
         $OTRS6path = $Param{OTRSData}->{OTRSHome};
     }
@@ -137,10 +138,12 @@ sub Run {
             Priority => 'error',
             Message  => "Can't open RELEASE file from OTRSHome: $Param{OTRSData}->{OTRSHome}!",
         );
+        my %Result;
         $Result{Message} = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
         $Result{Comment} = $Self->{LanguageObject}
             ->Translate( 'Can\'t open RELEASE file from OTRSHome: %s!', $Param{OTRSData}->{OTRSHome} );
         $Result{Successful} = 0;
+
         return \%Result;
     }
 
@@ -155,6 +158,7 @@ sub Run {
     my @DoNotCleanFileList = $Self->DoNotCleanFileList();
 
     # Now we copy and clean the files in for{}
+    my %OTOBODBParam;
     FILE:
     for my $File (@FileList) {
 
@@ -254,6 +258,7 @@ sub Run {
 
     $Self->DisableSecureMode();
 
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Copy and migrate files from OTRS");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("All needed files copied and migrated, perfect!");
     $Result{Successful} = 1;

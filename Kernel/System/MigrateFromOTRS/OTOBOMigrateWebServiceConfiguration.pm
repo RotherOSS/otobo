@@ -62,8 +62,6 @@ sub CheckPreviousRequirement {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my %Result;
-
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
@@ -89,6 +87,7 @@ sub Run {
         Valid => 0,
     );
     if ( !IsHashRefWithData($WebserviceList) ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("No web service existent, done.");
         $Result{Successful} = 1;
@@ -122,17 +121,19 @@ sub Run {
     my @SQLPost;
 
     # Check/get SQL schema directory
-    my $DirOfSQLFiles = $ConfigObject->Get('Home') . '/scripts/webservices/otobo-initial_insert-webservice.xml';
+    my $DBXMLFile = $ConfigObject->Get('Home') . '/scripts/webservices/otobo-initial_insert-webservice.xml';
 
-    if ( !-f $DirOfSQLFiles ) {
+    if ( ! -f $DBXMLFile ) {
+        my %Result;
         $Result{Message} = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
         $Result{Comment} = $Self->{LanguageObject}
-            ->Translate( 'Can\'t add web service for Elasticsearch. File %s not found!', $DirOfSQLFiles );
+            ->Translate( 'Can\'t add web service for Elasticsearch. File %s not found!', $DBXMLFile );
         $Result{Successful} = 0;
+
         return \%Result;
     }
     my $XML = $MainObject->FileRead(
-        Location => $DirOfSQLFiles,
+        Location => $DBXMLFile,
     );
     my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse(
         String => $XML,
@@ -142,11 +143,13 @@ sub Run {
         Database => \@XMLArray,
     );
 
+    my %Result;
     $Result{Message} = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
     $Result{Comment} = $Self->{LanguageObject}->Translate(
         "Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed."
     );
     $Result{Successful} = 1;
+
     return \%Result;
 }
 

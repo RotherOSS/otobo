@@ -60,8 +60,6 @@ sub CheckPreviousRequirement {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my %Result;
-
     # Set cache object with taskinfo and starttime to show current state in frontend
     my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
@@ -77,13 +75,13 @@ sub Run {
         },
     );
 
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate postmaster filter.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Migration failed.");
     $Result{Successful} = 0;
 
     # map wrong to correct tags
     my %PFOld2New = (
-
         'X-OTRS-' => 'X-OTOBO-',
     );
 
