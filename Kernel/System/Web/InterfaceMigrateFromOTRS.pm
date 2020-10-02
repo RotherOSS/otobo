@@ -18,6 +18,8 @@ package Kernel::System::Web::InterfaceMigrateFromOTRS;
 
 use strict;
 use warnings;
+use v5.24;
+use utf8;
 
 # core modules
 
@@ -60,12 +62,13 @@ create the web interface object for 'migration.pl'.
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Class = shift;
+    my %Param = @_;
 
     # start with an empty hash for the new object
-    my $Self = bless {}, $Type;
+    my $Self = bless {}, $Class;
 
-    # get debug level
+    # set debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
     # register object params

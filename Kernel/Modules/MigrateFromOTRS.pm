@@ -20,11 +20,12 @@ package Kernel::Modules::MigrateFromOTRS;
 
 use strict;
 use warnings;
+use v5.24;
+use utf8;
 
 # core modules
 
 # CPAN modules
-use DBI;
 
 # OTOBO modules
 use Kernel::Language qw(Translatable);
@@ -33,7 +34,8 @@ use Kernel::System::VariableCheck qw(:all);
 our $ObjectManagerDisabled = 1;
 
 sub new {
-    my ( $Class, %Param ) = @_;
+    my $Class = shift;
+    my%Param = @_;
 
     # Allocate new hash for object.
     return bless { %Param }, $Class;
@@ -83,7 +85,7 @@ sub Run {
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    $Self->{Subaction} = 'Intro' if !$Self->{Subaction};
+    $Self->{Subaction} ||= 'Intro';
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
@@ -125,9 +127,7 @@ sub Run {
                     Continue  => 1,
                 };
             }
-
         }
-
         elsif ( $Self->{Subaction} eq 'Intro' && $AJAXTask eq 'ClearCache' ) {
             for my $Step (qw/Intro OTRSFileSettings OTRSDBSettings Copy/) {
                 $CacheObject->Delete(
