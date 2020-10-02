@@ -61,7 +61,7 @@ check for initial conditions for running this migration step.
 
 Returns 1 on success
 
-    my $Result = $DBUpdateTo6Object->Run();
+    my $Result = $MigrateFromOTRSObject->Run();
 
 =cut
 

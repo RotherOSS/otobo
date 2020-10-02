@@ -171,7 +171,9 @@ sub Run {
         }
 
         # First we copy the file from OTRS HOME to OTOBO HOME
-        if ( -e $OTRSPathFile ) {
+        next FILE unless -e $OTRSPathFile;
+
+        {
             my $ExitCode;
 
             # We copy only the content, if OTRS exists on localhost, otherwise we move the content from tmp
@@ -192,16 +194,16 @@ sub Run {
                     $ExitCode = system("mv $OTRSPathFile/* $OTOBOPathFile");
                 }
             }
+
             if ( $ExitCode && $ExitCode != 0 && $ExitCode != 256 ) {
                 print STDERR "EXIT: $ExitCode \n OTRSPath: $OTRSPathFile\n OTOBO: $OTOBOPathFile\n ";
+                my %Result;
                 $Result{Message}    = "Copy and migrate files from OTRS";
                 $Result{Comment}    = "Can\'t copy or move files from OTRS!";
                 $Result{Successful} = 0;
+
                 return \%Result;
             }
-        }
-        else {
-            next FILE;
         }
 
         # check if we need to clean the file

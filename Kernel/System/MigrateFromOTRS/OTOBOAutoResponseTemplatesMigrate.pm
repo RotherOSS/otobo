@@ -75,7 +75,6 @@ sub Run {
     );
 
     my %Result;
-
     $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate database table auto_responses.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Migration failed.");
     $Result{Successful} = 0;
@@ -151,6 +150,7 @@ sub Run {
             ],
         );
     }
+
     $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate database table auto_response.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Migration completed, perfect!");
     $Result{Successful} = 1;
