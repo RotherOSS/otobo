@@ -42,11 +42,7 @@ Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base - common backend function
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=cut
-
-=item new()
+=head2 new()
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
@@ -71,9 +67,7 @@ sub new {
     return $Self;
 }
 
-#
 # Some up-front sanity checks
-#
 sub SanityChecks {
     my ( $Self, %Param ) = @_;
 
@@ -512,9 +506,5 @@ sub DataTransfer {
 
     return 1;
 }
-
-=back
-
-=cut
 
 1;

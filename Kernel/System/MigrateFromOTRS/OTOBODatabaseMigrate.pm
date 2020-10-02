@@ -35,7 +35,21 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::MigrateFromOTRS::OTOBODatabaseMigrate - Checks if MySQL database is using correct charset.
+Kernel::System::MigrateFromOTRS::OTOBODatabaseMigrate - Copy Database
+
+=head1 SYNOPSIS
+
+    # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 PUBLIC INTERFACE
+
+=head2 CheckPreviousRequirement()
+
+check for initial conditions for running this migration step.
+
+Returns 1 on success.
+
+    my $RequirementIsMet = $MigrateFromOTRSObject->CheckPreviousRequirement();
 
 =cut
 
@@ -44,22 +58,6 @@ sub CheckPreviousRequirement {
 
     return 1;
 }
-
-=head1 NAME
-
-Kernel::System::MigrateFromOTRS::OTOBODatabaseMigrate - Copy Database
-
-=cut
-
-=head2 Run()
-
-Check for initial conditions for running this migration step.
-
-Returns 1 on success:
-
-    my $Result = $DBUpdateObject->Run();
-
-=cut
 
 sub Run {
     my ( $Self, %Param ) = @_;

@@ -52,6 +52,10 @@ our @ObjectDependencies = (
 
 Kernel::System::MigrateFromOTRS::Base - migration lib
 
+=head1 SYNOPSIS
+
+    # TODO
+
 =head1 DESCRIPTION
 
 All migration functions.
