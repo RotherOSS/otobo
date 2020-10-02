@@ -19,15 +19,24 @@ use warnings;
 use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+use Data::Dumper;
+
+# CPAN modules
+use Test2::V0;
+use Test2::API qw(intercept);
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
 use Kernel::System::UnitTest;
 
-our $Self;
+# Testing Kernel::System::UnitTest::Driver.
+# See https://metacpan.org/pod/Test2::Manual::Tooling::Testing.
 
-my $UnitTestObject = Kernel::System::UnitTest::Driver->new(
-    SelfTest => 1,
-);
+our $Self;
+my $UnitTestObject = Kernel::System::UnitTest::Driver->new();
+
+note( 'Testing True() and False()' );
 
 my @TestTrueFalse = (
     {
@@ -58,43 +67,22 @@ my @TestTrueFalse = (
 );
 
 for my $Test (@TestTrueFalse) {
+    my $Events = intercept {
+            $UnitTestObject->True( $Test->{Value}, $Test->{Name} );
+            $UnitTestObject->False( $Test->{Value}, $Test->{Name} );
+        };
+    # diag Dumper( $Events->[0], $Events->[1] );
     if ( $Test->{Result} ) {
-        my $True = $UnitTestObject->True(
-            $Test->{Value},
-            'Test Name',
-        );
-        $Self->True(
-            $True,
-            "True() - $Test->{Name}",
-        );
-        my $False = $UnitTestObject->False(
-            $Test->{Value},
-            'Test Name',
-        );
-        $Self->False(
-            $False,
-            "False() - $Test->{Name}",
-        );
+        isa_ok( $Events->[0], [ 'Test2::Event::Pass' ], "True() - $Test->{Name}" );
+        isa_ok( $Events->[1], [ 'Test2::Event::Fail' ], "False() - $Test->{Name}" );
     }
     else {
-        my $True = $UnitTestObject->True(
-            $Test->{Value},
-            'Test Name',
-        );
-        $Self->True(
-            !$True,
-            "True() - $Test->{Name}",
-        );
-        my $False = $UnitTestObject->False(
-            $Test->{Value},
-            'Test Name',
-        );
-        $Self->False(
-            !$False,
-            "False() - $Test->{Name}",
-        );
+        isa_ok( $Events->[0], [ 'Test2::Event::Fail' ], "True() - $Test->{Name}" );
+        isa_ok( $Events->[1], [ 'Test2::Event::Pass' ], "False() - $Test->{Name}" );
     }
 }
+
+note( 'Testing Is() and IsNot()' );
 
 my @TestIsIsNot = (
     {
@@ -172,127 +160,80 @@ my @TestIsIsNot = (
 );
 
 for my $Test (@TestIsIsNot) {
+    my $Events = intercept {
+            $UnitTestObject->Is( $Test->{ValueX}, $Test->{ValueY}, $Test->{Name} );
+            $UnitTestObject->IsNot( $Test->{ValueX}, $Test->{ValueY}, $Test->{Name} );
+        };
+    # diag Dumper( $Events->[0], $Events->[1] );
     if ( $Test->{Result} eq 'Is' ) {
-        my $True = $UnitTestObject->Is(
-            $Test->{ValueX},
-            $Test->{ValueY},
-            'Test Name',
-        );
-        $Self->True(
-            $True,
-            "Is() - $Test->{Name}",
-        );
-        my $False = $UnitTestObject->IsNot(
-            $Test->{ValueX},
-            $Test->{ValueY},
-            'Test Name',
-        );
-        $Self->False(
-            $False,
-            "IsNot() - $Test->{Name}",
-        );
+        isa_ok( $Events->[0], [ 'Test2::Event::Pass' ], "Is() - $Test->{Name}" );
+        isa_ok( $Events->[1], [ 'Test2::Event::Fail' ], "IsNot() - $Test->{Name}" );
     }
     else {
-        my $True = $UnitTestObject->IsNot(
-            $Test->{ValueX},
-            $Test->{ValueY},
-            'Test Name',
-        );
-        $Self->True(
-            $True,
-            "Is() - $Test->{Name}",
-        );
-        my $False = $UnitTestObject->Is(
-            $Test->{ValueX},
-            $Test->{ValueY},
-            'Test Name',
-        );
-        $Self->False(
-            $False,
-            "IsNot() - $Test->{Name}",
-        );
+        isa_ok( $Events->[0], [ 'Test2::Event::Fail' ], "Is() - $Test->{Name}" );
+        isa_ok( $Events->[1], [ 'Test2::Event::Pass' ], "IsNot() - $Test->{Name}" );
     }
 }
 
-#IsDeeply and IsNotDeeply start
+note( 'Testing IsDeeply() and IsNotDeeply()' );
 
-my %Hash1 = (
-    key1 => '1',
-    key2 => '2',
-    key3 => {
-        test  => 2,
-        test2 => [
-            1, 2, 3,
-        ],
-    },
-    key4 => undef,
-);
-
-my %Hash2 = %Hash1;
-$Hash2{AdditionalKey} = 1;
-
-my @List1 = ( 1, 2, 3, );
-my @List2 = (
-    1,
-    2,
-    4,
-    [ 1, 2, 3 ],
-    {
-        test => 'test',
-    },
-);
-
-my $Scalar1 = 1;
-my $Scalar2 = {
-    test => [ 1, 2, 3 ],
-};
-
-my $Count = 0;
-for my $Value1 ( \%Hash1, \%Hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
-    $Count++;
-    my $IsDeeplyResult = $UnitTestObject->IsDeeply(
-        $Value1,
-        $Value1,
-        'Dummy Test Name' . $Count,
-    );
-    $Self->True(
-        $IsDeeplyResult,
-        'IsDeeply() - Dummy Test Name' . $Count,
-    );
-    my $IsNotDeeplyResult = $UnitTestObject->IsNotDeeply(
-        $Value1,
-        $Value1,
-        'Dummy False Test Name' . $Count,
-    );
-    $Self->False(
-        $IsNotDeeplyResult,
-        'IsNotDeeply() - Dummy False Test Name' . $Count,
+{
+    my %Hash1 = (
+        key1 => '1',
+        key2 => '2',
+        key3 => {
+            test  => 2,
+            test2 => [
+                1, 2, 3,
+            ],
+        },
+        key4 => undef,
     );
 
-    my $Count2 = 0;
-    VALUE2: for my $Value2 ( \%Hash1, \%Hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
-        if ( $Value2 == $Value1 ) {
-            next VALUE2;
+    my %Hash2 = %Hash1;
+    $Hash2{AdditionalKey} = 1;
+
+    my @List1 = ( 1, 2, 3, );
+    my @List2 = (
+        1,
+        2,
+        4,
+        [ 1, 2, 3 ],
+        {
+            test => 'test',
+        },
+    );
+
+    my $Scalar1 = 1;
+    my $Scalar2 = {
+        test => [ 1, 2, 3 ],
+    };
+
+    # loop over the cross product of the values
+    my @Values = ( \%Hash1, \%Hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 );
+    my $Count1 = 0;
+    for my $Value1 ( @Values )  {
+
+        $Count1++;
+        # compare each data structures with each other data structure
+        my $Count2 = 0;
+        for my $Value2 ( @Values ) {
+            $Count2++;
+
+            my $Events = intercept {
+                $UnitTestObject->IsDeeply( $Value1, $Value2, "IsDeeply $Count1:$Count2" );
+                $UnitTestObject->IsNotDeeply( $Value1, $Value2, "IsNotDeeply $Count1:$Count2" );
+            };
+
+            if ( $Value2 == $Value1 ) {
+                isa_ok( $Events->[0], [ 'Test2::Event::Pass' ], "IsDeeply - same $Count1:$Count2" );
+                isa_ok( $Events->[1], [ 'Test2::Event::Fail' ], "IsNotDeeply - same $Count1:$Count2" );
+            }
+            else {
+                isa_ok( $Events->[0], [ 'Test2::Event::Fail' ], "IsDeeply() - not same $Count1:$Count2" );
+                isa_ok( $Events->[1], [ 'Test2::Event::Pass' ], "IsNotDeeply - not same $Count1:$Count2" );
+            }
         }
-        $Count2++;
-        my $IsDeeplyResult = $UnitTestObject->IsDeeply(
-            $Value1,
-            $Value2,
-            'Dummy Test Name' . $Count . ':' . $Count2,
-        );
-        $Self->False(
-            $IsDeeplyResult,
-            'IsDeeply() - Dummy Test Name' . $Count . ':' . $Count2,
-        );
-        my $IsNotDeeplyResult = $UnitTestObject->IsNotDeeply(
-            $Value1,
-            $Value2,
-            'Dummy False Test Name' . $Count . ':' . $Count2,
-        );
-        $Self->True(
-            $IsNotDeeplyResult,
-            'IsNotDeeply() - Dummy False Test Name' . $Count . ':' . $Count2,
-        );
     }
 }
 
