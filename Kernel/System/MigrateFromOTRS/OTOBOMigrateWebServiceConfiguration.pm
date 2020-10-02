@@ -32,13 +32,23 @@ our @ObjectDependencies = (
     'Kernel::System::XML',
 );
 
+=head1 NAME
+
+Kernel::System::MigrateFromOTRS::OTOBOMigrateWebServiceConfiguration -  Migrate web service configuration (parameter change for REST/SOAP).
+
+=head1 SYNOPSIS
+
+    # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 PUBLIC INTERFACE
+
 =head2 CheckPreviousRequirement()
 
 check for initial conditions for running this migration step.
 
-Returns 1 on success
+Returns 1 on success.
 
-    my $Result = $DBUpdateTo6Object->CheckPreviousRequirement();
+    my $RequirementIsMet = $MigrateFromOTRSObject->CheckPreviousRequirement();
 
 =cut
 
@@ -47,12 +57,6 @@ sub CheckPreviousRequirement {
 
     return 1;
 }
-
-=head1 NAME
-
-Kernel::System::MigrateFromOTRS::OTOBOMigrateWebServiceConfiguration -  Migrate web service configuration (parameter change for REST/SOAP).
-
-=cut
 
 sub Run {
     my ( $Self, %Param ) = @_;

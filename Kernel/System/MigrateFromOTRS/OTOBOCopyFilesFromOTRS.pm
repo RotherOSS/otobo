@@ -32,13 +32,23 @@ our @ObjectDependencies = (
     'Kernel::System::DateTime',
 );
 
+=head1 NAME
+
+Kernel::System::MigrateFromOTRS::OTOBOCopyFilesFromOTRS - Copy OTRS Data to OTOBO Server
+
+=head1 SYNOPSIS
+
+    # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 PUBLIC INTERFACE
+
 =head2 CheckPreviousRequirement()
 
 check for initial conditions for running this migration step.
 
-Returns 1 on success
+Returns 1 on success.
 
-    my $Result = $DBUpdateTo6Object->CheckPreviousRequirement();
+    my $RequirementIsMet = $MigrateFromOTRSObject->CheckPreviousRequirement();
 
 =cut
 
@@ -47,12 +57,6 @@ sub CheckPreviousRequirement {
 
     return 1;
 }
-
-=head1 NAME
-
-Kernel::System::MigrateFromOTRS::OTOBOCopyFilesFromOTRS - Copy OTRS Data to OTOBO Server
-
-=cut
 
 # TODO: Use sub Reconfigure to reconfigure Database after copy
 

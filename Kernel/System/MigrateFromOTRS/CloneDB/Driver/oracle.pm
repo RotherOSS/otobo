@@ -33,20 +33,18 @@ Kernel::System::MigrateFromOTRS::CloneDB::Driver::oracle
 
 =head1 SYNOPSIS
 
-CloneDBs oracle Driver delegate
+    # CloneDBs oracle Driver delegate
 
-=head1 PUBLIC INTERFACE
+=head1 DESCRIPTION
 
 This module implements the public interface of L<Kernel::System::MigrateFromOTRS::CloneDB::Backend>.
 Please look there for a detailed reference of the functions.
 
-=over 4
+=head1 PUBLIC INTERFACE
 
 =cut
 
-#
 # create external db connection.
-#
 sub CreateOTRSDBConnection {
     my ( $Self, %Param ) = @_;
 
@@ -425,9 +423,5 @@ sub AlterTableAddColumn {
     }
     return 1;
 }
-
-=back
-
-=cut
 
 1;

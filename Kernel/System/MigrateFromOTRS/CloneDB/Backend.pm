@@ -35,15 +35,11 @@ Kernel::System::MigrateFromOTRS::CloneDB::Backend
 
 =head1 SYNOPSIS
 
-DynamicFields backend interface
+    # DynamicFields backend interface
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=cut
-
-=item new()
+=head2 new()
 
 create a CloneDB backend object
 
@@ -119,7 +115,7 @@ sub new {
     return $Self;
 }
 
-=item CreateOTRSDBConnection()
+=head2 CreateOTRSDBConnection()
 
 creates the target db object.
 
@@ -177,7 +173,7 @@ sub CreateOTRSDBConnection {
     return $OTRSDBConnection;
 }
 
-=item DataTransfer()
+=head2 DataTransfer()
 
 transfers information from a OTRS DB to the OTOBO DB.
 
@@ -241,7 +237,7 @@ sub DataTransfer {
     return $DataTransfer;
 }
 
-=item SanityChecks()
+=head2 SanityChecks()
 
 perform some sanity check before db cloning.
 
@@ -285,9 +281,5 @@ sub SanityChecks {
 
     return $SanityChecks;
 }
-
-=back
-
-=cut
 
 1;

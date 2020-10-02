@@ -32,6 +32,20 @@ our @ObjectDependencies = (
 
 Kernel::System::MigrateFromOTRS::OTOBOOTRSConnectionCheck - Checks required framework version for update.
 
+=head1 SYNOPSIS
+
+    # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 PUBLIC INTERFACE
+
+=head2 CheckPreviousRequirement()
+
+check for initial conditions for running this migration step.
+
+Returns 1 on success.
+
+    my $RequirementIsMet = $MigrateFromOTRSObject->CheckPreviousRequirement();
+
 =cut
 
 sub CheckPreviousRequirement {
@@ -46,7 +60,7 @@ check for initial conditions for running this migration step.
 
 Returns 1 on success
 
-    my $Result = $DBUpdateTo6Object->Run();
+    my $Result = $MigrateFromOTRSObject->Run();
 
 =cut
 

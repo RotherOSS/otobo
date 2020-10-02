@@ -34,6 +34,20 @@ our @ObjectDependencies = (
 
 Kernel::System::MigrateFromOTRS::OTOBOOTRSDBCheck - Checks if connect to OTRS DB is possible.
 
+=head1 SYNOPSIS
+
+    # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 PUBLIC INTERFACE
+
+=head2 CheckPreviousRequirement()
+
+check for initial conditions for running this migration step.
+
+Returns 1 on success.
+
+    my $RequirementIsMet = $MigrateFromOTRSObject->CheckPreviousRequirement();
+
 =cut
 
 sub CheckPreviousRequirement {
@@ -42,17 +56,9 @@ sub CheckPreviousRequirement {
     return 1;
 }
 
-=head1 NAME
-
-Kernel::System::MigrateFromOTRS::OTOBOOTRSDBCheck - Copy Database
-
-=cut
-
 =head2 Run()
 
-Check for initial conditions for running this migration step.
-
-Returns 1 on success:
+Returns 1 on success.
 
     my $Result = $OTOBOOTRSDBCheck->Run();
 
