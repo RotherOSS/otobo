@@ -70,8 +70,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{LanguageObject} = $Kernel::OM->Get('Kernel::Language');
 
@@ -856,7 +855,7 @@ sub DisableSecureMode {
         return 1;
     }
 
-    my $Success = $SysConfigObject->SettingsSet(
+    return $SysConfigObject->SettingsSet(
         UserID   => 1,                                      # (required) UserID
         Comments => 'Disable SecureMode for migration.',    # (optional) Comment
         Settings => [                                       # (required) List of settings to update.

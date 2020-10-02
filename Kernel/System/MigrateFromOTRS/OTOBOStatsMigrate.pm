@@ -150,6 +150,7 @@ sub Run {
             ],
         );
     }
+
     $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate statistics.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Migration completed, perfect!");
     $Result{Successful} = 1;
