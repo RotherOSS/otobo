@@ -88,14 +88,14 @@ sub True {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Self->_Print( $Context, 0, 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided.' );
     }
 
     if ($True) {
-        return $Self->_Print( $Context, 1, $Name );
+        return $Context->pass_and_release( $Name );
     }
     else {
-        return $Self->_Print( $Context, 0, $Name );
+        return $Context->fail_and_release( $Name );
     }
 }
 
@@ -115,14 +115,14 @@ sub False {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Self->_Print( $Context, 0, 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided.' );
     }
 
     if ( !$False ) {
-        return $Self->_Print( $Context, 1, $Name );
+        return $Context->pass_and_release( $Name );
     }
     else {
-        return $Self->_Print( $Context, 0, $Name );
+        return $Context->fail_and_release( $Name );
     }
 }
 
@@ -153,23 +153,23 @@ sub Is {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Self->_Print( $Context, 0, 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided.' );
     }
 
     if ( !defined $Test && !defined $ShouldBe ) {
-        return $Self->_Print( $Context, 1, $Name );
+        return $Context->pass_and_release( $Name );
     }
     elsif ( !defined $Test && defined $ShouldBe ) {
-        return $Self->_Print( $Context, 0, "$Name (is 'undef' should be '$ShouldBe')" );
+        return $Context->fail_and_release( "$Name (is 'undef' should be '$ShouldBe')" );
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        return $Self->_Print( $Context, 0, "$Name (is '$Test' should be 'undef')" );
+        return $Context->fail_and_release( "$Name (is '$Test' should be 'undef')" );
     }
     elsif ( $Test eq $ShouldBe ) {
-        return $Self->_Print( $Context, 1, $Name );
+        return $Context->pass_and_release( $Name );
     }
     else {
-        return $Self->_Print( $Context, 0, "$Name (is '$Test' should be '$ShouldBe')" );
+        return $Context->fail_and_release( "$Name (is '$Test' should be '$ShouldBe')" );
     }
 }
 
@@ -189,23 +189,23 @@ sub IsNot {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Self->_Print( $Context, 0, 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided.' );
     }
 
     if ( !defined $Test && !defined $ShouldBe ) {
-        return $Self->_Print( $Context, 0, "$Name (is 'undef')" );
+        return $Context->fail_and_release( "$Name (is 'undef')" );
     }
     elsif ( !defined $Test && defined $ShouldBe ) {
-        return $Self->_Print( $Context, 1, $Name );
+        return $Context->pass_and_release( $Name );
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        return $Self->_Print( $Context, 1, $Name );
+        return $Context->pass_and_release( $Name );
     }
     if ( $Test ne $ShouldBe ) {
-        return $Self->_Print( $Context, 1, $Name );
+        return $Context->pass_and_release( $Name );
     }
     else {
-        return $Self->_Print( $Context, 0, "$Name (is '$Test' should not be '$ShouldBe')" );
+        return $Context->fail_and_release( "$Name (is '$Test' should not be '$ShouldBe')" );
     }
 }
 
@@ -238,7 +238,7 @@ sub IsDeeply {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Self->_Print( $Context, 0, 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided.' );
     }
 
     my $Diff = DataIsDifferent(
@@ -247,16 +247,16 @@ sub IsDeeply {
     );
 
     if ( !defined $Test && !defined $ShouldBe ) {
-        return $Self->_Print( $Context, 1, $Name );
+        return $Context->pass_and_release( $Name );
     }
     elsif ( !defined $Test && defined $ShouldBe ) {
-        return $Self->_Print( $Context, 0, "$Name (is 'undef' should be defined)" );
+        return $Context->fail_and_release( "$Name (is 'undef' should be defined)" );
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        return $Self->_Print( $Context, 0, "$Name (is defined should be 'undef')" );
+        return $Context->fail_and_release( "$Name (is defined should be 'undef')" );
     }
     elsif ( !$Diff ) {
-        return $Self->_Print( $Context, 1, $Name );
+        return $Context->pass_and_release( $Name );
     }
     else {
         my $TestDump     = $Kernel::OM->Get('Kernel::System::Main')->Dump($Test);
@@ -277,7 +277,7 @@ sub IsDeeply {
         $Output .= "Actual data" . ":\n$TestDump\n";
         $Output .= "Expected data" . ":\n$ShouldBeDump\n";
 
-        return $Self->_Print( $Context, 0, "$Name (is not equal, see below)\n$Output" );
+        return $Context->fail_and_release( "$Name (is not equal, see below)\n$Output" );
     }
 }
 
@@ -297,7 +297,7 @@ sub IsNotDeeply {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Self->_Print( $Context, 0, 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided.' );
     }
 
     my $Diff = DataIsDifferent(
@@ -306,23 +306,23 @@ sub IsNotDeeply {
     );
 
     if ( !defined $Test && !defined $ShouldBe ) {
-        return $Self->_Print( $Context, 0, "$Name (is 'undef')" );
+        return $Context->fail_and_release( "$Name (is 'undef')" );
     }
     elsif ( !defined $Test && defined $ShouldBe ) {
-        return $Self->_Print( $Context, 1, $Name );
+        return $Context->pass_and_release( $Name );
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        return $Self->_Print( $Context, 1, $Name );
+        return $Context->pass_and_release( $Name );
     }
 
     if ($Diff) {
-        return $Self->_Print( $Context, 1, $Name );
+        return $Context->pass_and_release( $Name );
     }
     else {
         my $TestDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($Test);
         my $Output   = "Actual data" . ":\n$TestDump\n";
 
-        return $Self->_Print( $Context, 0, "$Name (the structures are wrongly equal, see below)\n$Output" );
+        return $Context->fail_and_release( "$Name (the structures are wrongly equal, see below)\n$Output" );
     }
 }
 
@@ -393,23 +393,5 @@ sub Note {
 
     return $Ret;
 }
-
-=begin Internal:
-
-=cut
-
-sub _Print {
-    my $Self = shift;
-    my ( $Context, $ResultOk, $Message ) = @_;
-
-    $Message ||= '->>No Name!<<-';
-
-    return $Context->pass_and_release($Message) if $ResultOk;
-    return $Context->fail_and_release($Message);
-}
-
-=end Internal:
-
-=cut
 
 1;
