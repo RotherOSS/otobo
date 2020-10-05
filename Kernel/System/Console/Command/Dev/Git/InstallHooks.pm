@@ -1,4 +1,4 @@
- --
+# --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
@@ -18,8 +18,21 @@ package Kernel::System::Console::Command::Dev::Git::InstallHooks;
 
 use strict;
 use warnings;
+use v5.24;
+use utf8;
+use namespace::clean;
 
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+use File::Path qw(make_path);
+use File::Basename qw(basename);
+use File::Spec qw();
+
+# CPAN modules
+
+# OTOBO modules
+
 
 our @ObjectDependencies = (
 );
@@ -27,7 +40,13 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    # $Self->Description('Describe this command.');
+    $Self->Description( <<'END_DESC' );
+Install git hooks into .git/hooks. Currently only the hook 'prepare-commit-msg' is supported.
+Already existing hook scripts will be saved with a numbered extension.
+END_DESC
+
+    # no options or arguments are supported
+
     # $Self->AddOption(
     #     Name        => 'option',
     #     Description => "Describe this option.",
@@ -61,11 +80,45 @@ sub Configure {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    $Self->Print("<yellow>Meaningful start message...</yellow>\n");
+    $Self->Print("<yellow>Installing git hooks. See .git/hooks for the installed hooks.</yellow>\n");
 
-    # return $Self->ExitCodeError();
+    # make sure that the target dir exists
+    # Do not rely on the config setting 'HOME'
+    my $TargetDir = '.git/hooks';
+    make_path( $TargetDir );
+
+    # loop over the scripts in the dir corresponding to the command module
+    my $SourceDir = __FILE__ =~ s{\.pm$}{}r;
+    my @Hooks = grep { -f -r } glob "$SourceDir/*";
+
+    for my $Hook ( @Hooks ) {
+
+        # use cp --backup=numbered because File::Copy doesn't support backups out of the box
+        # Note: this might fail on non-Linux systems
+        my $RetCp = system( 'cp', '--backup=numbered', $Hook, $TargetDir );
+        if ( $RetCp != 0 ) {
+            say "copying $Hook into $TargetDir failed: $?";
+
+            return $Self->ExitCodeError();
+        }
+
+        # make hook executable for the user: chmod u+x
+        # But it looks like File::chmod is not a required module.
+        my $CopiedHook = File::Spec->catfile( $TargetDir, basename($Hook) );
+        my $OldMode = (stat($CopiedHook))[2];
+        my $NewMode = $OldMode | 0100;
+        my $RetChmod = chmod $NewMode, $CopiedHook;
+        if ( $RetCp != 0 ) {
+            say "setting $CopiedHook to executable failed";
+
+            return $Self->ExitCodeError();
+        }
+
+        say "successfully installed $CopiedHook";
+    }
 
     $Self->Print("<green>Done.</green>\n");
+
     return $Self->ExitCodeOk();
 }
 
