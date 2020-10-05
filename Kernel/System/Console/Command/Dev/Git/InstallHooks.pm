@@ -26,7 +26,7 @@ use parent qw(Kernel::System::Console::BaseCommand);
 
 # core modules
 use File::Path qw(make_path);
-use File::Basename qw(basename);
+use File::Basename qw(fileparse);
 use File::Spec qw();
 
 # CPAN modules
@@ -89,32 +89,34 @@ sub Run {
 
     # loop over the scripts in the dir corresponding to the command module
     my $SourceDir = __FILE__ =~ s{\.pm$}{}r;
-    my @Hooks = grep { -f -r } glob "$SourceDir/*";
 
-    for my $Hook ( @Hooks ) {
+    for my $DistFile ( grep { -f -r } glob "$SourceDir/*" ) {
+
+        # Determine the target path
+        my $HookName = fileparse( $DistFile, '.dist' );
+        my $Target   = File::Spec->catfile( $TargetDir, $HookName );
 
         # use cp --backup=numbered because File::Copy doesn't support backups out of the box
         # Note: this might fail on non-Linux systems
-        my $RetCp = system( 'cp', '--backup=numbered', $Hook, $TargetDir );
+        my $RetCp = system( 'cp', '--backup=numbered', $DistFile, $Target );
         if ( $RetCp != 0 ) {
-            say "copying $Hook into $TargetDir failed: $?";
+            say "copying $DistFile into $TargetDir failed: $?";
 
             return $Self->ExitCodeError();
         }
 
         # make hook executable for the user: chmod u+x
         # But it looks like File::chmod is not a required module.
-        my $CopiedHook = File::Spec->catfile( $TargetDir, basename($Hook) );
-        my $OldMode = (stat($CopiedHook))[2];
+        my $OldMode = (stat($Target))[2];
         my $NewMode = $OldMode | 0100;
-        my $RetChmod = chmod $NewMode, $CopiedHook;
+        my $RetChmod = chmod $NewMode, $Target;
         if ( $RetCp != 0 ) {
-            say "setting $CopiedHook to executable failed";
+            say "setting $Target to executable failed";
 
             return $Self->ExitCodeError();
         }
 
-        say "successfully installed $CopiedHook";
+        say "successfully installed $Target";
     }
 
     $Self->Print("<green>Done.</green>\n");
