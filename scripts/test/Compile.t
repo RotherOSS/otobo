@@ -91,13 +91,16 @@ note( 'check syntax of some shell scripts' );
         push @ShellScripts, 'bin/Cron.sh';
     }
 
+    # git hooks
+    push @ShellScripts, 'Kernel/System/Console/Command/Dev/Git/InstallHooks/prepare-commit-msg.dist';
+
     for my $File ( @ShellScripts ) {
         my $compile_errors = `bash -n "$File" 2>&1`;
         is( $compile_errors, '', "$File compiles" );
     }
 }
 
-note( 'check syntax of hook scripts, when the dir hooks exists' );
+note( 'check syntax of Docker hub hook scripts, when the dir hooks exists' );
 
 SKIP: {
     skip 'no hooks dir' if ! -d 'hooks';
