@@ -39,11 +39,11 @@ branch_name=$(git rev-parse --abbrev-ref HEAD)
 #echo "branch: $branch_name" >> $COMMIT_MSG_FILE
 echo "source: '$COMMIT_SOURCE'" >> $COMMIT_MSG_FILE
 
-# For now we mess only with interactive commits, where COMMIT_SOURCE is empty.
-# prepend when we are in an issue branch
+# For now we mess only with interactive commits, that is when $COMMIT_SOURCE is empty.
+# Do nothing unless the issue can be extracted from the git branch name.
 issue_regex='^issue-(.*#[0-9]+)-[^-]+'
 if [[ $COMMIT_SOURCE == '' ]] && [[ $branch_name =~ $issue_regex ]]
 then
+    # Prepend the issue to the commit message.
     echo "Issue ${BASH_REMATCH[1]}:${commit_content}" > $COMMIT_MSG_FILE
 fi
-
