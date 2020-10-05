@@ -49,6 +49,7 @@ sub Configure {
         Required    => 1,
         ValueRegex  => qr/.*/smx,
     );
+
     return;
 }
 
@@ -67,13 +68,8 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $CommandName = $Self->GetArgument('name');
-    my $Home        = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-
-    my $TargetHome      = $Home;
-    my $ModuleDirectory = $Self->GetOption('module-directory');
-    if ($ModuleDirectory) {
-        $TargetHome = $ModuleDirectory;
-    }
+    my $TargetHome
+        = $Self->GetOption('module-directory') || $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
     # Keep comment lines in files also in the generated output.
     local $ENV{TEMPLATE_KEEP_COMMENTS} = 1;
@@ -89,6 +85,7 @@ sub Run {
     );
     if ( !$SkeletonTemplatePM || !${$SkeletonTemplatePM} ) {
         $Self->PrintError("Could not read $SkeletonFilePM.");
+
         return $Self->ExitCodeError();
     }
 
@@ -109,6 +106,7 @@ sub Run {
 
     if ( -f $TargetLocationPM ) {
         $Self->PrintError("$TargetLocationPM already exists.");
+
         return $Self->ExitCodeError();
     }
 
@@ -122,6 +120,7 @@ sub Run {
     }
     else {
         $Self->PrintError("Could not generate $TargetLocationPM.\n");
+
         return $Self->ExitCodeError();
     }
 
@@ -136,6 +135,7 @@ sub Run {
     );
     if ( !$SkeletonTemplateUT || !${$SkeletonTemplateUT} ) {
         $Self->PrintError("Could not read $SkeletonFileUT.");
+
         return $Self->ExitCodeError();
     }
 
@@ -156,6 +156,7 @@ sub Run {
 
     if ( -f $TargetLocationUT ) {
         $Self->PrintError("$TargetLocationUT already exists.");
+
         return $Self->ExitCodeError();
     }
 
@@ -166,10 +167,12 @@ sub Run {
 
     if ($SuccessUT) {
         $Self->Print("<green>Generated:</green> <yellow>$TargetLocationUT</yellow>\n");
+
         return $Self->ExitCodeOk();
     }
 
     $Self->PrintError("Could not generate $TargetLocationUT.\n");
+
     return $Self->ExitCodeError();
 }
 
