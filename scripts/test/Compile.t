@@ -92,7 +92,7 @@ note( 'check syntax of some shell scripts' );
     }
 
     # git hooks
-    push @ShellScripts, 'scripts/git/hooks/prepare-commit-msg.dist';
+    push @ShellScripts, 'Kernel/System/Console/Command/Dev/Git/InstallHooks/prepare-commit-msg.dist';
 
     for my $File ( @ShellScripts ) {
         my $compile_errors = `bash -n "$File" 2>&1`;
