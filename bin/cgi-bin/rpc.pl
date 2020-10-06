@@ -27,9 +27,9 @@ use lib "$Bin/../../Custom";
 use SOAP::Transport::HTTP;
 use Kernel::System::ObjectManager;
 
-SOAP::Transport::HTTP::CGI->dispatch_to('Core')->handle();
+SOAP::Transport::HTTP::CGI->dispatch_to('OTOBO::RPC')->handle();
 
-package Core;
+package OTOBO::RPC;
 
 sub new {
     my $Self = shift;
@@ -66,7 +66,7 @@ sub Dispatch {
     $CommonObject{TicketObject}          = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # We want to keep providing the TimeObject as legacy API for now.
-    ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO6::TimeObject)
+    ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
     $CommonObject{TimeObject} = $Kernel::OM->Get('Kernel::System::Time');
     $CommonObject{UserObject} = $Kernel::OM->Get('Kernel::System::User');
 
