@@ -63,11 +63,16 @@ sub Run {
             USERPROFILE
         );
 
-    for my $Variable ( sort { $a cmp $b } grep { ! $IsIgnored{$_} } keys $PSGIEnv->%* ) {
+    KEY:
+    for my $Key ( sort { $a cmp $b } grep { ! $KeyIsIgnored{$_} } keys $PSGIEnv->%* ) {
+
+        # avoid confusing stringification
+        next KEY if ref $PSGIEnv->{$Key};
+
         $Self->AddResultInformation(
-            Identifier => $Variable,
-            Label      => $Variable,
-            Value      => $PSGIEnv->{$Variable},
+            Identifier => $Key,
+            Label      => $Key,
+            Value      => $PSGIEnv->{$Key},
         );
     }
 
