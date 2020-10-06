@@ -41,13 +41,14 @@
 # Harald Eisenmenger <harald.eisenmenger@otrs.com>, 2019
 # Michael Reuther <michael.reuther@otrs.com>, 2020
 # Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>, 2020.
+# Grit Rother <mr@otobo.de>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-09-23 08:34+0000\n"
-"PO-Revision-Date: 2020-09-28 14:00+0000\n"
-"Last-Translator: Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>\n"
+"PO-Revision-Date: 2020-10-06 13:14+0000\n"
+"Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -4160,6 +4161,7 @@ msgstr ""
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
 msgstr ""
+"z. B. https://www.otobo.de:10745/api/v1.0 (ohne abschließenden Backslash)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
@@ -4377,7 +4379,7 @@ msgstr "Der Standard-HTTP-Befehl für die Anfragen."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
-msgstr ""
+msgstr "z. B. https://local.otobo.de:8000/Webservice/Beispiel"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set SOAPAction"
@@ -4453,6 +4455,8 @@ msgid ""
 "e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/"
 "actions"
 msgstr ""
+"z. B. urn:otobo-com:soap:functions oder http://www.otobo.de/GenericInterface/"
+"actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name scheme"
@@ -10048,7 +10052,7 @@ msgstr "Zurück zur vorhergehenden Seite"
 
 #. Template: CustomerAccept
 msgid "Mit einem Klick erkläre ich meine Zustimmung."
-msgstr ""
+msgstr "Mit einem Klick erkläre ich meine Zustimmung."
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -16311,6 +16315,7 @@ msgstr "Kein Webservice vorhanden, fertig."
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Can't add web service for Elasticsearch. File %s not found!"
 msgstr ""
+"Kann Webservice für Elasticsearch nicht hinzufügen. Datei %s nicht gefunden!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid ""
@@ -16845,7 +16850,7 @@ msgstr "Zeichensatz des Datenbank-Servers"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Please convert your database to the character set 'utf8mb4'."
-msgstr ""
+msgstr "Bitte konvertieren Sie Ihre Datenbank zum Zeichensatz 'utf8mb4'."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Table Charset"
@@ -16854,6 +16859,8 @@ msgstr "Zeichensatz der Tabellen"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "There were tables found which do not have 'utf8mb4' as charset."
 msgstr ""
+"Es wurden Tabellen gefunden, in denen ein anderer Zeichensatz als 'utf8mb4' "
+"verwendet wird."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
 msgid "InnoDB Log File Size"
@@ -17302,7 +17309,7 @@ msgstr "Paketverifizierung-Status"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not verified by the OTOBO Team."
-msgstr ""
+msgstr "Einige Pakete wurden nicht von Team OTOBO verifiziert."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Framework Version Status"
