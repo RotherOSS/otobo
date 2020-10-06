@@ -23,23 +23,6 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
 
-# Broken on certain Perl 5.28 versions due to a Perl crash that we can't work around.
-my @BlacklistPerlVersions = (
-    v5.26.1,
-    v5.26.3,
-    v5.28.1,
-    v5.28.2,
-    v5.30.0,
-    v5.30.1,
-    v5.30.2,
-    v5.30.3,
-);
-
-if ( grep { $^V eq $_ } @BlacklistPerlVersions ) {
-    $Self->True( 1, "Current Perl version $^V is known to be buggy for this test, skipping." );
-    return 1;
-}
-
 # get needed objects
 my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
