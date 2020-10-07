@@ -51,67 +51,71 @@ $Helper->ConfigSettingChange(
     ],
 );
 
-my $TimeStart = [ Time::HiRes::gettimeofday() ];
 
-my %Result = $SupportDataCollectorObject->CollectAsynchronous();
+$Self->Note( Note => 'testing CollectAsynchronous' );
+{
+    my $TimeStart = [ Time::HiRes::gettimeofday() ];
+    my %ResultAsync = $SupportDataCollectorObject->CollectAsynchronous();
 
-$Self->Is(
-    $Result{Success},
-    1,
-    "Asynchronous data collection status",
-);
+    $Self->Is(
+        $ResultAsync{Success},
+        1,
+        "Asynchronous data collection status",
+    );
 
-my $TimeElapsed = Time::HiRes::tv_interval($TimeStart);
+    my $TimeElapsed = Time::HiRes::tv_interval($TimeStart);
 
-# Look for all plug-ins in the FS
-my @PluginFiles = $MainObject->DirectoryRead(
-    Directory => $Kernel::OM->Get('Kernel::Config')->Get('Home')
-        . "/Kernel/System/SupportDataCollector/PluginAsynchronous",
-    Filter    => "*.pm",
-    Recursive => 1,
-);
+    # Look for all plug-ins in the FS
+    my @PluginFiles = $MainObject->DirectoryRead(
+        Directory => $Kernel::OM->Get('Kernel::Config')->Get('Home')
+            . "/Kernel/System/SupportDataCollector/PluginAsynchronous",
+        Filter    => "*.pm",
+        Recursive => 1,
+    );
 
-# Execute all plug-ins
-for my $PluginFile (@PluginFiles) {
+    # Execute all plug-ins
+    PLUGIN_FILE:
+    for my $PluginFile (@PluginFiles) {
 
-    # Convert file name => package name
-    $PluginFile =~ s{^.*(Kernel/System.*)[.]pm$}{$1}xmsg;
-    $PluginFile =~ s{/+}{::}xmsg;
+        # Convert file name => package name
+        $PluginFile =~ s{^.*(Kernel/System.*)[.]pm$}{$1}xmsg;
+        $PluginFile =~ s{/+}{::}xmsg;
+    
+        if ( !$MainObject->Require($PluginFile) ) {
+            $Self->Note( Note => "Could not load $PluginFile!" );
 
-    if ( !$MainObject->Require($PluginFile) ) {
-        return (
-            Success      => 0,
-            ErrorMessage => "Could not load $PluginFile!",
+            next PLUGIN_FILE;
+        }
+        my $PluginObject = $PluginFile->new( %{$Self} );
+
+        my $AsynchronousData = $PluginObject->_GetAsynchronousData();
+
+        $Self->True(
+            defined $AsynchronousData,
+            "$PluginFile - asynchronous data exists.",
         );
     }
-    my $PluginObject = $PluginFile->new( %{$Self} );
-
-    my $AsynchronousData = $PluginObject->_GetAsynchronousData();
 
     $Self->True(
-        defined $AsynchronousData,
-        "$PluginFile - asynchronous data exists.",
+        $TimeElapsed < 240,
+        "CollectAsynchronous() - Should take less than 240 seconds, it took $TimeElapsed"
     );
-}
 
-$Self->True(
-    $TimeElapsed < 240,
-    "CollectAsynchronous() - Should take less than 240 seconds, it took $TimeElapsed"
-);
+}
 
 # test the support data collect function
 $CacheObject->CleanUp(
     Type => 'SupportDataCollector',
 );
 
-$TimeStart = [ Time::HiRes::gettimeofday() ];
+my $TimeStart = [ Time::HiRes::gettimeofday() ];
 
-%Result = $SupportDataCollectorObject->Collect(
+my %Result = $SupportDataCollectorObject->Collect(
     WebTimeout => 240,
     Hostname   => $Helper->GetTestHTTPHostname(),
 );
 
-$TimeElapsed = Time::HiRes::tv_interval($TimeStart);
+my $TimeElapsed = Time::HiRes::tv_interval($TimeStart);
 
 $Self->Is(
     $Result{Success},
