@@ -115,7 +115,7 @@ my %Result = $SupportDataCollectorObject->Collect(
     Hostname   => $Helper->GetTestHTTPHostname(),
 );
 
-$TimeElapsed = Time::HiRes::tv_interval($TimeStart);
+my $TimeElapsed = Time::HiRes::tv_interval($TimeStart);
 
 $Self->Is(
     $Result{Success},
