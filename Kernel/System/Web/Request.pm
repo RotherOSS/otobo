@@ -492,8 +492,6 @@ sub RequestMethod {
     return $Self->{Query}->request_method( @Params );
 }
 
-=======
->>>>>>> rel-10_0
 =head2 PathInfo
 
 Returns additional path information from the script URL.
