@@ -387,6 +387,21 @@ sub ScriptName {
     return $ScriptName;
 }
 
+=head2 ServerSoftware
+
+return info which server is running.
+This is a wrapper around CGI::server_software().
+
+    my $ServerSoftware = $ParamObject->ServerSoftware();
+
+=cut
+
+sub ServerSoftware {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->server_software( @Params );
+}
+
 =head2 PathInfo
 
 Returns additional path information from the script URL.
