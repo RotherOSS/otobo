@@ -36,9 +36,6 @@ commit_content=$(cat $COMMIT_MSG_FILE)
 # find out which branch we are on
 branch_name=$(git rev-parse --abbrev-ref HEAD)
 
-#echo "branch: $branch_name" >> $COMMIT_MSG_FILE
-echo "source: '$COMMIT_SOURCE'" >> $COMMIT_MSG_FILE
-
 # For now we mess only with interactive commits, that is when $COMMIT_SOURCE is empty.
 # Do nothing unless the issue can be extracted from the git branch name.
 issue_regex='^issue-(.*#[0-9]+)-[^-]+'
