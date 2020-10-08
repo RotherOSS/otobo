@@ -16,12 +16,13 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -46,12 +47,14 @@ my %FixedTimeCompatibleBackends = (
 MODULEFILE:
 for my $ModuleFile (@BackendModuleFiles) {
 
-    next MODULEFILE if !$ModuleFile;
+    next MODULEFILE unless $ModuleFile;
 
     # extract module name
     my ($Module) = $ModuleFile =~ m{ \/+ ([a-zA-Z0-9]+) \.pm $ }xms;
 
-    next MODULEFILE if !$Module;
+    next MODULEFILE unless $Module;
+
+    $Self->Note( Note => "Testing $Module" );
 
     $ConfigObject->Set(
         Key   => 'Cache::Module',
@@ -76,7 +79,26 @@ for my $ModuleFile (@BackendModuleFiles) {
         # get a new cache object
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-        next MODULEFILE if !$CacheObject;
+        # construction of the cache object should work in all cases
+        $Self->Is(
+            ref $CacheObject,
+            'Kernel::System::Cache',
+            'construction of cache object'
+        );
+        $Self->Is(
+            ref $CacheObject->{CacheObject},
+            "Kernel::System::Cache::$Module",
+            'construction of cache backend object'
+        );
+
+        next MODULEFILE unless $CacheObject;
+
+        # Under Docker Redis should be available.
+        # In a classical Installation we don't know. So we tentatively try to connect
+        # to the configured Redis Server, and proceed only if that works.
+        if ( $Module =~ m/Redis/i && ! $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
+            next MODULEFILE unless $CacheObject->{CacheObject}->_Connect();
+        }
 
         # flush the cache to have a clear test environment
         $CacheObject->CleanUp();
@@ -744,7 +766,6 @@ for my $ModuleFile (@BackendModuleFiles) {
     }
 }
 
+$Self->Note( Note => 'finished loop over cache module' );
 
 $Self->DoneTesting();
-
-
