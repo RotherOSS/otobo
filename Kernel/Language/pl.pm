@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.627055184763145;
+    $Self->{Completeness}        = 0.626443324117743;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3178,6 +3178,9 @@ sub Data {
         'SystemID' => 'SystemID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'Identyfikator systemu. Każde zgłoszenie i każde ID sesji HTTP zawiera ten numer',
+        'HTTP Type' => '',
+        'Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.' =>
+            '',
         'System FQDN' => 'Pełna domena systemu (FQDN)',
         'Fully qualified domain name of your system.' => 'Pełna nazwa domenowa (FQDN) twojego systemu.',
         'AdminEmail' => 'E-mail administratora',
@@ -4635,6 +4638,8 @@ sub Data {
         'Install OTOBO - Error' => '',
         'File "%s/%s.xml" not found!' => '',
         'Contact your Admin!' => 'Skontaktuj się ze swoim Administratorem',
+        'https' => '',
+        'http' => '',
         'System Settings' => 'Konfiguracja Systemu',
         'Syslog' => '',
         'Configure Mail' => 'Skonfiguruj pocztę',
@@ -5575,6 +5580,12 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
         'Support Data Collection' => '',
         'Support data could not be collected from the web server.' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
+        'PSGI Environment' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
+        'Runs under PSGI' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Wersja serwera WWW',

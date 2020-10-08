@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.647077974930816;
+    $Self->{Completeness}        = 0.646446576679135;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3179,6 +3179,9 @@ sub Data {
         'SystemID' => 'شناسه سیستم',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'شناسه سیستم. هر شماره درخواست و هر شناسه HTTP Session شامل این شماره می‌باشد.',
+        'HTTP Type' => '',
+        'Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.' =>
+            '',
         'System FQDN' => 'FQDN سیستم',
         'Fully qualified domain name of your system.' => 'FQDN سیستم شما',
         'AdminEmail' => 'ایمیل مدیر',
@@ -4636,6 +4639,8 @@ sub Data {
         'Install OTOBO - Error' => 'نصب OTOBO - خطا',
         'File "%s/%s.xml" not found!' => 'فایل \ " %s / %s .XML " یافت نشد!',
         'Contact your Admin!' => 'تماس با مدیریت خود !',
+        'https' => '',
+        'http' => '',
         'System Settings' => 'تنظیمات سیستم',
         'Syslog' => '',
         'Configure Mail' => 'پیکربندی ایمیل',
@@ -5576,6 +5581,12 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
         'Support Data Collection' => 'پشتیبانی جمع آوری داده ها',
         'Support data could not be collected from the web server.' => 'داده ها پشتیبانی می تواند از وب سرور نمی تواند جمع آوری شده.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
+        'PSGI Environment' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
+        'Runs under PSGI' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => ' نسخه وب سرور',

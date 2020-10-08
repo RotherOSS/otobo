@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.392642031580661;
+    $Self->{Completeness}        = 0.392258903886811;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3182,6 +3182,9 @@ sub Data {
         'SystemID' => 'System-ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'Identifikator for dette systemet. Saksnumre og HTTP-sesjoner bruker dette nummeret.',
+        'HTTP Type' => '',
+        'Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.' =>
+            '',
         'System FQDN' => 'Systemets tjenernavn (FQDN)',
         'Fully qualified domain name of your system.' => 'Fullt kvalifisert domene-navn for din tjener.',
         'AdminEmail' => 'Admin e-post',
@@ -4639,6 +4642,8 @@ sub Data {
         'Install OTOBO - Error' => '',
         'File "%s/%s.xml" not found!' => '',
         'Contact your Admin!' => '',
+        'https' => '',
+        'http' => '',
         'System Settings' => 'Systeminnstillinger',
         'Syslog' => '',
         'Configure Mail' => 'Konfigurer e-post',
@@ -5579,6 +5584,12 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
         'Support Data Collection' => '',
         'Support data could not be collected from the web server.' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
+        'PSGI Environment' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
+        'Runs under PSGI' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Webtjener versjon',

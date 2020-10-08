@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.548754680123718;
+    $Self->{Completeness}        = 0.548219222637827;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -3177,6 +3177,9 @@ sub Data {
         'SystemID' => 'SystemID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'ตัวบ่งชี้ของระบบ แต่ละหมายเลขตั๋วและแต่ละเซสชั่นไอดี HTTP ประกอบด้วยหมายเลขนี้',
+        'HTTP Type' => '',
+        'Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.' =>
+            '',
         'System FQDN' => 'ระบบ FQDN',
         'Fully qualified domain name of your system.' => 'ชื่อโดเมนที่ครบถ้วนของระบบของคุณ',
         'AdminEmail' => 'AdminEmail',
@@ -4634,6 +4637,8 @@ sub Data {
         'Install OTOBO - Error' => 'ติดตั้ง OTOBO - ข้อผิดพลาด',
         'File "%s/%s.xml" not found!' => 'ไม่พบไฟล์ "%s/%s.xml" ',
         'Contact your Admin!' => 'ติดต่อผู้ดูแลระบบของคุณ!',
+        'https' => '',
+        'http' => '',
         'System Settings' => 'การตั้งค่าระบบ',
         'Syslog' => '',
         'Configure Mail' => 'กำหนดค่าเมล์',
@@ -5574,6 +5579,12 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
         'Support Data Collection' => '',
         'Support data could not be collected from the web server.' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
+        'PSGI Environment' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
+        'Runs under PSGI' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'เวอร์ชั่นของ Webserver',
