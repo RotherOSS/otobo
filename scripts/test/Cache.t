@@ -79,7 +79,19 @@ for my $ModuleFile (@BackendModuleFiles) {
         # get a new cache object
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-        next MODULEFILE if !$CacheObject;
+        # construction of the cache object should work in all cases
+        $Self->Is(
+            ref $CacheObject,
+            'Kernel::System::Cache',
+            'construction of cache object'
+        );
+        $Self->Is(
+            ref $CacheObject->{CacheObject},
+            "Kernel::System::Cache::$Module",
+            'construction of cache backend object'
+        );
+
+        next MODULEFILE unless $CacheObject;
 
         # flush the cache to have a clear test environment
         $CacheObject->CleanUp();
