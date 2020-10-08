@@ -16,12 +16,13 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -46,12 +47,14 @@ my %FixedTimeCompatibleBackends = (
 MODULEFILE:
 for my $ModuleFile (@BackendModuleFiles) {
 
-    next MODULEFILE if !$ModuleFile;
+    next MODULEFILE unless $ModuleFile;
 
     # extract module name
     my ($Module) = $ModuleFile =~ m{ \/+ ([a-zA-Z0-9]+) \.pm $ }xms;
 
-    next MODULEFILE if !$Module;
+    next MODULEFILE unless $Module;
+
+    $Self->Note( Note => "Testing $Module" );
 
     $ConfigObject->Set(
         Key   => 'Cache::Module',
@@ -744,7 +747,6 @@ for my $ModuleFile (@BackendModuleFiles) {
     }
 }
 
+$Self->Note( Note => 'finished loop over cache module' );
 
 $Self->DoneTesting();
-
-
