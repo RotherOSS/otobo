@@ -38,11 +38,8 @@ our $ObjectManagerDisabled = 1;
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # Allocate new hash for object.
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    # Allocate new hash for object and initialize with the passed params
+    return bless { %Param }, $Type;
 }
 
 sub Run {
@@ -51,6 +48,7 @@ sub Run {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    # installing is only possible when SecureMode is not active
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
         $LayoutObject->FatalError(
             Message => Translatable('SecureMode active!'),
@@ -76,7 +74,7 @@ sub Run {
         );
     }
 
-    # Check/get SQL schema directory
+    # Get and check the SQL schema directory
     my $DirOfSQLFiles = $Self->{Path} . '/scripts/database';
     if ( !-d $DirOfSQLFiles ) {
         $LayoutObject->FatalError(
@@ -102,7 +100,7 @@ sub Run {
         $Self->{Subaction} = 'DBCreate';
     }
 
-    $Self->{Subaction} = 'Intro' if !$Self->{Subaction};
+    $Self->{Subaction} ||= 'Intro';
 
     # Set up the build steps.
     # The license step is not needed when it is turned off in $Self->{Options}.
@@ -173,6 +171,7 @@ sub Run {
             Title => "$Title - "
                 . $LayoutObject->{LanguageObject}->Translate('Intro')
             );
+        # activate the Intro block
         $LayoutObject->Block(
             Name => 'Intro',
             Data => {}
@@ -208,6 +207,7 @@ sub Run {
             Data         => {},
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -226,13 +226,14 @@ sub Run {
                 ),
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
 
         my %Databases = (
-            mysql      => "MySQL",
-            postgresql => "PostgreSQL",
-            oracle     => "Oracle",
+            mysql      => 'MySQL',
+            postgresql => 'PostgreSQL',
+            oracle     => 'Oracle',
         );
 
         # Build the select field for the InstallerDBStart.tt.
@@ -262,6 +263,7 @@ sub Run {
             Data         => {},
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -316,7 +318,7 @@ sub Run {
         my $DBType        = $ParamObject->GetParam( Param => 'DBType' );
         my $DBInstallType = $ParamObject->GetParam( Param => 'DBInstallType' );
 
-        # Use MainObject to generate a password.
+        # generate a random password for OTOBODBUser
         my $GeneratedPassword = $MainObject->GenerateRandomString();
 
         if ( $DBType eq 'mysql' ) {
@@ -362,6 +364,7 @@ sub Run {
                 },
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
         elsif ( $DBType eq 'postgresql' ) {
@@ -404,6 +407,7 @@ sub Run {
                 },
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
         elsif ( $DBType eq 'oracle' ) {
@@ -428,6 +432,7 @@ sub Run {
                 },
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
         else {
@@ -607,6 +612,7 @@ sub Run {
                     Data         => {},
                 );
                 $Output .= $LayoutObject->Footer();
+
                 return $Output;
             }
             else {
@@ -650,6 +656,7 @@ sub Run {
                 ),
             );
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
 
@@ -670,6 +677,7 @@ sub Run {
         # Create database tables and insert initial values.
         my @SQLPost;
         for my $SchemaFile (qw(otobo-schema otobo-initial_insert)) {
+
             if ( !-f "$DirOfSQLFiles/$SchemaFile.xml" ) {
                 $LayoutObject->FatalError(
                     Message => $LayoutObject->{LanguageObject}
@@ -732,6 +740,7 @@ sub Run {
             TemplateFile => 'Installer',
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -1050,6 +1059,7 @@ sub Run {
             Data         => {},
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -1145,6 +1155,7 @@ sub Run {
             Data         => {},
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -1198,7 +1209,7 @@ sub Run {
             PW        => $Password,
         );
 
-        # TODO: This seams to be deprecated now.
+        # TODO: This seems to be deprecated now.
         # Remove installer file with pre-configured options.
         if ( -f "$Self->{Path}/var/tmp/installer.json" ) {
             unlink "$Self->{Path}/var/tmp/installer.json";
@@ -1266,6 +1277,7 @@ sub Run {
             Data         => {},
         );
         $Output .= $LayoutObject->Footer();
+
         return $Output;
     }
 
@@ -1294,7 +1306,7 @@ sub ReConfigure {
     my $ConfigFile = "$Self->{Path}/Kernel/Config.pm";
     ## no critic
     open( my $In, '<', $ConfigFile )
-        || return "Can't open $ConfigFile: $!";
+        or return "Can't open $ConfigFile: $!";
     ## use critic
     my $Config = '';
     while (<$In>) {
@@ -1328,7 +1340,7 @@ sub ReConfigure {
     # Write new config file.
     ## no critic
     open( my $Out, '>:utf8', $ConfigFile )
-        || return "Can't open $ConfigFile: $!";
+        or return "Can't open $ConfigFile: $!";
     print $Out $Config;
     ## use critic
     close $Out;
