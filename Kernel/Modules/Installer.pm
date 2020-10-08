@@ -1258,8 +1258,26 @@ sub Run {
 
         my $OTOBOHandle = $ParamObject->ScriptName();
         $OTOBOHandle =~ s/\/(.*)\/installer\.pl/$1/;
-        my $HTTPS = $ParamObject->HTTPS('HTTPS');
-        my $Host = $ParamObject->HTTP('HOST') || $ConfigObject->Get('FQDN');
+
+        # Under Docker the scheme is correctly recognised as there are only two relevant cases:
+        #   a) HTTP should actually be used
+        #   b) HTTPS should be used and it works because nginx sets HTTPS
+        my $Scheme;
+        {
+            my $HTTPS  = $ParamObject->HTTPS('HTTPS');
+            $Scheme = ($HTTPS && lc $HTTPS eq 'on') ? 'https' : 'http';
+        }
+
+        # In the docker case $ENV{HTTP_HOST} is something like 'localhost:8443'.
+        # This is not very helpful as port 8443 is not exposed on the Docker host.
+        # So let's use the host that is provided by nginx
+        # Another, maybe better, approach is to simple provide a relative link to '../index.pl'.
+        # Fun fact: the FQDN can specified with a port.
+        my $Host =
+            $ParamObject->HTTP('HTTP_X_FORWARDED_SERVER')    # for the HTTPS case, the hostname that nginx sees
+            || $ParamObject->HTTP('HOST')                    # should work in the HTTP case, in Docker or not in Docker
+            || $ConfigObject->Get('FQDN');                   # a fallback
+
         my $Output =
             $LayoutObject->Header(
             Title => "$Title - "
@@ -1271,7 +1289,7 @@ sub Run {
                 Item        => Translatable('Finished'),
                 Step        => $StepCounter,
                 Host        => $Host,
-                Scheme      => ( ($HTTPS && lc $HTTPS eq 'on' ) ? 'https' : 'http' ),
+                Scheme      => $Scheme,
                 OTOBOHandle => $OTOBOHandle,
                 Webserver   => $Webserver,
                 Password    => $Password,
