@@ -681,6 +681,10 @@ my $OTOBOApp = builder {
                 if ( $ScriptFileName eq 'migration.pl' ) {
                     return Kernel::System::Web::InterfaceMigrateFromOTRS->new( %InterfaceParams );
                 }
+
+                if ( $ScriptFileName eq 'public.pl' ) {
+                    return Kernel::System::Web::InterfacePublic->new( %InterfaceParams );
+                }
             }->HeaderAndContent();
 
             # UTF-8 encoding is expected
@@ -713,9 +717,6 @@ my $OTOBOApp = builder {
                     }
                     elsif ( $ScriptFileName eq 'customer.pl' ) {
                         $Interface = Kernel::System::Web::InterfaceCustomer->new( %InterfaceParams );
-                    }
-                    elsif ( $ScriptFileName eq 'public.pl' ) {
-                        $Interface = Kernel::System::Web::InterfacePublic->new( %InterfaceParams );
                     }
                     else {
 

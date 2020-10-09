@@ -93,15 +93,15 @@ sub new {
     return $Self;
 }
 
-=head2 Run()
+=head2 HeaderAndContent()
 
-execute the object
+execute the object and return the generated content as a string.
 
-    $Interface->Run();
+    $Interface->HeaderAndContent();
 
 =cut
 
-sub Run {
+sub HeaderAndContent {
     my $Self = shift;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -118,8 +118,7 @@ sub Run {
             my $RequestURI = $ParamObject->RequestURI();
 
             # Redirect with 301 code. Add two new lines at the end, so HTTP headers are validated correctly.
-            print "Status: 301 Moved Permanently\nLocation: https://$Host$RequestURI\n\n";
-            return;
+            return "Status: 301 Moved Permanently\nLocation: https://$Host$RequestURI\n\n";
         }
     }
 
@@ -201,7 +200,6 @@ sub Run {
         $LayoutObject->CustomerFatalError(
             Comment => Translatable('Please contact the administrator.'),
         );
-        return 1;
     }
 
     # module registry
@@ -215,7 +213,6 @@ sub Run {
         $LayoutObject->CustomerFatalError(
             Comment => Translatable('Please contact the administrator.'),
         );
-        return;
     }
 
     # debug info
@@ -241,7 +238,8 @@ sub Run {
     }
 
     # ->Run $Action with $FrontendObject
-    $LayoutObject->Print( Output => \$FrontendObject->Run() );
+    my $Output = $FrontendObject->Run();
+    $LayoutObject->ApplyOutputFilters( Output => \$Output );
 
     # log request time
     if ( $ConfigObject->Get('PerformanceLog') ) {
@@ -272,21 +270,7 @@ sub Run {
         }
     }
 
-    return 1;
-}
-
-sub DESTROY {
-    my $Self = shift;
-
-    # debug info
-    if ( $Self->{Debug} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'debug',
-            Message  => 'Global handle stopped.',
-        );
-    }
-
-    return 1;
+    return $Output;
 }
 
 1;
