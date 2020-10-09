@@ -666,8 +666,9 @@ my $OTOBOApp = builder {
         );
 
         # InterfaceInstaller has been converted to returning a string instead of printing the STDOUT.
-        # This means that we don't have to capture STDOUT
-        if ( $ScriptFileName eq 'installer.pl' || $ScriptFileName eq 'migration.pl' ) {
+        # This means that we don't have to capture STDOUT.
+        # TODO: convert index.pl and customer.pl and the fallback
+        if ( $ScriptFileName eq 'installer.pl' || $ScriptFileName eq 'public.pl' || $ScriptFileName eq 'migration.pl' ) {
 
             # make sure that the managed objects will be recreated for the current request
             local $Kernel::OM = Kernel::System::ObjectManager->new();
