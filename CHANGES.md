@@ -1,5 +1,129 @@
 
-# OTOBO 10.0.3 2020-09-23
+# OTOBO 10.0.4 2020-10-08
+- 2020-10-08 16:34:27 +0200 Create new OTOBO language files.
+- 2020-10-08 14:01:38 +0200 Merge pull request #527 from RotherOSS/issue-#533-link_to_index.pl
+- 2020-10-08 13:59:03 +0200 Issue #533: use HTTP_X_FORWARDED_SERVER in installer.pl
+- 2020-10-08 11:00:47 +0200 Issue #533: pull minor changes that already were on rel-10_1
+- 2020-10-08 10:25:53 +0200 Merge pull request #526 from RotherOSS/issue-#524-Redis_not_available
+- 2020-10-08 10:24:33 +0200 Issue #524: Try _Connect() for checking access to Redis Server
+- 2020-10-08 10:24:05 +0200 Issue #524: add test for object creation
+- 2020-10-08 10:23:18 +0200 Issue #524: tidying, add a couple of notes
+- 2020-10-07 09:06:43 +0200 Merge pull request #522 from RotherOSS/issue-#521-SupportDataCollector
+- 2020-10-07 09:04:39 +0200 Issue #521: declare a variable
+- 2020-10-07 08:57:23 +0200 Issue #521: put some vars in a tighter scope
+- 2020-10-07 08:50:24 +0200 Issue #521: remove debug output in prepare-commit-msg
+- 2020-10-07 08:46:53 +0200 Issue #521: add ServerSoftware() as it is used in Version.pm
+- 2020-10-07 08:22:15 +0200 Issue #521: remove an unused variable
+- 2020-10-06 16:08:46 +0200 Issue #407: use PSGIEnv.pm from the rel-10_1 branch
+- 2020-10-06 15:55:36 +0200 Merge pull request #520 from RotherOSS/issue-#513-SOAPLite_t
+- 2020-10-06 15:52:35 +0200 Issue #513: saner name: OTOBO6 -> OTOBO10
+- 2020-08-06 12:35:37 +0200 Issue #306: also rename Core to OTOBO::RPC in rpc.pl
+- 2020-09-02 16:37:43 +0200 Issue #407: move the PSGI vars one level down source: 'message'
+- 2020-09-02 16:35:37 +0200 Issue #407: a feeble attempt to add a sensible SERVER_SOFTWARE
+- 2020-09-02 15:52:11 +0200 Issue #407: add more info for the Plack case source: 'message'
+- 2020-09-02 15:49:15 +0200 Issue #407: get server software from the CGI-Object
+- 2020-09-02 15:47:35 +0200 Issue #407: remove unused varible %Environment source: 'message'
+- 2020-09-02 15:48:33 +0200 Issue #407: declare missing object dependency source: 'message'
+- 2020-10-06 15:14:04 +0200 Merge pull request #518 from RotherOSS/issue-240-no_blacklist_in_10_0_4
+- 2020-07-31 11:04:32 +0200 Issue #240: Remove the Perl blacklist
+- 2020-10-05 18:40:35 +0200 Merge pull request #516 from RotherOSS/issue-#513-remove_extension
+- 2020-10-05 18:38:52 +0200 Issue #513: Forgot to remove the '.dist' from the copied script
+- 2020-10-05 18:19:18 +0200 Merge pull request #515 from RotherOSS/issue-#513-prepare_commit_msg
+- 2020-10-05 17:49:16 +0200 Issue #513: prepare-commit-msg has moved to a new location
+- 2020-10-05 16:49:00 +0200 Issue #513: don't call the command in the test suite
+- 2020-10-05 16:48:30 +0200 Issue #513: actually install the git hooks
+- 2020-10-05 16:37:07 +0200 Issue #513: enhance code comments
+- 2020-10-05 10:22:08 +0200 Issue #513: add stub for the Dev::Git::InstallHooks console command
+- 2020-10-05 10:20:17 +0200 Issue #513: a small simplification when assigning $TargetHome.
+- 2020-10-04 11:06:27 +0200 Issue #513: get started on a prepare-commit-msg hook
+- 2020-10-02 11:54:09 +0200 Merge pull request #509 from RotherOSS/issue-#508-SelfTest
+- 2020-10-02 11:52:04 +0200 Issue #508: just a code comment
+- 2020-10-02 10:37:43 +0200 Issue #508: eliminate _Print()
+- 2020-10-02 10:29:50 +0200 Issue #508: eliminate the attribute SelfTest
+- 2020-10-01 15:17:22 +0200 Merge pull request #507 from RotherOSS/issue-505-daemon_job_EscalationIndexRebuild
+- 2020-10-01 15:15:43 +0200 Issue #505: revert to the OTRS 6 behavior
+- 2020-10-01 14:53:31 +0200 Merge pull request #506 from RotherOSS/issue-490-RebuildEscalationIndex
+- 2020-10-01 14:48:41 +0200 Issue #490: the logic was the inversed
+- 2020-10-01 14:43:11 +0200 Issue #490: avoid some not needed loops
+- 2020-10-01 14:22:48 +0200 Issue #490: add a check for whether there are any escalation suspend states
+- 2020-10-01 14:19:06 +0200 Issue #490: enhance code comments
+- 2020-10-01 12:02:44 +0200 Merge pull request #504 from RotherOSS/issue-389-code_comment
+- 2020-10-01 12:01:09 +0200 Issue #389: add code comment stating that the job interval must not be changed
+- 2020-10-01 11:33:48 +0200 Merge pull request #503 from RotherOSS/issue-495-Test2_API
+- 2020-10-01 11:27:59 +0200 Merge branch 'rel-10_0' into issue-495-Test2_API
+- 2020-10-01 11:22:40 +0200 Merge pull request #502 from RotherOSS/issue-490-no_feature_change
+- 2020-09-30 15:21:21 +0200 Issue #490: add code comments and some refactoring
+- 2020-10-01 11:18:18 +0200 Merge branch 'issue-490-rebuild_escalation_index' of github.com:RotherOSS/otobo into issue-495-Test2_API
+- 2020-10-01 11:05:58 +0200 Issue #490: fix spelling: Test2::VO => Test2::V0
+- 2020-10-01 11:05:07 +0200 Issue #490: really release the Test2 context
+- 2020-10-01 09:56:20 +0200 Issue #490: explicitly add 'Test::Simple' as dependency
+- 2020-10-01 09:43:59 +0200 Issue #490: do away with Kernel::System::UnitTest::Driver::Plan()
+- 2020-10-01 09:38:40 +0200 Issue #490: use Test2::API in Kernel::System::UnitTest::Driver
+- 2020-10-01 11:05:58 +0200 Issue #490: fix spelling: Test2::VO => Test2::V0
+- 2020-10-01 11:05:07 +0200 Issue #490: really release the Test2 context
+- 2020-10-01 09:56:20 +0200 Issue #490: explicitly add 'Test::Simple' as dependency
+- 2020-10-01 09:43:59 +0200 Issue #490: do away with Kernel::System::UnitTest::Driver::Plan()
+- 2020-10-01 09:38:40 +0200 Issue #490: use Test2::API in Kernel::System::UnitTest::Driver
+- 2020-09-30 15:21:21 +0200 Issue #490: add code comments and some refactoring
+- 2020-09-30 11:18:13 +0200 Merge pull request #498 from RotherOSS/issue-472-SKIP_NUTSANDBOLTS_TEST
+- 2020-09-30 11:16:22 +0200 Issue #472: update version of elesticsearch base image
+- 2020-09-30 11:09:33 +0200 Merge pull request #497 from RotherOSS/issue-496-hostname
+- 2020-09-30 11:08:17 +0200 Issue #496: use Sys::Hostname instead of FQDN
+- 2020-09-30 10:02:40 +0200 Merge pull request #493 from RotherOSS/issue-474-SKIP_NUTSANDBOLTS_TEST
+- 2020-09-30 10:01:08 +0200 Issue #474: workaround for funny mixed test output
+- 2020-09-29 18:22:14 +0200 Merge pull request #491 from RotherOSS/issue-486-backport_#222
+- 2020-09-29 17:50:01 +0200 Issue #447: no need to call prove
+- 2020-09-29 17:17:14 +0200 Issue #486: do not mess with @INC in modules
+- 2020-09-29 14:48:50 +0200 Merge pull request #489 from RotherOSS/issue-487-backport
+- 2020-09-29 14:46:40 +0200 Issue #487: grab changes from rel-10_1
+- 2020-09-28 18:53:12 +0200 --web-group takes an option
+- 2020-09-28 18:35:06 +0200 Merge pull request #485 from RotherOSS/issue-480-set_permission
+- 2020-09-28 18:31:35 +0200 Issue #480: support for option --runs-under-docker
+- 2020-09-28 18:12:12 +0200 Issue #480: check whether option parsing worked
+- 2020-09-28 18:07:35 +0200 Issue #480: merge set_permissions.sh into bin/otobo.SetPermissions.pl
+- 2020-09-28 16:31:13 +0200 Merge pull request #484 from RotherOSS/issue-447-Dev_UnitTest_Run
+- 2020-09-28 16:29:06 +0200 Issue #477: sync between 10_0 and 10_1 for two test scripts
+- 2020-09-28 16:28:22 +0200 Issue #447: pull in changes in Dev::UnitTest::Run
+- 2020-09-28 16:00:26 +0200 Merge pull request #482 from RotherOSS/issue-447-backport
+- 2020-09-28 15:10:27 +0200 Issue #447: use the version from rel-10_1 for Blacklist.t
+- 2020-09-28 15:01:41 +0200 Issue #447: simplify the sample config files
+- 2020-09-28 15:00:19 +0200 Issue #447: migrate to Test2::V0
+- 2020-09-28 14:02:43 +0200 Issue #447: update EscalationTime tests
+- 2020-09-28 13:46:04 +0200 Issue #447: use version from #447 for ArticleStorageSwitch.t
+- 2020-09-28 13:42:35 +0200 Issue #447: remove two obsolete test scripts.
+- 2020-09-28 13:32:20 +0200 Issue #447: use the version from rel-10_1 for Can.t
+- 2020-09-28 13:21:02 +0200 Issue #447: use version from re-10_1 for ConfigXMLStructure.t
+- 2020-09-28 13:12:17 +0200 Issue #447: use the rel-10_1 version of DeploymentBug13462.t
+- 2020-09-28 13:07:33 +0200 Issue #447: use the rel-10_1 version of Reinstall.t
+- 2020-09-28 13:05:04 +0200 Issue: use the version from rel-10_0 for SOAPLite.t
+- 2020-09-28 12:49:05 +0200 Issue #447: remove trailing blank lines
+- 2020-09-28 12:25:39 +0200 Fix Bug: https://github.com/RotherOSS/otobo/issues/481 - Add setting HttpType to the installer.
+- 2020-09-28 11:57:38 +0200 Issue #447: some tidbits grabbed from the rel-10_1 branch
+- 2020-09-28 11:41:53 +0200 Issue #447: added DoneTesting()
+- 2020-09-28 10:56:20 +0200 Issue #447: no need to check for package Kernel::System::UnitTest::Driver
+- 2020-09-28 10:43:52 +0200 Issue #447: the skip guard is no longer needed
+- 2020-09-28 10:32:55 +0200 Issue #47: catch all .sh scripts in bin/docker.
+- 2020-09-28 10:32:09 +0200 Issue #447: a more descriptive test description
+- 2020-09-28 10:25:20 +0200 Issue #447: remove the trailing '1;'
+- 2020-09-28 10:16:44 +0200 Issue #447: backport changes in the UnitTest modules
+- 2020-09-27 10:44:15 +0200 Set hooks/build as executable in otobo.SetPermission.pl.
+- 2020-09-27 09:30:26 +0200 Comment cleanup in OTOBO files.
+- 2020-09-26 17:21:45 +0200 Merge pull request #479 from RotherOSS/issue-464-corelist
+- 2020-09-26 16:44:21 +0200 Merge branch 'rel-10_0' into issue-464-corelist
+- 2020-09-26 16:42:57 +0200 Merge pull request #478 from RotherOSS/issue-RotherOSS/otobo-docker#6-nginx_config_port_8080
+- 2020-09-26 16:41:35 +0200 Issue RotherOSS/otobo-docker#6: grap changes from rel-10_1
+- 2020-09-26 15:46:49 +0200 Issue #464: remove Module::CoreList
+- 2020-09-26 10:58:53 +0200 Merge pull request #476 from RotherOSS/issue-463-sql_function_MD5
+- 2020-09-26 10:57:27 +0200 Issue #464: tidying, add code comments
+- 2020-09-25 20:10:25 +0200 Merge pull request #474 from RotherOSS/issue-422-for_rel-10_0
+- 2020-09-25 20:07:41 +0200 Issue #422: specify --user root
+- 2020-09-25 16:56:29 +0200 Added a missing 'and'
+- 2020-09-25 15:22:54 +0200 Merge pull request #468 from RotherOSS/svenoe-patch-1
+- 2020-09-25 14:59:39 +0200 Merge pull request #469 from RotherOSS/issue-417-backport
+- 2020-09-25 14:55:43 +0200 Issue #417: grab Docker related changes from the rel-10_2 branch
+- 2020-09-25 14:52:42 +0200 Add some contribution info to the readme.
+- 2020-09-23 10:48:19 +0200 Fix po-files.
+- 2020-09-23 10:37:05 +0200 Update CHANGES.
 - 2020-09-23 10:35:02 +0200 Create new OTOBO language files.
 - 2020-09-23 10:00:21 +0200 Merge remote-tracking branch 'weblate4/rel-10_0' into rel-10_0
 - 2020-09-22 16:38:05 +0200 Merge pull request #464 from RotherOSS/issue-417-rename_cron_to_daemon
@@ -943,11 +1067,178 @@
 - 2020-03-04 13:57:56 +0100 Agent interface: Fixed and improved field widths.
 
 
-# OTOBO 10.0.2 2020-07-31
+# OTOBO 10.0.3 2020-09-23
+- 2020-09-23 10:35:02 +0200 Create new OTOBO language files.
+- 2020-09-23 10:00:21 +0200 Merge remote-tracking branch 'weblate4/rel-10_0' into rel-10_0
+- 2020-09-22 16:38:05 +0200 Merge pull request #464 from RotherOSS/issue-417-rename_cron_to_daemon
+- 2020-09-22 16:36:42 +0200 Issue #417: rename otobo_cron_1 to otobo_daemon_1
+- 2020-09-22 15:56:46 +0200 Merge pull request #461 from RotherOSS/issue-434-partial_rollback
+- 2020-09-22 12:17:52 +0200 Issue #434: rollback for the non-PSGI case.
+- 2020-09-21 13:46:50 +0200 Merge pull request #452 from RotherOSS/issue-451-result_of_settings_check
+- 2020-09-21 13:45:11 +0200 Issue #451: Fix description of error message
+- 2020-09-21 13:08:25 +0200 Fix Issue: COPYING vs. LICENSE - https://github.com/RotherOSS/otobo/issues/43
+- 2020-09-21 13:05:38 +0200 Fix Issue: Invalid references to transifex -  https://github.com/RotherOSS/otobo/issues/358
+- 2020-09-02 12:27:52 +0000 Translated using Weblate (Portuguese (Brazil))
+- 2020-08-26 20:38:15 +0000 Translated using Weblate (Portuguese (Brazil))
+- 2020-08-14 02:42:30 +0000 Update translation files
+- 2020-07-26 19:38:50 +0000 Translated using Weblate (Portuguese (Brazil))
+- 2020-07-19 21:17:36 +0000 Translated using Weblate (Portuguese (Brazil))
+- 2020-07-15 06:42:02 +0000 Translated using Weblate (Portuguese (Brazil))
+- 2020-07-15 00:09:08 +0000 Translated using Weblate (Portuguese (Brazil))
+- 2020-09-18 11:42:42 +0200 Issue #413: Correctly detect fields with tree view enabled, even in the presence of AJAXLoader.
+- 2020-09-18 10:01:26 +0200 Merge pull request #445 from RotherOSS/issue-277-backport
+- 2020-09-18 10:00:01 +0200 Issue #277: set OCI conformant labels
+- 2020-09-18 09:59:14 +0200 Issue #277: simplify the package install commands
+- 2020-09-15 12:39:45 +0200 Merge pull request #443 from RotherOSS/issue-432-with_equal_sign
+- 2020-09-15 12:37:03 +0200 Issue #432: fix help message
+- 2020-09-15 11:57:43 +0200 Issue #432: fix spelling in help
+- 2020-09-15 11:09:49 +0200 Issue #432: the option --backup-dir takes as string
+- 2020-09-15 10:54:30 +0200 Issue #432:Pass --max-allowed-package=<SIZE>
+- 2020-09-14 16:35:50 +0200 Merge pull request #440 from RotherOSS/issue-432-max_allowed_package
+- 2020-09-14 16:33:23 +0200 Issue #432: add option --max-allowed-package
+- 2020-09-14 16:18:39 +0200 Issue #432: die does not need a newline
+- 2020-09-14 16:14:42 +0200 Issue #432: eliminate a variable
+- 2020-09-14 16:11:51 +0200 Issue #432: add support for long options
+- 2020-09-14 15:56:55 +0200 Issue #432: use v5.24.0;
+- 2020-09-14 13:23:30 +0200 Merge pull request #439 from RotherOSS/issue-434-more_pinging
+- 2020-09-14 12:31:07 +0200 Issue #434: Set pg_enable_utf8 already in DBI->connect()
+- 2020-09-14 12:30:04 +0200 Issue #434: Do the ping checking not when running under PSGI
+- 2020-09-14 12:14:52 +0200 Issue #434: use a callback for session init
+- 2020-09-14 11:47:01 +0200 Issue #434: use the same connect attributes in both cases
+- 2020-09-14 11:21:17 +0200 Issue #434: added code comment about mysql_auto_reconnect
+- 2020-09-14 11:02:40 +0200 Issue #434: actually pass the connection params.
+- 2020-09-08 18:17:34 +0200 Update the label of the image that is used for testing.
+- 2020-09-08 18:05:26 +0200 Pull in some changes from the rel-10_1 branch.
+- 2020-09-08 13:35:50 +0200 Merge pull request #431 from RotherOSS/issue-429-local
+- 2020-09-08 12:24:10 +0200 Issue #429: support for /opt/otobo/local
+- 2020-09-08 12:20:25 +0200 Issue #429: simplify the command for installing packages
+- 2020-09-07 14:11:48 +0200 Include the git branch in the local docker tag
+- 2020-09-07 12:09:10 +0200 Merge pull request #421 from RotherOSS/issue-420-backup_restore
+- 2020-09-07 12:05:58 +0200 Issue #420: tidying
+- 2020-09-03 10:18:56 +0200 Issue #410: Use 1 as temporary queue to get initial services in CustomerTicketMessage.
+- 2020-08-31 15:31:18 +0200 Issue 405: Fix logging bug for RedisCache - thanks @ymyasoedov.
+- 2020-08-20 19:17:53 +0200 Merge pull request #384 from RotherOSS/issue-251-I_want_cookies
+- 2020-08-20 19:16:24 +0200 Issue #251: want that quick setup also in OTOBO 10.0.x
+- 2020-08-20 17:48:34 +0200 Merge pull request #383 from RotherOSS/issue-251-I_want_cookies
+- 2020-08-20 17:43:31 +0200 Issue #251: add some code comments
+- 2020-08-20 17:42:52 +0200 Issue #251: remove an unused variable
+- 2020-08-20 17:41:59 +0200 Issue #251: don't give OTOBOBrowserHasCookie a longer life than the session cookie
+- 2020-08-20 17:40:43 +0200 Issue #251: simplify how $CookieSecureAttribute is set
+- 2020-08-20 17:34:24 +0200 Issue #251: remove unneeded forcing of scalar context
+- 2020-08-20 09:43:14 +0200 Issue #73: package names for Net::SMTP::SSL and Convert::BinHex
+- 2020-08-19 16:58:14 +0200 Merge pull request #379 from RotherOSS/issue-238-modules
+- 2020-08-19 16:55:55 +0200 Issue #238: sync the required modules between 10_1 and 10_0
+- 2020-08-19 16:51:04 +0200 Merge pull request #378 from RotherOSS/issue-238-PreviousEventGet
+- 2020-08-19 16:48:08 +0200 Issue #238: do the UTC workaround for NextEventList().
+- 2020-08-19 16:40:41 +0200 Issue #238: implement the UTC-workaround for PreviousEventGet()
+- 2020-08-19 16:39:38 +0200 Issue #238: adapt the expected output of a test
+- 2020-08-19 16:26:55 +0200 Issue #238: DoneTesting() is called automatically in the 10_0 branch
+- 2020-08-19 16:19:03 +0200 Issue #238: enable the commented out tests
+- 2020-08-19 16:17:38 +0200 Issue #238: use OTOBOTimeZoneGet() instead of OTRSTimeZoneGet()
+- 2020-08-19 16:08:51 +0200 Issue #238: pull in some changes from rel-10_1
+- 2020-08-19 16:06:32 +0200 Merge pull request #377 from RotherOSS/issue-311-editor_files
+- 2020-08-19 16:05:11 +0200 Issue #311: ignore .swn files, as generated by vim
+- 2020-08-19 15:50:35 +0200 Adapt test to changed email headers (see commit 84df23926806fee8a659918312f7095edb351252).
+- 2020-08-19 14:05:14 +0200 Merge pull request #376 from RotherOSS/issue-311-keep-type
+- 2020-08-19 14:00:34 +0200 Issue #311: replace broken regex with a hash lookup
+- 2020-08-19 13:52:11 +0200 Issue #311: rename @TypeList to @ToBeDeletedTypes
+- 2020-08-19 13:51:10 +0200 Issue #311: call flushdb() when $Param{KeepTypes} is a ref to an empty array.
+- 2020-08-19 13:37:46 +0200 Issue #311: improve code comments
+- 2020-08-18 13:25:24 +0200 Change X-Powered-By to https://otobo.org/ in CreateMimeEntity.
+- 2020-08-15 14:31:11 +0200 Merge pull request #360 from RotherOSS/issue-353_remove_Kernel/Output/HTML/Layout.pm.new
+- 2020-08-15 14:29:27 +0200 Issue #353: remove inadvertently added file
+- 2020-08-15 14:17:02 +0200 Merge pull request #359 from RotherOSS/issue-353-FatalError
+- 2020-08-15 13:23:41 +0200 Issue #353: added a helper script for running the test suite
+- 2020-08-15 13:21:52 +0200 Issue #353: consistently use full name of middlewares
+- 2020-08-15 13:18:23 +0200 Issue #353: added a code comments
+- 2020-08-15 13:00:28 +0200 Issue #353: throw exception for FatalError()
+- 2020-08-15 12:59:10 +0200 Issue #353: minor changes from rel-10_1
+- 2020-08-15 12:48:16 +0200 Issue #353: parse_cgi_output() is not used
+- 2020-08-15 12:41:36 +0200 Issue #353: throw and handle exception in the PSGI case
+- 2020-08-15 12:39:39 +0200 Issue #353: factor out the method ApplyOutputFilters()
+- 2020-08-15 12:34:45 +0200 Issue #353: some superficial changes
+- 2020-08-15 12:08:24 +0200 Issue #353: added debug output to Frontend/Basict.t
+- 2020-08-14 12:22:32 +0200 Merge pull request #357 from RotherOSS/issue-353-test_numbering
+- 2020-08-14 12:20:42 +0200 Issue #353: make sure that test numbers won't be messed up
+- 2020-08-13 17:34:50 +0200 Merge pull request #352 from RotherOSS/issue-310-PerlOption_Parent
+- 2020-08-13 17:31:51 +0200 Issue #310: Added PerlOption +Parent
+- 2020-08-13 09:33:02 +0200 Merge pull request #347 from RotherOSS/issue-322-clean_up_POD
+- 2020-08-12 15:57:34 +0200 Issue #322: TERMS in var and scripts
+- 2020-08-12 15:56:21 +0200 Issue #322: remaining 'TERMS' in Kernel
+- 2020-08-12 13:00:00 +0200 Issue #322: handle the cases with '=end Internal:'
+- 2020-08-12 12:41:55 +0200 Issue #322: added a '=cut'
+- 2020-08-12 12:18:00 +0200 Issue #322: first batch of removing TERMS AND CONDITIONS
+- 2020-08-12 11:45:32 +0200 Merge pull request #346 from RotherOSS/issue-155-todo_comment
+- 2020-08-12 11:43:52 +0200 Issue #155: update the cpanm sample command
+- 2020-08-12 11:42:55 +0200 Issue #155: remove the TODO comment
+- 2020-08-10 12:05:21 +0200 Merge pull request #339 from RotherOSS/issue-337-rsync
+- 2020-08-10 12:03:42 +0200 Issue #337: added the Debina package 'rsync'
+- 2020-08-07 13:30:51 +0200 Merge pull request #331 from RotherOSS/issue-329-layer_caching_invalidated
+- 2020-08-07 13:28:13 +0200 Issue #329: make hooks/build executable
+- 2020-08-07 13:25:11 +0200 Issue #329: extract the ARGs as late as possible
+- 2020-08-07 13:21:33 +0200 Isssue #329: set the labels also in 10.0.x
+- 2020-08-07 13:15:23 +0200 Issue #329: no need to create upgrade.log
+- 2020-08-07 13:12:50 +0200 Issue #329: grab some changes for rel-10_1 Dockerfile
+- 2020-08-06 15:22:35 +0200 Merge pull request #321 from RotherOSS/issue-213-Base_pm_moved
+- 2020-08-06 15:20:11 +0200 Issue #213: adapt the fully qualified packages name for Base.pm
+- 2020-08-06 10:22:19 +0200 Merge pull request #314 from RotherOSS/issue-313-doc_otobo_org
+- 2020-08-06 10:20:44 +0200 Issue #313: fix two more links. doc.otobo.de => doc.otobo.org
+- 2020-08-05 22:48:47 +0200 Fixed issue #313. Thanks to Helmut Wollmersdorfer!
+- 2020-08-05 20:23:05 +0200 Added missing Znuny copyright.
+- 2020-08-05 13:25:57 +0200 Merge pull request #309 from RotherOSS/issue-305_redis_client
+- 2020-08-05 13:19:55 +0200 Issue #305: install redis-tools
+- 2020-08-05 12:08:23 +0200 Merge pull request #308 from RotherOSS/issue-295-github_action
+- 2020-08-05 12:04:54 +0200 Issue #295 added commented out --with-feature=mail:ntlm
+- 2020-08-05 12:01:31 +0200 Issue #295: install Mail::NTLM in docker image
+- 2020-08-05 11:52:37 +0200 Issue #295: require Net::SMTP::SSL
+- 2020-08-05 11:47:43 +0200 Issue #295: Require Convert::BinHex
+- 2020-08-05 11:40:05 +0200 Issue #295: require Test2::Suite instead of Test2::V0.
+- 2020-08-05 11:38:28 +0200 Issue #295: require Clone
+- 2020-08-05 11:37:08 +0200 Issue #295: use the devel image, as some dependencies might not be in latest yet
+- 2020-08-05 11:24:02 +0200 Issue #295: fix Kernel/Config/Defaults.pm
+- 2020-08-05 11:15:57 +0200 Issue #295: sort the env vars
+- 2020-08-05 11:11:19 +0200 Issue #295: remove an extra '-'
+- 2020-08-05 11:09:34 +0200 Issue #295: Apache support is not really interesting any more
+- 2020-08-05 10:55:05 +0200 Issue #295: a dummy push
+- 2020-08-05 10:51:54 +0200 Issue #295: Kernel/Config.pm is needed for Compile check
+- 2020-08-05 10:40:29 +0200 Issue #295: fix YAML syntax for array of strings
+- 2020-08-05 10:36:49 +0200 Issue 295: the cheaper workflow can be done per push too
+- 2020-08-05 10:27:35 +0200 Issue #295: use the latest OTOBO image for syntax checks
+- 2020-08-05 10:01:43 +0200 Issue #295: try to do useful work
+- 2020-08-05 09:40:10 +0200 Issue #295: fix indention in workflow file
+- 2020-08-05 09:35:53 +0200 Issue #295: use the perldocker/perl-tester image
+- 2020-08-05 09:21:26 +0200 Issue #295: just a dummy push
+- 2020-08-05 09:12:46 +0200 Issue #295: fix syntax: runs_on => runs-on
+- 2020-08-05 09:10:34 +0200 Issue #295: added a code comment
+- 2020-08-05 09:07:17 +0200 Issue #295: added a dummy action
+- 2020-08-04 16:39:43 +0200 Merge pull request #302 from RotherOSS/issue-299-upgrade_log
+- 2020-08-04 16:36:57 +0200 Issue #299: externally provide the shorter commands 'upgrade' and 'upgrade_reinstall'
+- 2020-08-04 16:35:09 +0200 Issue #299: move the upgrade log
+- 2020-08-04 15:23:44 +0200 Issue #299: align the commands
+- 2020-08-04 14:59:59 +0200 Merge pull request #301 from RotherOSS/issue-289-post_push-7asdf
+- 2020-08-04 14:47:21 +0200 Issue #289: change to the productive tag names
+- 2020-08-04 14:16:02 +0200 Issue #289: local can only be used in subroutines
+- 2020-08-04 13:11:22 +0200 Issue #289: fix the regex for the relavant example case
+- 2020-08-04 13:07:26 +0200 Merge branch 'rel-10_0' into issue-289-post_push-7asdf
+- 2020-08-04 13:06:17 +0200 Merge pull request #300 from RotherOSS/issue-296-hidden_files_2
+- 2020-08-04 12:58:42 +0200 Issue #296: .otobo-ci.yml is not needed in docker image
+- 2020-08-04 12:53:10 +0200 Issue #296: a saner copy command
+- 2020-08-04 12:42:23 +0200 Issue #289: added debug output
+- 2020-08-04 12:35:37 +0200 Issue #289: tag local builds with the tag 'local'
+- 2020-08-04 11:33:43 +0200 Issue #289: get started on hooks/post_push
+- 2020-08-04 11:32:11 +0200 Issue #289: try to simplify the test script
+- 2020-08-04 11:31:01 +0200 Issue #289: update code comments
+- 2020-08-04 10:50:50 +0200 Issue #289: hook scripts are not needed in the image
+- 2020-08-01 09:40:25 +0200 Rename invalid link.
+- 2020-07-31 16:09:14 +0200 Issue #288: DynamicFieldDBSearch: Cache has to be filter specific.
+- 2020-07-31 14:43:17 +0200 Merge pull request #286 from RotherOSS/issue-284-system_tools
+- 2020-07-31 14:42:11 +0200 Merge branch 'rel-10_0' into issue-284-system_tools
+- 2020-07-31 13:59:42 +0200 Update CHANGES.
 - 2020-07-31 13:57:48 +0200 Merge pull request #285 from RotherOSS/issue-276-dev_otobo_org_
 - 2020-07-31 13:56:09 +0200 Issue #276: change the maintainer to "Team OTOBO <dev@otobo.org>"
 - 2020-07-31 13:43:41 +0200 Create new OTOBO language files.
 - 2020-07-31 13:10:03 +0200 Adopt the CustomerDynamicFieldDBDetailedSearch layout changes for CustomerDynamicFieldDBDetails.
+- 2020-07-31 12:50:21 +0200 Issue #284: more system utils
 - 2020-07-31 11:50:43 +0200 Fix regression in customer attachment upload: attachments were not properly hidden.
 - 2020-07-31 11:21:40 +0200 Fix several issues with the nginx proxy: https://github.com/RotherOSS/otobo/issues/233
 - 2020-07-30 18:02:21 +0200 Various fixes for the customer version of DynamicFieldDBDetailedSearch.
@@ -1720,7 +2011,115 @@
 - 2020-03-04 13:57:56 +0100 Agent interface: Fixed and improved field widths.
 
 
-# OTOBO 10.0.1 2020-07-13
+# OTOBO 10.0.2 2020-07-31
+- 2020-07-31 13:57:48 +0200 Merge pull request #285 from RotherOSS/issue-276-dev_otobo_org_
+- 2020-07-31 13:56:09 +0200 Issue #276: change the maintainer to "Team OTOBO <dev@otobo.org>"
+- 2020-07-31 13:43:41 +0200 Create new OTOBO language files.
+- 2020-07-31 13:10:03 +0200 Adopt the CustomerDynamicFieldDBDetailedSearch layout changes for CustomerDynamicFieldDBDetails.
+- 2020-07-31 11:50:43 +0200 Fix regression in customer attachment upload: attachments were not properly hidden.
+- 2020-07-31 11:21:40 +0200 Fix several issues with the nginx proxy: https://github.com/RotherOSS/otobo/issues/233
+- 2020-07-30 18:02:21 +0200 Various fixes for the customer version of DynamicFieldDBDetailedSearch.
+- 2020-07-30 16:50:24 +0200 Merge pull request #279 from RotherOSS/issue-276-docker_image_maintainer
+- 2020-07-30 16:48:52 +0200 Issue #276: set myself as maintainer
+- 2020-07-30 15:14:14 +0200 JQuery autocomplete css for the customer interface.
+- 2020-07-30 14:02:03 +0200 Initialize database dynamicfields even when invisible for compatibility with HideShow.
+- 2020-07-29 12:52:02 +0200 Merge pull request #269 from RotherOSS/issue-197-rollback_deployed_settings
+- 2020-07-29 12:50:29 +0200 Issue #197: restore ZZZAAuto.pm after running the tests
+- 2020-07-29 11:10:08 +0200 Issue #197: tidying: saner indention
+- 2020-07-28 16:50:29 +0200 Merge pull request #268 from RotherOSS/issue-263-sqlite_and_more_odbc
+- 2020-07-28 16:47:19 +0200 Issue #263: fix shell syntax
+- 2020-07-28 15:34:30 +0200 Issue #263: libsqliteodbc seems to handle only sqlite3 databases
+- 2020-07-28 14:58:54 +0200 Issue #263: add package otobo.web.dockerfile
+- 2020-07-28 14:58:22 +0200 Issue #263: add some SQLite stuff
+- 2020-07-28 13:57:20 +0200 Merge pull request #267 from RotherOSS/issue-263_unixodbc
+- 2020-07-28 13:20:37 +0200 Issue #263: also install db:postgresql and db:odbc
+- 2020-07-28 13:08:43 +0200 Issue #203: add Debian packages for PostgreSQL and ODBC
+- 2020-07-28 12:49:35 +0200 Issue #203: neater syntax for setting up the package list
+- 2020-07-28 12:13:15 +0200 Issue #263: add screen to the docker image
+- 2020-07-28 11:50:14 +0200 Merge pull request #262 from RotherOSS/issue-202_ls_A_vs_ls
+- 2020-07-28 11:27:52 +0200 Issue #203: ignore hidden file when checking whether /opt/otobo is empty
+- 2020-07-27 19:13:34 +0200 Merge pull request #261 from RotherOSS/issue-203-archive_t
+- 2020-07-27 19:12:26 +0200 Issue #203: remove need for a '## no critic' declaration
+- 2020-07-27 19:10:17 +0200 Issue #202: don't created hash for docker_firsttime and docker_firsttime_handled.
+- 2020-07-27 19:08:29 +0200 Merge pull request #260 from RotherOSS/issue-258-keep_apache_dbi
+- 2020-07-27 17:44:32 +0200 Issue #258: for 10.0.2 keep Apache::DBI
+- 2020-07-27 16:23:01 +0200 Fix the presentation of database dynamic fields in the customer frontend - part 1.
+- 2020-07-27 16:01:44 +0200 Merge pull request #257 from RotherOSS/issue-203-minor_version_upgrade
+- 2020-07-27 15:58:49 +0200 Issue #203: Move the install dir to /opt/otobo_install
+- 2020-07-27 15:36:25 +0200 Issue #203: some refactoring
+- 2020-07-27 14:36:36 +0200 Issue #203: do more of the work as user 'otobo'.
+- 2020-07-27 14:35:30 +0200 Issue #203: don't try to start Daemon when docker_firstime was not handled.
+- 2020-07-27 14:06:50 +0200 Issue #203: pass all args to exec_whatever().
+- 2020-07-27 14:06:01 +0200 Issue #203: handle Config.pod.dist also in entrypoint.sh
+- 2020-07-27 13:02:19 +0200 Issue #203: run the webserver as otobo.
+- 2020-07-27 12:47:45 +0200 Issue #203: build in /var/otobo/otobo_next
+- 2020-07-27 11:39:02 +0200 Issue #203: a saner version comparison
+- 2020-07-27 10:02:37 +0200 Issue #203: Added support for upgrade_patchlevel_release in entrypoint.sh
+- 2020-07-27 09:57:56 +0200 Initially hide objects with .Hidden class in the CustomerInterface again.
+- 2020-07-24 19:34:32 +0200 Merge pull request #254 from RotherOSS/issue-248-article_in_frame
+- 2020-07-24 19:33:07 +0200 Issue #248: remove the headers in question.
+- 2020-07-24 19:27:14 +0200 Merge pull request #253 from RotherOSS/issue-203-minor_version_upgrade
+- 2020-07-24 19:20:51 +0200 Issue #203: a lot of shell scripting for patchlevel upgrades
+- 2020-07-24 19:16:11 +0200 Issue #203: ignore all *.out files, e.g. build.out, prove.out
+- 2020-07-23 17:14:19 +0200 Issue #245: add compile test for Shell scripts
+- 2020-07-23 16:36:35 +0200 Issue #245: Apache specific modules are not needed in image
+- 2020-07-23 16:35:59 +0200 Issue #245: Dockerfiles are not needed in image
+- 2020-07-23 16:35:15 +0200 Issue #245: output from unit testing is not needed in image
+- 2020-07-23 14:21:53 +0200 Merge pull request #243 from RotherOSS/issue-242-utf_8_console
+- 2020-07-23 14:18:39 +0200 Issue #242: Set locale ot C.UTF-8
+- 2020-07-23 13:41:54 +0200 Implicitly check perl version in otobo.CheckModules.pl for easier to understand error messages.
+- 2020-07-22 11:42:24 +0200 Merge pull request #231 from RotherOSS/issue-169-no_development_folder_in_image
+- 2020-07-22 11:40:23 +0200 Issue #169: no editor swap files in the docker image
+- 2020-07-22 11:39:35 +0200 Issue #169: ignore .gitconfig
+- 2020-07-22 11:31:49 +0200 Issue #169: also mkdir var/article
+- 2020-07-22 11:30:56 +0200 Issue #169: ignore some more files and folders
+- 2020-07-22 10:38:01 +0200 Issue #169: Simplify the modification of otobo-initial_insert.xml
+- 2020-07-22 10:29:04 +0200 Issue #169: The folder 'development' is not needed
+- 2020-07-21 17:40:12 +0200 Merge pull request #229 from RotherOSS/issue-216-dbviewer_behind_reverse_proxy
+- 2020-07-21 17:38:14 +0200 Issue #216: handle reverse proxy for /otobo/dbviewer.
+- 2020-07-21 17:37:05 +0200 Issue #216: document which Apps have a permission check
+- 2020-07-21 17:34:38 +0200 Issue #216: mention how to force reloads for every request
+- 2020-07-21 16:02:57 +0200 Merge pull request #228 from RotherOSS/issue-218-load_helper_first
+- 2020-07-21 16:00:37 +0200 Issue #218: turn off AutoCommit before updating user_preferences.
+- 2020-07-21 10:35:48 +0200 Merge pull request #224 from RotherOSS/issue-RotherOSS/otobo-docker#1-nginx_redirect
+- 2020-07-21 10:34:02 +0200 Issue RotherOSS/otobo-docker#1: redirect to the calling URL
+- 2020-07-20 16:50:42 +0200 Refocus Elasticsearch input upon opening the results.
+- 2020-07-20 11:24:16 +0200 Merge pull request #221 from RotherOSS/issue-174-test_compile
+- 2020-07-20 11:22:24 +0200 Issue #174: revert to setting @INC in Kernel/Config/Defaults.pm
+- 2020-07-20 09:46:52 +0200 Merge pull request #220 from RotherOSS/issue-219-centos_missing_module
+- 2020-07-20 09:45:09 +0200 Issue #219: require Unicode::Collate
+- 2020-07-20 09:40:40 +0200 Issue #219: add Unicode::Collate::Locale as a dependency
+- 2020-07-19 11:49:38 +0200 Merge pull request #217 from RotherOSS/issue-206-UserTimeZone
+- 2020-07-19 11:46:53 +0200 Issue #206: Make sure that the UserTimeZone is UTC
+- 2020-07-18 13:39:07 +0200 Merge pull request #215 from RotherOSS/issue-195-url_map
+- 2020-07-18 13:36:31 +0200 Issue #195: Fiddle with SCRIPT_NAME and PATH_INFO
+- 2020-07-18 13:26:52 +0200 Issue #195: add debugging support
+- 2020-07-18 13:23:25 +0200 Issue #195: enhance documentation
+- 2020-07-17 21:36:27 +0200 Merge pull request #214 from RotherOSS/issue-174-test_compile
+- 2020-07-17 21:27:32 +0200 Issue #174: Rewrite Compile.t testscript
+- 2020-07-17 19:23:30 +0200 Issue #174: do not modify @INC in a module.
+- 2020-07-17 19:09:28 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-07-17 16:11:04 +0200 Issue #123: fix stupid syntax error concerning scope of $FH.
+- 2020-07-04 15:15:00 +0200 Issue #113: tidying
+- 2020-07-04 15:12:30 +0200 Issue #113: no need to strip comments
+- 2020-07-04 15:07:55 +0200 Issue #113: no need to pass in Directory.
+- 2020-07-13 15:23:18 +0200 Update CHANGES.
+- 2020-07-13 15:20:13 +0200 Create new OTOBO language files.
+- 2020-07-13 15:14:33 +0200 Customer login background. Hello Harry.
+- 2020-07-13 15:03:44 +0200 Change verify logo.
+- 2020-07-13 13:25:15 +0200 Tidying. Don't use tab for indention
+- 2020-07-13 13:22:35 +0200 Fix Syntax error: else mustn't have a condition
+- 2020-07-13 12:04:42 +0200 Issue #201: add the option "--env deployment"
+- 2020-07-13 11:22:46 +0200 Another set of color changes.
+- 2020-07-13 11:06:03 +0200 Change otobo verify logos.
+- 2020-07-17 16:13:05 +0200 Merge pull request #212 from RotherOSS/issue-123-fix_syntax
+- 2020-07-17 16:11:04 +0200 Issue #123: fix stupid syntax error concerning scope of $FH.
+- 2020-07-14 16:52:51 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-07-14 16:52:39 +0200 Fix bug for MariaDB https://otobo.de/de/forums/topic/otobo-10-0-1-installer-db-user-setup-schlaegt-fehl/, thanks to Sago.
+- 2020-07-14 09:40:04 +0200 Merge pull request #208 from RotherOSS/issue-78-nginx
+- 2020-07-14 09:38:30 +0200 Merge branch 'rel-10_0' into issue-78-nginx
+- 2020-07-14 09:31:02 +0200 Merge pull request #207 from RotherOSS/issue-113-Config_pm
+- 2020-07-13 15:23:18 +0200 Update CHANGES.
 - 2020-07-13 15:20:13 +0200 Create new OTOBO language files.
 - 2020-07-13 15:14:33 +0200 Customer login background. Hello Harry.
 - 2020-07-13 15:03:44 +0200 Change verify logo.
@@ -1905,6 +2304,9 @@
 - 2020-07-06 11:24:08 +0200 Enable feature 'state'.
 - 2020-07-04 19:25:07 +0200 Consistently use the v-String syntax: 'use v5.24;'
 - 2020-07-04 19:17:55 +0200 Be careful with 'use 5.24.0'.
+- 2020-07-04 15:15:00 +0200 Issue #113: tidying
+- 2020-07-04 15:12:30 +0200 Issue #113: no need to strip comments
+- 2020-07-04 15:07:55 +0200 Issue #113: no need to pass in Directory.
 - 2020-07-04 14:12:52 +0200 Merge pull request #135 from RotherOSS/issue-102-docker_compose
 - 2020-07-04 14:08:13 +0200 Issue #102: Cover the relavant use cases with extension files
 - 2020-07-03 18:59:41 +0200 Merge pull request #131 from RotherOSS/issue-78-docker_home
@@ -1927,6 +2329,7 @@
 - 2020-07-03 10:05:31 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
 - 2020-07-03 10:03:43 +0200 Make the entry in gi_webservice_config_history.config identical to the entry in gi_webservice_config.config
 - 2020-07-02 18:31:44 +0200 Merge pull request #130 from RotherOSS/issue-128-binmode_vs_unicode_eval
+- 2020-07-02 17:09:20 +0200 Issue-78: fix unicode issues
 - 2020-07-02 17:09:20 +0200 Issue-78: fix unicode issues
 - 2020-07-02 12:55:15 +0200 Merge pull request #127 from RotherOSS/issue-78-nginx
 - 2020-07-02 12:49:36 +0200 Issue #78: First stab at nginx.
@@ -2385,7 +2788,101 @@
 - 2020-03-04 13:57:56 +0100 Agent interface: Fixed and improved field widths.
 
 
-# OTOBO 10.0.0 beta5 2020-07-09
+# OTOBO 10.0.1 2020-07-13
+- 2020-07-13 15:20:13 +0200 Create new OTOBO language files.
+- 2020-07-13 15:14:33 +0200 Customer login background. Hello Harry.
+- 2020-07-13 15:03:44 +0200 Change verify logo.
+- 2020-07-13 13:25:15 +0200 Tidying. Don't use tab for indention
+- 2020-07-13 13:22:35 +0200 Fix Syntax error: else mustn't have a condition
+- 2020-07-13 12:06:52 +0200 Merge pull request #202 from RotherOSS/issue-201-plackup_option_env
+- 2020-07-13 12:04:42 +0200 Issue #201: add the option "--env deployment"
+- 2020-07-13 11:22:46 +0200 Another set of color changes.
+- 2020-07-13 11:06:03 +0200 Change otobo verify logos.
+- 2020-07-13 08:47:05 +0200 Small description improvements.
+- 2020-07-13 07:57:04 +0200 Last changes in migration.pl.
+- 2020-07-12 17:01:40 +0200 Agent mobile view colors changed.
+- 2020-07-12 16:37:36 +0200 Changed some occurances of orange to yellow.
+- 2020-07-12 16:21:12 +0200 Change small underlines at several places to one shade of grey.
+- 2020-07-12 16:10:03 +0200 Change agent ticket mask selected customer style.
+- 2020-07-12 15:56:39 +0200 Change list hover colors to the correct shades of yellow.
+- 2020-07-12 15:28:29 +0200 Change important articles color back to red, unread article stars in header to grey.
+- 2020-07-12 15:17:13 +0200 Change MessageBox colors.
+- 2020-07-12 14:22:08 +0200 Change colorset of unread article stars. Remove !important from general "fa".
+- 2020-07-12 12:25:11 +0200 Change customer dashboard plaintext text to "Textarea" and handle linebreaks correctly.
+- 2020-07-12 10:56:23 +0200 Hint that fields are readonly by not showing a border. Has to be reworked!
+- 2020-07-12 09:12:55 +0200 Make URLs with erroneous multiple "/"s work again for compatibility reasons. (E.g. 127.0.0.1//otobo/index.pl)
+- 2020-07-11 15:49:02 +0000 Translated using Weblate (German)
+- 2020-07-11 15:37:55 +0000 Translated using Weblate (German)
+- 2020-07-11 15:25:33 +0000 Translated using Weblate (German)
+- 2020-07-11 15:06:28 +0000 Translated using Weblate (German)
+- 2020-07-11 14:00:11 +0000 Translated using Weblate (German)
+- 2020-07-11 12:18:33 +0000 Translated using Weblate (German)
+- 2020-07-11 14:52:19 +0200 Change the beginning of the color palette for charts.
+- 2020-07-11 14:17:22 +0200 Fix sample command for restarting apache2
+- 2020-07-11 14:14:44 +0200 Add same sample commands
+- 2020-07-11 14:11:13 +0200 Merge pull request #196 from RotherOSS/issue-195-fastcgi
+- 2020-07-11 14:06:58 +0200 Issue #195: remove remnants of old FastCGI support
+- 2020-07-11 13:58:17 +0200 Issue #195: Use long option --server for consistencies sake
+- 2020-07-11 13:56:28 +0200 Issue #195: wrap sample command in a subshell
+- 2020-07-11 13:52:23 +0200 Issue #195: added commented out debug statements
+- 2020-07-11 11:39:32 +0000 Translated using Weblate (German)
+- 2020-07-11 11:32:38 +0000 Translated using Weblate (German)
+- 2020-07-11 11:28:52 +0000 Translated using Weblate (German)
+- 2020-07-11 10:59:39 +0000 Translated using Weblate (German)
+- 2020-07-11 13:00:48 +0200 Set color of disabled buttons to a compromise-gray working for both, light and dark backgrounds.
+- 2020-07-11 10:58:09 +0000 Translated using Weblate (German)
+- 2020-07-11 10:50:13 +0000 Translated using Weblate (German)
+- 2020-07-11 10:10:06 +0000 Translated using Weblate (German)
+- 2020-07-11 12:46:42 +0200 Issue #195: add sample config for FastCGI proxy
+- 2020-07-11 12:36:02 +0200 Issue #195: Add some double quotes in order to clarify the config.
+- 2020-07-11 12:34:54 +0200 Issue #195: Mention that sudo a2enmod proxy_http is needed.
+- 2020-07-11 12:12:19 +0200 Issue #195: adhere to naming convention for apache2-httpd-plack-proxy.conf
+- 2020-07-11 08:46:22 +0000 Translated using Weblate (German)
+- 2020-07-11 12:00:32 +0200 Create new OTOBO language files.
+- 2020-07-11 11:55:22 +0200 Last cleanups.
+- 2020-07-11 11:29:27 +0200 Issue #195: a slightly less scary warning about PSGI support
+- 2020-07-11 11:24:20 +0200 Temporarily disable AdminRegistration via SysConfig.
+- 2020-07-11 11:14:13 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-07-11 11:14:04 +0200 Change to otobo!
+- 2020-07-11 11:03:38 +0200 Prevent AJAXLoader animantion from shifting position of labels.
+- 2020-07-11 10:04:46 +0200 Issue #195: adhere to naming convention for Apache include configs.
+- 2020-07-10 18:38:08 +0200 Remove utf8 file read from UnitTest/Driver.
+- 2020-07-10 17:52:41 +0200 Merge pull request #188 from RotherOSS/issue-178-unittest_unittest
+- 2020-07-10 17:50:29 +0200 Issue #178 saner output of the unit test UnitTest
+- 2020-07-10 17:44:39 +0200 Add some standard statistics.
+- 2020-07-10 08:17:02 +0000 Translated using Weblate (German)
+- 2020-07-10 17:22:43 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-07-10 17:22:35 +0200 Revert DateTime changes to fix AdminLog. Can be fixed in a better way later.
+- 2020-07-10 17:22:19 +0200 Merge pull request #187 from RotherOSS/issue-156-skip_under_otobo_console
+- 2020-07-10 16:35:57 +0200 Merge pull request #186 from RotherOSS/issue-123-elasticsearch_active
+- 2020-07-10 16:31:09 +0200 Issue #123: Enhance a code comment
+- 2020-07-10 16:27:55 +0200 Issue #123: At least remove Elasticsearch::Active from Config.pm
+- 2020-07-10 16:20:36 +0200 Update the description and code comments for HttpType
+- 2020-07-10 15:56:51 +0200 Merge pull request #185 from RotherOSS/issue-179-stats_run_t
+- 2020-07-10 15:53:46 +0200 Issue #179: Accept that SysConfig setting has been changed.
+- 2020-07-10 14:32:58 +0200 Change default HttpType to https in Defaults.pm, too.
+- 2020-07-10 14:24:42 +0200 Change the git version to 10.0.x in the RELEASE file.
+- 2020-07-10 13:15:18 +0200 Fixed Perl warning.
+- 2020-07-10 13:14:02 +0200 Add Perl version to blacklist.
+- 2020-07-10 13:08:27 +0200 Several improvements and fixes for the TranslationsUpdate command.
+- 2020-07-10 13:02:59 +0200 Fixed: SysConfig broken for editing array of hashes (otrs bug#15143).
+- 2020-07-10 12:57:06 +0200 Change CloudService URL.
+- 2020-07-10 12:41:18 +0200 Fixed: Error creating DateTime object (otrs bug#13924).
+- 2020-07-10 12:26:19 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-07-10 12:26:11 +0200 Remove use 5.24 from UnitTest/Driver, fix it, to not output \0 bytes.
+- 2020-07-10 12:25:30 +0200 Merge pull request #182 from RotherOSS/issue-176-frontend_basic_t
+- 2020-07-10 12:08:56 +0200 Issue #176: Do not call exit when the request is not complete yet
+- 2020-07-10 12:07:25 +0200 Fixed: Processing of sequence flows throws error for tickets assigned to unknown or invalid processes (otrs bug#15016).
+- 2020-07-10 12:06:15 +0200 Do not ignore scripts/test in gitignore. (Might be important for osx file system only, because of capitalization handling.)
+- 2020-07-10 11:41:27 +0200 Fixed: Wrong SMIME cert is selected in AgentTicketCompose (otrs bug#15075).
+- 2020-07-10 11:18:57 +0200 Improved random number generator.
+- 2020-07-10 11:08:09 +0200 Updated Moo installation information.
+- 2020-07-10 09:40:14 +0200 Also build the Elasticsearch image
+- 2020-07-10 08:24:15 +0200 Change default http-type to https
+- 2020-07-10 07:13:20 +0200 Adjust dorckerfile for Elasticsearch.
+- 2020-07-10 06:56:07 +0200 Add own dockerfile for elasticsearch.
+- 2020-07-09 18:13:38 +0200 Update the name of the Docker images.
+- 2020-07-09 16:44:36 +0200 Update CHANGES.
 - 2020-07-09 16:24:48 +0200 Merge pull request #173 from RotherOSS/issue-161-UserRemoteAddr
 - 2020-07-09 16:24:22 +0200 Translation Update.
 - 2020-07-09 16:22:19 +0200 Issue #161: returning 127.0.0.1 for the local addr is fine
@@ -2396,6 +2893,7 @@
 - 2020-07-09 13:00:43 +0200 Merge pull request #170 from RotherOSS/issue-167-dot_files
 - 2020-07-09 12:59:03 +0200 Issue #167: fiddle with .dockerignore
 - 2020-07-09 11:37:15 +0200 Merge pull request #168 from RotherOSS/issue-166-ARCHIVE
+- 2020-07-09 11:29:53 +0200 Issue #156: a safer check for those two special files
 - 2020-07-09 11:18:13 +0200 Set the image name when building images locally.
 - 2020-07-09 11:17:34 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
 - 2020-07-09 11:13:43 +0200 Issue #166: ignore output files of the unitest run itself
@@ -2955,6 +3453,576 @@
 - 2020-03-04 13:57:56 +0100 Agent interface: Fixed and improved field widths.
 
 
+# OTOBO 10.0.0 beta5 2020-07-09
+- 2020-07-09 16:24:48 +0200 Merge pull request #173 from RotherOSS/issue-161-UserRemoteAddr
+- 2020-07-09 16:24:22 +0200 Translation Update.
+- 2020-07-09 16:22:19 +0200 Issue #161: returning 127.0.0.1 for the local addr is fine
+- 2020-07-09 16:11:49 +0200 Change button colors for picture editing in RTE. Make space for the ?-button in the SysConfig.
+- 2020-07-09 15:47:59 +0200 Merge pull request #171 from RotherOSS/issue-163-crypto_files_not_copied
+- 2020-07-09 15:44:16 +0200 Issue #163: make exceptions for actually needed crypto files
+- 2020-07-09 15:34:53 +0200 Fix too long fields in dialogs (split ticket). Implementation should be improved.
+- 2020-07-09 13:00:43 +0200 Merge pull request #170 from RotherOSS/issue-167-dot_files
+- 2020-07-09 12:59:03 +0200 Issue #167: fiddle with .dockerignore
+- 2020-07-09 11:37:15 +0200 Merge pull request #168 from RotherOSS/issue-166-ARCHIVE
+- 2020-07-09 11:18:13 +0200 Set the image name when building images locally.
+- 2020-07-09 11:17:34 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-07-09 11:13:43 +0200 Issue #166: ignore output files of the unitest run itself
+- 2020-07-09 10:39:40 +0200 Changed cpanfile.
+- 2020-07-09 10:38:21 +0200 Issue #166: create ARCHIVE in the image
+- 2020-07-09 10:37:29 +0200 Rework of otobo.Checkmodules to make it more well-arranged. Changed some of its core functionality. Please use bin/otobo.Checkmodules -h.
+- 2020-07-09 10:37:28 +0200 Issue #166: it's ok when ARCHIVE does not exist
+- 2020-07-09 08:40:08 +0200 Add a short script for building the docker images locally.
+- 2020-07-09 08:07:05 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-07-09 08:06:55 +0200 Move docker-compose scripts to the new repo otobo-docker.
+- 2020-07-08 00:12:21 +0000 Translated using Weblate (Portuguese (Brazil))
+- 2020-07-08 17:51:36 +0200 Merge pull request #159 from RotherOSS/issue-150-subroutine_redefined
+- 2020-07-08 17:48:47 +0200 Issue #150: avoid warnings from overriding DateTime subs
+- 2020-07-08 17:47:13 +0200 Issue #150: cpanm was commented out in Dockerfile
+- 2020-07-08 16:51:58 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-07-08 16:49:46 +0200 Comment out debug output.
+- 2020-07-08 16:36:45 +0200 Experiment with .dockerignore
+- 2020-07-08 16:35:32 +0200 Debug Dockerhub.
+- 2020-07-08 15:29:02 +0200 Really check what is in Kernel
+- 2020-07-08 15:01:02 +0200 Add some RUN statements for debugging
+- 2020-07-08 14:29:47 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-07-08 14:27:10 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-07-08 14:26:12 +0200 Update the README on behalf of the changed filenames.
+- 2020-07-08 14:23:19 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-07-08 14:17:51 +0200 Merge pull request #158 from RotherOSS/issue-156-test_compile
+- 2020-07-08 14:11:39 +0200 Merge branch 'rel-10_0' into issue-156-test_compile
+- 2020-07-08 14:03:33 +0200 Issue #156: add the version requirements to the cpanfile
+- 2020-07-08 13:16:58 +0200 Issue #150: 1.08 is the needed version.
+- 2020-07-08 13:13:12 +0200 Automatically set up Elasticsearch if a clean Elasticsearch server with standard configuration is found.
+- 2020-07-08 12:58:24 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-07-08 12:58:07 +0200 Issue #150: Define 1.09 as required version for DateTime.
+- 2020-07-08 12:50:57 +0200 Issue #156: add Test::Compile as dependency
+- 2020-07-08 12:48:59 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-07-08 12:48:47 +0200 Change docker and docker-compose structure.
+- 2020-07-08 12:42:21 +0200 Merge pull request #157 from RotherOSS/issue-154-webservice_nph_genericagent
+- 2020-07-08 12:36:58 +0200 Issue #154: Try the Restart middleware.
+- 2020-07-08 12:35:30 +0200 Issue #154: do not pass '-R Kernel' to plackup
+- 2020-07-08 12:16:52 +0200 Issue #154: avoid some more double slashes before nph-genericinterface.pl
+- 2020-07-08 10:36:15 +0200 Issue #154: work a code comments
+- 2020-07-08 10:34:31 +0200 Issue #154: write the match operator explicitly
+- 2020-07-08 08:58:06 +0200 Set up SSL before building the images.
+- 2020-07-08 08:44:23 +0200 Set the Elasticsearch web service to invalid upon initial insert. Will be set to valid within migration script.
+- 2020-07-07 18:55:25 +0200 Issue #154: remove a superflous '/' in the URL.
+- 2020-07-07 18:51:48 +0200 Issue #154: enhance a code comment
+- 2020-07-07 16:01:49 +0200 Fix missing }.
+- 2020-07-07 15:33:23 +0200 Merge pull request #152 from RotherOSS/issue-87-return_outside_a_sub
+- 2020-07-07 15:30:52 +0200 Issue 87: avoid the 'return outside a subroutine' error
+- 2020-07-07 15:05:56 +0200 Merge pull request #151 from RotherOSS/issue-147-sub_exporter
+- 2020-07-07 13:19:50 +0200 Create new OTOBO language files.
+- 2020-07-07 12:56:30 +0200 Issue #147: added Sub::Exporter as dependency
+- 2020-07-07 12:42:12 +0200 Merge pull request #148 from RotherOSS/issue-145-TestHTTPHostname
+- 2020-07-07 10:10:13 +0200 Issue #145: Set TestHTTPHostname
+- 2020-07-07 10:09:31 +0200 Elasticsearch: Separate pipeline creation from ticket migration; check for activated "StoreFields" setting.
+- 2020-07-07 09:19:12 +0200 Agentinterface: changed color from black to #00023c at various places.
+- 2020-07-06 18:59:13 +0200 Merge pull request #141 from RotherOSS/issue-138-reverse_proxy
+- 2020-07-06 18:40:16 +0200 Issue #138: case insensitive check of $ENV{HTTPS}
+- 2020-07-06 18:36:09 +0200 Merge pull request #140 from RotherOSS/issue-138-reverse_proxy
+- 2020-07-06 18:21:43 +0200 Issue #138: fix the hello handler.
+- 2020-07-06 17:40:13 +0200 Issue #138: adapt the scheme of the start URL
+- 2020-07-06 16:45:10 +0200 Issue #138: some support for remote proxy settings
+- 2020-07-06 16:43:55 +0200 Issue #138: standardize the enable and enable_if statements
+- 2020-07-06 16:14:39 +0200 Add initally changed element in AJAX update to ChangedStdFields.
+- 2020-07-06 15:04:55 +0200 Issue #138: fix the internal HTTP port on otobo nginx
+- 2020-07-06 15:03:08 +0200 Replace ConfigItemResultList call in ES migration script.
+- 2020-07-06 14:27:15 +0200 Include "DependingRequired" article fields into the HideShow functionality.
+- 2020-07-06 13:50:37 +0200 Merge pull request #137 from RotherOSS/issue-102-dot_env_file
+- 2020-07-06 13:47:57 +0200 Issue #102: expose the HTTP Port in the HTTPS case
+- 2020-07-06 13:18:48 +0200 Issue #102: keep the name otobo_nginx_ssl.
+- 2020-07-06 13:14:05 +0200 Issue #102: mark the volume nginx_ssl as external
+- 2020-07-06 13:00:01 +0200 Issue #102: set the certificate files via the .env file
+- 2020-07-06 12:50:13 +0200 Issue #102: trying to make the README saner
+- 2020-07-06 12:36:27 +0200 Issue #102: document OTOBO_WEB_HTTPS_PORT
+- 2020-07-06 12:32:20 +0200 Issue #102: no reason for having extension file http_port_5000.yml
+- 2020-07-06 12:25:22 +0200 Issue #102: Require that OTOBO_DB_ROOT_PASSWORT is set
+- 2020-07-06 12:11:45 +0200 Issue #102: Set the context in the *.Dockerfile files
+- 2020-07-06 11:32:03 +0200 Use feature current_sub.
+- 2020-07-06 11:24:08 +0200 Enable feature 'state'.
+- 2020-07-04 19:25:07 +0200 Consistently use the v-String syntax: 'use v5.24;'
+- 2020-07-04 19:17:55 +0200 Be careful with 'use 5.24.0'.
+- 2020-07-04 14:12:52 +0200 Merge pull request #135 from RotherOSS/issue-102-docker_compose
+- 2020-07-04 14:08:13 +0200 Issue #102: Cover the relavant use cases with extension files
+- 2020-07-03 18:59:41 +0200 Merge pull request #131 from RotherOSS/issue-78-docker_home
+- 2020-07-03 18:50:10 +0200 Issue #78: ignore .env_hidden
+- 2020-07-03 18:48:07 +0200 Issue #78: use case for OTOBO with HTTPS via nginx.
+- 2020-07-03 17:51:13 +0200 Issue #78: yes, .vimrc should be in the image
+- 2020-07-03 16:35:02 +0200 Issue #78: Use a volume for the TLS files
+- 2020-07-03 16:23:04 +0200 Issue #78: fiddle with the exclude patters
+- 2020-07-03 16:14:23 +0200 Issue #78: fix nginx config file
+- 2020-07-03 15:23:19 +0200 Issue #78: document the stopped container trick
+- 2020-07-03 15:16:13 +0200 Issue #78: no longer handle static content with nginx
+- 2020-07-03 15:13:30 +0200 Issue #78: Fix COPY again
+- 2020-07-03 15:11:00 +0200 Issue #78: added EXPOSE, for completeness sake
+- 2020-07-03 13:42:01 +0200 Issue #78: redirect permamently from HTTP to HTTPS
+- 2020-07-03 13:38:50 +0200 Issue #78: fix the broken COPY statement
+- 2020-07-03 13:30:49 +0200 Issue #78: investigate HTTPS support
+- 2020-07-03 11:31:30 +0200 Issue #78: add an useful reference
+- 2020-07-03 11:27:28 +0200 Issue #78: set DOCKER_HOST as an environment var
+- 2020-07-03 11:13:07 +0200 Issue #78: install a sane .vimrc.
+- 2020-07-03 10:05:31 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-07-03 10:03:43 +0200 Make the entry in gi_webservice_config_history.config identical to the entry in gi_webservice_config.config
+- 2020-07-02 18:31:44 +0200 Merge pull request #130 from RotherOSS/issue-128-binmode_vs_unicode_eval
+- 2020-07-02 17:09:20 +0200 Issue-78: fix unicode issues
+- 2020-07-02 12:55:15 +0200 Merge pull request #127 from RotherOSS/issue-78-nginx
+- 2020-07-02 12:49:36 +0200 Issue #78: First stab at nginx.
+- 2020-07-02 11:37:49 +0200 Issue #78: update code comments
+- 2020-07-02 10:46:16 +0200 Issue #78: also restart elasticsearch and redis
+- 2020-07-01 17:14:40 +0200 Merge pull request #126 from RotherOSS/issue-87-sane_test_scripts
+- 2020-07-01 16:18:30 +0200 Agentinterface: Small Elasticsearch results header css change.
+- 2020-07-01 15:57:16 +0200 Issue 87: no checksums for the files in var/log.
+- 2020-07-01 15:34:31 +0200 Merge branch 'issue-87-sane_test_scripts' of github.com:RotherOSS/otobo into issue-87-sane_test_scripts
+- 2020-06-30 17:42:26 +0200 Issue #87: make the END block a closure
+- 2020-06-30 17:33:46 +0200 Issue #87: Guard to prevent cleanup in fork processes.
+- 2020-06-30 15:24:14 +0200 Issue #87: avoid a return in script.
+- 2020-06-30 15:06:39 +0200 Issue #87: avoid some warnings.
+- 2020-06-30 14:50:42 +0200 Issue #87: the 'no strict' pragma is lexically scoped.
+- 2020-06-30 14:38:18 +0200 Issue #87: undef $main::Helper is useless
+- 2020-06-30 14:37:33 +0200 Issue #87: work on the POD and on the code comments
+- 2020-06-30 14:02:50 +0200 Issue #87: do the cleanup and print the plan in an END block.
+- 2020-06-30 13:56:15 +0200 Issue #87: use the current_sub feature.
+- 2020-06-30 10:53:16 +0200 Issue #87: break infinite loop
+- 2020-06-29 19:04:56 +0200 Issue #87: No longer use Exporter
+- 2020-06-29 15:47:20 +0200 Issue #87: ignore temporary files during testing
+- 2020-06-29 15:46:06 +0200 Issue #87: Added DomeTesting().
+- 2020-06-29 15:23:44 +0200 Issue #87: conditionally load 'Kernel::System::UnitTest::RegisterDriver'
+- 2020-06-29 14:23:45 +0200 Issue #87: do not set @INC
+- 2020-06-29 13:55:50 +0200 Issue #87: Start with support for running scripts as regular perl scripts.
+- 2020-06-29 13:53:49 +0200 Issue #87: remove the leading space before 'ok' and 'not ok'
+- 2020-06-29 13:52:03 +0200 Issue #87: emit a dummy test plan,
+- 2020-06-29 13:49:58 +0200 Issue #87: tidying
+- 2020-06-29 13:39:23 +0200 Issue #87: Clarify that Dev::UnitTest::Run should ignore this test script
+- 2020-06-26 13:26:43 +0200 Issue #87: added the most basic test script
+- 2020-07-01 15:29:03 +0200 Merge pull request #124 from RotherOSS/issue-122-redis
+- 2020-07-01 14:39:28 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-07-01 14:38:06 +0200 Prepare otobo to use Elasticsearch for ITSMConfigItem searches.
+- 2020-07-01 14:15:32 +0200 Issue #122: first stab as adding Redis support
+- 2020-06-30 11:29:50 +0000 Translated using Weblate (Portuguese (Brazil))
+- 2020-06-29 08:30:21 +0000 Translated using Weblate (German)
+- 2020-07-01 12:56:22 +0200 Merge pull request #121 from RotherOSS/issue-100-config_pm
+- 2020-07-01 12:54:00 +0200 Issue #100: quickfix for setting up the Elasticsearch host
+- 2020-07-01 11:24:25 +0200 Issue #100: remove special case in Config/Defaults.pm
+- 2020-07-01 11:23:23 +0200 Issue #100: also activate Config.pod.dist
+- 2020-07-01 10:59:49 +0200 Issue #100: Activate ElasticSearch
+- 2020-07-01 10:58:35 +0200 Issue #100: fix the db hostname in the code comments
+- 2020-07-01 10:13:52 +0200 Issue #100: add POD
+- 2020-07-01 10:12:25 +0200 Issue #100: set the db host in scripts/docker/Config.pm.dist
+- 2020-07-01 10:09:05 +0200 Issue #100: revert the otobo creating var/tmp
+- 2020-07-01 09:37:10 +0200 Issue #100: use a docker specific Config.pm.dist
+- 2020-07-01 09:36:14 +0200 Issue #100: streamline the creation of subdirs in var
+- 2020-06-30 17:42:26 +0200 Issue #87: make the END block a closure
+- 2020-06-30 17:33:46 +0200 Issue #87: Guard to prevent cleanup in fork processes.
+- 2020-06-30 15:24:14 +0200 Issue #87: avoid a return in script.
+- 2020-06-30 15:06:39 +0200 Issue #87: avoid some warnings.
+- 2020-06-30 14:50:42 +0200 Issue #87: the 'no strict' pragma is lexically scoped.
+- 2020-06-30 14:38:18 +0200 Issue #87: undef $main::Helper is useless
+- 2020-06-30 14:37:33 +0200 Issue #87: work on the POD and on the code comments
+- 2020-06-30 14:02:50 +0200 Issue #87: do the cleanup and print the plan in an END block.
+- 2020-06-30 13:56:15 +0200 Issue #87: use the current_sub feature.
+- 2020-06-30 10:53:16 +0200 Issue #87: break infinite loop
+- 2020-06-29 19:04:56 +0200 Issue #87: No longer use Exporter
+- 2020-06-29 15:47:20 +0200 Issue #87: ignore temporary files during testing
+- 2020-06-29 15:46:06 +0200 Issue #87: Added DomeTesting().
+- 2020-06-29 15:23:44 +0200 Issue #87: conditionally load 'Kernel::System::UnitTest::RegisterDriver'
+- 2020-06-29 14:23:45 +0200 Issue #87: do not set @INC
+- 2020-06-29 13:55:50 +0200 Issue #87: Start with support for running scripts as regular perl scripts.
+- 2020-06-29 13:53:49 +0200 Issue #87: remove the leading space before 'ok' and 'not ok'
+- 2020-06-29 13:52:03 +0200 Issue #87: emit a dummy test plan,
+- 2020-06-29 13:49:58 +0200 Issue #87: tidying
+- 2020-06-29 13:39:23 +0200 Issue #87: Clarify that Dev::UnitTest::Run should ignore this test script
+- 2020-06-26 19:31:43 +0200 Merge pull request #118 from RotherOSS/issue-108-bash_completion
+- 2020-06-26 19:20:32 +0200 Issue #108: give the user otobo a login shell
+- 2020-06-26 19:13:40 +0200 Issue #108: write that .bash_aliases
+- 2020-06-26 18:25:48 +0200 Merge pull request #117 from RotherOSS/issue-114-otobo_psgi_in_apache
+- 2020-06-26 18:20:14 +0200 Issue #114: Redirect to otobo/index.pl when there is no specific match
+- 2020-06-26 17:32:43 +0200 Issue #114: Serve otobo.psgi through Apache
+- 2020-06-26 17:29:52 +0200 Issue #114: added a note about the requirements
+- 2020-06-26 17:28:45 +0200 Issue #114: make call to cpanm more consistent
+- 2020-06-26 16:16:04 +0200 Issue #114: Get start with a copy of scripts/apache2-httpd.include.conf
+- 2020-06-26 16:04:50 +0200 Merge pull request #115 from RotherOSS/issue-112-installer_json
+- 2020-06-26 15:59:52 +0200 Issue #112: installer.json is no longer supported.
+- 2020-06-26 13:26:43 +0200 Issue #87: added the most basic test script
+- 2020-06-26 13:12:32 +0200 Merge pull request #113 from RotherOSS/issue-111-connection_id
+- 2020-06-26 13:10:28 +0200 Issue #111: actually get the connection id
+- 2020-06-26 13:00:46 +0200 Issue #111: no need to declare %INC
+- 2020-06-26 12:55:18 +0200 Fix bugs in language files.
+- 2020-06-26 12:21:03 +0200 Create new OTOBO language files.
+- 2020-06-26 12:19:10 +0200 Change language po files to OTOBO style.
+- 2020-06-26 11:10:07 +0200 Merge pull request #109 from RotherOSS/issue-106-remove_tx
+- 2020-06-26 11:07:00 +0200 Issue #106: .tx no longer relevant for setting permissions
+- 2020-06-26 11:04:00 +0200 Issue #106: a neater heredoc terminator
+- 2020-06-26 11:00:40 +0200 Issue #106: remove .tx, Try to reduce the boilerplate.
+- 2020-06-24 14:26:26 +0000 Translated using Weblate (German)
+- 2020-06-25 19:14:59 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-06-25 19:13:40 +0200 Ignore all dot files except .bash_completion
+- 2020-06-24 14:26:26 +0000 Translated using Weblate (German)
+- 2020-06-25 18:25:35 +0200 Upgrade to Perl 5.32.0
+- 2020-06-25 12:52:52 +0200 Issue #102: added a note in the README
+- 2020-06-25 12:28:59 +0200 Merge pull request #105 from bschmalhofer/issue-100-elastic_3
+- 2020-06-25 12:24:36 +0200 Issue #100: add info about the elastic container.
+- 2020-06-25 12:08:59 +0200 Merge pull request #2 from RotherOSS/rel-10_0
+- 2020-06-24 10:26:44 +0200 Merge pull request #103 from bschmalhofer/issue-101-docker_modules
+- 2020-06-24 10:26:36 +0200 Merge branch 'rel-10_0' into issue-101-docker_modules
+- 2020-06-24 10:11:14 +0200 Merge pull request #104 from bschmalhofer/issue-100-elastic_search
+- 2020-06-23 17:45:34 +0200 Issue #100:Add a container for elastic search to the network
+- 2020-06-23 17:38:28 +0200 Issue #101: include all optional modules in the cpanfile
+- 2020-06-23 17:00:45 +0200 Add Linux::Inotify2 to --force for docker
+- 2020-06-23 15:04:08 +0200 Issue #101: include more docker images in the docker file
+- 2020-06-23 10:34:38 +0200 Fix emptying of QueueID instead of Dest within one part of the HideShow functionality.
+- 2020-06-23 10:26:03 +0200 Merge pull request #99 from bschmalhofer/issue-97-user_cache_clear
+- 2020-06-21 10:06:44 +0000 Translated using Weblate (German)
+- 2020-06-21 13:46:39 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-06-21 13:46:14 +0200 Add initial insert after migration.
+- 2020-06-19 17:50:52 +0200 Issue #97: update the number of name order variants in _UserCacheClear()
+- 2020-06-19 06:43:18 +0000 Translated using Weblate (German)
+- 2020-06-19 08:54:52 +0200 erge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-06-18 16:19:58 +0200 Removed duplicate copyright.
+- 2020-06-18 14:43:20 +0200 Changed #000 to #00023c at various places for AgentTicketZoom.
+- 2020-06-18 13:57:47 +0200 Reset some fonts in the agent interface.
+- 2020-06-18 12:47:53 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-06-18 12:47:47 +0200 Add large CustomerUser search limit to Elasticsearch migration to override small default.
+- 2020-06-17 17:22:34 +0200 Merge pull request #96 from bschmalhofer/issue-64-bash_completion
+- 2020-06-17 17:03:52 +0200 Expand filenames when the word does no look like an option
+- 2020-06-17 17:02:32 +0200 Use substitute replace in order to simplify the code.
+- 2020-06-17 14:46:45 +0200 Changed some more icons to otobo.
+- 2020-06-17 14:07:17 +0200 Merge pull request #95 from bschmalhofer/issue-94-ticketsearch_synopsis
+- 2020-06-17 14:04:45 +0200 Merge pull request #93 from bschmalhofer/issue-92-viewable_tickets_page
+- 2020-06-13 14:18:29 +0200 Document the default time to live.
+- 2020-06-13 14:00:08 +0200 Document the special handling of CustomerIDRaw and CustomerUserLoginRaw
+- 2020-06-13 13:59:00 +0200 Document the special handling of Title.
+- 2020-06-13 13:57:39 +0200 Document the cases where the values will be treated as a SQL expression.
+- 2020-06-13 13:54:30 +0200 Explicitly documument the default values.
+- 2020-06-12 13:16:42 +0200 Fix spelling: retireve => retrieve
+- 2020-06-12 13:15:37 +0200 Remove the unused variable $ViewableTicketCount
+- 2020-06-12 13:10:10 +0200 Ticket::Frontend::AgentTicketStatusView###ViewableTicketsPage is no longer used
+- 2020-06-17 13:32:47 +0200 Merge pull request #91 from bschmalhofer/issue-90-enhanced_search_fields
+- 2020-06-11 10:42:04 +0200 Fix typo: Remeber -> Remember
+- 2020-06-11 10:41:16 +0200 There is no setting CustomerUser::EnhancedSearchFields.
+- 2020-06-11 10:39:58 +0200 There ist no setting CustomerCompany::EnhancedSearchFields.
+- 2020-06-17 11:48:23 +0200 Merge pull request #89 from bschmalhofer/issue-80-dbix_connector
+- 2020-06-17 11:05:58 +0200 Merge branch 'issue-80-dbix_connector' of https://github.com/bschmalhofer/otobo into issue-80-dbix_connector
+- 2020-06-17 11:04:32 +0200 Really avoid the warning when overriding core subs
+- 2020-06-17 11:01:32 +0200 Enhance the POD for Rollback()
+- 2020-06-17 11:01:32 +0200 Really avoid the warning when core subs are overridden
+- 2020-06-17 10:54:25 +0200 $DatabaseHandle is no longer available in Rollback().
+- 2020-06-16 16:14:36 +0200 Turn off RaiseError in the DBIx::Connector case.
+- 2020-06-15 18:47:53 +0200 Issue #80: First stab at using DBIx::Connector
+- 2020-06-10 16:24:57 +0200 Updated customer footer copyright.
+- 2020-06-09 14:54:11 +0200 Various improvements to the Elasticsearch quick results. More customizable results for the agent interface. Queue exclusions possible.
+- 2020-06-09 09:32:54 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-06-08 21:01:59 +0200 Merge pull request #84 from bschmalhofer/issue-82-as_password
+- 2020-06-08 17:46:13 +0200 Issue #82: Fix CREATE USER statement.
+- 2020-06-08 17:31:58 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-06-08 17:31:25 +0200 Fix Bux in notification messages. Fix incorrect information in README.md file. Add postmaster filter to migration process.
+- 2020-06-08 16:48:46 +0200 Merge pull request #83 from bschmalhofer/issue-82-as_password
+- 2020-06-08 16:45:56 +0200 Issue #82: restore the old order of the SQL statements
+- 2020-06-08 16:42:09 +0200 Issue-82: Fix syntax of the CREATE USER statement.
+- 2020-06-08 16:26:49 +0200 Issue #82: add a code comment regarding mysql_auto_reconnect
+- 2020-06-08 08:24:03 +0200 Merge pull request #77 from bschmalhofer/issue-17-script_name
+- 2020-06-07 20:14:52 +0200 Fixed MySQL add user bug and extend migration script.
+- 2020-06-06 20:37:29 +0200 Now itÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ´s possible to import otrs stats too!
+- 2020-06-06 19:59:36 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-06-06 19:59:14 +0200 Fix bug in migrated statistics, CheckModules and add DoNotClean function.
+- 2020-06-06 12:10:28 +0200 Issue #17: refrain from using $ENV{SCRIPT_NAME}
+- 2020-06-06 08:02:40 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-06-06 08:02:06 +0200 Change CREATE USER and DB statements.
+- 2020-06-06 07:53:21 +0200 Merge pull request #76 from bschmalhofer/issue-31-root_db_password
+- 2020-06-05 17:59:46 +0200 Issue #31: store tha password outside docker_compose.yml
+- 2020-06-05 15:50:30 +0200 Merge pull request #75 from bschmalhofer/issue-61-secure_mode
+- 2020-06-05 14:34:48 +0200 Bugfixes for our OTRS to OTOBO migration tool. Now all default tests were passed.
+- 2020-06-05 11:39:05 +0200 Merge pull request #74 from bschmalhofer/issue-54-default_logfile
+- 2020-06-05 11:38:42 +0200 Issue #61: Rephrase the description for SecureMode.
+- 2020-06-05 11:34:49 +0200 Issue #61: fix spelling in POD
+- 2020-06-05 11:16:21 +0200 Issue #54: avoid warning about var/packages
+- 2020-06-05 10:52:05 +0200 Issue #54: log to a file in the /opt/otobo volume
+- 2020-06-05 10:54:58 +0200 Issue #54: Limit the scope of two variables
+- 2020-06-05 10:54:05 +0200 Issue #54: remove a redundant line
+- 2020-06-05 10:53:16 +0200 Issue #54: Try to clarify the code comment regarding SecureMode
+- 2020-06-05 10:50:19 +0200 Issue #54: explicitly import the sub dirname.
+- 2020-06-04 16:57:21 +0200 Fix License string.
+- 2020-06-04 12:10:57 +0200 Update license information of language files.
+- 2020-06-04 12:05:25 +0200 Merge pull request #71 from bschmalhofer/issue-63-auth_session
+- 2020-06-04 11:56:16 +0200 Issue #63: fix spelling: USER_AGEN -> USER_AGENT
+- 2020-06-04 11:53:24 +0200 Merge pull request #70 from bschmalhofer/issue-63-auth_session
+- 2020-06-04 11:48:35 +0200 Issue #63: $SessionID is checked in CheckSessionID()
+- 2020-06-04 11:47:37 +0200 Issue #63: workaround with setting %ENV is no longer needed
+- 2020-06-04 11:42:07 +0200 Issue #63: added some methods to the ParamObject
+- 2020-06-04 11:14:08 +0200 Fix misplaced label in Kernel/System/Ticket/FieldRestrictions.
+- 2020-06-04 11:02:22 +0200 Issue #63: Logging to /opt/otobo/var/log/otobo.log
+- 2020-06-04 11:01:33 +0200 Issue #63: discovered 'docker compose up --build'
+- 2020-06-04 10:35:52 +0200 CodePolicy: Second batch of license changes, code changes due to Perl::Critic, general tidying.
+- 2020-06-04 10:15:18 +0200 Issue #63: Don't try to redirect to the Login page
+- 2020-06-04 10:13:23 +0200 Issue #63: remove a redundant check.
+- 2020-06-03 15:05:07 +0200 Merge pull request #68 from bschmalhofer/issue-33-bundled_modules
+- 2020-06-03 14:56:25 +0200 Issue #33: Don't claim that Moo and namespace::clean are bundled
+- 2020-06-03 14:31:09 +0200 Merge pull request #66 from bschmalhofer/issue-55-dbviewer_take_3
+- 2020-06-03 14:25:10 +0200 Issue #55: add a redirect to the login page when access denied
+- 2020-06-02 14:30:57 +0200 Fix typo.
+- 2020-06-02 14:25:22 +0200 CodePolicy: Edited wrong licenses, allowed usage of Kernel::System::Time for certain cases, deleted alternate skins, updated class dependencies, minor code changes.
+- 2020-06-02 12:58:53 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-06-02 12:58:43 +0200 Merge pull request #62 from bschmalhofer/issue-55-dbviewer_take_2
+- 2020-06-02 12:43:25 +0200 Issue #55: missunderstood the logic of -z
+- 2020-06-02 12:41:39 +0200 Issue #55: avoid a warning from lc
+- 2020-06-02 12:33:05 +0200 Issue #55: tentatively add a 'join' declaration
+- 2020-06-02 12:19:43 +0200 Issue #55: otobo.psgi is watched implicitly
+- 2020-06-02 12:14:33 +0200 Issue #55: avoid a  warning when $UID is not set
+- 2020-06-02 10:53:42 +0200 Issue #55: avoid the warning about using the default secret
+- 2020-06-02 10:57:01 +0200 Issue #55: avoid warning about missing var/stats
+- 2020-06-02 10:41:17 +0200 Issue #55: Fix PATH_INFO.
+- 2020-06-02 10:23:30 +0200 Issue #55: set the environment vars REMOTE_ADDR and HTTP_USER_AGENT.
+- 2020-06-02 08:09:33 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-06-02 08:05:00 +0200 Merge pull request #60 from bschmalhofer/issue-55-dbviewer
+- 2020-05-31 12:06:28 +0200 Issue #55: mount dbviewer below /otobo
+- 2020-05-31 11:37:17 +0200 Issue #55: tentatively add code that checks permissions
+- 2020-05-31 10:58:09 +0200 Issur #55: specify charset=utf-8 for the /hello route
+- 2020-05-31 09:58:43 +0200 Issue #55: remove the unused variable $BrowserHasCookie
+- 2020-05-30 15:18:49 +0200 Issue #55: added a TODO comment
+- 2020-05-30 14:38:08 +0200 Issue #55: rewrite PATH_INFO
+- 2020-05-30 13:24:15 +0200 Issue #55: Do the admin check in own middleward
+- 2020-05-30 11:58:40 +0200 Issue #55: a neater message when the connect fails
+- 2020-05-30 11:45:03 +0200 Issue #55: add the DBViewer plugin.
+- 2020-05-30 11:11:16 +0200 Issue #55: actually read the database setting from the config
+- 2020-05-30 11:02:59 +0200 Issue #55: Add PDO. Load the Kernel::Config.
+- 2020-05-30 10:57:28 +0200 Issue #55: get rid of hardcoded /opt/otobo
+- 2020-05-30 10:38:59 +0200 Issue #55: added stub for the dbviewer app.
+- 2020-05-30 10:28:49 +0200 Issue #55: add CPAN modules for Mojolicous
+- 2020-05-30 10:25:39 +0200 Issue 55: replace Welt with ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
+- 2020-05-29 17:17:43 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-05-29 17:09:42 +0200 Tidied via CodePolicy, plus some small, related corrections.
+- 2020-05-29 11:31:41 +0200 Merge pull request #58 from bschmalhofer/issue-51-cron_service
+- 2020-05-29 11:26:03 +0200 Issue #51: fix list of automatically generated config cache files
+- 2020-05-29 10:31:33 +0200 Merge pull request #56 from bschmalhofer/issue-51-cron_service
+- 2020-05-29 10:27:01 +0200 Issue #51: update the readme file
+- 2020-05-29 10:08:28 +0200 Issue #51: set PATH when starting the Daemon per Cron
+- 2020-05-28 19:39:19 +0200 Issus #51: move two commands into the Dockerfile
+- 2020-05-28 16:50:08 +0200 Merge pull request #53 from bschmalhofer/issue-51-cron_service
+- 2020-05-28 16:45:32 +0200 Issue #51: first stab at running Daemon and Cron in own shell
+- 2020-05-28 16:39:43 +0200 Issue 51: discovered the -v option to docker-compose down
+- 2020-05-28 14:08:09 +0200 Merge pull request #52 from bschmalhofer/issue-40-shebang
+- 2020-05-28 13:13:53 +0200 Issue #40: looks like the -X flag is not needed
+- 2020-05-28 11:18:47 +0200 Merge pull request #50 from bschmalhofer/issue-40-shebang Issue #40 shebang
+- 2020-05-28 09:39:48 +0200 Issue #40: remove the workaround of calling 'perl bin/otobo.Daemon.pl'
+- 2020-05-28 09:38:26 +0200 Issue #40: avoid a warning when var/tmp already exists
+- 2020-05-28 08:55:07 +0200 Add Znuny Copyright to relevant files using Znuny4OTRS-PasswordPolicy and Znuny4OTRS-EscalationSuspend code. Thanks to the Znuny4OTRS team.
+- 2020-05-28 08:36:13 +0200 Merge pull request #49 from bschmalhofer/issue-40-shebang
+- 2020-05-27 12:32:27 +0200 Issue #40: apply the -S trick for /usr/bin/env
+- 2020-05-27 11:53:34 +0200 Issue #41: Change the shebang, while keeping the -X flag
+- 2020-05-27 11:50:50 +0200 Issue #40: change the shebang to /usr/bin/env perl
+- 2020-05-27 11:40:47 +0200 Issue #40: change the Shebang line to #!/usr/bin/env perl
+- 2020-05-26 17:29:29 +0200 Merge pull request #48 from bschmalhofer/issue_41_config_changes
+- 2020-05-26 17:15:59 +0200 Issue #41: print a farewell message
+- 2020-05-26 17:15:11 +0200 Issue #31: fix broken variable name
+- 2020-05-26 16:53:02 +0200 Issue #41: fix a couple of syntax errors
+- 2020-05-26 16:33:45 +0200 Issue #41: finish the Daemon when SecureMode = 0
+- 2020-05-26 16:32:06 +0200 Issue #41: try to reload config when files have changed
+- 2020-05-26 16:30:53 +0200 Issue #41: nested loops with the same name is a bad idea
+- 2020-05-26 16:29:20 +0200 Issue #41: remove an unused variable
+- 2020-05-26 16:26:48 +0200 Issue #41: a little bit of cleanup
+- 2020-05-26 14:10:24 +0200 Merge pull request #47 from bschmalhofer/issue_31_take_5
+- 2020-05-26 13:57:30 +0200 Issue #31: Do not use the IP-address for host of DB-user 'otobo'
+- 2020-05-26 13:57:30 +0200 Issue #31: Do not use the IP-address for host of DB-user 'otobo'
+- 2020-05-26 13:53:22 +0200 Add progress bar to the ipload box of the customerinterface. Fix textoverflow for the box, clean code.
+- 2020-05-25 16:59:38 +0200 Merge pull request #45 from bschmalhofer/issue-31-docker_take_4
+- 2020-05-25 16:48:59 +0200 Issue #31: the deamon should be restarted after installer.pl
+- 2020-05-25 16:19:36 +0200 Issue #31: Use 'db' as the default database host.
+- 2020-05-25 15:28:34 +0200 Issue #31: use the -R flag of plackup for reloading
+- 2020-05-25 14:23:55 +0200 Close overlay widgets in the customer interface on Escape.
+- 2020-05-25 13:56:14 +0200 Issue #31: Don't do the maintainace jobs yet.
+- 2020-05-25 13:54:52 +0200 Issue #31: set permissions after activating the .dist files
+- 2020-05-25 13:54:01 +0200 Issue #31: Collect the notes in README_DOCKER.md
+- 2020-05-25 13:29:35 +0200 Reduced maximum height of messages in CustomerTicketZoom. Added a bottom border.
+- 2020-05-25 11:23:28 +0200 Include detection of otobo style headers in license subroutine of the otrs->otobo migration script. Changed licenses of files in script/ directory (mainly tests).
+- 2020-05-25 08:07:56 +0200 Issue #41: Replace "Otrs" with "OTOBO" in some variable names.
+- 2020-05-25 07:59:39 +0200 Merge pull request #42 from bschmalhofer/issue-31-docker_take_3
+- 2020-05-23 14:14:32 +0200 Issue #31: bin/docker/set_permissions.sh wants Path::Class
+- 2020-05-23 14:12:58 +0200 Issue #31: run the cronjobs as otobo
+- 2020-05-23 14:11:48 +0200 Issue #31: go back to two RUN statements for cpanm
+- 2020-05-23 13:11:15 +0200 Issue #31: call bin/docker/set_permissions.pl
+- 2020-05-23 12:27:18 +0200 Issue #31: remove ugly workaround
+- 2020-05-23 12:25:27 +0200 Issue #31: create the user otobo
+- 2020-05-23 12:14:30 +0200 Issue #31: create user otobo and run the services as otobo
+- 2020-05-23 12:13:21 +0200 Issue #31: added a reminder to call docker-compose build
+- 2020-05-23 10:57:02 +0200 Issue #31: eliminate one intermediate image
+- 2020-05-22 18:16:27 +0200 Issue #31: Set up cron
+- 2020-05-22 18:15:28 +0200 Issue #31: switch to entrypoint.sh for startup
+- 2020-05-22 16:03:00 +0200 Issue #38: Removed futile database connect in installer.
+- 2020-05-22 15:33:43 +0200 Fixed focus of and scroll to invalid richtext field on submit in customer interface.
+- 2020-05-22 14:12:31 +0200 Issue #31: avoid DB-connection based on a outdated Kernel/Config.pm
+- 2020-05-22 14:09:59 +0200 Issue #31 and #37: Adapt the CREATE USER statement for MariaDB 10.3
+- 2020-05-22 14:07:44 +0200 Issue #31: map the port of the dockerised MariaDB to 5001
+- 2020-05-22 14:07:05 +0200 Issue #31: not some commands for future reference
+- 2020-05-22 14:06:04 +0200 Issue #31: rename otobo-plack to otobo-web
+- 2020-05-22 07:55:02 +0200 Merge pull request #36 from bschmalhofer/issue-31-docker_take_3
+- 2020-05-21 15:00:30 +0200 Issue #31: consistent setup of the handler Apps
+- 2020-05-21 14:51:55 +0200 Issue #31: fiddle with the mysqld parameter
+- 2020-05-21 14:51:25 +0200 Issue #31: fiddle with the docker-compose file
+- 2020-05-21 14:49:19 +0200 Issue #31: change startup message
+- 2020-05-21 13:08:51 +0200 Issue #31: Show the comments in the cpanfile
+- 2020-05-20 15:04:47 +0200 Issue #31: use Gazelle instead of Starman
+- 2020-05-20 15:05:20 +0200 Issue #31: Add a sample /hello handler
+- 2020-05-20 15:04:47 +0200 Issue #31: for now map no volumes
+- 2020-05-20 12:12:31 +0200 Temporarily use custom checkboxes in customer interface only in ticket masks.
+- 2020-05-20 11:41:26 +0200 Change link in perldoc license info.
+- 2020-05-20 10:00:04 +0200 Fix: Remove AgentCloudServiceDisabled warning from Config/Default.pm.
+- 2020-05-20 09:38:39 +0200 Fix broken AJAX update on customer user selection. (No services in AgentTicketPhone/Email.)
+- 2020-05-19 17:19:40 +0200 Merge pull request #35 from bschmalhofer/issue-31-docker
+- 2020-05-19 17:09:00 +0200 Issue #31: just some safeguards that some developer already ran installer.pl
+- 2020-05-19 17:07:59 +0200 Issue #31: Copy Config.pm.dist to Config.pm
+- 2020-05-19 15:58:23 +0200 Issue #31: Code running under CGI::Emulate::PSGI has no $env
+- 2020-05-19 15:54:52 +0200 Issue #31: the alias otobo-install-dependencies is not needed
+- 2020-05-19 14:16:11 +0200 Issue #31: avoid intermediate builds
+- 2020-05-19 14:14:33 +0200 Issue #32: store the cpanfile in git
+- 2020-05-19 12:51:11 +0200 Issue #31: experiment with multistage Dockerfile
+- 2020-05-19 11:57:24 +0200 Fix Language/de.pm.
+- 2020-05-19 11:53:03 +0200 Show "not verified" warnings only in certain cases; changed warning texts.
+- 2020-05-19 10:50:19 +0200 Issue #31: added a link with documentation
+- 2020-05-18 17:58:42 +0200 Merge pull request #34 from bschmalhofer/issue-31-docker
+- 2020-05-18 17:54:29 +0200 Issue #31: also install DBD::mysql
+- 2020-05-18 17:53:51 +0200 Issue #31: force install Net::Server
+- 2020-05-18 17:52:30 +0200 Issue #31: actually start the webserver
+- 2020-05-18 17:50:45 +0200 Issue #31: explicitly expose port 5000
+- 2020-05-18 17:06:35 +0200 Issue #31: install the nifty webserver Starman
+- 2020-05-18 17:05:34 +0200 Issue #31: get rid of some fluff in the image
+- 2020-05-18 16:33:30 +0200 Issue #31: added some Perl modules needed for otobo.psgi
+- 2020-05-18 16:26:14 +0200 Issue #31: Nasty workaround for XMLRPC::Transport::HTTP
+- 2020-05-18 16:22:57 +0200 Issue #31: Note the links to the OTRS docker image.
+- 2020-05-18 14:46:52 +0200 Issue #31: Template::Toolkit is IMHO the less confusing name
+- 2020-05-18 14:46:07 +0200 Issue #31: Moo is needed for some modules in Kernel/cpan-lib
+- 2020-05-18 14:44:24 +0200 Issue #31: document that Kernel/cpan-lib should not be in @INC
+- 2020-05-18 12:59:46 +0200 Issue #31: install the CPAN dependencies
+- 2020-05-18 12:56:45 +0200 Issue #31: Rename otobodocker to otobo-plack
+- 2020-05-18 12:31:45 +0200 Issue #31: Install editors
+- 2020-05-18 12:31:13 +0200 Issue #31: more code comments
+- 2020-05-18 12:15:14 +0200 Issue #31: Start on a docker-compose.yml file
+- 2020-05-18 12:14:27 +0200 Issue #31: MySQL, that is MariaDB, will run in a separate container
+- 2020-05-18 12:13:54 +0200 Issue #31: some more sample commands
+- 2020-05-15 16:36:39 +0200 Merge pull request #32 from bschmalhofer/issue-31-docker
+- 2020-05-15 16:32:43 +0200 Issue 31: added a dummy Dockerfile
+- 2020-05-15 14:38:23 +0200 Merge pull request #30 from bschmalhofer/issue-28-cpanfile_with_feature
+- 2020-05-15 14:33:43 +0200 Issue #28: add features in the cpanfile
+- 2020-05-15 14:00:41 +0200 Issue #28: do not mark subs as private.
+- 2020-05-15 13:55:02 +0200 Issue #28: rename the flag option
+- 2020-05-15 13:54:47 +0200 Merge pull request #29 from bschmalhofer/issue-27-rpc_pl
+- 2020-05-15 13:54:07 +0200 Issue #28: simplify a check for definedness
+- 2020-05-15 13:53:13 +0200 Issue #28: get started on support for features in cpanfile
+- 2020-05-15 13:20:03 +0200 Issue #21: added a word of warning
+- 2020-05-15 13:14:42 +0200 Issue #27: more rpc.pl into otobo.psgi
+- 2020-05-14 14:47:29 +0200 Adapt .gitignore to CodePolicy.
+- 2020-05-14 14:07:00 +0200 Merge pull request #26 from bschmalhofer/issue-21_MicroSoft_IIS
+- 2020-05-14 14:06:41 +0200 Merge branch 'rel-10_0' into issue-21_MicroSoft_IIS
+- 2020-05-14 14:04:55 +0200 Merge pull request #25 from bschmalhofer/issue-20-PerlEx_Take2
+- 2020-05-14 14:04:41 +0200 Merge branch 'rel-10_0' into issue-20-PerlEx_Take2
+- 2020-05-14 14:01:21 +0200 Merge pull request #24 from bschmalhofer/issue-19-bugs_otobo_org
+- 2020-05-14 13:21:24 +0200 Issue #21: remove code comment regarding MicroSoft IIS
+- 2020-05-14 13:20:36 +0200 Issue #21: remove workarounds for MicroSoft IIS
+- 2020-05-14 13:11:58 +0200 Issue #21: remove workaround for MicroSoft IIS
+- 2020-05-14 12:47:05 +0200 Issue #20: remove references and workarounds for PerlEx
+- 2020-05-14 12:33:30 +0200 Issue #19: bugs.otrs.org in code comments
+- 2020-05-14 12:27:26 +0200 Merge pull request #23 from bschmalhofer/isssue-16-PSGI_2
+- 2020-05-14 11:52:59 +0200 Issue #16: revert back to CGI::Emulate::PSGI
+- 2020-05-14 11:23:54 +0200 Issue #16: set OTOBO_RUNS_UNDER_PSGI
+- 2020-05-14 11:22:02 +0200 Issue #16: manually undo the changes that take SCRIPT_NAME from the CGI-object
+- 2020-05-14 10:05:27 +0200 Fixed .gitignore.
+- 2020-05-13 17:10:56 +0200 Issue #16: remove inadvertently checked in file
+- 2020-05-13 17:03:39 +0200 Issue #16: do not rely on $ENV{SCRIPT_NAME}.
+- 2020-05-13 15:59:29 +0200 Issue #16: set $ENV{GATEWAY_INTERFACE}
+- 2020-05-13 14:28:46 +0200 Issue #16: added the missing routes
+- 2020-05-13 14:21:43 +0200 Issue #16: support for public.pl in $App
+- 2020-05-13 14:19:04 +0200 Issue #16: add support for nph-genericinterface.pl to $App
+- 2020-05-13 14:06:40 +0200 Issue #16: handle migration.pl in $App
+- 2020-05-13 14:03:51 +0200 Issue #16: handle installer.pl in $App
+- 2020-05-13 13:59:55 +0200 Issue #16: support index.pl and customer.pl in the same $App
+- 2020-05-13 12:46:55 +0200 Issue #16: combine the two middlewares needed for scripts into $App
+- 2020-05-13 12:07:28 +0200 Issue #16: Get rid of CGI::Emulate::PSGI
+- 2020-05-13 11:46:08 +0200 Add newline to message about ignored files in migration script.
+- 2020-05-13 11:33:37 +0200 Issue #16: partial port of index.pl to PSGI
+- 2020-05-13 10:51:24 +0200 Issue #16: Put the inline middleware into a variable
+- 2020-05-13 10:32:59 +0200 Issue #16: start to use CGI::PSGI
+- 2020-05-13 10:32:01 +0200 Issue #16: start with POD
+- 2020-05-13 09:48:35 +0200 Elasticsearch webservice is disabled in standard configuration. Automatically activate it when running the migration script.
+- 2020-05-13 08:44:28 +0200 Merge pull request #18 from bschmalhofer/issue-16-PSGI
+- 2020-05-12 17:05:05 +0200 Issue # 16: added the Cache-Control headers
+- 2020-05-12 16:05:00 +0200 Issue #16: use Plack::App::CGIBin
+- 2020-05-12 15:51:47 +0200 Issue #16: fiddle with SCRIPT_NAME in the inline middleware
+- 2020-05-12 15:38:00 +0200 Issue #16: handle the profiling inside the inline middleware
+- 2020-05-12 15:23:13 +0200 Fix utfmb4 ticket title length and unit tests.
+- 2020-05-12 15:06:03 +0200 Issue 16: add TODO-comment concerning caching timeouts
+- 2020-05-12 14:05:11 +0200 Issue #16: Put the Module::Refresh stuff into an inline middleware.
+- 2020-05-12 13:43:08 +0200 Issue #16: set the error document when access is denied: 403
+- 2020-05-12 12:56:24 +0200 Issue #16: fiddle with the middleware for static files
+- 2020-05-12 12:54:53 +0200 Issue #16: fix spelling cgin-bin -> cgi-bin
+- 2020-05-12 12:06:55 +0200 Issue #16: replace $FindBin::Bin with hardcoded paths
+- 2020-05-12 11:55:03 +0200 Adapt more code to utf8mb4.
+- 2020-05-12 11:52:52 +0200 Issue #16: preload more more modules
+- 2020-05-12 11:50:57 +0200 Issue #16: use hardcoded paths in %INC
+- 2020-05-12 11:32:48 +0200 Issue #16: use 5.24.0
+- 2020-05-12 11:26:32 +0200 Change keys in xml and sql files for utf8mb4
+- 2020-05-12 11:14:02 +0200 First changes from utf8 to utf8mb4 for mysql
+- 2020-05-12 11:05:51 +0200 First changes from utf8 to utf8mb4 for mysql
+- 2020-05-12 10:27:20 +0200 Merge pull request #15 from bschmalhofer/issue-12-cpanfile_take_2
+- 2020-05-12 10:11:49 +0200 Issue #12: Let --cpanfile emit all required modules
+- 2020-05-12 09:48:56 +0200 Some fixes, various unit test adjustments. Fixes include: Session limits, disabled cloud service notification, usage of Time instead of ZnunyTime, package verification for console scripts, avoidance of old migration scripts, timezone in template generator, conditional dereferencing of EscalationSuspendStates in Kernel/System/Ticket.pm;
+- 2020-05-08 16:29:06 +0200 Issue #12: also allow the options -help and --help
+- 2020-05-08 16:30:09 +0200 Issue #12: enhance the help message
+- 2020-05-08 16:16:48 +0200 Issue #12: Added the option -cpanfile
+- 2020-05-08 15:27:50 +0200 Issue #12: no reason for using namespace variables in script
+- 2020-05-08 10:08:30 +0200 Merge pull request #1 from RotherOSS/rel-10_0
+- 2020-05-08 08:18:31 +0200 Merge pull request #8 from bschmalhofer/issue-6-groups_table
+- 2020-05-07 16:30:46 +0200 ssue #6: groups -> groups_table in test scripts
+- 2020-05-07 16:28:42 +0200 Issue #6: groups -> groups_table in Kernel::System modules
+- 2020-05-07 16:26:46 +0200 Issue #6: groups -> groups_table in scripts/database/*.sql
+- 2020-05-07 16:22:36 +0200 Issue #6: groups -> groups_table in setup .xml
+- 2020-05-07 14:18:46 +0200 Fix Issue #4: adapt the user creation and the setup of privileges
+- 2020-05-07 14:01:53 +0200 Issue #4: adapt the user creation and the setup of privileges
+- 2020-05-05 10:47:47 +0200 Fix agent RTE header and small css adjustments.
+- 2020-05-04 16:37:20 +0200 Revise simple brute force protection.
+- 2020-04-24 15:33:01 +0200 Enabled basic accesskeys.
+- 2020-04-24 13:42:21 +0200 Inputfield-list close-button added.
+- 2020-04-24 09:28:14 +0200 CustomerNotifications enabled.
+- 2020-04-23 14:15:56 +0200 Update changes and release.
+- 2020-04-23 14:03:37 +0200 Merge OTRS 6.0.27 and 6.0.28 changes:     6.0.28:      - 2020-04-08 Updated translations, thanks to all translators.      - 2020-04-07 Added more debugging information in the error log when system fails to create DateTime object.      - 2020-03-24 Fixed bug#[14958](https://bugs.otrs.org/show_bug.cgi?id=14958) - Can't reply to an article create using Internal communication channel.      - 2020-03-19 Fixed bug#[15031](https://bugs.otrs.org/show_bug.cgi?id=15031) - Inconsistent behavior in sending AddNote notification to "involved agent" who has no permissions on ticket queue.      - 2020-03-18 Fixed bug#[14965](https://bugs.otrs.org/show_bug.cgi?id=14965) - Untranslated string in database charset check.      - 2020-03-17 Fixed bug#[14948](https://bugs.otrs.org/show_bug.cgi?id=14948) - Line breaks in tag 'OTRS_APPOINTMENT_DESCRIPTION' are not replaced.      - 2020-03-13 Fixed bug#[15017](https://bugs.otrs.org/show_bug.cgi?id=15017) - Untranslated strings in PGP status information.      - 2020-03-12 Improved download of the private and public keys and certificates (S/MIME and PGP).      - 2020-03-11 Fixed bug#[14956](https://bugs.otrs.org/show_bug.cgi?id=14956) - Add new key/value pair to the Hash element doesn't render proper element in SysConfig.      - 2020-03-10 Fixed bug#[13657](https://bugs.otrs.org/show_bug.cgi?id=13657) - There are "Duplicate entry" error messages for the ticket seen flag in the log.      - 2020-03-06 Fixed bug#[13761](https://bugs.otrs.org/show_bug.cgi?id=13761) - Line breaks are not working in the long description fields in the Process management.      - 2020-03-02 Fixed bug#[15005](https://bugs.otrs.org/show_bug.cgi?id=15005) - The service view does not work well with more than 10000 tickets.       With the fix there is a limit of 20000 tickets.      - 2020-03-02 Fixed bug#[14975](https://bugs.otrs.org/show_bug.cgi?id=14975) - Setting Event Type Filter in the ticket timeline view is applied only to the current ticket.       Instead, it should be applied to all tickets.      - 2020-03-02 Fixed bug#[14930](https://bugs.otrs.org/show_bug.cgi?id=14930) - Matching 'Frontend' setting in the ACLs causes problem when changing Type, Queue, Service or SLA.       The issue occurs in combination with PossibleAdd parameter - the forbidden fields are still there (i.e. Free fields), but changes are not saved.
+- 2020-04-22 17:17:54 +0200 Include OTOBO Addons and package verification.
+- 2020-04-20 15:08:16 +0200 CustomerTicketZoom: Fix ticket info categories layout.
+- 2020-04-20 14:51:24 +0200 Customer interface customization added. (Logo, Signet, Colors)
+- 2020-04-17 11:18:15 +0200 Fix CustomerTicketZoom attachment css.
+- 2020-04-17 11:01:01 +0200 Print action added to CustomerTicketZoom.
+- 2020-04-17 09:46:58 +0200 Fix search field animation.
+- 2020-04-16 15:05:40 +0200 Added basic IE compatibility.
+- 2020-04-15 18:01:39 +0200 Fix language files.
+- 2020-04-14 16:47:39 +0200 Temporarily do not show ES Quickresults in Customer FAQ modules.
+- 2020-04-14 12:28:41 +0200 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-04-14 12:25:26 +0200 Small css adjustments.
+- 2020-04-08 12:52:11 +0200 Fix: TicketZoom textoverflow.
+- 2020-04-08 11:07:18 +0200 Mobile Layout added. Last commit on dev: 04cf131b30b06d10def9dca1a43825459a17749b
+- 2020-04-06 10:59:37 +0200 Fix Multiselect: "More".
+- 2020-04-01 10:49:59 +0200 Dialog css/js fixes. Some tidying.
+- 2020-03-31 17:48:17 +0200 Customer attachment upload ui improvements.
+- 2020-03-31 11:49:21 +0200 CustomerTicketZoom revised. Added article info and attachment widgets, mark active articles when scrolling, some css and animation changes.
+- 2020-03-30 12:06:51 +0200 Fix dynamic field store-subaction bug.
+- 2020-03-25 14:20:56 +0100 Elasticsearch: add Queue to AgentQuickResults.
+- 2020-03-25 12:17:51 +0100 Minor css improvements for long subjects.
+- 2020-03-25 10:56:01 +0100 Elasticsearch IE compatibility.
+- 2020-03-25 09:40:56 +0100 HideShow rework: Speed improvement via cached field visibility; various fixes.
+- 2020-03-15 10:36:28 +0100 Add possibility to keep some type of cache information. Usage: bin/otobo.Console.pl Maint::Cache::Delete --keeptype Queue --keeptype Ticket
+- 2020-03-14 10:35:01 +0100 Merge branch 'rel-10_0' of github.com:RotherOSS/otobo into rel-10_0
+- 2020-03-14 10:34:48 +0100 Add AJAXLoader to the migration script.
+- 2020-03-13 12:09:12 +0100 Last bugfixes for OTOBO migration module and permission changes.
+- 2020-03-08 06:06:22 +0100 Add SkipTables and cache for DB migrate.
+- 2020-03-08 05:58:53 +0100 Add SkipTables and cache for DB migrate.
+- 2020-03-07 23:24:35 +0100 Add Znuny4OTRS-QuickClose to OTOBO Standard.
+- 2020-03-07 23:15:48 +0100 Add Znuny4OTRS-ExternalURLJump to OTOBO Standard.
+- 2020-03-07 22:58:31 +0100 Add package Znuny4OTRS-AdvancedDynamicFields to OTOBO standard. Add package Znuny4OTRS-EscalationSuspend to OTOBO standard.
+- 2020-03-07 20:19:59 +0100 Fix OTRSToOTOBO.
+- 2020-03-07 20:11:05 +0100 Add Znuny OPM package Znuny4OTRS-AdvancedDynamicFields.opm to OTOBO.
+- 2020-03-07 12:50:44 +0100 Fixed bug in otobo.Console.pl Dev::Tools::Migrate::OTRSToOTOBO. Now base64 content in Znuny sopm file is removed.
+- 2020-03-07 12:21:17 +0100 Enhance otobo.Console Dev::Tools::Migrate::OTRSToOTOBO. Remove version from .sopm filename and set version flag to 0.0.0 in .sopm.
+- 2020-03-06 11:39:40 +0100 OTRS to OTOBO migration script added.
+- 2020-03-05 13:32:15 +0100 Agentinterface: Some more adjustments to field styles. Customerinterface: Small css fixes.
+- 2020-03-04 13:57:56 +0100 Agent interface: Fixed and improved field widths.
+
+
 # OTOBO 10.0.0 beta4 2020-04-15
 - 2020-04-15 18:01:39 +0200 Fix language files.
 - 2020-04-14 16:47:39 +0200 Temporarily do not show ES Quickresults in Customer FAQ modules.
@@ -3026,6 +4094,7 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
 

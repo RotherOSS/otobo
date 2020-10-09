@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.905909164903142;
+    $Self->{Completeness}        = 0.905025207350789;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3174,6 +3174,9 @@ sub Data {
         'SystemID' => '시스템 ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             '시스템 식별자. 각 티켓 ​​번호와 각 HTTP 세션 ID에는이 번호가 들어 있습니다.',
+        'HTTP Type' => '',
+        'Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.' =>
+            '',
         'System FQDN' => '시스템 FQDN',
         'Fully qualified domain name of your system.' => '시스템의 완전한 도메인 이름.',
         'AdminEmail' => 'AdminEmail',
@@ -4631,6 +4634,8 @@ sub Data {
         'Install OTOBO - Error' => 'OTOBO 설치 - 오류',
         'File "%s/%s.xml" not found!' => '"%s / %s.xml"파일을 찾을 수 없습니다!',
         'Contact your Admin!' => '관리자에게 문의하십시오!',
+        'https' => '',
+        'http' => '',
         'System Settings' => '환경 설정',
         'Syslog' => 'Syslog',
         'Configure Mail' => '메일 구성',
@@ -5571,6 +5576,12 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
         'Support Data Collection' => '지원 데이터 수집',
         'Support data could not be collected from the web server.' => '지원 데이터를 웹 서버에서 수집할 수 없습니다.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
+        'PSGI Environment' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
+        'Runs under PSGI' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => '웹 서버 버전',

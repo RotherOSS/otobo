@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.930489988604916;
+    $Self->{Completeness}        = 0.929582045861116;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3174,6 +3174,9 @@ sub Data {
         'SystemID' => 'Системски ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'Системски идентификатор. Сваки број тикета и сваки ID HTTP сесије садржи овај број.',
+        'HTTP Type' => '',
+        'Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.' =>
+            '',
         'System FQDN' => 'Sistemski FQDN',
         'Fully qualified domain name of your system.' => 'Пун назив домена вашег система',
         'AdminEmail' => 'Административни имејл',
@@ -4631,6 +4634,8 @@ sub Data {
         'Install OTOBO - Error' => 'Инсталирање OTOBO - грешка',
         'File "%s/%s.xml" not found!' => 'Датотека "%s/%s.xml" није пронађена!',
         'Contact your Admin!' => 'Контактирајте вашег администратора!',
+        'https' => '',
+        'http' => '',
         'System Settings' => 'Системска подешавања',
         'Syslog' => 'Системски лог',
         'Configure Mail' => 'Подеси имејл',
@@ -5571,6 +5576,12 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
         'Support Data Collection' => 'Сакупљање података подршке',
         'Support data could not be collected from the web server.' => 'Подаци подршке не могу бити прикупљени са веб сервера.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
+        'PSGI Environment' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
+        'Runs under PSGI' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Веб сервер верзија',

@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.614357805632427;
+    $Self->{Completeness}        = 0.613758334688567;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3182,6 +3182,9 @@ sub Data {
         'SystemID' => 'ID del sistema',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'L\'identificatore di questo sistema. Ogni numero di ticket e ogni ID di sessione HTTP contengono questo numero.',
+        'HTTP Type' => '',
+        'Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.' =>
+            '',
         'System FQDN' => 'FQDN del sistema',
         'Fully qualified domain name of your system.' => 'Nome FQDN di questo sistema',
         'AdminEmail' => 'Admin Email',
@@ -4639,6 +4642,8 @@ sub Data {
         'Install OTOBO - Error' => '',
         'File "%s/%s.xml" not found!' => 'File "%s/%s.xml" non trovato!',
         'Contact your Admin!' => 'Contatta il tuo amministratore!',
+        'https' => '',
+        'http' => '',
         'System Settings' => 'Impostazioni di sistema',
         'Syslog' => '',
         'Configure Mail' => 'Configurazione posta',
@@ -5579,6 +5584,12 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
         'Support Data Collection' => '',
         'Support data could not be collected from the web server.' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
+        'PSGI Environment' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
+        'Runs under PSGI' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Versione Webserver',

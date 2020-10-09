@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.00244180367898421;
+    $Self->{Completeness}        = 0.00243942104407221;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -3180,6 +3180,9 @@ sub Data {
         'SystemID' => '',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             '',
+        'HTTP Type' => '',
+        'Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.' =>
+            '',
         'System FQDN' => '',
         'Fully qualified domain name of your system.' => '',
         'AdminEmail' => '',
@@ -4637,6 +4640,8 @@ sub Data {
         'Install OTOBO - Error' => '',
         'File "%s/%s.xml" not found!' => '',
         'Contact your Admin!' => '',
+        'https' => '',
+        'http' => '',
         'System Settings' => '',
         'Syslog' => '',
         'Configure Mail' => '',
@@ -5577,6 +5582,12 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
         'Support Data Collection' => '',
         'Support data could not be collected from the web server.' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
+        'PSGI Environment' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
+        'Runs under PSGI' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => '',

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-09-23 08:34+0000\n"
+"POT-Creation-Date: 2020-10-08 14:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -9255,6 +9255,14 @@ msgid "The identifier of the system. Each ticket number and each HTTP session ID
 msgstr ""
 
 #. Template: InstallerSystem
+msgid "HTTP Type"
+msgstr ""
+
+#. Template: InstallerSystem
+msgid "Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes."
+msgstr ""
+
+#. Template: InstallerSystem
 msgid "System FQDN"
 msgstr ""
 
@@ -13263,6 +13271,14 @@ msgid "Contact your Admin!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
+msgid "https"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "http"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
 msgid "System Settings"
 msgstr ""
 
@@ -15368,6 +15384,14 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
 msgid "Support data could not be collected from the web server."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
+msgid "PSGI Environment"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
+msgid "Runs under PSGI"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm

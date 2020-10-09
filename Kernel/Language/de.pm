@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.995767540289761;
+    $Self->{Completeness}        = 0.994795901772646;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3174,6 +3174,9 @@ sub Data {
         'SystemID' => 'SystemID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'Der System-Identifikator. Jede Ticketnummer und jede HTTP-Sitzungs-ID enthalten diese Nummer.',
+        'HTTP Type' => '',
+        'Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.' =>
+            '',
         'System FQDN' => 'System-FQDN',
         'Fully qualified domain name of your system.' => 'Voll qualifizierter Domainname Ihres Systems.',
         'AdminEmail' => 'E-Mail des Administrators',
@@ -4631,6 +4634,8 @@ sub Data {
         'Install OTOBO - Error' => 'OTOBO-Installation – Fehler',
         'File "%s/%s.xml" not found!' => 'Datei "%s/%s.xml" nicht gefunden!',
         'Contact your Admin!' => 'Kontaktieren Sie Ihren Administrator!',
+        'https' => '',
+        'http' => '',
         'System Settings' => 'System-Einstellungen',
         'Syslog' => 'Syslog',
         'Configure Mail' => 'E-Mail konfigurieren',
@@ -5571,6 +5576,12 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
         'Support Data Collection' => 'Supportdate-Sammlung',
         'Support data could not be collected from the web server.' => 'Supportdaten vom Web-Server konnten nicht ermittelt werden.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
+        'PSGI Environment' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
+        'Runs under PSGI' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Webserver-Version',

@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.932117857724239;
+    $Self->{Completeness}        = 0.931208326557164;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3179,6 +3179,9 @@ sub Data {
         'SystemID' => 'Rendszer azonosító',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'A rendszer azonosítója. Minden jegyszám és minden HTTP munkamenet-azonosító tartalmazza ezt a számot.',
+        'HTTP Type' => '',
+        'Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.' =>
+            '',
         'System FQDN' => 'Rendszer FQDN',
         'Fully qualified domain name of your system.' => 'A rendszer teljes képzésű tartományneve.',
         'AdminEmail' => 'Adminisztrátori e-mail',
@@ -4636,6 +4639,8 @@ sub Data {
         'Install OTOBO - Error' => 'Az OTOBO telepítése – hiba',
         'File "%s/%s.xml" not found!' => 'A(z) „%s/%s.xml” fájl nem található!',
         'Contact your Admin!' => 'Vegye fel a kapcsolatot a rendszergazdával!',
+        'https' => '',
+        'http' => '',
         'System Settings' => 'Rendszerbeállítások',
         'Syslog' => 'Rendszernapló',
         'Configure Mail' => 'Levelezés beállítása',
@@ -5576,6 +5581,12 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
         'Support Data Collection' => 'Támogatási adatgyűjtés',
         'Support data could not be collected from the web server.' => 'A támogatási adatokat nem sikerült begyűjteni a webkiszolgálóról.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
+        'PSGI Environment' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
+        'Runs under PSGI' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Webkiszolgáló verzió',

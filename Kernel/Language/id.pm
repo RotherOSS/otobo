@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.633729448152369;
+    $Self->{Completeness}        = 0.63311107497154;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -3176,6 +3176,9 @@ bin/otobo.Daemon.pl status\').',
         'SystemID' => 'Sistem ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'Pengenal dari sistem. Setiap nomor tiket dan setiap ID sesi HTTP berisi nomor ini.',
+        'HTTP Type' => '',
+        'Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.' =>
+            '',
         'System FQDN' => 'Sistem FQDN',
         'Fully qualified domain name of your system.' => 'Nama domain berkualifikasi lengkap dari sistem anda.',
         'AdminEmail' => 'AdminEmail',
@@ -4633,6 +4636,8 @@ bin/otobo.Daemon.pl status\').',
         'Install OTOBO - Error' => 'Menginstal OTOBO - Kesalahan',
         'File "%s/%s.xml" not found!' => 'File "%s/%s.xml" tidak ditemukan!',
         'Contact your Admin!' => 'Hubungi Admin Anda!',
+        'https' => '',
+        'http' => '',
         'System Settings' => 'Pengaturan sistem',
         'Syslog' => '',
         'Configure Mail' => 'Konfigurasi surat',
@@ -5573,6 +5578,12 @@ bin/otobo.Daemon.pl status\').',
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
         'Support Data Collection' => '',
         'Support data could not be collected from the web server.' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
+        'PSGI Environment' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
+        'Runs under PSGI' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Versi Webserver',

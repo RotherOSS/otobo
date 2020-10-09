@@ -39,7 +39,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.331271365782191;
+    $Self->{Completeness}        = 0.330948121645796;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3181,6 +3181,9 @@ sub Data {
         'SystemID' => 'ID Système',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'L\'identifiant du système. Chaque numéro de demande et chaque identité de session HTTP contiennent ce numéro.',
+        'HTTP Type' => '',
+        'Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.' =>
+            '',
         'System FQDN' => 'Serveur de nom de domaine complet du système',
         'Fully qualified domain name of your system.' => 'Nom de domaine complet de votre système',
         'AdminEmail' => 'Adresse électronique de l\'administrateur.',
@@ -4638,6 +4641,8 @@ sub Data {
         'Install OTOBO - Error' => '',
         'File "%s/%s.xml" not found!' => '',
         'Contact your Admin!' => '',
+        'https' => '',
+        'http' => '',
         'System Settings' => 'Paramètres du système',
         'Syslog' => '',
         'Configure Mail' => 'Configuration de la messagerie',
@@ -5578,6 +5583,12 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
         'Support Data Collection' => '',
         'Support data could not be collected from the web server.' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
+        'PSGI Environment' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
+        'Runs under PSGI' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => '',

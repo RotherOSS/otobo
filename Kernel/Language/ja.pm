@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.713169461175322;
+    $Self->{Completeness}        = 0.712473572938689;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3179,6 +3179,9 @@ sub Data {
         'SystemID' => 'システムID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'システムの識別子。各チケット番号とHTTPセッションIDはこの番号が含まれます。',
+        'HTTP Type' => '',
+        'Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.' =>
+            '',
         'System FQDN' => 'システムのFQDN',
         'Fully qualified domain name of your system.' => 'システムのFQDN',
         'AdminEmail' => '管理者メール',
@@ -4637,6 +4640,8 @@ sub Data {
         'Install OTOBO - Error' => 'OTOBOをインストール － エラーが発生しました',
         'File "%s/%s.xml" not found!' => 'ファイル "%s/%s.xml" が見つかりません！',
         'Contact your Admin!' => '管理者に連絡してください！',
+        'https' => '',
+        'http' => '',
         'System Settings' => 'システム設定',
         'Syslog' => 'シスログ',
         'Configure Mail' => 'メール設定',
@@ -5577,6 +5582,12 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
         'Support Data Collection' => '',
         'Support data could not be collected from the web server.' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
+        'PSGI Environment' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
+        'Runs under PSGI' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Webサイトバージョン',
