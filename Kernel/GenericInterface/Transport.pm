@@ -24,6 +24,7 @@ use warnings;
 # CPAN modules
 
 # OTOBO modules
+use Kernel::System::ObjectManager; # avoid warning: Name "Kernel::OM" used only once
 
 our $ObjectManagerDisabled = 1;
 
@@ -161,8 +162,6 @@ sub ProviderGenerateResponse {
     }
 
     my $Response = $Self->{BackendObject}->ProviderGenerateResponse(%Param);
-    print STDOUT $Response->{Output} if defined $Response->{Output};
-    delete $Response->{Output};
 
     return $Self->{BackendObject}->ProviderGenerateResponse(%Param);
 }

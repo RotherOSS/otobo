@@ -392,12 +392,14 @@ sub Run {
     # Generate the actual response.
     #
 
-    $FunctionResult = $Self->{TransportObject}->ProviderGenerateResponse(
+    my $Response = $Self->{TransportObject}->ProviderGenerateResponse(
         Success => 1,
         Data    => $DataOut,
     );
+    print STDOUT $Response->{Output} if defined $Response->{Output};
+    delete $Response->{Output};
 
-    if ( !$FunctionResult->{Success} ) {
+    if ( !$Response->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
         $Self->_HandleError(
@@ -427,15 +429,17 @@ returns an error message to the client.
 sub _GenerateErrorResponse {
     my ( $Self, %Param ) = @_;
 
-    my $FunctionResult = $Self->{TransportObject}->ProviderGenerateResponse(
+    my $Response = $Self->{TransportObject}->ProviderGenerateResponse(
         Success      => 0,
         ErrorMessage => $Param{ErrorMessage},
     );
+    print STDOUT $Response->{Output} if defined $Response->{Output};
+    delete $Response->{Output};
 
-    if ( !$FunctionResult->{Success} ) {
+    if ( !$Response->{Success} ) {
         $Param{DebuggerObject}->Error(
             Summary => 'Error response could not be sent',
-            Data    => $FunctionResult->{ErrorMessage},
+            Data    => $Response->{ErrorMessage},
         );
     }
 
