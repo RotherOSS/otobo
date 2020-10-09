@@ -78,6 +78,7 @@ sub new {
         },
     );
 
+    # debug info
     if ( $Self->{Debug} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
@@ -139,6 +140,7 @@ sub HeaderAndContent {
             Debug => $Self->{Debug},
         );
 
+        # output filters are not applied for this interface
         return $GenericObject->Run();
     }
 
