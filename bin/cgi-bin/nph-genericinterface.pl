@@ -26,6 +26,11 @@ use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::GenericInterface::Provider;
 use Kernel::System::ObjectManager;
 

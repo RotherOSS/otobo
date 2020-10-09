@@ -24,14 +24,22 @@ use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
 
-# 0=off;1=on;
-my $Debug = 0;
+# core modules
 
-# load customer web interface
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::Web::InterfaceCustomer();
 use Kernel::System::ObjectManager;
 
+# make sure that the managed objects will be recreated for the current request
 local $Kernel::OM = Kernel::System::ObjectManager->new();
 
-my $Interface = Kernel::System::Web::InterfaceCustomer->new( Debug => $Debug );
-$Interface->Run();
+# 0 = debug messages off; 1 = debug messages on;
+my $Debug = 0;
+
+# do the work and give the response to the webserver
+print
+    Kernel::System::Web::InterfaceCustomer->new(
+        Debug => $Debug
+    )->HeaderAndContent();

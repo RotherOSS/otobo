@@ -24,7 +24,12 @@ use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
 
+# core modules
+
+# CPAN modules
 use SOAP::Transport::HTTP;
+
+# OTOBO modules
 use Kernel::System::ObjectManager;
 
 SOAP::Transport::HTTP::CGI->dispatch_to('OTOBO::RPC')->handle();
