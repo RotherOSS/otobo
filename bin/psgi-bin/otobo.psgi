@@ -255,7 +255,6 @@ to dispatch multiple ticket methods and get the TicketID
     }
 }
 
-
 # core modules
 use Data::Dumper;
 use POSIX 'SEEK_SET';
@@ -618,7 +617,6 @@ my $GenericInterfaceApp = builder {
 };
 
 # Port of installer.pl, index.pl, customer.pl, public.pl, and migration.pl to Plack.
-# Trying to do without CGI::Emulate::PSGI.
 my $OTOBOApp = builder {
 
     enable 'Plack::Middleware::ErrorDocument',
@@ -667,14 +665,21 @@ my $OTOBOApp = builder {
 
         # InterfaceInstaller has been converted to returning a string instead of printing the STDOUT.
         # This means that we don't have to capture STDOUT.
-        # TODO: convert index.pl and customer.pl and the fallback
-        if ( $ScriptFileName eq 'installer.pl' || $ScriptFileName eq 'public.pl' || $ScriptFileName eq 'migration.pl' ) {
-
+        my $HeaderAndContent;
+        {
             # make sure that the managed objects will be recreated for the current request
             local $Kernel::OM = Kernel::System::ObjectManager->new();
 
             # do the work, return a not encoded Perl string from the appropriate interface module
-            my $HeaderAndContent = eval {
+            $HeaderAndContent = eval {
+                if ( $ScriptFileName eq 'index.pl' ) {
+                    return Kernel::System::Web::InterfaceAgent->new( %InterfaceParams );
+                }
+
+                if ( $ScriptFileName eq 'customer.pl' ) {
+                    return Kernel::System::Web::InterfaceCustomer->new( %InterfaceParams );
+                }
+
                 if ( $ScriptFileName eq 'installer.pl' ) {
                     return Kernel::System::Web::InterfaceInstaller->new( %InterfaceParams );
                 }
@@ -686,56 +691,21 @@ my $OTOBOApp = builder {
                 if ( $ScriptFileName eq 'public.pl' ) {
                     return Kernel::System::Web::InterfacePublic->new( %InterfaceParams );
                 }
+
+                # fallback
+                warn " using fallback InterfaceAgent for ScriptFileName: '$ScriptFileName'\n";
+
+                return Kernel::System::Web::InterfaceAgent->new( %InterfaceParams );
             }->HeaderAndContent();
-
-            # UTF-8 encoding is expected
-            utf8::encode($HeaderAndContent);
-
-            # return a PSGI response
-            return parse_cgi_output(\$HeaderAndContent);
         }
 
-        # Capture the output written by $Installer->Run().
-        # This output includes the  HTTP headers of the response.
-        my $Buffer = '';
-        {
-            # write an UTF-8 encoded string into $Buffer
-            open my $CaptureStdoutFH, '>:encoding(UTF-8)', \$Buffer or die "Can't open buffer as a filehandle: $!";
+        # UTF-8 encoding is expected
+        utf8::encode($HeaderAndContent);
 
-            my $Saver = SelectSaver->new('::STDOUT');
-            {
-                local *STDOUT = $CaptureStdoutFH;
-                local *STDERR = $Env->{'psgi.errors'};
-
-                # make sure that the managed objects will be recreated for the current request
-                local $Kernel::OM = Kernel::System::ObjectManager->new();
-
-                # find the relevant interface class
-                my $Interface;
-                {
-                    if ( $ScriptFileName eq 'index.pl' ) {
-                        $Interface = Kernel::System::Web::InterfaceAgent->new( %InterfaceParams );
-                    }
-                    elsif ( $ScriptFileName eq 'customer.pl' ) {
-                        $Interface = Kernel::System::Web::InterfaceCustomer->new( %InterfaceParams );
-                    }
-                    else {
-
-                        # fallback
-                        warn " using fallback InterfaceAgent for ScriptFileName: '$ScriptFileName'\n";
-                        $Interface = Kernel::System::Web::InterfaceAgent->new( %InterfaceParams );
-                    }
-                }
-
-                # do the work
-                $Interface->Run;
-            }
-        }
-
-        return parse_cgi_output(\$Buffer);
+        # return a PSGI response
+        return parse_cgi_output(\$HeaderAndContent);
     };
 };
-
 
 # Port of rpc.pl
 # See http://blogs.perl.org/users/confuseacat/2012/11/how-to-use-soaptransporthttpplack.html

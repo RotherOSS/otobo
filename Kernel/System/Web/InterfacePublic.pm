@@ -95,7 +95,7 @@ sub new {
 
 =head2 HeaderAndContent()
 
-execute the object and return the generated content as a string.
+execute the object
 
     $Interface->HeaderAndContent();
 
@@ -113,7 +113,7 @@ sub HeaderAndContent {
         # Allow HTTPS to be 'on' in a case insensitive way.
         # In OTOBO 10.0.1 it had to be lowercase 'on'.
         my $HTTPS = $ParamObject->HTTPS('HTTPS') // '';
-        if ( lc $HTTPS  ne 'on' ) {
+        if ( lc $HTTPS ne 'on' ) {
             my $Host       = $ParamObject->HTTP('HOST') || $ConfigObject->Get('FQDN');
             my $RequestURI = $ParamObject->RequestURI();
 
@@ -148,7 +148,7 @@ sub HeaderAndContent {
         delete $Param{Lang};
     }
 
-    # Check if the browser sends the SessionID cookie and set the SessionID-cookie
+    # check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
     if ( $ConfigObject->Get('SessionUseCookie') ) {
         $Param{SessionIDCookie} = $ParamObject->GetCookie( Key => $Param{SessionName} );
