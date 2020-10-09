@@ -310,11 +310,16 @@ sub Run {
 sub _SerializeConfig {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(Data SHash)) {
-        if ( !$Param{$Needed} ) {
-            print "Got no $Needed!\n";
-            return;
-        }
+    for my $Needed ( grep { ! $Param{$_} } qw(Data SHash) ) {
+
+        my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+        $LogObject->Log(
+            Priority => 'error',
+            Message  => "Need $Needed!",
+        );
+
+        # do nothing when a parameter is missing
+        return;
     }
 
     my @ConfigContainer;
