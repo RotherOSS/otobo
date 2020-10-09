@@ -19,8 +19,11 @@ package Kernel::GenericInterface::Transport;
 use strict;
 use warnings;
 
-# prevent 'Used once' warning for Kernel::OM
-use Kernel::System::ObjectManager;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
@@ -156,6 +159,10 @@ sub ProviderGenerateResponse {
             Summary => 'Data is not a hash reference.',
         );
     }
+
+    my $Response = $Self->{BackendObject}->ProviderGenerateResponse(%Param);
+    print STDOUT $Response->{Output} if defined $Response->{Output};
+    delete $Response->{Output};
 
     return $Self->{BackendObject}->ProviderGenerateResponse(%Param);
 }

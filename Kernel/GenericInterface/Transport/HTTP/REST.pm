@@ -19,12 +19,16 @@ package Kernel::GenericInterface::Transport::HTTP::REST;
 use strict;
 use warnings;
 
-use HTTP::Status;
+# core modules
 use MIME::Base64;
+
+# CPAN modules
+use HTTP::Status;
 use REST::Client;
 use URI::Escape;
-use Kernel::Config;
 
+# OTOBO modules
+use Kernel::Config;
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -977,16 +981,18 @@ sub _Output {
 
     # Print data to http - '\r' is required according to HTTP RFCs.
     my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
-    print STDOUT "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
-    print STDOUT "Content-Type: $ContentType; charset=UTF-8\r\n";
-    print STDOUT "Content-Length: $ContentLength\r\n";
-    print STDOUT "Connection: $Connection\r\n";
-    print STDOUT $AdditionalHeaderStrg;
-    print STDOUT "\r\n";
-    print STDOUT $Param{Content};
+    my $Output = '';
+    $Output .= "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
+    $Output .= "Content-Type: $ContentType; charset=UTF-8\r\n";
+    $Output .= "Content-Length: $ContentLength\r\n";
+    $Output .= "Connection: $Connection\r\n";
+    $Output .= $AdditionalHeaderStrg;
+    $Output .= "\r\n";
+    $Output .= $Param{Content};
 
     return {
         Success      => $Success,
+        Output       => $Output,
         ErrorMessage => $ErrorMessage,
     };
 }
