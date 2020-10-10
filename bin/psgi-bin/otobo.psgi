@@ -313,7 +313,7 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT AS OF OCTOBER 9TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
+warn "PLEASE NOTE THAT AS OF OCTOBER 10TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
 
 ################################################################################
 # Middlewares
@@ -360,6 +360,9 @@ my $SetEnvMiddleWare = sub {
         # only the side effects are important
         $ENV{OTOBO_RUNS_UNDER_PSGI} = '1';
         $ENV{GATEWAY_INTERFACE}     = 'CGI/1.1';
+
+        # enable for debugging UrlMap
+        #$ENV{PLACK_URLMAP_DEBUG} = 1;
 
         return $app->($Env);
     };
