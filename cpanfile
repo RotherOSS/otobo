@@ -58,9 +58,6 @@ feature 'apache:mod_perl', 'Suppport for apache:mod_perl' => sub {
     # Improves Performance on Apache webservers dramatically.
     requires 'ModPerl::Util';
 
-    # Avoids web server restarts on mod_perl.
-    requires 'Apache2::Reload';
-
 };
 
 feature 'db:mysql', 'Support for database MySQL' => sub {
@@ -212,9 +209,6 @@ feature 'optional', 'Suppport for optional' => sub {
 
     # Improves Performance on Apache webservers dramatically.
     requires 'ModPerl::Util';
-
-    # Avoids web server restarts on mod_perl.
-    requires 'Apache2::Reload';
 
     # Simple Mail Transfer Protocol Client.
     # Please consider updating to version 3.11 or higher: This version fixes email sending (bug#14357).

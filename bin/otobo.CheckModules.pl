@@ -552,18 +552,6 @@ my @NeededModules = (
             ports  => 'www/mod_perl2',
         },
     },
-    {
-        Module    => 'Apache2::Reload',
-        Required  => 0,
-        Features  => ['apache:mod_perl'],
-        Comment   => 'Avoids web server restarts on mod_perl.',
-        InstTypes => {
-            aptget => 'libapache2-mod-perl2',
-            emerge => 'dev-perl/Apache-Reload',
-            zypper => 'apache2-mod_perl',
-            ports  => 'www/mod_perl2',
-        },
-    },
 
 # Feature mail
     {

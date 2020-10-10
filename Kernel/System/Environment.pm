@@ -289,7 +289,6 @@ sub PerlInfoGet {
         # See .dockerignore.
         if ( ! $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
             push @ModuleList, qw(
-                Apache2::Reload
                 CGI::Apache
             );
         }

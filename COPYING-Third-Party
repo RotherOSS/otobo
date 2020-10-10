@@ -14,12 +14,6 @@ o Name:    CPAN CGI
            # wish, but if you redistribute a modified version, please attach a note
            # listing the modifications you have made.
 
-o Name:    CPAN Apache2::Reload
-  Web:     n/a
-  License: Apache License v2 - http://www.apache.org/licenses/LICENSE-2.0
-           # Matt Sergeant, matt@sergeant.org
-           # Stas Bekman (porting to mod_perl 2.0)
-
 o Name:    CPAN Algorithm::Diff
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
