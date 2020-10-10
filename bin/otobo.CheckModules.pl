@@ -553,18 +553,6 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Apache::DBI',
-        Required  => 0,
-        Features  => ['apache:mod_perl'],
-        Comment   => 'Improves Performance on Apache webservers with mod_perl enabled.',
-        InstTypes => {
-            aptget => 'libapache-dbi-perl',
-            emerge => 'dev-perl/Apache-DBI',
-            zypper => 'perl-Apache-DBI',
-            ports  => 'www/p5-Apache-DBI',
-        },
-    },
-    {
         Module    => 'Apache2::Reload',
         Required  => 0,
         Features  => ['apache:mod_perl'],

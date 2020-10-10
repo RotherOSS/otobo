@@ -47,8 +47,6 @@ use CGI ();
 CGI->compile(':cgi');
 use CGI::Carp ();
 
-use Apache::DBI ();
-
 # enable this if you use mysql
 #use DBD::mysql ();
 #use Kernel::System::DB::mysql;
