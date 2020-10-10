@@ -231,10 +231,13 @@ sub Run {
                 Data    => $MappingInObject,
             );
 
-            return $Self->_GenerateErrorResponse(
+            my $Output = $Self->_GenerateErrorResponse(
                 DebuggerObject => $DebuggerObject,
                 ErrorMessage   => $FunctionResult->{ErrorMessage},
-            );
+            ) // '';
+            print STDOUT $Output;
+
+            return;
         }
 
         # add operation to data for error handler
@@ -293,10 +296,13 @@ sub Run {
             $ErrorMessage = $OperationObject->{ErrorMessage};
         }
 
-        return $Self->_GenerateErrorResponse(
+        my $Output = $Self->_GenerateErrorResponse(
             DebuggerObject => $DebuggerObject,
             ErrorMessage   => $ErrorMessage,
-        );
+        ) // '';
+        print STDOUT $Output;
+
+        return;
     }
 
     # add operation object to data for error handler
@@ -354,10 +360,13 @@ sub Run {
                 Data    => $MappingOutObject,
             );
 
-            return $Self->_GenerateErrorResponse(
+            my $Output = $Self->_GenerateErrorResponse(
                 DebuggerObject => $DebuggerObject,
                 ErrorMessage   => $FunctionResult->{ErrorMessage},
-            );
+            ) // '';
+            print STDOUT $Output;
+
+            return;
         }
 
         $FunctionResult = $MappingOutObject->Map(
@@ -418,23 +427,24 @@ sub Run {
 
 =head2 _GenerateErrorResponse()
 
-returns an error message to the client.
+prepares header and content for an error response
 
-    $ProviderObject->_GenerateErrorResponse(
-        ErrorMessage => $ErrorMessage,
-    );
+    my $Output = $Self->_GenerateErrorResponse(
+        DebuggerObject => $DebuggerObject,
+        ErrorMessage   => $ErrorMessage,
+    ) // '';
+    print STDOUT $Output;
 
 =cut
 
 sub _GenerateErrorResponse {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     my $Response = $Self->{TransportObject}->ProviderGenerateResponse(
         Success      => 0,
         ErrorMessage => $Param{ErrorMessage},
     );
-    print STDOUT $Response->{Output} if defined $Response->{Output};
-    delete $Response->{Output};
 
     if ( !$Response->{Success} ) {
         $Param{DebuggerObject}->Error(
@@ -443,7 +453,7 @@ sub _GenerateErrorResponse {
         );
     }
 
-    return;
+    return delete $Response->{Output};
 }
 
 =head2 _HandleError()
@@ -482,10 +492,13 @@ sub _HandleError {
             Message  => "Got no $Needed!",
         );
 
-        return $Self->_GenerateErrorResponse(
+        my $Output = $Self->_GenerateErrorResponse(
             DebuggerObject => $Param{DebuggerObject},
             ErrorMessage   => "Got no $Needed!",
-        );
+        ) // '';
+        print STDOUT $Output;
+
+        return;
     }
 
     my $ErrorHandlingResult = $Kernel::OM->Get('Kernel::GenericInterface::ErrorHandling')->HandleError(
@@ -505,10 +518,13 @@ sub _HandleError {
         || !$Param{OperationObject}->{BackendObject}->can('HandleError')
         )
     {
-        return $Self->_GenerateErrorResponse(
+        my $Output = $Self->_GenerateErrorResponse(
             DebuggerObject => $Param{DebuggerObject},
             ErrorMessage   => $Param{Summary},
-        );
+        ) // '';
+        print STDOUT $Output;
+
+        return;
     }
 
     my $HandleErrorData;
@@ -541,10 +557,13 @@ sub _HandleError {
                 Data    => $MappingErrorObject,
             );
 
-            return $Self->_GenerateErrorResponse(
+            my $Output = $Self->_GenerateErrorResponse(
                 DebuggerObject => $Param{DebuggerObject},
                 ErrorMessage   => 'MappingErr could not be initialized',
-            );
+            ) // '';
+            print STDOUT $Output;
+
+            return;
         }
 
         # Map error data.
@@ -558,10 +577,13 @@ sub _HandleError {
             },
         );
         if ( !$MappingErrorResult->{Success} ) {
-            return $Self->_GenerateErrorResponse(
+            my $Output = $Self->_GenerateErrorResponse(
                 DebuggerObject => $Param{DebuggerObject},
                 ErrorMessage   => $MappingErrorResult->{ErrorMessage},
-            );
+            ) // '';
+            print STDOUT $Output;
+
+            return;
         }
 
         $HandleErrorData = $MappingErrorResult->{Data};
@@ -582,10 +604,13 @@ sub _HandleError {
         );
     }
 
-    return $Self->_GenerateErrorResponse(
+    my $Output = $Self->_GenerateErrorResponse(
         DebuggerObject => $Param{DebuggerObject},
         ErrorMessage   => $Param{Summary},
-    );
+    ) // '';
+    print STDOUT $Output;
+
+    return;
 }
 
 =end Internal:
