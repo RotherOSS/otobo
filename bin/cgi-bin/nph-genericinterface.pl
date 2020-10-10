@@ -15,30 +15,26 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-# NOTE: When using PSGI /opt/otobo/nph-genericinterface.pl is handled by scripts/psgi-bin/otobo.psgi.
-
 use strict;
 use warnings;
-
-# use ../../ as lib location
-use FindBin qw($Bin);
-use lib "$Bin/../..";
-use lib "$Bin/../../Kernel/cpan-lib";
-use lib "$Bin/../../Custom";
+use v5.25;
+use utf8;
 
 # core modules
+use File::Basename qw(dirname);
 
 # CPAN modules
+use Plack::Util qw();
+use Plack::Handler::CGI qw();
 
 # OTOBO modules
-use Kernel::GenericInterface::Provider;
-use Kernel::System::ObjectManager;
 
-local $Kernel::OM = Kernel::System::ObjectManager->new(
-    'Kernel::System::Log' => {
-        LogPrefix => 'GenericInterfaceProvider',
-    },
-);
+#$ENV{PLACK_URLMAP_DEBUG} = 1; # enable when the URL mapping does not work
 
-my $Provider = Kernel::GenericInterface::Provider->new();
-$Provider->Run();
+# otobo.psgi looks primarily in $ENV{PATH_INFO}
+$ENV{PATH_INFO} = join '/', grep { defined $_ || $_ ne '' }  @ENV{ qw(SCRIPT_NAME PATH_INFO) };
+$ENV{SCRIPT_NAME} = '';
+
+my $CgiBinDir = dirname( __FILE__ );
+state $App = Plack::Util::load_psgi("$CgiBinDir/../psgi-bin/otobo.psgi");
+Plack::Handler::CGI->new()->run($App);

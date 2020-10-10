@@ -17,29 +17,24 @@
 
 use strict;
 use warnings;
-
-# use ../../ as lib location
-use FindBin qw($Bin);
-use lib "$Bin/../..";
-use lib "$Bin/../../Kernel/cpan-lib";
-use lib "$Bin/../../Custom";
+use v5.25;
+use utf8;
 
 # core modules
+use File::Basename qw(dirname);
 
 # CPAN modules
+use Plack::Util qw();
+use Plack::Handler::CGI qw();
 
 # OTOBO modules
-use Kernel::System::Web::InterfaceAgent();
-use Kernel::System::ObjectManager;
 
-# make sure that the managed objects will be recreated for the current request
-local $Kernel::OM = Kernel::System::ObjectManager->new();
+#$ENV{PLACK_URLMAP_DEBUG} = 1; # enable when the URL mapping does not work
 
-# 0 = debug messages off; 1 = debug messages on;
-my $Debug = 0;
+# otobo.psgi looks primarily in $ENV{PATH_INFO}
+$ENV{PATH_INFO} = join '/', grep { defined $_ || $_ ne '' }  @ENV{ qw(SCRIPT_NAME PATH_INFO) };
+$ENV{SCRIPT_NAME} = '';
 
-# do the work and give the response to the webserver
-print
-    Kernel::System::Web::InterfaceAgent->new(
-        Debug => $Debug
-    )->HeaderAndContent();
+my $CgiBinDir = dirname( __FILE__ );
+state $App = Plack::Util::load_psgi("$CgiBinDir/../psgi-bin/otobo.psgi");
+Plack::Handler::CGI->new()->run($App);
