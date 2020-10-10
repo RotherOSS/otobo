@@ -15,8 +15,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-# NOTE: When using PSGI /opt/otobo/nph-genericinterface.pl is handled by scripts/psgi-bin/otobo.psgi.
-
 use strict;
 use warnings;
 
@@ -34,11 +32,16 @@ use lib "$Bin/../../Custom";
 use Kernel::GenericInterface::Provider;
 use Kernel::System::ObjectManager;
 
+# make sure that the managed objects will be recreated for the current request
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'GenericInterfaceProvider',
     },
 );
 
-my $Provider = Kernel::GenericInterface::Provider->new();
-$Provider->Run();
+# debug support is done via a Debugging Object
+
+# do the work and give the response to the webserver
+print
+    Kernel::GenericInterface::Provider->new(
+    )->HeaderAndContent();

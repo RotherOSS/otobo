@@ -611,7 +611,8 @@ my $GenericInterfaceApp = builder {
             );
 
             # do the work
-            Kernel::GenericInterface::Provider->new()->Run;
+            my $HeaderAndContent = Kernel::GenericInterface::Provider->new()-HeaderAndContent();
+            print STDOUT $HeaderAndContent;
         }
     );
 };

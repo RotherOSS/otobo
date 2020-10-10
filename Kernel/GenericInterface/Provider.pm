@@ -53,31 +53,27 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # Allocate new hash for object.
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
-=head2 Run()
+=head2 HeaderAndContent()
 
 Receives the current incoming web service request, handles it,
 and returns an appropriate answer based on the requested web service.
 
     # put this in the handler script
-    $ProviderObject->Run();
+    my $Output = $ProviderObject->HeaderAndContent();
 
 =cut
 
-sub Run {
-    my ( $Self, %Param ) = @_;
+sub HeaderAndContent {
+    my $Self = shift;
+    my %Param = @_;
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $RequestURI = $ParamObject->RequestURI();
 
-    #
     # Locate and verify the desired web service based on the request URI and load its configuration data.
-    #
 
     # Check RequestURI for a web service by id or name.
     my %WebserviceGetData;
@@ -99,6 +95,7 @@ sub Run {
             Priority => 'error',
             Message  => "Could not determine WebserviceID or Webservice from query string '$RequestURI'",
         );
+
         return;    # bail out without Transport, Apache will generate 500 Error
     }
 
@@ -115,6 +112,7 @@ sub Run {
             Priority => 'error',
             Message  => "Could not find valid web service for query string '$RequestURI'",
         );
+
         return;    # bail out without Transport, Apache will generate 500 Error
     }
 
@@ -125,6 +123,7 @@ sub Run {
             Message =>
                 "Could not load web service configuration for query string '$RequestURI'",
         );
+
         return;    # bail out without Transport, Apache will generate 500 Error
     }
 
@@ -137,7 +136,6 @@ sub Run {
     );
 
     if ( ref $DebuggerObject ne 'Kernel::GenericInterface::Debugger' ) {
-
         return;    # bail out without Transport, Apache will generate 500 Error
     }
 
@@ -160,10 +158,12 @@ sub Run {
     # Bail out if transport initialization failed.
     if ( ref $Self->{TransportObject} ne 'Kernel::GenericInterface::Transport' ) {
 
-        return $DebuggerObject->Error(
+        $DebuggerObject->Error(
             Summary => 'TransportObject could not be initialized',
             Data    => $Self->{TransportObject},
         );
+
+        return;    # bail out without Transport, Apache will generate 500 Error
     }
 
     # Combine all data for error handler we got so far.
@@ -180,16 +180,14 @@ sub Run {
     if ( !$FunctionResult->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
-        my $Output = $Self->_HandleError(
+
+        return $Self->_HandleError(
             %HandleErrorData,
             DataInclude => {},
             ErrorStage  => 'ProviderRequestReceive',
             Summary     => $Summary,
             Data        => $FunctionResult->{Data} // $Summary,
         );
-        print STDOUT $Output;
-
-        return;
     }
 
     # prepare the data include configuration and payload
@@ -234,13 +232,10 @@ sub Run {
                 Data    => $MappingInObject,
             );
 
-            my $Output = $Self->_GenerateErrorResponse(
+            return $Self->_GenerateErrorResponse(
                 DebuggerObject => $DebuggerObject,
                 ErrorMessage   => $FunctionResult->{ErrorMessage},
             ) // '';
-            print STDOUT $Output;
-
-            return;
         }
 
         # add operation to data for error handler
@@ -253,16 +248,14 @@ sub Run {
         if ( !$FunctionResult->{Success} ) {
 
             my $Summary = $FunctionResult->{ErrorMessage} // 'MappingInObject returned an error, cancelling Request';
-            my $Output = $Self->_HandleError(
+
+            return $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
                 ErrorStage  => 'ProviderRequestMap',
                 Summary     => $Summary,
                 Data        => $FunctionResult->{Data} // $Summary,
             );
-            print STDOUT $Output;
-
-            return;
         }
 
         # extend the data include payload
@@ -302,13 +295,10 @@ sub Run {
             $ErrorMessage = $OperationObject->{ErrorMessage};
         }
 
-        my $Output = $Self->_GenerateErrorResponse(
+        return $Self->_GenerateErrorResponse(
             DebuggerObject => $DebuggerObject,
             ErrorMessage   => $ErrorMessage,
         ) // '';
-        print STDOUT $Output;
-
-        return;
     }
 
     # add operation object to data for error handler
@@ -321,16 +311,14 @@ sub Run {
     if ( !$FunctionResult->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'OperationObject returned an error, cancelling Request';
-        my $Output = $Self->_HandleError(
+
+        return $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
             ErrorStage  => 'ProviderRequestProcess',
             Summary     => $Summary,
             Data        => $FunctionResult->{Data} // $Summary,
         );
-        print STDOUT $Output;
-
-        return;
     }
 
     # extend the data include payload
@@ -369,13 +357,10 @@ sub Run {
                 Data    => $MappingOutObject,
             );
 
-            my $Output = $Self->_GenerateErrorResponse(
+            return $Self->_GenerateErrorResponse(
                 DebuggerObject => $DebuggerObject,
                 ErrorMessage   => $FunctionResult->{ErrorMessage},
             ) // '';
-            print STDOUT $Output;
-
-            return;
         }
 
         $FunctionResult = $MappingOutObject->Map(
@@ -386,16 +371,14 @@ sub Run {
         if ( !$FunctionResult->{Success} ) {
 
             my $Summary = $FunctionResult->{ErrorMessage} // 'MappingOutObject returned an error, cancelling Request';
-            my $Output = $Self->_HandleError(
+
+            return $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
                 ErrorStage  => 'ProviderResponseMap',
                 Summary     => $Summary,
                 Data        => $FunctionResult->{Data} // $Summary,
             );
-            print STDOUT $Output;
-
-            return;
         }
 
         # extend the data include payload
@@ -417,25 +400,22 @@ sub Run {
         Success => 1,
         Data    => $DataOut,
     );
-    print STDOUT $Response->{Output} if defined $Response->{Output};
-    delete $Response->{Output};
+    my $Output = delete $Response->{Output};
 
     if ( !$Response->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
-        my $Output = $Self->_HandleError(
+
+        return $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
             ErrorStage  => 'ProviderResponseTransmit',
             Summary     => $Summary,
             Data        => $FunctionResult->{Data} // $Summary,
         );
-        print STDOUT $Output;
-
-        return;
     }
 
-    return;
+    return $Output;
 }
 
 =begin Internal:
