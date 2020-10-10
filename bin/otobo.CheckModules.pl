@@ -121,6 +121,7 @@ my %IsStandardFeature = (
     'div:xslt'         => 1,
     'div:xmlparser'    => 1,
     'div:hanextra'     => 1,
+    'plack'            => 1,
 );
 
 # defines a set of features considered standard for docker environments
