@@ -19,9 +19,13 @@ package Kernel::GenericInterface::Provider;
 use strict;
 use warnings;
 
-use URI::Escape;
+# core modules
 use Storable;
 
+# CPAN modules
+use URI::Escape;
+
+# OTOBO modules
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport;
 use Kernel::GenericInterface::Mapping;
@@ -45,15 +49,27 @@ Kernel::GenericInterface::Provider - handler for incoming web service requests.
 
 Don't use the constructor directly, use the ObjectManager instead:
 
-    my $ProviderObject = $Kernel::OM->Get('Kernel::GenericInterface::Provider');
+    my $Interface = $Kernel::OM->Get('Kernel::GenericInterface::Provider');
 
 =cut
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # Allocate new hash for object.
-    return bless {}, $Type;
+    # start with an empty hash for the new object
+    my $Self = bless {}, $Type;
+
+    # register object params
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Log' => {
+            LogPrefix => 'GenericInterfaceProvider',
+        },
+        'Kernel::System::Web::Request' => {
+            WebRequest => $Param{WebRequest} || 0,
+        },
+    );
+
+    return $Self;
 }
 
 =head2 HeaderAndContent()
@@ -62,13 +78,12 @@ Receives the current incoming web service request, handles it,
 and returns an appropriate answer based on the requested web service.
 
     # put this in the handler script
-    my $Output = $ProviderObject->HeaderAndContent();
+    my $HeaderAndContent = $Interface->HeaderAndContent();
 
 =cut
 
 sub HeaderAndContent {
     my $Self = shift;
-    my %Param = @_;
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $RequestURI = $ParamObject->RequestURI();

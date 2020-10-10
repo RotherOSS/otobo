@@ -265,7 +265,6 @@ use Template ();
 use Encode qw(:all);
 use CGI ();
 use CGI::Carp ();
-use CGI::Emulate::PSGI ();
 use CGI::Parse::PSGI qw(parse_cgi_output);
 use CGI::PSGI;
 use Plack::Builder;
@@ -572,51 +571,6 @@ my $StaticApp = builder {
     Plack::App::File->new(root => "$FindBin::Bin/../../var/httpd/htdocs")->to_app;
 };
 
-# Port of nph-genericinterface.pl to Plack.
-my $GenericInterfaceApp = builder {
-
-    enable 'Plack::Middleware::ErrorDocument',
-        403 => '/otobo/index.pl';  # forbidden files
-
-    # a simplistic detection whether we are behind a revers proxy
-    enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
-
-    # conditionally enable profiling
-    enable $NYTProfMiddleWare;
-
-    # set %ENV
-    enable $SetEnvMiddleWare;
-
-    # check ever 10s for changed Perl modules
-    enable 'Plack::Middleware::Refresh';
-
-    # we might catch an instance of Kernel::System::Web::Exception
-    enable 'Plack::Middleware::HTTPExceptions';
-
-    # Set the appropriate %ENV and file handles
-    CGI::Emulate::PSGI->handler(
-
-        # logic taken from the scripts in bin/cgi-bin
-        sub {
-            my $Env = shift;
-
-            # make sure to have a clean CGI.pm for each request, see CGI::Compile
-            CGI::initialize_globals() if defined &CGI::initialize_globals;
-
-            # nph-genericinterface.pl has specific logging
-            local $Kernel::OM = Kernel::System::ObjectManager->new(
-                'Kernel::System::Log' => {
-                        LogPrefix => 'GenericInterfaceProvider',
-                    },
-            );
-
-            # do the work
-            my $HeaderAndContent = Kernel::GenericInterface::Provider->new()-HeaderAndContent();
-            print STDOUT $HeaderAndContent;
-        }
-    );
-};
-
 # Port of installer.pl, index.pl, customer.pl, public.pl, and migration.pl to Plack.
 my $OTOBOApp = builder {
 
@@ -643,6 +597,9 @@ my $OTOBOApp = builder {
     # logic taken from the scripts in bin/cgi-bin and from CGI::Emulate::PSGI
     sub {
         my $Env = shift;
+
+        # make sure to have a clean CGI.pm for each request, see CGI::Compile
+        CGI::initialize_globals() if defined &CGI::initialize_globals;
 
         # this is used only for Support Data Collection
         $Env->{SERVER_SOFTWARE} //= 'otobo.psgi';
@@ -693,7 +650,11 @@ my $OTOBOApp = builder {
                     return Kernel::System::Web::InterfacePublic->new( %InterfaceParams );
                 }
 
-                # fallback
+                if ( $ScriptFileName eq 'public.pl' ) {
+                    return Kernel::GenericInterface::Provider->new( %InterfaceParams );
+                }
+
+                # index.pl is the fallback
                 warn " using fallback InterfaceAgent for ScriptFileName: '$ScriptFileName'\n";
 
                 return Kernel::System::Web::InterfaceAgent->new( %InterfaceParams );
@@ -756,10 +717,8 @@ builder {
     mount '/otobo/index.pl'                => $OTOBOApp;
     mount '/otobo/installer.pl'            => $OTOBOApp;
     mount '/otobo/migration.pl'            => $OTOBOApp;
+    mount '/otobo/nph-genericinterface.pl' => $OTOBOApp;
     mount '/otobo/public.pl'               => $OTOBOApp;
-
-    # Generic interface
-    mount '/otobo/nph-genericinterface.pl' => $GenericInterfaceApp;
 
     # some SOAP stuff
     mount '/otobo/rpc.pl'                  => $RPCApp;
