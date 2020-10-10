@@ -180,13 +180,16 @@ sub Run {
     if ( !$FunctionResult->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
-        return $Self->_HandleError(
+        my $Output = $Self->_HandleError(
             %HandleErrorData,
             DataInclude => {},
             ErrorStage  => 'ProviderRequestReceive',
             Summary     => $Summary,
             Data        => $FunctionResult->{Data} // $Summary,
         );
+        print STDOUT $Output;
+
+        return;
     }
 
     # prepare the data include configuration and payload
@@ -250,13 +253,16 @@ sub Run {
         if ( !$FunctionResult->{Success} ) {
 
             my $Summary = $FunctionResult->{ErrorMessage} // 'MappingInObject returned an error, cancelling Request';
-            return $Self->_HandleError(
+            my $Output = $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
                 ErrorStage  => 'ProviderRequestMap',
                 Summary     => $Summary,
                 Data        => $FunctionResult->{Data} // $Summary,
             );
+            print STDOUT $Output;
+
+            return;
         }
 
         # extend the data include payload
@@ -315,13 +321,16 @@ sub Run {
     if ( !$FunctionResult->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'OperationObject returned an error, cancelling Request';
-        return $Self->_HandleError(
+        my $Output = $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
             ErrorStage  => 'ProviderRequestProcess',
             Summary     => $Summary,
             Data        => $FunctionResult->{Data} // $Summary,
         );
+        print STDOUT $Output;
+
+        return;
     }
 
     # extend the data include payload
@@ -377,13 +386,16 @@ sub Run {
         if ( !$FunctionResult->{Success} ) {
 
             my $Summary = $FunctionResult->{ErrorMessage} // 'MappingOutObject returned an error, cancelling Request';
-            return $Self->_HandleError(
+            my $Output = $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
                 ErrorStage  => 'ProviderResponseMap',
                 Summary     => $Summary,
                 Data        => $FunctionResult->{Data} // $Summary,
             );
+            print STDOUT $Output;
+
+            return;
         }
 
         # extend the data include payload
@@ -411,13 +423,16 @@ sub Run {
     if ( !$Response->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
-        $Self->_HandleError(
+        my $Output = $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
             ErrorStage  => 'ProviderResponseTransmit',
             Summary     => $Summary,
             Data        => $FunctionResult->{Data} // $Summary,
         );
+        print STDOUT $Output;
+
+        return;
     }
 
     return;
@@ -462,7 +477,7 @@ handles errors by
 - informing operation about it (if supported)
 - calling an error handling layer
 
-    my $ReturnData = $RequesterObject->_HandleError(
+    my $Output = $RequesterObject->_HandleError(
         DebuggerObject   => $DebuggerObject,
         WebserviceID     => 1,
         WebserviceConfig => $WebserviceConfig,
@@ -473,11 +488,7 @@ handles errors by
         OperationObject  => $OperationObject,        # optional
         Operation        => 'OperationName',         # optional
     );
-
-    my $ReturnData = {
-        Success      => 0,
-        ErrorMessage => $Param{Summary},
-    };
+    print STDOUT $Output;
 
 =cut
 
@@ -492,13 +503,10 @@ sub _HandleError {
             Message  => "Got no $Needed!",
         );
 
-        my $Output = $Self->_GenerateErrorResponse(
+        return $Self->_GenerateErrorResponse(
             DebuggerObject => $Param{DebuggerObject},
             ErrorMessage   => "Got no $Needed!",
         ) // '';
-        print STDOUT $Output;
-
-        return;
     }
 
     my $ErrorHandlingResult = $Kernel::OM->Get('Kernel::GenericInterface::ErrorHandling')->HandleError(
@@ -518,13 +526,10 @@ sub _HandleError {
         || !$Param{OperationObject}->{BackendObject}->can('HandleError')
         )
     {
-        my $Output = $Self->_GenerateErrorResponse(
+        return $Self->_GenerateErrorResponse(
             DebuggerObject => $Param{DebuggerObject},
             ErrorMessage   => $Param{Summary},
         ) // '';
-        print STDOUT $Output;
-
-        return;
     }
 
     my $HandleErrorData;
@@ -557,13 +562,10 @@ sub _HandleError {
                 Data    => $MappingErrorObject,
             );
 
-            my $Output = $Self->_GenerateErrorResponse(
+            return $Self->_GenerateErrorResponse(
                 DebuggerObject => $Param{DebuggerObject},
                 ErrorMessage   => 'MappingErr could not be initialized',
             ) // '';
-            print STDOUT $Output;
-
-            return;
         }
 
         # Map error data.
@@ -577,13 +579,10 @@ sub _HandleError {
             },
         );
         if ( !$MappingErrorResult->{Success} ) {
-            my $Output = $Self->_GenerateErrorResponse(
+            return $Self->_GenerateErrorResponse(
                 DebuggerObject => $Param{DebuggerObject},
                 ErrorMessage   => $MappingErrorResult->{ErrorMessage},
             ) // '';
-            print STDOUT $Output;
-
-            return;
         }
 
         $HandleErrorData = $MappingErrorResult->{Data};
@@ -604,13 +603,10 @@ sub _HandleError {
         );
     }
 
-    my $Output = $Self->_GenerateErrorResponse(
+    return $Self->_GenerateErrorResponse(
         DebuggerObject => $Param{DebuggerObject},
         ErrorMessage   => $Param{Summary},
     ) // '';
-    print STDOUT $Output;
-
-    return;
 }
 
 =end Internal:
