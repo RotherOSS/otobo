@@ -58,9 +58,6 @@ feature 'apache:mod_perl', 'Suppport for apache:mod_perl' => sub {
     # Improves Performance on Apache webservers dramatically.
     requires 'ModPerl::Util';
 
-    # Improves Performance on Apache webservers with mod_perl enabled.
-    requires 'Apache::DBI';
-
     # Avoids web server restarts on mod_perl.
     requires 'Apache2::Reload';
 
@@ -215,9 +212,6 @@ feature 'optional', 'Suppport for optional' => sub {
 
     # Improves Performance on Apache webservers dramatically.
     requires 'ModPerl::Util';
-
-    # Improves Performance on Apache webservers with mod_perl enabled.
-    requires 'Apache::DBI';
 
     # Avoids web server restarts on mod_perl.
     requires 'Apache2::Reload';
