@@ -57,10 +57,6 @@ sub new {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
-    # Set binary mode for STDIN and STDOUT (normally is the same as :raw).
-    binmode STDIN;
-    binmode STDOUT;
-
     return $Self;
 }
 
@@ -1027,19 +1023,6 @@ sub _Output {
                 .= $AdditionalHeader . ': ' . ( $AdditionalHeaders{$AdditionalHeader} || '' ) . "\r\n";
         }
     }
-
-    # In the constructor of this module STDIN and STDOUT are set to binmode without any additional
-    #   layer (according to the documentation this is the same as set :raw). Previous solutions for
-    #   binary responses requires the set of :raw or :utf8 according to IO layers.
-    #   with that solution Windows OS requires to set the :raw layer in binmode, see #bug#8466.
-    #   while in *nix normally was better to set :utf8 layer in binmode, see bug#8558, otherwise
-    #   XML parser complains about it... ( but under special circumstances :raw layer was needed
-    #   instead ).
-    #
-    # This solution to set the binmode in the constructor and then :utf8 layer before the response
-    #   is sent  apparently works in all situations. ( Linux circumstances to requires :raw was no
-    #   reproducible, and not tested in this solution).
-    binmode STDOUT, ':utf8';    ## no critic
 
     # Print data to http - '\r' is required according to HTTP RFCs.
     my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
