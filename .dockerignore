@@ -36,8 +36,6 @@ otobo.*.dockerfile
 # files only needed for Apache, see also Kernel::System::Environment where the ignored modules are special cased
 scripts/apache*
 bin/cgi-bin
-Kernel/cpan-lib/Apache2
-Kernel/cpan-lib/CGI/Apache.pm
 Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
 
 # no need for cronjobs in Docker image
