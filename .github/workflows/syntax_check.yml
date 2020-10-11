@@ -64,7 +64,6 @@ jobs:
                 scripts/apache*
                 bin/cgi-bin
                 Kernel/cpan-lib/Apache2
-                Kernel/cpan-lib/CGI/Apache.pm
                 Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
 
             # The actual test step
