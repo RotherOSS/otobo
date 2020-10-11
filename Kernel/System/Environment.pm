@@ -291,7 +291,6 @@ sub PerlInfoGet {
             push @ModuleList, qw(
                 Apache::DBI
                 Apache2::Reload
-                CGI::Apache
             );
         }
 
