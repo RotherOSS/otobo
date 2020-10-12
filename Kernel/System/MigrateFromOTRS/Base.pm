@@ -20,12 +20,15 @@ package Kernel::System::MigrateFromOTRS::Base;    ## no critic
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::clean;
+use utf8;
 
 # core modules
 use List::Util qw(first);
 use Data::Dumper;
 use File::Basename;
-use File::Copy;
+use File::Copy qw(move);
 use File::Path qw(make_path);
 
 # CPAN modules
@@ -238,6 +241,53 @@ sub CleanLicenseHeaderInDir {
     }
 
     return 1;
+}
+
+=head2 MigrateXMLConfig()
+
+replace the XML element I<otrs_config> to I<otobo_config>.
+
+    $OTRSToOTOBOObject->MigrateXMLConfig(
+        File         => '/opt/otobo/Test.pm',
+    );
+
+=cut
+
+sub MigrateXMLConfig {
+    my $Self = shift;
+    my %Param = @_;
+
+    my $File = $Param{File};
+
+    # handle only .xml files
+    return 1 unless $File =~ m/\.xml/;
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    # Read XML file
+    my $ContentRef = $MainObject->FileRead(
+        Location => $File,
+        Mode     => 'utf8',
+    );
+    my $Content = $ContentRef->$*;
+
+    # sanity checks, simply return when there is noting to do
+    return 1 unless $Content =~ m{<otrs_config};
+    return 1 unless $Content =~ m{<otrs_config.*?init="(.+?)"};
+    return 1 unless $Content =~ m{<otrs_config.*?version="2.0"};
+
+    # now the actual transformation
+    $Content =~ s{^<otrs_config}{<otobo_config}gsmx;
+    $Content =~ s{^</otrs_config}{</otobo_config}gsmx;
+
+    # Save result in the original file
+    my $SaveSuccess = $MainObject->FileWrite(
+        Location => $File,
+        Content  => \$Content,
+        Mode     => 'utf8',
+    );
+
+    return $SaveSuccess;
 }
 
 =head2 CleanOTRSFileToOTOBOStyle()
