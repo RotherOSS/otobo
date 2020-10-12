@@ -18,28 +18,37 @@ package Kernel::System::MigrateFromOTRS::OTOBOCopyFilesFromOTRS;    ## no critic
 
 use strict;
 use warnings;
+
+# core modules
 use File::Copy qw(copy);
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
 our @ObjectDependencies = (
-    'Kernel::Language',
     'Kernel::Config',
-    'Kernel::System::Main',
     'Kernel::System::Log',
     'Kernel::System::SysConfig',
-    'Kernel::System::FileTemp',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
 );
+
+=head1 NAME
+
+Kernel::System::MigrateFromOTRS::OTOBOCopyFilesFromOTRS - Copy OTRS Data to OTOBO Server
+
+=head1 SYNOPSIS
+
+    # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 PUBLIC INTERFACE
 
 =head2 CheckPreviousRequirement()
 
 check for initial conditions for running this migration step.
 
-Returns 1 on success
+Returns 1 on success.
 
-    my $Result = $DBUpdateTo6Object->CheckPreviousRequirement();
+    my $RequirementIsMet = $MigrateFromOTRSObject->CheckPreviousRequirement();
 
 =cut
 
@@ -49,23 +58,12 @@ sub CheckPreviousRequirement {
     return 1;
 }
 
-=head1 NAME
-
-Kernel::System::MigrateFromOTRS::OTOBOCopyFilesFromOTRS - Copy OTRS Data to OTOBO Server
-
-=cut
-
 # TODO: Use sub Reconfigure to reconfigure Database after copy
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $OTRS6path;
     my $OTOBOHome = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-    my %OTOBODBParam;
-    my %Result;
-    my $Success = 1;
-
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
     # Set cache object with taskinfo and starttime to show current state in frontend
@@ -90,9 +88,11 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need $Key!"
             );
+            my %Result;
             $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
             $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
             $Result{Successful} = 0;
+
             return \%Result;
         }
     }
@@ -104,13 +104,17 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need OTRSData->$Key!"
             );
+
+            my %Result;
             $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
             $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
             $Result{Successful} = 0;
+
             return \%Result;
         }
     }
 
+    my $OTRS6path;
     if ( $Param{OTRSData}->{OTRSLocation} eq 'localhost' ) {
         $OTRS6path = $Param{OTRSData}->{OTRSHome};
     }
@@ -133,10 +137,12 @@ sub Run {
             Priority => 'error',
             Message  => "Can't open RELEASE file from OTRSHome: $Param{OTRSData}->{OTRSHome}!",
         );
+        my %Result;
         $Result{Message} = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
         $Result{Comment} = $Self->{LanguageObject}
             ->Translate( 'Can\'t open RELEASE file from OTRSHome: %s!', $Param{OTRSData}->{OTRSHome} );
         $Result{Successful} = 0;
+
         return \%Result;
     }
 
@@ -151,6 +157,7 @@ sub Run {
     my @DoNotCleanFileList = $Self->DoNotCleanFileList();
 
     # Now we copy and clean the files in for{}
+    my %OTOBODBParam;
     FILE:
     for my $File (@FileList) {
 
@@ -167,7 +174,9 @@ sub Run {
         }
 
         # First we copy the file from OTRS HOME to OTOBO HOME
-        if ( -e $OTRSPathFile ) {
+        next FILE unless -e $OTRSPathFile;
+
+        {
             my $ExitCode;
 
             # We copy only the content, if OTRS exists on localhost, otherwise we move the content from tmp
@@ -188,16 +197,16 @@ sub Run {
                     $ExitCode = system("mv $OTRSPathFile/* $OTOBOPathFile");
                 }
             }
+
             if ( $ExitCode && $ExitCode != 0 && $ExitCode != 256 ) {
                 print STDERR "EXIT: $ExitCode \n OTRSPath: $OTRSPathFile\n OTOBO: $OTOBOPathFile\n ";
+                my %Result;
                 $Result{Message}    = "Copy and migrate files from OTRS";
                 $Result{Comment}    = "Can\'t copy or move files from OTRS!";
                 $Result{Successful} = 0;
+
                 return \%Result;
             }
-        }
-        else {
-            next FILE;
         }
 
         # check if we need to clean the file
@@ -248,6 +257,7 @@ sub Run {
 
     $Self->DisableSecureMode();
 
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Copy and migrate files from OTRS");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("All needed files copied and migrated, perfect!");
     $Result{Successful} = 1;
