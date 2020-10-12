@@ -47,7 +47,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-10-08 14:33+0000\n"
-"PO-Revision-Date: 2020-10-06 13:14+0000\n"
+"PO-Revision-Date: 2020-10-12 11:20+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
@@ -10765,7 +10765,7 @@ msgstr ""
 
 #. Template: InstallerSystem
 msgid "HTTP Type"
-msgstr ""
+msgstr "HTTP-Typ"
 
 #. Template: InstallerSystem
 msgid ""
@@ -10773,6 +10773,9 @@ msgid ""
 "Please add http only for testing without SSL and https for production "
 "purposes."
 msgstr ""
+"Setting HttpType: Definition des für Cookies und veschiedene Links "
+"verwendeten HTTP-Typs. Bitte verwenden Sie HTTP für Testumgebungen ohne SSL "
+"und HTTPS für Produktivumgebungen."
 
 #. Template: InstallerSystem
 msgid "System FQDN"
@@ -15165,11 +15168,12 @@ msgstr "Kontaktieren Sie Ihren Administrator!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "https"
-msgstr ""
+msgstr "https"
 
 #. Perl Module: Kernel/Modules/Installer.pm
+#, fuzzy
 msgid "http"
-msgstr ""
+msgstr "http"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "System Settings"
@@ -17578,11 +17582,11 @@ msgstr "Supportdaten vom Web-Server konnten nicht ermittelt werden."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
 msgid "PSGI Environment"
-msgstr ""
+msgstr "PSGI-Umgebung"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
 msgid "Runs under PSGI"
-msgstr ""
+msgstr "Läuft unter PSGI"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
@@ -19666,8 +19670,9 @@ msgid "Administration"
 msgstr "Administration"
 
 #. SysConfig
+#, fuzzy
 msgid "Agent Contact With Data Search"
-msgstr ""
+msgstr "Kundendatensuche Agentenbereich"
 
 #. SysConfig
 msgid "Agent Customer Search"
@@ -19678,16 +19683,19 @@ msgid "Agent Customer Search."
 msgstr "Kundensuche Agentenbereich."
 
 #. SysConfig
+#, fuzzy
 msgid "Agent Dynamic Field Database Detailed Search"
-msgstr ""
+msgstr "Detailsuche dynamisches Feld Datenbank Agentenbereich"
 
 #. SysConfig
+#, fuzzy
 msgid "Agent Dynamic Field Database Details"
-msgstr ""
+msgstr "Details dynamisches Feld Datenbank Agentenbereich"
 
 #. SysConfig
+#, fuzzy
 msgid "Agent Dynamic Field Database Search"
-msgstr ""
+msgstr "Suche dynamisches Feld Datenbank Agentenbereich"
 
 #. SysConfig
 msgid "Agent Name"
@@ -19703,7 +19711,7 @@ msgstr "Agenten-Einstellungen."
 
 #. SysConfig
 msgid "Agent Statistics."
-msgstr "Agent Statistiken."
+msgstr "Agenten-Statistiken."
 
 #. SysConfig
 msgid "Agent User Search"
@@ -19714,20 +19722,24 @@ msgid "Agent User Search."
 msgstr "Nutzersuche Agentenbereich."
 
 #. SysConfig
+#, fuzzy
 msgid "Agent contact with data search."
-msgstr ""
+msgstr "Suche Kontaktdaten Agentenbereich."
 
 #. SysConfig
+#, fuzzy
 msgid "Agent dynamic field database detailed search."
-msgstr ""
+msgstr "Detailsuche dynamisches Feld Datenbank im Agentenbereich."
 
 #. SysConfig
+#, fuzzy
 msgid "Agent dynamic field database details."
-msgstr ""
+msgstr "Details dynamisches Feld Datenbank Agentenbereich"
 
 #. SysConfig
+#, fuzzy
 msgid "Agent dynamic field database search."
-msgstr ""
+msgstr "Suche dynamisches Feld Datenbank im Agentenbereich."
 
 #. SysConfig
 msgid ""
@@ -20476,11 +20488,12 @@ msgstr ""
 
 #. SysConfig
 msgid "Change Ticket"
-msgstr ""
+msgstr "Change-Ticket"
 
 #. SysConfig
+#, fuzzy
 msgid "Change Ticket information"
-msgstr ""
+msgstr "Informationen zum Change-Ticket"
 
 #. SysConfig
 msgid "Change queue!"
@@ -21120,16 +21133,19 @@ msgid "Customer Dashboard"
 msgstr "Kunden-Dashboard"
 
 #. SysConfig
+#, fuzzy
 msgid "Customer Dynamic Field Database Detailed Search"
-msgstr ""
+msgstr "Detailsuche dynamisches Feld Datenbank im Kundenbereich"
 
 #. SysConfig
+#, fuzzy
 msgid "Customer Dynamic Field Database Details"
-msgstr ""
+msgstr "Details dynamisches Feld Datenbank Kundenbereich"
 
 #. SysConfig
+#, fuzzy
 msgid "Customer Dynamic Field Database Search"
-msgstr ""
+msgstr "Suche dynamisches Feld Datenbank Kundenbereich"
 
 #. SysConfig
 msgid "Customer IDs"
@@ -21188,12 +21204,14 @@ msgid "Customer Users ↔ Services"
 msgstr "Kundenbenutzer ↔ Services"
 
 #. SysConfig
+#, fuzzy
 msgid "Customer dynamic field database detailed search."
-msgstr ""
+msgstr "Detailsuche dynamisches Feld Datenbank im Kundenbereich."
 
 #. SysConfig
+#, fuzzy
 msgid "Customer dynamic field database details."
-msgstr ""
+msgstr "Details zum dynamischen Feld Datenbank im Kundenbereich."
 
 #. SysConfig
 msgid "Customer dynamic field database search."
