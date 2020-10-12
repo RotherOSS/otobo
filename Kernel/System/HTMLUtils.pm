@@ -123,7 +123,7 @@ sub ToAscii {
         $Key;
     }segxmi;
     $Param{String} =~ s{
-        <div.+?type="cite"[^>]*>(.+?)</div>
+        <div[^>]+type="cite"[^>]*>(.+?)</div>
     }
     {
         my $Ascii = $Self->ToAscii(
