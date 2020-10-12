@@ -21,14 +21,16 @@ package Kernel::Modules::MigrateFromOTRS;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use DBI;
-use Net::Domain qw(hostfqdn);
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
-
-use vars qw(%INC);
 
 sub new {
     my ( $Class, %Param ) = @_;
@@ -40,7 +42,7 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $CacheTTL = 60 * 60 * 24 * 7;
+    my $CacheTTL = 60 * 60 * 24 * 7; # 1 week
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -301,17 +303,20 @@ sub Run {
             };
         }
 
-        # return AJAX response
+        # Return AJAX response content as as Perl string.
+        # The output should not be encoded because the content
+        # will be encoded in otobo.psgi. Double encoding is bad.
         my $OutputJSON = $LayoutObject->JSONEncode( Data => $Return );
         return $LayoutObject->Attachment(
             ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $OutputJSON,
             Type        => 'inline',
             NoCache     => 1,
+            NoEncode    => 1, # return a Perl string that may have characters greater 255
         );
     }
 
-    # if this is not an AJAX request, build the html for the current subaction
+    # if this is not an AJAX request, then build the html for the current subaction
 
     # generate current title
     my $Title     = $LayoutObject->{LanguageObject}->Translate('OTRS to OTOBO migration');
@@ -404,6 +409,7 @@ sub Run {
                 NextTask => 'OTOBODatabaseMigrate',
             },
         );
+
         if ( $Defaults{ $Self->{Subaction} } ) {
             %FieldData = %{ $Defaults{ $Self->{Subaction} } };
         }
@@ -457,8 +463,13 @@ sub Run {
     #        );
     #    }
 
-    # cache progress
-    if ( $Self->{Subaction} ne 'Intro' ) {
+    if ( $Self->{Subaction} eq 'Intro' ) {
+        # for the HTTP check in Intro.tt
+        my $HTTPS = $ParamObject->HTTPS('HTTPS');
+        $FieldData{Scheme} = ($HTTPS && lc $HTTPS eq 'on' ) ? 'https' : 'http';
+    }
+    else {
+        # cache progress
         $CacheObject->Set(
             Type  => 'OTRSMigration',
             Key   => 'Intro',
@@ -582,9 +593,10 @@ sub _Finish {
     }
 
     # prepare link to the agent interface
-    my $Host = $ENV{HTTP_HOST} || $Param{ConfigObject}->Get('FQDN');
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $Host = $ParamObject->HTTP('HOST') || $Param{ConfigObject}->Get('FQDN');
     $Host =~ s/\/$//;
-    my $OTOBOHandle = $Kernel::OM->Get('Kernel::System::Web::Request')->ScriptName();
+    my $OTOBOHandle = $ParamObject->ScriptName() // '';
     $OTOBOHandle =~ s/migration\.pl/index.pl/;
 
     return {

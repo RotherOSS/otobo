@@ -81,6 +81,7 @@ sub new {
         },
     );
 
+    # debug info
     if ( $Self->{Debug} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
@@ -134,7 +135,7 @@ sub Run {
     # run modules if a version value exists
     elsif ( $Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
 
-        # proof of concept! - create $GenericObject
+        # create $GenericObject
         my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
             %Param,
             Debug => $Self->{Debug},
