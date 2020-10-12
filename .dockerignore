@@ -48,6 +48,7 @@ bin/Cron.sh
 # this is for the case when the image is not created from a clean git checkout
 Kernel/Config.pm
 Kernel/Config/Files/*Auto.pm
+Kernel/Config/Files/ZZZZUnitTest*
 var/article/*
 var/log/*
 var/run/
