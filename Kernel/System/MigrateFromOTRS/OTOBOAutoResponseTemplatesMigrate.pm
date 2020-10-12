@@ -24,19 +24,28 @@ use parent qw(Kernel::System::MigrateFromOTRS::Base);
 use version;
 
 our @ObjectDependencies = (
-    'Kernel::Language',
     'Kernel::System::DB',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
 );
 
+=head1 NAME
+
+Kernel::System::MigrateFromOTRS::OTOBOAutoResponseTemplatesMigrate - Migrate auto response table to OTOBO.
+
+=head1 SYNOPSIS
+
+    # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 PUBLIC INTERFACE
+
 =head2 CheckPreviousRequirement()
 
 check for initial conditions for running this migration step.
 
-Returns 1 on success
+Returns 1 on success.
 
-    my $Result = $DBUpdateTo6Object->CheckPreviousRequirement();
+    my $RequirementIsMet = $MigrateFromOTRSObject->CheckPreviousRequirement();
 
 =cut
 
@@ -45,12 +54,6 @@ sub CheckPreviousRequirement {
 
     return 1;
 }
-
-=head1 NAME
-
-Kernel::System::MigrateFromOTRS::OTOBOAutoResponseTemplatesMigrate - Migrate auto response table to OTOBO.
-
-=cut
 
 sub Run {
     my ( $Self, %Param ) = @_;
@@ -71,7 +74,6 @@ sub Run {
     );
 
     my %Result;
-
     $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate database table auto_responses.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Migration failed.");
     $Result{Successful} = 0;
@@ -147,6 +149,7 @@ sub Run {
             ],
         );
     }
+
     $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate database table auto_response.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Migration completed, perfect!");
     $Result{Successful} = 1;

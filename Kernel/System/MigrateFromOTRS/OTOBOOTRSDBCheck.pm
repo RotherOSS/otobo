@@ -24,9 +24,6 @@ use parent qw(Kernel::System::MigrateFromOTRS::Base);
 use version;
 
 our @ObjectDependencies = (
-    'Kernel::Language',
-    'Kernel::Config',
-    'Kernel::System::DB',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
     'Kernel::System::Log',
@@ -37,6 +34,20 @@ our @ObjectDependencies = (
 
 Kernel::System::MigrateFromOTRS::OTOBOOTRSDBCheck - Checks if connect to OTRS DB is possible.
 
+=head1 SYNOPSIS
+
+    # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 PUBLIC INTERFACE
+
+=head2 CheckPreviousRequirement()
+
+check for initial conditions for running this migration step.
+
+Returns 1 on success.
+
+    my $RequirementIsMet = $MigrateFromOTRSObject->CheckPreviousRequirement();
+
 =cut
 
 sub CheckPreviousRequirement {
@@ -45,17 +56,9 @@ sub CheckPreviousRequirement {
     return 1;
 }
 
-=head1 NAME
-
-Kernel::System::MigrateFromOTRS::OTOBOOTRSDBCheck - Copy Database
-
-=cut
-
 =head2 Run()
 
-Check for initial conditions for running this migration step.
-
-Returns 1 on success:
+Returns 1 on success.
 
     my $Result = $OTOBOOTRSDBCheck->Run();
 
@@ -63,8 +66,6 @@ Returns 1 on success:
 
 sub Run {
     my ( $Self, %Param ) = @_;
-
-    my %Result;
 
     # Set cache object with taskinfo and starttime to show current state in frontend
     my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
@@ -101,9 +102,11 @@ sub Run {
     );
 
     if ( !$SourceDBObject ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Try database connect and sanity checks.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("System was unable to connect to OTRS database.");
         $Result{Successful} = 0;
+
         return \%Result;
     }
 
@@ -112,17 +115,20 @@ sub Run {
     );
 
     if ( !$SanityResult ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Try database connect and sanity checks.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("Connect to OTRS database or sanity checks failed.");
         $Result{Successful} = 0;
+
         return \%Result;
     }
 
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Try database connect and sanity checks.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Database connect and sanity checks completed.");
     $Result{Successful} = 1;
-    return \%Result;
 
+    return \%Result;
 }
 
 1;

@@ -23,7 +23,6 @@ use Kernel::System::VariableCheck qw(:all);
 use parent qw(Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base);
 
 our @ObjectDependencies = (
-    'Kernel::Config',
     'Kernel::System::Log',
 );
 
@@ -33,20 +32,18 @@ Kernel::System::MigrateFromOTRS::CloneDB::Driver::mysql
 
 =head1 SYNOPSIS
 
-CloneDBs mysql Driver delegate
+    # CloneDBs mysql Driver delegate
 
-=head1 PUBLIC INTERFACE
+=head1 DESCRIPTION
 
 This module implements the public interface of L<Kernel::System::MigrateFromOTRS::CloneDB::Backend>.
 Please look there for a detailed reference of the functions.
 
-=over 4
+=head1 PUBLIC INTERFACE
 
 =cut
 
-#
 # create external db connection.
-#
 sub CreateOTRSDBConnection {
     my ( $Self, %Param ) = @_;
 

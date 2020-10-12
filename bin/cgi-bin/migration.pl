@@ -17,6 +17,8 @@
 
 use strict;
 use warnings;
+use v5.24;
+use utf8;
 
 # use ../../ as lib location
 use FindBin qw($Bin);

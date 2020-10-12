@@ -29,13 +29,23 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
 );
 
+=head1 NAME
+
+Kernel::System::MigrateFromOTRS::OTOBOPerlModulesCheck - call otobo.CheckModules.pl
+
+=head1 SYNOPSIS
+
+    # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 PUBLIC INTERFACE
+
 =head2 CheckPreviousRequirement()
 
 check for initial conditions for running this migration step.
 
-Returns 1 on success
+Returns 1 on success.
 
-    my $Result = $DBUpdateTo6Object->CheckPreviousRequirement();
+    my $RequirementIsMet = $MigrateFromOTRSObject->CheckPreviousRequirement();
 
 =cut
 
@@ -45,20 +55,9 @@ sub CheckPreviousRequirement {
     return 1;
 }
 
-=head1 Run()
-
-check for initial conditions for running this migration step.
-
-Returns 1 on success
-
-    my $Result = $DBUpdateTo6Object->Run();
-
-=cut
-
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my %Result;
     my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
     # Set cache object with taskinfo and starttime to show current state in frontend
@@ -80,25 +79,32 @@ sub Run {
 
     # verify check modules script exist
     if ( !-e $ScriptPath ) {
+        my %Result;
         $Result{Message} = $Self->{LanguageObject}->Translate("Check if all needed Perl modules have been installed.");
         $Result{Comment} = $Self->{LanguageObject}->Translate( '%s script does not exist.', $ScriptPath );
         $Result{Successful} = 0;
+
         return \%Result;
     }
 
     my $ExitCode = system("$ScriptPath -list");
 
     if ( $ExitCode != 0 ) {
+        my %Result;
         $Result{Message} = $Self->{LanguageObject}->Translate("Check if all needed Perl modules have been installed.");
         $Result{Comment} = $Self->{LanguageObject}->Translate(
             "One or more required Perl modules are missing. Please install them as recommended, and run the migration script again."
         );
         $Result{Successful} = 0;
+
         return \%Result;
     }
+
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Check if all needed Perl modules have been installed.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("All required Perl modules have been installed, perfect!");
     $Result{Successful} = 1;
+
     return \%Result;
 }
 

@@ -39,7 +39,6 @@ use Kernel::System::VariableCheck qw(:all);
 our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::Package',
-    'Kernel::Config',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::Language',
@@ -51,6 +50,10 @@ our @ObjectDependencies = (
 =head1 NAME
 
 Kernel::System::MigrateFromOTRS::Base - migration lib
+
+=head1 SYNOPSIS
+
+    # TODO
 
 =head1 DESCRIPTION
 
@@ -70,8 +73,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{LanguageObject} = $Kernel::OM->Get('Kernel::Language');
 
@@ -793,7 +795,7 @@ sub CopyFileAndSaveAsTmp {
 
 Refreshes the configuration to make sure that a ZZZAAuto.pm is present after the upgrade.
 
-    $DBUpdateTo6Object->RebuildConfig(
+    $MigrateFromOTRSObject->RebuildConfig(
         UnitTestMode      => 1,         # (optional) Prevent discarding all objects at the end.
         CleanUpIfPossible => 1,         # (optional) Removes leftover settings that are not contained in XML files,
                                         #   but only if all XML files for installed packages are present.
@@ -865,7 +867,7 @@ sub RebuildConfig {
 
 Clean up the cache.
 
-    $DBUpdateTo6Object->CacheCleanup();
+    $MigrateFromOTRSObject->CacheCleanup();
 
 =cut
 
@@ -883,7 +885,7 @@ sub CacheCleanup {
 
 Disable secure mode after copying data.
 
-    $DBUpdateTo6Object->DisableSecureMode();
+    $MigrateFromOTRSObject->DisableSecureMode();
 
 =cut
 
@@ -903,7 +905,7 @@ sub DisableSecureMode {
         return 1;
     }
 
-    my $Success = $SysConfigObject->SettingsSet(
+    return $SysConfigObject->SettingsSet(
         UserID   => 1,                                      # (required) UserID
         Comments => 'Disable SecureMode for migration.',    # (optional) Comment
         Settings => [                                       # (required) List of settings to update.
@@ -913,14 +915,13 @@ sub DisableSecureMode {
             },
         ],
     );
-    return $Success;
 }
 
 =head2 TableExists()
 
 Checks if the given table exists in the database.
 
-    my $Result = $DBUpdateTo6Object->TableExists(
+    my $Result = $MigrateFromOTRSObject->TableExists(
         Table => 'ticket',
     );
 
@@ -953,7 +954,7 @@ sub TableExists {
 
 Checks if the given column exists in the given table.
 
-    my $Result = $DBUpdateTo6Object->ColumnExists(
+    my $Result = $MigrateFromOTRSObject->ColumnExists(
         Table  => 'ticket',
         Column =>  'id',
     );
@@ -994,7 +995,7 @@ sub ColumnExists {
 
 Checks if the given index exists in the given table.
 
-    my $Result = $DBUpdateTo6Object->IndexExists(
+    my $Result = $MigrateFromOTRSObject->IndexExists(
         Table => 'ticket',
         Index =>  'id',
     );
@@ -1068,7 +1069,7 @@ sub IndexExists {
 Update an existing SysConfig Setting in a migration context. It will skip updating both read-only and already modified
 settings by default.
 
-    $DBUpdateTo6Object->SettingUpdate(
+    $MigrateFromOTRSObject->SettingUpdate(
         Name                   => 'Setting::Name',           # (required) setting name
         IsValid                => 1,                         # (optional) 1 or 0, modified 0
         EffectiveValue         => $SettingEffectiveValue,    # (optional)
@@ -1136,7 +1137,7 @@ sub SettingUpdate {
 
 MigrationLog the given string to OTOBO AND Apache Log for debugging migration.
 
-    my $Result = $DBUpdateTo6Object->MigrationLog(
+    my $Result = $MigrateFromOTRSObject->MigrationLog(
         String => 'Logentry...',
         Priority => notice, error, info, debug (See LogObject Priority)
         HashRef   => \%HashRef,     Optional

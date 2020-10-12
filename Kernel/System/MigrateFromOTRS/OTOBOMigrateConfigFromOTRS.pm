@@ -23,25 +23,32 @@ use File::Copy qw(copy);
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
 our @ObjectDependencies = (
-    'Kernel::Language',
-    'Kernel::Config',
     'Kernel::System::Main',
-    'Kernel::System::Log',
     'Kernel::System::SysConfig',
+    'Kernel::System::SysConfig::DB',
     'Kernel::System::FileTemp',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
     'Kernel::System::MigrateFromOTRS::Base',
-    'Kernel::System::SysConfig::DB',
 );
+
+=head1 NAME
+
+Kernel::System::MigrateFromOTRS::OTOBOMigrateConfigFromOTRS - Migrate config effective values.
+
+=head1 SYNOPSIS
+
+    # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 PUBLIC INTERFACE
 
 =head2 CheckPreviousRequirement()
 
 check for initial conditions for running this migration step.
 
-Returns 1 on success
+Returns 1 on success.
 
-    my $Result = $DBUpdateTo6Object->CheckPreviousRequirement();
+    my $RequirementIsMet = $MigrateFromOTRSObject->CheckPreviousRequirement();
 
 =cut
 
@@ -51,16 +58,8 @@ sub CheckPreviousRequirement {
     return 1;
 }
 
-=head1 NAME
-
-Kernel::System::MigrateFromOTRS::OTOBOMigrateConfigFromOTRS - Migrate config effective values.
-
-=cut
-
 sub Run {
     my ( $Self, %Param ) = @_;
-
-    my %Result;
 
     # Set cache object with taskinfo and starttime to show current state in frontend
     my $CacheObject         = $Kernel::OM->Get('Kernel::System::Cache');
@@ -70,7 +69,6 @@ sub Run {
     my $SysConfigDBObject   = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
     my $Epoch   = $DateTimeObject->ToEpoch();
-    my $Success = 1;
 
     $CacheObject->Set(
         Type  => 'OTRSMigration',
@@ -96,15 +94,17 @@ sub Run {
     );
 
     if ( !$Export ) {
+        my %Result;
         $Result{Message} = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
         $Result{Comment} = $Self->{LanguageObject}
             ->Translate("An error occured during SysConfig data migration or no configuration exists.");
         $Result{Successful} = 1;
+
         return \%Result;
     }
 
     # Write opm content to new sopm file
-    $Success = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
+    $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Directory  => $TmpDirectory,
         Filename   => 'SysConfigDump.sysconf',
         Content    => \$Export,
@@ -113,7 +113,7 @@ sub Run {
         Permission => '660',                     # unix file permissions
     );
 
-    $Success = $Self->CleanOTRSFileToOTOBOStyle(
+    $Self->CleanOTRSFileToOTOBOStyle(
         File   => $TmpDirectory . '/' . 'SysConfigDump.sysconf',
         UserID => 1,
     );
@@ -171,15 +171,17 @@ sub Run {
             String   => "There was a problem writing XML to DB.",
             Priority => "error",
         );
+        my %Result;
         $Result{Message} = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
         $Result{Comment}
             = $Self->{LanguageObject}->Translate("An error occured during SysConfig migration when writing XML to DB.");
         $Result{Successful} = 0;
+
         return \%Result;
     }
 
     # Write ZZZAuto.pm
-    $Success = $SysConfigObject->ConfigurationDeploy(
+    my $Success = $SysConfigObject->ConfigurationDeploy(
         Comments    => $Param{Comments} || "Migrate Configuration from OTRS to OTOBO",
         AllSettings => 1,
         Force       => 1,
@@ -187,15 +189,19 @@ sub Run {
     );
 
     if ( !$Success ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("An error occured during SysConfig data migration.");
         $Result{Successful} = 0;
+
         return \%Result;
     }
 
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("SysConfig data migration completed.");
     $Result{Successful} = 1;
+
     return \%Result;
 }
 
