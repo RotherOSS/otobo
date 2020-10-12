@@ -47,7 +47,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-10-08 14:33+0000\n"
-"PO-Revision-Date: 2020-10-12 11:30+0000\n"
+"PO-Revision-Date: 2020-10-12 14:53+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
@@ -15171,7 +15171,6 @@ msgid "https"
 msgstr "https"
 
 #. Perl Module: Kernel/Modules/Installer.pm
-#, fuzzy
 msgid "http"
 msgstr "http"
 
@@ -20493,7 +20492,7 @@ msgstr "Change-Ticket"
 #. SysConfig
 #, fuzzy
 msgid "Change Ticket information"
-msgstr "Informationen zum Change-Ticket"
+msgstr "Informationen zum Change-Ticket / Ticketinformationen ändern"
 
 #. SysConfig
 msgid "Change queue!"
