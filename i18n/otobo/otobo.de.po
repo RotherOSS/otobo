@@ -47,7 +47,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-10-08 14:33+0000\n"
-"PO-Revision-Date: 2020-10-12 11:20+0000\n"
+"PO-Revision-Date: 2020-10-12 11:30+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
@@ -21214,8 +21214,9 @@ msgid "Customer dynamic field database details."
 msgstr "Details zum dynamischen Feld Datenbank im Kundenbereich."
 
 #. SysConfig
+#, fuzzy
 msgid "Customer dynamic field database search."
-msgstr ""
+msgstr "Suche im dynamischen Feld Datenbank im Kundenbereich."
 
 #. SysConfig
 msgid ""
@@ -26724,7 +26725,7 @@ msgstr "JavaScript-Funktion für das Suche-Frontend."
 
 #. SysConfig
 msgid "Jump to OTOBO!"
-msgstr ""
+msgstr "Link zu OTOBO!"
 
 #. SysConfig
 msgid "Korean"
@@ -31699,8 +31700,9 @@ msgstr ""
 "nicht nur in der Queue-Ansicht."
 
 #. SysConfig
+#, fuzzy
 msgid "Ticket Close"
-msgstr ""
+msgstr "Ticket schließen"
 
 #. SysConfig
 msgid "Ticket Close."
