@@ -903,7 +903,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::NotifyModule###7000-AgentTimeZone-Check" Required="1" Valid="1">
+    <Setting Name="Frontend::NotifyModule###7000-AgentTimeZone-Check" Required="0" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the agent interface, if the agent has not yet selected a time zone.</Description>
         <Navigation>Frontend::Agent::FrontendNotification</Navigation>
         <Value>
@@ -3466,7 +3466,7 @@ You can log in via the following URL:
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="CustomerFrontend::NotifyModule###7-CustomerUserTimeZone-Check" Required="1" Valid="1">
+    <Setting Name="CustomerFrontend::NotifyModule###7-CustomerUserTimeZone-Check" Required="0" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the customer interface, if the customer user has not yet selected a time zone.</Description>
         <Navigation>Frontend::Customer::FrontendNotification</Navigation>
         <Value>
