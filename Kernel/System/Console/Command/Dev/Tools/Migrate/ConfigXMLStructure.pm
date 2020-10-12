@@ -18,7 +18,7 @@ package Kernel::System::Console::Command::Dev::Tools::Migrate::ConfigXMLStructur
 
 use strict;
 use warnings;
-use v5.24.0;
+use v5.24;
 use namespace::clean;
 use utf8;
 

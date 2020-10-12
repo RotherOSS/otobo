@@ -29,6 +29,9 @@ otobo.psgi - OTOBO PSGI application
     # using the webserver Gazelle
     plackup --server Gazelle bin/psgi-bin/otobo.psgi
 
+    # CGI mode, useful for development
+    plackup --server Shotgun bin/psgi-bin/otobo.psgi
+
     # with profiling (untested)
     PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/psgi-bin/otobo.psgi
 
@@ -38,27 +41,13 @@ A PSGI application.
 
 =head1 DEPENDENCIES
 
-There are some requirements for running this application. Do something like:
+There are some requirements for running this application. Do something like the commands used
+in F<otobo.web.dockerfile>.
 
-    cpanm \
-    --with-feature=db:mysql \
-    --with-feature=db:odbc \
-    --with-feature=db:postgresql \
-    --with-feature=db:sqlite \
-    --with-feature=devel:dbviewer \
-    --with-feature=devel:test \
-    --with-feature=div:bcrypt \
-    --with-feature=div:ldap \
-    --with-feature=div:readonly \
-    --with-feature=div:xslt \
-    --with-feature=mail:imap \
-    --with-feature=mail:ntlm \
-    --with-feature=mail:sasl \
-    --with-feature=performance:csv \
-    --with-feature=performance:json \
-    --with-feature=performance:redis \
-    --with-feature=plack \
-    --installdeps .
+    cp cpanfile.docker cpanfile
+    cpanm --local-lib local Carton Net::DNS Gazelle
+    cpanm --local-lib local --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
+    PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install
 
 =head1 Profiling
 
@@ -75,28 +64,29 @@ Then point your browser at nytprof/index.html.
 
 =cut
 
-use v5.24;
+use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # expect that otobo.psgi is two level below the OTOBO root dir
-use FindBin;
-use lib "$FindBin::Bin/../..";
-use lib "$FindBin::Bin/../../Kernel/cpan-lib";
-use lib "$FindBin::Bin/../../Custom";
+use FindBin qw($Bin);
+use lib "$Bin/../..";
+use lib "$Bin/../../Kernel/cpan-lib";
+use lib "$Bin/../../Custom";
 
-# this package is used for rpc.pl
-# UNTESTED
+# This package is used by rpc.pl.
+# NOTE: this is mostly untested
 package OTOBO::RPC {
+
     use Kernel::System::ObjectManager;
 
     sub new {
         my $Self = shift;
 
         my $Class = ref($Self) || $Self;
-        bless {} => $Class;
 
-        return $Self;
+        return bless {} => $Class;
     }
 
     sub Dispatch {
@@ -322,7 +312,7 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT AS OF AUGUST 15TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
+warn "PLEASE NOTE THAT AS OF OCTOBER 12TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
 
 ################################################################################
 # Middlewares
@@ -344,7 +334,6 @@ my $NYTProfMiddleWare = sub {
             $ProfilingIsOn = 1;
             DB::enable_profile("nytprof-$1.out");
         }
-
 
         # do the work
         my $res = $app->($Env);
@@ -386,6 +375,8 @@ my $AdminOnlyMiddeware = sub {
 
         local $Kernel::OM = Kernel::System::ObjectManager->new;
 
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
         # Create the underlying CGI object from the PSGI environment.
         # The AuthSession modules use this object for getting info about the request.
         $Kernel::OM->ObjectParamAdd(
@@ -393,8 +384,6 @@ my $AdminOnlyMiddeware = sub {
                 WebRequest => CGI::PSGI->new($Env),
             },
         );
-
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         my $PlackRequest = Plack::Request->new($Env);
 
@@ -597,6 +586,8 @@ my $OTOBOApp = builder {
 
         # logic taken from the scripts in bin/cgi-bin
         sub {
+            my $Env = shift;
+
             # make sure to have a clean CGI.pm for each request, see CGI::Compile
             CGI::initialize_globals() if defined &CGI::initialize_globals;
 
@@ -673,7 +664,6 @@ my $OTOBOApp = builder {
     );
 };
 
-
 # Port of rpc.pl
 # See http://blogs.perl.org/users/confuseacat/2012/11/how-to-use-soaptransporthttpplack.html
 # TODO: this is not tested yet.
@@ -718,11 +708,11 @@ builder {
     # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
     # The pathes are such that $Env->{SCRIPT_NAME} and $Env->{PATH_INFO} are set up just like they are set up under mod_perl,
     mount '/otobo'                         => $RedirectOtoboApp; #redirect to /otobo/index.pl when in doubt
-    mount '/otobo/index.pl'                => $OTOBOApp;
     mount '/otobo/customer.pl'             => $OTOBOApp;
-    mount '/otobo/public.pl'               => $OTOBOApp;
+    mount '/otobo/index.pl'                => $OTOBOApp;
     mount '/otobo/installer.pl'            => $OTOBOApp;
     mount '/otobo/migration.pl'            => $OTOBOApp;
+    mount '/otobo/public.pl'               => $OTOBOApp;
     # mount '/otobo/nph-genericinterface.pl' => $GenericInterfaceApp; # TODO
     mount '/otobo/nph-genericinterface.pl' => $OTOBOApp;
 
