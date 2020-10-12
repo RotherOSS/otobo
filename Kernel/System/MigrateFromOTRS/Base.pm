@@ -20,12 +20,21 @@ package Kernel::System::MigrateFromOTRS::Base;    ## no critic
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::clean;
+use utf8;
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+use List::Util qw(first);
 use Data::Dumper;
 use File::Basename;
-use File::Copy;
+use File::Copy qw(move);
 use File::Path qw(make_path);
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
@@ -96,21 +105,13 @@ sub CleanLicenseHeader {
             String   => "File $FilePathAndName is empty / could not be read.",
             Priority => "error",
         );
-        close $FileHandle;
+
         return 1;
     }
 
     # Read parse content from _ChangeLicenseHeaderRules
     my @Parser = $Self->_ChangeLicenseHeaderRules();
-
-    my $Parse;
-    TYPE:
-    for my $Type (@Parser) {
-        if ( $FilePathAndName =~ /$Type->{File}/ ) {
-            $Parse = $Type;
-            last TYPE;
-        }
-    }
+    my $Parse = first { $FilePathAndName =~ m/$_->{File}/ } @Parser;
 
     if ( !$Parse ) {
 
@@ -120,7 +121,7 @@ sub CleanLicenseHeader {
                 "File extension for file $FilePathAndName is not active - please check if you need to add a new regexp.",
             Priority => "info",
         );
-        close $FileHandle;
+
         return 1;
     }
 
@@ -160,7 +161,7 @@ sub CleanLicenseHeader {
             String   => "Could not replace license header of $FilePathAndName.",
             Priority => "error",
         );
-        close $FileHandle;
+
         return;
     }
 
@@ -176,8 +177,6 @@ sub CleanLicenseHeader {
     while (<$FileHandle>) {
         $NewContent .= $_;
     }
-
-    close $FileHandle;
 
     my $ContentRefNew = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Location => $FilePathAndName,
@@ -242,6 +241,53 @@ sub CleanLicenseHeaderInDir {
     }
 
     return 1;
+}
+
+=head2 MigrateXMLConfig()
+
+replace the XML element I<otrs_config> to I<otobo_config>.
+
+    $OTRSToOTOBOObject->MigrateXMLConfig(
+        File         => '/opt/otobo/Test.pm',
+    );
+
+=cut
+
+sub MigrateXMLConfig {
+    my $Self = shift;
+    my %Param = @_;
+
+    my $File = $Param{File};
+
+    # handle only .xml files
+    return 1 unless $File =~ m/\.xml/;
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    # Read XML file
+    my $ContentRef = $MainObject->FileRead(
+        Location => $File,
+        Mode     => 'utf8',
+    );
+    my $Content = $ContentRef->$*;
+
+    # sanity checks, simply return when there is noting to do
+    return 1 unless $Content =~ m{<otrs_config};
+    return 1 unless $Content =~ m{<otrs_config.*?init="(.+?)"};
+    return 1 unless $Content =~ m{<otrs_config.*?version="2.0"};
+
+    # now the actual transformation
+    $Content =~ s{^<otrs_config}{<otobo_config}gsmx;
+    $Content =~ s{^</otrs_config}{</otobo_config}gsmx;
+
+    # Save result in the original file
+    my $SaveSuccess = $MainObject->FileWrite(
+        Location => $File,
+        Content  => \$Content,
+        Mode     => 'utf8',
+    );
+
+    return $SaveSuccess;
 }
 
 =head2 CleanOTRSFileToOTOBOStyle()
@@ -1599,91 +1645,87 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 sub TaskSecurityCheck {
-
-    return (
-        (
-            {
-                Message => 'Check filesystem connect',
-                Module  => 'OTOBOOTRSConnectionCheck',
-            },
-            {
-                Message => 'Check database connect',
-                Module  => 'OTOBOOTRSDBCheck',
-            },
-            {
-                Message => 'Check framework version',
-                Module  => 'OTOBOFrameworkVersionCheck',
-            },
-            {
-                Message => 'Check required Perl modules',
-                Module  => 'OTOBOPerlModulesCheck',
-            },
-            {
-                Message => 'Check installed CPAN modules for known vulnerabilities',
-                Module  => 'OTOBOOTRSPackageCheck',
-            },
-            {
-                Message => 'Copy needed files from OTRS',
-                Module  => 'OTOBOCopyFilesFromOTRS',
-            },
-            {
-                Message => 'Migrate database to OTOBO',
-                Module  => 'OTOBODatabaseMigrate',
-            },
-            {
-                Message => 'Migrate notification tags in Ticket notifications',
-                Module  => 'OTOBONotificationMigrate',
-            },
-            {
-                Message => 'Migrate salutations to OTOBO style',
-                Module  => 'OTOBOSalutationsMigrate',
-            },
-            {
-                Message => 'Migrate signatures to OTOBO style',
-                Module  => 'OTOBOSignaturesMigrate',
-            },
-            {
-                Message => 'Migrate response templates to OTOBO style',
-                Module  => 'OTOBOResponseTemplatesMigrate',
-            },
-            {
-                Message => 'Migrate auto response templates to OTOBO style',
-                Module  => 'OTOBOAutoResponseTemplatesMigrate',
-            },
-            {
-                Message => 'Migrate webservices and add OTOBO ElasticSearch services.',
-                Module  => 'OTOBOMigrateWebServiceConfiguration',
-            },
-            {
-                Message => 'Clean up the cache',
-                Module  => 'OTOBOCacheCleanup',
-            },
-            {
-                Message => 'Migrate OTRS configuration',
-                Module  => 'OTOBOMigrateConfigFromOTRS',
-            },
-            {
-                Message => 'Migrate stats from OTRS to OTOBO',
-                Module  => 'OTOBOStatsMigrate',
-            },
-            {
-                Message => 'Clean up the cache',
-                Module  => 'OTOBOCacheCleanup',
-            },
-            {
-                Message => 'Deploy ACLs',
-                Module  => 'OTOBOACLDeploy',
-            },
-            {
-                Message => 'Deploy processes',
-                Module  => 'OTOBOProcessDeploy',
-            },
-            {
-                Message => 'Migrate postmaster filter from OTRS to OTOBO',
-                Module  => 'OTOBOPostmasterFilterMigrate',
-            },
-        ),
-    );
+    return
+        {
+            Message => 'Check filesystem connect',
+            Module  => 'OTOBOOTRSConnectionCheck',
+        },
+        {
+            Message => 'Check database connect',
+            Module  => 'OTOBOOTRSDBCheck',
+        },
+        {
+            Message => 'Check framework version',
+            Module  => 'OTOBOFrameworkVersionCheck',
+        },
+        {
+            Message => 'Check required Perl modules',
+            Module  => 'OTOBOPerlModulesCheck',
+        },
+        {
+            Message => 'Check installed CPAN modules for known vulnerabilities',
+            Module  => 'OTOBOOTRSPackageCheck',
+        },
+        {
+            Message => 'Copy needed files from OTRS',
+            Module  => 'OTOBOCopyFilesFromOTRS',
+        },
+        {
+            Message => 'Migrate database to OTOBO',
+            Module  => 'OTOBODatabaseMigrate',
+        },
+        {
+            Message => 'Migrate notification tags in Ticket notifications',
+            Module  => 'OTOBONotificationMigrate',
+        },
+        {
+            Message => 'Migrate salutations to OTOBO style',
+            Module  => 'OTOBOSalutationsMigrate',
+        },
+        {
+            Message => 'Migrate signatures to OTOBO style',
+            Module  => 'OTOBOSignaturesMigrate',
+        },
+        {
+            Message => 'Migrate response templates to OTOBO style',
+            Module  => 'OTOBOResponseTemplatesMigrate',
+        },
+        {
+            Message => 'Migrate auto response templates to OTOBO style',
+            Module  => 'OTOBOAutoResponseTemplatesMigrate',
+        },
+        {
+            Message => 'Migrate webservices and add OTOBO ElasticSearch services.',
+            Module  => 'OTOBOMigrateWebServiceConfiguration',
+        },
+        {
+            Message => 'Clean up the cache',
+            Module  => 'OTOBOCacheCleanup',
+        },
+        {
+            Message => 'Migrate OTRS configuration',
+            Module  => 'OTOBOMigrateConfigFromOTRS',
+        },
+        {
+            Message => 'Migrate stats from OTRS to OTOBO',
+            Module  => 'OTOBOStatsMigrate',
+        },
+        {
+            Message => 'Clean up the cache',
+            Module  => 'OTOBOCacheCleanup',
+        },
+        {
+            Message => 'Deploy ACLs',
+            Module  => 'OTOBOACLDeploy',
+        },
+        {
+            Message => 'Deploy processes',
+            Module  => 'OTOBOProcessDeploy',
+        },
+        {
+            Message => 'Migrate postmaster filter from OTRS to OTOBO',
+            Module  => 'OTOBOPostmasterFilterMigrate',
+        };
 }
 
 1;
