@@ -35,7 +35,7 @@ our $ObjectManagerDisabled = 1;
 
 sub new {
     my $Class = shift;
-    my%Param = @_;
+    my %Param = @_;
 
     # Allocate new hash for object.
     return bless { %Param }, $Class;
