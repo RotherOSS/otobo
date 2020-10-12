@@ -94,7 +94,7 @@ subtest
             );
         }
         #note( $Stderr );
-    
+
         # exit code 1 indicates failure
         is( $ExitCode, 1, 'exit code' );
         like( $Stderr, qr/Error: File .* does not exist/, 'error message' );
@@ -109,12 +109,12 @@ subtest
         $SourceDir->mkpath();
         my $TargetDir = $TestDir->subdir( 'Target' );
         $TargetDir->mkpath();
-    
+
         # copy the sample file to the test dir, the workfile will be modified later
         my $SampleFile  = dir($Home)->file('scripts/test/sample/SysConfig/MigrateOTRSToOTOBO.xml');
         my $SourceFile  = $SampleFile->copy_to( $SourceDir->file('MigrateOTRSToOTOBO.xml') );
         my $TargetFile  = $TargetDir->file('MigrateOTRSToOTOBO.xml');
-    
+
         my ($ExitCode, $Stderr);
         {
             local *STDERR;
@@ -126,13 +126,13 @@ subtest
             );
         }
         note( "stderr: $Stderr" );
-    
+
         # exit code 0 indicates success
         is( $ExitCode, 0, 'success' );
-    
+
         # check whether to migrated file exists
         ok( -e $SourceFile, "$SourceFile exists" );
-    
+
         # Content of the migrated file
         my $ExpectedResultFile = dir($Home)->file('scripts/test/sample/SysConfig/MigrateOTRSToOTOBOResult.xml');
         is(
