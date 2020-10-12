@@ -122,7 +122,7 @@ sub Run {
     # Check/get SQL schema directory
     my $DBXMLFile = $ConfigObject->Get('Home') . '/scripts/webservices/otobo-initial_insert-webservice.xml';
 
-    if ( !-f $DBXMLFile ) {
+    if ( ! -f $DBXMLFile ) {
         my %Result;
         $Result{Message} = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
         $Result{Comment} = $Self->{LanguageObject}
