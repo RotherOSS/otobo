@@ -23,7 +23,6 @@ use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
-    'Kernel::Config',
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::Main',
@@ -54,15 +53,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    my %CheckEncodingColumns;
-    $CheckEncodingColumns{"article_data_mime.a_body"}              = 1;
-    $CheckEncodingColumns{"article_data_mime_attachment.filename"} = 1;
+    my $Self = bless {}, $Class;
 
     #    $Self->{BlobColumns}          = \%BlobColumns;
     $Self->{CheckEncodingColumns} = \%CheckEncodingColumns;
