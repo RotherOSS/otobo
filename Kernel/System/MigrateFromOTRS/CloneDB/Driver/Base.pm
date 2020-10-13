@@ -71,9 +71,11 @@ sub new {
     return bless {}, $Class;
 }
 
-# Some up-front sanity checks
+# A single sanity check.
+# Check whether the relevant tables exist in the source database.
 sub SanityChecks {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     if ( !$Param{OTRSDBObject} ) {
@@ -81,11 +83,11 @@ sub SanityChecks {
             Priority => 'error',
             Message  => "Need OTRSDBObject!",
         );
+
         return;
     }
 
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
-
     my %SkipTables = $MigrationBaseObject->DBSkipTables()->%*;
 
     # get OTOBO DB object
@@ -97,18 +99,17 @@ sub SanityChecks {
     );
 
     # Need to check if table empty, then a connect is not possible
-    if ( !IsArrayRefWithData( \@Tables ) ) {
-        return;
-    }
+    return unless IsArrayRefWithData( \@Tables );
 
     TABLES:
     for my $Table (@Tables) {
 
-        if ( defined $SkipTables{ lc $Table } && $SkipTables{ lc $Table } ) {
+        if ( $SkipTables{ lc $Table } ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'info',
                 Message  => "Skipping table $Table on SanityChecks.",
             );
+
             next TABLES;
         }
 
@@ -125,9 +126,12 @@ sub SanityChecks {
                 Priority => 'error',
                 Message  => "Required table '$Table' does not seem to exist in the OTOBO database!",
             );
+
             return;
         }
     }
+
+    # source database looks sane
     return 1;
 }
 
@@ -135,7 +139,8 @@ sub SanityChecks {
 # Get row count of a table.
 #
 sub RowCount {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
 
@@ -146,29 +151,25 @@ sub RowCount {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
 
-    # execute counting statement
-    $Param{DBObject}->Prepare(
-        SQL => "
-            SELECT COUNT(*)
-            FROM $Param{Table}",
-    ) || return;
+    # execute counting statement, only a single row is returned
+    return unless $Param{DBObject}->Prepare(
+        SQL => "SELECT COUNT(*) FROM $Param{Table}",
+    );
 
-    my $Result;
-    while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
-        $Result = $Row[0];
-    }
+    my ($NumRows) = $Param{DBObject}->FetchrowArray();
 
     # Log info to apache error log and OTOBO log (syslog or file)
     $MigrationBaseObject->MigrationLog(
-        String   => "Count of entrys in Table $Param{Table}: $Result.",
+        String   => "Count of entrys in Table $Param{Table}: $NumRows.",
         Priority => "debug",
     );
 
-    return $Result;
+    return $NumRows;
 }
 
 # Transfer the actual table data
@@ -182,6 +183,7 @@ sub DataTransfer {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -207,14 +209,13 @@ sub DataTransfer {
         DBObject => $TargetDBObject,
     );
 
-    # We need to disable FOREIGN_KEY_CHECKS, cause we copy the data. TODO: Test on postgresql and oracle!
+    # We need to disable FOREIGN_KEY_CHECKS, cause we copy the data.
+    # TODO: Test on postgresql and oracle!
     if ( $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
         $TargetDBObject->Do( SQL => 'SET FOREIGN_KEY_CHECKS = 0' );
-
     }
     elsif ( $TargetDBObject->{'DB::Type'} eq 'postgresql' ) {
-            $TargetDBObject->Do( SQL => 'set session_replication_role to replica;' );
-
+        $TargetDBObject->Do( SQL => 'set session_replication_role to replica;' );
     }
 
     # Delete OTOBO content from table
@@ -484,6 +485,7 @@ sub DataTransfer {
                     String   => "Could not insert data: Table: $Table - id:$Row[0].",
                     Priority => "notice",
                 );
+
                 return;
             }
         }

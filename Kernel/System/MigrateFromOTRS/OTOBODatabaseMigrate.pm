@@ -147,11 +147,11 @@ sub Run {
         Successful => 0,
     } unless $SourceDBObject;
 
-    my $SanityResult = $CloneDBBackendObject->SanityChecks(
+    my $IsSane = $CloneDBBackendObject->SanityChecks(
         OTRSDBObject => $SourceDBObject,
     );
 
-    if ($SanityResult) {
+    if ($IsSane) {
         my $DataTransferResult = $CloneDBBackendObject->DataTransfer(
             OTRSDBObject   => $SourceDBObject,
             OTRSDBSettings => $Param{DBData},
