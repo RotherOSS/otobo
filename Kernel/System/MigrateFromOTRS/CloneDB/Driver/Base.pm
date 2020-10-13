@@ -87,6 +87,8 @@ sub SanityChecks {
         return;
     }
 
+    my $SourceDBObject = $Param{OTRSDBObject};
+
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
     my %TableIsSkipped = $MigrationBaseObject->DBSkipTables()->%*;
 
@@ -94,12 +96,10 @@ sub SanityChecks {
     my $TargetDBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get a list of tables on OTRS DB
-    my @SourceTables = $Self->TablesList(
-        DBObject => $Param{OTRSDBObject},
-    );
+    my @SourceTables = $Self->TablesList( DBObject => $SourceDBObject );
 
-    # Need to check if table empty, then a connect is not possible
-    return unless IsArrayRefWithData( \@SourceTables );
+    # no need to migrate when the source has no tables
+    return unless @SourceTables;
 
     TABLE:
     for my $Table (@SourceTables) {
@@ -116,7 +116,7 @@ sub SanityChecks {
         # check how many rows exists on
         # OTRS DB for an specific table
         my $OTRSRowCount = $Self->RowCount(
-            DBObject => $Param{OTRSDBObject},
+            DBObject => $SourceDBObject,
             Table    => $Table,
         );
 
@@ -174,7 +174,8 @@ sub RowCount {
 
 # Transfer the actual table data
 sub DataTransfer {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(OTRSDBObject OTOBODBObject OTOBODBBackend DBInfo)) {
@@ -188,26 +189,24 @@ sub DataTransfer {
         }
     }
 
+    my $SourceDBObject = $Param{OTRSDBObject};
+
     # get config object
     my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
     my $CacheObject         = $Kernel::OM->Get('Kernel::System::Cache');
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
 
-    my %TableIsSkipped   = $MigrationBaseObject->DBSkipTables()->%*;
-    my %RenameTables = $MigrationBaseObject->DBRenameTables()->%*;
+    my %TableIsSkipped = $MigrationBaseObject->DBSkipTables()->%*;
+    my %RenameTables   = $MigrationBaseObject->DBRenameTables()->%*;
 
     # get OTOBO db object
     my $TargetDBObject = $Param{OTOBODBObject};
 
     # get a list of tables on OTRS DB
-    my @SourceTables = $Self->TablesList(
-        DBObject => $Param{OTRSDBObject},
-    );
+    my @SourceTables = $Self->TablesList( DBObject => $SourceDBObject );
 
     # get a list of tables on OTOBO DB
-    my @OTOBOTables = $Param{OTOBODBBackend}->TablesList(
-        DBObject => $TargetDBObject,
-    );
+    my @OTOBOTables = $Param{OTOBODBBackend}->TablesList( DBObject => $TargetDBObject );
 
     # We need to disable FOREIGN_KEY_CHECKS, cause we copy the data.
     # TODO: Test on postgresql and oracle!
@@ -306,34 +305,28 @@ sub DataTransfer {
             Priority => "notice",
         );
 
-        # get a list of blob columns from OTRS DB
-        my $BlobColumnsRef = $Self->BlobColumnsList(
-            Table    => $Table,
-            DBName   => $Param{DBInfo}->{DBName},
-            DBObject => $Param{OTRSDBObject},
-        ) || {};
-
-        my %BlobColumns = %{$BlobColumnsRef};
-
         # Get the list of columns of this table to be able to
         #   generate correct INSERT statements.
-        my $ColumnRef = $Self->ColumnsList(
-            Table    => $Table,
-            DBName   => $Param{DBInfo}->{DBName},
-            DBObject => $Param{OTRSDBObject},
-        ) || return;
+        my @OTRSColumns;
+        {
+            my $OTRSColumnRef = $Self->ColumnsList(
+                Table    => $Table,
+                DBName   => $Param{DBInfo}->{DBName},
+                DBObject => $SourceDBObject,
+            ) || return;
 
-        my @Columns = $ColumnRef->@*;
+            @OTRSColumns = $OTRSColumnRef->@*;
+        }
 
         # We need to check if column is varchar and > 191 character on OTRS side.
         my %ShortenColumn;
-        for my $Column (@Columns) {
+        for my $Column (@OTRSColumns) {
 
             # Get OTRS Column infos
             my $ColumnInfos = $Self->GetColumnInfos(
                 Table    => $Table,
                 DBName   => $Param{DBInfo}->{DBName},
-                DBObject => $Param{OTRSDBObject},
+                DBObject => $SourceDBObject,
                 Column   => $Column,
             );
 
@@ -360,42 +353,33 @@ sub DataTransfer {
             }
         }
 
-        # We need to check if all columns exists in both tables
-        my @ColumnsOTRS = $ColumnRef->@*;
+        # Check if there are extra columns in the source DB
+        # If we have extra columns in OTRS table we need to add the column to OTOBO
+        {
+            my $OTOBOColumnRef = $Param{OTOBODBBackend}->ColumnsList(
+                Table    => $RenameTables{$Table} // $Table,
+                DBName   => $ConfigObject->Get('Database'),
+                DBObject => $TargetDBObject,
+            ) || return;
 
-        my $ColumnRefOTOBO = $Param{OTOBODBBackend}->ColumnsList(
-            Table    => $RenameTables{$Table} // $Table,
-            DBName   => $ConfigObject->Get('Database'),
-            DBObject => $TargetDBObject,
-        ) || return;
+            my %ColumnExistsInOTOBO = map { $_ => 1 } $OTOBOColumnRef->@*;
+            my @ExtraOTRSColumns = grep { ! $ColumnExistsInOTOBO{$_} } @OTRSColumns;
 
-        my @ColumnsOTOBO = $ColumnRefOTOBO->@*;
-
-        # Remove all colums which in both systems exists.
-        # First we create a hash
-        my %TmpOTOBOHash = map { $_ => 1 } @ColumnsOTOBO;
-
-        # Remove if not exist in hash
-        @ColumnsOTRS = grep { !exists $TmpOTOBOHash{$_} } @ColumnsOTRS;
-
-        # If true, we have more columns in OTRS table and we need to add the column to otobo
-        if ( IsArrayRefWithData( \@ColumnsOTRS ) ) {
-
-            for my $Column (@ColumnsOTRS) {
+            for my $Column (@ExtraOTRSColumns) {
 
                 my $ColumnInfos = $Self->GetColumnInfos(
                     Table    => $Table,
                     DBName   => $Param{DBInfo}->{DBName},
-                    DBObject => $Param{OTRSDBObject},
+                    DBObject => $SourceDBObject,
                     Column   => $Column,
                 );
 
                 my $TranslatedColumnInfos = $Param{OTOBODBBackend}->TranslateColumnInfos(
                     ColumnInfos => $ColumnInfos,
-                    DBType      => $Param{OTRSDBObject}->{'DB::Type'},
+                    DBType      => $SourceDBObject->{'DB::Type'},
                 );
 
-                my $Result = $Param{OTOBODBBackend}->AlterTableAddColumn(
+                $Param{OTOBODBBackend}->AlterTableAddColumn(
                     Table       => $RenameTables{$Table} // $Table,
                     DBObject    => $TargetDBObject,
                     Column      => $Column,
@@ -404,19 +388,29 @@ sub DataTransfer {
             }
         }
 
+        # We can speed up the data copying
+        # when Source and Target database are on the same server.
+        # Be careful and also make some sanity checks.
+        my $DoBatchInsert = eval {
+            return 0 if %ShortenColumn;
+            return 0 if $TargetDBObject->{'DB::Type'} ne $SourceDBObject->{'DB::Type'};
+            return 0 if $TargetDBObject->GetDatabaseFunction('DirectBlob') != $SourceDBObject->GetDatabaseFunction('DirectBlob');
+            return 0; # because batch is not yet implemented
+        };
+
         # assemble the relevant SQL
         # TODO: make direct insert in mysql
         my ( $SelectSQL, $InsertSQL );
         {
-            my $ColumnsString = join ', ', @Columns;
-            my $BindString    = join ', ', map {'?'} @Columns;
+            my $ColumnsString = join ', ', @OTRSColumns;
+            my $BindString    = join ', ', map {'?'} @OTRSColumns;
             my $OTOBOTable    = $RenameTables{$Table} // $Table;
             $InsertSQL     = "INSERT INTO $OTOBOTable ($ColumnsString) VALUES ($BindString)";
             $SelectSQL     = "SELECT $ColumnsString FROM $Table",
         }
 
         # Now fetch all the data and insert it to the target DB.
-        $Param{OTRSDBObject}->Prepare(
+        $SourceDBObject->Prepare(
             SQL   => $SelectSQL,
             Limit => 4_000_000_00,
         ) || return;
@@ -425,14 +419,14 @@ sub DataTransfer {
         my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
         TABLEROW:
-        while ( my @Row = $Param{OTRSDBObject}->FetchrowArray() ) {
+        while ( my @Row = $SourceDBObject->FetchrowArray() ) {
 
             COLUMNVALUES:
-            for my $ColumnCounter ( 1 .. $#Columns ) {
-                my $Column = $Columns[$ColumnCounter];
+            for my $ColumnCounter ( 1 .. $#OTRSColumns ) {
+                my $Column = $OTRSColumns[$ColumnCounter];
 
                 # Check if we need to cut the string, cause utf8mb4 only needs 191 chars.
-                if ( IsHashRefWithData( \%ShortenColumn ) && $ShortenColumn{$Column} ) {
+                if ( $ShortenColumn{$Column} ) {
                     if ( $Row[$ColumnCounter] && length( $Row[$ColumnCounter] ) > 190 ) {
                         $Row[$ColumnCounter] = substr( $Row[$ColumnCounter], 0, 190 );
                     }
@@ -443,16 +437,16 @@ sub DataTransfer {
             #   columns that need it.
             if (
                 $TargetDBObject->GetDatabaseFunction('DirectBlob')
-                != $Param{OTRSDBObject}->GetDatabaseFunction('DirectBlob')
+                != $SourceDBObject->GetDatabaseFunction('DirectBlob')
                 )
             {
                 COLUMN:
-                for my $ColumnCounter ( 1 .. $#Columns ) {
-                    my $Column = $Columns[$ColumnCounter];
+                for my $ColumnCounter ( 1 .. $#OTRSColumns ) {
+                    my $Column = $OTRSColumns[$ColumnCounter];
 
-                    next COLUMN if ( !$Self->{BlobColumns}->{ lc "$Table.$Column" } );
+                    next COLUMN unless $Self->{BlobColumns}->{ lc "$Table.$Column" };
 
-                    if ( !$Param{OTRSDBObject}->GetDatabaseFunction('DirectBlob') ) {
+                    if ( !$SourceDBObject->GetDatabaseFunction('DirectBlob') ) {
                         $Row[$ColumnCounter] = decode_base64( $Row[$ColumnCounter] );
                     }
 
@@ -462,8 +456,8 @@ sub DataTransfer {
                     }
                 }
             }
-            my @Bind = map { \$_ } @Row;
 
+            my @Bind = map { \$_ } @Row;
             my $Success = $TargetDBObject->Do(
                 SQL  => $InsertSQL,
                 Bind => \@Bind,
@@ -481,10 +475,12 @@ sub DataTransfer {
             }
         }
 
-        # if needed, reset the auto-incremental field
+        # If needed, reset the auto-incremental field.
+        # This is irrespective whether the table was polulated with a batch insert
+        # or via many small inserts.
         if (
             $TargetDBObject->can('ResetAutoIncrementField')
-            && grep { lc($_) eq 'id' } @Columns
+            && grep { lc($_) eq 'id' } @OTRSColumns
             )
         {
 
