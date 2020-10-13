@@ -380,38 +380,45 @@ sub Run {
         }
     }
 
-    # get previously cached data
-    my $CachedData = $CacheObject->Get(
-        Type => 'OTRSMigration',
-        Key  => $Self->{Subaction},
-    ) // {};
+    # get previously cached data or default settings for the subaction
+    my %FieldData;
+    {
+        my $CachedData = $CacheObject->Get(
+            Type => 'OTRSMigration',
+            Key  => $Self->{Subaction},
+        ) // {};
 
-    # define defaults for various settings
-    my %FieldData = %{$CachedData};
-    if ( !IsHashRefWithData($CachedData) ) {
-        my %Defaults = (
-            Intro => {
-                Subaction => 'OTRSFileSettings',
-            },
-            OTRSFileSettings => {
-                OTRSLocation => 'localhost',
-                OTRSHome     => '/opt/otrs/',
-            },
-            OTRSDBSettings => {
-                DBName => 'otrs',
-                DBUser => 'otrs',
-                DBPort => 1521,
-            },
-            PreChecks => {
-                NextTask => 'OTOBOFrameworkVersionCheck',
-            },
-            Copy => {
-                NextTask => 'OTOBODatabaseMigrate',
-            },
-        );
+        %FieldData = $CachedData->%*;
 
-        if ( $Defaults{ $Self->{Subaction} } ) {
-            %FieldData = %{ $Defaults{ $Self->{Subaction} } };
+        # Use defaults for various settings, unless we have cached data
+        if ( !IsHashRefWithData($CachedData) ) {
+
+            # Under Docker we assume that /opt/otrs has been copied init otobo_opt_otobo volume.
+            my $DefaultOTRSHome = $ENV{OTOBO_RUNS_UNDER_DOCKER} ? '/opt/otobo/tmp/opt/otrs' : '/opt/otrs';
+            my %Defaults = (
+                Intro => {
+                    Subaction => 'OTRSFileSettings',
+                },
+                OTRSFileSettings => {
+                    OTRSLocation => 'localhost',
+                    OTRSHome     => $DefaultOTRSHome,
+                },
+                OTRSDBSettings => {
+                    DBName => 'otrs',
+                    DBUser => 'otrs',
+                    DBPort => 1521,    # why Oracle port as default ?
+                },
+                PreChecks => {
+                    NextTask => 'OTOBOFrameworkVersionCheck',
+                },
+                Copy => {
+                    NextTask => 'OTOBODatabaseMigrate',
+                },
+            );
+
+            if ( $Defaults{ $Self->{Subaction} } ) {
+                %FieldData = $Defaults{ $Self->{Subaction} }->%*;
+            }
         }
     }
 
@@ -431,6 +438,7 @@ sub Run {
             },
         },
     );
+
     if ( $Selections{ $Self->{Subaction} } ) {
         for my $FieldID ( sort keys %{ $Selections{ $Self->{Subaction} } } ) {
             $FieldData{"Select$FieldID"} = $LayoutObject->BuildSelection(
