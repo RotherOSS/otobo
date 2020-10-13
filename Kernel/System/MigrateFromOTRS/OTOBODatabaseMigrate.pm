@@ -18,10 +18,17 @@ package Kernel::System::MigrateFromOTRS::OTOBODatabaseMigrate;    ## no critic
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::clean;
+use utf8;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
-use version;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::MigrateFromOTRS::CloneDB::Backend',
@@ -51,13 +58,15 @@ Returns 1 on success.
 =cut
 
 sub CheckPreviousRequirement {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     return 1;
 }
 
 sub Run {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Key (qw(DBData)) {
@@ -66,12 +75,12 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need $Key!"
             );
-            my %Result;
-            $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
-            $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
-            $Result{Successful} = 0;
 
-            return \%Result;
+            return {
+                Message    => $Self->{LanguageObject}->Translate("Check if OTOBO version is correct."),
+                Comment    => $Self->{LanguageObject}->Translate( 'Need %s!', $Key ),
+                Successful => 0,
+            }
         }
     }
 
@@ -82,28 +91,29 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need DBData->$Key!"
             );
-            my %Result;
-            $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
-            $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
-            $Result{Successful} = 0;
 
-            return \%Result;
+            return {
+                Message    => $Self->{LanguageObject}->Translate("Check if OTOBO version is correct."),
+                Comment    => $Self->{LanguageObject}->Translate( 'Need %s!', $Key ),
+                Successful => 0,
+            }
         }
     }
 
-    if ( $Param{DBData}->{DBType} =~ /oracle/ ) {
+    # TODO: why no ports for MySQL and PostgreSQL ?
+    if ( $Param{DBData}->{DBType} =~ m/oracle/ ) {
         for my $Key (qw(DBSID DBPort)) {
             if ( !$Param{DBData}->{$Key} ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Need DBData->$Key!"
                 );
-                my %Result;
-                $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
-                $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s for Oracle db!', $Key );
-                $Result{Successful} = 0;
 
-                return \%Result;
+                return {
+                    Message    => $Self->{LanguageObject}->Translate("Check if OTOBO version is correct."),
+                    Comment    => $Self->{LanguageObject}->Translate( 'Need %s for Oracle db!', $Key ),
+                    Successful => 0,
+                }
             }
         }
     }
@@ -131,14 +141,11 @@ sub Run {
         OTRSDBSettings => $Param{DBData},
     );
 
-    if ( !$SourceDBObject ) {
-        my %Result;
-        $Result{Message}    = $Self->{LanguageObject}->Translate("Copy database.");
-        $Result{Comment}    = $Self->{LanguageObject}->Translate("System was unable to connect to OTRS database.");
-        $Result{Successful} = 0;
-
-        return \%Result;
-    }
+    return {
+        Message    => $Self->{LanguageObject}->Translate("Copy database."),
+        Comment    => $Self->{LanguageObject}->Translate("System was unable to connect to OTRS database."),
+        Successful => 0,
+    } unless $SourceDBObject;
 
     my $SanityResult = $CloneDBBackendObject->SanityChecks(
         OTRSDBObject => $SourceDBObject,
@@ -150,22 +157,18 @@ sub Run {
             OTRSDBSettings => $Param{DBData},
         );
 
-        if ( !$DataTransferResult ) {
-            my %Result;
-            $Result{Message}    = $Self->{LanguageObject}->Translate("Copy database.");
-            $Result{Comment}    = $Self->{LanguageObject}->Translate("System was unable to complete data transfer.");
-            $Result{Successful} = 0;
-
-            return \%Result;
-        }
+        return {
+            Message    => $Self->{LanguageObject}->Translate("Copy database."),
+            Comment    => $Self->{LanguageObject}->Translate("System was unable to complete data transfer."),
+            Successful => 0,
+        } unless $DataTransferResult;
     }
 
-    my %Result;
-    $Result{Message}    = $Self->{LanguageObject}->Translate("Copy database.");
-    $Result{Comment}    = $Self->{LanguageObject}->Translate("Data transfer completed.");
-    $Result{Successful} = 1;
-
-    return \%Result;
+    return {
+        Message    => $Self->{LanguageObject}->Translate("Copy database."),
+        Comment    => $Self->{LanguageObject}->Translate("Data transfer completed."),
+        Successful => 1,
+    }
 }
 
 1;
