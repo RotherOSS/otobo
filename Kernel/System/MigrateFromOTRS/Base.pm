@@ -21,7 +21,7 @@ package Kernel::System::MigrateFromOTRS::Base;    ## no critic
 use strict;
 use warnings;
 use v5.24;
-use namespace::clean;
+use namespace::autoclean;
 use utf8;
 
 # core modules

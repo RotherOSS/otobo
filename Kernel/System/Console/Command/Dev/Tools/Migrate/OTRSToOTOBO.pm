@@ -19,7 +19,7 @@ package Kernel::System::Console::Command::Dev::Tools::Migrate::OTRSToOTOBO;
 use strict;
 use warnings;
 use v5.24;
-use namespace::clean;
+use namespace::autoclean;
 use utf8;
 
 use parent qw(Kernel::System::Console::BaseCommand);
