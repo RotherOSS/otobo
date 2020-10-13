@@ -1299,6 +1299,8 @@ sub ResetConfigOption {
 }
 
 sub DBSkipTables {
+
+    # the tables must be lower case
     return {
         communication_log              => 1,
         communication_log_obj_lookup   => 1,
@@ -1318,6 +1320,8 @@ sub DBSkipTables {
 
 # OTOBO Table Name => OTRS Table Name
 sub DBRenameTables {
+
+    # the tables must be lower case
     return {
         groups                 => 'groups_table',
         article_data_otrs_chat => 'article_data_otobo_chat',
