@@ -18,9 +18,17 @@ package Kernel::System::MigrateFromOTRS::CloneDB::Driver::mysql;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
-use Kernel::System::VariableCheck qw(:all);
 use parent qw(Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -129,6 +137,7 @@ sub ColumnsList {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -150,6 +159,7 @@ sub ColumnsList {
     while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
         push @Result, $Row[0];
     }
+
     return \@Result;
 }
 
@@ -167,6 +177,7 @@ sub BlobColumnsList {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -186,6 +197,7 @@ sub BlobColumnsList {
         my $TCString = "$Param{Table}.$Row[0]";
         $Result{$TCString} = '1';
     }
+
     return \%Result;
 }
 
@@ -204,6 +216,7 @@ sub GetColumnInfos {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -226,6 +239,7 @@ sub GetColumnInfos {
         $Result{LENGTH}      = $Row[2];
         $Result{IS_NULLABLE} = $Row[3];
     }
+
     return \%Result;
 }
 
@@ -244,6 +258,7 @@ sub TranslateColumnInfos {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -295,6 +310,7 @@ sub AlterTableAddColumn {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -320,8 +336,10 @@ sub AlterTableAddColumn {
             Priority => 'error',
             Message  => "Could not execute SQL statement: $SQL.",
         );
+
         return;
     }
+
     return 1;
 }
 

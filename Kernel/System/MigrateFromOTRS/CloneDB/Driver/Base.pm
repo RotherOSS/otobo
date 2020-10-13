@@ -18,11 +18,18 @@ package Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
+# core modules
 use Encode;
 use MIME::Base64;
-use Kernel::System::VariableCheck qw(:all);
 use File::Basename qw(fileparse);
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -79,8 +86,7 @@ sub SanityChecks {
 
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
 
-    my $SkipTablesRef = $MigrationBaseObject->DBSkipTables();
-    my %SkipTables    = %{$SkipTablesRef};
+    my %SkipTables = $MigrationBaseObject->DBSkipTables()->%*;
 
     # get OTOBO DB object
     my $TargetDBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -185,11 +191,8 @@ sub DataTransfer {
     my $CacheObject         = $Kernel::OM->Get('Kernel::System::Cache');
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
 
-    my $SkipTablesRef = $MigrationBaseObject->DBSkipTables();
-    my %SkipTables    = %{$SkipTablesRef};
-
-    my $RenameTablesRef = $MigrationBaseObject->DBRenameTables();
-    my %RenameTables    = %{$RenameTablesRef};
+    my %SkipTables   = $MigrationBaseObject->DBSkipTables()->%*;
+    my %RenameTables = $MigrationBaseObject->DBRenameTables()->%*;
 
     # get OTOBO db object
     my $TargetDBObject = $Param{OTOBODBObject};
@@ -208,7 +211,8 @@ sub DataTransfer {
     if ( $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
         $TargetDBObject->Do( SQL => 'SET FOREIGN_KEY_CHECKS = 0' );
 
-    } elsif ( $TargetDBObject->{'DB::Type'} eq 'postgresql' ) {
+    }
+    elsif ( $TargetDBObject->{'DB::Type'} eq 'postgresql' ) {
             $TargetDBObject->Do( SQL => 'set session_replication_role to replica;' );
 
     }
@@ -224,6 +228,7 @@ sub DataTransfer {
                 String   => "Skipping table $OTRSTable, cause it is defined in SkipTables config...",
                 Priority => "notice",
             );
+
             next OTRSTABLES;
         }
 
@@ -243,15 +248,18 @@ sub DataTransfer {
 
                 $TargetDBObject->Do( SQL => "TRUNCATE TABLE $OTOBOTable" );
                 $TableExists = 1;
+
                 last OTOBOTABLES;
             }
             elsif ( $OTOBOTableNew eq $OTOBOTable ) {
 
                 $TargetDBObject->Do( SQL => "TRUNCATE TABLE $OTOBOTableNew" );
                 $TableExists = 1;
+
                 last OTOBOTABLES;
             }
         }
+
         if ( $TableExists == 0 ) {
 
             # Log info to apache error log and OTOBO log (syslog or file)
@@ -273,6 +281,7 @@ sub DataTransfer {
                 String   => "Skipping table $Table...",
                 Priority => "notice",
             );
+
             next TABLES;
         }
 
@@ -313,8 +322,7 @@ sub DataTransfer {
             DBObject => $Param{OTRSDBObject},
         ) || return;
 
-        my @Columns;
-        push( @Columns, @{$ColumnRef} );
+        my @Columns = $ColumnRef->@*;
 
         # We need to check if column is varchar and > 191 character on OTRS side.
         my %ShortenColumn;
@@ -352,8 +360,7 @@ sub DataTransfer {
         }
 
         # We need to check if all columns exists in both tables
-        my @ColumnsOTRS;
-        push( @ColumnsOTRS, @{$ColumnRef} );
+        my @ColumnsOTRS = $ColumnRef->@*;
 
         my $ColumnRefOTOBO = $Param{OTOBODBBackend}->ColumnsList(
             Table    => $RenameTables{$Table} // $Table,
@@ -361,8 +368,7 @@ sub DataTransfer {
             DBObject => $TargetDBObject,
         ) || return;
 
-        my @ColumnsOTOBO;
-        push( @ColumnsOTOBO, @{$ColumnRefOTOBO} );
+        my @ColumnsOTOBO = $ColumnRefOTOBO->@*;
 
         # Remove all colums which in both systems exists.
         # First we create a hash
@@ -397,7 +403,7 @@ sub DataTransfer {
             }
         }
 
-        my $ColumnsString = join( ', ', @Columns );
+        my $ColumnsString = join ', ', @Columns;
         my $BindString    = join ', ', map {'?'} @Columns;
         my $OTOBOTable    = $RenameTables{$Table} // $Table;
         my $SQL           = "INSERT INTO $OTOBOTable ($ColumnsString) VALUES ($BindString)";
@@ -497,8 +503,7 @@ sub DataTransfer {
     }
 
     if ( $TargetDBObject->{'DB::Type'} eq 'postgresql' ) {
-            $TargetDBObject->Do( SQL => 'set session_replication_role to default;' );
-
+        $TargetDBObject->Do( SQL => 'set session_replication_role to default;' );
     }
 
     return 1;
