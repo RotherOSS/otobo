@@ -21,6 +21,7 @@ package Kernel::Modules::MigrateFromOTRS;
 use strict;
 use warnings;
 use v5.24;
+use namespace::clean;
 use utf8;
 
 # core modules
@@ -59,54 +60,45 @@ sub Run {
     }
 
     # Check environment directories.
-    $Self->{Path} = $ConfigObject->Get('Home');
-    if ( !-d $Self->{Path} ) {
-        $LayoutObject->FatalError(
-            Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" doesn\'t exist!', $Self->{Path} ),
-            Comment => Translatable('Configure "Home" in Kernel/Config.pm first!'),
-        );
-    }
-    if ( !-f "$Self->{Path}/Kernel/Config.pm" ) {
-        $LayoutObject->FatalError(
-            Message =>
-                $LayoutObject->{LanguageObject}->Translate( 'File "%s/Kernel/Config.pm" not found!', $Self->{Path} ),
-            Comment => Translatable('Please contact the administrator.'),
-        );
-    }
+    {
+        my $Home = $ConfigObject->Get('Home');
 
-    # Check/get SQL schema directory
-    my $DirOfSQLFiles = $Self->{Path} . '/scripts/database';
-    if ( !-d $DirOfSQLFiles ) {
-        $LayoutObject->FatalError(
-            Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" not found!', $DirOfSQLFiles ),
-            Comment => Translatable('Please contact the administrator.'),
-        );
+        if ( ! -d $Home ) {
+            $LayoutObject->FatalError(
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" doesn\'t exist!', $Self->{Path} ),
+                Comment => Translatable('Configure "Home" in Kernel/Config.pm first!'),
+            );
+        }
+
+        if ( ! -f "Home/Kernel/Config.pm" ) {
+            $LayoutObject->FatalError(
+                Message =>
+                    $LayoutObject->{LanguageObject}->Translate( 'File "%s/Kernel/Config.pm" not found!', $Self->{Path} ),
+                Comment => Translatable('Please contact the administrator.'),
+            );
+        }
     }
 
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
+    # start at the beginning per default
     $Self->{Subaction} ||= 'Intro';
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
+    # perform the requested AJAX task
     my $AJAXTask = $ParamObject->GetParam( Param => 'Task' );
-
-    # perform various AJAX tasks
     if ($AJAXTask) {
-        my $Return;
+        my $Return = {};
         my $MigrateFromOTRSObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS');
 
         if ( $Self->{Subaction} eq 'GetProgress' && $AJAXTask eq 'GetProgress' ) {
+
             my $Status = $CacheObject->Get(
                 Type => 'OTRSMigration',
                 Key  => 'MigrationState',
             );
 
-            if ( !$Status ) {
-                $Return = {};
-            }
-            else {
+            if ( $Status ) {
                 my $Now  = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
                 my $Time = $Now - $Status->{StartTime};
                 my $TimeSpent;
@@ -118,7 +110,7 @@ sub Run {
                     $TimeSpent .= sprintf "%02d m ", int( $Time / 60 );
                     $Time = $Time % 60;
                 }
-                $TimeSpent .= sprintf "%02d s", $Time;
+                $TimeSpent .= sprintf '%02d s', $Time;
 
                 $Return = {
                     Task      => $Status->{Task},
@@ -137,7 +129,6 @@ sub Run {
             }
             $Return = { Successful => 1 };
         }
-
         elsif ( $Self->{Subaction} eq 'OTRSFileSettings' && $AJAXTask eq 'CheckSettings' ) {
             my %GetParam;
             for my $Key (qw/OTRSLocation FQDN SSHUser Password Port OTRSHome/) {
@@ -160,7 +151,6 @@ sub Run {
                 OTRSData => \%GetParam,
             )->{'OTOBOOTRSConnectionCheck'};
         }
-
         elsif ( $Self->{Subaction} eq 'OTRSDBSettings' && $AJAXTask eq 'CheckSettings' ) {
             my %GetParam;
             for my $Key (qw/DBType DBHost DBUser DBPassword DBName DBSID DBPort/) {
@@ -188,7 +178,6 @@ sub Run {
                 DBData => \%GetParam,
             )->{'OTOBOOTRSDBCheck'};
         }
-
         elsif ( $Self->{Subaction} eq 'PreChecks' || $Self->{Subaction} eq 'Copy' ) {
 
             my @Taskorder;
@@ -218,6 +207,7 @@ sub Run {
                     OTOBOCacheCleanup
                 );
             }
+
             my %NextTask = map { $Taskorder[$_] => $Taskorder[ $_ + 1 ] // '' } ( 0 .. $#Taskorder );
 
             # check task
@@ -290,7 +280,6 @@ sub Run {
             }
 
         }
-
         else {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -307,6 +296,7 @@ sub Run {
         # The output should not be encoded because the content
         # will be encoded in otobo.psgi. Double encoding is bad.
         my $OutputJSON = $LayoutObject->JSONEncode( Data => $Return );
+
         return $LayoutObject->Attachment(
             ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $OutputJSON,
@@ -339,7 +329,6 @@ sub Run {
         Finish
     );
 
-    my $StepCounter;
 
     # Build header
     $LayoutObject->Block(
@@ -351,7 +340,7 @@ sub Run {
 
     # On the intro screen no steps should be highlighted.
     my $Highlight = ( $Self->{Subaction} eq 'Intro' ) ? '' : 'Highlighted NoLink';
-
+    my $StepCounter;
     my $Counter;
 
     for my $Step (@Steps) {
