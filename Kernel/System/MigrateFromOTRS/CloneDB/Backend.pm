@@ -18,8 +18,16 @@ package Kernel::System::MigrateFromOTRS::CloneDB::Backend;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
+# core modules
 use Scalar::Util qw(weaken);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -34,7 +42,7 @@ Kernel::System::MigrateFromOTRS::CloneDB::Backend
 
 =head1 SYNOPSIS
 
-    # DynamicFields backend interface
+    # helper for migration
 
 =head1 PUBLIC INTERFACE
 
@@ -50,18 +58,19 @@ create a CloneDB backend object
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Class = shift;
+    my %Param = @_;
 
     # allocate new hash for object
     my $Self = bless {}, $Class;
 
-    #    $Self->{BlobColumns}          = \%BlobColumns;
-    $Self->{CheckEncodingColumns} = \%CheckEncodingColumns;
-
-    # get main object
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+    my %CheckEncodingColumns = (
+        'article_data_mime.a_body'               => 1,
+        'article_data_mime_attachment.filename'  => 1,
+    );
 
     # create all registered backend modules
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
     for my $DBType (qw(mysql oracle postgresql)) {
 
         my $BackendModule = 'Kernel::System::MigrateFromOTRS::CloneDB::Driver::' . $DBType;
@@ -83,7 +92,7 @@ sub new {
 
         $Kernel::OM->ObjectParamAdd(
             $BackendModule => {
-                CheckEncodingColumns => $Self->{CheckEncodingColumns},
+                CheckEncodingColumns => \%CheckEncodingColumns,
             },
         );
 
@@ -117,7 +126,8 @@ creates the target db object.
 =cut
 
 sub CreateOTRSDBConnection {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     if ( !$Param{OTRSDBSettings} ) {
@@ -157,11 +167,9 @@ sub CreateOTRSDBConnection {
     }
 
     # call CreateOTRSDBConnection on the specific backend
-    my $OTRSDBConnection = $Self->{$CloneDBBackend}->CreateOTRSDBConnection(
+    return $Self->{$CloneDBBackend}->CreateOTRSDBConnection(
         %{ $Param{OTRSDBSettings} },
     );
-
-    return $OTRSDBConnection;
 }
 
 =head2 DataTransfer()
@@ -175,7 +183,8 @@ transfers information from a OTRS DB to the OTOBO DB.
 =cut
 
 sub DataTransfer {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(OTRSDBObject OTRSDBSettings)) {
@@ -184,6 +193,7 @@ sub DataTransfer {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -210,13 +220,13 @@ sub DataTransfer {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Backend $OTOBODBObject->{'DB::Type'} is invalid!",
-    );
+        );
 
         return;
     }
 
     # call DataTransfer on the specific backend
-    my $DataTransfer = $Self->{$SourceDBBackend}->DataTransfer(
+    return $Self->{$SourceDBBackend}->DataTransfer(
         OTRSDBObject  => $Param{OTRSDBObject},
         OTOBODBObject  => $OTOBODBObject,
         OTOBODBBackend => $Self->{$OTOBODBBackend},
@@ -224,8 +234,6 @@ sub DataTransfer {
         DryRun        => $Param{DryRun},
         Force         => $Param{Force},
     );
-
-    return $DataTransfer;
 }
 
 =head2 SanityChecks()
@@ -239,7 +247,8 @@ perform some sanity check before db cloning.
 =cut
 
 sub SanityChecks {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     if ( !$Param{OTRSDBObject} ) {
@@ -264,13 +273,11 @@ sub SanityChecks {
     }
 
     # perform sanity checks
-    my $SanityChecks = $Self->{$CloneDBBackend}->SanityChecks(
+    return $Self->{$CloneDBBackend}->SanityChecks(
         OTRSDBObject => $Param{OTRSDBObject},
         DryRun       => $Param{DryRun},
         Force        => $Param{Force},
     );
-
-    return $SanityChecks;
 }
 
 1;
