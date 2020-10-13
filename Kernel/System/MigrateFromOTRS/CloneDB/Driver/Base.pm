@@ -421,19 +421,6 @@ sub DataTransfer {
             Limit => 4_000_000_00,
         ) || return;
 
-        # if needed, set pre-requisites
-        if (
-            $TargetDBObject->can('SetPreRequisites')
-            && grep { lc($_) eq 'id' } @Columns
-            )
-        {
-
-            $TargetDBObject->SetPreRequisites(
-                DBObject => $TargetDBObject,
-                Table    => $RenameTables{$Table} // $Table,
-            );
-        }
-
         # get encode object
         my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
