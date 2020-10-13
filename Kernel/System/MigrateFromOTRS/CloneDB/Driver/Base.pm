@@ -88,29 +88,29 @@ sub SanityChecks {
     }
 
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
-    my %SkipTables = $MigrationBaseObject->DBSkipTables()->%*;
+    my %TableIsSkipped = $MigrationBaseObject->DBSkipTables()->%*;
 
     # get OTOBO DB object
     my $TargetDBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get a list of tables on OTRS DB
-    my @Tables = $Self->TablesList(
+    my @SourceTables = $Self->TablesList(
         DBObject => $Param{OTRSDBObject},
     );
 
     # Need to check if table empty, then a connect is not possible
-    return unless IsArrayRefWithData( \@Tables );
+    return unless IsArrayRefWithData( \@SourceTables );
 
-    TABLES:
-    for my $Table (@Tables) {
+    TABLE:
+    for my $Table (@SourceTables) {
 
-        if ( $SkipTables{ lc $Table } ) {
+        if ( $TableIsSkipped{ lc $Table } ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'info',
                 Message  => "Skipping table $Table on SanityChecks.",
             );
 
-            next TABLES;
+            next TABLE;
         }
 
         # check how many rows exists on
@@ -193,14 +193,14 @@ sub DataTransfer {
     my $CacheObject         = $Kernel::OM->Get('Kernel::System::Cache');
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
 
-    my %SkipTables   = $MigrationBaseObject->DBSkipTables()->%*;
+    my %TableIsSkipped   = $MigrationBaseObject->DBSkipTables()->%*;
     my %RenameTables = $MigrationBaseObject->DBRenameTables()->%*;
 
     # get OTOBO db object
     my $TargetDBObject = $Param{OTOBODBObject};
 
     # get a list of tables on OTRS DB
-    my @Tables = $Self->TablesList(
+    my @SourceTables = $Self->TablesList(
         DBObject => $Param{OTRSDBObject},
     );
 
@@ -220,9 +220,9 @@ sub DataTransfer {
 
     # Delete OTOBO content from table
     OTRSTABLES:
-    for my $OTRSTable (@Tables) {
+    for my $OTRSTable (@SourceTables) {
 
-        if ( defined $SkipTables{ lc $OTRSTable } && $SkipTables{ lc $OTRSTable } ) {
+        if ( $TableIsSkipped{ lc $OTRSTable } ) {
 
             # Log info to apache error log and OTOBO log (syslog or file)
             $MigrationBaseObject->MigrationLog(
@@ -268,14 +268,14 @@ sub DataTransfer {
                 String   => "Table $OTRSTable exist not in OTOBO.",
                 Priority => "notice",
             );
-            $SkipTables{$OTRSTable} = 1;
+            $TableIsSkipped{$OTRSTable} = 1;
         }
     }
 
-    TABLES:
-    for my $Table (@Tables) {
+    TABLE:
+    for my $Table (@SourceTables) {
 
-        if ( defined $SkipTables{ lc $Table } && $SkipTables{ lc $Table } ) {
+        if ( $TableIsSkipped{ lc $Table } ) {
 
             # Log info to apache error log and OTOBO log (syslog or file)
             $MigrationBaseObject->MigrationLog(
@@ -283,7 +283,7 @@ sub DataTransfer {
                 Priority => "notice",
             );
 
-            next TABLES;
+            next TABLE;
         }
 
         # Set cache object with taskinfo and starttime to show current state in frontend
@@ -404,14 +404,20 @@ sub DataTransfer {
             }
         }
 
-        my $ColumnsString = join ', ', @Columns;
-        my $BindString    = join ', ', map {'?'} @Columns;
-        my $OTOBOTable    = $RenameTables{$Table} // $Table;
-        my $SQL           = "INSERT INTO $OTOBOTable ($ColumnsString) VALUES ($BindString)";
+        # assemble the relevant SQL
+        # TODO: make direct insert in mysql
+        my ( $SelectSQL, $InsertSQL );
+        {
+            my $ColumnsString = join ', ', @Columns;
+            my $BindString    = join ', ', map {'?'} @Columns;
+            my $OTOBOTable    = $RenameTables{$Table} // $Table;
+            $InsertSQL     = "INSERT INTO $OTOBOTable ($ColumnsString) VALUES ($BindString)";
+            $SelectSQL     = "SELECT $ColumnsString FROM $Table",
+        }
 
         # Now fetch all the data and insert it to the target DB.
         $Param{OTRSDBObject}->Prepare(
-            SQL   => "SELECT $ColumnsString FROM $Table",
+            SQL   => $SelectSQL,
             Limit => 4_000_000_00,
         ) || return;
 
@@ -467,14 +473,12 @@ sub DataTransfer {
                         $EncodeObject->EncodeOutput( \$Row[$ColumnCounter] );
                         $Row[$ColumnCounter] = encode_base64( $Row[$ColumnCounter] );
                     }
-
                 }
-
             }
             my @Bind = map { \$_ } @Row;
 
             my $Success = $TargetDBObject->Do(
-                SQL  => $SQL,
+                SQL  => $InsertSQL,
                 Bind => \@Bind,
             );
 

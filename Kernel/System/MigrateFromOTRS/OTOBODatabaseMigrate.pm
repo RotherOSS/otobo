@@ -152,7 +152,7 @@ sub Run {
     );
 
     if ($IsSane) {
-        my $DataTransferResult = $CloneDBBackendObject->DataTransfer(
+        my $TransferIsOK = $CloneDBBackendObject->DataTransfer(
             OTRSDBObject   => $SourceDBObject,
             OTRSDBSettings => $Param{DBData},
         );
@@ -161,7 +161,7 @@ sub Run {
             Message    => $Self->{LanguageObject}->Translate("Copy database."),
             Comment    => $Self->{LanguageObject}->Translate("System was unable to complete data transfer."),
             Successful => 0,
-        } unless $DataTransferResult;
+        } unless $TransferIsOK;
     }
 
     return {

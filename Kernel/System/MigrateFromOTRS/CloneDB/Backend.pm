@@ -177,7 +177,8 @@ sub CreateOTRSDBConnection {
 transfers information from a OTRS DB to the OTOBO DB.
 
     my $Success = $BackendObject->DataTransfer(
-        OTRSDBObject => $OTRSDBObject, # mandatory
+        OTRSDBObject  => $OTRSDBObject,  # mandatory
+        OTRSDBSetings => $OTRSDBSetings, # mandatory
     );
 
 =cut
@@ -227,12 +228,12 @@ sub DataTransfer {
 
     # call DataTransfer on the specific backend
     return $Self->{$SourceDBBackend}->DataTransfer(
-        OTRSDBObject  => $Param{OTRSDBObject},
+        OTRSDBObject   => $Param{OTRSDBObject},
         OTOBODBObject  => $OTOBODBObject,
         OTOBODBBackend => $Self->{$OTOBODBBackend},
-        DBInfo        => $Param{OTRSDBSettings},
-        DryRun        => $Param{DryRun},
-        Force         => $Param{Force},
+        DBInfo         => $Param{OTRSDBSettings},
+        DryRun         => $Param{DryRun},
+        Force          => $Param{Force},
     );
 }
 
