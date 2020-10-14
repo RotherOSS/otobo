@@ -901,9 +901,7 @@ sub DisableSecureMode {
         #        UserID          => 1,                # Required only if OverriddenInXML is set.
     );
 
-    if ( $Setting{EffectiveValue} eq '0' ) {
-        return 1;
-    }
+    return 1 if $Setting{EffectiveValue} eq '0';
 
     return $SysConfigObject->SettingsSet(
         UserID   => 1,                                      # (required) UserID
