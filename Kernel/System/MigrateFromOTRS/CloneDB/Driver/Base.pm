@@ -431,7 +431,7 @@ END_SQL
             else {
                 $CopyTableSQL  = <<"END_SQL";
 INSERT INTO $TargetSchema.$TargetTable ($ColumnsString)
-  SELECT $ColumnsString FROM $SourceSchema$.$SourceTable;
+  SELECT $ColumnsString FROM $SourceSchema.$SourceTable;
 END_SQL
             }
 
