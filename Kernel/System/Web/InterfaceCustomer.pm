@@ -164,8 +164,6 @@ sub Run {
         delete $Param{Lang};
     }
 
-    my $BrowserHasCookie = 0;
-
     # Check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
     if ( $ConfigObject->Get('SessionUseCookie') ) {
