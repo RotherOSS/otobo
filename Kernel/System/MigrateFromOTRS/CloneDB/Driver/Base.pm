@@ -206,7 +206,7 @@ sub DataTransfer {
     my @SourceTables = $Self->TablesList( DBObject => $SourceDBObject );
 
     # get a list of tables on OTOBO DB
-    my @TargetTables = $TargetDBBackend->TablesList( DBObject => $TargetDBObject );
+    my %TargetTableExists = map { $_ => 1 } $TargetDBBackend->TablesList( DBObject => $TargetDBObject );
 
     # We need to disable FOREIGN_KEY_CHECKS, cause we copy the data.
     # TODO: Test on postgresql and oracle!
@@ -233,34 +233,11 @@ sub DataTransfer {
         }
 
         # check if OTOBO Table exists, if yes delete table content
-        my $TableExists   = 0;
-        my $TargetTableNew = '';
-
-        TARGET_TABLE:
-        for my $TargetTable (@TargetTables) {
-
-            # check if it´s a RenameTable.
-            if ( $RenameTables{$SourceTable} ) {
-                $TargetTableNew = $RenameTables{$SourceTable};
-            }
-
-            if ( $SourceTable eq $TargetTable ) {
-
-                $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
-                $TableExists = 1;
-
-                last TARGET_TABLE;
-            }
-            elsif ( $TargetTableNew eq $TargetTable ) {
-
-                $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTableNew" );
-                $TableExists = 1;
-
-                last TARGET_TABLE;
-            }
+        my $TargetTable = $RenameTables{$SourceTable} // $SourceTable;
+        if ( $TargetTableExists{$TargetTable} ) {
+            $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
         }
-
-        if ( $TableExists == 0 ) {
+        else {
 
             # Log info to apache error log and OTOBO log (syslog or file)
             $MigrationBaseObject->MigrationLog(
@@ -397,6 +374,7 @@ sub DataTransfer {
         # Or when only one of the connections is via socket.
         # Be careful and also make some sanity additional sanity checks.
         # For now only 'mysql' is supported.
+        # TODO: move parts of the check into the scpecic driver object
         my $DoBatchInsert = eval {
 
             # source and target must be the same database type
