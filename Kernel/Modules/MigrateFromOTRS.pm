@@ -383,7 +383,7 @@ sub Run {
         if ( !IsHashRefWithData($CachedData) ) {
 
             # Under Docker we assume that /opt/otrs has been copied init otobo_opt_otobo volume.
-            my $DefaultOTRSHome = $ENV{OTOBO_RUNS_UNDER_DOCKER} ? '/opt/otobo/tmp/opt/otrs' : '/opt/otrs';
+            my $DefaultOTRSHome = $ENV{OTOBO_RUNS_UNDER_DOCKER} ? '/opt/otobo/var/tmp/copied_otrs' : '/opt/otrs';
             my %Defaults = (
                 Intro => {
                     Subaction => 'OTRSFileSettings',
