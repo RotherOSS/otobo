@@ -217,6 +217,9 @@ sub DataTransfer {
         $TargetDBObject->Do( SQL => 'set session_replication_role to replica;' );
     }
 
+    # this is experimental
+    my $BeDestructive = 1;
+
     # Delete OTOBO content from table
     SOURCE_TABLE:
     for my $SourceTable (@SourceTables) {
@@ -235,7 +238,12 @@ sub DataTransfer {
         # check if OTOBO Table exists, if yes delete table content
         my $TargetTable = $RenameTables{$SourceTable} // $SourceTable;
         if ( $TargetTableExists{$TargetTable} ) {
-            $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
+            if ( $BeDestructive ) {
+                $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
+            }
+            else {
+                $TargetDBObject->Do( SQL => "DROP TABLE $TargetTable" );
+            }
         }
         else {
 
@@ -333,7 +341,7 @@ sub DataTransfer {
 
         # Check if there are extra columns in the source DB
         # If we have extra columns in OTRS table we need to add the column to OTOBO
-        {
+        if ( ! $BeDestructive ) {
             my $TargetColumnRef = $TargetDBBackend->ColumnsList(
                 Table    => $TargetTable,
                 DBName   => $ConfigObject->Get('Database'),
@@ -403,12 +411,25 @@ sub DataTransfer {
             my $ColumnsString   = join ', ', @SourceColumns;
             my $SourceSchema    = $SourceDBObject->{dbh}->{Name};
             my $TargetSchema    = $TargetDBObject->{dbh}->{Name};
-            my $BatchInsertSQL  = <<"END_SQL";
-INSERT INTO $TargetSchema.$TargetTable ($ColumnsString)
-  SELECT $$ColumnsString FROM $SourceSchema$.$SourceTable;
+
+            my $CopyTableSQL;
+            if ( $BeDestructive ) {
+                # OTOBO uses no triggers, otherwise they would need to be adapted
+                # TODO: what happens when the Target table already exists ?
+                $CopyTableSQL  = <<"END_SQL";
+ALTER TABLE  $SourceSchema$.$SourceTable
+  RENAME $TargetSchema.$TargetTable
 END_SQL
+            }
+            else {
+                $CopyTableSQL  = <<"END_SQL";
+INSERT INTO $TargetSchema.$TargetTable ($ColumnsString)
+  SELECT $ColumnsString FROM $SourceSchema$.$SourceTable;
+END_SQL
+            }
+
             my $Success = $TargetDBObject->Do(
-                SQL  => $BatchInsertSQL
+                SQL  => $CopyTableSQL
             );
 
             if ( !$Success ) {
