@@ -218,7 +218,7 @@ sub DataTransfer {
     }
 
     # this is experimental
-    my $BeDestructive = 1;
+    my $BeDestructive = 0;
 
     # Delete OTOBO content from table
     SOURCE_TABLE:
@@ -242,6 +242,7 @@ sub DataTransfer {
                 $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
             }
             else {
+                # TODO: might require additional privs
                 $TargetDBObject->Do( SQL => "DROP TABLE $TargetTable" );
             }
         }
@@ -409,13 +410,19 @@ sub DataTransfer {
         if ( $DoBatchInsert ) {
 
             my $ColumnsString   = join ', ', @SourceColumns;
-            my $SourceSchema    = $SourceDBObject->{dbh}->{Name};
-            my $TargetSchema    = $TargetDBObject->{dbh}->{Name};
+            my $SourceSchema    = ( $SourceDBObject->SelectAll(
+                SQL   => 'SELECT DATABASE()',
+                Limit => 1,
+            ) // [ [ 'unknown source database' ] ] )->[0]->[0];
+            my $TargetSchema    = ( $TargetDBObject->SelectAll(
+                SQL   => 'SELECT DATABASE()',
+                Limit => 1,
+            ) // [ [ 'unknown target database' ] ] )->[0]->[0];
 
             my $CopyTableSQL;
             if ( $BeDestructive ) {
                 # OTOBO uses no triggers, otherwise they would need to be adapted
-                # TODO: what happens when the Target table already exists ?
+                # TODO: might require additional privs
                 $CopyTableSQL  = <<"END_SQL";
 ALTER TABLE  $SourceSchema$.$SourceTable
   RENAME $TargetSchema.$TargetTable
