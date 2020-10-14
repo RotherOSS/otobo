@@ -24,7 +24,6 @@ use namespace::autoclean;
 # core modules
 use Encode;
 use MIME::Base64;
-use File::Basename qw(fileparse);
 use List::Util qw(any);
 
 # CPAN modules
