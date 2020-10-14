@@ -313,9 +313,11 @@ sub CleanOTRSFileToOTOBOStyle {
                 Priority => 'error',
                 Message  => "$_ not defined!"
             );
+
             return;
         }
     }
+
     for (qw(File UserID)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -380,6 +382,7 @@ sub CleanOTRSFileToOTOBOStyle {
         Type       => 'Local',    # optional - Local|Attachment|MD5
         Permission => '660',      # unix file permissions
     );
+
     return 1;
 }
 
