@@ -239,11 +239,11 @@ sub DataTransfer {
         my $TargetTable = $RenameTables{$SourceTable} // $SourceTable;
         if ( $TargetTableExists{$TargetTable} ) {
             if ( $BeDestructive ) {
-                $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
-            }
-            else {
                 # TODO: might require additional privs
                 $TargetDBObject->Do( SQL => "DROP TABLE $TargetTable" );
+            }
+            else {
+                $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
             }
         }
         else {
