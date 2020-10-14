@@ -65,14 +65,14 @@ sub Run {
 
         if ( ! -d $Home ) {
             $LayoutObject->FatalError(
-                Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" doesn\'t exist!', $$Home )
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" doesn\'t exist!', $$Home ),
                 Comment => Translatable('Configure "Home" in Kernel/Config.pm first!'),
             );
         }
 
         if ( ! -f "$Home/Kernel/Config.pm" ) {
             $LayoutObject->FatalError(
-                Message => $LayoutObject->{LanguageObject}->Translate( 'File "%s/Kernel/Config.pm" not found!', $$Home )
+                Message => $LayoutObject->{LanguageObject}->Translate( 'File "%s/Kernel/Config.pm" not found!', $$Home ),
                 Comment => Translatable('Please contact the administrator.'),
             );
         }
