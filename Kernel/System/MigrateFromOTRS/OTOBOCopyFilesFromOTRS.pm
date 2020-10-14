@@ -156,24 +156,21 @@ sub Run {
     my @FileList = $Self->CopyFileListfromOTRSToOTOBO();
 
     # Get filelist we only copy and not clean
-    my @DoNotCleanFileList = $Self->DoNotCleanFileList();
+    my %DoNotClean = map { $_ => 1 } $Self->DoNotCleanFileList();
+
+    # remember the current DB-Settings, so that we can fix up Kernel/Config.pm after it was copied
+    my %OTOBOParams;
+    for my $Key ( qw( DatabaseHost Database DatabaseUser DatabasePw DatabaseDSN Home LogModule LogModule::Logfile ) ) {
+        $OTOBOParams{$Key} = $ConfigObject->Get($Key);
+    }
+
 
     # Now we copy and clean the files in for{}
-    my %OTOBODBParam;
     FILE:
     for my $File (@FileList) {
 
         my $OTOBOPathFile = $OTOBOHome . $File;
         my $OTRSPathFile  = $OTRS6path . $File;
-
-        if ( $OTOBOPathFile =~ /Config\.pm/ ) {
-            $OTOBODBParam{DatabaseHost} = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseHost');
-            $OTOBODBParam{Database}     = $Kernel::OM->Get('Kernel::Config')->Get('Database');
-            $OTOBODBParam{DatabaseUser} = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseUser');
-            $OTOBODBParam{DatabasePw}   = $Kernel::OM->Get('Kernel::Config')->Get('DatabasePw');
-            $OTOBODBParam{DatabaseDSN}  = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseDSN');
-            $OTOBODBParam{Home}         = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-        }
 
         # First we copy the file from OTRS HOME to OTOBO HOME
         next FILE unless -e $OTRSPathFile;
