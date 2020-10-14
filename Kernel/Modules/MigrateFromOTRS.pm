@@ -328,7 +328,6 @@ sub Run {
         Finish
     );
 
-
     # Build header
     $LayoutObject->Block(
         Name => 'Steps',
@@ -337,34 +336,40 @@ sub Run {
         },
     );
 
-    # On the intro screen no steps should be highlighted.
-    my $Highlight = ( $Self->{Subaction} eq 'Intro' ) ? '' : 'Highlighted NoLink';
-    my $StepCounter;
-    my $Counter;
 
-    for my $Step (@Steps) {
-        $Counter++;
+    # for displaying progress
+    my $StepCounter = '';
 
-        # Is the current step active?
-        my $Active = ( $Self->{Subaction} eq $Step ) ? 'Active' : '';
-        $LayoutObject->Block(
-            Name => 'SingleStep',
-            Data => {
-                Step        => $Counter,
-                Highlight   => $Highlight,
-                Active      => $Active,
-                Description => $LayoutObject->{LanguageObject}->Translate( $Subtitles{$Step} ),
-            },
-        );
+    # overview over the steps
+    {
+        # On the intro screen no steps should be highlighted.
+        my $Highlight     = $Self->{Subaction} eq 'Intro' ? '' : 'Highlighted NoLink';
+        my $TotalNumSteps = scalar @Steps;
+        my $Counter       = 0;
+        for my $Step (@Steps) {
+            $Counter++;
 
-        # If this is the actual step.
-        if ( $Self->{Subaction} eq $Step ) {
+            # Is the current step active?
+            my $Active = $Self->{Subaction} eq $Step ? 'Active' : '';
+            $LayoutObject->Block(
+                Name => 'SingleStep',
+                Data => {
+                    Step        => $Counter,
+                    Highlight   => $Highlight,
+                    Active      => $Active,
+                    Description => $LayoutObject->{LanguageObject}->Translate( $Subtitles{$Step} ),
+                },
+            );
 
-            # No more highlights from now on.
-            $Highlight = '';
+            # If this is the actual step.
+            if ( $Self->{Subaction} eq $Step ) {
 
-            # Step calculation: 2/5 etc.
-            $StepCounter = $Counter . "/" . scalar @Steps;
+                # No more highlights from now on.
+                $Highlight = '';
+
+                # Step calculation: 2/5 etc.
+                $StepCounter = "$Counter/$TotalNumSteps";
+            }
         }
     }
 
