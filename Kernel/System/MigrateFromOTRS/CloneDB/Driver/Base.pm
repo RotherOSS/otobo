@@ -25,6 +25,7 @@ use namespace::autoclean;
 use Encode;
 use MIME::Base64;
 use List::Util qw(any);
+use Data::Dumper;
 
 # CPAN modules
 
@@ -239,7 +240,8 @@ sub DataTransfer {
     # this is experimental
     my $BeDestructive = 1;
 
-    # Delete OTOBO content from table.
+    # Decide whether batch insert is possible for a table.
+    # Drop or trunkate OTOBO tables.
     # In the case of destructive copy keep track of the foreign keys.
     # TODO: also keep track of the indexes, they are copied, but indexes might have been added
     my ( %SourceDropForeignKeys, %TargetAddForeignKeys, %DoBatchInsert, %ShortenColumn );
@@ -512,7 +514,7 @@ sub DataTransfer {
                 # OTOBO uses no triggers, so there is no need to consider them here
 
                 # no need to copy foreign key constraints from the OTRS table
-                my @DropClauses = $SourceDropForeignKeys{$SourceTable}->@*;
+                my @DropClauses = ( $SourceDropForeignKeys{$SourceTable} // [] )->@*;
                 if ( @DropClauses ) {
                     my $SQL  = "ALTER TABLE $SourceSchema.$SourceTable " . join ', ', @DropClauses;
                     my $Success = $SourceDBObject->Do( SQL => $SQL );
@@ -548,7 +550,7 @@ END_SQL
                 }
 
                 # create foreign key constraints in the OTOBO table
-                my @AddClauses = $TargetAddForeignKeys{$SourceTable}->@*;
+                my @AddClauses = ( $TargetAddForeignKeys{$SourceTable} // [] )->@*;
                 if ( @AddClauses ) {
                     my $SQL  = "ALTER TABLE $TargetSchema.$TargetTable " . join ', ', @AddClauses;
                     my $Success = $TargetDBObject->Do( SQL => $SQL );
