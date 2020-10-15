@@ -331,6 +331,8 @@ use Data::Dumper;
         }
     }
 
+    warn Dumper( 'CCC', \%SourceDropForeignKeys, \%TargetAddForeignKeys );
+
     SOURCE_TABLE:
     for my $SourceTable (@SourceTables) {
 
@@ -346,15 +348,13 @@ use Data::Dumper;
         }
 
         # Set cache object with taskinfo and starttime to show current state in frontend
-        my $Epoch          = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
-
         $CacheObject->Set(
             Type  => 'OTRSMigration',
             Key   => 'MigrationState',
             Value => {
                 Task      => 'OTOBODatabaseMigrate',
                 SubTask   => "Copy table: $SourceTable",
-                StartTime => $Epoch,
+                StartTime => $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch(),
             },
         );
 
@@ -414,41 +414,6 @@ use Data::Dumper;
             }
         }
 
-        # Check if there are extra columns in the source DB.
-        # If we have extra columns in OTRS table we need to add the column to OTOBO
-        if ( ! $BeDestructive ) {
-            my $TargetColumnRef = $TargetDBBackend->ColumnsList(
-                Table    => $TargetTable,
-                DBName   => $ConfigObject->Get('Database'),
-                DBObject => $TargetDBObject,
-            ) || return;
-
-            my %ColumnExistsInTarget = map { $_ => 1 } $TargetColumnRef->@*;
-            my @ExtraSourceColumns = grep { ! $ColumnExistsInTarget{$_} } @SourceColumns;
-
-            for my $SourceColumn (@ExtraSourceColumns) {
-
-                my $SourceColumnInfos = $Self->GetColumnInfos(
-                    Table    => $SourceTable,
-                    DBName   => $Param{DBInfo}->{DBName},
-                    DBObject => $SourceDBObject,
-                    Column   => $SourceColumn,
-                );
-
-                my $TranslatedSourceColumnInfos = $TargetDBBackend->TranslateColumnInfos(
-                    ColumnInfos => $SourceColumnInfos,
-                    DBType      => $SourceDBObject->{'DB::Type'},
-                );
-
-                $TargetDBBackend->AlterTableAddColumn(
-                    Table       => $TargetTable,
-                    DBObject    => $TargetDBObject,
-                    Column      => $SourceColumn,
-                    ColumnInfos => $TranslatedSourceColumnInfos,
-                );
-            }
-        }
-
         # We can speed up the data copying
         # when Source and Target database are on the same server.
         # The most important criterium is whether the database host are equal.
@@ -480,6 +445,40 @@ use Data::Dumper;
             # Let's try batch inserts
             return 1;
         };
+
+        # If we have extra columns in OTRS table we need to add the column to OTOBO.
+        # But only if we don't have a destructive batch insert
+        if ( ! ( $DoBatchInsert && $BeDestructive ) ) {
+            my $TargetColumnRef = $TargetDBBackend->ColumnsList(
+                Table    => $TargetTable,
+                DBName   => $ConfigObject->Get('Database'),
+                DBObject => $TargetDBObject,
+            ) || return;
+
+            my %AlreadyExists = map { $_ => 1 } $TargetColumnRef->@*;
+
+            for my $SourceColumn ( grep { ! $AlreadyExists{$_} } @SourceColumns ) {
+
+                my $SourceColumnInfos = $Self->GetColumnInfos(
+                    Table    => $SourceTable,
+                    DBName   => $Param{DBInfo}->{DBName},
+                    DBObject => $SourceDBObject,
+                    Column   => $SourceColumn,
+                );
+
+                my $TranslatedSourceColumnInfos = $TargetDBBackend->TranslateColumnInfos(
+                    ColumnInfos => $SourceColumnInfos,
+                    DBType      => $SourceDBObject->{'DB::Type'},
+                );
+
+                $TargetDBBackend->AlterTableAddColumn(
+                    Table       => $TargetTable,
+                    DBObject    => $TargetDBObject,
+                    Column      => $SourceColumn,
+                    ColumnInfos => $TranslatedSourceColumnInfos,
+                );
+            }
+        }
 
         if ( $DoBatchInsert ) {
 
