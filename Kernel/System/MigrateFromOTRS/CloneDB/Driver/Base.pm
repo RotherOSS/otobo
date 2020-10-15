@@ -346,9 +346,7 @@ use Data::Dumper;
         }
 
         # Set cache object with taskinfo and starttime to show current state in frontend
-        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-        my $Epoch          = $DateTimeObject->ToEpoch();
-        my $TargetTable    = $RenameTables{$SourceTable} // $SourceTable;
+        my $Epoch          = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
         $CacheObject->Set(
             Type  => 'OTRSMigration',
@@ -365,6 +363,8 @@ use Data::Dumper;
             String   => "Copy table: $SourceTable\n",
             Priority => "notice",
         );
+
+        my $TargetTable = $RenameTables{$SourceTable} // $SourceTable;
 
         # Get the list of columns of this table to be able to
         #   generate correct INSERT statements.
@@ -414,7 +414,7 @@ use Data::Dumper;
             }
         }
 
-        # Check if there are extra columns in the source DB
+        # Check if there are extra columns in the source DB.
         # If we have extra columns in OTRS table we need to add the column to OTOBO
         if ( ! $BeDestructive ) {
             my $TargetColumnRef = $TargetDBBackend->ColumnsList(
