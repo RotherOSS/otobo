@@ -40,7 +40,7 @@
                     <div class="Field">
                         [% Data.SSLSupportString %]
                         <p class="FieldExplanation">
-                            [% Translate("Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.") | html %]
+                            [% Translate("Set the request scheme used for cookies and various links. For production purposes always use https.") | html %]
                         </p>
                     </div>
                     <div class="Clear"></div>
