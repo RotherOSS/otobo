@@ -367,58 +367,59 @@ sub DataTransfer {
 
         if ( $BeDestructive && $BatchInsertIsPossible ) {
 
-           # drop foreign keys in the source
-           $SourceDropForeignKeys{$SourceTable} //= [];
-           my $SourceForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
-               undef, undef, undef,
-               undef, $SourceSchema, $SourceTable
-           );
+            # drop foreign keys in the source
+            $SourceDropForeignKeys{$SourceTable} //= [];
+            my $SourceForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
+                undef, undef, undef,
+                undef, $SourceSchema, $SourceTable
+            );
 
-           ROW:
-           while ( my @Row = $SourceForeignKeySth->fetchrow_array() ) {
-               my ($FKName) = $Row[11];
+            ROW:
+            while ( my @Row = $SourceForeignKeySth->fetchrow_array() ) {
+                my ($FKName) = $Row[11];
 
-               warn Dumper( [ 'AAA', $TargetSchema, $TargetTable, [ $FKName ], \@Row ] );
+                warn Dumper( [ 'AAA', $TargetSchema, $TargetTable, [ $FKName ], \@Row ] );
 
-               # skip cruft
-               next ROW unless $FKName;
+                # skip cruft
+                next ROW unless $FKName;
 
-               # The OTOBO convention is that foreign key names start with 'FK_'.
-               # The check is relevant because primary keys have 'PRIMARY' as $FKName
-               next ROW unless $FKName =~ m/^FK_/;
+                # The OTOBO convention is that foreign key names start with 'FK_'.
+                # The check is relevant because primary keys have 'PRIMARY' as $FKName
+                next ROW unless $FKName =~ m/^FK_/;
 
-               push $SourceDropForeignKeys{$SourceTable}->@*,
-                   "DROP FOREIGN KEY $FKName";
-           }
+                push $SourceDropForeignKeys{$SourceTable}->@*,
+                    "DROP FOREIGN KEY $FKName";
+            }
 
-           # readd foreign keys in the target
-           $TargetAddForeignKeys{$TargetTable} //= [];
-           my $TargetForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
-               undef, undef, undef,
-               undef, $TargetSchema, $TargetTable
-           );
+            # readd foreign keys in the target
+            $TargetAddForeignKeys{$TargetTable} //= [];
+            my $TargetForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
+                undef, undef, undef,
+                undef, $TargetSchema, $TargetTable
+            );
 
-           ROW:
-           while ( my @Row = $TargetForeignKeySth->fetchrow_array() ) {
-               my ($PKTableName, $PKColumnName, $FKColumnName, $FKName) = @Row[2, 3, 7, 11];
+            ROW:
+            while ( my @Row = $TargetForeignKeySth->fetchrow_array() ) {
+                my ($PKTableName, $PKColumnName, $FKColumnName, $FKName) = @Row[2, 3, 7, 11];
 
-               warn Dumper( [ 'BBB', $TargetSchema, $TargetTable, [ $PKTableName, $PKColumnName, $FKColumnName, $FKName ], @Row ] );
+                warn Dumper( [ 'BBB', $TargetSchema, $TargetTable, [ $PKTableName, $PKColumnName, $FKColumnName, $FKName ], @Row ] );
 
-               # skip cruft
-               next ROW unless $PKTableName;
-               next ROW unless $PKColumnName;
-               next ROW unless $FKColumnName;
-               next ROW unless $FKName;
+                # skip cruft
+                next ROW unless $PKTableName;
+                next ROW unless $PKColumnName;
+                next ROW unless $FKColumnName;
+                next ROW unless $FKName;
 
-               # The OTOBO convention is that foreign key names start with 'FK_'.
-               # The check is relevant because primary keys have 'PRIMARY' as $FKName
-               next ROW unless $FKName =~ m/^FK_/;
+                # The OTOBO convention is that foreign key names start with 'FK_'.
+                # The check is relevant because primary keys have 'PRIMARY' as $FKName
+                next ROW unless $FKName =~ m/^FK_/;
 
-               push $TargetAddForeignKeys{$TargetTable}->@*,
-                   "ADD CONSTRAINT FOREIGN KEY $FKName ($FKColumnName) REFERENCES $PKTableName($PKColumnName)";
-           }
+                push $TargetAddForeignKeys{$TargetTable}->@*,
+                    "ADD CONSTRAINT FOREIGN KEY $FKName ($FKColumnName) REFERENCES $PKTableName($PKColumnName)";
+            }
 
-           $TargetDBObject->Do( SQL => "DROP TABLE $TargetTable" );
+            # Target table could already be dropped
+            $TargetDBObject->Do( SQL => "DROP TABLE IF EXISTS $TargetTable" );
         }
         else {
             $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
