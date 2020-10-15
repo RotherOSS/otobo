@@ -217,10 +217,32 @@ sub DataTransfer {
         $TargetDBObject->Do( SQL => 'set session_replication_role to replica;' );
     }
 
-    # this is experimental
-    my $BeDestructive = 0;
+    # TODO: put this into Driver/mysql.pm
+    my ( $SourceSchema, $TargetSchema );
+    {
+        if ( $SourceDBObject->{'DB::Type'} eq 'mysql' ) {
+            $SourceSchema = ( $SourceDBObject->SelectAll(
+                SQL   => 'SELECT DATABASE()',
+                Limit => 1,
+            ) // [ [ 'unknown source database' ] ] )->[0]->[0];
+        }
 
-    # Delete OTOBO content from table
+        if ( $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
+            $TargetSchema = ( $TargetDBObject->SelectAll(
+                SQL   => 'SELECT DATABASE()',
+                Limit => 1,
+            ) // [ [ 'unknown target database' ] ] )->[0]->[0];
+        }
+    }
+
+    # this is experimental
+    my $BeDestructive = 1;
+
+    # Delete OTOBO content from table.
+    # In the case of destructive copy keep track of the foreign keys.
+    # TODO: also keep track of the indexes, they are copied, but indexes might have been added
+use Data::Dumper;
+    my ( %SourceDropForeignKeys, %TargetAddForeignKeys );
     SOURCE_TABLE:
     for my $SourceTable (@SourceTables) {
 
@@ -236,10 +258,62 @@ sub DataTransfer {
         }
 
         # check if OTOBO Table exists, if yes delete table content
+        # Keep Track of foreign keys
         my $TargetTable = $RenameTables{$SourceTable} // $SourceTable;
         if ( $TargetTableExists{$TargetTable} ) {
             if ( $BeDestructive ) {
-                # TODO: might require additional privs
+
+                # drop foreign keys in the source
+                $SourceDropForeignKeys{$SourceTable} //= [];
+                my $SourceForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
+                    undef, undef, undef,
+                    undef, $SourceSchema, $SourceTable
+                );
+
+                ROW:
+                while ( my @Row = $SourceForeignKeySth->fetchrow_array() ) {
+                    my ($FKName) = $Row[11];
+
+                    warn Dumper( [ 'AAA', $TargetSchema, $TargetTable, [ $FKName ], \@Row ] );
+
+                    # skip cruft
+                    next ROW unless $FKName;
+
+                    # The OTOBO convention is that foreign key names start with 'FK_'.
+                    # The check is relevant because primary keys have 'PRIMARY' as $FKName
+                    next ROW unless $FKName =~ m/^FK_/;
+
+                    push $SourceDropForeignKeys{$SourceTable}->@*,
+                        "DROP FOREIGN KEY $FKName";
+                }
+
+                # readd foreign keys in the target
+                $TargetAddForeignKeys{$TargetTable} //= [];
+                my $TargetForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
+                    undef, undef, undef,
+                    undef, $TargetSchema, $TargetTable
+                );
+
+                ROW:
+                while ( my @Row = $TargetForeignKeySth->fetchrow_array() ) {
+                    my ($PKTableName, $PKColumnName, $FKColumnName, $FKName) = @Row[2, 3, 7, 11];
+
+                    warn Dumper( [ 'BBB', $TargetSchema, $TargetTable, [ $PKTableName, $PKColumnName, $FKColumnName, $FKName ], @Row ] );
+
+                    # skip cruft
+                    next ROW unless $PKTableName;
+                    next ROW unless $PKColumnName;
+                    next ROW unless $FKColumnName;
+                    next ROW unless $FKName;
+
+                    # The OTOBO convention is that foreign key names start with 'FK_'.
+                    # The check is relevant because primary keys have 'PRIMARY' as $FKName
+                    next ROW unless $FKName =~ m/^FK_/;
+
+                    push $TargetAddForeignKeys{$TargetTable}->@*,
+                        "ADD CONSTRAINT FOREIGN KEY $FKName ($FKColumnName) REFERENCES $PKTableName($PKColumnName)";
+                }
+
                 $TargetDBObject->Do( SQL => "DROP TABLE $TargetTable" );
             }
             else {
