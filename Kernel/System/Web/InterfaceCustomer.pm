@@ -160,8 +160,6 @@ sub HeaderAndContent {
         delete $Param{Lang};
     }
 
-    my $BrowserHasCookie = 0;
-
     # Check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
     if ( $ConfigObject->Get('SessionUseCookie') ) {
@@ -182,6 +180,14 @@ sub HeaderAndContent {
 
     # Restrict Cookie to HTTPS if it is used.
     my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
+
+    # check whether we are using the right scheme
+    if ( $ENV{REQUEST_SCHEME} && lc( $ENV{REQUEST_SCHEME} ) ne $ConfigObject->Get('HttpType') ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'notice',
+            Message  => 'HttpType '.$ConfigObject->Get('HttpType').' is set, but '.$ENV{REQUEST_SCHEME}.' is used!',
+        );
+    }
 
     my $DBCanConnect = $Kernel::OM->Get('Kernel::System::DB')->Connect();
 
@@ -1098,6 +1104,35 @@ sub HeaderAndContent {
                     %Param,
                 }
             );
+
+            # if the wrong scheme is used, delete also the "other" cookie - issue #251
+            if ( $ENV{REQUEST_SCHEME} && lc( $ENV{REQUEST_SCHEME} ) ne $ConfigObject->Get('HttpType') ) {
+                $Kernel::OM->ObjectParamAdd(
+                    'Kernel::Output::HTML::Layout' => {
+                        SetCookies => {
+                            # delete the OTOBO session cookie
+                            SessionIDCookiehttp  => $ParamObject->SetCookie(
+                                Key      => $Param{SessionName},
+                                Value    => '',
+                                Expires  => '-1y',
+                                Path     => $ConfigObject->Get('ScriptAlias'),
+                                Secure   => '',
+                                HTTPOnly => 1,
+                            ),
+                            # delete the OTOBO session cookie
+                            SessionIDCookiehttps => $ParamObject->SetCookie(
+                                Key      => $Param{SessionName},
+                                Value    => '',
+                                Expires  => '-1y',
+                                Path     => $ConfigObject->Get('ScriptAlias'),
+                                Secure   => 1,
+                                HTTPOnly => 1,
+                            ),
+                        },
+                        %Param,
+                    },
+                );
+            }
 
             $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
