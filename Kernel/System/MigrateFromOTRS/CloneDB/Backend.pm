@@ -177,8 +177,8 @@ sub CreateOTRSDBConnection {
 transfers information from a OTRS DB to the OTOBO DB.
 
     my $Success = $BackendObject->DataTransfer(
-        OTRSDBObject  => $OTRSDBObject,  # mandatory
-        OTRSDBSetings => $OTRSDBSetings, # mandatory
+        OTRSDBObject   => $OTRSDBObject,   # mandatory
+        OTRSDBSettings => $OTRSDBSettings, # mandatory
     );
 
 =cut
@@ -199,10 +199,9 @@ sub DataTransfer {
         }
     }
 
-    # set the source db specific backend
-    my $SourceDBBackend = 'CloneDB' . $Param{OTRSDBObject}->{'DB::Type'} . 'Object';
-
-    if ( !$Self->{$SourceDBBackend} ) {
+    # choose the source db specific backend
+    my $SourceDBBackend = $Self->{ 'CloneDB' . $Param{OTRSDBObject}->{'DB::Type'} . 'Object' };
+    if ( ! $SourceDBBackend ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Backend " . $Param{OTRSDBObject}->{'DB::Type'} . " is invalid!",
@@ -227,7 +226,7 @@ sub DataTransfer {
     }
 
     # call DataTransfer on the specific backend
-    return $Self->{$SourceDBBackend}->DataTransfer(
+    return $SourceDBBackend->DataTransfer(
         OTRSDBObject   => $Param{OTRSDBObject},
         OTOBODBObject  => $OTOBODBObject,
         OTOBODBBackend => $Self->{$OTOBODBBackend},
