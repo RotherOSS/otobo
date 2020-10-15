@@ -279,7 +279,9 @@
                     </div>
                     <div class="Clear"></div>
 
-[% IF !Config("Ticket::Frontend::AgentTicketEmail::CustomerIDReadOnly") %]
+[% IF Config("Ticket::Frontend::AgentTicketEmail::CustomerIDReadOnly") %]
+                    <input type="hidden" name="CustomerID" id="CustomerID" value="[% Data.CustomerID | html %]" readonly="readonly"/>
+[% ELSE %]
                     [% INCLUDE "CustomerCompany/TicketCustomerIDSelection.tt" Required = 0 Readonly = Config("Ticket::Frontend::AgentTicketEmail::CustomerIDReadOnly") %]
 [% END %]
 
