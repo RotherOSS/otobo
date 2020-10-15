@@ -182,10 +182,12 @@ sub HeaderAndContent {
     my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
 
     # check whether we are using the right scheme
-    if ( $ENV{REQUEST_SCHEME} && lc( $ENV{REQUEST_SCHEME} ) ne $ConfigObject->Get('HttpType') ) {
+    my ( $RequestScheme ) = split( '/', $ParamObject->ServerProtocol() );
+    $RequestScheme = lc( $RequestScheme );
+    if ( $RequestScheme ne $ConfigObject->Get('HttpType') ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => 'HttpType '.$ConfigObject->Get('HttpType').' is set, but '.$ENV{REQUEST_SCHEME}.' is used!',
+            Message  => 'HttpType '.$ConfigObject->Get('HttpType').' is set, but '.$RequestScheme.' is used!',
         );
     }
 
@@ -1102,11 +1104,11 @@ sub HeaderAndContent {
                         ),
                     },
                     %Param,
-                }
+                },
             );
 
             # if the wrong scheme is used, delete also the "other" cookie - issue #251
-            if ( $ENV{REQUEST_SCHEME} && lc( $ENV{REQUEST_SCHEME} ) ne $ConfigObject->Get('HttpType') ) {
+            if ( $RequestScheme ne $ConfigObject->Get('HttpType') ) {
                 $Kernel::OM->ObjectParamAdd(
                     'Kernel::Output::HTML::Layout' => {
                         SetCookies => {
