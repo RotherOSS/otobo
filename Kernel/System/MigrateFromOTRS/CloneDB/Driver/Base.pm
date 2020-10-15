@@ -208,6 +208,7 @@ sub DataTransfer {
     my @SourceTables = map { lc } $Self->TablesList( DBObject => $SourceDBObject );
 
     # get a list of tables on OTOBO DB
+    # TODO: include the tables that were dropped in a previous, failed migration
     my %TargetTableExists = map { $_ => 1 } $TargetDBBackend->TablesList( DBObject => $TargetDBObject );
 
     # We need to disable FOREIGN_KEY_CHECKS, cause we copy the data.
@@ -419,6 +420,7 @@ sub DataTransfer {
             }
 
             # Target table could already be dropped
+            # TODO: DROP Table juse before the renaming, increase the likelyhood that a migration can be recovered
             $TargetDBObject->Do( SQL => "DROP TABLE IF EXISTS $TargetTable" );
         }
         else {
