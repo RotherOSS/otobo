@@ -15,13 +15,14 @@
 # 汇民 王 <whuim@163.com>, 2019
 # Bob Tao <bob.tao@otrs.com>, 2019
 # 汇民 王 <whuim@qq.com>, 2019
-#
+# Paul Yang <paul.yang@itservice.com.cn>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-10-08 14:33+0000\n"
-"PO-Revision-Date: 2020-01-31 03:51+0000\n"
-"Last-Translator: Huimin Wang <whuim@qq.com>\n"
+"PO-Revision-Date: 2020-10-15 07:25+0000\n"
+"Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/"
 "otobo10/otobo/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -29,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.10\n"
+"X-Generator: Weblate 4.2.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -955,7 +956,7 @@ msgstr "当前的支持数据只是在系统中显示。"
 msgid ""
 "It is sometimes recommended to send this data to the OTOBO team in order to "
 "get better support."
-msgstr ""
+msgstr "建议将此数据发送给OTOBO团队，有时可以获得更好的支持。"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -969,7 +970,7 @@ msgstr "发送支持数据"
 msgid ""
 "This will allow the system to send additional support data information to "
 "the OTOBO team."
-msgstr ""
+msgstr "这样系统可以将更多的支持数据信息发送给OTOBO团队。"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -984,7 +985,7 @@ msgid ""
 "To enable data sending, please register your system with the OTOBO team or "
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
-msgstr ""
+msgstr "要启用数据发送，请向OTOBO团队注册系统或更新系统注册信息（确保激活“发送支持数据”选项。）"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -1000,7 +1001,7 @@ msgstr "本系统的系统注册功能已被禁用，请检查你的配置。"
 msgid ""
 "System registration is a service of OTOBO team, which provides a lot of "
 "advantages!"
-msgstr ""
+msgstr "系统注册是OTOBO团队的一项服务，它具有很多优势！"
 
 #. Template: AdminCloudServices
 msgid ""
@@ -1260,7 +1261,7 @@ msgstr "请从列表中选择一个条目。"
 
 #. Template: AdminContactWD
 msgid "Contact with data management"
-msgstr ""
+msgstr "联系人数据管理"
 
 #. Template: AdminContactWD
 msgid "Contact with data"
@@ -1268,11 +1269,11 @@ msgstr "连接数据"
 
 #. Template: AdminContactWD
 msgid "Add contact with data"
-msgstr ""
+msgstr "用数据添加联系人"
 
 #. Template: AdminContactWD
 msgid "Edit contact with data"
-msgstr ""
+msgstr "用数据编辑联系人"
 
 #. Template: AdminContactWD
 msgid "Back to search results"
@@ -1292,7 +1293,7 @@ msgstr "允许使用通配置符，例如'*'。"
 
 #. Template: AdminContactWD
 msgid "Please enter a search term to look for contacts with data."
-msgstr ""
+msgstr "输入搜索条件查找有数据的联系人。"
 
 #. Template: AdminContactWD
 msgid "Valid"
@@ -1664,13 +1665,13 @@ msgstr "动态字段过滤器"
 
 #. Template: AdminDynamicField
 msgid "New OTOBO Community  Fields"
-msgstr ""
+msgstr "新的OTOBO社区字段"
 
 #. Template: AdminDynamicField
 msgid ""
 "Would you like to benefit from additional dynamic field types? You have full "
 "access to the following field types:"
-msgstr ""
+msgstr "想从其他动态字段类型中受益吗？你可以完全访问以下字段类型："
 
 #. Template: AdminDynamicField
 msgid "Database"
@@ -1730,30 +1731,30 @@ msgstr "删除这个字段"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Import / Export"
-msgstr ""
+msgstr "输入/导出"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid ""
 "Here you can upload a configuration file to import dynamic fields to your "
 "system. The file needs to be in .yml format as exported by dynamic field "
 "management module."
-msgstr ""
+msgstr "你可以处加载配置文件，以将动态字段导入到系统中。动态字段管理模块导出的这个文件必须为.yml格式。"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Import"
-msgstr ""
+msgstr "动态字段导入"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Export"
-msgstr ""
+msgstr "动态字段导出"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Dynamic Fields Screens"
-msgstr ""
+msgstr "动态字段屏幕"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Here you can manage the dynamic fields in the respective screens."
-msgstr ""
+msgstr "这里你可以相应的屏幕中管理动态字段。"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
@@ -1839,31 +1840,31 @@ msgstr "这是该字段的默认值。"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add or edit contacts"
-msgstr ""
+msgstr "增加或编辑联系人"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "To add contacts to this field please fill out all the needed information and "
 "save it."
-msgstr ""
+msgstr "要将联系人添加到此字段，请填写所有必需的信息并保存。"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Click on the field name from the overview to edit it and find the "
 "corresponding action in the sidebar or from the 'Tickets' menu."
-msgstr ""
+msgstr "点击汇总表中的字段名称，以便编辑或者从侧栏和'工单' 菜单中选取适当的动作。"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Name Field"
-msgstr ""
+msgstr "命名字段"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "ValidID Field"
-msgstr ""
+msgstr "字段有效ID"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Other Fields"
-msgstr ""
+msgstr "其他字段"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Key"
@@ -1879,7 +1880,7 @@ msgstr "删除值"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add Field"
-msgstr ""
+msgstr "添加字段"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add value"
@@ -1887,37 +1888,37 @@ msgstr "添加值"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "These are the possible data attributes for contacts."
-msgstr ""
+msgstr "这些是联系人可能的数据属性。"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Mandatory fields"
-msgstr ""
+msgstr "必填字段"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of mandatory keys (optional). Keys 'Name' and 'ValidID' "
 "are always mandatory and doesn't have to be listed here."
-msgstr ""
+msgstr "必要的关键点列表用逗号分开（可选），其中“ Name”和“ ValidID”始终是必填项，不必在此处列出。"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Sorted fields"
-msgstr ""
+msgstr "字段排序"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of keys in sort order (optional). Keys listed here come "
 "first, all remaining fields afterwards and sorted alphabetically."
-msgstr ""
+msgstr "按顺序排列的关键字段列表（可选），此处列出的字段排在最前面，所有其余字段按字母顺序排在后面。"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Searchable fields"
-msgstr ""
+msgstr "可搜索字段"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of searchable keys (optional). Key 'Name' is always "
 "searchable and doesn't have to be listed here."
-msgstr ""
+msgstr "可搜索字段列表以逗号分开（可选），“名称”始终是可搜索的，不必在此处列出。"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Translatable values"
@@ -1945,7 +1946,7 @@ msgstr "可能值"
 
 #. Template: AdminDynamicFieldDB
 msgid "Datatype"
-msgstr ""
+msgstr "数据类型"
 
 #. Template: AdminDynamicFieldDB
 msgid "Filter"
@@ -1953,11 +1954,11 @@ msgstr "过滤器"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchfield"
-msgstr ""
+msgstr "搜索字段"
 
 #. Template: AdminDynamicFieldDB
 msgid "Listfield"
-msgstr ""
+msgstr "字段列表"
 
 #. Template: AdminDynamicFieldDB
 msgid "Show link"
@@ -1992,11 +1993,11 @@ msgstr "实例名"
 
 #. Template: AdminDynamicFieldDB
 msgid "Driver"
-msgstr ""
+msgstr "驱动器"
 
 #. Template: AdminDynamicFieldDB
 msgid "Server"
-msgstr ""
+msgstr "服务器"
 
 #. Template: AdminDynamicFieldDB
 msgid "Port"
@@ -2004,7 +2005,7 @@ msgstr "端口"
 
 #. Template: AdminDynamicFieldDB
 msgid "Table / View"
-msgstr ""
+msgstr "表单/视图"
 
 #. Template: AdminDynamicFieldDB
 msgid "User"
@@ -2020,7 +2021,7 @@ msgstr "标识符"
 
 #. Template: AdminDynamicFieldDB
 msgid "Must be unique column from the table entered in Table/View."
-msgstr ""
+msgstr "必须是在“表单/视图”中输入的唯一列。"
 
 #. Template: AdminDynamicFieldDB
 msgid "Multiselect"
@@ -2028,23 +2029,23 @@ msgstr "多选框"
 
 #. Template: AdminDynamicFieldDB
 msgid "CacheTTL"
-msgstr ""
+msgstr "CacheTTL"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchprefix"
-msgstr ""
+msgstr "搜索前缀"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchsuffix"
-msgstr ""
+msgstr "搜索后缀"
 
 #. Template: AdminDynamicFieldDB
 msgid "Result Limit"
-msgstr ""
+msgstr "结果列表"
 
 #. Template: AdminDynamicFieldDB
 msgid "Case Sensitive"
-msgstr ""
+msgstr "大小写敏感"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Default date difference"
@@ -2123,32 +2124,32 @@ msgstr "激活此选项，将以树状形式显示值。"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "%s - %s"
-msgstr ""
+msgstr "%s - %s"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the items you want to "
-msgstr ""
+msgstr "选取你需要的项 "
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the desired elements and confirm the import with 'import'."
-msgstr ""
+msgstr "选择所需的项，然后单击“导入”确认导入。"
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
 "Here you can export a configuration file of dynamic fields and dynamic field "
 "screens to import these on another system. The configuration file is "
 "exported in yml format."
-msgstr ""
+msgstr "这里你可以导出动态字段和动态字段屏幕的配置文件，以便将它们导入另一个系统。配置文件会以yml格式导出。"
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
 "The following dynamic fields can not be imported because of an invalid "
 "backend."
-msgstr ""
+msgstr "由于无效的后台数据，以下动态字段无法导入。"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Toggle all available elements"
-msgstr ""
+msgstr "切换所有可用项"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Fields"
@@ -2156,11 +2157,11 @@ msgstr "字段"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Screens"
-msgstr ""
+msgstr "屏幕"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Management of Dynamic Fields <-> Screens"
-msgstr ""
+msgstr "动态字段管理 <-> 屏幕"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Overview"
@@ -2168,17 +2169,17 @@ msgstr "概览"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Default Columns Screens"
-msgstr ""
+msgstr "默认屏幕列"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Add DynamicField"
-msgstr ""
+msgstr "添加动态字段"
 
 #. Template: AdminDynamicFieldScreen
 msgid ""
 "You can assign elements to this Screen/Field by dragging the elements with "
 "the mouse from the left list to the right list."
-msgstr ""
+msgstr "你可以使用鼠标将项从左侧列表拖到右侧列表，从而将该项分配给此屏幕/字段。"
 
 #. Template: AdminDynamicFieldScreen
 msgid ""
@@ -2187,63 +2188,63 @@ msgstr "利用鼠标拖放动作还可以对元素进行排序。"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter available elements"
-msgstr ""
+msgstr "过滤可用的项"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to available elements"
-msgstr ""
+msgstr "被选择给可用的项"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Available Elements"
-msgstr ""
+msgstr "可用项"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter disabled elements"
-msgstr ""
+msgstr "过滤停用的项"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to disabled elements"
-msgstr ""
+msgstr "被选择给停用的项"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all disabled elements"
-msgstr ""
+msgstr "切换所有停用的项"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Disabled Elements"
-msgstr ""
+msgstr "停用项"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter assigned elements"
-msgstr ""
+msgstr "过滤分配的项"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to assigned elements"
-msgstr ""
+msgstr "被选择给分配的项"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all assigned elements"
-msgstr ""
+msgstr "切换所有分配的项"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Assigned Elements"
-msgstr ""
+msgstr "分配项"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter assigned required elements"
-msgstr ""
+msgstr "过滤分配的必要项"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to assigned required elements"
-msgstr ""
+msgstr "被选择给分配的必要项"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all assigned required elements"
-msgstr ""
+msgstr "切换所有分配的必要项"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Assigned Required Elements"
-msgstr ""
+msgstr "分配必要项"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Reset"
@@ -2299,23 +2300,23 @@ msgstr "模版"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Style"
-msgstr ""
+msgstr "风格"
 
 #. Template: AdminDynamicFieldTitle
 msgid "bold"
-msgstr ""
+msgstr "粗体"
 
 #. Template: AdminDynamicFieldTitle
 msgid "italic"
-msgstr ""
+msgstr "斜体"
 
 #. Template: AdminDynamicFieldTitle
 msgid "underline"
-msgstr ""
+msgstr "下划线"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Font style of the label."
-msgstr ""
+msgstr "标签的字体风格。"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Size"
@@ -2323,11 +2324,11 @@ msgstr "大小"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Font size of the label."
-msgstr ""
+msgstr "标签的字体尺寸。"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Color in hex."
-msgstr ""
+msgstr "16进制颜色。"
 
 #. Template: AdminDynamicFieldWebService
 msgid "This field is required"
@@ -2335,35 +2336,35 @@ msgstr "这个字段是必需的"
 
 #. Template: AdminDynamicFieldWebService
 msgid "The web service to be executed for possible values."
-msgstr ""
+msgstr "为可能的值执行的Web服务。"
 
 #. Template: AdminDynamicFieldWebService
 msgid "Invoker"
-msgstr ""
+msgstr "召唤者"
 
 #. Template: AdminDynamicFieldWebService
 msgid ""
 "The invoker to be used to perform requests (invoker needs to be of type "
 "'Generic::PassThrough')."
-msgstr ""
+msgstr "召唤者用于调用请求的程序（召唤者的类型必须是'Generic::PassThrough'）。"
 
 #. Template: AdminDynamicFieldWebService
 msgid "Activate this option to allow multiselect on results."
-msgstr ""
+msgstr "激活这个选项就可以对结果进行多选。"
 
 #. Template: AdminDynamicFieldWebService
 msgid "Cache TTL"
-msgstr ""
+msgstr "缓存 TTL"
 
 #. Template: AdminDynamicFieldWebService
 msgid "Cache time to live (in minutes), to save the retrieved possible values."
-msgstr ""
+msgstr "缓存生存时间以分钟为单位，以保存取得的数值。"
 
 #. Template: AdminDynamicFieldWebService
 msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens. Optional HTTP link works only for single-select fields."
-msgstr ""
+msgstr "这里你可以在“概述”和“缩放”屏幕中，为字段值指定一个可选的HTTP链接，这个HTTP链接仅适用于单选字段。"
 
 #. Template: AdminEmail
 msgid "Admin Message"
@@ -2668,16 +2669,19 @@ msgid "Ticket changed between"
 msgstr "工单修改时间（在...之间）"
 
 #. Template: AdminGenericAgent
+#, fuzzy
 msgid "Last close times"
-msgstr ""
+msgstr "最后关闭时间"
 
 #. Template: AdminGenericAgent
+#, fuzzy
 msgid "No last close time settings."
-msgstr ""
+msgstr "没有上次关闭时间设置。"
 
 #. Template: AdminGenericAgent
+#, fuzzy
 msgid "Ticket last close"
-msgstr ""
+msgstr "工单最后关闭"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last close between"
@@ -3848,7 +3852,7 @@ msgstr "用于指示访问Web服务的特定位置的URI。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
-msgstr ""
+msgstr "例如：https://www.otobo.de:10745/api/v1.0 （不带反斜杠）"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
@@ -4000,7 +4004,7 @@ msgstr "例如：/opt/otobo/var/certificates/SOAP/CA"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "SSL hostname verification."
-msgstr ""
+msgstr "SSL 主机名称验证。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -4008,6 +4012,7 @@ msgid ""
 "Skipping verification is a security risk! Mainly for testing purposes in "
 "case of self-signed SSL certificates, or if you know what you are doing."
 msgstr ""
+"如果无法验证主机名，则中止请求。不过禁用验证时要小心！跳过验证会有安全风险！禁用验证主要用于测试目的（比如自签名SSL证书），或者你明确知道自己在做什么。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
@@ -4041,7 +4046,7 @@ msgstr "用于请求的默认HTTP命令。"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
-msgstr ""
+msgstr "例如：https://local.otobo.de:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set SOAPAction"
@@ -4114,6 +4119,8 @@ msgid ""
 "e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/"
 "actions"
 msgstr ""
+"举例：urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/"
+"actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name scheme"
@@ -4947,7 +4954,7 @@ msgstr "云服务当前被禁用了。"
 
 #. Template: AdminPackageManager
 msgid "OTOBO Verify can not continue!"
-msgstr ""
+msgstr "OTOBO验证不能继续！"
 
 #. Template: AdminPackageManager
 msgid "Enable cloud services"
@@ -6028,7 +6035,7 @@ msgstr "注册系统概述"
 
 #. Template: AdminRegistration
 msgid "This system is registered with OTOBO Team."
-msgstr ""
+msgstr "本系统已经在OTOBO团队进行了注册。"
 
 #. Template: AdminRegistration
 msgid "System type"
@@ -6068,7 +6075,7 @@ msgstr "OTOBO-ID登陆"
 msgid ""
 "System registration is a service of OTOBO Team, which provides a lot of "
 "advantages!"
-msgstr ""
+msgstr "系统注册是OTOBO团队的一项服务，它有很多好处！"
 
 #. Template: AdminRegistration
 msgid "Read more"
@@ -6137,7 +6144,7 @@ msgstr "注册后，哪些数据会被上传?"
 
 #. Template: AdminRegistration
 msgid "A registered system sends the following data to OTOBO Team:"
-msgstr ""
+msgstr "已注册的系统会将以下数据发送给OTOBO Team："
 
 #. Template: AdminRegistration
 msgid ""
@@ -6209,7 +6216,7 @@ msgstr "下一步"
 msgid ""
 "This data will be frequently transferred to OTOBO Team when you register "
 "this system."
-msgstr ""
+msgstr "注册该系统时，这些数据将经常传输到OTOBO Team。"
 
 #. Template: AdminRegistration
 msgid "Attribute"
