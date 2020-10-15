@@ -231,7 +231,6 @@ sub DataTransfer {
         OTOBODBObject  => $OTOBODBObject,
         OTOBODBBackend => $Self->{$OTOBODBBackend},
         DBInfo         => $Param{OTRSDBSettings},
-        DryRun         => $Param{DryRun},
         Force          => $Param{Force},
     );
 }
@@ -275,7 +274,6 @@ sub SanityChecks {
     # perform sanity checks
     return $Self->{$CloneDBBackend}->SanityChecks(
         OTRSDBObject => $Param{OTRSDBObject},
-        DryRun       => $Param{DryRun},
         Force        => $Param{Force},
     );
 }
