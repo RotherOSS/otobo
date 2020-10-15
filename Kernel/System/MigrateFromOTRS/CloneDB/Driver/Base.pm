@@ -241,8 +241,7 @@ sub DataTransfer {
     # Delete OTOBO content from table.
     # In the case of destructive copy keep track of the foreign keys.
     # TODO: also keep track of the indexes, they are copied, but indexes might have been added
-use Data::Dumper;
-    my ( %SourceDropForeignKeys, %TargetAddForeignKeys );
+    my ( %SourceDropForeignKeys, %TargetAddForeignKeys, %DoBatchInsert, %ShortenColumn );
     SOURCE_TABLE:
     for my $SourceTable (@SourceTables) {
 
@@ -257,77 +256,169 @@ use Data::Dumper;
             next SOURCE_TABLE;
         }
 
-        # check if OTOBO Table exists, if yes delete table content
-        # Keep Track of foreign keys
         my $TargetTable = $RenameTables{$SourceTable} // $SourceTable;
-        if ( $TargetTableExists{$TargetTable} ) {
-            if ( $BeDestructive ) {
 
-                # drop foreign keys in the source
-                $SourceDropForeignKeys{$SourceTable} //= [];
-                my $SourceForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
-                    undef, undef, undef,
-                    undef, $SourceSchema, $SourceTable
-                );
-
-                ROW:
-                while ( my @Row = $SourceForeignKeySth->fetchrow_array() ) {
-                    my ($FKName) = $Row[11];
-
-                    warn Dumper( [ 'AAA', $TargetSchema, $TargetTable, [ $FKName ], \@Row ] );
-
-                    # skip cruft
-                    next ROW unless $FKName;
-
-                    # The OTOBO convention is that foreign key names start with 'FK_'.
-                    # The check is relevant because primary keys have 'PRIMARY' as $FKName
-                    next ROW unless $FKName =~ m/^FK_/;
-
-                    push $SourceDropForeignKeys{$SourceTable}->@*,
-                        "DROP FOREIGN KEY $FKName";
-                }
-
-                # readd foreign keys in the target
-                $TargetAddForeignKeys{$TargetTable} //= [];
-                my $TargetForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
-                    undef, undef, undef,
-                    undef, $TargetSchema, $TargetTable
-                );
-
-                ROW:
-                while ( my @Row = $TargetForeignKeySth->fetchrow_array() ) {
-                    my ($PKTableName, $PKColumnName, $FKColumnName, $FKName) = @Row[2, 3, 7, 11];
-
-                    warn Dumper( [ 'BBB', $TargetSchema, $TargetTable, [ $PKTableName, $PKColumnName, $FKColumnName, $FKName ], @Row ] );
-
-                    # skip cruft
-                    next ROW unless $PKTableName;
-                    next ROW unless $PKColumnName;
-                    next ROW unless $FKColumnName;
-                    next ROW unless $FKName;
-
-                    # The OTOBO convention is that foreign key names start with 'FK_'.
-                    # The check is relevant because primary keys have 'PRIMARY' as $FKName
-                    next ROW unless $FKName =~ m/^FK_/;
-
-                    push $TargetAddForeignKeys{$TargetTable}->@*,
-                        "ADD CONSTRAINT FOREIGN KEY $FKName ($FKColumnName) REFERENCES $PKTableName($PKColumnName)";
-                }
-
-                $TargetDBObject->Do( SQL => "DROP TABLE $TargetTable" );
-            }
-            else {
-                $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
-            }
-        }
-        else {
+        # Do not migrate tables that not needed on the target
+        if ( ! $TargetTableExists{$TargetTable} ) {
 
             # Log info to apache error log and OTOBO log (syslog or file)
             $MigrationBaseObject->MigrationLog(
-                String   => "Table $SourceTable exist not in OTOBO.",
+                String   => "Table $SourceTable does not in OTOBO.",
                 Priority => "notice",
             );
             $TableIsSkipped{$SourceTable} = 1;
+
+            next SOURCE_TABLE;
+
+        }
+
+        # The OTOBO table exists. So, either truncate or drop the table in OTOBO.
+        # For destructive table copying drop the table but keep Track of foreign keys first.
+
+        # On MySQL we might need to shorten specific entries.
+        # When we need to shorten then we can't do a batch insert.
+        if ( $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
+
+            # We need to check if column is varchar and > 191 character on OTRS side.
+            # Therefore we need the list of columns.
+            my $SourceColumnsRef = $Self->ColumnsList(
+                Table    => $SourceTable,
+                DBName   => $Param{DBInfo}->{DBName},
+                DBObject => $SourceDBObject,
+            ) || return;
+
+            SOURCE_COLUMN:
+            for my $SourceColumn ( $SourceColumnsRef->@* ) {
+
+                # Get Source (OTRS) column infos
+                my $SourceColumnInfos = $Self->GetColumnInfos(
+                    Table    => $SourceTable,
+                    DBName   => $Param{DBInfo}->{DBName},
+                    DBObject => $SourceDBObject,
+                    Column   => $SourceColumn,
+                );
+
+                # shortening only for varchar
+                next SOURCE_COLUMN unless $SourceColumnInfos->{DATA_TYPE} eq 'varchar';
+
+                # Get target (OTOBO) column infos
+                my $TargetColumnInfos = $TargetDBBackend->GetColumnInfos(
+                    Table    => $TargetTable,
+                    DBName   => $ConfigObject->Get('Database'),
+                    DBObject => $TargetDBObject,
+                    Column   => $SourceColumn,
+                );
+
+                # First we need to check if the Table / Column exists in the OTOBO DB. If not,
+                # we don´t need to cut the content I think.
+                next SOURCE_COLUMN unless IsHashRefWithData($TargetColumnInfos);
+
+                next SOURCE_COLUMN unless $SourceColumnInfos->{LENGTH} > $TargetColumnInfos->{LENGTH};
+
+                # we need to shorten that column in that table
+                $ShortenColumn{$SourceTable} //= {};
+                $ShortenColumn{$SourceTable}->{$SourceColumn} = 1;
+
+                # Log info to apache error log and OTOBO log (syslog or file)
+                $MigrationBaseObject->MigrationLog(
+                    String   => "Column $SourceColumn needs to cut to new length of 190 chars, cause utf8mb4.",
+                    Priority => "notice",
+                );
+            }
+        }
+
+        # We can speed up the copying of the rows when Source and Target databases are on the same database server.
+        # The most important criterium is whether the database host are equal.
+        # This is done by comparing 'mysql_hostinfo'
+        # Beware that there can be false negatives, e.g. when alternative IPs or hostnames are used.
+        # Or when only one of the connections is via socket.
+        # Be careful and also make some sanity additional sanity checks.
+        # For now only 'mysql' is supported.
+        # TODO: move parts of the check into the scpecic driver object
+        my $BatchInsertIsPossible = eval {
+
+            # source and target must be the same database type
+            return 0 unless $TargetDBObject->{'DB::Type'} eq $SourceDBObject->{'DB::Type'};
+
+            my $DBType = $TargetDBObject->{'DB::Type'};
+
+            # check whether it's the same host
+            if ( $DBType eq 'mysql' ) {
+                return 0 unless $TargetDBObject->{dbh}->{mysql_hostinfo} eq $SourceDBObject->{dbh}->{mysql_hostinfo};
+            }
+            else {
+                return 0;
+            }
+
+            # no batch insert when columns of the table must be shortened
+            return 0 if $ShortenColumn{$SourceTable} && $ShortenColumn{$SourceTable}->%*;
+
+            # no batch insert when BLOBs must be encoded or decoded
+            return 0 unless $TargetDBObject->GetDatabaseFunction('DirectBlob') == $SourceDBObject->GetDatabaseFunction('DirectBlob');
+
+            # Let's try batch inserts
+            return 1;
+        };
+
+        $DoBatchInsert{$SourceTable} = $BatchInsertIsPossible;
+
+        if ( $BeDestructive && $BatchInsertIsPossible ) {
+
+           # drop foreign keys in the source
+           $SourceDropForeignKeys{$SourceTable} //= [];
+           my $SourceForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
+               undef, undef, undef,
+               undef, $SourceSchema, $SourceTable
+           );
+
+           ROW:
+           while ( my @Row = $SourceForeignKeySth->fetchrow_array() ) {
+               my ($FKName) = $Row[11];
+
+               warn Dumper( [ 'AAA', $TargetSchema, $TargetTable, [ $FKName ], \@Row ] );
+
+               # skip cruft
+               next ROW unless $FKName;
+
+               # The OTOBO convention is that foreign key names start with 'FK_'.
+               # The check is relevant because primary keys have 'PRIMARY' as $FKName
+               next ROW unless $FKName =~ m/^FK_/;
+
+               push $SourceDropForeignKeys{$SourceTable}->@*,
+                   "DROP FOREIGN KEY $FKName";
+           }
+
+           # readd foreign keys in the target
+           $TargetAddForeignKeys{$TargetTable} //= [];
+           my $TargetForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
+               undef, undef, undef,
+               undef, $TargetSchema, $TargetTable
+           );
+
+           ROW:
+           while ( my @Row = $TargetForeignKeySth->fetchrow_array() ) {
+               my ($PKTableName, $PKColumnName, $FKColumnName, $FKName) = @Row[2, 3, 7, 11];
+
+               warn Dumper( [ 'BBB', $TargetSchema, $TargetTable, [ $PKTableName, $PKColumnName, $FKColumnName, $FKName ], @Row ] );
+
+               # skip cruft
+               next ROW unless $PKTableName;
+               next ROW unless $PKColumnName;
+               next ROW unless $FKColumnName;
+               next ROW unless $FKName;
+
+               # The OTOBO convention is that foreign key names start with 'FK_'.
+               # The check is relevant because primary keys have 'PRIMARY' as $FKName
+               next ROW unless $FKName =~ m/^FK_/;
+
+               push $TargetAddForeignKeys{$TargetTable}->@*,
+                   "ADD CONSTRAINT FOREIGN KEY $FKName ($FKColumnName) REFERENCES $PKTableName($PKColumnName)";
+           }
+
+           $TargetDBObject->Do( SQL => "DROP TABLE $TargetTable" );
+        }
+        else {
+            $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
         }
     }
 
@@ -379,76 +470,9 @@ use Data::Dumper;
             @SourceColumns = $SourceColumnRef->@*;
         }
 
-        # We need to check if column is varchar and > 191 character on OTRS side.
-        my %ShortenColumn;
-        for my $SourceColumn (@SourceColumns) {
-
-            # Get Source (OTRS) column infos
-            my $SourceColumnInfos = $Self->GetColumnInfos(
-                Table    => $SourceTable,
-                DBName   => $Param{DBInfo}->{DBName},
-                DBObject => $SourceDBObject,
-                Column   => $SourceColumn,
-            );
-
-            # Get target (OTOBO) column infos
-            my $TargetColumnInfos = $TargetDBBackend->GetColumnInfos(
-                Table    => $TargetTable,
-                DBName   => $ConfigObject->Get('Database'),
-                DBObject => $TargetDBObject,
-                Column   => $SourceColumn,
-            );
-
-            # First we need to check if the Table / Column exists in the OTOBO DB. If not,
-            # we don´t need to cut the content I think.
-            if ( IsHashRefWithData($TargetColumnInfos) && $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
-                if ( $SourceColumnInfos->{DATA_TYPE} eq 'varchar' && $SourceColumnInfos->{LENGTH} > $TargetColumnInfos->{LENGTH} ) {
-                    $ShortenColumn{$SourceColumn} = $SourceColumn;
-
-                    # Log info to apache error log and OTOBO log (syslog or file)
-                    $MigrationBaseObject->MigrationLog(
-                        String   => "Column $SourceColumn needs to cut to new length of 190 chars, cause utf8mb4.",
-                        Priority => "notice",
-                    );
-                }
-            }
-        }
-
-        # We can speed up the data copying
-        # when Source and Target database are on the same server.
-        # The most important criterium is whether the database host are equal.
-        # This is done by retrieving 'mysql_hostinfo'
-        # Beware that there can be false negatives, e.g. when alternative IPs or hostnames are used.
-        # Or when only one of the connections is via socket.
-        # Be careful and also make some sanity additional sanity checks.
-        # For now only 'mysql' is supported.
-        # TODO: move parts of the check into the scpecic driver object
-        my $DoBatchInsert = eval {
-
-            # source and target must be the same database type
-            return 0 unless $TargetDBObject->{'DB::Type'} eq $SourceDBObject->{'DB::Type'};
-
-            my $DBType = $TargetDBObject->{'DB::Type'};
-
-            # check whether it's the same host
-            if ( $DBType eq 'mysql' ) {
-                return 0 unless $TargetDBObject->{dbh}->{mysql_hostinfo} eq $SourceDBObject->{dbh}->{mysql_hostinfo};
-            }
-            else {
-                return 0;
-            }
-
-            # sanity checking
-            return 0 if %ShortenColumn;
-            return 0 unless $TargetDBObject->GetDatabaseFunction('DirectBlob') == $SourceDBObject->GetDatabaseFunction('DirectBlob');
-
-            # Let's try batch inserts
-            return 1;
-        };
-
         # If we have extra columns in OTRS table we need to add the column to OTOBO.
         # But only if we don't have a destructive batch insert
-        if ( ! ( $DoBatchInsert && $BeDestructive ) ) {
+        if ( ! ( $DoBatchInsert{$SourceTable} && $BeDestructive ) ) {
             my $TargetColumnRef = $TargetDBBackend->ColumnsList(
                 Table    => $TargetTable,
                 DBName   => $ConfigObject->Get('Database'),
@@ -480,9 +504,10 @@ use Data::Dumper;
             }
         }
 
-        if ( $DoBatchInsert ) {
+        my $ColumnsString = join ', ', @SourceColumns;
 
-            my $ColumnsString   = join ', ', @SourceColumns;
+        if ( $DoBatchInsert{$SourceTable} ) {
+
             my $CopyTableSQL;
             if ( $BeDestructive ) {
                 # OTOBO uses no triggers, otherwise they would need to be adapted
@@ -516,11 +541,11 @@ END_SQL
             }
         }
         else {
+            # no batch insert
 
             # assemble the relevant SQL
             my ( $SelectSQL, $InsertSQL );
             {
-                my $ColumnsString = join ', ', @SourceColumns;
                 my $BindString    = join ', ', map {'?'} @SourceColumns;
                 $InsertSQL     = "INSERT INTO $TargetTable ($ColumnsString) VALUES ($BindString)";
                 $SelectSQL     = "SELECT $ColumnsString FROM $SourceTable",
@@ -538,15 +563,20 @@ END_SQL
             TABLEROW:
             while ( my @Row = $SourceDBObject->FetchrowArray() ) {
 
-                COLUMNVALUES:
-                for my $ColumnCounter ( 1 .. $#SourceColumns ) {
-                    my $Column = $SourceColumns[$ColumnCounter];
+                if ( $ShortenColumn{$SourceTable} && $ShortenColumn{$SourceTable}->%* ) {
 
-                    # Check if we need to cut the string, cause utf8mb4 only needs 191 chars.
-                    if ( $ShortenColumn{$Column} ) {
-                        if ( $Row[$ColumnCounter] && length( $Row[$ColumnCounter] ) > 190 ) {
-                            $Row[$ColumnCounter] = substr( $Row[$ColumnCounter], 0, 190 );
-                        }
+                    # inspect all source columns
+                    COLUMN_COUNTER:
+                    for my $ColumnCounter ( 1 .. $#SourceColumns ) {
+                        my $Column = $SourceColumns[$ColumnCounter];
+
+                        # Check if we need to cut the string, cause utf8mb4 only needs 191 chars.
+                        next COLUMN_COUNTER unless $ShortenColumn{$SourceTable}->{$Column};
+                        next COLUMN_COUNTER unless $Row[$ColumnCounter];
+                        next COLUMN_COUNTER unless length $Row[$ColumnCounter] > 190;
+
+                        # do the cutting
+                        $Row[$ColumnCounter] = substr $Row[$ColumnCounter], 0, 190;
                     }
                 }
 
