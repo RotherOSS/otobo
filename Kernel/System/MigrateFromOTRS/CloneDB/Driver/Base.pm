@@ -574,10 +574,9 @@ END_SQL
                     }
                 }
 
-                my @Bind = map { \$_ } @Row;
                 my $Success = $TargetDBObject->Do(
                     SQL  => $InsertSQL,
-                    Bind => \@Bind,
+                    Bind => [ \( @Row ) ], # reference to an array of references
                 );
 
                 if ( !$Success ) {
