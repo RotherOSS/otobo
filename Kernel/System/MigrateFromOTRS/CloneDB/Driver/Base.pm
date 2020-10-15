@@ -484,23 +484,15 @@ use Data::Dumper;
         if ( $DoBatchInsert ) {
 
             my $ColumnsString   = join ', ', @SourceColumns;
-            my $SourceSchema    = ( $SourceDBObject->SelectAll(
-                SQL   => 'SELECT DATABASE()',
-                Limit => 1,
-            ) // [ [ 'unknown source database' ] ] )->[0]->[0];
-            my $TargetSchema    = ( $TargetDBObject->SelectAll(
-                SQL   => 'SELECT DATABASE()',
-                Limit => 1,
-            ) // [ [ 'unknown target database' ] ] )->[0]->[0];
-
             my $CopyTableSQL;
             if ( $BeDestructive ) {
                 # OTOBO uses no triggers, otherwise they would need to be adapted
-                # TODO: might require additional privs
+                # This requires the privs DROP and ALTER on the source database
                 $CopyTableSQL  = <<"END_SQL";
-ALTER TABLE  $SourceSchema$.$SourceTable
+ALTER TABLE $SourceSchema.$SourceTable
   RENAME $TargetSchema.$TargetTable
 END_SQL
+                # TODO: update the foreign key references
             }
             else {
                 $CopyTableSQL  = <<"END_SQL";
