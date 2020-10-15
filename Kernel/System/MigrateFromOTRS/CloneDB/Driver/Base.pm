@@ -104,7 +104,7 @@ sub SanityChecks {
     SOURCE_TABLE:
     for my $SourceTable (@SourceTables) {
 
-        if ( $TableIsSkipped{ lc $SourceTable } ) {
+        if ( $TableIsSkipped{ $SourceTable } ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'info',
                 Message  => "Skipping table $SourceTable on SanityChecks.",
@@ -203,7 +203,7 @@ sub DataTransfer {
     my %RenameTables   = $MigrationBaseObject->DBRenameTables()->%*;
 
     # get a list of tables on OTRS DB
-    my @SourceTables = $Self->TablesList( DBObject => $SourceDBObject );
+    my @SourceTables = map { lc } $Self->TablesList( DBObject => $SourceDBObject );
 
     # get a list of tables on OTOBO DB
     my %TargetTableExists = map { $_ => 1 } $TargetDBBackend->TablesList( DBObject => $TargetDBObject );
