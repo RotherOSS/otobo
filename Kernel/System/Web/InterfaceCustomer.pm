@@ -19,10 +19,15 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 use warnings;
 
-use Kernel::System::DateTime;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::Email;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 use Kernel::Language qw(Translatable);
+use Kernel::System::DateTime;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -69,9 +74,8 @@ create customer web interface object
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    # start with an empty hash for the new object
+    my $Self = bless {}, $Type;
 
     # get debug level
     $Self->{Debug} = $Param{Debug} || 0;
@@ -79,6 +83,7 @@ sub new {
     # performance log
     $Self->{PerformanceLogStart} = time();
 
+    # register object params
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix'),
@@ -178,7 +183,7 @@ sub Run {
             Lang => $Param{Lang},
         },
         'Kernel::Language' => {
-            UserLanguage => $Param{Lang},
+            UserLanguage => $Param{Lang}
         },
     );
 
@@ -212,8 +217,6 @@ sub Run {
         }
     }
 
-    my $UserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
-    my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
     # get common application and add on application params
     my %CommonObjectParam = %{ $ConfigObject->Get('CustomerFrontend::CommonParam') };
@@ -223,6 +226,9 @@ sub Run {
 
     # security check Action Param (replace non-word chars)
     $Param{Action} =~ s/\W//g;
+
+    my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+    my $UserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
     # check request type
     if ( $Param{Action} eq 'PreLogin' ) {
@@ -323,7 +329,7 @@ sub Run {
                             HTTPOnly => 1,
                         ),
                     },
-                },
+                }
             );
 
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -527,7 +533,6 @@ sub Run {
                         Secure   => $CookieSecureAttribute,
                         HTTPOnly => 1,
                     ),
-
                 },
                 SessionID   => $NewSessionID,
                 SessionName => $Param{SessionName},
@@ -633,7 +638,7 @@ sub Run {
         return 1;
     }
 
-    # CustomerLostPassword
+    # customer lost password
     elsif ( $Param{Action} eq 'CustomerLostPassword' ) {
 
         # new layout object
@@ -684,8 +689,8 @@ sub Run {
             USER_ID:
             for my $UserID ( sort keys %UserList ) {
                 my %UserData = $UserObject->CustomerUserDataGet(
-                    User  => $UserID,
-                    Valid => 1,
+                    User   => $UserID,
+                    Valid  => 1,
                 );
                 if (%UserData) {
                     $User = $UserData{UserLogin};
@@ -1110,7 +1115,7 @@ sub Run {
                         ),
                     },
                     %Param,
-                }
+                },
             );
 
             # if the wrong scheme is used, delete also the "other" cookie - issue #251
@@ -1212,11 +1217,10 @@ sub Run {
             return;
         }
 
-        # module registry
+        # check module registry
         my $ModuleReg = $ConfigObject->Get('CustomerFrontend::Module')->{ $Param{Action} };
         if ( !$ModuleReg ) {
 
-            # new layout object
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
