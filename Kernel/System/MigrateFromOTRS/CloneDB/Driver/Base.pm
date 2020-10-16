@@ -19,11 +19,17 @@ package Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base;
 use strict;
 use warnings;
 use v5.24;
+use namespace::autoclean;
 
+# core modules
 use Encode;
 use MIME::Base64;
+use List::Util qw(any);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use File::Basename qw(fileparse);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -65,9 +71,11 @@ sub new {
     return bless {}, $Class;
 }
 
-# Some up-front sanity checks
+# A single sanity check.
+# Check whether the relevant tables exist in the source database.
 sub SanityChecks {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     if ( !$Param{OTRSDBObject} ) {
@@ -75,6 +83,7 @@ sub SanityChecks {
             Priority => 'error',
             Message  => "Need OTRSDBObject!",
         );
+
         return;
     }
 
@@ -87,14 +96,10 @@ sub SanityChecks {
     my $TargetDBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get a list of tables on OTRS DB
-    my @Tables = $Self->TablesList(
-        DBObject => $Param{OTRSDBObject},
-    );
+    my @Tables = $Self->TablesList( DBObject => $Param{OTRSDBObject} );
 
-    # Need to check if table empty, then a connect is not possible
-    if ( !IsArrayRefWithData( \@Tables ) ) {
-        return;
-    }
+    # no need to migrate when the source has no tables
+    return unless @Tables;
 
     TABLES:
     for my $Table (@Tables) {
@@ -120,9 +125,12 @@ sub SanityChecks {
                 Priority => 'error',
                 Message  => "Required table '$Table' does not seem to exist in the OTOBO database!",
             );
+
             return;
         }
     }
+
+    # source database looks sane
     return 1;
 }
 
@@ -130,7 +138,8 @@ sub SanityChecks {
 # Get row count of a table.
 #
 sub RowCount {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
 
@@ -141,34 +150,31 @@ sub RowCount {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
 
-    # execute counting statement
-    $Param{DBObject}->Prepare(
-        SQL => "
-            SELECT COUNT(*)
-            FROM $Param{Table}",
-    ) || return;
+    # execute counting statement, only a single row is returned
+    return unless $Param{DBObject}->Prepare(
+        SQL => "SELECT COUNT(*) FROM $Param{Table}",
+    );
 
-    my $Result;
-    while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
-        $Result = $Row[0];
-    }
+    my ($NumRows) = $Param{DBObject}->FetchrowArray();
 
     # Log info to apache error log and OTOBO log (syslog or file)
     $MigrationBaseObject->MigrationLog(
-        String   => "Count of entrys in Table $Param{Table}: $Result.",
+        String   => "Count of entrys in Table $Param{Table}: $NumRows.",
         Priority => "debug",
     );
 
-    return $Result;
+    return $NumRows;
 }
 
 # Transfer the actual table data
 sub DataTransfer {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift; # the source db backend
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(OTRSDBObject OTOBODBObject OTOBODBBackend DBInfo)) {
@@ -177,11 +183,12 @@ sub DataTransfer {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
 
-    # get config object
+    # get objects
     my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
     my $CacheObject         = $Kernel::OM->Get('Kernel::System::Cache');
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
@@ -278,6 +285,7 @@ sub DataTransfer {
                 String   => "Skipping table $Table...",
                 Priority => "notice",
             );
+
             next TABLES;
         }
 
@@ -506,11 +514,13 @@ sub DataTransfer {
             }
         }
 
-        # if needed, reset the auto-incremental field
+        # If needed, reset the auto-incremental field.
+        # This is irrespective whether the table was polulated with a batch insert
+        # or via many small inserts.
         if (
             $TargetDBObject->can('ResetAutoIncrementField')
-            && grep { lc($_) eq 'id' } @Columns
-            )
+            && any { lc($_) eq 'id' } @Columns
+        )
         {
 
             $TargetDBObject->ResetAutoIncrementField(
@@ -521,8 +531,7 @@ sub DataTransfer {
     }
 
     if ( $TargetDBObject->{'DB::Type'} eq 'postgresql' ) {
-            $TargetDBObject->Do( SQL => 'set session_replication_role to default;' );
-
+        $TargetDBObject->Do( SQL => 'set session_replication_role to default;' );
     }
 
     return 1;
