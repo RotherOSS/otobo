@@ -19,6 +19,11 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 use Kernel::System::DateTime;
 
@@ -68,15 +73,16 @@ create agent web interface object. Do not use it directly, instead use:
 
 sub new {
     my ( $Type, %Param ) = @_;
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # Performance log
-    $Self->{PerformanceLogStart} = time();
+    # start with an empty hash for the new object
+    my $Self = bless {}, $Type;
 
     # get debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
+    # performance log
+    $Self->{PerformanceLogStart} = time();
+
+    # register object params
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix'),
@@ -217,7 +223,7 @@ sub Run {
         $Param{$Key} = $ParamObject->GetParam( Param => $Key ) || $CommonObjectParam{$Key};
     }
 
-    # security check Action Param (replace non word chars)
+    # security check Action Param (replace non-word chars)
     $Param{Action} =~ s/\W//g;
 
     my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
