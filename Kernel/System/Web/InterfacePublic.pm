@@ -19,6 +19,11 @@ package Kernel::System::Web::InterfacePublic;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
@@ -67,6 +72,7 @@ sub new {
     # performance log
     $Self->{PerformanceLogStart} = time();
 
+    # register object params
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix'),
@@ -152,7 +158,7 @@ sub Run {
         delete $Param{Lang};
     }
 
-    # Check if the browser sends the SessionID cookie and set the SessionID-cookie
+    # check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
     if ( $ConfigObject->Get('SessionUseCookie') ) {
         $Param{SessionIDCookie} = $ParamObject->GetCookie( Key => $Param{SessionName} );

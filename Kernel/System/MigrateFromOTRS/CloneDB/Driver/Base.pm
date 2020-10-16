@@ -25,7 +25,6 @@ use namespace::autoclean;
 use Encode;
 use MIME::Base64;
 use List::Util qw(any);
-use Data::Dumper;
 
 # CPAN modules
 
@@ -204,6 +203,10 @@ sub DataTransfer {
     my %TableIsSkipped = $MigrationBaseObject->DBSkipTables()->%*;
     my %RenameTables   = $MigrationBaseObject->DBRenameTables()->%*;
 
+    # Because of InnodB max key size in MySQL 5.6 or earlier
+    my $MaxMb4CharsInIndexKey = 191;     # int( 767 / 4 )
+    my $MaxLenghtShortenedColumns = 190; # 191 - 1
+
     # get a list of tables on OTRS DB
     my @SourceTables = map { lc } $Self->TablesList( DBObject => $SourceDBObject );
 
@@ -279,8 +282,19 @@ sub DataTransfer {
         # The OTOBO table exists. So, either truncate or drop the table in OTOBO.
         # For destructive table copying drop the table but keep Track of foreign keys first.
 
-        # On MySQL we might need to shorten specific entries.
+        # In the target database schema some varchar columns have been shortened
+        # to $MaxMb4CharsInIndexKey, that is 191, characters.
+        # The reason was that in MySQL 5.6 or earlier the max key size was limited per default
+        # to 767 characters. This max key size is relevant for the columns that make up the PRIMARY key
+        # and for all columns with an UNIQUE index. With switching to the utf8mb4 character set.
+        # the unique varchar columns may at most be int( 767 / 4) = 191 characters long.
+        #
+        # For the shortend columns we need to cut the values. In order to be on the safe
+        # side we cut to $MaxLenghtShortenedColumns=190 characters.
+        #
         # When we need to shorten then we can't do a batch insert.
+        #
+        # See also: https://dev.mysql.com/doc/refman/5.7/en/innodb-limits.html
         if ( $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
 
             # We need to check if column is varchar and > 191 character on OTRS side.
@@ -303,6 +317,7 @@ sub DataTransfer {
                 );
 
                 # shortening only for varchar
+                next SOURCE_COLUMN unless IsHashRefWithData($SourceColumnInfos);
                 next SOURCE_COLUMN unless $SourceColumnInfos->{DATA_TYPE} eq 'varchar';
 
                 # Get target (OTOBO) column infos
@@ -313,10 +328,9 @@ sub DataTransfer {
                     Column   => $SourceColumn,
                 );
 
-                # First we need to check if the Table / Column exists in the OTOBO DB. If not,
-                # we don´t need to cut the content I think.
                 next SOURCE_COLUMN unless IsHashRefWithData($TargetColumnInfos);
 
+                # check whether to varchar column has been shorted
                 next SOURCE_COLUMN unless $SourceColumnInfos->{LENGTH} > $TargetColumnInfos->{LENGTH};
 
                 # we need to shorten that column in that table
@@ -325,7 +339,7 @@ sub DataTransfer {
 
                 # Log info to apache error log and OTOBO log (syslog or file)
                 $MigrationBaseObject->MigrationLog(
-                    String   => "Column $SourceColumn needs to cut to new length of 190 chars, cause utf8mb4.",
+                    String   => "Column $SourceColumn needs to cut to new length of $MaxLenghtShortenedColumns chars, cause utf8mb4.",
                     Priority => "notice",
                 );
             }
@@ -379,8 +393,6 @@ sub DataTransfer {
             while ( my @Row = $SourceForeignKeySth->fetchrow_array() ) {
                 my ($FKName) = $Row[11];
 
-                warn Dumper( [ 'AAA', $TargetSchema, $TargetTable, [ $FKName ], \@Row ] );
-
                 # skip cruft
                 next ROW unless $FKName;
 
@@ -402,8 +414,6 @@ sub DataTransfer {
             ROW:
             while ( my @Row = $TargetForeignKeySth->fetchrow_array() ) {
                 my ($PKTableName, $PKColumnName, $FKColumnName, $FKName) = @Row[2, 3, 7, 11];
-
-                warn Dumper( [ 'BBB', $TargetSchema, $TargetTable, [ $PKTableName, $PKColumnName, $FKColumnName, $FKName ], @Row ] );
 
                 # skip cruft
                 next ROW unless $PKTableName;
@@ -473,6 +483,7 @@ sub DataTransfer {
 
             @SourceColumns = $SourceColumnRef->@*;
         }
+
 
         # If we have extra columns in OTRS table we need to add the column to OTOBO.
         # But only if we don't have a destructive batch insert
@@ -567,6 +578,7 @@ END_SQL
 
                         return;
                     }
+
                 }
             }
             else {
@@ -610,6 +622,8 @@ END_SQL
             TABLEROW:
             while ( my @Row = $SourceDBObject->FetchrowArray() ) {
 
+                # Check whether we need to cut the string,
+                # because utf8mb4 only supports $MaxMb4CharsInIndexKey=191 chars.
                 if ( $ShortenColumn{$SourceTable} && $ShortenColumn{$SourceTable}->%* ) {
 
                     # inspect all source columns
@@ -620,10 +634,10 @@ END_SQL
                         # Check if we need to cut the string, cause utf8mb4 only needs 191 chars.
                         next COLUMN_COUNTER unless $ShortenColumn{$SourceTable}->{$Column};
                         next COLUMN_COUNTER unless $Row[$ColumnCounter];
-                        next COLUMN_COUNTER unless length $Row[$ColumnCounter] > 190;
+                        next COLUMN_COUNTER unless length $Row[$ColumnCounter] > $MaxLenghtShortenedColumns;
 
                         # do the cutting
-                        $Row[$ColumnCounter] = substr $Row[$ColumnCounter], 0, 190;
+                        $Row[$ColumnCounter] = substr $Row[$ColumnCounter], 0, $MaxLenghtShortenedColumns;
                     }
                 }
 

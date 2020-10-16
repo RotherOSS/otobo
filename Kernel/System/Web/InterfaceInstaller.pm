@@ -19,6 +19,11 @@ package Kernel::System::Web::InterfaceInstaller;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
@@ -35,13 +40,13 @@ Kernel::System::Web::InterfaceInstaller - the installer web interface
 
 =head1 DESCRIPTION
 
-the global installer web interface
+This module generates the content for F<installer.pl>.
 
 =head1 PUBLIC INTERFACE
 
 =head2 new()
 
-create installer web interface object
+create the web interface object for 'installer.pl'.
 
     use Kernel::System::Web::InterfaceInstaller;
 
@@ -53,13 +58,13 @@ create installer web interface object
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    # start with an empty hash for the new object
+    my $Self = bless {}, $Type;
 
     # get debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
+    # register object params
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'Installer',
@@ -74,7 +79,6 @@ sub new {
 
     # debug info
     if ( $Self->{Debug} ) {
-
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => 'Global handle started...',

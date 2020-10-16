@@ -368,6 +368,21 @@ sub RemoteAddr {
     return $Self->{Query}->remote_addr( @Params );
 }
 
+=head2 RemoteUser
+
+get the remote user.
+This is a wrapper around CGI::remote_user().
+
+    my $RemoteUser = $ParamObject->RemoteUser();
+
+=cut
+
+sub RemoteUser {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->remote_user( @Params );
+}
+
 =head2 ScriptName
 
 return the script name as a partial URL, for self-referring scripts.
@@ -387,6 +402,21 @@ sub ScriptName {
     return $ScriptName;
 }
 
+=head2 ServerProtocol
+
+return info about the protocol.
+This is a wrapper around CGI::server_protocol().
+
+    my $ServerProtocol = $ParamObject->ServerProtocol();
+
+=cut
+
+sub ServerProtocol {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->server_protocol( @Params );
+}
+
 =head2 ServerSoftware
 
 return info which server is running.
@@ -400,6 +430,66 @@ sub ServerSoftware {
     my ( $Self, @Params ) = @_;
 
     return $Self->{Query}->server_software( @Params );
+}
+
+=head2 RequestURI
+
+Returns the interpreted pathname of the requested document or CGI (relative to the document root). Or undef if not set.
+This is a wrapper around CGI::request_uri().
+
+    my $RequestURI = $ParamObject->RequestURI();
+
+=cut
+
+sub RequestURI {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->request_uri( @Params );
+}
+
+=head2 ContentType
+
+Returns content-type header.
+This is a wrapper around CGI::content_type().
+
+    my $ContentType = $ParamObject->ContentType();
+
+=cut
+
+sub ContentType {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->content_type( @Params );
+}
+
+=head2 EnvQueryString
+
+Returns the original query string.
+This is a wrapper around CGI::env_query_string().
+
+    my $QueryString = $ParamObject->EnvQueryString();
+
+=cut
+
+sub EnvQueryString {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->env_query_string( @Params );
+}
+
+=head2 RequestMethod
+
+Usually either GET or POST.
+This is a wrapper around CGI::request_method().
+
+    my $RequestMethod = $ParamObject->RequestMethod();
+
+=cut
+
+sub RequestMethod {
+    my ( $Self, @Params ) = @_;
+
+    return $Self->{Query}->request_method( @Params );
 }
 
 =head2 PathInfo
