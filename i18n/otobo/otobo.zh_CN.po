@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-10-08 14:33+0000\n"
-"PO-Revision-Date: 2020-10-15 07:25+0000\n"
+"PO-Revision-Date: 2020-10-16 09:07+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/"
 "otobo10/otobo/zh_Hans/>\n"
@@ -6246,7 +6246,7 @@ msgstr "本系统可选的描述。"
 msgid ""
 "This will allow the system to send additional support data information to "
 "OTOBO Team."
-msgstr ""
+msgstr "这样系统将会将更多的支持数据信息发送给OTOBO Team。"
 
 #. Template: AdminRegistration
 msgid "Register"
@@ -6254,7 +6254,7 @@ msgstr "注册"
 
 #. Template: AdminRegistration
 msgid "Continuing with this step will deregister the system from OTOBO Team."
-msgstr ""
+msgstr "继续此步骤将从OTOBO团队注销该系统。"
 
 #. Template: AdminRegistration
 msgid "Deregister"
@@ -6808,7 +6808,7 @@ msgstr "这个状态已用于以下的系统配置设置："
 
 #. Template: AdminSupportDataCollector
 msgid "Sending support data to OTOBO Team is not possible!"
-msgstr ""
+msgstr "无法将支持数据发送到OTOBO团队！"
 
 #. Template: AdminSupportDataCollector
 msgid "Enable Cloud Services"
@@ -6818,7 +6818,7 @@ msgstr "启用云服务"
 msgid ""
 "This data is sent to OTOBO Team on a regular basis. To stop sending this "
 "data please update your system registration."
-msgstr ""
+msgstr "该数据会定期发送给OTOBO团队。要停止发送此数据，请更新你的系统注册。"
 
 #. Template: AdminSupportDataCollector
 msgid ""
@@ -6837,14 +6837,14 @@ msgstr "目前支持数据只是在本地系统上显示。"
 msgid ""
 "It is highly recommended to send this data to OTOBO Team in order to get "
 "better support."
-msgstr ""
+msgstr "强烈建议将此数据发送给OTOBO团队，以获得更好的支持。"
 
 #. Template: AdminSupportDataCollector
 msgid ""
 "To enable data sending, please register your system with OTOBO Team or "
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
-msgstr ""
+msgstr "要启用数据发送，请在OTOBO团队注册你的系统或更新你的系统注册信息（确保激活“发送支持数据”选项。）"
 
 #. Template: AdminSupportDataCollector
 msgid ""
@@ -6888,7 +6888,7 @@ msgstr "发送中"
 
 #. Template: AdminSupportDataCollector
 msgid "The support bundle will be sent to OTOBO Team via email automatically."
-msgstr ""
+msgstr "支持包将通过电子邮件自动发送给OTOBO团队。"
 
 #. Template: AdminSupportDataCollector
 msgid "Download File"
@@ -6899,7 +6899,7 @@ msgid ""
 "A file containing the support bundle will be downloaded to the local system. "
 "Please save the file and send it to the OTOBO Team, using an alternate "
 "method."
-msgstr ""
+msgstr "包含支持包的文件可以下载到本地。你可以保存该文件，然后用其他方法将其发送给OTOBO团队。"
 
 #. Template: AdminSupportDataCollector
 msgid "Error: Support data could not be collected (%s)."
@@ -7087,35 +7087,35 @@ msgstr "部署所选更改"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Deployment History"
-msgstr ""
+msgstr "部署历史"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Filter for Deployments"
-msgstr ""
+msgstr "部署过滤器"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Recent Deployments"
-msgstr ""
+msgstr "近期部署"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Restore"
-msgstr ""
+msgstr "恢复"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "View Details"
-msgstr ""
+msgstr "查看详情"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Restore this deployment."
-msgstr ""
+msgstr "恢复部署"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Export this deployment."
-msgstr ""
+msgstr "导出部署"
 
 #. Template: AdminSystemConfigurationDeploymentHistoryDetails
 msgid "Deployment Details"
-msgstr ""
+msgstr "部署详情"
 
 #. Template: AdminSystemConfigurationDeploymentHistoryDetails
 msgid "by"
@@ -7123,7 +7123,7 @@ msgstr "由"
 
 #. Template: AdminSystemConfigurationDeploymentHistoryDetails
 msgid "No settings have been deployed in this run."
-msgstr ""
+msgstr "本次运行没有部署任何配置。"
 
 #. Template: AdminSystemConfigurationGroup
 msgid ""
@@ -7203,35 +7203,35 @@ msgstr "搜索"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "Change History"
-msgstr ""
+msgstr "变更历史"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "Change History of %s"
-msgstr ""
+msgstr "%s 变更历史"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "No modified values for this setting, the default value is used."
-msgstr ""
+msgstr "这个设置没有变更，使用的是默认值。"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "Review users setting value"
-msgstr ""
+msgstr "查看用户设置值"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "Users Value"
-msgstr ""
+msgstr "用户数值"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "For"
-msgstr ""
+msgstr "为"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "Delete all user values."
-msgstr ""
+msgstr "删除所有用户值。"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "No user value for this setting."
-msgstr ""
+msgstr "对本配置没有用户值。"
 
 #. Template: AdminSystemConfigurationView
 msgid "View a custom List of Settings"
@@ -7372,28 +7372,28 @@ msgid ""
 "To get the first 20 characters of the subject of the current/latest agent "
 "article (current for Answer and Forward, latest for Note template type). "
 "This tag is not supported for other template types."
-msgstr ""
+msgstr "获取当前/最新话务员主题的前20个字符（回答和转发是当前，备注模板类型是最新）。其他模板类型不支持此标签。"
 
 #. Template: AdminTemplate
 msgid ""
 "To get the first 5 lines of the body of the current/latest agent article "
 "(current for Answer and Forward, latest for Note template type). This tag is "
 "not supported for other template types."
-msgstr ""
+msgstr "获取当前/最新话务员数据的前5行（回答和转发是当前，备注模板类型是最新）。其他模板类型不支持此标签。"
 
 #. Template: AdminTemplate
 msgid ""
 "To get the first 20 characters of the subject of the current/latest article "
 "(current for Answer and Forward, latest for Note template type). This tag is "
 "not supported for other template types."
-msgstr ""
+msgstr "获取当前/最新主题的前20个字符（回答和转发是当前，备注模板类型是最新）。其他模板类型不支持此标签。"
 
 #. Template: AdminTemplate
 msgid ""
 "To get the first 5 lines of the body of the current/latest article (current "
 "for Answer and Forward, latest for Note template type). This tag is not "
 "supported for other template types."
-msgstr ""
+msgstr "获取当前/最新数据的前5行（回答和转发是当前，备注模板类型是最新）。其他模板类型不支持此标签。"
 
 #. Template: AdminTemplate
 msgid "Create type templates only supports this smart tags"
@@ -8171,15 +8171,15 @@ msgstr "后退"
 
 #. Template: AgentDynamicFieldDBDetailedSearch
 msgid "Detailed search"
-msgstr ""
+msgstr "详细搜索"
 
 #. Template: AgentDynamicFieldDBDetailedSearch
 msgid "Add an additional attribute"
-msgstr ""
+msgstr "添加更多属性"
 
 #. Template: AgentDynamicFieldDBDetails
 msgid "Details view"
-msgstr ""
+msgstr "查看详情"
 
 #. Template: AgentElasticsearchQuickResult
 msgid "Tickets"
@@ -8187,7 +8187,7 @@ msgstr "工单"
 
 #. Template: AgentElasticsearchQuickResult
 msgid "ConfigItems"
-msgstr ""
+msgstr "ConfigItems"
 
 #. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
@@ -8225,11 +8225,11 @@ msgstr "目前没有链接。 请点击顶部的“创建新链接”将此项�
 
 #. Template: AgentPassword
 msgid "Password Policy"
-msgstr ""
+msgstr "密码策略"
 
 #. Template: AgentPassword
 msgid "Your current password is older than %s days. You need to set a new one."
-msgstr ""
+msgstr "当前的密码已超过％s天，你需要设置一个新的。"
 
 #. Template: AgentPassword
 msgid "Change password"
@@ -8245,41 +8245,41 @@ msgstr "新密码"
 
 #. Template: AgentPassword
 msgid "Repeat new password"
-msgstr ""
+msgstr "重复新密码"
 
 #. Template: AgentPassword
 msgid "Password needs to be renewed every %s days."
-msgstr ""
+msgstr "密码需要在%s天内进行更新。"
 
 #. Template: AgentPassword
 msgid ""
 "Password history is active, you can't use a password which was used the last "
 "%s times."
-msgstr ""
+msgstr "密码历史记录处于活动状态，您不能使用最近％s次使用的密码。"
 
 #. Template: AgentPassword
 msgid "Password length must be at least %s characters."
-msgstr ""
+msgstr "密码的长度最低不能低于%s个字符。"
 
 #. Template: AgentPassword
 msgid "Password requires at least two lower- and two uppercase characters."
-msgstr ""
+msgstr "密码必须包含至少两个小写和两个大写字母。"
 
 #. Template: AgentPassword
 msgid "Password requires at least two characters."
-msgstr ""
+msgstr "密码最少有两个字符。"
 
 #. Template: AgentPassword
 msgid "Password requires at least one digit."
-msgstr ""
+msgstr "密码最少有一个数字。"
 
 #. Template: AgentPassword
 msgid "Change config options"
-msgstr ""
+msgstr "更改设置选项"
 
 #. Template: AgentPassword
 msgid "Admin permissions are required!"
-msgstr ""
+msgstr "需要管理员权限！"
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -9384,7 +9384,7 @@ msgstr "返回上一页"
 
 #. Template: CustomerAccept
 msgid "Mit einem Klick erkläre ich meine Zustimmung."
-msgstr ""
+msgstr "一键同意。"
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -9412,7 +9412,7 @@ msgstr "从已分配的客户ID"
 
 #. Template: CustomerDashboard
 msgid "Ticket Search"
-msgstr ""
+msgstr "工单搜索"
 
 #. Template: CustomerDashboard
 msgid "New Ticket"
@@ -9432,7 +9432,7 @@ msgstr "追溯"
 
 #. Template: CustomerFooter
 msgid "Powered by %s"
-msgstr ""
+msgstr "由%s驱动"
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -9483,13 +9483,13 @@ msgstr "欲了解更多信息, 请向你的管理询问或参考相关文档."
 #. Template: CustomerLogin
 msgid ""
 "The browser you are using doesn't support css-grid. It's likely too old."
-msgstr ""
+msgstr "你使用的浏览器不支持css-grid。它可能太旧了。"
 
 #. Template: CustomerLogin
 msgid ""
 "Internet Explorer is functional, but not all features are fully supported. "
 "Please consider updating to a modern browser."
-msgstr ""
+msgstr "Internet Explorer可以运行，但并不支持所有功能。请考虑更新到其他浏览器。"
 
 #. Template: CustomerLogin
 msgid "One moment please, you are being redirected..."
@@ -9529,7 +9529,7 @@ msgstr "登录"
 
 #. Template: CustomerLogin
 msgid "Request Account"
-msgstr ""
+msgstr "请求账户"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -9573,17 +9573,17 @@ msgstr "注销"
 
 #. Template: CustomerPassword
 msgid "Change Password"
-msgstr ""
+msgstr "更改密码"
 
 #. Template: CustomerPassword
 msgid ""
 "Password needs to contain at least 3 of the character classes: lower char, "
 "upper char, digit, special character."
-msgstr ""
+msgstr "密码至少需要包含3种字符：小写、大写、数字或特殊字符。"
 
 #. Template: CustomerTicketList
 msgid "Nr."
-msgstr ""
+msgstr "Nr."
 
 #. Template: CustomerTicketList
 msgid "Welcome!"
@@ -9591,19 +9591,19 @@ msgstr "欢迎！"
 
 #. Template: CustomerTicketList
 msgid "You have no tickets yet. Please click here, to create a new one."
-msgstr ""
+msgstr "你还没有工单，请点击这里创建一个新工单。"
 
 #. Template: CustomerTicketList
 msgid "Nothing to show."
-msgstr ""
+msgstr "没有可以显示的内容。"
 
 #. Template: CustomerTicketList
 msgid "Click here for an unfiltered list of all your tickets."
-msgstr ""
+msgstr "点击这里可以得到你的所有工单未过滤的列表。"
 
 #. Template: CustomerTicketMessage
 msgid "Issue a new Ticket"
-msgstr ""
+msgstr "发出一个新工单"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -9611,7 +9611,7 @@ msgstr "服务级别协议"
 
 #. Template: CustomerTicketOverview
 msgid "Your Tickets"
-msgstr ""
+msgstr "你的工单"
 
 #. Template: CustomerTicketOverview
 msgid "Page"
@@ -9619,7 +9619,7 @@ msgstr "页"
 
 #. Template: CustomerTicketOverview
 msgid "Sort"
-msgstr ""
+msgstr "排序"
 
 #. Template: CustomerTicketSearch
 msgid "Profile"
@@ -9715,7 +9715,7 @@ msgstr "回复"
 
 #. Template: CustomerTicketZoom
 msgid "Discard"
-msgstr ""
+msgstr "舍弃"
 
 #. Template: CustomerTicketZoom
 msgid "Ticket Information"
@@ -9723,11 +9723,11 @@ msgstr "工单信息"
 
 #. Template: CustomerTicketZoom
 msgid "Categories"
-msgstr ""
+msgstr "分类目录"
 
 #. Template: CustomerTicketZoom
 msgid "Further actions"
-msgstr ""
+msgstr "下一步行动"
 
 #. Template: Chat
 msgid "Expand article"
@@ -9735,7 +9735,7 @@ msgstr "展开信件"
 
 #. Template: MIMEBase
 msgid "Article Information"
-msgstr ""
+msgstr "文章信息"
 
 #. Template: CustomerWarning
 msgid "Warning"
@@ -9743,7 +9743,7 @@ msgstr "警告"
 
 #. Template: TileNewTicket
 msgid "Issue%sa ticket"
-msgstr ""
+msgstr "发出%sa工单"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
@@ -9841,7 +9841,7 @@ msgstr "电话"
 
 #. Template: Installer
 msgid "Switzerland"
-msgstr ""
+msgstr "瑞士"
 
 #. Template: Installer
 msgid "Web site"
@@ -10062,14 +10062,14 @@ msgstr "系统的标识符，每个工单编号和HTTP会话ID均包含系统ID�
 
 #. Template: InstallerSystem
 msgid "HTTP Type"
-msgstr ""
+msgstr "HTTP 类型"
 
 #. Template: InstallerSystem
 msgid ""
 "Setting HttpType: Set the http type used for cookies and various links. "
 "Please add http only for testing without SSL and https for production "
 "purposes."
-msgstr ""
+msgstr "设置HttpType：设置用于cookie和各种链接的http类型。只有在不使用SSL的测试可以添加http，或者生产中添加。"
 
 #. Template: InstallerSystem
 msgid "System FQDN"
@@ -10134,17 +10134,17 @@ msgstr ""
 
 #. Template: InstallerSystem
 msgid "Elasticsearch"
-msgstr ""
+msgstr "Elasticsearch"
 
 #. Template: InstallerSystem
 msgid "Initialize Elasticsearch"
-msgstr ""
+msgstr "初始化 Elasticsearch"
 
 #. Template: InstallerSystem
 msgid ""
 "Elasticsearch server was found, and it has been activated automatically for "
 "OTOBO."
-msgstr ""
+msgstr "Elasticsearch服务器已经找到了，并且已经为OTOBO自动激活。"
 
 #. Template: InstallerSystem
 msgid ""
@@ -10155,6 +10155,10 @@ msgid ""
 "ElasticsearchFulltext' in the SysConfig and run the otobo.Console command "
 "'Maint::Elasticsearch::Migration'."
 msgstr ""
+"正在运行的Elasticsearch服务器似乎不太干净，或者它没有使用标准配置。要手动激活Elasticsearch，必要的时候需要在管理界面中编辑Web"
+"服务，在SysConfig中激活'Elasticsearch :: Active'和'Frontend :: ToolBarModule ### 250-"
+"Ticket :: ElasticsearchFulltext'，并运行otobo.Console命令'Maint :: Elasticsearch ::"
+" Migration'。"
 
 #. Template: LinkObject
 msgid "Delete link"
@@ -10204,79 +10208,79 @@ msgstr "这个网站不允许被嵌入，无法提供预览。"
 
 #. Template: Copy
 msgid "Start migration"
-msgstr ""
+msgstr "开始迁移"
 
 #. Template: Copy
 msgid "Result of data migration"
-msgstr ""
+msgstr "数据迁移的结果"
 
 #. Template: Copy
 msgid "Last successful task:"
-msgstr ""
+msgstr "上一个成功任务："
 
 #. Template: Copy
 msgid ""
 "Migration will restart from the last successfully finished task. Please do a "
 "complete rerun if you changed your system in the meantime."
-msgstr ""
+msgstr "迁移将从上一个成功完成的任务重新开始。不过如果你已经更改了系统，那就需要从头开始了。"
 
 #. Template: Copy
 msgid "Clean up and finish"
-msgstr ""
+msgstr "清理和完成"
 
 #. Template: Finish
 msgid ""
 "The migration is complete, thank you for trying out OTOBO - we hope you will "
 "like it."
-msgstr ""
+msgstr "迁移已完成，感谢你试用OTOBO-我们希望你会喜欢。"
 
 #. Template: Intro
 msgid ""
 "This migration script will lead you step by step through the process of "
 "migrating your ticket system from OTRS or ((OTRS)) Community Edition version "
 "6 to OTOBO 10."
-msgstr ""
+msgstr "这个迁移脚本将引导你逐步完成，将你的工单系统从OTRS或（（OTRS））Community Edition版本6迁移到OTOBO 10。"
 
 #. Template: Intro
 msgid ""
 "There is no danger whatsoever for your original system: nothing is changed "
 "there."
-msgstr ""
+msgstr "你的原始系统不会有任何危险：在那里没有任何更改。"
 
 #. Template: Intro
 msgid ""
 "Instructions and details on migration prerequisites can be found in the "
 "migration manual. We strongly recommend reading it before starting migration."
-msgstr ""
+msgstr "有关迁移的各种先决条件的说明及其详细信息，请参见迁移手册。我们强烈建议你一定在开始迁移之前阅读。"
 
 #. Template: Intro
 msgid ""
 "In case you have to suspend migration, you can resume it anytime at the same "
 "point as long as the cache has not been deleted."
-msgstr ""
+msgstr "如果必须停止迁移，则可以在任何时候随时恢复到停止的点，只要尚未删除缓存即可。"
 
 #. Template: Intro
 msgid "All entered passwords are cached until the migration is finished."
-msgstr ""
+msgstr "所有输入的密码都将被缓存，直到迁移完成。"
 
 #. Template: Intro
 msgid ""
 " Anyone with access to this page, or read permission for the OTOBO Home "
 "Directory will be able to read them. If you abort the migration, you are "
 "given the option to clear the cache by visiting this page again."
-msgstr ""
+msgstr " 有权访问此页面，或具有OTOBO主目录读取权限的任何人都可以读到它们。如果中止迁移，你可以选择再次访问此页面来清除缓存。"
 
 #. Template: Intro
 msgid "If you need support, just ask our experts – either at"
-msgstr ""
+msgstr "如果需要支持，请问询我们的专家 - 或者在"
 
 #. Template: Intro
 msgid "OTOBO forum"
-msgstr ""
+msgstr "OTOBO论坛"
 
 #. Template: Intro
 msgid "or directly via mail to"
-msgstr ""
+msgstr "或者直接写邮件发到"
 
 #. Template: Intro
 msgid "Cached data found"
