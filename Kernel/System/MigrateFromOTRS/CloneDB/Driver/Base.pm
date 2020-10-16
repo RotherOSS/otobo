@@ -43,9 +43,15 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base - common backend functions
+Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base - common functions for CloneDB drivers
 
 =head1 SYNOPSIS
+
+    # TODO
+
+=head1 DESCRIPTION
+
+A base module for drivers.
 
 =head1 PUBLIC INTERFACE
 

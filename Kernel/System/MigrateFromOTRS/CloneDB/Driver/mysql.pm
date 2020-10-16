@@ -94,11 +94,11 @@ sub CreateOTRSDBConnection {
     return $OTRSDBObject;
 }
 
-#
 # List all tables in the OTRS database in alphabetical order.
-#
+# The alphabetical ordering is actually undocumented.
 sub TablesList {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     if ( !$Param{DBObject} ) {
@@ -111,8 +111,7 @@ sub TablesList {
     }
 
     $Param{DBObject}->Prepare(
-        SQL => "
-            SHOW TABLES",
+        SQL => "SHOW TABLES",
     ) || return ();
 
     my @Result;
@@ -123,12 +122,10 @@ sub TablesList {
     return @Result;
 }
 
-#
-#
 # List all columns of a table in the order of their position.
-#
 sub ColumnsList {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject DBName Table)) {
@@ -148,8 +145,6 @@ sub ColumnsList {
             FROM information_schema.columns
             WHERE table_name = ? AND table_schema = ?
             ORDER BY ordinal_position ASC",
-
-        # SQL => "DESCRIBE ?",
         Bind => [
             \$Param{Table}, \$Param{DBName},
         ],
@@ -163,12 +158,10 @@ sub ColumnsList {
     return \@Result;
 }
 
-#
-#
 # Get all binary columns and return table.column
-#
 sub BlobColumnsList {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject DBName Table)) {
@@ -201,13 +194,11 @@ sub BlobColumnsList {
     return \%Result;
 }
 
-#
-#
 # Get column infos
 # return DATA_TYPE
-
 sub GetColumnInfos {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject DBName Table Column)) {
@@ -243,13 +234,11 @@ sub GetColumnInfos {
     return \%Result;
 }
 
-#
-#
 # Translate column infos
 # return DATA_TYPE
-
 sub TranslateColumnInfos {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBType ColumnInfos)) {
@@ -296,12 +285,10 @@ sub TranslateColumnInfos {
     return \%ColumnInfos;
 }
 
-#
-#
 # Alter table add column
-#
 sub AlterTableAddColumn {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject Table Column ColumnInfos)) {
@@ -342,9 +329,5 @@ sub AlterTableAddColumn {
 
     return 1;
 }
-
-=back
-
-=cut
 
 1;
