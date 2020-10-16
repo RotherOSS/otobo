@@ -1616,9 +1616,14 @@ sub IsTimeZoneValid {
     # allow DateTime internal time zone in 'floating'
     return 1 if $Param{TimeZone} eq 'floating';
 
-    state %ValidTimeZones = map { $_ => 1 } @{ $Self->TimeZoneList() };
+    # Cache the time zone lookup table.
+    # A scalar must be used here as hash initialisation for hashes is supported
+    # only in Perl 5.28 and later.
+    state $ValidTimeZones = {
+        map { $_ => 1 } $Self->TimeZoneList()->@*
+    };
 
-    return $ValidTimeZones{ $Param{TimeZone} } ? 1 : 0;
+    return $ValidTimeZones->{ $Param{TimeZone} } ? 1 : 0;
 }
 
 =head2 OTOBOTimeZoneGet()
