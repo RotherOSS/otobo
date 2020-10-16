@@ -18,11 +18,18 @@ package Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
+# core modules
 use Encode;
 use MIME::Base64;
+use List::Util qw(any);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use File::Basename qw(fileparse);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -64,9 +71,11 @@ sub new {
     return bless {}, $Class;
 }
 
-# Some up-front sanity checks
+# A single sanity check.
+# Check whether the relevant tables exist in the source database.
 sub SanityChecks {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     if ( !$Param{OTRSDBObject} ) {
@@ -74,6 +83,7 @@ sub SanityChecks {
             Priority => 'error',
             Message  => "Need OTRSDBObject!",
         );
+
         return;
     }
 
@@ -86,14 +96,10 @@ sub SanityChecks {
     my $TargetDBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get a list of tables on OTRS DB
-    my @Tables = $Self->TablesList(
-        DBObject => $Param{OTRSDBObject},
-    );
+    my @Tables = $Self->TablesList( DBObject => $Param{OTRSDBObject} );
 
-    # Need to check if table empty, then a connect is not possible
-    if ( !IsArrayRefWithData( \@Tables ) ) {
-        return;
-    }
+    # no need to migrate when the source has no tables
+    return unless @Tables;
 
     TABLES:
     for my $Table (@Tables) {
@@ -119,9 +125,12 @@ sub SanityChecks {
                 Priority => 'error',
                 Message  => "Required table '$Table' does not seem to exist in the OTOBO database!",
             );
+
             return;
         }
     }
+
+    # source database looks sane
     return 1;
 }
 
@@ -129,7 +138,8 @@ sub SanityChecks {
 # Get row count of a table.
 #
 sub RowCount {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
 
@@ -140,34 +150,31 @@ sub RowCount {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
 
-    # execute counting statement
-    $Param{DBObject}->Prepare(
-        SQL => "
-            SELECT COUNT(*)
-            FROM $Param{Table}",
-    ) || return;
+    # execute counting statement, only a single row is returned
+    return unless $Param{DBObject}->Prepare(
+        SQL => "SELECT COUNT(*) FROM $Param{Table}",
+    );
 
-    my $Result;
-    while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
-        $Result = $Row[0];
-    }
+    my ($NumRows) = $Param{DBObject}->FetchrowArray();
 
     # Log info to apache error log and OTOBO log (syslog or file)
     $MigrationBaseObject->MigrationLog(
-        String   => "Count of entrys in Table $Param{Table}: $Result.",
+        String   => "Count of entrys in Table $Param{Table}: $NumRows.",
         Priority => "debug",
     );
 
-    return $Result;
+    return $NumRows;
 }
 
 # Transfer the actual table data
 sub DataTransfer {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift; # the source db backend
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(OTRSDBObject OTOBODBObject OTOBODBBackend DBInfo)) {
@@ -176,11 +183,12 @@ sub DataTransfer {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
 
-    # get config object
+    # get objects
     my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
     my $CacheObject         = $Kernel::OM->Get('Kernel::System::Cache');
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
@@ -263,6 +271,10 @@ sub DataTransfer {
         }
     }
 
+    # Because of InnodB max key size in MySQL 5.6 or earlier
+    my $MaxMb4CharsInIndexKey = 191;     # int( 767 / 4 )
+    my $MaxLenghtShortenedColumns = 190; # 191 - 1
+
     TABLES:
     for my $Table (@Tables) {
 
@@ -273,6 +285,7 @@ sub DataTransfer {
                 String   => "Skipping table $Table...",
                 Priority => "notice",
             );
+
             next TABLES;
         }
 
@@ -316,38 +329,54 @@ sub DataTransfer {
         my @Columns;
         push( @Columns, @{$ColumnRef} );
 
-        # We need to check if column is varchar and > 191 character on OTRS side.
+        # In the target database schema some varchar columns have been shortened
+        # to $MaxMb4CharsInIndexKey, that is 191, characters.
+        # The reason was that in MySQL 5.6 or earlier the max key size was limited per default
+        # to 767 characters. This max key size is relevant for the columns that make up the PRIMARY key
+        # and for all columns with an UNIQUE index. With switching to the utf8mb4 character set.
+        # the unique varchar columns may at most be int( 767 / 4) = 191 characters long.
+        #
+        # For the shortend columns we need to cut the values. In order to be on the safe
+        # side we cut to $MaxLenghtShortenedColumns=190 characters.
+        #
+        # See also: https://dev.mysql.com/doc/refman/5.7/en/innodb-limits.html
         my %ShortenColumn;
-        for my $Column (@Columns) {
+        if ( $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
+            COLUMN:
+            for my $Column (@Columns) {
 
-            # Get OTRS Column infos
-            my $ColumnInfos = $Self->GetColumnInfos(
-                Table    => $Table,
-                DBName   => $Param{DBInfo}->{DBName},
-                DBObject => $Param{OTRSDBObject},
-                Column   => $Column,
-            );
+                # Get OTRS Column infos (utf8mb3)
+                my $OTRSColumnInfos = $Self->GetColumnInfos(
+                    Table    => $Table,
+                    DBName   => $Param{DBInfo}->{DBName},
+                    DBObject => $Param{OTRSDBObject},
+                    Column   => $Column,
+                );
+;
+                next COLUMN unless IsHashRefWithData($OTRSColumnInfos);
+                next COLUMN unless $OTRSColumnInfos->{DATA_TYPE} eq 'varchar';
 
-            # Get OTOBO Column infos
-            my $ColumnOTOBOInfos = $Param{OTOBODBBackend}->GetColumnInfos(
-                Table    => $RenameTables{$Table} // $Table,
-                DBName   => $ConfigObject->Get('Database'),
-                DBObject => $TargetDBObject,
-                Column   => $Column,
-            );
+                # Get OTOBO Column infos (utf8mb4)
+                my $OTOBOColumnInfos = $Param{OTOBODBBackend}->GetColumnInfos(
+                    Table    => $RenameTables{$Table} // $Table,
+                    DBName   => $ConfigObject->Get('Database'),
+                    DBObject => $TargetDBObject,
+                    Column   => $Column,
+                );
 
-            # First we need to check if the Table / Column exists in the OTOBO DB. If not,
-            # we don´t need to cut the content I think.
-            if ( IsHashRefWithData($ColumnOTOBOInfos) && $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
-                if ( $ColumnInfos->{DATA_TYPE} eq 'varchar' && $ColumnInfos->{LENGTH} > $ColumnOTOBOInfos->{LENGTH} ) {
-                    $ShortenColumn{$Column} = $Column;
+                next COLUMN unless IsHashRefWithData($OTOBOColumnInfos);
 
-                    # Log info to apache error log and OTOBO log (syslog or file)
-                    $MigrationBaseObject->MigrationLog(
-                        String   => "Column $Column needs to cut to new length of 190 chars, cause utf8mb4.",
-                        Priority => "notice",
-                    );
-                }
+                # check whether to varchar column has been shorted
+                next COLUMN unless $OTRSColumnInfos->{LENGTH} > $OTOBOColumnInfos->{LENGTH};
+
+                # mark column as shortened
+                $ShortenColumn{$Column} = $Column;
+
+                # Log info to apache error log and OTOBO log (syslog or file)
+                $MigrationBaseObject->MigrationLog(
+                    String   => "Column $Column needs to cut to new length of $MaxLenghtShortenedColumns chars, cause utf8mb4.",
+                    Priority => "notice",
+                );
             }
         }
 
@@ -424,18 +453,21 @@ sub DataTransfer {
         # get encode object
         my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-        TABLEROW:
         while ( my @Row = $Param{OTRSDBObject}->FetchrowArray() ) {
 
-            COLUMNVALUES:
-            for my $ColumnCounter ( 1 .. $#Columns ) {
-                my $Column = $Columns[$ColumnCounter];
+            # Check whether we need to cut the string,
+            # because utf8mb4 only supports $MaxMb4CharsInIndexKey=191 chars.
+            if ( %ShortenColumn ) {
+                COLUMN_COUNTER:
+                for my $ColumnCounter ( 1 .. $#Columns ) {
+                    my $Column = $Columns[$ColumnCounter];
 
-                # Check if we need to cut the string, cause utf8mb4 only needs 191 chars.
-                if ( IsHashRefWithData( \%ShortenColumn ) && $ShortenColumn{$Column} ) {
-                    if ( $Row[$ColumnCounter] && length( $Row[$ColumnCounter] ) > 190 ) {
-                        $Row[$ColumnCounter] = substr( $Row[$ColumnCounter], 0, 190 );
-                    }
+                    next COLUMN_COUNTER unless $ShortenColumn{$Column};
+                    next COLUMN_COUNTER unless $Row[$ColumnCounter];
+                    next COLUMN_COUNTER unless length $Row[$ColumnCounter] > $MaxLenghtShortenedColumns;
+
+                    # actually shorten
+                    $Row[$ColumnCounter] = substr $Row[$ColumnCounter], 0, $MaxLenghtShortenedColumns;
                 }
             }
 
@@ -482,11 +514,13 @@ sub DataTransfer {
             }
         }
 
-        # if needed, reset the auto-incremental field
+        # If needed, reset the auto-incremental field.
+        # This is irrespective whether the table was polulated with a batch insert
+        # or via many small inserts.
         if (
             $TargetDBObject->can('ResetAutoIncrementField')
-            && grep { lc($_) eq 'id' } @Columns
-            )
+            && any { lc($_) eq 'id' } @Columns
+        )
         {
 
             $TargetDBObject->ResetAutoIncrementField(
@@ -497,8 +531,7 @@ sub DataTransfer {
     }
 
     if ( $TargetDBObject->{'DB::Type'} eq 'postgresql' ) {
-            $TargetDBObject->Do( SQL => 'set session_replication_role to default;' );
-
+        $TargetDBObject->Do( SQL => 'set session_replication_role to default;' );
     }
 
     return 1;
