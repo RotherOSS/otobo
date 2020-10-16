@@ -244,9 +244,10 @@ sub DataTransfer {
     # this is experimental
     my $BeDestructive = 1;
 
-    # Decide whether batch insert is possible for a table.
-    # Drop or trunkate OTOBO tables.
-    # In the case of destructive copy keep track of the foreign keys.
+    # Collect information about the OTRS tables.
+    # Decide whether batch insert, or destructive table renaming, is possible for a table.
+    # Trunkate the target OTOBO tables.
+    # In the case of destructive table renaming, keep track of the foreign keys.
     # TODO: also keep track of the indexes, they are copied, but indexes might have been added
     my ( %SourceDropForeignKeys, %TargetAddForeignKeys, %DoBatchInsert, %SourceColumnsString, %ShortenColumn );
     SOURCE_TABLE:
@@ -450,14 +451,13 @@ sub DataTransfer {
                 push $TargetAddForeignKeys{$TargetTable}->@*,
                     "ADD CONSTRAINT FOREIGN KEY $FKName ($FKColumnName) REFERENCES $PKTableName($PKColumnName)";
             }
+        }
 
-            # Target table could already be dropped
-            # TODO: DROP Table juse before the renaming, increase the likelyhood that a migration can be recovered
-            $TargetDBObject->Do( SQL => "DROP TABLE IF EXISTS $TargetTable" );
-        }
-        else {
-            $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
-        }
+        # Truncate the target table in all cases.
+        # In the RENAME case the table will eventually be dropped,
+        # but until then the truncated table provides info about columns and
+        # foreign keys.
+        $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
     }
 
     SOURCE_TABLE:
@@ -509,7 +509,7 @@ sub DataTransfer {
 
         # List of columns for generating INSERT statements.
         # The $TargetColumnsString is simply the list of the column names.
-        # Source and target columns can be different when ther is column shortening.
+        # Source and target columns can be different when there is column shortening.
         # In this case some source columns are wrapped in SUBSTRING calls.
         my $TargetColumnsString = join ', ', @SourceColumns;
 
@@ -550,39 +550,106 @@ sub DataTransfer {
 
         if ( $DoBatchInsert{$SourceTable} ) {
 
-            my $CopyTableSQL;
             if ( $BeDestructive ) {
                 # OTOBO uses no triggers, so there is no need to consider them here
 
-                # no need to copy foreign key constraints from the OTRS table
-                my @DropClauses = ( $SourceDropForeignKeys{$SourceTable} // [] )->@*;
-                if ( @DropClauses ) {
-                    my $SQL  = "ALTER TABLE $SourceSchema.$SourceTable " . join ', ', @DropClauses;
-                    my $Success = $SourceDBObject->Do( SQL => $SQL );
-                    if ( !$Success ) {
-
-                        # Log info to apache error log and OTOBO log (syslog or file)
-                        $MigrationBaseObject->MigrationLog(
-                            String   => "Could not drop foreign keyse in source table '$SourceTable*",
-                            Priority => "notice",
-                        );
-
-                        return;
-                    }
-                }
-
-                # This requires the privs DROP and ALTER on the source database
+                # Remove the target table so that the source table can be renamed.
+                # Only remame the target table, so that it can be restored when something goes awry.
                 {
-                    my $RenameTableSQL  = <<"END_SQL";
+                    my $Success = $TargetDBObject->Do(
+                        SQL => "ALTER TABLE $TargetTable RENAME TO ${TargetTable}_hidden"
+                    );
+                    if ( !$Success ) {
+
+                        # Log info to apache error log and OTOBO log (syslog or file)
+                        $MigrationBaseObject->MigrationLog(
+                            String   => "Could not rename target table '$TargetTable' to '${TargetSchema}_hidden'",
+                            Priority => "notice",
+                        );
+
+                        return;
+                    }
+                }
+
+                my $OverallSuccess = eval {
+
+                    # no need to copy foreign key constraints from the OTRS table
+                    my @DropClauses = ( $SourceDropForeignKeys{$SourceTable} // [] )->@*;
+                    if ( @DropClauses ) {
+                        my $SQL  = "ALTER TABLE $SourceSchema.$SourceTable " . join ', ', @DropClauses;
+                        my $Success = $SourceDBObject->Do( SQL => $SQL );
+                        if ( !$Success ) {
+
+                            # Log info to apache error log and OTOBO log (syslog or file)
+                            $MigrationBaseObject->MigrationLog(
+                                String   => "Could not drop foreign keys in source table '$SourceTable*",
+                                Priority => "notice",
+                            );
+
+                            return;
+                        }
+                    }
+
+                    # This requires the privs DROP and ALTER on the source database
+                    {
+                        my $RenameTableSQL  = <<"END_SQL";
 ALTER TABLE $SourceSchema.$SourceTable
-  RENAME $TargetSchema.$TargetTable
+  RENAME TO $TargetSchema.$TargetTable
 END_SQL
-                    my $Success = $SourceDBObject->Do( SQL => $RenameTableSQL );
+                        my $Success = $SourceDBObject->Do( SQL => $RenameTableSQL );
+                        if ( !$Success ) {
+
+                            # Log info to apache error log and OTOBO log (syslog or file)
+                            $MigrationBaseObject->MigrationLog(
+                                String   => "Could not rename table '$SourceSchema.$SourceTable' to '$TargetSchema.$TargetTable'",
+                                Priority => "notice",
+                            );
+
+                            return;
+                        }
+                    }
+
+                    # create foreign key constraints in the OTOBO table
+                    my @AddClauses = ( $TargetAddForeignKeys{$SourceTable} // [] )->@*;
+                    if ( @AddClauses ) {
+                        my $SQL  = "ALTER TABLE $TargetSchema.$TargetTable " . join ', ', @AddClauses;
+                        my $Success = $TargetDBObject->Do( SQL => $SQL );
+                        if ( !$Success ) {
+
+                            # Log info to apache error log and OTOBO log (syslog or file)
+                            $MigrationBaseObject->MigrationLog(
+                                String   => "Could not drop foreign keys in source table '$SourceTable*",
+                                Priority => "notice",
+                            );
+
+                            return;
+                        }
+
+                    }
+
+                    # TODO: do the shortening
+                };
+
+                if ( ! $OverallSuccess ) {
+                    $MigrationBaseObject->MigrationLog(
+                        String   => "Could  '$SourceTable*",
+                        String   => "Renameing '$SourceSchema.$SourceTable' to '$TargetSchema.$TargetTable' failed. '$TargetSchema.${TargetTable}_hidden' kept for restoring to a sane state. ",
+                        Priority => "notice",
+                    );
+
+                    return;
+                }
+
+                # looks good so far, clean up the hidden table
+                {
+                    my $Success = $TargetDBObject->Do(
+                        SQL => "DROP TABLE IF EXISTS ${TargetTable}_hidden"
+                    );
                     if ( !$Success ) {
 
                         # Log info to apache error log and OTOBO log (syslog or file)
                         $MigrationBaseObject->MigrationLog(
-                            String   => "Could not rename table '$SourceSchema.$SourceTable' to '$TargetSchema.$TargetTable'",
+                            String   => "Could not drop hidden target table '$TargetSchema.${TargetTable}_hidden'",
                             Priority => "notice",
                         );
 
@@ -590,23 +657,11 @@ END_SQL
                     }
                 }
 
-                # create foreign key constraints in the OTOBO table
-                my @AddClauses = ( $TargetAddForeignKeys{$SourceTable} // [] )->@*;
-                if ( @AddClauses ) {
-                    my $SQL  = "ALTER TABLE $TargetSchema.$TargetTable " . join ', ', @AddClauses;
-                    my $Success = $TargetDBObject->Do( SQL => $SQL );
-                    if ( !$Success ) {
-
-                        # Log info to apache error log and OTOBO log (syslog or file)
-                        $MigrationBaseObject->MigrationLog(
-                            String   => "Could not drop foreign keyse in source table '$SourceTable*",
-                            Priority => "notice",
-                        );
-
-                        return;
-                    }
-
-                }
+                # Log info to apache error log and OTOBO log (syslog or file)
+                $MigrationBaseObject->MigrationLog(
+                    String   => "Successfully renamed '$SourceSchema.$SourceTable' to '$TargetSchema.$TargetTable'",
+                    Priority => "notice",
+                );
             }
             else {
                 my $BatchInsertSQL = <<"END_SQL";
