@@ -248,7 +248,7 @@ sub DataTransfer {
     # Drop or trunkate OTOBO tables.
     # In the case of destructive copy keep track of the foreign keys.
     # TODO: also keep track of the indexes, they are copied, but indexes might have been added
-    my ( %SourceDropForeignKeys, %TargetAddForeignKeys, %DoBatchInsert, %ShortenColumn );
+    my ( %SourceDropForeignKeys, %TargetAddForeignKeys, %DoBatchInsert, %SourceColumnsString, %ShortenColumn );
     SOURCE_TABLE:
     for my $SourceTable (@SourceTables) {
 
@@ -295,16 +295,17 @@ sub DataTransfer {
         # When we need to shorten then we can't do a batch insert.
         #
         # See also: https://dev.mysql.com/doc/refman/5.7/en/innodb-limits.html
+
+        # We need the list of columns for checking about shortening
+        my $SourceColumnsRef = $Self->ColumnsList(
+            Table    => $SourceTable,
+            DBName   => $Param{DBInfo}->{DBName},
+            DBObject => $SourceDBObject,
+        ) || return;
+
         if ( $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
 
-            # We need to check if column is varchar and > 191 character on OTRS side.
-            # Therefore we need the list of columns.
-            my $SourceColumnsRef = $Self->ColumnsList(
-                Table    => $SourceTable,
-                DBName   => $Param{DBInfo}->{DBName},
-                DBObject => $SourceDBObject,
-            ) || return;
-
+            my @MaybeShortenedColumns;
             SOURCE_COLUMN:
             for my $SourceColumn ( $SourceColumnsRef->@* ) {
 
@@ -343,6 +344,24 @@ sub DataTransfer {
                     Priority => "notice",
                 );
             }
+            continue {
+                # The source column might have to be shortened.
+                # In that case add the SUBSTRING() function.
+                my $DoShorten = ( $ShortenColumn{$SourceTable} // {} )->{$SourceColumn};
+                push @MaybeShortenedColumns,
+                    $DoShorten ?
+                        "SUBSTRING( $SourceColumn, 0, $MaxMb4CharsInIndexKey )"
+                        :
+                        $SourceColumn;
+            }
+
+            # This string might contain some MySQL SUBSTRING() calls
+            $SourceColumnsString{$SourceTable} = join ', ', @MaybeShortenedColumns;
+        }
+        else {
+
+            # There is no shortening. This means that source and target columns are identical.
+            $SourceColumnsString{$SourceTable} = join ', ', $SourceColumnsRef->@*;
         }
 
         # We can speed up the copying of the rows when Source and Target databases are on the same database server.
@@ -368,10 +387,13 @@ sub DataTransfer {
                 return 0;
             }
 
-            # no batch insert when columns of the table must be shortened
-            return 0 if $ShortenColumn{$SourceTable} && $ShortenColumn{$SourceTable}->%*;
+            # no destructive batch insert when there are columns that must be shortened
+            if ( $BeDestructive ) {
+                return 0 if ( $ShortenColumn{$SourceTable} // {} )->%*;
+            }
 
             # no batch insert when BLOBs must be encoded or decoded
+            # This check is basically redundant because the DB::Types have already been checked.
             return 0 unless $TargetDBObject->GetDatabaseFunction('DirectBlob') == $SourceDBObject->GetDatabaseFunction('DirectBlob');
 
             # Let's try batch inserts
@@ -469,10 +491,11 @@ sub DataTransfer {
             Priority => "notice",
         );
 
+        # The target table may be renamed.
         my $TargetTable = $RenameTables{$SourceTable} // $SourceTable;
 
         # Get the list of columns of this table to be able to
-        #   generate correct INSERT statements.
+        # inspect them and to generate SQL.
         my @SourceColumns;
         {
             my $SourceColumnRef = $Self->ColumnsList(
@@ -484,6 +507,11 @@ sub DataTransfer {
             @SourceColumns = $SourceColumnRef->@*;
         }
 
+        # List of columns for generating INSERT statements.
+        # The $TargetColumnsString is simply the list of the column names.
+        # Source and target columns can be different when ther is column shortening.
+        # In this case some source columns are wrapped in SUBSTRING calls.
+        my $TargetColumnsString = join ', ', @SourceColumns;
 
         # If we have extra columns in OTRS table we need to add the column to OTOBO.
         # But only if we don't have a destructive batch insert
@@ -519,7 +547,6 @@ sub DataTransfer {
             }
         }
 
-        my $ColumnsString = join ', ', @SourceColumns;
 
         if ( $DoBatchInsert{$SourceTable} ) {
 
@@ -583,8 +610,9 @@ END_SQL
             }
             else {
                 my $BatchInsertSQL = <<"END_SQL";
-INSERT INTO $TargetSchema.$TargetTable ($ColumnsString)
-  SELECT $ColumnsString FROM $SourceSchema.$SourceTable
+INSERT INTO $TargetSchema.$TargetTable ($TargetColumnsString)
+  SELECT $SourceColumnsString{$SourceTable}
+    FROM $SourceSchema.$SourceTable
 END_SQL
                 my $Success = $TargetDBObject->Do( SQL  => $BatchInsertSQL );
                 if ( !$Success ) {
@@ -605,9 +633,9 @@ END_SQL
             # assemble the relevant SQL
             my ( $SelectSQL, $InsertSQL );
             {
-                my $BindString    = join ', ', map {'?'} @SourceColumns;
-                $InsertSQL     = "INSERT INTO $TargetTable ($ColumnsString) VALUES ($BindString)";
-                $SelectSQL     = "SELECT $ColumnsString FROM $SourceTable",
+                my $BindString = join ', ', map {'?'} @SourceColumns;
+                $InsertSQL     = "INSERT INTO $TargetTable ($TargetColumnsString) VALUES ($BindString)";
+                $SelectSQL     = "SELECT $SourceColumnsString{$SourceTable} FROM $SourceTable",
             }
 
             # Now fetch all the data and insert it to the target DB.
@@ -622,24 +650,7 @@ END_SQL
             TABLEROW:
             while ( my @Row = $SourceDBObject->FetchrowArray() ) {
 
-                # Check whether we need to cut the string,
-                # because utf8mb4 only supports $MaxMb4CharsInIndexKey=191 chars.
-                if ( $ShortenColumn{$SourceTable} && $ShortenColumn{$SourceTable}->%* ) {
-
-                    # inspect all source columns
-                    COLUMN_COUNTER:
-                    for my $ColumnCounter ( 1 .. $#SourceColumns ) {
-                        my $Column = $SourceColumns[$ColumnCounter];
-
-                        # Check if we need to cut the string, cause utf8mb4 only needs 191 chars.
-                        next COLUMN_COUNTER unless $ShortenColumn{$SourceTable}->{$Column};
-                        next COLUMN_COUNTER unless $Row[$ColumnCounter];
-                        next COLUMN_COUNTER unless length $Row[$ColumnCounter] > $MaxLenghtShortenedColumns;
-
-                        # do the cutting
-                        $Row[$ColumnCounter] = substr $Row[$ColumnCounter], 0, $MaxLenghtShortenedColumns;
-                    }
-                }
+                # No need to shorten any columns, as that was already in the SELECT
 
                 # If the two databases have different blob handling (base64), convert
                 #   columns that need it.
