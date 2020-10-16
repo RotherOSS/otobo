@@ -559,24 +559,6 @@ sub DataTransfer {
             if ( $BeDestructive ) {
                 # OTOBO uses no triggers, so there is no need to consider them here
 
-                # Remove the target table so that the source table can be renamed.
-                # Only remame the target table, so that it can be restored when something goes awry.
-                {
-                    my $Success = $TargetDBObject->Do(
-                        SQL => "ALTER TABLE $TargetTable RENAME TO ${TargetTable}_hidden"
-                    );
-                    if ( !$Success ) {
-
-                        # Log info to apache error log and OTOBO log (syslog or file)
-                        $MigrationBaseObject->MigrationLog(
-                            String   => "Could not rename target table '$TargetTable' to '${TargetSchema}_hidden'",
-                            Priority => "notice",
-                        );
-
-                        return;
-                    }
-                }
-
                 my $OverallSuccess = eval {
 
                     # no need to copy foreign key constraints from the OTRS table
@@ -596,7 +578,31 @@ sub DataTransfer {
                         }
                     }
 
+                    # TODO: adapt the charset
+                    # ALTER TABLE tbl_name CONVERT TO CHARACTER SET charset_name;
+                    # TODO: do the shortening
+                    # UPDATE acl SET name = SUBSTRING( name, 0, 190 )
+                    # ALTER TABLE CHANGE COLUNM name name varchar(191)
                     # This requires the privs DROP and ALTER on the source database
+
+                    # Remove the target table so that the source table can be renamed.
+                    # Only remame the target table, so that it can be restored when something goes awry.
+                    {
+                        my $Success = $TargetDBObject->Do(
+                            SQL => "ALTER TABLE $TargetTable RENAME TO ${TargetTable}_hidden"
+                        );
+                        if ( !$Success ) {
+
+                            # Log info to apache error log and OTOBO log (syslog or file)
+                            $MigrationBaseObject->MigrationLog(
+                                String   => "Could not rename target table '$TargetTable' to '${TargetSchema}_hidden'",
+                                Priority => "notice",
+                            );
+
+                            return;
+                        }
+                    }
+
                     {
                         my $RenameTableSQL  = <<"END_SQL";
 ALTER TABLE $SourceSchema.$SourceTable
@@ -633,7 +639,6 @@ END_SQL
 
                     }
 
-                    # TODO: do the shortening
                 };
 
                 if ( ! $OverallSuccess ) {
