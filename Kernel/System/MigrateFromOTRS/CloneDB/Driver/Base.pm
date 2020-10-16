@@ -18,6 +18,7 @@ package Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base;
 
 use strict;
 use warnings;
+use v5.24;
 
 use Encode;
 use MIME::Base64;
@@ -263,6 +264,10 @@ sub DataTransfer {
         }
     }
 
+    # Because of InnodB max key size in MySQL 5.6 or earlier
+    my $MaxMb4CharsInIndexKey = 191;     # int( 767 / 4 )
+    my $MaxLenghtShortenedColumns = 190; # 191 - 1
+
     TABLES:
     for my $Table (@Tables) {
 
@@ -316,38 +321,54 @@ sub DataTransfer {
         my @Columns;
         push( @Columns, @{$ColumnRef} );
 
-        # We need to check if column is varchar and > 191 character on OTRS side.
+        # In the target database schema some varchar columns have been shortened
+        # to $MaxMb4CharsInIndexKey, that is 191, characters.
+        # The reason was that in MySQL 5.6 or earlier the max key size was limited per default
+        # to 767 characters. This max key size is relevant for the columns that make up the PRIMARY key
+        # and for all columns with an UNIQUE index. With switching to the utf8mb4 character set.
+        # the unique varchar columns may at most be int( 767 / 4) = 191 characters long.
+        #
+        # For the shortend columns we need to cut the values. In order to be on the safe
+        # side we cut to $MaxLenghtShortenedColumns=190 characters.
+        #
+        # See also: https://dev.mysql.com/doc/refman/5.7/en/innodb-limits.html
         my %ShortenColumn;
-        for my $Column (@Columns) {
+        if ( $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
+            COLUMN:
+            for my $Column (@Columns) {
 
-            # Get OTRS Column infos
-            my $ColumnInfos = $Self->GetColumnInfos(
-                Table    => $Table,
-                DBName   => $Param{DBInfo}->{DBName},
-                DBObject => $Param{OTRSDBObject},
-                Column   => $Column,
-            );
+                # Get OTRS Column infos (utf8mb3)
+                my $OTRSColumnInfos = $Self->GetColumnInfos(
+                    Table    => $Table,
+                    DBName   => $Param{DBInfo}->{DBName},
+                    DBObject => $Param{OTRSDBObject},
+                    Column   => $Column,
+                );
+;
+                next COLUMN unless IsHashRefWithData($OTRSColumnInfos);
+                next COLUMN unless $OTRSColumnInfos->{DATA_TYPE} eq 'varchar';
 
-            # Get OTOBO Column infos
-            my $ColumnOTOBOInfos = $Param{OTOBODBBackend}->GetColumnInfos(
-                Table    => $RenameTables{$Table} // $Table,
-                DBName   => $ConfigObject->Get('Database'),
-                DBObject => $TargetDBObject,
-                Column   => $Column,
-            );
+                # Get OTOBO Column infos (utf8mb4)
+                my $OTOBOColumnInfos = $Param{OTOBODBBackend}->GetColumnInfos(
+                    Table    => $RenameTables{$Table} // $Table,
+                    DBName   => $ConfigObject->Get('Database'),
+                    DBObject => $TargetDBObject,
+                    Column   => $Column,
+                );
 
-            # First we need to check if the Table / Column exists in the OTOBO DB. If not,
-            # we don´t need to cut the content I think.
-            if ( IsHashRefWithData($ColumnOTOBOInfos) && $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
-                if ( $ColumnInfos->{DATA_TYPE} eq 'varchar' && $ColumnInfos->{LENGTH} > $ColumnOTOBOInfos->{LENGTH} ) {
-                    $ShortenColumn{$Column} = $Column;
+                next COLUMN unless IsHashRefWithData($OTOBOColumnInfos);
 
-                    # Log info to apache error log and OTOBO log (syslog or file)
-                    $MigrationBaseObject->MigrationLog(
-                        String   => "Column $Column needs to cut to new length of 190 chars, cause utf8mb4.",
-                        Priority => "notice",
-                    );
-                }
+                # check whether to varchar column has been shorted
+                next COLUMN unless $OTRSColumnInfos->{LENGTH} > $OTOBOColumnInfos->{LENGTH};
+
+                # mark column as shortened
+                $ShortenColumn{$Column} = $Column;
+
+                # Log info to apache error log and OTOBO log (syslog or file)
+                $MigrationBaseObject->MigrationLog(
+                    String   => "Column $Column needs to cut to new length of $MaxLenghtShortenedColumns chars, cause utf8mb4.",
+                    Priority => "notice",
+                );
             }
         }
 
@@ -424,18 +445,21 @@ sub DataTransfer {
         # get encode object
         my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-        TABLEROW:
         while ( my @Row = $Param{OTRSDBObject}->FetchrowArray() ) {
 
-            COLUMNVALUES:
-            for my $ColumnCounter ( 1 .. $#Columns ) {
-                my $Column = $Columns[$ColumnCounter];
+            # Check whether we need to cut the string,
+            # because utf8mb4 only supports $MaxMb4CharsInIndexKey=191 chars.
+            if ( %ShortenColumn ) {
+                COLUMN_COUNTER:
+                for my $ColumnCounter ( 1 .. $#Columns ) {
+                    my $Column = $Columns[$ColumnCounter];
 
-                # Check if we need to cut the string, cause utf8mb4 only needs 191 chars.
-                if ( IsHashRefWithData( \%ShortenColumn ) && $ShortenColumn{$Column} ) {
-                    if ( $Row[$ColumnCounter] && length( $Row[$ColumnCounter] ) > 190 ) {
-                        $Row[$ColumnCounter] = substr( $Row[$ColumnCounter], 0, 190 );
-                    }
+                    next COLUMN_COUNTER unless $ShortenColumn{$Column};
+                    next COLUMN_COUNTER unless $Row[$ColumnCounter];
+                    next COLUMN_COUNTER unless length $Row[$ColumnCounter] > $MaxLenghtShortenedColumns;
+
+                    # actually shorten
+                    $Row[$ColumnCounter] = substr $Row[$ColumnCounter], 0, $MaxLenghtShortenedColumns;
                 }
             }
 
