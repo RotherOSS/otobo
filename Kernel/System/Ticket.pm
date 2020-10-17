@@ -2563,18 +2563,23 @@ sub TicketEscalationIndexBuild {
 
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
-        if ( !defined $Param{$Needed} ) {
+        if ( ! defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
 
+    # extract params
+   my $TicketID = $Param{TicketID};
+   my $UserID   = $Param{UserID};
+
     my %Ticket = $Self->TicketGet(
-        TicketID      => $Param{TicketID},
-        UserID        => $Param{UserID},
+        TicketID      => $TicketID,
+        UserID        => $UserID,
         DynamicFields => 0,
         Silent        => 1,                  # Suppress warning if the ticket was deleted in the meantime.
     );
@@ -2631,7 +2636,7 @@ sub TicketEscalationIndexBuild {
         }
 
         # clear ticket cache
-        $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
+        $Self->_TicketCacheClear( TicketID => $TicketID );
 
         return 1;
     }
@@ -2641,7 +2646,7 @@ sub TicketEscalationIndexBuild {
     if (%Ticket) {
         %Escalation = $Self->TicketEscalationPreferences(
             Ticket => \%Ticket,
-            UserID => $Param{UserID},
+            UserID => $UserID,
         );
     }
 
@@ -2719,7 +2724,7 @@ END_SQL
         my @Bind = \( $Ticket{TicketID} );
         return unless $DBObject->Prepare(
             SQL   => $SelArticleSQL,
-            Bind => [ \$Param{TicketID} ],
+            Bind => [ \$TicketID ],
         );
         while ( my @Row = $DBObject->FetchrowArray() ) {
             push @SenderHistory, {
@@ -2868,7 +2873,7 @@ END_SQL
     }
 
     # clear ticket cache
-    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
+    $Self->_TicketCacheClear( TicketID => $TicketID );
 
     return 1;
 }
