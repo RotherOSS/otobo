@@ -16,12 +16,19 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+use Test2::API qw/context/;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
+
+our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -40,7 +47,7 @@ my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ArticleObject      = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-# make use to disable EstalationStopEvents modules
+# disable the EscalationStopEvents event handler
 $ConfigObject->Set(
     Key   => 'Ticket::EventModulePost###4300-EscalationStopEvents',
     Value => undef,
@@ -56,10 +63,13 @@ $HelperObject->FixedTimeSet(
     )->ToEpoch()
 );
 
-my $CheckNumEvents = sub {
-    my (%Param) = @_;
+sub CheckNumEvents {
+    my %Param = @_;
 
     my $JobName = $Param{JobName} || '';
+
+    my $Context = context();
+    $Context->diag("within CheckNumEvents");
 
     if ($JobName) {
 
@@ -102,8 +112,10 @@ my $CheckNumEvents = sub {
         $Param{NumEvents}->{$Event} = scalar @EventLines;
     }
 
+    $Context->release;
+
     return;
-};
+}
 
 # one time with the business hours changed to 24x7, and
 # one time with no business hours at all
@@ -305,7 +317,7 @@ for my $Hours ( sort keys %WorkingHours ) {
             EscalationUpdateTimeStop           => 0,    # not yet supported
             EscalationSolutionTimeStop         => 0,    # not yet supported
         );
-        $CheckNumEvents->(
+        CheckNumEvents(
             GenericAgentObject => $GenericAgentObject,
             TicketObject       => $TicketObject,
             TicketID           => $TicketID,
@@ -325,7 +337,7 @@ for my $Hours ( sort keys %WorkingHours ) {
             $NumEvents{EscalationSolutionTimeStart}++;
             $NumEvents{EscalationResponseTimeStart}++;
         }
-        $CheckNumEvents->(
+        CheckNumEvents(
             GenericAgentObject => $GenericAgentObject,
             TicketObject       => $TicketObject,
             TicketID           => $TicketID,
@@ -343,7 +355,7 @@ for my $Hours ( sort keys %WorkingHours ) {
         );
 
         # check whether events were triggered
-        $CheckNumEvents->(
+        CheckNumEvents(
             GenericAgentObject => $GenericAgentObject,
             TicketObject       => $TicketObject,
             TicketID           => $TicketID,
@@ -366,7 +378,7 @@ for my $Hours ( sort keys %WorkingHours ) {
             $NumEvents{EscalationSolutionTimeStart}++;
             $NumEvents{EscalationResponseTimeStart}++;
         }
-        $CheckNumEvents->(
+        CheckNumEvents(
             GenericAgentObject => $GenericAgentObject,
             TicketObject       => $TicketObject,
             TicketID           => $TicketID,
@@ -422,7 +434,7 @@ for my $Hours ( sort keys %WorkingHours ) {
         $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
         $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-        $CheckNumEvents->(
+        CheckNumEvents(
             GenericAgentObject => $GenericAgentObject,
             TicketObject       => $TicketObject,
             TicketID           => $TicketID,
@@ -490,7 +502,7 @@ for my $Hours ( sort keys %WorkingHours ) {
         $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
         $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-        $CheckNumEvents->(
+        CheckNumEvents(
             GenericAgentObject => $GenericAgentObject,
             TicketObject       => $TicketObject,
             TicketID           => $TicketID,
