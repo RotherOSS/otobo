@@ -138,7 +138,6 @@ my $TicketID = $TicketObject->TicketCreate(
     # Rebuild escalation index and test result
     $TicketObject->TicketEscalationIndexBuild(
         TicketID => $TicketID,
-        Suspend  => 2,
         UserID   => 1,
     );
 
@@ -193,7 +192,6 @@ $TicketObject->TicketPendingTimeSet(
     # Rebuild escalation index and test result
     $TicketObject->TicketEscalationIndexBuild(
         TicketID => $TicketID,
-        Suspend  => 2,
         UserID   => 1,
     );
 
@@ -249,7 +247,6 @@ $TicketObject->TicketPendingTimeSet(
     # Rebuild escalation index and test result
     $TicketObject->TicketEscalationIndexBuild(
         TicketID => $TicketID,
-        Suspend  => 2,
         UserID   => 1,
     );
 
@@ -303,7 +300,6 @@ $TicketObject->TicketPendingTimeSet(
     # Rebuild escalation index and test result
     $TicketObject->TicketEscalationIndexBuild(
         TicketID => $TicketID,
-        Suspend  => 1,
         UserID   => 1,
     );
 

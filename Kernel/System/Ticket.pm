@@ -2547,16 +2547,13 @@ sub TicketEscalationDateCalculation {
 
 =head2 TicketEscalationIndexBuild()
 
-build escalation index of one ticket with current settings (SLA, Queue, Calendar...)
+build escalation index of one ticket with current settings (SLA, Queue, Calendar...).
+This method will never mark the ticket as updated.
 
     my $Success = $TicketObject->TicketEscalationIndexBuild(
         TicketID => $Param{TicketID},
         UserID   => $Param{UserID},
-        Suspend  => 1,    # optional
     );
-
-The parameter B<Suspend> is passed by B<RebuildEscalationIndex> and by B<Maint::Ticket::EscalationIndexRebuild>.
-It's only use is to suppress the update of the change time and the change user of the ticket in specific cases.
 
 =cut
 
@@ -2596,13 +2593,6 @@ sub TicketEscalationIndexBuild {
         }
     }
 
-    # Tickets are not marked as modified when this sub was called by RebuildEscalationIndex
-    # and the State is actually a escalation suspend state.
-    my $MarkTicketAsModified = 1;
-    if ( $Param{Suspend} && $SuspendStateActive ) {
-        $MarkTicketAsModified = 0;
-    }
-
     # get objects
     my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -2632,16 +2622,8 @@ sub TicketEscalationIndexBuild {
             next TIME if !$Ticket{$Key};
 
             # reset escalation time in the ticket table
-            my $SQL = "UPDATE ticket SET $EscalationTimes{$Key} = 0";
-            my @Bind;
-            if ( $MarkTicketAsModified ) {
-                $SQL .= ', change_time = current_timestamp, change_by = ?';
-                push @Bind, \$Param{UserID};
-            }
-            $SQL .= " WHERE id = ?";
-            push @Bind, \$Ticket{TicketID};
-
-            # update ticket table
+            my $SQL  = "UPDATE ticket SET $EscalationTimes{$Key} = 0 WHERE id = ?";
+            my @Bind = \( $Ticket{TicketID} );
             $DBObject->Do(
                 SQL  => $SQL,
                 Bind => \@Bind,
@@ -2668,15 +2650,8 @@ sub TicketEscalationIndexBuild {
 
     # update first response (if not responded till now)
     if ( !$Escalation{FirstResponseTime} ) {
-        my $SQL = "UPDATE ticket SET escalation_response_time = 0";
-        my @Bind;
-        if ( $MarkTicketAsModified ) {
-            $SQL .= ', change_time = current_timestamp, change_by = ?';
-            push @Bind, \$Param{UserID};
-        }
-        $SQL .= " WHERE id = ?";
-        push @Bind, \$Ticket{TicketID};
-
+        my $SQL  = "UPDATE ticket SET escalation_response_time = 0 WHERE id = ?";
+        my @Bind = \( $Ticket{TicketID} );
         $DBObject->Do(
             SQL  => $SQL,
             Bind => \@Bind,
@@ -2692,15 +2667,8 @@ sub TicketEscalationIndexBuild {
 
         # update first response time to 0
         if (%FirstResponseDone) {
-            my $SQL = "UPDATE ticket SET escalation_response_time = 0";
-            my @Bind;
-            if ( $MarkTicketAsModified ) {
-                $SQL .= ', change_time = current_timestamp, change_by = ?';
-                push @Bind, \$Param{UserID};
-            }
-            $SQL .= " WHERE id = ?";
-            push @Bind, \$Ticket{TicketID};
-
+            my $SQL  = "UPDATE ticket SET escalation_response_time = 0 WHERE id = ?";
+            my @Bind = \( $Ticket{TicketID} );
             $DBObject->Do(
                 SQL  => $SQL,
                 Bind => \@Bind,
@@ -2717,14 +2685,8 @@ sub TicketEscalationIndexBuild {
                 Suspended    => $SuspendStateActive,
             );
 
-            my $SQL  = "UPDATE ticket SET escalation_response_time = ?";
-            my @Bind = ( \$DestinationTime );
-            if ( $MarkTicketAsModified ) {
-                $SQL .= ', change_time = current_timestamp, change_by = ?';
-                push @Bind, \$Param{UserID};
-            }
-            $SQL .= " WHERE id = ?";
-            push @Bind, \$Ticket{TicketID};
+            my $SQL  = "UPDATE ticket SET escalation_response_time = ? WHERE id = ?";
+            my @Bind = \( $DestinationTime, $Ticket{TicketID} );
             $DBObject->Do(
                 SQL  => $SQL,
                 Bind => \@Bind,
@@ -2737,15 +2699,8 @@ sub TicketEscalationIndexBuild {
 
     # update update && do not escalate in "pending auto" for escalation update time
     if ( !$Escalation{UpdateTime} || $Ticket{StateType} =~ /^(pending)/i ) {
-        my $SQL = "UPDATE ticket SET escalation_update_time = 0";
-        my @Bind;
-        if ( $MarkTicketAsModified ) {
-            $SQL .= ', change_time = current_timestamp, change_by = ?';
-            push @Bind, \$Param{UserID};
-        }
-        $SQL .= " WHERE id = ?";
-        push @Bind, \$Ticket{TicketID};
-
+        my $SQL  = "UPDATE ticket SET escalation_update_time = 0 WHERE id = ?";
+        my @Bind = \( $Ticket{TicketID} );
         $DBObject->Do(
             SQL  => $SQL,
             Bind => \@Bind,
@@ -2826,20 +2781,9 @@ sub TicketEscalationIndexBuild {
                 Suspended    => $SuspendStateActive,
             );
 
-            my $SQL  = "UPDATE ticket SET escalation_update_time = ?";
-            my @Bind = ( \$DestinationTime );
-            if ( $MarkTicketAsModified ) {
-                $SQL .= ', change_time = current_timestamp, change_by = ?';
-                push @Bind, \$Param{UserID};
-            }
-            $SQL .= " WHERE id = ?";
-            push @Bind, \$Ticket{TicketID};
-            $DBObject->Do(
-                SQL  => $SQL,
-                Bind => \@Bind,
-            );
-
             # remember escalation time
+            my $SQL  = "UPDATE ticket SET escalation_update_time = ? WHERE id = ?";
+            my @Bind = \( $DestinationTime, $Ticket{TicketID} );
             if ( $EscalationTime == 0 || $DestinationTime < $EscalationTime ) {
                 $EscalationTime = $DestinationTime;
             }
@@ -2847,15 +2791,8 @@ sub TicketEscalationIndexBuild {
 
         # else, no not escalate, because latest sender was agent
         else {
-            my $SQL = "UPDATE ticket SET escalation_update_time = 0";
-            my @Bind;
-            if ( $MarkTicketAsModified ) {
-                $SQL .= ', change_time = current_timestamp, change_by = ?';
-                push @Bind, \$Param{UserID};
-            }
-            $SQL .= " WHERE id = ?";
-            push @Bind, \$Ticket{TicketID};
-
+            my $SQL  = "UPDATE ticket SET escalation_update_time = 0 WHERE id = ?";
+            my @Bind = \( $Ticket{TicketID} );
             $DBObject->Do(
                 SQL  => $SQL,
                 Bind => \@Bind,
@@ -2865,15 +2802,8 @@ sub TicketEscalationIndexBuild {
 
     # update solution
     if ( !$Escalation{SolutionTime} ) {
-        my $SQL = "UPDATE ticket SET escalation_solution_time = 0";
-        my @Bind;
-        if ( $MarkTicketAsModified ) {
-            $SQL .= ', change_time = current_timestamp, change_by = ?';
-            push @Bind, \$Param{UserID};
-        }
-        $SQL .= " WHERE id = ?";
-        push @Bind, \$Ticket{TicketID};
-
+        my $SQL  = "UPDATE ticket SET escalation_solution_time = 0 WHERE id = ?";
+        my @Bind = \( $Ticket{TicketID} );
         $DBObject->Do(
             SQL  => $SQL,
             Bind => \@Bind,
@@ -2889,15 +2819,8 @@ sub TicketEscalationIndexBuild {
 
         # update solution time to 0
         if (%SolutionDone) {
-            my $SQL = "UPDATE ticket SET escalation_solution_time = 0";
-            my @Bind;
-            if ( $MarkTicketAsModified ) {
-                $SQL .= ', change_time = current_timestamp, change_by = ?';
-                push @Bind, \$Param{UserID};
-            }
-            $SQL .= " WHERE id = ?";
-            push @Bind, \$Ticket{TicketID};
-
+            my $SQL  = "UPDATE ticket SET escalation_solution_time = 0 WHERE id = ?";
+            my @Bind = \( $Ticket{TicketID} );
             $DBObject->Do(
                 SQL  => $SQL,
                 Bind => \@Bind,
@@ -2914,15 +2837,8 @@ sub TicketEscalationIndexBuild {
             );
 
             # update solution time to $DestinationTime
-            my $SQL  = "UPDATE ticket SET escalation_solution_time = ?";
-            my @Bind = ( \$DestinationTime );
-            if ( $MarkTicketAsModified ) {
-                $SQL .= ', change_time = current_timestamp, change_by = ?';
-                push @Bind, \$Param{UserID};
-            }
-            $SQL .= " WHERE id = ?";
-            push @Bind, \$Ticket{TicketID};
-
+            my $SQL  = "UPDATE ticket SET escalation_solution_time = ? WHERE id = ?";
+            my @Bind = \( $DestinationTime, $Ticket{TicketID} );
             $DBObject->Do(
                 SQL  => $SQL,
                 Bind => \@Bind,
@@ -2937,15 +2853,8 @@ sub TicketEscalationIndexBuild {
 
     # update escalation time (< escalation time)
     if ( defined $EscalationTime ) {
-        my $SQL  = "UPDATE ticket SET escalation_time = ?";
-        my @Bind = ( \$EscalationTime );
-        if ( $MarkTicketAsModified ) {
-            $SQL .= ', change_time = current_timestamp, change_by = ?';
-            push @Bind, \$Param{UserID};
-        }
-        $SQL .= " WHERE id = ?";
-        push @Bind, \$Ticket{TicketID};
-
+        my $SQL  = "UPDATE ticket SET escalation_time = ? WHERE id = ?";
+        my @Bind = \( $EscalationTime, $Ticket{TicketID} );
         $DBObject->Do(
             SQL  => $SQL,
             Bind => \@Bind,
@@ -3348,7 +3257,6 @@ sub RebuildEscalationIndex {
 
         $Self->TicketEscalationIndexBuild(
             TicketID => $TicketID,
-            Suspend  => 1,
             UserID   => 1,
         );
 
