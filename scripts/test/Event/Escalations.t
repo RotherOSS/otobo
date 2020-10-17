@@ -74,6 +74,8 @@ sub CheckNumEvents {
     my $Comment = $Param{Comment} || "job $JobName";
 
     subtest $Comment => sub {
+
+        # run the TriggerEscalationStartEvents job if requested
         if ($JobName) {
 
             my $JobRun = $Param{GenericAgentObject}->JobRun(
@@ -123,14 +125,14 @@ sub CheckNumEvents {
 # one time with the business hours changed to 24x7, and
 # one time with no business hours at all
 my %WorkingHours = (
-    0 => '',
-    1 => '0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23',
+    '0_holiday' => '',
+    '1_allday'  => '0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23',
 );
 
 for my $Hours ( sort keys %WorkingHours ) {
 
     # An unique indentifier, so that data from different test runs won't be mixed up.
-    my $UniqueSignature   = $HelperObject->GetRandomID();
+    my $UniqueSignature   = join '_', $HelperObject->GetRandomID(), $Hours;
     my $StartingTimeStamp = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
 
     # get config object
@@ -194,7 +196,6 @@ for my $Hours ( sort keys %WorkingHours ) {
 
     # add a test ticket
     my $TicketID;
-
     {
 
         # TicketEscalationIndexBuild() is called implicitly
@@ -303,7 +304,6 @@ for my $Hours ( sort keys %WorkingHours ) {
     # Set up the expected number of emitted events.
     my %NumEvents;
     {
-
         # Right after ticket creation, no events should have been emitted.
         # The not yet supported events, should never be emitted.
         %NumEvents = (
@@ -514,7 +514,6 @@ for my $Hours ( sort keys %WorkingHours ) {
             QueueName          => $QueueName,
         );
     }
-
 }
 
 # Add case when escalation time is greater than rest of working day time.
