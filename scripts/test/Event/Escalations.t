@@ -140,18 +140,19 @@ for my $Hours ( sort keys %WorkingHours ) {
 
     # use a calendar with the same business hours for every day so that the UT runs correctly
     # on every day of the week and outside usual business hours.
-    my %Week;
-    my @WindowTime = split( ',', $WorkingHours{$Hours} );
-    my @Days       = qw(Sun Mon Tue Wed Thu Fri Sat);
-    for my $Day (@Days) {
-        $Week{$Day} = \@WindowTime;
-    }
+    {
+        my %Week;
+        my @WindowTime = split ',', $WorkingHours{$Hours};
+        for my $Day ( qw(Sun Mon Tue Wed Thu Fri Sat) ) {
+            $Week{$Day} = \@WindowTime;
+        }
 
-    # set working hours
-    $ConfigObject->Set(
-        Key   => 'TimeWorkingHours',
-        Value => \%Week,
-    );
+        # set working hours
+        $ConfigObject->Set(
+            Key   => 'TimeWorkingHours',
+            Value => \%Week,
+        );
+    }
 
     # disable default Vacation days
     $ConfigObject->Set(
