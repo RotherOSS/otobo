@@ -71,46 +71,49 @@ sub CheckNumEvents {
     my $Context = context();
     $Context->diag("within CheckNumEvents");
 
-    if ($JobName) {
+    my $Comment = $Param{Comment} || "job $JobName";
 
-        my $JobRun = $Param{GenericAgentObject}->JobRun(
-            Job    => $JobName,
-            Config => {
-                Escalation => 1,
-                Queue      => $Param{QueueName},
-                New        => {
-                    Module => 'Kernel::System::GenericAgent::TriggerEscalationStartEvents',
+    subtest $Comment => sub {
+        if ($JobName) {
+
+            my $JobRun = $Param{GenericAgentObject}->JobRun(
+                Job    => $JobName,
+                Config => {
+                    Escalation => 1,
+                    Queue      => $Param{QueueName},
+                    New        => {
+                        Module => 'Kernel::System::GenericAgent::TriggerEscalationStartEvents',
+                    },
                 },
-            },
-            UserID => 1,
+                UserID => 1,
+            );
+
+            $Self->True(
+                $JobRun,
+                "JobRun() $JobName Run the GenericAgent job",
+            );
+        }
+
+        my @Lines = $Param{TicketObject}->HistoryGet(
+            TicketID => $Param{TicketID},
+            UserID   => 1,
         );
 
-        $Self->True(
-            $JobRun,
-            "JobRun() $JobName Run the GenericAgent job",
-        );
-    }
 
-    my @Lines = $Param{TicketObject}->HistoryGet(
-        TicketID => $Param{TicketID},
-        UserID   => 1,
-    );
+        while ( my ( $Event, $NumEvents ) = each %{ $Param{NumEvents} } ) {
 
-    my $Comment = $Param{Comment} || "after $JobName";
+            my @EventLines = grep { $_->{HistoryType} eq $Event } @Lines;
 
-    while ( my ( $Event, $NumEvents ) = each %{ $Param{NumEvents} } ) {
+            $Self->Is(
+                scalar @EventLines,
+                $NumEvents,
+                "check num of $Event events, $Comment",
+            );
 
-        my @EventLines = grep { $_->{HistoryType} eq $Event } @Lines;
-
-        $Self->Is(
-            scalar @EventLines,
-            $NumEvents,
-            "check num of $Event events, $Comment",
-        );
-
-        # keep current number for reference
-        $Param{NumEvents}->{$Event} = scalar @EventLines;
-    }
+            # keep current number for reference
+            $Param{NumEvents}->{$Event} = scalar @EventLines;
+        }
+    };
 
     $Context->release;
 
