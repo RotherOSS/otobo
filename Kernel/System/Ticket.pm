@@ -2710,9 +2710,15 @@ sub TicketEscalationIndexBuild {
 
         # check if update escalation should be set
         my @SenderHistory;
-        return if !$DBObject->Prepare(
-            SQL => 'SELECT article_sender_type_id, is_visible_for_customer, create_time FROM '
-                . 'article WHERE ticket_id = ? ORDER BY create_time ASC',
+        my $SelArticleSQL = <<'END_SQL';
+SELECT article_sender_type_id, is_visible_for_customer, create_time
+  FROM article
+  WHERE ticket_id = ?
+  ORDER BY create_time ASC
+END_SQL
+        my @Bind = \( $Ticket{TicketID} );
+        return unless $DBObject->Prepare(
+            SQL   => $SelArticleSQL,
             Bind => [ \$Param{TicketID} ],
         );
         while ( my @Row = $DBObject->FetchrowArray() ) {
