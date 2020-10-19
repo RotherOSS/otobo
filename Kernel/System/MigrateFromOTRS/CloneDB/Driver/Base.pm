@@ -466,6 +466,7 @@ sub DataTransfer {
         $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
     }
 
+    # do the actual data transfer
     SOURCE_TABLE:
     for my $SourceTable (@SourceTables) {
 
@@ -564,7 +565,7 @@ sub DataTransfer {
                     # no need to copy foreign key constraints from the OTRS table
                     my @DropClauses = ( $SourceDropForeignKeys{$SourceTable} // [] )->@*;
                     if ( @DropClauses ) {
-                        my $SQL  = "ALTER TABLE $SourceSchema.$SourceTable " . join ', ', @DropClauses;
+                        my $SQL = "ALTER TABLE $SourceSchema.$SourceTable " . join ', ', @DropClauses;
                         my $Success = $SourceDBObject->Do( SQL => $SQL );
                         if ( !$Success ) {
 
@@ -578,7 +579,26 @@ sub DataTransfer {
                         }
                     }
 
-                    # TODO: adapt the charset
+                    # Adapt the charset of the source table to the charset used in Kernel::System::Installer.
+                    # This is a no-op when the charset is already the expected charset.
+                    {
+                        my $SQL  = <<"END_SQL";
+ALTER table $SourceSchema.$SourceTable
+  CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+END_SQL
+                        my $Success = $SourceDBObject->Do( SQL => $SQL );
+                        if ( !$Success ) {
+
+                            # Log info to apache error log and OTOBO log (syslog or file)
+                            $MigrationBaseObject->MigrationLog(
+                                String   => "Could not alter the charset of source table '$SourceTable*",
+                                Priority => "notice",
+                            );
+
+                            return;
+                        }
+                    }
+
                     # ALTER TABLE tbl_name CONVERT TO CHARACTER SET charset_name;
                     # TODO: do the shortening
                     # UPDATE acl SET name = SUBSTRING( name, 0, 190 )
