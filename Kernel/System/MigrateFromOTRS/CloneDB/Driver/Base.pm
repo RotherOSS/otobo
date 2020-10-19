@@ -639,7 +639,7 @@ END_SQL
 
                             # Log info to apache error log and OTOBO log (syslog or file)
                             $MigrationBaseObject->MigrationLog(
-                                String   => "Could not drop foreign keys in source table '$SourceTable*",
+                                String   => "Could not add foreign keys in target table '$TargetSchema.$TargetTable'",
                                 Priority => "notice",
                             );
 
@@ -648,12 +648,14 @@ END_SQL
 
                     }
 
+                    # overall success
+                    return 1;
                 };
 
                 if ( ! $OverallSuccess ) {
                     $MigrationBaseObject->MigrationLog(
                         String   => "Could  '$SourceTable*",
-                        String   => "Renameing '$SourceSchema.$SourceTable' to '$TargetSchema.$TargetTable' failed. '$TargetSchema.${TargetTable}_hidden' kept for restoring to a sane state. ",
+                        String   => "Renaming '$SourceSchema.$SourceTable' to '$TargetSchema.$TargetTable' failed. '$TargetSchema.${TargetTable}_hidden' kept for restoring to a sane state. ",
                         Priority => "notice",
                     );
 
