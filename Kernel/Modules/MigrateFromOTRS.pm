@@ -524,7 +524,8 @@ sub Run {
 }
 
 sub _Finish {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Take care that default config is in the database.
     if ( !$Self->_CheckConfig() ) {
@@ -593,15 +594,35 @@ sub _Finish {
         }
     }
 
-    # prepare link to the agent interface
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $Host = $ParamObject->HTTP('HOST') || $Param{ConfigObject}->Get('FQDN');
-    $Host =~ s/\/$//;
-    my $OTOBOHandle = $ParamObject->ScriptName() // '';
-    $OTOBOHandle =~ s/migration\.pl/index.pl/;
+    # get object manager singletons
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $OTOBOHandle = $ParamObject->ScriptName();
+    $OTOBOHandle =~ s/\/(.*)\/migration.pl\.pl/$1/;
+
+    # Under Docker the scheme is correctly recognised as there are only two relevant cases:
+    #   a) HTTP should actually be used
+    #   b) HTTPS should be used and it works because nginx sets HTTPS
+    my $Scheme;
+    {
+        my $HTTPS  = $ParamObject->HTTPS('HTTPS');
+        $Scheme = ($HTTPS && lc $HTTPS eq 'on') ? 'https' : 'http';
+    }
+
+    # In the docker case $ENV{HTTP_HOST} is something like 'localhost:8443'.
+    # This is not very helpful as port 8443 is not exposed on the Docker host.
+    # So let's use the host that is provided by nginx
+    # Another, maybe better, approach is to simple provide a relative link to '../index.pl'.
+    # Fun fact: the FQDN can specified with a port.
+    my $Host =
+        $ParamObject->HTTP('HTTP_X_FORWARDED_SERVER')    # for the HTTPS case, the hostname that nginx sees
+        || $ParamObject->HTTP('HOST')                    # should work in the HTTP case, in Docker or not in Docker
+        || $ConfigObject->Get('FQDN');                   # a fallback
 
     return {
         Webserver   => $Webserver,
+        Scheme      => $Scheme,
         OTOBOHandle => $OTOBOHandle,
         Host        => $Host,
     };
