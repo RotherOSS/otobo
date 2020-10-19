@@ -464,7 +464,7 @@ END_SQL
                 next ROW unless $FKName =~ m/^FK_/;
 
                 push $TargetAddForeignKeysClauses{$TargetTable}->@*,
-                    "ADD CONSTRAINT FOREIGN KEY $FKName ($FKColumnName) REFERENCES $PKTableName($PKColumnName)";
+                    "ADD CONSTRAINT FOREIGN KEY ${FKName}_readded ($FKColumnName) REFERENCES $PKTableName($PKColumnName)";
             }
         }
 
