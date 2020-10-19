@@ -348,7 +348,7 @@ sub DataTransfer {
                 # We need to shorten that column in that table to 191 chars.
                 $DoShorten = 1;
                 push $AlterSourceSQLs{$SourceTable}->@*,
-                    "UPDATE $SourceTable SET $SourceColumn = SUBSTRING( $SourceColumn, 0, $MaxMb4CharsInIndexKey )",
+                    "UPDATE $SourceTable SET $SourceColumn = SUBSTRING( $SourceColumn, 1, $MaxLenghtShortenedColumns )",
                     "ALTER TABLE $SourceTable MODIFY COLUMN $SourceColumn VARCHAR($MaxMb4CharsInIndexKey)";
 
                 # Log info to apache error log and OTOBO log (syslog or file)
@@ -362,7 +362,7 @@ sub DataTransfer {
                 # In that case add the SUBSTRING() function.
                 push @MaybeShortenedColumns,
                     $DoShorten ?
-                        "SUBSTRING( $SourceColumn, 0, $MaxMb4CharsInIndexKey )"
+                        "SUBSTRING( $SourceColumn, 1, $MaxLenghtShortenedColumns )"
                         :
                         $SourceColumn;
             }
