@@ -210,7 +210,7 @@ sub DataTransfer {
     my %RenameTables   = $MigrationBaseObject->DBRenameTables()->%*;
 
     # Because of InnodB max key size in MySQL 5.6 or earlier
-    my $MaxMb4CharsInIndexKey = 191;     # int( 767 / 4 )
+    my $MaxMb4CharsInIndexKey     = 191; # int( 767 / 4 )
     my $MaxLenghtShortenedColumns = 190; # 191 - 1
 
     # get a list of tables on OTRS DB
@@ -255,7 +255,7 @@ sub DataTransfer {
     # Trunkate the target OTOBO tables.
     # In the case of destructive table renaming, keep track of the foreign keys.
     # TODO: also keep track of the indexes, they are copied, but indexes might have been added
-    my ( %SourceDropForeignKeys, %TargetAddForeignKeys, %DoBatchInsert, %SourceColumnsString, %ShortenColumn );
+    my ( %TargetAddForeignKeysClauses, %AlterSourceSQLs,  %DoBatchInsert, %SourceColumnsString );
     SOURCE_TABLE:
     for my $SourceTable (@SourceTables) {
 
@@ -283,7 +283,6 @@ sub DataTransfer {
             $TableIsSkipped{$SourceTable} = 1;
 
             next SOURCE_TABLE;
-
         }
 
         # The OTOBO table exists. So, either truncate or drop the table in OTOBO.
@@ -310,11 +309,16 @@ sub DataTransfer {
             DBObject => $SourceDBObject,
         ) || return;
 
+        $AlterSourceSQLs{$SourceTable} //= [];
+
         if ( $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
 
             my @MaybeShortenedColumns;
+            my $DoShorten; # flag used for assembly of $SourceColumnsString
             SOURCE_COLUMN:
             for my $SourceColumn ( $SourceColumnsRef->@* ) {
+
+                $DoShorten = 0;
 
                 # Get Source (OTRS) column infos
                 my $SourceColumnInfos = $Self->GetColumnInfos(
@@ -341,9 +345,11 @@ sub DataTransfer {
                 # check whether to varchar column has been shorted
                 next SOURCE_COLUMN unless $SourceColumnInfos->{LENGTH} > $TargetColumnInfos->{LENGTH};
 
-                # we need to shorten that column in that table
-                $ShortenColumn{$SourceTable} //= {};
-                $ShortenColumn{$SourceTable}->{$SourceColumn} = 1;
+                # We need to shorten that column in that table to 191 chars.
+                $DoShorten = 1;
+                push $AlterSourceSQLs{$SourceTable}->@*,
+                    "UPDATE $SourceTable SET $SourceColumn = SUBSTRING( $SourceColumn, 0, $MaxMb4CharsInIndexKey )",
+                    "ALTER TABLE $SourceTable MODIFY COLUMN $SourceColumn VARCHAR($MaxMb4CharsInIndexKey)";
 
                 # Log info to apache error log and OTOBO log (syslog or file)
                 $MigrationBaseObject->MigrationLog(
@@ -354,7 +360,6 @@ sub DataTransfer {
             continue {
                 # The source column might have to be shortened.
                 # In that case add the SUBSTRING() function.
-                my $DoShorten = ( $ShortenColumn{$SourceTable} // {} )->{$SourceColumn};
                 push @MaybeShortenedColumns,
                     $DoShorten ?
                         "SUBSTRING( $SourceColumn, 0, $MaxMb4CharsInIndexKey )"
@@ -394,11 +399,6 @@ sub DataTransfer {
                 return 0;
             }
 
-            # no destructive batch insert when there are columns that must be shortened
-            if ( $BeDestructive ) {
-                return 0 if ( $ShortenColumn{$SourceTable} // {} )->%*;
-            }
-
             # no batch insert when BLOBs must be encoded or decoded
             # This check is basically redundant because the DB::Types have already been checked.
             return 0 unless $TargetDBObject->GetDatabaseFunction('DirectBlob') == $SourceDBObject->GetDatabaseFunction('DirectBlob');
@@ -412,7 +412,6 @@ sub DataTransfer {
         if ( $BeDestructive && $BatchInsertIsPossible ) {
 
             # drop foreign keys in the source
-            $SourceDropForeignKeys{$SourceTable} //= [];
             my $SourceForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
                 undef, undef, undef,
                 undef, $SourceSchema, $SourceTable
@@ -429,12 +428,19 @@ sub DataTransfer {
                 # The check is relevant because primary keys have 'PRIMARY' as $FKName
                 next ROW unless $FKName =~ m/^FK_/;
 
-                push $SourceDropForeignKeys{$SourceTable}->@*,
-                    "DROP FOREIGN KEY $FKName";
+                unshift $AlterSourceSQLs{$SourceTable}->@*,
+                    "ALTER TABLE $SourceTable DROP FOREIGN KEY $FKName";
             }
 
+            # Adapt the charset of the source table to the charset used in Kernel::System::Installer.
+            # This is a no-op when the charset is already the expected charset.
+            push $AlterSourceSQLs{$SourceTable}->@*, <<"END_SQL";
+ALTER table $SourceSchema.$SourceTable
+  CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+END_SQL
+
             # readd foreign keys in the target
-            $TargetAddForeignKeys{$TargetTable} //= [];
+            $TargetAddForeignKeysClauses{$TargetTable} //= [];
             my $TargetForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
                 undef, undef, undef,
                 undef, $TargetSchema, $TargetTable
@@ -454,7 +460,7 @@ sub DataTransfer {
                 # The check is relevant because primary keys have 'PRIMARY' as $FKName
                 next ROW unless $FKName =~ m/^FK_/;
 
-                push $TargetAddForeignKeys{$TargetTable}->@*,
+                push $TargetAddForeignKeysClauses{$TargetTable}->@*,
                     "ADD CONSTRAINT FOREIGN KEY $FKName ($FKColumnName) REFERENCES $PKTableName($PKColumnName)";
             }
         }
@@ -554,7 +560,6 @@ sub DataTransfer {
             }
         }
 
-
         if ( $DoBatchInsert{$SourceTable} ) {
 
             if ( $BeDestructive ) {
@@ -563,47 +568,20 @@ sub DataTransfer {
                 my $OverallSuccess = eval {
 
                     # no need to copy foreign key constraints from the OTRS table
-                    my @DropClauses = ( $SourceDropForeignKeys{$SourceTable} // [] )->@*;
-                    if ( @DropClauses ) {
-                        my $SQL = "ALTER TABLE $SourceSchema.$SourceTable " . join ', ', @DropClauses;
+                    my @AlterSourceSQLs = ( $AlterSourceSQLs{$SourceTable} // [] )->@*;
+                    for my $SQL ( @AlterSourceSQLs ) {
                         my $Success = $SourceDBObject->Do( SQL => $SQL );
                         if ( !$Success ) {
 
                             # Log info to apache error log and OTOBO log (syslog or file)
                             $MigrationBaseObject->MigrationLog(
-                                String   => "Could not drop foreign keys in source table '$SourceTable*",
+                                String   => "Could not alter source table '$SourceTable': $SQL",
                                 Priority => "notice",
                             );
 
                             return;
                         }
                     }
-
-                    # Adapt the charset of the source table to the charset used in Kernel::System::Installer.
-                    # This is a no-op when the charset is already the expected charset.
-                    {
-                        my $SQL  = <<"END_SQL";
-ALTER table $SourceSchema.$SourceTable
-  CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
-END_SQL
-                        my $Success = $SourceDBObject->Do( SQL => $SQL );
-                        if ( !$Success ) {
-
-                            # Log info to apache error log and OTOBO log (syslog or file)
-                            $MigrationBaseObject->MigrationLog(
-                                String   => "Could not alter the charset of source table '$SourceTable*",
-                                Priority => "notice",
-                            );
-
-                            return;
-                        }
-                    }
-
-                    # ALTER TABLE tbl_name CONVERT TO CHARACTER SET charset_name;
-                    # TODO: do the shortening
-                    # UPDATE acl SET name = SUBSTRING( name, 0, 190 )
-                    # ALTER TABLE CHANGE COLUNM name name varchar(191)
-                    # This requires the privs DROP and ALTER on the source database
 
                     # Remove the target table so that the source table can be renamed.
                     # Only remame the target table, so that it can be restored when something goes awry.
@@ -623,6 +601,8 @@ END_SQL
                         }
                     }
 
+                    # The actual data transfer.
+                    # This requires the privs DROP and ALTER on the source database.
                     {
                         my $RenameTableSQL  = <<"END_SQL";
 ALTER TABLE $SourceSchema.$SourceTable
@@ -642,7 +622,7 @@ END_SQL
                     }
 
                     # create foreign key constraints in the OTOBO table
-                    my @AddClauses = ( $TargetAddForeignKeys{$SourceTable} // [] )->@*;
+                    my @AddClauses = ( $TargetAddForeignKeysClauses{$SourceTable} // [] )->@*;
                     if ( @AddClauses ) {
                         my $SQL  = "ALTER TABLE $TargetSchema.$TargetTable " . join ', ', @AddClauses;
                         my $Success = $TargetDBObject->Do( SQL => $SQL );
