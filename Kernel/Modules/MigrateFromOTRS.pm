@@ -43,10 +43,12 @@ sub new {
 }
 
 sub Run {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     my $CacheTTL = 60 * 60 * 24 * 7; # 1 week
 
+    # get object manager singletons
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -152,7 +154,7 @@ sub Run {
         }
         elsif ( $Self->{Subaction} eq 'OTRSDBSettings' && $AJAXTask eq 'CheckSettings' ) {
             my %GetParam;
-            for my $Key (qw/DBType DBHost DBUser DBPassword DBName DBSID DBPort/) {
+            for my $Key (qw/DBType DBHost DBUser DBPassword DBName DBIsThrowaway DBSID DBPort/) {
                 $GetParam{$Key} = $ParamObject->GetParam( Param => $Key ) // '';
                 chomp( $GetParam{$Key} );
                 $GetParam{$Key} =~ s/^\s+//;

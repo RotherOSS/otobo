@@ -58,6 +58,12 @@
                     </div>
                     <div class="Clear" class="oooSQL Hidden"></div>
 
+                    <label for="DBIsThrowaway" class="oooSQL Hidden">[% Translate("Database is a throwawy copy") | html %]:</label>
+                    <div class="Field oooSQL Hidden">
+                        <input type="checkbox" id="DBIsThrowaway" name="DBIsThrowaway" />
+                    </div>
+                    <div class="Clear" class="oooSQL Hidden"></div>
+
                     <label for="DBSID" class="oooOracle Hidden">[% Translate("SID") | html %]:</label>
                     <div class="Field oooOracle Hidden">
                         <input type="text" id="DBSID" name="DBSID" class="W50pc" value="[% Data.DBSID %]" />

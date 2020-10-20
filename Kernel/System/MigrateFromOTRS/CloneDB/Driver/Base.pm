@@ -247,8 +247,9 @@ sub DataTransfer {
         }
     }
 
-    # this is experimental
-    my $BeDestructive = 1;
+    # this has been tested
+    # 'on' because the input field is a checkbox
+    my $SourceDBIsThrowaway = ( $Param{DBInfo}->{DBIsThrowaway} // '' ) eq 'on';
 
     # Collect information about the OTRS tables.
     # Decide whether batch insert, or destructive table renaming, is possible for a table.
@@ -409,7 +410,7 @@ sub DataTransfer {
 
         $DoBatchInsert{$SourceTable} = $BatchInsertIsPossible;
 
-        if ( $BeDestructive && $BatchInsertIsPossible ) {
+        if ( $SourceDBIsThrowaway && $BatchInsertIsPossible ) {
 
             # drop foreign keys in the source
             my $SourceForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
@@ -523,7 +524,7 @@ sub DataTransfer {
 
         # If we have extra columns in OTRS table we need to add the column to OTOBO.
         # But only if we don't have a destructive batch insert
-        if ( ! ( $DoBatchInsert{$SourceTable} && $BeDestructive ) ) {
+        if ( ! ( $DoBatchInsert{$SourceTable} && $SourceDBIsThrowaway ) ) {
             my $TargetColumnRef = $TargetDBBackend->ColumnsList(
                 Table    => $TargetTable,
                 DBName   => $ConfigObject->Get('Database'),
@@ -557,7 +558,7 @@ sub DataTransfer {
 
         if ( $DoBatchInsert{$SourceTable} ) {
 
-            if ( $BeDestructive ) {
+            if ( $SourceDBIsThrowaway ) {
                 # OTOBO uses no triggers, so there is no need to consider them here
 
                 my $CreateTableSQL = ( $TargetDBObject->SelectAll(
