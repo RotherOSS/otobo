@@ -434,13 +434,6 @@ sub DataTransfer {
                     "ALTER TABLE $SourceTable DROP FOREIGN KEY $FKName";
             }
 
-            # Adapt the charset of the source table to the charset used in Kernel::System::Installer.
-            # This is a no-op when the charset is already the expected charset.
-            push $AlterSourceSQLs{$SourceTable}->@*, <<"END_SQL";
-ALTER table $SourceSchema.$SourceTable
-  CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
-END_SQL
-
             # readd foreign keys in the target
             $TargetAddForeignKeysClauses{$TargetTable} //= [];
             my $TargetForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
