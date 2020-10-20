@@ -281,34 +281,43 @@ sub ReConfigure {
             Key   => $Key,
             Value => $Param{$Key},
         );
+
         if ( $Param{$Key} ) {
             $Param{$Key} =~ s/'/\\'/g;
         }
     }
 
     # Read config file that was copied from /opt/otrs
-    my $ConfigFile = $ConfigObject->Get("Home") . "/Kernel/Config.pm";
-    ## no critic
-    open( my $In, '<:encoding(utf-8)', $ConfigFile )
-        || return "Can't open $ConfigFile: $!";
-    ## use critic
+    my $ConfigFile = $ConfigObject->Get('Home') . '/Kernel/Config.pm';
+
+    # content of changed config file
     my $Config = '';
+    {
+        ## no critic
+        open( my $In, '<:encoding(utf-8)', $ConfigFile )
+            or return "Can't open $ConfigFile: $!";
+        ## use critic
 
-    LINE:
-    while (<$In>) {
+        LINE:
+        while ( my $Line = <$In> ) {
 
-        # Skip empty lines or comments.
-        if ( !$_ || $_ =~ /^\s*#/ || $_ =~ /^\s*$/ ) {
-            $Config .= $_;
-        }
-        else {
-            my $NewConfig = $_;
+            # keep empty lines or comments.
+            if ( ! $Line || $Line =~ m/^\s*#/ || $Line =~ m/^\s*$/ ) {
+                $Config .= $Line;
+
+                next LINE;
+            }
+
+            # Other lines might be changed
+            my $CangedLine = $Line;
 
             # Replace old path with OTOBO path
-            $NewConfig =~ s/$Param{Home}/$ConfigFile/;
+            $CangedLine =~ s/$Param{Home}/$ConfigFile/;
 
-            # Need to remove SecureMode
-            if ( $NewConfig =~ m/SecureMode/ ) {
+            # Need to comment out SecureMode
+            if ( $CangedLine =~ m/SecureMode/ ) {
+                $Config .= "# $CangedLine";
+
                 next LINE;
             }
 
@@ -319,27 +328,27 @@ sub ReConfigure {
                 # Database passwords can contain characters like '@' or '$' and should be single-quoted
                 #   same goes for database hosts which can be like 'myserver\instance name' for MS SQL.
                 if ( $Key eq 'DatabasePw' || $Key eq 'DatabaseHost' ) {
-                    $NewConfig =~
+                    $CangedLine =~
                         s/(\$Self->\{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = '$Param{$Key}';/g;
 
                     next CONFIGKEY;
                 }
 
-                $NewConfig =~
+                $CangedLine =~
                     s/(\$Self->\{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = "$Param{$Key}";/g;
             }
-            $Config .= $NewConfig;
+            $Config .= $CangedLine;
         }
     }
-    close $In;
 
     # Write new config file.
     ## no critic
-    open( my $Out, '>:encoding(utf-8)', $ConfigFile )
-        || return "Can't open $ConfigFile: $!";
-    print $Out $Config;
-    ## use critic
-    close $Out;
+    {
+        open ( my $Out, '>:encoding(utf-8)', $ConfigFile )
+            or return "Can't open $ConfigFile: $!";
+        print $Out $Config;
+        ## use critic
+    }
 
     return;
 }
