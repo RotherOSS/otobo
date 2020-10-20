@@ -329,13 +329,14 @@ sub ReConfigure {
                 #   same goes for database hosts which can be like 'myserver\instance name' for MS SQL.
                 if ( $Key eq 'DatabasePw' || $Key eq 'DatabaseHost' ) {
                     $CangedLine =~
-                        s/(\$Self->\{("|'|)$Key("|'|)}\s+=.+?('|"));/\$Self->{'$Key'} = '$Param{$Key}';/g;
+                        s/(\$Self->\{\s*("|'|)$Key("|'|)\s*}\s+=.+?('|"));/\$Self->{'$Key'} = '$Param{$Key}'; # from original OTOBO config /g;
 
                     next CONFIGKEY;
                 }
 
+                # other setting double quoted
                 $CangedLine =~
-                    s/(\$Self->\{("|'|)$Key("|'|)}\s+=.+?('|"));/\$Self->{'$Key'} = "$Param{$Key}";/g;
+                    s/(\$Self->\{\s*("|'|)$Key("|'|)\s*}\s+=.+?('|"));/\$Self->{'$Key'} = "$Param{$Key}"; # from original OTOBO config /g;
             }
             $Config .= $CangedLine;
         }
