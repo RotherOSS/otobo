@@ -247,9 +247,15 @@ sub DataTransfer {
         }
     }
 
-    # this has been tested
+    # This has been tested only under Docker.
+    # Restrict this to Docker in order to be on the safe side.
     # 'on' because the input field is a checkbox
-    my $SourceDBIsThrowaway = ( $Param{DBInfo}->{DBIsThrowaway} // '' ) eq 'on';
+    my $SourceDBIsThrowaway = eval {
+            return 0 unless $ENV{OTOBO_RUNS_UNDER_DOCKER};
+            return 0 unless $Param{DBInfo}->{DBIsThrowaway};
+            return 0 unless lc $Param{DBInfo}->{DBIsThrowaway} eq 'on';
+            return 1;
+        };
 
     # Collect information about the OTRS tables.
     # Decide whether batch insert, or destructive table renaming, is possible for a table.
