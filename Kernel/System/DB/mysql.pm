@@ -34,13 +34,11 @@ our @ObjectDependencies = (
 );
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Class = shift;
+    my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless { %Param }, $Class;
 }
 
 sub LoadPreferences {
@@ -99,7 +97,9 @@ sub LoadPreferences {
 
 sub PreProcessSQL {
     my ( $Self, $SQLRef ) = @_;
+
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput($SQLRef);
+
     return;
 }
 
@@ -119,6 +119,7 @@ sub PreProcessBindData {
         #   See also https://bugs.otrs.org/show_bug.cgi?id=12677.
         $EncodeObject->EncodeOutput( \$BindRef->[$I] );
     }
+
     return;
 }
 
@@ -142,6 +143,7 @@ sub Quote {
             }
         }
     }
+
     return $Text;
 }
 
@@ -154,11 +156,12 @@ sub DatabaseCreate {
             Priority => 'error',
             Message  => 'Need Name!'
         );
+
         return;
     }
 
     # return SQL
-    return ("CREATE DATABASE $Param{Name} DEFAULT CHARSET=utf8mb4");
+    return "CREATE DATABASE $Param{Name} DEFAULT CHARSET=utf8mb4";
 }
 
 sub DatabaseDrop {
@@ -170,11 +173,12 @@ sub DatabaseDrop {
             Priority => 'error',
             Message  => 'Need Name!'
         );
+
         return;
     }
 
     # return SQL
-    return ("DROP DATABASE IF EXISTS $Param{Name}");
+    return "DROP DATABASE IF EXISTS $Param{Name}";
 }
 
 sub TableCreate {
@@ -343,6 +347,7 @@ sub TableCreate {
                 );
         }
     }
+
     return @Return;
 }
 
@@ -364,9 +369,11 @@ sub TableDrop {
             }
         }
         $SQL .= 'DROP TABLE IF EXISTS ' . $Tag->{Name};
-        return ($SQL);
+
+        return $SQL;
     }
-    return ();
+
+    return;
 }
 
 sub TableAlter {
@@ -554,6 +561,7 @@ sub IndexCreate {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -595,6 +603,7 @@ sub IndexDrop {
                 Priority => 'error',
                 Message  => "Need $_!",
             );
+
             return;
         }
     }
@@ -625,6 +634,7 @@ sub ForeignKeyCreate {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -667,6 +677,7 @@ sub ForeignKeyDrop {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -719,6 +730,7 @@ sub UniqueCreate {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -755,6 +767,7 @@ sub UniqueDrop {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -848,7 +861,8 @@ sub Insert {
         }
     }
     $SQL .= "($Key)\n    VALUES\n    ($Value)";
-    return ($SQL);
+
+    return $SQL;
 }
 
 sub _TypeTranslation {
@@ -874,6 +888,7 @@ sub _TypeTranslation {
     if ( $Tag->{Type} =~ /^DECIMAL$/i ) {
         $Tag->{Type} = 'DECIMAL (' . $Tag->{Size} . ')';
     }
+
     return $Tag;
 }
 

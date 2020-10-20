@@ -260,23 +260,25 @@ sub Translatable {
 =head2 Translate()
 
 translate a text with placeholders.
+Valid placeholders are '%s' and '%d'.
 
-        my $Text = $LanguageObject->Translate('Hello %s!', 'world');
+    my $TranslatedText = $LanguageObject->Translate('Hello %s!', 'world');
 
 =cut
 
 sub Translate {
-    my ( $Self, $Text, @Parameters ) = @_;
+    my $Self = shift;
+    my( $Text, @Replacements ) = @_;
 
     $Text //= '';
-
     $Text = $Self->{Translation}->{$Text} || $Text;
 
-    return $Text if !@Parameters;
+    # Expecting that the replacements do not contain a '%'.
+    # That the substitutions stop at the first undefined replacement can be considered a bug.
+    for my $Replacement ( @Replacements ) {
+        return $Text unless defined $Replacement;
 
-    for ( 0 .. $#Parameters ) {
-        return $Text if !defined $Parameters[$_];
-        $Text =~ s/\%(s|d)/$Parameters[$_]/;
+        $Text =~ s/\%(?:s|d)/$Replacement/;
     }
 
     return $Text;

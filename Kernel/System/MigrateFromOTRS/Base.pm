@@ -21,7 +21,7 @@ package Kernel::System::MigrateFromOTRS::Base;    ## no critic
 use strict;
 use warnings;
 use v5.24;
-use namespace::clean;
+use namespace::autoclean;
 use utf8;
 
 # core modules
@@ -313,9 +313,11 @@ sub CleanOTRSFileToOTOBOStyle {
                 Priority => 'error',
                 Message  => "$_ not defined!"
             );
+
             return;
         }
     }
+
     for (qw(File UserID)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -380,6 +382,7 @@ sub CleanOTRSFileToOTOBOStyle {
         Type       => 'Local',    # optional - Local|Attachment|MD5
         Permission => '660',      # unix file permissions
     );
+
     return 1;
 }
 
@@ -901,9 +904,7 @@ sub DisableSecureMode {
         #        UserID          => 1,                # Required only if OverriddenInXML is set.
     );
 
-    if ( $Setting{EffectiveValue} eq '0' ) {
-        return 1;
-    }
+    return 1 if $Setting{EffectiveValue} eq '0';
 
     return $SysConfigObject->SettingsSet(
         UserID   => 1,                                      # (required) UserID
@@ -1299,6 +1300,8 @@ sub ResetConfigOption {
 }
 
 sub DBSkipTables {
+
+    # the tables must be lower case
     return {
         communication_log              => 1,
         communication_log_obj_lookup   => 1,
@@ -1318,6 +1321,8 @@ sub DBSkipTables {
 
 # OTOBO Table Name => OTRS Table Name
 sub DBRenameTables {
+
+    # the tables must be lower case
     return {
         groups                 => 'groups_table',
         article_data_otrs_chat => 'article_data_otobo_chat',

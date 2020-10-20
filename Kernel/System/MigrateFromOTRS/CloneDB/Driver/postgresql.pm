@@ -32,7 +32,7 @@ Kernel::System::MigrateFromOTRS::CloneDB::Driver::postgresql
 
 =head1 SYNOPSIS
 
-CloneDBs C<postgresql> Driver delegate
+    # CloneDB postgresql driver
 
 =head1 DESCRIPTION
 
