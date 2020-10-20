@@ -456,7 +456,7 @@ sub DataTransfer {
                 next ROW unless $FKName =~ m/^FK_/;
 
                 push $TargetAddForeignKeysClauses{$TargetTable}->@*,
-                    "ADD CONSTRAINT FOREIGN KEY ${FKName}_readded ($FKColumnName) REFERENCES $PKTableName($PKColumnName)";
+                    "ADD CONSTRAINT FOREIGN KEY $FKName ($FKColumnName) REFERENCES $PKTableName($PKColumnName)";
             }
         }
 
@@ -560,6 +560,21 @@ sub DataTransfer {
             if ( $BeDestructive ) {
                 # OTOBO uses no triggers, so there is no need to consider them here
 
+                my $CreateTableSQL = ( $TargetDBObject->SelectAll(
+                    SQL   => "SHOW CREATE TABLE $TargetTable",
+                ) // [ [] ] )->[0]->[0];
+
+                if ( ! $CreateTableSQL ) {
+
+                    # Log info to apache error log and OTOBO log (syslog or file)
+                    $MigrationBaseObject->MigrationLog(
+                        String   => "Could not get table creation SQL for '$TargetTable'",
+                        Priority => "notice",
+                    );
+
+                    return;
+                }
+
                 my $OverallSuccess = eval {
 
                     # no need to copy foreign key constraints from the OTRS table
@@ -580,10 +595,9 @@ sub DataTransfer {
                     }
 
                     # Remove the target table so that the source table can be renamed.
-                    # Only remame the target table, so that it can be restored when something goes awry.
                     {
                         my $Success = $TargetDBObject->Do(
-                            SQL => "ALTER TABLE $TargetTable RENAME TO ${TargetTable}_hidden"
+                            SQL => "DROP TABLE $TargetTable"
                         );
                         if ( !$Success ) {
 
@@ -642,28 +656,15 @@ END_SQL
                 if ( ! $OverallSuccess ) {
                     $MigrationBaseObject->MigrationLog(
                         String   => "Could  '$SourceTable*",
-                        String   => "Renaming '$SourceSchema.$SourceTable' to '$TargetSchema.$TargetTable' failed. '$TargetSchema.${TargetTable}_hidden' kept for restoring to a sane state. ",
+                        String   => <<"END_TXT",
+Renaming '$SourceSchema.$SourceTable' to '$TargetSchema.$TargetTable' failed.
+The table can be restored with:
+$CreateTableSQL
+END_TXT
                         Priority => "notice",
                     );
 
                     return;
-                }
-
-                # looks good so far, clean up the hidden table
-                {
-                    my $Success = $TargetDBObject->Do(
-                        SQL => "DROP TABLE IF EXISTS ${TargetTable}_hidden"
-                    );
-                    if ( !$Success ) {
-
-                        # Log info to apache error log and OTOBO log (syslog or file)
-                        $MigrationBaseObject->MigrationLog(
-                            String   => "Could not drop hidden target table '$TargetSchema.${TargetTable}_hidden'",
-                            Priority => "notice",
-                        );
-
-                        return;
-                    }
                 }
 
                 # Log info to apache error log and OTOBO log (syslog or file)
