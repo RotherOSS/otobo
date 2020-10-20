@@ -431,8 +431,7 @@ sub DataTransfer {
                 # explicitly try to drop the index too,
                 # otherwise the foreign key can't be added. Strange.
                 unshift $AlterSourceSQLs{$SourceTable}->@*,
-                    "ALTER TABLE $SourceTable DROP FOREIGN KEY $FKName",
-                    "ALTER TABLE $SourceTable DROP INDEX $FKName";
+                    "ALTER TABLE $SourceTable DROP FOREIGN KEY $FKName";
             }
 
             # Adapt the charset of the source table to the charset used in Kernel::System::Installer.
@@ -575,12 +574,7 @@ END_SQL
                     for my $SQL ( @AlterSourceSQLs ) {
                         my $Success = $SourceDBObject->Do( SQL => $SQL );
 
-                        # yet another special case
-                        # The index on article.ticket_id is not necessarily called FK_article_ticket_id_id.
-                        if ( $SQL =~ m/ DROP INDEX / ) {
-                            # failure is OK
-                        }
-                        elsif ( !$Success ) {
+                        if ( !$Success ) {
 
                             # Log info to apache error log and OTOBO log (syslog or file)
                             $MigrationBaseObject->MigrationLog(
