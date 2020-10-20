@@ -168,7 +168,7 @@ sub Run {
 
         # under Docker we also want to keep the log settings
         if ( $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
-            for my $Key ( qw( LogModule LogModule::Logfile ) ) {
+            for my $Key ( qw( LogModule LogModule::LogFile ) ) {
                 $OTOBOParams{$Key} = $ConfigObject->Get($Key);
             }
         }
