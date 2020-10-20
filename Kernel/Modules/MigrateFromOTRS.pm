@@ -598,8 +598,9 @@ sub _Finish {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    # index.pl is appended in the template
     my $OTOBOHandle = $ParamObject->ScriptName();
-    $OTOBOHandle =~ s/\/(.*)\/migration.pl\.pl/$1/;
+    $OTOBOHandle =~ s/\/(.*)\/migration\.pl/$1/;
 
     # Under Docker the scheme is correctly recognised as there are only two relevant cases:
     #   a) HTTP should actually be used
