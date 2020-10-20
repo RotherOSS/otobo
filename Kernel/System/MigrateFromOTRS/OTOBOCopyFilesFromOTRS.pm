@@ -158,12 +158,21 @@ sub Run {
     # Get filelist we only copy and not clean
     my %DoNotClean = map { $_ => 1 } $Self->DoNotCleanFileList();
 
-    # remember the current DB-Settings, so that we can fix up Kernel/Config.pm after it was copied
+    # Some of the setting of the OTOBO Kernel/Config.pm should reinjected in the file copied from OTRS
     my %OTOBOParams;
-    for my $Key ( qw( DatabaseHost Database DatabaseUser DatabasePw DatabaseDSN Home LogModule LogModule::Logfile ) ) {
-        $OTOBOParams{$Key} = $ConfigObject->Get($Key);
-    }
+    {
+        # remember the current DB-Settings
+        for my $Key ( qw( DatabaseHost Database DatabaseUser DatabasePw DatabaseDSN Home ) ) {
+            $OTOBOParams{$Key} = $ConfigObject->Get($Key);
+        }
 
+        # under Docker we also want to keep the log settings
+        if ( $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
+            for my $Key ( qw( LogModule LogModule::Logfile ) ) {
+                $OTOBOParams{$Key} = $ConfigObject->Get($Key);
+            }
+        }
+    }
 
     # Now we copy and clean the files in for{}
     FILE:
@@ -259,6 +268,7 @@ sub Run {
     };
 }
 
+# Fix up Kernel/Config.pm
 sub ReConfigure {
     my $Self = shift;
     my %Param = @_;
