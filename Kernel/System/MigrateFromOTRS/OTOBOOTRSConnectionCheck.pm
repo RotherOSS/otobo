@@ -244,24 +244,25 @@ sub _CheckConfigpmAndWriteCache {
     my %CacheOptions;
 
     ## no critic
-    open( my $In, '<', $ConfigFile )
-        || return "Can't open $ConfigFile: $!";
+    {
+        open( my $In, '<', $ConfigFile )
+            or return "Can't open $ConfigFile: $!";
 
-    CONFIGLINE:
-    while (<$In>) {
+        CONFIGLINE:
+        while (<$In>) {
 
-        # Search config option value and save in %CacheOptions{CacheKey} => ConfigOption
-        if (/^\s*\$Self->\{['"\s]*(\w+)['"\s]*\}\s*=\s*['"](.+)['"]\s*;/) {
-            for my $Key ( sort keys %COptions ) {
-                if ( lc($1) eq lc($Key) ) {
-                    $CacheOptions{ $COptions{$Key} } = $2;
+            # Search config option value and save in %CacheOptions{CacheKey} => ConfigOption
+            if ( m/^\s*\$Self->\{['"\s]*(\w+)['"\s]*\}\s*=\s*['"](.+)['"]\s*;/ ) {
+                for my $Key ( sort keys %COptions ) {
+                    if ( lc($1) eq lc($Key) ) {
+                        $CacheOptions{ $COptions{$Key} } = $2;
 
-                    next CONFIGLINE;
+                        next CONFIGLINE;
+                    }
                 }
             }
         }
     }
-    close $In;
 
     # Extract driver to load for install test.
     my ($DBType) = $CacheOptions{DBDSN} =~ m/^DBI:(.*?):/;
