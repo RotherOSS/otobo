@@ -20,7 +20,7 @@ use strict;
 use warnings;
 use v5.24;
 use utf8;
-use namespace::clean;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 

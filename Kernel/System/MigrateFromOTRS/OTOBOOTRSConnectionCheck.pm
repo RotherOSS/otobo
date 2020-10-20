@@ -244,36 +244,38 @@ sub _CheckConfigpmAndWriteCache {
     my %CacheOptions;
 
     ## no critic
-    open( my $In, '<', $ConfigFile )
-        || return "Can't open $ConfigFile: $!";
+    {
+        open( my $In, '<', $ConfigFile )
+            or return "Can't open $ConfigFile: $!";
 
-    CONFIGLINE:
-    while (<$In>) {
+        CONFIGLINE:
+        while (<$In>) {
 
-        # Search config option value and save in %CacheOptions{CacheKey} => ConfigOption
-        if (/^\s*\$Self->\{['"\s]*(\w+)['"\s]*\}\s*=\s*['"](.+)['"]\s*;/) {
-            for my $Key ( sort keys %COptions ) {
-                if ( lc($1) eq lc($Key) ) {
-                    $CacheOptions{ $COptions{$Key} } = $2;
-                    next CONFIGLINE;
+            # Search config option value and save in %CacheOptions{CacheKey} => ConfigOption
+            if ( m/^\s*\$Self->\{['"\s]*(\w+)['"\s]*\}\s*=\s*['"](.+)['"]\s*;/ ) {
+                for my $Key ( sort keys %COptions ) {
+                    if ( lc($1) eq lc($Key) ) {
+                        $CacheOptions{ $COptions{$Key} } = $2;
+
+                        next CONFIGLINE;
+                    }
                 }
             }
         }
     }
-    close $In;
 
     # Extract driver to load for install test.
-    my ($DBType) = ( $CacheOptions{DBDSN} =~ /^DBI:(.*?):/ );
+    my ($DBType) = $CacheOptions{DBDSN} =~ m/^DBI:(.*?):/;
 
-    if ( $DBType =~ /mysql/ ) {
+    if ( $DBType =~ m/mysql/ ) {
         $CacheOptions{DBType} = 'mysql';
     }
-    elsif ( $DBType =~ /Pg/ ) {
+    elsif ( $DBType =~ m/Pg/ ) {
         $CacheOptions{DBType} = 'postgresql';
     }
     elsif ( $DBType =~ /Oracle/ ) {
         $CacheOptions{DBType} = 'oracle';
-        $CacheOptions{DBPort} = ( $CacheOptions{DBDSN} =~ /^DBI:.*:(\d+)/ );
+        $CacheOptions{DBPort} = ( $CacheOptions{DBDSN} =~ m/^DBI:.*:(\d+)/ );
     }
 
     $CacheObject->Set(
@@ -281,7 +283,7 @@ sub _CheckConfigpmAndWriteCache {
         Key   => 'OTRSDBSettings',
         Value => {
             DBType     => $CacheOptions{DBType},
-            DBHost     => $CacheOptions{DBHost},
+            DBHost     => $CacheOptions{DBHost},   # usually needs to be adapted when running under Docker
             DBUser     => $CacheOptions{DBUser},
             DBPassword => $CacheOptions{DBPassword},
             DBName     => $CacheOptions{DBName},

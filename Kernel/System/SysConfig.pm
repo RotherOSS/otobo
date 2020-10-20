@@ -2440,12 +2440,13 @@ sub ConfigurationXML2DB {
             Priority => 'error',
             Message  => "Need UserID!"
         );
+
         return;
     }
 
     my $Directory = $Param{Directory} || "$Self->{Home}/Kernel/Config/Files/XML/";
 
-    if ( !-e $Directory ) {
+    if ( ! -e $Directory ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Directory '$Directory' does not exists",
@@ -2503,6 +2504,7 @@ sub ConfigurationXML2DB {
         {
             @{ $SettingsByInit{ $Cache->{Init} } }
                 = ( @{ $SettingsByInit{ $Cache->{Init} } }, @{ $Cache->{Settings} } );
+
             next FILE;
         }
 
@@ -2517,6 +2519,7 @@ sub ConfigurationXML2DB {
                 Priority => 'error',
                 Message  => "Can't open file $File: $!",
             );
+
             next FILE;
         }
 
@@ -2530,6 +2533,7 @@ sub ConfigurationXML2DB {
                 Message =>
                     "Invalid otobo_config Init value ($InitValue)! Allowed values: Framework, Application, Config, Changes.",
             );
+
             next FILE;
         }
 
@@ -2564,6 +2568,7 @@ sub ConfigurationXML2DB {
         SETTING:
         for my $Setting ( @{ $SettingsByInit{$Init} } ) {
             my $Name = $Setting->{XMLContentParsed}->{Name};
+
             next SETTING if !$Name;
 
             $Settings{$Name} = $Setting;
@@ -2585,6 +2590,7 @@ sub ConfigurationXML2DB {
             Priority => 'error',
             Message  => "System was unable to lock Default Settings ",
         );
+
         return;
     }
 
@@ -2601,7 +2607,7 @@ sub ConfigurationXML2DB {
             UserID      => $Param{UserID},
         );
 
-        return if !$Success;
+        return unless $Success;
     }
     else {
 
@@ -2740,7 +2746,8 @@ sub ConfigurationXML2DB {
                 SettingList => \@SettingList,
                 UserID      => $Param{UserID},
             );
-            return if !$Success;
+
+            return unless $Success;
         }
     }
 
@@ -2883,6 +2890,7 @@ sub ConfigurationNavigationTree {
     # Skip invisible settings from the navigation tree
     SETTING:
     for my $Setting (@SettingsRaw) {
+
         next SETTING if $Setting->{IsInvisible};
 
         push @Settings, {
@@ -2905,7 +2913,9 @@ sub ConfigurationNavigationTree {
 
     SETTING:
     for my $Setting (@Settings) {
+
         next SETTING if !$Setting->{Navigation};
+
         my @Path = split "::", $Setting->{Navigation};
 
         # Remember ancestors.
@@ -2915,11 +2925,10 @@ sub ConfigurationNavigationTree {
 
         # Check if RootNavigation matches current setting.
         for my $Index ( 0 .. $#RootNavigation ) {
+
             next SETTING if !$Path[$Index];
 
-            if ( $RootNavigation[$Index] ne $Path[$Index] ) {
-                next SETTING;
-            }
+            next SETTING if $RootNavigation[$Index] ne $Path[$Index];
         }
 
         # Remove root groups from Path.
@@ -3366,7 +3375,9 @@ sub ConfigurationDeploy {
 
         SETTING:
         for my $Setting ( @{ $Param{DirtySettings} } ) {
+
             next SETTING if !$UserDirtySettingsLookup{$Setting};
+
             push @DirtySettings, $Setting;
         }
 
@@ -3442,6 +3453,7 @@ sub ConfigurationDeploy {
 
     SETTING:
     for my $CurrentSetting (@Settings) {
+
         next SETTING if !$CurrentSetting->{IsValid};
 
         my %EffectiveValueCheck = $Self->SettingEffectiveValueCheck(
@@ -3806,6 +3818,7 @@ sub ConfigurationDeployCleanup {
                 Priority => 'notice',
                 Message  => "Was not possible to delete deployment $DeploymentID!",
             );
+
             next DEPLOYMENT;
         }
     }
@@ -4051,7 +4064,7 @@ JDoe:
 sub ConfigurationDump {
     my ( $Self, %Param ) = @_;
 
-    my $Result = {};
+    my %Result;
 
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
@@ -4062,10 +4075,11 @@ sub ConfigurationDump {
         SETTING:
         for my $Setting (@SettingsList) {
             if ( $Param{OnlyValues} ) {
-                $Result->{Default}->{ $Setting->{Name} } = $Setting->{EffectiveValue};
+                $Result{Default}->{ $Setting->{Name} } = $Setting->{EffectiveValue};
+
                 next SETTING;
             }
-            $Result->{Default}->{ $Setting->{Name} } = $Setting;
+            $Result{Default}->{ $Setting->{Name} } = $Setting;
         }
 
     }
@@ -4092,6 +4106,7 @@ sub ConfigurationDump {
                 my %ModifiedSettingVersion = $SysConfigDBObject->ModifiedSettingVersionGet(
                     ModifiedVersionID => $ModifiedVersionID,
                 );
+
                 next MODIFIEDVERSIONID if !%ModifiedSettingVersion;
 
                 push @SettingsList, \%ModifiedSettingVersion;
@@ -4101,13 +4116,15 @@ sub ConfigurationDump {
         if ( !$Param{SkipModifiedSettings} ) {
             SETTING:
             for my $Setting (@SettingsList) {
+
                 next SETTING if $Setting->{TargetUserID};
 
                 if ( $Param{OnlyValues} ) {
-                    $Result->{'Modified'}->{ $Setting->{Name} } = $Setting->{EffectiveValue};
+                    $Result{'Modified'}->{ $Setting->{Name} } = $Setting->{EffectiveValue};
+
                     next SETTING;
                 }
-                $Result->{'Modified'}->{ $Setting->{Name} } = $Setting;
+                $Result{'Modified'}->{ $Setting->{Name} } = $Setting;
             }
         }
 
@@ -4116,17 +4133,16 @@ sub ConfigurationDump {
                 SettingList => \@SettingsList,
                 OnlyValues  => $Param{OnlyValues},
             );
-            if ( scalar keys %UserSettings ) {
-                %{$Result} = ( %{$Result}, %UserSettings );
+            if ( %UserSettings ) {
+                %Result = ( %Result, %UserSettings );
             }
         }
     }
 
-    my $YAMLString = $Kernel::OM->Get('Kernel::System::YAML')->Dump(
-        Data => $Result,
+    # return a YAML string
+    return $Kernel::OM->Get('Kernel::System::YAML')->Dump(
+        Data => \%Result,
     );
-
-    return $YAMLString;
 }
 
 =head2 ConfigurationLoad()
@@ -4178,6 +4194,7 @@ sub ConfigurationLoad {
 
         if ( $Section eq 'Modified' ) {
             $Configuration{$Section} = $ConfigurationRaw{$Section};
+
             next SECTION;
         }
 
@@ -4191,6 +4208,7 @@ sub ConfigurationLoad {
                 Priority => 'notice',
                 Message  => "Settings for user $Section could not be added! User does not exists.",
             );
+
             next SECTION;
         }
 
@@ -4227,6 +4245,7 @@ sub ConfigurationLoad {
             # Set error in case non existing settings (either default or modified);
             if ( !%CurrentSetting ) {
                 $Result = '-1';
+
                 next SETTINGNAME;
             }
 
@@ -4408,6 +4427,7 @@ sub ConfigurationSearch {
 
         if ( !$Param{Search} ) {
             $Result{$SettingName} = 1;
+
             next SETTING;
         }
 
@@ -6271,6 +6291,7 @@ sub _DefaultSettingAddBulk {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -6281,6 +6302,7 @@ sub _DefaultSettingAddBulk {
             Priority => 'error',
             Message  => "Settings must be a HASH ref!",
         );
+
         return;
     }
 
@@ -6322,6 +6344,7 @@ sub _DefaultSettingAddBulk {
             Priority => 'error',
             Message  => "System was unable to rebuild config!"
         );
+
         return;
     }
 
@@ -6341,6 +6364,7 @@ sub _DefaultSettingAddBulk {
             Priority => 'error',
             Message  => "System was unable to rebuild config!"
         );
+
         return;
     }
 
