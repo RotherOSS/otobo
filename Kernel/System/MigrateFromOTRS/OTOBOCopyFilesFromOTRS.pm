@@ -329,13 +329,13 @@ sub ReConfigure {
                 #   same goes for database hosts which can be like 'myserver\instance name' for MS SQL.
                 if ( $Key eq 'DatabasePw' || $Key eq 'DatabaseHost' ) {
                     $CangedLine =~
-                        s/(\$Self->\{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = '$Param{$Key}';/g;
+                        s/(\$Self->\{("|'|)$Key("|'|)}\s+=.+?('|"));/\$Self->{'$Key'} = '$Param{$Key}';/g;
 
                     next CONFIGKEY;
                 }
 
                 $CangedLine =~
-                    s/(\$Self->\{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = "$Param{$Key}";/g;
+                    s/(\$Self->\{("|'|)$Key("|'|)}\s+=.+?('|"));/\$Self->{'$Key'} = "$Param{$Key}";/g;
             }
             $Config .= $CangedLine;
         }
