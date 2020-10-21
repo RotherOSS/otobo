@@ -41,7 +41,6 @@ my (
     $CompressOption,
     $RemoveDays,
     $MaxAllowedPacket,
-    $OTRSHome,     # required for migratefromotrs
     $DatabaseHost,
     $DatabaseName,
     $DatabaseUser,
