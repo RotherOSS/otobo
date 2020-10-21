@@ -476,6 +476,7 @@ Long options:
  [--remove-old-backups DAYS]  - same as -r
  [--backup-type]              - same as -t
  [--max-allowed-packet SIZE]  - add the option "--max-allowed-packet=SIZE" to mysqldump
+ [--db-host]                  - default taken from the current OTOBO config
  [--db-name]                  - default taken from the current OTOBO config
  [--db-user]                  - default taken from the current OTOBO config
  [--db-password]              - default taken from the current OTOBO config
