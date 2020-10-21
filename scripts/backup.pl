@@ -393,7 +393,7 @@ if ( defined $RemoveDays ) {
     DIRECTORY:
     for my $Directory (@Directories) {
 
-        next DIRECTORY if !-d $Directory;
+        next DIRECTORY unless -d $Directory;
 
         for my $Data ( sort keys %LeaveBackups ) {
             next DIRECTORY if $Directory =~ m/$Data/;
@@ -464,7 +464,7 @@ Usage:
 
 Short options:
  [-h]                   - Display help for this command.
- -d                     - Directory where the backup files should be placed. Defauls to the current dir.
+ [-d]                   - Directory where the backup files should be placed. Defauls to the current dir.
  [-c]                   - Select the compression method (gzip|bzip2). Defaults to gzip.
  [-r DAYS]              - Remove backups which are more than DAYS days old.
  [-t]                   - Specify which data will be saved (fullbackup|nofullbackup|dbonly|migratefromotrs). Default: fullbackup.
