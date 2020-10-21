@@ -28,6 +28,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 # core modules
 use Getopt::Long qw(GetOptions);
+use Cwd qw(getcwd abs_path);
 
 # CPAN modules
 
@@ -35,7 +36,20 @@ use Getopt::Long qw(GetOptions);
 use Kernel::System::ObjectManager;
 
 # get options
-my ($HelpFlag, $BackupDir, $CompressOption, $BackupType, $RemoveDays, $MaxAllowedPacket);
+my (
+    $HelpFlag,
+    $CompressOption,
+    $RemoveDays,
+    $MaxAllowedPacket,
+    $OTRSHome,     # required for migratefromotrs
+    $DatabaseHost,
+    $DatabaseName,
+    $DatabaseUser,
+    $DatabasePw,
+    $DatabaseType,
+);
+my $BackupDir  = getcwd();
+my $BackupType = 'fullbackup';
 GetOptions(
     'help|h'                 => \$HelpFlag,
     'backup-dir|d=s'         => \$BackupDir,
@@ -55,8 +69,7 @@ if ( !$BackupDir ) {
 
     exit 1;
 }
-
-if ( !-d $BackupDir ) {
+if ( ! -d $BackupDir ) {
     say STDERR "ERROR: No such directory: $BackupDir";
 
     exit 1;
@@ -142,6 +155,7 @@ if ( $Home !~ m{\/\z} ) {
     $Home .= '/';
 }
 
+$BackupDir = abs_path( $BackupDir );
 chdir($Home);
 
 # current time needed for the backup-dir and for removing old backups
@@ -158,7 +172,7 @@ if ( !mkdir($Directory) ) {
 
 # backup application
 if ($DBOnlyBackup) {
-    say "Backup of filesystem data disabled by parameter dbonly ... ";
+    say "Backup of filesystem data disabled by parameter $BackupType ... ";
 }
 else {
     # backup Kernel/Config.pm
@@ -392,14 +406,14 @@ Backup an OTOBO system.
 
 Usage:
  backup.pl -d /data_backup_dir [-c gzip|bzip2] [-r DAYS] [-t fullbackup|nofullbackup|dbonly]
- backup.pl --backup-dir /data_backup_dir [--compress gzip|bzip2] [--remove-old-backups DAYS] [--backup-type fullbackup|nofullbackup|dbonly]
+ backup.pl --backup-dir /data_backup_dir [--compress gzip|bzip2] [--remove-old-backups DAYS] [--backup-type fullbackup|nofullbackup|dbonly|migratefromotrs]
 
 Short options:
  [-h]                   - Display help for this command.
- -d                     - Directory where the backup files should be placed.
- [-c]                   - Select the compression method (gzip|bzip2). Default: gzip.
+ -d                     - Directory where the backup files should be placed. Defauls to the current dir.
+ [-c]                   - Select the compression method (gzip|bzip2). Defaults to gzip.
  [-r DAYS]              - Remove backups which are more than DAYS days old.
- [-t]                   - Specify which data will be saved (fullbackup|nofullbackup|dbonly). Default: fullbackup.
+ [-t]                   - Specify which data will be saved (fullbackup|nofullbackup|dbonly|migratefromotrs). Default: fullbackup.
 
 Long options:
  [--help]                     - same as -h
