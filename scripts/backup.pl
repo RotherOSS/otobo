@@ -458,8 +458,19 @@ sub PrintHelpAndExit {
 Backup an OTOBO system.
 
 Usage:
- backup.pl -d /data_backup_dir [-c gzip|bzip2] [-r DAYS] [-t fullbackup|nofullbackup|dbonly]
- backup.pl --backup-dir /data_backup_dir [--compress gzip|bzip2] [--remove-old-backups DAYS] [--backup-type fullbackup|nofullbackup|dbonly|migratefromotrs]
+
+    # print this help message
+    otobo> cd /opt/otobo
+    otobo> scripts/backup.pl --help
+
+    # for regular backups, can also be used in a cron job
+    otobo> cd /opt/otobo
+    otobo> scripts/backup.pl -d /data_backup_dir [-c gzip|bzip2] [-r DAYS] [-t fullbackup|nofullbackup|dbonly]
+    otobo> scripts/backup.pl --backup-dir /data_backup_dir [--compress gzip|bzip2] [--remove-old-backups DAYS] [--backup-type fullbackup|nofullbackup|dbonly|migratefromotrs]
+
+    # backups for creating a dump for migrating an OTRS database OTOBO
+    otobo> cd /opt/otobo
+    otobo> scripts/backup.pl -t migratefromotrs --db-name otrs --db-host=127.0.0.1 --db-user otrs --db-password=secret_otrs_password
 
 Short options:
  [-h]                   - Display help for this command.
