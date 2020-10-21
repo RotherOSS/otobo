@@ -17,7 +17,8 @@
 
 use strict;
 use warnings;
-use v5.24.0;
+use v5.24;
+use utf8;
 
 # use ../ as lib location
 use File::Basename;
@@ -104,7 +105,7 @@ if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
 my ($DB, $DBDumpCmd) = ( '', '');
 if ( $DatabaseDSN =~ m/:mysql/i ) {
     $DB        = 'MySQL';
-    $DBDumpCmd = 'mysqldump';
+    $DBDumpCmd = 'mysqldump --no-tablespaces';
 }
 elsif ( $DatabaseDSN =~ m/:pg/i ) {
     $DB        = 'PostgreSQL';
@@ -395,11 +396,10 @@ Usage:
 
 Short options:
  [-h]                   - Display help for this command.
- -d                     - Directory where the backup files should place to.
+ -d                     - Directory where the backup files should be placed.
  [-c]                   - Select the compression method (gzip|bzip2). Default: gzip.
  [-r DAYS]              - Remove backups which are more than DAYS days old.
  [-t]                   - Specify which data will be saved (fullbackup|nofullbackup|dbonly). Default: fullbackup.
-
 
 Long options:
  [--help]                     - same as -h
