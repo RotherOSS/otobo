@@ -24771,8 +24771,7 @@ msgstr ""
 #~ msgstr "Licensen for %s er ved at udløbe. Kontakt venligst %s for at forny din kontrakt."
 
 #~ msgid "An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!"
-#~ msgstr "En opdatering til %s er tilgængelig, men der er en konflikt med din framework version!\n"
-"Opdater venligst dit framework først!"
+#~ msgstr "En opdatering til %s er tilgængelig, men der er en konflikt med din framework version! Opdater venligst dit framework først!"
 
 #~ msgid "Can't update password, your new passwords do not match. Please try again!"
 #~ msgstr "Kan ikke opdatere password, dine nye passwords er ikke ens. Prøv venligst igen."
