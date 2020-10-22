@@ -234,6 +234,7 @@ for my $Count ( 1 .. 3 ) {
         my %Decrypt = $PGPObject->Decrypt(
             Message => $Crypted,
         );
+        utf8::decode($Decrypt{Data});
         $Self->True(
             $Decrypt{Successful} || '',
             "Decrypt() - Successful",
@@ -358,6 +359,7 @@ for my $Count ( 1 .. 3 ) {
             my %Decrypt = $PGPObject->Decrypt(
                 Message => $Crypted,
             );
+            utf8::decode($Decrypt{Data});
             $Self->True(
                 $Decrypt{Successful} || '',
                 "Decrypt() - Successful",
@@ -459,14 +461,15 @@ for my $Count ( 1 .. 3 ) {
         %Decrypt = $PGPObject->Decrypt(
             Message => $Crypted,
         );
-        $Self->True(
-            $Decrypt{Successful} || '',
-            "Decrypt() - Successful",
-        );
 
         # we have crypted an utf8-string, but we will get back a byte string. In order to compare it,
         # we need to decode it into utf8:
         utf8::decode( $Decrypt{Data} );
+
+        $Self->True(
+            $Decrypt{Successful} || '',
+            "Decrypt() - Successful",
+        );
         $Self->Is(
             $Decrypt{Data},
             $UTF8Text,
