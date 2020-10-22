@@ -490,7 +490,7 @@ my @SettingGetTests = (
 );
 
 TEST:
-for my $Test (@SettingUpdateTests) {
+for my $Test (@SettingGetTests) {
 
     my %Setting = $SysConfigObject->SettingGet( %{ $Test->{Params} } );
 
