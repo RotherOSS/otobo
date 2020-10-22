@@ -236,7 +236,7 @@ sub SystemConfigurationUpdate {
                 UserID => 1,
             );
 
-            my %Result = $SysConfigObject->SettingUpdate(
+            $SysConfigObject->SettingUpdate(
                 Name              => $SettingName,
                 IsValid           => 1,
                 EffectiveValue    => $CurrentValue->{$Key},

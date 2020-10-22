@@ -170,7 +170,7 @@ sub Run {
                         );
                         $Setting{ExclusiveLockGUID} = $ExclusiveLockGUID;
 
-                        my %UpdateSuccess = $SysConfigObject->SettingUpdate(
+                        $SysConfigObject->SettingUpdate(
                             %Setting,
                             UserID => $Self->{UserID},
                         );
