@@ -426,7 +426,8 @@ Returns:
 =cut
 
 sub SettingUpdate {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     for my $Needed (qw(Name UserID)) {
         if ( !$Param{$Needed} ) {
@@ -435,6 +436,7 @@ sub SettingUpdate {
                 Message  => "Need $Needed!",
             );
 
+            # return an empty hash, checking the attribute 'Success' gives undef, which is false
             return;
         }
     }
@@ -445,10 +447,6 @@ sub SettingUpdate {
             Message  => "Need TargetUserID or ExclusiveLockGUID!",
         );
     }
-
-    my %Result = (
-        Success => 1,
-    );
 
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
@@ -469,13 +467,14 @@ sub SettingUpdate {
             Message  => "Setting $Param{Name} does not exists!",
         );
 
-        %Result = (
+        my %Result = (
             Success => 0,
             Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
                 "Setting %s does not exists!",
                 $Param{Name},
             ),
         );
+
         return %Result;
     }
 
@@ -494,13 +493,14 @@ sub SettingUpdate {
                 Message  => "Setting $Param{Name} is not locked to this user!",
             );
 
-            %Result = (
+            my %Result = (
                 Success => 0,
                 Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
                     "Setting %s is not locked to this user!",
                     $Param{Name},
                 ),
             );
+
             return %Result;
         }
     }
@@ -525,12 +525,13 @@ sub SettingUpdate {
                 Message  => "EffectiveValue is invalid! $Error",
             );
 
-            %Result = (
+            my %Result = (
                 Success => 0,
                 Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
                     "Setting value is not valid!",
                 ),
             );
+
             return %Result;
         }
     }
@@ -608,12 +609,13 @@ sub SettingUpdate {
                     Priority => 'error',
                     Message  => "Could not add modified setting!",
                 );
-                %Result = (
+                my %Result = (
                     Success => 0,
                     Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
                         "Could not add modified setting!",
                     ),
                 );
+
                 return %Result;
             }
         }
@@ -690,12 +692,13 @@ sub SettingUpdate {
                     Priority => 'error',
                     Message  => "Could not update modified setting!",
                 );
-                %Result = (
+                my %Result = (
                     Success => 0,
                     Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
                         "Could not update modified setting!",
                     ),
                 );
+
                 return %Result;
             }
         }
@@ -726,15 +729,20 @@ sub SettingUpdate {
                 Priority => 'error',
                 Message  => "Setting could not be unlocked!",
             );
-            %Result = (
+            my %Result = (
                 Success => 0,
                 Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
                     "Setting could not be unlocked!",
                 ),
             );
+
             return %Result;
         }
     }
+
+    my %Result = (
+        Success => 1,
+    );
 
     return %Result;
 }
