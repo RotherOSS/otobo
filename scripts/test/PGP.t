@@ -663,36 +663,38 @@ for my $Count (3) {
 
 # delete keys
 for my $Count ( 1 .. 3 ) {
-    my ($Key) = $PGPObject->KeySearch(
-        Search => $Search{$Count},
-    );
-    $Self->True(
-        $Key || '',
-        "#$Count KeySearch()",
-    );
-    my $DeleteSecretKey = $PGPObject->SecretKeyDelete(
-        Key => $Key->{KeyPrivate},
-    );
-    $Self->True(
-        $DeleteSecretKey || '',
-        "#$Count SecretKeyDelete()",
-    );
+    subtest "delete key $Count" => sub {
+        my ($Key) = $PGPObject->KeySearch(
+            Search => $Search{$Count},
+        );
+        $Self->True(
+            $Key || '',
+            "KeySearch()",
+        );
+        my $DeleteSecretKey = $PGPObject->SecretKeyDelete(
+            Key => $Key->{KeyPrivate},
+        );
+        $Self->True(
+            $DeleteSecretKey || '',
+            "SecretKeyDelete()",
+        );
 
-    my $DeletePublicKey = $PGPObject->PublicKeyDelete(
-        Key => $Key->{Key},
-    );
-    $Self->True(
-        $DeletePublicKey || '',
-        "#$Count PublicKeyDelete()",
-    );
+        my $DeletePublicKey = $PGPObject->PublicKeyDelete(
+            Key => $Key->{Key},
+        );
+        $Self->True(
+            $DeletePublicKey || '',
+            "PublicKeyDelete()",
+        );
 
-    ($Key) = $PGPObject->KeySearch(
-        Search => $Search{$Count},
-    );
-    $Self->False(
-        $Key || '',
-        "#$Count KeySearch()",
-    );
+        ($Key) = $PGPObject->KeySearch(
+            Search => $Search{$Count},
+        );
+        $Self->False(
+            $Key || '',
+            "KeySearch()",
+        );
+    }
 }
 
 # cleanup is done by RestoreDatabase
