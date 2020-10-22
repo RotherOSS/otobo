@@ -20,6 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -34,11 +35,7 @@ my $PreviousDaemonStatus = `$Daemon status`;
 
 # Check if there is permissions for daemon commands.
 if ( !defined $PreviousDaemonStatus ) {
-    $Self->False(
-        0,
-        'Permission denied for deamon commands, skipping test',
-    );
-    return 1;
+    skip_all( 'Permission denied for deamon commands, skipping test' );
 }
 
 # Stop daemon if it was already running before this test.
@@ -91,7 +88,10 @@ if ( !$AllTaskIsDone ) {
         0,
         'There are active tasks, skipping test',
     );
-    return 1;
+
+    done_testing();
+
+    exit 0;
 }
 
 # Remove all Cron jobs from config

@@ -50,7 +50,7 @@ my $ConfigurationDeploy = sub {
     );
     $Self->True(
         $ConfigurationXML2DBOk,
-        'Succcessfully converted configuration',
+        'Successfully converted configuration',
     );
 
     my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
@@ -62,7 +62,7 @@ my $ConfigurationDeploy = sub {
     $Self->Is(
         $DeploymentResult{Success} ? 1 : 0,
         $Param{Success},
-        $Param{Success} ? 'Succcessfully deployed configuration' : 'Unsuccessful configuration deployment',
+        $Param{Success} ? 'Successfully deployed configuration' : 'Unsuccessful configuration deployment',
     );
 };
 
@@ -79,7 +79,7 @@ my $TestFileWriteOk  = $MainObject->FileWrite(
 );
 $Self->True(
     $TestFileWriteOk,
-    'Succcessfully wrote test file',
+    'Successfully wrote test file',
 );
 
 # Prepare two new file-type config settings.
@@ -111,7 +111,7 @@ my $ConfigFileWriteOk = $MainObject->FileWrite(
 );
 $Self->True(
     $ConfigFileWriteOk,
-    'Succcessfully wrote configuration file',
+    'Successfully wrote configuration file',
 );
 
 # Verify successful deployment.
@@ -123,7 +123,7 @@ my $TestFileDeleteOk = $MainObject->FileDelete(
 );
 $Self->True(
     $TestFileDeleteOk,
-    'Succcessfully removed test file',
+    'Successfully removed test file',
 );
 
 $ConfigurationDeploy->( Success => 0 );
@@ -146,7 +146,7 @@ my $ZZZAAutoFileDeleteOk = $MainObject->FileDelete(
 );
 $Self->True(
     $ZZZAAutoFileDeleteOk,
-    'Succcessfully removed ZZZAAuto.pm',
+    'Successfully removed ZZZAAuto.pm',
 );
 
 # During the next deployment there will be two requests to OverriddenFileNameGet().
@@ -164,7 +164,7 @@ my $ConfigFileDeleteOk = $MainObject->FileDelete(
 );
 $Self->True(
     $ConfigFileDeleteOk,
-    'Succcessfully removed configuration file',
+    'Successfully removed configuration file',
 );
 
 $ConfigurationDeploy->( Success => 1 );

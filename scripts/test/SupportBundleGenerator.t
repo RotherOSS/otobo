@@ -20,9 +20,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use Archive::Tar;
 use Kernel::System::VariableCheck qw(:all);
@@ -101,7 +102,10 @@ if ( !-e $ArchiveGeneratorTool ) {
         0,
         "$ArchiveGeneratorTool does not exist, we can't continue",
     );
-    return;
+
+    done_testing();
+
+    exit 0;
 }
 
 # execute ARCHIVE generator tool
@@ -114,7 +118,10 @@ if ( !-e $Home . '/ARCHIVE' || -z $Home . '/ARCHIVE' ) {
         0,
         "ARCHIVE file is not generated, we can't continue",
     );
-    return;
+
+    done_testing();
+
+    exit 0;
 }
 else {
     $Self->True(

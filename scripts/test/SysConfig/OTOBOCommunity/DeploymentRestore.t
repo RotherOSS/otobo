@@ -20,9 +20,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -35,20 +36,14 @@ my $UserID = 1;
 
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-# Delete sysconfig_modified_version
-return if !$DBObject->Do(
-    SQL => 'DELETE FROM sysconfig_modified_version',
-);
+# clear some tables
+for my $Table ( qw(sysconfig_modified_version sysconfig_modified sysconfig_deployment) ) {
+    my $DoSuccess = $Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL => "DELETE FROM $Table",
+    );
 
-# Delete sysconfig_modified_version
-return if !$DBObject->Do(
-    SQL => 'DELETE FROM sysconfig_modified',
-);
-
-# Delete sysconfig_modified_version
-return if !$DBObject->Do(
-    SQL => 'DELETE FROM sysconfig_deployment',
-);
+    skip_all( "cannot delete from $Table" ) unless $DoSuccess;
+}
 
 my %DefaultSettingAddTemplate = (
     Description    => "Test.",
@@ -740,6 +735,4 @@ for my $ModifiedVersionID ( sort @ModifiedVersions ) {
 }
 
 
-$Self->DoneTesting();
-
-
+done_testing();

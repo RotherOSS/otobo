@@ -20,9 +20,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use Kernel::System::VariableCheck qw( IsArrayRefWithData IsHashRefWithData );
 
@@ -1237,14 +1238,24 @@ for my $Test (@Tests) {
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
 # Delete sysconfig_modified_version
-return if !$DBObject->Do(
+my $DoSuccess = $DBObject->Do(
     SQL => 'DELETE FROM sysconfig_modified_version',
 );
+if ( !$DoSuccess ) {
+    done_testing();
+
+    exit 0;
+}
 
 # Delete sysconfig_modified
-return if !$DBObject->Do(
+$DoSuccess =  $DBObject->Do(
     SQL => 'DELETE FROM sysconfig_modified',
 );
+if ( !$DoSuccess ) {
+    done_testing();
+
+    exit 0;
+}
 
 $ExclusiveLockGUID = $SysConfigDBObject->DefaultSettingLock(
     DefaultID => $DefaultSettingID,
@@ -1405,7 +1416,4 @@ for my $Test (@Tests) {
     );
 }
 
-
 $Self->DoneTesting();
-
-

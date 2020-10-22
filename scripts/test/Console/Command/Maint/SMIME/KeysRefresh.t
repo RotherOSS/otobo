@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -81,19 +82,11 @@ if ( !-e $ConfigObject->Get('SMIME::Bin') ) {
 }
 
 # get crypt object
-my $CryptObject;
-
-eval {
-    $CryptObject = Kernel::System::Crypt::SMIME->new();
+my $CryptObject = eval {
+    Kernel::System::Crypt::SMIME->new();
 };
 
-if ( !$CryptObject ) {
-    $Self->True(
-        1,
-        'The system with current configuration does not support SMIME, this test can not continue!'
-    );
-    return 1;
-}
+skip_all( 'The system with current configuration does not support SMIME, this test can not continue!' ) unless $CryptObject;
 
 # get current configuration settings
 my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin');
@@ -138,7 +131,12 @@ if ( $CertDir eq $NewCertDir ) {
 
 # create new directory for certificates
 my $Success = $CreateDir->($NewCertDir);
-return if !$Success;
+if ( !$Success ) {
+
+    done_testing();
+
+    exit 0;
+}
 
 # get new private directory
 my $NewPrivateDir = $ConfigObject->Get('Home') . '/var/tmp/SMIMETest/Private';
@@ -152,7 +150,13 @@ if ( $PrivateDir eq $NewPrivateDir ) {
 
 # create new directory for private keys
 $Success = $CreateDir->($NewPrivateDir);
-return if !$Success;
+if ( !$Success ) {
+
+    done_testing();
+
+    exit 0;
+}
+
 
 # set a new certificate private key and secret files
 for my $Type (qw(Certificate PrivateKey PrivateKeyPass)) {

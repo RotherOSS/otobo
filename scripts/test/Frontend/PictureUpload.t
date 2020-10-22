@@ -19,9 +19,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use LWP::UserAgent;
 
@@ -55,11 +56,7 @@ my $Response = $UserAgent->get(
     $BaseURL . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;"
 );
 if ( !$Response->is_success() ) {
-    $Self->True(
-        0,
-        "Could not login to agent interface, aborting! URL: ${BaseURL}Action=Login;User=$TestUserLogin;Password=$TestUserLogin;"
-    );
-    return 1;
+    skip_all( "Could not login to agent interface, aborting! URL: ${BaseURL}Action=Login;User=$TestUserLogin;Password=$TestUserLogin;" );
 }
 
 my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
