@@ -8,6 +8,8 @@ requires 'Archive::Tar';
 # Required for compressed file generation.
 requires 'Archive::Zip';
 
+requires 'Const::Fast';
+
 requires 'Date::Format';
 
 requires 'DateTime', ">= 1.08";
@@ -17,6 +19,10 @@ requires 'Convert::BinHex';
 requires 'DBI';
 
 requires 'Digest::SHA';
+
+requires 'File::chmod';
+
+requires 'List::AllUtils';
 
 requires 'LWP::UserAgent';
 
@@ -32,6 +38,8 @@ requires 'Net::DNS', "!= 0.60";
 # Required by Kernel/cpan-lib/Mail/Mailer/smtps.pm
 requires 'Net::SMTP::SSL';
 
+requires 'Path::Class';
+
 # needed by Kernel/cpan-lib/Crypt/Random/Source.pm
 requires 'Sub::Exporter';
 
@@ -40,6 +48,8 @@ requires 'Template::Toolkit';
 
 # The fast data stash for Template::Toolkit.
 requires 'Template::Stash::XS';
+
+requires 'Text::Trim';
 
 # Required for high resolution timestamps.
 requires 'Time::HiRes';
@@ -103,6 +113,12 @@ feature 'devel:dbviewer', 'Suppport for devel:dbviewer' => sub {
 
     # Mojolicious plugin to display database information on browser
     requires 'Mojolicious::Plugin::DBViewer';
+
+};
+
+feature 'devel:encoding', 'Suppport for devel:encoding' => sub {
+    # for deeply inspecting strings
+    requires 'String::Dump';
 
 };
 
@@ -313,6 +329,9 @@ feature 'optional', 'Suppport for optional' => sub {
 
     # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
     requires 'Clone';
+
+    # for deeply inspecting strings
+    requires 'String::Dump';
 
     # a quick compile check
     requires 'Test::Compile';

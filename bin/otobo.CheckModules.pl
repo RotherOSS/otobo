@@ -132,6 +132,7 @@ my %IsDockerFeature = (
     'db:postgresql'      => 1,
     'db:sqlite'          => 1,
     'devel:dbviewer'     => 1,
+    'devel:encoding'     => 1,
     'devel:test'         => 1,
     'div:bcrypt'         => 1,
     'div:ldap'           => 1,
