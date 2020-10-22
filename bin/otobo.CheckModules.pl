@@ -15,8 +15,10 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use 5.024;
+use strict;
 use warnings;
+use v5.24;
+use utf8;
 
 use File::Basename;
 use FindBin qw($RealBin);
@@ -264,6 +266,17 @@ my @NeededModules = (
             emerge => 'dev-perl/Archive-Zip',
             zypper => 'perl-Archive-Zip',
             ports  => 'archivers/p5-Archive-Zip',
+        },
+    },
+    {
+        Module               => 'Const::Fast',
+        Required             => 1,
+        VersionsNotSupported => ,
+        InstTypes => {
+            aptget => 'libconst-fast-perl',
+            emerge => 'dev-perl/Const-Fast',
+            zypper => 'perl-Const-Fast',
+            ports  => 'devel/p5-Const-Fast',
         },
     },
     {
