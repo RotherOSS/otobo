@@ -19,9 +19,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -585,12 +586,19 @@ for my $Test (@ArticleDeleteTests) {
         ';
 
         # db query
-        return if !$DBObject->Prepare(
+        my $PrepareSuccess = $DBObject->Prepare(
             SQL  => $SQL,
             Bind => [
                 \$ArticleIDValid,
             ],
         );
+
+        if ( !$PrepareSuccess ) {
+            done_testing();
+
+            exit 0;
+        }
+
 
         my $Articles;
         while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -612,7 +620,4 @@ for my $Test (@ArticleDeleteTests) {
 
 # Cleanup is done by RestoreDatabase.
 
-
 $Self->DoneTesting();
-
-

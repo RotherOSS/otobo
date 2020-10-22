@@ -20,9 +20,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -58,9 +59,15 @@ for my $DeleteCounters ( 0, 1 ) {
                 if ($DeleteCounters) {
 
                     # Delete current counters.
-                    return if !$DBObject->Do(
+                    my $DoSuccess = $DBObject->Do(
                         SQL => 'DELETE FROM ticket_number_counter',
                     );
+                    if ( !$DoSuccess ) {
+                        done_testing();
+
+                        exit 0;
+                    }
+
                     $CacheObject->CleanUp();
                 }
 
@@ -97,7 +104,4 @@ for my $DeleteCounters ( 0, 1 ) {
 
 # Cleanup is done by RestoreDatabase.
 
-
 $Self->DoneTesting();
-
-

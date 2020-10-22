@@ -20,9 +20,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use Kernel::System::VariableCheck qw( IsArrayRefWithData IsHashRefWithData );
 
@@ -44,7 +45,7 @@ $ConfigObject->Set(
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
 # Get default from database.
-return if !$DBObject->Prepare(
+my $DoSuccess = $DBObject->Prepare(
     SQL => "
         SELECT COUNT(sd.id)
         FROM sysconfig_default sd
@@ -56,6 +57,8 @@ return if !$DBObject->Prepare(
             AND is_invisible != '1'
         ",
 );
+
+skip_all( 'cannot get defaults' ) unless $DoSuccess;
 
 my $OTOBOSettings;
 while ( my @Data = $DBObject->FetchrowArray() ) {
@@ -159,7 +162,4 @@ for my $Test (@Tests) {
     }
 }
 
-
 $Self->DoneTesting();
-
-

@@ -20,14 +20,15 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # Check if needed frontend module is registered in sysconfig.
-return 1 if !$ConfigObject->Get('Frontend::Module')->{AdminGenericAgent};
+skip_all( "No AdminGenericAgent" ) unless $ConfigObject->Get('Frontend::Module')->{AdminGenericAgent};
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 

@@ -18,9 +18,10 @@ use strict;
 use warnings;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -78,10 +79,7 @@ if ( !-e $ConfigObject->Get('PGP::Bin') ) {
 # create local crypt object
 my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
 
-if ( !$PGPObject ) {
-    print STDERR "NOTICE: No PGP support!\n";
-    return;
-}
+skip_all( "No PGP support" ) unless $PGPObject;
 
 my %Search = (
     1 => 'unittest@example.com',
