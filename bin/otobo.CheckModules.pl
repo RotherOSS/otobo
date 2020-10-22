@@ -431,6 +431,17 @@ my @NeededModules = (
         },
     },
     {
+        Module               => 'Path::Class',
+        Required             => 1,
+        VersionsNotSupported => ,
+        InstTypes => {
+            aptget => 'libpath-class-perl',
+            emerge => 'dev-perl/Path-Class',
+            zypper => 'perl-Path-Class',
+            ports  => 'devel/p5-Path-Class',
+        },
+    },
+    {
         Module    => 'Sub::Exporter',
         Required  => 1,
         Comment   => 'needed by Kernel/cpan-lib/Crypt/Random/Source.pm',
