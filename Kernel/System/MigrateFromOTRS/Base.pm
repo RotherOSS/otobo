@@ -1085,8 +1085,10 @@ settings by default.
 
 =cut
 
+# Note: looks like this method is currently unused
 sub SettingUpdate {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     if ( !$Param{Name} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
