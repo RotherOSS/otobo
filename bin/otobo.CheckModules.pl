@@ -349,6 +349,17 @@ my @NeededModules = (
         },
     },
     {
+        Module               => 'File::chmod',
+        Required             => 1,
+        VersionsNotSupported => ,
+        InstTypes => {
+            aptget => 'libfile-chmod-perl',
+            emerge => 'dev-perl/File-chmod',
+            zypper => 'perl-File-chmod',
+            ports  => 'devel/p5-File-chmod',
+        },
+    },
+    {
         Module    => 'LWP::UserAgent',
         Required  => 1,
         InstTypes => {
