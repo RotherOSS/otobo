@@ -19,15 +19,20 @@ package Kernel::System::SysConfig;
 
 use strict;
 use warnings;
-
-use Time::HiRes();
 use utf8;
+use namespace::autoclean;
 
+use parent qw(Kernel::System::AsynchronousExecutor);
+
+# core modules
+use Time::HiRes();
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 use Kernel::Config;
-
-use parent qw(Kernel::System::AsynchronousExecutor);
 
 our @ObjectDependencies = (
     'Kernel::Config',
