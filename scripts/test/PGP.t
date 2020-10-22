@@ -130,33 +130,33 @@ my $Home     = $ConfigObject->Get('Home');
 COUNT:
 for my $Count ( 1 .. 3 ) {
 
-    my @Keys = $PGPObject->KeySearch(
+    my ($Key) = $PGPObject->KeySearch(
         Search => $Search{$Count},
     );
 
-    next COUNT if !$Keys[0];
-    next COUNT if ref $Keys[0] ne 'HASH';
+    next COUNT unless $Key;
+    next COUNT unless ref $Key eq 'HASH';
 
-    if ( $Keys[0]->{KeyPrivate} ) {
+    if ( $Key->{KeyPrivate} ) {
         $PGPObject->SecretKeyDelete(
-            Key => $Keys[0]->{KeyPrivate},
+            Key => $Key->{KeyPrivate},
         );
     }
 
-    if ( $Keys[0]->{Key} ) {
+    if ( $Key->{Key} ) {
         $PGPObject->PublicKeyDelete(
-            Key => $Keys[0]->{Key},
+            Key => $Key->{Key},
         );
     }
 }
 
 # start the tests
 for my $Count ( 1 .. 3 ) {
-    my @Keys = $PGPObject->KeySearch(
+    my ($Key) = $PGPObject->KeySearch(
         Search => $Search{$Count},
     );
     $Self->False(
-        $Keys[0] || '',
+        $Key || '',
         "#$Count KeySearch()",
     );
 
@@ -177,25 +177,25 @@ for my $Count ( 1 .. 3 ) {
         );
     }
 
-    @Keys = $PGPObject->KeySearch(
+    ($Key) = $PGPObject->KeySearch(
         Search => $Search{$Count},
     );
 
     $Self->True(
-        $Keys[0] || '',
+        $Key || '',
         "#$Count KeySearch()",
     );
     for my $ID (qw(Type Identifier Bit Key KeyPrivate Created Expires Fingerprint FingerprintShort))
     {
         $Self->Is(
-            $Keys[0]->{$ID} || '',
+            $Key->{$ID} || '',
             $Check{$Count}->{$ID},
             "#$Count KeySearch() - $ID",
         );
     }
 
     my $PublicKeyString = $PGPObject->PublicKeyGet(
-        Key => $Keys[0]->{Key},
+        Key => $Key->{Key},
     );
     $Self->True(
         $PublicKeyString || '',
@@ -203,7 +203,7 @@ for my $Count ( 1 .. 3 ) {
     );
 
     my $PrivateKeyString = $PGPObject->SecretKeyGet(
-        Key => $Keys[0]->{KeyPrivate},
+        Key => $Key->{KeyPrivate},
     );
     $Self->True(
         $PrivateKeyString || '',
@@ -213,7 +213,7 @@ for my $Count ( 1 .. 3 ) {
     # crypt
     my $Crypted = $PGPObject->Crypt(
         Message => $TestText,
-        Key     => $Keys[0]->{Key},
+        Key     => $Key->{Key},
     );
     $Self->True(
         $Crypted || '',
@@ -246,7 +246,7 @@ for my $Count ( 1 .. 3 ) {
     # sign inline
     my $Sign = $PGPObject->Sign(
         Message => $TestText,
-        Key     => $Keys[0]->{KeyPrivate},
+        Key     => $Key->{KeyPrivate},
         Type    => 'Inline'                  # Detached|Inline
     );
     $Self->True(
@@ -287,7 +287,7 @@ for my $Count ( 1 .. 3 ) {
     # sign detached
     $Sign = $PGPObject->Sign(
         Message => $TestText,
-        Key     => $Keys[0]->{KeyPrivate},
+        Key     => $Key->{KeyPrivate},
         Type    => 'Detached'                # Detached|Inline
     );
     $Self->True(
@@ -337,7 +337,7 @@ for my $Count ( 1 .. 3 ) {
         # crypt
         my $Crypted = $PGPObject->Crypt(
             Message => $Reference,
-            Key     => $Keys[0]->{Key},
+            Key     => $Key->{Key},
         );
         $Self->True(
             $Crypted || '',
@@ -369,7 +369,7 @@ for my $Count ( 1 .. 3 ) {
         # sign inline
         my $Sign = $PGPObject->Sign(
             Message => $Reference,
-            Key     => $Keys[0]->{KeyPrivate},
+            Key     => $Key->{KeyPrivate},
             Type    => 'Inline'                  # Detached|Inline
         );
         $Self->True(
@@ -399,7 +399,7 @@ for my $Count ( 1 .. 3 ) {
         # sign detached
         $Sign = $PGPObject->Sign(
             Message => $Reference,
-            Key     => $Keys[0]->{KeyPrivate},
+            Key     => $Key->{KeyPrivate},
             Type    => 'Detached'                # Detached|Inline
         );
         $Self->True(
@@ -438,7 +438,7 @@ for my $Count ( 1 .. 3 ) {
     );
     $Crypted = $PGPObject->Crypt(
         Message => $UTF8Text,
-        Key     => $Keys[0]->{Key},
+        Key     => $Key->{Key},
     );
     $Self->True(
         $Crypted || '',
@@ -472,7 +472,7 @@ for my $Count ( 1 .. 3 ) {
 # only key 3 currently supports all those types
 for my $Count (3) {
 
-    my @Keys = $PGPObject->KeySearch(
+    my ($Key) = $PGPObject->KeySearch(
         Search => $Search{$Count},
     );
 
@@ -490,7 +490,7 @@ for my $Count (3) {
         # sign inline
         my $Sign = $PGPObject->Sign(
             Message => $TestText,
-            Key     => $Keys[0]->{KeyPrivate},
+            Key     => $Key->{KeyPrivate},
             Type    => 'Inline'                  # Detached|Inline
         );
         if ( $DeprecatedDigestTypes{$DigestPreference} ) {
@@ -549,7 +549,7 @@ for my $Count (3) {
         # sign detached
         $Sign = $PGPObject->Sign(
             Message => $TestText,
-            Key     => $Keys[0]->{KeyPrivate},
+            Key     => $Key->{KeyPrivate},
             Type    => 'Detached'                # Detached|Inline
         );
         if ( $DeprecatedDigestTypes{$DigestPreference} ) {
@@ -613,12 +613,12 @@ for my $Count (3) {
     $PGPObject->KeyAdd( Key => ${$KeyString} );
 
     # search for expired key and wait for expired status
-    my @Keys = $PGPObject->KeySearch(
+    my ($Key) = $PGPObject->KeySearch(
         Search => $Search,
     );
 
     $Self->Is(
-        $Keys[0]->{Status},
+        $Key->{Status},
         'expired',
         'Check for expired pgp key',
     );
@@ -646,12 +646,12 @@ for my $Count (3) {
     $PGPObject->KeyAdd( Key => ${$KeyString} );
 
     # search for revoked key and wait for revoked status
-    @Keys = $PGPObject->KeySearch(
+    ($Key) = $PGPObject->KeySearch(
         Search => $Search,
     );
 
     $Self->Is(
-        $Keys[0]->{Status},
+        $Key->{Status},
         'revoked',
         'Check for revoked pgp key',
     );
@@ -659,15 +659,15 @@ for my $Count (3) {
 
 # delete keys
 for my $Count ( 1 .. 3 ) {
-    my @Keys = $PGPObject->KeySearch(
+    my ($Key) = $PGPObject->KeySearch(
         Search => $Search{$Count},
     );
     $Self->True(
-        $Keys[0] || '',
+        $Key || '',
         "#$Count KeySearch()",
     );
     my $DeleteSecretKey = $PGPObject->SecretKeyDelete(
-        Key => $Keys[0]->{KeyPrivate},
+        Key => $Key->{KeyPrivate},
     );
     $Self->True(
         $DeleteSecretKey || '',
@@ -675,18 +675,18 @@ for my $Count ( 1 .. 3 ) {
     );
 
     my $DeletePublicKey = $PGPObject->PublicKeyDelete(
-        Key => $Keys[0]->{Key},
+        Key => $Key->{Key},
     );
     $Self->True(
         $DeletePublicKey || '',
         "#$Count PublicKeyDelete()",
     );
 
-    @Keys = $PGPObject->KeySearch(
+    ($Key) = $PGPObject->KeySearch(
         Search => $Search{$Count},
     );
     $Self->False(
-        $Keys[0] || '',
+        $Key || '',
         "#$Count KeySearch()",
     );
 }
