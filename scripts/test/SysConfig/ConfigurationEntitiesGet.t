@@ -20,9 +20,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use Kernel::Config;
 
@@ -37,25 +38,14 @@ my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
 my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
 my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
-# Delete sysconfig_modified_version
-return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-    SQL => 'DELETE FROM sysconfig_modified_version',
-);
+# clear some tables
+for my $Table ( qw(sysconfig_modified_version sysconfig_modified sysconfig_default_version sysconfig_default) ) {
+    my $DoSuccess = $Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL => "DELETE FROM $Table",
+    );
 
-# Delete sysconfig_modified
-return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-    SQL => 'DELETE FROM sysconfig_modified',
-);
-
-# Delete sysconfig_default_version
-return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-    SQL => 'DELETE FROM sysconfig_default_version',
-);
-
-# Delete sysconfig_default
-return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-    SQL => 'DELETE FROM sysconfig_default',
-);
+    skip_all( "cannot delete from $Table" ) unless $DoSuccess;
+}
 
 # Load setting from sample XML file
 my $LoadSuccess = $SysConfigObject->ConfigurationXML2DB(

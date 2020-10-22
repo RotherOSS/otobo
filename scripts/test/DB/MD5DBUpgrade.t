@@ -19,9 +19,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # Test the MD5 function in MySQL and in PostgreSQL
 # Implicitly this script also tests Kernel::System::Main::MD5sum.
@@ -110,9 +111,16 @@ else {
 }
 
 # test conversion
-return if !$DBObject->Prepare(
+my $PrepareSuccess = $DBObject->Prepare(
     SQL => 'SELECT message_id, message_id_md5 FROM test_md5_conversion',
 );
+if ( !$PrepareSuccess ) {
+
+    done_testing();
+
+    exit 0;
+}
+
 
 my $Result = 1;
 
@@ -131,6 +139,4 @@ $Self->True(
     "Do() DROP TABLE",
 );
 
-$Self->DoneTesting();
-
-
+done_testing();

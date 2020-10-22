@@ -19,9 +19,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
@@ -35,11 +36,7 @@ my $NumberOfPackagesInstalled = scalar @List;
 # Skip the test if there is more then 8 packages installed (8 because of SaaS scenarios).
 # TODO: fix the main issue with "unexpected alert open".
 if ( $NumberOfPackagesInstalled > 8 ) {
-    $Self->True(
-        1,
-        "Found $NumberOfPackagesInstalled packages installed, skipping test..."
-    );
-    return 1;
+    skip_all( "Found $NumberOfPackagesInstalled packages installed, skipping test..." );
 }
 
 # Make sure to enable cloud services.
