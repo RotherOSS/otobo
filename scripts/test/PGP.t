@@ -123,7 +123,13 @@ my %Check = (
     },
 );
 
+# Because of using Test2::VO this string is a Perl string with UTF8-flag on
 my $TestText = 'hello1234567890äöüÄÖÜ€';
+
+# This is a byte array.
+my $EncodedTestText = $TestText;
+utf8::encode($EncodedTestText);
+
 my $Home     = $ConfigObject->Get('Home');
 
 # delete existing keys to have a cleaned test environment
@@ -275,7 +281,7 @@ for my $Count ( 1 .. 3 ) {
 
         # verify failure on manipulated text
         my $ManipulatedSign = $Sign;
-        $ManipulatedSign =~ s{$TestText}{garble-$TestText-garble};
+        $ManipulatedSign =~ s{$EncodedTestText}{garble-$EncodedTestText-garble};
         %Verify = $PGPObject->Verify(
             Message => $ManipulatedSign,
         );
@@ -539,7 +545,7 @@ for my $Count (3) {
 
                 # verify failure on manipulated text
                 my $ManipulatedSign = $Sign;
-                $ManipulatedSign =~ s{$TestText}{garble-$TestText-garble};
+                $ManipulatedSign =~ s{$EncodedTestText}{garble-$EncodedTestText-garble};
                 %Verify = $PGPObject->Verify(
                     Message => $ManipulatedSign,
                 );
