@@ -60,7 +60,7 @@
 
                     <label for="DBIsThrowaway" class="oooSQL Hidden">[% Translate("Database is a throwawy copy") | html %]:</label>
                     <div class="Field oooSQL Hidden">
-                        <input type="checkbox" id="DBIsThrowaway" name="DBIsThrowaway" />
+                        <input type="checkbox" id="DBIsThrowaway" name="DBIsThrowaway" value="on" />
                     </div>
                     <div class="Clear" class="oooSQL Hidden"></div>
 

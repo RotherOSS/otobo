@@ -17,7 +17,8 @@
 
 use strict;
 use warnings;
-use v5.24.0;
+use v5.24;
+use utf8;
 
 # use ../ as lib location
 use File::Basename;
@@ -27,6 +28,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 # core modules
 use Getopt::Long qw(GetOptions);
+use Cwd qw(getcwd abs_path);
 
 # CPAN modules
 
@@ -34,7 +36,19 @@ use Getopt::Long qw(GetOptions);
 use Kernel::System::ObjectManager;
 
 # get options
-my ($HelpFlag, $BackupDir, $CompressOption, $BackupType, $RemoveDays, $MaxAllowedPacket);
+my (
+    $HelpFlag,
+    $CompressOption,
+    $RemoveDays,
+    $MaxAllowedPacket,
+    $DatabaseHost,
+    $DatabaseName,
+    $DatabaseUser,
+    $DatabasePw,
+    $DatabaseType,
+);
+my $BackupDir  = getcwd();
+my $BackupType = 'fullbackup';
 GetOptions(
     'help|h'                 => \$HelpFlag,
     'backup-dir|d=s'         => \$BackupDir,
@@ -42,11 +56,14 @@ GetOptions(
     'remove-old-backups|r=i' => \$RemoveDays,
     'backup-type|t=s'        => \$BackupType,
     'max-allowed-packet=i'   => \$MaxAllowedPacket, # no short option for that special case
+    'db-host=s'              => \$DatabaseHost,
+    'db-name=s'              => \$DatabaseName,
+    'db-user=s'              => \$DatabaseUser,
+    'db-password=s'          => \$DatabasePw,
+    'db-type=s'              => \$DatabaseType,
 ) or PrintHelpAndExit();
 
-if ( $HelpFlag ) {
-    PrintHelpAndExit();
-}
+PrintHelpAndExit() if $HelpFlag;
 
 # check backup dir
 if ( !$BackupDir ) {
@@ -54,8 +71,7 @@ if ( !$BackupDir ) {
 
     exit 1;
 }
-
-if ( !-d $BackupDir ) {
+if ( ! -d $BackupDir ) {
     say STDERR "ERROR: No such directory: $BackupDir";
 
     exit 1;
@@ -70,15 +86,28 @@ if ( $CompressOption && $CompressOption =~ m/bzip2/i ) {
 }
 
 # check backup type
-my ($DBOnlyBackup, $FullBackup) = (0, 0);
-if ( $BackupType && $BackupType eq 'dbonly' ) {
-    $DBOnlyBackup = 1;
-}
-elsif ( $BackupType && $BackupType eq 'nofullbackup' ) {
-    $FullBackup = 0;
-}
-else {
-    $FullBackup = 1;
+my ($DBOnlyBackup, $FullBackup, $MigrateFromOTRSBackup) = (0, 0, 0);
+{
+    $BackupType //= '';
+    $BackupType = lc $BackupType;
+    if ( $BackupType eq 'dbonly' ) {
+        $DBOnlyBackup = 1;
+    }
+    elsif ( $BackupType eq 'nofullbackup' ) {
+        $FullBackup = 0;
+    }
+    elsif ( $BackupType eq 'fullbackup' ) {
+        $FullBackup = 1;
+    }
+    elsif ( $BackupType eq 'migratefromotrs' ) {
+        $MigrateFromOTRSBackup = 1;
+        $DBOnlyBackup          = 1;
+    }
+    else {
+        say STDERR "ERROR: please specify --backup-type.\nValid options are: fullbackup|nofullbackup|dbonly|migratefromotrs";
+
+        exit 1;
+    }
 }
 
 # create common objects
@@ -88,12 +117,18 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 
-my $DatabaseHost = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseHost');
-my $Database     = $Kernel::OM->Get('Kernel::Config')->Get('Database');
-my $DatabaseUser = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseUser');
-my $DatabasePw   = $Kernel::OM->Get('Kernel::Config')->Get('DatabasePw');
-my $DatabaseDSN  = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseDSN');
+my $DatabaseDSN  = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseDSN'); # for the database type
 my $ArticleDir   = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::ArticleDataDir');
+
+# database connection can be overridden on the command line
+$DatabaseHost //= $Kernel::OM->Get('Kernel::Config')->Get('DatabaseHost');
+$DatabaseName //= $Kernel::OM->Get('Kernel::Config')->Get('Database');
+$DatabaseUser //= $Kernel::OM->Get('Kernel::Config')->Get('DatabaseUser');
+$DatabasePw   //= $Kernel::OM->Get('Kernel::Config')->Get('DatabasePw');
+$DatabaseType //=
+    $DatabaseDSN =~ m/:mysql/i ? 'mysql'      :
+    $DatabaseDSN =~ m/:pg/i    ? 'postgresql' :
+    'mysql';
 
 # decrypt pw (if needed)
 if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
@@ -101,13 +136,14 @@ if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
 }
 
 # check db backup support
-my ($DB, $DBDumpCmd) = ( '', '');
-if ( $DatabaseDSN =~ m/:mysql/i ) {
-    $DB        = 'MySQL';
+$DatabaseType = lc $DatabaseType;
+my $DBDumpCmd = '';
+my @DBDumpOptions;
+if ( $DatabaseType eq 'mysql' ) {
     $DBDumpCmd = 'mysqldump';
+    push @DBDumpOptions, '--no-tablespaces';
 }
-elsif ( $DatabaseDSN =~ m/:pg/i ) {
-    $DB        = 'PostgreSQL';
+elsif ( $DatabaseType eq 'postgresql' ) {
     $DBDumpCmd = 'pg_dump';
     if ( $DatabaseDSN !~ m/host=/i ) {
         $DatabaseHost = '';
@@ -119,17 +155,26 @@ else {
     exit(1);
 }
 
-# check needed programs
-for my $CMD ( 'cp', 'tar', $DBDumpCmd, $CompressCMD ) {
-    my $IsInstalled = 0;
-    open my $In, '-|', "which $CMD";    ## no critic
-    while (<$In>) {
-        $IsInstalled = 1;
+# check needed system commands
+{
+    my @Cmds = ( 'cp', 'tar', 'sed', $DBDumpCmd );
+    if ( $BackupType eq 'migratefromotrs' ) {
+        push @Cmds, 'sed';
     }
-    if ( !$IsInstalled ) {
-        say STDERR "ERROR: Can't locate $CMD!";
+    else {
+        push @Cmds, $CompressCMD;
+    }
+    for my $Cmd ( @Cmds ) {
+        my $IsInstalled = 0;
+        open my $In, '-|', "which $Cmd";    ## no critic
+        while (<$In>) {
+            $IsInstalled = 1;
+        }
+        if ( !$IsInstalled ) {
+            say STDERR "ERROR: Can't locate $Cmd!";
 
-        exit 1;
+            exit 1;
+        }
     }
 }
 
@@ -141,6 +186,7 @@ if ( $Home !~ m{\/\z} ) {
     $Home .= '/';
 }
 
+$BackupDir = abs_path( $BackupDir );
 chdir($Home);
 
 # current time needed for the backup-dir and for removing old backups
@@ -157,7 +203,7 @@ if ( !mkdir($Directory) ) {
 
 # backup application
 if ($DBOnlyBackup) {
-    say "Backup of filesystem data disabled by parameter dbonly ... ";
+    say "Backup of filesystem data disabled by parameter $BackupType ... ";
 }
 else {
     # backup Kernel/Config.pm
@@ -216,40 +262,62 @@ my $ErrorIndicationFileName =
     $Kernel::OM->Get('Kernel::Config')->Get('Home')
     . '/var/tmp/'
     . $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString();
-if ( $DB =~ m/mysql/i ) {
-    print "Dump $DB data to $Directory/DatabaseBackup.sql.$CompressEXT ... ";
-
-    my @Options; # additional options to mysqldump
+if ( $DatabaseType eq 'mysql' ) {
+    print "Dump $DatabaseType data to $Directory/DatabaseBackup.sql.$CompressEXT ... ";
 
     if ($DatabasePw) {
-        push @Options, "-p'$DatabasePw'";
+        push @DBDumpOptions, "-p'$DatabasePw'";
     }
 
     if ( $MaxAllowedPacket ) {
-        push @Options, "--max-allowed-packet=$MaxAllowedPacket";
+        push @DBDumpOptions, "--max-allowed-packet=$MaxAllowedPacket";
     }
 
-    if (
-        !system(
-            "( $DBDumpCmd -u $DatabaseUser @Options -h $DatabaseHost $Database || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
-        )
-        && !-f $ErrorIndicationFileName
-        )
-    {
-        say 'done';
+    if ( $MigrateFromOTRSBackup ) {
+
+        # dump schema and data separately, no compression
+        my @Commands = (
+            qq{$DBDumpCmd -u $DatabaseUser @DBDumpOptions -h $DatabaseHost --databases $DatabaseName --no-data --dump-date -r $BackupDir/${DatabaseName}_schema.sql},
+            qq{sed -i.bak -e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/' -e 's/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/' $BackupDir/${DatabaseName}_schema.sql},
+            qq{$DBDumpCmd -u $DatabaseUser @DBDumpOptions -h $DatabaseHost --databases $DatabaseName --no-create-info --no-create-db --dump-date -r $BackupDir/${DatabaseName}_data.sql},
+        );
+
+        # print only the count avoids printing a password into a logfile
+        my $Cnt = 0;
+        for my $Command ( @Commands ) {
+            $Cnt++;
+            if ( ! system( $Command ) ) {
+                say "done command $Cnt";
+            }
+            else {
+                say "done command $Cnt";
+                die "Backup failed";
+            }
+        }
     }
     else {
-        say 'failed';
-        if ( -f $ErrorIndicationFileName ) {
-            unlink $ErrorIndicationFileName;
+        if (
+            !system(
+                "( $DBDumpCmd -u $DatabaseUser @DBDumpOptions -h $DatabaseHost $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
+            )
+            && !-f $ErrorIndicationFileName
+            )
+        {
+            say 'done';
         }
-        RemoveIncompleteBackup($Directory);
+        else {
+            say 'failed';
+            if ( -f $ErrorIndicationFileName ) {
+                unlink $ErrorIndicationFileName;
+            }
+            RemoveIncompleteBackup($Directory);
 
-        die "Backup failed";
+            die "Backup failed";
+        }
     }
 }
 else {
-    print "Dump $DB data to $Directory/DatabaseBackup.sql ... ";
+    print "Dump $DatabaseType data to $Directory/DatabaseBackup.sql ... ";
 
     # set password via environment variable if there is one
     if ($DatabasePw) {
@@ -262,7 +330,7 @@ else {
 
     if (
         !system(
-            "( $DBDumpCmd $DatabaseHost -U $DatabaseUser $Database || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
+            "( $DBDumpCmd $DatabaseHost -U $DatabaseUser $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
         )
         && !-f $ErrorIndicationFileName
         )
@@ -324,7 +392,7 @@ if ( defined $RemoveDays ) {
     DIRECTORY:
     for my $Directory (@Directories) {
 
-        next DIRECTORY if !-d $Directory;
+        next DIRECTORY unless -d $Directory;
 
         for my $Data ( sort keys %LeaveBackups ) {
             next DIRECTORY if $Directory =~ m/$Data/;
@@ -390,16 +458,26 @@ sub PrintHelpAndExit {
 Backup an OTOBO system.
 
 Usage:
- backup.pl -d /data_backup_dir [-c gzip|bzip2] [-r DAYS] [-t fullbackup|nofullbackup|dbonly]
- backup.pl --backup-dir /data_backup_dir [--compress gzip|bzip2] [--remove-old-backups DAYS] [--backup-type fullbackup|nofullbackup|dbonly]
+
+    # print this help message
+    otobo> cd /opt/otobo
+    otobo> scripts/backup.pl --help
+
+    # for regular backups, can also be used in a cron job
+    otobo> cd /opt/otobo
+    otobo> scripts/backup.pl -d /data_backup_dir [-c gzip|bzip2] [-r DAYS] [-t fullbackup|nofullbackup|dbonly]
+    otobo> scripts/backup.pl --backup-dir /data_backup_dir [--compress gzip|bzip2] [--remove-old-backups DAYS] [--backup-type fullbackup|nofullbackup|dbonly|migratefromotrs]
+
+    # backups for creating a dump for migrating an OTRS database OTOBO
+    otobo> cd /opt/otobo
+    otobo> scripts/backup.pl -t migratefromotrs --db-name otrs --db-host=127.0.0.1 --db-user otrs --db-password=secret_otrs_password
 
 Short options:
  [-h]                   - Display help for this command.
- -d                     - Directory where the backup files should place to.
- [-c]                   - Select the compression method (gzip|bzip2). Default: gzip.
+ [-d]                   - Directory where the backup files should be placed. Defauls to the current dir.
+ [-c]                   - Select the compression method (gzip|bzip2). Defaults to gzip.
  [-r DAYS]              - Remove backups which are more than DAYS days old.
- [-t]                   - Specify which data will be saved (fullbackup|nofullbackup|dbonly). Default: fullbackup.
-
+ [-t]                   - Specify which data will be saved (fullbackup|nofullbackup|dbonly|migratefromotrs). Default: fullbackup.
 
 Long options:
  [--help]                     - same as -h
@@ -407,11 +485,18 @@ Long options:
  [--compress]                 - same as -c
  [--remove-old-backups DAYS]  - same as -r
  [--backup-type]              - same as -t
+ [--max-allowed-packet SIZE]  - add the option "--max-allowed-packet=SIZE" to mysqldump
+ [--db-host]                  - default taken from the current OTOBO config
+ [--db-name]                  - default taken from the current OTOBO config
+ [--db-user]                  - default taken from the current OTOBO config
+ [--db-password]              - default taken from the current OTOBO config
+ [--db-type]                  - default taken from the current OTOBO config
 
 Help:
 Using -t fullbackup saves the database and the whole OTOBO home directory (except /var/tmp and cache directories).
 Using -t nofullbackup saves only the database, /Kernel/Config* and /var directories.
 With -t dbonly only the database will be saved.
+With -t migratefromotrs only the OTRS database will be saved and prepared for migration
 
 Override the max allowed packet size:
 When backing up a MySQL one might run into very large database fields. In this case the backup fails.

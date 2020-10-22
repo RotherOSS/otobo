@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.994795901772646;
+    $Self->{Completeness}        = 0.996911071370509;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1160,7 +1160,7 @@ sub Data {
         'URI to indicate specific location for accessing a web service.' =>
             'URI zur Angabe eines bestimmten Standorts für den Zugriff auf einen Webservice.',
         'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
-            '',
+            'z. B. https://www.otobo.de:10745/api/v1.0 (ohne abschließenden Backslash)',
         'Timeout' => 'Timeout',
         'Timeout value for requests.' => 'Timeout-Wert für Anfragen.',
         'Authentication' => 'Authentifizierung',
@@ -1215,7 +1215,7 @@ sub Data {
         'The default HTTP command to use for the requests.' => 'Der Standard-HTTP-Befehl für die Anfragen.',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'e.g. https://local.otobo.de:8000/Webservice/Example' => '',
+        'e.g. https://local.otobo.de:8000/Webservice/Example' => 'z. B. https://local.otobo.de:8000/Webservice/Beispiel',
         'Set SOAPAction' => 'Setzen von SOAPAction',
         'Set to "Yes" in order to send a filled SOAPAction header.' => 'Auf "Ja" setzen, um einen befüllten SOAPAction-Header zu senden.',
         'Set to "No" in order to send an empty SOAPAction header.' => 'Auf "Nein" setzen, um einen leeren SOAPAction-Header zu senden.',
@@ -1236,7 +1236,7 @@ sub Data {
         'Namespace' => 'Namensraum',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI, die SOAP-Methoden einen Kontext gibt und damit Mehrdeutigkeiten auflöst.',
         'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
-            '',
+            'z. B. urn:otobo-com:soap:functions oder http://www.otobo.de/GenericInterface/actions',
         'Request name scheme' => 'Anfragen-Namensschema',
         'Select how SOAP request function wrapper should be constructed.' =>
             'Wählen Sie, wie der SOAP-Funktionsaufruf konstruiert werden soll.',
@@ -2930,7 +2930,7 @@ sub Data {
         'go back to the previous page' => 'Zurück zur vorhergehenden Seite',
 
         # Template: CustomerAccept
-        'Mit einem Klick erkläre ich meine Zustimmung.' => '',
+        'Mit einem Klick erkläre ich meine Zustimmung.' => 'Mit einem Klick erkläre ich meine Zustimmung.',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -3174,8 +3174,8 @@ sub Data {
         'SystemID' => 'SystemID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'Der System-Identifikator. Jede Ticketnummer und jede HTTP-Sitzungs-ID enthalten diese Nummer.',
-        'HTTP Type' => '',
-        'Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.' =>
+        'HTTP Type' => 'HTTP-Typ',
+        'Set the request scheme used for cookies and various links. For production purposes always use https.' =>
             '',
         'System FQDN' => 'System-FQDN',
         'Fully qualified domain name of your system.' => 'Voll qualifizierter Domainname Ihres Systems.',
@@ -3255,6 +3255,9 @@ sub Data {
             'Sie führen das Migrations-Tool über http aus. Das ist ausgesprochen unsicher! Während der Migration geben Sie verschiedene Passwörter ein, die dann unverschlüsselt übertragen werden. Jede Person, die sich zwischen Sie und den OTOBO Server schaltet, kann diese Passwörter abfangen. Bitte erwägen Sie, stattdessen https zu nutzen.',
         'Continue anyways :(' => 'Dennoch fortfahren :(',
         ' Continue anyways :(' => ' Dennoch fortfahren :(',
+
+        # Template: OTRSDBSettings
+        'Database is a throwawy copy' => '',
 
         # Template: OTRSFileSettings
         'OTRS server' => 'OTRS Server',
@@ -4634,8 +4637,8 @@ sub Data {
         'Install OTOBO - Error' => 'OTOBO-Installation – Fehler',
         'File "%s/%s.xml" not found!' => 'Datei "%s/%s.xml" nicht gefunden!',
         'Contact your Admin!' => 'Kontaktieren Sie Ihren Administrator!',
-        'https' => '',
-        'http' => '',
+        'https' => 'https',
+        'http' => 'http',
         'System Settings' => 'System-Einstellungen',
         'Syslog' => 'Syslog',
         'Configure Mail' => 'E-Mail konfigurieren',
@@ -5059,7 +5062,7 @@ sub Data {
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
         'Check if OTOBO version is correct.' => 'Überprüft, ob die OTOBO Version korrekt ist.',
         'Check if OTOBO and OTRS connect is possible.' => 'Überprüft, ob eine Verbindung zwischen OTRS und OTOBO hergestellt werden kann.',
-        'Can\'t open RELEASE file from OTRSHome: %s!' => 'Kann das RELEASE File in OTRSHome: %s nicht öffnen!',
+        'Can\'t access OTRS Home: %s!' => '',
         'Copy and migrate files from OTRS' => 'Kopiert und migriert Dateien aus OTRS',
         'All needed files copied and migrated, perfect!' => 'Alle Dateien wurden kopiert und migriert. Glückwunsch!',
 
@@ -5071,6 +5074,7 @@ sub Data {
         'Data transfer completed.' => 'Datentransfer abgeschlossen.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+        'Can\'t open RELEASE file from OTRSHome: %s!' => 'Kann das RELEASE File in OTRSHome: %s nicht öffnen!',
         'Check if OTOBO and OTRS version is correct.' => 'Überprüft, ob die verwendeten OTOBO- und OTRS-Versionen korrekt sind.',
         '%s does not exist!' => '%s nicht vorhanden!',
         'Can\'t read OTOBO RELEASE file: %s: %s!' => 'Kann OTOBO RELEASE File nicht lesen: %s: %s!',
@@ -5096,7 +5100,7 @@ sub Data {
         'Migrate web service configuration.' => 'Migration der Webservice-Konfiguration.',
         'No web service existent, done.' => 'Kein Webservice vorhanden, fertig.',
         'Can\'t add web service for Elasticsearch. File %s not found!' =>
-            '',
+            'Kann Webservice für Elasticsearch nicht hinzufügen. Datei %s nicht gefunden!',
         'Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed.' =>
             'Migration abgeschlossen. Bitte aktivieren Sie den Webservice unter Admin -> Webservice, sobald die Elasticsearch-Installation abgeschlossen ist.',
 
@@ -5287,10 +5291,10 @@ sub Data {
         'Setting character_set_client needs to be utf8.' => 'Einstellung character_set_client muss \'utf8\' sein.',
         'Server Database Charset' => 'Zeichensatz des Datenbank-Servers',
         'Please convert your database to the character set \'utf8mb4\'.' =>
-            '',
+            'Bitte konvertieren Sie Ihre Datenbank zum Zeichensatz \'utf8mb4\'.',
         'Table Charset' => 'Zeichensatz der Tabellen',
         'There were tables found which do not have \'utf8mb4\' as charset.' =>
-            '',
+            'Es wurden Tabellen gefunden, in denen ein anderer Zeichensatz als \'utf8mb4\' verwendet wird.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
         'InnoDB Log File Size' => 'Größe der InnoDB-Log-Datei',
@@ -5474,7 +5478,7 @@ sub Data {
         'Some packages have locally modified files.' => 'Einige Pakete enthalten lokal angepasste Dateien.',
         'Some packages are not correctly installed.' => 'Es wurden Pakete gefunden, die nicht korrekt installiert sind.',
         'Package Verification Status' => 'Paketverifizierung-Status',
-        'Some packages are not verified by the OTOBO Team.' => '',
+        'Some packages are not verified by the OTOBO Team.' => 'Einige Pakete wurden nicht von Team OTOBO verifiziert.',
         'Package Framework Version Status' => 'Status der Paket-Framework-Version',
         'Some packages are not allowed for the current framework version.' =>
             'Einige Pakete sind für die aktuelle Framework-Version nicht geeignet.',
@@ -5578,10 +5582,10 @@ sub Data {
         'Support data could not be collected from the web server.' => 'Supportdaten vom Web-Server konnten nicht ermittelt werden.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
-        'PSGI Environment' => '',
+        'PSGI Environment' => 'PSGI-Umgebung',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
-        'Runs under PSGI' => '',
+        'Runs under PSGI' => 'Läuft unter PSGI',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Webserver-Version',
@@ -5962,7 +5966,7 @@ sub Data {
         'The deployment is already running.' => 'Inbetriebnahme läuft bereits.',
         'Deployment successful. You\'re being redirected...' => 'Inbetriebnahme erfolgreich, sie werden weitergeleitet...',
         'There was an error. Please save all settings you are editing and check the logs for more information.' =>
-            'Ein Fehler ist aufgetreten. Bitte speichern Sie alle Einstellungen, die Sie derzeit bearbeiten und prüfen Sie die Lod-Dateien auf weitere Informationen.',
+            'Ein Fehler ist aufgetreten. Bitte speichern Sie alle Einstellungen, die Sie derzeit bearbeiten und prüfen Sie die Log-Dateien auf weitere Informationen.',
         'Reset option is required!' => 'Reset-Option wird benötigt!',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?' =>
             'Bei Wiederherstellung dieser Version werden alle Einstellungen auf den Stand zurückgesetzt, den sie zum Zeitpunkt der jeweiligen Inbetriebnahme hatten. Möchten Sie fortfahren?',
@@ -6309,7 +6313,7 @@ Ihr Helpdesk-Team
         'Agent Name' => 'Agentenname',
         'Agent Name + FromSeparator + System Address Display Name' => 'Agenten-Name + From-Trennzeichen + Anzeigename der System-Adresse',
         'Agent Preferences.' => 'Agenten-Einstellungen.',
-        'Agent Statistics.' => 'Agent Statistiken.',
+        'Agent Statistics.' => 'Agenten-Statistiken.',
         'Agent User Search' => 'Nutzersuche Agentenbereich',
         'Agent User Search.' => 'Nutzersuche Agentenbereich.',
         'Agent contact with data search.' => '',
@@ -6499,7 +6503,7 @@ Ihr Helpdesk-Team
             'In der Ticketdarstellung genutzte Kategorien. Ist keine Standard-Farbe vorgegeben, wird das Element nicht angezeigt, wenn im Farb-Hash kein entsprechender Wert definiert ist.',
         'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
             'In der Ticketdarstellung genutzte Kategorien. Die Reihenfolge wird nur verwendet, um die Ausgangspositionierung vor dem Größenarrangement zu bestimmen. Ist keine Standard-Farbe vorgegeben, wird das Element nicht angezeigt, wenn im Farb-Hash kein entsprechender Wert definiert ist.',
-        'Change Ticket' => '',
+        'Change Ticket' => 'Change-Ticket',
         'Change Ticket information' => '',
         'Change queue!' => 'Queue ändern!',
         'Change the customer for this ticket' => 'Ticket-Kunden ändern',
@@ -7963,7 +7967,7 @@ Ihr Helpdesk-Team
         'Ivory (Slim)' => 'Elfenbein (Schlank)',
         'Japanese' => 'Japanisch',
         'JavaScript function for the search frontend.' => 'JavaScript-Funktion für das Suche-Frontend.',
-        'Jump to OTOBO!' => '',
+        'Jump to OTOBO!' => 'Link zu OTOBO!',
         'Korean' => 'Koreanisch',
         'Language' => 'Sprache',
         'Large' => 'Groß',

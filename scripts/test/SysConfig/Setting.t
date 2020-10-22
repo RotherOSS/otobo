@@ -275,7 +275,7 @@ $Self->IsNot(
     "DefaultSettingUnLock() - for Setting $DefaultID2",
 );
 
-my @Tests = (
+my @SettingGetTests = (
     {
         Name    => 'No Params',
         Params  => {},
@@ -490,7 +490,7 @@ my @Tests = (
 );
 
 TEST:
-for my $Test (@Tests) {
+for my $Test (@SettingGetTests) {
 
     my %Setting = $SysConfigObject->SettingGet( %{ $Test->{Params} } );
 
@@ -525,7 +525,7 @@ for my $Test (@Tests) {
 }
 
 # SettingUpdate() tests
-@Tests = (
+my @SettingUpdateTests = (
     {
         Name           => 'No Params',
         Params         => {},
@@ -1319,7 +1319,7 @@ for my $Test (@Tests) {
 my @SettingDirtyNames;
 
 TEST:
-for my $Test (@Tests) {
+for my $Test (@SettingGetTests) {
 
     # Lock setting (so it can be updated).
     my $ExclusiveLockGUID;
@@ -1357,6 +1357,7 @@ for my $Test (@Tests) {
         $Test->{ExpectedResult},
         "$Test->{Name} SettingUpdate() -",
     );
+
     next TEST if !$Result{Success};
 
     my %Setting = $SysConfigObject->SettingGet( Name => $Test->{Params}->{Name} );

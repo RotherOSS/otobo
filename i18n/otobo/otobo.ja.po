@@ -14213,7 +14213,7 @@ msgstr ""
 msgid "Check if OTOBO and OTRS connect is possible."
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't open RELEASE file from OTRSHome: %s!"
 msgstr ""
 
@@ -24699,8 +24699,7 @@ msgstr "stats"
 #~ msgstr "詳細については%sを参照してください。"
 
 #~ msgid "Connection to cloud.otobo.com via HTTPS couldn't be established. Please make sure that your OTOBO can connect to cloud.otobo.com via port 443."
-#~ msgstr "cloud.otobo.comへのHTTPSでの接続の確立ができませんでした。\n"
-#~ "OTOBOが443ポートを用いてcloud.otobo.comに接続できることを確認して下さい。"
+#~ msgstr "cloud.otobo.comへのHTTPSでの接続の確立ができませんでした。OTOBOが443ポートを用いてcloud.otobo.comに接続できることを確認して下さい。"
 
 #~ msgid "Package installation requires patch level update of OTOBO."
 #~ msgstr "パッケージのインストールには、OTOBOのパッチレベルの更新が必要です。"
@@ -25000,5 +24999,17 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
 msgid "Runs under PSGI"
+msgstr ""
+
+#. Template: InstallerSystem
+msgid "Set the request scheme used for cookies and various links. For production purposes always use https."
+msgstr ""
+
+#. Template: OTRSDBSettings
+msgid "Database is a throwawy copy"
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
+msgid "Can't access OTRS Home: %s!"
 msgstr ""
 

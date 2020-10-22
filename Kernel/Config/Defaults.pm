@@ -1905,6 +1905,12 @@ via the Preferences button after logging in.
         ],
     };
 
+    # Elasticsearch settings needed for installer.pl
+    $Self->{'Elasticsearch::ArticleIndexCreationSettings'} = {
+        'NS'      => '1',
+        'NR'      => '0',
+    };
+
     return 1;
 }
 
