@@ -360,6 +360,17 @@ my @NeededModules = (
         },
     },
     {
+        Module               => 'List::AllUtils',
+        Required             => 1,
+        VersionsNotSupported => ,
+        InstTypes => {
+            aptget => 'liblist-allutils-perl',
+            emerge => 'dev-perl/List-Allutils',
+            zypper => 'perl-List-AllUtils',
+            ports  => 'devel/p5-List-AllUtils',
+        },
+    },
+    {
         Module    => 'LWP::UserAgent',
         Required  => 1,
         InstTypes => {
@@ -1161,7 +1172,7 @@ else {
             push @{ $PrintFeatures{zzznone} }, $Module;
         }
     }
-    
+
     # try to determine module version number
     my $Depends = 0;
 
