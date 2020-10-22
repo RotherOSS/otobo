@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-10-21 16:19+0000\n"
-"PO-Revision-Date: 2020-10-16 09:07+0000\n"
+"PO-Revision-Date: 2020-10-22 09:40+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/"
 "otobo10/otobo/zh_Hans/>\n"
@@ -2685,19 +2685,19 @@ msgstr "工单修改时间（在...之间）"
 
 #. Template: AdminGenericAgent
 msgid "Last close times"
-msgstr ""
+msgstr "上次关闭时间"
 
 #. Template: AdminGenericAgent
 msgid "No last close time settings."
-msgstr ""
+msgstr "没有上次关闭时间设定。"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last close"
-msgstr ""
+msgstr "工单上次关闭"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last close between"
-msgstr ""
+msgstr "工单上次关闭介于"
 
 #. Template: AdminGenericAgent
 msgid "Close times"
@@ -10094,7 +10094,7 @@ msgstr "HTTP 类型"
 msgid ""
 "Set the request scheme used for cookies and various links. For production "
 "purposes always use https."
-msgstr ""
+msgstr "设置cookie和其他各种链接发出请求的方式。生产环境中都使用https。"
 
 #. Template: InstallerSystem
 msgid "System FQDN"
@@ -10319,25 +10319,25 @@ msgstr "或者直接写邮件发到"
 
 #. Template: Intro
 msgid "Cached data found"
-msgstr ""
+msgstr "发现缓存数据"
 
 #. Template: Intro
 msgid ""
 "You will continue where you aborted the migration last time. If you do not "
 "want this, please discard your previous progress."
-msgstr ""
+msgstr "你将从上次退出的位置继续进行迁移，当然如果不需要，你也可以放弃以前的进程。"
 
 #. Template: Intro
 msgid "An error occured."
-msgstr ""
+msgstr "发生一个错误。"
 
 #. Template: Intro
 msgid "Discard previous progress"
-msgstr ""
+msgstr "放弃以前的进程"
 
 #. Template: Intro
 msgid "Insecure HTTP connection"
-msgstr ""
+msgstr "不安全的HTTP链接"
 
 #. Template: Intro
 msgid ""
@@ -10346,46 +10346,48 @@ msgid ""
 "unencrypted. Anyone between you and the OTOBO server will be able to read "
 "them! Please consider setting up https instead."
 msgstr ""
+"你正在通过http运行迁移脚本，这是非常不安全的，因为在这个过程中需要使用各种密码，而这些密码将以未加密的方式进行传输。你和OTOBO服务器之间的任何人都"
+"可以读取它们！所以，请考虑修改设置为https。"
 
 #. Template: Intro
 msgid "Continue anyways :("
-msgstr ""
+msgstr "不论如何都继续:("
 
 #. Template: Intro
 msgid " Continue anyways :("
-msgstr ""
+msgstr " 不论如何都继续 :("
 
 #. Template: OTRSDBSettings
 msgid "Database is a throwawy copy"
-msgstr ""
+msgstr "数据库是一次性副本"
 
 #. Template: OTRSFileSettings
 msgid "OTRS server"
-msgstr ""
+msgstr "OTRS服务器"
 
 #. Template: OTRSFileSettings
 msgid "SSH User"
-msgstr ""
+msgstr "SSH用户"
 
 #. Template: OTRSFileSettings
 msgid "OTRS home directory"
-msgstr ""
+msgstr "OTRS主目录"
 
 #. Template: OTRSFileSettings
 msgid "Check settings"
-msgstr ""
+msgstr "检查设置"
 
 #. Template: OTRSFileSettings
 msgid "Result of settings check"
-msgstr ""
+msgstr "设置检查的结果"
 
 #. Template: OTRSFileSettings
 msgid "Settings check successful."
-msgstr ""
+msgstr "设置检查成功。"
 
 #. Template: PreChecks
 msgid "Execute migration pre-checks"
-msgstr ""
+msgstr "进行迁移前的检查"
 
 #. Template: MobileNotAvailableWidget
 msgid "Feature not Available"
@@ -10681,11 +10683,11 @@ msgstr "请记住：Y轴的时间刻度必须大于X轴的时间刻度（例如�
 
 #. Template: SettingHistoryListCompare
 msgid "On "
-msgstr ""
+msgstr "在 "
 
 #. Template: SettingHistoryListCompare
 msgid "Reset to this value"
-msgstr ""
+msgstr "重置这个值"
 
 #. Template: SettingsList
 msgid "This setting is disabled."
@@ -10901,7 +10903,7 @@ msgstr "导航"
 
 #. Template: UsersSettingListCompare
 msgid "Delete user's value."
-msgstr ""
+msgstr "删除用户的数值。"
 
 #. Template: Test
 msgid "OTOBO Test Page"
@@ -10949,11 +10951,11 @@ msgstr "加载中，请稍候..."
 
 #. JS Template: ToggleMoreLessCustomer
 msgid "Show all"
-msgstr ""
+msgstr "显示所有"
 
 #. JS Template: ToggleMoreLessCustomer
 msgid "Show less"
-msgstr ""
+msgstr "显示少量"
 
 #. JS Template: UploadContainer
 msgid "Click to select a file for upload."
@@ -10961,7 +10963,7 @@ msgstr "点击以选择一个文件上传。"
 
 #. JS Template: UploadContainer
 msgid "Click to select or drop files here."
-msgstr ""
+msgstr "单击此处选择或删除文件。"
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
@@ -10977,23 +10979,23 @@ msgstr "上传中..."
 
 #. JS Template: MigrationState
 msgid "Time needed"
-msgstr ""
+msgstr "需要的时间"
 
 #. JS Template: PackageResolve
 msgid "Package"
-msgstr ""
+msgstr "包"
 
 #. JS Template: PackageResolve
 msgid "Uninstall from OTOBO"
-msgstr ""
+msgstr "从OTOBO卸载"
 
 #. JS Template: PackageResolve
 msgid "Ignore"
-msgstr ""
+msgstr "忽略"
 
 #. JS Template: PackageResolve
 msgid "Migrate"
-msgstr ""
+msgstr "迁移"
 
 #. JS Template: InformationDialog
 msgid "Process state"
@@ -11479,37 +11481,37 @@ msgstr "秒"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No contact is given!"
-msgstr ""
+msgstr "没有联系人！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No data found for given contact in given source!"
-msgstr ""
+msgstr "在指定来源的指定联系人没有发现数据！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Contact updated!"
-msgstr ""
+msgstr "更新联系人！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No field data found!"
-msgstr ""
+msgstr "没有找到字段数据！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Contact created!"
-msgstr ""
+msgstr "创建了联系人！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Error creating contact!"
-msgstr ""
+msgstr "创建联系人错误！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid ""
 "No sources found, at least one \"Contact with data\" dynamic field must be "
 "added to the system!"
-msgstr ""
+msgstr "找不到来源，必须至少在系统中添加一个“有数据的联系人”动态字段！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No data found for given source!"
-msgstr ""
+msgstr "指定来源没发现数据！"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company updated!"
@@ -11671,7 +11673,7 @@ msgstr "已检查"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldContactWD.pm
 msgid "This field key is duplicated."
-msgstr ""
+msgstr "这个字段是重复的。"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDB.pm
 msgid "This field value is duplicated."
@@ -11687,11 +11689,11 @@ msgstr "防止过去的日期条目"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were saved."
-msgstr ""
+msgstr "设置被保存。"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "System was not able to save the setting!"
-msgstr ""
+msgstr "系统不能保存配置！"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Setting is locked by another user!"
@@ -11703,7 +11705,7 @@ msgstr "系统无法重置该设置！"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were reset."
-msgstr ""
+msgstr "设置被重置。"
 
 #. Perl Module: Kernel/Modules/AdminEmail.pm
 msgid "Select at least one recipient."
@@ -12327,7 +12329,7 @@ msgstr "软件包中有本地修改过的文件。"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package not verified by the OTOBO Team!"
-msgstr ""
+msgstr "软件包没有OTOBO团队的验证！"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not Started"
@@ -12887,11 +12889,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
 msgid "This deployment does not contain changes in the setting values!"
-msgstr ""
+msgstr "部署没有包括配置值的修改！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
 msgid "No DeploymentID received!"
-msgstr ""
+msgstr "没收到DeploymentID！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "You need to enable the setting before locking!"
@@ -12932,35 +12934,35 @@ msgstr "缺少设置！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "No setting name received!"
-msgstr ""
+msgstr "没收到配置名称！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Modified Version"
-msgstr ""
+msgstr "修改的版本"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Reset To Default"
-msgstr ""
+msgstr "重置为默认值"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Default Version"
-msgstr ""
+msgstr "默认版本"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "No setting name or modified version id received!"
-msgstr ""
+msgstr "没收到设置名称或者修改版本的ID！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Was not possible to revert the historical value!"
-msgstr ""
+msgstr "不可能还原历史数值！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
 msgid "Missing setting name or modified id!"
-msgstr ""
+msgstr "丢失设置名称或修订的ID！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
 msgid "System was not able to delete the user setting values!"
-msgstr ""
+msgstr "系统无法删除用户设置数值！"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Start date shouldn't be defined after Stop date!"
@@ -13252,7 +13254,7 @@ msgstr "参数“组”是必需的！"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "This feature is not available."
-msgstr ""
+msgstr "这个功能不可用。"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Updated user preferences"
@@ -14303,11 +14305,11 @@ msgstr "联系你的系统管理员！"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "https"
-msgstr ""
+msgstr "https"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "http"
-msgstr ""
+msgstr "http"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "System Settings"
@@ -14367,11 +14369,11 @@ msgstr ""
 msgid ""
 "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in "
 "the SysConfig."
-msgstr ""
+msgstr "如果要重新运行MigrateFromOTRS工具，请在SysConfig中禁用SecureMode。"
 
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid "OTRS to OTOBO migration"
-msgstr ""
+msgstr "从OTRS迁移到OTOBO"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
@@ -14455,7 +14457,7 @@ msgstr "打印信件"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Contact us at hello@otobo.de"
-msgstr ""
+msgstr "通过 hello@otobo.de 联系我们"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
@@ -14914,7 +14916,7 @@ msgstr "请提供你的新密码!"
 msgid ""
 "Can't update password, the new password and the repeated password do not "
 "match."
-msgstr ""
+msgstr "无法更新密码，新密码和重复的密码不一致。"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
@@ -14944,7 +14946,7 @@ msgstr "无法更新密码，必须至少包含2个字母字符！"
 msgid ""
 "Can't update password, it must contain at least 3 of 4 (lower char, upper "
 "char, digit, special character)!"
-msgstr ""
+msgstr "无法更新密码，密码必须包含至少以下四种字符中的三种（小写字符，大写字符，数字，特殊字符）！"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
 msgid "Time zone updated successfully!"
@@ -15258,128 +15260,128 @@ msgstr "最多%s个字符。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
-msgstr ""
+msgstr "部署ACL配置。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deployment completed, perfect!"
-msgstr ""
+msgstr "部署完成，完美！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_responses."
-msgstr ""
+msgstr "迁移数据库表单auto_responses。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration failed."
-msgstr ""
+msgstr "迁移失败。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_response."
-msgstr ""
+msgstr "迁移数据库表单auto_responses。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration completed, perfect!"
-msgstr ""
+msgstr "迁移完成，完美！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "OTOBO Cache cleanup."
-msgstr ""
+msgstr "OTOBO缓存清除。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "Completed."
-msgstr ""
+msgstr "完成。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Check if OTOBO version is correct."
-msgstr ""
+msgstr "检查OTOBO的版本是否正确。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Check if OTOBO and OTRS connect is possible."
-msgstr ""
+msgstr "检查OTOBO和OTRS能否连接。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Can't access OTRS Home: %s!"
-msgstr ""
+msgstr "不能访问OTRS Home: %s！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Copy and migrate files from OTRS"
-msgstr ""
+msgstr "从OTRS复制和迁移文件"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "All needed files copied and migrated, perfect!"
-msgstr ""
+msgstr "所有需要的文件都已经复制并迁移了，完美！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Need %s for Oracle db!"
-msgstr ""
+msgstr "Oracle db 需要 %s ！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Copy database."
-msgstr ""
+msgstr "复制数据库。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to connect to OTRS database."
-msgstr ""
+msgstr "系统无法连接OTRS数据库。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to complete data transfer."
-msgstr ""
+msgstr "系统无法完成数据传递。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Data transfer completed."
-msgstr ""
+msgstr "数据传递完成。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't open RELEASE file from OTRSHome: %s!"
-msgstr ""
+msgstr "无法从 OTRSHome: %s 打开RELEASE文件！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO and OTRS version is correct."
-msgstr ""
+msgstr "检查OTOBO 和 OTRS 的版本是否正确。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "%s does not exist!"
-msgstr ""
+msgstr "%s 不存在！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTOBO RELEASE file: %s: %s!"
-msgstr ""
+msgstr "无法读取 OTOBO RELEASE 文件: %s: %s！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTOBO system found!"
-msgstr ""
+msgstr "没发现OTOBO系统！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "You are trying to run this script on the wrong framework version %s!"
-msgstr ""
+msgstr "你是在错误的框架版本 %s 上运行这个脚本！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTOBO Version is correct: %s."
-msgstr ""
+msgstr "OTOBO版本正确：%s。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTRS version is correct."
-msgstr ""
+msgstr "检查OTRS版本是否正确。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTRS RELEASE file: %s: %s!"
-msgstr ""
+msgstr "无法读取OTRS RELEASE文件：%s: %s！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTRS system found!"
-msgstr ""
+msgstr "没发现OTRS系统！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTRS Version is correct: %s."
-msgstr ""
+msgstr "OTRS版本正确：%s。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "Migrate configuration settings."
-msgstr ""
+msgstr "迁移配置设置。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid ""
 "An error occured during SysConfig data migration or no configuration exists."
-msgstr ""
+msgstr "SysConfig数据迁移时发生错误或配置不存在。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig migration when writing XML to DB."
