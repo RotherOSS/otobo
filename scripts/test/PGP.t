@@ -160,10 +160,10 @@ for my $Count ( 1 .. 3 ) {
             $Key || '',
             "KeySearch()",
         );
-    
+
         # get keys
         for my $Privacy ( 'Private', 'Public' ) {
-    
+
             my $KeyString = $MainObject->FileRead(
                 Directory => $Home . "/scripts/test/sample/Crypt/",
                 Filename  => "PGP${Privacy}Key-$Count.asc",
@@ -171,30 +171,29 @@ for my $Count ( 1 .. 3 ) {
             my $Message = $PGPObject->KeyAdd(
                 Key => ${$KeyString},
             );
-    
+
             $Self->True(
                 $Message || '',
                 "KeyAdd() ($Privacy)",
             );
         }
-    
+
         ($Key) = $PGPObject->KeySearch(
             Search => $Search{$Count},
         );
-    
+
         $Self->True(
             $Key || '',
             "KeySearch()",
         );
-        for my $ID (qw(Type Identifier Bit Key KeyPrivate Created Expires Fingerprint FingerprintShort))
-        {
+        for my $ID (qw(Type Identifier Bit Key KeyPrivate Created Expires Fingerprint FingerprintShort)) {
             $Self->Is(
                 $Key->{$ID} || '',
                 $Check{$Count}->{$ID},
                 "KeySearch() - $ID",
             );
         }
-    
+
         my $PublicKeyString = $PGPObject->PublicKeyGet(
             Key => $Key->{Key},
         );
@@ -202,7 +201,7 @@ for my $Count ( 1 .. 3 ) {
             $PublicKeyString || '',
             "PublicKeyGet()",
         );
-    
+
         my $PrivateKeyString = $PGPObject->SecretKeyGet(
             Key => $Key->{KeyPrivate},
         );
@@ -210,7 +209,7 @@ for my $Count ( 1 .. 3 ) {
             $PrivateKeyString || '',
             "SecretKeyGet()",
         );
-    
+
         # crypt
         my $Crypted = $PGPObject->Crypt(
             Message => $TestText,
@@ -224,7 +223,7 @@ for my $Count ( 1 .. 3 ) {
             $Crypted =~ m{-----BEGIN PGP MESSAGE-----} && $Crypted =~ m{-----END PGP MESSAGE-----},
             "Crypt() - Data seems ok (crypted)",
         );
-    
+
         # decrypt
         my %Decrypt = $PGPObject->Decrypt(
             Message => $Crypted,
@@ -243,7 +242,7 @@ for my $Count ( 1 .. 3 ) {
             $Check{$Count}->{KeyPrivate},
             "Decrypt() - KeyID",
         );
-    
+
         # sign inline
         my $Sign = $PGPObject->Sign(
             Message => $TestText,
@@ -254,7 +253,7 @@ for my $Count ( 1 .. 3 ) {
             $Sign || '',
             "Sign() - inline",
         );
-    
+
         # verify
         my %Verify = $PGPObject->Verify(
             Message => $Sign,
@@ -273,7 +272,7 @@ for my $Count ( 1 .. 3 ) {
             $Check{$Count}->{Identifier},
             "Verify() - inline - KeyUserID",
         );
-    
+
         # verify failure on manipulated text
         my $ManipulatedSign = $Sign;
         $ManipulatedSign =~ s{$TestText}{garble-$TestText-garble};
@@ -284,7 +283,7 @@ for my $Count ( 1 .. 3 ) {
             !$Verify{Successful},
             "Verify() - on manipulated text",
         );
-    
+
         # sign detached
         $Sign = $PGPObject->Sign(
             Message => $TestText,
@@ -295,7 +294,7 @@ for my $Count ( 1 .. 3 ) {
             $Sign || '',
             "Sign() - detached",
         );
-    
+
         # verify
         %Verify = $PGPObject->Verify(
             Message => $TestText,
@@ -315,7 +314,7 @@ for my $Count ( 1 .. 3 ) {
             $Check{$Count}->{Identifier},
             "Verify() - detached - KeyUserID",
         );
-    
+
         # verify failure
         %Verify = $PGPObject->Verify(
             Message => " $TestText ",
@@ -325,7 +324,7 @@ for my $Count ( 1 .. 3 ) {
             !$Verify{Successful},
             "Verify() - detached on manipulated text",
         );
-    
+
         # file checks
         for my $File (qw(xls txt doc png pdf)) {
             my $Content = $MainObject->FileRead(
@@ -334,7 +333,7 @@ for my $Count ( 1 .. 3 ) {
                 Mode      => 'binmode',
             );
             my $Reference = ${$Content};
-    
+
             # crypt
             my $Crypted = $PGPObject->Crypt(
                 Message => $Reference,
@@ -348,7 +347,7 @@ for my $Count ( 1 .. 3 ) {
                 $Crypted =~ m{-----BEGIN PGP MESSAGE-----} && $Crypted =~ m{-----END PGP MESSAGE-----},
                 "Crypt() - Data seems ok (crypted)",
             );
-    
+
             # decrypt
             my %Decrypt = $PGPObject->Decrypt(
                 Message => $Crypted,
@@ -366,7 +365,7 @@ for my $Count ( 1 .. 3 ) {
                 $Check{$Count}->{KeyPrivate},
                 "Decrypt - KeyID",
             );
-    
+
             # sign inline
             my $Sign = $PGPObject->Sign(
                 Message => $Reference,
@@ -377,7 +376,7 @@ for my $Count ( 1 .. 3 ) {
                 $Sign || '',
                 "Sign() - inline .$File",
             );
-    
+
             # verify
             my %Verify = $PGPObject->Verify(
                 Message => $Sign,
@@ -396,7 +395,7 @@ for my $Count ( 1 .. 3 ) {
                 $Check{$Count}->{Identifier},
                 "Verify() - inline .$File - KeyUserID",
             );
-    
+
             # sign detached
             $Sign = $PGPObject->Sign(
                 Message => $Reference,
@@ -407,7 +406,7 @@ for my $Count ( 1 .. 3 ) {
                 $Sign || '',
                 "Sign() - detached .$File",
             );
-    
+
             # verify
             %Verify = $PGPObject->Verify(
                 Message => ${$Content},
@@ -428,7 +427,7 @@ for my $Count ( 1 .. 3 ) {
                 "Verify() - detached .$File - KeyUserID",
             );
         }
-    
+
         # Crypt() should still work if asked to crypt a UTF8-string (instead of ISO-string or
         # binary octets) - automatic conversion to a byte string should take place.
         my $UTF8Text = $TestText;
@@ -449,7 +448,7 @@ for my $Count ( 1 .. 3 ) {
             $Crypted =~ m{-----BEGIN PGP MESSAGE-----} && $Crypted =~ m{-----END PGP MESSAGE-----},
             "Crypt() - Data seems ok (crypted)",
         );
-    
+
         # decrypt
         %Decrypt = $PGPObject->Decrypt(
             Message => $Crypted,
@@ -458,7 +457,7 @@ for my $Count ( 1 .. 3 ) {
             $Decrypt{Successful} || '',
             "Decrypt() - Successful",
         );
-    
+
         # we have crypted an utf8-string, but we will get back a byte string. In order to compare it,
         # we need to decode it into utf8:
         utf8::decode( $Decrypt{Data} );
@@ -474,127 +473,130 @@ for my $Count ( 1 .. 3 ) {
 # only key 3 currently supports all those types
 for my $Count (3) {
 
-    my ($Key) = $PGPObject->KeySearch(
-        Search => $Search{$Count},
-    );
+    subtest 'key 3' => sub {
 
-    my %DeprecatedDigestTypes = (
-        md5 => 1,
-    );
-    for my $DigestPreference (qw(md5 sha1 sha224 sha256 sha384 sha512)) {
-
-        # set digest type
-        $ConfigObject->Set(
-            Key   => 'PGP::Options::DigestPreference',
-            Value => $DigestPreference,
+        my ($Key) = $PGPObject->KeySearch(
+            Search => $Search{$Count},
         );
 
-        # sign inline
-        my $Sign = $PGPObject->Sign(
-            Message => $TestText,
-            Key     => $Key->{KeyPrivate},
-            Type    => 'Inline'                  # Detached|Inline
+        my %DeprecatedDigestTypes = (
+            md5 => 1,
         );
-        if ( $DeprecatedDigestTypes{$DigestPreference} ) {
-            $Self->False(
-                $Sign || '',
-                "#$Count Sign() using $DigestPreference fail - inline",
-            );
-        }
-        else {
-            $Self->True(
-                $Sign || '',
-                "#$Count Sign() using $DigestPreference - inline",
+        for my $DigestPreference (qw(md5 sha1 sha224 sha256 sha384 sha512)) {
+
+            # set digest type
+            $ConfigObject->Set(
+                Key   => 'PGP::Options::DigestPreference',
+                Value => $DigestPreference,
             );
 
-            # verify used digest algtorithm
-            my $DigestAlgorithm;
-            $DigestAlgorithm = lc $1 if $Sign =~ m{ \n Hash: [ ] ([^\n]+) \n }xms;
-            $Self->Is(
-                $DigestAlgorithm || '',
-                $DigestPreference,
-                "#$Count Sign() - check used digest algorithm",
-            );
-
-            # verify
-            my %Verify = $PGPObject->Verify(
-                Message => $Sign,
-            );
-
-            $Self->True(
-                $Verify{Successful} || '',
-                "#$Count Verify() - inline",
-            );
-            $Self->Is(
-                $Verify{KeyID} || '',
-                $Check{$Count}->{Key},
-                "#$Count Verify() - inline - KeyID",
-            );
-            $Self->Is(
-                $Verify{KeyUserID} || '',
-                $Check{$Count}->{Identifier},
-                "#$Count Verify() - inline - KeyUserID",
-            );
-
-            # verify failure on manipulated text
-            my $ManipulatedSign = $Sign;
-            $ManipulatedSign =~ s{$TestText}{garble-$TestText-garble};
-            %Verify = $PGPObject->Verify(
-                Message => $ManipulatedSign,
-            );
-            $Self->True(
-                !$Verify{Successful},
-                "#$Count Verify() - on manipulated text",
-            );
-        }
-
-        # sign detached
-        $Sign = $PGPObject->Sign(
-            Message => $TestText,
-            Key     => $Key->{KeyPrivate},
-            Type    => 'Detached'                # Detached|Inline
-        );
-        if ( $DeprecatedDigestTypes{$DigestPreference} ) {
-            $Self->False(
-                $Sign || '',
-                "#$Count Sign() using $DigestPreference fail - detached",
-            );
-        }
-        else {
-            $Self->True(
-                $Sign || '',
-                "#$Count Sign() using $DigestPreference - detached",
-            );
-
-            # verify
-            my %Verify = $PGPObject->Verify(
+            # sign inline
+            my $Sign = $PGPObject->Sign(
                 Message => $TestText,
-                Sign    => $Sign,
+                Key     => $Key->{KeyPrivate},
+                Type    => 'Inline'                  # Detached|Inline
             );
-            $Self->True(
-                $Verify{Successful} || '',
-                "#$Count Verify() - detached",
-            );
-            $Self->Is(
-                $Verify{KeyID} || '',
-                $Check{$Count}->{Key},
-                "#$Count Verify() - detached - KeyID",
-            );
-            $Self->Is(
-                $Verify{KeyUserID} || '',
-                $Check{$Count}->{Identifier},
-                "#$Count Verify() - detached - KeyUserID",
-            );
+            if ( $DeprecatedDigestTypes{$DigestPreference} ) {
+                $Self->False(
+                    $Sign || '',
+                    "Sign() using $DigestPreference fail - inline",
+                );
+            }
+            else {
+                $Self->True(
+                    $Sign || '',
+                    "Sign() using $DigestPreference - inline",
+                );
 
-            # verify failure
-            %Verify = $PGPObject->Verify(
-                Message => " $TestText ",
-                Sign    => $Sign,
+                # verify used digest algtorithm
+                my $DigestAlgorithm;
+                $DigestAlgorithm = lc $1 if $Sign =~ m{ \n Hash: [ ] ([^\n]+) \n }xms;
+                $Self->Is(
+                    $DigestAlgorithm || '',
+                    $DigestPreference,
+                    "Sign() - check used digest algorithm",
+                );
+
+                # verify
+                my %Verify = $PGPObject->Verify(
+                    Message => $Sign,
+                );
+
+                $Self->True(
+                    $Verify{Successful} || '',
+                    "Verify() - inline",
+                );
+                $Self->Is(
+                    $Verify{KeyID} || '',
+                    $Check{$Count}->{Key},
+                    "Verify() - inline - KeyID",
+                );
+                $Self->Is(
+                    $Verify{KeyUserID} || '',
+                    $Check{$Count}->{Identifier},
+                    "Verify() - inline - KeyUserID",
+                );
+
+                # verify failure on manipulated text
+                my $ManipulatedSign = $Sign;
+                $ManipulatedSign =~ s{$TestText}{garble-$TestText-garble};
+                %Verify = $PGPObject->Verify(
+                    Message => $ManipulatedSign,
+                );
+                $Self->True(
+                    !$Verify{Successful},
+                    "Verify() - on manipulated text",
+                );
+            }
+
+            # sign detached
+            $Sign = $PGPObject->Sign(
+                Message => $TestText,
+                Key     => $Key->{KeyPrivate},
+                Type    => 'Detached'                # Detached|Inline
             );
-            $Self->True(
-                !$Verify{Successful},
-                "#$Count Verify() - detached on manipulated text",
-            );
+            if ( $DeprecatedDigestTypes{$DigestPreference} ) {
+                $Self->False(
+                    $Sign || '',
+                    "Sign() using $DigestPreference fail - detached",
+                );
+            }
+            else {
+                $Self->True(
+                    $Sign || '',
+                    "Sign() using $DigestPreference - detached",
+                );
+
+                # verify
+                my %Verify = $PGPObject->Verify(
+                    Message => $TestText,
+                    Sign    => $Sign,
+                );
+                $Self->True(
+                    $Verify{Successful} || '',
+                    "Verify() - detached",
+                );
+                $Self->Is(
+                    $Verify{KeyID} || '',
+                    $Check{$Count}->{Key},
+                    "Verify() - detached - KeyID",
+                );
+                $Self->Is(
+                    $Verify{KeyUserID} || '',
+                    $Check{$Count}->{Identifier},
+                    "Verify() - detached - KeyUserID",
+                );
+
+                # verify failure
+                %Verify = $PGPObject->Verify(
+                    Message => " $TestText ",
+                    Sign    => $Sign,
+                );
+                $Self->True(
+                    !$Verify{Successful},
+                    "Verify() - detached on manipulated text",
+                );
+            }
         }
     }
 }
