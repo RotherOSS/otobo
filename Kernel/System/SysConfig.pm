@@ -464,7 +464,7 @@ sub SettingUpdate {
     if ( !%Setting ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Setting $Param{Name} does not exists!",
+            Message  => "Setting $Param{Name} does not exist!",
         );
 
         my %Result = (
