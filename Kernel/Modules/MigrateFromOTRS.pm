@@ -545,7 +545,7 @@ sub _Finish {
     );
 
     # Update config item via SysConfig object.
-    my $Result = $SysConfigObject->SettingUpdate(
+    my %Result = $SysConfigObject->SettingUpdate(
         Name              => $SettingName,
         IsValid           => 1,
         EffectiveValue    => 1,
@@ -553,9 +553,9 @@ sub _Finish {
         UserID            => 1,
     );
 
-    if ( !$Result ) {
-        $Param{LayoutObject}->FatalError(
-            Message => Translatable('Can\'t write Config file!'),
+    if ( ! $Result{Success} ) {
+        return $Param{LayoutObject}->FatalError(
+            Message => Translatable(q{Can't activate SecureMode: }) . $Result{Error}
         );
     }
 
