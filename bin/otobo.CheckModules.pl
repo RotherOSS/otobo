@@ -475,6 +475,17 @@ my @NeededModules = (
         },
     },
     {
+        Module               => 'Text::Trim',
+        Required             => 1,
+        VersionsNotSupported => ,
+        InstTypes => {
+            aptget => 'libtext-trim-perl',
+            emerge => 'dev-perl/Text-Trim',
+            zypper => 'perl-Text-Trim',
+            ports  => 'devel/p5-Text-Trim',
+        },
+    },
+    {
         Module    => 'Time::HiRes',
         Required  => 1,
         Comment   => 'Required for high resolution timestamps.',
@@ -997,6 +1008,18 @@ my @NeededModules = (
         Required  => 0,
         Features   => ['devel:test'],
         Comment   => 'a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'String::Dump',
+        Required  => 0,
+        Features   => ['devel:encoding'],
+        Comment   => 'for deeply inspecting strings',
         InstTypes => {
             aptget => undef,
             emerge => undef,
