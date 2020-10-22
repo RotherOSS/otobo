@@ -1070,7 +1070,7 @@ sub IndexExists {
 Update an existing SysConfig Setting in a migration context. It will skip updating both read-only and already modified
 settings by default.
 
-    $MigrateFromOTRSObject->SettingUpdate(
+    my $Success = $MigrateFromOTRSObject->SettingUpdate(
         Name                   => 'Setting::Name',           # (required) setting name
         IsValid                => 1,                         # (optional) 1 or 0, modified 0
         EffectiveValue         => $SettingEffectiveValue,    # (optional)

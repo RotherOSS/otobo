@@ -841,7 +841,7 @@ sub Run {
                 Force   => 1,
                 UserID  => 1,
             );
-            $Success = $SysConfigObject->SettingUpdate(
+            $SysConfigObject->SettingUpdate(
                 Name              => 'Elasticsearch::Active',
                 IsValid           => 1,
                 UserID            => 1,
@@ -850,6 +850,7 @@ sub Run {
             $SysConfigObject->SettingUnlock(
                 UnlockAll => 1,
             );
+            # TODO: handle errors
         }
 
         # initialize standard indices

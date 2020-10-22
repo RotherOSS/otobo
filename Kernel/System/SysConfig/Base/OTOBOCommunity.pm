@@ -397,7 +397,7 @@ sub ConfigurationDeployRestore {
 
         next MODIFIEDVERSIONID if !$ExclusiveLockGUID;
 
-        my $ModifiedUpdated = $Self->SettingUpdate(
+        $Self->SettingUpdate(
             %ModifiedSettingVersion,
             DefaultID         => $ModifiedSettingVersion{DefaultID},
             ExclusiveLockGUID => $ExclusiveLockGUID,
