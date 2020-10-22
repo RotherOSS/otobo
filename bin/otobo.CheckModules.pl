@@ -271,7 +271,6 @@ my @NeededModules = (
     {
         Module               => 'Const::Fast',
         Required             => 1,
-        VersionsNotSupported => ,
         InstTypes => {
             aptget => 'libconst-fast-perl',
             emerge => 'dev-perl/Const-Fast',
@@ -351,7 +350,6 @@ my @NeededModules = (
     {
         Module               => 'File::chmod',
         Required             => 1,
-        VersionsNotSupported => ,
         InstTypes => {
             aptget => 'libfile-chmod-perl',
             emerge => 'dev-perl/File-chmod',
@@ -362,7 +360,6 @@ my @NeededModules = (
     {
         Module               => 'List::AllUtils',
         Required             => 1,
-        VersionsNotSupported => ,
         InstTypes => {
             aptget => 'liblist-allutils-perl',
             emerge => 'dev-perl/List-Allutils',
@@ -433,7 +430,6 @@ my @NeededModules = (
     {
         Module               => 'Path::Class',
         Required             => 1,
-        VersionsNotSupported => ,
         InstTypes => {
             aptget => 'libpath-class-perl',
             emerge => 'dev-perl/Path-Class',
@@ -477,7 +473,6 @@ my @NeededModules = (
     {
         Module               => 'Text::Trim',
         Required             => 1,
-        VersionsNotSupported => ,
         InstTypes => {
             aptget => 'libtext-trim-perl',
             emerge => 'dev-perl/Text-Trim',
