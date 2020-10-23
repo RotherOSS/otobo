@@ -15,8 +15,10 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use 5.024;
+use strict;
 use warnings;
+use v5.24;
+use utf8;
 
 use File::Basename;
 use FindBin qw($RealBin);
@@ -130,6 +132,7 @@ my %IsDockerFeature = (
     'db:postgresql'      => 1,
     'db:sqlite'          => 1,
     'devel:dbviewer'     => 1,
+    'devel:encoding'     => 1,
     'devel:test'         => 1,
     'div:bcrypt'         => 1,
     'div:ldap'           => 1,
@@ -959,6 +962,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'String::Dump',
+        Required  => 0,
+        Features   => ['devel:encoding'],
+        Comment   => 'for deeply inspecting strings',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Test::Compile',
         Required  => 0,
         Features   => ['devel:test'],
@@ -987,6 +1002,18 @@ my @NeededModules = (
         Required  => 0,
         Features   => ['devel:test'],
         Comment   => 'contains Test2::API which is used in Kernel::System::UnitTest::Driver',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'Test2::Tools::HTTP',
+        Required  => 0,
+        Features   => ['devel:test'],
+        Comment   => 'testing PSGI apps and URLs',
         InstTypes => {
             aptget => undef,
             emerge => undef,
@@ -1137,7 +1164,7 @@ else {
             push @{ $PrintFeatures{zzznone} }, $Module;
         }
     }
-    
+
     # try to determine module version number
     my $Depends = 0;
 

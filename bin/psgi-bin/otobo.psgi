@@ -255,7 +255,6 @@ to dispatch multiple ticket methods and get the TicketID
     }
 }
 
-
 # core modules
 use Data::Dumper;
 
@@ -294,14 +293,14 @@ use Mojo::Server::PSGI; # for dbviewer
 #use Kernel::System::DB::oracle;
 
 # OTOBO modules
-use Kernel::System::Web::InterfaceAgent ();
-use Kernel::System::Web::InterfaceCustomer ();
-use Kernel::System::Web::InterfacePublic ();
-use Kernel::System::Web::InterfaceInstaller ();
-use Kernel::System::Web::InterfaceMigrateFromOTRS ();
-use Kernel::System::Web::Exception ();
 use Kernel::GenericInterface::Provider;
 use Kernel::System::ObjectManager;
+use Kernel::System::Web::Exception ();
+use Kernel::System::Web::InterfaceAgent ();
+use Kernel::System::Web::InterfaceCustomer ();
+use Kernel::System::Web::InterfaceInstaller ();
+use Kernel::System::Web::InterfaceMigrateFromOTRS ();
+use Kernel::System::Web::InterfacePublic ();
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.

@@ -57,9 +57,11 @@ ENV PATH "/opt/otobo_install/local/bin:/opt/otobo/local/bin:${PATH}"
 #
 # carton install will create cpanfile.snapshot. Currently this file is only used for documentation.
 WORKDIR /opt/otobo_install
+RUN cpanm --local-lib local Net::DNS
+RUN cpanm --local-lib local Gazelle
+RUN cpanm --local-lib local --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
+RUN cpanm --local-lib local Carton
 COPY cpanfile.docker cpanfile
-RUN cpanm --local-lib local Carton Net::DNS Gazelle\
- && cpanm --local-lib local --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
 RUN PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install
 
 # create the otobo user
