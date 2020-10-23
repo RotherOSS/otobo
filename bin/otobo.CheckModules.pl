@@ -17,7 +17,8 @@
 
 use strict;
 use warnings;
-use 5.024;
+use v5.24;
+use utf8;
 
 use File::Basename;
 use FindBin qw($RealBin);
@@ -1150,7 +1151,7 @@ else {
             push @{ $PrintFeatures{zzznone} }, $Module;
         }
     }
-    
+
     # try to determine module version number
     my $Depends = 0;
 
