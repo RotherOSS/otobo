@@ -1,0 +1,84 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+use strict;
+use warnings;
+use v5.24;
+use utf8;
+
+# core modules
+
+# CPAN modules
+use Test2::V0;
+use Test2::Tools::HTTP;
+use HTTP::Request::Common;
+
+# OTOBO modules
+use Kernel::System::ObjectManager;
+
+# This test checks whether the URLs / and /index.html work
+
+# For now test only when running under Docker,
+# even though this route could also be available outside Docker.
+skip_all 'not running under Docker' unless $ENV{OTOBO_RUNS_UNDER_DOCKER};
+
+plan( 2 + 2 );
+
+$Kernel::OM = Kernel::System::ObjectManager->new(
+    'Kernel::System::Log' => {
+        LogPrefix => 'OTOBO-otobo.UnitTest',
+    },
+);
+
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase   => 1,
+        SkipSSLVerify     => 1,
+        DisableAsyncCalls => 1,
+    },
+);
+
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# set up URLS
+my $RootURL = join '',
+    $ConfigObject->Get('HttpType'),
+    '://',
+    $Helper->GetTestHTTPHostname();
+my $IndexHtmlURL = join '/',
+    $RootURL,
+    'index.html';
+
+http_request(
+    [ GET($RootURL) ],
+    http_response {
+        http_is_success();
+        http_content_type( 'text/html' );
+        http_content( match( qr/OTOBO Redirect/ ) );
+    },
+    "testing $RootURL",
+);
+
+http_request(
+    [ GET($IndexHtmlURL) ],
+    http_response {
+        http_is_success();
+        http_content_type( 'text/html' );
+        http_content( match( qr/OTOBO Redirect/ ) );
+    },
+    "testing $IndexHtmlURL",
+);
