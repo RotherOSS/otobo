@@ -717,6 +717,11 @@ builder {
 
     # some SOAP stuff
     mount '/otobo/rpc.pl'                  => $RPCApp;
+
+    # some static pages
+    mount "/robots.txt"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/robots.txt")->to_app;
+    mount "/index.html"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/index.html")->to_app;
+    mount "/"                              => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/index.html")->to_app;
 };
 
 # for debugging, only dump the PSGI environment
