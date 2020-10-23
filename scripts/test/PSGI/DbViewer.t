@@ -120,12 +120,15 @@ note( 'login as admin' );
         },
         'login to agent interface as admin user'
     );
+    note( 'This does not really work. Maybe there is some JS involved' );
+    note( Dumper( [ 'ZZZ', $AdminLoginURL, http_tx->req, http_tx->res ] ) );
 
     # Get session info from cookie
     my $UserAgent = http_ua();
     my $AdminSessionValid;
     $UserAgent->cookie_jar()->scan(
         sub {
+warn Dumper( [ 'scan', $ConfigObject->Get('SessionName'), @_ ] );
             if ( $_[1] eq $ConfigObject->Get('SessionName') && $_[2] ) {
                 $AdminSessionValid = 1;
             }
