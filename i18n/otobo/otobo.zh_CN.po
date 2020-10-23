@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-10-21 16:19+0000\n"
-"PO-Revision-Date: 2020-10-22 09:40+0000\n"
+"PO-Revision-Date: 2020-10-23 09:14+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/"
 "otobo10/otobo/zh_Hans/>\n"
@@ -15385,57 +15385,57 @@ msgstr "SysConfig数据迁移时发生错误或配置不存在。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig migration when writing XML to DB."
-msgstr ""
+msgstr "将XML写入DB时，在SysConfig迁移期间发生一个错误。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig data migration."
-msgstr ""
+msgstr "在SysConfig数据迁移期间发生一个错误。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "SysConfig data migration completed."
-msgstr ""
+msgstr "SysConfig数据迁移完成了。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Migrate web service configuration."
-msgstr ""
+msgstr "迁移网络服务配置。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "No web service existent, done."
-msgstr ""
+msgstr "不存在网络服务，完成。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Can't add web service for Elasticsearch. File %s not found!"
-msgstr ""
+msgstr "无法为Elasticsearch添加网络服务，未发现文件 %s！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid ""
 "Migration completed. Please activate the web service in Admin -> Web Service "
 "when ElasticSearch installation is completed."
-msgstr ""
+msgstr "迁移完成。 请在ElasticSearch安装完成后，在管理-> Web服务中激活Web服务。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
 msgid "Migrate database table notification."
-msgstr ""
+msgstr "迁移数据库表通知。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
-msgstr ""
+msgstr "无法从 OTRSHome: %s打开Kernel/Config.pm文件！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "OTOBO Home exists."
-msgstr ""
+msgstr "OTOBO Home 存在。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if we are able to connect to OTRS Home."
-msgstr ""
+msgstr "检查我们能否连接到OTRS Home。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Can't connect to OTRS file directory."
-msgstr ""
+msgstr "无法连接到OTRS文件目录。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Connect to OTRS file directory is possible."
-msgstr ""
+msgstr "可能可以连接到OTRS文件目录。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Try database connect and sanity checks."
