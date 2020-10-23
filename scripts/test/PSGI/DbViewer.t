@@ -70,13 +70,17 @@ my $BaseURL = join '',
     '/',
     $ConfigObject->Get('ScriptAlias');
 my $AdminLoginURL = $BaseURL . "index.pl?Action=Login;User=$TestAdminUserLogin;Password=$TestAdminUserLogin;";
-my $HelloURL      = $BaseURL . '../hello';
 my $DbViewerURL   = $BaseURL . 'dbviewer';
+my $HelloURL = join '',
+    $ConfigObject->Get('HttpType'),
+    '://',
+    $Helper->GetTestHTTPHostname(),
+    '/hello';
 
 use Data::Dumper;
-note("hello: $HelloURL");
-note("login: $AdminLoginURL");
-note("dbview: $DbViewerURL");
+note("hello URL: $HelloURL");
+note("login URL: $AdminLoginURL");
+note("dbviewer URL: $DbViewerURL");
 note( "access to /hello is allowed even without login" );
 {
     http_request(
@@ -88,8 +92,6 @@ note( "access to /hello is allowed even without login" );
         },
         'testing /hello URL, without login first',
     );
-# so strange: wget http://localhost:5000/otobo/../hello works, but in test script we get the logi page
-note( Dumper( [ 'XXX', $HelloURL, http_tx->req, http_tx->res ] ) );
 }
 
 note( 'login required for access to /otobo/dbviewer' );
