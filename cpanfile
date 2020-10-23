@@ -135,6 +135,9 @@ feature 'devel:test', 'Suppport for devel:test' => sub {
     # contains Test2::API which is used in Kernel::System::UnitTest::Driver
     requires 'Test::Simple';
 
+    # testing PSGI apps and URLs
+    requires 'Test2::Tools::HTTP';
+
 };
 
 feature 'div:bcrypt', 'Suppport for div:bcrypt' => sub {
@@ -341,6 +344,9 @@ feature 'optional', 'Suppport for optional' => sub {
 
     # contains Test2::API which is used in Kernel::System::UnitTest::Driver
     requires 'Test::Simple';
+
+    # testing PSGI apps and URLs
+    requires 'Test2::Tools::HTTP';
 
     # a web framework that makes web development fun again
     requires 'Mojolicious';

@@ -1060,6 +1060,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Test2::Tools::HTTP',
+        Required  => 0,
+        Features   => ['devel:test'],
+        Comment   => 'testing PSGI apps and URLs',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Mojolicious',
         Required  => 0,
         Features   => ['devel:dbviewer'],
