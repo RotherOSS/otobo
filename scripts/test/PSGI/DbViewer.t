@@ -99,11 +99,12 @@ note( 'login required for access to /otobo/dbviewer' );
     http_request(
         [ GET($DbViewerURL), follow_redirects => 1 ],
         http_response {
-            http_is_success();
-            http_content_type( 'text/html' );
-            http_content( match( qr/./ ) ); # TODO: saner regex
+            http_is_error();
+            http_code(403);
+            http_content_type( 'text/plain' );
+            http_content( match( qr/permission denied/ ) );
         },
-        'testing /dbviewer URL',
+        'dbviewer URL without login',
     );
 
     # TODO: how can Test2::Tools::HTTP used for that test
