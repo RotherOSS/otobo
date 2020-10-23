@@ -132,6 +132,7 @@ my %IsDockerFeature = (
     'db:postgresql'      => 1,
     'db:sqlite'          => 1,
     'devel:dbviewer'     => 1,
+    'devel:encoding'     => 1,
     'devel:test'         => 1,
     'div:bcrypt'         => 1,
     'div:ldap'           => 1,
@@ -953,6 +954,18 @@ my @NeededModules = (
         Required  => 0,
         Features   => ['devel:test'],
         Comment   => 'a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'String::Dump',
+        Required  => 0,
+        Features   => ['devel:encoding'],
+        Comment   => 'for deeply inspecting strings',
         InstTypes => {
             aptget => undef,
             emerge => undef,

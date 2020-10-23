@@ -106,6 +106,12 @@ feature 'devel:dbviewer', 'Suppport for devel:dbviewer' => sub {
 
 };
 
+feature 'devel:encoding', 'Suppport for devel:encoding' => sub {
+    # for deeply inspecting strings
+    requires 'String::Dump';
+
+};
+
 feature 'devel:test', 'Suppport for devel:test' => sub {
     # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
     requires 'Clone';
@@ -316,6 +322,9 @@ feature 'optional', 'Suppport for optional' => sub {
 
     # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
     requires 'Clone';
+
+    # for deeply inspecting strings
+    requires 'String::Dump';
 
     # a quick compile check
     requires 'Test::Compile';
