@@ -1331,15 +1331,23 @@ sub DBRenameTables {
     };
 }
 
+# list of files that need to be copied
 sub CopyFileListfromOTRSToOTOBO {
-    return (
+    my @Files = (
         '/Kernel/Config.pm',
-        '/Kernel/Config.po',
+        '/Kernel/Config.po', # what is that ?
         '/var/httpd/htdocs/index.html',
         '/var/cron',
         '/var/article',
         '/var/stats',
     );
+
+    # Under Docker there is no var/cron
+    if ( ! $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
+        push @Files, '/var/cron';
+    }
+
+    return @Files;
 }
 
 sub DoNotCleanFileList {
