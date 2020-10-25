@@ -321,7 +321,7 @@ warn "PLEASE NOTE THAT AS OF OCTOBER 20TH 2020 PSGI SUPPORT IS NOT YET FULLY SUP
 
 # conditionally enable profiling, UNTESTED
 my $NYTProfMiddleWare = sub {
-    my $app = shift;
+    my $App = shift;
 
     return sub {
         my $Env = shift;
@@ -337,7 +337,7 @@ my $NYTProfMiddleWare = sub {
         }
 
         # do the work
-        my $res = $app->($Env);
+        my $res = $App->($Env);
 
         # clean up profiling, write the output file
         DB::finish_profile() if $ProfilingIsOn;
@@ -368,7 +368,7 @@ my $SetEnvMiddleWare = sub {
 # Fix for environment settings in the FCGI-Proxy case.
 # E.g. when apaches2-httpd-fcgi.include.conf is used.
 my $FixFCGIProxyMiddleware = sub {
-    my $app = shift;
+    my $App = shift;
 
     return sub {
         my $Env = shift;
@@ -381,14 +381,28 @@ my $FixFCGIProxyMiddleware = sub {
             ($Env->{PATH_INFO}, $Env->{SCRIPT_NAME}) = ($Env->{SCRIPT_NAME}, '/');
         }
 
-        # user is authorised, now do the work
-        return $app->($Env);
+        return $App->($Env);
+    }
+};
+
+# Translate '/' is translated to '/index.html'
+my $ExactlyRootMiddleware = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        if ( $Env->{PATH_INFO} eq '' || $Env->{PATH_INFO} eq '/' ) {
+            $Env->{PATH_INFO} = '/index.html';
+        }
+
+        return $App->($Env);
     }
 };
 
 # check whether the logged in user has admin privs
 my $AdminOnlyMiddeware = sub {
-    my $app = shift;
+    my $App = shift;
 
     return sub {
         my $Env = shift;
@@ -465,7 +479,7 @@ my $AdminOnlyMiddeware = sub {
         }
 
         # user is authorised, now do the work
-        return $app->($Env);
+        return $App->($Env);
     };
 };
 
@@ -520,7 +534,7 @@ my $RedirectOtoboApp = sub {
     return $res->finalize;
 };
 
-# an app for inspecting the database, logged in user must be an admin
+# an App for inspecting the database, logged in user must be an admin
 my $DBViewerApp = builder {
 
     # a simplistic detection whether we are behind a revers proxy
@@ -736,6 +750,9 @@ builder {
     # for debugging
     #enable 'Plack::Middleware::TrafficLog';
 
+    # fiddling with '/'
+    enable $ExactlyRootMiddleware;
+
     # fixing PATH_INFO
     enable_if { ($_[0]->{FCGI_ROLE} // '') eq 'RESPONDER' } $FixFCGIProxyMiddleware;
 
@@ -763,10 +780,9 @@ builder {
     # some SOAP stuff
     mount '/otobo/rpc.pl'                  => $RPCApp;
 
-    # some static pages
+    # some static pages, '/' is already translate to '/index.html'
     mount "/robots.txt"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/robots.txt")->to_app;
     mount "/index.html"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/index.html")->to_app;
-    mount "/"                              => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/index.html")->to_app;
 };
 
 # for debugging, only dump the PSGI environment
