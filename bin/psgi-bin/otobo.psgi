@@ -319,7 +319,7 @@ warn "PLEASE NOTE THAT AS OF OCTOBER 20TH 2020 PSGI SUPPORT IS NOT YET FULLY SUP
 
 # conditionally enable profiling, UNTESTED
 my $NYTProfMiddleWare = sub {
-    my $app = shift;
+    my $App = shift;
 
     return sub {
         my $Env = shift;
@@ -335,7 +335,7 @@ my $NYTProfMiddleWare = sub {
         }
 
         # do the work
-        my $res = $app->($Env);
+        my $res = $App->($Env);
 
         # clean up profiling, write the output file
         DB::finish_profile() if $ProfilingIsOn;
@@ -347,7 +347,7 @@ my $NYTProfMiddleWare = sub {
 # Fix for environment settings in the FCGI-Proxy case.
 # E.g. when apaches2-httpd-fcgi.include.conf is used.
 my $FixFCGIProxyMiddleware = sub {
-    my $app = shift;
+    my $App = shift;
 
     return sub {
         my $Env = shift;
@@ -360,13 +360,13 @@ my $FixFCGIProxyMiddleware = sub {
             ($Env->{PATH_INFO}, $Env->{SCRIPT_NAME}) = ($Env->{SCRIPT_NAME}, '/');
         }
 
-        return $app->($Env);
+        return $App->($Env);
     }
 };
 
 # Translate '/' is translated to '/index.html'
 my $ExactlyRootMiddleware = sub {
-    my $app = shift;
+    my $App = shift;
 
     return sub {
         my $Env = shift;
@@ -375,13 +375,13 @@ my $ExactlyRootMiddleware = sub {
             $Env->{PATH_INFO} = '/index.html';
         }
 
-        return $app->($Env);
+        return $App->($Env);
     }
 };
 
 # check whether the logged in user has admin privs
 my $AdminOnlyMiddeware = sub {
-    my $app = shift;
+    my $App = shift;
 
     return sub {
         my $Env = shift;
@@ -455,7 +455,7 @@ my $AdminOnlyMiddeware = sub {
         }
 
         # user is authorised, now do the work
-        return $app->($Env);
+        return $App->($Env);
     };
 };
 
@@ -510,7 +510,7 @@ my $RedirectOtoboApp = sub {
     return $res->finalize;
 };
 
-# an app for inspecting the database, logged in user must be an admin
+# an App for inspecting the database, logged in user must be an admin
 my $DBViewerApp = builder {
 
     # a simplistic detection whether we are behind a revers proxy
