@@ -34,7 +34,7 @@ use Kernel::System::ObjectManager;
 # even though this route could also be available outside Docker.
 skip_all 'not running under Docker' unless $ENV{OTOBO_RUNS_UNDER_DOCKER};
 
-plan( 2 + 2 );
+plan( 2 + 3 );
 
 $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
@@ -55,24 +55,23 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # set up URLS
-my $RootURL = join '',
+my $ExactRootURL = join '',
     $ConfigObject->Get('HttpType'),
     '://',
     $Helper->GetTestHTTPHostname();
-my $IndexHtmlURL = join '/',
-    $RootURL,
-    'index.html';
-
 http_request(
-    [ GET($RootURL) ],
+    [ GET($ExactRootURL) ],
     http_response {
         http_is_success();
         http_content_type( 'text/html' );
         http_content( match( qr/OTOBO Redirect/ ) );
     },
-    "testing $RootURL",
+    "testing $ExactRootURL",
 );
 
+my $IndexHtmlURL = join '/',
+    $ExactRootURL,
+    'index.html';
 http_request(
     [ GET($IndexHtmlURL) ],
     http_response {
@@ -82,3 +81,16 @@ http_request(
     },
     "testing $IndexHtmlURL",
 );
+
+my $NonExistentURL = join '/',
+    $ExactRootURL,
+    'does_not_exist.html';
+http_request(
+    [ GET($NonExistentURL) ],
+    http_response {
+        http_code(404);
+        http_is_error();
+    },
+    "testing $NonExistentURL",
+);
+
