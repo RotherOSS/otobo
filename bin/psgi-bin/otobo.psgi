@@ -360,7 +360,21 @@ my $FixFCGIProxyMiddleware = sub {
             ($Env->{PATH_INFO}, $Env->{SCRIPT_NAME}) = ($Env->{SCRIPT_NAME}, '/');
         }
 
-        # user is authorised, now do the work
+        return $app->($Env);
+    }
+};
+
+# Translate '/' is translated to '/index.html'
+my $ExactlyRootMiddleware = sub {
+    my $app = shift;
+
+    return sub {
+        my $Env = shift;
+
+        if ( $Env->{PATH_INFO} eq '' || $Env->{PATH_INFO} eq '/' ) {
+            $Env->{PATH_INFO} = '/index.html';
+        }
+
         return $app->($Env);
     }
 };
@@ -692,6 +706,9 @@ builder {
     # for debugging
     #enable 'Plack::Middleware::TrafficLog';
 
+    # fiddling with '/'
+    enable $ExactlyRootMiddleware;
+
     # fixing PATH_INFO
     enable_if { ($_[0]->{FCGI_ROLE} // '') eq 'RESPONDER' } $FixFCGIProxyMiddleware;
 
@@ -718,10 +735,9 @@ builder {
     # some SOAP stuff
     mount '/otobo/rpc.pl'                  => $RPCApp;
 
-    # some static pages
+    # some static pages, '/' is already translate to '/index.html'
     mount "/robots.txt"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/robots.txt")->to_app;
     mount "/index.html"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/index.html")->to_app;
-    mount "/"                              => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/index.html")->to_app;
 };
 
 # for debugging, only dump the PSGI environment
