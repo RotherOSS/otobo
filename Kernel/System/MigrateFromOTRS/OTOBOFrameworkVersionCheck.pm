@@ -150,17 +150,13 @@ sub Run {
 
     # Check OTOBO version
     my $ResultOTOBO = $Self->_CheckOTOBOVersion();
-    if ( $ResultOTOBO->{Successful} == 0 ) {
-        return $ResultOTOBO;
-    }
+    return $ResultOTOBO unless $ResultOTOBO->{Successful};
 
     # Check OTRS version
-    my $ResultOTRS = $Self->_CheckOTRSVersion(
-        OTRSHome => $OTRSHome,
+    my $ResultOTRS = $Self->_CheckOTRSRelease(
+        OTRSReleasePath => $ReleasePath,
     );
-    if ( $ResultOTRS->{Successful} == 0 ) {
-        return $ResultOTRS;
-    }
+    return $ResultOTRS unless $ResultOTRS->{Successful};
 
     # Everything if correct, return 1
     my %Result;
@@ -240,24 +236,24 @@ sub _CheckOTOBOVersion {
     return \%Result;
 }
 
-sub _CheckOTRSVersion {
+sub _CheckOTRSRelease {
     my ( $Self, %Param ) = @_;
 
-    my $OTRSHome = $Param{OTRSHome};
+    my $OTRSReleasePath = $Param{OTRSReleasePath};
 
     # load RELEASE file
-    if ( !-e "$OTRSHome" ) {
+    if ( ! -e "$OTRSReleasePath" ) {
         my %Result;
         $Result{Message} = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
         $Result{Comment}
-            = $Self->{LanguageObject}->Translate( 'Can\'t read OTRS RELEASE file: %s: %s!', $OTRSHome, $! );
+            = $Self->{LanguageObject}->Translate( 'OTRS RELEASE file %s does not exist: %s!', $OTRSReleasePath, $! );
         $Result{Successful} = 0;
+
         return \%Result;
     }
 
-    my $ProductName;
-    my $Version;
-    if ( open( my $Product, '<', "$OTRSHome" ) ) {    ## no critic
+    my ($ProductName, $Version);
+    if ( open( my $Product, '<', $OTRSReleasePath ) ) {    ## no critic
         while (<$Product>) {
 
             # filtering of comment lines
@@ -276,7 +272,7 @@ sub _CheckOTRSVersion {
         my %Result;
         $Result{Message} = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
         $Result{Comment}
-            = $Self->{LanguageObject}->Translate( 'Can\'t read OTRS RELEASE file: %s: %s!', $OTRSHome, $! );
+            = $Self->{LanguageObject}->Translate( 'Can\'t read OTRS RELEASE file: %s: %s!', $OTRSReleasePath, $! );
         $Result{Successful} = 0;
 
         return \%Result;
