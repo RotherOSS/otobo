@@ -263,8 +263,6 @@ my $ErrorIndicationFileName =
     . '/var/tmp/'
     . $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString();
 if ( $DatabaseType eq 'mysql' ) {
-    print "Dump $DatabaseType data to $Directory/DatabaseBackup.sql.$CompressEXT ... ";
-
     if ($DatabasePw) {
         push @DBDumpOptions, "-p'$DatabasePw'";
     }
@@ -276,6 +274,8 @@ if ( $DatabaseType eq 'mysql' ) {
     if ( $MigrateFromOTRSBackup ) {
 
         # dump schema and data separately, no compression
+        say "Dumping $DatabaseType schema to $BackupDir/${DatabaseName}_schema.sql ... ";
+        say "Dumping $DatabaseType data to $BackupDir/${DatabaseName}_data.sql ... ";
         my @Commands = (
             qq{$DBDumpCmd -u $DatabaseUser @DBDumpOptions -h $DatabaseHost --databases $DatabaseName --no-data --dump-date -r $BackupDir/${DatabaseName}_schema.sql},
             qq{sed -i.bak -e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/' -e 's/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/' $BackupDir/${DatabaseName}_schema.sql},
@@ -296,6 +296,7 @@ if ( $DatabaseType eq 'mysql' ) {
         }
     }
     else {
+        say "Dumping $DatabaseType data to $Directory/DatabaseBackup.sql.$CompressEXT ... ";
         if (
             !system(
                 "( $DBDumpCmd -u $DatabaseUser @DBDumpOptions -h $DatabaseHost $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
