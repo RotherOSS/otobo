@@ -1000,8 +1000,11 @@ to get database functions like
     - ShellConnect
     - Connect
     - LikeEscapeString
+    - DeactivateForeignKeyChecks
 
     my $What = $DBObject->GetDatabaseFunction('DirectBlob');
+
+Returns undef when the requested function is not available for the database driver.
 
 =cut
 

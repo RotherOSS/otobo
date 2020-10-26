@@ -222,11 +222,11 @@ sub DataTransfer {
 
     # We need to disable FOREIGN_KEY_CHECKS, cause we copy the data.
     # TODO: Test on postgresql and oracle!
-    if ( $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
-        $TargetDBObject->Do( SQL => 'SET FOREIGN_KEY_CHECKS = 0' );
-    }
-    elsif ( $TargetDBObject->{'DB::Type'} eq 'postgresql' ) {
-        $TargetDBObject->Do( SQL => 'set session_replication_role to replica;' );
+    {
+        my $DeactivateSQL = $TargetDBObject->GetDatabaseFunction('DeactivateForeignKeyChecks');
+        if ( $DeactivateSQL ) {
+            $TargetDBObject->Do( SQL => $DeactivateSQL );
+        }
     }
 
     # TODO: put this into Driver/mysql.pm
