@@ -149,13 +149,11 @@ sub Run {
     }
 
     # Check OTOBO version
-    my $ResultOTOBO = $Self->_CheckOTOBOVersion();
-    if ( $ResultOTOBO->{Successful} == 0 ) {
-        return $ResultOTOBO;
-    }
+    my $ResultOTOBO = $Self->_CheckOTOBOConfigpmExists();
+    return $ResultOTOBO unless $ResultOTOBO->{Successful};
 
     # Check OTRS version
-    my $ResultOTRS = $Self->_CheckOTRSVersion(
+    my $ResultOTRS = $Self->_CheckOTRSConfigpm(
         OTRSConfigpmPath => $OTRSConfigpmPath,
     );
     if ( $ResultOTRS->{Successful} == 0 ) {
@@ -170,15 +168,17 @@ sub Run {
     };
 }
 
-sub _CheckOTOBOVersion {
-    my ( $Self, %Param ) = @_;
+sub _CheckOTOBOConfigpmExists {
+    my $Self = shift;
+    my %Param = @_;
 
     my $OTOBOHome = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $Message   = $Self->{LanguageObject}->Translate("Check if Kernel/Config.pm exists in OTOBO home.");
 
     # load Kernel/Config.pm file
-    if ( !-e "$OTOBOHome/Kernel/Config.pm" ) {
+    if ( ! -e "$OTOBOHome/Kernel/Config.pm" ) {
         my %Result;
-        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
+        $Result{Message}    = $Message;
         $Result{Comment}    = $Self->{LanguageObject}->Translate( '%s does not exist!', "$OTOBOHome/Kernel/Config.pm" );
         $Result{Successful} = 0;
 
@@ -187,14 +187,14 @@ sub _CheckOTOBOVersion {
 
     # Everything if correct, return 1
     my %Result;
-    $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
-    $Result{Comment}    = $Self->{LanguageObject}->Translate("OTOBO Home exists.");
+    $Result{Message}    = $Message;
+    $Result{Comment}    = $Self->{LanguageObject}->Translate("Kernel/Config.pm exists in OTOBO home");
     $Result{Successful} = 1;
 
     return \%Result;
 }
 
-sub _CheckOTRSVersion {
+sub _CheckOTRSConfigpm {
     my ( $Self, %Param ) = @_;
 
     my $OTRSConfigpmPath = $Param{OTRSConfigpmPath};
