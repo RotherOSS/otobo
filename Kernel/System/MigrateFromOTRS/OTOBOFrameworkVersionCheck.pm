@@ -63,11 +63,7 @@ sub CheckPreviousRequirement {
 
 =head2 Run()
 
-check for initial conditions for running this migration step.
-
-Returns 1 on success
-
-    my $Result = $MigrateFromOTRSObject->Run();
+Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
 
 =cut
 

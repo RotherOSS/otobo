@@ -63,9 +63,7 @@ sub CheckPreviousRequirement {
 
 =head2 Run()
 
-Returns a hashref on success.
-
-    my $Result = $OTOBOOTRSDBCheck->Run();
+Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
 
 =cut
 
