@@ -25,6 +25,7 @@ use namespace::autoclean;
 use Encode;
 use MIME::Base64;
 use List::Util qw(any);
+use Fcntl qw(:flock);
 
 # CPAN modules
 
@@ -225,6 +226,31 @@ sub DataTransfer {
     # Because of InnodB max key size in MySQL 5.6 or earlier
     my $MaxMb4CharsInIndexKey     = 191; # int( 767 / 4 )
     my $MaxLenghtShortenedColumns = 190; # 191 - 1
+
+    # use a locking table for avoiding concurrent migrations
+    # Assuming the the webserver is running on a single machine.
+    my $LockFile = join '/', $ConfigObject->Get('Home'), 'var/tmp/migrate_from_otrs.lock';
+    open my $LockFh, '<', $LockFile or do {
+        $MigrationBaseObject->MigrationLog(
+            String   => "Could not open lockfile $LockFile; $!",
+            Priority => "error",
+        );
+
+        return;
+    };
+
+    # check whether another process has an exclusive lock on the lock file
+    flock( $LockFh, LOCK_EX ) or do {
+        $MigrationBaseObject->MigrationLog(
+            String   => "Another migration process is active and has locked $LockFile: $!",
+            Priority => "error",
+        );
+
+        return;
+    };
+
+    # looks good, there is no other concurrent process that wants to migrate tables
+    # the lock will be released at the end of this sub
 
     # get a list of tables on OTRS DB
     my @SourceTables = map { lc } $Self->TablesList( DBObject => $SourceDBObject );
