@@ -66,6 +66,7 @@ create database object, with database connect..
 Usually you do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::DB' => {
             # if you don't supply the following parameters, the ones found in
@@ -80,6 +81,7 @@ Usually you do not use it directly, instead use:
             },
         },
     );
+
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
 =cut
@@ -107,60 +109,55 @@ sub new {
     $Self->{PW} =
         $Param{DatabasePw} || $ConfigObject->Get('TestDatabasePw') || $ConfigObject->Get('DatabasePw');
 
-    $Self->{IsSlaveDB} = $Param{IsSlaveDB};
+    $Self->{IsSlaveDB}                  = $Param{IsSlaveDB};
+    $Self->{DeactivateForeignKeyChecks} = $Param{DeactivateForeignKeyChecks} // 0; 
 
-    $Self->{SlowLog} = $Param{'Database::SlowLog'}
-        || $ConfigObject->Get('Database::SlowLog');
+    # SlowLog can be activated globally
+    $Self->{SlowLog} = $Param{'Database::SlowLog'} || $ConfigObject->Get('Database::SlowLog');
 
     # decrypt pw (if needed)
     if ( $Self->{PW} =~ /^\{(.*)\}$/ ) {
         $Self->{PW} = $Self->_Decrypt($1);
     }
 
-    # get database type (auto detection)
-    if ( $Self->{DSN} =~ /:mysql/i ) {
-        $Self->{'DB::Type'} = 'mysql';
-    }
-    elsif ( $Self->{DSN} =~ /:pg/i ) {
-        $Self->{'DB::Type'} = 'postgresql';
-    }
-    elsif ( $Self->{DSN} =~ /:oracle/i ) {
-        $Self->{'DB::Type'} = 'oracle';
-    }
-    elsif ( $Self->{DSN} =~ /:db2/i ) {
-        $Self->{'DB::Type'} = 'db2';
-    }
-    elsif ( $Self->{DSN} =~ /(mssql|sybase|sql server)/i ) {
-        $Self->{'DB::Type'} = 'mssql';
-    }
+    # get database type
+    $Self->{'DB::Type'} = eval {
 
-    # get database type (config option)
-    if ( $ConfigObject->Get('Database::Type') ) {
-        $Self->{'DB::Type'} = $ConfigObject->Get('Database::Type');
-    }
+        # overwrite with an explicit param has highest priority
+        return $Param{Type} if $Param{Type};
 
-    # get database type (overwrite with params)
-    if ( $Param{Type} ) {
-        $Self->{'DB::Type'} = $Param{Type};
-    }
+        # then overwrite with config setting
+        return $ConfigObject->Get('Database::Type') if $ConfigObject->Get('Database::Type');
 
-    # load backend module
-    if ( $Self->{'DB::Type'} ) {
-        my $GenericModule = 'Kernel::System::DB::' . $Self->{'DB::Type'};
-        return if !$Kernel::OM->Get('Kernel::System::Main')->Require($GenericModule);
-        $Self->{Backend} = $GenericModule->new( %{$Self} );
+        # otherwise auto detection from the DSN
+        return 'mysql'       if $Self->{DSN} =~ m/:mysql/i;
+        return 'postgresql'  if $Self->{DSN} =~ m/:pg/i;
+        return 'oracle'      if $Self->{DSN} =~ m/:oracle/i;
+        return 'db2'         if $Self->{DSN} =~ m/:db2/i;
+        return 'mssql'       if $Self->{DSN} =~ m/(mssql|sybase|sql server)/i;
+    };
 
-        # set database functions
-        $Self->{Backend}->LoadPreferences();
-    }
-    else {
+    if ( ! $Self->{'DB::Type'} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'Error',
             Message  => 'Unknown database type! Set option Database::Type in '
                 . 'Kernel/Config.pm to (mysql|postgresql|oracle|db2|mssql).',
         );
+
         return;
     }
+
+    # load backend module
+    {
+        my $GenericModule = 'Kernel::System::DB::' . $Self->{'DB::Type'};
+
+        return unless $Kernel::OM->Get('Kernel::System::Main')->Require($GenericModule);
+
+        $Self->{Backend} = $GenericModule->new( %{$Self} );
+    }
+
+    # set database functions
+    $Self->{Backend}->LoadPreferences();
 
     # check/get extra database configuration options
     # (overwrite auto-detection with config options)
@@ -199,7 +196,7 @@ sub Connect {
     if ( !$DBIxConnectorIsUsed && $Self->{dbh} ) {
 
         my $PingTimeout = 10;        # Only ping every 10 seconds (see bug#12383).
-        my $CurrentTime = time();    ## no critic
+        my $CurrentTime = time;      ## no critic
 
         if ( $CurrentTime - ( $Self->{LastPingTime} // 0 ) < $PingTimeout ) {
             return $Self->{dbh};
@@ -208,6 +205,7 @@ sub Connect {
         # Ping to see if the connection is still alive.
         if ( $Self->{dbh}->ping() ) {
             $Self->{LastPingTime} = $CurrentTime;
+
             return $Self->{dbh};
         }
 
@@ -269,8 +267,10 @@ sub Connect {
             );
         }
 
-        # Generation of the cache key is copied from DBI::connect_cached()
-        # The Callbacks are not part of the cache key in order to avoid serialised code.
+        # Generation of the cache key is copied from DBI::connect_cached().
+        # According to https://metacpan.org/pod/DBI#connect_cached it is OK to
+        # have the callbacks with the attributes.
+        # But for now, the Callbacks are not part of the cache key in order to avoid serialised code.
         my $CacheKey = do {
             local $^W;
             join "!\001", $Self->{DSN}, $Self->{USER}, $Self->{PW}, DBI::_concat_hash_sorted(\%ConnectAttributes, "=\001", ",\001", 0, 0);
