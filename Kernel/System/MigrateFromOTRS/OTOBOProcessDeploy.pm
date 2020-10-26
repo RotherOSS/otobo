@@ -18,8 +18,15 @@ package Kernel::System::MigrateFromOTRS::OTOBOProcessDeploy;    ## no critic
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',

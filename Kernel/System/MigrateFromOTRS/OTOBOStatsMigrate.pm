@@ -18,10 +18,15 @@ package Kernel::System::MigrateFromOTRS::OTOBOStatsMigrate;    ## no critic
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
-use version;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::DB',

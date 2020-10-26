@@ -18,9 +18,16 @@ package Kernel::System::MigrateFromOTRS::OTOBOMigrateConfigFromOTRS;    ## no cr
 
 use strict;
 use warnings;
-use File::Copy qw(copy);
+use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
+
+# core modules
+use File::Copy qw(copy);
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Main',

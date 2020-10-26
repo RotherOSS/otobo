@@ -18,8 +18,15 @@ package Kernel::System::MigrateFromOTRS::OTOBOMigrateWebServiceConfiguration;   
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (

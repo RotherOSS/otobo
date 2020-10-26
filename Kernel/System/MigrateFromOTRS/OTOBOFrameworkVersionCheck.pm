@@ -18,8 +18,15 @@ package Kernel::System::MigrateFromOTRS::OTOBOFrameworkVersionCheck;    ## no cr
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
