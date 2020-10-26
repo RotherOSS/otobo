@@ -287,7 +287,21 @@ sub Connect {
         # But for now, the Callbacks are not part of the cache key in order to avoid serialised code.
         my $CacheKey = do {
             local $^W;
-            join "!\001", $Self->{DSN}, $Self->{USER}, $Self->{PW}, DBI::_concat_hash_sorted(\%ConnectAttributes, "=\001", ",\001", 0, 0);
+            join
+                "!\001",
+                $Self->{DSN},
+                $Self->{USER},
+                $Self->{PW},
+                DBI::_concat_hash_sorted(
+                    {
+                        %ConnectAttributes,
+                        DeactivateForeignKeyChecks => $Self->{DeactivateForeignKeyChecks}
+                    },
+                    "=\001",
+                    ",\001",
+                    0,
+                    0
+                );
         };
 
         # Use the cached connector when available. Otherwise create a new connector.
