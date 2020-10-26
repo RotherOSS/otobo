@@ -117,13 +117,13 @@ sub Run {
         },
     );
 
-    my $OTRSHome;
+    my $OTRSConfigpmPath;
     if ( $Param{OTRSData}->{OTRSLocation} eq 'localhost' ) {
-        $OTRSHome = $Param{OTRSData}->{OTRSHome} . '/Kernel/Config.pm';
+        $OTRSConfigpmPath = $Param{OTRSData}->{OTRSHome} . '/Kernel/Config.pm';
     }
     else {
         # Need to copy OTRS Kernel/Config.pm file and get path to it back
-        $OTRSHome = $Self->CopyFileAndSaveAsTmp(
+        $OTRSConfigpmPath = $Self->CopyFileAndSaveAsTmp(
             FQDN     => $Param{OTRSData}->{FQDN},
             SSHUser  => $Param{OTRSData}->{SSHUser},
             Password => $Param{OTRSData}->{Password},
@@ -134,7 +134,7 @@ sub Run {
         );
     }
 
-    if ( !$OTRSHome ) {
+    if ( ! $OTRSConfigpmPath || ! -e $OTRSConfigpmPath ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't open Kernel/Config.pm file from OTRSHome: $Param{OTRSData}->{OTRSHome}!",
@@ -156,7 +156,7 @@ sub Run {
 
     # Check OTRS version
     my $ResultOTRS = $Self->_CheckOTRSVersion(
-        OTRSHome => $OTRSHome,
+        OTRSConfigpmPath => $OTRSConfigpmPath,
     );
     if ( $ResultOTRS->{Successful} == 0 ) {
         return $ResultOTRS;
@@ -197,10 +197,10 @@ sub _CheckOTOBOVersion {
 sub _CheckOTRSVersion {
     my ( $Self, %Param ) = @_;
 
-    my $OTRSHome = $Param{OTRSHome};
+    my $OTRSConfigpmPath = $Param{OTRSConfigpmPath};
 
     # load Kernel/Config.pm file
-    if ( !-e "$OTRSHome" ) {
+    if ( ! -e "$OTRSConfigpmPath" ) {
         my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Check if we are able to connect to OTRS Home.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("Can't connect to OTRS file directory.");
@@ -210,7 +210,7 @@ sub _CheckOTRSVersion {
     }
 
     # load Kernel/Config.pm file
-    if ( !$Self->_CheckConfigpmAndWriteCache( ConfigpmPath => $OTRSHome ) ) {
+    if ( !$Self->_CheckConfigpmAndWriteCache( ConfigpmPath => $OTRSConfigpmPath ) ) {
         my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Check if we are able to connect to OTRS Home.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("Can't connect to OTRS file directory.");
