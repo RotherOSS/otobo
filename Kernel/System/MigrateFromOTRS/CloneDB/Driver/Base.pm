@@ -262,7 +262,7 @@ sub DataTransfer {
     # Trunkate the target OTOBO tables.
     # In the case of destructive table renaming, keep track of the foreign keys.
     # TODO: also keep track of the indexes, they are copied, but indexes might have been added
-    my ( %TargetAddForeignKeysClauses, %AlterSourceSQLs,  %DoBatchInsert, %SourceColumnsString );
+    my ( @SourceTablesToBeCopied, %TargetAddForeignKeysClauses, %AlterSourceSQLs, %DoBatchInsert, %SourceColumnsString );
     SOURCE_TABLE:
     for my $SourceTable (@SourceTables) {
 
@@ -287,10 +287,11 @@ sub DataTransfer {
                 String   => "Table $SourceTable does not in OTOBO.",
                 Priority => "notice",
             );
-            $TableIsSkipped{$SourceTable} = 1;
 
             next SOURCE_TABLE;
         }
+
+        push @SourceTablesToBeCopied, $SourceTable;
 
         # The OTOBO table exists. So, either truncate or drop the table in OTOBO.
         # For destructive table copying drop the table but keep Track of foreign keys first.
@@ -474,20 +475,9 @@ sub DataTransfer {
         $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
     }
 
-    # do the actual data transfer
+    # do the actual data transfer for the relevant tables
     SOURCE_TABLE:
-    for my $SourceTable (@SourceTables) {
-
-        if ( $TableIsSkipped{ lc $SourceTable } ) {
-
-            # Log info to apache error log and OTOBO log (syslog or file)
-            $MigrationBaseObject->MigrationLog(
-                String   => "Skipping table $SourceTable...",
-                Priority => "notice",
-            );
-
-            next SOURCE_TABLE;
-        }
+    for my $SourceTable (@SourceTablesToBeCopied) {
 
         # Set cache object with taskinfo and starttime to show current state in frontend
         $CacheObject->Set(
