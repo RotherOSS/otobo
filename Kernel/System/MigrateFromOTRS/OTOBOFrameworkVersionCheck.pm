@@ -117,13 +117,13 @@ sub Run {
         },
     );
 
-    my $OTRSHome;
+    my $ReleasePath;
     if ( $Param{OTRSData}->{OTRSLocation} eq 'localhost' ) {
-        $OTRSHome = $Param{OTRSData}->{OTRSHome} . '/RELEASE';
+        $ReleasePath = $Param{OTRSData}->{OTRSHome} . '/RELEASE';
     }
     else {
         # Need to copy OTRS RELEASE file and get path to it back
-        $OTRSHome = $Self->CopyFileAndSaveAsTmp(
+        $ReleasePath = $Self->CopyFileAndSaveAsTmp(
             FQDN     => $Param{OTRSData}->{FQDN},
             SSHUser  => $Param{OTRSData}->{SSHUser},
             Password => $Param{OTRSData}->{Password},
@@ -134,7 +134,7 @@ sub Run {
         );
     }
 
-    if ( !$OTRSHome ) {
+    if ( ! $ReleasePath || ! -e $ReleasePath ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't open RELEASE file from OTRSHome: $Param{OTRSData}->{OTRSHome}!",
