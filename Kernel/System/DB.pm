@@ -85,11 +85,11 @@ Usually you do not use it directly, instead use:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type = shift;
+    my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # 0=off; 1=updates; 2=+selects; 3=+Connects;
     $Self->{Debug} = $Param{Debug} || 0;
@@ -2010,6 +2010,7 @@ sub DESTROY {
     if ( $Self->{Cursor} ) {
         $Self->{Cursor}->finish();
     }
+
     $Self->Disconnect();
 
     return 1;
