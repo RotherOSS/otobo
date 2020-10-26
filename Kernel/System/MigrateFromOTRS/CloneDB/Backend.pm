@@ -28,6 +28,7 @@ use Scalar::Util qw(weaken);
 # CPAN modules
 
 # OTOBO modules
+use Kernel::System::ObjectManager;
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -187,10 +188,12 @@ sub DataTransfer {
     my $Self = shift;
     my %Param = @_;
 
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+
     # check needed stuff
     for my $Needed (qw(OTRSDBObject OTRSDBSettings)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
+            $LogObject->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
@@ -202,7 +205,7 @@ sub DataTransfer {
     # choose the source db specific backend
     my $SourceDBBackend = $Self->{ 'CloneDB' . $Param{OTRSDBObject}->{'DB::Type'} . 'Object' };
     if ( ! $SourceDBBackend ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
+        $LogObject->Log(
             Priority => 'error',
             Message  => "Backend " . $Param{OTRSDBObject}->{'DB::Type'} . " is invalid!",
         );
@@ -211,13 +214,20 @@ sub DataTransfer {
     }
 
     # get OTOBO db object
+    # We need to disable FOREIGN_KEY_CHECKS, because we truncate tables and copy rows.
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
+        'Kernel::System::DB' => {
+            DeactivateForeignKeyChecks => 1, # useful for database migration
+        },
+    );
+
     my $OTOBODBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # set the target db specific backend
     my $OTOBODBBackend = 'CloneDB' . $OTOBODBObject->{'DB::Type'} . 'Object';
 
     if ( !$Self->{$OTOBODBBackend} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
+        $LogObject->Log(
             Priority => 'error',
             Message  => "Backend $OTOBODBObject->{'DB::Type'} is invalid!",
         );

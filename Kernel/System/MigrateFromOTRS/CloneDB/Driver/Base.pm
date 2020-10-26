@@ -217,17 +217,7 @@ sub DataTransfer {
     my @SourceTables = map { lc } $Self->TablesList( DBObject => $SourceDBObject );
 
     # get a list of tables on OTOBO DB
-    # TODO: include the tables that were dropped in a previous, failed migration
     my %TargetTableExists = map { $_ => 1 } $TargetDBBackend->TablesList( DBObject => $TargetDBObject );
-
-    # We need to disable FOREIGN_KEY_CHECKS, cause we copy the data.
-    # TODO: Test on postgresql and oracle!
-    {
-        my $DeactivateSQL = $TargetDBObject->GetDatabaseFunction('DeactivateForeignKeyChecks');
-        if ( $DeactivateSQL ) {
-            $TargetDBObject->Do( SQL => $DeactivateSQL );
-        }
-    }
 
     # TODO: put this into Driver/mysql.pm
     my ( $SourceSchema, $TargetSchema );

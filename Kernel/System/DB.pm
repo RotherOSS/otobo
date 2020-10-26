@@ -71,10 +71,11 @@ Usually you do not use it directly, instead use:
         'Kernel::System::DB' => {
             # if you don't supply the following parameters, the ones found in
             # Kernel/Config.pm are used instead:
-            DatabaseDSN  => 'DBI:odbc:database=123;host=localhost;',
-            DatabaseUser => 'user',
-            DatabasePw   => 'somepass',
-            Type         => 'mysql',
+            DatabaseDSN                => 'DBI:odbc:database=123;host=localhost;',
+            DatabaseUser               => 'user',
+            DatabasePw                 => 'somepass',
+            Type                       => 'mysql',
+            DeactivateForeignKeyChecks => 1, # useful for database migration
             Attribute => {
                 LongTruncOk => 1,
                 LongReadLen => 100*1024,
@@ -110,7 +111,7 @@ sub new {
         $Param{DatabasePw} || $ConfigObject->Get('TestDatabasePw') || $ConfigObject->Get('DatabasePw');
 
     $Self->{IsSlaveDB}                  = $Param{IsSlaveDB};
-    $Self->{DeactivateForeignKeyChecks} = $Param{DeactivateForeignKeyChecks} // 0; 
+    $Self->{DeactivateForeignKeyChecks} = $Param{DeactivateForeignKeyChecks} // 0;
 
     # SlowLog can be activated globally
     $Self->{SlowLog} = $Param{'Database::SlowLog'} || $ConfigObject->Get('Database::SlowLog');
@@ -232,14 +233,27 @@ sub Connect {
             if ( $Self->{Backend}->{'DB::Connect'} ) {
 
                 # run a command for initializing a session
-                my $SQL = $Self->{Backend}->{'DB::Connect'};
+                my $DBConnectSQL = $Self->{Backend}->{'DB::Connect'};
                 if ( $Self->{Backend}->{'DB::PreProcessSQL'} ) {
-                    $Self->{Backend}->PreProcessSQL( \$SQL );
+                    $Self->{Backend}->PreProcessSQL( \$DBConnectSQL );
                 }
+
+                # maybe deactivate foreign key checks
+                my $DeactivateSQL;
+                if ( $Self->{DeactivateForeignKeyChecks} ) {
+                    $DeactivateSQL = $Self->GetDatabaseFunction('DeactivateForeignKeyChecks');
+                }
+
                 $Callbacks{connected} = sub {
                     my $DatabaseHandle = shift;
 
-                    $DatabaseHandle->do($SQL);
+                    if ( $DBConnectSQL) {
+                        $DatabaseHandle->do($DBConnectSQL);
+                    }
+
+                    if ( $DeactivateSQL) {
+                        $DatabaseHandle->do($DeactivateSQL);
+                    }
 
                     return;
                 };
@@ -315,6 +329,14 @@ sub Connect {
     if ( ! $DBIxConnectorIsUsed ) {
         if ( $Self->{Backend}->{'DB::Connect'} ) {
             $Self->Do( SQL => $Self->{Backend}->{'DB::Connect'} );
+        }
+
+        # maybe deactivate foreign key checks
+        if ( $Self->{DeactivateForeignKeyChecks} ) {
+            my $DeactivateSQL = $Self->GetDatabaseFunction('DeactivateForeignKeyChecks');
+            if ( $DeactivateSQL) {
+                $Self->Do( SQL => $DeactivateSQL );
+            }
         }
 
         # set utf-8 on for PostgreSQL
