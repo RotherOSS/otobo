@@ -171,10 +171,11 @@ sub new {
         )
         )
     {
-        if ( defined $Param{$Setting} || defined $ConfigObject->Get("Database::$Setting") )
-        {
-            $Self->{Backend}->{"DB::$Setting"} = $Param{$Setting}
-                // $ConfigObject->Get("Database::$Setting");
+        if ( defined $Param{$Setting} ) {
+            $Self->{Backend}->{"DB::$Setting"} = $Param{$Setting};
+        }
+        elsif ( defined $ConfigObject->Get("Database::$Setting") ) {
+            $Self->{Backend}->{"DB::$Setting"} = $ConfigObject->Get("Database::$Setting");
         }
     }
 
@@ -992,7 +993,6 @@ to get database functions like
     - QuoteSingle
     - QuoteBack
     - QuoteSemicolon
-    - NoLikeInLargeText
     - CurrentTimestamp
     - Encode
     - Comment
