@@ -85,7 +85,6 @@ sub Run {
         },
     );
 
-
     my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate statistics.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Migration failed.");
@@ -93,7 +92,6 @@ sub Run {
 
     # map wrong to correct tags
     my %StatsTagsOld2New = (
-
         'otrs_stats' => 'otobo_stats',
     );
 

@@ -98,6 +98,7 @@ sub Run {
     my $WebserviceList = $WebserviceObject->WebserviceList(
         Valid => 0,
     );
+
     if ( !IsHashRefWithData($WebserviceList) ) {
         my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
@@ -105,12 +106,14 @@ sub Run {
         $Result{Successful} = 1;
         return \%Result;
     }
+
     WEBSERVICEID:
     for my $WebserviceID ( sort keys %{$WebserviceList} ) {
 
         my $WebserviceData = $WebserviceObject->WebserviceGet(
             ID => $WebserviceID,
         );
+
         next WEBSERVICEID if !IsHashRefWithData($WebserviceData);
 
         # Check if web service is using an old configuration type and upgrade if necessary.

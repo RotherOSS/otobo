@@ -117,7 +117,7 @@ sub Run {
         return \%Result;
     }
 
-    # Write opm content to new sopm file
+    # Write sysconfig content to file
     $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Directory  => $TmpDirectory,
         Filename   => 'SysConfigDump.sysconf',
