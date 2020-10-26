@@ -227,10 +227,11 @@ sub DataTransfer {
     my $MaxMb4CharsInIndexKey     = 191; # int( 767 / 4 )
     my $MaxLenghtShortenedColumns = 190; # 191 - 1
 
-    # use a locking table for avoiding concurrent migrations
-    # Assuming the the webserver is running on a single machine.
+    # Use a locking table for avoiding concurrent migrations.
+    # Open for writing as the file usually does not exist yet.
+    # This approach assumes that the the webserver processes are running on a single machine.
     my $LockFile = join '/', $ConfigObject->Get('Home'), 'var/tmp/migrate_from_otrs.lock';
-    open my $LockFh, '<', $LockFile or do {
+    open my $LockFh, '>', $LockFile or do {
         $MigrationBaseObject->MigrationLog(
             String   => "Could not open lockfile $LockFile; $!",
             Priority => "error",
