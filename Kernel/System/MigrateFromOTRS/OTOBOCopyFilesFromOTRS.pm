@@ -316,7 +316,7 @@ sub ReConfigure {
 
             # Need to comment out SecureMode
             if ( $CangedLine =~ m/SecureMode/ ) {
-                $Config .= "# $CangedLine";
+                $Config .= "# $CangedLine  commented out by OTOBOCopyFilesFromOTRS";
 
                 next LINE;
             }
