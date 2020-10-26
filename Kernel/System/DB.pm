@@ -287,6 +287,7 @@ sub Connect {
         # But for now, the Callbacks are not part of the cache key in order to avoid serialised code.
         my $CacheKey = do {
             local $^W;
+
             join
                 "!\001",
                 $Self->{DSN},

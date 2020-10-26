@@ -305,7 +305,16 @@ sub DataTransfer {
             Table    => $SourceTable,
             DBName   => $Param{DBInfo}->{DBName},
             DBObject => $SourceDBObject,
-        ) || return;
+        );
+
+        if ( ! $SourceColumnsRef || ! $SourceColumnsRef->@* ) {
+            $MigrationBaseObject->MigrationLog(
+                String   => "Could not get columns of source table '$SourceTable'",
+                Priority => "error",
+            );
+
+            return; # bail out
+        }
 
         $AlterSourceSQLs{$SourceTable} //= [];
 
@@ -462,7 +471,16 @@ sub DataTransfer {
         # In the RENAME case the table will eventually be dropped,
         # but until then the truncated table provides info about columns and
         # foreign keys.
-        $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
+        my $TrunkateSuccess = $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
+
+        if ( ! $TrunkateSuccess ) {
+            $MigrationBaseObject->MigrationLog(
+                String   => "Could not truncate target table '$TargetTable'",
+                Priority => "error",
+            );
+
+            return; # bail out
+        }
     }
 
     # do the actual data transfer for the relevant tables
