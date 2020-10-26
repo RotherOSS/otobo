@@ -77,8 +77,13 @@ sub new {
     return bless {}, $Class;
 }
 
-# A single sanity check.
-# Check whether the relevant tables exist in the source database.
+=head2 SanityChecks
+
+A single sanity check.
+Check whether the relevant tables exist in the source database.
+
+=cut
+
 sub SanityChecks {
     my $Self = shift;
     my %Param = @_;
@@ -141,9 +146,12 @@ sub SanityChecks {
     return 1;
 }
 
-#
-# Get row count of a table.
-#
+=head2 RowCount
+
+Get the number of rows in a table.
+
+=cut
+
 sub RowCount {
     my $Self = shift;
     my %Param = @_;
@@ -178,7 +186,12 @@ sub RowCount {
     return $NumRows;
 }
 
-# Transfer the actual table data
+=head2 DataTransfer
+
+Transfer the actual table data
+
+=cut
+
 sub DataTransfer {
     my $Self = shift; # the source db backend
     my %Param = @_;
