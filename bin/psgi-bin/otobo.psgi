@@ -270,29 +270,10 @@ use CGI::Parse::PSGI qw(parse_cgi_output);
 use CGI::PSGI;
 use Plack::Builder;
 use Plack::Response;
-use Plack::Middleware::ErrorDocument;
-use Plack::Middleware::ForceEnv;
-use Plack::Middleware::Header;
 use Plack::App::File;
 use SOAP::Transport::HTTP::Plack;
 use Mojo::Server::PSGI; # for dbviewer
-
-# for future use:
-#use Plack::Middleware::CamelcadeDB;
-#use Plack::Middleware::Expires;
-#use Plack::Middleware::Debug;
-
-# enable this if you use mysql
-#use DBD::mysql ();
-#use Kernel::System::DB::mysql;
-
-# enable this if you use postgresql
-#use DBD::Pg ();
-#use Kernel::System::DB::postgresql;
-
-# enable this if you use oracle
-#use DBD::Oracle ();
-#use Kernel::System::DB::oracle;
+use Module::Refresh;
 
 # OTOBO modules
 use Kernel::GenericInterface::Provider;
@@ -313,11 +294,25 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT AS OF OCTOBER 20TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
+warn "PLEASE NOTE THAT AS OF OCTOBER 27TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
 
 ################################################################################
 # Middlewares
 ################################################################################
+
+# this middleware is to make sure that the newest version of ZZZAAuto is loaded
+my $RefreshZZZAAutoMiddleWare = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # Module::Refresh::Cache already set up in Plack::Middleware::Refresh::prepara_app();
+        Module::Refresh->refresh_module_if_modified( 'Kernel/Config/Files/ZZZAAuto.pm' );
+
+        return $App->($Env);
+    };
+};
 
 # conditionally enable profiling, UNTESTED
 my $NYTProfMiddleWare = sub {
@@ -553,6 +548,12 @@ my $DBViewerApp = builder {
             1;
         };
 
+    # relies on that Plack::Middleware::Refresh already has populated %Module::Refresh::CACHE
+    enable $RefreshZZZAAutoMiddleWare;
+
+    # check ever 10s for changed Perl modules, including Kernel/Config/Files/ZZZAAuto.pm
+    enable 'Plack::Middleware::Refresh';
+
     my $server = Mojo::Server::PSGI->new;
     $server->load_app("$FindBin::Bin/../mojo-bin/dbviewer.pl");
 
@@ -601,7 +602,10 @@ my $GenericInterfaceApp = builder {
     # set %ENV
     enable $SetEnvMiddleWare;
 
-    # check ever 10s for changed Perl modules
+    # relies on that Plack::Middleware::Refresh already has populates %Module::Refresh::CACHE
+    enable $RefreshZZZAAutoMiddleWare;
+
+    # check ever 10s for changed Perl modules, including Kernel/Config/Files/ZZZAAuto.pm
     enable 'Plack::Middleware::Refresh';
 
     # we might catch an instance of Kernel::System::Web::Exception
