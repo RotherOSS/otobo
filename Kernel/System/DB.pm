@@ -148,6 +148,9 @@ sub new {
         return;
     }
 
+    # normalize
+    $Self->{'DB::Type'} = lc $Self->{'DB::Type'};
+
     # load backend module
     {
         my $GenericModule = 'Kernel::System::DB::' . $Self->{'DB::Type'};
