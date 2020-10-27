@@ -33,14 +33,13 @@ use parent qw(Kernel::System::MigrateFromOTRS::Base);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
-    'Kernel::System::SysConfig',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
 );
 
 =head1 NAME
 
-Kernel::System::MigrateFromOTRS::OTOBOCopyFilesFromOTRS - Copy OTRS Data to OTOBO Server
+Kernel::System::MigrateFromOTRS::OTOBOCopyFilesFromOTRS - Copy and migrate OTRS files to OTOBO server
 
 =head1 SYNOPSIS
 
@@ -75,42 +74,43 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $OTOBOHome = $ConfigObject->Get('Home');
-    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+    # For error and progress messages
+    my $Message = 'Copy and migrate files from OTRS to OTOBO';
 
     # Set cache object with taskinfo and starttime to show current state in frontend
-    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
-    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-    my $Epoch          = $DateTimeObject->ToEpoch();
+    {
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+        my $StartTime   = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
-    $CacheObject->Set(
-        Type  => 'OTRSMigration',
-        Key   => 'MigrationState',
-        Value => {
-            Task      => 'OTOBOCopyFilesFromOTRS',
-            SubTask   => "Copy files from OTRS to OTOBO.",
-            StartTime => $Epoch,
-        },
-    );
+        $CacheObject->Set(
+            Type  => 'OTRSMigration',
+            Key   => 'MigrationState',
+            Value => {
+                Task      => 'OTOBOCopyFilesFromOTRS',
+                SubTask   => $Message,
+                StartTime => $StartTime,
+            },
+        );
+    }
 
-    # check needed stuff
+    # check needed parameters
     for my $Key ( qw(OTRSData) ) {
         if ( !$Param{$Key} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Key!"
             );
-            my %Result;
-            $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
-            $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
-            $Result{Successful} = 0;
 
-            return \%Result;
+            return {
+                Message    => $Self->{LanguageObject}->Translate($Message),
+                Comment    => $Self->{LanguageObject}->Translate( 'Need %s!', $Key ),
+                Successful => 0,
+            };
+
         }
     }
 
-    # check needed stuff
+    # check needed stuff in OTRSData
     for my $Key (qw(OTRSLocation OTRSHome)) {
         if ( !$Param{OTRSData}->{$Key} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -119,8 +119,8 @@ sub Run {
             );
 
             my %Result;
-            $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
-            $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
+            $Result{Message}    = $Self->{LanguageObject}->Translate($Message);
+            $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need OTRSData->%s!', $Key );
             $Result{Successful} = 0;
 
             return \%Result;
@@ -139,9 +139,7 @@ sub Run {
             Password => $Param{OTRSData}->{Password},
             Path     => $Param{OTRSData}->{OTRSHome},
             Port     => $Param{OTRSData}->{Port},
-
-            #            Filename    => 'RELEASE',
-            UserID => 1,
+            UserID   => 1,
         );
     }
 
@@ -152,7 +150,7 @@ sub Run {
         );
 
         return {
-            Message    => $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible."),
+            Message    => $Self->{LanguageObject}->Translate( $Message ),
             Comment    => $Self->{LanguageObject}->Translate( "Can't access OTRS Home: %s!", $Param{OTRSData}->{OTRSHome} ),
             Successful => 0,
         };
@@ -163,6 +161,8 @@ sub Run {
 
     # Get filelist we only copy and not clean
     my %DoNotClean = map { $_ => 1 } $Self->DoNotCleanFileList();
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # Some of the setting of the OTOBO Kernel/Config.pm should reinjected in the file copied from OTRS
     my %OTOBOParams;
@@ -181,6 +181,7 @@ sub Run {
     }
 
     # Now we copy and clean the files in for{}
+    my $OTOBOHome = $ConfigObject->Get('Home');
     FILE:
     for my $File (@FileList) {
 
@@ -214,12 +215,12 @@ sub Run {
 
             if ( $ExitCode && $ExitCode != 0 && $ExitCode != 256 ) {
                 print STDERR "EXIT: $ExitCode \n OTRSPath: $OTRSPathFile\n OTOBO: $OTOBOPathFile\n ";
-                my %Result;
-                $Result{Message}    = "Copy and migrate files from OTRS";
-                $Result{Comment}    = "Can\'t copy or move files from OTRS!";
-                $Result{Successful} = 0;
 
-                return \%Result;
+                return {
+                    Message      => $Self->{LanguageObject}->Translate($Message),
+                    Comment      => $Self->{LanguageObject}->Translate(q{Can't copy or move files from OTRS!}),
+                    Successful   => 0,
+                };
             }
         }
 
@@ -259,7 +260,7 @@ sub Run {
             );
         }
 
-        # At least we need to reconfigure database settings in Kernel Config.pm.
+        # At last we need to reconfigure database settings in Kernel Config.pm.
         if ( $OTOBOPathFile =~ m/Config\.pm/ ) {
             $Self->ReConfigure(%OTOBOParams);
         }
@@ -268,7 +269,7 @@ sub Run {
     $Self->DisableSecureMode();
 
     return {
-        Message      => $Self->{LanguageObject}->Translate("Copy and migrate files from OTRS"),
+        Message      => $Self->{LanguageObject}->Translate($Message),
         Comment      => $Self->{LanguageObject}->Translate("All needed files copied and migrated, perfect!"),
         Successful   => 1,
     };
