@@ -65,6 +65,12 @@ sub CheckPreviousRequirement {
     return 1;
 }
 
+=head2 Run()
+
+Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
+
+=cut
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -316,7 +322,7 @@ sub ReConfigure {
 
             # Need to comment out SecureMode
             if ( $CangedLine =~ m/SecureMode/ ) {
-                $Config .= "# $CangedLine";
+                $Config .= "# $CangedLine  commented out by OTOBOCopyFilesFromOTRS";
 
                 next LINE;
             }

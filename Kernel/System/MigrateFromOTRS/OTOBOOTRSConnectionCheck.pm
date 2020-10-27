@@ -18,8 +18,15 @@ package Kernel::System::MigrateFromOTRS::OTOBOOTRSConnectionCheck;    ## no crit
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -56,11 +63,7 @@ sub CheckPreviousRequirement {
 
 =head2 Run()
 
-check for initial conditions for running this migration step.
-
-Returns 1 on success
-
-    my $Result = $MigrateFromOTRSObject->Run();
+Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
 
 =cut
 
@@ -114,13 +117,13 @@ sub Run {
         },
     );
 
-    my $OTRSHome;
+    my $OTRSConfigpmPath;
     if ( $Param{OTRSData}->{OTRSLocation} eq 'localhost' ) {
-        $OTRSHome = $Param{OTRSData}->{OTRSHome} . '/Kernel/Config.pm';
+        $OTRSConfigpmPath = $Param{OTRSData}->{OTRSHome} . '/Kernel/Config.pm';
     }
     else {
         # Need to copy OTRS Kernel/Config.pm file and get path to it back
-        $OTRSHome = $Self->CopyFileAndSaveAsTmp(
+        $OTRSConfigpmPath = $Self->CopyFileAndSaveAsTmp(
             FQDN     => $Param{OTRSData}->{FQDN},
             SSHUser  => $Param{OTRSData}->{SSHUser},
             Password => $Param{OTRSData}->{Password},
@@ -131,7 +134,7 @@ sub Run {
         );
     }
 
-    if ( !$OTRSHome ) {
+    if ( ! $OTRSConfigpmPath || ! -e $OTRSConfigpmPath ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't open Kernel/Config.pm file from OTRSHome: $Param{OTRSData}->{OTRSHome}!",
@@ -146,14 +149,12 @@ sub Run {
     }
 
     # Check OTOBO version
-    my $ResultOTOBO = $Self->_CheckOTOBOVersion();
-    if ( $ResultOTOBO->{Successful} == 0 ) {
-        return $ResultOTOBO;
-    }
+    my $ResultOTOBO = $Self->_CheckOTOBOConfigpmExists();
+    return $ResultOTOBO unless $ResultOTOBO->{Successful};
 
     # Check OTRS version
-    my $ResultOTRS = $Self->_CheckOTRSVersion(
-        OTRSHome => $OTRSHome,
+    my $ResultOTRS = $Self->_CheckOTRSConfigpm(
+        OTRSConfigpmPath => $OTRSConfigpmPath,
     );
     if ( $ResultOTRS->{Successful} == 0 ) {
         return $ResultOTRS;
@@ -167,15 +168,17 @@ sub Run {
     };
 }
 
-sub _CheckOTOBOVersion {
-    my ( $Self, %Param ) = @_;
+sub _CheckOTOBOConfigpmExists {
+    my $Self = shift;
+    my %Param = @_;
 
     my $OTOBOHome = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $Message   = $Self->{LanguageObject}->Translate("Check if Kernel/Config.pm exists in OTOBO home.");
 
     # load Kernel/Config.pm file
-    if ( !-e "$OTOBOHome/Kernel/Config.pm" ) {
+    if ( ! -e "$OTOBOHome/Kernel/Config.pm" ) {
         my %Result;
-        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
+        $Result{Message}    = $Message;
         $Result{Comment}    = $Self->{LanguageObject}->Translate( '%s does not exist!', "$OTOBOHome/Kernel/Config.pm" );
         $Result{Successful} = 0;
 
@@ -184,20 +187,20 @@ sub _CheckOTOBOVersion {
 
     # Everything if correct, return 1
     my %Result;
-    $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
-    $Result{Comment}    = $Self->{LanguageObject}->Translate("OTOBO Home exists.");
+    $Result{Message}    = $Message;
+    $Result{Comment}    = $Self->{LanguageObject}->Translate("Kernel/Config.pm exists in OTOBO home");
     $Result{Successful} = 1;
 
     return \%Result;
 }
 
-sub _CheckOTRSVersion {
+sub _CheckOTRSConfigpm {
     my ( $Self, %Param ) = @_;
 
-    my $OTRSHome = $Param{OTRSHome};
+    my $OTRSConfigpmPath = $Param{OTRSConfigpmPath};
 
     # load Kernel/Config.pm file
-    if ( !-e "$OTRSHome" ) {
+    if ( ! -e "$OTRSConfigpmPath" ) {
         my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Check if we are able to connect to OTRS Home.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("Can't connect to OTRS file directory.");
@@ -207,7 +210,7 @@ sub _CheckOTRSVersion {
     }
 
     # load Kernel/Config.pm file
-    if ( !$Self->_CheckConfigpmAndWriteCache( ConfigpmPath => $OTRSHome ) ) {
+    if ( !$Self->_CheckConfigpmAndWriteCache( ConfigpmPath => $OTRSConfigpmPath ) ) {
         my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Check if we are able to connect to OTRS Home.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("Can't connect to OTRS file directory.");

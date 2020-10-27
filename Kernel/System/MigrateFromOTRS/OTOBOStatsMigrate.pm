@@ -18,10 +18,15 @@ package Kernel::System::MigrateFromOTRS::OTOBOStatsMigrate;    ## no critic
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
-use version;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::DB',
@@ -56,6 +61,12 @@ sub CheckPreviousRequirement {
 }
 
 
+=head2 Run()
+
+Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
+
+=cut
+
 sub Run {
     my ( $Self, %Param ) = @_;
 
@@ -74,7 +85,6 @@ sub Run {
         },
     );
 
-
     my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate statistics.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Migration failed.");
@@ -82,7 +92,6 @@ sub Run {
 
     # map wrong to correct tags
     my %StatsTagsOld2New = (
-
         'otrs_stats' => 'otobo_stats',
     );
 

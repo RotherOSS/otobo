@@ -66,7 +66,11 @@ sub LoadPreferences {
     $Self->{'DB::Version'}
         = "SELECT CONCAT( IF (INSTR( VERSION(),'MariaDB'),'MariaDB ','MySQL '), SUBSTRING_INDEX(VERSION(),'-',1))";
 
+    # how to get list of tables in the current schema
     $Self->{'DB::ListTables'} = 'SHOW TABLES';
+
+    # how to turn off foreign key checks for the current session
+    $Self->{'DB::DeactivateForeignKeyChecks'} = 'SET FOREIGN_KEY_CHECKS = 0';
 
     # DBI/DBD::mysql attributes
     # disable automatic reconnects as they do not execute DB::Connect, which will

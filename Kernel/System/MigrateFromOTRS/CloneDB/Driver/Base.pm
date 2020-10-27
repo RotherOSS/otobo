@@ -25,6 +25,7 @@ use namespace::autoclean;
 use Encode;
 use MIME::Base64;
 use List::Util qw(any);
+use Fcntl qw(:flock);
 
 # CPAN modules
 
@@ -77,8 +78,13 @@ sub new {
     return bless {}, $Class;
 }
 
-# A single sanity check.
-# Check whether the relevant tables exist in the source database.
+=head2 SanityChecks
+
+A single sanity check.
+Check whether the relevant tables exist in the source database.
+
+=cut
+
 sub SanityChecks {
     my $Self = shift;
     my %Param = @_;
@@ -141,9 +147,12 @@ sub SanityChecks {
     return 1;
 }
 
-#
-# Get row count of a table.
-#
+=head2 RowCount
+
+Get the number of rows in a table.
+
+=cut
+
 sub RowCount {
     my $Self = shift;
     my %Param = @_;
@@ -178,7 +187,12 @@ sub RowCount {
     return $NumRows;
 }
 
-# Transfer the actual table data
+=head2 DataTransfer
+
+Transfer the actual table data
+
+=cut
+
 sub DataTransfer {
     my $Self = shift; # the source db backend
     my %Param = @_;
@@ -213,21 +227,37 @@ sub DataTransfer {
     my $MaxMb4CharsInIndexKey     = 191; # int( 767 / 4 )
     my $MaxLenghtShortenedColumns = 190; # 191 - 1
 
+    # Use a locking table for avoiding concurrent migrations.
+    # Open for writing as the file usually does not exist yet.
+    # This approach assumes that the the webserver processes are running on a single machine.
+    my $LockFile = join '/', $ConfigObject->Get('Home'), 'var/tmp/migrate_from_otrs.lock';
+    open my $LockFh, '>', $LockFile or do {
+        $MigrationBaseObject->MigrationLog(
+            String   => "Could not open lockfile $LockFile; $!",
+            Priority => "error",
+        );
+
+        return;
+    };
+
+    # check whether another process has an exclusive lock on the lock file
+    flock( $LockFh, LOCK_EX ) or do {
+        $MigrationBaseObject->MigrationLog(
+            String   => "Another migration process is active and has locked $LockFile: $!",
+            Priority => "error",
+        );
+
+        return;
+    };
+
+    # looks good, there is no other concurrent process that wants to migrate tables
+    # the lock will be released at the end of this sub
+
     # get a list of tables on OTRS DB
     my @SourceTables = map { lc } $Self->TablesList( DBObject => $SourceDBObject );
 
     # get a list of tables on OTOBO DB
-    # TODO: include the tables that were dropped in a previous, failed migration
     my %TargetTableExists = map { $_ => 1 } $TargetDBBackend->TablesList( DBObject => $TargetDBObject );
-
-    # We need to disable FOREIGN_KEY_CHECKS, cause we copy the data.
-    # TODO: Test on postgresql and oracle!
-    if ( $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
-        $TargetDBObject->Do( SQL => 'SET FOREIGN_KEY_CHECKS = 0' );
-    }
-    elsif ( $TargetDBObject->{'DB::Type'} eq 'postgresql' ) {
-        $TargetDBObject->Do( SQL => 'set session_replication_role to replica;' );
-    }
 
     # TODO: put this into Driver/mysql.pm
     my ( $SourceSchema, $TargetSchema );
@@ -262,7 +292,7 @@ sub DataTransfer {
     # Trunkate the target OTOBO tables.
     # In the case of destructive table renaming, keep track of the foreign keys.
     # TODO: also keep track of the indexes, they are copied, but indexes might have been added
-    my ( %TargetAddForeignKeysClauses, %AlterSourceSQLs,  %DoBatchInsert, %SourceColumnsString );
+    my ( @SourceTablesToBeCopied, %TargetAddForeignKeysClauses, %AlterSourceSQLs, %DoBatchInsert, %SourceColumnsString );
     SOURCE_TABLE:
     for my $SourceTable (@SourceTables) {
 
@@ -287,10 +317,11 @@ sub DataTransfer {
                 String   => "Table $SourceTable does not in OTOBO.",
                 Priority => "notice",
             );
-            $TableIsSkipped{$SourceTable} = 1;
 
             next SOURCE_TABLE;
         }
+
+        push @SourceTablesToBeCopied, $SourceTable;
 
         # The OTOBO table exists. So, either truncate or drop the table in OTOBO.
         # For destructive table copying drop the table but keep Track of foreign keys first.
@@ -314,7 +345,16 @@ sub DataTransfer {
             Table    => $SourceTable,
             DBName   => $Param{DBInfo}->{DBName},
             DBObject => $SourceDBObject,
-        ) || return;
+        );
+
+        if ( ! $SourceColumnsRef || ! $SourceColumnsRef->@* ) {
+            $MigrationBaseObject->MigrationLog(
+                String   => "Could not get columns of source table '$SourceTable'",
+                Priority => "error",
+            );
+
+            return; # bail out
+        }
 
         $AlterSourceSQLs{$SourceTable} //= [];
 
@@ -471,23 +511,21 @@ sub DataTransfer {
         # In the RENAME case the table will eventually be dropped,
         # but until then the truncated table provides info about columns and
         # foreign keys.
-        $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
-    }
+        my $TrunkateSuccess = $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
 
-    # do the actual data transfer
-    SOURCE_TABLE:
-    for my $SourceTable (@SourceTables) {
-
-        if ( $TableIsSkipped{ lc $SourceTable } ) {
-
-            # Log info to apache error log and OTOBO log (syslog or file)
+        if ( ! $TrunkateSuccess ) {
             $MigrationBaseObject->MigrationLog(
-                String   => "Skipping table $SourceTable...",
-                Priority => "notice",
+                String   => "Could not truncate target table '$TargetTable'",
+                Priority => "error",
             );
 
-            next SOURCE_TABLE;
+            return; # bail out
         }
+    }
+
+    # do the actual data transfer for the relevant tables
+    SOURCE_TABLE:
+    for my $SourceTable (@SourceTablesToBeCopied) {
 
         # Set cache object with taskinfo and starttime to show current state in frontend
         $CacheObject->Set(

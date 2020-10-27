@@ -64,6 +64,12 @@ sub CheckPreviousRequirement {
     return 1;
 }
 
+=head2 Run()
+
+Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
+
+=cut
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
