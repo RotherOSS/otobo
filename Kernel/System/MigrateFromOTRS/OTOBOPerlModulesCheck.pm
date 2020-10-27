@@ -18,8 +18,15 @@ package Kernel::System::MigrateFromOTRS::OTOBOPerlModulesCheck;    ## no critic
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Language',
@@ -54,6 +61,12 @@ sub CheckPreviousRequirement {
 
     return 1;
 }
+
+=head2 Run()
+
+Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
+
+=cut
 
 sub Run {
     my ( $Self, %Param ) = @_;

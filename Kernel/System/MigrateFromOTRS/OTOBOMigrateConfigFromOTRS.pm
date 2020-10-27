@@ -18,9 +18,16 @@ package Kernel::System::MigrateFromOTRS::OTOBOMigrateConfigFromOTRS;    ## no cr
 
 use strict;
 use warnings;
-use File::Copy qw(copy);
+use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
+
+# core modules
+use File::Copy qw(copy);
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Main',
@@ -58,6 +65,12 @@ sub CheckPreviousRequirement {
 
     return 1;
 }
+
+=head2 Run()
+
+Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
+
+=cut
 
 sub Run {
     my $Self = shift;
@@ -104,7 +117,7 @@ sub Run {
         return \%Result;
     }
 
-    # Write opm content to new sopm file
+    # Write sysconfig content to file
     $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Directory  => $TmpDirectory,
         Filename   => 'SysConfigDump.sysconf',

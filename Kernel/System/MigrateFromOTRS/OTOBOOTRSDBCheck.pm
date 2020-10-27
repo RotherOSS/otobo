@@ -18,10 +18,15 @@ package Kernel::System::MigrateFromOTRS::OTOBOOTRSDBCheck;    ## no critic
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
-use version;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
@@ -58,9 +63,7 @@ sub CheckPreviousRequirement {
 
 =head2 Run()
 
-Returns a hashref on success.
-
-    my $Result = $OTOBOOTRSDBCheck->Run();
+Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
 
 =cut
 
