@@ -649,6 +649,9 @@ my $OTOBOApp = builder {
     # set %ENV
     enable $SetEnvMiddleWare;
 
+    # relies on that Plack::Middleware::Refresh already has populated %Module::Refresh::CACHE
+    enable $RefreshZZZAAutoMiddleWare;
+
     # check ever 10s for changed Perl modules
     enable 'Plack::Middleware::Refresh';
 
