@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-10-21 16:19+0000\n"
-"PO-Revision-Date: 2020-10-27 02:14+0000\n"
+"PO-Revision-Date: 2020-10-27 07:50+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/"
 "otobo10/otobo/zh_Hans/>\n"
@@ -15502,15 +15502,15 @@ msgstr "迁移数据库表单响应_模板。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSalutationsMigrate.pm
 msgid "Migrate database table salutation."
-msgstr ""
+msgstr "迁移数据库表单称呼。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSignaturesMigrate.pm
 msgid "Migrate database table signature."
-msgstr ""
+msgstr "迁移数据库表单签名。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOStatsMigrate.pm
 msgid "Migrate statistics."
-msgstr ""
+msgstr "迁移统计数据。"
 
 #. Perl Module: Kernel/System/NotificationEvent.pm
 msgid ""
@@ -15557,11 +15557,11 @@ msgid ""
 "<p>Additional packages can enhance OTOBO with plenty of useful features. "
 "Ensure, however, that the origin of this package is trustworthy, as it can "
 "modify OTOBO in any possible way.</p>"
-msgstr ""
+msgstr "<p>其他软件包可以为OTOBO提供很多有用的增强性功能，不过请确保这些软件包的来源可靠，因为它们有可能以多种方式修改OTOBO。</p>"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Package not verified by the OTOBO community!"
-msgstr ""
+msgstr "软件包没有经过OTOBO社区验证！"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
@@ -15569,6 +15569,8 @@ msgid ""
 "activate the installation of not verified packages via the "
 "\"AllowNotVerifiedPackages\" system configuration setting.</p>"
 msgstr ""
+"<p>未验证的软件包安装被禁止，你可以通过\"AllowNotVerifiedPackages\" "
+"（容许未验证软件包）系统设置激活未验证软件包的安装。</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -15829,7 +15831,7 @@ msgstr "天"
 
 #. Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
 msgid "Queues / Tickets"
-msgstr ""
+msgstr "队列/工单"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
 msgid "Outdated Tables"
@@ -15890,7 +15892,7 @@ msgstr "服务器端数据库字符集"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Please convert your database to the character set 'utf8mb4'."
-msgstr ""
+msgstr "请将数据库转换为'utf8mb4'字符集。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Table Charset"
@@ -15898,7 +15900,7 @@ msgstr "表字符集"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "There were tables found which do not have 'utf8mb4' as charset."
-msgstr ""
+msgstr "发现了一些表单没有 'utf8mb4' 字符集。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
 msgid "InnoDB Log File Size"
@@ -16329,7 +16331,7 @@ msgstr "软件包验证状态"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not verified by the OTOBO Team."
-msgstr ""
+msgstr "一些软件包未经OTOBO团队验证。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Framework Version Status"
@@ -16566,11 +16568,11 @@ msgstr "不能从WEB服务器收集支持数据。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
 msgid "PSGI Environment"
-msgstr ""
+msgstr "PSGI环境"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
 msgid "Runs under PSGI"
-msgstr ""
+msgstr "在PSGI下运行"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
@@ -16690,7 +16692,7 @@ msgstr "聊天消息文本"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Too many failed login attempts, please retry in %s s."
-msgstr ""
+msgstr "多次登陆尝试都失败的话，请在 %s s再试试。"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
@@ -16779,7 +16781,7 @@ msgstr "没有找到操作“%s”！"
 msgid ""
 "If you want to re-run the MigrateFromOTRS, disable the SecureMode in the "
 "SysConfig."
-msgstr ""
+msgstr "如果要重新运行 MigrateFromOTRS，就在SysConfig中禁用SecureMode。"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "invalid-temporarily"
@@ -17656,7 +17658,7 @@ msgstr "解锁设置。"
 
 #. JS File: Core.Agent.Admin.SystemConfigurationUser
 msgid "Are you sure you want to remove all user values?"
-msgstr ""
+msgstr "请确认是否要删除所有用户值？"
 
 #. JS File: Core.Agent.Admin.SystemMaintenance
 msgid "Do you really want to delete this scheduled system maintenance?"
@@ -17793,7 +17795,7 @@ msgstr "移除这个小部件的活动过滤器。"
 
 #. JS File: Core.Agent.DynamicFieldDBSearch
 msgid "This dynamic field database value is already selected."
-msgstr ""
+msgstr "动态字段数据库数值已经被选中。"
 
 #. JS File: Core.Agent.LinkObject.SearchForm
 msgid "Please wait..."
@@ -18309,7 +18311,7 @@ msgstr "占用时间"
 
 #. SysConfig
 msgid "Activate Elasticsearch."
-msgstr ""
+msgstr "激活Elasticsearch。"
 
 #. SysConfig
 msgid "Activates Rendering of DynamicFields outside of the DynamicField block."
