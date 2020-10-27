@@ -129,6 +129,7 @@ $DatabaseType //=
     $DatabaseDSN =~ m/:mysql/i ? 'mysql'      :
     $DatabaseDSN =~ m/:pg/i    ? 'postgresql' :
     'mysql';
+$DatabaseType = lc $DatabaseType;
 
 # decrypt pw (if needed)
 if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
@@ -136,7 +137,6 @@ if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
 }
 
 # check db backup support
-$DatabaseType = lc $DatabaseType;
 my $DBDumpCmd = '';
 my @DBDumpOptions;
 if ( $DatabaseType eq 'mysql' ) {
@@ -157,13 +157,14 @@ else {
 
 # check needed system commands
 {
-    my @Cmds = ( 'cp', 'tar', 'sed', $DBDumpCmd );
+    my @Cmds = ( 'tar', $DBDumpCmd );
     if ( $BackupType eq 'migratefromotrs' ) {
         push @Cmds, 'sed';
     }
     else {
         push @Cmds, $CompressCMD;
     }
+
     for my $Cmd ( @Cmds ) {
         my $IsInstalled = 0;
         open my $In, '-|', "which $Cmd";    ## no critic
