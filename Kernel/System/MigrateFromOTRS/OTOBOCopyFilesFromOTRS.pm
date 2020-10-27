@@ -315,14 +315,15 @@ sub ReConfigure {
             }
 
             # Other lines might be changed
-            my $CangedLine = $Line;
+            my $ChangedLine = $Line;
 
             # Replace old path with OTOBO path
-            $CangedLine =~ s/$Param{Home}/$ConfigFile/;
+            $ChangedLine =~ s/$Param{Home}/$ConfigFile/;
 
             # Need to comment out SecureMode
-            if ( $CangedLine =~ m/SecureMode/ ) {
-                $Config .= "# $CangedLine  commented out by OTOBOCopyFilesFromOTRS";
+            if ( $ChangedLine =~ m/SecureMode/ ) {
+                chomp $ChangedLine;
+                $Config .= "# $ChangedLine  commented out by OTOBOCopyFilesFromOTRS\n";
 
                 next LINE;
             }
@@ -334,17 +335,17 @@ sub ReConfigure {
                 # Database passwords can contain characters like '@' or '$' and should be single-quoted
                 #   same goes for database hosts which can be like 'myserver\instance name' for MS SQL.
                 if ( $Key eq 'DatabasePw' || $Key eq 'DatabaseHost' ) {
-                    $CangedLine =~
+                    $ChangedLine =~
                         s/(\$Self->\{\s*("|'|)$Key("|'|)\s*}\s+=.+?('|"));/\$Self->{'$Key'} = '$Param{$Key}'; # from original OTOBO config /g;
 
                     next CONFIGKEY;
                 }
 
                 # other setting double quoted
-                $CangedLine =~
+                $ChangedLine =~
                     s/(\$Self->\{\s*("|'|)$Key("|'|)\s*}\s+=.+?('|"));/\$Self->{'$Key'} = "$Param{$Key}"; # from original OTOBO config /g;
             }
-            $Config .= $CangedLine;
+            $Config .= $ChangedLine;
         }
     }
 
