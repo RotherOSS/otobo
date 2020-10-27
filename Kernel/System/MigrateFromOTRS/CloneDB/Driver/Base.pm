@@ -430,7 +430,7 @@ sub DataTransfer {
         # Or when only one of the connections is via socket.
         # Be careful and also make some sanity additional sanity checks.
         # For now only 'mysql' is supported.
-        # TODO: move parts of the check into the scpecic driver object
+        # TODO: move parts of the check into the specific driver object
         my $BatchInsertIsPossible = eval {
 
             # source and target must be the same database type
