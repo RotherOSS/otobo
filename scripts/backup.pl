@@ -129,6 +129,7 @@ $DatabaseType //=
     $DatabaseDSN =~ m/:mysql/i ? 'mysql'      :
     $DatabaseDSN =~ m/:pg/i    ? 'postgresql' :
     'mysql';
+$DatabaseType = lc $DatabaseType;
 
 # decrypt pw (if needed)
 if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
@@ -136,7 +137,6 @@ if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
 }
 
 # check db backup support
-$DatabaseType = lc $DatabaseType;
 my $DBDumpCmd = '';
 my @DBDumpOptions;
 if ( $DatabaseType eq 'mysql' ) {
@@ -157,13 +157,14 @@ else {
 
 # check needed system commands
 {
-    my @Cmds = ( 'cp', 'tar', 'sed', $DBDumpCmd );
+    my @Cmds = ( 'tar', $DBDumpCmd );
     if ( $BackupType eq 'migratefromotrs' ) {
         push @Cmds, 'sed';
     }
     else {
         push @Cmds, $CompressCMD;
     }
+
     for my $Cmd ( @Cmds ) {
         my $IsInstalled = 0;
         open my $In, '-|', "which $Cmd";    ## no critic
@@ -276,9 +277,14 @@ if ( $DatabaseType eq 'mysql' ) {
         # dump schema and data separately, no compression
         say "Dumping $DatabaseType schema to $BackupDir/${DatabaseName}_schema.sql ... ";
         say "Dumping $DatabaseType data to $BackupDir/${DatabaseName}_data.sql ... ";
+        my @Substitutions = (
+            q{-e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/'}, # for CREATE DATABASE
+            q{-e 's/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/'},             # for CREATE TABLE
+            q{-e 's/COLLATE=\\w\\+/ /'},                                         # for CREATE TABLE, remove customer specific collation
+        );
         my @Commands = (
             qq{$DBDumpCmd -u $DatabaseUser @DBDumpOptions -h $DatabaseHost --databases $DatabaseName --no-data --dump-date -r $BackupDir/${DatabaseName}_schema.sql},
-            qq{sed -i.bak -e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/' -e 's/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/' $BackupDir/${DatabaseName}_schema.sql},
+            qq{sed -i.bak @Substitutions $BackupDir/${DatabaseName}_schema.sql},
             qq{$DBDumpCmd -u $DatabaseUser @DBDumpOptions -h $DatabaseHost --databases $DatabaseName --no-create-info --no-create-db --dump-date -r $BackupDir/${DatabaseName}_data.sql},
         );
 
