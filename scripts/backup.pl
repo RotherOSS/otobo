@@ -277,9 +277,14 @@ if ( $DatabaseType eq 'mysql' ) {
         # dump schema and data separately, no compression
         say "Dumping $DatabaseType schema to $BackupDir/${DatabaseName}_schema.sql ... ";
         say "Dumping $DatabaseType data to $BackupDir/${DatabaseName}_data.sql ... ";
+        my @Substitutions = (
+            q{-e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/'}, # for CREATE DATABASE
+            q{-e 's/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/'},             # for CREATE TABLE
+            q{-e 's/COLLATE=\\w\\+/ /'},                                         # for CREATE TABLE, remove customer specific collation
+        );
         my @Commands = (
             qq{$DBDumpCmd -u $DatabaseUser @DBDumpOptions -h $DatabaseHost --databases $DatabaseName --no-data --dump-date -r $BackupDir/${DatabaseName}_schema.sql},
-            qq{sed -i.bak -e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/' -e 's/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/' $BackupDir/${DatabaseName}_schema.sql},
+            qq{sed -i.bak @Substitutions $BackupDir/${DatabaseName}_schema.sql},
             qq{$DBDumpCmd -u $DatabaseUser @DBDumpOptions -h $DatabaseHost --databases $DatabaseName --no-create-info --no-create-db --dump-date -r $BackupDir/${DatabaseName}_data.sql},
         );
 
