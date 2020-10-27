@@ -514,19 +514,25 @@ my $DumpEnvApp = sub {
     ];
 };
 
-# handler for /otobo
-# Redirect to otobo/index.pl when in doubt, no permission check
+# Handler andler for 'otobo', 'otobo/', 'otobo/not_existent', 'otobo/some/thing' and such.
+# Would also work for /dummy if mounted accordingly.
+# Redirect via a relative URL to otobo/index.pl.
+# No permission check,
 my $RedirectOtoboApp = sub {
     my $Env = shift;
 
-    my $req = Plack::Request->new($Env);
-    my $uri = $req->base;
-    $uri->path($uri->path . '/index.pl');
+    # construct a relative path to otobo/index.pl
+    my $Req = Plack::Request->new($Env);
+    my $OrigPath = $Req->path;
+    my $Levels   = $OrigPath =~ tr[/][];
+    my $NewPath  = join '/', map( {  '..' } ( 1 .. $Levels ) ), 'otobo/index.pl';
 
-    my $res = Plack::Response->new();
-    $res->redirect($uri);
+    # redirect
+    my $Res = Plack::Response->new();
+    $Res->redirect($NewPath);
 
-    return $res->finalize;
+    # send the PSGI response
+    return $Res->finalize;
 };
 
 # an App for inspecting the database, logged in user must be an admin
