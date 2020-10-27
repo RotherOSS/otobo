@@ -34,7 +34,7 @@ use Kernel::System::ObjectManager;
 # even though this route could also be available outside Docker.
 skip_all 'not running under Docker' unless $ENV{OTOBO_RUNS_UNDER_DOCKER};
 
-plan( 2 + 3 );
+plan( 3 );
 
 $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
@@ -42,17 +42,9 @@ $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 
+# get needed singleto
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase   => 1,
-        SkipSSLVerify     => 1,
-        DisableAsyncCalls => 1,
-    },
-);
-
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # set up URLS
 my $ExactRootURL = join '',
