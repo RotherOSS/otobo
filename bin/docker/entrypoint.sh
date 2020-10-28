@@ -8,13 +8,13 @@
 ################################################################################
 
 otobo_next="/opt/otobo_install/otobo_next"
-upgrade_log="/opt/otobo/var/log/upgrade.log"
+update_log="/opt/otobo/var/log/update.log"
 
 ################################################################################
 # Declare functions
 ################################################################################
 
-# does a version check before upgrading
+# does the initial copy to /opt/otobo
 function handle_docker_firsttime() {
 
     if [ ! -d  $OTOBO_HOME ]; then
@@ -23,13 +23,12 @@ function handle_docker_firsttime() {
     elif [ ! "$(ls $OTOBO_HOME)" ]; then
         # first the simple case: there is no previous installation
         # use a simle 'ls' for checking dir content, hidden files like .bashrc are ignored
-        upgrade_patchlevel_release
-    else
-        if [ "$(compare_versions "$otobo_next/RELEASE" "$OTOBO_HOME/RELEASE")" = "1" ]; then
-            upgrade_patchlevel_release
-            reinstall_all
-        fi
+        copy_otobo_next
+
     fi
+
+    # When /opt/otobo already exists then do no automatic update.
+    # The updating has to be triggered with an explicit 'update' command.
 
     # we are done, docker_firstime has been handled
     # $otobo_next is not removed, it is kept for future reference
@@ -38,7 +37,6 @@ function handle_docker_firsttime() {
 }
 
 # An easy way to start bash.
-# Or do upgrades.
 # Or list files.
 function exec_whatever() {
     exec $@
@@ -102,8 +100,7 @@ function exec_web() {
 }
 
 # preserve added files in the previous
-function upgrade_patchlevel_release() {
-    # TODO: maybe create a backup of /opt/otobo, in case somebody did change important files
+function copy_otobo_next() {
 
     # Copy files recursively.
     # Changed files are overwritten, new files are not deleted.
@@ -115,63 +112,37 @@ function upgrade_patchlevel_release() {
         date
         echo "Copied $otobo_next to $OTOBO_HOME"
         echo
-    } >> $upgrade_log
+    } >> $update_log
 
     # clean up
     rm -f $OTOBO_HOME/docker_firsttime
     rm -f $OTOBO_HOME/docker_firsttime_handled
 
+    # Make sure that an initial config is available. But don't overwrite existing config.
     # Use the docker specific Config.pm.dist file.
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pm.docker.dist $OTOBO_HOME/Kernel/Config.pm
-    # Config.pod might have been adapted too, dont overwrite it
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pod.dist       $OTOBO_HOME/Kernel/Config.pod
 }
 
-#function reinstall_all() {
-#
-#    # reinstall package
-#    # Not that this works only if OTOBO has been properly configured
-#    {
-#        date
-#        ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll 2>&1)
-#        echo
-#    } >> $upgrade_log
-#}
+function do_update_tasks() {
+
+    # reinstall package, rebuild config, purge cache
+    # Not that this works only if OTOBO has been properly configured
+    {
+        echo "started do_update_tasks()"
+        date
+        ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll 2>&1)
+        ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::UpgradeAll 2>&1)
+        ($OTOBO_HOME/bin/otobo.Console.pl Maint::Config::Rebuild 2>&1)
+        ($OTOBO_HOME/bin/otobo.Console.pl Maint::Cache::Delete 2>&1)
+        date
+        echo "finished do_update_tasks()"
+        echo
+    } >> $update_log
+}
 
 print_error() {
     echo -e "\e[101m[ERROR]\e[0m $1"
-}
-
-extract_version_from_release_file () {
-    local release_file="$1"
-
-    local current_version="$(cat $release_file | grep VERSION | cut -d'=' -f2)"
-
-    echo $current_version
-}
-
-# prints logical output
-# empty strings in questionable cases
-# -1 if $1 less the $2
-# 0 if $1 equals $2
-# 1 if $1 greater $2
-# The comparison is aware of the version semantics.
-compare_versions () {
-    local first_version="$(extract_version_from_release_file $1)"
-    local second_version="$(extract_version_from_release_file $2)"
-
-    # refuse to compare versions like 10.0.x.
-    # This indicates development and the developer must decide herself.
-    # upgrade can be forced with the command 'upgrade_patchlevel_release'
-    [[ "$first_version"  =~ [^0-9.] ]] && echo "" && return 1
-    [[ "$second_version" =~ [^0-9.] ]] && echo "" && return 2
-
-    local lower_version=$(echo -e "$first_version\n$second_version" | sed '/^$/d' | sort --version-sort | head -1)
-    [[ "$first_version" = "$lower_version" ]] && echo "-1" && return 0
-
-    echo "1" && return 0
-
-    return 3
 }
 
 ################################################################################
@@ -188,11 +159,13 @@ fi
 # Run the OTOBO Daemon the webserver
 if [ "$1" = "daemon" ]; then
     start_and_check_daemon
+
     exit $?
 fi
 
 # Start the webserver
 if [ "$1" = "web" ]; then
+
     # first check whether the container is started with a new image
     if [ -f "$otobo_next/docker_firsttime" ]; then
         handle_docker_firsttime
@@ -202,18 +175,19 @@ if [ "$1" = "web" ]; then
     exec_web
 fi
 
-# copy otobo_next without checking docker_firsttime or RELEASE
-# useful during development
-if [ "$1" = "upgrade" ]; then
-    upgrade_patchlevel_release
+# copy /opt/otobo_install/otobo_next without checking docker_firsttime
+if [ "$1" = "copy_otobo_next" ]; then
+    copy_otobo_next
+
     exit $?
 fi
 
-#if [ "$1" = "upgrade_reinstall" ]; then
-#    upgrade_patchlevel_release
-#    reinstall_all
-#    exit $?
-#fi
+# update
+if [ "$1" = "do_update_tasks" ]; then
+    do_update_tasks
+
+    exit $?
+fi
 
 # as a fallback execute the passed command
 exec_whatever $@
