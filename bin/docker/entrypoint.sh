@@ -23,10 +23,10 @@ function handle_docker_firsttime() {
     elif [ ! "$(ls $OTOBO_HOME)" ]; then
         # first the simple case: there is no previous installation
         # use a simle 'ls' for checking dir content, hidden files like .bashrc are ignored
-        upgrade_patchlevel_release
+        update_patchlevel_release
     else
         if [ "$(compare_versions "$otobo_next/RELEASE" "$OTOBO_HOME/RELEASE")" = "1" ]; then
-            upgrade_patchlevel_release
+            update_patchlevel_release
             reinstall_all
         fi
     fi
@@ -102,7 +102,7 @@ function exec_web() {
 }
 
 # preserve added files in the previous
-function upgrade_patchlevel_release() {
+function update_patchlevel_release() {
     # TODO: maybe create a backup of /opt/otobo, in case somebody did change important files
 
     # Copy files recursively.
@@ -162,7 +162,7 @@ compare_versions () {
 
     # refuse to compare versions like 10.0.x.
     # This indicates development and the developer must decide herself.
-    # upgrade can be forced with the command 'upgrade_patchlevel_release'
+    # upgrade can be forced with the command 'update_patchlevel_release'
     [[ "$first_version"  =~ [^0-9.] ]] && echo "" && return 1
     [[ "$second_version" =~ [^0-9.] ]] && echo "" && return 2
 
@@ -202,15 +202,14 @@ if [ "$1" = "web" ]; then
     exec_web
 fi
 
-# copy otobo_next without checking docker_firsttime or RELEASE
-# useful during development
-if [ "$1" = "upgrade" ]; then
-    upgrade_patchlevel_release
+# copy /opt/otobo_install/otobo_next without checking docker_firsttime
+if [ "$1" = "update" ]; then
+    update_patchlevel_release
     exit $?
 fi
 
 #if [ "$1" = "upgrade_reinstall" ]; then
-#    upgrade_patchlevel_release
+#    update_patchlevel_release
 #    reinstall_all
 #    exit $?
 #fi
