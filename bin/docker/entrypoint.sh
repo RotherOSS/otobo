@@ -174,14 +174,10 @@ fi
 # copy /opt/otobo_install/otobo_next without checking docker_firsttime
 if [ "$1" = "update" ]; then
     update_patchlevel_release
+    reinstall_all
+
     exit $?
 fi
-
-#if [ "$1" = "upgrade_reinstall" ]; then
-#    update_patchlevel_release
-#    reinstall_all
-#    exit $?
-#fi
 
 # as a fallback execute the passed command
 exec_whatever $@
