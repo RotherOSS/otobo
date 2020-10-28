@@ -674,7 +674,7 @@ my $OTOBOApp = builder {
                     return Kernel::System::Web::InterfacePublic->new( %InterfaceParams );
                 }
 
-                if ( $ScriptFileName eq 'public.pl' ) {
+                if ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
                     return Kernel::GenericInterface::Provider->new( %InterfaceParams );
                 }
 
