@@ -23,7 +23,8 @@ function handle_docker_firsttime() {
     elif [ ! "$(ls $OTOBO_HOME)" ]; then
         # first the simple case: there is no previous installation
         # use a simle 'ls' for checking dir content, hidden files like .bashrc are ignored
-        update_patchlevel_release
+        copy_otobo_next
+
     fi
 
     # When /opt/otobo already exists then do no automatic update.
@@ -100,8 +101,7 @@ function exec_web() {
 }
 
 # preserve added files in the previous
-function update_patchlevel_release() {
-    # TODO: maybe create a backup of /opt/otobo, in case somebody did change important files
+function copy_otobo_next() {
 
     # Copy files recursively.
     # Changed files are overwritten, new files are not deleted.
@@ -119,9 +119,10 @@ function update_patchlevel_release() {
     rm -f $OTOBO_HOME/docker_firsttime
     rm -f $OTOBO_HOME/docker_firsttime_handled
 
+    # Make sure that an initial config is available. But don't overwrite existing config.
+
     # Use the docker specific Config.pm.dist file.
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pm.docker.dist $OTOBO_HOME/Kernel/Config.pm
-    # Config.pod might have been adapted too, dont overwrite it
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pod.dist       $OTOBO_HOME/Kernel/Config.pod
 }
 
@@ -173,7 +174,7 @@ fi
 
 # copy /opt/otobo_install/otobo_next without checking docker_firsttime
 if [ "$1" = "update" ]; then
-    update_patchlevel_release
+    copy_otobo_next
     reinstall_all
 
     exit $?
