@@ -348,6 +348,7 @@ The HTTP code is set accordingly
 
     $Result = {
         Success      => 1,   # 0 or 1
+        Output       => $HeaderAndContent,
         ErrorMessage => '',  # in case of error
     };
 
