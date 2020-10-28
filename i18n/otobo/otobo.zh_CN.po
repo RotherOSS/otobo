@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-10-21 16:19+0000\n"
-"PO-Revision-Date: 2020-10-27 07:50+0000\n"
+"PO-Revision-Date: 2020-10-28 11:11+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/"
 "otobo10/otobo/zh_Hans/>\n"
@@ -18315,7 +18315,7 @@ msgstr "激活Elasticsearch。"
 
 #. SysConfig
 msgid "Activates Rendering of DynamicFields outside of the DynamicField block."
-msgstr ""
+msgstr "在DynamicField块之外激活DynamicField的呈现。"
 
 #. SysConfig
 msgid ""
@@ -18460,7 +18460,7 @@ msgstr "系统管理区。"
 
 #. SysConfig
 msgid "Admin Contact With Data"
-msgstr ""
+msgstr "有数据的管理员联系人"
 
 #. SysConfig
 msgid "Admin Notification"
@@ -18472,7 +18472,7 @@ msgstr "服务人员界面系统管理模块导航。"
 
 #. SysConfig
 msgid "Admin contact with data."
-msgstr ""
+msgstr "有数据的管理员联系人。"
 
 #. SysConfig
 msgid "Admin modules overview."
@@ -18488,7 +18488,7 @@ msgstr "管理"
 
 #. SysConfig
 msgid "Agent Contact With Data Search"
-msgstr ""
+msgstr "带有数据搜索的话务员联系人"
 
 #. SysConfig
 msgid "Agent Customer Search"
@@ -18500,15 +18500,15 @@ msgstr "服务人员搜索客户。"
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Detailed Search"
-msgstr ""
+msgstr "话务员动态字段数据库详情搜索"
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Details"
-msgstr ""
+msgstr "话务员动态字段数据库详情"
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Search"
-msgstr ""
+msgstr "话务员动态字段数据库搜索"
 
 #. SysConfig
 msgid "Agent Name"
@@ -18536,25 +18536,25 @@ msgstr "服务人员搜索用户。"
 
 #. SysConfig
 msgid "Agent contact with data search."
-msgstr ""
+msgstr "带有数据搜索的话务员联系人。"
 
 #. SysConfig
 msgid "Agent dynamic field database detailed search."
-msgstr ""
+msgstr "话务员动态字段数据库详情搜索。"
 
 #. SysConfig
 msgid "Agent dynamic field database details."
-msgstr ""
+msgstr "话务员动态字段数据库详情。"
 
 #. SysConfig
 msgid "Agent dynamic field database search."
-msgstr ""
+msgstr "话务员动态字段数据库搜索。"
 
 #. SysConfig
 msgid ""
 "Agent frontend module registration (disable 'Edit contacts with data' link "
 "if if there is no source field configured)."
-msgstr ""
+msgstr "话务员前端模块注册（如果未配置源字段，请禁用“编辑带数据的联系人”链接）。"
 
 #. SysConfig
 msgid "Agent interface article notification module to check PGP."
@@ -18640,7 +18640,7 @@ msgstr ""
 msgid ""
 "AgentTicketZoom widget that displays Contact with data dynamic field in the "
 "side bar."
-msgstr ""
+msgstr "AgentTicketZoom小部件在侧栏中显示有数据动态字段联系人。"
 
 #. SysConfig
 msgid ""
@@ -19024,7 +19024,7 @@ msgstr "附件名"
 
 #. SysConfig
 msgid "Autoloading of Znuny4OTOBOPasswordPolicy extensions."
-msgstr ""
+msgstr "自动加载Znuny4OTOBOPasswordPolicy的扩展。"
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -19161,6 +19161,8 @@ msgid ""
 "suspend state. No escalation times are shown. Ticket will not be shown in "
 "escalation view."
 msgstr ""
+"如果工单处于已配置的挂起状态（EscalationSuspendStates），请取消升级，因为处于已配置的挂起状态下的工单根本不会升级，不会显示升级时间"
+"，也不会显示在升级视图中。"
 
 #. SysConfig
 msgid "Catalan"
