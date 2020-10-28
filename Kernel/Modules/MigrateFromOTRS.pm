@@ -20,11 +20,13 @@ package Kernel::Modules::MigrateFromOTRS;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 
 # CPAN modules
-use DBI;
 
 # OTOBO modules
 use Kernel::Language qw(Translatable);
@@ -33,17 +35,20 @@ use Kernel::System::VariableCheck qw(:all);
 our $ObjectManagerDisabled = 1;
 
 sub new {
-    my ( $Class, %Param ) = @_;
+    my $Class = shift;
+    my %Param = @_;
 
     # Allocate new hash for object.
     return bless { %Param }, $Class;
 }
 
 sub Run {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     my $CacheTTL = 60 * 60 * 24 * 7; # 1 week
 
+    # get object manager singletons
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -57,54 +62,44 @@ sub Run {
     }
 
     # Check environment directories.
-    $Self->{Path} = $ConfigObject->Get('Home');
-    if ( !-d $Self->{Path} ) {
-        $LayoutObject->FatalError(
-            Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" doesn\'t exist!', $Self->{Path} ),
-            Comment => Translatable('Configure "Home" in Kernel/Config.pm first!'),
-        );
-    }
-    if ( !-f "$Self->{Path}/Kernel/Config.pm" ) {
-        $LayoutObject->FatalError(
-            Message =>
-                $LayoutObject->{LanguageObject}->Translate( 'File "%s/Kernel/Config.pm" not found!', $Self->{Path} ),
-            Comment => Translatable('Please contact the administrator.'),
-        );
-    }
+    {
+        my $Home = $ConfigObject->Get('Home');
 
-    # Check/get SQL schema directory
-    my $DirOfSQLFiles = $Self->{Path} . '/scripts/database';
-    if ( !-d $DirOfSQLFiles ) {
-        $LayoutObject->FatalError(
-            Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" not found!', $DirOfSQLFiles ),
-            Comment => Translatable('Please contact the administrator.'),
-        );
+        if ( ! -d $Home ) {
+            $LayoutObject->FatalError(
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" doesn\'t exist!', $$Home ),
+                Comment => Translatable('Configure "Home" in Kernel/Config.pm first!'),
+            );
+        }
+
+        if ( ! -f "$Home/Kernel/Config.pm" ) {
+            $LayoutObject->FatalError(
+                Message => $LayoutObject->{LanguageObject}->Translate( 'File "%s/Kernel/Config.pm" not found!', $$Home ),
+                Comment => Translatable('Please contact the administrator.'),
+            );
+        }
     }
 
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-    $Self->{Subaction} = 'Intro' if !$Self->{Subaction};
+    # start at the beginning per default
+    $Self->{Subaction} ||= 'Intro';
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
+    # perform the requested AJAX task
     my $AJAXTask = $ParamObject->GetParam( Param => 'Task' );
-
-    # perform various AJAX tasks
     if ($AJAXTask) {
-        my $Return;
+        my $Return = {};
         my $MigrateFromOTRSObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS');
 
         if ( $Self->{Subaction} eq 'GetProgress' && $AJAXTask eq 'GetProgress' ) {
+
             my $Status = $CacheObject->Get(
                 Type => 'OTRSMigration',
                 Key  => 'MigrationState',
             );
 
-            if ( !$Status ) {
-                $Return = {};
-            }
-            else {
+            if ( $Status ) {
                 my $Now  = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
                 my $Time = $Now - $Status->{StartTime};
                 my $TimeSpent;
@@ -116,7 +111,7 @@ sub Run {
                     $TimeSpent .= sprintf "%02d m ", int( $Time / 60 );
                     $Time = $Time % 60;
                 }
-                $TimeSpent .= sprintf "%02d s", $Time;
+                $TimeSpent .= sprintf '%02d s', $Time;
 
                 $Return = {
                     Task      => $Status->{Task},
@@ -125,9 +120,7 @@ sub Run {
                     Continue  => 1,
                 };
             }
-
         }
-
         elsif ( $Self->{Subaction} eq 'Intro' && $AJAXTask eq 'ClearCache' ) {
             for my $Step (qw/Intro OTRSFileSettings OTRSDBSettings Copy/) {
                 $CacheObject->Delete(
@@ -137,7 +130,6 @@ sub Run {
             }
             $Return = { Successful => 1 };
         }
-
         elsif ( $Self->{Subaction} eq 'OTRSFileSettings' && $AJAXTask eq 'CheckSettings' ) {
             my %GetParam;
             for my $Key (qw/OTRSLocation FQDN SSHUser Password Port OTRSHome/) {
@@ -160,10 +152,9 @@ sub Run {
                 OTRSData => \%GetParam,
             )->{'OTOBOOTRSConnectionCheck'};
         }
-
         elsif ( $Self->{Subaction} eq 'OTRSDBSettings' && $AJAXTask eq 'CheckSettings' ) {
             my %GetParam;
-            for my $Key (qw/DBType DBHost DBUser DBPassword DBName DBSID DBPort/) {
+            for my $Key (qw/DBType DBHost DBUser DBPassword DBName DBIsThrowaway DBSID DBPort/) {
                 $GetParam{$Key} = $ParamObject->GetParam( Param => $Key ) // '';
                 chomp( $GetParam{$Key} );
                 $GetParam{$Key} =~ s/^\s+//;
@@ -188,7 +179,6 @@ sub Run {
                 DBData => \%GetParam,
             )->{'OTOBOOTRSDBCheck'};
         }
-
         elsif ( $Self->{Subaction} eq 'PreChecks' || $Self->{Subaction} eq 'Copy' ) {
 
             my @Taskorder;
@@ -218,6 +208,7 @@ sub Run {
                     OTOBOCacheCleanup
                 );
             }
+
             my %NextTask = map { $Taskorder[$_] => $Taskorder[ $_ + 1 ] // '' } ( 0 .. $#Taskorder );
 
             # check task
@@ -290,7 +281,6 @@ sub Run {
             }
 
         }
-
         else {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -307,6 +297,7 @@ sub Run {
         # The output should not be encoded because the content
         # will be encoded in otobo.psgi. Double encoding is bad.
         my $OutputJSON = $LayoutObject->JSONEncode( Data => $Return );
+
         return $LayoutObject->Attachment(
             ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $OutputJSON,
@@ -339,8 +330,6 @@ sub Run {
         Finish
     );
 
-    my $StepCounter;
-
     # Build header
     $LayoutObject->Block(
         Name => 'Steps',
@@ -349,69 +338,82 @@ sub Run {
         },
     );
 
-    # On the intro screen no steps should be highlighted.
-    my $Highlight = ( $Self->{Subaction} eq 'Intro' ) ? '' : 'Highlighted NoLink';
 
-    my $Counter;
+    # for displaying progress
+    my $StepCounter = '';
 
-    for my $Step (@Steps) {
-        $Counter++;
+    # overview over the steps
+    {
+        # On the intro screen no steps should be highlighted.
+        my $Highlight     = $Self->{Subaction} eq 'Intro' ? '' : 'Highlighted NoLink';
+        my $TotalNumSteps = scalar @Steps;
+        my $Counter       = 0;
+        for my $Step (@Steps) {
+            $Counter++;
 
-        # Is the current step active?
-        my $Active = ( $Self->{Subaction} eq $Step ) ? 'Active' : '';
-        $LayoutObject->Block(
-            Name => 'SingleStep',
-            Data => {
-                Step        => $Counter,
-                Highlight   => $Highlight,
-                Active      => $Active,
-                Description => $LayoutObject->{LanguageObject}->Translate( $Subtitles{$Step} ),
-            },
-        );
+            # Is the current step active?
+            my $Active = $Self->{Subaction} eq $Step ? 'Active' : '';
+            $LayoutObject->Block(
+                Name => 'SingleStep',
+                Data => {
+                    Step        => $Counter,
+                    Highlight   => $Highlight,
+                    Active      => $Active,
+                    Description => $LayoutObject->{LanguageObject}->Translate( $Subtitles{$Step} ),
+                },
+            );
 
-        # If this is the actual step.
-        if ( $Self->{Subaction} eq $Step ) {
+            # If this is the actual step.
+            if ( $Self->{Subaction} eq $Step ) {
 
-            # No more highlights from now on.
-            $Highlight = '';
+                # No more highlights from now on.
+                $Highlight = '';
 
-            # Step calculation: 2/5 etc.
-            $StepCounter = $Counter . "/" . scalar @Steps;
+                # Step calculation: 2/5 etc.
+                $StepCounter = "$Counter/$TotalNumSteps";
+            }
         }
     }
 
-    # get previously cached data
-    my $CachedData = $CacheObject->Get(
-        Type => 'OTRSMigration',
-        Key  => $Self->{Subaction},
-    ) // {};
+    # get previously cached data or default settings for the subaction
+    my %FieldData;
+    {
+        my $CachedData = $CacheObject->Get(
+            Type => 'OTRSMigration',
+            Key  => $Self->{Subaction},
+        ) // {};
 
-    # define defaults for various settings
-    my %FieldData = %{$CachedData};
-    if ( !IsHashRefWithData($CachedData) ) {
-        my %Defaults = (
-            Intro => {
-                Subaction => 'OTRSFileSettings',
-            },
-            OTRSFileSettings => {
-                OTRSLocation => 'localhost',
-                OTRSHome     => '/opt/otrs/',
-            },
-            OTRSDBSettings => {
-                DBName => 'otrs',
-                DBUser => 'otrs',
-                DBPort => 1521,
-            },
-            PreChecks => {
-                NextTask => 'OTOBOFrameworkVersionCheck',
-            },
-            Copy => {
-                NextTask => 'OTOBODatabaseMigrate',
-            },
-        );
+        %FieldData = $CachedData->%*;
 
-        if ( $Defaults{ $Self->{Subaction} } ) {
-            %FieldData = %{ $Defaults{ $Self->{Subaction} } };
+        # Use defaults for various settings, unless we have cached data
+        if ( !IsHashRefWithData($CachedData) ) {
+
+            # Under Docker we assume that /opt/otrs has been copied init otobo_opt_otobo volume.
+            my $DefaultOTRSHome = $ENV{OTOBO_RUNS_UNDER_DOCKER} ? '/opt/otobo/var/tmp/copied_otrs' : '/opt/otrs';
+            my %Defaults = (
+                Intro => {
+                    Subaction => 'OTRSFileSettings',
+                },
+                OTRSFileSettings => {
+                    OTRSLocation => 'localhost',
+                    OTRSHome     => $DefaultOTRSHome,
+                },
+                OTRSDBSettings => {
+                    DBName => 'otrs',
+                    DBUser => 'otrs',
+                    DBPort => 1521,    # why Oracle port as default ?
+                },
+                PreChecks => {
+                    NextTask => 'OTOBOFrameworkVersionCheck',
+                },
+                Copy => {
+                    NextTask => 'OTOBODatabaseMigrate',
+                },
+            );
+
+            if ( $Defaults{ $Self->{Subaction} } ) {
+                %FieldData = $Defaults{ $Self->{Subaction} }->%*;
+            }
         }
     }
 
@@ -425,12 +427,13 @@ sub Run {
         },
         OTRSDBSettings => {
             DBType => {
-                mysql      => "MySQL",
-                postgresql => "PostgreSQL",
-                oracle     => "Oracle",
+                mysql      => 'MySQL',
+                postgresql => 'PostgreSQL',
+                oracle     => 'Oracle',
             },
         },
     );
+
     if ( $Selections{ $Self->{Subaction} } ) {
         for my $FieldID ( sort keys %{ $Selections{ $Self->{Subaction} } } ) {
             $FieldData{"Select$FieldID"} = $LayoutObject->BuildSelection(
@@ -523,7 +526,8 @@ sub Run {
 }
 
 sub _Finish {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Take care that default config is in the database.
     if ( !$Self->_CheckConfig() ) {
@@ -541,7 +545,7 @@ sub _Finish {
     );
 
     # Update config item via SysConfig object.
-    my $Result = $SysConfigObject->SettingUpdate(
+    my %Result = $SysConfigObject->SettingUpdate(
         Name              => $SettingName,
         IsValid           => 1,
         EffectiveValue    => 1,
@@ -549,9 +553,9 @@ sub _Finish {
         UserID            => 1,
     );
 
-    if ( !$Result ) {
-        $Param{LayoutObject}->FatalError(
-            Message => Translatable('Can\'t write Config file!'),
+    if ( ! $Result{Success} ) {
+        return $Param{LayoutObject}->FatalError(
+            Message => Translatable(q{Can't activate SecureMode: }) . $Result{Error}
         );
     }
 
@@ -592,15 +596,36 @@ sub _Finish {
         }
     }
 
-    # prepare link to the agent interface
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $Host = $ParamObject->HTTP('HOST') || $Param{ConfigObject}->Get('FQDN');
-    $Host =~ s/\/$//;
-    my $OTOBOHandle = $ParamObject->ScriptName() // '';
-    $OTOBOHandle =~ s/migration\.pl/index.pl/;
+    # get object manager singletons
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # index.pl is appended in the template
+    my $OTOBOHandle = $ParamObject->ScriptName();
+    $OTOBOHandle =~ s/\/(.*)\/migration\.pl/$1/;
+
+    # Under Docker the scheme is correctly recognised as there are only two relevant cases:
+    #   a) HTTP should actually be used
+    #   b) HTTPS should be used and it works because nginx sets HTTPS
+    my $Scheme;
+    {
+        my $HTTPS  = $ParamObject->HTTPS('HTTPS');
+        $Scheme = ($HTTPS && lc $HTTPS eq 'on') ? 'https' : 'http';
+    }
+
+    # In the docker case $ENV{HTTP_HOST} is something like 'localhost:8443'.
+    # This is not very helpful as port 8443 is not exposed on the Docker host.
+    # So let's use the host that is provided by nginx
+    # Another, maybe better, approach is to simple provide a relative link to '../index.pl'.
+    # Fun fact: the FQDN can specified with a port.
+    my $Host =
+        $ParamObject->HTTP('HTTP_X_FORWARDED_SERVER')    # for the HTTPS case, the hostname that nginx sees
+        || $ParamObject->HTTP('HOST')                    # should work in the HTTP case, in Docker or not in Docker
+        || $ConfigObject->Get('FQDN');                   # a fallback
 
     return {
         Webserver   => $Webserver,
+        Scheme      => $Scheme,
         OTOBOHandle => $OTOBOHandle,
         Host        => $Host,
     };

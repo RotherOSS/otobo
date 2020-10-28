@@ -18,12 +18,19 @@ package Kernel::System::MigrateFromOTRS::CloneDB::Driver::mysql;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
-use Kernel::System::VariableCheck qw(:all);
 use parent qw(Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
+
 our @ObjectDependencies = (
-    'Kernel::Config',
     'Kernel::System::Log',
 );
 
@@ -33,20 +40,18 @@ Kernel::System::MigrateFromOTRS::CloneDB::Driver::mysql
 
 =head1 SYNOPSIS
 
-CloneDBs mysql Driver delegate
+    # CloneDBs mysql Driver delegate
 
-=head1 PUBLIC INTERFACE
+=head1 DESCRIPTION
 
 This module implements the public interface of L<Kernel::System::MigrateFromOTRS::CloneDB::Backend>.
 Please look there for a detailed reference of the functions.
 
-=over 4
+=head1 PUBLIC INTERFACE
 
 =cut
 
-#
 # create external db connection.
-#
 sub CreateOTRSDBConnection {
     my ( $Self, %Param ) = @_;
 
@@ -89,11 +94,11 @@ sub CreateOTRSDBConnection {
     return $OTRSDBObject;
 }
 
-#
 # List all tables in the OTRS database in alphabetical order.
-#
+# The alphabetical ordering is actually undocumented.
 sub TablesList {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     if ( !$Param{DBObject} ) {
@@ -106,8 +111,7 @@ sub TablesList {
     }
 
     $Param{DBObject}->Prepare(
-        SQL => "
-            SHOW TABLES",
+        SQL => "SHOW TABLES",
     ) || return ();
 
     my @Result;
@@ -118,12 +122,10 @@ sub TablesList {
     return @Result;
 }
 
-#
-#
 # List all columns of a table in the order of their position.
-#
 sub ColumnsList {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject DBName Table)) {
@@ -132,6 +134,7 @@ sub ColumnsList {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -142,8 +145,6 @@ sub ColumnsList {
             FROM information_schema.columns
             WHERE table_name = ? AND table_schema = ?
             ORDER BY ordinal_position ASC",
-
-        # SQL => "DESCRIBE ?",
         Bind => [
             \$Param{Table}, \$Param{DBName},
         ],
@@ -153,15 +154,14 @@ sub ColumnsList {
     while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
         push @Result, $Row[0];
     }
+
     return \@Result;
 }
 
-#
-#
 # Get all binary columns and return table.column
-#
 sub BlobColumnsList {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject DBName Table)) {
@@ -170,6 +170,7 @@ sub BlobColumnsList {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -189,16 +190,15 @@ sub BlobColumnsList {
         my $TCString = "$Param{Table}.$Row[0]";
         $Result{$TCString} = '1';
     }
+
     return \%Result;
 }
 
-#
-#
 # Get column infos
 # return DATA_TYPE
-
 sub GetColumnInfos {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject DBName Table Column)) {
@@ -207,6 +207,7 @@ sub GetColumnInfos {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -229,16 +230,15 @@ sub GetColumnInfos {
         $Result{LENGTH}      = $Row[2];
         $Result{IS_NULLABLE} = $Row[3];
     }
+
     return \%Result;
 }
 
-#
-#
 # Translate column infos
 # return DATA_TYPE
-
 sub TranslateColumnInfos {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBType ColumnInfos)) {
@@ -247,6 +247,7 @@ sub TranslateColumnInfos {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -284,12 +285,10 @@ sub TranslateColumnInfos {
     return \%ColumnInfos;
 }
 
-#
-#
 # Alter table add column
-#
 sub AlterTableAddColumn {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject Table Column ColumnInfos)) {
@@ -298,6 +297,7 @@ sub AlterTableAddColumn {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -323,13 +323,11 @@ sub AlterTableAddColumn {
             Priority => 'error',
             Message  => "Could not execute SQL statement: $SQL.",
         );
+
         return;
     }
+
     return 1;
 }
-
-=back
-
-=cut
 
 1;

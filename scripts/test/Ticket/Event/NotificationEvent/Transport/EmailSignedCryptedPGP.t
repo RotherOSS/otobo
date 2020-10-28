@@ -19,9 +19,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use File::Path qw(mkpath rmtree);
 
@@ -189,8 +190,9 @@ if ( !$PGPBin || !( -e $PGPBin ) ) {
 my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
 
 if ( !$PGPObject ) {
-    print STDERR "NOTICE: No PGP support!\n";
-    return;
+    done_testing();
+
+    exit 0;
 }
 
 # Cleanup previus test data.
@@ -673,7 +675,4 @@ $Self->True(
 
 # cleanup is done by RestoreDatabase.
 
-
 $Self->DoneTesting();
-
-

@@ -19,9 +19,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use File::Path qw(mkpath rmtree);
 
@@ -155,7 +156,8 @@ if ( !$SMIMEObject ) {
             "$PrivatePath not writable!",
         );
     }
-    return 1;
+
+    done_testing();
 }
 
 # OpenSSL 0.9.x hashes.

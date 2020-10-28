@@ -30,6 +30,12 @@ bin/docker/lint_docker_files.sh
 hooks
 otobo.*.dockerfile
 
+# Skip cpanfile, as cpanfile.docker is actually used
+cpanfile
+
+# Skip Config.pm.dist, as Config.pm.docker.dist is actually used
+Kernel/Config.pm.dist
+
 # files only needed only for continous integration
 .otobo-ci.yml
 
@@ -48,6 +54,7 @@ bin/Cron.sh
 # this is for the case when the image is not created from a clean git checkout
 Kernel/Config.pm
 Kernel/Config/Files/*Auto.pm
+Kernel/Config/Files/ZZZZUnitTest*
 var/article/*
 var/log/*
 var/run/

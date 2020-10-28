@@ -15,8 +15,10 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use 5.024;
+use strict;
 use warnings;
+use v5.24;
+use utf8;
 
 use File::Basename;
 use FindBin qw($RealBin);
@@ -130,6 +132,7 @@ my %IsDockerFeature = (
     'db:postgresql'      => 1,
     'db:sqlite'          => 1,
     'devel:dbviewer'     => 1,
+    'devel:encoding'     => 1,
     'devel:test'         => 1,
     'div:bcrypt'         => 1,
     'div:ldap'           => 1,
@@ -267,6 +270,16 @@ my @NeededModules = (
         },
     },
     {
+        Module               => 'Const::Fast',
+        Required             => 1,
+        InstTypes => {
+            aptget => 'libconst-fast-perl',
+            emerge => 'dev-perl/Const-Fast',
+            zypper => 'perl-Const-Fast',
+            ports  => 'devel/p5-Const-Fast',
+        },
+    },
+    {
         Module    => 'Date::Format',
         Required  => 1,
         InstTypes => {
@@ -336,6 +349,26 @@ my @NeededModules = (
         },
     },
     {
+        Module               => 'File::chmod',
+        Required             => 1,
+        InstTypes => {
+            aptget => 'libfile-chmod-perl',
+            emerge => 'dev-perl/File-chmod',
+            zypper => 'perl-File-chmod',
+            ports  => 'devel/p5-File-chmod',
+        },
+    },
+    {
+        Module               => 'List::AllUtils',
+        Required             => 1,
+        InstTypes => {
+            aptget => 'liblist-allutils-perl',
+            emerge => 'dev-perl/List-Allutils',
+            zypper => 'perl-List-AllUtils',
+            ports  => 'devel/p5-List-AllUtils',
+        },
+    },
+    {
         Module    => 'LWP::UserAgent',
         Required  => 1,
         InstTypes => {
@@ -396,6 +429,16 @@ my @NeededModules = (
         },
     },
     {
+        Module               => 'Path::Class',
+        Required             => 1,
+        InstTypes => {
+            aptget => 'libpath-class-perl',
+            emerge => 'dev-perl/Path-Class',
+            zypper => 'perl-Path-Class',
+            ports  => 'devel/p5-Path-Class',
+        },
+    },
+    {
         Module    => 'Sub::Exporter',
         Required  => 1,
         Comment   => 'needed by Kernel/cpan-lib/Crypt/Random/Source.pm',
@@ -426,6 +469,16 @@ my @NeededModules = (
             emerge => 'dev-perl/Template-Toolkit',
             zypper => 'perl-Template-Toolkit',
             ports  => 'www/p5-Template-Toolkit',
+        },
+    },
+    {
+        Module               => 'Text::Trim',
+        Required             => 1,
+        InstTypes => {
+            aptget => 'libtext-trim-perl',
+            emerge => 'dev-perl/Text-Trim',
+            zypper => 'perl-Text-Trim',
+            ports  => 'devel/p5-Text-Trim',
         },
     },
     {
@@ -808,7 +861,7 @@ my @NeededModules = (
         Module    => 'Plack::Middleware::Refresh',
         Required  => 0,
         Features   => ['plack'],
-        Comment   => 'Watch for changed modules in %INC',
+        Comment   => 'Watch for changed modules in %INC. Depends on Module::Refresh',
         InstTypes => {
             aptget => undef,
             emerge => undef,
@@ -959,6 +1012,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'String::Dump',
+        Required  => 0,
+        Features   => ['devel:encoding'],
+        Comment   => 'for deeply inspecting strings',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Test::Compile',
         Required  => 0,
         Features   => ['devel:test'],
@@ -987,6 +1052,18 @@ my @NeededModules = (
         Required  => 0,
         Features   => ['devel:test'],
         Comment   => 'contains Test2::API which is used in Kernel::System::UnitTest::Driver',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'Test2::Tools::HTTP',
+        Required  => 0,
+        Features   => ['devel:test'],
+        Comment   => 'testing PSGI apps and URLs',
         InstTypes => {
             aptget => undef,
             emerge => undef,
@@ -1137,7 +1214,7 @@ else {
             push @{ $PrintFeatures{zzznone} }, $Module;
         }
     }
-    
+
     # try to determine module version number
     my $Depends = 0;
 

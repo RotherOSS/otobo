@@ -203,7 +203,7 @@ my %Result = $SysConfigObject->SettingUpdate(
 );
 
 $Self->True(
-    %Result,
+    $Result{Success},
     "SettingUpdate()",
 );
 

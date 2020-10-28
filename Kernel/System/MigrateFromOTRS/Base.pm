@@ -20,12 +20,15 @@ package Kernel::System::MigrateFromOTRS::Base;    ## no critic
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 use List::Util qw(first);
 use Data::Dumper;
 use File::Basename;
-use File::Copy;
+use File::Copy qw(move);
 use File::Path qw(make_path);
 
 # CPAN modules
@@ -36,7 +39,6 @@ use Kernel::System::VariableCheck qw(:all);
 our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::Package',
-    'Kernel::Config',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::Language',
@@ -48,6 +50,10 @@ our @ObjectDependencies = (
 =head1 NAME
 
 Kernel::System::MigrateFromOTRS::Base - migration lib
+
+=head1 SYNOPSIS
+
+    # TODO
 
 =head1 DESCRIPTION
 
@@ -67,8 +73,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{LanguageObject} = $Kernel::OM->Get('Kernel::Language');
 
@@ -240,6 +245,53 @@ sub CleanLicenseHeaderInDir {
     return 1;
 }
 
+=head2 MigrateXMLConfig()
+
+replace the XML element I<otrs_config> to I<otobo_config>.
+
+    $OTRSToOTOBOObject->MigrateXMLConfig(
+        File         => '/opt/otobo/Test.pm',
+    );
+
+=cut
+
+sub MigrateXMLConfig {
+    my $Self = shift;
+    my %Param = @_;
+
+    my $File = $Param{File};
+
+    # handle only .xml files
+    return 1 unless $File =~ m/\.xml/;
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    # Read XML file
+    my $ContentRef = $MainObject->FileRead(
+        Location => $File,
+        Mode     => 'utf8',
+    );
+    my $Content = $ContentRef->$*;
+
+    # sanity checks, simply return when there is noting to do
+    return 1 unless $Content =~ m{<otrs_config};
+    return 1 unless $Content =~ m{<otrs_config.*?init="(.+?)"};
+    return 1 unless $Content =~ m{<otrs_config.*?version="2.0"};
+
+    # now the actual transformation
+    $Content =~ s{^<otrs_config}{<otobo_config}gsmx;
+    $Content =~ s{^</otrs_config}{</otobo_config}gsmx;
+
+    # Save result in the original file
+    my $SaveSuccess = $MainObject->FileWrite(
+        Location => $File,
+        Content  => \$Content,
+        Mode     => 'utf8',
+    );
+
+    return $SaveSuccess;
+}
+
 =head2 CleanOTRSFileToOTOBOStyle()
 
 clean given file to OTOBO style
@@ -261,9 +313,11 @@ sub CleanOTRSFileToOTOBOStyle {
                 Priority => 'error',
                 Message  => "$_ not defined!"
             );
+
             return;
         }
     }
+
     for (qw(File UserID)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -328,6 +382,7 @@ sub CleanOTRSFileToOTOBOStyle {
         Type       => 'Local',    # optional - Local|Attachment|MD5
         Permission => '660',      # unix file permissions
     );
+
     return 1;
 }
 
@@ -743,7 +798,7 @@ sub CopyFileAndSaveAsTmp {
 
 Refreshes the configuration to make sure that a ZZZAAuto.pm is present after the upgrade.
 
-    $DBUpdateTo6Object->RebuildConfig(
+    $MigrateFromOTRSObject->RebuildConfig(
         UnitTestMode      => 1,         # (optional) Prevent discarding all objects at the end.
         CleanUpIfPossible => 1,         # (optional) Removes leftover settings that are not contained in XML files,
                                         #   but only if all XML files for installed packages are present.
@@ -815,7 +870,7 @@ sub RebuildConfig {
 
 Clean up the cache.
 
-    $DBUpdateTo6Object->CacheCleanup();
+    $MigrateFromOTRSObject->CacheCleanup();
 
 =cut
 
@@ -833,7 +888,7 @@ sub CacheCleanup {
 
 Disable secure mode after copying data.
 
-    $DBUpdateTo6Object->DisableSecureMode();
+    $MigrateFromOTRSObject->DisableSecureMode();
 
 =cut
 
@@ -849,11 +904,9 @@ sub DisableSecureMode {
         #        UserID          => 1,                # Required only if OverriddenInXML is set.
     );
 
-    if ( $Setting{EffectiveValue} eq '0' ) {
-        return 1;
-    }
+    return 1 if $Setting{EffectiveValue} eq '0';
 
-    my $Success = $SysConfigObject->SettingsSet(
+    return $SysConfigObject->SettingsSet(
         UserID   => 1,                                      # (required) UserID
         Comments => 'Disable SecureMode for migration.',    # (optional) Comment
         Settings => [                                       # (required) List of settings to update.
@@ -863,14 +916,13 @@ sub DisableSecureMode {
             },
         ],
     );
-    return $Success;
 }
 
 =head2 TableExists()
 
 Checks if the given table exists in the database.
 
-    my $Result = $DBUpdateTo6Object->TableExists(
+    my $Result = $MigrateFromOTRSObject->TableExists(
         Table => 'ticket',
     );
 
@@ -903,7 +955,7 @@ sub TableExists {
 
 Checks if the given column exists in the given table.
 
-    my $Result = $DBUpdateTo6Object->ColumnExists(
+    my $Result = $MigrateFromOTRSObject->ColumnExists(
         Table  => 'ticket',
         Column =>  'id',
     );
@@ -944,7 +996,7 @@ sub ColumnExists {
 
 Checks if the given index exists in the given table.
 
-    my $Result = $DBUpdateTo6Object->IndexExists(
+    my $Result = $MigrateFromOTRSObject->IndexExists(
         Table => 'ticket',
         Index =>  'id',
     );
@@ -1018,7 +1070,7 @@ sub IndexExists {
 Update an existing SysConfig Setting in a migration context. It will skip updating both read-only and already modified
 settings by default.
 
-    $DBUpdateTo6Object->SettingUpdate(
+    my $Success = $MigrateFromOTRSObject->SettingUpdate(
         Name                   => 'Setting::Name',           # (required) setting name
         IsValid                => 1,                         # (optional) 1 or 0, modified 0
         EffectiveValue         => $SettingEffectiveValue,    # (optional)
@@ -1033,8 +1085,10 @@ settings by default.
 
 =cut
 
+# Note: looks like this method is currently unused
 sub SettingUpdate {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     if ( !$Param{Name} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1086,7 +1140,7 @@ sub SettingUpdate {
 
 MigrationLog the given string to OTOBO AND Apache Log for debugging migration.
 
-    my $Result = $DBUpdateTo6Object->MigrationLog(
+    my $Result = $MigrateFromOTRSObject->MigrationLog(
         String => 'Logentry...',
         Priority => notice, error, info, debug (See LogObject Priority)
         HashRef   => \%HashRef,     Optional
@@ -1248,6 +1302,8 @@ sub ResetConfigOption {
 }
 
 sub DBSkipTables {
+
+    # the tables must be lower case
     return {
         communication_log              => 1,
         communication_log_obj_lookup   => 1,
@@ -1267,21 +1323,30 @@ sub DBSkipTables {
 
 # OTOBO Table Name => OTRS Table Name
 sub DBRenameTables {
+
+    # the tables must be lower case
     return {
         groups                 => 'groups_table',
         article_data_otrs_chat => 'article_data_otobo_chat',
     };
 }
 
+# list of files that need to be copied
 sub CopyFileListfromOTRSToOTOBO {
-    return (
+    my @Files = (
         '/Kernel/Config.pm',
-        '/Kernel/Config.po',
+        '/Kernel/Config.po', # what is that ?
         '/var/httpd/htdocs/index.html',
-        '/var/cron',
         '/var/article',
         '/var/stats',
     );
+
+    # Under Docker there is no var/cron
+    if ( ! $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
+        push @Files, '/var/cron';
+    }
+
+    return @Files;
 }
 
 sub DoNotCleanFileList {

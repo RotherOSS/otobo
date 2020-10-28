@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -123,9 +124,16 @@ $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchIndexRebuildFl
 
 # Empty the search index. This is needed as article only have a flag to be re-indexed
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-return if !$DBObject->Do(
+my $DeleteSuccess = $DBObject->Do(
     SQL => 'DELETE FROM article_search_index',
 );
+if ( !$DeleteSuccess ) {
+
+    done_testing();
+
+    exit 0;
+}
+
 
 # Remove DB object to make sure it does not interfere with the console command.
 $Kernel::OM->ObjectsDiscard(
@@ -152,7 +160,7 @@ for my $Counter ( 0 .. 9 ) {
     for my $ArticleKey (qw( MIMEBase_From MIMEBase_To MIMEBase_Cc MIMEBase_Bcc MIMEBase_Subject MIMEBase_Body)) {
 
         # Check that the article search index table has been populated
-        return if !$DBObject->Prepare(
+        my $PrepareSuccess = $DBObject->Prepare(
             SQL => '
                 SELECT article_value FROM article_search_index
                 WHERE
@@ -166,6 +174,12 @@ for my $Counter ( 0 .. 9 ) {
                 \$ArticleKey,
             ],
         );
+        if ( !$PrepareSuccess ) {
+
+            done_testing();
+
+            exit 0;
+        }
 
         my $Value;
         while ( my @Row = $DBObject->FetchrowArray() ) {

@@ -21,13 +21,10 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self));
+use Kernel::System::ObjectManager;
 
 # TimeStamp2SystemTime tests
 # See the command: date -d"2005-10-20T10:00:00Z" +%s
@@ -84,9 +81,11 @@ my @TimeStamp2SystemTimeTests = (
     },
 );
 
-$Self->Plan( Tests => scalar @TimeStamp2SystemTimeTests + 1 );
+plan( scalar @TimeStamp2SystemTimeTests + 1 );
 
 # with specific time zone
+$Kernel::OM = Kernel::System::ObjectManager->new();
+
 my $DateTimeObject = $Kernel::OM->Create(
     'Kernel::System::DateTime',
     ObjectParams => {
@@ -94,17 +93,11 @@ my $DateTimeObject = $Kernel::OM->Create(
     }
 );
 
-$Self->Is(
-    ref $DateTimeObject,
-    'Kernel::System::DateTime',
-    'Creation of DateTime object must succeed.'
-);
+isa_ok( $DateTimeObject, [ 'Kernel::System::DateTime' ], 'creation of DateTime object.' );
 
 for my $Test (@TimeStamp2SystemTimeTests) {
     my $SystemTime  = $DateTimeObject->TimeStamp2SystemTime( String => $Test->{String} );
     my $Description = 'TimeStamp2SystemTime(): ' . ( $Test->{Description} // 'system time matches' );
 
-    $Self->Is( $SystemTime, $Test->{ExpectedResult}, $Description );
+    is( $SystemTime, $Test->{ExpectedResult}, $Description );
 }
-
-

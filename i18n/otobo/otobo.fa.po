@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-07-31 11:42+0000\n"
+"POT-Creation-Date: 2020-10-08 14:33+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: saeedi <mohsen.saeedi@gmail.com>, 2019\n"
 "Language-Team: Persian (https://translate.otobo.org/projects/otobo10/otobo/fa/)\n"
@@ -9265,6 +9265,14 @@ msgid "The identifier of the system. Each ticket number and each HTTP session ID
 msgstr "شناسه سیستم. هر شماره درخواست و هر شناسه HTTP Session شامل این شماره می‌باشد."
 
 #. Template: InstallerSystem
+msgid "HTTP Type"
+msgstr ""
+
+#. Template: InstallerSystem
+msgid "Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes."
+msgstr ""
+
+#. Template: InstallerSystem
 msgid "System FQDN"
 msgstr "FQDN سیستم"
 
@@ -13273,6 +13281,14 @@ msgid "Contact your Admin!"
 msgstr "تماس با مدیریت خود !"
 
 #. Perl Module: Kernel/Modules/Installer.pm
+msgid "https"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "http"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
 msgid "System Settings"
 msgstr "تنظیمات سیستم"
 
@@ -14204,7 +14220,7 @@ msgstr ""
 msgid "Check if OTOBO and OTRS connect is possible."
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't open RELEASE file from OTRSHome: %s!"
 msgstr ""
 
@@ -15379,6 +15395,14 @@ msgstr "پشتیبانی جمع آوری داده ها"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
 msgid "Support data could not be collected from the web server."
 msgstr "داده ها پشتیبانی می تواند از وب سرور نمی تواند جمع آوری شده."
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
+msgid "PSGI Environment"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
+msgid "Runs under PSGI"
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
@@ -24921,26 +24945,14 @@ msgstr ""
 #~ msgstr "مشاهده وب سایت"
 
 #. Template: InstallerSystem
-msgid "HTTP Type"
+msgid "Set the request scheme used for cookies and various links. For production purposes always use https."
 msgstr ""
 
-#. Template: InstallerSystem
-msgid "Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes."
+#. Template: OTRSDBSettings
+msgid "Database is a throwawy copy"
 msgstr ""
 
-#. Perl Module: Kernel/Modules/Installer.pm
-msgid "https"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/Installer.pm
-msgid "http"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
-msgid "PSGI Environment"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
-msgid "Runs under PSGI"
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
+msgid "Can't access OTRS Home: %s!"
 msgstr ""
 

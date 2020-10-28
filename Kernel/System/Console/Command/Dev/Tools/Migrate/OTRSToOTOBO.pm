@@ -18,11 +18,20 @@ package Kernel::System::Console::Command::Dev::Tools::Migrate::OTRSToOTOBO;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
 use File::Basename;
 use File::Copy;
 use File::Path qw(make_path);
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Main',
@@ -34,7 +43,10 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Create clean OTOBO source files from OTRS source code or an OTRS OPM package.');
+    $Self->Description(<<'END_DESC');
+Create clean OTOBO source files from OTRS source code or an OTRS OPM package.
+Migrate XML configuration files from OTRS 6.0.x to OTOBO 10.0.x.
+END_DESC
 
     $Self->AddOption(
         Name => 'cleanpath',
@@ -56,6 +68,14 @@ sub Configure {
         Name => 'cleanlicense',
         Description =>
             "Should we clean the file license information to OTOBO and Rother OSS?",
+        Required   => 0,
+        HasValue   => 0,
+        ValueRegex => qr/.*/smx,
+    );
+    $Self->AddOption(
+        Name => 'cleanxmlconfig',
+        Description =>
+            "Should we adapt the XML config files?",
         Required   => 0,
         HasValue   => 0,
         ValueRegex => qr/.*/smx,
@@ -117,6 +137,7 @@ sub Run {
     my $CleanPath          = $Self->GetOption('cleanpath') || $CleanALL;
     my $CleanLicenseHeader = $Self->GetOption('cleanlicense') || $CleanALL;
     my $CleanContent       = $Self->GetOption('cleancontent') || $CleanALL;
+    my $CleanXMLConfig     = $Self->GetOption('cleanxmlconfig') || $CleanALL;
     my $TargetDirectory    = $Self->GetOption('target');
     my $SourceIsOPMOrDir   = 'Dir';
     my $TmpDirectory;
@@ -230,6 +251,14 @@ sub Run {
             # If option cleanpath is given, clean path and filename
             if ($CleanPath) {
                 $MigrationBaseObject->ChangePathFileName(
+                    File   => $File,
+                    UserID => 1,
+                );
+            }
+
+            # If option cleanxmlconfig is given, clean path and filename
+            if ($CleanXMLConfig) {
+                $MigrationBaseObject->MigrateXMLConfig(
                     File   => $File,
                     UserID => 1,
                 );

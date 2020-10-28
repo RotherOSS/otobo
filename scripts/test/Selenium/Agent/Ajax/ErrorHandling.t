@@ -337,7 +337,4 @@ JAVASCRIPT
     }
 );
 
-
 $Self->DoneTesting();
-
-

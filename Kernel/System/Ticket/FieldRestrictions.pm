@@ -26,6 +26,7 @@ our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::DynamicField',
     'Kernel::System::Log',
+    'Kernel::System::User',
 );
 
 =head1 NAME
@@ -153,6 +154,7 @@ sub GetFieldStates {
     # transform dynamic field data into DFName => DFName pair
     my %DynamicFieldAcl = map { $_->{Name} => $_->{Name} } @{ $Param{DynamicFields} };
 
+    my %UserPreferences = ();
     my %Visibility;
     my $VisCheck = 1;
 
@@ -181,7 +183,6 @@ sub GetFieldStates {
     }
 
     if ($VisCheck) {
-
         # call ticket ACLs for DynamicFields to check field visibility
         my $ACLResult = $Param{TicketObject}->TicketAcl(
             %{ $Param{GetParam} },
@@ -203,6 +204,13 @@ sub GetFieldStates {
         }
         else {
             %Visibility = map { 'DynamicField_' . $_->{Name} => 1 } @{ $Param{DynamicFields} };
+        }
+
+        # get user preferences for possible user default values
+        if ( $Param{UserID} ) {
+            %UserPreferences = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+                UserID => $Self->{UserID},
+            );
         }
     }
     elsif ($CachedVisibility) {
@@ -261,9 +269,16 @@ sub GetFieldStates {
 
             # ...but get default values of reappearing fields first
             if ( $CachedVisibility && $CachedVisibility->{"DynamicField_$DynamicFieldConfig->{Name}"} == 0 ) {
-                if ( defined $DynamicFieldConfig->{Config}{DefaultValue} ) {
-                    $NewValues{"DynamicField_$DynamicFieldConfig->{Name}"}
-                        = $DynamicFieldConfig->{Config}{DefaultValue};
+                if ( defined $UserPreferences{"UserDynamicField_$DynamicFieldConfig->{Name}"} ) {
+                    $NewValues{"DynamicField_$DynamicFieldConfig->{Name}"} = $UserPreferences{"UserDynamicField_$DynamicFieldConfig->{Name}"};
+                    $Fields{$i} = {
+                        Name            => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                        PossibleValues  => undef,
+                        NotACLReducible => 1,
+                    };
+                }
+                elsif ( defined $DynamicFieldConfig->{Config}{DefaultValue} ) {
+                    $NewValues{"DynamicField_$DynamicFieldConfig->{Name}"} = $DynamicFieldConfig->{Config}{DefaultValue};
                     $Fields{$i} = {
                         Name            => 'DynamicField_' . $DynamicFieldConfig->{Name},
                         PossibleValues  => undef,
@@ -293,13 +308,19 @@ sub GetFieldStates {
                 # ...a field reappears: possible values have to be recalculated;
                 if ( $CachedVisibility->{"DynamicField_$DynamicFieldConfig->{Name}"} == 0 ) {
                     $CheckACLs = 1;
+
+                    # take the default value and put it also into NewValues; in the unlikely case that they will be deleted again, this will just cause a redundant second run
+                    if ( defined $UserPreferences{"UserDynamicField_$DynamicFieldConfig->{Name}"} ) {
+                        $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} = $UserPreferences{"UserDynamicField_$DynamicFieldConfig->{Name}"};
+                        $NewValues{"DynamicField_$DynamicFieldConfig->{Name}"} = $UserPreferences{"UserDynamicField_$DynamicFieldConfig->{Name}"};
+                    }
+                    elsif ( defined $DynamicFieldConfig->{Config}{DefaultValue} ) {
+                        $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} = $DynamicFieldConfig->{Config}{DefaultValue};
+                        $NewValues{"DynamicField_$DynamicFieldConfig->{Name}"} = $DynamicFieldConfig->{Config}{DefaultValue};
+                    }
                 }
 
-# ...autoselect is turned on for the field - TODO: find a better solution to enable autoselect for ACL-hidden fields turning visible again; activate version below again
-#elsif ( $Param{Autoselect} && $Param{Autoselect}{DynamicField}{ $DynamicFieldConfig->{Name} } ) {
-#    $CheckACLs = 1;
-#}
-# ...autoselect is turned on for the changed field (refill a field emptied by hand) - TODO: only needed when above is gone
+                # ...autoselect is turned on for the changed field (refill a field emptied by hand)
                 elsif (
                        $Param{Autoselect}
                     && $Param{Autoselect}{DynamicField}{ $DynamicFieldConfig->{Name} }
@@ -308,9 +329,9 @@ sub GetFieldStates {
                     && ( !%Visibility || $Visibility{"DynamicField_$DynamicFieldConfig->{Name}"} )
                     )
                 {
-
                     $CheckACLs = 1;
                 }
+
                 else {
                     ELEMENT:
                     for my $Element ( sort keys %{ $Param{ChangedElements} } ) {
@@ -323,7 +344,7 @@ sub GetFieldStates {
                             last ELEMENT;
                         }
 
-# ...the element is not defined in the cache and thus there is no way to tell if there are acls which connect it to the affected field
+                        # ...the element is not defined in the cache and thus there is no way to tell if there are acls which connect it to the affected field
                         elsif ( !$Param{ACLPreselection}{Fields}{$Element} ) {
                             $CheckACLs = 1;
                             $Kernel::OM->Get('Kernel::System::Log')->Log(

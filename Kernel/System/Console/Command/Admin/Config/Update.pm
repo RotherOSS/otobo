@@ -202,27 +202,27 @@ sub Run {
         );
 
         # Update setting with modified 'IsValid' param.
-        $Success = $SysConfigObject->SettingUpdate(
+        my %Result = $SysConfigObject->SettingUpdate(
             Name              => $SettingName,
             IsValid           => $SettingValid,
             EffectiveValue    => $Setting{EffectiveValue},
             ExclusiveLockGUID => $ExclusiveLockGUID,
             UserID            => 1,
         );
-        if ( !$Success ) {
+        if ( ! $Result{Success} ) {
             $Self->PrintError("Setting valid state could not be updated!");
             return $Self->ExitCodeError();
         }
     }
     else {
-        $Success = $SysConfigObject->SettingUpdate(
+        my %Result = $SysConfigObject->SettingUpdate(
             Name              => $SettingName,
             EffectiveValue    => $EffectiveValue,
             ExclusiveLockGUID => $ExclusiveLockGUID,
             UserID            => 1,
         );
 
-        if ( !$Success ) {
+        if ( !$Result{Success} ) {
             $Self->PrintError("Setting could not be updated!");
             return $Self->ExitCodeError();
         }
