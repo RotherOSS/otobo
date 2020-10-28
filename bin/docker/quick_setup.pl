@@ -444,20 +444,17 @@ sub SetRootAtLocalhostPassword {
 
     # Set a generated password for the 'root@localhost' account.
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-    my $Password   = $UserObject->GenerateRandomPassword( Size => 16 );
+    my $Password   = 'root';
     my $Success    = $UserObject->SetPassword(
         UserLogin => 'root@localhost',
         PW        => $Password,
     );
 
-    if ( ! $Success ) {
-        return 0, 'Password for root@localhost could not be set';
-    }
+    return 0, 'Password for root@localhost could not be set' unless $Success;
 
     # Protocol http is fine, as there is an automatic redirect
     # TODO: is there a way to find out the host and the port
     return 1, "URL: http://localhost/otobo/index.pl, user: root\@localhost, pw: $Password";
-
 }
 
 sub AdaptSettings {
