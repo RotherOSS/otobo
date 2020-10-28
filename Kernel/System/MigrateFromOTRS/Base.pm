@@ -1337,7 +1337,6 @@ sub CopyFileListfromOTRSToOTOBO {
         '/Kernel/Config.pm',
         '/Kernel/Config.po', # what is that ?
         '/var/httpd/htdocs/index.html',
-        '/var/cron',
         '/var/article',
         '/var/stats',
     );
