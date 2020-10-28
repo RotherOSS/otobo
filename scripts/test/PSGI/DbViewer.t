@@ -43,7 +43,10 @@ $Kernel::OM = Kernel::System::ObjectManager->new(
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-# For some reason setting RestoreDatabase makes the test fail
+# RestoreDatabase can't be set here.
+# The test user would be created in an open transaction.
+# The data in the transaction is not visible from the webserver connection.
+# Therefore the login would not work.
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         SkipSSLVerify     => 1,
