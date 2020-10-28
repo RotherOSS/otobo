@@ -14,7 +14,7 @@ upgrade_log="/opt/otobo/var/log/upgrade.log"
 # Declare functions
 ################################################################################
 
-# does a version check before upgrading
+# does the initial copy to /opt/otobo
 function handle_docker_firsttime() {
 
     if [ ! -d  $OTOBO_HOME ]; then
@@ -24,12 +24,10 @@ function handle_docker_firsttime() {
         # first the simple case: there is no previous installation
         # use a simle 'ls' for checking dir content, hidden files like .bashrc are ignored
         update_patchlevel_release
-    else
-        if [ "$(compare_versions "$otobo_next/RELEASE" "$OTOBO_HOME/RELEASE")" = "1" ]; then
-            update_patchlevel_release
-            reinstall_all
-        fi
     fi
+
+    # When /opt/otobo already exists then do no automatic update.
+    # The updating has to be triggered with an explicit 'update' command.
 
     # we are done, docker_firstime has been handled
     # $otobo_next is not removed, it is kept for future reference
@@ -127,51 +125,20 @@ function update_patchlevel_release() {
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pod.dist       $OTOBO_HOME/Kernel/Config.pod
 }
 
-#function reinstall_all() {
-#
-#    # reinstall package
-#    # Not that this works only if OTOBO has been properly configured
-#    {
-#        date
-#        ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll 2>&1)
-#        echo
-#    } >> $upgrade_log
-#}
+function reinstall_all() {
+    echo "reinstall_all() not yet implemented"
+
+    # reinstall package
+    # Not that this works only if OTOBO has been properly configured
+    #{
+    #    date
+    #    ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll 2>&1)
+    #    echo
+    #} >> $upgrade_log
+}
 
 print_error() {
     echo -e "\e[101m[ERROR]\e[0m $1"
-}
-
-extract_version_from_release_file () {
-    local release_file="$1"
-
-    local current_version="$(cat $release_file | grep VERSION | cut -d'=' -f2)"
-
-    echo $current_version
-}
-
-# prints logical output
-# empty strings in questionable cases
-# -1 if $1 less the $2
-# 0 if $1 equals $2
-# 1 if $1 greater $2
-# The comparison is aware of the version semantics.
-compare_versions () {
-    local first_version="$(extract_version_from_release_file $1)"
-    local second_version="$(extract_version_from_release_file $2)"
-
-    # refuse to compare versions like 10.0.x.
-    # This indicates development and the developer must decide herself.
-    # upgrade can be forced with the command 'update_patchlevel_release'
-    [[ "$first_version"  =~ [^0-9.] ]] && echo "" && return 1
-    [[ "$second_version" =~ [^0-9.] ]] && echo "" && return 2
-
-    local lower_version=$(echo -e "$first_version\n$second_version" | sed '/^$/d' | sort --version-sort | head -1)
-    [[ "$first_version" = "$lower_version" ]] && echo "-1" && return 0
-
-    echo "1" && return 0
-
-    return 3
 }
 
 ################################################################################
@@ -188,11 +155,13 @@ fi
 # Run the OTOBO Daemon the webserver
 if [ "$1" = "daemon" ]; then
     start_and_check_daemon
+
     exit $?
 fi
 
 # Start the webserver
 if [ "$1" = "web" ]; then
+
     # first check whether the container is started with a new image
     if [ -f "$otobo_next/docker_firsttime" ]; then
         handle_docker_firsttime
