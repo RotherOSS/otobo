@@ -64,10 +64,10 @@ create an object.
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type = shift;
+    my %Param = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     for my $Needed (qw( DebuggerObject TransportConfig)) {
         $Self->{$Needed} = $Param{$Needed} || return {
@@ -109,7 +109,8 @@ from the web server process.
 =cut
 
 sub ProviderProcessRequest {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     my $Result = $Self->{BackendObject}->ProviderProcessRequest(%Param);
 
@@ -162,8 +163,6 @@ sub ProviderGenerateResponse {
             Summary => 'Data is not a hash reference.',
         );
     }
-
-    my $Response = $Self->{BackendObject}->ProviderGenerateResponse(%Param);
 
     return $Self->{BackendObject}->ProviderGenerateResponse(%Param);
 }
