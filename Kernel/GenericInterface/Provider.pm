@@ -415,9 +415,8 @@ sub HeaderAndContent {
         Success => 1,
         Data    => $DataOut,
     );
-    my $Output = delete $Response->{Output};
 
-    if ( !$Response->{Success} ) {
+    if ( ! $Response->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
 
@@ -430,7 +429,7 @@ sub HeaderAndContent {
         );
     }
 
-    return $Output;
+    return $Response->{Output};
 }
 
 =begin Internal:
@@ -463,7 +462,7 @@ sub _GenerateErrorResponse {
         );
     }
 
-    return delete $Response->{Output};
+    return $Response->{Output};
 }
 
 =head2 _HandleError()

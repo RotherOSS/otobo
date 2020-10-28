@@ -3112,7 +3112,7 @@ for my $Test (@Tests) {
             Success => 1,
             Data    => {},
         );
-        $Response = delete $Result->{Output} if ref $Result eq 'HASH';
+        $Response = $Result->{Output} if ref $Result eq 'HASH';
     }
     $Self->True(
         $Result,

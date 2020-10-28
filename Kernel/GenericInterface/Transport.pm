@@ -139,15 +139,17 @@ generate response for an incoming web service request.
 
     $Result = {
         Success         => 1,                   # 0 or 1
+        Output          => $HeaderAndContent,   # a string
         ErrorMessage    => '',                  # in case of error
     };
 
 =cut
 
 sub ProviderGenerateResponse {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
-    if ( !defined $Param{Success} ) {
+    if ( ! defined $Param{Success} ) {
 
         return $Self->{DebuggerObject}->Error(
             Summary => 'Missing parameter Success.',
@@ -188,7 +190,8 @@ generate an outgoing web service request, receive the response and return its da
 =cut
 
 sub RequesterPerformRequest {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     if ( !$Param{Operation} ) {
 
