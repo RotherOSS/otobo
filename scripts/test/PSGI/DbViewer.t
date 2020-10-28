@@ -43,9 +43,9 @@ $Kernel::OM = Kernel::System::ObjectManager->new(
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+# For some reason setting RestoreDatabase makes the test fail
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase   => 1,
         SkipSSLVerify     => 1,
         DisableAsyncCalls => 1,
     },
@@ -74,7 +74,6 @@ my $HelloURL = join '',
     $Helper->GetTestHTTPHostname(),
     '/hello';
 
-use Data::Dumper;
 note("hello URL: $HelloURL");
 note("login URL: $AdminLoginURL");
 note("dbviewer URL: $DbViewerURL");
@@ -108,9 +107,6 @@ note( 'login required for access to /otobo/dbviewer' );
     #ok( ! scalar $Response->header('X-OTOBO-Login'), "$DbViewerURL is no OTOBO login screen" );
 }
 
-{
-    my $ToDo = todo( 'login does not work yet' );
-
 note( 'login as admin' );
 {
     http_request(
@@ -120,15 +116,12 @@ note( 'login as admin' );
         },
         'login to agent interface as admin user'
     );
-    note( 'This does not really work. Maybe there is some JS involved' );
-    note( Dumper( [ 'ZZZ', $AdminLoginURL, http_tx->req, http_tx->res ] ) );
 
     # Get session info from cookie
     my $UserAgent = http_ua();
     my $AdminSessionValid;
     $UserAgent->cookie_jar()->scan(
         sub {
-warn Dumper( [ 'scan', $ConfigObject->Get('SessionName'), @_ ] );
             if ( $_[1] eq $ConfigObject->Get('SessionName') && $_[2] ) {
                 $AdminSessionValid = 1;
             }
@@ -165,8 +158,6 @@ note( 'access to /otobo/dbviewer granted after login' );
 
     # TODO: how can Test2::Tools::HTTP used for that test
     #ok( ! scalar $Response->header('X-OTOBO-Login'), "$DbViewerURL is no OTOBO login screen" );
-}
-
 }
 
 # cleanup cache
