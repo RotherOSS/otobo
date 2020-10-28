@@ -8,7 +8,7 @@
 ################################################################################
 
 otobo_next="/opt/otobo_install/otobo_next"
-upgrade_log="/opt/otobo/var/log/upgrade.log"
+update_log="/opt/otobo/var/log/update.log"
 
 ################################################################################
 # Declare functions
@@ -37,7 +37,6 @@ function handle_docker_firsttime() {
 }
 
 # An easy way to start bash.
-# Or do upgrades.
 # Or list files.
 function exec_whatever() {
     exec $@
@@ -113,7 +112,7 @@ function copy_otobo_next() {
         date
         echo "Copied $otobo_next to $OTOBO_HOME"
         echo
-    } >> $upgrade_log
+    } >> $update_log
 
     # clean up
     rm -f $OTOBO_HOME/docker_firsttime
@@ -139,7 +138,7 @@ function do_update_tasks() {
         date
         echo "finished do_update_tasks()"
         echo
-    } >> $upgrade_log
+    } >> $update_log
 }
 
 print_error() {
