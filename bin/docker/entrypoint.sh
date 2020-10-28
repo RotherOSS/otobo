@@ -120,22 +120,26 @@ function copy_otobo_next() {
     rm -f $OTOBO_HOME/docker_firsttime_handled
 
     # Make sure that an initial config is available. But don't overwrite existing config.
-
     # Use the docker specific Config.pm.dist file.
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pm.docker.dist $OTOBO_HOME/Kernel/Config.pm
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pod.dist       $OTOBO_HOME/Kernel/Config.pod
 }
 
-function reinstall_all() {
-    echo "reinstall_all() not yet implemented"
+function do_update_tasks() {
 
-    # reinstall package
+    # reinstall package, rebuild config, purge cache
     # Not that this works only if OTOBO has been properly configured
-    #{
-    #    date
-    #    ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll 2>&1)
-    #    echo
-    #} >> $upgrade_log
+    {
+        echo "started do_update_tasks()"
+        date
+        ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::ReinstallAll 2>&1)
+        ($OTOBO_HOME/bin/otobo.Console.pl Admin::Package::UpgradeAll 2>&1)
+        ($OTOBO_HOME/bin/otobo.Console.pl Maint::Config::Rebuild 2>&1)
+        ($OTOBO_HOME/bin/otobo.Console.pl Maint::Cache::Delete 2>&1)
+        date
+        echo "finished do_update_tasks()"
+        echo
+    } >> $upgrade_log
 }
 
 print_error() {
@@ -173,9 +177,15 @@ if [ "$1" = "web" ]; then
 fi
 
 # copy /opt/otobo_install/otobo_next without checking docker_firsttime
-if [ "$1" = "update" ]; then
+if [ "$1" = "copy_otobo_next" ]; then
     copy_otobo_next
-    reinstall_all
+
+    exit $?
+fi
+
+# update
+if [ "$1" = "do_update_tasks" ]; then
+    do_update_tasks
 
     exit $?
 fi
