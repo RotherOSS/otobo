@@ -85,7 +85,8 @@ In case of an error, the resulting http error code and message are remembered fo
 =cut
 
 sub ProviderProcessRequest {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Check transport config.
     if ( !IsHashRefWithData( $Self->{TransportConfig} ) ) {
@@ -177,7 +178,7 @@ sub ProviderProcessRequest {
 
         # If there is no STDIN data it might be caused by fastcgi already having read the request.
         # In this case we need to get the data from CGI.
-        my $RequestMethod = $ENV{REQUEST_METHOD} || 'GET';
+        my $RequestMethod = $ParamObject->RequestMethod() || 'GET';
         if ( !IsStringWithData($Content) && $RequestMethod ne 'GET' ) {
             my $ParamName = $RequestMethod . 'DATA';
             $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
