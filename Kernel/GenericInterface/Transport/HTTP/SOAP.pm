@@ -18,13 +18,14 @@ package Kernel::GenericInterface::Transport::HTTP::SOAP;
 
 use strict;
 use warnings;
+use namespace::clean;
 
 # core modules
+use MIME::Base64;
+use PerlIO;
 
 # CPAN modules
 use HTTP::Status;
-use MIME::Base64;
-use PerlIO;
 use SOAP::Lite;
 
 # OTOBO modules
@@ -46,11 +47,11 @@ by using Kernel::GenericInterface::Transport->new();
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type = shift;
+    my %Param = @_;
 
     # Allocate new hash for object.
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # Check needed objects.
     for my $Needed (qw(DebuggerObject TransportConfig)) {
@@ -379,7 +380,8 @@ The HTTP code is set accordingly
 =cut
 
 sub ProviderGenerateResponse {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Do we have a http error message to return.
     if ( IsStringWithData( $Self->{HTTPError} ) && IsStringWithData( $Self->{HTTPMessage} ) ) {
@@ -511,7 +513,8 @@ receive the response and return its data.
 =cut
 
 sub RequesterPerformRequest {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Check transport config.
     if ( !IsHashRefWithData( $Self->{TransportConfig} ) ) {
@@ -932,7 +935,8 @@ Error is generated to be passed to provider/requester.
 =cut
 
 sub _Error {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Check needed params.
     if ( !IsString( $Param{Summary} ) ) {
@@ -979,7 +983,8 @@ Returns structure to be passed to provider.
 =cut
 
 sub _Output {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Check params.
     my $Success = 1;
@@ -1135,7 +1140,8 @@ $Sort = [                                  # wrapper for level 1
 =cut
 
 sub _SOAPOutputRecursion {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Get and check types of data and sort elements.
     my $Type = $Self->_SOAPOutputTypesGet(%Param);
@@ -1270,7 +1276,8 @@ It contains the functions to process a hash key/value pair.
 =cut
 
 sub _SOAPOutputHashRecursion {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Process data.
     my $RecurseResult = $Self->_SOAPOutputRecursion(%Param);
@@ -1319,7 +1326,8 @@ It contains functions to quote invalid XML characters and encode the string
 =cut
 
 sub _SOAPOutputProcessString {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     return '' if !defined $Param{Data};
 
@@ -1367,7 +1375,8 @@ Values in the sorting structure are ignored but have to be specified
 =cut
 
 sub _SOAPOutputTypesGet {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Check types.
     my %Type;
