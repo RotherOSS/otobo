@@ -115,8 +115,8 @@ sub ProviderProcessRequest {
 
     # If the HTTP_TRANSFER_ENCODING environment variable is defined, check if is chunked.
     my $Chunked = (
-        defined $ENV{'HTTP_TRANSFER_ENCODING'}
-            && $ENV{'HTTP_TRANSFER_ENCODING'} =~ /^chunked.*$/
+        defined $ENV{HTTP_TRANSFER_ENCODING}
+            && $ENV{HTTP_TRANSFER_ENCODING} =~ m/^chunked.*$/
     ) || 0;
 
     my $Content = q{};
@@ -160,7 +160,7 @@ sub ProviderProcessRequest {
 
         # If there is no STDIN data it might be caused by fastcgi already having read the request.
         # In this case we need to get the data from CGI.
-        my $RequestMethod = $ENV{'REQUEST_METHOD'} || 'GET';
+        my $RequestMethod = $ENV{REQUEST_METHOD} || 'GET';
         if ( !IsStringWithData($Content) && $RequestMethod ne 'GET' ) {
             my $ParamName = $RequestMethod . 'DATA';
             $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
@@ -173,13 +173,13 @@ sub ProviderProcessRequest {
     if ( !IsStringWithData($Content) ) {
         return $Self->_Error(
             Summary   => 'Could not read input data',
-            HTTPError => 500,
+            HTTPError => 500,   # HTTP_INTERNAL_SERVER_ERROR
         );
     }
 
     # Convert charset if necessary.
     my $ContentCharset;
-    if ( $ENV{'CONTENT_TYPE'} =~ m{ \A ( .+ ) ;\s*charset= ["']{0,1} ( .+? ) ["']{0,1} (;|\z) }xmsi ) {
+    if ( $ENV{CONTENT_TYPE} =~ m{ \A ( .+ ) ;\s*charset= ["']{0,1} ( .+? ) ["']{0,1} (;|\z) }xmsi ) {
 
         # Remember content type for the response.
         $Self->{ContentType} = $1;
