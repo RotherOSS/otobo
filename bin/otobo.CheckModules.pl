@@ -738,10 +738,10 @@ my @NeededModules = (
 
 # Feature plack
     {
-        Module    => 'CGI::Emulate::PSGI',
+        Module    => 'CGI::Parse::PSGI',
         Required  => 0,
         Features   => ['plack'],
-        Comment   => 'Support old fashioned CGI in a PSGI application',
+        Comment   => 'needed for CGI::Parse::PSGI::parse_cgi_output()',
         InstTypes => {
             aptget => undef,
             emerge => undef,

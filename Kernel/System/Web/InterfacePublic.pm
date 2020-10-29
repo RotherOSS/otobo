@@ -97,15 +97,16 @@ sub new {
 
 execute the object
 
-    $Interface->HeaderAndContent();
+    # put this in the handler script
+    my $HeaderAndContent = $Interface->HeaderAndContent();
 
 =cut
 
 sub HeaderAndContent {
     my $Self = shift;
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # Check if https forcing is active, and redirect if needed.
     if ( $ConfigObject->Get('HTTPSForceRedirect') ) {

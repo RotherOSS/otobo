@@ -266,8 +266,8 @@ feature 'optional', 'Suppport for optional' => sub {
     # Recommended for usage with Redis Cache Server. (it`s compatible with `Redis`, but **~2x faster**)
     requires 'Redis::Fast';
 
-    # Support old fashioned CGI in a PSGI application
-    requires 'CGI::Emulate::PSGI';
+    # needed for CGI::Parse::PSGI::parse_cgi_output()
+    requires 'CGI::Parse::PSGI';
 
     # Adapt CGI.pm to the PSGI protocol
     requires 'CGI::PSGI';
@@ -296,7 +296,7 @@ feature 'optional', 'Suppport for optional' => sub {
     # Set HTTP headers
     requires 'Plack::Middleware::Header';
 
-    # Watch for changed modules in %INC
+    # Watch for changed modules in %INC. Depends on Module::Refresh
     requires 'Plack::Middleware::Refresh';
 
     # Twist some HTTP variables so that the reverse proxy is transparent
@@ -378,8 +378,8 @@ feature 'performance:redis', 'Suppport for performance:redis' => sub {
 };
 
 feature 'plack', 'Required packages if you want to use PSGI/Plack (experimental and advanced)' => sub {
-    # Support old fashioned CGI in a PSGI application
-    requires 'CGI::Emulate::PSGI';
+    # needed for CGI::Parse::PSGI::parse_cgi_output()
+    requires 'CGI::Parse::PSGI';
 
     # Adapt CGI.pm to the PSGI protocol
     requires 'CGI::PSGI';
@@ -408,7 +408,7 @@ feature 'plack', 'Required packages if you want to use PSGI/Plack (experimental 
     # Set HTTP headers
     requires 'Plack::Middleware::Header';
 
-    # Watch for changed modules in %INC
+    # Watch for changed modules in %INC. Depends on Module::Refresh
     requires 'Plack::Middleware::Refresh';
 
     # Twist some HTTP variables so that the reverse proxy is transparent

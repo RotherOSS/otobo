@@ -19,12 +19,16 @@ package Kernel::GenericInterface::Transport::HTTP::REST;
 use strict;
 use warnings;
 
-use HTTP::Status;
+# core modules
 use MIME::Base64;
+
+# CPAN modules
+use HTTP::Status;
 use REST::Client;
 use URI::Escape;
-use Kernel::Config;
 
+# OTOBO modules
+use Kernel::Config;
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -358,6 +362,7 @@ The HTTP code is set accordingly
 
     $Result = {
         Success      => 1,   # 0 or 1
+        Output       => $HeaderAndContent,   # a string
         ErrorMessage => '',  # in case of error
     };
 
@@ -889,6 +894,7 @@ Returns structure to be passed to provider.
 
     $Result = {
         Success      => 0,
+        Output       => $HeaderAndContent,
         ErrorMessage => 'Message', # error message from given summary
     };
 
@@ -962,31 +968,20 @@ sub _Output {
         }
     }
 
-    # In the constructor of this module STDIN and STDOUT are set to binmode without any additional
-    #   layer (according to the documentation this is the same as set :raw). Previous solutions for
-    #   binary responses requires the set of :raw or :utf8 according to IO layers.
-    #   with that solution Windows OS requires to set the :raw layer in binmode, see #bug#8466.
-    #   while in *nix normally was better to set :utf8 layer in binmode, see bug#8558, otherwise
-    #   XML parser complains about it... ( but under special circumstances :raw layer was needed
-    #   instead ).
-    #
-    # This solution to set the binmode in the constructor and then :utf8 layer before the response
-    #   is sent  apparently works in all situations. ( Linux circumstances to requires :raw was no
-    #   reproducible, and not tested in this solution).
-    binmode STDOUT, ':utf8';    ## no critic
-
     # Print data to http - '\r' is required according to HTTP RFCs.
     my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
-    print STDOUT "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
-    print STDOUT "Content-Type: $ContentType; charset=UTF-8\r\n";
-    print STDOUT "Content-Length: $ContentLength\r\n";
-    print STDOUT "Connection: $Connection\r\n";
-    print STDOUT $AdditionalHeaderStrg;
-    print STDOUT "\r\n";
-    print STDOUT $Param{Content};
+    my $Output = '';
+    $Output .= "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
+    $Output .= "Content-Type: $ContentType; charset=UTF-8\r\n";
+    $Output .= "Content-Length: $ContentLength\r\n";
+    $Output .= "Connection: $Connection\r\n";
+    $Output .= $AdditionalHeaderStrg;
+    $Output .= "\r\n";
+    $Output .= $Param{Content};
 
     return {
         Success      => $Success,
+        Output       => $Output,
         ErrorMessage => $ErrorMessage,
     };
 }
