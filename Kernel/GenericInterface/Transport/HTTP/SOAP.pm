@@ -110,8 +110,12 @@ sub ProviderProcessRequest {
         );
     }
 
-    # Check basic stuff.
-    my $Length = $ENV{'CONTENT_LENGTH'} || 0;
+    # get singletons
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+    # Check the input length
+    my $Content = q{};
+    my $Length;
 
     # If the HTTP_TRANSFER_ENCODING environment variable is defined, check if is chunked.
     my $Chunked = (
@@ -119,7 +123,6 @@ sub ProviderProcessRequest {
             && $ENV{HTTP_TRANSFER_ENCODING} =~ m/^chunked.*$/
     ) || 0;
 
-    my $Content = q{};
 
     # If chunked transfer encoding is used, read request from chunks and calculate its length afterwards
     if ($Chunked) {
@@ -127,7 +130,21 @@ sub ProviderProcessRequest {
         while ( read( STDIN, $Buffer, 1024 ) ) {
             $Content .= $Buffer;
         }
-        $Length = length($Content);
+        $Length = length $Content;
+    }
+    elsif ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+
+        # in the PSGI case CGI::PSGI already has the POST content
+        my $RequestMethod = $ParamObject->RequestMethod() // 'POST';
+        $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
+            Param => "${RequestMethod}DATA",  # e.g. POSTDATA
+        );
+        $Length = length $Content;
+    }
+    else {
+
+        # The CGI case
+        $Length = $ENV{CONTENT_LENGTH} || 0;
     }
 
     # No length provided.
@@ -154,8 +171,8 @@ sub ProviderProcessRequest {
         );
     }
 
-    # If no chunked transfer encoding was used, read request directly.
-    if ( !$Chunked ) {
+    # In the CGI case try to read POST data from STDIN
+    if ( ! $Chunked && ! $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
         read STDIN, $Content, $Length;
 
         # If there is no STDIN data it might be caused by fastcgi already having read the request.
