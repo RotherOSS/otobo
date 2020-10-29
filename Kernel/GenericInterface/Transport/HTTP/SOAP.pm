@@ -133,8 +133,8 @@ sub ProviderProcessRequest {
     # No length provided.
     if ( !$Length ) {
         return $Self->_Error(
-            Summary   => HTTP::Status::status_message(411),
-            HTTPError => 411,
+            Summary   => HTTP::Status::status_message(411), # 'Length required'
+            HTTPError => 411,                               # HTTP_LENGTH_REQUIRED
         );
     }
 
@@ -142,7 +142,7 @@ sub ProviderProcessRequest {
     if ( IsInteger( $Config->{MaxLength} ) && $Length > $Config->{MaxLength} ) {
         return $Self->_Error(
             Summary   => HTTP::Status::status_message(413),
-            HTTPError => 413,
+            HTTPError => 413,                               # HTTP_PAYLOAD_TOO_LARGE
         );
     }
 
