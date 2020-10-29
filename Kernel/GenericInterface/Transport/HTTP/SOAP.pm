@@ -270,8 +270,14 @@ sub ProviderProcessRequest {
         $Config->{SOAPAction} = 'Yes';
     }
 
-    # Check SOAPAction if configured and necessary.
-    my $SOAPAction = $ENV{HTTP_SOAPACTION};
+    # SOAPAction is for SOAP requests a mandatory header field.
+    # Under CGI the value is made available by the webserver as $ENV{HTTP_SOAPACTION}
+    # Under PSGI it is available in the Env hashref under the key 'HTTP_SOAPACTION'
+    # The Perl module CGI, or CGI::PSGI in the PSGI case, take the setting and
+    # make it available via the method HTTP().
+    my $SOAPAction = $ParamObject->HTTP('SOAPACTION');
+
+    # Check whether SOAPAction is configured and necessary.
     if (
         $Config->{SOAPAction} eq 'Yes'
         && IsStringWithData($SOAPAction)
