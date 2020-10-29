@@ -210,8 +210,8 @@ requires 'Unicode::Collate';
 # };
 
 # feature 'plack', 'Required packages if you want to use PSGI/Plack (experimental and advanced)' => sub {
-    # Support old fashioned CGI in a PSGI application
-    requires 'CGI::Emulate::PSGI';
+    # needed for CGI::Parse::PSGI::parse_cgi_output()
+    requires 'CGI::Parse::PSGI';
 
     # Adapt CGI.pm to the PSGI protocol
     requires 'CGI::PSGI';
@@ -240,7 +240,7 @@ requires 'Unicode::Collate';
     # Set HTTP headers
     requires 'Plack::Middleware::Header';
 
-    # Watch for changed modules in %INC
+    # Watch for changed modules in %INC. Depends on Module::Refresh
     requires 'Plack::Middleware::Refresh';
 
     # Twist some HTTP variables so that the reverse proxy is transparent
