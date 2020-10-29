@@ -265,34 +265,14 @@ use Template ();
 use Encode qw(:all);
 use CGI ();
 use CGI::Carp ();
-use CGI::Emulate::PSGI ();
 use CGI::Parse::PSGI qw(parse_cgi_output);
 use CGI::PSGI;
 use Plack::Builder;
 use Plack::Response;
-use Plack::Middleware::ErrorDocument;
-use Plack::Middleware::ForceEnv;
-use Plack::Middleware::Header;
 use Plack::App::File;
 use SOAP::Transport::HTTP::Plack;
 use Mojo::Server::PSGI; # for dbviewer
-
-# for future use:
-#use Plack::Middleware::CamelcadeDB;
-#use Plack::Middleware::Expires;
-#use Plack::Middleware::Debug;
-
-# enable this if you use mysql
-#use DBD::mysql ();
-#use Kernel::System::DB::mysql;
-
-# enable this if you use postgresql
-#use DBD::Pg ();
-#use Kernel::System::DB::postgresql;
-
-# enable this if you use oracle
-#use DBD::Oracle ();
-#use Kernel::System::DB::oracle;
+use Module::Refresh;
 
 # OTOBO modules
 use Kernel::GenericInterface::Provider;
@@ -313,15 +293,29 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT AS OF OCTOBER 10TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
+warn "PLEASE NOTE THAT AS OF OCTOBER 27TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
 
 ################################################################################
 # Middlewares
 ################################################################################
 
+# this middleware is to make sure that the newest version of ZZZAAuto is loaded
+my $RefreshZZZAAutoMiddleWare = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # Module::Refresh::Cache already set up in Plack::Middleware::Refresh::prepara_app();
+        Module::Refresh->refresh_module_if_modified( 'Kernel/Config/Files/ZZZAAuto.pm' );
+
+        return $App->($Env);
+    };
+};
+
 # conditionally enable profiling, UNTESTED
 my $NYTProfMiddleWare = sub {
-    my $app = shift;
+    my $App = shift;
 
     return sub {
         my $Env = shift;
@@ -337,7 +331,7 @@ my $NYTProfMiddleWare = sub {
         }
 
         # do the work
-        my $res = $app->($Env);
+        my $res = $App->($Env);
 
         # clean up profiling, write the output file
         DB::finish_profile() if $ProfilingIsOn;
@@ -371,7 +365,7 @@ my $SetEnvMiddleWare = sub {
 # Fix for environment settings in the FCGI-Proxy case.
 # E.g. when apaches2-httpd-fcgi.include.conf is used.
 my $FixFCGIProxyMiddleware = sub {
-    my $app = shift;
+    my $App = shift;
 
     return sub {
         my $Env = shift;
@@ -384,14 +378,28 @@ my $FixFCGIProxyMiddleware = sub {
             ($Env->{PATH_INFO}, $Env->{SCRIPT_NAME}) = ($Env->{SCRIPT_NAME}, '/');
         }
 
-        # user is authorised, now do the work
-        return $app->($Env);
+        return $App->($Env);
+    }
+};
+
+# Translate '/' is translated to '/index.html'
+my $ExactlyRootMiddleware = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        if ( $Env->{PATH_INFO} eq '' || $Env->{PATH_INFO} eq '/' ) {
+            $Env->{PATH_INFO} = '/index.html';
+        }
+
+        return $App->($Env);
     }
 };
 
 # check whether the logged in user has admin privs
 my $AdminOnlyMiddeware = sub {
-    my $app = shift;
+    my $App = shift;
 
     return sub {
         my $Env = shift;
@@ -468,7 +476,7 @@ my $AdminOnlyMiddeware = sub {
         }
 
         # user is authorised, now do the work
-        return $app->($Env);
+        return $App->($Env);
     };
 };
 
@@ -508,22 +516,28 @@ my $DumpEnvApp = sub {
     ];
 };
 
-# handler for /otobo
-# Redirect to otobo/index.pl when in doubt, no permission check
+# Handler andler for 'otobo', 'otobo/', 'otobo/not_existent', 'otobo/some/thing' and such.
+# Would also work for /dummy if mounted accordingly.
+# Redirect via a relative URL to otobo/index.pl.
+# No permission check,
 my $RedirectOtoboApp = sub {
     my $Env = shift;
 
-    my $req = Plack::Request->new($Env);
-    my $uri = $req->base;
-    $uri->path($uri->path . '/index.pl');
+    # construct a relative path to otobo/index.pl
+    my $Req = Plack::Request->new($Env);
+    my $OrigPath = $Req->path;
+    my $Levels   = $OrigPath =~ tr[/][];
+    my $NewPath  = join '/', map( {  '..' } ( 1 .. $Levels ) ), 'otobo/index.pl';
 
-    my $res = Plack::Response->new();
-    $res->redirect($uri);
+    # redirect
+    my $Res = Plack::Response->new();
+    $Res->redirect($NewPath);
 
-    return $res->finalize;
+    # send the PSGI response
+    return $Res->finalize;
 };
 
-# an app for inspecting the database, logged in user must be an admin
+# an App for inspecting the database, logged in user must be an admin
 my $DBViewerApp = builder {
 
     # a simplistic detection whether we are behind a revers proxy
@@ -541,6 +555,12 @@ my $DBViewerApp = builder {
 
             1;
         };
+
+    # relies on that Plack::Middleware::Refresh already has populated %Module::Refresh::CACHE
+    enable $RefreshZZZAAutoMiddleWare;
+
+    # check ever 10s for changed Perl modules, including Kernel/Config/Files/ZZZAAuto.pm
+    enable 'Plack::Middleware::Refresh';
 
     my $server = Mojo::Server::PSGI->new;
     $server->load_app("$FindBin::Bin/../mojo-bin/dbviewer.pl");
@@ -575,50 +595,6 @@ my $StaticApp = builder {
     Plack::App::File->new(root => "$FindBin::Bin/../../var/httpd/htdocs")->to_app;
 };
 
-# Port of nph-genericinterface.pl to Plack.
-my $GenericInterfaceApp = builder {
-
-    enable 'Plack::Middleware::ErrorDocument',
-        403 => '/otobo/index.pl';  # forbidden files
-
-    # a simplistic detection whether we are behind a revers proxy
-    enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
-
-    # conditionally enable profiling
-    enable $NYTProfMiddleWare;
-
-    # set %ENV
-    enable $SetEnvMiddleWare;
-
-    # check ever 10s for changed Perl modules
-    enable 'Plack::Middleware::Refresh';
-
-    # we might catch an instance of Kernel::System::Web::Exception
-    enable 'Plack::Middleware::HTTPExceptions';
-
-    # Set the appropriate %ENV and file handles
-    CGI::Emulate::PSGI->handler(
-
-        # logic taken from the scripts in bin/cgi-bin
-        sub {
-            my $Env = shift;
-
-            # make sure to have a clean CGI.pm for each request, see CGI::Compile
-            CGI::initialize_globals() if defined &CGI::initialize_globals;
-
-            # nph-genericinterface.pl has specific logging
-            local $Kernel::OM = Kernel::System::ObjectManager->new(
-                'Kernel::System::Log' => {
-                        LogPrefix => 'GenericInterfaceProvider',
-                    },
-            );
-
-            # do the work
-            Kernel::GenericInterface::Provider->new()->Run;
-        }
-    );
-};
-
 # Port of installer.pl, index.pl, customer.pl, public.pl, and migration.pl to Plack.
 my $OTOBOApp = builder {
 
@@ -634,6 +610,9 @@ my $OTOBOApp = builder {
     # set %ENV
     enable $SetEnvMiddleWare;
 
+    # relies on that Plack::Middleware::Refresh already has populated %Module::Refresh::CACHE
+    enable $RefreshZZZAAutoMiddleWare;
+
     # check ever 10s for changed Perl modules
     enable 'Plack::Middleware::Refresh';
 
@@ -645,6 +624,9 @@ my $OTOBOApp = builder {
     # logic taken from the scripts in bin/cgi-bin and from CGI::Emulate::PSGI
     sub {
         my $Env = shift;
+
+        # make sure to have a clean CGI.pm for each request, see CGI::Compile
+        CGI::initialize_globals() if defined &CGI::initialize_globals;
 
         # this is used only for Support Data Collection
         $Env->{SERVER_SOFTWARE} //= 'otobo.psgi';
@@ -695,7 +677,11 @@ my $OTOBOApp = builder {
                     return Kernel::System::Web::InterfacePublic->new( %InterfaceParams );
                 }
 
-                # fallback
+                if ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
+                    return Kernel::GenericInterface::Provider->new( %InterfaceParams );
+                }
+
+                # index.pl is the fallback
                 warn " using fallback InterfaceAgent for ScriptFileName: '$ScriptFileName'\n";
 
                 return Kernel::System::Web::InterfaceAgent->new( %InterfaceParams );
@@ -739,6 +725,9 @@ builder {
     # for debugging
     #enable 'Plack::Middleware::TrafficLog';
 
+    # fiddling with '/'
+    enable $ExactlyRootMiddleware;
+
     # fixing PATH_INFO
     enable_if { ($_[0]->{FCGI_ROLE} // '') eq 'RESPONDER' } $FixFCGIProxyMiddleware;
 
@@ -758,13 +747,15 @@ builder {
     mount '/otobo/index.pl'                => $OTOBOApp;
     mount '/otobo/installer.pl'            => $OTOBOApp;
     mount '/otobo/migration.pl'            => $OTOBOApp;
+    mount '/otobo/nph-genericinterface.pl' => $OTOBOApp;
     mount '/otobo/public.pl'               => $OTOBOApp;
-
-    # Generic interface
-    mount '/otobo/nph-genericinterface.pl' => $GenericInterfaceApp;
 
     # some SOAP stuff
     mount '/otobo/rpc.pl'                  => $RPCApp;
+
+    # some static pages, '/' is already translate to '/index.html'
+    mount "/robots.txt"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/robots.txt")->to_app;
+    mount "/index.html"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/index.html")->to_app;
 };
 
 # for debugging, only dump the PSGI environment

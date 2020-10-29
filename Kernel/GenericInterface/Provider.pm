@@ -19,9 +19,13 @@ package Kernel::GenericInterface::Provider;
 use strict;
 use warnings;
 
-use URI::Escape;
+# core modules
 use Storable;
 
+# CPAN modules
+use URI::Escape;
+
+# OTOBO modules
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport;
 use Kernel::GenericInterface::Mapping;
@@ -45,39 +49,46 @@ Kernel::GenericInterface::Provider - handler for incoming web service requests.
 
 Don't use the constructor directly, use the ObjectManager instead:
 
-    my $ProviderObject = $Kernel::OM->Get('Kernel::GenericInterface::Provider');
+    my $Interface = $Kernel::OM->Get('Kernel::GenericInterface::Provider');
 
 =cut
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # Allocate new hash for object.
-    my $Self = {};
-    bless( $Self, $Type );
+    # start with an empty hash for the new object
+    my $Self = bless {}, $Type;
+
+    # register object params
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Log' => {
+            LogPrefix => 'GenericInterfaceProvider',
+        },
+        'Kernel::System::Web::Request' => {
+            WebRequest => $Param{WebRequest} || 0,
+        },
+    );
 
     return $Self;
 }
 
-=head2 Run()
+=head2 HeaderAndContent()
 
 Receives the current incoming web service request, handles it,
 and returns an appropriate answer based on the requested web service.
 
     # put this in the handler script
-    $ProviderObject->Run();
+    my $HeaderAndContent = $Interface->HeaderAndContent();
 
 =cut
 
-sub Run {
-    my ( $Self, %Param ) = @_;
+sub HeaderAndContent {
+    my $Self = shift;
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $RequestURI = $ParamObject->RequestURI();
 
-    #
     # Locate and verify the desired web service based on the request URI and load its configuration data.
-    #
 
     # Check RequestURI for a web service by id or name.
     my %WebserviceGetData;
@@ -99,6 +110,7 @@ sub Run {
             Priority => 'error',
             Message  => "Could not determine WebserviceID or Webservice from query string '$RequestURI'",
         );
+
         return;    # bail out without Transport, Apache will generate 500 Error
     }
 
@@ -115,6 +127,7 @@ sub Run {
             Priority => 'error',
             Message  => "Could not find valid web service for query string '$RequestURI'",
         );
+
         return;    # bail out without Transport, Apache will generate 500 Error
     }
 
@@ -125,6 +138,7 @@ sub Run {
             Message =>
                 "Could not load web service configuration for query string '$RequestURI'",
         );
+
         return;    # bail out without Transport, Apache will generate 500 Error
     }
 
@@ -137,7 +151,6 @@ sub Run {
     );
 
     if ( ref $DebuggerObject ne 'Kernel::GenericInterface::Debugger' ) {
-
         return;    # bail out without Transport, Apache will generate 500 Error
     }
 
@@ -160,10 +173,12 @@ sub Run {
     # Bail out if transport initialization failed.
     if ( ref $Self->{TransportObject} ne 'Kernel::GenericInterface::Transport' ) {
 
-        return $DebuggerObject->Error(
+        $DebuggerObject->Error(
             Summary => 'TransportObject could not be initialized',
             Data    => $Self->{TransportObject},
         );
+
+        return;    # bail out without Transport, Apache will generate 500 Error
     }
 
     # Combine all data for error handler we got so far.
@@ -180,6 +195,7 @@ sub Run {
     if ( !$FunctionResult->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
+
         return $Self->_HandleError(
             %HandleErrorData,
             DataInclude => {},
@@ -234,7 +250,7 @@ sub Run {
             return $Self->_GenerateErrorResponse(
                 DebuggerObject => $DebuggerObject,
                 ErrorMessage   => $FunctionResult->{ErrorMessage},
-            );
+            ) // '';
         }
 
         # add operation to data for error handler
@@ -247,6 +263,7 @@ sub Run {
         if ( !$FunctionResult->{Success} ) {
 
             my $Summary = $FunctionResult->{ErrorMessage} // 'MappingInObject returned an error, cancelling Request';
+
             return $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
@@ -296,7 +313,7 @@ sub Run {
         return $Self->_GenerateErrorResponse(
             DebuggerObject => $DebuggerObject,
             ErrorMessage   => $ErrorMessage,
-        );
+        ) // '';
     }
 
     # add operation object to data for error handler
@@ -309,6 +326,7 @@ sub Run {
     if ( !$FunctionResult->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'OperationObject returned an error, cancelling Request';
+
         return $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
@@ -357,7 +375,7 @@ sub Run {
             return $Self->_GenerateErrorResponse(
                 DebuggerObject => $DebuggerObject,
                 ErrorMessage   => $FunctionResult->{ErrorMessage},
-            );
+            ) // '';
         }
 
         $FunctionResult = $MappingOutObject->Map(
@@ -368,6 +386,7 @@ sub Run {
         if ( !$FunctionResult->{Success} ) {
 
             my $Summary = $FunctionResult->{ErrorMessage} // 'MappingOutObject returned an error, cancelling Request';
+
             return $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
@@ -392,15 +411,16 @@ sub Run {
     # Generate the actual response.
     #
 
-    $FunctionResult = $Self->{TransportObject}->ProviderGenerateResponse(
+    my $Response = $Self->{TransportObject}->ProviderGenerateResponse(
         Success => 1,
         Data    => $DataOut,
     );
 
-    if ( !$FunctionResult->{Success} ) {
+    if ( ! $Response->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
-        $Self->_HandleError(
+
+        return $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
             ErrorStage  => 'ProviderResponseTransmit',
@@ -409,37 +429,40 @@ sub Run {
         );
     }
 
-    return;
+    return $Response->{Output};
 }
 
 =begin Internal:
 
 =head2 _GenerateErrorResponse()
 
-returns an error message to the client.
+prepares header and content for an error response
 
-    $ProviderObject->_GenerateErrorResponse(
-        ErrorMessage => $ErrorMessage,
-    );
+    my $Output = $Self->_GenerateErrorResponse(
+        DebuggerObject => $DebuggerObject,
+        ErrorMessage   => $ErrorMessage,
+    ) // '';
+    print STDOUT $Output;
 
 =cut
 
 sub _GenerateErrorResponse {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
-    my $FunctionResult = $Self->{TransportObject}->ProviderGenerateResponse(
+    my $Response = $Self->{TransportObject}->ProviderGenerateResponse(
         Success      => 0,
         ErrorMessage => $Param{ErrorMessage},
     );
 
-    if ( !$FunctionResult->{Success} ) {
+    if ( !$Response->{Success} ) {
         $Param{DebuggerObject}->Error(
             Summary => 'Error response could not be sent',
-            Data    => $FunctionResult->{ErrorMessage},
+            Data    => $Response->{ErrorMessage},
         );
     }
 
-    return;
+    return $Response->{Output};
 }
 
 =head2 _HandleError()
@@ -448,7 +471,7 @@ handles errors by
 - informing operation about it (if supported)
 - calling an error handling layer
 
-    my $ReturnData = $RequesterObject->_HandleError(
+    my $Output = $RequesterObject->_HandleError(
         DebuggerObject   => $DebuggerObject,
         WebserviceID     => 1,
         WebserviceConfig => $WebserviceConfig,
@@ -459,11 +482,7 @@ handles errors by
         OperationObject  => $OperationObject,        # optional
         Operation        => 'OperationName',         # optional
     );
-
-    my $ReturnData = {
-        Success      => 0,
-        ErrorMessage => $Param{Summary},
-    };
+    print STDOUT $Output;
 
 =cut
 
@@ -481,7 +500,7 @@ sub _HandleError {
         return $Self->_GenerateErrorResponse(
             DebuggerObject => $Param{DebuggerObject},
             ErrorMessage   => "Got no $Needed!",
-        );
+        ) // '';
     }
 
     my $ErrorHandlingResult = $Kernel::OM->Get('Kernel::GenericInterface::ErrorHandling')->HandleError(
@@ -504,7 +523,7 @@ sub _HandleError {
         return $Self->_GenerateErrorResponse(
             DebuggerObject => $Param{DebuggerObject},
             ErrorMessage   => $Param{Summary},
-        );
+        ) // '';
     }
 
     my $HandleErrorData;
@@ -540,7 +559,7 @@ sub _HandleError {
             return $Self->_GenerateErrorResponse(
                 DebuggerObject => $Param{DebuggerObject},
                 ErrorMessage   => 'MappingErr could not be initialized',
-            );
+            ) // '';
         }
 
         # Map error data.
@@ -557,7 +576,7 @@ sub _HandleError {
             return $Self->_GenerateErrorResponse(
                 DebuggerObject => $Param{DebuggerObject},
                 ErrorMessage   => $MappingErrorResult->{ErrorMessage},
-            );
+            ) // '';
         }
 
         $HandleErrorData = $MappingErrorResult->{Data};
@@ -581,7 +600,7 @@ sub _HandleError {
     return $Self->_GenerateErrorResponse(
         DebuggerObject => $Param{DebuggerObject},
         ErrorMessage   => $Param{Summary},
-    );
+    ) // '';
 }
 
 =end Internal:

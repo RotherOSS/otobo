@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.63311107497154;
+    $Self->{Completeness}        = 0.632905218663632;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -3177,7 +3177,7 @@ bin/otobo.Daemon.pl status\').',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'Pengenal dari sistem. Setiap nomor tiket dan setiap ID sesi HTTP berisi nomor ini.',
         'HTTP Type' => '',
-        'Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.' =>
+        'Set the request scheme used for cookies and various links. For production purposes always use https.' =>
             '',
         'System FQDN' => 'Sistem FQDN',
         'Fully qualified domain name of your system.' => 'Nama domain berkualifikasi lengkap dari sistem anda.',
@@ -3257,6 +3257,9 @@ bin/otobo.Daemon.pl status\').',
             '',
         'Continue anyways :(' => '',
         ' Continue anyways :(' => '',
+
+        # Template: OTRSDBSettings
+        'Database is a throwawy copy' => '',
 
         # Template: OTRSFileSettings
         'OTRS server' => '',
@@ -5061,7 +5064,7 @@ bin/otobo.Daemon.pl status\').',
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
         'Check if OTOBO version is correct.' => '',
         'Check if OTOBO and OTRS connect is possible.' => '',
-        'Can\'t open RELEASE file from OTRSHome: %s!' => '',
+        'Can\'t access OTRS Home: %s!' => '',
         'Copy and migrate files from OTRS' => '',
         'All needed files copied and migrated, perfect!' => '',
 
@@ -5073,6 +5076,7 @@ bin/otobo.Daemon.pl status\').',
         'Data transfer completed.' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+        'Can\'t open RELEASE file from OTRSHome: %s!' => '',
         'Check if OTOBO and OTRS version is correct.' => '',
         '%s does not exist!' => '',
         'Can\'t read OTOBO RELEASE file: %s: %s!' => '',

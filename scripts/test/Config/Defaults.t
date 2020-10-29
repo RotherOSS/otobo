@@ -20,9 +20,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use Kernel::Config::Files::ZZZAAuto;
 
@@ -35,13 +36,6 @@ settings and cause unexpected test failures.
 
 =cut
 
-my $ChecksumFileNotPresent = sub {
-    $Self->False(
-        1,
-        'Default configuration unit test requires the checksum file (ARCHIVE) to be present and valid. Please first call the following command to create it: bin/otobo.CheckSum.pl -a create'
-    );
-    return 1;
-};
 
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
@@ -55,7 +49,8 @@ my $ChecksumFileArrayRef = $MainObject->FileRead(
     Result          => 'ARRAY',
     DisableWarnings => 1,
 );
-return $ChecksumFileNotPresent->() if !$ChecksumFileArrayRef || !@{$ChecksumFileArrayRef};
+
+skip_all( 'Default configuration unit test requires the checksum file (ARCHIVE) to be present and valid. Please first call the following command to create it: bin/otobo.CheckSum.pl -a create' ) if !$ChecksumFileArrayRef || !@{$ChecksumFileArrayRef};
 
 # Get list of present config XML files.
 my $Directory   = "$Home/Kernel/Config/Files/XML";
@@ -69,11 +64,7 @@ for my $ConfigFile (@ConfigFiles) {
     $ConfigFile =~ s{^${Home}/(.*/[^/]+.xml)$}{$1}xmsg;
 
     if ( !grep { $_ =~ $ConfigFile } @{$ChecksumFileArrayRef} ) {
-        $Self->False(
-            0,
-            "Custom configuration file found ($ConfigFile), skipping test..."
-        );
-        return 1;
+        skip_all( "Custom configuration file found ($ConfigFile), skipping test..." );
     }
 }
 

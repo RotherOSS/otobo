@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.929582045861116;
+    $Self->{Completeness}        = 0.958055600715331;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -305,22 +305,22 @@ sub Data {
         'Hint' => '提示',
         'Currently support data is only shown in this system.' => '当前的支持数据只是在系统中显示。',
         'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
-            '',
+            '建议将此数据发送给OTOBO团队，有时可以获得更好的支持。',
         'Configuration' => '配置',
         'Send support data' => '发送支持数据',
         'This will allow the system to send additional support data information to the OTOBO team.' =>
-            '',
+            '这样系统可以将更多的支持数据信息发送给OTOBO团队。',
         'Update' => '更新',
         'System Registration' => '系统注册',
         'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '',
+            '要启用数据发送，请向OTOBO团队注册系统或更新系统注册信息（确保激活“发送支持数据”选项。）',
         'Register this System' => '注册本系统',
         'System Registration is disabled for your system. Please check your configuration.' =>
             '本系统的系统注册功能已被禁用，请检查你的配置。',
 
         # Template: AdminCloudServices
         'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
-            '',
+            '系统注册是OTOBO团队的一项服务，它具有很多优势！',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             '请注意：为了使用OTOBO云服务，需要先注册系统。',
         'Register this system' => '注册本系统',
@@ -401,15 +401,15 @@ sub Data {
         'Please select an entry from the list.' => '请从列表中选择一个条目。',
 
         # Template: AdminContactWD
-        'Contact with data management' => '',
+        'Contact with data management' => '联系人数据管理',
         'Contact with data' => '连接数据',
-        'Add contact with data' => '',
-        'Edit contact with data' => '',
+        'Add contact with data' => '用数据添加联系人',
+        'Edit contact with data' => '用数据编辑联系人',
         'Back to search results' => '返回到搜索结果',
         'Select' => '选择',
         'Search' => '搜索',
         'Wildcards like \'*\' are allowed.' => '允许使用通配置符，例如\'*\'。',
-        'Please enter a search term to look for contacts with data.' => '',
+        'Please enter a search term to look for contacts with data.' => '输入搜索条件查找有数据的联系人。',
         'Valid' => '有效',
 
         # Template: AdminCustomerCompany
@@ -524,9 +524,9 @@ sub Data {
         'Add new field for object' => '为对象添加新的字段',
         'Filter for Dynamic Fields' => '动态字段过滤器',
         'Filter for dynamic fields' => '动态字段过滤器',
-        'New OTOBO Community  Fields' => '',
+        'New OTOBO Community  Fields' => '新的OTOBO社区字段',
         'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
-            '',
+            '想从其他动态字段类型中受益吗？你可以完全访问以下字段类型：',
         'Database' => '数据库',
         'Use external databases as configurable data sources for this dynamic field.' =>
             '使用外部数据库作为此动态字段的可配置数据源。',
@@ -545,14 +545,14 @@ sub Data {
         'Delete this field' => '删除这个字段',
 
         # Template: AdminDynamicFieldAdvanced
-        'Import / Export' => '',
+        'Import / Export' => '输入/导出',
         'Here you can upload a configuration file to import dynamic fields to your system. The file needs to be in .yml format as exported by dynamic field management module.' =>
-            '',
-        'DynamicFields Import' => '',
-        'DynamicFields Export' => '',
-        'Dynamic Fields Screens' => '',
+            '你可以处加载配置文件，以将动态字段导入到系统中。动态字段管理模块导出的这个文件必须为.yml格式。',
+        'DynamicFields Import' => '动态字段导入',
+        'DynamicFields Export' => '动态字段导出',
+        'Dynamic Fields Screens' => '动态字段屏幕',
         'Here you can manage the dynamic fields in the respective screens.' =>
-            '',
+            '这里你可以相应的屏幕中管理动态字段。',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => '动态字段',
@@ -583,29 +583,29 @@ sub Data {
         'This is the default value for this field.' => '这是该字段的默认值。',
 
         # Template: AdminDynamicFieldContactWD
-        'Add or edit contacts' => '',
+        'Add or edit contacts' => '增加或编辑联系人',
         'To add contacts to this field please fill out all the needed information and save it.' =>
-            '',
+            '要将联系人添加到此字段，请填写所有必需的信息并保存。',
         'Click on the field name from the overview to edit it and find the corresponding action in the sidebar or from the \'Tickets\' menu.' =>
-            '',
-        'Name Field' => '',
-        'ValidID Field' => '',
-        'Other Fields' => '',
+            '点击汇总表中的字段名称，以便编辑或者从侧栏和\'工单\' 菜单中选取适当的动作。',
+        'Name Field' => '命名字段',
+        'ValidID Field' => '字段有效ID',
+        'Other Fields' => '其他字段',
         'Key' => '键',
         'Value' => '值',
         'Remove value' => '删除值',
-        'Add Field' => '',
+        'Add Field' => '添加字段',
         'Add value' => '添加值',
-        'These are the possible data attributes for contacts.' => '',
-        'Mandatory fields' => '',
+        'These are the possible data attributes for contacts.' => '这些是联系人可能的数据属性。',
+        'Mandatory fields' => '必填字段',
         'Comma separated list of mandatory keys (optional). Keys \'Name\' and \'ValidID\' are always mandatory and doesn\'t have to be listed here.' =>
-            '',
-        'Sorted fields' => '',
+            '必要的关键点列表用逗号分开（可选），其中“ Name”和“ ValidID”始终是必填项，不必在此处列出。',
+        'Sorted fields' => '字段排序',
         'Comma separated list of keys in sort order (optional). Keys listed here come first, all remaining fields afterwards and sorted alphabetically.' =>
-            '',
-        'Searchable fields' => '',
+            '按顺序排列的关键字段列表（可选），此处列出的字段排在最前面，所有其余字段按字母顺序排在后面。',
+        'Searchable fields' => '可搜索字段',
         'Comma separated list of searchable keys (optional). Key \'Name\' is always searchable and doesn\'t have to be listed here.' =>
-            '',
+            '可搜索字段列表以逗号分开（可选），“名称”始终是可搜索的，不必在此处列出。',
         'Translatable values' => '可翻译的值',
         'If you activate this option the values will be translated to the user defined language.' =>
             '如果激活此选项，这些值将被转换为用户定义的语言。',
@@ -615,10 +615,10 @@ sub Data {
 
         # Template: AdminDynamicFieldDB
         'Possible values' => '可能值',
-        'Datatype' => '',
+        'Datatype' => '数据类型',
         'Filter' => '过滤器',
-        'Searchfield' => '',
-        'Listfield' => '',
+        'Searchfield' => '搜索字段',
+        'Listfield' => '字段列表',
         'Show link' => '显示链接',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '可以为字段值指定一个可选的HTTP链接，以便其显示在工单概览和工单详情中。',
@@ -627,20 +627,20 @@ sub Data {
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '如果填写了内容，在工单详情屏幕中当鼠标移动到这个URL上方时将显示URL的预览。请注意：要使这个功能生效，还需要上面的常规URL字段也填写好了内容。',
         'SID' => '实例名',
-        'Driver' => '',
-        'Server' => '',
+        'Driver' => '驱动器',
+        'Server' => '服务器',
         'Port' => '端口',
-        'Table / View' => '',
+        'Table / View' => '表单/视图',
         'User' => '用户',
         'Password' => '密码',
         'Identifier' => '标识符',
-        'Must be unique column from the table entered in Table/View.' => '',
+        'Must be unique column from the table entered in Table/View.' => '必须是在“表单/视图”中输入的唯一列。',
         'Multiselect' => '多选框',
-        'CacheTTL' => '',
-        'Searchprefix' => '',
-        'Searchsuffix' => '',
-        'Result Limit' => '',
-        'Case Sensitive' => '',
+        'CacheTTL' => 'CacheTTL',
+        'Searchprefix' => '搜索前缀',
+        'Searchsuffix' => '搜索后缀',
+        'Result Limit' => '结果列表',
+        'Case Sensitive' => '大小写敏感',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => '默认的日期差',
@@ -667,42 +667,42 @@ sub Data {
         'Activate this option to display values as a tree.' => '激活此选项，将以树状形式显示值。',
 
         # Template: AdminDynamicFieldImportExport
-        '%s - %s' => '',
-        'Select the items you want to ' => '',
+        '%s - %s' => '%s - %s',
+        'Select the items you want to ' => '选取你需要的项 ',
         'Select the desired elements and confirm the import with \'import\'.' =>
-            '',
+            '选择所需的项，然后单击“导入”确认导入。',
         'Here you can export a configuration file of dynamic fields and dynamic field screens to import these on another system. The configuration file is exported in yml format.' =>
-            '',
+            '这里你可以导出动态字段和动态字段屏幕的配置文件，以便将它们导入另一个系统。配置文件会以yml格式导出。',
         'The following dynamic fields can not be imported because of an invalid backend.' =>
-            '',
-        'Toggle all available elements' => '',
+            '由于无效的后台数据，以下动态字段无法导入。',
+        'Toggle all available elements' => '切换所有可用项',
         'Fields' => '字段',
-        'Screens' => '',
+        'Screens' => '屏幕',
 
         # Template: AdminDynamicFieldScreen
-        'Management of Dynamic Fields <-> Screens' => '',
+        'Management of Dynamic Fields <-> Screens' => '动态字段管理 <-> 屏幕',
         'Overview' => '概览',
-        'Default Columns Screens' => '',
-        'Add DynamicField' => '',
+        'Default Columns Screens' => '默认屏幕列',
+        'Add DynamicField' => '添加动态字段',
         'You can assign elements to this Screen/Field by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
+            '你可以使用鼠标将项从左侧列表拖到右侧列表，从而将该项分配给此屏幕/字段。',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
             '利用鼠标拖放动作还可以对元素进行排序。',
-        'Filter available elements' => '',
-        'selected to available elements' => '',
-        'Available Elements' => '',
-        'Filter disabled elements' => '',
-        'selected to disabled elements' => '',
-        'Toggle all disabled elements' => '',
-        'Disabled Elements' => '',
-        'Filter assigned elements' => '',
-        'selected to assigned elements' => '',
-        'Toggle all assigned elements' => '',
-        'Assigned Elements' => '',
-        'Filter assigned required elements' => '',
-        'selected to assigned required elements' => '',
-        'Toggle all assigned required elements' => '',
-        'Assigned Required Elements' => '',
+        'Filter available elements' => '过滤可用的项',
+        'selected to available elements' => '被选择给可用的项',
+        'Available Elements' => '可用项',
+        'Filter disabled elements' => '过滤停用的项',
+        'selected to disabled elements' => '被选择给停用的项',
+        'Toggle all disabled elements' => '切换所有停用的项',
+        'Disabled Elements' => '停用项',
+        'Filter assigned elements' => '过滤分配的项',
+        'selected to assigned elements' => '被选择给分配的项',
+        'Toggle all assigned elements' => '切换所有分配的项',
+        'Assigned Elements' => '分配项',
+        'Filter assigned required elements' => '过滤分配的必要项',
+        'selected to assigned required elements' => '被选择给分配的必要项',
+        'Toggle all assigned required elements' => '切换所有分配的必要项',
+        'Assigned Required Elements' => '分配必要项',
         'Reset' => '重置',
 
         # Template: AdminDynamicFieldText
@@ -722,27 +722,27 @@ sub Data {
 
         # Template: AdminDynamicFieldTitle
         'Template' => '模版',
-        'Style' => '',
-        'bold' => '',
-        'italic' => '',
-        'underline' => '',
-        'Font style of the label.' => '',
+        'Style' => '风格',
+        'bold' => '粗体',
+        'italic' => '斜体',
+        'underline' => '下划线',
+        'Font style of the label.' => '标签的字体风格。',
         'Size' => '大小',
-        'Font size of the label.' => '',
-        'Color in hex.' => '',
+        'Font size of the label.' => '标签的字体尺寸。',
+        'Color in hex.' => '16进制颜色。',
 
         # Template: AdminDynamicFieldWebService
         'This field is required' => '这个字段是必需的',
-        'The web service to be executed for possible values.' => '',
-        'Invoker' => '',
+        'The web service to be executed for possible values.' => '为可能的值执行的Web服务。',
+        'Invoker' => '召唤者',
         'The invoker to be used to perform requests (invoker needs to be of type \'Generic::PassThrough\').' =>
-            '',
-        'Activate this option to allow multiselect on results.' => '',
-        'Cache TTL' => '',
+            '召唤者用于调用请求的程序（召唤者的类型必须是\'Generic::PassThrough\'）。',
+        'Activate this option to allow multiselect on results.' => '激活这个选项就可以对结果进行多选。',
+        'Cache TTL' => '缓存 TTL',
         'Cache time to live (in minutes), to save the retrieved possible values.' =>
-            '',
+            '缓存生存时间以分钟为单位，以保存取得的数值。',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens. Optional HTTP link works only for single-select fields.' =>
-            '',
+            '这里你可以在“概述”和“缩放”屏幕中，为字段值指定一个可选的HTTP链接，这个HTTP链接仅适用于单选字段。',
 
         # Template: AdminEmail
         'Admin Message' => '管理消息',
@@ -1166,7 +1166,7 @@ sub Data {
         'URI to indicate specific location for accessing a web service.' =>
             '用于指示访问Web服务的特定位置的URI。',
         'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
-            '',
+            '例如：https://www.otobo.de:10745/api/v1.0 （不带反斜杠）',
         'Timeout' => '超时',
         'Timeout value for requests.' => '请求的超时值。',
         'Authentication' => 'Authentication（身份验证）',
@@ -1208,9 +1208,9 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             '认证机构目录的完整路径，文件系统中存储CA证书的地方。',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => '例如：/opt/otobo/var/certificates/SOAP/CA',
-        'SSL hostname verification.' => '',
+        'SSL hostname verification.' => 'SSL 主机名称验证。',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
-            '',
+            '如果无法验证主机名，则中止请求。不过禁用验证时要小心！跳过验证会有安全风险！禁用验证主要用于测试目的（比如自签名SSL证书），或者你明确知道自己在做什么。',
         'Controller mapping for Invoker' => '调用程序的控制器映射',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             '控制器接受调用程序发送的请求。以“:“作为标记的变量将被数据值和其它传递参数替换。',
@@ -1221,7 +1221,7 @@ sub Data {
         'The default HTTP command to use for the requests.' => '用于请求的默认HTTP命令。',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'e.g. https://local.otobo.de:8000/Webservice/Example' => '',
+        'e.g. https://local.otobo.de:8000/Webservice/Example' => '例如：https://local.otobo.de:8000/Webservice/Example',
         'Set SOAPAction' => '设置SOAP动作',
         'Set to "Yes" in order to send a filled SOAPAction header.' => '设置为“是”，发送填写了的SOAPAction 头。',
         'Set to "No" in order to send an empty SOAPAction header.' => '设置为“否”，发送空白SOAPAction 头。',
@@ -1242,7 +1242,7 @@ sub Data {
         'Namespace' => '命名空间',
         'URI to give SOAP methods a context, reducing ambiguities.' => '为SOAP方法指定URI(通用资源标识符), 以便消除二义性。',
         'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
-            '',
+            '举例：urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions',
         'Request name scheme' => '请求名称方案',
         'Select how SOAP request function wrapper should be constructed.' =>
             '选择如何构建SOAP请求函数封装器。',
@@ -1502,7 +1502,7 @@ sub Data {
         'Install' => '安装',
         'Update repository information' => '更新软件仓库信息',
         'Cloud services are currently disabled.' => '云服务当前被禁用了。',
-        'OTOBO Verify can not continue!' => '',
+        'OTOBO Verify can not continue!' => 'OTOBO验证不能继续！',
         'Enable cloud services' => '启用云服务',
         'Update all installed packages' => '更新所有已安装的软件包',
         'Online Repository' => '在线软件仓库',
@@ -1819,7 +1819,7 @@ sub Data {
         'Show transmitted data' => '显示已传输的数据',
         'Deregister system' => '取消系统注册',
         'Overview of registered systems' => '注册系统概述',
-        'This system is registered with OTOBO Team.' => '',
+        'This system is registered with OTOBO Team.' => '本系统已经在OTOBO团队进行了注册。',
         'System type' => '系统类型',
         'Unique ID' => '唯一ID',
         'Last communication with registration server' => '与注册服务器上一次的通信',
@@ -1830,7 +1830,7 @@ sub Data {
         'System Deregistration not Possible' => '系统取消注册不可能',
         'OTOBO-ID Login' => 'OTOBO-ID登陆',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            '',
+            '系统注册是OTOBO团队的一项服务，它有很多好处！',
         'Read more' => '阅读更多',
         'You need to log in with your OTOBO-ID to register your system.' =>
             '为了注册系统，需要你先使用OTOBO-ID进行登陆。',
@@ -1850,7 +1850,7 @@ sub Data {
         'Is it possible to deregister?' => '可以取消注册吗？',
         'You can deregister at any time.' => '你可以随时取消系统注册。',
         'Which data is transfered when registering?' => '注册后，哪些数据会被上传?',
-        'A registered system sends the following data to OTOBO Team:' => '',
+        'A registered system sends the following data to OTOBO Team:' => '已注册的系统会将以下数据发送给OTOBO Team：',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             '域名(FQDN)、OTOBO版本、数据库、操作系统和Perl版本。',
         'Why do I have to provide a description for my system?' => '为什么需要我提供有关注册系统的描述?',
@@ -1872,7 +1872,7 @@ sub Data {
         'Retrieve a new one' => '获取新的密码',
         'Next' => '下一步',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            '',
+            '注册该系统时，这些数据将经常传输到OTOBO Team。',
         'Attribute' => '属性',
         'FQDN' => '正式域名',
         'OTOBO Version' => 'OTOBO版本',
@@ -1880,10 +1880,10 @@ sub Data {
         'Perl Version' => 'Perl版本',
         'Optional description of this system.' => '本系统可选的描述。',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
-            '',
+            '这样系统将会将更多的支持数据信息发送给OTOBO Team。',
         'Register' => '注册',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            '',
+            '继续此步骤将从OTOBO团队注销该系统。',
         'Deregister' => '取消注册',
         'You can modify registration settings here.' => '你可以在这里修改注册设置。',
         'Overview of Transmitted Data' => '已传输的数据概览',
@@ -2064,18 +2064,18 @@ sub Data {
         'This state is used in the following config settings:' => '这个状态已用于以下的系统配置设置：',
 
         # Template: AdminSupportDataCollector
-        'Sending support data to OTOBO Team is not possible!' => '',
+        'Sending support data to OTOBO Team is not possible!' => '无法将支持数据发送到OTOBO团队！',
         'Enable Cloud Services' => '启用云服务',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            '',
+            '该数据会定期发送给OTOBO团队。要停止发送此数据，请更新你的系统注册。',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             '你可以通过这个按钮手动发送支持数据：',
         'Send Update' => '发送更新',
         'Currently this data is only shown in this system.' => '目前支持数据只是在本地系统上显示。',
         'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
-            '',
+            '强烈建议将此数据发送给OTOBO团队，以获得更好的支持。',
         'To enable data sending, please register your system with OTOBO Team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '',
+            '要启用数据发送，请在OTOBO团队注册你的系统或更新你的系统注册信息（确保激活“发送支持数据”选项。）',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             '点击以下按钮生成支持数据包（包括：系统注册信息、支持数据、已安装软件包列表和本地所有修改过的源代码文件）：',
         'Generate Support Bundle' => '生成支持数据包',
@@ -2088,10 +2088,10 @@ sub Data {
             '当前用户的邮件地址无效，本选项无法使用。',
         'Sending' => '发送中',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
-            '',
+            '支持包将通过电子邮件自动发送给OTOBO团队。',
         'Download File' => '下载文件',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
-            '',
+            '包含支持包的文件可以下载到本地。你可以保存该文件，然后用其他方法将其发送给OTOBO团队。',
         'Error: Support data could not be collected (%s).' => '错误：%s 无法收集支持数据。',
         'Details' => '详情',
 
@@ -2155,18 +2155,18 @@ sub Data {
         'Deploy selected changes' => '部署所选更改',
 
         # Template: AdminSystemConfigurationDeploymentHistory
-        'Deployment History' => '',
-        'Filter for Deployments' => '',
-        'Recent Deployments' => '',
-        'Restore' => '',
-        'View Details' => '',
-        'Restore this deployment.' => '',
-        'Export this deployment.' => '',
+        'Deployment History' => '部署历史',
+        'Filter for Deployments' => '部署过滤器',
+        'Recent Deployments' => '近期部署',
+        'Restore' => '恢复',
+        'View Details' => '查看详情',
+        'Restore this deployment.' => '恢复部署',
+        'Export this deployment.' => '导出部署',
 
         # Template: AdminSystemConfigurationDeploymentHistoryDetails
-        'Deployment Details' => '',
+        'Deployment Details' => '部署详情',
         'by' => '由',
-        'No settings have been deployed in this run.' => '',
+        'No settings have been deployed in this run.' => '本次运行没有部署任何配置。',
 
         # Template: AdminSystemConfigurationGroup
         'This group doesn\'t contain any settings. Please try navigating to one of its sub groups.' =>
@@ -2199,17 +2199,17 @@ sub Data {
         'Run search' => '搜索',
 
         # Template: AdminSystemConfigurationSettingHistoryDetails
-        'Change History' => '',
-        'Change History of %s' => '',
+        'Change History' => '变更历史',
+        'Change History of %s' => '%s 变更历史',
         'No modified values for this setting, the default value is used.' =>
-            '',
+            '这个设置没有变更，使用的是默认值。',
 
         # Template: AdminSystemConfigurationUserModifiedDetails
-        'Review users setting value' => '',
-        'Users Value' => '',
-        'For' => '',
-        'Delete all user values.' => '',
-        'No user value for this setting.' => '',
+        'Review users setting value' => '查看用户设置值',
+        'Users Value' => '用户数值',
+        'For' => '为',
+        'Delete all user values.' => '删除所有用户值。',
+        'No user value for this setting.' => '对本配置没有用户值。',
 
         # Template: AdminSystemConfigurationView
         'View a custom List of Settings' => '查看设置的自定义列表',
@@ -2254,13 +2254,13 @@ sub Data {
         'Do you really want to delete this template?' => '您真的想要删除这个模板吗？',
         'A standard template with this name already exists!' => '模板名称已存在！',
         'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
-            '',
+            '获取当前/最新话务员主题的前20个字符（回答和转发是当前，备注模板类型是最新）。其他模板类型不支持此标签。',
         'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
-            '',
+            '获取当前/最新话务员数据的前5行（回答和转发是当前，备注模板类型是最新）。其他模板类型不支持此标签。',
         'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
-            '',
+            '获取当前/最新主题的前20个字符（回答和转发是当前，备注模板类型是最新）。其他模板类型不支持此标签。',
         'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
-            '',
+            '获取当前/最新数据的前5行（回答和转发是当前，备注模板类型是最新）。其他模板类型不支持此标签。',
         'Create type templates only supports this smart tags' => '“Create创建”类型的模板只支持以下智能标签',
         'Example template' => '模板样例',
         'The current ticket state is' => '当前工单状态是',
@@ -2522,15 +2522,15 @@ sub Data {
 
         # Template: AgentDynamicFieldDBDetailedSearch
         'Back' => '后退',
-        'Detailed search' => '',
-        'Add an additional attribute' => '',
+        'Detailed search' => '详细搜索',
+        'Add an additional attribute' => '添加更多属性',
 
         # Template: AgentDynamicFieldDBDetails
-        'Details view' => '',
+        'Details view' => '查看详情',
 
         # Template: AgentElasticsearchQuickResult
         'Tickets' => '工单',
-        'ConfigItems' => '',
+        'ConfigItems' => 'ConfigItems',
 
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => '接收新闻、许可证或者一些变更信息。',
@@ -2546,23 +2546,23 @@ sub Data {
             '目前没有链接。 请点击顶部的“创建新链接”将此项目链接到其他对象。',
 
         # Template: AgentPassword
-        'Password Policy' => '',
+        'Password Policy' => '密码策略',
         'Your current password is older than %s days. You need to set a new one.' =>
-            '',
+            '当前的密码已超过％s天，你需要设置一个新的。',
         'Change password' => '修改密码',
         'Current password' => '当前密码',
         'New password' => '新密码',
-        'Repeat new password' => '',
-        'Password needs to be renewed every %s days.' => '',
+        'Repeat new password' => '重复新密码',
+        'Password needs to be renewed every %s days.' => '密码需要在%s天内进行更新。',
         'Password history is active, you can\'t use a password which was used the last %s times.' =>
-            '',
-        'Password length must be at least %s characters.' => '',
+            '密码历史记录处于活动状态，您不能使用最近％s次使用的密码。',
+        'Password length must be at least %s characters.' => '密码的长度最低不能低于%s个字符。',
         'Password requires at least two lower- and two uppercase characters.' =>
-            '',
-        'Password requires at least two characters.' => '',
-        'Password requires at least one digit.' => '',
-        'Change config options' => '',
-        'Admin permissions are required!' => '',
+            '密码必须包含至少两个小写和两个大写字母。',
+        'Password requires at least two characters.' => '密码最少有两个字符。',
+        'Password requires at least one digit.' => '密码最少有一个数字。',
+        'Change config options' => '更改设置选项',
+        'Admin permissions are required!' => '需要管理员权限！',
 
         # Template: AgentPreferences
         'Edit your preferences' => '编辑个人设置',
@@ -2936,7 +2936,7 @@ sub Data {
         'go back to the previous page' => '返回上一页',
 
         # Template: CustomerAccept
-        'Mit einem Klick erkläre ich meine Zustimmung.' => '',
+        'Mit einem Klick erkläre ich meine Zustimmung.' => '一键同意。',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -2948,7 +2948,7 @@ sub Data {
         'From assigned Customer IDs' => '从已分配的客户ID',
 
         # Template: CustomerDashboard
-        'Ticket Search' => '',
+        'Ticket Search' => '工单搜索',
         'New Ticket' => '新建工单',
 
         # Template: CustomerError
@@ -2957,7 +2957,7 @@ sub Data {
         'Traceback' => '追溯',
 
         # Template: CustomerFooter
-        'Powered by %s' => '',
+        'Powered by %s' => '由%s驱动',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
@@ -2976,9 +2976,9 @@ sub Data {
         'Please see the documentation or ask your admin for further information.' =>
             '欲了解更多信息, 请向你的管理询问或参考相关文档.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
-            '',
+            '你使用的浏览器不支持css-grid。它可能太旧了。',
         'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
-            '',
+            'Internet Explorer可以运行，但并不支持所有功能。请考虑更新到其他浏览器。',
         'One moment please, you are being redirected...' => '请稍候，正在重定向...',
         'Login' => '登录',
         'Your user name' => '你的用户名',
@@ -2988,7 +2988,7 @@ sub Data {
         'Your 2 Factor Token' => '你的双因素令牌',
         '2 Factor Token' => '双因素令牌',
         'Log In' => '登录',
-        'Request Account' => '',
+        'Request Account' => '请求账户',
         'Request New Password' => '请求新密码',
         'Your User Name' => '你的用户名',
         'A new password will be sent to your email address.' => '新密码将会发送到您的邮箱中。',
@@ -3003,26 +3003,26 @@ sub Data {
         'Logout' => '注销',
 
         # Template: CustomerPassword
-        'Change Password' => '',
+        'Change Password' => '更改密码',
         'Password needs to contain at least 3 of the character classes: lower char, upper char, digit, special character.' =>
-            '',
+            '密码至少需要包含3种字符：小写、大写、数字或特殊字符。',
 
         # Template: CustomerTicketList
-        'Nr.' => '',
+        'Nr.' => 'Nr.',
         'Welcome!' => '欢迎！',
         'You have no tickets yet. Please click here, to create a new one.' =>
-            '',
-        'Nothing to show.' => '',
-        'Click here for an unfiltered list of all your tickets.' => '',
+            '你还没有工单，请点击这里创建一个新工单。',
+        'Nothing to show.' => '没有可以显示的内容。',
+        'Click here for an unfiltered list of all your tickets.' => '点击这里可以得到你的所有工单未过滤的列表。',
 
         # Template: CustomerTicketMessage
-        'Issue a new Ticket' => '',
+        'Issue a new Ticket' => '发出一个新工单',
         'Service level agreement' => '服务级别协议',
 
         # Template: CustomerTicketOverview
-        'Your Tickets' => '',
+        'Your Tickets' => '你的工单',
         'Page' => '页',
-        'Sort' => '',
+        'Sort' => '排序',
 
         # Template: CustomerTicketSearch
         'Profile' => '搜索条件',
@@ -3052,22 +3052,22 @@ sub Data {
 
         # Template: CustomerTicketZoom
         'Reply' => '回复',
-        'Discard' => '',
+        'Discard' => '舍弃',
         'Ticket Information' => '工单信息',
-        'Categories' => '',
-        'Further actions' => '',
+        'Categories' => '分类目录',
+        'Further actions' => '下一步行动',
 
         # Template: Chat
         'Expand article' => '展开信件',
 
         # Template: MIMEBase
-        'Article Information' => '',
+        'Article Information' => '文章信息',
 
         # Template: CustomerWarning
         'Warning' => '警告',
 
         # Template: TileNewTicket
-        'Issue%sa ticket' => '',
+        'Issue%sa ticket' => '发出%sa工单',
 
         # Template: DashboardEventsTicketCalendar
         'Event Information' => '事件信息',
@@ -3107,7 +3107,7 @@ sub Data {
         'Welcome to %s' => '欢迎使用%s',
         'Germany' => '德国',
         'Phone' => '电话',
-        'Switzerland' => '',
+        'Switzerland' => '瑞士',
         'Web site' => '网址',
 
         # Template: InstallerConfigureMail
@@ -3180,8 +3180,8 @@ sub Data {
         'SystemID' => '系统ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             '系统的标识符，每个工单编号和HTTP会话ID均包含系统ID。',
-        'HTTP Type' => '',
-        'Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.' =>
+        'HTTP Type' => 'HTTP 类型',
+        'Set the request scheme used for cookies and various links. For production purposes always use https.' =>
             '',
         'System FQDN' => '系统正式域名',
         'Fully qualified domain name of your system.' => '系统FQDN（正式域名）。',
@@ -3198,12 +3198,12 @@ sub Data {
         'CheckMXRecord' => '检查MX记录',
         'Email addresses that are manually entered are checked against the MX records found in DNS. Don\'t use this option if your DNS is slow or does not resolve public addresses.' =>
             '手动输入的电子邮件地址将通过DNS服务器验证MX记录。如果DNS服务器响应慢或无法提供公网解析，请不要使用此选项。',
-        'Elasticsearch' => '',
-        'Initialize Elasticsearch' => '',
+        'Elasticsearch' => 'Elasticsearch',
+        'Initialize Elasticsearch' => '初始化 Elasticsearch',
         'Elasticsearch server was found, and it has been activated automatically for OTOBO.' =>
-            '',
+            'Elasticsearch服务器已经找到了，并且已经为OTOBO自动激活。',
         'Seemingly either no clean Elasticsearch server is running, or it is not using the standard configuration. To activate Elasticsearch manually, please edit the web service in the admin interface if necessary, activate \'Elasticsearch::Active\' and \'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext\' in the SysConfig and run the otobo.Console command \'Maint::Elasticsearch::Migration\'.' =>
-            '',
+            '正在运行的Elasticsearch服务器似乎不太干净，或者它没有使用标准配置。要手动激活Elasticsearch，必要的时候需要在管理界面中编辑Web服务，在SysConfig中激活\'Elasticsearch :: Active\'和\'Frontend :: ToolBarModule ### 250-Ticket :: ElasticsearchFulltext\'，并运行otobo.Console命令\'Maint :: Elasticsearch :: Migration\'。',
 
         # Template: LinkObject
         'Delete link' => '删除链接',
@@ -3224,33 +3224,33 @@ sub Data {
             '这个网站不允许被嵌入，无法提供预览。',
 
         # Template: Copy
-        'Start migration' => '',
-        'Result of data migration' => '',
-        'Last successful task:' => '',
+        'Start migration' => '开始迁移',
+        'Result of data migration' => '数据迁移的结果',
+        'Last successful task:' => '上一个成功任务：',
         'Migration will restart from the last successfully finished task. Please do a complete rerun if you changed your system in the meantime.' =>
-            '',
-        'Clean up and finish' => '',
+            '迁移将从上一个成功完成的任务重新开始。不过如果你已经更改了系统，那就需要从头开始了。',
+        'Clean up and finish' => '清理和完成',
 
         # Template: Finish
         'The migration is complete, thank you for trying out OTOBO - we hope you will like it.' =>
-            '',
+            '迁移已完成，感谢你试用OTOBO-我们希望你会喜欢。',
 
         # Template: Intro
         'This migration script will lead you step by step through the process of migrating your ticket system from OTRS or ((OTRS)) Community Edition version 6 to OTOBO 10.' =>
-            '',
+            '这个迁移脚本将引导你逐步完成，将你的工单系统从OTRS或（（OTRS））Community Edition版本6迁移到OTOBO 10。',
         'There is no danger whatsoever for your original system: nothing is changed there.' =>
-            '',
+            '你的原始系统不会有任何危险：在那里没有任何更改。',
         'Instructions and details on migration prerequisites can be found in the migration manual. We strongly recommend reading it before starting migration.' =>
-            '',
+            '有关迁移的各种先决条件的说明及其详细信息，请参见迁移手册。我们强烈建议你一定在开始迁移之前阅读。',
         'In case you have to suspend migration, you can resume it anytime at the same point as long as the cache has not been deleted.' =>
-            '',
+            '如果必须停止迁移，则可以在任何时候随时恢复到停止的点，只要尚未删除缓存即可。',
         'All entered passwords are cached until the migration is finished.' =>
-            '',
+            '所有输入的密码都将被缓存，直到迁移完成。',
         ' Anyone with access to this page, or read permission for the OTOBO Home Directory will be able to read them. If you abort the migration, you are given the option to clear the cache by visiting this page again.' =>
-            '',
-        'If you need support, just ask our experts – either at' => '',
-        'OTOBO forum' => '',
-        'or directly via mail to' => '',
+            ' 有权访问此页面，或具有OTOBO主目录读取权限的任何人都可以读到它们。如果中止迁移，你可以选择再次访问此页面来清除缓存。',
+        'If you need support, just ask our experts – either at' => '如果需要支持，请问询我们的专家 - 或者在',
+        'OTOBO forum' => 'OTOBO论坛',
+        'or directly via mail to' => '或者直接写邮件发到',
         'Cached data found' => '',
         'You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress.' =>
             '',
@@ -3261,6 +3261,9 @@ sub Data {
             '',
         'Continue anyways :(' => '',
         ' Continue anyways :(' => '',
+
+        # Template: OTRSDBSettings
+        'Database is a throwawy copy' => '',
 
         # Template: OTRSFileSettings
         'OTRS server' => '',
@@ -5065,7 +5068,7 @@ sub Data {
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
         'Check if OTOBO version is correct.' => '',
         'Check if OTOBO and OTRS connect is possible.' => '',
-        'Can\'t open RELEASE file from OTRSHome: %s!' => '',
+        'Can\'t access OTRS Home: %s!' => '',
         'Copy and migrate files from OTRS' => '',
         'All needed files copied and migrated, perfect!' => '',
 
@@ -5077,6 +5080,7 @@ sub Data {
         'Data transfer completed.' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+        'Can\'t open RELEASE file from OTRSHome: %s!' => '',
         'Check if OTOBO and OTRS version is correct.' => '',
         '%s does not exist!' => '',
         'Can\'t read OTOBO RELEASE file: %s: %s!' => '',

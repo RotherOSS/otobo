@@ -19,9 +19,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use Kernel::System::VariableCheck qw(DataIsDifferent);
 
@@ -37,11 +38,7 @@ my $DBServer     = $ConfigObject->Get('DatabaseHost');
 
 # Check if DB is MySQL, finish test if it is not.
 if ( $ConfigObject->Get('DatabaseDSN') !~ /^DBI:mysql/ ) {
-    $Self->True(
-        1,
-        "Finishing prematurely test, need MySQL database"
-    );
-    return 1;
+    skip_all( "Finishing prematurely test, need MySQL database" );
 }
 
 # Create random test variable.

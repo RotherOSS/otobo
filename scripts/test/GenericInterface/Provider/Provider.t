@@ -332,15 +332,11 @@ for my $Test (@Tests) {
                 local *STDIN;
                 open STDIN, '<:utf8', \$RequestData;    ## no critic
 
-                # redirect STDOUT from String so that the transport layer will write there
-                local *STDOUT;
-                open STDOUT, '>:utf8', \$ResponseData;    ## no critic
-
                 # reset CGI object from previous runs
                 CGI::initialize_globals();
                 $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
-                $ProviderObject->Run();
+                $ResponseData = $ProviderObject->HeaderAndContent();
             }
 
             if ( $Test->{ResponseSuccess} ) {

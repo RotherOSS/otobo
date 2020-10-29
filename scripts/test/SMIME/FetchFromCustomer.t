@@ -21,9 +21,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use File::Path qw(mkpath rmtree);
 
@@ -141,7 +142,10 @@ if ( !$SMIMEObject ) {
             "$PrivatePath not writable!",
         );
     }
-    return 1;
+
+    done_testing();
+
+    exit 0;
 }
 
 my $Random = $Helper->GetRandomID();
@@ -516,7 +520,4 @@ for my $Directory ( $CertPath, $PrivatePath ) {
 
 # cleanup is done by RestoreDatabase.
 
-
-$Self->DoneTesting();
-
-
+done_testing();

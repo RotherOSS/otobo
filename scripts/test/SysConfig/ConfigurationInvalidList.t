@@ -20,9 +20,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use Kernel::System::VariableCheck qw( IsHashRefWithData );
 
@@ -47,29 +48,14 @@ my $RandomID = $HelperObject->GetRandomID();
 
 $HelperObject->FixedTimeSet();
 
-# Delete sysconfig_modified_version
-my $SQLDeleteModifiedSettingsVersion = 'DELETE FROM sysconfig_modified_version';
-return if !$DBObject->Do(
-    SQL => $SQLDeleteModifiedSettingsVersion,
-);
+# clear some tables
+for my $Table ( qw(sysconfig_modified_version sysconfig_modified sysconfig_default_version sysconfig_default) ) {
+    my $DoSuccess = $Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL => "DELETE FROM $Table",
+    );
 
-# Delete sysconfig_modified
-my $SQLDeleteModifiedSettings = 'DELETE FROM sysconfig_modified';
-return if !$DBObject->Do(
-    SQL => $SQLDeleteModifiedSettings,
-);
-
-# Delete sysconfig_default_version
-my $SQLDeleteDefaultSettingsVersion = 'DELETE FROM sysconfig_default_version';
-return if !$DBObject->Do(
-    SQL => $SQLDeleteDefaultSettingsVersion,
-);
-
-# Delete sysconfig_default
-my $SQLDeleteDefaultSettings = 'DELETE FROM sysconfig_default';
-return if !$DBObject->Do(
-    SQL => $SQLDeleteDefaultSettings,
-);
+    skip_all( "cannot delete from $Table" ) unless $DoSuccess;
+}
 
 my $LoadSuccess = $SysConfigObject->ConfigurationXML2DB(
     UserID    => 1,
@@ -1036,7 +1022,7 @@ for my $Test (@Tests) {
     );
 
     my $DBCleanUp = $DBObject->Do(
-        SQL => $SQLDeleteModifiedSettingsVersion,
+        SQL => 'DELETE FROM sysconfig_modified_version',
     );
     $Self->True(
         $DBCleanUp,

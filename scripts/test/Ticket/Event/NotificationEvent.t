@@ -1463,7 +1463,6 @@ my $SetOutOfOffice = sub {
     );
 
     return $UserPreferences{OutOfOffice};
-
 };
 
 my $SetTicketHistory = sub {
@@ -1712,7 +1711,4 @@ for my $ID ( $TicketID, $CustomerTicketID ) {
     );
 }
 
-
 $Self->DoneTesting();
-
-

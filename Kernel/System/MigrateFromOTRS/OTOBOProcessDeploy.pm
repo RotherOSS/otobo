@@ -18,11 +18,17 @@ package Kernel::System::MigrateFromOTRS::OTOBOProcessDeploy;    ## no critic
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+
 our @ObjectDependencies = (
-    'Kernel::Language',
     'Kernel::Config',
     'Kernel::System::ProcessManagement::DB::Process',
     'Kernel::System::ProcessManagement::DB::Entity',
@@ -30,13 +36,23 @@ our @ObjectDependencies = (
     'Kernel::System::DateTime',
 );
 
+=head1 NAME
+
+Kernel::System::MigrateFromOTRS::OTOBOProcessDeploy - Deploy the process management configuration.
+
+=head1 SYNOPSIS
+
+    # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 PUBLIC INTERFACE
+
 =head2 CheckPreviousRequirement()
 
 check for initial conditions for running this migration step.
 
-Returns 1 on success
+Returns 1 on success.
 
-    my $Result = $DBUpdateTo6Object->CheckPreviousRequirement();
+    my $RequirementIsMet = $MigrateFromOTRSObject->CheckPreviousRequirement();
 
 =cut
 
@@ -46,16 +62,14 @@ sub CheckPreviousRequirement {
     return 1;
 }
 
-=head1 NAME
+=head2 Run()
 
-Kernel::System::MigrateFromOTRS::OTOBOProcessDeploy - Deploy the process management configuration.
+Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
 
 =cut
 
 sub Run {
     my ( $Self, %Param ) = @_;
-
-    my %Result;
 
     # Set cache object with taskinfo and starttime to show current state in frontend
     my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
@@ -81,6 +95,7 @@ sub Run {
     );
 
     if ( !$ProcessDump ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Deploy the process management configuration.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("There was an error synchronizing the processes.");
         $Result{Successful} = 0;
@@ -92,6 +107,7 @@ sub Run {
         UserID => 1,
     );
     if ( !$Success ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Deploy the process management configuration.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("There was an error setting the entity sync status.");
         $Result{Successful} = 0;
@@ -99,6 +115,7 @@ sub Run {
         return \%Result;
     }
 
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Deploy the process management configuration.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Deployment completed, perfect!");
     $Result{Successful} = 1;

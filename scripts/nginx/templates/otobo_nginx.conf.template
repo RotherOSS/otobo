@@ -7,7 +7,7 @@
 #user
 
 proxy_send_timeout 120;
-proxy_read_timeout 300;
+proxy_read_timeout 99999;
 proxy_buffering    off;
 tcp_nodelay        on;
 

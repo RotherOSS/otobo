@@ -148,9 +148,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return \$('#Name.Error').length;" );
 
         $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#Name').hasClass('Error');"
-            ),
+            $Selenium->execute_script( "return \$('#Name').hasClass('Error');" ),
             '1',
             'Client side validation correctly detected missing input value',
         );

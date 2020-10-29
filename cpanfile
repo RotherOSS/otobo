@@ -8,6 +8,8 @@ requires 'Archive::Tar';
 # Required for compressed file generation.
 requires 'Archive::Zip';
 
+requires 'Const::Fast';
+
 requires 'Date::Format';
 
 requires 'DateTime', ">= 1.08";
@@ -17,6 +19,10 @@ requires 'Convert::BinHex';
 requires 'DBI';
 
 requires 'Digest::SHA';
+
+requires 'File::chmod';
+
+requires 'List::AllUtils';
 
 requires 'LWP::UserAgent';
 
@@ -32,6 +38,8 @@ requires 'Net::DNS', "!= 0.60";
 # Required by Kernel/cpan-lib/Mail/Mailer/smtps.pm
 requires 'Net::SMTP::SSL';
 
+requires 'Path::Class';
+
 # needed by Kernel/cpan-lib/Crypt/Random/Source.pm
 requires 'Sub::Exporter';
 
@@ -40,6 +48,8 @@ requires 'Template::Toolkit';
 
 # The fast data stash for Template::Toolkit.
 requires 'Template::Stash::XS';
+
+requires 'Text::Trim';
 
 # Required for high resolution timestamps.
 requires 'Time::HiRes';
@@ -100,6 +110,12 @@ feature 'devel:dbviewer', 'Suppport for devel:dbviewer' => sub {
 
 };
 
+feature 'devel:encoding', 'Suppport for devel:encoding' => sub {
+    # for deeply inspecting strings
+    requires 'String::Dump';
+
+};
+
 feature 'devel:test', 'Suppport for devel:test' => sub {
     # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
     requires 'Clone';
@@ -112,6 +128,9 @@ feature 'devel:test', 'Suppport for devel:test' => sub {
 
     # contains Test2::API which is used in Kernel::System::UnitTest::Driver
     requires 'Test::Simple';
+
+    # testing PSGI apps and URLs
+    requires 'Test2::Tools::HTTP';
 
 };
 
@@ -235,8 +254,8 @@ feature 'optional', 'Suppport for optional' => sub {
     # Recommended for usage with Redis Cache Server. (it`s compatible with `Redis`, but **~2x faster**)
     requires 'Redis::Fast';
 
-    # Support old fashioned CGI in a PSGI application
-    requires 'CGI::Emulate::PSGI';
+    # needed for CGI::Parse::PSGI::parse_cgi_output()
+    requires 'CGI::Parse::PSGI';
 
     # Adapt CGI.pm to the PSGI protocol
     requires 'CGI::PSGI';
@@ -265,7 +284,7 @@ feature 'optional', 'Suppport for optional' => sub {
     # Set HTTP headers
     requires 'Plack::Middleware::Header';
 
-    # Watch for changed modules in %INC
+    # Watch for changed modules in %INC. Depends on Module::Refresh
     requires 'Plack::Middleware::Refresh';
 
     # Twist some HTTP variables so that the reverse proxy is transparent
@@ -302,6 +321,9 @@ feature 'optional', 'Suppport for optional' => sub {
     # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
     requires 'Clone';
 
+    # for deeply inspecting strings
+    requires 'String::Dump';
+
     # a quick compile check
     requires 'Test::Compile';
 
@@ -310,6 +332,9 @@ feature 'optional', 'Suppport for optional' => sub {
 
     # contains Test2::API which is used in Kernel::System::UnitTest::Driver
     requires 'Test::Simple';
+
+    # testing PSGI apps and URLs
+    requires 'Test2::Tools::HTTP';
 
     # a web framework that makes web development fun again
     requires 'Mojolicious';
@@ -341,8 +366,8 @@ feature 'performance:redis', 'Suppport for performance:redis' => sub {
 };
 
 feature 'plack', 'Required packages if you want to use PSGI/Plack (experimental and advanced)' => sub {
-    # Support old fashioned CGI in a PSGI application
-    requires 'CGI::Emulate::PSGI';
+    # needed for CGI::Parse::PSGI::parse_cgi_output()
+    requires 'CGI::Parse::PSGI';
 
     # Adapt CGI.pm to the PSGI protocol
     requires 'CGI::PSGI';
@@ -371,7 +396,7 @@ feature 'plack', 'Required packages if you want to use PSGI/Plack (experimental 
     # Set HTTP headers
     requires 'Plack::Middleware::Header';
 
-    # Watch for changed modules in %INC
+    # Watch for changed modules in %INC. Depends on Module::Refresh
     requires 'Plack::Middleware::Refresh';
 
     # Twist some HTTP variables so that the reverse proxy is transparent

@@ -18,26 +18,39 @@ package Kernel::System::MigrateFromOTRS::OTOBOSignaturesMigrate;    ## no critic
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
-use version;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
-    'Kernel::Language',
-    'Kernel::Config',
     'Kernel::System::DB',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
 );
 
+=head1 NAME
+
+Kernel::System::MigrateFromOTRS::OTOBOSignaturesMigrate - Migrate signature table to OTOBO.
+
+=head1 SYNOPSIS
+
+    # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 PUBLIC INTERFACE
+
 =head2 CheckPreviousRequirement()
 
 check for initial conditions for running this migration step.
 
-Returns 1 on success
+Returns 1 on success.
 
-    my $Result = $DBUpdateTo6Object->CheckPreviousRequirement();
+    my $RequirementIsMet = $MigrateFromOTRSObject->CheckPreviousRequirement();
 
 =cut
 
@@ -47,16 +60,14 @@ sub CheckPreviousRequirement {
     return 1;
 }
 
-=head1 NAME
+=head2 Run()
 
-Kernel::System::MigrateFromOTRS::OTOBOSignaturesMigrate - Migrate signature table to OTOBO.
+Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
 
 =cut
 
 sub Run {
     my ( $Self, %Param ) = @_;
-
-    my %Result;
 
     # Set cache object with taskinfo and starttime to show current state in frontend
     my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
@@ -142,6 +153,8 @@ sub Run {
             ],
         );
     }
+
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate database table signature.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Migration completed, perfect!");
     $Result{Successful} = 1;

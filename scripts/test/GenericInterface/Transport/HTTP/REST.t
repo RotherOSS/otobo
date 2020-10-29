@@ -1412,11 +1412,6 @@ for my $Test (@Tests) {
     my $Response = '';
     my $Result;
     {
-
-        # Redirect STDOUT from string so that the transport layer will write there.
-        local *STDOUT;
-        open STDOUT, '>:utf8', \$Response;    ## no critic
-
         # Discard request object to prevent errors.
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
@@ -1425,6 +1420,7 @@ for my $Test (@Tests) {
             Success => 1,
             Data    => {},
         );
+        $Response = $Result->{Output} if ref $Result eq 'HASH';
     }
     $Self->True(
         $Result,

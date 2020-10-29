@@ -21,6 +21,8 @@ use warnings;
 
 use Kernel::Language qw(Translatable);
 
+use parent qw(Kernel::System::AsynchronousExecutor);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -199,6 +201,11 @@ sub Run {
         if ( !%Errors )
         {
 
+            # Get old user login in order to compare the old and the new one.
+            my $OldUserLogin = $UserObject->UserLookup(
+                UserID => $GetParam{UserID},
+            );
+
             # update user
             my $Update = $UserObject->UserUpdate(
                 %GetParam,
@@ -206,6 +213,18 @@ sub Run {
             );
 
             if ($Update) {
+
+                # If UserLogin is changed or the user is set to invalid,
+                #   remove asynchronously all sessions from that user.
+                if ( $OldUserLogin ne $GetParam{UserLogin} || !grep { $_ eq $GetParam{ValidID} } @ValidIDList ) {
+                    $Self->AsyncCall(
+                        ObjectName     => 'Kernel::System::AuthSession',
+                        FunctionName   => 'RemoveSessionByUser',
+                        FunctionParams => {
+                            UserLogin => $OldUserLogin,
+                        },
+                    );
+                }
 
                 # if the user would like to continue editing the agent, just redirect to the edit screen
                 # otherwise return to overview

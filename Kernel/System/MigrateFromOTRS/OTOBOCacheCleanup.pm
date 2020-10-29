@@ -18,22 +18,38 @@ package Kernel::System::MigrateFromOTRS::OTOBOCacheCleanup;    ## no critic
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+
 our @ObjectDependencies = (
-    'Kernel::Language',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
 );
+
+=head1 NAME
+
+Kernel::System::MigrateFromOTRS::OTOBOCacheCleanup - Cleanup the system cache.
+
+=head1 SYNOPSIS
+
+    # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 PUBLIC INTERFACE
 
 =head2 CheckPreviousRequirement()
 
 check for initial conditions for running this migration step.
 
-Returns 1 on success
+Returns 1 on success.
 
-    my $Result = $DBUpdateTo6Object->CheckPreviousRequirement();
+    my $RequirementIsMet = $MigrateFromOTRSObject->CheckPreviousRequirement();
 
 =cut
 
@@ -43,16 +59,14 @@ sub CheckPreviousRequirement {
     return 1;
 }
 
-=head1 NAME
+=head2 Run()
 
-Kernel::System::MigrateFromOTRS::OTOBOCacheCleanup - Cleanup the system cache.
+Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
 
 =cut
 
 sub Run {
     my ( $Self, %Param ) = @_;
-
-    my %Result;
 
     # Set cache object with taskinfo and starttime to show current state in frontend
     my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
@@ -71,6 +85,7 @@ sub Run {
 
     $Self->CacheCleanup();
 
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("OTOBO Cache cleanup.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Completed.");
     $Result{Successful} = 1;

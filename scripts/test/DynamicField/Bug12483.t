@@ -19,9 +19,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get needed objects
 my $CacheObject        = $Kernel::OM->Get('Kernel::System::Cache');
@@ -100,13 +101,19 @@ for my $Test (@Tests) {
 
     # Update the dynamic field directly in the database, because at the moment we have no idea, in
     #   which case the YAML strings which make problems can be insert with the normal backend functionality.
-    return if !$DBObject->Do(
+    my $DoSuccess =  $DBObject->Do(
         SQL  => 'UPDATE dynamic_field SET config = ? WHERE id = ?',
         Bind => [
             \$Test->{UpdateDBIncorrectYAML},
             \$DynamicFieldID,
         ],
     );
+
+    if ( !$DoSuccess ) {
+        done_testing();
+
+        exit 0;
+    }
 
     $CacheObject->CleanUp(
         Type => 'DynamicField',
@@ -129,13 +136,19 @@ for my $Test (@Tests) {
         "$Test->{Name} - DynamicFieldGet() - Config (after incorrect YAML)",
     );
 
-    return if !$DBObject->Do(
+    $DoSuccess = $DBObject->Do(
         SQL  => 'UPDATE dynamic_field SET config = ? WHERE id = ?',
         Bind => [
             \$Test->{UpdateDBCorrectYAML},
             \$DynamicFieldID,
         ],
     );
+    if ( !$DoSuccess ) {
+        done_testing();
+
+        exit 0;
+    }
+
 
     # After this update we need no cache cleanup, because the
     #   last DynamicFieldGet should not cache something.
@@ -159,7 +172,4 @@ for my $Test (@Tests) {
 
 # cleanup is done by RestoreDatabase
 
-
 $Self->DoneTesting();
-
-

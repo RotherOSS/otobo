@@ -79,12 +79,8 @@ sub Run {
         }
     }
 
-    my $PreCheckIsOK = $Self->_ExecutePreCheck(
-        %Param,
-    );
-
     # don't attempt to run when the pre check failed
-    return if ! $PreCheckIsOK;
+    return unless $Self->_ExecutePreCheck( %Param );
 
     return $Self->_ExecuteRun( %Param );
 }

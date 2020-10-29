@@ -19,9 +19,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -120,8 +121,10 @@ my $HomeDirectory = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my $DTLDirectory  = $HomeDirectory . '/Kernel/Output/HTML/Templates/Standard/';
 my $DIR;
 if ( !opendir $DIR, $DTLDirectory ) {
-    print "Can not open Directory: $DTLDirectory";
-    return;
+    note( "Can not open Directory: $DTLDirectory" );
+    done_testing();
+
+    exit 0;
 }
 
 my @Files = ();

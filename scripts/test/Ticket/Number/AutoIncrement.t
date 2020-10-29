@@ -20,9 +20,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -202,9 +203,15 @@ my $TicketNumber = $TicketNumberGeneratorObject->TicketNumberBuild();
 
 # Get last ticket number counter.
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-return if !$DBObject->Prepare(
+my $PrepareSuccess = $DBObject->Prepare(
     SQL => 'SELECT MAX(counter) FROM ticket_number_counter',
 );
+if ( !$PrepareSuccess) {
+    done_testing();
+
+    exit 0;
+}
+
 my $Counter;
 while ( my @Data = $DBObject->FetchrowArray() ) {
     $Counter = $Data[0];
@@ -222,9 +229,16 @@ $Self->Is(
 );
 
 # Delete current counters.
-return if !$DBObject->Do(
+my $DoSuccess = $DBObject->Do(
     SQL => 'DELETE FROM ticket_number_counter',
 );
+if ( !$DoSuccess ) {
+    done_testing();
+
+    exit 0;
+}
+
+
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 $TicketNumber  = $TicketNumberGeneratorObject->TicketNumberBuild();
@@ -293,7 +307,4 @@ for my $Test (@Tests) {
 
 # Cleanup is done by RestoreDatabase.
 
-
-$Self->DoneTesting();
-
-
+done_testing();

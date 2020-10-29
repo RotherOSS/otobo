@@ -20,9 +20,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -38,29 +39,14 @@ my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
 
-# Delete sysconfig_modified_version
-my $SQLDeleteModifiedSettingsVersion = 'DELETE FROM sysconfig_modified_version';
-return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-    SQL => $SQLDeleteModifiedSettingsVersion,
-);
+# clear some tables
+for my $Table ( qw(sysconfig_modified_version sysconfig_modified sysconfig_default_version sysconfig_default) ) {
+    my $DoSuccess = $Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL => "DELETE FROM $Table",
+    );
 
-# Delete sysconfig_modified
-my $SQLDeleteModifiedSettings = 'DELETE FROM sysconfig_modified';
-return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-    SQL => $SQLDeleteModifiedSettings,
-);
-
-# Delete sysconfig_default_version
-my $SQLDeleteDefaultSettingsVersion = 'DELETE FROM sysconfig_default_version';
-return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-    SQL => $SQLDeleteDefaultSettingsVersion,
-);
-
-# Delete sysconfig_default
-my $SQLDeleteDefaultSettings = 'DELETE FROM sysconfig_default';
-return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-    SQL => $SQLDeleteDefaultSettings,
-);
+    skip_all( "cannot delete from $Table" ) unless $DoSuccess;
+}
 
 # cleanup cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
@@ -1450,7 +1436,4 @@ $CacheObject->CleanUp(
     Type => 'SysConfigDefaultList',
 );
 
-
 $Self->DoneTesting();
-
-

@@ -18,13 +18,17 @@ package Kernel::GenericInterface::Transport::HTTP::SOAP;
 
 use strict;
 use warnings;
+use namespace::clean;
 
-use Encode;
-use HTTP::Status;
+# core modules
 use MIME::Base64;
 use PerlIO;
+
+# CPAN modules
+use HTTP::Status;
 use SOAP::Lite;
 
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -43,20 +47,16 @@ by using Kernel::GenericInterface::Transport->new();
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type = shift;
+    my %Param = @_;
 
     # Allocate new hash for object.
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # Check needed objects.
     for my $Needed (qw(DebuggerObject TransportConfig)) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
-
-    # Set binary mode for STDIN and STDOUT (normally is the same as :raw).
-    binmode STDIN;
-    binmode STDOUT;
 
     return $Self;
 }
@@ -86,7 +86,8 @@ In case of an error, the resulting http error code and message are remembered fo
 =cut
 
 sub ProviderProcessRequest {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Check transport config.
     if ( !IsHashRefWithData( $Self->{TransportConfig} ) ) {
@@ -111,16 +112,19 @@ sub ProviderProcessRequest {
         );
     }
 
-    # Check basic stuff.
-    my $Length = $ENV{'CONTENT_LENGTH'} || 0;
+    # get singletons
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+    # Check the input length
+    my $Content = q{};
+    my $Length;
 
     # If the HTTP_TRANSFER_ENCODING environment variable is defined, check if is chunked.
     my $Chunked = (
-        defined $ENV{'HTTP_TRANSFER_ENCODING'}
-            && $ENV{'HTTP_TRANSFER_ENCODING'} =~ /^chunked.*$/
+        defined $ENV{HTTP_TRANSFER_ENCODING}
+            && $ENV{HTTP_TRANSFER_ENCODING} =~ m/^chunked.*$/
     ) || 0;
 
-    my $Content = q{};
 
     # If chunked transfer encoding is used, read request from chunks and calculate its length afterwards
     if ($Chunked) {
@@ -128,14 +132,28 @@ sub ProviderProcessRequest {
         while ( read( STDIN, $Buffer, 1024 ) ) {
             $Content .= $Buffer;
         }
-        $Length = length($Content);
+        $Length = length $Content;
+    }
+    elsif ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+
+        # in the PSGI case CGI::PSGI already has the POST content
+        my $RequestMethod = $ParamObject->RequestMethod() // 'POST';
+        $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
+            Param => "${RequestMethod}DATA",  # e.g. POSTDATA
+        );
+        $Length = length $Content;
+    }
+    else {
+
+        # The CGI case
+        $Length = $ENV{CONTENT_LENGTH} || 0;
     }
 
     # No length provided.
     if ( !$Length ) {
         return $Self->_Error(
-            Summary   => HTTP::Status::status_message(411),
-            HTTPError => 411,
+            Summary   => HTTP::Status::status_message(411), # 'Length required'
+            HTTPError => 411,                               # HTTP_LENGTH_REQUIRED
         );
     }
 
@@ -143,7 +161,7 @@ sub ProviderProcessRequest {
     if ( IsInteger( $Config->{MaxLength} ) && $Length > $Config->{MaxLength} ) {
         return $Self->_Error(
             Summary   => HTTP::Status::status_message(413),
-            HTTPError => 413,
+            HTTPError => 413,                               # HTTP_PAYLOAD_TOO_LARGE
         );
     }
 
@@ -155,13 +173,13 @@ sub ProviderProcessRequest {
         );
     }
 
-    # If no chunked transfer encoding was used, read request directly.
-    if ( !$Chunked ) {
+    # In the CGI case try to read POST data from STDIN
+    if ( ! $Chunked && ! $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
         read STDIN, $Content, $Length;
 
         # If there is no STDIN data it might be caused by fastcgi already having read the request.
         # In this case we need to get the data from CGI.
-        my $RequestMethod = $ENV{'REQUEST_METHOD'} || 'GET';
+        my $RequestMethod = $ParamObject->RequestMethod() || 'GET';
         if ( !IsStringWithData($Content) && $RequestMethod ne 'GET' ) {
             my $ParamName = $RequestMethod . 'DATA';
             $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
@@ -174,13 +192,13 @@ sub ProviderProcessRequest {
     if ( !IsStringWithData($Content) ) {
         return $Self->_Error(
             Summary   => 'Could not read input data',
-            HTTPError => 500,
+            HTTPError => 500,   # HTTP_INTERNAL_SERVER_ERROR
         );
     }
 
     # Convert charset if necessary.
     my $ContentCharset;
-    if ( $ENV{'CONTENT_TYPE'} =~ m{ \A ( .+ ) ;\s*charset= ["']{0,1} ( .+? ) ["']{0,1} (;|\z) }xmsi ) {
+    if ( $ENV{CONTENT_TYPE} =~ m{ \A ( .+ ) ;\s*charset= ["']{0,1} ( .+? ) ["']{0,1} (;|\z) }xmsi ) {
 
         # Remember content type for the response.
         $Self->{ContentType} = $1;
@@ -253,8 +271,14 @@ sub ProviderProcessRequest {
         $Config->{SOAPAction} = 'Yes';
     }
 
-    # Check SOAPAction if configured and necessary.
-    my $SOAPAction = $ENV{HTTP_SOAPACTION};
+    # SOAPAction is for SOAP requests a mandatory header field.
+    # Under CGI the value is made available by the webserver as $ENV{HTTP_SOAPACTION}
+    # Under PSGI it is available in the Env hashref under the key 'HTTP_SOAPACTION'
+    # The Perl module CGI, or CGI::PSGI in the PSGI case, take the setting and
+    # make it available via the method HTTP().
+    my $SOAPAction = $ParamObject->HTTP('SOAPACTION');
+
+    # Check whether SOAPAction is configured and necessary.
     if (
         $Config->{SOAPAction} eq 'Yes'
         && IsStringWithData($SOAPAction)
@@ -349,13 +373,15 @@ The HTTP code is set accordingly
 
     $Result = {
         Success      => 1,   # 0 or 1
+        Output       => $HeaderAndContent,
         ErrorMessage => '',  # in case of error
     };
 
 =cut
 
 sub ProviderGenerateResponse {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Do we have a http error message to return.
     if ( IsStringWithData( $Self->{HTTPError} ) && IsStringWithData( $Self->{HTTPMessage} ) ) {
@@ -487,7 +513,8 @@ receive the response and return its data.
 =cut
 
 sub RequesterPerformRequest {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Check transport config.
     if ( !IsHashRefWithData( $Self->{TransportConfig} ) ) {
@@ -908,7 +935,8 @@ Error is generated to be passed to provider/requester.
 =cut
 
 sub _Error {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Check needed params.
     if ( !IsString( $Param{Summary} ) ) {
@@ -955,7 +983,8 @@ Returns structure to be passed to provider.
 =cut
 
 sub _Output {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Check params.
     my $Success = 1;
@@ -974,7 +1003,8 @@ sub _Output {
     }
 
     # prepare protocol
-    my $Protocol = defined $ENV{SERVER_PROTOCOL} ? $ENV{SERVER_PROTOCOL} : 'HTTP/1.0';
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $Protocol = $ParamObject->ServerProtocol() // 'HTTP/1.0';
 
     # FIXME: according to SOAP::Transport::HTTP the previous should not be used
     #   for all supported browsers 'Status:' should be used here
@@ -1025,31 +1055,20 @@ sub _Output {
         }
     }
 
-    # In the constructor of this module STDIN and STDOUT are set to binmode without any additional
-    #   layer (according to the documentation this is the same as set :raw). Previous solutions for
-    #   binary responses requires the set of :raw or :utf8 according to IO layers.
-    #   with that solution Windows OS requires to set the :raw layer in binmode, see #bug#8466.
-    #   while in *nix normally was better to set :utf8 layer in binmode, see bug#8558, otherwise
-    #   XML parser complains about it... ( but under special circumstances :raw layer was needed
-    #   instead ).
-    #
-    # This solution to set the binmode in the constructor and then :utf8 layer before the response
-    #   is sent  apparently works in all situations. ( Linux circumstances to requires :raw was no
-    #   reproducible, and not tested in this solution).
-    binmode STDOUT, ':utf8';    ## no critic
-
     # Print data to http - '\r' is required according to HTTP RFCs.
     my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
-    print STDOUT "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
-    print STDOUT "Content-Type: $ContentType; charset=UTF-8\r\n";
-    print STDOUT "Content-Length: $ContentLength\r\n";
-    print STDOUT "Connection: $Connection\r\n";
-    print STDOUT $AdditionalHeaderStrg;
-    print STDOUT "\r\n";
-    print STDOUT $Param{Content};
+    my $Output = '';
+    $Output .= "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
+    $Output .= "Content-Type: $ContentType; charset=UTF-8\r\n";
+    $Output .= "Content-Length: $ContentLength\r\n";
+    $Output .= "Connection: $Connection\r\n";
+    $Output .= $AdditionalHeaderStrg;
+    $Output .= "\r\n";
+    $Output .= $Param{Content};
 
     return {
         Success      => $Success,
+        Output       => $Output,
         ErrorMessage => $ErrorMessage,
     };
 }
@@ -1121,7 +1140,8 @@ $Sort = [                                  # wrapper for level 1
 =cut
 
 sub _SOAPOutputRecursion {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Get and check types of data and sort elements.
     my $Type = $Self->_SOAPOutputTypesGet(%Param);
@@ -1256,7 +1276,8 @@ It contains the functions to process a hash key/value pair.
 =cut
 
 sub _SOAPOutputHashRecursion {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Process data.
     my $RecurseResult = $Self->_SOAPOutputRecursion(%Param);
@@ -1305,7 +1326,8 @@ It contains functions to quote invalid XML characters and encode the string
 =cut
 
 sub _SOAPOutputProcessString {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     return '' if !defined $Param{Data};
 
@@ -1353,7 +1375,8 @@ Values in the sorting structure are ignored but have to be specified
 =cut
 
 sub _SOAPOutputTypesGet {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Check types.
     my %Type;

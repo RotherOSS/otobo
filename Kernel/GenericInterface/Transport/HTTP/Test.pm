@@ -19,12 +19,14 @@ package Kernel::GenericInterface::Transport::HTTP::Test;
 use strict;
 use warnings;
 
+# core modules
 use HTTP::Request::Common;
 use LWP::UserAgent;
 use LWP::Protocol;
 
-# prevent 'Used once' warning for Kernel::OM
-use Kernel::System::ObjectManager;
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
@@ -164,11 +166,9 @@ sub ProviderGenerateResponse {
         Data    => $Response->as_string(),
     );
 
-    # now send response to client
-    print STDOUT $Response->as_string();
-
     return {
         Success => 1,
+        Output  => $Response->as_string(),
     };
 }
 
@@ -259,9 +259,6 @@ sub request {                                                                   
     $Response->content_type("text/plain; charset=UTF-8");
     $Response->add_content_utf8( $Request->content() );
     $Response->date(time);
-
-    #print $Request->as_string();
-    #print $Response->as_string();
 
     return $Response;
 }

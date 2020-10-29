@@ -18,24 +18,39 @@ package Kernel::System::MigrateFromOTRS::OTOBOACLDeploy;    ## no critic
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+
 our @ObjectDependencies = (
-    'Kernel::Language',
-    'Kernel::Config',
     'Kernel::System::ACL::DB::ACL',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
 );
 
+=head1 NAME
+
+Kernel::System::MigrateFromOTRS::OTOBOACLDeploy - Deploy the acl configuration.
+
+=head1 SYNOPSIS
+
+    # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 PUBLIC INTERFACE
+
 =head2 CheckPreviousRequirement()
 
 check for initial conditions for running this migration step.
 
-Returns 1 on success
+Returns 1 on success.
 
-    my $Result = $DBUpdateTo6Object->CheckPreviousRequirement();
+    my $RequirementIsMet = $MigrateFromOTRSObject->CheckPreviousRequirement();
 
 =cut
 
@@ -45,9 +60,9 @@ sub CheckPreviousRequirement {
     return 1;
 }
 
-=head1 NAME
+=head2 Run()
 
-Kernel::System::MigrateFromOTRS::OTOBOACLDeploy - Deploy the acl configuration.
+Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
 
 =cut
 
@@ -69,7 +84,6 @@ sub Run {
         },
     );
 
-    my %Result;
     my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
 
     my $ACLDump = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL')->ACLDump(
@@ -79,6 +93,7 @@ sub Run {
     );
 
     if ( !$ACLDump ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Deploy the ACL configuration.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("There was an error synchronizing the ACLs.");
         $Result{Successful} = 0;
@@ -95,6 +110,7 @@ sub Run {
     );
 
     if ( !$Success ) {
+        my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Deploy the ACL configuration.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("There was an error setting the entity sync status.");
         $Result{Successful} = 0;
@@ -102,6 +118,7 @@ sub Run {
         return \%Result;
     }
 
+    my %Result;
     $Result{Message}    = $Self->{LanguageObject}->Translate("Deploy the ACL configuration.");
     $Result{Comment}    = $Self->{LanguageObject}->Translate("Deployment completed, perfect!");
     $Result{Successful} = 1;
