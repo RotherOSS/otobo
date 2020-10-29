@@ -991,7 +991,8 @@ sub _Output {
     }
 
     # prepare protocol
-    my $Protocol = defined $ENV{SERVER_PROTOCOL} ? $ENV{SERVER_PROTOCOL} : 'HTTP/1.0';
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $Protocol = $ParamObject->ServerProtocol() // 'HTTP/1.0';
 
     # FIXME: according to SOAP::Transport::HTTP the previous should not be used
     #   for all supported browsers 'Status:' should be used here
