@@ -18,8 +18,15 @@ package Kernel::System::MigrateFromOTRS::OTOBOMigrateWebServiceConfiguration;   
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -58,6 +65,12 @@ sub CheckPreviousRequirement {
     return 1;
 }
 
+=head2 Run()
+
+Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
+
+=cut
+
 sub Run {
     my ( $Self, %Param ) = @_;
 
@@ -85,6 +98,7 @@ sub Run {
     my $WebserviceList = $WebserviceObject->WebserviceList(
         Valid => 0,
     );
+
     if ( !IsHashRefWithData($WebserviceList) ) {
         my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
@@ -92,12 +106,14 @@ sub Run {
         $Result{Successful} = 1;
         return \%Result;
     }
+
     WEBSERVICEID:
     for my $WebserviceID ( sort keys %{$WebserviceList} ) {
 
         my $WebserviceData = $WebserviceObject->WebserviceGet(
             ID => $WebserviceID,
         );
+
         next WEBSERVICEID if !IsHashRefWithData($WebserviceData);
 
         # Check if web service is using an old configuration type and upgrade if necessary.

@@ -20,9 +20,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use File::Path qw(mkpath rmtree);
 
@@ -126,7 +127,10 @@ if ( !$SMIMEObject ) {
             "$PrivatePath not writable!",
         );
     }
-    return 1;
+
+    done_testing();
+
+    exit 0;
 }
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::SMIME::CustomerCertificate::Fetch');
@@ -153,7 +157,4 @@ for my $Directory ( $CertPath, $PrivatePath ) {
     );
 }
 
-
-$Self->DoneTesting();
-
-
+done_testing();

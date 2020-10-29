@@ -100,7 +100,7 @@ sub Run {
     # send request
     my %Response = $Kernel::OM->Get('Kernel::System::WebUserAgent')->Request(
         Type => 'POST',
-        URL  => 'https://portal.otobo.de/otobo/public.pl',
+        URL  => 'https://portal.rother-oss.com/otobo/public.pl',
         Data => {
             Action      => 'PublicCloudService',
             RequestData => $RequestData,

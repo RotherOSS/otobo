@@ -125,7 +125,7 @@ EOF
         UserID    => 1,
     );
 
-    my %Result = $SysConfigObject->SettingUpdate(
+    $SysConfigObject->SettingUpdate(
         Name                   => 'Test1',
         IsValid                => 1,
         EffectiveValue         => 'Updated setting 1',

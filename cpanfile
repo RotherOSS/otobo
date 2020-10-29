@@ -106,6 +106,12 @@ feature 'devel:dbviewer', 'Suppport for devel:dbviewer' => sub {
 
 };
 
+feature 'devel:encoding', 'Suppport for devel:encoding' => sub {
+    # for deeply inspecting strings
+    requires 'String::Dump';
+
+};
+
 feature 'devel:test', 'Suppport for devel:test' => sub {
     # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
     requires 'Clone';
@@ -118,6 +124,9 @@ feature 'devel:test', 'Suppport for devel:test' => sub {
 
     # contains Test2::API which is used in Kernel::System::UnitTest::Driver
     requires 'Test::Simple';
+
+    # testing PSGI apps and URLs
+    requires 'Test2::Tools::HTTP';
 
 };
 
@@ -314,6 +323,9 @@ feature 'optional', 'Suppport for optional' => sub {
     # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
     requires 'Clone';
 
+    # for deeply inspecting strings
+    requires 'String::Dump';
+
     # a quick compile check
     requires 'Test::Compile';
 
@@ -322,6 +334,9 @@ feature 'optional', 'Suppport for optional' => sub {
 
     # contains Test2::API which is used in Kernel::System::UnitTest::Driver
     requires 'Test::Simple';
+
+    # testing PSGI apps and URLs
+    requires 'Test2::Tools::HTTP';
 
     # a web framework that makes web development fun again
     requires 'Mojolicious';

@@ -21,7 +21,7 @@ package Kernel::System::MigrateFromOTRS::Base;    ## no critic
 use strict;
 use warnings;
 use v5.24;
-use namespace::clean;
+use namespace::autoclean;
 use utf8;
 
 # core modules
@@ -313,9 +313,11 @@ sub CleanOTRSFileToOTOBOStyle {
                 Priority => 'error',
                 Message  => "$_ not defined!"
             );
+
             return;
         }
     }
+
     for (qw(File UserID)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -380,6 +382,7 @@ sub CleanOTRSFileToOTOBOStyle {
         Type       => 'Local',    # optional - Local|Attachment|MD5
         Permission => '660',      # unix file permissions
     );
+
     return 1;
 }
 
@@ -901,9 +904,7 @@ sub DisableSecureMode {
         #        UserID          => 1,                # Required only if OverriddenInXML is set.
     );
 
-    if ( $Setting{EffectiveValue} eq '0' ) {
-        return 1;
-    }
+    return 1 if $Setting{EffectiveValue} eq '0';
 
     return $SysConfigObject->SettingsSet(
         UserID   => 1,                                      # (required) UserID
@@ -1069,7 +1070,7 @@ sub IndexExists {
 Update an existing SysConfig Setting in a migration context. It will skip updating both read-only and already modified
 settings by default.
 
-    $MigrateFromOTRSObject->SettingUpdate(
+    my $Success = $MigrateFromOTRSObject->SettingUpdate(
         Name                   => 'Setting::Name',           # (required) setting name
         IsValid                => 1,                         # (optional) 1 or 0, modified 0
         EffectiveValue         => $SettingEffectiveValue,    # (optional)
@@ -1084,8 +1085,10 @@ settings by default.
 
 =cut
 
+# Note: looks like this method is currently unused
 sub SettingUpdate {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     if ( !$Param{Name} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1299,6 +1302,8 @@ sub ResetConfigOption {
 }
 
 sub DBSkipTables {
+
+    # the tables must be lower case
     return {
         communication_log              => 1,
         communication_log_obj_lookup   => 1,
@@ -1318,21 +1323,30 @@ sub DBSkipTables {
 
 # OTOBO Table Name => OTRS Table Name
 sub DBRenameTables {
+
+    # the tables must be lower case
     return {
         groups                 => 'groups_table',
         article_data_otrs_chat => 'article_data_otobo_chat',
     };
 }
 
+# list of files that need to be copied
 sub CopyFileListfromOTRSToOTOBO {
-    return (
+    my @Files = (
         '/Kernel/Config.pm',
-        '/Kernel/Config.po',
+        '/Kernel/Config.po', # what is that ?
         '/var/httpd/htdocs/index.html',
-        '/var/cron',
         '/var/article',
         '/var/stats',
     );
+
+    # Under Docker there is no var/cron
+    if ( ! $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
+        push @Files, '/var/cron';
+    }
+
+    return @Files;
 }
 
 sub DoNotCleanFileList {

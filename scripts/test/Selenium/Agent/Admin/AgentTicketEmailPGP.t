@@ -261,6 +261,7 @@ $Selenium->RunTest(
                 index( $Option, $SystemAddressEmail ) > -1,
                 "Signing key is selected",
             );
+
             return;
         };
 

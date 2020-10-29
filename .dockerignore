@@ -30,6 +30,12 @@ bin/docker/lint_docker_files.sh
 hooks
 otobo.*.dockerfile
 
+# Skip cpanfile, as cpanfile.docker is actually used
+cpanfile
+
+# Skip Config.pm.dist, as Config.pm.docker.dist is actually used
+Kernel/Config.pm.dist
+
 # files only needed only for continous integration
 .otobo-ci.yml
 

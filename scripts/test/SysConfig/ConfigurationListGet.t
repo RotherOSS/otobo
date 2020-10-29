@@ -221,7 +221,7 @@ for my $Test (@Tests) {
             "$Test->{Name} SettingUpdate() - $SettingName is locked",
         );
 
-        my $Success = $SysConfigObject->SettingUpdate(
+        my %Result = $SysConfigObject->SettingUpdate(
             Name                   => $SettingName,
             IsValid                => 1,
             UserModificationActive => 0,
@@ -231,7 +231,7 @@ for my $Test (@Tests) {
         );
 
         $Self->True(
-            $Success,
+            $Result{Success},
             "$Test->{Name} SettingUpdate() - $SettingName with true",
         );
     }

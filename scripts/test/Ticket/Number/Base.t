@@ -20,9 +20,10 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -328,9 +329,14 @@ for my $Test (@Tests) {
         "$Test->{Name} TicketNumberCounterCleanup() - with true",
     );
 
-    return if !$DBObject->Prepare(
+    my $DoSuccess = $DBObject->Prepare(
         SQL => 'SELECT counter FROM ticket_number_counter ORDER BY id',
     );
+    if ( !$DoSuccess ) {
+        done_testing();
+
+        exit 0;
+    }
 
     my @Counters;
     while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -389,7 +395,4 @@ for my $Test (@Tests) {
 
 # Cleanup is done by RestoreDatabase.
 
-
 $Self->DoneTesting();
-
-

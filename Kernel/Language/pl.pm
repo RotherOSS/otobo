@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.626443324117743;
+    $Self->{Completeness}        = 0.626402211022598;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -302,7 +302,7 @@ sub Data {
         'Hint' => 'Podpowiedź',
         'Currently support data is only shown in this system.' => 'Obecnie dane wsparca są wyświetlane jedynie w tym systemie.',
         'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
-            '',
+            'W niektórych przypadkach zaleca się wysłanie tych danych do zespołu OTOBO, aby uzyskać lepsze wsparcie.',
         'Configuration' => 'Konfiguracja',
         'Send support data' => 'Wysyłaj dane wsparcia',
         'This will allow the system to send additional support data information to the OTOBO team.' =>
@@ -3179,7 +3179,7 @@ sub Data {
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'Identyfikator systemu. Każde zgłoszenie i każde ID sesji HTTP zawiera ten numer',
         'HTTP Type' => '',
-        'Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes.' =>
+        'Set the request scheme used for cookies and various links. For production purposes always use https.' =>
             '',
         'System FQDN' => 'Pełna domena systemu (FQDN)',
         'Fully qualified domain name of your system.' => 'Pełna nazwa domenowa (FQDN) twojego systemu.',
@@ -3259,6 +3259,9 @@ sub Data {
             '',
         'Continue anyways :(' => '',
         ' Continue anyways :(' => '',
+
+        # Template: OTRSDBSettings
+        'Database is a throwawy copy' => '',
 
         # Template: OTRSFileSettings
         'OTRS server' => '',
@@ -5063,7 +5066,7 @@ sub Data {
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
         'Check if OTOBO version is correct.' => '',
         'Check if OTOBO and OTRS connect is possible.' => '',
-        'Can\'t open RELEASE file from OTRSHome: %s!' => '',
+        'Can\'t access OTRS Home: %s!' => '',
         'Copy and migrate files from OTRS' => '',
         'All needed files copied and migrated, perfect!' => '',
 
@@ -5075,6 +5078,7 @@ sub Data {
         'Data transfer completed.' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+        'Can\'t open RELEASE file from OTRSHome: %s!' => '',
         'Check if OTOBO and OTRS version is correct.' => '',
         '%s does not exist!' => '',
         'Can\'t read OTOBO RELEASE file: %s: %s!' => '',

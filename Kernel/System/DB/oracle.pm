@@ -55,7 +55,11 @@ sub LoadPreferences {
     $Self->{'DB::Version'}
         = "SELECT CONCAT('Oracle ', version) FROM product_component_version WHERE product LIKE 'Oracle Database%'";
 
+    # how to get list of tables in the current schema
     $Self->{'DB::ListTables'} = 'SELECT table_name FROM user_tables ORDER BY table_name';
+
+    # how to turn off foreign key checks for the current session
+    #$Self->{'DB::DeactivateForeignKeyChecks'} not supported in Oracle
 
     # dbi attributes
     $Self->{'DB::Attribute'} = {

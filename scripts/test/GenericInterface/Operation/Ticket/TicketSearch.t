@@ -20,6 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -260,14 +261,14 @@ $Self->True(
 
 # update escalation times directly in the DB
 my $EscalationTime = $StartTime->ToEpoch() + 120;
-return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+my $DoSuccess = $Kernel::OM->Get('Kernel::System::DB')->Do(
     SQL => '
         UPDATE ticket
         SET escalation_time = ?, escalation_response_time = ?, escalation_update_time = ?,
             escalation_solution_time = ?, change_time = current_timestamp, change_by = ?
         WHERE id = ?',
     Bind => [
-        \$EscalationTime,
+        \$EscalationTime, 
         \$EscalationTime,
         \$EscalationTime,
         \$EscalationTime,
@@ -275,6 +276,12 @@ return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         \$TicketID1,
     ],
 );
+if ( !$DoSuccess ) {
+    done_testing();
+
+    exit 0;
+}
+
 
 # create backend object and delegates
 my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');

@@ -1905,6 +1905,12 @@ via the Preferences button after logging in.
         ],
     };
 
+    # Elasticsearch settings needed for installer.pl
+    $Self->{'Elasticsearch::ArticleIndexCreationSettings'} = {
+        'NS'      => '1',
+        'NR'      => '0',
+    };
+
     return 1;
 }
 
@@ -1915,11 +1921,11 @@ via the Preferences button after logging in.
 
 # Please see the documentation in Kernel/Config.pod.dist.
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type = shift;
+    my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # 0=off; 1=log if there exists no entry; 2=log all;
     $Self->{Debug} = 0;
@@ -1929,6 +1935,7 @@ sub new {
 
         # load config
         $Self->Load();
+
         return $Self;
     }
 
@@ -1964,7 +1971,7 @@ sub new {
         FILE:
         for my $File (@Files) {
 
-            # do not use ZZZ files
+            # do not use ZZZ files for the Level 'Default'
             if ( $Param{Level} && $Param{Level} eq 'Default' && $File =~ m/ZZZ/ ) {
                 next FILE;
             }
@@ -1997,6 +2004,7 @@ sub new {
             if ( $@ ) {
                 my $ErrorMessage = $@;
                 print STDERR $@;
+
                 next FILE;
             }
         }
@@ -2143,6 +2151,7 @@ sub ConfigChecksum {
 
         if ( !$Stat ) {
             print STDERR "Error: cannot stat file '$File': $!";
+
             return;
         }
 
@@ -2155,10 +2164,12 @@ sub ConfigChecksum {
 sub AutoloadPerlPackages {
     my ($Self) = @_;
 
-    return 1 if !$Self->{AutoloadPerlPackages};
-    return 1 if ref $Self->{AutoloadPerlPackages} ne 'HASH';
-    my %AutoloadConfiguration = %{ $Self->{AutoloadPerlPackages} };
-    return 1 if !%AutoloadConfiguration;
+    # check whether there are any auto load packages
+    return 1 unless $Self->{AutoloadPerlPackages};
+    return 1 unless ref $Self->{AutoloadPerlPackages} eq 'HASH';
+    return 1 unless $Self->{AutoloadPerlPackages}->%*;
+
+    my %AutoloadConfiguration = $Self->{AutoloadPerlPackages}->%*;
 
     CONFIGKEY:
     for my $ConfigKey (sort keys %AutoloadConfiguration) {
@@ -2174,6 +2185,7 @@ sub AutoloadPerlPackages {
 
             if ( substr($Package, 0, 16) ne 'Kernel::Autoload' ) {
                 print STDERR "Error: Autoload packages must be located in Kernel/Autoload, skipping $Package\n";
+
                 next PACKAGE;
             }
 

@@ -64,7 +64,7 @@ sub new {
         );
 
     # set URL for calling cloud services
-    $Self->{CloudServiceURL} = 'https://portal.otobo.de/otobo/public.pl';
+    $Self->{CloudServiceURL} = 'https://portal.rother-oss.com/otobo/public.pl';
 
     return $Self;
 }
