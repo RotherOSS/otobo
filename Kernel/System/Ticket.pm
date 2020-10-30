@@ -2646,13 +2646,10 @@ sub TicketEscalationIndexBuild {
     }
 
     # get escalation properties
-    my %Escalation;
-    if (%Ticket) {
-        %Escalation = $Self->TicketEscalationPreferences(
-            Ticket => \%Ticket,
-            UserID => $UserID,
-        );
-    }
+    my %Escalation = $Self->TicketEscalationPreferences(
+        Ticket => \%Ticket,
+        UserID => $UserID,
+    );
 
     # find escalation times
     my $EscalationTime = 0;
