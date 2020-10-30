@@ -2602,7 +2602,7 @@ sub TicketEscalationIndexBuild {
     my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # Do no escalation on (merge|close|remove) tickets.
+    # Do not escalate on (merge|close|remove) tickets.
     # Cancel whole escalation when EscalationSuspendCancelEscalation is active
     # and the ticket is in a escalation suspend state.
     if (
@@ -2620,18 +2620,22 @@ sub TicketEscalationIndexBuild {
             EscalationSolutionTime => 'escalation_solution_time',
         );
 
-        TIME:
+        my @SetClauses;
+        KEY:
         for my $Key ( sort keys %EscalationTimes ) {
 
             # check if table update is needed
-            next TIME if !$Ticket{$Key};
+            next KEY unless $Ticket{$Key};
 
-            # reset escalation time in the ticket table
-            my $SQL  = "UPDATE ticket SET $EscalationTimes{$Key} = 0 WHERE id = ?";
-            my @Bind = \( $Ticket{TicketID} );
+            push @SetClauses, "$EscalationTimes{$Key} = 0";
+        }
+
+        # reset escalation time in the ticket table
+        if ( @SetClauses ) {
+            my $UpdateList = join ',', @SetClauses;
             $DBObject->Do(
-                SQL  => $SQL,
-                Bind => \@Bind,
+                SQL  => "UPDATE ticket SET $UpdateList WHERE id = ?",
+                Bind => [ \$Ticket{TicketID} ],
             );
         }
 
@@ -2723,7 +2727,7 @@ SELECT article_sender_type_id, is_visible_for_customer, create_time
 END_SQL
         my @Bind = \( $Ticket{TicketID} );
         return unless $DBObject->Prepare(
-            SQL   => $SelArticleSQL,
+            SQL  => $SelArticleSQL,
             Bind => [ \$TicketID ],
         );
         while ( my @Row = $DBObject->FetchrowArray() ) {
