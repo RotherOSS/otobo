@@ -2657,10 +2657,9 @@ sub TicketEscalationIndexBuild {
     # update first response (if not responded till now)
     if ( !$Escalation{FirstResponseTime} ) {
         my $SQL  = "UPDATE ticket SET escalation_response_time = 0 WHERE id = ?";
-        my @Bind = \( $Ticket{TicketID} );
         $DBObject->Do(
             SQL  => $SQL,
-            Bind => \@Bind,
+            Bind => [ \$Ticket{TicketID} ],
         );
     }
     else {
@@ -2674,10 +2673,9 @@ sub TicketEscalationIndexBuild {
         # update first response time to 0
         if (%FirstResponseDone) {
             my $SQL  = "UPDATE ticket SET escalation_response_time = 0 WHERE id = ?";
-            my @Bind = \( $Ticket{TicketID} );
             $DBObject->Do(
                 SQL  => $SQL,
-                Bind => \@Bind,
+                Bind => [ \$Ticket{TicketID} ],
             );
         }
 
@@ -2692,10 +2690,9 @@ sub TicketEscalationIndexBuild {
             );
 
             my $SQL  = "UPDATE ticket SET escalation_response_time = ? WHERE id = ?";
-            my @Bind = \( $DestinationTime, $Ticket{TicketID} );
             $DBObject->Do(
                 SQL  => $SQL,
-                Bind => \@Bind,
+                Bind => [ \$DestinationTime, \$Ticket{TicketID} ],
             );
 
             # remember escalation time
@@ -2704,12 +2701,11 @@ sub TicketEscalationIndexBuild {
     }
 
     # update update && do not escalate in "pending auto" for escalation update time
-    if ( !$Escalation{UpdateTime} || $Ticket{StateType} =~ /^(pending)/i ) {
+    if ( !$Escalation{UpdateTime} || $Ticket{StateType} =~ m/^(pending)/i ) {
         my $SQL  = "UPDATE ticket SET escalation_update_time = 0 WHERE id = ?";
-        my @Bind = \( $Ticket{TicketID} );
         $DBObject->Do(
             SQL  => $SQL,
-            Bind => \@Bind,
+            Bind => [ \$Ticket{TicketID} ],
         );
     }
     else {
@@ -2722,11 +2718,11 @@ SELECT article_sender_type_id, is_visible_for_customer, create_time
   WHERE ticket_id = ?
   ORDER BY create_time ASC
 END_SQL
-        my @Bind = \( $Ticket{TicketID} );
         return unless $DBObject->Prepare(
             SQL  => $SelArticleSQL,
             Bind => [ \$TicketID ],
         );
+
         while ( my @Row = $DBObject->FetchrowArray() ) {
             push @SenderHistory, {
                 SenderTypeID         => $Row[0],
@@ -2804,10 +2800,9 @@ END_SQL
         # else, no not escalate, because latest sender was agent
         else {
             my $SQL  = "UPDATE ticket SET escalation_update_time = 0 WHERE id = ?";
-            my @Bind = \( $Ticket{TicketID} );
             $DBObject->Do(
                 SQL  => $SQL,
-                Bind => \@Bind,
+                Bind => [ \$Ticket{TicketID} ],
             );
         }
     }
@@ -2815,10 +2810,9 @@ END_SQL
     # update solution
     if ( !$Escalation{SolutionTime} ) {
         my $SQL  = "UPDATE ticket SET escalation_solution_time = 0 WHERE id = ?";
-        my @Bind = \( $Ticket{TicketID} );
         $DBObject->Do(
             SQL  => $SQL,
-            Bind => \@Bind,
+            Bind => [ \$Ticket{TicketID} ],
         );
     }
     else {
@@ -2832,10 +2826,9 @@ END_SQL
         # update solution time to 0
         if (%SolutionDone) {
             my $SQL  = "UPDATE ticket SET escalation_solution_time = 0 WHERE id = ?";
-            my @Bind = \( $Ticket{TicketID} );
             $DBObject->Do(
                 SQL  => $SQL,
-                Bind => \@Bind,
+                Bind => [ \$Ticket{TicketID} ],
             );
         }
         else {
@@ -2850,10 +2843,9 @@ END_SQL
 
             # update solution time to $DestinationTime
             my $SQL  = "UPDATE ticket SET escalation_solution_time = ? WHERE id = ?";
-            my @Bind = \( $DestinationTime, $Ticket{TicketID} );
             $DBObject->Do(
                 SQL  => $SQL,
-                Bind => \@Bind,
+                Bind => [ \$DestinationTime, \$Ticket{TicketID} ],
             );
 
             # remember escalation time
@@ -2866,10 +2858,9 @@ END_SQL
     # update escalation time (< escalation time)
     if ( defined $EscalationTime ) {
         my $SQL  = "UPDATE ticket SET escalation_time = ? WHERE id = ?";
-        my @Bind = \( $EscalationTime, $Ticket{TicketID} );
         $DBObject->Do(
             SQL  => $SQL,
-            Bind => \@Bind,
+            Bind => [ \$EscalationTime, \$Ticket{TicketID} ],
         );
     }
 
