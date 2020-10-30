@@ -2586,8 +2586,8 @@ sub TicketEscalationIndexBuild {
 
     return unless %Ticket;
 
-    # check whether the ticket is in a escalation suspend state
-    # When EscalationSuspendStates is not active, then it counts as an empty list
+    # Check whether the ticket is in a escalation suspend state.
+    # When EscalationSuspendStates is not active, then it counts as an empty list.
     my $SuspendStateActive = 0;
     if ( $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendStates') ) {
         my %IsEscalationSuspendState = map
@@ -2672,7 +2672,7 @@ sub TicketEscalationIndexBuild {
 
         # update first response time to 0
         if (%FirstResponseDone) {
-            my $SQL  = "UPDATE ticket SET escalation_response_time = 0 WHERE id = ?";
+            my $SQL = "UPDATE ticket SET escalation_response_time = 0 WHERE id = ?";
             $DBObject->Do(
                 SQL  => $SQL,
                 Bind => [ \$Ticket{TicketID} ],
@@ -2702,7 +2702,7 @@ sub TicketEscalationIndexBuild {
 
     # update update && do not escalate in "pending auto" for escalation update time
     if ( !$Escalation{UpdateTime} || $Ticket{StateType} =~ m/^(pending)/i ) {
-        my $SQL  = "UPDATE ticket SET escalation_update_time = 0 WHERE id = ?";
+        my $SQL = "UPDATE ticket SET escalation_update_time = 0 WHERE id = ?";
         $DBObject->Do(
             SQL  => $SQL,
             Bind => [ \$Ticket{TicketID} ],
@@ -2789,7 +2789,6 @@ END_SQL
                 Suspended    => $SuspendStateActive,
             );
 
-            # remember escalation time
             my $SQL  = "UPDATE ticket SET escalation_update_time = ? WHERE id = ?";
             my @Bind = \( $DestinationTime, $Ticket{TicketID} );
             if ( $EscalationTime == 0 || $DestinationTime < $EscalationTime ) {
@@ -2799,7 +2798,7 @@ END_SQL
 
         # else, no not escalate, because latest sender was agent
         else {
-            my $SQL  = "UPDATE ticket SET escalation_update_time = 0 WHERE id = ?";
+            my $SQL = "UPDATE ticket SET escalation_update_time = 0 WHERE id = ?";
             $DBObject->Do(
                 SQL  => $SQL,
                 Bind => [ \$Ticket{TicketID} ],
@@ -2807,9 +2806,9 @@ END_SQL
         }
     }
 
-    # update solution
+    # update solution time
     if ( !$Escalation{SolutionTime} ) {
-        my $SQL  = "UPDATE ticket SET escalation_solution_time = 0 WHERE id = ?";
+        my $SQL = "UPDATE ticket SET escalation_solution_time = 0 WHERE id = ?";
         $DBObject->Do(
             SQL  => $SQL,
             Bind => [ \$Ticket{TicketID} ],
@@ -2825,7 +2824,7 @@ END_SQL
 
         # update solution time to 0
         if (%SolutionDone) {
-            my $SQL  = "UPDATE ticket SET escalation_solution_time = 0 WHERE id = ?";
+            my $SQL = "UPDATE ticket SET escalation_solution_time = 0 WHERE id = ?";
             $DBObject->Do(
                 SQL  => $SQL,
                 Bind => [ \$Ticket{TicketID} ],
@@ -2842,7 +2841,7 @@ END_SQL
             );
 
             # update solution time to $DestinationTime
-            my $SQL  = "UPDATE ticket SET escalation_solution_time = ? WHERE id = ?";
+            my $SQL = "UPDATE ticket SET escalation_solution_time = ? WHERE id = ?";
             $DBObject->Do(
                 SQL  => $SQL,
                 Bind => [ \$DestinationTime, \$Ticket{TicketID} ],
