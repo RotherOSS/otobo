@@ -18,10 +18,17 @@ package Kernel::System::Console::Command::Maint::Ticket::EscalationCheck;
 
 use strict;
 use warnings;
-
-use List::Util qw(first);
+use v5.24;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+use List::Util qw(first);
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -39,11 +46,11 @@ sub Configure {
 
 # =item Run()
 #
-# looks for the tickets which will escalate within the next five days
-# then perform a search over the values on the TicketGet result
-# for checking if any of the escalations values are present, then base
+# looks for the tickets which will escalate within the next five days.
+# Then performs a search over the values on the TicketGet() result
+# for checking if any of the escalations values are present. Then based
 # on that the notification events for notifications and normal escalation
-# events are trigger
+# events are triggered.
 #
 # NotificationEvents:
 #     - NotificationEscalation
@@ -59,7 +66,7 @@ sub Configure {
 #
 #
 # NotificationEvents are alway triggered, and Escalation events just
-# base on the 'OTOBOEscalationEvents::DecayTime'.
+# based on the 'OTOBOEscalationEvents::DecayTime'.
 #
 # =cut
 
@@ -90,7 +97,7 @@ sub Run {
     my @Tickets = $TicketObject->TicketSearch(
         Result                           => 'ARRAY',
         Limit                            => 1000,
-        TicketEscalationTimeOlderMinutes => -( 5 * 24 * 60 ),
+        TicketEscalationTimeOlderMinutes => -( 5 * 24 * 60 ), # 5 days
         Permission                       => 'rw',
         UserID                           => 1,
     );

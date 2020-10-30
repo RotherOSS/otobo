@@ -999,8 +999,8 @@ $Self->True(
     UserID   => 1,
 );
 
-# compare current change_time with old one
-$Self->IsNot(
+# compare current change_time with old one, the change time should stay the same
+$Self->Is(
     $ChangeTime,
     $TicketData{Changed},
     'Change_time updated in TicketEscalationIndexBuild()',
