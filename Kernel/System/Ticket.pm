@@ -2790,7 +2790,12 @@ END_SQL
             );
 
             my $SQL  = "UPDATE ticket SET escalation_update_time = ? WHERE id = ?";
-            my @Bind = \( $DestinationTime, $Ticket{TicketID} );
+            $DBObject->Do(
+                SQL  => $SQL,
+                Bind => [ \$DestinationTime, \$Ticket{TicketID} ],
+            );
+
+            # remember escalation time
             if ( $EscalationTime == 0 || $DestinationTime < $EscalationTime ) {
                 $EscalationTime = $DestinationTime;
             }
