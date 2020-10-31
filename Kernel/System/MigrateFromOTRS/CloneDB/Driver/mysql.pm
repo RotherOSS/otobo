@@ -94,34 +94,6 @@ sub CreateOTRSDBConnection {
     return $OTRSDBObject;
 }
 
-# List all tables in the OTRS database in alphabetical order.
-# The alphabetical ordering is actually undocumented.
-sub TablesList {
-    my $Self = shift;
-    my %Param = @_;
-
-    # check needed stuff
-    if ( !$Param{DBObject} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need DBObject!",
-        );
-
-        return;
-    }
-
-    $Param{DBObject}->Prepare(
-        SQL => "SHOW TABLES",
-    ) || return ();
-
-    my @Result;
-    while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
-        push @Result, $Row[0];
-    }
-
-    return @Result;
-}
-
 # List all columns of a table in the order of their position.
 sub ColumnsList {
     my $Self = shift;
