@@ -86,42 +86,7 @@ sub CreateOTRSDBConnection {
     return $OTRSDBObject;
 }
 
-#
-# List all tables in the source database in alphabetical order.
-#
-sub TablesList {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    if ( !$Param{DBObject} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need DBObject!",
-        );
-
-        return;
-    }
-
-    $Param{DBObject}->Prepare(
-        SQL => "
-            SELECT table_name
-            FROM information_schema.tables
-            WHERE table_name !~ '^pg_+'
-                AND table_schema != 'information_schema'
-            ORDER BY table_name ASC",
-    ) || return ();
-
-    my @Result;
-    while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
-        push @Result, $Row[0];
-    }
-
-    return @Result;
-}
-
-#
 # List all columns of a table in the order of their position.
-#
 sub ColumnsList {
     my ( $Self, %Param ) = @_;
 

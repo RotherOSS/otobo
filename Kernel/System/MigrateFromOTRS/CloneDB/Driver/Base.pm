@@ -108,7 +108,7 @@ sub SanityChecks {
     my $TargetDBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get a list of tables on OTRS DB
-    my @SourceTables = $Self->TablesList( DBObject => $SourceDBObject );
+    my @SourceTables = $SourceDBObject->ListTables();
 
     # no need to migrate when the source has no tables
     return unless @SourceTables;
@@ -254,10 +254,10 @@ sub DataTransfer {
     # the lock will be released at the end of this sub
 
     # get a list of tables on OTRS DB
-    my @SourceTables = map { lc } $Self->TablesList( DBObject => $SourceDBObject );
+    my @SourceTables = $SourceDBObject->ListTables();
 
     # get a list of tables on OTOBO DB
-    my %TargetTableExists = map { $_ => 1 } $TargetDBBackend->TablesList( DBObject => $TargetDBObject );
+    my %TargetTableExists = map { $_ => 1 } $TargetDBObject->ListTables();
 
     # TODO: put this into Driver/mysql.pm
     my ( $SourceSchema, $TargetSchema );
