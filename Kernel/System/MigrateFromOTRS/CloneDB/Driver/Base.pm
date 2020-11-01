@@ -224,13 +224,6 @@ sub DataTransfer {
 
     # Conversion of BLOBs is only relevant when DirectBlob settings are different.
     my %BlobConversionNeeded;
-    if (
-        $TargetDBObject->GetDatabaseFunction('DirectBlob')
-        != $SourceDBObject->GetDatabaseFunction('DirectBlob')
-    )
-    {
-        %BlobConversionNeeded = $Self->BlobColumnsList()->%*;
-    }
 
     # Because of InnodB max key size in MySQL 5.6 or earlier
     my $MaxMb4CharsInIndexKey     = 191; # int( 767 / 4 )
@@ -432,6 +425,21 @@ sub DataTransfer {
             $SourceColumnsString{$SourceTable} = join ', ', $SourceColumnsRef->@*;
         }
 
+        # get a list of blob columns from OTRS DB
+        my $BlobColumnsList;
+        if (
+            $TargetDBObject->GetDatabaseFunction('DirectBlob')
+            != $SourceDBObject->GetDatabaseFunction('DirectBlob')
+        )
+        {
+            $BlobColumnsList = $Self->BlobColumnsList(
+                Table    => $SourceTable,
+                DBName   => $Param{DBInfo}->{DBName},
+                DBObject => $Param{OTRSDBObject},
+            ) || {};
+            %BlobConversionNeeded = ( %BlobConversionNeeded, $BlobColumnsList->%* );
+        }
+
         # We can speed up the copying of the rows when Source and Target databases are on the same database server.
         # The most important criterium is whether the database host are equal.
         # This is done by comparing 'mysql_hostinfo'
@@ -457,9 +465,9 @@ sub DataTransfer {
 
             # no batch insert when BLOBs must be encoded or decoded
             # This check is basically redundant because the DB::Types have already been checked.
-            return 0 if %BlobConversionNeeded;
+            return 0 if $BlobColumnsList->%*;
 
-            # Let's try batch inserts
+            # Let's try batch inserts, or moving of the table
             return 1;
         };
 
