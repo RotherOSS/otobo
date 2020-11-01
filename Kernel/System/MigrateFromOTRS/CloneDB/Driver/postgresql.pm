@@ -18,9 +18,17 @@ package Kernel::System::MigrateFromOTRS::CloneDB::Driver::postgresql;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
-use Kernel::System::VariableCheck qw(:all);
 use parent qw(Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -88,7 +96,8 @@ sub CreateOTRSDBConnection {
 
 # List all columns of a table in the order of their position.
 sub ColumnsList {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject Table)) {
@@ -185,12 +194,10 @@ sub ResetAutoIncrementField {
     return 1;
 }
 
-#
-#
-# Get all binary columns and return table.column
-#
+# Get all binary columns and return a lookup hash with table and column name as keys.
 sub BlobColumnsList {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject DBName Table)) {
@@ -199,35 +206,35 @@ sub BlobColumnsList {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
 
     $Param{DBObject}->Prepare(
-        SQL => "
-            SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
-            WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND DATA_TYPE = 'text';",
-
-        Bind => [
-            \$Param{DBName}, \$Param{Table},
-        ],
+        SQL => <<'END_SQL',
+SELECT COLUMN_NAME, DATA_TYPE
+  FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE TABLE_SCHEMA = ?
+    AND TABLE_NAME = ?
+    AND DATA_TYPE = 'text';
+END_SQL
+        Bind => [ \$Param{DBName}, \$Param{Table} ],
     ) || return {};
 
     my %Result;
-    while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
-        my $TCString = "$Param{Table}.$Row[0]";
-        $Result{$TCString} = $Row[1];
+    while ( my ($Column, $Type) = $Param{DBObject}->FetchrowArray() ) {
+        $Result{ $Column } = $Type;
     }
+
     return \%Result;
 }
 
-#
-#
 # Get column infos
 # return DATA_TYPE
-
 sub GetColumnInfos {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject DBName Table Column)) {
@@ -236,6 +243,7 @@ sub GetColumnInfos {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -261,13 +269,11 @@ sub GetColumnInfos {
     return \%Result;
 }
 
-#
-#
 # Translate column infos
 # return DATA_TYPE
-
 sub TranslateColumnInfos {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBType ColumnInfos)) {
@@ -276,6 +282,7 @@ sub TranslateColumnInfos {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -316,12 +323,10 @@ sub TranslateColumnInfos {
     return \%ColumnInfos;
 }
 
-#
-#
 # Alter table add column
-#
 sub AlterTableAddColumn {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject Table Column ColumnInfos)) {
@@ -330,6 +335,7 @@ sub AlterTableAddColumn {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -355,8 +361,10 @@ sub AlterTableAddColumn {
             Priority => 'error',
             Message  => "Could not execute SQL statement: $SQL.",
         );
+
         return;
     }
+
     return 1;
 }
 
