@@ -426,18 +426,17 @@ sub DataTransfer {
         }
 
         # get a list of blob columns from OTRS DB
-        my $BlobColumnsList;
+        $BlobConversionNeeded{$SourceTable} = {};
         if (
             $TargetDBObject->GetDatabaseFunction('DirectBlob')
             != $SourceDBObject->GetDatabaseFunction('DirectBlob')
         )
         {
-            $BlobColumnsList = $Self->BlobColumnsList(
+            $BlobConversionNeeded{$SourceTable} = $Self->BlobColumnsList(
                 Table    => $SourceTable,
                 DBName   => $Param{DBInfo}->{DBName},
                 DBObject => $Param{OTRSDBObject},
             ) || {};
-            %BlobConversionNeeded = ( %BlobConversionNeeded, $BlobColumnsList->%* );
         }
 
         # We can speed up the copying of the rows when Source and Target databases are on the same database server.
@@ -465,7 +464,7 @@ sub DataTransfer {
 
             # no batch insert when BLOBs must be encoded or decoded
             # This check is basically redundant because the DB::Types have already been checked.
-            return 0 if $BlobColumnsList->%*;
+            return 0 if $BlobConversionNeeded{$SourceTable}->%*;
 
             # Let's try batch inserts, or moving of the table
             return 1;
@@ -781,7 +780,7 @@ END_SQL
 
                 # If the two databases have different blob handling (base64),
                 # convert columns that need conversion.
-                if ( $BlobConversionNeeded{$SourceTable} ) {
+                if ( $BlobConversionNeeded{$SourceTable}->%* ) {
                     COLUMN:
                     for my $ColumnCounter ( 1 .. $#SourceColumns ) {
                         my $Column = $SourceColumns[$ColumnCounter];
