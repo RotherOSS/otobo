@@ -1032,19 +1032,25 @@ sub SelectAll {
 
 to get database functions like
 
-    - Limit
+    - Attribute
+    - CaseSensitive
+    - Comment
+    - Connect
+    - CurrentTimestamp
+    - DeactivateForeignKeyChecks
     - DirectBlob
-    - QuoteSingle
+    - Encode
+    - LikeEscapeString
+    - Limit
+    - ListTables
     - QuoteBack
     - QuoteSemicolon
-    - CurrentTimestamp
-    - Encode
-    - Comment
+    - QuoteSingle
+    - QuoteUnderscoreEnd
+    - QuoteUnderscoreStart
     - ShellCommit
     - ShellConnect
-    - Connect
-    - LikeEscapeString
-    - DeactivateForeignKeyChecks
+    - Version
 
     my $What = $DBObject->GetDatabaseFunction('DirectBlob');
 
