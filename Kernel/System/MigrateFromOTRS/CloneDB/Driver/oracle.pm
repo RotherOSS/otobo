@@ -243,20 +243,22 @@ sub BlobColumnsList {
     }
 
     $Param{DBObject}->Prepare(
-        SQL => "
-            SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
-            WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND DATA_TYPE = 'CLOB';",
-
-        Bind => [
-            \$Param{DBName}, \$Param{Table},
-        ],
+        SQL => <<'END_SQL',
+SELECT COLUMN_NAME, DATA_TYPE
+  FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE TABLE_SCHEMA = ?
+    AND TABLE_NAME = ?
+    AND DATA_TYPE = 'CLOB';
+END_SQL
+        Bind => [ \$Param{DBName}, \$Param{Table} ],
     ) || return {};
 
     my %Result;
-    while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
-        my $TCString = "$Param{Table}.$Row[0]";
-        $Result{$TCString} = $Row[1];
+    while ( my ($Column, $Type) = $Param{DBObject}->FetchrowArray() ) {
+        $Result{ $Param{Table} } //= {};
+        $Result{ $Param{Table} }->{ $Column } = $Type;
     }
+
     return \%Result;
 }
 

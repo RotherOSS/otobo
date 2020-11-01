@@ -222,6 +222,16 @@ sub DataTransfer {
     my %TableIsSkipped = $MigrationBaseObject->DBSkipTables()->%*;
     my %RenameTables   = $MigrationBaseObject->DBRenameTables()->%*;
 
+    # Conversion of BLOBs is only relevant when DirectBlob settings are different.
+    my %BlobConversionNeeded;
+    if (
+        $TargetDBObject->GetDatabaseFunction('DirectBlob')
+        != $SourceDBObject->GetDatabaseFunction('DirectBlob')
+    )
+    {
+        %BlobConversionNeeded = $Self->BlobColumnsList()->%*;
+    }
+
     # Because of InnodB max key size in MySQL 5.6 or earlier
     my $MaxMb4CharsInIndexKey     = 191; # int( 767 / 4 )
     my $MaxLenghtShortenedColumns = 190; # 191 - 1
@@ -447,7 +457,7 @@ sub DataTransfer {
 
             # no batch insert when BLOBs must be encoded or decoded
             # This check is basically redundant because the DB::Types have already been checked.
-            return 0 unless $TargetDBObject->GetDatabaseFunction('DirectBlob') == $SourceDBObject->GetDatabaseFunction('DirectBlob');
+            return 0 if %BlobConversionNeeded;
 
             # Let's try batch inserts
             return 1;
@@ -761,18 +771,14 @@ END_SQL
 
                 # No need to shorten any columns, as that was already in the SELECT
 
-                # If the two databases have different blob handling (base64), convert
-                #   columns that need it.
-                if (
-                    $TargetDBObject->GetDatabaseFunction('DirectBlob')
-                    != $SourceDBObject->GetDatabaseFunction('DirectBlob')
-                    )
-                {
+                # If the two databases have different blob handling (base64),
+                # convert columns that need conversion.
+                if ( $BlobConversionNeeded{$SourceTable} ) {
                     COLUMN:
                     for my $ColumnCounter ( 1 .. $#SourceColumns ) {
                         my $Column = $SourceColumns[$ColumnCounter];
 
-                        next COLUMN unless $Self->{BlobColumns}->{ lc "$SourceTable.$Column" };
+                        next COLUMN unless $BlobConversionNeeded{$SourceTable}->{$Column};
 
                         if ( !$SourceDBObject->GetDatabaseFunction('DirectBlob') ) {
                             $Row[$ColumnCounter] = decode_base64( $Row[$ColumnCounter] );
