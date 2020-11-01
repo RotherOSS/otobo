@@ -18,10 +18,17 @@ package Kernel::System::MigrateFromOTRS::CloneDB::Driver::oracle;
 
 use strict;
 use warnings;
-
-use Kernel::System::VariableCheck qw(:all);
+use v5.24;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -219,12 +226,10 @@ sub ResetAutoIncrementField {
     return 1;
 }
 
-#
-#
-# Get all binary columns and return table.column
-#
+# Get all binary columns and return a lookup hash with table and column name as keys.
 sub BlobColumnsList {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject DBName Table)) {
@@ -238,20 +243,21 @@ sub BlobColumnsList {
     }
 
     $Param{DBObject}->Prepare(
-        SQL => "
-            SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
-            WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND DATA_TYPE = 'CLOB';",
-
-        Bind => [
-            \$Param{DBName}, \$Param{Table},
-        ],
+        SQL => <<'END_SQL',
+SELECT COLUMN_NAME, DATA_TYPE
+  FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE TABLE_SCHEMA = ?
+    AND TABLE_NAME = ?
+    AND DATA_TYPE = 'CLOB';
+END_SQL
+        Bind => [ \$Param{DBName}, \$Param{Table} ],
     ) || return {};
 
     my %Result;
-    while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
-        my $TCString = "$Param{Table}.$Row[0]";
-        $Result{$TCString} = $Row[1];
+    while ( my ($Column, $Type) = $Param{DBObject}->FetchrowArray() ) {
+        $Result{ $Column } = $Type;
     }
+
     return \%Result;
 }
 
