@@ -63,7 +63,6 @@ A base module for drivers.
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base' => {
-            BlobColumns => $BlobColumns,
             CheckEncodingColumns => $CheckEncodingColumns,
         },
     );
