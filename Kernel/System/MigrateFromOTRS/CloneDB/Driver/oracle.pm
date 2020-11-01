@@ -18,10 +18,17 @@ package Kernel::System::MigrateFromOTRS::CloneDB::Driver::oracle;
 
 use strict;
 use warnings;
-
-use Kernel::System::VariableCheck qw(:all);
+use v5.24;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -219,12 +226,10 @@ sub ResetAutoIncrementField {
     return 1;
 }
 
-#
-#
-# Get all binary columns and return table.column
-#
+# Get all binary columns and return a lookup hash with table and column name as keys.
 sub BlobColumnsList {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject DBName Table)) {

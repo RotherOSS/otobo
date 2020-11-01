@@ -197,7 +197,7 @@ sub DataTransfer {
     my $Self = shift; # the source db backend
     my %Param = @_;
 
-    # check needed stuff
+    # check needed parameters
     for my $Needed (qw(OTRSDBObject OTOBODBObject OTOBODBBackend DBInfo)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
