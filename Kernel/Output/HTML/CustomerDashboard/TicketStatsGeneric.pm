@@ -82,6 +82,7 @@ sub Run {
 
    if ($MathTemp < '180') {
         $State1 = $MathTemp;
+        $State2 = '180';
    }
    if ($MathTemp > '180') {
         $State2 = $MathTemp;
