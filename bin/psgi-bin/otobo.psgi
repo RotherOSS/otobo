@@ -683,10 +683,6 @@ my $OTOBOApp = builder {
                     return Kernel::System::Web::InterfaceCustomer->new( %InterfaceParams );
                 }
 
-                if ( $ScriptFileName eq 'installer.pl' ) {
-                    return Kernel::System::Web::InterfaceInstaller->new( %InterfaceParams );
-                }
-
                 if ( $ScriptFileName eq 'migration.pl' ) {
                     return Kernel::System::Web::InterfaceMigrateFromOTRS->new( %InterfaceParams );
                 }
