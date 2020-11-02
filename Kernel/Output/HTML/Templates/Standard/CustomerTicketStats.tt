@@ -1,0 +1,27 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+<div id="oooTile[% Data.TileID | html %]" class="oooTile oooTile_TicketStats" style="background-color: [% Data.BackgroundColor | html %];">
+ <h2 style="color: [% Data.TextColor | html %]">[% Translate(Data.Text) | html %]</h2>
+ <div class="oooTicketStatsChart">
+  <div class="oooTicketStatsChart0"></div>
+  <div class="oooTicketStatsChart1" style="transform: rotate([% Data.State1 | html %]deg); -moz-transform: rotate([% Data.State1 | html %]deg); -webkit-transform: rotate([% Data.State1 | html %]deg);"></div>
+  <div class="oooTicketStatsChart2" style="transform: rotate([% Data.State2 | html %]deg); -moz-transform: rotate([% Data.State2 | html %]deg); -webkit-transform: rotate([% Data.State2 | html %]deg);"></div>
+ </div>
+ <div>
+  <h3 class="oooTicketStatsText" style="color: [% Data.TextColor | html %]"><div class="oooTicketStatsColor" style="border: 10px solid orange;"></div>[% FILTER html_line_break %][% Translate(Data.OpenText) | html %][% END %]</h3>
+  <h3 class="oooTicketStatsText" style="color: [% Data.TextColor | html %]"><div class="oooTicketStatsColor" style="border: 10px solid blue;"></div>[% FILTER html_line_break %][% Translate(Data.ClosedText) | html %][% END %]</h3>
+ </div>
+</div>
