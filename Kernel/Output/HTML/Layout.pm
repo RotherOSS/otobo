@@ -2601,7 +2601,7 @@ sub ReturnValue {
 
 =head2 Attachment()
 
-returns browser output to display/download a attachment
+returns browser output to display/download a attachment.
 
     $HTML = $LayoutObject->Attachment(
         Type             => 'inline',          # optional, default: attachment, possible: inline|attachment
@@ -2613,7 +2613,7 @@ returns browser output to display/download a attachment
                                                #   scripts, flash etc.
     );
 
-or for AJAX html snippets
+Or for AJAX html snippets:
 
     $HTML = $LayoutObject->Attachment(
         Type        => 'inline',        # optional, default: attachment, possible: inline|attachment
@@ -2624,7 +2624,7 @@ or for AJAX html snippets
         NoCache     => 1,               # optional
     );
 
-or when running under PSGI where the content will be encoded later
+Or when running under PSGI where the content will be encoded later:
 
     $HTML = $LayoutObject->Attachment(
         Type        => 'inline',        # optional, default: attachment, possible: inline|attachment
