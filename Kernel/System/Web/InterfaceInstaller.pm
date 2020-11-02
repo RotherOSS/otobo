@@ -18,6 +18,9 @@ package Kernel::System::Web::InterfaceInstaller;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 
@@ -40,7 +43,7 @@ Kernel::System::Web::InterfaceInstaller - the installer web interface
 
 =head1 DESCRIPTION
 
-This module generates the content for F<installer.pl>.
+This module generates the HTTP response for F<installer.pl>.
 
 =head1 PUBLIC INTERFACE
 
@@ -60,7 +63,8 @@ create the web interface object for 'installer.pl'.
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type = shift;
+    my %Param = @_;
 
     # start with an empty hash for the new object
     my $Self = bless {}, $Type;
@@ -78,14 +82,6 @@ sub new {
         },
     );
 
-    # debug info
-    if ( $Self->{Debug} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'debug',
-            Message  => 'Global handle started...',
-        );
-    }
-
     return $Self;
 }
 
@@ -97,7 +93,7 @@ execute the object and return the generated content as a string.
 
 =cut
 
-sub HeaderAndContent {
+sub Content {
     my $Self = shift;
 
     # get common framework params
@@ -121,7 +117,7 @@ sub HeaderAndContent {
     # check secure mode
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
         return join '',
-            $LayoutObject->Header(),
+            $LayoutObject->Header( UseResponseObject => 1 ),
             $LayoutObject->Error(
                 Message => Translatable('SecureMode active!'),
                 Comment => Translatable(
@@ -146,7 +142,7 @@ sub HeaderAndContent {
 
     # print an error screen as the fallback
     return join '',
-        $LayoutObject->Header(),
+        $LayoutObject->Header( UseResponseObject => 1 ),
         $LayoutObject->Error(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Action "%s" not found!', $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),

@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
+# When making changes here,
+# then Kernel::Output::HTML::Layout::_AddHeadersToResponseOBject() must also be updated.
 Content-Type: text/html; charset=utf-8;
 [% IF Data.ContentDisposition -%]
 Content-Disposition: [% Data.ContentDisposition %]

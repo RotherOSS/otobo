@@ -293,7 +293,7 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT AS OF OCTOBER 27TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
+warn "PLEASE NOTE THAT AS OF NOVEMBER 2ND 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
 
 ################################################################################
 # Middlewares
@@ -645,15 +645,36 @@ my $OTOBOApp = builder {
             WebRequest => CGI::PSGI->new($Env),
         );
 
+        # This is a stub for interface that do not return the HTTP headers in the response
+        if ( $ScriptFileName eq 'installer.pl' ) {
+            # make sure that the managed objects will be recreated for the current request
+            local $Kernel::OM = Kernel::System::ObjectManager->new();
+
+            # do the work
+            my $Content = eval {
+                if ( $ScriptFileName eq 'installer.pl' ) {
+                    return Kernel::System::Web::InterfaceInstaller->new( %InterfaceParams );
+                }
+            }->Content();
+
+            # The OTOBO respons object alread has the HTPP headers.
+            # Enhance it with the HTTP status code and the content.
+            my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
+            $ResponseObject->Code(200); # TODO: is it always 200 ?
+            $ResponseObject->Content($Content);
+
+            # return the funnny unblessed array reference
+            return $ResponseObject->Finalize();
+        }
+
         # InterfaceInstaller has been converted to returning a string instead of printing the STDOUT.
         # This means that we don't have to capture STDOUT.
-        my $HeaderAndContent;
         {
             # make sure that the managed objects will be recreated for the current request
             local $Kernel::OM = Kernel::System::ObjectManager->new();
 
             # do the work, return a not encoded Perl string from the appropriate interface module
-            $HeaderAndContent = eval {
+            my $HeaderAndContent = eval {
                 if ( $ScriptFileName eq 'index.pl' ) {
                     return Kernel::System::Web::InterfaceAgent->new( %InterfaceParams );
                 }
@@ -683,13 +704,24 @@ my $OTOBOApp = builder {
 
                 return Kernel::System::Web::InterfaceAgent->new( %InterfaceParams );
             }->HeaderAndContent();
+
+            # UTF-8 encoding is expected
+            utf8::encode($HeaderAndContent);
+
+            # get a PSGI response
+            my $PSGIResponse = parse_cgi_output(\$HeaderAndContent);
+
+            # add headers from the Response object,
+            # Headers() returns an instance of HTTP::Headers::Fast.
+            {
+                my $ResponseObject            = $Kernel::OM->Get('Kernel::System::Web::Response');
+                my @HeadersFromResponseObject = $ResponseObject->Headers()->psgi_flatten_without_sort()->@*;
+                push $PSGIResponse->[1]->@*, @HeadersFromResponseObject;
+            }
+
+            # finish, return the PSGI response, which is an unblessed array ref
+            return $PSGIResponse;
         }
-
-        # UTF-8 encoding is expected
-        utf8::encode($HeaderAndContent);
-
-        # return a PSGI response
-        return parse_cgi_output(\$HeaderAndContent);
     };
 };
 
