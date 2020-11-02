@@ -646,18 +646,25 @@ my $OTOBOApp = builder {
         );
 
         # This is a stub for interface that do not return the HTTP headers in the response
-        if ( 0 && $ScriptFileName eq 'installer.pl' ) {
+        if ( $ScriptFileName eq 'installer.pl' ) {
             # make sure that the managed objects will be recreated for the current request
             local $Kernel::OM = Kernel::System::ObjectManager->new();
 
             # do the work
-            my $Response = eval {
+            my $Content = eval {
                 if ( $ScriptFileName eq 'installer.pl' ) {
                     return Kernel::System::Web::InterfaceInstaller->new( %InterfaceParams );
                 }
-            }->Response();
+            }->Content();
 
-            return $Response->finalize;
+            # The OTOBO respons object alread has the HTPP headers.
+            # Enhance it with the HTTP status code and the content.
+            my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
+            $ResponseObject->Code(200); # TODO: is it always 200 ?
+            $ResponseObject->Content($Content);
+
+            # return the funnny unblessed array reference
+            return $ResponseObject->Finalize();
         }
 
         # InterfaceInstaller has been converted to returning a string instead of printing the STDOUT.

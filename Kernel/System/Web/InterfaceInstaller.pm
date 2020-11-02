@@ -93,7 +93,7 @@ execute the object and return the generated content as a string.
 
 =cut
 
-sub HeaderAndContent {
+sub Content {
     my $Self = shift;
 
     # get common framework params
@@ -117,7 +117,7 @@ sub HeaderAndContent {
     # check secure mode
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
         return join '',
-            $LayoutObject->Header(),
+            $LayoutObject->Header( UseResponseObject => 1 ),
             $LayoutObject->Error(
                 Message => Translatable('SecureMode active!'),
                 Comment => Translatable(
@@ -136,16 +136,13 @@ sub HeaderAndContent {
             Debug => $Self->{Debug},
         );
 
-        my $ResponseObject = $Kernel::OM->Get( 'Kernel::System::Web::Response' );
-        $ResponseObject->Header( 'X-OTOBO-TestHeader' => 'just a test header' );
-
         # output filters are not applied for this interface
         return $GenericObject->Run();
     }
 
     # print an error screen as the fallback
     return join '',
-        $LayoutObject->Header(),
+        $LayoutObject->Header( UseResponseObject => 1 ),
         $LayoutObject->Error(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Action "%s" not found!', $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),

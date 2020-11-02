@@ -474,6 +474,7 @@ sub SetEnv {
         }
     }
     $Self->{EnvNewRef}->{ $Param{Key} } = $Param{Value};
+
     return 1;
 }
 
@@ -979,6 +980,7 @@ sub SecureMode {
         Data         => \%Param
     );
     $Output .= $Self->Footer();
+
     return $Output;
 }
 
@@ -1019,6 +1021,7 @@ sub ErrorScreen {
     my $Output = $Self->Header( Title => 'Error' );
     $Output .= $Self->Error(%Param);
     $Output .= $Self->Footer();
+
     return $Output;
 }
 
@@ -1248,7 +1251,8 @@ sub Header {
     my %Param = @_;
 
     # extract params
-    my $Type = $Param{Type} || '';
+    my $Type              = $Param{Type} || '';
+    my $UseResponseObject = $Param{UseResponseObject} || 0;
 
     # check params
     if ( !defined $Param{ShowToolbarItems} ) {
@@ -1600,6 +1604,13 @@ sub Header {
         }
     }
 
+    if ( $UseResponseObject ) {
+        $Param{SkipHTTPHeaders} = 1;
+        $Self->_AddHeadersToResponseOBject(
+            Data => \%Param,
+        );
+    };
+
     # create & return output
     $Output .= $Self->Output(
         TemplateFile => "Header$Type",
@@ -1608,6 +1619,88 @@ sub Header {
 
     return $Output;
 }
+
+=begin Internal:
+
+=head2 _AddHeadersToResponseOBject()
+
+basically the same thing as executing HTTPHeaders.tt
+
+    my $Success = $LayoutObject->_AddHeadersToResponseOBject(
+        Data => \%Params,
+    );
+
+=cut
+
+sub _AddHeadersToResponseOBject {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Data)) {
+        if ( ! $Param{$_} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
+
+            return;
+        }
+    }
+
+    # extract parames
+    my %Data = $Param{Data}->%*;
+
+    # get singletons
+    my $ResponseObject = $Kernel::OM->Get( 'Kernel::System::Web::Response' );
+    my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+
+    # first the unconditional headers
+    # TODO: remove devel code
+    my %Headers = (
+        'X-OTOBO-TestHeader'    => 'just a test header',
+        'Content-Type'          => 'text/html; charset=utf-8',
+        'X-UA-Compatible'       => 'IE=edge,chrome=1',
+        'Expires'               => 'Tue, 1 Jan 1980 12:00:00 GMT',
+        'Cache-Control'         => 'no-cache',
+        'Pragma'                => 'no-cache',
+    );
+
+    if ( $Data{ContentDisposition} ) {
+        $Headers{'Content-Disposition'} = $Data{ContentDisposition};
+    }
+
+    if ( ! $ConfigObject->Get('Secure::DisableBanner') ) {
+        $Headers{'X-Powered-By'}
+            = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version'), '(https://www.otobo.de/)';
+    }
+
+    if (
+        ! $ConfigObject->Get('DisableIFrameOriginRestricted')
+        && ! $Data{DisableIFrameOriginRestricted}
+    )
+    {
+        $Headers{'X-Frame-Options'} = 'SAMEORIGIN';
+    }
+
+    # With this X-Header, Core.AJAX can recognize that the AJAX request returned the login page (session timeout) and perform a redirect.
+    if ( $Data{'XLoginHeader'} ) {
+        $Headers{'X-OTOBO-Login'} = $Self->{Baselink};
+    }
+
+    $ResponseObject->Headers( \%Headers );
+
+    return 1;
+}
+
+=end Internal:
+
+=head2 Footer()
+
+generates the HTML for the page end in the Agent interface.
+
+    my $Output = $LayoutObject->Footer();
+
+=cut
 
 sub Footer {
     my ( $Self, %Param ) = @_;
