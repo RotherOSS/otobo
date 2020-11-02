@@ -886,9 +886,6 @@ sub Login {
         Data         => \%Param,
     );
 
-    # remove the version tag from the header if configured
-    $Self->_DisableBannerCheck( OutputRef => \$Output );
-
     return $Output;
 }
 
@@ -1610,9 +1607,6 @@ sub Header {
         TemplateFile => "Header$Type",
         Data         => \%Param
     );
-
-    # remove the version tag from the header if configured
-    $Self->_DisableBannerCheck( OutputRef => \$Output );
 
     return $Output;
 }
@@ -4268,9 +4262,6 @@ sub CustomerHeader {
         Data         => \%Param,
     );
 
-    # remove the version tag from the header if configured
-    $Self->_DisableBannerCheck( OutputRef => \$Output );
-
     return $Output;
 }
 
@@ -6008,20 +5999,6 @@ sub _BuildSelectionOutput {
 
     }
     return $String;
-}
-
-sub _DisableBannerCheck {
-    my ( $Self, %Param ) = @_;
-
-    return 1 if !$Kernel::OM->Get('Kernel::Config')->Get('Secure::DisableBanner');
-    return   if !$Param{OutputRef};
-
-    # remove the version tag from the header
-    ${ $Param{OutputRef} } =~ s{
-                ^ X-Powered-By: .+? Open \s Ticket \s Request \s System \s \(http .+? \)$ \n
-            }{}smx;
-
-    return 1;
 }
 
 =head2 _RemoveScriptTags()
