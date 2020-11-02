@@ -1255,13 +1255,9 @@ sub Header {
     my $UseResponseObject = $Param{UseResponseObject} || 0;
 
     # check params
-    if ( !defined $Param{ShowToolbarItems} ) {
-        $Param{ShowToolbarItems} = 1;
-    }
-
-    if ( !defined $Param{ShowPrefLink} ) {
-        $Param{ShowPrefLink} = 1;
-    }
+   $Param{ShowToolbarItems} //= 1;
+   $Param{ShowPrefLink}     //= 1;
+   $Param{ShowLogoutButton} //= 1;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -1269,10 +1265,6 @@ sub Header {
     my $Modules = $ConfigObject->Get('Frontend::Module');
     if ( !$Modules->{AgentPreferences} ) {
         $Param{ShowPrefLink} = 0;
-    }
-
-    if ( !defined $Param{ShowLogoutButton} ) {
-        $Param{ShowLogoutButton} = 1;
     }
 
     # set rtl if needed
@@ -2570,7 +2562,7 @@ sub NoPermission {
         TemplateFile => 'NoPermission',
         Data         => \%Param
     );
-    $Output .= $Self->Footer() if ( $WithHeader eq 'yes' );
+    $Output .= $Self->Footer() if $WithHeader eq 'yes';
 
     # return output
     return $Output;
@@ -5065,8 +5057,6 @@ sub RichTextDocumentComplete {
 
 =begin Internal:
 
-=cut
-
 =head2 _RichTextReplaceLinkOfInlineContent()
 
 replace links of inline content e. g. images
@@ -5347,8 +5337,6 @@ sub RichTextDocumentCleanup {
 }
 
 =begin Internal:
-
-=cut
 
 =head2 _BuildSelectionOptionRefCreate()
 
@@ -6151,6 +6139,8 @@ sub _RemoveScriptTags {
     }
     return $Code;
 }
+
+=end Internal:
 
 =head2 WrapPlainText()
 
