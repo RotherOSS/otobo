@@ -18,6 +18,9 @@ package Kernel::System::Web::InterfaceInstaller;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 
@@ -60,7 +63,8 @@ create the web interface object for 'installer.pl'.
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type = shift;
+    my %Param = @_;
 
     # start with an empty hash for the new object
     my $Self = bless {}, $Type;
@@ -139,6 +143,9 @@ sub HeaderAndContent {
             %Param,
             Debug => $Self->{Debug},
         );
+
+        my $ResponseObject = $Kernel::OM->Get( 'Kernel::System::Web::Response' );
+        $ResponseObject->Header( 'X-OTOBO-TestHeader' => 'just a test header' );
 
         # output filters are not applied for this interface
         return $GenericObject->Run();
