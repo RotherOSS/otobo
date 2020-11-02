@@ -660,15 +660,18 @@ sub Redirect {
 }
 
 sub Login {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # set Action parameter for the loader
     $Self->{Action} = 'Login';
     $Param{IsLoginPage} = 1;
 
+    # get singletons
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $Output = '';
+
     if ( $ConfigObject->Get('SessionUseCookie') ) {
 
         # always set a cookie, so that at the time the user submits
@@ -1246,8 +1249,10 @@ generates the HTML for the page begin in the Agent interface.
 =cut
 
 sub Header {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
+    # extract params
     my $Type = $Param{Type} || '';
 
     # check params
@@ -3899,7 +3904,8 @@ sub HumanReadableDataSize {
 }
 
 sub CustomerLogin {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     my $Output = '';
     $Param{TitleArea} = $Self->{LanguageObject}->Translate('Login') . ' - ';
@@ -4128,14 +4134,12 @@ sub CustomerLogin {
         Data         => \%Param,
     );
 
-    # remove the version tag from the header if configured
-    $Self->_DisableBannerCheck( OutputRef => \$Output );
-
     return $Output;
 }
 
 sub CustomerHeader {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     my $Type = $Param{Type} || '';
 
