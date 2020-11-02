@@ -59,7 +59,7 @@ sub new {
 
     # wrap an instance of Plack::Response
     my $Self = {
-        Response => Plack::Response->new(@_);
+        Response => Plack::Response->new(@_),
     };
 
     return bless $Self, $Type;
