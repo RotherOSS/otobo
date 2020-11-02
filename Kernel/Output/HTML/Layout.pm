@@ -91,9 +91,6 @@ sub new {
     # empty action if not defined
     $Self->{Action} //= '';
 
-    # use the old behavior per default, where printing to STDOUT is the thing to do
-    $Self->{StdoutIsCaptured} //= 1;
-
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get/set some common params
@@ -105,6 +102,7 @@ sub new {
 
     # Determine the language to use based on the browser setting, if there
     #   is none yet.
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     if ( !$Self->{UserLanguage} ) {
         my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
         my %Data             = %{ $ConfigObject->Get('DefaultUsedLanguages') };
@@ -2615,7 +2613,7 @@ returns browser output to display/download a attachment
                                                #   scripts, flash etc.
     );
 
-    or for AJAX html snippets
+or for AJAX html snippets
 
     $HTML = $LayoutObject->Attachment(
         Type        => 'inline',        # optional, default: attachment, possible: inline|attachment
