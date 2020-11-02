@@ -91,9 +91,6 @@ sub new {
     # empty action if not defined
     $Self->{Action} //= '';
 
-    # use the old behavior per default, where printing to STDOUT is the thing to do
-    $Self->{StdoutIsCaptured} //= 1;
-
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get/set some common params
@@ -105,6 +102,7 @@ sub new {
 
     # Determine the language to use based on the browser setting, if there
     #   is none yet.
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     if ( !$Self->{UserLanguage} ) {
         my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
         my %Data             = %{ $ConfigObject->Get('DefaultUsedLanguages') };
@@ -660,15 +658,18 @@ sub Redirect {
 }
 
 sub Login {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # set Action parameter for the loader
     $Self->{Action} = 'Login';
     $Param{IsLoginPage} = 1;
 
+    # get singletons
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $Output = '';
+
     if ( $ConfigObject->Get('SessionUseCookie') ) {
 
         # always set a cookie, so that at the time the user submits
@@ -882,9 +883,6 @@ sub Login {
         TemplateFile => 'Login',
         Data         => \%Param,
     );
-
-    # remove the version tag from the header if configured
-    $Self->_DisableBannerCheck( OutputRef => \$Output );
 
     return $Output;
 }
@@ -1246,8 +1244,10 @@ generates the HTML for the page begin in the Agent interface.
 =cut
 
 sub Header {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
+    # extract params
     my $Type = $Param{Type} || '';
 
     # check params
@@ -1605,9 +1605,6 @@ sub Header {
         TemplateFile => "Header$Type",
         Data         => \%Param
     );
-
-    # remove the version tag from the header if configured
-    $Self->_DisableBannerCheck( OutputRef => \$Output );
 
     return $Output;
 }
@@ -2616,7 +2613,7 @@ returns browser output to display/download a attachment
                                                #   scripts, flash etc.
     );
 
-    or for AJAX html snippets
+or for AJAX html snippets
 
     $HTML = $LayoutObject->Attachment(
         Type        => 'inline',        # optional, default: attachment, possible: inline|attachment
@@ -3899,7 +3896,8 @@ sub HumanReadableDataSize {
 }
 
 sub CustomerLogin {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     my $Output = '';
     $Param{TitleArea} = $Self->{LanguageObject}->Translate('Login') . ' - ';
@@ -4128,14 +4126,12 @@ sub CustomerLogin {
         Data         => \%Param,
     );
 
-    # remove the version tag from the header if configured
-    $Self->_DisableBannerCheck( OutputRef => \$Output );
-
     return $Output;
 }
 
 sub CustomerHeader {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     my $Type = $Param{Type} || '';
 
@@ -4263,9 +4259,6 @@ sub CustomerHeader {
         TemplateFile => "CustomerHeader$Type",
         Data         => \%Param,
     );
-
-    # remove the version tag from the header if configured
-    $Self->_DisableBannerCheck( OutputRef => \$Output );
 
     return $Output;
 }
@@ -6004,20 +5997,6 @@ sub _BuildSelectionOutput {
 
     }
     return $String;
-}
-
-sub _DisableBannerCheck {
-    my ( $Self, %Param ) = @_;
-
-    return 1 if !$Kernel::OM->Get('Kernel::Config')->Get('Secure::DisableBanner');
-    return   if !$Param{OutputRef};
-
-    # remove the version tag from the header
-    ${ $Param{OutputRef} } =~ s{
-                ^ X-Powered-By: .+? Open \s Ticket \s Request \s System \s \(http .+? \)$ \n
-            }{}smx;
-
-    return 1;
 }
 
 =head2 _RemoveScriptTags()
