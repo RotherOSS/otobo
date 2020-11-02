@@ -43,7 +43,7 @@ Kernel::System::Web::InterfaceInstaller - the installer web interface
 
 =head1 DESCRIPTION
 
-This module generates the content for F<installer.pl>.
+This module generates the HTTP response for F<installer.pl>.
 
 =head1 PUBLIC INTERFACE
 
@@ -81,14 +81,6 @@ sub new {
             WebRequest => $Param{WebRequest} || 0,
         },
     );
-
-    # debug info
-    if ( $Self->{Debug} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'debug',
-            Message  => 'Global handle started...',
-        );
-    }
 
     return $Self;
 }
