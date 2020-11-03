@@ -1905,7 +1905,10 @@ sub Print {
     #   see https://rt.perl.org/Public/Bug/Display.html?id=121226.
     no warnings 'nonchar';    ## no critic
 
-    print ${ $Param{Output} };
+    print
+        $Kernel::OM->Get( 'Kernel::System::Web::Response' )->Headers()->as_string(),
+        "\n",
+        $Param{Output}->$*;
 
     return 1;
 }
@@ -4509,12 +4512,14 @@ sub CustomerFatalError {
             Message  => $Param{Message},
         );
     }
-    my $Output = $Self->CustomerHeader(
-        Area  => 'Frontend',
-        Title => 'Fatal Error'
-    );
-    $Output .= $Self->CustomerError(%Param);
-    $Output .= $Self->CustomerFooter();
+
+    my $Output = join '',
+        $Self->CustomerHeader(
+            Area  => 'Frontend',
+            Title => 'Fatal Error'
+        ),
+        $Self->CustomerError(%Param),
+        $Self->CustomerFooter();
 
     if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
 
