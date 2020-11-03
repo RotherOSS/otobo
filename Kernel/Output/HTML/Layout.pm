@@ -947,11 +947,8 @@ sub FatalError {
         );
     }
 
-    my $UseResponseObject = $Param{UseResponseObject} || 0;
-
     my $Output = join '',
         $Self->Header(
-            UseResponseObject => $Param{UseResponseObject},
             Area              => 'Frontend',
             Title             => 'Fatal Error'
         ),
@@ -1242,16 +1239,14 @@ sub NotifyNonUpdatedTickets {
 =head2 Header()
 
 generates the HTML for the page begin in the Agent interface.
+As a side effect HTTP headers are added to the Kernel::System::Web::Response object.
 
     my $Output = $LayoutObject->Header(
-        Type              => 'Small',                # (optional) '' (Default, full header) or 'Small' (blank header)
-        ShowToolbarItems  => 0,                      # (optional) default 1 (0|1)
-        ShowPrefLink      => 0,                      # (optional) default 1 (0|1)
-        ShowLogoutButton  => 0,                      # (optional) default 1 (0|1)
-
-        DisableIFrameOriginRestricted => 1,          # (optional, default 0) - suppress X-Frame-Options header.
-
-        UseResponseObject             => 1,          # (optional, default 0) - don't emit headers in the output
+        Type                          => 'Small',   # (optional) '' (Default, full header) or 'Small' (blank header)
+        ShowToolbarItems              => 0,         # (optional) default 1 (0|1)
+        ShowPrefLink                  => 0,         # (optional) default 1 (0|1)
+        ShowLogoutButton              => 0,         # (optional) default 1 (0|1)
+        DisableIFrameOriginRestricted => 1,         # (optional, default 0) - suppress X-Frame-Options header.
     );
 
 =cut
@@ -1262,7 +1257,6 @@ sub Header {
 
     # extract params
     my $Type              = $Param{Type} || '';
-    my $UseResponseObject = $Param{UseResponseObject} || 0;
 
     # check params
    $Param{ShowToolbarItems} //= 1;
@@ -1606,12 +1600,10 @@ sub Header {
         }
     }
 
-    if ( $UseResponseObject ) {
-        $Param{SkipHTTPHeaders} = 1;
-        $Self->_AddHeadersToResponseOBject(
-            Data => \%Param,
-        );
-    };
+    $Param{SkipHTTPHeaders} = 1;
+    $Self->_AddHeadersToResponseOBject(
+        Data => \%Param,
+    );
 
     # create & return output
     $Output .= $Self->Output(
@@ -2748,11 +2740,8 @@ sub Attachment {
         }
     }
 
-    # extract params
-    my $UseResponseObject = $Param{UseResponseObject} || 0;
-
     # get singletons
-    my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my %Headers;
 
@@ -2819,25 +2808,17 @@ sub Attachment {
     }
 
     # additional headers are supported, but currently not used
-    my $Output = '';
     my @AdditionalHeaders = ( $Param{AdditionalHeader} // [] )->@*;
-    my $HeaderFastObject = HTTP::Headers::Fast->new( [ %Headers, @AdditionalHeaders ] );
-    if ( $UseResponseObject ) {
-        my $ResponseObject = $Kernel::OM->Get( 'Kernel::System::Web::Response' );
-        $ResponseObject->Headers( $HeaderFastObject );
-    }
-    else {
-        $Output .= $HeaderFastObject->as_string() . "\n";
-    }
+    $Kernel::OM->Get( 'Kernel::System::Web::Response' )->Headers( [ %Headers, @AdditionalHeaders ] );
 
     # disable utf8 flag, to write binary to output
     if ( ! $Param{NoEncode} ) {
         my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
-        $EncodeObject->EncodeOutput( \$Output );
         $EncodeObject->EncodeOutput( \$Param{Content} );
     }
 
     # fix for firefox HEAD problem
+    my $Output = '';
     my $RequestMethod = $Kernel::OM->Get('Kernel::System::Web::Request')->RequestMethod();
     if ( !$RequestMethod || $RequestMethod ne 'HEAD' ) {
         $Output .= $Param{Content};
