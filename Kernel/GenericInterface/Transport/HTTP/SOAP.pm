@@ -18,6 +18,7 @@ package Kernel::GenericInterface::Transport::HTTP::SOAP;
 
 use strict;
 use warnings;
+use v5.24;
 use namespace::clean;
 
 # core modules
@@ -47,7 +48,7 @@ by using Kernel::GenericInterface::Transport->new();
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # Allocate new hash for object.
@@ -119,6 +120,7 @@ sub ProviderProcessRequest {
     my $Content = q{};
     my $Length;
 
+    # TODO: why is %ENV used here
     # If the HTTP_TRANSFER_ENCODING environment variable is defined, check if is chunked.
     my $Chunked = (
         defined $ENV{HTTP_TRANSFER_ENCODING}
