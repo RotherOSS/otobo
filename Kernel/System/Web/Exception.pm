@@ -89,7 +89,11 @@ sub as_psgi {
     }
 
     # error as default
-    return Plack::Response->new( 500, { 'Content-Type' => 'text/html' }, 'empty exception' );
+    return Plack::Response->new(
+        500,
+        { 'Content-Type' => 'text/html' },
+        'empty exception'
+    )->finalize();
 }
 
 1;
