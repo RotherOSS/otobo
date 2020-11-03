@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-10-21 16:19+0000\n"
-"PO-Revision-Date: 2020-10-28 11:11+0000\n"
+"PO-Revision-Date: 2020-11-03 10:38+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/"
 "otobo10/otobo/zh_Hans/>\n"
@@ -19172,22 +19172,22 @@ msgstr "加泰罗尼亚语"
 msgid ""
 "Categories used in ticket presentation. If no default color is given, item "
 "will not be shown if selection is not defined in the color hash."
-msgstr ""
+msgstr "分类用于工单展示，如果没有默认的颜色，而且在颜色上也没预先定义，则不会显示项目。"
 
 #. SysConfig
 msgid ""
 "Categories used in ticket presentation. Order is only used to determine the "
 "starting position before size arrangement. If no default color is given, "
 "item will not be shown if selection is not defined in the color hash."
-msgstr ""
+msgstr "分类用于工单展示，这里的顺序是在按照尺寸进行安排之前的开始位置。如果没有默认的颜色，而且在颜色上也没预先定义，则不会显示项目。"
 
 #. SysConfig
 msgid "Change Ticket"
-msgstr ""
+msgstr "变更工单"
 
 #. SysConfig
 msgid "Change Ticket information"
-msgstr ""
+msgstr "变更工单信息"
 
 #. SysConfig
 msgid "Change queue!"
@@ -19309,6 +19309,8 @@ msgid ""
 "Checks if an email is a follow-up to an existing ticket with external ticket "
 "number which can be found by ExternalTicketNumberRecognition filter module."
 msgstr ""
+"检查一个电子邮件是否是具有外部工单号的，某个现有工单的后续操作，这个邮件可通过ExternalTicketNumberRecognition过滤器模块找到"
+"。"
 
 #. SysConfig
 msgid ""
@@ -19382,7 +19384,7 @@ msgstr "收集异步插件模块的支持数据。"
 
 #. SysConfig
 msgid "Color definitions for the customer interface."
-msgstr ""
+msgstr "客户界面的颜色定义。"
 
 #. SysConfig
 msgid "Column ticket filters for Ticket Overviews type \"Small\"."
@@ -19541,7 +19543,7 @@ msgstr "配置任何您想要使用的额外只读镜像数据库。"
 
 #. SysConfig
 msgid "Configure sending of support data to OTOBO Team for improved support."
-msgstr ""
+msgstr "配置将支持数据发送到OTOBO团队以便获得更好的支持。"
 
 #. SysConfig
 msgid ""
@@ -19559,6 +19561,9 @@ msgid ""
 "and \"Event\" defines the trigger event. Please check the developer manual "
 "(https://doc.otobo.org/doc/), chapter \"Ticket Event Module\"."
 msgstr ""
+"配置默认的TicketDynamicField设置。 "
+"“名称”定义应使用的动态字段，“值”是将要设置的数据，“事件”定义触发事件。请查看开发人员手册（https://doc.otobo.org/doc/"
+"）中“票务事件模块”。"
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -19618,7 +19623,7 @@ msgstr "创建新的流程工单。"
 
 #. SysConfig
 msgid "Create Templates for AdminDynamicFieldTitle."
-msgstr ""
+msgstr "为 AdminDynamicFieldTitle 创建模板。"
 
 #. SysConfig
 msgid "Create Ticket"
@@ -19782,19 +19787,19 @@ msgstr "客户单位"
 
 #. SysConfig
 msgid "Customer Dashboard"
-msgstr ""
+msgstr "客户仪表盘"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Detailed Search"
-msgstr ""
+msgstr "客户动态字段数据库详情搜索"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Details"
-msgstr ""
+msgstr "客户动态字段数据库详情"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Search"
-msgstr ""
+msgstr "客户动态字段数据库搜索"
 
 #. SysConfig
 msgid "Customer IDs"
@@ -19814,7 +19819,7 @@ msgstr "客户信息中心。"
 
 #. SysConfig
 msgid "Customer Password."
-msgstr ""
+msgstr "客户密码。"
 
 #. SysConfig
 msgid "Customer Ticket Print Module."
@@ -19854,15 +19859,15 @@ msgstr "客户用户 ↔ 服务"
 
 #. SysConfig
 msgid "Customer dynamic field database detailed search."
-msgstr ""
+msgstr "客户动态字段数据库详情搜索。"
 
 #. SysConfig
 msgid "Customer dynamic field database details."
-msgstr ""
+msgstr "客户动态字段数据库详情。"
 
 #. SysConfig
 msgid "Customer dynamic field database search."
-msgstr ""
+msgstr "客户动态字段数据库搜索"
 
 #. SysConfig
 msgid ""
@@ -20828,7 +20833,7 @@ msgstr ""
 msgid ""
 "Defines the body for the quick close action, which gets used for ticket "
 "history in the agent interface."
-msgstr ""
+msgstr "定义快速关闭工单动作的主体，用于话务员界面中的工单历史记录。"
 
 #. SysConfig
 msgid ""
@@ -20870,7 +20875,7 @@ msgstr "定义日历的宽度（%），默认为95%。"
 
 #. SysConfig
 msgid "Defines the close state for quick close."
-msgstr ""
+msgstr "定义快速关闭的关闭状态。"
 
 #. SysConfig
 msgid "Defines the column to store the keys for the preferences table."
