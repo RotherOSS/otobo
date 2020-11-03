@@ -675,17 +675,15 @@ sub Redirect {
 }
 
 sub Login {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
 
     # set Action parameter for the loader
-    $Self->{Action} = 'Login';
+    $Self->{Action}     = 'Login';
     $Param{IsLoginPage} = 1;
 
     # get singletons
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    my $Output = '';
 
     if ( $ConfigObject->Get('SessionUseCookie') ) {
 
@@ -899,12 +897,10 @@ sub Login {
     $Param{XLoginHeader} = 1;
 
     # create & return output
-    $Output .= $Self->Output(
+    return $Self->Output(
         TemplateFile => 'Login',
         Data         => \%Param,
     );
-
-    return $Output;
 }
 
 sub ChallengeTokenCheck {
@@ -1001,19 +997,19 @@ sub FatalError {
 }
 
 sub SecureMode {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
-    my $Output = $Self->Header(
-        Area  => 'Frontend',
-        Title => 'Secure Mode'
-    );
-    $Output .= $Self->Output(
-        TemplateFile => 'AdminSecureMode',
-        Data         => \%Param
-    );
-    $Output .= $Self->Footer();
-
-    return $Output;
+    return join '',
+        $Self->Header(
+            Area  => 'Frontend',
+            Title => 'Secure Mode'
+        ),
+        $Self->Output(
+            TemplateFile => 'AdminSecureMode',
+            Data         => \%Param
+        ),
+        $Self->Footer();
 }
 
 sub FatalDie {
@@ -1048,13 +1044,13 @@ sub FatalDie {
 }
 
 sub ErrorScreen {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
-    my $Output = $Self->Header( Title => 'Error' );
-    $Output .= $Self->Error(%Param);
-    $Output .= $Self->Footer();
-
-    return $Output;
+    return join '',
+        $Self->Header( Title => 'Error' ),
+        $Self->Error(%Param),
+        $Self->Footer();
 }
 
 sub Error {
@@ -1633,12 +1629,10 @@ sub Header {
     );
 
     # create & return output
-    $Output .= $Self->Output(
+    return $Self->Output(
         TemplateFile => "Header$Type",
         Data         => \%Param
     );
-
-    return $Output;
 }
 
 =begin Internal:
@@ -2588,7 +2582,7 @@ sub NoPermission {
 
     # create output
     my $Output;
-    $Output = $Self->Header( Title => 'Insufficient Rights' ) if ( $WithHeader eq 'yes' );
+    $Output = $Self->Header( Title => 'Insufficient Rights' ) if $WithHeader eq 'yes';
     $Output .= $Self->Output(
         TemplateFile => 'NoPermission',
         Data         => \%Param
@@ -2666,14 +2660,13 @@ sub Permission {
 sub CheckMimeType {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
     if ( !$Param{Action} ) {
         $Param{Action} = '[% Env("Action") %]';
     }
 
     # check if it is a text/plain email
     if ( $Param{MimeType} && $Param{MimeType} !~ /text\/plain/i ) {
-        $Output = '<p><i class="small">'
+        return '<p><i class="small">'
             . $Self->{LanguageObject}->Translate("This is a")
             . " $Param{MimeType} "
             . $Self->{LanguageObject}->Translate("email")
@@ -2690,7 +2683,7 @@ sub CheckMimeType {
 
     # just to be compat
     elsif ( $Param{Body} =~ /^<.DOCTYPE\s+html|^<HTML>/i ) {
-        $Output = '<p><i class="small">'
+        return '<p><i class="small">'
             . $Self->{LanguageObject}->Translate("This is a")
             . " $Param{MimeType} "
             . $Self->{LanguageObject}->Translate("email")
@@ -2705,8 +2698,7 @@ sub CheckMimeType {
             . '</i></p>';
     }
 
-    # return note string
-    return $Output;
+    return '';
 }
 
 sub ReturnValue {
@@ -3492,6 +3484,7 @@ sub NavigationBar {
         # run module
         $Output .= $Object->Run( %Param, Config => \%Jobs );
     }
+
     return $Output;
 }
 
@@ -4033,13 +4026,12 @@ sub CustomerLogin {
     my $Self = shift;
     my %Param = @_;
 
-    my $Output = '';
-    $Param{TitleArea} = $Self->{LanguageObject}->Translate('Login') . ' - ';
+    $Param{TitleArea}      = $Self->{LanguageObject}->Translate('Login') . ' - ';
+    $Param{IsLoginPage}    = 1;
+    $Param{XLoginHeader}   = 1;
 
     # set Action parameter for the loader
     $Self->{Action}        = 'CustomerLogin';
-    $Param{IsLoginPage}    = 1;
-    $Param{XLoginHeader}   = 1;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -4255,12 +4247,10 @@ sub CustomerLogin {
     }
 
     # create & return output
-    $Output .= $Self->Output(
+    return $Self->Output(
         TemplateFile => 'CustomerLogin',
         Data         => \%Param,
     );
-
-    return $Output;
 }
 
 sub CustomerHeader {
@@ -4389,12 +4379,10 @@ sub CustomerHeader {
     }
 
     # create & return output
-    $Output .= $Self->Output(
+    return $Self->Output(
         TemplateFile => "CustomerHeader$Type",
         Data         => \%Param,
     );
-
-    return $Output;
 }
 
 sub CustomerFooter {
@@ -4941,10 +4929,10 @@ sub CustomerError {
 sub CustomerErrorScreen {
     my ( $Self, %Param ) = @_;
 
-    my $Output = $Self->CustomerHeader( Title => 'Error' );
-    $Output .= $Self->CustomerError(%Param);
-    $Output .= $Self->CustomerFooter();
-    return $Output;
+    return join '',
+        $Self->CustomerHeader( Title => 'Error' ),
+        $Self->CustomerError(%Param),
+        $Self->CustomerFooter();
 }
 
 sub CustomerWarning {
@@ -4975,16 +4963,17 @@ sub CustomerNoPermission {
     my ( $Self, %Param ) = @_;
 
     my $WithHeader = $Param{WithHeader} || 'yes';
+
     $Param{Message} ||= Translatable('No Permission!');
 
     # create output
     my $Output;
-    $Output = $Self->CustomerHeader( Title => Translatable('No Permission') ) if ( $WithHeader eq 'yes' );
+    $Output = $Self->CustomerHeader( Title => Translatable('No Permission') ) if $WithHeader eq 'yes';
     $Output .= $Self->Output(
         TemplateFile => 'NoPermission',
         Data         => \%Param
     );
-    $Output .= $Self->CustomerFooter() if ( $WithHeader eq 'yes' );
+    $Output .= $Self->CustomerFooter() if $WithHeader eq 'yes';
 
     # return output
     return $Output;
