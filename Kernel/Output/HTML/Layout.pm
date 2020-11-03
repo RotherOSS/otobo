@@ -1600,7 +1600,7 @@ sub Header {
         }
     }
 
-    $Param{SkipHTTPHeaders} = 1;
+    # TODO: Data contains unneeded keys
     $Self->_AddHeadersToResponseOBject(
         Data => \%Param,
     );
