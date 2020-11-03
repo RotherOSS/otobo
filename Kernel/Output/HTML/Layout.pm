@@ -1652,9 +1652,7 @@ sub _AddHeadersToResponseOBject {
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
 
     # first the unconditional headers
-    # TODO: remove devel code
     my %Headers = (
-        'X-OTOBO-TestHeader'    => 'just a test header',
         'Content-Type'          => 'text/html; charset=utf-8',
         'X-UA-Compatible'       => 'IE=edge,chrome=1',
         'Expires'               => 'Tue, 1 Jan 1980 12:00:00 GMT',
