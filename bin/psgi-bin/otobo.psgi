@@ -592,7 +592,7 @@ my $StaticApp = builder {
     Plack::App::File->new(root => "$FindBin::Bin/../../var/httpd/htdocs")->to_app;
 };
 
-# Port of installer.pl, index.pl, customer.pl, public.pl, and migration.pl to Plack.
+# Port of customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, and public.pl to Plack.
 my $OTOBOApp = builder {
 
     enable 'Plack::Middleware::ErrorDocument',
@@ -631,7 +631,7 @@ my $OTOBOApp = builder {
         # $Env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
         # $Env->{PATH_INFO} contains the path after the $Env->{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
         # The extracted ScriptFileName should be something like:
-        #     nph-genericinterface.pl, index.pl, customer.pl, or rpc.pl
+        #     customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, or public.pl
         # Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
         # are gracefully ignored.
         my ($ScriptFileName) = ( ( $Env->{SCRIPT_NAME} // '' ) . ( $Env->{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
@@ -645,16 +645,44 @@ my $OTOBOApp = builder {
             WebRequest => CGI::PSGI->new($Env),
         );
 
-        # This is a stub for interface that do not return the HTTP headers in the response
-        if ( $ScriptFileName eq 'installer.pl' ) {
+        # InterfaceInstaller has been converted to returning a string instead of printing the STDOUT.
+        # This means that we don't have to capture STDOUT.
+        # Headers are set in the 'Kernel::System::Web::Response' object.
+        {
             # make sure that the managed objects will be recreated for the current request
             local $Kernel::OM = Kernel::System::ObjectManager->new();
 
-            # do the work
+            # do the work, return a not encoded Perl string from the appropriate interface module to Plack
             my $Content = eval {
+
+                if ( $ScriptFileName eq 'customer.pl' ) {
+                    return Kernel::System::Web::InterfaceCustomer->new( %InterfaceParams );
+                }
+
+                if ( $ScriptFileName eq 'index.pl' ) {
+                    return Kernel::System::Web::InterfaceAgent->new( %InterfaceParams );
+                }
+
                 if ( $ScriptFileName eq 'installer.pl' ) {
                     return Kernel::System::Web::InterfaceInstaller->new( %InterfaceParams );
                 }
+
+                if ( $ScriptFileName eq 'migration.pl' ) {
+                    return Kernel::System::Web::InterfaceMigrateFromOTRS->new( %InterfaceParams );
+                }
+
+                if ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
+                    return Kernel::GenericInterface::Provider->new( %InterfaceParams );
+                }
+
+                if ( $ScriptFileName eq 'public.pl' ) {
+                    return Kernel::System::Web::InterfacePublic->new( %InterfaceParams );
+                }
+
+                # index.pl is the fallback
+                warn " using fallback InterfaceAgent for ScriptFileName: '$ScriptFileName'\n";
+
+                return Kernel::System::Web::InterfaceAgent->new( %InterfaceParams );
             }->Content();
 
             # The OTOBO response object alreadx has the HTPP headers.
@@ -665,58 +693,6 @@ my $OTOBOApp = builder {
 
             # return the funnny unblessed array reference
             return $ResponseObject->Finalize();
-        }
-
-        # InterfaceInstaller has been converted to returning a string instead of printing the STDOUT.
-        # This means that we don't have to capture STDOUT.
-        {
-            # make sure that the managed objects will be recreated for the current request
-            local $Kernel::OM = Kernel::System::ObjectManager->new();
-
-            # do the work, return a not encoded Perl string from the appropriate interface module
-            my $HeaderAndContent = eval {
-                if ( $ScriptFileName eq 'index.pl' ) {
-                    return Kernel::System::Web::InterfaceAgent->new( %InterfaceParams );
-                }
-
-                if ( $ScriptFileName eq 'customer.pl' ) {
-                    return Kernel::System::Web::InterfaceCustomer->new( %InterfaceParams );
-                }
-
-                if ( $ScriptFileName eq 'migration.pl' ) {
-                    return Kernel::System::Web::InterfaceMigrateFromOTRS->new( %InterfaceParams );
-                }
-
-                if ( $ScriptFileName eq 'public.pl' ) {
-                    return Kernel::System::Web::InterfacePublic->new( %InterfaceParams );
-                }
-
-                if ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
-                    return Kernel::GenericInterface::Provider->new( %InterfaceParams );
-                }
-
-                # index.pl is the fallback
-                warn " using fallback InterfaceAgent for ScriptFileName: '$ScriptFileName'\n";
-
-                return Kernel::System::Web::InterfaceAgent->new( %InterfaceParams );
-            }->HeaderAndContent();
-
-            # UTF-8 encoding is expected
-            utf8::encode($HeaderAndContent);
-
-            # get a PSGI response
-            my $PSGIResponse = parse_cgi_output(\$HeaderAndContent);
-
-            # add headers from the Response object,
-            # Headers() returns an instance of HTTP::Headers::Fast.
-            {
-                my $ResponseObject            = $Kernel::OM->Get('Kernel::System::Web::Response');
-                my @HeadersFromResponseObject = $ResponseObject->Headers()->psgi_flatten_without_sort()->@*;
-                push $PSGIResponse->[1]->@*, @HeadersFromResponseObject;
-            }
-
-            # finish, return the PSGI response, which is an unblessed array ref
-            return $PSGIResponse;
         }
     };
 };
