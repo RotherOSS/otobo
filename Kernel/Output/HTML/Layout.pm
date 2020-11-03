@@ -710,13 +710,6 @@ sub Login {
         );
     }
 
-    # add cookies if exists
-    if ( $Self->{SetCookies} && $ConfigObject->Get('SessionUseCookie') ) {
-        for ( sort keys %{ $Self->{SetCookies} } ) {
-            $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
-        }
-    }
-
     # get message of the day
     if ( $ConfigObject->Get('ShowMotd') ) {
         $Param{Motd} = $Self->Output(
@@ -1353,14 +1346,6 @@ sub Header {
         );
     }
 
-    # add cookies if exists
-    my $Output = '';
-    if ( $Self->{SetCookies} && $ConfigObject->Get('SessionUseCookie') ) {
-        for ( sort keys %{ $Self->{SetCookies} } ) {
-            $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
-        }
-    }
-
     my $File = $Param{Filename} || $Self->{Action} || 'unknown';
 
     # set file name for "save page as"
@@ -1650,6 +1635,8 @@ basically the same thing as executing the formerly used template HTTPHeaders.tt
         Data => \%Params,
     );
 
+The cookies are also added here.
+
 =cut
 
 sub _AddHeadersToResponseOBject {
@@ -1705,7 +1692,20 @@ sub _AddHeadersToResponseOBject {
         $Headers{'X-OTOBO-Login'} = $Self->{Baselink};
     }
 
-    $ResponseObject->Headers( \%Headers );
+    # add cookies if exists, an array must be used because Set-Cookie can be multi-values
+    my @CookieHeaders;
+    if (
+        $Self->{SetCookies}
+        && ref $Self->{SetCookies} eq 'HASH'
+        && $ConfigObject->Get('SessionUseCookie')
+    )
+    {
+        for ( sort keys $Self->{SetCookies}->%* ) {
+            push @CookieHeaders, 'Set-Cookie' => $Self->{SetCookies}->{$_};
+        }
+    }
+
+    $ResponseObject->Headers( [ %Headers, @CookieHeaders ] );
 
     return 1;
 }
@@ -4065,11 +4065,20 @@ sub CustomerLogin {
         );
     }
 
-    # add cookies if exists
-    if ( $Self->{SetCookies} && $ConfigObject->Get('SessionUseCookie') ) {
-        for ( sort keys %{ $Self->{SetCookies} } ) {
-            $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
+    # add cookies if exists, an array must be used because Set-Cookie can be multi-values
+    if (
+        $Self->{SetCookies}
+        && ref $Self->{SetCookies} eq 'HASH'
+        && $ConfigObject->Get('SessionUseCookie')
+    )
+    {
+        my @CookieHeaders;
+        for ( sort keys $Self->{SetCookies}->%* ) {
+            push @CookieHeaders, 'Set-Cookie' => $Self->{SetCookies}->{$_};
         }
+
+        my $ResponseObject = $Kernel::OM->Get( 'Kernel::System::Web::Response' );
+        $ResponseObject->Headers( \@CookieHeaders );
     }
 
     # check if message should be shown
@@ -4265,14 +4274,6 @@ sub CustomerHeader {
     my $Type = $Param{Type} || '';
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # add cookies if exists
-    my $Output = '';
-    if ( $Self->{SetCookies} && $ConfigObject->Get('SessionUseCookie') ) {
-        for ( sort keys %{ $Self->{SetCookies} } ) {
-            $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
-        }
-    }
 
     my $File = $Param{Filename} || $Self->{Action} || 'unknown';
 
