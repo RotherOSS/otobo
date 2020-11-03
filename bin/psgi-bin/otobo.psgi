@@ -657,7 +657,7 @@ my $OTOBOApp = builder {
                 }
             }->Content();
 
-            # The OTOBO respons object alread has the HTPP headers.
+            # The OTOBO response object alreadx has the HTPP headers.
             # Enhance it with the HTTP status code and the content.
             my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
             $ResponseObject->Code(200); # TODO: is it always 200 ?
