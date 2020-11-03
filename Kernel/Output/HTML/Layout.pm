@@ -2820,7 +2820,8 @@ sub Attachment {
 
     # additional headers are supported, but currently not used
     my $Output = '';
-    my $HeaderFastObject = HTTP::Headers::Fast->new( [ %Headers, $Param{AdditionalHeader}->@* ] );
+    my @AdditionalHeaders = ( $Param{AdditionalHeader} // [] )->@*;
+    my $HeaderFastObject = HTTP::Headers::Fast->new( [ %Headers, @AdditionalHeaders ] );
     if ( $UseResponseObject ) {
         my $ResponseObject = $Kernel::OM->Get( 'Kernel::System::Web::Response' );
         $ResponseObject->Headers( $HeaderFastObject );
