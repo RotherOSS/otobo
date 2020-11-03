@@ -640,7 +640,8 @@ sub Redirect {
     }
 
     # create an response object we can work with
-    my $RedirectResponse = Plack::Response->new()->redirect( $Redirect );
+    my $RedirectResponse = Plack::Response->new();
+    $RedirectResponse->redirect( $Redirect );
 
     # add cookies to the HTTP headers if there are any
     # TODO: use the Plack::Response::cookies() method
