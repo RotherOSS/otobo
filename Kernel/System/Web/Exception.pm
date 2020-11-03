@@ -23,10 +23,12 @@ Kernel::System::Web::Exception - an exception object for Plack::Middleware::HTTP
 
     use Kernel::System::Web::Exception;
 
+    $LayoutObject->Header(); # set HTTP headers
+
     # fatal error encounted during handling of a request
     my $IsFatal = 1;
     if ( $IsFatal ) {
-        my $Content = "HTTP/1.1 200 OK\nContent-Type: text/plan{\n\nOberwalting, we have a problem";
+        my $Content = "Oberwalting, we have a problem";
         die Kernel::System::Web::Exception->new( Content => $Content );
     }
 
@@ -36,8 +38,10 @@ The thrown instance provides the method C<as_psgi()> which can be handled by C<P
 
 =cut
 
-use v5.24.0;
+use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 use utf8;
 
 # core modules
@@ -46,6 +50,7 @@ use utf8;
 use CGI::Parse::PSGI qw(parse_cgi_output);
 
 # OTOBO modules
+use Kernel::System::ObjectManager; # avoid warning: Name "Kernel::OM" used only once
 
 our $ObjectManagerDisabled = 1;
 
@@ -57,7 +62,7 @@ create an exception object
 
     use Kernel::System::Web::Exception;
 
-    my $Content = "HTTP/1.1 200 OK\nContent-Type: text/plan{\n\nOberwalting, we have a problem";
+    my $Content = "Oberwalting, we have a problem";
 
     die Kernel::System::Web::Exception->new( Content => $Content );
 
@@ -83,9 +88,15 @@ sub as_psgi {
 
     # The thrower created the error message
     if ( $Self->{Content} ) {
-        utf8::encode( $Self->{Content} );
 
-        return parse_cgi_output( \$Self->{Content} );
+        # The OTOBO response object already has the HTPP headers.
+        # Enhance it with the HTTP status code and the content.
+        my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
+        $ResponseObject->Code(200); # TODO: is it always 200 ?
+        $ResponseObject->Content( $Self->{Content} );
+
+        # return the funnny unblessed array reference
+        return $ResponseObject->Finalize();
     }
 
     # error as default
