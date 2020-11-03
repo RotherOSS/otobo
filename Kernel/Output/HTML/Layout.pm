@@ -24,6 +24,7 @@ use Digest::MD5 qw(md5_hex);
 
 # CPAN modules
 use URI::Escape qw();
+use HTTP::Headers::Fast;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -50,6 +51,7 @@ our @ObjectDependencies = (
     'Kernel::System::User',
     'Kernel::System::VideoChat',
     'Kernel::System::Web::Request',
+    'Kernel::System::Web::Response',
 );
 
 =head1 NAME
@@ -931,10 +933,11 @@ sub ChallengeTokenCheck {
 }
 
 sub FatalError {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Prevent endless recursion in case of problems with Template engine.
-    return if ( $Self->{InFatalError}++ );
+    return if $Self->{InFatalError}++;
 
     if ( $Param{Message} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -943,12 +946,17 @@ sub FatalError {
             Message  => $Param{Message},
         );
     }
-    my $Output = $Self->Header(
-        Area  => 'Frontend',
-        Title => 'Fatal Error'
-    );
-    $Output .= $Self->Error(%Param);
-    $Output .= $Self->Footer();
+
+    my $UseResponseObject = $Param{UseResponseObject} || 0;
+
+    my $Output = join '',
+        $Self->Header(
+            UseResponseObject => $Param{UseResponseObject},
+            Area              => 'Frontend',
+            Title             => 'Fatal Error'
+        ),
+        $Self->Error(%Param),
+        $Self->Footer();
 
     if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
 
@@ -964,7 +972,7 @@ sub FatalError {
     $Self->Print( Output => \$Output );
 
     # Terminate the process under Apache/mod_perl.
-    # Apparently there were some bad consequnces from using the regular flow.
+    # Apparently there were some bad consequences from using the regular flow.
     exit;
 }
 
@@ -1242,6 +1250,8 @@ generates the HTML for the page begin in the Agent interface.
         ShowLogoutButton  => 0,                      # (optional) default 1 (0|1)
 
         DisableIFrameOriginRestricted => 1,          # (optional, default 0) - suppress X-Frame-Options header.
+
+        UseResponseObject             => 1,          # (optional, default 0) - don't emit headers in the output
     );
 
 =cut
@@ -2691,7 +2701,7 @@ returns browser output to display/download a attachment.
     $HTML = $LayoutObject->Attachment(
         Type             => 'inline',          # optional, default: attachment, possible: inline|attachment
         Filename         => 'FileName.png',    # optional
-        AdditionalHeader => $AdditionalHeader, # optional
+        AdditionalHeader => [ $key => $val ]   # optional, an array ref
         ContentType      => 'image/png',
         Content          => $Content,
         Sandbox          => 1,                 # optional, default 0; use content security policy to prohibit external
@@ -2724,7 +2734,8 @@ Or when running under PSGI where the content will be encoded later:
 =cut
 
 sub Attachment {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed params
     for (qw(Content ContentType)) {
@@ -2737,42 +2748,48 @@ sub Attachment {
         }
     }
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    # extract params
+    my $UseResponseObject = $Param{UseResponseObject} || 0;
+
+    # get singletons
+    my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+
+    my %Headers;
 
     # return attachment
-    my $Output = 'Content-Disposition: ';
-    if ( $Param{Type} ) {
-        $Output .= $Param{Type};
-        $Output .= '; ';
-    }
-    else {
-        $Output .= $ConfigObject->Get('AttachmentDownloadType') || 'attachment';
-        $Output .= '; ';
+    {
+        my $ContentDisposition = '';
+        if ( $Param{Type} ) {
+            $ContentDisposition .= $Param{Type};
+            $ContentDisposition .= '; ';
+        }
+        else {
+            $ContentDisposition .= $ConfigObject->Get('AttachmentDownloadType') || 'attachment';
+            $ContentDisposition .= '; ';
+        }
+
+        if ( $Param{Filename} ) {
+
+            # IE 10+ supports this
+            my $URLEncodedFilename = URI::Escape::uri_escape_utf8( $Param{Filename} );
+            $ContentDisposition .= " filename=\"$Param{Filename}\"; filename*=utf-8''$URLEncodedFilename";
+        }
+        $Headers{'Content-Disposition'} = $ContentDisposition;
     }
 
-    if ( $Param{Filename} ) {
-
-        # IE 10+ supports this
-        my $URLEncodedFilename = URI::Escape::uri_escape_utf8( $Param{Filename} );
-        $Output .= " filename=\"$Param{Filename}\"; filename*=utf-8''$URLEncodedFilename";
-    }
-    $Output .= "\n";
-
-    # get attachment size
-    $Param{Size} = bytes::length( $Param{Content} );
+    # Content-Length will be added in Finalize()
 
     # add no cache headers
     if ( $Param{NoCache} ) {
-        $Output .= "Expires: Tue, 1 Jan 1980 12:00:00 GMT\n";
-        $Output .= "Cache-Control: no-cache\n";
-        $Output .= "Pragma: no-cache\n";
+        $Headers{'Expires'}       = 'Tue, 1 Jan 1980 12:00:00 GMT';
+        $Headers{'Cache-Control'} = 'no-cache';
+        $Headers{'Pragma'}        = 'no-cache';
     }
-    $Output .= "Content-Length: $Param{Size}\n";
-    $Output .= "X-UA-Compatible: IE=edge,chrome=1\n";
+
+    $Headers{'X-UA-Compatible'} = 'IE=edge,chrome=1';
 
     if ( !$ConfigObject->Get('DisableIFrameOriginRestricted') ) {
-        $Output .= "X-Frame-Options: SAMEORIGIN\n";
+        $Headers{'X-Frame-Options'} = 'SAMEORIGIN';
     }
 
     if ( $Param{Sandbox} && !$Kernel::OM->Get('Kernel::Config')->Get('DisableContentSecurityPolicy') ) {
@@ -2787,23 +2804,29 @@ sub Attachment {
         # frame-src:  block all frames
         # style-src:  allow inline styles for nice email display
         # referrer:   don't send referrers to prevent referrer-leak attacks
-        $Output
-            .= "Content-Security-Policy: default-src *; img-src * data:; script-src 'none'; object-src 'self'; frame-src 'none'; style-src 'unsafe-inline'; referrer no-referrer;\n";
+        $Headers{'Content-Security-Policy'} = q{default-src *; img-src * data:; script-src 'none'; object-src 'self'; frame-src 'none'; style-src 'unsafe-inline'; referrer no-referrer;};
 
         # Use Referrer-Policy header to suppress referrer information in modern browsers
         #   (to prevent referrer-leak attacks).
-        $Output .= "Referrer-Policy: no-referrer\n";
-    }
-
-    if ( $Param{AdditionalHeader} ) {
-        $Output .= $Param{AdditionalHeader} . "\n";
+        $Headers{'Referrer-Policy'} = 'no-referrer';
     }
 
     if ( $Param{Charset} ) {
-        $Output .= "Content-Type: $Param{ContentType}; charset=$Param{Charset};\n\n";
+        $Headers{'Content-Type'} = "$Param{ContentType}; charset=$Param{Charset};";
     }
     else {
-        $Output .= "Content-Type: $Param{ContentType}\n\n";
+        $Headers{'Content-Type'} = "$Param{ContentType}";
+    }
+
+    # additional headers are supported, but currently not used
+    my $Output = '';
+    my $HeaderFastObject = HTTP::Headers::Fast->new( [ %Headers, $Param{AdditionalHeader}->@* ] );
+    if ( $UseResponseObject ) {
+        my $ResponseObject = $Kernel::OM->Get( 'Kernel::System::Web::Response' );
+        $ResponseObject->Headers( $HeaderFastObject );
+    }
+    else {
+        $Output .= $HeaderFastObject->as_string() . "\n";
     }
 
     # disable utf8 flag, to write binary to output

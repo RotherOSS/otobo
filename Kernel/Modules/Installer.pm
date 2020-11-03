@@ -50,6 +50,7 @@ sub Run {
     # installing is only possible when SecureMode is not active
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
         $LayoutObject->FatalError(
+            UseResponseObject => 1,
             Message => Translatable('SecureMode active!'),
             Comment => Translatable(
                 'If you want to re-run the Installer, disable the SecureMode in the SysConfig.'
@@ -61,12 +62,14 @@ sub Run {
     $Self->{Path} = $ConfigObject->Get('Home');
     if ( !-d $Self->{Path} ) {
         $LayoutObject->FatalError(
+            UseResponseObject => 1,
             Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" doesn\'t exist!', $Self->{Path} ),
             Comment => Translatable('Configure "Home" in Kernel/Config.pm first!'),
         );
     }
     if ( !-f "$Self->{Path}/Kernel/Config.pm" ) {
         $LayoutObject->FatalError(
+            UseResponseObject => 1,
             Message =>
                 $LayoutObject->{LanguageObject}->Translate( 'File "%s/Kernel/Config.pm" not found!', $Self->{Path} ),
             Comment => Translatable('Please contact the administrator.'),
@@ -80,6 +83,7 @@ sub Run {
         # PSGI: throw exception
         # non-PSGI: print to STDOUT and exit
         $LayoutObject->FatalError(
+            UseResponseObject => 1,
             Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" not found!', $DirOfSQLFiles ),
             Comment => Translatable('Please contact the administrator.'),
         );
@@ -304,11 +308,12 @@ sub Run {
         my $OutputJSON = $LayoutObject->JSONEncode( Data => \%Result );
 
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset='
+            UseResponseObject => 1,
+            ContentType       => 'application/json; charset='
                 . $LayoutObject->{Charset},
-            Content => $OutputJSON,
-            Type    => 'inline',
-            NoCache => 1,
+            Content           => $OutputJSON,
+            Type              => 'inline',
+            NoCache           => 1,
         );
     }
 
@@ -433,6 +438,7 @@ sub Run {
         }
         else {
             $LayoutObject->FatalError(
+                UseResponseObject => 1,
                 Message => $LayoutObject->{LanguageObject}->Translate( 'Unknown database type "%s".', $DBType ),
                 Comment => Translatable('Please go back.'),
             );
@@ -460,6 +466,7 @@ sub Run {
         my $DBH;
         if ( ref $Result{DB} ne 'HASH' || !$Result{DBH} ) {
             $LayoutObject->FatalError(
+                UseResponseObject => 1,
                 Message => $Result{Message},
                 Comment => $Result{Comment},
             );
@@ -673,6 +680,7 @@ sub Run {
 
             if ( !-f "$DirOfSQLFiles/$SchemaFile.xml" ) {
                 $LayoutObject->FatalError(
+                    UseResponseObject => 1,
                     Message => $LayoutObject->{LanguageObject}
                         ->Translate( 'File "%s/%s.xml" not found!', $DirOfSQLFiles, $SchemaFile ),
                     Comment => Translatable('Contact your Admin!'),
@@ -707,6 +715,7 @@ sub Run {
 
                 # an statement was no correct, no idea how this could be handled
                 $LayoutObject->FatalError(
+                    UseResponseObject => 1,
                     Message => Translatable('Execution of SQL statement failed: ') . $DBI::errstr,
                     Comment => $SQL,
                 );
@@ -750,12 +759,16 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'System' ) {
 
         if ( !$Kernel::OM->Get('Kernel::System::DB') ) {
-            $LayoutObject->FatalError();
+            $LayoutObject->FatalError(
+                UseResponseObject => 1,
+            );
         }
 
         # Take care that default config is in the database.
         if ( !$Self->_CheckConfig() ) {
-            return $LayoutObject->FatalError();
+            return $LayoutObject->FatalError(
+                UseResponseObject => 1,
+            );
         }
 
         # Install default files.
@@ -1068,12 +1081,16 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ConfigureMail' ) {
 
         if ( !$Kernel::OM->Get('Kernel::System::DB') ) {
-            $LayoutObject->FatalError();
+            $LayoutObject->FatalError(
+                UseResponseObject => 1,
+            );
         }
 
         # Take care that default config is in the database.
         if ( !$Self->_CheckConfig() ) {
-            return $LayoutObject->FatalError();
+            return $LayoutObject->FatalError(
+                UseResponseObject => 1,
+            );
         }
 
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
@@ -1163,7 +1180,9 @@ sub Run {
 
         # Take care that default config is in the database.
         if ( !$Self->_CheckConfig() ) {
-            return $LayoutObject->FatalError();
+            return $LayoutObject->FatalError(
+                UseResponseObject => 1,
+            );
         }
 
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
@@ -1187,6 +1206,7 @@ sub Run {
 
         if ( !$Result ) {
             $LayoutObject->FatalError(
+                UseResponseObject => 1,
                 Message => Translatable('Can\'t write Config file!'),
             );
         }
@@ -1302,6 +1322,7 @@ sub Run {
 
     # Else error!
     return $LayoutObject->FatalError(
+        UseResponseObject => 1,
         Message => $LayoutObject->{LanguageObject}->Translate( 'Unknown Subaction %s!', $Self->{Subaction} ),
         Comment => Translatable('Please contact the administrator.'),
     );
