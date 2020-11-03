@@ -18,6 +18,8 @@ package Kernel::GenericInterface::Transport::HTTP::REST;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
 # core modules
 use MIME::Base64;
@@ -901,7 +903,8 @@ Returns structure to be passed to provider.
 =cut
 
 sub _Output {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
     # Check params.
     my $Success = 1;
