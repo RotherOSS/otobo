@@ -80,25 +80,16 @@ sub new {
 
 make use of a caught exception object
 
-    my $Response = $CaughtObject->as_psgi()
+    my $PSGIResponse = $CaughtObject->as_psgi()
 
 =cut
 
 sub as_psgi {
     my $Self = shift;
 
-    # The thrower created the error message
-    if ( $Self->{Content} ) {
-
-        # The OTOBO response object already has the HTPP headers.
-        # Enhance it with the HTTP status code and the content.
-        my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
-        $ResponseObject->Code(200); # TODO: is it always 200 ?
-        $ResponseObject->Content( $Self->{Content} );
-
-        # return the funnny unblessed array reference
-        return $ResponseObject->Finalize();
-    }
+    # The thrower already has a proper Plack::Response object.
+    # This is the recommended case.
+    return $Self->{PlackResponse}->finalize() if $Self->{PlackResponse};
 
     # error as default
     return Plack::Response->new(

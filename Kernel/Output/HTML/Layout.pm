@@ -567,99 +567,111 @@ sub Redirect {
     # get singletons
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # add cookies if exists
-    my $Cookies = '';
-    if ( $Self->{SetCookies} && $ConfigObject->Get('SessionUseCookie') ) {
-        for ( sort keys %{ $Self->{SetCookies} } ) {
-            $Cookies .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
-        }
-    }
-
-    # create & return output
+    # Figure out where to redirect to,
+    my $Redirect = $Self->{Baselink}; # the fallback
     if ( $Param{ExtURL} ) {
-
-        # external redirect
-        $Param{Redirect} = $Param{ExtURL};
-        return $Cookies
-            . $Self->Output(
-            TemplateFile => 'Redirect',
-            Data         => \%Param
-            );
+        $Redirect = $Param{ExtURL};
     }
+    else {
+        $Redirect = $Self->{Baselink};
 
-    # set baselink
-    $Param{Redirect} = $Self->{Baselink};
+        if ( $Param{OP} ) {
 
-    if ( $Param{OP} ) {
-
-        # Filter out hazardous characters
-        if ( $Param{OP} =~ s{\x00}{}smxg ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => 'Someone tries to use a null bytes (\x00) character in redirect!',
-            );
-        }
-
-        if ( $Param{OP} =~ s{\r}{}smxg ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => 'Someone tries to use a carriage return character in redirect!',
-            );
-        }
-
-        if ( $Param{OP} =~ s{\n}{}smxg ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => 'Someone tries to use a newline character in redirect!',
-            );
-        }
-
-        # internal redirect
-        $Param{OP} =~ s/^.*\?(.+?)$/$1/;
-        $Param{Redirect} .= $Param{OP};
-    }
-
-    my $Output = $Cookies
-        . $Self->Output(
-        TemplateFile => 'Redirect',
-        Data         => \%Param
-        );
-
-    # add session id to redirect if no cookie is enabled
-    if ( !$Self->{SessionIDCookie} && !( $Self->{BrowserHasCookie} && $Param{Login} ) ) {
-
-        # rewrite location header
-        $Output =~ s{
-            (location:\s)(.*)
-        }
-        {
-            my $Start  = $1;
-            my $Target = $2;
-            my $End = '';
-            if ($Target =~ /^(.+?)#(|.+?)$/) {
-                $Target = $1;
-                $End = "#$2";
+            # Filter out hazardous characters
+            if ( $Param{OP} =~ s{\x00}{}smxg ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => 'Someone tries to use a null bytes (\x00) character in redirect!',
+                );
             }
-            if ($Target =~ /http/i || !$Self->{SessionID}) {
-                "$Start$Target$End";
+
+            if ( $Param{OP} =~ s{\r}{}smxg ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => 'Someone tries to use a carriage return character in redirect!',
+                );
             }
-            else {
-                if ($Target =~ /(\?|&)$/) {
-                    "$Start$Target$Self->{SessionName}=$Self->{SessionID}$End";
+
+            if ( $Param{OP} =~ s{\n}{}smxg ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => 'Someone tries to use a newline character in redirect!',
+                );
+            }
+
+            # internal redirect
+            $Param{OP} =~ s/^.*\?(.+?)$/$1/;
+            $Redirect .= $Param{OP};
+        }
+
+        # add session id to redirect if no cookie is enabled
+        if ( !$Self->{SessionIDCookie} && !( $Self->{BrowserHasCookie} && $Param{Login} ) ) {
+
+            # rewrite the redirect URL
+            $Redirect =~ s{
+                (.*)
+            }
+            {
+                my $Target = $1;
+                my $End = '';
+                if ($Target =~ /^(.+?)#(|.+?)$/) {
+                    $Target = $1;
+                    $End = "#$2";
                 }
-                elsif ($Target !~ /\?/) {
-                    "$Start$Target?$Self->{SessionName}=$Self->{SessionID}$End";
-                }
-                elsif ($Target =~ /\?/) {
-                    "$Start$Target&$Self->{SessionName}=$Self->{SessionID}$End";
+                if ($Target =~ /http/i || !$Self->{SessionID}) {
+                    "$Target$End";
                 }
                 else {
-                    "$Start$Target?&$Self->{SessionName}=$Self->{SessionID}$End";
+                    if ($Target =~ /(\?|&)$/) {
+                        "$Target$Self->{SessionName}=$Self->{SessionID}$End";
+                    }
+                    elsif ($Target !~ /\?/) {
+                        "$Target?$Self->{SessionName}=$Self->{SessionID}$End";
+                    }
+                    elsif ($Target =~ /\?/) {
+                        "$Target&$Self->{SessionName}=$Self->{SessionID}$End";
+                    }
+                    else {
+                        "$Target?&$Self->{SessionName}=$Self->{SessionID}$End";
+                    }
                 }
-            }
-        }iegx;
+            }iegx;
+        }
     }
-    return $Output;
+
+    # create an response object we can work with
+    my $RedirectResponse = Plack::Response->new()->redirect( $Redirect );
+
+    # add cookies to the HTTP headers if there are any
+    # TODO: use the Plack::Response::cookies() method
+    if ( $Self->{SetCookies} && $ConfigObject->Get('SessionUseCookie') ) {
+        for ( sort keys %{ $Self->{SetCookies} } ) {
+            $RedirectResponse->headers()->push_header( 'Set-Cookie' => $Self->{SetCookies}->{$_} );
+        }
+    }
+
+    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+
+        # The exception is caught be Plack::Middleware::HTTPExceptions
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => $RedirectResponse
+        );
+    }
+
+    # store the headers in the singleton, so that they can be retrieved by the CGI script
+    $Kernel::OM->Get( 'Kernel::System::Web::Response' )->Headers(
+        $RedirectResponse->headers()
+    );
+
+    # print to STDOUT in the non-PSGI case
+    # Output filters are also applied in Print()
+    # Kernel::System::Web::Response is used for getting the headers
+    my $Output = $RedirectResponse->content;
+    $Self->Print( Output => \$Output );
+
+    # Terminate the process under Apache/mod_perl.
+    # This might be just cargo cult.
+    exit;
 }
 
 sub Login {
