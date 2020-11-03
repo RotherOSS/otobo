@@ -47,7 +47,6 @@ use utf8;
 # core modules
 
 # CPAN modules
-use CGI::Parse::PSGI qw(parse_cgi_output);
 
 # OTOBO modules
 use Kernel::System::ObjectManager; # avoid warning: Name "Kernel::OM" used only once
