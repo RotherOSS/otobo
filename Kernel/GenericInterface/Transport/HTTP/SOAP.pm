@@ -31,6 +31,7 @@ use SOAP::Lite;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Web::Exception;
 
 our $ObjectManagerDisabled = 1;
 
@@ -1046,6 +1047,35 @@ sub _Output {
     # Set keep-alive.
     my $ConfigKeepAlive = $Kernel::OM->Get('Kernel::Config')->Get('SOAP::Keep-Alive');
     my $Connection      = $ConfigKeepAlive ? 'Keep-Alive' : 'close';
+
+    # Let's try the HTTPExceptions trick again
+    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+
+        my @Headers;
+        push @Headers, 'Content-Type'   => "$ContentType; charset=UTF-8";
+        push @Headers, 'Content-Length' => $ContentLength;
+        push @Headers, 'Connection'     => $Connection;
+
+        # Prepare additional headers.
+        if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
+            my %AdditionalHeaders = $Self->{TransportConfig}->{Config}->{AdditionalHeaders}->%*;
+            for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
+                push @Headers, $AdditionalHeader => ( $AdditionalHeaders{$AdditionalHeader} || '' );
+            }
+        }
+
+        # Enhance it with the HTTP status code and the content.
+        my $PlackResponse = Plack::Response(
+            $Param{HTTPCode},
+            \@Headers,
+            $Param{Content}
+        );
+
+        # The exception is caught be Plack::Middleware::HTTPExceptions
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => $PlackResponse
+        );
+    }
 
     # Prepare additional headers.
     my $AdditionalHeaderStrg = '';
