@@ -881,6 +881,9 @@ sub Login {
         Value => $Param{LoginFailed},
     );
 
+    # include the X-OTOBO-Login header field
+    $Param{XLoginHeader} = 1;
+
     # create & return output
     $Output .= $Self->Output(
         TemplateFile => 'Login',
@@ -4013,7 +4016,7 @@ sub CustomerLogin {
     # set Action parameter for the loader
     $Self->{Action}        = 'CustomerLogin';
     $Param{IsLoginPage}    = 1;
-    $Param{'XLoginHeader'} = 1;
+    $Param{XLoginHeader}   = 1;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 

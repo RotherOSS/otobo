@@ -14,9 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 ## nofilter(TidyAll::Plugin::OTOBO::TT::ScriptUsage)
-# With this X-Header, Core.AJAX can recognize that the AJAX request returned the login page (session timeout) and perform a redirect.
-X-OTOBO-Login: [% Env("Baselink") %]
-
 <!DOCTYPE html>
 <html>
 [% InsertTemplate("Copyright.tt") %]
