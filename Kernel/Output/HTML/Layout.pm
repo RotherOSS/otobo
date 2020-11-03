@@ -896,6 +896,11 @@ sub Login {
     # include the X-OTOBO-Login header field
     $Param{XLoginHeader} = 1;
 
+    # TODO: Data contains unneeded keys
+    $Self->_AddHeadersToResponseOBject(
+        Data => \%Param,
+    );
+
     # create & return output
     return $Self->Output(
         TemplateFile => 'Login',
@@ -4377,6 +4382,11 @@ sub CustomerHeader {
     for my $Color ( sort keys %{$ColorDefinitions} ) {
         $Param{ColorDefinitions} .= "--col$Color:$ColorDefinitions->{ $Color };";
     }
+
+    # TODO: Data contains unneeded keys
+    $Self->_AddHeadersToResponseOBject(
+        Data => \%Param,
+    );
 
     # create & return output
     return $Self->Output(
