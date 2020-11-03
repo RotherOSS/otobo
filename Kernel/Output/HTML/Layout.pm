@@ -1621,7 +1621,7 @@ sub Header {
 
 =head2 _AddHeadersToResponseOBject()
 
-basically the same thing as executing HTTPHeaders.tt
+basically the same thing as executing the formerly used template HTTPHeaders.tt
 
     my $Success = $LayoutObject->_AddHeadersToResponseOBject(
         Data => \%Params,
