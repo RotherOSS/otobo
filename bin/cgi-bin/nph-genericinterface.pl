@@ -17,6 +17,8 @@
 
 use strict;
 use warnings;
+use v5.24;
+use utf8;
 
 # use ../../ as lib location
 use FindBin qw($Bin);
@@ -42,6 +44,14 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 # debug support is done via a Debugging Object
 
 # do the work and give the response to the webserver
-print
-    Kernel::GenericInterface::Provider->new(
-    )->HeaderAndContent();
+my $Content = Kernel::GenericInterface::Provider->new(
+)->Content();
+
+# The OTOBO response object already has the HTPP headers.
+# Enhance it with the HTTP status code and the content.
+my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
+$ResponseObject->Code(200); # TODO: is it always 200 ?
+$ResponseObject->Content($Content);
+
+# return the funnny unblessed array reference
+return $ResponseObject->Finalize();

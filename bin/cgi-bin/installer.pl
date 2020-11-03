@@ -17,6 +17,8 @@
 
 use strict;
 use warnings;
+use v5.24;
+use utf8;
 
 # use ../../ as lib location
 use FindBin qw($Bin);
@@ -29,7 +31,7 @@ use lib "$Bin/../../Custom";
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::Web::InterfaceInstaller();
+use Kernel::System::Web::InterfaceInstaller;
 use Kernel::System::ObjectManager;
 
 # make sure that the managed objects will be recreated for the current request

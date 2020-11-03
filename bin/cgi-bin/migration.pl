@@ -31,7 +31,7 @@ use lib "$Bin/../../Custom";
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::Web::InterfaceMigrateFromOTRS();
+use Kernel::System::Web::InterfaceMigrateFromOTRS;
 use Kernel::System::ObjectManager;
 
 # make sure that the managed objects will be recreated for the current request
@@ -41,7 +41,15 @@ local $Kernel::OM = Kernel::System::ObjectManager->new();
 my $Debug = 0;
 
 # do the work and give the response to the webserver
-print
-    Kernel::System::Web::InterfaceMigrateFromOTRS->new(
-        Debug => $Debug
-    )->HeaderAndContent();
+my $Content = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
+    Debug => $Debug
+)->Content();
+
+# The OTOBO response object already has the HTPP headers.
+# Enhance it with the HTTP status code and the content.
+my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
+$ResponseObject->Code(200); # TODO: is it always 200 ?
+$ResponseObject->Content($Content);
+
+# return the funnny unblessed array reference
+return $ResponseObject->Finalize();
