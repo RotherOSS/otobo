@@ -561,8 +561,10 @@ for the session cookie to be not yet set.
 =cut
 
 sub Redirect {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
+    # get singletons
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # add cookies if exists
@@ -1888,7 +1890,8 @@ sub ApplyOutputFilters {
 }
 
 sub Print {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
     # the string referenced by $Param{Content} might be modified here
     $Self->ApplyOutputFilters( %Param );
@@ -4527,8 +4530,18 @@ sub CustomerFatalError {
         # Modify the output by applying the output filters.
         $Self->ApplyOutputFilters( Output => \$Output );
 
+        # The OTOBO response object already has the HTPP headers.
+        # Enhance it with the HTTP status code and the content.
+        my $PlackResponse = Plack::Response(
+            200,
+            $Kernel::OM->Get('Kernel::System::Web::Response')->Headers(),
+            $Output
+        );
+
         # The exception is caught be Plack::Middleware::HTTPExceptions
-        die Kernel::System::Web::Exception->new( Content => $Output );
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => $PlackResponse
+        );
     }
 
     # print to STDOUT in the non-PSGI case or when STDOUT is captured

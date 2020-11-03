@@ -277,7 +277,6 @@ use Module::Refresh;
 # OTOBO modules
 use Kernel::GenericInterface::Provider;
 use Kernel::System::ObjectManager;
-use Kernel::System::Web::Exception ();
 use Kernel::System::Web::InterfaceAgent ();
 use Kernel::System::Web::InterfaceCustomer ();
 use Kernel::System::Web::InterfaceInstaller ();
@@ -614,7 +613,7 @@ my $OTOBOApp = builder {
     enable 'Plack::Middleware::Refresh';
 
     # we might catch an instance of Kernel::System::Web::Exception
-    enable 'HTTPExceptions';
+    enable 'Plack::Middleware::HTTPExceptions';
 
     # No need to set %ENV or redirect STDIN.
     # But STDOUT and STDERR is still like in CGI scripts.

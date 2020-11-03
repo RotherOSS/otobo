@@ -69,9 +69,10 @@ create an exception object
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type  = shift;
+    my %Param = @_;
 
-    # start with a hash containing the params
+    # bless a hashref containing the passed parameters
     return bless { %Param }, $Type;
 }
 
