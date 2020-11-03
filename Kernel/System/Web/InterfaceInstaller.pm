@@ -85,11 +85,12 @@ sub new {
     return $Self;
 }
 
-=head2 HeaderAndContent()
+=head2 Content()
 
-execute the object and return the generated content as a string.
+execute the object.
+Set headers in Kernels::System::Web::Request singleton as side effect.
 
-    $Interface->HeaderAndContent();
+    my $Content = $Interface->Content();
 
 =cut
 

@@ -72,17 +72,18 @@ sub new {
     return $Self;
 }
 
-=head2 HeaderAndContent()
+=head2 Content()
 
 Receives the current incoming web service request, handles it,
 and returns an appropriate answer based on the requested web service.
+Set headers in Kernels::System::Web::Request singleton as side effect.
 
     # put this in the handler script
-    my $HeaderAndContent = $Interface->HeaderAndContent();
+    my $HeaderAndContent = $Interface->Content();
 
 =cut
 
-sub HeaderAndContent {
+sub Content {
     my $Self = shift;
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
