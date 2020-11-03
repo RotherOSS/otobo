@@ -18,6 +18,8 @@ package Kernel::GenericInterface::Transport::HTTP::Test;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
 # core modules
 use HTTP::Request::Common;
@@ -27,6 +29,7 @@ use LWP::Protocol;
 # CPAN modules
 
 # OTOBO modules
+use Kernel::System::ObjectManager; # avoid warning about $Kernel::OM used only once
 
 our $ObjectManagerDisabled = 1;
 
