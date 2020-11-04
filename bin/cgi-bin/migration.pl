@@ -41,6 +41,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new();
 my $Debug = 0;
 
 # do the work and give the response to the webserver
+# TODO: this is broken as the Kernel::System::Web::Eceptions are not caught.
 my $Content = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
     Debug => $Debug
 )->Content();
