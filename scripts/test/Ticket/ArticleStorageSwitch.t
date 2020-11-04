@@ -38,7 +38,6 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
         'Kernel::System::UnitTest::Helper' => {
             RestoreDatabase      => 1,
             UseTmpArticleDir     => 1,
-            UnitTestDriverObject => $Self,
         },
     );
     my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
