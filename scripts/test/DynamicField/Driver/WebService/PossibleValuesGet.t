@@ -26,10 +26,13 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::ObjectManager;
 
-our $Self;
+$Kernel::OM = Kernel::System::ObjectManager->new(
+    'Kernel::System::Log' => {
+        LogPrefix => 'OTOBO-otobo.UnitTest',
+    },
+);
 
 # This test can not use RestoreDtabase as it sends a web request to itself.
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
@@ -67,10 +70,8 @@ my $SourceTicketID1 = $TicketObject->TicketCreate(
     OwnerID      => 1,
     UserID       => $TestUserID,
 );
-$Self->True(
-    $SourceTicketID1,
-    "TicketCreate() Ticket 1 $SourceTicketID1",
-);
+ok( $SourceTicketID1, "TicketCreate() Ticket 1 $SourceTicketID1" );
+
 my $SourceTicketID2 = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title',
     Queue        => 'Misc',
@@ -82,10 +83,7 @@ my $SourceTicketID2 = $TicketObject->TicketCreate(
     OwnerID      => 1,
     UserID       => $TestUserID,
 );
-$Self->True(
-    $SourceTicketID2,
-    "TicketCreate() Ticket 2 $SourceTicketID2",
-);
+ok( $SourceTicketID2, "TicketCreate() Ticket 2 $SourceTicketID2" );
 
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 my $WebserviceName   = 'TestWebservice' . $Helper->GetRandomID();
@@ -104,10 +102,7 @@ my $WebserviceID     = $WebserviceObject->WebserviceAdd(
     ValidID => 1,
     UserID  => 1,
 );
-$Self->True(
-    $WebserviceID,
-    "WebserviceAdd WebService $WebserviceID",
-);
+ok( $WebserviceID, "WebserviceAdd WebService $WebserviceID" );
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -180,11 +175,7 @@ my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
     ValidID => 1,
     UserID  => 1,
 );
-
-$Self->True(
-    $WebserviceUpdate,
-    "Updated Webservice $WebserviceID - $WebserviceName"
-);
+ok( $WebserviceUpdate, "Updated Webservice $WebserviceID - $WebserviceName" );
 
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
@@ -211,10 +202,7 @@ my $DynamicFieldID    = $DynamicFieldObject->DynamicFieldAdd(
     ValidID       => 1,
     UserID        => 1,
 );
-$Self->True(
-    $DynamicFieldID,
-    "DynamicFieldAdd() ID $DynamicFieldID",
-);
+ok( $DynamicFieldID, "DynamicFieldAdd() ID $DynamicFieldID" );
 
 my @Tests = (
     {
@@ -618,8 +606,9 @@ for my $Test (@Tests) {
             ValidID => 1,
             UserID  => 1,
         );
-        $Self->True( $WebserviceUpdate, "Updated Webservice" );
+        ok( $WebserviceUpdate, 'updated webservice' );
 
+        # TODO: why fiddle with Kernel::System::Web::Request when simple doing a SOAP call under the hood?
         local %ENV = (
             REQUEST_METHOD => 'GET',
             QUERY_STRING   => $Test->{Request} // '',
@@ -635,11 +624,7 @@ for my $Test (@Tests) {
             DynamicFieldConfig => $DynamicFieldConfig,
         );
 
-        $Self->IsDeeply(
-            $PossibleValues,
-            $Test->{ExpectedValue},
-            "PossibleValuesGet() result",
-        );
+        is( $PossibleValues, $Test->{ExpectedValue}, 'PossibleValuesGet() result' );
     };
 }
 
@@ -650,10 +635,7 @@ for my $TicketID ( $SourceTicketID1, $SourceTicketID2 ) {
         TicketID => $TicketID,
         UserID   => 1,
     );
-    $Self->True(
-        $Success,
-        "Ticket ID $TicketID - deleted",
-    );
+    ok( $Success, "Ticket ID $TicketID - deleted" );
 }
 
 # Delete test created database dynamic field.
@@ -661,31 +643,19 @@ my $Success = $DynamicFieldObject->DynamicFieldDelete(
     ID     => $DynamicFieldID,
     UserID => 1,
 );
-$Self->True(
-    $Success,
-    "Database dynamic field ID $DynamicFieldID - deleted",
-);
+ok( $Success, "Database dynamic field ID $DynamicFieldID - deleted" );
 
 $Success = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => 1,
 );
-$Self->True(
-    $Success,
-    "Web Service ID $WebserviceID - deleted",
-);
+ok( $Success, "Web Service ID $WebserviceID - deleted" );
 
 # Make sure the cache is correct.
-for my $Cache (
-    qw(Ticket DynamicField Webservice)
-    )
-{
+for my $Cache ( qw(Ticket DynamicField Webservice) ) {
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => $Cache,
     );
 }
 
-
-$Self->DoneTesting();
-
-
+done_testing();
