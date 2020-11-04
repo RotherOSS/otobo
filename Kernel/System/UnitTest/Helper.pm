@@ -453,7 +453,7 @@ restores the regular system time behavior.
 =cut
 
 sub FixedTimeUnset {
-    my ($Self) = @_;
+    my $Self = shift;
 
     undef $FixedTime;
 
@@ -557,24 +557,14 @@ sub DESTROY {
 
     # restore environment variable to skip SSL certificate verification if needed
     if ( $Self->{RestoreSSLVerify} ) {
-
         $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME};    ## no critic
-
-        $Self->{RestoreSSLVerify} = 0;
-
-        note( 'Restored SSL certificates verification' );
+        $Self->{RestoreSSLVerify}          = 0;
     }
 
     # restore database, clean caches
     if ( $Self->{RestoreDatabase} ) {
         my $RollbackSuccess = $Self->Rollback();
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
-        if ( $RollbackSuccess ) {
-            note( 'Rolled back all database changes and cleaned up the cache.' );
-        }
-        else {
-            note( 'Problems encountered when rolling back all database changes and cleaning up the cache.' );
-        }
     }
 
     # disable email checks to create new user
@@ -609,13 +599,6 @@ sub DESTROY {
                 ValidID      => 2,
                 ChangeUserID => 1,
             );
-
-            if ( $Success ) {
-                note( "Set test user $TestUser to invalid" );
-            }
-            else {
-                note( "Problem encountered when setting $TestUser to invalid" );
-            }
         }
     }
 
@@ -642,13 +625,6 @@ sub DESTROY {
                 ValidID => 2,
                 UserID  => 1,
             );
-
-            if ( $Success ) {
-                note( "Set test customer user $TestCustomerUser to invalid" );
-            }
-            else {
-                note( "Problem encountered when setting $TestCustomerUser to invalid" );
-            }
         }
     }
 
