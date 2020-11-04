@@ -24,10 +24,11 @@ use Digest::MD5 qw(md5_hex);
 
 # CPAN modules
 use URI::Escape qw();
-use HTTP::Headers::Fast;
+use Plack::Response;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Web::Exception;
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
@@ -974,7 +975,7 @@ sub FatalError {
 
         # The OTOBO response object already has the HTPP headers.
         # Enhance it with the HTTP status code and the content.
-        my $PlackResponse = Plack::Response(
+        my $PlackResponse = Plack::Response->new(
             200,
             $Kernel::OM->Get('Kernel::System::Web::Response')->Headers(),
             $Output
@@ -4078,8 +4079,7 @@ sub CustomerLogin {
             push @CookieHeaders, 'Set-Cookie' => $Self->{SetCookies}->{$_};
         }
 
-        my $ResponseObject = $Kernel::OM->Get( 'Kernel::System::Web::Response' );
-        $ResponseObject->Headers( \@CookieHeaders );
+        $Kernel::OM->Get( 'Kernel::System::Web::Response' )->Headers( \@CookieHeaders );
     }
 
     # check if message should be shown
@@ -4554,7 +4554,7 @@ sub CustomerFatalError {
 
         # The OTOBO response object already has the HTPP headers.
         # Enhance it with the HTTP status code and the content.
-        my $PlackResponse = Plack::Response(
+        my $PlackResponse = Plack::Response->new(
             200,
             $Kernel::OM->Get('Kernel::System::Web::Response')->Headers(),
             $Output
