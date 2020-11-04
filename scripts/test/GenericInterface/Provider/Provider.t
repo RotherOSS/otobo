@@ -336,7 +336,7 @@ for my $Test (@Tests) {
                 CGI::initialize_globals();
                 $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
-                $ResponseData = $ProviderObject->HeaderAndContent();
+                $ResponseData = $ProviderObject->Content();
             }
 
             if ( $Test->{ResponseSuccess} ) {

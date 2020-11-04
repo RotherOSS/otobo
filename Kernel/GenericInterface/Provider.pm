@@ -79,7 +79,7 @@ and returns an appropriate answer based on the requested web service.
 Set headers in Kernels::System::Web::Request singleton as side effect.
 
     # put this in the handler script
-    my $HeaderAndContent = $Interface->Content();
+    my $Content = $Interface->Content();
 
 =cut
 

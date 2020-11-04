@@ -365,9 +365,9 @@ The HTTP code is set accordingly
     );
 
     $Result = {
-        Success      => 1,   # 0 or 1
-        Output       => $HeaderAndContent,   # a string
-        ErrorMessage => '',  # in case of error
+        Success      => 1,          # 0 or 1
+        Output       => $Content,   # a string
+        ErrorMessage => '',         # in case of error
     };
 
 =cut
@@ -898,7 +898,7 @@ Returns structure to be passed to provider.
 
     $Result = {
         Success      => 0,
-        Output       => $HeaderAndContent,
+        Output       => $Content,
         ErrorMessage => 'Message', # error message from given summary
     };
 
