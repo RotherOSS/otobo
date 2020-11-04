@@ -28,6 +28,7 @@ use PerlIO;
 # CPAN modules
 use HTTP::Status;
 use SOAP::Lite;
+use Plack::Response;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -1065,7 +1066,7 @@ sub _Output {
         }
 
         # Enhance it with the HTTP status code and the content.
-        my $PlackResponse = Plack::Response(
+        my $PlackResponse = Plack::Response->new(
             $Param{HTTPCode},
             \@Headers,
             $Param{Content}

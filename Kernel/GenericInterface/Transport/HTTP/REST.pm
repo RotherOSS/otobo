@@ -28,10 +28,12 @@ use MIME::Base64;
 use HTTP::Status;
 use REST::Client;
 use URI::Escape;
+use Plack::Response;
 
 # OTOBO modules
 use Kernel::Config;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Web::Exception;
 
 our $ObjectManagerDisabled = 1;
 
@@ -978,7 +980,7 @@ sub _Output {
         }
 
         # Enhance it with the HTTP status code and the content.
-        my $PlackResponse = Plack::Response(
+        my $PlackResponse = Plack::Response->new(
             $Param{HTTPCode},
             \@Headers,
             $Param{Content}
