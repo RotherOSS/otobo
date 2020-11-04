@@ -170,6 +170,7 @@ sub ProviderProcessRequest {
     }
 
     # In case client requests to continue submission, tell it to continue.
+    # TODO: does this work under PSGI ?
     if ( IsStringWithData( $ENV{EXPECT} ) && $ENV{EXPECT} =~ m{ \b 100-Continue \b }xmsi ) {
         $Self->_Output(
             HTTPCode => 100,
@@ -201,22 +202,26 @@ sub ProviderProcessRequest {
     }
 
     # Convert charset if necessary.
-    my $ContentCharset;
-    if ( $ENV{CONTENT_TYPE} =~ m{ \A ( .+ ) ;\s*charset= ["']{0,1} ( .+? ) ["']{0,1} (;|\z) }xmsi ) {
+    {
+        my $ContentType = $ParamObject->ContentType();
+        my $ContentCharset;
+        if ( $ContentType =~ m{ \A ( .+ ) ;\s*charset= ["']{0,1} ( .+? ) ["']{0,1} (;|\z) }xmsi ) {
 
-        # Remember content type for the response.
-        $Self->{ContentType} = $1;
+            # Remember content type for the response.
+            $Self->{ContentType} = $1;
 
-        $ContentCharset = $2;
-    }
-    if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
-        $Content = $Kernel::OM->Get('Kernel::System::Encode')->Convert2CharsetInternal(
-            Text => $Content,
-            From => $ContentCharset,
-        );
-    }
-    else {
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Content );
+            $ContentCharset = $2;
+        }
+
+        if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
+            $Content = $Kernel::OM->Get('Kernel::System::Encode')->Convert2CharsetInternal(
+                Text => $Content,
+                From => $ContentCharset,
+            );
+        }
+        else {
+            $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Content );
+        }
     }
 
     # Send received data to debugger.
