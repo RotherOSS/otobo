@@ -25,7 +25,8 @@ use File::Path qw(rmtree);
 
 # CPAN modules
 use Test2::V0;
-use DateTime 1.08;  # Load DateTime so that we can override functions for the FixedTimeSet().
+use DateTime 1.08;    # Load DateTime so that we can override functions for the FixedTimeSet().
+use Module::Refresh;  # available in Kernel/cpan-lib
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -530,8 +531,10 @@ sub _MockPerlTimeHandling {
         $FilePath =~ s{::}{/}xmsg;
         $FilePath .= '.pm';
         if ( $INC{$FilePath} ) {
-            no warnings 'redefine';    ## no critic
-            delete $INC{$FilePath};
+
+            # this also unloads the subs, so that we don't get warnings about redefined subs
+            Module::Refresh->unload_module( $FilePath );
+
             require $FilePath;         ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
         }
     }
