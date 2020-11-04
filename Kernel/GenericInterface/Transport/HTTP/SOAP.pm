@@ -122,12 +122,14 @@ sub ProviderProcessRequest {
     my $Content = q{};
     my $Length;
 
-    # TODO: why is %ENV used here
     # If the HTTP_TRANSFER_ENCODING environment variable is defined, check if is chunked.
-    my $Chunked = (
-        defined $ENV{HTTP_TRANSFER_ENCODING}
-            && $ENV{HTTP_TRANSFER_ENCODING} =~ m/^chunked.*$/
-    ) || 0;
+    my $Chunked = 0;
+    {
+        my $TransferEncoding = $ParamObject->HTTP('TRANSFER_ENCODING') // '';
+        if ( $TransferEncoding =~ m/^chunked/ ) {
+            $Chunked = 1;
+        }
+    }
 
 
     # If chunked transfer encoding is used, read request from chunks and calculate its length afterwards
