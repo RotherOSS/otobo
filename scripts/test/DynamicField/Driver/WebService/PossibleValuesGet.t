@@ -17,14 +17,19 @@
 ## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
+
+our $Self;
 
 # This test can not use RestoreDtabase as it sends a web request to itself.
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
@@ -83,10 +88,8 @@ $Self->True(
 );
 
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
-
-my $WebserviceName = 'TestWebservice' . $Helper->GetRandomID();
-
-my $WebserviceID = $WebserviceObject->WebserviceAdd(
+my $WebserviceName   = 'TestWebservice' . $Helper->GetRandomID();
+my $WebserviceID     = $WebserviceObject->WebserviceAdd(
     Name   => $WebserviceName,
     Config => {
         Debugger => {
@@ -177,6 +180,7 @@ my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
     ValidID => 1,
     UserID  => 1,
 );
+
 $Self->True(
     $WebserviceUpdate,
     "Updated Webservice $WebserviceID - $WebserviceName"
@@ -589,7 +593,6 @@ ENDTEMPLATE
 
         ExpectedValue => {},
     },
-
 );
 
 my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
@@ -600,44 +603,44 @@ my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::
 
 for my $Test (@Tests) {
 
-    my $WebserviceConfigTest = $WebserviceConfig;
-    $WebserviceConfigTest->{Requester}->{Invoker}->{TicketGet}->{MappingInbound}->{Config}->{Template}
-        = $Test->{MappingInbound};
-    $WebserviceConfigTest->{Requester}->{Invoker}->{TicketGet}->{MappingOutbound}->{Config}->{Template}
-        = $Test->{MappingOutbound};
+    subtest "$Test->{Name} Webservice $WebserviceID - $WebserviceName" => sub {
 
-    my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
-        ID      => $WebserviceID,
-        Name    => $WebserviceName,
-        Config  => $WebserviceConfigTest,
-        ValidID => 1,
-        UserID  => 1,
-    );
-    $Self->True(
-        $WebserviceUpdate,
-        "$Test->{Name} Updated Webservice $WebserviceID - $WebserviceName"
-    );
+        my $WebserviceConfigTest = $WebserviceConfig;
+        $WebserviceConfigTest->{Requester}->{Invoker}->{TicketGet}->{MappingInbound}->{Config}->{Template}
+            = $Test->{MappingInbound};
+        $WebserviceConfigTest->{Requester}->{Invoker}->{TicketGet}->{MappingOutbound}->{Config}->{Template}
+            = $Test->{MappingOutbound};
 
-    local %ENV = (
-        REQUEST_METHOD => 'GET',
-        QUERY_STRING   => $Test->{Request} // '',
-    );
+        my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
+            ID      => $WebserviceID,
+            Name    => $WebserviceName,
+            Config  => $WebserviceConfigTest,
+            ValidID => 1,
+            UserID  => 1,
+        );
+        $Self->True( $WebserviceUpdate, "Updated Webservice" );
 
-    # reset CGI object from previous runs
-    CGI::initialize_globals();
+        local %ENV = (
+            REQUEST_METHOD => 'GET',
+            QUERY_STRING   => $Test->{Request} // '',
+        );
 
-    # discard Web::Request from OM to prevent errors
-    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
+        # reset CGI object from previous runs
+        CGI::initialize_globals();
 
-    my $PossibleValues = $DynamicFieldBackendObject->PossibleValuesGet(
-        DynamicFieldConfig => $DynamicFieldConfig,
-    );
+        # discard Web::Request from OM to prevent errors
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
-    $Self->IsDeeply(
-        $PossibleValues,
-        $Test->{ExpectedValue},
-        "$Test->{Name} PossibleValuesGet() result",
-    );
+        my $PossibleValues = $DynamicFieldBackendObject->PossibleValuesGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+        );
+
+        $Self->IsDeeply(
+            $PossibleValues,
+            $Test->{ExpectedValue},
+            "PossibleValuesGet() result",
+        );
+    };
 }
 
 for my $TicketID ( $SourceTicketID1, $SourceTicketID2 ) {
