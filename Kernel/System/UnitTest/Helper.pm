@@ -26,7 +26,6 @@ use File::Path qw(rmtree);
 # CPAN modules
 use Test2::V0;
 use DateTime 1.08;    # Load DateTime so that we can override functions for the FixedTimeSet().
-use Module::Refresh;  # available in Kernel/cpan-lib
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -363,6 +362,7 @@ sub BeginWork {
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     $DBObject->Connect();
+
     return $DBObject->BeginWork();
 }
 
@@ -519,24 +519,18 @@ sub _MockPerlTimeHandling {
 
     # This is needed to reload objects that directly use the native time functions
     #   to get a hold of the overrides.
-    my @Objects = (
-        'Kernel::System::Time',
-        'Kernel::System::DB',
-        'Kernel::System::Cache::FileStorable',
-        'Kernel::System::PID',
+    my @FilePathes = (
+        'Kernel/System/Time.pm',
+        'Kernel/System/DB.pm',
+        'Kernel/System/Cache/FileStorable.pm',
+        'Kernel/System/PID.pm',
     );
 
-    for my $Object (@Objects) {
-        my $FilePath = $Object;
-        $FilePath =~ s{::}{/}xmsg;
-        $FilePath .= '.pm';
-        if ( $INC{$FilePath} ) {
+    # this also unloads the subs, so that we don't get warnings about redefined subs
+    for my $FilePath ( grep { $INC{$_} } @FilePathes) {
+        no warnings;
 
-            # this also unloads the subs, so that we don't get warnings about redefined subs
-            Module::Refresh->unload_module( $FilePath );
-
-            require $FilePath;         ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
-        }
+        require $FilePath;
     }
 
     return 1;
