@@ -22,6 +22,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -32,7 +33,7 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 # Get SysConfig DB object.
 my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
@@ -386,7 +387,7 @@ my $PrepareLockTests = sub {
     }
 
     if ( $Test->{AddSeconds} ) {
-        $Helper->FixedTimeAddSeconds( $Test->{AddSeconds} );
+        FixedTimeAddSeconds( $Test->{AddSeconds} );
     }
 
     return $ExclusiveLockGUID;
@@ -1100,7 +1101,7 @@ my %DeploymentsGet;
 
 for my $DeploymentSource (@DeploymentsAdd) {
 
-    $Helper->FixedTimeAddSeconds(5);
+    FixedTimeAddSeconds(5);
 
     # Lock and add a deployment.
     my $ExclusiveLockGUID = $SysConfigDBObject->DeploymentLock(

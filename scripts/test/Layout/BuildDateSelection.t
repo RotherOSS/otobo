@@ -20,6 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -433,7 +434,7 @@ for my $Test (@Tests) {
             $BuildSelectionParams{ $Prefix . 'Minute' } = $DateTimeValues->{Minute};
         }
         else {
-            $HelperObject->FixedTimeSet( $DateTimeObject->ToEpoch() );
+            FixedTimeSet( $DateTimeObject->ToEpoch() );
         }
 
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -461,7 +462,7 @@ for my $Test (@Tests) {
             Objects => [ 'Kernel::Output::HTML::Layout', ],
         );
 
-        $HelperObject->FixedTimeUnset();
+        FixedTimeUnset();
     }
 }
 

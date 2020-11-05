@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -193,7 +194,7 @@ $Selenium->RunTest(
 
         # Freeze time at this point since creating appointments and tickets and checking results can
         #   take some time to complete.
-        $Helper->FixedTimeSet();
+        FixedTimeSet();
 
         # Create a test ticket.
         my $TicketTitle = "Ticket$RandomID";

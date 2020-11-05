@@ -21,6 +21,7 @@ use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
 use Test2::V0;
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
@@ -46,7 +47,7 @@ my $YAMLObject        = $Kernel::OM->Get('Kernel::System::YAML');
 
 my $RandomID = $HelperObject->GetRandomID();
 
-$HelperObject->FixedTimeSet();
+FixedTimeSet();
 
 # clear some tables
 for my $Table ( qw(sysconfig_modified_version sysconfig_modified sysconfig_default_version sysconfig_default) ) {

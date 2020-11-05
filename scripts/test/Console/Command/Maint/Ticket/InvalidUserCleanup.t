@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -33,7 +34,7 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # Set fixed time to create user in pst.
 # Then when it is set to invalid, it have been invalid for more than a month.
-$Helper->FixedTimeSet(
+FixedTimeSet(
     $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {
@@ -127,7 +128,7 @@ $Self->True(
 
 # Set current time in order to check InvalidUserCleanup console command.
 # Created test user will be invalid for more than a month.
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my ( $UserName2, $UserID2 ) = $Helper->TestUserCreate();
 my $TicketID2 = $TicketObject->TicketCreate(

@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+#use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -30,10 +31,8 @@ use Kernel::System::VariableCheck qw(:all);
 # get needed objects
 my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-# # use a fixed year to compare the time selection results
-# my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-# $HelperObject->FixedTimeSet(1598258758);
-# );
+## use a fixed year to compare the time selection results
+#FixedTimeSet( $TimeObject->TimeStamp2SystemTime( String => '2013-12-12 00:00:00' ) );
 
 my $LayoutObject = Kernel::Output::HTML::Layout->new(
     Lang         => 'en',

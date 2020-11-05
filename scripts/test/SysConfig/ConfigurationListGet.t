@@ -20,6 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -43,7 +44,7 @@ my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
 
 my $RandomID = $HelperObject->GetRandomID();
 
-$HelperObject->FixedTimeSet();
+FixedTimeSet();
 
 my $SettingsAdd = sub {
     my %Param = @_;

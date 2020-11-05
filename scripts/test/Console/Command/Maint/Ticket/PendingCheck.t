@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -73,7 +74,7 @@ my $SystemTime = $Kernel::OM->Create(
 )->ToEpoch();
 
 # set the fixed time
-$Helper->FixedTimeSet($SystemTime);
+FixedTimeSet($SystemTime);
 
 my $ExitCode = $CommandObject->Execute();
 
@@ -102,7 +103,7 @@ $SystemTime = $Kernel::OM->Create(
 )->ToEpoch();
 
 # set the fixed time
-$Helper->FixedTimeSet($SystemTime);
+FixedTimeSet($SystemTime);
 
 $ExitCode = $CommandObject->Execute();
 

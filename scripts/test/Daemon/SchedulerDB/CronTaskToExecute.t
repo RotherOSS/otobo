@@ -21,6 +21,7 @@ use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
 use Test2::V0;
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -192,7 +193,7 @@ my @Tests = (
 );
 
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 for my $Test (@Tests) {
 
@@ -209,7 +210,7 @@ for my $Test (@Tests) {
     );
 
     # Add more than 1 minute in order to set task to execute.
-    $Helper->FixedTimeAddSeconds(62);
+    FixedTimeAddSeconds(62);
 
     # With DB populated and time passed set tasks to execute again.
     $Success = $SchedulerDBObject->CronTaskToExecute(

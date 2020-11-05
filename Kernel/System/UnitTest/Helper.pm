@@ -18,6 +18,7 @@ package Kernel::System::UnitTest::Helper;
 
 use strict;
 use warnings;
+use v5.24;
 use namespace::autoclean;
 
 # core modules
@@ -25,7 +26,6 @@ use File::Path qw(rmtree);
 
 # CPAN modules
 use Test2::V0;
-use DateTime 1.08;  # Load DateTime so that we can override functions for the FixedTimeSet().
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -101,9 +101,6 @@ sub new {
 
     # Decide whether we should actually execute tests
     $Self->{ExecuteInternalTests} = $Param{ExecuteInternalTests} // 1;
-
-    # Override Perl's built-in time handling mechanism to set a fixed time if needed.
-    $Self->_MockPerlTimeHandling();
 
     # Remove any leftover custom files from aborted previous runs.
     $Self->CustomFileCleanup();
@@ -362,6 +359,7 @@ sub BeginWork {
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     $DBObject->Connect();
+
     return $DBObject->BeginWork();
 }
 
@@ -412,131 +410,6 @@ sub GetTestHTTPHostname {
     return $Host;
 }
 
-# used for mocking time
-my $FixedTime;
-
-=head2 FixedTimeSet()
-
-makes it possible to override the system time as long as this object lives.
-You can pass an optional time parameter that should be used, if not,
-the current system time will be used.
-
-All calls to methods of Kernel::System::DateTime will
-use the given time afterwards.
-
-    $HelperObject->FixedTimeSet(366475757);         # with Timestamp
-    $HelperObject->FixedTimeSet($DateTimeObject);   # with previously created DateTime object
-    $HelperObject->FixedTimeSet();                  # set to current date and time
-
-Returns:
-    Timestamp
-
-=cut
-
-sub FixedTimeSet {
-    my ( $Self, $TimeToSave ) = @_;
-
-    if ( $TimeToSave && ref $TimeToSave eq 'Kernel::System::DateTime' ) {
-        $FixedTime = $TimeToSave->ToEpoch();
-    }
-    else {
-        $FixedTime = $TimeToSave // CORE::time();
-    }
-
-    return $FixedTime;
-}
-
-=head2 FixedTimeUnset()
-
-restores the regular system time behavior.
-
-=cut
-
-sub FixedTimeUnset {
-    my $Self = shift;
-
-    undef $FixedTime;
-
-    return;
-}
-
-=head2 FixedTimeAddSeconds()
-
-adds a number of seconds to the fixed system time which was previously
-set by FixedTimeSet(). You can pass a negative value to go back in time.
-
-=cut
-
-sub FixedTimeAddSeconds {
-    my ( $Self, $SecondsToAdd ) = @_;
-
-    return if !defined $FixedTime;
-
-    $FixedTime += $SecondsToAdd;
-
-    return;
-}
-
-# See http://perldoc.perl.org/5.10.0/perlsub.html#Overriding-Built-in-Functions
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::DateTime)
-sub _MockPerlTimeHandling {
-    no warnings 'once';    ## no critic
-
-    # These overrides won't be reverted in DESTROY()
-
-    *CORE::GLOBAL::time = sub {
-        return $FixedTime // CORE::time();
-    };
-
-    *CORE::GLOBAL::localtime = sub {
-        my ($Time) = @_;
-
-        $Time //= $FixedTime // CORE::time();
-
-        return CORE::localtime($Time);
-    };
-
-    *CORE::GLOBAL::gmtime = sub {
-        my ($Time) = @_;
-
-        $Time //= $FixedTime // CORE::time();
-
-        return CORE::gmtime($Time);
-    };
-
-    # Versions of DateTime >0 1.08 provide a function _core_time().
-    # _core_time() is overriden for time simulations. Perl should not warn about it.
-    {
-        no warnings 'redefine'; # yes, we want to override
-
-        *DateTime::_core_time = sub {    ## no critic
-            return $FixedTime // CORE::time();
-        };
-    }
-
-    # This is needed to reload objects that directly use the native time functions
-    #   to get a hold of the overrides.
-    my @Objects = (
-        'Kernel::System::DB',
-        'Kernel::System::Cache::FileStorable',
-        'Kernel::System::PID',
-    );
-
-    for my $Object (@Objects) {
-        my $FilePath = $Object;
-        $FilePath =~ s{::}{/}xmsg;
-        $FilePath .= '.pm';
-        if ( $INC{$FilePath} ) {
-            no warnings 'redefine';    ## no critic
-            delete $INC{$FilePath};
-            require $FilePath;         ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
-        }
-    }
-
-    return 1;
-}
-
 =head2 DESTROY()
 
 performs various clean-ups.
@@ -545,9 +418,6 @@ performs various clean-ups.
 
 sub DESTROY {
     my $Self = shift;
-
-    # reset time freeze
-    $Self->FixedTimeUnset();
 
     # Cleanup temporary database if it was set up.
     $Self->TestDatabaseCleanup() if $Self->{ProvideTestDatabase};
