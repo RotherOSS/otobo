@@ -934,6 +934,8 @@ On databases like Oracle it could happen that too many tables are listed (all be
 to the current user), if the user also has permissions for other databases. So this list
 should only be used for verification of the presence of expected OTOBO tables.
 
+The table names are lower cased.
+
 =cut
 
 sub ListTables {
@@ -946,6 +948,7 @@ sub ListTables {
             Priority => 'Error',
             Message  => "Database driver $Self->{'DB::Type'} does not support ListTables.",
         );
+
         return;
     }
 
@@ -953,11 +956,11 @@ sub ListTables {
         SQL => $SQL,
     );
 
-    return if !$Success;
+    return unless $Success;
 
     my @Tables;
-    while ( my @Row = $Self->FetchrowArray() ) {
-        push @Tables, lc $Row[0];
+    while ( my ($Table) = $Self->FetchrowArray() ) {
+        push @Tables, lc $Table;
     }
 
     return @Tables;
@@ -1021,6 +1024,7 @@ sub SelectAll {
     while ( my @Row = $Self->FetchrowArray() ) {
         push @Records, \@Row;
     }
+
     return \@Records;
 }
 
@@ -1028,19 +1032,25 @@ sub SelectAll {
 
 to get database functions like
 
-    - Limit
+    - Attribute
+    - CaseSensitive
+    - Comment
+    - Connect
+    - CurrentTimestamp
+    - DeactivateForeignKeyChecks
     - DirectBlob
-    - QuoteSingle
+    - Encode
+    - LikeEscapeString
+    - Limit
+    - ListTables
     - QuoteBack
     - QuoteSemicolon
-    - CurrentTimestamp
-    - Encode
-    - Comment
+    - QuoteSingle
+    - QuoteUnderscoreEnd
+    - QuoteUnderscoreStart
     - ShellCommit
     - ShellConnect
-    - Connect
-    - LikeEscapeString
-    - DeactivateForeignKeyChecks
+    - Version
 
     my $What = $DBObject->GetDatabaseFunction('DirectBlob');
 

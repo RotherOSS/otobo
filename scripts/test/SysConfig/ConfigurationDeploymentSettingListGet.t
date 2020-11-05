@@ -20,6 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -36,7 +37,7 @@ my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
 my $RandomNumber = $HelperObject->GetRandomNumber();
 
-$HelperObject->FixedTimeSet();
+FixedTimeSet();
 
 my $SettingName1 = 'ProductName ' . $RandomNumber . 1;
 my $SettingName2 = 'ProductName ' . $RandomNumber . 2;
@@ -287,7 +288,7 @@ $Success = $SysConfigDBObject->DefaultSettingUnlock(
 # Make sure that there is enough time between two ConfigurationDeploy() calls.
 # DeploymentModifiedVersionList() method works with timestamps, so it can return
 # data which was deployed in previous deployment. See https://bugs.otrs.org/show_bug.cgi?id=13071.
-$HelperObject->FixedTimeAddSeconds(2);
+FixedTimeAddSeconds(2);
 
 %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
     Comments     => "UnitTest",

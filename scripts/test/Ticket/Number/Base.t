@@ -19,9 +19,14 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+
+# CPAN modules
 use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
+
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(:all);
+use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
 
 our $Self;
 
@@ -265,7 +270,7 @@ for my $Test (@Tests) {
 # TicketNumberCounterCleanup() tests.
 $Cleanup->();
 
-$Helper->FixedTimeSet();
+FixedTimeSet();
 @Tests = (
     {
         Name           => '100 - ..1 Sec',
@@ -320,7 +325,7 @@ $Helper->FixedTimeSet();
 for my $Test (@Tests) {
     for ( 1 .. $Test->{Iterations} ) {
         my $Counter = $TicketNumberBaseObject->TicketNumberCounterAdd( Offset => 1 );
-        $Helper->FixedTimeAddSeconds( $Test->{Seconds} );
+        FixedTimeAddSeconds( $Test->{Seconds} );
     }
 
     my $Success = $TicketNumberBaseObject->TicketNumberCounterCleanup();
@@ -352,7 +357,7 @@ for my $Test (@Tests) {
     $Cleanup->();
 }
 
-$Helper->FixedTimeUnset();
+FixedTimeUnset();
 
 # _GetLastTicketNumber() tests
 @Tests = (

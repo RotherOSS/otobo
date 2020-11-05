@@ -1305,19 +1305,18 @@ sub DBSkipTables {
 
     # the tables must be lower case
     return {
+        cloud_service_config           => 1,
         communication_log              => 1,
         communication_log_obj_lookup   => 1,
         communication_log_object       => 1,
         communication_log_object_entry => 1,
-        cloud_service_config           => 1,
+        gi_debugger_entry              => 1,
+        gi_debugger_entry_content      => 1,
         package_repository             => 1,
-        web_upload_cache               => 1,
+        process_id                     => 1,
+        scheduler_recurrent_task       => 1,
         sessions                       => 1,
-        scheduler_recurrent_task       => '1',
-        process_id                     => '1',
-        cloud_service_config           => '1',
-        gi_debugger_entry              => '1',
-        gi_debugger_entry_content      => '1',
+        web_upload_cache               => 1,
     };
 }
 
@@ -1326,8 +1325,8 @@ sub DBRenameTables {
 
     # the tables must be lower case
     return {
-        groups                 => 'groups_table',
         article_data_otrs_chat => 'article_data_otobo_chat',
+        groups                 => 'groups_table',
     };
 }
 

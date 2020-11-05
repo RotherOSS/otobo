@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -168,7 +169,7 @@ my $SystemTime = $Kernel::OM->Create(
 )->ToEpoch();
 
 # Set the fixed time.
-$Helper->FixedTimeSet($SystemTime);
+FixedTimeSet($SystemTime);
 
 # Create test queue with escalation times.
 my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
@@ -237,7 +238,7 @@ my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->
 );
 
 # Add 5 minutes for escalation times evaluation.
-$Helper->FixedTimeAddSeconds(300);
+FixedTimeAddSeconds(300);
 
 my $ArticleID = $ArticleBackendObject->ArticleCreate(
     TicketID             => $TicketID,

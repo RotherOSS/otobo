@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -132,7 +133,7 @@ $Selenium->RunTest(
                 String => '2017-05-04 23:00:00',
             },
         );
-        $Helper->FixedTimeSet($SystemTime);
+        FixedTimeSet($SystemTime);
 
         my @TicketIDs;
         my $TitleRandom  = "Title" . $RandomID;

@@ -25,6 +25,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver; # Set up the test driver $Self
 use Kernel::System::VariableCheck qw(:all);
 
@@ -289,7 +290,7 @@ if (
 }
 
 # forward the system time
-$HelperObject->FixedTimeSet(
+FixedTimeSet(
     $SystemPendingTime + 60,
 );
 
@@ -331,7 +332,7 @@ for my $Key (qw(EscalationTime EscalationResponseTime EscalationSolutionTime )) 
 }
 
 # Jump back to normal time
-$HelperObject->FixedTimeUnset();
+FixedTimeUnset();
 
 # reset Configs
 $ConfigObject->Set(

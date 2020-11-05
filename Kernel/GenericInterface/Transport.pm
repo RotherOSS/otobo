@@ -139,9 +139,9 @@ generate response for an incoming web service request.
     );
 
     $Result = {
-        Success         => 1,                   # 0 or 1
-        Output          => $HeaderAndContent,   # a string
-        ErrorMessage    => '',                  # in case of error
+        Success         => 1,              # 0 or 1
+        Output          => $Content,       # a string
+        ErrorMessage    => '',             # in case of error
     };
 
 =cut

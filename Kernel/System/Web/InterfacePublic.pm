@@ -93,16 +93,16 @@ sub new {
     return $Self;
 }
 
-=head2 HeaderAndContent()
+=head2 Content()
 
-execute the object
+execute the object.
+Set headers in Kernels::System::Web::Request singleton as side effect.
 
-    # put this in the handler script
-    my $HeaderAndContent = $Interface->HeaderAndContent();
+    my $Content = $Interface->Content();
 
 =cut
 
-sub HeaderAndContent {
+sub Content {
     my $Self = shift;
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');

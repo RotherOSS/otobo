@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -42,7 +43,7 @@ $ConfigObject->Set(
 );
 
 # set fixed time to have predetermined verifiable results
-$Helper->FixedTimeSet(0);
+FixedTimeSet(0);
 
 # configure auth backend to db
 $ConfigObject->Set(
@@ -241,7 +242,7 @@ for my $Test (@Tests) {
     # update time if necessary
     if ( ( $Test->{FixedTimeSet} || 0 ) ne $CurrentConfig{Time} ) {
         $CurrentConfig{Time} = $Test->{FixedTimeSet} || 0;
-        $Helper->FixedTimeSet( $CurrentConfig{Time} );
+        FixedTimeSet( $CurrentConfig{Time} );
     }
 
     # test agent auth
