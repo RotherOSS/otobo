@@ -102,9 +102,6 @@ sub new {
     # Decide whether we should actually execute tests
     $Self->{ExecuteInternalTests} = $Param{ExecuteInternalTests} // 1;
 
-    # Override Perl's built-in time handling mechanism to set a fixed time if needed.
-    $Self->_MockPerlTimeHandling();
-
     # Remove any leftover custom files from aborted previous runs.
     $Self->CustomFileCleanup();
 
