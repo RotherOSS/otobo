@@ -20,6 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -212,7 +213,7 @@ $Helper->ConfigSettingChange(
 
 my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my $Epoch = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
@@ -225,7 +226,7 @@ my $SessionID1 = $SessionObject->CreateSessionID(
     UserLastRequest => $Epoch + 20,
 );
 
-$Helper->FixedTimeAddSeconds(11);
+FixedTimeAddSeconds(11);
 
 $Epoch = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
@@ -238,7 +239,7 @@ my $SessionID2 = $SessionObject->CreateSessionID(
     UserLastRequest => $Epoch,
 );
 
-$Helper->FixedTimeAddSeconds(6);
+FixedTimeAddSeconds(6);
 
 $Epoch = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 

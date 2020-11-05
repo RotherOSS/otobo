@@ -20,6 +20,7 @@ use v5.24;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
@@ -110,7 +111,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # set fixed time
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $Helper->FixedTimeSet();
+            FixedTimeSet();
         }
 
         my $CacheSet = $CacheObject->Set(
@@ -253,7 +254,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # wait 7 seconds
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $Helper->FixedTimeAddSeconds(7);
+            FixedTimeAddSeconds(7);
         }
         else {
             sleep 7;
@@ -289,7 +290,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # wait 3 seconds
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $Helper->FixedTimeAddSeconds(3);
+            FixedTimeAddSeconds(3);
         }
         else {
             sleep 3;
@@ -312,7 +313,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # wait 3 seconds
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $Helper->FixedTimeAddSeconds(3);
+            FixedTimeAddSeconds(3);
         }
         else {
             sleep 3;
@@ -439,7 +440,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # unset fixed time
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $Helper->FixedTimeUnset();
+            FixedTimeUnset();
         }
 
         my $String1 = '';

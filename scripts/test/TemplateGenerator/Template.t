@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -39,7 +40,7 @@ my $DateTimeObject = $Kernel::OM->Create(
         String => '2020-01-10 16:00:00',
     },
 );
-$Helper->FixedTimeSet($DateTimeObject);
+FixedTimeSet($DateTimeObject);
 
 # Do not check email addresses.
 $Helper->ConfigSettingChange(

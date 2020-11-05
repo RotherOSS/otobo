@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -35,7 +36,7 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # set fixed time
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my $PIDCreate = $PIDObject->PIDCreate( Name => 'Test' );
 $Self->True(
@@ -81,7 +82,7 @@ $Self->False(
 );
 
 # wait 2 seconds to update the PID change time
-$Helper->FixedTimeAddSeconds(2);
+FixedTimeAddSeconds(2);
 
 $UpdateSuccess = $PIDObject->PIDUpdate(
     Name => 'Test',

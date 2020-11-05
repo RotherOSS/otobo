@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -115,10 +116,10 @@ for my $Module (qw(DB FS)) {
     );
 
     # set fixed time
-    $Helper->FixedTimeSet();
+    FixedTimeSet();
 
     # wait 24h+1s to expire upload cache
-    $Helper->FixedTimeAddSeconds(86401);
+    FixedTimeAddSeconds(86401);
 
     # delete upload cache - should remove cached form
     $ExitCode = $CommandObject->Execute();
@@ -147,7 +148,7 @@ for my $Module (qw(DB FS)) {
     );
 
     # unset fixed time
-    $Helper->FixedTimeUnset();
+    FixedTimeUnset();
 
 }
 

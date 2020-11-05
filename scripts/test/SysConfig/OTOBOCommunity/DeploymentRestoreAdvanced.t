@@ -20,6 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -30,7 +31,7 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-$HelperObject->FixedTimeSet();
+FixedTimeSet();
 
 my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my $Location = "$Home/Kernel/Config/Files/ZZZAAuto.pm";
@@ -158,7 +159,7 @@ EOF
     );
     my %LastDeployment = $SysConfigDBObject->DeploymentGetLast();
     push @DeploymentIDs, $LastDeployment{DeploymentID};
-    $HelperObject->FixedTimeAddSeconds(5);
+    FixedTimeAddSeconds(5);
 
     my $UpdateSettings = sub {
         my %Param = @_;
@@ -196,7 +197,7 @@ EOF
                 "SettingGet() - $SettingName EffectiveValue",
             );
         }
-        $HelperObject->FixedTimeAddSeconds(5);
+        FixedTimeAddSeconds(5);
     };
 
     my @Updates = (

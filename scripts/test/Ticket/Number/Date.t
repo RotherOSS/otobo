@@ -21,6 +21,7 @@ use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
 use Test2::V0;
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
@@ -125,7 +126,7 @@ for my $Test (@Tests) {
         },
     );
 
-    $HelperObject->FixedTimeSet($DateTimeObject);
+    FixedTimeSet($DateTimeObject);
 
     my $TicketNumber = $TicketNumberGeneratorObject->TicketCreateNumber();
 
