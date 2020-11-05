@@ -26,6 +26,7 @@ use Test2::V0;
 use Test2::API qw/context/;
 
 # OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
 
 our $Self;
@@ -54,7 +55,7 @@ $ConfigObject->Set(
 );
 
 # set fixed time
-$HelperObject->FixedTimeSet(
+FixedTimeSet(
     $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {
@@ -214,7 +215,7 @@ for my $Hours ( sort keys %WorkingHours ) {
         $Self->True( $TicketID, "TicketCreate() $TicketTitle" );
 
         # wait 1 second to have escalations
-        $HelperObject->FixedTimeAddSeconds(1);
+        FixedTimeAddSeconds(1);
 
         # Renew objects because of transaction.
         $Kernel::OM->ObjectsDiscard(
@@ -534,7 +535,7 @@ $ConfigObject->Set(
 );
 
 # Set fixed time for testing.
-$HelperObject->FixedTimeSet(
+FixedTimeSet(
     $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {

@@ -20,6 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -34,7 +35,7 @@ $Selenium->RunTest(
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # Set fixed time for test purposes.
-        $Helper->FixedTimeSet(
+        FixedTimeSet(
             $Kernel::OM->Create(
                 'Kernel::System::DateTime',
                 ObjectParams => {
@@ -140,7 +141,7 @@ $Selenium->RunTest(
         );
 
         # Wait 5 minutes to have escalation trigger.
-        $Helper->FixedTimeAddSeconds(300);
+        FixedTimeAddSeconds(300);
 
         my %Configs = (
             '0100-TicketPendingReminder' => {

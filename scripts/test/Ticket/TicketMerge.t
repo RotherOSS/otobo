@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -315,7 +316,7 @@ for my $TicketID (@MergeLinkObjectTicketIDs) {
 
 # Test change time and user ID of main ticket on merge action.
 #   See bug#13092 for more information.
-$Helper->FixedTimeSet(
+FixedTimeSet(
     $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {
@@ -377,7 +378,7 @@ $Self->Is(
 );
 
 # Add 5 minutes to fixed time.
-$Helper->FixedTimeAddSeconds(300);
+FixedTimeAddSeconds(300);
 
 # Create user who will perform merge action.
 my $Language      = 'de';

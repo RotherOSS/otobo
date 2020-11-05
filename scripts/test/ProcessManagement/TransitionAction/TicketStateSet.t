@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -31,7 +32,7 @@ my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 my $ModuleObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketStateSet');
 my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 # define variables
 my $UserID     = 1;

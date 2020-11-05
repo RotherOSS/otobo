@@ -17,6 +17,8 @@
 
 use strict;
 use warnings;
+use v5.24;
+use utf8;
 
 # use ../../ as lib location
 use FindBin qw($Bin);
@@ -27,9 +29,10 @@ use lib "$Bin/../../Custom";
 # core modules
 
 # CPAN modules
+use Plack::Handler::CGI qw();
 
 # OTOBO modules
-use Kernel::System::Web::InterfaceCustomer();
+use Kernel::System::Web::InterfaceCustomer;
 use Kernel::System::ObjectManager;
 
 # make sure that the managed objects will be recreated for the current request
@@ -39,7 +42,16 @@ local $Kernel::OM = Kernel::System::ObjectManager->new();
 my $Debug = 0;
 
 # do the work and give the response to the webserver
-print
-    Kernel::System::Web::InterfaceCustomer->new(
-        Debug => $Debug
-    )->HeaderAndContent();
+# TODO: this is broken as the Kernel::System::Web::Eceptions are not caught.
+my $Content = Kernel::System::Web::InterfaceCustomer->new(
+    Debug => $Debug
+)->Content();
+
+# The OTOBO response object already has the HTPP headers.
+# Enhance it with the HTTP status code and the content.
+my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
+$ResponseObject->Code(200); # TODO: is it always 200 ?
+$ResponseObject->Content($Content);
+
+# Generate output suitable for CGI
+Plack::Handler::CGI->new()->run( $ResponseObject->to_app() );

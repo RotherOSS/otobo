@@ -24,12 +24,16 @@ use strict;
 use warnings;
 use feature qw(current_sub);
 
+# core modules
 use Carp ();
 use Scalar::Util qw(weaken);
+
+# CPAN modules
 
 # use the "standard" modules directly, so that persistent environments
 # like mod_perl and FastCGI pre-load them at startup
 
+# OTOBO modules
 use Kernel::Config;
 use Kernel::Output::HTML::Layout;
 use Kernel::System::Auth;

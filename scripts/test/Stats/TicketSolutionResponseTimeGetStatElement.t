@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -60,7 +61,7 @@ $Helper->ConfigSettingChange(
 );
 
 # Set fixed time.
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my $RandomID = $Helper->GetRandomNumber();
 
@@ -162,7 +163,7 @@ for my $Item ( 1 .. 6 ) {
         UserID             => 1,
     );
 
-    $Helper->FixedTimeAddSeconds( 2 * $Item * 60 );
+    FixedTimeAddSeconds( 2 * $Item * 60 );
 
     my $Success = $TicketObject->TicketStateSet(
         StateID            => 4,
@@ -193,7 +194,7 @@ for my $Item ( 1 .. 6 ) {
     );
     $Self->True( $ArticleID, "ArticleCreate() Created article $ArticleID" );
 
-    $Helper->FixedTimeAddSeconds( $Item * 60 );
+    FixedTimeAddSeconds( $Item * 60 );
 
     # Close all ticket's except the last one.
     if ( $Item != 6 ) {

@@ -20,6 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -527,7 +528,7 @@ for my $Task (@List) {
 # TaskCleanup() tests
 
 # freeze the current time
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my %TaskTemplate = (
     Type     => 'UnitTest',
@@ -584,7 +585,7 @@ my @Tests = (
 for my $Test (@Tests) {
 
     if ( $Test->{PastSecondsAdd} ) {
-        $Helper->FixedTimeAddSeconds( -$Test->{PastSecondsAdd} );
+        FixedTimeAddSeconds( -$Test->{PastSecondsAdd} );
         print "  Set $Test->{PastSecondsAdd} seconds into the past.\n";
     }
 
@@ -612,7 +613,7 @@ for my $Test (@Tests) {
     }
 
     if ( $Test->{PastSecondsAdd} ) {
-        $Helper->FixedTimeAddSeconds( $Test->{PastSecondsAdd} );
+        FixedTimeAddSeconds( $Test->{PastSecondsAdd} );
         print "  Restored time.\n";
     }
 
@@ -678,7 +679,7 @@ my $OriginalTimeStamp = $Kernel::OM->Create('Kernel::System::DateTime')->ToStrin
 
 for my $Test (@Tests) {
     if ( $Test->{AddSeconds} ) {
-        $Helper->FixedTimeAddSeconds( $Test->{AddSeconds} );
+        FixedTimeAddSeconds( $Test->{AddSeconds} );
     }
 
     my $CurrentTimeStamp = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
@@ -834,7 +835,7 @@ for my $Test (@Tests) {
             "$Test->{Name} TaskAdd() - result should not be undef",
         );
 
-        $Helper->FixedTimeAddSeconds(60);
+        FixedTimeAddSeconds(60);
     }
 
     my @List = $SchedulerDBObject->TaskList(
