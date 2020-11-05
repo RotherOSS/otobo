@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -178,7 +179,7 @@ for my $Ticket (@Tickets) {
     )->ToEpoch();
 
     # set the fixed time
-    $Helper->FixedTimeSet($SystemTime);
+    FixedTimeSet($SystemTime);
 
     # create the ticket
     my $TicketID = $TicketObject->TicketCreate(
@@ -193,7 +194,7 @@ for my $Ticket (@Tickets) {
 
     if ( $Ticket->{TicketData}->{AddSecondsBeforeClose} ) {
 
-        $Helper->FixedTimeAddSeconds( $Ticket->{TicketData}->{AddSecondsBeforeClose} );
+        FixedTimeAddSeconds( $Ticket->{TicketData}->{AddSecondsBeforeClose} );
 
         # Now close the ticket, because the statistic select only closed tickets.
         $TicketObject->TicketStateSet(
@@ -211,7 +212,7 @@ for my $Ticket (@Tickets) {
     push @TicketIDs, \%TicketData;
 }
 continue {
-    $Helper->FixedTimeUnset();
+    FixedTimeUnset();
 }
 
 my %StateList = $Kernel::OM->Get('Kernel::System::State')->StateList(
@@ -425,7 +426,7 @@ for my $Test (@Tests) {
             String => $Test->{TimeStamp},
         }
     )->ToEpoch();
-    $Helper->FixedTimeSet($SystemTime);
+    FixedTimeSet($SystemTime);
 
     # print test case description
     if ( $Test->{Description} ) {
@@ -468,7 +469,7 @@ for my $Test (@Tests) {
 }
 continue {
 
-    $Helper->FixedTimeUnset();
+    FixedTimeUnset();
 
     $TestCount++;
 }

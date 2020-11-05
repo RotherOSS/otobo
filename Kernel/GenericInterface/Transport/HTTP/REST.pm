@@ -18,6 +18,8 @@ package Kernel::GenericInterface::Transport::HTTP::REST;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
 # core modules
 use MIME::Base64;
@@ -26,10 +28,12 @@ use MIME::Base64;
 use HTTP::Status;
 use REST::Client;
 use URI::Escape;
+use Plack::Response;
 
 # OTOBO modules
 use Kernel::Config;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Web::Exception;
 
 our $ObjectManagerDisabled = 1;
 
@@ -361,9 +365,9 @@ The HTTP code is set accordingly
     );
 
     $Result = {
-        Success      => 1,   # 0 or 1
-        Output       => $HeaderAndContent,   # a string
-        ErrorMessage => '',  # in case of error
+        Success      => 1,          # 0 or 1
+        Output       => $Content,   # a string
+        ErrorMessage => '',         # in case of error
     };
 
 =cut
@@ -894,14 +898,15 @@ Returns structure to be passed to provider.
 
     $Result = {
         Success      => 0,
-        Output       => $HeaderAndContent,
+        Output       => $Content,
         ErrorMessage => 'Message', # error message from given summary
     };
 
 =cut
 
 sub _Output {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
     # Check params.
     my $Success = 1;
@@ -957,6 +962,35 @@ sub _Output {
 
     # Set keep-alive.
     my $Connection = $Self->{KeepAlive} ? 'Keep-Alive' : 'close';
+
+    # Let's try the HTTPExceptions trick again
+    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+
+        my @Headers;
+        push @Headers, 'Content-Type'   => "$ContentType; charset=UTF-8";
+        push @Headers, 'Content-Length' => $ContentLength;
+        push @Headers, 'Connection'     => $Connection;
+
+        # Prepare additional headers.
+        if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
+            my %AdditionalHeaders = $Self->{TransportConfig}->{Config}->{AdditionalHeaders}->%*;
+            for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
+                push @Headers, $AdditionalHeader => ( $AdditionalHeaders{$AdditionalHeader} || '' );
+            }
+        }
+
+        # Enhance it with the HTTP status code and the content.
+        my $PlackResponse = Plack::Response->new(
+            $Param{HTTPCode},
+            \@Headers,
+            $Param{Content}
+        );
+
+        # The exception is caught be Plack::Middleware::HTTPExceptions
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => $PlackResponse
+        );
+    }
 
     # prepare additional headers
     my $AdditionalHeaderStrg = '';

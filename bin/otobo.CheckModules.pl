@@ -109,20 +109,20 @@ my %DistToInstType = (
 
 # defines a set of features considered standard for non docker environments
 my %IsStandardFeature = (
-    'db:mysql'         => 1,
     'apache:mod_perl'  => 1,
-    'mail'             => 1,
-    'mail:ssl'         => 1,
-    'mail:imap'        => 1,
-    'mail:sasl'        => 1,
-    'mail:ntlm'        => 1,
-    'performance:json' => 1,
-    'performance:csv'  => 1,
-    'div:ldap'         => 1,
+    'db:mysql'         => 1,
     'div:bcrypt'       => 1,
-    'div:xslt'         => 1,
-    'div:xmlparser'    => 1,
     'div:hanextra'     => 1,
+    'div:ldap'         => 1,
+    'div:xmlparser'    => 1,
+    'div:xslt'         => 1,
+    'mail'             => 1,
+    'mail:imap'        => 1,
+    'mail:ntlm'        => 1,
+    'mail:sasl'        => 1,
+    'mail:ssl'         => 1,
+    'performance:csv'  => 1,
+    'performance:json' => 1,
     'plack'            => 1,
 );
 
@@ -145,25 +145,25 @@ my %IsDockerFeature = (
     'performance:csv'    => 1,
     'performance:json'   => 1,
     'performance:redis'  => 1,
-    'plack'              => 1,
+    'plack:webserver'    => 1,
 );
 
 # Used for the generation of a cpanfile.
 my %FeatureDescription = (
     'aaacore'         => 'Required packages',
-    'zzznone'         => 'Uncategorized',
+    'apache'          => 'Recommended features for setups using apache',
     'db'              => 'Database support (installing one is required)',
     'db:mysql'        => 'Support for database MySQL',
     'db:odbc'         => 'Support for database access via ODBC',
     'db:oracle'       => 'Support for database Oracle',
     'db:postgresql'   => 'Support for database PostgreSQL',
     'db:sqlite'       => 'Support for database SQLLite',
-    'apache'          => 'Recommended features for setups using apache',
+    'devel'           => 'Features which can be useful in development environments',
+    'div'             => 'Various features for additional functionality',
     'mail'            => 'Features enabling communication with a mail-server',
     'performance'     => 'Optional features which can increase performance',
     'plack'           => 'Required packages if you want to use PSGI/Plack (experimental and advanced)',
-    'div'             => 'Various features for additional functionality',
-    'devel'           => 'Features which can be useful in development environments',
+    'zzznone'         => 'Uncategorized',
 );
 
 my $OSDist;
@@ -715,21 +715,9 @@ my @NeededModules = (
 
 # Feature plack
     {
-        Module    => 'CGI::Parse::PSGI',
-        Required  => 0,
-        Features   => ['plack'],
-        Comment   => 'needed for CGI::Parse::PSGI::parse_cgi_output()',
-        InstTypes => {
-            aptget => undef,
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
         Module    => 'CGI::PSGI',
-        Required  => 0,
-        Features   => ['plack'],
+        Required  => 1,
+        Features  => ['plack'],
         Comment   => 'Adapt CGI.pm to the PSGI protocol',
         InstTypes => {
             aptget => undef,
@@ -740,8 +728,8 @@ my @NeededModules = (
     },
     {
         Module    => 'DBIx::Connector',
-        Required  => 0,
-        Features   => ['plack'],
+        Required  => 1,
+        Features  => ['plack'],
         Comment   => 'Sane persistent database connection',
         InstTypes => {
             aptget => undef,
@@ -753,7 +741,7 @@ my @NeededModules = (
     {
         Module    => 'Gazelle',
         Required  => 0,
-        Features   => ['plack'],
+        Features  => ['plack:webserver'],
         Comment   => 'High-performance preforking PSGI/Plack web server',
         InstTypes => {
             aptget => undef,
@@ -765,7 +753,7 @@ my @NeededModules = (
     {
         Module    => 'Linux::Inotify2',
         Required  => 0,
-        Features   => ['plack'],
+        Features  => ['plack:webserver'],
         Comment   => 'Used when plackup is run with the -R option. This option restarts the server when files have changed.',
         InstTypes => {
             aptget => undef,
@@ -776,7 +764,7 @@ my @NeededModules = (
     },
     {
         Module    => 'Path::Class',
-        Required  => 0,
+        Required  => 1,
         Features  => ['plack'],
         Comment   => 'Neater path manipulation and some utils',
         InstTypes => {
@@ -788,8 +776,8 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack',
-        Required  => 0,
-        Features   => ['plack'],
+        Required  => 1,
+        Features  => ['plack'],
         Comment   => 'Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)',
         InstTypes => {
             aptget => undef,
@@ -801,7 +789,7 @@ my @NeededModules = (
     {
         Module    => 'Plack::App::File',
         Required  => 0,
-        Features   => ['plack'],
+        Features   => ['plack:webserver'],
         Comment   => 'Serve static files',
         InstTypes => {
             aptget => undef,
@@ -812,8 +800,8 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack::Middleware::ForceEnv',
-        Required  => 0,
-        Features   => ['plack'],
+        Required  => 1,
+        Features  => ['plack'],
         Comment   => 'Set environment variables',
         InstTypes => {
             aptget => undef,
@@ -824,8 +812,8 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack::Middleware::Header',
-        Required  => 0,
-        Features   => ['plack'],
+        Required  => 1,
+        Features  => ['plack'],
         Comment   => 'Set HTTP headers',
         InstTypes => {
             aptget => undef,
@@ -836,8 +824,8 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack::Middleware::Refresh',
-        Required  => 0,
-        Features   => ['plack'],
+        Required  => 1,
+        Features  => ['plack'],
         Comment   => 'Watch for changed modules in %INC. Depends on Module::Refresh',
         InstTypes => {
             aptget => undef,
@@ -848,8 +836,8 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack::Middleware::ReverseProxy',
-        Required  => 0,
-        Features   => ['plack'],
+        Required  => 1,
+        Features  => ['plack'],
         Comment   => 'Twist some HTTP variables so that the reverse proxy is transparent',
         InstTypes => {
             aptget => undef,
@@ -860,8 +848,8 @@ my @NeededModules = (
     },
     {
         Module    => 'Plack::Middleware::Rewrite',
-        Required  => 0,
-        Features   => ['plack'],
+        Required  => 1,
+        Features  => ['plack'],
         Comment   => 'Set environment variables',
         InstTypes => {
             aptget => undef,
@@ -872,8 +860,8 @@ my @NeededModules = (
     },
     {
         Module    => 'SOAP::Transport::HTTP::Plack',
-        Required  => 0,
-        Features   => ['plack'],
+        Required  => 1,
+        Features  => ['plack'],
         Comment   => 'PSGI SOAP adapter',
         InstTypes => {
             aptget => undef,

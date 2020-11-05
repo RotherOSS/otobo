@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -67,7 +68,7 @@ my %TicketConfig = (
 );
 
 # freeze time
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my $TicketID1 = $TicketObject->TicketCreate(%TicketConfig);
 $Self->IsNot(
@@ -77,7 +78,7 @@ $Self->IsNot(
 );
 
 # make sure the next ticket is created 1 minute after
-$Helper->FixedTimeAddSeconds(60);
+FixedTimeAddSeconds(60);
 
 my $TicketID2 = $TicketObject->TicketCreate(%TicketConfig);
 $Self->IsNot(

@@ -21,6 +21,7 @@ use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
 use Test2::V0;
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
@@ -254,7 +255,7 @@ my $PrepareLockTests = sub {
     }
 
     if ( $Test->{AddSeconds} ) {
-        $HelperObject->FixedTimeAddSeconds( $Test->{AddSeconds} );
+        FixedTimeAddSeconds( $Test->{AddSeconds} );
     }
 
     return $ExclusiveLockGUID;
@@ -639,7 +640,7 @@ for my $ModifiedVersionID ( sort @ModifiedVersions ) {
         "DeploymentUnlock() user",
     );
 
-    $HelperObject->FixedTimeAddSeconds(5);
+    FixedTimeAddSeconds(5);
 
     # Lock setting (so it can be updated).
     $ExclusiveLockGUID = $SysConfigDBObject->DefaultSettingLock(

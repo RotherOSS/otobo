@@ -63,6 +63,36 @@ requires 'YAML::XS';
 # For internationalised sorting
 requires 'Unicode::Collate';
 
+# Adapt CGI.pm to the PSGI protocol
+requires 'CGI::PSGI';
+
+# Sane persistent database connection
+requires 'DBIx::Connector';
+
+# Neater path manipulation and some utils
+requires 'Path::Class';
+
+# Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)
+requires 'Plack';
+
+# Set environment variables
+requires 'Plack::Middleware::ForceEnv';
+
+# Set HTTP headers
+requires 'Plack::Middleware::Header';
+
+# Watch for changed modules in %INC. Depends on Module::Refresh
+requires 'Plack::Middleware::Refresh';
+
+# Twist some HTTP variables so that the reverse proxy is transparent
+requires 'Plack::Middleware::ReverseProxy';
+
+# Set environment variables
+requires 'Plack::Middleware::Rewrite';
+
+# PSGI SOAP adapter
+requires 'SOAP::Transport::HTTP::Plack';
+
 
 feature 'apache:mod_perl', 'Suppport for apache:mod_perl' => sub {
     # Improves Performance on Apache webservers dramatically.
@@ -254,47 +284,14 @@ feature 'optional', 'Suppport for optional' => sub {
     # Recommended for usage with Redis Cache Server. (it`s compatible with `Redis`, but **~2x faster**)
     requires 'Redis::Fast';
 
-    # needed for CGI::Parse::PSGI::parse_cgi_output()
-    requires 'CGI::Parse::PSGI';
-
-    # Adapt CGI.pm to the PSGI protocol
-    requires 'CGI::PSGI';
-
-    # Sane persistent database connection
-    requires 'DBIx::Connector';
-
     # High-performance preforking PSGI/Plack web server
     requires 'Gazelle';
 
     # Used when plackup is run with the -R option. This option restarts the server when files have changed.
     requires 'Linux::Inotify2';
 
-    # Neater path manipulation and some utils
-    requires 'Path::Class';
-
-    # Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)
-    requires 'Plack';
-
     # Serve static files
     requires 'Plack::App::File';
-
-    # Set environment variables
-    requires 'Plack::Middleware::ForceEnv';
-
-    # Set HTTP headers
-    requires 'Plack::Middleware::Header';
-
-    # Watch for changed modules in %INC. Depends on Module::Refresh
-    requires 'Plack::Middleware::Refresh';
-
-    # Twist some HTTP variables so that the reverse proxy is transparent
-    requires 'Plack::Middleware::ReverseProxy';
-
-    # Set environment variables
-    requires 'Plack::Middleware::Rewrite';
-
-    # PSGI SOAP adapter
-    requires 'SOAP::Transport::HTTP::Plack';
 
     # Required to handle mails with several Chinese character sets.
     requires 'Encode::HanExtra', ">= 0.23";
@@ -365,47 +362,14 @@ feature 'performance:redis', 'Suppport for performance:redis' => sub {
 
 };
 
-feature 'plack', 'Required packages if you want to use PSGI/Plack (experimental and advanced)' => sub {
-    # needed for CGI::Parse::PSGI::parse_cgi_output()
-    requires 'CGI::Parse::PSGI';
-
-    # Adapt CGI.pm to the PSGI protocol
-    requires 'CGI::PSGI';
-
-    # Sane persistent database connection
-    requires 'DBIx::Connector';
-
+feature 'plack:webserver', 'Suppport for plack:webserver' => sub {
     # High-performance preforking PSGI/Plack web server
     requires 'Gazelle';
 
     # Used when plackup is run with the -R option. This option restarts the server when files have changed.
     requires 'Linux::Inotify2';
 
-    # Neater path manipulation and some utils
-    requires 'Path::Class';
-
-    # Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)
-    requires 'Plack';
-
     # Serve static files
     requires 'Plack::App::File';
-
-    # Set environment variables
-    requires 'Plack::Middleware::ForceEnv';
-
-    # Set HTTP headers
-    requires 'Plack::Middleware::Header';
-
-    # Watch for changed modules in %INC. Depends on Module::Refresh
-    requires 'Plack::Middleware::Refresh';
-
-    # Twist some HTTP variables so that the reverse proxy is transparent
-    requires 'Plack::Middleware::ReverseProxy';
-
-    # Set environment variables
-    requires 'Plack::Middleware::Rewrite';
-
-    # PSGI SOAP adapter
-    requires 'SOAP::Transport::HTTP::Plack';
 
 };

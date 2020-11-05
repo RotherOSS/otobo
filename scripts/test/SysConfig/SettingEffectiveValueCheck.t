@@ -20,6 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -51,7 +52,7 @@ $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
     UserID => 1,
 );
 
-$HelperObject->FixedTimeSet();
+FixedTimeSet();
 
 my @Tests = (
     {
@@ -4319,7 +4320,7 @@ for my $Setting (@SettingList) {
     );
 }
 
-$HelperObject->FixedTimeAddSeconds( 60 * 60 * 24 * 35 );    # Add 35 days, it should be enough to make results obsolete.
+FixedTimeAddSeconds( 60 * 60 * 24 * 35 );    # Add 35 days, it should be enough to make results obsolete.
 
 # Make sure to reset delete cache flag.
 $SysConfigObject->{EffectiveValueCheckCacheDeleted} = 0;

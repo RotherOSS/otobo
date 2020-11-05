@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -33,7 +34,7 @@ my $StartSystemTime = $TimeObject->SystemTime();
 
     sleep 1;
 
-    my $FixedTime = $HelperObject->FixedTimeSet();
+    my $FixedTime = FixedTimeSet();
 
     sleep 1;
 
@@ -51,7 +52,7 @@ my $StartSystemTime = $TimeObject->SystemTime();
         "Stay with fixed time",
     );
 
-    $HelperObject->FixedTimeAddSeconds(-10);
+    FixedTimeAddSeconds(-10);
 
     $Self->Is(
         $TimeObject->SystemTime(),
@@ -59,7 +60,7 @@ my $StartSystemTime = $TimeObject->SystemTime();
         "Stay with increased fixed time",
     );
 
-    $HelperObject->FixedTimeUnset();
+    FixedTimeUnset();
 
     # Let object be destroyed at the end of this scope
     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::UnitTest::Helper'] );

@@ -18,13 +18,14 @@ package Kernel::System::UnitTest::Helper;
 
 use strict;
 use warnings;
+use v5.24;
 use namespace::autoclean;
 
 # core modules
 use File::Path qw(rmtree);
 
 # CPAN modules
-use DateTime 1.08;  # Load DateTime so that we can override functions for the FixedTimeSet().
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -38,7 +39,6 @@ our @ObjectDependencies = (
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::UnitTest::Driver',
     'Kernel::System::User',
     'Kernel::System::XML',
 );
@@ -52,6 +52,7 @@ Kernel::System::UnitTest::Helper - unit test helper functions
 construct a helper object.
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::UnitTest::Helper' => {
             RestoreDatabase            => 1,        # runs the test in a transaction,
@@ -64,6 +65,7 @@ construct a helper object.
                                                     # yourself.
         },
     );
+
     my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 Valid parameters are:
@@ -84,11 +86,6 @@ Decide whether Kernel::System::UnitTests::Helper executes internal tests.
 The default is true. The flag can be set to 0 in order to avoid weird test numbering.
 An example is where DESTROY is called within forked processes.
 
-=item UnitTestDriverObject
-
-Pass in the UnitTestDriverObject explicitly. This is useful in the cases when
-the managed objects have been discarded.
-
 =back
 
 =cut
@@ -102,14 +99,8 @@ sub new {
 
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # Decide whether the UnitTestDriverObject should actually execute tests
+    # Decide whether we should actually execute tests
     $Self->{ExecuteInternalTests} = $Param{ExecuteInternalTests} // 1;
-
-    # object for internal tests
-    $Self->{UnitTestDriverObject} = $Param{UnitTestDriverObject} // $Kernel::OM->Get('Kernel::System::UnitTest::Driver');
-
-    # Override Perl's built-in time handling mechanism to set a fixed time if needed.
-    $Self->_MockPerlTimeHandling();
 
     # Remove any leftover custom files from aborted previous runs.
     $Self->CustomFileCleanup();
@@ -126,7 +117,7 @@ sub new {
         $Self->{RestoreSSLVerify} = 1;
 
         if ( $Self->{ExecuteInternalTests} ) {
-            $Self->{UnitTestDriverObject}->True( 1, 'Skipping SSL certificates verification' );
+            ok( 1, 'Skipping SSL certificates verification' );
         }
     }
 
@@ -139,7 +130,7 @@ sub new {
         $Self->{RestoreDatabase} = 1;
         my $StartedTransaction = $Self->BeginWork();
         if ( $Self->{ExecuteInternalTests} ) {
-            $Self->{UnitTestDriverObject}->True( $StartedTransaction, 'Started database transaction.' );
+            ok( $StartedTransaction, 'Started database transaction.' );
         }
     }
 
@@ -242,7 +233,7 @@ sub TestUserCreate {
     push( @{ $Self->{TestUsers} }, $TestUserID );
 
     if ( $Self->{ExecuteInternalTests} ) {
-        $Self->{UnitTestDriverObject}->True( 1, "Created test user $TestUserID" );
+        ok( 1, "Created test user $TestUserID" );
     }
 
     # Add user to groups.
@@ -269,10 +260,7 @@ sub TestUserCreate {
         ) || die "Could not add test user $TestUserLogin to group $GroupName";
 
         if ( $Self->{ExecuteInternalTests} ) {
-            $Self->{UnitTestDriverObject}->True(
-                1,
-                "Added test user $TestUserLogin to group $GroupName"
-            );
+            ok( 1, "Added test user $TestUserLogin to group $GroupName" );
         }
     }
 
@@ -285,7 +273,7 @@ sub TestUserCreate {
     );
 
     if ( $Self->{ExecuteInternalTests} ) {
-        $Self->{UnitTestDriverObject}->True( 1, "Set user UserLanguage to $UserLanguage" );
+        ok( 1, "Set user UserLanguage to $UserLanguage" );
     }
 
     return wantarray ? ( $TestUserLogin, $TestUserID ) : $TestUserLogin;
@@ -340,7 +328,7 @@ sub TestCustomerUserCreate {
     push( @{ $Self->{TestCustomerUsers} }, $TestUser );
 
     if ( $Self->{ExecuteInternalTests} ) {
-        $Self->{UnitTestDriverObject}->True( 1, "Created test customer user $TestUser" );
+        ok( 1, "Created test customer user $TestUser" );
     }
 
     # Set customer user language.
@@ -352,7 +340,7 @@ sub TestCustomerUserCreate {
     );
 
     if ( $Self->{ExecuteInternalTests} ) {
-        $Self->{UnitTestDriverObject}->True( 1, "Set customer user UserLanguage to $UserLanguage" );
+        ok( 1, "Set customer user UserLanguage to $UserLanguage" );
     }
 
     return $TestUser;
@@ -371,6 +359,7 @@ sub BeginWork {
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     $DBObject->Connect();
+
     return $DBObject->BeginWork();
 }
 
@@ -421,131 +410,6 @@ sub GetTestHTTPHostname {
     return $Host;
 }
 
-# used for mocking time
-my $FixedTime;
-
-=head2 FixedTimeSet()
-
-makes it possible to override the system time as long as this object lives.
-You can pass an optional time parameter that should be used, if not,
-the current system time will be used.
-
-All calls to methods of Kernel::System::DateTime will
-use the given time afterwards.
-
-    $HelperObject->FixedTimeSet(366475757);         # with Timestamp
-    $HelperObject->FixedTimeSet($DateTimeObject);   # with previously created DateTime object
-    $HelperObject->FixedTimeSet();                  # set to current date and time
-
-Returns:
-    Timestamp
-
-=cut
-
-sub FixedTimeSet {
-    my ( $Self, $TimeToSave ) = @_;
-
-    if ( $TimeToSave && ref $TimeToSave eq 'Kernel::System::DateTime' ) {
-        $FixedTime = $TimeToSave->ToEpoch();
-    }
-    else {
-        $FixedTime = $TimeToSave // CORE::time();
-    }
-
-    return $FixedTime;
-}
-
-=head2 FixedTimeUnset()
-
-restores the regular system time behavior.
-
-=cut
-
-sub FixedTimeUnset {
-    my ($Self) = @_;
-
-    undef $FixedTime;
-
-    return;
-}
-
-=head2 FixedTimeAddSeconds()
-
-adds a number of seconds to the fixed system time which was previously
-set by FixedTimeSet(). You can pass a negative value to go back in time.
-
-=cut
-
-sub FixedTimeAddSeconds {
-    my ( $Self, $SecondsToAdd ) = @_;
-
-    return if !defined $FixedTime;
-
-    $FixedTime += $SecondsToAdd;
-
-    return;
-}
-
-# See http://perldoc.perl.org/5.10.0/perlsub.html#Overriding-Built-in-Functions
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::DateTime)
-sub _MockPerlTimeHandling {
-    no warnings 'once';    ## no critic
-
-    # These overrides won't be reverted in DESTROY()
-
-    *CORE::GLOBAL::time = sub {
-        return $FixedTime // CORE::time();
-    };
-
-    *CORE::GLOBAL::localtime = sub {
-        my ($Time) = @_;
-
-        $Time //= $FixedTime // CORE::time();
-
-        return CORE::localtime($Time);
-    };
-
-    *CORE::GLOBAL::gmtime = sub {
-        my ($Time) = @_;
-
-        $Time //= $FixedTime // CORE::time();
-
-        return CORE::gmtime($Time);
-    };
-
-    # Versions of DateTime >0 1.08 provide a function _core_time().
-    # _core_time() is overriden for time simulations. Perl should not warn about it.
-    {
-        no warnings 'redefine'; # yes, we want to override
-
-        *DateTime::_core_time = sub {    ## no critic
-            return $FixedTime // CORE::time();
-        };
-    }
-
-    # This is needed to reload objects that directly use the native time functions
-    #   to get a hold of the overrides.
-    my @Objects = (
-        'Kernel::System::DB',
-        'Kernel::System::Cache::FileStorable',
-        'Kernel::System::PID',
-    );
-
-    for my $Object (@Objects) {
-        my $FilePath = $Object;
-        $FilePath =~ s{::}{/}xmsg;
-        $FilePath .= '.pm';
-        if ( $INC{$FilePath} ) {
-            no warnings 'redefine';    ## no critic
-            delete $INC{$FilePath};
-            require $FilePath;         ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
-        }
-    }
-
-    return 1;
-}
-
 =head2 DESTROY()
 
 performs various clean-ups.
@@ -555,9 +419,6 @@ performs various clean-ups.
 sub DESTROY {
     my $Self = shift;
 
-    # reset time freeze
-    $Self->FixedTimeUnset();
-
     # Cleanup temporary database if it was set up.
     $Self->TestDatabaseCleanup() if $Self->{ProvideTestDatabase};
 
@@ -566,28 +427,14 @@ sub DESTROY {
 
     # restore environment variable to skip SSL certificate verification if needed
     if ( $Self->{RestoreSSLVerify} ) {
-
         $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME};    ## no critic
-
-        $Self->{RestoreSSLVerify} = 0;
-
-        $Self->{UnitTestDriverObject}->Note( Note => 'Restored SSL certificates verification' );
+        $Self->{RestoreSSLVerify}          = 0;
     }
 
     # restore database, clean caches
     if ( $Self->{RestoreDatabase} ) {
         my $RollbackSuccess = $Self->Rollback();
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
-        if ( $RollbackSuccess ) {
-            $Self->{UnitTestDriverObject}->Note(
-                Note => 'Rolled back all database changes and cleaned up the cache.'
-            );
-        }
-        else {
-            $Self->{UnitTestDriverObject}->Note(
-                Note => 'Problems encountered when rolling back all database changes and cleaning up the cache.'
-            );
-        }
     }
 
     # disable email checks to create new user
@@ -622,13 +469,6 @@ sub DESTROY {
                 ValidID      => 2,
                 ChangeUserID => 1,
             );
-
-            if ( $Success ) {
-                $Self->{UnitTestDriverObject}->Note( Note => "Set test user $TestUser to invalid" );
-            }
-            else {
-                $Self->{UnitTestDriverObject}->Note( Note => "Problem encountered when setting $TestUser to invalid" );
-            }
         }
     }
 
@@ -655,13 +495,6 @@ sub DESTROY {
                 ValidID => 2,
                 UserID  => 1,
             );
-
-            if ( $Success ) {
-                $Self->{UnitTestDriverObject}->Note( Note => "Set test customer user $TestCustomerUser to invalid" );
-            }
-            else {
-                $Self->{UnitTestDriverObject}->Note( Note => "Problem encountered when setting $TestCustomerUser to invalid" );
-            }
         }
     }
 

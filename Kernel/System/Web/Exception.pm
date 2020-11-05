@@ -23,11 +23,14 @@ Kernel::System::Web::Exception - an exception object for Plack::Middleware::HTTP
 
     use Kernel::System::Web::Exception;
 
+    $LayoutObject->Header(); # set HTTP headers
+
     # fatal error encounted during handling of a request
     my $IsFatal = 1;
     if ( $IsFatal ) {
-        my $Content = "HTTP/1.1 200 OK\nContent-Type: text/plan{\n\nOberwalting, we have a problem";
-        die Kernel::System::Web::Exception->new( Content => $Content );
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => Plack::Response->new( 500, [], 'Oberwalting, we have a problem' ),
+        );
     }
 
 =head1 DESCRIPTION
@@ -36,16 +39,18 @@ The thrown instance provides the method C<as_psgi()> which can be handled by C<P
 
 =cut
 
-use v5.24.0;
+use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 use utf8;
 
 # core modules
 
 # CPAN modules
-use CGI::Parse::PSGI qw(parse_cgi_output);
 
 # OTOBO modules
+use Kernel::System::ObjectManager; # avoid warning: Name "Kernel::OM" used only once
 
 our $ObjectManagerDisabled = 1;
 
@@ -57,16 +62,17 @@ create an exception object
 
     use Kernel::System::Web::Exception;
 
-    my $Content = "HTTP/1.1 200 OK\nContent-Type: text/plan{\n\nOberwalting, we have a problem";
+    my $Content = "Oberwalting, we have a problem";
 
     die Kernel::System::Web::Exception->new( Content => $Content );
 
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type  = shift;
+    my %Param = @_;
 
-    # start with a hash containing the params
+    # bless a hashref containing the passed parameters
     return bless { %Param }, $Type;
 }
 
@@ -74,22 +80,23 @@ sub new {
 
 make use of a caught exception object
 
-    my $Response = $CaughtObject->as_psgi()
+    my $PSGIResponse = $CaughtObject->as_psgi()
 
 =cut
 
 sub as_psgi {
     my $Self = shift;
 
-    # The thrower created the error message
-    if ( $Self->{Content} ) {
-        utf8::encode( $Self->{Content} );
-
-        return parse_cgi_output( \$Self->{Content} );
-    }
+    # The thrower already has a proper Plack::Response object.
+    # This is the recommended case.
+    return $Self->{PlackResponse}->finalize() if $Self->{PlackResponse};
 
     # error as default
-    return Plack::Response->new( 500, { 'Content-Type' => 'text/html' }, 'empty exception' );
+    return Plack::Response->new(
+        500,
+        { 'Content-Type' => 'text/html' },
+        'empty exception'
+    )->finalize();
 }
 
 1;

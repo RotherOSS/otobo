@@ -16,24 +16,29 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
 
+# OTOBO modules
+#use Kernel::System::UnitTest::MockTime qw(:all);
+use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
 use Kernel::Output::HTML::Layout;
-
 use Kernel::System::VariableCheck qw(:all);
+
+our $Self;
 
 # get needed objects
 my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-# # use a fixed year to compare the time selection results
-# my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-# $HelperObject->FixedTimeSet(1598258758);
-# );
+# use a fixed year to compare the time selection results
+#my $TimeObject      = $Kernel::OM->Get('Kernel::System::Time');
+#FixedTimeSet(
+#    $TimeObject->TimeStamp2SystemTime( String => '2013-12-12 00:00:00' ),
+#);
 
 my $LayoutObject = Kernel::Output::HTML::Layout->new(
     Lang         => 'en',
@@ -198,8 +203,4 @@ for my $DynamicField ( sort keys %DynamicFieldConfigs ) {
     );
 }
 
-# we don't need any cleanup
-
 $Self->DoneTesting();
-
-

@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self %Param));
@@ -97,7 +98,7 @@ for my $Test (@Tests) {
         },
     );
 
-    $HelperObject->FixedTimeSet($DateTimeObject);
+    FixedTimeSet($DateTimeObject);
 
     my $Result = $LanguageObject->Time(
         %{ $Test->{Data} },
@@ -122,7 +123,7 @@ for my $Test (@Tests) {
         "$Test->{Name} - get",
     );
 
-    $HelperObject->FixedTimeUnset();
+    FixedTimeUnset();
 }
 
 

@@ -20,6 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -48,7 +49,7 @@ my $DateTimeObject = $Kernel::OM->Create(
     },
 );
 
-$Helper->FixedTimeSet($DateTimeObject);
+FixedTimeSet($DateTimeObject);
 
 my $MailQueueObj = $Kernel::OM->Get('Kernel::System::MailQueue');
 
@@ -551,7 +552,7 @@ for my $Test (@Tests) {
             },
         );
 
-        $Helper->FixedTimeSet($TestDateTimeObject);
+        FixedTimeSet($TestDateTimeObject);
         my $Result = $EventNotificationEventObject->Run(
             Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
             Data  => {
@@ -562,7 +563,7 @@ for my $Test (@Tests) {
         );
 
         # Set FixedTime back for the other tests
-        $Helper->FixedTimeSet($DateTimeObject);
+        FixedTimeSet($DateTimeObject);
     }
 
     $SendEmails->();

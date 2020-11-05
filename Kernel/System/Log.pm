@@ -246,10 +246,15 @@ sub Log {
 
             $Error .= "   Module: $Subroutine2$VersionString Line: $Line1\n";
 
-            last COUNT if !$Line2;
+            # shorten the traceback, exclude the Plack app and middleware before HTTPExceptions
+            last COUNT if $Subroutine2 =~ m/^Plack::Middleware::HTTPExceptions::try/;
+
+            last COUNT unless $Line2;
         }
 
         $Error .= "\n";
+
+        # TODO: this should probably be the PSGI error filehandle
         print STDERR $Error;
 
         # store data (for the frontend)

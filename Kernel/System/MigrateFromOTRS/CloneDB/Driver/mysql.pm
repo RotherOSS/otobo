@@ -94,34 +94,6 @@ sub CreateOTRSDBConnection {
     return $OTRSDBObject;
 }
 
-# List all tables in the OTRS database in alphabetical order.
-# The alphabetical ordering is actually undocumented.
-sub TablesList {
-    my $Self = shift;
-    my %Param = @_;
-
-    # check needed stuff
-    if ( !$Param{DBObject} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need DBObject!",
-        );
-
-        return;
-    }
-
-    $Param{DBObject}->Prepare(
-        SQL => "SHOW TABLES",
-    ) || return ();
-
-    my @Result;
-    while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
-        push @Result, $Row[0];
-    }
-
-    return @Result;
-}
-
 # List all columns of a table in the order of their position.
 sub ColumnsList {
     my $Self = shift;
@@ -158,7 +130,7 @@ sub ColumnsList {
     return \@Result;
 }
 
-# Get all binary columns and return table.column
+# Get all binary columns and return a lookup hash with table and column name as keys.
 sub BlobColumnsList {
     my $Self = shift;
     my %Param = @_;
@@ -176,19 +148,19 @@ sub BlobColumnsList {
     }
 
     $Param{DBObject}->Prepare(
-        SQL => "
-            SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
-            WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND DATA_TYPE = 'longblob';",
-
-        Bind => [
-            \$Param{DBName}, \$Param{Table},
-        ],
+        SQL => <<'END_SQL',
+SELECT COLUMN_NAME, DATA_TYPE
+  FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE TABLE_SCHEMA = ?
+    AND TABLE_NAME = ?
+    AND DATA_TYPE = 'longblob';
+END_SQL
+        Bind => [ \$Param{DBName}, \$Param{Table}, ],
     ) || return {};
 
     my %Result;
-    while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
-        my $TCString = "$Param{Table}.$Row[0]";
-        $Result{$TCString} = '1';
+    while ( my ($Column, $Type) = $Param{DBObject}->FetchrowArray() ) {
+        $Result{$Column} = $Type;
     }
 
     return \%Result;

@@ -20,6 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -133,7 +134,7 @@ $Self->True(
 );
 
 # freeze time
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my @Tests = (
     {
@@ -249,7 +250,7 @@ for my $Test (@Tests) {
     }
 
     if ( $Test->{AddSeconds} ) {
-        $Helper->FixedTimeAddSeconds( $Test->{AddSeconds} );
+        FixedTimeAddSeconds( $Test->{AddSeconds} );
     }
 
     my %Job = $GenericAgentObject->JobGet( Name => 'GA' . $RandomID );
