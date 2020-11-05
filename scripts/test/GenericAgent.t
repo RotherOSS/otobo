@@ -698,7 +698,7 @@ for my $Test (@Tests) {
 }
 
 # Unset fixed time because the job has to run in present.
-$Helper->FixedTimeUnset();
+FixedTimeUnset();
 
 # Run the job - test ticket has not to be found.
 $Self->True(
@@ -752,7 +752,7 @@ for my $Test (@Tests) {
 }
 
 # Unset fixed time because the job has to run in present.
-$Helper->FixedTimeUnset();
+FixedTimeUnset();
 
 # Run the job again - test ticket has to be found.
 $Self->True(

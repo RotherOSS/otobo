@@ -440,7 +440,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # unset fixed time
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $Helper->FixedTimeUnset();
+            FixedTimeUnset();
         }
 
         my $String1 = '';

@@ -462,7 +462,7 @@ for my $Test (@Tests) {
             Objects => [ 'Kernel::Output::HTML::Layout', ],
         );
 
-        $HelperObject->FixedTimeUnset();
+        FixedTimeUnset();
     }
 }
 

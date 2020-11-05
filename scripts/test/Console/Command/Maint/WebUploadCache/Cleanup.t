@@ -148,7 +148,7 @@ for my $Module (qw(DB FS)) {
     );
 
     # unset fixed time
-    $Helper->FixedTimeUnset();
+    FixedTimeUnset();
 
 }
 

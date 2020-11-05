@@ -484,7 +484,7 @@ $Selenium->RunTest(
         }
 
         # Unset fixed time.
-        $Helper->FixedTimeUnset();
+        FixedTimeUnset();
 
     }
 );

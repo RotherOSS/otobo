@@ -335,7 +335,7 @@ for my $Key (qw(EscalationTime EscalationResponseTime EscalationSolutionTime )) 
 }
 
 # Jump back to normal time
-$HelperObject->FixedTimeUnset();
+FixedTimeUnset();
 
 # reset Configs
 $ConfigObject->Set(

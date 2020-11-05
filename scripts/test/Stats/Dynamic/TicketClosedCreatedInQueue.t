@@ -178,7 +178,7 @@ for my $Ticket (@Tickets) {
         $ClosedTickets{ $TicketData{TicketNumber} } = 1;
     }
 
-    $Helper->FixedTimeUnset();
+    FixedTimeUnset();
 }
 
 # Create statistic

@@ -739,7 +739,7 @@ for my $ModuleFile (@BackendModuleFiles) {
     );
 }
 continue {
-    $Helper->FixedTimeUnset();
+    FixedTimeUnset();
 }
 
 # restore to the previous state is done by RestoreDatabase

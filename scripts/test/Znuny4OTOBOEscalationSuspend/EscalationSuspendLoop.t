@@ -326,4 +326,4 @@ $TicketObject->TicketPendingTimeSet(
     $Self->Note( Note => "computed solution time: " . localtime( $Ticket{SolutionTimeDestinationTime} ) );
 }
 
-$HelperObject->FixedTimeUnset();
+FixedTimeUnset();

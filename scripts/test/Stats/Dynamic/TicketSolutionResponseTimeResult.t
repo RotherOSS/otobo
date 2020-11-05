@@ -212,7 +212,7 @@ for my $Ticket (@Tickets) {
     push @TicketIDs, \%TicketData;
 }
 continue {
-    $Helper->FixedTimeUnset();
+    FixedTimeUnset();
 }
 
 my %StateList = $Kernel::OM->Get('Kernel::System::State')->StateList(
@@ -469,7 +469,7 @@ for my $Test (@Tests) {
 }
 continue {
 
-    $Helper->FixedTimeUnset();
+    FixedTimeUnset();
 
     $TestCount++;
 }

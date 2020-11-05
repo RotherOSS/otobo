@@ -353,7 +353,7 @@ for my $Test (@Tests) {
     $Cleanup->();
 }
 
-$Helper->FixedTimeUnset();
+FixedTimeUnset();
 
 # _GetLastTicketNumber() tests
 @Tests = (

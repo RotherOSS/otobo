@@ -150,7 +150,7 @@ for my $Arg (@ArgsWithReference) {
             UserID   => 1,
         );
 
-        $Helper->FixedTimeUnset();
+        FixedTimeUnset();
 
         $Self->True(
             $TicketID,

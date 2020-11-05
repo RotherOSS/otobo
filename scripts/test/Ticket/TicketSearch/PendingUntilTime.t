@@ -302,7 +302,7 @@ for my $Test (@Tests) {
 }
 continue {
 
-    $Helper->FixedTimeUnset();
+    FixedTimeUnset();
 
     $TestCount++;
 }

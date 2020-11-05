@@ -123,7 +123,7 @@ for my $Test (@Tests) {
         "$Test->{Name} - get",
     );
 
-    $HelperObject->FixedTimeUnset();
+    FixedTimeUnset();
 }
 
 

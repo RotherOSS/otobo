@@ -134,7 +134,7 @@ for my $Test (@Tests) {
         "$Test->{Name} ($Test->{OTOBOTimeZone}) Timestamp $Test->{TimeStampUTC}:",
     );
 
-    $HelperObject->FixedTimeUnset();
+    FixedTimeUnset();
 }
 
 

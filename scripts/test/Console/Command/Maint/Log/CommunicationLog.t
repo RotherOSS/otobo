@@ -92,7 +92,7 @@ for my $TestCommunication (@Communications) {
 
     $TestCommunication->{ID} = $CommunicationLogObject->CommunicationIDGet();
 
-    $HelperObject->FixedTimeUnset();
+    FixedTimeUnset();
 }
 
 my $RunTest = sub {
@@ -254,7 +254,7 @@ for my $CommunicationToTestPurge (@CommunicationsToTestPurge) {
         $CommunicationLogObject->CommunicationStop( Status => $CommunicationToTestPurge->{Status} );
     }
     $CommunicationToTestPurge->{ID} = $CommunicationLogObject->CommunicationIDGet();
-    $HelperObject->FixedTimeUnset();
+    FixedTimeUnset();
 
 }
 

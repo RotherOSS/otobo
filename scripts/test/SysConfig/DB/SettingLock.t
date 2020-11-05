@@ -597,7 +597,7 @@ EOF
 
         # Set time if needed
         if ( $TestConfig->{FixedTimeSet} ) {
-            $HelperObject->FixedTimeUnset();
+            FixedTimeUnset();
         }
 
         # Unlock deployment each loop
