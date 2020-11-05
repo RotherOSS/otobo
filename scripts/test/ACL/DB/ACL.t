@@ -24,8 +24,8 @@ use utf8;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
 use Kernel::System::UnitTest::MockTime qw(:all);
+use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
 
 our $Self;

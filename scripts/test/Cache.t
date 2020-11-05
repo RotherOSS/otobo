@@ -20,8 +20,8 @@ use v5.24;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
 use Kernel::System::UnitTest::MockTime qw(:all);
+use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
 

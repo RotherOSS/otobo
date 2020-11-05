@@ -16,18 +16,21 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
-use Kernel::System::UnitTest::MockTime qw(:all);
-
-our $Self;
-
+# core modules
 use File::Path qw(mkpath rmtree);
 
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(:all);
+use Kernel::System::UnitTest::RegisterDriver; # set up the $Self and $Kernel::OM
 use Kernel::Output::HTML::ArticleCheck::SMIME;
+
+our $Self;
 
 # get needed objects
 my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
