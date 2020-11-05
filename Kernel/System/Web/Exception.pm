@@ -28,8 +28,9 @@ Kernel::System::Web::Exception - an exception object for Plack::Middleware::HTTP
     # fatal error encounted during handling of a request
     my $IsFatal = 1;
     if ( $IsFatal ) {
-        my $Content = "Oberwalting, we have a problem";
-        die Kernel::System::Web::Exception->new( Content => $Content );
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => Plack::Response->new( 500, [], 'Oberwalting, we have a problem' ),
+        );
     }
 
 =head1 DESCRIPTION
