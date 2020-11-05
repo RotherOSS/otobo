@@ -16,17 +16,21 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
 use Kernel::System::UnitTest::MockTime qw(:all);
-
-use vars (qw($Self));
-
 use Kernel::System::VariableCheck qw(:all);
 
-# get needed objects
+our $Self;
+
+# get needed singletons
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $ACLObject    = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
 my $CacheObject  = $Kernel::OM->Get('Kernel::System::Cache');
@@ -47,9 +51,7 @@ my $UserID   = 1;
 # get original ACL list
 my $OriginalACLList = $ACLObject->ACLList( UserID => $UserID ) || {};
 
-#
 # Tests for ACLAdd
-#
 my @Tests = (
     {
         Name    => 'ACLAdd Test 1: No Params',
@@ -398,8 +400,8 @@ for my $Test (@Tests) {
 );
 
 # try to update the ACL
-print "Force a gap between create and update ACL, Sleeping 2s\n";
-ixedTimeAddSeconds(2);
+$Self->Note( Note => 'Force a gap between create and update ACL, sleeping 2s' );
+FixedTimeAddSeconds(2);
 
 TEST:
 for my $Test (@Tests) {
