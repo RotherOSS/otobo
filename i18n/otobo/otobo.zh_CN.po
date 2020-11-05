@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-10-21 16:19+0000\n"
-"PO-Revision-Date: 2020-11-04 04:33+0000\n"
+"PO-Revision-Date: 2020-11-05 03:59+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/"
 "otobo10/otobo/zh_Hans/>\n"
@@ -22411,7 +22411,7 @@ msgstr "定义拒绝邮件的主题。"
 msgid ""
 "Defines the subject for the quick close action, which gets used for ticket "
 "history in the agent interface."
-msgstr ""
+msgstr "定义快速关闭操作的主题，该主题用于话务员界面的工单历史记录。"
 
 #. SysConfig
 msgid ""
@@ -22444,7 +22444,7 @@ msgstr "定义到外部客户数据库的目标属性，例如：'target=\"cdb\"
 
 #. SysConfig
 msgid "Defines the target dynamic fields for storing historical data."
-msgstr ""
+msgstr "定义存储隶属数据的目标动态字段。"
 
 #. SysConfig
 msgid ""
@@ -22507,6 +22507,9 @@ msgid ""
 "all forms of messaging used by the application, to build links to the "
 "tickets within your system."
 msgstr ""
+"定义Web服务器用来为应用程序提供服务的协议类型。如果将使用HTTP协议代替安全HTTPS，则必须在此处指定。由于这对Web服务器的设置或行为没有影响，因"
+"此不会更改对应用程序的访问方式，并且如果输入错误，也不会阻止您登录应用程序。此设置仅用作变量OTOBO_CONFIG_HttpType，可以在应用程序使用"
+"的所有消息传递形式中找到该设置，以建立指向系统中工单的链接。"
 
 #. SysConfig
 msgid ""
@@ -22664,7 +22667,7 @@ msgstr "启用后，如果发生了任何的AJAX错误，就在前端传递扩�
 
 #. SysConfig
 msgid "DeploymentHistory"
-msgstr ""
+msgstr "部署历史DeploymentHistory"
 
 #. SysConfig
 msgid "Detached"
@@ -22800,7 +22803,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Disable autocomplete in the login screen."
-msgstr ""
+msgstr "在登陆窗口禁止自动完成。"
 
 #. SysConfig
 msgid "Disable cloud services"
@@ -22866,11 +22869,11 @@ msgstr "动态字段复选框后端GUI"
 
 #. SysConfig
 msgid "Dynamic Fields Contact Data Backend GUI"
-msgstr ""
+msgstr "动态字段联系人数据后台GUI"
 
 #. SysConfig
 msgid "Dynamic Fields Database Backend GUI"
-msgstr ""
+msgstr "动态字段数据库后台GUI"
 
 #. SysConfig
 msgid "Dynamic Fields Date Time Backend GUI"
@@ -22898,7 +22901,7 @@ msgstr "动态字段文本框后端图形界面"
 
 #. SysConfig
 msgid "Dynamic Fields Web Service Backend GUI"
-msgstr ""
+msgstr "动态字段Web服务后台GUI"
 
 #. SysConfig
 msgid "Dynamic Fields used to export the search result in CSV format."
@@ -23084,7 +23087,7 @@ msgstr "动态字段对象注册。"
 
 #. SysConfig
 msgid "DynamicFieldScreen"
-msgstr ""
+msgstr "动态字段窗口DynamicFieldScreen"
 
 #. SysConfig
 msgid "DynamicField_%s"
@@ -23108,11 +23111,11 @@ msgstr "编辑预约"
 
 #. SysConfig
 msgid "Edit contacts with data"
-msgstr ""
+msgstr "用数据编辑联系人"
 
 #. SysConfig
 msgid "Edit contacts with data."
-msgstr ""
+msgstr "用数据编辑联系人。"
 
 #. SysConfig
 msgid "Edit customer company"
@@ -23120,7 +23123,7 @@ msgstr "编辑客户单位"
 
 #. SysConfig
 msgid "Elasticsearch quick result module."
-msgstr ""
+msgstr "Elasticsearch快速结果模块。"
 
 #. SysConfig
 msgid "Email Addresses"
@@ -23250,6 +23253,9 @@ msgid ""
 "pre-populate the questions within the installer script. Enabling SecureMode "
 "also enables GenericAgent, PackageManager and SQL Box."
 msgstr ""
+"启用SecureMode会禁用Web安装程序（http://yourhost.example.com/otobo/installer.pl）和迁移。这样做"
+"是为了防止系统被劫持。如果未启用SecureMode，则可以重新安装系统。在这种情况下，当前的基本配置将用于在安装程序脚本中预先填充问题。启用Secure"
+"Mode还可以启用GenericAgent，PackageManager和SQL Box。"
 
 #. SysConfig
 msgid "English (Canada)"
@@ -23301,7 +23307,7 @@ msgstr "爱沙尼亚"
 
 #. SysConfig
 msgid "Event module registration (store historical data in dynamic fields)."
-msgstr ""
+msgstr "事件模块登记（在动态字段存储历史数据）。"
 
 #. SysConfig
 msgid ""
@@ -23440,7 +23446,7 @@ msgstr "通过代理获取软件包，覆盖“WebUserAgent::Proxy”设置。"
 msgid ""
 "Fields of the customer company index, used for the company fulltext search. "
 "Fields are also stored, but are not mandatory for the overall functionality."
-msgstr ""
+msgstr "客户公司索引的字段，用于公司全文搜索。字段也被存储，但是对于整体功能不是必需的。"
 
 #. SysConfig
 msgid ""
@@ -23450,20 +23456,22 @@ msgid ""
 "update event has to be added to the TicketManagement invoker of the "
 "Elasticsearch webservice!"
 msgstr ""
+"工单索引的字段，用于工单的全文搜索，这个字段也会被存储，但是对于整体功能不是必需的。如果添加了可以更新的字段（尤其是DynamicFields），"
+"则必须将它们各自的更新事件添加到Elasticsearch Webservice的TicketManagement调用程序！"
 
 #. SysConfig
 msgid ""
 "Fields stored in the customer company index which are used for other things "
 "besides fulltext searches. For the complete functionality all fields are "
 "mandatory."
-msgstr ""
+msgstr "客户公司索引中存储的字段，除了全文搜索之外，还用于其他用途。为了完整的功能，所有字段都是必填项。"
 
 #. SysConfig
 msgid ""
 "Fields stored in the customer user index which are used for other things "
 "besides fulltext searches. For the complete functionality all fields are "
 "mandatory."
-msgstr ""
+msgstr "客户用户索引中存储的字段，除了全文搜索之外，还用于其他用途。为了完整的功能，所有字段都是必填项。"
 
 #. SysConfig
 msgid ""
@@ -23473,12 +23481,14 @@ msgid ""
 "respective update event has to be added to the TicketManagement invoker of "
 "the Elasticsearch webservice!"
 msgstr ""
+"存储在工单索引中的字段除了用于全文搜索之外，还用于其他用途。为了完整的功能，所有字段都是必填项。如果添加了可以更新的字段（尤其是DynamicFields"
+"），则必须将它们各自的更新事件添加到Elasticsearch Webservice的TicketManagement调用程序！"
 
 #. SysConfig
 msgid ""
 "Fields to be searched in ticket index. Fields are also stored, but are not "
 "mandatory for the overall functionality."
-msgstr ""
+msgstr "票证索引中要搜索的字段也会被存储，但是对于整体功能不是必需的。"
 
 #. SysConfig
 msgid ""
@@ -23586,10 +23596,13 @@ msgid ""
 "would be interpreted as '2020-01-22 18:07:23'. Please refer to http://search."
 "cpan.org/~drolsky/DateTime-1.21/lib/DateTime.pm#strftime_Patterns."
 msgstr ""
+"工单显示的创建日期格式，例如，“％Y-％m-％d％H：％M：％S”将被解释为“ 2020-01-22 "
+"18:07:23”，详情请参考http://search.cpan.org/~drolsky/DateTime-1.21/lib/DateTime."
+"pm#strftime_Patterns。"
 
 #. SysConfig
 msgid "Format to be ingested."
-msgstr ""
+msgstr "摄取的格式。"
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
@@ -23645,7 +23658,7 @@ msgstr "前端模块注册（作为“系统管理”的子导航项目显示个
 
 #. SysConfig
 msgid "Frontend module registration for the admin interface."
-msgstr ""
+msgstr "为管理员界面的前端模块登记。"
 
 #. SysConfig
 msgid "Frontend module registration for the agent interface."
@@ -23673,11 +23686,11 @@ msgstr "全文搜索"
 
 #. SysConfig
 msgid "Fulltext search using Elasticsearch."
-msgstr ""
+msgstr "用Elasticsearch进行全文搜索。"
 
 #. SysConfig
 msgid "FulltextES"
-msgstr ""
+msgstr "全文弹性搜索FulltextES"
 
 #. SysConfig
 msgid "Galician"
@@ -23695,7 +23708,7 @@ msgstr ""
 msgid ""
 "Generate HTML comment hooks for the specified blocks so that filters can use "
 "them."
-msgstr ""
+msgstr "为指定的块生成HTML注释挂钩，以便过滤器的使用。"
 
 #. SysConfig
 msgid "Generate dashboard statistics."
@@ -23755,7 +23768,7 @@ msgstr "错误处理模块的通用接口模块注册。"
 
 #. SysConfig
 msgid "GenericInterface module registration for the PassThrough invoker layer."
-msgstr ""
+msgstr "PassThrough调用程序层的GenericInterface模块注册。"
 
 #. SysConfig
 msgid "GenericInterface module registration for the invoker layer."
@@ -23815,7 +23828,7 @@ msgstr "进入仪表板！"
 
 #. SysConfig
 msgid "Good PGP signature."
-msgstr ""
+msgstr "良好的PGP签名。"
 
 #. SysConfig
 msgid "Google Authenticator"
@@ -24251,7 +24264,7 @@ msgstr ""
 
 #. SysConfig
 msgid "If enabled, the quick close action will create an article."
-msgstr ""
+msgstr "启用后，快速关闭操作将创建一条记录。"
 
 #. SysConfig
 msgid ""
@@ -24309,7 +24322,7 @@ msgstr "如果这个正则表达式匹配了，自动响应不会发送任何消
 msgid ""
 "If this setting is enabled, it is possible to install packages which are not "
 "verified by OTOBO Team. These packages could threaten your whole system!"
-msgstr ""
+msgstr "如果启用此设置，则允许安装未经OTOBO Team验证的软件包，不过这些软件包可能会威胁整个系统！"
 
 #. SysConfig
 msgid ""
@@ -24445,7 +24458,7 @@ msgstr ""
 msgid ""
 "It was not possible to check the PGP signature, this may be caused by a "
 "missing public key or an unsupported algorithm."
-msgstr ""
+msgstr "之前无法检查PGP签名，可能是由于缺少公钥或不受支持的算法引起的。"
 
 #. SysConfig
 msgid "Italian"
@@ -24475,7 +24488,7 @@ msgstr "搜索界面的JavaScript函数。"
 
 #. SysConfig
 msgid "Jump to OTOBO!"
-msgstr ""
+msgstr "跃入OTOBO的怀抱！"
 
 #. SysConfig
 msgid "Korean"
@@ -24672,7 +24685,7 @@ msgstr "客户界面始终载入的响应CSS文件列表。"
 
 #. SysConfig
 msgid "List of states for which escalations should be suspended."
-msgstr ""
+msgstr "列表中的状态下，升级会被挂起。"
 
 #. SysConfig
 msgid "List view"
@@ -24740,7 +24753,7 @@ msgstr "邮件队列配置设置。"
 
 #. SysConfig
 msgid "Main menu for the agent interface."
-msgstr ""
+msgstr "话务员界面主菜单。"
 
 #. SysConfig
 msgid "Main menu item registration."
@@ -24779,7 +24792,7 @@ msgstr "马来语"
 
 #. SysConfig
 msgid "Manage OTOBO Team cloud services."
-msgstr ""
+msgstr "OTOBO管理团队云服务。"
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
@@ -24803,7 +24816,7 @@ msgstr "管理不同的日历。"
 
 #. SysConfig
 msgid "Manage dynamic field in screens."
-msgstr ""
+msgstr "在界面管理动态字段。"
 
 #. SysConfig
 msgid "Manage existing sessions."
@@ -24863,7 +24876,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Maximal number of results returned by ES per field."
-msgstr ""
+msgstr "每个字段ES（弹性搜索）返回结果的最大数量。"
 
 #. SysConfig
 msgid ""
@@ -24877,7 +24890,7 @@ msgstr "一个日历显示在下拉选择框中的最大数字。"
 
 #. SysConfig
 msgid "Maximum file size for the ingest plugin."
-msgstr ""
+msgstr "摄取插件的最大文件尺寸。"
 
 #. SysConfig
 msgid ""
@@ -25160,11 +25173,11 @@ msgstr "服务人员界面工单电话拨出屏幕在添加一个电话备注后
 
 #. SysConfig
 msgid "No public key found."
-msgstr ""
+msgstr "没有发现公钥。"
 
 #. SysConfig
 msgid "No valid OpenPGP data found."
-msgstr ""
+msgstr "没有发现有效的OpenPGP数据。"
 
 #. SysConfig
 msgid "None"
