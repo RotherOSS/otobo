@@ -27,6 +27,7 @@ use Test2::API qw/context/;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::MockTime qw(:all);
 
 our $Self;
 
