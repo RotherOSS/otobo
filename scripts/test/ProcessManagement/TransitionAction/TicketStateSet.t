@@ -32,7 +32,7 @@ my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 my $ModuleObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketStateSet');
 my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 # define variables
 my $UserID     = 1;

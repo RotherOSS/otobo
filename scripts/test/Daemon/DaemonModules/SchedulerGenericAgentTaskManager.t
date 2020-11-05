@@ -74,7 +74,7 @@ my $RunTasks = sub {
 $RunTasks->();
 
 # freeze time
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my $CurSysDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
 my $SecsDiff       = $CurSysDTObject->Get()->{Second} - 60;

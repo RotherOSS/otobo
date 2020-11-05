@@ -58,7 +58,7 @@ for ( 1 .. 2 ) {
     push @TicketIDs, $TicketID;
 }
 
-$Helper->FixedTimeSet();
+FixedTimeSet();
 $Helper->FixedTimeAddSeconds(60);
 
 # update ticket 1

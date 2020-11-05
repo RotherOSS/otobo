@@ -111,7 +111,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # set fixed time
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $Helper->FixedTimeSet();
+            FixedTimeSet();
         }
 
         my $CacheSet = $CacheObject->Set(

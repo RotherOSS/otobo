@@ -62,7 +62,7 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # freeze time
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 # get current time stamp
 my $TimeStamp = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();

@@ -98,7 +98,7 @@ for my $Test (@Tests) {
         },
     );
 
-    $HelperObject->FixedTimeSet($DateTimeObject);
+    FixedTimeSet($DateTimeObject);
 
     my $Result = $LanguageObject->Time(
         %{ $Test->{Data} },

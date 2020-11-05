@@ -434,7 +434,7 @@ for my $Test (@Tests) {
             $BuildSelectionParams{ $Prefix . 'Minute' } = $DateTimeValues->{Minute};
         }
         else {
-            $HelperObject->FixedTimeSet( $DateTimeObject->ToEpoch() );
+            FixedTimeSet( $DateTimeObject->ToEpoch() );
         }
 
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');

@@ -578,7 +578,7 @@ for my $Test (@Tests) {
         UserID    => $UserID,
     );
 
-    $Helper->FixedTimeSet(
+    FixedTimeSet(
         $Kernel::OM->Create(
             'Kernel::System::DateTime',
             ObjectParams => {

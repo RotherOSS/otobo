@@ -437,7 +437,7 @@ my @Test = (
 
 for my $Test (@Test) {
 
-    $Helper->FixedTimeSet();
+    FixedTimeSet();
 
     # Create an object, representing a new communication:
     my $CommunicationLogObject = $Kernel::OM->Create(

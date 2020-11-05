@@ -52,7 +52,7 @@ $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
     UserID => 1,
 );
 
-$HelperObject->FixedTimeSet();
+FixedTimeSet();
 
 my @Tests = (
     {

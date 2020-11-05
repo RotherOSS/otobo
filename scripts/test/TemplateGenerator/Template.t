@@ -40,7 +40,7 @@ my $DateTimeObject = $Kernel::OM->Create(
         String => '2020-01-10 16:00:00',
     },
 );
-$Helper->FixedTimeSet($DateTimeObject);
+FixedTimeSet($DateTimeObject);
 
 # Do not check email addresses.
 $Helper->ConfigSettingChange(

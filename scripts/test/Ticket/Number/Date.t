@@ -126,7 +126,7 @@ for my $Test (@Tests) {
         },
     );
 
-    $HelperObject->FixedTimeSet($DateTimeObject);
+    FixedTimeSet($DateTimeObject);
 
     my $TicketNumber = $TicketNumberGeneratorObject->TicketCreateNumber();
 

@@ -31,7 +31,7 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 # Disable email addresses checking.
 $Helper->ConfigSettingChange(

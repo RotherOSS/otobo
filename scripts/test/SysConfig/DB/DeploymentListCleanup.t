@@ -130,7 +130,7 @@ my @Tests = (
     },
 );
 
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 

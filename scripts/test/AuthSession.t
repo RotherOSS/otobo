@@ -639,7 +639,7 @@ for my $ModuleFile (@BackendModuleFiles) {
     );
 
     # Added some checks for the GetActiveSessions function
-    $Helper->FixedTimeSet();
+    FixedTimeSet();
 
     $ConfigObject->Set(
         Key   => 'SessionMaxIdleTime',

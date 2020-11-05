@@ -85,7 +85,7 @@ $ConfigObject->Set(
 );
 
 # freeze time
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my $CurSysDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
 

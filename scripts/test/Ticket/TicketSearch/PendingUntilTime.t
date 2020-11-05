@@ -240,7 +240,7 @@ for my $Test (@Tests) {
                 String => $Test->{TimeStamp},
             }
         )->ToEpoch();
-        $Helper->FixedTimeSet($SystemTime);
+        FixedTimeSet($SystemTime);
     }
 
     # print test case description

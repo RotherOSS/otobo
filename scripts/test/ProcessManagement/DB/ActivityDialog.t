@@ -40,7 +40,7 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # set fixed time
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 # define needed variables
 my $RandomID = $Helper->GetRandomID();

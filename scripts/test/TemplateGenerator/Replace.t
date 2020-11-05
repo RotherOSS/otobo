@@ -169,7 +169,7 @@ my $SystemTime = $Kernel::OM->Create(
 )->ToEpoch();
 
 # Set the fixed time.
-$Helper->FixedTimeSet($SystemTime);
+FixedTimeSet($SystemTime);
 
 # Create test queue with escalation times.
 my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(

@@ -266,7 +266,7 @@ for my $Test (@Tests) {
 # TicketNumberCounterCleanup() tests.
 $Cleanup->();
 
-$Helper->FixedTimeSet();
+FixedTimeSet();
 @Tests = (
     {
         Name           => '100 - ..1 Sec',

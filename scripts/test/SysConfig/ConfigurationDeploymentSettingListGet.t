@@ -37,7 +37,7 @@ my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
 my $RandomNumber = $HelperObject->GetRandomNumber();
 
-$HelperObject->FixedTimeSet();
+FixedTimeSet();
 
 my $SettingName1 = 'ProductName ' . $RandomNumber . 1;
 my $SettingName2 = 'ProductName ' . $RandomNumber . 2;

@@ -44,7 +44,7 @@ $ConfigObject->Set(
 );
 
 # Set fixed time.
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 

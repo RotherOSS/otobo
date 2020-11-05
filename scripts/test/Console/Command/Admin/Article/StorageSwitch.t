@@ -40,7 +40,7 @@ $Kernel::OM->Get('Kernel::Config')->Set(
 );
 
 # create isolated time environment during test
-$HelperObject->FixedTimeSet(
+FixedTimeSet(
     $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {

@@ -177,7 +177,7 @@ for my $Ticket (@Tickets) {
     )->ToEpoch();
 
     # set the fixed time
-    $Helper->FixedTimeSet($SystemTime);
+    FixedTimeSet($SystemTime);
 
     # create the ticket
     my $TicketID = $TicketObject->TicketCreate(
@@ -391,7 +391,7 @@ for my $Test (@Tests) {
             String => $Test->{TimeStamp},
         }
     )->ToEpoch();
-    $Helper->FixedTimeSet($SystemTime);
+    FixedTimeSet($SystemTime);
 
     # print test case description
     if ( $Test->{Description} ) {

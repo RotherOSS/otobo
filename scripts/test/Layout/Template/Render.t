@@ -527,7 +527,7 @@ for my $Test (@Tests) {
             },
         );
 
-        $HelperObject->FixedTimeSet($DateTimeObject);
+        FixedTimeSet($DateTimeObject);
     }
 
     # make sure EnvRef is populated every time
@@ -566,7 +566,7 @@ for my $Test (@Tests) {
     if ( $Test->{FixedTimeSet} ) {
 
         # Reset time to the current timestamp.
-        $HelperObject->FixedTimeSet();
+        FixedTimeSet();
     }
 }
 

@@ -293,7 +293,7 @@ if (
 }
 
 # forward the system time
-$HelperObject->FixedTimeSet(
+FixedTimeSet(
     $SystemPendingTime + 60,
 );
 

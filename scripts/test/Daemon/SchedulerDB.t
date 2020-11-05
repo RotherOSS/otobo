@@ -528,7 +528,7 @@ for my $Task (@List) {
 # TaskCleanup() tests
 
 # freeze the current time
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my %TaskTemplate = (
     Type     => 'UnitTest',

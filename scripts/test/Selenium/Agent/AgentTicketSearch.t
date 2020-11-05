@@ -133,7 +133,7 @@ $Selenium->RunTest(
                 String => '2017-05-04 23:00:00',
             },
         );
-        $Helper->FixedTimeSet($SystemTime);
+        FixedTimeSet($SystemTime);
 
         my @TicketIDs;
         my $TitleRandom  = "Title" . $RandomID;

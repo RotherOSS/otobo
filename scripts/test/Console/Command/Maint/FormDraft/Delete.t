@@ -80,7 +80,7 @@ $Self->True(
     "Ticket is created - $TicketID"
 );
 
-$HelperObject->FixedTimeSet(
+FixedTimeSet(
     $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {
@@ -113,7 +113,7 @@ for ( 1 .. 3 ) {
 
     # set fix time in order so further created drafts will be expired
     # to test command with expired option and without it as well
-    $HelperObject->FixedTimeSet(
+    FixedTimeSet(
         $Kernel::OM->Create(
             'Kernel::System::DateTime',
             ObjectParams => {
@@ -123,7 +123,7 @@ for ( 1 .. 3 ) {
     );
 }
 
-$HelperObject->FixedTimeSet(
+FixedTimeSet(
     $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {

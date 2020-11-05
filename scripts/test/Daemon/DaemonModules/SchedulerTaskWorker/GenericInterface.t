@@ -41,7 +41,7 @@ my $Helper   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $RandomID = $Helper->GetRandomID();
 
 # freeze time
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 # web service config
 my $WebserviceConfig = {

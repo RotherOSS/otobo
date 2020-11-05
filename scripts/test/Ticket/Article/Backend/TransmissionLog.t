@@ -34,7 +34,7 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 # Use test email backend.
 $Kernel::OM->Get('Kernel::Config')->Set(

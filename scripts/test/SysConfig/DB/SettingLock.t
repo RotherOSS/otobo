@@ -530,7 +530,7 @@ for my $Test (@Tests) {
 
         # Set time if needed
         if ( $TestConfig->{FixedTimeSet} ) {
-            $HelperObject->FixedTimeSet( $TestConfig->{FixedTimeSet} );
+            FixedTimeSet( $TestConfig->{FixedTimeSet} );
         }
 
         my $ExclusiveLockGUID2;

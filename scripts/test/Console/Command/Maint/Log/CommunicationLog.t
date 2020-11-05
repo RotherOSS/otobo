@@ -75,7 +75,7 @@ for my $TestCommunication (@Communications) {
                 String => $TestCommunication->{Date}
             }
         );
-        $HelperObject->FixedTimeSet($TestDateTimeObject);
+        FixedTimeSet($TestDateTimeObject);
     }
 
     my $CommunicationLogObject = $Kernel::OM->Create(
@@ -240,7 +240,7 @@ for my $CommunicationToTestPurge (@CommunicationsToTestPurge) {
     my $TestDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
     $TestDateTimeObject->Subtract( Hours => $CommunicationToTestPurge->{Date}->{Hours} );
 
-    $HelperObject->FixedTimeSet($TestDateTimeObject);
+    FixedTimeSet($TestDateTimeObject);
 
     my $CommunicationLogObject = $Kernel::OM->Create(
         'Kernel::System::CommunicationLog',

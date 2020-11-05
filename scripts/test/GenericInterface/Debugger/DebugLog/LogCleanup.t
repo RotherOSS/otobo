@@ -86,7 +86,7 @@ my $SetDebugLogEntries = sub {
         my $Success = $DateTimeObject->Add(
             Days => 1,
         );
-        $Helper->FixedTimeSet($DateTimeObject);
+        FixedTimeSet($DateTimeObject);
 
         $Success = $DebugLogObject->LogAdd(
             CommunicationID => $MainObject->MD5sum(

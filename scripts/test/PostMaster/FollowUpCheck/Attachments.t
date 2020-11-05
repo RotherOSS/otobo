@@ -51,7 +51,7 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my $AgentAddress    = 'agent@example.com';
 my $CustomerAddress = 'external@example.com';

@@ -137,7 +137,7 @@ for my $Arg (@ArgsWithReference) {
             $TicketBaseDTObject->Subtract(
                 Minutes => $Test->{FixedTimeMinutes},
             );
-            $Helper->FixedTimeSet($TicketBaseDTObject);
+            FixedTimeSet($TicketBaseDTObject);
         }
 
         my $TicketID = $TicketObject->TicketCreate(

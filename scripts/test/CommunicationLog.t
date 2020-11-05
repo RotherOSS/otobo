@@ -192,7 +192,7 @@ my @Test = (
 
 for my $Test (@Test) {
 
-    $Helper->FixedTimeSet();
+    FixedTimeSet();
 
     #
     # CommunicationLog object create

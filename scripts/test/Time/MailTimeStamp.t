@@ -116,7 +116,7 @@ for my $Test (@Tests) {
         Value => $Test->{OTOBOTimeZone},
     );
 
-    $HelperObject->FixedTimeSet($DateTimeObject);
+    FixedTimeSet($DateTimeObject);
 
     # Discard time object because of changed time zone
     $Kernel::OM->ObjectsDiscard(

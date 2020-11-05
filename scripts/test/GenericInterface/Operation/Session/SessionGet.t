@@ -213,7 +213,7 @@ $Helper->ConfigSettingChange(
 
 my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my $Epoch = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 

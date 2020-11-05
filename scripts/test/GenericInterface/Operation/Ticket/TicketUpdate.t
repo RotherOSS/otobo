@@ -917,7 +917,7 @@ $Self->Is(
     'DebuggerObject instantiate correctly',
 );
 
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 

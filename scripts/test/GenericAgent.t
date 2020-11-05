@@ -624,7 +624,7 @@ my $TestJobName   = 'Job' . $Helper->GetRandomID();
 my $OldPriorityID = 3;
 my $NewPriorityID = 1;
 
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 # Go 7 days to the past.
 $Helper->FixedTimeAddSeconds( -60 * 60 * 24 * 7 );
@@ -718,7 +718,7 @@ $Self->Is(
     "First job run - PriorityID is still '$OldPriorityID'",
 );
 
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 # Continue with ticket state changes (go 4 days to the past).
 $Helper->FixedTimeAddSeconds( -60 * 60 * 24 * 4 );

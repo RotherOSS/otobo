@@ -193,7 +193,7 @@ my @Tests = (
 );
 
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 for my $Test (@Tests) {
 

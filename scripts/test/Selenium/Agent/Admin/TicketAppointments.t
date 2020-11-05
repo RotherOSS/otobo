@@ -194,7 +194,7 @@ $Selenium->RunTest(
 
         # Freeze time at this point since creating appointments and tickets and checking results can
         #   take some time to complete.
-        $Helper->FixedTimeSet();
+        FixedTimeSet();
 
         # Create a test ticket.
         my $TicketTitle = "Ticket$RandomID";

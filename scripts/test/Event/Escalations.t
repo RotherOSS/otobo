@@ -55,7 +55,7 @@ $ConfigObject->Set(
 );
 
 # set fixed time
-$HelperObject->FixedTimeSet(
+FixedTimeSet(
     $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {
@@ -535,7 +535,7 @@ $ConfigObject->Set(
 );
 
 # Set fixed time for testing.
-$HelperObject->FixedTimeSet(
+FixedTimeSet(
     $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {

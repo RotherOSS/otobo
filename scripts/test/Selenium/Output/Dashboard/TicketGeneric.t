@@ -35,7 +35,7 @@ $Selenium->RunTest(
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # Set fixed time for test purposes.
-        $Helper->FixedTimeSet(
+        FixedTimeSet(
             $Kernel::OM->Create(
                 'Kernel::System::DateTime',
                 ObjectParams => {

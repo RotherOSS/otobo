@@ -621,7 +621,7 @@ for my $Test (@Tests) {
     if ( $Test->{FixedTimeSet} ) {
 
         # create isolated time environment during test
-        $Helper->FixedTimeSet(
+        FixedTimeSet(
             $Kernel::OM->Create(
                 'Kernel::System::DateTime',
                 ObjectParams => {

@@ -44,7 +44,7 @@ my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
 
 my $RandomID = $HelperObject->GetRandomID();
 
-$HelperObject->FixedTimeSet();
+FixedTimeSet();
 
 my $SettingsAdd = sub {
     my %Param = @_;

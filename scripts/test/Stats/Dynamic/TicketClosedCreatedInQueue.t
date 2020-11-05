@@ -148,7 +148,7 @@ for my $Ticket (@Tickets) {
     );
 
     # set the fixed time
-    $Helper->FixedTimeSet($SystemTime);
+    FixedTimeSet($SystemTime);
 
     # create the ticket
     my $TicketID = $TicketObject->TicketCreate(

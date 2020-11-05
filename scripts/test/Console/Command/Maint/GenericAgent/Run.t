@@ -68,7 +68,7 @@ my %TicketConfig = (
 );
 
 # freeze time
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my $TicketID1 = $TicketObject->TicketCreate(%TicketConfig);
 $Self->IsNot(

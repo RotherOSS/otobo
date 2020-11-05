@@ -134,7 +134,7 @@ $Self->True(
 );
 
 # freeze time
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my @Tests = (
     {

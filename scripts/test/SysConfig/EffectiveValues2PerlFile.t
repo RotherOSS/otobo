@@ -30,7 +30,7 @@ use Kernel::System::ObjectManager;
 
 # Get needed objects
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-$HelperObject->FixedTimeSet();
+FixedTimeSet();
 
 my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 

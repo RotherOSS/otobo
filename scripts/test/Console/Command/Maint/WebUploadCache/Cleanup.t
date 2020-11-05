@@ -116,7 +116,7 @@ for my $Module (qw(DB FS)) {
     );
 
     # set fixed time
-    $Helper->FixedTimeSet();
+    FixedTimeSet();
 
     # wait 24h+1s to expire upload cache
     $Helper->FixedTimeAddSeconds(86401);

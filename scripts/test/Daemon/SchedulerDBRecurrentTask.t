@@ -88,7 +88,7 @@ $CacheObject->CleanUp(
 );
 
 # freeze time
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my $SystemTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 my $SecsDiff         = 60 - $SystemTimeObject->Get()->{Second};

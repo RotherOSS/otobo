@@ -34,7 +34,7 @@ my $StartSystemTime = $TimeObject->SystemTime();
 
     sleep 1;
 
-    my $FixedTime = $HelperObject->FixedTimeSet();
+    my $FixedTime = FixedTimeSet();
 
     sleep 1;
 

@@ -31,7 +31,7 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-$HelperObject->FixedTimeSet();
+FixedTimeSet();
 
 my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my $Location = "$Home/Kernel/Config/Files/ZZZAAuto.pm";

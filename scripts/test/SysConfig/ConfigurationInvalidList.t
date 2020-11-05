@@ -47,7 +47,7 @@ my $YAMLObject        = $Kernel::OM->Get('Kernel::System::YAML');
 
 my $RandomID = $HelperObject->GetRandomID();
 
-$HelperObject->FixedTimeSet();
+FixedTimeSet();
 
 # clear some tables
 for my $Table ( qw(sysconfig_modified_version sysconfig_modified sysconfig_default_version sysconfig_default) ) {

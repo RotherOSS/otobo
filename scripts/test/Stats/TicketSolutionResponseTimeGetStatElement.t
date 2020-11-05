@@ -61,7 +61,7 @@ $Helper->ConfigSettingChange(
 );
 
 # Set fixed time.
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my $RandomID = $Helper->GetRandomNumber();
 

@@ -193,7 +193,7 @@ $Selenium->RunTest(
         my @TicketIDs;
         for my $TicketCreate (@Tests) {
 
-            $Helper->FixedTimeSet( $TicketCreate->{FixedTimeSet} ) if defined $TicketCreate->{FixedTimeSet};
+            FixedTimeSet( $TicketCreate->{FixedTimeSet} ) if defined $TicketCreate->{FixedTimeSet};
 
             my $TicketID = $TicketObject->TicketCreate(
                 Title         => 'Selenium Test Ticket',

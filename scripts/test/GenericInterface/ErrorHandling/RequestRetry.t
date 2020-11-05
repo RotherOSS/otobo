@@ -39,7 +39,7 @@ my $ErrorObject  = $Kernel::OM->Get('Kernel::GenericInterface::ErrorHandling::Re
 # set fixed time
 my $CurrentDateTime       = $Kernel::OM->Create('Kernel::System::DateTime');
 my $CurrentDateTimeString = $CurrentDateTime->ToString();
-$HelperObject->FixedTimeSet($CurrentDateTime);
+FixedTimeSet($CurrentDateTime);
 
 my $TimeDiff = sub {
     my ( $Self, $CurrentDateTime, $TimeDiff ) = @_;

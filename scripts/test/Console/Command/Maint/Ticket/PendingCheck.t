@@ -74,7 +74,7 @@ my $SystemTime = $Kernel::OM->Create(
 )->ToEpoch();
 
 # set the fixed time
-$Helper->FixedTimeSet($SystemTime);
+FixedTimeSet($SystemTime);
 
 my $ExitCode = $CommandObject->Execute();
 
@@ -103,7 +103,7 @@ $SystemTime = $Kernel::OM->Create(
 )->ToEpoch();
 
 # set the fixed time
-$Helper->FixedTimeSet($SystemTime);
+FixedTimeSet($SystemTime);
 
 $ExitCode = $CommandObject->Execute();
 

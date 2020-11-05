@@ -53,7 +53,7 @@ my $SystemTime = $Kernel::OM->Create(
         String => '2014-01-01 12:00:00',
     },
 );
-$Helper->FixedTimeSet($SystemTime);
+FixedTimeSet($SystemTime);
 
 my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
 

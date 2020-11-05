@@ -36,7 +36,7 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # set fixed time
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 my $PIDCreate = $PIDObject->PIDCreate( Name => 'Test' );
 $Self->True(

@@ -316,7 +316,7 @@ for my $TicketID (@MergeLinkObjectTicketIDs) {
 
 # Test change time and user ID of main ticket on merge action.
 #   See bug#13092 for more information.
-$Helper->FixedTimeSet(
+FixedTimeSet(
     $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {
