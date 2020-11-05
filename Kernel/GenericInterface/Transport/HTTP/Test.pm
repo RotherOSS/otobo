@@ -27,9 +27,11 @@ use LWP::UserAgent;
 use LWP::Protocol;
 
 # CPAN modules
+use Plack::Response;
 
 # OTOBO modules
 use Kernel::System::ObjectManager; # avoid warning about $Kernel::OM used only once
+use Kernel::System::Web::Exception;
 
 our $ObjectManagerDisabled = 1;
 
@@ -138,16 +140,50 @@ sub ProviderGenerateResponse {
 
     if ( $Self->{TransportConfig}->{Config}->{Fail} ) {
 
+        my $ErrorMessage = 'Test response generation failed';
+
+        if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+
+            # a response with code 500
+            my $PlackResponse = Plack::Response->new(
+                500,
+                [],
+                $ErrorMessage,
+            );
+
+            # The exception is caught be Plack::Middleware::HTTPExceptions
+            die Kernel::System::Web::Exception->new(
+                PlackResponse => $PlackResponse
+            );
+        }
+
         return {
             Success      => 0,
-            ErrorMessage => 'Test response generation failed',
+            ErrorMessage => $ErrorMessage,
         };
     }
 
     my $Response;
 
     if ( !$Param{Success} ) {
-        $Response = HTTP::Response->new( 500 => ( $Param{ErrorMessage} || 'Internal Server Error' ) );
+        my $ErrorMessage = $Param{ErrorMessage} || 'Internal Server Error';
+
+        if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+
+            # a response with code 500
+            my $PlackResponse = Plack::Response->new(
+                500,
+                [],
+                $ErrorMessage,
+            );
+
+            # The exception is caught be Plack::Middleware::HTTPExceptions
+            die Kernel::System::Web::Exception->new(
+                PlackResponse => $PlackResponse
+            );
+        }
+
+        $Response = HTTP::Response->new( 500 => $ErrorMessage );
         $Response->protocol('HTTP/1.0');
         $Response->content_type("text/plain; charset=UTF-8");
         $Response->date(time);
