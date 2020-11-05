@@ -106,7 +106,7 @@ sub TestObjectLogDelete {
     return;
 }
 
-sub  TestObjectLogGet {
+sub TestObjectLogGet {
     my %Param = @_;
 
     my $GetRandomPriority = sub {
@@ -626,8 +626,8 @@ warn Dumper( $Test, $CommunicationListAfterStop );
     }
 }
 
-$TestObjectLogDelete();
-$TestObjectLogGet();
-$TestObjectLogEntryList();
+subtest 'LogDelete'    => \&TestObjectLogDelete;
+subtest 'LogGet'       => \&TestObjectLogGet;
+subtest 'LogEntryList' => \&TestObjectLogEntryList;
 
-$Self->DoneTesting();
+done_testing();
