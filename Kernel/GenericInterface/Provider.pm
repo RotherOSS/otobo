@@ -18,12 +18,15 @@ package Kernel::GenericInterface::Provider;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
 # core modules
 use Storable;
 
 # CPAN modules
 use URI::Escape;
+use Plack::Response;
 
 # OTOBO modules
 use Kernel::GenericInterface::Debugger;
@@ -32,6 +35,7 @@ use Kernel::GenericInterface::Mapping;
 use Kernel::GenericInterface::Operation;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
+use Kernel::System::Web::Exception;
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -54,10 +58,8 @@ Don't use the constructor directly, use the ObjectManager instead:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
-
-    # start with an empty hash for the new object
-    my $Self = bless {}, $Type;
+    my $Type  = shift;
+    my %Param = @_;
 
     # register object params
     $Kernel::OM->ObjectParamAdd(
@@ -69,7 +71,8 @@ sub new {
         },
     );
 
-    return $Self;
+    # start with an empty hash for the new object
+    return bless {}, $Type;
 }
 
 =head2 Content()
@@ -77,6 +80,7 @@ sub new {
 Receives the current incoming web service request, handles it,
 and returns an appropriate answer based on the requested web service.
 Set headers in Kernels::System::Web::Request singleton as side effect.
+Can die and throw an exception to be caught be Plack::Middleware::HTTPExceptions.
 
     # put this in the handler script
     my $Content = $Interface->Content();
@@ -106,13 +110,15 @@ sub Content {
     }
 
     # URI is empty or invalid.
-    if ( !%WebserviceGetData ) {
+    if ( ! %WebserviceGetData ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Could not determine WebserviceID or Webservice from query string '$RequestURI'",
         );
 
-        return;    # bail out without Transport, Apache will generate 500 Error
+        # generate status 500 response under PSGI
+        # otherwise return undef and Apache will generate 500 Error
+        return $Self->_EmptyContent();
     }
 
     # Check if requested web service exists and is valid.
@@ -129,7 +135,9 @@ sub Content {
             Message  => "Could not find valid web service for query string '$RequestURI'",
         );
 
-        return;    # bail out without Transport, Apache will generate 500 Error
+        # generate status 500 response under PSGI
+        # otherwise return undef and Apache will generate 500 Error
+        return $Self->_EmptyContent();
     }
 
     my $Webservice = $WebserviceObject->WebserviceGet(%WebserviceGetData);
@@ -140,7 +148,9 @@ sub Content {
                 "Could not load web service configuration for query string '$RequestURI'",
         );
 
-        return;    # bail out without Transport, Apache will generate 500 Error
+        # generate status 500 response under PSGI
+        # otherwise return undef and Apache will generate 500 Error
+        return $Self->_EmptyContent();
     }
 
     # Create a debugger instance which will log the details of this communication entry.
@@ -152,7 +162,10 @@ sub Content {
     );
 
     if ( ref $DebuggerObject ne 'Kernel::GenericInterface::Debugger' ) {
-        return;    # bail out without Transport, Apache will generate 500 Error
+
+        # generate status 500 response under PSGI
+        # otherwise return undef and Apache will generate 500 Error
+        return $Self->_EmptyContent();
     }
 
     $DebuggerObject->Debug(
@@ -179,7 +192,9 @@ sub Content {
             Data    => $Self->{TransportObject},
         );
 
-        return;    # bail out without Transport, Apache will generate 500 Error
+        # generate status 500 response under PSGI
+        # otherwise return undef and Apache will generate 500 Error
+        return $Self->_EmptyContent();
     }
 
     # Combine all data for error handler we got so far.
@@ -602,6 +617,34 @@ sub _HandleError {
         DebuggerObject => $Param{DebuggerObject},
         ErrorMessage   => $Param{Summary},
     ) // '';
+}
+
+=head2 _EmptyContent()
+
+when not running under PSGI return an empty string, which will be passed on as empty content.
+Apache generates status code 500 for that.
+
+Under PSGI explicitly generate a response with code 500.
+
+    my $Contest = $RequesterObject->_EmptyContent();
+
+=cut
+
+sub _EmptyContent {
+    my $Self = shift;
+
+    return unless $ENV{OTOBO_RUNS_UNDER_PSGI};
+
+    my $RedirectResponse = Plack::Response->new(
+        500,
+        [],
+        ''
+    );
+
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $RedirectResponse
+    );
 }
 
 =end Internal:

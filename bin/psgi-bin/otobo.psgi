@@ -291,7 +291,7 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
-warn "PLEASE NOTE THAT AS OF NOVEMBER 2ND 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
+warn 'PLEASE NOTE THAT AS OF NOVEMBER 5TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!';
 
 ################################################################################
 # Middlewares
