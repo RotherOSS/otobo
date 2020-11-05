@@ -50,7 +50,6 @@ sub Run {
     # installing is only possible when SecureMode is not active
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
         $LayoutObject->FatalError(
-            UseResponseObject => 1,
             Message => Translatable('SecureMode active!'),
             Comment => Translatable(
                 'If you want to re-run the Installer, disable the SecureMode in the SysConfig.'
@@ -62,14 +61,12 @@ sub Run {
     $Self->{Path} = $ConfigObject->Get('Home');
     if ( !-d $Self->{Path} ) {
         $LayoutObject->FatalError(
-            UseResponseObject => 1,
             Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" doesn\'t exist!', $Self->{Path} ),
             Comment => Translatable('Configure "Home" in Kernel/Config.pm first!'),
         );
     }
     if ( !-f "$Self->{Path}/Kernel/Config.pm" ) {
         $LayoutObject->FatalError(
-            UseResponseObject => 1,
             Message =>
                 $LayoutObject->{LanguageObject}->Translate( 'File "%s/Kernel/Config.pm" not found!', $Self->{Path} ),
             Comment => Translatable('Please contact the administrator.'),
@@ -83,7 +80,6 @@ sub Run {
         # PSGI: throw exception
         # non-PSGI: print to STDOUT and exit
         $LayoutObject->FatalError(
-            UseResponseObject => 1,
             Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" not found!', $DirOfSQLFiles ),
             Comment => Translatable('Please contact the administrator.'),
         );
@@ -181,7 +177,6 @@ sub Run {
 
         return join '',
             $LayoutObject->Header(
-                UseResponseObject => 1,
                 Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Intro')
             ),
             $LayoutObject->Output(
@@ -194,7 +189,6 @@ sub Run {
     # Print license from.
     elsif ( $Self->{Subaction} eq 'License' ) {
         my $Output = $LayoutObject->Header(
-            UseResponseObject => 1,
             Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('License')
         );
         $LayoutObject->Block(
@@ -222,7 +216,6 @@ sub Run {
         if ( ! -w "$Self->{Path}/Kernel/Config.pm" ) {
             return join '',
                 $LayoutObject->Header(
-                    UseResponseObject => 1,
                     Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Error')
                 ),
                 $LayoutObject->Warning(
@@ -250,7 +243,6 @@ sub Run {
         );
 
         my $Output = $LayoutObject->Header(
-            UseResponseObject => 1,
             Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Database Selection')
         );
         $LayoutObject->Block(
@@ -308,7 +300,6 @@ sub Run {
         my $OutputJSON = $LayoutObject->JSONEncode( Data => \%Result );
 
         return $LayoutObject->Attachment(
-            UseResponseObject => 1,
             ContentType       => 'application/json; charset='
                 . $LayoutObject->{Charset},
             Content           => $OutputJSON,
@@ -332,7 +323,6 @@ sub Run {
                 )
                 : $LayoutObject->{LanguageObject}->Translate('Enter the password for the database user.');
             my $Output = $LayoutObject->Header(
-                UseResponseObject => 1,
                 Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'MySQL' )
             );
             $LayoutObject->Block(
@@ -375,7 +365,6 @@ sub Run {
                 ? $LayoutObject->{LanguageObject}->Translate('Enter the password for the administrative database user.')
                 : $LayoutObject->{LanguageObject}->Translate('Enter the password for the database user.');
             my $Output = $LayoutObject->Header(
-                UseResponseObject => 1,
                 Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'PostgreSQL' )
             );
             $LayoutObject->Block(
@@ -414,7 +403,6 @@ sub Run {
         }
         elsif ( $DBType eq 'oracle' ) {
             my $Output = $LayoutObject->Header(
-                UseResponseObject => 1,
                 Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'Oracle' )
             );
             $LayoutObject->Block(
@@ -438,7 +426,6 @@ sub Run {
         }
         else {
             $LayoutObject->FatalError(
-                UseResponseObject => 1,
                 Message => $LayoutObject->{LanguageObject}->Translate( 'Unknown database type "%s".', $DBType ),
                 Comment => Translatable('Please go back.'),
             );
@@ -466,7 +453,6 @@ sub Run {
         my $DBH;
         if ( ref $Result{DB} ne 'HASH' || !$Result{DBH} ) {
             $LayoutObject->FatalError(
-                UseResponseObject => 1,
                 Message => $Result{Message},
                 Comment => $Result{Comment},
             );
@@ -477,7 +463,6 @@ sub Run {
         }
 
         my $Output = $LayoutObject->Header(
-            UseResponseObject => 1,
             Title => $Title . '-' . $LayoutObject->{LanguageObject}->Translate('Create Database'),
         );
 
@@ -648,7 +633,6 @@ sub Run {
         if ($ReConfigure) {
             return join '',
                 $LayoutObject->Header(
-                    UseResponseObject => 1,
                     Title => Translatable('Install OTOBO - Error')
                 ),
                 $LayoutObject->Warning(
@@ -680,7 +664,6 @@ sub Run {
 
             if ( !-f "$DirOfSQLFiles/$SchemaFile.xml" ) {
                 $LayoutObject->FatalError(
-                    UseResponseObject => 1,
                     Message => $LayoutObject->{LanguageObject}
                         ->Translate( 'File "%s/%s.xml" not found!', $DirOfSQLFiles, $SchemaFile ),
                     Comment => Translatable('Contact your Admin!'),
@@ -715,7 +698,6 @@ sub Run {
 
                 # an statement was no correct, no idea how this could be handled
                 $LayoutObject->FatalError(
-                    UseResponseObject => 1,
                     Message => Translatable('Execution of SQL statement failed: ') . $DBI::errstr,
                     Comment => $SQL,
                 );
@@ -759,16 +741,12 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'System' ) {
 
         if ( !$Kernel::OM->Get('Kernel::System::DB') ) {
-            $LayoutObject->FatalError(
-                UseResponseObject => 1,
-            );
+            $LayoutObject->FatalError();
         }
 
         # Take care that default config is in the database.
         if ( !$Self->_CheckConfig() ) {
-            return $LayoutObject->FatalError(
-                UseResponseObject => 1,
-            );
+            return $LayoutObject->FatalError();
         }
 
         # Install default files.
@@ -1039,7 +1017,6 @@ sub Run {
         $Param{ESActive} = $Success;
 
         my $Output = $LayoutObject->Header(
-            UseResponseObject => 1,
             Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('System Settings'),
         );
         $LayoutObject->Block(
@@ -1081,16 +1058,12 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ConfigureMail' ) {
 
         if ( !$Kernel::OM->Get('Kernel::System::DB') ) {
-            $LayoutObject->FatalError(
-                UseResponseObject => 1,
-            );
+            $LayoutObject->FatalError();
         }
 
         # Take care that default config is in the database.
         if ( !$Self->_CheckConfig() ) {
-            return $LayoutObject->FatalError(
-                UseResponseObject => 1,
-            );
+            return $LayoutObject->FatalError();
         }
 
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
@@ -1154,7 +1127,6 @@ sub Run {
         );
 
         my $Output = $LayoutObject->Header(
-            UseResponseObject => 1,
             Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Configure Mail')
         );
         $LayoutObject->Block(
@@ -1180,9 +1152,7 @@ sub Run {
 
         # Take care that default config is in the database.
         if ( !$Self->_CheckConfig() ) {
-            return $LayoutObject->FatalError(
-                UseResponseObject => 1,
-            );
+            return $LayoutObject->FatalError();
         }
 
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
@@ -1206,7 +1176,6 @@ sub Run {
 
         if ( !$Result ) {
             $LayoutObject->FatalError(
-                UseResponseObject => 1,
                 Message => Translatable('Can\'t write Config file!'),
             );
         }
@@ -1288,7 +1257,6 @@ sub Run {
             || $ConfigObject->Get('FQDN');                   # a fallback
 
         my $Output = $LayoutObject->Header(
-            UseResponseObject => 1,
             Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Finished')
         );
         $LayoutObject->Block(
@@ -1322,7 +1290,6 @@ sub Run {
 
     # Else error!
     return $LayoutObject->FatalError(
-        UseResponseObject => 1,
         Message => $LayoutObject->{LanguageObject}->Translate( 'Unknown Subaction %s!', $Self->{Subaction} ),
         Comment => Translatable('Please contact the administrator.'),
     );

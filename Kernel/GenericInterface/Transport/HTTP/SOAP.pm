@@ -18,6 +18,7 @@ package Kernel::GenericInterface::Transport::HTTP::SOAP;
 
 use strict;
 use warnings;
+use v5.24;
 use namespace::clean;
 
 # core modules
@@ -27,9 +28,11 @@ use PerlIO;
 # CPAN modules
 use HTTP::Status;
 use SOAP::Lite;
+use Plack::Response;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Web::Exception;
 
 our $ObjectManagerDisabled = 1;
 
@@ -47,7 +50,7 @@ by using Kernel::GenericInterface::Transport->new();
 =cut
 
 sub new {
-    my $Type = shift;
+    my $Type  = shift;
     my %Param = @_;
 
     # Allocate new hash for object.
@@ -120,10 +123,13 @@ sub ProviderProcessRequest {
     my $Length;
 
     # If the HTTP_TRANSFER_ENCODING environment variable is defined, check if is chunked.
-    my $Chunked = (
-        defined $ENV{HTTP_TRANSFER_ENCODING}
-            && $ENV{HTTP_TRANSFER_ENCODING} =~ m/^chunked.*$/
-    ) || 0;
+    my $Chunked = 0;
+    {
+        my $TransferEncoding = $ParamObject->HTTP('TRANSFER_ENCODING') // '';
+        if ( $TransferEncoding =~ m/^chunked/ ) {
+            $Chunked = 1;
+        }
+    }
 
 
     # If chunked transfer encoding is used, read request from chunks and calculate its length afterwards
@@ -166,6 +172,7 @@ sub ProviderProcessRequest {
     }
 
     # In case client requests to continue submission, tell it to continue.
+    # TODO: does this work under PSGI ?
     if ( IsStringWithData( $ENV{EXPECT} ) && $ENV{EXPECT} =~ m{ \b 100-Continue \b }xmsi ) {
         $Self->_Output(
             HTTPCode => 100,
@@ -197,22 +204,26 @@ sub ProviderProcessRequest {
     }
 
     # Convert charset if necessary.
-    my $ContentCharset;
-    if ( $ENV{CONTENT_TYPE} =~ m{ \A ( .+ ) ;\s*charset= ["']{0,1} ( .+? ) ["']{0,1} (;|\z) }xmsi ) {
+    {
+        my $ContentType = $ParamObject->ContentType();
+        my $ContentCharset;
+        if ( $ContentType =~ m{ \A ( .+ ) ;\s*charset= ["']{0,1} ( .+? ) ["']{0,1} (;|\z) }xmsi ) {
 
-        # Remember content type for the response.
-        $Self->{ContentType} = $1;
+            # Remember content type for the response.
+            $Self->{ContentType} = $1;
 
-        $ContentCharset = $2;
-    }
-    if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
-        $Content = $Kernel::OM->Get('Kernel::System::Encode')->Convert2CharsetInternal(
-            Text => $Content,
-            From => $ContentCharset,
-        );
-    }
-    else {
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Content );
+            $ContentCharset = $2;
+        }
+
+        if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
+            $Content = $Kernel::OM->Get('Kernel::System::Encode')->Convert2CharsetInternal(
+                Text => $Content,
+                From => $ContentCharset,
+            );
+        }
+        else {
+            $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Content );
+        }
     }
 
     # Send received data to debugger.
@@ -372,9 +383,9 @@ The HTTP code is set accordingly
     );
 
     $Result = {
-        Success      => 1,   # 0 or 1
-        Output       => $HeaderAndContent,
-        ErrorMessage => '',  # in case of error
+        Success      => 1,          # 0 or 1
+        Output       => $Content,   # a string
+        ErrorMessage => '',         # in case of error
     };
 
 =cut
@@ -1044,6 +1055,35 @@ sub _Output {
     # Set keep-alive.
     my $ConfigKeepAlive = $Kernel::OM->Get('Kernel::Config')->Get('SOAP::Keep-Alive');
     my $Connection      = $ConfigKeepAlive ? 'Keep-Alive' : 'close';
+
+    # Let's try the HTTPExceptions trick again
+    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+
+        my @Headers;
+        push @Headers, 'Content-Type'   => "$ContentType; charset=UTF-8";
+        push @Headers, 'Content-Length' => $ContentLength;
+        push @Headers, 'Connection'     => $Connection;
+
+        # Prepare additional headers.
+        if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
+            my %AdditionalHeaders = $Self->{TransportConfig}->{Config}->{AdditionalHeaders}->%*;
+            for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
+                push @Headers, $AdditionalHeader => ( $AdditionalHeaders{$AdditionalHeader} || '' );
+            }
+        }
+
+        # Enhance it with the HTTP status code and the content.
+        my $PlackResponse = Plack::Response->new(
+            $Param{HTTPCode},
+            \@Headers,
+            $Param{Content}
+        );
+
+        # The exception is caught be Plack::Middleware::HTTPExceptions
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => $PlackResponse
+        );
+    }
 
     # Prepare additional headers.
     my $AdditionalHeaderStrg = '';

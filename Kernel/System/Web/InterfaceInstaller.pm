@@ -85,11 +85,12 @@ sub new {
     return $Self;
 }
 
-=head2 HeaderAndContent()
+=head2 Content()
 
-execute the object and return the generated content as a string.
+execute the object.
+Set headers in Kernels::System::Web::Request singleton as side effect.
 
-    $Interface->HeaderAndContent();
+    my $Content = $Interface->Content();
 
 =cut
 
@@ -117,7 +118,7 @@ sub Content {
     # check secure mode
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
         return join '',
-            $LayoutObject->Header( UseResponseObject => 1 ),
+            $LayoutObject->Header(),
             $LayoutObject->Error(
                 Message => Translatable('SecureMode active!'),
                 Comment => Translatable(
@@ -142,7 +143,7 @@ sub Content {
 
     # print an error screen as the fallback
     return join '',
-        $LayoutObject->Header( UseResponseObject => 1 ),
+        $LayoutObject->Header(),
         $LayoutObject->Error(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Action "%s" not found!', $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),

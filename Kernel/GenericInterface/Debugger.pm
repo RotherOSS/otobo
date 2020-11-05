@@ -172,6 +172,9 @@ sub DebugLog {
         return;
     }
 
+    # for tailoring the call stack
+    my $Caller = $Param{Caller} || 0;
+
     # if DebugLevel is not set DebugLevel from constructor is used
     $Param{DebugLevel} = $Param{DebugLevel} || $Self->{DebugLevel};
 
@@ -184,6 +187,7 @@ sub DebugLog {
 
         return;
     }
+
     my %DebugLevels = (
         debug  => 1,
         info   => 2,
@@ -228,12 +232,17 @@ DebugLog $Param{DebugLevel}:
 EOF
 
     if ( $Param{DebugLevel} eq 'error' ) {
+
+        # Do not include the sub Module: Kernel::GenericInterface::Debugger::DebugLog in the stack trace
         $LogMessage =~ s/\n//g;
         $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Caller   => $Caller + 1,
             Priority => 'error',
             Message  => $LogMessage,
         );
+
         return 1 if !$Self->{TestMode};
+
         $LogMessage .= "\n";
     }
 
@@ -323,7 +332,9 @@ then returns data structure to be used as return value in calling function
 sub Error {
     my ( $Self, %Param ) = @_;
 
-    return if !$Self->DebugLog(
+    # Do not include the sub  Module: Kernel::GenericInterface::Debugger::Error in the stack trace
+    return unless $Self->DebugLog(
+        Caller => 1,
         %Param,
         DebugLevel => 'error',
     );

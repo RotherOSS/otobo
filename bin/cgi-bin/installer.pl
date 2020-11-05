@@ -17,6 +17,8 @@
 
 use strict;
 use warnings;
+use v5.24;
+use utf8;
 
 # use ../../ as lib location
 use FindBin qw($Bin);
@@ -27,9 +29,10 @@ use lib "$Bin/../../Custom";
 # core modules
 
 # CPAN modules
+use Plack::Handler::CGI qw();
 
 # OTOBO modules
-use Kernel::System::Web::InterfaceInstaller();
+use Kernel::System::Web::InterfaceInstaller;
 use Kernel::System::ObjectManager;
 
 # make sure that the managed objects will be recreated for the current request
@@ -39,6 +42,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new();
 my $Debug = 0;
 
 # do the work and give the response to the webserver
+# TODO: this is broken as the Kernel::System::Web::Eceptions are not caught.
 my $Content = Kernel::System::Web::InterfaceInstaller->new(
     Debug => $Debug
 )->Content();
@@ -49,5 +53,5 @@ my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
 $ResponseObject->Code(200); # TODO: is it always 200 ?
 $ResponseObject->Content($Content);
 
-# return the funnny unblessed array reference
-return $ResponseObject->Finalize();
+# Generate output suitable for CGI
+Plack::Handler::CGI->new()->run( $ResponseObject->to_app() );
