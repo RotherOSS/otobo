@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -192,7 +193,7 @@ $Selenium->RunTest(
         my @TicketIDs;
         for my $TicketCreate (@Tests) {
 
-            $Helper->FixedTimeSet( $TicketCreate->{FixedTimeSet} ) if defined $TicketCreate->{FixedTimeSet};
+            FixedTimeSet( $TicketCreate->{FixedTimeSet} ) if defined $TicketCreate->{FixedTimeSet};
 
             my $TicketID = $TicketObject->TicketCreate(
                 Title         => 'Selenium Test Ticket',
@@ -483,7 +484,7 @@ $Selenium->RunTest(
         }
 
         # Unset fixed time.
-        $Helper->FixedTimeUnset();
+        FixedTimeUnset();
 
     }
 );

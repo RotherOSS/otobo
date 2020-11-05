@@ -20,6 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -115,7 +116,7 @@ for my $Test (@Tests) {
         Value => $Test->{OTOBOTimeZone},
     );
 
-    $HelperObject->FixedTimeSet($DateTimeObject);
+    FixedTimeSet($DateTimeObject);
 
     # Discard time object because of changed time zone
     $Kernel::OM->ObjectsDiscard(
@@ -133,7 +134,7 @@ for my $Test (@Tests) {
         "$Test->{Name} ($Test->{OTOBOTimeZone}) Timestamp $Test->{TimeStampUTC}:",
     );
 
-    $HelperObject->FixedTimeUnset();
+    FixedTimeUnset();
 }
 
 

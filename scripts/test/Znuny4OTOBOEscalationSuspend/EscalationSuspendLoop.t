@@ -21,6 +21,7 @@ use utf8;
 use Test2::V0;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
@@ -117,7 +118,7 @@ $ConfigObject->Set(
 # Thursday : 10:50:08 h
 # sum:       24:00:00 h
 # Solution time: Thursday 08:00 + 10:50:08 h = 2016-04-14 18:50:08
-$HelperObject->FixedTimeSet(
+FixedTimeSet(
     $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {
@@ -169,7 +170,7 @@ my $TicketID = $TicketObject->TicketCreate(
 # TicketEscalationSuspendCalculate will add 4 minutes to prevent escalation
 # pending reminder is configured as suspend state
 # solution time is then 2016-04-14 18:54:08
-$HelperObject->FixedTimeSet(
+FixedTimeSet(
     $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {
@@ -224,7 +225,7 @@ $TicketObject->TicketPendingTimeSet(
 # = 16:56:53 and 17:00:02 - 16:56:53 = 3:09
 # open is not configured as suspend state, meaning, the new solution time
 # solution time is then 2016-04-14 18:57:17
-$HelperObject->FixedTimeSet(
+FixedTimeSet(
     $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {
@@ -277,7 +278,7 @@ $TicketObject->TicketPendingTimeSet(
 # Set pending reminder
 # this adds another 4 minutes to the solution time
 # new solution time: Friday 2016-04-15 08:01:17
-$HelperObject->FixedTimeSet(
+FixedTimeSet(
     $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {
@@ -325,4 +326,4 @@ $TicketObject->TicketPendingTimeSet(
     $Self->Note( Note => "computed solution time: " . localtime( $Ticket{SolutionTimeDestinationTime} ) );
 }
 
-$HelperObject->FixedTimeUnset();
+FixedTimeUnset();

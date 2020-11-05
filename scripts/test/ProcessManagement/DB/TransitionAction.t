@@ -20,6 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -39,7 +40,7 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # set fixed time
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 # define needed variables
 my $RandomID = $Helper->GetRandomID();
@@ -618,7 +619,7 @@ for my $Test (@Tests) {
         print "Force a gap between create and update TransitionAction, Waiting 2s\n";
 
         # wait 2 seconds
-        $Helper->FixedTimeAddSeconds(2);
+        FixedTimeAddSeconds(2);
 
         my $Success = $TransitionActionObject->TransitionActionUpdate( %{ $Test->{Config} } );
 

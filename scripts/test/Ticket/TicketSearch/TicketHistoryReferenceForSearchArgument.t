@@ -20,6 +20,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -136,7 +137,7 @@ for my $Arg (@ArgsWithReference) {
             $TicketBaseDTObject->Subtract(
                 Minutes => $Test->{FixedTimeMinutes},
             );
-            $Helper->FixedTimeSet($TicketBaseDTObject);
+            FixedTimeSet($TicketBaseDTObject);
         }
 
         my $TicketID = $TicketObject->TicketCreate(
@@ -149,7 +150,7 @@ for my $Arg (@ArgsWithReference) {
             UserID   => 1,
         );
 
-        $Helper->FixedTimeUnset();
+        FixedTimeUnset();
 
         $Self->True(
             $TicketID,

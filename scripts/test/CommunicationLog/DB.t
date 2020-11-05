@@ -16,25 +16,22 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
+use Kernel::System::UnitTest::MockTime qw(:all);
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
 
-# get needed objects
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
+our $Self;
 
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-my $TestObjectLogDelete = sub {
+sub TestObjectLogDelete {
     my %Param = @_;
 
     my $CommunicationLogDBObj  = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
@@ -107,9 +104,9 @@ my $TestObjectLogDelete = sub {
     $Self->True( $Result, "Communication Log Delete by CommunicationID" );
 
     return;
-};
+}
 
-my $TestObjectLogGet = sub {
+sub TestObjectLogGet {
     my %Param = @_;
 
     my $GetRandomPriority = sub {
@@ -168,9 +165,9 @@ my $TestObjectLogGet = sub {
     );
 
     return;
-};
+}
 
-my $TestObjectLogEntryList = sub {
+sub TestObjectLogEntryList {
     my %Param = @_;
 
     my $GetRandomPriority = sub {
@@ -276,7 +273,7 @@ my $TestObjectLogEntryList = sub {
     );
 
     return;
-};
+}
 
 my @Test = (
     {
@@ -436,206 +433,201 @@ my @Test = (
 
 for my $Test (@Test) {
 
-    $Helper->FixedTimeSet();
+    subtest 'CommunicationLog' => sub {
 
-    # Create an object, representing a new communication:
-    my $CommunicationLogObject = $Kernel::OM->Create(
-        'Kernel::System::CommunicationLog',
-        ObjectParams => {
+        FixedTimeSet();
+
+        # Create an object, representing a new communication:
+        my $CommunicationLogObject = $Kernel::OM->Create(
+            'Kernel::System::CommunicationLog',
+            ObjectParams => {
+                Transport => $Test->{Create}->{Transport},
+                Direction => $Test->{Create}->{Direction},
+            },
+        );
+
+        my $GeneratedCommunicationID = $CommunicationLogObject->CommunicationIDGet();
+        my $CommunicationDBObject    = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
+        my $CommunicationData        = $CommunicationDBObject->CommunicationGet();
+        my $Existing                 = IsHashRefWithData($CommunicationData);
+        $Self->False(
+            $Existing,
+            "$Test->{Name} - Object create - Communication Get (without CommunicationID).",
+        );
+
+        $CommunicationData = $CommunicationDBObject->CommunicationGet(
+            CommunicationID => $GeneratedCommunicationID,
+        );
+        $Existing = IsHashRefWithData($CommunicationData);
+        $Self->True(
+            $Existing,
+            "$Test->{Name} - Object create - Communication Get (given CommunicationID).",
+        );
+
+        $Self->Is(
+            $CommunicationData->{CommunicationID},
+            $GeneratedCommunicationID,
+            "$Test->{Name} - Communication start - Generated and stored CommunicationIDs equal.",
+        );
+        $Self->Is(
+            $CommunicationData->{Transport},
+            $Test->{Create}->{Transport},
+            "$Test->{Name} - Communication start - Created and stored transports equal.",
+        );
+        $Self->Is(
+            $CommunicationData->{Direction},
+            $Test->{Create}->{Direction},
+            "$Test->{Name} - Communication start - Created and stored directions equal.",
+        );
+        $Self->Is(
+            $CommunicationData->{Status},
+            $Test->{Start}->{Status},
+            "$Test->{Name} - Communication start - Created and stored status equal.",
+        );
+
+        # Communication list
+        my $CommunicationList = $CommunicationDBObject->CommunicationList(
             Transport => $Test->{Create}->{Transport},
             Direction => $Test->{Create}->{Direction},
-        },
-    );
+            Status    => $Test->{Start}->{Status},
+        );
 
-    my $GeneratedCommunicationID = $CommunicationLogObject->CommunicationIDGet();
+        $Existing = IsArrayRefWithData($CommunicationList);
 
-    my $CommunicationDBObject = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
+        $Self->True(
+            $Existing,
+            "$Test->{Name} - Communication list - Communication list result.",
+        );
 
-    my $CommunicationData = $CommunicationDBObject->CommunicationGet();
-    my $Existing          = IsHashRefWithData($CommunicationData);
-    $Self->False(
-        $Existing,
-        "$Test->{Name} - Object create - Communication Get (without CommunicationID).",
-    );
+        $Self->Is(
+            $CommunicationList->[0]->{CommunicationID},
+            $GeneratedCommunicationID,
+            "$Test->{Name} - Communication list - CommunicationID.",
+        );
 
-    $CommunicationData = $CommunicationDBObject->CommunicationGet(
-        CommunicationID => $GeneratedCommunicationID,
-    );
-    $Existing = IsHashRefWithData($CommunicationData);
-    $Self->True(
-        $Existing,
-        "$Test->{Name} - Object create - Communication Get (given CommunicationID).",
-    );
+        $Self->Is(
+            $CommunicationList->[0]->{Transport},
+            $Test->{Create}->{Transport},
+            "$Test->{Name} - Communication list - Transport.",
+        );
 
-    $Self->Is(
-        $CommunicationData->{CommunicationID},
-        $GeneratedCommunicationID,
-        "$Test->{Name} - Communication start - Generated and stored CommunicationIDs equal.",
-    );
-    $Self->Is(
-        $CommunicationData->{Transport},
-        $Test->{Create}->{Transport},
-        "$Test->{Name} - Communication start - Created and stored transports equal.",
-    );
-    $Self->Is(
-        $CommunicationData->{Direction},
-        $Test->{Create}->{Direction},
-        "$Test->{Name} - Communication start - Created and stored directions equal.",
-    );
-    $Self->Is(
-        $CommunicationData->{Status},
-        $Test->{Start}->{Status},
-        "$Test->{Name} - Communication start - Created and stored status equal.",
-    );
+        $Self->Is(
+            $CommunicationList->[0]->{Direction},
+            $Test->{Create}->{Direction},
+            "$Test->{Name} - Communication list - Direction.",
+        );
 
-    #
-    # Communication list
-    #
-    my $CommunicationList = $CommunicationDBObject->CommunicationList(
-        Transport => $Test->{Create}->{Transport},
-        Direction => $Test->{Create}->{Direction},
-        Status    => $Test->{Start}->{Status},
-    );
+        $Self->Is(
+            $CommunicationList->[0]->{Status},
+            $Test->{Start}->{Status},
+            "$Test->{Name} - Communication list - Status.",
+        );
 
-    $Existing = IsArrayRefWithData($CommunicationList);
+        $Self->True(
+            $CommunicationList->[0]->{StartTime},
+            "$Test->{Name} - Communication list - StartTime.",
+        );
 
-    $Self->True(
-        $Existing,
-        "$Test->{Name} - Communication list - Communication list result.",
-    );
+        $Self->False(
+            $CommunicationList->[0]->{EndTime},
+            "$Test->{Name} - Communication list - EndTime.",
+        );
 
-    $Self->Is(
-        $CommunicationList->[0]->{CommunicationID},
-        $GeneratedCommunicationID,
-        "$Test->{Name} - Communication list - CommunicationID.",
-    );
+        $Self->False(
+            $CommunicationList->[0]->{Duration},
+            "$Test->{Name} - Communication list - Duration.",
+        );
 
-    $Self->Is(
-        $CommunicationList->[0]->{Transport},
-        $Test->{Create}->{Transport},
-        "$Test->{Name} - Communication list - Transport.",
-    );
+        FixedTimeAddSeconds(1);
 
-    $Self->Is(
-        $CommunicationList->[0]->{Direction},
-        $Test->{Create}->{Direction},
-        "$Test->{Name} - Communication list - Direction.",
-    );
+        #
+        # Communication Stop
+        #
 
-    $Self->Is(
-        $CommunicationList->[0]->{Status},
-        $Test->{Start}->{Status},
-        "$Test->{Name} - Communication list - Status.",
-    );
+        my $Success = $CommunicationLogObject->CommunicationStop(
+            Status => $Test->{Stop}->{Status},
+        );
 
-    $Self->True(
-        $CommunicationList->[0]->{StartTime},
-        "$Test->{Name} - Communication list - StartTime.",
-    );
+        my $CommunicationListAfterStop = $CommunicationDBObject->CommunicationList(
+            Transport => $Test->{Create}->{Transport},
+            Direction => $Test->{Create}->{Direction},
+            Status    => $Test->{Stop}->{Status},
+        );
+use Data::Dumper;
+warn Dumper( $Test, $CommunicationListAfterStop );
 
-    $Self->False(
-        $CommunicationList->[0]->{EndTime},
-        "$Test->{Name} - Communication list - EndTime.",
-    );
+        $Existing = IsArrayRefWithData($CommunicationListAfterStop);
 
-    $Self->False(
-        $CommunicationList->[0]->{Duration},
-        "$Test->{Name} - Communication list - Duration.",
-    );
+        $Self->True(
+            $Existing,
+            "$Test->{Name} - Communication stop - Communication list result.",
+        );
 
-    $Helper->FixedTimeAddSeconds(1);
+        $Self->Is(
+            $CommunicationListAfterStop->[0]->{CommunicationID},
+            $GeneratedCommunicationID,
+            "$Test->{Name} - Communication stop - CommunicationID.",
+        );
 
-    #
-    # Communication Stop
-    #
+        $Self->Is(
+            $CommunicationListAfterStop->[0]->{Transport},
+            $Test->{ExpectedResult}->{Transport},
+            "$Test->{Name} - Communication stop - Transport.",
+        );
 
-    my $Success = $CommunicationLogObject->CommunicationStop(
-        Status => $Test->{Stop}->{Status},
-    );
+        $Self->Is(
+            $CommunicationListAfterStop->[0]->{Direction},
+            $Test->{ExpectedResult}->{Direction},
+            "$Test->{Name} - Communication stop - Direction.",
+        );
 
-    $CommunicationList = $CommunicationDBObject->CommunicationList(
-        Transport => $Test->{Create}->{Transport},
-        Direction => $Test->{Create}->{Direction},
-        Status    => $Test->{Stop}->{Status},
-    );
+        $Self->Is(
+            $CommunicationListAfterStop->[0]->{Status},
+            $Test->{ExpectedResult}->{Status},
+            "$Test->{Name} - Communication stop - Status.",
+        );
 
-    $Existing = IsArrayRefWithData($CommunicationList);
+        $Self->True(
+            $CommunicationListAfterStop->[0]->{StartTime},
+            "$Test->{Name} - Communication stop - StartTime.",
+        );
 
-    $Self->True(
-        $Existing,
-        "$Test->{Name} - Communication stop - Communication list result.",
-    );
+        $Self->True(
+            $CommunicationListAfterStop->[0]->{EndTime},
+            "$Test->{Name} - Communication stop - EndTime.",
+        );
 
-    $Self->Is(
-        $CommunicationList->[0]->{CommunicationID},
-        $GeneratedCommunicationID,
-        "$Test->{Name} - Communication stop - CommunicationID.",
-    );
+        $Self->True(
+            $CommunicationListAfterStop->[0]->{Duration},    # 1 second
+            "$Test->{Name} - Communication stop - Duration.",
+        );
 
-    $Self->Is(
-        $CommunicationList->[0]->{Transport},
-        $Test->{ExpectedResult}->{Transport},
-        "$Test->{Name} - Communication stop - Transport.",
-    );
+        # Communication delete
 
-    $Self->Is(
-        $CommunicationList->[0]->{Direction},
-        $Test->{ExpectedResult}->{Direction},
-        "$Test->{Name} - Communication stop - Direction.",
-    );
+        my $Result = $CommunicationDBObject->CommunicationDelete(
+            CommunicationID => $GeneratedCommunicationID,
+        );
 
-    $Self->Is(
-        $CommunicationList->[0]->{Status},
-        $Test->{ExpectedResult}->{Status},
-        "$Test->{Name} - Communication stop - Status.",
-    );
+        $Self->True(
+            $Result,
+            "$Test->{Name} - Communication delete. - Given CommunicationID.",
+        );
 
-    $Self->True(
-        $CommunicationList->[0]->{StartTime},
-        "$Test->{Name} - Communication stop - StartTime.",
-    );
+        $CommunicationData = $CommunicationDBObject->CommunicationGet(
+            CommunicationID => $GeneratedCommunicationID,
+        );
 
-    $Self->True(
-        $CommunicationList->[0]->{EndTime},
-        "$Test->{Name} - Communication stop - EndTime.",
-    );
+        $Existing = IsHashRefWithData($CommunicationData);
 
-    $Self->True(
-        $CommunicationList->[0]->{Duration},    # 1 second
-        "$Test->{Name} - Communication stop - Duration.",
-    );
-
-    #
-    # Communication delete
-    #
-
-    my $Result = $CommunicationDBObject->CommunicationDelete(
-        CommunicationID => $GeneratedCommunicationID,
-    );
-
-    $Self->True(
-        $Result,
-        "$Test->{Name} - Communication delete. - Given CommunicationID.",
-    );
-
-    $CommunicationData = $CommunicationDBObject->CommunicationGet(
-        CommunicationID => $GeneratedCommunicationID,
-    );
-
-    $Existing = IsHashRefWithData($CommunicationData);
-
-    $Self->False(
-        $Existing,
-        "$Test->{Name} - Communication delete - Communication existing after delete (given CommunicationID).",
-    );
-
+        $Self->False(
+            $Existing,
+            "$Test->{Name} - Communication delete - Communication existing after delete (given CommunicationID).",
+        );
+    }
 }
 
-$TestObjectLogDelete->();
-$TestObjectLogGet->();
-$TestObjectLogEntryList->();
+subtest 'LogDelete'    => \&TestObjectLogDelete;
+subtest 'LogGet'       => \&TestObjectLogGet;
+subtest 'LogEntryList' => \&TestObjectLogEntryList;
 
-
-$Self->DoneTesting();
-
-
+done_testing();

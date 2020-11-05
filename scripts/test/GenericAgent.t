@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -623,10 +624,10 @@ my $TestJobName   = 'Job' . $Helper->GetRandomID();
 my $OldPriorityID = 3;
 my $NewPriorityID = 1;
 
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 # Go 7 days to the past.
-$Helper->FixedTimeAddSeconds( -60 * 60 * 24 * 7 );
+FixedTimeAddSeconds( -60 * 60 * 24 * 7 );
 
 # Add generic agent job - select a ticket with LastClose in last 3 days and set its priority to very low.
 # At first job run, ticket has not to be found because last close is 4 days ago ('last 3 days' doesn't match this value).
@@ -683,7 +684,7 @@ my @Tests = (
 for my $Test (@Tests) {
 
     # Add one day.
-    $Helper->FixedTimeAddSeconds( 60 * 60 * 24 );
+    FixedTimeAddSeconds( 60 * 60 * 24 );
 
     my $Success = $TicketObject->TicketStateSet(
         State    => $Test->{State},
@@ -697,7 +698,7 @@ for my $Test (@Tests) {
 }
 
 # Unset fixed time because the job has to run in present.
-$Helper->FixedTimeUnset();
+FixedTimeUnset();
 
 # Run the job - test ticket has not to be found.
 $Self->True(
@@ -717,10 +718,10 @@ $Self->Is(
     "First job run - PriorityID is still '$OldPriorityID'",
 );
 
-$Helper->FixedTimeSet();
+FixedTimeSet();
 
 # Continue with ticket state changes (go 4 days to the past).
-$Helper->FixedTimeAddSeconds( -60 * 60 * 24 * 4 );
+FixedTimeAddSeconds( -60 * 60 * 24 * 4 );
 
 # Open the ticket 3 days ago and close 2 days ago.
 @Tests = (
@@ -737,7 +738,7 @@ $Helper->FixedTimeAddSeconds( -60 * 60 * 24 * 4 );
 for my $Test (@Tests) {
 
     # Add one day.
-    $Helper->FixedTimeAddSeconds( 60 * 60 * 24 );
+    FixedTimeAddSeconds( 60 * 60 * 24 );
 
     my $Success = $TicketObject->TicketStateSet(
         State    => $Test->{State},
@@ -751,7 +752,7 @@ for my $Test (@Tests) {
 }
 
 # Unset fixed time because the job has to run in present.
-$Helper->FixedTimeUnset();
+FixedTimeUnset();
 
 # Run the job again - test ticket has to be found.
 $Self->True(

@@ -21,6 +21,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -29,7 +30,7 @@ use Kernel::System::ObjectManager;
 
 # Get needed objects
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-$HelperObject->FixedTimeSet();
+FixedTimeSet();
 
 my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
@@ -321,7 +322,7 @@ for my $Test (@Tests) {
     );
 }
 
-$HelperObject->FixedTimeAddSeconds( 60 * 60 * 24 * 35 );    # Add 35 days, it should be enough to make results obsolete.
+FixedTimeAddSeconds( 60 * 60 * 24 * 35 );    # Add 35 days, it should be enough to make results obsolete.
 my $FileString = $SysConfigObject->_EffectiveValues2PerlFile(
     Settings => [
         {

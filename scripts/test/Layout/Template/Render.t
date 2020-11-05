@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self %Param));
@@ -526,7 +527,7 @@ for my $Test (@Tests) {
             },
         );
 
-        $HelperObject->FixedTimeSet($DateTimeObject);
+        FixedTimeSet($DateTimeObject);
     }
 
     # make sure EnvRef is populated every time
@@ -565,7 +566,7 @@ for my $Test (@Tests) {
     if ( $Test->{FixedTimeSet} ) {
 
         # Reset time to the current timestamp.
-        $HelperObject->FixedTimeSet();
+        FixedTimeSet();
     }
 }
 

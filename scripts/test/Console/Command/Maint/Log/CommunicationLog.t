@@ -19,6 +19,7 @@ use warnings;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
@@ -74,7 +75,7 @@ for my $TestCommunication (@Communications) {
                 String => $TestCommunication->{Date}
             }
         );
-        $HelperObject->FixedTimeSet($TestDateTimeObject);
+        FixedTimeSet($TestDateTimeObject);
     }
 
     my $CommunicationLogObject = $Kernel::OM->Create(
@@ -91,7 +92,7 @@ for my $TestCommunication (@Communications) {
 
     $TestCommunication->{ID} = $CommunicationLogObject->CommunicationIDGet();
 
-    $HelperObject->FixedTimeUnset();
+    FixedTimeUnset();
 }
 
 my $RunTest = sub {
@@ -239,7 +240,7 @@ for my $CommunicationToTestPurge (@CommunicationsToTestPurge) {
     my $TestDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
     $TestDateTimeObject->Subtract( Hours => $CommunicationToTestPurge->{Date}->{Hours} );
 
-    $HelperObject->FixedTimeSet($TestDateTimeObject);
+    FixedTimeSet($TestDateTimeObject);
 
     my $CommunicationLogObject = $Kernel::OM->Create(
         'Kernel::System::CommunicationLog',
@@ -253,7 +254,7 @@ for my $CommunicationToTestPurge (@CommunicationsToTestPurge) {
         $CommunicationLogObject->CommunicationStop( Status => $CommunicationToTestPurge->{Status} );
     }
     $CommunicationToTestPurge->{ID} = $CommunicationLogObject->CommunicationIDGet();
-    $HelperObject->FixedTimeUnset();
+    FixedTimeUnset();
 
 }
 
