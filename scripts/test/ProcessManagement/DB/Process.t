@@ -930,7 +930,7 @@ for my $Test (@Tests) {
         print "Force a gap between create and update process, Waiting 2s\n";
 
         # wait 2 seconds
-        $Helper->FixedTimeAddSeconds(2);
+        FixedTimeAddSeconds(2);
 
         my $Success = $ProcessObject->ProcessUpdate( %{ $Test->{Config} } );
 

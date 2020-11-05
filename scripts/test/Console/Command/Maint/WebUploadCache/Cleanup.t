@@ -119,7 +119,7 @@ for my $Module (qw(DB FS)) {
     FixedTimeSet();
 
     # wait 24h+1s to expire upload cache
-    $Helper->FixedTimeAddSeconds(86401);
+    FixedTimeAddSeconds(86401);
 
     # delete upload cache - should remove cached form
     $ExitCode = $CommandObject->Execute();

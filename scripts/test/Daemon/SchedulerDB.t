@@ -585,7 +585,7 @@ my @Tests = (
 for my $Test (@Tests) {
 
     if ( $Test->{PastSecondsAdd} ) {
-        $Helper->FixedTimeAddSeconds( -$Test->{PastSecondsAdd} );
+        FixedTimeAddSeconds( -$Test->{PastSecondsAdd} );
         print "  Set $Test->{PastSecondsAdd} seconds into the past.\n";
     }
 
@@ -613,7 +613,7 @@ for my $Test (@Tests) {
     }
 
     if ( $Test->{PastSecondsAdd} ) {
-        $Helper->FixedTimeAddSeconds( $Test->{PastSecondsAdd} );
+        FixedTimeAddSeconds( $Test->{PastSecondsAdd} );
         print "  Restored time.\n";
     }
 
@@ -679,7 +679,7 @@ my $OriginalTimeStamp = $Kernel::OM->Create('Kernel::System::DateTime')->ToStrin
 
 for my $Test (@Tests) {
     if ( $Test->{AddSeconds} ) {
-        $Helper->FixedTimeAddSeconds( $Test->{AddSeconds} );
+        FixedTimeAddSeconds( $Test->{AddSeconds} );
     }
 
     my $CurrentTimeStamp = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
@@ -835,7 +835,7 @@ for my $Test (@Tests) {
             "$Test->{Name} TaskAdd() - result should not be undef",
         );
 
-        $Helper->FixedTimeAddSeconds(60);
+        FixedTimeAddSeconds(60);
     }
 
     my @List = $SchedulerDBObject->TaskList(

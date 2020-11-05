@@ -544,7 +544,7 @@ for my $Test (@Test) {
         "$Test->{Name} - Communication list - Duration.",
     );
 
-    $Helper->FixedTimeAddSeconds(1);
+    FixedTimeAddSeconds(1);
 
     #
     # Communication Stop

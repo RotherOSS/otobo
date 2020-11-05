@@ -399,7 +399,7 @@ for my $Test (@Tests) {
 
 # try to update the ACL
 print "Force a gap between create and update ACL, Sleeping 2s\n";
-$Helper->FixedTimeAddSeconds(2);
+ixedTimeAddSeconds(2);
 
 TEST:
 for my $Test (@Tests) {

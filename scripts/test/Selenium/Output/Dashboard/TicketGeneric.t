@@ -141,7 +141,7 @@ $Selenium->RunTest(
         );
 
         # Wait 5 minutes to have escalation trigger.
-        $Helper->FixedTimeAddSeconds(300);
+        FixedTimeAddSeconds(300);
 
         my %Configs = (
             '0100-TicketPendingReminder' => {

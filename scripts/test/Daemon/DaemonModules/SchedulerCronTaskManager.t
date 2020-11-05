@@ -90,7 +90,7 @@ FixedTimeSet();
 my $CurSysDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
 # go back in time to have 0 seconds in the current minute
-$Helper->FixedTimeAddSeconds( $CurSysDTObject->Get()->{Second} - 60 );
+FixedTimeAddSeconds( $CurSysDTObject->Get()->{Second} - 60 );
 
 # get random ID
 my $RandomID = $Helper->GetRandomID();
@@ -194,7 +194,7 @@ for my $Test (@Tests) {
         my $StartSystemTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
         my $SecondsAdd            = ( 60 - $StartSystemTimeObject->Get()->{Second} );
 
-        $Helper->FixedTimeAddSeconds($SecondsAdd);
+        FixedTimeAddSeconds($SecondsAdd);
 
         my $EndSystemTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
@@ -211,7 +211,7 @@ for my $Test (@Tests) {
     # add seconds if needed
     if ( $Test->{SecondsAdd} ) {
         my $StartSystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
-        $Helper->FixedTimeAddSeconds( $Test->{SecondsAdd} );
+        FixedTimeAddSeconds( $Test->{SecondsAdd} );
         my $EndSystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
         printf(
             "  Added %s seconds to time from %s to %s\n",

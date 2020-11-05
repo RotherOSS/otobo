@@ -238,7 +238,7 @@ my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->
 );
 
 # Add 5 minutes for escalation times evaluation.
-$Helper->FixedTimeAddSeconds(300);
+FixedTimeAddSeconds(300);
 
 my $ArticleID = $ArticleBackendObject->ArticleCreate(
     TicketID             => $TicketID,

@@ -378,7 +378,7 @@ $Self->Is(
 );
 
 # Add 5 minutes to fixed time.
-$Helper->FixedTimeAddSeconds(300);
+FixedTimeAddSeconds(300);
 
 # Create user who will perform merge action.
 my $Language      = 'de';

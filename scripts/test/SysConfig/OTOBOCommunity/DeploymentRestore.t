@@ -255,7 +255,7 @@ my $PrepareLockTests = sub {
     }
 
     if ( $Test->{AddSeconds} ) {
-        $HelperObject->FixedTimeAddSeconds( $Test->{AddSeconds} );
+        FixedTimeAddSeconds( $Test->{AddSeconds} );
     }
 
     return $ExclusiveLockGUID;
@@ -640,7 +640,7 @@ for my $ModifiedVersionID ( sort @ModifiedVersions ) {
         "DeploymentUnlock() user",
     );
 
-    $HelperObject->FixedTimeAddSeconds(5);
+    FixedTimeAddSeconds(5);
 
     # Lock setting (so it can be updated).
     $ExclusiveLockGUID = $SysConfigDBObject->DefaultSettingLock(

@@ -627,7 +627,7 @@ my $NewPriorityID = 1;
 FixedTimeSet();
 
 # Go 7 days to the past.
-$Helper->FixedTimeAddSeconds( -60 * 60 * 24 * 7 );
+FixedTimeAddSeconds( -60 * 60 * 24 * 7 );
 
 # Add generic agent job - select a ticket with LastClose in last 3 days and set its priority to very low.
 # At first job run, ticket has not to be found because last close is 4 days ago ('last 3 days' doesn't match this value).
@@ -684,7 +684,7 @@ my @Tests = (
 for my $Test (@Tests) {
 
     # Add one day.
-    $Helper->FixedTimeAddSeconds( 60 * 60 * 24 );
+    FixedTimeAddSeconds( 60 * 60 * 24 );
 
     my $Success = $TicketObject->TicketStateSet(
         State    => $Test->{State},
@@ -721,7 +721,7 @@ $Self->Is(
 FixedTimeSet();
 
 # Continue with ticket state changes (go 4 days to the past).
-$Helper->FixedTimeAddSeconds( -60 * 60 * 24 * 4 );
+FixedTimeAddSeconds( -60 * 60 * 24 * 4 );
 
 # Open the ticket 3 days ago and close 2 days ago.
 @Tests = (
@@ -738,7 +738,7 @@ $Helper->FixedTimeAddSeconds( -60 * 60 * 24 * 4 );
 for my $Test (@Tests) {
 
     # Add one day.
-    $Helper->FixedTimeAddSeconds( 60 * 60 * 24 );
+    FixedTimeAddSeconds( 60 * 60 * 24 );
 
     my $Success = $TicketObject->TicketStateSet(
         State    => $Test->{State},

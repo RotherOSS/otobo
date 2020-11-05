@@ -94,7 +94,7 @@ my $SystemTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 my $SecsDiff         = 60 - $SystemTimeObject->Get()->{Second};
 
 # fix time to have 0 seconds in the current minute
-$Helper->FixedTimeAddSeconds($SecsDiff);
+FixedTimeAddSeconds($SecsDiff);
 
 my $DateTime   = $Kernel::OM->Create('Kernel::System::DateTime');
 my $SystemTime = $DateTime->ToEpoch();
@@ -303,7 +303,7 @@ for my $Test (@Tests) {
 
     if ( $Test->{AddSecondsBefore} ) {
         my $StartSystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
-        $Helper->FixedTimeAddSeconds( $Test->{AddSecondsBefore} );
+        FixedTimeAddSeconds( $Test->{AddSecondsBefore} );
         my $EndSystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
         print("  Added $Test->{AddSecondsBefore} seconds to time from $StartSystemTime to $EndSystemTime\n");
     }
@@ -540,7 +540,7 @@ for my $Test (@Tests) {
             "$Test->{Name} RecurrentTaskExecute() - result with true",
         );
 
-        $Helper->FixedTimeAddSeconds(60);
+        FixedTimeAddSeconds(60);
     }
 
     my @List = $SchedulerDBObject->TaskList(
@@ -629,7 +629,7 @@ $Self->Is(
 for my $Test (@Tests) {
 
     if ( $Test->{AddSeconds} ) {
-        $Helper->FixedTimeAddSeconds( $Test->{AddSeconds} );
+        FixedTimeAddSeconds( $Test->{AddSeconds} );
     }
 
     $SchedulerDBObject->RecurrentTaskUnlockExpired(

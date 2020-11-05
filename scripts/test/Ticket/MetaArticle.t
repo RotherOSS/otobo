@@ -320,7 +320,7 @@ $Self->IsDeeply(
     'MetaArticleIndex()'
 );
 
-$Helper->FixedTimeAddSeconds(60);
+FixedTimeAddSeconds(60);
 
 $SuccessUpdate = $ArticleBackendObject->_MetaArticleUpdate(
     ArticleID => $ArticleID,

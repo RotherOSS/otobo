@@ -82,7 +82,7 @@ $Self->False(
 );
 
 # wait 2 seconds to update the PID change time
-$Helper->FixedTimeAddSeconds(2);
+FixedTimeAddSeconds(2);
 
 $UpdateSuccess = $PIDObject->PIDUpdate(
     Name => 'Test',

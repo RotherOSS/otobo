@@ -59,7 +59,7 @@ for ( 1 .. 2 ) {
 }
 
 FixedTimeSet();
-$Helper->FixedTimeAddSeconds(60);
+FixedTimeAddSeconds(60);
 
 # update ticket 1
 my $Success = $TicketObject->TicketLockSet(
@@ -83,7 +83,7 @@ $Self->True(
     "TicketStateSet() for test - $TicketIDs[1]",
 );
 
-$Helper->FixedTimeAddSeconds(60);
+FixedTimeAddSeconds(60);
 
 my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 

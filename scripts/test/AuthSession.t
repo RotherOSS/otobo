@@ -700,7 +700,7 @@ for my $ModuleFile (@BackendModuleFiles) {
         "#$Module - GetActiveSessions - correct data",
     );
 
-    $Helper->FixedTimeAddSeconds(90);
+    FixedTimeAddSeconds(90);
 
     my %NewSessionData = (
         UserLogin => 'root3',

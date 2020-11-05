@@ -250,7 +250,7 @@ for my $Test (@Tests) {
     }
 
     if ( $Test->{AddSeconds} ) {
-        $Helper->FixedTimeAddSeconds( $Test->{AddSeconds} );
+        FixedTimeAddSeconds( $Test->{AddSeconds} );
     }
 
     my %Job = $GenericAgentObject->JobGet( Name => 'GA' . $RandomID );

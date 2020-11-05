@@ -548,7 +548,7 @@ for my $Test (@Tests) {
             "$Test->{Name} FutureTaskAdd() - result with true",
         );
 
-        $Helper->FixedTimeAddSeconds(60);
+        FixedTimeAddSeconds(60);
     }
 
     my @List = $SchedulerDBObject->FutureTaskList(

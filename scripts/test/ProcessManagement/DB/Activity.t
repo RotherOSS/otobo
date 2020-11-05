@@ -771,7 +771,7 @@ for my $Test (@Tests) {
         print "Force a gap between create and update activity, Waiting 2s\n";
 
         # wait 2 seconds
-        $Helper->FixedTimeAddSeconds(2);
+        FixedTimeAddSeconds(2);
 
         my $Success = $ActivityObject->ActivityUpdate( %{ $Test->{Config} } );
 

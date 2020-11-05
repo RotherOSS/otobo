@@ -752,7 +752,7 @@ my %TicketData = $TicketObject->TicketGet(
 my $ChangeTime = $TicketData{Changed};
 
 # wait 5 seconds
-$Helper->FixedTimeAddSeconds(5);
+FixedTimeAddSeconds(5);
 
 my $TicketTitle = $TicketObject->TicketTitleUpdate(
     Title => 'Very long title 01234567890123456789012345678901234567890123456789'
@@ -808,7 +808,7 @@ $Self->Is(
 $ChangeTime = $TicketData{Changed};
 
 # wait 5 seconds
-$Helper->FixedTimeAddSeconds(5);
+FixedTimeAddSeconds(5);
 
 # set unlock timeout
 my $UnlockTimeout = $TicketObject->TicketUnlockTimeoutUpdate(
@@ -842,7 +842,7 @@ $ChangeTime = $TicketData{Changed};
 my $CurrentQueueID = $TicketData{QueueID};
 
 # wait 5 seconds
-$Helper->FixedTimeAddSeconds(5);
+FixedTimeAddSeconds(5);
 
 my $NewQueue = $CurrentQueueID != 1 ? 1 : 2;
 
@@ -885,7 +885,7 @@ $ChangeTime = $TicketData{Changed};
 my $CurrentTicketType = $TicketData{TypeID};
 
 # wait 5 seconds
-$Helper->FixedTimeAddSeconds(5);
+FixedTimeAddSeconds(5);
 
 # create a test type
 my $TypeID = $TypeObject->TypeAdd(
@@ -943,7 +943,7 @@ my $ServiceID = $ServiceObject->ServiceAdd(
 );
 
 # wait 1 seconds
-$Helper->FixedTimeAddSeconds(1);
+FixedTimeAddSeconds(1);
 
 # set type
 my $TicketServiceSet = $TicketObject->TicketServiceSet(
@@ -982,7 +982,7 @@ $ServiceObject->ServiceUpdate(
 $ChangeTime = $TicketData{Changed};
 
 # wait 5 seconds
-$Helper->FixedTimeAddSeconds(5);
+FixedTimeAddSeconds(5);
 
 my $TicketEscalationIndexBuild = $TicketObject->TicketEscalationIndexBuild(
     TicketID => $TicketID,
@@ -1019,7 +1019,7 @@ my $SLAID = $SLAObject->SLAAdd(
 );
 
 # wait 5 seconds
-$Helper->FixedTimeAddSeconds(5);
+FixedTimeAddSeconds(5);
 
 # set SLA
 my $TicketSLASet = $TicketObject->TicketSLASet(
@@ -1574,7 +1574,7 @@ my %TicketCreated = $TicketObject->TicketGet(
 );
 
 # wait 2 seconds
-$Helper->FixedTimeAddSeconds(2);
+FixedTimeAddSeconds(2);
 
 my $TicketIDSortOrder2 = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title - ticket sort/order by tests2',
@@ -1589,7 +1589,7 @@ my $TicketIDSortOrder2 = $TicketObject->TicketCreate(
 );
 
 # wait 2 seconds
-$Helper->FixedTimeAddSeconds(2);
+FixedTimeAddSeconds(2);
 
 my $Success = $TicketObject->TicketStateSet(
     State    => 'open',
@@ -1697,7 +1697,7 @@ my $TicketIDSortOrder3 = $TicketObject->TicketCreate(
 );
 
 # wait 2 seconds
-$Helper->FixedTimeAddSeconds(2);
+FixedTimeAddSeconds(2);
 
 my $TicketIDSortOrder4 = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title - ticket sort/order by tests2',
@@ -1712,7 +1712,7 @@ my $TicketIDSortOrder4 = $TicketObject->TicketCreate(
 );
 
 # wait 2 seconds
-$Helper->FixedTimeAddSeconds(2);
+FixedTimeAddSeconds(2);
 
 my $TicketIDSortOrder5 = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title - ticket sort/order by tests5 (with other queue)',
@@ -2128,7 +2128,7 @@ $Self->Is(
 );
 
 # check that searches with NewerDate in the future are not executed
-$Helper->FixedTimeAddSeconds( -60 * 60 );
+FixedTimeAddSeconds( -60 * 60 );
 
 # Test TicketCreateTimeNewerDate (future date)
 $TicketCreateTimeNewerDate = $Kernel::OM->Create('Kernel::System::DateTime');
@@ -2328,7 +2328,7 @@ for my $QueueID (@QueueIDs) {
     );
 
     # Wait 1 second to have escalations.
-    $Helper->FixedTimeAddSeconds(1);
+    FixedTimeAddSeconds(1);
 
     # Renew objects because of transaction.
     $Kernel::OM->ObjectsDiscard(

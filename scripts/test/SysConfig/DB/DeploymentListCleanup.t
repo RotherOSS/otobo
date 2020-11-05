@@ -154,7 +154,7 @@ for my $Test (@Tests) {
         "$Test->{Name} Deployment exists after DeploymentListCleanup() immediately",
     );
 
-    $Helper->FixedTimeAddSeconds(21);
+    FixedTimeAddSeconds(21);
 
     $Success = $SysConfigDBObject->DeploymentListCleanup();
     $Self->True(

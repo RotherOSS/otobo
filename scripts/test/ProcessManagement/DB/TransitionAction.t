@@ -619,7 +619,7 @@ for my $Test (@Tests) {
         print "Force a gap between create and update TransitionAction, Waiting 2s\n";
 
         # wait 2 seconds
-        $Helper->FixedTimeAddSeconds(2);
+        FixedTimeAddSeconds(2);
 
         my $Success = $TransitionActionObject->TransitionActionUpdate( %{ $Test->{Config} } );
 

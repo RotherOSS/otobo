@@ -52,7 +52,7 @@ my $StartSystemTime = $TimeObject->SystemTime();
         "Stay with fixed time",
     );
 
-    $HelperObject->FixedTimeAddSeconds(-10);
+    FixedTimeAddSeconds(-10);
 
     $Self->Is(
         $TimeObject->SystemTime(),

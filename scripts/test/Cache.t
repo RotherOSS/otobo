@@ -254,7 +254,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # wait 7 seconds
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $Helper->FixedTimeAddSeconds(7);
+            FixedTimeAddSeconds(7);
         }
         else {
             sleep 7;
@@ -290,7 +290,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # wait 3 seconds
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $Helper->FixedTimeAddSeconds(3);
+            FixedTimeAddSeconds(3);
         }
         else {
             sleep 3;
@@ -313,7 +313,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # wait 3 seconds
         if ( $FixedTimeCompatibleBackends{$Module} ) {
-            $Helper->FixedTimeAddSeconds(3);
+            FixedTimeAddSeconds(3);
         }
         else {
             sleep 3;

@@ -163,7 +163,7 @@ for my $Item ( 1 .. 6 ) {
         UserID             => 1,
     );
 
-    $Helper->FixedTimeAddSeconds( 2 * $Item * 60 );
+    FixedTimeAddSeconds( 2 * $Item * 60 );
 
     my $Success = $TicketObject->TicketStateSet(
         StateID            => 4,
@@ -194,7 +194,7 @@ for my $Item ( 1 .. 6 ) {
     );
     $Self->True( $ArticleID, "ArticleCreate() Created article $ArticleID" );
 
-    $Helper->FixedTimeAddSeconds( $Item * 60 );
+    FixedTimeAddSeconds( $Item * 60 );
 
     # Close all ticket's except the last one.
     if ( $Item != 6 ) {

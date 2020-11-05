@@ -321,7 +321,7 @@ FixedTimeSet();
 for my $Test (@Tests) {
     for ( 1 .. $Test->{Iterations} ) {
         my $Counter = $TicketNumberBaseObject->TicketNumberCounterAdd( Offset => 1 );
-        $Helper->FixedTimeAddSeconds( $Test->{Seconds} );
+        FixedTimeAddSeconds( $Test->{Seconds} );
     }
 
     my $Success = $TicketNumberBaseObject->TicketNumberCounterCleanup();

@@ -215,7 +215,7 @@ for my $Hours ( sort keys %WorkingHours ) {
         $Self->True( $TicketID, "TicketCreate() $TicketTitle" );
 
         # wait 1 second to have escalations
-        $HelperObject->FixedTimeAddSeconds(1);
+        FixedTimeAddSeconds(1);
 
         # Renew objects because of transaction.
         $Kernel::OM->ObjectsDiscard(

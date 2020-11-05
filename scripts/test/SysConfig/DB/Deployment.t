@@ -387,7 +387,7 @@ my $PrepareLockTests = sub {
     }
 
     if ( $Test->{AddSeconds} ) {
-        $Helper->FixedTimeAddSeconds( $Test->{AddSeconds} );
+        FixedTimeAddSeconds( $Test->{AddSeconds} );
     }
 
     return $ExclusiveLockGUID;
@@ -1101,7 +1101,7 @@ my %DeploymentsGet;
 
 for my $DeploymentSource (@DeploymentsAdd) {
 
-    $Helper->FixedTimeAddSeconds(5);
+    FixedTimeAddSeconds(5);
 
     # Lock and add a deployment.
     my $ExclusiveLockGUID = $SysConfigDBObject->DeploymentLock(

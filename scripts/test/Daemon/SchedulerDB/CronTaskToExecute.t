@@ -210,7 +210,7 @@ for my $Test (@Tests) {
     );
 
     # Add more than 1 minute in order to set task to execute.
-    $Helper->FixedTimeAddSeconds(62);
+    FixedTimeAddSeconds(62);
 
     # With DB populated and time passed set tasks to execute again.
     $Success = $SchedulerDBObject->CronTaskToExecute(

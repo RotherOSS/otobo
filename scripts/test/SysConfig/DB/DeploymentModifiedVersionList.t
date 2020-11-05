@@ -162,7 +162,7 @@ $Self->True(
 );
 my %LastDeployment = $SysConfigDBObject->DeploymentGetLast();
 push @DeploymentIDs, $LastDeployment{DeploymentID};
-$HelperObject->FixedTimeAddSeconds(5);
+FixedTimeAddSeconds(5);
 
 my $UpdateSettings = sub {
     my %Param = @_;
@@ -200,7 +200,7 @@ my $UpdateSettings = sub {
             "SettingGet() - $SettingName EffectiveValue",
         );
     }
-    $HelperObject->FixedTimeAddSeconds(5);
+    FixedTimeAddSeconds(5);
 };
 
 my @Updates = (

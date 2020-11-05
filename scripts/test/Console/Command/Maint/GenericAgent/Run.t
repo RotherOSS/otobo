@@ -78,7 +78,7 @@ $Self->IsNot(
 );
 
 # make sure the next ticket is created 1 minute after
-$Helper->FixedTimeAddSeconds(60);
+FixedTimeAddSeconds(60);
 
 my $TicketID2 = $TicketObject->TicketCreate(%TicketConfig);
 $Self->IsNot(
