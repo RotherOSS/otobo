@@ -19,7 +19,7 @@ package Kernel::System::UnitTest::MockTime;
 use strict;
 use warnings;
 use v5.24;
-use namespace::autoclean -except 'import';
+use namespace::autoclean -except => 'import';
 use utf8;
 
 # core modules
