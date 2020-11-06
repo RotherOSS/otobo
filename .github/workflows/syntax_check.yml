@@ -58,12 +58,6 @@ jobs:
               run: 'cp --no-clobber Kernel/Config.pm.docker.dist Kernel/Config.pm'
             - name: fix Kernel/Config/Defaults.pm
               run: "perl -pi -e 's/^use lib /# disabled by syntax_check.yml: use lib/' Kernel/Config/Defaults.pm"
-            - name: Remove Apache scripts and modules
-              run: >
-                rm -r
-                scripts/apache*
-                bin/cgi-bin
-                Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
 
             # The actual test step
             - name: prove
