@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-10-21 16:19+0000\n"
-"PO-Revision-Date: 2020-11-05 03:59+0000\n"
+"PO-Revision-Date: 2020-11-06 05:55+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/"
 "otobo10/otobo/zh_Hans/>\n"
@@ -25215,7 +25215,7 @@ msgstr "服务人员界面搜索工具显示每个工单的行数。"
 
 #. SysConfig
 msgid "Number of shards (NS) and replicas (NR) for the index."
-msgstr ""
+msgstr "索引的分片（NS）和副本（NR）的数量。"
 
 #. SysConfig
 msgid ""
@@ -25235,7 +25235,7 @@ msgstr "OTOBO新闻"
 
 #. SysConfig
 msgid "OTOBO Team Services"
-msgstr ""
+msgstr "OTOBO团队服务"
 
 #. SysConfig
 msgid ""
@@ -25265,7 +25265,7 @@ msgstr ""
 msgid ""
 "Objects to search for, how many entries and which attributs to show. Ticket "
 "attributes, except queue, have to explicitely be stored via Elasticsearch."
-msgstr ""
+msgstr "要搜索的对象，要显示的条目数和属性。"
 
 #. SysConfig
 msgid "Open an external link!"
@@ -25334,7 +25334,7 @@ msgstr "不在办公室的用户。"
 #. SysConfig
 msgid ""
 "Output filter to inject the necessary Dynamic field names in hidden input."
-msgstr ""
+msgstr "输出过滤器可在隐藏的输入中加入必要的动态字段名称。"
 
 #. SysConfig
 msgid ""
@@ -26023,6 +26023,8 @@ msgid ""
 "are allowed before a ban. BanDuration: Duration of the ban. "
 "KeepCacheDuration: How long failed attempts are remembered."
 msgstr ""
+"防止暴力攻击。 MaxAttempt：禁止之前允许多少次登录尝试。 BanDuration：禁令的持续时间。 "
+"KeepCacheDuration：记录失败尝试的时间。"
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue"
@@ -26055,7 +26057,7 @@ msgstr "队列 ↔ 自动回复"
 
 #. SysConfig
 msgid "Quick Close"
-msgstr ""
+msgstr "快速关闭"
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -26067,14 +26069,16 @@ msgid ""
 "are authenticated via ldap. Highly inefficient however, as the whole index "
 "is rebuild every time."
 msgstr ""
+"可以重建Elasticsearch索引，比如通过ldap对CustomerUsers进行了身份验证，就可以重建。不过这样效率很低，因为每次都需要重新构建整"
+"个索引。"
 
 #. SysConfig
 msgid "Rebuilds the ACL preselection cache."
-msgstr ""
+msgstr "重建ACL预选缓存。"
 
 #. SysConfig
 msgid "Rebuilds the escalation index."
-msgstr ""
+msgstr "重建升级索引。"
 
 #. SysConfig
 msgid ""
@@ -26087,7 +26091,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Redis server address. Example: 127.0.0.1:6379."
-msgstr ""
+msgstr "Redis服务器地址，比如：127.0.0.1:6379。"
 
 #. SysConfig
 msgid "Refresh interval"
@@ -26301,7 +26305,7 @@ msgstr "运行中的流程工单"
 msgid ""
 "Runs an initial wildcard search of the existing contacts with data when "
 "accessing the AdminContactWD module."
-msgstr ""
+msgstr "访问AdminContactWD模块时，对有数据的现有联系人进行初始通配符搜索。"
 
 #. SysConfig
 msgid ""
