@@ -18,11 +18,17 @@ package Kernel::System::Web::Request;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
-use CGI ();
-use CGI::Carp;
+# core modules
 use File::Path qw();
 
+# CPAN modules
+use CGI::PSGI ();
+use CGI::Carp;
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -40,7 +46,7 @@ Kernel::System::Web::Request - global CGI interface
 
 =head1 DESCRIPTION
 
-All cgi param functions.
+All CGI param functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -49,11 +55,21 @@ All cgi param functions.
 create param object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Web::Request' => {
-            WebRequest => CGI::PSGI->new($env), # optional, e. g. if PSGI is used
+            PSGIEnv => $Param{PSGIEnv} || 0,
         }
     );
+
+# or
+
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
+        'Kernel::System::Web::Request' => {
+            PSGIEnv => $PSGIEnv, # optional
+        }
+    );
+
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
 If Kernel::System::Web::Request is instantiated several times, they will share the
@@ -69,11 +85,11 @@ before calling Kernel::System::Web::Request->new();
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type  = shift;
+    my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -81,8 +97,20 @@ sub new {
     # max 5 MB posts
     $CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;    ## no critic
 
-    # query object (in case use already existing WebRequest, e. g. fast cgi)
-    $Self->{Query} = $Param{WebRequest} || CGI->new();
+    # query object when PSGI env is passed, the recommended usage
+    if ( $Param{PSGIEnv} ) {
+        $Self->{Query} = CGI::PSGI->new( $Param{PSGIEnv} );
+    }
+
+    # query object (in case use already existing WebRequest, e. g. fast cgi or classic cgi)
+    elsif ( $Param{WebRequest} ) {
+        $Self->{Query} = $Param{WebRequest};
+    }
+
+    # plain CGI is no longer supported
+    else {
+        die 'please pass either PSGIEnv or WebRequest';
+    }
 
     return $Self;
 }

@@ -413,7 +413,7 @@ my $AdminOnlyMiddeware = sub {
         # The AuthSession modules use this object for getting info about the request.
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::Web::Request' => {
-                WebRequest => CGI::PSGI->new($Env),
+                PSGIEnv => $Env,
             },
         );
 
@@ -643,7 +643,7 @@ my $OTOBOApp = builder {
         # params for the interface modules
         my %InterfaceParams = (
             Debug      => 0,  # pass 1 for enabling debug messages
-            WebRequest => CGI::PSGI->new($Env),
+            PSGIEnv    => $Env,
         );
 
         # InterfaceInstaller has been converted to returning a string instead of printing the STDOUT.

@@ -142,7 +142,7 @@ sub ProviderProcessRequest {
     else {
 
         # for OTOBO_RUNS_UNDER_PSGI
-        # in the PSGI case CGI::PSGI already has the POST content
+        # the CGI::PSGI object already has the POST of GET content
         my $RequestMethod = $ParamObject->RequestMethod() // 'POST';
         $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
             Param => "${RequestMethod}DATA",  # e.g. POSTDATA
@@ -265,7 +265,7 @@ sub ProviderProcessRequest {
     # SOAPAction is for SOAP requests a mandatory header field.
     # Under CGI the value is made available by the webserver as $ENV{HTTP_SOAPACTION}
     # Under PSGI it is available in the Env hashref under the key 'HTTP_SOAPACTION'
-    # The Perl module CGI, or CGI::PSGI in the PSGI case, take the setting and
+    # The Perl module CGI::PSGI takes the setting and
     # make it available via the method HTTP().
     my $SOAPAction = $ParamObject->HTTP('SOAPACTION');
 

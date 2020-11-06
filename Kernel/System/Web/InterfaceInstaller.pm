@@ -78,7 +78,7 @@ sub new {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'Installer',
         },
         'Kernel::System::Web::Request' => {
-            WebRequest => $Param{WebRequest} || 0,
+            PSGIEnv => $Param{PSGIEnv} || 0,
         },
     );
 
