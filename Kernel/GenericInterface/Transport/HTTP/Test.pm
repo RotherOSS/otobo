@@ -142,25 +142,18 @@ sub ProviderGenerateResponse {
 
         my $ErrorMessage = 'Test response generation failed';
 
-        if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+        # for OTOBO_RUNS_UNDER_PSGI
+        # a response with code 500
+        my $PlackResponse = Plack::Response->new(
+            500,
+            [],
+            $ErrorMessage,
+        );
 
-            # a response with code 500
-            my $PlackResponse = Plack::Response->new(
-                500,
-                [],
-                $ErrorMessage,
-            );
-
-            # The exception is caught be Plack::Middleware::HTTPExceptions
-            die Kernel::System::Web::Exception->new(
-                PlackResponse => $PlackResponse
-            );
-        }
-
-        return {
-            Success      => 0,
-            ErrorMessage => $ErrorMessage,
-        };
+        # The exception is caught be Plack::Middleware::HTTPExceptions
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => $PlackResponse
+        );
     }
 
     my $Response;
@@ -168,25 +161,18 @@ sub ProviderGenerateResponse {
     if ( !$Param{Success} ) {
         my $ErrorMessage = $Param{ErrorMessage} || 'Internal Server Error';
 
-        if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+        # for OTOBO_RUNS_UNDER_PSGI
+        # a response with code 500
+        my $PlackResponse = Plack::Response->new(
+            500,
+            [],
+            $ErrorMessage,
+        );
 
-            # a response with code 500
-            my $PlackResponse = Plack::Response->new(
-                500,
-                [],
-                $ErrorMessage,
-            );
-
-            # The exception is caught be Plack::Middleware::HTTPExceptions
-            die Kernel::System::Web::Exception->new(
-                PlackResponse => $PlackResponse
-            );
-        }
-
-        $Response = HTTP::Response->new( 500 => $ErrorMessage );
-        $Response->protocol('HTTP/1.0');
-        $Response->content_type("text/plain; charset=UTF-8");
-        $Response->date(time);
+        # The exception is caught be Plack::Middleware::HTTPExceptions
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => $PlackResponse
+        );
     }
     else {
 

@@ -1204,36 +1204,8 @@ sub Run {
             unlink "$Self->{Path}/var/tmp/installer.json";
         }
 
-        # check web server - is a restart needed?
-        my $Webserver = '';
-
-        # Only if we have mod_perl we have to restart.
-        # TODO: really ?
-        if ( exists $ENV{MOD_PERL} ) {
-            eval 'require mod_perl';               ## no critic
-            if ( defined $mod_perl::VERSION ) {    ## no critic
-                $Webserver = 'Apache2 + mod_perl';
-                if ( -f '/etc/SuSE-release' ) {
-                    $Webserver = 'rcapache2 restart';
-                }
-                elsif ( -f '/etc/redhat-release' ) {
-                    $Webserver = 'service httpd restart';
-                }
-            }
-        }
-        elsif ( exists $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
-            # usually no restart required as 'plackup -R' is recommended
-        }
-
-        # Check if Apache::Reload is loaded.
-        for my $Module ( sort keys %INC ) {
-            $Module =~ s/\//::/g;
-            $Module =~ s/\.pm$//g;
-
-            if ( $Module eq 'Apache2::Reload' ) {
-                $Webserver = '';
-            }
-        }
+        # for OTOBO_RUNS_UNDER_PSGI
+        # webserver restart is never necessary
 
         my $OTOBOHandle = $ParamObject->ScriptName();
         $OTOBOHandle =~ s/\/(.*)\/installer\.pl/$1/;
@@ -1257,9 +1229,6 @@ sub Run {
             || $ParamObject->HTTP('HOST')                    # should work in the HTTP case, in Docker or not in Docker
             || $ConfigObject->Get('FQDN');                   # a fallback
 
-        my $Output = $LayoutObject->Header(
-            Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Finished')
-        );
         $LayoutObject->Block(
             Name => 'Finish',
             Data => {
@@ -1268,25 +1237,19 @@ sub Run {
                 Host        => $Host,
                 Scheme      => $Scheme,
                 OTOBOHandle => $OTOBOHandle,
-                Webserver   => $Webserver,
                 Password    => $Password,
             },
         );
-        if ($Webserver) {
-            $LayoutObject->Block(
-                Name => 'Restart',
-                Data => {
-                    Webserver => $Webserver,
-                },
-            );
-        }
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'Installer',
-            Data         => {},
-        );
-        $Output .= $LayoutObject->Footer();
 
-        return $Output;
+        return join '',
+            $LayoutObject->Header(
+                Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Finished')
+            ),
+            $LayoutObject->Output(
+                TemplateFile => 'Installer',
+                Data         => {},
+            ).
+            $LayoutObject->Footer();
     }
 
     # Else error!

@@ -652,28 +652,11 @@ sub Redirect {
         }
     }
 
-    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
-
-        # The exception is caught be Plack::Middleware::HTTPExceptions
-        die Kernel::System::Web::Exception->new(
-            PlackResponse => $RedirectResponse
-        );
-    }
-
-    # store the headers in the singleton, so that they can be retrieved by the CGI script
-    $Kernel::OM->Get( 'Kernel::System::Web::Response' )->Headers(
-        $RedirectResponse->headers()
+    # for OTOBO_RUNS_UNDER_PSGI
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $RedirectResponse
     );
-
-    # print to STDOUT in the non-PSGI case
-    # Output filters are also applied in Print()
-    # Kernel::System::Web::Response is used for getting the headers
-    my $Output = $RedirectResponse->content;
-    $Self->Print( Output => \$Output );
-
-    # Terminate the process under Apache/mod_perl.
-    # This might be just cargo cult.
-    exit;
 }
 
 sub Login {
@@ -968,32 +951,23 @@ sub FatalError {
         $Self->Error(%Param),
         $Self->Footer();
 
-    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+    # for OTOBO_RUNS_UNDER_PSGI
 
-        # Modify the output by applying the output filters.
-        $Self->ApplyOutputFilters( Output => \$Output );
+    # Modify the output by applying the output filters.
+    $Self->ApplyOutputFilters( Output => \$Output );
 
-        # The OTOBO response object already has the HTPP headers.
-        # Enhance it with the HTTP status code and the content.
-        my $PlackResponse = Plack::Response->new(
-            200,
-            $Kernel::OM->Get('Kernel::System::Web::Response')->Headers(),
-            $Output
-        );
+    # The OTOBO response object already has the HTPP headers.
+    # Enhance it with the HTTP status code and the content.
+    my $PlackResponse = Plack::Response->new(
+        200,
+        $Kernel::OM->Get('Kernel::System::Web::Response')->Headers(),
+        $Output
+    );
 
-        # The exception is caught be Plack::Middleware::HTTPExceptions
-        die Kernel::System::Web::Exception->new(
-            PlackResponse => $PlackResponse
-        );
-    }
-
-    # print to STDOUT in the non-PSGI case or when STDOUT is captured
-    # Output filters are also applied in Print()
-    $Self->Print( Output => \$Output );
-
-    # Terminate the process under Apache/mod_perl.
-    # Apparently there were some bad consequences from using the regular flow.
-    exit;
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $PlackResponse
+    );
 }
 
 sub SecureMode {
@@ -4547,32 +4521,23 @@ sub CustomerFatalError {
         $Self->CustomerError(%Param),
         $Self->CustomerFooter();
 
-    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+    # for OTOBO_RUNS_UNDER_PSGI
 
-        # Modify the output by applying the output filters.
-        $Self->ApplyOutputFilters( Output => \$Output );
+    # Modify the output by applying the output filters.
+    $Self->ApplyOutputFilters( Output => \$Output );
 
-        # The OTOBO response object already has the HTPP headers.
-        # Enhance it with the HTTP status code and the content.
-        my $PlackResponse = Plack::Response->new(
-            200,
-            $Kernel::OM->Get('Kernel::System::Web::Response')->Headers(),
-            $Output
-        );
+    # The OTOBO response object already has the HTPP headers.
+    # Enhance it with the HTTP status code and the content.
+    my $PlackResponse = Plack::Response->new(
+        200,
+        $Kernel::OM->Get('Kernel::System::Web::Response')->Headers(),
+        $Output
+    );
 
-        # The exception is caught be Plack::Middleware::HTTPExceptions
-        die Kernel::System::Web::Exception->new(
-            PlackResponse => $PlackResponse
-        );
-    }
-
-    # print to STDOUT in the non-PSGI case or when STDOUT is captured
-    # Output filters are also applied in Print()
-    $Self->Print( Output => \$Output );
-
-    # Terminate the process under Apache/mod_perl.
-    # Apparently there were some bad consequences from using the regular flow.
-    exit;
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $PlackResponse
+    );
 }
 
 sub CustomerNavigationBar {
