@@ -757,6 +757,9 @@ sub _PDFOutputTicketDynamicFields {
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
     my $LayoutObject              = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    # If title fields are present, more than one table is needed
+    my @Sections = ({});
+
     # Generate table, cycle trough the activated Dynamic Fields for ticket object.
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{$DynamicField} ) {
@@ -770,6 +773,30 @@ sub _PDFOutputTicketDynamicFields {
                 Behavior           => 'IsCustomerInterfaceCapable',
             );
             next DYNAMICFIELD if !$IsCustomerInterfaceCapable;
+        }
+
+        # start a new section for every title
+        if ( $DynamicFieldConfig->{FieldType} eq 'Title' ) {
+            push @Sections, {
+                Title => {
+                    Text   => $DynamicFieldConfig->{Label},
+                    Style  => "",
+                    Size   => $DynamicFieldConfig->{Config}{FontSize} || 12,
+                    Color  => $DynamicFieldConfig->{Config}{FontColor} || '#000000',
+                },
+            };
+
+            if ( $DynamicFieldConfig->{Config}{CBFontStyleBoldValue} ) {
+                $Sections[-1]{Title}{Style} .= "Bold";
+            }
+            if ( $DynamicFieldConfig->{Config}{CBFontStyleItalicValue} ) {
+                $Sections[-1]{Title}{Style} .= "Italic";
+            }
+
+            $Row = 0;
+            $Output = 1;
+
+            next DYNAMICFIELD;
         }
 
         my $Value = $DynamicFieldBackendObject->ValueGet(
@@ -788,11 +815,11 @@ sub _PDFOutputTicketDynamicFields {
             LayoutObject       => $LayoutObject,
         );
 
-        $TableParam{CellData}[$Row][0]{Content}
+        $Sections[-1]{CellData}[$Row][0]{Content}
             = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} )
             . ':';
-        $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-        $TableParam{CellData}[$Row][1]{Content} = $ValueStrg->{Value};
+        $Sections[-1]{CellData}[$Row][0]{Font}    = 'ProportionalBold';
+        $Sections[-1]{CellData}[$Row][1]{Content} = $ValueStrg->{Value};
 
         $Row++;
         $Output = 1;
@@ -841,23 +868,57 @@ sub _PDFOutputTicketDynamicFields {
         $TableParam{PaddingTop}    = 3;
         $TableParam{PaddingBottom} = 3;
 
-        # Output table.
-        PAGE:
-        for ( $Page{PageCount} .. $Page{MaxPages} ) {
+        # Output sections
+        SECTION:
+        for my $Section ( @Sections ) {
 
-            # Output table (or a fragment of it).
-            %TableParam = $PDFObject->Table( %TableParam, );
+            if ( $Section->{Title} ) {
 
-            # Stop output or output next page.
-            if ( $TableParam{State} ) {
-                last PAGE;
-            }
-            else {
-                $PDFObject->PageNew(
-                    %Page,
-                    FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+                # Set new position.
+                $PDFObject->PositionSet(
+                    Move => 'relativ',
+                    Y    => -1,
                 );
-                $Page{PageCount}++;
+
+                # Output headline.
+                $PDFObject->Text(
+                    Text     => $Section->{Title}{Text},
+                    Type     => 'Cut',
+                    Font     => 'Proportional'.$Section->{Title}{Style},
+                    FontSize => $Section->{Title}{Size} / 2,    # pdf font is 10 vs 12, text seems also mutliplied by 5/3
+                    Color    => $Section->{Title}{Color},
+                );
+
+                # Set new position.
+                $PDFObject->PositionSet(
+                    Move => 'relativ',
+                    Y    => -3,
+                );
+
+            }
+
+            next SECTION if !$Section->{CellData};
+
+            $TableParam{CellData} = $Section->{CellData};
+
+            # Output table.
+            PAGE:
+            for ( $Page{PageCount} .. $Page{MaxPages} ) {
+
+                # Output table (or a fragment of it).
+                %TableParam = $PDFObject->Table( %TableParam, );
+
+                # Stop output or output next page.
+                if ( $TableParam{State} ) {
+                    last PAGE;
+                }
+                else {
+                    $PDFObject->PageNew(
+                        %Page,
+                        FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+                    );
+                    $Page{PageCount}++;
+                }
             }
         }
     }
