@@ -299,7 +299,7 @@ for my $Test  (@Tests) {
 
                 my $RequestData  = '';
                 my $ResponseData = '';
-
+                my $WebException;
                 {
                     local %ENV;
 
@@ -340,10 +340,15 @@ for my $Test  (@Tests) {
                     CGI::initialize_globals();
                     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
-                    $ResponseData = $ProviderObject->Content();
+                    eval {
+                        $ResponseData = $ProviderObject->Content();
+                    };
+                    $WebException = $@; # assign '' in case of success
                 }
 
                 if ( $Test->{ResponseSuccess} ) {
+
+                    is( $WebException, '', "$RequestMethod $WebserviceAccess: no exception for ResponseSuccess" );
 
                     for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
                         my $QueryStringPart = URI::Escape::uri_escape_utf8($Key);
