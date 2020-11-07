@@ -26,10 +26,10 @@ use LWP::UserAgent;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
+use Kernel::System::ObjectManager;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
-our $Self;
+$Kernel::OM = Kernel::System::ObjectManager->new();
 
 ## no critic (Perl::Critic::Policy::Variables::RequireLocalizedPunctuationVars)
 
@@ -246,6 +246,7 @@ sub CreateQueryString {
     }
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$QueryString );
+
     return $QueryString;
 };
 
@@ -356,15 +357,15 @@ for my $Test  (@Tests) {
                                 .= '=' . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
                         }
 
-                        $Self->True(
+                        ok(
                             index( $ResponseData, $QueryStringPart ) > -1,
-                            "$Test->{Name} $PathInfo Run() HTTP $RequestMethod result data contains $QueryStringPart",
+                            "$RequestMethod $PathInfo Run() HTTP $RequestMethod result data contains $QueryStringPart",
                         );
                     }
 
-                    $Self->True(
+                    ok(
                         index( $ResponseData, 'HTTP/1.0 200 OK' ) > -1,
-                        "$Test->{Name} $PathInfo Run() HTTP $RequestMethod result success status",
+                        "$RequestMethod $PathInfo Run() HTTP $RequestMethod result success status",
                     );
                 }
                 else {
@@ -423,23 +424,23 @@ for my $Test  (@Tests) {
                                     . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
                             }
 
-                            $Self->True(
+                            ok(
                                 index( $ResponseData, $QueryStringPart ) > -1,
-                                "$Test->{Name} $PathInfo real HTTP $RequestMethod request (needs configured and running webserver) result data contains $QueryStringPart ($URL)",
+                                "$PathInfo real HTTP $RequestMethod request (needs configured and running webserver) result data contains $QueryStringPart ($URL)",
                             );
                         }
 
-                        $Self->Is(
+                        is(
                             $Response->code(),
                             200,
-                            "$Test->{Name} $PathInfo real HTTP $RequestMethod request (needs configured and running webserver) result success status ($URL)",
+                            "$PathInfo real HTTP $RequestMethod request (needs configured and running webserver) result success status ($URL)",
                         );
                     }
                     else {
-                        $Self->Is(
+                        is(
                             $Response->code(),
                             500,
-                            "$Test->{Name} $PathInfo real HTTP $RequestMethod request (needs configured and running webserver) result error status ($URL)",
+                            "$PathInfo real HTTP $RequestMethod request (needs configured and running webserver) result error status ($URL)",
                         );
                     }
                 }
@@ -451,11 +452,7 @@ for my $Test  (@Tests) {
             ID     => $WebserviceID,
             UserID => 1,
         );
-
-        $Self->True(
-            $Success,
-            "$Test->{Name} WebserviceDelete()",
-        );
+        ok( $Success, "WebserviceDelete()" );
     };
 }
 
