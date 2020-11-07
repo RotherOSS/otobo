@@ -213,7 +213,6 @@ my @Tests = (
                 },
             },
         },
-        EarlyError  => 1,
         RequestData => {
             A => 'A',
             b => '使用下列语言',
@@ -274,7 +273,7 @@ my $InvalidID = $ValidObject->ValidLookup(
 
 for my $Test  (@Tests) {
 
-    subtest $Test->{Name} => sub {
+    subtest "$Test->{Name} $RandomID" => sub {
 
         # add config
         my $WebserviceID = $WebserviceObject->WebserviceAdd(
@@ -284,16 +283,12 @@ for my $Test  (@Tests) {
             UserID  => 1,
         );
 
-        $Self->True(
-            $WebserviceID,
-            "$Test->{Name} WebserviceAdd()",
-        );
+        ok( $WebserviceID, 'WebserviceAdd()' );
 
         my $WebserviceNameEncoded = URI::Escape::uri_escape_utf8("$Test->{Name} $RandomID");
 
         #
         # Test with IO redirection, no real HTTP request
-        #
         for my $RequestMethod (qw(get post)) {
 
             for my $WebserviceAccess (
@@ -370,15 +365,14 @@ for my $Test  (@Tests) {
                 }
                 else {
 
-                    # If an early error occurred, GI cannot generate a valid HTTP error response yet,
-                    #   because the transport object was not yet initialized. In these cases, apache will
-                    #   generate this response, but here we do not use apache.
-                    if ( !$Test->{EarlyError} ) {
-                        $Self->True(
-                            index( $ResponseData, 'HTTP/1.0 500 ' ) > -1,
-                            "$Test->{Name} $WebserviceAccess Run() HTTP $RequestMethod result error status",
-                        );
-                    }
+                    ok( defined $WebException, 'exception when failure is expected' );
+                    can_ok( $WebException, [ 'as_psgi' ], 'sane exception when failure is expected' );
+
+                    # status 500 is expected
+                    my $PSGIResponse = $WebException->as_psgi();
+                    ok( $PSGIResponse, 'got a PSGI response' );
+                    ref_ok( $PSGIResponse, 'ARRAY', 'got array ref as PSGI response' );
+                    is( $PSGIResponse->[0], 500, 'HTTP status 500');
                 }
             }
         }
@@ -414,7 +408,10 @@ for my $Test  (@Tests) {
                         $Response = LWP::UserAgent->new()->$RequestMethod($URL);
                     }
                     else {    # POST
-                        $Response = LWP::UserAgent->new()->$RequestMethod( $URL, Content => $QueryString );
+                        $Response = LWP::UserAgent->new()->$RequestMethod(
+                            $URL,
+                            Content => $QueryString
+                        );
                     }
                     chomp( $ResponseData = $Response->decoded_content() );
 
