@@ -18,13 +18,17 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport;
+
+our $Self;
 
 # get encode object
 my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
@@ -36,6 +40,7 @@ $Kernel::OM->ObjectParamAdd(
         SkipSSLVerify => 1,
     },
 );
+
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
@@ -47,9 +52,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     WebserviceID      => 1,
 );
 
-#
-# failing backend
-#
+note( 'failing backend' );
 
 {
     my $TransportObject = Kernel::GenericInterface::Transport->new(
@@ -76,10 +79,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     );
 }
 
-#
 # test backend
-#
-
 for my $Fail ( 0 .. 1 ) {
     my $TransportObject = Kernel::GenericInterface::Transport->new(
         DebuggerObject  => $DebuggerObject,

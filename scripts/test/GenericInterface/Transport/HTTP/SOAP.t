@@ -18,10 +18,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
+
+our $Self;
 
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -3051,7 +3056,7 @@ for my $Test (@Tests) {
 }
 
 # Check headers.
-@Tests = (
+my @CheckHeadersTests = (
     {
         Name   => 'Standard response header',
         Config => {},
