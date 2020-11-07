@@ -287,16 +287,15 @@ for my $Test  (@Tests) {
 
         my $WebserviceNameEncoded = URI::Escape::uri_escape_utf8("$Test->{Name} $RandomID");
 
-        #
+        my %WebserviceAccess2PathInfo = (
+            ID   => "WebserviceID/$WebserviceID",
+            Name => "Webservice/$WebserviceNameEncoded"
+        );
+
         # Test with IO redirection, no real HTTP request
         for my $RequestMethod (qw(get post)) {
-
-            for my $WebserviceAccess (
-                "WebserviceID/$WebserviceID",
-                "Webservice/$WebserviceNameEncoded"
-                )
-            {
-
+            for my $WebserviceAccess ( sort keys %WebserviceAccess2PathInfo ) {
+                my $PathInfo = $WebserviceAccess2PathInfo{$WebserviceAccess};
                 my $RequestData  = '';
                 my $ResponseData = '';
                 my $WebException;
@@ -307,7 +306,7 @@ for my $Test  (@Tests) {
 
                         # TODO: why ???
                         # prepare CGI environment variables
-                        $ENV{REQUEST_URI}    = "http://localhost/otobo/nph-genericinterface.pl/$WebserviceAccess";
+                        $ENV{REQUEST_URI}    = "http://localhost/otobo/nph-genericinterface.pl/$PathInfo";
                         $ENV{REQUEST_METHOD} = 'POST';
                         $RequestData         = CreateQueryString(
                             Data   => $Test->{RequestData},
@@ -325,7 +324,7 @@ for my $Test  (@Tests) {
 
                         # prepare CGI environment variables
                         $ENV{REQUEST_URI}
-                            = "http://localhost/otobo/nph-genericinterface.pl/$WebserviceAccess?" . $QueryString;
+                            = "http://localhost/otobo/nph-genericinterface.pl/$PathInfo?" . $QueryString;
                         $ENV{QUERY_STRING}   = $QueryString;
                         $ENV{REQUEST_METHOD} = 'GET';
                     }
@@ -359,13 +358,13 @@ for my $Test  (@Tests) {
 
                         $Self->True(
                             index( $ResponseData, $QueryStringPart ) > -1,
-                            "$Test->{Name} $WebserviceAccess Run() HTTP $RequestMethod result data contains $QueryStringPart",
+                            "$Test->{Name} $PathInfo Run() HTTP $RequestMethod result data contains $QueryStringPart",
                         );
                     }
 
                     $Self->True(
                         index( $ResponseData, 'HTTP/1.0 200 OK' ) > -1,
-                        "$Test->{Name} $WebserviceAccess Run() HTTP $RequestMethod result success status",
+                        "$Test->{Name} $PathInfo Run() HTTP $RequestMethod result success status",
                     );
                 }
                 else {
@@ -392,15 +391,10 @@ for my $Test  (@Tests) {
                 push @BaseURLs, $PlackBaseURL;
             }
 
-            for my $BaseURL (@BaseURLs) {
-
-                for my $WebserviceAccess (
-                    "WebserviceID/$WebserviceID",
-                    "Webservice/$WebserviceNameEncoded"
-                    )
-                {
-
-                    my $URL = $BaseURL . $WebserviceAccess;
+            for my $BaseURL ( @BaseURLs ) {
+                for my $WebserviceAccess ( sort keys %WebserviceAccess2PathInfo ) {
+                    my $PathInfo = $WebserviceAccess2PathInfo{$WebserviceAccess};
+                    my $URL = $BaseURL . $PathInfo;
                     my $Response;
                     my $ResponseData;
                     my $QueryString = CreateQueryString(
@@ -431,21 +425,21 @@ for my $Test  (@Tests) {
 
                             $Self->True(
                                 index( $ResponseData, $QueryStringPart ) > -1,
-                                "$Test->{Name} $WebserviceAccess real HTTP $RequestMethod request (needs configured and running webserver) result data contains $QueryStringPart ($URL)",
+                                "$Test->{Name} $PathInfo real HTTP $RequestMethod request (needs configured and running webserver) result data contains $QueryStringPart ($URL)",
                             );
                         }
 
                         $Self->Is(
                             $Response->code(),
                             200,
-                            "$Test->{Name} $WebserviceAccess real HTTP $RequestMethod request (needs configured and running webserver) result success status ($URL)",
+                            "$Test->{Name} $PathInfo real HTTP $RequestMethod request (needs configured and running webserver) result success status ($URL)",
                         );
                     }
                     else {
                         $Self->Is(
                             $Response->code(),
                             500,
-                            "$Test->{Name} $WebserviceAccess real HTTP $RequestMethod request (needs configured and running webserver) result error status ($URL)",
+                            "$Test->{Name} $PathInfo real HTTP $RequestMethod request (needs configured and running webserver) result error status ($URL)",
                         );
                     }
                 }
