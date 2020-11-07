@@ -22,9 +22,9 @@ use v5.24;
 use namespace::autoclean;
 
 # core modules
-use File::Path qw();
 
 # CPAN modules
+use CGI ();
 use CGI::PSGI ();
 use CGI::Carp;
 
@@ -72,6 +72,10 @@ create param object. Do not use it directly, instead use:
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+If neither PSGIEnv nor WebRequest is set, then C<CGI->new()> is called for creating the query object.
+
 If Kernel::System::Web::Request is instantiated several times, they will share the
 same CGI data (this can be helpful in filters which do not have access to the
 ParamObject, for example.
@@ -107,9 +111,9 @@ sub new {
         $Self->{Query} = $Param{WebRequest};
     }
 
-    # plain CGI is no longer supported
+    # CGI via the %ENV hash is still supported as a fallback
     else {
-        die 'please pass either PSGIEnv or WebRequest';
+        $Self->{Query} = CGI->new();
     }
 
     return $Self;
