@@ -322,6 +322,7 @@ sub _Show {
         return;
     }
 
+    # get singletons
     my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');

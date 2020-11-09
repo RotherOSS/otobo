@@ -166,7 +166,8 @@ sub CustomerUserAddressBookListShow {
 
     # check for backend object
     my $Object = $Backends->{$View}->{Module}->new( %{$Env} );
-    return if !$Object;
+
+    return unless $Object;
 
     # run module
     $Output .= $Object->Run(
