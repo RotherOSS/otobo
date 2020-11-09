@@ -1886,34 +1886,6 @@ sub ApplyOutputFilters {
     return 1;
 }
 
-sub Print {
-    my $Self  = shift;
-    my %Param = @_;
-
-    # the string referenced by $Param{Content} might be modified here
-    $Self->ApplyOutputFilters( %Param );
-
-    # There seems to be a bug in FastCGI that it cannot handle unicode output properly.
-    #   Work around this by converting to an utf8 byte stream instead.
-    #   See also http://bugs.otrs.org/show_bug.cgi?id=6284 and
-    #   http://bugs.otrs.org/show_bug.cgi?id=9802.
-    if ( $INC{'CGI/Fast.pm'} || $ENV{FCGI_ROLE} || $ENV{FCGI_SOCKET_PATH} ) {    # are we on FCGI?
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( $Param{Output} );
-        binmode STDOUT, ':bytes';
-    }
-
-    # Disable perl warnings in case of printing unicode private chars,
-    #   see https://rt.perl.org/Public/Bug/Display.html?id=121226.
-    no warnings 'nonchar';    ## no critic
-
-    print
-        $Kernel::OM->Get( 'Kernel::System::Web::Response' )->Headers()->as_string(),
-        "\n",
-        $Param{Output}->$*;
-
-    return 1;
-}
-
 =head2 Ascii2Html()
 
 convert ASCII to html string
