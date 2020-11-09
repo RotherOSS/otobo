@@ -18,9 +18,14 @@ package Kernel::Modules::AgentCustomerUserAddressBook;
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
+# core modules
 use List::Util qw(first);
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 

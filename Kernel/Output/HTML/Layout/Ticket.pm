@@ -18,7 +18,13 @@ package Kernel::Output::HTML::Layout::Ticket;
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -649,7 +655,8 @@ sub AgentQueueListOption {
 }
 
 sub TicketListShow {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
     # take object ref to local, remove it from %Param (prevent memory leak)
     my $Env = $Param{Env};

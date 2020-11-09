@@ -18,7 +18,13 @@ package Kernel::Output::HTML::TicketOverview::Medium;
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -53,7 +59,7 @@ sub new {
 sub ActionRow {
     my ( $Self, %Param ) = @_;
 
-    # get needed object
+    # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
@@ -189,7 +195,8 @@ sub SortOrderBar {
 }
 
 sub Run {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Item (qw(TicketIDs PageShown StartHit)) {
@@ -202,7 +209,7 @@ sub Run {
         }
     }
 
-    # get needed object
+    # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
@@ -255,7 +262,7 @@ sub Run {
     my @TicketIDsShown;
 
     # check if there are tickets to show
-    if ( scalar @{ $Param{TicketIDs} } ) {
+    if ( @{ $Param{TicketIDs} } ) {
 
         for my $TicketID ( @{ $Param{TicketIDs} } ) {
             $Counter++;
@@ -402,7 +409,7 @@ sub _Show {
     );
     %Article = ( %UserInfo, %Article );
 
-    # get responsible info from Ticket
+    # get responsible info from ticket
     my %TicketResponsible = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
         UserID => $Ticket{ResponsibleID},
     );
@@ -491,6 +498,7 @@ sub _Show {
                 ACL    => \%AclAction,
                 Config => $Menus{$Menu},
             );
+
             next MENU if !$Item;
             next MENU if ref $Item ne 'HASH';
 

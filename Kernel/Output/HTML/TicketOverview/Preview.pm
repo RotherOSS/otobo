@@ -18,7 +18,13 @@ package Kernel::Output::HTML::TicketOverview::Preview;
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -186,11 +192,13 @@ sub ActionRow {
 
 sub SortOrderBar {
     my ( $Self, %Param ) = @_;
+
     return '';
 }
 
 sub Run {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Item (qw(TicketIDs PageShown StartHit)) {
@@ -272,7 +280,7 @@ sub Run {
     }
 
     # check if there are tickets to show
-    if ( scalar @{ $Param{TicketIDs} } ) {
+    if ( @{ $Param{TicketIDs} } ) {
 
         for my $TicketID ( @{ $Param{TicketIDs} } ) {
             $Counter++;
@@ -314,6 +322,7 @@ sub Run {
         $LayoutObject->Block( Name => 'NoTicketFound' );
     }
 
+    # check if bulk feature is enabled
     if ($BulkFeature) {
         $LayoutObject->Block(
             Name => 'DocumentFooter',
@@ -443,7 +452,7 @@ sub _Show {
     # create human age
     $Article{Age} = $LayoutObject->CustomerAge(
         Age   => $Article{Age},
-        Space => ' '
+        Space => ' ',
     );
 
     # get queue object
@@ -1284,6 +1293,7 @@ sub _Show {
             %AclAction,
         },
     );
+
     return \$Output;
 }
 
