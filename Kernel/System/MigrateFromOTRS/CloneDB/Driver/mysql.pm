@@ -53,7 +53,8 @@ Please look there for a detailed reference of the functions.
 
 # create external db connection.
 sub CreateOTRSDBConnection {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
     # check OTRSDBSettings
     for my $Needed (

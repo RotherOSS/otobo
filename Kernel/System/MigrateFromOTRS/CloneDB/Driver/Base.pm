@@ -82,20 +82,37 @@ sub new {
 A single sanity check.
 Check whether the relevant tables exist in the source database.
 
+The returned value is a hash ref with the fields I<Message>, I<Comment>, and I<Successful>.
+
+    my $SanityCheck = {
+        Message    => $Self->{LanguageObject}->Translate("Try database connect and sanity checks."),
+        Comment    => $Self->{LanguageObject}->Translate("Connect to OTRS database or sanity checks failed."),
+        Successful => 0
+    };
+
 =cut
 
 sub SanityChecks {
     my $Self = shift;
     my %Param = @_;
 
+    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
+
+    $Param{Message} ||= $Self->{LanguageObject}->Translate( 'Sanity checks for database.' );
+
     # check needed stuff
     if ( !$Param{OTRSDBObject} ) {
+        my $Comment = 'Need OTRSDBObject!';
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need OTRSDBObject!",
+            Message  => "$Param{Message} $Comment",
         );
 
-        return;
+        return {
+            Message    => $Param{Message},
+            Comment    => $Comment,
+            Successful => 0,
+        };
     }
 
     my $SourceDBObject = $Param{OTRSDBObject};
@@ -106,11 +123,39 @@ sub SanityChecks {
     # get OTOBO DB object
     my $TargetDBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+    # check connection
+    my $DbHandle = $SourceDBObject->Connect();
+    if ( ! $DbHandle ) {
+        my $Comment = 'Could not connect to the source database!';
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "$Param{Message} $Comment",
+        );
+
+        return {
+            Message    => $Param{Message},
+            Comment    => $Comment,
+            Successful => 0,
+        };
+    }
+
     # get a list of tables on OTRS DB
     my @SourceTables = $SourceDBObject->ListTables();
 
     # no need to migrate when the source has no tables
-    return unless @SourceTables;
+    if ( ! @SourceTables ) {
+        my $Comment = 'No tables available in the  source database!';
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "$Param{Message} $Comment",
+        );
+
+        return {
+            Message    => $Param{Message},
+            Comment    => $Comment,
+            Successful => 0,
+        };
+    }
 
     SOURCE_TABLE:
     for my $SourceTable (@SourceTables) {
@@ -133,17 +178,26 @@ sub SanityChecks {
 
         # table should exists
         if ( !defined $SourceRowCount ) {
+            my $Comment = "The table '$SourceTable' does not seem to exist in the OTRS database!";
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Required table '$SourceTable' does not seem to exist in the OTOBO database!",
+                Message  => "$Param{Message} $Comment",
             );
 
-            return;
+            return {
+                Message    => $Param{Message},
+                Comment    => $Comment,
+                Successful => 0,
+            };
         }
     }
 
     # source database looks sane
-    return 1;
+    return {
+        Message    => $Param{Message},
+        Comment    => '',
+        Successful => 1,
+    };
 }
 
 =head2 RowCount
