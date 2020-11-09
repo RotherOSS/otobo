@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-10-21 16:19+0000\n"
-"PO-Revision-Date: 2020-11-06 05:55+0000\n"
+"PO-Revision-Date: 2020-11-09 09:08+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/"
 "otobo10/otobo/zh_Hans/>\n"
@@ -25259,7 +25259,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Objects to search for, how many entries and which attributs to show."
-msgstr ""
+msgstr "搜索的目标，显示的条目和属性。"
 
 #. SysConfig
 msgid ""
@@ -26695,7 +26695,7 @@ msgstr "设置在服务人员界面中新建电话工单默认的信件对客户
 msgid ""
 "Sets the default article customer visibility for quick close action in the "
 "agent interface."
-msgstr ""
+msgstr "设置在话务员窗口的快速关闭动作中，客户条目是否可见。"
 
 #. SysConfig
 msgid ""
@@ -27244,7 +27244,7 @@ msgstr "设置软件下载的超时时间（单位：秒），覆盖参数“Web
 
 #. SysConfig
 msgid "Settings for the customer login screen."
-msgstr ""
+msgstr "客户登陆界面的配置。"
 
 #. SysConfig
 msgid "Shared Secret"
@@ -27601,13 +27601,13 @@ msgstr ""
 msgid ""
 "Shows a link in the menu to quick close a ticket in every ticket overview of "
 "the agent interface."
-msgstr ""
+msgstr "在菜单中显示一个链接，可以快速关闭话务员界面的工单总览中的每一个工单。"
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to quick close a ticket in the ticket zoom view of "
 "the agent interface."
-msgstr ""
+msgstr "在菜单中显示一个链接，可以以在座席界面的工单缩放视图中快速关闭工单。"
 
 #. SysConfig
 msgid ""
@@ -28048,7 +28048,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Signature data."
-msgstr ""
+msgstr "签名数据。"
 
 #. SysConfig
 msgid "Signatures"
@@ -28379,7 +28379,7 @@ msgstr "维护人员"
 
 #. SysConfig
 msgid "Suspend already escalated tickets."
-msgstr ""
+msgstr "把一个已经升级的工单挂起。"
 
 #. SysConfig
 msgid "Swahili"
@@ -28403,7 +28403,7 @@ msgstr "系统配置组"
 
 #. SysConfig
 msgid "System Configuration Setting History"
-msgstr ""
+msgstr "系统设置配置历史"
 
 #. SysConfig
 msgid "System Maintenance"
@@ -28427,25 +28427,25 @@ msgstr "泰国语"
 
 #. SysConfig
 msgid "The PGP signature is expired."
-msgstr ""
+msgstr "PGP签名过期了。"
 
 #. SysConfig
 msgid ""
 "The PGP signature was made by a revoked key, this could mean that the "
 "signature is forged."
-msgstr ""
+msgstr "这个PGP签名是通过撤消的密钥进行的，这可能意味着这个签名是伪造的。"
 
 #. SysConfig
 msgid "The PGP signature was made by an expired key."
-msgstr ""
+msgstr "这个PGP是通过一个过期的秘钥形成的。"
 
 #. SysConfig
 msgid "The PGP signature with the keyid has not been verified successfully."
-msgstr ""
+msgstr "具有密钥ID的PGP签名未能成功验证。"
 
 #. SysConfig
 msgid "The PGP signature with the keyid is good."
-msgstr ""
+msgstr "具有keyid的PGP签名是好的。"
 
 #. SysConfig
 msgid ""
@@ -28525,6 +28525,8 @@ msgid ""
 "to 196px*32px. (In the mobile setup both have a height of 24px with variable "
 "length.)"
 msgstr ""
+"客户界面标题中显示的徽标和签名。图像的URL可以是皮肤图像目录的相对URL，也可以是远程Web服务器的完整URL。签名将缩放为32px * 32px，"
+"徽标将缩放为196px * 32px。 （在移动设备设置中，两者的高度均为24像素，且长度可变。）"
 
 #. SysConfig
 msgid ""
@@ -28599,19 +28601,19 @@ msgstr "主题"
 msgid ""
 "This configuration defines all possible screens to enable or disable default "
 "columns."
-msgstr ""
+msgstr "此配置定义了所有可能的界面，以启用或禁用默认列。"
 
 #. SysConfig
 msgid ""
 "This configuration defines all possible screens to enable or disable dynamic "
 "fields."
-msgstr ""
+msgstr "此配置定义了所有可能的界面，以启用或禁用动态字段。"
 
 #. SysConfig
 msgid ""
 "This configuration defines if only valids or all (invalids) dynamic fields "
 "should be shown."
-msgstr ""
+msgstr "这个配置定义了是否只显示有效的动态字段，还是显示所有的（包括无效的）。"
 
 #. SysConfig
 msgid ""
