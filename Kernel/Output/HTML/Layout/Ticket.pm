@@ -1009,36 +1009,24 @@ sub TicketListShow {
         }
     }
 
-    my $OutputNavBar = $Self->Output(
-        TemplateFile => 'AgentTicketOverviewNavBar',
-        Data         => { %Param, },
-    );
-    my $OutputRaw = '';
-    if ( !$Param{Output} ) {
-        $Self->Print( Output => \$OutputNavBar );
-    }
-    else {
-        $OutputRaw .= $OutputNavBar;
-    }
+    # As of OTOBO 10.0.x some content was printed early.
+    # This has changed in OTOBO 10.1.1.
 
-    # run overview backend module
-    my $Output = $Object->Run(
-        %Param,
-        Config    => $Backends->{$View},
-        Limit     => $Limit,
-        StartHit  => $StartHit,
-        PageShown => $PageShown,
-        AllHits   => $Param{Total} || 0,
-        Output    => $Param{Output} || '',
+    # create nav bar and run overview backend module
+    return join '',
+        $Self->Output(
+            TemplateFile => 'AgentTicketOverviewNavBar',
+            Data         => { %Param, },
+        ),
+        $Object->Run(
+            %Param,
+            Config    => $Backends->{$View},
+            Limit     => $Limit,
+            StartHit  => $StartHit,
+            PageShown => $PageShown,
+            AllHits   => $Param{Total} || 0,
+            Output    => $Param{Output} || '',
     );
-    if ( !$Param{Output} ) {
-        $Self->Print( Output => \$Output );
-    }
-    else {
-        $OutputRaw .= $Output;
-    }
-
-    return $OutputRaw;
 }
 
 sub TicketMetaItemsCount {

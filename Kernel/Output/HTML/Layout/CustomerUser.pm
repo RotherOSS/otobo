@@ -152,21 +152,12 @@ sub CustomerUserAddressBookListShow {
     }
 
     # build html content
-    my $OutputNavBar = $Self->Output(
+    # As of OTOBO 10.0.x some content was printed early.
+    # This has changed in OTOBO 10.1.1.
+    my $Output = $Self->Output(
         TemplateFile => 'AgentCustomerUserAddressBookOverviewNavBar',
         Data         => {%Param},
     );
-
-    # create output
-    my $OutputRaw = '';
-    if ( !$Param{Output} ) {
-        $Self->Print(
-            Output => \$OutputNavBar,
-        );
-    }
-    else {
-        $OutputRaw .= $OutputNavBar;
-    }
 
     # load module
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( $Backends->{$View}->{Module} ) ) {
@@ -178,7 +169,7 @@ sub CustomerUserAddressBookListShow {
     return if !$Object;
 
     # run module
-    my $Output = $Object->Run(
+    $Output .= $Object->Run(
         %Param,
         Limit     => $Limit,
         StartHit  => $StartHit,
@@ -187,16 +178,6 @@ sub CustomerUserAddressBookListShow {
         Frontend  => $Frontend,
     );
 
-    # create output
-    if ( !$Param{Output} ) {
-        $Self->Print(
-            Output => \$Output,
-        );
-    }
-    else {
-        $OutputRaw .= $Output;
-    }
-
     # create overview nav bar
     $Self->Block(
         Name => 'OverviewNavBar',
@@ -204,7 +185,7 @@ sub CustomerUserAddressBookListShow {
     );
 
     # return content if available
-    return $OutputRaw;
+    return $Output;
 }
 
 1;

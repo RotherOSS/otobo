@@ -245,18 +245,12 @@ sub Run {
         Data => \%Param,
     );
 
-    my $OutputMeta = $LayoutObject->Output(
+    # As of OTOBO 10.0.x some content was printed early.
+    # This has changed in OTOBO 10.1.1.
+    my $Output = $LayoutObject->Output(
         TemplateFile => 'AgentTicketOverviewMedium',
         Data         => \%Param,
     );
-    my $OutputRaw = '';
-    if ( !$Param{Output} ) {
-        $LayoutObject->Print( Output => \$OutputMeta );
-    }
-    else {
-        $OutputRaw .= $OutputMeta;
-    }
-    my $Output        = '';
     my $Counter       = 0;
     my $CounterOnSite = 0;
     my @TicketIDsShown;
@@ -272,19 +266,14 @@ sub Run {
                 )
             {
                 push @TicketIDsShown, $TicketID;
-                my $Output = $Self->_Show(
+                my $OutputForTicket = $Self->_Show(
                     TicketID => $TicketID,
                     Counter  => $CounterOnSite,
                     Bulk     => $BulkFeature,
                     Config   => $Param{Config},
                 );
                 $CounterOnSite++;
-                if ( !$Param{Output} ) {
-                    $LayoutObject->Print( Output => $Output );
-                }
-                else {
-                    $OutputRaw .= ${$Output};
-                }
+                $Output .= ${$OutputForTicket};
             }
         }
 
@@ -310,21 +299,15 @@ sub Run {
                 Data => \%Param,
             );
         }
-        my $OutputMeta = $LayoutObject->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AgentTicketOverviewMedium',
             Data         => \%Param,
         );
-        if ( !$Param{Output} ) {
-            $LayoutObject->Print( Output => \$OutputMeta );
-        }
-        else {
-            $OutputRaw .= $OutputMeta;
-        }
     }
 
     # add action row js data
 
-    return $OutputRaw;
+    return $Output;
 }
 
 sub _Show {
