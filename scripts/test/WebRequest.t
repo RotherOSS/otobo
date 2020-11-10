@@ -27,6 +27,7 @@ use CGI;
 use Kernel::System::Web::Request;
 
 {
+    # %ENV will be picked up in Kernel::System::Web::Request::new().
     local %ENV = (
         REQUEST_METHOD => 'GET',
         QUERY_STRING   => 'a=4;b=5',
@@ -68,6 +69,8 @@ use Kernel::System::Web::Request;
 
 {
     my $PostData = 'a=4&b=5;d=2';
+
+    # %ENV will be picked up in Kernel::System::Web::Request::new().
     local %ENV = (
         REQUEST_METHOD => 'POST',
         CONTENT_LENGTH => length($PostData),

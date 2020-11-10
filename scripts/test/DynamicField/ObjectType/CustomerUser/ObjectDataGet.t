@@ -160,6 +160,7 @@ for my $Test (@Tests) {
     CGI->initialize_globals();
     my $Request = Kernel::System::Web::Request->new();
 
+    # implicitly call Kernel::System::Web::Request->new();
     my %ObjectData = $ObjectHandlerObject->ObjectDataGet( %{ $Test->{Config} } );
 
     if ( !$Test->{Success} ) {

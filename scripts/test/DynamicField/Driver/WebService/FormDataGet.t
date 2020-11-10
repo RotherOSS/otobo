@@ -103,6 +103,7 @@ my $DynamicFieldDriverObject = $Kernel::OM->Get('Kernel::System::DynamicField::D
 TEST:
 for my $Test (@Tests) {
 
+    # %ENV will be picked up in Kernel::System::Web::Request::new().
     local %ENV = (
         REQUEST_METHOD => 'GET',
         QUERY_STRING   => $Test->{Request} // '',
@@ -111,6 +112,7 @@ for my $Test (@Tests) {
     CGI->initialize_globals();
     my $Request = Kernel::System::Web::Request->new();
 
+    # _FormDataGet() implicitly calls Kernel::System::Web::Request->new();
     my $FormData = $DynamicFieldDriverObject->_FormDataGet();
 
     $Self->IsDeeply(
