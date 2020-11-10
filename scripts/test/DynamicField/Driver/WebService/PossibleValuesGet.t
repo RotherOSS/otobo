@@ -608,18 +608,6 @@ for my $Test (@Tests) {
         );
         ok( $WebserviceUpdate, 'updated webservice' );
 
-        # TODO: why fiddle with Kernel::System::Web::Request when simple doing a SOAP call under the hood?
-        local %ENV = (
-            REQUEST_METHOD => 'GET',
-            QUERY_STRING   => $Test->{Request} // '',
-        );
-
-        # reset CGI object from previous runs
-        CGI::initialize_globals();
-
-        # discard Web::Request from OM to prevent errors
-        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
-
         my $PossibleValues = $DynamicFieldBackendObject->PossibleValuesGet(
             DynamicFieldConfig => $DynamicFieldConfig,
         );
@@ -639,17 +627,17 @@ for my $TicketID ( $SourceTicketID1, $SourceTicketID2 ) {
 }
 
 # Delete test created database dynamic field.
-my $Success = $DynamicFieldObject->DynamicFieldDelete(
+my $DynamicFieldDeleteSuccess = $DynamicFieldObject->DynamicFieldDelete(
     ID     => $DynamicFieldID,
     UserID => 1,
 );
-ok( $Success, "Database dynamic field ID $DynamicFieldID - deleted" );
+ok( $DynamicFieldDelete, "Database dynamic field ID $DynamicFieldID - deleted" );
 
-$Success = $WebserviceObject->WebserviceDelete(
+my $WebserviceDeleteSuccess = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => 1,
 );
-ok( $Success, "Web Service ID $WebserviceID - deleted" );
+ok( $WebserviceDeleteSuccess, "Web Service ID $WebserviceID - deleted" );
 
 # Make sure the cache is correct.
 for my $Cache ( qw(Ticket DynamicField Webservice) ) {
