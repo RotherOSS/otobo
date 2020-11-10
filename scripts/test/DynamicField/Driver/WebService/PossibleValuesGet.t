@@ -608,18 +608,6 @@ for my $Test (@Tests) {
         );
         ok( $WebserviceUpdate, 'updated webservice' );
 
-        # TODO: why fiddle with Kernel::System::Web::Request when simple doing a SOAP call under the hood?
-        local %ENV = (
-            REQUEST_METHOD => 'GET',
-            QUERY_STRING   => $Test->{Request} // '',
-        );
-
-        # reset CGI object from previous runs
-        CGI::initialize_globals();
-
-        # discard Web::Request from OM to prevent errors
-        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
-
         my $PossibleValues = $DynamicFieldBackendObject->PossibleValuesGet(
             DynamicFieldConfig => $DynamicFieldConfig,
         );
