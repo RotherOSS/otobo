@@ -110,7 +110,6 @@ for my $Test (@Tests) {
     );
 
     CGI->initialize_globals();
-    my $Request = Kernel::System::Web::Request->new();
 
     # _FormDataGet() implicitly calls Kernel::System::Web::Request->new();
     my $FormData = $DynamicFieldDriverObject->_FormDataGet();
