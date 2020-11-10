@@ -247,11 +247,20 @@ sub DataTransfer {
 
 =head2 SanityChecks()
 
-perform some sanity check before db cloning.
+perform some sanity checks before cloning the database
 
-    my $SuccessSanityChecks = $BackendObject->SanityChecks(
+    my $SanityCheck = $BackendObject->SanityChecks(
         OTRSDBObject => $OTRSDBObject, # mandatory
+        Message      => $Self->{LanguageObject}->Translate("Try database connect and sanity checks."),
     );
+
+The returned value is a hash ref with the fields I<Message>, I<Comment>, and I<Successful>.
+
+    my $SanityCheck = {
+        Message    => $Self->{LanguageObject}->Translate("Try database connect and sanity checks."),
+        Comment    => $Self->{LanguageObject}->Translate("Connect to OTRS database or sanity checks failed."),
+        Successful => 0
+    };
 
 =cut
 
@@ -259,31 +268,46 @@ sub SanityChecks {
     my $Self = shift;
     my %Param = @_;
 
+    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
+
+    $Param{Message} ||= $Self->{LanguageObject}->Translate( 'Sanity checks for database.' );
+
     # check needed stuff
     if ( !$Param{OTRSDBObject} ) {
+        my $Comment = 'Need OTRSDBObject!';
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need OTRSDBObject!",
+            Message  => "$Param{Message} $Comment",
         );
 
-        return;
+        return {
+            Message    => $Param{Message},
+            Comment    => $Comment,
+            Successful => 0,
+        };
     }
 
     # set the clone db specific backend
     my $CloneDBBackend = 'CloneDB' . $Param{OTRSDBObject}->{'DB::Type'} . 'Object';
 
-    if ( !$Self->{$CloneDBBackend} ) {
+    if ( ! $Self->{$CloneDBBackend} ) {
+        my $Comment = "Backend " . $Param{OTRSDBObject}->{'DB::Type'} . " is invalid!";
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend " . $Param{OTRSDBObject}->{'DB::Type'} . " is invalid!",
+            Message  => "$Param{Message} $Comment",
         );
 
-        return;
+        return {
+            Message    => $Param{Message},
+            Comment    => $Comment,
+            Successful => 0,
+        };
     }
 
-    # perform sanity checks
+    # actually perform sanity checks
     return $Self->{$CloneDBBackend}->SanityChecks(
         OTRSDBObject => $Param{OTRSDBObject},
+        Message      => $Param{Message},
         Force        => $Param{Force},
     );
 }
