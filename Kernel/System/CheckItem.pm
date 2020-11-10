@@ -122,8 +122,9 @@ sub CheckEmail {
     # remove comment from address when checking.
     $Param{Address} =~ s{ \s* \( [^()]* \) \s* $ }{}smxg;
 
+    $Param{Address} = Email::Valid->address( $Param{Address} );
     # email address syntax check
-    if ( !Email::Valid->address( $Param{Address} ) ) {
+    if ( !$Param{Address} ) {
         $Error = "Invalid syntax";
         $Self->{ErrorType} = 'InvalidSyntax';
     }
