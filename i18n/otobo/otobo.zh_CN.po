@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-10-21 16:19+0000\n"
-"PO-Revision-Date: 2020-11-09 09:08+0000\n"
+"PO-Revision-Date: 2020-11-11 06:20+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/"
 "otobo10/otobo/zh_Hans/>\n"
@@ -28620,13 +28620,13 @@ msgid ""
 "This configuration defines the number of iterations that should be performed "
 "at max for calculating the WorkingTime for a Ticket. Attention: Setting this "
 "configuration to high can lead to performance issues."
-msgstr ""
+msgstr "此配置定义为计算工单的工作时间而可以执行的最大迭代次数。注意：将此配置设置为高有可能会影响性能。"
 
 #. SysConfig
 msgid ""
 "This configuration registers an OutputFilter module that injects the "
 "javascript functionality to remove PendingTime."
-msgstr ""
+msgstr "此配置注册一个OutputFilter模块，该模块注入javascript功能以删除PendingTime。"
 
 #. SysConfig
 msgid ""
@@ -28655,7 +28655,7 @@ msgstr "这是默认的橙色-黑色皮肤。"
 
 #. SysConfig
 msgid "This key is not certified with a trusted signature!"
-msgstr ""
+msgstr "此密钥未经过可信任签名的认证！"
 
 #. SysConfig
 msgid ""
@@ -28727,7 +28727,7 @@ msgstr "这个设置显示所有概览屏幕（而不是仅队列视图）中的
 
 #. SysConfig
 msgid "Ticket Close"
-msgstr ""
+msgstr "工单关闭"
 
 #. SysConfig
 msgid "Ticket Close."
