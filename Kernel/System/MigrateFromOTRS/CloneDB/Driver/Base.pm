@@ -79,8 +79,22 @@ sub new {
 
 =head2 SanityChecks
 
-A single sanity check.
-Check whether the relevant tables exist in the source database.
+check several sanity conditions of the source database.
+
+=over 4
+
+=item check whether a connection is possible
+
+=item check whether there are tables
+
+=item check whether row count of the tables can be determined, empty tables are OK
+
+=back
+
+    my $SanityCheck = $CloneDBBackendObject->SanityChecks(
+        OTRSDBObject => $SourceDBObject,
+        Message      => $Message,
+    );
 
 The returned value is a hash ref with the fields I<Message>, I<Comment>, and I<Successful>.
 
@@ -93,7 +107,7 @@ The returned value is a hash ref with the fields I<Message>, I<Comment>, and I<S
 =cut
 
 sub SanityChecks {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
 
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
