@@ -79,8 +79,26 @@ sub new {
 
 =head2 SanityChecks
 
-A single sanity check.
-Check whether the relevant tables exist in the source database.
+check several sanity conditions of the source database.
+
+=over 4
+
+=item check whether the passed database object is supported
+
+=item check whether the required M<DBD::*> module can be loaded
+
+=item check whether a connection is possible
+
+=item check whether there are tables
+
+=item check whether row count of the tables can be determined, empty tables are OK
+
+=back
+
+    my $SanityCheck = $CloneDBBackendObject->SanityChecks(
+        OTRSDBObject => $SourceDBObject,
+        Message      => $Message,
+    );
 
 The returned value is a hash ref with the fields I<Message>, I<Comment>, and I<Successful>.
 
@@ -93,7 +111,7 @@ The returned value is a hash ref with the fields I<Message>, I<Comment>, and I<S
 =cut
 
 sub SanityChecks {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
 
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
@@ -120,8 +138,46 @@ sub SanityChecks {
     # get setup
     my %TableIsSkipped = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base')->DBSkipTables()->%*;
 
-    # get OTOBO DB object
-    my $TargetDBObject = $Kernel::OM->Get('Kernel::System::DB');
+    # check whether the source database type is supported and whether the DBD module can be loaded
+    my %DBDModule = (
+        mysql      => 'DBD::mysql',
+        postgresql => 'DBD::Pg',
+        oracle     => 'DBD::Oracle',
+    );
+
+    my $DBType = $SourceDBObject->GetDatabaseFunction( 'Type' ) // '';
+    my $Module = $DBDModule{$DBType};
+    if ( ! $Module ) {
+        my $Comment = "The source database type $DBType is not supported";
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "$Param{Message} $Comment",
+        );
+
+        return {
+            Message    => $Param{Message},
+            Comment    => $Comment,
+            Successful => 0,
+        };
+    }
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+    my $ModuleIsInstalled = $MainObject->Require( $Module );
+    if ( ! $ModuleIsInstalled ) {
+        my $Comment = "The module $Module is not installed.";
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "$Param{Message} $Comment",
+        );
+
+        return {
+            Message    => $Param{Message},
+            Comment    => $Comment,
+            Successful => 0,
+        };
+    }
 
     # check connection
     my $DbHandle = $SourceDBObject->Connect();
