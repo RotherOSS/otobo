@@ -134,9 +134,6 @@ sub SanityChecks {
     # get setup
     my %TableIsSkipped = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base')->DBSkipTables()->%*;
 
-    # get OTOBO DB object
-    my $TargetDBObject = $Kernel::OM->Get('Kernel::System::DB');
-
     # check connection
     my $DbHandle = $SourceDBObject->Connect();
     if ( ! $DbHandle ) {
