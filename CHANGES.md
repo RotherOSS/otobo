@@ -1,4 +1,7 @@
 
+# OTOBO 10.0.6 2020-11-12
+
+
 # OTOBO 10.0.5 2020-10-21
 - 2020-10-21 18:38:16 +0200 Fix last settings for migration and language files.
 - 2020-10-21 18:20:30 +0200 Create new OTOBO language files.
@@ -84,7 +87,7 @@
 # OTOBO 10.0.3 2020-09-23
 - 2020-09-23 10:35:02 +0200 Create new OTOBO language files.
 - 2020-09-22 12:17:52 +0200 PSGI: Consistent use of DBIx::Connector (https://github.com/RotherOSS/otobo/issues/434)
-- 2020-09-21 13:45:11 +0200 Migration: Ergebnis der Datenbankprüfung (https://github.com/RotherOSS/otobo/issues/451)
+- 2020-09-21 13:45:11 +0200 Migration: Ergebnis der DatenbankprÃ¼fung (https://github.com/RotherOSS/otobo/issues/451)
 - 2020-09-21 13:08:25 +0200 Fix Issue: COPYING vs. LICENSE - https://github.com/RotherOSS/otobo/issues/43
 - 2020-09-21 13:05:38 +0200 Fix Issue: Invalid references to transifex -  https://github.com/RotherOSS/otobo/issues/358
 - 2020-09-02 12:27:52 +0000 Translated using Weblate (Portuguese (Brazil))
@@ -331,7 +334,7 @@
 - 2020-06-08 17:31:25 +0200 Fix Bux in notification messages. Fix incorrect information in README.md file. Add postmaster filter to migration process.
 - 2020-06-08 16:42:09 +0200 Issue-82: Fix syntax of the CREATE USER statement.
 - 2020-06-07 20:14:52 +0200 Fixed MySQL add user bug and extend migration script.
-- 2020-06-06 20:37:29 +0200 Now itÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ´s possible to import otrs stats too!
+- 2020-06-06 20:37:29 +0200 Now itÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ´s possible to import otrs stats too!
 - 2020-06-06 19:59:14 +0200 Fix bug in migrated statistics, CheckModules and add DoNotClean function.
 - 2020-06-06 12:10:28 +0200 Check the usage of $ENV{SCRIPT_NAME} (https://github.com/RotherOSS/otobo/issues/17)
 - 2020-06-06 08:02:06 +0200 Change CREATE USER and DB statements.
@@ -348,7 +351,7 @@
 - 2020-06-02 14:30:57 +0200 Fix typo.
 - 2020-06-02 14:25:22 +0200 CodePolicy: Edited wrong licenses, allowed usage of Kernel::System::Time for certain cases, deleted alternate skins, updated class dependencies, minor code changes.
 - 2020-05-31 10:58:09 +0200 Issur #55: specify charset=utf-8 for the /hello route
-- 2020-05-30 10:25:39 +0200 Issue 55: replace Welt with ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
+- 2020-05-30 10:25:39 +0200 Issue 55: replace Welt with ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
 - 2020-05-29 17:09:42 +0200 Tidied via CodePolicy, plus some small, related corrections.
 - 2020-05-29 11:26:03 +0200 Use a process watcher instead of cron when running under Docker (https://github.com/RotherOSS/otobo/issues/51)
 - 2020-05-28 19:39:19 +0200 Issus #51: move two commands into the Dockerfile
@@ -471,3 +474,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
