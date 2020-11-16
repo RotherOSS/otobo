@@ -69,9 +69,6 @@ sub new {
         'Kernel::System::Log' => {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'Installer',
         },
-        'Kernel::Output::HTML::Layout' => {
-            InstallerOnly => 1,
-        },
         'Kernel::System::Web::Request' => {
             WebRequest => $Param{WebRequest} || 0,
         },
