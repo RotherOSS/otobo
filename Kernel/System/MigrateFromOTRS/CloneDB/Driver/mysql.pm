@@ -97,7 +97,7 @@ sub CreateOTRSDBConnection {
 
 # List all columns of a table in the order of their position.
 sub ColumnsList {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
 
     # check needed stuff
@@ -277,7 +277,8 @@ sub AlterTableAddColumn {
 
     my %ColumnInfos = %{ $Param{ColumnInfos} };
 
-    my $SQL = "ALTER TABLE $Param{Table} ADD $Param{Column} $ColumnInfos{DATA_TYPE}";
+    my $QuotedTable = $Param{DBObject}->QuoteIdentifier( $Param{Table} );
+    my $SQL = "ALTER TABLE $QuotedTable ADD $Param{Column} $ColumnInfos{DATA_TYPE}";
 
     if ( $ColumnInfos{LENGTH} ) {
         $SQL .= " \($ColumnInfos{LENGTH}\)";

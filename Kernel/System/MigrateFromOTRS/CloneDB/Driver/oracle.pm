@@ -106,7 +106,8 @@ sub CreateOTRSDBConnection {
 
 # List all columns of a table in the order of their position.
 sub ColumnsList {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject Table)) {
@@ -155,10 +156,11 @@ sub ResetAutoIncrementField {
         }
     }
 
+    my $QuotedTable = $Param{DBObject}->QuoteIdentifier( $Param{Table} );
     $Param{DBObject}->Prepare(
         SQL => "
             SELECT id
-            FROM $Param{Table}
+            FROM $QuotedTable
             ORDER BY id DESC",
         Limit => 1,
     ) || return;
@@ -171,7 +173,8 @@ sub ResetAutoIncrementField {
     # add one more to the last ID
     $LastID++;
 
-    my $SEName = 'SE_' . uc $Param{Table};
+    # assume that sequences do not have to be quoted
+    my $SequenceName = 'SE_' . uc $Param{Table};
 
     # we assume the sequence have a minimum value (0)
     # we will to increase it till the last entry on
@@ -185,7 +188,7 @@ sub ResetAutoIncrementField {
             WHERE sequence_name = ?",
         Limit => 1,
         Bind  => [
-            \$SEName,
+            \$SequenceName,
         ],
     ) || return;
 
@@ -197,14 +200,14 @@ sub ResetAutoIncrementField {
     if ($SequenceCount) {
 
         # set increment as last number on the id field, plus one
-        my $SQL = "ALTER SEQUENCE $SEName INCREMENT BY $LastID";
+        my $SQL = "ALTER SEQUENCE $SequenceName INCREMENT BY $LastID";
 
         $Param{DBObject}->Do(
             SQL => $SQL,
         ) || return;
 
         # get next value for sequence
-        $SQL = "SELECT $SEName.nextval FROM dual";
+        $SQL = "SELECT $SequenceName.nextval FROM dual";
 
         $Param{DBObject}->Prepare(
             SQL => $SQL,
@@ -216,7 +219,7 @@ sub ResetAutoIncrementField {
         }
 
         # reset sequence to increment by 1 to 1
-        $SQL = "ALTER SEQUENCE $SEName INCREMENT BY 1";
+        $SQL = "ALTER SEQUENCE $SequenceName INCREMENT BY 1";
 
         $Param{DBObject}->Do(
             SQL => $SQL,
@@ -372,8 +375,8 @@ sub AlterTableAddColumn {
     }
 
     my %ColumnInfos = %{ $Param{ColumnInfos} };
-
-    my $SQL = "ALTER TABLE $Param{Table} ADD $Param{Column} $ColumnInfos{DATA_TYPE}";
+    my $QuotedTable = $Param{DBObject}->QuoteIdentifier( $Param{Table} );
+    my $SQL = "ALTER TABLE $QuotedTable ADD $Param{Column} $ColumnInfos{DATA_TYPE}";
 
     if ( $ColumnInfos{LENGTH} ) {
         $SQL .= " \($ColumnInfos{LENGTH}\)";

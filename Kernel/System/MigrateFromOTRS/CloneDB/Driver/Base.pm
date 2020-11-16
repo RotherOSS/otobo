@@ -281,8 +281,10 @@ sub RowCount {
     }
 
     # execute counting statement, only a single row is returned
+    my $RowCountSQL = sprintf q{SELECT COUNT(*) FROM %s}, $Param{DBObject}->QuoteIdentifier( $Param{Table} );
+
     return unless $Param{DBObject}->Prepare(
-        SQL => "SELECT COUNT(*) FROM $Param{Table}",
+        SQL => $RowCountSQL,
     );
 
     my ($NumRows) = $Param{DBObject}->FetchrowArray();
@@ -506,9 +508,10 @@ sub DataTransfer {
 
                 # We need to shorten that column in that table to 191 chars.
                 $DoShorten = 1;
+                my $QuotedSourceTable = $Param{OTRSDBObject}->QuoteIdentifier( $SourceTable );
                 push $AlterSourceSQLs{$SourceTable}->@*,
-                    "UPDATE $SourceTable SET $SourceColumn = SUBSTRING( $SourceColumn, 1, $MaxLenghtShortenedColumns )",
-                    "ALTER TABLE $SourceTable MODIFY COLUMN $SourceColumn VARCHAR($MaxMb4CharsInIndexKey)";
+                    "UPDATE $QuotedSourceTable SET $SourceColumn = SUBSTRING( $SourceColumn, 1, $MaxLenghtShortenedColumns )",
+                    "ALTER TABLE $QuotedSourceTable MODIFY COLUMN $SourceColumn VARCHAR($MaxMb4CharsInIndexKey)";
 
                 # Log info to apache error log and OTOBO log (syslog or file)
                 $MigrationBaseObject->MigrationLog(
@@ -603,8 +606,9 @@ sub DataTransfer {
 
                 # explicitly try to drop the index too,
                 # otherwise the foreign key can't be added. Strange.
+                my $QuotedSourceTable = $Param{OTRSDBObject}->QuoteIdentifier( $SourceTable );
                 unshift $AlterSourceSQLs{$SourceTable}->@*,
-                    "ALTER TABLE $SourceTable DROP FOREIGN KEY $FKName";
+                    "ALTER TABLE $QuotedSourceTable DROP FOREIGN KEY $FKName";
             }
 
             # readd foreign keys in the target
@@ -726,7 +730,10 @@ sub DataTransfer {
             }
         }
 
+        my $QuotedSourceTable = $Param{OTRSDBObject}->QuoteIdentifier( $SourceTable );
+
         if ( $DoBatchInsert{$SourceTable} ) {
+
 
             if ( $SourceDBIsThrowaway ) {
                 # OTOBO uses no triggers, so there is no need to consider them here
@@ -786,7 +793,7 @@ sub DataTransfer {
                     # This requires the privs DROP and ALTER on the source database.
                     {
                         my $RenameTableSQL  = <<"END_SQL";
-ALTER TABLE $SourceSchema.$SourceTable
+ALTER TABLE $SourceSchema.$QuotedSourceTable
   RENAME TO $TargetSchema.$TargetTable
 END_SQL
                         my $Success = $SourceDBObject->Do( SQL => $RenameTableSQL );
@@ -848,14 +855,14 @@ END_TXT
                 my $BatchInsertSQL = <<"END_SQL";
 INSERT INTO $TargetSchema.$TargetTable ($TargetColumnsString)
   SELECT $SourceColumnsString{$SourceTable}
-    FROM $SourceSchema.$SourceTable
+    FROM $SourceSchema.$QuotedSourceTable
 END_SQL
                 my $Success = $TargetDBObject->Do( SQL  => $BatchInsertSQL );
                 if ( !$Success ) {
 
                     # Log info to apache error log and OTOBO log (syslog or file)
                     $MigrationBaseObject->MigrationLog(
-                        String   => "Could not batch insert data: Table: $SourceTable",
+                        String   => "Could not batch insert data: Table: $QuotedSourceTable",
                         Priority => "notice",
                     );
 
@@ -871,7 +878,7 @@ END_SQL
             {
                 my $BindString = join ', ', map {'?'} @SourceColumns;
                 $InsertSQL     = "INSERT INTO $TargetTable ($TargetColumnsString) VALUES ($BindString)";
-                $SelectSQL     = "SELECT $SourceColumnsString{$SourceTable} FROM $SourceTable",
+                $SelectSQL     = "SELECT $SourceColumnsString{$SourceTable} FROM $QuotedSourceTable",
             }
 
             # Now fetch all the data and insert it to the target DB.
