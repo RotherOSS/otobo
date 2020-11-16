@@ -428,7 +428,7 @@ sub DataTransfer {
 
             # Log info to apache error log and OTOBO log (syslog or file)
             $MigrationBaseObject->MigrationLog(
-                String   => "Table $SourceTable does not in OTOBO.",
+                String   => "Table $SourceTable does not exist in OTOBO.",
                 Priority => "notice",
             );
 
@@ -781,7 +781,7 @@ sub DataTransfer {
 
                             # Log info to apache error log and OTOBO log (syslog or file)
                             $MigrationBaseObject->MigrationLog(
-                                String   => "Could not rename target table '$TargetTable' to '${TargetSchema}_hidden'",
+                                String   => "Could not drop target table '$TargetTable'",
                                 Priority => "notice",
                             );
 
@@ -833,7 +833,6 @@ END_SQL
 
                 if ( ! $OverallSuccess ) {
                     $MigrationBaseObject->MigrationLog(
-                        String   => "Could  '$SourceTable*",
                         String   => <<"END_TXT",
 Renaming '$SourceSchema.$SourceTable' to '$TargetSchema.$TargetTable' failed.
 The table can be restored with:
