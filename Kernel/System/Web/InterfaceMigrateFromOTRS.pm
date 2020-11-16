@@ -19,6 +19,7 @@ package Kernel::System::Web::InterfaceMigrateFromOTRS;
 use strict;
 use warnings;
 use v5.24;
+use namespace::autoclean;
 use utf8;
 
 # core modules
@@ -94,7 +95,7 @@ sub new {
 
 =head2 Run()
 
-execute the object
+execute the object.
 
     $Interface->Run();
 
@@ -105,12 +106,13 @@ sub Run {
 
     # get common framework params
     my %Param;
+    {
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-
-    $Param{Action}     = $ParamObject->GetParam( Param => 'Action' )     || 'MigrateFromOTRS';
-    $Param{Subaction}  = $ParamObject->GetParam( Param => 'Subaction' )  || '';
-    $Param{NextScreen} = $ParamObject->GetParam( Param => 'NextScreen' ) || '';
+        $Param{Action}     = $ParamObject->GetParam( Param => 'Action' )     || 'MigrateFromOTRS';
+        $Param{Subaction}  = $ParamObject->GetParam( Param => 'Subaction' )  || '';
+        $Param{NextScreen} = $ParamObject->GetParam( Param => 'NextScreen' ) || '';
+    }
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::Output::HTML::Layout' => {
@@ -122,18 +124,21 @@ sub Run {
 
     # check secure mode
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
-        print $LayoutObject->Header();
-        print $LayoutObject->Error(
-            Message => Translatable('SecureMode active!'),
-            Comment => Translatable(
-                'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.'
+        print join '',
+            $LayoutObject->Header(),
+            $LayoutObject->Error(
+                Message => Translatable('SecureMode active!'),
+                Comment => Translatable(
+                    'If you want to re-run migration.pl, then disable the SecureMode in the SysConfig.'
+                ),
             ),
-        );
-        print $LayoutObject->Footer();
+            $LayoutObject->Footer();
+
+        return;
     }
 
     # run modules if a version value exists
-    elsif ( $Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
+    if ( $Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
 
         # create $GenericObject
         my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
@@ -141,20 +146,20 @@ sub Run {
             Debug => $Self->{Debug},
         );
 
+        # output filters are not applied for this interface
         print $GenericObject->Run();
+
+        return;
     }
 
-    # else print an error screen
-    else {
-
-        # create new LayoutObject with '%Param'
-        print $LayoutObject->Header();
-        print $LayoutObject->Error(
+    # print an error screen as the fallback
+    print join '',
+        $LayoutObject->Header(),
+        $LayoutObject->Error(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Action "%s" not found!', $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),
-        );
-        print $LayoutObject->Footer();
-    }
+        ),
+        $LayoutObject->Footer();
 
     return;
 }
