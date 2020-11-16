@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-11-12 15:30+0000\n"
-"PO-Revision-Date: 2020-11-11 06:20+0000\n"
+"PO-Revision-Date: 2020-11-16 06:55+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/"
 "otobo10/otobo/zh_Hans/>\n"
@@ -15264,7 +15264,7 @@ msgstr "最多%s个字符。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
 msgid "Sanity checks for database."
-msgstr ""
+msgstr "数据库完整性检查。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
@@ -15300,7 +15300,7 @@ msgstr "完成。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Need OTRSData->%s!"
-msgstr ""
+msgstr "需要 OTRSData->%s！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Can't access OTRS Home: %s!"
@@ -15372,7 +15372,7 @@ msgstr "检查OTRS版本是否正确。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTRS RELEASE file %s does not exist: %s!"
-msgstr ""
+msgstr "OTRS RELEASE文件 %s不存在： %s！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTRS RELEASE file: %s: %s!"
@@ -15436,11 +15436,11 @@ msgstr "无法从 OTRSHome: %s打开Kernel/Config.pm文件！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if Kernel/Config.pm exists in OTOBO home."
-msgstr ""
+msgstr "检查OTOBO主页中是否存在Kernel / Config.pm。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Kernel/Config.pm exists in OTOBO home"
-msgstr ""
+msgstr "OTOBO主页中是否存在Kernel / Config.pm"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if we are able to connect to OTRS Home."
@@ -15460,7 +15460,7 @@ msgstr "尝试进行数据库连接和完整性检查。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Could not create database object."
-msgstr ""
+msgstr "无法创建数据库对象。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Database connect and sanity checks completed."
@@ -28709,7 +28709,7 @@ msgstr "每次请求时这个模块和它的PreRun()函数（如果定义了）�
 
 #. SysConfig
 msgid "This module is being used to extend the password policy."
-msgstr ""
+msgstr "此模块用于扩展密码策略。"
 
 #. SysConfig
 msgid "This module is part of the admin area of OTOBO."
@@ -28925,7 +28925,7 @@ msgid ""
 "Tickets in the following queues will not be stored on the Elasticsearch "
 "server. To apply this to existing tickets, the ticket migration has to be "
 "run via console, after changing this option."
-msgstr ""
+msgstr "以下队列中的工单不会存储在Elasticsearch服务器上，要将其应用于现有工单，必须在更改此选项后通过控制台运行工单迁移。"
 
 #. SysConfig
 msgid "Tickets."
@@ -28933,7 +28933,7 @@ msgstr "工单。"
 
 #. SysConfig
 msgid "Tile registration for the CustomerDashboard. Module is required."
-msgstr ""
+msgstr "需要模块实现CustomerDashboard的注册。"
 
 #. SysConfig
 msgid ""
@@ -29096,7 +29096,7 @@ msgstr "上传你的S/MIME证书。"
 
 #. SysConfig
 msgid "Use Redis::Fast instead of Redis."
-msgstr ""
+msgstr "用Redis::Fast 而不是Redis。"
 
 #. SysConfig
 msgid ""
@@ -29106,7 +29106,7 @@ msgstr "服务人员界面在合适的地方（输入字段）使用新式选择
 
 #. SysConfig
 msgid "Use specified Redis logical database."
-msgstr ""
+msgstr "用指定的Redis逻辑数据库。"
 
 #. SysConfig
 msgid "User Profile"
@@ -29172,7 +29172,7 @@ msgstr "我们正在执行系统维护，很快就恢复正常使用。"
 
 #. SysConfig
 msgid "Web Service"
-msgstr ""
+msgstr "网络服务"
 
 #. SysConfig
 msgid "Web Services"
@@ -29184,6 +29184,8 @@ msgid ""
 "WelcomeText. \"UserTitle\", \"UserFirstname\", \"UserLastname\", \"UserEmail"
 "\" and \"UserLogin\" will be substituted."
 msgstr ""
+"仪表板开头的欢迎语。名称将插入到WelcomeText的％s中。 “ UserTitle”，“ UserFirstname”，“ "
+"UserLastname”，“ UserEmail”和“ UserLogin”将被替换。"
 
 #. SysConfig
 msgid ""
@@ -29222,7 +29224,7 @@ msgstr ""
 msgid ""
 "Whether fields should be automatically filled (1), and in that case also be "
 "hidden from ticket formulars (2)."
-msgstr ""
+msgstr "字段是否自动填充(1)， 那种情况下将会在工单表中隐藏起来(2)。"
 
 #. SysConfig
 msgid ""
