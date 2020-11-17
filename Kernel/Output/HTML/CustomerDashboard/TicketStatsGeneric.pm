@@ -78,6 +78,9 @@ sub Run {
 
    my $State1 = '180';
    my $State2 = '360';
+   if ($CountAll < '1') {
+        $CountAll = '1';
+   }
    my $MathTemp = (360 / $CountAll) * $CountClosed;
 
    if ($MathTemp < '180') {
