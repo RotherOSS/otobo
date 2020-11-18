@@ -90,7 +90,7 @@ sub Main {
         my ( $Success, $Message ) = CheckSystemRequirements();
         say $Message if defined $Message;
 
-        return 0 if !$Success;
+        return 0 unless $Success;
     }
 
     # we can rely on Kernel::Config now
@@ -453,8 +453,7 @@ sub SetRootAtLocalhostPassword {
     return 0, 'Password for root@localhost could not be set' unless $Success;
 
     # Protocol http is fine, as there is an automatic redirect
-    # TODO: is there a way to find out the host and the port
-    return 1, "URL: http://localhost/otobo/index.pl, user: root\@localhost, pw: $Password";
+    return 1, "URL: http://localhost/otobo/index.pl user: root\@localhost pw: $Password";
 }
 
 sub AdaptSettings {
