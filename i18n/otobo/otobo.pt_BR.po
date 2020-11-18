@@ -57,16 +57,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-11-12 15:30+0000\n"
-"PO-Revision-Date: 2020-09-02 12:35+0000\n"
+"PO-Revision-Date: 2020-11-18 11:25+0000\n"
 "Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
-"Language-Team: Portuguese (Brazil) <http://translate.otobo.org/projects/"
+"Language-Team: Portuguese (Brazil) <https://translate.otobo.org/projects/"
 "otobo10/otobo/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.1.1\n"
+"X-Generator: Weblate 4.2.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -1065,6 +1065,9 @@ msgid ""
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
 msgstr ""
+"Para habilitar o envio de dados, registre seu sistema com a equipe OTOBO ou "
+"atualize as informações de registro do sistema (certifique-se de ativar a "
+"opção 'enviar dados de suporte'.)"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -1083,6 +1086,8 @@ msgid ""
 "System registration is a service of OTOBO team, which provides a lot of "
 "advantages!"
 msgstr ""
+"O registro do sistema é um serviço da equipe OTOBO, que traz muitas "
+"vantagens!"
 
 #. Template: AdminCloudServices
 msgid ""
@@ -1356,7 +1361,7 @@ msgstr "Por favor selecione uma entrada da lista."
 
 #. Template: AdminContactWD
 msgid "Contact with data management"
-msgstr ""
+msgstr "Contato com gerenciamento de dados"
 
 #. Template: AdminContactWD
 msgid "Contact with data"
@@ -1364,7 +1369,7 @@ msgstr "Contato com dados"
 
 #. Template: AdminContactWD
 msgid "Add contact with data"
-msgstr ""
+msgstr "Adicionar contato com dados"
 
 #. Template: AdminContactWD
 msgid "Edit contact with data"
