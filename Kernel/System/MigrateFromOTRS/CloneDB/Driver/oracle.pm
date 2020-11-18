@@ -156,7 +156,7 @@ sub ResetAutoIncrementField {
         }
     }
 
-    my $QuotedTable = $Param{DBObject}->QuoteIdentifier( $Param{Table} );
+    my $QuotedTable = $Param{DBObject}->QuoteIdentifier( Table => $Param{Table} );
     $Param{DBObject}->Prepare(
         SQL => "
             SELECT id
@@ -375,7 +375,7 @@ sub AlterTableAddColumn {
     }
 
     my %ColumnInfos = %{ $Param{ColumnInfos} };
-    my $QuotedTable = $Param{DBObject}->QuoteIdentifier( $Param{Table} );
+    my $QuotedTable = $Param{DBObject}->QuoteIdentifier( Table => $Param{Table} );
     my $SQL = "ALTER TABLE $QuotedTable ADD $Param{Column} $ColumnInfos{DATA_TYPE}";
 
     if ( $ColumnInfos{LENGTH} ) {

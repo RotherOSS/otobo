@@ -281,7 +281,7 @@ sub RowCount {
     }
 
     # execute counting statement, only a single row is returned
-    my $RowCountSQL = sprintf q{SELECT COUNT(*) FROM %s}, $Param{DBObject}->QuoteIdentifier( $Param{Table} );
+    my $RowCountSQL = sprintf q{SELECT COUNT(*) FROM %s}, $Param{DBObject}->QuoteIdentifier( Table => $Param{Table} );
 
     return unless $Param{DBObject}->Prepare(
         SQL => $RowCountSQL,
@@ -508,7 +508,7 @@ sub DataTransfer {
 
                 # We need to shorten that column in that table to 191 chars.
                 $DoShorten = 1;
-                my $QuotedSourceTable = $Param{OTRSDBObject}->QuoteIdentifier( $SourceTable );
+                my $QuotedSourceTable = $Param{OTRSDBObject}->QuoteIdentifier( Table => $SourceTable );
                 push $AlterSourceSQLs{$SourceTable}->@*,
                     "UPDATE $QuotedSourceTable SET $SourceColumn = SUBSTRING( $SourceColumn, 1, $MaxLenghtShortenedColumns )",
                     "ALTER TABLE $QuotedSourceTable MODIFY COLUMN $SourceColumn VARCHAR($MaxMb4CharsInIndexKey)";
@@ -606,7 +606,7 @@ sub DataTransfer {
 
                 # explicitly try to drop the index too,
                 # otherwise the foreign key can't be added. Strange.
-                my $QuotedSourceTable = $Param{OTRSDBObject}->QuoteIdentifier( $SourceTable );
+                my $QuotedSourceTable = $Param{OTRSDBObject}->QuoteIdentifier( Table => $SourceTable );
                 unshift $AlterSourceSQLs{$SourceTable}->@*,
                     "ALTER TABLE $QuotedSourceTable DROP FOREIGN KEY $FKName";
             }
@@ -730,7 +730,7 @@ sub DataTransfer {
             }
         }
 
-        my $QuotedSourceTable = $Param{OTRSDBObject}->QuoteIdentifier( $SourceTable );
+        my $QuotedSourceTable = $Param{OTRSDBObject}->QuoteIdentifier( Table => $SourceTable );
 
         if ( $DoBatchInsert{$SourceTable} ) {
 
