@@ -27,6 +27,13 @@ quick_setup.pl - a quick OTOBO setup script
     # do it
     bin/docker/quick_setup.pl --db-password 'some-pass'
 
+    # do it when OTOBO runs on a special HTTP Port
+    bin/docker/quick_setup.pl --db-password 'some-pass' --http-port 81
+
+It's convenient the call this script via an alias.
+
+    alias otobo_docker_quick_setup="docker exec -t otobo_web_1 bash -c \"date ; hostname ; rm -f Kernel/Config/Files/ZZZAAuto.pm ; bin/docker/quick_setup.pl --db-password otobo_root --http-port 81\""
+
 =head1 DESCRIPTION
 
 Useful for continous integration.
@@ -69,11 +76,14 @@ use Const::Fast qw(const);
 use Kernel::System::ObjectManager;
 
 sub Main {
-    my ( $HelpFlag, $DBPassword );
+    my $HelpFlag;       # print help
+    my $DBPassword;     # required
+    my $HTTPPort = 80;  # only used for success message
 
     Getopt::Long::GetOptions(
         'help'          => \$HelpFlag,
         'db-password=s' => \$DBPassword,
+        'http-port=i'   => \$HTTPPort,
     ) or pod2usage({ -exitval => 1, -verbose => 1 });
 
     if ( $HelpFlag ) {
@@ -110,7 +120,7 @@ sub Main {
 
         say $Message if defined $Message;
 
-        return 0 if !$Success;
+        return 0 unless $Success;
     }
 
     {
@@ -123,7 +133,7 @@ sub Main {
 
         say $Message if defined $Message;
 
-        return 0 if !$Success;
+        return 0 unless $Success;
     }
 
     $Kernel::OM->ObjectParamAdd(
@@ -148,15 +158,17 @@ sub Main {
 
         say $Message if defined $Message;
 
-        return 0 if !$Success;
+        return 0 unless $Success;
     }
 
     {
-        my ( $Success, $Message ) = SetRootAtLocalhostPassword();
+        my ( $Success, $Message ) = SetRootAtLocalhostPassword(
+            HTTPPort => $HTTPPort
+        );
 
         say $Message if defined $Message;
 
-        return 0 if !$Success;
+        return 0 unless $Success;
     }
 
     {
@@ -171,7 +183,7 @@ sub Main {
 
         say $Message if defined $Message;
 
-        return 0 if !$Success;
+        return 0 unless $Success;
     }
 
     {
@@ -179,7 +191,7 @@ sub Main {
 
         say $Message if defined $Message;
 
-        return 0 if !$Success;
+        return 0 unless $Success;
     }
 
     # looks good
@@ -436,7 +448,7 @@ sub SetRootAtLocalhostPassword {
     my %Param = @_;
 
     # check the params
-    for my $Key ( grep { ! $Param{$_} } qw() ) {
+    for my $Key ( grep { ! $Param{$_} } qw(HTTPPort) ) {
         my $SubName = (caller(0))[3];
 
         return 0, "$SubName: the parameter '$Key' is required";
@@ -453,7 +465,7 @@ sub SetRootAtLocalhostPassword {
     return 0, 'Password for root@localhost could not be set' unless $Success;
 
     # Protocol http is fine, as there is an automatic redirect
-    return 1, "URL: http://localhost/otobo/index.pl user: root\@localhost pw: $Password";
+    return 1, "URL: http://localhost:$Param{HTTPPort}/otobo/index.pl user: root\@localhost pw: $Password";
 }
 
 sub AdaptSettings {
@@ -516,7 +528,7 @@ sub DeactivateElasticsearch {
     );
 
     # nothing to do when there is no Elasticsearch webservice
-    return 1 if ! $ESWebservice;
+    return 1 unless $ESWebservice;
     return 1 if $ESWebservice->{ValidID} != 1; # not valid
 
     # deactivate the Elasticsearch webservice
