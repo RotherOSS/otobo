@@ -18,6 +18,9 @@ package Kernel::System::Web::InterfaceInstaller;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 
@@ -40,7 +43,7 @@ Kernel::System::Web::InterfaceInstaller - the installer web interface
 
 =head1 DESCRIPTION
 
-This module generates the content for F<installer.pl>.
+This module prints the HTTP response for F<installer.pl>.
 
 =head1 PUBLIC INTERFACE
 
@@ -50,13 +53,18 @@ create the web interface object for 'installer.pl'.
 
     use Kernel::System::Web::InterfaceInstaller;
 
-    my $Debug = 0;
-    my $Interface = Kernel::System::Web::InterfaceInstaller->new( Debug => $Debug );
+    my $Interface = Kernel::System::Web::InterfaceInstaller->new();
+
+    # with debugging enabled
+    my $Interface = Kernel::System::Web::InterfaceInstaller->new(
+        Debug => 1
+    );
 
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type = shift;
+    my %Param = @_;
 
     # start with an empty hash for the new object
     my $Self = bless {}, $Type;
@@ -69,28 +77,17 @@ sub new {
         'Kernel::System::Log' => {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'Installer',
         },
-        'Kernel::Output::HTML::Layout' => {
-            InstallerOnly => 1,
-        },
         'Kernel::System::Web::Request' => {
             WebRequest => $Param{WebRequest} || 0,
         },
     );
-
-    # debug info
-    if ( $Self->{Debug} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'debug',
-            Message  => 'Global handle started...',
-        );
-    }
 
     return $Self;
 }
 
 =head2 Run()
 
-execute the object
+execute the object.
 
     $Interface->Run();
 
@@ -101,12 +98,13 @@ sub Run {
 
     # get common framework params
     my %Param;
+    {
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-
-    $Param{Action}     = $ParamObject->GetParam( Param => 'Action' )     || 'Installer';
-    $Param{Subaction}  = $ParamObject->GetParam( Param => 'Subaction' )  || '';
-    $Param{NextScreen} = $ParamObject->GetParam( Param => 'NextScreen' ) || '';
+        $Param{Action}     = $ParamObject->GetParam( Param => 'Action' )     || 'Installer';
+        $Param{Subaction}  = $ParamObject->GetParam( Param => 'Subaction' )  || '';
+        $Param{NextScreen} = $ParamObject->GetParam( Param => 'NextScreen' ) || '';
+    }
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::Output::HTML::Layout' => {
@@ -118,56 +116,43 @@ sub Run {
 
     # check secure mode
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
-        print $LayoutObject->Header();
-        print $LayoutObject->Error(
-            Message => Translatable('SecureMode active!'),
-            Comment => Translatable(
-                'If you want to re-run the Installer, disable the SecureMode in the SysConfig.'
+        print join '',
+            $LayoutObject->Header(),
+            $LayoutObject->Error(
+                Message => Translatable('SecureMode active!'),
+                Comment => Translatable(
+                    'If you want to re-run installer.pl, then disable the SecureMode in the SysConfig.'
+                ),
             ),
-        );
-        print $LayoutObject->Footer();
+            $LayoutObject->Footer();
+
+        return;
     }
 
     # run modules if a version value exists
-    elsif ( $Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
+    if ( $Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
 
-        # proof of concept! - create $GenericObject
+        # create $GenericObject
         my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
             %Param,
             Debug => $Self->{Debug},
         );
 
         print $GenericObject->Run();
+
+        return;
     }
 
-    # else print an error screen
-    else {
-
-        # create new LayoutObject with '%Param'
-        print $LayoutObject->Header();
-        print $LayoutObject->Error(
+    # print an error screen as the fallback
+    print join '',
+        $LayoutObject->Header();
+        $LayoutObject->Error(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Action "%s" not found!', $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),
-        );
-        print $LayoutObject->Footer();
-    }
+        ),
+        $LayoutObject->Footer();
 
     return;
-}
-
-sub DESTROY {
-    my $Self = shift;
-
-    # debug info
-    if ( $Self->{Debug} ) {
-
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'debug',
-            Message  => 'Global handle stopped.',
-        );
-    }
-
-    return 1;
 }
 
 1;
