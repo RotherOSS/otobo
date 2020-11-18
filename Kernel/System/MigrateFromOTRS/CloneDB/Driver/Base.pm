@@ -654,24 +654,27 @@ sub DataTransfer {
     }
 
     # do the actual data transfer for the relevant tables
+    my ( $TotalNumTables, $CountTable ) = ( scalar @SourceTablesToBeCopied, 0 );
     SOURCE_TABLE:
     for my $SourceTable (@SourceTablesToBeCopied) {
 
         # Set cache object with taskinfo and starttime to show current state in frontend
+        $CountTable++;
+        my $ProgressMessage = "Copy table ($CountTable/$TotalNumTables): $SourceTable";
         $CacheObject->Set(
             Type  => 'OTRSMigration',
             Key   => 'MigrationState',
             Value => {
                 Task      => 'OTOBODatabaseMigrate',
-                SubTask   => "Copy table: $SourceTable",
+                SubTask   => $ProgressMessage,
                 StartTime => $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch(),
             },
         );
 
         # Log info to apache error log and OTOBO log (syslog or file)
         $MigrationBaseObject->MigrationLog(
-            String   => "Copy table: $SourceTable\n",
-            Priority => "notice",
+            String   => $ProgressMessage,
+            Priority => 'notice',
         );
 
         # The target table may be renamed.
