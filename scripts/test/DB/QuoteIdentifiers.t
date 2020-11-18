@@ -33,24 +33,29 @@ my @Tests = (
         ExpectedQuotedTable => undef,
     },
     {
-        Description         => 'invalid numeric table name',
+        Description         => 'strange numeric table name, but can be quoted',
         UnquotedTable       => q{17},
-        ExpectedQuotedTable => q{'17'},
+        ExpectedQuotedTable => q{`17`},
     },
     {
-        Description         => 'groups is reserved onj MySQL 8',
+        Description         => 'groups is reserved on MySQL 8',
         UnquotedTable       => q{groups},
-        ExpectedQuotedTable => q{'groups'},
+        ExpectedQuotedTable => q{`groups`},
     },
     {
         Description         => 'funny name with space',
         UnquotedTable       => q{funny name},
-        ExpectedQuotedTable => q{'funny name'},
+        ExpectedQuotedTable => q{`funny name`},
     },
     {
         Description         => 'funny name with single quote',
         UnquotedTable       => q{funny'name},
-        ExpectedQuotedTable => q{'funny\\'name'},
+        ExpectedQuotedTable => q{`funny'name`},
+    },
+    {
+        Description         => 'funny name with backtick',
+        UnquotedTable       => q{funny`name},
+        ExpectedQuotedTable => q{`funny``name`},
     },
 );
 
