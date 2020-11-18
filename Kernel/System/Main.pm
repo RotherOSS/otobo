@@ -97,19 +97,22 @@ require/load a module
 =cut
 
 sub Require {
-    my ( $Self, $Module, %Param ) = @_;
+    my $Self  = shift;
+    my ( $Module, %Param ) = @_;
 
+    # check required params
     if ( !$Module ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need module!',
         );
+
         return;
     }
 
     eval {
-        my $FileName = $Module =~ s{::}{/}smxgr;
-        require $FileName . '.pm';
+        my $FileName = "$Module.pm" =~ s{::}{/}smxgr;
+        require $FileName;
     };
 
     # Handle errors.
@@ -127,6 +130,7 @@ sub Require {
         return;
     }
 
+    # indicate that the module could be loaded
     return 1;
 }
 

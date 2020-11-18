@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.548040968948138;
+    $Self->{Completeness}        = 0.547773805654859;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -5048,6 +5048,9 @@ sub Data {
         'The field content is too long!' => 'เนื้อหาในฟิลด์ยาวเกินไป',
         'Maximum size is %s characters.' => 'จำนวนที่มากที่สุดคือ %s ตัวอักษร',
 
+        # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
+        'Sanity checks for database.' => '',
+
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
         'Deploy the ACL configuration.' => '',
         'Deployment completed, perfect!' => '',
@@ -5063,13 +5066,12 @@ sub Data {
         'Completed.' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-        'Check if OTOBO version is correct.' => '',
-        'Check if OTOBO and OTRS connect is possible.' => '',
+        'Need OTRSData->%s!' => '',
         'Can\'t access OTRS Home: %s!' => '',
-        'Copy and migrate files from OTRS' => '',
         'All needed files copied and migrated, perfect!' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
+        'Check if OTOBO version is correct.' => '',
         'Need %s for Oracle db!' => '',
         'Copy database.' => '',
         'System was unable to connect to OTRS database.' => '',
@@ -5077,6 +5079,7 @@ sub Data {
         'Data transfer completed.' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+        'Check if OTOBO and OTRS connect is possible.' => '',
         'Can\'t open RELEASE file from OTRSHome: %s!' => '',
         'Check if OTOBO and OTRS version is correct.' => '',
         '%s does not exist!' => '',
@@ -5086,6 +5089,7 @@ sub Data {
             '',
         'OTOBO Version is correct: %s.' => '',
         'Check if OTRS version is correct.' => '',
+        'OTRS RELEASE file %s does not exist: %s!' => '',
         'Can\'t read OTRS RELEASE file: %s: %s!' => '',
         'No OTRS system found!' => '',
         'OTRS Version is correct: %s.' => '',
@@ -5112,14 +5116,15 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
         'Can\'t open Kernel/Config.pm file from OTRSHome: %s!' => '',
-        'OTOBO Home exists.' => '',
+        'Check if Kernel/Config.pm exists in OTOBO home.' => '',
+        'Kernel/Config.pm exists in OTOBO home' => '',
         'Check if we are able to connect to OTRS Home.' => '',
         'Can\'t connect to OTRS file directory.' => '',
         'Connect to OTRS file directory is possible.' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
         'Try database connect and sanity checks.' => '',
-        'Connect to OTRS database or sanity checks failed.' => '',
+        'Could not create database object.' => '',
         'Database connect and sanity checks completed.' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm

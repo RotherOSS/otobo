@@ -209,7 +209,7 @@ sub GetFieldStates {
         # get user preferences for possible user default values
         if ( $Param{UserID} ) {
             %UserPreferences = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
-                UserID => $Self->{UserID},
+                UserID => $Param{UserID},
             );
         }
     }

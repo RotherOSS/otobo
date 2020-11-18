@@ -116,7 +116,7 @@ sub Run {
                 Valid  => $Param{Valid},
             );
 
-            my $UserValue = sprintf '"%s %s" <%s>',
+            my $UserValue = sprintf '"%s" <%s>',
                 $User{UserFullname},
                 $User{UserEmail};
 
