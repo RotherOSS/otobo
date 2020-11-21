@@ -428,18 +428,33 @@ sub BackupForMigrateFromOTRS {
     my @DBDumpOptions = $Param{DBDumpOptions}->@*;
     my $DatabaseName  = $Param{DatabaseName};
 
-    my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
-    my @SkippedTables = sort keys $MigrationBaseObject->DBSkipTables()->%*;
+    # add more mysqldump options
+    {
+        # skipping tables
+        my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
+        my @SkippedTables = sort keys $MigrationBaseObject->DBSkipTables()->%*;
+        push @DBDumpOptions,  map { ( '--ignore-table' => qq{'$DatabaseName.$_'} ) } @SkippedTables;
+
+        # print a time stamp at the end of the dump
+        push @DBDumpOptions, qq{--dump-date};
+    }
+
+    # TODO: avoid double replacements
     my @Substitutions = (
         q{-e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/'}, # for CREATE DATABASE
         q{-e 's/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/'},             # for CREATE TABLE
         q{-e 's/COLLATE=\\w\\+/ /'},                                         # for CREATE TABLE, remove customer specific collation
     );
+
+    # create the commands that will actually be executed
     my @Commands = (
-        qq{$DBDumpCmd @DBDumpOptions --databases $DatabaseName --no-data --dump-date -r $BackupDir/${DatabaseName}_schema.sql},
+        qq{$DBDumpCmd @DBDumpOptions --databases $DatabaseName --no-data -r $BackupDir/${DatabaseName}_schema.sql},
         qq{sed -i.bak @Substitutions $BackupDir/${DatabaseName}_schema.sql},
-        qq{$DBDumpCmd @DBDumpOptions --databases $DatabaseName --no-create-info --no-create-db --dump-date -r $BackupDir/${DatabaseName}_data.sql},
+        qq{$DBDumpCmd @DBDumpOptions --databases $DatabaseName --no-create-info --no-create-db -r $BackupDir/${DatabaseName}_data.sql},
     );
+
+    # TODO: rename tables
+    # TODO: check key size
 
     # print only the count avoids printing a password into a logfile
     my $Cnt = 0;
@@ -449,7 +464,8 @@ sub BackupForMigrateFromOTRS {
             say "done command $Cnt";
         }
         else {
-            say "done command $Cnt";
+            say "failed executing command $Cnt";
+            say $Command;
             die "Backup failed";
         }
     }
