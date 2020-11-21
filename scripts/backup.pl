@@ -430,6 +430,7 @@ sub BackupForMigrateFromOTRS {
 
     # for getting skipped and renamed tables
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
+    my $MainObject          = $Kernel::OM->Get('Kernel::System::Main');
 
     # add more mysqldump options
     {
@@ -443,7 +444,9 @@ sub BackupForMigrateFromOTRS {
 
     # TODO: avoid double replacements
     # TODO: rename schema
-    my $TargetDatabaseName = $Kernel::OM->Get('Kernel::Config')->Get('Database');
+    my $TargetDatabaseName    = $Kernel::OM->Get('Kernel::Config')->Get('Database');
+    my $SchemaDumpFile        = qq{$BackupDir/${DatabaseName}_schema.sql};
+    my $AdaptedSchemaDumpFile = qq{$BackupDir/${DatabaseName}_schema_varchar_191.sql};
 
     my @Substitutions = (
         q{-e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/'}, # for CREATE DATABASE
@@ -474,6 +477,70 @@ sub BackupForMigrateFromOTRS {
         }
     }
 
+    # shorten columns because of utf8mb4 and innodb max key length
+    {
+        # find the changed columns per table
+        my %IsShortened;
+        for my $Short ( $MigrationBaseObject->DBShortenedColumns() ) {
+             $IsShortened{ $Short->{Table} } //= {};
+             $IsShortened{ $Short->{Table} }->{ $Short->{Column} } = 1;
+        }
+
+        my @Lines = $MainObject->FileRead(
+            Location => $SchemaDumpFile,
+            Result   => 'ARRAY',
+        )->@*;
+
+        # now adapt the relevant lines
+        # TODO: make this less nasty. Make it nicety.
+        open my $Adapted, '>', $AdaptedSchemaDumpFile
+            or die "Can't open $AdaptedSchemaDumpFile for writing: $!";
+        say $Adapted "-- adapted by $0";
+        say $Adapted '';
+        my $CurrentTable;
+        LINE:
+        for my $Line ( @Lines ) {
+
+            # leaving a Table Create Block
+            # e.g.: ") ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4  ;"
+            if ( $Line =~ m/^\)/ ) {
+                undef $CurrentTable;
+
+                next LINE;
+            }
+
+            # entering a Table Create Block
+            # e.g.: "CREATE TABLE `acl` ("
+            if ( $Line =~ m/^CREATE TABLE `(\w+)` \(/ ) {
+                $CurrentTable = $1;
+
+                next LINE;
+            }
+
+            # check whether the current table has shortened columns
+            next LINE unless $CurrentTable;
+            next LINE unless $IsShortened{ $CurrentTable };
+            next LINE unless keys $IsShortened{ $CurrentTable  }->%*;
+
+            # are we in a column line ?
+            # e.g.: "  `name` varchar(200) COLLATE utf8_bin NOT NULL,"
+            next LINE unless my ($ColumnName, $ColumnLength ) = $Line =~ m/^ \s+ `(\w+)` \s+ varchar\( (\d+) \)/x;
+
+            # does the column need to be shortened
+            next LINE unless $IsShortened{ $CurrentTable }->{ $ColumnName };
+            next LINE unless $ColumnLength > 191;
+
+            # shorten
+            # e.g.: "  `name` varchar(191) COLLATE utf8_bin NOT NULL,"
+            $Line =~ s/varchar\(\d+\)/varchar(191)/;
+        }
+        continue {
+            print $Adapted $Line;
+        }
+
+
+    }
+
     # create a script for fiddling with the generated database
     {
         my $SQLScript = <<"END_SQL";
@@ -489,7 +556,6 @@ RENAME TABLE `$TargetDatabaseName`.`$SourceTable` TO `$TargetDatabaseName`.`$Ren
 END_SQL
         }
 
-        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
         $MainObject->FileWrite(
             Location => qq{$BackupDir/${DatabaseName}_fixup.sql},
             Content  => \$SQLScript,
