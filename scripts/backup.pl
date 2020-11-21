@@ -20,11 +20,10 @@ use warnings;
 use v5.24;
 use utf8;
 
-# use ../ as lib location
-use File::Basename;
+# use ../ and ../Kernel/cpan-lib as lib location
 use FindBin qw($RealBin);
-use lib dirname($RealBin);
-use lib dirname($RealBin) . "/Kernel/cpan-lib";
+use lib "$RealBin/..";
+use lib "$RealBin/../Kernel/cpan-lib";
 
 # core modules
 use Getopt::Long qw(GetOptions);
@@ -49,6 +48,7 @@ my (
 );
 my $BackupDir  = getcwd();
 my $BackupType = 'fullbackup';
+
 GetOptions(
     'help|h'                 => \$HelpFlag,
     'backup-dir|d=s'         => \$BackupDir,
@@ -264,8 +264,11 @@ my $ErrorIndicationFileName =
     . '/var/tmp/'
     . $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString();
 if ( $DatabaseType eq 'mysql' ) {
+    push @DBDumpOptions,
+        '-u' => $DatabaseUser,
+        '-h' => $DatabaseHost;
     if ($DatabasePw) {
-        push @DBDumpOptions, "-p'$DatabasePw'";
+        push @DBDumpOptions, qq{-p'$DatabasePw'};
     }
 
     if ( $MaxAllowedPacket ) {
@@ -277,35 +280,19 @@ if ( $DatabaseType eq 'mysql' ) {
         # dump schema and data separately, no compression
         say "Dumping $DatabaseType schema to $BackupDir/${DatabaseName}_schema.sql ... ";
         say "Dumping $DatabaseType data to $BackupDir/${DatabaseName}_data.sql ... ";
-        my @Substitutions = (
-            q{-e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/'}, # for CREATE DATABASE
-            q{-e 's/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/'},             # for CREATE TABLE
-            q{-e 's/COLLATE=\\w\\+/ /'},                                         # for CREATE TABLE, remove customer specific collation
-        );
-        my @Commands = (
-            qq{$DBDumpCmd -u $DatabaseUser @DBDumpOptions -h $DatabaseHost --databases $DatabaseName --no-data --dump-date -r $BackupDir/${DatabaseName}_schema.sql},
-            qq{sed -i.bak @Substitutions $BackupDir/${DatabaseName}_schema.sql},
-            qq{$DBDumpCmd -u $DatabaseUser @DBDumpOptions -h $DatabaseHost --databases $DatabaseName --no-create-info --no-create-db --dump-date -r $BackupDir/${DatabaseName}_data.sql},
-        );
 
-        # print only the count avoids printing a password into a logfile
-        my $Cnt = 0;
-        for my $Command ( @Commands ) {
-            $Cnt++;
-            if ( ! system( $Command ) ) {
-                say "done command $Cnt";
-            }
-            else {
-                say "done command $Cnt";
-                die "Backup failed";
-            }
-        }
+        BackupForMigrateFromOTRS(
+            BackupDir     => $BackupDir,
+            DBDumpCmd     => $DBDumpCmd,
+            DBDumpOptions => \@DBDumpOptions,
+            DatabaseName  => $DatabaseName,
+        );
     }
     else {
         say "Dumping $DatabaseType data to $Directory/DatabaseBackup.sql.$CompressEXT ... ";
         if (
             !system(
-                "( $DBDumpCmd -u $DatabaseUser @DBDumpOptions -h $DatabaseHost $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
+                "( $DBDumpCmd @DBDumpOptions $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
             )
             && !-f $ErrorIndicationFileName
             )
@@ -431,11 +418,48 @@ if ( defined $RemoveDays ) {
     }
 }
 
-# If error occurs this functions remove incomlete backup folder to avoid the impression
+# a special MySQL dump for migrating from OTRS 6 to OTOBO 10
+sub BackupForMigrateFromOTRS {
+    my %Param = @_;
+
+    # extract named params
+    my $BackupDir     = $Param{BackupDir};
+    my $DBDumpCmd     = $Param{DBDumpCmd};
+    my @DBDumpOptions = $Param{DBDumpOptions}->@*;
+    my $DatabaseName  = $Param{DatabaseName};
+
+    my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
+    my @SkippedTables = sort keys $MigrationBaseObject->DBSkipTables()->%*;
+    my @Substitutions = (
+        q{-e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/'}, # for CREATE DATABASE
+        q{-e 's/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/'},             # for CREATE TABLE
+        q{-e 's/COLLATE=\\w\\+/ /'},                                         # for CREATE TABLE, remove customer specific collation
+    );
+    my @Commands = (
+        qq{$DBDumpCmd @DBDumpOptions --databases $DatabaseName --no-data --dump-date -r $BackupDir/${DatabaseName}_schema.sql},
+        qq{sed -i.bak @Substitutions $BackupDir/${DatabaseName}_schema.sql},
+        qq{$DBDumpCmd @DBDumpOptions --databases $DatabaseName --no-create-info --no-create-db --dump-date -r $BackupDir/${DatabaseName}_data.sql},
+    );
+
+    # print only the count avoids printing a password into a logfile
+    my $Cnt = 0;
+    for my $Command ( @Commands ) {
+        $Cnt++;
+        if ( ! system( $Command ) ) {
+            say "done command $Cnt";
+        }
+        else {
+            say "done command $Cnt";
+            die "Backup failed";
+        }
+    }
+
+    return;
+}
+
+# If error occurs this functions removes the incomplete backup folder to avoid the impression
 #   that the backup was ok (see http://bugs.otrs.org/show_bug.cgi?id=10665).
 sub RemoveIncompleteBackup {
-
-    # get parameters
     my $Directory = shift;
 
     # remove files and directory
