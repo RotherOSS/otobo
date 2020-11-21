@@ -566,6 +566,8 @@ sub BackupForMigrateFromOTRS {
 
 USE `$TargetDatabaseName`;
 
+SET FOREIGN_KEY_CHECKS = 0;
+
 END_SQL
 
         # rename tables
@@ -573,6 +575,7 @@ END_SQL
         my %RenameTables = $MigrationBaseObject->DBRenameTables()->%*;
         for my $SourceTable ( keys %RenameTables ) {
             $SQLScript .= <<"END_SQL";
+DROP TABLE `$TargetDatabaseName`.`$RenameTables{$SourceTable}`;
 RENAME TABLE `$TargetDatabaseName`.`$SourceTable` TO `$TargetDatabaseName`.`$RenameTables{$SourceTable}`;
 END_SQL
         }
