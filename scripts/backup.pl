@@ -274,10 +274,6 @@ if ( $DatabaseType eq 'mysql' ) {
 
     if ( $MigrateFromOTRSBackup ) {
 
-        # dump schema and data separately, no compression
-        say "Dumping $DatabaseType schema to $Directory/${DatabaseName}_schema_varchar_191.sql ... ";
-        say "Dumping $DatabaseType data to $Directory/${DatabaseName}_data.sql ... ";
-
         BackupForMigrateFromOTRS(
             Directory     => $Directory,
             DBDumpCmd     => $DBDumpCmd,
@@ -439,11 +435,15 @@ sub BackupForMigrateFromOTRS {
         push @DBDumpOptions, qq{--dump-date};
     }
 
-    # TODO: avoid double replacements
+    # output files
+    my $SchemaDumpFile        = qq{$Directory/${DatabaseName}_schema.sql};
+    my $DataDumpFile          = qq{$Directory/${DatabaseName}_data.sql};
+    my $AdaptedSchemaDumpFile = qq{$Directory/${DatabaseName}_schema_varchar_191.sql};
+    say "Dumping $DatabaseType schema to $SchemaDumpFile";
+    say "Dumping $DatabaseType data to $DataDumpFile";
+
     # TODO: rename schema
     my $TargetDatabaseName    = $Kernel::OM->Get('Kernel::Config')->Get('Database');
-    my $SchemaDumpFile        = qq{$Directory/${DatabaseName}_schema.sql};
-    my $AdaptedSchemaDumpFile = qq{$Directory/${DatabaseName}_schema_varchar_191.sql};
 
     my @Substitutions = (
         q{-e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/'}, # for CREATE DATABASE
@@ -459,7 +459,7 @@ sub BackupForMigrateFromOTRS {
     my @Commands = (
         qq{$DBDumpCmd @DBDumpOptions --databases $DatabaseName --no-data -r $SchemaDumpFile},
         qq{sed -i.bak @Substitutions $SchemaDumpFile},
-        qq{$DBDumpCmd @DBDumpOptions --databases $DatabaseName --no-create-info --no-create-db -r $Directory/${DatabaseName}_data.sql},
+        qq{$DBDumpCmd @DBDumpOptions --databases $DatabaseName --no-create-info --no-create-db -r $DataDumpFile},
     );
 
     # TODO: check key size
