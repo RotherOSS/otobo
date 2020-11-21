@@ -196,7 +196,7 @@ my $SystemDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
 # create directory name - this looks like 2013-09-09_22-19'
 my $Directory = join '/',
     $BackupDir,
-    $SystemDTObject->Format( Format => '%Y-%m-%d_%H:%M:%S' );
+    $SystemDTObject->Format( Format => '%Y-%m-%d_%H-%M-%S' );
 mkdir $Directory or die "ERROR: Can't create directory: $Directory: $!";
 
 # backup application
