@@ -439,21 +439,35 @@ sub BackupForMigrateFromOTRS {
     my $SchemaDumpFile        = qq{$Directory/${DatabaseName}_schema.sql};
     my $DataDumpFile          = qq{$Directory/${DatabaseName}_data.sql};
     my $AdaptedSchemaDumpFile = qq{$Directory/${DatabaseName}_schema_varchar_191.sql};
-    say "Dumping $DatabaseType schema to $SchemaDumpFile";
+    say "Dumping $DatabaseType schema to $AdaptedSchemaDumpFile";
     say "Dumping $DatabaseType data to $DataDumpFile";
 
-    # TODO: rename schema
     my $TargetDatabaseName    = $Kernel::OM->Get('Kernel::Config')->Get('Database');
 
-    my @Substitutions = (
-        q{-e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/'}, # for CREATE DATABASE
-        q{-e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/'}, # for CREATE DATABASE
-        q{-e 's/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/'},             # for CREATE TABLE
-        q{-e 's/utf8mb4mb4/utf8mb4/'},                                       # in case it already was utf8mb4
-        q{-e 's/utf8mb3mb4/utf8mb4/'},                                       # in case of some mixup
-        q{-e 's/utf8mb4mb3/utf8mb4/'},                                       # in case of some mixup
-        q{-e 's/COLLATE=\\w\\+/ /'},                                         # for CREATE TABLE, remove customer specific collation
-    );
+    # set up sed substitutions
+    my @Substitutions;
+    {
+        # substitutions for changing the database
+        # e.g.: "CREATE DATABASE /*!32312 IF NOT EXISTS*/ `homebernharddeve` /*!40100 DEFAULT CHARACTER SET utf8mb4 */ /*!80016 DEFAULT ENCRYPTION='N' */;"
+        # e.g.: "USE `homebernharddeve`;"
+        # welcome to the escaping hell
+        push @Substitutions,
+            qq{-e 's/\\(CREATE[[:space:]]*DATABASE.*\\)`$DatabaseName`/\\1`$TargetDatabaseName`/'},
+            qq{-e 's/USE `$DatabaseName`/USE `$TargetDatabaseName`/'};
+
+        # substitutions for changing the character set
+        push @Substitutions,
+            q{-e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/'}, # for CREATE DATABASE
+            q{-e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/'}, # for CREATE DATABASE
+            q{-e 's/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/'},             # for CREATE TABLE
+            q{-e 's/utf8mb4mb4/utf8mb4/'},                                       # in case it already was utf8mb4
+            q{-e 's/utf8mb3mb4/utf8mb4/'},                                       # in case of some mixup
+            q{-e 's/utf8mb4mb3/utf8mb4/'};                                       # in case of some mixup
+
+        # substitutions for removing collation directives
+        push @Substitutions,
+            q{-e 's/COLLATE=\\w\\+/ /'}; # for CREATE TABLE, remove customer specific collation
+    }
 
     # create the commands that will actually be executed
     my @Commands = (
