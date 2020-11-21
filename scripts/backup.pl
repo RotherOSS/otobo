@@ -452,9 +452,9 @@ sub BackupForMigrateFromOTRS {
         q{-e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/'}, # for CREATE DATABASE
         q{-e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/'}, # for CREATE DATABASE
         q{-e 's/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/'},             # for CREATE TABLE
-        q{-e 's/utf8mb4mb4/utf8mb4'},                                        # in case it already was utf8mb4
-        q{-e 's/utf8mb3mb4/utf8mb4'},                                        # in case of some mixup
-        q{-e 's/utf8mb4mb3/utf8mb4'},                                        # in case of some mixup
+        q{-e 's/utf8mb4mb4/utf8mb4/'},                                       # in case it already was utf8mb4
+        q{-e 's/utf8mb3mb4/utf8mb4/'},                                       # in case of some mixup
+        q{-e 's/utf8mb4mb3/utf8mb4/'},                                       # in case of some mixup
         q{-e 's/COLLATE=\\w\\+/ /'},                                         # for CREATE TABLE, remove customer specific collation
     );
 
