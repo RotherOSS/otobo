@@ -51,7 +51,7 @@ my $BackupType = 'fullbackup';
 
 GetOptions(
     'help|h'                 => \$HelpFlag,
-    'backup-dir|d=s'         => \$BackupDir,
+    'backup-dir|d=s'         => \$BackupDir,        # current dir is the default
     'compress|c=s'           => \$CompressOption,
     'remove-old-backups|r=i' => \$RemoveDays,
     'backup-type|t=s'        => \$BackupType,
@@ -66,7 +66,7 @@ GetOptions(
 PrintHelpAndExit() if $HelpFlag;
 
 # check backup dir
-if ( !$BackupDir ) {
+if ( ! $BackupDir ) {
     say STDERR "ERROR: Need -d for backup directory";
 
     exit 1;
@@ -197,10 +197,7 @@ my $SystemDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
 my $Directory = join '/',
     $BackupDir,
     $SystemDTObject->Format( Format => '%Y-%m-%d_%H-%M' );
-
-if ( !mkdir($Directory) ) {
-    die "ERROR: Can't create directory: $Directory: $!";
-}
+mkdir $Directory or die "ERROR: Can't create directory: $Directory: $!";
 
 # backup application
 if ($DBOnlyBackup) {
@@ -278,11 +275,11 @@ if ( $DatabaseType eq 'mysql' ) {
     if ( $MigrateFromOTRSBackup ) {
 
         # dump schema and data separately, no compression
-        say "Dumping $DatabaseType schema to $BackupDir/${DatabaseName}_schema.sql ... ";
-        say "Dumping $DatabaseType data to $BackupDir/${DatabaseName}_data.sql ... ";
+        say "Dumping $DatabaseType schema to $Directory/${DatabaseName}_schema_varchar_191.sql ... ";
+        say "Dumping $DatabaseType data to $Directory/${DatabaseName}_data.sql ... ";
 
         BackupForMigrateFromOTRS(
-            BackupDir     => $BackupDir,
+            Directory     => $Directory,
             DBDumpCmd     => $DBDumpCmd,
             DBDumpOptions => \@DBDumpOptions,
             DatabaseName  => $DatabaseName,
@@ -423,7 +420,7 @@ sub BackupForMigrateFromOTRS {
     my %Param = @_;
 
     # extract named params
-    my $BackupDir     = $Param{BackupDir};
+    my $Directory     = $Param{Directory};
     my $DBDumpCmd     = $Param{DBDumpCmd};
     my @DBDumpOptions = $Param{DBDumpOptions}->@*;
     my $DatabaseName  = $Param{DatabaseName};
@@ -445,8 +442,8 @@ sub BackupForMigrateFromOTRS {
     # TODO: avoid double replacements
     # TODO: rename schema
     my $TargetDatabaseName    = $Kernel::OM->Get('Kernel::Config')->Get('Database');
-    my $SchemaDumpFile        = qq{$BackupDir/${DatabaseName}_schema.sql};
-    my $AdaptedSchemaDumpFile = qq{$BackupDir/${DatabaseName}_schema_varchar_191.sql};
+    my $SchemaDumpFile        = qq{$Directory/${DatabaseName}_schema.sql};
+    my $AdaptedSchemaDumpFile = qq{$Directory/${DatabaseName}_schema_varchar_191.sql};
 
     my @Substitutions = (
         q{-e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/'}, # for CREATE DATABASE
@@ -460,9 +457,9 @@ sub BackupForMigrateFromOTRS {
 
     # create the commands that will actually be executed
     my @Commands = (
-        qq{$DBDumpCmd @DBDumpOptions --databases $DatabaseName --no-data -r $BackupDir/${DatabaseName}_schema.sql},
-        qq{sed -i.bak @Substitutions $BackupDir/${DatabaseName}_schema.sql},
-        qq{$DBDumpCmd @DBDumpOptions --databases $DatabaseName --no-create-info --no-create-db -r $BackupDir/${DatabaseName}_data.sql},
+        qq{$DBDumpCmd @DBDumpOptions --databases $DatabaseName --no-data -r $SchemaDumpFile},
+        qq{sed -i.bak @Substitutions $SchemaDumpFile},
+        qq{$DBDumpCmd @DBDumpOptions --databases $DatabaseName --no-create-info --no-create-db -r $Directory/${DatabaseName}_data.sql},
     );
 
     # TODO: check key size
@@ -561,7 +558,7 @@ END_SQL
         }
 
         $MainObject->FileWrite(
-            Location => qq{$BackupDir/${DatabaseName}_fixup.sql},
+            Location => qq{$Directory/${DatabaseName}_fixup.sql},
             Content  => \$SQLScript,
         );
     }
