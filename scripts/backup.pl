@@ -462,7 +462,8 @@ END_MESSAGE
 
         # substitutions for removing collation directives
         push @SchemaSubstitutions,
-            q{-e 's/COLLATE=\\w\\+/ /'}; # for CREATE TABLE, remove customer specific collation
+            q{-e 's/COLLATE [[:alnum:]_]\\+/ /'}, # for CREATE TABLE, remove customer specific collation
+            q{-e 's/COLLATE=[[:alnum:]_]\\+/ /'}; # for CREATE TABLE, remove customer specific collation
     }
 
     # create the commands that will actually be executed
