@@ -438,10 +438,9 @@ sub BackupForMigrateFromOTRS {
     # output files
     my $PreprocessFile        = qq{$Directory/${DatabaseName}_pre.sql};
     my $SchemaDumpFile        = qq{$Directory/${DatabaseName}_schema.sql};
-    my $DataDumpFile          = qq{$Directory/${DatabaseName}_data.sql};
     my $AdaptedSchemaDumpFile = qq{$Directory/${DatabaseName}_schema_varchar_191.sql};
-    say "Dumping $DatabaseType schema to $AdaptedSchemaDumpFile";
-    say "Dumping $DatabaseType data to $DataDumpFile";
+    my $DataDumpFile          = qq{$Directory/${DatabaseName}_data.sql};
+    my $PostprocessFile       = qq{$Directory/${DatabaseName}_post.sql};
 
     say << "END_MESSAGE";
 Execute the following SQL scripts in the given order:
@@ -452,22 +451,10 @@ Execute the following SQL scripts in the given order:
 END_MESSAGE
 
     # set up sed substitutions
-    my ( @SchemaSubstitutions, @DataSubstitutions );
+    my @SchemaSubstitutions;
     {
-        # substitutions for changing the database
-        # e.g.: "CREATE DATABASE /*!32312 IF NOT EXISTS*/ `homebernharddeve` /*!40100 DEFAULT CHARACTER SET utf8mb4 */ /*!80016 DEFAULT ENCRYPTION='N' */;"
-        # e.g.: "USE `homebernharddeve`;"
-        # welcome to the escaping hell
-        push @SchemaSubstitutions,
-            qq{-e 's/\\(CREATE[[:space:]]*DATABASE.*\\)`$DatabaseName`/\\1`$TargetDatabaseName`/'},
-            qq{-e 's/USE `$DatabaseName`/USE `$TargetDatabaseName`/'};
-        push @DataSubstitutions,
-            qq{-e 's/USE `$DatabaseName`/USE `$TargetDatabaseName`/'};
-
         # substitutions for changing the character set
         push @SchemaSubstitutions,
-            q{-e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/'}, # for CREATE DATABASE
-            q{-e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/'}, # for CREATE DATABASE
             q{-e 's/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/'},             # for CREATE TABLE
             q{-e 's/utf8mb4mb4/utf8mb4/'},                                       # in case it already was utf8mb4
             q{-e 's/utf8mb3mb4/utf8mb4/'},                                       # in case of some mixup
@@ -479,14 +466,12 @@ END_MESSAGE
     }
 
     # create the commands that will actually be executed
+    # TODO: support for dumping elsewhere and only processing locally
     my @Commands = (
-        qq{$DBDumpCmd @DBDumpOptions --databases $DatabaseName --no-data -r $SchemaDumpFile},
-        qq{$DBDumpCmd @DBDumpOptions --databases $DatabaseName --no-create-info --no-create-db -r $DataDumpFile},
+        qq{$DBDumpCmd @DBDumpOptions --no-data        --no-create-db -r $SchemaDumpFile $DatabaseName },
+        qq{$DBDumpCmd @DBDumpOptions --no-create-info --no-create-db -r $DataDumpFile $DatabaseName },
         qq{sed -i.bak @SchemaSubstitutions $SchemaDumpFile},
-        qq{sed -i.bak @DataSubstitutions $DataDumpFile},
     );
-
-    # TODO: check key size
 
     # print only the count avoids printing a password into a logfile
     my $Cnt = 0;
