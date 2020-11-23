@@ -18,7 +18,13 @@ package Kernel::Output::HTML::TicketOverview::Medium;
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -53,7 +59,7 @@ sub new {
 sub ActionRow {
     my ( $Self, %Param ) = @_;
 
-    # get needed object
+    # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
@@ -189,7 +195,8 @@ sub SortOrderBar {
 }
 
 sub Run {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Item (qw(TicketIDs PageShown StartHit)) {
@@ -202,7 +209,7 @@ sub Run {
         }
     }
 
-    # get needed object
+    # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
@@ -238,24 +245,18 @@ sub Run {
         Data => \%Param,
     );
 
-    my $OutputMeta = $LayoutObject->Output(
+    # As of OTOBO 10.0.x some content was printed early.
+    # This has changed in OTOBO 10.1.1.
+    my $Output = $LayoutObject->Output(
         TemplateFile => 'AgentTicketOverviewMedium',
         Data         => \%Param,
     );
-    my $OutputRaw = '';
-    if ( !$Param{Output} ) {
-        $LayoutObject->Print( Output => \$OutputMeta );
-    }
-    else {
-        $OutputRaw .= $OutputMeta;
-    }
-    my $Output        = '';
     my $Counter       = 0;
     my $CounterOnSite = 0;
     my @TicketIDsShown;
 
     # check if there are tickets to show
-    if ( scalar @{ $Param{TicketIDs} } ) {
+    if ( @{ $Param{TicketIDs} } ) {
 
         for my $TicketID ( @{ $Param{TicketIDs} } ) {
             $Counter++;
@@ -265,19 +266,14 @@ sub Run {
                 )
             {
                 push @TicketIDsShown, $TicketID;
-                my $Output = $Self->_Show(
+                my $OutputForTicket = $Self->_Show(
                     TicketID => $TicketID,
                     Counter  => $CounterOnSite,
                     Bulk     => $BulkFeature,
                     Config   => $Param{Config},
                 );
                 $CounterOnSite++;
-                if ( !$Param{Output} ) {
-                    $LayoutObject->Print( Output => $Output );
-                }
-                else {
-                    $OutputRaw .= ${$Output};
-                }
+                $Output .= ${$OutputForTicket};
             }
         }
 
@@ -303,21 +299,15 @@ sub Run {
                 Data => \%Param,
             );
         }
-        my $OutputMeta = $LayoutObject->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AgentTicketOverviewMedium',
             Data         => \%Param,
         );
-        if ( !$Param{Output} ) {
-            $LayoutObject->Print( Output => \$OutputMeta );
-        }
-        else {
-            $OutputRaw .= $OutputMeta;
-        }
     }
 
     # add action row js data
 
-    return $OutputRaw;
+    return $Output;
 }
 
 sub _Show {
@@ -332,6 +322,7 @@ sub _Show {
         return;
     }
 
+    # get singletons
     my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
@@ -402,7 +393,7 @@ sub _Show {
     );
     %Article = ( %UserInfo, %Article );
 
-    # get responsible info from Ticket
+    # get responsible info from ticket
     my %TicketResponsible = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
         UserID => $Ticket{ResponsibleID},
     );
@@ -491,6 +482,7 @@ sub _Show {
                 ACL    => \%AclAction,
                 Config => $Menus{$Menu},
             );
+
             next MENU if !$Item;
             next MENU if ref $Item ne 'HASH';
 

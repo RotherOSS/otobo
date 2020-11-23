@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.996911071370509;
+    $Self->{Completeness}        = 0.995937601559961;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5045,6 +5045,9 @@ sub Data {
         'The field content is too long!' => 'Der Feldinhalt ist zu lang!',
         'Maximum size is %s characters.' => 'Die Maximallänge beträgt %s Zeichen.',
 
+        # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
+        'Sanity checks for database.' => '',
+
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
         'Deploy the ACL configuration.' => 'ACL-Konfiguration in Betrieb nehmen.',
         'Deployment completed, perfect!' => 'Inbetriebnahme abgeschlossen. Glückwunsch!',
@@ -5060,13 +5063,12 @@ sub Data {
         'Completed.' => 'Abgeschlossen.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-        'Check if OTOBO version is correct.' => 'Überprüft, ob die OTOBO Version korrekt ist.',
-        'Check if OTOBO and OTRS connect is possible.' => 'Überprüft, ob eine Verbindung zwischen OTRS und OTOBO hergestellt werden kann.',
+        'Need OTRSData->%s!' => '',
         'Can\'t access OTRS Home: %s!' => '',
-        'Copy and migrate files from OTRS' => 'Kopiert und migriert Dateien aus OTRS',
         'All needed files copied and migrated, perfect!' => 'Alle Dateien wurden kopiert und migriert. Glückwunsch!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
+        'Check if OTOBO version is correct.' => 'Überprüft, ob die OTOBO Version korrekt ist.',
         'Need %s for Oracle db!' => '%s für Oracle DB erforderlich!',
         'Copy database.' => 'Kopiert die Datenbank.',
         'System was unable to connect to OTRS database.' => 'System konnte keine Verbindung zur OTRS-Datenbank herstellen.',
@@ -5074,6 +5076,7 @@ sub Data {
         'Data transfer completed.' => 'Datentransfer abgeschlossen.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+        'Check if OTOBO and OTRS connect is possible.' => 'Überprüft, ob eine Verbindung zwischen OTRS und OTOBO hergestellt werden kann.',
         'Can\'t open RELEASE file from OTRSHome: %s!' => 'Kann das RELEASE File in OTRSHome: %s nicht öffnen!',
         'Check if OTOBO and OTRS version is correct.' => 'Überprüft, ob die verwendeten OTOBO- und OTRS-Versionen korrekt sind.',
         '%s does not exist!' => '%s nicht vorhanden!',
@@ -5083,6 +5086,7 @@ sub Data {
             'Sie versuchen das Skript in der falschen Framework-Version %s auszuführen!',
         'OTOBO Version is correct: %s.' => 'OTOBO-Version ist korrekt: %s.',
         'Check if OTRS version is correct.' => 'Überprüft, ob die OTRS Version korrekt ist.',
+        'OTRS RELEASE file %s does not exist: %s!' => '',
         'Can\'t read OTRS RELEASE file: %s: %s!' => 'Kann OTRS RELEASE File nicht lesen: %s: %s!',
         'No OTRS system found!' => 'Kein OTRS-System gefunden!',
         'OTRS Version is correct: %s.' => 'OTRS-Version ist korrekt: %s.',
@@ -5109,14 +5113,15 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
         'Can\'t open Kernel/Config.pm file from OTRSHome: %s!' => 'Kann die Datei Kernel/Config.pm aus OTRSHome: %s nicht öffnen!',
-        'OTOBO Home exists.' => 'OTOBO Home vorhanden.',
+        'Check if Kernel/Config.pm exists in OTOBO home.' => '',
+        'Kernel/Config.pm exists in OTOBO home' => '',
         'Check if we are able to connect to OTRS Home.' => 'Überprüft, ob eine Verbindung zu OTRS Home hergestellt werden kann.',
         'Can\'t connect to OTRS file directory.' => 'Kann keine Verbindung zum OTRS-Dateiverzeichnis herstellen.',
         'Connect to OTRS file directory is possible.' => 'Keine Verbindung zum OTRS-Dateiverzeichnis möglich.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
         'Try database connect and sanity checks.' => 'Versucht eine Verbindung zur Datenbank herzustellen und Plausibilitätsprüfungen durchzuführen.',
-        'Connect to OTRS database or sanity checks failed.' => 'Verbindung zur OTRS-Datenbank oder Plausibilitätsprüfung fehlgeschlagen.',
+        'Could not create database object.' => '',
         'Database connect and sanity checks completed.' => 'Verbindung zur Datenbank hergestellt und Plausibilitätsprüfungen abgeschlossen.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm

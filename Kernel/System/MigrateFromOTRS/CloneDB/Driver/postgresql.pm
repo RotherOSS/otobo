@@ -96,7 +96,7 @@ sub CreateOTRSDBConnection {
 
 # List all columns of a table in the order of their position.
 sub ColumnsList {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
 
     # check needed stuff
@@ -148,10 +148,11 @@ sub ResetAutoIncrementField {
         }
     }
 
+    my $QuotedTable = $Param{DBObject}->QuoteIdentifier( Table => $Param{Table} );
     $Param{DBObject}->Prepare(
         SQL => "
             SELECT id
-            FROM $Param{Table}
+            FROM $QuotedTable
             ORDER BY id DESC",
         Limit => 1,
     ) || return;
@@ -164,6 +165,9 @@ sub ResetAutoIncrementField {
     # add one more to the last ID
     $LastID++;
 
+    # assuming that the sequnce name does not have to be quoted
+    my $SequenceName = "$Param{Table}_id_seq";
+
     # check if sequence exists
     $Param{DBObject}->Prepare(
         SQL => "
@@ -172,7 +176,7 @@ sub ResetAutoIncrementField {
         FROM pg_class c
         WHERE
             c.relkind = 'S' AND
-            c.relname = '$Param{Table}_id_seq'",
+            c.relname = '$SequenceName'",
         Limit => 1,
     ) || return;
 
@@ -183,9 +187,7 @@ sub ResetAutoIncrementField {
 
     return 1 if !$SequenceExists;
 
-    my $SQL = "
-        ALTER SEQUENCE $Param{Table}_id_seq RESTART WITH $LastID;
-    ";
+    my $SQL = qq{ALTER SEQUENCE $SequenceName RESTART WITH $LastID;};
 
     $Param{DBObject}->Do(
         SQL => $SQL,
@@ -341,8 +343,8 @@ sub AlterTableAddColumn {
     }
 
     my %ColumnInfos = %{ $Param{ColumnInfos} };
-
-    my $SQL = "ALTER TABLE $Param{Table} ADD $Param{Column} $ColumnInfos{DATA_TYPE}";
+    my $QuotedTable = $Param{DBObject}->QuoteIdentifier( Table => $Param{Table} );
+    my $SQL = qq{ALTER TABLE $QuotedTable ADD $Param{Column} $ColumnInfos{DATA_TYPE}};
 
     if ( $ColumnInfos{LENGTH} ) {
         $SQL .= " \($ColumnInfos{LENGTH}\)";

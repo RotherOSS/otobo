@@ -162,10 +162,12 @@ my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 for my $Test (@Tests) {
 
     # Fake a web request, as Action is used by the LockAfterCreate event.
+    # %ENV will be picked up in Kernel::System::Web::Request::new().
     local %ENV = (
         REQUEST_METHOD => 'GET',
         QUERY_STRING   => $Test->{Request} || '',
     );
+
     CGI->initialize_globals();
     my $Request = Kernel::System::Web::Request->new();
 
@@ -196,5 +198,3 @@ for my $Test (@Tests) {
 # Cleanup is done by RestoreDatabase.
 
 $Self->DoneTesting();
-
-
