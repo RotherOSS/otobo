@@ -87,6 +87,7 @@
 
 [% RenderBlockStart("DatabaseMSSQLCreate") %]
                 <fieldset class="TableLike Hidden HideMe">
+
                     <h4>
                         [% Translate("Database User") | html %] ([% Translate("New") | html %])
                     </h4>
@@ -103,19 +104,18 @@
                     <label for="OTOBODBPassword">[% Translate("Password") | html %]:</label>
                     <div class="Field">
                         <input type="password" id="OTOBODBPassword" name="OTOBODBPassword" value="[% Data.Password | html %]" class="W50pc" autocomplete="off" />
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="RepeatOTOBODBPassword">[% Translate("Repeat Password") | html %]:</label>
+                    <div class="Field">
+                        <input type="password" id="RepeatOTOBODBPassword" name="RepeatOTOBODBPassword" value="[% Data.Password | html %]" class="W50pc" autocomplete="off" />
                         <p class="FieldExplanation">
                             [% Translate("Generated password") | html %]: <span class="Emphasis">[% Data.Password | html %]</span>
                         </p>
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="RepeatOTOBODBPassword">[% Translate("Repeat Password") | html %]:</label>
-                    <div class="Field">
-                        <input type="password" id="RepeatOTOBODBPassword" name="RepeatOTOBODBPassword" value="[% Data.Password | html %]"
-                        class="W50pc Validate_Equal Validate_Equal_OTOBODBPassword" autocomplete="off" />
-                    </div>
-                    <div id="RepeatOTOBODBPasswordError" class="TooltipErrorMessage"><p>[% Translate("Passwords do not match") | html %]!</p></div>
-                    <div class="Clear"></div>
                     <h4>
                         [% Translate("Database") | html %]
                     </h4>
@@ -126,6 +126,7 @@
                     </div>
                     <div class="Clear"></div>
                 </fieldset>
+
 [% RenderBlockEnd("DatabaseMSSQLCreate") %]
 
                 <div class="Spacing Right">

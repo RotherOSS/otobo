@@ -8,8 +8,6 @@ requires 'Archive::Tar';
 # Required for compressed file generation.
 requires 'Archive::Zip';
 
-requires 'Const::Fast';
-
 requires 'Date::Format';
 
 requires 'DateTime', ">= 1.08";
@@ -19,10 +17,6 @@ requires 'Convert::BinHex';
 requires 'DBI';
 
 requires 'Digest::SHA';
-
-requires 'File::chmod';
-
-requires 'List::AllUtils';
 
 requires 'LWP::UserAgent';
 
@@ -38,8 +32,6 @@ requires 'Net::DNS', "!= 0.60";
 # Required by Kernel/cpan-lib/Mail/Mailer/smtps.pm
 requires 'Net::SMTP::SSL';
 
-requires 'Path::Class';
-
 # needed by Kernel/cpan-lib/Crypt/Random/Source.pm
 requires 'Sub::Exporter';
 
@@ -48,8 +40,6 @@ requires 'Template::Toolkit';
 
 # The fast data stash for Template::Toolkit.
 requires 'Template::Stash::XS';
-
-requires 'Text::Trim';
 
 # Required for high resolution timestamps.
 requires 'Time::HiRes';
@@ -62,36 +52,6 @@ requires 'YAML::XS';
 
 # For internationalised sorting
 requires 'Unicode::Collate';
-
-# Adapt CGI.pm to the PSGI protocol
-requires 'CGI::PSGI';
-
-# Sane persistent database connection
-requires 'DBIx::Connector';
-
-# Neater path manipulation and some utils
-requires 'Path::Class';
-
-# Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)
-requires 'Plack';
-
-# Set environment variables
-requires 'Plack::Middleware::ForceEnv';
-
-# Set HTTP headers
-requires 'Plack::Middleware::Header';
-
-# Watch for changed modules in %INC. Depends on Module::Refresh
-requires 'Plack::Middleware::Refresh';
-
-# Twist some HTTP variables so that the reverse proxy is transparent
-requires 'Plack::Middleware::ReverseProxy';
-
-# Set environment variables
-requires 'Plack::Middleware::Rewrite';
-
-# PSGI SOAP adapter
-requires 'SOAP::Transport::HTTP::Plack';
 
 
 feature 'apache:mod_perl', 'Suppport for apache:mod_perl' => sub {
@@ -296,14 +256,47 @@ feature 'optional', 'Suppport for optional' => sub {
     # Recommended for usage with Redis Cache Server. (it`s compatible with `Redis`, but **~2x faster**)
     requires 'Redis::Fast';
 
+    # Support old fashioned CGI in a PSGI application
+    requires 'CGI::Emulate::PSGI';
+
+    # Adapt CGI.pm to the PSGI protocol
+    requires 'CGI::PSGI';
+
+    # Sane persistent database connection
+    requires 'DBIx::Connector';
+
     # High-performance preforking PSGI/Plack web server
     requires 'Gazelle';
 
     # Used when plackup is run with the -R option. This option restarts the server when files have changed.
     requires 'Linux::Inotify2';
 
+    # Neater path manipulation and some utils
+    requires 'Path::Class';
+
+    # Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)
+    requires 'Plack';
+
     # Serve static files
     requires 'Plack::App::File';
+
+    # Set environment variables
+    requires 'Plack::Middleware::ForceEnv';
+
+    # Set HTTP headers
+    requires 'Plack::Middleware::Header';
+
+    # Watch for changed modules in %INC
+    requires 'Plack::Middleware::Refresh';
+
+    # Twist some HTTP variables so that the reverse proxy is transparent
+    requires 'Plack::Middleware::ReverseProxy';
+
+    # Set environment variables
+    requires 'Plack::Middleware::Rewrite';
+
+    # PSGI SOAP adapter
+    requires 'SOAP::Transport::HTTP::Plack';
 
     # Required to handle mails with several Chinese character sets.
     requires 'Encode::HanExtra', ">= 0.23";
@@ -374,14 +367,47 @@ feature 'performance:redis', 'Suppport for performance:redis' => sub {
 
 };
 
-feature 'plack:webserver', 'Suppport for plack:webserver' => sub {
+feature 'plack', 'Required packages if you want to use PSGI/Plack (experimental and advanced)' => sub {
+    # Support old fashioned CGI in a PSGI application
+    requires 'CGI::Emulate::PSGI';
+
+    # Adapt CGI.pm to the PSGI protocol
+    requires 'CGI::PSGI';
+
+    # Sane persistent database connection
+    requires 'DBIx::Connector';
+
     # High-performance preforking PSGI/Plack web server
     requires 'Gazelle';
 
     # Used when plackup is run with the -R option. This option restarts the server when files have changed.
     requires 'Linux::Inotify2';
 
+    # Neater path manipulation and some utils
+    requires 'Path::Class';
+
+    # Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)
+    requires 'Plack';
+
     # Serve static files
     requires 'Plack::App::File';
+
+    # Set environment variables
+    requires 'Plack::Middleware::ForceEnv';
+
+    # Set HTTP headers
+    requires 'Plack::Middleware::Header';
+
+    # Watch for changed modules in %INC
+    requires 'Plack::Middleware::Refresh';
+
+    # Twist some HTTP variables so that the reverse proxy is transparent
+    requires 'Plack::Middleware::ReverseProxy';
+
+    # Set environment variables
+    requires 'Plack::Middleware::Rewrite';
+
+    # PSGI SOAP adapter
+    requires 'SOAP::Transport::HTTP::Plack';
 
 };

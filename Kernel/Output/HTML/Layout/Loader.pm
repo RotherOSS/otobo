@@ -56,9 +56,7 @@ sub LoaderCreateAgentCSSCalls {
     # get host based default skin configuration
     my $SkinSelectedHostBased;
     my $DefaultSkinHostBased = $ConfigObject->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $Host = $ParamObject->HTTP('HOST');
-    if ( $DefaultSkinHostBased && $Host ) {
+    if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
         REGEXP:
         for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
 
@@ -67,7 +65,7 @@ sub LoaderCreateAgentCSSCalls {
             next REGEXP if !$DefaultSkinHostBased->{$RegExp};
 
             # check if regexp is matching
-            if ( $Host =~ m/$RegExp/i ) {
+            if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
                 $SkinSelectedHostBased = $DefaultSkinHostBased->{$RegExp};
             }
         }
@@ -283,9 +281,7 @@ sub LoaderCreateJavaScriptTemplateData {
 
     # force a theme based on host name
     my $DefaultThemeHostBased = $ConfigObject->Get('DefaultTheme::HostBased');
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $Host = $ParamObject->HTTP('HOST');
-    if ( $DefaultThemeHostBased && $Host ) {
+    if ( $DefaultThemeHostBased && $ENV{HTTP_HOST} ) {
 
         THEME:
         for my $RegExp ( sort keys %{$DefaultThemeHostBased} ) {
@@ -296,7 +292,7 @@ sub LoaderCreateJavaScriptTemplateData {
             next THEME if !$DefaultThemeHostBased->{$RegExp};
 
             # check if regexp is matching
-            if ( $Host =~ m/$RegExp/i ) {
+            if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
                 $Theme = $DefaultThemeHostBased->{$RegExp};
             }
         }
@@ -598,9 +594,7 @@ sub LoaderCreateCustomerCSSCalls {
 
     # force a skin based on host name
     my $DefaultSkinHostBased = $ConfigObject->Get('Loader::Customer::SelectedSkin::HostBased');
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $Host = $ParamObject->HTTP('HOST');
-    if ( $DefaultSkinHostBased && $Host ) {
+    if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
         REGEXP:
         for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
 
@@ -609,7 +603,7 @@ sub LoaderCreateCustomerCSSCalls {
             next REGEXP if !$DefaultSkinHostBased->{$RegExp};
 
             # check if regexp is matching
-            if ( $Host =~ m/$RegExp/i ) {
+            if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
                 $SkinSelected = $DefaultSkinHostBased->{$RegExp};
             }
         }

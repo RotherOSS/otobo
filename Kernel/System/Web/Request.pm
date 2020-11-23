@@ -124,11 +124,9 @@ sub GetParam {
     my $Value = $Self->{Query}->param( $Param{Param} );
 
     # Fallback to query string for mixed requests.
-    if ( ! defined $Value ) {
-        my $RequestMethod = $Self->{Query}->request_method() // '';
-        if ( $RequestMethod eq 'POST' ) {
-            $Value = $Self->{Query}->url_param( $Param{Param} );
-        }
+    my $RequestMethod = $Self->{Query}->request_method() // '';
+    if ( $RequestMethod eq 'POST' && !defined $Value ) {
+        $Value = $Self->{Query}->url_param( $Param{Param} );
     }
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Value );
@@ -180,10 +178,8 @@ sub GetParamNames {
         my @GetNames = $Self->{Query}->url_param();
         GETNAME:
         for my $GetName (@GetNames) {
-            next GETNAME unless defined $GetName;
-            next GETNAME if exists $POSTNames{$GetName};
-
-            push @ParamNames, $GetName;
+            next GETNAME if !defined $GetName;
+            push @ParamNames, $GetName if !exists $POSTNames{$GetName};
         }
     }
 
@@ -212,11 +208,9 @@ sub GetArray {
     my @Values = $Self->{Query}->multi_param( $Param{Param} );
 
     # Fallback to query string for mixed requests.
-    if ( ! @Values ) {
-        my $RequestMethod = $Self->{Query}->request_method() // '';
-        if ( $RequestMethod eq 'POST' ) {
-            @Values = $Self->{Query}->url_param( $Param{Param} );
-        }
+    my $RequestMethod = $Self->{Query}->request_method() // '';
+    if ( $RequestMethod eq 'POST' && !@Values ) {
+        @Values = $Self->{Query}->url_param( $Param{Param} );
     }
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \@Values );

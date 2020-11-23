@@ -21,7 +21,6 @@ package Kernel::System::Main;
 use strict;
 use warnings;
 
-# core modules
 use Digest::MD5 qw(md5_hex);
 use Data::Dumper;
 use File::stat;
@@ -29,17 +28,9 @@ use Unicode::Normalize;
 use List::Util qw();
 use Fcntl qw(:flock);
 use Encode;
+use Math::Random::Secure qw();
 
-# CPAN modules
-use Math::Random::Secure qw(irand);
-
-# OTOBO modules
 use Kernel::System::VariableCheck qw(IsStringWithData);
-
-# md5_hex, LOCK_SH, LOCK_EX, LOCK_NB, LOCK_UN, irand, IsStringWithData
-# should not be available as methods.
-# On the other hand, new should not be purged.
-use namespace::autoclean;
 
 our @ObjectDependencies = (
     'Kernel::System::Encode',
@@ -53,36 +44,26 @@ Kernel::System::Main - main object
 
 =head1 DESCRIPTION
 
-A collection of utility functions to:
-
-=over 4
-
-=item load modules
-
-=item die
-
-=item generate random strings
-
-=item handle files
-
-=cut
+All main functions to load modules, die, and handle files.
 
 =head1 PUBLIC INTERFACE
 
 =head2 new()
 
-create a new object. Do not use it directly, instead use:
+create new object. Do not use it directly, instead use:
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
 =cut
 
 sub new {
-    my $Type = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    return bless {}, $Type;
+    my $Self = {};
+    bless( $Self, $Type );
+
+    return $Self;
 }
 
 =head2 Require()
@@ -1044,7 +1025,7 @@ sub DirectoryRead {
 =head2 GenerateRandomString()
 
 generate a random string of defined length, and of a defined alphabet.
-Defaults to a length of 16 and alphanumerics ( 0..9, A-Z and a-z).
+defaults to a length of 16 and alphanumerics ( 0..9, A-Z and a-z).
 
     my $String = $MainObject->GenerateRandomString();
 
@@ -1067,7 +1048,7 @@ with specific length and alphabet:
     my $String = $MainObject->GenerateRandomString(
         Length     => 32,
         Dictionary => [ 0..9, 'a'..'f' ], # hexadecimal
-    );
+        );
 
 returns
 
@@ -1077,11 +1058,8 @@ returns
 =cut
 
 sub GenerateRandomString {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
-    # negative $Param{Length} produce an empty string
-    # fractional $Param{Length} is truncated to the integer portion
     my $Length = $Param{Length} || 16;
 
     # The standard list of characters in the dictionary. Don't use special chars here.
@@ -1092,11 +1070,19 @@ sub GenerateRandomString {
         @DictionaryChars = @{ $Param{Dictionary} };
     }
 
-    # assuming that there are no dictionaries larger than 2^32
     my $DictionaryLength = scalar @DictionaryChars;
 
     # generate the string
-    return join '', map { $DictionaryChars[ irand($DictionaryLength) ] } ( 1 .. $Length );
+    my $String;
+
+    for ( 1 .. $Length ) {
+
+        my $Key = int Math::Random::Secure::rand $DictionaryLength;
+
+        $String .= $DictionaryChars[$Key];
+    }
+
+    return $String;
 }
 
 =begin Internal:

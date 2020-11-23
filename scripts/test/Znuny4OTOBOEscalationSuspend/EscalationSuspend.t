@@ -35,6 +35,8 @@ our $Self;
 # test script prematurely exits
 plan( 25 );
 
+## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
+
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,
@@ -47,6 +49,7 @@ my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
 my $QueueObject          = $Kernel::OM->Get('Kernel::System::Queue');
 my $CacheObject          = $Kernel::OM->Get('Kernel::System::Cache');
 my $ZnunyHelperObject    = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
+my $TimeObject           = $Kernel::OM->Get('Kernel::System::Time');
 my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
     ChannelName => 'Internal',
 );
@@ -417,10 +420,7 @@ $Self->Is(
     '$Ticket{Created}',
 );
 
-my $SystemTime = $Kernel::OM->Create(
-    'Kernel::System::DateTime',
-    ObjectParams => {},
-)->ToEpoch();
+my $SystemTime = $TimeObject->SystemTime();
 
 # if systemTime is greater SystemPendingTime Create CustomerArticle..
 # Der Kunde Antwortet via E-Mail mit den fehlenden Informationen. Das Ticket wird in den Status "open"
@@ -497,12 +497,9 @@ my $TicketEscalationSuspendCalculat = $TicketObject->TicketEscalationSuspendCalc
     Suspended    => $SuspendStateActive,       # should be 1
 );
 
-my $TimeStamp = $Kernel::OM->Create(
-    'Kernel::System::DateTime',
-    ObjectParams => {
-        Epoch => $TicketEscalationSuspendCalculat,
-    }
-)->ToString();
+my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
+    SystemTime => $TicketEscalationSuspendCalculat,
+);
 
 $Self->IsNot(
     $TimeStamp,

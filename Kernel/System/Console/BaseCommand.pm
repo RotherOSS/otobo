@@ -400,7 +400,6 @@ sub Execute {
             "You cannot run otobo.Console.pl as root. Please run it as the 'otobo' user or with the help of su:"
         );
         $Self->Print("  <yellow>su -c \"bin/otobo.Console.pl MyCommand\" -s /bin/bash otobo</yellow>\n");
-
         return $Self->ExitCodeError();
     }
 
@@ -455,7 +454,6 @@ sub Execute {
     eval { $Self->PreRun(); };
     if ($@) {
         $Self->PrintError($@);
-
         return $Self->ExitCodeError();
     }
 

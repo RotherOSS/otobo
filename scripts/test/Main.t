@@ -713,135 +713,75 @@ for my $Test (@Tests) {
     );
 }
 
-# Generate Random string tests
-{
-    my $Token  = $MainObject->GenerateRandomString();
-    my $Desc   = 'no args';
+# Generate Random string test
 
-    # '0' is acceptable of For Length =>1, '00' is true already
-    $Self->True(
-        ( ($Token eq '0' || $Token) && ref $Token eq '' ),
-        "GenerateRandomString - $Desc - generated",
-    );
+my $Token  = $MainObject->GenerateRandomString();
+my $Length = length($Token);
 
-    $Self->Is(
-        length $Token,
-        16,
-        "GenerateRandomString - $Desc - standard size is 16",
-    );
-}
+$Self->True(
+    $Token,
+    "GenerateRandomString - generated",
+);
 
-{
-    my $Token  = $MainObject->GenerateRandomString( Length => 0 );
-    my $Desc   = 'Length 0';
+$Self->Is(
+    $Length,
+    16,
+    "GenerateRandomString - standard size is 16",
+);
 
-    $Self->True(
-        ( ($Token eq '0' || $Token) && ref $Token eq '' ),
-        "GenerateRandomString - $Desc - generated",
-    );
+$Token = $MainObject->GenerateRandomString(
+    Length => 8,
+);
+$Length = length($Token);
 
-    $Self->Is(
-        length $Token,
-        16,
-        "GenerateRandomString - $Desc - standard size is 16",
-    );
-}
+$Self->True(
+    $Token,
+    "GenerateRandomString - 8 - generated",
+);
 
-{
-    my $Token  = $MainObject->GenerateRandomString( Length => 1 );
-    my $Desc   = 'Length 1';
+$Self->Is(
+    $Length,
+    8,
+    "GenerateRandomString - 8 - correct length",
+);
 
-    $Self->True(
-        ( ($Token eq '0' || $Token) && ref $Token eq '' ),
-        "GenerateRandomString - $Desc - generated",
-    );
-
-    $Self->Is(
-        length $Token,
-        1,
-        "GenerateRandomString - $Desc - size is 1",
-    );
-}
-
-{
-    my $Token  = $MainObject->GenerateRandomString( Length => 8 );
-    my $Desc   = 'Length 8';
-
-    $Self->True(
-        ( ($Token eq '0' || $Token) && ref $Token eq '' ),
-        "GenerateRandomString - $Desc - generated",
-    );
-
-    $Self->Is(
-        length $Token,
-        8,
-        "GenerateRandomString - $Desc - size is 8",
-    );
-}
-
-{
-    my %Values;
-    my $Seen = 0;
-    COUNTER:
-    for my $Counter ( 1 .. 100_000 ) {
-        my $Random = $MainObject->GenerateRandomString( Length => 16 );
-        if ( $Values{$Random}++ ) {
-            $Seen = 1;
-
-            last COUNTER;
-        }
+my %Values;
+my $Seen = 0;
+COUNTER:
+for my $Counter ( 1 .. 100_000 ) {
+    my $Random = $MainObject->GenerateRandomString( Length => 16 );
+    if ( $Values{$Random}++ ) {
+        $Seen = 1;
+        last COUNTER;
     }
-
-    $Self->False( $Seen, "GenerateRandomString - no duplicates in 100k iterations" );
 }
+
+$Self->Is(
+    $Seen,
+    0,
+    "GenerateRandomString - no duplicates in 100k iterations",
+);
 
 # test with custom alphabet
-{
-    my $NoHexChar;
-    COUNTER:
-    for my $Counter ( 1 .. 1000 ) {
-        my $HexString = $MainObject->GenerateRandomString(
-            Length     => 32,
-            Dictionary => [ 0 .. 9, 'a' .. 'f' ],
-        );
-        if ( $HexString =~ m{[^0-9a-f]}xms ) {
-            $NoHexChar = $HexString;
-            last COUNTER;
-        }
-    }
-
-    $Self->Is(
-        $NoHexChar,
-        undef,
-        'Test output for hex chars in 1000 generated random strings with hex dictionary',
-    );
-}
-
-# test with a stupid alphabet
-{
-    my $XString = $MainObject->GenerateRandomString(
+my $NoHexChar;
+COUNTER:
+for my $Counter ( 1 .. 1000 ) {
+    my $HexString = $MainObject->GenerateRandomString(
         Length     => 32,
-        Dictionary => [ 'x', 'x', 'x', 'x' ],
+        Dictionary => [ 0 .. 9, 'a' .. 'f' ],
     );
-
-    $Self->Is(
-        $XString,
-        'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-        'Test with dictionary containing only x',
-    );
+    if ( $HexString =~ m{[^0-9a-f]}xms ) {
+        $NoHexChar = $HexString;
+        last COUNTER;
+    }
 }
 
-# verify that irand() is not available as a method
-{
-    $Self->False( $MainObject->can('irand'), 'Kernel::System::Main::irand() is not supported' );
+$Self->Is(
+    $NoHexChar,
+    undef,
+    'Test output for hex chars in 1000 generated random strings with hex dictionary',
+);
 
-    my $RandonNumber = eval {
-        $MainObject->irand(22);
-    };
-    my $ExceptionMatches = $@ =~ m/Can't locate object method "irand"/ ? 1 : 0;
-    $Self->True( $ExceptionMatches, "Kernel::System::Main::irand() not located" );
-    $Self->False( $RandonNumber, "Kernel::System::Main::irand() did not return anything" );
-}
 
 $Self->DoneTesting();
 

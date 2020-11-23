@@ -108,8 +108,7 @@ sub Sync {
     }
     $Param{User} = $Self->_ConvertTo( $Param{User}, 'utf-8' );
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
+    my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
 
     # remove leading and trailing spaces
     $Param{User} =~ s{ \A \s* ( [^\s]+ ) \s* \z }{$1}xms;

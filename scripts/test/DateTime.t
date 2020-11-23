@@ -133,7 +133,7 @@ $Self->IsDeeply(
 #
 # Tests for creating DateTime objects with given date and time
 #
-my @DateTimeTestConfigs = (
+my @TestConfigs = (
     {
         Params => {
             Year  => 2016,
@@ -316,7 +316,7 @@ my @DateTimeTestConfigs = (
 );
 
 TESTCONFIG:
-for my $TestConfig (@DateTimeTestConfigs) {
+for my $TestConfig (@TestConfigs) {
 
     # Create DateTime object
     $DateTimeObject = $Kernel::OM->Create(
@@ -359,7 +359,7 @@ for my $TestConfig (@DateTimeTestConfigs) {
 #
 # Tests for creating and setting DateTime object via string
 #
-my @StringTestConfigs = (
+@TestConfigs = (
     {
         Data => {
             String => '2016-02-28 14:59:00',
@@ -439,7 +439,7 @@ my @StringTestConfigs = (
     },
 );
 
-for my $TestConfig (@StringTestConfigs) {
+for my $TestConfig (@TestConfigs) {
     my $DateTimeObject = $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => $TestConfig->{Data},
@@ -498,4 +498,7 @@ $Self->Is(
     'System time zone must match expected one.'
 );
 
+
 $Self->DoneTesting();
+
+

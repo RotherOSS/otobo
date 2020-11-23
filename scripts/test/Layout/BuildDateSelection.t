@@ -419,7 +419,7 @@ for my $Test (@Tests) {
     # 1. Fixed date/time, BuildSelection retrieves its own date/time which will be the set fixed date/time
     # 2. Explicit date/time via parameters to BuildSelection
     #
-    # Note: Due to calculation of TimeSecDiff in Kernel::System::DateTime based on the current date,
+    # Note: Due to calculation of TimeSecDiff in Kernel::System::Time based on the current date,
     # the Layout object has to be recreated within the test to be able to fetch a Time object
     # that has the fixed date/time set.
     for my $DateTimeAsParams ( 0, 1 ) {

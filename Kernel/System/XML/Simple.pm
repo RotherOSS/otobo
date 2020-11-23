@@ -19,12 +19,7 @@ package Kernel::System::XML::Simple;
 use strict;
 use warnings;
 
-# core modules
-
-# CPAN modules
 use XML::LibXML::Simple;
-
-# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -32,11 +27,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::XML::Simple - Turn XML into a Perl data structure
+Kernel::System::XML::Simple - Turn XML into a Perl structure
 
 =head1 DESCRIPTION
 
-Turn XML into a Perl data structure.
+Turn XML into a Perl structure.
 
 =head1 PUBLIC INTERFACE
 
@@ -62,11 +57,10 @@ sub new {
 
 =head2 XMLIn()
 
-Turns the given XML data into a Perl data structure.
-The resulting Perl data structure can be in adjusted with options.
+Turns given XML data into Perl structure.
+The resulting Perl structure can be in adjusted with options.
 Available options can be found here:
 http://search.cpan.org/~markov/XML-LibXML-Simple-0.97/lib/XML/LibXML/Simple.pod#Parameter_%options
-No default options are assumed.
 
     # XML from file:
     my $PerlStructure = $XMLSimpleObject->XMLIn(
@@ -113,7 +107,6 @@ sub XMLIn {
             Priority => 'error',
             Message  => "Need parameter XMLInput!",
         );
-
         return;
     }
 
@@ -122,15 +115,15 @@ sub XMLIn {
             Priority => 'error',
             Message  => "Parameter Options needs to be a hash ref!",
         );
-
         return;
     }
 
-    my $PerlStructure = eval {
+    my $PerlStructure;
+    eval {
 
         my $XMLSimpleObject = XML::LibXML::Simple->new();
 
-        return $XMLSimpleObject->XMLin(
+        $PerlStructure = $XMLSimpleObject->XMLin(
             $Param{XMLInput},
             $Param{Options} ? %{ $Param{Options} } : (),
         );

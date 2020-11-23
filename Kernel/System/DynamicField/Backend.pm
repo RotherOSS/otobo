@@ -18,13 +18,9 @@ package Kernel::System::DynamicField::Backend;
 
 use strict;
 use warnings;
-use namespace::autoclean;
 
-# core modules
+use Scalar::Util qw(weaken);
 
-# CPAN modules
-
-# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -73,7 +69,6 @@ sub new {
             Priority => 'error',
             Message  => "Dynamic field configuration is not valid!",
         );
-
         return;
     }
 
@@ -89,7 +84,6 @@ sub new {
                 Priority => 'error',
                 Message  => "Registration for field type $FieldType is invalid!",
             );
-
             return;
         }
 
@@ -102,7 +96,6 @@ sub new {
                 Priority => 'error',
                 Message  => "Can't load dynamic field backend module for field type $FieldType!",
             );
-
             return;
         }
 
@@ -114,7 +107,6 @@ sub new {
                 Priority => 'error',
                 Message  => "Couldn't create a backend object for field type $FieldType!",
             );
-
             return;
         }
 
@@ -123,7 +115,6 @@ sub new {
                 Priority => 'error',
                 Message  => "Backend object for field type $FieldType was not created successfuly!",
             );
-
             return;
         }
 
@@ -146,7 +137,6 @@ sub new {
                     Priority => 'error',
                     Message  => "Registration for object type $ObjectType is invalid!",
                 );
-
                 return;
             }
 
@@ -160,7 +150,6 @@ sub new {
                     Message =>
                         "Can't load dynamic field object handler module for object type $ObjectType!",
                 );
-
                 return;
             }
 
@@ -175,7 +164,6 @@ sub new {
                     Priority => 'error',
                     Message  => "Couldn't create a handler object for object type $ObjectType!",
                 );
-
                 return;
             }
 
@@ -185,7 +173,6 @@ sub new {
                     Message =>
                         "Handler object for object type $ObjectType was not created successfuly!",
                 );
-
                 return;
             }
 
@@ -274,7 +261,6 @@ sub EditFieldRender {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -285,7 +271,6 @@ sub EditFieldRender {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -296,7 +281,6 @@ sub EditFieldRender {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -311,7 +295,6 @@ sub EditFieldRender {
             Priority => 'error',
             Message  => "The possible values filter is invalid",
         );
-
         return;
     }
 
@@ -323,7 +306,6 @@ sub EditFieldRender {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -333,7 +315,10 @@ sub EditFieldRender {
     }
 
     # call EditFieldRender on the specific backend
-    return $Self->{$DynamicFieldBackend}->EditFieldRender(%Param);
+    my $HTMLStrings = $Self->{$DynamicFieldBackend}->EditFieldRender(%Param);
+
+    return $HTMLStrings;
+
 }
 
 =head2 DisplayValueRender()
@@ -372,7 +357,6 @@ sub DisplayValueRender {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -383,7 +367,6 @@ sub DisplayValueRender {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -394,7 +377,6 @@ sub DisplayValueRender {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -407,12 +389,13 @@ sub DisplayValueRender {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
     # call DisplayValueRender on the specific backend
-    return $Self->{$DynamicFieldBackend}->DisplayValueRender(%Param);
+    my $ValueStrg = $Self->{$DynamicFieldBackend}->DisplayValueRender(%Param);
+
+    return $ValueStrg;
 }
 
 =head2 ValueSet()
@@ -442,7 +425,6 @@ sub ValueSet {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -457,7 +439,6 @@ sub ValueSet {
             Priority => 'error',
             Message  => "Either ObjectID or ObjectName hast to be given!"
         );
-
         return;
     }
 
@@ -467,7 +448,6 @@ sub ValueSet {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -493,7 +473,6 @@ sub ValueSet {
                     Message =>
                         "Unable to create object mapping for object name $Param{ObjectName} and type $Param{DynamicFieldConfig}->{ObjectType}!"
                 );
-
                 return;
             }
 
@@ -508,7 +487,6 @@ sub ValueSet {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -521,7 +499,6 @@ sub ValueSet {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -542,7 +519,7 @@ sub ValueSet {
             Value1             => $OldValue,
             Value2             => $NewValue,
         )
-    )
+        )
     {
         return 1;
     }
@@ -556,7 +533,6 @@ sub ValueSet {
             Message  => "Could not update field $Param{DynamicFieldConfig}->{Name} for "
                 . "$Param{DynamicFieldConfig}->{ObjectType} ID $Param{ObjectID} !",
         );
-
         return;
     }
 
@@ -601,7 +577,6 @@ sub ValueIsDifferent {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -612,7 +587,6 @@ sub ValueIsDifferent {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -623,7 +597,6 @@ sub ValueIsDifferent {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -636,7 +609,6 @@ sub ValueIsDifferent {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -676,7 +648,6 @@ sub ValueDelete {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -687,7 +658,6 @@ sub ValueDelete {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -698,7 +668,6 @@ sub ValueDelete {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -716,7 +685,6 @@ sub ValueDelete {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -728,7 +696,6 @@ sub ValueDelete {
             Message  => "Could not update field $Param{DynamicFieldConfig}->{Name} for "
                 . "$Param{DynamicFieldConfig}->{ObjectType} ID $Param{ObjectID} !",
         );
-
         return;
     }
 
@@ -768,7 +735,6 @@ sub AllValuesDelete {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -779,7 +745,6 @@ sub AllValuesDelete {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -790,7 +755,6 @@ sub AllValuesDelete {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -803,7 +767,6 @@ sub AllValuesDelete {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -832,7 +795,6 @@ sub ValueValidate {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -843,7 +805,6 @@ sub ValueValidate {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -854,7 +815,6 @@ sub ValueValidate {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!",
             );
-
             return;
         }
     }
@@ -867,7 +827,6 @@ sub ValueValidate {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -896,7 +855,6 @@ sub FieldValueValidate {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -907,7 +865,6 @@ sub FieldValueValidate {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -918,7 +875,6 @@ sub FieldValueValidate {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!",
             );
-
             return;
         }
     }
@@ -931,7 +887,6 @@ sub FieldValueValidate {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -973,7 +928,6 @@ sub ValueGet {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -988,7 +942,6 @@ sub ValueGet {
             Priority => 'error',
             Message  => "Either ObjectID or ObjectName has to be given!"
         );
-
         return;
     }
 
@@ -998,7 +951,6 @@ sub ValueGet {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -1014,7 +966,6 @@ sub ValueGet {
                 Message =>
                     "Unable to fetch object mapping for object name $Param{ObjectName} and type $Param{DynamicFieldConfig}->{ObjectType}!"
             );
-
             return;
         }
 
@@ -1028,7 +979,6 @@ sub ValueGet {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!",
             );
-
             return;
         }
     }
@@ -1041,7 +991,6 @@ sub ValueGet {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -1074,7 +1023,6 @@ sub SearchSQLGet {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -1088,7 +1036,6 @@ sub SearchSQLGet {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -1099,7 +1046,6 @@ sub SearchSQLGet {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!",
             );
-
             return;
         }
     }
@@ -1112,7 +1058,6 @@ sub SearchSQLGet {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -1140,7 +1085,6 @@ sub SearchSQLOrderFieldGet {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -1151,7 +1095,6 @@ sub SearchSQLOrderFieldGet {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -1162,7 +1105,6 @@ sub SearchSQLOrderFieldGet {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!",
             );
-
             return;
         }
     }
@@ -1175,7 +1117,6 @@ sub SearchSQLOrderFieldGet {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -1243,7 +1184,6 @@ sub EditFieldValueGet {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -1254,7 +1194,6 @@ sub EditFieldValueGet {
             Priority => 'error',
             Message  => "Need ParamObject or Template!"
         );
-
         return;
     }
 
@@ -1269,7 +1208,6 @@ sub EditFieldValueGet {
             Priority => 'error',
             Message  => "Need LayoutObject to transform dates!"
         );
-
         return;
     }
 
@@ -1279,7 +1217,6 @@ sub EditFieldValueGet {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -1290,7 +1227,6 @@ sub EditFieldValueGet {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -1303,7 +1239,6 @@ sub EditFieldValueGet {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -1343,7 +1278,6 @@ sub EditFieldValueValidate {
             Priority => 'error',
             Message  => "Need DynamicFieldConfig!"
         );
-
         return;
     }
 
@@ -1353,7 +1287,6 @@ sub EditFieldValueValidate {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -1364,7 +1297,6 @@ sub EditFieldValueValidate {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -1379,7 +1311,6 @@ sub EditFieldValueValidate {
             Priority => 'error',
             Message  => "The possible values filter is invalid",
         );
-
         return;
     }
 
@@ -1391,7 +1322,6 @@ sub EditFieldValueValidate {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -1452,7 +1382,6 @@ sub SearchFieldRender {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -1463,7 +1392,6 @@ sub SearchFieldRender {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -1474,7 +1402,6 @@ sub SearchFieldRender {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -1491,12 +1418,14 @@ sub SearchFieldRender {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
     # call SearchFieldRender on the specific backend
-    return $Self->{$DynamicFieldBackend}->SearchFieldRender(%Param);
+    my $HTMLStrings = $Self->{$DynamicFieldBackend}->SearchFieldRender(%Param);
+
+    return $HTMLStrings;
+
 }
 
 =head2 SearchFieldValueGet()
@@ -1578,7 +1507,6 @@ sub SearchFieldValueGet {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -1589,7 +1517,6 @@ sub SearchFieldValueGet {
             Priority => 'error',
             Message  => "Need ParamObject or Profile!"
         );
-
         return;
     }
 
@@ -1598,7 +1525,6 @@ sub SearchFieldValueGet {
             Priority => 'error',
             Message  => "Only ParamObject or Profile must be specified but not both!"
         );
-
         return;
     }
 
@@ -1608,7 +1534,6 @@ sub SearchFieldValueGet {
             Priority => 'error',
             Message  => "The search profile is invalid",
         );
-
         return;
     }
 
@@ -1618,7 +1543,6 @@ sub SearchFieldValueGet {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -1629,7 +1553,6 @@ sub SearchFieldValueGet {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -1642,7 +1565,6 @@ sub SearchFieldValueGet {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -1683,7 +1605,6 @@ sub SearchFieldPreferences {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
-
             return;
         }
     }
@@ -1694,7 +1615,6 @@ sub SearchFieldPreferences {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -1705,7 +1625,6 @@ sub SearchFieldPreferences {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!",
             );
-
             return;
         }
     }
@@ -1718,7 +1637,6 @@ sub SearchFieldPreferences {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!",
         );
-
         return;
     }
 
@@ -1771,7 +1689,6 @@ sub SearchFieldParameterBuild {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -1782,7 +1699,6 @@ sub SearchFieldParameterBuild {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -1793,7 +1709,6 @@ sub SearchFieldParameterBuild {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -1806,7 +1721,6 @@ sub SearchFieldParameterBuild {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -1844,7 +1758,6 @@ sub ReadableValueRender {
             Priority => 'error',
             Message  => "Need DynamicFieldConfig!"
         );
-
         return;
     }
 
@@ -1854,7 +1767,6 @@ sub ReadableValueRender {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -1865,7 +1777,6 @@ sub ReadableValueRender {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -1878,12 +1789,13 @@ sub ReadableValueRender {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
     # call DisplayValueRender on the specific backend
-    return $Self->{$DynamicFieldBackend}->ReadableValueRender(%Param);
+    my $ValueStrg = $Self->{$DynamicFieldBackend}->ReadableValueRender(%Param);
+
+    return $ValueStrg;
 }
 
 =head2 TemplateValueTypeGet()
@@ -1937,7 +1849,6 @@ sub TemplateValueTypeGet {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -1948,7 +1859,6 @@ sub TemplateValueTypeGet {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -1959,7 +1869,6 @@ sub TemplateValueTypeGet {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -1977,12 +1886,13 @@ sub TemplateValueTypeGet {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
     # call TemplateValueTypeGet on the specific backend
-    return $Self->{$DynamicFieldBackend}->TemplateValueTypeGet(%Param);
+    my $ValueType = $Self->{$DynamicFieldBackend}->TemplateValueTypeGet(%Param);
+
+    return $ValueType;
 }
 
 =head2 RandomValueSet()
@@ -2015,7 +1925,6 @@ sub RandomValueSet {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -2026,7 +1935,6 @@ sub RandomValueSet {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -2037,7 +1945,6 @@ sub RandomValueSet {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -2050,7 +1957,6 @@ sub RandomValueSet {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -2063,7 +1969,6 @@ sub RandomValueSet {
             Message  => "Could not update field $Param{DynamicFieldConfig}->{Name} for "
                 . "$Param{DynamicFieldConfig}->{ObjectType} ID $Param{ObjectID} !",
         );
-
         return;
     }
 
@@ -2111,7 +2016,6 @@ sub HistoricalValuesGet {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -2122,7 +2026,6 @@ sub HistoricalValuesGet {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -2133,7 +2036,6 @@ sub HistoricalValuesGet {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -2146,7 +2048,6 @@ sub HistoricalValuesGet {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -2183,7 +2084,6 @@ sub ValueLookup {
             Priority => 'error',
             Message  => "Need DynamicFieldConfig!"
         );
-
         return;
     }
 
@@ -2193,7 +2093,6 @@ sub ValueLookup {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -2204,7 +2103,6 @@ sub ValueLookup {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -2217,7 +2115,6 @@ sub ValueLookup {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -2268,7 +2165,6 @@ sub HasBehavior {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -2279,7 +2175,6 @@ sub HasBehavior {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -2290,7 +2185,6 @@ sub HasBehavior {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -2303,7 +2197,6 @@ sub HasBehavior {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -2348,7 +2241,6 @@ sub PossibleValuesGet {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -2359,7 +2251,6 @@ sub PossibleValuesGet {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -2370,7 +2261,6 @@ sub PossibleValuesGet {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -2383,7 +2273,6 @@ sub PossibleValuesGet {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -2456,7 +2345,6 @@ sub BuildSelectionDataGet {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -2467,7 +2355,6 @@ sub BuildSelectionDataGet {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -2478,7 +2365,6 @@ sub BuildSelectionDataGet {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -2491,7 +2377,6 @@ sub BuildSelectionDataGet {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -2542,7 +2427,6 @@ sub StatsFieldParameterBuild {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -2553,7 +2437,6 @@ sub StatsFieldParameterBuild {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -2564,7 +2447,6 @@ sub StatsFieldParameterBuild {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -2577,7 +2459,6 @@ sub StatsFieldParameterBuild {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -2621,7 +2502,6 @@ sub StatsSearchFieldParameterBuild {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -2632,7 +2512,6 @@ sub StatsSearchFieldParameterBuild {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -2643,7 +2522,6 @@ sub StatsSearchFieldParameterBuild {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -2656,7 +2534,6 @@ sub StatsSearchFieldParameterBuild {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -2698,7 +2575,6 @@ sub ObjectMatch {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -2709,7 +2585,6 @@ sub ObjectMatch {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -2720,7 +2595,6 @@ sub ObjectMatch {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -2730,7 +2604,6 @@ sub ObjectMatch {
             Priority => 'error',
             Message  => "Need Value!"
         );
-
         return;
     }
 
@@ -2745,7 +2618,6 @@ sub ObjectMatch {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -2788,7 +2660,6 @@ sub ColumnFilterValuesGet {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -2799,7 +2670,6 @@ sub ColumnFilterValuesGet {
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
-
         return;
     }
 
@@ -2810,7 +2680,6 @@ sub ColumnFilterValuesGet {
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
-
             return;
         }
     }
@@ -2823,7 +2692,6 @@ sub ColumnFilterValuesGet {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 
@@ -2868,7 +2736,6 @@ sub ValueSearch {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
-
             return;
         }
     }
@@ -2881,7 +2748,6 @@ sub ValueSearch {
             Priority => 'error',
             Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
         );
-
         return;
     }
 

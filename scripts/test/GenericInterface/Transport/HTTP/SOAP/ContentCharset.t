@@ -110,9 +110,8 @@ EOF
     local *STDIN = $StandardInput;
 
     # Fake environment variables as it gets it from the request.
-    # %ENV will be picked up in Kernel::System::Web::Request::new().
-    local $ENV{CONTENT_LENGTH} = length $Request;
-    local $ENV{CONTENT_TYPE}   = $Test->{ContentType};
+    local $ENV{'CONTENT_LENGTH'} = length $Request;
+    local $ENV{'CONTENT_TYPE'}   = $Test->{ContentType};
 
     my $Result = $SOAPObject->ProviderProcessRequest();
 
@@ -128,4 +127,7 @@ EOF
     );
 }
 
+
 $Self->DoneTesting();
+
+

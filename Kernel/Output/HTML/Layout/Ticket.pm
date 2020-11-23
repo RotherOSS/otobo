@@ -18,13 +18,7 @@ package Kernel::Output::HTML::Layout::Ticket;
 
 use strict;
 use warnings;
-use namespace::autoclean;
 
-# core modules
-
-# CPAN modules
-
-# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -655,8 +649,7 @@ sub AgentQueueListOption {
 }
 
 sub TicketListShow {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # take object ref to local, remove it from %Param (prevent memory leak)
     my $Env = $Param{Env};
@@ -1009,24 +1002,36 @@ sub TicketListShow {
         }
     }
 
-    # As of OTOBO 10.0.x some content was printed early.
-    # This has changed in OTOBO 10.1.1.
-
-    # create nav bar and run overview backend module
-    return join '',
-        $Self->Output(
-            TemplateFile => 'AgentTicketOverviewNavBar',
-            Data         => { %Param, },
-        ),
-        $Object->Run(
-            %Param,
-            Config    => $Backends->{$View},
-            Limit     => $Limit,
-            StartHit  => $StartHit,
-            PageShown => $PageShown,
-            AllHits   => $Param{Total} || 0,
-            Output    => $Param{Output} || '',
+    my $OutputNavBar = $Self->Output(
+        TemplateFile => 'AgentTicketOverviewNavBar',
+        Data         => { %Param, },
     );
+    my $OutputRaw = '';
+    if ( !$Param{Output} ) {
+        $Self->Print( Output => \$OutputNavBar );
+    }
+    else {
+        $OutputRaw .= $OutputNavBar;
+    }
+
+    # run overview backend module
+    my $Output = $Object->Run(
+        %Param,
+        Config    => $Backends->{$View},
+        Limit     => $Limit,
+        StartHit  => $StartHit,
+        PageShown => $PageShown,
+        AllHits   => $Param{Total} || 0,
+        Output    => $Param{Output} || '',
+    );
+    if ( !$Param{Output} ) {
+        $Self->Print( Output => \$Output );
+    }
+    else {
+        $OutputRaw .= $Output;
+    }
+
+    return $OutputRaw;
 }
 
 sub TicketMetaItemsCount {

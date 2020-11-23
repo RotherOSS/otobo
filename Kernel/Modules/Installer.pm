@@ -77,8 +77,9 @@ sub Run {
     my $DirOfSQLFiles = $Self->{Path} . '/scripts/database';
     if ( !-d $DirOfSQLFiles ) {
 
-        # PSGI: throw exception
-        # non-PSGI: print to STDOUT and exit
+        # the behavior of FatalError() will cange in 10.1:
+        #   PSGI: throw exception
+        #   non-PSGI: print to STDOUT and exit
         $LayoutObject->FatalError(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" not found!', $DirOfSQLFiles ),
             Comment => Translatable('Please contact the administrator.'),
@@ -168,29 +169,31 @@ sub Run {
     # Print intro form.
     my $Title = $LayoutObject->{LanguageObject}->Translate('Install OTOBO');
     if ( $Self->{Subaction} eq 'Intro' ) {
-
+        my $Output =
+            $LayoutObject->Header(
+            Title => "$Title - "
+                . $LayoutObject->{LanguageObject}->Translate('Intro')
+            );
         # activate the Intro block
         $LayoutObject->Block(
             Name => 'Intro',
             Data => {}
         );
-
-        return join '',
-            $LayoutObject->Header(
-                Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Intro')
-            ),
-            $LayoutObject->Output(
-                TemplateFile => 'Installer',
-                Data         => {},
-            ),
-            $LayoutObject->Footer();
+        $Output .= $LayoutObject->Output(
+            TemplateFile => 'Installer',
+            Data         => {},
+        );
+        $Output .= $LayoutObject->Footer();
+        return $Output;
     }
 
     # Print license from.
     elsif ( $Self->{Subaction} eq 'License' ) {
-        my $Output = $LayoutObject->Header(
-            Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('License')
-        );
+        my $Output =
+            $LayoutObject->Header(
+            Title => "$Title - "
+                . $LayoutObject->{LanguageObject}->Translate('License')
+            );
         $LayoutObject->Block(
             Name => 'License',
             Data => {
@@ -213,18 +216,21 @@ sub Run {
 
     # Database selection screen.
     elsif ( $Self->{Subaction} eq 'Start' ) {
-        if ( ! -w "$Self->{Path}/Kernel/Config.pm" ) {
-            return join '',
+        if ( !-w "$Self->{Path}/Kernel/Config.pm" ) {
+            my $Output =
                 $LayoutObject->Header(
-                    Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Error')
+                Title => "$Title - "
+                    . $LayoutObject->{LanguageObject}->Translate('Error')
+                );
+            $Output .= $LayoutObject->Warning(
+                Message => Translatable('Kernel/Config.pm isn\'t writable!'),
+                Comment => Translatable(
+                    'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!'
                 ),
-                $LayoutObject->Warning(
-                    Message => Translatable('Kernel/Config.pm isn\'t writable!'),
-                    Comment => Translatable(
-                        'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!'
-                    ),
-                ),
-                $LayoutObject->Footer();
+            );
+            $Output .= $LayoutObject->Footer();
+
+            return $Output;
         }
 
         my %Databases = (
@@ -242,9 +248,11 @@ sub Run {
             SelectedID => 'mysql',
         );
 
-        my $Output = $LayoutObject->Header(
-            Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Database Selection')
-        );
+        my $Output =
+            $LayoutObject->Header(
+            Title => "$Title - "
+                . $LayoutObject->{LanguageObject}->Translate('Database Selection')
+            );
         $LayoutObject->Block(
             Name => 'DatabaseStart',
             Data => {
@@ -300,11 +308,11 @@ sub Run {
         my $OutputJSON = $LayoutObject->JSONEncode( Data => \%Result );
 
         return $LayoutObject->Attachment(
-            ContentType       => 'application/json; charset='
+            ContentType => 'application/json; charset='
                 . $LayoutObject->{Charset},
-            Content           => $OutputJSON,
-            Type              => 'inline',
-            NoCache           => 1,
+            Content => $OutputJSON,
+            Type    => 'inline',
+            NoCache => 1,
         );
     }
 
@@ -322,9 +330,11 @@ sub Run {
                 'If you have set a root password for your database, it must be entered here. If not, leave this field empty.',
                 )
                 : $LayoutObject->{LanguageObject}->Translate('Enter the password for the database user.');
-            my $Output = $LayoutObject->Header(
-                Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'MySQL' )
-            );
+            my $Output =
+                $LayoutObject->Header(
+                Title => "$Title - "
+                    . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'MySQL' )
+                );
             $LayoutObject->Block(
                 Name => 'DatabaseMySQL',
                 Data => {
@@ -364,9 +374,11 @@ sub Run {
             my $PasswordExplanation = $DBInstallType eq 'CreateDB'
                 ? $LayoutObject->{LanguageObject}->Translate('Enter the password for the administrative database user.')
                 : $LayoutObject->{LanguageObject}->Translate('Enter the password for the database user.');
-            my $Output = $LayoutObject->Header(
-                Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'PostgreSQL' )
-            );
+            my $Output =
+                $LayoutObject->Header(
+                Title => "$Title - "
+                    . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'PostgreSQL' )
+                );
             $LayoutObject->Block(
                 Name => 'DatabasePostgreSQL',
                 Data => {
@@ -402,9 +414,11 @@ sub Run {
             return $Output;
         }
         elsif ( $DBType eq 'oracle' ) {
-            my $Output = $LayoutObject->Header(
-                Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'Oracle' )
-            );
+            my $Output =
+                $LayoutObject->Header(
+                Title => "$Title - "
+                    . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'Oracle' )
+                );
             $LayoutObject->Block(
                 Name => 'DatabaseOracle',
                 Data => {
@@ -463,7 +477,10 @@ sub Run {
         }
 
         my $Output = $LayoutObject->Header(
-            Title => $Title . '-' . $LayoutObject->{LanguageObject}->Translate('Create Database'),
+            Title => $Title . '-'
+                . $LayoutObject->{LanguageObject}->Translate(
+                'Create Database'
+                ),
         );
 
         $LayoutObject->Block(
@@ -631,17 +648,19 @@ sub Run {
         }
 
         if ($ReConfigure) {
-            return join '',
+            my $Output =
                 $LayoutObject->Header(
-                    Title => Translatable('Install OTOBO - Error')
+                Title => Translatable('Install OTOBO - Error')
+                );
+            $Output .= $LayoutObject->Warning(
+                Message => Translatable('Kernel/Config.pm isn\'t writable!'),
+                Comment => Translatable(
+                    'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!'
                 ),
-                $LayoutObject->Warning(
-                    Message => Translatable('Kernel/Config.pm isn\'t writable!'),
-                    Comment => Translatable(
-                        'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!'
-                    ),
-                ),
-                $LayoutObject->Footer();
+            );
+            $Output .= $LayoutObject->Footer();
+
+            return $Output;
         }
 
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::DB'] );
@@ -692,15 +711,7 @@ sub Run {
 
             SQL:
             for my $SQL (@SQL) {
-                my $Success = $DBObject->Do( SQL => $SQL );
-
-                next SQL if $Success;
-
-                # an statement was no correct, no idea how this could be handled
-                $LayoutObject->FatalError(
-                    Message => Translatable('Execution of SQL statement failed: ') . $DBI::errstr,
-                    Comment => $SQL,
-                );
+                $DBObject->Do( SQL => $SQL );
             }
 
             $LayoutObject->Block(
@@ -1016,9 +1027,12 @@ sub Run {
         # show the status in the GUI
         $Param{ESActive} = $Success;
 
-        my $Output = $LayoutObject->Header(
-            Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('System Settings'),
-        );
+        my $Output =
+            $LayoutObject->Header(
+            Title => "$Title - "
+                . $LayoutObject->{LanguageObject}->Translate('System Settings'),
+            );
+
         $LayoutObject->Block(
             Name => 'System',
             Data => {
@@ -1126,9 +1140,11 @@ sub Run {
             Class => 'Modernize',
         );
 
-        my $Output = $LayoutObject->Header(
-            Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Configure Mail')
-        );
+        my $Output =
+            $LayoutObject->Header(
+            Title => "$Title - "
+                . $LayoutObject->{LanguageObject}->Translate('Configure Mail')
+            );
         $LayoutObject->Block(
             Name => 'ConfigureMail',
             Data => {
@@ -1256,9 +1272,11 @@ sub Run {
             || $ParamObject->HTTP('HOST')                    # should work in the HTTP case, in Docker or not in Docker
             || $ConfigObject->Get('FQDN');                   # a fallback
 
-        my $Output = $LayoutObject->Header(
-            Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Finished')
-        );
+        my $Output =
+            $LayoutObject->Header(
+            Title => "$Title - "
+                . $LayoutObject->{LanguageObject}->Translate('Finished')
+            );
         $LayoutObject->Block(
             Name => 'Finish',
             Data => {

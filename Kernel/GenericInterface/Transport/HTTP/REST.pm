@@ -18,22 +18,14 @@ package Kernel::GenericInterface::Transport::HTTP::REST;
 
 use strict;
 use warnings;
-use v5.24;
-use namespace::autoclean;
 
-# core modules
-use MIME::Base64;
-
-# CPAN modules
 use HTTP::Status;
+use MIME::Base64;
 use REST::Client;
 use URI::Escape;
-use Plack::Response;
-
-# OTOBO modules
 use Kernel::Config;
+
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::Web::Exception;
 
 our $ObjectManagerDisabled = 1;
 
@@ -114,15 +106,11 @@ sub ProviderProcessRequest {
         );
     }
 
-    # The HTTP::REST support works with a request object.
-    # Just like Kernel::System::Web::InterfaceAgent.
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
     my $Operation;
     my %URIData;
-    my $RequestURI = $ParamObject->RequestURI();
+    my $RequestURI = $ENV{REQUEST_URI};
     $RequestURI =~ s{.*Webservice(?:ID)?\/[^\/]+(\/.*)$}{$1}xms;
 
     # Remove any query parameter from the URL
@@ -173,7 +161,7 @@ sub ProviderProcessRequest {
         }
     }
 
-    my $RequestMethod = $ParamObject->RequestMethod() || 'GET';
+    my $RequestMethod = $ENV{'REQUEST_METHOD'} || 'GET';
     ROUTE:
     for my $CurrentOperation ( sort keys %{ $Config->{RouteOperationMapping} } ) {
 
@@ -235,11 +223,7 @@ sub ProviderProcessRequest {
         );
     }
 
-    # The post data has already been read in. This should be safe
-    # as $CGI::POST_MAX has been set as an emergency brake.
-    # For Checking the length we can therefor use the actual length.
-    my $Content = $ParamObject->GetParam( Param => 'POSTDATA' );
-    my $Length  = length $Content;
+    my $Length = $ENV{'CONTENT_LENGTH'};
 
     # No length provided, return the information we have.
     # Also return for 'GET' method because it does not allow sending an entity-body in requests.
@@ -263,11 +247,15 @@ sub ProviderProcessRequest {
         );
     }
 
-    # There might be a different request method.
-    # NOTE: this is kept only for compatability with older versions
+    # Read request.
+    my $Content;
+    read STDIN, $Content, $Length;
+
+    # If there is no STDIN data it might be caused by fastcgi already having read the request.
+    # In this case we need to get the data from CGI.
     if ( !IsStringWithData($Content) && $RequestMethod ne 'GET' ) {
         my $ParamName = $RequestMethod . 'DATA';
-        $Content = $ParamObject->GetParam(
+        $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
             Param => $ParamName,
         );
     }
@@ -281,18 +269,18 @@ sub ProviderProcessRequest {
     }
 
     # Convert char-set if necessary.
-    {
-        my $ContentType = $ParamObject->ContentType();
-        my ($ContentCharset) = $ContentType =~ m{ \A .* charset= ["']? ( [^"']+ ) ["']? \z }xmsi;
-        if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
-            $Content = $EncodeObject->Convert2CharsetInternal(
-                Text => $Content,
-                From => $ContentCharset,
-            );
-        }
-        else {
-            $EncodeObject->EncodeInput( \$Content );
-        }
+    my $ContentCharset;
+    if ( $ENV{'CONTENT_TYPE'} =~ m{ \A .* charset= ["']? ( [^"']+ ) ["']? \z }xmsi ) {
+        $ContentCharset = $1;
+    }
+    if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
+        $Content = $EncodeObject->Convert2CharsetInternal(
+            Text => $Content,
+            From => $ContentCharset,
+        );
+    }
+    else {
+        $EncodeObject->EncodeInput( \$Content );
     }
 
     # Send received data to debugger.
@@ -365,9 +353,8 @@ The HTTP code is set accordingly
     );
 
     $Result = {
-        Success      => 1,          # 0 or 1
-        Output       => $Content,   # a string
-        ErrorMessage => '',         # in case of error
+        Success      => 1,   # 0 or 1
+        ErrorMessage => '',  # in case of error
     };
 
 =cut
@@ -898,15 +885,13 @@ Returns structure to be passed to provider.
 
     $Result = {
         Success      => 0,
-        Output       => $Content,
         ErrorMessage => 'Message', # error message from given summary
     };
 
 =cut
 
 sub _Output {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Check params.
     my $Success = 1;
@@ -925,8 +910,7 @@ sub _Output {
     }
 
     # Prepare protocol.
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $Protocol = $ParamObject->ServerProtocol() // 'HTTP/1.0';
+    my $Protocol = defined $ENV{SERVER_PROTOCOL} ? $ENV{SERVER_PROTOCOL} : 'HTTP/1.0';
 
     # FIXME: according to SOAP::Transport::HTTP the previous should not be used
     #   for all supported browsers 'Status:' should be used here
@@ -963,35 +947,6 @@ sub _Output {
     # Set keep-alive.
     my $Connection = $Self->{KeepAlive} ? 'Keep-Alive' : 'close';
 
-    # Let's try the HTTPExceptions trick again
-    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
-
-        my @Headers;
-        push @Headers, 'Content-Type'   => "$ContentType; charset=UTF-8";
-        push @Headers, 'Content-Length' => $ContentLength;
-        push @Headers, 'Connection'     => $Connection;
-
-        # Prepare additional headers.
-        if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
-            my %AdditionalHeaders = $Self->{TransportConfig}->{Config}->{AdditionalHeaders}->%*;
-            for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
-                push @Headers, $AdditionalHeader => ( $AdditionalHeaders{$AdditionalHeader} || '' );
-            }
-        }
-
-        # Enhance it with the HTTP status code and the content.
-        my $PlackResponse = Plack::Response->new(
-            $Param{HTTPCode},
-            \@Headers,
-            $Param{Content}
-        );
-
-        # The exception is caught be Plack::Middleware::HTTPExceptions
-        die Kernel::System::Web::Exception->new(
-            PlackResponse => $PlackResponse
-        );
-    }
-
     # prepare additional headers
     my $AdditionalHeaderStrg = '';
     if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
@@ -1002,20 +957,31 @@ sub _Output {
         }
     }
 
+    # In the constructor of this module STDIN and STDOUT are set to binmode without any additional
+    #   layer (according to the documentation this is the same as set :raw). Previous solutions for
+    #   binary responses requires the set of :raw or :utf8 according to IO layers.
+    #   with that solution Windows OS requires to set the :raw layer in binmode, see #bug#8466.
+    #   while in *nix normally was better to set :utf8 layer in binmode, see bug#8558, otherwise
+    #   XML parser complains about it... ( but under special circumstances :raw layer was needed
+    #   instead ).
+    #
+    # This solution to set the binmode in the constructor and then :utf8 layer before the response
+    #   is sent  apparently works in all situations. ( Linux circumstances to requires :raw was no
+    #   reproducible, and not tested in this solution).
+    binmode STDOUT, ':utf8';    ## no critic
+
     # Print data to http - '\r' is required according to HTTP RFCs.
     my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
-    my $Output = '';
-    $Output .= "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
-    $Output .= "Content-Type: $ContentType; charset=UTF-8\r\n";
-    $Output .= "Content-Length: $ContentLength\r\n";
-    $Output .= "Connection: $Connection\r\n";
-    $Output .= $AdditionalHeaderStrg;
-    $Output .= "\r\n";
-    $Output .= $Param{Content};
+    print STDOUT "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
+    print STDOUT "Content-Type: $ContentType; charset=UTF-8\r\n";
+    print STDOUT "Content-Length: $ContentLength\r\n";
+    print STDOUT "Connection: $Connection\r\n";
+    print STDOUT $AdditionalHeaderStrg;
+    print STDOUT "\r\n";
+    print STDOUT $Param{Content};
 
     return {
         Success      => $Success,
-        Output       => $Output,
         ErrorMessage => $ErrorMessage,
     };
 }

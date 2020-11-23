@@ -43,7 +43,7 @@ Kernel::System::Web::InterfaceInstaller - the installer web interface
 
 =head1 DESCRIPTION
 
-This module generates the HTTP response for F<installer.pl>.
+This module prints the HTTP response for F<installer.pl>.
 
 =head1 PUBLIC INTERFACE
 
@@ -85,16 +85,15 @@ sub new {
     return $Self;
 }
 
-=head2 Content()
+=head2 Run()
 
 execute the object.
-Set headers in Kernels::System::Web::Request singleton as side effect.
 
-    my $Content = $Interface->Content();
+    $Interface->Run();
 
 =cut
 
-sub Content {
+sub Run {
     my $Self = shift;
 
     # get common framework params
@@ -117,7 +116,7 @@ sub Content {
 
     # check secure mode
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
-        return join '',
+        print join '',
             $LayoutObject->Header(),
             $LayoutObject->Error(
                 Message => Translatable('SecureMode active!'),
@@ -126,6 +125,8 @@ sub Content {
                 ),
             ),
             $LayoutObject->Footer();
+
+        return;
     }
 
     # run modules if a version value exists
@@ -137,18 +138,21 @@ sub Content {
             Debug => $Self->{Debug},
         );
 
-        # output filters are not applied for this interface
-        return $GenericObject->Run();
+        print $GenericObject->Run();
+
+        return;
     }
 
     # print an error screen as the fallback
-    return join '',
-        $LayoutObject->Header(),
+    print join '',
+        $LayoutObject->Header();
         $LayoutObject->Error(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Action "%s" not found!', $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),
         ),
         $LayoutObject->Footer();
+
+    return;
 }
 
 1;

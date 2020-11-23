@@ -18,13 +18,8 @@ package Kernel::Output::HTML::Layout::CustomerUser;
 
 use strict;
 use warnings;
-use namespace::autoclean;
 
-# core modules
-
-# CPAN modules
-
-# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
 
@@ -37,6 +32,9 @@ Kernel::Output::HTML::Layout::CustomerUser - all CustomerUser related HTML funct
 =head2 CustomerUserAddressBookListShow()
 
 Returns a list of customer user as sort-able list with pagination.
+
+This function is similar to L<Kernel::Output::HTML::Layout::CustomerUser::CustomerUserAddressBookListShow()>
+in F<Kernel/Output/HTML/Layout/CustomerUser.pm>.
 
     my $Output = $LayoutObject->CustomerUserAddressBookListShow(
         CustomerUserIDs => $CustomerUserIDsRef,                      # total list of customer user ids, that can be listed
@@ -56,8 +54,7 @@ Returns a list of customer user as sort-able list with pagination.
 =cut
 
 sub CustomerUserAddressBookListShow {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Take object ref to local, remove it from %Param (prevent memory leak).
     my $Env = delete $Param{Env};
@@ -152,12 +149,21 @@ sub CustomerUserAddressBookListShow {
     }
 
     # build html content
-    # As of OTOBO 10.0.x some content was printed early.
-    # This has changed in OTOBO 10.1.1.
-    my $Output = $Self->Output(
+    my $OutputNavBar = $Self->Output(
         TemplateFile => 'AgentCustomerUserAddressBookOverviewNavBar',
         Data         => {%Param},
     );
+
+    # create output
+    my $OutputRaw = '';
+    if ( !$Param{Output} ) {
+        $Self->Print(
+            Output => \$OutputNavBar,
+        );
+    }
+    else {
+        $OutputRaw .= $OutputNavBar;
+    }
 
     # load module
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( $Backends->{$View}->{Module} ) ) {
@@ -166,11 +172,10 @@ sub CustomerUserAddressBookListShow {
 
     # check for backend object
     my $Object = $Backends->{$View}->{Module}->new( %{$Env} );
-
-    return unless $Object;
+    return if !$Object;
 
     # run module
-    $Output .= $Object->Run(
+    my $Output = $Object->Run(
         %Param,
         Limit     => $Limit,
         StartHit  => $StartHit,
@@ -179,6 +184,16 @@ sub CustomerUserAddressBookListShow {
         Frontend  => $Frontend,
     );
 
+    # create output
+    if ( !$Param{Output} ) {
+        $Self->Print(
+            Output => \$Output,
+        );
+    }
+    else {
+        $OutputRaw .= $Output;
+    }
+
     # create overview nav bar
     $Self->Block(
         Name => 'OverviewNavBar',
@@ -186,7 +201,7 @@ sub CustomerUserAddressBookListShow {
     );
 
     # return content if available
-    return $Output;
+    return $OutputRaw;
 }
 
 1;

@@ -19,16 +19,11 @@ package Kernel::Modules::AdminCustomerCompany;
 use strict;
 use warnings;
 
-# core modules
-use List::Util qw(any);
-
-# CPAN modules
-
-# OTOBO modules
 use Kernel::Language qw(Translatable);
-use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
+
+use Kernel::System::VariableCheck qw(:all);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -101,26 +96,15 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
+        my $Note = '';
         my %Errors;
         $GetParam{CustomerCompanyID} = $ParamObject->GetParam( Param => 'CustomerCompanyID' );
-
-        my @CustomerCompanyMap = $ConfigObject->Get( $GetParam{Source} )->{Map}->@*;
-
-        # The readonly fields should not be settable from the WebApp.
-        # So update with the old values, regardless what was passed from the client.
-        # The old data is only needed when there are any readonly fields.
-        my %OldData;
-        if ( any { $_->[7] } @CustomerCompanyMap ) {
-            %OldData = $CustomerCompanyObject->CustomerCompanyGet(
-                CustomerID => $GetParam{CustomerCompanyID},
-            );
-        }
 
         # Get dynamic field backend object.
         my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
         ENTRY:
-        for my $Entry ( @CustomerCompanyMap ) {
+        for my $Entry ( @{ $ConfigObject->Get( $GetParam{Source} )->{Map} } ) {
 
             # check dynamic fields
             if ( $Entry->[5] eq 'dynamic_field' ) {
@@ -153,11 +137,6 @@ sub Run {
                         LayoutObject       => $LayoutObject,
                     );
                 }
-            }
-
-            # reuse the old data for readonly field
-            elsif ( $Entry->[7] ) {
-                $GetParam{ $Entry->[0] } = $OldData{ $Entry->[0] };
             }
 
             # check remaining non-dynamic-field mandatory fields
@@ -202,7 +181,7 @@ sub Run {
                 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
                 ENTRY:
-                for my $Entry ( @CustomerCompanyMap ) {
+                for my $Entry ( @{ $ConfigObject->Get( $GetParam{Source} )->{Map} } ) {
                     next ENTRY if $Entry->[5] ne 'dynamic_field';
 
                     my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Entry->[2] };
@@ -350,6 +329,7 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
+        my $Note = '';
         my %Errors;
 
         my $CustomerCompanyKey = $ConfigObject->Get( $GetParam{Source} )->{CustomerCompanyKey};
@@ -802,7 +782,7 @@ sub _Overview {
         # get config object
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        # same Limit as $Self->{CustomerCompany}->{CustomerCompanySearchListLimit}
+        # same Limit as $Self->{CustomerCompanyMap}->{'CustomerCompanySearchListLimit'}
         # smallest Limit from all sources
         my $Limit = 400;
         SOURCE:

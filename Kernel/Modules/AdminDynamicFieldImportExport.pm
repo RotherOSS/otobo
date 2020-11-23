@@ -14,6 +14,8 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
+
 package Kernel::Modules::AdminDynamicFieldImportExport;
 
 use strict;
@@ -29,7 +31,7 @@ our @ObjectDependencies = (
     'Kernel::System::Web::Request',
     'Kernel::System::YAML',
     'Kernel::System::ZnunyHelper',
-    'Kernel::System::DateTime',
+    'Kernel::System::Time',
 );
 
 use Kernel::System::VariableCheck qw(:all);
@@ -52,6 +54,7 @@ sub Run {
     my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $TimeObject         = $Kernel::OM->Get('Kernel::System::Time');
     my $YAMLObject         = $Kernel::OM->Get('Kernel::System::YAML');
     my $ZnunyHelperObject  = $Kernel::OM->Get('Kernel::System::ZnunyHelper');
     my $CacheObject        = $Kernel::OM->Get('Kernel::System::Cache');
@@ -258,9 +261,7 @@ sub Run {
         # convert the dynamicfielddata hash to string
         my $DynamicFieldDataYAML = $YAMLObject->Dump( Data => \%Data );
 
-        # Get the current time formatted like '2016-01-31 14:05:45'.
-        # Hoping that nobody has registered object params for Kernel::System::DateTime
-        my $TimeStamp = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
+        my $TimeStamp = $TimeObject->CurrentTimestamp();
 
         # send the result to the browser
         $HTML = $LayoutObject->Attachment(
