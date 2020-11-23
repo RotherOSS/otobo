@@ -583,7 +583,7 @@ END_SQL
         # RENAME TABLE IF EXISTS is not available in all MySQL versions
         my %RenameTables = $MigrationBaseObject->DBRenameTables()->%*;
         my @RenameSQLs;
-        for my $SourceTable ( keys %RenameTables ) {
+        for my $SourceTable ( sort keys %RenameTables ) {
             push @RenameSQLs, <<"END_SQL";
 -- rename  ' $SourceTable` to `$RenameTables{$SourceTable}`
 DELIMITER \$\$
