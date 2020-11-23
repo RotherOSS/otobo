@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-10-21 16:19+0000\n"
+"POT-Creation-Date: 2020-11-12 15:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14174,6 +14174,10 @@ msgstr ""
 msgid "Maximum size is %s characters."
 msgstr ""
 
+#. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
+msgid "Sanity checks for database."
+msgstr ""
+
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
 msgstr ""
@@ -14207,11 +14211,7 @@ msgid "Completed."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Check if OTOBO version is correct."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Check if OTOBO and OTRS connect is possible."
+msgid "Need OTRSData->%s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
@@ -14219,11 +14219,11 @@ msgid "Can't access OTRS Home: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Copy and migrate files from OTRS"
+msgid "All needed files copied and migrated, perfect!"
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "All needed files copied and migrated, perfect!"
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
+msgid "Check if OTOBO version is correct."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
@@ -14244,6 +14244,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Data transfer completed."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "Check if OTOBO and OTRS connect is possible."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
@@ -14276,6 +14280,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTRS version is correct."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "OTRS RELEASE file %s does not exist: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
@@ -14335,7 +14343,11 @@ msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "OTOBO Home exists."
+msgid "Check if Kernel/Config.pm exists in OTOBO home."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
+msgid "Kernel/Config.pm exists in OTOBO home"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
@@ -14355,7 +14367,7 @@ msgid "Try database connect and sanity checks."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
-msgid "Connect to OTRS database or sanity checks failed."
+msgid "Could not create database object."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm

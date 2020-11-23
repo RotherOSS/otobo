@@ -422,6 +422,7 @@ sub Run {
                 Label                       => $Label,
                 Link                        => $ValueStrg->{Link},
                 LinkPreview                 => $ValueStrg->{LinkPreview},
+                TitleFieldConfig            => ( $DynamicFieldConfig->{FieldType} eq 'Title' ) ? $DynamicFieldConfig->{Config} : undef,
 
                 # Include unique parameter with dynamic field name in case of collision with others.
                 #   Please see bug#13362 for more information.
@@ -447,7 +448,34 @@ sub Run {
     }
 
     # output dynamic fields in the sidebar
+    FIELD:
     for my $Field (@FieldsSidebar) {
+
+        # handle titles separately
+        if ( $Field->{TitleFieldConfig} ) {
+            my $Style = "padding-left:4px;font-size:$Field->{TitleFieldConfig}{FontSize}px;color:$Field->{TitleFieldConfig}{FontColor};";
+
+            if ( $Field->{TitleFieldConfig}{CBFontStyleUnderLineValue} ) {
+                $Style .= "text-decoration:underline;";
+            }
+            if ( $Field->{TitleFieldConfig}{CBFontStyleItalicValue} ) {
+                $Style .= "font-style:italic;";
+            }
+            if ( $Field->{TitleFieldConfig}{CBFontStyleBoldValue} ) {
+                $Style .= "font-weight:bold;";
+            }
+
+            $LayoutObject->Block(
+                Name => 'TicketDynamicField',
+                Data => {
+                    Text       => $Field->{Label},
+                    Style      => $Style,
+                    TitleField => 1,
+                },
+            );
+
+            next FIELD;
+        }
 
         $LayoutObject->Block(
             Name => 'TicketDynamicField',

@@ -209,6 +209,9 @@
 # show ticket dynamic fields
                     <fieldset class="TableLike FixedLabelSmall Narrow">
 [% RenderBlockStart("TicketDynamicField") %]
+[% IF Data.TitleField %]
+                        <p title="[% Data.Text | html %]" style="[% Data.Style | html %]">[% Data.Text | html %]</p>
+[% ELSE %]
                         <label>[% Translate(Data.Label) | html %]:</label>
                         <p class="Value">
 [% RenderBlockStart("TicketDynamicFieldLink") %]
@@ -219,6 +222,7 @@
 [% RenderBlockEnd("TicketDynamicFieldPlain") %]
                         </p>
                         <div class="Clear"></div>
+[% END %]
 [% RenderBlockEnd("TicketDynamicField") %]
                     </fieldset>
 
