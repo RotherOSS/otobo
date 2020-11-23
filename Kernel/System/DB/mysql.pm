@@ -797,9 +797,8 @@ sub Insert {
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-    my $SQL    = '';
-    my @Keys   = ();
-    my @Values = ();
+    my $SQL = '';
+    my ( @Keys, @Values );
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start' ) {
             if ( $ConfigObject->Get('Database::ShellOutput') ) {
@@ -809,6 +808,8 @@ sub Insert {
                 $SQL .= $Self->{'DB::Comment'}
                     . "----------------------------------------------------------\n";
             }
+            # TODO: might be safer to call $Self->QuoteIndetifier() for quoting the table.
+            #       but beware that $Tag->{Table} might already be quoted. 
             $SQL .= "INSERT INTO $Tag->{Table} ";
         }
         if ( $Tag->{Tag} eq 'Data' && $Tag->{TagType} eq 'Start' ) {

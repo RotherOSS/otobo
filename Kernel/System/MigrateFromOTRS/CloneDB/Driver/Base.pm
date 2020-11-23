@@ -79,8 +79,26 @@ sub new {
 
 =head2 SanityChecks
 
-A single sanity check.
-Check whether the relevant tables exist in the source database.
+check several sanity conditions of the source database.
+
+=over 4
+
+=item check whether the passed database object is supported
+
+=item check whether the required M<DBD::*> module can be loaded
+
+=item check whether a connection is possible
+
+=item check whether there are tables
+
+=item check whether row count of the tables can be determined, empty tables are OK
+
+=back
+
+    my $SanityCheck = $CloneDBBackendObject->SanityChecks(
+        OTRSDBObject => $SourceDBObject,
+        Message      => $Message,
+    );
 
 The returned value is a hash ref with the fields I<Message>, I<Comment>, and I<Successful>.
 
@@ -93,7 +111,7 @@ The returned value is a hash ref with the fields I<Message>, I<Comment>, and I<S
 =cut
 
 sub SanityChecks {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
 
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
@@ -120,8 +138,46 @@ sub SanityChecks {
     # get setup
     my %TableIsSkipped = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base')->DBSkipTables()->%*;
 
-    # get OTOBO DB object
-    my $TargetDBObject = $Kernel::OM->Get('Kernel::System::DB');
+    # check whether the source database type is supported and whether the DBD module can be loaded
+    my %DBDModule = (
+        mysql      => 'DBD::mysql',
+        postgresql => 'DBD::Pg',
+        oracle     => 'DBD::Oracle',
+    );
+
+    my $DBType = $SourceDBObject->GetDatabaseFunction( 'Type' ) // '';
+    my $Module = $DBDModule{$DBType};
+    if ( ! $Module ) {
+        my $Comment = "The source database type $DBType is not supported";
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "$Param{Message} $Comment",
+        );
+
+        return {
+            Message    => $Param{Message},
+            Comment    => $Comment,
+            Successful => 0,
+        };
+    }
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+    my $ModuleIsInstalled = $MainObject->Require( $Module );
+    if ( ! $ModuleIsInstalled ) {
+        my $Comment = "The module $Module is not installed.";
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "$Param{Message} $Comment",
+        );
+
+        return {
+            Message    => $Param{Message},
+            Comment    => $Comment,
+            Successful => 0,
+        };
+    }
 
     # check connection
     my $DbHandle = $SourceDBObject->Connect();
@@ -225,8 +281,10 @@ sub RowCount {
     }
 
     # execute counting statement, only a single row is returned
+    my $RowCountSQL = sprintf q{SELECT COUNT(*) FROM %s}, $Param{DBObject}->QuoteIdentifier( Table => $Param{Table} );
+
     return unless $Param{DBObject}->Prepare(
-        SQL => "SELECT COUNT(*) FROM $Param{Table}",
+        SQL => $RowCountSQL,
     );
 
     my ($NumRows) = $Param{DBObject}->FetchrowArray();
@@ -370,7 +428,7 @@ sub DataTransfer {
 
             # Log info to apache error log and OTOBO log (syslog or file)
             $MigrationBaseObject->MigrationLog(
-                String   => "Table $SourceTable does not in OTOBO.",
+                String   => "Table $SourceTable does not exist in OTOBO.",
                 Priority => "notice",
             );
 
@@ -450,9 +508,10 @@ sub DataTransfer {
 
                 # We need to shorten that column in that table to 191 chars.
                 $DoShorten = 1;
+                my $QuotedSourceTable = $Param{OTRSDBObject}->QuoteIdentifier( Table => $SourceTable );
                 push $AlterSourceSQLs{$SourceTable}->@*,
-                    "UPDATE $SourceTable SET $SourceColumn = SUBSTRING( $SourceColumn, 1, $MaxLenghtShortenedColumns )",
-                    "ALTER TABLE $SourceTable MODIFY COLUMN $SourceColumn VARCHAR($MaxMb4CharsInIndexKey)";
+                    "UPDATE $QuotedSourceTable SET $SourceColumn = SUBSTRING( $SourceColumn, 1, $MaxLenghtShortenedColumns )",
+                    "ALTER TABLE $QuotedSourceTable MODIFY COLUMN $SourceColumn VARCHAR($MaxMb4CharsInIndexKey)";
 
                 # Log info to apache error log and OTOBO log (syslog or file)
                 $MigrationBaseObject->MigrationLog(
@@ -547,8 +606,9 @@ sub DataTransfer {
 
                 # explicitly try to drop the index too,
                 # otherwise the foreign key can't be added. Strange.
+                my $QuotedSourceTable = $Param{OTRSDBObject}->QuoteIdentifier( Table => $SourceTable );
                 unshift $AlterSourceSQLs{$SourceTable}->@*,
-                    "ALTER TABLE $SourceTable DROP FOREIGN KEY $FKName";
+                    "ALTER TABLE $QuotedSourceTable DROP FOREIGN KEY $FKName";
             }
 
             # readd foreign keys in the target
@@ -594,24 +654,27 @@ sub DataTransfer {
     }
 
     # do the actual data transfer for the relevant tables
+    my ( $TotalNumTables, $CountTable ) = ( scalar @SourceTablesToBeCopied, 0 );
     SOURCE_TABLE:
     for my $SourceTable (@SourceTablesToBeCopied) {
 
         # Set cache object with taskinfo and starttime to show current state in frontend
+        $CountTable++;
+        my $ProgressMessage = "Copy table ($CountTable/$TotalNumTables): $SourceTable";
         $CacheObject->Set(
             Type  => 'OTRSMigration',
             Key   => 'MigrationState',
             Value => {
                 Task      => 'OTOBODatabaseMigrate',
-                SubTask   => "Copy table: $SourceTable",
+                SubTask   => $ProgressMessage,
                 StartTime => $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch(),
             },
         );
 
         # Log info to apache error log and OTOBO log (syslog or file)
         $MigrationBaseObject->MigrationLog(
-            String   => "Copy table: $SourceTable\n",
-            Priority => "notice",
+            String   => $ProgressMessage,
+            Priority => 'notice',
         );
 
         # The target table may be renamed.
@@ -670,7 +733,10 @@ sub DataTransfer {
             }
         }
 
+        my $QuotedSourceTable = $Param{OTRSDBObject}->QuoteIdentifier( Table => $SourceTable );
+
         if ( $DoBatchInsert{$SourceTable} ) {
+
 
             if ( $SourceDBIsThrowaway ) {
                 # OTOBO uses no triggers, so there is no need to consider them here
@@ -718,7 +784,7 @@ sub DataTransfer {
 
                             # Log info to apache error log and OTOBO log (syslog or file)
                             $MigrationBaseObject->MigrationLog(
-                                String   => "Could not rename target table '$TargetTable' to '${TargetSchema}_hidden'",
+                                String   => "Could not drop target table '$TargetTable'",
                                 Priority => "notice",
                             );
 
@@ -730,7 +796,7 @@ sub DataTransfer {
                     # This requires the privs DROP and ALTER on the source database.
                     {
                         my $RenameTableSQL  = <<"END_SQL";
-ALTER TABLE $SourceSchema.$SourceTable
+ALTER TABLE $SourceSchema.$QuotedSourceTable
   RENAME TO $TargetSchema.$TargetTable
 END_SQL
                         my $Success = $SourceDBObject->Do( SQL => $RenameTableSQL );
@@ -770,7 +836,6 @@ END_SQL
 
                 if ( ! $OverallSuccess ) {
                     $MigrationBaseObject->MigrationLog(
-                        String   => "Could  '$SourceTable*",
                         String   => <<"END_TXT",
 Renaming '$SourceSchema.$SourceTable' to '$TargetSchema.$TargetTable' failed.
 The table can be restored with:
@@ -792,14 +857,14 @@ END_TXT
                 my $BatchInsertSQL = <<"END_SQL";
 INSERT INTO $TargetSchema.$TargetTable ($TargetColumnsString)
   SELECT $SourceColumnsString{$SourceTable}
-    FROM $SourceSchema.$SourceTable
+    FROM $SourceSchema.$QuotedSourceTable
 END_SQL
                 my $Success = $TargetDBObject->Do( SQL  => $BatchInsertSQL );
                 if ( !$Success ) {
 
                     # Log info to apache error log and OTOBO log (syslog or file)
                     $MigrationBaseObject->MigrationLog(
-                        String   => "Could not batch insert data: Table: $SourceTable",
+                        String   => "Could not batch insert data: Table: $QuotedSourceTable",
                         Priority => "notice",
                     );
 
@@ -815,7 +880,7 @@ END_SQL
             {
                 my $BindString = join ', ', map {'?'} @SourceColumns;
                 $InsertSQL     = "INSERT INTO $TargetTable ($TargetColumnsString) VALUES ($BindString)";
-                $SelectSQL     = "SELECT $SourceColumnsString{$SourceTable} FROM $SourceTable",
+                $SelectSQL     = "SELECT $SourceColumnsString{$SourceTable} FROM $QuotedSourceTable",
             }
 
             # Now fetch all the data and insert it to the target DB.

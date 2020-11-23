@@ -301,6 +301,7 @@ for my $Test  (@Tests) {
                 my $ResponseData = '';
                 my $WebException;
                 {
+                    # %ENV will be picked up in Kernel::System::Web::Request::new().
                     local %ENV;
 
                     if ( $RequestMethod eq 'post' ) {

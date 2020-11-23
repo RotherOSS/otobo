@@ -169,14 +169,16 @@ my @Tests = (
 
 TEST:
 for my $Test (@Tests) {
+
+    # used in Kernel::System::Web::Request::new()
     local %ENV = (
         REQUEST_METHOD => 'GET',
         QUERY_STRING   => $Test->{QueryString} // '',
     );
 
     CGI->initialize_globals();
-    my $Request = Kernel::System::Web::Request->new();
 
+    # implicitly call Kernel::System::Web::Request->new();
     my $EntityName = $Kernel::OM->Get('Kernel::System::SysConfig::ValueType::Entity')->EntityLookupFromWebRequest(
         EntityType => $Test->{EntityType} // '',
     );
@@ -201,7 +203,4 @@ for my $Test (@Tests) {
     );
 }
 
-
 $Self->DoneTesting();
-
-

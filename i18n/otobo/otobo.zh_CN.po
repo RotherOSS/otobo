@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2020-10-08 14:33+0000\n"
-"PO-Revision-Date: 2020-10-16 09:07+0000\n"
+"POT-Creation-Date: 2020-10-21 16:19+0000\n"
+"PO-Revision-Date: 2020-11-11 06:20+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/otobo10/otobo/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -2472,23 +2472,20 @@ msgid "Ticket changed between"
 msgstr "工单修改时间（在...之间）"
 
 #. Template: AdminGenericAgent
-#, fuzzy
 msgid "Last close times"
-msgstr ""
+msgstr "上次关闭时间"
 
 #. Template: AdminGenericAgent
-#, fuzzy
 msgid "No last close time settings."
-msgstr ""
+msgstr "没有上次关闭时间设定。"
 
 #. Template: AdminGenericAgent
-#, fuzzy
 msgid "Ticket last close"
-msgstr ""
+msgstr "工单上次关闭"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last close between"
-msgstr ""
+msgstr "工单上次关闭介于"
 
 #. Template: AdminGenericAgent
 msgid "Close times"
@@ -9283,8 +9280,8 @@ msgid "HTTP Type"
 msgstr "HTTP 类型"
 
 #. Template: InstallerSystem
-msgid "Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes."
-msgstr "设置HttpType：设置用于cookie和各种链接的http类型。只有在不使用SSL的测试可以添加http，或者生产中添加。"
+msgid "Set the request scheme used for cookies and various links. For production purposes always use https."
+msgstr "设置cookie和其他各种链接发出请求的方式。生产环境中都使用https。"
 
 #. Template: InstallerSystem
 msgid "System FQDN"
@@ -9464,63 +9461,67 @@ msgstr "或者直接写邮件发到"
 
 #. Template: Intro
 msgid "Cached data found"
-msgstr ""
+msgstr "发现缓存数据"
 
 #. Template: Intro
 msgid "You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress."
-msgstr ""
+msgstr "你将从上次退出的位置继续进行迁移，当然如果不需要，你也可以放弃以前的进程。"
 
 #. Template: Intro
 msgid "An error occured."
-msgstr ""
+msgstr "发生一个错误。"
 
 #. Template: Intro
 msgid "Discard previous progress"
-msgstr ""
+msgstr "放弃以前的进程"
 
 #. Template: Intro
 msgid "Insecure HTTP connection"
-msgstr ""
+msgstr "不安全的HTTP链接"
 
 #. Template: Intro
 msgid "You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead."
-msgstr ""
+msgstr "你正在通过http运行迁移脚本，这是非常不安全的，因为在这个过程中需要使用各种密码，而这些密码将以未加密的方式进行传输。你和OTOBO服务器之间的任何人都可以读取它们！所以，请考虑修改设置为https。"
 
 #. Template: Intro
 msgid "Continue anyways :("
-msgstr ""
+msgstr "不论如何都继续:("
 
 #. Template: Intro
 msgid " Continue anyways :("
-msgstr ""
+msgstr " 不论如何都继续 :("
+
+#. Template: OTRSDBSettings
+msgid "Database is a throwawy copy"
+msgstr "数据库是一次性副本"
 
 #. Template: OTRSFileSettings
 msgid "OTRS server"
-msgstr ""
+msgstr "OTRS服务器"
 
 #. Template: OTRSFileSettings
 msgid "SSH User"
-msgstr ""
+msgstr "SSH用户"
 
 #. Template: OTRSFileSettings
 msgid "OTRS home directory"
-msgstr ""
+msgstr "OTRS主目录"
 
 #. Template: OTRSFileSettings
 msgid "Check settings"
-msgstr ""
+msgstr "检查设置"
 
 #. Template: OTRSFileSettings
 msgid "Result of settings check"
-msgstr ""
+msgstr "设置检查的结果"
 
 #. Template: OTRSFileSettings
 msgid "Settings check successful."
-msgstr ""
+msgstr "设置检查成功。"
 
 #. Template: PreChecks
 msgid "Execute migration pre-checks"
-msgstr ""
+msgstr "进行迁移前的检查"
 
 #. Template: MobileNotAvailableWidget
 msgid "Feature not Available"
@@ -9788,11 +9789,11 @@ msgstr "请记住：Y轴的时间刻度必须大于X轴的时间刻度（例如�
 
 #. Template: SettingHistoryListCompare
 msgid "On "
-msgstr ""
+msgstr "在 "
 
 #. Template: SettingHistoryListCompare
 msgid "Reset to this value"
-msgstr ""
+msgstr "重置这个值"
 
 #. Template: SettingsList
 msgid "This setting is disabled."
@@ -10000,7 +10001,7 @@ msgstr "导航"
 
 #. Template: UsersSettingListCompare
 msgid "Delete user's value."
-msgstr ""
+msgstr "删除用户的数值。"
 
 #. Template: Test
 msgid "OTOBO Test Page"
@@ -10048,11 +10049,11 @@ msgstr "加载中，请稍候..."
 
 #. JS Template: ToggleMoreLessCustomer
 msgid "Show all"
-msgstr ""
+msgstr "显示所有"
 
 #. JS Template: ToggleMoreLessCustomer
 msgid "Show less"
-msgstr ""
+msgstr "显示少量"
 
 #. JS Template: UploadContainer
 msgid "Click to select a file for upload."
@@ -10060,7 +10061,7 @@ msgstr "点击以选择一个文件上传。"
 
 #. JS Template: UploadContainer
 msgid "Click to select or drop files here."
-msgstr ""
+msgstr "单击此处选择或删除文件。"
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
@@ -10076,23 +10077,23 @@ msgstr "上传中..."
 
 #. JS Template: MigrationState
 msgid "Time needed"
-msgstr ""
+msgstr "需要的时间"
 
 #. JS Template: PackageResolve
 msgid "Package"
-msgstr ""
+msgstr "包"
 
 #. JS Template: PackageResolve
 msgid "Uninstall from OTOBO"
-msgstr ""
+msgstr "从OTOBO卸载"
 
 #. JS Template: PackageResolve
 msgid "Ignore"
-msgstr ""
+msgstr "忽略"
 
 #. JS Template: PackageResolve
 msgid "Migrate"
-msgstr ""
+msgstr "迁移"
 
 #. JS Template: InformationDialog
 msgid "Process state"
@@ -10560,35 +10561,35 @@ msgstr "秒"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No contact is given!"
-msgstr ""
+msgstr "没有联系人！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No data found for given contact in given source!"
-msgstr ""
+msgstr "在指定来源的指定联系人没有发现数据！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Contact updated!"
-msgstr ""
+msgstr "更新联系人！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No field data found!"
-msgstr ""
+msgstr "没有找到字段数据！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Contact created!"
-msgstr ""
+msgstr "创建了联系人！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Error creating contact!"
-msgstr ""
+msgstr "创建联系人错误！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No sources found, at least one \"Contact with data\" dynamic field must be added to the system!"
-msgstr ""
+msgstr "找不到来源，必须至少在系统中添加一个“有数据的联系人”动态字段！"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No data found for given source!"
-msgstr ""
+msgstr "指定来源没发现数据！"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company updated!"
@@ -10748,7 +10749,7 @@ msgstr "已检查"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldContactWD.pm
 msgid "This field key is duplicated."
-msgstr ""
+msgstr "这个字段是重复的。"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDB.pm
 msgid "This field value is duplicated."
@@ -10764,11 +10765,11 @@ msgstr "防止过去的日期条目"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were saved."
-msgstr ""
+msgstr "设置被保存。"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "System was not able to save the setting!"
-msgstr ""
+msgstr "系统不能保存配置！"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Setting is locked by another user!"
@@ -10780,7 +10781,7 @@ msgstr "系统无法重置该设置！"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were reset."
-msgstr ""
+msgstr "设置被重置。"
 
 #. Perl Module: Kernel/Modules/AdminEmail.pm
 msgid "Select at least one recipient."
@@ -11388,7 +11389,7 @@ msgstr "软件包中有本地修改过的文件。"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package not verified by the OTOBO Team!"
-msgstr ""
+msgstr "软件包没有OTOBO团队的验证！"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not Started"
@@ -11928,11 +11929,11 @@ msgstr "某些导入的设置不在配置的当前状态中，或者无法进行
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
 msgid "This deployment does not contain changes in the setting values!"
-msgstr ""
+msgstr "部署没有包括配置值的修改！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
 msgid "No DeploymentID received!"
-msgstr ""
+msgstr "没收到DeploymentID！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "You need to enable the setting before locking!"
@@ -11972,35 +11973,35 @@ msgstr "缺少设置！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "No setting name received!"
-msgstr ""
+msgstr "没收到配置名称！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Modified Version"
-msgstr ""
+msgstr "修改的版本"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Reset To Default"
-msgstr ""
+msgstr "重置为默认值"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Default Version"
-msgstr ""
+msgstr "默认版本"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "No setting name or modified version id received!"
-msgstr ""
+msgstr "没收到设置名称或者修改版本的ID！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Was not possible to revert the historical value!"
-msgstr ""
+msgstr "不可能还原历史数值！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
 msgid "Missing setting name or modified id!"
-msgstr ""
+msgstr "丢失设置名称或修订的ID！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
 msgid "System was not able to delete the user setting values!"
-msgstr ""
+msgstr "系统无法删除用户设置数值！"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Start date shouldn't be defined after Stop date!"
@@ -12292,7 +12293,7 @@ msgstr "参数“组”是必需的！"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "This feature is not available."
-msgstr ""
+msgstr "这个功能不可用。"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Updated user preferences"
@@ -13296,11 +13297,11 @@ msgstr "联系你的系统管理员！"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "https"
-msgstr ""
+msgstr "https"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "http"
-msgstr ""
+msgstr "http"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "System Settings"
@@ -13348,11 +13349,11 @@ msgstr "错误：请设置数据库参数innodb_log_file_size至少为%s MB（�
 
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig."
-msgstr ""
+msgstr "如果要重新运行MigrateFromOTRS工具，请在SysConfig中禁用SecureMode。"
 
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid "OTRS to OTOBO migration"
-msgstr ""
+msgstr "从OTRS迁移到OTOBO"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
@@ -13436,7 +13437,7 @@ msgstr "打印信件"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Contact us at hello@otobo.de"
-msgstr ""
+msgstr "通过 hello@otobo.de 联系我们"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
@@ -13872,7 +13873,7 @@ msgstr "请提供你的新密码!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, the new password and the repeated password do not match."
-msgstr ""
+msgstr "无法更新密码，新密码和重复的密码不一致。"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions."
@@ -13896,7 +13897,7 @@ msgstr "无法更新密码，必须至少包含2个字母字符！"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!"
-msgstr ""
+msgstr "无法更新密码，密码必须包含至少以下四种字符中的三种（小写字符，大写字符，数字，特殊字符）！"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
 msgid "Time zone updated successfully!"
@@ -14196,243 +14197,247 @@ msgstr "最多%s个字符。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
-msgstr ""
+msgstr "部署ACL配置。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deployment completed, perfect!"
-msgstr ""
+msgstr "部署完成，完美！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_responses."
-msgstr ""
+msgstr "迁移数据库表单auto_responses。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration failed."
-msgstr ""
+msgstr "迁移失败。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_response."
-msgstr ""
+msgstr "迁移数据库表单auto_responses。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration completed, perfect!"
-msgstr ""
+msgstr "迁移完成，完美！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "OTOBO Cache cleanup."
-msgstr ""
+msgstr "OTOBO缓存清除。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "Completed."
-msgstr ""
+msgstr "完成。"
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Check if OTOBO version is correct."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Check if OTOBO and OTRS connect is possible."
-msgstr ""
+msgstr "检查OTOBO的版本是否正确。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Can't open RELEASE file from OTRSHome: %s!"
-msgstr ""
+msgid "Check if OTOBO and OTRS connect is possible."
+msgstr "检查OTOBO和OTRS能否连接。"
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
+msgid "Can't access OTRS Home: %s!"
+msgstr "不能访问OTRS Home: %s！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Copy and migrate files from OTRS"
-msgstr ""
+msgstr "从OTRS复制和迁移文件"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "All needed files copied and migrated, perfect!"
-msgstr ""
+msgstr "所有需要的文件都已经复制并迁移了，完美！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Need %s for Oracle db!"
-msgstr ""
+msgstr "Oracle db 需要 %s ！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Copy database."
-msgstr ""
+msgstr "复制数据库。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to connect to OTRS database."
-msgstr ""
+msgstr "系统无法连接OTRS数据库。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to complete data transfer."
-msgstr ""
+msgstr "系统无法完成数据传递。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Data transfer completed."
-msgstr ""
+msgstr "数据传递完成。"
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "Can't open RELEASE file from OTRSHome: %s!"
+msgstr "无法从 OTRSHome: %s 打开RELEASE文件！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO and OTRS version is correct."
-msgstr ""
+msgstr "检查OTOBO 和 OTRS 的版本是否正确。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "%s does not exist!"
-msgstr ""
+msgstr "%s 不存在！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTOBO RELEASE file: %s: %s!"
-msgstr ""
+msgstr "无法读取 OTOBO RELEASE 文件: %s: %s！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTOBO system found!"
-msgstr ""
+msgstr "没发现OTOBO系统！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "You are trying to run this script on the wrong framework version %s!"
-msgstr ""
+msgstr "你是在错误的框架版本 %s 上运行这个脚本！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTOBO Version is correct: %s."
-msgstr ""
+msgstr "OTOBO版本正确：%s。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTRS version is correct."
-msgstr ""
+msgstr "检查OTRS版本是否正确。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTRS RELEASE file: %s: %s!"
-msgstr ""
+msgstr "无法读取OTRS RELEASE文件：%s: %s！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTRS system found!"
-msgstr ""
+msgstr "没发现OTRS系统！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTRS Version is correct: %s."
-msgstr ""
+msgstr "OTRS版本正确：%s。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "Migrate configuration settings."
-msgstr ""
+msgstr "迁移配置设置。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig data migration or no configuration exists."
-msgstr ""
+msgstr "SysConfig数据迁移时发生错误或配置不存在。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig migration when writing XML to DB."
-msgstr ""
+msgstr "将XML写入DB时，在SysConfig迁移期间发生一个错误。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig data migration."
-msgstr ""
+msgstr "在SysConfig数据迁移期间发生一个错误。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "SysConfig data migration completed."
-msgstr ""
+msgstr "SysConfig数据迁移完成了。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Migrate web service configuration."
-msgstr ""
+msgstr "迁移网络服务配置。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "No web service existent, done."
-msgstr ""
+msgstr "不存在网络服务，完成。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Can't add web service for Elasticsearch. File %s not found!"
-msgstr ""
+msgstr "无法为Elasticsearch添加网络服务，未发现文件 %s！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed."
-msgstr ""
+msgstr "迁移完成。 请在ElasticSearch安装完成后，在管理-> Web服务中激活Web服务。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
 msgid "Migrate database table notification."
-msgstr ""
+msgstr "迁移数据库表通知。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
-msgstr ""
+msgstr "无法从 OTRSHome: %s打开Kernel/Config.pm文件！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "OTOBO Home exists."
-msgstr ""
+msgstr "OTOBO Home 存在。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if we are able to connect to OTRS Home."
-msgstr ""
+msgstr "检查我们能否连接到OTRS Home。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Can't connect to OTRS file directory."
-msgstr ""
+msgstr "无法连接到OTRS文件目录。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Connect to OTRS file directory is possible."
-msgstr ""
+msgstr "可能可以连接到OTRS文件目录。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Try database connect and sanity checks."
-msgstr ""
+msgstr "尝试进行数据库连接和完整性检查。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Connect to OTRS database or sanity checks failed."
-msgstr ""
+msgstr "连接到OTRS数据库或完整性检查失败。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Database connect and sanity checks completed."
-msgstr ""
+msgstr "连接到数据库并且完整性检查完成。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "Check if all necessary packages are installed."
-msgstr ""
+msgstr "检查是否所有需要的软件包都已经安装。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The following packages are only installed in OTRS:"
-msgstr ""
+msgstr "下面的软件包只安装到OTRS："
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "Please install (or uninstall) the packages before migration. If a package doesn't exist for OTOBO so far, please contact the OTOBO Team at bugs\\\\@otobo.org. We will find a solution."
-msgstr ""
+msgstr "请在迁移之前安装（或者卸载）这个软件包，如果某一个软件包没有适用OTOBO的，请通过bugs\\\\@otobo.org联系OTOBO团队，我们会找到一个解决方案。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The same packages are installed on both systems, perfect!"
-msgstr ""
+msgstr "同样的软件包可以安装在两个系统上，完美！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "Check if all needed Perl modules have been installed."
-msgstr ""
+msgstr "检查是否所有需要的Perl模块都已经安装。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "%s script does not exist."
-msgstr ""
+msgstr "%s 脚本不存在。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "One or more required Perl modules are missing. Please install them as recommended, and run the migration script again."
-msgstr ""
+msgstr "一个或多个需要的Perl模块缺失，请按照建议安装它们，而后重新运行迁移脚本。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "All required Perl modules have been installed, perfect!"
-msgstr ""
+msgstr "所有需要的Perl模块都已经安装，完美！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPostmasterFilterMigrate.pm
 msgid "Migrate postmaster filter."
-msgstr ""
+msgstr "迁移邮件管理过滤器。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOProcessDeploy.pm
 msgid "Deploy the process management configuration."
-msgstr ""
+msgstr "部署流程管理配置。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOResponseTemplatesMigrate.pm
 msgid "Migrate database table response_template."
-msgstr ""
+msgstr "迁移数据库表单响应_模板。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSalutationsMigrate.pm
 msgid "Migrate database table salutation."
-msgstr ""
+msgstr "迁移数据库表单称呼。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSignaturesMigrate.pm
 msgid "Migrate database table signature."
-msgstr ""
+msgstr "迁移数据库表单签名。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOStatsMigrate.pm
 msgid "Migrate statistics."
-msgstr ""
+msgstr "迁移统计数据。"
 
 #. Perl Module: Kernel/System/NotificationEvent.pm
 msgid "Couldn't read Notification configuration file. Please make sure the file is valid."
@@ -14472,15 +14477,15 @@ msgstr "不能读取文件！"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>"
-msgstr ""
+msgstr "<p>其他软件包可以为OTOBO提供很多有用的增强性功能，不过请确保这些软件包的来源可靠，因为它们有可能以多种方式修改OTOBO。</p>"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Package not verified by the OTOBO community!"
-msgstr ""
+msgstr "软件包没有经过OTOBO社区验证！"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"AllowNotVerifiedPackages\" system configuration setting.</p>"
-msgstr ""
+msgstr "<p>未验证的软件包安装被禁止，你可以通过\"AllowNotVerifiedPackages\" （容许未验证软件包）系统设置激活未验证软件包的安装。</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -14740,7 +14745,7 @@ msgstr "天"
 
 #. Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
 msgid "Queues / Tickets"
-msgstr ""
+msgstr "队列/工单"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
 msgid "Outdated Tables"
@@ -14800,7 +14805,7 @@ msgstr "服务器端数据库字符集"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Please convert your database to the character set 'utf8mb4'."
-msgstr ""
+msgstr "请将数据库转换为'utf8mb4'字符集。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Table Charset"
@@ -14808,7 +14813,7 @@ msgstr "表字符集"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "There were tables found which do not have 'utf8mb4' as charset."
-msgstr ""
+msgstr "发现了一些表单没有 'utf8mb4' 字符集。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
 msgid "InnoDB Log File Size"
@@ -15204,7 +15209,7 @@ msgstr "软件包验证状态"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not verified by the OTOBO Team."
-msgstr ""
+msgstr "一些软件包未经OTOBO团队验证。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Framework Version Status"
@@ -15412,11 +15417,11 @@ msgstr "不能从WEB服务器收集支持数据。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
 msgid "PSGI Environment"
-msgstr ""
+msgstr "PSGI环境"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
 msgid "Runs under PSGI"
-msgstr ""
+msgstr "在PSGI下运行"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
@@ -15536,7 +15541,7 @@ msgstr "聊天消息文本"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Too many failed login attempts, please retry in %s s."
-msgstr ""
+msgstr "多次登陆尝试都失败的话，请在 %s s再试试。"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
@@ -15616,7 +15621,7 @@ msgstr "没有找到操作“%s”！"
 
 #. Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
 msgid "If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig."
-msgstr ""
+msgstr "如果要重新运行 MigrateFromOTRS，就在SysConfig中禁用SecureMode。"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "invalid-temporarily"
@@ -16408,7 +16413,7 @@ msgstr "解锁设置。"
 
 #. JS File: Core.Agent.Admin.SystemConfigurationUser
 msgid "Are you sure you want to remove all user values?"
-msgstr ""
+msgstr "请确认是否要删除所有用户值？"
 
 #. JS File: Core.Agent.Admin.SystemMaintenance
 msgid "Do you really want to delete this scheduled system maintenance?"
@@ -16540,7 +16545,7 @@ msgstr "移除这个小部件的活动过滤器。"
 
 #. JS File: Core.Agent.DynamicFieldDBSearch
 msgid "This dynamic field database value is already selected."
-msgstr ""
+msgstr "动态字段数据库数值已经被选中。"
 
 #. JS File: Core.Agent.LinkObject.SearchForm
 msgid "Please wait..."
@@ -17024,11 +17029,11 @@ msgstr "占用时间"
 
 #. SysConfig
 msgid "Activate Elasticsearch."
-msgstr ""
+msgstr "激活Elasticsearch。"
 
 #. SysConfig
 msgid "Activates Rendering of DynamicFields outside of the DynamicField block."
-msgstr ""
+msgstr "在DynamicField块之外激活DynamicField的呈现。"
 
 #. SysConfig
 msgid "Activates a blinking mechanism of the queue that contains the oldest ticket."
@@ -17156,7 +17161,7 @@ msgstr "系统管理区。"
 
 #. SysConfig
 msgid "Admin Contact With Data"
-msgstr ""
+msgstr "有数据的管理员联系人"
 
 #. SysConfig
 msgid "Admin Notification"
@@ -17168,7 +17173,7 @@ msgstr "服务人员界面系统管理模块导航。"
 
 #. SysConfig
 msgid "Admin contact with data."
-msgstr ""
+msgstr "有数据的管理员联系人。"
 
 #. SysConfig
 msgid "Admin modules overview."
@@ -17184,7 +17189,7 @@ msgstr "管理"
 
 #. SysConfig
 msgid "Agent Contact With Data Search"
-msgstr ""
+msgstr "带有数据搜索的话务员联系人"
 
 #. SysConfig
 msgid "Agent Customer Search"
@@ -17196,15 +17201,15 @@ msgstr "服务人员搜索客户。"
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Detailed Search"
-msgstr ""
+msgstr "话务员动态字段数据库详情搜索"
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Details"
-msgstr ""
+msgstr "话务员动态字段数据库详情"
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Search"
-msgstr ""
+msgstr "话务员动态字段数据库搜索"
 
 #. SysConfig
 msgid "Agent Name"
@@ -17232,23 +17237,23 @@ msgstr "服务人员搜索用户。"
 
 #. SysConfig
 msgid "Agent contact with data search."
-msgstr ""
+msgstr "带有数据搜索的话务员联系人。"
 
 #. SysConfig
 msgid "Agent dynamic field database detailed search."
-msgstr ""
+msgstr "话务员动态字段数据库详情搜索。"
 
 #. SysConfig
 msgid "Agent dynamic field database details."
-msgstr ""
+msgstr "话务员动态字段数据库详情。"
 
 #. SysConfig
 msgid "Agent dynamic field database search."
-msgstr ""
+msgstr "话务员动态字段数据库搜索。"
 
 #. SysConfig
 msgid "Agent frontend module registration (disable 'Edit contacts with data' link if if there is no source field configured)."
-msgstr ""
+msgstr "话务员前端模块注册（如果未配置源字段，请禁用“编辑带数据的联系人”链接）。"
 
 #. SysConfig
 msgid "Agent interface article notification module to check PGP."
@@ -17292,7 +17297,7 @@ msgstr "查看服务人员关注工单数的服务人员界面通知模块。可
 
 #. SysConfig
 msgid "AgentTicketZoom widget that displays Contact with data dynamic field in the side bar."
-msgstr ""
+msgstr "AgentTicketZoom小部件在侧栏中显示有数据动态字段联系人。"
 
 #. SysConfig
 msgid "AgentTicketZoom widget that displays a table of objects linked to the ticket."
@@ -17568,7 +17573,7 @@ msgstr "附件名"
 
 #. SysConfig
 msgid "Autoloading of Znuny4OTOBOPasswordPolicy extensions."
-msgstr ""
+msgstr "自动加载Znuny4OTOBOPasswordPolicy的扩展。"
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -17672,7 +17677,7 @@ msgstr "日历管理屏幕。"
 
 #. SysConfig
 msgid "Cancel whole escalation if ticket is in configured suspend state (EscalationSuspendStates). Ticket will not escalate at all in configured suspend state. No escalation times are shown. Ticket will not be shown in escalation view."
-msgstr ""
+msgstr "如果工单处于已配置的挂起状态（EscalationSuspendStates），请取消升级，因为处于已配置的挂起状态下的工单根本不会升级，不会显示升级时间，也不会显示在升级视图中。"
 
 #. SysConfig
 msgid "Catalan"
@@ -17680,19 +17685,19 @@ msgstr "加泰罗尼亚语"
 
 #. SysConfig
 msgid "Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash."
-msgstr ""
+msgstr "分类用于工单展示，如果没有默认的颜色，而且在颜色上也没预先定义，则不会显示项目。"
 
 #. SysConfig
 msgid "Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash."
-msgstr ""
+msgstr "分类用于工单展示，这里的顺序是在按照尺寸进行安排之前的开始位置。如果没有默认的颜色，而且在颜色上也没预先定义，则不会显示项目。"
 
 #. SysConfig
 msgid "Change Ticket"
-msgstr ""
+msgstr "变更工单"
 
 #. SysConfig
 msgid "Change Ticket information"
-msgstr ""
+msgstr "变更工单信息"
 
 #. SysConfig
 msgid "Change queue!"
@@ -17804,7 +17809,7 @@ msgstr "通过搜索主题中的有效工单号，检查一个邮件是否是跟
 
 #. SysConfig
 msgid "Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module."
-msgstr ""
+msgstr "检查一个电子邮件是否是具有外部工单号的，某个现有工单的后续操作，这个邮件可通过ExternalTicketNumberRecognition过滤器模块找到。"
 
 #. SysConfig
 msgid "Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system."
@@ -17868,7 +17873,7 @@ msgstr "收集异步插件模块的支持数据。"
 
 #. SysConfig
 msgid "Color definitions for the customer interface."
-msgstr ""
+msgstr "客户界面的颜色定义。"
 
 #. SysConfig
 msgid "Column ticket filters for Ticket Overviews type \"Small\"."
@@ -17972,7 +17977,7 @@ msgstr "配置任何您想要使用的额外只读镜像数据库。"
 
 #. SysConfig
 msgid "Configure sending of support data to OTOBO Team for improved support."
-msgstr ""
+msgstr "配置将支持数据发送到OTOBO团队以便获得更好的支持。"
 
 #. SysConfig
 msgid "Configure which screen should be shown after a new ticket has been created."
@@ -17984,7 +17989,7 @@ msgstr "配置您自己的PGP日志文本。"
 
 #. SysConfig
 msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/doc/), chapter \"Ticket Event Module\"."
-msgstr ""
+msgstr "配置默认的TicketDynamicField设置。 “名称”定义应使用的动态字段，“值”是将要设置的数据，“事件”定义触发事件。请查看开发人员手册（https://doc.otobo.org/doc/）中“票务事件模块”。"
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -18032,7 +18037,7 @@ msgstr "创建新的流程工单。"
 
 #. SysConfig
 msgid "Create Templates for AdminDynamicFieldTitle."
-msgstr ""
+msgstr "为 AdminDynamicFieldTitle 创建模板。"
 
 #. SysConfig
 msgid "Create Ticket"
@@ -18192,19 +18197,19 @@ msgstr "客户单位"
 
 #. SysConfig
 msgid "Customer Dashboard"
-msgstr ""
+msgstr "客户仪表盘"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Detailed Search"
-msgstr ""
+msgstr "客户动态字段数据库详情搜索"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Details"
-msgstr ""
+msgstr "客户动态字段数据库详情"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Search"
-msgstr ""
+msgstr "客户动态字段数据库搜索"
 
 #. SysConfig
 msgid "Customer IDs"
@@ -18224,7 +18229,7 @@ msgstr "客户信息中心。"
 
 #. SysConfig
 msgid "Customer Password."
-msgstr ""
+msgstr "客户密码。"
 
 #. SysConfig
 msgid "Customer Ticket Print Module."
@@ -18264,15 +18269,15 @@ msgstr "客户用户 ↔ 服务"
 
 #. SysConfig
 msgid "Customer dynamic field database detailed search."
-msgstr ""
+msgstr "客户动态字段数据库详情搜索。"
 
 #. SysConfig
 msgid "Customer dynamic field database details."
-msgstr ""
+msgstr "客户动态字段数据库详情。"
 
 #. SysConfig
 msgid "Customer dynamic field database search."
-msgstr ""
+msgstr "客户动态字段数据库搜索"
 
 #. SysConfig
 msgid "Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID."
@@ -18728,7 +18733,7 @@ msgstr "定义是否允许因在个人偏好设置中没有存储共享密钥而
 
 #. SysConfig
 msgid "Defines if the communication between this system and the servers that provide cloud services is possible. If set to 'Disable cloud services', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others."
-msgstr ""
+msgstr "定义此系统与提供云服务的服务器之间是否可以进行通信。如果设置为“禁用云服务”，则某些功能将丢失，例如支持数据发送，Package Verify™和产品新闻仪表板小部件等。"
 
 #. SysConfig
 msgid "Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface."
@@ -18868,7 +18873,7 @@ msgstr "定义时间选择中可用的增量。 选择“分钟”可以从1-59�
 
 #. SysConfig
 msgid "Defines the body for the quick close action, which gets used for ticket history in the agent interface."
-msgstr ""
+msgstr "定义快速关闭工单动作的主体，用于话务员界面中的工单历史记录。"
 
 #. SysConfig
 msgid "Defines the body text for notification mails sent to agents, about new password."
@@ -18900,7 +18905,7 @@ msgstr "定义日历的宽度（%），默认为95%。"
 
 #. SysConfig
 msgid "Defines the close state for quick close."
-msgstr ""
+msgstr "定义快速关闭的关闭状态。"
 
 #. SysConfig
 msgid "Defines the column to store the keys for the preferences table."
@@ -18908,7 +18913,7 @@ msgstr "定义在偏好设置表中存储密钥的字段。"
 
 #. SysConfig
 msgid "Defines the communication chanel for the quick close article action."
-msgstr ""
+msgstr "为快速关闭操作设置通讯通道。"
 
 #. SysConfig
 msgid "Defines the config options for the autocompletion feature."
@@ -18956,7 +18961,7 @@ msgstr "定义客户用户通讯录搜索（客户用户或客户单位）中的
 
 #. SysConfig
 msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/doc/."
-msgstr ""
+msgstr "定义话务员和客户要使用的默认前端（HTML）主题。如果愿意，可以添加自己的主题。请参阅位于https://doc.otobo.org/doc/的管理员手册。"
 
 #. SysConfig
 msgid "Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting)."
@@ -19284,7 +19289,7 @@ msgstr "定义打开fetchmail二进制文件的路径。请注意：二进制文
 
 #. SysConfig
 msgid "Defines the filter that processes the HTML templates."
-msgstr ""
+msgstr "定义处理HTML模板的过滤器。"
 
 #. SysConfig
 msgid "Defines the filter that processes the text in the articles, in order to highlight URLs."
@@ -19804,7 +19809,7 @@ msgstr "定义OTOBO系统的客户和公共界面中页脚区域显示的链接�
 
 #. SysConfig
 msgid "Defines the source dynamic field for storing historical data."
-msgstr ""
+msgstr "定义源动态字段用于存储历史数据。"
 
 #. SysConfig
 msgid "Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the \"rw\" permission remains the last entry."
@@ -19852,7 +19857,7 @@ msgstr "定义拒绝邮件的主题。"
 
 #. SysConfig
 msgid "Defines the subject for the quick close action, which gets used for ticket history in the agent interface."
-msgstr ""
+msgstr "定义快速关闭操作的主题，该主题用于话务员界面的工单历史记录。"
 
 #. SysConfig
 msgid "Defines the system administrator's email address. It will be displayed in the error screens of the application."
@@ -19872,7 +19877,7 @@ msgstr "定义到外部客户数据库的目标属性，例如：'target=\"cdb\"
 
 #. SysConfig
 msgid "Defines the target dynamic fields for storing historical data."
-msgstr ""
+msgstr "定义存储隶属数据的目标动态字段。"
 
 #. SysConfig
 msgid "Defines the ticket appointment type backend for ticket dynamic field date time."
@@ -19912,7 +19917,7 @@ msgstr "定义客户的双因素身份验证模块。"
 
 #. SysConfig
 msgid "Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server's settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system."
-msgstr ""
+msgstr "定义Web服务器用来为应用程序提供服务的协议类型。如果将使用HTTP协议代替安全HTTPS，则必须在此处指定。由于这对Web服务器的设置或行为没有影响，因此不会更改对应用程序的访问方式，并且如果输入错误，也不会阻止您登录应用程序。此设置仅用作变量OTOBO_CONFIG_HttpType，可以在应用程序使用的所有消息传递形式中找到该设置，以建立指向系统中工单的链接。"
 
 #. SysConfig
 msgid "Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response."
@@ -20024,7 +20029,7 @@ msgstr "启用后，如果发生了任何的AJAX错误，就在前端传递扩�
 
 #. SysConfig
 msgid "DeploymentHistory"
-msgstr ""
+msgstr "部署历史DeploymentHistory"
 
 #. SysConfig
 msgid "Detached"
@@ -20104,7 +20109,7 @@ msgstr "禁用HHTP头\"X-Frame-Options: SAMEORIGIN\" 以便允许OTOBO可以包�
 
 #. SysConfig
 msgid "Disable autocomplete in the login screen."
-msgstr ""
+msgstr "在登陆窗口禁止自动完成。"
 
 #. SysConfig
 msgid "Disable cloud services"
@@ -20160,11 +20165,11 @@ msgstr "动态字段复选框后端GUI"
 
 #. SysConfig
 msgid "Dynamic Fields Contact Data Backend GUI"
-msgstr ""
+msgstr "动态字段联系人数据后台GUI"
 
 #. SysConfig
 msgid "Dynamic Fields Database Backend GUI"
-msgstr ""
+msgstr "动态字段数据库后台GUI"
 
 #. SysConfig
 msgid "Dynamic Fields Date Time Backend GUI"
@@ -20192,7 +20197,7 @@ msgstr "动态字段文本框后端图形界面"
 
 #. SysConfig
 msgid "Dynamic Fields Web Service Backend GUI"
-msgstr ""
+msgstr "动态字段Web服务后台GUI"
 
 #. SysConfig
 msgid "Dynamic Fields used to export the search result in CSV format."
@@ -20336,7 +20341,7 @@ msgstr "动态字段对象注册。"
 
 #. SysConfig
 msgid "DynamicFieldScreen"
-msgstr ""
+msgstr "动态字段窗口DynamicFieldScreen"
 
 #. SysConfig
 msgid "DynamicField_%s"
@@ -20360,11 +20365,11 @@ msgstr "编辑预约"
 
 #. SysConfig
 msgid "Edit contacts with data"
-msgstr ""
+msgstr "用数据编辑联系人"
 
 #. SysConfig
 msgid "Edit contacts with data."
-msgstr ""
+msgstr "用数据编辑联系人。"
 
 #. SysConfig
 msgid "Edit customer company"
@@ -20372,7 +20377,7 @@ msgstr "编辑客户单位"
 
 #. SysConfig
 msgid "Elasticsearch quick result module."
-msgstr ""
+msgstr "Elasticsearch快速结果模块。"
 
 #. SysConfig
 msgid "Email Addresses"
@@ -20468,7 +20473,7 @@ msgstr "仅对列表中的组启用工单关注人功能。"
 
 #. SysConfig
 msgid "Enabling SecureMode disables the web installer (http://yourhost.example.com/otobo/installer.pl) and the migrations. This is done in order to prevent the system from being hijacked. When SecureMode is not enabled the system can be reinstalled. In this case the current basic configuration will be used to pre-populate the questions within the installer script. Enabling SecureMode also enables GenericAgent, PackageManager and SQL Box."
-msgstr ""
+msgstr "启用SecureMode会禁用Web安装程序（http://yourhost.example.com/otobo/installer.pl）和迁移。这样做是为了防止系统被劫持。如果未启用SecureMode，则可以重新安装系统。在这种情况下，当前的基本配置将用于在安装程序脚本中预先填充问题。启用SecureMode还可以启用GenericAgent，PackageManager和SQL Box。"
 
 #. SysConfig
 msgid "English (Canada)"
@@ -20512,7 +20517,7 @@ msgstr "爱沙尼亚"
 
 #. SysConfig
 msgid "Event module registration (store historical data in dynamic fields)."
-msgstr ""
+msgstr "事件模块登记（在动态字段存储历史数据）。"
 
 #. SysConfig
 msgid "Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate)."
@@ -20620,27 +20625,27 @@ msgstr "通过代理获取软件包，覆盖“WebUserAgent::Proxy”设置。"
 
 #. SysConfig
 msgid "Fields of the customer company index, used for the company fulltext search. Fields are also stored, but are not mandatory for the overall functionality."
-msgstr ""
+msgstr "客户公司索引的字段，用于公司全文搜索。字段也被存储，但是对于整体功能不是必需的。"
 
 #. SysConfig
 msgid "Fields of the ticket index, used for the ticket fulltext search. Fields are also stored, but are not mandatory for the overall functionality. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!"
-msgstr ""
+msgstr "工单索引的字段，用于工单的全文搜索，这个字段也会被存储，但是对于整体功能不是必需的。如果添加了可以更新的字段（尤其是DynamicFields），则必须将它们各自的更新事件添加到Elasticsearch Webservice的TicketManagement调用程序！"
 
 #. SysConfig
 msgid "Fields stored in the customer company index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory."
-msgstr ""
+msgstr "客户公司索引中存储的字段，除了全文搜索之外，还用于其他用途。为了完整的功能，所有字段都是必填项。"
 
 #. SysConfig
 msgid "Fields stored in the customer user index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory."
-msgstr ""
+msgstr "客户用户索引中存储的字段，除了全文搜索之外，还用于其他用途。为了完整的功能，所有字段都是必填项。"
 
 #. SysConfig
 msgid "Fields stored in the ticket index which are used for other things besides fulltext searches. For the complete functionality all fields are mandatory. If fields are added which can be updated (especially DynamicFields), their respective update event has to be added to the TicketManagement invoker of the Elasticsearch webservice!"
-msgstr ""
+msgstr "存储在工单索引中的字段除了用于全文搜索之外，还用于其他用途。为了完整的功能，所有字段都是必填项。如果添加了可以更新的字段（尤其是DynamicFields），则必须将它们各自的更新事件添加到Elasticsearch Webservice的TicketManagement调用程序！"
 
 #. SysConfig
 msgid "Fields to be searched in ticket index. Fields are also stored, but are not mandatory for the overall functionality."
-msgstr ""
+msgstr "票证索引中要搜索的字段也会被存储，但是对于整体功能不是必需的。"
 
 #. SysConfig
 msgid "File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt."
@@ -20720,11 +20725,11 @@ msgstr "工单转移到另一队列后强制解锁。"
 
 #. SysConfig
 msgid "Format of Creation date shown for tickets. As an example '%Y-%m-%d %H:%M:%S' would be interpreted as '2020-01-22 18:07:23'. Please refer to http://search.cpan.org/~drolsky/DateTime-1.21/lib/DateTime.pm#strftime_Patterns."
-msgstr ""
+msgstr "工单显示的创建日期格式，例如，“％Y-％m-％d％H：％M：％S”将被解释为“ 2020-01-22 18:07:23”，详情请参考http://search.cpan.org/~drolsky/DateTime-1.21/lib/DateTime.pm#strftime_Patterns。"
 
 #. SysConfig
 msgid "Format to be ingested."
-msgstr ""
+msgstr "摄取的格式。"
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
@@ -20768,7 +20773,7 @@ msgstr "前端模块注册（作为“系统管理”的子导航项目显示个
 
 #. SysConfig
 msgid "Frontend module registration for the admin interface."
-msgstr ""
+msgstr "为管理员界面的前端模块登记。"
 
 #. SysConfig
 msgid "Frontend module registration for the agent interface."
@@ -20796,11 +20801,11 @@ msgstr "全文搜索"
 
 #. SysConfig
 msgid "Fulltext search using Elasticsearch."
-msgstr ""
+msgstr "用Elasticsearch进行全文搜索。"
 
 #. SysConfig
 msgid "FulltextES"
-msgstr ""
+msgstr "全文弹性搜索FulltextES"
 
 #. SysConfig
 msgid "Galician"
@@ -20812,7 +20817,7 @@ msgstr "在工单概览中显示的一般工单数据（低效运行）。 请�
 
 #. SysConfig
 msgid "Generate HTML comment hooks for the specified blocks so that filters can use them."
-msgstr ""
+msgstr "为指定的块生成HTML注释挂钩，以便过滤器的使用。"
 
 #. SysConfig
 msgid "Generate dashboard statistics."
@@ -20872,7 +20877,7 @@ msgstr "错误处理模块的通用接口模块注册。"
 
 #. SysConfig
 msgid "GenericInterface module registration for the PassThrough invoker layer."
-msgstr ""
+msgstr "PassThrough调用程序层的GenericInterface模块注册。"
 
 #. SysConfig
 msgid "GenericInterface module registration for the invoker layer."
@@ -20916,7 +20921,7 @@ msgstr "进入仪表板！"
 
 #. SysConfig
 msgid "Good PGP signature."
-msgstr ""
+msgstr "良好的PGP签名。"
 
 #. SysConfig
 msgid "Google Authenticator"
@@ -21172,7 +21177,7 @@ msgstr "如果启用了此选项，在鼠标移动到主菜单位置时打开一
 
 #. SysConfig
 msgid "If enabled, the quick close action will create an article."
-msgstr ""
+msgstr "启用后，快速关闭操作将创建一条记录。"
 
 #. SysConfig
 msgid "If enabled, users that haven't selected a time zone yet will be notified to do so. Note: Notification will not be shown if (1) user has not yet selected a time zone and (2) OTOBOTimeZone and UserDefaultTimeZone do match and (3) are not set to UTC."
@@ -21200,7 +21205,7 @@ msgstr "如果这个正则表达式匹配了，自动响应不会发送任何消
 
 #. SysConfig
 msgid "If this setting is enabled, it is possible to install packages which are not verified by OTOBO Team. These packages could threaten your whole system!"
-msgstr ""
+msgstr "如果启用此设置，则允许安装未经OTOBO Team验证的软件包，不过这些软件包可能会威胁整个系统！"
 
 #. SysConfig
 msgid "If this setting is enabled, local modifications will not be highlighted as errors in the package manager and support data collector."
@@ -21280,7 +21285,7 @@ msgstr "配置不同主题是可能的，例如：区分系统中基于域名的
 
 #. SysConfig
 msgid "It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm."
-msgstr ""
+msgstr "之前无法检查PGP签名，可能是由于缺少公钥或不受支持的算法引起的。"
 
 #. SysConfig
 msgid "Italian"
@@ -21308,7 +21313,7 @@ msgstr "搜索界面的JavaScript函数。"
 
 #. SysConfig
 msgid "Jump to OTOBO!"
-msgstr ""
+msgstr "跃入OTOBO的怀抱！"
 
 #. SysConfig
 msgid "Korean"
@@ -21496,7 +21501,7 @@ msgstr "客户界面始终载入的响应CSS文件列表。"
 
 #. SysConfig
 msgid "List of states for which escalations should be suspended."
-msgstr ""
+msgstr "列表中的状态下，升级会被挂起。"
 
 #. SysConfig
 msgid "List view"
@@ -21564,7 +21569,7 @@ msgstr "邮件队列配置设置。"
 
 #. SysConfig
 msgid "Main menu for the agent interface."
-msgstr ""
+msgstr "话务员界面主菜单。"
 
 #. SysConfig
 msgid "Main menu item registration."
@@ -21596,7 +21601,7 @@ msgstr "马来语"
 
 #. SysConfig
 msgid "Manage OTOBO Team cloud services."
-msgstr ""
+msgstr "OTOBO管理团队云服务。"
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
@@ -21620,7 +21625,7 @@ msgstr "管理不同的日历。"
 
 #. SysConfig
 msgid "Manage dynamic field in screens."
-msgstr ""
+msgstr "在界面管理动态字段。"
 
 #. SysConfig
 msgid "Manage existing sessions."
@@ -21672,7 +21677,7 @@ msgstr "一天中给自己的邮件地址发送自动邮件响应的最大数，
 
 #. SysConfig
 msgid "Maximal number of results returned by ES per field."
-msgstr ""
+msgstr "每个字段ES（弹性搜索）返回结果的最大数量。"
 
 #. SysConfig
 msgid "Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes)."
@@ -21684,7 +21689,7 @@ msgstr "一个日历显示在下拉选择框中的最大数字。"
 
 #. SysConfig
 msgid "Maximum file size for the ingest plugin."
-msgstr ""
+msgstr "摄取插件的最大文件尺寸。"
 
 #. SysConfig
 msgid "Maximum length (in characters) of the dynamic field in the article of the ticket zoom view."
@@ -21912,11 +21917,11 @@ msgstr "服务人员界面工单电话拨出屏幕在添加一个电话备注后
 
 #. SysConfig
 msgid "No public key found."
-msgstr ""
+msgstr "没有发现公钥。"
 
 #. SysConfig
 msgid "No valid OpenPGP data found."
-msgstr ""
+msgstr "没有发现有效的OpenPGP数据。"
 
 #. SysConfig
 msgid "None"
@@ -21952,7 +21957,7 @@ msgstr "服务人员界面搜索工具显示每个工单的行数。"
 
 #. SysConfig
 msgid "Number of shards (NS) and replicas (NR) for the index."
-msgstr ""
+msgstr "索引的分片（NS）和副本（NR）的数量。"
 
 #. SysConfig
 msgid "Number of tickets to be displayed in each page of a search result in the agent interface."
@@ -21968,7 +21973,7 @@ msgstr "OTOBO新闻"
 
 #. SysConfig
 msgid "OTOBO Team Services"
-msgstr ""
+msgstr "OTOBO团队服务"
 
 #. SysConfig
 msgid "OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database."
@@ -21980,11 +21985,11 @@ msgstr "OTOBO不支持对没有结束日期或没有重复次数的预约做循�
 
 #. SysConfig
 msgid "Objects to search for, how many entries and which attributs to show."
-msgstr ""
+msgstr "搜索的目标，显示的条目和属性。"
 
 #. SysConfig
 msgid "Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch."
-msgstr ""
+msgstr "要搜索的对象，要显示的条目数和属性。"
 
 #. SysConfig
 msgid "Open an external link!"
@@ -22036,7 +22041,7 @@ msgstr "不在办公室的用户。"
 
 #. SysConfig
 msgid "Output filter to inject the necessary Dynamic field names in hidden input."
-msgstr ""
+msgstr "输出过滤器可在隐藏的输入中加入必要的动态字段名称。"
 
 #. SysConfig
 msgid "Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations."
@@ -22380,7 +22385,7 @@ msgstr "针对CSRF(跨站请求伪造)漏洞利用的保护(参阅 https://en.wi
 
 #. SysConfig
 msgid "Protection against brute force attacks. MaxAttempt: How many login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered."
-msgstr ""
+msgstr "防止暴力攻击。 MaxAttempt：禁止之前允许多少次登录尝试。 BanDuration：禁令的持续时间。 KeepCacheDuration：记录失败尝试的时间。"
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue"
@@ -22408,7 +22413,7 @@ msgstr "队列 ↔ 自动回复"
 
 #. SysConfig
 msgid "Quick Close"
-msgstr ""
+msgstr "快速关闭"
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -22416,15 +22421,15 @@ msgstr "为AgentTicketQueue（服务人员工单队列）重建工单索引。"
 
 #. SysConfig
 msgid "Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time."
-msgstr ""
+msgstr "可以重建Elasticsearch索引，比如通过ldap对CustomerUsers进行了身份验证，就可以重建。不过这样效率很低，因为每次都需要重新构建整个索引。"
 
 #. SysConfig
 msgid "Rebuilds the ACL preselection cache."
-msgstr ""
+msgstr "重建ACL预选缓存。"
 
 #. SysConfig
 msgid "Rebuilds the escalation index."
-msgstr ""
+msgstr "重建升级索引。"
 
 #. SysConfig
 msgid "Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
@@ -22432,7 +22437,7 @@ msgstr "通过外部工单编号识别一个工单是否为已有工单的跟进
 
 #. SysConfig
 msgid "Redis server address. Example: 127.0.0.1:6379."
-msgstr ""
+msgstr "Redis服务器地址，比如：127.0.0.1:6379。"
 
 #. SysConfig
 msgid "Refresh interval"
@@ -22596,7 +22601,7 @@ msgstr "运行中的流程工单"
 
 #. SysConfig
 msgid "Runs an initial wildcard search of the existing contacts with data when accessing the AdminContactWD module."
-msgstr ""
+msgstr "访问AdminContactWD模块时，对有数据的现有联系人进行初始通配符搜索。"
 
 #. SysConfig
 msgid "Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module."
@@ -22892,7 +22897,7 @@ msgstr "设置在服务人员界面中新建电话工单默认的信件对客户
 
 #. SysConfig
 msgid "Sets the default article customer visibility for quick close action in the agent interface."
-msgstr ""
+msgstr "设置在话务员窗口的快速关闭动作中，客户条目是否可见。"
 
 #. SysConfig
 msgid "Sets the default body text for notes added in the close ticket screen of the agent interface."
@@ -23272,7 +23277,7 @@ msgstr "设置软件下载的超时时间（单位：秒），覆盖参数“Web
 
 #. SysConfig
 msgid "Settings for the customer login screen."
-msgstr ""
+msgstr "客户登陆界面的配置。"
 
 #. SysConfig
 msgid "Shared Secret"
@@ -23408,11 +23413,11 @@ msgstr "在服务人员界面工单详情视图中，为“打印工单/信件�
 
 #. SysConfig
 msgid "Shows a link in the menu to quick close a ticket in every ticket overview of the agent interface."
-msgstr ""
+msgstr "在菜单中显示一个链接，可以快速关闭话务员界面的工单总览中的每一个工单。"
 
 #. SysConfig
 msgid "Shows a link in the menu to quick close a ticket in the ticket zoom view of the agent interface."
-msgstr ""
+msgstr "在菜单中显示一个链接，可以以在座席界面的工单缩放视图中快速关闭工单。"
 
 #. SysConfig
 msgid "Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface."
@@ -23668,7 +23673,7 @@ msgstr "如果启用，则显示时间的完整描述（天、小时、分钟）
 
 #. SysConfig
 msgid "Signature data."
-msgstr ""
+msgstr "签名数据。"
 
 #. SysConfig
 msgid "Signatures"
@@ -23916,7 +23921,7 @@ msgstr "维护人员"
 
 #. SysConfig
 msgid "Suspend already escalated tickets."
-msgstr ""
+msgstr "把一个已经升级的工单挂起。"
 
 #. SysConfig
 msgid "Swahili"
@@ -23940,7 +23945,7 @@ msgstr "系统配置组"
 
 #. SysConfig
 msgid "System Configuration Setting History"
-msgstr ""
+msgstr "系统设置配置历史"
 
 #. SysConfig
 msgid "System Maintenance"
@@ -23964,23 +23969,23 @@ msgstr "泰国语"
 
 #. SysConfig
 msgid "The PGP signature is expired."
-msgstr ""
+msgstr "PGP签名过期了。"
 
 #. SysConfig
 msgid "The PGP signature was made by a revoked key, this could mean that the signature is forged."
-msgstr ""
+msgstr "这个PGP签名是通过撤消的密钥进行的，这可能意味着这个签名是伪造的。"
 
 #. SysConfig
 msgid "The PGP signature was made by an expired key."
-msgstr ""
+msgstr "这个PGP是通过一个过期的秘钥形成的。"
 
 #. SysConfig
 msgid "The PGP signature with the keyid has not been verified successfully."
-msgstr ""
+msgstr "具有密钥ID的PGP签名未能成功验证。"
 
 #. SysConfig
 msgid "The PGP signature with the keyid is good."
-msgstr ""
+msgstr "具有keyid的PGP签名是好的。"
 
 #. SysConfig
 msgid "The agent skin's InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins."
@@ -24032,7 +24037,7 @@ msgstr "工单的标识符，如Ticket#、Call#、MyTicket#，默认为Ticket#�
 
 #. SysConfig
 msgid "The logo and signet shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server. The signet will be scaled to 32px*32px, the logo to 196px*32px. (In the mobile setup both have a height of 24px with variable length.)"
-msgstr ""
+msgstr "客户界面标题中显示的徽标和签名。图像的URL可以是皮肤图像目录的相对URL，也可以是远程Web服务器的完整URL。签名将缩放为32px * 32px，徽标将缩放为196px * 32px。 （在移动设备设置中，两者的高度均为24像素，且长度可变。）"
 
 #. SysConfig
 msgid "The logo shown in the header of the agent interface for the skin \"default\". See \"AgentLogo\" for further description."
@@ -24080,23 +24085,23 @@ msgstr "主题"
 
 #. SysConfig
 msgid "This configuration defines all possible screens to enable or disable default columns."
-msgstr ""
+msgstr "此配置定义了所有可能的界面，以启用或禁用默认列。"
 
 #. SysConfig
 msgid "This configuration defines all possible screens to enable or disable dynamic fields."
-msgstr ""
+msgstr "此配置定义了所有可能的界面，以启用或禁用动态字段。"
 
 #. SysConfig
 msgid "This configuration defines if only valids or all (invalids) dynamic fields should be shown."
-msgstr ""
+msgstr "这个配置定义了是否只显示有效的动态字段，还是显示所有的（包括无效的）。"
 
 #. SysConfig
 msgid "This configuration defines the number of iterations that should be performed at max for calculating the WorkingTime for a Ticket. Attention: Setting this configuration to high can lead to performance issues."
-msgstr ""
+msgstr "此配置定义为计算工单的工作时间而可以执行的最大迭代次数。注意：将此配置设置为高有可能会影响性能。"
 
 #. SysConfig
 msgid "This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime."
-msgstr ""
+msgstr "此配置注册一个OutputFilter模块，该模块注入javascript功能以删除PendingTime。"
 
 #. SysConfig
 msgid "This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping."
@@ -24120,7 +24125,7 @@ msgstr "这是默认的橙色-黑色皮肤。"
 
 #. SysConfig
 msgid "This key is not certified with a trusted signature!"
-msgstr ""
+msgstr "此密钥未经过可信任签名的认证！"
 
 #. SysConfig
 msgid "This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications."
@@ -24176,7 +24181,7 @@ msgstr "这个设置显示所有概览屏幕（而不是仅队列视图）中的
 
 #. SysConfig
 msgid "Ticket Close"
-msgstr ""
+msgstr "工单关闭"
 
 #. SysConfig
 msgid "Ticket Close."
@@ -24649,6 +24654,9 @@ msgstr "倒序"
 #. SysConfig
 msgid "stats"
 msgstr "stats（统计）"
+
+#~ msgid "Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes."
+#~ msgstr "设置HttpType：设置用于cookie和各种链接的http类型。只有在不使用SSL的测试可以添加http，或者生产中添加。"
 
 #~ msgid "It is highly recommended to send this data to Rother OSS GmbH in order to get better support."
 #~ msgstr "极力推荐将支持数据发送给OTOBO集团以便获得更好的支持。"
@@ -25160,15 +25168,27 @@ msgstr "stats（统计）"
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "请通过sales@otrs.com联系我们"
 
-#. Template: InstallerSystem
-msgid "Set the request scheme used for cookies and various links. For production purposes always use https."
-msgstr ""
-
-#. Template: OTRSDBSettings
-msgid "Database is a throwawy copy"
+#. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
+msgid "Sanity checks for database."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Can't access OTRS Home: %s!"
+msgid "Need OTRSData->%s!"
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "OTRS RELEASE file %s does not exist: %s!"
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
+msgid "Check if Kernel/Config.pm exists in OTOBO home."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
+msgid "Kernel/Config.pm exists in OTOBO home"
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
+msgid "Could not create database object."
 msgstr ""
 

@@ -126,6 +126,7 @@ END_XML
     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
     # Fake environment variables as it gets it from the request.
+    # %ENV will be picked up in Kernel::System::Web::Request::new().
     local $ENV{REQUEST_METHOD} = 'POST';
     local $ENV{CONTENT_LENGTH} = length $Request;
     local $ENV{CONTENT_TYPE}   = $Test->{ContentType};

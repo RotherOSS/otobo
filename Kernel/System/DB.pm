@@ -500,6 +500,43 @@ sub Quote {
     return;
 }
 
+=head2 QuoteIdentifier
+
+to quote identifiers, e.g. table names, when assembling SQL statements.
+Actually currently only table names are supported.
+
+    my $SelSQL = sprintf q{SELECT * FROM %s}, $DBObject->QuoteIdentifier( Table => 'groups' );
+
+is basically the same as:
+
+    my $SelSQL = q{SELECT * FROM 'groups'};
+
+The sub simply wraps the C<quote_identifier()> method of the database handle.
+
+Attention: Connect() must be successful for the method to work.
+
+=cut
+
+sub QuoteIdentifier {
+    my $Self  = shift;
+    my %Param = @_;
+
+    # check needed stuff
+    if ( !$Param{Table} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need parameter Table!',
+        );
+
+        return;
+    }
+
+    # this sets up $Self->{dbh}
+    return unless $Self->Connect();
+
+    return $Self->{dbh}->quote_identifier( $Param{Table} );
+}
+
 =head2 Error()
 
 to retrieve database errors
@@ -543,6 +580,7 @@ sub Do {
             Priority => 'error',
             Message  => 'Need SQL!',
         );
+
         return;
     }
 

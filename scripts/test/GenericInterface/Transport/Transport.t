@@ -241,8 +241,8 @@ for my $Fail ( 0 .. 1 ) {
 
             my ( $Result, $WebException );
             {
-
                 # prepare CGI environment variables
+                # %ENV will be picked up in Kernel::System::Web::Request::new().
                 local $ENV{REQUEST_METHOD} = 'POST';
                 local $ENV{CONTENT_LENGTH} = length( $TestEntry->{RequestContent} );
                 local $ENV{CONTENT_TYPE}   = 'application/x-www-form-urlencoded; charset=utf-8;';
