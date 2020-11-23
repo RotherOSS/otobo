@@ -435,7 +435,7 @@ sub BackupForMigrateFromOTRS {
     # output files
     my $PreprocessFile        = qq{$Directory/${DatabaseName}_pre.sql};
     my $SchemaDumpFile        = qq{$Directory/${DatabaseName}_schema.sql};
-    my $AdaptedSchemaDumpFile = qq{$Directory/${DatabaseName}_schema_varchar_191.sql};
+    my $AdaptedSchemaDumpFile = qq{$Directory/${DatabaseName}_schema_for_otobo.sql};
     my $DataDumpFile          = qq{$Directory/${DatabaseName}_data.sql};
     my $PostprocessFile       = qq{$Directory/${DatabaseName}_post.sql};
 
