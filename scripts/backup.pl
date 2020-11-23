@@ -158,10 +158,7 @@ else {
 # check needed system commands
 {
     my @Cmds = ( 'tar', $DBDumpCmd );
-    if ( $BackupType eq 'migratefromotrs' ) {
-        push @Cmds, 'sed';
-    }
-    else {
+    if ( $BackupType ne 'migratefromotrs' ) {
         push @Cmds, $CompressCMD;
     }
 
@@ -450,28 +447,11 @@ Execute the following SQL scripts in the given order:
     - $PostprocessFile
 END_MESSAGE
 
-    # set up sed substitutions
-    my @SchemaSubstitutions;
-    {
-        # substitutions for changing the character set
-        push @SchemaSubstitutions,
-            q{-e 's/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/'},             # for CREATE TABLE
-            q{-e 's/utf8mb4mb4/utf8mb4/'},                                       # in case it already was utf8mb4
-            q{-e 's/utf8mb3mb4/utf8mb4/'},                                       # in case of some mixup
-            q{-e 's/utf8mb4mb3/utf8mb4/'};                                       # in case of some mixup
-
-        # substitutions for removing collation directives
-        push @SchemaSubstitutions,
-            q{-e 's/COLLATE [[:alnum:]_]\\+/ /'}, # for CREATE TABLE, remove customer specific collation
-            q{-e 's/COLLATE=[[:alnum:]_]\\+/ /'}; # for CREATE TABLE, remove customer specific collation
-    }
-
     # create the commands that will actually be executed
     # TODO: support for dumping elsewhere and only processing locally
     my @Commands = (
         qq{$DBDumpCmd @DBDumpOptions --no-data        --no-create-db -r $SchemaDumpFile $DatabaseName },
         qq{$DBDumpCmd @DBDumpOptions --no-create-info --no-create-db -r $DataDumpFile $DatabaseName },
-        qq{sed -i.bak @SchemaSubstitutions $SchemaDumpFile},
     );
 
     # print only the count avoids printing a password into a logfile
@@ -488,7 +468,9 @@ END_MESSAGE
         }
     }
 
-    # shorten columns because of utf8mb4 and innodb max key length
+    # Shorten columns because of utf8mb4 and innodb max key length.
+    # Change the character set to utf8mb4.
+    # Remove COLLATE directives.
     {
         # find the changed columns per table
         my %IsShortened;
@@ -511,6 +493,16 @@ END_MESSAGE
         my $CurrentTable;
         LINE:
         for my $Line ( @Lines ) {
+
+            # substitutions for changing the character set
+            $Line =~ s/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/;             # for CREATE TABLE
+            $Line =~ s/utf8mb4mb4/utf8mb4/;                                       # in case it already was utf8mb4
+            $Line =~ s/utf8mb3mb4/utf8mb4/;                                       # in case of some mixup
+            $Line =~ s/utf8mb4mb3/utf8mb4/;                                       # in case of some mixup
+
+            # substitutions for removing COLLATE directives
+            $Line =~ s/COLLATE\s+\w+/ /;     # for CREATE TABLE, remove customer specific collation
+            $Line =~ s/COLLATE\s*=\s*\w+/ /; # for CREATE TABLE, remove customer specific collation
 
             # leaving a Table Create Block
             # e.g.: ") ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4  ;"
