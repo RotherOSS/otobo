@@ -47,14 +47,15 @@ the global public web interface
 
 =head2 new()
 
-create public web interface object
+create the web interface object for 'public.pl'.
 
     use Kernel::System::Web::InterfacePublic;
 
-    my $Debug = 0;
+    my $Interface = Kernel::System::Web::InterfacePublic->new();
+
+    # with debugging enabled
     my $Interface = Kernel::System::Web::InterfacePublic->new(
-        Debug      => $Debug,
-        WebRequest => CGI::PSGI->new($env), # optional, e. g. if PSGI is used
+        Debug => 1
     );
 
 =cut
@@ -62,9 +63,8 @@ create public web interface object
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    # start with an empty hash for the new object
+    my $Self = bless {}, $Type;
 
     # get debug level
     $Self->{Debug} = $Param{Debug} || 0;
@@ -75,7 +75,7 @@ sub new {
     # register object params
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
-            LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix'),
+            LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'Public',
         },
         'Kernel::System::Web::Request' => {
             WebRequest => $Param{WebRequest} || 0,
@@ -93,52 +93,43 @@ sub new {
     return $Self;
 }
 
-=head2 Run()
+=head2 Content()
 
-execute the object
+execute the object.
+Set headers in Kernels::System::Web::Request singleton as side effect.
 
-    $Interface->Run();
+    my $Content = $Interface->Content();
 
 =cut
 
-sub Run {
+sub Content {
     my $Self = shift;
 
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    my $QueryString = $ENV{QUERY_STRING} || '';
 
     # Check if https forcing is active, and redirect if needed.
     if ( $ConfigObject->Get('HTTPSForceRedirect') ) {
 
-        # Some web servers do not set HTTPS environment variable, so it's not possible to easily know if we are using
-        #   https protocol. Look also for similarly named keys in environment hash, since this should prevent loops in
-        #   certain cases.
-        if (
-            (
-                !defined $ENV{HTTPS}
-                && !grep {/^HTTPS(?:_|$)/} keys %ENV
-            )
-            || $ENV{HTTPS} ne 'on'
-            )
-        {
-            my $Host = $ENV{HTTP_HOST} || $ConfigObject->Get('FQDN');
+        # Allow HTTPS to be 'on' in a case insensitive way.
+        # In OTOBO 10.0.1 it had to be lowercase 'on'.
+        my $HTTPS = $ParamObject->HTTPS('HTTPS') // '';
+        if ( lc $HTTPS ne 'on' ) {
+            my $Host       = $ParamObject->HTTP('HOST') || $ConfigObject->Get('FQDN');
+            my $RequestURI = $ParamObject->RequestURI();
 
             # Redirect with 301 code. Add two new lines at the end, so HTTP headers are validated correctly.
-            print "Status: 301 Moved Permanently\nLocation: https://$Host$ENV{REQUEST_URI}\n\n";
-            return;
+            return "Status: 301 Moved Permanently\nLocation: https://$Host$RequestURI\n\n";
         }
     }
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-
+    # get common framework params
     my %Param;
-
-    # get session id
     $Param{SessionName} = $ConfigObject->Get('CustomerPanelSessionName')         || 'CSID';
     $Param{SessionID}   = $ParamObject->GetParam( Param => $Param{SessionName} ) || '';
 
     # drop old session id (if exists)
+    my $QueryString = $ParamObject->EnvQueryString() || '';
     $QueryString =~ s/(\?|&|;|)$Param{SessionName}(=&|=;|=.+?&|=.+?$)/;/g;
 
     # define framework params
@@ -210,7 +201,6 @@ sub Run {
         $LayoutObject->CustomerFatalError(
             Comment => Translatable('Please contact the administrator.'),
         );
-        return 1;
     }
 
     # module registry
@@ -224,7 +214,6 @@ sub Run {
         $LayoutObject->CustomerFatalError(
             Comment => Translatable('Please contact the administrator.'),
         );
-        return;
     }
 
     # debug info
@@ -250,7 +239,8 @@ sub Run {
     }
 
     # ->Run $Action with $FrontendObject
-    $LayoutObject->Print( Output => \$FrontendObject->Run() );
+    my $Output = $FrontendObject->Run();
+    $LayoutObject->ApplyOutputFilters( Output => \$Output );
 
     # log request time
     if ( $ConfigObject->Get('PerformanceLog') ) {
@@ -281,21 +271,7 @@ sub Run {
         }
     }
 
-    return 1;
-}
-
-sub DESTROY {
-    my $Self = shift;
-
-    # debug info
-    if ( $Self->{Debug} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'debug',
-            Message  => 'Global handle stopped.',
-        );
-    }
-
-    return 1;
+    return $Output;
 }
 
 1;

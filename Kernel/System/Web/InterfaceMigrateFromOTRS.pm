@@ -93,15 +93,15 @@ sub new {
     return $Self;
 }
 
-=head2 Run()
+=head2 Content()
 
 execute the object.
+Set headers in Kernels::System::Web::Request singleton as side effect.
 
-    $Interface->Run();
-
+    my $Content = $Interface->Content();
 =cut
 
-sub Run {
+sub Content {
     my $Self = shift;
 
     # get common framework params
@@ -124,7 +124,7 @@ sub Run {
 
     # check secure mode
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
-        print join '',
+        return join '',
             $LayoutObject->Header(),
             $LayoutObject->Error(
                 Message => Translatable('SecureMode active!'),
@@ -133,8 +133,6 @@ sub Run {
                 ),
             ),
             $LayoutObject->Footer();
-
-        return;
     }
 
     # run modules if a version value exists
@@ -147,21 +145,17 @@ sub Run {
         );
 
         # output filters are not applied for this interface
-        print $GenericObject->Run();
-
-        return;
+        return $GenericObject->Run();
     }
 
     # print an error screen as the fallback
-    print join '',
+    return join '',
         $LayoutObject->Header(),
         $LayoutObject->Error(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Action "%s" not found!', $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),
         ),
         $LayoutObject->Footer();
-
-    return;
 }
 
 1;

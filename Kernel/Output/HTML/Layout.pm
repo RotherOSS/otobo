@@ -24,9 +24,11 @@ use Digest::MD5 qw(md5_hex);
 
 # CPAN modules
 use URI::Escape qw();
+use Plack::Response;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Web::Exception;
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
@@ -50,6 +52,7 @@ our @ObjectDependencies = (
     'Kernel::System::User',
     'Kernel::System::VideoChat',
     'Kernel::System::Web::Request',
+    'Kernel::System::Web::Response',
 );
 
 =head1 NAME
@@ -104,7 +107,7 @@ sub new {
     #   is none yet.
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     if ( !$Self->{UserLanguage} ) {
-        my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
+        my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ParamObject->HTTP('HTTP_ACCEPT_LANGUAGE') || '';
         my %Data             = %{ $ConfigObject->Get('DefaultUsedLanguages') };
         LANGUAGE:
         for my $BrowserLang (@BrowserLanguages) {
@@ -149,7 +152,7 @@ sub new {
     $Self->{Charset}     = $Self->{UserCharset};                            # just for compat.
     $Self->{SessionID}   = $Param{SessionID} || '';
     $Self->{SessionName} = $Param{SessionName} || 'SessionID';
-    $Self->{CGIHandle}   = $Kernel::OM->Get('Kernel::System::Web::Request')->ScriptName() || 'No-$ENV{"SCRIPT_NAME"}';
+    $Self->{CGIHandle}   = $ParamObject->ScriptName() || 'No-$ENV{"SCRIPT_NAME"}';
 
     # baselink
     $Self->{Baselink} = $Self->{CGIHandle} . '?';
@@ -211,7 +214,7 @@ EOF
     $Self->{BrowserJavaScriptSupport} = 1;
     $Self->{BrowserRichText}          = 1;
 
-    my $HttpUserAgent = ( defined $ENV{HTTP_USER_AGENT} ? lc $ENV{HTTP_USER_AGENT} : '' );
+    my $HttpUserAgent = lc ( $ParamObject->HTTP('USER_AGENT') // '' );
 
     if ( !$HttpUserAgent ) {
         $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
@@ -377,7 +380,7 @@ EOF
 
     # force a theme based on host name
     my $DefaultThemeHostBased = $ConfigObject->Get('DefaultTheme::HostBased');
-    my $Host = $ENV{HTTP_HOST};
+    my $Host = $ParamObject->HTTP('HOST');
     if ( $DefaultThemeHostBased && $Host ) {
 
         THEME:
@@ -474,6 +477,7 @@ sub SetEnv {
         }
     }
     $Self->{EnvNewRef}->{ $Param{Key} } = $Param{Value};
+
     return 1;
 }
 
@@ -558,117 +562,130 @@ for the session cookie to be not yet set.
 =cut
 
 sub Redirect {
-    my ( $Self, %Param ) = @_;
-
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # add cookies if exists
-    my $Cookies = '';
-    if ( $Self->{SetCookies} && $ConfigObject->Get('SessionUseCookie') ) {
-        for ( sort keys %{ $Self->{SetCookies} } ) {
-            $Cookies .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
-        }
-    }
-
-    # create & return output
-    if ( $Param{ExtURL} ) {
-
-        # external redirect
-        $Param{Redirect} = $Param{ExtURL};
-        return $Cookies
-            . $Self->Output(
-            TemplateFile => 'Redirect',
-            Data         => \%Param
-            );
-    }
-
-    # set baselink
-    $Param{Redirect} = $Self->{Baselink};
-
-    if ( $Param{OP} ) {
-
-        # Filter out hazardous characters
-        if ( $Param{OP} =~ s{\x00}{}smxg ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => 'Someone tries to use a null bytes (\x00) character in redirect!',
-            );
-        }
-
-        if ( $Param{OP} =~ s{\r}{}smxg ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => 'Someone tries to use a carriage return character in redirect!',
-            );
-        }
-
-        if ( $Param{OP} =~ s{\n}{}smxg ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => 'Someone tries to use a newline character in redirect!',
-            );
-        }
-
-        # internal redirect
-        $Param{OP} =~ s/^.*\?(.+?)$/$1/;
-        $Param{Redirect} .= $Param{OP};
-    }
-
-    my $Output = $Cookies
-        . $Self->Output(
-        TemplateFile => 'Redirect',
-        Data         => \%Param
-        );
-
-    # add session id to redirect if no cookie is enabled
-    if ( !$Self->{SessionIDCookie} && !( $Self->{BrowserHasCookie} && $Param{Login} ) ) {
-
-        # rewrite location header
-        $Output =~ s{
-            (location:\s)(.*)
-        }
-        {
-            my $Start  = $1;
-            my $Target = $2;
-            my $End = '';
-            if ($Target =~ /^(.+?)#(|.+?)$/) {
-                $Target = $1;
-                $End = "#$2";
-            }
-            if ($Target =~ /http/i || !$Self->{SessionID}) {
-                "$Start$Target$End";
-            }
-            else {
-                if ($Target =~ /(\?|&)$/) {
-                    "$Start$Target$Self->{SessionName}=$Self->{SessionID}$End";
-                }
-                elsif ($Target !~ /\?/) {
-                    "$Start$Target?$Self->{SessionName}=$Self->{SessionID}$End";
-                }
-                elsif ($Target =~ /\?/) {
-                    "$Start$Target&$Self->{SessionName}=$Self->{SessionID}$End";
-                }
-                else {
-                    "$Start$Target?&$Self->{SessionName}=$Self->{SessionID}$End";
-                }
-            }
-        }iegx;
-    }
-    return $Output;
-}
-
-sub Login {
     my $Self = shift;
     my %Param = @_;
-
-    # set Action parameter for the loader
-    $Self->{Action} = 'Login';
-    $Param{IsLoginPage} = 1;
 
     # get singletons
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $Output = '';
+    # Figure out where to redirect to,
+    my $Redirect = $Self->{Baselink}; # the fallback
+    if ( $Param{ExtURL} ) {
+        $Redirect = $Param{ExtURL};
+    }
+    else {
+        $Redirect = $Self->{Baselink};
+
+        if ( $Param{OP} ) {
+
+            # Filter out hazardous characters
+            if ( $Param{OP} =~ s{\x00}{}smxg ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => 'Someone tries to use a null bytes (\x00) character in redirect!',
+                );
+            }
+
+            if ( $Param{OP} =~ s{\r}{}smxg ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => 'Someone tries to use a carriage return character in redirect!',
+                );
+            }
+
+            if ( $Param{OP} =~ s{\n}{}smxg ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => 'Someone tries to use a newline character in redirect!',
+                );
+            }
+
+            # internal redirect
+            $Param{OP} =~ s/^.*\?(.+?)$/$1/;
+            $Redirect .= $Param{OP};
+        }
+
+        # add session id to redirect if no cookie is enabled
+        if ( !$Self->{SessionIDCookie} && !( $Self->{BrowserHasCookie} && $Param{Login} ) ) {
+
+            # rewrite the redirect URL
+            $Redirect =~ s{
+                (.*)
+            }
+            {
+                my $Target = $1;
+                my $End = '';
+                if ($Target =~ /^(.+?)#(|.+?)$/) {
+                    $Target = $1;
+                    $End = "#$2";
+                }
+                if ($Target =~ /http/i || !$Self->{SessionID}) {
+                    "$Target$End";
+                }
+                else {
+                    if ($Target =~ /(\?|&)$/) {
+                        "$Target$Self->{SessionName}=$Self->{SessionID}$End";
+                    }
+                    elsif ($Target !~ /\?/) {
+                        "$Target?$Self->{SessionName}=$Self->{SessionID}$End";
+                    }
+                    elsif ($Target =~ /\?/) {
+                        "$Target&$Self->{SessionName}=$Self->{SessionID}$End";
+                    }
+                    else {
+                        "$Target?&$Self->{SessionName}=$Self->{SessionID}$End";
+                    }
+                }
+            }iegx;
+        }
+    }
+
+    # create an response object we can work with
+    my $RedirectResponse = Plack::Response->new();
+    $RedirectResponse->redirect( $Redirect );
+
+    # add cookies to the HTTP headers if there are any
+    # TODO: use the Plack::Response::cookies() method
+    if ( $Self->{SetCookies} && $ConfigObject->Get('SessionUseCookie') ) {
+        for ( sort keys %{ $Self->{SetCookies} } ) {
+            $RedirectResponse->headers()->push_header( 'Set-Cookie' => $Self->{SetCookies}->{$_} );
+        }
+    }
+
+    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+
+        # The exception is caught be Plack::Middleware::HTTPExceptions
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => $RedirectResponse
+        );
+    }
+
+    # store the headers in the singleton, so that they can be retrieved by the CGI script
+    $Kernel::OM->Get( 'Kernel::System::Web::Response' )->Headers(
+        $RedirectResponse->headers()
+    );
+
+    # print to STDOUT in the non-PSGI case
+    # Output filters are also applied in Print()
+    # Kernel::System::Web::Response is used for getting the headers
+    my $Output = $RedirectResponse->content;
+    $Self->Print( Output => \$Output );
+
+    # Terminate the process under Apache/mod_perl.
+    # This might be just cargo cult.
+    exit;
+}
+
+sub Login {
+    my $Self  = shift;
+    my %Param = @_;
+
+    # set Action parameter for the loader
+    $Self->{Action}     = 'Login';
+    $Param{IsLoginPage} = 1;
+
+    # get singletons
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     if ( $ConfigObject->Get('SessionUseCookie') ) {
 
@@ -693,13 +710,6 @@ sub Login {
             Secure   => $CookieSecureAttribute,
             HttpOnly => 1,
         );
-    }
-
-    # add cookies if exists
-    if ( $Self->{SetCookies} && $ConfigObject->Get('SessionUseCookie') ) {
-        for ( sort keys %{ $Self->{SetCookies} } ) {
-            $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
-        }
     }
 
     # get message of the day
@@ -878,13 +888,19 @@ sub Login {
         Value => $Param{LoginFailed},
     );
 
+    # include the X-OTOBO-Login header field
+    $Param{XLoginHeader} = 1;
+
+    # TODO: Data contains unneeded keys
+    $Self->_AddHeadersToResponseOBject(
+        Data => \%Param,
+    );
+
     # create & return output
-    $Output .= $Self->Output(
+    return $Self->Output(
         TemplateFile => 'Login',
         Data         => \%Param,
     );
-
-    return $Output;
 }
 
 sub ChallengeTokenCheck {
@@ -930,10 +946,11 @@ sub ChallengeTokenCheck {
 }
 
 sub FatalError {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # Prevent endless recursion in case of problems with Template engine.
-    return if ( $Self->{InFatalError}++ );
+    return if $Self->{InFatalError}++;
 
     if ( $Param{Message} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -942,20 +959,32 @@ sub FatalError {
             Message  => $Param{Message},
         );
     }
-    my $Output = $Self->Header(
-        Area  => 'Frontend',
-        Title => 'Fatal Error'
-    );
-    $Output .= $Self->Error(%Param);
-    $Output .= $Self->Footer();
+
+    my $Output = join '',
+        $Self->Header(
+            Area              => 'Frontend',
+            Title             => 'Fatal Error'
+        ),
+        $Self->Error(%Param),
+        $Self->Footer();
 
     if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
 
         # Modify the output by applying the output filters.
         $Self->ApplyOutputFilters( Output => \$Output );
 
+        # The OTOBO response object already has the HTPP headers.
+        # Enhance it with the HTTP status code and the content.
+        my $PlackResponse = Plack::Response->new(
+            200,
+            $Kernel::OM->Get('Kernel::System::Web::Response')->Headers(),
+            $Output
+        );
+
         # The exception is caught be Plack::Middleware::HTTPExceptions
-        die Kernel::System::Web::Exception->new( Content => $Output );
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => $PlackResponse
+        );
     }
 
     # print to STDOUT in the non-PSGI case or when STDOUT is captured
@@ -963,23 +992,24 @@ sub FatalError {
     $Self->Print( Output => \$Output );
 
     # Terminate the process under Apache/mod_perl.
-    # Apparently there were some bad consequnces from using the regular flow.
+    # Apparently there were some bad consequences from using the regular flow.
     exit;
 }
 
 sub SecureMode {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
-    my $Output = $Self->Header(
-        Area  => 'Frontend',
-        Title => 'Secure Mode'
-    );
-    $Output .= $Self->Output(
-        TemplateFile => 'AdminSecureMode',
-        Data         => \%Param
-    );
-    $Output .= $Self->Footer();
-    return $Output;
+    return join '',
+        $Self->Header(
+            Area  => 'Frontend',
+            Title => 'Secure Mode'
+        ),
+        $Self->Output(
+            TemplateFile => 'AdminSecureMode',
+            Data         => \%Param
+        ),
+        $Self->Footer();
 }
 
 sub FatalDie {
@@ -1014,12 +1044,13 @@ sub FatalDie {
 }
 
 sub ErrorScreen {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
-    my $Output = $Self->Header( Title => 'Error' );
-    $Output .= $Self->Error(%Param);
-    $Output .= $Self->Footer();
-    return $Output;
+    return join '',
+        $Self->Header( Title => 'Error' ),
+        $Self->Error(%Param),
+        $Self->Footer();
 }
 
 sub Error {
@@ -1231,14 +1262,14 @@ sub NotifyNonUpdatedTickets {
 =head2 Header()
 
 generates the HTML for the page begin in the Agent interface.
+As a side effect HTTP headers are added to the Kernel::System::Web::Response object.
 
     my $Output = $LayoutObject->Header(
-        Type              => 'Small',                # (optional) '' (Default, full header) or 'Small' (blank header)
-        ShowToolbarItems  => 0,                      # (optional) default 1 (0|1)
-        ShowPrefLink      => 0,                      # (optional) default 1 (0|1)
-        ShowLogoutButton  => 0,                      # (optional) default 1 (0|1)
-
-        DisableIFrameOriginRestricted => 1,          # (optional, default 0) - suppress X-Frame-Options header.
+        Type                          => 'Small',   # (optional) '' (Default, full header) or 'Small' (blank header)
+        ShowToolbarItems              => 0,         # (optional) default 1 (0|1)
+        ShowPrefLink                  => 0,         # (optional) default 1 (0|1)
+        ShowLogoutButton              => 0,         # (optional) default 1 (0|1)
+        DisableIFrameOriginRestricted => 1,         # (optional, default 0) - suppress X-Frame-Options header.
     );
 
 =cut
@@ -1248,16 +1279,12 @@ sub Header {
     my %Param = @_;
 
     # extract params
-    my $Type = $Param{Type} || '';
+    my $Type              = $Param{Type} || '';
 
     # check params
-    if ( !defined $Param{ShowToolbarItems} ) {
-        $Param{ShowToolbarItems} = 1;
-    }
-
-    if ( !defined $Param{ShowPrefLink} ) {
-        $Param{ShowPrefLink} = 1;
-    }
+   $Param{ShowToolbarItems} //= 1;
+   $Param{ShowPrefLink}     //= 1;
+   $Param{ShowLogoutButton} //= 1;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -1265,10 +1292,6 @@ sub Header {
     my $Modules = $ConfigObject->Get('Frontend::Module');
     if ( !$Modules->{AgentPreferences} ) {
         $Param{ShowPrefLink} = 0;
-    }
-
-    if ( !defined $Param{ShowLogoutButton} ) {
-        $Param{ShowLogoutButton} = 1;
     }
 
     # set rtl if needed
@@ -1323,14 +1346,6 @@ sub Header {
             Name => 'HeaderLogoCSS',
             Data => \%Data,
         );
-    }
-
-    # add cookies if exists
-    my $Output = '';
-    if ( $Self->{SetCookies} && $ConfigObject->Get('SessionUseCookie') ) {
-        for ( sort keys %{ $Self->{SetCookies} } ) {
-            $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
-        }
     }
 
     my $File = $Param{Filename} || $Self->{Action} || 'unknown';
@@ -1600,14 +1615,112 @@ sub Header {
         }
     }
 
+    # TODO: Data contains unneeded keys
+    $Self->_AddHeadersToResponseOBject(
+        Data => \%Param,
+    );
+
     # create & return output
-    $Output .= $Self->Output(
+    return $Self->Output(
         TemplateFile => "Header$Type",
         Data         => \%Param
     );
-
-    return $Output;
 }
+
+=begin Internal:
+
+=head2 _AddHeadersToResponseOBject()
+
+basically the same thing as executing the formerly used template HTTPHeaders.tt
+
+    my $Success = $LayoutObject->_AddHeadersToResponseOBject(
+        Data => \%Params,
+    );
+
+The cookies are also added here.
+
+=cut
+
+sub _AddHeadersToResponseOBject {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Data)) {
+        if ( ! $Param{$_} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
+
+            return;
+        }
+    }
+
+    # extract parames
+    my %Data = $Param{Data}->%*;
+
+    # get singletons
+    my $ResponseObject = $Kernel::OM->Get( 'Kernel::System::Web::Response' );
+    my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+
+    # first the unconditional headers
+    my %Headers = (
+        'Content-Type'          => 'text/html; charset=utf-8',
+        'X-UA-Compatible'       => 'IE=edge,chrome=1',
+        'Expires'               => 'Tue, 1 Jan 1980 12:00:00 GMT',
+        'Cache-Control'         => 'no-cache',
+        'Pragma'                => 'no-cache',
+    );
+
+    if ( $Data{ContentDisposition} ) {
+        $Headers{'Content-Disposition'} = $Data{ContentDisposition};
+    }
+
+    if ( ! $ConfigObject->Get('Secure::DisableBanner') ) {
+        $Headers{'X-Powered-By'}
+            = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version'), '(https://www.otobo.de/)';
+    }
+
+    if (
+        ! $ConfigObject->Get('DisableIFrameOriginRestricted')
+        && ! $Data{DisableIFrameOriginRestricted}
+    )
+    {
+        $Headers{'X-Frame-Options'} = 'SAMEORIGIN';
+    }
+
+    # With this X-Header, Core.AJAX can recognize that the AJAX request returned the login page (session timeout) and perform a redirect.
+    if ( $Data{'XLoginHeader'} ) {
+        $Headers{'X-OTOBO-Login'} = $Self->{Baselink};
+    }
+
+    # add cookies if exists, an array must be used because Set-Cookie can be multi-values
+    my @CookieHeaders;
+    if (
+        $Self->{SetCookies}
+        && ref $Self->{SetCookies} eq 'HASH'
+        && $ConfigObject->Get('SessionUseCookie')
+    )
+    {
+        for ( sort keys $Self->{SetCookies}->%* ) {
+            push @CookieHeaders, 'Set-Cookie' => $Self->{SetCookies}->{$_};
+        }
+    }
+
+    $ResponseObject->Headers( [ %Headers, @CookieHeaders ] );
+
+    return 1;
+}
+
+=end Internal:
+
+=head2 Footer()
+
+generates the HTML for the page end in the Agent interface.
+
+    my $Output = $LayoutObject->Footer();
+
+=cut
 
 sub Footer {
     my ( $Self, %Param ) = @_;
@@ -1800,7 +1913,8 @@ sub ApplyOutputFilters {
 }
 
 sub Print {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
     # the string referenced by $Param{Content} might be modified here
     $Self->ApplyOutputFilters( %Param );
@@ -1818,7 +1932,10 @@ sub Print {
     #   see https://rt.perl.org/Public/Bug/Display.html?id=121226.
     no warnings 'nonchar';    ## no critic
 
-    print ${ $Param{Output} };
+    print
+        $Kernel::OM->Get( 'Kernel::System::Web::Response' )->Headers()->as_string(),
+        "\n",
+        $Param{Output}->$*;
 
     return 1;
 }
@@ -2472,12 +2589,12 @@ sub NoPermission {
 
     # create output
     my $Output;
-    $Output = $Self->Header( Title => 'Insufficient Rights' ) if ( $WithHeader eq 'yes' );
+    $Output = $Self->Header( Title => 'Insufficient Rights' ) if $WithHeader eq 'yes';
     $Output .= $Self->Output(
         TemplateFile => 'NoPermission',
         Data         => \%Param
     );
-    $Output .= $Self->Footer() if ( $WithHeader eq 'yes' );
+    $Output .= $Self->Footer() if $WithHeader eq 'yes';
 
     # return output
     return $Output;
@@ -2550,14 +2667,13 @@ sub Permission {
 sub CheckMimeType {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
     if ( !$Param{Action} ) {
         $Param{Action} = '[% Env("Action") %]';
     }
 
     # check if it is a text/plain email
     if ( $Param{MimeType} && $Param{MimeType} !~ /text\/plain/i ) {
-        $Output = '<p><i class="small">'
+        return '<p><i class="small">'
             . $Self->{LanguageObject}->Translate("This is a")
             . " $Param{MimeType} "
             . $Self->{LanguageObject}->Translate("email")
@@ -2574,7 +2690,7 @@ sub CheckMimeType {
 
     # just to be compat
     elsif ( $Param{Body} =~ /^<.DOCTYPE\s+html|^<HTML>/i ) {
-        $Output = '<p><i class="small">'
+        return '<p><i class="small">'
             . $Self->{LanguageObject}->Translate("This is a")
             . " $Param{MimeType} "
             . $Self->{LanguageObject}->Translate("email")
@@ -2589,8 +2705,7 @@ sub CheckMimeType {
             . '</i></p>';
     }
 
-    # return note string
-    return $Output;
+    return '';
 }
 
 sub ReturnValue {
@@ -2601,19 +2716,19 @@ sub ReturnValue {
 
 =head2 Attachment()
 
-returns browser output to display/download a attachment
+returns browser output to display/download a attachment.
 
     $HTML = $LayoutObject->Attachment(
         Type             => 'inline',          # optional, default: attachment, possible: inline|attachment
         Filename         => 'FileName.png',    # optional
-        AdditionalHeader => $AdditionalHeader, # optional
+        AdditionalHeader => [ $key => $val ]   # optional, an array ref
         ContentType      => 'image/png',
         Content          => $Content,
         Sandbox          => 1,                 # optional, default 0; use content security policy to prohibit external
                                                #   scripts, flash etc.
     );
 
-or for AJAX html snippets
+Or for AJAX html snippets:
 
     $HTML = $LayoutObject->Attachment(
         Type        => 'inline',        # optional, default: attachment, possible: inline|attachment
@@ -2624,10 +2739,23 @@ or for AJAX html snippets
         NoCache     => 1,               # optional
     );
 
+Or when running under PSGI where the content will be encoded later:
+
+    $HTML = $LayoutObject->Attachment(
+        Type        => 'inline',        # optional, default: attachment, possible: inline|attachment
+        Filename    => 'FileName.html', # optional
+        ContentType => 'text/html',
+        Charset     => 'utf-8',         # optional
+        Content     => $Content,
+        NoCache     => 1,               # optional
+        NoEncode    => 1,               # optional
+    );
+
 =cut
 
 sub Attachment {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     # check needed params
     for (qw(Content ContentType)) {
@@ -2640,42 +2768,45 @@ sub Attachment {
         }
     }
 
-    # get config object
+    # get singletons
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    my %Headers;
+
     # return attachment
-    my $Output = 'Content-Disposition: ';
-    if ( $Param{Type} ) {
-        $Output .= $Param{Type};
-        $Output .= '; ';
-    }
-    else {
-        $Output .= $ConfigObject->Get('AttachmentDownloadType') || 'attachment';
-        $Output .= '; ';
+    {
+        my $ContentDisposition = '';
+        if ( $Param{Type} ) {
+            $ContentDisposition .= $Param{Type};
+            $ContentDisposition .= '; ';
+        }
+        else {
+            $ContentDisposition .= $ConfigObject->Get('AttachmentDownloadType') || 'attachment';
+            $ContentDisposition .= '; ';
+        }
+
+        if ( $Param{Filename} ) {
+
+            # IE 10+ supports this
+            my $URLEncodedFilename = URI::Escape::uri_escape_utf8( $Param{Filename} );
+            $ContentDisposition .= " filename=\"$Param{Filename}\"; filename*=utf-8''$URLEncodedFilename";
+        }
+        $Headers{'Content-Disposition'} = $ContentDisposition;
     }
 
-    if ( $Param{Filename} ) {
-
-        # IE 10+ supports this
-        my $URLEncodedFilename = URI::Escape::uri_escape_utf8( $Param{Filename} );
-        $Output .= " filename=\"$Param{Filename}\"; filename*=utf-8''$URLEncodedFilename";
-    }
-    $Output .= "\n";
-
-    # get attachment size
-    $Param{Size} = bytes::length( $Param{Content} );
+    # Content-Length will be added in Finalize()
 
     # add no cache headers
     if ( $Param{NoCache} ) {
-        $Output .= "Expires: Tue, 1 Jan 1980 12:00:00 GMT\n";
-        $Output .= "Cache-Control: no-cache\n";
-        $Output .= "Pragma: no-cache\n";
+        $Headers{'Expires'}       = 'Tue, 1 Jan 1980 12:00:00 GMT';
+        $Headers{'Cache-Control'} = 'no-cache';
+        $Headers{'Pragma'}        = 'no-cache';
     }
-    $Output .= "Content-Length: $Param{Size}\n";
-    $Output .= "X-UA-Compatible: IE=edge,chrome=1\n";
+
+    $Headers{'X-UA-Compatible'} = 'IE=edge,chrome=1';
 
     if ( !$ConfigObject->Get('DisableIFrameOriginRestricted') ) {
-        $Output .= "X-Frame-Options: SAMEORIGIN\n";
+        $Headers{'X-Frame-Options'} = 'SAMEORIGIN';
     }
 
     if ( $Param{Sandbox} && !$Kernel::OM->Get('Kernel::Config')->Get('DisableContentSecurityPolicy') ) {
@@ -2690,32 +2821,34 @@ sub Attachment {
         # frame-src:  block all frames
         # style-src:  allow inline styles for nice email display
         # referrer:   don't send referrers to prevent referrer-leak attacks
-        $Output
-            .= "Content-Security-Policy: default-src *; img-src * data:; script-src 'none'; object-src 'self'; frame-src 'none'; style-src 'unsafe-inline'; referrer no-referrer;\n";
+        $Headers{'Content-Security-Policy'} = q{default-src *; img-src * data:; script-src 'none'; object-src 'self'; frame-src 'none'; style-src 'unsafe-inline'; referrer no-referrer;};
 
         # Use Referrer-Policy header to suppress referrer information in modern browsers
         #   (to prevent referrer-leak attacks).
-        $Output .= "Referrer-Policy: no-referrer\n";
-    }
-
-    if ( $Param{AdditionalHeader} ) {
-        $Output .= $Param{AdditionalHeader} . "\n";
+        $Headers{'Referrer-Policy'} = 'no-referrer';
     }
 
     if ( $Param{Charset} ) {
-        $Output .= "Content-Type: $Param{ContentType}; charset=$Param{Charset};\n\n";
+        $Headers{'Content-Type'} = "$Param{ContentType}; charset=$Param{Charset};";
     }
     else {
-        $Output .= "Content-Type: $Param{ContentType}\n\n";
+        $Headers{'Content-Type'} = "$Param{ContentType}";
     }
 
+    # additional headers are supported, but currently not used
+    my @AdditionalHeaders = ( $Param{AdditionalHeader} // [] )->@*;
+    $Kernel::OM->Get( 'Kernel::System::Web::Response' )->Headers( [ %Headers, @AdditionalHeaders ] );
+
     # disable utf8 flag, to write binary to output
-    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
-    $EncodeObject->EncodeOutput( \$Output );
-    $EncodeObject->EncodeOutput( \$Param{Content} );
+    if ( ! $Param{NoEncode} ) {
+        my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+        $EncodeObject->EncodeOutput( \$Param{Content} );
+    }
 
     # fix for firefox HEAD problem
-    if ( !$ENV{REQUEST_METHOD} || $ENV{REQUEST_METHOD} ne 'HEAD' ) {
+    my $Output = '';
+    my $RequestMethod = $Kernel::OM->Get('Kernel::System::Web::Request')->RequestMethod();
+    if ( !$RequestMethod || $RequestMethod ne 'HEAD' ) {
         $Output .= $Param{Content};
     }
 
@@ -3358,6 +3491,7 @@ sub NavigationBar {
         # run module
         $Output .= $Object->Run( %Param, Config => \%Jobs );
     }
+
     return $Output;
 }
 
@@ -3899,13 +4033,12 @@ sub CustomerLogin {
     my $Self = shift;
     my %Param = @_;
 
-    my $Output = '';
-    $Param{TitleArea} = $Self->{LanguageObject}->Translate('Login') . ' - ';
+    $Param{TitleArea}      = $Self->{LanguageObject}->Translate('Login') . ' - ';
+    $Param{IsLoginPage}    = 1;
+    $Param{XLoginHeader}   = 1;
 
     # set Action parameter for the loader
     $Self->{Action}        = 'CustomerLogin';
-    $Param{IsLoginPage}    = 1;
-    $Param{'XLoginHeader'} = 1;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -3934,11 +4067,19 @@ sub CustomerLogin {
         );
     }
 
-    # add cookies if exists
-    if ( $Self->{SetCookies} && $ConfigObject->Get('SessionUseCookie') ) {
-        for ( sort keys %{ $Self->{SetCookies} } ) {
-            $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
+    # add cookies if exists, an array must be used because Set-Cookie can be multi-values
+    if (
+        $Self->{SetCookies}
+        && ref $Self->{SetCookies} eq 'HASH'
+        && $ConfigObject->Get('SessionUseCookie')
+    )
+    {
+        my @CookieHeaders;
+        for ( sort keys $Self->{SetCookies}->%* ) {
+            push @CookieHeaders, 'Set-Cookie' => $Self->{SetCookies}->{$_};
         }
+
+        $Kernel::OM->Get( 'Kernel::System::Web::Response' )->Headers( \@CookieHeaders );
     }
 
     # check if message should be shown
@@ -4121,12 +4262,10 @@ sub CustomerLogin {
     }
 
     # create & return output
-    $Output .= $Self->Output(
+    return $Self->Output(
         TemplateFile => 'CustomerLogin',
         Data         => \%Param,
     );
-
-    return $Output;
 }
 
 sub CustomerHeader {
@@ -4136,14 +4275,6 @@ sub CustomerHeader {
     my $Type = $Param{Type} || '';
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # add cookies if exists
-    my $Output = '';
-    if ( $Self->{SetCookies} && $ConfigObject->Get('SessionUseCookie') ) {
-        for ( sort keys %{ $Self->{SetCookies} } ) {
-            $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
-        }
-    }
 
     my $File = $Param{Filename} || $Self->{Action} || 'unknown';
 
@@ -4254,13 +4385,16 @@ sub CustomerHeader {
         $Param{ColorDefinitions} .= "--col$Color:$ColorDefinitions->{ $Color };";
     }
 
+    # TODO: Data contains unneeded keys
+    $Self->_AddHeadersToResponseOBject(
+        Data => \%Param,
+    );
+
     # create & return output
-    $Output .= $Self->Output(
+    return $Self->Output(
         TemplateFile => "CustomerHeader$Type",
         Data         => \%Param,
     );
-
-    return $Output;
 }
 
 sub CustomerFooter {
@@ -4404,20 +4538,32 @@ sub CustomerFatalError {
             Message  => $Param{Message},
         );
     }
-    my $Output = $Self->CustomerHeader(
-        Area  => 'Frontend',
-        Title => 'Fatal Error'
-    );
-    $Output .= $Self->CustomerError(%Param);
-    $Output .= $Self->CustomerFooter();
+
+    my $Output = join '',
+        $Self->CustomerHeader(
+            Area  => 'Frontend',
+            Title => 'Fatal Error'
+        ),
+        $Self->CustomerError(%Param),
+        $Self->CustomerFooter();
 
     if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
 
         # Modify the output by applying the output filters.
         $Self->ApplyOutputFilters( Output => \$Output );
 
+        # The OTOBO response object already has the HTPP headers.
+        # Enhance it with the HTTP status code and the content.
+        my $PlackResponse = Plack::Response->new(
+            200,
+            $Kernel::OM->Get('Kernel::System::Web::Response')->Headers(),
+            $Output
+        );
+
         # The exception is caught be Plack::Middleware::HTTPExceptions
-        die Kernel::System::Web::Exception->new( Content => $Output );
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => $PlackResponse
+        );
     }
 
     # print to STDOUT in the non-PSGI case or when STDOUT is captured
@@ -4795,10 +4941,10 @@ sub CustomerError {
 sub CustomerErrorScreen {
     my ( $Self, %Param ) = @_;
 
-    my $Output = $Self->CustomerHeader( Title => 'Error' );
-    $Output .= $Self->CustomerError(%Param);
-    $Output .= $Self->CustomerFooter();
-    return $Output;
+    return join '',
+        $Self->CustomerHeader( Title => 'Error' ),
+        $Self->CustomerError(%Param),
+        $Self->CustomerFooter();
 }
 
 sub CustomerWarning {
@@ -4829,16 +4975,17 @@ sub CustomerNoPermission {
     my ( $Self, %Param ) = @_;
 
     my $WithHeader = $Param{WithHeader} || 'yes';
+
     $Param{Message} ||= Translatable('No Permission!');
 
     # create output
     my $Output;
-    $Output = $Self->CustomerHeader( Title => Translatable('No Permission') ) if ( $WithHeader eq 'yes' );
+    $Output = $Self->CustomerHeader( Title => Translatable('No Permission') ) if $WithHeader eq 'yes';
     $Output .= $Self->Output(
         TemplateFile => 'NoPermission',
         Data         => \%Param
     );
-    $Output .= $Self->CustomerFooter() if ( $WithHeader eq 'yes' );
+    $Output .= $Self->CustomerFooter() if $WithHeader eq 'yes';
 
     # return output
     return $Output;
@@ -4956,8 +5103,6 @@ sub RichTextDocumentComplete {
 }
 
 =begin Internal:
-
-=cut
 
 =head2 _RichTextReplaceLinkOfInlineContent()
 
@@ -5239,8 +5384,6 @@ sub RichTextDocumentCleanup {
 }
 
 =begin Internal:
-
-=cut
 
 =head2 _BuildSelectionOptionRefCreate()
 
@@ -6043,6 +6186,8 @@ sub _RemoveScriptTags {
     }
     return $Code;
 }
+
+=end Internal:
 
 =head2 WrapPlainText()
 

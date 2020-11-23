@@ -19,8 +19,12 @@ package Kernel::GenericInterface::Transport;
 use strict;
 use warnings;
 
-# prevent 'Used once' warning for Kernel::OM
-use Kernel::System::ObjectManager;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::ObjectManager; # avoid warning: Name "Kernel::OM" used only once
 
 our $ObjectManagerDisabled = 1;
 
@@ -60,10 +64,10 @@ create an object.
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type = shift;
+    my %Param = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     for my $Needed (qw( DebuggerObject TransportConfig)) {
         $Self->{$Needed} = $Param{$Needed} || return {
@@ -105,7 +109,8 @@ from the web server process.
 =cut
 
 sub ProviderProcessRequest {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     my $Result = $Self->{BackendObject}->ProviderProcessRequest(%Param);
 
@@ -134,16 +139,18 @@ generate response for an incoming web service request.
     );
 
     $Result = {
-        Success         => 1,                   # 0 or 1
-        ErrorMessage    => '',                  # in case of error
+        Success         => 1,              # 0 or 1
+        Output          => $Content,       # a string
+        ErrorMessage    => '',             # in case of error
     };
 
 =cut
 
 sub ProviderGenerateResponse {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
-    if ( !defined $Param{Success} ) {
+    if ( ! defined $Param{Success} ) {
 
         return $Self->{DebuggerObject}->Error(
             Summary => 'Missing parameter Success.',
@@ -182,7 +189,8 @@ generate an outgoing web service request, receive the response and return its da
 =cut
 
 sub RequesterPerformRequest {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
+    my %Param = @_;
 
     if ( !$Param{Operation} ) {
 

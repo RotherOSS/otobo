@@ -448,16 +448,19 @@ sub HandleLanguage {
         }
 
         # add translatable strings from DB XML
-        my @DBXMLFiles = "$Home/scripts/database/otobo-initial_insert.xml";
+        my (@DBXMLFiles, @SOPMFiles);
         if ($IsSubTranslation) {
-            @DBXMLFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+            @SOPMFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
                 Directory => "$ModuleDirectory",
                 Filter    => '*.sopm',
             );
         }
+        else {
+            @DBXMLFiles = "$Home/scripts/database/otobo-initial_insert.xml";
+        }
 
         FILE:
-        for my $File (@DBXMLFiles) {
+        for my $File (@DBXMLFiles, @SOPMFiles) {
 
             my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
                 Location => $File,

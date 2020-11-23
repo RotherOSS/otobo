@@ -217,7 +217,8 @@ sub _CheckOTOBOVersion {
 
         return \%Result;
     }
-    if ( $Version !~ /^10\.0(.*)$/ ) {
+
+    if ( $Version !~ m/^10\.1(.*)$/ ) {
         my %Result;
         $Result{Message} = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
         $Result{Comment} = $Self->{LanguageObject}

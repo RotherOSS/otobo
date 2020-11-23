@@ -19,15 +19,18 @@ use warnings;
 use v5.24;
 use utf8;
 
+# core modules
+
+# CPAN modules
 use Test2::V0;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up the test driver $Self
 
 our $Self;
 
-my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+my $Home         = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my $ChecksumFile = "$Home/ARCHIVE";
 
 # Checksum file content as an array ref.
@@ -47,8 +50,8 @@ if ( -e $ChecksumFile ) {
 # This should be a SKIP-block
 
 if ( !$ChecksumFileArrayRef || !@{$ChecksumFileArrayRef} ) {
-    $Self->False(
-        1,
+    $Self->True(
+        0,
         'Archive unit test requires the checksum file (ARCHIVE) to be present and valid. Please first call the following command to create it: bin/otobo.CheckSum.pl -a create'
     );
 }
@@ -106,7 +109,7 @@ else {
 
     $Self->False(
         $ErrorsFound,
-        "Mismatches in file list",
+        "$ErrorsFound mismatches in file list",
     );
 }
 

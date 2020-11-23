@@ -18,13 +18,20 @@ package Kernel::GenericInterface::Transport::HTTP::Test;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
+# core modules
 use HTTP::Request::Common;
 use LWP::UserAgent;
 use LWP::Protocol;
 
-# prevent 'Used once' warning for Kernel::OM
-use Kernel::System::ObjectManager;
+# CPAN modules
+use Plack::Response;
+
+# OTOBO modules
+use Kernel::System::ObjectManager; # avoid warning about $Kernel::OM used only once
+use Kernel::System::Web::Exception;
 
 our $ObjectManagerDisabled = 1;
 
@@ -133,16 +140,50 @@ sub ProviderGenerateResponse {
 
     if ( $Self->{TransportConfig}->{Config}->{Fail} ) {
 
+        my $ErrorMessage = 'Test response generation failed';
+
+        if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+
+            # a response with code 500
+            my $PlackResponse = Plack::Response->new(
+                500,
+                [],
+                $ErrorMessage,
+            );
+
+            # The exception is caught be Plack::Middleware::HTTPExceptions
+            die Kernel::System::Web::Exception->new(
+                PlackResponse => $PlackResponse
+            );
+        }
+
         return {
             Success      => 0,
-            ErrorMessage => 'Test response generation failed',
+            ErrorMessage => $ErrorMessage,
         };
     }
 
     my $Response;
 
     if ( !$Param{Success} ) {
-        $Response = HTTP::Response->new( 500 => ( $Param{ErrorMessage} || 'Internal Server Error' ) );
+        my $ErrorMessage = $Param{ErrorMessage} || 'Internal Server Error';
+
+        if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+
+            # a response with code 500
+            my $PlackResponse = Plack::Response->new(
+                500,
+                [],
+                $ErrorMessage,
+            );
+
+            # The exception is caught be Plack::Middleware::HTTPExceptions
+            die Kernel::System::Web::Exception->new(
+                PlackResponse => $PlackResponse
+            );
+        }
+
+        $Response = HTTP::Response->new( 500 => $ErrorMessage );
         $Response->protocol('HTTP/1.0');
         $Response->content_type("text/plain; charset=UTF-8");
         $Response->date(time);
@@ -164,11 +205,9 @@ sub ProviderGenerateResponse {
         Data    => $Response->as_string(),
     );
 
-    # now send response to client
-    print STDOUT $Response->as_string();
-
     return {
         Success => 1,
+        Output  => $Response->as_string(),
     };
 }
 
@@ -259,9 +298,6 @@ sub request {                                                                   
     $Response->content_type("text/plain; charset=UTF-8");
     $Response->add_content_utf8( $Request->content() );
     $Response->date(time);
-
-    #print $Request->as_string();
-    #print $Response->as_string();
 
     return $Response;
 }

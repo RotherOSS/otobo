@@ -231,10 +231,10 @@ for my $Fail ( 0 .. 1 ) {
     for my $TestEntry (@PPRTestData) {
 
         my $Result;
-
         {
 
             # prepare CGI environment variables
+            # %ENV will be picked up in Kernel::System::Web::Request::new().
             local $ENV{REQUEST_METHOD} = 'POST';
             local $ENV{CONTENT_LENGTH} = length( $TestEntry->{RequestContent} );
             local $ENV{CONTENT_TYPE}   = 'application/x-www-form-urlencoded; charset=utf-8;';
@@ -285,9 +285,7 @@ for my $Fail ( 0 .. 1 ) {
         }
     }
 
-    #
     # ProviderGenerateResponse()
-    #
 
     my @PGRTestData = (
         {
@@ -328,15 +326,9 @@ for my $Fail ( 0 .. 1 ) {
 
     for my $OptionSuccess ( 0 .. 1 ) {
         for my $TestEntry (@PGRTestData) {
-            my $ResultData = '';
-
+            my $Response = '';
             my $Result;
             {
-
-                # redirect STDOUT from String so that the transport layer will write there
-                local *STDOUT;
-                open STDOUT, '>:utf8', \$ResultData;    ## no critic
-
                 # discard Web::Request from OM to prevent errors
                 $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
@@ -345,6 +337,7 @@ for my $Fail ( 0 .. 1 ) {
                     ErrorMessage => 'Custom Test Error',
                     Data         => $TestEntry->{Data},
                 );
+                $Response = delete $Result->{Output} if ref $Result eq 'HASH';
             }
 
             if ( !$Fail && $TestEntry->{ResultSuccess} ) {
@@ -355,20 +348,20 @@ for my $Fail ( 0 .. 1 ) {
 
                 if ($OptionSuccess) {
                     $Self->True(
-                        index( $ResultData, '200 OK' ) > -1,
+                        index( $Response, '200 OK' ) > -1,
                         "$TestEntry->{Name} result status 200",
                     );
 
                     for my $QueryStringPart ( split m{&}, $TestEntry->{ResultData} ) {
                         $Self->True(
-                            index( $ResultData, $QueryStringPart ) > -1,
+                            index( $Response, $QueryStringPart ) > -1,
                             "$TestEntry->{Name} result",
                         );
                     }
                 }
                 else {
                     $Self->True(
-                        index( $ResultData, '500 Custom Test Error' ) > -1,
+                        index( $Response, '500 Custom Test Error' ) > -1,
                         "$TestEntry->{Name} result status 500",
                     );
                 }

@@ -200,7 +200,7 @@ sub Log {
     my $LogTime = $DateTimeObject->ToCTimeString();
 
     # if error, write it to STDERR
-    if ( $Priority =~ /^error/i ) {
+    if ( $Priority =~ m/^error/i ) {
 
         ## no critic
         my $Error = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: "
@@ -209,12 +209,14 @@ sub Log {
 
         $Error .= " Message: $Message\n\n";
 
-        if ( %ENV && ( $ENV{REMOTE_ADDR} || $ENV{REQUEST_URI} ) ) {
+        # more info when we are in a web context
+        if ( $ENV{GATEWAY_INTERFACE} ) {
 
-            my $RemoteAddress = $ENV{REMOTE_ADDR} || '-';
-            my $RequestURI    = $ENV{REQUEST_URI} || '-';
+            my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+            my $RemoteAddr  = $ParamObject->RemoteAddr() || '-';
+            my $RequestURI  = $ParamObject->RequestURI() || '-';
 
-            $Error .= " RemoteAddress: $RemoteAddress\n";
+            $Error .= " RemoteAddress: $RemoteAddr\n";
             $Error .= " RequestURI: $RequestURI\n\n";
         }
 
@@ -244,10 +246,15 @@ sub Log {
 
             $Error .= "   Module: $Subroutine2$VersionString Line: $Line1\n";
 
-            last COUNT if !$Line2;
+            # shorten the traceback, exclude the Plack app and middleware before HTTPExceptions
+            last COUNT if $Subroutine2 =~ m/^Plack::Middleware::HTTPExceptions::try/;
+
+            last COUNT unless $Line2;
         }
 
         $Error .= "\n";
+
+        # TODO: this should probably be the PSGI error filehandle
         print STDERR $Error;
 
         # store data (for the frontend)
