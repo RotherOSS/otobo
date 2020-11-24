@@ -76,6 +76,13 @@
                     </div>
                     <div class="Clear" class="oooOracle Hidden"></div>
 
+                    <label for="SkipDBMigration">[% Translate("Skip DB migration.") | html %]:</label>
+                    <div class="Field">
+                        <input type="checkbox" id="SkipDBMigration" name="SkipDBMigration" value="" />
+                        <p>[% Translate("Expert option! Only works if the migration has already been done by hand.") | html %]</p>
+                    </div>
+                    <div class="Clear" class="oooSQL Hidden"></div>
+
                     <div class="Field">
                         <button class="Primary CallForAction" type="button" id="ButtonDefTask"><span>[% Translate("Check database settings") | html %]</span></button>
                     </div>
