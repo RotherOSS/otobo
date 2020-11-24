@@ -583,22 +583,34 @@ END_SQL
         # RENAME TABLE IF EXISTS is not available in all MySQL versions
         my %RenameTables = $MigrationBaseObject->DBRenameTables()->%*;
         my @RenameSQLs;
+        my $Cnt = 0;
         for my $SourceTable ( sort keys %RenameTables ) {
+            $Cnt++;
             push @RenameSQLs, <<"END_SQL";
 -- rename  ' $SourceTable` to `$RenameTables{$SourceTable}`
-DELIMITER \$\$
-IF EXISTS (
-    SELECT *
-      FROM INFORMATION_SCHEMA.TABLES
-      WHERE TABLE_SCHEMA = database()
-        AND  TABLE_NAME = '$SourceTable'
-  )
-THEN
-    DROP TABLE IF EXISTS `$RenameTables{$SourceTable}`;
-    RENAME TABLE `$SourceTable` TO `$RenameTables{$SourceTable}`;
-END if;
-\$\$
-DELIMITER ;
+SELECT Count(*)
+  INTO \@exists_$Cnt
+  FROM information_schema.tables
+    WHERE table_schema = DATABASE()
+        AND table_name = '$SourceTable';
+
+SET \@queryDrop_$Cnt = IF (
+    \@exists_$Cnt > 0,
+    'DROP TABLE IF EXISTS `$RenameTables{$SourceTable}`',
+    'SELECT \\'$SourceTable does not exist. No need to drop $RenameTables{$SourceTable}\\' status'
+);
+SET \@queryRename_$Cnt = IF (
+    \@exists_$Cnt > 0,
+    'DROP TABLE IF EXISTS `$RenameTables{$SourceTable}`'
+    'RENAME TABLE `$SourceTable` TO `$RenameTables{$SourceTable}`',
+    'SELECT \\'$SourceTable does not exist. No need to rename $SourceTable\\' status'
+);
+
+PREPARE stmtDrop_$Cnt FROM \@queryDrop_$Cnt;
+PREPARE stmtRename_$Cnt FROM \@queryRename_$Cnt;
+
+EXECUTE stmtDrop_$Cnt;
+EXECUTE stmtRename_$Cnt;
 
 END_SQL
         }
