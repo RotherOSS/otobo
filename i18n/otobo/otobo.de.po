@@ -47,7 +47,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-11-12 15:30+0000\n"
-"PO-Revision-Date: 2020-10-12 14:53+0000\n"
+"PO-Revision-Date: 2020-11-26 11:43+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
@@ -10772,6 +10772,8 @@ msgid ""
 "Set the request scheme used for cookies and various links. For production "
 "purposes always use https."
 msgstr ""
+"Definiert das für den Abruf von Cookies und verschiedenen Links verwendete "
+"Schema. In Produktivumgebungen immer HTTPS verwenden."
 
 #. Template: InstallerSystem
 msgid "System FQDN"
@@ -11060,7 +11062,7 @@ msgstr " Dennoch fortfahren :("
 
 #. Template: OTRSDBSettings
 msgid "Database is a throwawy copy"
-msgstr ""
+msgstr "Datenbank ist eine Kopie und kann gelöscht werden"
 
 #. Template: OTRSFileSettings
 msgid "OTRS server"
@@ -16188,7 +16190,7 @@ msgstr "Die Maximallänge beträgt %s Zeichen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
 msgid "Sanity checks for database."
-msgstr ""
+msgstr "Plausibilitätsprüfungen der Datenbank."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
@@ -16224,11 +16226,11 @@ msgstr "Abgeschlossen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Need OTRSData->%s!"
-msgstr ""
+msgstr "OTRSData->%s benötigt!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Can't access OTRS Home: %s!"
-msgstr ""
+msgstr "Kann nicht auf OTRS Home: %s zugreifen!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "All needed files copied and migrated, perfect!"
@@ -16299,7 +16301,7 @@ msgstr "Überprüft, ob die OTRS Version korrekt ist."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTRS RELEASE file %s does not exist: %s!"
-msgstr ""
+msgstr "OTRS RELEASE Datei %s nicht vorhanden: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTRS RELEASE file: %s: %s!"
@@ -16370,10 +16372,11 @@ msgstr "Kann die Datei Kernel/Config.pm aus OTRSHome: %s nicht öffnen!"
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if Kernel/Config.pm exists in OTOBO home."
 msgstr ""
+"Überprüfen Sie, ob in OTOBO Home eine Datei Kernel/Config.pm vorhanden ist."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Kernel/Config.pm exists in OTOBO home"
-msgstr ""
+msgstr "Kernel/Config.pm ist in OTOBO verfügbar"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if we are able to connect to OTRS Home."
@@ -16395,7 +16398,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Could not create database object."
-msgstr ""
+msgstr "Konnte kein Datenbankobjekt erstellen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Database connect and sanity checks completed."
@@ -19685,7 +19688,7 @@ msgstr "Administration"
 
 #. SysConfig
 msgid "Agent Contact With Data Search"
-msgstr ""
+msgstr "Agent Contact With Data Search"
 
 #. SysConfig
 msgid "Agent Customer Search"
@@ -19697,15 +19700,15 @@ msgstr "Kundensuche Agentenbereich."
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Detailed Search"
-msgstr ""
+msgstr "Agent Dynamic Field Database Detailed Search"
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Details"
-msgstr ""
+msgstr "Agent Dynamic Field Database Details"
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Search"
-msgstr ""
+msgstr "Agent Dynamic Field Database Search"
 
 #. SysConfig
 msgid "Agent Name"
@@ -19733,19 +19736,19 @@ msgstr "Nutzersuche Agentenbereich."
 
 #. SysConfig
 msgid "Agent contact with data search."
-msgstr ""
+msgstr "Suche Kontaktdaten Agentenbereich."
 
 #. SysConfig
 msgid "Agent dynamic field database detailed search."
-msgstr ""
+msgstr "Detailsuche dynamisches Feld Datenbank im Agentenbereich."
 
 #. SysConfig
 msgid "Agent dynamic field database details."
-msgstr ""
+msgstr "Details dynamisches Feld Datenbank Agentenbereich"
 
 #. SysConfig
 msgid "Agent dynamic field database search."
-msgstr ""
+msgstr "Suche dynamisches Feld Datenbank im Agentenbereich."
 
 #. SysConfig
 msgid ""
@@ -20498,7 +20501,7 @@ msgstr "Change-Ticket"
 
 #. SysConfig
 msgid "Change Ticket information"
-msgstr ""
+msgstr "Ticketinformationen ändern"
 
 #. SysConfig
 msgid "Change queue!"
@@ -21139,15 +21142,16 @@ msgstr "Kunden-Dashboard"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Detailed Search"
-msgstr ""
+msgstr "Customer Dynamic Field Database Detailed Search"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Details"
-msgstr ""
+msgstr "Customer Dynamic Field Database Details"
 
 #. SysConfig
+#, fuzzy
 msgid "Customer Dynamic Field Database Search"
-msgstr ""
+msgstr "Customer Dynamic Field Database Search"
 
 #. SysConfig
 msgid "Customer IDs"
@@ -21207,15 +21211,15 @@ msgstr "Kundenbenutzer ↔ Services"
 
 #. SysConfig
 msgid "Customer dynamic field database detailed search."
-msgstr ""
+msgstr "Detailsuche dynamisches Feld Datenbank im Kundenbereich."
 
 #. SysConfig
 msgid "Customer dynamic field database details."
-msgstr ""
+msgstr "Details zum dynamischen Feld Datenbank im Kundenbereich."
 
 #. SysConfig
 msgid "Customer dynamic field database search."
-msgstr ""
+msgstr "Suche im dynamischen Feld Datenbank im Kundenbereich."
 
 #. SysConfig
 msgid ""
@@ -31700,7 +31704,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Close"
-msgstr ""
+msgstr "Ticket Close"
 
 #. SysConfig
 msgid "Ticket Close."
