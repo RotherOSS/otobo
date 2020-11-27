@@ -113,8 +113,8 @@ feature 'devel:encoding', 'Suppport for devel:encoding' => sub {
 };
 
 feature 'devel:test', 'Suppport for devel:test' => sub {
-    # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
-    requires 'Clone';
+    # used by Kernel::System::UnitTest::Selenium
+    requires 'Selenium::Remote::Driver';
 
     # a quick compile check
     requires 'Test::Compile';
@@ -286,7 +286,7 @@ feature 'optional', 'Suppport for optional' => sub {
     # Set HTTP headers
     requires 'Plack::Middleware::Header';
 
-    # Watch for changed modules in %INC
+    # Watch for changed modules in %INC. Depends on Module::Refresh
     requires 'Plack::Middleware::Refresh';
 
     # Twist some HTTP variables so that the reverse proxy is transparent
@@ -320,8 +320,8 @@ feature 'optional', 'Suppport for optional' => sub {
     # Support for readonly Perl variables
     requires 'Const::Fast';
 
-    # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
-    requires 'Clone';
+    # used by Kernel::System::UnitTest::Selenium
+    requires 'Selenium::Remote::Driver';
 
     # for deeply inspecting strings
     requires 'String::Dump';
@@ -398,7 +398,7 @@ feature 'plack', 'Required packages if you want to use PSGI/Plack (experimental 
     # Set HTTP headers
     requires 'Plack::Middleware::Header';
 
-    # Watch for changed modules in %INC
+    # Watch for changed modules in %INC. Depends on Module::Refresh
     requires 'Plack::Middleware::Refresh';
 
     # Twist some HTTP variables so that the reverse proxy is transparent
