@@ -337,7 +337,7 @@ together with the test results.
 
 =cut
 
-# TODO: currently not supported
+# TODO: is that feature still useful ? AFAIK OTOBO has no test result upload service.
 sub AttachSeleniumScreenshot {
     my $Self = shift;
     my %Param = @_;

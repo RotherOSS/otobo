@@ -18,13 +18,20 @@ package Kernel::System::UnitTest::Selenium;
 
 use strict;
 use warnings;
+use v5.24;
+use utf8;
 
-use Devel::StackTrace();
+# core modules
 use MIME::Base64();
 use File::Path();
 use File::Temp();
 use Time::HiRes();
 
+# CPAN modules
+use Devel::StackTrace();
+use Test2::API qw(context);
+
+# OTOBO modules
 use Kernel::Config;
 use Kernel::System::User;
 use Kernel::System::UnitTest::Helper;
@@ -36,7 +43,6 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::DateTime',
-    'Kernel::System::UnitTest::Driver',
     'Kernel::System::UnitTest::Helper',
 );
 
@@ -95,19 +101,19 @@ Then you can use the full API of L<Selenium::Remote::Driver> on this object.
 =cut
 
 sub new {
-    my ( $Class, %Param ) = @_;
+    my $Class  = shift;
+    my %Param = @_;
 
-    $Param{UnitTestDriverObject} ||= $Kernel::OM->Get('Kernel::System::UnitTest::Driver');
+    my $Context = context();
 
-    $Param{UnitTestDriverObject}->True( 1, "Starting up Selenium scenario..." );
+    $Context->note( 'Starting up Selenium scenario ...' );
 
-    my %SeleniumTestsConfig = %{ $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} };
+    $Context->release();
 
-    if ( !%SeleniumTestsConfig ) {
-        my $Self = bless {}, $Class;
-        $Self->{UnitTestDriverObject} = $Param{UnitTestDriverObject};
-        return $Self;
-    }
+    # check whether Selenium testing is activated.
+    my %SeleniumTestsConfig =  ( $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} )->%*;
+
+    return bless {}, $Class unless %SeleniumTestsConfig;
 
     for my $Needed (qw(remote_server_addr port browser_name platform)) {
         if ( !$SeleniumTestsConfig{$Needed} ) {
@@ -121,13 +127,12 @@ sub new {
     $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::UnitTest::Selenium::WebElement')
         || die "Could not load Kernel::System::UnitTest::Selenium::WebElement";
 
-    my $Self;
 
     # TEMPORARY WORKAROUND FOR GECKODRIVER BUG https://github.com/mozilla/geckodriver/issues/1470:
     #   If marionette handshake fails, wait and try again. Can be removed after the bug is fixed
     #   in a new geckodriver version.
-    eval {
-        $Self = $Class->SUPER::new(
+    my $Self = eval {
+        $Class->SUPER::new(
             webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
             error_handler    => sub {
                 my $Self = shift;
@@ -156,12 +161,11 @@ sub new {
         );
     }
 
-    $Self->{UnitTestDriverObject} = $Param{UnitTestDriverObject};
     $Self->{SeleniumTestsActive}  = 1;
 
-    $Self->{UnitTestDriverObject}->{SeleniumData} = { %{ $Self->get_capabilities() }, %{ $Self->status() } };
-
-    #$Self->debug_on();
+    # Not sure what this was used for.
+    # $Self->{UnitTestDriverObject}->{SeleniumData} = { %{ $Self->get_capabilities() }, %{ $Self->status() } };
+    # $Self->debug_on();
 
     # set screen size from config or use defauls
     my $Height = $SeleniumTestsConfig{window_height} || 1200;
@@ -179,6 +183,7 @@ sub new {
     if ( lc $SeleniumTestsConfig{browser_name} eq 'chrome' ) {
         $Self->{is_wd3} = 0;
     }
+
     return $Self;
 }
 
@@ -199,6 +204,8 @@ sub SeleniumErrorHandler {
 
             # Limit stack trace to test evaluation itself.
             return 0          if $SuppressFrames;
+
+            # TODO: this needs to be adapted
             $SuppressFrames++ if $_[0]->{caller}->[3] eq 'Kernel::System::UnitTest::Driver::Run';
 
             # Remove the long serialized eval texts from the frame to keep the trace short.
@@ -226,8 +233,13 @@ runs a selenium test if Selenium testing is configured.
 sub RunTest {
     my ( $Self, $Test ) = @_;
 
+    my $Context = context();
+
     if ( !$Self->{SeleniumTestsActive} ) {
-        $Self->{UnitTestDriverObject}->True( 1, 'Selenium testing is not active, skipping tests.' );
+        $Context->pass( 'Selenium testing is not active, skipping tests.' );
+
+        $Context->release();
+
         return 1;
     }
 
@@ -266,12 +278,16 @@ sub _execute_command {    ## no critic
         }
     );
 
+    my $Context = context();
+
     if ( $Self->{SuppressCommandRecording} ) {
-        print $TestName;
+        $Context->note( $TestName );
     }
     else {
-        $Self->{UnitTestDriverObject}->True( 1, $TestName );
+        $Context->pass( $TestName );
     }
+
+    $Context->release();
 
     return $Result;
 }
@@ -392,7 +408,9 @@ sub Login {
         }
     }
 
-    $Self->{UnitTestDriverObject}->True( 1, 'Initiating login...' );
+    my $Context = context();
+
+    $Context->pass( 'Initiating login...' );
 
     # we will try several times to log in
     my $MaxTries = 5;
@@ -418,16 +436,18 @@ sub Login {
             # login successful?
             $Self->find_element( 'a#LogoutButton', 'css' );    # dies if not found
 
-            $Self->{UnitTestDriverObject}->True( 1, 'Login sequence ended...' );
+            $Context->pass( 'Login sequence ended...' );
         };
 
         # an error happend
         if ($@) {
 
-            $Self->{UnitTestDriverObject}->True( 1, "Login attempt $Try of $MaxTries not successful." );
+            $Context->note( "Login attempt $Try of $MaxTries not successful." );
 
             # try again
             next TRY if $Try < $MaxTries;
+
+            $Context->release();
 
             die "Login failed!";
         }
@@ -437,6 +457,8 @@ sub Login {
             last TRY;
         }
     }
+
+    $Context->release();
 
     return 1;
 }
@@ -647,26 +669,33 @@ sub HandleError {
         $Error .= "\n" . $Self->{_SeleniumStackTrace};
     }
 
-    $Self->{UnitTestDriverObject}->False( 1, $Error );
+    my $Context = context();
+
+    $Context->fail( $Error );
 
     # Don't create a test entry for the screenshot command,
     #   to make sure it gets attached to the previous error entry.
     local $Self->{SuppressCommandRecording} = 1;
 
     my $Data = $Self->screenshot();
-    return if !$Data;
+    if ( !$Data ) {
+        $Context->release();
+
+        return;
+    }
+
     $Data = MIME::Base64::decode_base64($Data);
 
     # Attach the screenshot to the actual error entry.
     my $Filename = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomNumber() . '.png';
-    $Self->{UnitTestDriverObject}->AttachSeleniumScreenshot(
-        Filename => $Filename,
-        Content  => $Data
-    );
 
-    #
+    # TODO: is that feature still useful ? AFAIK OTOBO has no test result upload service.
+    #$Kernel::OM->Get('Kernel::System::UnitTest')->AttachSeleniumScreenshot(
+    #    Filename => $Filename,
+    #    Content  => $Data
+    #);
+
     # Store screenshots in a local folder from where they can be opened directly in the browser.
-    #
     my $LocalScreenshotDir = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/httpd/htdocs/SeleniumScreenshots';
     mkdir $LocalScreenshotDir || return $Self->False( 1, "Could not create $LocalScreenshotDir." );
 
@@ -690,20 +719,25 @@ sub HandleError {
         my $SharedScreenshotDir = '/var/otobo-unittest/SeleniumScreenshots';
         mkdir $SharedScreenshotDir || return $Self->False( 1, "Could not create $SharedScreenshotDir." );
 
-        $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
+        my $WriteSuccess = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
             Directory => $SharedScreenshotDir,
             Filename  => $Filename,
             Content   => \$Data,
-            )
-            || return $Self->{UnitTestDriverObject}->False( 1, "Could not write file $SharedScreenshotDir/$Filename" );
+        );
+        if ( ! $WriteSuccess ) {
+            $Context->fail( "Could not write file $SharedScreenshotDir/$Filename" );
+
+            $Context->release();
+
+            return;
+        }
     }
 
-    {
-        # Make sure the screenshot URL is output even in non-verbose mode to make it visible
-        #   for debugging, but don't register it as a test failure to keep the error count more correct.
-        local $Self->{UnitTestDriverObject}->{Verbose} = 1;
-        $Self->{UnitTestDriverObject}->True( 1, "Saved screenshot in $URL" );
-    }
+    # Make sure the screenshot URL is output even in non-verbose mode to make it visible
+    #   for debugging, but don't register it as a test failure to keep the error count more correct.
+    $Context->note( "Saved screenshot in $URL" );
+
+    $Context->release();
 
     return;
 }
@@ -721,11 +755,6 @@ sub DEMOLISH {
 
     if ($TestException) {
         $Self->HandleError($TestException);
-    }
-
-    # Could be missing on early die.
-    if ( $Self->{UnitTestDriverObject} ) {
-        $Self->{UnitTestDriverObject}->True( 1, "Shutting down Selenium scenario." );
     }
 
     if ( $Self->{SeleniumTestsActive} ) {
