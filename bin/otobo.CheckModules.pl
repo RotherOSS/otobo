@@ -965,10 +965,10 @@ my @NeededModules = (
 
 # Feature devel
     {
-        Module    => 'Clone',
+        Module    => 'Selenium::Remote::Driver',
         Required  => 0,
         Features   => ['devel:test'],
-        Comment   => 'a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm',
+        Comment   => 'used by Kernel::System::UnitTest::Selenium',
         InstTypes => {
             aptget => undef,
             emerge => undef,
