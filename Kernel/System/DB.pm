@@ -230,9 +230,9 @@ sub Connect {
     # db connect
     if ( $DBIxConnectorIsUsed ) {
 
-        my ( %ConnectAttributes, %Callbacks );
+        # Attribute for callbacks. See https://metacpan.org/pod/DBI#Callbacks
+        my %Callbacks;
         {
-            # Attribute for callbacks. See https://metacpan.org/pod/DBI#Callbacks
             if ( $Self->{Backend}->{'DB::Connect'} ) {
 
                 # run a command for initializing a session
@@ -262,27 +262,28 @@ sub Connect {
                 };
             }
 
-            # set utf-8 on for PostgreSQL
-            # Note: This is untested for the PSGI-case
-            if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
-                $ConnectAttributes{pg_enable_utf8} = 1;
-            }
-
-            # The defaults for the attributes RaiseError and AutoInactiveDestroy differ
-            # between DBI and DBIx::Connector.
-            # For DBI they are off per default, but for DBIx::Connector they are on per default.
-            # RaiseError: explicitly turn it off as this was the previous setup in OTOBO.
-            #             This is OK as the the methods run(), txn(), and svp() are not used in OTOBO.
-            # AutoInactiveDestroy: Concerns only behavior on forks and such.
-            #                      Keep it activated as it is important for DBIx::Connector.
-            #
-            # Kernel::System::DB::mysql also sets mysql_auto_reconnect = 0.
-            # This is fine, as this is the same setting as enforced by DBIx::Connector::Driver::mysql
-            %ConnectAttributes = (
-                RaiseError => 0,
-                $Self->{Backend}->{'DB::Attribute'}->%*,
-            );
+            # In OTOBO 10.0.x running with PostgreSQL the flag pg_enable_utf8 was set to 1.
+            # According to https://metacpan.org/pod/DBD::Pg#pg_enable_utf8-(integer)
+            # this is no longer necessary.
+            #if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
+            #    $ConnectAttributes{pg_enable_utf8} = 1;
+            #}
         }
+
+        # The defaults for the attributes RaiseError and AutoInactiveDestroy differ
+        # between DBI and DBIx::Connector.
+        # For DBI they are off per default, but for DBIx::Connector they are on per default.
+        # RaiseError: explicitly turn it off as this was the previous setup in OTOBO.
+        #             This is OK as the the methods run(), txn(), and svp() are not used in OTOBO.
+        # AutoInactiveDestroy: Concerns only behavior on forks and such.
+        #                      Keep it activated as it is important for DBIx::Connector.
+        #
+        # Kernel::System::DB::mysql also sets mysql_auto_reconnect = 0.
+        # This is fine, as this is the same setting as enforced by DBIx::Connector::Driver::mysql
+        my %ConnectAttributes = (
+            RaiseError => 0,
+            $Self->{Backend}->{'DB::Attribute'}->%*,
+        );
 
         # Generation of the cache key is copied from DBI::connect_cached().
         # According to https://metacpan.org/pod/DBI#connect_cached it is OK to
