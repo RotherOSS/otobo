@@ -65,10 +65,10 @@ sub Run {
                         $ApacheReload = 1;
                     }
                 }
-                if ( !$ApacheReload ) {
+                if ( $ApacheReload ) {
                     return $LayoutObject->ErrorScreen(
                         Message => Translatable(
-                            'Sorry, Apache::Reload is needed as PerlModule and PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf. Alternatively, you can use the command line tool bin/otobo.Console.pl to install packages!'
+                            'Sorry, Apache::Reload should not be used'
                         ),
                     );
                 }

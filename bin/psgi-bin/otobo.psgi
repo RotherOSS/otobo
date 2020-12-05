@@ -353,6 +353,9 @@ my $SetEnvMiddleWare = sub {
         $ENV{OTOBO_RUNS_UNDER_PSGI} = '1';
         $ENV{GATEWAY_INTERFACE}     = 'CGI/1.1';
 
+        # enable for debugging UrlMap
+        #$ENV{PLACK_URLMAP_DEBUG} = 1;
+
         return $app->($Env);
     };
 };
@@ -410,7 +413,7 @@ my $AdminOnlyMiddeware = sub {
         # The AuthSession modules use this object for getting info about the request.
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::Web::Request' => {
-                WebRequest => CGI::PSGI->new($Env),
+                PSGIEnv => $Env,
             },
         );
 
@@ -640,7 +643,7 @@ my $OTOBOApp = builder {
         # params for the interface modules
         my %InterfaceParams = (
             Debug      => 0,  # pass 1 for enabling debug messages
-            WebRequest => CGI::PSGI->new($Env),
+            PSGIEnv    => $Env,
         );
 
         # InterfaceInstaller has been converted to returning a string instead of printing the STDOUT.

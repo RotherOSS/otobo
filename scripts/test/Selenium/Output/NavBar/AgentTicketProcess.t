@@ -71,6 +71,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
         # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
+        # TODO: sleep 10s ???
         sleep 1;
 
         # Get process list.

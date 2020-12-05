@@ -131,7 +131,6 @@ sub ProviderProcessRequest {
         }
     }
 
-
     # If chunked transfer encoding is used, read request from chunks and calculate its length afterwards
     if ($Chunked) {
         my $Buffer;
@@ -140,19 +139,15 @@ sub ProviderProcessRequest {
         }
         $Length = length $Content;
     }
-    elsif ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+    else {
 
-        # in the PSGI case CGI::PSGI already has the POST content
+        # for OTOBO_RUNS_UNDER_PSGI
+        # the CGI::PSGI object already has the POST of GET content
         my $RequestMethod = $ParamObject->RequestMethod() // 'POST';
         $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
             Param => "${RequestMethod}DATA",  # e.g. POSTDATA
         );
         $Length = length $Content;
-    }
-    else {
-
-        # The CGI case
-        $Length = $ENV{CONTENT_LENGTH} || 0;
     }
 
     # No length provided.
@@ -174,25 +169,10 @@ sub ProviderProcessRequest {
     # In case client requests to continue submission, tell it to continue.
     # TODO: does this work under PSGI ?
     if ( IsStringWithData( $ENV{EXPECT} ) && $ENV{EXPECT} =~ m{ \b 100-Continue \b }xmsi ) {
-        $Self->_Output(
+        $Self->_ThrowWebException(
             HTTPCode => 100,
             Content  => '',
         );
-    }
-
-    # In the CGI case try to read POST data from STDIN
-    if ( ! $Chunked && ! $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
-        read STDIN, $Content, $Length;
-
-        # If there is no STDIN data it might be caused by fastcgi already having read the request.
-        # In this case we need to get the data from CGI.
-        my $RequestMethod = $ParamObject->RequestMethod() || 'GET';
-        if ( !IsStringWithData($Content) && $RequestMethod ne 'GET' ) {
-            my $ParamName = $RequestMethod . 'DATA';
-            $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
-                Param => $ParamName,
-            );
-        }
     }
 
     # Check if we have content.
@@ -285,7 +265,7 @@ sub ProviderProcessRequest {
     # SOAPAction is for SOAP requests a mandatory header field.
     # Under CGI the value is made available by the webserver as $ENV{HTTP_SOAPACTION}
     # Under PSGI it is available in the Env hashref under the key 'HTTP_SOAPACTION'
-    # The Perl module CGI, or CGI::PSGI in the PSGI case, take the setting and
+    # The Perl module CGI::PSGI takes the setting and
     # make it available via the method HTTP().
     my $SOAPAction = $ParamObject->HTTP('SOAPACTION');
 
@@ -396,7 +376,7 @@ sub ProviderGenerateResponse {
 
     # Do we have a http error message to return.
     if ( IsStringWithData( $Self->{HTTPError} ) && IsStringWithData( $Self->{HTTPMessage} ) ) {
-        return $Self->_Output(
+        return $Self->_ThrowWebException(
             HTTPCode => $Self->{HTTPError},
             Content  => $Self->{HTTPMessage},
         );
@@ -404,7 +384,7 @@ sub ProviderGenerateResponse {
 
     # Check data param.
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        return $Self->_Output(
+        return $Self->_ThrowWebException(
             HTTPCode => 500,
             Content  => 'Invalid data',
         );
@@ -465,7 +445,7 @@ sub ProviderGenerateResponse {
 
         # Check output of recursion.
         if ( !$SOAPData->{Success} ) {
-            return $Self->_Output(
+            return $Self->_ThrowWebException(
                 HTTPCode => 500,
                 Content  => "Error in SOAPOutputRecursion: " . $SOAPData->{ErrorMessage},
             );
@@ -473,7 +453,7 @@ sub ProviderGenerateResponse {
         $SOAPResult = SOAP::Data->value( @{ $SOAPData->{Data} } );
 
         if ( ref $SOAPResult ne 'SOAP::Data' ) {
-            return $Self->_Output(
+            return $Self->_ThrowWebException(
                 HTTPCode => 500,
                 Content  => 'Error in SOAP result',
             );
@@ -488,14 +468,14 @@ sub ProviderGenerateResponse {
     my $Serialized      = SOAP::Serializer->autotype(0)->default_ns( $Config->{NameSpace} )->envelope(@CallData);
     my $SerializedFault = $@ || '';
     if ($SerializedFault) {
-        return $Self->_Output(
+        return $Self->_ThrowWebException(
             HTTPCode => 500,
             Content  => 'Error serializing message:' . $SerializedFault,
         );
     }
 
     # No error - return output.
-    return $Self->_Output(
+    return $Self->_ThrowWebException(
         HTTPCode => $HTTPCode,
         Content  => $Serialized,
     );
@@ -975,26 +955,21 @@ sub _Error {
     };
 }
 
-=head2 _Output()
+=head2 _ThrowWebException()
 
-Generate http response for provider and send it back to remote system.
-Environment variables are checked for potential error messages.
-Returns structure to be passed to provider.
+creates a M<Plack::Request> object, wrap it into a M<Kernel::System::Web::Exception> object
+and throw the exception object.
 
-    my $Result = $TransportObject->_Output(
-        HTTPCode => 200,           # http code to be returned, optional
-        Content  => 'response',    # message content, XML response on normal execution
+    # this sub dies
+    $TransportObject->_ThrowWebException(
+        HTTPCode => 200,     # http code to be returned, optional
+        Content  => $XML,    # message content, XML response on normal execution
     );
-
-    $Result = {
-        Success      => 0,
-        ErrorMessage => 'Message', # error message from given summary
-    };
 
 =cut
 
-sub _Output {
-    my $Self = shift;
+sub _ThrowWebException {
+    my $Self  = shift;
     my %Param = @_;
 
     # Check params.
@@ -1024,28 +999,14 @@ sub _Output {
     # prepare data
     $Param{Content}  ||= '';
     $Param{HTTPCode} ||= 500;
-    my $ContentType;
-    if ( $Param{HTTPCode} eq 200 ) {
-        $ContentType = 'text/xml';
-        if ( $Self->{ContentType} ) {
-            $ContentType = $Self->{ContentType};
-        }
-    }
-    else {
-        $ContentType = 'text/plain';
-    }
+
+    my $ContentType = $Param{HTTPCode} eq 200 ? ( $Self->{ContentType} || 'text/xml' ) : 'text/plain';
 
     # Calculate content length (based on the bytes length not on the characters length).
     my $ContentLength = bytes::length( $Param{Content} );
 
     # Log to debugger.
-    my $DebugLevel;
-    if ( $Param{HTTPCode} eq 200 ) {
-        $DebugLevel = 'debug';
-    }
-    else {
-        $DebugLevel = 'error';
-    }
+    my $DebugLevel =  $Param{HTTPCode} eq 200 ? 'debug' : 'error';
     $Self->{DebuggerObject}->DebugLog(
         DebugLevel => $DebugLevel,
         Summary    => "Returning provider data to remote system (HTTP Code: $Param{HTTPCode})",
@@ -1054,63 +1015,34 @@ sub _Output {
 
     # Set keep-alive.
     my $ConfigKeepAlive = $Kernel::OM->Get('Kernel::Config')->Get('SOAP::Keep-Alive');
-    my $Connection      = $ConfigKeepAlive ? 'Keep-Alive' : 'close';
 
     # Let's try the HTTPExceptions trick again
-    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+    # for OTOBO_RUNS_UNDER_PSGI
 
-        my @Headers;
-        push @Headers, 'Content-Type'   => "$ContentType; charset=UTF-8";
-        push @Headers, 'Content-Length' => $ContentLength;
-        push @Headers, 'Connection'     => $Connection;
-
-        # Prepare additional headers.
-        if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
-            my %AdditionalHeaders = $Self->{TransportConfig}->{Config}->{AdditionalHeaders}->%*;
-            for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
-                push @Headers, $AdditionalHeader => ( $AdditionalHeaders{$AdditionalHeader} || '' );
-            }
-        }
-
-        # Enhance it with the HTTP status code and the content.
-        my $PlackResponse = Plack::Response->new(
-            $Param{HTTPCode},
-            \@Headers,
-            $Param{Content}
-        );
-
-        # The exception is caught be Plack::Middleware::HTTPExceptions
-        die Kernel::System::Web::Exception->new(
-            PlackResponse => $PlackResponse
-        );
-    }
+    my @Headers;
+    push @Headers, 'Content-Type'   => "$ContentType; charset=UTF-8";
+    push @Headers, 'Content-Length' => $ContentLength;
+    push @Headers, 'Connection'     => ( $ConfigKeepAlive ? 'Keep-Alive' : 'close' );
 
     # Prepare additional headers.
-    my $AdditionalHeaderStrg = '';
     if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
-        my %AdditionalHeaders = %{ $Self->{TransportConfig}->{Config}->{AdditionalHeaders} };
+        my %AdditionalHeaders = $Self->{TransportConfig}->{Config}->{AdditionalHeaders}->%*;
         for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
-            $AdditionalHeaderStrg
-                .= $AdditionalHeader . ': ' . ( $AdditionalHeaders{$AdditionalHeader} || '' ) . "\r\n";
+            push @Headers, $AdditionalHeader => ( $AdditionalHeaders{$AdditionalHeader} || '' );
         }
     }
 
-    # Print data to http - '\r' is required according to HTTP RFCs.
-    my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
-    my $Output = '';
-    $Output .= "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
-    $Output .= "Content-Type: $ContentType; charset=UTF-8\r\n";
-    $Output .= "Content-Length: $ContentLength\r\n";
-    $Output .= "Connection: $Connection\r\n";
-    $Output .= $AdditionalHeaderStrg;
-    $Output .= "\r\n";
-    $Output .= $Param{Content};
+    # generate the response
+    my $PlackResponse = Plack::Response->new(
+        $Param{HTTPCode},
+        \@Headers,
+        $Param{Content}
+    );
 
-    return {
-        Success      => $Success,
-        Output       => $Output,
-        ErrorMessage => $ErrorMessage,
-    };
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $PlackResponse
+    );
 }
 
 =head2 _SOAPOutputRecursion()

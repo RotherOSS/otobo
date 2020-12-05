@@ -285,15 +285,6 @@ sub PerlInfoGet {
             URI
         );
 
-        # some modules are only expected in a non-Docker environment.
-        # See .dockerignore.
-        if ( ! $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
-            push @ModuleList, qw(
-                Apache::DBI
-                Apache2::Reload
-            );
-        }
-
         # add module and version
         my %ModuleToVersion;
         for my $Module ( @ModuleList ) {

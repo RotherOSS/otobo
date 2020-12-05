@@ -573,6 +573,7 @@ sub _Finish {
     my $Webserver;
 
     # Only if we have mod_perl we have to restart.
+    # TODO: Really ?
     if ( exists $ENV{MOD_PERL} ) {
         eval 'require mod_perl';               ## no critic
         if ( defined $mod_perl::VERSION ) {    ## no critic
