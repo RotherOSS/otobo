@@ -101,8 +101,8 @@ requires 'Unicode::Collate';
 # };
 
 # feature 'devel:test', 'Suppport for devel:test' => sub {
-    # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
-    requires 'Clone';
+    # used by Kernel::System::UnitTest::Selenium
+    requires 'Selenium::Remote::Driver';
 
     # a quick compile check
     requires 'Test::Compile';
@@ -230,7 +230,7 @@ requires 'Unicode::Collate';
     # Set HTTP headers
     requires 'Plack::Middleware::Header';
 
-    # Watch for changed modules in %INC
+    # Watch for changed modules in %INC. Depends on Module::Refresh
     requires 'Plack::Middleware::Refresh';
 
     # Twist some HTTP variables so that the reverse proxy is transparent
