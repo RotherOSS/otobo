@@ -1238,7 +1238,6 @@ sub Check {
         my %DontRequire = (
             'Net::DNS'        => 1,
             'Email::Valid'    => 1,    # uses Net::DNS internally
-            'Apache2::Reload' => 1,    # is not needed / working on systems without mod_perl (like Plack etc.)
         );
 
         ## no critic
