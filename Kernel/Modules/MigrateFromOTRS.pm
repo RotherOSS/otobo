@@ -569,30 +569,16 @@ sub _Finish {
         UserID      => 1,
     );
 
-    # check web server - is a restart needed?
+    # A restart should never be needed as otobo.psgi checks for changed modules.
+    # But keep the old code for future reference.
     my $Webserver;
-
-    # Only if we have mod_perl we have to restart.
-    if ( exists $ENV{MOD_PERL} ) {
-        eval 'require mod_perl';               ## no critic
-        if ( defined $mod_perl::VERSION ) {    ## no critic
-            $Webserver = 'systemctl restart apache2';
-            if ( -f '/etc/SuSE-release' ) {
-                $Webserver = 'rcapache2 restart';
-            }
-            elsif ( -f '/etc/redhat-release' ) {
-                $Webserver = 'service httpd restart';
-            }
+    if ( 0 ) {
+        $Webserver = 'systemctl restart apache2'
+        if ( -f '/etc/SuSE-release' ) {
+            $Webserver = 'rcapache2 restart';
         }
-    }
-
-    # Check if Apache::Reload is loaded.
-    for my $Module ( sort keys %INC ) {
-        $Module =~ s/\//::/g;
-        $Module =~ s/\.pm$//g;
-
-        if ( $Module eq 'Apache2::Reload' ) {
-            $Webserver = '';
+        elsif ( -f '/etc/redhat-release' ) {
+            $Webserver = 'service httpd restart';
         }
     }
 

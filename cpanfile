@@ -98,12 +98,6 @@ feature 'apache:mod_perl', 'Suppport for apache:mod_perl' => sub {
     # Improves Performance on Apache webservers dramatically.
     requires 'ModPerl::Util';
 
-    # Improves Performance on Apache webservers with mod_perl enabled.
-    requires 'Apache::DBI';
-
-    # Avoids web server restarts on mod_perl.
-    requires 'Apache2::Reload';
-
 };
 
 feature 'db:mysql', 'Support for database MySQL' => sub {
@@ -153,8 +147,8 @@ feature 'devel:encoding', 'Suppport for devel:encoding' => sub {
 };
 
 feature 'devel:test', 'Suppport for devel:test' => sub {
-    # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
-    requires 'Clone';
+    # used by Kernel::System::UnitTest::Selenium
+    requires 'Selenium::Remote::Driver';
 
     # a quick compile check
     requires 'Test::Compile';
@@ -265,12 +259,6 @@ feature 'optional', 'Suppport for optional' => sub {
     # Improves Performance on Apache webservers dramatically.
     requires 'ModPerl::Util';
 
-    # Improves Performance on Apache webservers with mod_perl enabled.
-    requires 'Apache::DBI';
-
-    # Avoids web server restarts on mod_perl.
-    requires 'Apache2::Reload';
-
     # Simple Mail Transfer Protocol Client.
     # Please consider updating to version 3.11 or higher: This version fixes email sending (bug#14357).
     requires 'Net::SMTP';
@@ -327,8 +315,8 @@ feature 'optional', 'Suppport for optional' => sub {
     # Support for readonly Perl variables
     requires 'Const::Fast';
 
-    # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
-    requires 'Clone';
+    # used by Kernel::System::UnitTest::Selenium
+    requires 'Selenium::Remote::Driver';
 
     # for deeply inspecting strings
     requires 'String::Dump';

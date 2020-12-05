@@ -19,10 +19,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
+
+our $Self;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -1359,7 +1364,7 @@ for my $Test (@Tests) {
 }
 
 # Check headers.
-@Tests = (
+my @CheckHeadersTests = (
     {
         Name   => 'Standard response header',
         Config => {},
@@ -1393,47 +1398,46 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     WebserviceID      => $WebserviceID,
 );
 
-for my $Test (@Tests) {
+for my $Test (@CheckHeadersTests) {
 
-    # Create REST transport object with test configuration.
-    my $TransportObject = Kernel::GenericInterface::Transport->new(
-        DebuggerObject  => $DebuggerObject,
-        TransportConfig => {
-            Type   => 'HTTP::REST',
-            Config => $Test->{Config},
-        },
-    );
-    $Self->Is(
-        ref $TransportObject,
-        'Kernel::GenericInterface::Transport',
-        "$Test->{Name} - TransportObject instantiated with REST backend"
-    );
+    subtest $Test->{Name} => sub {
 
-    my $Response = '';
-    my $Result;
-    {
+        # Create REST transport object with test configuration.
+        my $TransportObject = Kernel::GenericInterface::Transport->new(
+            DebuggerObject  => $DebuggerObject,
+            TransportConfig => {
+                Type   => 'HTTP::REST',
+                Config => $Test->{Config},
+            },
+        );
+
+        isa_ok( $TransportObject, 'Kernel::GenericInterface::Transport' );
+
         # Discard request object to prevent errors.
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
         # Create response.
-        $Result = $TransportObject->ProviderGenerateResponse(
-            Success => 1,
-            Data    => {},
-        );
-        $Response = $Result->{Output} if ref $Result eq 'HASH';
-    }
-    $Self->True(
-        $Result,
-        "$Test->{Name} - Response created"
-    );
+        my $Response = eval {
+            $TransportObject->ProviderGenerateResponse(
+                Success => 1,
+                Data    => {},
+            );
+        };
+        my $WebException = $@;
+        can_ok( $WebException, [ 'as_psgi' ], 'exception with as_psgi() method' );
+        my $PSGIResponse = $WebException->as_psgi();
+        ref_ok( $PSGIResponse, 'ARRAY', 'PSGI response is an array ref' );
 
-    # Analyze headers.
-    for my $Key ( sort keys %{ $Test->{Header} } ) {
-        $Self->True(
-            index( $Response, "$Key: $Test->{Header}->{$Key}\r\n" ) != -1,
-            "$Test->{Name} - Found header '$Key' with value '$Test->{Header}->{$Key}'"
-        );
-    }
+        # Analyze headers.
+        my $Headers = HTTP::Headers::Fast->new( $PSGIResponse->[1]->@* );
+        for my $Key ( sort keys %{ $Test->{Header} } ) {
+            is(
+                $Headers->header($Key),
+                $Test->{Header}->{$Key},
+                "Found header '$Key' with value '$Test->{Header}->{$Key}'"
+            );
+        }
+    };
 }
 
 # Cleanup test web service.
@@ -1441,12 +1445,6 @@ my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => 1,
 );
-$Self->True(
-    $WebserviceDelete,
-    "Deleted Web service $WebserviceID"
-);
+ok( $WebserviceDelete, "Deleted Web service $WebserviceID" );
 
-
-$Self->DoneTesting();
-
-
+done_testing();

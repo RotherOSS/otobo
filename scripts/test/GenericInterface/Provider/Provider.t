@@ -26,10 +26,10 @@ use LWP::UserAgent;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
+use Kernel::System::ObjectManager;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
-our $Self;
+$Kernel::OM = Kernel::System::ObjectManager->new();
 
 ## no critic (Perl::Critic::Policy::Variables::RequireLocalizedPunctuationVars)
 
@@ -213,7 +213,6 @@ my @Tests = (
                 },
             },
         },
-        EarlyError  => 1,
         RequestData => {
             A => 'A',
             b => '使用下列语言',
@@ -247,6 +246,7 @@ sub CreateQueryString {
     }
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$QueryString );
+
     return $QueryString;
 };
 
@@ -274,7 +274,7 @@ my $InvalidID = $ValidObject->ValidLookup(
 
 for my $Test  (@Tests) {
 
-    subtest $Test->{Name} => sub {
+    subtest "$Test->{Name} $RandomID" => sub {
 
         # add config
         my $WebserviceID = $WebserviceObject->WebserviceAdd(
@@ -284,27 +284,22 @@ for my $Test  (@Tests) {
             UserID  => 1,
         );
 
-        $Self->True(
-            $WebserviceID,
-            "$Test->{Name} WebserviceAdd()",
-        );
+        ok( $WebserviceID, 'WebserviceAdd()' );
 
         my $WebserviceNameEncoded = URI::Escape::uri_escape_utf8("$Test->{Name} $RandomID");
 
-        #
+        my %WebserviceAccess2PathInfo = (
+            ID   => "WebserviceID/$WebserviceID",
+            Name => "Webservice/$WebserviceNameEncoded"
+        );
+
         # Test with IO redirection, no real HTTP request
-        #
         for my $RequestMethod (qw(get post)) {
-
-            for my $WebserviceAccess (
-                "WebserviceID/$WebserviceID",
-                "Webservice/$WebserviceNameEncoded"
-                )
-            {
-
+            for my $WebserviceAccess ( sort keys %WebserviceAccess2PathInfo ) {
+                my $PathInfo = $WebserviceAccess2PathInfo{$WebserviceAccess};
                 my $RequestData  = '';
                 my $ResponseData = '';
-
+                my $WebException;
                 {
                     # %ENV will be picked up in Kernel::System::Web::Request::new().
                     local %ENV;
@@ -313,7 +308,7 @@ for my $Test  (@Tests) {
 
                         # TODO: why ???
                         # prepare CGI environment variables
-                        $ENV{REQUEST_URI}    = "http://localhost/otobo/nph-genericinterface.pl/$WebserviceAccess";
+                        $ENV{REQUEST_URI}    = "http://localhost/otobo/nph-genericinterface.pl/$PathInfo";
                         $ENV{REQUEST_METHOD} = 'POST';
                         $RequestData         = CreateQueryString(
                             Data   => $Test->{RequestData},
@@ -331,7 +326,7 @@ for my $Test  (@Tests) {
 
                         # prepare CGI environment variables
                         $ENV{REQUEST_URI}
-                            = "http://localhost/otobo/nph-genericinterface.pl/$WebserviceAccess?" . $QueryString;
+                            = "http://localhost/otobo/nph-genericinterface.pl/$PathInfo?" . $QueryString;
                         $ENV{QUERY_STRING}   = $QueryString;
                         $ENV{REQUEST_METHOD} = 'GET';
                     }
@@ -346,10 +341,15 @@ for my $Test  (@Tests) {
                     CGI::initialize_globals();
                     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
-                    $ResponseData = $ProviderObject->Content();
+                    eval {
+                        $ResponseData = $ProviderObject->Content();
+                    };
+                    $WebException = $@; # assign '' in case of success
                 }
 
                 if ( $Test->{ResponseSuccess} ) {
+
+                    is( $WebException, '', "$RequestMethod $WebserviceAccess: no exception for ResponseSuccess" );
 
                     for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
                         my $QueryStringPart = URI::Escape::uri_escape_utf8($Key);
@@ -358,28 +358,27 @@ for my $Test  (@Tests) {
                                 .= '=' . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
                         }
 
-                        $Self->True(
+                        ok(
                             index( $ResponseData, $QueryStringPart ) > -1,
-                            "$Test->{Name} $WebserviceAccess Run() HTTP $RequestMethod result data contains $QueryStringPart",
+                            "$RequestMethod $PathInfo Run() HTTP $RequestMethod result data contains $QueryStringPart",
                         );
                     }
 
-                    $Self->True(
+                    ok(
                         index( $ResponseData, 'HTTP/1.0 200 OK' ) > -1,
-                        "$Test->{Name} $WebserviceAccess Run() HTTP $RequestMethod result success status",
+                        "$RequestMethod $PathInfo Run() HTTP $RequestMethod result success status",
                     );
                 }
                 else {
 
-                    # If an early error occurred, GI cannot generate a valid HTTP error response yet,
-                    #   because the transport object was not yet initialized. In these cases, apache will
-                    #   generate this response, but here we do not use apache.
-                    if ( !$Test->{EarlyError} ) {
-                        $Self->True(
-                            index( $ResponseData, 'HTTP/1.0 500 ' ) > -1,
-                            "$Test->{Name} $WebserviceAccess Run() HTTP $RequestMethod result error status",
-                        );
-                    }
+                    ok( defined $WebException, 'exception when failure is expected' );
+                    can_ok( $WebException, [ 'as_psgi' ], 'sane exception when failure is expected' );
+
+                    # status 500 is expected
+                    my $PSGIResponse = $WebException->as_psgi();
+                    ok( $PSGIResponse, 'got a PSGI response' );
+                    ref_ok( $PSGIResponse, 'ARRAY', 'got array ref as PSGI response' );
+                    is( $PSGIResponse->[0], 500, 'HTTP status 500');
                 }
             }
         }
@@ -394,15 +393,10 @@ for my $Test  (@Tests) {
                 push @BaseURLs, $PlackBaseURL;
             }
 
-            for my $BaseURL (@BaseURLs) {
-
-                for my $WebserviceAccess (
-                    "WebserviceID/$WebserviceID",
-                    "Webservice/$WebserviceNameEncoded"
-                    )
-                {
-
-                    my $URL = $BaseURL . $WebserviceAccess;
+            for my $BaseURL ( @BaseURLs ) {
+                for my $WebserviceAccess ( sort keys %WebserviceAccess2PathInfo ) {
+                    my $PathInfo = $WebserviceAccess2PathInfo{$WebserviceAccess};
+                    my $URL = $BaseURL . $PathInfo;
                     my $Response;
                     my $ResponseData;
                     my $QueryString = CreateQueryString(
@@ -415,7 +409,10 @@ for my $Test  (@Tests) {
                         $Response = LWP::UserAgent->new()->$RequestMethod($URL);
                     }
                     else {    # POST
-                        $Response = LWP::UserAgent->new()->$RequestMethod( $URL, Content => $QueryString );
+                        $Response = LWP::UserAgent->new()->$RequestMethod(
+                            $URL,
+                            Content => $QueryString
+                        );
                     }
                     chomp( $ResponseData = $Response->decoded_content() );
 
@@ -428,23 +425,23 @@ for my $Test  (@Tests) {
                                     . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
                             }
 
-                            $Self->True(
+                            ok(
                                 index( $ResponseData, $QueryStringPart ) > -1,
-                                "$Test->{Name} $WebserviceAccess real HTTP $RequestMethod request (needs configured and running webserver) result data contains $QueryStringPart ($URL)",
+                                "$PathInfo real HTTP $RequestMethod request (needs configured and running webserver) result data contains $QueryStringPart ($URL)",
                             );
                         }
 
-                        $Self->Is(
+                        is(
                             $Response->code(),
                             200,
-                            "$Test->{Name} $WebserviceAccess real HTTP $RequestMethod request (needs configured and running webserver) result success status ($URL)",
+                            "$PathInfo real HTTP $RequestMethod request (needs configured and running webserver) result success status ($URL)",
                         );
                     }
                     else {
-                        $Self->Is(
+                        is(
                             $Response->code(),
                             500,
-                            "$Test->{Name} $WebserviceAccess real HTTP $RequestMethod request (needs configured and running webserver) result error status ($URL)",
+                            "$PathInfo real HTTP $RequestMethod request (needs configured and running webserver) result error status ($URL)",
                         );
                     }
                 }
@@ -456,11 +453,7 @@ for my $Test  (@Tests) {
             ID     => $WebserviceID,
             UserID => 1,
         );
-
-        $Self->True(
-            $Success,
-            "$Test->{Name} WebserviceDelete()",
-        );
+        ok( $Success, "WebserviceDelete()" );
     };
 }
 
