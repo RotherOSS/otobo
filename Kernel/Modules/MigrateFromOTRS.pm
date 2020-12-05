@@ -573,7 +573,7 @@ sub _Finish {
     # But keep the old code for future reference.
     my $Webserver;
     if ( 0 ) {
-        $Webserver = 'systemctl restart apache2'
+        $Webserver = 'systemctl restart apache2';
         if ( -f '/etc/SuSE-release' ) {
             $Webserver = 'rcapache2 restart';
         }
