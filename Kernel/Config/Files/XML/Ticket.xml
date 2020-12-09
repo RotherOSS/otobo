@@ -14458,6 +14458,27 @@ Thanks for your help!
             <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">closed successful</Item>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketZnuny4OTOBOQuickClose###RequiredLock" Required="0" Valid="1">
+        <Description Translatable="1">Defines if a ticket lock is required for quick close of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner).</Description>
+        <Navigation>Frontend::Agent::View::AgentTicketZnuny4OTOBOQuickClose</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketZnuny4OTOBOQuickClose###Permission" Required="1" Valid="1">
+        <Description Translatable="1">Required permissions to use quick close ticket in the agent interface.</Description>
+        <Navigation>Frontend::Agent::View::AgentTicketZnuny4OTOBOQuickClose</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">close</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketZnuny4OTOBOQuickClose###OwnerMandatory" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
+        <Description Translatable="1">Sets if ticket owner must be selected by the agent.</Description>
+        <Navigation>Frontend::Agent::View::AgentTicketZnuny4OTOBOQuickClose</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::MenuModule###451-QuickClose" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to quick close a ticket in the ticket zoom view of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom::MenuModule</Navigation>
