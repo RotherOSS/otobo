@@ -74,7 +74,8 @@ sub Run {
 
     return $LayoutObject->Redirect( OP => $Self->{LastScreenOverview} ) if !$Config->{Article};
 
-    my $ArticleID = $ArticleObject->ArticleCreate(
+    my $InternalArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
+    my $ArticleID = $InternalArticleBackendObject->ArticleCreate(
         ChannelName          => $Config->{CommunicationChannel} || 'Internal',
         TicketID             => $Self->{TicketID},
         SenderType           => $Config->{SenderType} || 'agent',
