@@ -66,7 +66,9 @@ sub Run {
     # error screen, don't show ticket
     if ( !$Access ) {
         return $LayoutObject->NoPermission(
-            Message    => Translatable('You need close permissions!'),
+            Message    => $LayoutObject->{LanguageObject}->Translate(
+                'You need close permissions!'
+            ),
             WithHeader => 'yes',
         );
     }
@@ -80,7 +82,9 @@ sub Run {
         );
         if ( !$AccessOk ) {
             return $LayoutObject->NoPermission(
-                Message    => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                Message    => $LayoutObject->{LanguageObject}->Translate(
+                    'Sorry, you need to be the ticket owner to perform this action.'
+                ),
                 WithHeader => 'yes',
             );
         }
