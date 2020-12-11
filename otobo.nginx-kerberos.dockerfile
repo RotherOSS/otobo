@@ -16,7 +16,6 @@ RUN apt-get update\
  "krb5-user"\
  "libpam-krb5"\
  "libpam-ccreds"\
- "ldap-auth-config"\
  "krb5-multidev"\
  "libkrb5-dev"\
  && rm -rf /var/lib/apt/lists/*
