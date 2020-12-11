@@ -1,4 +1,4 @@
-# This is the build file for the OTOBO nginx docker image.
+# This is the build file for the OTOBO nginx docker image including Kerberos Single Sign On tools.
 # See also README_DOCKER.md.
 
 # Use the latest nginx.
