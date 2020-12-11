@@ -8,7 +8,7 @@ FROM nginx:mainline
 # install some required and optional Debian packages
 # hadolint ignore=DL3008
 RUN apt-get update\
- && apt-get -y --no-install-recommends install\
+ && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
  "less"\
  "nano"\
  "tree"\
