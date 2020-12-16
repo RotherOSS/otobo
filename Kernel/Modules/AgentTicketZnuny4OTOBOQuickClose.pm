@@ -53,9 +53,12 @@ sub Run {
         );
     }
 
+    # get config of frontend module
+    my $Config = $ConfigObject->Get('Ticket::Frontend::AgentTicketClose');
+
     # check permissions
     my $Access = $TicketObject->TicketPermission(
-        Type     => 'close',
+        Type     => $Config->{Permission},
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID}
     );
@@ -63,9 +66,26 @@ sub Run {
     # error screen, don't show ticket
     if ( !$Access ) {
         return $LayoutObject->NoPermission(
-            Message    => "You need $Self->{Config}->{Permission} permissions!",
+            Message => $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', $Config->{Permission} ),
             WithHeader => 'yes',
         );
+    }
+
+    if ( $Config->{RequiredLock}
+         && $TicketObject->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
+
+        my $AccessOk = $TicketObject->OwnerCheck(
+            TicketID => $Self->{TicketID},
+            OwnerID  => $Self->{UserID},
+        );
+        if ( !$AccessOk ) {
+            return $LayoutObject->NoPermission(
+                Message    => $LayoutObject->{LanguageObject}->Translate(
+                    'Sorry, you need to be the ticket owner to perform this action.'
+                ),
+                WithHeader => 'yes',
+            );
+        }
     }
 
     $Self->_SetState();

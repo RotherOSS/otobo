@@ -14450,7 +14450,6 @@ Thanks for your help!
             <Item ValueType="String" ValueRegex="">Ticket was closed</Item>
         </Value>
     </Setting>
-
     <Setting Name="Znuny4OTOBO::QuickClose::State" Required="0" Valid="1">
         <Description Translatable="1">Defines the close state for quick close.</Description>
         <Navigation>Core::Znuny4OTOBO::QuickClose</Navigation>
