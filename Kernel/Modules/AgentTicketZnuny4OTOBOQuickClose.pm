@@ -54,7 +54,7 @@ sub Run {
     }
 
     # get config of frontend module
-    my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
+    my $Config = $ConfigObject->Get('Ticket::Frontend::AgentTicketClose');
 
     # check permissions
     my $Access = $TicketObject->TicketPermission(
