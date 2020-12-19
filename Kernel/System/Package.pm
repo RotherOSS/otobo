@@ -20,13 +20,16 @@ use strict;
 use warnings;
 use utf8;
 
+# core modules
 use MIME::Base64;
-use File::Copy;
+use File::Copy qw(copy move);
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Config;
 use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
-
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -71,7 +74,8 @@ create an object
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type  = shift;
+    my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -4024,7 +4028,8 @@ sub _PackageFileCheck {
 }
 
 sub _FileInstall {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(File)) {
@@ -4033,6 +4038,7 @@ sub _FileInstall {
                 Priority => 'error',
                 Message  => "$Needed not defined!",
             );
+
             return;
         }
     }
@@ -4042,6 +4048,7 @@ sub _FileInstall {
                 Priority => 'error',
                 Message  => "$Item not defined in File!",
             );
+
             return;
         }
     }
@@ -4049,11 +4056,12 @@ sub _FileInstall {
     my $Home = $Param{Home} || $Self->{Home};
 
     # check Home
-    if ( !-e $Home ) {
+    if ( ! -e $Home ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "No such home directory: $Home!",
         );
+
         return;
     }
 
