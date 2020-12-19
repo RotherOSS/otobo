@@ -4029,6 +4029,11 @@ Update or create files below the OTOBO home dir or below a specified dir.
 
 Additionally this method creates a backup if needed.
 
+There is also special support for notifying the webserver about new modules
+in the F<Custom/Kernel> folder. These files may override core modules in F<Kernel>,
+but module refreshers like M<Module::Refresh> won't catch this. Therefore
+_FileInstall() will touch the core module when it exists.
+
 Return undef on failure, 1 on success.
 
     my $File = {
@@ -4171,6 +4176,16 @@ sub _FileInstall {
         );
 
         return;
+    }
+
+    # trigger Module::Refresh when a custom module overrides a core module
+    if ( $RealFile =~ m!^\Q$Home\E/Custom/Kernel/.*\.pm! ) {
+        my $CoreModuleFn = $RealFile =~ s!^\Q$Home/Custom/!$Home/!s;
+
+        # touch the original module, ignore errors
+        if ( -f $CoreModuleFn ) {
+            utime undef, undef, $CoreModuleFn;
+        }
     }
 
     print STDERR "Notice: Install $RealFile ($Param{File}->{Permission})!\n";
