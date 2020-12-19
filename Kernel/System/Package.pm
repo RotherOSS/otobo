@@ -3532,10 +3532,6 @@ sub PackageUpgradeAllIsRunning {
     );
 }
 
-=begin Internal:
-
-=cut
-
 sub _Download {
     my ( $Self, %Param ) = @_;
 
@@ -5353,9 +5349,5 @@ sub DESTROY {
 
     return 1;
 }
-
-=end Internal:
-
-=cut
 
 1;
