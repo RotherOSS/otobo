@@ -4157,12 +4157,21 @@ sub _FileInstall {
     }
 
     # write file
-    return if !$MainObject->FileWrite(
+    my $FileWriteOk = $MainObject->FileWrite(
         Location   => $RealFile,
         Content    => \$Param{File}->{Content},
         Mode       => 'binmode',
         Permission => $Param{File}->{Permission},
     );
+
+    if ( ! $FileWriteOk ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Sorry, can't install package because the file $RealFile can't be created.",
+        );
+
+        return;
+    }
 
     print STDERR "Notice: Install $RealFile ($Param{File}->{Permission})!\n";
 
