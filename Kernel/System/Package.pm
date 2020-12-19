@@ -4023,6 +4023,33 @@ sub _PackageFileCheck {
     return 1;
 }
 
+=head2 _FileInstall()
+
+Update or create files below the OTOBO home dir or below a specified dir.
+
+Additionally this method creates a backup if needed.
+
+Return undef on failure, 1 on success.
+
+    my $File = {
+        Location    => 'Custom/Kernel/System/MyExtension/MyFeature.pm'
+        Content     => $MyFeatureCode,
+        Permission  => '644',     # unix file permissions
+    };
+
+    # File install below the OTOBO home dir
+    my $FileInstallOk = $PackageObject->_FileInstall(
+        File => $File,
+    );
+
+    # File install below a specified dir
+    my $FileInstallOk = $PackageObject->_FileInstall(
+        File => $File,
+        Home => $ExportDir
+    );
+
+=cut
+
 sub _FileInstall {
     my $Self  = shift;
     my %Param = @_;
