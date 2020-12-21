@@ -15,14 +15,20 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+use File::Copy qw(copy move);
+use File::stat;
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-use File::Copy;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::System::OM
+
+our $Self;
 
 # get needed objects
 my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
@@ -1140,9 +1146,4 @@ if ( !$DeveloperSystem ) {
     chmod 0755, $Home . '/' . 'bin/otobo.CheckSum.pl';
 }
 
-# cleanup cache is done by RestoreDatabase
-
-
-$Self->DoneTesting();
-
-
+done_testing();
