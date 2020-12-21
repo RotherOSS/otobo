@@ -4180,7 +4180,7 @@ sub _FileInstall {
 
     # trigger Module::Refresh when a custom module overrides a core module
     if ( $RealFile =~ m!^\Q$Home\E/Custom/Kernel/.*\.pm! ) {
-        my $CoreModuleFn = $RealFile =~ s!^\Q$Home/Custom/!$Home/!s;
+        my $CoreModuleFn = $RealFile =~ s!^\Q$Home/Custom/!$Home/!r;
 
         # touch the original module, ignore errors
         if ( -f $CoreModuleFn ) {
