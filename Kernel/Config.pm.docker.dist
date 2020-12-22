@@ -120,7 +120,7 @@ sub Load {
     $Self->{'Cache::Redis'}->{'RedisFast'} = 1;
     $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
     $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
-    $Self->{'TestHTTPHostname'}            = 'localhost:5000';
+    $Self->{'TestHTTPHostname'}            = 'web:5000';
 
     # TODO: reactivate
     # Selenium
