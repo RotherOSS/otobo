@@ -120,20 +120,14 @@ sub Load {
     $Self->{'Cache::Redis'}->{'RedisFast'} = 1;
     $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
     $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
-    $Self->{'TestHTTPHostname'}            = 'localhost:5000';
+    $Self->{'TestHTTPHostname'}            = 'web:5000';
 
-    # TODO: reactivate
     # Selenium
     #$Self->{'SeleniumTestsConfig'} = {
-    #    remote_server_addr  => 'localhost',
+    #    remote_server_addr  => 'selenium-chrome',
     #    port                => '4444',
-    #    browser_name        => 'firefox',
+    #    browser_name        => 'chrome',
     #    platform            => 'ANY',
-    #    extra_capabilities  => {
-    #        marionette => '',
-    #    },
-    #    # window_height => 1200,    # optional, default 1000
-    #    # window_width  => 1600,    # optional, default 1200
     #};
 
     # ---------------------------------------------------- #

@@ -33,6 +33,8 @@ $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 
+plan( 3 );
+
 my $Helper   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $RandomID = $Helper->GetRandomID();
 
@@ -62,8 +64,6 @@ my @Tests = (
         ResultPattern        => qr{\QParse errors: No plan found in TAP output\E},
     },
 );
-
-plan( tests => scalar @Tests );
 
 for my $Test (@Tests) {
 

@@ -34,7 +34,7 @@ use Kernel::System::ObjectManager;
 # even though this route could also be available outside Docker.
 skip_all 'not running under Docker' unless $ENV{OTOBO_RUNS_UNDER_DOCKER};
 
-plan( 1 );
+plan( 2 );
 
 $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
