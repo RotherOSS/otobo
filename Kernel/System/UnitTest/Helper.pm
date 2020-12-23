@@ -80,27 +80,16 @@ Valid parameters are:
 
 =item DisableAsyncCalls
 
-=item ExecuteInternalTests
-
-Decide whether Kernel::System::UnitTests::Helper executes internal tests.
-The default is true. The flag can be set to 0 in order to avoid weird test numbering.
-An example is where DESTROY is called within forked processes.
-
 =back
 
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type  = shift;
+    my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    $Self->{Debug} = $Param{Debug} || 0;
-
-    # Decide whether we should actually execute tests
-    $Self->{ExecuteInternalTests} = $Param{ExecuteInternalTests} // 1;
+    my $Self = bless {}, $Type;
 
     # Remove any leftover custom files from aborted previous runs.
     $Self->CustomFileCleanup();
@@ -116,9 +105,7 @@ sub new {
 
         $Self->{RestoreSSLVerify} = 1;
 
-        if ( $Self->{ExecuteInternalTests} ) {
-            ok( 1, 'Skipping SSL certificates verification' );
-        }
+        ok( 1, 'Skipping SSL certificates verification' );
     }
 
     # switch article dir to a temporary one to avoid collisions
@@ -129,9 +116,7 @@ sub new {
     if ( $Param{RestoreDatabase} ) {
         $Self->{RestoreDatabase} = 1;
         my $StartedTransaction = $Self->BeginWork();
-        if ( $Self->{ExecuteInternalTests} ) {
-            ok( $StartedTransaction, 'Started database transaction.' );
-        }
+        ok( $StartedTransaction, 'Started database transaction.' );
     }
 
     if ( $Param{DisableAsyncCalls} ) {
@@ -232,9 +217,7 @@ sub TestUserCreate {
     $Self->{TestUsers} ||= [];
     push( @{ $Self->{TestUsers} }, $TestUserID );
 
-    if ( $Self->{ExecuteInternalTests} ) {
-        ok( 1, "Created test user $TestUserID" );
-    }
+    ok( 1, "Created test user $TestUserID" );
 
     # Add user to groups.
     GROUP_NAME:
@@ -259,9 +242,7 @@ sub TestUserCreate {
             UserID => 1,
         ) || die "Could not add test user $TestUserLogin to group $GroupName";
 
-        if ( $Self->{ExecuteInternalTests} ) {
-            ok( 1, "Added test user $TestUserLogin to group $GroupName" );
-        }
+        ok( 1, "Added test user $TestUserLogin to group $GroupName" );
     }
 
     # Set user language.
@@ -272,9 +253,7 @@ sub TestUserCreate {
         Value  => $UserLanguage,
     );
 
-    if ( $Self->{ExecuteInternalTests} ) {
-        ok( 1, "Set user UserLanguage to $UserLanguage" );
-    }
+    ok( 1, "Set user UserLanguage to $UserLanguage" );
 
     return wantarray ? ( $TestUserLogin, $TestUserID ) : $TestUserLogin;
 }
@@ -327,9 +306,7 @@ sub TestCustomerUserCreate {
     $Self->{TestCustomerUsers} ||= [];
     push( @{ $Self->{TestCustomerUsers} }, $TestUser );
 
-    if ( $Self->{ExecuteInternalTests} ) {
-        ok( 1, "Created test customer user $TestUser" );
-    }
+    ok( 1, "Created test customer user $TestUser" );
 
     # Set customer user language.
     my $UserLanguage = $Param{Language} || 'en';
@@ -339,9 +316,7 @@ sub TestCustomerUserCreate {
         Value  => $UserLanguage,
     );
 
-    if ( $Self->{ExecuteInternalTests} ) {
-        ok( 1, "Set customer user UserLanguage to $UserLanguage" );
-    }
+    ok( 1, "Set customer user UserLanguage to $UserLanguage" );
 
     return $TestUser;
 }
