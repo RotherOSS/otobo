@@ -63,7 +63,7 @@ my @Tests = (
     },
 );
 
-plan( tests => scalar @Tests );
+plan( tests => 1 + scalar @Tests );
 
 for my $Test (@Tests) {
 
