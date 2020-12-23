@@ -690,7 +690,7 @@ sub HandleError {
     my $Filename = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomNumber() . '.png';
 
     # TODO: is that feature still useful ? AFAIK OTOBO has no test result upload service.
-    #$Kernel::OM->Get('Kernel::System::UnitTest')->AttachSeleniumScreenshot(
+    #$Kernel::OM->Get('Kernel::System::UnitTest::Driver')->AttachSeleniumScreenshot(
     #    Filename => $Filename,
     #    Content  => $Data
     #);

@@ -18,6 +18,9 @@ package Kernel::System::UnitTest::Selenium::WebElement;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Selenium::Remote::WebElement);
 
@@ -25,6 +28,7 @@ use parent qw(Selenium::Remote::WebElement);
 
 Kernel::System::UnitTest::Selenium::WebElement - Utility functions for Selenium WebElements
 
+=head1 SUBROUTINES
 
 =head2 VerifiedSubmit()
 
@@ -35,7 +39,8 @@ Submit a form element, and wait for the page to be fully loaded (works only in O
 =cut
 
 sub VerifiedSubmit {
-    my ( $Self, $Params ) = @_;
+    my $Self  = shift;
+    my ($Params) = @_;
 
     $Self->submit();
 
