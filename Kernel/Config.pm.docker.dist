@@ -123,12 +123,12 @@ sub Load {
     $Self->{'TestHTTPHostname'}            = 'web:5000';
 
     # Selenium
-    $Self->{'SeleniumTestsConfig'} = {
-        remote_server_addr  => 'selenium-chrome',
-        port                => '4444',
-        browser_name        => 'chrome',
-        platform            => 'ANY',
-    };
+    #$Self->{'SeleniumTestsConfig'} = {
+    #    remote_server_addr  => 'selenium-chrome',
+    #    port                => '4444',
+    #    browser_name        => 'chrome',
+    #    platform            => 'ANY',
+    #};
 
     # ---------------------------------------------------- #
     # insert your own config settings "here"               #
