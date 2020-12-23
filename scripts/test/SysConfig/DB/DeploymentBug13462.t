@@ -29,10 +29,14 @@ use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
 
 our $Self;
 
-# plan for two tests per user and child, plus 4 tests per test user creation
+# plan the tests
 my $ChildCount = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::TicketCreateNumber::ChildCount') || 5;
 my $NumTestUsers = 3;
-plan( 2 * 3 * $ChildCount + 4 * $NumTestUsers );
+plan(
+    1                                    # creation of $Helper,
+    + $NumTestUsers                      # creation of a test user
+    + 2 * $NumTestUsers * $ChildCount    # two tests per process and testuser 
+);
 
 # testing with three test users
 my @TargetUserIDs;
