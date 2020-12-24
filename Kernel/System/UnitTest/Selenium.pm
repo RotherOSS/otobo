@@ -104,13 +104,6 @@ Then you can use the full API of L<Selenium::Remote::Driver> on this object.
 
 sub new {
     my $Class  = shift;
-    my %Param = @_;
-
-    my $Context = context();
-
-    $Context->note( 'Starting up Selenium scenario ...' );
-
-    $Context->release();
 
     # check whether Selenium testing is activated.
     my %SeleniumTestsConfig =  ( $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} )->%*;
