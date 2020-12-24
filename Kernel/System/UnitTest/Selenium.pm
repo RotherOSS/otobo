@@ -248,6 +248,8 @@ sub RunTest {
 
     $TestException = $@ if $@;
 
+    $Context->release();
+
     return 1;
 }
 
