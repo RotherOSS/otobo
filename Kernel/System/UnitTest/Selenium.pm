@@ -411,7 +411,7 @@ sub Login {
 
     my $Context = context();
 
-    $Context->pass( 'Initiating login...' );
+    $Context->note( 'Initiating login...' );
 
     # we will try several times to log in
     my $MaxTries = 5;
