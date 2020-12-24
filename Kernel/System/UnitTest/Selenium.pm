@@ -88,6 +88,8 @@ Specify the connection details in C<Config.pm>, like this:
         port                => '4444',
         platform            => 'ANY',
         browser_name        => 'chrome',
+        #is_wd3              => 0,   # in special cases when JSONWire should be forced
+        #is_wd3              => 1,   # in special cases when WebDriver 3 should be forced
         extra_capabilities => {
             chromeOptions => {
                 # disable-infobars makes sure window size calculations are ok
@@ -127,6 +129,9 @@ sub new {
     $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::UnitTest::Selenium::WebElement')
         || die "Could not load Kernel::System::UnitTest::Selenium::WebElement";
 
+    # looks like is_wd3 can't be passed in the constructor,
+    # and that an automatic check is not implemented
+    my $IsWD3 = delete $SeleniumTestsConfig{is_wd3};
 
     # TEMPORARY WORKAROUND FOR GECKODRIVER BUG https://github.com/mozilla/geckodriver/issues/1470:
     #   If marionette handshake fails, wait and try again. Can be removed after the bug is fixed
@@ -163,6 +168,11 @@ sub new {
 
     $Self->{SeleniumTestsActive}  = 1;
 
+    # TODO: remove this workaround when it is no longer needed
+    if ( defined $IsWD3 ) {
+        $Self->{is_wd3} = $IsWD3;
+    }
+
     # Not sure what this was used for.
     # $Self->{UnitTestDriverObject}->{SeleniumData} = { %{ $Self->get_capabilities() }, %{ $Self->status() } };
     # $Self->debug_on();
@@ -178,11 +188,6 @@ sub new {
 
     # Remember the start system time for the selenium test run.
     $Self->{TestStartSystemTime} = time;    ## no critic
-
-    # Force usage of legacy webdriver methods in Chrome until things are more stable.
-    if ( lc $SeleniumTestsConfig{browser_name} eq 'chrome' ) {
-        $Self->{is_wd3} = 0;
-    }
 
     return $Self;
 }
