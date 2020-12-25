@@ -275,7 +275,7 @@ sub _execute_command {    ## no critic
     # The command 'quit' is called in the destructor on this packages.
     # Destruction usually happens after done_testing(), which is bad.
     # So don't emit a testing event for 'quit'.
-    if ( ref $Res eq 'Hash' && $Res->{command} && $Res->{command} eq 'quit' ) {
+    if ( ref $Res eq 'HASH' && $Res->{command} && $Res->{command} eq 'quit' ) {
         return $Result;
     }
 
