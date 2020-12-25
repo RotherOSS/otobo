@@ -124,8 +124,10 @@ EOF
         my $ExpectedLinkedFile = qr{<link .*? \s href="${WebPath}skins/Agent/ivory/css/Core.Default.css"}x;
 
         # Link to ivory skin file should be present.
-        $Self->True(
-            $Selenium->get_page_source() =~ $ExpectedLinkedFile,
+        my $PageSource = $Selenium->get_page_source();
+        like(
+            $PageSource,
+            $ExpectedLinkedFile,
             'Ivory skin should be selected'
         );
 
