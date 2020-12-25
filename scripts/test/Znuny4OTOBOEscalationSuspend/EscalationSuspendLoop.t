@@ -28,7 +28,7 @@ our $Self;
 
 use Kernel::System::VariableCheck qw(:all);
 
-plan( 7 );
+plan( 6 );
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
