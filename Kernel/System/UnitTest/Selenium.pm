@@ -282,8 +282,8 @@ sub _execute_command {    ## no critic
     my $TestName = 'Selenium command success: ';
     $TestName .= $Kernel::OM->Get('Kernel::System::Main')->Dump(
         {
-            %{ $Res    || {} },    ## no critic
-            %{ $Params || {} },    ## no critic
+            Res    => $Res,
+            Params => $Params,
         }
     );
 
