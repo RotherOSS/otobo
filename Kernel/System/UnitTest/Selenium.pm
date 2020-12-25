@@ -267,9 +267,17 @@ Errors will cause an exeption and be caught elsewhere.
 =cut
 
 sub _execute_command {    ## no critic
-    my ( $Self, $Res, $Params ) = @_;
+    my $Self  = shift;
+    my ($Res, $Params) = @_;
 
     my $Result = $Self->SUPER::_execute_command( $Res, $Params );
+
+    # The command 'quit' is called in the destructor on this packages.
+    # Destruction usually happens after done_testing(), which is bad.
+    # So don't emit a testing event for 'quit'.
+    if ( ref $Res eq 'Hash' && $Res->{command} && $Res->{command} eq 'quit' ) {
+        return $Result;
+    }
 
     my $TestName = 'Selenium command success: ';
     $TestName .= $Kernel::OM->Get('Kernel::System::Main')->Dump(
