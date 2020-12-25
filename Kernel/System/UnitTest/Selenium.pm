@@ -88,6 +88,8 @@ Specify the connection details in C<Config.pm>, like this:
         port                => '4444',
         platform            => 'ANY',
         browser_name        => 'chrome',
+        #is_wd3              => 0,   # in special cases when JSONWire should be forced
+        #is_wd3              => 1,   # in special cases when WebDriver 3 should be forced
         extra_capabilities => {
             chromeOptions => {
                 # disable-infobars makes sure window size calculations are ok
@@ -102,13 +104,6 @@ Then you can use the full API of L<Selenium::Remote::Driver> on this object.
 
 sub new {
     my $Class  = shift;
-    my %Param = @_;
-
-    my $Context = context();
-
-    $Context->note( 'Starting up Selenium scenario ...' );
-
-    $Context->release();
 
     # check whether Selenium testing is activated.
     my %SeleniumTestsConfig =  ( $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} )->%*;
@@ -127,6 +122,9 @@ sub new {
     $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::UnitTest::Selenium::WebElement')
         || die "Could not load Kernel::System::UnitTest::Selenium::WebElement";
 
+    # looks like is_wd3 can't be passed in the constructor,
+    # and that an automatic check is not implemented
+    my $IsWD3 = delete $SeleniumTestsConfig{is_wd3};
 
     # TEMPORARY WORKAROUND FOR GECKODRIVER BUG https://github.com/mozilla/geckodriver/issues/1470:
     #   If marionette handshake fails, wait and try again. Can be removed after the bug is fixed
@@ -163,26 +161,27 @@ sub new {
 
     $Self->{SeleniumTestsActive}  = 1;
 
+    # TODO: remove this workaround when it is no longer needed
+    if ( defined $IsWD3 ) {
+        $Self->{is_wd3} = $IsWD3;
+    }
+
     # Not sure what this was used for.
     # $Self->{UnitTestDriverObject}->{SeleniumData} = { %{ $Self->get_capabilities() }, %{ $Self->status() } };
     # $Self->debug_on();
 
     # set screen size from config or use defauls
-    my $Height = $SeleniumTestsConfig{window_height} || 1200;
-    my $Width  = $SeleniumTestsConfig{window_width}  || 1400;
-
-    $Self->set_window_size( $Height, $Width );
+    {
+        my $Height = $SeleniumTestsConfig{window_height} || 1200;
+        my $Width  = $SeleniumTestsConfig{window_width}  || 1400;
+        $Self->set_window_size( $Height, $Width );
+    }
 
     $Self->{BaseURL} = $Kernel::OM->Get('Kernel::Config')->Get('HttpType') . '://';
     $Self->{BaseURL} .= Kernel::System::UnitTest::Helper->GetTestHTTPHostname();
 
     # Remember the start system time for the selenium test run.
     $Self->{TestStartSystemTime} = time;    ## no critic
-
-    # Force usage of legacy webdriver methods in Chrome until things are more stable.
-    if ( lc $SeleniumTestsConfig{browser_name} eq 'chrome' ) {
-        $Self->{is_wd3} = 0;
-    }
 
     return $Self;
 }
@@ -248,6 +247,8 @@ sub RunTest {
     };
 
     $TestException = $@ if $@;
+
+    $Context->release();
 
     return 1;
 }
@@ -410,7 +411,7 @@ sub Login {
 
     my $Context = context();
 
-    $Context->pass( 'Initiating login...' );
+    $Context->note( 'Initiating login...' );
 
     # we will try several times to log in
     my $MaxTries = 5;

@@ -60,22 +60,24 @@ $Selenium->RunTest(
         my $TestUserLogin1 = $HelperObject->TestUserCreate(
             Groups   => ['users'],
             Language => $Language,
-        ) || die "Did not get test user";
+        ) || bail_out( "Could not create first test user" );
         my $TestUserID1 = $UserObject->UserLookup(
             UserLogin => $TestUserLogin1,
         );
+        note( "Created test used $TestUserLogin1 with ID $TestUserID1" );
 
         # Create user two.
         my $TestUserLogin2 = $HelperObject->TestUserCreate(
             Groups   => ['users'],
             Language => $Language,
-        ) || die "Did not get test user";
+        ) || bail_out( "Could not create second test user" );
         my $TestUserID2 = $UserObject->UserLookup(
             UserLogin => $TestUserLogin2,
         );
+        note( "Created test used $TestUserLogin1 with ID $TestUserID1" );
 
         # Add a User setting file.
-        my $UserFileContent = <<EOF;
+        my $UserFileContent = <<"EOF";
 # OTOBO config file (testing, remove it)
 # VERSION:2.0
 package Kernel::Config::Files::User::$TestUserID1;
@@ -122,8 +124,10 @@ EOF
         my $ExpectedLinkedFile = qr{<link .*? \s href="${WebPath}skins/Agent/ivory/css/Core.Default.css"}x;
 
         # Link to ivory skin file should be present.
-        $Self->True(
-            $Selenium->get_page_source() =~ $ExpectedLinkedFile,
+        my $PageSource = $Selenium->get_page_source();
+        like(
+            $PageSource,
+            $ExpectedLinkedFile,
             'Ivory skin should be selected'
         );
 
