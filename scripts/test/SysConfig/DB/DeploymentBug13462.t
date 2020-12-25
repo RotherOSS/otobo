@@ -33,15 +33,15 @@ our $Self;
 my $ChildCount = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::TicketCreateNumber::ChildCount') || 5;
 my $NumTestUsers = 3;
 plan(
-    1                                    # creation of $Helper,
-    + $NumTestUsers                      # creation of a test user
+    $NumTestUsers                        # creation of a test user
     + 2 * $NumTestUsers * $ChildCount    # two tests per process and testuser 
 );
+
+my $Helper     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # testing with three test users
 my @TargetUserIDs;
 {
-    my $Helper     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
     for my $Cnt ( 1 .. $NumTestUsers ) {
         my $TestUserLogin = $Helper->TestUserCreate(

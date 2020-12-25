@@ -93,49 +93,34 @@ sub new {
     # allocate new hash for object
     my $Self = bless {}, $Type;
 
-    my $Context = context();
+    # Remove any leftover custom files from aborted previous runs.
+    $Self->CustomFileCleanup();
 
-    # code that emits test events for the subtest
-    my $Code = sub {
+    # set environment variable to skip SSL certificate verification if needed
+    if ( $Param{SkipSSLVerify} ) {
 
-        # Remove any leftover custom files from aborted previous runs.
-        $Self->CustomFileCleanup();
+        # remember original value
+        $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME} = $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME};
 
-        # set environment variable to skip SSL certificate verification if needed
-        if ( $Param{SkipSSLVerify} ) {
+        # set environment value to 0
+        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0;    ## no critic
 
-            # remember original value
-            $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME} = $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME};
+        $Self->{RestoreSSLVerify} = 1;
+    }
 
-            # set environment value to 0
-            $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0;    ## no critic
+    # switch article dir to a temporary one to avoid collisions
+    if ( $Param{UseTmpArticleDir} ) {
+        $Self->UseTmpArticleDir();
+    }
 
-            $Self->{RestoreSSLVerify} = 1;
+    if ( $Param{RestoreDatabase} ) {
+        $Self->{RestoreDatabase} = 1;
+        my $StartedTransaction = $Self->BeginWork();
+    }
 
-            note( 'Skipping SSL certificates verification' );
-        }
-
-        # switch article dir to a temporary one to avoid collisions
-        if ( $Param{UseTmpArticleDir} ) {
-            $Self->UseTmpArticleDir();
-        }
-
-        if ( $Param{RestoreDatabase} ) {
-            $Self->{RestoreDatabase} = 1;
-            my $StartedTransaction = $Self->BeginWork();
-            ok( $StartedTransaction, 'Started database transaction.' );
-        }
-
-        if ( $Param{DisableAsyncCalls} ) {
-            $Self->DisableAsyncCalls();
-        }
-
-        pass( 'Helper object created' );
-    };
-
-    run_subtest( 'Helper object created', $Code, { buffered => 1, inherit_trace => 1 } );
-
-    $Context->release;
+    if ( $Param{DisableAsyncCalls} ) {
+        $Self->DisableAsyncCalls();
+    }
 
     return $Self;
 }
