@@ -261,7 +261,7 @@ sub RunTest {
     my $Context = context();
 
     if ( !$Self->{SeleniumTestsActive} ) {
-        $Context->pass( 'Selenium testing is not active, skipping tests.' );
+        $Context->skip( 'Selenium testing is not active, skipping tests.' );
 
         $Context->release();
 
