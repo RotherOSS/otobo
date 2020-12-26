@@ -19,17 +19,18 @@ package Kernel::System::UnitTest::Selenium;
 use strict;
 use warnings;
 use v5.24;
+use namespace::autoclean;
 use utf8;
 
 # core modules
-use MIME::Base64();
-use File::Path();
-use File::Temp();
-use Time::HiRes();
+use MIME::Base64 qw(decode_base64);
+use File::Path qw(remove_tree);
+use Time::HiRes qw();
 
 # CPAN modules
 use Devel::StackTrace();
 use Test2::API qw(context);
+use Net::DNS::Resolver;
 
 # OTOBO modules
 use Kernel::Config;
@@ -107,12 +108,12 @@ Then you can use the full API of L<Selenium::Remote::Driver> on this object.
 =cut
 
 sub new {
-    my $Class  = shift;
+    my $Class = shift;
 
     # check whether Selenium testing is activated.
     my %SeleniumTestsConfig =  ( $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} )->%*;
 
-    return bless {}, $Class unless %SeleniumTestsConfig;
+    return bless { SeleniumTestsActive => 0 }, $Class unless %SeleniumTestsConfig;
 
     for my $Needed (qw(remote_server_addr port browser_name platform)) {
         if ( !$SeleniumTestsConfig{$Needed} ) {
@@ -155,6 +156,7 @@ sub new {
             webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
             error_handler    => sub {
                 my $Self = shift;
+
                 return $Self->SeleniumErrorHandler(@_);
             },
             %SeleniumTestsConfig
@@ -174,6 +176,7 @@ sub new {
             webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
             error_handler    => sub {
                 my $Self = shift;
+
                 return $Self->SeleniumErrorHandler(@_);
             },
             %SeleniumTestsConfig
@@ -232,6 +235,7 @@ sub SeleniumErrorHandler {
             if ( $_[0]->{caller}->[6] ) {
                 $_[0]->{caller}->[6] = '{...}';
             }
+
             return 1;
         }
     )->as_string();
@@ -251,7 +255,8 @@ runs a selenium test if Selenium testing is configured.
 =cut
 
 sub RunTest {
-    my ( $Self, $Test ) = @_;
+    my $Self = shift;
+    my ( $Test ) = @_;
 
     my $Context = context();
 
@@ -434,6 +439,7 @@ sub Login {
                 Priority => 'error',
                 Message  => "Need $_!",
             );
+
             return;
         }
     }
@@ -555,6 +561,7 @@ sub WaitFor {
 
             if ( eval { $Self->find_element(@Arguments) } ) {
                 Time::HiRes::sleep($WaitSeconds);
+
                 return 1;
             }
         }
@@ -564,9 +571,11 @@ sub WaitFor {
 
             if ( !eval { $Self->find_element(@Arguments) } ) {
                 Time::HiRes::sleep($WaitSeconds);
+
                 return 1;
             }
         }
+
         Time::HiRes::sleep($Interval);
         $WaitedSeconds += $Interval;
         $Interval      += 0.1;
@@ -714,7 +723,7 @@ sub HandleError {
         return;
     }
 
-    $Data = MIME::Base64::decode_base64($Data);
+    $Data = decode_base64($Data);
 
     # Attach the screenshot to the actual error entry.
     my $Filename = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomNumber() . '.png';
@@ -798,7 +807,7 @@ sub DEMOLISH {
 
         for my $LeftoverFirefoxProfile (@LeftoverFirefoxProfiles) {
             if ( -d $LeftoverFirefoxProfile ) {
-                File::Path::remove_tree($LeftoverFirefoxProfile);
+                remove_tree($LeftoverFirefoxProfile);
             }
         }
 
@@ -845,6 +854,7 @@ sub WaitForjQueryEventBound {
             Priority => 'error',
             Message  => "Need CSSSelector!",
         );
+
         return;
     }
 
