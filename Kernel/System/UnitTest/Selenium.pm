@@ -74,6 +74,9 @@ Specify the connection details in C<Config.pm>, like this:
     # For testing with Firefox until v. 47 (testing with recent FF and marionette is currently not supported):
     $Self->{'SeleniumTestsConfig'} = {
         remote_server_addr  => 'localhost',
+        #check_server_addr   => 1,   # optional, skip test when remote_server_addr can't be resolved via DNS
+        #is_wd3              => 0,   # in special cases when JSONWire should be forced
+        #is_wd3              => 1,   # in special cases when WebDriver 3 should be forced
         port                => '4444',
         platform            => 'ANY',
         browser_name        => 'firefox',
@@ -88,6 +91,7 @@ Specify the connection details in C<Config.pm>, like this:
         port                => '4444',
         platform            => 'ANY',
         browser_name        => 'chrome',
+        #check_server_addr   => 1,   # optional, skip test when remote_server_addr can't be resolved via DNS
         #is_wd3              => 0,   # in special cases when JSONWire should be forced
         #is_wd3              => 1,   # in special cases when WebDriver 3 should be forced
         extra_capabilities => {
@@ -114,6 +118,23 @@ sub new {
         if ( !$SeleniumTestsConfig{$Needed} ) {
             die "SeleniumTestsConfig must provide $Needed!";
         }
+    }
+
+    # Run the tests only when the remote address can be resolved.
+    # This avoid the need for manually adaption the test config.
+    my $DoCheckServerAddr = delete $SeleniumTestsConfig{check_server_addr};
+    if ( $DoCheckServerAddr ) {
+
+        # try to resolve the server, but don't wait for a long time
+        my $Resolver = Net::DNS::Resolver->new();
+        $Resolver->tcp_timeout(1);
+        $Resolver->udp_timeout(1);
+
+        my $Host = $SeleniumTestsConfig{remote_server_addr};
+        my $Packet = $Resolver->search( $Host );
+
+        # no Selenium testing when the remote server can't be resolved
+        return bless { SeleniumTestsActive => 0 }, $Class unless $Packet;
     }
 
     $Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass('Selenium::Remote::Driver')
