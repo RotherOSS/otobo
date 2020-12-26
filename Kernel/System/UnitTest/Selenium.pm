@@ -274,6 +274,8 @@ sub RunTest {
 
     $TestException = $@ if $@;
 
+    $Context->fail( $@ );
+
     $Context->release();
 
     return 1;
@@ -301,8 +303,13 @@ sub _execute_command {    ## no critic
     # The command 'quit' is called in the destructor on this packages.
     # Destruction usually happens after done_testing(), which is bad.
     # So don't emit a testing event for 'quit'.
-    if ( ref $Res eq 'HASH' && $Res->{command} && $Res->{command} eq 'quit' ) {
-        return $Result;
+    if ( ref $Res eq 'HASH' && $Res->{command} ) {
+        my %CommandIsSkipped = (
+            quit       => 1,
+            screenshot => 1,
+        );
+
+        return $Result if $CommandIsSkipped{ $Res->{command} };
     }
 
     my $TestName = 'Selenium command success: ';
@@ -701,7 +708,8 @@ for analysis (in folder /var/otobo-unittest if it exists, in $Home/var/httpd/htd
 =cut
 
 sub HandleError {
-    my ( $Self, $Error ) = @_;
+    my $Self = shift;
+    my ( $Error, $CalledInDemolish ) = @_;
 
     # If we really have a selenium error, get the stack trace for it.
     if ( $Self->{_SeleniumStackTrace} && $Error eq $Self->{_SeleniumException} ) {
@@ -710,7 +718,12 @@ sub HandleError {
 
     my $Context = context();
 
-    $Context->fail( $Error );
+    if ( $CalledInDemolish ) {
+        $Context->note( $Error );
+    }
+    else {
+        $Context->fail( $Error );
+    }
 
     # Don't create a test entry for the screenshot command,
     #   to make sure it gets attached to the previous error entry.
@@ -764,7 +777,7 @@ sub HandleError {
             Content   => \$Data,
         );
         if ( ! $WriteSuccess ) {
-            $Context->fail( "Could not write file $SharedScreenshotDir/$Filename" );
+            $Context->note( "Could not write file $SharedScreenshotDir/$Filename" );
 
             $Context->release();
 
@@ -793,7 +806,7 @@ sub DEMOLISH {
     my $Self = shift;
 
     if ($TestException) {
-        $Self->HandleError($TestException);
+        $Self->HandleError($TestException, 1);
     }
 
     if ( $Self->{SeleniumTestsActive} ) {
