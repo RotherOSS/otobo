@@ -19,17 +19,18 @@ package Kernel::System::UnitTest::Selenium;
 use strict;
 use warnings;
 use v5.24;
+use namespace::autoclean;
 use utf8;
 
 # core modules
-use MIME::Base64();
-use File::Path();
-use File::Temp();
-use Time::HiRes();
+use MIME::Base64 qw(decode_base64);
+use File::Path qw(remove_tree);
+use Time::HiRes qw();
 
 # CPAN modules
 use Devel::StackTrace();
 use Test2::API qw(context);
+use Net::DNS::Resolver;
 
 # OTOBO modules
 use Kernel::Config;
@@ -74,6 +75,9 @@ Specify the connection details in C<Config.pm>, like this:
     # For testing with Firefox until v. 47 (testing with recent FF and marionette is currently not supported):
     $Self->{'SeleniumTestsConfig'} = {
         remote_server_addr  => 'localhost',
+        #check_server_addr   => 1,   # optional, skip test when remote_server_addr can't be resolved via DNS
+        #is_wd3              => 0,   # in special cases when JSONWire should be forced
+        #is_wd3              => 1,   # in special cases when WebDriver 3 should be forced
         port                => '4444',
         platform            => 'ANY',
         browser_name        => 'firefox',
@@ -88,6 +92,7 @@ Specify the connection details in C<Config.pm>, like this:
         port                => '4444',
         platform            => 'ANY',
         browser_name        => 'chrome',
+        #check_server_addr   => 1,   # optional, skip test when remote_server_addr can't be resolved via DNS
         #is_wd3              => 0,   # in special cases when JSONWire should be forced
         #is_wd3              => 1,   # in special cases when WebDriver 3 should be forced
         extra_capabilities => {
@@ -103,17 +108,34 @@ Then you can use the full API of L<Selenium::Remote::Driver> on this object.
 =cut
 
 sub new {
-    my $Class  = shift;
+    my $Class = shift;
 
     # check whether Selenium testing is activated.
     my %SeleniumTestsConfig =  ( $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} )->%*;
 
-    return bless {}, $Class unless %SeleniumTestsConfig;
+    return bless { SeleniumTestsActive => 0 }, $Class unless %SeleniumTestsConfig;
 
     for my $Needed (qw(remote_server_addr port browser_name platform)) {
         if ( !$SeleniumTestsConfig{$Needed} ) {
             die "SeleniumTestsConfig must provide $Needed!";
         }
+    }
+
+    # Run the tests only when the remote address can be resolved.
+    # This avoid the need for manually adaption the test config.
+    my $DoCheckServerAddr = delete $SeleniumTestsConfig{check_server_addr};
+    if ( $DoCheckServerAddr ) {
+
+        # try to resolve the server, but don't wait for a long time
+        my $Resolver = Net::DNS::Resolver->new();
+        $Resolver->tcp_timeout(1);
+        $Resolver->udp_timeout(1);
+
+        my $Host = $SeleniumTestsConfig{remote_server_addr};
+        my $Packet = $Resolver->search( $Host );
+
+        # no Selenium testing when the remote server can't be resolved
+        return bless { SeleniumTestsActive => 0 }, $Class unless $Packet;
     }
 
     $Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass('Selenium::Remote::Driver')
@@ -134,6 +156,7 @@ sub new {
             webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
             error_handler    => sub {
                 my $Self = shift;
+
                 return $Self->SeleniumErrorHandler(@_);
             },
             %SeleniumTestsConfig
@@ -153,6 +176,7 @@ sub new {
             webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
             error_handler    => sub {
                 my $Self = shift;
+
                 return $Self->SeleniumErrorHandler(@_);
             },
             %SeleniumTestsConfig
@@ -211,6 +235,7 @@ sub SeleniumErrorHandler {
             if ( $_[0]->{caller}->[6] ) {
                 $_[0]->{caller}->[6] = '{...}';
             }
+
             return 1;
         }
     )->as_string();
@@ -230,23 +255,25 @@ runs a selenium test if Selenium testing is configured.
 =cut
 
 sub RunTest {
-    my ( $Self, $Test ) = @_;
+    my $Self = shift;
+    my ( $Code ) = @_;
 
     my $Context = context();
 
-    if ( !$Self->{SeleniumTestsActive} ) {
-        $Context->pass( 'Selenium testing is not active, skipping tests.' );
+    if ( $Self->{SeleniumTestsActive} ) {
+        eval {
+            $Code->();
+        };
 
-        $Context->release();
+        if ( $@ ) {
+            $TestException = $@;     # remember the exception becaus the screenshot is taken later, during DEMOLISH
+            $Context->fail( $@ );    # report the failure before done_testing()
+        }
 
-        return 1;
     }
-
-    eval {
-        $Test->();
-    };
-
-    $TestException = $@ if $@;
+    else {
+        $Context->skip( 'Selenium testing is not active, skipping tests.' );
+    }
 
     $Context->release();
 
@@ -267,15 +294,28 @@ Errors will cause an exeption and be caught elsewhere.
 =cut
 
 sub _execute_command {    ## no critic
-    my ( $Self, $Res, $Params ) = @_;
+    my $Self  = shift;
+    my ($Res, $Params) = @_;
 
     my $Result = $Self->SUPER::_execute_command( $Res, $Params );
+
+    # The command 'quit' is called in the destructor on this packages.
+    # Destruction usually happens after done_testing(), which is bad.
+    # So don't emit a testing event for 'quit'.
+    if ( ref $Res eq 'HASH' && $Res->{command} ) {
+        my %CommandIsSkipped = (
+            quit       => 1,
+            screenshot => 1,
+        );
+
+        return $Result if $CommandIsSkipped{ $Res->{command} };
+    }
 
     my $TestName = 'Selenium command success: ';
     $TestName .= $Kernel::OM->Get('Kernel::System::Main')->Dump(
         {
-            %{ $Res    || {} },    ## no critic
-            %{ $Params || {} },    ## no critic
+            Res    => $Res,
+            Params => $Params,
         }
     );
 
@@ -405,6 +445,7 @@ sub Login {
                 Priority => 'error',
                 Message  => "Need $_!",
             );
+
             return;
         }
     }
@@ -526,6 +567,7 @@ sub WaitFor {
 
             if ( eval { $Self->find_element(@Arguments) } ) {
                 Time::HiRes::sleep($WaitSeconds);
+
                 return 1;
             }
         }
@@ -535,9 +577,11 @@ sub WaitFor {
 
             if ( !eval { $Self->find_element(@Arguments) } ) {
                 Time::HiRes::sleep($WaitSeconds);
+
                 return 1;
             }
         }
+
         Time::HiRes::sleep($Interval);
         $WaitedSeconds += $Interval;
         $Interval      += 0.1;
@@ -663,7 +707,8 @@ for analysis (in folder /var/otobo-unittest if it exists, in $Home/var/httpd/htd
 =cut
 
 sub HandleError {
-    my ( $Self, $Error ) = @_;
+    my $Self = shift;
+    my ( $Error, $CalledInDemolish ) = @_;
 
     # If we really have a selenium error, get the stack trace for it.
     if ( $Self->{_SeleniumStackTrace} && $Error eq $Self->{_SeleniumException} ) {
@@ -672,7 +717,12 @@ sub HandleError {
 
     my $Context = context();
 
-    $Context->fail( $Error );
+    if ( $CalledInDemolish ) {
+        $Context->note( $Error );
+    }
+    else {
+        $Context->fail( $Error );
+    }
 
     # Don't create a test entry for the screenshot command,
     #   to make sure it gets attached to the previous error entry.
@@ -685,7 +735,7 @@ sub HandleError {
         return;
     }
 
-    $Data = MIME::Base64::decode_base64($Data);
+    $Data = decode_base64($Data);
 
     # Attach the screenshot to the actual error entry.
     my $Filename = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomNumber() . '.png';
@@ -726,7 +776,7 @@ sub HandleError {
             Content   => \$Data,
         );
         if ( ! $WriteSuccess ) {
-            $Context->fail( "Could not write file $SharedScreenshotDir/$Filename" );
+            $Context->note( "Could not write file $SharedScreenshotDir/$Filename" );
 
             $Context->release();
 
@@ -755,7 +805,7 @@ sub DEMOLISH {
     my $Self = shift;
 
     if ($TestException) {
-        $Self->HandleError($TestException);
+        $Self->HandleError($TestException, 1);
     }
 
     if ( $Self->{SeleniumTestsActive} ) {
@@ -769,7 +819,7 @@ sub DEMOLISH {
 
         for my $LeftoverFirefoxProfile (@LeftoverFirefoxProfiles) {
             if ( -d $LeftoverFirefoxProfile ) {
-                File::Path::remove_tree($LeftoverFirefoxProfile);
+                remove_tree($LeftoverFirefoxProfile);
             }
         }
 
@@ -816,6 +866,7 @@ sub WaitForjQueryEventBound {
             Priority => 'error',
             Message  => "Need CSSSelector!",
         );
+
         return;
     }
 

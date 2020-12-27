@@ -11,6 +11,7 @@ RUN apt-get update\
  && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
  "less"\
  "nano"\
+ "screen"\
  "tree"\
  "vim"\
  "krb5-user"\
