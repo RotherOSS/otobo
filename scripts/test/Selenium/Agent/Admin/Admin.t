@@ -16,14 +16,20 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self));
-
+# core modules
 use File::Path qw(mkpath rmtree);
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
+
+our $Self;
+
 
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -302,7 +308,4 @@ $Selenium->RunTest(
     }
 );
 
-
-$Self->DoneTesting();
-
-
+done_testing();
