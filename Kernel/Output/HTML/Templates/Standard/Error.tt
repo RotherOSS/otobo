@@ -27,7 +27,7 @@
                     [% Translate(Data.Comment) | html %]
                 </p>
 
-                <form action="https://bugs.otobo.org/enter_bug.cgi" target="_blank">
+                <form action="https://github.com/RotherOSS/otobo/issues" target="_blank">
                     <input type="hidden" name="product" value="OTOBO Helpdesk" />
 
                     <textarea class="Hidden" name="comment" rows="1" cols="1">
