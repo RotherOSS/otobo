@@ -29,6 +29,7 @@ RUN apt-get update\
  "rsync"\
  "telnet"\
  "tree"\
+ "screen"\
  "vim"\
  && rm -rf /var/lib/apt/lists/*\
  && install -d /opt/otobo_install
