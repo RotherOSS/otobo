@@ -256,25 +256,24 @@ runs a selenium test if Selenium testing is configured.
 
 sub RunTest {
     my $Self = shift;
-    my ( $Test ) = @_;
+    my ( $Code ) = @_;
 
     my $Context = context();
 
-    if ( !$Self->{SeleniumTestsActive} ) {
-        $Context->skip( 'Selenium testing is not active, skipping tests.' );
+    if ( $Self->{SeleniumTestsActive} ) {
+        eval {
+            $Code->();
+        };
 
-        $Context->release();
+        if ( $@ ) {
+            $TestException = $@;     # remember the exception becaus the screenshot is taken later, during DEMOLISH
+            $Context->fail( $@ );    # report the failure before done_testing()
+        }
 
-        return 1;
     }
-
-    eval {
-        $Test->();
-    };
-
-    $TestException = $@ if $@;
-
-    $Context->fail( $@ );
+    else {
+        $Context->skip( 'Selenium testing is not active, skipping tests.' );
+    }
 
     $Context->release();
 
