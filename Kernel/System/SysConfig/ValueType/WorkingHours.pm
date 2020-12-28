@@ -207,7 +207,8 @@ sub EffectiveValueGet {
 }
 
 sub ModifiedValueGet {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
     for my $Needed (qw(Value EffectiveValue)) {
         if ( !$Param{$Needed} ) {
@@ -215,6 +216,7 @@ sub ModifiedValueGet {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -224,6 +226,7 @@ sub ModifiedValueGet {
             Priority => 'error',
             Message  => "EffectiveValue mush be a hash reference!"
         );
+
         return;
     }
 
@@ -236,11 +239,16 @@ sub ModifiedValueGet {
     # Update Content
     DAY:
     for my $Day (@Days) {
+
+        # it is not required to have a list for all days of the week
+        next DAY unless exists $Param{EffectiveValue}->{$Day};
+
         if ( !$Param{EffectiveValue}->{$Day} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Missing value for $Day!"
             );
+
             next DAY;
         }
 
@@ -266,7 +274,7 @@ sub ModifiedValueGet {
             'ValueType' => 'Day',
         };
 
-        if ( scalar @HourItems ) {
+        if ( @HourItems ) {
             $Item->{Item} = \@HourItems;
         }
         else {
