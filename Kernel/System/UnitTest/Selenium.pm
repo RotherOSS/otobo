@@ -708,7 +708,7 @@ for analysis (in folder /var/otobo-unittest if it exists, in $Home/var/httpd/htd
 
 sub HandleError {
     my $Self = shift;
-    my ( $Error, $CalledInDemolish ) = @_;
+    my ( $Error, $InGlobalDestruction ) = @_;
 
     # If we really have a selenium error, get the stack trace for it.
     if ( $Self->{_SeleniumStackTrace} && $Error eq $Self->{_SeleniumException} ) {
@@ -717,7 +717,7 @@ sub HandleError {
 
     my $Context = context();
 
-    if ( $CalledInDemolish ) {
+    if ( $InGlobalDestruction ) {
         $Context->note( $Error );
     }
     else {
@@ -803,9 +803,10 @@ and performs some clean-ups.
 
 sub DEMOLISH {
     my $Self = shift;
+    my ($InGlobalDestruction) = @_;
 
     if ($TestException) {
-        $Self->HandleError($TestException, 1);
+        $Self->HandleError($TestException, $InGlobalDestruction);
     }
 
     if ( $Self->{SeleniumTestsActive} ) {
