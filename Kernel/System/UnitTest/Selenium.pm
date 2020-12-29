@@ -297,19 +297,10 @@ sub _execute_command {    ## no critic
     my $Self  = shift;
     my ($Res, $Params) = @_;
 
+    # an exception is thrown in case of an error
     my $Result = $Self->SUPER::_execute_command( $Res, $Params );
 
-    # The command 'quit' is called in the destructor on this packages.
-    # Destruction usually happens after done_testing(), which is bad.
-    # So don't emit a testing event for 'quit'.
-    if ( ref $Res eq 'HASH' && $Res->{command} ) {
-        my %CommandIsSkipped = (
-            quit       => 1,
-            screenshot => 1,
-        );
-
-        return $Result if $CommandIsSkipped{ $Res->{command} };
-    }
+    return $Result if $Self->{SuppressCommandRecording};
 
     my $TestName = 'Selenium command success: ';
     $TestName .= $Kernel::OM->Get('Kernel::System::Main')->Dump(
@@ -321,14 +312,7 @@ sub _execute_command {    ## no critic
 
     my $Context = context();
 
-    if ( $Self->{SuppressCommandRecording} ) {
-        $Context->note( $TestName );
-    }
-    else {
-        $Context->pass( $TestName );
-    }
-
-    $Context->release();
+    $Context->pass_and_release( $TestName );
 
     return $Result;
 }
@@ -810,7 +794,16 @@ sub DEMOLISH {
     }
 
     if ( $Self->{SeleniumTestsActive} ) {
-        $Self->SUPER::DEMOLISH(@_);
+
+        # no testing event from auto-quitting Selenium
+        if ( $InGlobalDestruction ) {
+            local $Self->{SuppressCommandRecording} = 1;
+
+            $Self->SUPER::DEMOLISH(@_);
+        }
+        else {
+            $Self->SUPER::DEMOLISH(@_);
+        }
 
         # Cleanup possibly leftover zombie firefox profiles.
         my @LeftoverFirefoxProfiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
