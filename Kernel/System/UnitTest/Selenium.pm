@@ -47,9 +47,9 @@ our @ObjectDependencies = (
     'Kernel::System::UnitTest::Helper',
 );
 
-# If a test throws an exception, we'll record it here in a package variable so that we can
-#   take screenshots of *all* Selenium instances that are currently running on shutdown.
-our $TestException;
+# If a test throws an exception, we'll record it here in a file scoped variable so that we can
+# take screenshots of *all* Selenium instances that are currently running on shutdown.
+my $TestException;
 
 =head1 NAME
 
@@ -211,7 +211,8 @@ sub new {
 }
 
 sub SeleniumErrorHandler {
-    my ( $Self, $Error ) = @_;
+    my $Self = shift;
+    my ( $Error ) = @_;
 
     my $SuppressFrames;
 
