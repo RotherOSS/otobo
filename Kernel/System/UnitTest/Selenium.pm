@@ -29,7 +29,7 @@ use Time::HiRes qw();
 
 # CPAN modules
 use Devel::StackTrace();
-use Test2::API qw(context);
+use Test2::API qw(context run_subtest);
 use Net::DNS::Resolver;
 
 # OTOBO modules
@@ -375,12 +375,20 @@ Will die() if the verification fails.
 sub VerifiedGet {
     my ( $Self, $URL ) = @_;
 
-    $Self->get($URL);
+    my $Context = context();
 
-    $Self->WaitFor(
-        JavaScript =>
-            'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-    ) || die "OTOBO API verification failed after page load.";
+    my $Code = sub {
+        $Self->get($URL);
+
+        $Self->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        ) || die "OTOBO API verification failed after page load.";
+    };
+
+    run_subtest( 'VerifiedGet', $Code, { buffered => 1, inherit_trace => 1 } );
+
+    $Context->release;
 
     return;
 }
@@ -395,14 +403,23 @@ Will die() if the verification fails.
 =cut
 
 sub VerifiedRefresh {
-    my ( $Self, $URL ) = @_;
+    my $Self = shift;
+    my ( $URL ) = @_;
 
-    $Self->refresh();
+    my $Context = context();
 
-    $Self->WaitFor(
-        JavaScript =>
-            'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-    ) || die "OTOBO API verification failed after page load.";
+    my $Code = sub {
+        $Self->refresh();
+
+        $Self->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        ) || die "OTOBO API verification failed after page load.";
+    };
+
+    run_subtest( 'VerifiedRefresh', $Code, { buffered => 1, inherit_trace => 1 } );
+
+    $Context->release;
 
     return;
 }
@@ -436,55 +453,57 @@ sub Login {
 
     my $Context = context();
 
-    $Context->note( 'Initiating login...' );
+    my $Code = sub {
+        # we will try several times to log in
+        my $MaxTries = 5;
 
-    # we will try several times to log in
-    my $MaxTries = 5;
+        TRY:
+        for my $Try ( 1 .. $MaxTries ) {
 
-    TRY:
-    for my $Try ( 1 .. $MaxTries ) {
+            eval {
+                my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        eval {
-            my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+                if ( $Param{Type} eq 'Agent' ) {
+                    $ScriptAlias .= 'index.pl';
+                }
+                else {
+                    $ScriptAlias .= 'customer.pl';
+                }
 
-            if ( $Param{Type} eq 'Agent' ) {
-                $ScriptAlias .= 'index.pl';
+                $Self->get("${ScriptAlias}");
+
+                $Self->delete_all_cookies();
+                $Self->VerifiedGet("${ScriptAlias}?Action=Login;User=$Param{User};Password=$Param{Password}");
+
+                # login successful?
+                $Self->find_element( 'a#LogoutButton', 'css' );    # dies if not found
+
+                $Context->pass( 'Login sequence ended...' );
+            };
+
+            # an error happend
+            if ($@) {
+
+                $Context->note( "Login attempt $Try of $MaxTries not successful." );
+
+                # try again
+                next TRY if $Try < $MaxTries;
+
+                $Context->release();
+
+                die "Login failed!";
             }
+
+            # login was sucessful
             else {
-                $ScriptAlias .= 'customer.pl';
+                last TRY;
             }
-
-            $Self->get("${ScriptAlias}");
-
-            $Self->delete_all_cookies();
-            $Self->VerifiedGet("${ScriptAlias}?Action=Login;User=$Param{User};Password=$Param{Password}");
-
-            # login successful?
-            $Self->find_element( 'a#LogoutButton', 'css' );    # dies if not found
-
-            $Context->pass( 'Login sequence ended...' );
-        };
-
-        # an error happend
-        if ($@) {
-
-            $Context->note( "Login attempt $Try of $MaxTries not successful." );
-
-            # try again
-            next TRY if $Try < $MaxTries;
-
-            $Context->release();
-
-            die "Login failed!";
         }
+    };
 
-        # login was sucessful
-        else {
-            last TRY;
-        }
-    }
+    run_subtest( 'Login', $Code, { buffered => 1, inherit_trace => 1 } );
 
-    $Context->release();
+    $Context->release;
 
     return 1;
 }
@@ -827,7 +846,7 @@ sub DEMOLISH {
 
             my %SessionData = $AuthSessionObject->GetSessionIDData( SessionID => $SessionID );
 
-            next SESSION if !%SessionData;
+            next SESSION unless %SessionData;
             next SESSION
                 if $SessionData{UserSessionStart} && $SessionData{UserSessionStart} < $Self->{TestStartSystemTime};
 
