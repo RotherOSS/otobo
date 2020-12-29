@@ -148,18 +148,23 @@ sub new {
     # and that an automatic check is not implemented
     my $IsWD3 = delete $SeleniumTestsConfig{is_wd3};
 
+    my $BaseURL = join '://',
+        $Kernel::OM->Get('Kernel::Config')->Get('HttpType'),
+        Kernel::System::UnitTest::Helper->GetTestHTTPHostname();
+
     # TEMPORARY WORKAROUND FOR GECKODRIVER BUG https://github.com/mozilla/geckodriver/issues/1470:
     #   If marionette handshake fails, wait and try again. Can be removed after the bug is fixed
     #   in a new geckodriver version.
     my $Self = eval {
         $Class->SUPER::new(
+            base_url         => $BaseURL,
             webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
             error_handler    => sub {
                 my $Self = shift;
 
                 return $Self->SeleniumErrorHandler(@_);
             },
-            %SeleniumTestsConfig
+            %SeleniumTestsConfig,
         );
     };
     if ($@) {
@@ -201,10 +206,8 @@ sub new {
         $Self->set_window_size( $Height, $Width );
     }
 
-    $Self->{BaseURL} = $Kernel::OM->Get('Kernel::Config')->Get('HttpType') . '://';
-    $Self->{BaseURL} .= Kernel::System::UnitTest::Helper->GetTestHTTPHostname();
-
     # Remember the start system time for the selenium test run.
+    # This is needed for cleaning up OTOBO sessions.
     $Self->{TestStartSystemTime} = time;    ## no critic
 
     return $Self;
@@ -316,28 +319,6 @@ sub _execute_command {    ## no critic
     $Context->pass_and_release( $TestName );
 
     return $Result;
-}
-
-=head2 get()
-
-Override get method of base class to prepend the correct base URL.
-
-    $SeleniumObject->get(
-        $URL,
-    );
-
-=cut
-
-sub get {    ## no critic
-    my ( $Self, $URL ) = @_;
-
-    if ( $URL !~ m{http[s]?://}smx ) {
-        $URL = "$Self->{BaseURL}/$URL";
-    }
-
-    $Self->SUPER::get($URL);
-
-    return;
 }
 
 =head2 get_alert_text()
