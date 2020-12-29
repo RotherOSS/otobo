@@ -809,6 +809,11 @@ sub DEMOLISH {
     my $Self = shift;
     my ($InGlobalDestruction) = @_;
 
+    # Looks like for some reason $InGlobalDestruction is not reliable.
+    # So, let's assume that the Kernel::System::UnitTest::Selenium is always demolished
+    # after the done_testing().
+    $InGlobalDestruction = 1;
+
     if ($TestException) {
         $Self->HandleError($TestException, $InGlobalDestruction);
     }
