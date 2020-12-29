@@ -16,6 +16,14 @@
 
 package Kernel::System::UnitTest::Selenium::WebElement;
 
+=head1 NAME
+
+Kernel::System::UnitTest::Selenium::WebElement - Utility functions for Selenium WebElements
+
+=head1 SUBROUTINES
+
+=cut
+
 use strict;
 use warnings;
 use v5.24;
@@ -24,11 +32,12 @@ use utf8;
 
 use parent qw(Selenium::Remote::WebElement);
 
-=head1 NAME
+# core modules
 
-Kernel::System::UnitTest::Selenium::WebElement - Utility functions for Selenium WebElements
+# CPAN modules
 
-=head1 SUBROUTINES
+# OTOBO modules
+use Test2::API qw/context run_subtest/;
 
 =head2 VerifiedSubmit()
 
@@ -42,12 +51,20 @@ sub VerifiedSubmit {
     my $Self  = shift;
     my ($Params) = @_;
 
-    $Self->submit();
+    my $Context = context();
 
-    $Self->driver()->WaitFor(
-        JavaScript =>
-            'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-    ) || die "OTOBO API verification failed after element submit.";
+    my $Code = sub {
+        $Self->submit();
+
+        $Self->driver()->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        ) || die "OTOBO API verification failed after element submit.";
+    };
+
+    run_subtest( 'VerifiedSubmit', $Code, { buffered => 1, inherit_trace => 1 } );
+
+    $Context->release;
 
     return;
 }
@@ -66,14 +83,22 @@ click an element that causes a page get/reload/submit and wait for the page to b
 sub VerifiedClick {    ## no critic
     my $Self = shift;
 
-    $Self->driver()->execute_script('window.Core.App.PageLoadComplete = false;');
+    my $Context = context();
 
-    $Self->SUPER::click(@_);
+    my $Code = sub {
+        $Self->driver()->execute_script('window.Core.App.PageLoadComplete = false;');
 
-    $Self->driver()->WaitFor(
-        JavaScript =>
-            'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-    ) || die "OTOBO API verification failed after element click.";
+        $Self->SUPER::click(@_);
+
+        $Self->driver()->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        ) || die "OTOBO API verification failed after element click.";
+    };
+
+    run_subtest( 'VerifiedClick', $Code, { buffered => 1, inherit_trace => 1 } );
+
+    $Context->release;
 
     return;
 }
