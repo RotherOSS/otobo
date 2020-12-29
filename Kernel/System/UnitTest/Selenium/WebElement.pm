@@ -16,6 +16,14 @@
 
 package Kernel::System::UnitTest::Selenium::WebElement;
 
+=head1 NAME
+
+Kernel::System::UnitTest::Selenium::WebElement - Utility functions for Selenium WebElements
+
+=head1 SUBROUTINES
+
+=cut
+
 use strict;
 use warnings;
 use v5.24;
