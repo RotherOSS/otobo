@@ -198,10 +198,14 @@ sub new {
 
     # Not sure what this was used for.
     # $Self->{UnitTestDriverObject}->{SeleniumData} = { %{ $Self->get_capabilities() }, %{ $Self->status() } };
+
+    # uncomment for activating debug output
     # $Self->debug_on();
 
     # set screen size from config or use defauls
     {
+        local $Self->{SuppressCommandRecording} = 1;
+
         my $Height = $SeleniumTestsConfig{window_height} || 1200;
         my $Width  = $SeleniumTestsConfig{window_width}  || 1400;
         $Self->set_window_size( $Height, $Width );
