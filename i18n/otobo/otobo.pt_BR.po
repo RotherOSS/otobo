@@ -57,7 +57,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-11-12 15:30+0000\n"
-"PO-Revision-Date: 2020-11-18 11:25+0000\n"
+"PO-Revision-Date: 2020-12-31 13:42+0000\n"
 "Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.otobo.org/projects/"
 "otobo10/otobo/pt_BR/>\n"
@@ -1373,7 +1373,7 @@ msgstr "Adicionar contato com dados"
 
 #. Template: AdminContactWD
 msgid "Edit contact with data"
-msgstr ""
+msgstr "Editar contato com dados"
 
 #. Template: AdminContactWD
 msgid "Back to search results"
@@ -1393,7 +1393,7 @@ msgstr "Coringas como '*' são permitidos."
 
 #. Template: AdminContactWD
 msgid "Please enter a search term to look for contacts with data."
-msgstr ""
+msgstr "Insira um termo de pesquisa para procurar contatos com dados."
 
 #. Template: AdminContactWD
 msgid "Valid"
@@ -1786,13 +1786,15 @@ msgstr "Filtro para campos dinâmicos"
 
 #. Template: AdminDynamicField
 msgid "New OTOBO Community  Fields"
-msgstr ""
+msgstr "Novos OTOBO Community  Fields"
 
 #. Template: AdminDynamicField
 msgid ""
 "Would you like to benefit from additional dynamic field types? You have full "
 "access to the following field types:"
 msgstr ""
+"Você gostaria de se beneficiar de tipos de campos dinâmicos adicionais? Você "
+"tem acesso total aos seguintes tipos de campo:"
 
 #. Template: AdminDynamicField
 msgid "Database"
@@ -1858,7 +1860,7 @@ msgstr "Remover este campo"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Import / Export"
-msgstr ""
+msgstr "Importação / Exportação"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid ""
@@ -1866,22 +1868,25 @@ msgid ""
 "system. The file needs to be in .yml format as exported by dynamic field "
 "management module."
 msgstr ""
+"Aqui você pode fazer upload de um arquivo de configuração para importar "
+"campos dinâmicos para seu sistema. O arquivo precisa estar no formato .yml "
+"conforme exportado pelo módulo de gerenciamento de campo dinâmico."
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Import"
-msgstr ""
+msgstr "Importar Campos Dinâmicos"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Export"
-msgstr ""
+msgstr "Exportar Campos dinâmicos"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Dynamic Fields Screens"
-msgstr ""
+msgstr "Telas de Campos Dinâmicos"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Here you can manage the dynamic fields in the respective screens."
-msgstr ""
+msgstr "Aqui você pode gerenciar os campos dinâmicos nas respectivas telas."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
@@ -1973,31 +1978,35 @@ msgstr "Este é o valor padrão para este campo."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add or edit contacts"
-msgstr ""
+msgstr "Adicionar ou editar contatos"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "To add contacts to this field please fill out all the needed information and "
 "save it."
 msgstr ""
+"Para adicionar contatos a este campo, preencha todas as informações "
+"necessárias e salve-as."
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Click on the field name from the overview to edit it and find the "
 "corresponding action in the sidebar or from the 'Tickets' menu."
 msgstr ""
+"Clique no nome do campo da visão geral para editá-lo e encontrar a ação "
+"correspondente na barra lateral ou no menu 'Tickets'."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Name Field"
-msgstr ""
+msgstr "Campo Nome"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "ValidID Field"
-msgstr ""
+msgstr "Campo ValidID"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Other Fields"
-msgstr ""
+msgstr "Outros Campos"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Key"
@@ -2013,7 +2022,7 @@ msgstr "Remover Valor"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add Field"
-msgstr ""
+msgstr "Adicionar Campo"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add value"
@@ -2021,37 +2030,44 @@ msgstr "Adicionar valor"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "These are the possible data attributes for contacts."
-msgstr ""
+msgstr "Esses são os atributos de dados possíveis para contatos."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Mandatory fields"
-msgstr ""
+msgstr "Campos obrigatórios"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of mandatory keys (optional). Keys 'Name' and 'ValidID' "
 "are always mandatory and doesn't have to be listed here."
 msgstr ""
+"Lista separada por vírgulas de chaves obrigatórias (opcional). As chaves "
+"'Name' e 'ValidID' são sempre obrigatórias e não precisam ser listadas aqui."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Sorted fields"
-msgstr ""
+msgstr "Campos ordenados"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of keys in sort order (optional). Keys listed here come "
 "first, all remaining fields afterwards and sorted alphabetically."
 msgstr ""
+"Lista de chaves separadas por vírgulas em ordem de classificação (opcional). "
+"As chaves listadas aqui vêm primeiro, todos os campos restantes depois e "
+"classificados em ordem alfabética."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Searchable fields"
-msgstr ""
+msgstr "Campos pesquisáveis"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of searchable keys (optional). Key 'Name' is always "
 "searchable and doesn't have to be listed here."
 msgstr ""
+"Lista separada por vírgulas de chaves pesquisáveis (opcional). A chave "
+"'Name' sempre pode ser pesquisada e não precisa estar listada aqui."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Translatable values"
@@ -2082,7 +2098,7 @@ msgstr "Valores Possíveis"
 
 #. Template: AdminDynamicFieldDB
 msgid "Datatype"
-msgstr ""
+msgstr "Tipo de dados"
 
 #. Template: AdminDynamicFieldDB
 msgid "Filter"
@@ -31193,7 +31209,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Web Service"
-msgstr ""
+msgstr "Web Service"
 
 #. SysConfig
 msgid "Web Services"
