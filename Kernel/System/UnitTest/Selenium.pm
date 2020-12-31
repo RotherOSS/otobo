@@ -111,7 +111,7 @@ sub new {
     my $Class = shift;
 
     # check whether Selenium testing is activated.
-    my %SeleniumTestsConfig =  ( $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} )->%*;
+    my %SeleniumTestsConfig = ( $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} )->%*;
 
     return bless { SeleniumTestsActive => 0 }, $Class unless %SeleniumTestsConfig;
 
@@ -164,7 +164,7 @@ sub new {
 
                 return $Self->SeleniumErrorHandler(@_);
             },
-            %SeleniumTestsConfig,
+            %SeleniumTestsConfig
         );
     };
     if ($@) {
@@ -174,10 +174,11 @@ sub new {
         die $Exception if $Exception !~ m{Socket timeout reading Marionette handshake data};
 
         # Sleep and try again, bail out if it fails a second time.
-        #   A long sleep of 10 seconds is acceptable here, as it occurs only very rarely.
+        # A long sleep of 10 seconds is acceptable here, as it occurs only very rarely.
         sleep 10;
 
         $Self = $Class->SUPER::new(
+            base_url         => $BaseURL,
             webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
             error_handler    => sub {
                 my $Self = shift;
@@ -197,10 +198,14 @@ sub new {
 
     # Not sure what this was used for.
     # $Self->{UnitTestDriverObject}->{SeleniumData} = { %{ $Self->get_capabilities() }, %{ $Self->status() } };
+
+    # uncomment for activating debug output
     # $Self->debug_on();
 
     # set screen size from config or use defauls
     {
+        local $Self->{SuppressCommandRecording} = 1;
+
         my $Height = $SeleniumTestsConfig{window_height} || 1200;
         my $Width  = $SeleniumTestsConfig{window_width}  || 1400;
         $Self->set_window_size( $Height, $Width );
@@ -632,7 +637,6 @@ Drag and drop an element.
 =cut
 
 sub DragAndDrop {
-
     my ( $Self, %Param ) = @_;
 
     # Value is optional parameter
