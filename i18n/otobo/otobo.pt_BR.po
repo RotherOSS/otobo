@@ -57,7 +57,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2020-11-12 15:30+0000\n"
-"PO-Revision-Date: 2020-12-31 13:42+0000\n"
+"PO-Revision-Date: 2020-12-31 22:33+0000\n"
 "Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.otobo.org/projects/"
 "otobo10/otobo/pt_BR/>\n"
@@ -2106,7 +2106,7 @@ msgstr "Filtro"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchfield"
-msgstr ""
+msgstr "Searchfield"
 
 #. Template: AdminDynamicFieldDB
 msgid "Listfield"
