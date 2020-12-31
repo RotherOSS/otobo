@@ -410,23 +410,7 @@ $Selenium->RunTest(
         $Element->is_enabled();
         $Element->is_displayed();
 
-        my $OTOBOCommunityIsInstalled = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCommunityIsInstalled();
-        my $OTOBOSTORMIsInstalled     = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOSTORMIsInstalled();
-        my $OTOBOCONTROLIsInstalled   = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCONTROLIsInstalled();
-
-        my $FooterMessage;
-        if ($OTOBOSTORMIsInstalled) {
-            $FooterMessage = 'STORM powered by OTOBO';
-        }
-        elsif ($OTOBOCONTROLIsInstalled) {
-            $FooterMessage = 'CONTROL powered by OTOBO';
-        }
-        elsif ($OTOBOCommunityIsInstalled) {
-            $FooterMessage = 'Powered by OTOBO Community Edition';
-        }
-        else {
-            $FooterMessage = 'Powered by ' . $ConfigObject->Get('Product');
-        }
+        my $FooterMessage = 'Powered by ' . $ConfigObject->Get('Product');
 
         # Get secure disable banner.
         my $SecureDisableBanner = $ConfigObject->Get('Secure::DisableBanner');

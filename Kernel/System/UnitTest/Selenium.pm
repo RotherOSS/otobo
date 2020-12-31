@@ -29,7 +29,7 @@ use Time::HiRes qw();
 
 # CPAN modules
 use Devel::StackTrace();
-use Test2::API qw(context);
+use Test2::API qw(context run_subtest);
 use Net::DNS::Resolver;
 
 # OTOBO modules
@@ -47,9 +47,9 @@ our @ObjectDependencies = (
     'Kernel::System::UnitTest::Helper',
 );
 
-# If a test throws an exception, we'll record it here in a package variable so that we can
-#   take screenshots of *all* Selenium instances that are currently running on shutdown.
-our $TestException;
+# If a test throws an exception, we'll record it here in a file scoped variable so that we can
+# take screenshots of *all* Selenium instances that are currently running on shutdown.
+my $TestException;
 
 =head1 NAME
 
@@ -111,7 +111,7 @@ sub new {
     my $Class = shift;
 
     # check whether Selenium testing is activated.
-    my %SeleniumTestsConfig =  ( $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} )->%*;
+    my %SeleniumTestsConfig = ( $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} )->%*;
 
     return bless { SeleniumTestsActive => 0 }, $Class unless %SeleniumTestsConfig;
 
@@ -148,11 +148,16 @@ sub new {
     # and that an automatic check is not implemented
     my $IsWD3 = delete $SeleniumTestsConfig{is_wd3};
 
+    my $BaseURL = join '://',
+        $Kernel::OM->Get('Kernel::Config')->Get('HttpType'),
+        Kernel::System::UnitTest::Helper->GetTestHTTPHostname();
+
     # TEMPORARY WORKAROUND FOR GECKODRIVER BUG https://github.com/mozilla/geckodriver/issues/1470:
     #   If marionette handshake fails, wait and try again. Can be removed after the bug is fixed
     #   in a new geckodriver version.
     my $Self = eval {
         $Class->SUPER::new(
+            base_url         => $BaseURL,
             webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
             error_handler    => sub {
                 my $Self = shift;
@@ -169,10 +174,11 @@ sub new {
         die $Exception if $Exception !~ m{Socket timeout reading Marionette handshake data};
 
         # Sleep and try again, bail out if it fails a second time.
-        #   A long sleep of 10 seconds is acceptable here, as it occurs only very rarely.
+        # A long sleep of 10 seconds is acceptable here, as it occurs only very rarely.
         sleep 10;
 
         $Self = $Class->SUPER::new(
+            base_url         => $BaseURL,
             webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
             error_handler    => sub {
                 my $Self = shift;
@@ -192,26 +198,29 @@ sub new {
 
     # Not sure what this was used for.
     # $Self->{UnitTestDriverObject}->{SeleniumData} = { %{ $Self->get_capabilities() }, %{ $Self->status() } };
+
+    # uncomment for activating debug output
     # $Self->debug_on();
 
     # set screen size from config or use defauls
     {
+        local $Self->{SuppressCommandRecording} = 1;
+
         my $Height = $SeleniumTestsConfig{window_height} || 1200;
         my $Width  = $SeleniumTestsConfig{window_width}  || 1400;
         $Self->set_window_size( $Height, $Width );
     }
 
-    $Self->{BaseURL} = $Kernel::OM->Get('Kernel::Config')->Get('HttpType') . '://';
-    $Self->{BaseURL} .= Kernel::System::UnitTest::Helper->GetTestHTTPHostname();
-
     # Remember the start system time for the selenium test run.
+    # This is needed for cleaning up OTOBO sessions.
     $Self->{TestStartSystemTime} = time;    ## no critic
 
     return $Self;
 }
 
 sub SeleniumErrorHandler {
-    my ( $Self, $Error ) = @_;
+    my $Self = shift;
+    my ( $Error ) = @_;
 
     my $SuppressFrames;
 
@@ -297,19 +306,10 @@ sub _execute_command {    ## no critic
     my $Self  = shift;
     my ($Res, $Params) = @_;
 
+    # an exception is thrown in case of an error
     my $Result = $Self->SUPER::_execute_command( $Res, $Params );
 
-    # The command 'quit' is called in the destructor on this packages.
-    # Destruction usually happens after done_testing(), which is bad.
-    # So don't emit a testing event for 'quit'.
-    if ( ref $Res eq 'HASH' && $Res->{command} ) {
-        my %CommandIsSkipped = (
-            quit       => 1,
-            screenshot => 1,
-        );
-
-        return $Result if $CommandIsSkipped{ $Res->{command} };
-    }
+    return $Result if $Self->{SuppressCommandRecording};
 
     my $TestName = 'Selenium command success: ';
     $TestName .= $Kernel::OM->Get('Kernel::System::Main')->Dump(
@@ -321,38 +321,9 @@ sub _execute_command {    ## no critic
 
     my $Context = context();
 
-    if ( $Self->{SuppressCommandRecording} ) {
-        $Context->note( $TestName );
-    }
-    else {
-        $Context->pass( $TestName );
-    }
-
-    $Context->release();
+    $Context->pass_and_release( $TestName );
 
     return $Result;
-}
-
-=head2 get()
-
-Override get method of base class to prepend the correct base URL.
-
-    $SeleniumObject->get(
-        $URL,
-    );
-
-=cut
-
-sub get {    ## no critic
-    my ( $Self, $URL ) = @_;
-
-    if ( $URL !~ m{http[s]?://}smx ) {
-        $URL = "$Self->{BaseURL}/$URL";
-    }
-
-    $Self->SUPER::get($URL);
-
-    return;
 }
 
 =head2 get_alert_text()
@@ -391,12 +362,20 @@ Will die() if the verification fails.
 sub VerifiedGet {
     my ( $Self, $URL ) = @_;
 
-    $Self->get($URL);
+    my $Context = context();
 
-    $Self->WaitFor(
-        JavaScript =>
-            'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-    ) || die "OTOBO API verification failed after page load.";
+    my $Code = sub {
+        $Self->get($URL);
+
+        $Self->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        ) || die "OTOBO API verification failed after page load.";
+    };
+
+    run_subtest( 'VerifiedGet', $Code, { buffered => 1, inherit_trace => 1 } );
+
+    $Context->release;
 
     return;
 }
@@ -411,14 +390,23 @@ Will die() if the verification fails.
 =cut
 
 sub VerifiedRefresh {
-    my ( $Self, $URL ) = @_;
+    my $Self = shift;
+    my ( $URL ) = @_;
 
-    $Self->refresh();
+    my $Context = context();
 
-    $Self->WaitFor(
-        JavaScript =>
-            'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-    ) || die "OTOBO API verification failed after page load.";
+    my $Code = sub {
+        $Self->refresh();
+
+        $Self->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        ) || die "OTOBO API verification failed after page load.";
+    };
+
+    run_subtest( 'VerifiedRefresh', $Code, { buffered => 1, inherit_trace => 1 } );
+
+    $Context->release;
 
     return;
 }
@@ -452,55 +440,57 @@ sub Login {
 
     my $Context = context();
 
-    $Context->note( 'Initiating login...' );
+    my $Code = sub {
+        # we will try several times to log in
+        my $MaxTries = 5;
 
-    # we will try several times to log in
-    my $MaxTries = 5;
+        TRY:
+        for my $Try ( 1 .. $MaxTries ) {
 
-    TRY:
-    for my $Try ( 1 .. $MaxTries ) {
+            eval {
+                my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        eval {
-            my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+                if ( $Param{Type} eq 'Agent' ) {
+                    $ScriptAlias .= 'index.pl';
+                }
+                else {
+                    $ScriptAlias .= 'customer.pl';
+                }
 
-            if ( $Param{Type} eq 'Agent' ) {
-                $ScriptAlias .= 'index.pl';
+                $Self->get("${ScriptAlias}");
+
+                $Self->delete_all_cookies();
+                $Self->VerifiedGet("${ScriptAlias}?Action=Login;User=$Param{User};Password=$Param{Password}");
+
+                # login successful?
+                $Self->find_element( 'a#LogoutButton', 'css' );    # dies if not found
+
+                $Context->pass( 'Login sequence ended...' );
+            };
+
+            # an error happend
+            if ($@) {
+
+                $Context->note( "Login attempt $Try of $MaxTries not successful." );
+
+                # try again
+                next TRY if $Try < $MaxTries;
+
+                $Context->release();
+
+                die "Login failed!";
             }
+
+            # login was sucessful
             else {
-                $ScriptAlias .= 'customer.pl';
+                last TRY;
             }
-
-            $Self->get("${ScriptAlias}");
-
-            $Self->delete_all_cookies();
-            $Self->VerifiedGet("${ScriptAlias}?Action=Login;User=$Param{User};Password=$Param{Password}");
-
-            # login successful?
-            $Self->find_element( 'a#LogoutButton', 'css' );    # dies if not found
-
-            $Context->pass( 'Login sequence ended...' );
-        };
-
-        # an error happend
-        if ($@) {
-
-            $Context->note( "Login attempt $Try of $MaxTries not successful." );
-
-            # try again
-            next TRY if $Try < $MaxTries;
-
-            $Context->release();
-
-            die "Login failed!";
         }
+    };
 
-        # login was sucessful
-        else {
-            last TRY;
-        }
-    }
+    run_subtest( 'Login', $Code, { buffered => 1, inherit_trace => 1 } );
 
-    $Context->release();
+    $Context->release;
 
     return 1;
 }
@@ -647,7 +637,6 @@ Drag and drop an element.
 =cut
 
 sub DragAndDrop {
-
     my ( $Self, %Param ) = @_;
 
     # Value is optional parameter
@@ -708,7 +697,7 @@ for analysis (in folder /var/otobo-unittest if it exists, in $Home/var/httpd/htd
 
 sub HandleError {
     my $Self = shift;
-    my ( $Error, $CalledInDemolish ) = @_;
+    my ( $Error, $InGlobalDestruction ) = @_;
 
     # If we really have a selenium error, get the stack trace for it.
     if ( $Self->{_SeleniumStackTrace} && $Error eq $Self->{_SeleniumException} ) {
@@ -717,7 +706,7 @@ sub HandleError {
 
     my $Context = context();
 
-    if ( $CalledInDemolish ) {
+    if ( $InGlobalDestruction ) {
         $Context->note( $Error );
     }
     else {
@@ -803,13 +792,28 @@ and performs some clean-ups.
 
 sub DEMOLISH {
     my $Self = shift;
+    my ($InGlobalDestruction) = @_;
+
+    # Looks like for some reason $InGlobalDestruction is not reliable.
+    # So, let's assume that the Kernel::System::UnitTest::Selenium is always demolished
+    # after the done_testing().
+    $InGlobalDestruction = 1;
 
     if ($TestException) {
-        $Self->HandleError($TestException, 1);
+        $Self->HandleError($TestException, $InGlobalDestruction);
     }
 
     if ( $Self->{SeleniumTestsActive} ) {
-        $Self->SUPER::DEMOLISH(@_);
+
+        # no testing event from auto-quitting Selenium
+        if ( $InGlobalDestruction ) {
+            local $Self->{SuppressCommandRecording} = 1;
+
+            $Self->SUPER::DEMOLISH(@_);
+        }
+        else {
+            $Self->SUPER::DEMOLISH(@_);
+        }
 
         # Cleanup possibly leftover zombie firefox profiles.
         my @LeftoverFirefoxProfiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
@@ -833,7 +837,7 @@ sub DEMOLISH {
 
             my %SessionData = $AuthSessionObject->GetSessionIDData( SessionID => $SessionID );
 
-            next SESSION if !%SessionData;
+            next SESSION unless %SessionData;
             next SESSION
                 if $SessionData{UserSessionStart} && $SessionData{UserSessionStart} < $Self->{TestStartSystemTime};
 
