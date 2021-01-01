@@ -211,7 +211,7 @@ $Selenium->RunTest(
         $Self->True(
             index(
                 $Selenium->get_page_source(),
-                'The installation of packages which are not verified by the OTOBO Team is not possible by default.'
+                'The installation of packages which are not verified is disabled.'
             ) > 0,
             'Message for aborting installation of package is displayed'
         );
