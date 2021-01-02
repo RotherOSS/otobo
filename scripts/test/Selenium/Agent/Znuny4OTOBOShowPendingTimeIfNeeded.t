@@ -27,7 +27,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 # create configuration backup
 # get the Znuny4OTOBO Selenium object
-my $SeleniumObject = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 # store test function in variable so the Selenium object can handle errors/exceptions/dies etc.
 my $SeleniumTest = sub {
@@ -37,6 +37,7 @@ my $SeleniumTest = sub {
     my $HelperObject      = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
     my $StateObject       = $Kernel::OM->Get('Kernel::System::State');
     my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
+    my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
 
     $ZnunyHelperObject->_RebuildConfig();
 
@@ -62,9 +63,17 @@ my $SeleniumTest = sub {
     );
 
     # create test user and login
-    my %TestUser = $SeleniumObject->AgentLogin(
+    my $TestUserLogin = $HelperObject->TestUserCreate(
         Groups => ['users'],
+    ) || die "Did not get test user";
+
+    $Selenium->Login(
+        Type     => 'Agent',
+        User     => $TestUserLogin,
+        Password => $TestUserLogin,
     );
+
+    my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
     my @Tests = (
         {
@@ -94,29 +103,23 @@ my $SeleniumTest = sub {
     TEST:
     for my $Test (@Tests) {
 
-        my $DisabledElement;
         my $TicketID;
 
         if ( $Test->{Data}->{Ticket} ) {
             $TicketID = $HelperObject->TicketCreate();
         }
 
-        # navigate to Admin page
-        $SeleniumObject->AgentInterface(
-            Action      => $Test->{Data}->{Action},
-            TicketID    => $TicketID,
-            WaitForAJAX => 0,
-        );
+        # Navigate to appropriate screen in the test
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=$Test->{Data}->{Action};TicketID=$TicketID");
 
-        my $Element = $SeleniumObject->FindElementSave(
-            Selector     => "#$Test->{Data}->{State}",
-            SelectorType => 'css',
-        );
+        my $Element = eval {
+            $Selenium->find_element( "#$Test->{Data}->{State}", 'css' );
+        };
 
         for my $Field (qw(Day Year Month Hour Minute)) {
 
-            eval {
-                $DisabledElement = $SeleniumObject->find_element( "#$Field", 'css' )->is_displayed();
+            my $DisabledElement = eval {
+                $Selenium->find_element( "#$Field", 'css' )->is_displayed();
             };
             $Self->False(
                 $DisabledElement,
@@ -124,7 +127,7 @@ my $SeleniumTest = sub {
             );
         }
 
-        my $Result = $SeleniumObject->InputSet(
+        my $Result = $Selenium->InputSet(
             Attribute   => $Test->{Data}->{State},
             Content     => $PendingStateIDs[0],
             WaitForAJAX => 0,
@@ -138,12 +141,12 @@ my $SeleniumTest = sub {
             "Change NextStateID successfully.",
         );
 
-        next TEST if !$Result;
+        next TEST unless $Result;
 
         for my $Field (qw(Day Year Month Hour Minute)) {
 
             $Self->True(
-                $SeleniumObject->find_element( "#$Field", 'css' )->is_displayed(),
+                $Selenium->find_element( "#$Field", 'css' )->is_displayed(),
                 "Checking for enabled element '$Field'",
             );
         }
@@ -151,7 +154,7 @@ my $SeleniumTest = sub {
 };
 
 # finally run the test(s) in the browser
-$SeleniumObject->RunTest($SeleniumTest);
+$Selenium->RunTest($SeleniumTest);
 
 $Self->DoneTesting();
 
