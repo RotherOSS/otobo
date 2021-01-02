@@ -82,7 +82,7 @@ Die meisten Browser verfügen über eine Option, mit der das Speichern von Cooki
 Allerdings wird darauf hingewiesen, dass die Nutzung und insbesondere der Nutzungskomfort ohne Cookies eingeschränkt werden.</p>
 <br>
         <p>
-            <h2><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Accept=1">[% Translate("Mit einem Klick erkläre ich meine Zustimmung.") | html %]<img src="[% Config("Frontend::WebPath") %]skins/Customer/default/img/otobo-signet.svg" height="30" alt="OTOBO Signet"></a></h2>
+            <h2><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Accept=1">[% Translate("Mit einem Klick erkläre ich meine Zustimmung.") | html %]<img src="[% Config("Frontend::WebPath") %]skins/Customer/default/img/otobo-signet.svg" height="30" alt="OTOBO Signet"/></a></h2>
         </p>
     </div>
 </div>
