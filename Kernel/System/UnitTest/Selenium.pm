@@ -36,7 +36,6 @@ use Net::DNS::Resolver;
 # OTOBO modules
 use Kernel::Config;
 use Kernel::System::User;
-use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our @ObjectDependencies = (
@@ -151,7 +150,7 @@ sub new {
 
     my $BaseURL = join '://',
         $Kernel::OM->Get('Kernel::Config')->Get('HttpType'),
-        Kernel::System::UnitTest::Helper->GetTestHTTPHostname();
+        $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetTestHTTPHostname();
 
     # TEMPORARY WORKAROUND FOR GECKODRIVER BUG https://github.com/mozilla/geckodriver/issues/1470:
     #   If marionette handshake fails, wait and try again. Can be removed after the bug is fixed
