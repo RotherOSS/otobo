@@ -29,6 +29,7 @@ use Time::HiRes qw();
 
 # CPAN modules
 use Devel::StackTrace();
+use Test2::V0;
 use Test2::API qw(context run_subtest);
 use Net::DNS::Resolver;
 
@@ -439,8 +440,6 @@ sub Login {
         }
     }
 
-    my $Context = context();
-
     my $Code = sub {
         # we will try several times to log in
         my $MaxTries = 5;
@@ -460,7 +459,7 @@ sub Login {
                     $LogoutXPath = q{//a[@title='Logout']};
                 }
 
-                $Self->get("${ScriptAlias}");
+                $Self->get($ScriptAlias);
 
                 $Self->delete_all_cookies();
                 $Self->VerifiedGet("${ScriptAlias}?Action=Login;User=$Param{User};Password=$Param{Password}");
@@ -476,18 +475,16 @@ sub Login {
                 # login successful?
                 $Self->find_element( $LogoutXPath, 'xpath' );    # dies if not found
 
-                $Context->pass( 'Login sequence ended...' );
+                pass( 'Login sequence ended...' );
             };
 
             # an error happend
             if ($@) {
 
-                $Context->note( "Login attempt $Try of $MaxTries not successful." );
+                note( "Login attempt $Try of $MaxTries not successful." );
 
                 # try again
                 next TRY if $Try < $MaxTries;
-
-                $Context->release();
 
                 die "Login failed!";
             }
@@ -498,6 +495,8 @@ sub Login {
             }
         }
     };
+
+    my $Context = context();
 
     run_subtest( 'Login', $Code, { buffered => 1, inherit_trace => 1 } );
 
