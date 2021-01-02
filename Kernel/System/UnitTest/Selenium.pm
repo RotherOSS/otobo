@@ -424,7 +424,8 @@ login to agent or customer interface
 =cut
 
 sub Login {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
     # check needed stuff
     for (qw(Type User Password)) {
@@ -449,12 +450,14 @@ sub Login {
 
             eval {
                 my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-
+                my $LogoutXPath; # Logout link differs between Agent and Customer interface.
                 if ( $Param{Type} eq 'Agent' ) {
                     $ScriptAlias .= 'index.pl';
+                    $LogoutXPath = q{//a[@id='LogoutButton']};
                 }
                 else {
                     $ScriptAlias .= 'customer.pl';
+                    $LogoutXPath = q{//a[@title='Logout']};
                 }
 
                 $Self->get("${ScriptAlias}");
@@ -463,7 +466,7 @@ sub Login {
                 $Self->VerifiedGet("${ScriptAlias}?Action=Login;User=$Param{User};Password=$Param{Password}");
 
                 # login successful?
-                $Self->find_element( 'a#LogoutButton', 'css' );    # dies if not found
+                $Self->find_element( $LogoutXPath, 'xpath' );    # dies if not found
 
                 $Context->pass( 'Login sequence ended...' );
             };
