@@ -29,13 +29,13 @@ use Time::HiRes qw();
 
 # CPAN modules
 use Devel::StackTrace();
+use Test2::V0;
 use Test2::API qw(context run_subtest);
 use Net::DNS::Resolver;
 
 # OTOBO modules
 use Kernel::Config;
 use Kernel::System::User;
-use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our @ObjectDependencies = (
@@ -43,7 +43,6 @@ our @ObjectDependencies = (
     'Kernel::System::AuthSession',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::DateTime',
     'Kernel::System::UnitTest::Helper',
 );
 
@@ -150,7 +149,7 @@ sub new {
 
     my $BaseURL = join '://',
         $Kernel::OM->Get('Kernel::Config')->Get('HttpType'),
-        Kernel::System::UnitTest::Helper->GetTestHTTPHostname();
+        $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetTestHTTPHostname();
 
     # TEMPORARY WORKAROUND FOR GECKODRIVER BUG https://github.com/mozilla/geckodriver/issues/1470:
     #   If marionette handshake fails, wait and try again. Can be removed after the bug is fixed
@@ -424,7 +423,8 @@ login to agent or customer interface
 =cut
 
 sub Login {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
     # check needed stuff
     for (qw(Type User Password)) {
@@ -438,8 +438,6 @@ sub Login {
         }
     }
 
-    my $Context = context();
-
     my $Code = sub {
         # we will try several times to log in
         my $MaxTries = 5;
@@ -449,34 +447,42 @@ sub Login {
 
             eval {
                 my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-
+                my $LogoutXPath; # Logout link differs between Agent and Customer interface.
                 if ( $Param{Type} eq 'Agent' ) {
                     $ScriptAlias .= 'index.pl';
+                    $LogoutXPath = q{//a[@id='LogoutButton']};
                 }
                 else {
                     $ScriptAlias .= 'customer.pl';
+                    $LogoutXPath = q{//a[@title='Logout']};
                 }
 
-                $Self->get("${ScriptAlias}");
+                $Self->get($ScriptAlias);
 
                 $Self->delete_all_cookies();
                 $Self->VerifiedGet("${ScriptAlias}?Action=Login;User=$Param{User};Password=$Param{Password}");
 
-                # login successful?
-                $Self->find_element( 'a#LogoutButton', 'css' );    # dies if not found
+                # In the customer interface there is a data privacy blurb that must be accepted.
+                # Note that find_element_by_xpath() does not throw exceptions,
+                # the method returns 0 when the element is not found.
+                my $AcceptGDPRLink = $Self->find_element_by_xpath( q{//a[@id="AcceptGDPR"]} );
+                if ( $AcceptGDPRLink ) {
+                    $AcceptGDPRLink->click();
+                }
 
-                $Context->pass( 'Login sequence ended...' );
+                # login successful?
+                $Self->find_element( $LogoutXPath, 'xpath' );    # dies if not found
+
+                pass( 'Login sequence ended...' );
             };
 
             # an error happend
             if ($@) {
 
-                $Context->note( "Login attempt $Try of $MaxTries not successful." );
+                note( "Login attempt $Try of $MaxTries not successful." );
 
                 # try again
                 next TRY if $Try < $MaxTries;
-
-                $Context->release();
 
                 die "Login failed!";
             }
@@ -487,6 +493,8 @@ sub Login {
             }
         }
     };
+
+    my $Context = context();
 
     run_subtest( 'Login', $Code, { buffered => 1, inherit_trace => 1 } );
 
