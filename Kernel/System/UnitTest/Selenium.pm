@@ -43,7 +43,6 @@ our @ObjectDependencies = (
     'Kernel::System::AuthSession',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::DateTime',
     'Kernel::System::UnitTest::Helper',
 );
 
