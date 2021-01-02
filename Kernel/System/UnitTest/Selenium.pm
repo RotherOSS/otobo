@@ -465,6 +465,14 @@ sub Login {
                 $Self->delete_all_cookies();
                 $Self->VerifiedGet("${ScriptAlias}?Action=Login;User=$Param{User};Password=$Param{Password}");
 
+                # In the customer interface there is a data privacy blurb that must be accepted.
+                # Note that find_element_by_xpath() does not throw exceptions,
+                # the method returns 0 when the element is not found.
+                my $AcceptGDPRLink = $Self->find_element_by_xpath( q{//a[@id="AcceptGDPR"]} );
+                if ( $AcceptGDPRLink ) {
+                    $AcceptGDPRLink->click();
+                }
+
                 # login successful?
                 $Self->find_element( $LogoutXPath, 'xpath' );    # dies if not found
 
