@@ -162,8 +162,9 @@ $Selenium->RunTest(
                 $Selenium->execute_script(
                     "return \$('.DataTable .RemoveFromFavourites').length == $Count;"
                 ),
-                "$NavigationCheck[$Count] - admin navigation item is removed from favourite",
+                "$NavigationCheck[$Count-1] - admin navigation item is removed from favourite",
             );
+
             $Count--;
         }
 
