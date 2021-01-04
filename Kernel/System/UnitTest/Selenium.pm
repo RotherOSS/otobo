@@ -361,8 +361,6 @@ Will die() if the verification fails.
 sub VerifiedGet {
     my ( $Self, $URL ) = @_;
 
-    my $Context = context();
-
     my $Code = sub {
         $Self->get($URL);
 
@@ -372,7 +370,12 @@ sub VerifiedGet {
         ) || die "OTOBO API verification failed after page load.";
     };
 
-    run_subtest( 'VerifiedGet', $Code, { buffered => 1, inherit_trace => 1 } );
+    my $Context = context();
+
+    my $Pass = run_subtest( 'VerifiedGet', $Code, { buffered => 1, inherit_trace => 1 } );
+
+    # run_subtest() does an implicit eval(), but we want do bail out on the first error
+    die 'command failed' unless $Pass;
 
     $Context->release;
 
@@ -392,8 +395,6 @@ sub VerifiedRefresh {
     my $Self = shift;
     my ( $URL ) = @_;
 
-    my $Context = context();
-
     my $Code = sub {
         $Self->refresh();
 
@@ -403,7 +404,12 @@ sub VerifiedRefresh {
         ) || die "OTOBO API verification failed after page load.";
     };
 
-    run_subtest( 'VerifiedRefresh', $Code, { buffered => 1, inherit_trace => 1 } );
+    my $Context = context();
+
+    my $Pass = run_subtest( 'VerifiedRefresh', $Code, { buffered => 1, inherit_trace => 1 } );
+
+    # run_subtest() does an implicit eval(), but we want do bail out on the first error
+    die 'command failed' unless $Pass;
 
     $Context->release;
 
@@ -496,7 +502,10 @@ sub Login {
 
     my $Context = context();
 
-    run_subtest( 'Login', $Code, { buffered => 1, inherit_trace => 1 } );
+    my $Pass = run_subtest( 'Login', $Code, { buffered => 1, inherit_trace => 1 } );
+
+    # run_subtest() does an implicit eval(), but we want do bail out on the first error
+    die 'command failed' unless $Pass;
 
     $Context->release;
 
