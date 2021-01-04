@@ -49,9 +49,6 @@ Submit a form element, and wait for the page to be fully loaded (works only in O
 
 sub VerifiedSubmit {
     my $Self  = shift;
-    my ($Params) = @_;
-
-    my $Context = context();
 
     my $Code = sub {
         $Self->submit();
@@ -62,7 +59,12 @@ sub VerifiedSubmit {
         ) || die "OTOBO API verification failed after element submit.";
     };
 
-    run_subtest( 'VerifiedSubmit', $Code, { buffered => 1, inherit_trace => 1 } );
+    my $Context = context();
+
+    my $Pass = run_subtest( 'VerifiedSubmit', $Code, { buffered => 1, inherit_trace => 1 } );
+
+    # run_subtest() does an implicit eval(), but we want do bail out on the first error
+    die 'command failed' unless $Pass;
 
     $Context->release;
 
@@ -83,8 +85,6 @@ click an element that causes a page get/reload/submit and wait for the page to b
 sub VerifiedClick {    ## no critic
     my $Self = shift;
 
-    my $Context = context();
-
     my $Code = sub {
         $Self->driver()->execute_script('window.Core.App.PageLoadComplete = false;');
 
@@ -96,7 +96,12 @@ sub VerifiedClick {    ## no critic
         ) || die "OTOBO API verification failed after element click.";
     };
 
-    run_subtest( 'VerifiedClick', $Code, { buffered => 1, inherit_trace => 1 } );
+    my $Context = context();
+
+    my $Pass = run_subtest( 'VerifiedClick', $Code, { buffered => 1, inherit_trace => 1 } );
+
+    # run_subtest() does an implicit eval(), but we want do bail out on the first error
+    die 'command failed' unless $Pass;
 
     $Context->release;
 
