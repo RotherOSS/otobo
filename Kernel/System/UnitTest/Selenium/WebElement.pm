@@ -30,7 +30,7 @@ use v5.24;
 use namespace::autoclean;
 use utf8;
 
-use parent qw(Selenium::Remote::WebElement);
+use parent qw(Test::Selenium::Remote::WebElement);
 
 # core modules
 
