@@ -18,7 +18,11 @@ package Kernel::System::UnitTest::Selenium::WebElement;
 
 =head1 NAME
 
-Kernel::System::UnitTest::Selenium::WebElement - Utility functions for Selenium WebElements
+Kernel::System::UnitTest::Selenium::WebElement - add functions Test::Selenium::Remote::WebElement
+
+=head1 DESCRIPTION
+
+Add test subs that what till page is completely loaded.
 
 =head1 SUBROUTINES
 
@@ -30,20 +34,22 @@ use v5.24;
 use namespace::autoclean;
 use utf8;
 
-use parent qw(Test::Selenium::Remote::WebElement);
-
 # core modules
 
 # CPAN modules
+use Moo;
 
 # OTOBO modules
 use Test2::API qw/context run_subtest/;
 
+extends 'Test::Selenium::Remote::WebElement';
+
 =head2 VerifiedSubmit()
 
-Submit a form element, and wait for the page to be fully loaded (works only in OTOBO)
+Submit a form element and wait for the page to be fully loaded.
+This works only in OTOBO.
 
-    $SeleniumObject->VerifiedSubmit();
+    $SeleniumWebElement->VerifiedSubmit();
 
 =cut
 
@@ -73,10 +79,10 @@ sub VerifiedSubmit {
 
 =head2 VerifiedClick()
 
-click an element that causes a page get/reload/submit and wait for the page to be fully loaded
-(works only in OTOBO).
+click an element that causes a page get/reload/submit and wait for the page to be fully loaded.
+This works only in OTOBO.
 
-    $SeleniumObject->VerifiedClick(
+    $SeleniumWebElement->VerifiedClick(
         $Button             # optional, see Selenium docs
     );
 
