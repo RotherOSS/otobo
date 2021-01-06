@@ -32,6 +32,7 @@ use Devel::StackTrace();
 use Test2::V0;
 use Test2::API qw(context run_subtest);
 use Net::DNS::Resolver;
+use Moo;
 
 # OTOBO modules
 use Kernel::Config;
@@ -46,9 +47,37 @@ our @ObjectDependencies = (
     'Kernel::System::UnitTest::Helper',
 );
 
+# extends will silently fail when the base class is not found
+extends 'Selenium::Remote::Driver';
+
+# switch Selenium testing on and off
+has SeleniumTestsActive => (
+    is      => 'ro',
+    default => 0,
+);
+
+# for cleaning up Sessions started by the unit tests
+has _TestStartSystemTime => (
+    is      => 'ro',
+);
+
+# keep a copy of the config
+has _SeleniumTestsConfig => (
+    is      => 'ro',
+);
+
+# some internals for error handling
+has _StackTrace => (
+    is      => 'rw',
+);
+has _SeleniumException => (
+    is      => 'rw',
+);
+
 # If a test throws an exception, we'll record it here in a file scoped variable so that we can
 # take screenshots of *all* Selenium instances that are currently running on shutdown.
 my $TestException;
+our $SuppressCommandRecording;
 
 =head1 NAME
 
@@ -106,115 +135,84 @@ Then you can use the full API of L<Selenium::Remote::Driver> on this object.
 
 =cut
 
-sub new {
+around 'BUILDARGS' => sub {
+    my $Orig  = shift;
     my $Class = shift;
 
     # check whether Selenium testing is activated.
-    my %SeleniumTestsConfig = ( $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} )->%*;
+    my $SeleniumTestsConfig = $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {};
 
-    return bless { SeleniumTestsActive => 0 }, $Class unless %SeleniumTestsConfig;
+    return {
+        SeleniumTestsActive  => 0,
+        _SeleniumTestsConfig => $SeleniumTestsConfig,
+    } unless $SeleniumTestsConfig->%*;
 
     for my $Needed (qw(remote_server_addr port browser_name platform)) {
-        if ( !$SeleniumTestsConfig{$Needed} ) {
+        if ( !$SeleniumTestsConfig->{$Needed} ) {
             die "SeleniumTestsConfig must provide $Needed!";
         }
     }
 
     # Run the tests only when the remote address can be resolved.
     # This avoid the need for manually adaption the test config.
-    my $DoCheckServerAddr = delete $SeleniumTestsConfig{check_server_addr};
-    if ( $DoCheckServerAddr ) {
+    if ( $SeleniumTestsConfig->{check_server_addr} ) {
 
         # try to resolve the server, but don't wait for a long time
         my $Resolver = Net::DNS::Resolver->new();
         $Resolver->tcp_timeout(1);
         $Resolver->udp_timeout(1);
 
-        my $Host = $SeleniumTestsConfig{remote_server_addr};
+        my $Host = $SeleniumTestsConfig->{remote_server_addr};
         my $Packet = $Resolver->search( $Host );
 
         # no Selenium testing when the remote server can't be resolved
-        return bless { SeleniumTestsActive => 0 }, $Class unless $Packet;
+        return {
+            SeleniumTestsActive  => 0,
+            _SeleniumTestsConfig => $SeleniumTestsConfig,
+        } unless $Packet;
     }
-
-    $Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass('Selenium::Remote::Driver')
-        || die "Could not load Selenium::Remote::Driver";
 
     $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::UnitTest::Selenium::WebElement')
         || die "Could not load Kernel::System::UnitTest::Selenium::WebElement";
-
-    # looks like is_wd3 can't be passed in the constructor,
-    # and that an automatic check is not implemented
-    my $IsWD3 = delete $SeleniumTestsConfig{is_wd3};
 
     my $BaseURL = join '://',
         $Kernel::OM->Get('Kernel::Config')->Get('HttpType'),
         $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetTestHTTPHostname();
 
-    # TEMPORARY WORKAROUND FOR GECKODRIVER BUG https://github.com/mozilla/geckodriver/issues/1470:
-    #   If marionette handshake fails, wait and try again. Can be removed after the bug is fixed
-    #   in a new geckodriver version.
-    my $Self = eval {
-        $Class->SUPER::new(
-            base_url         => $BaseURL,
-            webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
-            error_handler    => sub {
-                my $Self = shift;
+    # Remember the start system time for the selenium test run.
+    # This is needed for cleaning up OTOBO sessions.
+    my $TestStartSystemTime = time;
 
-                return $Self->SeleniumErrorHandler(@_);
-            },
-            %SeleniumTestsConfig
-        );
-    };
-    if ($@) {
-        my $Exception = $@;
+    return $Class->$Orig(
+        SeleniumTestsActive  => 1,
+        _SeleniumTestsConfig => $SeleniumTestsConfig,
+        _TestStartSystemTime => $TestStartSystemTime,
+        base_url             => $BaseURL,
+        webelement_class     => 'Kernel::System::UnitTest::Selenium::WebElement',
+        error_handler        => sub {
+            my $Self = shift;
 
-        # Only handle this specific geckodriver exception.
-        die $Exception if $Exception !~ m{Socket timeout reading Marionette handshake data};
+            return $Self->SeleniumErrorHandler(@_);
+        },
+        $SeleniumTestsConfig->%*,
+    );
+};
 
-        # Sleep and try again, bail out if it fails a second time.
-        # A long sleep of 10 seconds is acceptable here, as it occurs only very rarely.
-        sleep 10;
+sub BUILD {
+    my $Self = shift;
 
-        $Self = $Class->SUPER::new(
-            base_url         => $BaseURL,
-            webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
-            error_handler    => sub {
-                my $Self = shift;
-
-                return $Self->SeleniumErrorHandler(@_);
-            },
-            %SeleniumTestsConfig
-        );
-    }
-
-    $Self->{SeleniumTestsActive}  = 1;
-
-    # TODO: remove this workaround when it is no longer needed
-    if ( defined $IsWD3 ) {
-        $Self->{is_wd3} = $IsWD3;
-    }
-
-    # Not sure what this was used for.
-    # $Self->{UnitTestDriverObject}->{SeleniumData} = { %{ $Self->get_capabilities() }, %{ $Self->status() } };
-
-    # uncomment for activating debug output
-    # $Self->debug_on();
+    return unless $Self->SeleniumTestsActive();
 
     # set screen size from config or use defauls
     {
-        local $Self->{SuppressCommandRecording} = 1;
+        local $SuppressCommandRecording = 1;
 
-        my $Height = $SeleniumTestsConfig{window_height} || 1200;
-        my $Width  = $SeleniumTestsConfig{window_width}  || 1400;
+        my $Height = $Self->_SeleniumTestsConfig()->{window_height}  || 1200;
+        my $Width  = $Self->_SeleniumTestsConfig()->{window_width}  || 1400;
         $Self->set_window_size( $Height, $Width );
     }
 
-    # Remember the start system time for the selenium test run.
-    # This is needed for cleaning up OTOBO sessions.
-    $Self->{TestStartSystemTime} = time;    ## no critic
-
-    return $Self;
+    return;
 }
 
 sub SeleniumErrorHandler {
@@ -248,8 +246,8 @@ sub SeleniumErrorHandler {
         }
     )->as_string();
 
-    $Self->{_SeleniumStackTrace} = $StackTrace;
-    $Self->{_SeleniumException}  = $Error;
+    $Self->_StackTrace($StackTrace);
+    $Self->_SeleniumException($Error);
 
     die $Error;
 }
@@ -268,7 +266,7 @@ sub RunTest {
 
     my $Context = context();
 
-    if ( $Self->{SeleniumTestsActive} ) {
+    if ( $Self->SeleniumTestsActive() ) {
         eval {
             $Code->();
         };
@@ -301,14 +299,15 @@ Errors will cause an exeption and be caught elsewhere.
 
 =cut
 
-sub _execute_command {    ## no critic
+around _execute_command => sub {    ## no critic
+    my $Orig  = shift;
     my $Self  = shift;
     my ($Res, $Params) = @_;
 
     # an exception is thrown in case of an error
-    my $Result = $Self->SUPER::_execute_command( $Res, $Params );
+    my $Result = $Self->$Orig( $Res, $Params );
 
-    return $Result if $Self->{SuppressCommandRecording};
+    return $Result if $SuppressCommandRecording;
 
     my $TestName = 'Selenium command success: ';
     $TestName .= $Kernel::OM->Get('Kernel::System::Main')->Dump(
@@ -323,7 +322,7 @@ sub _execute_command {    ## no critic
     $Context->pass_and_release( $TestName );
 
     return $Result;
-}
+};
 
 =head2 get_alert_text()
 
@@ -337,15 +336,16 @@ returns
 
 =cut
 
-sub get_alert_text {    ## no critic
-    my ($Self) = @_;
+around get_alert_text => sub {    ## no critic
+    my $Orig = shift;
+    my $Self = shift;
 
-    my $AlertText = $Self->SUPER::get_alert_text();
+    my $AlertText = $Self->$Orig();
 
     die "Alert dialog is not present" if ref $AlertText eq 'HASH';    # Chrome returns HASH when there is no alert text.
 
     return $AlertText;
-}
+};
 
 =head2 VerifiedGet()
 
@@ -546,7 +546,7 @@ sub WaitFor {
         die "Need JavaScript, WindowCount, ElementExists, ElementMissing, Callback or AlertPresent.";
     }
 
-    local $Self->{SuppressCommandRecording} = 1;
+    local $SuppressCommandRecording = 1;
 
     $Param{Time} //= 20;
     my $WaitedSeconds = 0;
@@ -728,8 +728,8 @@ sub HandleError {
     my ( $Error, $InGlobalDestruction ) = @_;
 
     # If we really have a selenium error, get the stack trace for it.
-    if ( $Self->{_SeleniumStackTrace} && $Error eq $Self->{_SeleniumException} ) {
-        $Error .= "\n" . $Self->{_SeleniumStackTrace};
+    if ( $Self->_StackTrace()  && $Error eq $Self->_SeleniumException() ) {
+        $Error .= "\n" . $Self->_StackTrace();
     }
 
     my $Context = context();
@@ -743,7 +743,7 @@ sub HandleError {
 
     # Don't create a test entry for the screenshot command,
     #   to make sure it gets attached to the previous error entry.
-    local $Self->{SuppressCommandRecording} = 1;
+    local $SuppressCommandRecording = 1;
 
     my $Data = $Self->screenshot();
     if ( !$Data ) {
@@ -827,21 +827,29 @@ sub DEMOLISH {
     # after the done_testing().
     $InGlobalDestruction = 1;
 
+    # $SuppressCommandRecording is not localised because one DEMOLISH is called after the other.
+    # This is ok because no testing events should be emitted during demolist and after the script is finished.
+    if ( $InGlobalDestruction ) {
+        $SuppressCommandRecording = 1;
+    }
+
     if ($TestException) {
         $Self->HandleError($TestException, $InGlobalDestruction);
     }
 
-    if ( $Self->{SeleniumTestsActive} ) {
+    return unless $Self->SeleniumTestsActive();
 
-        # no testing event from auto-quitting Selenium
-        if ( $InGlobalDestruction ) {
-            local $Self->{SuppressCommandRecording} = 1;
+    {
 
-            $Self->SUPER::DEMOLISH(@_);
-        }
-        else {
-            $Self->SUPER::DEMOLISH(@_);
-        }
+        # TODO: no testing event from auto-quitting Selenium
+        #if ( $InGlobalDestruction ) {
+        #    local $Self->{SuppressCommandRecording} = 1;
+
+        #    $Self->SUPER::DEMOLISH(@_);
+        #}
+        #else {
+        #    $Self->SUPER::DEMOLISH(@_);
+        #}
 
         # Cleanup possibly leftover zombie firefox profiles.
         my @LeftoverFirefoxProfiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
@@ -867,7 +875,7 @@ sub DEMOLISH {
 
             next SESSION unless %SessionData;
             next SESSION
-                if $SessionData{UserSessionStart} && $SessionData{UserSessionStart} < $Self->{TestStartSystemTime};
+                if $SessionData{UserSessionStart} && $SessionData{UserSessionStart} < $Self->_TestStartSystemTime();
 
             $AuthSessionObject->RemoveSessionID( SessionID => $SessionID );
         }

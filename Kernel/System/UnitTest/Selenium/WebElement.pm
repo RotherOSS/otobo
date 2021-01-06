@@ -42,7 +42,7 @@ use Moo;
 # OTOBO modules
 use Test2::API qw/context run_subtest/;
 
-extends 'Test::Selenium::Remote::WebElement';
+extends 'Selenium::Remote::WebElement';
 
 =head2 VerifiedSubmit()
 
