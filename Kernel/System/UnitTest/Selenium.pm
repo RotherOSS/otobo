@@ -28,7 +28,7 @@ use File::Path qw(remove_tree);
 use Time::HiRes qw();
 
 # CPAN modules
-use Devel::StackTrace();
+use Devel::StackTrace qw();
 use Test2::V0;
 use Test2::API qw(context run_subtest);
 use Net::DNS::Resolver;
@@ -74,10 +74,16 @@ has _SeleniumException => (
     is      => 'rw',
 );
 
-# If a test throws an exception, we'll record it here in a file scoped variable so that we can
+# If a test throws an exception, we'll record it here in an attribute so that we can
 # take screenshots of *all* Selenium instances that are currently running on shutdown.
-my $TestException;
-our $SuppressCommandRecording;
+has _TestException => (
+    is      => 'rw',
+);
+
+# suppress testing events
+has _SuppressTestingEvents => (
+    is      => 'rw',
+);
 
 =head1 NAME
 
@@ -205,11 +211,12 @@ sub BUILD {
 
     # set screen size from config or use defauls
     {
-        local $SuppressCommandRecording = 1;
-
         my $Height = $Self->_SeleniumTestsConfig()->{window_height}  || 1200;
         my $Width  = $Self->_SeleniumTestsConfig()->{window_width}  || 1400;
+
+        $Self->_SuppressTestingEvents(1);
         $Self->set_window_size( $Height, $Width );
+        $Self->_SuppressTestingEvents(0);
     }
 
     return;
@@ -272,7 +279,7 @@ sub RunTest {
         };
 
         if ( $@ ) {
-            $TestException = $@;     # remember the exception becaus the screenshot is taken later, during DEMOLISH
+            $Self->_TestException($@);     # remember the exception becaus the screenshot is taken later, during DEMOLISH
             $Context->fail( $@ );    # report the failure before done_testing()
         }
 
@@ -307,7 +314,7 @@ around _execute_command => sub {    ## no critic
     # an exception is thrown in case of an error
     my $Result = $Self->$Orig( $Res, $Params );
 
-    return $Result if $SuppressCommandRecording;
+    return $Result if $Self->_SuppressTestingEvents();
 
     my $TestName = 'Selenium command success: ';
     $TestName .= $Kernel::OM->Get('Kernel::System::Main')->Dump(
@@ -546,7 +553,6 @@ sub WaitFor {
         die "Need JavaScript, WindowCount, ElementExists, ElementMissing, Callback or AlertPresent.";
     }
 
-    local $SuppressCommandRecording = 1;
 
     $Param{Time} //= 20;
     my $WaitedSeconds = 0;
@@ -555,24 +561,42 @@ sub WaitFor {
 
     while ( $WaitedSeconds <= $Param{Time} ) {
         if ( $Param{JavaScript} ) {
-            return 1 if $Self->execute_script( $Param{JavaScript} );
+            $Self->_SuppressTestingEvents(1);
+            my $Ret = $Self->execute_script( $Param{JavaScript} );
+            $Self->_SuppressTestingEvents(0);
+
+            return 1 if $Ret;
         }
         elsif ( $Param{WindowCount} ) {
-            return 1 if scalar( @{ $Self->get_window_handles() } ) == $Param{WindowCount};
+            $Self->_SuppressTestingEvents(1);
+            my $Ret = scalar( @{ $Self->get_window_handles() } ) == $Param{WindowCount};
+            $Self->_SuppressTestingEvents(0);
+
+            return 1 if $Ret;
         }
         elsif ( $Param{AlertPresent} ) {
-
+            $Self->_SuppressTestingEvents(1);
             # Eval is needed because the method would throw if no alert is present (yet).
-            return 1 if eval { $Self->get_alert_text() };
+            my $Ret = eval { $Self->get_alert_text() };
+            $Self->_SuppressTestingEvents(0);
+
+            return 1 if $Ret;
         }
         elsif ( $Param{Callback} ) {
-            return 1 if $Param{Callback}->();
+            $Self->_SuppressTestingEvents(1);
+            my $Ret =  $Param{Callback}->();
+            $Self->_SuppressTestingEvents(0);
+
+            return 1 if $Ret;
         }
         elsif ( $Param{ElementExists} ) {
             my @Arguments
                 = ref( $Param{ElementExists} ) eq 'ARRAY' ? @{ $Param{ElementExists} } : $Param{ElementExists};
 
-            if ( eval { $Self->find_element(@Arguments) } ) {
+            $Self->_SuppressTestingEvents(1);
+            my $Ret = eval { $Self->find_element(@Arguments) };
+            $Self->_SuppressTestingEvents(0);
+            if ( $Ret ) {
                 Time::HiRes::sleep($WaitSeconds);
 
                 return 1;
@@ -582,7 +606,10 @@ sub WaitFor {
             my @Arguments
                 = ref( $Param{ElementMissing} ) eq 'ARRAY' ? @{ $Param{ElementMissing} } : $Param{ElementMissing};
 
-            if ( !eval { $Self->find_element(@Arguments) } ) {
+            $Self->_SuppressTestingEvents(1);
+            my $Ret = eval { $Self->find_element(@Arguments) };
+            $Self->_SuppressTestingEvents(0);
+            if ( ! $Ret ) {
                 Time::HiRes::sleep($WaitSeconds);
 
                 return 1;
@@ -742,10 +769,11 @@ sub HandleError {
     }
 
     # Don't create a test entry for the screenshot command,
-    #   to make sure it gets attached to the previous error entry.
-    local $SuppressCommandRecording = 1;
-
+    # to make sure it gets attached to the previous error entry.
+    my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents();
+    $Self->_SuppressTestingEvents(1);
     my $Data = $Self->screenshot();
+    $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
     if ( !$Data ) {
         $Context->release();
 
@@ -830,11 +858,11 @@ sub DEMOLISH {
     # $SuppressCommandRecording is not localised because one DEMOLISH is called after the other.
     # This is ok because no testing events should be emitted during demolist and after the script is finished.
     if ( $InGlobalDestruction ) {
-        $SuppressCommandRecording = 1;
+        $Self->_SuppressTestingEvents(1);
     }
 
-    if ($TestException) {
-        $Self->HandleError($TestException, $InGlobalDestruction);
+    if ($Self->_TestException()) {
+        $Self->HandleError($Self->_TestException(), $InGlobalDestruction);
     }
 
     return unless $Self->SeleniumTestsActive();
