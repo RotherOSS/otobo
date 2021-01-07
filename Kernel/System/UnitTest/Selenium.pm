@@ -226,23 +226,26 @@ sub SeleniumErrorHandler {
     my $Self = shift;
     my ( $Error ) = @_;
 
-    my $SuppressFrames;
-
     # Generate stack trace information.
     #   Don't store caller args, as this sometimes blows up due to an internal Perl bug
     #   (see https://github.com/Perl/perl5/issues/10687).
+    # Show only the stack frames in the test script,
+    # that is skip the frames in the testing and in the Selenium modules.
+    my $ShowFrame = 0;
     my $StackTrace = Devel::StackTrace->new(
         indent         => 1,
         no_args        => 1,
-        ignore_package => [ 'Selenium::Remote::Driver', 'Try::Tiny', __PACKAGE__ ],
         message        => 'Selenium stack trace started',
         frame_filter   => sub {
 
             # Limit stack trace to test evaluation itself.
-            return 0          if $SuppressFrames;
+            if ( ! $ShowFrame ) {
+                my $FileName = $_[0]->{caller}->[1];
 
-            # TODO: this needs to be adapted
-            $SuppressFrames++ if $_[0]->{caller}->[3] eq 'Kernel::System::UnitTest::Driver::Run';
+                return 0 unless $FileName =~ m/\.t$/; # skip the internal frames
+
+                $ShowFrame = 1; # show the last frame in the test script and all frames above
+            }
 
             # Remove the long serialized eval texts from the frame to keep the trace short.
             if ( $_[0]->{caller}->[6] ) {
@@ -271,26 +274,26 @@ sub RunTest {
     my $Self = shift;
     my ( $Code ) = @_;
 
+    if ( ! $Self->SeleniumTestsActive() ) {
+        skip( 'Selenium testing is not active, skipping tests.' );
+
+        return;
+    }
+
     my $Context = context();
 
-    if ( $Self->SeleniumTestsActive() ) {
-        eval {
-            $Code->();
-        };
+    eval {
+        $Code->();
+    };
 
-        if ( $@ ) {
-            $Self->_TestException($@);     # remember the exception becaus the screenshot is taken later, during DEMOLISH
-            $Context->fail( $@ );    # report the failure before done_testing()
-        }
-
-    }
-    else {
-        $Context->skip( 'Selenium testing is not active, skipping tests.' );
+    if ( $@ ) {
+        $Self->_TestException($@);  # remember the exception becaus the screenshot is taken later, during DEMOLISH
+        $Context->fail( $@ );       # report the failure before done_testing()
     }
 
     $Context->release();
 
-    return 1;
+    return;
 }
 
 =begin Internal:
