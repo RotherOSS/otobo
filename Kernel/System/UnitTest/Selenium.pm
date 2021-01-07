@@ -274,26 +274,26 @@ sub RunTest {
     my $Self = shift;
     my ( $Code ) = @_;
 
+    if ( ! $Self->SeleniumTestsActive() ) {
+        skip( 'Selenium testing is not active, skipping tests.' );
+
+        return;
+    }
+
     my $Context = context();
 
-    if ( $Self->SeleniumTestsActive() ) {
-        eval {
-            $Code->();
-        };
+    eval {
+        $Code->();
+    };
 
-        if ( $@ ) {
-            $Self->_TestException($@);     # remember the exception becaus the screenshot is taken later, during DEMOLISH
-            $Context->fail( $@ );    # report the failure before done_testing()
-        }
-
-    }
-    else {
-        $Context->skip( 'Selenium testing is not active, skipping tests.' );
+    if ( $@ ) {
+        $Self->_TestException($@);  # remember the exception becaus the screenshot is taken later, during DEMOLISH
+        $Context->fail( $@ );       # report the failure before done_testing()
     }
 
     $Context->release();
 
-    return 1;
+    return;
 }
 
 =begin Internal:
