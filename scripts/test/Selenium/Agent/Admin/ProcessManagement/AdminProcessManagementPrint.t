@@ -18,16 +18,20 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
+
+our $Self;
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
-
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # Create test user and login.
