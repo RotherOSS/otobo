@@ -74,15 +74,10 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
         sleep 1;
 
-        $Selenium->WaitFor( ElementExists => "//h1[contains(.,'Print process information')]" );
-
         # Check process print screen.
-        $Self->True(
-            $Selenium->find_element(
-                "//h1[contains(.,'Print process information')]"
-            ),
-            "Process print screen is loaded.",
-        );
+        my $ProcessPrintSelector = q{//li[@class='HeaderPopupleft' and contains(text(),'Print process information')]};
+        $Selenium->WaitFor( ElementExists => $ProcessPrintSelector);
+        ok( $Selenium->find_element( $ProcessPrintSelector ), "Process print screen is loaded." );
 
         $Selenium->close();
         $Selenium->WaitFor( WindowCount => 1 );
