@@ -29,10 +29,7 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 #   change database settings system-wide.
 my $Success = $Helper->ProvideTestDatabase();
 if ( !$Success ) {
-    $Self->False(
-        0,
-        'Test database could not be provided, skipping test'
-    );
+    skip_all( 'Test database could not be provided, skipping test' );
 }
 else {
     $Self->True(
