@@ -54,6 +54,8 @@ requires 'Text::Trim';
 # Required for high resolution timestamps.
 requires 'Time::HiRes';
 
+requires 'Try::Tiny';
+
 # Required for XML processing.
 requires 'XML::LibXML';
 

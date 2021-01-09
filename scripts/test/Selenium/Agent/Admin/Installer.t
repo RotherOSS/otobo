@@ -16,29 +16,30 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+use File::Copy qw(copy);
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO moduled
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
+
+our $Self;
 
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# Use test database, if configured. Otherwise, skip this test. ProvideTestDatabase() will clean the test database and
-#   change database settings system-wide.
+# Use test database, if configured. Otherwise, skip this test script.
+# ProvideTestDatabase() will clean the test database and change database settings system-wide.
 my $Success = $Helper->ProvideTestDatabase();
 if ( !$Success ) {
-    $Self->False(
-        0,
-        'Test database could not be provided, skipping test'
-    );
+    skip_all( 'Test database could not be provided, skipping test' );
 }
 else {
-    $Self->True(
-        $Success,
-        'ProvideTestDatabase - Database cleared'
-    );
+    pass( 'ProvideTestDatabase() - Database cleared' );
 
     my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
@@ -73,6 +74,8 @@ else {
             my $ConfigPmFile       = $Home . '/Kernel/Config.pm';
             my $ConfigPmFileBackup = $Home . '/Kernel/Config.pm.' . $Helper->GetRandomID();
 
+            # Avoid throwing exception the following code
+            # as the regular cleanup does not work in this case.
             eval {
 
                 # Make a copy of original configuration file.
@@ -298,31 +301,27 @@ else {
                 );
             };
 
-            # Catch any exceptions raised during the test.
+            # report when an exception was caught
+            $Self->False(
+                $@,
+                'No trappable errors encountered'
+            );
+
+            # take a screenshot and print a stacktrace in case of errors
             if ($@) {
-                $Selenium->HandleError($@);
-                $Self->Is(
-                    $@,
-                    undef,
-                    'Errors encountered during install process'
-                );
-            }
-            else {
-                $Self->False(
-                    $@,
-                    'No trappable errors encountered'
-                );
+                my $InGlobalDestruction = 0;
+                $Selenium->HandleError($@, $InGlobalDestruction);
             }
 
             # Restore original configuration.
-            system("cp $ConfigPmFileBackup $ConfigPmFile") if -e $ConfigPmFileBackup;
-            system("rm $ConfigPmFileBackup")               if -e $ConfigPmFileBackup;
+            copy( $ConfigPmFileBackup, $ConfigPmFile) if -e $ConfigPmFileBackup;
+            unlink $ConfigPmFileBackup                if -e $ConfigPmFileBackup;
         }
     );
 
     # Discard the Selenium object before unit test helper object goes out of scope. This will demolish the object before
-    #   restoring database configuration, and prevents issues with Selenium cleanup because of empty database.
+    # restoring database configuration, and prevents issues with Selenium cleanup because of empty database.
     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::UnitTest::Selenium'] );
 }
 
-$Self->DoneTesting();
+done_testing;
