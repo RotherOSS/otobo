@@ -33,6 +33,7 @@ use Test2::V0;
 use Test2::API qw(context run_subtest);
 use Net::DNS::Resolver;
 use Moo;
+use Try::Tiny;
 
 # OTOBO modules
 use Kernel::Config;
@@ -47,8 +48,59 @@ our @ObjectDependencies = (
     'Kernel::System::UnitTest::Helper',
 );
 
-# extends will silently fail when the base class is not found
-extends 'Selenium::Remote::Driver';
+# Extend Selenium::Remote::Driver only when Selenium testing is activated.
+# Otherwise Selenium::Remote::Driver::BUILD would be called with missing paramters.
+# Extending with 'around' is only done when the the class is actually extended.
+{
+    # check whether Selenium testing is activated.
+    my $SeleniumTestsConfig = $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {};
+
+    if ( $SeleniumTestsConfig->%* ) {
+
+        extends 'Selenium::Remote::Driver';
+
+        # Override internal command of base class.
+        # We use it to output successful command runs to the UnitTest object.
+        # Errors will cause an exeption. The exception will be passed to SeleniumErrorHandler().
+        around _execute_command => sub {
+            my $Orig  = shift;
+            my $Self  = shift;
+            my ($Res, $Params) = @_;
+
+            # an exception is thrown in case of an error
+            my $Result = $Self->$Orig( $Res, $Params );
+
+            return $Result if $Self->_SuppressTestingEvents();
+
+            my $TestName = 'Selenium command success: ';
+            $TestName .= $Kernel::OM->Get('Kernel::System::Main')->Dump(
+                {
+                    Res    => $Res,
+                    Params => $Params,
+                }
+            );
+
+            my $Context = context();
+
+            $Context->pass_and_release( $TestName );
+
+            return $Result;
+        };
+
+
+        # Enhance get_alert_text() method of base class to return alert text as string.
+        around get_alert_text => sub {    ## no critic
+            my $Orig = shift;
+            my $Self = shift;
+
+            my $AlertText = $Self->$Orig();
+
+            die "Alert dialog is not present" if ref $AlertText eq 'HASH';    # Chrome returns HASH when there is no alert text.
+
+            return $AlertText;
+        };
+    }
+}
 
 # switch Selenium testing on and off
 has SeleniumTestsActive => (
@@ -89,22 +141,12 @@ has _SuppressTestingEvents => (
 
 Kernel::System::UnitTest::Selenium - run front end tests
 
-This class inherits from Selenium::Remote::Driver. You can use
-its full API (see
-L<http://search.cpan.org/~aivaturi/Selenium-Remote-Driver-0.15/lib/Selenium/Remote/Driver.pm>).
+This class extends Selenium::Remote::Driver when Selenium testing is activated.
+You can use the full API of the base object. See L<https://metacpan.org/pod/Selenium::Remote::Driver>.
 
-Every successful Selenium command will be logged as a successful unit test.
-In case of an error, an exception will be thrown that you can catch in your
-unit test file and handle with C<HandleError()> in this class. It will output
-a failing test result and generate a screen shot for analysis.
-
-=head2 new()
-
-create a selenium object to run front end tests.
-
-To do this, you need a running C<selenium> or C<phantomjs> server.
-
-Specify the connection details in C<Config.pm>, like this:
+Activating Selenium is done by adding a hash element in F<Kernel/Config.pm>.
+You need a running C<selenium> or C<phantomjs> server in order to do this successfully.
+Here are some examples:
 
     # For testing with Firefox until v. 47 (testing with recent FF and marionette is currently not supported):
     $Self->{'SeleniumTestsConfig'} = {
@@ -137,11 +179,14 @@ Specify the connection details in C<Config.pm>, like this:
         },
     };
 
-Then you can use the full API of L<Selenium::Remote::Driver> on this object.
+Every successful Selenium command will be logged as a successful unit test.
+In case of an error, an exception will be thrown that you can catch in your
+unit test file and handle with C<HandleError()> in this class. It will output
+a failing test result including a stack trace and generate a screen shot for analysis.
 
 =cut
 
-around 'BUILDARGS' => sub {
+around BUILDARGS => sub {
     my $Orig  = shift;
     my $Class = shift;
 
@@ -209,19 +254,24 @@ sub BUILD {
 
     return unless $Self->SeleniumTestsActive();
 
-    # set screen size from config or use defauls
-    {
-        my $Height = $Self->_SeleniumTestsConfig()->{window_height}  || 1200;
-        my $Width  = $Self->_SeleniumTestsConfig()->{window_width}  || 1400;
+    # Set screen size from config or use defauls.
+    my $Height = $Self->_SeleniumTestsConfig()->{window_height}  || 1200;
+    my $Width  = $Self->_SeleniumTestsConfig()->{window_width}  || 1400;
 
-        $Self->_SuppressTestingEvents(1);
-        $Self->set_window_size( $Height, $Width );
-        $Self->_SuppressTestingEvents(0);
-    }
+    $Self->_SuppressTestingEvents(1);
+
+    # This works only because we have extended Selenium::Remove::Driver.
+    $Self->set_window_size( $Height, $Width );
+
+    $Self->_SuppressTestingEvents(0);
 
     return;
 }
 
+# Selenium::Remove::Driver uses this callback in case of errors.
+# Errors should not be discarded, they should be thrown as exceptions.
+# Selenium methods like find_element() will catch the exception.
+# Most other methods won't.
 sub SeleniumErrorHandler {
     my $Self = shift;
     my ( $Error ) = @_;
@@ -275,87 +325,21 @@ sub RunTest {
     my ( $Code ) = @_;
 
     if ( ! $Self->SeleniumTestsActive() ) {
-        skip( 'Selenium testing is not active, skipping tests.' );
+        skip_all( 'Selenium testing is not active, skipping tests.' );
 
         return;
     }
 
-    my $Context = context();
-
-    eval {
+    try {
         $Code->();
-    };
-
-    if ( $@ ) {
-        $Self->_TestException($@);  # remember the exception becaus the screenshot is taken later, during DEMOLISH
-        $Context->fail( $@ );       # report the failure before done_testing()
     }
-
-    $Context->release();
+    catch {
+        $Self->_TestException($_);  # remember the exception because the screenshot is taken later, during DEMOLISH
+        fail($_);                   # report the failure before done_testing()
+    };
 
     return;
 }
-
-=begin Internal:
-
-=head2 _execute_command()
-
-Override internal command of base class.
-
-We use it to output successful command runs to the UnitTest object.
-Errors will cause an exeption and be caught elsewhere.
-
-=end Internal:
-
-=cut
-
-around _execute_command => sub {    ## no critic
-    my $Orig  = shift;
-    my $Self  = shift;
-    my ($Res, $Params) = @_;
-
-    # an exception is thrown in case of an error
-    my $Result = $Self->$Orig( $Res, $Params );
-
-    return $Result if $Self->_SuppressTestingEvents();
-
-    my $TestName = 'Selenium command success: ';
-    $TestName .= $Kernel::OM->Get('Kernel::System::Main')->Dump(
-        {
-            Res    => $Res,
-            Params => $Params,
-        }
-    );
-
-    my $Context = context();
-
-    $Context->pass_and_release( $TestName );
-
-    return $Result;
-};
-
-=head2 get_alert_text()
-
-Override get_alert_text() method of base class to return alert text as string.
-
-    my $AlertText = $SeleniumObject->get_alert_text();
-
-returns
-
-    my $AlertText = 'Some alert text!'
-
-=cut
-
-around get_alert_text => sub {    ## no critic
-    my $Orig = shift;
-    my $Self = shift;
-
-    my $AlertText = $Self->$Orig();
-
-    die "Alert dialog is not present" if ref $AlertText eq 'HASH';    # Chrome returns HASH when there is no alert text.
-
-    return $AlertText;
-};
 
 =head2 VerifiedGet()
 
@@ -464,13 +448,16 @@ sub Login {
             eval {
                 my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
                 my $LogoutXPath; # Logout link differs between Agent and Customer interface.
+                my $AcceptGDPR;  # whether GDPR needs to be accepted during login
                 if ( $Param{Type} eq 'Agent' ) {
                     $ScriptAlias .= 'index.pl';
                     $LogoutXPath = q{//a[@id='LogoutButton']};
+                    $AcceptGDPR  = 0;
                 }
                 else {
                     $ScriptAlias .= 'customer.pl';
                     $LogoutXPath = q{//a[@title='Logout']};
+                    $AcceptGDPR  = 0;
                 }
 
                 $Self->get($ScriptAlias);
@@ -481,9 +468,11 @@ sub Login {
                 # In the customer interface there is a data privacy blurb that must be accepted.
                 # Note that find_element_by_xpath() does not throw exceptions,
                 # the method returns 0 when the element is not found.
-                my $AcceptGDPRLink = $Self->find_element_by_xpath( q{//a[@id="AcceptGDPR"]} );
-                if ( $AcceptGDPRLink ) {
-                    $AcceptGDPRLink->click();
+                if ( $AcceptGDPR ) {
+                    my $AcceptGDPRLink = $Self->find_element_by_xpath( q{//a[@id="AcceptGDPR"]} );
+                    if ( $AcceptGDPRLink ) {
+                        $AcceptGDPRLink->click();
+                    }
                 }
 
                 # login successful?
