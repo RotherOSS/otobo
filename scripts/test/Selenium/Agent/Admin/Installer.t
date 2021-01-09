@@ -319,8 +319,8 @@ else {
             }
 
             # Restore original configuration.
-            system("cp $ConfigPmFileBackup $ConfigPmFile") if -e $ConfigPmFileBackup;
-            system("rm $ConfigPmFileBackup")               if -e $ConfigPmFileBackup;
+            copy( $ConfigPmFileBackup, $ConfigPmFile) if -e $ConfigPmFileBackup;
+            unlink $ConfigPmFileBackup                if -e $ConfigPmFileBackup;
         }
     );
 
