@@ -464,13 +464,16 @@ sub Login {
             eval {
                 my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
                 my $LogoutXPath; # Logout link differs between Agent and Customer interface.
+                my $AcceptGDPR;  # whether GDPR needs to be accepted during login
                 if ( $Param{Type} eq 'Agent' ) {
                     $ScriptAlias .= 'index.pl';
                     $LogoutXPath = q{//a[@id='LogoutButton']};
+                    $AcceptGDPR  = 0;
                 }
                 else {
                     $ScriptAlias .= 'customer.pl';
                     $LogoutXPath = q{//a[@title='Logout']};
+                    $AcceptGDPR  = 0;
                 }
 
                 $Self->get($ScriptAlias);
@@ -481,9 +484,11 @@ sub Login {
                 # In the customer interface there is a data privacy blurb that must be accepted.
                 # Note that find_element_by_xpath() does not throw exceptions,
                 # the method returns 0 when the element is not found.
-                my $AcceptGDPRLink = $Self->find_element_by_xpath( q{//a[@id="AcceptGDPR"]} );
-                if ( $AcceptGDPRLink ) {
-                    $AcceptGDPRLink->click();
+                if ( $AcceptGDPR ) {
+                    my $AcceptGDPRLink = $Self->find_element_by_xpath( q{//a[@id="AcceptGDPR"]} );
+                    if ( $AcceptGDPRLink ) {
+                        $AcceptGDPRLink->click();
+                    }
                 }
 
                 # login successful?
