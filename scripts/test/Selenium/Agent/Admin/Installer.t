@@ -74,6 +74,8 @@ else {
             my $ConfigPmFile       = $Home . '/Kernel/Config.pm';
             my $ConfigPmFileBackup = $Home . '/Kernel/Config.pm.' . $Helper->GetRandomID();
 
+            # Avoid throwing exception the following code
+            # as the regular cleanup does not work in this case.
             eval {
 
                 # Make a copy of original configuration file.
@@ -323,7 +325,7 @@ else {
     );
 
     # Discard the Selenium object before unit test helper object goes out of scope. This will demolish the object before
-    #   restoring database configuration, and prevents issues with Selenium cleanup because of empty database.
+    # restoring database configuration, and prevents issues with Selenium cleanup because of empty database.
     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::UnitTest::Selenium'] );
 }
 
