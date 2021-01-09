@@ -16,26 +16,30 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+use File::Copy qw(copy);
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO moduled
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
+
+our $Self;
 
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# Use test database, if configured. Otherwise, skip this test. ProvideTestDatabase() will clean the test database and
-#   change database settings system-wide.
+# Use test database, if configured. Otherwise, skip this test script.
+# ProvideTestDatabase() will clean the test database and change database settings system-wide.
 my $Success = $Helper->ProvideTestDatabase();
 if ( !$Success ) {
     skip_all( 'Test database could not be provided, skipping test' );
 }
 else {
-    $Self->True(
-        $Success,
-        'ProvideTestDatabase - Database cleared'
-    );
+    pass( 'ProvideTestDatabase() - Database cleared' );
 
     my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
@@ -300,7 +304,13 @@ else {
                 );
             };
 
-            # Catch any exceptions raised during the test.
+            # report when an exception was caught
+            $Self->False(
+                $@,
+                'No trappable errors encountered'
+            );
+
+            # take a screenshot and print a stacktrace in case of errors
             if ($@) {
                 my $InGlobalDestruction = 0;
                 $Selenium->HandleError($@, $InGlobalDestruction);
@@ -317,7 +327,4 @@ else {
     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::UnitTest::Selenium'] );
 }
 
-
-$Self->DoneTesting();
-
-
+done_testing;
