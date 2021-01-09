@@ -305,18 +305,8 @@ else {
 
             # Catch any exceptions raised during the test.
             if ($@) {
-                $Selenium->HandleError($@);
-                $Self->Is(
-                    $@,
-                    undef,
-                    'Errors encountered during install process'
-                );
-            }
-            else {
-                $Self->False(
-                    $@,
-                    'No trappable errors encountered'
-                );
+                my $InGlobalDestruction = 0;
+                $Selenium->HandleError($@, $InGlobalDestruction);
             }
 
             # Restore original configuration.
