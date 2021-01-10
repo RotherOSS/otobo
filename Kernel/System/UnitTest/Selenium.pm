@@ -645,14 +645,11 @@ sub WaitFor {
     }
     $Argument = "Callback" if $Param{Callback};
 
-    # Use the selenium error handler to generate a stack trace.
-    if ( ! $Success ) {
-        $Self->SeleniumErrorHandler("WaitFor($Argument) failed."); # dies implicitly
-    }
+    # Release context and throw exception in case of failure.
+    # Don't care about any special handling for the stack trace.
+    $Context->throw( "WaitFor($Argument) failed.") unless $Success;
 
-    $Context->pass( "WaitFor($Argument)" );
-
-    $Context->release;
+    $Context->pass_and_release( "WaitFor($Argument)" );
 
     return 1;
 }
