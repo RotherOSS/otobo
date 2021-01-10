@@ -95,7 +95,8 @@ our @ObjectDependencies = (
 
             my $AlertText = $Self->$Orig();
 
-            die "Alert dialog is not present" if ref $AlertText eq 'HASH';    # Chrome returns HASH when there is no alert text.
+            # Chrome returns HASH when there is no alert text.
+            die "Alert dialog is not present" if ref $AlertText eq 'HASH';
 
             return $AlertText;
         };
@@ -369,7 +370,7 @@ sub VerifiedGet {
     my $Pass = run_subtest( 'VerifiedGet', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'command failed' unless $Pass;
+    die 'VerifiedGet() failed' unless $Pass;
 
     $Context->release;
 
@@ -403,7 +404,7 @@ sub VerifiedRefresh {
     my $Pass = run_subtest( 'VerifiedRefresh', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'command failed' unless $Pass;
+    die 'VerifiedRefresh() failed' unless $Pass;
 
     $Context->release;
 
@@ -504,7 +505,7 @@ sub Login {
     my $Pass = run_subtest( 'Login', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'command failed' unless $Pass;
+    die 'Login() failed' unless $Pass;
 
     $Context->release;
 
@@ -724,7 +725,7 @@ sub DragAndDrop {
     my $Pass = run_subtest( 'DragAndDrop', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'command failed' unless $Pass;
+    die 'DragAndDrop failed' unless $Pass;
 
     $Context->release;
 
