@@ -95,7 +95,8 @@ our @ObjectDependencies = (
 
             my $AlertText = $Self->$Orig();
 
-            die "Alert dialog is not present" if ref $AlertText eq 'HASH';    # Chrome returns HASH when there is no alert text.
+            # Chrome returns HASH when there is no alert text.
+            die "Alert dialog is not present" if ref $AlertText eq 'HASH';
 
             return $AlertText;
         };
@@ -369,7 +370,7 @@ sub VerifiedGet {
     my $Pass = run_subtest( 'VerifiedGet', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'command failed' unless $Pass;
+    die 'VerifiedGet() failed' unless $Pass;
 
     $Context->release;
 
@@ -403,7 +404,7 @@ sub VerifiedRefresh {
     my $Pass = run_subtest( 'VerifiedRefresh', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'command failed' unless $Pass;
+    die 'VerifiedRefresh() failed' unless $Pass;
 
     $Context->release;
 
@@ -504,7 +505,7 @@ sub Login {
     my $Pass = run_subtest( 'Login', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'command failed' unless $Pass;
+    die 'Login() failed' unless $Pass;
 
     $Context->release;
 
@@ -531,7 +532,10 @@ Exactly one condition (JavaScript or WindowCount) must be specified.
 =cut
 
 sub WaitFor {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
+
+    my $Context = context();
 
     if (
         !$Param{JavaScript}
@@ -545,26 +549,36 @@ sub WaitFor {
         die "Need JavaScript, WindowCount, ElementExists, ElementMissing, Callback or AlertPresent.";
     }
 
-
     $Param{Time} //= 20;
     my $WaitedSeconds = 0;
     my $Interval      = 0.1;
     my $WaitSeconds   = 0.5;
+    my $Success = 0;
 
+    WAIT:
     while ( $WaitedSeconds <= $Param{Time} ) {
+
         if ( $Param{JavaScript} ) {
             $Self->_SuppressTestingEvents(1);
             my $Ret = $Self->execute_script( $Param{JavaScript} );
             $Self->_SuppressTestingEvents(0);
 
-            return 1 if $Ret;
+            if ( $Ret ) {
+                $Success = 1;
+
+                last WAIT;
+            }
         }
         elsif ( $Param{WindowCount} ) {
             $Self->_SuppressTestingEvents(1);
             my $Ret = scalar( @{ $Self->get_window_handles() } ) == $Param{WindowCount};
             $Self->_SuppressTestingEvents(0);
 
-            return 1 if $Ret;
+            if ( $Ret ) {
+                $Success = 1;
+
+                last WAIT;
+            }
         }
         elsif ( $Param{AlertPresent} ) {
             $Self->_SuppressTestingEvents(1);
@@ -572,14 +586,22 @@ sub WaitFor {
             my $Ret = eval { $Self->get_alert_text() };
             $Self->_SuppressTestingEvents(0);
 
-            return 1 if $Ret;
+            if ( $Ret ) {
+                $Success = 1;
+
+                last WAIT;
+            }
         }
         elsif ( $Param{Callback} ) {
             $Self->_SuppressTestingEvents(1);
             my $Ret =  $Param{Callback}->();
             $Self->_SuppressTestingEvents(0);
 
-            return 1 if $Ret;
+            if ( $Ret ) {
+                $Success = 1;
+
+                last WAIT;
+            }
         }
         elsif ( $Param{ElementExists} ) {
             my @Arguments
@@ -591,7 +613,9 @@ sub WaitFor {
             if ( $Ret ) {
                 Time::HiRes::sleep($WaitSeconds);
 
-                return 1;
+                $Success = 1;
+
+                last WAIT;
             }
         }
         elsif ( $Param{ElementMissing} ) {
@@ -604,7 +628,9 @@ sub WaitFor {
             if ( ! $Ret ) {
                 Time::HiRes::sleep($WaitSeconds);
 
-                return 1;
+                $Success = 1;
+
+                last WAIT;
             }
         }
 
@@ -620,7 +646,15 @@ sub WaitFor {
     $Argument = "Callback" if $Param{Callback};
 
     # Use the selenium error handler to generate a stack trace.
-    die $Self->SeleniumErrorHandler("WaitFor($Argument) failed.");
+    if ( ! $Success ) {
+        $Self->SeleniumErrorHandler("WaitFor($Argument) failed."); # dies implicitly
+    }
+
+    $Context->pass( "WaitFor($Argument)" );
+
+    $Context->release;
+
+    return 1;
 }
 
 =head2 SwitchToFrame()
@@ -724,7 +758,7 @@ sub DragAndDrop {
     my $Pass = run_subtest( 'DragAndDrop', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'command failed' unless $Pass;
+    die 'DragAndDrop failed' unless $Pass;
 
     $Context->release;
 
