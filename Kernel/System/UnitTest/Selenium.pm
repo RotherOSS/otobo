@@ -93,10 +93,14 @@ our @ObjectDependencies = (
             my $Orig = shift;
             my $Self = shift;
 
+            my $Context = context();
+
             my $AlertText = $Self->$Orig();
 
             # Chrome returns HASH when there is no alert text.
-            die "Alert dialog is not present" if ref $AlertText eq 'HASH';
+            $Context->throw( "Alert dialog is not present" ) if ref $AlertText eq 'HASH';
+
+            $Context->release();
 
             return $AlertText;
         };
@@ -191,12 +195,13 @@ around BUILDARGS => sub {
     my $Orig  = shift;
     my $Class = shift;
 
-    # check whether Selenium testing is activated.
+    # check whether Selenium testing is configured.
     my $SeleniumTestsConfig = $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {};
 
+    # no Selenium testing when there is no config.
     return {
-        SeleniumTestsActive  => 0,
-        _SeleniumTestsConfig => $SeleniumTestsConfig,
+        SeleniumTestsActive => 0,
+        SeleniumTestsConfig => $SeleniumTestsConfig,
     } unless $SeleniumTestsConfig->%*;
 
     for my $Needed (qw(remote_server_addr port browser_name platform)) {
@@ -310,7 +315,9 @@ sub SeleniumErrorHandler {
     $Self->_StackTrace($StackTrace);
     $Self->_SeleniumException($Error);
 
-    die $Error;
+    my $Context = context();
+
+    $Context->throw($Error);
 }
 
 =head2 RunTest()
@@ -345,7 +352,7 @@ sub RunTest {
 =head2 VerifiedGet()
 
 perform a get() call, but wait for the page to be fully loaded (works only within OTOBO).
-Will die() if the verification fails.
+Will throw an exception when the verification fails.
 
     $SeleniumObject->VerifiedGet(
         $URL,
@@ -356,21 +363,21 @@ Will die() if the verification fails.
 sub VerifiedGet {
     my ( $Self, $URL ) = @_;
 
+    my $Context = context();
+
     my $Code = sub {
         $Self->get($URL);
 
         $Self->WaitFor(
             JavaScript =>
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        ) || die "OTOBO API verification failed after page load.";
+        ) || $Context->throw( "OTOBO API verification failed after page load." );
     };
-
-    my $Context = context();
 
     my $Pass = run_subtest( 'VerifiedGet', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'VerifiedGet() failed' unless $Pass;
+    $Context->throw( 'VerifiedGet() failed' ) unless $Pass;
 
     $Context->release;
 
@@ -380,7 +387,7 @@ sub VerifiedGet {
 =head2 VerifiedRefresh()
 
 perform a refresh() call, but wait for the page to be fully loaded (works only within OTOBO).
-Will die() if the verification fails.
+Will throw an exception if the verification fails.
 
     $SeleniumObject->VerifiedRefresh();
 
@@ -390,21 +397,21 @@ sub VerifiedRefresh {
     my $Self = shift;
     my ( $URL ) = @_;
 
+    my $Context = context();
+
     my $Code = sub {
         $Self->refresh();
 
         $Self->WaitFor(
             JavaScript =>
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        ) || die "OTOBO API verification failed after page load.";
+        ) || $Context->throw( "OTOBO API verification failed after page load." );
     };
-
-    my $Context = context();
 
     my $Pass = run_subtest( 'VerifiedRefresh', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'VerifiedRefresh() failed' unless $Pass;
+    $Context->throw( 'VerifiedRefresh() failed' ) unless $Pass;
 
     $Context->release;
 
@@ -438,6 +445,8 @@ sub Login {
             return;
         }
     }
+
+    my $Context = context();
 
     my $Code = sub {
         # we will try several times to log in
@@ -477,7 +486,7 @@ sub Login {
                 }
 
                 # login successful?
-                $Self->find_element( $LogoutXPath, 'xpath' );    # dies if not found
+                $Self->find_element( $LogoutXPath, 'xpath' );    # throws exception if not found
 
                 pass( 'Login sequence ended...' );
             };
@@ -490,7 +499,7 @@ sub Login {
                 # try again
                 next TRY if $Try < $MaxTries;
 
-                die "Login failed!";
+                $Context->throw( "Login() not successfull after $MaxTries attempts!" );
             }
 
             # login was sucessful
@@ -500,12 +509,10 @@ sub Login {
         }
     };
 
-    my $Context = context();
-
     my $Pass = run_subtest( 'Login', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'Login() failed' unless $Pass;
+    $Context->throw( 'Login() failed' ) unless $Pass;
 
     $Context->release;
 
@@ -546,7 +553,7 @@ sub WaitFor {
         && !$Param{ElementMissing}
         )
     {
-        die "Need JavaScript, WindowCount, ElementExists, ElementMissing, Callback or AlertPresent.";
+        $Context->throw( "Need JavaScript, WindowCount, ElementExists, ElementMissing, Callback or AlertPresent." );
     }
 
     $Param{Time} //= 20;
@@ -645,14 +652,11 @@ sub WaitFor {
     }
     $Argument = "Callback" if $Param{Callback};
 
-    # Use the selenium error handler to generate a stack trace.
-    if ( ! $Success ) {
-        $Self->SeleniumErrorHandler("WaitFor($Argument) failed."); # dies implicitly
-    }
+    # Release context and throw exception in case of failure.
+    # Don't care about any special handling for the stack trace.
+    $Context->throw( "WaitFor($Argument) failed.") unless $Success;
 
-    $Context->pass( "WaitFor($Argument)" );
-
-    $Context->release;
+    $Context->pass_and_release( "WaitFor($Argument)" );
 
     return 1;
 }
@@ -673,9 +677,9 @@ page completely.
 sub SwitchToFrame {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{FrameSelector} ) {
-        die 'Need FrameSelector.';
-    }
+    my $Context = context();
+
+    $Context->throw( 'Need FrameSelector.' ) unless $Param{FrameSelector};
 
     if ( $Param{WaitForLoad} ) {
         $Self->WaitFor(
@@ -687,6 +691,8 @@ sub SwitchToFrame {
     }
 
     $Self->switch_to_frame( $Self->find_element( $Param{FrameSelector}, 'css' ) );
+
+    $Context->release();
 
     return 1;
 }
@@ -710,9 +716,11 @@ sub DragAndDrop {
     my $Self  = shift;
     my %Param = @_;
 
+    my $Context = context();
+
     # Value is optional parameter
     for my $Needed (qw(Element Target)) {
-        die "Need $Needed" unless $Param{$Needed};
+        $Context->throw( "Need $Needed" ) unless $Param{$Needed};
     }
 
     my $Code = sub {
@@ -753,12 +761,10 @@ sub DragAndDrop {
         $Self->button_up();
     };
 
-    my $Context = context();
-
     my $Pass = run_subtest( 'DragAndDrop', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'DragAndDrop failed' unless $Pass;
+    $Context->throw( 'DragAndDrop failed' ) unless $Pass;
 
     $Context->release;
 
@@ -964,6 +970,8 @@ sub WaitForjQueryEventBound {
         return;
     }
 
+    my $Context = context();
+
     my $Event = $Param{Event} || 'click';
 
     # Wait for element availability.
@@ -983,7 +991,7 @@ sub WaitForjQueryEventBound {
     );
 
     if ( !IsArrayRefWithData($Keys) ) {
-        die "Couldn't determine jQuery object id";
+        $Context->throw( "Couldn't determine jQuery object id" );
     }
 
     my $JQueryObjectID;
@@ -997,7 +1005,7 @@ sub WaitForjQueryEventBound {
     }
 
     if ( !$JQueryObjectID ) {
-        die "Couldn't determine jQuery object id.";
+        $Context->throw( "Couldn't determine jQuery object id." );
     }
 
     # Wait until click event is bound to the element.
@@ -1007,6 +1015,8 @@ sub WaitForjQueryEventBound {
                 && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '
                 && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '.length > 0;',
     );
+
+    $Context->release();
 
     return 1;
 }
@@ -1025,14 +1035,17 @@ sets modernized input field value.
 sub InputFieldValueSet {
     my ( $Self, %Param ) = @_;
 
+    my $Context = context();
+
     # Check needed stuff.
     if ( !$Param{Element} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need Element!",
         );
-        die 'Missing Element.';
+        $Context->throw( 'Missing Element.' );
     }
+
     my $Value = $Param{Value} // '';
 
     if ( $Value !~ m{^\[} && $Value !~ m{^".*"$} ) {
@@ -1050,6 +1063,8 @@ sub InputFieldValueSet {
     $Self->WaitFor(
         ElementMissing => [ '.InputField_ListContainer', 'css' ],
     );
+
+    $Context->release();
 
     return 1;
 }

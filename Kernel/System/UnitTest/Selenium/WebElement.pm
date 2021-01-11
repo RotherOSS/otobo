@@ -56,21 +56,20 @@ This works only in OTOBO.
 sub VerifiedSubmit {
     my $Self  = shift;
 
+    my $Context = context();
+
     my $Code = sub {
         $Self->submit();
 
         $Self->driver()->WaitFor(
             JavaScript =>
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        ) || die "OTOBO API verification failed after element submit.";
+        ) || $Context->throw( "OTOBO API verification failed after element submit." );
     };
-
-    my $Context = context();
-
     my $Pass = run_subtest( 'VerifiedSubmit', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'command failed' unless $Pass;
+    $Context->throw( 'VerifiedSubmit() failed' ) unless $Pass;
 
     $Context->release;
 
@@ -91,6 +90,8 @@ This works only in OTOBO.
 sub VerifiedClick {    ## no critic
     my $Self = shift;
 
+    my $Context = context();
+
     my $Code = sub {
         $Self->driver()->execute_script('window.Core.App.PageLoadComplete = false;');
 
@@ -99,15 +100,13 @@ sub VerifiedClick {    ## no critic
         $Self->driver()->WaitFor(
             JavaScript =>
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        ) || die "OTOBO API verification failed after element click.";
+        ) || $Context->throw( "OTOBO API verification failed after element click." );
     };
-
-    my $Context = context();
 
     my $Pass = run_subtest( 'VerifiedClick', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'command failed' unless $Pass;
+    $Context->throw( 'command failed' ) unless $Pass;
 
     $Context->release;
 
