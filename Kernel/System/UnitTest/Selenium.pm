@@ -751,10 +751,10 @@ sub HandleError {
     my $Context = context();
 
     if ( $InGlobalDestruction ) {
-        $Context->note( $Error );
+        $Context->note( "HandleError: $Error" );
     }
     else {
-        $Context->fail( $Error );
+        $Context->fail( "HandleError: $Error" );
     }
 
     # Don't create a test entry for the screenshot command,
