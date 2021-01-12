@@ -28,7 +28,6 @@ use File::Path qw(remove_tree);
 use Time::HiRes qw();
 
 # CPAN modules
-use Devel::StackTrace qw();
 use Test2::V0;
 use Test2::API qw(context run_subtest);
 use Net::DNS::Resolver;
@@ -123,16 +122,8 @@ has _SeleniumTestsConfig => (
     is      => 'ro',
 );
 
-# some internals for error handling
-has _StackTrace => (
-    is      => 'rw',
-);
-has _SeleniumException => (
-    is      => 'rw',
-);
-
 # If a test throws an exception, we'll record it here in an attribute so that we can
-# take screenshots of *all* Selenium instances that are currently running on shutdown.
+# take screenshots.
 has _TestException => (
     is      => 'rw',
 );
@@ -281,39 +272,6 @@ sub BUILD {
 sub SeleniumErrorHandler {
     my $Self = shift;
     my ( $Error ) = @_;
-
-    # Generate stack trace information.
-    #   Don't store caller args, as this sometimes blows up due to an internal Perl bug
-    #   (see https://github.com/Perl/perl5/issues/10687).
-    # Show only the stack frames in the test script,
-    # that is skip the frames in the testing and in the Selenium modules.
-    my $ShowFrame = 0;
-    my $StackTrace = Devel::StackTrace->new(
-        indent         => 1,
-        no_args        => 1,
-        message        => 'Selenium stack trace started',
-        frame_filter   => sub {
-
-            # Limit stack trace to test evaluation itself.
-            if ( ! $ShowFrame ) {
-                my $FileName = $_[0]->{caller}->[1];
-
-                return 0 unless $FileName =~ m/\.t$/; # skip the internal frames
-
-                $ShowFrame = 1; # show the last frame in the test script and all frames above
-            }
-
-            # Remove the long serialized eval texts from the frame to keep the trace short.
-            if ( $_[0]->{caller}->[6] ) {
-                $_[0]->{caller}->[6] = '{...}';
-            }
-
-            return 1;
-        }
-    )->as_string();
-
-    $Self->_StackTrace($StackTrace);
-    $Self->_SeleniumException($Error);
 
     my $Context = context();
 
@@ -785,11 +743,6 @@ for analysis (in folder /var/otobo-unittest if it exists, in $Home/var/httpd/htd
 sub HandleError {
     my $Self = shift;
     my ( $Error, $InGlobalDestruction ) = @_;
-
-    # If we really have a selenium error, get the stack trace for it.
-    if ( $Self->_StackTrace()  && $Error eq $Self->_SeleniumException() ) {
-        $Error .= "\n" . $Self->_StackTrace();
-    }
 
     my $Context = context();
 
