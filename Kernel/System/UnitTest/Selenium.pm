@@ -296,13 +296,17 @@ sub RunTest {
         return;
     }
 
-    try {
+    # This emits a passing event when there is no exception.
+    # In case of an exception, the exception will be emitted as a diagnostic
+    # and a failing event will be emitted. $@ will hold the exception.
+    try_ok {
         $Code->();
+    } 'RunTest()';
+
+    # remember the exception because the screenshot is taken later, during DEMOLISH
+    if ( $@ ) {
+        $Self->_TestException($@);
     }
-    catch {
-        $Self->_TestException($_);  # remember the exception because the screenshot is taken later, during DEMOLISH
-        fail($_);                   # report the failure before done_testing()
-    };
 
     return;
 }
