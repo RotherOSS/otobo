@@ -28,7 +28,6 @@ use File::Path qw(remove_tree);
 use Time::HiRes qw();
 
 # CPAN modules
-use Devel::StackTrace qw();
 use Test2::V0;
 use Test2::API qw(context run_subtest);
 use Net::DNS::Resolver;
@@ -123,16 +122,8 @@ has _SeleniumTestsConfig => (
     is      => 'ro',
 );
 
-# some internals for error handling
-has _StackTrace => (
-    is      => 'rw',
-);
-has _SeleniumException => (
-    is      => 'rw',
-);
-
 # If a test throws an exception, we'll record it here in an attribute so that we can
-# take screenshots of *all* Selenium instances that are currently running on shutdown.
+# take screenshots.
 has _TestException => (
     is      => 'rw',
 );
@@ -282,39 +273,6 @@ sub SeleniumErrorHandler {
     my $Self = shift;
     my ( $Error ) = @_;
 
-    # Generate stack trace information.
-    #   Don't store caller args, as this sometimes blows up due to an internal Perl bug
-    #   (see https://github.com/Perl/perl5/issues/10687).
-    # Show only the stack frames in the test script,
-    # that is skip the frames in the testing and in the Selenium modules.
-    my $ShowFrame = 0;
-    my $StackTrace = Devel::StackTrace->new(
-        indent         => 1,
-        no_args        => 1,
-        message        => 'Selenium stack trace started',
-        frame_filter   => sub {
-
-            # Limit stack trace to test evaluation itself.
-            if ( ! $ShowFrame ) {
-                my $FileName = $_[0]->{caller}->[1];
-
-                return 0 unless $FileName =~ m/\.t$/; # skip the internal frames
-
-                $ShowFrame = 1; # show the last frame in the test script and all frames above
-            }
-
-            # Remove the long serialized eval texts from the frame to keep the trace short.
-            if ( $_[0]->{caller}->[6] ) {
-                $_[0]->{caller}->[6] = '{...}';
-            }
-
-            return 1;
-        }
-    )->as_string();
-
-    $Self->_StackTrace($StackTrace);
-    $Self->_SeleniumException($Error);
-
     my $Context = context();
 
     $Context->throw($Error);
@@ -338,13 +296,18 @@ sub RunTest {
         return;
     }
 
-    try {
+    # This emits a passing event when there is no exception.
+    # In case of an exception, the exception will be return as a diagnostic
+    # and a failing event will be emitted. $@ will hold the exception.
+    try_ok {
         $Code->();
+    } 'RunTest: no exception should be thrown';
+
+    # remember the exception because the screenshot is taken later, during DEMOLISH
+    if ( $@ ) {
+        note( $@ );
+        $Self->_TestException($@);
     }
-    catch {
-        $Self->_TestException($_);  # remember the exception because the screenshot is taken later, during DEMOLISH
-        fail($_);                   # report the failure before done_testing()
-    };
 
     return;
 }
@@ -646,16 +609,23 @@ sub WaitFor {
         $Interval      += 0.1;
     }
 
+    # something short that identfies the WaitFor target
     my $Argument = '';
-    for my $Key (qw(JavaScript WindowCount AlertPresent)) {
-        $Argument = "$Key => $Param{$Key}" if $Param{$Key};
+    {
+        for my $Key ( qw(JavaScript WindowCount AlertPresent) ) {
+            $Argument = "$Key => $Param{$Key}" if $Param{$Key};
+        }
+
+        for my $Key (qw(Callback ElementExists ElementMissing)) {
+            $Argument = $Key if $Param{$Key};
+        }
     }
-    $Argument = "Callback" if $Param{Callback};
 
     # Release context and throw exception in case of failure.
     # Don't care about any special handling for the stack trace.
     $Context->throw( "WaitFor($Argument) failed.") unless $Success;
 
+    # successful
     $Context->pass_and_release( "WaitFor($Argument)" );
 
     return 1;
@@ -784,21 +754,9 @@ for analysis (in folder /var/otobo-unittest if it exists, in $Home/var/httpd/htd
 
 sub HandleError {
     my $Self = shift;
-    my ( $Error, $InGlobalDestruction ) = @_;
-
-    # If we really have a selenium error, get the stack trace for it.
-    if ( $Self->_StackTrace()  && $Error eq $Self->_SeleniumException() ) {
-        $Error .= "\n" . $Self->_StackTrace();
-    }
+    my ( $Error ) = @_;
 
     my $Context = context();
-
-    if ( $InGlobalDestruction ) {
-        $Context->note( $Error );
-    }
-    else {
-        $Context->fail( $Error );
-    }
 
     # Don't create a test entry for the screenshot command,
     # to make sure it gets attached to the previous error entry.
@@ -880,37 +838,16 @@ and performs some clean-ups.
 
 sub DEMOLISH {
     my $Self = shift;
-    my ($InGlobalDestruction) = @_;
 
-    # Looks like for some reason $InGlobalDestruction is not reliable.
-    # So, let's assume that the Kernel::System::UnitTest::Selenium is always demolished
-    # after the done_testing().
-    $InGlobalDestruction = 1;
-
-    # $SuppressCommandRecording is not localised because one DEMOLISH is called after the other.
-    # This is ok because no testing events should be emitted during demolist and after the script is finished.
-    if ( $InGlobalDestruction ) {
-        $Self->_SuppressTestingEvents(1);
-    }
+    $Self->_SuppressTestingEvents(1);
 
     if ($Self->_TestException()) {
-        $Self->HandleError($Self->_TestException(), $InGlobalDestruction);
+        $Self->HandleError($Self->_TestException());
     }
 
     return unless $Self->SeleniumTestsActive();
 
     {
-
-        # TODO: no testing event from auto-quitting Selenium
-        #if ( $InGlobalDestruction ) {
-        #    local $Self->{SuppressCommandRecording} = 1;
-
-        #    $Self->SUPER::DEMOLISH(@_);
-        #}
-        #else {
-        #    $Self->SUPER::DEMOLISH(@_);
-        #}
-
         # Cleanup possibly leftover zombie firefox profiles.
         my @LeftoverFirefoxProfiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => '/tmp/',
@@ -1048,21 +985,28 @@ sub InputFieldValueSet {
 
     my $Value = $Param{Value} // '';
 
+    # Quote text of Value is not array and if not already quoted.
     if ( $Value !~ m{^\[} && $Value !~ m{^".*"$} ) {
-
-        # Quote text of Value is not array and if not already quoted.
-        $Value = "\"$Value\"";
+        $Value = qq{"$Value"};
     }
 
-    # Set selected value.
-    $Self->execute_script(
-        "\$('$Param{Element}').val($Value).trigger('redraw.InputField').trigger('change');"
-    );
+    my $Code = sub {
 
-    # Wait until selection tree is closed.
-    $Self->WaitFor(
-        ElementMissing => [ '.InputField_ListContainer', 'css' ],
-    );
+        # Set selected value.
+        $Self->execute_script(
+            "\$('$Param{Element}').val($Value).trigger('redraw.InputField').trigger('change');"
+        );
+
+        # Wait until selection tree is closed.
+        $Self->WaitFor(
+            ElementMissing => [ '.InputField_ListContainer', 'css' ],
+        );
+    };
+
+    my $Pass = run_subtest( 'InputFieldValueSet()', $Code, { buffered => 1, inherit_trace => 1 } );
+
+    # run_subtest() does an implicit eval(), but we want do bail out on the first error
+    $Context->throw( 'InputFieldValueSet() failed' ) unless $Pass;
 
     $Context->release();
 
