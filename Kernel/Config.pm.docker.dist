@@ -122,13 +122,14 @@ sub Load {
     $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
     $Self->{'TestHTTPHostname'}            = 'web:5000';
 
-    # Selenium
-    #$Self->{'SeleniumTestsConfig'} = {
-    #    remote_server_addr  => 'selenium-chrome',
-    #    port                => '4444',
-    #    browser_name        => 'chrome',
-    #    platform            => 'ANY',
-    #};
+    # activate Selenium tests if the the host is available
+    $Self->{'SeleniumTestsConfig'} = {
+        remote_server_addr  => 'selenium-chrome',
+        check_server_addr   => 1,                 # skip test when remote_server_addr can't be resolved via DNS
+        port                => '4444',
+        browser_name        => 'chrome',
+        platform            => 'ANY',
+    };
 
     # ---------------------------------------------------- #
     # insert your own config settings "here"               #

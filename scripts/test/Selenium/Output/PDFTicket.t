@@ -25,10 +25,10 @@ use vars (qw($Self));
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
-if ( $Selenium->{browser_name} ne 'firefox' ) {
+if ( !$Selenium->{browser_name} || $Selenium->{browser_name} ne 'firefox' ) {
     $Self->True(
         1,
-        "PDF test currently only supports Firefox",
+        'PDF test currently only supports Firefox, skipping test',
     );
 }
 else {

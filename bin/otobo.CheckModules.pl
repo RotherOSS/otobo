@@ -443,6 +443,16 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Try::Tiny',
+        Required  => 1,
+        InstTypes => {
+            aptget => 'libtry-tiny-perl',
+            emerge => 'dev-perl/Try-Tiny',
+            zypper => 'perl-Try-Tiny',
+            ports  => 'devel/p5-Try-Tiny',
+        },
+    },
+    {
         Module    => 'XML::LibXML',
         Required  => 1,
         Comment   => 'Required for XML processing.',

@@ -22,14 +22,12 @@ use utf8;
 # core modules
 
 # CPAN modules
-use Test2::V0 qw(skip_all);
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::ObjectManager;
 
-skip_all('disabled because it did not work under mod_perl');
-
-plan( tests => 1 );
+plan( 1 );
 
 $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {

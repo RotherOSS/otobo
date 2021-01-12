@@ -33,7 +33,7 @@ our $Self;
 
 # explicitly declare the number of tests. This makes is obvious when the
 # test script prematurely exits
-plan( 25 );
+plan( 24 );
 
 ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
 

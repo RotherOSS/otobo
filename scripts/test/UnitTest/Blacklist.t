@@ -33,7 +33,7 @@ $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 
-plan( 3 );
+plan( 2 );
 
 my $Helper   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $RandomID = $Helper->GetRandomID();

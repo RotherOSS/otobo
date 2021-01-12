@@ -87,7 +87,7 @@ sub True {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided for True().' );
     }
 
     if ($True) {
@@ -114,7 +114,7 @@ sub False {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided for False().' );
     }
 
     if ( !$False ) {
@@ -152,7 +152,7 @@ sub Is {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided for Is().' );
     }
 
     if ( !defined $Test && !defined $ShouldBe ) {
@@ -188,7 +188,7 @@ sub IsNot {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided for IsNot().' );
     }
 
     if ( !defined $Test && !defined $ShouldBe ) {
@@ -237,7 +237,7 @@ sub IsDeeply {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided for IsDeeply().' );
     }
 
     my $Diff = DataIsDifferent(
@@ -296,7 +296,7 @@ sub IsNotDeeply {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided for IsNotDeeply().' );
     }
 
     my $Diff = DataIsDifferent(

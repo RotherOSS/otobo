@@ -984,24 +984,7 @@ $Selenium->RunTest(
         );
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemConfiguration");
-
-        my $OTOBOCommunityIsInstalled = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCommunityIsInstalled();
-        my $OBTeaserFound             = index( $Selenium->get_page_source(), 'supports versioning, rollback and' ) > -1;
-        if ( !$OTOBOCommunityIsInstalled ) {
-            $Self->True(
-                $OBTeaserFound,
-                "OTOBOCommunity teaser found on page",
-            );
-        }
-        else {
-            $Self->False(
-                $OBTeaserFound,
-                "OTOBOCommunity teaser not found on page",
-            );
-        }
-
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemConfigurationGroup;RootNavigation=Sample;");
 
         # Check LinkOption field value (see bug#14575 - https://bugs.otrs.org/show_bug.cgi?id=14575).
