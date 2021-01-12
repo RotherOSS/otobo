@@ -136,7 +136,7 @@ sub Run {
     my @SQLPost;
 
     # Check/get SQL schema directory
-    my $DBXMLFile = $ConfigObject->Get('Home') . '/scripts/webservices/otobo-initial_insert-webservice.xml';
+    my $DBXMLFile = $ConfigObject->Get('Home') . '/scripts/database/otobo-initial_insert_after_OTRS6_migration.xml';
 
     if ( ! -f $DBXMLFile ) {
         my %Result;
