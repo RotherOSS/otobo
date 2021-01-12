@@ -1012,21 +1012,28 @@ sub InputFieldValueSet {
 
     my $Value = $Param{Value} // '';
 
+    # Quote text of Value is not array and if not already quoted.
     if ( $Value !~ m{^\[} && $Value !~ m{^".*"$} ) {
-
-        # Quote text of Value is not array and if not already quoted.
-        $Value = "\"$Value\"";
+        $Value = qq{"$Value"};
     }
 
-    # Set selected value.
-    $Self->execute_script(
-        "\$('$Param{Element}').val($Value).trigger('redraw.InputField').trigger('change');"
-    );
+    my $Code = sub {
 
-    # Wait until selection tree is closed.
-    $Self->WaitFor(
-        ElementMissing => [ '.InputField_ListContainer', 'css' ],
-    );
+        # Set selected value.
+        $Self->execute_script(
+            "\$('$Param{Element}').val($Value).trigger('redraw.InputField').trigger('change');"
+        );
+
+        # Wait until selection tree is closed.
+        $Self->WaitFor(
+            ElementMissing => [ '.InputField_ListContainer', 'css' ],
+        );
+    };
+
+    my $Pass = run_subtest( 'InputFieldValueSet()', $Code, { buffered => 1, inherit_trace => 1 } );
+
+    # run_subtest() does an implicit eval(), but we want do bail out on the first error
+    $Context->throw( 'InputFieldValueSet() failed' ) unless $Pass;
 
     $Context->release();
 
