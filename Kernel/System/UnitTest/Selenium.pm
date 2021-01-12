@@ -608,16 +608,23 @@ sub WaitFor {
         $Interval      += 0.1;
     }
 
+    # something short that identfies the WaitFor target
     my $Argument = '';
-    for my $Key (qw(JavaScript WindowCount AlertPresent)) {
-        $Argument = "$Key => $Param{$Key}" if $Param{$Key};
+    {
+        for my $Key ( qw(JavaScript WindowCount AlertPresent) ) {
+            $Argument = "$Key => $Param{$Key}" if $Param{$Key};
+        }
+
+        for my $Key (qw(Callback ElementExists ElementMissing)) {
+            $Argument = $Key if $Param{$Key};
+        }
     }
-    $Argument = "Callback" if $Param{Callback};
 
     # Release context and throw exception in case of failure.
     # Don't care about any special handling for the stack trace.
     $Context->throw( "WaitFor($Argument) failed.") unless $Success;
 
+    # successful
     $Context->pass_and_release( "WaitFor($Argument)" );
 
     return 1;
