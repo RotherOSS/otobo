@@ -16,26 +16,31 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modulse
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
+
+our $Self;
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 # Create local function for wait on AJAX update.
-my $WaitForAJAX = sub {
+sub WaitForAJAX {
     $Selenium->WaitFor(
         JavaScript =>
             'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
     );
-};
+}
 
 $Selenium->RunTest(
     sub {
-
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
         my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
         my $QueueObject     = $Kernel::OM->Get('Kernel::System::Queue');
@@ -198,7 +203,7 @@ $Selenium->RunTest(
             }
         );
 
-        my @Tests = (
+        my @MandatoryTests = (
             {
                 Name          => 'Disable NoMandatory and Mandatory fields, check NoMandatory field IDs',
                 CheckFields   => 'NoMandatory',
@@ -229,13 +234,10 @@ $Selenium->RunTest(
             }
         );
 
-        for my $Test (@Tests) {
+        for my $Test (@MandatoryTests) {
 
             # Write test case description.
-            $Self->True(
-                1,
-                $Test->{Name},
-            );
+            diag( "Test case for 'mandatory': $Test->{Name}" );
 
             for my $NoMandatoryField ( values %{ $FreeTextFields{NoMandatory} } ) {
 
@@ -360,7 +362,7 @@ $Selenium->RunTest(
             );
 
             # Wait for AJAX to finish.
-            $WaitForAJAX->();
+            $WaitForAJAX();
 
             if ( $FieldID eq 'ServiceID' ) {
 
@@ -370,12 +372,12 @@ $Selenium->RunTest(
                 );
 
                 # Wait for AJAX to finish.
-                $WaitForAJAX->();
+                $WaitForAJAX();
             }
         }
 
         # Test cases - all fields are set except exactly one, and in the last case all fields are set.
-        @Tests = (
+        my @ClearTests = (
             {
                 Name      => 'Clear Service field',
                 ServiceID => '',
@@ -412,13 +414,10 @@ $Selenium->RunTest(
         );
 
         # Run test - in each iteration exactly one field is empty, last case is correct.
-        for my $Test (@Tests) {
+        for my $Test (@ClearTests) {
 
             # Write test case description.
-            $Self->True(
-                1,
-                $Test->{Name},
-            );
+            diag( "Test case for 'clear': $Test->{Name}" );
 
             my $ExpectedErrorFieldID;
 
@@ -437,7 +436,7 @@ $Selenium->RunTest(
                 );
 
                 # Wait for AJAX to finish.
-                $WaitForAJAX->();
+                $WaitForAJAX();
             }
 
             # Wait until opened field (due to error) has closed.
@@ -576,7 +575,4 @@ $Selenium->RunTest(
     }
 );
 
-
-$Self->DoneTesting();
-
-
+done_testing();
