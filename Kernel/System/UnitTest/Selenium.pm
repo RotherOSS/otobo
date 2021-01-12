@@ -754,16 +754,9 @@ for analysis (in folder /var/otobo-unittest if it exists, in $Home/var/httpd/htd
 
 sub HandleError {
     my $Self = shift;
-    my ( $Error, $InGlobalDestruction ) = @_;
+    my ( $Error ) = @_;
 
     my $Context = context();
-
-    if ( $InGlobalDestruction ) {
-        $Context->note( "HandleError: $Error" );
-    }
-    else {
-        $Context->fail( "HandleError: $Error" );
-    }
 
     # Don't create a test entry for the screenshot command,
     # to make sure it gets attached to the previous error entry.
@@ -845,37 +838,16 @@ and performs some clean-ups.
 
 sub DEMOLISH {
     my $Self = shift;
-    my ($InGlobalDestruction) = @_;
 
-    # Looks like for some reason $InGlobalDestruction is not reliable.
-    # So, let's assume that the Kernel::System::UnitTest::Selenium is always demolished
-    # after the done_testing().
-    $InGlobalDestruction = 1;
-
-    # $SuppressCommandRecording is not localised because one DEMOLISH is called after the other.
-    # This is ok because no testing events should be emitted during demolist and after the script is finished.
-    if ( $InGlobalDestruction ) {
-        $Self->_SuppressTestingEvents(1);
-    }
+    $Self->_SuppressTestingEvents(1);
 
     if ($Self->_TestException()) {
-        $Self->HandleError($Self->_TestException(), $InGlobalDestruction);
+        $Self->HandleError($Self->_TestException());
     }
 
     return unless $Self->SeleniumTestsActive();
 
     {
-
-        # TODO: no testing event from auto-quitting Selenium
-        #if ( $InGlobalDestruction ) {
-        #    local $Self->{SuppressCommandRecording} = 1;
-
-        #    $Self->SUPER::DEMOLISH(@_);
-        #}
-        #else {
-        #    $Self->SUPER::DEMOLISH(@_);
-        #}
-
         # Cleanup possibly leftover zombie firefox profiles.
         my @LeftoverFirefoxProfiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => '/tmp/',

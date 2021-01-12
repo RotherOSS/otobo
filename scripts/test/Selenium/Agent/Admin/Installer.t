@@ -314,8 +314,7 @@ else {
 
             # take a screenshot and print a stacktrace in case of errors
             if ($@) {
-                my $InGlobalDestruction = 0;
-                $Selenium->HandleError($@, $InGlobalDestruction);
+                $Selenium->HandleError($@);
             }
 
             # Restore original configuration.
