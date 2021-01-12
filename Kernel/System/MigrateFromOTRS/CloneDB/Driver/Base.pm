@@ -583,7 +583,9 @@ sub DataTransfer {
             return 1;
         };
 
-        $DoBatchInsert{$SourceTable} = $BatchInsertIsPossible;
+        # TODO: batch insert atm fails at line 864, where a select on the otrs-db is done as the otobo-mysql-user
+        # $DoBatchInsert{$SourceTable} = $BatchInsertIsPossible;
+        $DoBatchInsert{$SourceTable} = 0;
 
         if ( $SourceDBIsThrowaway && $BatchInsertIsPossible ) {
 
