@@ -1724,7 +1724,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 sub TaskSecurityCheck {
-    return
+    return (
         {
             Message => 'Check filesystem connect',
             Module  => 'OTOBOOTRSConnectionCheck',
@@ -1804,7 +1804,12 @@ sub TaskSecurityCheck {
         {
             Message => 'Migrate postmaster filter from OTRS to OTOBO',
             Module  => 'OTOBOPostmasterFilterMigrate',
-        };
+        },
+        {
+            Message => 'Package specific actions',
+            Module  => 'OTOBOPackageSpecifics',
+        },
+    );
 }
 
 1;

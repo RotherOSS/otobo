@@ -217,6 +217,7 @@ sub Run {
                     OTOBOMigrateWebServiceConfiguration
                     OTOBOProcessDeploy
                     OTOBOCacheCleanup
+                    OTOBOPackageSpecifics
                 );
             }
 
