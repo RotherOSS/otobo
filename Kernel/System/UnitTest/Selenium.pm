@@ -552,10 +552,10 @@ sub WaitFor {
         }
         elsif ( $Param{WindowCount} ) {
             $Self->_SuppressTestingEvents(1);
-            my $Ret = scalar( @{ $Self->get_window_handles() } ) == $Param{WindowCount};
+            my $NumWindows = scalar $Self->get_window_handles()->@*;
             $Self->_SuppressTestingEvents(0);
 
-            if ( $Ret ) {
+            if ( $NumWindows == $Param{WindowCount} ) {
                 $Success = 1;
 
                 last WAIT;
