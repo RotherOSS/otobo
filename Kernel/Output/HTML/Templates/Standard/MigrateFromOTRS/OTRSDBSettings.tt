@@ -70,7 +70,7 @@
                     </div>
                     <div class="Clear" class="oooOracle Hidden"></div>
 
-                    <label for="SkipDBMigration">[% Translate("Skip DB migration.") | html %]:</label>
+                    <label for="SkipDBMigration">[% Translate("Skip DB migration") | html %]:</label>
                     <div class="Field">
                         <input type="checkbox" id="SkipDBMigration" name="SkipDBMigration" value="" />
                         <p>[% Translate("Expert option! Only works if the migration has already been done by hand.") | html %]</p>
@@ -97,7 +97,8 @@
                     <h4>[% Translate("Result of database check") | html %]</h4>
 
                     <div class="Field Result">
-                        <p><i class="fa fa-check"></i> [% Translate("Database check successful.") | html %]</p>
+                        <p id='DBChecked'><i class="fa fa-check"></i> [% Translate("Database check successful.") | html %]</p>
+                        <p id='DBSkipped'><i class="fa fa-check"></i> [% Translate("Skipped.") | html %]</p>
                     </div>
 
                     <div class="Clear"></div>

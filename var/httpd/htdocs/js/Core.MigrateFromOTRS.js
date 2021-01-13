@@ -241,7 +241,10 @@ Core.MigrateFromOTRS = (function (TargetNS) {
 
         // DB skip
         $('#SkipDBMigration').on('change', function() {
-            if ( $(this).is(':checked') ) {       
+            $('#DBChecked').toggle();
+            $('#DBSkipped').toggle();
+
+            if ( $(this).is(':checked') ) {
                 ToggleAJAXLoader( 'ButtonDefTask', true );
                 var Data = 'Action=MigrateFromOTRS;Subaction=OTRSDBSettings;Task=CheckSettings;SkipDBMigration=1';
                 Core.AJAX.FunctionCall( Core.Config.Get('Baselink'), Data, DefTaskCallback );
