@@ -795,13 +795,17 @@ sub HandleError {
         Content   => \$Data,
     ) || return $Self->False( 1, "Could not write file $LocalScreenshotDir/$Filename" );
 
-    #
     # If a shared screenshot folder is present, then we also store the screenshot there for external use.
-    #
     if ( -d '/var/otobo-unittest/' && -w '/var/otobo-unittest/' ) {
 
         my $SharedScreenshotDir = '/var/otobo-unittest/SeleniumScreenshots';
-        mkdir $SharedScreenshotDir || return $Self->False( 1, "Could not create $SharedScreenshotDir." );
+        my $MkdirSuccess = mkdir $SharedScreenshotDir;
+        if ( ! $MkdirSuccess ) {
+            $Context->note( "Could not create the directory $SharedScreenshotDir: $!" );
+            $Context->release();
+
+            return;
+        }
 
         my $WriteSuccess = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
             Directory => $SharedScreenshotDir,
