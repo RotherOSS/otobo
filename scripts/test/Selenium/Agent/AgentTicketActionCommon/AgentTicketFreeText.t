@@ -362,7 +362,7 @@ $Selenium->RunTest(
             );
 
             # Wait for AJAX to finish.
-            $WaitForAJAX();
+            WaitForAJAX();
 
             if ( $FieldID eq 'ServiceID' ) {
 
@@ -372,7 +372,7 @@ $Selenium->RunTest(
                 );
 
                 # Wait for AJAX to finish.
-                $WaitForAJAX();
+                WaitForAJAX();
             }
         }
 
@@ -436,7 +436,7 @@ $Selenium->RunTest(
                 );
 
                 # Wait for AJAX to finish.
-                $WaitForAJAX();
+                WaitForAJAX();
             }
 
             # Wait until opened field (due to error) has closed.

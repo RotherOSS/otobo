@@ -26,6 +26,8 @@ use utf8;
 use MIME::Base64 qw(decode_base64);
 use File::Path qw(remove_tree);
 use Time::HiRes qw();
+use File::Spec;
+use File::Copy qw(copy);
 
 # CPAN modules
 use Test2::V0;
@@ -69,6 +71,7 @@ our @ObjectDependencies = (
             # an exception is thrown in case of an error
             my $Result = $Self->$Orig( $Res, $Params );
 
+            # TODO: maybe write notes instead of skipping altogether
             return $Result if $Self->_SuppressTestingEvents();
 
             my $TestName = 'Selenium command success: ';
@@ -521,14 +524,20 @@ sub WaitFor {
         $Context->throw( "Need JavaScript, WindowCount, ElementExists, ElementMissing, Callback or AlertPresent." );
     }
 
-    $Param{Time} //= 20;
-    my $WaitedSeconds = 0;
-    my $Interval      = 0.1;
-    my $WaitSeconds   = 0.5;
+    my $TimeOut                 = $Param{Time} // 20; # time span after which WaitFor() gives up
+    my $WaitedSeconds           = 0;                  # counting up to $TimeOut
+    # Apparently some WaitFor() call fail because some elements show up only briefly.
+    # This might cause heisenbugs.
+    # Therefore fine tune the initial sleep times.
+    my @Intervals               = ( 0.025, 0.050, 0.075, 0.1 );
+    my $DefaultInterval         = 0.1;
+    my $Interval                = $DefaultInterval;
+    my $FindElementSleepSeconds = 0.5; # sleep after a successful find_element(), no idea why this is useful
+
     my $Success = 0;
 
     WAIT:
-    while ( $WaitedSeconds <= $Param{Time} ) {
+    while ( $WaitedSeconds <= $TimeOut ) {
 
         if ( $Param{JavaScript} ) {
             $Self->_SuppressTestingEvents(1);
@@ -543,10 +552,10 @@ sub WaitFor {
         }
         elsif ( $Param{WindowCount} ) {
             $Self->_SuppressTestingEvents(1);
-            my $Ret = scalar( @{ $Self->get_window_handles() } ) == $Param{WindowCount};
+            my $NumWindows = scalar $Self->get_window_handles()->@*;
             $Self->_SuppressTestingEvents(0);
 
-            if ( $Ret ) {
+            if ( $NumWindows == $Param{WindowCount} ) {
                 $Success = 1;
 
                 last WAIT;
@@ -583,7 +592,7 @@ sub WaitFor {
             my $Ret = eval { $Self->find_element(@Arguments) };
             $Self->_SuppressTestingEvents(0);
             if ( $Ret ) {
-                Time::HiRes::sleep($WaitSeconds);
+                Time::HiRes::sleep($FindElementSleepSeconds);
 
                 $Success = 1;
 
@@ -598,7 +607,7 @@ sub WaitFor {
             my $Ret = eval { $Self->find_element(@Arguments) };
             $Self->_SuppressTestingEvents(0);
             if ( ! $Ret ) {
-                Time::HiRes::sleep($WaitSeconds);
+                Time::HiRes::sleep($FindElementSleepSeconds);
 
                 $Success = 1;
 
@@ -606,9 +615,15 @@ sub WaitFor {
             }
         }
 
+        # Interval timing is solely trial and error
+        if ( @Intervals && ( $Param{ElementExists} || $Param{ElementMissing} ) ) {
+            $Interval = shift @Intervals;
+        }
         Time::HiRes::sleep($Interval);
         $WaitedSeconds += $Interval;
         $Interval      += 0.1;
+
+        $Context->note( "waited for $WaitedSeconds s" );
     }
 
     # something short that identfies the WaitFor target
@@ -760,69 +775,60 @@ sub HandleError {
 
     my $Context = context();
 
-    # Don't create a test entry for the screenshot command,
-    # to make sure it gets attached to the previous error entry.
-    my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents();
-    $Self->_SuppressTestingEvents(1);
-    # TODO: use capture_screenshot()
-    my $Data = $Self->screenshot();
-    $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
-    if ( !$Data ) {
+    # Store screenshots in a local folder from where they can be opened directly in the browser.
+    # If we can't store the screenshots, then there is no use in creating them.
+    my $LocalScreenshotDir = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/httpd/htdocs/SeleniumScreenshots';
+    mkdir $LocalScreenshotDir unless -e $LocalScreenshotDir;
+    if ( ! -d $LocalScreenshotDir ) {
+        $Context->note( "Could not create the screenshot directory $LocalScreenshotDir: $!" );
         $Context->release();
 
         return;
     }
 
-    $Data = decode_base64($Data);
-
-    # Attach the screenshot to the actual error entry.
+    # the file name of the screenshot is random
     my $Filename = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomNumber() . '.png';
 
-    # Store screenshots in a local folder from where they can be opened directly in the browser.
-    my $LocalScreenshotDir = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/httpd/htdocs/SeleniumScreenshots';
-    mkdir $LocalScreenshotDir || return $Self->False( 1, "Could not create $LocalScreenshotDir." );
+    my $LocalPath = File::Spec->catfile( $LocalScreenshotDir, $Filename );
 
-    my $HttpType = $Kernel::OM->Get('Kernel::Config')->Get('HttpType');
-    my $Hostname = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetTestHTTPHostname();
-    # TODO: a more sensible URL that works outside the Docker container
-    my $URL      = "$HttpType://$Hostname/"
-        . $Kernel::OM->Get('Kernel::Config')->Get('Frontend::WebPath')
-        . "SeleniumScreenshots/$Filename";
+    # No need to log generation of the screenshot.
+    # No worries when the screenshot can't be written.
+    my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents();
+    $Self->_SuppressTestingEvents(1);
+    $Self->capture_screenshot($LocalPath);
+    $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
 
-    $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-        Directory => $LocalScreenshotDir,
-        Filename  => $Filename,
-        Content   => \$Data,
-    ) || return $Self->False( 1, "Could not write file $LocalScreenshotDir/$Filename" );
+    if ( ! -f $LocalPath ) {
+        $Context->note( "Could not create screenshot $LocalPath" );
+    }
+    else {
+
+        # Tell the tester about the screenshot.
+        # TODO: a more sensible URL that works outside the Docker container
+        my $HttpType = $Kernel::OM->Get('Kernel::Config')->Get('HttpType');
+        my $Hostname = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetTestHTTPHostname();
+        my $URL      = "$HttpType://$Hostname/"
+            . $Kernel::OM->Get('Kernel::Config')->Get('Frontend::WebPath')
+            . "SeleniumScreenshots/$Filename";
+        $Context->note( "Saved screenshot in $URL" );
+    }
 
     # If a shared screenshot folder is present, then we also store the screenshot there for external use.
-    if ( -d '/var/otobo-unittest/' && -w '/var/otobo-unittest/' ) {
+    if ( -f $LocalPath && -d '/var/otobo-unittest/' && -w '/var/otobo-unittest/'  ) {
 
         my $SharedScreenshotDir = '/var/otobo-unittest/SeleniumScreenshots';
-        my $MkdirSuccess = mkdir $SharedScreenshotDir;
-        if ( ! $MkdirSuccess ) {
+        mkdir $SharedScreenshotDir unless -e $SharedScreenshotDir;
+        if ( ! -d $SharedScreenshotDir ) {
             $Context->note( "Could not create the directory $SharedScreenshotDir: $!" );
-            $Context->release();
-
-            return;
         }
-
-        my $WriteSuccess = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-            Directory => $SharedScreenshotDir,
-            Filename  => $Filename,
-            Content   => \$Data,
-        );
-        if ( ! $WriteSuccess ) {
-            $Context->note( "Could not write file $SharedScreenshotDir/$Filename" );
-            $Context->release();
-
-            return;
+        else {
+            my $CopySuccess = copy( $LocalPath, $SharedScreenshotDir );
+            if ( ! $CopySuccess ) {
+                $Context->note( "Could not write file $SharedScreenshotDir/$Filename" );
+            }
         }
     }
 
-    # Make sure the screenshot URL is output even in non-verbose mode to make it visible
-    #   for debugging, but don't register it as a test failure to keep the error count more correct.
-    $Context->note( "Saved screenshot in $URL" );
     $Context->release();
 
     return;
