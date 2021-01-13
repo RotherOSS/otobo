@@ -524,14 +524,20 @@ sub WaitFor {
         $Context->throw( "Need JavaScript, WindowCount, ElementExists, ElementMissing, Callback or AlertPresent." );
     }
 
-    $Param{Time} //= 20;
-    my $WaitedSeconds = 0;
-    my $Interval      = 0.1;
-    my $WaitSeconds   = 0.5;
+    my $TimeOut                 = $Param{Time} // 20; # time span after which WaitFor() gives up
+    my $WaitedSeconds           = 0;                  # counting up to $TimeOut
+    # Apparently some WaitFor() call fail because some elements show up only briefly.
+    # This might cause heisenbugs.
+    # Therefore fine tune the initial sleep times.
+    my @Intervals               = ( 0.025, 0.050, 0.075, 0.1 );
+    my $DefaultInterval         = 0.1;
+    my $Interval                = $DefaultInterval;
+    my $FindElementSleepSeconds = 0.5; # sleep after a successful find_element(), no idea why this is useful
+
     my $Success = 0;
 
     WAIT:
-    while ( $WaitedSeconds <= $Param{Time} ) {
+    while ( $WaitedSeconds <= $TimeOut ) {
 
         if ( $Param{JavaScript} ) {
             $Self->_SuppressTestingEvents(1);
@@ -586,7 +592,7 @@ sub WaitFor {
             my $Ret = eval { $Self->find_element(@Arguments) };
             $Self->_SuppressTestingEvents(0);
             if ( $Ret ) {
-                Time::HiRes::sleep($WaitSeconds);
+                Time::HiRes::sleep($FindElementSleepSeconds);
 
                 $Success = 1;
 
@@ -601,7 +607,7 @@ sub WaitFor {
             my $Ret = eval { $Self->find_element(@Arguments) };
             $Self->_SuppressTestingEvents(0);
             if ( ! $Ret ) {
-                Time::HiRes::sleep($WaitSeconds);
+                Time::HiRes::sleep($FindElementSleepSeconds);
 
                 $Success = 1;
 
@@ -609,9 +615,15 @@ sub WaitFor {
             }
         }
 
+        # Interval timing is solely trial and error
+        if ( @Intervals && ( $Param{ElementExists} || $Param{ElementMissing} ) ) {
+            $Interval = shift @Intervals;
+        }
         Time::HiRes::sleep($Interval);
         $WaitedSeconds += $Interval;
         $Interval      += 0.1;
+
+        $Context->note( "waited for $WaitedSeconds s" );
     }
 
     # something short that identfies the WaitFor target
