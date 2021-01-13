@@ -545,6 +545,11 @@ sub _Finish {
         return $Param{LayoutObject}->FatalError();
     }
 
+    # Delete migration cache
+    my $Status = $Param{CacheObject}->CleanUp(
+        Type => 'OTRSMigration',
+    );
+
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
     my $SettingName = 'SecureMode';
