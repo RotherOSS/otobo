@@ -692,8 +692,7 @@ sub DataTransfer {
         my $TargetColumnsString = join ', ', @SourceColumns;
 
         # If we have extra columns in OTRS table we need to add the column to OTOBO.
-        # But only if we don't have a destructive batch insert
-        if ( !$DoBatchInsert{$SourceTable} ) {
+        {
             my $TargetColumnRef = $TargetDBBackend->ColumnsList(
                 Table    => $TargetTable,
                 DBName   => $ConfigObject->Get('Database'),
