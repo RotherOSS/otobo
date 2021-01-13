@@ -749,8 +749,8 @@ use this method to handle any Selenium exceptions.
 
     $SeleniumObject->HandleError($@);
 
-It will create a failing test result and store a screen shot of the page
-for analysis (in folder /var/otobo-unittest if it exists, in $Home/var/httpd/htdocs otherwise).
+It will store a screen shot of the page in $OTOBO_HOME/var/httpd/htdocs/SeleniumScreenshots.
+If the folder /var/otobo-unittest exists, then a copy of the screenshot will be placed there too.
 
 =cut
 
@@ -764,6 +764,7 @@ sub HandleError {
     # to make sure it gets attached to the previous error entry.
     my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents();
     $Self->_SuppressTestingEvents(1);
+    # TODO: use capture_screenshot()
     my $Data = $Self->screenshot();
     $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
     if ( !$Data ) {
@@ -777,18 +778,13 @@ sub HandleError {
     # Attach the screenshot to the actual error entry.
     my $Filename = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomNumber() . '.png';
 
-    # TODO: is that feature still useful ? AFAIK OTOBO has no test result upload service.
-    #$Kernel::OM->Get('Kernel::System::UnitTest::Driver')->AttachSeleniumScreenshot(
-    #    Filename => $Filename,
-    #    Content  => $Data
-    #);
-
     # Store screenshots in a local folder from where they can be opened directly in the browser.
     my $LocalScreenshotDir = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/httpd/htdocs/SeleniumScreenshots';
     mkdir $LocalScreenshotDir || return $Self->False( 1, "Could not create $LocalScreenshotDir." );
 
     my $HttpType = $Kernel::OM->Get('Kernel::Config')->Get('HttpType');
     my $Hostname = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetTestHTTPHostname();
+    # TODO: a more sensible URL that works outside the Docker container
     my $URL      = "$HttpType://$Hostname/"
         . $Kernel::OM->Get('Kernel::Config')->Get('Frontend::WebPath')
         . "SeleniumScreenshots/$Filename";
