@@ -154,7 +154,7 @@ sub Run {
         }
         elsif ( $Self->{Subaction} eq 'OTRSDBSettings' && $AJAXTask eq 'CheckSettings' ) {
             my %GetParam;
-            for my $Key (qw/DBType DBHost DBUser DBPassword DBName DBIsThrowaway DBSID DBPort SkipDBMigration/) {
+            for my $Key (qw/DBType DBHost DBUser DBPassword DBName DBSID DBPort SkipDBMigration/) {
                 $GetParam{$Key} = $ParamObject->GetParam( Param => $Key ) // '';
                 chomp( $GetParam{$Key} );
                 $GetParam{$Key} =~ s/^\s+//;
