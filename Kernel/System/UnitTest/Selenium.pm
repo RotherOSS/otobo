@@ -303,9 +303,11 @@ sub RunTest {
         $Code->();
     } 'RunTest: no exception should be thrown';
 
-    # remember the exception because the screenshot is taken later, during DEMOLISH
     if ( $@ ) {
-        note( $@ );
+        note( "RunTest: $@" );
+
+        # Indicate that during DEMOLISH() the subroutine HandleError() should be called.
+        # HandleError() will create screenshots.
         $Self->_TestException($@);
     }
 
@@ -812,7 +814,6 @@ sub HandleError {
         );
         if ( ! $WriteSuccess ) {
             $Context->note( "Could not write file $SharedScreenshotDir/$Filename" );
-
             $Context->release();
 
             return;
@@ -822,7 +823,6 @@ sub HandleError {
     # Make sure the screenshot URL is output even in non-verbose mode to make it visible
     #   for debugging, but don't register it as a test failure to keep the error count more correct.
     $Context->note( "Saved screenshot in $URL" );
-
     $Context->release();
 
     return;
