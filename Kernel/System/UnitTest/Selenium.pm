@@ -640,7 +640,7 @@ sub WaitFor {
 
     # Release context and throw exception in case of failure.
     # Don't care about any special handling for the stack trace.
-    $Context->throw( "WaitFor($Argument) failed.") unless $Success;
+    $Context->throw( "WaitFor($Argument) timed out") unless $Success;
 
     # successful
     $Context->pass_and_release( "WaitFor($Argument)" );
@@ -786,48 +786,83 @@ sub HandleError {
         return;
     }
 
-    # the file name of the screenshot is random
-    my $Filename = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomNumber() . '.png';
+    # If a shared screenshot folder is present, then we also store the screenshot there for external use.
+    my $SharedScreenshotDir;
+    if ( -d -w '/var/otobo-unittest/' ) {
 
-    my $LocalPath = File::Spec->catfile( $LocalScreenshotDir, $Filename );
+        $SharedScreenshotDir = '/var/otobo-unittest/SeleniumScreenshots';
+        mkdir $SharedScreenshotDir unless -e $SharedScreenshotDir;
+        if ( ! -d $SharedScreenshotDir ) {
+            $Context->note( "Could not create the directory $SharedScreenshotDir: $!" );
+
+            undef $SharedScreenshotDir;
+        }
+    }
 
     # No need to log generation of the screenshot.
-    # No worries when the screenshot can't be written.
     my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents();
     $Self->_SuppressTestingEvents(1);
-    $Self->capture_screenshot($LocalPath);
-    $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
 
-    if ( ! -f $LocalPath ) {
-        $Context->note( "Could not create screenshot $LocalPath" );
-    }
-    else {
+    # the file name of the screenshot is random
+    my $RandomID = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomNumber();
+
+    # take screen shots of all browser windows
+    my $WindowCount = 1;
+    WINDOW_HANDLE:
+    for my $WindowHandle ( $Self->get_window_handles()->@* ) {
+
+        # select the window
+        try {
+            $Self->switch_to_window($WindowHandle);
+        }
+        catch {
+            next WINDOW_HANDLE;
+        };
+
+        my $Filename       = "${RandomID}_${WindowCount}.png";
+        my $LocalPath      = File::Spec->catfile( $LocalScreenshotDir, $Filename );
+
+        # No worries when the screenshot can't be written.
+        $Self->capture_screenshot($LocalPath);
+
+        if ( ! -f $LocalPath ) {
+            $Context->note( "Could not create screenshot $LocalPath" );
+
+            next WINDOW_HANDLE;
+        }
 
         # Tell the tester about the screenshot.
-        # TODO: a more sensible URL that works outside the Docker container
-        my $HttpType = $Kernel::OM->Get('Kernel::Config')->Get('HttpType');
-        my $Hostname = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetTestHTTPHostname();
-        my $URL      = "$HttpType://$Hostname/"
-            . $Kernel::OM->Get('Kernel::Config')->Get('Frontend::WebPath')
-            . "SeleniumScreenshots/$Filename";
-        $Context->note( "Saved screenshot in $URL" );
-    }
+        {
+            my $HttpType = $Kernel::OM->Get('Kernel::Config')->Get('HttpType');
+            my $Hostname = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetTestHTTPHostname();
+            my $URL      = "$HttpType://$Hostname/"
+                . $Kernel::OM->Get('Kernel::Config')->Get('Frontend::WebPath')
+                . "SeleniumScreenshots/$Filename";
 
-    # If a shared screenshot folder is present, then we also store the screenshot there for external use.
-    if ( -f $LocalPath && -d '/var/otobo-unittest/' && -w '/var/otobo-unittest/'  ) {
+            $Context->note( "Saved screenshot in $URL" );
+        }
+
+        # If a shared screenshot folder is present, then we also store the screenshot there for external use.
+        next WINDOW_HANDLE unless $SharedScreenshotDir;
 
         my $SharedScreenshotDir = '/var/otobo-unittest/SeleniumScreenshots';
         mkdir $SharedScreenshotDir unless -e $SharedScreenshotDir;
         if ( ! -d $SharedScreenshotDir ) {
             $Context->note( "Could not create the directory $SharedScreenshotDir: $!" );
+
+            next WINDOW_HANDLE;
         }
-        else {
-            my $CopySuccess = copy( $LocalPath, $SharedScreenshotDir );
-            if ( ! $CopySuccess ) {
-                $Context->note( "Could not write file $SharedScreenshotDir/$Filename" );
-            }
+
+        my $CopySuccess = copy( $LocalPath, $SharedScreenshotDir );
+        if ( ! $CopySuccess ) {
+            $Context->note( "Could not write file $SharedScreenshotDir/$Filename" );
         }
     }
+    continue {
+        $WindowCount++;
+    }
+
+    $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
 
     $Context->release();
 
