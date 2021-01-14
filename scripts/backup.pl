@@ -679,7 +679,7 @@ Usage:
 
     # backups for creating a dump for migrating an OTRS database OTOBO
     otobo> cd /opt/otobo
-    otobo> scripts/backup.pl -t migratefromotrs --db-name otrs --db-host=127.0.0.1 --db-user otrs --db-password "secret_otrs_password"
+    otobo> scripts/backup.pl -t migratefromotrs --db-name otrs --db-host 127.0.0.1 --db-user otrs --db-password "secret_otrs_password"
 
 Short options:
  [-h]                   - Display help for this command.
