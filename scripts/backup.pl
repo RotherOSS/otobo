@@ -601,7 +601,6 @@ SET \@queryDrop_$Cnt = IF (
 );
 SET \@queryRename_$Cnt = IF (
     \@exists_$Cnt > 0,
-    'DROP TABLE IF EXISTS `$RenameTables{$SourceTable}`'
     'RENAME TABLE `$SourceTable` TO `$RenameTables{$SourceTable}`',
     'SELECT \\'$SourceTable does not exist. No need to rename $SourceTable\\' status'
 );
