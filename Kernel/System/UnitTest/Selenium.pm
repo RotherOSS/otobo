@@ -807,7 +807,7 @@ sub HandleError {
     my $RandomID = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomNumber();
 
     # take screen shots of all browser windows
-    my $WindowCnt = 1;
+    my $WindowCount = 1;
     WINDOW_HANDLE:
     for my $WindowHandle ( $Self->get_window_handles()->@* ) {
 
