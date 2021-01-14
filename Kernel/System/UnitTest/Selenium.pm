@@ -640,7 +640,7 @@ sub WaitFor {
 
     # Release context and throw exception in case of failure.
     # Don't care about any special handling for the stack trace.
-    $Context->throw( "WaitFor($Argument) failed.") unless $Success;
+    $Context->throw( "WaitFor($Argument) timed out") unless $Success;
 
     # successful
     $Context->pass_and_release( "WaitFor($Argument)" );
