@@ -90,6 +90,15 @@ sub Run {
         }
     }
 
+    # skip for previously/manually finished DB migration
+    if ( $Param{DBData}{SkipDBMigration} ) {
+        return {
+            Successful => 1,
+            Message    => $Self->{LanguageObject}->Translate("Copy database."),
+            Comment    => $Self->{LanguageObject}->Translate("Skipped..."),
+        }
+    }
+
     # check needed stuff
     for my $Key (qw(DBDSN DBType DBHost DBUser DBPassword DBName)) {
         if ( !$Param{DBData}->{$Key} ) {
