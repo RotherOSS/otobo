@@ -117,10 +117,6 @@ my $SeleniumTest = sub {
         # Navigate to appropriate screen in the test
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=$Test->{Data}->{Action};TicketID=$TicketID");
 
-        my $Element = eval {
-            $Selenium->find_element( "#$Test->{Data}->{State}", 'css' );
-        };
-
         for my $Field (qw(Day Year Month Hour Minute)) {
 
             my $IsDisplayed = eval {
@@ -130,18 +126,14 @@ my $SeleniumTest = sub {
             ok( ! $IsDisplayed, "disabled element '$Field' is not displayed" );
         }
 
-        my $Result = $Selenium->InputSet(
-            Attribute   => $Test->{Data}->{State},
-            Content     => $PendingStateIDs[0],
-            WaitForAJAX => 0,
-            Options     => {
-                KeyOrValue => 'Key',
-            },
-        );
+        my $StateElement = eval {
+            $Selenium->find_element( "#$Test->{Data}->{State}", 'css' );
+        };
+        is( $StateElement, 'state input field found' );
 
-        $Self->True(
-            $Result,
-            "Change NextStateID successfully.",
+        my $Result = $Selenium->InputFieldValueSet(
+            Element     => "#$Test->{Data}->{State}",
+            Value       => $PendingStateIDs[0],
         );
 
         ok( $Result, 'Changed state successfully' );
