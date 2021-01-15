@@ -363,7 +363,8 @@ $Selenium->RunTest(
                 },
             );
 
-            # Put TicketNumber at the end.
+            # Drag 'TicketNumber' from 'Visible Columns' to 'Available Columns'.
+            # With the passed offset, the entry TicketNumber ends up after 'Customer User Name'.
             $Selenium->DragAndDrop(
                 Element      => '#WidgetTicket #AssignedFields-linkobject-Ticket li[data-fieldname="TicketNumber"]',
                 Target       => '#AvailableField-linkobject-Ticket',
@@ -372,12 +373,15 @@ $Selenium->RunTest(
                     Y => 10,
                 },
             );
+
+            # Drag TicketNumber back 'Available Columns' to 'Visible Columns'.
+            # Pass an offset from the top left of the list, so that 'TicketNumber' becomes the fifth list element.
             $Selenium->DragAndDrop(
                 Element      => '#WidgetTicket #AvailableField-linkobject-Ticket li[data-fieldname="TicketNumber"]',
                 Target       => '#AssignedFields-linkobject-Ticket',
                 TargetOffset => {
-                    X => 185,
-                    Y => 90,
+                    X => 100,
+                    Y => 30, # offset determined by trial and error
                 },
             );
 
@@ -419,6 +423,8 @@ $Selenium->RunTest(
                 ' Created ',
                 'Updated 4th column name',
             );
+
+            # Here comes the 'TicketNumber', which was dropped as the 5th element previously
             $Self->Is(
                 $Selenium->execute_script(
                     "return \$('#WidgetTicket .DataTable thead tr th:nth-child(5)').text();"
