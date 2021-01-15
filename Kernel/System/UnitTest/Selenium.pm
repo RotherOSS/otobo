@@ -88,24 +88,6 @@ our @ObjectDependencies = (
 
             return $Result;
         };
-
-
-        # Enhance get_alert_text() method of base class to return alert text as string.
-        around get_alert_text => sub {    ## no critic
-            my $Orig = shift;
-            my $Self = shift;
-
-            my $Context = context();
-
-            my $AlertText = $Self->$Orig();
-
-            # Chrome returns HASH when there is no alert text.
-            $Context->throw( "Alert dialog is not present" ) if ref $AlertText eq 'HASH';
-
-            $Context->release();
-
-            return $AlertText;
-        };
     }
 }
 
@@ -697,6 +679,8 @@ Drag and drop an element.
         }
     );
 
+See also C<Selenium::ActionChains::drag_and_drop()>.
+
 =cut
 
 sub DragAndDrop {
@@ -726,17 +710,17 @@ sub DragAndDrop {
         );
         my $Element = $Self->find_element( $Param{Element}, 'css' );
 
-        # Move mouse to from element, drag and drop
-        $Self->mouse_move_to_location( element => $Element );
-
-        # Holds the mouse button on the element
-        $Self->button_down();
-
         # Make sure Target is visible
         $Self->WaitFor(
             JavaScript => 'return typeof($) === "function" && $(\'' . $Param{Target} . ':visible\').length;',
         );
         my $Target = $Self->find_element( $Param{Target}, 'css' );
+
+        # Move mouse to from element, drag and drop
+        $Self->mouse_move_to_location( element => $Element );
+
+        # Holds the mouse button on the element
+        $Self->button_down();
 
         # Move mouse to the destination
         $Self->mouse_move_to_location(
@@ -746,6 +730,10 @@ sub DragAndDrop {
 
         # Release
         $Self->button_up();
+
+        # With WebDriver 3 the preceeding mouse movements and mouse button actions are only queued.
+        # Perform the actions now.
+        $Self->general_action();
     };
 
     my $Pass = run_subtest( 'DragAndDrop', $Code, { buffered => 1, inherit_trace => 1 } );
