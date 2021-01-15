@@ -679,6 +679,8 @@ Drag and drop an element.
         }
     );
 
+See also C<Selenium::ActionChains::drag_and_drop()>.
+
 =cut
 
 sub DragAndDrop {
@@ -708,17 +710,17 @@ sub DragAndDrop {
         );
         my $Element = $Self->find_element( $Param{Element}, 'css' );
 
-        # Move mouse to from element, drag and drop
-        $Self->mouse_move_to_location( element => $Element );
-
-        # Holds the mouse button on the element
-        $Self->button_down();
-
         # Make sure Target is visible
         $Self->WaitFor(
             JavaScript => 'return typeof($) === "function" && $(\'' . $Param{Target} . ':visible\').length;',
         );
         my $Target = $Self->find_element( $Param{Target}, 'css' );
+
+        # Move mouse to from element, drag and drop
+        $Self->mouse_move_to_location( element => $Element );
+
+        # Holds the mouse button on the element
+        $Self->button_down();
 
         # Move mouse to the destination
         $Self->mouse_move_to_location(
@@ -728,6 +730,10 @@ sub DragAndDrop {
 
         # Release
         $Self->button_up();
+
+        # With WebDriver 3 the preceeding mouse movements and mouse button actions are only queued.
+        # Perform the actions now.
+        $Self->general_action();
     };
 
     my $Pass = run_subtest( 'DragAndDrop', $Code, { buffered => 1, inherit_trace => 1 } );
