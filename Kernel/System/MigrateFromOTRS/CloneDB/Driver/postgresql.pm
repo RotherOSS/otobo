@@ -301,6 +301,7 @@ sub TranslateColumnInfos {
         $Result{smallint}                           = 'SMALLINT';
         $Result{longblob}                           = 'LONGBLOB';
         $Result{mediumtext}                         = 'MEDIUMTEXT';
+        $Result{text}                               = 'TEXT';
     }
     elsif ( $Param{DBType} =~ /postgresql/ ) {
         $Result{'character varying'}                = 'VARCHAR';
@@ -310,6 +311,7 @@ sub TranslateColumnInfos {
         $Result{smallint}                           = 'SMALLINT';
         $Result{longblob}                           = 'TEXT';
         $Result{mediumtext}                         = 'VARCHAR';
+        $Result{text}                               = 'TEXT';
     }
     elsif ( $Param{DBType} =~ /oracle/ ) {
         $Result{'character varying'}                = 'VARCHAR2';
@@ -319,6 +321,7 @@ sub TranslateColumnInfos {
         $Result{smallint}                           = 'NUMBER';
         $Result{longblob}                           = 'CLOB';
         $Result{mediumtext}                         = 'CLOB';
+        $Result{text}                               = 'VARCHAR2';
     }
     $ColumnInfos{DATA_TYPE} = $Result{ $Param{ColumnInfos}->{DATA_TYPE} };
 
