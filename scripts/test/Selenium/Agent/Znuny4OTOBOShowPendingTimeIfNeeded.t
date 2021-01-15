@@ -16,14 +16,19 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
+
+our $Self;
 
 # create configuration backup
 # get the Znuny4OTOBO Selenium object
@@ -118,13 +123,11 @@ my $SeleniumTest = sub {
 
         for my $Field (qw(Day Year Month Hour Minute)) {
 
-            my $DisabledElement = eval {
+            my $IsDisplayed = eval {
                 $Selenium->find_element( "#$Field", 'css' )->is_displayed();
             };
-            $Self->False(
-                $DisabledElement,
-                "Checking for disabled element '$Field'",
-            );
+
+            ok( ! $IsDisplayed, "disabled element '$Field' is not displayed" );
         }
 
         my $Result = $Selenium->InputSet(
@@ -141,6 +144,8 @@ my $SeleniumTest = sub {
             "Change NextStateID successfully.",
         );
 
+        ok( $Result, 'Changed state successfully' );
+
         next TEST unless $Result;
 
         for my $Field (qw(Day Year Month Hour Minute)) {
@@ -156,6 +161,4 @@ my $SeleniumTest = sub {
 # finally run the test(s) in the browser
 $Selenium->RunTest($SeleniumTest);
 
-$Self->DoneTesting();
-
-
+done_testing();
