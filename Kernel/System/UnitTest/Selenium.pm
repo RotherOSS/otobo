@@ -88,24 +88,6 @@ our @ObjectDependencies = (
 
             return $Result;
         };
-
-
-        # Enhance get_alert_text() method of base class to return alert text as string.
-        around get_alert_text => sub {    ## no critic
-            my $Orig = shift;
-            my $Self = shift;
-
-            my $Context = context();
-
-            my $AlertText = $Self->$Orig();
-
-            # Chrome returns HASH when there is no alert text.
-            $Context->throw( "Alert dialog is not present" ) if ref $AlertText eq 'HASH';
-
-            $Context->release();
-
-            return $AlertText;
-        };
     }
 }
 
