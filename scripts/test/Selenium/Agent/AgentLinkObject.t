@@ -395,18 +395,19 @@ $Selenium->RunTest(
             );
 
             # Check for "updated" visible columns in the Linked Ticket widget.
+            # Title, Age, Queue, Created, Ticket#, Linked As
             $Self->Is(
                 $Selenium->execute_script(
                     "return \$('#WidgetTicket .DataTable thead tr th:nth-child(1)').text();"
                 ),
-                ' Age ',
+                ' Title ',
                 'Updated 1st column name',
             );
             $Self->Is(
                 $Selenium->execute_script(
                     "return \$('#WidgetTicket .DataTable thead tr th:nth-child(2)').text();"
                 ),
-                ' Title ',
+                ' Age ',
                 'Updated 2nd column name',
             );
             $Self->Is(
@@ -414,7 +415,7 @@ $Selenium->RunTest(
                     "return \$('#WidgetTicket .DataTable thead tr th:nth-child(3)').text();"
                 ),
                 ' Queue ',
-                'Updated 3th column name',
+                'Updated 3rd column name',
             );
             $Self->Is(
                 $Selenium->execute_script(
