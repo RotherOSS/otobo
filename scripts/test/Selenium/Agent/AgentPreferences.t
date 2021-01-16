@@ -19,12 +19,17 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+use Try::Tiny;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
 use Kernel::Language;
+
+our $Self;
 
 # get needed objects
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -133,10 +138,9 @@ $Selenium->RunTest(
                 "$ID is enabled."
             );
 
-            $Self->True(
-                $Element->is_displayed(),
-                "$ID is displayed."
-            );
+            ok( $Element, "element $ID found" );
+            ok( $Element->is_enabled(), "$ID is enabled." );
+            ok( $Element->is_displayed(), "$ID is displayed." );
         }
 
         # Click on "Generate" button.
@@ -151,13 +155,10 @@ $Selenium->RunTest(
         my $SecretKey = $Selenium->execute_script(
             "return \$('#UserGoogleAuthenticatorSecretKey').val();"
         );
-        $Self->True(
-            $SecretKey =~ m{[A-Z2-7]{16}} ? 1 : 0,
-            'Secret key is valid.'
-        );
+        like( $SecretKey, qr/[A-Z2-7]{16}/, 'Secret key is valid.' );
 
         # check some of AgentPreferences default values
-        $Self->Is(
+        is(
             $Selenium->find_element( '#UserLanguage', 'css' )->get_value(),
             "en",
             "#UserLanguage stored value",
@@ -541,7 +542,4 @@ JAVASCRIPT
     }
 );
 
-
-$Self->DoneTesting();
-
-
+done_testing();
