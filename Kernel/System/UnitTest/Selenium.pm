@@ -250,10 +250,56 @@ sub BUILD {
     return;
 }
 
-# Selenium::Remove::Driver uses this callback in case of errors.
-# Errors should not be discarded, they should be thrown as exceptions.
-# Selenium methods like find_element() will catch the exception.
-# Most other methods won't.
+=head2 button_up
+
+In Selenium::Remote::Driver 1.39 there seems to be a bug in button_up().
+There the type of the action is pointerDown.
+pointerUp makes more sense and fixes DragAndDrop test failures.
+Therefore override that subroutine.
+
+=cut
+
+sub button_up {
+    my ($self) = @_;
+
+    if ( $self->{is_wd3}
+        && !( grep { $self->browser_name eq $_ } qw{MicrosoftEdge} ) )
+    {
+        my $params = {
+            actions => [
+                {
+                    type       => "pointer",
+                    id         => 'mouse',
+                    parameters => { "pointerType" => "mouse" },
+                    actions    => [
+                        {
+                            type     => "pointerUp",
+                            duration => 0,
+                            button   => 0,
+                        },
+                    ],
+                }
+            ],
+        };
+        Selenium::Remote::Driver::_queue_action(%$params);
+
+        return 1;
+    }
+
+    my $res = { 'command' => 'buttonUp' };
+
+    return $self->_execute_command($res);
+}
+
+=head2 SeleniumErrorHandler
+
+Selenium::Remove::Driver uses this callback in case of errors.
+Errors should not be discarded, they should be thrown as exceptions.
+Selenium methods like find_element() will catch the exception.
+Most other methods won't.
+
+=cut
+
 sub SeleniumErrorHandler {
     my $Self = shift;
     my ( $Error ) = @_;
@@ -680,6 +726,7 @@ Drag and drop an element.
     );
 
 See also C<Selenium::ActionChains::drag_and_drop()>.
+The difference in these subroutines is that C<drag_and_drop> does not support target offset.
 
 =cut
 

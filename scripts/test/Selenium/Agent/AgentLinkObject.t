@@ -334,12 +334,10 @@ $Selenium->RunTest(
 
         sleep 1;
 
-        # TODO: remove limitation to firefox.
-        if ( $Selenium->{browser_name} eq 'firefox' ) {
-            $Self->True(
-                1,
-                "TODO: DragAndDrop is currently disabled in Firefox",
-            );
+        # There might be relevant browsers where DragAndDrop() is not working via Selenium.
+        my %BrowserIsExcluded = ();
+        if ( $BrowserIsExcluded{ $Selenium->{browser_name} } ) {
+            note( "TODO: DragAndDrop is currently disabled in $Selenium->{browser_name}" );
         }
         else {
 
@@ -374,7 +372,7 @@ $Selenium->RunTest(
                 },
             );
 
-            # Drag TicketNumber back 'Available Columns' to 'Visible Columns'.
+            # Drag TicketNumber back from 'Available Columns' to 'Visible Columns'.
             # Pass an offset from the top left of the list, so that 'TicketNumber' becomes the fifth list element.
             $Selenium->DragAndDrop(
                 Element      => '#WidgetTicket #AvailableField-linkobject-Ticket li[data-fieldname="TicketNumber"]',
