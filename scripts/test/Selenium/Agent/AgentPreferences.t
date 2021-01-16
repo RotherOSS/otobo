@@ -539,11 +539,15 @@ JAVASCRIPT
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=Miscellaneous");
 
         # check edited values
-        $Self->Is(
-            $Selenium->find_element( '#UserSkin', 'css' )->get_value(),
-            "ivory",
-            "#UserSkin updated value",
-        );
+        {
+            my $ToDo = todo( 'skin ivory does not exist in OTOBO, issue #678' );
+
+            is(
+                $Selenium->find_element( '#UserSkin', 'css' )->get_value(), # gives one passing TODO test
+                "ivory",
+                "#UserSkin updated value",
+            );
+        }
     }
 );
 
