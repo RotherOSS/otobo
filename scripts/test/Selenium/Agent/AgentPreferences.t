@@ -123,20 +123,23 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Group=UserProfile')]")->VerifiedClick();
 
         # check for some settings
+        ID:
         for my $ID (
             qw(CurPw NewPw NewPw1 UserTimeZone_Search UserLanguage_Search OutOfOfficeOn OutOfOfficeOff UserGoogleAuthenticatorSecretKey GenerateUserGoogleAuthenticatorSecretKey)
             )
         {
+            # see issue 715: https://github.com/RotherOSS/otobo/issues/715
+            my %IdIsTodo = map { $_ => 1 } ( qw(CurPw NewPw NewPw1 ) );
+            my $ToDo = $IdIsTodo{$ID} ? todo( "field $ID not active, issue #715" ) : undef;
 
             # Scroll to element view if necessary.
-            $Selenium->execute_script("\$('#$ID')[0].scrollIntoView(true);");
+            my $ScrollSuccess = try_ok {
+                $Selenium->execute_script("\$('#$ID')[0].scrollIntoView(true);");
+            };
+
+            next ID unless $ScrollSuccess;
 
             my $Element = $Selenium->find_element( "#$ID", 'css' );
-
-            $Self->True(
-                $Element->is_enabled(),
-                "$ID is enabled."
-            );
 
             ok( $Element, "element $ID found" );
             ok( $Element->is_enabled(), "$ID is enabled." );
@@ -224,11 +227,13 @@ $Selenium->RunTest(
                 UserLanguage => $Language,
             );
             for my $String ( 'Change password', 'Language', 'Out Of Office Time' ) {
+                my $ToDo = $String eq 'Change password' ? todo( "Change password not active, issue #715" ) : undef;
+
                 my $Translation = $LanguageObject->Translate($String);
-                $Self->True(
+                ok(
                     index( $Selenium->get_page_source(), $Translation ) > -1,
                     "Test widget '$String' found on screen for language $Language ($Translation)"
-                ) || die;
+                );
             }
 
             $Count++;
