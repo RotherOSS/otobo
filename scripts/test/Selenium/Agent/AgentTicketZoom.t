@@ -245,12 +245,13 @@ $Selenium->RunTest(
                 Color    => '#000',
                 Selector => '.UseArticleColors #ArticleTable tbody a',
             }
-
         );
 
         # Check color of data in article table High Contrast skin.
         # See for more information bug#14370.
         for my $Item (@Test) {
+            my $ToDo = todo( 'skin highcontrast does not exist in OTOBO, issue #678' );
+
             my $Element = $Selenium->find_element( $Item->{Selector}, 'css' );
 
             # looks like chrome also reports the alpha channel
