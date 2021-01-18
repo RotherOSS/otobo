@@ -17,6 +17,7 @@ development
 build.log
 otobo.iml
 *.out
+var/httpd/htdocs/SeleniumScreenshots
 
 # editor swap files, other temporary files
 **/.#*

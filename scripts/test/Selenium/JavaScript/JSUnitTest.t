@@ -93,7 +93,7 @@ $Selenium->RunTest(
 
             # Generate screenshot on failure
             if ( $Failed || !$Passed || $Passed != $Total ) {
-                $Selenium->HandleError("Failed JS unit tests found.", 0);
+                $Selenium->HandleError("Failed JS unit tests found.");
             }
         }
     }

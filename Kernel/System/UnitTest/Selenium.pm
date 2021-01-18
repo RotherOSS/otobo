@@ -26,9 +26,10 @@ use utf8;
 use MIME::Base64 qw(decode_base64);
 use File::Path qw(remove_tree);
 use Time::HiRes qw();
+use File::Spec;
+use File::Copy qw(copy);
 
 # CPAN modules
-use Devel::StackTrace qw();
 use Test2::V0;
 use Test2::API qw(context run_subtest);
 use Net::DNS::Resolver;
@@ -70,6 +71,7 @@ our @ObjectDependencies = (
             # an exception is thrown in case of an error
             my $Result = $Self->$Orig( $Res, $Params );
 
+            # TODO: maybe write notes instead of skipping altogether
             return $Result if $Self->_SuppressTestingEvents();
 
             my $TestName = 'Selenium command success: ';
@@ -85,20 +87,6 @@ our @ObjectDependencies = (
             $Context->pass_and_release( $TestName );
 
             return $Result;
-        };
-
-
-        # Enhance get_alert_text() method of base class to return alert text as string.
-        around get_alert_text => sub {    ## no critic
-            my $Orig = shift;
-            my $Self = shift;
-
-            my $AlertText = $Self->$Orig();
-
-            # Chrome returns HASH when there is no alert text.
-            die "Alert dialog is not present" if ref $AlertText eq 'HASH';
-
-            return $AlertText;
         };
     }
 }
@@ -119,16 +107,8 @@ has _SeleniumTestsConfig => (
     is      => 'ro',
 );
 
-# some internals for error handling
-has _StackTrace => (
-    is      => 'rw',
-);
-has _SeleniumException => (
-    is      => 'rw',
-);
-
 # If a test throws an exception, we'll record it here in an attribute so that we can
-# take screenshots of *all* Selenium instances that are currently running on shutdown.
+# take screenshots.
 has _TestException => (
     is      => 'rw',
 );
@@ -191,12 +171,13 @@ around BUILDARGS => sub {
     my $Orig  = shift;
     my $Class = shift;
 
-    # check whether Selenium testing is activated.
+    # check whether Selenium testing is configured.
     my $SeleniumTestsConfig = $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {};
 
+    # no Selenium testing when there is no config.
     return {
-        SeleniumTestsActive  => 0,
-        _SeleniumTestsConfig => $SeleniumTestsConfig,
+        SeleniumTestsActive => 0,
+        SeleniumTestsConfig => $SeleniumTestsConfig,
     } unless $SeleniumTestsConfig->%*;
 
     for my $Needed (qw(remote_server_addr port browser_name platform)) {
@@ -269,48 +250,63 @@ sub BUILD {
     return;
 }
 
-# Selenium::Remove::Driver uses this callback in case of errors.
-# Errors should not be discarded, they should be thrown as exceptions.
-# Selenium methods like find_element() will catch the exception.
-# Most other methods won't.
+=head2 button_up
+
+In Selenium::Remote::Driver 1.39 there seems to be a bug in button_up().
+There the type of the action is pointerDown.
+pointerUp makes more sense and fixes DragAndDrop test failures.
+Therefore override that subroutine.
+
+=cut
+
+sub button_up {
+    my ($self) = @_;
+
+    if ( $self->{is_wd3}
+        && !( grep { $self->browser_name eq $_ } qw{MicrosoftEdge} ) )
+    {
+        my $params = {
+            actions => [
+                {
+                    type       => "pointer",
+                    id         => 'mouse',
+                    parameters => { "pointerType" => "mouse" },
+                    actions    => [
+                        {
+                            type     => "pointerUp",
+                            duration => 0,
+                            button   => 0,
+                        },
+                    ],
+                }
+            ],
+        };
+        Selenium::Remote::Driver::_queue_action(%$params);
+
+        return 1;
+    }
+
+    my $res = { 'command' => 'buttonUp' };
+
+    return $self->_execute_command($res);
+}
+
+=head2 SeleniumErrorHandler
+
+Selenium::Remove::Driver uses this callback in case of errors.
+Errors should not be discarded, they should be thrown as exceptions.
+Selenium methods like find_element() will catch the exception.
+Most other methods won't.
+
+=cut
+
 sub SeleniumErrorHandler {
     my $Self = shift;
     my ( $Error ) = @_;
 
-    # Generate stack trace information.
-    #   Don't store caller args, as this sometimes blows up due to an internal Perl bug
-    #   (see https://github.com/Perl/perl5/issues/10687).
-    # Show only the stack frames in the test script,
-    # that is skip the frames in the testing and in the Selenium modules.
-    my $ShowFrame = 0;
-    my $StackTrace = Devel::StackTrace->new(
-        indent         => 1,
-        no_args        => 1,
-        message        => 'Selenium stack trace started',
-        frame_filter   => sub {
+    my $Context = context();
 
-            # Limit stack trace to test evaluation itself.
-            if ( ! $ShowFrame ) {
-                my $FileName = $_[0]->{caller}->[1];
-
-                return 0 unless $FileName =~ m/\.t$/; # skip the internal frames
-
-                $ShowFrame = 1; # show the last frame in the test script and all frames above
-            }
-
-            # Remove the long serialized eval texts from the frame to keep the trace short.
-            if ( $_[0]->{caller}->[6] ) {
-                $_[0]->{caller}->[6] = '{...}';
-            }
-
-            return 1;
-        }
-    )->as_string();
-
-    $Self->_StackTrace($StackTrace);
-    $Self->_SeleniumException($Error);
-
-    die $Error;
+    $Context->throw($Error);
 }
 
 =head2 RunTest()
@@ -331,13 +327,20 @@ sub RunTest {
         return;
     }
 
-    try {
+    # This emits a passing event when there is no exception.
+    # In case of an exception, the exception will be return as a diagnostic
+    # and a failing event will be emitted. $@ will hold the exception.
+    try_ok {
         $Code->();
+    } 'RunTest: no exception should be thrown';
+
+    if ( $@ ) {
+        note( "RunTest: $@" );
+
+        # Indicate that during DEMOLISH() the subroutine HandleError() should be called.
+        # HandleError() will create screenshots.
+        $Self->_TestException($@);
     }
-    catch {
-        $Self->_TestException($_);  # remember the exception because the screenshot is taken later, during DEMOLISH
-        fail($_);                   # report the failure before done_testing()
-    };
 
     return;
 }
@@ -345,7 +348,7 @@ sub RunTest {
 =head2 VerifiedGet()
 
 perform a get() call, but wait for the page to be fully loaded (works only within OTOBO).
-Will die() if the verification fails.
+Will throw an exception when the verification fails.
 
     $SeleniumObject->VerifiedGet(
         $URL,
@@ -356,21 +359,21 @@ Will die() if the verification fails.
 sub VerifiedGet {
     my ( $Self, $URL ) = @_;
 
+    my $Context = context();
+
     my $Code = sub {
         $Self->get($URL);
 
         $Self->WaitFor(
             JavaScript =>
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        ) || die "OTOBO API verification failed after page load.";
+        ) || $Context->throw( "OTOBO API verification failed after page load." );
     };
-
-    my $Context = context();
 
     my $Pass = run_subtest( 'VerifiedGet', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'VerifiedGet() failed' unless $Pass;
+    $Context->throw( 'VerifiedGet() failed' ) unless $Pass;
 
     $Context->release;
 
@@ -380,7 +383,7 @@ sub VerifiedGet {
 =head2 VerifiedRefresh()
 
 perform a refresh() call, but wait for the page to be fully loaded (works only within OTOBO).
-Will die() if the verification fails.
+Will throw an exception if the verification fails.
 
     $SeleniumObject->VerifiedRefresh();
 
@@ -390,21 +393,21 @@ sub VerifiedRefresh {
     my $Self = shift;
     my ( $URL ) = @_;
 
+    my $Context = context();
+
     my $Code = sub {
         $Self->refresh();
 
         $Self->WaitFor(
             JavaScript =>
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        ) || die "OTOBO API verification failed after page load.";
+        ) || $Context->throw( "OTOBO API verification failed after page load." );
     };
-
-    my $Context = context();
 
     my $Pass = run_subtest( 'VerifiedRefresh', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'VerifiedRefresh() failed' unless $Pass;
+    $Context->throw( 'VerifiedRefresh() failed' ) unless $Pass;
 
     $Context->release;
 
@@ -439,6 +442,8 @@ sub Login {
         }
     }
 
+    my $Context = context();
+
     my $Code = sub {
         # we will try several times to log in
         my $MaxTries = 5;
@@ -448,17 +453,17 @@ sub Login {
 
             eval {
                 my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-                my $LogoutXPath; # Logout link differs between Agent and Customer interface.
-                my $AcceptGDPR;  # whether GDPR needs to be accepted during login
+                my $LogoutXPath;       # Logout link differs between Agent and Customer interface.
+                my $CheckForGDPRBlurb;  # whether GDPR needs to be accepted during login
                 if ( $Param{Type} eq 'Agent' ) {
                     $ScriptAlias .= 'index.pl';
                     $LogoutXPath = q{//a[@id='LogoutButton']};
-                    $AcceptGDPR  = 0;
+                    $CheckForGDPRBlurb  = 0;
                 }
                 else {
-                    $ScriptAlias .= 'customer.pl';
-                    $LogoutXPath = q{//a[@title='Logout']};
-                    $AcceptGDPR  = 0;
+                    $ScriptAlias       .= 'customer.pl';
+                    $LogoutXPath       = q{//a[@title='Logout']};
+                    $CheckForGDPRBlurb = 1;
                 }
 
                 $Self->get($ScriptAlias);
@@ -467,9 +472,9 @@ sub Login {
                 $Self->VerifiedGet("${ScriptAlias}?Action=Login;User=$Param{User};Password=$Param{Password}");
 
                 # In the customer interface there is a data privacy blurb that must be accepted.
-                # Note that find_element_by_xpath() does not throw exceptions,
-                # the method returns 0 when the element is not found.
-                if ( $AcceptGDPR ) {
+                # Note that find_element_by_xpath() does not throw exceptions.
+                # The method returns 0 when the element is not found.
+                if ( $CheckForGDPRBlurb ) {
                     my $AcceptGDPRLink = $Self->find_element_by_xpath( q{//a[@id="AcceptGDPR"]} );
                     if ( $AcceptGDPRLink ) {
                         $AcceptGDPRLink->click();
@@ -477,7 +482,7 @@ sub Login {
                 }
 
                 # login successful?
-                $Self->find_element( $LogoutXPath, 'xpath' );    # dies if not found
+                $Self->find_element( $LogoutXPath, 'xpath' );    # throws exception if not found
 
                 pass( 'Login sequence ended...' );
             };
@@ -490,7 +495,7 @@ sub Login {
                 # try again
                 next TRY if $Try < $MaxTries;
 
-                die "Login failed!";
+                $Context->throw( "Login() not successfull after $MaxTries attempts!" );
             }
 
             # login was sucessful
@@ -500,12 +505,10 @@ sub Login {
         }
     };
 
-    my $Context = context();
-
     my $Pass = run_subtest( 'Login', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'Login() failed' unless $Pass;
+    $Context->throw( 'Login() failed' ) unless $Pass;
 
     $Context->release;
 
@@ -546,17 +549,23 @@ sub WaitFor {
         && !$Param{ElementMissing}
         )
     {
-        die "Need JavaScript, WindowCount, ElementExists, ElementMissing, Callback or AlertPresent.";
+        $Context->throw( "Need JavaScript, WindowCount, ElementExists, ElementMissing, Callback or AlertPresent." );
     }
 
-    $Param{Time} //= 20;
-    my $WaitedSeconds = 0;
-    my $Interval      = 0.1;
-    my $WaitSeconds   = 0.5;
+    my $TimeOut                 = $Param{Time} // 20; # time span after which WaitFor() gives up
+    my $WaitedSeconds           = 0;                  # counting up to $TimeOut
+    # Apparently some WaitFor() call fail because some elements show up only briefly.
+    # This might cause heisenbugs.
+    # Therefore fine tune the initial sleep times.
+    my @Intervals               = ( 0.025, 0.050, 0.075, 0.1 );
+    my $DefaultInterval         = 0.1;
+    my $Interval                = $DefaultInterval;
+    my $FindElementSleepSeconds = 0.5; # sleep after a successful find_element(), no idea why this is useful
+
     my $Success = 0;
 
     WAIT:
-    while ( $WaitedSeconds <= $Param{Time} ) {
+    while ( $WaitedSeconds <= $TimeOut ) {
 
         if ( $Param{JavaScript} ) {
             $Self->_SuppressTestingEvents(1);
@@ -571,10 +580,10 @@ sub WaitFor {
         }
         elsif ( $Param{WindowCount} ) {
             $Self->_SuppressTestingEvents(1);
-            my $Ret = scalar( @{ $Self->get_window_handles() } ) == $Param{WindowCount};
+            my $NumWindows = scalar $Self->get_window_handles()->@*;
             $Self->_SuppressTestingEvents(0);
 
-            if ( $Ret ) {
+            if ( $NumWindows == $Param{WindowCount} ) {
                 $Success = 1;
 
                 last WAIT;
@@ -611,7 +620,7 @@ sub WaitFor {
             my $Ret = eval { $Self->find_element(@Arguments) };
             $Self->_SuppressTestingEvents(0);
             if ( $Ret ) {
-                Time::HiRes::sleep($WaitSeconds);
+                Time::HiRes::sleep($FindElementSleepSeconds);
 
                 $Success = 1;
 
@@ -626,7 +635,7 @@ sub WaitFor {
             my $Ret = eval { $Self->find_element(@Arguments) };
             $Self->_SuppressTestingEvents(0);
             if ( ! $Ret ) {
-                Time::HiRes::sleep($WaitSeconds);
+                Time::HiRes::sleep($FindElementSleepSeconds);
 
                 $Success = 1;
 
@@ -634,25 +643,35 @@ sub WaitFor {
             }
         }
 
+        # Interval timing is solely trial and error
+        if ( @Intervals && ( $Param{ElementExists} || $Param{ElementMissing} ) ) {
+            $Interval = shift @Intervals;
+        }
         Time::HiRes::sleep($Interval);
         $WaitedSeconds += $Interval;
         $Interval      += 0.1;
+
+        $Context->note( "waited for $WaitedSeconds s" );
     }
 
+    # something short that identfies the WaitFor target
     my $Argument = '';
-    for my $Key (qw(JavaScript WindowCount AlertPresent)) {
-        $Argument = "$Key => $Param{$Key}" if $Param{$Key};
+    {
+        for my $Key ( qw(JavaScript WindowCount AlertPresent) ) {
+            $Argument = "$Key => $Param{$Key}" if $Param{$Key};
+        }
+
+        for my $Key (qw(Callback ElementExists ElementMissing)) {
+            $Argument = $Key if $Param{$Key};
+        }
     }
-    $Argument = "Callback" if $Param{Callback};
 
-    # Use the selenium error handler to generate a stack trace.
-    if ( ! $Success ) {
-        $Self->SeleniumErrorHandler("WaitFor($Argument) failed."); # dies implicitly
-    }
+    # Release context and throw exception in case of failure.
+    # Don't care about any special handling for the stack trace.
+    $Context->throw( "WaitFor($Argument) timed out") unless $Success;
 
-    $Context->pass( "WaitFor($Argument)" );
-
-    $Context->release;
+    # successful
+    $Context->pass_and_release( "WaitFor($Argument)" );
 
     return 1;
 }
@@ -673,9 +692,9 @@ page completely.
 sub SwitchToFrame {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{FrameSelector} ) {
-        die 'Need FrameSelector.';
-    }
+    my $Context = context();
+
+    $Context->throw( 'Need FrameSelector.' ) unless $Param{FrameSelector};
 
     if ( $Param{WaitForLoad} ) {
         $Self->WaitFor(
@@ -687,6 +706,8 @@ sub SwitchToFrame {
     }
 
     $Self->switch_to_frame( $Self->find_element( $Param{FrameSelector}, 'css' ) );
+
+    $Context->release();
 
     return 1;
 }
@@ -704,15 +725,20 @@ Drag and drop an element.
         }
     );
 
+See also C<Selenium::ActionChains::drag_and_drop()>.
+The difference in these subroutines is that C<drag_and_drop> does not support target offset.
+
 =cut
 
 sub DragAndDrop {
     my $Self  = shift;
     my %Param = @_;
 
+    my $Context = context();
+
     # Value is optional parameter
     for my $Needed (qw(Element Target)) {
-        die "Need $Needed" unless $Param{$Needed};
+        $Context->throw( "Need $Needed" ) unless $Param{$Needed};
     }
 
     my $Code = sub {
@@ -731,17 +757,17 @@ sub DragAndDrop {
         );
         my $Element = $Self->find_element( $Param{Element}, 'css' );
 
-        # Move mouse to from element, drag and drop
-        $Self->mouse_move_to_location( element => $Element );
-
-        # Holds the mouse button on the element
-        $Self->button_down();
-
         # Make sure Target is visible
         $Self->WaitFor(
             JavaScript => 'return typeof($) === "function" && $(\'' . $Param{Target} . ':visible\').length;',
         );
         my $Target = $Self->find_element( $Param{Target}, 'css' );
+
+        # Move mouse to from element, drag and drop
+        $Self->mouse_move_to_location( element => $Element );
+
+        # Holds the mouse button on the element
+        $Self->button_down();
 
         # Move mouse to the destination
         $Self->mouse_move_to_location(
@@ -751,14 +777,16 @@ sub DragAndDrop {
 
         # Release
         $Self->button_up();
-    };
 
-    my $Context = context();
+        # With WebDriver 3 the preceeding mouse movements and mouse button actions are only queued.
+        # Perform the actions now.
+        $Self->general_action();
+    };
 
     my $Pass = run_subtest( 'DragAndDrop', $Code, { buffered => 1, inherit_trace => 1 } );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    die 'DragAndDrop failed' unless $Pass;
+    $Context->throw( 'DragAndDrop failed' ) unless $Pass;
 
     $Context->release;
 
@@ -771,93 +799,105 @@ use this method to handle any Selenium exceptions.
 
     $SeleniumObject->HandleError($@);
 
-It will create a failing test result and store a screen shot of the page
-for analysis (in folder /var/otobo-unittest if it exists, in $Home/var/httpd/htdocs otherwise).
+It will store a screen shot of the page in $OTOBO_HOME/var/httpd/htdocs/SeleniumScreenshots.
+If the folder /var/otobo-unittest exists, then a copy of the screenshot will be placed there too.
 
 =cut
 
 sub HandleError {
     my $Self = shift;
-    my ( $Error, $InGlobalDestruction ) = @_;
-
-    # If we really have a selenium error, get the stack trace for it.
-    if ( $Self->_StackTrace()  && $Error eq $Self->_SeleniumException() ) {
-        $Error .= "\n" . $Self->_StackTrace();
-    }
+    my ( $Error ) = @_;
 
     my $Context = context();
 
-    if ( $InGlobalDestruction ) {
-        $Context->note( $Error );
-    }
-    else {
-        $Context->fail( $Error );
-    }
-
-    # Don't create a test entry for the screenshot command,
-    # to make sure it gets attached to the previous error entry.
-    my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents();
-    $Self->_SuppressTestingEvents(1);
-    my $Data = $Self->screenshot();
-    $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
-    if ( !$Data ) {
+    # Store screenshots in a local folder from where they can be opened directly in the browser.
+    # If we can't store the screenshots, then there is no use in creating them.
+    my $LocalScreenshotDir = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/httpd/htdocs/SeleniumScreenshots';
+    mkdir $LocalScreenshotDir unless -e $LocalScreenshotDir;
+    if ( ! -d $LocalScreenshotDir ) {
+        $Context->note( "Could not create the screenshot directory $LocalScreenshotDir: $!" );
         $Context->release();
 
         return;
     }
 
-    $Data = decode_base64($Data);
-
-    # Attach the screenshot to the actual error entry.
-    my $Filename = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomNumber() . '.png';
-
-    # TODO: is that feature still useful ? AFAIK OTOBO has no test result upload service.
-    #$Kernel::OM->Get('Kernel::System::UnitTest::Driver')->AttachSeleniumScreenshot(
-    #    Filename => $Filename,
-    #    Content  => $Data
-    #);
-
-    # Store screenshots in a local folder from where they can be opened directly in the browser.
-    my $LocalScreenshotDir = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/httpd/htdocs/SeleniumScreenshots';
-    mkdir $LocalScreenshotDir || return $Self->False( 1, "Could not create $LocalScreenshotDir." );
-
-    my $HttpType = $Kernel::OM->Get('Kernel::Config')->Get('HttpType');
-    my $Hostname = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetTestHTTPHostname();
-    my $URL      = "$HttpType://$Hostname/"
-        . $Kernel::OM->Get('Kernel::Config')->Get('Frontend::WebPath')
-        . "SeleniumScreenshots/$Filename";
-
-    $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-        Directory => $LocalScreenshotDir,
-        Filename  => $Filename,
-        Content   => \$Data,
-    ) || return $Self->False( 1, "Could not write file $LocalScreenshotDir/$Filename" );
-
-    #
     # If a shared screenshot folder is present, then we also store the screenshot there for external use.
-    #
-    if ( -d '/var/otobo-unittest/' && -w '/var/otobo-unittest/' ) {
+    my $SharedScreenshotDir;
+    if ( -d -w '/var/otobo-unittest/' ) {
 
-        my $SharedScreenshotDir = '/var/otobo-unittest/SeleniumScreenshots';
-        mkdir $SharedScreenshotDir || return $Self->False( 1, "Could not create $SharedScreenshotDir." );
+        $SharedScreenshotDir = '/var/otobo-unittest/SeleniumScreenshots';
+        mkdir $SharedScreenshotDir unless -e $SharedScreenshotDir;
+        if ( ! -d $SharedScreenshotDir ) {
+            $Context->note( "Could not create the directory $SharedScreenshotDir: $!" );
 
-        my $WriteSuccess = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-            Directory => $SharedScreenshotDir,
-            Filename  => $Filename,
-            Content   => \$Data,
-        );
-        if ( ! $WriteSuccess ) {
-            $Context->note( "Could not write file $SharedScreenshotDir/$Filename" );
-
-            $Context->release();
-
-            return;
+            undef $SharedScreenshotDir;
         }
     }
 
-    # Make sure the screenshot URL is output even in non-verbose mode to make it visible
-    #   for debugging, but don't register it as a test failure to keep the error count more correct.
-    $Context->note( "Saved screenshot in $URL" );
+    # No need to log generation of the screenshot.
+    my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents();
+    $Self->_SuppressTestingEvents(1);
+
+    # the file name of the screenshot is random
+    my $RandomID = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomNumber();
+
+    # take screen shots of all browser windows
+    my $WindowCount = 1;
+    WINDOW_HANDLE:
+    for my $WindowHandle ( $Self->get_window_handles()->@* ) {
+
+        # select the window
+        try {
+            $Self->switch_to_window($WindowHandle);
+        }
+        catch {
+            next WINDOW_HANDLE;
+        };
+
+        my $Filename       = "${RandomID}_${WindowCount}.png";
+        my $LocalPath      = File::Spec->catfile( $LocalScreenshotDir, $Filename );
+
+        # No worries when the screenshot can't be written.
+        $Self->capture_screenshot($LocalPath);
+
+        if ( ! -f $LocalPath ) {
+            $Context->note( "Could not create screenshot $LocalPath" );
+
+            next WINDOW_HANDLE;
+        }
+
+        # Tell the tester about the screenshot.
+        {
+            my $HttpType = $Kernel::OM->Get('Kernel::Config')->Get('HttpType');
+            my $Hostname = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetTestHTTPHostname();
+            my $URL      = "$HttpType://$Hostname/"
+                . $Kernel::OM->Get('Kernel::Config')->Get('Frontend::WebPath')
+                . "SeleniumScreenshots/$Filename";
+
+            $Context->note( "Saved screenshot in $URL" );
+        }
+
+        # If a shared screenshot folder is present, then we also store the screenshot there for external use.
+        next WINDOW_HANDLE unless $SharedScreenshotDir;
+
+        my $SharedScreenshotDir = '/var/otobo-unittest/SeleniumScreenshots';
+        mkdir $SharedScreenshotDir unless -e $SharedScreenshotDir;
+        if ( ! -d $SharedScreenshotDir ) {
+            $Context->note( "Could not create the directory $SharedScreenshotDir: $!" );
+
+            next WINDOW_HANDLE;
+        }
+
+        my $CopySuccess = copy( $LocalPath, $SharedScreenshotDir );
+        if ( ! $CopySuccess ) {
+            $Context->note( "Could not write file $SharedScreenshotDir/$Filename" );
+        }
+    }
+    continue {
+        $WindowCount++;
+    }
+
+    $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
 
     $Context->release();
 
@@ -874,37 +914,16 @@ and performs some clean-ups.
 
 sub DEMOLISH {
     my $Self = shift;
-    my ($InGlobalDestruction) = @_;
 
-    # Looks like for some reason $InGlobalDestruction is not reliable.
-    # So, let's assume that the Kernel::System::UnitTest::Selenium is always demolished
-    # after the done_testing().
-    $InGlobalDestruction = 1;
-
-    # $SuppressCommandRecording is not localised because one DEMOLISH is called after the other.
-    # This is ok because no testing events should be emitted during demolist and after the script is finished.
-    if ( $InGlobalDestruction ) {
-        $Self->_SuppressTestingEvents(1);
-    }
+    $Self->_SuppressTestingEvents(1);
 
     if ($Self->_TestException()) {
-        $Self->HandleError($Self->_TestException(), $InGlobalDestruction);
+        $Self->HandleError($Self->_TestException());
     }
 
     return unless $Self->SeleniumTestsActive();
 
     {
-
-        # TODO: no testing event from auto-quitting Selenium
-        #if ( $InGlobalDestruction ) {
-        #    local $Self->{SuppressCommandRecording} = 1;
-
-        #    $Self->SUPER::DEMOLISH(@_);
-        #}
-        #else {
-        #    $Self->SUPER::DEMOLISH(@_);
-        #}
-
         # Cleanup possibly leftover zombie firefox profiles.
         my @LeftoverFirefoxProfiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => '/tmp/',
@@ -964,6 +983,8 @@ sub WaitForjQueryEventBound {
         return;
     }
 
+    my $Context = context();
+
     my $Event = $Param{Event} || 'click';
 
     # Wait for element availability.
@@ -983,7 +1004,7 @@ sub WaitForjQueryEventBound {
     );
 
     if ( !IsArrayRefWithData($Keys) ) {
-        die "Couldn't determine jQuery object id";
+        $Context->throw( "Couldn't determine jQuery object id" );
     }
 
     my $JQueryObjectID;
@@ -997,7 +1018,7 @@ sub WaitForjQueryEventBound {
     }
 
     if ( !$JQueryObjectID ) {
-        die "Couldn't determine jQuery object id.";
+        $Context->throw( "Couldn't determine jQuery object id." );
     }
 
     # Wait until click event is bound to the element.
@@ -1007,6 +1028,8 @@ sub WaitForjQueryEventBound {
                 && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '
                 && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '.length > 0;',
     );
+
+    $Context->release();
 
     return 1;
 }
@@ -1025,31 +1048,43 @@ sets modernized input field value.
 sub InputFieldValueSet {
     my ( $Self, %Param ) = @_;
 
+    my $Context = context();
+
     # Check needed stuff.
     if ( !$Param{Element} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need Element!",
         );
-        die 'Missing Element.';
+        $Context->throw( 'Missing Element.' );
     }
+
     my $Value = $Param{Value} // '';
 
+    # Quote text of Value is not array and if not already quoted.
     if ( $Value !~ m{^\[} && $Value !~ m{^".*"$} ) {
-
-        # Quote text of Value is not array and if not already quoted.
-        $Value = "\"$Value\"";
+        $Value = qq{"$Value"};
     }
 
-    # Set selected value.
-    $Self->execute_script(
-        "\$('$Param{Element}').val($Value).trigger('redraw.InputField').trigger('change');"
-    );
+    my $Code = sub {
 
-    # Wait until selection tree is closed.
-    $Self->WaitFor(
-        ElementMissing => [ '.InputField_ListContainer', 'css' ],
-    );
+        # Set selected value.
+        $Self->execute_script(
+            "\$('$Param{Element}').val($Value).trigger('redraw.InputField').trigger('change');"
+        );
+
+        # Wait until selection tree is closed.
+        $Self->WaitFor(
+            ElementMissing => [ '.InputField_ListContainer', 'css' ],
+        );
+    };
+
+    my $Pass = run_subtest( 'InputFieldValueSet()', $Code, { buffered => 1, inherit_trace => 1 } );
+
+    # run_subtest() does an implicit eval(), but we want do bail out on the first error
+    $Context->throw( 'InputFieldValueSet() failed' ) unless $Pass;
+
+    $Context->release();
 
     return 1;
 }

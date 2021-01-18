@@ -245,7 +245,6 @@ $Selenium->RunTest(
                 Color    => '#000',
                 Selector => '.UseArticleColors #ArticleTable tbody a',
             }
-
         );
 
         # Check color of data in article table High Contrast skin.
@@ -262,11 +261,12 @@ $Selenium->RunTest(
                 $ExpectedRGBColor = Hex2RGB( $Item->{Color} );
             }
 
-            is(
-                $Element->get_css_attribute('color'),
-                $ExpectedRGBColor,
-                "$Item->{Name} is correct - $Item->{Color}"
-            );
+            my $Color = $Element->get_css_attribute('color');
+            {
+                my $ToDo = todo( 'skin highcontrast does not exist in OTOBO, issue #678' );
+
+                is( $Color, $ExpectedRGBColor, "$Item->{Name} is correct - $Item->{Color}");
+            }
         }
 
         $Self->Is(
