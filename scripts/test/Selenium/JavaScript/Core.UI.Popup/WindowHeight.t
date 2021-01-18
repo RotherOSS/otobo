@@ -116,10 +116,10 @@ $Selenium->RunTest(
             "return \$(window).height();"
         );
 
-        $Self->Is(
-            $PopupWindowHeight,
-            700,
-            "Default popup window height"
+        # two sizes are acceptable, as under Chrome that is a message about remote control
+        ok(
+            ( $PopupWindowHeight == 700 || $PopupWindowHeight == 655 ),
+            "Default popup window height, considering the remote control warning"
         );
 
         # Close note window.
