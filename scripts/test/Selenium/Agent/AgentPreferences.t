@@ -226,12 +226,13 @@ $Selenium->RunTest(
             $LanguageObject = Kernel::Language->new(
                 UserLanguage => $Language,
             );
+            my $PageSource = $Selenium->get_page_source();
             for my $String ( 'Change password', 'Language', 'Out Of Office Time' ) {
                 my $ToDo = $String eq 'Change password' ? todo( "Change password not active, issue #715" ) : undef;
 
                 my $Translation = $LanguageObject->Translate($String);
                 ok(
-                    index( $Selenium->get_page_source(), $Translation ) > -1,
+                    index( $PageSource, $Translation ) > -1,
                     "Test widget '$String' found on screen for language $Language ($Translation)"
                 );
             }
@@ -539,14 +540,11 @@ JAVASCRIPT
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=Miscellaneous");
 
         # check edited values
+        my $UserSkin = $Selenium->find_element( '#UserSkin', 'css' )->get_value();
         {
             my $ToDo = todo( 'skin ivory does not exist in OTOBO, issue #678' );
 
-            is(
-                $Selenium->find_element( '#UserSkin', 'css' )->get_value(), # gives one passing TODO test
-                "ivory",
-                "#UserSkin updated value",
-            );
+            is( $UserSkin, "ivory", "#UserSkin updated value" );
         }
     }
 );
