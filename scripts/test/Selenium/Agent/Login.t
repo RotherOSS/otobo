@@ -16,12 +16,18 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
+
+our $Self;
 
 use Kernel::GenericInterface::Operation::Session::Common;
 
@@ -188,10 +194,16 @@ $Selenium->RunTest(
 
         $Selenium->find_element( '#LoginButton', 'css' )->VerifiedClick();
 
-        $Self->True(
-            index( $Selenium->get_page_source(), 'Please note that the session limit is almost reached.' ) > -1,
-            "AgentSessionLimitPriorWarning is reached.",
-        );
+        # Check for the prior warning.
+        my $PageSource = $Selenium->get_page_source();
+        {
+            my $ToDo = todo( 'no session limit in OTOBO, issue #734' );
+
+            ok(
+                index( $PageSource, 'Please note that the session limit is almost reached.' ) > -1,
+                "AgentSessionLimitPriorWarning is reached.",
+            );
+        }
 
         # Try to expand the user profile sub menu by clicking the avatar.
         $Selenium->find_element( '.UserAvatar > a', 'css' )->click();
@@ -293,7 +305,4 @@ $Selenium->RunTest(
     }
 );
 
-
-$Self->DoneTesting();
-
-
+done_testing();
