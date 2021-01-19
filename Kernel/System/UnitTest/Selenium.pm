@@ -35,6 +35,7 @@ use Test2::API qw(context run_subtest);
 use Net::DNS::Resolver;
 use Moo;
 use Try::Tiny;
+use URI;
 
 # OTOBO modules
 use Kernel::Config;
@@ -354,6 +355,8 @@ Will throw an exception when the verification fails.
         $URL,
     );
 
+The input parameter is a string.
+
 =cut
 
 sub VerifiedGet {
@@ -469,7 +472,19 @@ sub Login {
                 $Self->get($ScriptAlias);
 
                 $Self->delete_all_cookies();
-                $Self->VerifiedGet("${ScriptAlias}?Action=Login;User=$Param{User};Password=$Param{Password}");
+
+                # Actually log in, making sure that the params are URL encoded.
+                # Keep the URL relative, so that the configured base URL applies.
+                my $LoginURL = URI->new( $ScriptAlias );
+                $LoginURL->query_form(
+                    {
+                        Action   => 'Login',
+                        User     => $Param{User},
+                        Password => $Param{Password},
+                    },
+                    ';'
+                );
+                $Self->VerifiedGet( $LoginURL->as_string() );
 
                 # In the customer interface there is a data privacy blurb that must be accepted.
                 # Note that find_element_by_xpath() does not throw exceptions.
