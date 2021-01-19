@@ -465,7 +465,7 @@ sub Login {
                 }
                 else {
                     $ScriptAlias       .= 'customer.pl';
-                    $LogoutXPath       = q{//a[@title='Logout']};
+                    $LogoutXPath       = q{//a[@id='oooUser']};
                     $CheckForGDPRBlurb = 1;
                 }
 
