@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.547773805654859;
+    $Self->{Completeness}        = 0.546900357026939;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -3260,7 +3260,10 @@ sub Data {
         ' Continue anyways :(' => '',
 
         # Template: OTRSDBSettings
-        'Database is a throwawy copy' => '',
+        'Skip DB migration' => '',
+        'Expert option! Only works if the migration has already been done by hand.' =>
+            '',
+        'Skipped.' => '',
 
         # Template: OTRSFileSettings
         'OTRS server' => '',
@@ -5072,8 +5075,9 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
         'Check if OTOBO version is correct.' => '',
-        'Need %s for Oracle db!' => '',
         'Copy database.' => '',
+        'Skipped...' => '',
+        'Need %s for Oracle db!' => '',
         'System was unable to connect to OTRS database.' => '',
         'System was unable to complete data transfer.' => '',
         'Data transfer completed.' => '',
@@ -5105,9 +5109,9 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
         'Migrate web service configuration.' => '',
-        'No web service existent, done.' => '',
         'Can\'t add web service for Elasticsearch. File %s not found!' =>
             '',
+        'Failed - see the log!' => '',
         'Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed.' =>
             '',
 
@@ -5133,6 +5137,11 @@ sub Data {
         'Please install (or uninstall) the packages before migration. If a package doesn\'t exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.org. We will find a solution.' =>
             '',
         'The same packages are installed on both systems, perfect!' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+        'Package specific tasks' => '',
+        'Done -' => '',
+        'Failed at -' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
         'Check if all needed Perl modules have been installed.' => '',
@@ -5683,10 +5692,12 @@ sub Data {
             'สร้างบัญชีใหม่เรียบร้อยแล้ว ข้อมูลส่งเข้าสู่ระบบไปยัง% s กรุณาตรวจสอบอีเมลของคุณ',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+        'If you want to re-run installer.pl, then disable the SecureMode in the SysConfig.' =>
+            '',
         'Action "%s" not found!' => 'ไม่พบการกระทำ "%s"!',
 
         # Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
-        'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
+        'If you want to re-run migration.pl, then disable the SecureMode in the SysConfig.' =>
             '',
 
         # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
@@ -6835,6 +6846,7 @@ Thanks for your help!
             'กำหนด หากการจัดเรียงล่วงหน้าตามลำดับความสำคัญที่ควรทำในมุมมองคิว',
         'Defines if a pre-sorting by priority should be done in the service view.' =>
             'กำหนด หากการจัดเรียงล่วงหน้าตามลำดับความสำคัญที่ควรทำในมุมมองการบริการ',
+        'Defines if a ticket lock is required for the quick close.' => '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'กำหนดค่าถ้าหากจำเป็นต้องใช้ตั๋วล็อคในหน้าจอตั๋วปิดในอินเตอร์เฟซของเอเย่นต์ (ทำการล็อคตั๋วถ้าหากตั๋วยังไม่ได้ล็อคและเซตให้เอเย่นต์ปัจจุบันเป็นเจ้าของอัตโนมัติ)',
         'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -8158,7 +8170,6 @@ Thanks for your help!
         'Module used to detect if attachments are present.' => '',
         'My Queues' => 'คิวของฉัน',
         'My Services' => 'การบริการของฉัน',
-        'My Tickets.' => 'ตั๋วของฉัน',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
@@ -8378,6 +8389,8 @@ Thanks for your help!
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
+            '',
+        'Required permissions to use quick close in the agent interface.' =>
             '',
         'Required permissions to use the close ticket screen in the agent interface.' =>
             '',
