@@ -138,7 +138,7 @@ my $SeleniumTest = sub {
         my $StateElement = eval {
             $Selenium->find_element( "#$Test->{Data}->{State}", 'css' );
         };
-        is( $StateElement, 'state input field found' );
+        ok( $StateElement, 'state input field found' );
 
         my $Result = $Selenium->InputFieldValueSet(
             Element     => "#$Test->{Data}->{State}",
