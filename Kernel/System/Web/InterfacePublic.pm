@@ -261,7 +261,6 @@ sub Content {
 
     # ->Run $Action with $FrontendObject
     my $Output = $FrontendObject->Run();
-    $LayoutObject->ApplyOutputFilters( Output => \$Output );
 
     # log request time
     if ( $ConfigObject->Get('PerformanceLog') ) {

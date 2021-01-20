@@ -478,6 +478,32 @@ my $AdminOnlyMiddeware = sub {
     };
 };
 
+# apply the FilterContent output filter
+my $ApplyOutputFilterMiddleware = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        my $Response = $App->($Env);
+
+        # Check whether output filters should run
+        my %HasOutputFilter = (
+            'public.pl' => 1,
+        );
+        my ($ScriptFileName) = ( ( $Env->{SCRIPT_NAME} // '' ) . ( $Env->{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
+
+        return $Response unless $HasOutputFilter{$ScriptFileName};
+
+        # there is work to do
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+        $LayoutObject->ApplyOutputFilters( Output => \$Response->[2] );
+
+        return $Response;
+    }
+};
+
 ################################################################################
 # Apps
 ################################################################################
@@ -616,6 +642,9 @@ my $OTOBOApp = builder {
 
     # we might catch an instance of Kernel::System::Web::Exception
     enable 'Plack::Middleware::HTTPExceptions';
+
+    # apply output filters even to the error pages
+    enable $ApplyOutputFilterMiddleware;
 
     # No need to set %ENV or redirect STDIN.
     # But STDOUT and STDERR is still like in CGI scripts.
