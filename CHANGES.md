@@ -1,4 +1,49 @@
 
+# OTOBO 10.0.7 2021-01-19
+- 2021-01-19 19:57:10 +0100 Create new OTOBO language files.
+- 2021-01-06 12:40:11 +0000 Translated using Weblate (Portuguese (Brazil))
+- 2020-11-26 07:09:51 +0000 Translated using Weblate (German)
+- 2020-11-17 01:55:37 +0000 Translated using Weblate (Chinese (Simplified))
+- 2020-11-12 15:32:19 +0000 Update translation files
+- 2021-01-19 15:59:32 +0100 [Bugfix]   Quickclose in AgentTicketZoom is possible on locked tickets (https://github.com/RotherOSS/otobo/issues/594) - in progress
+- 2021-01-19 13:46:01 +0100 [Bugfix]   Testing: Resolve remaining failures of Selenium tests (https://github.com/RotherOSS/otobo/issues/682) - in progress
+- 2021-01-15 16:08:04 +0100 Migration: Fix defaulting to standard port and sid for oracle.
+- 2021-01-14 22:40:21 +0100 [Enhanced] Selenium Testing: take screenshots of all windows (https://github.com/RotherOSS/otobo/issues/717)
+- 2021-01-14 11:42:52 +0100 [Enhanced] MigrateFromOTRS: migrate database using the commands mysqldump and mysql (https://github.com/RotherOSS/otobo/issues/644)
+- 2021-01-09 16:11:34 +0100 Require some utility modules that might come handy in future (https://github.com/RotherOSS/otobo/issues/449)
+- 2021-01-07 19:10:05 +0100 [Bugfix]   Selenium Testing: TODO comment about SuppressFrames (https://github.com/RotherOSS/otobo/issues/706)
+- 2021-01-06 23:50:20 +0100 [Enhanced] Testing: use proper Moo-based inheritance for Kernel::System::UnitTest::Selenium (https://github.com/RotherOSS/otobo/issues/690)
+- 2021-01-04 15:57:03 +0100 [Bugfix]   Button "Save" in DynamicField Type "Title" leaves the view (https://github.com/RotherOSS/otobo/issues/591)
+- 2020-12-30 14:51:36 +0100 typo in code with functional impact
+- 2020-12-29 21:30:04 +0100 avoid uninitialized value
+- 2020-12-29 14:30:08 +0100 [Enhanced] Testing: use the base_url attribute of Selenium::Remote::Driver (https://github.com/RotherOSS/otobo/issues/688)
+- 2020-12-29 12:53:52 +0100 [Enhanced] Testing: use subtests for Selenium testing (https://github.com/RotherOSS/otobo/issues/686)
+- 2020-12-27 12:43:04 +0100 [Enhanced] UnitTests: Reactivate Selenium tests (https://github.com/RotherOSS/otobo/issues/175)
+- 2020-12-27 12:28:28 +0100 [Enhanced] Docker: add screen to the docker images (https://github.com/RotherOSS/otobo/issues/680)
+- 2020-12-25 13:40:36 +0100 [Enhanced] Testing: eliminate output from Kernel::System::UnitTest::Helper::new() (https://github.com/RotherOSS/otobo/issues/675)
+- 2020-12-23 17:42:26 +0100 [Enhanced] UnitTest: reactivate  Console/Command/Admin/Package/ReinstallAll.t (https://github.com/RotherOSS/otobo/issues/471)
+- 2020-12-23 16:21:54 +0100 Don't emit testing event before the plan is committed
+- 2020-12-23 15:17:08 +0100 [Enhanced] UnitTests: use context and subtests in Kernel::System::UnitTest::Helper (https://github.com/RotherOSS/otobo/issues/668)
+- 2020-12-21 09:20:39 +0100 Enable CompanyTickets.
+- 2020-12-16 14:22:45 +0100 Allow customization of the CommunicationChannel, as intended.
+- 2020-12-11 09:43:51 +0100 Change nginx kerberos dockerfile.
+- 2020-12-11 09:18:39 +0100 Change nginx dockerfile.
+- 2020-12-11 09:13:58 +0100 Change nginx dockerfile.
+- 2020-12-11 09:06:57 +0100 Change description for nginx dockerfile.
+- 2020-12-11 07:40:19 +0100 Add new dockerfile for nginx including kerberos SSO.
+- 2020-12-10 10:49:54 +0100 debug translate
+- 2020-12-09 11:17:11 +0100 use the correct article backend
+- 2020-12-09 11:03:57 +0100 check QuickClose permission on locked tickets #594
+- 2020-12-09 10:50:12 +0100 avoid QuickClose menu in TicketZoom on locked tickets #594
+- 2020-09-23 07:58:46 +0200 Added missing use statement.
+- 2020-09-22 11:00:04 +0200 Improved Selenium stack trace output.
+- 2020-09-22 09:15:18 +0200 Standardize stack trace generation in Selenium tests.
+- 2020-11-18 13:41:10 +0100 [Enhanced] Docker: quick_setup.pl should be aware of OTOBO_WEB_HTTP_PORT (https://github.com/RotherOSS/otobo/issues/539)
+- 2020-11-18 12:07:03 +0100 [Bugfix]   Migration sanity check on db fails on MySQL 8 (https://github.com/RotherOSS/otobo/issues/639)
+- 2020-11-12 18:54:59 +0100 [Enhanced] MigrateFromOTRS: warn about missing modules (https://github.com/RotherOSS/otobo/issues/630)
+- 2020-11-12 16:52:23 +0100 Fix CHANGES.md.
+
+
 # OTOBO 10.0.6 2020-11-12
 - 2020-11-12 16:31:43 +0100 Create new OTOBO language files.
 - 2020-11-11 03:25:31 +0000 Translated using Weblate (Chinese (Simplified))
@@ -113,7 +158,7 @@
 # OTOBO 10.0.3 2020-09-23
 - 2020-09-23 10:35:02 +0200 Create new OTOBO language files.
 - 2020-09-22 12:17:52 +0200 PSGI: Consistent use of DBIx::Connector (https://github.com/RotherOSS/otobo/issues/434)
-- 2020-09-21 13:45:11 +0200 Migration: Ergebnis der Datenbankprüfung (https://github.com/RotherOSS/otobo/issues/451)
+- 2020-09-21 13:45:11 +0200 Migration: Ergebnis der DatenbankprÃ¼fung (https://github.com/RotherOSS/otobo/issues/451)
 - 2020-09-21 13:08:25 +0200 Fix Issue: COPYING vs. LICENSE - https://github.com/RotherOSS/otobo/issues/43
 - 2020-09-21 13:05:38 +0200 Fix Issue: Invalid references to transifex -  https://github.com/RotherOSS/otobo/issues/358
 - 2020-09-02 12:27:52 +0000 Translated using Weblate (Portuguese (Brazil))
@@ -360,7 +405,7 @@
 - 2020-06-08 17:31:25 +0200 Fix Bux in notification messages. Fix incorrect information in README.md file. Add postmaster filter to migration process.
 - 2020-06-08 16:42:09 +0200 Issue-82: Fix syntax of the CREATE USER statement.
 - 2020-06-07 20:14:52 +0200 Fixed MySQL add user bug and extend migration script.
-- 2020-06-06 20:37:29 +0200 Now itÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ´s possible to import otrs stats too!
+- 2020-06-06 20:37:29 +0200 Now itÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ´s possible to import otrs stats too!
 - 2020-06-06 19:59:14 +0200 Fix bug in migrated statistics, CheckModules and add DoNotClean function.
 - 2020-06-06 12:10:28 +0200 Check the usage of $ENV{SCRIPT_NAME} (https://github.com/RotherOSS/otobo/issues/17)
 - 2020-06-06 08:02:06 +0200 Change CREATE USER and DB statements.
@@ -377,7 +422,7 @@
 - 2020-06-02 14:30:57 +0200 Fix typo.
 - 2020-06-02 14:25:22 +0200 CodePolicy: Edited wrong licenses, allowed usage of Kernel::System::Time for certain cases, deleted alternate skins, updated class dependencies, minor code changes.
 - 2020-05-31 10:58:09 +0200 Issur #55: specify charset=utf-8 for the /hello route
-- 2020-05-30 10:25:39 +0200 Issue 55: replace Welt with ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
+- 2020-05-30 10:25:39 +0200 Issue 55: replace Welt with ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
 - 2020-05-29 17:09:42 +0200 Tidied via CodePolicy, plus some small, related corrections.
 - 2020-05-29 11:26:03 +0200 Use a process watcher instead of cron when running under Docker (https://github.com/RotherOSS/otobo/issues/51)
 - 2020-05-28 19:39:19 +0200 Issus #51: move two commands into the Dockerfile
@@ -500,3 +545,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+

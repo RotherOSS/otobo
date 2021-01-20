@@ -16,48 +16,72 @@
 
 package Kernel::System::UnitTest::Selenium::WebElement;
 
+=head1 NAME
+
+Kernel::System::UnitTest::Selenium::WebElement - add functions Test::Selenium::Remote::WebElement
+
+=head1 DESCRIPTION
+
+Add test subs that what till page is completely loaded.
+
+=head1 SUBROUTINES
+
+=cut
+
 use strict;
 use warnings;
 use v5.24;
 use namespace::autoclean;
 use utf8;
 
-use parent qw(Selenium::Remote::WebElement);
+# core modules
 
-=head1 NAME
+# CPAN modules
+use Moo;
 
-Kernel::System::UnitTest::Selenium::WebElement - Utility functions for Selenium WebElements
+# OTOBO modules
+use Test2::API qw/context run_subtest/;
 
-=head1 SUBROUTINES
+extends 'Test::Selenium::Remote::WebElement';
 
 =head2 VerifiedSubmit()
 
-Submit a form element, and wait for the page to be fully loaded (works only in OTOBO)
+Submit a form element and wait for the page to be fully loaded.
+This works only in OTOBO.
 
-    $SeleniumObject->VerifiedSubmit();
+    $SeleniumWebElement->VerifiedSubmit();
 
 =cut
 
 sub VerifiedSubmit {
     my $Self  = shift;
-    my ($Params) = @_;
 
-    $Self->submit();
+    my $Context = context();
 
-    $Self->driver()->WaitFor(
-        JavaScript =>
-            'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-    ) || die "OTOBO API verification failed after element submit.";
+    my $Code = sub {
+        $Self->submit();
+
+        $Self->driver()->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        ) || $Context->throw( "OTOBO API verification failed after element submit." );
+    };
+    my $Pass = run_subtest( 'VerifiedSubmit', $Code, { buffered => 1, inherit_trace => 1 } );
+
+    # run_subtest() does an implicit eval(), but we want do bail out on the first error
+    $Context->throw( 'VerifiedSubmit() failed' ) unless $Pass;
+
+    $Context->release;
 
     return;
 }
 
 =head2 VerifiedClick()
 
-click an element that causes a page get/reload/submit and wait for the page to be fully loaded
-(works only in OTOBO).
+click an element that causes a page get/reload/submit and wait for the page to be fully loaded.
+This works only in OTOBO.
 
-    $SeleniumObject->VerifiedClick(
+    $SeleniumWebElement->VerifiedClick(
         $Button             # optional, see Selenium docs
     );
 
@@ -66,14 +90,25 @@ click an element that causes a page get/reload/submit and wait for the page to b
 sub VerifiedClick {    ## no critic
     my $Self = shift;
 
-    $Self->driver()->execute_script('window.Core.App.PageLoadComplete = false;');
+    my $Context = context();
 
-    $Self->SUPER::click(@_);
+    my $Code = sub {
+        $Self->driver()->execute_script('window.Core.App.PageLoadComplete = false;');
 
-    $Self->driver()->WaitFor(
-        JavaScript =>
-            'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-    ) || die "OTOBO API verification failed after element click.";
+        $Self->SUPER::click(@_);
+
+        $Self->driver()->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        ) || $Context->throw( "OTOBO API verification failed after element click." );
+    };
+
+    my $Pass = run_subtest( 'VerifiedClick', $Code, { buffered => 1, inherit_trace => 1 } );
+
+    # run_subtest() does an implicit eval(), but we want do bail out on the first error
+    $Context->throw( 'command failed' ) unless $Pass;
+
+    $Context->release;
 
     return;
 }

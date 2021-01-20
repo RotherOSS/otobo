@@ -98,4 +98,8 @@ span.Emphasis {
     color: #929292;
 }
 
+#DBSkipped {
+    display: none;
+}
+
 } /* end @media */

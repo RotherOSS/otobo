@@ -18,10 +18,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
+
+our $Self;
 
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -60,6 +65,7 @@ $Selenium->RunTest(
             @NavigationCheck = (
                 'Általános ügyintéző',
                 'Dinamikus mezők',
+                'Dynamic Fields Screens', # from Znuny4OTRS-AdvancedDynamicFields, not yet translated to Hungarian
                 'Folyamatkezelés',
                 'Hozzáférés-vezérlési listák (ACL)',
                 'Webszolgáltatások',
@@ -68,6 +74,7 @@ $Selenium->RunTest(
         else {
             @NavigationCheck = (
                 'Dinamikus mezők',
+                'Dynamic Fields Screens', # from Znuny4OTRS-AdvancedDynamicFields, not yet translated to Hungarian
                 'Folyamatkezelés',
                 'Hozzáférés-vezérlési listák (ACL)',
                 'Webszolgáltatások',
@@ -86,13 +93,13 @@ $Selenium->RunTest(
             );
 
             $Navigation =~ s/\n\s+/@/g;
-            my @Navigation = split( '@', $Navigation );
+            my @Navigation = split '@', $Navigation;
 
-            $Self->Is(
+            is(
                 $Navigation[0],
                 $NavigationCheck[$Count],
                 "$NavigationCheck[$Count] - admin navigation item is sorted well",
-            ) || die;
+            ) || die 'comparison failed';
 
             # Add item to favourite.
             $Selenium->execute_script(
@@ -160,8 +167,9 @@ $Selenium->RunTest(
                 $Selenium->execute_script(
                     "return \$('.DataTable .RemoveFromFavourites').length == $Count;"
                 ),
-                "$NavigationCheck[$Count] - admin navigation item is removed from favourite",
+                "$NavigationCheck[$Count-1] - admin navigation item is removed from favourite",
             );
+
             $Count--;
         }
 
@@ -223,7 +231,4 @@ $Selenium->RunTest(
     }
 );
 
-
-$Self->DoneTesting();
-
-
+done_testing();

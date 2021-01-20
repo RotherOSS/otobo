@@ -18,16 +18,20 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
+
+our $Self;
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
-
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # Create test user and login.
@@ -74,15 +78,10 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
         sleep 1;
 
-        $Selenium->WaitFor( ElementExists => "//h1[contains(.,'Print process information')]" );
-
         # Check process print screen.
-        $Self->True(
-            $Selenium->find_element(
-                "//h1[contains(.,'Print process information')]"
-            ),
-            "Process print screen is loaded.",
-        );
+        my $ProcessPrintSelector = q{//li[@class='HeaderPopupleft' and contains(text(),'Print process information')]};
+        $Selenium->WaitFor( ElementExists => $ProcessPrintSelector);
+        ok( $Selenium->find_element( $ProcessPrintSelector ), "Process print screen is loaded." );
 
         $Selenium->close();
         $Selenium->WaitFor( WindowCount => 1 );

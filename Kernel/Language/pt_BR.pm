@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.889827754306142;
+    $Self->{Completeness}        = 0.905874716001298;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -312,14 +312,14 @@ sub Data {
         'Update' => 'Atualizar',
         'System Registration' => 'Registro do Sistema',
         'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '',
+            'Para habilitar o envio de dados, registre seu sistema com a equipe OTOBO ou atualize as informações de registro do sistema (certifique-se de ativar a opção \'enviar dados de suporte\'.)',
         'Register this System' => 'Registrar este Sistema',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'O registro de sistema está desabilitado para o seu sistema. Por favor verifique sua configuração.',
 
         # Template: AdminCloudServices
         'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
-            '',
+            'O registro do sistema é um serviço da equipe OTOBO, que traz muitas vantagens!',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             'Por favor, note que o uso dos serviços em nuvem do OTOBO requerem que o sistema esteja registrado.',
         'Register this system' => 'Registrar o sistema',
@@ -400,15 +400,15 @@ sub Data {
         'Please select an entry from the list.' => 'Por favor selecione uma entrada da lista.',
 
         # Template: AdminContactWD
-        'Contact with data management' => '',
+        'Contact with data management' => 'Contato com gerenciamento de dados',
         'Contact with data' => 'Contato com dados',
-        'Add contact with data' => '',
-        'Edit contact with data' => '',
+        'Add contact with data' => 'Adicionar contato com dados',
+        'Edit contact with data' => 'Editar contato com dados',
         'Back to search results' => 'Voltar ao resultado da busca',
         'Select' => 'Selecionar',
         'Search' => 'Procurar',
         'Wildcards like \'*\' are allowed.' => 'Coringas como \'*\' são permitidos.',
-        'Please enter a search term to look for contacts with data.' => '',
+        'Please enter a search term to look for contacts with data.' => 'Insira um termo de pesquisa para procurar contatos com dados.',
         'Valid' => 'Válido',
 
         # Template: AdminCustomerCompany
@@ -523,9 +523,9 @@ sub Data {
         'Add new field for object' => 'Adicionar novo campo ao objeto',
         'Filter for Dynamic Fields' => 'Filtro para Campos Dinâmicos',
         'Filter for dynamic fields' => 'Filtro para campos dinâmicos',
-        'New OTOBO Community  Fields' => '',
+        'New OTOBO Community  Fields' => 'Novos OTOBO Community  Fields',
         'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
-            '',
+            'Você gostaria de se beneficiar de tipos de campos dinâmicos adicionais? Você tem acesso total aos seguintes tipos de campo:',
         'Database' => 'Banco de Dados',
         'Use external databases as configurable data sources for this dynamic field.' =>
             'Utilize bancos de dados externos como fontes de dado configuráveis para este campo dinâmico.',
@@ -544,14 +544,14 @@ sub Data {
         'Delete this field' => 'Remover este campo',
 
         # Template: AdminDynamicFieldAdvanced
-        'Import / Export' => '',
+        'Import / Export' => 'Importação / Exportação',
         'Here you can upload a configuration file to import dynamic fields to your system. The file needs to be in .yml format as exported by dynamic field management module.' =>
-            '',
-        'DynamicFields Import' => '',
-        'DynamicFields Export' => '',
-        'Dynamic Fields Screens' => '',
+            'Aqui você pode fazer upload de um arquivo de configuração para importar campos dinâmicos para seu sistema. O arquivo precisa estar no formato .yml conforme exportado pelo módulo de gerenciamento de campo dinâmico.',
+        'DynamicFields Import' => 'Importar Campos Dinâmicos',
+        'DynamicFields Export' => 'Exportar Campos dinâmicos',
+        'Dynamic Fields Screens' => 'Telas de Campos Dinâmicos',
         'Here you can manage the dynamic fields in the respective screens.' =>
-            '',
+            'Aqui você pode gerenciar os campos dinâmicos nas respectivas telas.',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Campos Dinâmicos',
@@ -582,29 +582,29 @@ sub Data {
         'This is the default value for this field.' => 'Este é o valor padrão para este campo.',
 
         # Template: AdminDynamicFieldContactWD
-        'Add or edit contacts' => '',
+        'Add or edit contacts' => 'Adicionar ou editar contatos',
         'To add contacts to this field please fill out all the needed information and save it.' =>
-            '',
+            'Para adicionar contatos a este campo, preencha todas as informações necessárias e salve-as.',
         'Click on the field name from the overview to edit it and find the corresponding action in the sidebar or from the \'Tickets\' menu.' =>
-            '',
-        'Name Field' => '',
-        'ValidID Field' => '',
-        'Other Fields' => '',
+            'Clique no nome do campo da visão geral para editá-lo e encontrar a ação correspondente na barra lateral ou no menu \'Tickets\'.',
+        'Name Field' => 'Campo Nome',
+        'ValidID Field' => 'Campo ValidID',
+        'Other Fields' => 'Outros Campos',
         'Key' => 'Chave',
         'Value' => 'Valor',
         'Remove value' => 'Remover Valor',
-        'Add Field' => '',
+        'Add Field' => 'Adicionar Campo',
         'Add value' => 'Adicionar valor',
-        'These are the possible data attributes for contacts.' => '',
-        'Mandatory fields' => '',
+        'These are the possible data attributes for contacts.' => 'Esses são os atributos de dados possíveis para contatos.',
+        'Mandatory fields' => 'Campos obrigatórios',
         'Comma separated list of mandatory keys (optional). Keys \'Name\' and \'ValidID\' are always mandatory and doesn\'t have to be listed here.' =>
-            '',
-        'Sorted fields' => '',
+            'Lista separada por vírgulas de chaves obrigatórias (opcional). As chaves \'Name\' e \'ValidID\' são sempre obrigatórias e não precisam ser listadas aqui.',
+        'Sorted fields' => 'Campos ordenados',
         'Comma separated list of keys in sort order (optional). Keys listed here come first, all remaining fields afterwards and sorted alphabetically.' =>
-            '',
-        'Searchable fields' => '',
+            'Lista de chaves separadas por vírgulas em ordem de classificação (opcional). As chaves listadas aqui vêm primeiro, todos os campos restantes depois e classificados em ordem alfabética.',
+        'Searchable fields' => 'Campos pesquisáveis',
         'Comma separated list of searchable keys (optional). Key \'Name\' is always searchable and doesn\'t have to be listed here.' =>
-            '',
+            'Lista separada por vírgulas de chaves pesquisáveis (opcional). A chave \'Name\' sempre pode ser pesquisada e não precisa estar listada aqui.',
         'Translatable values' => 'Valores Traduzíveis',
         'If you activate this option the values will be translated to the user defined language.' =>
             'Se você ativar esta opção, os valores serão traduzidos para o idioma definido pelo usuário.',
@@ -614,10 +614,10 @@ sub Data {
 
         # Template: AdminDynamicFieldDB
         'Possible values' => 'Valores Possíveis',
-        'Datatype' => '',
+        'Datatype' => 'Tipo de dados',
         'Filter' => 'Filtro',
-        'Searchfield' => '',
-        'Listfield' => '',
+        'Searchfield' => 'Searchfield',
+        'Listfield' => 'Campo de lista',
         'Show link' => 'Mostrar Link',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Aqui você pode especificar um link HTTP para o valor deste campo nas telas de Visão Geral e Detalhamento.',
@@ -626,20 +626,20 @@ sub Data {
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'Se preenchida, esta URL será visualizada ao se flutuar sobre o link no zoom do chamado. Por favor note que para isto funcionar, deve-se preencher também o campo URL comum acima.',
         'SID' => 'SID',
-        'Driver' => '',
-        'Server' => '',
+        'Driver' => 'Driver',
+        'Server' => 'Servidor',
         'Port' => 'Porta',
-        'Table / View' => '',
+        'Table / View' => 'Tabela / View',
         'User' => 'Usuário',
         'Password' => 'Senha',
         'Identifier' => 'Identificador',
-        'Must be unique column from the table entered in Table/View.' => '',
+        'Must be unique column from the table entered in Table/View.' => 'Deve ser uma coluna exclusiva da tabela inserida na Tabela/View.',
         'Multiselect' => 'Multisseleção',
-        'CacheTTL' => '',
-        'Searchprefix' => '',
-        'Searchsuffix' => '',
-        'Result Limit' => '',
-        'Case Sensitive' => '',
+        'CacheTTL' => 'CacheTTL',
+        'Searchprefix' => 'Prefixo de pesquisa',
+        'Searchsuffix' => 'Sufixo de pesquisa',
+        'Result Limit' => 'Limite de resultado',
+        'Case Sensitive' => 'Sensível a Maiúsculas e Minúsculas',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Diferença de Tempo Padrão',
@@ -667,45 +667,45 @@ sub Data {
 
         # Template: AdminDynamicFieldImportExport
         '%s - %s' => '',
-        'Select the items you want to ' => '',
+        'Select the items you want to ' => 'Selecione os itens que deseja ',
         'Select the desired elements and confirm the import with \'import\'.' =>
-            '',
+            'Selecione os elementos desejados e confirme a importação com \'importar\'.',
         'Here you can export a configuration file of dynamic fields and dynamic field screens to import these on another system. The configuration file is exported in yml format.' =>
-            '',
+            'Aqui você pode exportar um arquivo de configuração de campos dinâmicos e telas de campos dinâmicos para importá-los em outro sistema. O arquivo de configuração é exportado no formato yml.',
         'The following dynamic fields can not be imported because of an invalid backend.' =>
-            '',
-        'Toggle all available elements' => '',
+            'Os seguintes campos dinâmicos não podem ser importados devido a um back-end inválido.',
+        'Toggle all available elements' => 'Alternar todos os elementos disponíveis',
         'Fields' => 'Campos',
-        'Screens' => '',
+        'Screens' => 'Telas',
 
         # Template: AdminDynamicFieldScreen
-        'Management of Dynamic Fields <-> Screens' => '',
+        'Management of Dynamic Fields <-> Screens' => 'Gerenciamento de Campos Dinâmicos <-> Telas',
         'Overview' => 'Visão Geral',
-        'Default Columns Screens' => '',
-        'Add DynamicField' => '',
+        'Default Columns Screens' => 'Telas de colunas padrão',
+        'Add DynamicField' => 'Adicionar Campo Dinâmico',
         'You can assign elements to this Screen/Field by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
+            'Você pode atribuir elementos a esta Tela/Campo arrastando os elementos com o mouse da lista da esquerda para a lista da direita.',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
             'Também é possível ordenar os elementos na lista através de drag \'n\' drop.',
-        'Filter available elements' => '',
-        'selected to available elements' => '',
-        'Available Elements' => '',
-        'Filter disabled elements' => '',
-        'selected to disabled elements' => '',
-        'Toggle all disabled elements' => '',
-        'Disabled Elements' => '',
-        'Filter assigned elements' => '',
-        'selected to assigned elements' => '',
-        'Toggle all assigned elements' => '',
-        'Assigned Elements' => '',
-        'Filter assigned required elements' => '',
-        'selected to assigned required elements' => '',
-        'Toggle all assigned required elements' => '',
-        'Assigned Required Elements' => '',
-        'Reset' => 'Reiniciar',
+        'Filter available elements' => 'Filtrar elementos disponíveis',
+        'selected to available elements' => 'selecionado para os elementos disponíveis',
+        'Available Elements' => 'Elementos disponíveis',
+        'Filter disabled elements' => 'Filtrar elementos desativados',
+        'selected to disabled elements' => 'selecionado para elementos desabilitados',
+        'Toggle all disabled elements' => 'Alternar todos os elementos desativados',
+        'Disabled Elements' => 'Elementos desativados',
+        'Filter assigned elements' => 'Filtrar elementos atribuídos',
+        'selected to assigned elements' => 'selecionado para os elementos atribuídos',
+        'Toggle all assigned elements' => 'Alternar todos os elementos atribuídos',
+        'Assigned Elements' => 'Elementos atribuidos',
+        'Filter assigned required elements' => 'Filtrar elementos necessários atribuídos',
+        'selected to assigned required elements' => 'selecionado para os elementos necessários atribuídos',
+        'Toggle all assigned required elements' => 'Alternar todos os elementos necessários atribuídos',
+        'Assigned Required Elements' => 'Elementos Requeridos Atribuídos',
+        'Reset' => 'Redefinir',
 
         # Template: AdminDynamicFieldText
-        'Number of rows' => 'Número de Linhas',
+        'Number of rows' => 'Número de linhas',
         'Specify the height (in lines) for this field in the edit mode.' =>
             'Especificar a altura (em linhas) para este campo no modo de edição.',
         'Number of cols' => 'Número de Colunas',
@@ -721,27 +721,27 @@ sub Data {
 
         # Template: AdminDynamicFieldTitle
         'Template' => 'Modelo',
-        'Style' => '',
-        'bold' => '',
-        'italic' => '',
-        'underline' => '',
-        'Font style of the label.' => '',
+        'Style' => 'Estilo',
+        'bold' => 'negrito',
+        'italic' => 'itálico',
+        'underline' => 'sublinhado',
+        'Font style of the label.' => 'Estilo da fonte do rótulo.',
         'Size' => 'Tamanho',
-        'Font size of the label.' => '',
-        'Color in hex.' => '',
+        'Font size of the label.' => 'Tamanho da fonte do rótulo.',
+        'Color in hex.' => 'Cor em hexadecimal.',
 
         # Template: AdminDynamicFieldWebService
         'This field is required' => 'Este campo é obrigatório',
-        'The web service to be executed for possible values.' => '',
-        'Invoker' => '',
+        'The web service to be executed for possible values.' => 'O web service a ser executado para os valores possíveis.',
+        'Invoker' => 'Invoker',
         'The invoker to be used to perform requests (invoker needs to be of type \'Generic::PassThrough\').' =>
             '',
-        'Activate this option to allow multiselect on results.' => '',
-        'Cache TTL' => '',
+        'Activate this option to allow multiselect on results.' => 'Ative esta opção para permitir a multi seleção dos resultados.',
+        'Cache TTL' => 'Cache TTL',
         'Cache time to live (in minutes), to save the retrieved possible values.' =>
-            '',
+            'Tempo de cache de vida (em minutos), para salvar os valores possíveis recuperados.',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens. Optional HTTP link works only for single-select fields.' =>
-            '',
+            'Aqui você pode especificar um link HTTP opcional para o valor do campo nas telas Visão geral e Zoom. O link HTTP opcional funciona apenas para campos de seleção única.',
 
         # Template: AdminEmail
         'Admin Message' => 'Mensagem Administrativa',
@@ -1165,7 +1165,7 @@ sub Data {
         'URI to indicate specific location for accessing a web service.' =>
             'URI que indica a localização específica para acessar um webservice.',
         'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
-            '',
+            'exemplo: https://www.otobo.de:10745/api/v1.0 (sem barra invertida)',
         'Timeout' => 'Expiração',
         'Timeout value for requests.' => 'Valor de timeout para requisições.',
         'Authentication' => 'Autenticação',
@@ -1207,9 +1207,9 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'O caminho completo do diretório da autoridade certificadora onde os certificados AC serão armazenados no sistema de arquivos.',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'ex. /opt/otobo/var/certificates/SOAP/CA',
-        'SSL hostname verification.' => '',
+        'SSL hostname verification.' => 'Verificação de nome de host SSL.',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
-            '',
+            'Aborte a solicitação se o nome do host não puder ser verificado. Desative com cuidado! Ignorar a verificação é um risco de segurança! Principalmente para fins de teste no caso de certificados SSL autoassinados ou se você souber o que está fazendo.',
         'Controller mapping for Invoker' => 'Mapeamento do controlador para o invoker',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             'O controlador para o qual o invoker necessita enviar requisições. Variáveis marcadas com um \':\' serão substituídas pelos valores dos dados e repassadas com a requisição (ex.: /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).',
@@ -1220,7 +1220,7 @@ sub Data {
         'The default HTTP command to use for the requests.' => 'O comando HTTP padrão para usar para as requisições.',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'e.g. https://local.otobo.de:8000/Webservice/Example' => '',
+        'e.g. https://local.otobo.de:8000/Webservice/Example' => 'exemplo: https://local.otobo.de:8000/Webservice/Example',
         'Set SOAPAction' => 'Configurar SOAPAction',
         'Set to "Yes" in order to send a filled SOAPAction header.' => 'Defina para "Sim" em ordem para enviar um cabeçalho SOAPAction preenchido.',
         'Set to "No" in order to send an empty SOAPAction header.' => 'Defina para "Não" em ordem para enviar um cabeçalho SOAPAction vazio.',
@@ -1501,7 +1501,7 @@ sub Data {
         'Install' => 'Instalar',
         'Update repository information' => 'Atualizar Informação de Repositório',
         'Cloud services are currently disabled.' => 'Serviços de nuvem atualmente desabilitados.',
-        'OTOBO Verify can not continue!' => '',
+        'OTOBO Verify can not continue!' => 'O OTOBO Verify não pode continuar!',
         'Enable cloud services' => 'Habilitar serviços de nuvem',
         'Update all installed packages' => 'Atualiazar todos pacotes instalados',
         'Online Repository' => 'Repositório Online',
@@ -1818,7 +1818,7 @@ sub Data {
         'Show transmitted data' => 'Exibir dados transmitidos',
         'Deregister system' => 'Desregistrar sistema',
         'Overview of registered systems' => 'Visão geral de sistemas registrados',
-        'This system is registered with OTOBO Team.' => '',
+        'This system is registered with OTOBO Team.' => 'Este sistema está registrado no OTOBO Team.',
         'System type' => 'Tipo do sistema',
         'Unique ID' => 'ID Único',
         'Last communication with registration server' => 'Última comunicação com o servidor de registro',
@@ -1829,7 +1829,7 @@ sub Data {
         'System Deregistration not Possible' => 'Não é possível cancelar o registro do sistema',
         'OTOBO-ID Login' => 'Login OTOBO-ID',
         'System registration is a service of OTOBO Team, which provides a lot of advantages!' =>
-            '',
+            'O registro do sistema é um serviço da Equipe OTOBO, que oferece muitas vantagens!',
         'Read more' => 'Leia mais',
         'You need to log in with your OTOBO-ID to register your system.' =>
             'Você precisa logar com seu OTOBO-ID para registrar seu sistema. ',
@@ -1849,7 +1849,7 @@ sub Data {
         'Is it possible to deregister?' => 'É possível cancelar o registro?',
         'You can deregister at any time.' => 'Você pode cancelar ser registro a qualquer momento.',
         'Which data is transfered when registering?' => 'Quais dados são transferidos ao se registrar?',
-        'A registered system sends the following data to OTOBO Team:' => '',
+        'A registered system sends the following data to OTOBO Team:' => 'Um sistema registrado envia os seguintes dados para a equipe OTOBO:',
         'Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version.' =>
             'Fully Qualified Domain Name (FQDN), versão do OTOBO, versão do banco de dados, Sistema Operacional e Perl.',
         'Why do I have to provide a description for my system?' => 'Por que tenho que fornecer uma descrição para o meu sistema?',
@@ -1871,7 +1871,7 @@ sub Data {
         'Retrieve a new one' => 'Receba uma nova',
         'Next' => 'Próximo',
         'This data will be frequently transferred to OTOBO Team when you register this system.' =>
-            '',
+            'Esses dados serão frequentemente transferidos para a equipe OTOBO quando você registrar este sistema.',
         'Attribute' => 'Atributo',
         'FQDN' => 'FQDN',
         'OTOBO Version' => 'Versão do OTOBO',
@@ -1879,10 +1879,10 @@ sub Data {
         'Perl Version' => 'Versão Perl',
         'Optional description of this system.' => 'Descrição opcional deste sistema.',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
-            '',
+            'Isso permitirá que o sistema envie informações de dados de suporte adicionais para a equipe OTOBO.',
         'Register' => 'Registrar',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
-            '',
+            'Continuar com esta etapa cancelará o registro do sistema da equipe OTOBO.',
         'Deregister' => 'Desregistrar',
         'You can modify registration settings here.' => 'Você pode modificar configurações de registro aqui.',
         'Overview of Transmitted Data' => 'Visão Geral dos Dados Transmitidos',
@@ -2063,10 +2063,10 @@ sub Data {
         'This state is used in the following config settings:' => 'Este estato é utilizado nas seguintes configurações:',
 
         # Template: AdminSupportDataCollector
-        'Sending support data to OTOBO Team is not possible!' => '',
+        'Sending support data to OTOBO Team is not possible!' => 'O envio de dados de suporte para a equipe OTOBO não é possível!',
         'Enable Cloud Services' => 'Habilitar Serviços de Nuvem',
         'This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration.' =>
-            '',
+            'Esses dados são enviados para a Equipe OTOBO regularmente. Para interromper o envio desses dados, atualize o registro do sistema.',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             'Você pode disparar manualmente o envio de Dados de Suporte pressionando este botão:',
         'Send Update' => 'Enviar Atualização',
@@ -2159,11 +2159,11 @@ sub Data {
         'Recent Deployments' => '',
         'Restore' => 'Restaurar',
         'View Details' => '',
-        'Restore this deployment.' => '',
-        'Export this deployment.' => '',
+        'Restore this deployment.' => 'Restaure esta implantação.',
+        'Export this deployment.' => 'Exportar esta implantação.',
 
         # Template: AdminSystemConfigurationDeploymentHistoryDetails
-        'Deployment Details' => '',
+        'Deployment Details' => 'Detalhes da implantação',
         'by' => 'por',
         'No settings have been deployed in this run.' => '',
 
@@ -2198,8 +2198,8 @@ sub Data {
         'Run search' => 'Pesquisar',
 
         # Template: AdminSystemConfigurationSettingHistoryDetails
-        'Change History' => '',
-        'Change History of %s' => '',
+        'Change History' => 'Histórico de Mudanças',
+        'Change History of %s' => 'Histórico de Mudanças de %s',
         'No modified values for this setting, the default value is used.' =>
             '',
 
@@ -2525,11 +2525,11 @@ sub Data {
         'Add an additional attribute' => '',
 
         # Template: AgentDynamicFieldDBDetails
-        'Details view' => '',
+        'Details view' => 'Visualização de detalhes',
 
         # Template: AgentElasticsearchQuickResult
         'Tickets' => 'Chamados',
-        'ConfigItems' => '',
+        'ConfigItems' => 'ConfigItems',
 
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'Para aceitar algumas novidades, uma licença ou algumas mudanças.',
@@ -2545,21 +2545,21 @@ sub Data {
             'Não existem links no momento. Por favor clique em \'Criar novos links\' no topo para estabelecer um link entre este item e outro objeto.',
 
         # Template: AgentPassword
-        'Password Policy' => '',
+        'Password Policy' => 'Politica de senha',
         'Your current password is older than %s days. You need to set a new one.' =>
             '',
         'Change password' => 'Alterar senha',
         'Current password' => 'Senha atual',
         'New password' => 'Nova senha',
-        'Repeat new password' => '',
-        'Password needs to be renewed every %s days.' => '',
+        'Repeat new password' => 'Repita a nova senha',
+        'Password needs to be renewed every %s days.' => 'A senha precisa ser renovada a cada %s dias.',
         'Password history is active, you can\'t use a password which was used the last %s times.' =>
-            '',
-        'Password length must be at least %s characters.' => '',
+            'O histórico de senha está ativo, você não pode usar uma senha que foi usada nas últimas %s vezes.',
+        'Password length must be at least %s characters.' => 'O comprimento da senha deve ter pelo menos %s caracteres.',
         'Password requires at least two lower- and two uppercase characters.' =>
-            '',
-        'Password requires at least two characters.' => '',
-        'Password requires at least one digit.' => '',
+            'A senha requer pelo menos dois caracteres minúsculos e dois maiúsculos.',
+        'Password requires at least two characters.' => 'A senha requer pelo menos dois caracteres.',
+        'Password requires at least one digit.' => 'A senha requer pelo menos um digito.',
         'Change config options' => '',
         'Admin permissions are required!' => '',
 
@@ -3262,7 +3262,10 @@ sub Data {
         ' Continue anyways :(' => '',
 
         # Template: OTRSDBSettings
-        'Database is a throwawy copy' => '',
+        'Skip DB migration' => '',
+        'Expert option! Only works if the migration has already been done by hand.' =>
+            '',
+        'Skipped.' => '',
 
         # Template: OTRSFileSettings
         'OTRS server' => '',
@@ -5074,8 +5077,9 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
         'Check if OTOBO version is correct.' => '',
-        'Need %s for Oracle db!' => '',
         'Copy database.' => '',
+        'Skipped...' => '',
+        'Need %s for Oracle db!' => '',
         'System was unable to connect to OTRS database.' => '',
         'System was unable to complete data transfer.' => '',
         'Data transfer completed.' => '',
@@ -5107,9 +5111,9 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
         'Migrate web service configuration.' => '',
-        'No web service existent, done.' => '',
         'Can\'t add web service for Elasticsearch. File %s not found!' =>
             '',
+        'Failed - see the log!' => '',
         'Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed.' =>
             '',
 
@@ -5135,6 +5139,11 @@ sub Data {
         'Please install (or uninstall) the packages before migration. If a package doesn\'t exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.org. We will find a solution.' =>
             '',
         'The same packages are installed on both systems, perfect!' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+        'Package specific tasks' => '',
+        'Done -' => '',
+        'Failed at -' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
         'Check if all needed Perl modules have been installed.' => '',
@@ -5685,10 +5694,12 @@ sub Data {
             'Nova conta criada. Enviadas informações de login para %s. Por favor, verifique seu e-mail.',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+        'If you want to re-run installer.pl, then disable the SecureMode in the SysConfig.' =>
+            '',
         'Action "%s" not found!' => 'Ação "%s" não encontrada!',
 
         # Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
-        'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
+        'If you want to re-run migration.pl, then disable the SecureMode in the SysConfig.' =>
             '',
 
         # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
@@ -6836,6 +6847,7 @@ Obrigado pela ajuda!
             'Define se uma pré-ordenação por prioridade deverá ser feito na visão de fila.',
         'Defines if a pre-sorting by priority should be done in the service view.' =>
             'Define se uma pre-classificação por prioridade pode ser feita na visão de serviço.',
+        'Defines if a ticket lock is required for the quick close.' => '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Define se um bloqueio de chamado é obrigatório na tela de fechamento de chamado da interface de atendente (se o chamado não estiver bloqueado ainda, ele é bloqueado e o atendente atual será definido automaticamente como seu proprietário).',
         'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -8157,7 +8169,6 @@ Obrigado pela ajuda!
         'Module used to detect if attachments are present.' => 'Módulo utilizado para detectar se anexos estão presentes.',
         'My Queues' => 'Minhas Filas',
         'My Services' => 'Meus Serviços',
-        'My Tickets.' => 'Meus Chamados.',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             'Nome da fila padrão. A fila padrão é uma seleção de fila entre as suas filas preferidas e pode ser selecionada nas definições de preferências.',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
@@ -8378,6 +8389,8 @@ Obrigado pela ajuda!
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
             'Permissões necessárias para alterar o cliente de um ticket na interface do agente.',
+        'Required permissions to use quick close in the agent interface.' =>
+            '',
         'Required permissions to use the close ticket screen in the agent interface.' =>
             'Permissões necessárias para utilizar a janela de fechamento de ticket na interface de agente.',
         'Required permissions to use the email outbound screen in the agent interface.' =>
@@ -9193,7 +9206,7 @@ Obrigado pela ajuda!
             'Estamos realizando uma manutenção programada. O login está temporariamente indisponível.',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             'Estamos realizando uma manutenção programada. Estaremos de volta em breve.',
-        'Web Service' => '',
+        'Web Service' => 'Web Service',
         'Web Services' => 'Web Services',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             '',

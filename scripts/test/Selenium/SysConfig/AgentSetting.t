@@ -125,11 +125,11 @@ EOF
 
         # Link to ivory skin file should be present.
         my $PageSource = $Selenium->get_page_source();
-        like(
-            $PageSource,
-            $ExpectedLinkedFile,
-            'Ivory skin should be selected'
-        );
+        {
+            my $ToDo = todo( 'skin ivory does not exist in OTOBO, issue #678' );
+
+            like( $PageSource, $ExpectedLinkedFile, 'Ivory skin should be selected' );
+        }
 
         # Try to expand the user profile sub menu by clicking the avatar.
         $Selenium->find_element( '.UserAvatar > a', 'css' )->click();
