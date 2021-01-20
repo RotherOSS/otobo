@@ -16,12 +16,23 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::ObjectManager;
+
+# because OTOBO modules expect $Kernel::OM
+$Kernel::OM = Kernel::System::ObjectManager->new(
+    'Kernel::System::Log' => {
+        LogPrefix => 'OTOBO-otobo.UnitTest',
+    },
+);
 
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -46,7 +57,7 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl");
 
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('#Footer ul.FooterLinks > li > a').length;"),
             0,
             "No links in footer area displayed",
@@ -63,13 +74,13 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedRefresh();
 
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('#Footer ul.FooterLinks > li > a').length;"),
             1,
             "Links in footer area displayed",
         );
 
-        $Self->True(
+        ok(
             index( $Selenium->get_page_source(), 'OTOBO Homepage' ) > -1,
             'OTOBO Homepage link is shown',
         );
@@ -83,20 +94,17 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedGet("${ScriptAlias}public.pl");
 
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('#Footer ul.FooterLinks > li > a').length;"),
             1,
             "Links in footer area displayed",
         );
 
-        $Self->True(
+        ok(
             index( $Selenium->get_page_source(), 'OTOBO Homepage' ) > -1,
             'OTOBO Homepage link is shown',
         );
     }
 );
 
-
-$Self->DoneTesting();
-
-
+done_testing();
