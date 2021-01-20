@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.711894702632434;
+    $Self->{Completeness}        = 0.71080817916261;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3262,7 +3262,10 @@ sub Data {
         ' Continue anyways :(' => '',
 
         # Template: OTRSDBSettings
-        'Database is a throwawy copy' => '',
+        'Skip DB migration' => '',
+        'Expert option! Only works if the migration has already been done by hand.' =>
+            '',
+        'Skipped.' => '',
 
         # Template: OTRSFileSettings
         'OTRS server' => '',
@@ -5075,8 +5078,9 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
         'Check if OTOBO version is correct.' => '',
-        'Need %s for Oracle db!' => '',
         'Copy database.' => '',
+        'Skipped...' => '',
+        'Need %s for Oracle db!' => '',
         'System was unable to connect to OTRS database.' => '',
         'System was unable to complete data transfer.' => '',
         'Data transfer completed.' => '',
@@ -5108,9 +5112,9 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
         'Migrate web service configuration.' => '',
-        'No web service existent, done.' => '',
         'Can\'t add web service for Elasticsearch. File %s not found!' =>
             '',
+        'Failed - see the log!' => '',
         'Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed.' =>
             '',
 
@@ -5136,6 +5140,11 @@ sub Data {
         'Please install (or uninstall) the packages before migration. If a package doesn\'t exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.org. We will find a solution.' =>
             '',
         'The same packages are installed on both systems, perfect!' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+        'Package specific tasks' => '',
+        'Done -' => '',
+        'Failed at -' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
         'Check if all needed Perl modules have been installed.' => '',
@@ -5686,10 +5695,12 @@ sub Data {
             '新規アカウントを作成しました。ログイン情報を %s に送信しました。メールを確認してください。',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+        'If you want to re-run installer.pl, then disable the SecureMode in the SysConfig.' =>
+            '',
         'Action "%s" not found!' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
-        'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
+        'If you want to re-run migration.pl, then disable the SecureMode in the SysConfig.' =>
             '',
 
         # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
@@ -6835,6 +6846,7 @@ Thanks for your help!
             '',
         'Defines if a pre-sorting by priority should be done in the service view.' =>
             '',
+        'Defines if a ticket lock is required for the quick close.' => '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '担当者インタフェースのクローズ・チケット画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者に設定されます）。',
         'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -8166,7 +8178,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Module used to detect if attachments are present.' => '',
         'My Queues' => '担当キュー',
         'My Services' => '担当サービス',
-        'My Tickets.' => '担当チケット',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             'カスタム・キューの名前です。カスタム・キューとは、利用者が特に優先するキューの一覧であり、プレファレンス設定から選択できます。',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
@@ -8387,6 +8398,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
             '担当者インタフェースで、チケットの顧客を変更するための必要な許可です。',
+        'Required permissions to use quick close in the agent interface.' =>
+            '',
         'Required permissions to use the close ticket screen in the agent interface.' =>
             '担当者インタフェースで、クローズ・チケット画面を使用するために必要な許可です。',
         'Required permissions to use the email outbound screen in the agent interface.' =>

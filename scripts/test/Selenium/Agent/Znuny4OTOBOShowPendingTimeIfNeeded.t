@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2012-2018 Znuny GmbH, http://znuny.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -108,10 +108,19 @@ my $SeleniumTest = sub {
     TEST:
     for my $Test (@Tests) {
 
-        my $TicketID;
-
+        my $TicketID = '';
         if ( $Test->{Data}->{Ticket} ) {
-            $TicketID = $HelperObject->TicketCreate();
+            my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+            $TicketID = $TicketObject->TicketCreate(
+                Title        => "Selenium Test Ticket for Znuny4OTOBOShowPendingTimeIfNeeded.t",
+                Queue        => 'Raw',
+                Lock         => 'unlock',
+                Priority     => '3 normal',
+                State        => 'new',
+                OwnerID      => 1,
+                UserID       => 1,
+            );
         }
 
         # Navigate to appropriate screen in the test
@@ -129,7 +138,7 @@ my $SeleniumTest = sub {
         my $StateElement = eval {
             $Selenium->find_element( "#$Test->{Data}->{State}", 'css' );
         };
-        is( $StateElement, 'state input field found' );
+        ok( $StateElement, 'state input field found' );
 
         my $Result = $Selenium->InputFieldValueSet(
             Element     => "#$Test->{Data}->{State}",

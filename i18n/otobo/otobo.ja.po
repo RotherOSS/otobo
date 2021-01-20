@@ -15,7 +15,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-07-31 11:42+0000\n"
+"POT-Creation-Date: 2020-11-12 15:30+0000\n"
 "PO-Revision-Date: 2020-02-22 12:18+0000\n"
 "Last-Translator: HISATOSHI OONISHI <hisatoshi.onishi@gmail.com>\n"
 "Language-Team: Japanese <https://translate.otobo.org/projects/otobo10/otobo/ja/>\n"
@@ -9273,6 +9273,14 @@ msgid "The identifier of the system. Each ticket number and each HTTP session ID
 msgstr "システムの識別子。各チケット番号とHTTPセッションIDはこの番号が含まれます。"
 
 #. Template: InstallerSystem
+msgid "HTTP Type"
+msgstr ""
+
+#. Template: InstallerSystem
+msgid "Set the request scheme used for cookies and various links. For production purposes always use https."
+msgstr ""
+
+#. Template: InstallerSystem
 msgid "System FQDN"
 msgstr "システムのFQDN"
 
@@ -9478,6 +9486,10 @@ msgstr ""
 
 #. Template: Intro
 msgid " Continue anyways :("
+msgstr ""
+
+#. Template: OTRSDBSettings
+msgid "Database is a throwawy copy"
 msgstr ""
 
 #. Template: OTRSFileSettings
@@ -13282,6 +13294,14 @@ msgid "Contact your Admin!"
 msgstr "管理者に連絡してください！"
 
 #. Perl Module: Kernel/Modules/Installer.pm
+msgid "https"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "http"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
 msgid "System Settings"
 msgstr "システム設定"
 
@@ -14173,6 +14193,10 @@ msgstr "その領域の内容が長すぎます。"
 msgid "Maximum size is %s characters."
 msgstr "最大サイズは%s文字です。"
 
+#. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
+msgid "Sanity checks for database."
+msgstr ""
+
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
 msgstr ""
@@ -14205,24 +14229,20 @@ msgstr ""
 msgid "Completed."
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-msgid "Check if OTOBO version is correct."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Check if OTOBO and OTRS connect is possible."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Can't open RELEASE file from OTRSHome: %s!"
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
+msgid "Need OTRSData->%s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Copy and migrate files from OTRS"
+msgid "Can't access OTRS Home: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "All needed files copied and migrated, perfect!"
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
+msgid "Check if OTOBO version is correct."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
@@ -14243,6 +14263,14 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Data transfer completed."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "Check if OTOBO and OTRS connect is possible."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "Can't open RELEASE file from OTRSHome: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
@@ -14271,6 +14299,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTRS version is correct."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "OTRS RELEASE file %s does not exist: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
@@ -14330,7 +14362,11 @@ msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "OTOBO Home exists."
+msgid "Check if Kernel/Config.pm exists in OTOBO home."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
+msgid "Kernel/Config.pm exists in OTOBO home"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
@@ -14350,7 +14386,7 @@ msgid "Try database connect and sanity checks."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
-msgid "Connect to OTRS database or sanity checks failed."
+msgid "Could not create database object."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
@@ -15387,6 +15423,14 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
 msgid "Support data could not be collected from the web server."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
+msgid "PSGI Environment"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
+msgid "Runs under PSGI"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
@@ -24977,63 +25021,51 @@ msgstr "stats"
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "sales@otrs.comまでご連絡下さい。"
 
-#. Template: InstallerSystem
-msgid "HTTP Type"
-msgstr ""
-
-#. Template: InstallerSystem
-msgid "Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes."
-msgstr ""
-
-#. Perl Module: Kernel/Modules/Installer.pm
-msgid "https"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/Installer.pm
-msgid "http"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
-msgid "PSGI Environment"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
-msgid "Runs under PSGI"
-msgstr ""
-
-#. Template: InstallerSystem
-msgid "Set the request scheme used for cookies and various links. For production purposes always use https."
+#. Template: OTRSDBSettings
+msgid "Skip DB migration"
 msgstr ""
 
 #. Template: OTRSDBSettings
-msgid "Database is a throwawy copy"
+msgid "Expert option! Only works if the migration has already been done by hand."
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Can't access OTRS Home: %s!"
+#. Template: OTRSDBSettings
+msgid "Skipped."
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
-msgid "Sanity checks for database."
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
+msgid "Skipped..."
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Need OTRSData->%s!"
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
+msgid "Failed - see the log!"
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "OTRS RELEASE file %s does not exist: %s!"
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+msgid "Package specific tasks"
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "Check if Kernel/Config.pm exists in OTOBO home."
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+msgid "Done -"
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "Kernel/Config.pm exists in OTOBO home"
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+msgid "Failed at -"
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
-msgid "Could not create database object."
+#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+msgid "If you want to re-run installer.pl, then disable the SecureMode in the SysConfig."
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
+msgid "If you want to re-run migration.pl, then disable the SecureMode in the SysConfig."
+msgstr ""
+
+#. SysConfig
+msgid "Defines if a ticket lock is required for the quick close."
+msgstr ""
+
+#. SysConfig
+msgid "Required permissions to use quick close in the agent interface."
 msgstr ""
 

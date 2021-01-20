@@ -16,13 +16,13 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # core modules
 
 # CPAN modules
 use Test2::V0;
-use Test2::API qw(context);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::PL

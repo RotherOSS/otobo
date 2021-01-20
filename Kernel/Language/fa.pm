@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.645921351966201;
+    $Self->{Completeness}        = 0.644920480363518;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3262,7 +3262,10 @@ sub Data {
         ' Continue anyways :(' => '',
 
         # Template: OTRSDBSettings
-        'Database is a throwawy copy' => '',
+        'Skip DB migration' => '',
+        'Expert option! Only works if the migration has already been done by hand.' =>
+            '',
+        'Skipped.' => '',
 
         # Template: OTRSFileSettings
         'OTRS server' => '',
@@ -5074,8 +5077,9 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
         'Check if OTOBO version is correct.' => '',
-        'Need %s for Oracle db!' => '',
         'Copy database.' => '',
+        'Skipped...' => '',
+        'Need %s for Oracle db!' => '',
         'System was unable to connect to OTRS database.' => '',
         'System was unable to complete data transfer.' => '',
         'Data transfer completed.' => '',
@@ -5107,9 +5111,9 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
         'Migrate web service configuration.' => '',
-        'No web service existent, done.' => '',
         'Can\'t add web service for Elasticsearch. File %s not found!' =>
             '',
+        'Failed - see the log!' => '',
         'Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed.' =>
             '',
 
@@ -5135,6 +5139,11 @@ sub Data {
         'Please install (or uninstall) the packages before migration. If a package doesn\'t exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.org. We will find a solution.' =>
             '',
         'The same packages are installed on both systems, perfect!' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+        'Package specific tasks' => '',
+        'Done -' => '',
+        'Failed at -' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
         'Check if all needed Perl modules have been installed.' => '',
@@ -5685,10 +5694,12 @@ sub Data {
             'حساب کاربری جدید ساخته شد. اطلاعات ورود به %s ارسال شد. لطفا ایمیل خود را چک نمایید. ',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+        'If you want to re-run installer.pl, then disable the SecureMode in the SysConfig.' =>
+            '',
         'Action "%s" not found!' => 'اقدام \ " %s " یافت نشد!',
 
         # Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
-        'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
+        'If you want to re-run migration.pl, then disable the SecureMode in the SysConfig.' =>
             '',
 
         # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
@@ -6836,6 +6847,7 @@ Thanks for your help!
             'تعریف می کند اگر قبل از مرتب کردن بر اساس اولویت باید در نظر صف انجام شود.',
         'Defines if a pre-sorting by priority should be done in the service view.' =>
             'تعریف می کند اگر قبل از مرتب کردن بر اساس اولویت باید در نظر خدمات انجام  شود.',
+        'Defines if a ticket lock is required for the quick close.' => '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'تعریف می کند اگر یک قفل بلیط در صفحه نمایش بلیط نزدیک رابط عامل مورد نیاز است (اگر بلیط هنوز قفل نشده است، بلیط می شود قفل شده است و عامل فعلی خواهد شد به طور خودکار به عنوان صاحب آن تنظیم).',
         'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -8157,7 +8169,6 @@ Thanks for your help!
         'Module used to detect if attachments are present.' => '',
         'My Queues' => 'لیست درخواست‌های من',
         'My Services' => 'خدمات من',
-        'My Tickets.' => 'درخواست من.',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             'نام صف سفارشی. صف های سفارشی انتخاب صف از صف مورد نظر خود را است و می تواند در تنظیمات تنظیمات انتخاب شده است.',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
@@ -8378,6 +8389,8 @@ Thanks for your help!
             'پردازش مجدد ایمیل از دایرکتوری قرقره است که نمی تواند در وهله اول وارد شود.',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
             'دسترسی مورد نیاز برای تغییر درخواست دهنده ی یک درخواست در صفحه ی کارشناس.',
+        'Required permissions to use quick close in the agent interface.' =>
+            '',
         'Required permissions to use the close ticket screen in the agent interface.' =>
             'دسترسی مورد نیاز برای استفاده از صفحه نمایش درخواست نزدیک در صفحه ی کارشناس.',
         'Required permissions to use the email outbound screen in the agent interface.' =>

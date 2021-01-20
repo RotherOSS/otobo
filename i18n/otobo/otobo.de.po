@@ -46,8 +46,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2020-10-21 16:19+0000\n"
-"PO-Revision-Date: 2020-10-12 14:53+0000\n"
+"POT-Creation-Date: 2020-11-12 15:30+0000\n"
+"PO-Revision-Date: 2020-11-26 11:43+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/>\n"
 "Language: de\n"
@@ -9307,7 +9307,7 @@ msgstr "HTTP-Typ"
 
 #. Template: InstallerSystem
 msgid "Set the request scheme used for cookies and various links. For production purposes always use https."
-msgstr ""
+msgstr "Definiert das für den Abruf von Cookies und verschiedenen Links verwendete Schema. In Produktivumgebungen immer HTTPS verwenden."
 
 #. Template: InstallerSystem
 msgid "System FQDN"
@@ -9519,7 +9519,7 @@ msgstr " Dennoch fortfahren :("
 
 #. Template: OTRSDBSettings
 msgid "Database is a throwawy copy"
-msgstr ""
+msgstr "Datenbank ist eine Kopie und kann gelöscht werden"
 
 #. Template: OTRSFileSettings
 msgid "OTRS server"
@@ -14221,6 +14221,10 @@ msgstr "Der Feldinhalt ist zu lang!"
 msgid "Maximum size is %s characters."
 msgstr "Die Maximallänge beträgt %s Zeichen."
 
+#. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
+msgid "Sanity checks for database."
+msgstr "Plausibilitätsprüfungen der Datenbank."
+
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
 msgstr "ACL-Konfiguration in Betrieb nehmen."
@@ -14253,25 +14257,21 @@ msgstr "OTOBO Cache leeren."
 msgid "Completed."
 msgstr "Abgeschlossen."
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-msgid "Check if OTOBO version is correct."
-msgstr "Überprüft, ob die OTOBO Version korrekt ist."
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Check if OTOBO and OTRS connect is possible."
-msgstr "Überprüft, ob eine Verbindung zwischen OTRS und OTOBO hergestellt werden kann."
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
+msgid "Need OTRSData->%s!"
+msgstr "OTRSData->%s benötigt!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Can't access OTRS Home: %s!"
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Copy and migrate files from OTRS"
-msgstr "Kopiert und migriert Dateien aus OTRS"
+msgstr "Kann nicht auf OTRS Home: %s zugreifen!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "All needed files copied and migrated, perfect!"
 msgstr "Alle Dateien wurden kopiert und migriert. Glückwunsch!"
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
+msgid "Check if OTOBO version is correct."
+msgstr "Überprüft, ob die OTOBO Version korrekt ist."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Need %s for Oracle db!"
@@ -14292,6 +14292,10 @@ msgstr "System konnte den Datentransfer nicht abschließen."
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Data transfer completed."
 msgstr "Datentransfer abgeschlossen."
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "Check if OTOBO and OTRS connect is possible."
+msgstr "Überprüft, ob eine Verbindung zwischen OTRS und OTOBO hergestellt werden kann."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't open RELEASE file from OTRSHome: %s!"
@@ -14324,6 +14328,10 @@ msgstr "OTOBO-Version ist korrekt: %s."
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTRS version is correct."
 msgstr "Überprüft, ob die OTRS Version korrekt ist."
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "OTRS RELEASE file %s does not exist: %s!"
+msgstr "OTRS RELEASE Datei %s nicht vorhanden: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTRS RELEASE file: %s: %s!"
@@ -14382,8 +14390,12 @@ msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
 msgstr "Kann die Datei Kernel/Config.pm aus OTRSHome: %s nicht öffnen!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "OTOBO Home exists."
-msgstr "OTOBO Home vorhanden."
+msgid "Check if Kernel/Config.pm exists in OTOBO home."
+msgstr "Überprüfen Sie, ob in OTOBO Home eine Datei Kernel/Config.pm vorhanden ist."
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
+msgid "Kernel/Config.pm exists in OTOBO home"
+msgstr "Kernel/Config.pm ist in OTOBO verfügbar"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if we are able to connect to OTRS Home."
@@ -14402,8 +14414,8 @@ msgid "Try database connect and sanity checks."
 msgstr "Versucht eine Verbindung zur Datenbank herzustellen und Plausibilitätsprüfungen durchzuführen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
-msgid "Connect to OTRS database or sanity checks failed."
-msgstr "Verbindung zur OTRS-Datenbank oder Plausibilitätsprüfung fehlgeschlagen."
+msgid "Could not create database object."
+msgstr "Konnte kein Datenbankobjekt erstellen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Database connect and sanity checks completed."
@@ -17217,7 +17229,7 @@ msgstr "Administration"
 
 #. SysConfig
 msgid "Agent Contact With Data Search"
-msgstr ""
+msgstr "Agent Contact With Data Search"
 
 #. SysConfig
 msgid "Agent Customer Search"
@@ -17229,15 +17241,15 @@ msgstr "Kundensuche Agentenbereich."
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Detailed Search"
-msgstr ""
+msgstr "Agent Dynamic Field Database Detailed Search"
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Details"
-msgstr ""
+msgstr "Agent Dynamic Field Database Details"
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Search"
-msgstr ""
+msgstr "Agent Dynamic Field Database Search"
 
 #. SysConfig
 msgid "Agent Name"
@@ -17265,19 +17277,19 @@ msgstr "Nutzersuche Agentenbereich."
 
 #. SysConfig
 msgid "Agent contact with data search."
-msgstr ""
+msgstr "Suche Kontaktdaten Agentenbereich."
 
 #. SysConfig
 msgid "Agent dynamic field database detailed search."
-msgstr ""
+msgstr "Detailsuche dynamisches Feld Datenbank im Agentenbereich."
 
 #. SysConfig
 msgid "Agent dynamic field database details."
-msgstr ""
+msgstr "Details dynamisches Feld Datenbank Agentenbereich"
 
 #. SysConfig
 msgid "Agent dynamic field database search."
-msgstr ""
+msgstr "Suche dynamisches Feld Datenbank im Agentenbereich."
 
 #. SysConfig
 msgid "Agent frontend module registration (disable 'Edit contacts with data' link if if there is no source field configured)."
@@ -17725,7 +17737,7 @@ msgstr "Change-Ticket"
 
 #. SysConfig
 msgid "Change Ticket information"
-msgstr ""
+msgstr "Ticketinformationen ändern"
 
 #. SysConfig
 msgid "Change queue!"
@@ -18229,13 +18241,14 @@ msgstr "Kunden-Dashboard"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Detailed Search"
-msgstr ""
+msgstr "Customer Dynamic Field Database Detailed Search"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Details"
-msgstr ""
+msgstr "Customer Dynamic Field Database Details"
 
 #. SysConfig
+#, fuzzy
 msgid "Customer Dynamic Field Database Search"
 msgstr ""
 
@@ -18297,15 +18310,15 @@ msgstr "Kundenbenutzer ↔ Services"
 
 #. SysConfig
 msgid "Customer dynamic field database detailed search."
-msgstr ""
+msgstr "Detailsuche dynamisches Feld Datenbank im Kundenbereich."
 
 #. SysConfig
 msgid "Customer dynamic field database details."
-msgstr ""
+msgstr "Details zum dynamischen Feld Datenbank im Kundenbereich."
 
 #. SysConfig
 msgid "Customer dynamic field database search."
-msgstr ""
+msgstr "Suche im dynamischen Feld Datenbank im Kundenbereich."
 
 #. SysConfig
 msgid "Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID."
@@ -24209,7 +24222,7 @@ msgstr "Diese Einstellung zeigt die Sortier-Attribute aller Übersichtsansichten
 
 #. SysConfig
 msgid "Ticket Close"
-msgstr ""
+msgstr "Ticket Close"
 
 #. SysConfig
 msgid "Ticket Close."
@@ -24682,6 +24695,15 @@ msgstr "umgekehrt"
 #. SysConfig
 msgid "stats"
 msgstr "Stats"
+
+#~ msgid "Copy and migrate files from OTRS"
+#~ msgstr "Kopiert und migriert Dateien aus OTRS"
+
+#~ msgid "OTOBO Home exists."
+#~ msgstr "OTOBO Home vorhanden."
+
+#~ msgid "Connect to OTRS database or sanity checks failed."
+#~ msgstr "Verbindung zur OTRS-Datenbank oder Plausibilitätsprüfung fehlgeschlagen."
 
 #~ msgid "Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes."
 #~ msgstr "Setting HttpType: Definition des für Cookies und veschiedene Links verwendeten HTTP-Typs. Bitte verwenden Sie HTTP für Testumgebungen ohne SSL und HTTPS für Produktivumgebungen."
@@ -25219,27 +25241,51 @@ msgstr "Stats"
 #~ msgid "This module is part of the admin area of OTOBO Community Edition."
 #~ msgstr "Diese Modul ist Teil des Admin-Bereichs von OTOBO."
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
-msgid "Sanity checks for database."
+#. Template: OTRSDBSettings
+msgid "Skip DB migration"
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Need OTRSData->%s!"
+#. Template: OTRSDBSettings
+msgid "Expert option! Only works if the migration has already been done by hand."
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "OTRS RELEASE file %s does not exist: %s!"
+#. Template: OTRSDBSettings
+msgid "Skipped."
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "Check if Kernel/Config.pm exists in OTOBO home."
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
+msgid "Skipped..."
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "Kernel/Config.pm exists in OTOBO home"
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
+msgid "Failed - see the log!"
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
-msgid "Could not create database object."
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+msgid "Package specific tasks"
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+msgid "Done -"
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+msgid "Failed at -"
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+msgid "If you want to re-run installer.pl, then disable the SecureMode in the SysConfig."
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
+msgid "If you want to re-run migration.pl, then disable the SecureMode in the SysConfig."
+msgstr ""
+
+#. SysConfig
+msgid "Defines if a ticket lock is required for the quick close."
+msgstr ""
+
+#. SysConfig
+msgid "Required permissions to use quick close in the agent interface."
 msgstr ""
 
