@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <otobo_stats>
 <Cache>0</Cache>
-<Description>Aktueller Status aller im System befindlicher Tickets ohne Zeitbeschrï¿½nkung.</Description>
+<Description>Aktueller Status aller im System befindlicher Tickets ohne Zeitbeschränkung.</Description>
 <Format>Print</Format>
 <Format>D3::BarChart</Format>
 <Object>Ticket</Object>
@@ -10,7 +10,7 @@
 <StatType>dynamic</StatType>
 <SumCol>1</SumCol>
 <SumRow>1</SumRow>
-<Title>ï¿½berblick ï¿½ber alle Tickets im System</Title>
+<Title>Überblick über alle Tickets im System</Title>
 <UseAsValueSeries Element="QueueIDs" Fixed="1">
 </UseAsValueSeries>
 <UseAsXvalue Element="StateIDs" Fixed="1">

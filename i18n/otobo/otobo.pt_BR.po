@@ -51,21 +51,21 @@
 # Ricardo von Staa <ricardo.von.staa@otrs.com>, 2019
 # Lucas Trombim <ltrombim1@gmail.com>, 2019
 # possebon <possebon@gmail.com>, 2020
-# José Junior <jjunior@serviceup.com.br>, 2020.
+# José Junior <jjunior@serviceup.com.br>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2020-10-21 16:19+0000\n"
-"PO-Revision-Date: 2020-09-02 12:35+0000\n"
+"POT-Creation-Date: 2020-11-12 15:30+0000\n"
+"PO-Revision-Date: 2021-01-06 17:09+0000\n"
 "Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
-"Language-Team: Portuguese (Brazil) <http://translate.otobo.org/projects/otobo10/otobo/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) <https://translate.otobo.org/projects/otobo10/otobo/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.1.1\n"
+"X-Generator: Weblate 4.2.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -941,7 +941,7 @@ msgstr "Registro do Sistema"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the 'send support data' option.)"
-msgstr ""
+msgstr "Para habilitar o envio de dados, registre seu sistema com a equipe OTOBO ou atualize as informações de registro do sistema (certifique-se de ativar a opção 'enviar dados de suporte'.)"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -953,7 +953,7 @@ msgstr "O registro de sistema está desabilitado para o seu sistema. Por favor v
 
 #. Template: AdminCloudServices
 msgid "System registration is a service of OTOBO team, which provides a lot of advantages!"
-msgstr ""
+msgstr "O registro do sistema é um serviço da equipe OTOBO, que traz muitas vantagens!"
 
 #. Template: AdminCloudServices
 msgid "Please note that the use of OTOBO cloud services requires the system to be registered."
@@ -1201,7 +1201,7 @@ msgstr "Por favor selecione uma entrada da lista."
 
 #. Template: AdminContactWD
 msgid "Contact with data management"
-msgstr ""
+msgstr "Contato com gerenciamento de dados"
 
 #. Template: AdminContactWD
 msgid "Contact with data"
@@ -1209,11 +1209,11 @@ msgstr "Contato com dados"
 
 #. Template: AdminContactWD
 msgid "Add contact with data"
-msgstr ""
+msgstr "Adicionar contato com dados"
 
 #. Template: AdminContactWD
 msgid "Edit contact with data"
-msgstr ""
+msgstr "Editar contato com dados"
 
 #. Template: AdminContactWD
 msgid "Back to search results"
@@ -1233,7 +1233,7 @@ msgstr "Coringas como '*' são permitidos."
 
 #. Template: AdminContactWD
 msgid "Please enter a search term to look for contacts with data."
-msgstr ""
+msgstr "Insira um termo de pesquisa para procurar contatos com dados."
 
 #. Template: AdminContactWD
 msgid "Valid"
@@ -1577,11 +1577,11 @@ msgstr "Filtro para campos dinâmicos"
 
 #. Template: AdminDynamicField
 msgid "New OTOBO Community  Fields"
-msgstr ""
+msgstr "Novos OTOBO Community  Fields"
 
 #. Template: AdminDynamicField
 msgid "Would you like to benefit from additional dynamic field types? You have full access to the following field types:"
-msgstr ""
+msgstr "Você gostaria de se beneficiar de tipos de campos dinâmicos adicionais? Você tem acesso total aos seguintes tipos de campo:"
 
 #. Template: AdminDynamicField
 msgid "Database"
@@ -1633,27 +1633,27 @@ msgstr "Remover este campo"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Import / Export"
-msgstr ""
+msgstr "Importação / Exportação"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Here you can upload a configuration file to import dynamic fields to your system. The file needs to be in .yml format as exported by dynamic field management module."
-msgstr ""
+msgstr "Aqui você pode fazer upload de um arquivo de configuração para importar campos dinâmicos para seu sistema. O arquivo precisa estar no formato .yml conforme exportado pelo módulo de gerenciamento de campo dinâmico."
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Import"
-msgstr ""
+msgstr "Importar Campos Dinâmicos"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Export"
-msgstr ""
+msgstr "Exportar Campos dinâmicos"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Dynamic Fields Screens"
-msgstr ""
+msgstr "Telas de Campos Dinâmicos"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Here you can manage the dynamic fields in the respective screens."
-msgstr ""
+msgstr "Aqui você pode gerenciar os campos dinâmicos nas respectivas telas."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
@@ -1733,27 +1733,27 @@ msgstr "Este é o valor padrão para este campo."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add or edit contacts"
-msgstr ""
+msgstr "Adicionar ou editar contatos"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "To add contacts to this field please fill out all the needed information and save it."
-msgstr ""
+msgstr "Para adicionar contatos a este campo, preencha todas as informações necessárias e salve-as."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Click on the field name from the overview to edit it and find the corresponding action in the sidebar or from the 'Tickets' menu."
-msgstr ""
+msgstr "Clique no nome do campo da visão geral para editá-lo e encontrar a ação correspondente na barra lateral ou no menu 'Tickets'."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Name Field"
-msgstr ""
+msgstr "Campo Nome"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "ValidID Field"
-msgstr ""
+msgstr "Campo ValidID"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Other Fields"
-msgstr ""
+msgstr "Outros Campos"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Key"
@@ -1769,7 +1769,7 @@ msgstr "Remover Valor"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add Field"
-msgstr ""
+msgstr "Adicionar Campo"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add value"
@@ -1777,31 +1777,31 @@ msgstr "Adicionar valor"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "These are the possible data attributes for contacts."
-msgstr ""
+msgstr "Esses são os atributos de dados possíveis para contatos."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Mandatory fields"
-msgstr ""
+msgstr "Campos obrigatórios"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Comma separated list of mandatory keys (optional). Keys 'Name' and 'ValidID' are always mandatory and doesn't have to be listed here."
-msgstr ""
+msgstr "Lista separada por vírgulas de chaves obrigatórias (opcional). As chaves 'Name' e 'ValidID' são sempre obrigatórias e não precisam ser listadas aqui."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Sorted fields"
-msgstr ""
+msgstr "Campos ordenados"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Comma separated list of keys in sort order (optional). Keys listed here come first, all remaining fields afterwards and sorted alphabetically."
-msgstr ""
+msgstr "Lista de chaves separadas por vírgulas em ordem de classificação (opcional). As chaves listadas aqui vêm primeiro, todos os campos restantes depois e classificados em ordem alfabética."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Searchable fields"
-msgstr ""
+msgstr "Campos pesquisáveis"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Comma separated list of searchable keys (optional). Key 'Name' is always searchable and doesn't have to be listed here."
-msgstr ""
+msgstr "Lista separada por vírgulas de chaves pesquisáveis (opcional). A chave 'Name' sempre pode ser pesquisada e não precisa estar listada aqui."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Translatable values"
@@ -1825,7 +1825,7 @@ msgstr "Valores Possíveis"
 
 #. Template: AdminDynamicFieldDB
 msgid "Datatype"
-msgstr ""
+msgstr "Tipo de dados"
 
 #. Template: AdminDynamicFieldDB
 msgid "Filter"
@@ -1833,11 +1833,11 @@ msgstr "Filtro"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchfield"
-msgstr ""
+msgstr "Searchfield"
 
 #. Template: AdminDynamicFieldDB
 msgid "Listfield"
-msgstr ""
+msgstr "Campo de lista"
 
 #. Template: AdminDynamicFieldDB
 msgid "Show link"
@@ -1865,11 +1865,11 @@ msgstr "SID"
 
 #. Template: AdminDynamicFieldDB
 msgid "Driver"
-msgstr ""
+msgstr "Driver"
 
 #. Template: AdminDynamicFieldDB
 msgid "Server"
-msgstr ""
+msgstr "Servidor"
 
 #. Template: AdminDynamicFieldDB
 msgid "Port"
@@ -1877,7 +1877,7 @@ msgstr "Porta"
 
 #. Template: AdminDynamicFieldDB
 msgid "Table / View"
-msgstr ""
+msgstr "Tabela / View"
 
 #. Template: AdminDynamicFieldDB
 msgid "User"
@@ -1893,7 +1893,7 @@ msgstr "Identificador"
 
 #. Template: AdminDynamicFieldDB
 msgid "Must be unique column from the table entered in Table/View."
-msgstr ""
+msgstr "Deve ser uma coluna exclusiva da tabela inserida na Tabela/View."
 
 #. Template: AdminDynamicFieldDB
 msgid "Multiselect"
@@ -1901,23 +1901,23 @@ msgstr "Multisseleção"
 
 #. Template: AdminDynamicFieldDB
 msgid "CacheTTL"
-msgstr ""
+msgstr "CacheTTL"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchprefix"
-msgstr ""
+msgstr "Prefixo de pesquisa"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchsuffix"
-msgstr ""
+msgstr "Sufixo de pesquisa"
 
 #. Template: AdminDynamicFieldDB
 msgid "Result Limit"
-msgstr ""
+msgstr "Limite de resultado"
 
 #. Template: AdminDynamicFieldDB
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Sensível a Maiúsculas e Minúsculas"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Default date difference"
@@ -1993,23 +1993,23 @@ msgstr ""
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the items you want to "
-msgstr ""
+msgstr "Selecione os itens que deseja "
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the desired elements and confirm the import with 'import'."
-msgstr ""
+msgstr "Selecione os elementos desejados e confirme a importação com 'importar'."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Here you can export a configuration file of dynamic fields and dynamic field screens to import these on another system. The configuration file is exported in yml format."
-msgstr ""
+msgstr "Aqui você pode exportar um arquivo de configuração de campos dinâmicos e telas de campos dinâmicos para importá-los em outro sistema. O arquivo de configuração é exportado no formato yml."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "The following dynamic fields can not be imported because of an invalid backend."
-msgstr ""
+msgstr "Os seguintes campos dinâmicos não podem ser importados devido a um back-end inválido."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Toggle all available elements"
-msgstr ""
+msgstr "Alternar todos os elementos disponíveis"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Fields"
@@ -2017,11 +2017,11 @@ msgstr "Campos"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Screens"
-msgstr ""
+msgstr "Telas"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Management of Dynamic Fields <-> Screens"
-msgstr ""
+msgstr "Gerenciamento de Campos Dinâmicos <-> Telas"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Overview"
@@ -2029,15 +2029,15 @@ msgstr "Visão Geral"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Default Columns Screens"
-msgstr ""
+msgstr "Telas de colunas padrão"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Add DynamicField"
-msgstr ""
+msgstr "Adicionar Campo Dinâmico"
 
 #. Template: AdminDynamicFieldScreen
 msgid "You can assign elements to this Screen/Field by dragging the elements with the mouse from the left list to the right list."
-msgstr ""
+msgstr "Você pode atribuir elementos a esta Tela/Campo arrastando os elementos com o mouse da lista da esquerda para a lista da direita."
 
 #. Template: AdminDynamicFieldScreen
 msgid "Ordering the elements within the list is also possible by drag 'n' drop."
@@ -2045,71 +2045,71 @@ msgstr "Também é possível ordenar os elementos na lista através de drag 'n' 
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter available elements"
-msgstr ""
+msgstr "Filtrar elementos disponíveis"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to available elements"
-msgstr ""
+msgstr "selecionado para os elementos disponíveis"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Available Elements"
-msgstr ""
+msgstr "Elementos disponíveis"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter disabled elements"
-msgstr ""
+msgstr "Filtrar elementos desativados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to disabled elements"
-msgstr ""
+msgstr "selecionado para elementos desabilitados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all disabled elements"
-msgstr ""
+msgstr "Alternar todos os elementos desativados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Disabled Elements"
-msgstr ""
+msgstr "Elementos desativados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter assigned elements"
-msgstr ""
+msgstr "Filtrar elementos atribuídos"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to assigned elements"
-msgstr ""
+msgstr "selecionado para os elementos atribuídos"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all assigned elements"
-msgstr ""
+msgstr "Alternar todos os elementos atribuídos"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Assigned Elements"
-msgstr ""
+msgstr "Elementos atribuidos"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter assigned required elements"
-msgstr ""
+msgstr "Filtrar elementos necessários atribuídos"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to assigned required elements"
-msgstr ""
+msgstr "selecionado para os elementos necessários atribuídos"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all assigned required elements"
-msgstr ""
+msgstr "Alternar todos os elementos necessários atribuídos"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Assigned Required Elements"
-msgstr ""
+msgstr "Elementos Requeridos Atribuídos"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Reset"
-msgstr "Reiniciar"
+msgstr "Redefinir"
 
 #. Template: AdminDynamicFieldText
 msgid "Number of rows"
-msgstr "Número de Linhas"
+msgstr "Número de linhas"
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the height (in lines) for this field in the edit mode."
@@ -2153,23 +2153,23 @@ msgstr "Modelo"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Style"
-msgstr ""
+msgstr "Estilo"
 
 #. Template: AdminDynamicFieldTitle
 msgid "bold"
-msgstr ""
+msgstr "negrito"
 
 #. Template: AdminDynamicFieldTitle
 msgid "italic"
-msgstr ""
+msgstr "itálico"
 
 #. Template: AdminDynamicFieldTitle
 msgid "underline"
-msgstr ""
+msgstr "sublinhado"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Font style of the label."
-msgstr ""
+msgstr "Estilo da fonte do rótulo."
 
 #. Template: AdminDynamicFieldTitle
 msgid "Size"
@@ -2177,11 +2177,11 @@ msgstr "Tamanho"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Font size of the label."
-msgstr ""
+msgstr "Tamanho da fonte do rótulo."
 
 #. Template: AdminDynamicFieldTitle
 msgid "Color in hex."
-msgstr ""
+msgstr "Cor em hexadecimal."
 
 #. Template: AdminDynamicFieldWebService
 msgid "This field is required"
@@ -2189,11 +2189,11 @@ msgstr "Este campo é obrigatório"
 
 #. Template: AdminDynamicFieldWebService
 msgid "The web service to be executed for possible values."
-msgstr ""
+msgstr "O web service a ser executado para os valores possíveis."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Invoker"
-msgstr ""
+msgstr "Invoker"
 
 #. Template: AdminDynamicFieldWebService
 msgid "The invoker to be used to perform requests (invoker needs to be of type 'Generic::PassThrough')."
@@ -2201,19 +2201,19 @@ msgstr ""
 
 #. Template: AdminDynamicFieldWebService
 msgid "Activate this option to allow multiselect on results."
-msgstr ""
+msgstr "Ative esta opção para permitir a multi seleção dos resultados."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Cache TTL"
-msgstr ""
+msgstr "Cache TTL"
 
 #. Template: AdminDynamicFieldWebService
 msgid "Cache time to live (in minutes), to save the retrieved possible values."
-msgstr ""
+msgstr "Tempo de cache de vida (em minutos), para salvar os valores possíveis recuperados."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens. Optional HTTP link works only for single-select fields."
-msgstr ""
+msgstr "Aqui você pode especificar um link HTTP opcional para o valor do campo nas telas Visão geral e Zoom. O link HTTP opcional funciona apenas para campos de seleção única."
 
 #. Template: AdminEmail
 msgid "Admin Message"
@@ -3533,7 +3533,7 @@ msgstr "URI que indica a localização específica para acessar um webservice."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
-msgstr ""
+msgstr "exemplo: https://www.otobo.de:10745/api/v1.0 (sem barra invertida)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
@@ -3677,11 +3677,11 @@ msgstr "ex. /opt/otobo/var/certificates/SOAP/CA"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "SSL hostname verification."
-msgstr ""
+msgstr "Verificação de nome de host SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing."
-msgstr ""
+msgstr "Aborte a solicitação se o nome do host não puder ser verificado. Desative com cuidado! Ignorar a verificação é um risco de segurança! Principalmente para fins de teste no caso de certificados SSL autoassinados ou se você souber o que está fazendo."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
@@ -3709,7 +3709,7 @@ msgstr "O comando HTTP padrão para usar para as requisições."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
-msgstr ""
+msgstr "exemplo: https://local.otobo.de:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set SOAPAction"
@@ -4517,7 +4517,7 @@ msgstr "Serviços de nuvem atualmente desabilitados."
 
 #. Template: AdminPackageManager
 msgid "OTOBO Verify can not continue!"
-msgstr ""
+msgstr "O OTOBO Verify não pode continuar!"
 
 #. Template: AdminPackageManager
 msgid "Enable cloud services"
@@ -5497,7 +5497,7 @@ msgstr "Visão geral de sistemas registrados"
 
 #. Template: AdminRegistration
 msgid "This system is registered with OTOBO Team."
-msgstr ""
+msgstr "Este sistema está registrado no OTOBO Team."
 
 #. Template: AdminRegistration
 msgid "System type"
@@ -5533,7 +5533,7 @@ msgstr "Login OTOBO-ID"
 
 #. Template: AdminRegistration
 msgid "System registration is a service of OTOBO Team, which provides a lot of advantages!"
-msgstr ""
+msgstr "O registro do sistema é um serviço da Equipe OTOBO, que oferece muitas vantagens!"
 
 #. Template: AdminRegistration
 msgid "Read more"
@@ -5597,7 +5597,7 @@ msgstr "Quais dados são transferidos ao se registrar?"
 
 #. Template: AdminRegistration
 msgid "A registered system sends the following data to OTOBO Team:"
-msgstr ""
+msgstr "Um sistema registrado envia os seguintes dados para a equipe OTOBO:"
 
 #. Template: AdminRegistration
 msgid "Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating System and Perl version."
@@ -5661,7 +5661,7 @@ msgstr "Próximo"
 
 #. Template: AdminRegistration
 msgid "This data will be frequently transferred to OTOBO Team when you register this system."
-msgstr ""
+msgstr "Esses dados serão frequentemente transferidos para a equipe OTOBO quando você registrar este sistema."
 
 #. Template: AdminRegistration
 msgid "Attribute"
@@ -5689,7 +5689,7 @@ msgstr "Descrição opcional deste sistema."
 
 #. Template: AdminRegistration
 msgid "This will allow the system to send additional support data information to OTOBO Team."
-msgstr ""
+msgstr "Isso permitirá que o sistema envie informações de dados de suporte adicionais para a equipe OTOBO."
 
 #. Template: AdminRegistration
 msgid "Register"
@@ -5697,7 +5697,7 @@ msgstr "Registrar"
 
 #. Template: AdminRegistration
 msgid "Continuing with this step will deregister the system from OTOBO Team."
-msgstr ""
+msgstr "Continuar com esta etapa cancelará o registro do sistema da equipe OTOBO."
 
 #. Template: AdminRegistration
 msgid "Deregister"
@@ -6225,7 +6225,7 @@ msgstr "Este estato é utilizado nas seguintes configurações:"
 
 #. Template: AdminSupportDataCollector
 msgid "Sending support data to OTOBO Team is not possible!"
-msgstr ""
+msgstr "O envio de dados de suporte para a equipe OTOBO não é possível!"
 
 #. Template: AdminSupportDataCollector
 msgid "Enable Cloud Services"
@@ -6233,7 +6233,7 @@ msgstr "Habilitar Serviços de Nuvem"
 
 #. Template: AdminSupportDataCollector
 msgid "This data is sent to OTOBO Team on a regular basis. To stop sending this data please update your system registration."
-msgstr ""
+msgstr "Esses dados são enviados para a Equipe OTOBO regularmente. Para interromper o envio desses dados, atualize o registro do sistema."
 
 #. Template: AdminSupportDataCollector
 msgid "You can manually trigger the Support Data sending by pressing this button:"
@@ -6473,15 +6473,15 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Restore this deployment."
-msgstr ""
+msgstr "Restaure esta implantação."
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Export this deployment."
-msgstr ""
+msgstr "Exportar esta implantação."
 
 #. Template: AdminSystemConfigurationDeploymentHistoryDetails
 msgid "Deployment Details"
-msgstr ""
+msgstr "Detalhes da implantação"
 
 #. Template: AdminSystemConfigurationDeploymentHistoryDetails
 msgid "by"
@@ -6565,11 +6565,11 @@ msgstr "Pesquisar"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "Change History"
-msgstr ""
+msgstr "Histórico de Mudanças"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "Change History of %s"
-msgstr ""
+msgstr "Histórico de Mudanças de %s"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "No modified values for this setting, the default value is used."
@@ -7493,7 +7493,7 @@ msgstr ""
 
 #. Template: AgentDynamicFieldDBDetails
 msgid "Details view"
-msgstr ""
+msgstr "Visualização de detalhes"
 
 #. Template: AgentElasticsearchQuickResult
 msgid "Tickets"
@@ -7501,7 +7501,7 @@ msgstr "Chamados"
 
 #. Template: AgentElasticsearchQuickResult
 msgid "ConfigItems"
-msgstr ""
+msgstr "ConfigItems"
 
 #. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
@@ -7537,7 +7537,7 @@ msgstr "Não existem links no momento. Por favor clique em 'Criar novos links' n
 
 #. Template: AgentPassword
 msgid "Password Policy"
-msgstr ""
+msgstr "Politica de senha"
 
 #. Template: AgentPassword
 msgid "Your current password is older than %s days. You need to set a new one."
@@ -7557,31 +7557,31 @@ msgstr "Nova senha"
 
 #. Template: AgentPassword
 msgid "Repeat new password"
-msgstr ""
+msgstr "Repita a nova senha"
 
 #. Template: AgentPassword
 msgid "Password needs to be renewed every %s days."
-msgstr ""
+msgstr "A senha precisa ser renovada a cada %s dias."
 
 #. Template: AgentPassword
 msgid "Password history is active, you can't use a password which was used the last %s times."
-msgstr ""
+msgstr "O histórico de senha está ativo, você não pode usar uma senha que foi usada nas últimas %s vezes."
 
 #. Template: AgentPassword
 msgid "Password length must be at least %s characters."
-msgstr ""
+msgstr "O comprimento da senha deve ter pelo menos %s caracteres."
 
 #. Template: AgentPassword
 msgid "Password requires at least two lower- and two uppercase characters."
-msgstr ""
+msgstr "A senha requer pelo menos dois caracteres minúsculos e dois maiúsculos."
 
 #. Template: AgentPassword
 msgid "Password requires at least two characters."
-msgstr ""
+msgstr "A senha requer pelo menos dois caracteres."
 
 #. Template: AgentPassword
 msgid "Password requires at least one digit."
-msgstr ""
+msgstr "A senha requer pelo menos um digito."
 
 #. Template: AgentPassword
 msgid "Change config options"
@@ -14231,6 +14231,10 @@ msgstr "O conteúdo deste campo é muito longo!"
 msgid "Maximum size is %s characters."
 msgstr "O tamanho máximo é %s caracteres."
 
+#. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
+msgid "Sanity checks for database."
+msgstr ""
+
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
 msgstr ""
@@ -14263,12 +14267,8 @@ msgstr ""
 msgid "Completed."
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-msgid "Check if OTOBO version is correct."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Check if OTOBO and OTRS connect is possible."
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
+msgid "Need OTRSData->%s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
@@ -14276,11 +14276,11 @@ msgid "Can't access OTRS Home: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Copy and migrate files from OTRS"
+msgid "All needed files copied and migrated, perfect!"
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "All needed files copied and migrated, perfect!"
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
+msgid "Check if OTOBO version is correct."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
@@ -14301,6 +14301,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Data transfer completed."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "Check if OTOBO and OTRS connect is possible."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
@@ -14333,6 +14337,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTRS version is correct."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "OTRS RELEASE file %s does not exist: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
@@ -14392,7 +14400,11 @@ msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "OTOBO Home exists."
+msgid "Check if Kernel/Config.pm exists in OTOBO home."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
+msgid "Kernel/Config.pm exists in OTOBO home"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
@@ -14412,7 +14424,7 @@ msgid "Try database connect and sanity checks."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
-msgid "Connect to OTRS database or sanity checks failed."
+msgid "Could not create database object."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
@@ -24567,7 +24579,7 @@ msgstr "Estamos realizando uma manutenção programada. Estaremos de volta em br
 
 #. SysConfig
 msgid "Web Service"
-msgstr ""
+msgstr "Web Service"
 
 #. SysConfig
 msgid "Web Services"
@@ -25167,27 +25179,51 @@ msgstr "estatísticas"
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "Contacte-nos em sales@otrs.com"
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
-msgid "Sanity checks for database."
+#. Template: OTRSDBSettings
+msgid "Skip DB migration"
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Need OTRSData->%s!"
+#. Template: OTRSDBSettings
+msgid "Expert option! Only works if the migration has already been done by hand."
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "OTRS RELEASE file %s does not exist: %s!"
+#. Template: OTRSDBSettings
+msgid "Skipped."
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "Check if Kernel/Config.pm exists in OTOBO home."
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
+msgid "Skipped..."
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "Kernel/Config.pm exists in OTOBO home"
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
+msgid "Failed - see the log!"
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
-msgid "Could not create database object."
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+msgid "Package specific tasks"
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+msgid "Done -"
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+msgid "Failed at -"
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+msgid "If you want to re-run installer.pl, then disable the SecureMode in the SysConfig."
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
+msgid "If you want to re-run migration.pl, then disable the SecureMode in the SysConfig."
+msgstr ""
+
+#. SysConfig
+msgid "Defines if a ticket lock is required for the quick close."
+msgstr ""
+
+#. SysConfig
+msgid "Required permissions to use quick close in the agent interface."
 msgstr ""
 

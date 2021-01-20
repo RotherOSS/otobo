@@ -100,39 +100,13 @@ $Selenium->RunTest(
             "Breadcrumb is found on Overview screen.",
         );
 
-        my $OTOBOCommunityIsInstalled = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCommunityIsInstalled();
-        my $OBTeaser                  = $LanguageObject->Translate('More Business Fields');
-        my $OBTeaserFound             = index( $Selenium->get_page_source(), $OBTeaser ) > -1;
-        if ( !$OTOBOCommunityIsInstalled ) {
-            $Self->True(
-                $OBTeaserFound,
-                "OTOBOCommunity teaser found on page",
-            );
-            for my $TeaserOption (qw(Database Webservice ContactWithData)) {
-                $Selenium->find_element( "select#TicketDynamicField option[value=$TeaserOption]", 'css' );
-            }
-
-        }
-        else {
-            $Self->False(
-                $OBTeaserFound,
-                "OTOBOCommunity teaser not found on page",
-            );
-        }
-
         # Define variables for breadcrumb.
         my $OverviewTitleBreadcrumb = $LanguageObject->Translate('Dynamic Fields Management');
         my $IDText;
 
         # Check page.
-        for my $Type (
-            qw(Ticket Article)
-            )
-        {
-            for my $ID (
-                qw(Checkbox Date DateTime Dropdown Multiselect Text TextArea)
-                )
-            {
+        for my $Type ( qw(Ticket Article)) {
+            for my $ID ( qw(Checkbox Date DateTime Dropdown Multiselect Text TextArea)) {
                 my $ObjectType = $Type . "DynamicField";
                 my $Element    = $Selenium->find_element( "#$ObjectType option[value=$ID]", 'css' );
                 $Element->is_enabled();

@@ -113,7 +113,7 @@ sub Run {
             ID    => $Row[0],
             Name  => $Row[1],
             Text0 => $Row[2],
-            Text1 => $Row[2],
+            Text1 => $Row[3],
         };
     }
 

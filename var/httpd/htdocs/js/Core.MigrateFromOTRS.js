@@ -239,6 +239,28 @@ Core.MigrateFromOTRS = (function (TargetNS) {
             });
         });
 
+        // DB skip
+        $('#SkipDBMigration').on('change', function() {
+            $('#DBChecked').toggle();
+            $('#DBSkipped').toggle();
+
+            if ( $(this).is(':checked') ) {
+                ToggleAJAXLoader( 'ButtonDefTask', true );
+                var Data = 'Action=MigrateFromOTRS;Subaction=OTRSDBSettings;Task=CheckSettings;SkipDBMigration=1';
+                Core.AJAX.FunctionCall( Core.Config.Get('Baselink'), Data, DefTaskCallback );
+            }
+            else {
+                $('#ButtonDefTask').closest('.Field').show();
+                $('button[type="submit"]').attr('disabled','').addClass('Disabled');
+                $('fieldset.ErrorMsg').hide();
+                $('fieldset.Success').hide();
+
+                // reset
+                $('#Task').val('CheckSettings');
+                $('input[name=Subaction]').val('OTRSDBSettings');
+            }
+        });
+
      }
 
      /**

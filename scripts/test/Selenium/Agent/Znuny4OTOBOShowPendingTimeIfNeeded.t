@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2012-2018 Znuny GmbH, http://znuny.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,18 +16,23 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
+
+our $Self;
 
 # create configuration backup
 # get the Znuny4OTOBO Selenium object
-my $SeleniumObject = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 # store test function in variable so the Selenium object can handle errors/exceptions/dies etc.
 my $SeleniumTest = sub {
@@ -37,6 +42,7 @@ my $SeleniumTest = sub {
     my $HelperObject      = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
     my $StateObject       = $Kernel::OM->Get('Kernel::System::State');
     my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
+    my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
 
     $ZnunyHelperObject->_RebuildConfig();
 
@@ -62,9 +68,17 @@ my $SeleniumTest = sub {
     );
 
     # create test user and login
-    my %TestUser = $SeleniumObject->AgentLogin(
+    my $TestUserLogin = $HelperObject->TestUserCreate(
         Groups => ['users'],
+    ) || die "Did not get test user";
+
+    $Selenium->Login(
+        Type     => 'Agent',
+        User     => $TestUserLogin,
+        Password => $TestUserLogin,
     );
+
+    my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
     my @Tests = (
         {
@@ -94,56 +108,51 @@ my $SeleniumTest = sub {
     TEST:
     for my $Test (@Tests) {
 
-        my $DisabledElement;
-        my $TicketID;
-
+        my $TicketID = '';
         if ( $Test->{Data}->{Ticket} ) {
-            $TicketID = $HelperObject->TicketCreate();
-        }
+            my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # navigate to Admin page
-        $SeleniumObject->AgentInterface(
-            Action      => $Test->{Data}->{Action},
-            TicketID    => $TicketID,
-            WaitForAJAX => 0,
-        );
-
-        my $Element = $SeleniumObject->FindElementSave(
-            Selector     => "#$Test->{Data}->{State}",
-            SelectorType => 'css',
-        );
-
-        for my $Field (qw(Day Year Month Hour Minute)) {
-
-            eval {
-                $DisabledElement = $SeleniumObject->find_element( "#$Field", 'css' )->is_displayed();
-            };
-            $Self->False(
-                $DisabledElement,
-                "Checking for disabled element '$Field'",
+            $TicketID = $TicketObject->TicketCreate(
+                Title        => "Selenium Test Ticket for Znuny4OTOBOShowPendingTimeIfNeeded.t",
+                Queue        => 'Raw',
+                Lock         => 'unlock',
+                Priority     => '3 normal',
+                State        => 'new',
+                OwnerID      => 1,
+                UserID       => 1,
             );
         }
 
-        my $Result = $SeleniumObject->InputSet(
-            Attribute   => $Test->{Data}->{State},
-            Content     => $PendingStateIDs[0],
-            WaitForAJAX => 0,
-            Options     => {
-                KeyOrValue => 'Key',
-            },
+        # Navigate to appropriate screen in the test
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=$Test->{Data}->{Action};TicketID=$TicketID");
+
+        for my $Field (qw(Day Year Month Hour Minute)) {
+
+            my $IsDisplayed = eval {
+                $Selenium->find_element( "#$Field", 'css' )->is_displayed();
+            };
+
+            ok( ! $IsDisplayed, "disabled element '$Field' is not displayed" );
+        }
+
+        my $StateElement = eval {
+            $Selenium->find_element( "#$Test->{Data}->{State}", 'css' );
+        };
+        ok( $StateElement, 'state input field found' );
+
+        my $Result = $Selenium->InputFieldValueSet(
+            Element     => "#$Test->{Data}->{State}",
+            Value       => $PendingStateIDs[0],
         );
 
-        $Self->True(
-            $Result,
-            "Change NextStateID successfully.",
-        );
+        ok( $Result, 'Changed state successfully' );
 
-        next TEST if !$Result;
+        next TEST unless $Result;
 
         for my $Field (qw(Day Year Month Hour Minute)) {
 
             $Self->True(
-                $SeleniumObject->find_element( "#$Field", 'css' )->is_displayed(),
+                $Selenium->find_element( "#$Field", 'css' )->is_displayed(),
                 "Checking for enabled element '$Field'",
             );
         }
@@ -151,8 +160,6 @@ my $SeleniumTest = sub {
 };
 
 # finally run the test(s) in the browser
-$SeleniumObject->RunTest($SeleniumTest);
+$Selenium->RunTest($SeleniumTest);
 
-$Self->DoneTesting();
-
-
+done_testing();

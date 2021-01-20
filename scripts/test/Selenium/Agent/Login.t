@@ -16,12 +16,18 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
+
+our $Self;
 
 use Kernel::GenericInterface::Operation::Session::Common;
 
@@ -64,8 +70,6 @@ $Selenium->RunTest(
         # Check Secure::DisableBanner functionality.
         my $Product          = $Kernel::OM->Get('Kernel::Config')->Get('Product');
         my $Version          = $Kernel::OM->Get('Kernel::Config')->Get('Version');
-        my $STORMInstalled   = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOSTORMIsInstalled();
-        my $CONTROLInstalled = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCONTROLIsInstalled();
 
         for my $Disabled ( reverse 0 .. 1 ) {
             $Helper->ConfigSettingChange(
@@ -75,80 +79,23 @@ $Selenium->RunTest(
             $Selenium->VerifiedRefresh();
 
             if ($Disabled) {
-
-                if ($STORMInstalled) {
-
-                    my $STORMFooter = 0;
-
-                    if ( $Selenium->get_page_source() =~ m{ ^ [ ]+ STORM \s powered }xms ) {
-                        $STORMFooter = 1;
-                    }
-
-                    $Self->False(
-                        $STORMFooter,
-                        'Footer banner hidden',
-                    );
-                }
-                elsif ($CONTROLInstalled) {
-
-                    my $CONTROLFooter = 0;
-
-                    if ( $Selenium->get_page_source() =~ m{ ^ [ ]+ CONTROL \s powered }xms ) {
-                        $CONTROLFooter = 1;
-                    }
-
-                    $Self->False(
-                        $CONTROLFooter,
-                        'Footer banner hidden',
-                    );
-                }
-                else {
-                    $Self->False(
-                        index( $Selenium->get_page_source(), 'Powered' ) > -1,
-                        'Footer banner hidden',
-                    );
-                }
+                $Self->False(
+                    index( $Selenium->get_page_source(), 'Powered' ) > -1,
+                    'Footer banner hidden',
+                );
             }
             else {
 
-                if ($STORMInstalled) {
+                $Self->True(
+                    index( $Selenium->get_page_source(), 'Powered' ) > -1,
+                    'Footer banner shown',
+                );
 
-                    my $STORMFooter = 0;
-
-                    if ( $Selenium->get_page_source() =~ m{ ^ [ ]+ STORM \s powered }xms ) {
-                        $STORMFooter = 1;
-                    }
-
-                    $Self->True(
-                        $STORMFooter,
-                        'Footer banner hidden',
-                    );
-                }
-                elsif ($CONTROLInstalled) {
-
-                    my $CONTROLFooter = 0;
-
-                    if ( $Selenium->get_page_source() =~ m{ ^ [ ]+ CONTROL \s powered }xms ) {
-                        $CONTROLFooter = 1;
-                    }
-
-                    $Self->True(
-                        $CONTROLFooter,
-                        'Footer banner hidden',
-                    );
-                }
-                else {
-                    $Self->True(
-                        index( $Selenium->get_page_source(), 'Powered' ) > -1,
-                        'Footer banner shown',
-                    );
-
-                    # Prevent version information disclosure on login page.
-                    $Self->False(
-                        index( $Selenium->get_page_source(), "$Product $Version" ) > -1,
-                        "No version information disclosure ($Product $Version)",
-                    );
-                }
+                # Prevent version information disclosure on login page.
+                $Self->False(
+                    index( $Selenium->get_page_source(), "$Product $Version" ) > -1,
+                    "No version information disclosure ($Product $Version)",
+                );
             }
         }
 
@@ -247,10 +194,16 @@ $Selenium->RunTest(
 
         $Selenium->find_element( '#LoginButton', 'css' )->VerifiedClick();
 
-        $Self->True(
-            index( $Selenium->get_page_source(), 'Please note that the session limit is almost reached.' ) > -1,
-            "AgentSessionLimitPriorWarning is reached.",
-        );
+        # Check for the prior warning.
+        my $PageSource = $Selenium->get_page_source();
+        {
+            my $ToDo = todo( 'no session limit in OTOBO, issue #734' );
+
+            ok(
+                index( $PageSource, 'Please note that the session limit is almost reached.' ) > -1,
+                "AgentSessionLimitPriorWarning is reached.",
+            );
+        }
 
         # Try to expand the user profile sub menu by clicking the avatar.
         $Selenium->find_element( '.UserAvatar > a', 'css' )->click();
@@ -352,7 +305,4 @@ $Selenium->RunTest(
     }
 );
 
-
-$Self->DoneTesting();
-
-
+done_testing();

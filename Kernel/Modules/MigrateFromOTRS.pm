@@ -154,7 +154,7 @@ sub Run {
         }
         elsif ( $Self->{Subaction} eq 'OTRSDBSettings' && $AJAXTask eq 'CheckSettings' ) {
             my %GetParam;
-            for my $Key (qw/DBType DBHost DBUser DBPassword DBName DBIsThrowaway DBSID DBPort/) {
+            for my $Key (qw/DBType DBHost DBUser DBPassword DBName DBSID DBPort SkipDBMigration/) {
                 $GetParam{$Key} = $ParamObject->GetParam( Param => $Key ) // '';
                 chomp( $GetParam{$Key} );
                 $GetParam{$Key} =~ s/^\s+//;
@@ -173,11 +173,22 @@ sub Run {
                 Value => \%GetParam,
                 TTL   => $CacheTTL,
             );
-            $Return = $MigrateFromOTRSObject->Run(
-                Task   => 'OTOBOOTRSDBCheck',
-                UserID => 1,
-                DBData => \%GetParam,
-            )->{'OTOBOOTRSDBCheck'};
+
+            # skip if db migration is already done
+            if ( $GetParam{SkipDBMigration} ) {
+                $Return = {
+                    Successful => 1,
+                }
+            }
+
+            # "normal" migration
+            else {
+                $Return = $MigrateFromOTRSObject->Run(
+                    Task   => 'OTOBOOTRSDBCheck',
+                    UserID => 1,
+                    DBData => \%GetParam,
+                )->{'OTOBOOTRSDBCheck'};
+            }
         }
         elsif ( $Self->{Subaction} eq 'PreChecks' || $Self->{Subaction} eq 'Copy' ) {
 
@@ -206,6 +217,7 @@ sub Run {
                     OTOBOMigrateWebServiceConfiguration
                     OTOBOProcessDeploy
                     OTOBOCacheCleanup
+                    OTOBOPackageSpecifics
                 );
             }
 
@@ -533,6 +545,11 @@ sub _Finish {
     if ( !$Self->_CheckConfig() ) {
         return $Param{LayoutObject}->FatalError();
     }
+
+    # Delete migration cache
+    my $Status = $Param{CacheObject}->CleanUp(
+        Type => 'OTRSMigration',
+    );
 
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 

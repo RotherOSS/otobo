@@ -71,18 +71,18 @@ sub CreateOTRSDBConnection {
     }
 
     # set default sid
-    if ( !defined $Param{OTRSDatabaseSID} ) {
-        $Param{OTRSDatabaseSID} = 'XE';
+    if ( !defined $Param{DBSID} ) {
+        $Param{DBSID} = 'XE';
     }
 
     # set default sid
-    if ( !defined $Param{OTRSDatabasePort} ) {
-        $Param{OTRSDatabasePort} = '1521';
+    if ( !defined $Param{DBPort} ) {
+        $Param{DBPort} = '1521';
     }
 
     # include DSN for target DB
     $Param{OTRSDatabaseDSN} =
-        "DBI:Oracle:sid=$Param{OTRSDatabaseSID};host=$Param{DBHost};port=$Param{OTRSDatabasePort};";
+        "DBI:Oracle:sid=$Param{DBSID};host=$Param{DBHost};port=$Param{DBPort};";
 
     # create target DB object
     my $OTRSDBObject = Kernel::System::DB->new(

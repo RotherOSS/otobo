@@ -11,6 +11,7 @@ RUN apt-get update\
  && apt-get -y --no-install-recommends install\
  "less"\
  "nano"\
+ "screen"\
  "tree"\
  "vim"\
  && rm -rf /var/lib/apt/lists/*
