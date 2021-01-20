@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.904289892752681;
+    $Self->{Completeness}        = 0.90295358649789;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3257,7 +3257,10 @@ sub Data {
         ' Continue anyways :(' => '',
 
         # Template: OTRSDBSettings
-        'Database is a throwawy copy' => '',
+        'Skip DB migration' => '',
+        'Expert option! Only works if the migration has already been done by hand.' =>
+            '',
+        'Skipped.' => '',
 
         # Template: OTRSFileSettings
         'OTRS server' => '',
@@ -5069,8 +5072,9 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
         'Check if OTOBO version is correct.' => '',
-        'Need %s for Oracle db!' => '',
         'Copy database.' => '',
+        'Skipped...' => '',
+        'Need %s for Oracle db!' => '',
         'System was unable to connect to OTRS database.' => '',
         'System was unable to complete data transfer.' => '',
         'Data transfer completed.' => '',
@@ -5102,9 +5106,9 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
         'Migrate web service configuration.' => '',
-        'No web service existent, done.' => '',
         'Can\'t add web service for Elasticsearch. File %s not found!' =>
             '',
+        'Failed - see the log!' => '',
         'Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed.' =>
             '',
 
@@ -5130,6 +5134,11 @@ sub Data {
         'Please install (or uninstall) the packages before migration. If a package doesn\'t exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.org. We will find a solution.' =>
             '',
         'The same packages are installed on both systems, perfect!' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+        'Package specific tasks' => '',
+        'Done -' => '',
+        'Failed at -' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
         'Check if all needed Perl modules have been installed.' => '',
@@ -5680,10 +5689,12 @@ sub Data {
             '새 계정이 생성되었습니다. 로그인 정보를 %s로 보냈습니다. 이메일을 확인하십시오.',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+        'If you want to re-run installer.pl, then disable the SecureMode in the SysConfig.' =>
+            '',
         'Action "%s" not found!' => 'Action "%s"을 찾을 수 없습니다!',
 
         # Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
-        'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
+        'If you want to re-run migration.pl, then disable the SecureMode in the SysConfig.' =>
             '',
 
         # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
@@ -6831,6 +6842,7 @@ Thanks for your help!
             '대기열 뷰에서 우선 순위 별 사전 정렬을 수향해야하는지 여부를 정의합니다.',
         'Defines if a pre-sorting by priority should be done in the service view.' =>
             '우선 순위 별 사전 정렬을 서비스 보기에서 수행해야하는지 여부를 정의합니다.',
+        'Defines if a ticket lock is required for the quick close.' => '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '에이전트 인터페이스의 닫기 티켓 화면에서 티켓 잠금이 필요한지 여부를 정의합니다 (티켓이 아직 잠겨 있지 않은 경우 티켓이 잠기고 현재 에이전트가 자동으로 소유자로 설정됨).',
         'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -8152,7 +8164,6 @@ Thanks for your help!
         'Module used to detect if attachments are present.' => '첨부 파일이 있는지 감지하는데 사용되는 모듈입니다.',
         'My Queues' => '나의 대기열',
         'My Services' => '나의 서비스',
-        'My Tickets.' => '나의 티켓',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '사용자 정의 대기열의 이름입니다. 사용자 정의 대기열은 기본 설정 대기열의 대기열 선택이며 환경 설정에서 선택할 수 있습니다.',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
@@ -8373,6 +8384,8 @@ Thanks for your help!
             '처음부터 가져올 수 없었던 스풀 디렉토리의 메일을 다시 처리하십시오.',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
             '에이전트 인터페이스에서 티켓의 고객을 변경하는데 필요한 권한입니다.',
+        'Required permissions to use quick close in the agent interface.' =>
+            '',
         'Required permissions to use the close ticket screen in the agent interface.' =>
             '에이전트 인터페이스에서 티켓 닫기 화면을 사용하는데 필요한 권한입니다.',
         'Required permissions to use the email outbound screen in the agent interface.' =>

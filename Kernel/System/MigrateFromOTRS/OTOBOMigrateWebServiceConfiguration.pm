@@ -93,42 +93,6 @@ sub Run {
         },
     );
 
-    my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
-
-    my $WebserviceList = $WebserviceObject->WebserviceList(
-        Valid => 0,
-    );
-
-    if ( !IsHashRefWithData($WebserviceList) ) {
-        my %Result;
-        $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
-        $Result{Comment}    = $Self->{LanguageObject}->Translate("No web service existent, done.");
-        $Result{Successful} = 1;
-        return \%Result;
-    }
-
-    WEBSERVICEID:
-    for my $WebserviceID ( sort keys %{$WebserviceList} ) {
-
-        my $WebserviceData = $WebserviceObject->WebserviceGet(
-            ID => $WebserviceID,
-        );
-
-        next WEBSERVICEID if !IsHashRefWithData($WebserviceData);
-
-        # Check if web service is using an old configuration type and upgrade if necessary.
-        $WebserviceObject->_WebserviceConfigUpgrade( %{$WebserviceData} );
-
-        # set and write updated config
-        my $Success = $WebserviceObject->WebserviceUpdate(
-            ID      => $WebserviceID,
-            Name    => $WebserviceData->{Name},
-            Config  => $WebserviceData->{Config},
-            ValidID => $WebserviceData->{ValidID},
-            UserID  => 1,
-        );
-    }
-
     # Add webservice for ElasticSearch
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -136,10 +100,10 @@ sub Run {
     my @SQLPost;
 
     # Check/get SQL schema directory
-    my $DBXMLFile = $ConfigObject->Get('Home') . '/scripts/webservices/otobo-initial_insert-webservice.xml';
+    my $DBXMLFile = $ConfigObject->Get('Home') . '/scripts/database/otobo-initial_insert_after_OTRS6_migration.xml';
 
+    my %Result;
     if ( ! -f $DBXMLFile ) {
-        my %Result;
         $Result{Message} = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
         $Result{Comment} = $Self->{LanguageObject}
             ->Translate( 'Can\'t add web service for Elasticsearch. File %s not found!', $DBXMLFile );
@@ -158,7 +122,23 @@ sub Run {
         Database => \@XMLArray,
     );
 
-    my %Result;
+    for my $SQL (@SQL) {
+        my $Success = $DBObject->Do( SQL => $SQL );
+        if ( !$Success ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Could not execute $SQL",
+            );
+
+            $Result{Message} = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
+            $Result{Comment} = $Self->{LanguageObject}
+                ->Translate( 'Failed - see the log!' );
+            $Result{Successful} = 0;
+
+            return \%Result;
+        }
+    }
+
     $Result{Message} = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
     $Result{Comment} = $Self->{LanguageObject}->Translate(
         "Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed."

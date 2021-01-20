@@ -28,7 +28,7 @@ use Kernel::Language;
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 # TODO: This test does not cancel potential other AJAX calls that might happen in the background,
-#   e. g. when OTOBOCommunity is installed and the Chat is active.
+#   e. g. when the Chat is active.
 
 $Selenium->RunTest(
     sub {

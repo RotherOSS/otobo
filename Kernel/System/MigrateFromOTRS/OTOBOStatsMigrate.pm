@@ -120,7 +120,7 @@ sub Run {
     for my $Entry (@StatsEntrys) {
 
         # remember if we need to replace something
-        my $NeedToReplace;
+        my $ValueKeyToReplace;
 
         # get old notification tag
         for my $OldTag ( sort keys %StatsTagsOld2New ) {
@@ -135,27 +135,28 @@ sub Run {
                 # only if old tags are found
                 next ATTRIBUTE if $Entry->{$Attribute} !~ m{$OldTag}xms;
 
+                # remember the key of the replacement
+                $ValueKeyToReplace //= $Entry->{xml_content_key};
+
                 # replace the wrong tags
                 $Entry->{$Attribute} =~ s{$OldTag}{$NewTag}gxms;
-
-                # remember that we replaced something
-                $NeedToReplace = 1;
             }
         }
 
         # only change the database if something has been really replaced
-        next STATSENTRY if !$NeedToReplace;
+        next STATSENTRY if !$ValueKeyToReplace;
 
         # update the database
         $DBObject->Do(
             SQL => 'UPDATE xml_storage
                 SET xml_content_key = ?, xml_content_value = ?
-                WHERE xml_key = ? AND xml_type = ?',
+                WHERE xml_key = ? AND xml_type = ? AND xml_content_key = ?',
             Bind => [
                 \$Entry->{xml_content_key},
                 \$Entry->{xml_content_value},
                 \$Entry->{xml_key},
                 \$Entry->{xml_type},
+                \$ValueKeyToReplace,
             ],
         );
     }

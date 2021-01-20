@@ -110,7 +110,7 @@ sub Run {
         my $OldMode = (stat($Target))[2];
         my $NewMode = $OldMode | 0100;
         my $RetChmod = chmod $NewMode, $Target;
-        if ( $RetCp != 0 ) {
+        if ( $RetChmod != 0 ) {
             say "setting $Target to executable failed";
 
             return $Self->ExitCodeError();

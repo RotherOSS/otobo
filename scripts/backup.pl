@@ -20,11 +20,10 @@ use warnings;
 use v5.24;
 use utf8;
 
-# use ../ as lib location
-use File::Basename;
+# use ../ and ../Kernel/cpan-lib as lib location
 use FindBin qw($RealBin);
-use lib dirname($RealBin);
-use lib dirname($RealBin) . "/Kernel/cpan-lib";
+use lib "$RealBin/..";
+use lib "$RealBin/../Kernel/cpan-lib";
 
 # core modules
 use Getopt::Long qw(GetOptions);
@@ -49,9 +48,10 @@ my (
 );
 my $BackupDir  = getcwd();
 my $BackupType = 'fullbackup';
+
 GetOptions(
     'help|h'                 => \$HelpFlag,
-    'backup-dir|d=s'         => \$BackupDir,
+    'backup-dir|d=s'         => \$BackupDir,        # current dir is the default
     'compress|c=s'           => \$CompressOption,
     'remove-old-backups|r=i' => \$RemoveDays,
     'backup-type|t=s'        => \$BackupType,
@@ -66,7 +66,7 @@ GetOptions(
 PrintHelpAndExit() if $HelpFlag;
 
 # check backup dir
-if ( !$BackupDir ) {
+if ( ! $BackupDir ) {
     say STDERR "ERROR: Need -d for backup directory";
 
     exit 1;
@@ -158,10 +158,7 @@ else {
 # check needed system commands
 {
     my @Cmds = ( 'tar', $DBDumpCmd );
-    if ( $BackupType eq 'migratefromotrs' ) {
-        push @Cmds, 'sed';
-    }
-    else {
+    if ( $BackupType ne 'migratefromotrs' ) {
         push @Cmds, $CompressCMD;
     }
 
@@ -196,11 +193,8 @@ my $SystemDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
 # create directory name - this looks like 2013-09-09_22-19'
 my $Directory = join '/',
     $BackupDir,
-    $SystemDTObject->Format( Format => '%Y-%m-%d_%H-%M' );
-
-if ( !mkdir($Directory) ) {
-    die "ERROR: Can't create directory: $Directory: $!";
-}
+    $SystemDTObject->Format( Format => '%Y-%m-%d_%H-%M-%S' );
+mkdir $Directory or die "ERROR: Can't create directory: $Directory: $!";
 
 # backup application
 if ($DBOnlyBackup) {
@@ -264,8 +258,11 @@ my $ErrorIndicationFileName =
     . '/var/tmp/'
     . $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString();
 if ( $DatabaseType eq 'mysql' ) {
+    push @DBDumpOptions,
+        '-u' => $DatabaseUser,
+        '-h' => $DatabaseHost;
     if ($DatabasePw) {
-        push @DBDumpOptions, "-p'$DatabasePw'";
+        push @DBDumpOptions, qq{-p'$DatabasePw'};
     }
 
     if ( $MaxAllowedPacket ) {
@@ -274,38 +271,18 @@ if ( $DatabaseType eq 'mysql' ) {
 
     if ( $MigrateFromOTRSBackup ) {
 
-        # dump schema and data separately, no compression
-        say "Dumping $DatabaseType schema to $BackupDir/${DatabaseName}_schema.sql ... ";
-        say "Dumping $DatabaseType data to $BackupDir/${DatabaseName}_data.sql ... ";
-        my @Substitutions = (
-            q{-e 's/DEFAULT CHARACTER SET utf8/DEFAULT CHARACTER SET utf8mb4/'}, # for CREATE DATABASE
-            q{-e 's/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/'},             # for CREATE TABLE
-            q{-e 's/COLLATE=\\w\\+/ /'},                                         # for CREATE TABLE, remove customer specific collation
+        BackupForMigrateFromOTRS(
+            Directory     => $Directory,
+            DBDumpCmd     => $DBDumpCmd,
+            DBDumpOptions => \@DBDumpOptions,
+            DatabaseName  => $DatabaseName,
         );
-        my @Commands = (
-            qq{$DBDumpCmd -u $DatabaseUser @DBDumpOptions -h $DatabaseHost --databases $DatabaseName --no-data --dump-date -r $BackupDir/${DatabaseName}_schema.sql},
-            qq{sed -i.bak @Substitutions $BackupDir/${DatabaseName}_schema.sql},
-            qq{$DBDumpCmd -u $DatabaseUser @DBDumpOptions -h $DatabaseHost --databases $DatabaseName --no-create-info --no-create-db --dump-date -r $BackupDir/${DatabaseName}_data.sql},
-        );
-
-        # print only the count avoids printing a password into a logfile
-        my $Cnt = 0;
-        for my $Command ( @Commands ) {
-            $Cnt++;
-            if ( ! system( $Command ) ) {
-                say "done command $Cnt";
-            }
-            else {
-                say "done command $Cnt";
-                die "Backup failed";
-            }
-        }
     }
     else {
         say "Dumping $DatabaseType data to $Directory/DatabaseBackup.sql.$CompressEXT ... ";
         if (
             !system(
-                "( $DBDumpCmd -u $DatabaseUser @DBDumpOptions -h $DatabaseHost $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
+                "( $DBDumpCmd @DBDumpOptions $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
             )
             && !-f $ErrorIndicationFileName
             )
@@ -431,11 +408,235 @@ if ( defined $RemoveDays ) {
     }
 }
 
-# If error occurs this functions remove incomlete backup folder to avoid the impression
+# a special MySQL dump for migrating from OTRS 6 to OTOBO 10
+sub BackupForMigrateFromOTRS {
+    my %Param = @_;
+
+    # extract named params
+    my $Directory     = $Param{Directory};
+    my $DBDumpCmd     = $Param{DBDumpCmd};
+    my @DBDumpOptions = $Param{DBDumpOptions}->@*;
+    my $DatabaseName  = $Param{DatabaseName};
+
+    # for getting skipped and renamed tables
+    my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
+    my $MainObject          = $Kernel::OM->Get('Kernel::System::Main');
+
+    # add more mysqldump options
+    {
+        # skipping tables
+        my @SkippedTables = sort keys $MigrationBaseObject->DBSkipTables()->%*;
+        push @DBDumpOptions,  map { ( '--ignore-table' => qq{'$DatabaseName.$_'} ) } @SkippedTables;
+
+        # print a time stamp at the end of the dump
+        push @DBDumpOptions, qq{--dump-date};
+    }
+
+    # output files
+    my $PreprocessFile        = qq{$Directory/${DatabaseName}_pre.sql};
+    my $SchemaDumpFile        = qq{$Directory/${DatabaseName}_schema.sql};
+    my $AdaptedSchemaDumpFile = qq{$Directory/${DatabaseName}_schema_for_otobo.sql};
+    my $DataDumpFile          = qq{$Directory/${DatabaseName}_data.sql};
+    my $PostprocessFile       = qq{$Directory/${DatabaseName}_post.sql};
+
+    say << "END_MESSAGE";
+Execute the following SQL scripts in the given order:
+    - $PreprocessFile
+    - $AdaptedSchemaDumpFile
+    - $DataDumpFile
+    - $PostprocessFile
+END_MESSAGE
+
+    # create the commands that will actually be executed
+    # TODO: support for dumping elsewhere and only processing locally
+    my @Commands = (
+        qq{$DBDumpCmd @DBDumpOptions --no-data        --no-create-db -r $SchemaDumpFile $DatabaseName },
+        qq{$DBDumpCmd @DBDumpOptions --no-create-info --no-create-db -r $DataDumpFile $DatabaseName },
+    );
+
+    # print only the count avoids printing a password into a logfile
+    my $Cnt = 0;
+    for my $Command ( @Commands ) {
+        $Cnt++;
+        if ( ! system( $Command ) ) {
+            say "done command $Cnt";
+        }
+        else {
+            say "failed executing command $Cnt";
+            say $Command;
+            die "Backup failed";
+        }
+    }
+
+    # Shorten columns because of utf8mb4 and innodb max key length.
+    # Change the character set to utf8mb4.
+    # Remove COLLATE directives.
+    {
+        # find the changed columns per table
+        my %IsShortened;
+        for my $Short ( $MigrationBaseObject->DBShortenedColumns() ) {
+             $IsShortened{ $Short->{Table} } //= {};
+             $IsShortened{ $Short->{Table} }->{ $Short->{Column} } = 1;
+        }
+
+        my @Lines = $MainObject->FileRead(
+            Location => $SchemaDumpFile,
+            Result   => 'ARRAY',
+        )->@*;
+
+        # now adapt the relevant lines
+        # TODO: make this less nasty. Make it nicety.
+        open my $Adapted, '>', $AdaptedSchemaDumpFile
+            or die "Can't open $AdaptedSchemaDumpFile for writing: $!";
+        say $Adapted "-- adapted by $0";
+        say $Adapted '';
+        my $CurrentTable;
+        LINE:
+        for my $Line ( @Lines ) {
+
+            # substitutions for changing the character set
+            $Line =~ s/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/;             # for CREATE TABLE
+            $Line =~ s/utf8mb4mb4/utf8mb4/;                                       # in case it already was utf8mb4
+            $Line =~ s/utf8mb3mb4/utf8mb4/;                                       # in case of some mixup
+            $Line =~ s/utf8mb4mb3/utf8mb4/;                                       # in case of some mixup
+
+            # substitutions for removing COLLATE directives
+            $Line =~ s/COLLATE\s+\w+/ /;     # for CREATE TABLE, remove customer specific collation
+            $Line =~ s/COLLATE\s*=\s*\w+/ /; # for CREATE TABLE, remove customer specific collation
+
+            # leaving a Table Create Block
+            # e.g.: ") ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4  ;"
+            if ( $Line =~ m/^\)/ ) {
+                undef $CurrentTable;
+
+                next LINE;
+            }
+
+            # entering a Table Create Block
+            # e.g.: "CREATE TABLE `acl` ("
+            if ( $Line =~ m/^CREATE TABLE `(\w+)` \(/ ) {
+                $CurrentTable = $1;
+
+                next LINE;
+            }
+
+            # check whether the current table has shortened columns
+            next LINE unless $CurrentTable;
+            next LINE unless $IsShortened{ $CurrentTable };
+            next LINE unless keys $IsShortened{ $CurrentTable  }->%*;
+
+            # are we in a column line ?
+            # e.g.: "  `name` varchar(200) COLLATE utf8_bin NOT NULL,"
+            next LINE unless my ($ColumnName, $ColumnLength ) = $Line =~ m/^ \s+ `(\w+)` \s+ varchar\( (\d+) \)/x;
+
+            # does the column need to be shortened
+            next LINE unless $IsShortened{ $CurrentTable }->{ $ColumnName };
+            next LINE unless $ColumnLength > 191;
+
+            # shorten
+            # e.g.: "  `name` varchar(191) COLLATE utf8_bin NOT NULL,"
+            $Line =~ s/varchar\(\d+\)/varchar(191)/;
+        }
+        continue {
+            print $Adapted $Line;
+        }
+    }
+
+    # create a SQL script for preprocessing
+    {
+        my @Lines = $MainObject->FileRead(
+            Location => $SchemaDumpFile,
+            Result   => 'ARRAY',
+        )->@*;
+
+        my @DropSQLs;
+
+        LINE:
+        for my $Line ( @Lines ) {
+
+            next LINE unless $Line =~ m/^DROP TABLE /;
+
+            push @DropSQLs, $Line;
+        }
+
+        my $SQLScript = <<"END_SQL";
+-- SQL script generated by $0 at @{[ scalar localtime ]}.
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+ @DropSQLs
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+END_SQL
+
+        $MainObject->FileWrite(
+            Location => $PreprocessFile,
+            Content  => \$SQLScript,
+        );
+    }
+
+    # create a SQL script for postprocessing the migrated database
+    {
+        # rename tables
+        # foreign key relationsships are handled automatically
+        # RENAME TABLE IF EXISTS is not available in all MySQL versions
+        my %RenameTables = $MigrationBaseObject->DBRenameTables()->%*;
+        my @RenameSQLs;
+        my $Cnt = 0;
+        for my $SourceTable ( sort keys %RenameTables ) {
+            $Cnt++;
+            push @RenameSQLs, <<"END_SQL";
+-- rename  ' $SourceTable` to `$RenameTables{$SourceTable}`
+SELECT Count(*)
+  INTO \@exists_$Cnt
+  FROM information_schema.tables
+    WHERE table_schema = DATABASE()
+        AND table_name = '$SourceTable';
+
+SET \@queryDrop_$Cnt = IF (
+    \@exists_$Cnt > 0,
+    'DROP TABLE IF EXISTS `$RenameTables{$SourceTable}`',
+    'SELECT \\'$SourceTable does not exist. No need to drop $RenameTables{$SourceTable}\\' status'
+);
+SET \@queryRename_$Cnt = IF (
+    \@exists_$Cnt > 0,
+    'RENAME TABLE `$SourceTable` TO `$RenameTables{$SourceTable}`',
+    'SELECT \\'$SourceTable does not exist. No need to rename $SourceTable\\' status'
+);
+
+PREPARE stmtDrop_$Cnt FROM \@queryDrop_$Cnt;
+PREPARE stmtRename_$Cnt FROM \@queryRename_$Cnt;
+
+EXECUTE stmtDrop_$Cnt;
+EXECUTE stmtRename_$Cnt;
+
+END_SQL
+        }
+
+        my $SQLScript = <<"END_SQL";
+-- SQL script generated by $0 at @{[ scalar localtime ]}.
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+@RenameSQLs
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+END_SQL
+
+        $MainObject->FileWrite(
+            Location => $PostprocessFile,
+            Content  => \$SQLScript,
+        );
+    }
+
+    return;
+}
+
+# If error occurs this functions removes the incomplete backup folder to avoid the impression
 #   that the backup was ok (see http://bugs.otrs.org/show_bug.cgi?id=10665).
 sub RemoveIncompleteBackup {
-
-    # get parameters
     my $Directory = shift;
 
     # remove files and directory
@@ -477,7 +678,7 @@ Usage:
 
     # backups for creating a dump for migrating an OTRS database OTOBO
     otobo> cd /opt/otobo
-    otobo> scripts/backup.pl -t migratefromotrs --db-name otrs --db-host=127.0.0.1 --db-user otrs --db-password=secret_otrs_password
+    otobo> scripts/backup.pl -t migratefromotrs --db-name otrs --db-host 127.0.0.1 --db-user otrs --db-password "secret_otrs_password"
 
 Short options:
  [-h]                   - Display help for this command.

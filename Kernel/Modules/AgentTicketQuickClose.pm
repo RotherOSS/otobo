@@ -15,7 +15,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::Modules::AgentTicketZnuny4OTOBOQuickClose;
+package Kernel::Modules::AgentTicketQuickClose;
 
 use strict;
 use warnings;
@@ -54,7 +54,7 @@ sub Run {
     }
 
     # get config of frontend module
-    my $Config = $ConfigObject->Get('Ticket::Frontend::AgentTicketClose');
+    my $Config = $ConfigObject->Get('Ticket::Frontend::AgentTicketQuickClose');
 
     # check permissions
     my $Access = $TicketObject->TicketPermission(
@@ -88,9 +88,9 @@ sub Run {
         }
     }
 
-    $Self->_SetState();
-
-    my $Config = $ConfigObject->Get('Znuny4OTOBOQuickClose');
+    $Self->_SetState(
+        Config => $Config,
+    );
 
     return $LayoutObject->Redirect( OP => $Self->{LastScreenOverview} ) if !$Config->{Article};
 
@@ -120,7 +120,7 @@ sub _SetState {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    my $State = $ConfigObject->Get('Znuny4OTOBO::QuickClose::State');
+    my $State = $Param{Config}{State};
 
     return if !$State;
 
