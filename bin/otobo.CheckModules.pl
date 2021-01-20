@@ -453,6 +453,17 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'URI',
+        Required  => 1,
+        Comment   => 'for generating properly escaped URLs',
+        InstTypes => {
+            aptget => 'liburi-perl',
+            emerge => 'dev-perl/URI',
+            zypper => 'perl-URI',
+            ports  => 'devel/p5-URI',
+        },
+    },
+    {
         Module    => 'XML::LibXML',
         Required  => 1,
         Comment   => 'Required for XML processing.',
