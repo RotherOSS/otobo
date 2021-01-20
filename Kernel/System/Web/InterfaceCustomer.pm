@@ -18,6 +18,9 @@ package Kernel::System::Web::InterfaceCustomer;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 
@@ -51,34 +54,52 @@ our @ObjectDependencies = (
 
 Kernel::System::Web::InterfaceCustomer - the customer web interface
 
+=head1 SYNOPSIS
+
+    use Kernel::System::Web::InterfaceCustomer;
+
+    # a Plack request handler
+    my $App = sub {
+        my $Env = shift;
+
+        my $Interface = Kernel::System::Web::InterfaceCustomer->new(
+            # Debug => 1
+            PSGIEnv    => $Env,
+        );
+
+        # generate content (actually headers are generated as a side effect)
+        my $Content = $Interface->Content();
+
+        # assuming all went well and HTML was generated
+        return [
+            '200',
+            [ 'Content-Type' => 'text/html' ],
+            $Content
+        ];
+    };
+
 =head1 DESCRIPTION
 
-the global customer web interface (authentication, session handling, ...)
+This module generates the HTTP response for F<customer.pl>.
+This class is meant to be used within a Plack request handler.
+See F<bin/psgi-bin/otobo.psgi> for the real live usage.
 
 =head1 PUBLIC INTERFACE
 
 =head2 new()
 
-create customer web interface object
-
-    use Kernel::System::Web::InterfaceCustomer;
-
-    my $Interface = Kernel::System::Web::InterfaceCustomer->new();
-
-    # with debugging enabled
-    my $Interface = Kernel::System::Web::InterfaceCustomer->new(
-        Debug => 1
-    );
+create the web interface object for F<customer.pl>.
 
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type  = shift;
+    my %Param = @_;
 
     # start with an empty hash for the new object
     my $Self = bless {}, $Type;
 
-    # get debug level
+    # set debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
     # performance log
