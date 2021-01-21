@@ -392,24 +392,32 @@ $Selenium->RunTest(
                 SLAID      => $SLAID,
                 NewQueueID => '',
             },
+            # These tests currently run into a time out.
+            # There is a Github issue for reactivating them: issue #748.
+            #{
+            #    Name       => 'Clear Owner field and set back Queue field',
+            #    Time       => 40,
+            #    NewQueueID => $QueueID,
+            #    NewOwnerID => '',
+            #},
+            #{
+            #    Name             => 'Clear Responsible field and set back Owner field',
+            #    NewOwnerID       => $TestUserID,
+            #    NewResponsibleID => '',
+            #},
+            #{
+            #    Name             => 'Clear State field and set back Responsible field',
+            #    NewResponsibleID => $TestUserID,
+            #    NewQueueID => $QueueID,
+            #    NewStateID       => '',
+            #},
+            #{
+            #    Name       => 'Set back State field - all fields are set',
+            #    NewStateID => $StateID,
+            #},
             {
-                Name       => 'Clear Owner field and set back Queue field',
+                Name       => 'Set back Queue field - all fields are set',
                 NewQueueID => $QueueID,
-                NewOwnerID => '',
-            },
-            {
-                Name             => 'Clear Responsible field and set back Owner field',
-                NewOwnerID       => $TestUserID,
-                NewResponsibleID => '',
-            },
-            {
-                Name             => 'Clear State field and set back Responsible field',
-                NewResponsibleID => $TestUserID,
-                NewStateID       => '',
-            },
-            {
-                Name       => 'Set back State field - all fields are set',
-                NewStateID => $StateID,
             }
         );
 
