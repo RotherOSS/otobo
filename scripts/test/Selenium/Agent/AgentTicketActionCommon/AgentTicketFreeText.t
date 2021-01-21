@@ -237,9 +237,9 @@ $Selenium->RunTest(
         for my $Test (@MandatoryTests) {
 
             # Write test case description.
-            diag( "Test case for 'mandatory': $Test->{Name}" );
+            note( "Test case for 'mandatory': $Test->{Name}" );
 
-            for my $NoMandatoryField ( values %{ $FreeTextFields{NoMandatory} } ) {
+            for my $NoMandatoryField ( values $FreeTextFields{NoMandatory}->%* ) {
 
                 $Helper->ConfigSettingChange(
                     Valid => 1,
@@ -417,14 +417,15 @@ $Selenium->RunTest(
         for my $Test (@ClearTests) {
 
             # Write test case description.
-            diag( "Test case for 'clear': $Test->{Name}" );
+            note( "Test case for 'clear': $Test->{Name}" );
 
             my $ExpectedErrorFieldID;
 
             TESTFIELD:
-            for my $FieldID ( sort keys %{$Test} ) {
+            for my $FieldID ( sort keys $Test->%* ) {
 
                 next TESTFIELD if $FieldID eq 'Name';
+                next TESTFIELD if $FieldID eq 'Time';
 
                 if ( $Test->{$FieldID} eq '' ) {
                     $ExpectedErrorFieldID = $FieldID;
@@ -433,6 +434,7 @@ $Selenium->RunTest(
                 $Selenium->InputFieldValueSet(
                     Element => "#$FieldID",
                     Value   => $Test->{$FieldID},
+                    Time    => $Test->{Time},
                 );
 
                 # Wait for AJAX to finish.
