@@ -42,7 +42,7 @@ $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 
-# get needed singleto
+# get needed singletons
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
