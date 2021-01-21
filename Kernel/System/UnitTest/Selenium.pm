@@ -1058,10 +1058,18 @@ sets modernized input field value.
         Value   => 3,                           # (optional) Value
     );
 
+Sometimes a longer timeout is needed.
+
+    $SeleniumObject->InputFieldValueSet(
+        Element => 'css-selector',              # (required) css selector
+        Value   => 3,                           # (optional) Value
+        Time    => 60,                          # (optional) timeout in seconds
+    );
 =cut
 
 sub InputFieldValueSet {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
     my $Context = context();
 
@@ -1071,6 +1079,7 @@ sub InputFieldValueSet {
             Priority => 'error',
             Message  => "Need Element!",
         );
+
         $Context->throw( 'Missing Element.' );
     }
 
@@ -1091,6 +1100,7 @@ sub InputFieldValueSet {
         # Wait until selection tree is closed.
         $Self->WaitFor(
             ElementMissing => [ '.InputField_ListContainer', 'css' ],
+            Time           => $Param{Time},
         );
     };
 
