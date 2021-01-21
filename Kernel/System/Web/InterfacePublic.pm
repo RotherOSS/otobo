@@ -208,20 +208,21 @@ sub Content {
     if ( !$DBCanConnect ) {
         $LayoutObject->CustomerFatalError(
             Comment => Translatable('Please contact the administrator.'),
-        );
+        ); # throws a Kernel::System::Web::Exception
     }
+
     if ( $ParamObject->Error() ) {
         $LayoutObject->CustomerFatalError(
             Message => $ParamObject->Error(),
             Comment => Translatable('Please contact the administrator.'),
-        );
+        ); # throws a Kernel::System::Web::Exception
     }
 
     # run modules if a version value exists
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
         $LayoutObject->CustomerFatalError(
             Comment => Translatable('Please contact the administrator.'),
-        );
+        ); # throws a Kernel::System::Web::Exception
     }
 
     # module registry
@@ -234,7 +235,7 @@ sub Content {
         );
         $LayoutObject->CustomerFatalError(
             Comment => Translatable('Please contact the administrator.'),
-        );
+        ); # throws a Kernel::System::Web::Exception
     }
 
     # debug info

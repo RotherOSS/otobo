@@ -218,12 +218,12 @@ sub Content {
     if ( !$DBCanConnect || $ParamObject->Error() ) {
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
         if ( !$DBCanConnect ) {
-            return $LayoutObject->CustomerFatalError(
+            $LayoutObject->CustomerFatalError(
                 Comment => Translatable('Please contact the administrator.'),
             ); # throws a Kernel::System::Web::Exception
         }
         if ( $ParamObject->Error() ) {
-            return $LayoutObject->CustomerFatalError(
+            $LayoutObject->CustomerFatalError(
                 Message => $ParamObject->Error(),
                 Comment => Translatable('Please contact the administrator.'),
             ); # throws a Kernel::System::Web::Exception
@@ -611,7 +611,7 @@ sub Content {
 
         # remove session id
         if ( !$SessionObject->RemoveSessionID( SessionID => $Param{SessionID} ) ) {
-            return $LayoutObject->CustomerFatalError(
+            $LayoutObject->CustomerFatalError(
                 Comment => Translatable('Please contact the administrator.')
             ); # throws a Kernel::System::Web::Exception
         }
@@ -736,7 +736,7 @@ sub Content {
             if ( !$Sent->{Success} ) {
                 $LayoutObject->FatalError(
                     Comment => Translatable('Please contact the administrator.'),
-                );
+                ); # throws a Kernel::System::Web::Exception
             }
 
             return $LayoutObject->CustomerLogin(
@@ -798,7 +798,7 @@ sub Content {
         if ( !$Sent->{Success} ) {
             $LayoutObject->CustomerFatalError(
                 Comment => Translatable('Please contact the administrator.')
-            );
+            ); # throws a Kernel::System::Web::Exception
         }
         my $Message = $LayoutObject->{LanguageObject}->Translate(
             'Sent new password to %s. Please check your email.',
@@ -1172,7 +1172,7 @@ sub Content {
                     "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
             );
 
-            return $LayoutObject->CustomerFatalError(
+            $LayoutObject->CustomerFatalError(
                 Comment => Translatable('Please contact the administrator.'),
             ); # throws a Kernel::System::Web::Exception
         }
@@ -1204,7 +1204,7 @@ sub Content {
                     Message  => 'No Permission to use this frontend action module!'
                 );
 
-                return $LayoutObject->CustomerFatalError(
+                $LayoutObject->CustomerFatalError(
                     Comment => Translatable('Please contact the administrator.'),
                 ); # throws a Kernel::System::Web::Exception
             }
@@ -1277,7 +1277,7 @@ sub Content {
                                 Message  => 'No Permission to use this frontend subaction module!'
                             );
 
-                            return $LayoutObject->CustomerFatalError(
+                            $LayoutObject->CustomerFatalError(
                                 Comment => Translatable('Please contact the administrator.')
                             ); # throws a Kernel::System::Web::Exception
                         }
@@ -1424,7 +1424,7 @@ sub Content {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    return $LayoutObject->CustomerFatalError(
+    $LayoutObject->CustomerFatalError(
         Comment => Translatable('Please contact the administrator.'),
     ); # throws a Kernel::System::Web::Exception
 }
