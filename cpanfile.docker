@@ -56,6 +56,9 @@ requires 'Time::HiRes';
 
 requires 'Try::Tiny';
 
+# for generating properly escaped URLs
+requires 'URI';
+
 # Required for XML processing.
 requires 'XML::LibXML';
 

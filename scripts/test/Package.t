@@ -15,14 +15,20 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+use File::Copy qw(copy move);
+use File::stat;
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-use File::Copy;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::System::OM
+
+our $Self;
 
 # get needed objects
 my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
@@ -30,14 +36,6 @@ my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 my $CacheObject   = $Kernel::OM->Get('Kernel::System::Cache');
 my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
 my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
-
-# get helper object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $Home = $ConfigObject->Get('Home');
 
@@ -116,6 +114,7 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Filelist>
     <File Location="Test" Permission="644" Encode="Base64">aGVsbG8K</File>
     <File Location="var/Test" Permission="644" Encode="Base64">aGVsbG8K</File>
+    <File Location="Custom/Kernel/Modules/Test.pm" Permission="644" Encode="Base64">aGVsbG8K</File>
   </Filelist>
 </otobo_package>
 ';
@@ -195,30 +194,44 @@ $Self->True(
 
 $CachePopulate->();
 
-my $PackageInstall = $PackageObject->PackageInstall( String => $String );
+# The package declared in $String contains Custom/Kernel/Modules/Test.pm.
+# For supporting the loading Custom/Kernel/Modules/Test.pm by the webserver,
+# there is a touch on Kernel/Modules/Test.pm.
+# Remember the current time for testing whether the touch worked.
+my $CoreTestModule    = 'Kernel/Modules/Test.pm';
+my $TimeBeforeInstall = time;
+
+# The core module Kernel/Modules/Test.pm should be old.
+ok( stat($CoreTestModule)->mtime < $TimeBeforeInstall, 'core Test.pm is old' );
+
+my $FirstPackageInstallOk = $PackageObject->PackageInstall( String => $String );
 
 $Self->True(
-    $PackageInstall,
+    $FirstPackageInstallOk,
     '#1 PackageInstall()',
 );
 
-$PackageInstall = $PackageObject->PackageInstall( String => $StringSecond );
+# PackageInstall() should have touched the core module
+ok( stat($CoreTestModule)->mtime >= $TimeBeforeInstall, 'core Test.pm has been touched' );
+
+# overwriting the just install files
+my $SecondPackageInstallOk = $PackageObject->PackageInstall( String => $StringSecond );
 
 $Self->True(
-    $PackageInstall,
+    $SecondPackageInstallOk,
     '#1 PackageInstall() 2',
 );
 
 $CacheClearedCheck->();
 
-# check if the package is already installed - check by name
+# check whether the package has been installed - check by name
 $PackageIsInstalledByName = $PackageObject->PackageIsInstalled( Name => 'Test' );
 $Self->True(
     $PackageIsInstalledByName,
     '#1 PackageIsInstalled() - check if the package is already installed - check by name',
 );
 
-# check if the package is already installed - check by XML string
+# check whether the package has been installed - check by XML string
 $PackageIsInstalledByString = $PackageObject->PackageIsInstalled( String => $String );
 $Self->True(
     $PackageIsInstalledByString,
@@ -399,7 +412,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   </Filelist>
 </otobo_package>
 ';
-$PackageInstall = $PackageObject->PackageInstall( String => $String );
+my $PackageInstall = $PackageObject->PackageInstall( String => $String );
 
 $Self->True(
     !$PackageInstall || 0,
@@ -1140,9 +1153,4 @@ if ( !$DeveloperSystem ) {
     chmod 0755, $Home . '/' . 'bin/otobo.CheckSum.pl';
 }
 
-# cleanup cache is done by RestoreDatabase
-
-
-$Self->DoneTesting();
-
-
+done_testing();

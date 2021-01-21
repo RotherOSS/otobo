@@ -20,13 +20,16 @@ use strict;
 use warnings;
 use utf8;
 
+# core modules
 use MIME::Base64;
-use File::Copy;
+use File::Copy qw(copy move);
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Config;
 use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
-
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -71,7 +74,8 @@ create an object
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type  = shift;
+    my %Param = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -3528,10 +3532,6 @@ sub PackageUpgradeAllIsRunning {
     );
 }
 
-=begin Internal:
-
-=cut
-
 sub _Download {
     my ( $Self, %Param ) = @_;
 
@@ -4023,8 +4023,41 @@ sub _PackageFileCheck {
     return 1;
 }
 
+=head2 _FileInstall()
+
+Update or create files below the OTOBO home dir or below a specified dir.
+
+Additionally this method creates a backup if needed.
+
+There is also special support for notifying the webserver about new modules
+in the F<Custom/Kernel> folder. These files may override core modules in F<Kernel>,
+but module refreshers like M<Module::Refresh> won't catch this. Therefore
+_FileInstall() will touch the core module when it exists.
+
+Return undef on failure, 1 on success.
+
+    my $File = {
+        Location    => 'Custom/Kernel/System/MyExtension/MyFeature.pm'
+        Content     => $MyFeatureCode,
+        Permission  => '644',     # unix file permissions
+    };
+
+    # File install below the OTOBO home dir
+    my $FileInstallOk = $PackageObject->_FileInstall(
+        File => $File,
+    );
+
+    # File install below a specified dir
+    my $FileInstallOk = $PackageObject->_FileInstall(
+        File => $File,
+        Home => $ExportDir
+    );
+
+=cut
+
 sub _FileInstall {
-    my ( $Self, %Param ) = @_;
+    my $Self  = shift;
+    my %Param = @_;
 
     # check needed stuff
     for my $Needed (qw(File)) {
@@ -4033,6 +4066,7 @@ sub _FileInstall {
                 Priority => 'error',
                 Message  => "$Needed not defined!",
             );
+
             return;
         }
     }
@@ -4042,6 +4076,7 @@ sub _FileInstall {
                 Priority => 'error',
                 Message  => "$Item not defined in File!",
             );
+
             return;
         }
     }
@@ -4049,11 +4084,12 @@ sub _FileInstall {
     my $Home = $Param{Home} || $Self->{Home};
 
     # check Home
-    if ( !-e $Home ) {
+    if ( ! -e $Home ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "No such home directory: $Home!",
         );
+
         return;
     }
 
@@ -4126,12 +4162,31 @@ sub _FileInstall {
     }
 
     # write file
-    return if !$MainObject->FileWrite(
+    my $FileWriteOk = $MainObject->FileWrite(
         Location   => $RealFile,
         Content    => \$Param{File}->{Content},
         Mode       => 'binmode',
         Permission => $Param{File}->{Permission},
     );
+
+    if ( ! $FileWriteOk ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Sorry, can't install package because the file $RealFile can't be created.",
+        );
+
+        return;
+    }
+
+    # trigger Module::Refresh when a custom module overrides a core module
+    if ( $RealFile =~ m!^\Q$Home\E/Custom/Kernel/.*\.pm! ) {
+        my $CoreModuleFn = $RealFile =~ s!^\Q$Home/Custom/!$Home/!r;
+
+        # touch the original module, ignore errors
+        if ( -f $CoreModuleFn ) {
+            utime undef, undef, $CoreModuleFn;
+        }
+    }
 
     print STDERR "Notice: Install $RealFile ($Param{File}->{Permission})!\n";
 
@@ -5345,9 +5400,5 @@ sub DESTROY {
 
     return 1;
 }
-
-=end Internal:
-
-=cut
 
 1;
