@@ -478,32 +478,6 @@ my $AdminOnlyMiddeware = sub {
     };
 };
 
-# apply the FilterContent output filter
-my $ApplyOutputFilterMiddleware = sub {
-    my $App = shift;
-
-    return sub {
-        my $Env = shift;
-
-        my $Response = $App->($Env);
-
-        # Check whether output filters should run
-        my %HasOutputFilter = (
-            'public.pl' => 1,
-        );
-        my ($ScriptFileName) = ( ( $Env->{SCRIPT_NAME} // '' ) . ( $Env->{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
-
-        return $Response unless $HasOutputFilter{$ScriptFileName};
-
-        # there is work to do
-        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-        $LayoutObject->ApplyOutputFilters( Output => \$Response->[2] );
-
-        return $Response;
-    }
-};
-
 ################################################################################
 # Apps
 ################################################################################
@@ -643,9 +617,6 @@ my $OTOBOApp = builder {
     # we might catch an instance of Kernel::System::Web::Exception
     enable 'Plack::Middleware::HTTPExceptions';
 
-    # apply output filters even to the error pages
-    enable $ApplyOutputFilterMiddleware;
-
     # No need to set %ENV or redirect STDIN.
     # But STDOUT and STDERR is still like in CGI scripts.
     # logic taken from the scripts in bin/cgi-bin and from CGI::Emulate::PSGI
@@ -715,8 +686,19 @@ my $OTOBOApp = builder {
                 return Kernel::System::Web::InterfaceAgent->new( %InterfaceParams );
             }->Content();
 
+            # apply output filters for specific interfaces
+            my %HasOutputFilter = (
+                'public.pl' => 1,
+            );
+
+            if ( $HasOutputFilter{$ScriptFileName} ) {
+                my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+                $LayoutObject->ApplyOutputFilters( Output => \$Content );
+            }
+
             # The OTOBO response object already has the HTPP headers.
-            # Enhance it with the HTTP status code and the content.
+            # Enhance it with the HTTP status code and the c    ontent.
             my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
             $ResponseObject->Code(200); # TODO: is it always 200 ?
             $ResponseObject->Content($Content);
