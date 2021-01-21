@@ -346,7 +346,7 @@ sub Content {
             if ( $ConfigObject->Get('LoginURL') ) {
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
-                return $LayoutObject->Redirect(
+                $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('LoginURL')
                         . "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
                 ); # throws a Kernel::System::Web::Exception
@@ -414,7 +414,7 @@ sub Content {
 
             # redirect to alternate login
             if ( $ConfigObject->Get('LoginURL') ) {
-                return $LayoutObject->Redirect(
+                $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('LoginURL')
                         . '?Reason=SystemError',
                 ); # throws a Kernel::System::Web::Exception
@@ -587,7 +587,9 @@ sub Content {
         }
 
         # redirect with new session id
-        return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Redirect(
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+        $LayoutObject->Redirect(
             OP    => $Param{RequestedURL},
             Login => 1,
         ); # throws a Kernel::System::Web::Exception
@@ -606,7 +608,7 @@ sub Content {
             if ( $ConfigObject->Get('LoginURL') ) {
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
-                return $LayoutObject->Redirect(
+                $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('LoginURL')
                         . "?Reason=InvalidSessionID;RequestedURL=$Param{RequestedURL}",
                 ); # throws a Kernel::System::Web::Exception
@@ -660,7 +662,7 @@ sub Content {
 
         # redirect to alternate login
         if ( $ConfigObject->Get('LogoutURL') ) {
-            return $LayoutObject->Redirect(
+            $LayoutObject->Redirect(
                 ExtURL => $ConfigObject->Get('LogoutURL'),
             ); # throws a Kernel::System::Web::Exception
         }
@@ -863,7 +865,7 @@ sub Content {
             # automatic login
             $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
-            return $LayoutObject->Redirect(
+            $LayoutObject->Redirect(
                 OP => "Action=PreLogin&RequestedURL=$Param{RequestedURL}",
             ); # throws a Kernel::System::Web::Exception
         }
@@ -872,7 +874,7 @@ sub Content {
             # redirect to alternate login
             $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
-            return $LayoutObject->Redirect(
+            $LayoutObject->Redirect(
                 ExtURL => $ConfigObject->Get('LoginURL')
                     . "?RequestedURL=$Param{RequestedURL}",
             ); # throws a Kernel::System::Web::Exception
@@ -948,7 +950,7 @@ sub Content {
                 # automatic re-login
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
-                return $LayoutObject->Redirect(
+                $LayoutObject->Redirect(
                     OP => "?Action=PreLogin&RequestedURL=$Param{RequestedURL}",
                 ); # throws a Kernel::System::Web::Exception
             }
@@ -957,7 +959,7 @@ sub Content {
                 # redirect to alternate login
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
-                return $LayoutObject->Redirect(
+                $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('LoginURL')
                         . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
                 ); # throws a Kernel::System::Web::Exception
@@ -987,7 +989,7 @@ sub Content {
 
             # redirect to alternate login
             if ( $ConfigObject->Get('LoginURL') ) {
-                return $LayoutObject->Redirect(
+                $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('LoginURL') . '?Reason=SystemError',
                 ); # throws a Kernel::System::Web::Exception
             }

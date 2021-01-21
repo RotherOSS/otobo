@@ -346,7 +346,7 @@ sub Content {
             if ( $ConfigObject->Get('CustomerPanelLoginURL') ) {
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
-                return $LayoutObject->Redirect(
+                $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
                         . "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
                 ); # throws a Kernel::System::Web::Exception
@@ -412,7 +412,7 @@ sub Content {
 
             # redirect to alternate login
             if ( $ConfigObject->Get('CustomerPanelLoginURL') ) {
-                return $LayoutObject->Redirect(
+                $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
                         . '?Reason=SystemError',
                 ); # throws a Kernel::System::Web::Exception
@@ -547,7 +547,9 @@ sub Content {
         }
 
         # redirect with new session id
-        return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Redirect(
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+        $LayoutObject->Redirect(
             OP    => $Param{RequestedURL},
             Login => 1,
         ); # throws a Kernel::System::Web::Exception
@@ -566,7 +568,7 @@ sub Content {
             if ( $ConfigObject->Get('CustomerPanelLoginURL') ) {
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
-                return $LayoutObject->Redirect(
+                $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
                         . "?Reason=InvalidSessionID;RequestedURL=$Param{RequestedURL}",
                 ); # throws a Kernel::System::Web::Exception
@@ -618,7 +620,8 @@ sub Content {
 
         # redirect to alternate login
         if ( $ConfigObject->Get('CustomerPanelLogoutURL') ) {
-            return $LayoutObject->Redirect(
+
+            $LayoutObject->Redirect(
                 ExtURL => $ConfigObject->Get('CustomerPanelLogoutURL'),
             ); # throws a Kernel::System::Web::Exception
         }
@@ -991,7 +994,8 @@ sub Content {
 
             # redirect to alternate login
             $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
-            return $LayoutObject->Redirect(
+
+            $LayoutObject->Redirect(
                 ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
                     . "?RequestedURL=$Param{RequestedURL};User=$GetParams{UserLogin};"
                     . "Email=$GetParams{UserEmail};Reason=NewAccountCreated",
@@ -1023,7 +1027,7 @@ sub Content {
             # automatic login
             $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
-            return $LayoutObject->Redirect(
+            $LayoutObject->Redirect(
                 OP => "Action=PreLogin&RequestedURL=$Param{RequestedURL}",
             ); # throws a Kernel::System::Web::Exception
         }
@@ -1032,7 +1036,7 @@ sub Content {
             # redirect to alternate login
             $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
-            return $LayoutObject->Redirect(
+            $LayoutObject->Redirect(
                 ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
                     . "?RequestedURL=$Param{RequestedURL}",
             ); # throws a Kernel::System::Web::Exception
@@ -1108,7 +1112,7 @@ sub Content {
                 # automatic re-login
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
-                return $LayoutObject->Redirect(
+                $LayoutObject->Redirect(
                     OP => "?Action=PreLogin&RequestedURL=$Param{RequestedURL}",
                 ); # throws a Kernel::System::Web::Exception
             }
@@ -1117,7 +1121,7 @@ sub Content {
                 # redirect to alternate login
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
-                return $LayoutObject->Redirect(
+                $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
                         . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
                 ); # throws a Kernel::System::Web::Exception
@@ -1146,7 +1150,7 @@ sub Content {
 
             # redirect to alternate login
             if ( $ConfigObject->Get('CustomerPanelLoginURL') ) {
-                return $LayoutObject->Redirect(
+                $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
                         . '?Reason=SystemError',
                 ); # throws a Kernel::System::Web::Exception
