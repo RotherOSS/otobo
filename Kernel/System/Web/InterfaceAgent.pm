@@ -217,15 +217,15 @@ sub Content {
     if ( !$DBCanConnect || $ParamObject->Error() ) {
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
         if ( !$DBCanConnect ) {
-            $LayoutObject->FatalError(
+            return $LayoutObject->FatalError(
                 Comment => Translatable('Please contact the administrator.'),
-            );
+            ); # throw a Kernel::System::Web::Exception
         }
         if ( $ParamObject->Error() ) {
-            $LayoutObject->FatalError(
+            return $LayoutObject->FatalError(
                 Message => $ParamObject->Error(),
                 Comment => Translatable('Please contact the administrator.'),
-            );
+            ); # throw a Kernel::System::Web::Exception
         }
     }
 
@@ -247,14 +247,11 @@ sub Content {
         $Param{RequestedURL} = $Param{RequestedURL} || "Action=AgentDashboard";
 
         # login screen
-        my $Output = $LayoutObject->Login(
+        return $LayoutObject->Login(
             Title => 'Login',
             Mode  => 'PreLogin',
             %Param,
         );
-        $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-        return $Output;
     }
     elsif ( $Param{Action} eq 'Login' ) {
 
@@ -284,7 +281,8 @@ sub Content {
 
                     # output error message
                     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-                    my $Output = $LayoutObject->Login(
+
+                    return $LayoutObject->Login(
                         %Param,
                         Title   => 'Login',
                         Message => $LayoutObject->{LanguageObject}->Translate(
@@ -295,9 +293,6 @@ sub Content {
                         MessageType => 'Error',
                         User        => $PostUser,
                     );
-                    $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-                    return $Output;
                 }
             }
         }
@@ -353,7 +348,7 @@ sub Content {
                 return $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('LoginURL')
                         . "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
-                );
+                ); # throw a Kernel::System::Web::Exception
             }
 
             if ($PreventBruteForceConfig) {
@@ -365,7 +360,7 @@ sub Content {
                 );
 
                 if ($Banned) {
-                    my $Output => $LayoutObject->Login(
+                    return $LayoutObject->Login(
                         %Param,
                         Title   => 'Login',
                         Message => $LayoutObject->{LanguageObject}->Translate(
@@ -376,14 +371,11 @@ sub Content {
                         MessageType => 'Error',
                         User        => $PostUser,
                     );
-                    $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-                    return $Output;
                 }
             }
 
             # show normal login
-            my $Output = $LayoutObject->Login(
+            return $LayoutObject->Login(
                 Title   => 'Login',
                 Message => $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
                     Type => 'Info',
@@ -396,9 +388,6 @@ sub Content {
                 User        => $User,
                 %Param,
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # login is successful
@@ -424,13 +413,13 @@ sub Content {
             if ( $ConfigObject->Get('LoginURL') ) {
                 return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Redirect(
                     ExtURL => $ConfigObject->Get('LoginURL') . '?Reason=SystemError',
-                );
+                ); # throw a Kernel::System::Web::Exception
             }
 
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
             # show need user data error message
-            my $Output = $LayoutObject->Login(
+            return $LayoutObject->Login(
                 Title => 'Error',
                 Message =>
                     Translatable(
@@ -439,9 +428,6 @@ sub Content {
                 %Param,
                 MessageType => 'Error',
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         my $DateTimeObj = $Kernel::OM->Create('Kernel::System::DateTime');
@@ -462,15 +448,12 @@ sub Content {
 
             # output error message
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-            my $Output = $LayoutObject->Login(
+            return $LayoutObject->Login(
                 Title       => 'Login',
                 Message     => $Error,
                 MessageType => 'Error',
                 %Param,
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # execution in 20 seconds
@@ -604,7 +587,7 @@ sub Content {
         return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Redirect(
             OP    => $Param{RequestedURL},
             Login => 1,
-        );
+        ); # throw a Kernel::System::Web::Exception
     }
 
     # logout
@@ -621,17 +604,14 @@ sub Content {
                 return $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('LoginURL')
                         . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
-                );
+                ); # throw a Kernel::System::Web::Exception
             }
 
             # show login screen
-            my $Output = $LayoutObject->Login(
+            return $LayoutObject->Login(
                 Title => 'Logout',
                 %Param,
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # get session data
@@ -666,32 +646,26 @@ sub Content {
 
         # remove session id
         if ( !$SessionObject->RemoveSessionID( SessionID => $Param{SessionID} ) ) {
-            $LayoutObject->FatalError(
+            return $LayoutObject->FatalError(
                 Message => Translatable('Can`t remove SessionID.'),
                 Comment => Translatable('Please contact the administrator.'),
-            );
-            return;
+            ); # throw a Kernel::System::Web::Exception
         }
 
         # redirect to alternate login
         if ( $ConfigObject->Get('LogoutURL') ) {
             return $LayoutObject->Redirect(
                 ExtURL => $ConfigObject->Get('LogoutURL'),
-            );
+            ); # throw a Kernel::System::Web::Exception
         }
 
         # show logout screen
-        my $LogoutMessage = $LayoutObject->{LanguageObject}->Translate('Logout successful.');
-
-        my $Output = $LayoutObject->Login(
+        return $LayoutObject->Login(
             Title       => 'Logout',
-            Message     => $LogoutMessage,
+            Message     => $LayoutObject->{LanguageObject}->Translate('Logout successful.'),
             MessageType => 'Success',
             %Param,
         );
-        $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-        return $Output;
     }
 
     # user lost password
@@ -703,14 +677,11 @@ sub Content {
         if ( !$ConfigObject->Get('LostPassword') ) {
 
             # show normal login
-            my $Output = $LayoutObject->Login(
+            return $LayoutObject->Login(
                 Title       => 'Login',
                 Message     => Translatable('Feature not active!'),
                 MessageType => 'Error',
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # get params
@@ -727,15 +698,12 @@ sub Content {
                 # Security: pretend that password reset instructions were actually sent to
                 #   make sure that users cannot find out valid usernames by
                 #   just trying and checking the result message.
-                my $Output = $LayoutObject->Login(
+                return $LayoutObject->Login(
                     Title       => 'Login',
                     Message     => Translatable('Sent password reset instructions. Please check your email.'),
                     MessageType => 'Success',
                     %Param,
                 );
-                $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-                return $Output;
             }
 
             my %UserList = $UserObject->SearchPreferences(
@@ -769,15 +737,12 @@ sub Content {
             # Security: pretend that password reset instructions were actually sent to
             #   make sure that users cannot find out valid usernames by
             #   just trying and checking the result message.
-            my $Output = $LayoutObject->Login(
+            return $LayoutObject->Login(
                 Title       => 'Login',
                 Message     => Translatable('Sent password reset instructions. Please check your email.'),
                 MessageType => 'Success',
                 %Param,
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # create email object
@@ -811,15 +776,13 @@ sub Content {
                     Comment => Translatable('Please contact the administrator.'),
                 );
             }
-            my $Output = $LayoutObject->Login(
+
+            return $LayoutObject->Login(
                 Title       => 'Login',
                 Message     => Translatable('Sent password reset instructions. Please check your email.'),
                 MessageType => 'Success',
                 %Param,
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # reset password
@@ -829,15 +792,12 @@ sub Content {
             UserID => $UserData{UserID},
         );
         if ( !$TokenValid ) {
-            my $Output = $LayoutObject->Login(
+            return $LayoutObject->Login(
                 Title       => 'Login',
                 Message     => Translatable('Invalid Token!'),
                 MessageType => 'Error',
                 %Param,
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # get new password
@@ -874,16 +834,14 @@ sub Content {
             'Sent new password to %s. Please check your email.',
             $UserData{UserEmail},
         );
-        my $Output = $LayoutObject->Login(
+
+        return $LayoutObject->Login(
             Title       => 'Login',
             Message     => $Message,
             User        => $User,
             MessageType => 'Success',
             %Param,
         );
-        $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-        return $Output;
     }
 
     # show login site
@@ -896,28 +854,27 @@ sub Content {
 
             # automatic login
             $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
+
             return $LayoutObject->Redirect(
                 OP => "Action=PreLogin&RequestedURL=$Param{RequestedURL}",
-            );
+            ); # throw a Kernel::System::Web::Exception
         }
         elsif ( $ConfigObject->Get('LoginURL') ) {
 
             # redirect to alternate login
             $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
+
             return $LayoutObject->Redirect(
                 ExtURL => $ConfigObject->Get('LoginURL')
                     . "?RequestedURL=$Param{RequestedURL}",
-            );
+            ); # throw a Kernel::System::Web::Exception
         }
 
         # login screen
-        my $Output = $LayoutObject->Login(
+        return $LayoutObject->Login(
             Title => 'Login',
             %Param,
         );
-        $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-        return $Output;
     }
 
     # run modules if a version value exists
@@ -982,10 +939,9 @@ sub Content {
 
                 # automatic re-login
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
-                 $LayoutObject->Redirect(
+                return $LayoutObject->Redirect(
                     OP => "?Action=PreLogin&RequestedURL=$Param{RequestedURL}",
-                );
-                return;
+                ); # throw a Kernel::System::Web::Exception
             }
             elsif ( $ConfigObject->Get('LoginURL') ) {
 
@@ -994,20 +950,17 @@ sub Content {
                 return $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('LoginURL')
                         . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
-                );
+                ); # throw a Kernel::System::Web::Exception
             }
 
             # show login
-            my $Output = $LayoutObject->Login(
+            return $LayoutObject->Login(
                 Title => 'Login',
                 Message =>
                     $LayoutObject->{LanguageObject}->Translate( $SessionObject->SessionIDErrorMessage() ),
                 MessageType => 'Error',
                 %Param,
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # get session data
@@ -1026,19 +979,16 @@ sub Content {
             if ( $ConfigObject->Get('LoginURL') ) {
                 return $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('LoginURL') . '?Reason=SystemError',
-                );
+                ); # throw a Kernel::System::Web::Exception
             }
 
             # show login screen
-            my $Output = $LayoutObject->Login(
+            return $LayoutObject->Login(
                 Title       => 'Error',
                 Message     => Translatable('Error: invalid session.'),
                 MessageType => 'Error',
                 %Param,
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # check module registry
@@ -1109,7 +1059,7 @@ sub Content {
             }
             if ( !$Param{AccessRo} && !$Param{AccessRw} || !$Param{AccessRo} && $Param{AccessRw} ) {
 
-                return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->NoPermission(
+                return $LayoutObject->NoPermission(
                     Message => Translatable('No Permission to use this frontend module!')
                 );
             }
@@ -1211,11 +1161,8 @@ sub Content {
                     ModuleReg => $ModuleReg,
                 );
                 my $Output = $PreModuleObject->PreRun();
-                if ($Output) {
-                    $LayoutObject->ApplyOutputFilters( Output => \$Output );
 
-                    return $Output;
-                }
+                return $Output if $Output;
             }
         }
 
@@ -1244,8 +1191,6 @@ sub Content {
 
         # ->Run $Action with $FrontendObject
         my $Output = $FrontendObject->Run();
-        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-        $LayoutObject->ApplyOutputFilters( Output => \$Output );
 
         # log request time
         if ( $ConfigObject->Get('PerformanceLog') ) {
