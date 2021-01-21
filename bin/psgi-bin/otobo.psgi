@@ -688,6 +688,7 @@ my $OTOBOApp = builder {
 
             # apply output filters for specific interfaces
             my %HasOutputFilter = (
+                'index.pl'  => 1,
                 'public.pl' => 1,
             );
 
