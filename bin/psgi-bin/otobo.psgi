@@ -688,8 +688,9 @@ my $OTOBOApp = builder {
 
             # apply output filters for specific interfaces
             my %HasOutputFilter = (
-                'index.pl'  => 1,
-                'public.pl' => 1,
+                'customer.pl' => 1,
+                'index.pl'    => 1,
+                'public.pl'   => 1,
             );
 
             if ( $HasOutputFilter{$ScriptFileName} ) {

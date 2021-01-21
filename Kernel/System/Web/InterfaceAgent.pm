@@ -180,7 +180,7 @@ sub Content {
         delete $Param{Lang};
     }
 
-    # check if the browser sends the SessionID cookie and set the SessionID-cookie
+    # Check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
     if ( $ConfigObject->Get('SessionUseCookie') ) {
         $Param{SessionIDCookie} = $ParamObject->GetCookie( Key => $Param{SessionName} );
@@ -219,13 +219,13 @@ sub Content {
         if ( !$DBCanConnect ) {
             return $LayoutObject->FatalError(
                 Comment => Translatable('Please contact the administrator.'),
-            ); # throw a Kernel::System::Web::Exception
+            ); # throws a Kernel::System::Web::Exception
         }
         if ( $ParamObject->Error() ) {
             return $LayoutObject->FatalError(
                 Message => $ParamObject->Error(),
                 Comment => Translatable('Please contact the administrator.'),
-            ); # throw a Kernel::System::Web::Exception
+            ); # throws a Kernel::System::Web::Exception
         }
     }
 
@@ -339,6 +339,7 @@ sub Content {
                     },
                 }
             );
+
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
             # redirect to alternate login
@@ -348,7 +349,7 @@ sub Content {
                 return $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('LoginURL')
                         . "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
-                ); # throw a Kernel::System::Web::Exception
+                ); # throws a Kernel::System::Web::Exception
             }
 
             if ($PreventBruteForceConfig) {
@@ -409,18 +410,19 @@ sub Content {
         # check needed data
         if ( !$UserData{UserID} || !$UserData{UserLogin} ) {
 
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
             # redirect to alternate login
             if ( $ConfigObject->Get('LoginURL') ) {
-                return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Redirect(
-                    ExtURL => $ConfigObject->Get('LoginURL') . '?Reason=SystemError',
-                ); # throw a Kernel::System::Web::Exception
+                return $LayoutObject->Redirect(
+                    ExtURL => $ConfigObject->Get('LoginURL')
+                        . '?Reason=SystemError',
+                ); # throws a Kernel::System::Web::Exception
             }
-
-            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
             # show need user data error message
             return $LayoutObject->Login(
-                Title => 'Error',
+                Title   => 'Error',
                 Message =>
                     Translatable(
                     'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.'
@@ -448,6 +450,7 @@ sub Content {
 
             # output error message
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
             return $LayoutObject->Login(
                 Title       => 'Login',
                 Message     => $Error,
@@ -461,7 +464,7 @@ sub Content {
         $ExecutionTimeObj->Add( Seconds => 20 );
         my $ExecutionTime = $ExecutionTimeObj->ToString();
 
-        # add a asychronous executor scheduler task to count the concurrent user
+        # add a asynchronous executor scheduler task to count the concurrent user
         $Kernel::OM->Get('Kernel::System::Scheduler')->TaskAdd(
             ExecutionTime            => $ExecutionTime,
             Type                     => 'AsynchronousExecutor',
@@ -587,29 +590,31 @@ sub Content {
         return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Redirect(
             OP    => $Param{RequestedURL},
             Login => 1,
-        ); # throw a Kernel::System::Web::Exception
+        ); # throws a Kernel::System::Web::Exception
     }
 
     # logout
     elsif ( $Param{Action} eq 'Logout' ) {
 
-        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
         # check session id
         if ( !$SessionObject->CheckSessionID( SessionID => $Param{SessionID} ) ) {
+
+            # new layout object
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
             # redirect to alternate login
             if ( $ConfigObject->Get('LoginURL') ) {
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
+
                 return $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('LoginURL')
-                        . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
-                ); # throw a Kernel::System::Web::Exception
+                        . "?Reason=InvalidSessionID;RequestedURL=$Param{RequestedURL}",
+                ); # throws a Kernel::System::Web::Exception
             }
 
             # show login screen
             return $LayoutObject->Login(
-                Title => 'Logout',
+                Title   => 'Logout',
                 %Param,
             );
         }
@@ -638,8 +643,9 @@ sub Content {
                 %UserData,
             },
         );
+
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );
-        $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
         # Prevent CSRF attacks
         $LayoutObject->ChallengeTokenCheck();
@@ -649,14 +655,14 @@ sub Content {
             return $LayoutObject->FatalError(
                 Message => Translatable('Can`t remove SessionID.'),
                 Comment => Translatable('Please contact the administrator.'),
-            ); # throw a Kernel::System::Web::Exception
+            ); # throws a Kernel::System::Web::Exception
         }
 
         # redirect to alternate login
         if ( $ConfigObject->Get('LogoutURL') ) {
             return $LayoutObject->Redirect(
                 ExtURL => $ConfigObject->Get('LogoutURL'),
-            ); # throw a Kernel::System::Web::Exception
+            ); # throws a Kernel::System::Web::Exception
         }
 
         # show logout screen
@@ -668,7 +674,7 @@ sub Content {
         );
     }
 
-    # user lost password
+    # lost password
     elsif ( $Param{Action} eq 'LostPassword' ) {
 
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -710,7 +716,7 @@ sub Content {
                 Key   => 'UserToken',
                 Value => $Token,
             );
-            USERS:
+            USER_ID:
             for my $UserID ( sort keys %UserList ) {
                 my %UserData = $UserObject->GetUserData(
                     UserID => $UserID,
@@ -718,7 +724,8 @@ sub Content {
                 );
                 if (%UserData) {
                     $User = $UserData{UserLogin};
-                    last USERS;
+
+                    last USER_ID;
                 }
             }
         }
@@ -791,6 +798,7 @@ sub Content {
             Token  => $Token,
             UserID => $UserData{UserID},
         );
+
         if ( !$TokenValid ) {
             return $LayoutObject->Login(
                 Title       => 'Login',
@@ -857,7 +865,7 @@ sub Content {
 
             return $LayoutObject->Redirect(
                 OP => "Action=PreLogin&RequestedURL=$Param{RequestedURL}",
-            ); # throw a Kernel::System::Web::Exception
+            ); # throws a Kernel::System::Web::Exception
         }
         elsif ( $ConfigObject->Get('LoginURL') ) {
 
@@ -867,7 +875,7 @@ sub Content {
             return $LayoutObject->Redirect(
                 ExtURL => $ConfigObject->Get('LoginURL')
                     . "?RequestedURL=$Param{RequestedURL}",
-            ); # throw a Kernel::System::Web::Exception
+            ); # throws a Kernel::System::Web::Exception
         }
 
         # login screen
@@ -883,7 +891,7 @@ sub Content {
         # check session id
         if ( !$SessionObject->CheckSessionID( SessionID => $Param{SessionID} ) ) {
 
-            # put '%Param' into LayoutObject
+            # create new LayoutObject with new '%Param'
             $Kernel::OM->ObjectParamAdd(
                 'Kernel::Output::HTML::Layout' => {
                     SetCookies => {
@@ -939,18 +947,20 @@ sub Content {
 
                 # automatic re-login
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
+
                 return $LayoutObject->Redirect(
                     OP => "?Action=PreLogin&RequestedURL=$Param{RequestedURL}",
-                ); # throw a Kernel::System::Web::Exception
+                ); # throws a Kernel::System::Web::Exception
             }
             elsif ( $ConfigObject->Get('LoginURL') ) {
 
                 # redirect to alternate login
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
+
                 return $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('LoginURL')
                         . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
-                ); # throw a Kernel::System::Web::Exception
+                ); # throws a Kernel::System::Web::Exception
             }
 
             # show login
@@ -979,7 +989,7 @@ sub Content {
             if ( $ConfigObject->Get('LoginURL') ) {
                 return $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('LoginURL') . '?Reason=SystemError',
-                ); # throw a Kernel::System::Web::Exception
+                ); # throws a Kernel::System::Web::Exception
             }
 
             # show login screen
@@ -995,17 +1005,20 @@ sub Content {
         my $ModuleReg = $ConfigObject->Get('Frontend::Module')->{ $Param{Action} };
         if ( !$ModuleReg ) {
 
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message =>
+                Message  =>
                     "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
             );
-            $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError(
+
+            return $LayoutObject->FatalError(
                 Comment => Translatable('Please contact the administrator.'),
-            );
+            ); # throws a Kernel::System::Web::Exception
         }
 
-        # module permisson check
+        # module permission check for action
         if (
             ref $ModuleReg->{GroupRo} eq 'ARRAY'
             && !scalar @{ $ModuleReg->{GroupRo} }
@@ -1059,13 +1072,15 @@ sub Content {
             }
             if ( !$Param{AccessRo} && !$Param{AccessRw} || !$Param{AccessRo} && $Param{AccessRw} ) {
 
+                my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
                 return $LayoutObject->NoPermission(
                     Message => Translatable('No Permission to use this frontend module!')
                 );
             }
         }
 
-        # put '%Param' and '%UserData' into LayoutObject
+        # create new LayoutObject with new '%Param' and '%UserData'
         $Kernel::OM->ObjectParamAdd(
             'Kernel::Output::HTML::Layout' => {
                 %Param,
@@ -1073,6 +1088,7 @@ sub Content {
                 ModuleReg => $ModuleReg,
             },
         );
+
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );
 
         # update last request time
@@ -1247,9 +1263,12 @@ sub Content {
             %Data,
         },
     );
-    $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError(
+
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    return $LayoutObject->FatalError(
         Comment => Translatable('Please contact the administrator.'),
-    );
+    ); # throws a Kernel::System::Web::Exception
 }
 
 =begin Internal:
