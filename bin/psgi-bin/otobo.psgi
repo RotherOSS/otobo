@@ -686,8 +686,21 @@ my $OTOBOApp = builder {
                 return Kernel::System::Web::InterfaceAgent->new( %InterfaceParams );
             }->Content();
 
+            # apply output filters for specific interfaces
+            my %HasOutputFilter = (
+                'customer.pl' => 1,
+                'index.pl'    => 1,
+                'public.pl'   => 1,
+            );
+
+            if ( $HasOutputFilter{$ScriptFileName} ) {
+                my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+                $LayoutObject->ApplyOutputFilters( Output => \$Content );
+            }
+
             # The OTOBO response object already has the HTPP headers.
-            # Enhance it with the HTTP status code and the content.
+            # Enhance it with the HTTP status code and the c    ontent.
             my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
             $ResponseObject->Code(200); # TODO: is it always 200 ?
             $ResponseObject->Content($Content);
