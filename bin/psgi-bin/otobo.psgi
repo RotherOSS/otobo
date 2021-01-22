@@ -29,7 +29,7 @@ otobo.psgi - OTOBO PSGI application
     # using the webserver Gazelle
     plackup --server Gazelle bin/psgi-bin/otobo.psgi
 
-    # CGI mode, useful for development
+    # new process for every request , useful for development
     plackup --server Shotgun bin/psgi-bin/otobo.psgi
 
     # with profiling (untested)
@@ -708,7 +708,10 @@ my $RPCApp = builder {
     };
 };
 
-# The final PSGI application
+################################################################################
+# finally, the complete PSGI application itself
+################################################################################
+
 builder {
 
     # for debugging
