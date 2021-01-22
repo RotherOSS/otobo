@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2020-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -291,8 +291,6 @@ eval {
 
 # this might improve performance
 CGI->compile(':cgi');
-
-warn "PLEASE NOTE THAT AS OF OCTOBER 27TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!\n";
 
 ################################################################################
 # Middlewares
