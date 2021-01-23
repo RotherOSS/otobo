@@ -47,40 +47,39 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # first load the page so we can delete any pre-existing cookies
+        # first load the login page so we can delete any pre-existing cookies
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl");
         $Selenium->delete_all_cookies();
 
         # Check Secure::DisableBanner functionality.
-        my $Product          = $Kernel::OM->Get('Kernel::Config')->Get('Product');
-        my $Version          = $Kernel::OM->Get('Kernel::Config')->Get('Version');
+        # This test is a leftover from the old costomer login page,
+        # as in the current version there is no check for Secure::DisabledBanner.
+        my %SourceChecks = (
+            PoweredBy  => qr{powered by.{5,30}https://otobo\.de}s,
+            DesignedBy => qr{designed by.{5,30}https://www\.sanmiguel-brand-partner\.com}s,
+        );
+        my $Product = $Kernel::OM->Get('Kernel::Config')->Get('Product');
+        my $Version = $Kernel::OM->Get('Kernel::Config')->Get('Version');
 
-        for my $Disabled ( reverse 0 .. 1 ) {
+        for my $Disabled ( 1, 0 ) {
             $Helper->ConfigSettingChange(
                 Key   => 'Secure::DisableBanner',
                 Value => $Disabled,
             );
             $Selenium->VerifiedRefresh();
 
-            if ($Disabled) {
-                $Self->False(
-                    index( $Selenium->get_page_source(), 'Powered' ) > -1,
-                    'Footer banner hidden',
-                );
-            }
-            else {
+            my $PageSource = $Selenium->get_page_source();
 
-                $Self->True(
-                    index( $Selenium->get_page_source(), 'Powered' ) > -1,
-                    'Footer banner shown',
-                );
-
-                # Prevent version information disclosure on login page.
-                $Self->False(
-                    index( $Selenium->get_page_source(), "$Product $Version" ) > -1,
-                    "No version information disclosure ($Product $Version)",
-                );
+            for my $CheckName ( sort keys %SourceChecks ) {
+                like( $PageSource, $SourceChecks{$CheckName}, "$CheckName matches" );
             }
+
+            # Prevent version information disclosure on login page.
+            is(
+                index( $PageSource, "$Product $Version" ),
+                -1,
+                "No version information disclosure ($Product $Version)",
+            );
         }
 
         # Check if autocomplete is disabled in login form.
@@ -93,27 +92,37 @@ $Selenium->RunTest(
             'Autocomplete for password input field is disabled.'
         );
 
-        my $Element = $Selenium->find_element( 'input#User', 'css' );
-        $Element->is_displayed();
-        $Element->is_enabled();
-        $Element->send_keys($TestCustomerUserLogin);
+        my $InputUser = $Selenium->find_element( 'input#User', 'css' );
+        $InputUser->is_displayed();
+        $InputUser->is_enabled();
+        $InputUser->send_keys($TestCustomerUserLogin);
 
-        $Element = $Selenium->find_element( 'input#Password', 'css' );
-        $Element->is_displayed();
-        $Element->is_enabled();
-        $Element->send_keys($TestCustomerUserLogin);
+        my $InputPassword = $Selenium->find_element( 'input#Password', 'css' );
+        $InputPassword->is_displayed();
+        $InputPassword->is_enabled();
+        $InputPassword->send_keys($TestCustomerUserLogin);
 
         # login
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
-        # check if login is successful
-        $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );
+        # In the customer interface there is a data privacy blurb that must be accepted.
+        # Note that find_element_by_xpath() does not throw exceptions.
+        # The method returns 0 when the element is not found.
+        {
+            my $AcceptGDPRLink = $Selenium->find_element_by_xpath( q{//a[@id="AcceptGDPR"]} );
+            if ( $AcceptGDPRLink ) {
+                $AcceptGDPRLink->click();
+            }
+        }
 
-        # Check for version tag in the footer.
-        $Self->True(
-            index( $Selenium->get_page_source(), "$Product $Version" ) > -1,
-            "Version information present ($Product $Version)",
-        );
+        # check if login is successful
+        my $ButtonLogout = $Selenium->find_element( q{//a[@id='oooUser']} );
+
+        # Check for footer, even though it is not visible
+        my $PageSource = $Selenium->get_page_source();
+        for my $CheckName ( sort keys %SourceChecks ) {
+            like( $PageSource, $SourceChecks{$CheckName}, "$CheckName matches" );
+        }
 
         # Enable autocomplete in login form.
         $Helper->ConfigSettingChange(
@@ -122,7 +131,7 @@ $Selenium->RunTest(
         );
 
         # logout again
-        $Element->VerifiedClick();
+        $ButtonLogout->VerifiedClick();
 
         # Check if autocomplete is enabled in login form.
         $Self->True(
@@ -135,10 +144,10 @@ $Selenium->RunTest(
         );
 
         # check login page
-        $Element = $Selenium->find_element( 'input#User', 'css' );
-        $Element->is_displayed();
-        $Element->is_enabled();
-        $Element->send_keys($TestCustomerUserLogin);
+        my $InputUser2 = $Selenium->find_element( 'input#User', 'css' );
+        $InputUser2->is_displayed();
+        $InputUser2->is_enabled();
+        $InputUser2->send_keys($TestCustomerUserLogin);
     }
 );
 
