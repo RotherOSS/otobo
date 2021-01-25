@@ -120,33 +120,16 @@ sub Run {
             $Param{CustomerUserID} = $Param{SelectedCustomerUser};
         }
 
-        # get customer user object
-        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-
         # check needed data
         {
             my %Error;
             if ( !$Param{CustomerUserID} ) {
                 $Error{'CustomerUserIDInvalid'} = 'ServerError';
             }
-            return $Self->Form(%Param);
-        }
 
             if (%Error) {
                 return $Self->Form( %Param, %Error );
             }
-            return $Self->Form(%Param);
-        }
-
-        my %Error;
-
-        # check needed data
-        if ( !$Param{CustomerUserID} ) {
-            $Error{'CustomerUserIDInvalid'} = 'ServerError';
-        }
-
-        if (%Error) {
-            return $Self->Form( %Param, %Error );
         }
 
         # update customer user data
