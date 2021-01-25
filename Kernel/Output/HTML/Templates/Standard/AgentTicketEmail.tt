@@ -46,6 +46,7 @@
                 <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="[% Data.CustomerUser | html %]"/>
                 <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
                 <input type="hidden" name="LinkTicketID" value="[% Data.LinkTicketID | html %]"/>
+
                 <fieldset class="TableLike">
 
 # example template for customizations, see hidden form at the end of the file
@@ -306,14 +307,14 @@
                     <div class="Clear"></div>
 
 [% RenderBlockStart("TicketService") %]
-                    [% IF Data.ServiceMandatory  %]
+                    [% IF Data.ServiceMandatory %]
                         <label class="Mandatory" for="ServiceID"><span class="Marker">*</span> [% Translate("Service") | html %]:</label>
                     [% ELSE %]
                         <label for="ServiceID">[% Translate("Service") | html %]:</label>
                     [% END %]
                     <div class="Field">
                         [% Data.ServiceStrg %]
-                        [% IF Data.ServiceMandatory  %]
+                        [% IF Data.ServiceMandatory %]
                             <div id="ServiceIDError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
                         [% END %]
                         <div id="ServiceIDServerError" class="TooltipErrorMessage"><p>[% Translate("Service invalid.") | html %]</p></div>
@@ -417,6 +418,7 @@
                     <div class="Field">
 
 <!-- OutputFilterHook_TicketOptionsBegin -->
+
 [% RenderBlockStart("OptionCustomer") %]
                         <a href="#" id="OptionCustomer">[ [% Translate("Customer user") | html %] ]</a>
 [% RenderBlockEnd("OptionCustomer") %]

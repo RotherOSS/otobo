@@ -28,6 +28,7 @@
     <div class="LayoutFixedSidebar SidebarLast">
 
         <div class="SidebarColumn">
+# show customer info table
 [% RenderBlockStart("CustomerTable") %]
             <div id="CustomerInfo" class="WidgetSimple">
                 <div class="Header">
@@ -62,6 +63,7 @@
 #                        <button type="button" onclick="$('#Template1').submit()" value="[% Translate("Example Template") | html %]">[% Translate("Example Template") | html %]</button>
 #                    </div>
 #                    <div class="Clear"></div>
+
                     <label for="FromCustomer" class="Mandatory"><span class="Marker">*</span>[% Translate("Customer user") | html %]:</label>
                     <div class="Field">
                         <input id="FromCustomer" type="text" name="FromCustomer" value="" class="CustomerAutoComplete W75pc [% Data.FromInvalid | html %]" autocomplete="off" />
