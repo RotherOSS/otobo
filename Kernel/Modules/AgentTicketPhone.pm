@@ -1102,8 +1102,6 @@ sub Run {
         my $CustomerID           = $ParamObject->GetParam( Param => 'CustomerID' ) || '';
         my $SelectedCustomerUser = $ParamObject->GetParam( Param => 'SelectedCustomerUser' )
             || '';
-        my $ExpandCustomerName = $ParamObject->GetParam( Param => 'ExpandCustomerName' )
-            || 0;
         my %FromExternalCustomer;
         $FromExternalCustomer{Customer} = $ParamObject->GetParam( Param => 'PreSelectedCustomerUser' )
             || $ParamObject->GetParam( Param => 'CustomerUser' )
@@ -1111,24 +1109,12 @@ sub Run {
 
         if ( $ParamObject->GetParam( Param => 'OwnerAllRefresh' ) ) {
             $GetParam{OwnerAll} = 1;
-            $ExpandCustomerName = 3;
         }
         if ( $ParamObject->GetParam( Param => 'ResponsibleAllRefresh' ) ) {
             $GetParam{ResponsibleAll} = 1;
-            $ExpandCustomerName = 3;
         }
         if ( $ParamObject->GetParam( Param => 'ClearFrom' ) ) {
             $GetParam{From} = '';
-            $ExpandCustomerName = 3;
-        }
-        for my $Count ( 1 .. 2 ) {
-            my $Item = $ParamObject->GetParam( Param => "ExpandCustomerName$Count" ) || 0;
-            if ( $Count == 1 && $Item ) {
-                $ExpandCustomerName = 1;
-            }
-            elsif ( $Count == 2 && $Item ) {
-                $ExpandCustomerName = 2;
-            }
         }
 
         # rewrap body if no rich text is used
@@ -1139,13 +1125,8 @@ sub Run {
             );
         }
 
-        # get all attachments meta data
-        my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-            FormID => $Self->{FormID},
-        );
-
         # check pending date
-        if ( !$ExpandCustomerName && $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
+        if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
 
             # create a datetime object based on pending date
             my $PendingDateTimeObject = $Kernel::OM->Create(
@@ -1241,8 +1222,8 @@ sub Run {
 
             my $ValidationResult;
 
-            # do not validate on attachment upload and invisible fields
-            if ( !$ExpandCustomerName && $Visibility{ $DynamicFieldConfig->{Name} } ) {
+            # do not validate on invisible fields
+            if ( $Visibility{ $DynamicFieldConfig->{Name} } ) {
 
                 $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
                     DynamicFieldConfig   => $DynamicFieldConfig,
@@ -1281,101 +1262,10 @@ sub Run {
             );
         }
 
-        # expand customer name
-        my %CustomerUserData;
-        if ( $ExpandCustomerName == 1 ) {
-
-            # search customer
-            my %CustomerUserList;
-            %CustomerUserList = $CustomerUserObject->CustomerSearch(
-                Search           => $GetParam{From},
-                CustomerUserOnly => 1,
-            );
-
-            # check if just one customer user exists
-            # if just one, fillup CustomerUserID and CustomerID
-            $Param{CustomerUserListCount} = 0;
-            for my $KeyCustomerUser ( sort keys %CustomerUserList ) {
-                $Param{CustomerUserListCount}++;
-                $Param{CustomerUserListLast}     = $CustomerUserList{$KeyCustomerUser};
-                $Param{CustomerUserListLastUser} = $KeyCustomerUser;
-            }
-            if ( $Param{CustomerUserListCount} == 1 ) {
-                $GetParam{From}            = $Param{CustomerUserListLast};
-                $Error{ExpandCustomerName} = 1;
-                my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
-                    User => $Param{CustomerUserListLastUser},
-                );
-                if ( $CustomerUserData{UserCustomerID} ) {
-                    $CustomerID = $CustomerUserData{UserCustomerID};
-                }
-                if ( $CustomerUserData{UserLogin} ) {
-                    $CustomerUser = $CustomerUserData{UserLogin};
-                    $FromExternalCustomer{Customer} = $CustomerUserData{UserLogin};
-                }
-                if ( $FromExternalCustomer{Customer} ) {
-                    my %ExternalCustomerUserData = $CustomerUserObject->CustomerUserDataGet(
-                        User => $FromExternalCustomer{Customer},
-                    );
-                    $FromExternalCustomer{Email} = $ExternalCustomerUserData{UserEmail};
-                }
-            }
-
-            # if more than one customer user exist, show list
-            # and clean CustomerUserID and CustomerID
-            else {
-
-                # don't check email syntax on multi customer select
-                $ConfigObject->Set(
-                    Key   => 'CheckEmailAddresses',
-                    Value => 0
-                );
-                $CustomerID = '';
-
-                # clear from if there is no customer found
-                if ( !%CustomerUserList ) {
-                    $GetParam{From} = '';
-                }
-                $Error{ExpandCustomerName} = 1;
-            }
-        }
-
-        # get from and customer id if customer user is given
-        elsif ( $ExpandCustomerName == 2 ) {
-            %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
-                User => $CustomerUser,
-            );
-            my %CustomerUserList = $CustomerUserObject->CustomerSearch(
-                UserLogin => $CustomerUser,
-            );
-            for my $KeyCustomerUser ( sort keys %CustomerUserList ) {
-                $GetParam{From} = $CustomerUserList{$KeyCustomerUser};
-            }
-            if ( $CustomerUserData{UserCustomerID} ) {
-                $CustomerID = $CustomerUserData{UserCustomerID};
-            }
-            if ( $CustomerUserData{UserLogin} ) {
-                $CustomerUser = $CustomerUserData{UserLogin};
-            }
-            if ( $FromExternalCustomer{Customer} ) {
-                my %ExternalCustomerUserData = $CustomerUserObject->CustomerUserDataGet(
-                    User => $FromExternalCustomer{Customer},
-                );
-                $FromExternalCustomer{Email} = $ExternalCustomerUserData{UserMailString};
-            }
-            $Error{ExpandCustomerName} = 1;
-        }
-
-        # if a new destination queue is selected
-        elsif ( $ExpandCustomerName == 3 ) {
-            $Error{NoSubmit} = 1;
-            $CustomerUser = $SelectedCustomerUser;
-        }
-
-        # 'just' no submit
-        elsif ( $ExpandCustomerName == 4 ) {
-            $Error{NoSubmit} = 1;
-        }
+        # get all attachments meta data
+        my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
+            FormID => $Self->{FormID},
+        );
 
         # show customer info
         my %CustomerData;
@@ -1401,9 +1291,8 @@ sub Run {
         }
 
         # if it is not a subaction about attachments, check for server errors
-        if ( !$ExpandCustomerName ) {
-            if ( !$GetParam{From} )
-            {
+        {
+            if ( !$GetParam{From} ) {
                 $Error{'FromInvalid'} = ' ServerError';
             }
             if ( !$GetParam{Subject} ) {

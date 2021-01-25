@@ -39,7 +39,6 @@
                 <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                 <input type="hidden" name="Subaction" value="StoreNew"/>
                 <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
-                <input type="hidden" name="ExpandCustomerName" id="ExpandCustomerName" value="0"/>
                 <input type="hidden" name="OwnerAll" id="OwnerAll" value="[% Data.OwnerAll | html %]"/>
                 <input type="hidden" name="ResponsibleAll" id="ResponsibleAll" value="[% Data.ResponsibleAll | html %]"/>
                 <input type="hidden" name="PreSelectedCustomerUser" id="PreSelectedCustomerUser" value=""/>
@@ -513,7 +512,6 @@
 #    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
 #    <input type="hidden" name="Subaction" value="StoreNew"/>
 #    <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
-#    <input type="hidden" name="ExpandCustomerName" value="2"/>
 #    <input type="hidden" name="Subject" value="Example Subject"/>
 #    <input type="hidden" name="Body" value="Name:
 #Product:

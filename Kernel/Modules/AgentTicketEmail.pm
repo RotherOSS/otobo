@@ -1306,14 +1306,11 @@ sub Run {
         my $CustomerID           = $ParamObject->GetParam( Param => 'CustomerID' ) || '';
         my $SelectedCustomerUser = $ParamObject->GetParam( Param => 'SelectedCustomerUser' )
             || '';
-        my $ExpandCustomerName = $ParamObject->GetParam( Param => 'ExpandCustomerName' )
-            || 0;
         my %FromExternalCustomer;
         $FromExternalCustomer{Customer} = $ParamObject->GetParam( Param => 'PreSelectedCustomerUser' )
             || $ParamObject->GetParam( Param => 'CustomerUser' )
             || '';
         $GetParam{QueueID}            = $NewQueueID;
-        $GetParam{ExpandCustomerName} = $ExpandCustomerName;
 
         # get sender queue from
         my $Signature = '';
@@ -1326,24 +1323,12 @@ sub Run {
 
         if ( $ParamObject->GetParam( Param => 'OwnerAllRefresh' ) ) {
             $GetParam{OwnerAll} = 1;
-            $ExpandCustomerName = 3;
         }
         if ( $ParamObject->GetParam( Param => 'ResponsibleAllRefresh' ) ) {
             $GetParam{ResponsibleAll} = 1;
-            $ExpandCustomerName = 3;
         }
         if ( $ParamObject->GetParam( Param => 'ClearTo' ) ) {
             $GetParam{To} = '';
-            $ExpandCustomerName = 3;
-        }
-        for my $Count ( 1 .. 2 ) {
-            my $Item = $ParamObject->GetParam( Param => "ExpandCustomerName$Count" ) || 0;
-            if ( $Count == 1 && $Item ) {
-                $ExpandCustomerName = 1;
-            }
-            elsif ( $Count == 2 && $Item ) {
-                $ExpandCustomerName = 2;
-            }
         }
 
         # skip validation of hidden fields
@@ -1425,8 +1410,8 @@ sub Run {
 
             my $ValidationResult;
 
-            # do not validate on attachment upload and invisible fields
-            if ( !$ExpandCustomerName && $Visibility{ $DynamicFieldConfig->{Name} } ) {
+            # do not validate on invisible fields
+            if ( $Visibility{ $DynamicFieldConfig->{Name} } ) {
 
                 $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
                     DynamicFieldConfig   => $DynamicFieldConfig,
@@ -1470,92 +1455,6 @@ sub Run {
             FormID => $Self->{FormID},
         );
 
-        # get customer user object
-        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-
-        # expand customer name
-        my %CustomerUserData;
-        if ( $ExpandCustomerName == 1 ) {
-
-            # search customer
-            my %CustomerUserList;
-            %CustomerUserList = $CustomerUserObject->CustomerSearch(
-                Search => $GetParam{To},
-            );
-
-            # check if just one customer user exists
-            # if just one, fillup CustomerUserID and CustomerID
-            $Param{CustomerUserListCount} = 0;
-            for my $KeyCustomerUser ( sort keys %CustomerUserList ) {
-                $Param{CustomerUserListCount}++;
-                $Param{CustomerUserListLast}     = $CustomerUserList{$KeyCustomerUser};
-                $Param{CustomerUserListLastUser} = $KeyCustomerUser;
-            }
-            if ( $Param{CustomerUserListCount} == 1 ) {
-                $GetParam{To}              = $Param{CustomerUserListLast};
-                $Error{ExpandCustomerName} = 1;
-                my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
-                    User => $Param{CustomerUserListLastUser},
-                );
-                if ( $CustomerUserData{UserCustomerID} ) {
-                    $CustomerID = $CustomerUserData{UserCustomerID};
-                }
-                if ( $CustomerUserData{UserLogin} ) {
-                    $CustomerUser = $CustomerUserData{UserLogin};
-                }
-            }
-
-            # if more than one customer user exist, show list
-            # and clean CustomerUserID and CustomerID
-            else {
-
-                # don't check email syntax on multi customer select
-                $ConfigObject->Set(
-                    Key   => 'CheckEmailAddresses',
-                    Value => 0
-                );
-                $CustomerID = '';
-
-                # clear to if there is no customer found
-                if ( !%CustomerUserList ) {
-                    $GetParam{To} = '';
-                }
-                $Error{ExpandCustomerName} = 1;
-            }
-        }
-
-        # get from and customer id if customer user is given
-        elsif ( $ExpandCustomerName == 2 ) {
-            %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
-                User => $CustomerUser,
-            );
-            my %CustomerUserList = $CustomerUserObject->CustomerSearch(
-                UserLogin => $CustomerUser,
-            );
-            for my $KeyCustomerUser ( sort keys %CustomerUserList ) {
-                $GetParam{To} = $CustomerUserList{$KeyCustomerUser};
-            }
-            if ( $CustomerUserData{UserCustomerID} ) {
-                $CustomerID = $CustomerUserData{UserCustomerID};
-            }
-            if ( $CustomerUserData{UserLogin} ) {
-                $CustomerUser = $CustomerUserData{UserLogin};
-            }
-            if ( $FromExternalCustomer{Customer} ) {
-                my %ExternalCustomerUserData = $CustomerUserObject->CustomerUserDataGet(
-                    User => $FromExternalCustomer{Customer},
-                );
-                $FromExternalCustomer{Email} = $ExternalCustomerUserData{UserMailString};
-            }
-            $Error{ExpandCustomerName} = 1;
-        }
-
-        # if a new destination queue is selected
-        elsif ( $ExpandCustomerName == 3 ) {
-            $Error{NoSubmit} = 1;
-            $CustomerUser = $SelectedCustomerUser;
-        }
-
         # show customer info
         my %CustomerData;
         if ( $ConfigObject->Get('Ticket::Frontend::CustomerInfoCompose') ) {
@@ -1592,7 +1491,7 @@ sub Run {
         }
 
         # if it is not a subaction about attachments, check for server errors
-        if ( !$ExpandCustomerName ) {
+        {
             if ( !$GetParam{To} ) {
                 $Error{'ToInvalid'} = 'ServerError';
             }
@@ -1608,8 +1507,7 @@ sub Run {
 
             # check if date is valid
             if (
-                !$ExpandCustomerName
-                && $StateData{TypeName}
+                $StateData{TypeName}
                 && $StateData{TypeName} =~ /^pending/i
                 )
             {
