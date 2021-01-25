@@ -33,14 +33,14 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # get frontend specific config
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    # frontend specific config
+    my $Config = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
 
     # get the dynamic fields for this screen
     $Self->{DynamicField} = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid       => 1,
         ObjectType  => [ 'Ticket', 'Article' ],
-        FieldFilter => $ConfigObject->Get("Ticket::Frontend::$Self->{Action}")->{DynamicField} || {},
+        FieldFilter => $Config->{DynamicField} || {},
     );
 
     # get form id
@@ -221,6 +221,7 @@ sub Run {
     my $QueueObject               = $Kernel::OM->Get('Kernel::System::Queue');
     my $FieldRestrictionsObject   = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
 
+    # frontend specific config
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
     # cycle through the activated Dynamic Fields for this screen

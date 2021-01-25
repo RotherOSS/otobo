@@ -33,7 +33,7 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # get frontend specific config
+    # frontend specific config
     my $Config = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
 
     # get the dynamic fields for this screen
@@ -140,10 +140,8 @@ sub Run {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
     my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $Debug              = $Param{Debug} || 0;
-    my $Config             = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
     # get params
@@ -357,7 +355,11 @@ sub Run {
     # get needed objects
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
     my $LayoutObject              = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ConfigObject              = $Kernel::OM->Get('Kernel::Config');
     my $FieldRestrictionsObject   = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
+
+    # frontend specific config
+    my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
     # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
