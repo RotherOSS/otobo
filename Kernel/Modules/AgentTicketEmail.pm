@@ -133,16 +133,7 @@ sub Run {
     # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    # get upload cache object
-    my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
-
-    # get needed objects
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
-    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-
     my $Debug              = $Param{Debug} || 0;
-    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
     # get params
     my %GetParam;
@@ -356,7 +347,12 @@ sub Run {
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
     my $LayoutObject              = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject              = $Kernel::OM->Get('Kernel::Config');
+    my $CustomerUserObject        = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my $UploadCacheObject         = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
+    my $TicketObject              = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $QueueObject               = $Kernel::OM->Get('Kernel::System::Queue');
     my $FieldRestrictionsObject   = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
+    my $MainObject                = $Kernel::OM->Get('Kernel::System::Main');
 
     # frontend specific config
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
