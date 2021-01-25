@@ -33,6 +33,7 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # get frontend specific object
     my $Config = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
 
     # get the dynamic fields for this screen
@@ -118,8 +119,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
-
     # store last queue screen
     if ( $Self->{LastScreenOverview} && $Self->{LastScreenOverview} !~ /Action=AgentTicketEmail/ ) {
         $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
@@ -179,6 +178,7 @@ sub Run {
             my $CustomerSelected = ( $Selected eq $Count ? 'checked="checked"' : '' );
             my $CustomerKey      = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count )
                 || '';
+
             if ($CustomerElement) {
 
                 if ( $GetParam{To} ) {
@@ -402,12 +402,13 @@ sub Run {
         }
 
         # header
-        $Output .= $LayoutObject->Header();
+        my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
 
-        # notify info
+        # if there is no ticket id!
         if ( $Self->{TicketID} && $Self->{Subaction} eq 'Created' ) {
 
+            # notify info
             $Output .= $LayoutObject->Notify(
                 Info => $LayoutObject->{LanguageObject}->Translate(
                     'Ticket "%s" created!',
@@ -449,7 +450,7 @@ sub Run {
 
             if ( !$Access ) {
                 return $LayoutObject->NoPermission(
-                    Message    => "You need ro permission!",
+                    Message    => Translatable('You need ro permission!'),
                     WithHeader => 'yes',
                 );
             }
@@ -910,7 +911,7 @@ sub Run {
                             if (
                                 $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
                                 || $Self->{InternalDependancy}{$Element}{$FieldID}
-                                )
+                            )
                             {
                                 next FIELD;
                             }
@@ -969,7 +970,7 @@ sub Run {
                     if (
                         $GetParam{ $Field->{FieldID} }
                         && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } }
-                        )
+                    )
                     {
                         # if not empty the field
                         $GetParam{ $Field->{FieldID} } = '';
@@ -1080,7 +1081,7 @@ sub Run {
             if (
                 !$DynFieldStates{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"}
                 && ( $DynamicFieldConfig->{FieldType} ne 'Date' || $DynamicFieldConfig->{FieldType} ne 'DateTime' )
-                )
+            )
             {
                 %UseDefault = (
                     UseDefaultValue      => 0,
@@ -1335,12 +1336,12 @@ sub Run {
             $GetParam{To} = '';
             $ExpandCustomerName = 3;
         }
-        for my $Number ( 1 .. 2 ) {
-            my $Item = $ParamObject->GetParam( Param => "ExpandCustomerName$Number" ) || 0;
-            if ( $Number == 1 && $Item ) {
+        for my $Count ( 1 .. 2 ) {
+            my $Item = $ParamObject->GetParam( Param => "ExpandCustomerName$Count" ) || 0;
+            if ( $Count == 1 && $Item ) {
                 $ExpandCustomerName = 1;
             }
-            elsif ( $Number == 2 && $Item ) {
+            elsif ( $Count == 2 && $Item ) {
                 $ExpandCustomerName = 2;
             }
         }
@@ -1454,14 +1455,13 @@ sub Run {
             $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } = $DynamicFieldBackendObject->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
-                Mandatory =>
-                    $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                ServerError  => $ValidationResult->{ServerError}  || '',
-                ErrorMessage => $ValidationResult->{ErrorMessage} || '',
-                LayoutObject => $LayoutObject,
-                ParamObject  => $ParamObject,
-                AJAXUpdate   => 1,
-                UpdatableFields => $Self->_GetFieldsToUpdate(),
+                ServerError          => $ValidationResult->{ServerError}  || '',
+                ErrorMessage         => $ValidationResult->{ErrorMessage} || '',
+                LayoutObject         => $LayoutObject,
+                ParamObject          => $ParamObject,
+                AJAXUpdate           => 1,
+                UpdatableFields      => $Self->_GetFieldsToUpdate(),
+                Mandatory            => $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
             );
         }
 
@@ -1473,7 +1473,7 @@ sub Run {
         # get customer user object
         my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
-        # Expand Customer Name
+        # expand customer name
         my %CustomerUserData;
         if ( $ExpandCustomerName == 1 ) {
 
@@ -1486,10 +1486,10 @@ sub Run {
             # check if just one customer user exists
             # if just one, fillup CustomerUserID and CustomerID
             $Param{CustomerUserListCount} = 0;
-            for my $CustomerUserKey ( sort keys %CustomerUserList ) {
+            for my $KeyCustomerUser ( sort keys %CustomerUserList ) {
                 $Param{CustomerUserListCount}++;
-                $Param{CustomerUserListLast}     = $CustomerUserList{$CustomerUserKey};
-                $Param{CustomerUserListLastUser} = $CustomerUserKey;
+                $Param{CustomerUserListLast}     = $CustomerUserList{$KeyCustomerUser};
+                $Param{CustomerUserListLastUser} = $KeyCustomerUser;
             }
             if ( $Param{CustomerUserListCount} == 1 ) {
                 $GetParam{To}              = $Param{CustomerUserListLast};
@@ -1505,7 +1505,7 @@ sub Run {
                 }
             }
 
-            # if more the one customer user exists, show list
+            # if more than one customer user exist, show list
             # and clean CustomerUserID and CustomerID
             else {
 
@@ -1532,8 +1532,8 @@ sub Run {
             my %CustomerUserList = $CustomerUserObject->CustomerSearch(
                 UserLogin => $CustomerUser,
             );
-            for my $CustomerUserKey ( sort keys %CustomerUserList ) {
-                $GetParam{To} = $CustomerUserList{$CustomerUserKey};
+            for my $KeyCustomerUser ( sort keys %CustomerUserList ) {
+                $GetParam{To} = $CustomerUserList{$KeyCustomerUser};
             }
             if ( $CustomerUserData{UserCustomerID} ) {
                 $CustomerID = $CustomerUserData{UserCustomerID};
@@ -1812,7 +1812,7 @@ sub Run {
             );
 
             # header
-            $Output .= $LayoutObject->Header();
+            my $Output = $LayoutObject->Header();
             $Output .= $LayoutObject->NavigationBar();
 
             # html output
@@ -1924,7 +1924,7 @@ sub Run {
         }
 
         # get pre loaded attachment
-        @Attachments = $UploadCacheObject->FormIDGetAllFilesData(
+        my @AttachmentData = $UploadCacheObject->FormIDGetAllFilesData(
             FormID => $Self->{FormID},
         );
 
@@ -1933,7 +1933,7 @@ sub Run {
             Param => 'FileUpload',
         );
         if (%UploadStuff) {
-            push @Attachments, \%UploadStuff;
+            push @AttachmentData, \%UploadStuff;
         }
 
         # prepare subject
@@ -1958,7 +1958,7 @@ sub Run {
             # remove unused inline images
             my @NewAttachmentData;
             ATTACHMENT:
-            for my $Attachment (@Attachments) {
+            for my $Attachment (@AttachmentData) {
                 my $ContentID = $Attachment->{ContentID};
                 if (
                     $ContentID
@@ -1982,7 +1982,7 @@ sub Run {
                 # remember inline images and normal attachments
                 push @NewAttachmentData, \%{$Attachment};
             }
-            @Attachments = @NewAttachmentData;
+            @AttachmentData = @NewAttachmentData;
 
             # verify html document
             $GetParam{Body} = $LayoutObject->RichTextDocumentComplete(
@@ -2257,7 +2257,7 @@ sub Run {
                             if (
                                 $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
                                 || $Self->{InternalDependancy}{$Element}{$FieldID}
-                                )
+                            )
                             {
                                 next FIELD;
                             }
@@ -2316,7 +2316,7 @@ sub Run {
                     if (
                         $GetParam{ $Field->{FieldID} }
                         && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } }
-                        )
+                    )
                     {
                         # if not empty the field
                         $GetParam{ $Field->{FieldID} } = '';
@@ -2429,7 +2429,8 @@ sub Run {
         for my $Index ( sort keys %{ $DynFieldStates{Fields} } ) {
             my $DynamicFieldConfig = $Self->{DynamicField}->[$Index];
 
-            my $DataValues = $DynFieldStates{Fields}{$Index}{NotACLReducible}
+            my $DataValues
+                = $DynFieldStates{Fields}{$Index}{NotACLReducible}
                 ? $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}
                 :
                 (
@@ -2732,20 +2733,20 @@ sub _GetUsers {
     # just show only users with selected custom queue
     if ( $Param{QueueID} && !$Param{OwnerAll} ) {
         my @UserIDs = $TicketObject->GetSubscribedUserIDsByQueueID(%Param);
-        for my $GroupMemberKey ( sort keys %AllGroupsMembers ) {
+        for my $KeyGroupMember ( sort keys %AllGroupsMembers ) {
             my $Hit = 0;
             for my $UID (@UserIDs) {
-                if ( $UID eq $GroupMemberKey ) {
+                if ( $UID eq $KeyGroupMember ) {
                     $Hit = 1;
                 }
             }
             if ( !$Hit ) {
-                delete $AllGroupsMembers{$GroupMemberKey};
+                delete $AllGroupsMembers{$KeyGroupMember};
             }
         }
     }
 
-    # check show users
+    # show all system users
     if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ChangeOwnerToEveryone') ) {
         %ShownUsers = %AllGroupsMembers;
     }
@@ -2757,9 +2758,9 @@ sub _GetUsers {
             GroupID => $GID,
             Type    => 'owner',
         );
-        for my $MemberKey ( sort keys %MemberList ) {
-            if ( $AllGroupsMembers{$MemberKey} ) {
-                $ShownUsers{$MemberKey} = $AllGroupsMembers{$MemberKey};
+        for my $KeyMember ( sort keys %MemberList ) {
+            if ( $AllGroupsMembers{$KeyMember} ) {
+                $ShownUsers{$KeyMember} = $AllGroupsMembers{$KeyMember};
             }
         }
     }
@@ -2795,20 +2796,20 @@ sub _GetResponsibles {
     # just show only users with selected custom queue
     if ( $Param{QueueID} && !$Param{ResponsibleAll} ) {
         my @UserIDs = $TicketObject->GetSubscribedUserIDsByQueueID(%Param);
-        for my $GroupMemberKey ( sort keys %AllGroupsMembers ) {
+        for my $KeyGroupMember ( sort keys %AllGroupsMembers ) {
             my $Hit = 0;
             for my $UID (@UserIDs) {
-                if ( $UID eq $GroupMemberKey ) {
+                if ( $UID eq $KeyGroupMember ) {
                     $Hit = 1;
                 }
             }
             if ( !$Hit ) {
-                delete $AllGroupsMembers{$GroupMemberKey};
+                delete $AllGroupsMembers{$KeyGroupMember};
             }
         }
     }
 
-    # check show users
+    # show all system users
     if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ChangeOwnerToEveryone') ) {
         %ShownUsers = %AllGroupsMembers;
     }
@@ -2820,9 +2821,9 @@ sub _GetResponsibles {
             GroupID => $GID,
             Type    => 'responsible',
         );
-        for my $MemberKey ( sort keys %MemberList ) {
-            if ( $AllGroupsMembers{$MemberKey} ) {
-                $ShownUsers{$MemberKey} = $AllGroupsMembers{$MemberKey};
+        for my $KeyMember ( sort keys %MemberList ) {
+            if ( $AllGroupsMembers{$KeyMember} ) {
+                $ShownUsers{$KeyMember} = $AllGroupsMembers{$KeyMember};
             }
         }
     }
@@ -2952,9 +2953,9 @@ sub _GetTos {
         if ( $ConfigObject->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
             %Tos = $Kernel::OM->Get('Kernel::System::Ticket')->MoveList(
                 %Param,
-                Type   => 'create',
-                Action => $Self->{Action},
-                UserID => $Self->{UserID},
+                Type    => 'create',
+                Action  => $Self->{Action},
+                UserID  => $Self->{UserID},
             );
         }
         else {
@@ -2970,6 +2971,7 @@ sub _GetTos {
         # build selection string
         QUEUEID:
         for my $QueueID ( sort keys %Tos ) {
+
             my %QueueData = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet( ID => $QueueID );
 
             # permission check, can we create new tickets in queue
@@ -2981,10 +2983,11 @@ sub _GetTos {
             $String =~ s/<QueueComment>/$QueueData{Comment}/g;
 
             # remove trailing spaces
-            $String =~ s{\s+\z}{} if !$QueueData{Comment};
+            if ( !$QueueData{Comment} ) {
+                $String =~ s{\s+\z}{};
+            }
 
-            if ( $ConfigObject->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue' )
-            {
+            if ( $ConfigObject->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue' ) {
                 my %SystemAddressData = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressGet(
                     ID => $Tos{$QueueID},
                 );
@@ -3110,13 +3113,13 @@ sub _MaskEmailNew {
     $Param{OptionStrg} = $LayoutObject->BuildSelection(
         Data         => $Param{Users},
         SelectedID   => $Param{UserSelected},
-        Translation  => 0,
-        PossibleNone => 1,
-        Name         => 'NewUserID',
         Class        => 'Modernize',
+        Translation  => 0,
+        Name         => 'NewUserID',
+        PossibleNone => 1,
     );
 
-    my $Config = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
+    my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
     # build next states string
     $Param{NextStatesStrg} = $LayoutObject->BuildSelection(
@@ -3180,16 +3183,15 @@ sub _MaskEmailNew {
 
     # prepare errors!
     if ( $Param{Errors} ) {
-        for my $ErrorKey ( sort keys %{ $Param{Errors} } ) {
-            $Param{$ErrorKey} = $LayoutObject->Ascii2Html( Text => $Param{Errors}->{$ErrorKey} );
+        for my $KeyError ( sort keys %{ $Param{Errors} } ) {
+            $Param{$KeyError} = $LayoutObject->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }
     }
 
     # From external
     my $ShowErrors = 1;
     if (
-        defined $Param{FromExternalCustomer}
-        &&
+        defined $Param{FromExternalCustomer} &&
         defined $Param{FromExternalCustomer}->{Email} &&
         defined $Param{FromExternalCustomer}->{Customer}
         )
@@ -3331,9 +3333,7 @@ sub _MaskEmailNew {
     );
 
     if ( $Param{ToInvalid} && $Param{Errors} && !$Param{Errors}->{ToErrorType} ) {
-        $LayoutObject->Block(
-            Name => 'ToServerErrorMsg',
-        );
+        $LayoutObject->Block( Name => 'ToServerErrorMsg' );
     }
     if ( $Param{Errors}->{ToErrorType} || !$ShowErrors ) {
         $Param{ToInvalid} = '';
@@ -3361,6 +3361,7 @@ sub _MaskEmailNew {
         OnlyDynamicFields => 1
     );
 
+    # send data to JS
     $LayoutObject->AddJSData(
         Key   => 'DynamicFieldNames',
         Value => $DynamicFieldNames,
@@ -3369,9 +3370,9 @@ sub _MaskEmailNew {
     # build type string
     if ( $ConfigObject->Get('Ticket::Type') ) {
         $Param{TypeStrg} = $LayoutObject->BuildSelection(
+            Class        => 'Validate_Required Modernize ' . ( $Param{Errors}->{TypeInvalid} || ' ' ),
             Data         => $Param{Types},
             Name         => 'TypeID',
-            Class        => 'Validate_Required Modernize ' . ( $Param{Errors}->{TypeInvalid} || ' ' ),
             SelectedID   => $Param{TypeID},
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
@@ -3423,7 +3424,7 @@ sub _MaskEmailNew {
             Name => 'TicketSLA',
             Data => {
                 SLAMandatory => $Config->{SLAMandatory} || 0,
-                %Param,
+                %Param
             },
         );
     }
@@ -3656,10 +3657,20 @@ sub _GetFieldsToUpdate {
 
     my @UpdatableFields;
 
-    # set the fields that can be updateable via AJAXUpdate
+    # set the fields that are updateable via AJAXUpdate
     if ( !$Param{OnlyDynamicFields} ) {
         @UpdatableFields = qw(
-            TypeID Dest NextStateID PriorityID ServiceID SLAID SignKeyID CryptKeyID To Cc Bcc
+            TypeID
+            Dest
+            NextStateID
+            PriorityID
+            ServiceID
+            SLAID
+            SignKeyID
+            CryptKeyID
+            To
+            Cc
+            Bcc
             StandardTemplateID
         );
     }
