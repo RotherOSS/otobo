@@ -304,9 +304,10 @@ sub Run {
             %Ticket = $TicketObject->TicketGet( TicketID => $Self->{TicketID} );
         }
 
-        # header
-        my $Output = $LayoutObject->Header();
-        $Output .= $LayoutObject->NavigationBar();
+        # header and navigation bar
+        my $Output = join '',
+            $LayoutObject->Header(),
+            $LayoutObject->NavigationBar();
 
         # if there is no ticket id!
         if ( $Self->{TicketID} && $Self->{Subaction} eq 'Created' ) {
@@ -1059,6 +1060,7 @@ sub Run {
                 ArticleID => $Article{ArticleID},
             ),
         );
+
         $Output .= $LayoutObject->Footer();
 
         return $Output;
@@ -1477,7 +1479,7 @@ sub Run {
                 );
             }
 
-            #set Body and Subject parameters for Output
+            # set Body and Subject parameters for Output
             if ( !$GetParam{Subject} ) {
                 $GetParam{Subject} = $Subject;
             }
@@ -1507,9 +1509,10 @@ sub Run {
                 Services       => $Services,
             );
 
-            # header
-            my $Output = $LayoutObject->Header();
-            $Output .= $LayoutObject->NavigationBar();
+            # header and navigation bar
+            my $Output = join '',
+                $LayoutObject->Header(),
+                $LayoutObject->NavigationBar();
 
             # html output
             $Output .= $Self->_MaskPhoneNew(
@@ -1518,7 +1521,7 @@ sub Run {
                     %GetParam,
                     %ACLCompatGetParam,
                     QueueID  => $NewQueueID,
-                    AllUsers => $GetParam{OwnerAll},
+                    AllUsers => $GetParam{OwnerAll}
                 ),
                 UserSelected     => $GetParam{NewUserID},
                 ResponsibleUsers => $Self->_GetResponsibles(
@@ -1573,6 +1576,7 @@ sub Run {
             );
 
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
 
