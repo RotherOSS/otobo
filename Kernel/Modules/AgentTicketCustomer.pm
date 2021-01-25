@@ -109,10 +109,6 @@ sub Run {
         $LayoutObject->ChallengeTokenCheck();
 
         # set customer id
-        my $ExpandCustomerName1 = $ParamObject->GetParam( Param => 'ExpandCustomerName1' )
-            || 0;
-        my $ExpandCustomerName2 = $ParamObject->GetParam( Param => 'ExpandCustomerName2' )
-            || 0;
         my $CustomerUserOption = $ParamObject->GetParam( Param => 'CustomerUserOption' )
             || '';
         $Param{CustomerUserID}       = $ParamObject->GetParam( Param => 'CustomerUserID' )       || '';
@@ -127,56 +123,17 @@ sub Run {
         # get customer user object
         my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
-        # Expand Customer Name
-        if ($ExpandCustomerName1) {
-
-            # search customer
-            my %CustomerUserList = ();
-            %CustomerUserList = $CustomerUserObject->CustomerSearch(
-                Search => $Param{CustomerUserID},
-            );
-
-            # check if just one customer user exists
-            # if just one, fillup CustomerUserID and CustomerID
-            $Param{CustomerUserListCount} = 0;
-            for my $KeyCustomerUser ( sort keys %CustomerUserList ) {
-                $Param{CustomerUserListCount}++;
-                $Param{CustomerUserListLast}     = $CustomerUserList{$KeyCustomerUser};
-                $Param{CustomerUserListLastUser} = $KeyCustomerUser;
-            }
-            if ( $Param{CustomerUserListCount} == 1 ) {
-                $Param{CustomerUserID} = $Param{CustomerUserListLastUser};
-                my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
-                    User => $Param{CustomerUserListLastUser},
-                );
-                if ( $CustomerUserData{UserCustomerID} ) {
-                    $Param{CustomerID} = $CustomerUserData{UserCustomerID};
-                }
-
-            }
-
-            # if more the one customer user exists, show list
-            # and clean CustomerID
-            else {
-                $Param{CustomerID}            = '';
-                $Param{"CustomerUserOptions"} = \%CustomerUserList;
+        # check needed data
+        {
+            my %Error;
+            if ( !$Param{CustomerUserID} ) {
+                $Error{'CustomerUserIDInvalid'} = 'ServerError';
             }
             return $Self->Form(%Param);
         }
 
-        # get customer user and customer id
-        elsif ($ExpandCustomerName2) {
-            my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
-                User => $CustomerUserOption,
-            );
-            my %CustomerUserList = $CustomerUserObject->CustomerSearch(
-                UserLogin => $CustomerUserOption,
-            );
-            for my $KeyCustomerUser ( sort keys %CustomerUserList ) {
-                $Param{CustomerUserID} = $KeyCustomerUser;
-            }
-            if ( $CustomerUserData{UserCustomerID} ) {
-                $Param{CustomerID} = $CustomerUserData{UserCustomerID};
+            if (%Error) {
+                return $Self->Form( %Param, %Error );
             }
             return $Self->Form(%Param);
         }
