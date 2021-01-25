@@ -205,8 +205,8 @@ X-OTOBO-Login: [% Env("Baselink") %]
                 <p class="Center SpacingTop">
                     <a href="#" id="LostPassword">[% Translate("Lost your password?") | html %]</a>
                 </p>
-            </div>
 [% RenderBlockEnd("LostPasswordLink") %]
+            </div>
 [% RenderBlockEnd("LoginBox") %]
 
 [% RenderBlockStart("LostPassword") %]
