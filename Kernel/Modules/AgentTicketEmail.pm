@@ -1303,6 +1303,8 @@ sub Run {
         my $CustomerID           = $ParamObject->GetParam( Param => 'CustomerID' ) || '';
         my $SelectedCustomerUser = $ParamObject->GetParam( Param => 'SelectedCustomerUser' )
             || '';
+        my $ExpandCustomerName = $ParamObject->GetParam( Param => 'ExpandCustomerName' )
+            || 0;
         my %FromExternalCustomer;
         $FromExternalCustomer{Customer} = $ParamObject->GetParam( Param => 'PreSelectedCustomerUser' )
             || $ParamObject->GetParam( Param => 'CustomerUser' )
@@ -1408,7 +1410,7 @@ sub Run {
             my $ValidationResult;
 
             # do not validate on invisible fields
-            if ( $Visibility{ $DynamicFieldConfig->{Name} } ) {
+            if ( !$ExpandCustomerName && $Visibility{ $DynamicFieldConfig->{Name} } ) {
 
                 $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
                     DynamicFieldConfig   => $DynamicFieldConfig,
@@ -1452,6 +1454,33 @@ sub Run {
             FormID => $Self->{FormID},
         );
 
+        # get from and customer id if customer user is given
+        # This is used by Kernel::Modules::AdminCustomerUser
+        if ( $ExpandCustomerName == 2 ) {
+            my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
+                User => $CustomerUser,
+            );
+            my %CustomerUserList = $CustomerUserObject->CustomerSearch(
+                UserLogin => $CustomerUser,
+            );
+            for my $KeyCustomerUser ( sort keys %CustomerUserList ) {
+                $GetParam{To} = $CustomerUserList{$KeyCustomerUser};
+            }
+            if ( $CustomerUserData{UserCustomerID} ) {
+                $CustomerID = $CustomerUserData{UserCustomerID};
+            }
+            if ( $CustomerUserData{UserLogin} ) {
+                $CustomerUser = $CustomerUserData{UserLogin};
+            }
+            if ( $FromExternalCustomer{Customer} ) {
+                my %ExternalCustomerUserData = $CustomerUserObject->CustomerUserDataGet(
+                    User => $FromExternalCustomer{Customer},
+                );
+                $FromExternalCustomer{Email} = $ExternalCustomerUserData{UserMailString};
+            }
+            $Error{ExpandCustomerName} = 1;
+        }
+
         # show customer info
         my %CustomerData;
         if ( $ConfigObject->Get('Ticket::Frontend::CustomerInfoCompose') ) {
@@ -1488,7 +1517,7 @@ sub Run {
         }
 
         # if it is not a subaction about attachments, check for server errors
-        {
+        if ( !$ExpandCustomerName ) {
             if ( !$GetParam{To} ) {
                 $Error{'ToInvalid'} = 'ServerError';
             }
