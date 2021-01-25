@@ -119,8 +119,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
-
     # store last queue screen
     if ( $Self->{LastScreenOverview} && $Self->{LastScreenOverview} !~ /Action=AgentTicketEmail/ ) {
         $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
@@ -401,9 +399,10 @@ sub Run {
             %Ticket = $TicketObject->TicketGet( TicketID => $Self->{TicketID} );
         }
 
-        # header
-        $Output .= $LayoutObject->Header();
-        $Output .= $LayoutObject->NavigationBar();
+        # header and navigation bar
+        my $Output = join '',
+            $LayoutObject->Header(),
+            $LayoutObject->NavigationBar();
 
         # if there is no ticket id!
         if ( $Self->{TicketID} && $Self->{Subaction} eq 'Created' ) {
@@ -1220,6 +1219,7 @@ sub Run {
             MultipleCustomerCc  => \@MultipleCustomerCc,
             MultipleCustomerBcc => \@MultipleCustomerBcc,
         );
+
         $Output .= $LayoutObject->Footer();
 
         return $Output;
@@ -1469,9 +1469,6 @@ sub Run {
         my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
             FormID => $Self->{FormID},
         );
-
-        # get customer user object
-        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
         # expand customer name
         my %CustomerUserData;
@@ -1783,7 +1780,7 @@ sub Run {
                 );
             }
 
-            #set Body and Subject parameters for Output
+            # set Body and Subject parameters for Output
             if ( !$GetParam{Subject} ) {
                 $GetParam{Subject} = $Subject;
             }
@@ -1812,9 +1809,10 @@ sub Run {
                 Services       => $Services,
             );
 
-            # header
-            $Output .= $LayoutObject->Header();
-            $Output .= $LayoutObject->NavigationBar();
+            # header and navigation bar
+            my $Output = join '',
+                $LayoutObject->Header(),
+                $LayoutObject->NavigationBar();
 
             # html output
             $Output .= $Self->_MaskEmailNew(
@@ -1867,13 +1865,13 @@ sub Run {
                     ? 'Validate_Required'
                     : ''
                 ),
-                FromList     => $Self->_GetTos(),
-                FromSelected => $Dest,
-                Subject      => $LayoutObject->Ascii2Html( Text => $GetParam{Subject} ),
-                Body         => $LayoutObject->Ascii2Html( Text => $GetParam{Body} ),
-                Errors       => \%Error,
-                Attachments  => \@Attachments,
-                Signature    => $Signature,
+                FromList             => $Self->_GetTos(),
+                FromSelected         => $Dest,
+                Subject              => $LayoutObject->Ascii2Html( Text => $GetParam{Subject} ),
+                Body                 => $LayoutObject->Ascii2Html( Text => $GetParam{Body} ),
+                Errors               => \%Error,
+                Attachments          => \@Attachments,
+                Signature            => $Signature,
                 %GetParam,
                 DynamicFieldHTML     => \%DynamicFieldHTML,
                 MultipleCustomer     => \@MultipleCustomer,
@@ -1884,6 +1882,7 @@ sub Run {
             );
 
             $Output .= $LayoutObject->Footer();
+
             return $Output;
         }
 

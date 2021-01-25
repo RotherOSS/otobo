@@ -1142,11 +1142,6 @@ sub Run {
             );
         }
 
-        # get all attachments meta data
-        my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-            FormID => $Self->{FormID},
-        );
-
         # check pending date
         if ( ! $ExpandCustomerName && $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
 
@@ -1283,6 +1278,11 @@ sub Run {
                 Mandatory            => $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
             );
         }
+
+        # get all attachments meta data
+        my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
+            FormID => $Self->{FormID},
+        );
 
         # expand customer name
         my %CustomerUserData;
