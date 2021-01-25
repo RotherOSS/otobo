@@ -223,7 +223,7 @@ sub Run {
 
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);

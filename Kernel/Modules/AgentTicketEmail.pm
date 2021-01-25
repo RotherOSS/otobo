@@ -122,36 +122,25 @@ sub Run {
     # store last queue screen
     if ( $Self->{LastScreenOverview} && $Self->{LastScreenOverview} !~ /Action=AgentTicketEmail/ ) {
         $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
-            SessionID => $Self->{SessionID},
-            Key       => 'LastScreenOverview',
-            Value     => $Self->{RequestedURL},
-        );
+                SessionID => $Self->{SessionID},
+                Key       => 'LastScreenOverview',
+                Value     => $Self->{RequestedURL},
+                );
     }
 
     # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    # get upload cache object
-    my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
-
-    # get needed objects
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
-    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    my $Debug              = $Param{Debug} || 0;
-    my $Config             = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
-    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my $Debug = $Param{Debug} || 0;
 
     # get params
     my %GetParam;
     for my $Key (
-        qw(Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
-        TypeID ServiceID SLAID OwnerAll ResponsibleAll NewResponsibleID NewUserID
-        NextStateID StandardTemplateID Dest ArticleID LinkTicketID
-        )
-        )
+            qw(Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
+                TypeID ServiceID SLAID OwnerAll ResponsibleAll NewResponsibleID NewUserID
+                NextStateID StandardTemplateID Dest ArticleID LinkTicketID
+              )
+            )
     {
         $GetParam{$Key} = $ParamObject->GetParam( Param => $Key );
     }
@@ -275,11 +264,11 @@ sub Run {
 
                 push @MultipleCustomerCc, {
                     Count            => $CountAuxCc,
-                    CustomerElement  => $CustomerElementCc,
-                    CustomerKey      => $CustomerKeyCc,
-                    CustomerError    => $CustomerErrorCc,
-                    CustomerErrorMsg => $CustomerErrorMsgCc,
-                    CustomerDisabled => $CustomerDisabledCc,
+                                     CustomerElement  => $CustomerElementCc,
+                                     CustomerKey      => $CustomerKeyCc,
+                                     CustomerError    => $CustomerErrorCc,
+                                     CustomerErrorMsg => $CustomerErrorMsgCc,
+                                     CustomerDisabled => $CustomerDisabledCc,
                 };
                 $AddressesList{$CustomerElementCc} = 1;
             }
@@ -334,11 +323,11 @@ sub Run {
 
                 push @MultipleCustomerBcc, {
                     Count            => $CountAuxBcc,
-                    CustomerElement  => $CustomerElementBcc,
-                    CustomerKey      => $CustomerKeyBcc,
-                    CustomerError    => $CustomerErrorBcc,
-                    CustomerErrorMsg => $CustomerErrorMsgBcc,
-                    CustomerDisabled => $CustomerDisabledBcc,
+                                     CustomerElement  => $CustomerElementBcc,
+                                     CustomerKey      => $CustomerKeyBcc,
+                                     CustomerError    => $CustomerErrorBcc,
+                                     CustomerErrorMsg => $CustomerErrorMsgBcc,
+                                     CustomerDisabled => $CustomerDisabledBcc,
                 };
                 $AddressesList{$CustomerElementBcc} = 1;
             }
@@ -353,9 +342,17 @@ sub Run {
     my %DynamicFieldValues;
 
     # get needed objects
-    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
     my $LayoutObject              = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $ConfigObject              = $Kernel::OM->Get('Kernel::Config');
+    my $CustomerUserObject        = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my $UploadCacheObject         = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
+    my $TicketObject              = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $QueueObject               = $Kernel::OM->Get('Kernel::System::Queue');
     my $FieldRestrictionsObject   = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
+    my $MainObject                = $Kernel::OM->Get('Kernel::System::Main');
+
+    my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
     # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
@@ -2866,11 +2863,14 @@ sub _GetTos {
             Type   => 'create',
         );
 
+        my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
+        my $QueueObject         = $Kernel::OM->Get('Kernel::System::Queue');
+
         # build selection string
         QUEUEID:
         for my $QueueID ( sort keys %Tos ) {
 
-            my %QueueData = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet( ID => $QueueID );
+            my %QueueData = $QueueObject->QueueGet( ID => $QueueID );
 
             # permission check, can we create new tickets in queue
             next QUEUEID if !$UserGroups{ $QueueData{GroupID} };
@@ -2886,7 +2886,7 @@ sub _GetTos {
             }
 
             if ( $ConfigObject->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue' ) {
-                my %SystemAddressData = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressGet(
+                my %SystemAddressData = $SystemAddressObject->SystemAddressGet(
                     ID => $Tos{$QueueID},
                 );
                 $String =~ s/<Realname>/$SystemAddressData{Realname}/g;
