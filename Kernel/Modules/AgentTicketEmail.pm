@@ -2968,11 +2968,14 @@ sub _GetTos {
             Type   => 'create',
         );
 
+        my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
+        my $QueueObject         = $Kernel::OM->Get('Kernel::System::Queue');
+
         # build selection string
         QUEUEID:
         for my $QueueID ( sort keys %Tos ) {
 
-            my %QueueData = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet( ID => $QueueID );
+            my %QueueData = $QueueObject->QueueGet( ID => $QueueID );
 
             # permission check, can we create new tickets in queue
             next QUEUEID if !$UserGroups{ $QueueData{GroupID} };
@@ -2983,11 +2986,12 @@ sub _GetTos {
             $String =~ s/<QueueComment>/$QueueData{Comment}/g;
 
             # remove trailing spaces
-            $String =~ s{\s+\z}{} if !$QueueData{Comment};
+            if ( !$QueueData{Comment} ) {
+                $String =~ s{\s+\z}{};
+            }
 
-            if ( $ConfigObject->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue' )
-            {
-                my %SystemAddressData = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressGet(
+            if ( $ConfigObject->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue' ) {
+                my %SystemAddressData = $SystemAddressObject->SystemAddressGet(
                     ID => $Tos{$QueueID},
                 );
                 $String =~ s/<Realname>/$SystemAddressData{Realname}/g;
@@ -2999,6 +3003,7 @@ sub _GetTos {
 
     # add empty selection
     $NewTos{''} = '-';
+
     return \%NewTos;
 }
 

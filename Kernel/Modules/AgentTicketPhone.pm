@@ -2718,6 +2718,7 @@ sub _GetTos {
 
     # add empty selection
     $NewTos{''} = '-';
+
     return \%NewTos;
 }
 
