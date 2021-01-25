@@ -15,7 +15,6 @@
 # --
 
 package Kernel::Modules::AgentTicketPhone;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
 use strict;
 use warnings;
@@ -34,7 +33,7 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    #get config object
+    # get frontend specific config
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get the dynamic fields for this screen
@@ -120,12 +119,11 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # get params
-    my %GetParam;
-
     # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
+    # get params
+    my %GetParam;
     for my $Key (
         qw(ArticleID LinkTicketID PriorityID NewUserID
         From Subject Body NextStateID TimeUnits
@@ -142,13 +140,13 @@ sub Run {
     my %ACLCompatGetParam;
     $ACLCompatGetParam{OwnerID} = $GetParam{NewUserID};
 
+    # hash for check duplicated entries
+    my %AddressesList;
+
     # MultipleCustomer From-field
     my @MultipleCustomer;
     my $CustomersNumber = $ParamObject->GetParam( Param => 'CustomerTicketCounterFromCustomer' ) || 0;
     my $Selected        = $ParamObject->GetParam( Param => 'CustomerSelected' )                  || '';
-
-    # hash for check duplicated entries
-    my %AddressesList;
 
     # get check item object
     my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
@@ -214,8 +212,8 @@ sub Run {
     my %DynamicFieldValues;
 
     # get needed objects
-    my $LayoutObject              = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $LayoutObject              = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject              = $Kernel::OM->Get('Kernel::Config');
     my $CustomerUserObject        = $Kernel::OM->Get('Kernel::System::CustomerUser');
     my $UploadCacheObject         = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
@@ -225,7 +223,7 @@ sub Run {
 
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -379,8 +377,9 @@ sub Run {
             # check if article is from the same TicketID as we checked permissions for.
             if ( $Article{TicketID} ne $Self->{TicketID} ) {
                 return $LayoutObject->ErrorScreen(
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Translate( 'Article does not belong to ticket %s!', $Self->{TicketID} ),
+                    Message => $LayoutObject->{LanguageObject}->Translate(
+                        'Article does not belong to ticket %s!', $Self->{TicketID}
+                    ),
                 );
             }
 
@@ -580,7 +579,7 @@ sub Run {
         # this information will be available in the SplitTicketParam hash
         if ( $SplitTicketParam{TicketID} ) {
 
-            # Get information from original ticket (SplitTicket).
+            # get information from original ticket (SplitTicket)
             my %SplitTicketData = $TicketObject->TicketGet(
                 TicketID      => $SplitTicketParam{TicketID},
                 DynamicFields => 1,
@@ -801,8 +800,10 @@ sub Run {
                             next FIELD;
                         }
                         for my $Element ( sort keys %ChangedElements ) {
-                            if (   $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
-                                || $Self->{InternalDependancy}{$Element}{$FieldID} )
+                            if (
+                                $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
+                                || $Self->{InternalDependancy}{$Element}{$FieldID}
+                            )
                             {
                                 next FIELD;
                             }
@@ -858,8 +859,10 @@ sub Run {
                     }
 
                     # check whether current selected value is still valid for the field
-                    if ( $GetParam{ $Field->{FieldID} }
-                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } } )
+                    if (
+                        $GetParam{ $Field->{FieldID} }
+                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } }
+                    )
                     {
                         # if not empty the field
                         $GetParam{ $Field->{FieldID} } = '';
@@ -967,8 +970,10 @@ sub Run {
 
             # don't set a default value for hidden fields
             my %UseDefault = ();
-            if ( !$DynFieldStates{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"}
-                && ( $DynamicFieldConfig->{FieldType} ne 'Date' || $DynamicFieldConfig->{FieldType} ne 'DateTime' ) )
+            if (
+                !$DynFieldStates{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"}
+                && ( $DynamicFieldConfig->{FieldType} ne 'Date' || $DynamicFieldConfig->{FieldType} ne 'DateTime' )
+            )
             {
                 %UseDefault = (
                     UseDefaultValue      => 0,
@@ -1094,9 +1099,9 @@ sub Run {
             || $ParamObject->GetParam( Param => 'PreSelectedCustomerUser' )
             || $ParamObject->GetParam( Param => 'SelectedCustomerUser' )
             || '';
+        my $CustomerID           = $ParamObject->GetParam( Param => 'CustomerID' ) || '';
         my $SelectedCustomerUser = $ParamObject->GetParam( Param => 'SelectedCustomerUser' )
             || '';
-        my $CustomerID         = $ParamObject->GetParam( Param => 'CustomerID' ) || '';
         my $ExpandCustomerName = $ParamObject->GetParam( Param => 'ExpandCustomerName' )
             || 0;
         my %FromExternalCustomer;
@@ -1140,7 +1145,7 @@ sub Run {
         );
 
         # check pending date
-        if ( !$ExpandCustomerName && $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
+        if ( ! $ExpandCustomerName && $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
 
             # create a datetime object based on pending date
             my $PendingDateTimeObject = $Kernel::OM->Create(
@@ -1236,7 +1241,7 @@ sub Run {
 
             my $ValidationResult;
 
-            # do not validate on attachment upload and invisible fields
+            # do not validate on invisible fields
             if ( !$ExpandCustomerName && $Visibility{ $DynamicFieldConfig->{Name} } ) {
 
                 $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
@@ -1266,7 +1271,7 @@ sub Run {
             $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } = $DynamicFieldBackendObject->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
-                ServerError          => $ValidationResult->{ServerError} || '',
+                ServerError          => $ValidationResult->{ServerError}  || '',
                 ErrorMessage         => $ValidationResult->{ErrorMessage} || '',
                 LayoutObject         => $LayoutObject,
                 ParamObject          => $ParamObject,
@@ -1316,7 +1321,7 @@ sub Run {
                 }
             }
 
-            # if more than one customer user exist, show list
+            # if more the one customer user exists, show list
             # and clean CustomerUserID and CustomerID
             else {
 
@@ -1336,6 +1341,7 @@ sub Run {
         }
 
         # get from and customer id if customer user is given
+        # This is used by Kernel::Modules::AdminCustomerUser
         elsif ( $ExpandCustomerName == 2 ) {
             %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
                 User => $CustomerUser,
@@ -1395,9 +1401,9 @@ sub Run {
             }
         }
 
+        # if it is not a subaction about attachments, check for server errors
         if ( !$ExpandCustomerName ) {
-            if ( !$GetParam{From} )
-            {
+            if ( !$GetParam{From} ) {
                 $Error{'FromInvalid'} = ' ServerError';
             }
             if ( !$GetParam{Subject} ) {
@@ -1406,6 +1412,7 @@ sub Run {
             if ( !$NewQueueID ) {
                 $Error{'DestinationInvalid'} = ' ServerError';
             }
+
             if (
                 $ConfigObject->Get('Ticket::Service')
                 && $GetParam{SLAID}
@@ -1546,17 +1553,17 @@ sub Run {
                     %ACLCompatGetParam,
                     QueueID => $NewQueueID || '',
                 ),
-                CustomerID   => $LayoutObject->Ascii2Html( Text => $CustomerID ),
-                CustomerUser => $CustomerUser,
-                CustomerData => \%CustomerData,
-                To           => $Self->_GetTos(
+                CustomerID        => $LayoutObject->Ascii2Html( Text => $CustomerID ),
+                CustomerUser      => $CustomerUser,
+                CustomerData      => \%CustomerData,
+                To                => $Self->_GetTos(
                     %GetParam,
                     %ACLCompatGetParam,
                     QueueID => $NewQueueID
                 ),
-                ToSelected  => $Dest,
-                Errors      => \%Error,
-                Attachments => \@Attachments,
+                ToSelected           => $Dest,
+                Errors               => \%Error,
+                Attachments          => \@Attachments,
                 %GetParam,
                 DynamicFieldHTML     => \%DynamicFieldHTML,
                 MultipleCustomer     => \@MultipleCustomer,
@@ -2047,8 +2054,10 @@ sub Run {
                             next FIELD;
                         }
                         for my $Element ( sort keys %ChangedElements ) {
-                            if (   $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
-                                || $Self->{InternalDependancy}{$Element}{$FieldID} )
+                            if (
+                                $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
+                                || $Self->{InternalDependancy}{$Element}{$FieldID}
+                            )
                             {
                                 next FIELD;
                             }
@@ -2104,8 +2113,10 @@ sub Run {
                     }
 
                     # check whether current selected value is still valid for the field
-                    if ( $GetParam{ $Field->{FieldID} }
-                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } } )
+                    if (
+                        $GetParam{ $Field->{FieldID} }
+                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } }
+                    )
                     {
                         # if not empty the field
                         $GetParam{ $Field->{FieldID} } = '';
@@ -2202,8 +2213,10 @@ sub Run {
 
         }
 
-        # build the AJAX return for the dynamic fields
+        # update Dynamic Fields Possible Values via AJAX
         my @DynamicFieldAJAX;
+
+        # cycle through the activated Dynamic Fields for this screen
         DYNAMICFIELD:
         for my $Index ( sort keys %{ $DynFieldStates{Fields} } ) {
             my $DynamicFieldConfig = $Self->{DynamicField}->[$Index];
@@ -2834,6 +2847,7 @@ sub _MaskPhoneNew {
             }
         }
     }
+
     if ( $ConfigObject->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
         $Param{ToStrg} = $LayoutObject->AgentQueueListOption(
             Class          => 'Validate_Required Modernize',
@@ -3041,11 +3055,11 @@ sub _MaskPhoneNew {
         $Param{Priority} = $Config->{Priority};
     }
     $Param{PriorityStrg} = $LayoutObject->BuildSelection(
+        Class         => 'Modernize',
         Data          => $Param{Priorities},
         Name          => 'PriorityID',
         SelectedID    => $Param{PriorityID},
         SelectedValue => $Param{Priority},
-        Class         => 'Modernize',
         Translation   => 1,
     );
 
@@ -3089,7 +3103,7 @@ sub _MaskPhoneNew {
     }
 
     # Dynamic fields
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -3245,7 +3259,7 @@ sub _MaskPhoneNew {
     # get output back
     return $LayoutObject->Output(
         TemplateFile => 'AgentTicketPhone',
-        Data         => \%Param,
+        Data         => \%Param
     );
 }
 
@@ -3254,22 +3268,22 @@ sub _GetFieldsToUpdate {
 
     my @UpdatableFields;
 
-    # set the fields that can be updatable via AJAXUpdate
+    # set the fields that are updateable via AJAXUpdate
     if ( !$Param{OnlyDynamicFields} ) {
         @UpdatableFields = qw(
             TypeID
             Dest
+            NextStateID
+            PriorityID
             ServiceID
             SLAID
             NewUserID
             NewResponsibleID
-            NextStateID
-            PriorityID
             StandardTemplateID
         );
     }
 
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
