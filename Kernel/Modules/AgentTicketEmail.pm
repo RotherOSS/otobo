@@ -1336,12 +1336,12 @@ sub Run {
             $GetParam{To} = '';
             $ExpandCustomerName = 3;
         }
-        for my $Number ( 1 .. 2 ) {
-            my $Item = $ParamObject->GetParam( Param => "ExpandCustomerName$Number" ) || 0;
-            if ( $Number == 1 && $Item ) {
+        for my $Count ( 1 .. 2 ) {
+            my $Item = $ParamObject->GetParam( Param => "ExpandCustomerName$Count" ) || 0;
+            if ( $Count == 1 && $Item ) {
                 $ExpandCustomerName = 1;
             }
-            elsif ( $Number == 2 && $Item ) {
+            elsif ( $Count == 2 && $Item ) {
                 $ExpandCustomerName = 2;
             }
         }
@@ -1477,16 +1477,16 @@ sub Run {
             # search customer
             my %CustomerUserList;
             %CustomerUserList = $CustomerUserObject->CustomerSearch(
-                Search => $GetParam{To},
+                Search           => $GetParam{To},
             );
 
             # check if just one customer user exists
             # if just one, fillup CustomerUserID and CustomerID
             $Param{CustomerUserListCount} = 0;
-            for my $CustomerUserKey ( sort keys %CustomerUserList ) {
+            for my $KeyCustomerUser ( sort keys %CustomerUserList ) {
                 $Param{CustomerUserListCount}++;
-                $Param{CustomerUserListLast}     = $CustomerUserList{$CustomerUserKey};
-                $Param{CustomerUserListLastUser} = $CustomerUserKey;
+                $Param{CustomerUserListLast}     = $CustomerUserList{$KeyCustomerUser};
+                $Param{CustomerUserListLastUser} = $KeyCustomerUser;
             }
             if ( $Param{CustomerUserListCount} == 1 ) {
                 $GetParam{To}              = $Param{CustomerUserListLast};
@@ -1530,8 +1530,8 @@ sub Run {
             my %CustomerUserList = $CustomerUserObject->CustomerSearch(
                 UserLogin => $CustomerUser,
             );
-            for my $CustomerUserKey ( sort keys %CustomerUserList ) {
-                $GetParam{To} = $CustomerUserList{$CustomerUserKey};
+            for my $KeyCustomerUser ( sort keys %CustomerUserList ) {
+                $GetParam{To} = $CustomerUserList{$KeyCustomerUser};
             }
             if ( $CustomerUserData{UserCustomerID} ) {
                 $CustomerID = $CustomerUserData{UserCustomerID};
@@ -1805,7 +1805,7 @@ sub Run {
             my $SLAs = $Self->_GetSLAs(
                 %GetParam,
                 %ACLCompatGetParam,
-                QueueID        => $NewQueueID || 1,
+                QueueID        => $NewQueueID   || 1,
                 Services       => $Services,
             );
 
@@ -1924,7 +1924,7 @@ sub Run {
         }
 
         # get pre loaded attachment
-        @Attachments = $UploadCacheObject->FormIDGetAllFilesData(
+        my @AttachmentData = $UploadCacheObject->FormIDGetAllFilesData(
             FormID => $Self->{FormID},
         );
 
@@ -1933,7 +1933,7 @@ sub Run {
             Param => 'FileUpload',
         );
         if (%UploadStuff) {
-            push @Attachments, \%UploadStuff;
+            push @AttachmentData, \%UploadStuff;
         }
 
         # prepare subject
@@ -1958,7 +1958,7 @@ sub Run {
             # remove unused inline images
             my @NewAttachmentData;
             ATTACHMENT:
-            for my $Attachment (@Attachments) {
+            for my $Attachment (@AttachmentData) {
                 my $ContentID = $Attachment->{ContentID};
                 if (
                     $ContentID
@@ -1982,7 +1982,7 @@ sub Run {
                 # remember inline images and normal attachments
                 push @NewAttachmentData, \%{$Attachment};
             }
-            @Attachments = @NewAttachmentData;
+            @AttachmentData = @NewAttachmentData;
 
             # verify html document
             $GetParam{Body} = $LayoutObject->RichTextDocumentComplete(
@@ -2006,7 +2006,7 @@ sub Run {
         # send email
         my $ArticleID = $ArticleBackendObject->ArticleSend(
             NoAgentNotify        => $NoAgentNotify,
-            Attachment           => \@Attachments,
+            Attachment           => \@AttachmentData,
             TicketID             => $TicketID,
             SenderType           => $Config->{SenderType},
             IsVisibleForCustomer => $Config->{IsVisibleForCustomer},
@@ -2733,15 +2733,15 @@ sub _GetUsers {
     # just show only users with selected custom queue
     if ( $Param{QueueID} && !$Param{OwnerAll} ) {
         my @UserIDs = $TicketObject->GetSubscribedUserIDsByQueueID(%Param);
-        for my $GroupMemberKey ( sort keys %AllGroupsMembers ) {
+        for my $KeyGroupMember ( sort keys %AllGroupsMembers ) {
             my $Hit = 0;
             for my $UID (@UserIDs) {
-                if ( $UID eq $GroupMemberKey ) {
+                if ( $UID eq $KeyGroupMember ) {
                     $Hit = 1;
                 }
             }
             if ( !$Hit ) {
-                delete $AllGroupsMembers{$GroupMemberKey};
+                delete $AllGroupsMembers{$KeyGroupMember};
             }
         }
     }
@@ -2758,9 +2758,9 @@ sub _GetUsers {
             GroupID => $GID,
             Type    => 'owner',
         );
-        for my $MemberKey ( sort keys %MemberList ) {
-            if ( $AllGroupsMembers{$MemberKey} ) {
-                $ShownUsers{$MemberKey} = $AllGroupsMembers{$MemberKey};
+        for my $KeyMember ( sort keys %MemberList ) {
+            if ( $AllGroupsMembers{$KeyMember} ) {
+                $ShownUsers{$KeyMember} = $AllGroupsMembers{$KeyMember};
             }
         }
     }
@@ -2796,15 +2796,15 @@ sub _GetResponsibles {
     # just show only users with selected custom queue
     if ( $Param{QueueID} && !$Param{ResponsibleAll} ) {
         my @UserIDs = $TicketObject->GetSubscribedUserIDsByQueueID(%Param);
-        for my $GroupMemberKey ( sort keys %AllGroupsMembers ) {
+        for my $KeyGroupMember ( sort keys %AllGroupsMembers ) {
             my $Hit = 0;
             for my $UID (@UserIDs) {
-                if ( $UID eq $GroupMemberKey ) {
+                if ( $UID eq $KeyGroupMember ) {
                     $Hit = 1;
                 }
             }
             if ( !$Hit ) {
-                delete $AllGroupsMembers{$GroupMemberKey};
+                delete $AllGroupsMembers{$KeyGroupMember};
             }
         }
     }
@@ -2821,9 +2821,9 @@ sub _GetResponsibles {
             GroupID => $GID,
             Type    => 'responsible',
         );
-        for my $MemberKey ( sort keys %MemberList ) {
-            if ( $AllGroupsMembers{$MemberKey} ) {
-                $ShownUsers{$MemberKey} = $AllGroupsMembers{$MemberKey};
+        for my $KeyMember ( sort keys %MemberList ) {
+            if ( $AllGroupsMembers{$KeyMember} ) {
+                $ShownUsers{$KeyMember} = $AllGroupsMembers{$KeyMember};
             }
         }
     }
@@ -3123,7 +3123,7 @@ sub _MaskEmailNew {
         PossibleNone => 1,
     );
 
-    my $Config = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
+    my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
     # build next states string
     $Param{NextStatesStrg} = $LayoutObject->BuildSelection(
@@ -3137,12 +3137,13 @@ sub _MaskEmailNew {
     # build Destination string
     my %NewTo;
     if ( $Param{FromList} ) {
-        for my $FromKey ( sort keys %{ $Param{FromList} } ) {
-            $NewTo{"$FromKey||$Param{FromList}->{$FromKey}"} = $Param{FromList}->{$FromKey};
+        for my $KeyFrom ( sort keys %{ $Param{FromList} } ) {
+            $NewTo{"$KeyFrom||$Param{FromList}->{$KeyFrom}"} = $Param{FromList}->{$KeyFrom};
         }
     }
     if ( !$Param{FromSelected} ) {
         my $UserDefaultQueue = $ConfigObject->Get('Ticket::Frontend::UserDefaultQueue') || '';
+
         if ($UserDefaultQueue) {
             my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $UserDefaultQueue );
             if ($QueueID) {
@@ -3187,8 +3188,8 @@ sub _MaskEmailNew {
 
     # prepare errors!
     if ( $Param{Errors} ) {
-        for my $ErrorKey ( sort keys %{ $Param{Errors} } ) {
-            $Param{$ErrorKey} = $LayoutObject->Ascii2Html( Text => $Param{Errors}->{$ErrorKey} );
+        for my $KeyError ( sort keys %{ $Param{Errors} } ) {
+            $Param{$KeyError} = $LayoutObject->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }
     }
 
