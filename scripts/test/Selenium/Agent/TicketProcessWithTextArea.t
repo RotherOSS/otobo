@@ -167,8 +167,10 @@ $Selenium->RunTest(
         );
 
         # Wait until form has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("button[value=Submit]").length;' );
-        $Selenium->execute_script("\$('button[value=Submit]').click();");
+        $Selenium->WaitFor(
+            ElementExists => q{//button[@value='Submit']}
+        );
+        $Selenium->find_element( q{//button[@value='Submit']} )->click();
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('.ArticleID').length;"
         );
