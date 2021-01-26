@@ -41,7 +41,7 @@ sub Run {
     my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $FormID          = $ParamObject->GetParam( Param => 'FormID' );
     my $CKEditorFuncNum = $ParamObject->GetParam( Param => 'CKEditorFuncNum' ) || 0;
-    my $ResponseType    = $ParamObject->GetParam( Param => 'responseType' ) || '';
+    my $ResponseType    = $ParamObject->GetParam( Param => 'responseType' ) // 'json';
 
     # return if no form id exists
     if ( !$FormID ) {
