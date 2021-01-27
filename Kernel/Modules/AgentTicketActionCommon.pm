@@ -393,7 +393,7 @@ sub Run {
         qw(
         NewStateID NewPriorityID TimeUnits IsVisibleForCustomer Title Body Subject NewQueueID
         Year Month Day Hour Minute NewOwnerID NewResponsibleID TypeID ServiceID SLAID
-        Expand ReplyToArticle StandardTemplateID CreateArticle FormDraftID Title
+        ReplyToArticle StandardTemplateID CreateArticle FormDraftID Title
         )
         )
     {
@@ -759,12 +759,6 @@ sub Run {
             )
         {
             $Error{'TimeUnitsInvalid'} = ' ServerError';
-        }
-
-        # check expand
-        if ( $GetParam{Expand} ) {
-            %Error = ();
-            $Error{Expand} = 1;
         }
 
         # skip validation of hidden fields
