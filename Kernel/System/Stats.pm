@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1382,18 +1382,20 @@ sub Import {
     if ( !$XMLHash[0] ) {
         shift @XMLHash;
     }
-    
+
     # We love to import OTRS stats too, so we need to check
     my $StatsXML;
     if ( $XMLHash[0]->{otobo_stats}->[1] ) {
 
         $StatsXML = $XMLHash[0]->{otobo_stats}->[1];
 
-    } elsif ( $XMLHash[0]->{otrs_stats}->[1] ) {
+    }
+    elsif ( $XMLHash[0]->{otrs_stats}->[1] ) {
 
         $StatsXML = $XMLHash[0]->{otrs_stats}->[1];
 
-    } else {
+    }
+    else {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -1401,6 +1403,7 @@ sub Import {
         );
         return;
     }
+
     # Get new StatID
     my @Keys = $XMLObject->XMLHashSearch(
         Type => 'Stats',

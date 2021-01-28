@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -62,11 +62,11 @@ sub Run {
     my $DisableCompanyTickets = $ConfigObject->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
 
     my $SearchObjects = $ConfigObject->Get('Elasticsearch::QuickSearchShow');
-    my $Count = $SearchObjects->{Ticket} ? $SearchObjects->{Ticket}{Count} : 0;
-    my $ESStrLength = length $ParamObject->GetParam( Param => 'FulltextES' );
+    my $Count         = $SearchObjects->{Ticket} ? $SearchObjects->{Ticket}{Count} : 0;
+    my $ESStrLength   = length $ParamObject->GetParam( Param => 'FulltextES' );
 
-    # Subaction eq SearchUpdate is returned by on click and on input events of the ESfulltext-field. See Core.UI.Elasticsearch.js
-    if ( $Self->{Subaction} eq 'SearchUpdate' && $ESStrLength > 1  && $Count ) {
+# Subaction eq SearchUpdate is returned by on click and on input events of the ESfulltext-field. See Core.UI.Elasticsearch.js
+    if ( $Self->{Subaction} eq 'SearchUpdate' && $ESStrLength > 1 && $Count ) {
 
         # Add filter for customer company if the company tickets are not disabled.
         my %Selection;

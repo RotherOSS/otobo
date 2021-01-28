@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -60,7 +60,6 @@ sub CheckPreviousRequirement {
     return 1;
 }
 
-
 =head2 Run()
 
 Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
@@ -100,7 +99,7 @@ sub Run {
 
     my $XMLType = 'Stats';
     return \%Result if !$DBObject->Prepare(
-        SQL => 'SELECT xml_type, xml_key, xml_content_key, xml_content_value FROM xml_storage WHERE xml_type = ?',
+        SQL  => 'SELECT xml_type, xml_key, xml_content_key, xml_content_value FROM xml_storage WHERE xml_type = ?',
         Bind => [ \$XMLType, ],
     );
 
@@ -109,10 +108,10 @@ sub Run {
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
         push @StatsEntrys, {
-            xml_type            => $Row[0],
-            xml_key             => $Row[1],
-            xml_content_key     => $Row[2],
-            xml_content_value   => $Row[3],
+            xml_type          => $Row[0],
+            xml_key           => $Row[1],
+            xml_content_key   => $Row[2],
+            xml_content_value => $Row[3],
         };
     }
 

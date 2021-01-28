@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -847,8 +847,10 @@ sub Run {
             my $ValidationResult;
 
          # Do not validate only if object type is Article and CreateArticle value is not defined, or Field is invisible.
-            if ( !( $DynamicFieldConfig->{ObjectType} eq 'Article' && !$GetParam{CreateArticle} )
-                && $Visibility{ $DynamicFieldConfig->{Name} } )
+            if (
+                !( $DynamicFieldConfig->{ObjectType} eq 'Article' && !$GetParam{CreateArticle} )
+                && $Visibility{ $DynamicFieldConfig->{Name} }
+                )
             {
 
                 $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
@@ -1414,7 +1416,7 @@ sub Run {
         );
         my %ChangedElements        = $ElementChanged ? ( $ElementChanged => 1 ) : ();
         my %ChangedElementsDFStart = $ElementChanged ? ( $ElementChanged => 1 ) : ();
-        my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? ( $ElementChanged => 1 ) : ();
+        my %ChangedStdFields = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? ( $ElementChanged => 1 ) : ();
 
         my $LoopProtection = 100;
         my %StdFieldValues;
@@ -1455,8 +1457,10 @@ sub Run {
                             next FIELD;
                         }
                         for my $Element ( sort keys %ChangedElements ) {
-                            if (   $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
-                                || $Self->{InternalDependancy}{$Element}{$FieldID} )
+                            if (
+                                $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
+                                || $Self->{InternalDependancy}{$Element}{$FieldID}
+                                )
                             {
                                 next FIELD;
                             }
@@ -1505,11 +1509,13 @@ sub Run {
                     }
 
                     # check whether current selected value is still valid for the field
-                    if ( $GetParam{ $Field->{FieldID} }
-                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } } )
+                    if (
+                        $GetParam{ $Field->{FieldID} }
+                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } }
+                        )
                     {
                         # if not empty the field
-                        $GetParam{ $Field->{FieldID} } = '';
+                        $GetParam{ $Field->{FieldID} }           = '';
                         $NewChangedElements{ $Field->{FieldID} } = 1;
                         $ChangedStdFields{ $Field->{FieldID} }   = 1;
                     }
@@ -1606,8 +1612,7 @@ sub Run {
         for my $Index ( sort keys %{ $DynFieldStates{Fields} } ) {
             my $DynamicFieldConfig = $DynamicField->[$Index];
 
-            my $DataValues
-                = $DynFieldStates{Fields}{$Index}{NotACLReducible}
+            my $DataValues = $DynFieldStates{Fields}{$Index}{NotACLReducible}
                 ? $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}
                 :
                 (
@@ -2005,8 +2010,10 @@ sub Run {
                             next FIELD;
                         }
                         for my $Element ( sort keys %ChangedElements ) {
-                            if (   $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
-                                || $Self->{InternalDependancy}{$Element}{$FieldID} )
+                            if (
+                                $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
+                                || $Self->{InternalDependancy}{$Element}{$FieldID}
+                                )
                             {
                                 next FIELD;
                             }
@@ -2055,11 +2062,13 @@ sub Run {
                     }
 
                     # check whether current selected value is still valid for the field
-                    if ( $GetParam{ $Field->{FieldID} }
-                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } } )
+                    if (
+                        $GetParam{ $Field->{FieldID} }
+                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } }
+                        )
                     {
                         # if not empty the field
-                        $GetParam{ $Field->{FieldID} } = '';
+                        $GetParam{ $Field->{FieldID} }           = '';
                         $NewChangedElements{ $Field->{FieldID} } = 1;
                         $ChangedStdFields{ $Field->{FieldID} }   = 1;
                     }
@@ -2163,8 +2172,10 @@ sub Run {
 
             # don't set a default value for hidden fields
             my %UseDefault = ();
-            if ( !$DynFieldStates{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"}
-                && ( $DynamicFieldConfig->{FieldType} ne 'Date' || $DynamicFieldConfig->{FieldType} ne 'DateTime' ) )
+            if (
+                !$DynFieldStates{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"}
+                && ( $DynamicFieldConfig->{FieldType} ne 'Date' || $DynamicFieldConfig->{FieldType} ne 'DateTime' )
+                )
             {
                 %UseDefault = (
                     UseDefaultValue      => 0,

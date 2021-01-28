@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+// Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -22,7 +22,7 @@ Core.UI = Core.UI || {};
 /**
  * @namespace Core.UI.InputFields
  * @memberof Core.UI
- * @author 
+ * @author
  * @description
  *      Unified input fields.
  */
@@ -309,16 +309,16 @@ Core.UI.InputFields = (function (TargetNS) {
                 if ( TextInput.lenght === 0 ) {
                     return 1;
                 }
-             
+
                 // fields already filled
                 if ( TextInput.attr('value') && $.trim(TextInput.attr('value')).length ) {
                     TextInput.addClass('oooFull');
                     $(this).addClass('oooFull');
                     $(this).parent('.Field').addClass('oooFull');
                 }
-             
+
                 var Label = $(this).children('label').first();
-             
+
                 TextInput.focus( function() {
                     Label.addClass('oooFocus');
                 });
@@ -327,9 +327,9 @@ Core.UI.InputFields = (function (TargetNS) {
                     if ( $(this).attr('aria-expanded') ) {
                         return 1;
                     }
-             
+
                     Label.removeClass('oooFocus');
-             
+
                     // check whether field is filled
                     if ( $.trim(this.value).length ) {
                         $(this).addClass('oooFull');
@@ -759,7 +759,7 @@ Core.UI.InputFields = (function (TargetNS) {
      *      Remove complete jsTree list and action buttons.
      */
     function HideSelectList($SelectObj, $InputContainerObj, $SearchObj, $ListContainerObj, $TreeContainerObj) {
-        
+
         // Remove jsTree if it exists
        if ($ListContainerObj && $TreeContainerObj) {
             $ListContainerObj.fadeOut(Config.FadeDuration, function () {

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -972,7 +972,7 @@ sub Run {
                         )
                     {
                         # if not empty the field
-                        $GetParam{ $Field->{FieldID} } = '';
+                        $GetParam{ $Field->{FieldID} }           = '';
                         $NewChangedElements{ $Field->{FieldID} } = 1;
                         $ChangedStdFields{ $Field->{FieldID} }   = 1;
                     }
@@ -2212,7 +2212,7 @@ sub Run {
         );
         my %ChangedElements        = $ElementChanged ? ( $ElementChanged => 1 ) : ();
         my %ChangedElementsDFStart = $ElementChanged ? ( $ElementChanged => 1 ) : ();
-        my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? ( $ElementChanged => 1 ) : ();
+        my %ChangedStdFields = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? ( $ElementChanged => 1 ) : ();
 
         my $LoopProtection = 100;
         my %StdFieldValues;
@@ -2319,7 +2319,7 @@ sub Run {
                         )
                     {
                         # if not empty the field
-                        $GetParam{ $Field->{FieldID} } = '';
+                        $GetParam{ $Field->{FieldID} }           = '';
                         $NewChangedElements{ $Field->{FieldID} } = 1;
                         $ChangedStdFields{ $Field->{FieldID} }   = 1;
                     }
