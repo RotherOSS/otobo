@@ -79,7 +79,7 @@ sub Run {
     # get params
     my %GetParam;
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    for my $Key (qw( Subject Body PriorityID TypeID ServiceID SLAID Expand Dest FromChatID)) {
+    for my $Key (qw( Subject Body PriorityID TypeID ServiceID SLAID Dest FromChatID)) {
         $GetParam{$Key} = $ParamObject->GetParam( Param => $Key );
     }
 
@@ -630,8 +630,8 @@ sub Run {
 
             my $ValidationResult;
 
-            # do not validate on attachment upload or GetParam Expand
-            if ( !$GetParam{Expand} && $Visibility{ $DynamicFieldConfig->{Name} } ) {
+            # do not validate on insisible fields
+            if ( $Visibility{ $DynamicFieldConfig->{Name} } ) {
 
                 $ValidationResult = $BackendObject->EditFieldValueValidate(
                     DynamicFieldConfig   => $DynamicFieldConfig,
@@ -701,7 +701,7 @@ sub Run {
         }
 
         # check queue
-        if ( !$NewQueueID && !$GetParam{Expand} ) {
+        if ( !$NewQueueID ) {
             $Error{QueueInvalid} = 'ServerError';
         }
 
@@ -743,10 +743,6 @@ sub Run {
         if ( !$GetParam{Body} ) {
             $Error{BodyInvalid} = 'ServerError';
         }
-        if ( $GetParam{Expand} ) {
-            %Error = ();
-            $Error{Expand} = 1;
-        }
 
         # check mandatory service
         if (
@@ -771,12 +767,7 @@ sub Run {
         }
 
         # check type
-        if (
-            $ConfigObject->Get('Ticket::Type')
-            && !$GetParam{TypeID}
-            && !$GetParam{Expand}
-            )
-        {
+        if ( $ConfigObject->Get('Ticket::Type') && !$GetParam{TypeID}) {
             $Error{TypeIDInvalid} = 'ServerError';
         }
 
