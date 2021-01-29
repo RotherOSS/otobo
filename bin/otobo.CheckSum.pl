@@ -139,7 +139,7 @@ sub ProcessDirectory {
         next FILE if $File =~ m{css-cache}smx;
 
         # next if not readable
-        open my $In, '<', $OrigFile or die "ERROR: $!";     ## no critic
+        open my $In, '<', $OrigFile or die "ERROR: $!";    ## no critic
 
         my $DigestGenerator = Digest::MD5->new();
         $DigestGenerator->addfile($In);
@@ -157,7 +157,7 @@ sub ProcessDirectory {
                 print "Notice: Dif $File\n";
             }
             elsif ( -e "$File.save" )
-            {    ## report .save files as modified by the OTOBO Package Manager
+            {                                                             ## report .save files as modified by the OTOBO Package Manager
                 print "Notice: OPM Changed $File\n";
             }
             if ( defined $Compare{$File} ) {

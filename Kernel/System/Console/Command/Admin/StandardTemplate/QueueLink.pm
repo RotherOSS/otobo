@@ -53,8 +53,7 @@ sub PreRun {
 
     # check template
     $Self->{TemplateName} = $Self->GetOption('template-name');
-    $Self->{TemplateID}   = $Kernel::OM->Get('Kernel::System::StandardTemplate')
-        ->StandardTemplateLookup( StandardTemplate => $Self->{TemplateName} );
+    $Self->{TemplateID}   = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateLookup( StandardTemplate => $Self->{TemplateName} );
     if ( !$Self->{TemplateID} ) {
         die "Standard template '$Self->{TemplateName}' does not exist.\n";
     }

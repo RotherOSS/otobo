@@ -195,8 +195,8 @@ sub CleanUp {
         }
 
         # filter the types that should be kept
-        if ( %TypeIsKept ) {
-            @ToBeDeletedTypes = grep { ! $TypeIsKept{$_} } @ToBeDeletedTypes;
+        if (%TypeIsKept) {
+            @ToBeDeletedTypes = grep { !$TypeIsKept{$_} } @ToBeDeletedTypes;
         }
 
         return 1 if !@ToBeDeletedTypes;

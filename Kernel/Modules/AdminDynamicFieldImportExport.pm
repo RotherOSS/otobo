@@ -145,8 +145,7 @@ sub Run {
             DYNAMICFIELD:
             for my $DynamicField ( sort keys %{ $ImportData->{DynamicFields} } ) {
 
-                my $Selected
-                    = grep { $ImportData->{DynamicFields}->{$DynamicField}->{Name} eq $_ } @DynamicFieldsSelected;
+                my $Selected = grep { $ImportData->{DynamicFields}->{$DynamicField}->{Name} eq $_ } @DynamicFieldsSelected;
                 next DYNAMICFIELD if !$Selected;
 
                 next DYNAMICFIELD if !IsHashRefWithData( $ImportData->{DynamicFields}->{$DynamicField} );

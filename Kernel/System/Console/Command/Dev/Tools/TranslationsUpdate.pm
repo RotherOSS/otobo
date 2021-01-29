@@ -612,7 +612,7 @@ sub HandleLanguage {
         },
     );
     if ( $TranslitLanguagesMap{$Language} ) {
-        $TranslitObject = new Lingua::Translit( $TranslitLanguagesMap{$Language}->{TranslitTable} );    ## no critic
+        $TranslitObject             = new Lingua::Translit( $TranslitLanguagesMap{$Language}->{TranslitTable} );    ## no critic
         $TranslitLanguageCoreObject = Kernel::Language->new(
             UserLanguage    => $TranslitLanguagesMap{$Language}->{SourceLanguage},
             TranslationFile => 1,

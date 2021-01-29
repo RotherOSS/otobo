@@ -1641,8 +1641,7 @@ sub _Replace {
 
         # fill the DynamicFielsDisplayValues
         if ($DisplayValueStrg) {
-            $DynamicFieldDisplayValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} . '_Value' }
-                = $DisplayValueStrg->{Value};
+            $DynamicFieldDisplayValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} . '_Value' } = $DisplayValueStrg->{Value};
 
             # Add timezone info if needed.
             if (

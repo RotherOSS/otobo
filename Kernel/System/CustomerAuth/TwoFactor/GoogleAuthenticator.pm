@@ -54,9 +54,8 @@ sub Auth {
         return;
     }
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $SecretPreferencesKey
-        = $ConfigObject->Get("Customer::AuthTwoFactorModule$Self->{Count}::SecretPreferencesKey") || '';
+    my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
+    my $SecretPreferencesKey = $ConfigObject->Get("Customer::AuthTwoFactorModule$Self->{Count}::SecretPreferencesKey") || '';
     if ( !$SecretPreferencesKey ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',

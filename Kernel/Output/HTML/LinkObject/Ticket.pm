@@ -243,8 +243,8 @@ sub TableCreateComplex {
         return;
     }
 
-# Get default column priority from SysConfig
-# Each column in table (Title, State, Type,...) has defined Priority in SysConfig. System use this priority to sort columns, if user doesn't have own settings.
+    # Get default column priority from SysConfig
+    # Each column in table (Title, State, Type,...) has defined Priority in SysConfig. System use this priority to sort columns, if user doesn't have own settings.
     my %SortOrder;
     if (
         $ComplexTableData->{"Ticket"}->{"Priority"}

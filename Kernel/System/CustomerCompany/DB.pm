@@ -129,8 +129,7 @@ sub CustomerCompanyList {
 
     # remove dynamic field names that are configured in CustomerCompanyListFields
     # as they cannot be handled here
-    my @CustomerCompanyListFieldsWithoutDynamicFields
-        = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerCompanyListFields};
+    my @CustomerCompanyListFieldsWithoutDynamicFields = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerCompanyListFields};
 
     # what is the result
     my $What = join(
@@ -183,8 +182,7 @@ sub CustomerCompanyList {
     );
     my %DynamicFieldConfigsByName = map { $_->{Name} => $_ } @{$DynamicFieldConfigs};
 
-    my @CustomerCompanyListFieldsDynamicFields
-        = grep { exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerCompanyListFields};
+    my @CustomerCompanyListFieldsDynamicFields = grep { exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerCompanyListFields};
 
     # sql
     my $CompleteSQL = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
@@ -502,8 +500,7 @@ sub CustomerCompanySearchDetail {
         my @DynamicFieldCustomerIDs;
 
         # Sql uery for the dynamic fields.
-        my $SQLDynamicField
-            = "SELECT DISTINCT(df_obj_id_name.object_name) FROM dynamic_field_obj_id_name df_obj_id_name "
+        my $SQLDynamicField = "SELECT DISTINCT(df_obj_id_name.object_name) FROM dynamic_field_obj_id_name df_obj_id_name "
             . $SQLDynamicFieldFrom
             . " WHERE "
             . $SQLDynamicFieldWhere;

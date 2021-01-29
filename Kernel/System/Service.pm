@@ -865,8 +865,7 @@ sub ServiceSearch {
     $Param{Limit} ||= 1000;
 
     # create sql query
-    my $SQL
-        = "SELECT id FROM service WHERE valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} )";
+    my $SQL = "SELECT id FROM service WHERE valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} )";
     my @Bind;
 
     # get database object
@@ -952,8 +951,7 @@ sub CustomerUserServiceMemberList {
     }
 
     # get options for default services for unknown customers
-    my $DefaultServiceUnknownCustomer
-        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::Default::UnknownCustomer');
+    my $DefaultServiceUnknownCustomer = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::Default::UnknownCustomer');
     if (
         $DefaultServiceUnknownCustomer
         && $Param{DefaultServices}

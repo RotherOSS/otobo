@@ -372,7 +372,7 @@ sub Run {
 
             my $Success = $ACLObject->ACLsNeedSyncReset();
 
-# remove preselection cache TODO: rebuild the cache properly (a simple $FieldRestrictionsObject->SetACLPreselectionCache(); uses the old ACLs)
+            # remove preselection cache TODO: rebuild the cache properly (a simple $FieldRestrictionsObject->SetACLPreselectionCache(); uses the old ACLs)
             my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
             $CacheObject->Delete(
                 Type => 'TicketACL',      # only [a-zA-Z0-9_] chars usable
@@ -425,8 +425,7 @@ sub Run {
             );
 
             if ( !$Success ) {
-                $DeleteResult{Message}
-                    = $LayoutObject->{LanguageObject}->Translate( 'ACL %s could not be deleted', $ACLID );
+                $DeleteResult{Message} = $LayoutObject->{LanguageObject}->Translate( 'ACL %s could not be deleted', $ACLID );
             }
 
             # build JSON output
@@ -474,8 +473,7 @@ sub Run {
 
             if ( !$ACLSingleData || !IsHashRefWithData($ACLSingleData) ) {
                 return $LayoutObject->ErrorScreen(
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Translate( 'There was an error getting data for ACL with ID %s', $ACLID ),
+                    Message => $LayoutObject->{LanguageObject}->Translate( 'There was an error getting data for ACL with ID %s', $ACLID ),
                 );
             }
 
@@ -622,8 +620,7 @@ sub _ShowOverview {
             );
 
             # set the valid state
-            $ACLData->{ValidID}
-                = $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup( ValidID => $ACLData->{ValidID} );
+            $ACLData->{ValidID} = $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup( ValidID => $ACLData->{ValidID} );
 
             # print each ACL in overview table
             $LayoutObject->Block(

@@ -559,8 +559,7 @@ sub Run {
     # check needed stuff
     if ( !$TargetObjectStrg ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}
-                ->Translate( 'The object %s cannot link with other object!', $Form{SourceObject} ),
+            Message => $LayoutObject->{LanguageObject}->Translate( 'The object %s cannot link with other object!', $Form{SourceObject} ),
             Comment => Translatable('Please contact the administrator.'),
         );
     }

@@ -267,8 +267,7 @@ sub Data {
                         $Status = '[WARNING: REVOKED KEY]';
                     }
 
-                    $KeyList{"PGP::$DataRef->{Key}::$DataRef->{Identifier}"}
-                        = "PGP: $Status $DataRef->{Key} $Expires $DataRef->{Identifier}";
+                    $KeyList{"PGP::$DataRef->{Key}::$DataRef->{Identifier}"} = "PGP: $Status $DataRef->{Key} $Expires $DataRef->{Identifier}";
                 }
             }
         }
@@ -293,8 +292,7 @@ sub Data {
                     $Expired = ' [WARNING: EXPIRED KEY]';
                 }
 
-                $KeyList{"SMIME::$DataRef->{Filename}::$DataRef->{Email}"}
-                    = "SMIME:$Expired $DataRef->{Filename} $EndDate $DataRef->{Email}";
+                $KeyList{"SMIME::$DataRef->{Filename}::$DataRef->{Email}"} = "SMIME:$Expired $DataRef->{Filename} $EndDate $DataRef->{Email}";
             }
         }
     }

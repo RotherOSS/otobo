@@ -159,8 +159,7 @@ sub Param {
 
                 my $TransportEnabled = grep { $_ eq $TransportName } @{ $Notification->{Data}->{Transports} };
 
-                my $AgentEnabledByDefault
-                    = grep { $_ eq $TransportName } @{ $Notification->{Data}->{AgentEnabledByDefault} };
+                my $AgentEnabledByDefault = grep { $_ eq $TransportName } @{ $Notification->{Data}->{AgentEnabledByDefault} };
 
                 # get user preference for this transport and notification or fall back to
                 #   notification default if there is no user preference

@@ -366,7 +366,7 @@ sub Fetch {
                         ObjectLogType => 'Connection',
                         Priority      => 'Debug',
                         Key           => 'Kernel::System::MailAccount::POP3',
-                        Value => 'Safety protection: waiting 1 second before fetching next message from server.',
+                        Value         => 'Safety protection: waiting 1 second before fetching next message from server.',
                     );
 
                     sleep 1;

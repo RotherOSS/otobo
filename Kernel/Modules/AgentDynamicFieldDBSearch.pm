@@ -284,7 +284,7 @@ sub Run {
 
         # if db output is filtered, add the filter to the CacheKey
         for my $Key ( sort keys %{ $DynamicFieldConfig->{Config}{PossibleValues} } ) {
-            if (   $Key =~ /^FieldFilter_/ && $DynamicFieldConfig->{Config}{PossibleValues}{$Key} =~ /^(DynamicField_.+)/ ) {
+            if ( $Key =~ /^FieldFilter_/ && $DynamicFieldConfig->{Config}{PossibleValues}{$Key} =~ /^(DynamicField_.+)/ ) {
                 my $Content = $Param{$1} // '';
                 my ($FieldNo) = $Key =~ /^FieldFilter_(\d+)/;
                 $CacheKey .= ";$FieldNo:$Content";

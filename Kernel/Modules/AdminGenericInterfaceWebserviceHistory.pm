@@ -293,17 +293,15 @@ sub _ExportWebserviceHistory {
 
     my $WebserviceHistoryID = $Param{WebserviceHistoryID};
 
-    my $WebserviceHistoryData
-        = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory')->WebserviceHistoryGet(
+    my $WebserviceHistoryData = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory')->WebserviceHistoryGet(
         ID => $WebserviceHistoryID,
-        );
+    );
 
     # Check for valid web service configuration.
     if ( !IsHashRefWithData($WebserviceHistoryData) ) {
         return $LayoutObject->ErrorScreen(
             Message =>
-                $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not get history data for WebserviceHistoryID %s', $WebserviceHistoryID ),
+                $LayoutObject->{LanguageObject}->Translate( 'Could not get history data for WebserviceHistoryID %s', $WebserviceHistoryID ),
         );
     }
 
@@ -335,10 +333,9 @@ sub _RollbackWebserviceHistory {
     my $WebserviceID        = $Param{WebserviceID};
     my $WebserviceHistoryID = $Param{WebserviceHistoryID};
 
-    my $WebserviceHistoryData
-        = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory')->WebserviceHistoryGet(
+    my $WebserviceHistoryData = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory')->WebserviceHistoryGet(
         ID => $WebserviceHistoryID,
-        );
+    );
 
     my $Success = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceUpdate(
         ID      => $WebserviceID,

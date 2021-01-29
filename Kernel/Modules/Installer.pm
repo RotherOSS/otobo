@@ -300,7 +300,7 @@ sub Run {
             %Result = (
                 Successful => 0,
                 Message    => Translatable('Unknown Check!'),
-                Comment => $LayoutObject->{LanguageObject}->Translate( 'The check "%s" doesn\'t exist!', $CheckMode ),
+                Comment    => $LayoutObject->{LanguageObject}->Translate( 'The check "%s" doesn\'t exist!', $CheckMode ),
             );
         }
 
@@ -685,8 +685,7 @@ sub Run {
 
             if ( !-f "$DirOfSQLFiles/$SchemaFile.xml" ) {
                 $LayoutObject->FatalError(
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Translate( 'File "%s/%s.xml" not found!', $DirOfSQLFiles, $SchemaFile ),
+                    Message => $LayoutObject->{LanguageObject}->Translate( 'File "%s/%s.xml" not found!', $DirOfSQLFiles, $SchemaFile ),
                     Comment => Translatable('Contact your Admin!'),
                 );
             }
@@ -1438,8 +1437,8 @@ sub ConnectToDB {
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'DBD::' . $Driver ) ) {
         return (
             Successful => 0,
-            Message    => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}
-                ->Translate( "Can't connect to database, Perl module DBD::%s not installed!", $Driver ),
+            Message =>
+                $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate( "Can't connect to database, Perl module DBD::%s not installed!", $Driver ),
             Comment => "",
             DB      => undef,
             DBH     => undef,
@@ -1453,11 +1452,10 @@ sub ConnectToDB {
     if ( !$DBH ) {
         return (
             Successful => 0,
-            Message    => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}
-                ->Translate("Can't connect to database, read comment!"),
-            Comment => "$DBI::errstr",
-            DB      => undef,
-            DBH     => undef,
+            Message    => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate("Can't connect to database, read comment!"),
+            Comment    => "$DBI::errstr",
+            DB         => undef,
+            DBH        => undef,
         );
     }
 
@@ -1468,11 +1466,10 @@ sub ConnectToDB {
         if ($Data) {
             return (
                 Successful => 0,
-                Message    => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}
-                    ->Translate("Database already contains data - it should be empty!"),
-                Comment => "",
-                DB      => undef,
-                DBH     => undef,
+                Message    => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate("Database already contains data - it should be empty!"),
+                Comment    => "",
+                DB         => undef,
+                DBH        => undef,
             );
         }
     }
@@ -1524,8 +1521,8 @@ sub CheckDBRequirements {
         # Default storage engine variable has changed its name in MySQL 5.5.3, we need to support both of them for now.
         #   <= 5.5.2 storage_engine
         #   >= 5.5.3 default_storage_engine
-        my $DataOld = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'storage_engine'");
-        my $DataNew = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'default_storage_engine'");
+        my $DataOld              = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'storage_engine'");
+        my $DataNew              = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'default_storage_engine'");
         my $DefaultStorageEngine = ( $DataOld->[0] && $DataOld->[0]->[1] ? $DataOld->[0]->[1] : undef )
             // ( $DataNew->[0] && $DataNew->[0]->[1] ? $DataNew->[0]->[1] : '' );
 

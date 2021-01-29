@@ -509,8 +509,7 @@ sub UserSettingModifiedValueList {
 
     return if !@ModifiedSettingsList;
 
-    my %UsersModifiedSettingList
-        = map { $_->{TargetUserID} => $_->{EffectiveValue} } grep { $_->{TargetUserID} } @ModifiedSettingsList;
+    my %UsersModifiedSettingList = map { $_->{TargetUserID} => $_->{EffectiveValue} } grep { $_->{TargetUserID} } @ModifiedSettingsList;
 
     return %UsersModifiedSettingList;
 }

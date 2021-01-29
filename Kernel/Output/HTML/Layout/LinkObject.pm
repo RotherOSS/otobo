@@ -256,16 +256,14 @@ sub LinkObjectTableCreateComplex {
 
                         # depending on the link type direction source and target must be switched
                         if ( $LinkList{ $Block->{Object} }->{ $ItemWithKey->{Key} }->{$LinkType} eq 'Source' ) {
-                            $LinkDeleteData{SourceObject} = $Block->{Object};
-                            $LinkDeleteData{SourceKey}    = $ItemWithKey->{Key};
-                            $LinkDeleteData{TargetIdentifier}
-                                = $Param{SourceObject} . '::' . $Param{ObjectID} . '::' . $LinkType;
+                            $LinkDeleteData{SourceObject}     = $Block->{Object};
+                            $LinkDeleteData{SourceKey}        = $ItemWithKey->{Key};
+                            $LinkDeleteData{TargetIdentifier} = $Param{SourceObject} . '::' . $Param{ObjectID} . '::' . $LinkType;
                         }
                         else {
-                            $LinkDeleteData{SourceObject} = $Param{SourceObject};
-                            $LinkDeleteData{SourceKey}    = $Param{ObjectID};
-                            $LinkDeleteData{TargetIdentifier}
-                                = $Block->{Object} . '::' . $ItemWithKey->{Key} . '::' . $LinkType;
+                            $LinkDeleteData{SourceObject}     = $Param{SourceObject};
+                            $LinkDeleteData{SourceKey}        = $Param{ObjectID};
+                            $LinkDeleteData{TargetIdentifier} = $Block->{Object} . '::' . $ItemWithKey->{Key} . '::' . $LinkType;
                         }
                     }
                 }
@@ -918,8 +916,7 @@ sub ComplexTablePreferencesGet {
             )
         {
             # sort according to priority defined in SysConfig
-            @ColumnsEnabled
-                = sort { $Param{Config}->{Priority}->{$a} <=> $Param{Config}->{Priority}->{$b} } @ColumnsEnabled;
+            @ColumnsEnabled = sort { $Param{Config}->{Priority}->{$a} <=> $Param{Config}->{Priority}->{$b} } @ColumnsEnabled;
         }
     }
 

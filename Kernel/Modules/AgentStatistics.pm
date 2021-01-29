@@ -351,11 +351,10 @@ sub EditScreen {
     );
 
     my %Frontend;
-    $Frontend{GeneralSpecificationsWidget}
-        = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->GeneralSpecificationsWidget(
+    $Frontend{GeneralSpecificationsWidget} = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->GeneralSpecificationsWidget(
         StatID => $Stat->{StatID},
         UserID => $Self->{UserID},
-        );
+    );
 
     if ( $Stat->{StatType} eq 'dynamic' ) {
         $Frontend{XAxisWidget} = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->XAxisWidget(
@@ -469,8 +468,7 @@ sub EditAction {
             # This part is only needed if the block time is selected
             # perhaps a separate function is better
             my %Time;
-            $Data{UseAsXvalue}[0]{TimeScaleCount}
-                = $ParamObject->GetParam( Param => $SelectedElement . 'TimeScaleCount' ) || 1;
+            $Data{UseAsXvalue}[0]{TimeScaleCount} = $ParamObject->GetParam( Param => $SelectedElement . 'TimeScaleCount' ) || 1;
             my $TimeSelect = $ParamObject->GetParam( Param => $SelectedElement . 'TimeSelect' ) || 'Absolut';
 
             if ( $TimeSelect eq 'Absolut' ) {
@@ -577,8 +575,7 @@ sub EditAction {
                     )
                 {
 
-                    my @TimeScaleSorted
-                        = sort { $TimeScale->{$a}->{Position} <=> $TimeScale->{$b}->{Position} } keys %{$TimeScale};
+                    my @TimeScaleSorted = sort { $TimeScale->{$a}->{Position} <=> $TimeScale->{$b}->{Position} } keys %{$TimeScale};
 
                     $Data{UseAsValueSeries}[$Index]{SelectedValues}[0] = $TimeScaleSorted[0];
                 }
@@ -818,13 +815,12 @@ sub AddScreen {
 
     # This is a page reload because of validation errors
     if (%Errors) {
-        $Frontend{StatisticPreselection} = $ParamObject->GetParam( Param => 'StatisticPreselection' );
-        $Frontend{GeneralSpecificationsWidget}
-            = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->GeneralSpecificationsWidget(
+        $Frontend{StatisticPreselection}       = $ParamObject->GetParam( Param => 'StatisticPreselection' );
+        $Frontend{GeneralSpecificationsWidget} = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->GeneralSpecificationsWidget(
             Errors   => \%Errors,
             GetParam => \%GetParam,
             UserID   => $Self->{UserID},
-            );
+        );
         $Frontend{ShowFormInitially} = 1;
     }
 
@@ -1065,10 +1061,9 @@ sub GeneralSpecificationsWidgetAJAX {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     return $LayoutObject->Attachment(
         ContentType => 'text/html',
-        Content     => $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')
-            ->GeneralSpecificationsWidget( UserID => $Self->{UserID} ),
-        Type    => 'inline',
-        NoCache => 1,
+        Content     => $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->GeneralSpecificationsWidget( UserID => $Self->{UserID} ),
+        Type        => 'inline',
+        NoCache     => 1,
     );
 }
 
@@ -1078,8 +1073,7 @@ sub _TimeInSeconds {
 
     # check if need params are available
     if ( !$Param{TimeUnit} ) {
-        return $Kernel::OM->Get('Kernel::Output::HTML::Layout')
-            ->ErrorScreen( Message => '_TimeInSeconds: Need TimeUnit!' );
+        return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->ErrorScreen( Message => '_TimeInSeconds: Need TimeUnit!' );
     }
 
     my %TimeInSeconds = (

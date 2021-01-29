@@ -225,9 +225,8 @@ sub CustomerSearch {
 
                 # param PostMasterSearch
                 elsif ( defined $Param{PostMasterSearch} && length $Param{PostMasterSearch} ) {
-                    $SearchFields
-                        = $Self->{"CustomerUser$Count"}->{CustomerUserMap}->{CustomerUserPostMasterSearchFields};
-                    $SearchParam = $Param{PostMasterSearch};
+                    $SearchFields = $Self->{"CustomerUser$Count"}->{CustomerUserMap}->{CustomerUserPostMasterSearchFields};
+                    $SearchParam  = $Param{PostMasterSearch};
                 }
 
                 # search dynamic field values
@@ -937,8 +936,7 @@ sub CustomerUserAdd {
         if (%User) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => $Kernel::OM->Get('Kernel::Language')
-                    ->Translate( 'Customer user "%s" already exists.', $Param{UserLogin} ),
+                Message  => $Kernel::OM->Get('Kernel::Language')->Translate( 'Customer user "%s" already exists.', $Param{UserLogin} ),
             );
             return;
         }
@@ -998,8 +996,7 @@ sub CustomerUserUpdate {
         if (%User) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => $Kernel::OM->Get('Kernel::Language')
-                    ->Translate( 'Customer user "%s" already exists.', $Param{UserLogin} ),
+                Message  => $Kernel::OM->Get('Kernel::Language')->Translate( 'Customer user "%s" already exists.', $Param{UserLogin} ),
             );
             return;
         }

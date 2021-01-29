@@ -123,8 +123,7 @@ sub Generate {
     }
 
     # get the registration information
-    ( $SupportFiles{RegistrationInfoContent}, $SupportFiles{RegistrationInfoFilename} )
-        = $Self->GenerateRegistrationInfo();
+    ( $SupportFiles{RegistrationInfoContent}, $SupportFiles{RegistrationInfoFilename} ) = $Self->GenerateRegistrationInfo();
     if ( !$SupportFiles{RegistrationInfoFilename} ) {
         my $Message = 'Can not get the registration information!';
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -152,8 +151,7 @@ sub Generate {
     }
 
     # get the archive of custom files
-    ( $SupportFiles{CustomFilesArchiveContent}, $SupportFiles{CustomFilesArchiveFilename} )
-        = $Self->GenerateCustomFilesArchive();
+    ( $SupportFiles{CustomFilesArchiveContent}, $SupportFiles{CustomFilesArchiveFilename} ) = $Self->GenerateCustomFilesArchive();
     if ( !$SupportFiles{CustomFilesArchiveFilename} ) {
         my $Message = 'Can not generate the custom files archive!';
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -167,8 +165,7 @@ sub Generate {
     }
 
     # get the configuration dump
-    ( $SupportFiles{ConfigurationDumpContent}, $SupportFiles{ConfigurationDumpFilename} )
-        = $Self->GenerateConfigurationDump();
+    ( $SupportFiles{ConfigurationDumpContent}, $SupportFiles{ConfigurationDumpFilename} ) = $Self->GenerateConfigurationDump();
     if ( !$SupportFiles{ConfigurationDumpFilename} ) {
         my $Message = 'Can not get the configuration dump!';
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -547,8 +544,7 @@ Returns:
 sub GenerateSupportData {
     my ( $Self, %Param ) = @_;
 
-    my $SupportDataCollectorWebTimeout
-        = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::WebUserAgent::Timeout');
+    my $SupportDataCollectorWebTimeout = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::WebUserAgent::Timeout');
 
     my %SupportData = $Kernel::OM->Get('Kernel::System::SupportDataCollector')->Collect(
         WebTimeout => $SupportDataCollectorWebTimeout,

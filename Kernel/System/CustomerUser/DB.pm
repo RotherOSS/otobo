@@ -155,8 +155,7 @@ sub CustomerName {
 
     # remove dynamic field names that are configured in CustomerUserNameFields
     # as they cannot be handled here
-    my @CustomerUserNameFieldsWithoutDynamicFields
-        = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserNameFields};
+    my @CustomerUserNameFieldsWithoutDynamicFields = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserNameFields};
 
     # build SQL string 1/2
     my $SQL = "SELECT ";
@@ -191,8 +190,7 @@ sub CustomerName {
     }
 
     # fetch dynamic field values, if configured
-    my @DynamicFieldCustomerUserNameFields
-        = grep { exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserNameFields};
+    my @DynamicFieldCustomerUserNameFields = grep { exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserNameFields};
     if (@DynamicFieldCustomerUserNameFields) {
         my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
@@ -300,8 +298,7 @@ sub CustomerSearch {
 
     # remove dynamic field names that are configured in CustomerUserListFields
     # as they cannot be handled here
-    my @CustomerUserListFieldsWithoutDynamicFields
-        = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserListFields};
+    my @CustomerUserListFieldsWithoutDynamicFields = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserListFields};
 
     # build SQL string 1/2
     my $SQL = "SELECT $Self->{CustomerKey} ";
@@ -446,8 +443,7 @@ sub CustomerSearch {
     );
     my %DynamicFieldConfigsByName = map { $_->{Name} => $_ } @{$DynamicFieldConfigs};
 
-    my @CustomerUserListFieldsDynamicFields
-        = grep { exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserListFields};
+    my @CustomerUserListFieldsDynamicFields = grep { exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserListFields};
 
     # get data from customer user table
     return if !$Self->{DBObject}->Prepare(
@@ -754,8 +750,7 @@ sub CustomerSearchDetail {
 
         my @DynamicFieldUserLogins;
 
-        my $SQLDynamicField
-            = "SELECT DISTINCT(df_obj_id_name.object_name) FROM dynamic_field_obj_id_name df_obj_id_name "
+        my $SQLDynamicField = "SELECT DISTINCT(df_obj_id_name.object_name) FROM dynamic_field_obj_id_name df_obj_id_name "
             . $SQLDynamicFieldFrom
             . " WHERE "
             . $SQLDynamicFieldWhere;
@@ -1395,8 +1390,7 @@ sub CustomerUserAdd {
         if (%Result) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => $Kernel::OM->Get('Kernel::Language')
-                    ->Translate('This email address is already in use for another customer user.'),
+                Message  => $Kernel::OM->Get('Kernel::Language')->Translate('This email address is already in use for another customer user.'),
             );
             return;
         }
@@ -1573,8 +1567,7 @@ sub CustomerUserUpdate {
         if (%Result) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => $Kernel::OM->Get('Kernel::Language')
-                    ->Translate('This email address is already in use for another customer user.'),
+                Message  => $Kernel::OM->Get('Kernel::Language')->Translate('This email address is already in use for another customer user.'),
             );
             return;
         }

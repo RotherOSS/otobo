@@ -92,8 +92,7 @@ sub GetConfig {
 
     my $ArticleIsImportant = $ArticleFlags{Important};
 
-    my $Link
-        = "Action=AgentTicketZoom;Subaction=MarkAsImportant;TicketID=$Param{Ticket}->{TicketID};ArticleID=$Param{Article}->{ArticleID}";
+    my $Link        = "Action=AgentTicketZoom;Subaction=MarkAsImportant;TicketID=$Param{Ticket}->{TicketID};ArticleID=$Param{Article}->{ArticleID}";
     my $Description = Translatable('Mark');
     if ($ArticleIsImportant) {
         $Description = Translatable('Unmark');

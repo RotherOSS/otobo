@@ -336,10 +336,8 @@ sub Run {
             }
             elsif ( $GetParam{ $TimeMap{$TimeType} . 'SearchType' } eq 'TimeSlot' ) {
                 for my $Key (qw(Month Day)) {
-                    $GetParam{ $TimeType . 'TimeStart' . $Key }
-                        = sprintf( "%02d", $GetParam{ $TimeType . 'TimeStart' . $Key } );
-                    $GetParam{ $TimeType . 'TimeStop' . $Key }
-                        = sprintf( "%02d", $GetParam{ $TimeType . 'TimeStop' . $Key } );
+                    $GetParam{ $TimeType . 'TimeStart' . $Key } = sprintf( "%02d", $GetParam{ $TimeType . 'TimeStart' . $Key } );
+                    $GetParam{ $TimeType . 'TimeStop' . $Key }  = sprintf( "%02d", $GetParam{ $TimeType . 'TimeStop' . $Key } );
                 }
                 if (
                     $GetParam{ $TimeType . 'TimeStartDay' }
@@ -350,12 +348,12 @@ sub Run {
                     my $DateTimeObject = $Kernel::OM->Create(
                         'Kernel::System::DateTime',
                         ObjectParams => {
-                            Year   => $GetParam{ $TimeType . 'TimeStartYear' },
-                            Month  => $GetParam{ $TimeType . 'TimeStartMonth' },
-                            Day    => $GetParam{ $TimeType . 'TimeStartDay' },
-                            Hour   => 0,                                           # midnight
-                            Minute => 0,
-                            Second => 0,
+                            Year     => $GetParam{ $TimeType . 'TimeStartYear' },
+                            Month    => $GetParam{ $TimeType . 'TimeStartMonth' },
+                            Day      => $GetParam{ $TimeType . 'TimeStartDay' },
+                            Hour     => 0,                                                                             # midnight
+                            Minute   => 0,
+                            Second   => 0,
                             TimeZone => $Self->{UserTimeZone} || Kernel::System::DateTime->UserDefaultTimeZoneGet(),
                         },
                     );
@@ -373,12 +371,12 @@ sub Run {
                     my $DateTimeObject = $Kernel::OM->Create(
                         'Kernel::System::DateTime',
                         ObjectParams => {
-                            Year   => $GetParam{ $TimeType . 'TimeStopYear' },
-                            Month  => $GetParam{ $TimeType . 'TimeStopMonth' },
-                            Day    => $GetParam{ $TimeType . 'TimeStopDay' },
-                            Hour   => 23,                                         # just before midnight
-                            Minute => 59,
-                            Second => 59,
+                            Year     => $GetParam{ $TimeType . 'TimeStopYear' },
+                            Month    => $GetParam{ $TimeType . 'TimeStopMonth' },
+                            Day      => $GetParam{ $TimeType . 'TimeStopDay' },
+                            Hour     => 23,                                                                            # just before midnight
+                            Minute   => 59,
+                            Second   => 59,
                             TimeZone => $Self->{UserTimeZone} || Kernel::System::DateTime->UserDefaultTimeZoneGet(),
                         },
                     );
@@ -506,12 +504,10 @@ sub Run {
 
                 # set search parameter
                 if ( defined $SearchParameter ) {
-                    $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                        = $SearchParameter->{Parameter};
+                    $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $SearchParameter->{Parameter};
 
                     # set value to display
-                    $DynamicFieldSearchDisplay{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                        = $SearchParameter->{Display};
+                    $DynamicFieldSearchDisplay{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $SearchParameter->{Display};
                 }
             }
         }
@@ -1626,8 +1622,7 @@ sub Run {
             for my $Preference ( @{$SearchFieldPreferences} ) {
 
                 # get field html
-                $DynamicFieldHTML{ $DynamicFieldConfig->{Name} . $Preference->{Type} }
-                    = $BackendObject->SearchFieldRender(
+                $DynamicFieldHTML{ $DynamicFieldConfig->{Name} . $Preference->{Type} } = $BackendObject->SearchFieldRender(
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     Profile              => \%GetParam,
                     PossibleValuesFilter => $PossibleValuesFilter,
@@ -1637,7 +1632,7 @@ sub Run {
                     LayoutObject           => $LayoutObject,
                     ConfirmationCheckboxes => 1,
                     Type                   => $Preference->{Type},
-                    );
+                );
             }
         }
 
@@ -2054,9 +2049,9 @@ sub _StopWordsServerErrorsGet {
             next FIELD if ref $StopWords->{$Field} ne 'ARRAY';
             next FIELD if !@{ $StopWords->{$Field} };
 
-            $StopWordsServerErrors{ $Field . 'Invalid' }        = 'ServerError';
-            $StopWordsServerErrors{ $Field . 'InvalidTooltip' } = $LayoutObject->{LanguageObject}
-                ->Translate('Please remove the following words because they cannot be used for the search:')
+            $StopWordsServerErrors{ $Field . 'Invalid' } = 'ServerError';
+            $StopWordsServerErrors{ $Field . 'InvalidTooltip' }
+                = $LayoutObject->{LanguageObject}->Translate('Please remove the following words because they cannot be used for the search:')
                 . ' '
                 . join( ',', sort @{ $StopWords->{$Field} } );
         }

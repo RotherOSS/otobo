@@ -179,8 +179,7 @@ sub ArticleRender {
         )
     {
 
-        my $DefaultAgentName
-            = $LayoutObject->{LanguageObject}->Translate( $ScreenConfig->{DefaultAgentName} || 'Support Agent' );
+        my $DefaultAgentName = $LayoutObject->{LanguageObject}->Translate( $ScreenConfig->{DefaultAgentName} || 'Support Agent' );
         $ArticleFields{From}->{Realname}   = $DefaultAgentName;
         $ArticleFields{From}->{Value}      = $DefaultAgentName;
         $ArticleFields{Sender}->{Realname} = $DefaultAgentName;

@@ -693,8 +693,7 @@ sub _SettingRender {
 
                 if ( $Param{Value}->[0]->{Hash}->[0]->{DefaultItem} ) {
                     if ( $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{Array} ) {
-                        my $DefaultItem
-                            = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{Array}->[0]->{DefaultItem};
+                        my $DefaultItem = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{Array}->[0]->{DefaultItem};
 
                         if ($DefaultItem) {
 
@@ -706,8 +705,7 @@ sub _SettingRender {
                         }
                     }
                     elsif ( $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{Hash} ) {
-                        my $DefaultItem
-                            = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{Hash}->[0]->{DefaultItem};
+                        my $DefaultItem = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{Hash}->[0]->{DefaultItem};
 
                         if ($DefaultItem) {
 
@@ -903,8 +901,7 @@ sub _SettingRender {
                 if ( $Param{Value}->[0]->{Array}->[0]->{DefaultItem} ) {
 
                     if ( $Param{Value}->[0]->{Array}->[0]->{DefaultItem}->[0]->{Array} ) {
-                        my $DefaultItem
-                            = $Param{Value}->[0]->{Array}->[0]->{DefaultItem}->[0]->{Array}->[0]->{DefaultItem};
+                        my $DefaultItem = $Param{Value}->[0]->{Array}->[0]->{DefaultItem}->[0]->{Array}->[0]->{DefaultItem};
 
                         if ($DefaultItem) {
 
@@ -916,8 +913,7 @@ sub _SettingRender {
                         }
                     }
                     elsif ( $Param{Value}->[0]->{Array}->[0]->{DefaultItem}->[0]->{Hash} ) {
-                        my $DefaultItem
-                            = $Param{Value}->[0]->{Array}->[0]->{DefaultItem}->[0]->{Hash}->[0]->{DefaultItem};
+                        my $DefaultItem = $Param{Value}->[0]->{Array}->[0]->{DefaultItem}->[0]->{Hash}->[0]->{DefaultItem};
 
                         if ($DefaultItem) {
 

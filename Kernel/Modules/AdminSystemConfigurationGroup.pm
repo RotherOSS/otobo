@@ -460,8 +460,7 @@ sub Run {
         );
 
         if ( $UserPreferences{UserSystemConfigurationFavourites} ) {
-            $Favourites = $Kernel::OM->Get('Kernel::System::JSON')
-                ->Decode( Data => $UserPreferences{UserSystemConfigurationFavourites} );
+            $Favourites = $Kernel::OM->Get('Kernel::System::JSON')->Decode( Data => $UserPreferences{UserSystemConfigurationFavourites} );
         }
 
         for my $Setting (@SettingList) {
@@ -703,8 +702,7 @@ sub Run {
     );
 
     if ( $UserPreferences{UserSystemConfigurationFavourites} ) {
-        $Favourites = $Kernel::OM->Get('Kernel::System::JSON')
-            ->Decode( Data => $UserPreferences{UserSystemConfigurationFavourites} );
+        $Favourites = $Kernel::OM->Get('Kernel::System::JSON')->Decode( Data => $UserPreferences{UserSystemConfigurationFavourites} );
     }
 
     for my $Setting (@SettingList) {

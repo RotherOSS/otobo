@@ -120,8 +120,7 @@ sub PrepareRequest {
 
     # define return data
     if ( $Param{Data}{Return} ) {
-        $SearchQuery{_source}{includes}
-            = IsArrayRefWithData( $Param{Data}{Return} ) ? $Param{Data}{Return} : [ $Param{Data}{Return} ];
+        $SearchQuery{_source}{includes} = IsArrayRefWithData( $Param{Data}{Return} ) ? $Param{Data}{Return} : [ $Param{Data}{Return} ];
     }
 
     # return size

@@ -1198,8 +1198,7 @@ sub _Edit {
 
             # make sure the encoding stamp is set
             for my $Key ( sort keys %{$SelectionsData} ) {
-                $SelectionsData->{$Key}
-                    = $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( $SelectionsData->{$Key} );
+                $SelectionsData->{$Key} = $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( $SelectionsData->{$Key} );
             }
 
             # build option string

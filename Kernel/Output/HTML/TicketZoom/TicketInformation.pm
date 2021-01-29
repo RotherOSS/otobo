@@ -197,9 +197,9 @@ sub Run {
     }
 
     # Check if agent has permission to start chats with agents.
-    my $EnableChat               = 1;
-    my $ChatStartingAgentsGroup  = $ConfigObject->Get('ChatEngine::PermissionGroup::ChatStartingAgents') || 'users';
-    my $ChatReceivingAgentsGroup = $ConfigObject->Get('ChatEngine::PermissionGroup::ChatReceivingAgents') || 'users';
+    my $EnableChat                        = 1;
+    my $ChatStartingAgentsGroup           = $ConfigObject->Get('ChatEngine::PermissionGroup::ChatStartingAgents') || 'users';
+    my $ChatReceivingAgentsGroup          = $ConfigObject->Get('ChatEngine::PermissionGroup::ChatReceivingAgents') || 'users';
     my $ChatStartingAgentsGroupPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
         UserID    => $Self->{UserID},
         GroupName => $ChatStartingAgentsGroup,
@@ -219,8 +219,8 @@ sub Run {
 
     my %OnlineData;
     if ($EnableChat) {
-        my $VideoChatEnabled     = 0;
-        my $VideoChatAgentsGroup = $ConfigObject->Get('ChatEngine::PermissionGroup::VideoChatAgents') || 'users';
+        my $VideoChatEnabled               = 0;
+        my $VideoChatAgentsGroup           = $ConfigObject->Get('ChatEngine::PermissionGroup::VideoChatAgents') || 'users';
         my $VideoChatAgentsGroupPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
             UserID    => $Self->{UserID},
             GroupName => $VideoChatAgentsGroup,
@@ -249,9 +249,8 @@ sub Run {
             $OnlineData{$Field}->{VideoChatEnabled}   = $VideoChatEnabled;
 
             # Default status is offline.
-            $OnlineData{$Field}->{UserState} = Translatable('Offline');
-            $OnlineData{$Field}->{UserStateDescription}
-                = $LayoutObject->{LanguageObject}->Translate('User is currently offline.');
+            $OnlineData{$Field}->{UserState}            = Translatable('Offline');
+            $OnlineData{$Field}->{UserStateDescription} = $LayoutObject->{LanguageObject}->Translate('User is currently offline.');
 
             # We also need to check if the receiving agent has chat permissions.
             my %UserGroups = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
@@ -269,29 +268,25 @@ sub Run {
 
             # Check agent's availability.
             if ( $OnlineData{$Field}->{ChatAccess} ) {
-                $OnlineData{$Field}->{AgentChatAvailability}
-                    = $Kernel::OM->Get('Kernel::System::Chat')->AgentAvailabilityGet(
+                $OnlineData{$Field}->{AgentChatAvailability} = $Kernel::OM->Get('Kernel::System::Chat')->AgentAvailabilityGet(
                     UserID   => $UserID,
                     External => 0,
-                    );
+                );
 
                 if ( $OnlineData{$Field}->{AgentChatAvailability} == 3 ) {
-                    $OnlineData{$Field}->{UserState}       = Translatable('Active');
-                    $OnlineData{$Field}->{AgentEnableChat} = 1;
-                    $OnlineData{$Field}->{UserStateDescription}
-                        = $LayoutObject->{LanguageObject}->Translate('User is currently active.');
-                    $OnlineData{$Field}->{VideoChatAvailable} = 1;
+                    $OnlineData{$Field}->{UserState}            = Translatable('Active');
+                    $OnlineData{$Field}->{AgentEnableChat}      = 1;
+                    $OnlineData{$Field}->{UserStateDescription} = $LayoutObject->{LanguageObject}->Translate('User is currently active.');
+                    $OnlineData{$Field}->{VideoChatAvailable}   = 1;
                 }
                 elsif ( $OnlineData{$Field}->{AgentChatAvailability} == 2 ) {
-                    $OnlineData{$Field}->{UserState}       = Translatable('Away');
-                    $OnlineData{$Field}->{AgentEnableChat} = 1;
-                    $OnlineData{$Field}->{UserStateDescription}
-                        = $LayoutObject->{LanguageObject}->Translate('User was inactive for a while.');
+                    $OnlineData{$Field}->{UserState}            = Translatable('Away');
+                    $OnlineData{$Field}->{AgentEnableChat}      = 1;
+                    $OnlineData{$Field}->{UserStateDescription} = $LayoutObject->{LanguageObject}->Translate('User was inactive for a while.');
                 }
                 elsif ( $OnlineData{$Field}->{AgentChatAvailability} == 1 ) {
-                    $OnlineData{$Field}->{UserState} = Translatable('Unavailable');
-                    $OnlineData{$Field}->{UserStateDescription}
-                        = $LayoutObject->{LanguageObject}->Translate('User set their status to unavailable.');
+                    $OnlineData{$Field}->{UserState}            = Translatable('Unavailable');
+                    $OnlineData{$Field}->{UserStateDescription} = $LayoutObject->{LanguageObject}->Translate('User set their status to unavailable.');
                 }
             }
         }
@@ -453,8 +448,7 @@ sub Run {
 
         # handle titles separately
         if ( $Field->{TitleFieldConfig} ) {
-            my $Style
-                = "padding-left:4px;font-size:$Field->{TitleFieldConfig}{FontSize}px;color:$Field->{TitleFieldConfig}{FontColor};";
+            my $Style = "padding-left:4px;font-size:$Field->{TitleFieldConfig}{FontSize}px;color:$Field->{TitleFieldConfig}{FontColor};";
 
             if ( $Field->{TitleFieldConfig}{CBFontStyleUnderLineValue} ) {
                 $Style .= "text-decoration:underline;";

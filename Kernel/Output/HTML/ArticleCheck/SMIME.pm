@@ -67,8 +67,7 @@ sub Check {
     return if !$ConfigObject->Get('SMIME');
 
     # check if article is an email
-    my $ArticleBackendObject
-        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle( %{ $Param{Article} // {} } );
+    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle( %{ $Param{Article} // {} } );
     return if $ArticleBackendObject->ChannelNameGet() ne 'Email';
 
     my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');

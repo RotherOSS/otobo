@@ -80,9 +80,9 @@ sub Run {
     }
 
     # don't attempt to run when the pre check failed
-    return unless $Self->_ExecutePreCheck( %Param );
+    return unless $Self->_ExecutePreCheck(%Param);
 
-    return $Self->_ExecuteRun( %Param );
+    return $Self->_ExecuteRun(%Param);
 }
 
 sub _ExecutePreCheck {
@@ -163,8 +163,8 @@ sub _ExecuteRun {
     if ( !@Tasks ) {
 
         return {
-            Message    => "invalid task $Param{Task}",
-            Comment    => "No valid Module $Param{Task} found. "
+            Message => "invalid task $Param{Task}",
+            Comment => "No valid Module $Param{Task} found. "
                 . qq{Perhaps you need to add the new check to $Self->_TasksGet().},
             Successful => 0,
         };

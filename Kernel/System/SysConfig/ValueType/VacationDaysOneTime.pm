@@ -219,8 +219,7 @@ sub EffectiveValueGet {
         next COMPONENT if !$Component->{ValueYear};
         next COMPONENT if !$Component->{ValueMonth};
         next COMPONENT if !$Component->{ValueDay};
-        $Result{ $Component->{ValueYear} }->{ $Component->{ValueMonth} }->{ $Component->{ValueDay} }
-            = $Component->{Content};
+        $Result{ $Component->{ValueYear} }->{ $Component->{ValueMonth} }->{ $Component->{ValueDay} } = $Component->{Content};
     }
 
     return \%Result;

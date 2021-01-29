@@ -74,8 +74,7 @@ create an object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
@@ -4056,8 +4055,7 @@ Return undef on failure, 1 on success.
 =cut
 
 sub _FileInstall {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(File)) {

@@ -51,13 +51,11 @@ sub new {
     $Self->{CacheType} = 'ArticleStorageBase';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
-    $Self->{ArticleDataDir}
-        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::ArticleDataDir')
+    $Self->{ArticleDataDir} = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::ArticleDataDir')
         || die 'Got no ArticleDataDir!';
 
     # do we need to check all backends, or just one?
-    $Self->{CheckAllBackends}
-        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::CheckAllStorageBackends')
+    $Self->{CheckAllBackends} = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::CheckAllStorageBackends')
         // 0;
 
     return $Self;

@@ -529,8 +529,7 @@ sub Run {
                     # Another draft with the chosen name already exists.
                     %FormDraftResponse = (
                         Success      => 0,
-                        ErrorMessage => $Kernel::OM->Get('Kernel::Language')
-                            ->Translate( "FormDraft name %s is already in use!", $Title ),
+                        ErrorMessage => $Kernel::OM->Get('Kernel::Language')->Translate( "FormDraft name %s is already in use!", $Title ),
                     );
                     $IsUpload = 1;
                     last DRAFT;
@@ -707,8 +706,7 @@ sub Run {
             if ( !IsHashRefWithData($ValidationResult) ) {
                 return $LayoutObject->ErrorScreen(
                     Message =>
-                        $LayoutObject->{LanguageObject}
-                        ->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
+                        $LayoutObject->{LanguageObject}->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
                     Comment => Translatable('Please contact the administrator.'),
                 );
             }
@@ -880,11 +878,10 @@ sub Run {
                         OnlyLast   => 1,
                     );
                     if (@MetaArticles) {
-                        my %LastCustomerArticle
-                            = $ArticleObject->BackendForArticle( %{ $MetaArticles[0] } )->ArticleGet(
+                        my %LastCustomerArticle = $ArticleObject->BackendForArticle( %{ $MetaArticles[0] } )->ArticleGet(
                             %{ $MetaArticles[0] },
                             DynamicFields => 0,
-                            );
+                        );
                         $From = $LastCustomerArticle{From};
                     }
                 }

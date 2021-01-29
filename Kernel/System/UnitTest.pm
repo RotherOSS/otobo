@@ -55,8 +55,7 @@ create an unit test object. Do not use this subroutine directly. Use instead:
 =cut
 
 sub new {
-    my $Type = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = bless {}, $Type;
@@ -90,8 +89,7 @@ Tests in F<Custom/scripts/test> take precedence over the tests in F<scripts/test
 =cut
 
 sub Run {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # handle parameters
     my $Verbosity           = $Param{Verbose} // 0;
@@ -216,7 +214,7 @@ sub Run {
         $Self->_Color( 'yellow', $Product ),
         $Self->_Color( 'yellow', $Host );
 
-    return $Aggregate->all_passed;
+    return $Aggregate->all_passed();
 }
 
 =begin Internal:

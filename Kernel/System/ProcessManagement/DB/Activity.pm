@@ -369,8 +369,7 @@ sub ActivityGet {
             );
 
             for my $ActivityOrder ( sort { $a <=> $b } keys %{ $Data{Config}->{ActivityDialog} } ) {
-                $ActivityDialogs{ $Data{Config}->{ActivityDialog}->{$ActivityOrder} }
-                    = $ActivityDialogList->{ $Data{Config}->{ActivityDialog}->{$ActivityOrder} };
+                $ActivityDialogs{ $Data{Config}->{ActivityDialog}->{$ActivityOrder} } = $ActivityDialogList->{ $Data{Config}->{ActivityDialog}->{$ActivityOrder} };
             }
         }
         $Data{ActivityDialogs} = \%ActivityDialogs;

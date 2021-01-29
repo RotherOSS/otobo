@@ -298,8 +298,7 @@ sub _Change {
     if ( !IsHashRefWithData($InvokerConfig) ) {
         return $LayoutObject->ErrorScreen(
             Message =>
-                $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not determine config for invoker %s', $GetParam->{Invoker} ),
+                $LayoutObject->{LanguageObject}->Translate( 'Could not determine config for invoker %s', $GetParam->{Invoker} ),
         );
     }
 
@@ -368,8 +367,7 @@ sub _ChangeAction {
     my $InvokerConfig  = delete $WebserviceData->{Config}->{Requester}->{Invoker}->{ $GetParam->{OldInvoker} };
     if ( !IsHashRefWithData($InvokerConfig) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not determine config for invoker %s', $GetParam->{OldInvoker} ),
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Could not determine config for invoker %s', $GetParam->{OldInvoker} ),
         );
     }
 
@@ -564,8 +562,7 @@ sub _AddEvent {
     my $InvokerConfig  = $WebserviceData->{Config}->{Requester}->{Invoker}->{ $GetParam->{Invoker} };
     if ( !IsHashRefWithData($InvokerConfig) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not determine config for invoker %s', $GetParam->{Invoker} ),
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Could not determine config for invoker %s', $GetParam->{Invoker} ),
         );
     }
 
@@ -861,8 +858,7 @@ sub _ParamsGet {
         if ( $Definition->{Check} eq 'InvokerType' ) {
             next DEFINITION if $Self->_InvokerTypeCheck( InvokerType => $GetParam{$Name} );
 
-            $GetParam{Error}
-                = $LayoutObject->{LanguageObject}->Translate( 'InvokerType %s is not registered', $GetParam{$Name} );
+            $GetParam{Error} = $LayoutObject->{LanguageObject}->Translate( 'InvokerType %s is not registered', $GetParam{$Name} );
             return \%GetParam;
         }
 
@@ -870,8 +866,7 @@ sub _ParamsGet {
             next DEFINITION if !IsStringWithData( $GetParam{Name} );
             next DEFINITION if $Self->_MappingTypeCheck( MappingType => $GetParam{$Name} );
 
-            $GetParam{Error}
-                = $LayoutObject->{LanguageObject}->Translate( 'MappingType %s is not registered', $GetParam{$Name} );
+            $GetParam{Error} = $LayoutObject->{LanguageObject}->Translate( 'MappingType %s is not registered', $GetParam{$Name} );
             return \%GetParam;
         }
     }

@@ -150,8 +150,7 @@ sub _Add {
     }
     if ( !$Self->_ErrorHandlingTypeCheck( ErrorHandlingType => $ErrorHandlingType ) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}
-                ->Translate( 'ErrorHandlingType %s is not registered', $ErrorHandlingType ),
+            Message => $LayoutObject->{LanguageObject}->Translate( 'ErrorHandlingType %s is not registered', $ErrorHandlingType ),
         );
     }
 
@@ -178,8 +177,7 @@ sub _AddAction {
     }
     if ( !$Self->_ErrorHandlingTypeCheck( ErrorHandlingType => $ErrorHandlingType ) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}
-                ->Translate( 'ErrorHandlingType %s is not registered', $ErrorHandlingType ),
+            Message => $LayoutObject->{LanguageObject}->Translate( 'ErrorHandlingType %s is not registered', $ErrorHandlingType ),
         );
     }
 
@@ -216,12 +214,10 @@ sub _AddAction {
     }
 
     # Add module to config.
-    $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandling}->{$ErrorHandling}
-        = $ErrorHandlingConfig;
+    $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandling}->{$ErrorHandling} = $ErrorHandlingConfig;
 
     # Add module to priority list.
-    my $WebserviceErrorHandlingPriority
-        = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandlingPriority};
+    my $WebserviceErrorHandlingPriority = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandlingPriority};
     if ( IsArrayRefWithData($WebserviceErrorHandlingPriority) ) {
         push @{$WebserviceErrorHandlingPriority}, $ErrorHandling;
     }
@@ -271,13 +267,11 @@ sub _Change {
         );
     }
 
-    my $ErrorHandlingConfig
-        = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandling}->{$ErrorHandling};
+    my $ErrorHandlingConfig = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandling}->{$ErrorHandling};
     if ( !IsHashRefWithData($ErrorHandlingConfig) ) {
         return $LayoutObject->ErrorScreen(
             Message =>
-                $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not determine config for error handler %s', $ErrorHandling ),
+                $LayoutObject->{LanguageObject}->Translate( 'Could not determine config for error handler %s', $ErrorHandling ),
         );
     }
 
@@ -317,8 +311,7 @@ sub _ChangeAction {
     if ( !IsHashRefWithData($ErrorHandlingConfig) ) {
         return $LayoutObject->ErrorScreen(
             Message =>
-                $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not determine config for error handler %s', $OldErrorHandling ),
+                $LayoutObject->{LanguageObject}->Translate( 'Could not determine config for error handler %s', $OldErrorHandling ),
         );
     }
 
@@ -362,13 +355,11 @@ sub _ChangeAction {
     }
 
     # Update config.
-    $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandling}->{$ErrorHandling}
-        = $ErrorHandlingConfig;
+    $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandling}->{$ErrorHandling} = $ErrorHandlingConfig;
 
     # Update priority array if necessary.
     if ( $OldErrorHandling ne $ErrorHandling ) {
-        my $ErrorHandlingPriority
-            = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandlingPriority};
+        my $ErrorHandlingPriority = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandlingPriority};
         my ($OldErrorHandlingIndex) = grep { $ErrorHandlingPriority->[$_] eq $OldErrorHandling }
             ( 0 .. scalar @{$ErrorHandlingPriority} - 1 );
         if ( IsStringWithData($OldErrorHandlingIndex) ) {
@@ -447,8 +438,7 @@ sub _DeleteAction {
     delete $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandling}->{$ErrorHandling};
 
     # Remove entry from priority.
-    @{ $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandlingPriority} }
-        = grep { $_ ne $ErrorHandling }
+    @{ $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandlingPriority} } = grep { $_ ne $ErrorHandling }
         @{ $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandlingPriority} };
 
     my $Success = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceUpdate(
@@ -483,10 +473,9 @@ sub _PriorityAction {
     }
 
     # Check if priority content matches original content (safety check - we should only change order, not elements).
-    my @PrioritySorted = sort @{$Priority};
-    my @OldPrioritySorted
-        = sort @{ $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandlingPriority} };
-    my $DataIsDifferent = DataIsDifferent(
+    my @PrioritySorted    = sort @{$Priority};
+    my @OldPrioritySorted = sort @{ $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandlingPriority} };
+    my $DataIsDifferent   = DataIsDifferent(
         Data1 => \@PrioritySorted,
         Data2 => \@OldPrioritySorted,
     );
@@ -624,8 +613,7 @@ sub _ShowScreen {
     );
 
     if ( $Param{CommunicationType} eq 'Provider' ) {
-        my %Operations
-            = map { $_ => $_ } sort keys %{ $Param{WebserviceData}->{Config}->{Provider}->{Operation} || {} };
+        my %Operations           = map { $_ => $_ } sort keys %{ $Param{WebserviceData}->{Config}->{Provider}->{Operation} || {} };
         my $OperationDeletedText = $LayoutObject->{LanguageObject}->Translate('Operation deleted');
         SELECTEDOPERATION:
         for my $SelectedOperation ( @{ $Param{ErrorHandlingConfig}->{OperationFilter} || [] } ) {
@@ -650,7 +638,7 @@ sub _ShowScreen {
         );
     }
     else {
-        my %Invokers = map { $_ => $_ } sort keys %{ $Param{WebserviceData}->{Config}->{Requester}->{Invoker} || {} };
+        my %Invokers           = map { $_ => $_ } sort keys %{ $Param{WebserviceData}->{Config}->{Requester}->{Invoker} || {} };
         my $InvokerDeletedText = $LayoutObject->{LanguageObject}->Translate('Invoker deleted');
         SELECTEDINVOKER:
         for my $SelectedInvoker ( @{ $Param{ErrorHandlingConfig}->{InvokerFilter} || [] } ) {

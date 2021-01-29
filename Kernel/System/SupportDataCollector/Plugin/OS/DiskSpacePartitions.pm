@@ -96,8 +96,7 @@ sub Run {
         $Line =~ s{\A\s+}{};
 
         if ( $Line =~ m{\A .+? \s .* \s \d+ % .+? \z}msx ) {
-            my ( $Partition, $Size, $UsedPercent, $MountPoint )
-                = $Line =~ m{\A (.+?) \s+ ([\d\.KGMT]*) \s+ .*? \s+ (\d+)%.+? (\/.*) \z}msx;
+            my ( $Partition, $Size, $UsedPercent, $MountPoint ) = $Line =~ m{\A (.+?) \s+ ([\d\.KGMT]*) \s+ .*? \s+ (\d+)%.+? (\/.*) \z}msx;
 
             $MountPoint //= '';
 

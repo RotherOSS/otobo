@@ -136,7 +136,7 @@ sub Run {
                 ObjectLogType => 'Message',
                 Priority      => 'Error',
                 Key           => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
-                Value => 'PostMaster module exited with errors, could not process email. Please refer to the log!',
+                Value         => 'PostMaster module exited with errors, could not process email. Please refer to the log!',
             );
             $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
 

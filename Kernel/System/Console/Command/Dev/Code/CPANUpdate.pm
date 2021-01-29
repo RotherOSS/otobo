@@ -137,8 +137,7 @@ sub InstallModule {
     }
     File::Path::make_path($TmpDir) || die "Could not create $TmpDir: $!.";
 
-    my $DownloadURL
-        = `wget -q -O - https://fastapi.metacpan.org/v1/download_url/$ModuleConfig->{Module} | grep download_url | cut -d '"' -f4`;
+    my $DownloadURL = `wget -q -O - https://fastapi.metacpan.org/v1/download_url/$ModuleConfig->{Module} | grep download_url | cut -d '"' -f4`;
     die "Error: Could not get DownloadURL." if !$DownloadURL;
     chomp $DownloadURL;
 

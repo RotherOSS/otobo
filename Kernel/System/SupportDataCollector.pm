@@ -143,8 +143,7 @@ sub Collect {
 
     # Get the identifier filter blacklist from the config to generate a lookup hash, which can be used to
     # filter these identifier.
-    my $IdentifierFilterBlacklist
-        = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::IdentifierFilterBlacklist') || [];
+    my $IdentifierFilterBlacklist       = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::IdentifierFilterBlacklist') || [];
     my %LookupIdentifierFilterBlacklist = map { $_ => 1 } @{$IdentifierFilterBlacklist};
 
     # Look for all plug-ins in the FS.

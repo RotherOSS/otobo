@@ -118,9 +118,8 @@ sub Import {
 
         # Calculate until time which will be used if there is any recurring Appointment without end
         #   time defined.
-        my $UntilTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-        my $RecurringMonthsLimit
-            = $Kernel::OM->Get('Kernel::Config')->Get("AppointmentCalendar::Import::RecurringMonthsLimit")
+        my $UntilTimeObject      = $Kernel::OM->Create('Kernel::System::DateTime');
+        my $RecurringMonthsLimit = $Kernel::OM->Get('Kernel::Config')->Get("AppointmentCalendar::Import::RecurringMonthsLimit")
             || '12';    # default 12 months
 
         $UntilTimeObject->Add(

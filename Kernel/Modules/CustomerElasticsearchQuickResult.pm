@@ -65,7 +65,7 @@ sub Run {
     my $Count         = $SearchObjects->{Ticket} ? $SearchObjects->{Ticket}{Count} : 0;
     my $ESStrLength   = length $ParamObject->GetParam( Param => 'FulltextES' );
 
-# Subaction eq SearchUpdate is returned by on click and on input events of the ESfulltext-field. See Core.UI.Elasticsearch.js
+    # Subaction eq SearchUpdate is returned by on click and on input events of the ESfulltext-field. See Core.UI.Elasticsearch.js
     if ( $Self->{Subaction} eq 'SearchUpdate' && $ESStrLength > 1 && $Count ) {
 
         # Add filter for customer company if the company tickets are not disabled.

@@ -170,8 +170,7 @@ sub Run {
         my ( $Avatar, $UserInitials );
         if ( $ConfigObject->Get('Frontend::AvatarEngine') eq 'Gravatar' && $CustomerUser{UserEmail} ) {
             my $DefaultIcon = $ConfigObject->Get('Frontend::Gravatar::DefaultImage') || 'mm';
-            $Avatar
-                = '//www.gravatar.com/avatar/' . md5_hex( lc $CustomerUser{UserEmail} ) . '?s=100&d=' . $DefaultIcon;
+            $Avatar = '//www.gravatar.com/avatar/' . md5_hex( lc $CustomerUser{UserEmail} ) . '?s=100&d=' . $DefaultIcon;
         }
         else {
             $UserInitials = substr( $CustomerUser{UserFirstName}, 0, 1 ) . substr( $CustomerUser{UserLastName}, 0, 1 );

@@ -472,8 +472,7 @@ sub Run {
 
             if ( !IsHashRefWithData( \%NotificationSingleData ) ) {
                 return $LayoutObject->ErrorScreen(
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Translate( 'There was an error getting data for Notification with ID:%s!', $NotificationID ),
+                    Message => $LayoutObject->{LanguageObject}->Translate( 'There was an error getting data for Notification with ID:%s!', $NotificationID ),
                 );
             }
 

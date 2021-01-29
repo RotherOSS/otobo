@@ -317,8 +317,7 @@ sub Run {
                 # Another draft with the chosen name already exists.
                 %FormDraftResponse = (
                     Success      => 0,
-                    ErrorMessage => $Kernel::OM->Get('Kernel::Language')
-                        ->Translate( "FormDraft name %s is already in use!", $Title ),
+                    ErrorMessage => $Kernel::OM->Get('Kernel::Language')->Translate( "FormDraft name %s is already in use!", $Title ),
                 );
                 $IsUpload = 1;
                 last DRAFT;
@@ -390,8 +389,7 @@ sub Run {
 
     # DestQueueID lookup
     if ( !$GetParam{DestQueueID} && $GetParam{DestQueue} ) {
-        $GetParam{DestQueueID}
-            = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $GetParam{DestQueue} );
+        $GetParam{DestQueueID} = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $GetParam{DestQueue} );
     }
     if ( !$GetParam{DestQueueID} ) {
         $Error{DestQueue} = 1;

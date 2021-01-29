@@ -251,10 +251,8 @@ sub Run {
         }
         elsif ( $TicketSearch{ $TimeMap{$TimeType} . 'SearchType' } eq 'TimeSlot' ) {
             for my $Key (qw(Month Day)) {
-                $TicketSearch{ $TimeType . 'TimeStart' . $Key }
-                    = sprintf( "%02d", $TicketSearch{ $TimeType . 'TimeStart' . $Key } );
-                $TicketSearch{ $TimeType . 'TimeStop' . $Key }
-                    = sprintf( "%02d", $TicketSearch{ $TimeType . 'TimeStop' . $Key } );
+                $TicketSearch{ $TimeType . 'TimeStart' . $Key } = sprintf( "%02d", $TicketSearch{ $TimeType . 'TimeStart' . $Key } );
+                $TicketSearch{ $TimeType . 'TimeStop' . $Key }  = sprintf( "%02d", $TicketSearch{ $TimeType . 'TimeStop' . $Key } );
             }
             if (
                 $TicketSearch{ $TimeType . 'TimeStartDay' }

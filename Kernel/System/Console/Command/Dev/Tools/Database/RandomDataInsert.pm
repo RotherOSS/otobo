@@ -227,14 +227,13 @@ sub Run {
                     HistoryType          => 'AddNote',
                     HistoryComment       => 'Some free text!',
                     UserID               => $UserIDs[ int( rand($#UserIDs) ) ],
-                    NoAgentNotify => 1,    # if you don't want to send agent notifications
+                    NoAgentNotify        => 1,                                    # if you don't want to send agent notifications
                 );
 
                 if ( $Self->GetOption('mark-tickets-as-seen') ) {
 
                     # bulk-insert the flags directly for improved performance
-                    my $SQL
-                        = 'INSERT INTO article_flag (article_id, article_key, article_value, create_time, create_by) VALUES ';
+                    my $SQL = 'INSERT INTO article_flag (article_id, article_key, article_value, create_time, create_by) VALUES ';
                     my @Values;
                     for my $UserID (@UserIDs) {
                         push @Values, "($ArticleID, 'Seen', 1, current_timestamp, $UserID)";

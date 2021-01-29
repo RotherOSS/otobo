@@ -109,12 +109,11 @@ sub Run {
             # get customerusers that are a member of the groups
             if ( $Param{NotifyCustomerUsers} ) {
                 for my $GroupID ( $ParamObject->GetArray( Param => 'GroupIDs' ) ) {
-                    my @GroupCustomerUserMemberList
-                        = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupMemberList(
+                    my @GroupCustomerUserMemberList = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupMemberList(
                         Result  => 'ID',
                         Type    => $Param{GroupPermission},
                         GroupID => $GroupID,
-                        );
+                    );
                     for my $GoupCustomerUserMember (@GroupCustomerUserMemberList) {
                         my %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
                             User  => $GoupCustomerUserMember,

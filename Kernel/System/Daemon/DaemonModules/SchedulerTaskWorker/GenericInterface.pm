@@ -119,8 +119,7 @@ sub Run {
         || !$Result->{Data}->{ReSchedule}
         )
     {
-        my $ErrorMessage
-            = $Result->{ErrorMessage} || "$Param{Data}->{Invoker} execution failed without an error message";
+        my $ErrorMessage = $Result->{ErrorMessage} || "$Param{Data}->{Invoker} execution failed without an error message";
 
         $Self->_HandleError(
             TaskName     => "$Param{Data}->{Invoker} WebService: $WebServiceName",

@@ -501,8 +501,7 @@ sub Run {
         );
 
         if ( $UserPreferences{UserSystemConfigurationFavourites} ) {
-            $Favourites = $Kernel::OM->Get('Kernel::System::JSON')
-                ->Decode( Data => $UserPreferences{UserSystemConfigurationFavourites} );
+            $Favourites = $Kernel::OM->Get('Kernel::System::JSON')->Decode( Data => $UserPreferences{UserSystemConfigurationFavourites} );
         }
 
         my $JSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(

@@ -325,8 +325,7 @@ sub _Fetch {
             # check maximum message size
             my $MessageSize = $IMAPOperation->( 'list', $Messageno, );
             if ( !( defined $MessageSize ) ) {
-                my $ErrorMessage
-                    = "$AuthType: Can't determine the size of email '$Messageno/$NOM' from $Param{Login}/$Param{Host}!";
+                my $ErrorMessage = "$AuthType: Can't determine the size of email '$Messageno/$NOM' from $Param{Login}/$Param{Host}!";
 
                 $CommunicationLogObject->ObjectLog(
                     ObjectLogType => 'Connection',
@@ -361,7 +360,7 @@ sub _Fetch {
                 ObjectLogType => 'Connection',
                 Priority      => 'Debug',
                 Key           => 'Kernel::System::MailAccount::IMAP',
-                Value => "Prepare fetching of message '$Messageno/$NOM' (Size: $MessageSizeReadable) from server.",
+                Value         => "Prepare fetching of message '$Messageno/$NOM' (Size: $MessageSizeReadable) from server.",
             );
 
             if ( $MessageSize > ( $MaxEmailSize * 1024 ) ) {
@@ -393,7 +392,7 @@ sub _Fetch {
                         ObjectLogType => 'Connection',
                         Priority      => 'Debug',
                         Key           => 'Kernel::System::MailAccount::IMAP',
-                        Value => 'Safety protection: waiting 1 second before fetching next message from server.',
+                        Value         => 'Safety protection: waiting 1 second before fetching next message from server.',
                     );
 
                     sleep 1;

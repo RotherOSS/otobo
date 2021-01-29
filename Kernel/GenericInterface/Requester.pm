@@ -364,7 +364,7 @@ sub Run {
     if ($SizeExeeded) {
         $DebuggerObject->Debug(
             Summary => "Incoming data before mapping was too large for logging",
-            Data => 'See SysConfig option GenericInterface::Operation::ResponseLoggingMaxSize to change the maximum.',
+            Data    => 'See SysConfig option GenericInterface::Operation::ResponseLoggingMaxSize to change the maximum.',
         );
     }
     else {

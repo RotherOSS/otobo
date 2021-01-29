@@ -292,8 +292,7 @@ sub Form {
         # Check if article exists.
         if ( !%Data ) {
             return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}
-                    ->Translate( 'Article %s could not be found!', $GetParam{ArticleID} ),
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Article %s could not be found!', $GetParam{ArticleID} ),
             );
         }
     }
@@ -790,8 +789,7 @@ sub SendEmail {
                 # Another draft with the chosen name already exists.
                 %FormDraftResponse = (
                     Success      => 0,
-                    ErrorMessage => $Kernel::OM->Get('Kernel::Language')
-                        ->Translate( "FormDraft name %s is already in use!", $Title ),
+                    ErrorMessage => $Kernel::OM->Get('Kernel::Language')->Translate( "FormDraft name %s is already in use!", $Title ),
                 );
                 last DRAFT;
             }
@@ -1012,8 +1010,7 @@ sub SendEmail {
         if ( !IsHashRefWithData($ValidationResult) ) {
             return $LayoutObject->ErrorScreen(
                 Message =>
-                    $LayoutObject->{LanguageObject}
-                    ->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
+                    $LayoutObject->{LanguageObject}->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
                 Comment => Translatable('Please contact the administrator.'),
             );
         }

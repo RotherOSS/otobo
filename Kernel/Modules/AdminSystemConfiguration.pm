@@ -172,8 +172,7 @@ sub Run {
         );
 
         if ( $UserPreferences{UserSystemConfigurationFavourites} ) {
-            $Favourites = $Kernel::OM->Get('Kernel::System::JSON')
-                ->Decode( Data => $UserPreferences{UserSystemConfigurationFavourites} );
+            $Favourites = $Kernel::OM->Get('Kernel::System::JSON')->Decode( Data => $UserPreferences{UserSystemConfigurationFavourites} );
         }
 
         for my $Setting (@SettingList) {
@@ -342,8 +341,7 @@ sub Run {
         );
 
         if ( $UserPreferences{UserSystemConfigurationFavourites} ) {
-            $Favourites = $Kernel::OM->Get('Kernel::System::JSON')
-                ->Decode( Data => $UserPreferences{UserSystemConfigurationFavourites} );
+            $Favourites = $Kernel::OM->Get('Kernel::System::JSON')->Decode( Data => $UserPreferences{UserSystemConfigurationFavourites} );
         }
 
         if ($Favourites) {
@@ -475,8 +473,7 @@ sub Run {
 
         if ( scalar @SettingListInvalid ) {
             my $SettingsInvalid = join ', ', @SettingListInvalid;
-            $Output .= $LayoutObject->Notify( Info => $LayoutObject->{LanguageObject}
-                    ->Translate( "The following settings could not be found: %s", $SettingsInvalid ) );
+            $Output .= $LayoutObject->Notify( Info => $LayoutObject->{LanguageObject}->Translate( "The following settings could not be found: %s", $SettingsInvalid ) );
         }
 
         $Output .= $LayoutObject->Output(
@@ -557,9 +554,9 @@ sub Run {
 
         # Get configuration data.
         my $ConfigurationDumpYAML = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationDump(
-            SkipDefaultSettings  => 1,    # Default settings are not needed.
-            SkipModifiedSettings => 0,    # Modified settings should always be present.
-            SkipUserSettings => $ParamObject->GetParam( Param => 'SkipUserSettings' ) ? 0 : 1,
+            SkipDefaultSettings  => 1,                                                               # Default settings are not needed.
+            SkipModifiedSettings => 0,                                                               # Modified settings should always be present.
+            SkipUserSettings     => $ParamObject->GetParam( Param => 'SkipUserSettings' ) ? 0 : 1,
         );
 
         # Send the result to the browser.

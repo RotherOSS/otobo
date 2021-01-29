@@ -450,8 +450,7 @@ sub _GetTransitionActionConfig {
 
     my %TransitionActionConfig;
     $TransitionActionConfig{TransitionAction} = ();
-    $TransitionActionConfig{TransitionAction}->{ $Param{EntityID} }
-        = $ProcessDump->{TransitionAction}->{ $Param{EntityID} };
+    $TransitionActionConfig{TransitionAction}->{ $Param{EntityID} } = $ProcessDump->{TransitionAction}->{ $Param{EntityID} };
 
     return \%TransitionActionConfig;
 }
@@ -543,9 +542,8 @@ sub _ShowEdit {
     }
 
     # lookup existing Transition Actions on disk
-    my $Directory
-        = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/System/ProcessManagement/TransitionAction';
-    my @List = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+    my $Directory = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/System/ProcessManagement/TransitionAction';
+    my @List      = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => $Directory,
         Filter    => '*.pm',
     );

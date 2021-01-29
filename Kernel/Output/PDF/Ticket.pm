@@ -815,8 +815,7 @@ sub _PDFOutputTicketDynamicFields {
             LayoutObject       => $LayoutObject,
         );
 
-        $Sections[-1]{CellData}[$Row][0]{Content}
-            = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} )
+        $Sections[-1]{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} )
             . ':';
         $Sections[-1]{CellData}[$Row][0]{Font}    = 'ProportionalBold';
         $Sections[-1]{CellData}[$Row][1]{Content} = $ValueStrg->{Value};
@@ -882,10 +881,10 @@ sub _PDFOutputTicketDynamicFields {
 
                 # Output headline.
                 $PDFObject->Text(
-                    Text => $Section->{Title}{Text},
-                    Type => 'Cut',
-                    Font => 'Proportional' . $Section->{Title}{Style},
-                    FontSize => $Section->{Title}{Size} / 2,   # pdf font is 10 vs 12, text seems also mutliplied by 5/3
+                    Text     => $Section->{Title}{Text},
+                    Type     => 'Cut',
+                    Font     => 'Proportional' . $Section->{Title}{Style},
+                    FontSize => $Section->{Title}{Size} / 2,                 # pdf font is 10 vs 12, text seems also mutliplied by 5/3
                     Color    => $Section->{Title}{Color},
                 );
 
@@ -1145,8 +1144,7 @@ sub _PDFOutputArticles {
             next ARTICLE_FIELD if $ArticleField{HideInTicketPrint};
             next ARTICLE_FIELD if !$ArticleField{Value};
 
-            $TableParam1{CellData}[$Row][0]{Content}
-                = $LayoutObject->{LanguageObject}->Translate( $ArticleField{Label} ) . ':';
+            $TableParam1{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate( $ArticleField{Label} ) . ':';
             $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
             $TableParam1{CellData}[$Row][1]{Content} = $ArticleField{Value};
             $Row++;
@@ -1158,8 +1156,7 @@ sub _PDFOutputArticles {
                 ArticleID => $Article{ArticleID},
             );
             if ($ArticleTime) {
-                $TableParam1{CellData}[$Row][0]{Content}
-                    = $LayoutObject->{LanguageObject}->Translate('Accounted time') . ':';
+                $TableParam1{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate('Accounted time') . ':';
                 $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
                 $TableParam1{CellData}[$Row][1]{Content} = $ArticleTime;
                 $Row++;
@@ -1227,8 +1224,7 @@ sub _PDFOutputArticles {
                 HTMLOutput         => 0,
                 LayoutObject       => $LayoutObject,
             );
-            $TableParam1{CellData}[$Row][0]{Content}
-                = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} )
+            $TableParam1{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} )
                 . ':';
             $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
             $TableParam1{CellData}[$Row][1]{Content} = $ValueStrg->{Value};

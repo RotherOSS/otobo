@@ -91,8 +91,7 @@ sub Run {
     }
 
     # trigger the appointment notification
-    my $Success
-        = $Kernel::OM->Get('Kernel::System::Calendar::Appointment')->AppointmentNotification( %{ $Param{Data} } );
+    my $Success = $Kernel::OM->Get('Kernel::System::Calendar::Appointment')->AppointmentNotification( %{ $Param{Data} } );
 
     if ( !$Success ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(

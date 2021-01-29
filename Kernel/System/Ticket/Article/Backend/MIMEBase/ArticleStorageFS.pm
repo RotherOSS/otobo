@@ -231,11 +231,10 @@ sub ArticleDeleteAttachment {
     # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
 
-    return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB')
-        ->ArticleDeleteAttachment(
+    return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB')->ArticleDeleteAttachment(
         %Param,
         OnlyMyBackend => 1,
-        );
+    );
 }
 
 sub ArticleWritePlain {
@@ -690,11 +689,10 @@ sub ArticleAttachmentIndexRaw {
     # return if only delete in my backend
     return %Index if $Param{OnlyMyBackend};
 
-    %Index = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB')
-        ->ArticleAttachmentIndexRaw(
+    %Index = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB')->ArticleAttachmentIndexRaw(
         %Param,
         OnlyMyBackend => 1,
-        );
+    );
 
     # Write to special article storage cache.
     if ( $Self->{ArticleStorageCache} ) {

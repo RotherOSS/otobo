@@ -144,11 +144,10 @@ sub ArticleDeleteAttachment {
     # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
 
-    return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS')
-        ->ArticleDeleteAttachment(
+    return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS')->ArticleDeleteAttachment(
         %Param,
         OnlyMyBackend => 1,
-        );
+    );
 }
 
 sub ArticleWritePlain {
@@ -395,11 +394,10 @@ sub ArticleAttachmentIndexRaw {
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};
 
-    return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS')
-        ->ArticleAttachmentIndexRaw(
+    return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS')->ArticleAttachmentIndexRaw(
         %Param,
         OnlyMyBackend => 1,
-        );
+    );
 }
 
 sub ArticleAttachment {

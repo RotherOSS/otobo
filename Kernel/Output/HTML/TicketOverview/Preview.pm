@@ -1106,8 +1106,7 @@ sub _Show {
     if (@ArticleBody) {
 
         # check if the first article should be displayed as expanded, that is visible for the related customer
-        my $PreviewIsVisibleForCustomerExpanded
-            = $ConfigObject->Get('Ticket::Frontend::Overview::PreviewIsVisibleForCustomerExpanded') || 0;
+        my $PreviewIsVisibleForCustomerExpanded = $ConfigObject->Get('Ticket::Frontend::Overview::PreviewIsVisibleForCustomerExpanded') || 0;
 
         # if a certain article type should be shown as expanded, set the last article of this type as active
         if ($PreviewIsVisibleForCustomerExpanded) {

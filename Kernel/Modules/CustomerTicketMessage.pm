@@ -185,8 +185,7 @@ sub Run {
             # warn if there is no (valid) default queue and the customer can't select one
             elsif ( !$Config->{'Queue'} ) {
                 $LayoutObject->CustomerFatalError(
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Translate( 'Check SysConfig setting for %s::QueueDefault.', $Self->{Action} ),
+                    Message => $LayoutObject->{LanguageObject}->Translate( 'Check SysConfig setting for %s::QueueDefault.', $Self->{Action} ),
                     Comment => Translatable('Please contact the administrator.'),
                 );
                 return;
@@ -325,8 +324,7 @@ sub Run {
                         TOs:
                         for my $QueueID ( sort keys %{ $StdFieldValues{QueueID} } ) {
                             next TOs if ( $StdFieldValues{QueueID}{$QueueID} eq '-' );
-                            $StdFieldValues{Dest}{"$QueueID||$StdFieldValues{QueueID}{ $QueueID }"}
-                                = $StdFieldValues{QueueID}{$QueueID};
+                            $StdFieldValues{Dest}{"$QueueID||$StdFieldValues{QueueID}{ $QueueID }"} = $StdFieldValues{QueueID}{$QueueID};
                         }
 
                         # check current selection of QueueID (Dest will be done together with the other fields)
@@ -537,8 +535,7 @@ sub Run {
             if ( !$GetParam{TypeID} ) {
                 $LayoutObject->CustomerFatalError(
                     Message =>
-                        $LayoutObject->{LanguageObject}
-                        ->Translate( 'Check SysConfig setting for %s::TicketTypeDefault.', $Self->{Action} ),
+                        $LayoutObject->{LanguageObject}->Translate( 'Check SysConfig setting for %s::TicketTypeDefault.', $Self->{Action} ),
                     Comment => Translatable('Please contact the administrator.'),
                 );
                 return;
@@ -647,8 +644,7 @@ sub Run {
                     );
                     $Output .= $LayoutObject->CustomerError(
                         Message =>
-                            $LayoutObject->{LanguageObject}
-                            ->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
+                            $LayoutObject->{LanguageObject}->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
                         Comment => Translatable('Please contact the administrator.'),
                     );
                     $Output .= $LayoutObject->CustomerFooter();
@@ -767,7 +763,7 @@ sub Run {
         }
 
         # check type
-        if ( $ConfigObject->Get('Ticket::Type') && !$GetParam{TypeID}) {
+        if ( $ConfigObject->Get('Ticket::Type') && !$GetParam{TypeID} ) {
             $Error{TypeIDInvalid} = 'ServerError';
         }
 
@@ -779,7 +775,7 @@ sub Run {
             if ( $Error{QueueDisabled} ) {
                 $Output .= $LayoutObject->Notify(
                     Priority => 'Error',
-                    Info => Translatable("You don't have sufficient permissions for ticket creation in default queue."),
+                    Info     => Translatable("You don't have sufficient permissions for ticket creation in default queue."),
                 );
             }
 
@@ -1048,9 +1044,9 @@ sub Run {
             StdFields => 0,
             Fields    => 0,
         );
-        my %ChangedElements        = $ElementChanged ? ( $ElementChanged => 1 ) : ();
-        my %ChangedElementsDFStart = $ElementChanged ? ( $ElementChanged => 1 ) : ();
-        my %ChangedStdFields = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? ( $ElementChanged => 1 ) : ();
+        my %ChangedElements        = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
+        my %ChangedElementsDFStart = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
+        my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? ( $ElementChanged => 1 ) : ();
 
         my $LoopProtection = 100;
         my %StdFieldValues;
@@ -1128,8 +1124,7 @@ sub Run {
                         TOs:
                         for my $QueueID ( sort keys %{ $StdFieldValues{QueueID} } ) {
                             next TOs if ( $StdFieldValues{QueueID}{$QueueID} eq '-' );
-                            $StdFieldValues{Dest}{"$QueueID||$StdFieldValues{QueueID}{ $QueueID }"}
-                                = $StdFieldValues{QueueID}{$QueueID};
+                            $StdFieldValues{Dest}{"$QueueID||$StdFieldValues{QueueID}{ $QueueID }"} = $StdFieldValues{QueueID}{$QueueID};
                         }
 
                         # check current selection of QueueID (Dest will be done together with the other fields)
@@ -1393,8 +1388,7 @@ sub _GetServices {
     return \%Service if !$Param{QueueID} && !$Param{TicketID};
 
     # get options for default services for unknown customers
-    my $DefaultServiceUnknownCustomer
-        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::Default::UnknownCustomer');
+    my $DefaultServiceUnknownCustomer = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::Default::UnknownCustomer');
 
     # get service list
     if ( $Param{CustomerUserID} || $DefaultServiceUnknownCustomer ) {

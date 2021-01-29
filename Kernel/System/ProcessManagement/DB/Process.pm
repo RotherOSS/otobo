@@ -521,8 +521,7 @@ sub ProcessGet {
                         ->{Action};
                     if ( $TransitionActionPath && @{$TransitionActionPath} ) {
                         for my $TransitionActionEntityID ( sort @{$TransitionActionPath} ) {
-                            $TransitionActions{$TransitionActionEntityID}
-                                = $TransitionActionList->{$TransitionEntityID};
+                            $TransitionActions{$TransitionActionEntityID} = $TransitionActionList->{$TransitionEntityID};
                         }
                     }
                 }
@@ -2073,8 +2072,7 @@ sub _ImportedEntitiesUpdate {
                     Message => $Message,
                 };
             }
-            $NewActivities->{$NewActivityEntityID}->{Config}->{ActivityDialog}->{$OrderKey}
-                = $NewActivityDialogEntityID;
+            $NewActivities->{$NewActivityEntityID}->{Config}->{ActivityDialog}->{$OrderKey} = $NewActivityDialogEntityID;
         }
     }
 

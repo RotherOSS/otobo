@@ -45,8 +45,7 @@ sub Param {
     my ( $Self, %Param ) = @_;
 
     my @Params;
-    my $GetParam
-        = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Self->{ConfigItem}->{PrefKey} );
+    my $GetParam = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Self->{ConfigItem}->{PrefKey} );
     if ( !defined $GetParam ) {
         $GetParam = defined( $Param{UserData}->{ $Self->{ConfigItem}->{PrefKey} } )
             ? $Param{UserData}->{ $Self->{ConfigItem}->{PrefKey} }

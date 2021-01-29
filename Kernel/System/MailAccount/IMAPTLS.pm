@@ -318,8 +318,7 @@ sub _Fetch {
             # check message size
             my $MessageSize = $IMAPOperation->( 'size', $Messageno, );
             if ( !( defined $MessageSize ) ) {
-                my $ErrorMessage
-                    = "$AuthType: Can't determine the size of email '$Messageno/$NumberOfMessages' from $Param{Login}/$Param{Host}!";
+                my $ErrorMessage = "$AuthType: Can't determine the size of email '$Messageno/$NumberOfMessages' from $Param{Login}/$Param{Host}!";
 
                 $CommunicationLogObject->ObjectLog(
                     ObjectLogType => 'Connection',

@@ -426,8 +426,7 @@ sub Run {
 
         # prepare dates and times
         my $StartTime     = sprintf( "%02d:%02d", $StartTimeSettings->{Hour}, $StartTimeSettings->{Minute} );
-        my $StartTimeLong = $LayoutObject->{LanguageObject}
-            ->FormatTimeString( $Appointments{$AppointmentID}->{StartTime}, 'DateFormatLong' );
+        my $StartTimeLong = $LayoutObject->{LanguageObject}->FormatTimeString( $Appointments{$AppointmentID}->{StartTime}, 'DateFormatLong' );
 
         $LayoutObject->Block(
             Name => 'ContentSmallAppointmentRow',

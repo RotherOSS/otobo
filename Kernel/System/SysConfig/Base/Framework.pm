@@ -362,8 +362,7 @@ sub _ModifiedValueCalculate {
                             sort keys %{ $Param{Value}->[0]->{Hash}->[0]->{Item}->[ $ItemWithSameKey[0] ] }
                             )
                         {
-                            $DefaultItem->[0]->{$DefaultKey}
-                                = $Param{Value}->[0]->{Hash}->[0]->{Item}->[ $ItemWithSameKey[0] ]->{$DefaultKey};
+                            $DefaultItem->[0]->{$DefaultKey} = $Param{Value}->[0]->{Hash}->[0]->{Item}->[ $ItemWithSameKey[0] ]->{$DefaultKey};
                         }
                     }
                     else {
@@ -446,8 +445,7 @@ sub _ModifiedValueCalculate {
                 # It's complex structure (HoA or HoH), continue recursion.
                 my $StructureType = $DefaultItem->[0]->{Array} ? 'Array' : 'Hash';
 
-                my ($SubValue)
-                    = grep { defined $_->{Key} && $_->{Key} eq $Key } @{ $Param{Value}->[0]->{Hash}->[0]->{Item} };
+                my ($SubValue) = grep { defined $_->{Key} && $_->{Key} eq $Key } @{ $Param{Value}->[0]->{Hash}->[0]->{Item} };
 
                 if (
                     $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}

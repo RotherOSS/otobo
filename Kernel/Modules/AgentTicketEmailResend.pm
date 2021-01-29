@@ -75,7 +75,7 @@ sub Run {
     # Error screen, don't show article action.
     if ( !$Access ) {
         return $LayoutObject->NoPermission(
-            Message => $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', $Config->{Permission} ),
+            Message    => $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', $Config->{Permission} ),
             WithHeader => 'yes',
         );
     }

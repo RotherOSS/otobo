@@ -211,10 +211,10 @@ sub Run {
     # set pending time
     if ( $GetParam{'X-OTOBO-FollowUp-State-PendingTime'} ) {
 
-  # You can specify absolute dates like "2010-11-20 00:00:00" or relative dates, based on the arrival time of the email.
-  # Use the form "+ $Number $Unit", where $Unit can be 's' (seconds), 'm' (minutes), 'h' (hours) or 'd' (days).
-  # Only one unit can be specified. Examples of valid settings: "+50s" (pending in 50 seconds), "+30m" (30 minutes),
-  # "+12d" (12 days). Note that settings like "+1d 12h" are not possible. You can specify "+36h" instead.
+        # You can specify absolute dates like "2010-11-20 00:00:00" or relative dates, based on the arrival time of the email.
+        # Use the form "+ $Number $Unit", where $Unit can be 's' (seconds), 'm' (minutes), 'h' (hours) or 'd' (days).
+        # Only one unit can be specified. Examples of valid settings: "+50s" (pending in 50 seconds), "+30m" (30 minutes),
+        # "+12d" (12 days). Note that settings like "+1d 12h" are not possible. You can specify "+36h" instead.
 
         my $TargetTimeStamp = $GetParam{'X-OTOBO-FollowUp-State-PendingTime'};
 
@@ -510,7 +510,7 @@ sub Run {
             ObjectLogType => 'Message',
             Priority      => 'Error',
             Key           => 'Kernel::System::PostMaster::FollowUp',
-            Value => "Can't find valid SenderType '$GetParam{'X-OTOBO-FollowUp-SenderType'}' in DB, take 'customer'",
+            Value         => "Can't find valid SenderType '$GetParam{'X-OTOBO-FollowUp-SenderType'}' in DB, take 'customer'",
         );
         $GetParam{'X-OTOBO-SenderType'} = 'customer';
     }

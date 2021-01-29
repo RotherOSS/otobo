@@ -1506,8 +1506,7 @@ sub _MaskRun {
 
             # set search parameter
             if ( defined $SearchParameter ) {
-                $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                    = $SearchParameter->{Parameter};
+                $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $SearchParameter->{Parameter};
             }
         }
     }
@@ -1683,9 +1682,8 @@ sub _StopWordsServerErrorsGet {
             next FIELD if ref $StopWords->{$Field} ne 'ARRAY';
             next FIELD if !@{ $StopWords->{$Field} };
 
-            $StopWordsServerErrors{ $Field . 'Invalid' } = 'ServerError';
-            $StopWordsServerErrors{ $Field . 'InvalidTooltip' }
-                = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}
+            $StopWordsServerErrors{ $Field . 'Invalid' }        = 'ServerError';
+            $StopWordsServerErrors{ $Field . 'InvalidTooltip' } = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}
                 ->Translate('Please remove the following words because they cannot be used for the ticket selection:')
                 . ' '
                 . join( ',', sort @{ $StopWords->{$Field} } );

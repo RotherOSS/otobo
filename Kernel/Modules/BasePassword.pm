@@ -183,8 +183,7 @@ sub _Screen {
     $Output .= $Self->_NavigationBar();
 
     # show policy
-    my @Policy
-        = qw(PasswordHistory PasswordMinSize PasswordMin2Lower2UpperCharacters PasswordMin2Characters PasswordNeedDigit PasswordMaxValidTimeInDays);
+    my @Policy = qw(PasswordHistory PasswordMinSize PasswordMin2Lower2UpperCharacters PasswordMin2Characters PasswordNeedDigit PasswordMaxValidTimeInDays);
     POLICY:
     for my $Block (@Policy) {
         next POLICY if !$Config->{Password}->{$Block};

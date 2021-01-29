@@ -488,10 +488,9 @@ sub _Overview {
 
             my %Data = %{ $ListGet{$ID} };
             my @SelectedAttachment;
-            my %SelectedAttachmentData
-                = $Kernel::OM->Get('Kernel::System::StdAttachment')->StdAttachmentStandardTemplateMemberList(
+            my %SelectedAttachmentData = $Kernel::OM->Get('Kernel::System::StdAttachment')->StdAttachmentStandardTemplateMemberList(
                 StandardTemplateID => $ID,
-                );
+            );
             for my $Key ( sort keys %SelectedAttachmentData ) {
                 push @SelectedAttachment, $Key;
             }

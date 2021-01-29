@@ -92,8 +92,7 @@ sub Run {
                 my %Data = $StandardTemplateObject->StandardTemplateGet(
                     ID => $StandardTemplateID
                 );
-                $StandardTemplateData{$StandardTemplateID}
-                    = $LayoutObject->{LanguageObject}->Translate( $Data{TemplateType} )
+                $StandardTemplateData{$StandardTemplateID} = $LayoutObject->{LanguageObject}->Translate( $Data{TemplateType} )
                     . ' - '
                     . $Data{Name};
             }
@@ -353,8 +352,7 @@ sub _Overview {
             my %Data = $StandardTemplateObject->StandardTemplateGet(
                 ID => $StandardTemplateID,
             );
-            $StandardTemplateData{$StandardTemplateID}
-                = $LayoutObject->{LanguageObject}->Translate( $Data{TemplateType} )
+            $StandardTemplateData{$StandardTemplateID} = $LayoutObject->{LanguageObject}->Translate( $Data{TemplateType} )
                 . ' - '
                 . $Data{Name};
         }

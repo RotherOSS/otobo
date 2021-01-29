@@ -62,7 +62,7 @@ sub Run {
     my $Notification            = $ParamObject->GetParam( Param => 'Notification' );
 
     # get the search article fields to retrieve values for
-    my %ArticleSearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
+    my %ArticleSearchableFields     = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
     my @ArticleSearchableFieldsKeys = sort keys %ArticleSearchableFields;
 
     # get registered transport layers
@@ -614,8 +614,7 @@ sub Run {
 
             if ( !IsHashRefWithData( \%NotificationSingleData ) ) {
                 return $LayoutObject->ErrorScreen(
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Translate( 'There was an error getting data for Notification with ID:%s!', $NotificationID ),
+                    Message => $LayoutObject->{LanguageObject}->Translate( 'There was an error getting data for Notification with ID:%s!', $NotificationID ),
                 );
             }
 

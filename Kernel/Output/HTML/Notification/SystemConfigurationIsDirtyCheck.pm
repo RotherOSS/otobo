@@ -51,8 +51,8 @@ sub Run {
 
             return $LayoutObject->Notify(
                 Priority => 'Notice',
-                Link => $LayoutObject->{Baselink} . 'Action=AdminSystemConfigurationDeployment;Subaction=Deployment',
-                Data => $LayoutObject->{LanguageObject}->Translate(
+                Link     => $LayoutObject->{Baselink} . 'Action=AdminSystemConfigurationDeployment;Subaction=Deployment',
+                Data     => $LayoutObject->{LanguageObject}->Translate(
                     "You have undeployed settings, would you like to deploy them?"
                 ),
             );

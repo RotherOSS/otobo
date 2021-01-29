@@ -56,9 +56,8 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get the debug parameters
-    $Self->{TransitionDebug} = $ConfigObject->Get('ProcessManagement::Transition::Debug::Enabled') || 0;
-    $Self->{TransitionDebugLogPriority}
-        = $ConfigObject->Get('ProcessManagement::Transition::Debug::LogPriority') || 'debug';
+    $Self->{TransitionDebug}            = $ConfigObject->Get('ProcessManagement::Transition::Debug::Enabled')     || 0;
+    $Self->{TransitionDebugLogPriority} = $ConfigObject->Get('ProcessManagement::Transition::Debug::LogPriority') || 'debug';
 
     my $TransitionDebugConfigFilters = $ConfigObject->Get('ProcessManagement::Transition::Debug::Filter') || {};
 
@@ -568,10 +567,10 @@ sub TransitionCheck {
                 }
                 elsif ( $ActualCondition->{Fields}->{$FieldName}->{Type} eq 'Array' ) {
 
-                  # 1. go through each Condition->$ConditionName->Fields->$Field->Value (map).
-                  # 2. assign the value to $CheckValue.
-                  # 3. grep through $Data->{$FieldName} to find the "toCheck" value inside the Data->{$FieldName} Array.
-                  # 4. Assign all found Values to @CheckResults.
+                    # 1. go through each Condition->$ConditionName->Fields->$Field->Value (map).
+                    # 2. assign the value to $CheckValue.
+                    # 3. grep through $Data->{$FieldName} to find the "toCheck" value inside the Data->{$FieldName} Array.
+                    # 4. Assign all found Values to @CheckResults.
                     my $CheckValue;
                     my @CheckResults = map {
                         $CheckValue = $_;
@@ -842,8 +841,7 @@ sub TransitionCheck {
                     # Default location for validation modules:
                     #   Kernel/System/ProcessManagement/TransitionValidation/.
                     if (
-                        !$Kernel::OM->Get('Kernel::System::Main')
-                        ->Require( $ActualCondition->{Fields}->{$FieldName}->{Match} )
+                        !$Kernel::OM->Get('Kernel::System::Main')->Require( $ActualCondition->{Fields}->{$FieldName}->{Match} )
                         )
                     {
                         $Kernel::OM->Get('Kernel::System::Log')->Log(

@@ -88,8 +88,7 @@ Usually you do not use it directly, instead use:
 =cut
 
 sub new {
-    my $Type = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = bless {}, $Type;
@@ -518,8 +517,7 @@ Attention: Connect() must be successful for the method to work.
 =cut
 
 sub QuoteIdentifier {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{Table} ) {

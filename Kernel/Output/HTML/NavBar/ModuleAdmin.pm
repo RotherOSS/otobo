@@ -175,8 +175,7 @@ sub Run {
         for my $Entry ( @{ $Modules{$Block} } ) {
             $Entry->{NameTranslated} = $LayoutObject->{LanguageObject}->Translate( $Entry->{Name} );
         }
-        @{ $Modules{$Block} }
-            = sort { $Collator->cmp( $a->{NameTranslated}, $b->{NameTranslated} ) } @{ $Modules{$Block} };
+        @{ $Modules{$Block} } = sort { $Collator->cmp( $a->{NameTranslated}, $b->{NameTranslated} ) } @{ $Modules{$Block} };
     }
 
     $LayoutObject->Block(

@@ -307,8 +307,7 @@ sub JobRun {
 
             # set search parameter
             if ( defined $SearchParameter ) {
-                $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                    = $SearchParameter->{Parameter};
+                $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $SearchParameter->{Parameter};
             }
         }
     }
@@ -1392,8 +1391,7 @@ sub _JobRunTicket {
     }
 
     # run module
-    my $AllowCustomModuleExecution
-        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::GenericAgentAllowCustomModuleExecution') || 0;
+    my $AllowCustomModuleExecution = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::GenericAgentAllowCustomModuleExecution') || 0;
 
     if ( $Param{Config}->{New}->{Module} && $AllowCustomModuleExecution ) {
         if ( $Self->{NoticeSTDOUT} ) {
@@ -1462,8 +1460,7 @@ sub _JobRunTicket {
     }
 
     # cmd
-    my $AllowCustomScriptExecution
-        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::GenericAgentAllowCustomScriptExecution') || 0;
+    my $AllowCustomScriptExecution = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::GenericAgentAllowCustomScriptExecution') || 0;
 
     if ( $Param{Config}->{New}->{CMD} && $AllowCustomScriptExecution ) {
         if ( $Self->{NoticeSTDOUT} ) {

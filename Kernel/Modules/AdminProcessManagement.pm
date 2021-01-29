@@ -1142,8 +1142,7 @@ sub Run {
             );
 
             if ( !$Success ) {
-                $DeleteResult{Message}
-                    = $LayoutObject->{LanguageObject}->Translate( 'Process: %s could not be deleted', $ProcessID );
+                $DeleteResult{Message} = $LayoutObject->{LanguageObject}->Translate( 'Process: %s could not be deleted', $ProcessID );
             }
             else {
 
@@ -1292,8 +1291,7 @@ sub Run {
             $JSON = $LayoutObject->JSONEncode(
                 Data => {
                     Success => 0,
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Translate( 'The %s:%s is still in use', $GetParam{EntityType}, $GetParam{EntityID} ),
+                    Message => $LayoutObject->{LanguageObject}->Translate( 'The %s:%s is still in use', $GetParam{EntityType}, $GetParam{EntityID} ),
                 },
             );
         }
@@ -1321,17 +1319,15 @@ sub Run {
 
                 # delete entity
                 $Method = $GetParam{EntityType} . 'Delete';
-                my $Success
-                    = $Kernel::OM->Get( 'Kernel::System::ProcessManagement::DB::' . $GetParam{EntityType} )->$Method(
+                my $Success = $Kernel::OM->Get( 'Kernel::System::ProcessManagement::DB::' . $GetParam{EntityType} )->$Method(
                     ID     => $GetParam{ItemID},
                     UserID => $Self->{UserID},
-                    );
+                );
 
                 my $Message;
                 if ( !$Success ) {
                     $Success = 0;
-                    $Message = $LayoutObject->{LanguageObject}
-                        ->Translate( 'Could not delete %s:%s', $GetParam{EntityType}, $GetParam{ItemID} );
+                    $Message = $LayoutObject->{LanguageObject}->Translate( 'Could not delete %s:%s', $GetParam{EntityType}, $GetParam{ItemID} );
                 }
                 else {
 
@@ -1397,18 +1393,16 @@ sub Run {
 
         my $EntityData;
         if ( $GetParam{ItemID} && $GetParam{ItemID} ne '' ) {
-            $EntityData
-                = $Kernel::OM->Get( 'Kernel::System::ProcessManagement::DB::' . $GetParam{EntityType} )->$Method(
+            $EntityData = $Kernel::OM->Get( 'Kernel::System::ProcessManagement::DB::' . $GetParam{EntityType} )->$Method(
                 ID     => $GetParam{ItemID},
                 UserID => $Self->{UserID},
-                );
+            );
         }
         else {
-            $EntityData
-                = $Kernel::OM->Get( 'Kernel::System::ProcessManagement::DB::' . $GetParam{EntityType} )->$Method(
+            $EntityData = $Kernel::OM->Get( 'Kernel::System::ProcessManagement::DB::' . $GetParam{EntityType} )->$Method(
                 EntityID => $GetParam{EntityID},
                 UserID   => $Self->{UserID},
-                );
+            );
         }
 
         my $JSON;
@@ -1973,16 +1967,14 @@ sub _CheckEntityUsage {
                     ENTITY:
                     for my $EntityID (@TransitionActions) {
                         if ( $EntityID eq $Param{EntityID} ) {
-                            my $TransitionData
-                                = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition')->TransitionGet(
+                            my $TransitionData = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition')->TransitionGet(
                                 EntityID => $TransitionEntityID,
                                 UserID   => $Self->{UserID},
-                                );
-                            my $ActivityData
-                                = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity')->ActivityGet(
+                            );
+                            my $ActivityData = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity')->ActivityGet(
                                 EntityID => $ActivityEntityID,
                                 UserID   => $Self->{UserID},
-                                );
+                            );
 
                             push @Usage, "$Process->{Name} -> $ActivityData->{Name} -> $TransitionData->{Name}";
                             last ENTITY;
@@ -2093,11 +2085,10 @@ sub _GetProcessData {
         # get all used activity dialogs
         for my $ActivityDialogEntityID ( @{ $Activity->{ActivityDialogs} } ) {
 
-            my $ActivityDialog
-                = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog')->ActivityDialogGet(
+            my $ActivityDialog = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog')->ActivityDialogGet(
                 EntityID => $ActivityDialogEntityID,
                 UserID   => $Self->{UserID},
-                );
+            );
             $ProcessData{ActivityDialogs}->{$ActivityDialogEntityID} = $ActivityDialog;
         }
     }
@@ -2115,11 +2106,10 @@ sub _GetProcessData {
     # get all used transition actions
     for my $TransitionActionEntityID ( @{ $Process->{TransitionActions} } ) {
 
-        my $TransitionAction
-            = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction')->TransitionActionGet(
+        my $TransitionAction = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction')->TransitionActionGet(
             EntityID => $TransitionActionEntityID,
             UserID   => $Self->{UserID},
-            );
+        );
         $ProcessData{TransitionActions}->{$TransitionActionEntityID} = $TransitionAction;
     }
 

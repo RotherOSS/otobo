@@ -317,7 +317,7 @@ sub Run {
         );
         $Param{EndTime} = $EndTimeObject->ToString();
 
-        $Param{HeaderTitle} = $LayoutObject->{LanguageObject}->FormatTimeString( $Param{StartTime}, 'DateFormatShort' );
+        $Param{HeaderTitle}   = $LayoutObject->{LanguageObject}->FormatTimeString( $Param{StartTime}, 'DateFormatShort' );
         $Param{HeaderTitleCW} = '#' . $StartTimeObject->{CPANDateTimeObject}->week_number();
     }
 

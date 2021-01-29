@@ -52,8 +52,7 @@ sub LoadPreferences {
     $Self->{'DB::MaxParamCountForInCondition'} = 1000;
 
     # how to determine server version
-    $Self->{'DB::Version'}
-        = "SELECT CONCAT('Oracle ', version) FROM product_component_version WHERE product LIKE 'Oracle Database%'";
+    $Self->{'DB::Version'} = "SELECT CONCAT('Oracle ', version) FROM product_component_version WHERE product LIKE 'Oracle Database%'";
 
     # how to get list of tables in the current schema
     $Self->{'DB::ListTables'} = 'SELECT table_name FROM user_tables ORDER BY table_name';

@@ -80,7 +80,7 @@ sub Run {
         for my $FormDraft ( @{$FormDraftList} ) {
             if ( $Options{Expired} && $ExpiryTargetTimeByObjectType{ $FormDraft->{ObjectType} } ) {
 
-              # FormDrafts are considered expired if their change time is smaller than target time (current time - ttl).
+                # FormDrafts are considered expired if their change time is smaller than target time (current time - ttl).
                 my $FormDraftSystemTimeObject = $Kernel::OM->Create(
                     'Kernel::System::DateTime',
                     ObjectParams => {

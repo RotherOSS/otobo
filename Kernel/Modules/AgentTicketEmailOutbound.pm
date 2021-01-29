@@ -529,8 +529,7 @@ sub Form {
         if ( $Data{TicketID} ne $Self->{TicketID} ) {
 
             return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}
-                    ->Translate( 'Article does not belong to ticket %s!', $Self->{TicketID} ),
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Article does not belong to ticket %s!', $Self->{TicketID} ),
             );
         }
     }
@@ -915,8 +914,7 @@ sub SendEmail {
                 # Another draft with the chosen name already exists.
                 %FormDraftResponse = (
                     Success      => 0,
-                    ErrorMessage => $Kernel::OM->Get('Kernel::Language')
-                        ->Translate( "FormDraft name %s is already in use!", $Title ),
+                    ErrorMessage => $Kernel::OM->Get('Kernel::Language')->Translate( "FormDraft name %s is already in use!", $Title ),
                 );
                 last DRAFT;
             }
@@ -1140,8 +1138,7 @@ sub SendEmail {
 
             return $LayoutObject->ErrorScreen(
                 Message =>
-                    $LayoutObject->{LanguageObject}
-                    ->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
+                    $LayoutObject->{LanguageObject}->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
                 Comment => Translatable('Please contact the administrator.'),
             );
         }

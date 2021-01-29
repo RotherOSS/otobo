@@ -72,8 +72,7 @@ sub new {
     };
 
     # get the Dynamic Field Backend custom extensions
-    my $DynamicFieldDriverExtensions
-        = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Extension::Driver::TextArea');
+    my $DynamicFieldDriverExtensions = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Extension::Driver::TextArea');
 
     EXTENSION:
     for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
@@ -185,8 +184,7 @@ EOF
 
     my $ErrorMessage1 = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required or");
     my $ErrorMessage2 = $Param{LayoutObject}->{LanguageObject}->Translate("The field content is too long!");
-    my $ErrorMessage3
-        = $Param{LayoutObject}->{LanguageObject}->Translate( "Maximum size is %s characters.", $MaxLength );
+    my $ErrorMessage3 = $Param{LayoutObject}->{LanguageObject}->Translate( "Maximum size is %s characters.", $MaxLength );
 
     if ( $Param{Mandatory} ) {
         $HTMLString .= <<"EOF";

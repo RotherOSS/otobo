@@ -117,8 +117,7 @@ sub Run {
         Value => $ESActive,
     );
 
-    my $NewTicketAccessKey
-        = $ConfigObject->Get('CustomerFrontend::Navigation')->{'CustomerTicketMessage'}{'002-Ticket'}[0]{'AccessKey'}
+    my $NewTicketAccessKey = $ConfigObject->Get('CustomerFrontend::Navigation')->{'CustomerTicketMessage'}{'002-Ticket'}[0]{'AccessKey'}
         || '';
 
     $Output .= $LayoutObject->Output(

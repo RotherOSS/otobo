@@ -140,7 +140,7 @@ sub PreRun {
 
     # check if the passed stat number exists
     $Self->{StatNumber} = $Self->GetOption('number');
-    $Self->{StatID} = $Kernel::OM->Get('Kernel::System::Stats')->StatNumber2StatID( StatNumber => $Self->{StatNumber} );
+    $Self->{StatID}     = $Kernel::OM->Get('Kernel::System::Stats')->StatNumber2StatID( StatNumber => $Self->{StatNumber} );
     if ( !$Self->{StatID} ) {
         die "There is no statistic with number '$Self->{StatNumber}'.\n";
     }

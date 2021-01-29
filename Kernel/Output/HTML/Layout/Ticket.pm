@@ -230,9 +230,8 @@ sub AgentCustomerViewTable {
                 )
             {
                 # Check if agent has permission to start chats with the customer users.
-                my $EnableChat = 1;
-                my $ChatStartingAgentsGroup
-                    = $ConfigObject->Get('ChatEngine::PermissionGroup::ChatStartingAgents') || 'users';
+                my $EnableChat                        = 1;
+                my $ChatStartingAgentsGroup           = $ConfigObject->Get('ChatEngine::PermissionGroup::ChatStartingAgents') || 'users';
                 my $ChatStartingAgentsGroupPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
                     UserID    => $Self->{UserID},
                     GroupName => $ChatStartingAgentsGroup,
@@ -251,9 +250,8 @@ sub AgentCustomerViewTable {
                 }
 
                 if ($EnableChat) {
-                    my $VideoChatEnabled = 0;
-                    my $VideoChatAgentsGroup
-                        = $ConfigObject->Get('ChatEngine::PermissionGroup::VideoChatAgents') || 'users';
+                    my $VideoChatEnabled               = 0;
+                    my $VideoChatAgentsGroup           = $ConfigObject->Get('ChatEngine::PermissionGroup::VideoChatAgents') || 'users';
                     my $VideoChatAgentsGroupPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
                         UserID    => $Self->{UserID},
                         GroupName => $VideoChatAgentsGroup,
@@ -262,8 +260,7 @@ sub AgentCustomerViewTable {
 
                     # Enable the video chat feature if system is entitled and agent is a member of configured group.
                     if ($VideoChatAgentsGroupPermission) {
-                        if ( $Kernel::OM->Get('Kernel::System::Main')
-                            ->Require( 'Kernel::System::VideoChat', Silent => 1 ) )
+                        if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::VideoChat', Silent => 1 ) )
                         {
                             $VideoChatEnabled = $Kernel::OM->Get('Kernel::System::VideoChat')->IsEnabled();
                         }

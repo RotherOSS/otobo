@@ -204,8 +204,7 @@ sub Map {
             next DATAINCLUDEMODULE if !$Param{DataInclude}->{$DataIncludeModule};
 
             # Clone the data include hash to prevent circular data structure references
-            $MergedData->{DataInclude}->{$DataIncludeModule}
-                = Storable::dclone( $Param{DataInclude}->{$DataIncludeModule} );
+            $MergedData->{DataInclude}->{$DataIncludeModule} = Storable::dclone( $Param{DataInclude}->{$DataIncludeModule} );
         }
 
         $Self->{DebuggerObject}->Debug(

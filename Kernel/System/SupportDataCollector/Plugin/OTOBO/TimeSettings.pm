@@ -92,7 +92,7 @@ sub Run {
             $Self->AddResultOk(
                 Identifier => "OTOBOTimeZone::Calendar$Counter",
 
-             # Use of $LanguageObject->Translate() is not possible to avoid translated strings to be sent to OTOBO Team.
+                # Use of $LanguageObject->Translate() is not possible to avoid translated strings to be sent to OTOBO Team.
                 Label => "OTOBO time zone setting for calendar $Counter",
                 Value => $CalendarTimeZone,
             );
@@ -101,7 +101,7 @@ sub Run {
             $Self->AddResultInformation(
                 Identifier => "OTOBOTimeZone::Calendar$Counter",
 
-             # Use of $LanguageObject->Translate() is not possible to avoid translated strings to be sent to OTOBO Team.
+                # Use of $LanguageObject->Translate() is not possible to avoid translated strings to be sent to OTOBO Team.
                 Label   => "OTOBO time zone setting for calendar $Counter",
                 Value   => '',
                 Message => Translatable('Calendar time zone is not set.'),

@@ -175,7 +175,7 @@ sub ArticleCreate {
         if ( !$Success ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message => "System was unable to store data in article_data_otobo_chat table (ArticleID = $ArticleID)!",
+                Message  => "System was unable to store data in article_data_otobo_chat table (ArticleID = $ArticleID)!",
             );
             return;
         }

@@ -313,8 +313,7 @@ sub Export {
                     epoch => $RecurrenceIDObject->ToEpoch(),
                 );
 
-                $ICalEventProperties{'recurrence-id'}
-                    = $Appointment{AllDay} ? substr( $ICalRecurrenceID->ical(), 0, -1 ) : $ICalRecurrenceID->ical();
+                $ICalEventProperties{'recurrence-id'} = $Appointment{AllDay} ? substr( $ICalRecurrenceID->ical(), 0, -1 ) : $ICalRecurrenceID->ical();
             }
 
             # skip if not overridden

@@ -2392,8 +2392,7 @@ sub _GenerateDynamicStats {
                         $CountUpcoming++;
 
                         my $LastQuarter = ceil( $M / 3 ) - 1;
-                        ( $Y, $M, $D )
-                            = $Self->_AddDeltaYMD( $Y, $M, $D, 0, $LastQuarter * 3 - $M + ( 3 * $CountUpcoming ), 0 );
+                        ( $Y, $M, $D ) = $Self->_AddDeltaYMD( $Y, $M, $D, 0, $LastQuarter * 3 - $M + ( 3 * $CountUpcoming ), 0 );
                         $Element->{TimeStop} = sprintf(
                             "%04d-%02d-%02d %02d:%02d:%02d",
                             $Y, $M, $Self->_DaysInMonth( $Y, $M ),
@@ -2448,27 +2447,21 @@ sub _GenerateDynamicStats {
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, 0, 0, 0 );
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'Hour' ) {
-                        ( $Y, $M, $D, $h, $m, $s )
-                            = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, $CountUpcoming, 0, 0 );
+                        ( $Y, $M, $D, $h, $m, $s ) = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, $CountUpcoming, 0, 0 );
                         $Element->{TimeStop} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, 59, 59 );
-                        ( $Y, $M, $D, $h, $m, $s )
-                            = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, -$CountPast, 0, 0 );
+                        ( $Y, $M, $D, $h, $m, $s ) = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, -$CountPast, 0, 0 );
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, 0, 0 );
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'Minute' ) {
-                        ( $Y, $M, $D, $h, $m, $s )
-                            = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, 0, $CountUpcoming, 0 );
+                        ( $Y, $M, $D, $h, $m, $s ) = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, 0, $CountUpcoming, 0 );
                         $Element->{TimeStop} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, 59 );
-                        ( $Y, $M, $D, $h, $m, $s )
-                            = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, 0, -$CountPast, 0 );
+                        ( $Y, $M, $D, $h, $m, $s ) = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, 0, -$CountPast, 0 );
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, 0 );
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'Second' ) {
-                        ( $Y, $M, $D, $h, $m, $s )
-                            = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, 0, 0, $CountUpcoming );
+                        ( $Y, $M, $D, $h, $m, $s ) = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, 0, 0, $CountUpcoming );
                         $Element->{TimeStop} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, $s );
-                        ( $Y, $M, $D, $h, $m, $s )
-                            = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, 0, 0, -$CountPast );
+                        ( $Y, $M, $D, $h, $m, $s ) = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, 0, 0, -$CountPast );
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, $s );
                     }
                     delete $Element->{TimeRelativeUnit};
@@ -3330,11 +3323,10 @@ sub _GenerateDynamicStats {
                 my $TimeStop  = $Xvalue->{Values}{TimeStop};
                 if ( $ValueSeries{$Row}{$TimeStop} && $ValueSeries{$Row}{$TimeStart} ) {
 
-                    my $CellStartTime = $Self->_TimeStamp2DateTime( TimeStamp => $Cell->{TimeStart} );
-                    my $CellStopTime  = $Self->_TimeStamp2DateTime( TimeStamp => $Cell->{TimeStop} );
-                    my $ValueSeriesStartTime
-                        = $Self->_TimeStamp2DateTime( TimeStamp => $ValueSeries{$Row}{$TimeStart} );
-                    my $ValueSeriesStopTime = $Self->_TimeStamp2DateTime( TimeStamp => $ValueSeries{$Row}{$TimeStop} );
+                    my $CellStartTime        = $Self->_TimeStamp2DateTime( TimeStamp => $Cell->{TimeStart} );
+                    my $CellStopTime         = $Self->_TimeStamp2DateTime( TimeStamp => $Cell->{TimeStop} );
+                    my $ValueSeriesStartTime = $Self->_TimeStamp2DateTime( TimeStamp => $ValueSeries{$Row}{$TimeStart} );
+                    my $ValueSeriesStopTime  = $Self->_TimeStamp2DateTime( TimeStamp => $ValueSeries{$Row}{$TimeStop} );
 
                     if ( $CellStopTime > $ValueSeriesStopTime || $CellStartTime < $ValueSeriesStartTime ) {
                         next CELL;
@@ -4132,8 +4124,7 @@ Substitute for Date::Pcalc::Add_Delta_DHMS() which uses Kernel::System::DateTime
 =cut
 
 sub _AddDeltaDHMS {
-    my ( $Self, $Year, $Month, $Day, $Hour, $Minute, $Second, $DaysToAdd, $HoursToAdd, $MinutesToAdd, $SecondsToAdd )
-        = @_;
+    my ( $Self, $Year, $Month, $Day, $Hour, $Minute, $Second, $DaysToAdd, $HoursToAdd, $MinutesToAdd, $SecondsToAdd ) = @_;
 
     my $DateTimeObject = $Kernel::OM->Create(
         'Kernel::System::DateTime',

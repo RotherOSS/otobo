@@ -247,8 +247,7 @@ sub Run {
         # Check for successful web service update.
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}
-                    ->Translate( 'Could not update configuration data for WebserviceID %s', $WebserviceID ),
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Could not update configuration data for WebserviceID %s', $WebserviceID ),
             );
         }
 

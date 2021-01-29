@@ -835,8 +835,7 @@ sub _RecipientsGet {
                     if (
                         !IsHashRefWithData( \%CustomerUser )
                         && !$ConfigObject->Get('CustomerNotifyJustToRealCustomer')
-                        && $Kernel::OM->Get('Kernel::System::CheckItem')
-                        ->CheckEmail( Address => $Ticket{CustomerUserID} )
+                        && $Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( Address => $Ticket{CustomerUserID} )
                         )
                     {
                         $Recipient{UserEmail} = $Ticket{CustomerUserID};

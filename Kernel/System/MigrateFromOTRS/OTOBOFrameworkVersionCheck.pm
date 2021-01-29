@@ -134,15 +134,14 @@ sub Run {
         );
     }
 
-    if ( ! $ReleasePath || ! -e $ReleasePath ) {
+    if ( !$ReleasePath || !-e $ReleasePath ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't open RELEASE file from OTRSHome: $Param{OTRSData}->{OTRSHome}!",
         );
         my %Result;
-        $Result{Message} = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
-        $Result{Comment} = $Self->{LanguageObject}
-            ->Translate( 'Can\'t open RELEASE file from OTRSHome: %s!', $Param{OTRSData}->{OTRSHome} );
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Can\'t open RELEASE file from OTRSHome: %s!', $Param{OTRSData}->{OTRSHome} );
         $Result{Successful} = 0;
 
         return \%Result;
@@ -201,9 +200,8 @@ sub _CheckOTOBOVersion {
     }
     else {
         my %Result;
-        $Result{Message} = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
-        $Result{Comment}
-            = $Self->{LanguageObject}->Translate( 'Can\'t read OTOBO RELEASE file: %s: %s!', "$OTOBOHome/RELEASE", $! );
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Can\'t read OTOBO RELEASE file: %s: %s!', "$OTOBOHome/RELEASE", $! );
         $Result{Successful} = 0;
 
         return \%Result;
@@ -219,9 +217,8 @@ sub _CheckOTOBOVersion {
     }
     if ( $Version !~ /^10\.0(.*)$/ ) {
         my %Result;
-        $Result{Message} = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
-        $Result{Comment} = $Self->{LanguageObject}
-            ->Translate( 'You are trying to run this script on the wrong framework version %s!', $Version );
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'You are trying to run this script on the wrong framework version %s!', $Version );
         $Result{Successful} = 0;
 
         return \%Result;
@@ -242,17 +239,16 @@ sub _CheckOTRSRelease {
     my $OTRSReleasePath = $Param{OTRSReleasePath};
 
     # load RELEASE file
-    if ( ! -e "$OTRSReleasePath" ) {
+    if ( !-e "$OTRSReleasePath" ) {
         my %Result;
-        $Result{Message} = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
-        $Result{Comment}
-            = $Self->{LanguageObject}->Translate( 'OTRS RELEASE file %s does not exist: %s!', $OTRSReleasePath, $! );
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'OTRS RELEASE file %s does not exist: %s!', $OTRSReleasePath, $! );
         $Result{Successful} = 0;
 
         return \%Result;
     }
 
-    my ($ProductName, $Version);
+    my ( $ProductName, $Version );
     if ( open( my $Product, '<', $OTRSReleasePath ) ) {    ## no critic
         while (<$Product>) {
 
@@ -270,9 +266,8 @@ sub _CheckOTRSRelease {
     }
     else {
         my %Result;
-        $Result{Message} = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
-        $Result{Comment}
-            = $Self->{LanguageObject}->Translate( 'Can\'t read OTRS RELEASE file: %s: %s!', $OTRSReleasePath, $! );
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Can\'t read OTRS RELEASE file: %s: %s!', $OTRSReleasePath, $! );
         $Result{Successful} = 0;
 
         return \%Result;
@@ -289,9 +284,8 @@ sub _CheckOTRSRelease {
 
     if ( $Version !~ /^6\.0(.*)$/ ) {
         my %Result;
-        $Result{Message} = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
-        $Result{Comment} = $Self->{LanguageObject}
-            ->Translate( 'You are trying to run this script on the wrong framework version %s!', $Version );
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'You are trying to run this script on the wrong framework version %s!', $Version );
         $Result{Successful} = 0;
 
         return \%Result;

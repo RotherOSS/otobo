@@ -1896,8 +1896,7 @@ sub _OrderByIsValueOfTicketSearchSort {
 
         # add dynamic field if is sortable
         if ($IsSortable) {
-            $SortOptions{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                = 'DynamicField_' . $DynamicFieldConfig->{Name};
+            $SortOptions{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = 'DynamicField_' . $DynamicFieldConfig->{Name};
         }
     }
 

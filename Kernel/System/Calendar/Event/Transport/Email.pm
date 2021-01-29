@@ -536,8 +536,7 @@ sub SecurityOptionsGet {
         # Take an action if there are missing signing keys.
         if ( !IsHashRefWithData( \%SignKey ) ) {
 
-            my $Message
-                = "Could not sign notification '$Param{Notification}->{Name}' due to missing $SecurityOptions{Backend} sign key for '$NotificationSenderEmail'";
+            my $Message = "Could not sign notification '$Param{Notification}->{Name}' due to missing $SecurityOptions{Backend} sign key for '$NotificationSenderEmail'";
 
             if ( $OnMissingSigningKeys eq 'Skip' ) {
 

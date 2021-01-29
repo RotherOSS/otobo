@@ -147,8 +147,7 @@ sub SettingRender {
     $HTML .= " />\n";
 
     if ( !$EffectiveValueCheck{Success} ) {
-        my $Message = $Kernel::OM->Get('Kernel::Language')
-            ->Translate("Value is not correct! Please, consider updating this field.");
+        my $Message = $Kernel::OM->Get('Kernel::Language')->Translate("Value is not correct! Please, consider updating this field.");
 
         $HTML .= $Param{IsValid} ? "<div class='BadEffectiveValue'>\n" : "<div>\n";
         $HTML .= "<p>* $Message</p>\n";

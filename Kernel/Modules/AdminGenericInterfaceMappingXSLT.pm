@@ -77,8 +77,7 @@ sub Run {
     # Check for valid action backend.
     if ( !IsHashRefWithData($ActionsConfig) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not get registered configuration for action type %s', $ActionType ),
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Could not get registered configuration for action type %s', $ActionType ),
         );
     }
 
@@ -191,8 +190,7 @@ sub Run {
         $NewMapping{PostRegExValueCounter} = $GetParam->{PostRegExValueCounter};
 
         # Set new mapping.
-        $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}->{$Action}->{$Direction}->{Config}
-            = \%NewMapping;
+        $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}->{$Action}->{$Direction}->{Config} = \%NewMapping;
 
         # Otherwise save configuration and return to overview screen.
         my $Success = $WebserviceObject->WebserviceUpdate(
@@ -206,8 +204,7 @@ sub Run {
         # Check for successful web service update.
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}
-                    ->Translate( 'Could not update configuration data for WebserviceID %s', $WebserviceID ),
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Could not update configuration data for WebserviceID %s', $WebserviceID ),
             );
         }
 

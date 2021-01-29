@@ -552,8 +552,7 @@ sub Run {
 
         # Check if Chat is active
         if ( $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::Active') ) {
-            my $ChatReceivingAgentsGroup
-                = $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::PermissionGroup::ChatReceivingAgents');
+            my $ChatReceivingAgentsGroup = $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::PermissionGroup::ChatReceivingAgents');
 
             my $ChatReceivingAgentsGroupPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
                 UserID    => $UserData{UserID},
@@ -1293,7 +1292,7 @@ sub Run {
             else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message => "PerformanceLog file '$File' is too large, you need to reset it in PerformanceLog page!",
+                    Message  => "PerformanceLog file '$File' is too large, you need to reset it in PerformanceLog page!",
                 );
             }
         }

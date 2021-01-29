@@ -2558,8 +2558,7 @@ This method will never mark the ticket as updated.
 =cut
 
 sub TicketEscalationIndexBuild {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {

@@ -108,8 +108,7 @@ sub _Add {
         %Param,
         %GetParam,
         Mode           => 'Add',
-        BreadcrumbText => $LayoutObject->{LanguageObject}
-            ->Translate( 'Add %s field', $LayoutObject->{LanguageObject}->Translate($FieldTypeName) ),
+        BreadcrumbText => $LayoutObject->{LanguageObject}->Translate( 'Add %s field', $LayoutObject->{LanguageObject}->Translate($FieldTypeName) ),
         ObjectTypeName => $ObjectTypeName,
         FieldTypeName  => $FieldTypeName,
     );
@@ -345,8 +344,7 @@ sub _Change {
         %Config,
         ID             => $FieldID,
         Mode           => 'Change',
-        BreadcrumbText => $LayoutObject->{LanguageObject}
-            ->Translate( 'Change %s field', $LayoutObject->{LanguageObject}->Translate($FieldTypeName) ),
+        BreadcrumbText => $LayoutObject->{LanguageObject}->Translate( 'Change %s field', $LayoutObject->{LanguageObject}->Translate($FieldTypeName) ),
         ObjectTypeName => $ObjectTypeName,
         FieldTypeName  => $FieldTypeName,
     );

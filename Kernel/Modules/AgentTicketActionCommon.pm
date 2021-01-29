@@ -195,7 +195,7 @@ sub Run {
     # error screen, don't show ticket
     if ( !$Access ) {
         return $LayoutObject->NoPermission(
-            Message => $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', $Config->{Permission} ),
+            Message    => $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', $Config->{Permission} ),
             WithHeader => 'yes',
         );
     }
@@ -555,8 +555,7 @@ sub Run {
                     # Another draft with the chosen name already exists.
                     %FormDraftResponse = (
                         Success      => 0,
-                        ErrorMessage => $Kernel::OM->Get('Kernel::Language')
-                            ->Translate( "FormDraft name %s is already in use!", $Title ),
+                        ErrorMessage => $Kernel::OM->Get('Kernel::Language')->Translate( "FormDraft name %s is already in use!", $Title ),
                     );
                     last DRAFT;
                 }
@@ -840,7 +839,7 @@ sub Run {
 
             my $ValidationResult;
 
-         # Do not validate only if object type is Article and CreateArticle value is not defined, or Field is invisible.
+            # Do not validate only if object type is Article and CreateArticle value is not defined, or Field is invisible.
             if (
                 !( $DynamicFieldConfig->{ObjectType} eq 'Article' && !$GetParam{CreateArticle} )
                 && $Visibility{ $DynamicFieldConfig->{Name} }
@@ -1225,8 +1224,7 @@ sub Run {
             my @NotifyUserIDs;
 
             # get list of users that will be informed without selection in informed/involved list
-            my @UserListWithoutSelection
-                = split( ',', $ParamObject->GetParam( Param => 'UserListWithoutSelection' ) || "" );
+            my @UserListWithoutSelection = split( ',', $ParamObject->GetParam( Param => 'UserListWithoutSelection' ) || "" );
 
             # get inform user list
             my @InformUserID = $ParamObject->GetArray( Param => 'InformUserID' );
@@ -1369,7 +1367,7 @@ sub Run {
             $GetParam{ServiceID} = $Ticket{ServiceID} || '';
         }
 
-# use the FieldIDs, which are found in AgentTicketPhone/Email, and CustomerTicketMessage; if needed, fill with ticket values
+        # use the FieldIDs, which are found in AgentTicketPhone/Email, and CustomerTicketMessage; if needed, fill with ticket values
         $GetParam{QueueID}     = $GetParam{NewQueueID} || $Ticket{QueueID};
         $GetParam{Dest}        = $GetParam{QueueID};
         $GetParam{NextStateID} = $GetParam{NewStateID} || $Ticket{StateID};
@@ -1408,9 +1406,9 @@ sub Run {
             StdFields => 0,
             Fields    => 0,
         );
-        my %ChangedElements        = $ElementChanged ? ( $ElementChanged => 1 ) : ();
-        my %ChangedElementsDFStart = $ElementChanged ? ( $ElementChanged => 1 ) : ();
-        my %ChangedStdFields = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? ( $ElementChanged => 1 ) : ();
+        my %ChangedElements        = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
+        my %ChangedElementsDFStart = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
+        my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? ( $ElementChanged => 1 ) : ();
 
         my $LoopProtection = 100;
         my %StdFieldValues;
@@ -1910,8 +1908,7 @@ sub Run {
                 # Only get values for Ticket fields (all screens based on AgentTickeActionCommon
                 # generates a new article, then article fields will be always empty at the beginning).
                 # Value is stored in the database from Ticket.
-                $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                    = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+                $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
             }
         }
 
@@ -3331,8 +3328,7 @@ sub _GetServices {
     my %Service;
 
     # get options for default services for unknown customers
-    my $DefaultServiceUnknownCustomer
-        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::Default::UnknownCustomer');
+    my $DefaultServiceUnknownCustomer = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::Default::UnknownCustomer');
 
     # check if no CustomerUserID is selected
     # if $DefaultServiceUnknownCustomer = 0 leave CustomerUserID empty, it will not get any services
@@ -3362,8 +3358,7 @@ sub _GetSLAs {
     #  passed. See bug 11147.
 
     # get options for default services for unknown customers
-    my $DefaultServiceUnknownCustomer
-        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::Default::UnknownCustomer');
+    my $DefaultServiceUnknownCustomer = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::Default::UnknownCustomer');
 
     # check if no CustomerUserID is selected
     # if $DefaultServiceUnknownCustomer = 0 leave CustomerUserID empty, it will not get any services
@@ -3477,8 +3472,7 @@ sub _GetQuotedReplyBody {
                     String => $Param{Body},
                 );
 
-                my $ResponseFormat = $LayoutObject->{LanguageObject}
-                    ->FormatTimeString( $Param{CreateTime}, 'DateFormat', 'NoSeconds' );
+                my $ResponseFormat = $LayoutObject->{LanguageObject}->FormatTimeString( $Param{CreateTime}, 'DateFormat', 'NoSeconds' );
                 $ResponseFormat .= ' - ' . $Param{From} . ' ';
                 $ResponseFormat
                     .= $LayoutObject->{LanguageObject}->Translate('wrote') . ':';
@@ -3524,8 +3518,7 @@ sub _GetQuotedReplyBody {
                 $Param{Body} =~ s/\n/\n$Quote /g;
                 $Param{Body} = "\n$Quote " . $Param{Body};
 
-                my $ResponseFormat = $LayoutObject->{LanguageObject}
-                    ->FormatTimeString( $Param{CreateTime}, 'DateFormat', 'NoSeconds' );
+                my $ResponseFormat = $LayoutObject->{LanguageObject}->FormatTimeString( $Param{CreateTime}, 'DateFormat', 'NoSeconds' );
                 $ResponseFormat .= ' - ' . $Param{From} . ' ';
                 $ResponseFormat
                     .= $LayoutObject->{LanguageObject}->Translate('wrote') . ":\n";

@@ -33,8 +33,7 @@ our @ObjectDependencies = (
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $ShowUserTimeZoneSelectionNotification
-        = $Kernel::OM->Get('Kernel::Config')->Get('ShowUserTimeZoneSelectionNotification');
+    my $ShowUserTimeZoneSelectionNotification = $Kernel::OM->Get('Kernel::Config')->Get('ShowUserTimeZoneSelectionNotification');
     return '' if !$ShowUserTimeZoneSelectionNotification;
 
     my %CustomerUserPreferences = $Kernel::OM->Get('Kernel::System::CustomerUser')->GetPreferences(

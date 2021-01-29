@@ -76,8 +76,7 @@ sub new {
     };
 
     # Get the Dynamic Field Backend custom extensions.
-    my $DynamicFieldDriverExtensions
-        = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Extension::Driver::Webservice');
+    my $DynamicFieldDriverExtensions = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Extension::Driver::Webservice');
 
     EXTENSIONKEY:
     for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
@@ -1168,7 +1167,7 @@ sub _ObjectDataGet {
         DynamicFieldID    => $Param{DynamicFieldConfig}->{ID},
         DynamicFieldName  => $Param{DynamicFieldConfig}->{Name},
         DynamicFieldLabel => $Param{DynamicFieldConfig}->{Label},
-        DynamicFieldValue => $DynamicFieldValue || '',            # should not use undef due to XSLT mapping complaints.
+        DynamicFieldValue => $DynamicFieldValue || '',              # should not use undef due to XSLT mapping complaints.
     );
 
     my %ObjectDynamicFields;

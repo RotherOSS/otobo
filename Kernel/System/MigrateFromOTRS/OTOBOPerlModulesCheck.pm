@@ -93,8 +93,8 @@ sub Run {
     # verify check modules script exist
     if ( !-e $ScriptPath ) {
         my %Result;
-        $Result{Message} = $Self->{LanguageObject}->Translate("Check if all needed Perl modules have been installed.");
-        $Result{Comment} = $Self->{LanguageObject}->Translate( '%s script does not exist.', $ScriptPath );
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if all needed Perl modules have been installed.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate( '%s script does not exist.', $ScriptPath );
         $Result{Successful} = 0;
 
         return \%Result;

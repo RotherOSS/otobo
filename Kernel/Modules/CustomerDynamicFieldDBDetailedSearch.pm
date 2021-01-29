@@ -145,8 +145,7 @@ sub Run {
         my %ColumnLabels;
         for my $Key ( sort keys %{ $DynamicFieldConfig->{Config}->{PossibleValues} } ) {
             if ( $Key =~ m/^FieldName_(\d+)$/ ) {
-                $ColumnLabels{ $DynamicFieldConfig->{Config}->{PossibleValues}->{$Key} }
-                    = $DynamicFieldConfig->{Config}->{PossibleValues}->{"FieldLabel_$1"};
+                $ColumnLabels{ $DynamicFieldConfig->{Config}->{PossibleValues}->{$Key} } = $DynamicFieldConfig->{Config}->{PossibleValues}->{"FieldLabel_$1"};
             }
         }
 
@@ -282,8 +281,7 @@ sub Run {
             }
             else {
                 # prepare the select items
-                $FieldList{ $FieldKey . '_' . $PreparedPossibleValues->{$FieldKey}->{"FieldName_$FieldKey"} }
-                    = $PreparedPossibleValues->{$FieldKey}->{"FieldLabel_$FieldKey"};
+                $FieldList{ $FieldKey . '_' . $PreparedPossibleValues->{$FieldKey}->{"FieldName_$FieldKey"} } = $PreparedPossibleValues->{$FieldKey}->{"FieldLabel_$FieldKey"};
 
                 # add the hidden search fields
                 $LayoutObject->Block(

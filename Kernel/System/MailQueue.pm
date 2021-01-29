@@ -861,7 +861,7 @@ sub _SendError {
             ObjectLogType => 'Message',
             Priority      => 'Error',
             Key           => 'Kernel::System::MailQueue',
-            Value => "Permanent sending problem or we reached the sending attempt limit. Message will be removed",
+            Value         => "Permanent sending problem or we reached the sending attempt limit. Message will be removed",
         );
 
         # Delete mail queue element/item.

@@ -169,8 +169,8 @@ sub DefaultSettingAdd {
             \$Param{Name},       \$Param{Description}, \$Param{Navigation}, \$Param{IsInvisible},
             \$Param{IsReadonly}, \$Param{IsRequired},  \$Param{IsValid},    \$Param{HasConfigLevel},
             \$Param{UserModificationPossible}, \$Param{UserModificationActive}, \$Param{UserPreferencesGroup},
-            \$Param{XMLContentRaw}, \$Param{XMLContentParsed}, \$Param{XMLFilename}, \$Param{EffectiveValue},
-            \$Param{IsDirty}, \$Param{ExclusiveLockGUID}, \$Param{UserID}, \$Param{UserID},
+            \$Param{XMLContentRaw},            \$Param{XMLContentParsed},       \$Param{XMLFilename}, \$Param{EffectiveValue},
+            \$Param{IsDirty},                  \$Param{ExclusiveLockGUID},      \$Param{UserID}, \$Param{UserID},
         ],
     );
 

@@ -861,8 +861,7 @@ sub _Show {
     my $DisplayDynamicFieldTable = 1;
 
     # get dynamic field config for frontend module
-    my $DynamicFieldFilter
-        = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::OverviewMedium")->{DynamicField};
+    my $DynamicFieldFilter = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::OverviewMedium")->{DynamicField};
 
     # get the dynamic fields for this screen
     my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(

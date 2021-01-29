@@ -394,8 +394,7 @@ sub Run {
 
         if ( !$FilterContent ) {
             $LayoutObject->FatalError(
-                Message => $LayoutObject->{LanguageObject}
-                    ->Translate( 'Can\'t get filter content data of %s!', $HeaderColumn ),
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Can\'t get filter content data of %s!', $HeaderColumn ),
             );
         }
 
@@ -618,9 +617,8 @@ sub _MaskServiceView {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my $CustomService
-        = $LayoutObject->{LanguageObject}->Translate( $ConfigObject->Get('Ticket::CustomService') || 'My Services' );
-    my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
+    my $CustomService = $LayoutObject->{LanguageObject}->Translate( $ConfigObject->Get('Ticket::CustomService') || 'My Services' );
+    my $Config        = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
     my $ServiceID   = $Param{ServiceID} || 0;
     my @ServicesNew = @{ $Param{Services} };

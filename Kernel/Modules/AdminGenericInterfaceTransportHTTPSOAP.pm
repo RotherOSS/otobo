@@ -67,8 +67,7 @@ sub Run {
         if ( !IsHashRefWithData($WebserviceData) ) {
             return $LayoutObject->ErrorScreen(
                 Message =>
-                    $LayoutObject->{LanguageObject}
-                    ->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
+                    $LayoutObject->{LanguageObject}->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
             );
         }
 

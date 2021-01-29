@@ -355,8 +355,8 @@ EOF
 
     if ( $Param{IsAjax} ) {
 
-       # Remove JS generated in BuildDateSelection() call (setting is disabled or it's already sent together with HTML).
-       # It also prevents multiple Datepicker initializations (if there are several on the page).
+        # Remove JS generated in BuildDateSelection() call (setting is disabled or it's already sent together with HTML).
+        # It also prevents multiple Datepicker initializations (if there are several on the page).
         pop @{ $LayoutObject->{_JSOnDocumentComplete} };
 
         if ( !$HasDatepicker ) {

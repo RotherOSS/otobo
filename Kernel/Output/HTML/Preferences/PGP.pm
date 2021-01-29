@@ -81,8 +81,7 @@ sub Run {
         if ( $Message =~ /gpg: key (.*):/ ) {
             my @Result = $PGPObject->PublicKeySearch( Search => $1 );
             if ( $Result[0] ) {
-                $UploadStuff{Filename}
-                    = "$Result[0]->{Identifier}-$Result[0]->{Bit}-$Result[0]->{Key}.$Result[0]->{Type}";
+                $UploadStuff{Filename} = "$Result[0]->{Identifier}-$Result[0]->{Bit}-$Result[0]->{Key}.$Result[0]->{Type}";
             }
         }
 

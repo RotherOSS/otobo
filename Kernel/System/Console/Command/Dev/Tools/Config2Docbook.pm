@@ -168,8 +168,7 @@ EOF
 EOF
             }
             elsif ($IsUserModificationPossible) {
-                my $UserModificationText
-                    = $LanguageObject->Translate('This setting can be overridden in the user preferences.');
+                my $UserModificationText = $LanguageObject->Translate('This setting can be overridden in the user preferences.');
                 if ( !$IsUserModificationActive ) {
                     $UserModificationText = $LanguageObject->Translate(
                         'This setting can be overridden in the user preferences, but is not active by default.'

@@ -235,9 +235,8 @@ sub Run {
         if ( $ConfigObject->Get('ChatEngine::Active') ) {
 
             # Check if agent has permission to start chats with the customer users.
-            my $EnableChat = 1;
-            my $ChatStartingAgentsGroup
-                = $ConfigObject->Get('ChatEngine::PermissionGroup::ChatStartingAgents') || 'users';
+            my $EnableChat                        = 1;
+            my $ChatStartingAgentsGroup           = $ConfigObject->Get('ChatEngine::PermissionGroup::ChatStartingAgents') || 'users';
             my $ChatStartingAgentsGroupPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
                 UserID    => $Self->{UserID},
                 GroupName => $ChatStartingAgentsGroup,
@@ -256,9 +255,8 @@ sub Run {
             }
 
             if ($EnableChat) {
-                my $VideoChatEnabled = 0;
-                my $VideoChatAgentsGroup
-                    = $ConfigObject->Get('ChatEngine::PermissionGroup::VideoChatAgents') || 'users';
+                my $VideoChatEnabled               = 0;
+                my $VideoChatAgentsGroup           = $ConfigObject->Get('ChatEngine::PermissionGroup::VideoChatAgents') || 'users';
                 my $VideoChatAgentsGroupPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
                     UserID    => $Self->{UserID},
                     GroupName => $VideoChatAgentsGroup,
@@ -303,10 +301,9 @@ sub Run {
                     $VideoChatAvailable   = 1;
                 }
                 elsif ( $CustomerChatAvailability == 2 ) {
-                    $UserState          = Translatable('Away');
-                    $CustomerEnableChat = 1;
-                    $UserStateDescription
-                        = $LayoutObject->{LanguageObject}->Translate('User was inactive for a while.');
+                    $UserState            = Translatable('Away');
+                    $CustomerEnableChat   = 1;
+                    $UserStateDescription = $LayoutObject->{LanguageObject}->Translate('User was inactive for a while.');
                 }
 
                 $LayoutObject->Block(

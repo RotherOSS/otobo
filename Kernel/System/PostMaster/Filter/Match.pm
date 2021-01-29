@@ -186,7 +186,7 @@ sub Run {
                 ObjectLogType => 'Message',
                 Priority      => 'Notice',
                 Key           => 'Kernel::System::PostMaster::Filter::Match',
-                Value => $Prefix . "Set param '$Key' to '$Value' (Message-ID: $Param{GetParam}->{'Message-ID'})",
+                Value         => $Prefix . "Set param '$Key' to '$Value' (Message-ID: $Param{GetParam}->{'Message-ID'})",
             );
         }
 

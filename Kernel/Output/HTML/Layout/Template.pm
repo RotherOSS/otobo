@@ -110,8 +110,7 @@ sub Output {
 
     # if we use the HTML5 input type 'email' jQuery Validate will always validate
     # we do not want that if CheckEmailAddresses is set to 'no' in SysConfig
-    $Self->{EnvRef}->{EmailFieldType}
-        = $Kernel::OM->Get('Kernel::Config')->Get('CheckEmailAddresses') ? 'email' : 'text';
+    $Self->{EnvRef}->{EmailFieldType} = $Kernel::OM->Get('Kernel::Config')->Get('CheckEmailAddresses') ? 'email' : 'text';
 
     my @TemplateFolders = (
         "$Self->{CustomTemplateDir}",

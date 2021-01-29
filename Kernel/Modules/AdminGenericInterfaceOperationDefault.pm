@@ -277,8 +277,7 @@ sub _Change {
     if ( !IsHashRefWithData($OperationConfig) ) {
         return $LayoutObject->ErrorScreen(
             Message =>
-                $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not determine config for operation %s', $GetParam->{Operation} ),
+                $LayoutObject->{LanguageObject}->Translate( 'Could not determine config for operation %s', $GetParam->{Operation} ),
         );
     }
 
@@ -346,8 +345,7 @@ sub _ChangeAction {
     my $OperationConfig = delete $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam->{OldOperation} };
     if ( !IsHashRefWithData($OperationConfig) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not determine config for operation %s', $GetParam->{OldOperation} ),
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Could not determine config for operation %s', $GetParam->{OldOperation} ),
         );
     }
 
@@ -420,8 +418,7 @@ sub _ChangeAction {
             next ERRORHANDLING if !grep { $_ eq $GetParam->{OldOperation} } @{$OperationFilter};
 
             # Rename operation in error handling operation filter to keep consistency.
-            my @NewOperationFilter
-                = map { $_ eq $GetParam->{OldOperation} ? $GetParam->{Operation} : $_ } @{$OperationFilter};
+            my @NewOperationFilter = map { $_ eq $GetParam->{OldOperation} ? $GetParam->{Operation} : $_ } @{$OperationFilter};
             $ErrorHandlingConfig->{$ErrorHandling}->{OperationFilter} = \@NewOperationFilter;
         }
 
@@ -615,8 +612,7 @@ sub _ParamsGet {
         if ( $Definition->{Check} eq 'OperationType' ) {
             next DEFINITION if $Self->_OperationTypeCheck( OperationType => $GetParam{$Name} );
 
-            $GetParam{Error}
-                = $LayoutObject->{LanguageObject}->Translate( 'OperationType %s is not registered', $GetParam{$Name} );
+            $GetParam{Error} = $LayoutObject->{LanguageObject}->Translate( 'OperationType %s is not registered', $GetParam{$Name} );
             return \%GetParam;
         }
 
@@ -624,8 +620,7 @@ sub _ParamsGet {
             next DEFINITION if !IsStringWithData( $GetParam{Name} );
             next DEFINITION if $Self->_MappingTypeCheck( MappingType => $GetParam{$Name} );
 
-            $GetParam{Error}
-                = $LayoutObject->{LanguageObject}->Translate( 'MappingType %s is not registered', $GetParam{$Name} );
+            $GetParam{Error} = $LayoutObject->{LanguageObject}->Translate( 'MappingType %s is not registered', $GetParam{$Name} );
             return \%GetParam;
         }
     }

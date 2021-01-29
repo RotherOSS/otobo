@@ -82,7 +82,7 @@ sub GetConfig {
         }
     }
 
-    my $Link = "Action=AgentTicketNote;TicketID=$Param{Ticket}->{TicketID};ReplyToArticle=$Param{Article}->{ArticleID}";
+    my $Link        = "Action=AgentTicketNote;TicketID=$Param{Ticket}->{TicketID};ReplyToArticle=$Param{Article}->{ArticleID}";
     my $Description = Translatable('Reply to note');
 
     my %MenuItem = (

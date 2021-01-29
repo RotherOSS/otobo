@@ -410,9 +410,8 @@ sub PrepareRequest {
     if ( $Param{Data}{Event} eq 'TicketCreate' ) {
 
         # get the ticket
-        my $GetDynamicFields
-            = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
-        my %Ticket = $TicketObject->TicketGet(
+        my $GetDynamicFields = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
+        my %Ticket           = $TicketObject->TicketGet(
             TicketID      => $Param{Data}{TicketID},
             DynamicFields => $GetDynamicFields,
         );
@@ -443,10 +442,9 @@ sub PrepareRequest {
     elsif ( $Param{Data}{Event} eq 'ArticleCreate' ) {
 
         # get the article
-        my $GetDynamicFields
-            = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
-        my $ArticleObject  = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-        my $ArticleBackend = $ArticleObject->BackendForArticle(
+        my $GetDynamicFields = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
+        my $ArticleObject    = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $ArticleBackend   = $ArticleObject->BackendForArticle(
             TicketID  => $Param{Data}{TicketID},
             ArticleID => $Param{Data}{ArticleID},
         );
@@ -568,9 +566,8 @@ sub PrepareRequest {
         }
 
         # get the ticket
-        my $GetDynamicFields
-            = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
-        my %Ticket = $TicketObject->TicketGet(
+        my $GetDynamicFields = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
+        my %Ticket           = $TicketObject->TicketGet(
             TicketID     => $Param{Data}{TicketID},
             DynamicField => $GetDynamicFields,
         );

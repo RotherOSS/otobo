@@ -136,9 +136,9 @@ sub Run {
         {
             # Search customer by ES.
             @CustomerKeys = $ESObject->CustomerCompanySearch(
-                Fulltext  => $ParamObject->GetParam( Param => 'FulltextES' ),
-                Limit     => $SearchObjects->{CustomerCompany}{Count},
-                Result    => 'ARRAY',
+                Fulltext => $ParamObject->GetParam( Param => 'FulltextES' ),
+                Limit    => $SearchObjects->{CustomerCompany}{Count},
+                Result   => 'ARRAY',
             );
         }
 
@@ -146,9 +146,9 @@ sub Run {
         {
             # Search customer user by ES.
             @CustomerUserKeys = $ESObject->CustomerUserSearch(
-                Fulltext  => $ParamObject->GetParam( Param => 'FulltextES' ),
-                Limit     => $SearchObjects->{CustomerUser}{Count},
-                Result    => 'ARRAY',
+                Fulltext => $ParamObject->GetParam( Param => 'FulltextES' ),
+                Limit    => $SearchObjects->{CustomerUser}{Count},
+                Result   => 'ARRAY',
             );
         }
 
@@ -156,9 +156,9 @@ sub Run {
         {
             # Search customer user by ES.
             @ConfigItems = $ESObject->ConfigItemSearch(
-                Fulltext  => $ParamObject->GetParam( Param => 'FulltextES' ),
-                Limit     => $SearchObjects->{ConfigItem}{Count},
-                Result    => 'FULL',
+                Fulltext => $ParamObject->GetParam( Param => 'FulltextES' ),
+                Limit    => $SearchObjects->{ConfigItem}{Count},
+                Result   => 'FULL',
                 UserID   => $Self->{UserID},
             );
         }
@@ -198,7 +198,7 @@ sub Run {
                     }
                     elsif ( $Attr eq 'Created' ) {
                         my $CreatedFormat = $ConfigObject->Get('Elasticsearch::QuickSearchCreatedFormat');
-                        if ( $CreatedFormat ) {
+                        if ($CreatedFormat) {
                             $TicketParam->{Created} = $Kernel::OM->Create(
                                 'Kernel::System::DateTime',
                                 ObjectParams => {
@@ -322,8 +322,8 @@ sub Run {
                         Name => 'ConfigItemEntry',
                         Data => {
                             ConfigItemID => $ConfigItemID,
-                            Title    => $ConfigItemParam->{Title},
-                            Entry    => $ConfigItemParam->{$Attr},
+                            Title        => $ConfigItemParam->{Title},
+                            Entry        => $ConfigItemParam->{$Attr},
                         },
                     );
                 }

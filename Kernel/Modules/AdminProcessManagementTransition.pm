@@ -490,10 +490,10 @@ sub _ShowEdit {
         Data => {
             'String' => Translatable('String'),
 
-          # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
-          # TODO: implement a possibility to enter the data in a correct way in the GUI
-          #'Hash'   => 'Hash',
-          #'Array'  => 'Array',
+            # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
+            # TODO: implement a possibility to enter the data in a correct way in the GUI
+            #'Hash'   => 'Hash',
+            #'Array'  => 'Array',
             'Regexp' => Translatable('Regular expression'),
             'Module' => Translatable('Transition validation module')
         },
@@ -557,10 +557,10 @@ sub _ShowEdit {
                     Data => {
                         'String' => Translatable('String'),
 
-          # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
-          # TODO: implement a possibility to enter the data in a correct way in the GUI
-          #'Hash'   => 'Hash',
-          #'Array'  => 'Array',
+                        # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
+                        # TODO: implement a possibility to enter the data in a correct way in the GUI
+                        #'Hash'   => 'Hash',
+                        #'Array'  => 'Array',
                         'Regexp' => Translatable('Regular expression'),
                         'Module' => Translatable('Transition validation module')
                     },
@@ -631,10 +631,10 @@ sub _ShowEdit {
             Data => {
                 'String' => Translatable('String'),
 
-          # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
-          # TODO: implement a possibility to enter the data in a correct way in the GUI
-          #'Hash'   => 'Hash',
-          #'Array'  => 'Array',
+                # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
+                # TODO: implement a possibility to enter the data in a correct way in the GUI
+                #'Hash'   => 'Hash',
+                #'Array'  => 'Array',
                 'Regexp' => Translatable('Regular expression'),
                 'Module' => Translatable('Transition validation module')
             },

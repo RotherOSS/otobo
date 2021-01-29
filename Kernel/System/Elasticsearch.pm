@@ -15,6 +15,7 @@
 # --
 
 package Kernel::System::Elasticsearch;
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ObjectDependencies)
 
 use strict;
 use warnings;
@@ -122,10 +123,10 @@ sub TicketSearch {
     my ( $Self, %Param ) = @_;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $ResultType   = $Param{Result}  || 'ARRAY';
-    my $OrderBy      = $Param{OrderBy} || ['Down', 'Down'];
-    my $SortBy       = $Param{SortBy}  || ['Score', 'Age'];
-    my $Limit        = $Param{Limit}   || 10000;
+    my $ResultType   = $Param{Result} || 'ARRAY';
+    my $OrderBy      = $Param{OrderBy} || [ 'Down', 'Down' ];
+    my $SortBy       = $Param{SortBy} || [ 'Score', 'Age' ];
+    my $Limit        = $Param{Limit} || 10000;
 
     # check required params
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
@@ -473,7 +474,7 @@ sub CustomerCompanySearch {
     my ( $Self, %Param ) = @_;
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ResultType   = $Param{Result} || 'ARRAY';
-    my $Limit        = $Param{Limit}  || 10000;
+    my $Limit        = $Param{Limit} || 10000;
 
     my ( @Musts, @Filters );
     if ( defined $Param{Fulltext} ) {
@@ -517,7 +518,7 @@ sub CustomerUserSearch {
     my ( $Self, %Param ) = @_;
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ResultType   = $Param{Result} || 'ARRAY';
-    my $Limit        = $Param{Limit}  || 10000;
+    my $Limit        = $Param{Limit} || 10000;
 
     my ( @Musts, @Filters );
     if ( defined $Param{Fulltext} ) {
@@ -575,10 +576,10 @@ sub ConfigItemSearch {
     my ( $Self, %Param ) = @_;
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ResultType   = $Param{Result} || 'ARRAY';
-    my $Limit        = $Param{Limit}  || 10000;
+    my $Limit        = $Param{Limit} || 10000;
 
     # check required params
-    for my $Needed ( qw/UserID Fulltext/ ) {
+    for my $Needed (qw/UserID Fulltext/) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -613,7 +614,7 @@ sub ConfigItemSearch {
         delete $ClassList->{$ClassID} if !$HasAccess;
     }
 
-    # set up class filter corresponding to the access rights    
+    # set up class filter corresponding to the access rights
     push @Filters, {
         bool => {
             filter => [
@@ -629,13 +630,13 @@ sub ConfigItemSearch {
     if ( defined $Param{Fulltext} ) {
 
         my $FulltextFields = $ConfigObject->Get('Elasticsearch::ConfigItemSearchFields');
-        my @SearchFields = (
+        my @SearchFields   = (
             @{ $FulltextFields->{Basic} },
             @{ $FulltextFields->{XML} },
         );
 
         if ( $FulltextFields->{Attachments} ) {
-            push @SearchFields, ('Attachments.Content', 'Attachments.Filename');
+            push @SearchFields, ( 'Attachments.Content', 'Attachments.Filename' );
         }
 
         push @Musts, {
@@ -848,7 +849,7 @@ sub ConfigItemCreate {
             ConfigItemID => $Param{ConfigItemID},
         );
 
-        for my $AttachmentName ( @Attachments ) {
+        for my $AttachmentName (@Attachments) {
             my $Attachment = $ConfigItemObject->ConfigItemAttachmentGet(
                 ConfigItemID => $Param{ConfigItemID},
                 Filename     => $AttachmentName,
@@ -866,7 +867,7 @@ sub ConfigItemCreate {
             );
         }
     }
-    
+
     return 1;
 
 }

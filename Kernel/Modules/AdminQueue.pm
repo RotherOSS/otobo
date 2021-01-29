@@ -85,9 +85,8 @@ sub Run {
                     $Status = '[WARNING: REVOKED KEY]';
                 }
 
-                $KeyList{"PGP::Inline::$DataRef->{Key}"} = "PGP-Inline:$Status $DataRef->{Key} $DataRef->{Identifier}";
-                $KeyList{"PGP::Detached::$DataRef->{Key}"}
-                    = "PGP-Detached:$Status $DataRef->{Key} $DataRef->{Identifier}";
+                $KeyList{"PGP::Inline::$DataRef->{Key}"}   = "PGP-Inline:$Status $DataRef->{Key} $DataRef->{Identifier}";
+                $KeyList{"PGP::Detached::$DataRef->{Key}"} = "PGP-Detached:$Status $DataRef->{Key} $DataRef->{Identifier}";
             }
         }
 
@@ -107,8 +106,7 @@ sub Run {
                 {
                     $Expired = ' [WARNING: EXPIRED KEY]';
                 }
-                $KeyList{"SMIME::Detached::$DataRef->{Filename}"}
-                    = "SMIME-Detached:$Expired $DataRef->{Filename} [$DataRef->{EndDate}] $DataRef->{Email}";
+                $KeyList{"SMIME::Detached::$DataRef->{Filename}"} = "SMIME-Detached:$Expired $DataRef->{Filename} [$DataRef->{EndDate}] $DataRef->{Email}";
             }
         }
     }

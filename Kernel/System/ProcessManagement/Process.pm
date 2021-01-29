@@ -666,8 +666,7 @@ sub ProcessTicketActivitySet {
     }
 
     # Get DynamicField Name that's used for storing the ActivityEntityID per ticket
-    my $DynamicFieldTicketActivityEntityID
-        = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementActivityID');
+    my $DynamicFieldTicketActivityEntityID = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementActivityID');
     if ( !$DynamicFieldTicketActivityEntityID ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -767,8 +766,7 @@ sub ProcessTicketProcessSet {
     }
 
     # Get DynamicField Name that's used for storing the ActivityEntityID per ticket
-    my $DynamicFieldTicketProcessID
-        = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementProcessID');
+    my $DynamicFieldTicketProcessID = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementProcessID');
 
     if ( !$DynamicFieldTicketProcessID ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(

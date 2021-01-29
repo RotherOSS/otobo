@@ -60,8 +60,8 @@ sub Run {
     $Self->{TransitionList} = $TransitionObject->TransitionListGet( UserID => $Self->{UserID} );
 
     # get available transition actions
-    $Self->{TransitionActionList} = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction')
-        ->TransitionActionListGet( UserID => $Self->{UserID} );
+    $Self->{TransitionActionList}
+        = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction')->TransitionActionListGet( UserID => $Self->{UserID} );
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 

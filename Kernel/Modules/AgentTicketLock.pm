@@ -154,8 +154,7 @@ sub Run {
                 Type  => 'Small',
             );
             $Output .= $LayoutObject->Warning(
-                Message => $LayoutObject->{LanguageObject}
-                    ->Translate( 'Ticket (ID=%s) is locked by %s!', $Self->{TicketID}, $OwnerLogin ),
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Ticket (ID=%s) is locked by %s!', $Self->{TicketID}, $OwnerLogin ),
                 Comment => Translatable('Change the owner!'),
             );
             $Output .= $LayoutObject->Footer(

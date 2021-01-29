@@ -399,9 +399,8 @@ sub CustomerCompanyList {
 
                 # param Search
                 if ( defined $Param{Search} && length $Param{Search} ) {
-                    $SearchFields
-                        = $Self->{"CustomerCompany$Count"}->{CustomerCompanyMap}->{CustomerCompanySearchFields};
-                    $SearchParam = $Param{Search};
+                    $SearchFields = $Self->{"CustomerCompany$Count"}->{CustomerCompanyMap}->{CustomerCompanySearchFields};
+                    $SearchParam  = $Param{Search};
                 }
 
                 # search dynamic field values
@@ -630,12 +629,10 @@ sub CustomerCompanySearchDetail {
             }
 
             if ( IsArrayRefWithData( $Param{OrderByDirection} ) && $Param{OrderByDirection}->[0] eq 'Up' ) {
-                @CustomerCompanyataList
-                    = sort { lc( $a->{$OrderBy} ) cmp lc( $b->{$OrderBy} ) } @CustomerCompanyataList;
+                @CustomerCompanyataList = sort { lc( $a->{$OrderBy} ) cmp lc( $b->{$OrderBy} ) } @CustomerCompanyataList;
             }
             else {
-                @CustomerCompanyataList
-                    = sort { lc( $b->{$OrderBy} ) cmp lc( $a->{$OrderBy} ) } @CustomerCompanyataList;
+                @CustomerCompanyataList = sort { lc( $b->{$OrderBy} ) cmp lc( $a->{$OrderBy} ) } @CustomerCompanyataList;
             }
 
             if ( $Param{Limit} && scalar @CustomerCompanyataList > $Param{Limit} ) {

@@ -39,9 +39,8 @@ sub new {
 sub Param {
     my ( $Self, %Param ) = @_;
 
-    my @Params = ();
-    my $GetParam
-        = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Self->{ConfigItem}->{PrefKey} );
+    my @Params   = ();
+    my $GetParam = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Self->{ConfigItem}->{PrefKey} );
 
     if ( !defined($GetParam) ) {
         $GetParam = defined( $Param{QueueData}->{ $Self->{ConfigItem}->{PrefKey} } )

@@ -201,8 +201,7 @@ sub Run {
         }
 
         $Result{Message} = $Self->{LanguageObject}->Translate("Check if all necessary packages are installed.");
-        $Result{Comment}
-            = $Self->{LanguageObject}->Translate("The following packages are only installed in OTRS:") . $MessageString
+        $Result{Comment} = $Self->{LanguageObject}->Translate("The following packages are only installed in OTRS:") . $MessageString
             . $Self->{LanguageObject}->Translate(
             "Please install (or uninstall) the packages before migration. If a package doesn't exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.org. We will find a solution."
             );
@@ -211,8 +210,8 @@ sub Run {
         return \%Result;
     }
 
-    $Result{Message} = $Self->{LanguageObject}->Translate("Check if all necessary packages are installed.");
-    $Result{Comment} = $Self->{LanguageObject}->Translate("The same packages are installed on both systems, perfect!");
+    $Result{Message}    = $Self->{LanguageObject}->Translate("Check if all necessary packages are installed.");
+    $Result{Comment}    = $Self->{LanguageObject}->Translate("The same packages are installed on both systems, perfect!");
     $Result{Successful} = 1;
     return \%Result;
 }

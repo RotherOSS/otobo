@@ -137,8 +137,8 @@ sub Run {
             UserID          => $Self->{UserID},
         );
 
-       # if the user would like to continue editing the queue - auto response relation, just redirect to the edit screen
-       # otherwise return to overview
+        # if the user would like to continue editing the queue - auto response relation, just redirect to the edit screen
+        # otherwise return to overview
         if (
             defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
             && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' )

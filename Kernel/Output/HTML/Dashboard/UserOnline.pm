@@ -308,11 +308,10 @@ sub Run {
         || 5;
 
     # Translate the diffrent user state descriptions.
-    my $UserOfflineDescription = $LayoutObject->{LanguageObject}->Translate('User is currently offline.');
-    my $UserActiveDescription  = $LayoutObject->{LanguageObject}->Translate('User is currently active.');
-    my $UserAwayDescription    = $LayoutObject->{LanguageObject}->Translate('User was inactive for a while.');
-    my $UserUnavailableDescription
-        = $LayoutObject->{LanguageObject}->Translate('User set their status to unavailable.');
+    my $UserOfflineDescription     = $LayoutObject->{LanguageObject}->Translate('User is currently offline.');
+    my $UserActiveDescription      = $LayoutObject->{LanguageObject}->Translate('User is currently active.');
+    my $UserAwayDescription        = $LayoutObject->{LanguageObject}->Translate('User was inactive for a while.');
+    my $UserUnavailableDescription = $LayoutObject->{LanguageObject}->Translate('User set their status to unavailable.');
 
     USERID:
     for my $UserID ( sort { $OnlineUser{$a} cmp $OnlineUser{$b} } keys %OnlineUser ) {

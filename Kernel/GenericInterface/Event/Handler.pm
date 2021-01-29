@@ -244,8 +244,7 @@ sub Run {
                 if ( !$ExecutionTime || !$ExecutionDateTime ) {
 
                     # Get default time difference from config.
-                    my $FutureTaskTimeDiff
-                        = int( $ConfigObject->Get('Daemon::SchedulerGenericInterfaceTaskManager::FutureTaskTimeDiff') )
+                    my $FutureTaskTimeDiff = int( $ConfigObject->Get('Daemon::SchedulerGenericInterfaceTaskManager::FutureTaskTimeDiff') )
                         || 300;
 
                     $ExecutionDateTime = $Kernel::OM->Create('Kernel::System::DateTime');

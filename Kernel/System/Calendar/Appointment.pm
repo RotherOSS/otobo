@@ -549,8 +549,7 @@ sub AppointmentList {
         $CacheKeyLocation = 'any';
     }
 
-    my $CacheKey
-        = "$CacheKeyTitle-$CacheKeyDesc-$CacheKeyLocation-$CacheKeyStart-$CacheKeyEnd-$CacheKeyTeam-$CacheKeyResource-$Param{Result}";
+    my $CacheKey = "$CacheKeyTitle-$CacheKeyDesc-$CacheKeyLocation-$CacheKeyStart-$CacheKeyEnd-$CacheKeyTeam-$CacheKeyResource-$Param{Result}";
 
     # check cache
     my $Data = $Kernel::OM->Get('Kernel::System::Cache')->Get(

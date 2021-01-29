@@ -315,8 +315,7 @@ sub Run {
                 );
 
                 if ( defined $SearchParameter ) {
-                    $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                        = $SearchParameter->{Parameter};
+                    $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $SearchParameter->{Parameter};
                 }
             }
         }
@@ -565,8 +564,7 @@ sub _MaskForm {
     );
 
     # Translate the customer company label identifier to add this to the labels.
-    my $TranslatedCustomerCompanyLabelIdentifier
-        = $LayoutObject->{LanguageObject}->Translate( $Self->{CustomerCompanyLabelIdentifier} );
+    my $TranslatedCustomerCompanyLabelIdentifier = $LayoutObject->{LanguageObject}->Translate( $Self->{CustomerCompanyLabelIdentifier} );
 
     my @Attributes;
 
@@ -724,14 +722,13 @@ sub _MaskForm {
         PREFERENCE:
         for my $Preference ( @{$SearchFieldPreferences} ) {
 
-            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} . $Preference->{Type} }
-                = $DynamicFieldBackendObject->SearchFieldRender(
+            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} . $Preference->{Type} } = $DynamicFieldBackendObject->SearchFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 Profile              => \%GetParam,
                 PossibleValuesFilter => $PossibleValues,
                 LayoutObject         => $LayoutObject,
                 Type                 => $Preference->{Type},
-                );
+            );
         }
     }
 
@@ -869,8 +866,7 @@ sub _MaskForm {
 
             # Add a identifier for the object type 'CustomerCompany' and if a identifier exists.
             if ( $DynamicFieldConfig->{ObjectType} eq 'CustomerCompany' && $TranslatedCustomerCompanyLabelIdentifier ) {
-                my $LabelCustomerCompanyLabelIdentifier
-                    = ( $Preference->{LabelSuffix} ? " - " : " " ) . "($TranslatedCustomerCompanyLabelIdentifier)";
+                my $LabelCustomerCompanyLabelIdentifier = ( $Preference->{LabelSuffix} ? " - " : " " ) . "($TranslatedCustomerCompanyLabelIdentifier)";
                 $DynamicFieldLabel =~ s{(<label.*>)(.*)(</label>)}{$1$2$LabelCustomerCompanyLabelIdentifier$3}xmsg;
             }
 

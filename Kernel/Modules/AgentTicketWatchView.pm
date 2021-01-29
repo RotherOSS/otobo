@@ -380,8 +380,7 @@ sub Run {
 
         if ( !$FilterContent ) {
             $LayoutObject->FatalError(
-                Message => $LayoutObject->{LanguageObject}
-                    ->Translate( 'Can\'t get filter content data of %s!', $HeaderColumn ),
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Can\'t get filter content data of %s!', $HeaderColumn ),
             );
         }
 

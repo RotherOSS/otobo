@@ -460,8 +460,7 @@ sub Run {
             for my $SystemMaintenance ( @{$SystemMaintenanceList} ) {
 
                 # set the valid state
-                $SystemMaintenance->{ValidID} = $Kernel::OM->Get('Kernel::System::Valid')
-                    ->ValidLookup( ValidID => $SystemMaintenance->{ValidID} );
+                $SystemMaintenance->{ValidID} = $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup( ValidID => $SystemMaintenance->{ValidID} );
 
                 # include time stamps on the correct key
                 for my $Key (qw(StartDate StopDate)) {

@@ -66,8 +66,7 @@ sub Run {
         if ( $TemplateName eq 'ProcessManagement/DynamicField' ) {
 
             # Extract dynamic field name from the HTML DOM (use array form with RegEx capturing groups)
-            my ($DynamicFieldName)
-                = ${ $Param{Data} } =~ m{\s+ <div [ ] class="Row [ ] Row_DynamicField_([a-zA-Z\d]+)">}msx;
+            my ($DynamicFieldName) = ${ $Param{Data} } =~ m{\s+ <div [ ] class="Row [ ] Row_DynamicField_([a-zA-Z\d]+)">}msx;
 
             if ($DynamicFieldName) {
 

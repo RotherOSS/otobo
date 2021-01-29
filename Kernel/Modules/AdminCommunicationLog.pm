@@ -735,7 +735,7 @@ sub _AccountsView {
         Data         => {
             %Param,
             CommunicationLogCount => $CommunicationLogCount,
-            TimeRange => $LayoutObject->{LanguageObject}->Translate( $Param{TimeRanges}->{ $Param{StartTime} } ),
+            TimeRange             => $LayoutObject->{LanguageObject}->Translate( $Param{TimeRanges}->{ $Param{StartTime} } ),
         },
     );
 

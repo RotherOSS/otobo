@@ -869,8 +869,7 @@ sub _DefaultColumnsDisable {
             for my $ExistingSettingKey ( sort keys %{ $ExistingSetting{DefaultColumns} } ) {
 
                 next SETTING if $ScreenConfig{$View}->{$ExistingSettingKey};
-                $NewDynamicFieldConfig{DefaultColumns}->{$ExistingSettingKey}
-                    = $ExistingSetting{DefaultColumns}->{$ExistingSettingKey};
+                $NewDynamicFieldConfig{DefaultColumns}->{$ExistingSettingKey} = $ExistingSetting{DefaultColumns}->{$ExistingSettingKey};
             }
         }
         else {
@@ -1631,8 +1630,7 @@ sub _DynamicFieldsCreate {
     }
 
     # performance improvement for the FieldOrderAfterField functionality
-    my $FieldOrderAfterFieldActive
-        = grep { $_->{FieldOrderAfterField} || $_->{FieldOrderAfterFieldUpdate} } @DynamicFields;
+    my $FieldOrderAfterFieldActive = grep { $_->{FieldOrderAfterField} || $_->{FieldOrderAfterFieldUpdate} } @DynamicFields;
 
     # create or update dynamic fields
     DYNAMICFIELD:
@@ -2016,8 +2014,7 @@ sub _DynamicFieldsScreenConfigExport {
             next DYNAMICFIELDSCREEN
                 if !IsStringWithData( $DynamicFieldScreenConfig{$DynamicFieldScreen}->{$DynamicField} );
 
-            $Config{$DynamicField}->{$DynamicFieldScreen}
-                = $DynamicFieldScreenConfig{$DynamicFieldScreen}->{$DynamicField};
+            $Config{$DynamicField}->{$DynamicFieldScreen} = $DynamicFieldScreenConfig{$DynamicFieldScreen}->{$DynamicField};
         }
 
         DEFAULTCOLUMNSCREEN:
@@ -2029,8 +2026,7 @@ sub _DynamicFieldsScreenConfigExport {
             next DEFAULTCOLUMNSCREEN
                 if !IsStringWithData( $DefaultColumnsScreenConfig{$DefaultColumnsScreen}->{$DynamicField} );
 
-            $Config{$DynamicField}->{$DefaultColumnsScreen}
-                = $DefaultColumnsScreenConfig{$DefaultColumnsScreen}->{$DynamicField};
+            $Config{$DynamicField}->{$DefaultColumnsScreen} = $DefaultColumnsScreenConfig{$DefaultColumnsScreen}->{$DynamicField};
         }
     }
 
@@ -2097,14 +2093,12 @@ sub _DynamicFieldsScreenConfigImport {
 
         DYNAMICFIELDSCREEN:
         for my $DynamicFieldScreen ( @{ $ValidDynamicFieldScreenList->{DynamicFieldScreens} } ) {
-            $ScreenConfig{$DynamicFieldScreen}->{$DynamicField}
-                = $Param{Config}->{$DynamicField}->{$DynamicFieldScreen};
+            $ScreenConfig{$DynamicFieldScreen}->{$DynamicField} = $Param{Config}->{$DynamicField}->{$DynamicFieldScreen};
         }
 
         DEFAULTCOLUMNSCREEN:
         for my $DefaultColumnsScreen ( @{ $ValidDynamicFieldScreenList->{DefaultColumnsScreens} } ) {
-            $ColumnScreenConfig{$DefaultColumnsScreen}->{"DynamicField_$DynamicField"}
-                = $Param{Config}->{$DynamicField}->{$DefaultColumnsScreen};
+            $ColumnScreenConfig{$DefaultColumnsScreen}->{"DynamicField_$DynamicField"} = $Param{Config}->{$DynamicField}->{$DefaultColumnsScreen};
         }
     }
 
