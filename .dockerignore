@@ -19,6 +19,9 @@ otobo.iml
 *.out
 var/httpd/htdocs/SeleniumScreenshots
 
+# locally installed Perl modules should not end up in the image
+local
+
 # editor swap files, other temporary files
 **/.#*
 **/*.sw?
