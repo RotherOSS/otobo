@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+// Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -22,7 +22,7 @@ Core.UI = Core.UI || {};
 /**
  * @namespace Core.UI.RichTextEditor
  * @memberof Core.UI
- * @author 
+ * @author
  * @description
  *      Richtext Editor.
  */
@@ -46,7 +46,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      *      Object to handle timeout.
      */
         TimeOutRTEOnChange;
-    
+
     /**
      * @private
      * @name CheckFormID
@@ -170,7 +170,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         else {
             ToolbarConfig = CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage');
         }
-                                
+
         // set default editor config, but allow custom config for other types for editors
         /*eslint-disable camelcase */
         EditorConfig = {
@@ -355,7 +355,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         if (typeof CKEDITOR === 'undefined') {
             return;
         }
-        
+
         TargetNS.InitAllEditors();
     };
 

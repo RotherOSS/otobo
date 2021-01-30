@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -450,8 +450,7 @@ sub _GetTransitionActionConfig {
 
     my %TransitionActionConfig;
     $TransitionActionConfig{TransitionAction} = ();
-    $TransitionActionConfig{TransitionAction}->{ $Param{EntityID} }
-        = $ProcessDump->{TransitionAction}->{ $Param{EntityID} };
+    $TransitionActionConfig{TransitionAction}->{ $Param{EntityID} } = $ProcessDump->{TransitionAction}->{ $Param{EntityID} };
 
     return \%TransitionActionConfig;
 }
@@ -543,9 +542,8 @@ sub _ShowEdit {
     }
 
     # lookup existing Transition Actions on disk
-    my $Directory
-        = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/System/ProcessManagement/TransitionAction';
-    my @List = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+    my $Directory = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/System/ProcessManagement/TransitionAction';
+    my @List      = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => $Directory,
         Filter    => '*.pm',
     );

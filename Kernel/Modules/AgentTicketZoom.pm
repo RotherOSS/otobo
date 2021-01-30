@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -2662,12 +2662,11 @@ sub _ArticleTree {
                 my $Backend = $ArticlesByArticleID->{ $Item->{ArticleID} }->{Backend};
 
                 # Get dynamic fields and accounted time
-                my %ArticleMetaFields
-                    = $Kernel::OM->Get("Kernel::Output::HTML::TicketZoom::Agent::$Backend")->ArticleMetaFields(
+                my %ArticleMetaFields = $Kernel::OM->Get("Kernel::Output::HTML::TicketZoom::Agent::$Backend")->ArticleMetaFields(
                     TicketID  => $Item->{ArticleData}->{TicketID},
                     ArticleID => $Item->{ArticleData}->{ArticleID},
                     UserID    => $Self->{UserID},
-                    );
+                );
                 $Item->{ArticleData}->{ArticleMetaFields} = \%ArticleMetaFields;
 
                 my @ArticleActions = $LayoutObject->ArticleActions(
@@ -2682,13 +2681,12 @@ sub _ArticleTree {
                     ResultType => 'plain',
                 );
 
-                $Item->{ArticleData}->{ArticleHTML}
-                    = $Kernel::OM->Get("Kernel::Output::HTML::TimelineView::$Backend")->ArticleRender(
+                $Item->{ArticleData}->{ArticleHTML} = $Kernel::OM->Get("Kernel::Output::HTML::TimelineView::$Backend")->ArticleRender(
                     TicketID       => $Item->{ArticleData}->{TicketID},
                     ArticleID      => $Item->{ArticleData}->{ArticleID},
                     ArticleActions => \@ArticleActions,
                     UserID         => $Self->{UserID},
-                    );
+                );
 
                 # remove empty lines
                 $Item->{ArticleData}->{ArticlePlain} =~ s{^[\n\r]+}{}xmsg;
@@ -2799,8 +2797,7 @@ sub _ArticleTree {
 
         # set key 'TimeLong' for JS
         for my $Item ( @{ $Param{Items} } ) {
-            $Item->{TimeLong}
-                = $LayoutObject->{LanguageObject}->FormatTimeString( $Item->{CreateTime}, 'DateFormatLong' );
+            $Item->{TimeLong} = $LayoutObject->{LanguageObject}->FormatTimeString( $Item->{CreateTime}, 'DateFormatLong' );
         }
 
         for my $ArticleID ( sort keys %{$ArticlesByArticleID} ) {
@@ -2808,8 +2805,7 @@ sub _ArticleTree {
             # Check if article has attachment(s).
             if ( IsHashRefWithData( $ArticlesByArticleID->{$ArticleID}->{Atms} ) ) {
 
-                my ($Index)
-                    = grep { $Param{Items}->[$_]->{ArticleID} && $Param{Items}->[$_]->{ArticleID} == $ArticleID }
+                my ($Index) = grep { $Param{Items}->[$_]->{ArticleID} && $Param{Items}->[$_]->{ArticleID} == $ArticleID }
                     0 .. @{ $Param{Items} };
                 $Param{Items}->[$Index]->{HasAttachment} = 1;
             }

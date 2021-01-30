@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -78,7 +78,7 @@ sub Run {
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::UnitTest' => {
-            ANSI => $Self->{ANSI}, # as determined in Kernel::System::Console::BaseCommand
+            ANSI => $Self->{ANSI},    # as determined in Kernel::System::Console::BaseCommand
         },
     );
 
@@ -86,10 +86,10 @@ sub Run {
     my $DefaultDirectory = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::DefaultDirectory');
 
     my $FunctionResult = $Kernel::OM->Get('Kernel::System::UnitTest')->Run(
-        Tests                  => $Self->GetOption('test'),
-        Directory              => $Self->GetOption('directory') || $DefaultDirectory,
-        Verbose                => $Self->GetOption('verbose'),
-        PostTestScripts        => $Self->GetOption('post-test-script'),
+        Tests           => $Self->GetOption('test'),
+        Directory       => $Self->GetOption('directory') || $DefaultDirectory,
+        Verbose         => $Self->GetOption('verbose'),
+        PostTestScripts => $Self->GetOption('post-test-script'),
     );
 
     return $Self->ExitCodeOk() if $FunctionResult;

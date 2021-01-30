@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2012-2020 Znuny GmbH, http://znuny.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -142,8 +142,7 @@ sub Run {
             DYNAMICFIELD:
             for my $DynamicField ( sort keys %{ $ImportData->{DynamicFields} } ) {
 
-                my $Selected
-                    = grep { $ImportData->{DynamicFields}->{$DynamicField}->{Name} eq $_ } @DynamicFieldsSelected;
+                my $Selected = grep { $ImportData->{DynamicFields}->{$DynamicField}->{Name} eq $_ } @DynamicFieldsSelected;
                 next DYNAMICFIELD if !$Selected;
 
                 next DYNAMICFIELD if !IsHashRefWithData( $ImportData->{DynamicFields}->{$DynamicField} );

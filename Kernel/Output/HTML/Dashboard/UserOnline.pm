@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -308,11 +308,10 @@ sub Run {
         || 5;
 
     # Translate the diffrent user state descriptions.
-    my $UserOfflineDescription = $LayoutObject->{LanguageObject}->Translate('User is currently offline.');
-    my $UserActiveDescription  = $LayoutObject->{LanguageObject}->Translate('User is currently active.');
-    my $UserAwayDescription    = $LayoutObject->{LanguageObject}->Translate('User was inactive for a while.');
-    my $UserUnavailableDescription
-        = $LayoutObject->{LanguageObject}->Translate('User set their status to unavailable.');
+    my $UserOfflineDescription     = $LayoutObject->{LanguageObject}->Translate('User is currently offline.');
+    my $UserActiveDescription      = $LayoutObject->{LanguageObject}->Translate('User is currently active.');
+    my $UserAwayDescription        = $LayoutObject->{LanguageObject}->Translate('User was inactive for a while.');
+    my $UserUnavailableDescription = $LayoutObject->{LanguageObject}->Translate('User set their status to unavailable.');
 
     USERID:
     for my $UserID ( sort { $OnlineUser{$a} cmp $OnlineUser{$b} } keys %OnlineUser ) {

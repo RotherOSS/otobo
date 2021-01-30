@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -131,7 +131,7 @@ sub Run {
     # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    my $Debug              = $Param{Debug} || 0;
+    my $Debug = $Param{Debug} || 0;
 
     # get params
     my %GetParam;
@@ -154,8 +154,8 @@ sub Run {
 
     # MultipleCustomer To-field
     my @MultipleCustomer;
-    my $CustomersNumber = $ParamObject->GetParam( Param => 'CustomerTicketCounterToCustomer' )   || 0;
-    my $Selected        = $ParamObject->GetParam( Param => 'CustomerSelected' )                  || '';
+    my $CustomersNumber = $ParamObject->GetParam( Param => 'CustomerTicketCounterToCustomer' ) || 0;
+    my $Selected        = $ParamObject->GetParam( Param => 'CustomerSelected' )                || '';
 
     # get check item object
     my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
@@ -502,9 +502,8 @@ sub Run {
                     }
                 }
 
-                my %QueueLookup = reverse %Queues;
-                my %SystemAddressLookup
-                    = reverse $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressList();
+                my %QueueLookup         = reverse %Queues;
+                my %SystemAddressLookup = reverse $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressList();
                 my @ArticleFromAddress;
                 my $SystemAddressEmail;
 
@@ -748,8 +747,7 @@ sub Run {
             my $UserDefaultQueue = $ConfigObject->Get('Ticket::Frontend::UserDefaultQueue') || '';
 
             if ($UserDefaultQueue) {
-                $GetParam{QueueID}
-                    = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $UserDefaultQueue );
+                $GetParam{QueueID} = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $UserDefaultQueue );
                 if ( $GetParam{QueueID} ) {
                     $GetParam{Dest} = "$GetParam{QueueID}||$UserDefaultQueue";
                 }
@@ -910,7 +908,7 @@ sub Run {
                             if (
                                 $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
                                 || $Self->{InternalDependancy}{$Element}{$FieldID}
-                            )
+                                )
                             {
                                 next FIELD;
                             }
@@ -948,8 +946,7 @@ sub Run {
                         TOs:
                         for my $QueueID ( sort keys %{ $StdFieldValues{QueueID} } ) {
                             next TOs if ( $StdFieldValues{QueueID}{$QueueID} eq '-' );
-                            $StdFieldValues{Dest}{"$QueueID||$StdFieldValues{QueueID}{ $QueueID }"}
-                                = $StdFieldValues{QueueID}{$QueueID};
+                            $StdFieldValues{Dest}{"$QueueID||$StdFieldValues{QueueID}{ $QueueID }"} = $StdFieldValues{QueueID}{$QueueID};
                         }
 
                         # check current selection of QueueID (Dest will be done together with the other fields)
@@ -969,10 +966,10 @@ sub Run {
                     if (
                         $GetParam{ $Field->{FieldID} }
                         && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } }
-                    )
+                        )
                     {
                         # if not empty the field
-                        $GetParam{ $Field->{FieldID} } = '';
+                        $GetParam{ $Field->{FieldID} }           = '';
                         $NewChangedElements{ $Field->{FieldID} } = 1;
                         $ChangedStdFields{ $Field->{FieldID} }   = 1;
                     }
@@ -1023,13 +1020,13 @@ sub Run {
                     TicketObject              => $TicketObject,
                     DynamicFields             => $Self->{DynamicField},
                     DynamicFieldBackendObject => $DynamicFieldBackendObject,
-                    ChangedElements           => \%ChangedElements,            # optional to reduce ACL evaluation
+                    ChangedElements           => \%ChangedElements,                        # optional to reduce ACL evaluation
                     Action                    => $Self->{Action},
                     UserID                    => $Self->{UserID},
                     TicketID                  => $Self->{TicketID},
                     FormID                    => $Self->{FormID},
-                    CustomerUser => $SplitTicketData{CustomerUserID} || '',
-                    GetParam     => {
+                    CustomerUser              => $SplitTicketData{CustomerUserID} || '',
+                    GetParam                  => {
                         %GetParam,
                         OwnerID => $GetParam{NewUserID},
                     },
@@ -1080,7 +1077,7 @@ sub Run {
             if (
                 !$DynFieldStates{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"}
                 && ( $DynamicFieldConfig->{FieldType} ne 'Date' || $DynamicFieldConfig->{FieldType} ne 'DateTime' )
-            )
+                )
             {
                 %UseDefault = (
                     UseDefaultValue      => 0,
@@ -1180,9 +1177,9 @@ sub Run {
 
         $Output .= $Self->_MaskEmailNew(
             %GetParam,
-            NextState    => $GetParam{NextStateID} ? $StdFieldValues{NextStateID}{ $GetParam{NextStateID} } : '',
-            FromSelected => $GetParam{Dest},
-            UserSelected => $GetParam{NewUserID},
+            NextState               => $GetParam{NextStateID} ? $StdFieldValues{NextStateID}{ $GetParam{NextStateID} } : '',
+            FromSelected            => $GetParam{Dest},
+            UserSelected            => $GetParam{NewUserID},
             ResponsibleUserSelected => $GetParam{NewResponsibleID},
             NextStates              => $StdFieldValues{NextStateID},
             Priorities              => $StdFieldValues{PriorityID},
@@ -1439,8 +1436,7 @@ sub Run {
                 if ( !IsHashRefWithData($ValidationResult) ) {
                     return $LayoutObject->ErrorScreen(
                         Message =>
-                            $LayoutObject->{LanguageObject}
-                            ->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
+                            $LayoutObject->{LanguageObject}->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
                         Comment => Translatable('Please contact the administrator.'),
                     );
                 }
@@ -1455,7 +1451,7 @@ sub Run {
             $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } = $DynamicFieldBackendObject->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
-                ServerError          => $ValidationResult->{ServerError}  || '',
+                ServerError          => $ValidationResult->{ServerError} || '',
                 ErrorMessage         => $ValidationResult->{ErrorMessage} || '',
                 LayoutObject         => $LayoutObject,
                 ParamObject          => $ParamObject,
@@ -1477,7 +1473,7 @@ sub Run {
             # search customer
             my %CustomerUserList;
             %CustomerUserList = $CustomerUserObject->CustomerSearch(
-                Search           => $GetParam{To},
+                Search => $GetParam{To},
             );
 
             # check if just one customer user exists
@@ -1575,9 +1571,8 @@ sub Run {
             next PARAMETER if !$GetParam{$Parameter};
             for my $Email ( Mail::Address->parse( $GetParam{$Parameter} ) ) {
                 if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
-                    $Error{ $Parameter . 'ErrorType' }
-                        = $Parameter . $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
-                    $Error{ $Parameter . 'Invalid' } = 'ServerError';
+                    $Error{ $Parameter . 'ErrorType' } = $Parameter . $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
+                    $Error{ $Parameter . 'Invalid' }   = 'ServerError';
                 }
 
                 my $IsLocal = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress(
@@ -1805,8 +1800,8 @@ sub Run {
             my $SLAs = $Self->_GetSLAs(
                 %GetParam,
                 %ACLCompatGetParam,
-                QueueID        => $NewQueueID   || 1,
-                Services       => $Services,
+                QueueID  => $NewQueueID || 1,
+                Services => $Services,
             );
 
             # header and navigation bar
@@ -1865,13 +1860,13 @@ sub Run {
                     ? 'Validate_Required'
                     : ''
                 ),
-                FromList             => $Self->_GetTos(),
-                FromSelected         => $Dest,
-                Subject              => $LayoutObject->Ascii2Html( Text => $GetParam{Subject} ),
-                Body                 => $LayoutObject->Ascii2Html( Text => $GetParam{Body} ),
-                Errors               => \%Error,
-                Attachments          => \@Attachments,
-                Signature            => $Signature,
+                FromList     => $Self->_GetTos(),
+                FromSelected => $Dest,
+                Subject      => $LayoutObject->Ascii2Html( Text => $GetParam{Subject} ),
+                Body         => $LayoutObject->Ascii2Html( Text => $GetParam{Body} ),
+                Errors       => \%Error,
+                Attachments  => \@Attachments,
+                Signature    => $Signature,
                 %GetParam,
                 DynamicFieldHTML     => \%DynamicFieldHTML,
                 MultipleCustomer     => \@MultipleCustomer,
@@ -2210,8 +2205,8 @@ sub Run {
             StdFields => 0,
             Fields    => 0,
         );
-        my %ChangedElements        = $ElementChanged ? ( $ElementChanged => 1 ) : ();
-        my %ChangedElementsDFStart = $ElementChanged ? ( $ElementChanged => 1 ) : ();
+        my %ChangedElements        = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
+        my %ChangedElementsDFStart = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
         my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? ( $ElementChanged => 1 ) : ();
 
         my $LoopProtection = 100;
@@ -2257,7 +2252,7 @@ sub Run {
                             if (
                                 $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
                                 || $Self->{InternalDependancy}{$Element}{$FieldID}
-                            )
+                                )
                             {
                                 next FIELD;
                             }
@@ -2295,8 +2290,7 @@ sub Run {
                         TOs:
                         for my $QueueID ( sort keys %{ $StdFieldValues{QueueID} } ) {
                             next TOs if ( $StdFieldValues{QueueID}{$QueueID} eq '-' );
-                            $StdFieldValues{Dest}{"$QueueID||$StdFieldValues{QueueID}{ $QueueID }"}
-                                = $StdFieldValues{QueueID}{$QueueID};
+                            $StdFieldValues{Dest}{"$QueueID||$StdFieldValues{QueueID}{ $QueueID }"} = $StdFieldValues{QueueID}{$QueueID};
                         }
 
                         # check current selection of QueueID (Dest will be done together with the other fields)
@@ -2316,10 +2310,10 @@ sub Run {
                     if (
                         $GetParam{ $Field->{FieldID} }
                         && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } }
-                    )
+                        )
                     {
                         # if not empty the field
-                        $GetParam{ $Field->{FieldID} } = '';
+                        $GetParam{ $Field->{FieldID} }           = '';
                         $NewChangedElements{ $Field->{FieldID} } = 1;
                         $ChangedStdFields{ $Field->{FieldID} }   = 1;
                     }
@@ -2429,8 +2423,7 @@ sub Run {
         for my $Index ( sort keys %{ $DynFieldStates{Fields} } ) {
             my $DynamicFieldConfig = $Self->{DynamicField}->[$Index];
 
-            my $DataValues
-                = $DynFieldStates{Fields}{$Index}{NotACLReducible}
+            my $DataValues = $DynFieldStates{Fields}{$Index}{NotACLReducible}
                 ? $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}
                 :
                 (
@@ -2889,8 +2882,7 @@ sub _GetServices {
     $Param{QueueID} = $Param{QueueID} || 1;
 
     # get options for default services for unknown customers
-    my $DefaultServiceUnknownCustomer
-        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::Default::UnknownCustomer');
+    my $DefaultServiceUnknownCustomer = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::Default::UnknownCustomer');
 
     # check if no CustomerUserID is selected
     # if $DefaultServiceUnknownCustomer = 0 leave CustomerUserID empty, it will not get any services
@@ -2953,9 +2945,9 @@ sub _GetTos {
         if ( $ConfigObject->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
             %Tos = $Kernel::OM->Get('Kernel::System::Ticket')->MoveList(
                 %Param,
-                Type    => 'create',
-                Action  => $Self->{Action},
-                UserID  => $Self->{UserID},
+                Type   => 'create',
+                Action => $Self->{Action},
+                UserID => $Self->{UserID},
             );
         }
         else {

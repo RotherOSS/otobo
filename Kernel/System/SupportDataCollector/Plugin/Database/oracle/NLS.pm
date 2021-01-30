@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -90,7 +90,7 @@ sub Run {
         $Self->AddResultOk(
             Identifier => 'NLS_DATE_FORMAT_SELECT',
             Label      => Translatable('NLS_DATE_FORMAT Setting SQL Check'),
-            Value => $ENV{NLS_DATE_FORMAT},    # use environment variable to avoid different values
+            Value      => $ENV{NLS_DATE_FORMAT},                               # use environment variable to avoid different values
         );
     }
     else {

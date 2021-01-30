@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -35,18 +35,16 @@ use Kernel::System::VariableCheck qw(:all);
 our $ObjectManagerDisabled = 1;
 
 sub new {
-    my $Class = shift;
-    my %Param = @_;
+    my ( $Class, %Param ) = @_;
 
     # Allocate new hash for object.
-    return bless { %Param }, $Class;
+    return bless {%Param}, $Class;
 }
 
 sub Run {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
-    my $CacheTTL = 60 * 60 * 24 * 7; # 1 week
+    my $CacheTTL = 60 * 60 * 24 * 7;    # 1 week
 
     # get object manager singletons
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -65,14 +63,14 @@ sub Run {
     {
         my $Home = $ConfigObject->Get('Home');
 
-        if ( ! -d $Home ) {
+        if ( !-d $Home ) {
             $LayoutObject->FatalError(
                 Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" doesn\'t exist!', $$Home ),
                 Comment => Translatable('Configure "Home" in Kernel/Config.pm first!'),
             );
         }
 
-        if ( ! -f "$Home/Kernel/Config.pm" ) {
+        if ( !-f "$Home/Kernel/Config.pm" ) {
             $LayoutObject->FatalError(
                 Message => $LayoutObject->{LanguageObject}->Translate( 'File "%s/Kernel/Config.pm" not found!', $$Home ),
                 Comment => Translatable('Please contact the administrator.'),
@@ -89,7 +87,7 @@ sub Run {
     # perform the requested AJAX task
     my $AJAXTask = $ParamObject->GetParam( Param => 'Task' );
     if ($AJAXTask) {
-        my $Return = {};
+        my $Return                = {};
         my $MigrateFromOTRSObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS');
 
         if ( $Self->{Subaction} eq 'GetProgress' && $AJAXTask eq 'GetProgress' ) {
@@ -99,7 +97,7 @@ sub Run {
                 Key  => 'MigrationState',
             );
 
-            if ( $Status ) {
+            if ($Status) {
                 my $Now  = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
                 my $Time = $Now - $Status->{StartTime};
                 my $TimeSpent;
@@ -178,7 +176,7 @@ sub Run {
             if ( $GetParam{SkipDBMigration} ) {
                 $Return = {
                     Successful => 1,
-                }
+                };
             }
 
             # "normal" migration
@@ -315,7 +313,7 @@ sub Run {
             Content     => $OutputJSON,
             Type        => 'inline',
             NoCache     => 1,
-            NoEncode    => 1, # return a Perl string that may have characters greater 255
+            NoEncode    => 1,                                                         # return a Perl string that may have characters greater 255
         );
     }
 
@@ -349,7 +347,6 @@ sub Run {
             Steps => scalar @Steps,
         },
     );
-
 
     # for displaying progress
     my $StepCounter = '';
@@ -402,7 +399,7 @@ sub Run {
 
             # Under Docker we assume that /opt/otrs has been copied init otobo_opt_otobo volume.
             my $DefaultOTRSHome = $ENV{OTOBO_RUNS_UNDER_DOCKER} ? '/opt/otobo/var/tmp/copied_otrs' : '/opt/otrs';
-            my %Defaults = (
+            my %Defaults        = (
                 Intro => {
                     Subaction => 'OTRSFileSettings',
                 },
@@ -413,7 +410,7 @@ sub Run {
                 OTRSDBSettings => {
                     DBName => 'otrs',
                     DBUser => 'otrs',
-                    DBPort => 1521,    # why Oracle port as default ?
+                    DBPort => 1521,     # why Oracle port as default ?
                 },
                 PreChecks => {
                     NextTask => 'OTOBOFrameworkVersionCheck',
@@ -479,9 +476,10 @@ sub Run {
     #    }
 
     if ( $Self->{Subaction} eq 'Intro' ) {
+
         # for the HTTP check in Intro.tt
         my $HTTPS = $ParamObject->HTTPS('HTTPS');
-        $FieldData{Scheme} = ($HTTPS && lc $HTTPS eq 'on' ) ? 'https' : 'http';
+        $FieldData{Scheme} = ( $HTTPS && lc $HTTPS eq 'on' ) ? 'https' : 'http';
     }
     else {
         # cache progress
@@ -538,8 +536,7 @@ sub Run {
 }
 
 sub _Finish {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Take care that default config is in the database.
     if ( !$Self->_CheckConfig() ) {
@@ -570,7 +567,7 @@ sub _Finish {
         UserID            => 1,
     );
 
-    if ( ! $Result{Success} ) {
+    if ( !$Result{Success} ) {
         return $Param{LayoutObject}->FatalError(
             Message => Translatable(q{Can't activate SecureMode: }) . $Result{Error}
         );
@@ -612,8 +609,8 @@ sub _Finish {
     #   b) HTTPS should be used and it works because nginx sets HTTPS
     my $Scheme;
     {
-        my $HTTPS  = $ParamObject->HTTPS('HTTPS');
-        $Scheme = ($HTTPS && lc $HTTPS eq 'on') ? 'https' : 'http';
+        my $HTTPS = $ParamObject->HTTPS('HTTPS');
+        $Scheme = ( $HTTPS && lc $HTTPS eq 'on' ) ? 'https' : 'http';
     }
 
     # In the docker case $ENV{HTTP_HOST} is something like 'localhost:8443'.

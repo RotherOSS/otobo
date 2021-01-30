@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -128,8 +128,7 @@ sub _Add {
     }
     if ( !$Self->_ErrorHandlingTypeCheck( ErrorHandlingType => $ErrorHandlingType ) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}
-                ->Translate( 'ErrorHandlingType %s is not registered', $ErrorHandlingType ),
+            Message => $LayoutObject->{LanguageObject}->Translate( 'ErrorHandlingType %s is not registered', $ErrorHandlingType ),
         );
     }
 
@@ -156,8 +155,7 @@ sub _AddAction {
     }
     if ( !$Self->_ErrorHandlingTypeCheck( ErrorHandlingType => $ErrorHandlingType ) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}
-                ->Translate( 'ErrorHandlingType %s is not registered', $ErrorHandlingType ),
+            Message => $LayoutObject->{LanguageObject}->Translate( 'ErrorHandlingType %s is not registered', $ErrorHandlingType ),
         );
     }
 
@@ -211,12 +209,10 @@ sub _AddAction {
     }
 
     # Add module to config.
-    $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandling}->{$ErrorHandling}
-        = $ErrorHandlingConfig;
+    $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandling}->{$ErrorHandling} = $ErrorHandlingConfig;
 
     # Add module to priority list.
-    my $WebserviceErrorHandlingPriority
-        = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandlingPriority};
+    my $WebserviceErrorHandlingPriority = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandlingPriority};
     if ( IsArrayRefWithData($WebserviceErrorHandlingPriority) ) {
         push @{$WebserviceErrorHandlingPriority}, $ErrorHandling;
     }
@@ -267,13 +263,11 @@ sub _Change {
         );
     }
 
-    my $ErrorHandlingConfig
-        = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandling}->{$ErrorHandling};
+    my $ErrorHandlingConfig = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandling}->{$ErrorHandling};
     if ( !IsHashRefWithData($ErrorHandlingConfig) ) {
         return $LayoutObject->ErrorScreen(
             Message =>
-                $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not determine config for error handler %s', $ErrorHandling ),
+                $LayoutObject->{LanguageObject}->Translate( 'Could not determine config for error handler %s', $ErrorHandling ),
         );
     }
 
@@ -313,8 +307,7 @@ sub _ChangeAction {
     if ( !IsHashRefWithData($ErrorHandlingConfig) ) {
         return $LayoutObject->ErrorScreen(
             Message =>
-                $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not determine config for error handler %s', $OldErrorHandling ),
+                $LayoutObject->{LanguageObject}->Translate( 'Could not determine config for error handler %s', $OldErrorHandling ),
         );
     }
 
@@ -375,13 +368,11 @@ sub _ChangeAction {
     }
 
     # Update config.
-    $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandling}->{$ErrorHandling}
-        = $ErrorHandlingConfig;
+    $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandling}->{$ErrorHandling} = $ErrorHandlingConfig;
 
     # Update priority array if necessary.
     if ( $OldErrorHandling ne $ErrorHandling ) {
-        my $ErrorHandlingPriority
-            = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandlingPriority};
+        my $ErrorHandlingPriority = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{ErrorHandlingPriority};
         my ($OldErrorHandlingIndex) = grep { $ErrorHandlingPriority->[$_] eq $OldErrorHandling }
             ( 0 .. scalar @{$ErrorHandlingPriority} - 1 );
         if ( IsStringWithData($OldErrorHandlingIndex) ) {
@@ -548,8 +539,7 @@ sub _ShowScreen {
     );
 
     if ( $Param{CommunicationType} eq 'Provider' ) {
-        my %Operations
-            = map { $_ => $_ } sort keys %{ $Param{WebserviceData}->{Config}->{Provider}->{Operation} || {} };
+        my %Operations           = map { $_ => $_ } sort keys %{ $Param{WebserviceData}->{Config}->{Provider}->{Operation} || {} };
         my $OperationDeletedText = $LayoutObject->{LanguageObject}->Translate('Operation deleted');
         SELECTEDOPERATION:
         for my $SelectedOperation ( @{ $Param{ErrorHandlingConfig}->{OperationFilter} || [] } ) {
@@ -574,7 +564,7 @@ sub _ShowScreen {
         );
     }
     else {
-        my %Invokers = map { $_ => $_ } sort keys %{ $Param{WebserviceData}->{Config}->{Requester}->{Invoker} || {} };
+        my %Invokers           = map { $_ => $_ } sort keys %{ $Param{WebserviceData}->{Config}->{Requester}->{Invoker} || {} };
         my $InvokerDeletedText = $LayoutObject->{LanguageObject}->Translate('Invoker deleted');
         SELECTEDINVOKER:
         for my $SelectedInvoker ( @{ $Param{ErrorHandlingConfig}->{InvokerFilter} || [] } ) {
@@ -646,8 +636,7 @@ sub _ShowScreen {
     );
 
     # Use all dates from 0 seconds to 1 day for RetryIntervalStart.
-    my %RetryIntervalStartSelection
-        = map { $_ => $DateSelection{$_} } grep { $_ >= 0 && $_ <= 60 * 60 * 24 } sort keys %DateSelection;
+    my %RetryIntervalStartSelection = map { $_ => $DateSelection{$_} } grep { $_ >= 0 && $_ <= 60 * 60 * 24 } sort keys %DateSelection;
     $TemplateData{RetryIntervalStartStrg} = $LayoutObject->BuildSelection(
         Data         => \%RetryIntervalStartSelection,
         ID           => 'RetryIntervalStart',
@@ -674,8 +663,7 @@ sub _ShowScreen {
     );
 
     # Use all dates from 0 seconds to 1 day for RetryIntervalMax.
-    my %RetryIntervalMaxSelection
-        = map { $_ => $DateSelection{$_} } grep { $_ >= 0 && $_ <= 60 * 60 * 24 } sort keys %DateSelection;
+    my %RetryIntervalMaxSelection = map { $_ => $DateSelection{$_} } grep { $_ >= 0 && $_ <= 60 * 60 * 24 } sort keys %DateSelection;
     $TemplateData{RetryIntervalMaxStrg} = $LayoutObject->BuildSelection(
         Data         => \%RetryIntervalMaxSelection,
         ID           => 'RetryIntervalMax',
@@ -688,8 +676,7 @@ sub _ShowScreen {
     );
 
     # Use all dates from 1 minute to 1 week for RetryPeriodMax.
-    my %RetryPeriodMaxSelection
-        = map { $_ => $DateSelection{$_} } grep { $_ >= 60 && $_ <= 60 * 60 * 24 * 7 } sort keys %DateSelection;
+    my %RetryPeriodMaxSelection = map { $_ => $DateSelection{$_} } grep { $_ >= 60 && $_ <= 60 * 60 * 24 * 7 } sort keys %DateSelection;
     $TemplateData{RetryPeriodMaxStrg} = $LayoutObject->BuildSelection(
         Data         => \%RetryPeriodMaxSelection,
         ID           => 'RetryPeriodMax',

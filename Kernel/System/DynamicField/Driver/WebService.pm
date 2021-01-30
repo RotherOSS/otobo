@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -76,8 +76,7 @@ sub new {
     };
 
     # Get the Dynamic Field Backend custom extensions.
-    my $DynamicFieldDriverExtensions
-        = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Extension::Driver::Webservice');
+    my $DynamicFieldDriverExtensions = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Extension::Driver::Webservice');
 
     EXTENSIONKEY:
     for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
@@ -1168,7 +1167,7 @@ sub _ObjectDataGet {
         DynamicFieldID    => $Param{DynamicFieldConfig}->{ID},
         DynamicFieldName  => $Param{DynamicFieldConfig}->{Name},
         DynamicFieldLabel => $Param{DynamicFieldConfig}->{Label},
-        DynamicFieldValue => $DynamicFieldValue || '',            # should not use undef due to XSLT mapping complaints.
+        DynamicFieldValue => $DynamicFieldValue || '',              # should not use undef due to XSLT mapping complaints.
     );
 
     my %ObjectDynamicFields;

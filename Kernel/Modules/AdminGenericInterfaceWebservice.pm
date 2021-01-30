@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -65,8 +65,7 @@ sub Run {
         if ( !IsHashRefWithData($WebserviceData) ) {
             return $LayoutObject->ErrorScreen(
                 Message =>
-                    $LayoutObject->{LanguageObject}
-                    ->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
+                    $LayoutObject->{LanguageObject}->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
             );
         }
 
@@ -104,8 +103,7 @@ sub Run {
         if ( !IsHashRefWithData($WebserviceData) ) {
             return $LayoutObject->ErrorScreen(
                 Message =>
-                    $LayoutObject->{LanguageObject}
-                    ->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
+                    $LayoutObject->{LanguageObject}->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
             );
         }
 
@@ -135,8 +133,7 @@ sub Run {
                 # Replace the current transport type with the new selected one
                 #   the rest of the configuration will be empty
                 #   the transport need to be configured independently.
-                $WebserviceData->{Config}->{$CommunicationType}->{Transport}->{Type}
-                    = $GetParam->{ $CommunicationType . 'Transport' };
+                $WebserviceData->{Config}->{$CommunicationType}->{Transport}->{Type} = $GetParam->{ $CommunicationType . 'Transport' };
             }
         }
 
@@ -351,8 +348,7 @@ sub Run {
         if ( !IsHashRefWithData($WebserviceData) ) {
             return $LayoutObject->ErrorScreen(
                 Message =>
-                    $LayoutObject->{LanguageObject}
-                    ->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
+                    $LayoutObject->{LanguageObject}->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
             );
         }
 
@@ -426,8 +422,7 @@ sub Run {
         # Check for valid web service configuration.
         if ( !IsHashRefWithData($WebserviceData) ) {
             return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}
-                    ->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
             );
         }
 
@@ -1059,8 +1054,7 @@ sub _ShowEdit {
     ERRORHANDLINGMODULE:
     for my $ErrorHandlingModules ( sort keys %{$GIErrorHandlingModuleConfig} ) {
         next ERRORHANDLINGMODULE if !$ErrorHandlingModules;
-        $GIErrorHandlingModules{$ErrorHandlingModules}
-            = $GIErrorHandlingModuleConfig->{$ErrorHandlingModules}->{ConfigDialog};
+        $GIErrorHandlingModules{$ErrorHandlingModules} = $GIErrorHandlingModuleConfig->{$ErrorHandlingModules}->{ConfigDialog};
     }
 
     $Self->_OutputGIConfig(
@@ -1293,8 +1287,7 @@ sub _ShowEdit {
 
         if ( $ErrorHandlingModulesCheck ne $ErrorHandlingPriorityCheck ) {
 
-            my @CorrectedErrorHandlingModules
-                = sort keys %{ $CommTypeConfig{$CommunicationType}->{ErrorHandling} || [] };
+            my @CorrectedErrorHandlingModules = sort keys %{ $CommTypeConfig{$CommunicationType}->{ErrorHandling} || [] };
 
             $CommTypeConfig{$CommunicationType}->{ErrorHandlingPriority} = \@CorrectedErrorHandlingModules;
 
@@ -1309,8 +1302,7 @@ sub _ShowEdit {
                 !defined $CommTypeConfig{$CommunicationType}->{ErrorHandling}->{$CurrentErrorHandlingModule}->{Type}
                 )
             {
-                $CommTypeConfig{$CommunicationType}->{ErrorHandling}->{$CurrentErrorHandlingModule}->{Type}
-                    = 'RequestRetry';
+                $CommTypeConfig{$CommunicationType}->{ErrorHandling}->{$CurrentErrorHandlingModule}->{Type} = 'RequestRetry';
 
                 $ErrorConfigUpdated = 1;
             }
@@ -1319,10 +1311,8 @@ sub _ShowEdit {
         # Update config if needed.
         if ($ErrorConfigUpdated) {
 
-            $WebserviceData->{Config}->{$CommunicationType}->{ErrorHandling}
-                = $CommTypeConfig{$CommunicationType}->{ErrorHandling};
-            $WebserviceData->{Config}->{$CommunicationType}->{ErrorHandlingPriority}
-                = $CommTypeConfig{$CommunicationType}->{ErrorHandlingPriority};
+            $WebserviceData->{Config}->{$CommunicationType}->{ErrorHandling}         = $CommTypeConfig{$CommunicationType}->{ErrorHandling};
+            $WebserviceData->{Config}->{$CommunicationType}->{ErrorHandlingPriority} = $CommTypeConfig{$CommunicationType}->{ErrorHandlingPriority};
 
             $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceUpdate(
                 %{$WebserviceData},

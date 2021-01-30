@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -225,9 +225,8 @@ sub CustomerSearch {
 
                 # param PostMasterSearch
                 elsif ( defined $Param{PostMasterSearch} && length $Param{PostMasterSearch} ) {
-                    $SearchFields
-                        = $Self->{"CustomerUser$Count"}->{CustomerUserMap}->{CustomerUserPostMasterSearchFields};
-                    $SearchParam = $Param{PostMasterSearch};
+                    $SearchFields = $Self->{"CustomerUser$Count"}->{CustomerUserMap}->{CustomerUserPostMasterSearchFields};
+                    $SearchParam  = $Param{PostMasterSearch};
                 }
 
                 # search dynamic field values
@@ -937,8 +936,7 @@ sub CustomerUserAdd {
         if (%User) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => $Kernel::OM->Get('Kernel::Language')
-                    ->Translate( 'Customer user "%s" already exists.', $Param{UserLogin} ),
+                Message  => $Kernel::OM->Get('Kernel::Language')->Translate( 'Customer user "%s" already exists.', $Param{UserLogin} ),
             );
             return;
         }
@@ -998,8 +996,7 @@ sub CustomerUserUpdate {
         if (%User) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => $Kernel::OM->Get('Kernel::Language')
-                    ->Translate( 'Customer user "%s" already exists.', $Param{UserLogin} ),
+                Message  => $Kernel::OM->Get('Kernel::Language')->Translate( 'Customer user "%s" already exists.', $Param{UserLogin} ),
             );
             return;
         }

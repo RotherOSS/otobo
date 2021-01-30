@@ -364,10 +364,10 @@ sub DBCreateUserAndDatabase {
     my $CreateUserSQL;
     {
         if ( $DBHandle->{mysql_serverinfo} =~ m/mariadb/i ) {
-            $CreateUserSQL .= "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$Param{OTOBODBPassword}'",
+            $CreateUserSQL .= "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$Param{OTOBODBPassword}'";
         }
         else {
-            $CreateUserSQL .= "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password BY '$Param{OTOBODBPassword}'",
+            $CreateUserSQL .= "CREATE USER `$Param{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password BY '$Param{OTOBODBPassword}'";
         }
     }
 
@@ -485,7 +485,7 @@ sub AdaptSettings {
         UserID    => 1,
         Force     => 1,
         CleanUp   => 1,
-    ) || return 0, 'Could not save config in DB';
+    ) || return ( 0, 'Could not save config in DB' );
 
     my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
         LockAll => 1,

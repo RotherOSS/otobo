@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -13,7 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-
 
 package Kernel::Modules::Installer;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
@@ -38,7 +37,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # Allocate new hash for object and initialize with the passed params
-    return bless { %Param }, $Type;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
@@ -107,7 +106,7 @@ sub Run {
     # Set up the build steps.
     # The license step is not needed when it is turned off in $Self->{Options}.
     my @Steps = qw(Database General Finish);
-    unshift @Steps, 'License' if ! $Self->{Options}->{SkipLicense};
+    unshift @Steps, 'License' if !$Self->{Options}->{SkipLicense};
 
     my $StepCounter;
 
@@ -292,7 +291,7 @@ sub Run {
             %Result = (
                 Successful => 0,
                 Message    => Translatable('Unknown Check!'),
-                Comment => $LayoutObject->{LanguageObject}->Translate( 'The check "%s" doesn\'t exist!', $CheckMode ),
+                Comment    => $LayoutObject->{LanguageObject}->Translate( 'The check "%s" doesn\'t exist!', $CheckMode ),
             );
         }
 
@@ -500,7 +499,7 @@ sub Run {
                     my $StatementHandleProcessList = $DBH->prepare('show processlist');
                     $StatementHandleProcessList->execute();
                     PROCESSLIST:
-                    while ( my ($ProcessID, undef, $ProcessHost) = $StatementHandleProcessList->fetchrow_array() ) {
+                    while ( my ( $ProcessID, undef, $ProcessHost ) = $StatementHandleProcessList->fetchrow_array() ) {
                         if ( $ProcessID eq $ConnectionID ) {
                             $Host = $ProcessHost;
 
@@ -523,10 +522,12 @@ sub Run {
                 my $CreateUserSQL;
                 {
                     if ( $DBH->{mysql_serverinfo} =~ m/mariadb/i ) {
-                        $CreateUserSQL .= "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$DB{OTOBODBPassword}'",
+                        $CreateUserSQL
+                            .= "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED BY '$DB{OTOBODBPassword}'";
                     }
                     else {
-                        $CreateUserSQL .= "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password BY '$DB{OTOBODBPassword}'",
+                        $CreateUserSQL
+                            .= "CREATE USER `$DB{OTOBODBUser}`\@`$Host` IDENTIFIED WITH mysql_native_password BY '$DB{OTOBODBPassword}'";
                     }
                 }
 
@@ -664,8 +665,7 @@ sub Run {
 
             if ( !-f "$DirOfSQLFiles/$SchemaFile.xml" ) {
                 $LayoutObject->FatalError(
-                    Message => $LayoutObject->{LanguageObject}
-                        ->Translate( 'File "%s/%s.xml" not found!', $DirOfSQLFiles, $SchemaFile ),
+                    Message => $LayoutObject->{LanguageObject}->Translate( 'File "%s/%s.xml" not found!', $DirOfSQLFiles, $SchemaFile ),
                     Comment => Translatable('Contact your Admin!'),
                 );
             }
@@ -766,14 +766,14 @@ sub Run {
             SelectedID => $SystemIDs[ int( rand(100) ) ],    # random system ID
         );
 
-	$Param{SSLSupportString} = $LayoutObject->BuildSelection(
-            Data       => {
+        $Param{SSLSupportString} = $LayoutObject->BuildSelection(
+            Data => {
                 https => Translatable('https'),
-                http => Translatable('http'),
-	    },
+                http  => Translatable('http'),
+            },
             Name       => 'HttpType',
             Class      => 'Modernize',
-            SelectedID =>  'https',
+            SelectedID => 'https',
         );
 
         $Param{LanguageString} = $LayoutObject->BuildSelection(
@@ -800,7 +800,7 @@ sub Run {
 
         # try initializing Elasticsearch
         my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
-        my $ESObject = $Kernel::OM->Get('Kernel::System::Elasticsearch');
+        my $ESObject         = $Kernel::OM->Get('Kernel::System::Elasticsearch');
 
         my $ESWebservice = $WebserviceObject->WebserviceGet(
             Name => 'Elasticsearch',
@@ -808,7 +808,7 @@ sub Run {
         my $Success = 0;
 
         # activate it
-        if ( $ESWebservice ) {
+        if ($ESWebservice) {
             $Success = $WebserviceObject->WebserviceUpdate(
                 %{$ESWebservice},
                 ValidID => 1,
@@ -822,9 +822,10 @@ sub Run {
         }
 
         # active ES in the SysConf
-        if ( $Success ) {
+        if ($Success) {
+
             # SysConfig
-            my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+            my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
             my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
                 LockAll => 1,
                 Force   => 1,
@@ -839,15 +840,16 @@ sub Run {
             $SysConfigObject->SettingUnlock(
                 UnlockAll => 1,
             );
+
             # TODO: handle errors
         }
 
         # initialize standard indices
-        if ( $Success ) {
+        if ($Success) {
             my $Errors;
 
             my $IndexConfig = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
-            my %Pipeline = (
+            my %Pipeline    = (
                 description => "Extract external attachment information",
                 processors  => [
                     {
@@ -962,20 +964,20 @@ sub Run {
             );
             $Errors++ if !$Success;
 
-            if ( $Errors ) {
+            if ($Errors) {
                 $Success = 0;
             }
         }
 
-        if ( $Success ) {
-            my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+        if ($Success) {
+            my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
             my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
                 LockAll => 1,
                 Force   => 1,
                 UserID  => 1,
             );
             my %Setting = $SysConfigObject->SettingGet(
-                Name              => 'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext',
+                Name => 'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext',
             );
             $SysConfigObject->SettingUpdate(
                 Name              => 'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext',
@@ -995,8 +997,9 @@ sub Run {
                 ValidID => 2,
                 UserID  => 1,
             );
+
             # SysConfig
-            my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+            my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
             my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
                 LockAll => 1,
                 Force   => 1,
@@ -1215,8 +1218,8 @@ sub Run {
         #   b) HTTPS should be used and it works because nginx sets HTTPS
         my $Scheme;
         {
-            my $HTTPS  = $ParamObject->HTTPS('HTTPS');
-            $Scheme = ($HTTPS && lc $HTTPS eq 'on') ? 'https' : 'http';
+            my $HTTPS = $ParamObject->HTTPS('HTTPS');
+            $Scheme = ( $HTTPS && lc $HTTPS eq 'on' ) ? 'https' : 'http';
         }
 
         # In the docker case $ENV{HTTP_HOST} is something like 'localhost:8443'.
@@ -1378,8 +1381,8 @@ sub ConnectToDB {
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'DBD::' . $Driver ) ) {
         return (
             Successful => 0,
-            Message    => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}
-                ->Translate( "Can't connect to database, Perl module DBD::%s not installed!", $Driver ),
+            Message =>
+                $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate( "Can't connect to database, Perl module DBD::%s not installed!", $Driver ),
             Comment => "",
             DB      => undef,
             DBH     => undef,
@@ -1393,11 +1396,10 @@ sub ConnectToDB {
     if ( !$DBH ) {
         return (
             Successful => 0,
-            Message    => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}
-                ->Translate("Can't connect to database, read comment!"),
-            Comment => "$DBI::errstr",
-            DB      => undef,
-            DBH     => undef,
+            Message    => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate("Can't connect to database, read comment!"),
+            Comment    => "$DBI::errstr",
+            DB         => undef,
+            DBH        => undef,
         );
     }
 
@@ -1408,11 +1410,10 @@ sub ConnectToDB {
         if ($Data) {
             return (
                 Successful => 0,
-                Message    => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}
-                    ->Translate("Database already contains data - it should be empty!"),
-                Comment => "",
-                DB      => undef,
-                DBH     => undef,
+                Message    => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate("Database already contains data - it should be empty!"),
+                Comment    => "",
+                DB         => undef,
+                DBH        => undef,
             );
         }
     }
@@ -1464,8 +1465,8 @@ sub CheckDBRequirements {
         # Default storage engine variable has changed its name in MySQL 5.5.3, we need to support both of them for now.
         #   <= 5.5.2 storage_engine
         #   >= 5.5.3 default_storage_engine
-        my $DataOld = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'storage_engine'");
-        my $DataNew = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'default_storage_engine'");
+        my $DataOld              = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'storage_engine'");
+        my $DataNew              = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'default_storage_engine'");
         my $DefaultStorageEngine = ( $DataOld->[0] && $DataOld->[0]->[1] ? $DataOld->[0]->[1] : undef )
             // ( $DataNew->[0] && $DataNew->[0]->[1] ? $DataNew->[0]->[1] : '' );
 
@@ -1694,9 +1695,9 @@ sub _CheckConfig {
 
     # read files in Kernel/Config/Files/XML
     return $SysConfigObject->ConfigurationXML2DB(
-        UserID    => 1,
-        Force     => 1,
-        CleanUp   => 1,
+        UserID  => 1,
+        Force   => 1,
+        CleanUp => 1,
     );
 }
 

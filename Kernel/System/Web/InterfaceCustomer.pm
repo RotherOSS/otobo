@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -93,8 +93,7 @@ create the web interface object for F<customer.pl>.
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # start with an empty hash for the new object
     my $Self = bless {}, $Type;
@@ -204,12 +203,16 @@ sub Content {
     my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
 
     # check whether we are using the right scheme
-    my ( $RequestScheme ) = split( '/', $ParamObject->ServerProtocol() );
-    $RequestScheme = lc( $RequestScheme );
+    my ( $RequestScheme ) = split '/', $ParamObject->ServerProtocol(), 2;
+    $RequestScheme = lc $RequestScheme;
     if ( $RequestScheme ne $ConfigObject->Get('HttpType') ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => 'HttpType '.$ConfigObject->Get('HttpType').' is set, but '.$RequestScheme.' is used!',
+            Message  => sprintf(
+                'HttpType %s is set, but %s is used!',
+                $ConfigObject->Get('HttpType'),
+                $RequestScheme
+            ),
         );
     }
 
@@ -327,6 +330,7 @@ sub Content {
             $Kernel::OM->ObjectParamAdd(
                 'Kernel::Output::HTML::Layout' => {
                     SetCookies => {
+
                         # set a cookie tentatively for checking cookie support
                         OTOBOBrowserHasCookie => $ParamObject->SetCookie(
                             Key      => 'OTOBOBrowserHasCookie',
@@ -463,12 +467,13 @@ sub Content {
         }
 
         # execution in 20 seconds
-        my $ExecutionTimeObj = $Kernel::OM->Create('Kernel::System::DateTime');
+        my $ExecutionTimeObj = $SessionDTObject->Clone();
         $ExecutionTimeObj->Add( Seconds => 20 );
+        my $ExecutionTime = $ExecutionTimeObj->ToString();
 
         # add a asynchronous executor scheduler task to count the concurrent user
         $Kernel::OM->Get('Kernel::System::Scheduler')->TaskAdd(
-            ExecutionTime            => $ExecutionTimeObj->ToString(),
+            ExecutionTime            => $ExecutionTime,
             Type                     => 'AsynchronousExecutor',
             Name                     => 'PluginAsynchronous::ConcurrentUser',
             MaximumParallelInstances => 1,
@@ -525,6 +530,7 @@ sub Content {
                         Secure   => $CookieSecureAttribute,
                         HTTPOnly => 1,
                     ),
+
                     # delete the OTOBOBrowserHasCookie cookie
                     OTOBOBrowserHasCookie => $ParamObject->SetCookie(
                         Key      => 'OTOBOBrowserHasCookie',
@@ -593,6 +599,7 @@ sub Content {
         $Kernel::OM->ObjectParamAdd(
             'Kernel::Output::HTML::Layout' => {
                 SetCookies => {
+
                     # delete the OTOBO session cookie
                     SessionIDCookie => $ParamObject->SetCookie(
                         Key      => $Param{SessionName},
@@ -679,8 +686,8 @@ sub Content {
             USER_ID:
             for my $UserID ( sort keys %UserList ) {
                 my %UserData = $UserObject->CustomerUserDataGet(
-                    User   => $UserID,
-                    Valid  => 1,
+                    User  => $UserID,
+                    Valid => 1,
                 );
                 if (%UserData) {
                     $User = $UserData{UserLogin};
@@ -1059,6 +1066,7 @@ sub Content {
             $Kernel::OM->ObjectParamAdd(
                 'Kernel::Output::HTML::Layout' => {
                     SetCookies => {
+
                         # delete the OTOBO session cookie
                         SessionIDCookie => $ParamObject->SetCookie(
                             Key      => $Param{SessionName},
@@ -1078,8 +1086,9 @@ sub Content {
                 $Kernel::OM->ObjectParamAdd(
                     'Kernel::Output::HTML::Layout' => {
                         SetCookies => {
+
                             # delete the OTOBO session cookie
-                            SessionIDCookiehttp  => $ParamObject->SetCookie(
+                            SessionIDCookiehttp => $ParamObject->SetCookie(
                                 Key      => $Param{SessionName},
                                 Value    => '',
                                 Expires  => '-1y',
@@ -1087,6 +1096,7 @@ sub Content {
                                 Secure   => '',
                                 HTTPOnly => 1,
                             ),
+
                             # delete the OTOBO session cookie
                             SessionIDCookiehttps => $ParamObject->SetCookie(
                                 Key      => $Param{SessionName},

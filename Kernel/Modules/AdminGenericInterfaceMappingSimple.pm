@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -62,8 +62,7 @@ sub Run {
     # Check for valid action backend.
     if ( !IsHashRefWithData($ActionsConfig) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not get registered configuration for action type %s', $ActionType ),
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Could not get registered configuration for action type %s', $ActionType ),
         );
     }
 
@@ -212,20 +211,17 @@ sub Run {
         $NewMapping{ValueMapDefault}->{MapTo}   = $GetParam->{DefaultValueMapTo};
 
         for my $KeyCounter ( 1 .. $GetParam->{KeyCounter} ) {
-            $NewMapping{ $GetParam->{ 'KeyMapTypeStrg' . $KeyCounter } }->{ $GetParam->{ 'KeyName' . $KeyCounter } }
-                = $GetParam->{ 'KeyMapNew' . $KeyCounter };
+            $NewMapping{ $GetParam->{ 'KeyMapTypeStrg' . $KeyCounter } }->{ $GetParam->{ 'KeyName' . $KeyCounter } } = $GetParam->{ 'KeyMapNew' . $KeyCounter };
 
             for my $ValueCounter ( 1 .. $GetParam->{ 'ValueCounter' . $KeyCounter } ) {
                 $NewMapping{ValueMap}->{ $GetParam->{ 'KeyMapNew' . $KeyCounter } }
                     ->{ $GetParam->{ 'ValueMapTypeStrg' . $KeyCounter . '_' . $ValueCounter } }
-                    ->{ $GetParam->{ 'ValueName' . $KeyCounter . '_' . $ValueCounter } }
-                    = $GetParam->{ 'ValueMapNew' . $KeyCounter . '_' . $ValueCounter };
+                    ->{ $GetParam->{ 'ValueName' . $KeyCounter . '_' . $ValueCounter } } = $GetParam->{ 'ValueMapNew' . $KeyCounter . '_' . $ValueCounter };
             }
         }
 
         # Set new mapping.
-        $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}->{$Action}->{$Direction}->{Config}
-            = \%NewMapping;
+        $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}->{$Action}->{$Direction}->{Config} = \%NewMapping;
 
         # Save configuration and return to edit or overview screen.
         my $Success = $WebserviceObject->WebserviceUpdate(
@@ -239,8 +235,7 @@ sub Run {
         # Check for successful web service update.
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}
-                    ->Translate( 'Could not update configuration data for WebserviceID %s', $WebserviceID ),
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Could not update configuration data for WebserviceID %s', $WebserviceID ),
             );
         }
 

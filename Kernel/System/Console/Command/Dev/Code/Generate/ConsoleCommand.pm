@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -68,8 +68,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $CommandName = $Self->GetArgument('name');
-    my $TargetHome
-        = $Self->GetOption('module-directory') || $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $TargetHome  = $Self->GetOption('module-directory') || $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
     # Keep comment lines in files also in the generated output.
     local $ENV{TEMPLATE_KEEP_COMMENTS} = 1;

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -59,8 +59,7 @@ sub Run {
     my $LayoutObject        = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $EntityObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
     my $ActivityObject      = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
-    my $ActivityDialogsList = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog')
-        ->ActivityDialogListGet( UserID => $Self->{UserID} );
+    my $ActivityDialogsList = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog')->ActivityDialogListGet( UserID => $Self->{UserID} );
 
     # ------------------------------------------------------------ #
     # ActivityNew
@@ -694,8 +693,8 @@ sub _ShowEdit {
     }
 
     # localize available activity dialogs
-    my @AvailableActivityDialogs = @{ $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog')
-            ->ActivityDialogListGet( UserID => $Self->{UserID} ) };
+    my @AvailableActivityDialogs
+        = @{ $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog')->ActivityDialogListGet( UserID => $Self->{UserID} ) };
 
     # create available activity dialogs lookup tables based on entity id
     my %AvailableActivityDialogsLookup;

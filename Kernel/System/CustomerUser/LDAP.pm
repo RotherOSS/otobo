@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -487,8 +487,7 @@ sub CustomerSearch {
 
     # remove dynamic field names that are configured in CustomerUserListFields
     # as they cannot be handled here
-    my @CustomerUserListFieldsWithoutDynamicFields
-        = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserListFields};
+    my @CustomerUserListFieldsWithoutDynamicFields = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserListFields};
 
     # combine needed attrs
     my @Attributes = ( @CustomerUserListFieldsWithoutDynamicFields, $Self->{CustomerKey} );
@@ -523,9 +522,8 @@ sub CustomerSearch {
     }
 
     # dynamic field handling
-    my @CustomerUserListFieldsDynamicFields
-        = grep { exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserListFields};
-    my %CustomerUserListFieldsDynamicFields = map { $_ => 1 } @CustomerUserListFieldsDynamicFields;
+    my @CustomerUserListFieldsDynamicFields = grep { exists $Self->{ConfiguredDynamicFieldNames}->{$_} } @{$CustomerUserListFields};
+    my %CustomerUserListFieldsDynamicFields = map  { $_ => 1 } @CustomerUserListFieldsDynamicFields;
 
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
@@ -875,8 +873,7 @@ sub CustomerSearchDetail {
         my @DynamicFieldUserLogins;
 
         # sql uery for the dynamic fields
-        my $SQLDynamicField
-            = "SELECT DISTINCT(df_obj_id_name.object_name) FROM dynamic_field_obj_id_name df_obj_id_name "
+        my $SQLDynamicField = "SELECT DISTINCT(df_obj_id_name.object_name) FROM dynamic_field_obj_id_name df_obj_id_name "
             . $SQLDynamicFieldFrom
             . " WHERE "
             . $SQLDynamicFieldWhere;

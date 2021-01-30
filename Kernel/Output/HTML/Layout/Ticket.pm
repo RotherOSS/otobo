@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -236,9 +236,8 @@ sub AgentCustomerViewTable {
                 )
             {
                 # Check if agent has permission to start chats with the customer users.
-                my $EnableChat = 1;
-                my $ChatStartingAgentsGroup
-                    = $ConfigObject->Get('ChatEngine::PermissionGroup::ChatStartingAgents') || 'users';
+                my $EnableChat                        = 1;
+                my $ChatStartingAgentsGroup           = $ConfigObject->Get('ChatEngine::PermissionGroup::ChatStartingAgents') || 'users';
                 my $ChatStartingAgentsGroupPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
                     UserID    => $Self->{UserID},
                     GroupName => $ChatStartingAgentsGroup,
@@ -257,9 +256,8 @@ sub AgentCustomerViewTable {
                 }
 
                 if ($EnableChat) {
-                    my $VideoChatEnabled = 0;
-                    my $VideoChatAgentsGroup
-                        = $ConfigObject->Get('ChatEngine::PermissionGroup::VideoChatAgents') || 'users';
+                    my $VideoChatEnabled               = 0;
+                    my $VideoChatAgentsGroup           = $ConfigObject->Get('ChatEngine::PermissionGroup::VideoChatAgents') || 'users';
                     my $VideoChatAgentsGroupPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
                         UserID    => $Self->{UserID},
                         GroupName => $VideoChatAgentsGroup,
@@ -268,8 +266,7 @@ sub AgentCustomerViewTable {
 
                     # Enable the video chat feature if system is entitled and agent is a member of configured group.
                     if ($VideoChatAgentsGroupPermission) {
-                        if ( $Kernel::OM->Get('Kernel::System::Main')
-                            ->Require( 'Kernel::System::VideoChat', Silent => 1 ) )
+                        if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::VideoChat', Silent => 1 ) )
                         {
                             $VideoChatEnabled = $Kernel::OM->Get('Kernel::System::VideoChat')->IsEnabled();
                         }

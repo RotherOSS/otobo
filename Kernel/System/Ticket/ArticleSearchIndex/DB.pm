@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -95,8 +95,8 @@ sub ArticleSearchIndexBuild {
 
     # Use regular multi-inserts for MySQL and PostgreSQL:
     # INSERT INTO table (field1, field2) VALUES (?, ?), (?, ?);
-    my $SQLStart  = 'INSERT INTO article_search_index (ticket_id, article_id, article_key, article_value) VALUES ';
-    my $SQLInsert = '(?, ?, ?, ?) ';
+    my $SQLStart           = 'INSERT INTO article_search_index (ticket_id, article_id, article_key, article_value) VALUES ';
+    my $SQLInsert          = '(?, ?, ?, ?) ';
     my $SQLInsertConnector = ', ';
     my $SQLEnd             = '';
 
@@ -307,7 +307,7 @@ sub ArticleSearchIndexWhereCondition {
         if ( $Param{SearchParams}->{ConditionInline} ) {
 
             $SQLQuery .= $DBObject->QueryCondition(
-                Key => $Field eq 'Fulltext' ? [ 'ArticleFulltext.article_value', 'st.title' ] : "$Field.article_value",
+                Key           => $Field eq 'Fulltext' ? [ 'ArticleFulltext.article_value', 'st.title' ] : "$Field.article_value",
                 Value         => lc $Param{SearchParams}->{$Field},
                 SearchPrefix  => $Param{SearchParams}->{ContentSearchPrefix},
                 SearchSuffix  => $Param{SearchParams}->{ContentSearchSuffix},
@@ -426,8 +426,7 @@ sub SearchStringStopWordsFind {
             }
         }
 
-        @{ $StopWordsFound{$Key} }
-            = grep { $StopWord{$_} || length $_ < $WordLengthMin || length $_ > $WordLengthMax } sort keys %Words;
+        @{ $StopWordsFound{$Key} } = grep { $StopWord{$_} || length $_ < $WordLengthMin || length $_ > $WordLengthMax } sort keys %Words;
     }
 
     return \%StopWordsFound;

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -335,8 +335,8 @@ sub StatsParamsWidget {
                             $LayoutObject->Block(
                                 Name => 'TimeRelativeFixed',
                                 Data => {
-                                    TimeRelativeUnit  => $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }->{Value},
-                                    TimeRelativeCount => $ObjectAttribute->{TimeRelativeCount},
+                                    TimeRelativeUnit          => $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }->{Value},
+                                    TimeRelativeCount         => $ObjectAttribute->{TimeRelativeCount},
                                     TimeRelativeUpcomingCount => $ObjectAttribute->{TimeRelativeUpcomingCount},
                                 },
                             );
@@ -529,8 +529,7 @@ sub StatsParamsWidget {
                                     || $Self->_GetSelectedXAxisTimeScaleValue( Stat => $Stat );
 
                                 # save the x axis time scale element id for the output
-                                $BlockData{XAxisTimeScaleElementID}
-                                    = $XAxisElementName . '-' . $StatID . '-' . $Param{OutputCounter};
+                                $BlockData{XAxisTimeScaleElementID} = $XAxisElementName . '-' . $StatID . '-' . $Param{OutputCounter};
                             }
                         }
 
@@ -749,9 +748,9 @@ sub GeneralSpecificationsWidget {
         if ( $Frontend{StatisticPreselection} eq 'Static' ) {
             $Frontend{StatType}         = 'static';
             $Frontend{SelectObjectType} = $LayoutObject->BuildSelection(
-                Data  => $ObjectModules{Static},
-                Name  => 'ObjectModule',
-                Class => 'Modernize Validate_Required' . ( $Errors{ObjectModuleServerError} ? ' ServerError' : '' ),
+                Data        => $ObjectModules{Static},
+                Name        => 'ObjectModule',
+                Class       => 'Modernize Validate_Required' . ( $Errors{ObjectModuleServerError} ? ' ServerError' : '' ),
                 Translation => 0,
                 SelectedID  => $GetParam{ObjectModule},
             );
@@ -1116,10 +1115,8 @@ sub RestrictionsWidget {
                 && !$ConfigObject->Get('Ticket::IncludeUnknownTicketCustomers')
                 )
             {
-                my %CustomerCompanyList
-                    = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyList( Valid => 1 );
-                %CustomerCompanyList
-                    = map { $_ => $_ } grep { defined $ObjectAttribute->{Values}->{$_} } sort keys %CustomerCompanyList;
+                my %CustomerCompanyList = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyList( Valid => 1 );
+                %CustomerCompanyList = map { $_ => $_ } grep { defined $ObjectAttribute->{Values}->{$_} } sort keys %CustomerCompanyList;
 
                 $ObjectAttribute->{Values} = \%CustomerCompanyList;
             }
@@ -1444,12 +1441,9 @@ sub StatsParamsGet {
                         else {
 
                             if ( $Use ne 'UseAsValueSeries' ) {
-                                $Time{TimeRelativeUnit}
-                                    = $LocalGetParam->( Param => $ElementName . 'TimeRelativeUnit' );
-                                $Time{TimeRelativeCount}
-                                    = $LocalGetParam->( Param => $ElementName . 'TimeRelativeCount' );
-                                $Time{TimeRelativeUpcomingCount}
-                                    = $LocalGetParam->( Param => $ElementName . 'TimeRelativeUpcomingCount' );
+                                $Time{TimeRelativeUnit}          = $LocalGetParam->( Param => $ElementName . 'TimeRelativeUnit' );
+                                $Time{TimeRelativeCount}         = $LocalGetParam->( Param => $ElementName . 'TimeRelativeCount' );
+                                $Time{TimeRelativeUpcomingCount} = $LocalGetParam->( Param => $ElementName . 'TimeRelativeUpcomingCount' );
 
                                 # Use Values of the stat as fallback
                                 $Time{TimeRelativeCount}         //= $Element->{TimeRelativeCount};
@@ -1752,8 +1746,7 @@ sub StatsConfigurationValidate {
                             $XAxisFieldErrors{ $Xvalue->{Element} } = Translatable('The selected date is not valid.');
                         }
                         elsif ( $TimeStartDTObject > $TimeStopDTObject ) {
-                            $XAxisFieldErrors{ $Xvalue->{Element} }
-                                = Translatable('The selected end time is before the start time.');
+                            $XAxisFieldErrors{ $Xvalue->{Element} } = Translatable('The selected end time is before the start time.');
                         }
                     }
                     elsif (
@@ -1761,17 +1754,14 @@ sub StatsConfigurationValidate {
                         || ( !$Xvalue->{TimeRelativeCount} && !$Xvalue->{TimeRelativeUpcomingCount} )
                         )
                     {
-                        $XAxisFieldErrors{ $Xvalue->{Element} }
-                            = Translatable('There is something wrong with your time selection.');
+                        $XAxisFieldErrors{ $Xvalue->{Element} } = Translatable('There is something wrong with your time selection.');
                     }
 
                     if ( !$Xvalue->{SelectedValues}[0] ) {
-                        $XAxisFieldErrors{ $Xvalue->{Element} }
-                            = Translatable('There is something wrong with your time selection.');
+                        $XAxisFieldErrors{ $Xvalue->{Element} } = Translatable('There is something wrong with your time selection.');
                     }
                     elsif ( $Xvalue->{Fixed} && $#{ $Xvalue->{SelectedValues} } > 0 ) {
-                        $XAxisFieldErrors{ $Xvalue->{Element} }
-                            = Translatable('There is something wrong with your time selection.');
+                        $XAxisFieldErrors{ $Xvalue->{Element} } = Translatable('There is something wrong with your time selection.');
                     }
                     else {
                         $SelectedXAxisTimeScaleValue = $Xvalue->{SelectedValues}[0];
@@ -1808,12 +1798,10 @@ sub StatsConfigurationValidate {
 
                 if ( $ValueSeries->{Block} eq 'Time' || $ValueSeries->{Block} eq 'TimeExtended' ) {
                     if ( $ValueSeries->{Fixed} && $#{ $ValueSeries->{SelectedValues} } > 0 ) {
-                        $YAxisFieldErrors{ $ValueSeries->{Element} }
-                            = Translatable('There is something wrong with your time selection.');
+                        $YAxisFieldErrors{ $ValueSeries->{Element} } = Translatable('There is something wrong with your time selection.');
                     }
                     elsif ( !$ValueSeries->{SelectedValues}[0] ) {
-                        $YAxisFieldErrors{ $ValueSeries->{Element} }
-                            = Translatable('There is something wrong with your time selection.');
+                        $YAxisFieldErrors{ $ValueSeries->{Element} } = Translatable('There is something wrong with your time selection.');
                     }
 
                     my $TimeScale = $Self->_TimeScale(
@@ -1865,14 +1853,12 @@ sub StatsConfigurationValidate {
                         );
                     }
                     elsif ( !$Restriction->{SelectedValues}[0] ) {
-                        $RestrictionsFieldErrors{ $Restriction->{Element} }
-                            = Translatable('Please select at least one value of this field.');
+                        $RestrictionsFieldErrors{ $Restriction->{Element} } = Translatable('Please select at least one value of this field.');
                     }
                 }
                 elsif ( $Restriction->{Block} eq 'InputField' ) {
                     if ( !$Restriction->{SelectedValues}[0] && $Restriction->{Fixed} ) {
-                        $RestrictionsFieldErrors{ $Restriction->{Element} }
-                            = Translatable('Please provide a value or allow modification at stat generation time.');
+                        $RestrictionsFieldErrors{ $Restriction->{Element} } = Translatable('Please provide a value or allow modification at stat generation time.');
                         last RESTRICTION;
                     }
 
@@ -1906,12 +1892,10 @@ sub StatsConfigurationValidate {
                         );
 
                         if ( !$TimeStartDTObject || !$TimeStopDTObject ) {
-                            $RestrictionsFieldErrors{ $Restriction->{Element} }
-                                = Translatable('The selected date is not valid.');
+                            $RestrictionsFieldErrors{ $Restriction->{Element} } = Translatable('The selected date is not valid.');
                         }
                         elsif ( $TimeStartDTObject > $TimeStopDTObject ) {
-                            $RestrictionsFieldErrors{ $Restriction->{Element} }
-                                = Translatable('The selected end time is before the start time.');
+                            $RestrictionsFieldErrors{ $Restriction->{Element} } = Translatable('The selected end time is before the start time.');
                         }
                     }
                     elsif (
@@ -1919,8 +1903,7 @@ sub StatsConfigurationValidate {
                         || ( !$Restriction->{TimeRelativeCount} && !$Restriction->{TimeRelativeUpcomingCount} )
                         )
                     {
-                        $RestrictionsFieldErrors{ $Restriction->{Element} }
-                            = Translatable('There is something wrong with your time selection.');
+                        $RestrictionsFieldErrors{ $Restriction->{Element} } = Translatable('There is something wrong with your time selection.');
                     }
                 }
             }
@@ -1989,8 +1972,7 @@ sub StatsConfigurationValidate {
 
                 my $MaxAttr = $ConfigObject->Get('Stats::MaxXaxisAttributes') || 1000;
                 if ( ( $TimePeriod + $TimeUpcomingPeriod ) / ( $ScalePeriod * $Count ) > $MaxAttr ) {
-                    $XAxisFieldErrors{ $Xvalue->{Element} }
-                        = Translatable('Your reporting time interval is too small, please use a larger time scale.');
+                    $XAxisFieldErrors{ $Xvalue->{Element} } = Translatable('Your reporting time interval is too small, please use a larger time scale.');
                 }
 
                 last XVALUE;
@@ -2213,8 +2195,7 @@ sub _TimeScaleBuildSelection {
 
         # reverse the sorting
         if ( $Param{SortReverse} ) {
-            @TimeScaleSorted
-                = sort { $TimeScale->{$b}->{Position} <=> $TimeScale->{$a}->{Position} } keys %{$TimeScale};
+            @TimeScaleSorted = sort { $TimeScale->{$b}->{Position} <=> $TimeScale->{$a}->{Position} } keys %{$TimeScale};
         }
 
         my %TimeScaleData;
@@ -2279,8 +2260,7 @@ sub _TimeScale {
     if ( $Param{SelectedXAxisValue} ) {
 
         if ( IsArrayRefWithData( $TimeScaleYAxis->{ $Param{SelectedXAxisValue} } ) ) {
-            %TimeScale
-                = map { $_->{Key} => $TimeScale{ $_->{Key} } } @{ $TimeScaleYAxis->{ $Param{SelectedXAxisValue} } };
+            %TimeScale = map { $_->{Key} => $TimeScale{ $_->{Key} } } @{ $TimeScaleYAxis->{ $Param{SelectedXAxisValue} } };
         }
         else {
             %TimeScale = ();

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -52,8 +52,7 @@ sub LoadPreferences {
     $Self->{'DB::MaxParamCountForInCondition'} = 1000;
 
     # how to determine server version
-    $Self->{'DB::Version'}
-        = "SELECT CONCAT('Oracle ', version) FROM product_component_version WHERE product LIKE 'Oracle Database%'";
+    $Self->{'DB::Version'} = "SELECT CONCAT('Oracle ', version) FROM product_component_version WHERE product LIKE 'Oracle Database%'";
 
     # how to get list of tables in the current schema
     $Self->{'DB::ListTables'} = 'SELECT table_name FROM user_tables ORDER BY table_name';

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -137,8 +137,7 @@ sub Run {
                     Location => $Location,
                     Name     => $Name,
                     Version  => $Version,
-                    Diff     => $LayoutObject->{LanguageObject}
-                        ->Translate( 'No such file %s in local file system!', $LocalFile ),
+                    Diff     => $LayoutObject->{LanguageObject}->Translate( 'No such file %s in local file system!', $LocalFile ),
                 },
             );
         }
@@ -506,8 +505,7 @@ sub Run {
         $Output .= $LayoutObject->NavigationBar();
         if ( !$Deployed ) {
             my $Priority = 'Error';
-            my $Message  = $LayoutObject->{LanguageObject}
-                ->Translate("Package not correctly deployed! Please reinstall the package.");
+            my $Message  = $LayoutObject->{LanguageObject}->Translate("Package not correctly deployed! Please reinstall the package.");
             if ( $Kernel::OM->Get('Kernel::Config')->Get('Package::AllowLocalModifications') ) {
                 $Priority = 'Notice';
                 $Message  = $LayoutObject->{LanguageObject}->Translate("Package has locally modified files.");
@@ -1442,9 +1440,9 @@ sub Run {
                 AlreadyUpdated => $LayoutObject->{LanguageObject}->Translate('Package was already updated'),
                 Installed      => $LayoutObject->{LanguageObject}->Translate('Dependency installed correctly'),
                 Undeployed     => $LayoutObject->{LanguageObject}->Translate('The package needs to be reinstalled'),
-                Cyclic       => $LayoutObject->{LanguageObject}->Translate('The package contains cyclic dependencies'),
-                NotFound     => $LayoutObject->{LanguageObject}->Translate('Not found in on-line repositories'),
-                WrongVersion => $LayoutObject->{LanguageObject}->Translate('Required version is higher than available'),
+                Cyclic         => $LayoutObject->{LanguageObject}->Translate('The package contains cyclic dependencies'),
+                NotFound       => $LayoutObject->{LanguageObject}->Translate('Not found in on-line repositories'),
+                WrongVersion   => $LayoutObject->{LanguageObject}->Translate('Required version is higher than available'),
                 DependencyFail => $LayoutObject->{LanguageObject}->Translate('Dependencies fail to upgrade or install'),
                 InstallError   => $LayoutObject->{LanguageObject}->Translate('Package could not be installed'),
                 UpdateError    => $LayoutObject->{LanguageObject}->Translate('Package could not be upgraded'),
@@ -1886,8 +1884,7 @@ sub Run {
     for my $ReinstallKey ( sort keys %NeedReinstall ) {
 
         my $Priority = 'Error';
-        my $Message  = $LayoutObject->{LanguageObject}
-            ->Translate("Package not correctly deployed! Please reinstall the package.");
+        my $Message  = $LayoutObject->{LanguageObject}->Translate("Package not correctly deployed! Please reinstall the package.");
         if ( $Kernel::OM->Get('Kernel::Config')->Get('Package::AllowLocalModifications') ) {
             $Priority = 'Notice';
             $Message  = $LayoutObject->{LanguageObject}->Translate("Package has locally modified files.");

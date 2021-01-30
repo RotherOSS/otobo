@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -91,8 +91,7 @@ create the web interface object for F<index.pl>.
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # start with an empty hash for the new object
     my $Self = bless {}, $Type;
@@ -203,12 +202,16 @@ sub Content {
     my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
 
     # check whether we are using the right scheme
-    my ( $RequestScheme ) = split( '/', $ParamObject->ServerProtocol() );
-    $RequestScheme = lc( $RequestScheme );
+    my ( $RequestScheme ) = split '/', $ParamObject->ServerProtocol(), 2;
+    $RequestScheme = lc $RequestScheme;
     if ( $RequestScheme ne $ConfigObject->Get('HttpType') ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => 'HttpType '.$ConfigObject->Get('HttpType').' is set, but '.$RequestScheme.' is used!',
+            Message  => sprintf(
+                'HttpType %s is set, but %s is used!',
+                $ConfigObject->Get('HttpType'),
+                $RequestScheme
+            ),
         );
     }
 
@@ -327,6 +330,7 @@ sub Content {
             $Kernel::OM->ObjectParamAdd(
                 'Kernel::Output::HTML::Layout' => {
                     SetCookies => {
+
                         # set a cookie tentatively for checking cookie support
                         OTOBOBrowserHasCookie => $ParamObject->SetCookie(
                             Key      => 'OTOBOBrowserHasCookie',
@@ -432,12 +436,13 @@ sub Content {
             );
         }
 
-        my $DateTimeObj = $Kernel::OM->Create('Kernel::System::DateTime');
+        # create datetime object
+        my $SessionDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
         # create new session id
         my $NewSessionID = $SessionObject->CreateSessionID(
             %UserData,
-            UserLastRequest => $DateTimeObj->ToEpoch(),
+            UserLastRequest => $SessionDTObject->ToEpoch(),
             UserType        => 'User',
             SessionSource   => 'AgentInterface',
         );
@@ -460,7 +465,7 @@ sub Content {
         }
 
         # execution in 20 seconds
-        my $ExecutionTimeObj = $DateTimeObj->Clone();
+        my $ExecutionTimeObj = $SessionDTObject->Clone();
         $ExecutionTimeObj->Add( Seconds => 20 );
         my $ExecutionTime = $ExecutionTimeObj->ToString();
 
@@ -523,6 +528,7 @@ sub Content {
                         Secure   => $CookieSecureAttribute,
                         HTTPOnly => 1,
                     ),
+
                     # delete the OTOBOBrowserHasCookie cookie
                     OTOBOBrowserHasCookie => $ParamObject->SetCookie(
                         Key      => 'OTOBOBrowserHasCookie',
@@ -540,8 +546,7 @@ sub Content {
 
         # Check if Chat is active
         if ( $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::Active') ) {
-            my $ChatReceivingAgentsGroup
-                = $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::PermissionGroup::ChatReceivingAgents');
+            my $ChatReceivingAgentsGroup = $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::PermissionGroup::ChatReceivingAgents');
 
             my $ChatReceivingAgentsGroupPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
                 UserID    => $UserData{UserID},
@@ -632,6 +637,7 @@ sub Content {
         $Kernel::OM->ObjectParamAdd(
             'Kernel::Output::HTML::Layout' => {
                 SetCookies => {
+
                     # delete the OTOBO session cookie
                     SessionIDCookie => $ParamObject->SetCookie(
                         Key      => $Param{SessionName},
@@ -897,6 +903,7 @@ sub Content {
             $Kernel::OM->ObjectParamAdd(
                 'Kernel::Output::HTML::Layout' => {
                     SetCookies => {
+
                         # delete the OTOBO session cookie
                         SessionIDCookie => $ParamObject->SetCookie(
                             Key      => $Param{SessionName},
@@ -916,8 +923,9 @@ sub Content {
                 $Kernel::OM->ObjectParamAdd(
                     'Kernel::Output::HTML::Layout' => {
                         SetCookies => {
+
                             # delete the OTOBO session cookie
-                            SessionIDCookiehttp  => $ParamObject->SetCookie(
+                            SessionIDCookiehttp => $ParamObject->SetCookie(
                                 Key      => $Param{SessionName},
                                 Value    => '',
                                 Expires  => '-1y',
@@ -925,6 +933,7 @@ sub Content {
                                 Secure   => '',
                                 HTTPOnly => 1,
                             ),
+
                             # delete the OTOBO session cookie
                             SessionIDCookiehttps => $ParamObject->SetCookie(
                                 Key      => $Param{SessionName},
@@ -1246,7 +1255,7 @@ sub Content {
             else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message => "PerformanceLog file '$File' is too large, you need to reset it in PerformanceLog page!",
+                    Message  => "PerformanceLog file '$File' is too large, you need to reset it in PerformanceLog page!",
                 );
             }
         }

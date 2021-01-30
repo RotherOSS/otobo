@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1099,8 +1099,7 @@ sub _Show {
     if (@ArticleBody) {
 
         # check if the first article should be displayed as expanded, that is visible for the related customer
-        my $PreviewIsVisibleForCustomerExpanded
-            = $ConfigObject->Get('Ticket::Frontend::Overview::PreviewIsVisibleForCustomerExpanded') || 0;
+        my $PreviewIsVisibleForCustomerExpanded = $ConfigObject->Get('Ticket::Frontend::Overview::PreviewIsVisibleForCustomerExpanded') || 0;
 
         # if a certain article type should be shown as expanded, set the last article of this type as active
         if ($PreviewIsVisibleForCustomerExpanded) {

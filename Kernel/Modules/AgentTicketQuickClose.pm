@@ -3,7 +3,7 @@
 # --
 # Copyright (C) 2012-2019 Znuny GmbH, http://znuny.com/
 # Copyright (C) (2014) (Denny Bresch) (dennybresch@gmail.com) (https://github.com/dennybresch)
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -66,13 +66,16 @@ sub Run {
     # error screen, don't show ticket
     if ( !$Access ) {
         return $LayoutObject->NoPermission(
-            Message => $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', $Config->{Permission} ),
+            Message    => $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', $Config->{Permission} ),
             WithHeader => 'yes',
         );
     }
 
-    if ( $Config->{RequiredLock}
-         && $TicketObject->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
+    if (
+        $Config->{RequiredLock}
+        && $TicketObject->TicketLockGet( TicketID => $Self->{TicketID} )
+        )
+    {
 
         my $AccessOk = $TicketObject->OwnerCheck(
             TicketID => $Self->{TicketID},
@@ -80,7 +83,7 @@ sub Run {
         );
         if ( !$AccessOk ) {
             return $LayoutObject->NoPermission(
-                Message    => $LayoutObject->{LanguageObject}->Translate(
+                Message => $LayoutObject->{LanguageObject}->Translate(
                     'Sorry, you need to be the ticket owner to perform this action.'
                 ),
                 WithHeader => 'yes',
@@ -97,7 +100,7 @@ sub Run {
     my $ArticleBackendObject = $ArticleObject->BackendForChannel(
         ChannelName => $Config->{CommunicationChannel} || 'Internal',
     );
-    
+
     my $ArticleID = $ArticleBackendObject->ArticleCreate(
         TicketID             => $Self->{TicketID},
         SenderType           => $Config->{SenderType} || 'agent',
