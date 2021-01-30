@@ -149,16 +149,16 @@ EOF
         $Selenium->WaitFor(
             JavaScript => 'return $("#SplitSubmit").length'
         );
-        $Self->True(
-            $Selenium->execute_script(
-                "return \$(\"#SplitSelection option[value='PhoneTicket']\").length === 1"
-            ),
-            "Split option for 'Phone Ticket' is enabled.",
+        $Self->False(
+            $Selenium->find_element_by_xpath( q{//option[@value='SnailMailTicket']} ),
+            "Split option for 'SnailMail Ticket' not available.",
         );
         $Self->True(
-            $Selenium->execute_script(
-                "return \$(\"#SplitSelection option[value='EmailTicket']\").length === 0"
-            ),
+            $Selenium->find_element_by_xpath( q{//option[@value='PhoneTicket']} ),
+            "Split option for 'Phone Ticket' is enabled.",
+        );
+        $Self->False(
+            $Selenium->find_element_by_xpath( q{//option[@value='EmailTicket']} ),
             "Split option for 'Email Ticket' is disabled.",
         );
         $Selenium->find_element( '.Close', 'css' )->click();
