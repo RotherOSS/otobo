@@ -169,7 +169,7 @@ $Selenium->RunTest(
         );
 
         # Expand 'New owner' input field.
-        $Selenium->execute_script("\$('#NewOwnerID_Search').focus().focus();");
+        $Selenium->execute_script("\$('#NewOwnerID').focus().focus();");
 
         # Click on filter button in input fileld.
         $Selenium->execute_script("\$('.InputField_Filters').click();");
