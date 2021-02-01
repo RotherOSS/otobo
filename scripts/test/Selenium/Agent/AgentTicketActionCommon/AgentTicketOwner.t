@@ -177,8 +177,14 @@ $Selenium->RunTest(
             "Out of office message is found for the user - $TestUser[1]"
         );
 
-        # Expand 'New owner' input field.
-        $Selenium->execute_script("\$('#NewOwnerID').focus().focus();");
+        # The convoluted way of getting the focus seems to work.
+        my $SearchElement = $Selenium->find_element_by_css( '#NewOwnerID_Search', 'css' );
+        ok( $SearchElement, '#NewOwnerID_Search found');
+        $SearchElement->execute_script("arguments[0].focus();");
+        ok(
+            $Selenium->find_element_by_css( '#NewOwnerID_Search', 'css' ),
+            'element with id=NewOwnerID_Search still exists'
+        );
 
         # Click on filter button in input fileld.
         $Selenium->execute_script("\$('.InputField_Filters').click();");
@@ -189,15 +195,12 @@ $Selenium->RunTest(
         # Check out of office user message with filter.
         is(
             $Selenium->execute_script("return \$('#NewOwnerID option[value=$UserID[1]]').text();"),
-            $UserData{UserFullname},
+            "1: $UserData{UserFullname}",
             "Out of office message is found for the user - $TestUser[1]"
         );
 
-        # Change ticket user owner.
-        $Selenium->InputFieldValueSet(
-            Element => '#NewOwnerID',
-            Value   => $UserID[1],
-        );
+        # Change ticket user owner by clicking
+        $Selenium->execute_script("return \$('#NewOwnerID option[value=$UserID[1]]').click();"),
 
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
