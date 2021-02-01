@@ -162,13 +162,11 @@ EOF
             $Selenium->find_element_by_xpath( q{//option[@value='PhoneTicket']} ),
             "Split option for 'Phone Ticket' is enabled.",
         );
+        my $OptionEmailElement = $Selenium->find_element_by_xpath( q{//option[@value='EmailTicket']} );
         {
             my $ToDo = todo( 'setup of events may be messed up, issue #763' );
 
-            ok(
-                ! $Selenium->find_element_by_xpath( q{//option[@value='EmailTicket']} ),
-                "Split option for 'Email Ticket' is disabled.",
-            );
+            ok( ! $OptionEmailElement, "Split option for 'Email Ticket' is disabled." );
         }
         $Selenium->find_element( '.Close', 'css' )->click();
 
