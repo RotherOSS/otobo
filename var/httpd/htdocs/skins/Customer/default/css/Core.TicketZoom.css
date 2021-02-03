@@ -241,7 +241,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         max-height: 80vh;
         background-color: rgba(255, 255, 255, 0.35);
         cursor: pointer;
-        overflow-y: scroll;
+        overflow-y: auto;
         overflow-x: hidden;
         -ms-overflow-style: -ms-autohiding-scrollbar;
     }
