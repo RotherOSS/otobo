@@ -392,4 +392,6 @@ sub _PreProcessTemplateContent {
 
 =end Internal:
 
+=cut
+
 1;
