@@ -5,20 +5,22 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Lars Jørgensen <ljorg6@gmail.com>, 2019
 # Jens Larsen <termi@termi.dk>, 2019
-#
+# Kim Mølgaard <kim@itandmore.dk>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-01-19 18:56+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Jens Larsen <termi@termi.dk>, 2019\n"
-"Language-Team: Danish (https://translate.otobo.org/projects/otobo10/otobo/"
-"da/)\n"
+"PO-Revision-Date: 2021-02-06 15:13+0000\n"
+"Last-Translator: Kim Mølgaard <kim@itandmore.dk>\n"
+"Language-Team: Danish <https://translate.otobo.org/projects/otobo10/otobo/da/"
+">\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -169,6 +171,9 @@ msgid ""
 "screen or 'PropertiesDatabase' to match attributes of the current ticket "
 "that are in the database."
 msgstr ""
+"Opsæt filterregler for denne ACL. Brug egenskaber til at matche det aktuelle "
+"skærmbillede, eller 'PropertiesDatabase' for de værdier der er gemt i "
+"databsen for den aktuelle sag."
 
 #. Template: AdminACLEdit
 msgid "Change settings"
@@ -184,7 +189,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "Check den officielle %sdocumentation%s."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -235,6 +240,8 @@ msgid ""
 "Create a new ACL by submitting the form data. After creating the ACL, you "
 "will be able to add configuration items in edit mode."
 msgstr ""
+"Opret en ny ACL ved at sende formularens data. Efter oprettelsen af ACL, kan "
+"du tilføje konfigurations parametre i redigerings mode."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
@@ -287,7 +294,7 @@ msgstr "Importer kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for Calendars"
-msgstr ""
+msgstr "Filter for kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -298,24 +305,28 @@ msgid ""
 "Depending on the group field, the system will allow users the access to the "
 "calendar according to their permission level."
 msgstr ""
+"Afhængigt af gruppe feltet, vil systemet tillade adgang til kalenderen "
+"bestemt af deres autorisations niveau."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read only: users can see and export all appointments in the calendar."
-msgstr ""
+msgstr "Kun læsning: Brugere kan se og eksportere alle aftaler i kalenderen."
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
 "Move into: users can modify appointments in the calendar, but without "
 "changing the calendar selection."
 msgstr ""
+"Flyt ind i: Brugere kan ændre aftaler i en kalender, men ikke i andre "
+"kalendere."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Create: users can create and delete appointments in the calendar."
-msgstr ""
+msgstr "Oprette: Bruger kan oprette og slette aftaler i kalender."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read/write: users can manage the calendar itself."
-msgstr ""
+msgstr "Læse/skrive: Brugere kan administrere kalenderen."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Group"
@@ -371,7 +382,7 @@ msgstr "Tilladelsesgruppe"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Ticket Appointments"
-msgstr ""
+msgstr "Sags aftaler"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Rule"
@@ -398,6 +409,8 @@ msgid ""
 "Use options below to narrow down for which tickets appointments will be "
 "automatically created."
 msgstr ""
+"Brug valgmulighederne herunder, til at afgrænse hvilke sags aftaler der skal "
+"oprettes automatisk."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Queues"
@@ -424,6 +437,8 @@ msgid ""
 "Define rules for creating automatic appointments in this calendar based on "
 "ticket data."
 msgstr ""
+"Definer regler for at oprette automatiske aftaler i kalenderen, baseret på "
+"sags data."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Rule"
@@ -443,13 +458,15 @@ msgstr "Tilbage"
 
 #. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
-msgstr ""
+msgstr "Den uploadede fil skal være i et validt iCal format (.ics)."
 
 #. Template: AdminAppointmentImport
 msgid ""
 "If desired Calendar is not listed here, please make sure that you have at "
 "least 'create' permissions."
 msgstr ""
+"Hvis den ønskede kalender ikke er listet her, så check at du som minimum har "
+"rettigheder til at oprette en kalender."
 
 #. Template: AdminAppointmentImport
 msgid "Upload"
@@ -463,7 +480,7 @@ msgstr "Opdater eksisterende aftaler?"
 msgid ""
 "All existing appointments in the calendar with same UniqueID will be "
 "overwritten."
-msgstr ""
+msgstr "Alle eksisterende aftaler med det samme UniqueID vil blive overskrevet."
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
@@ -475,7 +492,7 @@ msgstr "Importer aftaler"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Notification Management"
-msgstr ""
+msgstr "Administration af aftale notifikationer"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add Notification"
@@ -503,6 +520,8 @@ msgid ""
 "to your system. The file needs to be in .yml format as exported by the "
 "appointment notification module."
 msgstr ""
+"Her kan du uploade en konfigurationsfil til import af kalender til dit "
+"system. Filen skal være i samme .yml format som kalendermodulet eksporter."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
@@ -541,6 +560,8 @@ msgid ""
 "This message will be shown on the agent preferences screen as a tooltip for "
 "this notification."
 msgstr ""
+"Denne besked vil blive vist på agent præference skærmen, som tooltip for "
+"denne notifikation."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Toggle this widget"
@@ -560,6 +581,9 @@ msgid ""
 "additional appointment filter can be applied below to only send for "
 "appointments with certain criteria."
 msgstr ""
+"Her kan du vælge hvilke begivenheder der vil udløse denne notifikation. Et "
+"yderligere aftalefilter kan tilføjes herunder, så der kun sendes "
+"notifikationer der opfylder bestemte kriterier."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
@@ -599,7 +623,7 @@ msgstr "Send til disse agenter"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members (agents only)"
-msgstr ""
+msgstr "Send til alle medlemmer af gruppen (kun agenter)"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -622,6 +646,8 @@ msgid ""
 "Notify user just once per day about a single appointment using a selected "
 "transport."
 msgstr ""
+"Send kun notifikation til brugeren en gang om dagen per aftale, med den "
+"valgte transportmetode."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Methods"
@@ -632,6 +658,8 @@ msgid ""
 "These are the possible methods that can be used to send this notification to "
 "each of the recipients. Please select at least one method below."
 msgstr ""
+"Dette er alle de mulige metoder der kan anvendes til at sende notifikationer "
+"til modtagerne. Vælg venligst mindst en af metoderne."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Enable this notification method"
@@ -647,7 +675,7 @@ msgstr "Mindst en metode er krævet pr. besked"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Active by default in agent preferences"
-msgstr ""
+msgstr "Aktiv som standard i agent indstillingerne"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -655,6 +683,9 @@ msgid ""
 "choice for this notification in their preferences yet. If the box is "
 "enabled, the notification will be sent to such agents."
 msgstr ""
+"Dette er standard valget for tildelte modtager-agenter, der ikke har valgt "
+"en mulighed for denne notifikation i deres indstillinger. Hvis dette felt er "
+"valgt, vil notifikationen blive sendt til disse agenter."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
@@ -666,7 +697,7 @@ msgstr "Opgrader til %s"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Please activate this transport in order to use it."
-msgstr ""
+msgstr "For at bruge denne transport, skal denne først aktiveres."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
@@ -702,7 +733,7 @@ msgstr "Tekst"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Message body"
-msgstr ""
+msgstr "Beskeds indhold"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add new notification language"
@@ -714,7 +745,7 @@ msgstr "Gem ændringer"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Tag Reference"
-msgstr ""
+msgstr "Tag-Reference"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notifications are sent to an agent."
@@ -726,11 +757,11 @@ msgstr "Du kan bruge følgende tags"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the first 20 character of the appointment title."
-msgstr ""
+msgstr "De første 20 karakterer af aftale titlen."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the appointment attribute"
-msgstr ""
+msgstr "Aftale-Attribut"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid " e. g."
@@ -738,11 +769,11 @@ msgstr "f.eks."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the calendar attribute"
-msgstr ""
+msgstr "Kalender-Attribut"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr ""
+msgstr "Brugerdata attributter for modtageren der får notifikationen"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Config options"
@@ -758,7 +789,7 @@ msgstr "Yderligere modtageres email adresser"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
-msgstr ""
+msgstr "Dette felt må maksimum være 200 karakterer."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
@@ -778,6 +809,8 @@ msgstr "Email skabelon"
 msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
 msgstr ""
+"Anvend denne skabelon til at generere den komplette email (kun for HTML-"
+"emails)."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Enable email security"
@@ -785,15 +818,15 @@ msgstr "Aktiver sikker email"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr ""
+msgstr "Email sikkerhedsniveau"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
-msgstr ""
+msgstr "Hvis nøgle/certifikat mangler til signering"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If encryption key/certificate is missing"
-msgstr ""
+msgstr "Hvis nøgle/certifikat mangler til kryptering"
 
 #. Template: AdminAttachment
 msgid "Attachment Management"
@@ -813,7 +846,7 @@ msgstr "Filter for vedhæftede filer"
 
 #. Template: AdminAttachment
 msgid "Filter for attachments"
-msgstr ""
+msgstr "Filter for vedhæftninger"
 
 #. Template: AdminAttachment
 msgid "Filename"
@@ -853,7 +886,7 @@ msgstr "Filtrer autosvar"
 
 #. Template: AdminAutoResponse
 msgid "Filter for auto responses"
-msgstr ""
+msgstr "Filter for automatiske svar"
 
 #. Template: AdminAutoResponse
 msgid "Response"
@@ -877,7 +910,7 @@ msgstr "For at få de første 5 linjer af mailen."
 
 #. Template: AdminAutoResponse
 msgid "To get the name of the ticket's customer user (if given)."
-msgstr ""
+msgstr "Navnet på sagens kundebruger (hvis den eksisterer)."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -944,6 +977,8 @@ msgid ""
 "It is sometimes recommended to send this data to the OTOBO team in order to "
 "get better support."
 msgstr ""
+"Det er en gang imellem anbefalesværdigt at sende disse data til OTOBO-"
+"teamet, for at få bedre support."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -958,6 +993,8 @@ msgid ""
 "This will allow the system to send additional support data information to "
 "the OTOBO team."
 msgstr ""
+"Denne indstillinger tillader systemet at sende yderligere supportdata til "
+"OTOBO-teamet."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -973,6 +1010,9 @@ msgid ""
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
 msgstr ""
+"For at aktivere afsendelse af data, skal systemet registreres hos OTOBO-"
+"teamet. Eller du kan opdatere system registrerings informationen (aktiver "
+"indstillingen 'send support data'.)"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -991,6 +1031,8 @@ msgid ""
 "System registration is a service of OTOBO team, which provides a lot of "
 "advantages!"
 msgstr ""
+"System registrering er en service fra OTOBO-teamet, som giver dig mange "
+"fordele!"
 
 #. Template: AdminCloudServices
 msgid ""
@@ -1017,41 +1059,46 @@ msgstr "Tilgængelige sky-tjenester"
 
 #. Template: AdminCommunicationLog
 msgid "Communication Log"
-msgstr ""
+msgstr "Kommunikations log"
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr ""
+msgstr "Tidsinterval"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
-msgstr ""
+msgstr "Vis kun kommunikations logs, oprettet i et specifikt tidsinterval."
 
 #. Template: AdminCommunicationLog
 msgid "Filter for Communications"
-msgstr ""
+msgstr "Filter for kommunikationer"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
-msgstr ""
+msgstr "Filter for kommunikationer"
 
 #. Template: AdminCommunicationLog
 msgid ""
 "In this screen you can see an overview about incoming and outgoing "
 "communications."
 msgstr ""
+"På dette skærmbillede, kan du se en oversigt over ind- og ud-gående "
+"kommunikationer."
 
 #. Template: AdminCommunicationLog
 msgid ""
 "You can change the sort and order of the columns by clicking on the column "
 "header."
 msgstr ""
+"Du kan ændre rækkefølgen og rækkefølgen af kolonnerne, ved at klikke på "
+"kolonne overskriften."
 
 #. Template: AdminCommunicationLog
 msgid ""
 "If you click on the different entries, you will get redirected to a detailed "
 "screen about the message."
 msgstr ""
+"Hvis du klikker på en indgang, vises en detaljeret beskrivelse af denne."
 
 #. Template: AdminCommunicationLog
 msgid "Status for: %s"
@@ -1059,27 +1106,27 @@ msgstr "Status for: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing accounts"
-msgstr ""
+msgstr "Fejlende konti"
 
 #. Template: AdminCommunicationLog
 msgid "Some account problems"
-msgstr ""
+msgstr "Enkelte kontoproblemer"
 
 #. Template: AdminCommunicationLog
 msgid "No account problems"
-msgstr ""
+msgstr "Ingen kontoproblemer"
 
 #. Template: AdminCommunicationLog
 msgid "No account activity"
-msgstr ""
+msgstr "Ingen konto aktivitet"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with problems: %s"
-msgstr ""
+msgstr "Antal konti med problemer: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with warnings: %s"
-msgstr ""
+msgstr "Antal konti med advarsler: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing communications"
