@@ -144,7 +144,7 @@ sub Run {
 
     # print an error screen as the fallback
     print join '',
-        $LayoutObject->Header();
+        $LayoutObject->Header(),
         $LayoutObject->Error(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Action "%s" not found!', $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),
