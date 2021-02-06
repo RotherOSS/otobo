@@ -28,11 +28,7 @@ All Znuny4OTOBORepo functions.
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not use it directly, instead use:
 
@@ -40,9 +36,7 @@ create an object. Do not use it directly, instead use:
     local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-=cut
-
-=item _OutputFilterHookShift()
+=head2 _OutputFilterHookShift()
 
 modifies content and uses output filter hooks to get hook content
 
@@ -103,7 +97,7 @@ Example html for a hook:
     return $Return;
 }
 
-=item _OutputFilterHookReplace()
+=head2 _OutputFilterHookReplace()
 
 modifies content and uses output filter hooks to get hook content
 
@@ -181,7 +175,7 @@ Example html for a hook:
     return $Success;
 }
 
-=item _OutputFilterHookExists()
+=head2 _OutputFilterHookExists()
 
 modifies content and uses output filter hooks to check if a hook exists
 
@@ -227,7 +221,7 @@ Example html for a hook:
     return 1;
 }
 
-=item _OutputFilterHookInsertAfter()
+=head2 _OutputFilterHookInsertAfter()
 
 modifies content and uses output filter hooks to add content after hook.
 
@@ -282,7 +276,7 @@ Example html for a hook:
     return 1;
 }
 
-=item _OutputFilterHookInsertBefore()
+=head2 _OutputFilterHookInsertBefore()
 
 modifies content and uses output filter hooks to add content before hook.
 
@@ -337,7 +331,7 @@ Example html for a hook:
     return 1;
 }
 
-=item AddJSOnDocumentCompleteIfNotExists()
+=head2 AddJSOnDocumentCompleteIfNotExists()
 
 this functions adds JavaScript by the function AddJSOnDocumentComplete only if it not exists.
 
@@ -389,7 +383,5 @@ sub AddJSOnDocumentCompleteIfNotExists {
 
     return 1;
 }
-
-=back
 
 1;

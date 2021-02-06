@@ -71,7 +71,7 @@ sub VerifiedSubmit {
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
     $Context->throw( 'VerifiedSubmit() failed' ) unless $Pass;
 
-    $Context->release;
+    $Context->release();
 
     return;
 }
@@ -108,7 +108,7 @@ sub VerifiedClick {    ## no critic
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
     $Context->throw( 'command failed' ) unless $Pass;
 
-    $Context->release;
+    $Context->release();
 
     return;
 }

@@ -261,7 +261,7 @@ sub Start {
     # Watch the Config files for modifications and force a reload of the Config.
     if ( $LinuxInotify2IsAvailable ) {
 
-        my $Inotify   = Linux::Inotify2->new or die "unable to create new inotify object: $!";
+        my $Inotify   = Linux::Inotify2->new() || die "unable to create new inotify object: $!";
         my $Home      = $Kernel::OM->Get('Kernel::Config')->Get('Home');
         my $Callback  = sub {
 

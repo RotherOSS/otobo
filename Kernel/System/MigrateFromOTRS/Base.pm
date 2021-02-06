@@ -98,7 +98,8 @@ sub CleanLicenseHeader {
     my $NewContent;
 
     # Open file
-    open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName );
+    ## no critic qw(InputOutput::RequireBriefOpen)
+    open my $FileHandle, '<:encoding(utf-8)', $FilePathAndName;
 
     if ( !$FileHandle ) {
 
@@ -256,8 +257,7 @@ replace the XML element I<otrs_config> to I<otobo_config>.
 =cut
 
 sub MigrateXMLConfig {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $File = $Param{File};
 
@@ -339,7 +339,7 @@ sub CleanOTRSFileToOTOBOStyle {
     my @ParserRegExLicence = _ChangeLicenseHeaderRules();
 
     my $NewContent;
-    open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName );
+    open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName ); ## no critic (InputOutput::RequireBriefOpen)
 
     if ( !$FileHandle ) {
 
@@ -1087,8 +1087,7 @@ settings by default.
 
 # Note: looks like this method is currently unused
 sub SettingUpdate {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     if ( !$Param{Name} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(

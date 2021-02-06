@@ -63,8 +63,7 @@ create the web interface object for 'installer.pl'.
 =cut
 
 sub new {
-    my $Type = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # start with an empty hash for the new object
     my $Self = bless {}, $Type;
@@ -145,7 +144,7 @@ sub Run {
 
     # print an error screen as the fallback
     print join '',
-        $LayoutObject->Header();
+        $LayoutObject->Header(),
         $LayoutObject->Error(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Action "%s" not found!', $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),

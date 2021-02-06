@@ -78,8 +78,7 @@ require/load a module
 =cut
 
 sub Require {
-    my $Self  = shift;
-    my ( $Module, %Param ) = @_;
+    my ( $Self, $Module, %Param ) = @_;
 
     # check required params
     if ( !$Module ) {

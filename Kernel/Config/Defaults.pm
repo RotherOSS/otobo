@@ -1921,8 +1921,7 @@ via the Preferences button after logging in.
 
 # Please see the documentation in Kernel/Config.pod.dist.
 sub new {
-    my $Type = shift;
-    my %Param = @_;
+    my ($Type, %Param) = @_;
 
     # allocate new hash for object
     my $Self = bless {}, $Type;

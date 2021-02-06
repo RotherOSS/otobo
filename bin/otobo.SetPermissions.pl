@@ -125,7 +125,7 @@ sub Run {
         'skip-article-dir'        => \$SkipArticleDir,
         'skip-regex=s'            => \@SkipRegex,
         'runs-under-docker'       => \$RunsUnderDocker,
-    ) or PrintUsageAndExit(\%DefaultGroupNames, 1);
+    ) || PrintUsageAndExit(\%DefaultGroupNames, 1);
 
     if ( $Help ) {
         PrintUsageAndExit(\%DefaultGroupNames, 0);
