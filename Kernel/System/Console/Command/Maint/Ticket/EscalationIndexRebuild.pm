@@ -56,8 +56,7 @@ sub Configure {
 }
 
 sub Run {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     $Self->Print("<yellow>Rebuilding ticket escalation index...</yellow>\n");
 

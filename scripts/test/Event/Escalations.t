@@ -118,7 +118,7 @@ sub CheckNumEvents {
         }
     };
 
-    $Context->release;
+    $Context->release();
 
     return;
 }

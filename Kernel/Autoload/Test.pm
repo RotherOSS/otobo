@@ -14,11 +14,14 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use Kernel::System::Valid;
+use Kernel::System::Valid; ## no critic (Modules::RequireExplicitPackage)
 
-package Kernel::System::Valid;    ## no critic
+package Kernel::System::Valid; ## no critic (Modules::RequireFilenameMatchesPackage)
+
 use strict;
 use warnings;
+use v5.24;
+use utf8;
 
 #
 # This file demonstrates how to use the autoload mechanism of OTOBO to change existing functionality,

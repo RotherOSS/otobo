@@ -15,9 +15,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use Kernel::Output::HTML::Layout;
+use Kernel::Output::HTML::Layout; ## no critic (Modules::RequireExplicitPackage)
 
-package Kernel::Output::HTML::Layout;    ## no critic
+package Kernel::Output::HTML::Layout; ## no critic (Modules::RequireFilenameMatchesPackage)
 
 use strict;
 use warnings;

@@ -33,10 +33,10 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 # Create local function for wait on AJAX update.
 sub WaitForAJAX {
-    $Selenium->WaitFor(
-        JavaScript =>
-            'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
-    );
+    return
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
+        );
 }
 
 $Selenium->RunTest(

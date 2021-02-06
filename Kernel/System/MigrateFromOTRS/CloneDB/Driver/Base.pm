@@ -111,8 +111,7 @@ The returned value is a hash ref with the fields I<Message>, I<Comment>, and I<S
 =cut
 
 sub SanityChecks {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
@@ -263,8 +262,7 @@ Get the number of rows in a table.
 =cut
 
 sub RowCount {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
 
@@ -305,8 +303,7 @@ Transfer the actual table data
 =cut
 
 sub DataTransfer {
-    my $Self = shift; # the source db backend
-    my %Param = @_;
+    my ( $Self, %Param ) = @_; # $Self is  the source db backend
 
     # check needed parameters
     for my $Needed (qw(OTRSDBObject OTOBODBObject OTOBODBBackend DBInfo)) {
@@ -345,6 +342,8 @@ sub DataTransfer {
     # Open for writing as the file usually does not exist yet.
     # This approach assumes that the the webserver processes are running on a single machine.
     my $LockFile = join '/', $ConfigObject->Get('Home'), 'var/tmp/migrate_from_otrs.lock';
+    # TODO: why still warnings from Perl::Critic ??
+    ## no critic qw(OTOBO::ProhibitLowPrecendeceOps OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
     open my $LockFh, '>', $LockFile or do {
         $MigrationBaseObject->MigrationLog(
             String   => "Could not open lockfile $LockFile; $!",

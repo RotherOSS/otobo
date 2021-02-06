@@ -169,8 +169,7 @@ a failing test result including a stack trace and generate a screen shot for ana
 =cut
 
 around BUILDARGS => sub {
-    my $Orig  = shift;
-    my $Class = shift;
+    my ( $Orig, $Class ) = @_;
 
     # check whether Selenium testing is configured.
     my $SeleniumTestsConfig = $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {};
@@ -260,13 +259,14 @@ Therefore override that subroutine.
 
 =cut
 
+# TODO: where to put 'no critic qw(OTOBO::RequireCamelCase)'
 sub button_up {
-    my ($self) = @_;
+    my ($Self) = @_;
 
-    if ( $self->{is_wd3}
-        && !( grep { $self->browser_name eq $_ } qw{MicrosoftEdge} ) )
+    if ( $Self->{is_wd3}
+        && !( grep { $Self->browser_name() eq $_ } qw{MicrosoftEdge} ) )
     {
-        my $params = {
+        my $Params = {
             actions => [
                 {
                     type       => "pointer",
@@ -282,14 +282,12 @@ sub button_up {
                 }
             ],
         };
-        Selenium::Remote::Driver::_queue_action(%$params);
+        Selenium::Remote::Driver::_queue_action(%$Params);
 
         return 1;
     }
 
-    my $res = { 'command' => 'buttonUp' };
-
-    return $self->_execute_command($res);
+    return $Self->_execute_command( { 'command' => 'buttonUp' } );
 }
 
 =head2 SeleniumErrorHandler
@@ -302,11 +300,10 @@ Most other methods won't.
 =cut
 
 sub SeleniumErrorHandler {
-    my $Self = shift;
-    my ( $Error ) = @_;
+    my ( $Self, $Error ) = @_;
 
     my $Context = context();
-
+    ## TODO: configure Subroutines::RequireFinalReturn, so that '->throw' is considered like a 'die'
     $Context->throw($Error);
 }
 
@@ -319,8 +316,7 @@ runs a selenium test if Selenium testing is configured.
 =cut
 
 sub RunTest {
-    my $Self = shift;
-    my ( $Code ) = @_;
+    my ( $Self, $Code ) = @_;
 
     if ( ! $Self->SeleniumTestsActive() ) {
         skip_all( 'Selenium testing is not active, skipping tests.' );
@@ -378,7 +374,7 @@ sub VerifiedGet {
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
     $Context->throw( 'VerifiedGet() failed' ) unless $Pass;
 
-    $Context->release;
+    $Context->release();
 
     return;
 }
@@ -393,8 +389,7 @@ Will throw an exception if the verification fails.
 =cut
 
 sub VerifiedRefresh {
-    my $Self = shift;
-    my ( $URL ) = @_;
+    my ( $Self, $URL ) = @_;
 
     my $Context = context();
 
@@ -412,7 +407,7 @@ sub VerifiedRefresh {
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
     $Context->throw( 'VerifiedRefresh() failed' ) unless $Pass;
 
-    $Context->release;
+    $Context->release();
 
     return;
 }
@@ -430,8 +425,7 @@ login to agent or customer interface
 =cut
 
 sub Login {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Type User Password)) {
@@ -525,7 +519,7 @@ sub Login {
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
     $Context->throw( 'Login() failed' ) unless $Pass;
 
-    $Context->release;
+    $Context->release();
 
     return 1;
 }
@@ -550,8 +544,7 @@ Exactly one condition (JavaScript or WindowCount) must be specified.
 =cut
 
 sub WaitFor {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Context = context();
 
@@ -746,8 +739,7 @@ The difference in these subroutines is that C<drag_and_drop> does not support ta
 =cut
 
 sub DragAndDrop {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Context = context();
 
@@ -803,7 +795,7 @@ sub DragAndDrop {
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
     $Context->throw( 'DragAndDrop failed' ) unless $Pass;
 
-    $Context->release;
+    $Context->release();
 
     return;
 }
@@ -820,8 +812,7 @@ If the folder /var/otobo-unittest exists, then a copy of the screenshot will be 
 =cut
 
 sub HandleError {
-    my $Self = shift;
-    my ( $Error ) = @_;
+    my ( $Self, $Error ) = @_;
 
     my $Context = context();
 
@@ -1068,8 +1059,7 @@ Sometimes a longer timeout is needed.
 =cut
 
 sub InputFieldValueSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Context = context();
 

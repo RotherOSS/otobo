@@ -56,8 +56,6 @@ Returns 1 on success.
 =cut
 
 sub CheckPreviousRequirement {
-    my ( $Self, %Param ) = @_;
-
     return 1;
 }
 
@@ -169,8 +167,7 @@ sub Run {
 }
 
 sub _CheckOTOBOConfigpmExists {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $OTOBOHome = $Kernel::OM->Get('Kernel::Config')->Get('Home');
     my $Message   = $Self->{LanguageObject}->Translate("Check if Kernel/Config.pm exists in OTOBO home.");
@@ -246,8 +243,9 @@ sub _CheckConfigpmAndWriteCache {
 
     my %CacheOptions;
 
-    ## no critic
     {
+        ## TODO: why does Perl::Critic still complain about OTOBO::ProhibitOpen ??
+        ## no critic qw(OTOBO::ProhibitOpen OTOBO::ProhibitLowPrecendeceOps InputOutput::RequireBriefOpen)
         open( my $In, '<', $ConfigFile )
             or return "Can't open $ConfigFile: $!";
 

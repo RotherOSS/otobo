@@ -14,12 +14,14 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use strict;
-use warnings;
-
-use Kernel::System::ObjectManager;
+use Kernel::System::ObjectManager; ## no critic (Modules::RequireExplicitPackage)
 
 package scripts::test::Ticket::TicketACL::DummyModule;    ## no critic
+
+use strict;
+use warnings;
+use v5.24;
+use utf8;
 
 our @ObjectDependencies = (
     'Kernel::System::Log',

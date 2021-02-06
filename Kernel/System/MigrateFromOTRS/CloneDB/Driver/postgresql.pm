@@ -96,8 +96,7 @@ sub CreateOTRSDBConnection {
 
 # List all columns of a table in the order of their position.
 sub ColumnsList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject Table)) {
@@ -198,8 +197,7 @@ sub ResetAutoIncrementField {
 
 # Get all binary columns and return a lookup hash with table and column name as keys.
 sub BlobColumnsList {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject DBName Table)) {
@@ -235,8 +233,7 @@ END_SQL
 # Get column infos
 # return DATA_TYPE
 sub GetColumnInfos {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject DBName Table Column)) {
@@ -274,8 +271,7 @@ sub GetColumnInfos {
 # Translate column infos
 # return DATA_TYPE
 sub TranslateColumnInfos {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(DBType ColumnInfos)) {
@@ -330,8 +326,7 @@ sub TranslateColumnInfos {
 
 # Alter table add column
 sub AlterTableAddColumn {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject Table Column ColumnInfos)) {
