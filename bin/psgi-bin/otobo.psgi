@@ -328,12 +328,12 @@ my $NYTProfMiddleWare = sub {
         }
 
         # do the work
-        my $res = $App->($Env);
+        my $Res = $App->($Env);
 
         # clean up profiling, write the output file
         DB::finish_profile() if $ProfilingIsOn;
 
-        return $res;
+        return $Res;
     };
 };
 
@@ -379,7 +379,7 @@ my $AdminOnlyMiddeware = sub {
     return sub {
         my $Env = shift;
 
-        local $Kernel::OM = Kernel::System::ObjectManager->new;
+        local $Kernel::OM = Kernel::System::ObjectManager->new();
 
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -405,7 +405,7 @@ my $AdminOnlyMiddeware = sub {
 
             # check whether the browser sends the SessionID cookie
             my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
-            my $SessionID     = $PlackRequest->cookies->{$SessionName};
+            my $SessionID     = $PlackRequest->cookies()->{$SessionName};
 
             return ( 0, undef ) unless $SessionObject;
             return ( 0, undef ) unless $SessionObject->CheckSessionID( SessionID => $SessionID );
@@ -478,7 +478,7 @@ my $DumpEnvApp = sub {
     my $Env = shift;
 
     local $Data::Dumper::Sortkeys = 1;
-    my $Message .= Dumper( [ "DumpEnvApp:", scalar localtime, $Env ] );
+    my $Message = Dumper( [ "DumpEnvApp:", scalar localtime, $Env ] );
     utf8::encode( $Message );
 
     return [
@@ -497,7 +497,7 @@ my $RedirectOtoboApp = sub {
 
     # construct a relative path to otobo/index.pl
     my $Req = Plack::Request->new($Env);
-    my $OrigPath = $Req->path;
+    my $OrigPath = $Req->path();
     my $Levels   = $OrigPath =~ tr[/][];
     my $NewPath  = join '/', map( {  '..' } ( 1 .. $Levels ) ), 'otobo/index.pl';
 
@@ -534,11 +534,11 @@ my $DBViewerApp = builder {
     # check ever 10s for changed Perl modules, including Kernel/Config/Files/ZZZAAuto.pm
     enable 'Plack::Middleware::Refresh';
 
-    my $server = Mojo::Server::PSGI->new;
-    $server->load_app("$FindBin::Bin/../mojo-bin/dbviewer.pl");
+    my $Server = Mojo::Server::PSGI->new();
+    $Server->load_app("$FindBin::Bin/../mojo-bin/dbviewer.pl");
 
     sub {
-        $server->run(@_)
+        $Server->run(@_)
     };
 };
 
@@ -564,7 +564,7 @@ my $StaticApp = builder {
     enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Plack::Middleware::Header',
         set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
 
-    Plack::App::File->new(root => "$FindBin::Bin/../../var/httpd/htdocs")->to_app;
+    Plack::App::File->new(root => "$FindBin::Bin/../../var/httpd/htdocs")->to_app();
 };
 
 # Port of nph-genericinterface.pl to Plack.
