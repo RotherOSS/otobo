@@ -164,7 +164,7 @@ EOF
         );
         my $OptionEmailElement = $Selenium->find_element_by_xpath( q{//option[@value='EmailTicket']} );
         {
-            my $ToDo = todo( 'setup of events may be messed up, issue #763' );
+            my $ToDo = todo( 'setup of ACL may be messed up, issue #763' );
 
             ok( ! $OptionEmailElement, "Split option for 'Email Ticket' is disabled." );
         }
