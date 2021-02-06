@@ -63,8 +63,7 @@ create the web interface object for 'migration.pl'.
 =cut
 
 sub new {
-    my $Class = shift;
-    my %Param = @_;
+    my ( $Class, %Param ) = @_;
 
     # start with an empty hash for the new object
     my $Self = bless {}, $Class;

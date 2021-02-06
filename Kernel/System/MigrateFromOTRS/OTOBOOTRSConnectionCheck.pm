@@ -56,8 +56,6 @@ Returns 1 on success.
 =cut
 
 sub CheckPreviousRequirement {
-    my ( $Self, %Param ) = @_;
-
     return 1;
 }
 
@@ -169,8 +167,7 @@ sub Run {
 }
 
 sub _CheckOTOBOConfigpmExists {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $OTOBOHome = $Kernel::OM->Get('Kernel::Config')->Get('Home');
     my $Message   = $Self->{LanguageObject}->Translate("Check if Kernel/Config.pm exists in OTOBO home.");

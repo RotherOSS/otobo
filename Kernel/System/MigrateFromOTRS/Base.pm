@@ -256,8 +256,7 @@ replace the XML element I<otrs_config> to I<otobo_config>.
 =cut
 
 sub MigrateXMLConfig {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $File = $Param{File};
 
@@ -1087,8 +1086,7 @@ settings by default.
 
 # Note: looks like this method is currently unused
 sub SettingUpdate {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     if ( !$Param{Name} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(

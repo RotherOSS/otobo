@@ -169,8 +169,7 @@ a failing test result including a stack trace and generate a screen shot for ana
 =cut
 
 around BUILDARGS => sub {
-    my $Orig  = shift;
-    my $Class = shift;
+    my ( $Orig, $Class ) = @_;
 
     # check whether Selenium testing is configured.
     my $SeleniumTestsConfig = $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {};
@@ -302,8 +301,7 @@ Most other methods won't.
 =cut
 
 sub SeleniumErrorHandler {
-    my $Self = shift;
-    my ( $Error ) = @_;
+    my ( $Self, $Error ) = @_;
 
     my $Context = context();
 
@@ -393,8 +391,7 @@ Will throw an exception if the verification fails.
 =cut
 
 sub VerifiedRefresh {
-    my $Self = shift;
-    my ( $URL ) = @_;
+    my ( $Self, $URL ) = @_;
 
     my $Context = context();
 
@@ -430,8 +427,7 @@ login to agent or customer interface
 =cut
 
 sub Login {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Type User Password)) {
@@ -550,8 +546,7 @@ Exactly one condition (JavaScript or WindowCount) must be specified.
 =cut
 
 sub WaitFor {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Context = context();
 
@@ -746,8 +741,7 @@ The difference in these subroutines is that C<drag_and_drop> does not support ta
 =cut
 
 sub DragAndDrop {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Context = context();
 
@@ -820,8 +814,7 @@ If the folder /var/otobo-unittest exists, then a copy of the screenshot will be 
 =cut
 
 sub HandleError {
-    my $Self = shift;
-    my ( $Error ) = @_;
+    my ( $Self, $Error ) = @_;
 
     my $Context = context();
 
@@ -1068,8 +1061,7 @@ Sometimes a longer timeout is needed.
 =cut
 
 sub InputFieldValueSet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Context = context();
 

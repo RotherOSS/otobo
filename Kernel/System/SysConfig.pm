@@ -426,8 +426,7 @@ Returns:
 =cut
 
 sub SettingUpdate {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     for my $Needed (qw(Name UserID)) {
         if ( !$Param{$Needed} ) {
@@ -4645,7 +4644,6 @@ Returns:
 =cut
 
 sub ValueAttributeList {
-
     my ( $Self, %Param ) = @_;
 
     my $CacheType = 'SysConfig';

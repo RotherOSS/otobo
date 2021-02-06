@@ -87,8 +87,7 @@ Valid parameters are:
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = bless {}, $Type;
@@ -181,8 +180,7 @@ the login name of the new user, the password is the same.
 =cut
 
 sub TestUserCreate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Context = context();
 
@@ -280,8 +278,7 @@ the login name of the new customer user, the password is the same.
 =cut
 
 sub TestCustomerUserCreate {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Context = context();
 

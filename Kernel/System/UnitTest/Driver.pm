@@ -81,8 +81,7 @@ if it's true, returning 1 in this case or undef, otherwise.
 =cut
 
 sub True {
-    my $Self = shift;
-    my ( $True, $Name ) = @_;
+    my ( $Self, $True, $Name ) = @_;
 
     my $Context = context();
 
@@ -108,8 +107,7 @@ for a false value instead.
 =cut
 
 sub False {
-    my $Self = shift;
-    my ( $False, $Name ) = @_;
+    my ( $Self, $False, $Name ) = @_;
 
     my $Context = context();
 
@@ -146,8 +144,7 @@ Returns 1 if the values were equal, or undef otherwise.
 =cut
 
 sub Is {
-    my $Self = shift;
-    my ( $Test, $ShouldBe, $Name ) = @_;
+    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
     my $Context = context();
 
@@ -182,8 +179,7 @@ for inequality instead.
 =cut
 
 sub IsNot {
-    my $Self = shift;
-    my ( $Test, $ShouldBe, $Name ) = @_;
+    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
     my $Context = context();
 
@@ -231,8 +227,7 @@ Returns 1 if the data structures are the same, or undef otherwise.
 =cut
 
 sub IsDeeply {
-    my $Self = shift;
-    my ( $Test, $ShouldBe, $Name ) = @_;
+    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
     my $Context = context();
 
@@ -290,8 +285,7 @@ for inequality instead.
 =cut
 
 sub IsNotDeeply {
-    my $Self = shift;
-    my ( $Test, $ShouldBe, $Name ) = @_;
+    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
     my $Context = context();
 
@@ -339,8 +333,7 @@ together with the test results.
 
 # TODO: is that feature still useful ? AFAIK OTOBO has no test result upload service.
 sub AttachSeleniumScreenshot {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Context = context();
 
@@ -383,8 +376,7 @@ is prepended by '# '. A trailing newline will be added when there isn't on yet.
 =cut
 
 sub Note {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Context = context();
     my $Ret = $Context->note( $Param{Note} // '' );

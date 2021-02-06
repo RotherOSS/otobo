@@ -658,8 +658,7 @@ sub Redirect {
 }
 
 sub Login {
-    my $Self = shift;
-    my %Param = @_;
+    my ($Self, %Param) = @_;
 
     # set Action parameter for the loader
     $Self->{Action} = 'Login';
@@ -1244,8 +1243,7 @@ generates the HTML for the page begin in the Agent interface.
 =cut
 
 sub Header {
-    my $Self = shift;
-    my %Param = @_;
+    my ($Self, %Param) = @_;
 
     # extract params
     my $Type = $Param{Type} || '';
@@ -3896,8 +3894,7 @@ sub HumanReadableDataSize {
 }
 
 sub CustomerLogin {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Output = '';
     $Param{TitleArea} = $Self->{LanguageObject}->Translate('Login') . ' - ';
@@ -4130,8 +4127,7 @@ sub CustomerLogin {
 }
 
 sub CustomerHeader {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Type = $Param{Type} || '';
 
