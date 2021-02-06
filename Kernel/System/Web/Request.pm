@@ -24,9 +24,6 @@ use namespace::autoclean;
 # core modules
 
 # CPAN modules
-use CGI ();
-use CGI::PSGI ();
-use CGI::Carp;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -42,11 +39,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Web::Request - global CGI interface
+Kernel::System::Web::Request - an object holding info on the current request
 
 =head1 DESCRIPTION
 
-All CGI param functions.
+Holds the request params and other info on the request.
 
 =head1 PUBLIC INTERFACE
 
@@ -56,28 +53,24 @@ create param object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
 
+    # usually the PSGI env is already available
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Web::Request' => {
-            PSGIEnv => $Param{PSGIEnv} || 0,
+            PSGIEnv => $PSGIEnv
         }
     );
 
-# or
-
+    # alternatively create a request object when we are in a CGI environment
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Web::Request' => {
-            PSGIEnv => $PSGIEnv, # optional
+            WebRequest => CGI::PSGI->new($env)
         }
     );
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-
-If neither PSGIEnv nor WebRequest is set, then C<CGI->new()> is called for creating the query object.
 
 If Kernel::System::Web::Request is instantiated several times, they will share the
-same CGI data (this can be helpful in filters which do not have access to the
+same web request data. This can be helpful in filters which do not have access to the
 ParamObject, for example.
 
 If you need to reset the CGI data before creating a new instance, use
@@ -89,8 +82,7 @@ before calling Kernel::System::Web::Request->new();
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = bless {}, $Type;
@@ -111,9 +103,9 @@ sub new {
         $Self->{Query} = $Param{WebRequest};
     }
 
-    # CGI via the %ENV hash is still supported as a fallback
+    # there is no fallback that would e.g. assume the CGI %ENV variables
     else {
-        $Self->{Query} = CGI->new();
+        die 'Bailing out as neither PSGIEnv nor WebRequest was passed!';
     }
 
     return $Self;
