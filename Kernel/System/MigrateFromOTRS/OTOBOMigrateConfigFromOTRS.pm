@@ -60,9 +60,6 @@ Returns 1 on success.
 =cut
 
 sub CheckPreviousRequirement {
-    my $Self = shift;
-    my %Param = @_;
-
     return 1;
 }
 
@@ -73,8 +70,7 @@ Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
 =cut
 
 sub Run {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Set cache object with taskinfo and starttime to show current state in frontend
     my $CacheObject         = $Kernel::OM->Get('Kernel::System::Cache');

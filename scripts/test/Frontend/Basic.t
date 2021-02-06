@@ -175,7 +175,7 @@ if ( ! $BailOut ) {
 
             # check response contents
             my $ContentType =  $Response->header('Content-type') // '';
-            $Self->Note( Note => "Response:\n" . $Response->as_string ) if $Debug;
+            $Self->Note( Note => "Response:\n" . $Response->as_string() ) if $Debug;
             if ( $ContentType =~ m/html/ ) {
                 $Self->True(
                     scalar $Response->content() =~ m{<body|<div|<script}xms,

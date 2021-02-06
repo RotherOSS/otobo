@@ -84,6 +84,8 @@ make use of a caught exception object
 
 =cut
 
+# TODO: why still warnings from Perl::Critic ??
+## no critic qw(OTOBO::RequireCamelCase)
 sub as_psgi {
     my $Self = shift;
 

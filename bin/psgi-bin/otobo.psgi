@@ -327,12 +327,12 @@ my $NYTProfMiddleWare = sub {
         }
 
         # do the work
-        my $res = $App->($Env);
+        my $Res = $App->($Env);
 
         # clean up profiling, write the output file
         DB::finish_profile() if $ProfilingIsOn;
 
-        return $res;
+        return $Res;
     };
 };
 
@@ -400,7 +400,7 @@ my $AdminOnlyMiddeware = sub {
     return sub {
         my $Env = shift;
 
-        local $Kernel::OM = Kernel::System::ObjectManager->new;
+        local $Kernel::OM = Kernel::System::ObjectManager->new();
 
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -429,7 +429,7 @@ my $AdminOnlyMiddeware = sub {
 
             # check whether the browser sends the SessionID cookie
             my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
-            my $SessionID     = $PlackRequest->cookies->{$SessionName};
+            my $SessionID     = $PlackRequest->cookies()->{$SessionName};
 
             return ( 0, undef ) unless $SessionObject;
             return ( 0, undef ) unless $SessionObject->CheckSessionID( SessionID => $SessionID );
@@ -502,7 +502,7 @@ my $DumpEnvApp = sub {
     my $Env = shift;
 
     local $Data::Dumper::Sortkeys = 1;
-    my $Message .= Dumper( [ "DumpEnvApp:", scalar localtime, $Env ] );
+    my $Message = Dumper( [ "DumpEnvApp:", scalar localtime, $Env ] );
     utf8::encode( $Message );
 
     return [
@@ -521,7 +521,7 @@ my $RedirectOtoboApp = sub {
 
     # construct a relative path to otobo/index.pl
     my $Req = Plack::Request->new($Env);
-    my $OrigPath = $Req->path;
+    my $OrigPath = $Req->path();
     my $Levels   = $OrigPath =~ tr[/][];
     my $NewPath  = join '/', map( {  '..' } ( 1 .. $Levels ) ), 'otobo/index.pl';
 
@@ -530,7 +530,7 @@ my $RedirectOtoboApp = sub {
     $Res->redirect($NewPath);
 
     # send the PSGI response
-    return $Res->finalize;
+    return $Res->finalize();
 };
 
 # an App for inspecting the database, logged in user must be an admin
@@ -558,11 +558,11 @@ my $DBViewerApp = builder {
     # check ever 10s for changed Perl modules, including Kernel/Config/Files/ZZZAAuto.pm
     enable 'Plack::Middleware::Refresh';
 
-    my $server = Mojo::Server::PSGI->new;
-    $server->load_app("$FindBin::Bin/../mojo-bin/dbviewer.pl");
+    my $Server = Mojo::Server::PSGI->new();
+    $Server->load_app("$FindBin::Bin/../mojo-bin/dbviewer.pl");
 
     sub {
-        $server->run(@_)
+        $Server->run(@_)
     };
 };
 
@@ -588,7 +588,7 @@ my $StaticApp = builder {
     enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Plack::Middleware::Header',
         set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
 
-    Plack::App::File->new(root => "$FindBin::Bin/../../var/httpd/htdocs")->to_app;
+    Plack::App::File->new(root => "$FindBin::Bin/../../var/httpd/htdocs")->to_app();
 };
 
 # Port of customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, and public.pl to Plack.
@@ -713,7 +713,7 @@ my $OTOBOApp = builder {
 # See http://blogs.perl.org/users/confuseacat/2012/11/how-to-use-soaptransporthttpplack.html
 # TODO: this is not tested yet.
 # TODO: There can be problems when the wrapped objects expect a CGI environment.
-my $soap = SOAP::Transport::HTTP::Plack->new;
+my $Soap = SOAP::Transport::HTTP::Plack->new();
 
 my $RPCApp = builder {
 
@@ -726,7 +726,7 @@ my $RPCApp = builder {
     sub {
         my $Env = shift;
 
-        return $soap->dispatch_to(
+        return $Soap->dispatch_to(
                 'OTOBO::RPC'
             )->handler( Plack::Request->new( $Env ) );
     };
@@ -770,8 +770,8 @@ builder {
     mount '/otobo/rpc.pl'                  => $RPCApp;
 
     # some static pages, '/' is already translate to '/index.html'
-    mount "/robots.txt"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/robots.txt")->to_app;
-    mount "/index.html"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/index.html")->to_app;
+    mount "/robots.txt"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/robots.txt")->to_app();
+    mount "/index.html"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/index.html")->to_app();
 };
 
 # for debugging, only dump the PSGI environment

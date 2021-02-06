@@ -57,8 +57,6 @@ Returns 1 on success.
 =cut
 
 sub CheckPreviousRequirement {
-    my ( $Self, %Param ) = @_;
-
     return 1;
 }
 
@@ -69,8 +67,7 @@ Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
 =cut
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Set cache object with taskinfo and starttime to show current state in frontend
     {
@@ -122,7 +119,7 @@ sub Run {
     # set the success message
     if ( $SanityCheck->{Successful} ) {
         $SanityCheck->{Comment}
-            ||= $Self->{LanguageObject}->Translate("Database connect and sanity checks completed."),
+            ||= $Self->{LanguageObject}->Translate("Database connect and sanity checks completed.");
     }
 
     return $SanityCheck;

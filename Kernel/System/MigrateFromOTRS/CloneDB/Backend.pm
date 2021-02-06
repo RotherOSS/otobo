@@ -59,8 +59,7 @@ create a CloneDB backend object
 =cut
 
 sub new {
-    my $Class = shift;
-    my %Param = @_;
+    my ( $Class, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = bless {}, $Class;
@@ -127,8 +126,7 @@ creates the target db object.
 =cut
 
 sub CreateOTRSDBConnection {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{OTRSDBSettings} ) {
@@ -185,8 +183,7 @@ transfers information from a OTRS DB to the OTOBO DB.
 =cut
 
 sub DataTransfer {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
 
@@ -265,8 +262,7 @@ The returned value is a hash ref with the fields I<Message>, I<Comment>, and I<S
 =cut
 
 sub SanityChecks {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 

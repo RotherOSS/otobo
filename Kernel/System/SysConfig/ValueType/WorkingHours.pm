@@ -207,8 +207,7 @@ sub EffectiveValueGet {
 }
 
 sub ModifiedValueGet {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     for my $Needed (qw(Value EffectiveValue)) {
         if ( !$Param{$Needed} ) {

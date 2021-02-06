@@ -267,8 +267,7 @@ Valid placeholders are '%s' and '%d'.
 =cut
 
 sub Translate {
-    my $Self = shift;
-    my( $Text, @Replacements ) = @_;
+    my ( $Self, $Text, @Replacements ) = @_;
 
     $Text //= '';
     $Text = $Self->{Translation}->{$Text} || $Text;

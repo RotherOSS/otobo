@@ -660,8 +660,7 @@ sub Redirect {
 }
 
 sub Login {
-    my $Self  = shift;
-    my %Param = @_;
+    my ($Self, %Param) = @_;
 
     # set Action parameter for the loader
     $Self->{Action}     = 'Login';
@@ -1249,8 +1248,7 @@ As a side effect HTTP headers are added to the Kernel::System::Web::Response obj
 =cut
 
 sub Header {
-    my $Self = shift;
-    my %Param = @_;
+    my ($Self, %Param) = @_;
 
     # extract params
     my $Type              = $Param{Type} || '';
@@ -3976,8 +3974,7 @@ sub HumanReadableDataSize {
 }
 
 sub CustomerLogin {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     $Param{TitleArea}      = $Self->{LanguageObject}->Translate('Login') . ' - ';
     $Param{IsLoginPage}    = 1;
@@ -4215,8 +4212,7 @@ sub CustomerLogin {
 }
 
 sub CustomerHeader {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Type = $Param{Type} || '';
 

@@ -106,8 +106,7 @@ sub CreateOTRSDBConnection {
 
 # List all columns of a table in the order of their position.
 sub ColumnsList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject Table)) {
@@ -231,8 +230,7 @@ sub ResetAutoIncrementField {
 
 # Get all binary columns and return a lookup hash with table and column name as keys.
 sub BlobColumnsList {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject DBName Table)) {

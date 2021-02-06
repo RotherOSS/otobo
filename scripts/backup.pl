@@ -61,7 +61,7 @@ GetOptions(
     'db-user=s'              => \$DatabaseUser,
     'db-password=s'          => \$DatabasePw,
     'db-type=s'              => \$DatabaseType,
-) or PrintHelpAndExit();
+) || PrintHelpAndExit();
 
 PrintHelpAndExit() if $HelpFlag;
 
@@ -194,7 +194,7 @@ my $SystemDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
 my $Directory = join '/',
     $BackupDir,
     $SystemDTObject->Format( Format => '%Y-%m-%d_%H-%M-%S' );
-mkdir $Directory or die "ERROR: Can't create directory: $Directory: $!";
+mkdir $Directory or die "ERROR: Can't create directory: $Directory: $!"; ## no critic (OTOBO::ProhibitLowPrecendeceOps)
 
 # backup application
 if ($DBOnlyBackup) {
@@ -472,6 +472,8 @@ END_MESSAGE
     # Change the character set to utf8mb4.
     # Remove COLLATE directives.
     {
+        ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
+
         # find the changed columns per table
         my %IsShortened;
         for my $Short ( $MigrationBaseObject->DBShortenedColumns() ) {
@@ -486,8 +488,9 @@ END_MESSAGE
 
         # now adapt the relevant lines
         # TODO: make this less nasty. Make it nicety.
-        open my $Adapted, '>', $AdaptedSchemaDumpFile
-            or die "Can't open $AdaptedSchemaDumpFile for writing: $!";
+        # TODO: why still warnings from Perl::Critic ??
+        open my $Adapted, '>', $AdaptedSchemaDumpFile                   ## no critic qw(OTOBO::ProhibitOpen)
+            or die "Can't open $AdaptedSchemaDumpFile for writing: $!"; ## no criticqw(OTOBO::ProhibitLowPrecendeceOps)
         say $Adapted "-- adapted by $0";
         say $Adapted '';
         my $CurrentTable;

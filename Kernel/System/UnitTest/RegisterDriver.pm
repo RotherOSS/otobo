@@ -41,6 +41,8 @@ use utf8;
 # OTOBO modules
 use Kernel::System::ObjectManager;
 
+# TODO: why still warnings from Perl::Critic ??, find better location for the no critic
+## no critic qw(OTOBO::RequireCamelCase)
 sub import {
 
     # RegisterDriver is meant for test scripts,
