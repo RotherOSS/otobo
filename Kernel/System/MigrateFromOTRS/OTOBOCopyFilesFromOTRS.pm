@@ -345,13 +345,13 @@ sub ReConfigure {
         }
     }
 
-    # Write new config file.
-    ## no critic
+    # Write new config file, the file handle is autoclosed as it is lexical to the block
     {
-        open ( my $Out, '>:encoding(utf-8)', $ConfigFile )
+        # TODO: find out why the warning is still reported
+        ## no critic (InputOutput::RequireBriefOpen OTOBO::ProhibitLowPrecendeceOps)
+        open my $Out, '>:encoding(utf-8)', $ConfigFile
             or return "Can't open $ConfigFile: $!";
         print $Out $Config;
-        ## use critic
     }
 
     return;

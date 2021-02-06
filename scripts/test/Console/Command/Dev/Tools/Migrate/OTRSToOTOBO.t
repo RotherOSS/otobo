@@ -136,8 +136,8 @@ subtest
         # Content of the migrated file
         my $ExpectedResultFile = dir($Home)->file('scripts/test/sample/SysConfig/MigrateOTRSToOTOBOResult.xml');
         is(
-            [ $TargetFile->slurp ],
-            [ $ExpectedResultFile->slurp ],
+            [ $TargetFile->slurp() ],
+            [ $ExpectedResultFile->slurp() ],
             "Content of $TargetFile"
         );
     };

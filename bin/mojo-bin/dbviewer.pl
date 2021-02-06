@@ -45,8 +45,8 @@ plugin 'Config';
 
 # Avoid the warning: 'Your secret passphrase needs to be changed'.
 # Allow users to set up their safer secrets in dbviewer.conf
-if (my $secrets = app->config->{secrets}) {
-    app->secrets($secrets);
+if (my $Secrets = app()->config()->{secrets}) {
+    app()->secrets($Secrets);
 }
 
 # Get the database connection from the OTOBO config
@@ -101,4 +101,4 @@ get '/' => sub {
     );
 };
 
-app->start;
+app()->start();

@@ -260,7 +260,7 @@ sub TestUserCreate {
 
     run_subtest( 'TestUserCreate', $Code, { buffered => 1, inherit_trace => 1 } );
 
-    $Context->release;
+    $Context->release();
 
     return wantarray ? ( $TestUserLogin, $TestUserID ) : $TestUserLogin;
 }
@@ -331,7 +331,7 @@ sub TestCustomerUserCreate {
 
     run_subtest( 'TestCustomerUsers', $Code, { buffered => 1, inherit_trace => 1 } );
 
-    $Context->release;
+    $Context->release();
 
     return $TestUser;
 }

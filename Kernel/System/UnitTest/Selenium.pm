@@ -259,13 +259,14 @@ Therefore override that subroutine.
 
 =cut
 
+# TODO: where to put 'no critic qw(OTOBO::RequireCamelCase)'
 sub button_up {
-    my ($self) = @_;
+    my ($Self) = @_;
 
-    if ( $self->{is_wd3}
-        && !( grep { $self->browser_name eq $_ } qw{MicrosoftEdge} ) )
+    if ( $Self->{is_wd3}
+        && !( grep { $Self->browser_name() eq $_ } qw{MicrosoftEdge} ) )
     {
-        my $params = {
+        my $Params = {
             actions => [
                 {
                     type       => "pointer",
@@ -281,14 +282,12 @@ sub button_up {
                 }
             ],
         };
-        Selenium::Remote::Driver::_queue_action(%$params);
+        Selenium::Remote::Driver::_queue_action(%$Params);
 
         return 1;
     }
 
-    my $res = { 'command' => 'buttonUp' };
-
-    return $self->_execute_command($res);
+    return $Self->_execute_command( { 'command' => 'buttonUp' } );
 }
 
 =head2 SeleniumErrorHandler
@@ -304,7 +303,7 @@ sub SeleniumErrorHandler {
     my ( $Self, $Error ) = @_;
 
     my $Context = context();
-
+    ## TODO: configure Subroutines::RequireFinalReturn, so that '->throw' is considered like a 'die'
     $Context->throw($Error);
 }
 
@@ -317,8 +316,7 @@ runs a selenium test if Selenium testing is configured.
 =cut
 
 sub RunTest {
-    my $Self = shift;
-    my ( $Code ) = @_;
+    my ( $Self, $Code ) = @_;
 
     if ( ! $Self->SeleniumTestsActive() ) {
         skip_all( 'Selenium testing is not active, skipping tests.' );
@@ -376,7 +374,7 @@ sub VerifiedGet {
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
     $Context->throw( 'VerifiedGet() failed' ) unless $Pass;
 
-    $Context->release;
+    $Context->release();
 
     return;
 }
@@ -409,7 +407,7 @@ sub VerifiedRefresh {
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
     $Context->throw( 'VerifiedRefresh() failed' ) unless $Pass;
 
-    $Context->release;
+    $Context->release();
 
     return;
 }
@@ -521,7 +519,7 @@ sub Login {
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
     $Context->throw( 'Login() failed' ) unless $Pass;
 
-    $Context->release;
+    $Context->release();
 
     return 1;
 }
@@ -797,7 +795,7 @@ sub DragAndDrop {
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
     $Context->throw( 'DragAndDrop failed' ) unless $Pass;
 
-    $Context->release;
+    $Context->release();
 
     return;
 }

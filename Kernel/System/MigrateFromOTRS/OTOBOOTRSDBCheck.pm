@@ -119,7 +119,7 @@ sub Run {
     # set the success message
     if ( $SanityCheck->{Successful} ) {
         $SanityCheck->{Comment}
-            ||= $Self->{LanguageObject}->Translate("Database connect and sanity checks completed."),
+            ||= $Self->{LanguageObject}->Translate("Database connect and sanity checks completed.");
     }
 
     return $SanityCheck;

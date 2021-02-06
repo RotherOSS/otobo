@@ -84,7 +84,7 @@ sub Main {
         'help'          => \$HelpFlag,
         'db-password=s' => \$DBPassword,
         'http-port=i'   => \$HTTPPort,
-    ) or pod2usage({ -exitval => 1, -verbose => 1 });
+    ) || pod2usage({ -exitval => 1, -verbose => 1 });
 
     if ( $HelpFlag ) {
         pod2usage({ -exitval => 0, -verbose => 2});
@@ -213,7 +213,7 @@ sub CheckSystemRequirements {
 
     my $HomeDir = dir($Home);
 
-    if ( ! $HomeDir->is_absolute ) {
+    if ( ! $HomeDir->is_absolute() ) {
         return 0, "'$HomeDir' is not an absolute path";
     }
 
@@ -312,14 +312,14 @@ sub CheckDBRequirements {
     }
 
     # check whether the database is alive
-    my $DBIsAlive = $DBHandle->ping;
+    my $DBIsAlive = $DBHandle->ping();
     if ( ! $DBIsAlive ) {
         return 0, 'no pingback from the database';
     }
 
     # verify that the database does not exist yet
     my $TableInfoSth = $DBHandle->table_info( '%', $Param{DBName}, '%', 'TABLE' );
-    my $Rows = $TableInfoSth->fetchall_arrayref;
+    my $Rows = $TableInfoSth->fetchall_arrayref();
 
     if ( $Rows->@* ) {
         return 0, "the schema '$Param{DBName}' already exists";
@@ -381,7 +381,7 @@ sub DBCreateUserAndDatabase {
         # do() returns undef in the error case
         my $Success = defined $DBHandle->do($Statement);
         if ( ! $Success ) {
-            return 0, $DBHandle->errstr;
+            return 0, $DBHandle->errstr();
         }
     }
 

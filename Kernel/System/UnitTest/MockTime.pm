@@ -76,7 +76,8 @@ BEGIN {
         return CORE::gmtime($Time);
     };
 
-    no warnings 'redefine'; # yes, we want to override
+    # yes, we want to override
+    no warnings 'redefine'; ## no critic (TestingAndDebugging::ProhibitNoWarnings)
 
     *DateTime::_core_time = sub {
             return $FixedTime // CORE::time();

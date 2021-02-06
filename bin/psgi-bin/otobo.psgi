@@ -506,7 +506,7 @@ my $RedirectOtoboApp = sub {
     $Res->redirect($NewPath);
 
     # send the PSGI response
-    return $Res->finalize;
+    return $Res->finalize();
 };
 
 # an App for inspecting the database, logged in user must be an admin
@@ -680,7 +680,7 @@ my $OTOBOApp = builder {
             }
 
             # do the work
-            $Interface->Run;
+            $Interface->Run();
         }
     );
 };
@@ -689,7 +689,7 @@ my $OTOBOApp = builder {
 # See http://blogs.perl.org/users/confuseacat/2012/11/how-to-use-soaptransporthttpplack.html
 # TODO: this is not tested yet.
 # TODO: There can be problems when the wrapped objects expect a CGI environment.
-my $soap = SOAP::Transport::HTTP::Plack->new;
+my $Soap = SOAP::Transport::HTTP::Plack->new();
 
 my $RPCApp = builder {
 
@@ -702,7 +702,7 @@ my $RPCApp = builder {
     sub {
         my $Env = shift;
 
-        return $soap->dispatch_to(
+        return $Soap->dispatch_to(
                 'OTOBO::RPC'
             )->handler( Plack::Request->new( $Env ) );
     };
@@ -747,8 +747,8 @@ builder {
     mount '/otobo/rpc.pl'                  => $RPCApp;
 
     # some static pages, '/' is already translate to '/index.html'
-    mount "/robots.txt"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/robots.txt")->to_app;
-    mount "/index.html"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/index.html")->to_app;
+    mount "/robots.txt"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/robots.txt")->to_app();
+    mount "/index.html"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/index.html")->to_app();
 };
 
 # for debugging, only dump the PSGI environment

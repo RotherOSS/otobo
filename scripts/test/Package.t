@@ -202,7 +202,7 @@ my $CoreTestModule    = 'Kernel/Modules/Test.pm';
 my $TimeBeforeInstall = time;
 
 # The core module Kernel/Modules/Test.pm should be old.
-ok( stat($CoreTestModule)->mtime < $TimeBeforeInstall, 'core Test.pm is old' );
+ok( stat($CoreTestModule)->mtime() < $TimeBeforeInstall, 'core Test.pm is old' );
 
 my $FirstPackageInstallOk = $PackageObject->PackageInstall( String => $String );
 
@@ -212,7 +212,10 @@ $Self->True(
 );
 
 # PackageInstall() should have touched the core module
-ok( stat($CoreTestModule)->mtime >= $TimeBeforeInstall, 'core Test.pm has been touched' );
+ok(
+    stat($CoreTestModule)->mtime() >= $TimeBeforeInstall,
+    'core Test.pm has been touched'
+);
 
 # overwriting the just install files
 my $SecondPackageInstallOk = $PackageObject->PackageInstall( String => $StringSecond );

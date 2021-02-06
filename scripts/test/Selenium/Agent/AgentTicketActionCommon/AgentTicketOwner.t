@@ -200,7 +200,7 @@ $Selenium->RunTest(
         );
 
         # Change ticket user owner by clicking
-        $Selenium->execute_script("return \$('#NewOwnerID option[value=$UserID[1]]').click();"),
+        $Selenium->execute_script("return \$('#NewOwnerID option[value=$UserID[1]]').click();");
 
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');

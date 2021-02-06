@@ -98,7 +98,8 @@ sub CleanLicenseHeader {
     my $NewContent;
 
     # Open file
-    open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName );
+    ## no critic qw(InputOutput::RequireBriefOpen)
+    open my $FileHandle, '<:encoding(utf-8)', $FilePathAndName;
 
     if ( !$FileHandle ) {
 
@@ -338,7 +339,7 @@ sub CleanOTRSFileToOTOBOStyle {
     my @ParserRegExLicence = _ChangeLicenseHeaderRules();
 
     my $NewContent;
-    open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName );
+    open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName ); ## no critic (InputOutput::RequireBriefOpen)
 
     if ( !$FileHandle ) {
 
