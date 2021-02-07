@@ -47,7 +47,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-01-19 18:56+0000\n"
-"PO-Revision-Date: 2021-02-06 15:13+0000\n"
+"PO-Revision-Date: 2021-02-07 21:07+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
@@ -2721,9 +2721,9 @@ msgid ""
 "If a ticket event is fired, the ticket filter will be applied to check if "
 "the ticket matches. Only then the job is run on that ticket."
 msgstr ""
-"Wenn ein Ticket-Ereignis ausgelöst wird, wird zunächst der Ticket-Filter "
-"angewendet um zu prüfen, ob das Ticket betroffen ist. Erst danach wird der "
-"Auftrag ggf. für dieses Ticket ausgeführt."
+"Wird ein Ticket-Ereignis ausgelöst, prüft zunächst der Ticket-Filter, ob das "
+"jeweilige Ticket betroffen ist. Erst dann wird der Auftrag ggf. für dieses "
+"Ticket ausgeführt."
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this event trigger?"
@@ -6341,9 +6341,9 @@ msgid ""
 "contact, either email-external or phone, added to a ticket before the time "
 "defined here expires, the ticket is escalated."
 msgstr ""
-"Wenn ein Artikel vom Kunden hinzugefügt wird, wird die Eskalationszeit "
-"zurückgesetzt. Wenn vor der definierten Zeit keine Kundenreaktion erfolgt, "
-"eskaliert das Ticket."
+"Immer wenn vom Kunden ein Artikel hinzugefügt wird – z. B. per E-Mail oder "
+"im Kundenbereich – wird die Eskalationszeit zurückgesetzt. Wird der Kunde "
+"bis zum definierten Zeitpunkt nicht erneut kontaktiert, eskaliert das Ticket."
 
 #. Template: AdminQueue
 msgid ""
@@ -10833,9 +10833,9 @@ msgid ""
 "found in DNS. Don't use this option if your DNS is slow or does not resolve "
 "public addresses."
 msgstr ""
-"E-Mail-Adressen, die vom Benutzer angegeben werden, werden gegen die MX-"
-"Einträge im DNS geprüft. Verwenden Sie diese Option nicht, wenn Ihr DNS "
-"langsam ist oder öffentliche Adressen nicht auflösen kann."
+"Vom Benutzer angegebene E-Mail-Adressen werden gegen die MX-Einträge im DNS "
+"geprüft. Nutzen Sie diese Option nicht, wenn Ihr DNS langsam ist oder "
+"öffentliche Adressen nicht auflösen kann."
 
 #. Template: InstallerSystem
 msgid "Elasticsearch"
@@ -19778,6 +19778,7 @@ msgid "Agent dynamic field database detailed search."
 msgstr "Detailsuche dynamisches Feld Datenbank im Agentenbereich."
 
 #. SysConfig
+#, fuzzy
 msgid "Agent dynamic field database details."
 msgstr "Details dynamisches Feld Datenbank Agentenbereich"
 
@@ -21176,10 +21177,12 @@ msgid "Customer Dashboard"
 msgstr "Kunden-Dashboard"
 
 #. SysConfig
+#, fuzzy
 msgid "Customer Dynamic Field Database Detailed Search"
 msgstr "Customer Dynamic Field Database Detailed Search"
 
 #. SysConfig
+#, fuzzy
 msgid "Customer Dynamic Field Database Details"
 msgstr "Customer Dynamic Field Database Details"
 
@@ -31738,6 +31741,7 @@ msgstr ""
 "nicht nur in der Queue-Ansicht."
 
 #. SysConfig
+#, fuzzy
 msgid "Ticket Close"
 msgstr "Ticket Close"
 
