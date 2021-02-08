@@ -1814,7 +1814,7 @@ sub Print {
 
     # Disable perl warnings in case of printing unicode private chars,
     #   see https://rt.perl.org/Public/Bug/Display.html?id=121226.
-    no warnings 'nonchar';    ## no critic
+    no warnings 'nonchar'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 
     print ${ $Param{Output} };
 

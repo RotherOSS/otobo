@@ -282,7 +282,7 @@ my $AssembleExpectedValue = sub {
 package $Param{Package}
 use strict;
 use warnings;
-no warnings 'redefine'; ## no critic
+no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 use utf8;
 sub Load {
     my (\$File, \$Self) = \@_;

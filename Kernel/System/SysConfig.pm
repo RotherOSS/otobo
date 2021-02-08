@@ -5682,7 +5682,7 @@ sub _EffectiveValues2PerlFile {
 package $TargetPath;
 use strict;
 use warnings;
-no warnings 'redefine'; ## no critic
+no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 EOF
 
     if ( $Self->{utf8} ) {

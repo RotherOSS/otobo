@@ -760,7 +760,7 @@ sub _FormatTime {
 }
 
 {
-    no warnings 'redefine';    ## no critic
+    no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 
     # Include additional optional repeatable properties used by some iCalendar implementations, in
     #   order to prevent Perl warnings.

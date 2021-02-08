@@ -99,7 +99,7 @@ my $EffectiveValueStrg = << "EOF";
 package Kernel::Config::Files::User::$UserID;
 use strict;
 use warnings;
-no warnings 'redefine';
+no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 use utf8;
 sub Load {
     my (\$File, \$Self) = \@_;

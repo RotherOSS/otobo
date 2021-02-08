@@ -547,7 +547,7 @@ for my $Test (@Tests) {
 package Kernel::Config::Files::ZZZAAuto;
 use strict;
 use warnings;
-no warnings 'redefine';
+no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 use utf8;
 
  sub Load {

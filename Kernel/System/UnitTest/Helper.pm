@@ -547,7 +547,7 @@ sub ConfigSettingChange {
 package Kernel::Config::Files::$PackageName;
 use strict;
 use warnings;
-no warnings 'redefine';
+no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 use utf8;
 sub Load {
     my (\$File, \$Self) = \@_;
@@ -586,7 +586,7 @@ package Kernel::System::WebUserAgent;
 use strict;
 use warnings;
 {
-    no warnings 'redefine';
+    no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
     sub Request {
         my $JSONString = '{"Results":{},"ErrorMessage":"","Success":1}';
         return (
@@ -765,7 +765,7 @@ sub ProvideTestDatabase {
 package Kernel::Config::Files::$PackageName;
 use strict;
 use warnings;
-no warnings 'redefine';
+no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 use utf8;
 sub Load {
     my (\$File, \$Self) = \@_;
