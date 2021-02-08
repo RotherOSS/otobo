@@ -36,7 +36,7 @@ use Exporter qw(import);
 
 # OTOBO modules
 
-our @EXPORT = qw(Translatable); ## no critic (allow automatic export)
+our @EXPORT = qw(Translatable); ## no critic qw(Modules::ProhibitAutomaticExportation)
 
 our @ObjectDependencies = ();
 
@@ -2016,8 +2016,7 @@ sub new {
         die;
     }
 
-    if ( open( my $Product, '<', "$Self->{Home}/RELEASE" ) ) {    ## no critic
-
+    if ( open( my $Product, '<', "$Self->{Home}/RELEASE" ) ) { ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         while ( my $Line = <$Product> ) {
 
             # filtering of comment lines
