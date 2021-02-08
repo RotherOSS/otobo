@@ -468,7 +468,7 @@ sub _Init {
     # create new internal cron object
     my $CronObject;
     eval {
-        $CronObject = Schedule::Cron::Events->new(    ## no critic
+        $CronObject = Schedule::Cron::Events->new(
             $Param{Schedule},
             Date => [
                 $Start{'Second'},

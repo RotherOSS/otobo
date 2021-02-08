@@ -1209,7 +1209,7 @@ sub Safety {
 
         $Safety{Replace} += $Replaced;
 
-    } while ($Replaced);    ## no critic
+    } while ($Replaced);
 
     # check ref && return result like called
     if ( defined $StringScalar ) {

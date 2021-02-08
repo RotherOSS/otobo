@@ -175,7 +175,7 @@ sub new {
 
     if ($PreferencesColumnFilters) {
         $Self->{GetColumnFilterSelect} = $PreferencesColumnFilters;
-        my @ColumnFilters = keys %{$PreferencesColumnFilters};    ## no critic
+        my @ColumnFilters = keys %{$PreferencesColumnFilters};
         for my $Field (@ColumnFilters) {
             $Self->{GetColumnFilter}->{ $Field . $Self->{Name} } = $PreferencesColumnFilters->{$Field};
         }
@@ -190,7 +190,7 @@ sub new {
     }
 
     if ($PreferencesColumnFiltersRealKeys) {
-        my @ColumnFiltersReal = keys %{$PreferencesColumnFiltersRealKeys};    ## no critic
+        my @ColumnFiltersReal = keys %{$PreferencesColumnFiltersRealKeys};
         for my $Field (@ColumnFiltersReal) {
             $Self->{ColumnFilter}->{$Field} = $PreferencesColumnFiltersRealKeys->{$Field};
         }
