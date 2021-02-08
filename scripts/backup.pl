@@ -194,7 +194,7 @@ my $SystemDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
 my $Directory = join '/',
     $BackupDir,
     $SystemDTObject->Format( Format => '%Y-%m-%d_%H-%M-%S' );
-mkdir $Directory or die "ERROR: Can't create directory: $Directory: $!"; ## no critic (OTOBO::ProhibitLowPrecendeceOps)
+mkdir $Directory or die "ERROR: Can't create directory: $Directory: $!"; ## no critic (OTOBO::ProhibitLowPrecedenceOps)
 
 # backup application
 if ($DBOnlyBackup) {
@@ -490,7 +490,7 @@ END_MESSAGE
         # TODO: make this less nasty. Make it nicety.
         # TODO: why still warnings from Perl::Critic ??
         open my $Adapted, '>', $AdaptedSchemaDumpFile                   ## no critic qw(OTOBO::ProhibitOpen)
-            or die "Can't open $AdaptedSchemaDumpFile for writing: $!"; ## no criticqw(OTOBO::ProhibitLowPrecendeceOps)
+            or die "Can't open $AdaptedSchemaDumpFile for writing: $!"; ## no criticqw(OTOBO::ProhibitLowPrecedenceOps)
         say $Adapted "-- adapted by $0";
         say $Adapted '';
         my $CurrentTable;
