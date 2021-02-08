@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
