@@ -281,9 +281,8 @@ sub _ObjectBuild {
 
     my %ObjectManagerFlags;
     {
-        ## no critic (TestingAndDebugging::ProhibitNoStrict TestingAndDebugging::ProhibitNoWarnings)
-        no strict 'refs';
-        no warnings 'once';
+        no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
+        no warnings 'once'; ## no critic (TestingAndDebugging::ProhibitNoWarnings)
 
         %ObjectManagerFlags = %{ $Package . '::ObjectManagerFlags' };
     }

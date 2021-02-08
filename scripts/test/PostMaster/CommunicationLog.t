@@ -98,7 +98,7 @@ package FakeClient {    ## no critic
     }
 }
 
-no strict 'refs';    ## no critic
+no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
 
 # Overwrite the OTOBO MailAccount::IMAP connect method to use our fake imap client,
 #   but make this change local to the unit test scope, as you can see, it also
@@ -415,7 +415,7 @@ for my $MailAccount (@MailAccounts) {
         local $FakeClientEnv{'fail_fetch'}      = $TestFakeClientEnv{'fail_fetch'};
         local $FakeClientEnv{'fail_postmaster'} = $TestFakeClientEnv{'fail_postmaster'};
 
-        no strict 'refs';    ## no critic
+        no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
 
         # Postfix if is required in next line to ensure right scope of function override.
         local *{'Kernel::System::PostMaster::Run'} = sub {

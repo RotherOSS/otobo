@@ -132,7 +132,7 @@ sub RequireBaseClass {
     # Load the module, if not already loaded.
     return if !$Self->Require($Module);
 
-    no strict 'refs';    ## no critic
+
     my $CallingClass = caller(0);
 
     # Check if the base class was already loaded.
@@ -140,6 +140,8 @@ sub RequireBaseClass {
     if ( List::Util::first { $_ eq $Module } @{"${CallingClass}::ISA"} ) {
         return 1;    # nothing to do now
     }
+
+    no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
 
     push @{"${CallingClass}::ISA"}, $Module;
 
