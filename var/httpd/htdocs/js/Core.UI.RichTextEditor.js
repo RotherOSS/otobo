@@ -192,7 +192,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             toolbar: ToolbarConfig,
             filebrowserBrowseUrl: '',
             filebrowserUploadUrl: UploadURL,
-            extraPlugins: 'splitquote,preventimagepaste,contextmenu_linkopen',
+            extraPlugins: 'splitquote,contextmenu_linkopen',
             entities: false,
             skin: 'moono-lisa'
         };
