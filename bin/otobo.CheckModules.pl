@@ -1043,11 +1043,12 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Mojolicious',
-        Required  => 0,
-        Features   => ['devel:dbviewer'],
-        Comment   => 'a web framework that makes web development fun again',
-        InstTypes => {
+        Module          => 'Mojolicious',
+        Required        => 0,
+        Features        => ['devel:dbviewer'],
+        Comment         => 'a web framework that makes web development fun again',
+        VersionRequired => '8.73',
+        InstTypes       => {
             aptget => undef,
             emerge => undef,
             zypper => undef,
