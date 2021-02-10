@@ -138,7 +138,7 @@ feature 'db:sqlite', 'Support for database SQLLite' => sub {
 
 feature 'devel:dbviewer', 'Suppport for devel:dbviewer' => sub {
     # a web framework that makes web development fun again
-    requires 'Mojolicious';
+    requires 'Mojolicious', ">= 8.73";
 
     # Mojolicious plugin to display database information on browser
     requires 'Mojolicious::Plugin::DBViewer';
@@ -339,7 +339,7 @@ feature 'optional', 'Suppport for optional' => sub {
     requires 'Test2::Tools::HTTP';
 
     # a web framework that makes web development fun again
-    requires 'Mojolicious';
+    requires 'Mojolicious', ">= 8.73";
 
     # Mojolicious plugin to display database information on browser
     requires 'Mojolicious::Plugin::DBViewer';

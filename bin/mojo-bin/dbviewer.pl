@@ -80,17 +80,19 @@ my ($DSN);
     };
 
     # write a neater error message
-    check (
-        default => sub {
-            get "/$Prefix" => sub {
-                my $c = shift;
+    check
+        $@,
+        [
+            default => sub {
+                get "/$Prefix" => sub {
+                    my $c = shift;
 
-                $c->render(
-                    text => "Sorry, @{[ $c->tag( code => $DSN ) ]} is not available. Did you run installer.pl?"
-                );
-            };
-        },
-    );
+                    $c->render(
+                        text => "Sorry, @{[ $c->tag( code => $DSN ) ]} is not available. Did you run installer.pl?"
+                    );
+                };
+            },
+        ];
 }
 
 get '/' => sub {

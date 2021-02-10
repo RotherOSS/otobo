@@ -245,7 +245,7 @@ sub _CheckConfigpmAndWriteCache {
 
     {
         ## TODO: why does Perl::Critic still complain about OTOBO::ProhibitOpen ??
-        ## no critic qw(OTOBO::ProhibitOpen OTOBO::ProhibitLowPrecendeceOps InputOutput::RequireBriefOpen)
+        ## no critic qw(OTOBO::ProhibitOpen OTOBO::ProhibitLowPrecedenceOps InputOutput::RequireBriefOpen)
         open( my $In, '<', $ConfigFile )
             or return "Can't open $ConfigFile: $!";
 

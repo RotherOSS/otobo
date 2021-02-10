@@ -132,7 +132,7 @@ requires 'SOAP::Transport::HTTP::Plack';
 
 # feature 'devel:dbviewer', 'Suppport for devel:dbviewer' => sub {
     # a web framework that makes web development fun again
-    requires 'Mojolicious';
+    requires 'Mojolicious', ">= 8.73";
 
     # Mojolicious plugin to display database information on browser
     requires 'Mojolicious::Plugin::DBViewer';
