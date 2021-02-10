@@ -79,7 +79,7 @@ my $CheckUpload = sub {
     );
 
     if ( $Param{Successful} ) {
-        my ($ContentID) = $Response->content() =~ m{ContentID=(.*)"};
+        my ($ContentID) = $Response->content() =~ m{ContentID=(.*?)"};
 
         $Response = $UserAgent->get("${BaseURL}Action=PictureUpload;FormID=$FormID;ContentID=$ContentID");
 
