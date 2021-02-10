@@ -57,7 +57,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-01-19 18:56+0000\n"
-"PO-Revision-Date: 2021-01-06 17:09+0000\n"
+"PO-Revision-Date: 2021-02-10 23:40+0000\n"
 "Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.otobo.org/projects/"
 "otobo10/otobo/pt_BR/>\n"
@@ -66,7 +66,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.2.2\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -2284,7 +2284,7 @@ msgstr "Ativar esta opção para exibir valores como uma árvore."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "%s - %s"
-msgstr ""
+msgstr "%s - %s"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the items you want to "
@@ -2517,6 +2517,8 @@ msgid ""
 "The invoker to be used to perform requests (invoker needs to be of type "
 "'Generic::PassThrough')."
 msgstr ""
+"O invocador a ser usado para realizar solicitações (o invocador precisa ser "
+"do tipo 'Generic::PassThrough')."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Activate this option to allow multiselect on results."
@@ -4433,6 +4435,8 @@ msgid ""
 "e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/"
 "actions"
 msgstr ""
+"ex. urn:otobo-com:soap:functions ou http://www.otobo.de/GenericInterface/"
+"actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name scheme"
@@ -7331,6 +7335,8 @@ msgid ""
 "It is highly recommended to send this data to OTOBO Team in order to get "
 "better support."
 msgstr ""
+"É altamente recomendável enviar esses dados para a equipe OTOBO para obter "
+"um melhor suporte."
 
 #. Template: AdminSupportDataCollector
 msgid ""
@@ -7338,6 +7344,9 @@ msgid ""
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
 msgstr ""
+"Para habilitar o envio de dados, registre seu sistema no OTOBO Team ou "
+"atualize as informações de registro do sistema (certifique-se de ativar a "
+"opção 'enviar dados de suporte'.)"
 
 #. Template: AdminSupportDataCollector
 msgid ""
@@ -7387,6 +7396,8 @@ msgstr "Enviando"
 #. Template: AdminSupportDataCollector
 msgid "The support bundle will be sent to OTOBO Team via email automatically."
 msgstr ""
+"O pacote de suporte será enviado para a equipe OTOBO por e-mail "
+"automaticamente."
 
 #. Template: AdminSupportDataCollector
 msgid "Download File"
@@ -7398,6 +7409,8 @@ msgid ""
 "Please save the file and send it to the OTOBO Team, using an alternate "
 "method."
 msgstr ""
+"Um arquivo contendo o pacote de suporte será baixado para o sistema local. "
+"Salve o arquivo e envie-o para a Equipe OTOBO, usando um método alternativo."
 
 #. Template: AdminSupportDataCollector
 msgid "Error: Support data could not be collected (%s)."
@@ -7579,7 +7592,7 @@ msgstr "Existem %s definições alteradas que serão implantadas nesta execuçã
 msgid "Switch to basic mode to deploy settings only changed by you."
 msgstr ""
 "Mude para o modo básico para implantar configurações alteradas apenas por "
-"você"
+"você."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "You have %s changed settings which will be deployed in this run."
@@ -7606,19 +7619,19 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Deploy selected changes"
-msgstr "Implementar alterações selecionadas."
+msgstr "Implementar alterações selecionadas"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Deployment History"
-msgstr ""
+msgstr "Histórico de implantação"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Filter for Deployments"
-msgstr ""
+msgstr "Filtro para implantações"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Recent Deployments"
-msgstr ""
+msgstr "Implantações Recentes"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Restore"
@@ -7626,7 +7639,7 @@ msgstr "Restaurar"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "View Details"
-msgstr ""
+msgstr "Ver detalhes"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Restore this deployment."
@@ -7646,7 +7659,7 @@ msgstr "por"
 
 #. Template: AdminSystemConfigurationDeploymentHistoryDetails
 msgid "No settings have been deployed in this run."
-msgstr ""
+msgstr "Nenhuma configuração foi implantada nesta execução."
 
 #. Template: AdminSystemConfigurationGroup
 msgid ""
@@ -7739,27 +7752,27 @@ msgstr "Histórico de Mudanças de %s"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "No modified values for this setting, the default value is used."
-msgstr ""
+msgstr "Sem valores modificados para esta configuração, o valor padrão é usado."
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "Review users setting value"
-msgstr ""
+msgstr "Rever o valor da configuração dos usuários"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "Users Value"
-msgstr ""
+msgstr "Valor do usuário"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "For"
-msgstr ""
+msgstr "Para"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "Delete all user values."
-msgstr ""
+msgstr "Remover todos os valores de usuários."
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "No user value for this setting."
-msgstr ""
+msgstr "Nenhum valor de usuário para esta configuração."
 
 #. Template: AdminSystemConfigurationView
 msgid "View a custom List of Settings"
@@ -8735,11 +8748,11 @@ msgstr "Voltar"
 
 #. Template: AgentDynamicFieldDBDetailedSearch
 msgid "Detailed search"
-msgstr ""
+msgstr "Pesquisa detalhada"
 
 #. Template: AgentDynamicFieldDBDetailedSearch
 msgid "Add an additional attribute"
-msgstr ""
+msgstr "Adicionar um atributo adicional"
 
 #. Template: AgentDynamicFieldDBDetails
 msgid "Details view"
@@ -8795,7 +8808,7 @@ msgstr "Politica de senha"
 
 #. Template: AgentPassword
 msgid "Your current password is older than %s days. You need to set a new one."
-msgstr ""
+msgstr "Sua senha atual tem mais de %s dias. Você precisa definir um novo."
 
 #. Template: AgentPassword
 msgid "Change password"
@@ -8844,11 +8857,11 @@ msgstr "A senha requer pelo menos um digito."
 
 #. Template: AgentPassword
 msgid "Change config options"
-msgstr ""
+msgstr "Alterar opções de configuração"
 
 #. Template: AgentPassword
 msgid "Admin permissions are required!"
-msgstr ""
+msgstr "Permissões de administrador são necessárias!"
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
