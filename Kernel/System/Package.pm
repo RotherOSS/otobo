@@ -1896,7 +1896,7 @@ sub PackageVerify {
         $PackageVerifyInfo = {
             Description =>
                 Translatable(
-                '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>'
+                '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>'
                 ),
             Title =>
                 Translatable('Package not verified by the OTOBO community!'),
@@ -1975,9 +1975,35 @@ sub PackageVerify {
     # dispatch the cloud service request
     my $RequestResult = $CloudServiceObject->Request(%RequestParams);
 
-    # as this is the only operation an unsuccessful request means that the operation was also
-    # unsuccessful, in such case set the package as verified
-    return 'unknown' if !IsHashRefWithData($RequestResult);
+    # as this is the only operation an unsuccessful request means that the operation was also unsuccessful
+    if (!IsHashRefWithData($RequestResult)) {
+        if ($PackageAllowNotVerifiedPackages) {
+
+            $Self->{PackageVerifyInfo} = {
+                Description =>
+                    Translatable(
+                    "<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>"
+                    ),
+                Title =>
+                    Translatable('Verification not possible (e.g. no internet connection)!'),
+                PackageInstallPossible => 1,
+            };
+        }
+        else {
+
+            $Self->{PackageVerifyInfo} = {
+                Description =>
+                    Translatable(
+                    '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>'
+                    ),
+                Title =>
+                    Translatable('Verification not possible (e.g. no internet connection)!'),
+                PackageInstallPossible => 0,
+            };
+        }
+
+        return 'unknown';
+    }
 
     my $OperationResult = $CloudServiceObject->OperationResultGet(
         RequestResult => $RequestResult,
