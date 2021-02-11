@@ -108,6 +108,9 @@ sub Output {
         undef $Self->{EnvNewRef};
     }
 
+    # otobo.psgi seemingly does not set REQUEST_SCHEME
+    $Self->{EnvRef}{REQUEST_SCHEME} ||= lc( $Self->{EnvRef}{HTTPS} ) eq 'on' ? 'https' : 'http';
+
     # if we use the HTML5 input type 'email' jQuery Validate will always validate
     # we do not want that if CheckEmailAddresses is set to 'no' in SysConfig
     $Self->{EnvRef}->{EmailFieldType} = $Kernel::OM->Get('Kernel::Config')->Get('CheckEmailAddresses') ? 'email' : 'text';
