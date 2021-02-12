@@ -47,7 +47,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-12 15:30+0000\n"
-"PO-Revision-Date: 2021-02-07 21:07+0000\n"
+"PO-Revision-Date: 2021-02-12 16:16+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
@@ -16550,10 +16550,13 @@ msgid ""
 "activate the installation of not verified packages via the \"Package::"
 "AllowNotVerifiedPackages\" system configuration setting.</p>"
 msgstr ""
+"<p>Die Installation nicht verifizierter Pakete ist standardmäßig "
+"deaktiviert. Sie können diese über die Einstellung \"Package::"
+"AllowNotVerifiedPackages\" in der Systemkonfiguration aktivieren.</p>"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Verification not possible (e.g. no internet connection)!"
-msgstr ""
+msgstr "Verifizierung nicht möglich (z. B. keine Internetverbindung)!"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -21175,8 +21178,9 @@ msgid "Customer Dynamic Field Database Details"
 msgstr "Customer Dynamic Field Database Details"
 
 #. SysConfig
+#, fuzzy
 msgid "Customer Dynamic Field Database Search"
-msgstr ""
+msgstr "Customer Dynamic Field Database Search"
 
 #. SysConfig
 msgid "Customer IDs"
