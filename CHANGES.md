@@ -1,4 +1,7 @@
 
+# OTOBO 10.0.8 2021-02-12
+
+
 # OTOBO 10.0.7 2021-01-19
 - 2021-01-19 19:57:10 +0100 Create new OTOBO language files.
 - 2021-01-06 12:40:11 +0000 Translated using Weblate (Portuguese (Brazil))
@@ -158,7 +161,7 @@
 # OTOBO 10.0.3 2020-09-23
 - 2020-09-23 10:35:02 +0200 Create new OTOBO language files.
 - 2020-09-22 12:17:52 +0200 PSGI: Consistent use of DBIx::Connector (https://github.com/RotherOSS/otobo/issues/434)
-- 2020-09-21 13:45:11 +0200 Migration: Ergebnis der DatenbankprÃ¼fung (https://github.com/RotherOSS/otobo/issues/451)
+- 2020-09-21 13:45:11 +0200 Migration: Ergebnis der DatenbankprÃÂ¼fung (https://github.com/RotherOSS/otobo/issues/451)
 - 2020-09-21 13:08:25 +0200 Fix Issue: COPYING vs. LICENSE - https://github.com/RotherOSS/otobo/issues/43
 - 2020-09-21 13:05:38 +0200 Fix Issue: Invalid references to transifex -  https://github.com/RotherOSS/otobo/issues/358
 - 2020-09-02 12:27:52 +0000 Translated using Weblate (Portuguese (Brazil))
@@ -545,3 +548,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
