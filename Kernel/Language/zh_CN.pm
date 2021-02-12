@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.998052580331061;
+    $Self->{Completeness}        = 0.997727641616621;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -5112,11 +5112,7 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
         'Migrate web service configuration.' => '迁移网络服务配置。',
-        'Can\'t add web service for Elasticsearch. File %s not found!' =>
-            '无法为Elasticsearch添加网络服务，未发现文件 %s！',
         'Failed - see the log!' => '',
-        'Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed.' =>
-            '迁移完成。 请在ElasticSearch安装完成后，在管理-> Web服务中激活Web服务。',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
         'Migrate database table notification.' => '迁移数据库表通知。',
@@ -5189,8 +5185,9 @@ sub Data {
         '<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>' =>
             '<p>其他软件包可以为OTOBO提供很多有用的增强性功能，不过请确保这些软件包的来源可靠，因为它们有可能以多种方式修改OTOBO。</p>',
         'Package not verified by the OTOBO community!' => '软件包没有经过OTOBO社区验证！',
-        '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
-            '<p>未验证的软件包安装被禁止，你可以通过"AllowNotVerifiedPackages" （容许未验证软件包）系统设置激活未验证软件包的安装。</p>',
+        '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>' =>
+            '',
+        'Verification not possible (e.g. no internet connection)!' => '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
