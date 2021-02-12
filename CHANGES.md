@@ -405,7 +405,7 @@
 - 2020-06-08 17:31:25 +0200 Fix Bux in notification messages. Fix incorrect information in README.md file. Add postmaster filter to migration process.
 - 2020-06-08 16:42:09 +0200 Issue-82: Fix syntax of the CREATE USER statement.
 - 2020-06-07 20:14:52 +0200 Fixed MySQL add user bug and extend migration script.
-- 2020-06-06 20:37:29 +0200 Now itÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ´s possible to import otrs stats too!
+- 2020-06-06 20:37:29 +0200 Now it is possible to import otrs stats too!
 - 2020-06-06 19:59:14 +0200 Fix bug in migrated statistics, CheckModules and add DoNotClean function.
 - 2020-06-06 12:10:28 +0200 Check the usage of $ENV{SCRIPT_NAME} (https://github.com/RotherOSS/otobo/issues/17)
 - 2020-06-06 08:02:06 +0200 Change CREATE USER and DB statements.
@@ -422,7 +422,7 @@
 - 2020-06-02 14:30:57 +0200 Fix typo.
 - 2020-06-02 14:25:22 +0200 CodePolicy: Edited wrong licenses, allowed usage of Kernel::System::Time for certain cases, deleted alternate skins, updated class dependencies, minor code changes.
 - 2020-05-31 10:58:09 +0200 Issur #55: specify charset=utf-8 for the /hello route
-- 2020-05-30 10:25:39 +0200 Issue 55: replace Welt with ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
+- 2020-05-30 10:25:39 +0200 Issue 55: replace Welt with the utf-world
 - 2020-05-29 17:09:42 +0200 Tidied via CodePolicy, plus some small, related corrections.
 - 2020-05-29 11:26:03 +0200 Use a process watcher instead of cron when running under Docker (https://github.com/RotherOSS/otobo/issues/51)
 - 2020-05-28 19:39:19 +0200 Issus #51: move two commands into the Dockerfile
