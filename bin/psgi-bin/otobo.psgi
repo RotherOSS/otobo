@@ -303,8 +303,10 @@ my $RefreshZZZAAutoMiddleWare = sub {
     return sub {
         my $Env = shift;
 
-        # Module::Refresh::Cache already set up in Plack::Middleware::Refresh::prepara_app();
-        Module::Refresh->refresh_module_if_modified( 'Kernel/Config/Files/ZZZAAuto.pm' );
+        if ( $INC{ 'Kernel/Config/Files/ZZZAAuto.pm' } ) {
+            # Module::Refresh::Cache already set up in Plack::Middleware::Refresh::prepara_app();
+            Module::Refresh->refresh_module( 'Kernel/Config/Files/ZZZAAuto.pm' );
+        }
 
         return $App->($Env);
     };
