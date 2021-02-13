@@ -47,9 +47,8 @@ sub SendEmail {
 
     if ( open( my $Out, '>>', $Self->{LoopProtectionLog} ) ) {
         my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-        ## use critic
         print $Out "$To;" . $DateTimeObject->Format( Format => '%a %b %{day} %H:%M:%S %Y' ) . ";\n";
-        close($Out);
+        close $Out;
     }
     else {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -70,12 +69,9 @@ sub Check {
     # check existing logfile
 
     if ( !open( my $In, '<', $Self->{LoopProtectionLog} ) ) { ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
-        ## use critic
 
         # create new log file
-
         if ( !open( my $Out, '>', $Self->{LoopProtectionLog} ) ) { ## no critic qw(OTOBO::ProhibitOpen)
-            ## use critic
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "LoopProtection! Can't write '$Self->{LoopProtectionLog}': $!!",

@@ -104,7 +104,6 @@ sub Error {
 
 
     return $Self->{Query}->cgi_error() . ' - POST_MAX=' . ( $CGI::POST_MAX / 1024 ) . 'KB';
-    ## use critic
 }
 
 =head2 GetParam()

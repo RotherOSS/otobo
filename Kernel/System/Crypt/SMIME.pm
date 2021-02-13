@@ -1005,7 +1005,6 @@ sub CertificateAdd {
         my $File = "$Self->{CertPath}/$Attributes{Hash}.$Count";
 
         if ( open( my $OUT, '>', $File ) ) { ## no critic qw(OTOBO::ProhibitOpen)
-            ## use critic
             print $OUT $Param{Certificate};
             close($OUT);
             %Result = (
@@ -1549,7 +1548,6 @@ sub PrivateAdd {
         my $File = "$Self->{PrivatePath}/$Certificates[0]->{Filename}";
 
         if ( open( my $PrivKeyFH, '>', "$File" ) ) { ## no critic qw(OTOBO::ProhibitOpen)
-            ## use critic
             print $PrivKeyFH $Param{Private};
             close $PrivKeyFH;
             open( my $PassFH, '>', "$File.P" );    ## no critic qw(OTOBO::ProhibitOpen)

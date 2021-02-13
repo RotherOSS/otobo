@@ -67,8 +67,6 @@ Don't use the constructor directly, use the ObjectManager instead:
 
 =cut
 
-## no critic (StringyEval)
-
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -5123,7 +5121,6 @@ sub _FileWriteAtomic {
     {
 
         my $Success = open( my $FH, ">$Self->{FileMode}", $TempFilename ); ## no critic qw(InputOutput::RequireBriefOpen)
-        ## use critic
         if ( ! $Success ) {
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
