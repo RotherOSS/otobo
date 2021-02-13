@@ -154,15 +154,17 @@ sub RequireBaseClass {
 
     my $CallingClass = caller(0);
 
-    # Check if the base class was already loaded.
-    # This can happen in persistent environments as mod_perl (see bug#9686).
-    if ( List::Util::first { $_ eq $Module } @{"${CallingClass}::ISA"} ) {
-        return 1;    # nothing to do now
+    {
+        no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
+
+        # Check if the base class was already loaded.
+        # This can happen in persistent environments as mod_perl (see bug#9686).
+        if ( List::Util::first { $_ eq $Module } @{"${CallingClass}::ISA"} ) {
+            return 1;    # nothing to do now
+        }
+
+        push @{"${CallingClass}::ISA"}, $Module;
     }
-
-    no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
-
-    push @{"${CallingClass}::ISA"}, $Module;
 
     return 1;
 }
