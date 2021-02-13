@@ -48,8 +48,8 @@ $CertPath    =~ s{/{2,}}{/}smxg;
 $PrivatePath =~ s{/{2,}}{/}smxg;
 File::Path::rmtree($CertPath);
 File::Path::rmtree($PrivatePath);
-File::Path::make_path( $CertPath,    { chmod => 0770 } );    ## no critic
-File::Path::make_path( $PrivatePath, { chmod => 0770 } );    ## no critic
+File::Path::make_path( $CertPath,    { chmod => 0770 } );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+File::Path::make_path( $PrivatePath, { chmod => 0770 } );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 $ConfigObject->Set(
     Key   => 'SMIME::CertPath',
     Value => $CertPath
@@ -98,7 +98,7 @@ my $CreateDir = sub {
     my $Directory = $_[0];
 
     if ( !-d $Directory ) {
-        File::Path::mkpath( $Directory, 0, 0770 );    ## no critic
+        File::Path::mkpath( $Directory, 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
         if ( !-d $Directory ) {
             $Self->True(

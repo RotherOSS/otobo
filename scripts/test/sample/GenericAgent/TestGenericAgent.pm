@@ -61,7 +61,7 @@ sub Run {
 
     # return if file can not open
     my $FH;
-    if ( !open $FH, $Mode, $Param{New}->{Location} ) {    ## no critic
+    if ( !open $FH, $Mode, $Param{New}->{Location} ) {
         print STDERR "Can't write '$Param{New}->{Location}': $!",
             return;
     }

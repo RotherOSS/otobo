@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package scripts::test::Main::Test;    ## no critic
+package scripts::test::Main::Test;
 
 use strict;
 use warnings;

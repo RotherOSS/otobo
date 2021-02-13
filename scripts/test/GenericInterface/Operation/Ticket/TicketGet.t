@@ -1701,7 +1701,7 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {    ## no critic
+                    {
                         (
                             %TicketEntryFour,
                             Article => \@ArticleBoxTypeCustomer,
@@ -1767,7 +1767,7 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {    ## no critic
+                    {
                         (
                             %TicketEntryFour,
                             Article => \@ArticleBoxSenderAgent,
@@ -1799,7 +1799,7 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {    ## no critic
+                    {
                         (
                             %TicketEntryFour,
                             Article => \@ArticleBoxSenderAgent,
@@ -1832,7 +1832,7 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {    ## no critic
+                    {
                         (
                             %TicketEntryFour,
                             Article => \@ArticleBoxSenderCustomer,

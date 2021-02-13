@@ -242,7 +242,7 @@ Erik Thijs<br/>
 
 for my $Test (@Tests) {
     my @Array;
-    open my $IN, '<', $Test->{RawEmail};    ## no critic
+    open my $IN, '<', $Test->{RawEmail};    ## no critic qw(OTOBO::ProhibitOpen)
     while (<$IN>) {
         push @Array, $_;
     }

@@ -105,7 +105,7 @@ for my $Test (@Tests) {
 EOF
 
     # Fake STDIN and fill it with the request.
-    open my $StandardInput, '<', \"$Request";    ## no critic
+    open my $StandardInput, '<', \"$Request";    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
     local *STDIN = $StandardInput;
 
     # Fake environment variables as it gets it from the request.

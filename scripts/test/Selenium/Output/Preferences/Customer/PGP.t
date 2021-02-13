@@ -72,7 +72,7 @@ $Selenium->RunTest(
 
         # create test PGP path and set it in sysConfig
         my $PGPPath = $Home . '/var/tmp/pgp' . $Helper->GetRandomID();
-        mkpath( [$PGPPath], 0, 0770 );    ## no critic
+        mkpath( [$PGPPath], 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
         $Helper->ConfigSettingChange(
             Valid => 1,

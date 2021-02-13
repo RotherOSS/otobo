@@ -36,7 +36,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 use Carp;
-local *Carp::caller_info = sub { };    ## no critic # no-op
+local *Carp::caller_info = sub { };
 use warnings 'redefine';
 
 # get needed objects

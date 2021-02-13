@@ -18,7 +18,7 @@
 # Forwards the first ticket article to the configured TargetAddress.
 #
 
-package scripts::test::GenericAgent::MailForward;    ## no critic
+package scripts::test::GenericAgent::MailForward;
 
 use strict;
 use warnings;

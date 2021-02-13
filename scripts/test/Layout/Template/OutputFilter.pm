@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package scripts::test::Layout::Template::OutputFilter;    ## no critic
+package scripts::test::Layout::Template::OutputFilter;
 
 use strict;
 use warnings;

@@ -56,7 +56,7 @@ local *{'Kernel::System::Email::SMTP::Check'} = sub {
     #   that happen, it'll check if the FakeSMTPEnv has an attribute with the same
     #   name and returns it, otherwise always returns True to ensure that the code
     #   that will use this object continues as everything is ok.
-    package FakeSMTP {    ## no critic
+    package FakeSMTP {
         our $AUTOLOAD;
 
         sub new {

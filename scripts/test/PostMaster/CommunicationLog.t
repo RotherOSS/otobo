@@ -53,7 +53,7 @@ my %FakeClientEnv = (
 #   that happen, it'll check if the FakeClientEnv has an attribute with the same
 #   name and returns it, otherwise always returns True to ensure that the code
 #   that will use this object continues as everything is ok.
-package FakeClient {    ## no critic
+package FakeClient {
     our $AUTOLOAD;
 
     sub new {
@@ -105,7 +105,7 @@ no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
 #   makes use of the %FakeClientEnv.
 local *{'Kernel::System::MailAccount::IMAP::Connect'} = sub {
 
-    package FakeIMAPClient {    ## no critic
+    package FakeIMAPClient {    ## no critic qw(Modules::ProhibitMultiplePackages)
                                 # Make this object extend the 'FakeClient' object,
                                 #   we aren't using 'use parent' because the 'FakeClient' is also a
                                 #   package defined in this test file, there's no pm file.
@@ -138,7 +138,7 @@ local *{'Kernel::System::MailAccount::IMAP::Connect'} = sub {
 #   makes use of the %FakeClientEnv.
 local *{'Kernel::System::MailAccount::POP3::Connect'} = sub {
 
-    package FakePOPClient {    ## no critic
+    package FakePOPClient {    ## no critic qw(Modules::ProhibitMultiplePackages)
                                # Make this object extend the 'FakeClient' object,
                                #   we aren't using 'use parent' because the 'FakeClient' is also a
                                #   package defined in this test file, there's no pm file.
