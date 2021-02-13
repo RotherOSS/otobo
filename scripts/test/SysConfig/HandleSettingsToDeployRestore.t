@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::TestSubs)
 use strict;
 use warnings;
@@ -75,7 +74,7 @@ my @DefaultSettingAddParams = $SysConfigXMLObject->SettingListParse(
     use Kernel::System::SysConfig::DB;
 
     # Provoke a failure for 2nd setting, this provokes that 1st setting is restored.
-    no warnings qw( once redefine );    ## no critic
+    no warnings qw(once redefine); ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
     local *Kernel::System::SysConfig::DB::ModifiedSettingVersionAdd = sub {
         my ( $Self, %Param ) = @_;
         return 0 if $Param{Name} eq $RandomID2;

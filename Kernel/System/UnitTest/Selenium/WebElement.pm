@@ -87,7 +87,7 @@ This works only in OTOBO.
 
 =cut
 
-sub VerifiedClick {    ## no critic
+sub VerifiedClick {
     my $Self = shift;
 
     my $Context = context();

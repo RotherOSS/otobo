@@ -1020,7 +1020,7 @@ Delete article data, its plain message, and all attachments.
 
 =cut
 
-sub ArticleDelete {    ## no critic;
+sub ArticleDelete {
     my ( $Self, %Param ) = @_;
 
     for my $Needed (qw(ArticleID TicketID UserID)) {
@@ -1070,8 +1070,9 @@ Write a plain email to storage. This is a delegate method from active backend.
 
 =cut
 
-sub ArticleWritePlain {    ## no critic;
+sub ArticleWritePlain { ## no critic qw(Subroutines::RequireArgUnpacking)
     my $Self = shift;
+
     return $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticleWritePlain(@_);
 }
 
@@ -1099,8 +1100,9 @@ Returns:
 
 =cut
 
-sub ArticlePlain {    ## no critic;
+sub ArticlePlain {
     my $Self = shift;
+
     return $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticlePlain(@_);
 }
 
@@ -1115,8 +1117,9 @@ Delete a plain article from storage. This is a delegate method from active backe
 
 =cut
 
-sub ArticleDeletePlain {    ## no critic;
+sub ArticleDeletePlain {    ## no critic qw(Subroutines::RequireArgUnpacking)
     my $Self = shift;
+
     return $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticleDeletePlain(@_);
 }
 
@@ -1137,8 +1140,9 @@ Write an article attachment to storage. This is a delegate method from active ba
 
 =cut
 
-sub ArticleWriteAttachment {    ## no critic;
+sub ArticleWriteAttachment {    ## no critic qw(Subroutines::RequireArgUnpacking)
     my $Self = shift;
+
     return $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticleWriteAttachment(@_);
 }
 
@@ -1165,8 +1169,9 @@ Returns:
 
 =cut
 
-sub ArticleAttachment {    ## no critic;
+sub ArticleAttachment {    ## no critic qw(Subroutines::RequireArgUnpacking)
     my $Self = shift;
+
     return $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticleAttachment(@_);
 }
 
@@ -1181,8 +1186,9 @@ Delete all attachments of an article from storage. This is a delegate method fro
 
 =cut
 
-sub ArticleDeleteAttachment {    ## no critic;
+sub ArticleDeleteAttachment {    ## no critic qw(Subroutines::RequireArgUnpacking)
     my $Self = shift;
+
     return $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticleDeleteAttachment(@_);
 }
 
@@ -1221,7 +1227,7 @@ Returns:
 
 =cut
 
-sub ArticleAttachmentIndex {    ## no critic
+sub ArticleAttachmentIndex {    ## no critic qw(Subroutines::RequireArgUnpacking)
     my $Self = shift;
     return $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticleAttachmentIndex(@_);
 }

@@ -138,7 +138,7 @@ sub CheckEmail {
     # mx check
     elsif (
         $ConfigObject->Get('CheckMXRecord')
-        && eval { require Net::DNS }    ## no critic
+        && eval { require Net::DNS }
         )
     {
 

@@ -25,13 +25,13 @@ BEGIN {
 
     # switch to unload_package_xs, the PP version is broken in Perl 5.10.1.
     # see http://rt.perl.org/rt3//Public/Bug/Display.html?id=72866
-    $ModPerl::Util::DEFAULT_UNLOAD_METHOD = 'unload_package_xs';    ## no critic
+    $ModPerl::Util::DEFAULT_UNLOAD_METHOD = 'unload_package_xs';
 
     # set $0 to index.pl if it is not an existing file:
     # on Fedora, $0 is not a path which would break OTOBO.
     # see bug # 8533
     if ( !-e $0 || -d $0 ) {
-        $0 = '/opt/otobo/bin/cgi-bin/index.pl';    ## no critic
+        $0 = '/opt/otobo/bin/cgi-bin/index.pl';    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
     }
 }
 

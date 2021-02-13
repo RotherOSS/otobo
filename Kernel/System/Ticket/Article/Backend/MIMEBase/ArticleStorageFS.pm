@@ -63,7 +63,7 @@ sub new {
     my $ArticleContentPath = $Self->BuildArticleContentPath();
     my $ArticleDir         = "$Self->{ArticleDataDir}/$ArticleContentPath/";
 
-    File::Path::mkpath( $ArticleDir, 0, 0770 );    ## no critic
+    File::Path::mkpath( $ArticleDir, 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
     # Check write permissions.
     if ( !-w $ArticleDir ) {
@@ -267,7 +267,7 @@ sub ArticleWritePlain {
     }
 
     # write article to fs 1:1
-    File::Path::mkpath( [$Path], 0, 0770 );    ## no critic
+    File::Path::mkpath( [$Path], 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
     # write article to fs
     my $Success = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
@@ -355,7 +355,7 @@ sub ArticleWriteAttachment {
 
     # write attachment to backend
     if ( !-d $Param{Path} ) {
-        if ( !File::Path::mkpath( [ $Param{Path} ], 0, 0770 ) ) {    ## no critic
+        if ( !File::Path::mkpath( [ $Param{Path} ], 0, 0770 ) ) {    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Can't create $Param{Path}: $!",

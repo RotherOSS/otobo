@@ -138,7 +138,7 @@ sub Check {
         );
 
         # sleep 0,3 seconds;
-        select( undef, undef, undef, 0.3 );    ## no critic
+        select( undef, undef, undef, 0.3 );    ## no critic qw(BuiltinFunctions::ProhibitSleepViaSelect)
     }
 
     # return if no connect was possible

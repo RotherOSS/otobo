@@ -54,7 +54,7 @@ use Kernel::System::Web::Request;
         'SingleParam - not defined',
     );
 
-    local $CGI::POST_MAX = 1024;    ## no critic
+    local $CGI::POST_MAX = 1024;
 
     $Request->{Query}->{'.cgi_error'} = 'Unittest failed ;-)';
 
@@ -75,7 +75,7 @@ use Kernel::System::Web::Request;
     );
 
     local *STDIN;
-    open STDIN, '<:utf8', \$PostData;    ## no critic
+    open STDIN, '<:utf8', \$PostData;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
 
     CGI->initialize_globals();
     my $Request = Kernel::System::Web::Request->new();

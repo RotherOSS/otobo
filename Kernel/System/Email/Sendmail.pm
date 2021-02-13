@@ -130,8 +130,8 @@ sub Send {
     # invoke sendmail in order to send off mail, catching errors in a temporary file
     my $FH;
     my $GenErrorMessage = sub { return sprintf( q{Can't send message: %s!}, shift, ); };
-    ## no critic
-    if ( !open( $FH, '|-', "$Sendmail $Arg " ) ) {
+
+    if ( !open( $FH, '|-', "$Sendmail $Arg " ) ) { ## no critic qw(InputOutput::RequireBriefOpen)
         ## use critic
         my $ErrorMessage = $GenErrorMessage->($!);
 

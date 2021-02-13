@@ -60,7 +60,7 @@ my ( $Result, $ExitCode );
 
 {
     local *STDOUT;
-    open STDOUT, '>:utf8', \$Result;    ## no critic
+    open STDOUT, '>:utf8', \$Result;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute();
 }
 

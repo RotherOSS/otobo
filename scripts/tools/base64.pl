@@ -33,7 +33,7 @@ elsif ( $Type !~ /^encode|decode$/ ) {
 }
 
 # get source text
-my @InArray = <STDIN>;    ## no critic
+my @InArray = <STDIN>;    ## no critic qw(InputOutput::ProhibitExplicitStdin)
 my $In      = '';
 for (@InArray) {
     $In .= $_;

@@ -110,7 +110,7 @@ sub TestObjectLogGet {
     my %Param = @_;
 
     my $GetRandomPriority = sub {
-        my $Idx        = int( rand(4) );                      ## no critic
+        my $Idx        = int( rand(4) );                      ## no critic qw(OTOBO::ProhibitRandInTests)
         my @Priorities = qw( Error Warn Info Debug Trace );
         return $Priorities[$Idx];
     };
@@ -171,7 +171,7 @@ sub TestObjectLogEntryList {
     my %Param = @_;
 
     my $GetRandomPriority = sub {
-        my $Idx        = int( rand(4) );                      ## no critic
+        my $Idx        = int( rand(4) );                      ## no critic qw(OTOBO::ProhibitRandInTests)
         my @Priorities = qw( Error Warn Info Debug Trace );
         return $Priorities[$Idx];
     };

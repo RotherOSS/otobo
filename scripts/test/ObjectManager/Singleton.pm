@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package scripts::test::ObjectManager::Singleton;    ## no critic
+package scripts::test::ObjectManager::Singleton;
 
 use strict;
 use warnings;

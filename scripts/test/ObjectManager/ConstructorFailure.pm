@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package scripts::test::ObjectManager::ConstructorFailure;    ## no critic
+package scripts::test::ObjectManager::ConstructorFailure;
 
 use strict;
 use warnings;

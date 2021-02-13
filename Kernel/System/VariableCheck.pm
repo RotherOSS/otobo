@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Exporter qw(import);
-our %EXPORT_TAGS = (    ## no critic
+our %EXPORT_TAGS = (    ## no critic qw(OTOBO::RequireCamelCase)
     all => [
         'IsArrayRefWithData',
         'IsHashRefWithData',

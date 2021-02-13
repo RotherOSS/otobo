@@ -430,11 +430,11 @@ sub Export {
 }
 
 {
-    no warnings 'redefine';    ## no critic
+    no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 
     # Include product name and version in product ID property for debugging purposes, by redefining
     #   external library method.
-    sub Data::ICal::product_id {    ## no critic
+    sub Data::ICal::product_id {    ## no critic qw(OTOBO::RequireCamelCase)
         return 'OTOBO ' . $Kernel::OM->Get('Kernel::Config')->Get('Version');
     }
 }

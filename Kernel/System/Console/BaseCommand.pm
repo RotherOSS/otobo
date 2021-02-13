@@ -442,7 +442,7 @@ sub Execute {
         && !$Kernel::OM->Get('Kernel::Config')->Get('SuppressConsoleEncodingCheck')
         )
     {
-        my $ConsoleEncoding = lc $Encode::Locale::ENCODING_CONSOLE_OUT;    ## no critic
+        my $ConsoleEncoding = lc $Encode::Locale::ENCODING_CONSOLE_OUT;
 
         if ( $ConsoleEncoding ne 'utf-8' ) {
             $Self->PrintError(

@@ -53,7 +53,7 @@ sub new {
     # check if cache directory exists and in case create one
     for my $Directory ( $TempDir, $Self->{CacheDirectory} ) {
         if ( !-e $Directory ) {
-            ## no critic
+
             if ( !mkdir( $Directory, 0770 ) ) {
                 ## use critic
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -97,7 +97,7 @@ sub Set {
 
         # Create directory. This could fail if another process creates the
         #   same directory, so don't use the return value.
-        File::Path::mkpath( $CacheDirectory, 0, 0770 );    ## no critic
+        File::Path::mkpath( $CacheDirectory, 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
         if ( !-e $CacheDirectory ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(

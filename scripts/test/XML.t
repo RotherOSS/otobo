@@ -593,7 +593,7 @@ my $Path = $ConfigObject->Get('Home');
 $Path .= "/scripts/test/sample/XML/";
 my $File = 'XML-Test-file.xml';
 $String = '';
-if ( open( my $DATA, "<", "$Path/$File" ) ) {    ## no critic
+if ( open( my $DATA, "<", "$Path/$File" ) ) {    ## no critic qw(OTOBO::ProhibitOpen)
     while (<$DATA>) {
         $String .= $_;
     }

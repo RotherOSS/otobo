@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::MigrateFromOTRS::OTOBOStatsMigrate;    ## no critic
+package Kernel::System::MigrateFromOTRS::OTOBOStatsMigrate;
 
 use strict;
 use warnings;

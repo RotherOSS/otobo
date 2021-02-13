@@ -38,8 +38,8 @@ $Selenium->RunTest(
         my $PrivatePath = $ConfigObject->Get('Home') . "/var/tmp/private";
         File::Path::rmtree($CertPath);
         File::Path::rmtree($PrivatePath);
-        File::Path::make_path( $CertPath,    { chmod => 0770 } );    ## no critic
-        File::Path::make_path( $PrivatePath, { chmod => 0770 } );    ## no critic
+        File::Path::make_path( $CertPath,    { chmod => 0770 } );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+        File::Path::make_path( $PrivatePath, { chmod => 0770 } );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
         # Disabled SMIME in config.
         $Helper->ConfigSettingChange(

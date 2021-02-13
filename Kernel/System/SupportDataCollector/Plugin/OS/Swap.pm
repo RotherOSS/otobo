@@ -41,7 +41,7 @@ sub Run {
     my ( $MemTotal, $MemFree, $SwapTotal, $SwapFree );
 
     # If used OS is a linux system
-    if ( -e "/proc/meminfo" && open( $MemInfoFile, '<', "/proc/meminfo" ) ) {    ## no critic
+    if ( -e "/proc/meminfo" && open( $MemInfoFile, '<', "/proc/meminfo" ) ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         while (<$MemInfoFile>) {
             my $TmpLine = $_;
             if ( $TmpLine =~ /MemTotal/ ) {

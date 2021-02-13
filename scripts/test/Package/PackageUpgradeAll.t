@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -254,7 +253,7 @@ for my $Test (@Tests) {
     );
 
     # Redefine key features to prevent real network communications and use local results for this test.
-    no warnings qw( once redefine );    ## no critic
+    no warnings qw(once redefine); ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
     local *Kernel::System::Package::PackageOnlineList = sub {
         return do "$TestPath/$Test->{PackageOnlineList}";
     };
