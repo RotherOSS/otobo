@@ -87,7 +87,7 @@ else {
 # check needed programs
 for my $CMD ( 'cp', 'tar', $DecompressCMD ) {
     my $IsInstalled = 0;
-    open( my $Input, '-|', "which $CMD" );    ## no critic
+    open( my $Input, '-|', "which $CMD" );    ## no critic qw(InputOutput::RequireBriefOpen)
     while (<$Input>) {
         $IsInstalled = 1;
     }
@@ -139,7 +139,7 @@ if ( $DatabaseDSN =~ m/:mysql/i ) {
     $DBDump = 'mysql';
 
     my $IsInstalled = 0;
-    open( my $Input, '-|', "which $DBDump" );    ## no critic
+    open( my $Input, '-|', "which $DBDump" );    ## no critic qw(InputOutput::RequireBriefOpen)
     while (<$Input>) {
         $IsInstalled = 1;
     }
@@ -157,7 +157,7 @@ elsif ( $DatabaseDSN =~ m/:pg/i ) {
     }
 
     my $IsInstalled = 0;
-    open( my $Input, '-|', "which $DBDump" );    ## no critic
+    open( my $Input, '-|', "which $DBDump" );
     while (<$Input>) {
         $IsInstalled = 1;
     }
@@ -275,7 +275,7 @@ else {
 
         # set password via environment variable if there is one
         if ($DatabasePw) {
-            $ENV{'PGPASSWORD'} = $DatabasePw;    ## no critic
+            $ENV{'PGPASSWORD'} = $DatabasePw;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
         }
         say "Restore database into $DB ...";
         system(
@@ -286,7 +286,7 @@ else {
 
         # set password via environment variable if there is one
         if ($DatabasePw) {
-            $ENV{'PGPASSWORD'} = $DatabasePw;    ## no critic
+            $ENV{'PGPASSWORD'} = $DatabasePw;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
         }
         say "Restore database into $DB ...";
         system(
