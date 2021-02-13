@@ -108,7 +108,7 @@ sub Array2CSV {
 
     if ( $Param{Format} eq 'Excel' ) {
 
-        open my $FileHandle, '>', \$Output;    ## no critic
+        open my $FileHandle, '>', \$Output;    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         if ( !$FileHandle ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -270,7 +270,7 @@ sub CSV2Array {
 
     # parse all CSV data line by line (allows newlines in data fields)
     my $LineCounter = 1;
-    open my $FileHandle, '<', \$Param{String};    ## no critic
+    open my $FileHandle, '<', \$Param{String};    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
     while ( my $ColRef = $CSV->getline($FileHandle) ) {
         push @Array, $ColRef;
         $LineCounter++;

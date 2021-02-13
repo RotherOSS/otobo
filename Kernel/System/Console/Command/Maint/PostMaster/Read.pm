@@ -71,7 +71,7 @@ sub Run {
     );
 
     # get email from SDTIN
-    my @Email = <STDIN>;    ## no critic
+    my @Email = <STDIN>;    ## no critic qw(InputOutput::ProhibitExplicitStdin)
 
     if ( !@Email ) {
 

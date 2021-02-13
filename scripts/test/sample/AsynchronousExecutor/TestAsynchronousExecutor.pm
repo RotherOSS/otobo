@@ -141,7 +141,7 @@ sub _FileWrite {
 
     # return if file can not open
     my $FH;
-    if ( !open $FH, $Mode, $Param{Location} ) {    ## no critic
+    if ( !open $FH, $Mode, $Param{Location} ) {
         print STDERR "Can't write '$Param{Location}': $!",
             return;
     }

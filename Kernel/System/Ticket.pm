@@ -8164,7 +8164,7 @@ Collect attributes of (last) closing for given ticket.
 
 =cut
 
-sub _TicketGetClosed {    ## no critic
+sub _TicketGetClosed {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff

@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::TestSubs)
 use strict;
 use warnings;
@@ -83,7 +82,7 @@ $Selenium->RunTest(
 package Kernel::Config::Files::User::$TestUserID1;
 use strict;
 use warnings;
-no warnings 'redefine';
+no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 use utf8;
 sub Load {
     my (\$File, \$Self) = \@_;

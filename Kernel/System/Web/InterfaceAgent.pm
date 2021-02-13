@@ -1229,9 +1229,7 @@ sub Content {
             # Write to PerformanceLog file only if it is smaller than size limit (see bug#14747).
             if ( -s $File < ( 1024 * 1024 * $ConfigObject->Get('PerformanceLog::FileMax') ) ) {
 
-                ## no critic
                 if ( open my $Out, '>>', $File ) {
-                    ## use critic
                     print $Out time()
                         . '::Agent::'
                         . ( time() - $Self->{PerformanceLogStart} )

@@ -32,7 +32,7 @@ our @ObjectDependencies = (
     'Kernel::System::MailAccount',
 );
 
-package MyIMAP {    ## no critic
+package MyIMAP {    ## no critic qw(Modules::ProhibitMultiplePackages)
     our $AUTOLOAD;
 
     sub new {
@@ -249,7 +249,7 @@ sub _ImportEmails {
 
     # Redefine PostMaster::Run so we can fail some messages
     #   and keep this change local to the current scope
-    no strict 'refs';    ## no critic
+    no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
 
     local *{'Kernel::System::MailAccount::IMAP::Connect'} = sub {
         my ( $Self, %Param ) = @_;

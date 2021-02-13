@@ -26,7 +26,7 @@ if ( !$ARGV[0] ) {
 }
 my $Filename = $ARGV[0];
 
-if ( open my $FH, '<', $Filename ) {    ## no critic
+if ( open my $FH, '<', $Filename ) {    ## no critic qw(OTOBO::ProhibitOpen)
     binmode $FH;
     my $MD5 = Digest::MD5->new();
     $MD5->addfile($FH);

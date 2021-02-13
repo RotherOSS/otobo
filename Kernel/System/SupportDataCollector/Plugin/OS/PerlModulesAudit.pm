@@ -41,7 +41,7 @@ sub Run {
 
     {
         local *STDOUT;
-        open STDOUT, '>:utf8', \$CommandOutput;    ## no critic
+        open STDOUT, '>:utf8', \$CommandOutput;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
         $ExitCode = $CommandObject->Execute();
     }
 

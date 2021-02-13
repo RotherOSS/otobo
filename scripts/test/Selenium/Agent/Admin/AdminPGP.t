@@ -54,7 +54,7 @@ $Selenium->RunTest(
 
         # Create test PGP path and set it in sysConfig.
         my $PGPPath = $ConfigObject->Get('Home') . "/var/tmp/pgp" . $Helper->GetRandomID();
-        mkpath( [$PGPPath], 0, 0770 );    ## no critic
+        mkpath( [$PGPPath], 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 

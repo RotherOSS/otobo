@@ -53,7 +53,7 @@ use strict;
 use warnings;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::TestSubs)
 {
-    no warnings 'redefine';
+    no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
     sub Request {
         return (
             Status  => '200 OK',

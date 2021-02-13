@@ -113,7 +113,7 @@ sub Run {
         USERID:
         for my $UserID ( sort keys %UsersWithActivatedWidget ) {
 
-            my $StartTime = time();    ## no critic
+            my $StartTime = time();
 
             # ignore invalid users
             my %UserData = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
@@ -160,7 +160,7 @@ sub Run {
             );
 
             if ( $Self->GetOption('debug') ) {
-                print STDERR sprintf( "DEBUG: time taken: %ss\n", time() - $StartTime );    ## no critic
+                print STDERR sprintf( "DEBUG: time taken: %ss\n", time() - $StartTime );
             }
 
             if ( !$Result ) {

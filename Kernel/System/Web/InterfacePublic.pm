@@ -269,9 +269,8 @@ sub Content {
             $QueryString = 'Action=' . $Param{Action} . '&Subaction=' . $Param{Subaction};
         }
         my $File = $ConfigObject->Get('PerformanceLog::File');
-        ## no critic
+
         if ( open my $Out, '>>', $File ) {
-            ## use critic
             print $Out time()
                 . '::Public::'
                 . ( time() - $Self->{PerformanceLogStart} )

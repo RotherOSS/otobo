@@ -197,7 +197,7 @@ Retrieves a singleton object, and if it not yet exists, implicitly creates one f
 
 =cut
 
-sub Get {    ## no critic
+sub Get {    ## no critic qw(Subroutines::RequireArgUnpacking)
 
     # No param unpacking for increased performance
     if ( $_[1] && $_[0]->{Objects}->{ $_[1] } ) {
@@ -281,9 +281,8 @@ sub _ObjectBuild {
 
     my %ObjectManagerFlags;
     {
-        ## no critic (TestingAndDebugging::ProhibitNoStrict TestingAndDebugging::ProhibitNoWarnings)
-        no strict 'refs';
-        no warnings 'once';
+        no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
+        no warnings 'once'; ## no critic (TestingAndDebugging::ProhibitNoWarnings)
 
         %ObjectManagerFlags = %{ $Package . '::ObjectManagerFlags' };
     }

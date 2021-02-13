@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -1702,7 +1701,7 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {    ## no critic
+                    {
                         (
                             %TicketEntryFour,
                             Article => \@ArticleBoxTypeCustomer,
@@ -1768,7 +1767,7 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {    ## no critic
+                    {
                         (
                             %TicketEntryFour,
                             Article => \@ArticleBoxSenderAgent,
@@ -1800,7 +1799,7 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {    ## no critic
+                    {
                         (
                             %TicketEntryFour,
                             Article => \@ArticleBoxSenderAgent,
@@ -1833,7 +1832,7 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {    ## no critic
+                    {
                         (
                             %TicketEntryFour,
                             Article => \@ArticleBoxSenderCustomer,

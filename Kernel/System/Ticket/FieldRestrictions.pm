@@ -526,19 +526,19 @@ sub Autoselect {
         && ( ( !ref( $Param{Current} ) && $Param{Current} !~ /^-?$/ ) || IsArrayRefWithData( $Param{Current} ) )
         )
     {
-        return undef;    ## no critic
+        return undef;    ## no critic qw(Subroutines::ProhibitExplicitReturnUndef)
     }
 
     # check possible values
     if ( !$Param{PossibleValues} ) {
-        return undef;    ## no critic
+        return undef;    ## no critic qw(Subroutines::ProhibitExplicitReturnUndef)
     }
     if ( ref( $Param{PossibleValues} ) ne 'HASH' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "PossibleValues has to be a Hash ref!"
         );
-        return undef;    ## no critic
+        return undef;    ## no critic qw(Subroutines::ProhibitExplicitReturnUndef)
     }
 
     my ( $ValidKeys, $UsedKey );
@@ -547,13 +547,13 @@ sub Autoselect {
         # exclude empty values; '-' for backwards compatibility
         if ( $Key !~ /^-?$/ ) {
             if ( ++$ValidKeys > 1 ) {
-                return undef;    ## no critic
+                return undef;    ## no critic qw(Subroutines::ProhibitExplicitReturnUndef)
             }
             $UsedKey = $Key;
         }
     }
     if ( !$ValidKeys ) {
-        return undef;            ## no critic
+        return undef;            ## no critic qw(Subroutines::ProhibitExplicitReturnUndef)
     }    # else $ValidKeys == 1 => autoselect
 
     # fill the field if and add it to the changed elements

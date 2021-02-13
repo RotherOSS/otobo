@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::MigrateFromOTRS::Base;    ## no critic
+package Kernel::System::MigrateFromOTRS::Base;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
 ## nofilter(TidyAll::Plugin::OTOBO::Common::CustomizationMarkers)
 
@@ -339,7 +339,7 @@ sub CleanOTRSFileToOTOBOStyle {
     my @ParserRegExLicence = _ChangeLicenseHeaderRules();
 
     my $NewContent;
-    open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName ); ## no critic (InputOutput::RequireBriefOpen)
+    open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName );
 
     if ( !$FileHandle ) {
 
@@ -349,6 +349,7 @@ sub CleanOTRSFileToOTOBOStyle {
             Priority => 'error',
         );
         close $FileHandle;
+
         return;
     }
 

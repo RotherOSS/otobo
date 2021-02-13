@@ -31,7 +31,7 @@ use DateTime 1.08;    # Load DateTime so that we can override functions for the 
 
 # OTOBO modules
 
-our %EXPORT_TAGS = (    ## no critic
+our %EXPORT_TAGS = (    ## no critic qw(OTOBO::RequireCamelCase)
     all => [ qw(FixedTimeSet FixedTimeGet FixedTimeUnset FixedTimeAddSeconds) ],
 );
 

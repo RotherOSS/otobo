@@ -17,7 +17,6 @@
 # This test should verify that a module gets the configured parameters
 #   passed directly in the param hash
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;

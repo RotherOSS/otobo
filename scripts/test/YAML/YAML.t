@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -167,7 +166,7 @@ my @Tests = (
     },
     {
         Name          => 'Number 01',
-        Data          => 01,            ## no critic
+        Data          => 01,            ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
         SuccessDecode => 1,
     },
     {
@@ -190,7 +189,7 @@ ENGINE:
 for my $Engine (qw(YAML::XS YAML)) {
 
     # locally override the internal engine of YAML::Any to force testing
-    local @YAML::Any::_TEST_ORDER = ($Engine);    ## no critic
+    local @YAML::Any::_TEST_ORDER = ($Engine);
 
     TEST:
     for my $Test (@Tests) {

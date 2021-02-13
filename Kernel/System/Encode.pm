@@ -57,7 +57,7 @@ sub new {
     $Self->{Debug} = 0;
 
     # use "locale" as an arg to encode/decode
-    @ARGV = map { decode( locale => $_, 1 ) } @ARGV;    ## no critic
+    @ARGV = map { decode( locale => $_, 1 ) } @ARGV;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
 
     # check if the encodeobject is used from the command line
     # if so, we need to decode @ARGV
@@ -174,7 +174,7 @@ sub Convert {
     if ( $AdditionalChineseCharsets{ $Param{From} } ) {
 
         # require module, print error if module was not found
-        if ( !eval "require Encode::HanExtra" ) {    ## no critic
+        if ( !eval "require Encode::HanExtra" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
             print STDERR
                 "Charset '$Param{From}' requires Encode::HanExtra, which is not installed!\n";
         }
@@ -353,7 +353,7 @@ sub ConfigureOutputFileHandle {
 
     # http://www.perlmonks.org/?node_id=644786
     # http://bugs.otrs.org/show_bug.cgi?id=12100
-    binmode( $Param{FileHandle}, ':utf8' );    ## no critic
+    binmode( $Param{FileHandle}, ':utf8' );    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
 
     return 1;
 }

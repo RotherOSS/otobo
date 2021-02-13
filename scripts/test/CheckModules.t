@@ -30,7 +30,7 @@ my $Home = $ConfigObject->Get('Home');
 my $TmpSumString;
 
 if ( open( $TmpSumString, '-|', "$^X $Home/bin/otobo.CheckModules.pl --all NoColors" ) )
-{    ## no critic
+{
 
     LINE:
     while (<$TmpSumString>) {

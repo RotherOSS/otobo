@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -48,8 +47,8 @@ $Selenium->RunTest(
         # create directory for certificates and private keys
         my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";
         my $PrivatePath = $ConfigObject->Get('Home') . "/var/tmp/private";
-        mkpath( [$CertPath],    0, 0770 );    ## no critic
-        mkpath( [$PrivatePath], 0, 0770 );    ## no critic
+        mkpath( [$CertPath],    0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+        mkpath( [$PrivatePath], 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
         # set SMIME paths in sysConfig
         $Helper->ConfigSettingChange(

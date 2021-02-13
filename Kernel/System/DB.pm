@@ -199,7 +199,7 @@ sub Connect {
     if ( !$DBIxConnectorIsUsed && $Self->{dbh} ) {
 
         my $PingTimeout = 10;        # Only ping every 10 seconds (see bug#12383).
-        my $CurrentTime = time;      ## no critic
+        my $CurrentTime = time;
 
         if ( $CurrentTime - ( $Self->{LastPingTime} // 0 ) < $PingTimeout ) {
             return $Self->{dbh};

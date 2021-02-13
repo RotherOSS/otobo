@@ -24,7 +24,7 @@ use feature qw(state);
 
 use Exporter qw(import);
 
-our %EXPORT_TAGS = (    ## no critic
+our %EXPORT_TAGS = (    ## no critic qw(OTOBO::RequireCamelCase)
     all => [
         'OTOBOTimeZoneGet',
         'SystemTimeZoneGet',

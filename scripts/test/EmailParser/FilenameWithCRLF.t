@@ -32,7 +32,7 @@ my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # test for bug#13554
 my @Array;
-open my $IN, '<', "$Home/scripts/test/sample/EmailParser/FilenameWithCRLF.box";    ## no critic
+open my $IN, '<', "$Home/scripts/test/sample/EmailParser/FilenameWithCRLF.box";    ## no critic qw(OTOBO::ProhibitOpen)
 while (<$IN>) {
     push @Array, $_;
 }

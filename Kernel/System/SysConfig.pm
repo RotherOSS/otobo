@@ -67,8 +67,6 @@ Don't use the constructor directly, use the ObjectManager instead:
 
 =cut
 
-## no critic (StringyEval)
-
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -5121,9 +5119,8 @@ sub _FileWriteAtomic {
     # write to a temp file
     my $TempFilename = $Param{Filename} . '.' . $$; # append the processs id
     {
-        ## no critic
-        my $Success = open( my $FH, ">$Self->{FileMode}", $TempFilename );
-        ## use critic
+
+        my $Success = open( my $FH, ">$Self->{FileMode}", $TempFilename ); ## no critic qw(InputOutput::RequireBriefOpen)
         if ( ! $Success ) {
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -5682,7 +5679,7 @@ sub _EffectiveValues2PerlFile {
 package $TargetPath;
 use strict;
 use warnings;
-no warnings 'redefine'; ## no critic
+no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 EOF
 
     if ( $Self->{utf8} ) {

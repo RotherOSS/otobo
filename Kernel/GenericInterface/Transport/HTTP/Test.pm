@@ -264,7 +264,7 @@ sending them out to the network.
 
 =cut
 
-package Kernel::GenericInterface::Transport::HTTP::Test::CustomHTTPProtocol;    ## no critic
+package Kernel::GenericInterface::Transport::HTTP::Test::CustomHTTPProtocol;    ## no critic qw(Modules::ProhibitMultiplePackages)
 
 use parent qw(LWP::Protocol);
 
@@ -274,7 +274,7 @@ sub new {
     return $Class->SUPER::new(@_);
 }
 
-sub request {                                                                   ## no critic
+sub request {                                                                   ## no critic qw(Subroutines::RequireArgUnpacking)
     my $Self = shift;
 
     my ( $Request, $Proxy, $Arg, $Size, $Timeout ) = @_;

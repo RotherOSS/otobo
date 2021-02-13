@@ -36,7 +36,7 @@ $Selenium->RunTest(
         # Create test PGP path and set it in sysConfig.
         my $RandomID = $Helper->GetRandomID();
         my $PGPPath  = $ConfigObject->Get('Home') . "/var/tmp/pgp" . $RandomID;
-        mkpath( [$PGPPath], 0, 0770 );    ## no critic
+        mkpath( [$PGPPath], 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
         # Enable PGP in config.
         $Helper->ConfigSettingChange(

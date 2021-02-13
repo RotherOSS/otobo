@@ -1262,11 +1262,10 @@ sub Check {
             'Email::Valid'    => 1,    # uses Net::DNS internally
         );
 
-        ## no critic
-        if ( !$DontRequire{ $Module->{Module} } && !eval "require $Module->{Module}" ) {
+
+        if ( !$DontRequire{ $Module->{Module} } && !eval "require $Module->{Module}" ) { ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
             $ErrorMessage .= 'Not all prerequisites for this module correctly installed. ';
         }
-        ## use critic
 
         if ( $Module->{VersionsNotSupported} ) {
 

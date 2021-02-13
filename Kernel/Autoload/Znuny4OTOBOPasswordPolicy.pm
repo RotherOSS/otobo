@@ -29,7 +29,7 @@ our @ObjectDependencies = (
 
 # disable redefine warnings in this scope
 {
-    no warnings 'redefine';              ## no critic
+    no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 
     # backup original Redirect()
     my $Redirect = \&Kernel::Output::HTML::Layout::Redirect;

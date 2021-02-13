@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package scripts::test::CommunicationChannel::TestTwo;    ## no critic
+package scripts::test::CommunicationChannel::TestTwo;
 
 use parent 'Kernel::System::CommunicationChannel::Base';
 

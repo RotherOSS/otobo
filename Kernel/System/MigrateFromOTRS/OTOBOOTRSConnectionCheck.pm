@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::MigrateFromOTRS::OTOBOOTRSConnectionCheck;    ## no critic
+package Kernel::System::MigrateFromOTRS::OTOBOOTRSConnectionCheck;
 
 use strict;
 use warnings;
@@ -245,9 +245,8 @@ sub _CheckConfigpmAndWriteCache {
 
     {
         ## TODO: why does Perl::Critic still complain about OTOBO::ProhibitOpen ??
-        ## no critic qw(OTOBO::ProhibitOpen OTOBO::ProhibitLowPrecedenceOps InputOutput::RequireBriefOpen)
-        open( my $In, '<', $ConfigFile )
-            or return "Can't open $ConfigFile: $!";
+        open( my $In, '<', $ConfigFile )            ## no critic qw(OTOBO::ProhibitOpen)
+            or return "Can't open $ConfigFile: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
 
         CONFIGLINE:
         while (<$In>) {

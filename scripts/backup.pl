@@ -164,7 +164,7 @@ else {
 
     for my $Cmd ( @Cmds ) {
         my $IsInstalled = 0;
-        open my $In, '-|', "which $Cmd";    ## no critic
+        open my $In, '-|', "which $Cmd";
         while (<$In>) {
             $IsInstalled = 1;
         }
@@ -194,7 +194,8 @@ my $SystemDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
 my $Directory = join '/',
     $BackupDir,
     $SystemDTObject->Format( Format => '%Y-%m-%d_%H-%M-%S' );
-mkdir $Directory or die "ERROR: Can't create directory: $Directory: $!"; ## no critic (OTOBO::ProhibitLowPrecedenceOps)
+# TODO: why still warnings from Perl::Critic ??
+mkdir $Directory or die "ERROR: Can't create directory: $Directory: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
 
 # backup application
 if ($DBOnlyBackup) {
@@ -305,7 +306,7 @@ else {
 
     # set password via environment variable if there is one
     if ($DatabasePw) {
-        $ENV{PGPASSWORD} = $DatabasePw;    ## no critic
+        $ENV{PGPASSWORD} = $DatabasePw;
     }
 
     if ($DatabaseHost) {
@@ -488,9 +489,9 @@ END_MESSAGE
 
         # now adapt the relevant lines
         # TODO: make this less nasty. Make it nicety.
-        # TODO: why still warnings from Perl::Critic ??
+        # TODO: why still warnings from Perl::Critic ?? Maybe the line count is messed up.
         open my $Adapted, '>', $AdaptedSchemaDumpFile                   ## no critic qw(OTOBO::ProhibitOpen)
-            or die "Can't open $AdaptedSchemaDumpFile for writing: $!"; ## no criticqw(OTOBO::ProhibitLowPrecedenceOps)
+            or die "Can't open $AdaptedSchemaDumpFile for writing: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
         say $Adapted "-- adapted by $0";
         say $Adapted '';
         my $CurrentTable;
