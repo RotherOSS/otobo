@@ -1367,7 +1367,7 @@ sub ReConfigure {
     close $In;
 
     # Write new config file.
-    open( my $Out, '>:utf8', $ConfigFile        ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    open( my $Out, '>:utf8', $ConfigFile )      ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
         or return "Can't open $ConfigFile: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
     print $Out $Config;
     ## use critic
