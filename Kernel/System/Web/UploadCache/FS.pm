@@ -126,7 +126,7 @@ sub FormIDAddFile {
 
         # Create directory. This could fail if another process creates the
         #   same directory, so don't use the return value.
-        File::Path::mkpath( $Directory, 0, 0770 );    ## no critic
+        File::Path::mkpath( $Directory, 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
         if ( !-d $Directory ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(

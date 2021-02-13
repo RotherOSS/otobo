@@ -91,6 +91,6 @@ else {
 
     # just output relevant data and no the operation name key (like TicketCreateResponse)
     for my $ResponseKey ( sort keys %{$Body} ) {
-        print Dumper( $Body->{$ResponseKey} );    ## no critic
+        print Dumper( $Body->{$ResponseKey} );
     }
 }

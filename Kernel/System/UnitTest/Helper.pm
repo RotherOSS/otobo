@@ -102,7 +102,7 @@ sub new {
         $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME} = $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME};
 
         # set environment value to 0
-        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0;    ## no critic
+        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
 
         $Self->{RestoreSSLVerify} = 1;
     }
@@ -417,7 +417,7 @@ sub DESTROY {
 
     # restore environment variable to skip SSL certificate verification if needed
     if ( $Self->{RestoreSSLVerify} ) {
-        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME};    ## no critic
+        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME};    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
         $Self->{RestoreSSLVerify}          = 0;
     }
 

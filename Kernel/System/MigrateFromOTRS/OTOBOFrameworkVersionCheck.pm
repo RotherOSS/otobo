@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::MigrateFromOTRS::OTOBOFrameworkVersionCheck;    ## no critic
+package Kernel::System::MigrateFromOTRS::OTOBOFrameworkVersionCheck;
 
 use strict;
 use warnings;
@@ -183,7 +183,7 @@ sub _CheckOTOBOVersion {
 
     my $ProductName;
     my $Version;
-    if ( open( my $Product, '<', "$OTOBOHome/RELEASE" ) ) {    ## no critic
+    if ( open( my $Product, '<', "$OTOBOHome/RELEASE" ) ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         while (<$Product>) {
 
             # filtering of comment lines
@@ -249,7 +249,7 @@ sub _CheckOTRSRelease {
     }
 
     my ( $ProductName, $Version );
-    if ( open( my $Product, '<', $OTRSReleasePath ) ) {    ## no critic
+    if ( open( my $Product, '<', $OTRSReleasePath ) ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         while (<$Product>) {
 
             # filtering of comment lines

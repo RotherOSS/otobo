@@ -381,7 +381,7 @@ sub FileRead {
     }
 
     # return if file can not open
-    if ( !open $FH, $Mode, $Param{Location} ) {    ## no critic
+    if ( !open $FH, $Mode, $Param{Location} ) {    ## no critic qw(InputOutput::RequireBriefOpen)
         my $Error = $!;
 
         if ( !$Param{DisableWarnings} ) {
@@ -509,7 +509,7 @@ sub FileWrite {
 
     # return if file can not open
     my $FH;
-    if ( !open $FH, $Mode, $Param{Location} ) {    ## no critic
+    if ( !open $FH, $Mode, $Param{Location} ) {    ## no critic qw(InputOutput::RequireBriefOpen)
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't write '$Param{Location}': $!",
@@ -733,7 +733,7 @@ sub MD5sum {
 
         # open file
         my $FH;
-        if ( !open $FH, '<', $Param{Filename} ) {    ## no critic
+        if ( !open $FH, '<', $Param{Filename} ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
             my $Error = $!;
 
             # Check if file exists only if system was not able to open it (to get better error message).
@@ -851,7 +851,7 @@ sub Dump {
         $Self->_Dump($DataNew);
 
         # Dump it as binary strings.
-        my $String = Data::Dumper::Dumper( ${$DataNew} );    ## no critic
+        my $String = Data::Dumper::Dumper( ${$DataNew} );
 
         # Enable utf8 flag.
         Encode::_utf8_on($String);
@@ -860,7 +860,7 @@ sub Dump {
     }
 
     # fallback if Storable can not be loaded
-    return Data::Dumper::Dumper($Data);                      ## no critic
+    return Data::Dumper::Dumper($Data);
 
 }
 

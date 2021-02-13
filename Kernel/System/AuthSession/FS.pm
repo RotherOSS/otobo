@@ -45,7 +45,7 @@ sub new {
     $Self->{SystemID}     = $ConfigObject->Get('SystemID');
 
     if ( !-e $Self->{SessionSpool} ) {
-        if ( !mkdir( $Self->{SessionSpool}, 0770 ) ) {    ## no critic
+        if ( !mkdir( $Self->{SessionSpool}, 0770 ) ) {    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Can't create directory '$Self->{SessionSpool}': $!",

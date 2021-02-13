@@ -233,7 +233,7 @@ sub Generate {
     $TarObject->write( $Archive, 0 ) || die "Could not write: $_!";
 
     # add files to the tar archive
-    open( my $Tar, '<', $Archive );    ## no critic
+    open( my $Tar, '<', $Archive );    ## no critic qw(OTOBO::ProhibitOpen)
     binmode $Tar;
     my $TmpTar = do { local $/; <$Tar> };
     close $Tar;
@@ -375,7 +375,7 @@ sub GenerateCustomFilesArchive {
 
     # add files to the tar archive
     my $TARFH;
-    if ( !open( $TARFH, '<', $CustomFilesArchive ) ) {    ## no critic
+    if ( !open( $TARFH, '<', $CustomFilesArchive ) ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
 
         # log info
         $Kernel::OM->Get('Kernel::System::Log')->Log(

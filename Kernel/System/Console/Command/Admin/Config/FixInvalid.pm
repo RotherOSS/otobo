@@ -211,7 +211,7 @@ sub Run {
             )
         {
             $Self->Print("\nYour choice: ");
-            $SelectedIndex = <STDIN>;    ## no critic
+            $SelectedIndex = <STDIN>;    ## no critic qw(InputOutput::ProhibitExplicitStdin)
 
             # Remove white space.
             $SelectedIndex =~ s{\s}{}smx;

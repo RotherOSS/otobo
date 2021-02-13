@@ -3307,7 +3307,7 @@ sub _ITSMConfigItemDefinitionCreate {
         )
     {
         # Turn Perl config item file into Perl structure.
-        $Content = eval $Content;    ## no critic
+        $Content = eval $Content;    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
         return if !defined $Content;
 
         # Turn Perl structure into YAML.

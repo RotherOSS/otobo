@@ -1036,7 +1036,7 @@ sub _Output {
     # This solution to set the binmode in the constructor and then :utf8 layer before the response
     #   is sent  apparently works in all situations. ( Linux circumstances to requires :raw was no
     #   reproducible, and not tested in this solution).
-    binmode STDOUT, ':utf8';    ## no critic
+    binmode STDOUT, ':utf8';    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
 
     # Print data to http - '\r' is required according to HTTP RFCs.
     my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );

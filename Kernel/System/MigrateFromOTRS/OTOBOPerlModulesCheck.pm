@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::MigrateFromOTRS::OTOBOPerlModulesCheck;    ## no critic
+package Kernel::System::MigrateFromOTRS::OTOBOPerlModulesCheck;
 
 use strict;
 use warnings;

@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::MigrateFromOTRS::OTOBOProcessDeploy;    ## no critic
+package Kernel::System::MigrateFromOTRS::OTOBOProcessDeploy;
 
 use strict;
 use warnings;

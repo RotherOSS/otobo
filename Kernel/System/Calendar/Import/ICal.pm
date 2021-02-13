@@ -764,18 +764,18 @@ sub _FormatTime {
 
     # Include additional optional repeatable properties used by some iCalendar implementations, in
     #   order to prevent Perl warnings.
-    sub Data::ICal::Entry::Alarm::optional_repeatable_properties {    ## no critic
+    sub Data::ICal::Entry::Alarm::optional_repeatable_properties {    ## no critic qw(Subroutines::RequireFinalReturn OTOBO::RequireCamelCase)
         qw(
             uid acknowledged related-to description
         );
     }
 
-    sub Data::ICal::Entry::Event::optional_repeatable_properties {    ## no critic
+    sub Data::ICal::Entry::Event::optional_repeatable_properties {    ## no critic qw(OTOBO::RequireCamelCase)
         my $Self = shift;
 
         my @Properties;
 
-        if ( not $Self->vcal10 ) {                                    ## no critic
+        if ( not $Self->vcal10 ) {                                    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps OTOBO::RequireParensWithMethods)
             @Properties = qw(
                 attach  attendee  categories  comment
                 contact  exdate  exrule  request-status  related-to

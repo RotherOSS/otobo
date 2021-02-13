@@ -612,7 +612,7 @@ sub HandleLanguage {
         },
     );
     if ( $TranslitLanguagesMap{$Language} ) {
-        $TranslitObject             = new Lingua::Translit( $TranslitLanguagesMap{$Language}->{TranslitTable} );    ## no critic
+        $TranslitObject             = new Lingua::Translit( $TranslitLanguagesMap{$Language}->{TranslitTable} );    ## no critic qw(Objects::ProhibitIndirectSyntax)
         $TranslitLanguageCoreObject = Kernel::Language->new(
             UserLanguage    => $TranslitLanguagesMap{$Language}->{SourceLanguage},
             TranslationFile => 1,
@@ -958,8 +958,8 @@ EOF
 
     # translating the core
     else {
-        ## no critic
-        open( my $In, '<', $Param{LanguageFile} ) || die "Can't open: $Param{LanguageFile}\n";
+
+        open( my $In, '<', $Param{LanguageFile} ) || die "Can't open: $Param{LanguageFile}\n"; ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         ## use critic
         while (<$In>) {
             my $Line = $_;

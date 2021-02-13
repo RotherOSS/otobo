@@ -79,7 +79,7 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # max 5 MB posts
-    $CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;    ## no critic
+    $CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
 
     # query object (in case use already existing WebRequest, e. g. fast cgi)
     $Self->{Query} = $Param{WebRequest} || CGI->new();
@@ -102,7 +102,7 @@ sub Error {
 
     return if !$Self->{Query}->cgi_error();
 
-    ## no critic
+
     return $Self->{Query}->cgi_error() . ' - POST_MAX=' . ( $CGI::POST_MAX / 1024 ) . 'KB';
     ## use critic
 }

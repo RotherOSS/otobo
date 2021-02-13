@@ -562,7 +562,7 @@ Delete article data.
 
 =cut
 
-sub ArticleDelete {    ## no critic;
+sub ArticleDelete {
     my ( $Self, %Param ) = @_;
 
     for my $Needed (qw(ArticleID TicketID UserID)) {

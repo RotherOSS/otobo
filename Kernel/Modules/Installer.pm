@@ -1229,8 +1229,8 @@ sub Run {
 
         # Only if we have mod_perl we have to restart.
         if ( exists $ENV{MOD_PERL} ) {
-            eval 'require mod_perl';               ## no critic
-            if ( defined $mod_perl::VERSION ) {    ## no critic
+            eval 'require mod_perl';               ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+            if ( defined $mod_perl::VERSION ) {
                 $Webserver = 'Apache2 + mod_perl';
                 if ( -f '/etc/SuSE-release' ) {
                     $Webserver = 'rcapache2 restart';
@@ -1334,9 +1334,8 @@ sub ReConfigure {
 
     # Read config file.
     my $ConfigFile = "$Self->{Path}/Kernel/Config.pm";
-    ## no critic
-    open( my $In, '<', $ConfigFile )
-        or return "Can't open $ConfigFile: $!";
+    open( my $In, '<', $ConfigFile )            ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
+        or return "Can't open $ConfigFile: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
     ## use critic
     my $Config = '';
     while (<$In>) {
@@ -1368,9 +1367,8 @@ sub ReConfigure {
     close $In;
 
     # Write new config file.
-    ## no critic
-    open( my $Out, '>:utf8', $ConfigFile )
-        or return "Can't open $ConfigFile: $!";
+    open( my $Out, '>:utf8', $ConfigFile        ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+        or return "Can't open $ConfigFile: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
     print $Out $Config;
     ## use critic
     close $Out;

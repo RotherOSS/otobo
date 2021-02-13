@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::MigrateFromOTRS::OTOBOResponseTemplatesMigrate;    ## no critic
+package Kernel::System::MigrateFromOTRS::OTOBOResponseTemplatesMigrate;
 
 use strict;
 use warnings;

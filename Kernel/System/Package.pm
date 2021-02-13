@@ -3674,7 +3674,7 @@ sub _Code {
 
         print STDERR "Code: $Code->{Content}\n";
 
-        if ( !eval $Code->{Content} . "\n1;" ) {    ## no critic
+        if ( !eval $Code->{Content} . "\n1;" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Code: $@",

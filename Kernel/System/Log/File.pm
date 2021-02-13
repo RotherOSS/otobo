@@ -42,7 +42,7 @@ sub new {
 
     # get log file suffix
     if ( $ConfigObject->Get('LogModule::LogFile::Date') ) {
-        my ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST ) = localtime( time() );    ## no critic
+        my ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST ) = localtime( time() );
         $Y = $Y + 1900;
         $M = sprintf '%02d', ++$M;
         $Self->{LogFile} .= ".$Y-$M";
@@ -57,8 +57,8 @@ sub Log {
     my $FH;
 
     # open logfile
-    ## no critic
-    if ( !open $FH, '>>', $Self->{LogFile} ) {
+
+    if ( !open $FH, '>>', $Self->{LogFile} ) { ## no critic qw(InputOutput::RequireBriefOpen)
         ## use critic
 
         # print error screen
@@ -71,7 +71,7 @@ sub Log {
     # write log file
     $Kernel::OM->Get('Kernel::System::Encode')->ConfigureOutputFileHandle( FileHandle => $FH );
 
-    print $FH '[' . localtime() . ']';    ## no critic
+    print $FH '[' . localtime() . ']';
 
     if ( lc $Param{Priority} eq 'debug' ) {
         print $FH "[Debug][$Param{Module}][$Param{Line}] $Param{Message}\n";

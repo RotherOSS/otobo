@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(Translatable);    ## no critic
+our @EXPORT_OK = qw(Translatable);    ## no critic qw(OTOBO::RequireCamelCase)
 
 use File::stat;
 use Digest::MD5;

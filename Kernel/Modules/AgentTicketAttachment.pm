@@ -119,7 +119,7 @@ sub Run {
         # write tmp file
         my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
         my ( $FH, $Filename ) = $FileTempObject->TempFile();
-        if ( open( my $ViewerDataFH, '>', $Filename ) ) {    ## no critic
+        if ( open( my $ViewerDataFH, '>', $Filename ) ) {    ## no critic qw(OTOBO::ProhibitOpen)
             print $ViewerDataFH $Data{Content};
             close $ViewerDataFH;
         }
@@ -135,7 +135,7 @@ sub Run {
 
         # use viewer
         my $Content = '';
-        if ( open( my $ViewerFH, "-|", "$Viewer $Filename" ) ) {    ## no critic
+        if ( open( my $ViewerFH, "-|", "$Viewer $Filename" ) ) {
             while (<$ViewerFH>) {
                 $Content .= $_;
             }

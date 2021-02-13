@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::MigrateFromOTRS::OTOBOCopyFilesFromOTRS;    ## no critic
+package Kernel::System::MigrateFromOTRS::OTOBOCopyFilesFromOTRS;
 
 use strict;
 use warnings;
@@ -295,9 +295,9 @@ sub ReConfigure {
     # content of changed config file
     my $Config = '';
     {
-        ## no critic
-        open( my $In, '<:encoding(utf-8)', $ConfigFile )
-            or return "Can't open $ConfigFile: $!";
+
+        open( my $In, '<:encoding(utf-8)', $ConfigFile  InputOutput::RequireBriefOpen)
+            or return "Can't open $ConfigFile: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
         ## use critic
 
         LINE:
@@ -348,9 +348,8 @@ sub ReConfigure {
     # Write new config file, the file handle is autoclosed as it is lexical to the block
     {
         # TODO: find out why the warning is still reported
-        ## no critic (InputOutput::RequireBriefOpen OTOBO::ProhibitLowPrecedenceOps)
         open my $Out, '>:encoding(utf-8)', $ConfigFile
-            or return "Can't open $ConfigFile: $!";
+            or return "Can't open $ConfigFile: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
         print $Out $Config;
     }
 

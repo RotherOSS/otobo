@@ -32,7 +32,7 @@ our @ObjectDependencies = (
     'Kernel::System::MailAccount',
 );
 
-package MyIMAP {    ## no critic
+package MyIMAP {    ## no critic qw(Modules::ProhibitMultiplePackages)
     our $AUTOLOAD;
 
     sub new {
