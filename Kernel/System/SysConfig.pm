@@ -67,8 +67,6 @@ Don't use the constructor directly, use the ObjectManager instead:
 
 =cut
 
-## no critic (StringyEval)
-
 sub new {
     my ( $Type, %Param ) = @_;
 
