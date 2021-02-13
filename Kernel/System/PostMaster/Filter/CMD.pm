@@ -80,7 +80,6 @@ sub Run {
     my $TmpFile = $Kernel::OM->Get('Kernel::Config')->Get('TempDir') . "/PostMaster.Filter.CMD.$$";
 
     if ( open my $Prog, '|-', "$Config{CMD} > $TmpFile" ) {
-        ## use critic
         print $Prog $Self->{ParserObject}->GetPlainEmail();
         close $Prog;
     }

@@ -1336,7 +1336,6 @@ sub ReConfigure {
     my $ConfigFile = "$Self->{Path}/Kernel/Config.pm";
     open( my $In, '<', $ConfigFile )            ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         or return "Can't open $ConfigFile: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
-    ## use critic
     my $Config = '';
     while (<$In>) {
 
@@ -1370,7 +1369,6 @@ sub ReConfigure {
     open( my $Out, '>:utf8', $ConfigFile )      ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
         or return "Can't open $ConfigFile: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
     print $Out $Config;
-    ## use critic
     close $Out;
 
     return;

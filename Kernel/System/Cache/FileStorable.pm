@@ -55,7 +55,6 @@ sub new {
         if ( !-e $Directory ) {
 
             if ( !mkdir( $Directory, 0770 ) ) {
-                ## use critic
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Can't create directory '$Directory': $!",

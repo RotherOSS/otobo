@@ -202,11 +202,8 @@ sub Log {
     # if error, write it to STDERR
     if ( $Priority =~ /^error/i ) {
 
-
         my $Error = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: "
             . $LogTime . "\n\n", $^V;
-        ## use critic
-
         $Error .= " Message: $Message\n\n";
 
         if ( %ENV && ( $ENV{REMOTE_ADDR} || $ENV{REQUEST_URI} ) ) {

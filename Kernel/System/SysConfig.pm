@@ -5123,7 +5123,6 @@ sub _FileWriteAtomic {
     {
 
         my $Success = open( my $FH, ">$Self->{FileMode}", $TempFilename ); ## no critic qw(InputOutput::RequireBriefOpen)
-        ## use critic
         if ( ! $Success ) {
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(

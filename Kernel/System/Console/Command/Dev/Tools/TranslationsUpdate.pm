@@ -960,7 +960,6 @@ EOF
     else {
 
         open( my $In, '<', $Param{LanguageFile} ) || die "Can't open: $Param{LanguageFile}\n"; ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
-        ## use critic
         while (<$In>) {
             my $Line = $_;
             $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Line );

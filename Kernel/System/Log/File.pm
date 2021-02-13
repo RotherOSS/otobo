@@ -57,10 +57,7 @@ sub Log {
     my $FH;
 
     # open logfile
-
     if ( !open $FH, '>>', $Self->{LogFile} ) { ## no critic qw(InputOutput::RequireBriefOpen)
-        ## use critic
-
         # print error screen
         print STDERR "\n";
         print STDERR " >> Can't write $Self->{LogFile}: $! <<\n";

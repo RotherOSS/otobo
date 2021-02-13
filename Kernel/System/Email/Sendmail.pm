@@ -132,7 +132,6 @@ sub Send {
     my $GenErrorMessage = sub { return sprintf( q{Can't send message: %s!}, shift, ); };
 
     if ( !open( $FH, '|-', "$Sendmail $Arg " ) ) { ## no critic qw(InputOutput::RequireBriefOpen)
-        ## use critic
         my $ErrorMessage = $GenErrorMessage->($!);
 
         $Param{CommunicationLogObject}->ObjectLog(

@@ -1267,7 +1267,6 @@ sub Run {
             if ( -s $File < ( 1024 * 1024 * $ConfigObject->Get('PerformanceLog::FileMax') ) ) {
 
                 if ( open my $Out, '>>', $File ) {
-                    ## use critic
                     print $Out time()
                         . '::Agent::'
                         . ( time() - $Self->{PerformanceLogStart} )

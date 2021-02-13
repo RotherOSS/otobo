@@ -260,7 +260,6 @@ sub Run {
         my $File = $ConfigObject->Get('PerformanceLog::File');
 
         if ( open my $Out, '>>', $File ) {
-            ## use critic
             print $Out time()
                 . '::Public::'
                 . ( time() - $Self->{PerformanceLogStart} )
