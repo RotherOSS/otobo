@@ -628,7 +628,7 @@ sub Run {
             my $ValidationResult;
 
             # do not validate on insisible fields
-            if ( $Visibility{ $DynamicFieldConfig->{Name} } ) {
+            if ( $Visibility{ 'DynamicField_'.$DynamicFieldConfig->{Name} } ) {
 
                 $ValidationResult = $BackendObject->EditFieldValueValidate(
                     DynamicFieldConfig   => $DynamicFieldConfig,

@@ -1423,7 +1423,7 @@ sub Run {
             my $ValidationResult;
 
             # do not validate on invisible fields
-            if ( !$ExpandCustomerName && $Visibility{ $DynamicFieldConfig->{Name} } ) {
+            if ( !$ExpandCustomerName && $Visibility{ 'DynamicField_'.$DynamicFieldConfig->{Name} } ) {
 
                 $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
                     DynamicFieldConfig   => $DynamicFieldConfig,
