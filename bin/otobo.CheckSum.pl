@@ -72,10 +72,10 @@ my $Output;
 
 if ( $Action eq 'create' ) {
     print "Writing $Archive ...";
-    open( $Output, '>', $Archive ) || die "ERROR: Can't write: $Archive";    ## no critic
+    open( $Output, '>', $Archive ) || die "ERROR: Can't write: $Archive";    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
 }
 else {
-    open( my $In, '<', $Archive ) || die "ERROR: Can't read: $Archive";      ## no critic
+    open( my $In, '<', $Archive ) || die "ERROR: Can't read: $Archive";      ## no critic qw(OTOBO::ProhibitOpen)
     while (<$In>) {
         my @Row = split( /::/, $_ );
         chomp $Row[1];
@@ -139,7 +139,7 @@ sub ProcessDirectory {
         next FILE if $File =~ m{css-cache}smx;
 
         # next if not readable
-        open my $In, '<', $OrigFile or die "ERROR: $!";    ## no critic
+        open my $In, '<', $OrigFile or die "ERROR: $!";    ## no critic qw(OTOBO::ProhibitOpen OTOBO::ProhibitLowPrecedenceOps)
 
         my $DigestGenerator = Digest::MD5->new();
         $DigestGenerator->addfile($In);

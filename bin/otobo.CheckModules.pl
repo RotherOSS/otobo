@@ -1248,8 +1248,8 @@ sub Check {
             'Apache2::Reload' => 1,    # is not needed / working on systems without mod_perl (like Plack etc.)
         );
 
-        ## no critic
-        if ( !$DontRequire{ $Module->{Module} } && !eval "require $Module->{Module}" ) {
+
+        if ( !$DontRequire{ $Module->{Module} } && !eval "require $Module->{Module}" ) { ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
             $ErrorMessage .= 'Not all prerequisites for this module correctly installed. ';
         }
         ## use critic
