@@ -194,7 +194,6 @@ my $SystemDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
 my $Directory = join '/',
     $BackupDir,
     $SystemDTObject->Format( Format => '%Y-%m-%d_%H-%M-%S' );
-# TODO: why still warnings from Perl::Critic ??
 mkdir $Directory or die "ERROR: Can't create directory: $Directory: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
 
 # backup application
@@ -489,7 +488,6 @@ END_MESSAGE
 
         # now adapt the relevant lines
         # TODO: make this less nasty. Make it nicety.
-        # TODO: why still warnings from Perl::Critic ?? Maybe the line count is messed up.
         open my $Adapted, '>', $AdaptedSchemaDumpFile                   ## no critic qw(OTOBO::ProhibitOpen)
             or die "Can't open $AdaptedSchemaDumpFile for writing: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
         say $Adapted "-- adapted by $0";

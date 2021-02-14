@@ -78,9 +78,7 @@ make use of a caught exception object
 
 =cut
 
-# TODO: why still warnings from Perl::Critic ??
-## no critic qw(OTOBO::RequireCamelCase)
-sub as_psgi {
+sub as_psgi { ## no critic qw(OTOBO::RequireCamelCase)
     my $Self = shift;
 
     # The thrower created the error message
