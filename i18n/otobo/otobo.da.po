@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-12 15:30+0000\n"
-"PO-Revision-Date: 2021-02-12 13:45+0000\n"
+"PO-Revision-Date: 2021-02-15 04:19+0000\n"
 "Last-Translator: Kim Mølgaard <kim@itandmore.dk>\n"
 "Language-Team: Danish <https://translate.otobo.org/projects/otobo10/otobo/da/"
 ">\n"
@@ -1187,7 +1187,7 @@ msgstr "Kontostatus"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Back to overview"
-msgstr ""
+msgstr "Gå tilbage til oversigt"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for Accounts"
@@ -1335,7 +1335,7 @@ msgstr "Jokertegn som '*' er tilladt."
 
 #. Template: AdminContactWD
 msgid "Please enter a search term to look for contacts with data."
-msgstr ""
+msgstr "Angiv en søgestreng for at finde kontakter."
 
 #. Template: AdminContactWD
 msgid "Valid"
@@ -1375,7 +1375,7 @@ msgstr "Bemærk"
 
 #. Template: AdminCustomerCompany
 msgid "This customer backend is read only!"
-msgstr ""
+msgstr "Denne kunde-backend er skrivebeskyttet!"
 
 #. Template: AdminCustomerGroup
 msgid "Manage Customer-Group Relations"
@@ -1412,6 +1412,8 @@ msgid ""
 "You can manage these groups via the configuration setting "
 "\"CustomerGroupCompanyAlwaysGroups\"."
 msgstr ""
+"Du kan administrere disse grupper via konfigurationsindstillingen "
+"\"CustomerGroupCompanyAlwaysGroups\"."
 
 #. Template: AdminCustomerGroup
 msgid "Filter for Groups"
@@ -1503,7 +1505,7 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "List (%s total)"
-msgstr ""
+msgstr "Liste (%s total)"
 
 #. Template: AdminCustomerUser
 msgid "Username"
@@ -1530,6 +1532,8 @@ msgid ""
 "This customer backend is read only, but the customer user preferences can be "
 "changed!"
 msgstr ""
+"Denne kunde-backend er skrivebeskyttet, men du kan ændre bruger "
+"præferencerne!"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
