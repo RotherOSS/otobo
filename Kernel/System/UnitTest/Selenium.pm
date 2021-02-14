@@ -259,8 +259,8 @@ Therefore override that subroutine.
 
 =cut
 
-# TODO: where to put 'no critic qw(OTOBO::RequireCamelCase)'
-sub button_up {
+sub button_up { ## no critic qw(OTOBO::RequireCamelCase)
+
     my ($Self) = @_;
 
     if ( $Self->{is_wd3}

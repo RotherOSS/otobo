@@ -775,7 +775,7 @@ sub _FormatTime {
 
         my @Properties;
 
-        if ( not $Self->vcal10 ) {                                    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps OTOBO::RequireParensWithMethods)
+        if ( not $Self->vcal10 ) {                                    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
             @Properties = qw(
                 attach  attendee  categories  comment
                 contact  exdate  exrule  request-status  related-to

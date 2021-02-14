@@ -232,9 +232,9 @@ sub Log {
             $Subroutine2 ||= $0;
 
             # print line if upper caller module exists
-            my $VersionString = '';
-
-            eval { $VersionString = $Package1->VERSION || ''; };    ## no critic qw(OTOBO::RequireParensWithMethods)
+            my $VersionString = eval {
+                return $Package1->VERSION || '';
+            };
 
             # version is present
             if ($VersionString) {
