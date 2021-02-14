@@ -400,7 +400,7 @@ EOF
         Time::HiRes::sleep(0.5);
 
         # Change the service by clicking, like an user would do
-        $Selenium->execute_script("return \$('#ServiceID option[value=$ServiceIDs[1]]').click();"),
+        $Selenium->execute_script("return \$('#ServiceID option[value=$ServiceIDs[1]]').click();");
 
         # wait for the updated SLA selection
         $Selenium->WaitFor(

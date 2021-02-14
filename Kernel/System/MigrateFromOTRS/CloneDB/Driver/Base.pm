@@ -753,7 +753,7 @@ END_SQL
             {
                 my $BindString = join ', ', map {'?'} @SourceColumns;
                 $InsertSQL     = "INSERT INTO $TargetTable ($TargetColumnsString) VALUES ($BindString)";
-                $SelectSQL     = "SELECT $SourceColumnsString{$SourceTable} FROM $QuotedSourceTable",
+                $SelectSQL     = "SELECT $SourceColumnsString{$SourceTable} FROM $QuotedSourceTable";
             }
 
             # Now fetch all the data and insert it to the target DB.
