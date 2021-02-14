@@ -16,6 +16,7 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
@@ -149,7 +150,7 @@ local *{'Kernel::System::MailAccount::POP3::Connect'} = sub {
             my $Self = shift;
 
             return {
-                map { $_ => 1, } keys( %{ $FakeClientEnv{'emails'} } )
+                map { $_ => 1 } keys $FakeClientEnv{'emails'}->%*
             };
         }
     }
