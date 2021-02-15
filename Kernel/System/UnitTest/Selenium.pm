@@ -299,11 +299,10 @@ Most other methods won't.
 
 =cut
 
-sub SeleniumErrorHandler {
+sub SeleniumErrorHandler { ## no critic qw(Subroutines::RequireFinalReturn)
     my ( $Self, $Error ) = @_;
 
     my $Context = context();
-    ## TODO: configure Subroutines::RequireFinalReturn, so that '->throw' is considered like a 'die'
     $Context->throw($Error);
 }
 
