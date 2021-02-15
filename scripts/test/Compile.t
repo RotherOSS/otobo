@@ -91,9 +91,6 @@ note( 'check syntax of some shell scripts' );
         push @ShellScripts, 'bin/Cron.sh';
     }
 
-    # git hooks
-    push @ShellScripts, 'Kernel/System/Console/Command/Dev/Git/InstallHooks/prepare-commit-msg.dist';
-
     for my $File ( @ShellScripts ) {
         my $CompileErrors = `bash -n "$File" 2>&1`;
         is( $CompileErrors, '', "$File compiles" );
