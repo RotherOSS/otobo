@@ -107,8 +107,8 @@ sub Run {
 
         # make hook executable for the user: chmod u+x
         # But it looks like File::chmod is not a required module.
-        my $OldMode = (stat($Target))[2];
-        my $NewMode = $OldMode | 0100;
+        my $OldMode = (stat $Target)[2];
+        my $NewMode = $OldMode | oct('100');
         my $RetChmod = chmod $NewMode, $Target;
         if ( $RetChmod != 0 ) {
             say "setting $Target to executable failed";

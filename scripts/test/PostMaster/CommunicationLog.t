@@ -19,17 +19,21 @@ use warnings;
 use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self));
-
+# core modules
 use IO::File;
 use File::stat;
 
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set $Self and $Kernel::OM
 use Kernel::System::MailAccount::POP3;
 use Kernel::System::MailAccount::IMAP;
 use Kernel::System::PostMaster;
+
+our $Self;
+
+## no critic qw(OTOBO::RequireCamelCase Subroutines::ProhibitBuiltinHomonyms)
 
 # The tests presented here try to ensure that the communication-log entries
 #   keep the correct status after some predefined situations.
