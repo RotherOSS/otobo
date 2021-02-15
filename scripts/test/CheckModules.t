@@ -29,15 +29,17 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $Home = $ConfigObject->Get('Home');
 my $TmpSumString;
 
-if ( open( $TmpSumString, '-|', "$^X $Home/bin/otobo.CheckModules.pl --all NoColors" ) )
+if ( open( $TmpSumString, '-|', "$^X $Home/bin/otobo.CheckModules.pl --all NoColors" ) ) ## no critic qw(InputOutput::RequireBriefOpen)
 {
 
     LINE:
     while (<$TmpSumString>) {
         my $TmpLine = $_;
         $TmpLine =~ s/\n//g;
+
         next LINE if !$TmpLine;
         next LINE if $TmpLine !~ /^\s*o\s\w\w/;
+
         if ( $TmpLine =~ m{ok|optional}ismx ) {
             $Self->True(
                 $TmpLine,
@@ -51,8 +53,7 @@ if ( open( $TmpSumString, '-|', "$^X $Home/bin/otobo.CheckModules.pl --all NoCol
             );
         }
     }
-    close($TmpSumString);
-
+    close $TmpSumString;
 }
 else {
     $Self->False(

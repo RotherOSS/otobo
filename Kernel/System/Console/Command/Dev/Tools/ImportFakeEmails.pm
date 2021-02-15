@@ -36,14 +36,12 @@ package MyIMAP {    ## no critic qw(Modules::ProhibitMultiplePackages)
     our $AUTOLOAD;
 
     sub new {
-        my $Class = shift;
-        my %Param = (
-            @_,
-            TotalProcessed => 0,
-            Processed      => {},
-        );
+        my ($Class, %Param) = @_;
 
-        my $Self = bless( \%Param, $Class, );
+        $Param{TotalProcessed} = 0;
+        $Param{Processed}      = {};
+
+        my $Self = bless \%Param, $Class;
 
         $Self->{Email} = 'Return-Path: test@dummy.com
 Received: from mail.dummy.com (LHLO mail.dummy.com) (62.146.52.73) by
@@ -112,13 +110,15 @@ test %s';
         return wantarray ? @Lines : \@Lines;
     }
 
-    sub select {
+    sub select {  ## no critic qw(Subroutines::ProhibitBuiltinHomonyms)
         my $Self = shift;
 
         return $Self->{Total} - $Self->{TotalProcessed};
     }
 
-    sub nbr_of_processed { shift->{TotalProcessed}; }
+    sub nbr_of_processed {
+        return shift->{TotalProcessed};
+    }
 };
 
 sub Configure {

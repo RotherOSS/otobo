@@ -164,7 +164,7 @@ else {
 
     for my $Cmd ( @Cmds ) {
         my $IsInstalled = 0;
-        open my $In, '-|', "which $Cmd";
+        open my $In, '-|', "which $Cmd"; ## no critic qw(InputOutput::RequireBriefOpen)
         while (<$In>) {
             $IsInstalled = 1;
         }
@@ -305,7 +305,7 @@ else {
 
     # set password via environment variable if there is one
     if ($DatabasePw) {
-        $ENV{PGPASSWORD} = $DatabasePw;
+        $ENV{PGPASSWORD} = $DatabasePw; ## no critic qw(Variables::RequireLocalizedPunctuationVars)
     }
 
     if ($DatabaseHost) {
@@ -472,8 +472,6 @@ END_MESSAGE
     # Change the character set to utf8mb4.
     # Remove COLLATE directives.
     {
-        ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
-
         # find the changed columns per table
         my %IsShortened;
         for my $Short ( $MigrationBaseObject->DBShortenedColumns() ) {
@@ -488,7 +486,7 @@ END_MESSAGE
 
         # now adapt the relevant lines
         # TODO: make this less nasty. Make it nicety.
-        open my $Adapted, '>', $AdaptedSchemaDumpFile                   ## no critic qw(OTOBO::ProhibitOpen)
+        open my $Adapted, '>', $AdaptedSchemaDumpFile                   ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
             or die "Can't open $AdaptedSchemaDumpFile for writing: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
         say $Adapted "-- adapted by $0";
         say $Adapted '';
