@@ -320,7 +320,7 @@ sub GeneratePDF {
     }
 
     # Output customer infos.
-    if (%CustomerData) {
+    if ( %CustomerData && ( $Interface{Agent} || $ConfigObject->Get('Ticket::Frontend::CustomerTicketPrint')->{CustomerInformation} ) ) {
         $Self->_PDFOutputCustomerInfos(
             PageData     => \%Page,
             CustomerData => \%CustomerData,
@@ -406,23 +406,22 @@ sub _PDFOutputTicketInfos {
 
     # Add Responsible row, if feature is enabled.
     if ( $ConfigObject->Get('Ticket::Responsible') ) {
-        my $Responsible = '-';
-        if ( $Param{Interface}{Agent} && $Ticket{Responsible} ) {
-            $Responsible = $Ticket{Responsible} . ' (' . $Param{ResponsibleData}->{UserFullname} . ')';
+        my $Responsible;
+        if ( $Param{Interface}{Agent} ) {
+            $Responsible = $Ticket{Responsible} ? $Ticket{Responsible} . ' (' . $Param{ResponsibleData}->{UserFullname} . ')' : '-';
         }
-        elsif (
-            $Param{Interface}{Customer}
-            && $CustomerConfig->{AttributesView}->{Responsible}
-            && $Ticket{Responsible}
-            )
+        elsif ( $Param{Interface}{Customer} && $CustomerConfig->{AttributesView}->{Responsible} )
         {
-            $Responsible = $Ticket{Responsible};
+            $Responsible = $Ticket{Responsible} || '-';
         }
-        my $Row = {
-            Key   => $LayoutObject->{LanguageObject}->Translate('Responsible'),
-            Value => $Responsible,
-        };
-        push( @{$TableLeft}, $Row );
+
+        if ( $Responsible ) {
+            my $Row = {
+                Key   => $LayoutObject->{LanguageObject}->Translate('Responsible'),
+                Value => $Responsible,
+            };
+            push( @{$TableLeft}, $Row );
+        }
     }
 
     # Add Type row, if feature is enabled.

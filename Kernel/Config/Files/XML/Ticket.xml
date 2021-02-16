@@ -7436,6 +7436,13 @@
             <Item ValueType="String" ValueRegex="">Kernel::Output::HTML::CustomerNewTicket::QueueSelectionGeneric</Item>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::CustomerTicketPrint###CustomerInformation" Required="0" Valid="1">
+        <Description Translatable="1">Whether extended customer information is shown in the ticket print screen of the customer interface.</Description>
+        <Navigation>Frontend::Customer::View::TicketPrint</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketZoom###NextScreenAfterFollowUp" Required="1" Valid="1">
         <Description Translatable="1">Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.</Description>
         <Navigation>Frontend::Customer::View::TicketZoom</Navigation>
