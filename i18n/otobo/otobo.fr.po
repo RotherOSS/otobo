@@ -29,20 +29,22 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2019
 # remidoc <Remi.seguy@gmail.com>, 2019
 # Jens Bechtel <jens.bechtel@otrs.com>, 2019
-#
+# Yohann <yohann.duhamel@icloud.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-12 15:30+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Jens Bechtel <jens.bechtel@otrs.com>, 2019\n"
-"Language-Team: French (https://translate.otobo.org/projects/otobo10/otobo/"
-"fr/)\n"
+"PO-Revision-Date: 2021-02-17 21:53+0000\n"
+"Last-Translator: Yohann <yohann.duhamel@icloud.com>\n"
+"Language-Team: French <https://translate.otobo.org/projects/otobo10/otobo/fr/"
+">\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -211,7 +213,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "Vérifier la documentation officielle."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -502,7 +504,7 @@ msgstr "Envoyer"
 
 #. Template: AdminAppointmentImport
 msgid "Update existing appointments?"
-msgstr "Mettre à jour les rendez-vous existants ? "
+msgstr "Mettre à jour les rendez-vous existants ?"
 
 #. Template: AdminAppointmentImport
 msgid ""
@@ -510,7 +512,7 @@ msgid ""
 "overwritten."
 msgstr ""
 "Tous les rendez-vous existants dans le calendrier avec le même ID seront "
-"remplacés"
+"remplacés."
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
@@ -556,7 +558,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr "Écraser les notifications existantes ? "
+msgstr "Écraser les notifications existantes ?"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upload Notification configuration"
@@ -614,7 +616,7 @@ msgid ""
 msgstr ""
 "Vous pouvez choisir ici quel événement déclenchera cette notification. Un "
 "filtre de rendez-vous supplémentaire peut être appliqué ci dessous pour "
-"envoyer les rendez vous uniquement selon certains critères. "
+"envoyer les rendez vous uniquement selon certains critères."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
@@ -666,7 +668,7 @@ msgstr "Envoyer lorsqu'absent du bureau"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Also send if the user is currently out of office."
-msgstr "Envoyer même si l'utilisateur est défini comme absent"
+msgstr "Envoyer même si l'utilisateur est défini comme absent."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Once per day"
@@ -777,7 +779,7 @@ msgstr "Référence du tag"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notifications are sent to an agent."
-msgstr "Les notifications sont envoyés à un agent"
+msgstr "Les notifications sont envoyés à un agent."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "You can use the following tags"
@@ -801,7 +803,7 @@ msgstr "Pour avoir l'attribut du calendrier"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr "Caractéristiques du destinataire pour les notifications."
+msgstr "Caractéristiques du destinataire pour les notifications"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Config options"
@@ -813,7 +815,7 @@ msgstr "Exemple de notification"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
-msgstr "Adresses de courriel supplémentaires pour les destinataires."
+msgstr "Adresses de courriel supplémentaires pour les destinataires"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
@@ -1009,6 +1011,8 @@ msgid ""
 "It is sometimes recommended to send this data to the OTOBO team in order to "
 "get better support."
 msgstr ""
+"Il est recommandé d'envoyer de temps en temps cette donnée à l'équipe OTOBO "
+"dans le but d'avoir un meilleur support."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -1023,6 +1027,8 @@ msgid ""
 "This will allow the system to send additional support data information to "
 "the OTOBO team."
 msgstr ""
+"Cela autorisera le système à envoyer des informations supplémentaires à "
+"l'équipe OTOBO."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -1038,6 +1044,9 @@ msgid ""
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
 msgstr ""
+"Pour permettre l'envoi des données, enregistrez votre système à l'équipe "
+"OTOBO or mettez à jour les informations d'enregistrement de votre système ("
+"activez l'option \"envoi de données au support\".)"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -1049,13 +1058,15 @@ msgid ""
 "configuration."
 msgstr ""
 "L'enregistrement est désactivé pour votre système. Veuillez vérifier votre "
-"configuration. "
+"configuration."
 
 #. Template: AdminCloudServices
 msgid ""
 "System registration is a service of OTOBO team, which provides a lot of "
 "advantages!"
 msgstr ""
+"L'enregistrement du système est un service de l'équipe OTOBO, qui donne "
+"beaucoup d'avantages !"
 
 #. Template: AdminCloudServices
 msgid ""
@@ -1087,7 +1098,7 @@ msgstr "Journal d’événements des notifications"
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr ""
+msgstr "Intervalle de temps"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
@@ -1097,7 +1108,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Filter for Communications"
-msgstr ""
+msgstr "Filtre pour les Communications"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
@@ -28425,8 +28436,8 @@ msgid ""
 "text cannot be changed by the agent)."
 msgstr ""
 "Dès que les tickets sont fusionnés, une note est ajoutée automatiquement au "
-"ticket qui devient inactif. Vous pouvez définir ici le texte de cette note "
-"(ce texte ne peut pas être modifié par les agents). "
+"ticket qui devient inactif. Vous pouvez définir ici le texte de cette note ("
+"ce texte ne peut pas être modifié par les agents)."
 
 #. SysConfig
 msgid ""
