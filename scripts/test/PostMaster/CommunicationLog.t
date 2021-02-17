@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,6 +16,7 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
@@ -53,7 +54,7 @@ my %FakeClientEnv = (
 #   that happen, it'll check if the FakeClientEnv has an attribute with the same
 #   name and returns it, otherwise always returns True to ensure that the code
 #   that will use this object continues as everything is ok.
-package FakeClient {    ## no critic
+package FakeClient {
     our $AUTOLOAD;
 
     sub new {
@@ -98,14 +99,14 @@ package FakeClient {    ## no critic
     }
 }
 
-no strict 'refs';    ## no critic
+no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
 
 # Overwrite the OTOBO MailAccount::IMAP connect method to use our fake imap client,
 #   but make this change local to the unit test scope, as you can see, it also
 #   makes use of the %FakeClientEnv.
 local *{'Kernel::System::MailAccount::IMAP::Connect'} = sub {
 
-    package FakeIMAPClient {    ## no critic
+    package FakeIMAPClient {    ## no critic qw(Modules::ProhibitMultiplePackages)
                                 # Make this object extend the 'FakeClient' object,
                                 #   we aren't using 'use parent' because the 'FakeClient' is also a
                                 #   package defined in this test file, there's no pm file.
@@ -138,7 +139,7 @@ local *{'Kernel::System::MailAccount::IMAP::Connect'} = sub {
 #   makes use of the %FakeClientEnv.
 local *{'Kernel::System::MailAccount::POP3::Connect'} = sub {
 
-    package FakePOPClient {    ## no critic
+    package FakePOPClient {    ## no critic qw(Modules::ProhibitMultiplePackages)
                                # Make this object extend the 'FakeClient' object,
                                #   we aren't using 'use parent' because the 'FakeClient' is also a
                                #   package defined in this test file, there's no pm file.
@@ -149,7 +150,7 @@ local *{'Kernel::System::MailAccount::POP3::Connect'} = sub {
             my $Self = shift;
 
             return {
-                map { $_ => 1, } keys( %{ $FakeClientEnv{'emails'} } )
+                map { $_ => 1 } keys $FakeClientEnv{'emails'}->%*
             };
         }
     }
@@ -415,7 +416,7 @@ for my $MailAccount (@MailAccounts) {
         local $FakeClientEnv{'fail_fetch'}      = $TestFakeClientEnv{'fail_fetch'};
         local $FakeClientEnv{'fail_postmaster'} = $TestFakeClientEnv{'fail_postmaster'};
 
-        no strict 'refs';    ## no critic
+        no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
 
         # Postfix if is required in next line to ensure right scope of function override.
         local *{'Kernel::System::PostMaster::Run'} = sub {

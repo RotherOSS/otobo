@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -377,7 +377,7 @@ sub ProviderGenerateResponse {
 
     # Do we have a http error message to return.
     if ( IsStringWithData( $Self->{HTTPError} ) && IsStringWithData( $Self->{HTTPMessage} ) ) {
-        return $Self->_Output(
+        return $Self->_ThrowWebException(
             HTTPCode => $Self->{HTTPError},
             Content  => $Self->{HTTPMessage},
         );
@@ -385,7 +385,7 @@ sub ProviderGenerateResponse {
 
     # Check data param.
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        return $Self->_Output(
+        return $Self->_ThrowWebException(
             HTTPCode => 500,
             Content  => 'Invalid data',
         );
@@ -412,14 +412,14 @@ sub ProviderGenerateResponse {
     );
 
     if ( !$JSONString ) {
-        return $Self->_Output(
+        return $Self->_ThrowWebException(
             HTTPCode => 500,
             Content  => 'Error while encoding return JSON structure.',
         );
     }
 
     # No error - return output.
-    return $Self->_Output(
+    return $Self->_ThrowWebException(
         HTTPCode => $HTTPCode,
         Content  => $JSONString,
     );
@@ -885,48 +885,35 @@ sub RequesterPerformRequest {
 
 =begin Internal:
 
-=head2 _Output()
+=head2 _ThrowWebException()
 
-Generate http response for provider and send it back to remote system.
-Environment variables are checked for potential error messages.
-Returns structure to be passed to provider.
+creates a M<Plack::Request> object, wrap it into a M<Kernel::System::Web::Exception> object
+and throw the exception object.
 
-    my $Result = $TransportObject->_Output(
-        HTTPCode => 200,           # http code to be returned, optional
-        Content  => 'response',    # message content, XML response on normal execution
+    # the sub dies
+    $TransportObject->_ThrowWebException(
+        HTTPCode => 500,               # http code to be returned, optional
+        Content  => 'error message',   # message content
     );
-
-    $Result = {
-        Success      => 0,
-        Output       => $Content,
-        ErrorMessage => 'Message', # error message from given summary
-    };
 
 =cut
 
-sub _Output {
+sub _ThrowWebException {
     my $Self  = shift;
     my %Param = @_;
 
     # Check params.
-    my $Success = 1;
     my $ErrorMessage;
     if ( defined $Param{HTTPCode} && !IsInteger( $Param{HTTPCode} ) ) {
         $Param{HTTPCode} = 500;
         $Param{Content}  = 'Invalid internal HTTPCode';
-        $Success         = 0;
         $ErrorMessage    = 'Invalid internal HTTPCode';
     }
     elsif ( defined $Param{Content} && !IsString( $Param{Content} ) ) {
         $Param{HTTPCode} = 500;
         $Param{Content}  = 'Invalid Content';
-        $Success         = 0;
         $ErrorMessage    = 'Invalid Content';
     }
-
-    # Prepare protocol.
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $Protocol = $ParamObject->ServerProtocol() // 'HTTP/1.0';
 
     # FIXME: according to SOAP::Transport::HTTP the previous should not be used
     #   for all supported browsers 'Status:' should be used here
@@ -935,89 +922,47 @@ sub _Output {
     # prepare data
     $Param{Content}  ||= '';
     $Param{HTTPCode} ||= 500;
-    my $ContentType;
-    if ( $Param{HTTPCode} eq 200 ) {
-        $ContentType = 'application/json';
-    }
-    else {
-        $ContentType = 'text/plain';
-    }
+
+    my $ContentType = $Param{HTTPCode} eq 200 ? 'application/json' : 'text/plain';
 
     # Calculate content length (based on the bytes length not on the characters length).
     my $ContentLength = bytes::length( $Param{Content} );
 
     # Log to debugger.
-    my $DebugLevel;
-    if ( $Param{HTTPCode} eq 200 ) {
-        $DebugLevel = 'debug';
-    }
-    else {
-        $DebugLevel = 'error';
-    }
+    my $DebugLevel =  $Param{HTTPCode} eq 200 ? 'debug' : 'error';
     $Self->{DebuggerObject}->DebugLog(
         DebugLevel => $DebugLevel,
         Summary    => "Returning provider data to remote system (HTTP Code: $Param{HTTPCode})",
         Data       => $Param{Content},
     );
 
-    # Set keep-alive.
-    my $Connection = $Self->{KeepAlive} ? 'Keep-Alive' : 'close';
-
     # Let's try the HTTPExceptions trick again
-    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+    # for OTOBO_RUNS_UNDER_PSGI
 
-        my @Headers;
-        push @Headers, 'Content-Type'   => "$ContentType; charset=UTF-8";
-        push @Headers, 'Content-Length' => $ContentLength;
-        push @Headers, 'Connection'     => $Connection;
+    my @Headers;
+    push @Headers, 'Content-Type'   => "$ContentType; charset=UTF-8";
+    push @Headers, 'Content-Length' => $ContentLength;
+    push @Headers, 'Connection'     => ( $Self->{KeepAlive} ? 'Keep-Alive' : 'close' );
 
-        # Prepare additional headers.
-        if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
-            my %AdditionalHeaders = $Self->{TransportConfig}->{Config}->{AdditionalHeaders}->%*;
-            for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
-                push @Headers, $AdditionalHeader => ( $AdditionalHeaders{$AdditionalHeader} || '' );
-            }
-        }
-
-        # Enhance it with the HTTP status code and the content.
-        my $PlackResponse = Plack::Response->new(
-            $Param{HTTPCode},
-            \@Headers,
-            $Param{Content}
-        );
-
-        # The exception is caught be Plack::Middleware::HTTPExceptions
-        die Kernel::System::Web::Exception->new(
-            PlackResponse => $PlackResponse
-        );
-    }
-
-    # prepare additional headers
-    my $AdditionalHeaderStrg = '';
+    # Prepare additional headers.
     if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
-        my %AdditionalHeaders = %{ $Self->{TransportConfig}->{Config}->{AdditionalHeaders} };
+        my %AdditionalHeaders = $Self->{TransportConfig}->{Config}->{AdditionalHeaders}->%*;
         for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
-            $AdditionalHeaderStrg
-                .= $AdditionalHeader . ': ' . ( $AdditionalHeaders{$AdditionalHeader} || '' ) . "\r\n";
+            push @Headers, $AdditionalHeader => ( $AdditionalHeaders{$AdditionalHeader} || '' );
         }
     }
 
-    # Print data to http - '\r' is required according to HTTP RFCs.
-    my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
-    my $Output = '';
-    $Output .= "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
-    $Output .= "Content-Type: $ContentType; charset=UTF-8\r\n";
-    $Output .= "Content-Length: $ContentLength\r\n";
-    $Output .= "Connection: $Connection\r\n";
-    $Output .= $AdditionalHeaderStrg;
-    $Output .= "\r\n";
-    $Output .= $Param{Content};
+    # create the response
+    my $PlackResponse = Plack::Response->new(
+        $Param{HTTPCode},
+        \@Headers,
+        $Param{Content}
+    );
 
-    return {
-        Success      => $Success,
-        Output       => $Output,
-        ErrorMessage => $ErrorMessage,
-    };
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $PlackResponse
+    );
 }
 
 =head2 _Error()

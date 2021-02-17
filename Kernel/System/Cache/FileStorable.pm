@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -53,9 +53,8 @@ sub new {
     # check if cache directory exists and in case create one
     for my $Directory ( $TempDir, $Self->{CacheDirectory} ) {
         if ( !-e $Directory ) {
-            ## no critic
+
             if ( !mkdir( $Directory, 0770 ) ) {
-                ## use critic
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Can't create directory '$Directory': $!",
@@ -97,7 +96,7 @@ sub Set {
 
         # Create directory. This could fail if another process creates the
         #   same directory, so don't use the return value.
-        File::Path::mkpath( $CacheDirectory, 0, 0770 );    ## no critic
+        File::Path::mkpath( $CacheDirectory, 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
         if ( !-e $CacheDirectory ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -109,7 +108,7 @@ sub Set {
     }
     my $FileLocation = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
 
-      # Use Location rather than Filename and Directory to skip the (unneeded) filename clean-up for better performance.
+        # Use Location rather than Filename and Directory to skip the (unneeded) filename clean-up for better performance.
         Location   => $CacheDirectory . '/' . $Filename,
         Content    => \$Dump,
         Type       => 'Local',
@@ -139,7 +138,7 @@ sub Get {
 
     my $Content = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
 
-      # Use Location rather than Filename and Directory to skip the (unneeded) filename clean-up for better performance.
+        # Use Location rather than Filename and Directory to skip the (unneeded) filename clean-up for better performance.
         Location        => $CacheDirectory . '/' . $Filename,
         Type            => 'Local',
         Mode            => 'binmode',
@@ -184,7 +183,7 @@ sub Delete {
 
     return $Kernel::OM->Get('Kernel::System::Main')->FileDelete(
 
-      # Use Location rather than Filename and Directory to skip the (unneeded) filename clean-up for better performance.
+        # Use Location rather than Filename and Directory to skip the (unneeded) filename clean-up for better performance.
         Location        => $CacheDirectory . '/' . $Filename,
         Type            => 'Local',
         DisableWarnings => 1,
@@ -232,7 +231,7 @@ sub CleanUp {
         if ( $Param{Expired} ) {
             my $Content = $MainObject->FileRead(
 
-      # Use Location rather than Filename and Directory to skip the (unneeded) filename clean-up for better performance.
+                # Use Location rather than Filename and Directory to skip the (unneeded) filename clean-up for better performance.
                 Location        => $CacheFile,
                 Mode            => 'binmode',
                 DisableWarnings => 1,

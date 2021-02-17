@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,6 +18,9 @@ package Kernel::System::Web::InterfaceCustomer;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 
@@ -51,24 +54,41 @@ our @ObjectDependencies = (
 
 Kernel::System::Web::InterfaceCustomer - the customer web interface
 
+=head1 SYNOPSIS
+
+    use Kernel::System::Web::InterfaceCustomer;
+
+    # a Plack request handler
+    my $App = sub {
+        my $Env = shift;
+
+        my $Interface = Kernel::System::Web::InterfaceCustomer->new(
+            # Debug => 1
+            PSGIEnv    => $Env,
+        );
+
+        # generate content (actually headers are generated as a side effect)
+        my $Content = $Interface->Content();
+
+        # assuming all went well and HTML was generated
+        return [
+            '200',
+            [ 'Content-Type' => 'text/html' ],
+            $Content
+        ];
+    };
+
 =head1 DESCRIPTION
 
-the global customer web interface (authentication, session handling, ...)
+This module generates the HTTP response for F<customer.pl>.
+This class is meant to be used within a Plack request handler.
+See F<bin/psgi-bin/otobo.psgi> for the real live usage.
 
 =head1 PUBLIC INTERFACE
 
 =head2 new()
 
-create customer web interface object
-
-    use Kernel::System::Web::InterfaceCustomer;
-
-    my $Interface = Kernel::System::Web::InterfaceCustomer->new();
-
-    # with debugging enabled
-    my $Interface = Kernel::System::Web::InterfaceCustomer->new(
-        Debug => 1
-    );
+create the web interface object for F<customer.pl>.
 
 =cut
 
@@ -78,7 +98,7 @@ sub new {
     # start with an empty hash for the new object
     my $Self = bless {}, $Type;
 
-    # get debug level
+    # set debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
     # performance log
@@ -90,7 +110,7 @@ sub new {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix'),
         },
         'Kernel::System::Web::Request' => {
-            WebRequest => $Param{WebRequest} || 0,
+            PSGIEnv => $Param{PSGIEnv} || 0,
         },
     );
 
@@ -172,7 +192,7 @@ sub Content {
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::Output::HTML::Layout' => {
-            Lang => $Param{Lang},
+            Lang         => $Param{Lang},
         },
         'Kernel::Language' => {
             UserLanguage => $Param{Lang}
@@ -183,12 +203,16 @@ sub Content {
     my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
 
     # check whether we are using the right scheme
-    my ( $RequestScheme ) = split( '/', $ParamObject->ServerProtocol() );
-    $RequestScheme = lc( $RequestScheme );
+    my ( $RequestScheme ) = split '/', $ParamObject->ServerProtocol(), 2;
+    $RequestScheme = lc $RequestScheme;
     if ( $RequestScheme ne $ConfigObject->Get('HttpType') ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message  => 'HttpType '.$ConfigObject->Get('HttpType').' is set, but '.$RequestScheme.' is used!',
+            Message  => sprintf(
+                'HttpType %s is set, but %s is used!',
+                $ConfigObject->Get('HttpType'),
+                $RequestScheme
+            ),
         );
     }
 
@@ -199,18 +223,17 @@ sub Content {
         if ( !$DBCanConnect ) {
             $LayoutObject->CustomerFatalError(
                 Comment => Translatable('Please contact the administrator.'),
-            );
+            ); # throws a Kernel::System::Web::Exception
         }
         if ( $ParamObject->Error() ) {
             $LayoutObject->CustomerFatalError(
                 Message => $ParamObject->Error(),
                 Comment => Translatable('Please contact the administrator.'),
-            );
+            ); # throws a Kernel::System::Web::Exception
         }
     }
 
-
-    # get common application and add on application params
+    # get common application and add-on application params
     my %CommonObjectParam = %{ $ConfigObject->Get('CustomerFrontend::CommonParam') };
     for my $Key ( sort keys %CommonObjectParam ) {
         $Param{$Key} = $ParamObject->GetParam( Param => $Key ) || $CommonObjectParam{$Key};
@@ -227,14 +250,11 @@ sub Content {
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
         # login screen
-        my $Output =$LayoutObject->CustomerLogin(
+        return $LayoutObject->CustomerLogin(
             Title => 'Login',
             Mode  => 'PreLogin',
             %Param,
         );
-        $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-        return $Output;
     }
     elsif ( $Param{Action} eq 'Login' ) {
 
@@ -264,7 +284,8 @@ sub Content {
 
                     # output error message
                     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-                    my $Output = $LayoutObject->CustomerLogin(
+
+                    return $LayoutObject->CustomerLogin(
                         %Param,
                         Title   => 'Login',
                         Message => $LayoutObject->{LanguageObject}->Translate(
@@ -275,9 +296,6 @@ sub Content {
                         MessageType => 'Error',
                         User        => $PostUser,
                     );
-                    $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-                    return $Output;
                 }
             }
         }
@@ -312,6 +330,7 @@ sub Content {
             $Kernel::OM->ObjectParamAdd(
                 'Kernel::Output::HTML::Layout' => {
                     SetCookies => {
+
                         # set a cookie tentatively for checking cookie support
                         OTOBOBrowserHasCookie => $ParamObject->SetCookie(
                             Key      => 'OTOBOBrowserHasCookie',
@@ -330,10 +349,11 @@ sub Content {
             # redirect to alternate login
             if ( $ConfigObject->Get('CustomerPanelLoginURL') ) {
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
-                return $LayoutObject->Redirect(
+
+                $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
                         . "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
-                );
+                ); # throws a Kernel::System::Web::Exception
             }
 
             if ($PreventBruteForceConfig) {
@@ -345,7 +365,7 @@ sub Content {
                 );
 
                 if ($Banned) {
-                    my $Output => $LayoutObject->CustomerLogin(
+                    return $LayoutObject->CustomerLogin(
                         %Param,
                         Title   => 'Login',
                         Message => $LayoutObject->{LanguageObject}->Translate(
@@ -356,14 +376,11 @@ sub Content {
                         MessageType => 'Error',
                         User        => $PostUser,
                     );
-                    $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-                    return $Output;
                 }
             }
 
             # show normal login
-            my $Output = $LayoutObject->CustomerLogin(
+            return $LayoutObject->CustomerLogin(
                 Title   => 'Login',
                 Message => $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
                     Type => 'Info',
@@ -375,15 +392,12 @@ sub Content {
                 User        => $PostUser,
                 %Param,
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # login is successful
         my %UserData = $UserObject->CustomerUserDataGet(
-            User  => $User,
-            Valid => 1
+            User          => $User,
+            Valid         => 1,
         );
 
         # check if the browser supports cookies
@@ -402,14 +416,14 @@ sub Content {
 
             # redirect to alternate login
             if ( $ConfigObject->Get('CustomerPanelLoginURL') ) {
-                return $LayoutObject->Redirect(
+                $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
                         . '?Reason=SystemError',
-                );
+                ); # throws a Kernel::System::Web::Exception
             }
 
             # show need user data error message
-            my $Output = $LayoutObject->CustomerLogin(
+            return $LayoutObject->CustomerLogin(
                 Title   => 'Error',
                 Message =>
                     Translatable(
@@ -417,9 +431,6 @@ sub Content {
                     ),
                 %Param,
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # create datetime object
@@ -447,23 +458,22 @@ sub Content {
 
             # output error message
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-            my $Output = $LayoutObject->CustomerLogin(
+
+            return $LayoutObject->CustomerLogin(
                 Title       => 'Login',
                 Message     => $Error,
                 %Param,
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # execution in 20 seconds
-        my $ExecutionTimeObj = $Kernel::OM->Create('Kernel::System::DateTime');
+        my $ExecutionTimeObj = $SessionDTObject->Clone();
         $ExecutionTimeObj->Add( Seconds => 20 );
+        my $ExecutionTime = $ExecutionTimeObj->ToString();
 
         # add a asynchronous executor scheduler task to count the concurrent user
         $Kernel::OM->Get('Kernel::System::Scheduler')->TaskAdd(
-            ExecutionTime            => $ExecutionTimeObj->ToString(),
+            ExecutionTime            => $ExecutionTime,
             Type                     => 'AsynchronousExecutor',
             Name                     => 'PluginAsynchronous::ConcurrentUser',
             MaximumParallelInstances => 1,
@@ -520,6 +530,7 @@ sub Content {
                         Secure   => $CookieSecureAttribute,
                         HTTPOnly => 1,
                     ),
+
                     # delete the OTOBOBrowserHasCookie cookie
                     OTOBOBrowserHasCookie => $ParamObject->SetCookie(
                         Key      => 'OTOBOBrowserHasCookie',
@@ -542,10 +553,12 @@ sub Content {
         }
 
         # redirect with new session id
-        return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Redirect(
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+        $LayoutObject->Redirect(
             OP    => $Param{RequestedURL},
             Login => 1,
-        );
+        ); # throws a Kernel::System::Web::Exception
     }
 
     # logout
@@ -560,21 +573,19 @@ sub Content {
             # redirect to alternate login
             if ( $ConfigObject->Get('CustomerPanelLoginURL') ) {
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
-                return $LayoutObject->Redirect(
+
+                $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
                         . "?Reason=InvalidSessionID;RequestedURL=$Param{RequestedURL}",
-                );
+                ); # throws a Kernel::System::Web::Exception
             }
 
             # show login screen
-            my $Output = $LayoutObject->CustomerLogin(
+            return $LayoutObject->CustomerLogin(
                 Title   => 'Logout',
                 Message => Translatable('Session invalid. Please log in again.'),
                 %Param,
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # get session data
@@ -584,10 +595,11 @@ sub Content {
 
         $UserData{UserTimeZone} = $Self->_UserTimeZoneGet(%UserData);
 
-        # create new LayoutObject with new '%Param' and '%UserData'
+        # create a new LayoutObject with '%Param' and '%UserData'
         $Kernel::OM->ObjectParamAdd(
             'Kernel::Output::HTML::Layout' => {
                 SetCookies => {
+
                     # delete the OTOBO session cookie
                     SessionIDCookie => $ParamObject->SetCookie(
                         Key      => $Param{SessionName},
@@ -610,32 +622,27 @@ sub Content {
         if ( !$SessionObject->RemoveSessionID( SessionID => $Param{SessionID} ) ) {
             $LayoutObject->CustomerFatalError(
                 Comment => Translatable('Please contact the administrator.')
-            );
-            return;
+            ); # throws a Kernel::System::Web::Exception
         }
 
         # redirect to alternate login
         if ( $ConfigObject->Get('CustomerPanelLogoutURL') ) {
-            return $LayoutObject->Redirect(
+
+            $LayoutObject->Redirect(
                 ExtURL => $ConfigObject->Get('CustomerPanelLogoutURL'),
-            );
+            ); # throws a Kernel::System::Web::Exception
         }
 
         # show logout screen
-        my $LogoutMessage = $LayoutObject->{LanguageObject}->Translate('Logout successful.');
-
-        my $Output = $LayoutObject->CustomerLogin(
+        return $LayoutObject->CustomerLogin(
             Title       => 'Logout',
-            Message     => $LogoutMessage,
+            Message     => $LayoutObject->{LanguageObject}->Translate('Logout successful.'),
             MessageType => 'Success',
             %Param,
         );
-        $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-        return $Output;
     }
 
-    # customer lost password
+    # lost password
     elsif ( $Param{Action} eq 'CustomerLostPassword' ) {
 
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -644,13 +651,10 @@ sub Content {
         if ( !$ConfigObject->Get('CustomerPanelLostPassword') ) {
 
             # show normal login
-            my $Output = $LayoutObject->CustomerLogin(
+            return $LayoutObject->CustomerLogin(
                 Title       => 'Login',
                 Message     => Translatable('Feature not active!'),
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # get params
@@ -667,15 +671,12 @@ sub Content {
                 # Security: pretend that password reset instructions were actually sent to
                 #   make sure that users cannot find out valid usernames by
                 #   just trying and checking the result message.
-                my $Output = $LayoutObject->Login(
+                return $LayoutObject->Login(
                     Title       => 'Login',
                     Message     => Translatable('Sent password reset instructions. Please check your email.'),
                     MessageType => 'Success',
                     %Param,
                 );
-                $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-                return $Output;
             }
 
             my %UserList = $UserObject->SearchPreferences(
@@ -685,11 +686,12 @@ sub Content {
             USER_ID:
             for my $UserID ( sort keys %UserList ) {
                 my %UserData = $UserObject->CustomerUserDataGet(
-                    User   => $UserID,
-                    Valid  => 1,
+                    User  => $UserID,
+                    Valid => 1,
                 );
                 if (%UserData) {
                     $User = $UserData{UserLogin};
+
                     last USER_ID;
                 }
             }
@@ -697,7 +699,7 @@ sub Content {
 
         # get user data
         my %UserData = $UserObject->CustomerUserDataGet(
-            User => $User,
+            User  => $User,
         );
 
         # verify customer user is valid when requesting password reset
@@ -708,14 +710,11 @@ sub Content {
             # Security: pretend that password reset instructions were actually sent to
             #   make sure that users cannot find out valid usernames by
             #   just trying and checking the result message.
-            my $Output = $LayoutObject->CustomerLogin(
+            return $LayoutObject->CustomerLogin(
                 Title       => 'Login',
                 Message     => Translatable('Sent password reset instructions. Please check your email.'),
                 MessageType => 'Success',
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # create email object
@@ -747,17 +746,15 @@ sub Content {
             if ( !$Sent->{Success} ) {
                 $LayoutObject->FatalError(
                     Comment => Translatable('Please contact the administrator.'),
-                );
+                ); # throws a Kernel::System::Web::Exception
             }
-            my $Output = $LayoutObject->CustomerLogin(
-                Title   => 'Login',
-                Message => Translatable('Sent password reset instructions. Please check your email.'),
+
+            return $LayoutObject->CustomerLogin(
+                Title       => 'Login',
+                Message     => Translatable('Sent password reset instructions. Please check your email.'),
                 MessageType => 'Success',
                 %Param,
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # reset password
@@ -766,15 +763,13 @@ sub Content {
             Token  => $Token,
             UserID => $UserData{UserID},
         );
+
         if ( !$TokenValid ) {
-            my $Output = $LayoutObject->CustomerLogin(
+            return $LayoutObject->CustomerLogin(
                 Title       => 'Login',
                 Message     => Translatable('Invalid Token!'),
                 %Param,
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # get new password
@@ -787,14 +782,11 @@ sub Content {
         );
 
         if ( !$Success ) {
-            my $Output = $LayoutObject->CustomerLogin(
+            return $LayoutObject->CustomerLogin(
                 Title   => 'Login',
                 Message => Translatable('Reset password unsuccessful. Please contact the administrator.'),
                 User    => $User,
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # send notify email
@@ -816,21 +808,19 @@ sub Content {
         if ( !$Sent->{Success} ) {
             $LayoutObject->CustomerFatalError(
                 Comment => Translatable('Please contact the administrator.')
-            );
+            ); # throws a Kernel::System::Web::Exception
         }
         my $Message = $LayoutObject->{LanguageObject}->Translate(
             'Sent new password to %s. Please check your email.',
             $UserData{UserEmail},
         );
-        my $Output = $LayoutObject->CustomerLogin(
+
+        return $LayoutObject->CustomerLogin(
             Title       => 'Login',
             Message     => $Message,
             User        => $User,
             MessageType => 'Success',
         );
-        $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-        return $Output;
     }
 
     # create new customer account
@@ -843,13 +833,10 @@ sub Content {
         if ( !$ConfigObject->Get('CustomerPanelCreateAccount') ) {
 
             # show normal login
-            my $Output = $LayoutObject->CustomerLogin(
+            return $LayoutObject->CustomerLogin(
                 Title   => 'Login',
                 Message => Translatable('Feature not active!'),
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # get params
@@ -881,17 +868,14 @@ sub Content {
                 Value => 1,
             );
 
-            my $Output = $LayoutObject->CustomerLogin(
-                Title => 'Login',
-                Message => Translatable('This e-mail address already exists. Please log in or reset your password.'),
+            return $LayoutObject->CustomerLogin(
+                Title         => 'Login',
+                Message       => Translatable('This e-mail address already exists. Please log in or reset your password.'),
                 UserTitle     => $GetParams{UserTitle},
                 UserFirstname => $GetParams{UserFirstname},
                 UserLastname  => $GetParams{UserLastname},
                 UserEmail     => $GetParams{UserEmail},
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # check for mail address restrictions
@@ -943,18 +927,14 @@ sub Content {
                 Value => 1,
             );
 
-            my $Output = $LayoutObject->CustomerLogin(
-                Title => 'Login',
-                Message => Translatable('This email address is not allowed to register. Please contact support staff.'),
+            return $LayoutObject->CustomerLogin(
+                Title         => 'Login',
+                Message       => Translatable('This email address is not allowed to register. Please contact support staff.'),
                 UserTitle     => $GetParams{UserTitle},
                 UserFirstname => $GetParams{UserFirstname},
                 UserLastname  => $GetParams{UserLastname},
                 UserEmail     => $GetParams{UserEmail},
             );
-
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # create account
@@ -976,7 +956,7 @@ sub Content {
                 Value => 1,
             );
 
-            my $Output = $LayoutObject->CustomerLogin(
+            return $LayoutObject->CustomerLogin(
                 Title         => 'Login',
                 Message       => Translatable('Customer user can\'t be added!'),
                 UserTitle     => $GetParams{UserTitle},
@@ -984,9 +964,6 @@ sub Content {
                 UserLastname  => $GetParams{UserLastname},
                 UserEmail     => $GetParams{UserEmail},
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # send notify email
@@ -1008,17 +985,15 @@ sub Content {
             Body     => $Body
         );
         if ( !$Sent->{Success} ) {
-            my $Output = $LayoutObject->CustomerHeader(
-                Area  => 'Core',
-                Title => 'Error'
-            );
-            $Output .= $LayoutObject->CustomerWarning(
-                Comment => Translatable('Can\'t send account info!')
-            );
-            $Output .= $LayoutObject->CustomerFooter();
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
+            return join '',
+                $LayoutObject->CustomerHeader(
+                    Area  => 'Core',
+                    Title => 'Error'
+                ),
+                $LayoutObject->CustomerWarning(
+                    Comment => Translatable('Can\'t send account info!')
+                ),
+                $LayoutObject->CustomerFooter();
         }
 
         # show sent account info
@@ -1026,11 +1001,12 @@ sub Content {
 
             # redirect to alternate login
             $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
-            return $LayoutObject->Redirect(
+
+            $LayoutObject->Redirect(
                 ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
                     . "?RequestedURL=$Param{RequestedURL};User=$GetParams{UserLogin};"
                     . "Email=$GetParams{UserEmail};Reason=NewAccountCreated",
-            );
+            ); # throws a Kernel::System::Web::Exception
         }
 
         my $AccountCreatedMessage = $LayoutObject->{LanguageObject}->Translate(
@@ -1039,15 +1015,12 @@ sub Content {
         );
 
         # login screen
-        my $Output = $LayoutObject->CustomerLogin(
+        return $LayoutObject->CustomerLogin(
             Title       => 'Login',
             Message     => $AccountCreatedMessage,
             User        => $GetParams{UserLogin},
             MessageType => 'Success',
         );
-        $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-        return $Output;
     }
 
     # show login site
@@ -1060,28 +1033,27 @@ sub Content {
 
             # automatic login
             $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
-            return $LayoutObject->Redirect(
+
+            $LayoutObject->Redirect(
                 OP => "Action=PreLogin&RequestedURL=$Param{RequestedURL}",
-            );
+            ); # throws a Kernel::System::Web::Exception
         }
         elsif ( $ConfigObject->Get('CustomerPanelLoginURL') ) {
 
             # redirect to alternate login
             $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
-            return $LayoutObject->Redirect(
+
+            $LayoutObject->Redirect(
                 ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
                     . "?RequestedURL=$Param{RequestedURL}",
-            );
+            ); # throws a Kernel::System::Web::Exception
         }
 
         # login screen
-        my $Output = $LayoutObject->CustomerLogin(
+        return $LayoutObject->CustomerLogin(
             Title => 'Login',
             %Param,
         );
-        $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-        return $Output;
     }
 
     # run modules if a version value exists
@@ -1094,6 +1066,7 @@ sub Content {
             $Kernel::OM->ObjectParamAdd(
                 'Kernel::Output::HTML::Layout' => {
                     SetCookies => {
+
                         # delete the OTOBO session cookie
                         SessionIDCookie => $ParamObject->SetCookie(
                             Key      => $Param{SessionName},
@@ -1113,8 +1086,9 @@ sub Content {
                 $Kernel::OM->ObjectParamAdd(
                     'Kernel::Output::HTML::Layout' => {
                         SetCookies => {
+
                             # delete the OTOBO session cookie
-                            SessionIDCookiehttp  => $ParamObject->SetCookie(
+                            SessionIDCookiehttp => $ParamObject->SetCookie(
                                 Key      => $Param{SessionName},
                                 Value    => '',
                                 Expires  => '-1y',
@@ -1122,6 +1096,7 @@ sub Content {
                                 Secure   => '',
                                 HTTPOnly => 1,
                             ),
+
                             # delete the OTOBO session cookie
                             SessionIDCookiehttps => $ParamObject->SetCookie(
                                 Key      => $Param{SessionName},
@@ -1146,32 +1121,29 @@ sub Content {
 
                 # automatic re-login
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
-                return $LayoutObject->Redirect(
-                    OP => "?Action=PreLogin&RequestedURL=$Param{RequestedURL}",
-                );
-            }
 
-            # redirect to alternate login
+                $LayoutObject->Redirect(
+                    OP => "?Action=PreLogin&RequestedURL=$Param{RequestedURL}",
+                ); # throws a Kernel::System::Web::Exception
+            }
             elsif ( $ConfigObject->Get('CustomerPanelLoginURL') ) {
 
                 # redirect to alternate login
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
-                return $LayoutObject->Redirect(
+
+                $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
                         . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
-                );
+                ); # throws a Kernel::System::Web::Exception
             }
 
             # show login
-            my $Output = $LayoutObject->CustomerLogin(
+            return $LayoutObject->CustomerLogin(
                 Title => 'Login',
                 Message =>
                     $LayoutObject->{LanguageObject}->Translate( $SessionObject->SessionIDErrorMessage() ),
                 %Param,
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # get session data
@@ -1188,21 +1160,18 @@ sub Content {
 
             # redirect to alternate login
             if ( $ConfigObject->Get('CustomerPanelLoginURL') ) {
-                return $LayoutObject->Redirect(
+                $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
                         . '?Reason=SystemError',
-                );
+                ); # throws a Kernel::System::Web::Exception
             }
 
             # show login screen
-            my $Output = $LayoutObject->CustomerLogin(
-                Title   => 'Error',
-                Message => Translatable('Error: invalid session.'),
+            return $LayoutObject->CustomerLogin(
+                Title       => 'Error',
+                Message     => Translatable('Error: invalid session.'),
                 %Param,
             );
-            $LayoutObject->ApplyOutputFilters( Output => \$Output );
-
-            return $Output;
         }
 
         # check module registry
@@ -1210,14 +1179,16 @@ sub Content {
         if ( !$ModuleReg ) {
 
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message =>
+                Message  =>
                     "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
             );
+
             $LayoutObject->CustomerFatalError(
                 Comment => Translatable('Please contact the administrator.'),
-            );
+            ); # throws a Kernel::System::Web::Exception
         }
 
         # module permission check for action
@@ -1246,10 +1217,10 @@ sub Content {
                     Priority => 'error',
                     Message  => 'No Permission to use this frontend action module!'
                 );
+
                 $LayoutObject->CustomerFatalError(
                     Comment => Translatable('Please contact the administrator.'),
-                );
-                return;
+                ); # throws a Kernel::System::Web::Exception
             }
 
         }
@@ -1319,10 +1290,10 @@ sub Content {
                                 Priority => 'error',
                                 Message  => 'No Permission to use this frontend subaction module!'
                             );
+
                             $LayoutObject->CustomerFatalError(
                                 Comment => Translatable('Please contact the administrator.')
-                            );
-                            return;
+                            ); # throws a Kernel::System::Web::Exception
                         }
                     }
                 }
@@ -1389,11 +1360,8 @@ sub Content {
 
                 );
                 my $Output = $PreModuleObject->PreRun();
-                if ($Output) {
-                    $LayoutObject->ApplyOutputFilters( Output => \$Output );
 
-                    return $Output;
-                }
+                return $Output if $Output;
             }
         }
 
@@ -1422,8 +1390,6 @@ sub Content {
 
         # ->Run $Action with $FrontendObject
         my $Output = $FrontendObject->Run();
-        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-        $LayoutObject->ApplyOutputFilters( Output => \$Output );
 
         # log request time
         if ( $ConfigObject->Get('PerformanceLog') ) {
@@ -1432,9 +1398,7 @@ sub Content {
             }
             my $File = $ConfigObject->Get('PerformanceLog::File');
 
-            ## no critic
             if ( open my $Out, '>>', $File ) {
-                ## use critic
                 print $Out time()
                     . '::Customer::'
                     . ( time() - $Self->{PerformanceLogStart} )
@@ -1469,10 +1433,12 @@ sub Content {
             %Data,
         },
     );
+
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     $LayoutObject->CustomerFatalError(
         Comment => Translatable('Please contact the administrator.'),
-    );
+    ); # throws a Kernel::System::Web::Exception
 }
 
 =begin Internal:

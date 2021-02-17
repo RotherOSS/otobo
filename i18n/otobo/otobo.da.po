@@ -5,19 +5,21 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Lars Jørgensen <ljorg6@gmail.com>, 2019
 # Jens Larsen <termi@termi.dk>, 2019
-#
+# Kim Mølgaard <kim@itandmore.dk>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-07-31 11:42+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Jens Larsen <termi@termi.dk>, 2019\n"
-"Language-Team: Danish (https://translate.otobo.org/projects/otobo10/otobo/da/)\n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
+"POT-Creation-Date: 2021-01-19 18:56+0000\n"
+"PO-Revision-Date: 2021-02-12 13:45+0000\n"
+"Last-Translator: Kim Mølgaard <kim@itandmore.dk>\n"
+"Language-Team: Danish <https://translate.otobo.org/projects/otobo10/otobo/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -145,7 +147,7 @@ msgstr "Match indstilliger"
 
 #. Template: AdminACLEdit
 msgid "Set up matching criteria for this ACL. Use 'Properties' to match the current screen or 'PropertiesDatabase' to match attributes of the current ticket that are in the database."
-msgstr ""
+msgstr "Opsæt filterregler for denne ACL. Brug egenskaber til at matche det aktuelle skærmbillede, eller 'PropertiesDatabase' for de værdier der er gemt i databsen for den aktuelle sag."
 
 #. Template: AdminACLEdit
 msgid "Change settings"
@@ -157,7 +159,7 @@ msgstr "Indstil hvad du vil ændre hvis kriterierne passer. Husk på at 'Possibl
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "Check den officielle %sdocumentation%s."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -205,7 +207,7 @@ msgstr "Vil du virkelig slette denne ACL?"
 
 #. Template: AdminACLNew
 msgid "Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode."
-msgstr ""
+msgstr "Opret en ny ACL ved at sende formularens data. Efter oprettelsen af ACL, kan du tilføje konfigurations parametre i redigerings mode."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
@@ -253,7 +255,7 @@ msgstr "Importer kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for Calendars"
-msgstr ""
+msgstr "Filter for kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -261,23 +263,23 @@ msgstr "Filter for kalendre"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Depending on the group field, the system will allow users the access to the calendar according to their permission level."
-msgstr ""
+msgstr "Afhængigt af gruppe feltet, vil systemet tillade adgang til kalenderen bestemt af deres autorisations niveau."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read only: users can see and export all appointments in the calendar."
-msgstr ""
+msgstr "Kun læsning: Brugere kan se og eksportere alle aftaler i kalenderen."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Move into: users can modify appointments in the calendar, but without changing the calendar selection."
-msgstr ""
+msgstr "Flyt ind i: Brugere kan ændre aftaler i en kalender, men ikke i andre kalendere."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Create: users can create and delete appointments in the calendar."
-msgstr ""
+msgstr "Oprette: Bruger kan oprette og slette aftaler i kalender."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read/write: users can manage the calendar itself."
-msgstr ""
+msgstr "Læse/skrive: Brugere kan administrere kalenderen."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Group"
@@ -333,7 +335,7 @@ msgstr "Tilladelsesgruppe"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Ticket Appointments"
-msgstr ""
+msgstr "Sags aftaler"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Rule"
@@ -357,7 +359,7 @@ msgstr "Slutdato"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Use options below to narrow down for which tickets appointments will be automatically created."
-msgstr ""
+msgstr "Brug valgmulighederne herunder, til at afgrænse hvilke sags aftaler der skal oprettes automatisk."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Queues"
@@ -381,7 +383,7 @@ msgstr "Tilføj"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Define rules for creating automatic appointments in this calendar based on ticket data."
-msgstr ""
+msgstr "Definer regler for at oprette automatiske aftaler i kalenderen, baseret på sags data."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Rule"
@@ -401,11 +403,11 @@ msgstr "Tilbage"
 
 #. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
-msgstr ""
+msgstr "Den uploadede fil skal være i et validt iCal format (.ics)."
 
 #. Template: AdminAppointmentImport
 msgid "If desired Calendar is not listed here, please make sure that you have at least 'create' permissions."
-msgstr ""
+msgstr "Hvis den ønskede kalender ikke er listet her, så check at du som minimum har rettigheder til at oprette en kalender."
 
 #. Template: AdminAppointmentImport
 msgid "Upload"
@@ -417,7 +419,7 @@ msgstr "Opdater eksisterende aftaler?"
 
 #. Template: AdminAppointmentImport
 msgid "All existing appointments in the calendar with same UniqueID will be overwritten."
-msgstr ""
+msgstr "Alle eksisterende aftaler med det samme UniqueID vil blive overskrevet."
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
@@ -429,7 +431,7 @@ msgstr "Importer aftaler"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Notification Management"
-msgstr ""
+msgstr "Administration af aftale notifikationer"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add Notification"
@@ -453,7 +455,7 @@ msgstr "Filter for meddelelser"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module."
-msgstr ""
+msgstr "Her kan du uploade en konfigurationsfil til import af kalender til dit system. Filen skal være i samme .yml format som kalendermodulet eksporter."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
@@ -489,7 +491,7 @@ msgstr "Agent præference værktøjstip"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This message will be shown on the agent preferences screen as a tooltip for this notification."
-msgstr ""
+msgstr "Denne besked vil blive vist på agent præference skærmen, som tooltip for denne notifikation."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Toggle this widget"
@@ -505,7 +507,7 @@ msgstr "Hændelse"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria."
-msgstr ""
+msgstr "Her kan du vælge hvilke begivenheder der vil udløse denne notifikation. Et yderligere aftalefilter kan tilføjes herunder, så der kun sendes notifikationer der opfylder bestemte kriterier."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
@@ -545,7 +547,7 @@ msgstr "Send til disse agenter"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members (agents only)"
-msgstr ""
+msgstr "Send til alle medlemmer af gruppen (kun agenter)"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -565,7 +567,7 @@ msgstr "Dagligt"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notify user just once per day about a single appointment using a selected transport."
-msgstr ""
+msgstr "Send kun notifikation til brugeren en gang om dagen per aftale, med den valgte transportmetode."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Methods"
@@ -573,7 +575,7 @@ msgstr "Beskedafgivelsesmetoder"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below."
-msgstr ""
+msgstr "Dette er alle de mulige metoder der kan anvendes til at sende notifikationer til modtagerne. Vælg venligst mindst en af metoderne."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Enable this notification method"
@@ -589,11 +591,11 @@ msgstr "Mindst en metode er krævet pr. besked"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Active by default in agent preferences"
-msgstr ""
+msgstr "Aktiv som standard i agent indstillingerne"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This is the default value for assigned recipient agents who didn't make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents."
-msgstr ""
+msgstr "Dette er standard valget for tildelte modtager-agenter, der ikke har valgt en mulighed for denne notifikation i deres indstillinger. Hvis dette felt er valgt, vil notifikationen blive sendt til disse agenter."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
@@ -605,7 +607,7 @@ msgstr "Opgrader til %s"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Please activate this transport in order to use it."
-msgstr ""
+msgstr "For at bruge denne transport, skal denne først aktiveres."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
@@ -637,7 +639,7 @@ msgstr "Tekst"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Message body"
-msgstr ""
+msgstr "Beskeds indhold"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add new notification language"
@@ -649,7 +651,7 @@ msgstr "Gem ændringer"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Tag Reference"
-msgstr ""
+msgstr "Tag-Reference"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notifications are sent to an agent."
@@ -661,11 +663,11 @@ msgstr "Du kan bruge følgende tags"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the first 20 character of the appointment title."
-msgstr ""
+msgstr "De første 20 karakterer af aftale titlen."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the appointment attribute"
-msgstr ""
+msgstr "Aftale-Attribut"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid " e. g."
@@ -673,11 +675,11 @@ msgstr "f.eks."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the calendar attribute"
-msgstr ""
+msgstr "Kalender-Attribut"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr ""
+msgstr "Brugerdata attributter for modtageren der får notifikationen"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Config options"
@@ -693,7 +695,7 @@ msgstr "Yderligere modtageres email adresser"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
-msgstr ""
+msgstr "Dette felt må maksimum være 200 karakterer."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
@@ -709,7 +711,7 @@ msgstr "Email skabelon"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Use this template to generate the complete email (only for HTML emails)."
-msgstr ""
+msgstr "Anvend denne skabelon til at generere den komplette email (kun for HTML-emails)."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Enable email security"
@@ -717,15 +719,15 @@ msgstr "Aktiver sikker email"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr ""
+msgstr "Email sikkerhedsniveau"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
-msgstr ""
+msgstr "Hvis nøgle/certifikat mangler til signering"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If encryption key/certificate is missing"
-msgstr ""
+msgstr "Hvis nøgle/certifikat mangler til kryptering"
 
 #. Template: AdminAttachment
 msgid "Attachment Management"
@@ -745,7 +747,7 @@ msgstr "Filter for vedhæftede filer"
 
 #. Template: AdminAttachment
 msgid "Filter for attachments"
-msgstr ""
+msgstr "Filter for vedhæftninger"
 
 #. Template: AdminAttachment
 msgid "Filename"
@@ -785,7 +787,7 @@ msgstr "Filtrer autosvar"
 
 #. Template: AdminAutoResponse
 msgid "Filter for auto responses"
-msgstr ""
+msgstr "Filter for automatiske svar"
 
 #. Template: AdminAutoResponse
 msgid "Response"
@@ -809,7 +811,7 @@ msgstr "For at få de første 5 linjer af mailen."
 
 #. Template: AdminAutoResponse
 msgid "To get the name of the ticket's customer user (if given)."
-msgstr ""
+msgstr "Navnet på sagens kundebruger (hvis den eksisterer)."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -869,7 +871,7 @@ msgstr "I øjeblikket vises support-data kun i dette system."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "It is sometimes recommended to send this data to the OTOBO team in order to get better support."
-msgstr ""
+msgstr "Det er en gang imellem anbefalesværdigt at sende disse data til OTOBO-teamet, for at få bedre support."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -881,7 +883,7 @@ msgstr "Send support-data"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "This will allow the system to send additional support data information to the OTOBO team."
-msgstr ""
+msgstr "Denne indstillinger tillader systemet at sende yderligere supportdata til OTOBO-teamet."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -893,7 +895,7 @@ msgstr "System-registrering"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the 'send support data' option.)"
-msgstr ""
+msgstr "For at aktivere afsendelse af data, skal systemet registreres hos OTOBO-teamet. Eller du kan opdatere system registrerings informationen (aktiver indstillingen 'send support data'.)"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -905,7 +907,7 @@ msgstr "System registrering er deaktiveret for dit system, kontroller din konfig
 
 #. Template: AdminCloudServices
 msgid "System registration is a service of OTOBO team, which provides a lot of advantages!"
-msgstr ""
+msgstr "System registrering er en service fra OTOBO-teamet, som giver dig mange fordele!"
 
 #. Template: AdminCloudServices
 msgid "Please note that the use of OTOBO cloud services requires the system to be registered."
@@ -925,35 +927,35 @@ msgstr "Tilgængelige sky-tjenester"
 
 #. Template: AdminCommunicationLog
 msgid "Communication Log"
-msgstr ""
+msgstr "Kommunikations log"
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr ""
+msgstr "Tidsinterval"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
-msgstr ""
+msgstr "Vis kun kommunikations logs, oprettet i et specifikt tidsinterval."
 
 #. Template: AdminCommunicationLog
 msgid "Filter for Communications"
-msgstr ""
+msgstr "Filter for kommunikationer"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
-msgstr ""
+msgstr "Filter for kommunikationer"
 
 #. Template: AdminCommunicationLog
 msgid "In this screen you can see an overview about incoming and outgoing communications."
-msgstr ""
+msgstr "På dette skærmbillede, kan du se en oversigt over ind- og ud-gående kommunikationer."
 
 #. Template: AdminCommunicationLog
 msgid "You can change the sort and order of the columns by clicking on the column header."
-msgstr ""
+msgstr "Du kan ændre rækkefølgen og rækkefølgen af kolonnerne, ved at klikke på kolonne overskriften."
 
 #. Template: AdminCommunicationLog
 msgid "If you click on the different entries, you will get redirected to a detailed screen about the message."
-msgstr ""
+msgstr "Hvis du klikker på en indgang, vises en detaljeret beskrivelse af denne."
 
 #. Template: AdminCommunicationLog
 msgid "Status for: %s"
@@ -961,63 +963,63 @@ msgstr "Status for: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing accounts"
-msgstr ""
+msgstr "Fejlende konti"
 
 #. Template: AdminCommunicationLog
 msgid "Some account problems"
-msgstr ""
+msgstr "Enkelte kontoproblemer"
 
 #. Template: AdminCommunicationLog
 msgid "No account problems"
-msgstr ""
+msgstr "Ingen kontoproblemer"
 
 #. Template: AdminCommunicationLog
 msgid "No account activity"
-msgstr ""
+msgstr "Ingen konto aktivitet"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with problems: %s"
-msgstr ""
+msgstr "Antal konti med problemer: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with warnings: %s"
-msgstr ""
+msgstr "Antal konti med advarsler: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing communications"
-msgstr ""
+msgstr "Kommunikation fejlet"
 
 #. Template: AdminCommunicationLog
 msgid "No communication problems"
-msgstr ""
+msgstr "Ingen kommunikationsproblemer"
 
 #. Template: AdminCommunicationLog
 msgid "No communication logs"
-msgstr ""
+msgstr "Inegn kommunikations logs"
 
 #. Template: AdminCommunicationLog
 msgid "Number of reported problems: %s"
-msgstr ""
+msgstr "Antal rapporterede problemer: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Open communications"
-msgstr ""
+msgstr "Åbne forbindelser"
 
 #. Template: AdminCommunicationLog
 msgid "No active communications"
-msgstr ""
+msgstr "Ingen aktive forbindelser"
 
 #. Template: AdminCommunicationLog
 msgid "Number of open communications: %s"
-msgstr ""
+msgstr "Antal åbne forbindelser: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Average processing time"
-msgstr ""
+msgstr "Gennemsnitlig proces tid"
 
 #. Template: AdminCommunicationLog
 msgid "List of communications (%s)"
-msgstr ""
+msgstr "Kommunikationsliste (%s)"
 
 #. Template: AdminCommunicationLog
 msgid "Settings"
@@ -1025,11 +1027,11 @@ msgstr "Indstillinger"
 
 #. Template: AdminCommunicationLog
 msgid "Entries per page"
-msgstr ""
+msgstr "Antal indgange per side"
 
 #. Template: AdminCommunicationLog
 msgid "No communications found."
-msgstr ""
+msgstr "Ingen forbindelser fundet."
 
 #. Template: AdminCommunicationLog
 msgid "%s s"
@@ -1037,27 +1039,28 @@ msgstr "%s s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account Status"
-msgstr ""
+msgstr "Kontostatus"
 
 #. Template: AdminCommunicationLogAccounts
+#, fuzzy
 msgid "Back to overview"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for Accounts"
-msgstr ""
+msgstr "Filtrer konti"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
-msgstr ""
+msgstr "Filtrer konti"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "You can change the sort and order of those columns by clicking on the column header."
-msgstr ""
+msgstr "Du kan ændre rækkefølgen og rækkefølgen af kolonnerne, ved at klikke på kolonne overskriften."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account status for: %s"
-msgstr ""
+msgstr "Kontostatus for: %s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Status"
@@ -1077,7 +1080,7 @@ msgstr "Ingen konti fundet."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Communication Log Details (%s)"
-msgstr ""
+msgstr "Kommunikations log detaljer (%s)"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Direction"
@@ -1093,7 +1096,7 @@ msgstr "Sluttid"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No communication log entries found."
-msgstr ""
+msgstr "Ingen kommunikations log indgange fundet."
 
 #. Template: AdminCommunicationLogCommunications
 msgid "Duration"
@@ -1117,55 +1120,55 @@ msgstr "Information"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "No log entries found."
-msgstr ""
+msgstr "Ingen log indgange fundet."
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
-msgstr ""
+msgstr "Detaljeret oversigt for %s forbindelse startet ved %s"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for Log Entries"
-msgstr ""
+msgstr "Filtrer log indgange"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for log entries"
-msgstr ""
+msgstr "Filtrer log indgange"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
-msgstr ""
+msgstr "Vis kun indgange med specifik prioritet eller højere:"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Overview (%s)"
-msgstr ""
+msgstr "Kommunikations log oversigt (%s)"
 
 #. Template: AdminCommunicationLogZoom
 msgid "No communication objects found."
-msgstr ""
+msgstr "Ingen kommunikationsobjekter fundet."
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Details"
-msgstr ""
+msgstr "Kommunikations log detaljer"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Please select an entry from the list."
-msgstr ""
+msgstr "Vælg venligst en indgang fra listen."
 
 #. Template: AdminContactWD
 msgid "Contact with data management"
-msgstr ""
+msgstr "Kontaktdata"
 
 #. Template: AdminContactWD
 msgid "Contact with data"
-msgstr ""
+msgstr "Kontaktdata"
 
 #. Template: AdminContactWD
 msgid "Add contact with data"
-msgstr ""
+msgstr "Tilføj kontaktdata"
 
 #. Template: AdminContactWD
 msgid "Edit contact with data"
-msgstr ""
+msgstr "Rediger kontaktdata"
 
 #. Template: AdminContactWD
 msgid "Back to search results"
@@ -9264,6 +9267,14 @@ msgid "The identifier of the system. Each ticket number and each HTTP session ID
 msgstr "Systemets ID. Hver sagsnummer og hver HTTP-session-id indeholder dette nummer."
 
 #. Template: InstallerSystem
+msgid "HTTP Type"
+msgstr ""
+
+#. Template: InstallerSystem
+msgid "Set the request scheme used for cookies and various links. For production purposes always use https."
+msgstr ""
+
+#. Template: InstallerSystem
 msgid "System FQDN"
 msgstr "Systemets FQDN"
 
@@ -9469,6 +9480,18 @@ msgstr ""
 
 #. Template: Intro
 msgid " Continue anyways :("
+msgstr ""
+
+#. Template: OTRSDBSettings
+msgid "Skip DB migration"
+msgstr ""
+
+#. Template: OTRSDBSettings
+msgid "Expert option! Only works if the migration has already been done by hand."
+msgstr ""
+
+#. Template: OTRSDBSettings
+msgid "Skipped."
 msgstr ""
 
 #. Template: OTRSFileSettings
@@ -13272,6 +13295,14 @@ msgid "Contact your Admin!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
+msgid "https"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "http"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
 msgid "System Settings"
 msgstr "Systemindstillinger"
 
@@ -14163,6 +14194,10 @@ msgstr "Indholdet af feltet er for langt."
 msgid "Maximum size is %s characters."
 msgstr "Maksimal længde er %s tegn."
 
+#. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
+msgid "Sanity checks for database."
+msgstr ""
+
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
 msgstr ""
@@ -14195,20 +14230,12 @@ msgstr ""
 msgid "Completed."
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-msgid "Check if OTOBO version is correct."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Check if OTOBO and OTRS connect is possible."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Can't open RELEASE file from OTRSHome: %s!"
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
+msgid "Need OTRSData->%s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Copy and migrate files from OTRS"
+msgid "Can't access OTRS Home: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
@@ -14216,11 +14243,19 @@ msgid "All needed files copied and migrated, perfect!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-msgid "Need %s for Oracle db!"
+msgid "Check if OTOBO version is correct."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Copy database."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
+msgid "Skipped..."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
+msgid "Need %s for Oracle db!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
@@ -14233,6 +14268,14 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Data transfer completed."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "Check if OTOBO and OTRS connect is possible."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "Can't open RELEASE file from OTRSHome: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
@@ -14261,6 +14304,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTRS version is correct."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "OTRS RELEASE file %s does not exist: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
@@ -14300,11 +14347,11 @@ msgid "Migrate web service configuration."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
-msgid "No web service existent, done."
+msgid "Can't add web service for Elasticsearch. File %s not found!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
-msgid "Can't add web service for Elasticsearch. File %s not found!"
+msgid "Failed - see the log!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
@@ -14320,7 +14367,11 @@ msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "OTOBO Home exists."
+msgid "Check if Kernel/Config.pm exists in OTOBO home."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
+msgid "Kernel/Config.pm exists in OTOBO home"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
@@ -14340,7 +14391,7 @@ msgid "Try database connect and sanity checks."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
-msgid "Connect to OTRS database or sanity checks failed."
+msgid "Could not create database object."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
@@ -14361,6 +14412,18 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The same packages are installed on both systems, perfect!"
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+msgid "Package specific tasks"
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+msgid "Done -"
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+msgid "Failed at -"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
@@ -15379,6 +15442,14 @@ msgstr ""
 msgid "Support data could not be collected from the web server."
 msgstr ""
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
+msgid "PSGI Environment"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
+msgid "Runs under PSGI"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
 msgstr "Webserver-version"
@@ -15572,11 +15643,15 @@ msgid "New account created. Sent login information to %s. Please check your emai
 msgstr "Ny konto oprettet. Login-information sendt til %s. Tjek venligst din mail."
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+msgid "If you want to re-run installer.pl, then disable the SecureMode in the SysConfig."
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
-msgid "If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig."
+msgid "If you want to re-run migration.pl, then disable the SecureMode in the SysConfig."
 msgstr ""
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
@@ -18604,6 +18679,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines if a pre-sorting by priority should be done in the service view."
+msgstr ""
+
+#. SysConfig
+msgid "Defines if a ticket lock is required for the quick close."
 msgstr ""
 
 #. SysConfig
@@ -21811,10 +21890,6 @@ msgid "My Services"
 msgstr "Mine Services"
 
 #. SysConfig
-msgid "My Tickets."
-msgstr "Mine Sager."
-
-#. SysConfig
 msgid "Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings."
 msgstr ""
 
@@ -22436,6 +22511,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Required permissions to change the customer of a ticket in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Required permissions to use quick close in the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -24602,6 +24681,9 @@ msgstr "omvendt"
 msgid "stats"
 msgstr ""
 
+#~ msgid "My Tickets."
+#~ msgstr "Mine Sager."
+
 #~ msgid "It is highly recommended to send this data to Rother OSS GmbH in order to get better support."
 #~ msgstr "Det anbefales at sende disse data til OTOBO koncernen for bedre support."
 
@@ -24794,63 +24876,11 @@ msgstr ""
 #~ msgid "This will allow the system to send text messages via SMS."
 #~ msgstr "Dette tillader systemet at sende tekstbeskeder via SMS."
 
-#. Template: InstallerSystem
-msgid "HTTP Type"
+#. Perl Module: Kernel/System/Package.pm
+msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"Package::AllowNotVerifiedPackages\" system configuration setting.</p>"
 msgstr ""
 
-#. Template: InstallerSystem
-msgid "Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes."
-msgstr ""
-
-#. Perl Module: Kernel/Modules/Installer.pm
-msgid "https"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/Installer.pm
-msgid "http"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
-msgid "PSGI Environment"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
-msgid "Runs under PSGI"
-msgstr ""
-
-#. Template: InstallerSystem
-msgid "Set the request scheme used for cookies and various links. For production purposes always use https."
-msgstr ""
-
-#. Template: OTRSDBSettings
-msgid "Database is a throwawy copy"
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Can't access OTRS Home: %s!"
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
-msgid "Sanity checks for database."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Need OTRSData->%s!"
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "OTRS RELEASE file %s does not exist: %s!"
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "Check if Kernel/Config.pm exists in OTOBO home."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "Kernel/Config.pm exists in OTOBO home"
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
-msgid "Could not create database object."
+#. Perl Module: Kernel/System/Package.pm
+msgid "Verification not possible (e.g. no internet connection)!"
 msgstr ""
 

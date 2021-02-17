@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -65,6 +65,7 @@
             <input type="hidden" name="ObjectType" value="[% Data.ObjectType | html %]" />
             <input type="hidden" name="FieldType" value="[% Data.FieldType | html %]" />
             <input type="hidden" name="ID" value="[% Data.ID | html %]" />
+            <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
 
             <div class="WidgetSimple">
                 <div class="Header">
@@ -177,7 +178,6 @@
                     <h2>[% Translate(Data.FieldTypeName) | html %] [% Translate("Field Settings") | html %]</h2>
                 </div>
                 <div class="Content">
-                    <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
                     <fieldset class="TableLike">
 
                         <div class="SpacingTop"></div>

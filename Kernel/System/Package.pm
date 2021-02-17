@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -20,13 +20,16 @@ use strict;
 use warnings;
 use utf8;
 
+# core modules
 use MIME::Base64;
-use File::Copy;
+use File::Copy qw(copy move);
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Config;
 use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
-
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -1893,7 +1896,7 @@ sub PackageVerify {
         $PackageVerifyInfo = {
             Description =>
                 Translatable(
-                '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>'
+                '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>'
                 ),
             Title =>
                 Translatable('Package not verified by the OTOBO community!'),
@@ -1972,9 +1975,35 @@ sub PackageVerify {
     # dispatch the cloud service request
     my $RequestResult = $CloudServiceObject->Request(%RequestParams);
 
-    # as this is the only operation an unsuccessful request means that the operation was also
-    # unsuccessful, in such case set the package as verified
-    return 'unknown' if !IsHashRefWithData($RequestResult);
+    # as this is the only operation an unsuccessful request means that the operation was also unsuccessful
+    if (!IsHashRefWithData($RequestResult)) {
+        if ($PackageAllowNotVerifiedPackages) {
+
+            $Self->{PackageVerifyInfo} = {
+                Description =>
+                    Translatable(
+                    "<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>"
+                    ),
+                Title =>
+                    Translatable('Verification not possible (e.g. no internet connection)!'),
+                PackageInstallPossible => 1,
+            };
+        }
+        else {
+
+            $Self->{PackageVerifyInfo} = {
+                Description =>
+                    Translatable(
+                    '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>'
+                    ),
+                Title =>
+                    Translatable('Verification not possible (e.g. no internet connection)!'),
+                PackageInstallPossible => 0,
+            };
+        }
+
+        return 'unknown';
+    }
 
     my $OperationResult = $CloudServiceObject->OperationResultGet(
         RequestResult => $RequestResult,
@@ -3528,10 +3557,6 @@ sub PackageUpgradeAllIsRunning {
     );
 }
 
-=begin Internal:
-
-=cut
-
 sub _Download {
     my ( $Self, %Param ) = @_;
 
@@ -3649,7 +3674,7 @@ sub _Code {
 
         print STDERR "Code: $Code->{Content}\n";
 
-        if ( !eval $Code->{Content} . "\n1;" ) {    ## no critic
+        if ( !eval $Code->{Content} . "\n1;" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Code: $@",
@@ -4023,6 +4048,38 @@ sub _PackageFileCheck {
     return 1;
 }
 
+=head2 _FileInstall()
+
+Update or create files below the OTOBO home dir or below a specified dir.
+
+Additionally this method creates a backup if needed.
+
+There is also special support for notifying the webserver about new modules
+in the F<Custom/Kernel> folder. These files may override core modules in F<Kernel>,
+but module refreshers like M<Module::Refresh> won't catch this. Therefore
+_FileInstall() will touch the core module when it exists.
+
+Return undef on failure, 1 on success.
+
+    my $File = {
+        Location    => 'Custom/Kernel/System/MyExtension/MyFeature.pm'
+        Content     => $MyFeatureCode,
+        Permission  => '644',     # unix file permissions
+    };
+
+    # File install below the OTOBO home dir
+    my $FileInstallOk = $PackageObject->_FileInstall(
+        File => $File,
+    );
+
+    # File install below a specified dir
+    my $FileInstallOk = $PackageObject->_FileInstall(
+        File => $File,
+        Home => $ExportDir
+    );
+
+=cut
+
 sub _FileInstall {
     my ( $Self, %Param ) = @_;
 
@@ -4033,6 +4090,7 @@ sub _FileInstall {
                 Priority => 'error',
                 Message  => "$Needed not defined!",
             );
+
             return;
         }
     }
@@ -4042,6 +4100,7 @@ sub _FileInstall {
                 Priority => 'error',
                 Message  => "$Item not defined in File!",
             );
+
             return;
         }
     }
@@ -4049,11 +4108,12 @@ sub _FileInstall {
     my $Home = $Param{Home} || $Self->{Home};
 
     # check Home
-    if ( !-e $Home ) {
+    if ( ! -e $Home ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "No such home directory: $Home!",
         );
+
         return;
     }
 
@@ -4126,12 +4186,31 @@ sub _FileInstall {
     }
 
     # write file
-    return if !$MainObject->FileWrite(
+    my $FileWriteOk = $MainObject->FileWrite(
         Location   => $RealFile,
         Content    => \$Param{File}->{Content},
         Mode       => 'binmode',
         Permission => $Param{File}->{Permission},
     );
+
+    if ( ! $FileWriteOk ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Sorry, can't install package because the file $RealFile can't be created.",
+        );
+
+        return;
+    }
+
+    # trigger Module::Refresh when a custom module overrides a core module
+    if ( $RealFile =~ m!^\Q$Home\E/Custom/Kernel/.*\.pm! ) {
+        my $CoreModuleFn = $RealFile =~ s!^\Q$Home/Custom/!$Home/!r;
+
+        # touch the original module, ignore errors
+        if ( -f $CoreModuleFn ) {
+            utime undef, undef, $CoreModuleFn;
+        }
+    }
 
     print STDERR "Notice: Install $RealFile ($Param{File}->{Permission})!\n";
 
@@ -5345,9 +5424,5 @@ sub DESTROY {
 
     return 1;
 }
-
-=end Internal:
-
-=cut
 
 1;

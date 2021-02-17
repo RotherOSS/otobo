@@ -3,7 +3,7 @@
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.995937601559961;
+    $Self->{Completeness}        = 0.999513066060704;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -784,7 +784,7 @@ sub Data {
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
             'Zusätzlich oder alternativ zur periodischen Ausführung können Sie Ticket-Ereignisse angeben, bei denen dieser Auftrag ausgeführt werden soll.',
         'If a ticket event is fired, the ticket filter will be applied to check if the ticket matches. Only then the job is run on that ticket.' =>
-            'Wenn ein Ticket-Ereignis ausgelöst wird, wird zunächst der Ticket-Filter angewendet um zu prüfen, ob das Ticket betroffen ist. Erst danach wird der Auftrag ggf. für dieses Ticket ausgeführt.',
+            'Wird ein Ticket-Ereignis ausgelöst, prüft zunächst der Ticket-Filter, ob das jeweilige Ticket betroffen ist. Erst dann wird der Auftrag ggf. für dieses Ticket ausgeführt.',
         'Do you really want to delete this event trigger?' => 'Wollen Sie diesen Ereignis-Auslöser wirklich löschen?',
         'Add Event Trigger' => 'Ereignis-Auslöser hinzufügen',
         'To add a new event select the event object and event name' => 'Wählen Sie Ereignisobjekt und -Name, um ein neues Ereignis hinzuzufügen',
@@ -1767,7 +1767,7 @@ sub Data {
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
             'Wenn vor der definierten Zeit keine Kundenreaktion erfolgt (externe E-Mail oder Telefon), eskaliert das Ticket.',
         'If there is an article added, such as a follow-up via email or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' =>
-            'Wenn ein Artikel vom Kunden hinzugefügt wird, wird die Eskalationszeit zurückgesetzt. Wenn vor der definierten Zeit keine Kundenreaktion erfolgt, eskaliert das Ticket.',
+            'Immer wenn vom Kunden ein Artikel hinzugefügt wird – z. B. per E-Mail oder im Kundenbereich – wird die Eskalationszeit zurückgesetzt. Wird der Kunde bis zum definierten Zeitpunkt nicht erneut kontaktiert, eskaliert das Ticket.',
         'If the ticket is not set to closed before the time defined here expires, the ticket is escalated.' =>
             'Wenn ein Ticket nicht vor der definierten Zeit geschlossen wird, eskaliert es.',
         'Follow up Option' => 'Nachfrage-Option',
@@ -3176,7 +3176,7 @@ sub Data {
             'Der System-Identifikator. Jede Ticketnummer und jede HTTP-Sitzungs-ID enthalten diese Nummer.',
         'HTTP Type' => 'HTTP-Typ',
         'Set the request scheme used for cookies and various links. For production purposes always use https.' =>
-            '',
+            'Definiert das für den Abruf von Cookies und verschiedenen Links verwendete Schema. In Produktivumgebungen immer HTTPS verwenden.',
         'System FQDN' => 'System-FQDN',
         'Fully qualified domain name of your system.' => 'Voll qualifizierter Domainname Ihres Systems.',
         'AdminEmail' => 'E-Mail des Administrators',
@@ -3191,7 +3191,7 @@ sub Data {
         'Default language.' => 'Standardsprache.',
         'CheckMXRecord' => 'MX-Records prüfen',
         'Email addresses that are manually entered are checked against the MX records found in DNS. Don\'t use this option if your DNS is slow or does not resolve public addresses.' =>
-            'E-Mail-Adressen, die vom Benutzer angegeben werden, werden gegen die MX-Einträge im DNS geprüft. Verwenden Sie diese Option nicht, wenn Ihr DNS langsam ist oder öffentliche Adressen nicht auflösen kann.',
+            'Vom Benutzer angegebene E-Mail-Adressen werden gegen die MX-Einträge im DNS geprüft. Nutzen Sie diese Option nicht, wenn Ihr DNS langsam ist oder öffentliche Adressen nicht auflösen kann.',
         'Elasticsearch' => 'Elasticsearch',
         'Initialize Elasticsearch' => 'Initialisiert Elasticsearch',
         'Elasticsearch server was found, and it has been activated automatically for OTOBO.' =>
@@ -3223,7 +3223,7 @@ sub Data {
         'Last successful task:' => 'Zuletzt erfolgreich ausgeführt:',
         'Migration will restart from the last successfully finished task. Please do a complete rerun if you changed your system in the meantime.' =>
             'Die Migration wird nach dem letzten erfolgreich durchgeführten Schritt wiederaufgenommen. Bitte gehen Sie zurück zum Anfang, wenn es inzwischen Änderungen an Ihrem System gegeben hat.',
-        'Clean up and finish' => 'System wird bereinigt und fertiggestellt',
+        'Clean up and finish' => 'Bereinigen und Abschließen',
 
         # Template: Finish
         'The migration is complete, thank you for trying out OTOBO - we hope you will like it.' =>
@@ -3257,7 +3257,10 @@ sub Data {
         ' Continue anyways :(' => ' Dennoch fortfahren :(',
 
         # Template: OTRSDBSettings
-        'Database is a throwawy copy' => '',
+        'Skip DB migration' => 'Datenbankmigration überspringen',
+        'Expert option! Only works if the migration has already been done by hand.' =>
+            'Achtung – Expertenoption! Nur ausführen, wenn die Migration bereits von Hand vorgenommen wurde.',
+        'Skipped.' => 'Übersprungen.',
 
         # Template: OTRSFileSettings
         'OTRS server' => 'OTRS Server',
@@ -5046,7 +5049,7 @@ sub Data {
         'Maximum size is %s characters.' => 'Die Maximallänge beträgt %s Zeichen.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
-        'Sanity checks for database.' => '',
+        'Sanity checks for database.' => 'Plausibilitätsprüfungen der Datenbank.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
         'Deploy the ACL configuration.' => 'ACL-Konfiguration in Betrieb nehmen.',
@@ -5063,14 +5066,15 @@ sub Data {
         'Completed.' => 'Abgeschlossen.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-        'Need OTRSData->%s!' => '',
-        'Can\'t access OTRS Home: %s!' => '',
+        'Need OTRSData->%s!' => 'OTRSData->%s benötigt!',
+        'Can\'t access OTRS Home: %s!' => 'Kann nicht auf OTRS Home: %s zugreifen!',
         'All needed files copied and migrated, perfect!' => 'Alle Dateien wurden kopiert und migriert. Glückwunsch!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
         'Check if OTOBO version is correct.' => 'Überprüft, ob die OTOBO Version korrekt ist.',
-        'Need %s for Oracle db!' => '%s für Oracle DB erforderlich!',
         'Copy database.' => 'Kopiert die Datenbank.',
+        'Skipped...' => 'Übersprungen ...',
+        'Need %s for Oracle db!' => '%s für Oracle DB erforderlich!',
         'System was unable to connect to OTRS database.' => 'System konnte keine Verbindung zur OTRS-Datenbank herstellen.',
         'System was unable to complete data transfer.' => 'System konnte den Datentransfer nicht abschließen.',
         'Data transfer completed.' => 'Datentransfer abgeschlossen.',
@@ -5086,7 +5090,7 @@ sub Data {
             'Sie versuchen das Skript in der falschen Framework-Version %s auszuführen!',
         'OTOBO Version is correct: %s.' => 'OTOBO-Version ist korrekt: %s.',
         'Check if OTRS version is correct.' => 'Überprüft, ob die OTRS Version korrekt ist.',
-        'OTRS RELEASE file %s does not exist: %s!' => '',
+        'OTRS RELEASE file %s does not exist: %s!' => 'OTRS RELEASE Datei %s nicht vorhanden: %s!',
         'Can\'t read OTRS RELEASE file: %s: %s!' => 'Kann OTRS RELEASE File nicht lesen: %s: %s!',
         'No OTRS system found!' => 'Kein OTRS-System gefunden!',
         'OTRS Version is correct: %s.' => 'OTRS-Version ist korrekt: %s.',
@@ -5102,26 +5106,22 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
         'Migrate web service configuration.' => 'Migration der Webservice-Konfiguration.',
-        'No web service existent, done.' => 'Kein Webservice vorhanden, fertig.',
-        'Can\'t add web service for Elasticsearch. File %s not found!' =>
-            'Kann Webservice für Elasticsearch nicht hinzufügen. Datei %s nicht gefunden!',
-        'Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed.' =>
-            'Migration abgeschlossen. Bitte aktivieren Sie den Webservice unter Admin -> Webservice, sobald die Elasticsearch-Installation abgeschlossen ist.',
+        'Failed - see the log!' => 'Fehlgeschlagen – bitte Protokoll prüfen!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
         'Migrate database table notification.' => 'Migrieren der Datenbanktabelle "notification".',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
         'Can\'t open Kernel/Config.pm file from OTRSHome: %s!' => 'Kann die Datei Kernel/Config.pm aus OTRSHome: %s nicht öffnen!',
-        'Check if Kernel/Config.pm exists in OTOBO home.' => '',
-        'Kernel/Config.pm exists in OTOBO home' => '',
+        'Check if Kernel/Config.pm exists in OTOBO home.' => 'Überprüfen Sie, ob in OTOBO Home eine Datei Kernel/Config.pm vorhanden ist.',
+        'Kernel/Config.pm exists in OTOBO home' => 'Kernel/Config.pm ist in OTOBO verfügbar',
         'Check if we are able to connect to OTRS Home.' => 'Überprüft, ob eine Verbindung zu OTRS Home hergestellt werden kann.',
         'Can\'t connect to OTRS file directory.' => 'Kann keine Verbindung zum OTRS-Dateiverzeichnis herstellen.',
         'Connect to OTRS file directory is possible.' => 'Keine Verbindung zum OTRS-Dateiverzeichnis möglich.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
         'Try database connect and sanity checks.' => 'Versucht eine Verbindung zur Datenbank herzustellen und Plausibilitätsprüfungen durchzuführen.',
-        'Could not create database object.' => '',
+        'Could not create database object.' => 'Konnte kein Datenbankobjekt erstellen.',
         'Database connect and sanity checks completed.' => 'Verbindung zur Datenbank hergestellt und Plausibilitätsprüfungen abgeschlossen.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
@@ -5130,6 +5130,11 @@ sub Data {
         'Please install (or uninstall) the packages before migration. If a package doesn\'t exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.org. We will find a solution.' =>
             'Bitte installieren (oder deinstallieren) Sie die Pakete vor der Migration. Ist ein Paket bisher nicht für OTOBO verfügbar, wenden Sie sich bitte via bugs\@otobo.org an das OTOBO Team. Wir finden eine Lösung.',
         'The same packages are installed on both systems, perfect!' => 'Auf beiden Systemen sind die gleichen Pakete installiert, sehr gut!',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+        'Package specific tasks' => 'Paketsbezogene Aufgaben',
+        'Done -' => 'Erledigt -',
+        'Failed at -' => 'Gescheitert an -',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
         'Check if all needed Perl modules have been installed.' => 'Prüft, ob alle erforderlichen Perl-Module installiert wurden.',
@@ -5174,8 +5179,9 @@ sub Data {
         '<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>' =>
             '<p>Zusatzpakete können OTOBO um viele nützliche Features erweitern. Stellen Sie jedoch unbedingt sicher, dass dieses Paket aus einer vertrauenswürdigen Quelle stammt, da es OTOBO uneingeschränkt modifizieren kann.</p>',
         'Package not verified by the OTOBO community!' => 'Paket wurde nicht von der OTOBO Community verifiziert!',
-        '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
-            '<p>Die Installation von nicht verifizierten Paketen ist deaktiviert. Sie können die Installation nicht-verfizierter Pakete in der Systemkonfiguration über die Einstellung "AllowNotVerifiedPackages" aktivieren.</p>',
+        '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>' =>
+            '',
+        'Verification not possible (e.g. no internet connection)!' => '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -5680,11 +5686,13 @@ sub Data {
             'Neues Konto angelegt. Anmeldedaten wurden an %s gesendet. Bitte prüfen Sie Ihre E-Mail.',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+        'If you want to re-run installer.pl, then disable the SecureMode in the SysConfig.' =>
+            'Deaktivieren Sie in der SysConfig den SecureMode, bevor Sie installer.pl erneut ausführen.',
         'Action "%s" not found!' => 'Aktion "%s" nicht gefunden!',
 
         # Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
-        'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
-            'Wenn Sie das Migrationstool MigrateFromOTRS erneut ausführen möchten, deaktivieren Sie "SecureMode" in der SysConfig.',
+        'If you want to re-run migration.pl, then disable the SecureMode in the SysConfig.' =>
+            'Wenn Sie migration.pl erneut ausführen möchten, deaktivieren Sie vorher den SecureMode in der SysConfig.',
 
         # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => 'ungültig-temporär',
@@ -6309,22 +6317,22 @@ Ihr Helpdesk-Team
         'Admin modules overview.' => 'Admin Modul Übersicht.',
         'Admin.' => 'Admin.',
         'Administration' => 'Administration',
-        'Agent Contact With Data Search' => '',
+        'Agent Contact With Data Search' => 'Agent Contact With Data Search',
         'Agent Customer Search' => 'Kundensuche Agentenbereich',
         'Agent Customer Search.' => 'Kundensuche Agentenbereich.',
-        'Agent Dynamic Field Database Detailed Search' => '',
-        'Agent Dynamic Field Database Details' => '',
-        'Agent Dynamic Field Database Search' => '',
+        'Agent Dynamic Field Database Detailed Search' => 'Agent Dynamic Field Database Detailed Search',
+        'Agent Dynamic Field Database Details' => 'Agent Dynamic Field Database Details',
+        'Agent Dynamic Field Database Search' => 'Agent Dynamic Field Database Search',
         'Agent Name' => 'Agentenname',
         'Agent Name + FromSeparator + System Address Display Name' => 'Agenten-Name + From-Trennzeichen + Anzeigename der System-Adresse',
         'Agent Preferences.' => 'Agenten-Einstellungen.',
         'Agent Statistics.' => 'Agenten-Statistiken.',
         'Agent User Search' => 'Nutzersuche Agentenbereich',
         'Agent User Search.' => 'Nutzersuche Agentenbereich.',
-        'Agent contact with data search.' => '',
-        'Agent dynamic field database detailed search.' => '',
-        'Agent dynamic field database details.' => '',
-        'Agent dynamic field database search.' => '',
+        'Agent contact with data search.' => 'Suche Kontaktdaten Agentenbereich.',
+        'Agent dynamic field database detailed search.' => 'Detailsuche dynamisches Feld Datenbank im Agentenbereich.',
+        'Agent dynamic field database details.' => 'Details dynamisches Feld Datenbank Agentenbereich',
+        'Agent dynamic field database search.' => 'Suche dynamisches Feld Datenbank im Agentenbereich.',
         'Agent frontend module registration (disable \'Edit contacts with data\' link if if there is no source field configured).' =>
             'Frontend-Modulregistrierung im Agent-Interface (deaktivieren Sie den Link \'Kontaktdaten bearbeiten\', wenn kein entsprechendes Quellfeld konfiguriert wurde).',
         'Agent interface article notification module to check PGP.' => 'Benachrichtigungsmodul im Agenten-Interface das die PGP-Überprüfung durchführt.',
@@ -6509,7 +6517,7 @@ Ihr Helpdesk-Team
         'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
             'In der Ticketdarstellung genutzte Kategorien. Die Reihenfolge wird nur verwendet, um die Ausgangspositionierung vor dem Größenarrangement zu bestimmen. Ist keine Standard-Farbe vorgegeben, wird das Element nicht angezeigt, wenn im Farb-Hash kein entsprechender Wert definiert ist.',
         'Change Ticket' => 'Change-Ticket',
-        'Change Ticket information' => '',
+        'Change Ticket information' => 'Ticketinformationen ändern',
         'Change queue!' => 'Queue ändern!',
         'Change the customer for this ticket' => 'Ticket-Kunden ändern',
         'Change the owner for this ticket' => 'Besitzer dieses Tickets ändern',
@@ -6667,8 +6675,8 @@ Ihr Helpdesk-Team
         'Customer Administration' => 'Kundenverwaltung',
         'Customer Companies' => 'Kunden',
         'Customer Dashboard' => 'Kunden-Dashboard',
-        'Customer Dynamic Field Database Detailed Search' => '',
-        'Customer Dynamic Field Database Details' => '',
+        'Customer Dynamic Field Database Detailed Search' => 'Customer Dynamic Field Database Detailed Search',
+        'Customer Dynamic Field Database Details' => 'Customer Dynamic Field Database Details',
         'Customer Dynamic Field Database Search' => '',
         'Customer IDs' => 'Kundennummern',
         'Customer Information Center Search.' => 'Kunden-Informationszentrum-Suche.',
@@ -6684,9 +6692,9 @@ Ihr Helpdesk-Team
         'Customer Users ↔ Customers' => 'Kundenbenutzer ↔ Kunden',
         'Customer Users ↔ Groups' => 'Kundenbenutzer ↔ Gruppen',
         'Customer Users ↔ Services' => 'Kundenbenutzer ↔ Services',
-        'Customer dynamic field database detailed search.' => '',
-        'Customer dynamic field database details.' => '',
-        'Customer dynamic field database search.' => '',
+        'Customer dynamic field database detailed search.' => 'Detailsuche dynamisches Feld Datenbank im Kundenbereich.',
+        'Customer dynamic field database details.' => 'Details zum dynamischen Feld Datenbank im Kundenbereich.',
+        'Customer dynamic field database search.' => 'Suche im dynamischen Feld Datenbank im Kundenbereich.',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             'Kunden-Element (Symbol), das die geschlossenen Tickets dieses Kunden als Infoblock anzeigt. Setzen Sie die Einstellung "CustomerUserLogin" auf 1, um Tickets auf Basis des Login-Namens statt der CustomerID zu suchen.',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -6831,6 +6839,7 @@ Ihr Helpdesk-Team
             'Definiert ob in der Queue-Ansicht eine Vorsortierung anhand der Priorität vorgenommen werden soll.',
         'Defines if a pre-sorting by priority should be done in the service view.' =>
             'Bestimmt, ob in der Service-Ansicht eine Vorsortierung anhand der Priorität vorgenommen werden soll.',
+        'Defines if a ticket lock is required for the quick close.' => 'Definiert, ob ein Ticket gesperrt werden muss, um sofort geschlossen werden zu können.',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt.',
         'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -8152,7 +8161,6 @@ Ihr Helpdesk-Team
         'Module used to detect if attachments are present.' => 'Modul um das Vorhandensein von Anhängen zu prüfen.',
         'My Queues' => 'Meine Queues',
         'My Services' => 'Meine Services',
-        'My Tickets.' => 'Meine Tickets.',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             'Bezeichnung Ihrer persönlichen Queuekollektion. "Meine Queues" ist eine Zusammenstellung Ihrer bevorzugten Queues, die in den persönlichen Einstellungen konfiguriert werden kann.',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
@@ -8372,37 +8380,39 @@ Ihr Helpdesk-Team
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             'Wiederhole die Verarbeitung von E-Mails aus dem Spool-Verzeichnis, die im ersten Durchlauf nicht importiert werden konnten.',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
-            'Benötigte Rechte um den Kunden eines Tickets im Agenten-Interface zu ändern.',
+            'Zum Ändern des Kunden eines Tickets im Agentenbereich erforderliche Rechte.',
+        'Required permissions to use quick close in the agent interface.' =>
+            'Zum Aufrufen des "Sofort schließen"-Dialogs im Agentenbereich erforderliche Rechte.',
         'Required permissions to use the close ticket screen in the agent interface.' =>
-            'Benötigte Rechte um den "Schließen"-Dialog im Agenten-Interface aufzurufen.',
+            'Zum Aufrufen des "Schließen"-Dialogs im Agentenbereich erforderliche Rechte.',
         'Required permissions to use the email outbound screen in the agent interface.' =>
-            'Benötigte Rechte, um den Dialog für ausgehende Emails im Agenten-Interface aufzurufen.',
+            'Zum Anlegen eines neuen E-Mail-Tickets im Agentenbereich erforderliche Rechte.',
         'Required permissions to use the email resend screen in the agent interface.' =>
-            'Benötigte Rechte, um den Dialog zum erneuten Senden von E-Mails im Agenten-Interface aufzurufen.',
+            'Zum erneuten Senden von E-Mails im Agentenbereich erforderliche Rechte.',
         'Required permissions to use the ticket bounce screen in the agent interface.' =>
-            'Benötigte Rechte um den "Umleiten"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
+            'Zum Aufrufen des "Umleiten"-Dialogs im Agentenbereich erforderliche Rechte.',
         'Required permissions to use the ticket compose screen in the agent interface.' =>
-            'Benötigte Rechte um den "Verfassen"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
+            'Zum Verfassen von Tickets im Agentenbereich erforderliche Rechte.',
         'Required permissions to use the ticket forward screen in the agent interface.' =>
-            'Benötigte Rechte um den "Weiterleiten"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
+            'Zum Aufrufen des "Weiterleiten"-Dialogs im Agentenbereich erforderliche Rechte.',
         'Required permissions to use the ticket free text screen in the agent interface.' =>
-            'Benötigte Rechte um den "Freitext"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
+            'Zum Aufrufen des "Freitext"-Dialogs im Agentenbereich erforderliche Rechte.',
         'Required permissions to use the ticket merge screen of a zoomed ticket in the agent interface.' =>
-            'Benötigte Rechte um den "Zusammenfassen"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
+            'Zum Aufrufen des "Zusammenfassen"-Dialogs im Agentenbereich erforderliche Rechte.',
         'Required permissions to use the ticket note screen in the agent interface.' =>
-            'Benötigte Rechte um den "Notiz"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
+            'Zum Aufrufen des "Notiz"-Dialogs im Agentenbereich erforderliche Rechte.',
         'Required permissions to use the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            'Benötigte Rechte um den "Besitzer"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
+            'Zum Aufrufen des "Besitzer"-Dialogs im Agentenbereich erforderliche Rechte.',
         'Required permissions to use the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            'Benötigte Rechte um den "Warten"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
+            'Zum Aufrufen des "Warten"-Dialogs im Agentenbereich erforderliche Rechte.',
         'Required permissions to use the ticket phone inbound screen in the agent interface.' =>
-            'Benötigte Rechte um den "Eingehender Telefonanruf"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
+            'Zum Aufrufen des "Neues Telefonticket (eingehend)"-Dialogs im Agentenbereich erforderliche Rechte.',
         'Required permissions to use the ticket phone outbound screen in the agent interface.' =>
-            'Benötigte Rechte um den "Ausgehender Telefonanruf"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
+            'Zum Aufrufen des "Neues Telefonticket (ausgehend)"-Dialogs im Agentenbereich erforderliche Rechte.',
         'Required permissions to use the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            'Benötigte Rechte um den "Priorität"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
+            'Zum Aufrufen des "Priorität"-Dialogs im Agentenbereich erforderliche Rechte.',
         'Required permissions to use the ticket responsible screen in the agent interface.' =>
-            'Benötigte Rechte um den "Verantwortlicher"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
+            'Zum Aufrufen des "Verantwortlicher"-Dialogs im Agentenbereich erforderliche Rechte.',
         'Resend Ticket Email.' => 'Ticket-E-Mail erneut senden.',
         'Resent email to "%s".' => 'E-Mail erneut senden an "%s".',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
@@ -9081,7 +9091,7 @@ Ihr Helpdesk-Team
         'This setting is deprecated. Set OTOBOTimeZone instead.' => 'Diese Einstellung ist veraltet. Bitte nutzen Sie stattdessen die Einstellung OTOBOTimeZone.',
         'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
             'Diese Einstellung zeigt die Sortier-Attribute aller Übersichtsansichten, nicht nur in der Queue-Ansicht.',
-        'Ticket Close' => '',
+        'Ticket Close' => 'Ticket Close',
         'Ticket Close.' => 'Ticket schließen.',
         'Ticket Compose Bounce Email.' => 'E-Mail-Erstellung für Ticket-Umleitung.',
         'Ticket Compose email Answer.' => 'E-Mail-Erstellung für Ticket-Antwort.',

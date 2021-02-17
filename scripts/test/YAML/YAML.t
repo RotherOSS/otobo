@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -167,7 +166,7 @@ my @Tests = (
     },
     {
         Name          => 'Number 01',
-        Data          => 01,            ## no critic
+        Data          => 01,            ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
         SuccessDecode => 1,
     },
     {
@@ -190,7 +189,7 @@ ENGINE:
 for my $Engine (qw(YAML::XS YAML)) {
 
     # locally override the internal engine of YAML::Any to force testing
-    local @YAML::Any::_TEST_ORDER = ($Engine);    ## no critic
+    local @YAML::Any::_TEST_ORDER = ($Engine);
 
     TEST:
     for my $Test (@Tests) {

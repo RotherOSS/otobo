@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -58,12 +58,6 @@
                     </div>
                     <div class="Clear" class="oooSQL Hidden"></div>
 
-                    <label for="DBIsThrowaway" class="oooSQL Hidden">[% Translate("Database is a throwawy copy") | html %]:</label>
-                    <div class="Field oooSQL Hidden">
-                        <input type="checkbox" id="DBIsThrowaway" name="DBIsThrowaway" value="on" />
-                    </div>
-                    <div class="Clear" class="oooSQL Hidden"></div>
-
                     <label for="DBSID" class="oooOracle Hidden">[% Translate("SID") | html %]:</label>
                     <div class="Field oooOracle Hidden">
                         <input type="text" id="DBSID" name="DBSID" class="W50pc" value="[% Data.DBSID %]" />
@@ -75,6 +69,13 @@
                         <input type="text" id="DBPort" name="DBPort" class="W50pc" value="[% Data.DBPort %]" />
                     </div>
                     <div class="Clear" class="oooOracle Hidden"></div>
+
+                    <label for="SkipDBMigration">[% Translate("Skip DB migration") | html %]:</label>
+                    <div class="Field">
+                        <input type="checkbox" id="SkipDBMigration" name="SkipDBMigration" value="" />
+                        <p>[% Translate("Expert option! Only works if the migration has already been done by hand.") | html %]</p>
+                    </div>
+                    <div class="Clear" class="oooSQL Hidden"></div>
 
                     <div class="Field">
                         <button class="Primary CallForAction" type="button" id="ButtonDefTask"><span>[% Translate("Check database settings") | html %]</span></button>
@@ -96,7 +97,8 @@
                     <h4>[% Translate("Result of database check") | html %]</h4>
 
                     <div class="Field Result">
-                        <p><i class="fa fa-check"></i> [% Translate("Database check successful.") | html %]</p>
+                        <p id='DBChecked'><i class="fa fa-check"></i> [% Translate("Database check successful.") | html %]</p>
+                        <p id='DBSkipped'><i class="fa fa-check"></i> [% Translate("Skipped.") | html %]</p>
                     </div>
 
                     <div class="Clear"></div>

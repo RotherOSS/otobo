@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -20,12 +20,14 @@ use strict;
 use warnings;
 use v5.24;
 use namespace::autoclean;
+use utf8;
 
 # core modules
 use File::Path qw(rmtree);
 
 # CPAN modules
 use Test2::V0;
+use Test2::API qw/context run_subtest/;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -80,12 +82,6 @@ Valid parameters are:
 
 =item DisableAsyncCalls
 
-=item ExecuteInternalTests
-
-Decide whether Kernel::System::UnitTests::Helper executes internal tests.
-The default is true. The flag can be set to 0 in order to avoid weird test numbering.
-An example is where DESTROY is called within forked processes.
-
 =back
 
 =cut
@@ -94,13 +90,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    $Self->{Debug} = $Param{Debug} || 0;
-
-    # Decide whether we should actually execute tests
-    $Self->{ExecuteInternalTests} = $Param{ExecuteInternalTests} // 1;
+    my $Self = bless {}, $Type;
 
     # Remove any leftover custom files from aborted previous runs.
     $Self->CustomFileCleanup();
@@ -112,13 +102,9 @@ sub new {
         $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME} = $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME};
 
         # set environment value to 0
-        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0;    ## no critic
+        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
 
         $Self->{RestoreSSLVerify} = 1;
-
-        if ( $Self->{ExecuteInternalTests} ) {
-            ok( 1, 'Skipping SSL certificates verification' );
-        }
     }
 
     # switch article dir to a temporary one to avoid collisions
@@ -129,9 +115,6 @@ sub new {
     if ( $Param{RestoreDatabase} ) {
         $Self->{RestoreDatabase} = 1;
         my $StartedTransaction = $Self->BeginWork();
-        if ( $Self->{ExecuteInternalTests} ) {
-            ok( $StartedTransaction, 'Started database transaction.' );
-        }
     }
 
     if ( $Param{DisableAsyncCalls} ) {
@@ -199,82 +182,85 @@ the login name of the new user, the password is the same.
 sub TestUserCreate {
     my ( $Self, %Param ) = @_;
 
-    # Disable email checks to create new user.
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    local $ConfigObject->{CheckEmailAddresses} = 0;
+    my $Context = context();
 
     # Create test user.
     my $TestUserID;
     my $TestUserLogin;
-    COUNT:
-    for ( 1 .. 10 ) {
 
-        $TestUserLogin = $Self->GetRandomID();
+    # code that emits test events for the subtest
+    my $Code = sub {
+        # Disable email checks to create new user.
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        local $ConfigObject->{CheckEmailAddresses} = 0;
 
-        $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserAdd(
-            UserFirstname => $TestUserLogin,
-            UserLastname  => $TestUserLogin,
-            UserLogin     => $TestUserLogin,
-            UserPw        => $TestUserLogin,
-            UserEmail     => $TestUserLogin . '@localunittest.com',
-            ValidID       => 1,
-            ChangeUserID  => 1,
+        COUNT:
+        for ( 1 .. 10 ) {
+
+            $TestUserLogin = $Self->GetRandomID();
+
+            $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserAdd(
+                UserFirstname => $TestUserLogin,
+                UserLastname  => $TestUserLogin,
+                UserLogin     => $TestUserLogin,
+                UserPw        => $TestUserLogin,
+                UserEmail     => $TestUserLogin . '@localunittest.com',
+                ValidID       => 1,
+                ChangeUserID  => 1,
+            );
+
+            last COUNT if $TestUserID;
+        }
+
+        bail_out( 'Could not create test user login' ) unless $TestUserLogin;
+        bail_out( 'Could not create test user' )       unless $TestUserID;
+
+        # looks good so far
+        pass( "Created test user $TestUserID" );
+
+        # Remember UserID of the test user to later set it to invalid
+        #   in the destructor.
+        $Self->{TestUsers} ||= [];
+        push $Self->{TestUsers}->@*, $TestUserID;
+
+        # Add user to groups.
+        my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+        for my $GroupName ( @{ $Param{Groups} || [] } ) {
+
+            my $GroupID = $GroupObject->GroupLookup( Group => $GroupName );
+            bail_out( "Cannot find group $GroupName" ) unless $GroupID;
+
+            $GroupObject->PermissionGroupUserAdd(
+                GID        => $GroupID,
+                UID        => $TestUserID,
+                Permission => {
+                    ro        => 1,
+                    move_into => 1,
+                    create    => 1,
+                    owner     => 1,
+                    priority  => 1,
+                    rw        => 1,
+                },
+                UserID => 1,
+            ) || bail_out( "Could not add test user $TestUserLogin to group $GroupName" );
+
+            pass( "Added test user $TestUserLogin to group $GroupName" );
+        }
+
+        # Set user language.
+        my $UserLanguage = $Param{Language} || 'en';
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $TestUserID,
+            Key    => 'UserLanguage',
+            Value  => $UserLanguage,
         );
 
-        last COUNT if $TestUserID;
-    }
+        note( "Set user UserLanguage to $UserLanguage" );
+    };
 
-    die 'Could not create test user login' if !$TestUserLogin;
-    die 'Could not create test user'       if !$TestUserID;
+    run_subtest( 'TestUserCreate', $Code, { buffered => 1, inherit_trace => 1 } );
 
-    # Remember UserID of the test user to later set it to invalid
-    #   in the destructor.
-    $Self->{TestUsers} ||= [];
-    push( @{ $Self->{TestUsers} }, $TestUserID );
-
-    if ( $Self->{ExecuteInternalTests} ) {
-        ok( 1, "Created test user $TestUserID" );
-    }
-
-    # Add user to groups.
-    GROUP_NAME:
-    for my $GroupName ( @{ $Param{Groups} || [] } ) {
-
-        my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
-
-        my $GroupID = $GroupObject->GroupLookup( Group => $GroupName );
-        die "Cannot find group $GroupName" if ( !$GroupID );
-
-        $GroupObject->PermissionGroupUserAdd(
-            GID        => $GroupID,
-            UID        => $TestUserID,
-            Permission => {
-                ro        => 1,
-                move_into => 1,
-                create    => 1,
-                owner     => 1,
-                priority  => 1,
-                rw        => 1,
-            },
-            UserID => 1,
-        ) || die "Could not add test user $TestUserLogin to group $GroupName";
-
-        if ( $Self->{ExecuteInternalTests} ) {
-            ok( 1, "Added test user $TestUserLogin to group $GroupName" );
-        }
-    }
-
-    # Set user language.
-    my $UserLanguage = $Param{Language} || 'en';
-    $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
-        UserID => $TestUserID,
-        Key    => 'UserLanguage',
-        Value  => $UserLanguage,
-    );
-
-    if ( $Self->{ExecuteInternalTests} ) {
-        ok( 1, "Set user UserLanguage to $UserLanguage" );
-    }
+    $Context->release();
 
     return wantarray ? ( $TestUserLogin, $TestUserID ) : $TestUserLogin;
 }
@@ -294,54 +280,58 @@ the login name of the new customer user, the password is the same.
 sub TestCustomerUserCreate {
     my ( $Self, %Param ) = @_;
 
-    # Disable email checks to create new user.
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    local $ConfigObject->{CheckEmailAddresses} = 0;
+    my $Context = context();
 
     # Create test user.
     my $TestUser;
-    COUNT:
-    for ( 1 .. 10 ) {
 
-        my $TestUserLogin = $Self->GetRandomID();
+    my $Code = sub {
+        # Disable email checks to create new user.
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        local $ConfigObject->{CheckEmailAddresses} = 0;
 
-        $TestUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
-            Source         => 'CustomerUser',
-            UserFirstname  => $TestUserLogin,
-            UserLastname   => $TestUserLogin,
-            UserCustomerID => $TestUserLogin,
-            UserLogin      => $TestUserLogin,
-            UserPassword   => $TestUserLogin,
-            UserEmail      => $TestUserLogin . '@localunittest.com',
-            ValidID        => 1,
-            UserID         => 1,
+        COUNT:
+        for ( 1 .. 10 ) {
+
+            my $TestUserLogin = $Self->GetRandomID();
+
+            $TestUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
+                Source         => 'CustomerUser',
+                UserFirstname  => $TestUserLogin,
+                UserLastname   => $TestUserLogin,
+                UserCustomerID => $TestUserLogin,
+                UserLogin      => $TestUserLogin,
+                UserPassword   => $TestUserLogin,
+                UserEmail      => $TestUserLogin . '@localunittest.com',
+                ValidID        => 1,
+                UserID         => 1,
+            );
+
+            last COUNT if $TestUser;
+        }
+
+        bail_out( 'Could not create test user' ) unless $TestUser;
+        pass( "Created test customer user $TestUser" );
+
+        # Remember UserID of the test user to later set it to invalid
+        #   in the destructor.
+        $Self->{TestCustomerUsers} ||= [];
+        push( @{ $Self->{TestCustomerUsers} }, $TestUser );
+
+        # Set customer user language.
+        my $UserLanguage = $Param{Language} || 'en';
+        $Kernel::OM->Get('Kernel::System::CustomerUser')->SetPreferences(
+            UserID => $TestUser,
+            Key    => 'UserLanguage',
+            Value  => $UserLanguage,
         );
 
-        last COUNT if $TestUser;
-    }
+        note( "Set customer user UserLanguage to $UserLanguage" );
+    };
 
-    die 'Could not create test user' if !$TestUser;
+    run_subtest( 'TestCustomerUsers', $Code, { buffered => 1, inherit_trace => 1 } );
 
-    # Remember UserID of the test user to later set it to invalid
-    #   in the destructor.
-    $Self->{TestCustomerUsers} ||= [];
-    push( @{ $Self->{TestCustomerUsers} }, $TestUser );
-
-    if ( $Self->{ExecuteInternalTests} ) {
-        ok( 1, "Created test customer user $TestUser" );
-    }
-
-    # Set customer user language.
-    my $UserLanguage = $Param{Language} || 'en';
-    $Kernel::OM->Get('Kernel::System::CustomerUser')->SetPreferences(
-        UserID => $TestUser,
-        Key    => 'UserLanguage',
-        Value  => $UserLanguage,
-    );
-
-    if ( $Self->{ExecuteInternalTests} ) {
-        ok( 1, "Set customer user UserLanguage to $UserLanguage" );
-    }
+    $Context->release();
 
     return $TestUser;
 }
@@ -427,7 +417,7 @@ sub DESTROY {
 
     # restore environment variable to skip SSL certificate verification if needed
     if ( $Self->{RestoreSSLVerify} ) {
-        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME};    ## no critic
+        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME};    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
         $Self->{RestoreSSLVerify}          = 0;
     }
 
@@ -557,7 +547,7 @@ sub ConfigSettingChange {
 package Kernel::Config::Files::$PackageName;
 use strict;
 use warnings;
-no warnings 'redefine';
+no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 use utf8;
 sub Load {
     my (\$File, \$Self) = \@_;
@@ -596,7 +586,7 @@ package Kernel::System::WebUserAgent;
 use strict;
 use warnings;
 {
-    no warnings 'redefine';
+    no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
     sub Request {
         my $JSONString = '{"Results":{},"ErrorMessage":"","Success":1}';
         return (
@@ -775,7 +765,7 @@ sub ProvideTestDatabase {
 package Kernel::Config::Files::$PackageName;
 use strict;
 use warnings;
-no warnings 'redefine';
+no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 use utf8;
 sub Load {
     my (\$File, \$Self) = \@_;

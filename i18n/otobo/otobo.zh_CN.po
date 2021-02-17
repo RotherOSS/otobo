@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2020-10-21 16:19+0000\n"
-"PO-Revision-Date: 2020-11-11 06:20+0000\n"
+"POT-Creation-Date: 2021-01-19 18:56+0000\n"
+"PO-Revision-Date: 2020-11-17 04:38+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/otobo10/otobo/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -9492,8 +9492,16 @@ msgid " Continue anyways :("
 msgstr " 不论如何都继续 :("
 
 #. Template: OTRSDBSettings
-msgid "Database is a throwawy copy"
-msgstr "数据库是一次性副本"
+msgid "Skip DB migration"
+msgstr ""
+
+#. Template: OTRSDBSettings
+msgid "Expert option! Only works if the migration has already been done by hand."
+msgstr ""
+
+#. Template: OTRSDBSettings
+msgid "Skipped."
+msgstr ""
 
 #. Template: OTRSFileSettings
 msgid "OTRS server"
@@ -14195,6 +14203,10 @@ msgstr "字段值太长了！"
 msgid "Maximum size is %s characters."
 msgstr "最多%s个字符。"
 
+#. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
+msgid "Sanity checks for database."
+msgstr "数据库完整性检查。"
+
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
 msgstr "部署ACL配置。"
@@ -14227,33 +14239,33 @@ msgstr "OTOBO缓存清除。"
 msgid "Completed."
 msgstr "完成。"
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-msgid "Check if OTOBO version is correct."
-msgstr "检查OTOBO的版本是否正确。"
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Check if OTOBO and OTRS connect is possible."
-msgstr "检查OTOBO和OTRS能否连接。"
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
+msgid "Need OTRSData->%s!"
+msgstr "需要 OTRSData->%s！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Can't access OTRS Home: %s!"
 msgstr "不能访问OTRS Home: %s！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Copy and migrate files from OTRS"
-msgstr "从OTRS复制和迁移文件"
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "All needed files copied and migrated, perfect!"
 msgstr "所有需要的文件都已经复制并迁移了，完美！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-msgid "Need %s for Oracle db!"
-msgstr "Oracle db 需要 %s ！"
+msgid "Check if OTOBO version is correct."
+msgstr "检查OTOBO的版本是否正确。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Copy database."
 msgstr "复制数据库。"
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
+msgid "Skipped..."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
+msgid "Need %s for Oracle db!"
+msgstr "Oracle db 需要 %s ！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to connect to OTRS database."
@@ -14266,6 +14278,10 @@ msgstr "系统无法完成数据传递。"
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Data transfer completed."
 msgstr "数据传递完成。"
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "Check if OTOBO and OTRS connect is possible."
+msgstr "检查OTOBO和OTRS能否连接。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't open RELEASE file from OTRSHome: %s!"
@@ -14298,6 +14314,10 @@ msgstr "OTOBO版本正确：%s。"
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTRS version is correct."
 msgstr "检查OTRS版本是否正确。"
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "OTRS RELEASE file %s does not exist: %s!"
+msgstr "OTRS RELEASE文件 %s不存在： %s！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTRS RELEASE file: %s: %s!"
@@ -14336,12 +14356,12 @@ msgid "Migrate web service configuration."
 msgstr "迁移网络服务配置。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
-msgid "No web service existent, done."
-msgstr "不存在网络服务，完成。"
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Can't add web service for Elasticsearch. File %s not found!"
 msgstr "无法为Elasticsearch添加网络服务，未发现文件 %s！"
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
+msgid "Failed - see the log!"
+msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed."
@@ -14356,8 +14376,12 @@ msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
 msgstr "无法从 OTRSHome: %s打开Kernel/Config.pm文件！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "OTOBO Home exists."
-msgstr "OTOBO Home 存在。"
+msgid "Check if Kernel/Config.pm exists in OTOBO home."
+msgstr "检查OTOBO主页中是否存在Kernel / Config.pm。"
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
+msgid "Kernel/Config.pm exists in OTOBO home"
+msgstr "OTOBO主页中是否存在Kernel / Config.pm"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if we are able to connect to OTRS Home."
@@ -14376,8 +14400,8 @@ msgid "Try database connect and sanity checks."
 msgstr "尝试进行数据库连接和完整性检查。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
-msgid "Connect to OTRS database or sanity checks failed."
-msgstr "连接到OTRS数据库或完整性检查失败。"
+msgid "Could not create database object."
+msgstr "无法创建数据库对象。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Database connect and sanity checks completed."
@@ -14398,6 +14422,18 @@ msgstr "请在迁移之前安装（或者卸载）这个软件包，如果某一
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The same packages are installed on both systems, perfect!"
 msgstr "同样的软件包可以安装在两个系统上，完美！"
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+msgid "Package specific tasks"
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+msgid "Done -"
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+msgid "Failed at -"
+msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "Check if all needed Perl modules have been installed."
@@ -15616,12 +15652,16 @@ msgid "New account created. Sent login information to %s. Please check your emai
 msgstr "帐户创建成功。登录信息发送到%s，请查收邮件。"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+msgid "If you want to re-run installer.pl, then disable the SecureMode in the SysConfig."
+msgstr ""
+
+#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
 msgstr "没有找到操作“%s”！"
 
 #. Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
-msgid "If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig."
-msgstr "如果要重新运行 MigrateFromOTRS，就在SysConfig中禁用SecureMode。"
+msgid "If you want to re-run migration.pl, then disable the SecureMode in the SysConfig."
+msgstr ""
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "invalid-temporarily"
@@ -18658,6 +18698,10 @@ msgstr "定义队列视图是否按优先级预先排序。"
 #. SysConfig
 msgid "Defines if a pre-sorting by priority should be done in the service view."
 msgstr "定义服务视图是否按优先级预先排序。"
+
+#. SysConfig
+msgid "Defines if a ticket lock is required for the quick close."
+msgstr ""
 
 #. SysConfig
 msgid "Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
@@ -21864,10 +21908,6 @@ msgid "My Services"
 msgstr "我的服务"
 
 #. SysConfig
-msgid "My Tickets."
-msgstr "我的工单。"
-
-#. SysConfig
 msgid "Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings."
 msgstr "定制队列的名称。定制队列是您的首选队列，能够在偏好设置中选择。"
 
@@ -22490,6 +22530,10 @@ msgstr "从spool目录中重新处理的邮件不能被导入到第一的位置�
 #. SysConfig
 msgid "Required permissions to change the customer of a ticket in the agent interface."
 msgstr "服务人员界面修改一个工单的客户必需的权限。"
+
+#. SysConfig
+msgid "Required permissions to use quick close in the agent interface."
+msgstr ""
 
 #. SysConfig
 msgid "Required permissions to use the close ticket screen in the agent interface."
@@ -24133,7 +24177,7 @@ msgstr "每次请求时这个模块和它的PreRun()函数（如果定义了）�
 
 #. SysConfig
 msgid "This module is being used to extend the password policy."
-msgstr ""
+msgstr "此模块用于扩展密码策略。"
 
 #. SysConfig
 msgid "This module is part of the admin area of OTOBO."
@@ -24333,7 +24377,7 @@ msgstr "工单编号"
 
 #. SysConfig
 msgid "Tickets in the following queues will not be stored on the Elasticsearch server. To apply this to existing tickets, the ticket migration has to be run via console, after changing this option."
-msgstr ""
+msgstr "以下队列中的工单不会存储在Elasticsearch服务器上，要将其应用于现有工单，必须在更改此选项后通过控制台运行工单迁移。"
 
 #. SysConfig
 msgid "Tickets."
@@ -24341,7 +24385,7 @@ msgstr "工单。"
 
 #. SysConfig
 msgid "Tile registration for the CustomerDashboard. Module is required."
-msgstr ""
+msgstr "需要模块实现CustomerDashboard的注册。"
 
 #. SysConfig
 msgid "Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day)."
@@ -24461,7 +24505,7 @@ msgstr "上传你的S/MIME证书。"
 
 #. SysConfig
 msgid "Use Redis::Fast instead of Redis."
-msgstr ""
+msgstr "用Redis::Fast 而不是Redis。"
 
 #. SysConfig
 msgid "Use new type of select and autocomplete fields in agent interface, where applicable (InputFields)."
@@ -24469,7 +24513,7 @@ msgstr "服务人员界面在合适的地方（输入字段）使用新式选择
 
 #. SysConfig
 msgid "Use specified Redis logical database."
-msgstr ""
+msgstr "用指定的Redis逻辑数据库。"
 
 #. SysConfig
 msgid "User Profile"
@@ -24529,7 +24573,7 @@ msgstr "我们正在执行系统维护，很快就恢复正常使用。"
 
 #. SysConfig
 msgid "Web Service"
-msgstr ""
+msgstr "网络服务"
 
 #. SysConfig
 msgid "Web Services"
@@ -24537,7 +24581,7 @@ msgstr "Web服务"
 
 #. SysConfig
 msgid "Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. \"UserTitle\", \"UserFirstname\", \"UserLastname\", \"UserEmail\" and \"UserLogin\" will be substituted."
-msgstr ""
+msgstr "仪表板开头的欢迎语。名称将插入到WelcomeText的％s中。 “ UserTitle”，“ UserFirstname”，“ UserLastname”，“ UserEmail”和“ UserLogin”将被替换。"
 
 #. SysConfig
 msgid "When agent creates a ticket, whether or not the ticket is automatically locked to the agent."
@@ -24557,7 +24601,7 @@ msgstr "工单被合并时，通过设置“通知发送人”复选框选项，
 
 #. SysConfig
 msgid "Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2)."
-msgstr ""
+msgstr "字段是否自动填充(1)， 那种情况下将会在工单表中隐藏起来(2)。"
 
 #. SysConfig
 msgid "Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters."
@@ -24565,7 +24609,7 @@ msgstr "通过在Ticket::Frontend::ZoomCollectMetaFilters中配置的过滤器�
 
 #. SysConfig
 msgid "Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes."
-msgstr ""
+msgstr "通过检查缓存字段的依存性，可以避免执行TicketACL，这样可以优化工单表单的加载时间。不过如果ACLModules用于Ticket-和 Form-ReturnTypes，就必须禁用。"
 
 #. SysConfig
 msgid "Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option."
@@ -24654,6 +24698,27 @@ msgstr "倒序"
 #. SysConfig
 msgid "stats"
 msgstr "stats（统计）"
+
+#~ msgid "Database is a throwawy copy"
+#~ msgstr "数据库是一次性副本"
+
+#~ msgid "No web service existent, done."
+#~ msgstr "不存在网络服务，完成。"
+
+#~ msgid "If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig."
+#~ msgstr "如果要重新运行 MigrateFromOTRS，就在SysConfig中禁用SecureMode。"
+
+#~ msgid "My Tickets."
+#~ msgstr "我的工单。"
+
+#~ msgid "Copy and migrate files from OTRS"
+#~ msgstr "从OTRS复制和迁移文件"
+
+#~ msgid "OTOBO Home exists."
+#~ msgstr "OTOBO Home 存在。"
+
+#~ msgid "Connect to OTRS database or sanity checks failed."
+#~ msgstr "连接到OTRS数据库或完整性检查失败。"
 
 #~ msgid "Setting HttpType: Set the http type used for cookies and various links. Please add http only for testing without SSL and https for production purposes."
 #~ msgstr "设置HttpType：设置用于cookie和各种链接的http类型。只有在不使用SSL的测试可以添加http，或者生产中添加。"
@@ -25168,27 +25233,11 @@ msgstr "stats（统计）"
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "请通过sales@otrs.com联系我们"
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
-msgid "Sanity checks for database."
+#. Perl Module: Kernel/System/Package.pm
+msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"Package::AllowNotVerifiedPackages\" system configuration setting.</p>"
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-msgid "Need OTRSData->%s!"
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "OTRS RELEASE file %s does not exist: %s!"
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "Check if Kernel/Config.pm exists in OTOBO home."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-msgid "Kernel/Config.pm exists in OTOBO home"
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
-msgid "Could not create database object."
+#. Perl Module: Kernel/System/Package.pm
+msgid "Verification not possible (e.g. no internet connection)!"
 msgstr ""
 

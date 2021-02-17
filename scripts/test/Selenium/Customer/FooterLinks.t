@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,12 +16,23 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::ObjectManager;
+
+# because OTOBO modules expect $Kernel::OM
+$Kernel::OM = Kernel::System::ObjectManager->new(
+    'Kernel::System::Log' => {
+        LogPrefix => 'OTOBO-otobo.UnitTest',
+    },
+);
 
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -37,66 +48,43 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # First page load, no links shown.
-        $Helper->ConfigSettingChange(
-            Valid => 0,
-            Key   => 'PublicFrontend::FooterLinks',
-            Value => {},
+        my @ExpectedLinks = (
+            q{https://www.sanmiguel-brand-partner.com},
+            q{https://otobo.de},   # powered by Rother OSS © 2019-2020
+            q{https://otobo.de},   # OTOBO logo
         );
 
-        $Selenium->VerifiedGet("${ScriptAlias}customer.pl");
+        # look for the footer links in the customer and in the public interface
+        for my $Page ( qw(customer.pl  public.pl) ) {
 
-        $Self->Is(
-            $Selenium->execute_script("return \$('#Footer ul.FooterLinks > li > a').length;"),
-            0,
-            "No links in footer area displayed",
-        );
+            # login page for the customer.pl
+            # stub page for public.pl
+            $Selenium->VerifiedGet( "${ScriptAlias}${Page}" );
 
-        # Display link for OTOBO Homepage.
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'PublicFrontend::FooterLinks',
-            Value => {
-                'https://www.otrs.com' => 'OTOBO Homepage',
-            },
-        );
+            # Get the list of links in the footer.
+            # Looks like execute_script() can't return data structure, so join the links for now.
+            # NOTE: The map would be nicer with JS arrow functions.
+            # Use 🎋 - U+1F38B - TANABATA TREE as seperator just because why not.
+            my $LinksStr = $Selenium->execute_script( <<'END_JS' );
+    return $('#oooFooter a').map(
+        function() {
+            return $(this).attr('href');
+        }
+    ).toArray().join('🎋')
+END_JS
 
-        $Selenium->VerifiedRefresh();
+            # expect exactly three links
+            note( $LinksStr );
+            like(
+                $LinksStr,
+                qr{^ [^🎋]+ 🎋 [^🎋]+ 🎋 [^🎋].+ $}x,
+                "LinkStr for $Page"
+            );
 
-        $Self->Is(
-            $Selenium->execute_script("return \$('#Footer ul.FooterLinks > li > a').length;"),
-            1,
-            "Links in footer area displayed",
-        );
-
-        $Self->True(
-            index( $Selenium->get_page_source(), 'OTOBO Homepage' ) > -1,
-            'OTOBO Homepage link is shown',
-        );
-
-        # Check public interface as well.
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'PublicFrontend::CommonParam###Action',
-            Value => 'PublicDefault',
-        );
-
-        $Selenium->VerifiedGet("${ScriptAlias}public.pl");
-
-        $Self->Is(
-            $Selenium->execute_script("return \$('#Footer ul.FooterLinks > li > a').length;"),
-            1,
-            "Links in footer area displayed",
-        );
-
-        $Self->True(
-            index( $Selenium->get_page_source(), 'OTOBO Homepage' ) > -1,
-            'OTOBO Homepage link is shown',
-        );
+            my @Links = split /🎋/, $LinksStr;
+            is( \@Links, \@ExpectedLinks, "links in the footer of $Page" );
+        }
     }
 );
 
-
-$Self->DoneTesting();
-
-
+done_testing();

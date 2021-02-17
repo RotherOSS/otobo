@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -108,10 +108,12 @@ sub Output {
         undef $Self->{EnvNewRef};
     }
 
+    # otobo.psgi seemingly does not set REQUEST_SCHEME
+    $Self->{EnvRef}{REQUEST_SCHEME} ||= lc( $Self->{EnvRef}{HTTPS} ) eq 'on' ? 'https' : 'http';
+
     # if we use the HTML5 input type 'email' jQuery Validate will always validate
     # we do not want that if CheckEmailAddresses is set to 'no' in SysConfig
-    $Self->{EnvRef}->{EmailFieldType}
-        = $Kernel::OM->Get('Kernel::Config')->Get('CheckEmailAddresses') ? 'email' : 'text';
+    $Self->{EnvRef}->{EmailFieldType} = $Kernel::OM->Get('Kernel::Config')->Get('CheckEmailAddresses') ? 'email' : 'text';
 
     my @TemplateFolders = (
         "$Self->{CustomTemplateDir}",

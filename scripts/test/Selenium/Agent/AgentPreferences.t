@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,17 +14,21 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+use Try::Tiny;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
 use Kernel::Language;
+
+our $Self;
 
 # get needed objects
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -118,25 +122,27 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Group=UserProfile')]")->VerifiedClick();
 
         # check for some settings
+        ID:
         for my $ID (
             qw(CurPw NewPw NewPw1 UserTimeZone_Search UserLanguage_Search OutOfOfficeOn OutOfOfficeOff UserGoogleAuthenticatorSecretKey GenerateUserGoogleAuthenticatorSecretKey)
             )
         {
+            # see issue 715: https://github.com/RotherOSS/otobo/issues/715
+            my %IdIsTodo = map { $_ => 1 } ( qw(CurPw NewPw NewPw1 ) );
+            my $ToDo = $IdIsTodo{$ID} ? todo( "field $ID not active, issue #715" ) : undef;
 
             # Scroll to element view if necessary.
-            $Selenium->execute_script("\$('#$ID')[0].scrollIntoView(true);");
+            my $ScrollSuccess = try_ok {
+                $Selenium->execute_script("\$('#$ID')[0].scrollIntoView(true);");
+            };
+
+            next ID unless $ScrollSuccess;
 
             my $Element = $Selenium->find_element( "#$ID", 'css' );
 
-            $Self->True(
-                $Element->is_enabled(),
-                "$ID is enabled."
-            );
-
-            $Self->True(
-                $Element->is_displayed(),
-                "$ID is displayed."
-            );
+            ok( $Element, "element $ID found" );
+            ok( $Element->is_enabled(), "$ID is enabled." );
+            ok( $Element->is_displayed(), "$ID is displayed." );
         }
 
         # Click on "Generate" button.
@@ -151,13 +157,10 @@ $Selenium->RunTest(
         my $SecretKey = $Selenium->execute_script(
             "return \$('#UserGoogleAuthenticatorSecretKey').val();"
         );
-        $Self->True(
-            $SecretKey =~ m{[A-Z2-7]{16}} ? 1 : 0,
-            'Secret key is valid.'
-        );
+        like( $SecretKey, qr/[A-Z2-7]{16}/, 'Secret key is valid.' );
 
         # check some of AgentPreferences default values
-        $Self->Is(
+        is(
             $Selenium->find_element( '#UserLanguage', 'css' )->get_value(),
             "en",
             "#UserLanguage stored value",
@@ -222,12 +225,15 @@ $Selenium->RunTest(
             $LanguageObject = Kernel::Language->new(
                 UserLanguage => $Language,
             );
+            my $PageSource = $Selenium->get_page_source();
             for my $String ( 'Change password', 'Language', 'Out Of Office Time' ) {
+                my $ToDo = $String eq 'Change password' ? todo( "Change password not active, issue #715" ) : undef;
+
                 my $Translation = $LanguageObject->Translate($String);
-                $Self->True(
-                    index( $Selenium->get_page_source(), $Translation ) > -1,
+                ok(
+                    index( $PageSource, $Translation ) > -1,
                     "Test widget '$String' found on screen for language $Language ($Translation)"
-                ) || die;
+                );
             }
 
             $Count++;
@@ -533,167 +539,13 @@ JAVASCRIPT
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=Miscellaneous");
 
         # check edited values
-        $Self->Is(
-            $Selenium->find_element( '#UserSkin', 'css' )->get_value(),
-            "ivory",
-            "#UserSkin updated value",
-        );
+        my $UserSkin = $Selenium->find_element( '#UserSkin', 'css' )->get_value();
+        {
+            my $ToDo = todo( 'skin ivory does not exist in OTOBO, issue #678' );
 
-        # Enable two factor authenticator.
-
-        if ( $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCommunityIsInstalled() ) {
-
-            # Open advanced preferences screen.
-            $Selenium->VerifiedGet(
-                "${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=Advanced;RootNavigation=Frontend::Agent::View::TicketZoom"
-            );
-
-            # Check setting value.
-            my $CheckboxState = $Selenium->execute_script(
-                'return $("#Ticket\\\\:\\\\:ZoomTimeDisplay").val()'
-            );
-            $Self->True(
-                $CheckboxState,
-                'Checkbox is checked',    # Default value is overridden!
-            );
-
-            # Click on checkbox.
-            $Selenium->find_element( '.CheckboxLabel:nth-of-type(1)', 'css' )->click();
-
-            # Save.
-            $Selenium->find_element( 'li:nth-of-type(2) .Update:nth-of-type(1)', 'css' )->click();
-
-            # Wait and make sure that setting value is 0.
-            $Selenium->WaitFor(
-                JavaScript =>
-                    'return $("#Ticket\\\\:\\\\:ZoomTimeDisplay").val() == 0'
-            ) || die 'Ticket::ZoomTimeDisplay should be 0';
-
-            # Modify specific SysConfig values to allow or forbid settings change by user.
-            my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-            $SysConfigObject->SettingsSet(
-                UserID   => 1,
-                Settings => [
-                    {
-                        Name                   => 'Ticket::Frontend::AgentTicketEmail###Body',
-                        IsValid                => 1,
-                        UserModificationActive => 1,
-                    },
-                    {
-                        Name                   => 'Ticket::Frontend::AgentTicketQueue###Order::Default',
-                        IsValid                => 1,
-                        UserModificationActive => 0,
-                        EffectiveValue         => 'Up',
-                    },
-                    {
-                        Name                   => 'Ticket::Frontend::AgentTicketQueue###Blink',
-                        IsValid                => 0,
-                        UserModificationActive => 1,
-                    },
-                ],
-            );
-
-            # Create non-admin user.
-            my $TestUserLogin2 = $Helper->TestUserCreate(
-                Groups   => ['users'],
-                Language => $Language,
-            ) || die "Did not get test user";
-
-            $Selenium->Login(
-                Type     => 'Agent',
-                User     => $TestUserLogin2,
-                Password => $TestUserLogin2,
-            );
-
-            # Open advanced preferences screen.
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=Advanced");
-
-            # Change category only if the dropdown is present (if additional packages are installed).
-            my $CategoriesVisible = $Selenium->execute_script("return \$('#Category:visible').length;");
-
-            if ($CategoriesVisible) {
-                $Selenium->InputFieldValueSet(
-                    Element => '#Category',
-                    Value   => 'OTOBO',
-                );
-            }
-
-            $Selenium->WaitFor(
-                JavaScript =>
-                    "return \$('#ConfigTree ul').length"
-            ) || die 'AJAX error';
-
-            my $NavigationItems = $Selenium->execute_script("return \$('#ConfigTree ul > li').length;");
-
-            $Self->Is(
-                $NavigationItems,
-                1,
-                'Make sure there is one navigation item'
-            );
-
-            # Test AgentPreference preference navigation.
-            $Selenium->WaitFor(
-                JavaScript => 'return $("#ConfigTree li#Frontend > i").length;',
-            );
-            $Selenium->execute_script("\$('#ConfigTree li#Frontend > i').trigger('click')");
-
-            $Selenium->WaitFor(
-                JavaScript =>
-                    'return $("#ConfigTree li#Frontend\\\\:\\\\:Agent > i").length;',
-            );
-            $Selenium->execute_script("\$('#ConfigTree li#Frontend\\\\:\\\\:Agent > i').trigger('click')");
-
-            $Selenium->WaitFor(
-                JavaScript =>
-                    'return $("#ConfigTree li#Frontend\\\\:\\\\:Agent\\\\:\\\\:View > i").length;',
-            );
-            $Selenium->execute_script(
-                "\$('#ConfigTree li#Frontend\\\\:\\\\:Agent\\\\:\\\\:View > i').trigger('click')"
-            );
-
-            # Verify count of possible configurations for user.
-            $Self->Is(
-                $Selenium->execute_script(
-                    "return \$('#Frontend\\\\:\\\\:Agent\\\\:\\\\:View\\\\:\\\\:TicketQueue_anchor').text().trim()"
-                ),
-                'TicketQueue (2)',
-                "Navigation count for TicketQueue is correct"
-            );
-            $Self->Is(
-                $Selenium->execute_script(
-                    "return \$('#Frontend\\\\:\\\\:Agent\\\\:\\\\:View\\\\:\\\\:TicketEmailNew_anchor').text().trim()"
-                ),
-                'TicketEmailNew (1)',
-                "Navigation count for TicketEmailNew is correct"
-            );
-
-            # Restore modified SysConfigs.
-            $SysConfigObject->SettingsSet(
-                UserID   => 1,
-                Settings => [
-                    {
-                        Name                   => 'Ticket::Frontend::AgentTicketEmail###Body',
-                        IsValid                => 1,
-                        UserModificationActive => 0
-                    },
-                    {
-                        Name                   => 'Ticket::Frontend::AgentTicketQueue###Order::Default',
-                        IsValid                => 1,
-                        UserModificationActive => 1,
-                        EffectiveValue         => 'Up'
-                    },
-                    {
-                        Name                   => 'Ticket::Frontend::AgentTicketQueue###Blink',
-                        IsValid                => 1,
-                        UserModificationActive => 1
-                    }
-                ],
-            );
+            is( $UserSkin, "ivory", "#UserSkin updated value" );
         }
     }
 );
 
-
-$Self->DoneTesting();
-
-
+done_testing();

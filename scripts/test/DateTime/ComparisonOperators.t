@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -97,7 +97,7 @@ for my $TestConfig (@TestConfigs) {
 
     for my $Operator ( sort keys %{ $TestConfig->{ExpectedResults} } ) {
         $Self->Is(
-            eval( '$DateTimeObject1 ' . $Operator . ' $DateTimeObject2' ),    ## no critic
+            eval( '$DateTimeObject1 ' . $Operator . ' $DateTimeObject2' ),    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
             $TestConfig->{ExpectedResults}->{$Operator},
             $DateTimeObject1->Format( Format => '%Y-%m-%d %H:%M:%S %{time_zone_long_name}' )
                 . " $Operator "
@@ -120,18 +120,18 @@ my $DateTimeObject = $Kernel::OM->Create(
 for my $Operator ( '>', '<', '>=', '<=', '==', '!=' ) {
 
     $Self->False(
-        eval( '$DateTimeObject ' . $Operator . ' 2' ),    ## no critic
+        eval( '$DateTimeObject ' . $Operator . ' 2' ),    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
         'Comparison via ' . $Operator . ' with integer instead of DateTime object must fail',
     );
 
     $Self->False(
-        eval( '$DateTimeObject ' . $Operator . ' undef' ),    ## no critic
+        eval( '$DateTimeObject ' . $Operator . ' undef' ),    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
         'Comparison via ' . $Operator . ' with undef instead of DateTime object must fail',
     );
 
     ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
     $Self->False(
-        eval( '$DateTimeObject ' . $Operator . ' $Kernel::OM->Create("Kernel::System::Time")' ),    ## no critic
+        eval( '$DateTimeObject ' . $Operator . ' $Kernel::OM->Create("Kernel::System::Time")' ),    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
         'Comparison via ' . $Operator . ' with Time object instead of DateTime object must fail',
     );
 }

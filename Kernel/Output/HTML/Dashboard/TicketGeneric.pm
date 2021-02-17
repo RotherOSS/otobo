@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -175,7 +175,7 @@ sub new {
 
     if ($PreferencesColumnFilters) {
         $Self->{GetColumnFilterSelect} = $PreferencesColumnFilters;
-        my @ColumnFilters = keys %{$PreferencesColumnFilters};    ## no critic
+        my @ColumnFilters = keys %{$PreferencesColumnFilters};
         for my $Field (@ColumnFilters) {
             $Self->{GetColumnFilter}->{ $Field . $Self->{Name} } = $PreferencesColumnFilters->{$Field};
         }
@@ -190,7 +190,7 @@ sub new {
     }
 
     if ($PreferencesColumnFiltersRealKeys) {
-        my @ColumnFiltersReal = keys %{$PreferencesColumnFiltersRealKeys};    ## no critic
+        my @ColumnFiltersReal = keys %{$PreferencesColumnFiltersRealKeys};
         for my $Field (@ColumnFiltersReal) {
             $Self->{ColumnFilter}->{$Field} = $PreferencesColumnFiltersRealKeys->{$Field};
         }
@@ -251,8 +251,7 @@ sub new {
             }
         }
         else {
-            $Self->{AdditionalFilter}
-                = $Self->{$AdditionalPreferencesKey} || $Self->{Config}->{AdditionalFilter} || 'AssignedToCustomerUser';
+            $Self->{AdditionalFilter} = $Self->{$AdditionalPreferencesKey} || $Self->{Config}->{AdditionalFilter} || 'AssignedToCustomerUser';
         }
     }
 
@@ -332,10 +331,8 @@ sub new {
     if ( $Self->{Config}->{IsProcessWidget} ) {
 
         # get process management configuration
-        $Self->{ProcessManagementProcessID}
-            = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementProcessID');
-        $Self->{ProcessManagementActivityID}
-            = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementActivityID');
+        $Self->{ProcessManagementProcessID}  = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementProcessID');
+        $Self->{ProcessManagementActivityID} = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementActivityID');
 
         # get the list of processes in the system
         my $ProcessListHash = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process')->ProcessList(

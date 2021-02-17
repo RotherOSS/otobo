@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+// Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -22,7 +22,7 @@ Core.Customer = Core.Customer || {};
 /**
  * @namespace Core.Customer.TicketZoom
  * @memberof Core.Customer
- * @author 
+ * @author
  * @description
  *      This namespace contains all functions for CustomerTicketZoom.
  */
@@ -262,7 +262,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             $FollowUp.addClass('Visible');
             Core.UI.InputFields.Activate();
             $('html').css({scrollTop: $('#Body').height()});
-            Core.UI.RichTextEditor.Focus($RTE);    
+            Core.UI.RichTextEditor.Focus($RTE);
             if ( $(window).width() < 768 ) {
                 $('#ReplyButton').hide();
             }
@@ -295,7 +295,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             var ActiveIndex = $('#oooArticleList > .oooActive').index() + 2,
                 StartIndex  = ActiveIndex,
                 ActiveChild = $('#oooArticleListExpanded > li:nth-child(' + ActiveIndex + ')');
-            
+
             if ( ActiveChild.length ) {
                 $('#oooArticleList > .oooActive').removeClass('oooActive');
 
@@ -318,7 +318,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
                         PrevChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex - 1 ) + ')');
                     }
                 }
-                
+
                 $('#oooArticleList > li:nth-child(' + ( ActiveIndex - 1 ) +')').addClass('oooActive');
                 if ( ActiveIndex !== StartIndex ) {
                     $('#oooArticleList').scrollTop( $('#oooArticleList > .oooActive').position().top );

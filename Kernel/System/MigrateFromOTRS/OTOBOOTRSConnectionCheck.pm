@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::MigrateFromOTRS::OTOBOOTRSConnectionCheck;    ## no critic
+package Kernel::System::MigrateFromOTRS::OTOBOOTRSConnectionCheck;
 
 use strict;
 use warnings;
@@ -56,8 +56,6 @@ Returns 1 on success.
 =cut
 
 sub CheckPreviousRequirement {
-    my ( $Self, %Param ) = @_;
-
     return 1;
 }
 
@@ -169,8 +167,7 @@ sub Run {
 }
 
 sub _CheckOTOBOConfigpmExists {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $OTOBOHome = $Kernel::OM->Get('Kernel::Config')->Get('Home');
     my $Message   = $Self->{LanguageObject}->Translate("Check if Kernel/Config.pm exists in OTOBO home.");
@@ -246,10 +243,9 @@ sub _CheckConfigpmAndWriteCache {
 
     my %CacheOptions;
 
-    ## no critic
     {
-        open( my $In, '<', $ConfigFile )
-            or return "Can't open $ConfigFile: $!";
+        open( my $In, '<', $ConfigFile )            ## no critic qw(OTOBO::ProhibitOpen)
+            or return "Can't open $ConfigFile: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
 
         CONFIGLINE:
         while (<$In>) {

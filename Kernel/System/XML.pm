@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -242,7 +242,7 @@ sub XMLHashGet {
         }
         $Content .= '$XMLHash' . $Data[0] . " = '$Data[1]';\n 1;\n";
     }
-    if ( $Content && !eval $Content ) {    ## no critic
+    if ( $Content && !eval $Content ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
         print STDERR "ERROR: XML.pm $@\n";
     }
 
@@ -798,7 +798,7 @@ sub XMLParse {
     # load parse package and parse
     my $UseFallback = 1;
 
-    if ( eval 'require XML::Parser' ) {    ## no critic
+    if ( eval 'require XML::Parser' ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
         my $Parser = XML::Parser->new(
             Handlers => {
                 Start     => sub { $Self->_HS(@_); },
@@ -832,7 +832,7 @@ sub XMLParse {
     }
 
     if ($UseFallback) {
-        require XML::Parser::Lite;    ## no critic
+        require XML::Parser::Lite;
 
         my $Parser = XML::Parser::Lite->new(
             Handlers => {

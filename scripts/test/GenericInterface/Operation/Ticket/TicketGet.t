@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -1386,7 +1385,7 @@ my @Tests = (
             Data    => {
                 Ticket => {
                     %TicketEntryFour,
-                    Article => [ $ArticleWithoutAttachments[-1], $ArticleWithoutAttachments[-2] ],
+                    Article => [ $ArticleWithoutAttachments[-1], $ArticleWithoutAttachments[-2] ]
                 },
             },
         },
@@ -1394,11 +1393,9 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {
-                        (
-                            %TicketEntryFour,
-                            Article => [ $ArticleWithoutAttachments[-1], $ArticleWithoutAttachments[-2] ],
-                        )
+                    +{
+                        %TicketEntryFour,
+                        Article => [ $ArticleWithoutAttachments[-1], $ArticleWithoutAttachments[-2] ]
                     },
                 ],
             },
@@ -1419,7 +1416,7 @@ my @Tests = (
             Data    => {
                 Ticket => {
                     %TicketEntryFour,
-                    Article => [ $ArticleWithoutAttachments[0], $ArticleWithoutAttachments[1] ],
+                    Article => [ $ArticleWithoutAttachments[0], $ArticleWithoutAttachments[1] ]
                 },
             },
         },
@@ -1427,11 +1424,9 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {
-                        (
-                            %TicketEntryFour,
-                            Article => [ $ArticleWithoutAttachments[0], $ArticleWithoutAttachments[1] ],
-                        )
+                    +{
+                        %TicketEntryFour,
+                        Article => [ $ArticleWithoutAttachments[0], $ArticleWithoutAttachments[1] ]
                     },
                 ],
             },
@@ -1452,7 +1447,7 @@ my @Tests = (
                 Ticket => {
                     %TicketEntryFour,
                     Article =>
-                        [ $ArticleWithoutAttachments[0], $ArticleWithoutAttachments[1], $ArticleWithoutAttachments[2] ],
+                        [ $ArticleWithoutAttachments[0], $ArticleWithoutAttachments[1], $ArticleWithoutAttachments[2] ]
                 },
             },
         },
@@ -1460,14 +1455,9 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {
-                        (
-                            %TicketEntryFour,
-                            Article => [
-                                $ArticleWithoutAttachments[0], $ArticleWithoutAttachments[1],
-                                $ArticleWithoutAttachments[2]
-                            ],
-                        )
+                    +{
+                        %TicketEntryFour,
+                        Article => [ $ArticleWithoutAttachments[0], $ArticleWithoutAttachments[1], $ArticleWithoutAttachments[2] ]
                     },
                 ],
             },
@@ -1487,7 +1477,7 @@ my @Tests = (
             Data    => {
                 Ticket => {
                     %TicketEntryFour,
-                    Article => \@ArticleBox,
+                    Article => \@ArticleBox
                 },
             },
         },
@@ -1495,11 +1485,9 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {
-                        (
-                            %TicketEntryFour,
-                            Article => \@ArticleBox,
-                        )
+                    +{
+                        %TicketEntryFour,
+                        Article => \@ArticleBox
                     },
                 ],
             },
@@ -1520,7 +1508,7 @@ my @Tests = (
             Data    => {
                 Ticket => {
                     %TicketEntryFour,
-                    Article => \@ArticleBoxAttachmentsWithoutContent,
+                    Article => \@ArticleBoxAttachmentsWithoutContent
                 },
             },
         },
@@ -1528,11 +1516,9 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {
-                        (
-                            %TicketEntryFour,
-                            Article => \@ArticleBoxAttachmentsWithoutContent,
-                        )
+                    +{
+                        %TicketEntryFour,
+                        Article => \@ArticleBoxAttachmentsWithoutContent
                     },
                 ],
             },
@@ -1553,7 +1539,7 @@ my @Tests = (
             Data    => {
                 Ticket => {
                     %TicketEntryFourDF,
-                    Article => \@ArticleBoxDF,
+                    Article => \@ArticleBoxDF
                 },
             },
         },
@@ -1561,11 +1547,9 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {
-                        (
-                            %TicketEntryFourDF,
-                            Article => \@ArticleBoxDF,
-                        )
+                    +{
+                        %TicketEntryFourDF,
+                        Article => \@ArticleBoxDF
                     },
                 ],
             },
@@ -1588,7 +1572,7 @@ my @Tests = (
             Data    => {
                 Ticket => {
                     %TicketEntryFour,
-                    Article => \@ArticleBox,
+                    Article => \@ArticleBox
                 },
             },
         },
@@ -1596,11 +1580,9 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {
-                        (
-                            %TicketEntryFour,
-                            Article => \@ArticleBox,
-                        )
+                    +{
+                        %TicketEntryFour,
+                        Article => \@ArticleBox
                     },
                 ],
             },
@@ -1624,7 +1606,7 @@ my @Tests = (
             Data    => {
                 Ticket => {
                     %TicketEntryFour,
-                    Article => \@ArticleBoxAttachmentsWithoutContent,
+                    Article => \@ArticleBoxAttachmentsWithoutContent
                 },
             },
         },
@@ -1632,11 +1614,9 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {
-                        (
-                            %TicketEntryFour,
-                            Article => \@ArticleBoxAttachmentsWithoutContent,
-                        )
+                    +{
+                        %TicketEntryFour,
+                        Article => \@ArticleBoxAttachmentsWithoutContent
                     },
                 ],
             },
@@ -1702,11 +1682,9 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {    ## no critic
-                        (
-                            %TicketEntryFour,
-                            Article => \@ArticleBoxTypeCustomer,
-                        ),
+                    +{
+                        %TicketEntryFour,
+                        Article => \@ArticleBoxTypeCustomer
                     },
                 ],
             },
@@ -1760,7 +1738,7 @@ my @Tests = (
             Data    => {
                 Ticket => {
                     %TicketEntryFour,
-                    Article => \@ArticleBoxSenderAgent,
+                    Article => \@ArticleBoxSenderAgent
                 },
             },
         },
@@ -1768,11 +1746,9 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {    ## no critic
-                        (
-                            %TicketEntryFour,
-                            Article => \@ArticleBoxSenderAgent,
-                        ),
+                    +{
+                        %TicketEntryFour,
+                        Article => \@ArticleBoxSenderAgent
                     },
                 ],
             },
@@ -1792,7 +1768,7 @@ my @Tests = (
             Data    => {
                 Ticket => {
                     %TicketEntryFour,
-                    Article => \@ArticleBoxSenderAgent,
+                    Article => \@ArticleBoxSenderAgent
                 },
             },
         },
@@ -1800,11 +1776,9 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {    ## no critic
-                        (
-                            %TicketEntryFour,
-                            Article => \@ArticleBoxSenderAgent,
-                        ),
+                    +{
+                        %TicketEntryFour,
+                        Article => \@ArticleBoxSenderAgent
                     },
                 ],
             },
@@ -1825,7 +1799,7 @@ my @Tests = (
             Data    => {
                 Ticket => {
                     %TicketEntryFour,
-                    Article => $ArticleBoxSenderCustomer[0],
+                    Article => $ArticleBoxSenderCustomer[0]
                 },
             },
         },
@@ -1833,11 +1807,9 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {    ## no critic
-                        (
-                            %TicketEntryFour,
-                            Article => \@ArticleBoxSenderCustomer,
-                        ),
+                    +{
+                        %TicketEntryFour,
+                        Article => \@ArticleBoxSenderCustomer
                     },
                 ],
             },
@@ -1859,7 +1831,7 @@ my @Tests = (
             Data    => {
                 Ticket => {
                     %TicketEntryFive,
-                    Article => \@ArticleWithHTMLBody,
+                    Article => \@ArticleWithHTMLBody
                 },
             },
         },
@@ -1867,11 +1839,9 @@ my @Tests = (
             Success => 1,
             Data    => {
                 Ticket => [
-                    {
-                        (
-                            %TicketEntryFive,
-                            Article => \@ArticleWithHTMLBody,
-                        )
+                    +{
+                        %TicketEntryFive,
+                        Article => \@ArticleWithHTMLBody
                     },
                 ],
             },

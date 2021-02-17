@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -32,7 +32,7 @@ our @ObjectDependencies = (
     'Kernel::System::MailAccount',
 );
 
-package MyIMAP {    ## no critic
+package MyIMAP {    ## no critic qw(Modules::ProhibitMultiplePackages)
     our $AUTOLOAD;
 
     sub new {
@@ -249,7 +249,7 @@ sub _ImportEmails {
 
     # Redefine PostMaster::Run so we can fail some messages
     #   and keep this change local to the current scope
-    no strict 'refs';    ## no critic
+    no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
 
     local *{'Kernel::System::MailAccount::IMAP::Connect'} = sub {
         my ( $Self, %Param ) = @_;

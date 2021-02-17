@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -111,8 +111,7 @@ The returned value is a hash ref with the fields I<Message>, I<Comment>, and I<S
 =cut
 
 sub SanityChecks {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
@@ -263,8 +262,7 @@ Get the number of rows in a table.
 =cut
 
 sub RowCount {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
 
@@ -305,8 +303,7 @@ Transfer the actual table data
 =cut
 
 sub DataTransfer {
-    my $Self = shift; # the source db backend
-    my %Param = @_;
+    my ( $Self, %Param ) = @_; # $Self is  the source db backend
 
     # check needed parameters
     for my $Needed (qw(OTRSDBObject OTOBODBObject OTOBODBBackend DBInfo)) {
@@ -345,6 +342,9 @@ sub DataTransfer {
     # Open for writing as the file usually does not exist yet.
     # This approach assumes that the the webserver processes are running on a single machine.
     my $LockFile = join '/', $ConfigObject->Get('Home'), 'var/tmp/migrate_from_otrs.lock';
+
+    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
+
     open my $LockFh, '>', $LockFile or do {
         $MigrationBaseObject->MigrationLog(
             String   => "Could not open lockfile $LockFile; $!",
@@ -390,16 +390,6 @@ sub DataTransfer {
             ) // [ [ 'unknown target database' ] ] )->[0]->[0];
         }
     }
-
-    # This has been tested only under Docker.
-    # Restrict this to Docker in order to be on the safe side.
-    # 'on' because the input field is a checkbox
-    my $SourceDBIsThrowaway = eval {
-            return 0 unless $ENV{OTOBO_RUNS_UNDER_DOCKER};
-            return 0 unless $Param{DBInfo}->{DBIsThrowaway};
-            return 0 unless lc $Param{DBInfo}->{DBIsThrowaway} eq 'on';
-            return 1;
-        };
 
     # Collect information about the OTRS tables.
     # Decide whether batch insert, or destructive table renaming, is possible for a table.
@@ -583,9 +573,11 @@ sub DataTransfer {
             return 1;
         };
 
-        $DoBatchInsert{$SourceTable} = $BatchInsertIsPossible;
+        # TODO: batch insert atm fails at line 864, where a select on the otrs-db is done as the otobo-mysql-user
+        # $DoBatchInsert{$SourceTable} = $BatchInsertIsPossible;
+        $DoBatchInsert{$SourceTable} = 0;
 
-        if ( $SourceDBIsThrowaway && $BatchInsertIsPossible ) {
+        if ( $BatchInsertIsPossible ) {
 
             # drop foreign keys in the source
             my $SourceForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
@@ -700,8 +692,7 @@ sub DataTransfer {
         my $TargetColumnsString = join ', ', @SourceColumns;
 
         # If we have extra columns in OTRS table we need to add the column to OTOBO.
-        # But only if we don't have a destructive batch insert
-        if ( ! ( $DoBatchInsert{$SourceTable} && $SourceDBIsThrowaway ) ) {
+        {
             my $TargetColumnRef = $TargetDBBackend->ColumnsList(
                 Table    => $TargetTable,
                 DBName   => $ConfigObject->Get('Database'),
@@ -737,139 +728,21 @@ sub DataTransfer {
 
         if ( $DoBatchInsert{$SourceTable} ) {
 
-
-            if ( $SourceDBIsThrowaway ) {
-                # OTOBO uses no triggers, so there is no need to consider them here
-
-                my $CreateTableSQL = ( $TargetDBObject->SelectAll(
-                    SQL   => "SHOW CREATE TABLE $TargetTable",
-                ) // [ [] ] )->[0]->[0];
-
-                if ( ! $CreateTableSQL ) {
-
-                    # Log info to apache error log and OTOBO log (syslog or file)
-                    $MigrationBaseObject->MigrationLog(
-                        String   => "Could not get table creation SQL for '$TargetTable'",
-                        Priority => "notice",
-                    );
-
-                    return;
-                }
-
-                my $OverallSuccess = eval {
-
-                    # no need to copy foreign key constraints from the OTRS table
-                    my @AlterSourceSQLs = ( $AlterSourceSQLs{$SourceTable} // [] )->@*;
-                    for my $SQL ( @AlterSourceSQLs ) {
-                        my $Success = $SourceDBObject->Do( SQL => $SQL );
-
-                        if ( !$Success ) {
-
-                            # Log info to apache error log and OTOBO log (syslog or file)
-                            $MigrationBaseObject->MigrationLog(
-                                String   => "Could not alter source table '$SourceTable': $SQL",
-                                Priority => "notice",
-                            );
-
-                            return;
-                        }
-                    }
-
-                    # Remove the target table so that the source table can be renamed.
-                    {
-                        my $Success = $TargetDBObject->Do(
-                            SQL => "DROP TABLE $TargetTable"
-                        );
-                        if ( !$Success ) {
-
-                            # Log info to apache error log and OTOBO log (syslog or file)
-                            $MigrationBaseObject->MigrationLog(
-                                String   => "Could not drop target table '$TargetTable'",
-                                Priority => "notice",
-                            );
-
-                            return;
-                        }
-                    }
-
-                    # The actual data transfer.
-                    # This requires the privs DROP and ALTER on the source database.
-                    {
-                        my $RenameTableSQL  = <<"END_SQL";
-ALTER TABLE $SourceSchema.$QuotedSourceTable
-  RENAME TO $TargetSchema.$TargetTable
-END_SQL
-                        my $Success = $SourceDBObject->Do( SQL => $RenameTableSQL );
-                        if ( !$Success ) {
-
-                            # Log info to apache error log and OTOBO log (syslog or file)
-                            $MigrationBaseObject->MigrationLog(
-                                String   => "Could not rename table '$SourceSchema.$SourceTable' to '$TargetSchema.$TargetTable'",
-                                Priority => "notice",
-                            );
-
-                            return;
-                        }
-                    }
-
-                    # create foreign key constraints in the OTOBO table
-                    my @AddClauses = ( $TargetAddForeignKeysClauses{$SourceTable} // [] )->@*;
-                    if ( @AddClauses ) {
-                        my $SQL  = "ALTER TABLE $TargetSchema.$TargetTable " . join ', ', @AddClauses;
-                        my $Success = $TargetDBObject->Do( SQL => $SQL );
-                        if ( !$Success ) {
-
-                            # Log info to apache error log and OTOBO log (syslog or file)
-                            $MigrationBaseObject->MigrationLog(
-                                String   => "Could not add foreign keys in target table '$TargetSchema.$TargetTable'",
-                                Priority => "notice",
-                            );
-
-                            return;
-                        }
-
-                    }
-
-                    # overall success
-                    return 1;
-                };
-
-                if ( ! $OverallSuccess ) {
-                    $MigrationBaseObject->MigrationLog(
-                        String   => <<"END_TXT",
-Renaming '$SourceSchema.$SourceTable' to '$TargetSchema.$TargetTable' failed.
-The table can be restored with:
-$CreateTableSQL
-END_TXT
-                        Priority => "notice",
-                    );
-
-                    return;
-                }
-
-                # Log info to apache error log and OTOBO log (syslog or file)
-                $MigrationBaseObject->MigrationLog(
-                    String   => "Successfully renamed '$SourceSchema.$SourceTable' to '$TargetSchema.$TargetTable'",
-                    Priority => "notice",
-                );
-            }
-            else {
-                my $BatchInsertSQL = <<"END_SQL";
+            my $BatchInsertSQL = <<"END_SQL";
 INSERT INTO $TargetSchema.$TargetTable ($TargetColumnsString)
   SELECT $SourceColumnsString{$SourceTable}
     FROM $SourceSchema.$QuotedSourceTable
 END_SQL
-                my $Success = $TargetDBObject->Do( SQL  => $BatchInsertSQL );
-                if ( !$Success ) {
+            my $Success = $TargetDBObject->Do( SQL  => $BatchInsertSQL );
+            if ( !$Success ) {
 
-                    # Log info to apache error log and OTOBO log (syslog or file)
-                    $MigrationBaseObject->MigrationLog(
-                        String   => "Could not batch insert data: Table: $QuotedSourceTable",
-                        Priority => "notice",
-                    );
+                # Log info to apache error log and OTOBO log (syslog or file)
+                $MigrationBaseObject->MigrationLog(
+                    String   => "Could not batch insert data: Table: $QuotedSourceTable",
+                    Priority => "notice",
+                );
 
-                    return;
-                }
+                return;
             }
         }
         else {
@@ -880,7 +753,7 @@ END_SQL
             {
                 my $BindString = join ', ', map {'?'} @SourceColumns;
                 $InsertSQL     = "INSERT INTO $TargetTable ($TargetColumnsString) VALUES ($BindString)";
-                $SelectSQL     = "SELECT $SourceColumnsString{$SourceTable} FROM $QuotedSourceTable",
+                $SelectSQL     = "SELECT $SourceColumnsString{$SourceTable} FROM $QuotedSourceTable";
             }
 
             # Now fetch all the data and insert it to the target DB.

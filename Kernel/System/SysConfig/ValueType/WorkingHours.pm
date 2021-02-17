@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -215,6 +215,7 @@ sub ModifiedValueGet {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -224,6 +225,7 @@ sub ModifiedValueGet {
             Priority => 'error',
             Message  => "EffectiveValue mush be a hash reference!"
         );
+
         return;
     }
 
@@ -236,11 +238,16 @@ sub ModifiedValueGet {
     # Update Content
     DAY:
     for my $Day (@Days) {
+
+        # it is not required to have a list for all days of the week
+        next DAY unless exists $Param{EffectiveValue}->{$Day};
+
         if ( !$Param{EffectiveValue}->{$Day} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Missing value for $Day!"
             );
+
             next DAY;
         }
 
@@ -266,7 +273,7 @@ sub ModifiedValueGet {
             'ValueType' => 'Day',
         };
 
-        if ( scalar @HourItems ) {
+        if ( @HourItems ) {
             $Item->{Item} = \@HourItems;
         }
         else {

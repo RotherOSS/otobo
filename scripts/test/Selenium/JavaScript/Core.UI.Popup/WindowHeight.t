@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,10 +18,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
+
+our $Self;
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
@@ -111,10 +116,10 @@ $Selenium->RunTest(
             "return \$(window).height();"
         );
 
-        $Self->Is(
-            $PopupWindowHeight,
-            700,
-            "Default popup window height"
+        # two sizes are acceptable, as under Chrome that is a message about remote control
+        ok(
+            ( $PopupWindowHeight == 700 || $PopupWindowHeight == 655 ),
+            "Default popup window height, considering the remote control warning"
         );
 
         # Close note window.
@@ -193,7 +198,5 @@ $Selenium->RunTest(
     }
 );
 
-
-$Self->DoneTesting();
-
+done_testing();
 

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -71,18 +71,18 @@ sub CreateOTRSDBConnection {
     }
 
     # set default sid
-    if ( !defined $Param{OTRSDatabaseSID} ) {
-        $Param{OTRSDatabaseSID} = 'XE';
+    if ( !defined $Param{DBSID} ) {
+        $Param{DBSID} = 'XE';
     }
 
     # set default sid
-    if ( !defined $Param{OTRSDatabasePort} ) {
-        $Param{OTRSDatabasePort} = '1521';
+    if ( !defined $Param{DBPort} ) {
+        $Param{DBPort} = '1521';
     }
 
     # include DSN for target DB
     $Param{OTRSDatabaseDSN} =
-        "DBI:Oracle:sid=$Param{OTRSDatabaseSID};host=$Param{DBHost};port=$Param{OTRSDatabasePort};";
+        "DBI:Oracle:sid=$Param{DBSID};host=$Param{DBHost};port=$Param{DBPort};";
 
     # create target DB object
     my $OTRSDBObject = Kernel::System::DB->new(
@@ -106,8 +106,7 @@ sub CreateOTRSDBConnection {
 
 # List all columns of a table in the order of their position.
 sub ColumnsList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject Table)) {
@@ -231,8 +230,7 @@ sub ResetAutoIncrementField {
 
 # Get all binary columns and return a lookup hash with table and column name as keys.
 sub BlobColumnsList {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject DBName Table)) {

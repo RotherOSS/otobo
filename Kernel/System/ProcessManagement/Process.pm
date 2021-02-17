@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -666,8 +666,7 @@ sub ProcessTicketActivitySet {
     }
 
     # Get DynamicField Name that's used for storing the ActivityEntityID per ticket
-    my $DynamicFieldTicketActivityEntityID
-        = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementActivityID');
+    my $DynamicFieldTicketActivityEntityID = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementActivityID');
     if ( !$DynamicFieldTicketActivityEntityID ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -767,8 +766,7 @@ sub ProcessTicketProcessSet {
     }
 
     # Get DynamicField Name that's used for storing the ActivityEntityID per ticket
-    my $DynamicFieldTicketProcessID
-        = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementProcessID');
+    my $DynamicFieldTicketProcessID = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementProcessID');
 
     if ( !$DynamicFieldTicketProcessID ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(

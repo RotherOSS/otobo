@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -94,8 +94,7 @@ sub Run {
     }
 
     my $TicketStart = $Param{StartHit} ? $Param{StartHit} - 1 : 0;
-    my $TicketEnd
-        = $Param{PageShown}
+    my $TicketEnd   = $Param{PageShown}
         ? ( sort { $a <=> $b } ( $Param{PageShown} - 1 + $TicketStart, $#{ $Param{TicketIDs} } ) )[0]
         : $#{ $Param{TicketIDs} };
 
@@ -171,8 +170,7 @@ sub Run {
         my ( $Avatar, $UserInitials );
         if ( $ConfigObject->Get('Frontend::AvatarEngine') eq 'Gravatar' && $CustomerUser{UserEmail} ) {
             my $DefaultIcon = $ConfigObject->Get('Frontend::Gravatar::DefaultImage') || 'mm';
-            $Avatar
-                = '//www.gravatar.com/avatar/' . md5_hex( lc $CustomerUser{UserEmail} ) . '?s=100&d=' . $DefaultIcon;
+            $Avatar = '//www.gravatar.com/avatar/' . md5_hex( lc $CustomerUser{UserEmail} ) . '?s=100&d=' . $DefaultIcon;
         }
         else {
             $UserInitials = substr( $CustomerUser{UserFirstName}, 0, 1 ) . substr( $CustomerUser{UserLastName}, 0, 1 );

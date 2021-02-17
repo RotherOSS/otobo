@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -142,25 +142,18 @@ sub ProviderGenerateResponse {
 
         my $ErrorMessage = 'Test response generation failed';
 
-        if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+        # for OTOBO_RUNS_UNDER_PSGI
+        # a response with code 500
+        my $PlackResponse = Plack::Response->new(
+            500,
+            [],
+            $ErrorMessage,
+        );
 
-            # a response with code 500
-            my $PlackResponse = Plack::Response->new(
-                500,
-                [],
-                $ErrorMessage,
-            );
-
-            # The exception is caught be Plack::Middleware::HTTPExceptions
-            die Kernel::System::Web::Exception->new(
-                PlackResponse => $PlackResponse
-            );
-        }
-
-        return {
-            Success      => 0,
-            ErrorMessage => $ErrorMessage,
-        };
+        # The exception is caught be Plack::Middleware::HTTPExceptions
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => $PlackResponse
+        );
     }
 
     my $Response;
@@ -168,25 +161,18 @@ sub ProviderGenerateResponse {
     if ( !$Param{Success} ) {
         my $ErrorMessage = $Param{ErrorMessage} || 'Internal Server Error';
 
-        if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+        # for OTOBO_RUNS_UNDER_PSGI
+        # a response with code 500
+        my $PlackResponse = Plack::Response->new(
+            500,
+            [],
+            $ErrorMessage,
+        );
 
-            # a response with code 500
-            my $PlackResponse = Plack::Response->new(
-                500,
-                [],
-                $ErrorMessage,
-            );
-
-            # The exception is caught be Plack::Middleware::HTTPExceptions
-            die Kernel::System::Web::Exception->new(
-                PlackResponse => $PlackResponse
-            );
-        }
-
-        $Response = HTTP::Response->new( 500 => $ErrorMessage );
-        $Response->protocol('HTTP/1.0');
-        $Response->content_type("text/plain; charset=UTF-8");
-        $Response->date(time);
+        # The exception is caught be Plack::Middleware::HTTPExceptions
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => $PlackResponse
+        );
     }
     else {
 
@@ -278,7 +264,7 @@ sending them out to the network.
 
 =cut
 
-package Kernel::GenericInterface::Transport::HTTP::Test::CustomHTTPProtocol;    ## no critic
+package Kernel::GenericInterface::Transport::HTTP::Test::CustomHTTPProtocol;    ## no critic qw(Modules::ProhibitMultiplePackages)
 
 use parent qw(LWP::Protocol);
 
@@ -288,7 +274,7 @@ sub new {
     return $Class->SUPER::new(@_);
 }
 
-sub request {                                                                   ## no critic
+sub request {                                                                   ## no critic qw(Subroutines::RequireArgUnpacking)
     my $Self = shift;
 
     my ( $Request, $Proxy, $Arg, $Size, $Timeout ) = @_;

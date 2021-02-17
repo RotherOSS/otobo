@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -25,13 +25,13 @@ BEGIN {
 
     # switch to unload_package_xs, the PP version is broken in Perl 5.10.1.
     # see http://rt.perl.org/rt3//Public/Bug/Display.html?id=72866
-    $ModPerl::Util::DEFAULT_UNLOAD_METHOD = 'unload_package_xs';    ## no critic
+    $ModPerl::Util::DEFAULT_UNLOAD_METHOD = 'unload_package_xs';
 
     # set $0 to index.pl if it is not an existing file:
     # on Fedora, $0 is not a path which would break OTOBO.
     # see bug # 8533
     if ( !-e $0 || -d $0 ) {
-        $0 = '/opt/otobo/bin/cgi-bin/index.pl';    ## no critic
+        $0 = '/opt/otobo/bin/cgi-bin/index.pl';    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
     }
 }
 
@@ -46,8 +46,6 @@ use lib "/opt/otobo/Custom";
 use CGI ();
 CGI->compile(':cgi');
 use CGI::Carp ();
-
-use Apache::DBI ();
 
 # enable this if you use mysql
 #use DBD::mysql ();

@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -20,40 +20,21 @@ use warnings;
 use v5.24;
 use utf8;
 
-# use ../../ as lib location
-use FindBin qw($Bin);
-use lib "$Bin/../..";
-use lib "$Bin/../../Kernel/cpan-lib";
-use lib "$Bin/../../Custom";
-
 # core modules
+use File::Basename qw(dirname);
 
 # CPAN modules
+use Plack::Util qw();
 use Plack::Handler::CGI qw();
 
 # OTOBO modules
-use Kernel::GenericInterface::Provider;
-use Kernel::System::ObjectManager;
 
-# make sure that the managed objects will be recreated for the current request
-local $Kernel::OM = Kernel::System::ObjectManager->new(
-    'Kernel::System::Log' => {
-        LogPrefix => 'GenericInterfaceProvider',
-    },
-);
+#$ENV{PLACK_URLMAP_DEBUG} = 1; # enable when the URL mapping does not work
 
-# debug support is done via a Debugging Object
+# otobo.psgi looks primarily in $ENV{PATH_INFO}
+$ENV{PATH_INFO} = join '/', grep { defined $_ || $_ ne '' }  @ENV{ qw(SCRIPT_NAME PATH_INFO) };
+$ENV{SCRIPT_NAME} = '';
 
-# do the work and give the response to the webserver
-# TODO: this is broken as the Kernel::System::Web::Eceptions are not caught.
-my $Content = Kernel::GenericInterface::Provider->new(
-)->Content();
-
-# The OTOBO response object already has the HTPP headers.
-# Enhance it with the HTTP status code and the content.
-my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
-$ResponseObject->Code(200); # TODO: is it always 200 ?
-$ResponseObject->Content($Content);
-
-# Generate output suitable for CGI
-Plack::Handler::CGI->new()->run( $ResponseObject->to_app() );
+my $CgiBinDir = dirname( __FILE__ );
+state $App = Plack::Util::load_psgi("$CgiBinDir/../psgi-bin/otobo.psgi");
+Plack::Handler::CGI->new()->run($App);

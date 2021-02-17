@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,12 +16,18 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
+
+our $Self;
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
@@ -328,12 +334,10 @@ $Selenium->RunTest(
 
         sleep 1;
 
-        # TODO: remove limitation to firefox.
-        if ( $Selenium->{browser_name} eq 'firefox' ) {
-            $Self->True(
-                1,
-                "TODO: DragAndDrop is currently disabled in Firefox",
-            );
+        # There might be relevant browsers where DragAndDrop() is not working via Selenium.
+        my %BrowserIsExcluded = ();
+        if ( $BrowserIsExcluded{ $Selenium->{browser_name} } ) {
+            note( "TODO: DragAndDrop is currently disabled in $Selenium->{browser_name}" );
         }
         else {
 
@@ -357,7 +361,8 @@ $Selenium->RunTest(
                 },
             );
 
-            # Put TicketNumber at the end.
+            # Drag 'TicketNumber' from 'Visible Columns' to 'Available Columns'.
+            # With the passed offset, the entry TicketNumber ends up after 'Customer User Name'.
             $Selenium->DragAndDrop(
                 Element      => '#WidgetTicket #AssignedFields-linkobject-Ticket li[data-fieldname="TicketNumber"]',
                 Target       => '#AvailableField-linkobject-Ticket',
@@ -366,12 +371,15 @@ $Selenium->RunTest(
                     Y => 10,
                 },
             );
+
+            # Drag TicketNumber back from 'Available Columns' to 'Visible Columns'.
+            # Pass an offset from the top left of the list, so that 'TicketNumber' becomes the fifth list element.
             $Selenium->DragAndDrop(
                 Element      => '#WidgetTicket #AvailableField-linkobject-Ticket li[data-fieldname="TicketNumber"]',
                 Target       => '#AssignedFields-linkobject-Ticket',
                 TargetOffset => {
-                    X => 185,
-                    Y => 90,
+                    X => 100,
+                    Y => 30, # offset determined by trial and error
                 },
             );
 
@@ -385,18 +393,19 @@ $Selenium->RunTest(
             );
 
             # Check for "updated" visible columns in the Linked Ticket widget.
+            # Title, Age, Queue, Created, Ticket#, Linked As
             $Self->Is(
                 $Selenium->execute_script(
                     "return \$('#WidgetTicket .DataTable thead tr th:nth-child(1)').text();"
                 ),
-                ' Age ',
+                ' Title ',
                 'Updated 1st column name',
             );
             $Self->Is(
                 $Selenium->execute_script(
                     "return \$('#WidgetTicket .DataTable thead tr th:nth-child(2)').text();"
                 ),
-                ' Title ',
+                ' Age ',
                 'Updated 2nd column name',
             );
             $Self->Is(
@@ -404,7 +413,7 @@ $Selenium->RunTest(
                     "return \$('#WidgetTicket .DataTable thead tr th:nth-child(3)').text();"
                 ),
                 ' Queue ',
-                'Updated 3th column name',
+                'Updated 3rd column name',
             );
             $Self->Is(
                 $Selenium->execute_script(
@@ -413,6 +422,8 @@ $Selenium->RunTest(
                 ' Created ',
                 'Updated 4th column name',
             );
+
+            # Here comes the 'TicketNumber', which was dropped as the 5th element previously
             $Self->Is(
                 $Selenium->execute_script(
                     "return \$('#WidgetTicket .DataTable thead tr th:nth-child(5)').text();"
@@ -752,7 +763,4 @@ $Selenium->RunTest(
     }
 );
 
-
-$Self->DoneTesting();
-
-
+done_testing();

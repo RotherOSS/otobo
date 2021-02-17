@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -197,7 +197,7 @@ Retrieves a singleton object, and if it not yet exists, implicitly creates one f
 
 =cut
 
-sub Get {    ## no critic
+sub Get {    ## no critic qw(Subroutines::RequireArgUnpacking)
 
     # No param unpacking for increased performance
     if ( $_[1] && $_[0]->{Objects}->{ $_[1] } ) {
@@ -281,15 +281,15 @@ sub _ObjectBuild {
 
     my %ObjectManagerFlags;
     {
-        no strict 'refs';    ## no critic
-        no warnings 'once';
+        no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
+        no warnings 'once'; ## no critic (TestingAndDebugging::ProhibitNoWarnings)
 
         %ObjectManagerFlags = %{ $Package . '::ObjectManagerFlags' };
     }
 
     if ( $Package ne 'Kernel::Config' ) {
-        no strict 'refs';    ## no critic
-        no warnings 'once';
+        no strict 'refs'; ## no critic qw(TestingAndDebugging::ProhibitProlongedStrictureOverride TestingAndDebugging::ProhibitNoStrict)
+        no warnings 'once'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 
         if ( !exists ${ $Package . '::' }{ObjectDependencies} ) {
             $Self->_DieWithError( Error => "$Package does not declare its object dependencies!" );
@@ -508,9 +508,9 @@ sub ObjectsDiscard {
     }
 
     # During an OTOBO package upgrade the packagesetup code module has just
-    # recently been copied to it's location in the file system.
+    # recently been copied to its location in the file system.
     # In a persistent Perl environment an old version of the module might still be loaded,
-    # as watchdogs like Apache2::Reload haven't had a chance to reload it.
+    # as watchdogs like Module::Refresh haven't had a chance to reload it.
     # So we need to make sure that the new version is being loaded.
     # Kernel::System::Main::Require() checks the relative file path, so we need to remove that from %INC.
     # This is only needed in persistent Perl environment, but does no harm in a CGI environment.

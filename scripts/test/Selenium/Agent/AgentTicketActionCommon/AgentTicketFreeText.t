@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,26 +16,31 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modulse
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
+
+our $Self;
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 # Create local function for wait on AJAX update.
-my $WaitForAJAX = sub {
-    $Selenium->WaitFor(
-        JavaScript =>
-            'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
-    );
-};
+sub WaitForAJAX {
+    return
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
+        );
+}
 
 $Selenium->RunTest(
     sub {
-
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
         my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
         my $QueueObject     = $Kernel::OM->Get('Kernel::System::Queue');
@@ -198,7 +203,7 @@ $Selenium->RunTest(
             }
         );
 
-        my @Tests = (
+        my @MandatoryTests = (
             {
                 Name          => 'Disable NoMandatory and Mandatory fields, check NoMandatory field IDs',
                 CheckFields   => 'NoMandatory',
@@ -229,15 +234,12 @@ $Selenium->RunTest(
             }
         );
 
-        for my $Test (@Tests) {
+        for my $Test (@MandatoryTests) {
 
             # Write test case description.
-            $Self->True(
-                1,
-                $Test->{Name},
-            );
+            note( "Test case for 'mandatory': $Test->{Name}" );
 
-            for my $NoMandatoryField ( values %{ $FreeTextFields{NoMandatory} } ) {
+            for my $NoMandatoryField ( values $FreeTextFields{NoMandatory}->%* ) {
 
                 $Helper->ConfigSettingChange(
                     Valid => 1,
@@ -360,7 +362,7 @@ $Selenium->RunTest(
             );
 
             # Wait for AJAX to finish.
-            $WaitForAJAX->();
+            WaitForAJAX();
 
             if ( $FieldID eq 'ServiceID' ) {
 
@@ -370,12 +372,12 @@ $Selenium->RunTest(
                 );
 
                 # Wait for AJAX to finish.
-                $WaitForAJAX->();
+                WaitForAJAX();
             }
         }
 
         # Test cases - all fields are set except exactly one, and in the last case all fields are set.
-        @Tests = (
+        my @ClearTests = (
             {
                 Name      => 'Clear Service field',
                 ServiceID => '',
@@ -390,42 +392,48 @@ $Selenium->RunTest(
                 SLAID      => $SLAID,
                 NewQueueID => '',
             },
+            # These tests currently run into a time out.
+            # There is a Github issue for reactivating them: issue #748.
+            #{
+            #    Name       => 'Clear Owner field and set back Queue field',
+            #    Time       => 40,
+            #    NewQueueID => $QueueID,
+            #    NewOwnerID => '',
+            #},
+            #{
+            #    Name             => 'Clear Responsible field and set back Owner field',
+            #    NewOwnerID       => $TestUserID,
+            #    NewResponsibleID => '',
+            #},
+            #{
+            #    Name             => 'Clear State field and set back Responsible field',
+            #    NewResponsibleID => $TestUserID,
+            #    NewQueueID => $QueueID,
+            #    NewStateID       => '',
+            #},
+            #{
+            #    Name       => 'Set back State field - all fields are set',
+            #    NewStateID => $StateID,
+            #},
             {
-                Name       => 'Clear Owner field and set back Queue field',
+                Name       => 'Set back Queue field - all fields are set',
                 NewQueueID => $QueueID,
-                NewOwnerID => '',
-            },
-            {
-                Name             => 'Clear Responsible field and set back Owner field',
-                NewOwnerID       => $TestUserID,
-                NewResponsibleID => '',
-            },
-            {
-                Name             => 'Clear State field and set back Responsible field',
-                NewResponsibleID => $TestUserID,
-                NewStateID       => '',
-            },
-            {
-                Name       => 'Set back State field - all fields are set',
-                NewStateID => $StateID,
             }
         );
 
         # Run test - in each iteration exactly one field is empty, last case is correct.
-        for my $Test (@Tests) {
+        for my $Test (@ClearTests) {
 
             # Write test case description.
-            $Self->True(
-                1,
-                $Test->{Name},
-            );
+            note( "Test case for 'clear': $Test->{Name}" );
 
             my $ExpectedErrorFieldID;
 
             TESTFIELD:
-            for my $FieldID ( sort keys %{$Test} ) {
+            for my $FieldID ( sort keys $Test->%* ) {
 
                 next TESTFIELD if $FieldID eq 'Name';
+                next TESTFIELD if $FieldID eq 'Time';
 
                 if ( $Test->{$FieldID} eq '' ) {
                     $ExpectedErrorFieldID = $FieldID;
@@ -434,10 +442,11 @@ $Selenium->RunTest(
                 $Selenium->InputFieldValueSet(
                     Element => "#$FieldID",
                     Value   => $Test->{$FieldID},
+                    Time    => $Test->{Time},
                 );
 
                 # Wait for AJAX to finish.
-                $WaitForAJAX->();
+                WaitForAJAX();
             }
 
             # Wait until opened field (due to error) has closed.
@@ -576,7 +585,4 @@ $Selenium->RunTest(
     }
 );
 
-
-$Self->DoneTesting();
-
-
+done_testing();

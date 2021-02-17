@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # Copyright (C) 2012-2020 Znuny GmbH, http://znuny.com/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -2555,8 +2555,7 @@ This method will never mark the ticket as updated.
 =cut
 
 sub TicketEscalationIndexBuild {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
@@ -8165,7 +8164,7 @@ Collect attributes of (last) closing for given ticket.
 
 =cut
 
-sub _TicketGetClosed {    ## no critic
+sub _TicketGetClosed {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff

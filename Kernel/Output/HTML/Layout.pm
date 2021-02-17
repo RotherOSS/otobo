@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -652,33 +652,15 @@ sub Redirect {
         }
     }
 
-    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
-
-        # The exception is caught be Plack::Middleware::HTTPExceptions
-        die Kernel::System::Web::Exception->new(
-            PlackResponse => $RedirectResponse
-        );
-    }
-
-    # store the headers in the singleton, so that they can be retrieved by the CGI script
-    $Kernel::OM->Get( 'Kernel::System::Web::Response' )->Headers(
-        $RedirectResponse->headers()
+    # for OTOBO_RUNS_UNDER_PSGI
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $RedirectResponse
     );
-
-    # print to STDOUT in the non-PSGI case
-    # Output filters are also applied in Print()
-    # Kernel::System::Web::Response is used for getting the headers
-    my $Output = $RedirectResponse->content;
-    $Self->Print( Output => \$Output );
-
-    # Terminate the process under Apache/mod_perl.
-    # This might be just cargo cult.
-    exit;
 }
 
 sub Login {
-    my $Self  = shift;
-    my %Param = @_;
+    my ($Self, %Param) = @_;
 
     # set Action parameter for the loader
     $Self->{Action}     = 'Login';
@@ -968,32 +950,23 @@ sub FatalError {
         $Self->Error(%Param),
         $Self->Footer();
 
-    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+    # for OTOBO_RUNS_UNDER_PSGI
 
-        # Modify the output by applying the output filters.
-        $Self->ApplyOutputFilters( Output => \$Output );
+    # Modify the output by applying the output filters.
+    $Self->ApplyOutputFilters( Output => \$Output );
 
-        # The OTOBO response object already has the HTPP headers.
-        # Enhance it with the HTTP status code and the content.
-        my $PlackResponse = Plack::Response->new(
-            200,
-            $Kernel::OM->Get('Kernel::System::Web::Response')->Headers(),
-            $Output
-        );
+    # The OTOBO response object already has the HTPP headers.
+    # Enhance it with the HTTP status code and the content.
+    my $PlackResponse = Plack::Response->new(
+        200,
+        $Kernel::OM->Get('Kernel::System::Web::Response')->Headers(),
+        $Output
+    );
 
-        # The exception is caught be Plack::Middleware::HTTPExceptions
-        die Kernel::System::Web::Exception->new(
-            PlackResponse => $PlackResponse
-        );
-    }
-
-    # print to STDOUT in the non-PSGI case or when STDOUT is captured
-    # Output filters are also applied in Print()
-    $Self->Print( Output => \$Output );
-
-    # Terminate the process under Apache/mod_perl.
-    # Apparently there were some bad consequences from using the regular flow.
-    exit;
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $PlackResponse
+    );
 }
 
 sub SecureMode {
@@ -1275,8 +1248,7 @@ As a side effect HTTP headers are added to the Kernel::System::Web::Response obj
 =cut
 
 sub Header {
-    my $Self = shift;
-    my %Param = @_;
+    my ($Self, %Param) = @_;
 
     # extract params
     my $Type              = $Param{Type} || '';
@@ -1908,34 +1880,6 @@ sub ApplyOutputFilters {
             TemplateFile => $Param{TemplateFile} || '',
         );
     }
-
-    return 1;
-}
-
-sub Print {
-    my $Self  = shift;
-    my %Param = @_;
-
-    # the string referenced by $Param{Content} might be modified here
-    $Self->ApplyOutputFilters( %Param );
-
-    # There seems to be a bug in FastCGI that it cannot handle unicode output properly.
-    #   Work around this by converting to an utf8 byte stream instead.
-    #   See also http://bugs.otrs.org/show_bug.cgi?id=6284 and
-    #   http://bugs.otrs.org/show_bug.cgi?id=9802.
-    if ( $INC{'CGI/Fast.pm'} || $ENV{FCGI_ROLE} || $ENV{FCGI_SOCKET_PATH} ) {    # are we on FCGI?
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( $Param{Output} );
-        binmode STDOUT, ':bytes';
-    }
-
-    # Disable perl warnings in case of printing unicode private chars,
-    #   see https://rt.perl.org/Public/Bug/Display.html?id=121226.
-    no warnings 'nonchar';    ## no critic
-
-    print
-        $Kernel::OM->Get( 'Kernel::System::Web::Response' )->Headers()->as_string(),
-        "\n",
-        $Param{Output}->$*;
 
     return 1;
 }
@@ -4030,8 +3974,7 @@ sub HumanReadableDataSize {
 }
 
 sub CustomerLogin {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     $Param{TitleArea}      = $Self->{LanguageObject}->Translate('Login') . ' - ';
     $Param{IsLoginPage}    = 1;
@@ -4269,8 +4212,7 @@ sub CustomerLogin {
 }
 
 sub CustomerHeader {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Type = $Param{Type} || '';
 
@@ -4547,32 +4489,23 @@ sub CustomerFatalError {
         $Self->CustomerError(%Param),
         $Self->CustomerFooter();
 
-    if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+    # for OTOBO_RUNS_UNDER_PSGI
 
-        # Modify the output by applying the output filters.
-        $Self->ApplyOutputFilters( Output => \$Output );
+    # Modify the output by applying the output filters.
+    $Self->ApplyOutputFilters( Output => \$Output );
 
-        # The OTOBO response object already has the HTPP headers.
-        # Enhance it with the HTTP status code and the content.
-        my $PlackResponse = Plack::Response->new(
-            200,
-            $Kernel::OM->Get('Kernel::System::Web::Response')->Headers(),
-            $Output
-        );
+    # The OTOBO response object already has the HTPP headers.
+    # Enhance it with the HTTP status code and the content.
+    my $PlackResponse = Plack::Response->new(
+        200,
+        $Kernel::OM->Get('Kernel::System::Web::Response')->Headers(),
+        $Output
+    );
 
-        # The exception is caught be Plack::Middleware::HTTPExceptions
-        die Kernel::System::Web::Exception->new(
-            PlackResponse => $PlackResponse
-        );
-    }
-
-    # print to STDOUT in the non-PSGI case or when STDOUT is captured
-    # Output filters are also applied in Print()
-    $Self->Print( Output => \$Output );
-
-    # Terminate the process under Apache/mod_perl.
-    # Apparently there were some bad consequences from using the regular flow.
-    exit;
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $PlackResponse
+    );
 }
 
 sub CustomerNavigationBar {

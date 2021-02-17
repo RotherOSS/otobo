@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -71,7 +71,7 @@ sub Run {
     );
 
     # get email from SDTIN
-    my @Email = <STDIN>;    ## no critic
+    my @Email = <STDIN>;    ## no critic qw(InputOutput::ProhibitExplicitStdin)
 
     if ( !@Email ) {
 
@@ -136,7 +136,7 @@ sub Run {
                 ObjectLogType => 'Message',
                 Priority      => 'Error',
                 Key           => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
-                Value => 'PostMaster module exited with errors, could not process email. Please refer to the log!',
+                Value         => 'PostMaster module exited with errors, could not process email. Please refer to the log!',
             );
             $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
 

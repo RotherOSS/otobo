@@ -3,7 +3,7 @@
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2012-2020 Znuny GmbH, http://znuny.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -869,8 +869,7 @@ sub _DefaultColumnsDisable {
             for my $ExistingSettingKey ( sort keys %{ $ExistingSetting{DefaultColumns} } ) {
 
                 next SETTING if $ScreenConfig{$View}->{$ExistingSettingKey};
-                $NewDynamicFieldConfig{DefaultColumns}->{$ExistingSettingKey}
-                    = $ExistingSetting{DefaultColumns}->{$ExistingSettingKey};
+                $NewDynamicFieldConfig{DefaultColumns}->{$ExistingSettingKey} = $ExistingSetting{DefaultColumns}->{$ExistingSettingKey};
             }
         }
         else {
@@ -1631,8 +1630,7 @@ sub _DynamicFieldsCreate {
     }
 
     # performance improvement for the FieldOrderAfterField functionality
-    my $FieldOrderAfterFieldActive
-        = grep { $_->{FieldOrderAfterField} || $_->{FieldOrderAfterFieldUpdate} } @DynamicFields;
+    my $FieldOrderAfterFieldActive = grep { $_->{FieldOrderAfterField} || $_->{FieldOrderAfterFieldUpdate} } @DynamicFields;
 
     # create or update dynamic fields
     DYNAMICFIELD:
@@ -2016,8 +2014,7 @@ sub _DynamicFieldsScreenConfigExport {
             next DYNAMICFIELDSCREEN
                 if !IsStringWithData( $DynamicFieldScreenConfig{$DynamicFieldScreen}->{$DynamicField} );
 
-            $Config{$DynamicField}->{$DynamicFieldScreen}
-                = $DynamicFieldScreenConfig{$DynamicFieldScreen}->{$DynamicField};
+            $Config{$DynamicField}->{$DynamicFieldScreen} = $DynamicFieldScreenConfig{$DynamicFieldScreen}->{$DynamicField};
         }
 
         DEFAULTCOLUMNSCREEN:
@@ -2029,8 +2026,7 @@ sub _DynamicFieldsScreenConfigExport {
             next DEFAULTCOLUMNSCREEN
                 if !IsStringWithData( $DefaultColumnsScreenConfig{$DefaultColumnsScreen}->{$DynamicField} );
 
-            $Config{$DynamicField}->{$DefaultColumnsScreen}
-                = $DefaultColumnsScreenConfig{$DefaultColumnsScreen}->{$DynamicField};
+            $Config{$DynamicField}->{$DefaultColumnsScreen} = $DefaultColumnsScreenConfig{$DefaultColumnsScreen}->{$DynamicField};
         }
     }
 
@@ -2097,14 +2093,12 @@ sub _DynamicFieldsScreenConfigImport {
 
         DYNAMICFIELDSCREEN:
         for my $DynamicFieldScreen ( @{ $ValidDynamicFieldScreenList->{DynamicFieldScreens} } ) {
-            $ScreenConfig{$DynamicFieldScreen}->{$DynamicField}
-                = $Param{Config}->{$DynamicField}->{$DynamicFieldScreen};
+            $ScreenConfig{$DynamicFieldScreen}->{$DynamicField} = $Param{Config}->{$DynamicField}->{$DynamicFieldScreen};
         }
 
         DEFAULTCOLUMNSCREEN:
         for my $DefaultColumnsScreen ( @{ $ValidDynamicFieldScreenList->{DefaultColumnsScreens} } ) {
-            $ColumnScreenConfig{$DefaultColumnsScreen}->{"DynamicField_$DynamicField"}
-                = $Param{Config}->{$DynamicField}->{$DefaultColumnsScreen};
+            $ColumnScreenConfig{$DefaultColumnsScreen}->{"DynamicField_$DynamicField"} = $Param{Config}->{$DynamicField}->{$DefaultColumnsScreen};
         }
     }
 
@@ -3313,7 +3307,7 @@ sub _ITSMConfigItemDefinitionCreate {
         )
     {
         # Turn Perl config item file into Perl structure.
-        $Content = eval $Content;    ## no critic
+        $Content = eval $Content;    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
         return if !defined $Content;
 
         # Turn Perl structure into YAML.

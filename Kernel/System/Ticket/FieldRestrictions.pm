@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -183,6 +183,7 @@ sub GetFieldStates {
     }
 
     if ($VisCheck) {
+
         # call ticket ACLs for DynamicFields to check field visibility
         my $ACLResult = $Param{TicketObject}->TicketAcl(
             %{ $Param{GetParam} },
@@ -243,8 +244,7 @@ sub GetFieldStates {
             if ($NotEmpty) {
 
                 # delete entry and remember change
-                $NewValues{"DynamicField_$DynamicFieldConfig->{Name}"}
-                    = ref( $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} ) ? [] : '';
+                $NewValues{"DynamicField_$DynamicFieldConfig->{Name}"} = ref( $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} ) ? [] : '';
 
                 # fields have to be added to correctly remove all content
                 if ( !$IsACLReducible ) {
@@ -322,7 +322,7 @@ sub GetFieldStates {
 
                 # ...autoselect is turned on for the changed field (refill a field emptied by hand)
                 elsif (
-                       $Param{Autoselect}
+                    $Param{Autoselect}
                     && $Param{Autoselect}{DynamicField}{ $DynamicFieldConfig->{Name} }
                     &&
                     $Param{ChangedElements}{"DynamicField_$DynamicFieldConfig->{Name}"}
@@ -337,8 +337,10 @@ sub GetFieldStates {
                     for my $Element ( sort keys %{ $Param{ChangedElements} } ) {
 
                         # ...the changed element affects the current field
-                        if ( $Param{ACLPreselection}{Rules}{Ticket}{$Element}
-                            { 'DynamicField_' . $DynamicFieldConfig->{Name} } )
+                        if (
+                            $Param{ACLPreselection}{Rules}{Ticket}{$Element}
+                            { 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                            )
                         {
                             $CheckACLs = 1;
                             last ELEMENT;
@@ -398,7 +400,7 @@ sub GetFieldStates {
             defined $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"}
             &&
             (
-                   $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"}
+                $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"}
                 || $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} eq '0'
             )
             )
@@ -411,8 +413,7 @@ sub GetFieldStates {
 
                     # if a selected value is not possible anymore
                     if ( !defined $PossibleValues->{$Selected} ) {
-                        $NewValues{"DynamicField_$DynamicFieldConfig->{Name}"}
-                            = grep { defined $PossibleValues->{$Selected} }
+                        $NewValues{"DynamicField_$DynamicFieldConfig->{Name}"} = grep { defined $PossibleValues->{$Selected} }
                             @{ $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} };
                         last SELECTED;
                     }
@@ -428,8 +429,8 @@ sub GetFieldStates {
         }
 
         # check if autoselection is activated and field changed in any way
-        my $DoAutoselect
-            = ( !$Param{Autoselect} || !$Param{Autoselect}{DynamicField}{ $DynamicFieldConfig->{Name} } ) ? 0
+        my $DoAutoselect = ( !$Param{Autoselect} || !$Param{Autoselect}{DynamicField}{ $DynamicFieldConfig->{Name} } )
+            ? 0
             :
             ( %Visibility && $Visibility{"DynamicField_$DynamicFieldConfig->{Name}"} ) ? 1 : 0;
 
@@ -459,7 +460,7 @@ sub GetFieldStates {
         );
     }
 
-# if additional elements are changed by the routine, recursively call GetFieldStates, until all dependencies are worked through
+    # if additional elements are changed by the routine, recursively call GetFieldStates, until all dependencies are worked through
     if (%NewValues) {
 
         my %Recu = $Self->GetFieldStates(
@@ -520,22 +521,24 @@ sub Autoselect {
     my ( $Self, %Param ) = @_;
 
     # return, if already filled ( '0' is valid! )
-    if ( defined $Param{Current}
-        && ( ( !ref( $Param{Current} ) && $Param{Current} !~ /^-?$/ ) || IsArrayRefWithData( $Param{Current} ) ) )
+    if (
+        defined $Param{Current}
+        && ( ( !ref( $Param{Current} ) && $Param{Current} !~ /^-?$/ ) || IsArrayRefWithData( $Param{Current} ) )
+        )
     {
-        return undef;    ## no critic
+        return undef;    ## no critic qw(Subroutines::ProhibitExplicitReturnUndef)
     }
 
     # check possible values
     if ( !$Param{PossibleValues} ) {
-        return undef;    ## no critic
+        return undef;    ## no critic qw(Subroutines::ProhibitExplicitReturnUndef)
     }
     if ( ref( $Param{PossibleValues} ) ne 'HASH' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "PossibleValues has to be a Hash ref!"
         );
-        return undef;    ## no critic
+        return undef;    ## no critic qw(Subroutines::ProhibitExplicitReturnUndef)
     }
 
     my ( $ValidKeys, $UsedKey );
@@ -544,13 +547,13 @@ sub Autoselect {
         # exclude empty values; '-' for backwards compatibility
         if ( $Key !~ /^-?$/ ) {
             if ( ++$ValidKeys > 1 ) {
-                return undef;    ## no critic
+                return undef;    ## no critic qw(Subroutines::ProhibitExplicitReturnUndef)
             }
             $UsedKey = $Key;
         }
     }
     if ( !$ValidKeys ) {
-        return undef;            ## no critic
+        return undef;            ## no critic qw(Subroutines::ProhibitExplicitReturnUndef)
     }    # else $ValidKeys == 1 => autoselect
 
     # fill the field if and add it to the changed elements

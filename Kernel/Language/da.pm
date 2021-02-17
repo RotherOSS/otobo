@@ -4,7 +4,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # Copyright (C) 2010 Lars Jørgensen <lajo[at]kb.dk>
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -33,7 +33,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.364803379915502;
+    $Self->{Completeness}        = 0.378509982145756;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -81,11 +81,11 @@ sub Data {
         'Delete Invalid ACL' => 'Slet ugyldig ACL',
         'Match settings' => 'Match indstilliger',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
-            '',
+            'Opsæt filterregler for denne ACL. Brug egenskaber til at matche det aktuelle skærmbillede, eller \'PropertiesDatabase\' for de værdier der er gemt i databsen for den aktuelle sag.',
         'Change settings' => 'Skift indstillinger',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Indstil hvad du vil ændre hvis kriterierne passer. Husk på at \'Possible\' er en hvidlistning og \'PossibleNot\' er en sortlistning',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => 'Check den officielle %sdocumentation%s.',
         'Show or hide the content' => 'Vis eller skjul indhold',
         'Edit ACL Information' => 'Rediger ACL information',
         'Name' => 'Navn',
@@ -100,7 +100,7 @@ sub Data {
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
-            '',
+            'Opret en ny ACL ved at sende formularens data. Efter oprettelsen af ACL, kan du tilføje konfigurations parametre i redigerings mode.',
 
         # Template: AdminAppointmentCalendarManage
         'Calendar Management' => 'Kalender administration',
@@ -115,17 +115,17 @@ sub Data {
         'Overwrite existing entities' => 'Overskriv eksisterende enheder',
         'Upload calendar configuration' => 'Upload kalenderkonfiguration',
         'Import Calendar' => 'Importer kalender',
-        'Filter for Calendars' => '',
+        'Filter for Calendars' => 'Filter for kalender',
         'Filter for calendars' => 'Filter for kalendre',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
-            '',
+            'Afhængigt af gruppe feltet, vil systemet tillade adgang til kalenderen bestemt af deres autorisations niveau.',
         'Read only: users can see and export all appointments in the calendar.' =>
-            '',
+            'Kun læsning: Brugere kan se og eksportere alle aftaler i kalenderen.',
         'Move into: users can modify appointments in the calendar, but without changing the calendar selection.' =>
-            '',
+            'Flyt ind i: Brugere kan ændre aftaler i en kalender, men ikke i andre kalendere.',
         'Create: users can create and delete appointments in the calendar.' =>
-            '',
-        'Read/write: users can manage the calendar itself.' => '',
+            'Oprette: Bruger kan oprette og slette aftaler i kalender.',
+        'Read/write: users can manage the calendar itself.' => 'Læse/skrive: Brugere kan administrere kalenderen.',
         'Group' => 'Gruppe',
         'Changed' => 'ændret',
         'Created' => 'Oprettet',
@@ -139,46 +139,46 @@ sub Data {
         'Calendar with same name already exists.' => 'Der findes allerede en kalender med samme navn.',
         'Color' => 'Farve',
         'Permission group' => 'Tilladelsesgruppe',
-        'Ticket Appointments' => '',
+        'Ticket Appointments' => 'Sags aftaler',
         'Rule' => 'Regel',
         'Remove this entry' => 'Fjern denne parameter',
         'Remove' => 'Fjern',
         'Start date' => 'Start dato',
         'End date' => 'Slutdato',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
-            '',
+            'Brug valgmulighederne herunder, til at afgrænse hvilke sags aftaler der skal oprettes automatisk.',
         'Queues' => 'Køer',
         'Please select a valid queue.' => 'Vælg en gyldig kø.',
         'Search attributes' => 'Søgeattributter',
         'Add entry' => 'Tilføj parameter',
         'Add' => 'Tilføj',
         'Define rules for creating automatic appointments in this calendar based on ticket data.' =>
-            '',
+            'Definer regler for at oprette automatiske aftaler i kalenderen, baseret på sags data.',
         'Add Rule' => 'Tilføj Regel',
         'Submit' => 'Send',
 
         # Template: AdminAppointmentImport
         'Appointment Import' => 'Importer Aftale',
         'Go back' => 'Tilbage',
-        'Uploaded file must be in valid iCal format (.ics).' => '',
+        'Uploaded file must be in valid iCal format (.ics).' => 'Den uploadede fil skal være i et validt iCal format (.ics).',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
-            '',
+            'Hvis den ønskede kalender ikke er listet her, så check at du som minimum har rettigheder til at oprette en kalender.',
         'Upload' => 'Upload',
         'Update existing appointments?' => 'Opdater eksisterende aftaler?',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
-            '',
+            'Alle eksisterende aftaler med det samme UniqueID vil blive overskrevet.',
         'Upload calendar' => 'Upload kalender',
         'Import appointments' => 'Importer aftaler',
 
         # Template: AdminAppointmentNotificationEvent
-        'Appointment Notification Management' => '',
+        'Appointment Notification Management' => 'Administration af aftale notifikationer',
         'Add Notification' => 'Tilføj besked',
         'Edit Notification' => 'Rediger besked',
         'Export Notifications' => 'Eksporter beskeder',
         'Filter for Notifications' => 'Filter for Meddelelser',
         'Filter for notifications' => 'Filter for meddelelser',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
-            '',
+            'Her kan du uploade en konfigurationsfil til import af kalender til dit system. Filen skal være i samme .yml format som kalendermodulet eksporter.',
         'Overwrite existing notifications?' => 'Overskriv eksisterende beskeder?',
         'Upload Notification configuration' => 'Upload besked-konfiguration',
         'Import Notification configuration' => 'Importer besked-konfiguration',
@@ -188,12 +188,12 @@ sub Data {
         'Show in agent preferences' => 'Vis i agent præferencer',
         'Agent preferences tooltip' => 'Agent præference værktøjstip',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
-            '',
+            'Denne besked vil blive vist på agent præference skærmen, som tooltip for denne notifikation.',
         'Toggle this widget' => 'Slå denne widget til eller fra',
         'Events' => 'Hændelser',
         'Event' => 'Hændelse',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
-            '',
+            'Her kan du vælge hvilke begivenheder der vil udløse denne notifikation. Et yderligere aftalefilter kan tilføjes herunder, så der kun sendes notifikationer der opfylder bestemte kriterier.',
         'Appointment Filter' => 'Aftalefilter',
         'Type' => 'Type',
         'Title' => 'Titel',
@@ -203,25 +203,25 @@ sub Data {
         'Recipients' => 'Modtagere',
         'Send to' => 'Send til',
         'Send to these agents' => 'Send til disse agenter',
-        'Send to all group members (agents only)' => '',
+        'Send to all group members (agents only)' => 'Send til alle medlemmer af gruppen (kun agenter)',
         'Send to all role members' => 'Send til alle rollemedlemmer',
         'Send on out of office' => 'Send ved ude af kontoret',
         'Also send if the user is currently out of office.' => 'Send også hvis brugeren er ude af kontoret.',
         'Once per day' => 'Dagligt',
         'Notify user just once per day about a single appointment using a selected transport.' =>
-            '',
+            'Send kun notifikation til brugeren en gang om dagen per aftale, med den valgte transportmetode.',
         'Notification Methods' => 'Beskedafgivelsesmetoder',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
-            '',
+            'Dette er alle de mulige metoder der kan anvendes til at sende notifikationer til modtagerne. Vælg venligst mindst en af metoderne.',
         'Enable this notification method' => 'Aktiver denne beskedafgivelsesmetode',
         'Transport' => 'Transport',
         'At least one method is needed per notification.' => 'Mindst en metode er krævet pr. besked',
-        'Active by default in agent preferences' => '',
+        'Active by default in agent preferences' => 'Aktiv som standard i agent indstillingerne',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
-            '',
+            'Dette er standard valget for tildelte modtager-agenter, der ikke har valgt en mulighed for denne notifikation i deres indstillinger. Hvis dette felt er valgt, vil notifikationen blive sendt til disse agenter.',
         'This feature is currently not available.' => 'Denne funktionalitet er i øjeblikket ikke tilgængelig.',
         'Upgrade to %s' => 'Opgrader til %s',
-        'Please activate this transport in order to use it.' => '',
+        'Please activate this transport in order to use it.' => 'For at bruge denne transport, skal denne først aktiveres.',
         'No data found' => 'Ingen data fundet',
         'No notification method found.' => 'Ingen beskedafgivelsesmetode fundet.',
         'Notification Text' => 'Beskedtekst',
@@ -230,40 +230,40 @@ sub Data {
         'Remove Notification Language' => 'Fjern beskedsprog',
         'Subject' => 'Emne',
         'Text' => 'Tekst',
-        'Message body' => '',
+        'Message body' => 'Beskeds indhold',
         'Add new notification language' => 'Tilføj beskedsprog',
         'Save Changes' => 'Gem ændringer',
-        'Tag Reference' => '',
+        'Tag Reference' => 'Tag-Reference',
         'Notifications are sent to an agent.' => 'Meddelelser sendt til agent.',
         'You can use the following tags' => 'Du kan bruge følgende tags',
-        'To get the first 20 character of the appointment title.' => '',
-        'To get the appointment attribute' => '',
+        'To get the first 20 character of the appointment title.' => 'De første 20 karakterer af aftale titlen.',
+        'To get the appointment attribute' => 'Aftale-Attribut',
         ' e. g.' => 'f.eks.',
-        'To get the calendar attribute' => '',
-        'Attributes of the recipient user for the notification' => '',
+        'To get the calendar attribute' => 'Kalender-Attribut',
+        'Attributes of the recipient user for the notification' => 'Brugerdata attributter for modtageren der får notifikationen',
         'Config options' => 'Konfigrationsvalgmuligheder',
         'Example notification' => 'Eksempel på besked',
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Yderligere modtageres email adresser',
-        'This field must have less then 200 characters.' => '',
+        'This field must have less then 200 characters.' => 'Dette felt må maksimum være 200 karakterer.',
         'Article visible for customer' => 'Indlæg synligt for kunde',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             '',
         'Email template' => 'Email skabelon',
         'Use this template to generate the complete email (only for HTML emails).' =>
-            '',
+            'Anvend denne skabelon til at generere den komplette email (kun for HTML-emails).',
         'Enable email security' => 'Aktiver sikker email',
-        'Email security level' => '',
-        'If signing key/certificate is missing' => '',
-        'If encryption key/certificate is missing' => '',
+        'Email security level' => 'Email sikkerhedsniveau',
+        'If signing key/certificate is missing' => 'Hvis nøgle/certifikat mangler til signering',
+        'If encryption key/certificate is missing' => 'Hvis nøgle/certifikat mangler til kryptering',
 
         # Template: AdminAttachment
         'Attachment Management' => 'Styring af vedhæftede filer',
         'Add Attachment' => 'Tilføj vedhæftet fil',
         'Edit Attachment' => 'Rediger vedhæftet fil',
         'Filter for Attachments' => 'Filter for vedhæftede filer',
-        'Filter for attachments' => '',
+        'Filter for attachments' => 'Filter for vedhæftninger',
         'Filename' => 'Filnavn',
         'Download file' => 'Download fil',
         'Delete this attachment' => 'Slet denne vedhæftede fil',
@@ -275,13 +275,13 @@ sub Data {
         'Add Auto Response' => 'Tilføj autosvar',
         'Edit Auto Response' => 'Rediger autosvar',
         'Filter for Auto Responses' => 'Filtrer autosvar',
-        'Filter for auto responses' => '',
+        'Filter for auto responses' => 'Filter for automatiske svar',
         'Response' => 'Svar',
         'Auto response from' => 'Autosvar fra',
         'Reference' => 'Reference',
         'To get the first 20 character of the subject.' => 'For at få de første 20 tegn af emnet.',
         'To get the first 5 lines of the email.' => 'For at få de første 5 linjer af mailen.',
-        'To get the name of the ticket\'s customer user (if given).' => '',
+        'To get the name of the ticket\'s customer user (if given).' => 'Navnet på sagens kundebruger (hvis den eksisterer).',
         'To get the article attribute' => 'For at få indlægges attributter',
         'Options of the current customer user data' => 'Valgmuligheder for den nuværende kundebruger',
         'Ticket owner options' => 'Valgmuligheder for sagens ejer',
@@ -300,22 +300,22 @@ sub Data {
         'Hint' => 'Tip',
         'Currently support data is only shown in this system.' => 'I øjeblikket vises support-data kun i dette system.',
         'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
-            '',
+            'Det er en gang imellem anbefalesværdigt at sende disse data til OTOBO-teamet, for at få bedre support.',
         'Configuration' => 'Konfiguration',
         'Send support data' => 'Send support-data',
         'This will allow the system to send additional support data information to the OTOBO team.' =>
-            '',
+            'Denne indstillinger tillader systemet at sende yderligere supportdata til OTOBO-teamet.',
         'Update' => 'Opdater',
         'System Registration' => 'System-registrering',
         'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '',
+            'For at aktivere afsendelse af data, skal systemet registreres hos OTOBO-teamet. Eller du kan opdatere system registrerings informationen (aktiver indstillingen \'send support data\'.)',
         'Register this System' => 'Registrer dette system',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'System registrering er deaktiveret for dit system, kontroller din konfiguration.',
 
         # Template: AdminCloudServices
         'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
-            '',
+            'System registrering er en service fra OTOBO-teamet, som giver dig mange fordele!',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             'Bemærk: for at benytte OTOBO sky-tjenester skal systemet være registreret.',
         'Register this system' => 'Registrer dette system',
@@ -324,56 +324,56 @@ sub Data {
         'Available Cloud Services' => 'Tilgængelige sky-tjenester',
 
         # Template: AdminCommunicationLog
-        'Communication Log' => '',
-        'Time Range' => '',
+        'Communication Log' => 'Kommunikations log',
+        'Time Range' => 'Tidsinterval',
         'Show only communication logs created in specific time range.' =>
-            '',
-        'Filter for Communications' => '',
-        'Filter for communications' => '',
+            'Vis kun kommunikations logs, oprettet i et specifikt tidsinterval.',
+        'Filter for Communications' => 'Filter for kommunikationer',
+        'Filter for communications' => 'Filter for kommunikationer',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
-            '',
+            'På dette skærmbillede, kan du se en oversigt over ind- og ud-gående kommunikationer.',
         'You can change the sort and order of the columns by clicking on the column header.' =>
-            '',
+            'Du kan ændre rækkefølgen og rækkefølgen af kolonnerne, ved at klikke på kolonne overskriften.',
         'If you click on the different entries, you will get redirected to a detailed screen about the message.' =>
-            '',
+            'Hvis du klikker på en indgang, vises en detaljeret beskrivelse af denne.',
         'Status for: %s' => 'Status for: %s',
-        'Failing accounts' => '',
-        'Some account problems' => '',
-        'No account problems' => '',
-        'No account activity' => '',
-        'Number of accounts with problems: %s' => '',
-        'Number of accounts with warnings: %s' => '',
-        'Failing communications' => '',
-        'No communication problems' => '',
-        'No communication logs' => '',
-        'Number of reported problems: %s' => '',
-        'Open communications' => '',
-        'No active communications' => '',
-        'Number of open communications: %s' => '',
-        'Average processing time' => '',
-        'List of communications (%s)' => '',
+        'Failing accounts' => 'Fejlende konti',
+        'Some account problems' => 'Enkelte kontoproblemer',
+        'No account problems' => 'Ingen kontoproblemer',
+        'No account activity' => 'Ingen konto aktivitet',
+        'Number of accounts with problems: %s' => 'Antal konti med problemer: %s',
+        'Number of accounts with warnings: %s' => 'Antal konti med advarsler: %s',
+        'Failing communications' => 'Kommunikation fejlet',
+        'No communication problems' => 'Ingen kommunikationsproblemer',
+        'No communication logs' => 'Inegn kommunikations logs',
+        'Number of reported problems: %s' => 'Antal rapporterede problemer: %s',
+        'Open communications' => 'Åbne forbindelser',
+        'No active communications' => 'Ingen aktive forbindelser',
+        'Number of open communications: %s' => 'Antal åbne forbindelser: %s',
+        'Average processing time' => 'Gennemsnitlig proces tid',
+        'List of communications (%s)' => 'Kommunikationsliste (%s)',
         'Settings' => 'Indstillinger',
-        'Entries per page' => '',
-        'No communications found.' => '',
+        'Entries per page' => 'Antal indgange per side',
+        'No communications found.' => 'Ingen forbindelser fundet.',
         '%s s' => '%s s',
 
         # Template: AdminCommunicationLogAccounts
-        'Account Status' => '',
+        'Account Status' => 'Kontostatus',
         'Back to overview' => '',
-        'Filter for Accounts' => '',
-        'Filter for accounts' => '',
+        'Filter for Accounts' => 'Filtrer konti',
+        'Filter for accounts' => 'Filtrer konti',
         'You can change the sort and order of those columns by clicking on the column header.' =>
-            '',
-        'Account status for: %s' => '',
+            'Du kan ændre rækkefølgen og rækkefølgen af kolonnerne, ved at klikke på kolonne overskriften.',
+        'Account status for: %s' => 'Kontostatus for: %s',
         'Status' => 'Status',
         'Account' => 'Konto',
         'Edit' => 'Rediger',
         'No accounts found.' => 'Ingen konti fundet.',
-        'Communication Log Details (%s)' => '',
+        'Communication Log Details (%s)' => 'Kommunikations log detaljer (%s)',
         'Direction' => 'Retning',
         'Start Time' => 'Starttid',
         'End Time' => 'Sluttid',
-        'No communication log entries found.' => '',
+        'No communication log entries found.' => 'Ingen kommunikations log indgange fundet.',
 
         # Template: AdminCommunicationLogCommunications
         'Duration' => 'Varighed',
@@ -383,23 +383,23 @@ sub Data {
         'Priority' => 'Prioritet',
         'Module' => 'Modul',
         'Information' => 'Information',
-        'No log entries found.' => '',
+        'No log entries found.' => 'Ingen log indgange fundet.',
 
         # Template: AdminCommunicationLogZoom
-        'Detail view for %s communication started at %s' => '',
-        'Filter for Log Entries' => '',
-        'Filter for log entries' => '',
-        'Show only entries with specific priority and higher:' => '',
-        'Communication Log Overview (%s)' => '',
-        'No communication objects found.' => '',
-        'Communication Log Details' => '',
-        'Please select an entry from the list.' => '',
+        'Detail view for %s communication started at %s' => 'Detaljeret oversigt for %s forbindelse startet ved %s',
+        'Filter for Log Entries' => 'Filtrer log indgange',
+        'Filter for log entries' => 'Filtrer log indgange',
+        'Show only entries with specific priority and higher:' => 'Vis kun indgange med specifik prioritet eller højere:',
+        'Communication Log Overview (%s)' => 'Kommunikations log oversigt (%s)',
+        'No communication objects found.' => 'Ingen kommunikationsobjekter fundet.',
+        'Communication Log Details' => 'Kommunikations log detaljer',
+        'Please select an entry from the list.' => 'Vælg venligst en indgang fra listen.',
 
         # Template: AdminContactWD
-        'Contact with data management' => '',
-        'Contact with data' => '',
-        'Add contact with data' => '',
-        'Edit contact with data' => '',
+        'Contact with data management' => 'Kontaktdata',
+        'Contact with data' => 'Kontaktdata',
+        'Add contact with data' => 'Tilføj kontaktdata',
+        'Edit contact with data' => 'Rediger kontaktdata',
         'Back to search results' => 'Tilbage til søgeresultater',
         'Select' => 'Vælg',
         'Search' => 'Søg',
@@ -3258,7 +3258,10 @@ sub Data {
         ' Continue anyways :(' => '',
 
         # Template: OTRSDBSettings
-        'Database is a throwawy copy' => '',
+        'Skip DB migration' => '',
+        'Expert option! Only works if the migration has already been done by hand.' =>
+            '',
+        'Skipped.' => '',
 
         # Template: OTRSFileSettings
         'OTRS server' => '',
@@ -5070,8 +5073,9 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
         'Check if OTOBO version is correct.' => '',
-        'Need %s for Oracle db!' => '',
         'Copy database.' => '',
+        'Skipped...' => '',
+        'Need %s for Oracle db!' => '',
         'System was unable to connect to OTRS database.' => '',
         'System was unable to complete data transfer.' => '',
         'Data transfer completed.' => '',
@@ -5103,11 +5107,7 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
         'Migrate web service configuration.' => '',
-        'No web service existent, done.' => '',
-        'Can\'t add web service for Elasticsearch. File %s not found!' =>
-            '',
-        'Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed.' =>
-            '',
+        'Failed - see the log!' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
         'Migrate database table notification.' => '',
@@ -5131,6 +5131,11 @@ sub Data {
         'Please install (or uninstall) the packages before migration. If a package doesn\'t exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.org. We will find a solution.' =>
             '',
         'The same packages are installed on both systems, perfect!' => '',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+        'Package specific tasks' => '',
+        'Done -' => '',
+        'Failed at -' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
         'Check if all needed Perl modules have been installed.' => '',
@@ -5175,8 +5180,9 @@ sub Data {
         '<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>' =>
             '',
         'Package not verified by the OTOBO community!' => '',
-        '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
+        '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>' =>
             '',
+        'Verification not possible (e.g. no internet connection)!' => '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -5681,10 +5687,12 @@ sub Data {
             'Ny konto oprettet. Login-information sendt til %s. Tjek venligst din mail.',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+        'If you want to re-run installer.pl, then disable the SecureMode in the SysConfig.' =>
+            '',
         'Action "%s" not found!' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
-        'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
+        'If you want to re-run migration.pl, then disable the SecureMode in the SysConfig.' =>
             '',
 
         # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
@@ -6821,6 +6829,7 @@ Thanks for your help!
             '',
         'Defines if a pre-sorting by priority should be done in the service view.' =>
             '',
+        'Defines if a ticket lock is required for the quick close.' => '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '',
         'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -8142,7 +8151,6 @@ Thanks for your help!
         'Module used to detect if attachments are present.' => '',
         'My Queues' => 'Mine køer',
         'My Services' => 'Mine Services',
-        'My Tickets.' => 'Mine Sager.',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
@@ -8362,6 +8370,8 @@ Thanks for your help!
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
+            '',
+        'Required permissions to use quick close in the agent interface.' =>
             '',
         'Required permissions to use the close ticket screen in the agent interface.' =>
             '',

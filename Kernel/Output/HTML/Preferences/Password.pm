@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # Copyright (C) 2012-2020 Znuny GmbH, http://znuny.com/
 # --
 # This program is free software: you can redistribute it and/or modify it under
@@ -170,7 +170,8 @@ sub Run {
     # compare pws
     if ( $Pw ne $Pw1 ) {
         $Self->{Error} = $LanguageObject->Translate(
-            'Can\'t update password, the new password and the repeated password do not match.');
+            'Can\'t update password, the new password and the repeated password do not match.'
+        );
         return;
     }
 
@@ -214,8 +215,7 @@ sub Run {
 
     # check min 2 char password
     if ( $Config->{PasswordMin2Characters} && $Pw !~ /[A-z][A-z]/ ) {
-        $Self->{Error}
-            = $LanguageObject->Translate('Can\'t update password, it must contain at least 2 letter characters!');
+        $Self->{Error} = $LanguageObject->Translate('Can\'t update password, it must contain at least 2 letter characters!');
         return;
     }
 
@@ -235,10 +235,9 @@ sub Run {
             $PwCount++;
         }
         if ( $PwCount < 3 ) {
-            $Self->{Error}
-                = $LanguageObject->Translate(
+            $Self->{Error} = $LanguageObject->Translate(
                 'Can\'t update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!'
-                );
+            );
             return;
         }
     }

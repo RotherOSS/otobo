@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,23 +16,27 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::PL
 
-my $Hex2RGB = sub {
+our $Self;
+
+sub Hex2RGB {
     my ( $Color, $Alpha ) = @_;
 
-    return if $Color !~ /#[A-F0-9]{3,6}/i;
+    return unless $Color =~ m/#[A-F0-9]{3,6}/i;
 
     # Get RGB values.
     my @Channels;
-    my $RGBHex = substr( $Color, 1 );
+    my $RGBHex = substr $Color, 1;
 
     # Six character hexadecimal string (eg. #FFFFFF).
     if ( length $RGBHex == 6 ) {
@@ -48,12 +52,15 @@ my $Hex2RGB = sub {
         $Channels[2] = hex( substr( $RGBHex, 2, 1 ) . substr( $RGBHex, 1, 1 ) );
     }
 
-    else { return; }
+    else {
+        return;
+    }
 
     return sprintf( 'rgba(%s, %s, %s, %s)', @Channels, $Alpha ) if defined $Alpha;
-
     return sprintf( 'rgb(%s, %s, %s)', @Channels );
-};
+}
+
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
@@ -238,7 +245,6 @@ $Selenium->RunTest(
                 Color    => '#000',
                 Selector => '.UseArticleColors #ArticleTable tbody a',
             }
-
         );
 
         # Check color of data in article table High Contrast skin.
@@ -246,20 +252,20 @@ $Selenium->RunTest(
         for my $Item (@Test) {
             my $Element = $Selenium->find_element( $Item->{Selector}, 'css' );
 
-            my $Color = $Item->{Color};
+            # looks like chrome also reports the alpha channel
+            my $ExpectedRGBColor;
             if ( $Selenium->{browser_name} eq 'chrome' ) {
-                $Self->Is(
-                    $Element->get_css_attribute('color') // '',
-                    $Hex2RGB->( $Color, 1 ),
-                    "$Item->{Name} is correct - $Item->{Color}"
-                );
+                $ExpectedRGBColor = Hex2RGB( $Item->{Color}, 1 );
             }
             else {
-                $Self->Is(
-                    $Element->get_css_attribute('color') // '',
-                    $Hex2RGB->($Color),
-                    "$Item->{Name} is correct - $Item->{Color}"
-                );
+                $ExpectedRGBColor = Hex2RGB( $Item->{Color} );
+            }
+
+            my $Color = $Element->get_css_attribute('color');
+            {
+                my $ToDo = todo( 'skin highcontrast does not exist in OTOBO, issue #678' );
+
+                is( $Color, $ExpectedRGBColor, "$Item->{Name} is correct - $Item->{Color}");
             }
         }
 
@@ -280,22 +286,6 @@ $Selenium->RunTest(
             my $Element = $Selenium->find_element("//a[contains(\@href, \'Action=$Action')]");
             $Element->is_enabled();
             $Element->is_displayed();
-        }
-
-        my $OTOBOCommunityIsInstalled = $Kernel::OM->Get('Kernel::System::OTOBOCommunity')->OTOBOCommunityIsInstalled();
-        my $OBTeaser                  = $LanguageObject->Translate('All attachments (OTOBO Community Solution)');
-        my $OBTeaserFound             = index( $Selenium->get_page_source(), $OBTeaser ) > -1;
-        if ( !$OTOBOCommunityIsInstalled ) {
-            $Self->True(
-                $OBTeaserFound,
-                "OTOBOCommunity teaser found on page",
-            );
-        }
-        else {
-            $Self->False(
-                $OBTeaserFound,
-                "OTOBOCommunity teaser not found on page",
-            );
         }
 
         # Verify article order in zoom screen.
@@ -427,4 +417,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing();

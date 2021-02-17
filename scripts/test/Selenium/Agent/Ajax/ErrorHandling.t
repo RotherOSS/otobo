@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -28,7 +28,7 @@ use Kernel::Language;
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 # TODO: This test does not cancel potential other AJAX calls that might happen in the background,
-#   e. g. when OTOBOCommunity is installed and the Chat is active.
+#   e. g. when the Chat is active.
 
 $Selenium->RunTest(
     sub {

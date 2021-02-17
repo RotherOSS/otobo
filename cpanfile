@@ -54,6 +54,11 @@ requires 'Text::Trim';
 # Required for high resolution timestamps.
 requires 'Time::HiRes';
 
+requires 'Try::Tiny';
+
+# for generating properly escaped URLs
+requires 'URI';
+
 # Required for XML processing.
 requires 'XML::LibXML';
 
@@ -98,12 +103,6 @@ feature 'apache:mod_perl', 'Suppport for apache:mod_perl' => sub {
     # Improves Performance on Apache webservers dramatically.
     requires 'ModPerl::Util';
 
-    # Improves Performance on Apache webservers with mod_perl enabled.
-    requires 'Apache::DBI';
-
-    # Avoids web server restarts on mod_perl.
-    requires 'Apache2::Reload';
-
 };
 
 feature 'db:mysql', 'Support for database MySQL' => sub {
@@ -139,7 +138,7 @@ feature 'db:sqlite', 'Support for database SQLLite' => sub {
 
 feature 'devel:dbviewer', 'Suppport for devel:dbviewer' => sub {
     # a web framework that makes web development fun again
-    requires 'Mojolicious';
+    requires 'Mojolicious', ">= 8.73";
 
     # Mojolicious plugin to display database information on browser
     requires 'Mojolicious::Plugin::DBViewer';
@@ -153,8 +152,8 @@ feature 'devel:encoding', 'Suppport for devel:encoding' => sub {
 };
 
 feature 'devel:test', 'Suppport for devel:test' => sub {
-    # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
-    requires 'Clone';
+    # used by Kernel::System::UnitTest::Selenium
+    requires 'Selenium::Remote::Driver';
 
     # a quick compile check
     requires 'Test::Compile';
@@ -265,12 +264,6 @@ feature 'optional', 'Suppport for optional' => sub {
     # Improves Performance on Apache webservers dramatically.
     requires 'ModPerl::Util';
 
-    # Improves Performance on Apache webservers with mod_perl enabled.
-    requires 'Apache::DBI';
-
-    # Avoids web server restarts on mod_perl.
-    requires 'Apache2::Reload';
-
     # Simple Mail Transfer Protocol Client.
     # Please consider updating to version 3.11 or higher: This version fixes email sending (bug#14357).
     requires 'Net::SMTP';
@@ -327,8 +320,8 @@ feature 'optional', 'Suppport for optional' => sub {
     # Support for readonly Perl variables
     requires 'Const::Fast';
 
-    # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
-    requires 'Clone';
+    # used by Kernel::System::UnitTest::Selenium
+    requires 'Selenium::Remote::Driver';
 
     # for deeply inspecting strings
     requires 'String::Dump';
@@ -346,7 +339,7 @@ feature 'optional', 'Suppport for optional' => sub {
     requires 'Test2::Tools::HTTP';
 
     # a web framework that makes web development fun again
-    requires 'Mojolicious';
+    requires 'Mojolicious', ">= 8.73";
 
     # Mojolicious plugin to display database information on browser
     requires 'Mojolicious::Plugin::DBViewer';

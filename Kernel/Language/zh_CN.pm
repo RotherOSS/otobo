@@ -8,7 +8,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # Copyright (C) 2013 Michael Shi <micshi at 163.com>
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.997562560935977;
+    $Self->{Completeness}        = 0.997727641616621;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3263,7 +3263,10 @@ sub Data {
         ' Continue anyways :(' => ' 不论如何都继续 :(',
 
         # Template: OTRSDBSettings
-        'Database is a throwawy copy' => '数据库是一次性副本',
+        'Skip DB migration' => '',
+        'Expert option! Only works if the migration has already been done by hand.' =>
+            '',
+        'Skipped.' => '',
 
         # Template: OTRSFileSettings
         'OTRS server' => 'OTRS服务器',
@@ -5052,7 +5055,7 @@ sub Data {
         'Maximum size is %s characters.' => '最多%s个字符。',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
-        'Sanity checks for database.' => '',
+        'Sanity checks for database.' => '数据库完整性检查。',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
         'Deploy the ACL configuration.' => '部署ACL配置。',
@@ -5069,14 +5072,15 @@ sub Data {
         'Completed.' => '完成。',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-        'Need OTRSData->%s!' => '',
+        'Need OTRSData->%s!' => '需要 OTRSData->%s！',
         'Can\'t access OTRS Home: %s!' => '不能访问OTRS Home: %s！',
         'All needed files copied and migrated, perfect!' => '所有需要的文件都已经复制并迁移了，完美！',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
         'Check if OTOBO version is correct.' => '检查OTOBO的版本是否正确。',
-        'Need %s for Oracle db!' => 'Oracle db 需要 %s ！',
         'Copy database.' => '复制数据库。',
+        'Skipped...' => '',
+        'Need %s for Oracle db!' => 'Oracle db 需要 %s ！',
         'System was unable to connect to OTRS database.' => '系统无法连接OTRS数据库。',
         'System was unable to complete data transfer.' => '系统无法完成数据传递。',
         'Data transfer completed.' => '数据传递完成。',
@@ -5092,7 +5096,7 @@ sub Data {
             '你是在错误的框架版本 %s 上运行这个脚本！',
         'OTOBO Version is correct: %s.' => 'OTOBO版本正确：%s。',
         'Check if OTRS version is correct.' => '检查OTRS版本是否正确。',
-        'OTRS RELEASE file %s does not exist: %s!' => '',
+        'OTRS RELEASE file %s does not exist: %s!' => 'OTRS RELEASE文件 %s不存在： %s！',
         'Can\'t read OTRS RELEASE file: %s: %s!' => '无法读取OTRS RELEASE文件：%s: %s！',
         'No OTRS system found!' => '没发现OTRS系统！',
         'OTRS Version is correct: %s.' => 'OTRS版本正确：%s。',
@@ -5108,26 +5112,22 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
         'Migrate web service configuration.' => '迁移网络服务配置。',
-        'No web service existent, done.' => '不存在网络服务，完成。',
-        'Can\'t add web service for Elasticsearch. File %s not found!' =>
-            '无法为Elasticsearch添加网络服务，未发现文件 %s！',
-        'Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed.' =>
-            '迁移完成。 请在ElasticSearch安装完成后，在管理-> Web服务中激活Web服务。',
+        'Failed - see the log!' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
         'Migrate database table notification.' => '迁移数据库表通知。',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
         'Can\'t open Kernel/Config.pm file from OTRSHome: %s!' => '无法从 OTRSHome: %s打开Kernel/Config.pm文件！',
-        'Check if Kernel/Config.pm exists in OTOBO home.' => '',
-        'Kernel/Config.pm exists in OTOBO home' => '',
+        'Check if Kernel/Config.pm exists in OTOBO home.' => '检查OTOBO主页中是否存在Kernel / Config.pm。',
+        'Kernel/Config.pm exists in OTOBO home' => 'OTOBO主页中是否存在Kernel / Config.pm',
         'Check if we are able to connect to OTRS Home.' => '检查我们能否连接到OTRS Home。',
         'Can\'t connect to OTRS file directory.' => '无法连接到OTRS文件目录。',
         'Connect to OTRS file directory is possible.' => '可能可以连接到OTRS文件目录。',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
         'Try database connect and sanity checks.' => '尝试进行数据库连接和完整性检查。',
-        'Could not create database object.' => '',
+        'Could not create database object.' => '无法创建数据库对象。',
         'Database connect and sanity checks completed.' => '连接到数据库并且完整性检查完成。',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
@@ -5136,6 +5136,11 @@ sub Data {
         'Please install (or uninstall) the packages before migration. If a package doesn\'t exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.org. We will find a solution.' =>
             '请在迁移之前安装（或者卸载）这个软件包，如果某一个软件包没有适用OTOBO的，请通过bugs\@otobo.org联系OTOBO团队，我们会找到一个解决方案。',
         'The same packages are installed on both systems, perfect!' => '同样的软件包可以安装在两个系统上，完美！',
+
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
+        'Package specific tasks' => '',
+        'Done -' => '',
+        'Failed at -' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
         'Check if all needed Perl modules have been installed.' => '检查是否所有需要的Perl模块都已经安装。',
@@ -5180,8 +5185,9 @@ sub Data {
         '<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>' =>
             '<p>其他软件包可以为OTOBO提供很多有用的增强性功能，不过请确保这些软件包的来源可靠，因为它们有可能以多种方式修改OTOBO。</p>',
         'Package not verified by the OTOBO community!' => '软件包没有经过OTOBO社区验证！',
-        '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
-            '<p>未验证的软件包安装被禁止，你可以通过"AllowNotVerifiedPackages" （容许未验证软件包）系统设置激活未验证软件包的安装。</p>',
+        '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>' =>
+            '',
+        'Verification not possible (e.g. no internet connection)!' => '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -5686,11 +5692,13 @@ sub Data {
             '帐户创建成功。登录信息发送到%s，请查收邮件。',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
+        'If you want to re-run installer.pl, then disable the SecureMode in the SysConfig.' =>
+            '',
         'Action "%s" not found!' => '没有找到操作“%s”！',
 
         # Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
-        'If you want to re-run the MigrateFromOTRS, disable the SecureMode in the SysConfig.' =>
-            '如果要重新运行 MigrateFromOTRS，就在SysConfig中禁用SecureMode。',
+        'If you want to re-run migration.pl, then disable the SecureMode in the SysConfig.' =>
+            '',
 
         # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => '暂时无效',
@@ -6835,6 +6843,7 @@ Thanks for your help!
             '定义队列视图是否按优先级预先排序。',
         'Defines if a pre-sorting by priority should be done in the service view.' =>
             '定义服务视图是否按优先级预先排序。',
+        'Defines if a ticket lock is required for the quick close.' => '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '定义服务人员界面在工单关闭屏幕是否需要工单锁定（如果工单还没有锁定，则工单被锁定且当前服务人员被自动设置为工单所有者）。',
         'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -8156,7 +8165,6 @@ Thanks for your help!
         'Module used to detect if attachments are present.' => '用于检测是否存在附件的模块。',
         'My Queues' => '我的队列',
         'My Services' => '我的服务',
-        'My Tickets.' => '我的工单。',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '定制队列的名称。定制队列是您的首选队列，能够在偏好设置中选择。',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
@@ -8377,6 +8385,8 @@ Thanks for your help!
             '从spool目录中重新处理的邮件不能被导入到第一的位置。',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
             '服务人员界面修改一个工单的客户必需的权限。',
+        'Required permissions to use quick close in the agent interface.' =>
+            '',
         'Required permissions to use the close ticket screen in the agent interface.' =>
             '服务人员界面使用关闭工单屏幕必需的权限。',
         'Required permissions to use the email outbound screen in the agent interface.' =>
@@ -9068,7 +9078,7 @@ Thanks for your help!
         'This key is not certified with a trusted signature!' => '此密钥未经过可信任签名的认证！',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '每次请求时这个模块和它的PreRun()函数（如果定义了）将被执行。',
-        'This module is being used to extend the password policy.' => '',
+        'This module is being used to extend the password policy.' => '此模块用于扩展密码策略。',
         'This module is part of the admin area of OTOBO.' => '这个模块是OTOBO系统管理的一部分。',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             '这个选项定义存储流程管理活动条目ID的动态字段。',
@@ -9125,10 +9135,10 @@ Thanks for your help!
         'Ticket zoom view.' => '工单详情视图。',
         'TicketNumber' => '工单编号',
         'Tickets in the following queues will not be stored on the Elasticsearch server. To apply this to existing tickets, the ticket migration has to be run via console, after changing this option.' =>
-            '',
+            '以下队列中的工单不会存储在Elasticsearch服务器上，要将其应用于现有工单，必须在更改此选项后通过控制台运行工单迁移。',
         'Tickets.' => '工单。',
         'Tile registration for the CustomerDashboard. Module is required.' =>
-            '',
+            '需要模块实现CustomerDashboard的注册。',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '如果设置一个挂起状态，添加到实际时间的秒数（默认：86400 = 1天）。',
         'To accept login information, such as an EULA or license.' => '接受登录信息，如EULA（最终用户许可协议）或许可。',
@@ -9171,10 +9181,10 @@ Thanks for your help!
         'Updates the ticket index accelerator.' => '更新工单索引加速器。',
         'Upload your PGP key.' => '上传你的PGP密钥。',
         'Upload your S/MIME certificate.' => '上传你的S/MIME证书。',
-        'Use Redis::Fast instead of Redis.' => '',
+        'Use Redis::Fast instead of Redis.' => '用Redis::Fast 而不是Redis。',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             '服务人员界面在合适的地方（输入字段）使用新式选择和自动完成字段。',
-        'Use specified Redis logical database.' => '',
+        'Use specified Redis logical database.' => '用指定的Redis逻辑数据库。',
         'User Profile' => '用户资料',
         'UserFirstname' => '用户的名字',
         'UserLastname' => '用户的姓',
@@ -9192,10 +9202,10 @@ Thanks for your help!
             '我们正在执行系统维护，暂时无法登录。',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             '我们正在执行系统维护，很快就恢复正常使用。',
-        'Web Service' => '',
+        'Web Service' => '网络服务',
         'Web Services' => 'Web服务',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
-            '',
+            '仪表板开头的欢迎语。名称将插入到WelcomeText的％s中。 “ UserTitle”，“ UserFirstname”，“ UserLastname”，“ UserEmail”和“ UserLogin”将被替换。',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             '服务人员创建工单时，工单是否被自动锁定到该服务人员。',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
@@ -9205,11 +9215,11 @@ Thanks for your help!
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '工单被合并时，通过设置“通知发送人”复选框选项，客户能收到邮件通知，您可以在这个文本框中定义一个预先格式化的文本（服务人员可在以后修改）。',
         'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
-            '',
+            '字段是否自动填充(1)， 那种情况下将会在工单表中隐藏起来(2)。',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
             '通过在Ticket::Frontend::ZoomCollectMetaFilters中配置的过滤器确定是否收集信件元信息。',
         'Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes.' =>
-            '',
+            '通过检查缓存字段的依存性，可以避免执行TicketACL，这样可以优化工单表单的加载时间。不过如果ACLModules用于Ticket-和 Form-ReturnTypes，就必须禁用。',
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '是否强制将所有请求从http重定向到https协议。启用此选项之前，请检查Web服务器是否正确配置了https协议。',
         'Yes, but hide archived tickets' => '是，但隐藏已归档的工单',

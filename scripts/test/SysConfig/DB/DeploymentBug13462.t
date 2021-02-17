@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,53 +14,46 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
 
+# core modules
+
+# CPAN modules
 use Test2::V0;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
 
 our $Self;
 
-# set up object properties
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        ExecuteInternalTests => 0,
-    },
+# plan the tests
+my $ChildCount = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::TicketCreateNumber::ChildCount') || 5;
+my $NumTestUsers = 3;
+plan(
+    $NumTestUsers                        # creation of a test user
+    + 2 * $NumTestUsers * $ChildCount    # two tests per process and testuser 
 );
 
 my $Helper     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
-my $CacheType  = 'UnitTestTicketCounter';
-my $ChildCount = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::TicketCreateNumber::ChildCount') || 5;
-my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
 # testing with three test users
-my $TestUserLogin1 = $Helper->TestUserCreate(
-    Groups => [ 'admin', 'users' ],
-) || die "Did not get test user";
-my $TestUserID1 = $UserObject->UserLookup(
-    UserLogin => $TestUserLogin1,
-);
-my $TestUserLogin2 = $Helper->TestUserCreate(
-    Groups => [ 'admin', 'users' ],
-) || die "Did not get test user";
-my $TestUserID2 = $UserObject->UserLookup(
-    UserLogin => $TestUserLogin2,
-);
-my $TestUserLogin3 = $Helper->TestUserCreate(
-    Groups => [ 'admin', 'users' ],
-) || die "Did not get test user";
-my $TestUserID3 = $UserObject->UserLookup(
-    UserLogin => $TestUserLogin3,
-);
+my @TargetUserIDs;
+{
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+    for my $Cnt ( 1 .. $NumTestUsers ) {
+        my $TestUserLogin = $Helper->TestUserCreate(
+            Groups => [ 'admin', 'users' ],
+        ) || bail_out( 'Did not get test user' );
 
-# plan for two tests per user and child
-plan( 2 * 3 * $ChildCount );
+        my $TestUserID = $UserObject->UserLookup(
+            UserLogin => $TestUserLogin,
+        );
+
+        push @TargetUserIDs, $TestUserID;
+    }
+}
 
 my $FileBase = << 'EOF';
 # OTOBO config file (automatically generated)
@@ -68,7 +61,7 @@ my $FileBase = << 'EOF';
 package Kernel::Config::Files::User::0;
 use strict;
 use warnings;
-no warnings 'redefine'; ## no critic
+no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 use utf8;
  sub Load {
     my ($File, $Self) = @_;
@@ -78,7 +71,10 @@ $Self->{'Ticket::Frontend::AgentTicketQueue'}->{'Blink'} =  '1';
 1;
 EOF
 
-for my $TargetUserID ( $TestUserID1, $TestUserID2, $TestUserID3 ) {
+my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
+my $CacheType  = 'UnitTestTicketCounter';
+
+for my $TargetUserID ( @TargetUserIDs ) {
 
     my $UserFile = $FileBase;
     $UserFile =~ s{0}{$TargetUserID}gmxi;

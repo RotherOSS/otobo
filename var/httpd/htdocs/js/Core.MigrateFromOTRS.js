@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+// Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -89,7 +89,7 @@ Core.MigrateFromOTRS = (function (TargetNS) {
         });
         $('#MultiTask .oooMigrationResults').show().append(MessageBlock);
 
-// Package resolve is disabled 
+// Package resolve is disabled
 //        // resolve package error for PreChecks step
 //        if ( json.Successful === 0 && $('input[name=Task]').val() == 'OTOBOOTRSPackageCheck' ) {
 //            for ( const Package of json.Content ) {
@@ -237,6 +237,28 @@ Core.MigrateFromOTRS = (function (TargetNS) {
                     $('#DeleteCacheError').show();
                 }
             });
+        });
+
+        // DB skip
+        $('#SkipDBMigration').on('change', function() {
+            $('#DBChecked').toggle();
+            $('#DBSkipped').toggle();
+
+            if ( $(this).is(':checked') ) {
+                ToggleAJAXLoader( 'ButtonDefTask', true );
+                var Data = 'Action=MigrateFromOTRS;Subaction=OTRSDBSettings;Task=CheckSettings;SkipDBMigration=1';
+                Core.AJAX.FunctionCall( Core.Config.Get('Baselink'), Data, DefTaskCallback );
+            }
+            else {
+                $('#ButtonDefTask').closest('.Field').show();
+                $('button[type="submit"]').attr('disabled','').addClass('Disabled');
+                $('fieldset.ErrorMsg').hide();
+                $('fieldset.Success').hide();
+
+                // reset
+                $('#Task').val('CheckSettings');
+                $('input[name=Subaction]').val('OTRSDBSettings');
+            }
         });
 
      }

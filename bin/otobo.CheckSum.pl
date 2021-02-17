@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -72,10 +72,10 @@ my $Output;
 
 if ( $Action eq 'create' ) {
     print "Writing $Archive ...";
-    open( $Output, '>', $Archive ) || die "ERROR: Can't write: $Archive";    ## no critic
+    open( $Output, '>', $Archive ) || die "ERROR: Can't write: $Archive";    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
 }
 else {
-    open( my $In, '<', $Archive ) || die "ERROR: Can't read: $Archive";      ## no critic
+    open( my $In, '<', $Archive ) || die "ERROR: Can't read: $Archive";      ## no critic qw(OTOBO::ProhibitOpen)
     while (<$In>) {
         my @Row = split( /::/, $_ );
         chomp $Row[1];
@@ -139,7 +139,7 @@ sub ProcessDirectory {
         next FILE if $File =~ m{css-cache}smx;
 
         # next if not readable
-        open my $In, '<', $OrigFile or die "ERROR: $!";
+        open my $In, '<', $OrigFile or die "ERROR: $!";    ## no critic qw(OTOBO::ProhibitOpen OTOBO::ProhibitLowPrecedenceOps)
 
         my $DigestGenerator = Digest::MD5->new();
         $DigestGenerator->addfile($In);
@@ -157,7 +157,7 @@ sub ProcessDirectory {
                 print "Notice: Dif $File\n";
             }
             elsif ( -e "$File.save" )
-            {    ## report .save files as modified by the OTOBO Package Manager
+            {                                                             ## report .save files as modified by the OTOBO Package Manager
                 print "Notice: OPM Changed $File\n";
             }
             if ( defined $Compare{$File} ) {

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -103,8 +103,7 @@ sub _Add {
         %Param,
         %GetParam,
         Mode           => 'Add',
-        BreadcrumbText => $LayoutObject->{LanguageObject}
-            ->Translate( 'Add %s field', $LayoutObject->{LanguageObject}->Translate($FieldTypeName) ),
+        BreadcrumbText => $LayoutObject->{LanguageObject}->Translate( 'Add %s field', $LayoutObject->{LanguageObject}->Translate($FieldTypeName) ),
         ObjectTypeName => $ObjectTypeName,
         FieldTypeName  => $FieldTypeName,
     );
@@ -295,8 +294,7 @@ sub _Change {
         %Config,
         ID             => $FieldID,
         Mode           => 'Change',
-        BreadcrumbText => $LayoutObject->{LanguageObject}
-            ->Translate( 'Change %s field', $LayoutObject->{LanguageObject}->Translate($FieldTypeName) ),
+        BreadcrumbText => $LayoutObject->{LanguageObject}->Translate( 'Change %s field', $LayoutObject->{LanguageObject}->Translate($FieldTypeName) ),
         ObjectTypeName => $ObjectTypeName,
         FieldTypeName  => $FieldTypeName,
     );
@@ -629,15 +627,13 @@ sub _ShowScreen {
 
     my $ActivateTemplate = ( defined $Param{ActivateTemplate} ? $Param{ActivateTemplate} : '' );
 
-    my $CBFontStyleItalicValue = ( defined $Param{CBFontStyleItalicValue} ? $Param{CBFontStyleItalicValue} : '' );
-    my $CBFontStyleBoldValue   = ( defined $Param{CBFontStyleBoldValue}   ? $Param{CBFontStyleBoldValue}   : '' );
-    my $CBFontStyleUnderLineValue
-        = ( defined $Param{CBFontStyleUnderLineValue} ? $Param{CBFontStyleUnderLineValue} : '' );
+    my $CBFontStyleItalicValue    = ( defined $Param{CBFontStyleItalicValue}    ? $Param{CBFontStyleItalicValue}    : '' );
+    my $CBFontStyleBoldValue      = ( defined $Param{CBFontStyleBoldValue}      ? $Param{CBFontStyleBoldValue}      : '' );
+    my $CBFontStyleUnderLineValue = ( defined $Param{CBFontStyleUnderLineValue} ? $Param{CBFontStyleUnderLineValue} : '' );
 
-    my $CBFontStyleItalic = ( defined $Param{CBFontStyleItalic} ? $Param{CBFontStyleItalic} : $CBFontStyleItalicValue );
-    my $CBFontStyleBold   = ( defined $Param{CBFontStyleBold}   ? $Param{CBFontStyleBold}   : $CBFontStyleBoldValue );
-    my $CBFontStyleUnderLine
-        = ( defined $Param{CBFontStyleUnderLine} ? $Param{CBFontStyleUnderLine} : $CBFontStyleUnderLineValue );
+    my $CBFontStyleItalic    = ( defined $Param{CBFontStyleItalic}    ? $Param{CBFontStyleItalic}    : $CBFontStyleItalicValue );
+    my $CBFontStyleBold      = ( defined $Param{CBFontStyleBold}      ? $Param{CBFontStyleBold}      : $CBFontStyleBoldValue );
+    my $CBFontStyleUnderLine = ( defined $Param{CBFontStyleUnderLine} ? $Param{CBFontStyleUnderLine} : $CBFontStyleUnderLineValue );
 
     #build template selection
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -652,7 +648,7 @@ sub _ShowScreen {
         );
     }
 
-#since the key of the hash %TemplateName is not equal to the value, selected template needs to be resolved during change
+    #since the key of the hash %TemplateName is not equal to the value, selected template needs to be resolved during change
     my $SelectedTemplate;
     if ( defined $Param{FontTemplate} ) {
         $SelectedTemplate = $TemplateList->{ $Param{FontTemplate} }->{Name};

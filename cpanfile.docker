@@ -54,6 +54,11 @@ requires 'Text::Trim';
 # Required for high resolution timestamps.
 requires 'Time::HiRes';
 
+requires 'Try::Tiny';
+
+# for generating properly escaped URLs
+requires 'URI';
+
 # Required for XML processing.
 requires 'XML::LibXML';
 
@@ -127,7 +132,7 @@ requires 'SOAP::Transport::HTTP::Plack';
 
 # feature 'devel:dbviewer', 'Suppport for devel:dbviewer' => sub {
     # a web framework that makes web development fun again
-    requires 'Mojolicious';
+    requires 'Mojolicious', ">= 8.73";
 
     # Mojolicious plugin to display database information on browser
     requires 'Mojolicious::Plugin::DBViewer';
@@ -141,8 +146,8 @@ requires 'SOAP::Transport::HTTP::Plack';
 # };
 
 # feature 'devel:test', 'Suppport for devel:test' => sub {
-    # a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm
-    requires 'Clone';
+    # used by Kernel::System::UnitTest::Selenium
+    requires 'Selenium::Remote::Driver';
 
     # a quick compile check
     requires 'Test::Compile';

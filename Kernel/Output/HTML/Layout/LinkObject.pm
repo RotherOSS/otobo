@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -256,16 +256,14 @@ sub LinkObjectTableCreateComplex {
 
                         # depending on the link type direction source and target must be switched
                         if ( $LinkList{ $Block->{Object} }->{ $ItemWithKey->{Key} }->{$LinkType} eq 'Source' ) {
-                            $LinkDeleteData{SourceObject} = $Block->{Object};
-                            $LinkDeleteData{SourceKey}    = $ItemWithKey->{Key};
-                            $LinkDeleteData{TargetIdentifier}
-                                = $Param{SourceObject} . '::' . $Param{ObjectID} . '::' . $LinkType;
+                            $LinkDeleteData{SourceObject}     = $Block->{Object};
+                            $LinkDeleteData{SourceKey}        = $ItemWithKey->{Key};
+                            $LinkDeleteData{TargetIdentifier} = $Param{SourceObject} . '::' . $Param{ObjectID} . '::' . $LinkType;
                         }
                         else {
-                            $LinkDeleteData{SourceObject} = $Param{SourceObject};
-                            $LinkDeleteData{SourceKey}    = $Param{ObjectID};
-                            $LinkDeleteData{TargetIdentifier}
-                                = $Block->{Object} . '::' . $ItemWithKey->{Key} . '::' . $LinkType;
+                            $LinkDeleteData{SourceObject}     = $Param{SourceObject};
+                            $LinkDeleteData{SourceKey}        = $Param{ObjectID};
+                            $LinkDeleteData{TargetIdentifier} = $Block->{Object} . '::' . $ItemWithKey->{Key} . '::' . $LinkType;
                         }
                     }
                 }
@@ -918,8 +916,7 @@ sub ComplexTablePreferencesGet {
             )
         {
             # sort according to priority defined in SysConfig
-            @ColumnsEnabled
-                = sort { $Param{Config}->{Priority}->{$a} <=> $Param{Config}->{Priority}->{$b} } @ColumnsEnabled;
+            @ColumnsEnabled = sort { $Param{Config}->{Priority}->{$a} <=> $Param{Config}->{Priority}->{$b} } @ColumnsEnabled;
         }
     }
 

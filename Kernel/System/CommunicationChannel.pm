@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -495,17 +495,17 @@ sub ChannelList {
 
 Synchronize communication channels in the database with channel registration in configuration.
 
-    my $Result = $CommunicationChannelObject->ChannelSync(
+    my %Result = $CommunicationChannelObject->ChannelSync(
         UserID => 1,
     );
 
 Returns:
 
-    $Result = {
+    %Result = (
         ChannelsUpdated => [ 'Email', 'Phone' ],
         ChannelsAdded   => [ 'Chat' ],
         ChannelsInvalid => [ 'Internal' ],
-    };
+    );
 
 =cut
 

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1003,9 +1003,8 @@ sub CertificateAdd {
         }
 
         my $File = "$Self->{CertPath}/$Attributes{Hash}.$Count";
-        ## no critic
-        if ( open( my $OUT, '>', $File ) ) {
-            ## use critic
+
+        if ( open( my $OUT, '>', $File ) ) { ## no critic qw(OTOBO::ProhibitOpen)
             print $OUT $Param{Certificate};
             close($OUT);
             %Result = (
@@ -1547,12 +1546,11 @@ sub PrivateAdd {
     );
     if ( $CertificateAttributes{Hash} ) {
         my $File = "$Self->{PrivatePath}/$Certificates[0]->{Filename}";
-        ## no critic
-        if ( open( my $PrivKeyFH, '>', "$File" ) ) {
-            ## use critic
+
+        if ( open( my $PrivKeyFH, '>', "$File" ) ) { ## no critic qw(OTOBO::ProhibitOpen)
             print $PrivKeyFH $Param{Private};
             close $PrivKeyFH;
-            open( my $PassFH, '>', "$File.P" );    ## no critic
+            open( my $PassFH, '>', "$File.P" );    ## no critic qw(OTOBO::ProhibitOpen)
             print $PassFH $Param{Secret};
             close $PassFH;
             %Result = (
@@ -2332,7 +2330,7 @@ sub _Init {
     }
 
     # ensure that there is a random state file that we can write to (otherwise openssl will bail)
-    $ENV{RANDFILE} = $ConfigObject->Get('TempDir') . '/.rnd';    ## no critic
+    $ENV{RANDFILE} = $ConfigObject->Get('TempDir') . '/.rnd';    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
 
     # prepend RANDFILE declaration to openssl cmd
     $Self->{Cmd} = "HOME=" . $ConfigObject->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";

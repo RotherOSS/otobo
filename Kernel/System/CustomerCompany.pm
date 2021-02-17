@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -399,9 +399,8 @@ sub CustomerCompanyList {
 
                 # param Search
                 if ( defined $Param{Search} && length $Param{Search} ) {
-                    $SearchFields
-                        = $Self->{"CustomerCompany$Count"}->{CustomerCompanyMap}->{CustomerCompanySearchFields};
-                    $SearchParam = $Param{Search};
+                    $SearchFields = $Self->{"CustomerCompany$Count"}->{CustomerCompanyMap}->{CustomerCompanySearchFields};
+                    $SearchParam  = $Param{Search};
                 }
 
                 # search dynamic field values
@@ -630,12 +629,10 @@ sub CustomerCompanySearchDetail {
             }
 
             if ( IsArrayRefWithData( $Param{OrderByDirection} ) && $Param{OrderByDirection}->[0] eq 'Up' ) {
-                @CustomerCompanyataList
-                    = sort { lc( $a->{$OrderBy} ) cmp lc( $b->{$OrderBy} ) } @CustomerCompanyataList;
+                @CustomerCompanyataList = sort { lc( $a->{$OrderBy} ) cmp lc( $b->{$OrderBy} ) } @CustomerCompanyataList;
             }
             else {
-                @CustomerCompanyataList
-                    = sort { lc( $b->{$OrderBy} ) cmp lc( $a->{$OrderBy} ) } @CustomerCompanyataList;
+                @CustomerCompanyataList = sort { lc( $b->{$OrderBy} ) cmp lc( $a->{$OrderBy} ) } @CustomerCompanyataList;
             }
 
             if ( $Param{Limit} && scalar @CustomerCompanyataList > $Param{Limit} ) {

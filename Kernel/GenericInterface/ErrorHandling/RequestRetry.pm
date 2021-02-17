@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -33,9 +33,7 @@ Kernel::GenericInterface::ErrorHandling::RequestRetry - Module do decide about r
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=item new()
+=head2 new()
 
 create an object. Do not create it directly, instead use:
 
@@ -55,7 +53,7 @@ sub new {
     return $Self;
 }
 
-=item Run()
+=head2 Run()
 
 Decides if a non-successful request should be retried, based on the configuration.
 Relevant module configuration variables are:
@@ -314,7 +312,5 @@ sub _LogAndReturn {
         ErrorMessage => $ErrorMessage,
     };
 }
-
-=back
 
 1;

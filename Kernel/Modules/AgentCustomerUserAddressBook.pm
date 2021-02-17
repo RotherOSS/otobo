@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -320,8 +320,7 @@ sub Run {
                 );
 
                 if ( defined $SearchParameter ) {
-                    $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                        = $SearchParameter->{Parameter};
+                    $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $SearchParameter->{Parameter};
                 }
             }
         }
@@ -572,8 +571,7 @@ sub _MaskForm {
     );
 
     # Translate the customer company label identifier to add this to the labels.
-    my $TranslatedCustomerCompanyLabelIdentifier
-        = $LayoutObject->{LanguageObject}->Translate( $Self->{CustomerCompanyLabelIdentifier} );
+    my $TranslatedCustomerCompanyLabelIdentifier = $LayoutObject->{LanguageObject}->Translate( $Self->{CustomerCompanyLabelIdentifier} );
 
     my @Attributes;
 
@@ -731,14 +729,13 @@ sub _MaskForm {
         PREFERENCE:
         for my $Preference ( @{$SearchFieldPreferences} ) {
 
-            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} . $Preference->{Type} }
-                = $DynamicFieldBackendObject->SearchFieldRender(
+            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} . $Preference->{Type} } = $DynamicFieldBackendObject->SearchFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 Profile              => \%GetParam,
                 PossibleValuesFilter => $PossibleValues,
                 LayoutObject         => $LayoutObject,
                 Type                 => $Preference->{Type},
-                );
+            );
         }
     }
 
@@ -876,8 +873,7 @@ sub _MaskForm {
 
             # Add a identifier for the object type 'CustomerCompany' and if a identifier exists.
             if ( $DynamicFieldConfig->{ObjectType} eq 'CustomerCompany' && $TranslatedCustomerCompanyLabelIdentifier ) {
-                my $LabelCustomerCompanyLabelIdentifier
-                    = ( $Preference->{LabelSuffix} ? " - " : " " ) . "($TranslatedCustomerCompanyLabelIdentifier)";
+                my $LabelCustomerCompanyLabelIdentifier = ( $Preference->{LabelSuffix} ? " - " : " " ) . "($TranslatedCustomerCompanyLabelIdentifier)";
                 $DynamicFieldLabel =~ s{(<label.*>)(.*)(</label>)}{$1$2$LabelCustomerCompanyLabelIdentifier$3}xmsg;
             }
 

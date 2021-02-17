@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -310,8 +310,8 @@ sub Run {
             StdFields => 0,
             Fields    => 0,
         );
-        my %ChangedElements        = $ElementChanged ? ( $ElementChanged => 1 ) : ();
-        my %ChangedElementsDFStart = $ElementChanged ? ( $ElementChanged => 1 ) : ();
+        my %ChangedElements        = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
+        my %ChangedElementsDFStart = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
         my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? ( $ElementChanged => 1 ) : ();
 
         my $LoopProtection = 100;
@@ -347,8 +347,10 @@ sub Run {
                             next FIELD;
                         }
                         for my $Element ( sort keys %ChangedElements ) {
-                            if (   $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
-                                || $Self->{InternalDependancy}{$Element}{$FieldID} )
+                            if (
+                                $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
+                                || $Self->{InternalDependancy}{$Element}{$FieldID}
+                                )
                             {
                                 next FIELD;
                             }
@@ -385,8 +387,7 @@ sub Run {
                         TOs:
                         for my $QueueID ( sort keys %{ $StdFieldValues{QueueID} } ) {
                             next TOs if ( $StdFieldValues{QueueID}{$QueueID} eq '-' );
-                            $StdFieldValues{Dest}{"$QueueID||$StdFieldValues{QueueID}{ $QueueID }"}
-                                = $StdFieldValues{QueueID}{$QueueID};
+                            $StdFieldValues{Dest}{"$QueueID||$StdFieldValues{QueueID}{ $QueueID }"} = $StdFieldValues{QueueID}{$QueueID};
                         }
 
                         # check current selection of QueueID (Dest will be done together with the other fields)
@@ -403,11 +404,13 @@ sub Run {
                     }
 
                     # check whether current selected value is still valid for the field
-                    if ( $GetParam{ $Field->{FieldID} }
-                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } } )
+                    if (
+                        $GetParam{ $Field->{FieldID} }
+                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } }
+                        )
                     {
                         # if not empty the field
-                        $GetParam{ $Field->{FieldID} } = '';
+                        $GetParam{ $Field->{FieldID} }           = '';
                         $NewChangedElements{ $Field->{FieldID} } = 1;
                         $ChangedStdFields{ $Field->{FieldID} }   = 1;
                     }
@@ -505,8 +508,7 @@ sub Run {
         for my $Index ( sort keys %{ $DynFieldStates{Fields} } ) {
             my $DynamicFieldConfig = $FollowUpDynamicField->[$Index];
 
-            my $DataValues
-                = $DynFieldStates{Fields}{$Index}{NotACLReducible}
+            my $DataValues = $DynFieldStates{Fields}{$Index}{NotACLReducible}
                 ? $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}
                 :
                 (
@@ -745,7 +747,7 @@ sub Run {
             my $ValidationResult;
 
             # do not validate invisible fields
-            if ( $Visibility{ $DynamicFieldConfig->{Name} } ) {
+            if ( $Visibility{ 'DynamicField_'.$DynamicFieldConfig->{Name} } ) {
                 $ValidationResult = $BackendObject->EditFieldValueValidate(
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
@@ -760,8 +762,7 @@ sub Run {
                         Title => Translatable('Error'),
                     );
                     $Output .= $LayoutObject->CustomerError(
-                        Message => $LayoutObject->{LanguageObject}
-                            ->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
+                        Message => $LayoutObject->{LanguageObject}->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
                         Comment => Translatable('Please contact the administrator.'),
                     );
                     $Output .= $LayoutObject->CustomerFooter();
@@ -1070,8 +1071,7 @@ sub Run {
             # Only get values for Ticket fields (all screens based on AgentTickeActionCommon
             # generates a new article, then article fields will be always empty at the beginning).
             # Value is stored in the database from Ticket.
-            $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+            $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
         }
     }
 
@@ -1154,8 +1154,10 @@ sub Run {
                         next FIELD;
                     }
                     for my $Element ( sort keys %ChangedElements ) {
-                        if (   $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
-                            || $Self->{InternalDependancy}{$Element}{$FieldID} )
+                        if (
+                            $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
+                            || $Self->{InternalDependancy}{$Element}{$FieldID}
+                            )
                         {
                             next FIELD;
                         }
@@ -1192,8 +1194,7 @@ sub Run {
                     TOs:
                     for my $QueueID ( sort keys %{ $StdFieldValues{QueueID} } ) {
                         next TOs if ( $StdFieldValues{QueueID}{$QueueID} eq '-' );
-                        $StdFieldValues{Dest}{"$QueueID||$StdFieldValues{QueueID}{ $QueueID }"}
-                            = $StdFieldValues{QueueID}{$QueueID};
+                        $StdFieldValues{Dest}{"$QueueID||$StdFieldValues{QueueID}{ $QueueID }"} = $StdFieldValues{QueueID}{$QueueID};
                     }
 
                     # check current selection of QueueID (Dest will be done together with the other fields)
@@ -1210,11 +1211,13 @@ sub Run {
                 }
 
                 # check whether current selected value is still valid for the field
-                if ( $GetParam{ $Field->{FieldID} }
-                    && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } } )
+                if (
+                    $GetParam{ $Field->{FieldID} }
+                    && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } }
+                    )
                 {
                     # if not empty the field
-                    $GetParam{ $Field->{FieldID} } = '';
+                    $GetParam{ $Field->{FieldID} }           = '';
                     $NewChangedElements{ $Field->{FieldID} } = 1;
                     $ChangedStdFields{ $Field->{FieldID} }   = 1;
                 }
@@ -1317,8 +1320,10 @@ sub Run {
 
         # don't set a default value for hidden fields
         my %UseDefault = ();
-        if ( !$DynFieldStates{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"}
-            && ( $DynamicFieldConfig->{FieldType} ne 'Date' || $DynamicFieldConfig->{FieldType} ne 'DateTime' ) )
+        if (
+            !$DynFieldStates{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"}
+            && ( $DynamicFieldConfig->{FieldType} ne 'Date' || $DynamicFieldConfig->{FieldType} ne 'DateTime' )
+            )
         {
             %UseDefault = (
                 UseDefaultValue      => 0,
@@ -1691,12 +1696,11 @@ sub _Mask {
 
                     # performance-boost/cache
                     if ( !defined $PermissionRights{ $CurrentActivityDialog->{Permission} } ) {
-                        $PermissionRights{ $CurrentActivityDialog->{Permission} }
-                            = $TicketObject->TicketCustomerPermission(
+                        $PermissionRights{ $CurrentActivityDialog->{Permission} } = $TicketObject->TicketCustomerPermission(
                             Type     => $CurrentActivityDialog->{Permission},
                             TicketID => $Param{TicketID},
                             UserID   => $Self->{UserID},
-                            );
+                        );
                     }
 
                     if ( !$PermissionRights{ $CurrentActivityDialog->{Permission} } ) {
@@ -1974,8 +1978,7 @@ sub _Mask {
                         my @OnlineUsers = $Kernel::OM->Get('Kernel::System::Chat')->OnlineUserList(
                             UserType => 'User',
                         );
-                        my $AvailabilityCheck
-                            = $Kernel::OM->Get('Kernel::Config')->Get("ChatEngine::CustomerFrontend::AvailabilityCheck")
+                        my $AvailabilityCheck = $Kernel::OM->Get('Kernel::Config')->Get("ChatEngine::CustomerFrontend::AvailabilityCheck")
                             || 0;
                         my %AvailableUsers;
                         if ($AvailabilityCheck) {

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -65,7 +65,7 @@ use strict;
 use warnings;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::TestSubs)
 {
-    no warnings 'redefine';
+    no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
     sub Request {
         return (
             Status  => '200 OK',
@@ -211,7 +211,7 @@ $Selenium->RunTest(
         $Self->True(
             index(
                 $Selenium->get_page_source(),
-                'The installation of packages which are not verified by the OTOBO Team is not possible by default.'
+                'The installation of packages which are not verified is disabled.'
             ) > 0,
             'Message for aborting installation of package is displayed'
         );
@@ -228,13 +228,14 @@ $Selenium->RunTest(
 
         $NavigateToAdminPackageManager->();
 
-        # Check for notification.
-        $Self->True(
-            $Selenium->execute_script(
-                'return $("div.MessageBox.Error p:contains(\'The installation of packages which are not verified by the OTOBO Team is activated. These packages could threaten your whole system! It is recommended not to use unverified packages.\')").length',
-            ),
-            'Install warning for not verified packages is displayed',
-        );
+        # The notification PackageManagerCheckNotVerifiedPackages.pm no longer exists in OTOBO.
+        # This means that there is no warning about unverified packages.
+        #$Self->True(
+        #    $Selenium->execute_script(
+        #        'return $("div.MessageBox.Error p:contains(\'The installation of packages which are not verified by the OTOBO Team is activated. These packages could threaten your whole system! It is recommended not to use unverified packages.\')").length',
+        #    ),
+        #    'Install warning for not verified packages is displayed',
+        #);
 
         $Selenium->find_element( '#FileUpload', 'css' )->send_keys($Location);
 

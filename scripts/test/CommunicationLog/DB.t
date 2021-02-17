@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -110,7 +110,7 @@ sub TestObjectLogGet {
     my %Param = @_;
 
     my $GetRandomPriority = sub {
-        my $Idx        = int( rand(4) );                      ## no critic
+        my $Idx        = int( rand(4) );                      ## no critic qw(OTOBO::ProhibitRandInTests)
         my @Priorities = qw( Error Warn Info Debug Trace );
         return $Priorities[$Idx];
     };
@@ -171,7 +171,7 @@ sub TestObjectLogEntryList {
     my %Param = @_;
 
     my $GetRandomPriority = sub {
-        my $Idx        = int( rand(4) );                      ## no critic
+        my $Idx        = int( rand(4) );                      ## no critic qw(OTOBO::ProhibitRandInTests)
         my @Priorities = qw( Error Warn Info Debug Trace );
         return $Priorities[$Idx];
     };

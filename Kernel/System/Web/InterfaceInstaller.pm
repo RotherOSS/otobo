@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -41,35 +41,51 @@ our @ObjectDependencies = (
 
 Kernel::System::Web::InterfaceInstaller - the installer web interface
 
+=head1 SYNOPSIS
+
+    use Kernel::System::Web::InterfaceInstaller;
+
+    # a Plack request handler
+    my $App = sub {
+        my $Env = shift;
+
+        my $Interface = Kernel::System::Web::InterfaceInstaller->new(
+            # Debug => 1
+            PSGIEnv    => $Env,
+        );
+
+        # generate content (actually headers are generated as a side effect)
+        my $Content = $Interface->Content();
+
+        # assuming all went well and HTML was generated
+        return [
+            '200',
+            [ 'Content-Type' => 'text/html' ],
+            $Content
+        ];
+    };
+
 =head1 DESCRIPTION
 
 This module generates the HTTP response for F<installer.pl>.
+This class is meant to be used within a Plack request handler.
+See F<bin/psgi-bin/otobo.psgi> for the real live usage.
 
 =head1 PUBLIC INTERFACE
 
 =head2 new()
 
-create the web interface object for 'installer.pl'.
-
-    use Kernel::System::Web::InterfaceInstaller;
-
-    my $Interface = Kernel::System::Web::InterfaceInstaller->new();
-
-    # with debugging enabled
-    my $Interface = Kernel::System::Web::InterfaceInstaller->new(
-        Debug => 1
-    );
+create the web interface object for F<installer.pl>.
 
 =cut
 
 sub new {
-    my $Type = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # start with an empty hash for the new object
     my $Self = bless {}, $Type;
 
-    # get debug level
+    # set debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
     # register object params
@@ -78,7 +94,7 @@ sub new {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'Installer',
         },
         'Kernel::System::Web::Request' => {
-            WebRequest => $Param{WebRequest} || 0,
+            PSGIEnv => $Param{PSGIEnv} || 0,
         },
     );
 

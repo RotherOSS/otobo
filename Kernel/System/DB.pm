@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -88,8 +88,7 @@ Usually you do not use it directly, instead use:
 =cut
 
 sub new {
-    my $Type = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = bless {}, $Type;
@@ -200,7 +199,7 @@ sub Connect {
     if ( !$DBIxConnectorIsUsed && $Self->{dbh} ) {
 
         my $PingTimeout = 10;        # Only ping every 10 seconds (see bug#12383).
-        my $CurrentTime = time;      ## no critic
+        my $CurrentTime = time;
 
         if ( $CurrentTime - ( $Self->{LastPingTime} // 0 ) < $PingTimeout ) {
             return $Self->{dbh};
@@ -230,9 +229,9 @@ sub Connect {
     # db connect
     if ( $DBIxConnectorIsUsed ) {
 
-        my ( %ConnectAttributes, %Callbacks );
+        # Attribute for callbacks. See https://metacpan.org/pod/DBI#Callbacks
+        my %Callbacks;
         {
-            # Attribute for callbacks. See https://metacpan.org/pod/DBI#Callbacks
             if ( $Self->{Backend}->{'DB::Connect'} ) {
 
                 # run a command for initializing a session
@@ -262,27 +261,28 @@ sub Connect {
                 };
             }
 
-            # set utf-8 on for PostgreSQL
-            # Note: This is untested for the PSGI-case
-            if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
-                $ConnectAttributes{pg_enable_utf8} = 1;
-            }
-
-            # The defaults for the attributes RaiseError and AutoInactiveDestroy differ
-            # between DBI and DBIx::Connector.
-            # For DBI they are off per default, but for DBIx::Connector they are on per default.
-            # RaiseError: explicitly turn it off as this was the previous setup in OTOBO.
-            #             This is OK as the the methods run(), txn(), and svp() are not used in OTOBO.
-            # AutoInactiveDestroy: Concerns only behavior on forks and such.
-            #                      Keep it activated as it is important for DBIx::Connector.
-            #
-            # Kernel::System::DB::mysql also sets mysql_auto_reconnect = 0.
-            # This is fine, as this is the same setting as enforced by DBIx::Connector::Driver::mysql
-            %ConnectAttributes = (
-                RaiseError => 0,
-                $Self->{Backend}->{'DB::Attribute'}->%*,
-            );
+            # In OTOBO 10.0.x running with PostgreSQL the flag pg_enable_utf8 was set to 1.
+            # According to https://metacpan.org/pod/DBD::Pg#pg_enable_utf8-(integer)
+            # this is no longer necessary.
+            #if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
+            #    $ConnectAttributes{pg_enable_utf8} = 1;
+            #}
         }
+
+        # The defaults for the attributes RaiseError and AutoInactiveDestroy differ
+        # between DBI and DBIx::Connector.
+        # For DBI they are off per default, but for DBIx::Connector they are on per default.
+        # RaiseError: explicitly turn it off as this was the previous setup in OTOBO.
+        #             This is OK as the the methods run(), txn(), and svp() are not used in OTOBO.
+        # AutoInactiveDestroy: Concerns only behavior on forks and such.
+        #                      Keep it activated as it is important for DBIx::Connector.
+        #
+        # Kernel::System::DB::mysql also sets mysql_auto_reconnect = 0.
+        # This is fine, as this is the same setting as enforced by DBIx::Connector::Driver::mysql
+        my %ConnectAttributes = (
+            RaiseError => 0,
+            $Self->{Backend}->{'DB::Attribute'}->%*,
+        );
 
         # Generation of the cache key is copied from DBI::connect_cached().
         # According to https://metacpan.org/pod/DBI#connect_cached it is OK to
@@ -518,8 +518,7 @@ Attention: Connect() must be successful for the method to work.
 =cut
 
 sub QuoteIdentifier {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{Table} ) {

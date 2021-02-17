@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -398,7 +398,7 @@ my $Path          = $ConfigObject->Get('Home') . '/scripts/test/sample/Stats/Sta
 my $StatID        = 0;
 my $ExportContent = {};
 my $Filehandle;
-if ( !open $Filehandle, '<', $Path ) {    ## no critic
+if ( !open $Filehandle, '<', $Path ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
     $Self->True(
         0,
         'Get the file which should be imported',
@@ -459,7 +459,7 @@ $Self->Is(
 # load example file
 my $PathNotExistingStatistic = $ConfigObject->Get('Home') . '/scripts/test/sample/Stats/Stats.Static.NotExisting.xml';
 my $FilehandleNotExistingStatistic;
-if ( !open $FilehandleNotExistingStatistic, '<', $PathNotExistingStatistic ) {    ## no critic
+if ( !open $FilehandleNotExistingStatistic, '<', $PathNotExistingStatistic ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
     $Self->True(
         0,
         'Get the file which should be imported',
@@ -488,7 +488,7 @@ my $Home  = $ConfigObject->Get('Home');
 my ( $Result, $ExitCode );
 {
     local *STDOUT;
-    open STDOUT, '>:utf8', \$Result;    ## no critic
+    open STDOUT, '>:utf8', \$Result;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
     my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Stats::Generate');
     $ExitCode = $CommandObject->Execute( '--number', $Stat4->{StatNumber}, '--target-directory', "$Home/var/tmp/" );
 }

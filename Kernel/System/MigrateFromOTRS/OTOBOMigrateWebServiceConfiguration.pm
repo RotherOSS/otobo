@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::MigrateFromOTRS::OTOBOMigrateWebServiceConfiguration;    ## no critic
+package Kernel::System::MigrateFromOTRS::OTOBOMigrateWebServiceConfiguration;
 
 use strict;
 use warnings;
@@ -75,97 +75,315 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+    my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
+    my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
     # Set cache object with taskinfo and starttime to show current state in frontend
-    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
-    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-    my $Epoch          = $DateTimeObject->ToEpoch();
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    my $Epoch       = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
     $CacheObject->Set(
         Type  => 'OTRSMigration',
         Key   => 'MigrationState',
         Value => {
             Task      => 'OTOBOMigrateWebServiceConfiguration',
-            SubTask   => "Migrate webservices and add OTOBO ElasticSearch services.",
+            SubTask   => 'Prepare.',
             StartTime => $Epoch,
         },
     );
 
-    my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
-
-    my $WebserviceList = $WebserviceObject->WebserviceList(
-        Valid => 0,
+    $CacheObject->CleanUp(
+        Type => 'Webservice',
     );
 
-    if ( !IsHashRefWithData($WebserviceList) ) {
-        my %Result;
-        $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
-        $Result{Comment}    = $Self->{LanguageObject}->Translate("No web service existent, done.");
-        $Result{Successful} = 1;
-        return \%Result;
-    }
+    my %Webservices = $Self->_GetWebserviceConfigs();
+    my %Result      = (
+        Message => $Self->{LanguageObject}->Translate("Migrate web service configuration."),
+    );        
 
-    WEBSERVICEID:
-    for my $WebserviceID ( sort keys %{$WebserviceList} ) {
+    WEBSERVICE:
+    for my $Name ( sort keys %Webservices ) {
 
-        my $WebserviceData = $WebserviceObject->WebserviceGet(
-            ID => $WebserviceID,
+        $Epoch = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
+        $CacheObject->Set(
+            Type  => 'OTRSMigration',
+            Key   => 'MigrationState',
+            Value => {
+                Task      => 'OTOBOMigrateWebServiceConfiguration',
+                SubTask   => 'Migrate $Name.',
+                StartTime => $Epoch,
+            },
         );
 
-        next WEBSERVICEID if !IsHashRefWithData($WebserviceData);
+        $Result{Comment} .= "$Name: ";
 
-        # Check if web service is using an old configuration type and upgrade if necessary.
-        $WebserviceObject->_WebserviceConfigUpgrade( %{$WebserviceData} );
-
-        # set and write updated config
-        my $Success = $WebserviceObject->WebserviceUpdate(
-            ID      => $WebserviceID,
-            Name    => $WebserviceData->{Name},
-            Config  => $WebserviceData->{Config},
-            ValidID => $WebserviceData->{ValidID},
-            UserID  => 1,
+        # check if Elasticsearch is already present
+        my $Webservice = $WebserviceObject->WebserviceGet(
+            Name => 'Elasticsearch',
         );
+        
+        if ( IsHashRefWithData($Webservice) ) {
+            $Result{Comment} .= 'use existing; ';
+            next WEBSERVICE;
+        }
+
+        my $ID = $WebserviceObject->WebserviceAdd(
+            Name   => $Name,
+            UserID => 1,
+            %{ $Webservices{$Name} },
+        );
+
+        if ( !$ID ) {
+            $Result{Comment}   .= $Self->{LanguageObject}->Translate( 'Failed - see the log!' );
+            $Result{Successful} = 0;
+            return \%Result;
+        }
+
+        $Result{Comment} .= 'added; ';
     }
 
-    # Add webservice for ElasticSearch
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    # Create database tables and insert initial values.
-    my @SQLPost;
-
-    # Check/get SQL schema directory
-    my $DBXMLFile = $ConfigObject->Get('Home') . '/scripts/webservices/otobo-initial_insert-webservice.xml';
-
-    if ( ! -f $DBXMLFile ) {
-        my %Result;
-        $Result{Message} = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
-        $Result{Comment} = $Self->{LanguageObject}
-            ->Translate( 'Can\'t add web service for Elasticsearch. File %s not found!', $DBXMLFile );
-        $Result{Successful} = 0;
-
-        return \%Result;
-    }
-    my $XML = $MainObject->FileRead(
-        Location => $DBXMLFile,
-    );
-    my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse(
-        String => $XML,
-    );
-
-    my @SQL = $DBObject->SQLProcessor(
-        Database => \@XMLArray,
-    );
-
-    my %Result;
-    $Result{Message} = $Self->{LanguageObject}->Translate("Migrate web service configuration.");
-    $Result{Comment} = $Self->{LanguageObject}->Translate(
-        "Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed."
-    );
+    $Result{Comment} .= '- please activate needed webservices manually.';
     $Result{Successful} = 1;
 
     return \%Result;
+}
+
+sub _GetWebserviceConfigs {
+
+    my %Invoker = (
+        Elasticsearch => {
+            CustomerCompanyManagement => {
+                Description => '',
+                Events      => [
+                    {
+                        Asynchronous => '0',
+                        Event        => 'CustomerCompanyAdd',
+                    },
+                    {
+                        Asynchronous => '0',
+                        Event        => 'CustomerCompanyUpdate',
+                    },
+                ],
+                Type => 'Elasticsearch::CustomerCompanyManagement',
+            },
+            CustomerUserManagement => {
+                Description => '',
+                Events      => [
+                    {
+                        Asynchronous => '0',
+                        Event        => 'CustomerUserAdd',
+                    },
+                    {
+                        Asynchronous => '0',
+                        Event        => 'CustomerUserUpdate',
+                    },
+                ],
+                Type => 'Elasticsearch::CustomerUserManagement',
+            },
+            Search => {
+                Description => '',
+                Type        => 'Elasticsearch::Search',
+            },
+            TicketIngestAttachment => {
+                Description => '',
+                Type        => 'Elasticsearch::TicketManagement',
+            },
+            TicketManagement => {
+                Description => '',
+                Events      => [
+                    {
+                        Asynchronous => '0',
+                        Event        => 'TicketCreate',
+                    },
+                    {
+                        Asynchronous => '0',
+                        Event        => 'ArticleCreate',
+                    },
+                    {
+                        Asynchronous => '0',
+                        Event        => 'TicketCustomerUpdate',
+                    },
+                    {
+                        Asynchronous => '0',
+                        Event        => 'TicketQueueUpdate',
+                    },
+                    {
+                        Asynchronous => '0',
+                        Event        => 'TicketTitleUpdate',
+                    },
+                    {
+                        Asynchronous => '0',
+                        Event        => 'QueueUpdate',
+                    },
+                    {
+                        Asynchronous => '0',
+                        Event        => 'TicketDelete',
+                    },
+                    {
+                        Asynchronous => '0',
+                        Event        => 'TicketArchiveFlagUpdate',
+                    },
+                ],
+                Type => 'Elasticsearch::TicketManagement',
+            },
+            UtilsIngest_DELETE => {
+                Description => '',
+                Type        => 'Elasticsearch::Utils',
+            },
+            UtilsIngest_GET => {
+                Description => '',
+                Type        => 'Elasticsearch::Utils',
+            },
+            UtilsPipeline_DELETE => {
+                Description => '',
+                Type        => 'Elasticsearch::Utils',
+            },
+            UtilsPipeline_PUT => {
+                Description => '',
+                Type        => 'Elasticsearch::Utils',
+            },
+            Utils_DELETE => {
+                Description => '',
+                Type        => 'Elasticsearch::Utils',
+            },
+            Utils_GET => {
+                Description => '',
+                Type        => 'Elasticsearch::Utils',
+            },
+            Utils_PUT => {
+                Description => '',
+                Type        => 'Elasticsearch::Utils',
+            },
+        }
+    );
+
+    my %ICMapping = (
+        Elasticsearch => {
+            CustomerCompanyManagement => {
+                Command    => 'POST',
+                Controller => '/customer/:docapi/:id',
+            },
+            CustomerUserManagement => {
+                Command    => 'POST',
+                Controller => '/customeruser/:docapi/:id',
+            },
+            Search => {
+                Command    => 'POST',
+                Controller => '/:index/_search',
+            },
+            TicketIngestAttachment => {
+                Command    => 'POST',
+                Controller => '/tmpattachments/:docapi/:id?pipeline=:path',
+            },
+            TicketManagement => {
+                Command    => 'POST',
+                Controller => '/ticket/:docapi/:id',
+            },
+            UtilsIngest_DELETE => {
+                Command    => 'DELETE',
+                Controller => '/:index/:docapi/:id',
+            },
+            UtilsIngest_GET => {
+                Command    => 'GET',
+                Controller => '/:index/:docapi/:id',
+            },
+            UtilsPipeline_DELETE => {
+                Command    => 'DELETE',
+                Controller => '/_ingest/pipeline/Attachments',
+            },
+            UtilsPipeline_PUT => {
+                Command    => 'PUT',
+                Controller => '/_ingest/pipeline/Attachments',
+            },
+            Utils_DELETE => {
+                Command    => 'DELETE',
+                Controller => '/:index',
+            },
+            Utils_GET => {
+                Command    => 'GET',
+                Controller => '/:index',
+            },
+            Utils_PUT => {
+                Command    => 'PUT',
+                Controller => '/:index',
+            },
+        },
+    );
+
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+    if ( $PackageObject->PackageIsInstalled( Name => 'ITSMConfigurationManagement' ) ) {
+        $Invoker{Elasticsearch}{ConfigItemIngestAttachment} = {
+            Description => '',
+            Type        => 'Elasticsearch::ConfigItemManagement',
+        };
+        $Invoker{Elasticsearch}{ConfigItemManagement} = {
+            Description => '',
+            Events      => [
+                {
+                    Asynchronous => '0',
+                    Event        => 'ConfigItemCreate',
+                },
+                {
+                    Asynchronous => '0',
+                    Event        => 'VersionCreate',
+                },
+                {
+                    Asynchronous => '0',
+                    Event        => 'AttachmentAddPost',
+                },
+                {
+                    Asynchronous => '0',
+                    Event        => 'AttachmentDeletePost',
+                },
+                {
+                    Asynchronous => '0',
+                    Event        => 'ConfigItemDelete',
+                },
+            ],
+            Type => 'Elasticsearch::ConfigItemManagement',
+        };
+
+        $ICMapping{Elasticsearch}{ConfigItemIngestAttachment} = {
+            Command    => 'POST',
+            Controller => '/tmpattachments/:docapi/:id?pipeline=:path',
+        };
+        $ICMapping{Elasticsearch}{ConfigItemManagement} = {
+            Command    => 'POST',
+            Controller => '/configitem/:docapi/:id',
+        };
+    }
+
+    return (
+        Elasticsearch => {
+            ValidID => 2,
+            Config => {
+                Debugger => {
+                    DebugThreshold => 'error',
+                    TestMode       => '0',
+                },
+                Description => '',
+                Provider    => {
+                    Transport => {
+                        Type => '',
+                    },
+                },
+                RemoteSystem => '',
+                Requester    => {
+                    Invoker => $Invoker{Elasticsearch},
+                    Transport => {
+                        Config => {
+                            DefaultCommand           => 'POST',
+                            Host                     => 'http://localhost:9200',
+                            InvokerControllerMapping => $ICMapping{Elasticsearch},
+                            Timeout => '30',
+                        },
+                        Type => 'HTTP::REST',
+                    },
+                }
+            },
+        },
+    );
+
 }
 
 1;

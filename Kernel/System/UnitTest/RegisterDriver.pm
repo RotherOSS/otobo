@@ -41,7 +41,8 @@ use utf8;
 # OTOBO modules
 use Kernel::System::ObjectManager;
 
-sub import {
+
+sub import { ## no critic qw(OTOBO::RequireCamelCase)
 
     # RegisterDriver is meant for test scripts,
     # meaning that each sript has it's own process.

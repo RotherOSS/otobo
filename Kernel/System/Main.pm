@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -97,8 +97,7 @@ require/load a module
 =cut
 
 sub Require {
-    my $Self  = shift;
-    my ( $Module, %Param ) = @_;
+    my ( $Self, $Module, %Param ) = @_;
 
     # check required params
     if ( !$Module ) {
@@ -152,16 +151,20 @@ sub RequireBaseClass {
     # Load the module, if not already loaded.
     return if !$Self->Require($Module);
 
-    no strict 'refs';    ## no critic
+
     my $CallingClass = caller(0);
 
-    # Check if the base class was already loaded.
-    # This can happen in persistent environments as mod_perl (see bug#9686).
-    if ( List::Util::first { $_ eq $Module } @{"${CallingClass}::ISA"} ) {
-        return 1;    # nothing to do now
-    }
+    {
+        no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
 
-    push @{"${CallingClass}::ISA"}, $Module;
+        # Check if the base class was already loaded.
+        # This can happen in persistent environments as mod_perl (see bug#9686).
+        if ( List::Util::first { $_ eq $Module } @{"${CallingClass}::ISA"} ) {
+            return 1;    # nothing to do now
+        }
+
+        push @{"${CallingClass}::ISA"}, $Module;
+    }
 
     return 1;
 }
@@ -399,7 +402,7 @@ sub FileRead {
     }
 
     # return if file can not open
-    if ( !open $FH, $Mode, $Param{Location} ) {    ## no critic
+    if ( !open $FH, $Mode, $Param{Location} ) {    ## no critic qw(InputOutput::RequireBriefOpen)
         my $Error = $!;
 
         if ( !$Param{DisableWarnings} ) {
@@ -527,7 +530,7 @@ sub FileWrite {
 
     # return if file can not open
     my $FH;
-    if ( !open $FH, $Mode, $Param{Location} ) {    ## no critic
+    if ( !open $FH, $Mode, $Param{Location} ) {    ## no critic qw(InputOutput::RequireBriefOpen)
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't write '$Param{Location}': $!",
@@ -751,7 +754,7 @@ sub MD5sum {
 
         # open file
         my $FH;
-        if ( !open $FH, '<', $Param{Filename} ) {    ## no critic
+        if ( !open $FH, '<', $Param{Filename} ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
             my $Error = $!;
 
             # Check if file exists only if system was not able to open it (to get better error message).
@@ -869,7 +872,7 @@ sub Dump {
         $Self->_Dump($DataNew);
 
         # Dump it as binary strings.
-        my $String = Data::Dumper::Dumper( ${$DataNew} );    ## no critic
+        my $String = Data::Dumper::Dumper( ${$DataNew} );
 
         # Enable utf8 flag.
         Encode::_utf8_on($String);
@@ -878,7 +881,7 @@ sub Dump {
     }
 
     # fallback if Storable can not be loaded
-    return Data::Dumper::Dumper($Data);                      ## no critic
+    return Data::Dumper::Dumper($Data);
 
 }
 

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -297,8 +297,7 @@ sub Sign {
         $Quiet = '--quiet --batch --pinentry-mode=loopback';
     }
 
-    my $GPGOptions
-        = qq{$Quiet --passphrase-fd 0 -o $FileSign --default-key $QuotedKey $SigType $DigestAlgorithm $Filename};
+    my $GPGOptions = qq{$Quiet --passphrase-fd 0 -o $FileSign --default-key $QuotedKey $SigType $DigestAlgorithm $Filename};
     my $LogMessage = qx{$Self->{GPGBin} $GPGOptions < $FilePhrase 2>&1};
 
     # error
@@ -792,8 +791,7 @@ sub SecretKeyGet {
         print $FH $Password;
         close $FH;
 
-        $LogMessage
-            = qx{$Self->{GPGBin} --batch --pinentry-mode=loopback --export-secret-keys --passphrase-fd 0 --armor --decrypt <$Filename 2>&1};
+        $LogMessage = qx{$Self->{GPGBin} --batch --pinentry-mode=loopback --export-secret-keys --passphrase-fd 0 --armor --decrypt <$Filename 2>&1};
     }
 
     # GnuPG 2.0 (and lower)
@@ -1038,8 +1036,7 @@ sub _DecryptPart {
         && sprintf( "%.3d%.3d", $Self->{Version}->{Major}, $Self->{Version}->{Minor} ) >= 2_001
         )
     {
-        my $GPGOptions
-            = qq{--batch --pinentry-mode=loopback --passphrase-fd 0 --armor -o $FileDecrypt --decrypt $QuotedFilename};
+        my $GPGOptions = qq{--batch --pinentry-mode=loopback --passphrase-fd 0 --armor -o $FileDecrypt --decrypt $QuotedFilename};
         $LogMessage = qx{$Self->{GPGBin} $GPGOptions < $FilePhrase 2>&1};
     }
 

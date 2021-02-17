@@ -3,7 +3,7 @@
 # --
 # Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
 # Copyright (C) 2012-2019 Znuny GmbH, http://znuny.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -33,7 +33,7 @@ our $Self;
 
 # explicitly declare the number of tests. This makes is obvious when the
 # test script prematurely exits
-plan( 25 );
+plan( 24 );
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::MigrateFromOTRS::OTOBOCopyFilesFromOTRS;    ## no critic
+package Kernel::System::MigrateFromOTRS::OTOBOCopyFilesFromOTRS;
 
 use strict;
 use warnings;
@@ -58,9 +58,6 @@ Returns 1 on success.
 =cut
 
 sub CheckPreviousRequirement {
-    my $Self = shift;
-    my %Param = @_;
-
     return 1;
 }
 
@@ -71,8 +68,7 @@ Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
 =cut
 
 sub Run {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # For error and progress messages
     my $Message = 'Copy and migrate files from OTRS to OTOBO';
@@ -277,8 +273,7 @@ sub Run {
 
 # Fix up Kernel/Config.pm
 sub ReConfigure {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -300,10 +295,8 @@ sub ReConfigure {
     # content of changed config file
     my $Config = '';
     {
-        ## no critic
-        open( my $In, '<:encoding(utf-8)', $ConfigFile )
-            or return "Can't open $ConfigFile: $!";
-        ## use critic
+        open( my $In, '<:encoding(utf-8)', $ConfigFile ) ## no critic qw(InputOutput::RequireBriefOpen)
+            or return "Can't open $ConfigFile: $!";      ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
 
         LINE:
         while ( my $Line = <$In> ) {
@@ -350,13 +343,11 @@ sub ReConfigure {
         }
     }
 
-    # Write new config file.
-    ## no critic
+    # Write new config file, the file handle is autoclosed as it is lexical to the block
     {
-        open ( my $Out, '>:encoding(utf-8)', $ConfigFile )
-            or return "Can't open $ConfigFile: $!";
+        open my $Out, '>:encoding(utf-8)', $ConfigFile
+            or return "Can't open $ConfigFile: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
         print $Out $Config;
-        ## use critic
     }
 
     return;

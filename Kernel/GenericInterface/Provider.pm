@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -67,7 +67,7 @@ sub new {
             LogPrefix => 'GenericInterfaceProvider',
         },
         'Kernel::System::Web::Request' => {
-            WebRequest => $Param{WebRequest} || 0,
+            PSGIEnv => $Param{PSGIEnv} || 0,
         },
     );
 
@@ -118,7 +118,7 @@ sub Content {
 
         # generate status 500 response under PSGI
         # otherwise return undef and Apache will generate 500 Error
-        return $Self->_EmptyContent();
+        return $Self->_ThrowWebException();
     }
 
     # Check if requested web service exists and is valid.
@@ -137,7 +137,7 @@ sub Content {
 
         # generate status 500 response under PSGI
         # otherwise return undef and Apache will generate 500 Error
-        return $Self->_EmptyContent();
+        return $Self->_ThrowWebException();
     }
 
     my $Webservice = $WebserviceObject->WebserviceGet(%WebserviceGetData);
@@ -150,7 +150,7 @@ sub Content {
 
         # generate status 500 response under PSGI
         # otherwise return undef and Apache will generate 500 Error
-        return $Self->_EmptyContent();
+        return $Self->_ThrowWebException();
     }
 
     # Create a debugger instance which will log the details of this communication entry.
@@ -165,7 +165,7 @@ sub Content {
 
         # generate status 500 response under PSGI
         # otherwise return undef and Apache will generate 500 Error
-        return $Self->_EmptyContent();
+        return $Self->_ThrowWebException();
     }
 
     $DebuggerObject->Debug(
@@ -194,7 +194,7 @@ sub Content {
 
         # generate status 500 response under PSGI
         # otherwise return undef and Apache will generate 500 Error
-        return $Self->_EmptyContent();
+        return $Self->_ThrowWebException();
     }
 
     # Combine all data for error handler we got so far.
@@ -619,21 +619,22 @@ sub _HandleError {
     ) // '';
 }
 
-=head2 _EmptyContent()
+=head2 _ThrowWebException()
 
 when not running under PSGI return an empty string, which will be passed on as empty content.
 Apache generates status code 500 for that.
 
 Under PSGI explicitly generate a response with code 500.
 
-    my $Contest = $RequesterObject->_EmptyContent();
+    # this sub dies
+    $RequesterObject->_ThrowWebException();
 
 =cut
 
-sub _EmptyContent {
+sub _ThrowWebException {
     my $Self = shift;
 
-    return unless $ENV{OTOBO_RUNS_UNDER_PSGI};
+    # for OTOBO_RUNS_UNDER_PSGI
 
     my $RedirectResponse = Plack::Response->new(
         500,

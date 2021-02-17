@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1506,8 +1506,7 @@ sub _MaskRun {
 
             # set search parameter
             if ( defined $SearchParameter ) {
-                $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                    = $SearchParameter->{Parameter};
+                $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $SearchParameter->{Parameter};
             }
         }
     }
@@ -1683,9 +1682,8 @@ sub _StopWordsServerErrorsGet {
             next FIELD if ref $StopWords->{$Field} ne 'ARRAY';
             next FIELD if !@{ $StopWords->{$Field} };
 
-            $StopWordsServerErrors{ $Field . 'Invalid' } = 'ServerError';
-            $StopWordsServerErrors{ $Field . 'InvalidTooltip' }
-                = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}
+            $StopWordsServerErrors{ $Field . 'Invalid' }        = 'ServerError';
+            $StopWordsServerErrors{ $Field . 'InvalidTooltip' } = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}
                 ->Translate('Please remove the following words because they cannot be used for the ticket selection:')
                 . ' '
                 . join( ',', sort @{ $StopWords->{$Field} } );

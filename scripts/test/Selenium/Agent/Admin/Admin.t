@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,14 +16,20 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self));
-
+# core modules
 use File::Path qw(mkpath rmtree);
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
+
+our $Self;
+
 
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -39,8 +45,8 @@ $Selenium->RunTest(
         # create directory for certificates and private keys
         my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";
         my $PrivatePath = $ConfigObject->Get('Home') . "/var/tmp/private";
-        mkpath( [$CertPath],    0, 0770 );    ## no critic
-        mkpath( [$PrivatePath], 0, 0770 );    ## no critic
+        mkpath( [$CertPath],    0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+        mkpath( [$PrivatePath], 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
         # make sure to enable cloud services
         $Helper->ConfigSettingChange(
@@ -102,7 +108,6 @@ $Selenium->RunTest(
             AdminLog
             AdminMailAccount
             AdminNotificationEvent
-            AdminOTOBOCommunity
             AdminPGP
             AdminPackageManager
             AdminPerformanceLog
@@ -146,7 +151,6 @@ $Selenium->RunTest(
             # Skip test for unregistered modules (e.g. OTOBO Business)
             if ( !$FrontendModules->{$AdminModule} ) {
 
-                next ADMINMODULE if $AdminModule eq 'AdminOTOBOCommunity';
                 $Self->True(
                     index(
                         $Selenium->get_page_source(),
@@ -302,7 +306,4 @@ $Selenium->RunTest(
     }
 );
 
-
-$Self->DoneTesting();
-
-
+done_testing();

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -119,7 +119,7 @@ sub Run {
         # write tmp file
         my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
         my ( $FH, $Filename ) = $FileTempObject->TempFile();
-        if ( open( my $ViewerDataFH, '>', $Filename ) ) {    ## no critic
+        if ( open( my $ViewerDataFH, '>', $Filename ) ) {    ## no critic qw(OTOBO::ProhibitOpen)
             print $ViewerDataFH $Data{Content};
             close $ViewerDataFH;
         }
@@ -135,7 +135,7 @@ sub Run {
 
         # use viewer
         my $Content = '';
-        if ( open( my $ViewerFH, "-|", "$Viewer $Filename" ) ) {    ## no critic
+        if ( open( my $ViewerFH, "-|", "$Viewer $Filename" ) ) {
             while (<$ViewerFH>) {
                 $Content .= $_;
             }

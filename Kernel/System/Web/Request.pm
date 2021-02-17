@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,11 +18,14 @@ package Kernel::System::Web::Request;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
-use CGI ();
-use CGI::Carp;
-use File::Path qw();
+# core modules
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -36,11 +39,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Web::Request - global CGI interface
+Kernel::System::Web::Request - an object holding info on the current request
 
 =head1 DESCRIPTION
 
-All cgi param functions.
+Holds the request params and other info on the request.
 
 =head1 PUBLIC INTERFACE
 
@@ -49,15 +52,25 @@ All cgi param functions.
 create param object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
+    # usually the PSGI env is already available
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Web::Request' => {
-            WebRequest => CGI::PSGI->new($env), # optional, e. g. if PSGI is used
+            PSGIEnv => $PSGIEnv
         }
     );
+
+    # alternatively create a request object when we are in a CGI environment
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
+        'Kernel::System::Web::Request' => {
+            WebRequest => CGI::PSGI->new($env)
+        }
+    );
+
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
 If Kernel::System::Web::Request is instantiated several times, they will share the
-same CGI data (this can be helpful in filters which do not have access to the
+same web request data. This can be helpful in filters which do not have access to the
 ParamObject, for example.
 
 If you need to reset the CGI data before creating a new instance, use
@@ -72,17 +85,28 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # max 5 MB posts
-    $CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;    ## no critic
+    $CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
 
-    # query object (in case use already existing WebRequest, e. g. fast cgi)
-    $Self->{Query} = $Param{WebRequest} || CGI->new();
+    # query object when PSGI env is passed, the recommended usage
+    if ( $Param{PSGIEnv} ) {
+        $Self->{Query} = CGI::PSGI->new( $Param{PSGIEnv} );
+    }
+
+    # query object (in case use already existing WebRequest, e. g. fast cgi or classic cgi)
+    elsif ( $Param{WebRequest} ) {
+        $Self->{Query} = $Param{WebRequest};
+    }
+
+    # there is no fallback that would e.g. assume the CGI %ENV variables
+    else {
+        die 'Bailing out as neither PSGIEnv nor WebRequest was passed!';
+    }
 
     return $Self;
 }
@@ -102,9 +126,8 @@ sub Error {
 
     return if !$Self->{Query}->cgi_error();
 
-    ## no critic
+
     return $Self->{Query}->cgi_error() . ' - POST_MAX=' . ( $CGI::POST_MAX / 1024 ) . 'KB';
-    ## use critic
 }
 
 =head2 GetParam()

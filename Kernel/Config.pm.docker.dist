@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -120,7 +120,16 @@ sub Load {
     $Self->{'Cache::Redis'}->{'RedisFast'} = 1;
     $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
     $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
-    $Self->{'TestHTTPHostname'}            = 'localhost:5000';
+    $Self->{'TestHTTPHostname'}            = 'web:5000';
+
+    # activate Selenium tests if the the host is available
+    $Self->{'SeleniumTestsConfig'} = {
+        remote_server_addr  => 'selenium-chrome',
+        check_server_addr   => 1,                 # skip test when remote_server_addr can't be resolved via DNS
+        port                => '4444',
+        browser_name        => 'chrome',
+        platform            => 'ANY',
+    };
 
     # ---------------------------------------------------- #
     # insert your own config settings "here"               #

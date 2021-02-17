@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -494,6 +494,27 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Try::Tiny',
+        Required  => 1,
+        InstTypes => {
+            aptget => 'libtry-tiny-perl',
+            emerge => 'dev-perl/Try-Tiny',
+            zypper => 'perl-Try-Tiny',
+            ports  => 'devel/p5-Try-Tiny',
+        },
+    },
+    {
+        Module    => 'URI',
+        Required  => 1,
+        Comment   => 'for generating properly escaped URLs',
+        InstTypes => {
+            aptget => 'liburi-perl',
+            emerge => 'dev-perl/URI',
+            zypper => 'perl-URI',
+            ports  => 'devel/p5-URI',
+        },
+    },
+    {
         Module    => 'XML::LibXML',
         Required  => 1,
         Comment   => 'Required for XML processing.',
@@ -601,30 +622,6 @@ my @NeededModules = (
         InstTypes => {
             aptget => 'libapache2-mod-perl2',
             emerge => 'www-apache/mod_perl',
-            zypper => 'apache2-mod_perl',
-            ports  => 'www/mod_perl2',
-        },
-    },
-    {
-        Module    => 'Apache::DBI',
-        Required  => 0,
-        Features  => ['apache:mod_perl'],
-        Comment   => 'Improves Performance on Apache webservers with mod_perl enabled.',
-        InstTypes => {
-            aptget => 'libapache-dbi-perl',
-            emerge => 'dev-perl/Apache-DBI',
-            zypper => 'perl-Apache-DBI',
-            ports  => 'www/p5-Apache-DBI',
-        },
-    },
-    {
-        Module    => 'Apache2::Reload',
-        Required  => 0,
-        Features  => ['apache:mod_perl'],
-        Comment   => 'Avoids web server restarts on mod_perl.',
-        InstTypes => {
-            aptget => 'libapache2-mod-perl2',
-            emerge => 'dev-perl/Apache-Reload',
             zypper => 'apache2-mod_perl',
             ports  => 'www/mod_perl2',
         },
@@ -989,10 +986,10 @@ my @NeededModules = (
 
 # Feature devel
     {
-        Module    => 'Clone',
+        Module    => 'Selenium::Remote::Driver',
         Required  => 0,
         Features   => ['devel:test'],
-        Comment   => 'a prerequisite of Kernel/cpan-lib/Selenium/Remote/Driver.pm',
+        Comment   => 'used by Kernel::System::UnitTest::Selenium',
         InstTypes => {
             aptget => undef,
             emerge => undef,
@@ -1061,11 +1058,12 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Mojolicious',
-        Required  => 0,
-        Features   => ['devel:dbviewer'],
-        Comment   => 'a web framework that makes web development fun again',
-        InstTypes => {
+        Module          => 'Mojolicious',
+        Required        => 0,
+        Features        => ['devel:dbviewer'],
+        Comment         => 'a web framework that makes web development fun again',
+        VersionRequired => '8.73',
+        InstTypes       => {
             aptget => undef,
             emerge => undef,
             zypper => undef,
@@ -1262,14 +1260,12 @@ sub Check {
         my %DontRequire = (
             'Net::DNS'        => 1,
             'Email::Valid'    => 1,    # uses Net::DNS internally
-            'Apache2::Reload' => 1,    # is not needed / working on systems without mod_perl (like Plack etc.)
         );
 
-        ## no critic
-        if ( !$DontRequire{ $Module->{Module} } && !eval "require $Module->{Module}" ) {
+
+        if ( !$DontRequire{ $Module->{Module} } && !eval "require $Module->{Module}" ) { ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
             $ErrorMessage .= 'Not all prerequisites for this module correctly installed. ';
         }
-        ## use critic
 
         if ( $Module->{VersionsNotSupported} ) {
 

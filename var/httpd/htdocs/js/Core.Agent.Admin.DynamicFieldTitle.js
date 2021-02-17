@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+// Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -38,7 +38,7 @@ Core.Agent.Admin.DynamicFieldTitle = (function (TargetNS) {
         $('#CBFontStyleBold').attr('disabled', true);
         $('#CBFontStyleItalic').attr('disabled', true);
         $('#CBFontStyleUnderLine').attr('disabled', true);
-        
+
         return true;
     };
     TargetNS.DeactivateTemplate = function() {
@@ -54,18 +54,18 @@ Core.Agent.Admin.DynamicFieldTitle = (function (TargetNS) {
     };
     TargetNS.SetValue = function(Param){
         var MyParam =  Param;
-        
+
         $('#FontSize').val(MyParam['Size']);
         $('#FontColor').val(MyParam['Color']);
-        if( MyParam['Italic'] == '1') { 
+        if( MyParam['Italic'] == '1') {
             $('#CBFontStyleItalic').prop('checked', true);
             $('#CBFontStyleItalicValue').val('on');
         }else{
             $('#CBFontStyleItalic').prop('checked', false);
             $('#CBFontStyleItalicValue').val('');
         }
-        
-        if( MyParam['Bold'] == '1' ) { 
+
+        if( MyParam['Bold'] == '1' ) {
             $('#CBFontStyleBold').prop('checked', true);
             $('#CBFontStyleBoldValue').val('on');
         }else{
@@ -73,14 +73,14 @@ Core.Agent.Admin.DynamicFieldTitle = (function (TargetNS) {
             $('#CBFontStyleBoldValue').val('');
         }
 
-        if( MyParam['UnderLine'] == '1' ) { 
+        if( MyParam['UnderLine'] == '1' ) {
             $('#CBFontStyleUnderLine').prop('checked', true);
             $('#CBFontStyleUnderLineValue').val('on');
         }else{
             $('#CBFontStyleUnderLine').prop('checked', false);
             $('#CBFontStyleUnderLineValue').val('');
         }
-        
+
         return true;
     };
 
@@ -96,7 +96,7 @@ Core.Agent.Admin.DynamicFieldTitle = (function (TargetNS) {
             $('p.Warning').removeClass('Hidden');
         });
 
-        
+
         if ( $('#ActivateTemplate').prop("checked") == true) {
             TargetNS.ActivateTemplate();
             var SelectedTemplate = $('.FontTemplateSelected option:selected').text();
@@ -105,8 +105,8 @@ Core.Agent.Admin.DynamicFieldTitle = (function (TargetNS) {
         }else{
             TargetNS.DeactivateTemplate();
         }
-         
-        // Font template selection handle; 
+
+        // Font template selection handle;
         $('#FontTemplate').on('change', function () {
             var SelectedTemplate = $('.FontTemplateSelected option:selected').text();
             var Param = Core.Config.Get(SelectedTemplate);
@@ -115,7 +115,7 @@ Core.Agent.Admin.DynamicFieldTitle = (function (TargetNS) {
 
         //italic, bold, underline style checkboxes handle
         $('#CBFontStyleItalic').on('change', function () {
-            if(this.checked){ 
+            if(this.checked){
                 $('#CBFontStyleItalicValue').val('on');
             }else{
                 $('#CBFontStyleItalicValue').val('');
@@ -123,7 +123,7 @@ Core.Agent.Admin.DynamicFieldTitle = (function (TargetNS) {
         });
 
         $('#CBFontStyleBold').on('change', function () {
-            if(this.checked){ 
+            if(this.checked){
                 $('#CBFontStyleBoldValue').val('on');
             }else{
                 $('#CBFontStyleBoldValue').val('');
@@ -131,7 +131,7 @@ Core.Agent.Admin.DynamicFieldTitle = (function (TargetNS) {
         });
 
         $('#CBFontStyleUnderLine').on('change', function () {
-            if(this.checked){ 
+            if(this.checked){
                 $('#CBFontStyleUnderLineValue').val('on');
             }else{
                 $('#CBFontStyleUnderLineValue').val('');

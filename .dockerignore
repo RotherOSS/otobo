@@ -17,6 +17,10 @@ development
 build.log
 otobo.iml
 *.out
+var/httpd/htdocs/SeleniumScreenshots
+
+# locally installed Perl modules should not end up in the image
+local
 
 # editor swap files, other temporary files
 **/.#*
@@ -42,9 +46,6 @@ Kernel/Config.pm.dist
 # files only needed for Apache, see also Kernel::System::Environment where the ignored modules are special cased
 scripts/apache*
 bin/cgi-bin
-Kernel/cpan-lib/Apache2
-Kernel/cpan-lib/Apache
-Kernel/cpan-lib/CGI/Apache.pm
 Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
 
 # no need for cronjobs in Docker image

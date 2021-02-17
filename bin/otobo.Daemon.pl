@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -92,7 +92,7 @@ my $PIDFH;
 my $LogDir = $ConfigObject->Get('Daemon::Log::LogPath') || $ConfigObject->Get('Home') . '/var/log/Daemon';
 
 if ( !-d $LogDir ) {
-    File::Path::mkpath( $LogDir, 0, 0770 );    ## no critic
+    File::Path::mkpath( $LogDir, 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
     if ( !-d $LogDir ) {
         print STDERR "Failed to create path: $LogDir";
@@ -261,7 +261,7 @@ sub Start {
     # Watch the Config files for modifications and force a reload of the Config.
     if ( $LinuxInotify2IsAvailable ) {
 
-        my $Inotify   = Linux::Inotify2->new or die "unable to create new inotify object: $!";
+        my $Inotify   = Linux::Inotify2->new() || die "unable to create new inotify object: $!";
         my $Home      = $Kernel::OM->Get('Kernel::Config')->Get('Home');
         my $Callback  = sub {
 
@@ -440,7 +440,7 @@ sub Status {
     if ( -e $PIDFile ) {
 
         # read existing PID file
-        open my $FH, '<', $PIDFile;    ## no critic
+        open my $FH, '<', $PIDFile;    ## no critic qw(OTOBO::ProhibitOpen)
 
         # try to lock the file exclusively
         if ( !flock( $FH, LOCK_EX | LOCK_NB ) ) {
@@ -478,7 +478,7 @@ sub _PIDLock {
     # check pid directory
     if ( !-e $PIDDir ) {
 
-        File::Path::mkpath( $PIDDir, 0, 0770 );    ## no critic
+        File::Path::mkpath( $PIDDir, 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
         if ( !-e $PIDDir ) {
 
@@ -503,7 +503,7 @@ sub _PIDLock {
     if ( -e $PIDFile ) {
 
         # read existing PID file
-        open my $FH, '<', $PIDFile;    ## no critic
+        open my $FH, '<', $PIDFile;    ## no critic qw(OTOBO::ProhibitOpen)
 
         # try to get a exclusive of the pid file, if fails daemon is already running
         if ( !flock( $FH, LOCK_EX | LOCK_NB ) ) {
@@ -526,13 +526,13 @@ sub _PIDLock {
     }
 
     # create new PID file (set exclusive lock while writing the PIDFile)
-    open my $FH, '>', $PIDFile || die "Can not create PID file: $PIDFile\n";    ## no critic
+    open my $FH, '>', $PIDFile || die "Can not create PID file: $PIDFile\n";    ## no critic qw(OTOBO::ProhibitOpen)
     flock( $FH, LOCK_EX | LOCK_NB ) || die "Can not get exclusive lock for writing PID file: $PIDFile\n";
     print $FH $$;
     close $FH;
 
     # keep PIDFile shared locked forever
-    open $PIDFH, '<', $PIDFile || die "Can not read PID file: $PIDFile\n";      ## no critic
+    open $PIDFH, '<', $PIDFile || die "Can not read PID file: $PIDFile\n";      ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
     flock( $PIDFH, LOCK_SH | LOCK_NB ) || die "Can not get shared lock for reading PID file: $PIDFile\n";
 
     return 1;
@@ -543,7 +543,7 @@ sub _PIDUnlock {
     return if !-e $PIDFile;
 
     # read existing PID file
-    open my $FH, '<', $PIDFile;                                                 ## no critic
+    open my $FH, '<', $PIDFile;                                                 ## no critic qw(OTOBO::ProhibitOpen)
 
     # wait if PID is exclusively locked (and do a shared lock for reading)
     flock $FH, LOCK_SH;

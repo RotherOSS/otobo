@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -246,8 +246,7 @@ sub DatabaseSearchByConfig {
                             Extended => 1,
                         );
 
-                        $PreparedPossibleValues->{$SequenceNumber}->{$Key}
-                            = $TicketData{ $Param{Config}->{PossibleValues}->{$Key} };
+                        $PreparedPossibleValues->{$SequenceNumber}->{$Key} = $TicketData{ $Param{Config}->{PossibleValues}->{$Key} };
                     }
                 }
                 else {
@@ -260,12 +259,10 @@ sub DatabaseSearchByConfig {
                         # is equal to one of the ticket data keys
                         if ( $Key =~ m/^FieldFilter_/smxi ) {
 
-                            $PreparedPossibleValues->{$SequenceNumber}->{$Key}
-                                = $Param{ $Param{Config}->{PossibleValues}->{$Key} };
+                            $PreparedPossibleValues->{$SequenceNumber}->{$Key} = $Param{ $Param{Config}->{PossibleValues}->{$Key} };
                         }
                         else {
-                            $PreparedPossibleValues->{$SequenceNumber}->{$Key}
-                                = $Param{Config}->{PossibleValues}->{$Key};
+                            $PreparedPossibleValues->{$SequenceNumber}->{$Key} = $Param{Config}->{PossibleValues}->{$Key};
                         }
 
                         $TicketCreationScreen++;
@@ -823,8 +820,7 @@ sub DatabaseSearchByAttributes {
                             Extended => 1,
                         );
 
-                        $PreparedPossibleValues->{$SequenceNumber}->{$Key}
-                            = $TicketData{ $Param{Config}->{PossibleValues}->{$Key} };
+                        $PreparedPossibleValues->{$SequenceNumber}->{$Key} = $TicketData{ $Param{Config}->{PossibleValues}->{$Key} };
 
                     }
                 }
@@ -838,12 +834,10 @@ sub DatabaseSearchByAttributes {
                         # is equal to one of the ticket data keys
                         if ( $Key =~ m/^FieldFilter_/smxi ) {
 
-                            $PreparedPossibleValues->{$SequenceNumber}->{$Key}
-                                = $Param{ $Param{Config}->{PossibleValues}->{$Key} };
+                            $PreparedPossibleValues->{$SequenceNumber}->{$Key} = $Param{ $Param{Config}->{PossibleValues}->{$Key} };
                         }
                         else {
-                            $PreparedPossibleValues->{$SequenceNumber}->{$Key}
-                                = $Param{Config}->{PossibleValues}->{$Key};
+                            $PreparedPossibleValues->{$SequenceNumber}->{$Key} = $Param{Config}->{PossibleValues}->{$Key};
                         }
                     }
                     else {

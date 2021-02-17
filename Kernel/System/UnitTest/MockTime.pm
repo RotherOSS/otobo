@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -31,7 +31,7 @@ use DateTime 1.08;    # Load DateTime so that we can override functions for the 
 
 # OTOBO modules
 
-our %EXPORT_TAGS = (    ## no critic
+our %EXPORT_TAGS = (    ## no critic qw(OTOBO::RequireCamelCase)
     all => [ qw(FixedTimeSet FixedTimeGet FixedTimeUnset FixedTimeAddSeconds) ],
 );
 
@@ -76,7 +76,8 @@ BEGIN {
         return CORE::gmtime($Time);
     };
 
-    no warnings 'redefine'; # yes, we want to override
+    # yes, we want to override
+    no warnings 'redefine'; ## no critic (TestingAndDebugging::ProhibitNoWarnings)
 
     *DateTime::_core_time = sub {
             return $FixedTime // CORE::time();

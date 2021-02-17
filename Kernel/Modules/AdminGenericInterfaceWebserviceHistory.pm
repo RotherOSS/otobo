@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -293,17 +293,15 @@ sub _ExportWebserviceHistory {
 
     my $WebserviceHistoryID = $Param{WebserviceHistoryID};
 
-    my $WebserviceHistoryData
-        = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory')->WebserviceHistoryGet(
+    my $WebserviceHistoryData = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory')->WebserviceHistoryGet(
         ID => $WebserviceHistoryID,
-        );
+    );
 
     # Check for valid web service configuration.
     if ( !IsHashRefWithData($WebserviceHistoryData) ) {
         return $LayoutObject->ErrorScreen(
             Message =>
-                $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not get history data for WebserviceHistoryID %s', $WebserviceHistoryID ),
+                $LayoutObject->{LanguageObject}->Translate( 'Could not get history data for WebserviceHistoryID %s', $WebserviceHistoryID ),
         );
     }
 
@@ -335,10 +333,9 @@ sub _RollbackWebserviceHistory {
     my $WebserviceID        = $Param{WebserviceID};
     my $WebserviceHistoryID = $Param{WebserviceHistoryID};
 
-    my $WebserviceHistoryData
-        = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory')->WebserviceHistoryGet(
+    my $WebserviceHistoryData = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory')->WebserviceHistoryGet(
         ID => $WebserviceHistoryID,
-        );
+    );
 
     my $Success = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceUpdate(
         ID      => $WebserviceID,

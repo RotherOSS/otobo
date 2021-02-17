@@ -24,7 +24,7 @@ use utf8;
 use Test2::V0;
 use Test::Compile::Internal;
 
-my $Internal = Test::Compile::Internal->new;
+my $Internal = Test::Compile::Internal->new();
 my @Dirs = qw(Kernel Custom scripts bin);
 
 # List of files that are know to have compile issues.
@@ -38,13 +38,14 @@ my %FailureIsAccepted = (
     'Kernel/cpan-lib/PDF/API2/Win32.pm'          => 'Win32::TieRegistry is not available, but never mind as Win32 is not supported',
     'Kernel/cpan-lib/SOAP/Lite.pm'               => 'some strangeness concerning SOAP::Constants',
     'Kernel/cpan-lib/URI/urn/isbn.pm'            => 'Business::ISBN is not required',
+    'scripts/apache2-perl-startup.pl'            => 'mod_perl not neccessarily available',
 );
 
 note( 'check syntax of the Perl modules' );
 
 foreach my $File ( $Internal->all_pm_files(@Dirs) ) {
     if ( $FailureIsAccepted{$File} ) {
-        my $todo = todo "$File: $FailureIsAccepted{$File}";
+        my $ToDo = todo "$File: $FailureIsAccepted{$File}";
 
         ok( $Internal->pm_file_compiles($File), "$File compiles" );
     }
@@ -57,7 +58,7 @@ note( 'check syntax of the Perl scripts' );
 
 foreach my $File ( $Internal->all_pl_files(@Dirs) ) {
     if ( $FailureIsAccepted{$File} ) {
-        my $todo = todo "$File: $FailureIsAccepted{$File}";
+        my $ToDo = todo "$File: $FailureIsAccepted{$File}";
 
         ok( $Internal->pl_file_compiles($File), "$File compiles" );
     }
@@ -73,7 +74,7 @@ note( 'look at Perl code with an unusual extension' );
     );
     foreach my $File ( @Files ) {
         if ( $FailureIsAccepted{$File} ) {
-            my $todo = todo "$File: $FailureIsAccepted{$File}";
+            my $ToDo = todo "$File: $FailureIsAccepted{$File}";
 
             ok( $Internal->pl_file_compiles($File), "$File compiles" );
         }
@@ -95,8 +96,8 @@ note( 'check syntax of some shell scripts' );
     push @ShellScripts, 'Kernel/System/Console/Command/Dev/Git/InstallHooks/prepare-commit-msg.dist';
 
     for my $File ( @ShellScripts ) {
-        my $compile_errors = `bash -n "$File" 2>&1`;
-        is( $compile_errors, '', "$File compiles" );
+        my $CompileErrors = `bash -n "$File" 2>&1`;
+        is( $CompileErrors, '', "$File compiles" );
     }
 }
 
@@ -106,8 +107,8 @@ SKIP: {
     skip 'no hooks dir' if ! -d 'hooks';
 
     for my $File ( glob 'hooks/*' ) {
-        my $compile_errors = `bash -n "$File" 2>&1`;
-        is( $compile_errors, '', "$File compiles" );
+        my $CompileErrors = `bash -n "$File" 2>&1`;
+        is( $CompileErrors, '', "$File compiles" );
     }
 }
 

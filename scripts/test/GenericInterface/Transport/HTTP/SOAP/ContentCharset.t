@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,17 +14,25 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
+use v5.24;
+use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use CGI;
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::ObjectManager;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport::HTTP::SOAP;
+
+$Kernel::OM = Kernel::System::ObjectManager->new();
+
+my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     DebuggerConfig => {
@@ -92,9 +100,11 @@ my @Tests = (
     },
 );
 
+plan( scalar @Tests );
+
 for my $Test (@Tests) {
 
-    my $Request = << "EOF";
+    my $Request = << "END_XML";
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tic="http://www.otobo.org/TicketConnector/">
    <soapenv:Header/>
    <soapenv:Body>
@@ -103,14 +113,20 @@ for my $Test (@Tests) {
       </tic:Test>
    </soapenv:Body>
 </soapenv:Envelope>
-EOF
+END_XML
+
+    $EncodeObject->EncodeOutput( \$Request );
 
     # Fake STDIN and fill it with the request.
-    open my $StandardInput, '<', \"$Request";    ## no critic
-    local *STDIN = $StandardInput;
+    local *STDIN;
+    open STDIN, '<:utf8', \$Request;    ## no critic
+
+    CGI::initialize_globals();
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
     # Fake environment variables as it gets it from the request.
     # %ENV will be picked up in Kernel::System::Web::Request::new().
+    local $ENV{REQUEST_METHOD} = 'POST';
     local $ENV{CONTENT_LENGTH} = length $Request;
     local $ENV{CONTENT_TYPE}   = $Test->{ContentType};
 
@@ -118,14 +134,12 @@ EOF
 
     # Convert original value to UTF-8 (if needed).
     if ( $Test->{ContentType} =~ m{UTF-8}mxsi ) {
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Test->{Value} );
+        $EncodeObject->EncodeInput( \$Test->{Value} );
     }
 
-    $Self->Is(
+    is(
         $Result->{Data}->{Test},
         $Test->{Value},
         "$Test->{Name} Result value",
     );
 }
-
-$Self->DoneTesting();

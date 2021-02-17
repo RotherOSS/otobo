@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,6 +18,9 @@ package Kernel::System::Web::InterfacePublic;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 
@@ -39,34 +42,52 @@ our @ObjectDependencies = (
 
 Kernel::System::Web::InterfacePublic - the public web interface
 
+=head1 SYNOPSIS
+
+    use Kernel::System::Web::InterfacePublic;
+
+    # a Plack request handler
+    my $App = sub {
+        my $Env = shift;
+
+        my $Interface = Kernel::System::Web::InterfacePublic->new(
+            # Debug => 1
+            PSGIEnv    => $Env,
+        );
+
+        # generate content (actually headers are generated as a side effect)
+        my $Content = $Interface->Content();
+
+        # assuming all went well and HTML was generated
+        return [
+            '200',
+            [ 'Content-Type' => 'text/html' ],
+            $Content
+        ];
+    };
+
 =head1 DESCRIPTION
 
-the global public web interface
+This module generates the HTTP response for F<public.pl>.
+This class is meant to be used within a Plack request handler.
+See F<bin/psgi-bin/otobo.psgi> for the real live usage.
 
 =head1 PUBLIC INTERFACE
 
 =head2 new()
 
-create the web interface object for 'public.pl'.
-
-    use Kernel::System::Web::InterfacePublic;
-
-    my $Interface = Kernel::System::Web::InterfacePublic->new();
-
-    # with debugging enabled
-    my $Interface = Kernel::System::Web::InterfacePublic->new(
-        Debug => 1
-    );
+create the web interface object for F<public.pl>.
 
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Type  = shift;
+    my %Param = @_;
 
     # start with an empty hash for the new object
     my $Self = bless {}, $Type;
 
-    # get debug level
+    # set debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
     # performance log
@@ -78,7 +99,7 @@ sub new {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'Public',
         },
         'Kernel::System::Web::Request' => {
-            WebRequest => $Param{WebRequest} || 0,
+            PSGIEnv => $Param{PSGIEnv} || 0,
         },
     );
 
@@ -105,8 +126,8 @@ Set headers in Kernels::System::Web::Request singleton as side effect.
 sub Content {
     my $Self = shift;
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # Check if https forcing is active, and redirect if needed.
     if ( $ConfigObject->Get('HTTPSForceRedirect') ) {
@@ -187,20 +208,21 @@ sub Content {
     if ( !$DBCanConnect ) {
         $LayoutObject->CustomerFatalError(
             Comment => Translatable('Please contact the administrator.'),
-        );
+        ); # throws a Kernel::System::Web::Exception
     }
+
     if ( $ParamObject->Error() ) {
         $LayoutObject->CustomerFatalError(
             Message => $ParamObject->Error(),
             Comment => Translatable('Please contact the administrator.'),
-        );
+        ); # throws a Kernel::System::Web::Exception
     }
 
     # run modules if a version value exists
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
         $LayoutObject->CustomerFatalError(
             Comment => Translatable('Please contact the administrator.'),
-        );
+        ); # throws a Kernel::System::Web::Exception
     }
 
     # module registry
@@ -213,7 +235,7 @@ sub Content {
         );
         $LayoutObject->CustomerFatalError(
             Comment => Translatable('Please contact the administrator.'),
-        );
+        ); # throws a Kernel::System::Web::Exception
     }
 
     # debug info
@@ -240,7 +262,6 @@ sub Content {
 
     # ->Run $Action with $FrontendObject
     my $Output = $FrontendObject->Run();
-    $LayoutObject->ApplyOutputFilters( Output => \$Output );
 
     # log request time
     if ( $ConfigObject->Get('PerformanceLog') ) {
@@ -248,9 +269,8 @@ sub Content {
             $QueryString = 'Action=' . $Param{Action} . '&Subaction=' . $Param{Subaction};
         }
         my $File = $ConfigObject->Get('PerformanceLog::File');
-        ## no critic
+
         if ( open my $Out, '>>', $File ) {
-            ## use critic
             print $Out time()
                 . '::Public::'
                 . ( time() - $Self->{PerformanceLogStart} )

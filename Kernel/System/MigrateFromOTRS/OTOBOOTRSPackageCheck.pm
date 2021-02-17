@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::MigrateFromOTRS::OTOBOOTRSPackageCheck;    ## no critic
+package Kernel::System::MigrateFromOTRS::OTOBOOTRSPackageCheck;
 
 use strict;
 use warnings;
@@ -90,6 +90,15 @@ sub Run {
             $Result{Successful} = 0;
             return \%Result;
         }
+    }
+
+    # skip for previously/manually finished DB migration
+    if ( $Param{DBData}{SkipDBMigration} ) {
+        return {
+            Successful => 1,
+            Message    => $Self->{LanguageObject}->Translate("Check if all necessary packages are installed."),
+            Comment    => $Self->{LanguageObject}->Translate("Skipped..."),
+        };
     }
 
     # check needed stuff
@@ -192,8 +201,7 @@ sub Run {
         }
 
         $Result{Message} = $Self->{LanguageObject}->Translate("Check if all necessary packages are installed.");
-        $Result{Comment}
-            = $Self->{LanguageObject}->Translate("The following packages are only installed in OTRS:") . $MessageString
+        $Result{Comment} = $Self->{LanguageObject}->Translate("The following packages are only installed in OTRS:") . $MessageString
             . $Self->{LanguageObject}->Translate(
             "Please install (or uninstall) the packages before migration. If a package doesn't exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.org. We will find a solution."
             );
@@ -202,8 +210,8 @@ sub Run {
         return \%Result;
     }
 
-    $Result{Message} = $Self->{LanguageObject}->Translate("Check if all necessary packages are installed.");
-    $Result{Comment} = $Self->{LanguageObject}->Translate("The same packages are installed on both systems, perfect!");
+    $Result{Message}    = $Self->{LanguageObject}->Translate("Check if all necessary packages are installed.");
+    $Result{Comment}    = $Self->{LanguageObject}->Translate("The same packages are installed on both systems, perfect!");
     $Result{Successful} = 1;
     return \%Result;
 }

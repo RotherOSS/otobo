@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -81,13 +81,12 @@ if it's true, returning 1 in this case or undef, otherwise.
 =cut
 
 sub True {
-    my $Self = shift;
-    my ( $True, $Name ) = @_;
+    my ( $Self, $True, $Name ) = @_;
 
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided for True().' );
     }
 
     if ($True) {
@@ -108,13 +107,12 @@ for a false value instead.
 =cut
 
 sub False {
-    my $Self = shift;
-    my ( $False, $Name ) = @_;
+    my ( $Self, $False, $Name ) = @_;
 
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided for False().' );
     }
 
     if ( !$False ) {
@@ -146,13 +144,12 @@ Returns 1 if the values were equal, or undef otherwise.
 =cut
 
 sub Is {
-    my $Self = shift;
-    my ( $Test, $ShouldBe, $Name ) = @_;
+    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided for Is().' );
     }
 
     if ( !defined $Test && !defined $ShouldBe ) {
@@ -182,13 +179,12 @@ for inequality instead.
 =cut
 
 sub IsNot {
-    my $Self = shift;
-    my ( $Test, $ShouldBe, $Name ) = @_;
+    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided for IsNot().' );
     }
 
     if ( !defined $Test && !defined $ShouldBe ) {
@@ -231,13 +227,12 @@ Returns 1 if the data structures are the same, or undef otherwise.
 =cut
 
 sub IsDeeply {
-    my $Self = shift;
-    my ( $Test, $ShouldBe, $Name ) = @_;
+    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided for IsDeeply().' );
     }
 
     my $Diff = DataIsDifferent(
@@ -290,13 +285,12 @@ for inequality instead.
 =cut
 
 sub IsNotDeeply {
-    my $Self = shift;
-    my ( $Test, $ShouldBe, $Name ) = @_;
+    my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided.' );
+        return $Context->fail_and_release( 'Error: test name was not provided for IsNotDeeply().' );
     }
 
     my $Diff = DataIsDifferent(
@@ -337,10 +331,9 @@ together with the test results.
 
 =cut
 
-# TODO: currently not supported
+# TODO: is that feature still useful ? AFAIK OTOBO has no test result upload service.
 sub AttachSeleniumScreenshot {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Context = context();
 
@@ -384,8 +377,7 @@ is prepended by '# '. A trailing newline will be added when there isn't on yet.
 =cut
 
 sub Note {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Context = context();
     my $Ret = $Context->note( $Param{Note} // '' );

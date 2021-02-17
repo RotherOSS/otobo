@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -29,9 +29,9 @@ use vars (qw($Self));
 #   See https://rt.perl.org/Public/Bug/Display.html?id=52610 and
 #   http://rt.perl.org/rt3/Public/Bug/Display.html?id=78186
 
-no warnings 'redefine';    ## no critic
+no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 use Carp;
-local *Carp::caller_info = sub { };    ## no critic # no-op
+local *Carp::caller_info = sub { };
 use warnings 'redefine';
 
 $Kernel::OM->ObjectParamAdd(

@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2020-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ otobo.psgi - OTOBO PSGI application
     # using the webserver Gazelle
     plackup --server Gazelle bin/psgi-bin/otobo.psgi
 
-    # CGI mode, useful for development
+    # new process for every request , useful for development
     plackup --server Shotgun bin/psgi-bin/otobo.psgi
 
     # with profiling (untested)
@@ -291,8 +291,6 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
-warn 'PLEASE NOTE THAT AS OF NOVEMBER 5TH 2020 PSGI SUPPORT IS NOT YET FULLY SUPPORTED!';
-
 ################################################################################
 # Middlewares
 ################################################################################
@@ -304,8 +302,10 @@ my $RefreshZZZAAutoMiddleWare = sub {
     return sub {
         my $Env = shift;
 
-        # Module::Refresh::Cache already set up in Plack::Middleware::Refresh::prepara_app();
-        Module::Refresh->refresh_module_if_modified( 'Kernel/Config/Files/ZZZAAuto.pm' );
+        if ( $INC{ 'Kernel/Config/Files/ZZZAAuto.pm' } ) {
+            # Module::Refresh::Cache already set up in Plack::Middleware::Refresh::prepara_app();
+            Module::Refresh->refresh_module( 'Kernel/Config/Files/ZZZAAuto.pm' );
+        }
 
         return $App->($Env);
     };
@@ -329,12 +329,12 @@ my $NYTProfMiddleWare = sub {
         }
 
         # do the work
-        my $res = $App->($Env);
+        my $Res = $App->($Env);
 
         # clean up profiling, write the output file
         DB::finish_profile() if $ProfilingIsOn;
 
-        return $res;
+        return $Res;
     };
 };
 
@@ -352,6 +352,9 @@ my $SetEnvMiddleWare = sub {
         # only the side effects are important
         $ENV{OTOBO_RUNS_UNDER_PSGI} = '1';
         $ENV{GATEWAY_INTERFACE}     = 'CGI/1.1';
+
+        # enable for debugging UrlMap
+        #$ENV{PLACK_URLMAP_DEBUG} = 1;
 
         return $app->($Env);
     };
@@ -399,7 +402,7 @@ my $AdminOnlyMiddeware = sub {
     return sub {
         my $Env = shift;
 
-        local $Kernel::OM = Kernel::System::ObjectManager->new;
+        local $Kernel::OM = Kernel::System::ObjectManager->new();
 
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -410,7 +413,7 @@ my $AdminOnlyMiddeware = sub {
         # The AuthSession modules use this object for getting info about the request.
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::Web::Request' => {
-                WebRequest => CGI::PSGI->new($Env),
+                PSGIEnv => $Env,
             },
         );
 
@@ -428,7 +431,7 @@ my $AdminOnlyMiddeware = sub {
 
             # check whether the browser sends the SessionID cookie
             my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
-            my $SessionID     = $PlackRequest->cookies->{$SessionName};
+            my $SessionID     = $PlackRequest->cookies()->{$SessionName};
 
             return ( 0, undef ) unless $SessionObject;
             return ( 0, undef ) unless $SessionObject->CheckSessionID( SessionID => $SessionID );
@@ -501,7 +504,7 @@ my $DumpEnvApp = sub {
     my $Env = shift;
 
     local $Data::Dumper::Sortkeys = 1;
-    my $Message .= Dumper( [ "DumpEnvApp:", scalar localtime, $Env ] );
+    my $Message = Dumper( [ "DumpEnvApp:", scalar localtime, $Env ] );
     utf8::encode( $Message );
 
     return [
@@ -520,7 +523,7 @@ my $RedirectOtoboApp = sub {
 
     # construct a relative path to otobo/index.pl
     my $Req = Plack::Request->new($Env);
-    my $OrigPath = $Req->path;
+    my $OrigPath = $Req->path();
     my $Levels   = $OrigPath =~ tr[/][];
     my $NewPath  = join '/', map( {  '..' } ( 1 .. $Levels ) ), 'otobo/index.pl';
 
@@ -529,7 +532,7 @@ my $RedirectOtoboApp = sub {
     $Res->redirect($NewPath);
 
     # send the PSGI response
-    return $Res->finalize;
+    return $Res->finalize();
 };
 
 # an App for inspecting the database, logged in user must be an admin
@@ -557,11 +560,11 @@ my $DBViewerApp = builder {
     # check ever 10s for changed Perl modules, including Kernel/Config/Files/ZZZAAuto.pm
     enable 'Plack::Middleware::Refresh';
 
-    my $server = Mojo::Server::PSGI->new;
-    $server->load_app("$FindBin::Bin/../mojo-bin/dbviewer.pl");
+    my $Server = Mojo::Server::PSGI->new();
+    $Server->load_app("$FindBin::Bin/../mojo-bin/dbviewer.pl");
 
     sub {
-        $server->run(@_)
+        $Server->run(@_)
     };
 };
 
@@ -587,7 +590,7 @@ my $StaticApp = builder {
     enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Plack::Middleware::Header',
         set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
 
-    Plack::App::File->new(root => "$FindBin::Bin/../../var/httpd/htdocs")->to_app;
+    Plack::App::File->new(root => "$FindBin::Bin/../../var/httpd/htdocs")->to_app();
 };
 
 # Port of customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, and public.pl to Plack.
@@ -640,7 +643,7 @@ my $OTOBOApp = builder {
         # params for the interface modules
         my %InterfaceParams = (
             Debug      => 0,  # pass 1 for enabling debug messages
-            WebRequest => CGI::PSGI->new($Env),
+            PSGIEnv    => $Env,
         );
 
         # InterfaceInstaller has been converted to returning a string instead of printing the STDOUT.
@@ -683,8 +686,21 @@ my $OTOBOApp = builder {
                 return Kernel::System::Web::InterfaceAgent->new( %InterfaceParams );
             }->Content();
 
+            # apply output filters for specific interfaces
+            my %HasOutputFilter = (
+                'customer.pl' => 1,
+                'index.pl'    => 1,
+                'public.pl'   => 1,
+            );
+
+            if ( $HasOutputFilter{$ScriptFileName} ) {
+                my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+                $LayoutObject->ApplyOutputFilters( Output => \$Content );
+            }
+
             # The OTOBO response object already has the HTPP headers.
-            # Enhance it with the HTTP status code and the content.
+            # Enhance it with the HTTP status code and the c    ontent.
             my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
             $ResponseObject->Code(200); # TODO: is it always 200 ?
             $ResponseObject->Content($Content);
@@ -699,7 +715,7 @@ my $OTOBOApp = builder {
 # See http://blogs.perl.org/users/confuseacat/2012/11/how-to-use-soaptransporthttpplack.html
 # TODO: this is not tested yet.
 # TODO: There can be problems when the wrapped objects expect a CGI environment.
-my $soap = SOAP::Transport::HTTP::Plack->new;
+my $Soap = SOAP::Transport::HTTP::Plack->new();
 
 my $RPCApp = builder {
 
@@ -712,13 +728,16 @@ my $RPCApp = builder {
     sub {
         my $Env = shift;
 
-        return $soap->dispatch_to(
+        return $Soap->dispatch_to(
                 'OTOBO::RPC'
             )->handler( Plack::Request->new( $Env ) );
     };
 };
 
-# The final PSGI application
+################################################################################
+# finally, the complete PSGI application itself
+################################################################################
+
 builder {
 
     # for debugging
@@ -753,8 +772,8 @@ builder {
     mount '/otobo/rpc.pl'                  => $RPCApp;
 
     # some static pages, '/' is already translate to '/index.html'
-    mount "/robots.txt"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/robots.txt")->to_app;
-    mount "/index.html"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/index.html")->to_app;
+    mount "/robots.txt"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/robots.txt")->to_app();
+    mount "/index.html"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/index.html")->to_app();
 };
 
 # for debugging, only dump the PSGI environment

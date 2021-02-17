@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::MigrateFromOTRS::OTOBOStatsMigrate;    ## no critic
+package Kernel::System::MigrateFromOTRS::OTOBOStatsMigrate;
 
 use strict;
 use warnings;
@@ -60,7 +60,6 @@ sub CheckPreviousRequirement {
     return 1;
 }
 
-
 =head2 Run()
 
 Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
@@ -100,7 +99,7 @@ sub Run {
 
     my $XMLType = 'Stats';
     return \%Result if !$DBObject->Prepare(
-        SQL => 'SELECT xml_type, xml_key, xml_content_key, xml_content_value FROM xml_storage WHERE xml_type = ?',
+        SQL  => 'SELECT xml_type, xml_key, xml_content_key, xml_content_value FROM xml_storage WHERE xml_type = ?',
         Bind => [ \$XMLType, ],
     );
 
@@ -109,10 +108,10 @@ sub Run {
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
         push @StatsEntrys, {
-            xml_type            => $Row[0],
-            xml_key             => $Row[1],
-            xml_content_key     => $Row[2],
-            xml_content_value   => $Row[3],
+            xml_type          => $Row[0],
+            xml_key           => $Row[1],
+            xml_content_key   => $Row[2],
+            xml_content_value => $Row[3],
         };
     }
 
@@ -120,7 +119,7 @@ sub Run {
     for my $Entry (@StatsEntrys) {
 
         # remember if we need to replace something
-        my $NeedToReplace;
+        my $ValueKeyToReplace;
 
         # get old notification tag
         for my $OldTag ( sort keys %StatsTagsOld2New ) {
@@ -135,27 +134,28 @@ sub Run {
                 # only if old tags are found
                 next ATTRIBUTE if $Entry->{$Attribute} !~ m{$OldTag}xms;
 
+                # remember the key of the replacement
+                $ValueKeyToReplace //= $Entry->{xml_content_key};
+
                 # replace the wrong tags
                 $Entry->{$Attribute} =~ s{$OldTag}{$NewTag}gxms;
-
-                # remember that we replaced something
-                $NeedToReplace = 1;
             }
         }
 
         # only change the database if something has been really replaced
-        next STATSENTRY if !$NeedToReplace;
+        next STATSENTRY if !$ValueKeyToReplace;
 
         # update the database
         $DBObject->Do(
             SQL => 'UPDATE xml_storage
                 SET xml_content_key = ?, xml_content_value = ?
-                WHERE xml_key = ? AND xml_type = ?',
+                WHERE xml_key = ? AND xml_type = ? AND xml_content_key = ?',
             Bind => [
                 \$Entry->{xml_content_key},
                 \$Entry->{xml_content_value},
                 \$Entry->{xml_key},
                 \$Entry->{xml_type},
+                \$ValueKeyToReplace,
             ],
         );
     }

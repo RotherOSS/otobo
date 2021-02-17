@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -758,7 +758,7 @@ sub _PDFOutputTicketDynamicFields {
     my $LayoutObject              = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # If title fields are present, more than one table is needed
-    my @Sections = ({});
+    my @Sections = ( {} );
 
     # Generate table, cycle trough the activated Dynamic Fields for ticket object.
     DYNAMICFIELD:
@@ -779,10 +779,10 @@ sub _PDFOutputTicketDynamicFields {
         if ( $DynamicFieldConfig->{FieldType} eq 'Title' ) {
             push @Sections, {
                 Title => {
-                    Text   => $DynamicFieldConfig->{Label},
-                    Style  => "",
-                    Size   => $DynamicFieldConfig->{Config}{FontSize} || 12,
-                    Color  => $DynamicFieldConfig->{Config}{FontColor} || '#000000',
+                    Text  => $DynamicFieldConfig->{Label},
+                    Style => "",
+                    Size  => $DynamicFieldConfig->{Config}{FontSize} || 12,
+                    Color => $DynamicFieldConfig->{Config}{FontColor} || '#000000',
                 },
             };
 
@@ -793,7 +793,7 @@ sub _PDFOutputTicketDynamicFields {
                 $Sections[-1]{Title}{Style} .= "Italic";
             }
 
-            $Row = 0;
+            $Row    = 0;
             $Output = 1;
 
             next DYNAMICFIELD;
@@ -815,8 +815,7 @@ sub _PDFOutputTicketDynamicFields {
             LayoutObject       => $LayoutObject,
         );
 
-        $Sections[-1]{CellData}[$Row][0]{Content}
-            = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} )
+        $Sections[-1]{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} )
             . ':';
         $Sections[-1]{CellData}[$Row][0]{Font}    = 'ProportionalBold';
         $Sections[-1]{CellData}[$Row][1]{Content} = $ValueStrg->{Value};
@@ -870,7 +869,7 @@ sub _PDFOutputTicketDynamicFields {
 
         # Output sections
         SECTION:
-        for my $Section ( @Sections ) {
+        for my $Section (@Sections) {
 
             if ( $Section->{Title} ) {
 
@@ -884,8 +883,8 @@ sub _PDFOutputTicketDynamicFields {
                 $PDFObject->Text(
                     Text     => $Section->{Title}{Text},
                     Type     => 'Cut',
-                    Font     => 'Proportional'.$Section->{Title}{Style},
-                    FontSize => $Section->{Title}{Size} / 2,    # pdf font is 10 vs 12, text seems also mutliplied by 5/3
+                    Font     => 'Proportional' . $Section->{Title}{Style},
+                    FontSize => $Section->{Title}{Size} / 2,                 # pdf font is 10 vs 12, text seems also mutliplied by 5/3
                     Color    => $Section->{Title}{Color},
                 );
 
@@ -1145,8 +1144,7 @@ sub _PDFOutputArticles {
             next ARTICLE_FIELD if $ArticleField{HideInTicketPrint};
             next ARTICLE_FIELD if !$ArticleField{Value};
 
-            $TableParam1{CellData}[$Row][0]{Content}
-                = $LayoutObject->{LanguageObject}->Translate( $ArticleField{Label} ) . ':';
+            $TableParam1{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate( $ArticleField{Label} ) . ':';
             $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
             $TableParam1{CellData}[$Row][1]{Content} = $ArticleField{Value};
             $Row++;
@@ -1158,8 +1156,7 @@ sub _PDFOutputArticles {
                 ArticleID => $Article{ArticleID},
             );
             if ($ArticleTime) {
-                $TableParam1{CellData}[$Row][0]{Content}
-                    = $LayoutObject->{LanguageObject}->Translate('Accounted time') . ':';
+                $TableParam1{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate('Accounted time') . ':';
                 $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
                 $TableParam1{CellData}[$Row][1]{Content} = $ArticleTime;
                 $Row++;
@@ -1227,8 +1224,7 @@ sub _PDFOutputArticles {
                 HTMLOutput         => 0,
                 LayoutObject       => $LayoutObject,
             );
-            $TableParam1{CellData}[$Row][0]{Content}
-                = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} )
+            $TableParam1{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} )
                 . ':';
             $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
             $TableParam1{CellData}[$Row][1]{Content} = $ValueStrg->{Value};

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1382,18 +1382,20 @@ sub Import {
     if ( !$XMLHash[0] ) {
         shift @XMLHash;
     }
-    
+
     # We love to import OTRS stats too, so we need to check
     my $StatsXML;
     if ( $XMLHash[0]->{otobo_stats}->[1] ) {
 
         $StatsXML = $XMLHash[0]->{otobo_stats}->[1];
 
-    } elsif ( $XMLHash[0]->{otrs_stats}->[1] ) {
+    }
+    elsif ( $XMLHash[0]->{otrs_stats}->[1] ) {
 
         $StatsXML = $XMLHash[0]->{otrs_stats}->[1];
 
-    } else {
+    }
+    else {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -1401,6 +1403,7 @@ sub Import {
         );
         return;
     }
+
     # Get new StatID
     my @Keys = $XMLObject->XMLHashSearch(
         Type => 'Stats',
@@ -2389,8 +2392,7 @@ sub _GenerateDynamicStats {
                         $CountUpcoming++;
 
                         my $LastQuarter = ceil( $M / 3 ) - 1;
-                        ( $Y, $M, $D )
-                            = $Self->_AddDeltaYMD( $Y, $M, $D, 0, $LastQuarter * 3 - $M + ( 3 * $CountUpcoming ), 0 );
+                        ( $Y, $M, $D ) = $Self->_AddDeltaYMD( $Y, $M, $D, 0, $LastQuarter * 3 - $M + ( 3 * $CountUpcoming ), 0 );
                         $Element->{TimeStop} = sprintf(
                             "%04d-%02d-%02d %02d:%02d:%02d",
                             $Y, $M, $Self->_DaysInMonth( $Y, $M ),
@@ -2445,27 +2447,21 @@ sub _GenerateDynamicStats {
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, 0, 0, 0 );
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'Hour' ) {
-                        ( $Y, $M, $D, $h, $m, $s )
-                            = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, $CountUpcoming, 0, 0 );
+                        ( $Y, $M, $D, $h, $m, $s ) = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, $CountUpcoming, 0, 0 );
                         $Element->{TimeStop} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, 59, 59 );
-                        ( $Y, $M, $D, $h, $m, $s )
-                            = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, -$CountPast, 0, 0 );
+                        ( $Y, $M, $D, $h, $m, $s ) = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, -$CountPast, 0, 0 );
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, 0, 0 );
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'Minute' ) {
-                        ( $Y, $M, $D, $h, $m, $s )
-                            = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, 0, $CountUpcoming, 0 );
+                        ( $Y, $M, $D, $h, $m, $s ) = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, 0, $CountUpcoming, 0 );
                         $Element->{TimeStop} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, 59 );
-                        ( $Y, $M, $D, $h, $m, $s )
-                            = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, 0, -$CountPast, 0 );
+                        ( $Y, $M, $D, $h, $m, $s ) = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, 0, -$CountPast, 0 );
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, 0 );
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'Second' ) {
-                        ( $Y, $M, $D, $h, $m, $s )
-                            = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, 0, 0, $CountUpcoming );
+                        ( $Y, $M, $D, $h, $m, $s ) = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, 0, 0, $CountUpcoming );
                         $Element->{TimeStop} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, $s );
-                        ( $Y, $M, $D, $h, $m, $s )
-                            = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, 0, 0, -$CountPast );
+                        ( $Y, $M, $D, $h, $m, $s ) = $Self->_AddDeltaDHMS( $Y, $M, $D, $h, $m, $s, 0, 0, 0, -$CountPast );
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, $s );
                     }
                     delete $Element->{TimeRelativeUnit};
@@ -3327,11 +3323,10 @@ sub _GenerateDynamicStats {
                 my $TimeStop  = $Xvalue->{Values}{TimeStop};
                 if ( $ValueSeries{$Row}{$TimeStop} && $ValueSeries{$Row}{$TimeStart} ) {
 
-                    my $CellStartTime = $Self->_TimeStamp2DateTime( TimeStamp => $Cell->{TimeStart} );
-                    my $CellStopTime  = $Self->_TimeStamp2DateTime( TimeStamp => $Cell->{TimeStop} );
-                    my $ValueSeriesStartTime
-                        = $Self->_TimeStamp2DateTime( TimeStamp => $ValueSeries{$Row}{$TimeStart} );
-                    my $ValueSeriesStopTime = $Self->_TimeStamp2DateTime( TimeStamp => $ValueSeries{$Row}{$TimeStop} );
+                    my $CellStartTime        = $Self->_TimeStamp2DateTime( TimeStamp => $Cell->{TimeStart} );
+                    my $CellStopTime         = $Self->_TimeStamp2DateTime( TimeStamp => $Cell->{TimeStop} );
+                    my $ValueSeriesStartTime = $Self->_TimeStamp2DateTime( TimeStamp => $ValueSeries{$Row}{$TimeStart} );
+                    my $ValueSeriesStopTime  = $Self->_TimeStamp2DateTime( TimeStamp => $ValueSeries{$Row}{$TimeStop} );
 
                     if ( $CellStopTime > $ValueSeriesStopTime || $CellStartTime < $ValueSeriesStartTime ) {
                         next CELL;
@@ -3905,7 +3900,7 @@ sub _AutomaticSampleImport {
         if ( $Filename =~ m{^.*\.$Language\.xml$}x ) {
 
             my $Filehandle;
-            if ( !open $Filehandle, '<', $Directory . $Filename ) {    ## no critic
+            if ( !open $Filehandle, '<', $Directory . $Filename ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Can not open File: " . $Directory . $Filename,
@@ -4129,8 +4124,7 @@ Substitute for Date::Pcalc::Add_Delta_DHMS() which uses Kernel::System::DateTime
 =cut
 
 sub _AddDeltaDHMS {
-    my ( $Self, $Year, $Month, $Day, $Hour, $Minute, $Second, $DaysToAdd, $HoursToAdd, $MinutesToAdd, $SecondsToAdd )
-        = @_;
+    my ( $Self, $Year, $Month, $Day, $Hour, $Minute, $Second, $DaysToAdd, $HoursToAdd, $MinutesToAdd, $SecondsToAdd ) = @_;
 
     my $DateTimeObject = $Kernel::OM->Create(
         'Kernel::System::DateTime',

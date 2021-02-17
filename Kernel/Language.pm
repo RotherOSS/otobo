@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(Translatable);    ## no critic
+our @EXPORT_OK = qw(Translatable);    ## no critic qw(OTOBO::RequireCamelCase)
 
 use File::stat;
 use Digest::MD5;
@@ -267,8 +267,7 @@ Valid placeholders are '%s' and '%d'.
 =cut
 
 sub Translate {
-    my $Self = shift;
-    my( $Text, @Replacements ) = @_;
+    my ( $Self, $Text, @Replacements ) = @_;
 
     $Text //= '';
     $Text = $Self->{Translation}->{$Text} || $Text;

@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+// Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -87,7 +87,7 @@ Core.UI.Elasticsearch = (function (TargetNS) {
             }
         });
 
-    }; 
+    };
 
     /**
      * @private
@@ -106,7 +106,7 @@ Core.UI.Elasticsearch = (function (TargetNS) {
             Data = {
                 Action: Action,
                 Subaction: 'SearchUpdate',
-                FulltextES: FulltextESValue, 
+                FulltextES: FulltextESValue,
             };
 
         // initiate the AJAX call
@@ -162,12 +162,12 @@ Core.UI.Elasticsearch = (function (TargetNS) {
                 HTML: HTML,
                 Title: Core.Language.Translate('Results'),
                 PositionTop: PosTop,
-                PositionRight: PosRight,  
+                PositionRight: PosRight,
                 Modal: true,
                 CloseOnClickOutside: false,
                 CloseOnEscape: true,
                 AllowAutoGrow: false,
-            }; 
+            };
 
             Core.UI.Dialog.ShowDialog( DialogOptions );
 
@@ -177,7 +177,7 @@ Core.UI.Elasticsearch = (function (TargetNS) {
             }
 
         }
-        
+
         // define and open the dialog for the agent interface
         else {
             var HTML          = "<div id='oooESOuter' style='min-width: 500px'>" + Response + "</div>";
@@ -190,10 +190,10 @@ Core.UI.Elasticsearch = (function (TargetNS) {
                 CloseOnClickOutside: false,
                 CloseOnEscape: true,
                 AllowAutoGrow: false,
-            }; 
+            };
 
             Core.UI.Dialog.ShowDialog( DialogOptions );
-            
+
             // move the overlay to keep access to the input field
             $('#Overlay').css('top','94px');
         }

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -37,11 +37,7 @@ Kernel::GenericInterface::ErrorHandling - Error object to execute registered err
 
 =head1 PUBLIC INTERFACE
 
-=over 4
-
-=cut
-
-=item new()
+=head2 new()
 
 create an object. Do not create it directly, instead use:
 
@@ -61,7 +57,7 @@ sub new {
     return $Self;
 }
 
-=item HandleError()
+=head2 HandleError()
 
 Receives the current web service and operation or invoker data, as well as the result
 of the HandleError method from the related invoker or operation.
@@ -371,7 +367,5 @@ sub _LogAndReturn {
         ErrorMessage => $Param{ErrorMessage},
     };
 }
-
-=back
 
 1;

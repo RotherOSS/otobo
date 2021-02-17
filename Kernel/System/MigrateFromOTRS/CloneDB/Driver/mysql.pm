@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -53,8 +53,7 @@ Please look there for a detailed reference of the functions.
 
 # create external db connection.
 sub CreateOTRSDBConnection {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check OTRSDBSettings
     for my $Needed (
@@ -97,8 +96,7 @@ sub CreateOTRSDBConnection {
 
 # List all columns of a table in the order of their position.
 sub ColumnsList {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject DBName Table)) {
@@ -133,8 +131,7 @@ sub ColumnsList {
 
 # Get all binary columns and return a lookup hash with table and column name as keys.
 sub BlobColumnsList {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject DBName Table)) {
@@ -170,8 +167,7 @@ END_SQL
 # Get column infos
 # return DATA_TYPE
 sub GetColumnInfos {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject DBName Table Column)) {
@@ -210,8 +206,7 @@ sub GetColumnInfos {
 # Translate column infos
 # return DATA_TYPE
 sub TranslateColumnInfos {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(DBType ColumnInfos)) {
@@ -236,6 +231,7 @@ sub TranslateColumnInfos {
         $Result{smallint}   = 'SMALLINT';
         $Result{longblob}   = 'LONGBLOB';
         $Result{mediumtext} = 'MEDIUMTEXT';
+        $Result{text}       = 'TEXT';
     }
     elsif ( $Param{DBType} =~ /postgresql/ ) {
         $Result{varchar}    = 'VARCHAR';
@@ -244,14 +240,16 @@ sub TranslateColumnInfos {
         $Result{smallint}   = 'SMALLINT';
         $Result{longblob}   = 'TEXT';
         $Result{mediumtext} = 'VARCHAR';
+        $Result{text}       = 'TEXT';
     }
     elsif ( $Param{DBType} =~ /oracle/ ) {
-        $Result{VARCHAR}    = 'VARCHAR2';
+        $Result{varchar}    = 'VARCHAR2';
         $Result{int}        = 'NUMBER';
         $Result{datetime}   = 'DATE';
         $Result{smallint}   = 'NUMBER';
         $Result{longblob}   = 'CLOB';
         $Result{mediumtext} = 'CLOB';
+        $Result{text}       = 'VARCHAR2';
     }
     $ColumnInfos{DATA_TYPE} = $Result{ $Param{ColumnInfos}->{DATA_TYPE} };
 
@@ -260,8 +258,7 @@ sub TranslateColumnInfos {
 
 # Alter table add column
 sub AlterTableAddColumn {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(DBObject Table Column ColumnInfos)) {

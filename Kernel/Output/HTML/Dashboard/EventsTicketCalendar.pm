@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -189,7 +189,7 @@ sub Run {
                     $StartTimeObject = $NewStartTimeObject;
                     $EndTimeObject   = $NewEndTimeObject;
 
-                   # we also need to turn the time in the tooltip around, otherwiese the time bar display would be wrong
+                    # we also need to turn the time in the tooltip around, otherwiese the time bar display would be wrong
                     $TicketDetail{ 'DynamicField_' . $StartTimeDynamicField } = $StartTimeObject->ToString();
                     $TicketDetail{ 'DynamicField_' . $EndTimeDynamicField }   = $EndTimeObject->ToString();
 
@@ -329,12 +329,11 @@ sub Run {
                         next DYNAMICFIELD if !$Self->{DynamicFieldLookup}->{$Item}->{Label};
 
                         # check if we need to format the date
-                        my $DisplayValue
-                            = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->DisplayValueRender(
+                        my $DisplayValue = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->DisplayValueRender(
                             DynamicFieldConfig => $Self->{DynamicFieldLookup}->{$Item},
                             Value              => $TicketDetail{ 'DynamicField_' . $Item },
                             LayoutObject       => $LayoutObject,
-                            );
+                        );
 
                         $LayoutObject->Block(
                             Name => 'CalendarEventInfoDynamicFieldElement',

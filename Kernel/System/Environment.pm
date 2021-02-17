@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -242,7 +242,8 @@ sub PerlInfoGet {
 
     # collect perl data
     my %EnvPerl = (
-        PerlVersion => sprintf '%vd', $^V,
+        PerlVersion => sprintf '%vd',
+        $^V,
     );
 
     if ( $Param{BundledModules} ) {
@@ -285,18 +286,9 @@ sub PerlInfoGet {
             URI
         );
 
-        # some modules are only expected in a non-Docker environment.
-        # See .dockerignore.
-        if ( ! $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
-            push @ModuleList, qw(
-                Apache::DBI
-                Apache2::Reload
-            );
-        }
-
         # add module and version
         my %ModuleToVersion;
-        for my $Module ( @ModuleList ) {
+        for my $Module (@ModuleList) {
             $ModuleToVersion{$Module} = $Self->ModuleVersionGet( Module => $Module );
         }
 

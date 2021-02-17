@@ -10986,36 +10986,16 @@
                             <Array>
                             </Array>
                         </Item>
-                        <Item Key="Description" Translatable="1">My Tickets.</Item>
-                        <Item Key="Name" Translatable="1">My Tickets</Item>
-                        <Item Key="Link">Action=CustomerTicketOverview;Subaction=MyTickets</Item>
-                        <Item Key="LinkOption"></Item>
-                        <Item Key="NavBar">Ticket</Item>
-                        <Item Key="Type">Submenu</Item>
-                        <Item Key="Block"></Item>
-                        <Item Key="AccessKey"></Item>
-                        <Item Key="Prio">110</Item>
-                    </Hash>
-                </Item>
-                <Item>
-                    <Hash>
-                        <Item Key="Group">
-                            <Array>
-                            </Array>
-                        </Item>
-                        <Item Key="GroupRo">
-                            <Array>
-                            </Array>
-                        </Item>
                         <Item Key="Description" Translatable="1">Company Tickets.</Item>
                         <Item Key="Name" Translatable="1">Company Tickets</Item>
                         <Item Key="Link">Action=CustomerTicketOverview;Subaction=CompanyTickets</Item>
                         <Item Key="LinkOption"></Item>
                         <Item Key="NavBar">Ticket</Item>
-                        <Item Key="Type">Submenu</Item>
+                        <Item Key="Type">Menu</Item>
                         <Item Key="Block"></Item>
                         <Item Key="AccessKey">t</Item>
                         <Item Key="Prio">120</Item>
+                        <Item Key="svgIcon">var/httpd/htdocs/skins/Customer/default/img/companytickets.svg</Item>
                     </Hash>
                 </Item>
             </Array>
@@ -14384,9 +14364,23 @@ Thanks for your help!
             <Item ValueType="String" ValueRegex="^\d+$">500</Item>
         </Value>
     </Setting>
-    <Setting Name="Znuny4OTOBOQuickClose###Article" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketQuickClose###Permission" Required="1" Valid="1">
+        <Description Translatable="1">Required permissions to use quick close in the agent interface.</Description>
+        <Navigation>Frontend::Agent::QuickClose</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">close</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketQuickClose###RequiredLock" Required="0" Valid="1">
+        <Description Translatable="1">Defines if a ticket lock is required for the quick close.</Description>
+        <Navigation>Frontend::Agent::QuickClose</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketQuickClose###Article" Required="0" Valid="1">
         <Description Translatable="1">If enabled, the quick close action will create an article.</Description>
-        <Navigation>Core::Znuny4OTOBO::QuickClose</Navigation>
+        <Navigation>Frontend::Agent::QuickClose</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="0">
                 <Item ValueType="Option" Value="0" Translatable="1">No</Item>
@@ -14394,66 +14388,65 @@ Thanks for your help!
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Znuny4OTOBOQuickClose###Subject" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketQuickClose###Subject" Required="0" Valid="1">
         <Description Translatable="1">Defines the subject for the quick close action, which gets used for ticket history in the agent interface.</Description>
-        <Navigation>Core::Znuny4OTOBO::QuickClose</Navigation>
+        <Navigation>Frontend::Agent::QuickClose</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">Ticket closed</Item>
         </Value>
     </Setting>
-    <Setting Name="Znuny4OTOBOQuickClose###Body" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketQuickClose###Body" Required="0" Valid="1">
         <Description Translatable="1">Defines the body for the quick close action, which gets used for ticket history in the agent interface.</Description>
-        <Navigation>Core::Znuny4OTOBO::QuickClose</Navigation>
+        <Navigation>Frontend::Agent::QuickClose</Navigation>
         <Value>
             <Item ValueType="Textarea">Ticket closed</Item>
         </Value>
     </Setting>
-    <Setting Name="Znuny4OTOBOQuickClose###CommunicationChannel" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketQuickClose###CommunicationChannel" Required="0" Valid="1">
         <Description Translatable="1">Defines the communication chanel for the quick close article action.</Description>
-        <Navigation>Core::Znuny4OTOBO::QuickClose</Navigation>
+        <Navigation>Frontend::Agent::QuickClose</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">Internal</Item>
         </Value>
     </Setting>
-    <Setting Name="Znuny4OTOBOQuickClose###SenderType" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketQuickClose###SenderType" Required="0" Valid="1">
         <Description>Defines the sender type for the quick close action, which gets used for ticket history in the agent interface.</Description>
-        <Navigation>Core::Znuny4OTOBO::QuickClose</Navigation>
+        <Navigation>Frontend::Agent::QuickClose</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">agent</Item>
         </Value>
     </Setting>
-    <Setting Name="Znuny4OTOBOQuickClose###IsVisibleForCustomer" Required="1" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketQuickClose###IsVisibleForCustomer" Required="1" Valid="1">
         <Description Translatable="1">Sets the default article customer visibility for quick close action in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketPhoneNew</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Znuny4OTOBOQuickClose###ContentType" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketQuickClose###ContentType" Required="0" Valid="1">
         <Description>Defines the content type for the quick close action, which gets used for ticket history in the agent interface.</Description>
-        <Navigation>Core::Znuny4OTOBO::QuickClose</Navigation>
+        <Navigation>Frontend::Agent::QuickClose</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">text/plain; charset=utf-8</Item>
         </Value>
     </Setting>
-    <Setting Name="Znuny4OTOBOQuickClose###HistoryType" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketQuickClose###HistoryType" Required="0" Valid="1">
         <Description>Defines the history type for the quick close action, which gets used for ticket history in the agent interface.</Description>
-        <Navigation>Core::Znuny4OTOBO::QuickClose</Navigation>
+        <Navigation>Frontend::Agent::QuickClose</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">AddNote</Item>
         </Value>
     </Setting>
-    <Setting Name="Znuny4OTOBOQuickClose###HistoryComment" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketQuickClose###HistoryComment" Required="0" Valid="1">
         <Description>Defines the history comment for the quick close action, which gets used for ticket history in the agent interface.</Description>
-        <Navigation>Core::Znuny4OTOBO::QuickClose</Navigation>
+        <Navigation>Frontend::Agent::QuickClose</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">Ticket was closed</Item>
         </Value>
     </Setting>
-
-    <Setting Name="Znuny4OTOBO::QuickClose::State" Required="0" Valid="1">
+    <Setting Name="Ticket::Frontend::AgentTicketQuickClose###State" Required="0" Valid="1">
         <Description Translatable="1">Defines the close state for quick close.</Description>
-        <Navigation>Core::Znuny4OTOBO::QuickClose</Navigation>
+        <Navigation>Frontend::Agent::QuickClose</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">closed successful</Item>
         </Value>
@@ -14466,8 +14459,8 @@ Thanks for your help!
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
                 <Item Key="Name" Translatable="1">Quick Close</Item>
                 <Item Key="Description" Translatable="1">Close this ticket</Item>
-                <Item Key="Action">AgentTicketZnuny4OTOBOQuickClose</Item>
-                <Item Key="Link">Action=AgentTicketZnuny4OTOBOQuickClose;TicketID=[% Data.TicketID | html %]</Item>
+                <Item Key="Action">AgentTicketQuickClose</Item>
+                <Item Key="Link">Action=AgentTicketQuickClose;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
             </Hash>
@@ -14481,14 +14474,14 @@ Thanks for your help!
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
                 <Item Key="Name" Translatable="1">Quick Close</Item>
                 <Item Key="Description" Translatable="1">Close this ticket</Item>
-                <Item Key="Action">AgentTicketZnuny4OTOBOQuickClose</Item>
-                <Item Key="Link">Action=AgentTicketZnuny4OTOBOQuickClose;TicketID=[% Data.TicketID | html %]</Item>
+                <Item Key="Action">AgentTicketQuickClose</Item>
+                <Item Key="Link">Action=AgentTicketQuickClose;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Module###AgentTicketZnuny4OTOBOQuickClose" Required="0" Valid="1">
+    <Setting Name="Frontend::Module###AgentTicketQuickClose" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
         <Value>
@@ -14509,12 +14502,12 @@ Thanks for your help!
             </Item>
         </Value>
     </Setting>
-    <Setting Name="ACLKeysLevel3::Actions###100-Znuny4OTOBOQuickClose" Required="0" Valid="1">
+    <Setting Name="ACLKeysLevel3::Actions###100-AgentTicketQuickClose" Required="0" Valid="1">
         <Description Translatable="1">Defines which items are available for 'Action' in third level of the ACL structure.</Description>
         <Navigation>Core::Ticket::ACL</Navigation>
         <Value>
             <Array>
-                <Item>AgentTicketZnuny4OTOBOQuickClose</Item>
+                <Item>AgentTicketQuickClose</Item>
             </Array>
         </Value>
     </Setting>

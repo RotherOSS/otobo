@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -410,9 +410,8 @@ sub PrepareRequest {
     if ( $Param{Data}{Event} eq 'TicketCreate' ) {
 
         # get the ticket
-        my $GetDynamicFields
-            = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
-        my %Ticket = $TicketObject->TicketGet(
+        my $GetDynamicFields = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
+        my %Ticket           = $TicketObject->TicketGet(
             TicketID      => $Param{Data}{TicketID},
             DynamicFields => $GetDynamicFields,
         );
@@ -443,10 +442,9 @@ sub PrepareRequest {
     elsif ( $Param{Data}{Event} eq 'ArticleCreate' ) {
 
         # get the article
-        my $GetDynamicFields
-            = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
-        my $ArticleObject  = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-        my $ArticleBackend = $ArticleObject->BackendForArticle(
+        my $GetDynamicFields = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
+        my $ArticleObject    = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $ArticleBackend   = $ArticleObject->BackendForArticle(
             TicketID  => $Param{Data}{TicketID},
             ArticleID => $Param{Data}{ArticleID},
         );
@@ -568,9 +566,8 @@ sub PrepareRequest {
         }
 
         # get the ticket
-        my $GetDynamicFields
-            = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
-        my %Ticket = $TicketObject->TicketGet(
+        my $GetDynamicFields = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
+        my %Ticket           = $TicketObject->TicketGet(
             TicketID     => $Param{Data}{TicketID},
             DynamicField => $GetDynamicFields,
         );

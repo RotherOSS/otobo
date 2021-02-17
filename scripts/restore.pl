@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -87,7 +87,7 @@ else {
 # check needed programs
 for my $CMD ( 'cp', 'tar', $DecompressCMD ) {
     my $IsInstalled = 0;
-    open( my $Input, '-|', "which $CMD" );    ## no critic
+    open( my $Input, '-|', "which $CMD" );    ## no critic qw(InputOutput::RequireBriefOpen)
     while (<$Input>) {
         $IsInstalled = 1;
     }
@@ -139,7 +139,7 @@ if ( $DatabaseDSN =~ m/:mysql/i ) {
     $DBDump = 'mysql';
 
     my $IsInstalled = 0;
-    open( my $Input, '-|', "which $DBDump" );    ## no critic
+    open( my $Input, '-|', "which $DBDump" );    ## no critic qw(InputOutput::RequireBriefOpen)
     while (<$Input>) {
         $IsInstalled = 1;
     }
@@ -157,7 +157,7 @@ elsif ( $DatabaseDSN =~ m/:pg/i ) {
     }
 
     my $IsInstalled = 0;
-    open( my $Input, '-|', "which $DBDump" );    ## no critic
+    open( my $Input, '-|', "which $DBDump" );
     while (<$Input>) {
         $IsInstalled = 1;
     }
@@ -275,7 +275,7 @@ else {
 
         # set password via environment variable if there is one
         if ($DatabasePw) {
-            $ENV{'PGPASSWORD'} = $DatabasePw;    ## no critic
+            $ENV{'PGPASSWORD'} = $DatabasePw;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
         }
         say "Restore database into $DB ...";
         system(
@@ -286,7 +286,7 @@ else {
 
         # set password via environment variable if there is one
         if ($DatabasePw) {
-            $ENV{'PGPASSWORD'} = $DatabasePw;    ## no critic
+            $ENV{'PGPASSWORD'} = $DatabasePw;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
         }
         say "Restore database into $DB ...";
         system(

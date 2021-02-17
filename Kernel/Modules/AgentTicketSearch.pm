@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -541,10 +541,8 @@ sub Run {
             }
             elsif ( $GetParam{ $TimeMap{$TimeType} . 'SearchType' } eq 'TimeSlot' ) {
                 for my $Key (qw(Month Day)) {
-                    $GetParam{ $TimeType . 'TimeStart' . $Key }
-                        = sprintf( "%02d", $GetParam{ $TimeType . 'TimeStart' . $Key } );
-                    $GetParam{ $TimeType . 'TimeStop' . $Key }
-                        = sprintf( "%02d", $GetParam{ $TimeType . 'TimeStop' . $Key } );
+                    $GetParam{ $TimeType . 'TimeStart' . $Key } = sprintf( "%02d", $GetParam{ $TimeType . 'TimeStart' . $Key } );
+                    $GetParam{ $TimeType . 'TimeStop' . $Key }  = sprintf( "%02d", $GetParam{ $TimeType . 'TimeStop' . $Key } );
                 }
                 if (
                     $GetParam{ $TimeType . 'TimeStartDay' }
@@ -555,12 +553,12 @@ sub Run {
                     my $DateTimeObject = $Kernel::OM->Create(
                         'Kernel::System::DateTime',
                         ObjectParams => {
-                            Year   => $GetParam{ $TimeType . 'TimeStartYear' },
-                            Month  => $GetParam{ $TimeType . 'TimeStartMonth' },
-                            Day    => $GetParam{ $TimeType . 'TimeStartDay' },
-                            Hour   => 0,                                           # midnight
-                            Minute => 0,
-                            Second => 0,
+                            Year     => $GetParam{ $TimeType . 'TimeStartYear' },
+                            Month    => $GetParam{ $TimeType . 'TimeStartMonth' },
+                            Day      => $GetParam{ $TimeType . 'TimeStartDay' },
+                            Hour     => 0,                                                                             # midnight
+                            Minute   => 0,
+                            Second   => 0,
                             TimeZone => $Self->{UserTimeZone} || Kernel::System::DateTime->UserDefaultTimeZoneGet(),
                         },
                     );
@@ -578,12 +576,12 @@ sub Run {
                     my $DateTimeObject = $Kernel::OM->Create(
                         'Kernel::System::DateTime',
                         ObjectParams => {
-                            Year   => $GetParam{ $TimeType . 'TimeStopYear' },
-                            Month  => $GetParam{ $TimeType . 'TimeStopMonth' },
-                            Day    => $GetParam{ $TimeType . 'TimeStopDay' },
-                            Hour   => 23,                                         # just before midnight
-                            Minute => 59,
-                            Second => 59,
+                            Year     => $GetParam{ $TimeType . 'TimeStopYear' },
+                            Month    => $GetParam{ $TimeType . 'TimeStopMonth' },
+                            Day      => $GetParam{ $TimeType . 'TimeStopDay' },
+                            Hour     => 23,                                                                            # just before midnight
+                            Minute   => 59,
+                            Second   => 59,
                             TimeZone => $Self->{UserTimeZone} || Kernel::System::DateTime->UserDefaultTimeZoneGet(),
                         },
                     );
@@ -733,8 +731,7 @@ sub Run {
 
                 # set search parameter
                 if ( defined $SearchParameter ) {
-                    $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                        = $SearchParameter->{Parameter};
+                    $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $SearchParameter->{Parameter};
                 }
             }
         }
@@ -787,9 +784,9 @@ sub Run {
                 my $ESObject = $Kernel::OM->Get('Kernel::System::Elasticsearch');
                 my $Count    = $ConfigObject->Get('Elasticsearch::MaxArticleSearch');
 
-# TODO please consider sorting via ES. For fields with type text, mapping for sorting must be the keyword version, e.g. Title.keyword!
-#my $Field = $Mapping->{ticket}->{mappings}->{properties}->{ $Param{Sort} }->{fields};
-#$Param{Sort} .= ( defined $Field ) ? '.' . ( %{$Field} )[0] : '';
+                # TODO please consider sorting via ES. For fields with type text, mapping for sorting must be the keyword version, e.g. Title.keyword!
+                #my $Field = $Mapping->{ticket}->{mappings}->{properties}->{ $Param{Sort} }->{fields};
+                #$Param{Sort} .= ( defined $Field ) ? '.' . ( %{$Field} )[0] : '';
                 if ( ( defined $GetParam{FulltextES} ) && ( !defined $GetParam{Fulltext} ) ) {
                     @ViewableTicketIDs = $ESObject->TicketSearch(
                         Fulltext       => $GetParam{FulltextES},
@@ -1472,10 +1469,9 @@ sub Run {
                 $SearchStrings{$1} = $ParamObject->GetParam( Param => $SearchStringParamName );
             }
 
-            $StopWordCheckResult->{FoundStopWords}
-                = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchStringStopWordsFind(
+            $StopWordCheckResult->{FoundStopWords} = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchStringStopWordsFind(
                 SearchStrings => \%SearchStrings,
-                );
+            );
         }
 
         my $Output = $LayoutObject->JSONEncode(
@@ -1861,8 +1857,7 @@ sub Run {
             for my $Preference ( @{$SearchFieldPreferences} ) {
 
                 # get field HTML
-                $DynamicFieldHTML{ $DynamicFieldConfig->{Name} . $Preference->{Type} }
-                    = $BackendObject->SearchFieldRender(
+                $DynamicFieldHTML{ $DynamicFieldConfig->{Name} . $Preference->{Type} } = $BackendObject->SearchFieldRender(
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     Profile              => \%GetParam,
                     PossibleValuesFilter => $PossibleValuesFilter,
@@ -1871,7 +1866,7 @@ sub Run {
                         ->{ $DynamicFieldConfig->{Name} },
                     LayoutObject => $LayoutObject,
                     Type         => $Preference->{Type},
-                    );
+                );
             }
         }
 

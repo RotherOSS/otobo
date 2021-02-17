@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -90,7 +90,7 @@ sub new {
 
     # load log backend
     my $GenericModule = $ConfigObject->Get('LogModule') || 'Kernel::System::Log::SysLog';
-    if ( !eval "require $GenericModule" ) {    ## no critic
+    if ( !eval "require $GenericModule" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
         die "Can't load log backend module $GenericModule! $@";
     }
 
@@ -99,10 +99,10 @@ sub new {
         %Param,
     );
 
-    return $Self if !eval "require IPC::SysV";    ## no critic
+    return $Self if !eval "require IPC::SysV";    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
 
     # Setup IPC for shared access to the last log entries.
-    $Self->{IPCKey} = '444423' . $SystemID;       # This name is used to identify the shared memory segment.
+    $Self->{IPCKey}  = '444423' . $SystemID;                                    # This name is used to identify the shared memory segment.
     $Self->{IPCSize} = $ConfigObject->Get('LogSystemCacheSize') || 32 * 1024;
 
     # Create/access shared memory segment.
@@ -202,11 +202,8 @@ sub Log {
     # if error, write it to STDERR
     if ( $Priority =~ m/^error/i ) {
 
-        ## no critic
         my $Error = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: "
             . $LogTime . "\n\n", $^V;
-        ## use critic
-
         $Error .= " Message: $Message\n\n";
 
         # more info when we are in a web context
@@ -235,9 +232,9 @@ sub Log {
             $Subroutine2 ||= $0;
 
             # print line if upper caller module exists
-            my $VersionString = '';
-
-            eval { $VersionString = $Package1->VERSION || ''; };    ## no critic
+            my $VersionString = eval {
+                return $Package1->VERSION || '';
+            };
 
             # version is present
             if ($VersionString) {
@@ -272,7 +269,7 @@ sub Log {
 
         $Priority = lc $Priority;
 
-        my $Data   = $LogTime . ";;$Priority;;$Self->{LogPrefix};;$Message\n";    ## no critic
+        my $Data   = $LogTime . ";;$Priority;;$Self->{LogPrefix};;$Message\n";
         my $String = $Self->GetLog();
 
         shmwrite( $Self->{IPCSHMKey}, $Data . $String, 0, $Self->{IPCSize} ) || die $!;
@@ -356,7 +353,7 @@ dump a perl variable to log
 sub Dumper {
     my ( $Self, @Data ) = @_;
 
-    require Data::Dumper;    ## no critic
+    require Data::Dumper;
 
     # returns the context of the current subroutine and sub-subroutine!
     my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller(0);
@@ -367,7 +364,7 @@ sub Dumper {
     # log backend
     $Self->{Backend}->Log(
         Priority  => 'debug',
-        Message   => substr( Data::Dumper::Dumper(@Data), 0, 600600600 ),    ## no critic
+        Message   => substr( Data::Dumper::Dumper(@Data), 0, 600600600 ),
         LogPrefix => $Self->{LogPrefix},
         Module    => $Subroutine2,
         Line      => $Line1,

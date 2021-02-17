@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -267,8 +267,7 @@ sub Data {
                         $Status = '[WARNING: REVOKED KEY]';
                     }
 
-                    $KeyList{"PGP::$DataRef->{Key}::$DataRef->{Identifier}"}
-                        = "PGP: $Status $DataRef->{Key} $Expires $DataRef->{Identifier}";
+                    $KeyList{"PGP::$DataRef->{Key}::$DataRef->{Identifier}"} = "PGP: $Status $DataRef->{Key} $Expires $DataRef->{Identifier}";
                 }
             }
         }
@@ -293,8 +292,7 @@ sub Data {
                     $Expired = ' [WARNING: EXPIRED KEY]';
                 }
 
-                $KeyList{"SMIME::$DataRef->{Filename}::$DataRef->{Email}"}
-                    = "SMIME:$Expired $DataRef->{Filename} $EndDate $DataRef->{Email}";
+                $KeyList{"SMIME::$DataRef->{Filename}::$DataRef->{Email}"} = "SMIME:$Expired $DataRef->{Filename} $EndDate $DataRef->{Email}";
             }
         }
     }

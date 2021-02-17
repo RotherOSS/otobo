@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -108,7 +108,7 @@ sub Array2CSV {
 
     if ( $Param{Format} eq 'Excel' ) {
 
-        open my $FileHandle, '>', \$Output;    ## no critic
+        open my $FileHandle, '>', \$Output;    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         if ( !$FileHandle ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -270,7 +270,7 @@ sub CSV2Array {
 
     # parse all CSV data line by line (allows newlines in data fields)
     my $LineCounter = 1;
-    open my $FileHandle, '<', \$Param{String};    ## no critic
+    open my $FileHandle, '<', \$Param{String};    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
     while ( my $ColRef = $CSV->getline($FileHandle) ) {
         push @Array, $ColRef;
         $LineCounter++;

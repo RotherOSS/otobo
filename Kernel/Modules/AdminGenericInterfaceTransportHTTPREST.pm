@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -66,8 +66,7 @@ sub Run {
         # Check for valid web service configuration.
         if ( !IsHashRefWithData($WebserviceData) ) {
             return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}
-                    ->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
             );
         }
 
@@ -255,9 +254,8 @@ sub Run {
                 );
 
                 if ( !$Route ) {
-                    $Error{ 'RouteOperationMapping' . $CurrentOperation . 'ServerError' } = 'ServerError';
-                    $Error{ 'RouteOperationMapping' . $CurrentOperation . 'ServerErrorMessage' }
-                        = Translatable('This field is required');
+                    $Error{ 'RouteOperationMapping' . $CurrentOperation . 'ServerError' }        = 'ServerError';
+                    $Error{ 'RouteOperationMapping' . $CurrentOperation . 'ServerErrorMessage' } = Translatable('This field is required');
                     next OPERATION;
                 }
 
@@ -478,10 +476,10 @@ sub _ShowEdit {
                 $LayoutObject->Block(
                     Name => 'InvokerControllerMapping',
                     Data => {
-                        Invoker     => $CurrentInvoker,
-                        Controller  => $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}->{Controller},
-                        CommandStrg => $CommandStrg,
-                        ServerError => $Param{ 'InvokerControllerMapping' . $CurrentInvoker . 'ServerError' } || '',
+                        Invoker            => $CurrentInvoker,
+                        Controller         => $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}->{Controller},
+                        CommandStrg        => $CommandStrg,
+                        ServerError        => $Param{ 'InvokerControllerMapping' . $CurrentInvoker . 'ServerError' } || '',
                         ServerErrorMessage => $Param{
                             'InvokerControllerMapping'
                                 . $CurrentInvoker
@@ -515,10 +513,10 @@ sub _ShowEdit {
                 $LayoutObject->Block(
                     Name => 'RouteOperationMapping',
                     Data => {
-                        Operation         => $CurrentOperation,
-                        Route             => $TransportConfig->{RouteOperationMapping}->{$CurrentOperation}->{Route},
-                        RequestMethodStrg => $RequestMethodStrg,
-                        ServerError => $Param{ 'RouteOperationMapping' . $CurrentOperation . 'ServerError' } || '',
+                        Operation          => $CurrentOperation,
+                        Route              => $TransportConfig->{RouteOperationMapping}->{$CurrentOperation}->{Route},
+                        RequestMethodStrg  => $RequestMethodStrg,
+                        ServerError        => $Param{ 'RouteOperationMapping' . $CurrentOperation . 'ServerError' } || '',
                         ServerErrorMessage => $Param{
                             'RouteOperationMapping'
                                 . $CurrentOperation

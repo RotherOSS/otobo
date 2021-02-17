@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -172,8 +172,7 @@ sub Run {
         );
 
         if ( $UserPreferences{UserSystemConfigurationFavourites} ) {
-            $Favourites = $Kernel::OM->Get('Kernel::System::JSON')
-                ->Decode( Data => $UserPreferences{UserSystemConfigurationFavourites} );
+            $Favourites = $Kernel::OM->Get('Kernel::System::JSON')->Decode( Data => $UserPreferences{UserSystemConfigurationFavourites} );
         }
 
         for my $Setting (@SettingList) {
@@ -342,8 +341,7 @@ sub Run {
         );
 
         if ( $UserPreferences{UserSystemConfigurationFavourites} ) {
-            $Favourites = $Kernel::OM->Get('Kernel::System::JSON')
-                ->Decode( Data => $UserPreferences{UserSystemConfigurationFavourites} );
+            $Favourites = $Kernel::OM->Get('Kernel::System::JSON')->Decode( Data => $UserPreferences{UserSystemConfigurationFavourites} );
         }
 
         if ($Favourites) {
@@ -475,8 +473,7 @@ sub Run {
 
         if ( scalar @SettingListInvalid ) {
             my $SettingsInvalid = join ', ', @SettingListInvalid;
-            $Output .= $LayoutObject->Notify( Info => $LayoutObject->{LanguageObject}
-                    ->Translate( "The following settings could not be found: %s", $SettingsInvalid ) );
+            $Output .= $LayoutObject->Notify( Info => $LayoutObject->{LanguageObject}->Translate( "The following settings could not be found: %s", $SettingsInvalid ) );
         }
 
         $Output .= $LayoutObject->Output(
@@ -557,9 +554,9 @@ sub Run {
 
         # Get configuration data.
         my $ConfigurationDumpYAML = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationDump(
-            SkipDefaultSettings  => 1,    # Default settings are not needed.
-            SkipModifiedSettings => 0,    # Modified settings should always be present.
-            SkipUserSettings => $ParamObject->GetParam( Param => 'SkipUserSettings' ) ? 0 : 1,
+            SkipDefaultSettings  => 1,                                                               # Default settings are not needed.
+            SkipModifiedSettings => 0,                                                               # Modified settings should always be present.
+            SkipUserSettings     => $ParamObject->GetParam( Param => 'SkipUserSettings' ) ? 0 : 1,
         );
 
         # Send the result to the browser.

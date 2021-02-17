@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -66,8 +66,6 @@ Don't use the constructor directly, use the ObjectManager instead:
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
 =cut
-
-## no critic (StringyEval)
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -426,8 +424,7 @@ Returns:
 =cut
 
 sub SettingUpdate {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     for my $Needed (qw(Name UserID)) {
         if ( !$Param{$Needed} ) {
@@ -4645,7 +4642,6 @@ Returns:
 =cut
 
 sub ValueAttributeList {
-
     my ( $Self, %Param ) = @_;
 
     my $CacheType = 'SysConfig';
@@ -5123,9 +5119,8 @@ sub _FileWriteAtomic {
     # write to a temp file
     my $TempFilename = $Param{Filename} . '.' . $$; # append the processs id
     {
-        ## no critic
-        my $Success = open( my $FH, ">$Self->{FileMode}", $TempFilename );
-        ## use critic
+
+        my $Success = open( my $FH, ">$Self->{FileMode}", $TempFilename ); ## no critic qw(InputOutput::RequireBriefOpen)
         if ( ! $Success ) {
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -5684,7 +5679,7 @@ sub _EffectiveValues2PerlFile {
 package $TargetPath;
 use strict;
 use warnings;
-no warnings 'redefine'; ## no critic
+no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 EOF
 
     if ( $Self->{utf8} ) {

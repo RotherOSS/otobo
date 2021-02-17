@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::MigrateFromOTRS::OTOBODatabaseMigrate;    ## no critic
+package Kernel::System::MigrateFromOTRS::OTOBODatabaseMigrate;
 
 use strict;
 use warnings;
@@ -58,9 +58,6 @@ Returns 1 on success.
 =cut
 
 sub CheckPreviousRequirement {
-    my $Self = shift;
-    my %Param = @_;
-
     return 1;
 }
 
@@ -71,8 +68,7 @@ Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
 =cut
 
 sub Run {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Key (qw(DBData)) {
@@ -87,6 +83,15 @@ sub Run {
                 Comment    => $Self->{LanguageObject}->Translate( 'Need %s!', $Key ),
                 Successful => 0,
             }
+        }
+    }
+
+    # skip for previously/manually finished DB migration
+    if ( $Param{DBData}{SkipDBMigration} ) {
+        return {
+            Successful => 1,
+            Message    => $Self->{LanguageObject}->Translate("Copy database."),
+            Comment    => $Self->{LanguageObject}->Translate("Skipped..."),
         }
     }
 

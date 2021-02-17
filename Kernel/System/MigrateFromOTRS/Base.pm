@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::MigrateFromOTRS::Base;    ## no critic
+package Kernel::System::MigrateFromOTRS::Base;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
 ## nofilter(TidyAll::Plugin::OTOBO::Common::CustomizationMarkers)
 
@@ -98,7 +98,8 @@ sub CleanLicenseHeader {
     my $NewContent;
 
     # Open file
-    open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName );
+    ## no critic qw(InputOutput::RequireBriefOpen)
+    open my $FileHandle, '<:encoding(utf-8)', $FilePathAndName;
 
     if ( !$FileHandle ) {
 
@@ -256,8 +257,7 @@ replace the XML element I<otrs_config> to I<otobo_config>.
 =cut
 
 sub MigrateXMLConfig {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $File = $Param{File};
 
@@ -349,6 +349,7 @@ sub CleanOTRSFileToOTOBOStyle {
             Priority => 'error',
         );
         close $FileHandle;
+
         return;
     }
 
@@ -1087,8 +1088,7 @@ settings by default.
 
 # Note: looks like this method is currently unused
 sub SettingUpdate {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     if ( !$Param{Name} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1330,6 +1330,71 @@ sub DBRenameTables {
     };
 }
 
+# OTOBO VARCHAR attribute shortened to 191 chars, because of InnoDB max key length
+# The values were determined by looking at the patches in scripts/database/otobo-schema.xml.
+sub DBShortenedColumns {
+    return
+        { Table => 'acl', Column => 'name' },
+        { Table => 'acl_sync', Column => 'acl_id' },
+        { Table => 'article_data_mime_send_error', Column => 'message_id' },
+        { Table => 'article_search_index', Column => 'article_key' },
+        { Table => 'article_sender_type', Column => 'name' },
+        { Table => 'auto_response', Column => 'name' },
+        { Table => 'auto_response_type', Column => 'name' },
+        { Table => 'calendar', Column => 'name' },
+        { Table => 'cloud_service_config', Column => 'name' },
+        { Table => 'communication_channel', Column => 'name' },
+        { Table => 'communication_log', Column => 'direction' },
+        { Table => 'communication_log', Column => 'status' },
+        { Table => 'communication_log', Column => 'transport' },
+        { Table => 'communication_log_obj_lookup', Column => 'object_type' },
+        { Table => 'communication_log_object', Column => 'status' },
+        { Table => 'communication_log_object_entry', Column => 'log_key' },
+        { Table => 'customer_company', Column => 'name' },
+        { Table => 'customer_preferences', Column => 'user_id' },
+        { Table => 'customer_user', Column => 'login' },
+        { Table => 'dynamic_field', Column => 'name' },
+        { Table => 'dynamic_field_obj_id_name', Column => 'object_name' },
+        { Table => 'follow_up_possible', Column => 'name' },
+        { Table => 'form_draft', Column => 'action' },
+        { Table => 'generic_agent_jobs', Column => 'job_name' },
+        { Table => 'gi_webservice_config', Column => 'name' },
+        { Table => 'groups_table', Column => 'name' },
+        { Table => 'notification_event', Column => 'name' },
+        { Table => 'notification_event_item', Column => 'event_key' },
+        { Table => 'notification_event_item', Column => 'event_value' },
+        { Table => 'postmaster_filter', Column => 'f_name' },
+        { Table => 'queue', Column => 'name' },
+        { Table => 'roles', Column => 'name' },
+        { Table => 'salutation', Column => 'name' },
+        { Table => 'search_profile', Column => 'login' },
+        { Table => 'search_profile', Column => 'profile_name' },
+        { Table => 'service', Column => 'name' },
+        { Table => 'service_customer_user', Column => 'customer_user_login' },
+        { Table => 'signature', Column => 'name' },
+        { Table => 'sla', Column => 'name' },
+        { Table => 'standard_attachment', Column => 'name' },
+        { Table => 'standard_template', Column => 'name' },
+        { Table => 'sysconfig_default', Column => 'name' },
+        { Table => 'sysconfig_default_version', Column => 'name' },
+        { Table => 'sysconfig_modified', Column => 'name' },
+        { Table => 'sysconfig_modified_version', Column => 'name' },
+        { Table => 'ticket', Column => 'customer_user_id' },
+        { Table => 'ticket', Column => 'title' },
+        { Table => 'ticket_history_type', Column => 'name' },
+        { Table => 'ticket_index', Column => 'queue' },
+        { Table => 'ticket_lock_type', Column => 'name' },
+        { Table => 'ticket_loop_protection', Column => 'sent_to' },
+        { Table => 'ticket_priority', Column => 'name' },
+        { Table => 'ticket_state', Column => 'name' },
+        { Table => 'ticket_state_type', Column => 'name' },
+        { Table => 'ticket_type', Column => 'name' },
+        { Table => 'users', Column => 'login' },
+        { Table => 'valid', Column => 'name' },
+        { Table => 'virtual_fs', Column => 'filename' },
+        { Table => 'virtual_fs_db', Column => 'filename' };
+}
+
 # list of files that need to be copied
 sub CopyFileListfromOTRSToOTOBO {
     my @Files = (
@@ -1538,7 +1603,7 @@ sub _ChangeLicenseHeaderRules {
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 ",
-                "# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+                "# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1573,7 +1638,7 @@ sub _ChangeLicenseHeaderRules {
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 ",
-                "# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+                "# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1608,7 +1673,7 @@ sub _ChangeLicenseHeaderRules {
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 ",
-                "// Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+                "// Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -1641,7 +1706,7 @@ sub _ChangeLicenseHeaderRules {
                 "/* OTOBO is a web-based ticketing system for service organisations.
 
 ",
-                "Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+                "Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -1659,7 +1724,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 sub TaskSecurityCheck {
-    return
+    return (
         {
             Message => 'Check filesystem connect',
             Module  => 'OTOBOOTRSConnectionCheck',
@@ -1739,7 +1804,12 @@ sub TaskSecurityCheck {
         {
             Message => 'Migrate postmaster filter from OTRS to OTOBO',
             Module  => 'OTOBOPostmasterFilterMigrate',
-        };
+        },
+        {
+            Message => 'Package specific actions',
+            Module  => 'OTOBOPackageSpecifics',
+        },
+    );
 }
 
 1;

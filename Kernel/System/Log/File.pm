@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -42,7 +42,7 @@ sub new {
 
     # get log file suffix
     if ( $ConfigObject->Get('LogModule::LogFile::Date') ) {
-        my ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST ) = localtime( time() );    ## no critic
+        my ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST ) = localtime( time() );
         $Y = $Y + 1900;
         $M = sprintf '%02d', ++$M;
         $Self->{LogFile} .= ".$Y-$M";
@@ -57,10 +57,7 @@ sub Log {
     my $FH;
 
     # open logfile
-    ## no critic
-    if ( !open $FH, '>>', $Self->{LogFile} ) {
-        ## use critic
-
+    if ( !open $FH, '>>', $Self->{LogFile} ) { ## no critic qw(InputOutput::RequireBriefOpen)
         # print error screen
         print STDERR "\n";
         print STDERR " >> Can't write $Self->{LogFile}: $! <<\n";
@@ -71,7 +68,7 @@ sub Log {
     # write log file
     $Kernel::OM->Get('Kernel::System::Encode')->ConfigureOutputFileHandle( FileHandle => $FH );
 
-    print $FH '[' . localtime() . ']';    ## no critic
+    print $FH '[' . localtime() . ']';
 
     if ( lc $Param{Priority} eq 'debug' ) {
         print $FH "[Debug][$Param{Module}][$Param{Line}] $Param{Message}\n";

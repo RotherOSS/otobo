@@ -3,7 +3,7 @@
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2012-2020 Znuny GmbH, http://znuny.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -15,9 +15,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use Kernel::Output::HTML::Layout;
+use Kernel::Output::HTML::Layout; ## no critic (Modules::RequireExplicitPackage)
 
-package Kernel::Output::HTML::Layout;    ## no critic
+package Kernel::Output::HTML::Layout; ## no critic (Modules::RequireFilenameMatchesPackage)
 
 use strict;
 use warnings;
@@ -29,7 +29,7 @@ our @ObjectDependencies = (
 
 # disable redefine warnings in this scope
 {
-    no warnings 'redefine';              ## no critic
+    no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 
     # backup original Redirect()
     my $Redirect = \&Kernel::Output::HTML::Layout::Redirect;

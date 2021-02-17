@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -19,6 +19,12 @@ package Kernel::System::DB::postgresql;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DateTime',
@@ -27,30 +33,22 @@ our @ObjectDependencies = (
 );
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my $Class = shift;
+    my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless { %Param }, $Class;
 }
 
 sub LoadPreferences {
     my ( $Self, %Param ) = @_;
 
     # db settings
-    $Self->{'DB::Limit'}       = 'limit';
-    $Self->{'DB::DirectBlob'}  = 0;
-    $Self->{'DB::QuoteSingle'} = '\'';
-
-    #$Self->{'DB::QuoteBack'}            = '\\';
-    $Self->{'DB::QuoteBack'} = '';
-
-    #$Self->{'DB::QuoteSemicolon'}       = '\\';
-    $Self->{'DB::QuoteSemicolon'} = '';
-
-    #$Self->{'DB::QuoteUnderscoreStart'} = '\\\\';
+    $Self->{'DB::Limit'}                = 'limit';
+    $Self->{'DB::DirectBlob'}           = 0;
+    $Self->{'DB::QuoteSingle'}          = '\'';
+    $Self->{'DB::QuoteBack'}            = '';
+    $Self->{'DB::QuoteSemicolon'}       = '';
     $Self->{'DB::QuoteUnderscoreStart'} = '\\';
     $Self->{'DB::QuoteUnderscoreEnd'}   = '';
     $Self->{'DB::CaseSensitive'}        = 1;
@@ -123,6 +121,7 @@ sub Quote {
             }
         }
     }
+
     return $Text;
 }
 
@@ -139,7 +138,7 @@ sub DatabaseCreate {
     }
 
     # return SQL
-    return ("CREATE DATABASE $Param{Name}");
+    return "CREATE DATABASE $Param{Name}";
 }
 
 sub DatabaseDrop {
@@ -151,11 +150,12 @@ sub DatabaseDrop {
             Priority => 'error',
             Message  => 'Need Name!'
         );
+
         return;
     }
 
     # return SQL
-    return ("DROP DATABASE $Param{Name}");
+    return "DROP DATABASE $Param{Name}";
 }
 
 sub TableCreate {
@@ -326,6 +326,7 @@ sub TableCreate {
                 );
         }
     }
+
     return @Return;
 }
 
@@ -347,9 +348,11 @@ sub TableDrop {
             }
         }
         $SQL .= "DROP TABLE $Tag->{Name}";
-        return ($SQL);
+
+        return $SQL;
     }
-    return ();
+
+    return;
 }
 
 sub TableAlter {
@@ -361,7 +364,7 @@ sub TableAlter {
     my $SQLStart      = '';
     my @SQL           = ();
     my @Index         = ();
-    my $IndexName     = ();
+    my $IndexName     = '';
     my $ForeignTable  = '';
     my $ReferenceName = '';
     my @Reference     = ();
@@ -558,6 +561,7 @@ EOF
             push @Reference, $Tag;
         }
     }
+
     return @SQL;
 }
 
@@ -571,9 +575,11 @@ sub IndexCreate {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
+
     my $CreateIndexSQL = "CREATE INDEX $Param{Name} ON $Param{TableName} (";
     my @Array          = @{ $Param{Data} };
     for ( 0 .. $#Array ) {
@@ -604,7 +610,7 @@ END$DollarDollar;
 EOF
 
     # return SQL
-    return ($CreateIndexSQL);
+    return $CreateIndexSQL;
 }
 
 sub IndexDrop {
@@ -617,6 +623,7 @@ sub IndexDrop {
                 Priority => 'error',
                 Message  => "Need $_!",
             );
+
             return;
         }
     }
@@ -654,8 +661,9 @@ sub ForeignKeyCreate {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!",
+                Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -708,6 +716,7 @@ sub ForeignKeyDrop {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -746,7 +755,7 @@ END$DollarDollar;
 EOF
 
     # return SQL
-    return ($DropForeignKeySQL);
+    return $DropForeignKeySQL;
 }
 
 sub UniqueCreate {
@@ -759,6 +768,7 @@ sub UniqueCreate {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -792,7 +802,7 @@ END$DollarDollar;
 EOF
 
     # return SQL
-    return ($CreateUniqueSQL);
+    return $CreateUniqueSQL;
 }
 
 sub UniqueDrop {
@@ -805,6 +815,7 @@ sub UniqueDrop {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -830,7 +841,7 @@ END$DollarDollar;
 EOF
 
     # return SQL
-    return ($DropUniqueSQL);
+    return $DropUniqueSQL;
 }
 
 sub Insert {
@@ -915,7 +926,8 @@ sub Insert {
         }
     }
     $SQL .= "($Key)\n    VALUES\n    ($Value)";
-    return ($SQL);
+
+    return $SQL;
 }
 
 sub _TypeTranslation {

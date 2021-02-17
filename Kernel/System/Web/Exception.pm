@@ -84,7 +84,7 @@ make use of a caught exception object
 
 =cut
 
-sub as_psgi {
+sub as_psgi { ## no critic qw(OTOBO::RequireCamelCase)
     my $Self = shift;
 
     # The thrower already has a proper Plack::Response object.

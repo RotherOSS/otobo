@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,13 +16,25 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::ObjectManager;
+
+# because OTOBO modules expect $Kernel::OM
+$Kernel::OM = Kernel::System::ObjectManager->new(
+    'Kernel::System::Log' => {
+        LogPrefix => 'OTOBO-otobo.UnitTest',
+    },
+);
+
+# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
@@ -135,10 +147,7 @@ $Selenium->RunTest(
             OwnerID      => $UserID[1],
             UserID       => $UserID[1],
         );
-        $Self->True(
-            $TicketID,
-            "Ticket $TicketID is created",
-        );
+        ok( $TicketID, "Ticket $TicketID is created" );
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
@@ -162,14 +171,20 @@ $Selenium->RunTest(
         }
 
         # Check out of office user message without filter.
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('#NewOwnerID option[value=$UserID[1]]').text();"),
-            "$UserData{UserFullname}",
+            $UserData{UserFullname},
             "Out of office message is found for the user - $TestUser[1]"
         );
 
-        # Expand 'New owner' input field.
-        $Selenium->execute_script("\$('#NewOwnerID_Search').focus().focus();");
+        # The convoluted way of getting the focus seems to work.
+        my $SearchElement = $Selenium->find_element_by_css( '#NewOwnerID_Search', 'css' );
+        ok( $SearchElement, '#NewOwnerID_Search found');
+        $SearchElement->execute_script("arguments[0].focus();");
+        ok(
+            $Selenium->find_element_by_css( '#NewOwnerID_Search', 'css' ),
+            'element with id=NewOwnerID_Search still exists'
+        );
 
         # Click on filter button in input fileld.
         $Selenium->execute_script("\$('.InputField_Filters').click();");
@@ -178,17 +193,14 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('.InputField_FiltersList').children('input').click();");
 
         # Check out of office user message with filter.
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('#NewOwnerID option[value=$UserID[1]]').text();"),
             "1: $UserData{UserFullname}",
             "Out of office message is found for the user - $TestUser[1]"
         );
 
-        # Change ticket user owner.
-        $Selenium->InputFieldValueSet(
-            Element => '#NewOwnerID',
-            Value   => $UserID[1],
-        );
+        # Change ticket user owner by clicking
+        $Selenium->execute_script("return \$('#NewOwnerID option[value=$UserID[1]]').click();");
 
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
@@ -199,7 +211,7 @@ $Selenium->RunTest(
 
         # Confirm owner change action.
         my $OwnerMsg = "Added note (Owner)";
-        $Self->True(
+        ok(
             index( $Selenium->get_page_source(), $OwnerMsg ) > -1,
             "Ticket owner action completed",
         );
@@ -233,7 +245,7 @@ $Selenium->RunTest(
         );
 
         # Verified there is no Out Of Office message in the 'Sender' column of created Note.
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('#Row2 .Sender a').text();"),
             "$TestUser[1] $TestUser[1]",
             "There is no Out Of Office message in the article 'Sender' column."
@@ -270,10 +282,7 @@ $Selenium->RunTest(
 
         # Cleanup test email backend.
         my $Success = $TestEmailObject->CleanUp();
-        $Self->True(
-            $Success,
-            'Initial cleanup',
-        );
+        ok( $Success, 'Initial cleanup' );
 
         # Disable AgentTicketOwner###NoteMandatory.
         $Helper->ConfigSettingChange(
@@ -303,10 +312,7 @@ $Selenium->RunTest(
             HistoryComment       => 'Some free text!',
             UserID               => $UserID[1],
         );
-        $Self->True(
-            $ArticleID,
-            "ArticleID $ArticleID is created for TicketID $TicketID",
-        );
+        ok( $ArticleID, "ArticleID $ArticleID is created for TicketID $TicketID" );
 
         # Add notification.
         my $NotificationEventObject = $Kernel::OM->Get('Kernel::System::NotificationEvent');
@@ -327,10 +333,7 @@ $Selenium->RunTest(
             ValidID => 1,
             UserID  => 1,
         );
-        $Self->True(
-            $NotificationID,
-            "NotificationID $NotificationID is created",
-        );
+        ok( $NotificationID, "NotificationID $NotificationID is created" );
 
         # Navigate to owner screen of created test ticket to change owner without note (article).
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketOwner;TicketID=$TicketID");
@@ -360,13 +363,11 @@ $Selenium->RunTest(
         EMAIL:
         for my $Email ( @{$Emails} ) {
             $Found = ( ${ $Email->{Body} } =~ m/$Match/ ? 1 : 0 );
+
             last EMAIL if $Found;
         }
 
-        $Self->True(
-            $Found,
-            'OTOBO_CUSTOMER_BODY tag is replaced correctly',
-        );
+        ok( $Found, 'OTOBO_CUSTOMER_BODY tag is replaced correctly' );
 
         # Cleanup test email backend and mail queue.
         $TestEmailObject->CleanUp();
@@ -376,10 +377,7 @@ $Selenium->RunTest(
             ID     => $NotificationID,
             UserID => 1,
         );
-        $Self->True(
-            $Success,
-            "NotificationID $NotificationID is deleted",
-        );
+        ok( $Success, "NotificationID $NotificationID is deleted" );
 
         # Delete created test tickets.
         $Success = $TicketObject->TicketDelete(
@@ -395,10 +393,7 @@ $Selenium->RunTest(
                 UserID   => $UserID[0],
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket $TicketID is deleted"
-        );
+        ok( $Success, "Ticket $TicketID is deleted" );
 
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
@@ -407,7 +402,4 @@ $Selenium->RunTest(
     }
 );
 
-
-$Self->DoneTesting();
-
-
+done_testing();

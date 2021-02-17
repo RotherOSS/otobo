@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -43,7 +43,7 @@ my %FakeSMTPEnv = (
     'connect' => 1,
 );
 
-no strict 'refs';    ## no critic
+no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
 
 # Overwrite the OTOBO Email::SMTP check method to use our fake smtp client,
 #   but make this change local to the unit test scope, as you can see, it also
@@ -56,7 +56,7 @@ local *{'Kernel::System::Email::SMTP::Check'} = sub {
     #   that happen, it'll check if the FakeSMTPEnv has an attribute with the same
     #   name and returns it, otherwise always returns True to ensure that the code
     #   that will use this object continues as everything is ok.
-    package FakeSMTP {    ## no critic
+    package FakeSMTP {
         our $AUTOLOAD;
 
         sub new {

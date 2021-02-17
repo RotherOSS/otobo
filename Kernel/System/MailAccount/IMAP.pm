@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -325,8 +325,7 @@ sub _Fetch {
             # check maximum message size
             my $MessageSize = $IMAPOperation->( 'list', $Messageno, );
             if ( !( defined $MessageSize ) ) {
-                my $ErrorMessage
-                    = "$AuthType: Can't determine the size of email '$Messageno/$NOM' from $Param{Login}/$Param{Host}!";
+                my $ErrorMessage = "$AuthType: Can't determine the size of email '$Messageno/$NOM' from $Param{Login}/$Param{Host}!";
 
                 $CommunicationLogObject->ObjectLog(
                     ObjectLogType => 'Connection',
@@ -361,7 +360,7 @@ sub _Fetch {
                 ObjectLogType => 'Connection',
                 Priority      => 'Debug',
                 Key           => 'Kernel::System::MailAccount::IMAP',
-                Value => "Prepare fetching of message '$Messageno/$NOM' (Size: $MessageSizeReadable) from server.",
+                Value         => "Prepare fetching of message '$Messageno/$NOM' (Size: $MessageSizeReadable) from server.",
             );
 
             if ( $MessageSize > ( $MaxEmailSize * 1024 ) ) {
@@ -393,7 +392,7 @@ sub _Fetch {
                         ObjectLogType => 'Connection',
                         Priority      => 'Debug',
                         Key           => 'Kernel::System::MailAccount::IMAP',
-                        Value => 'Safety protection: waiting 1 second before fetching next message from server.',
+                        Value         => 'Safety protection: waiting 1 second before fetching next message from server.',
                     );
 
                     sleep 1;

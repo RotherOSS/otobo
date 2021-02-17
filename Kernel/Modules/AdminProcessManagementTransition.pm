@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -490,10 +490,10 @@ sub _ShowEdit {
         Data => {
             'String' => Translatable('String'),
 
-          # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
-          # TODO: implement a possibility to enter the data in a correct way in the GUI
-          #'Hash'   => 'Hash',
-          #'Array'  => 'Array',
+            # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
+            # TODO: implement a possibility to enter the data in a correct way in the GUI
+            #'Hash'   => 'Hash',
+            #'Array'  => 'Array',
             'Regexp' => Translatable('Regular expression'),
             'Module' => Translatable('Transition validation module')
         },
@@ -557,10 +557,10 @@ sub _ShowEdit {
                     Data => {
                         'String' => Translatable('String'),
 
-          # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
-          # TODO: implement a possibility to enter the data in a correct way in the GUI
-          #'Hash'   => 'Hash',
-          #'Array'  => 'Array',
+                        # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
+                        # TODO: implement a possibility to enter the data in a correct way in the GUI
+                        #'Hash'   => 'Hash',
+                        #'Array'  => 'Array',
                         'Regexp' => Translatable('Regular expression'),
                         'Module' => Translatable('Transition validation module')
                     },
@@ -631,10 +631,10 @@ sub _ShowEdit {
             Data => {
                 'String' => Translatable('String'),
 
-          # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
-          # TODO: implement a possibility to enter the data in a correct way in the GUI
-          #'Hash'   => 'Hash',
-          #'Array'  => 'Array',
+                # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
+                # TODO: implement a possibility to enter the data in a correct way in the GUI
+                #'Hash'   => 'Hash',
+                #'Array'  => 'Array',
                 'Regexp' => Translatable('Regular expression'),
                 'Module' => Translatable('Transition validation module')
             },

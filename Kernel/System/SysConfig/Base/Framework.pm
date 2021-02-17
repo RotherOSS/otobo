@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -362,8 +362,7 @@ sub _ModifiedValueCalculate {
                             sort keys %{ $Param{Value}->[0]->{Hash}->[0]->{Item}->[ $ItemWithSameKey[0] ] }
                             )
                         {
-                            $DefaultItem->[0]->{$DefaultKey}
-                                = $Param{Value}->[0]->{Hash}->[0]->{Item}->[ $ItemWithSameKey[0] ]->{$DefaultKey};
+                            $DefaultItem->[0]->{$DefaultKey} = $Param{Value}->[0]->{Hash}->[0]->{Item}->[ $ItemWithSameKey[0] ]->{$DefaultKey};
                         }
                     }
                     else {
@@ -446,8 +445,7 @@ sub _ModifiedValueCalculate {
                 # It's complex structure (HoA or HoH), continue recursion.
                 my $StructureType = $DefaultItem->[0]->{Array} ? 'Array' : 'Hash';
 
-                my ($SubValue)
-                    = grep { defined $_->{Key} && $_->{Key} eq $Key } @{ $Param{Value}->[0]->{Hash}->[0]->{Item} };
+                my ($SubValue) = grep { defined $_->{Key} && $_->{Key} eq $Key } @{ $Param{Value}->[0]->{Hash}->[0]->{Item} };
 
                 if (
                     $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}
