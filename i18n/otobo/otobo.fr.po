@@ -35,7 +35,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-12 15:30+0000\n"
-"PO-Revision-Date: 2021-02-17 21:53+0000\n"
+"PO-Revision-Date: 2021-02-17 23:32+0000\n"
 "Last-Translator: Yohann <yohann.duhamel@icloud.com>\n"
 "Language-Team: French <https://translate.otobo.org/projects/otobo10/otobo/fr/"
 ">\n"
@@ -12015,7 +12015,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Operation deleted"
-msgstr ""
+msgstr "Opération supprimée"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Invoker deleted"
@@ -12071,59 +12071,59 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 hour"
-msgstr ""
+msgstr "1 heure"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 hours"
-msgstr ""
+msgstr "2 heures"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 hours"
-msgstr ""
+msgstr "3 heures"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 hours"
-msgstr ""
+msgstr "4 heures"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "5 hours"
-msgstr ""
+msgstr "5 heures"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "6 hours"
-msgstr ""
+msgstr "6 heures"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "12 hours"
-msgstr ""
+msgstr "12 heures"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "18 hours"
-msgstr ""
+msgstr "18 heures"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 day"
-msgstr ""
+msgstr "1 jour"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 days"
-msgstr ""
+msgstr "2 jours"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 days"
-msgstr ""
+msgstr "3 jours"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 days"
-msgstr ""
+msgstr "4 jours"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "6 days"
-msgstr ""
+msgstr "6 jours"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 week"
-msgstr ""
+msgstr "1 semaine"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Could not determine config for invoker %s"
@@ -12131,11 +12131,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "InvokerType %s is not registered"
-msgstr ""
+msgstr "InvokerType %s n'est pas enregistré"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "MappingType %s is not registered"
-msgstr ""
+msgstr "MappingType %s n'est pas enregistré"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Invoker!"
@@ -12155,7 +12155,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "The event %s is not valid."
-msgstr ""
+msgstr "L'événement %s n'est pas valide."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Could not update configuration data for WebserviceID %s"
@@ -12167,7 +12167,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "xor"
-msgstr ""
+msgstr "xor"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "String"
@@ -12179,7 +12179,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Validation Module"
-msgstr ""
+msgstr "Module de validation"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Simple Mapping for Outgoing Data"
@@ -12287,27 +12287,27 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "File or Directory not found."
-msgstr ""
+msgstr "Fichier ou dossier non trouvé."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There is another web service with the same name."
-msgstr ""
+msgstr "Il y a un autre service web avec le même nom."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There was an error updating the web service."
-msgstr ""
+msgstr "Il y a eu une erreur en mettant à jour le service web."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There was an error creating the web service."
-msgstr ""
+msgstr "Il y a eu une erreur en créant le service web."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" created!"
-msgstr ""
+msgstr "Le service web \"%s\" a été créé !"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need Name!"
-msgstr ""
+msgstr "Nom requis !"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need ExampleWebService!"
@@ -12323,7 +12323,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need a file to import!"
-msgstr "Besoin d'importer un fichier!"
+msgstr "Besoin d'importer un fichier !"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid ""
@@ -12331,11 +12331,11 @@ msgid ""
 "details"
 msgstr ""
 "Le contenu du fichier importé n'est pas en format \"YAML\" valide. Veuillez "
-"vérifier le journal de OTOBO pour des détailles."
+"vérifier le journal de OTOBO pour des détails"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" deleted!"
-msgstr ""
+msgstr "Le service web \"%s\" a été supprimé !"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "OTOBO as provider"
@@ -12389,55 +12389,57 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who owns the ticket"
-msgstr ""
+msgstr "L'agent qui est propriétaire du ticket"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who is responsible for the ticket"
-msgstr ""
+msgstr "L'agent qui est responsable du ticket"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents watching the ticket"
-msgstr ""
+msgstr "Tous les agents en observation du ticket"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents with write permission for the ticket"
-msgstr ""
+msgstr "Tous les agents avec le droit d'écriture pour le ticket"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to the ticket's queue"
-msgstr ""
+msgstr "Tous les agents souscrits à la file de tickets"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to the ticket's service"
-msgstr ""
+msgstr "Tous les agents souscrits au service des tickets"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to both the ticket's queue and service"
-msgstr ""
+msgstr "Tous les agents souscrits à la file et service des tickets"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Customer user of the ticket"
-msgstr ""
+msgstr "Utilisateur client du ticket"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the first article"
-msgstr ""
+msgstr "Tous les destinataires du premier article"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the last article"
-msgstr ""
+msgstr "Tous les destinataires du dernier article"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Invisible to customer"
-msgstr ""
+msgstr "Invisible par client"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Visible to customer"
-msgstr ""
+msgstr "Visible par le client"
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
 msgstr ""
+"L'environnement PGP ne fonctionne pas. Allez voir les logs pour plus "
+"d'informations !"
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "Need param Key to delete!"
@@ -12476,51 +12478,51 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "File is OK"
-msgstr ""
+msgstr "Le fichier est OK"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package has locally modified files."
-msgstr ""
+msgstr "Le paquet a localement modifié les fichiers."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package not verified by the OTOBO Team!"
-msgstr ""
+msgstr "Le paquet n'a pas été vérifié par l'équipe OTOBO !"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not Started"
-msgstr ""
+msgstr "Pas commencé"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Updated"
-msgstr ""
+msgstr "Mis à jour"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Already up-to-date"
-msgstr ""
+msgstr "Déjà à jour"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Installed"
-msgstr ""
+msgstr "Installé"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not correctly deployed"
-msgstr ""
+msgstr "Pas correctement déployé"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package updated correctly"
-msgstr ""
+msgstr "Le paquet a été mis à jour avec succès"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package was already updated"
-msgstr ""
+msgstr "Le paquet a déjà été mis à jour"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependency installed correctly"
-msgstr ""
+msgstr "Les dépendances ont été installés correctement"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "The package needs to be reinstalled"
-msgstr ""
+msgstr "Le paquet a besoin d'être ré-installé"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "The package contains cyclic dependencies"
@@ -12532,19 +12534,19 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Required version is higher than available"
-msgstr ""
+msgstr "La version requise est plus élevé que celle disponible"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependencies fail to upgrade or install"
-msgstr ""
+msgstr "Les dépendances n'ont pas pu être mises à jour ou installées"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package could not be installed"
-msgstr ""
+msgstr "Le paquet pourrait ne pas installé"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package could not be upgraded"
-msgstr ""
+msgstr "Le paquet pourrait ne pas être mis à jour"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Repository List"
@@ -12559,6 +12561,8 @@ msgstr ""
 msgid ""
 "Package not verified due a communication issue with verification server!"
 msgstr ""
+"Le paquet n'a pas été vérifié à cause d'un problème de communication avec le "
+"serveur de vérification !"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't connect to OTOBO Feature Add-on list server!"
@@ -12574,11 +12578,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
 msgid "No such filter: %s"
-msgstr ""
+msgstr "Pas de filtre : %s"
 
 #. Perl Module: Kernel/Modules/AdminPriority.pm
 msgid "Priority added!"
-msgstr "Priorité ajoutée!"
+msgstr "Priorité ajoutée !"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid ""
@@ -12640,11 +12644,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The %s:%s is still in use"
-msgstr ""
+msgstr "Le %s : %s est encore utilisé"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The %s:%s has a different EntityID"
-msgstr ""
+msgstr "Le %s : %s a un EntityID différent"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not delete %s:%s"
@@ -12681,7 +12685,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Need ActivityID!"
-msgstr ""
+msgstr "ActivityID requis !"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Could not get data for ActivityID %s"
@@ -12697,21 +12701,23 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Activity not found!"
-msgstr ""
+msgstr "Activité non trouvée !"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "ActivityDialog not found!"
-msgstr ""
+msgstr "ActivityDialog non trouvé !"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid ""
 "ActivityDialog already assigned to Activity. You cannot add an "
 "ActivityDialog twice!"
 msgstr ""
+"ActivityDialog déjà assigné à une Activité. Vous ne pouvez pas ajouter un "
+"ActivityDialog 2 fois !"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Error while saving the Activity to the database!"
-msgstr ""
+msgstr "Erreur durant la sauvegarde de l'Activité dans la base de données !"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "This subaction is not valid"
@@ -12769,15 +12775,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Show Field"
-msgstr ""
+msgstr "Montrez le champ"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Show Field As Mandatory"
-msgstr ""
+msgstr "Montrez le champ comme obligatoire"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
 msgid "Edit Path"
-msgstr ""
+msgstr "Editez le chemin"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error generating a new EntityID for this Transition"
@@ -12832,7 +12838,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Need TransitionActionID!"
-msgstr ""
+msgstr "TransitionActionID requis !"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Could not get data for TransitionActionID %s"
@@ -12852,11 +12858,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Queue updated!"
-msgstr "File mise à jour!"
+msgstr "File mise à jour !"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Don't use :: in queue name!"
-msgstr ""
+msgstr "Ne pas utiliser :: dans un nom de file !"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Click back and change it!"
@@ -12912,7 +12918,7 @@ msgstr "Modifier les relations des rôles pour un groupe"
 
 #. Perl Module: Kernel/Modules/AdminRoleUser.pm
 msgid "Role"
-msgstr ""
+msgstr "Rôle"
 
 #. Perl Module: Kernel/Modules/AdminRoleUser.pm
 msgid "Change Role Relations for Agent"
@@ -13008,7 +13014,7 @@ msgstr "Adresse e-mail système ajoutée !"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Invalid Settings"
-msgstr ""
+msgstr "Paramètres invalides"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "There are no invalid settings active at this time."
@@ -13078,15 +13084,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing setting name."
-msgstr ""
+msgstr "Nom du paramètre manquant."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Setting not found."
-msgstr ""
+msgstr "Paramètre non trouvé."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing Settings!"
-msgstr ""
+msgstr "Paramètres manquant !"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "No setting name received!"
@@ -13146,7 +13152,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Session has been killed!"
-msgstr ""
+msgstr "La session a été interrompue !"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "All sessions have been killed, except for your own."
@@ -13182,11 +13188,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminType.pm
 msgid "Type added!"
-msgstr "Type ajouté!"
+msgstr "Type ajouté !"
 
 #. Perl Module: Kernel/Modules/AdminUser.pm
 msgid "Agent updated!"
-msgstr "Information de l'opérateur mises à jour"
+msgstr "Information de l'opérateur mises à jour !"
 
 #. Perl Module: Kernel/Modules/AdminUserGroup.pm
 msgid "Change Group Relations for Agent"
@@ -13202,7 +13208,7 @@ msgstr "Mois"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentAgendaOverview.pm
 msgid "Week"
-msgstr ""
+msgstr "Semaine"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentAgendaOverview.pm
 msgid "Day"
@@ -13210,39 +13216,41 @@ msgstr "Jour"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentCalendarOverview.pm
 msgid "All appointments"
-msgstr ""
+msgstr "Tous les rendez-vous"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentCalendarOverview.pm
 msgid "Appointments assigned to me"
-msgstr ""
+msgstr "Tous les rendez-vous qui me sont assignés"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentCalendarOverview.pm
 msgid "Showing only appointments assigned to you! Change settings"
 msgstr ""
+"Montrez seulement les rendez-vous qui me sont assignés ! Changement des "
+"paramètres"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Appointment not found!"
-msgstr ""
+msgstr "Rendez-vous non trouvé !"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Never"
-msgstr ""
+msgstr "Jamais"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Every Day"
-msgstr ""
+msgstr "Chaque jour"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Every Week"
-msgstr ""
+msgstr "Chaque semaine"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Every Month"
-msgstr ""
+msgstr "Chaque mois"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Every Year"
-msgstr ""
+msgstr "Chaque année"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Custom"
@@ -13250,23 +13258,23 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Daily"
-msgstr ""
+msgstr "Quotidien"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Weekly"
-msgstr ""
+msgstr "Hebdomadaire"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Monthly"
-msgstr ""
+msgstr "Mensuel"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Yearly"
-msgstr ""
+msgstr "Annuel"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "every"
-msgstr ""
+msgstr "chaque"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "for %s time(s)"
@@ -13274,7 +13282,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "until ..."
-msgstr ""
+msgstr "jusqu'à ..."
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "for ... time(s)"
@@ -13282,47 +13290,47 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "until %s"
-msgstr ""
+msgstr "jusqu'à %s"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "No notification"
-msgstr ""
+msgstr "Pas de notification"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "%s minute(s) before"
-msgstr ""
+msgstr "%s minute(s) avant"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "%s hour(s) before"
-msgstr ""
+msgstr "%s hour(s) avant"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "%s day(s) before"
-msgstr ""
+msgstr "%s day(s) avant"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "%s week before"
-msgstr ""
+msgstr "%s semaine avant"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "before the appointment starts"
-msgstr ""
+msgstr "avant que le rendez-vous commence"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "after the appointment has been started"
-msgstr ""
+msgstr "après que le rendez-vous soit commencé"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "before the appointment ends"
-msgstr ""
+msgstr "avant que le rendez-vous se termine"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "after the appointment has been ended"
-msgstr ""
+msgstr "après que le rendez-vous soit terminé"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "No permission!"
-msgstr ""
+msgstr "Pas les droits !"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Cannot delete ticket appointment!"
@@ -13330,7 +13338,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "No permissions!"
-msgstr ""
+msgstr "Pas les droits !"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentList.pm
 msgid "+%s more"
@@ -13354,7 +13362,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "No preferences for %s!"
-msgstr ""
+msgstr "Pas de préférences pour %s !"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Can't get element data of %s!"
@@ -13366,35 +13374,36 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Customer Name"
-msgstr ""
+msgstr "Nom du Client"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Customer User Name"
-msgstr ""
+msgstr "Nom d'utilisateur du client"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Need SourceObject and SourceKey!"
-msgstr ""
+msgstr "SourceObject et SourceKey requis !"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "You need ro permission!"
-msgstr ""
+msgstr "Vous avez besoin du droit de lecture !"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not delete link with %s!"
-msgstr ""
+msgstr "Ne peut pas supprimer le lien avec %s !"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "%s Link(s) deleted successfully."
-msgstr ""
+msgstr "%s Liens supprimés avec succès."
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not create link with %s! Object already linked as %s."
 msgstr ""
+"Ne peut pas créer le lien avec %s ! L'objet est déjà lié en tant que %s."
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not create link with %s!"
-msgstr ""
+msgstr "Ne peut pas créer le lien avec %s !"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "%s links added successfully."
@@ -13402,7 +13411,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "The object %s cannot link with other object!"
-msgstr ""
+msgstr "L'objet %s ne peut pas être lié avec un autre objet !"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Param Group is required!"
@@ -13410,23 +13419,23 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "This feature is not available."
-msgstr ""
+msgstr "Cette fonctionnalité n'est pas disponible."
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Updated user preferences"
-msgstr ""
+msgstr "Les préférences utilisateur mises à jour"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to deploy your changes."
-msgstr ""
+msgstr "Le système n'a pas été capable de déployer vos changements."
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Setting not found!"
-msgstr ""
+msgstr "Paramètre non trouvé !"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to reset the setting!"
-msgstr ""
+msgstr "Le système a été incapable de réinitialiser le paramètre !"
 
 #. Perl Module: Kernel/Modules/AgentSplitSelection.pm
 msgid "Process ticket"
@@ -13434,7 +13443,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Parameter %s is missing."
-msgstr ""
+msgstr "Le paramètre %s est manquant."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Invalid Subaction."
@@ -13446,19 +13455,19 @@ msgstr "Statistique n'a pas pu être importé."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Please upload a valid statistic file."
-msgstr ""
+msgstr "Ajoutez un fichier de statistique valide."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Export: Need StatID!"
-msgstr ""
+msgstr "Export : StatID requis !"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Delete: Get no StatID!"
-msgstr ""
+msgstr "Supprimer : Pas de StatID !"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Need StatID!"
-msgstr ""
+msgstr "StatID requis !"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Could not load stat."
@@ -13516,11 +13525,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "No subject"
-msgstr ""
+msgstr "Pas de sujet"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Could not delete draft!"
-msgstr ""
+msgstr "Impossible de supprimer le brouillon !"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Previous Owner"
@@ -13556,7 +13565,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Can't send email!"
-msgstr ""
+msgstr "Impossible d'envoyer le mail !"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Wrong Subaction!"
@@ -13564,27 +13573,31 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Can't lock Tickets, no TicketIDs are given!"
-msgstr ""
+msgstr "Impossible de bloquer les tickets, aucun TicketIDs fournis !"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket (%s) is not unlocked!"
-msgstr ""
+msgstr "Ticket (%s) n'est pas débloqué !"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "The following tickets were ignored because they are locked by another agent "
 "or you don't have write access to tickets: %s."
 msgstr ""
+"Les tickets suivants ont été ignorés parce qu'ils sont bloqués par un autre "
+"agent ou vous n'avez pas l'accès en écriture aux tickets : %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "The following ticket was ignored because it is locked by another agent or "
 "you don't have write access to ticket: %s."
 msgstr ""
+"Le ticket suivant a été ignoré parce qu'il a été bloqué par un autre agent "
+"ou vous n'avez pas les droits d'écriture sur le ticket : %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "You need to select at least one ticket."
-msgstr ""
+msgstr "Vous devez sélectionner au moins un ticket."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Bulk feature is not enabled!"
@@ -13605,10 +13618,12 @@ msgid ""
 "The following tickets were ignored because they are locked by another agent "
 "or you don't have write access to these tickets: %s."
 msgstr ""
+"Les tickets suivants ont été ignorés parce qu'ils sont bloqués par un autre "
+"agent ou vous n'avez pas l'accès en écriture aux tickets : %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "The following tickets were locked: %s."
-msgstr ""
+msgstr "Les tickets suivants ont été bloqués : %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid ""
@@ -13637,11 +13652,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
 msgid "System Error!"
-msgstr ""
+msgstr "Erreur du système !"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailResend.pm
 msgid "No ArticleID is given!"
-msgstr ""
+msgstr "Aucun ArticleID donné !"
 
 #. Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
 msgid "Next week"
@@ -13653,7 +13668,7 @@ msgstr "Vue des remontées du ticket"
 
 #. Perl Module: Kernel/Modules/AgentTicketForward.pm
 msgid "Article %s could not be found!"
-msgstr ""
+msgstr "L'article %s n'a pas été trouvé !"
 
 #. Perl Module: Kernel/Modules/AgentTicketForward.pm
 msgid "Forwarded message from"
@@ -13665,7 +13680,7 @@ msgstr "Fin du message tranféré"
 
 #. Perl Module: Kernel/Modules/AgentTicketHistory.pm
 msgid "Can't show history, no TicketID is given!"
-msgstr ""
+msgstr "Impossible de monter l'historique, aucun TicketID fourni !"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Can't lock Ticket, no TicketID is given!"
@@ -28006,10 +28021,13 @@ msgid ""
 "list of countries. This is particularly handy if you just want to use a "
 "small select group of countries."
 msgstr ""
+"Ce paramètre permet d'utiliser ta propre liste des pays plutôt que celle par "
+"défaut. C'est conseillé si vous souhaitez seulement utiliser une sélection "
+"de pays."
 
 #. SysConfig
 msgid "This setting is deprecated. Set OTOBOTimeZone instead."
-msgstr ""
+msgstr "Ce paramètre est déprécié. Utilisez OTOBOTimeZone."
 
 #. SysConfig
 msgid ""
@@ -28019,7 +28037,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Close"
-msgstr ""
+msgstr "Ticket fermé"
 
 #. SysConfig
 msgid "Ticket Close."
@@ -28035,11 +28053,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Customer."
-msgstr ""
+msgstr "Ticket Client."
 
 #. SysConfig
 msgid "Ticket Forward Email."
-msgstr ""
+msgstr "Transfert du ticket par Email."
 
 #. SysConfig
 msgid "Ticket FreeText."
@@ -28047,11 +28065,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket History."
-msgstr ""
+msgstr "Historique du ticket."
 
 #. SysConfig
 msgid "Ticket Lock."
-msgstr "Verrouillage ticket"
+msgstr "Verrouillage ticket."
 
 #. SysConfig
 msgid "Ticket Merge."
@@ -28063,7 +28081,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Note."
-msgstr ""
+msgstr "Note du ticket."
 
 #. SysConfig
 msgid "Ticket Notifications"
@@ -28087,7 +28105,7 @@ msgstr "limite \"Petite\" de Vue Générale des Tickets"
 
 #. SysConfig
 msgid "Ticket Owner."
-msgstr ""
+msgstr "Propriétaire du ticket."
 
 #. SysConfig
 msgid "Ticket Pending."
@@ -28095,7 +28113,7 @@ msgstr "Ticket en attente."
 
 #. SysConfig
 msgid "Ticket Print."
-msgstr ""
+msgstr "Impression du ticket."
 
 #. SysConfig
 msgid "Ticket Priority."
@@ -28107,7 +28125,7 @@ msgstr "Vue d'ensemble des files de tickets"
 
 #. SysConfig
 msgid "Ticket Responsible."
-msgstr ""
+msgstr "Responsable du ticket."
 
 #. SysConfig
 msgid "Ticket Watcher"
@@ -28175,6 +28193,9 @@ msgid ""
 "server. To apply this to existing tickets, the ticket migration has to be "
 "run via console, after changing this option."
 msgstr ""
+"Les tickets dans les files suivantes ne seront pas stockés sur le serveur "
+"Elasticsearch. Pour appliquer ceci aux tickets existants, la migration des "
+"tickets doit être lancée via la console, après le changement de cette option."
 
 #. SysConfig
 msgid "Tickets."
@@ -28190,7 +28211,7 @@ msgid ""
 "state (default: 86400 = 1 day)."
 msgstr ""
 "Temps en secondes à ajouter à l'heure actuelle dans le cas dans état en "
-"attente (défaut: 86400 = 1 jour)"
+"attente (défaut: 86400 = 1 jour)."
 
 #. SysConfig
 msgid "To accept login information, such as an EULA or license."
@@ -28202,7 +28223,7 @@ msgstr "Pour télécharger les pièces jointes."
 
 #. SysConfig
 msgid "To view HTML attachments."
-msgstr ""
+msgstr "Voir les pièces jointes HTML."
 
 #. SysConfig
 msgid "Toggles display of OTOBO FeatureAddons list in PackageManager."
@@ -28252,17 +28273,19 @@ msgstr ""
 
 #. SysConfig
 msgid "Turkish"
-msgstr ""
+msgstr "turc"
 
 #. SysConfig
 msgid ""
 "Turns off SSL certificate validation, for example if you use a transparent "
 "HTTPS proxy. Use at your own risk!"
 msgstr ""
+"Désactive la validation des certificats SSL, par exemple si vous utilisez un "
+"proxy HTTPS transparent. A utiliser en connaissance de cause !"
 
 #. SysConfig
 msgid "Turns on drag and drop for the main navigation."
-msgstr ""
+msgstr "Activez le glisser déposer pour la navigation principale."
 
 #. SysConfig
 msgid ""
@@ -28285,7 +28308,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ukrainian"
-msgstr ""
+msgstr "ukrainien"
 
 #. SysConfig
 msgid "Unlock tickets that are past their unlock timeout."
@@ -28315,28 +28338,30 @@ msgstr ""
 
 #. SysConfig
 msgid "Update time"
-msgstr ""
+msgstr "temps mis à jour"
 
 #. SysConfig
 msgid ""
 "Updates the ticket escalation index after a ticket attribute got updated."
 msgstr ""
+"Mise à jour de l'index d'escalade des tickets après qu'un ticket attribué a "
+"été mis à jour."
 
 #. SysConfig
 msgid "Updates the ticket index accelerator."
-msgstr ""
+msgstr "Mise à jour de l'accélérateur d'index des tickets."
 
 #. SysConfig
 msgid "Upload your PGP key."
-msgstr ""
+msgstr "Ajoutez votre clé PGP."
 
 #. SysConfig
 msgid "Upload your S/MIME certificate."
-msgstr ""
+msgstr "Ajouter votre certificat S/MIME."
 
 #. SysConfig
 msgid "Use Redis::Fast instead of Redis."
-msgstr ""
+msgstr "Utilisez Redis::Fast au lieu de Redis."
 
 #. SysConfig
 msgid ""
@@ -28376,7 +28401,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Vietnam"
-msgstr ""
+msgstr "Vietnam"
 
 #. SysConfig
 msgid "View performance benchmark results."
@@ -28392,25 +28417,29 @@ msgstr "Tickets surveillés"
 
 #. SysConfig
 msgid "Watched Tickets."
-msgstr ""
+msgstr "Tickets observés."
 
 #. SysConfig
 msgid "We are performing scheduled maintenance."
-msgstr ""
+msgstr "Nous effectuons une opération de maintenance."
 
 #. SysConfig
 msgid ""
 "We are performing scheduled maintenance. Login is temporarily not available."
 msgstr ""
+"Nous effectuons une opération de maintenance. L'authentification est "
+"temporairement non disponible."
 
 #. SysConfig
 msgid ""
 "We are performing scheduled maintenance. We should be back online shortly."
 msgstr ""
+"Nous effectuons une opération de maintenance. Le service sera de retour "
+"d'ici quelques instants."
 
 #. SysConfig
 msgid "Web Service"
-msgstr ""
+msgstr "Service Web"
 
 #. SysConfig
 msgid "Web Services"
@@ -28446,8 +28475,8 @@ msgid ""
 "(this subject cannot be changed by the agent)."
 msgstr ""
 "Dès que les tickets sont fusionnés, une note est ajoutée automatiquement au "
-"ticket qui devient inactif. Vous pouvez définir ici le sujet de cette note "
-"(ce sujet ne peut pas être modifié par les agents). "
+"ticket qui devient inactif. Vous pouvez définir ici le sujet de cette note ("
+"ce sujet ne peut pas être modifié par les agents)."
 
 #. SysConfig
 msgid ""
@@ -28455,10 +28484,10 @@ msgid ""
 "the check box \"Inform Sender\". In this text area, you can define a pre-"
 "formatted text which can later be modified by the agents."
 msgstr ""
-"Quand les ticjets sont fusionnés, le client peut être informé par mail en "
+"Quand les tickets sont fusionnés, le client peut être informé par mail en "
 "cochant la case \"Informer l'émetteur\". Dans cette zone de texte, vous "
 "pouvez définir un texte pré-formaté qui pourra ensuite être modifié par les "
-"agents. "
+"agents."
 
 #. SysConfig
 msgid ""
@@ -28471,6 +28500,8 @@ msgid ""
 "Whether or not to collect meta information from articles using filters "
 "configured in Ticket::Frontend::ZoomCollectMetaFilters."
 msgstr ""
+"Collecter ou non les meta informations à partir des articles en utilisant "
+"les filtres configurés dans Ticket::Frontend::ZoomCollectMetaFilters."
 
 #. SysConfig
 msgid ""
@@ -28495,6 +28526,8 @@ msgid ""
 "Your email with ticket number \"<OTOBO_TICKET>\" is bounced to "
 "\"<OTOBO_BOUNCE_TO>\". Contact this address for further information."
 msgstr ""
+"Votre email avec le ticket numéro \"<OTOBO_TICKET>\" est renvoyé à \""
+"<OTOBO_BOUNCE_TO>\". Contactez cette adresse pour plus d'informations."
 
 #. SysConfig
 msgid ""
@@ -28534,11 +28567,11 @@ msgstr ""
 
 #. SysConfig
 msgid "compose"
-msgstr ""
+msgstr "écrire"
 
 #. SysConfig
 msgid "debug"
-msgstr ""
+msgstr "debug"
 
 #. SysConfig
 msgid "error"
