@@ -81,7 +81,7 @@ sub new {
 
     $Self->{_GlobalOptions} = [
         {
-            Name        => 'help',
+            Name        => 'help|h',
             Description => 'Display help for this command.',
         },
         {
@@ -556,7 +556,9 @@ sub GetUsageHelp {
     #   they don't actually belong to the current command (only).
     GLOBALOPTION:
     for my $Option ( @{ $Self->{_GlobalOptions} // [] } ) {
+
         next GLOBALOPTION if $Option->{Invisible};
+
         my $OptionShort = "[--$Option->{Name}]";
         $OptionsText .= sprintf " <green>%-30s</green> - %s", $OptionShort, $Option->{Description} . "\n";
     }

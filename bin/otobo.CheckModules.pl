@@ -144,7 +144,6 @@ my %IsDockerFeature = (
     'performance:csv'   => 1,
     'performance:json'  => 1,
     'performance:redis' => 1,
-    'plack:webserver'   => 1,
 );
 
 # Used for the generation of a cpanfile.
@@ -271,8 +270,8 @@ my @NeededModules = (
         },
     },
     {
-        Module               => 'Const::Fast',
-        Required             => 1,
+        Module    => 'Const::Fast',
+        Required  => 1,
         InstTypes => {
             aptget => 'libconst-fast-perl',
             emerge => 'dev-perl/Const-Fast',
@@ -350,8 +349,8 @@ my @NeededModules = (
         },
     },
     {
-        Module               => 'File::chmod',
-        Required             => 1,
+        Module    => 'File::chmod',
+        Required  => 1,
         InstTypes => {
             aptget => 'libfile-chmod-perl',
             emerge => 'dev-perl/File-chmod',
@@ -360,8 +359,8 @@ my @NeededModules = (
         },
     },
     {
-        Module               => 'List::AllUtils',
-        Required             => 1,
+        Module    => 'List::AllUtils',
+        Required  => 1,
         InstTypes => {
             aptget => 'liblist-allutils-perl',
             emerge => 'dev-perl/List-Allutils',
@@ -430,8 +429,8 @@ my @NeededModules = (
         },
     },
     {
-        Module               => 'Path::Class',
-        Required             => 1,
+        Module    => 'Path::Class',
+        Required  => 1,
         InstTypes => {
             aptget => 'libpath-class-perl',
             emerge => 'dev-perl/Path-Class',
@@ -473,8 +472,8 @@ my @NeededModules = (
         },
     },
     {
-        Module               => 'Text::Trim',
-        Required             => 1,
+        Module    => 'Text::Trim',
+        Required  => 1,
         InstTypes => {
             aptget => 'libtext-trim-perl',
             emerge => 'dev-perl/Text-Trim',
@@ -763,7 +762,7 @@ my @NeededModules = (
     {
         Module    => 'Gazelle',
         Required  => 0,
-        Features  => ['plack:webserver'],
+        Features  => ['plack'],
         Comment   => 'High-performance preforking PSGI/Plack web server',
         InstTypes => {
             aptget => undef,
@@ -775,7 +774,7 @@ my @NeededModules = (
     {
         Module    => 'Linux::Inotify2',
         Required  => 0,
-        Features  => ['plack:webserver'],
+        Features  => ['plack'],
         Comment   => 'Used when plackup is run with the -R option. This option restarts the server when files have changed.',
         InstTypes => {
             aptget => undef,
@@ -811,7 +810,7 @@ my @NeededModules = (
     {
         Module    => 'Plack::App::File',
         Required  => 0,
-        Features   => ['plack:webserver'],
+        Features  => ['plack'],
         Comment   => 'Serve static files',
         InstTypes => {
             aptget => undef,
@@ -1236,8 +1235,8 @@ sub Check {
         #   Don't do this for Net::DNS as it seems to take very long (>20s) in a
         #   mod_perl environment sometimes.
         my %DontRequire = (
-            'Net::DNS'        => 1,
-            'Email::Valid'    => 1,    # uses Net::DNS internally
+            'Net::DNS'     => 1,
+            'Email::Valid' => 1,    # uses Net::DNS internally
         );
 
         if ( !$DontRequire{ $Module->{Module} } && !eval "require $Module->{Module}" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
