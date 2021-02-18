@@ -82,7 +82,6 @@ use lib "$Bin/../../Custom";
 # NOTE: this is mostly untested
 package OTOBO::RPC {
 
-    use Plack::Request;
     use Kernel::System::ObjectManager;
 
     sub new {
@@ -271,6 +270,7 @@ use CGI::Carp          ();
 use CGI::Emulate::PSGI ();
 use CGI::PSGI;
 use Plack::Builder;
+use Plack::Request;
 use Plack::Response;
 use Plack::App::File;
 use SOAP::Transport::HTTP::Plack;
