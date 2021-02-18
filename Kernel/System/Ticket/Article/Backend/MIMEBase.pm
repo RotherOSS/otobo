@@ -1101,9 +1101,9 @@ Returns:
 =cut
 
 sub ArticlePlain {
-    my $Self = shift;
+    my ($Self, @Args) = @_;
 
-    return $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticlePlain(@_);
+    return $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticlePlain(@Args);
 }
 
 =head2 ArticleDeletePlain()

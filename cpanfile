@@ -136,15 +136,6 @@ feature 'db:sqlite', 'Support for database SQLLite' => sub {
 
 };
 
-feature 'devel:dbviewer', 'Suppport for devel:dbviewer' => sub {
-    # a web framework that makes web development fun again
-    requires 'Mojolicious', ">= 8.73";
-
-    # Mojolicious plugin to display database information on browser
-    requires 'Mojolicious::Plugin::DBViewer';
-
-};
-
 feature 'devel:encoding', 'Suppport for devel:encoding' => sub {
     # for deeply inspecting strings
     requires 'String::Dump';
@@ -337,12 +328,6 @@ feature 'optional', 'Suppport for optional' => sub {
 
     # testing PSGI apps and URLs
     requires 'Test2::Tools::HTTP';
-
-    # a web framework that makes web development fun again
-    requires 'Mojolicious', ">= 8.73";
-
-    # Mojolicious plugin to display database information on browser
-    requires 'Mojolicious::Plugin::DBViewer';
 
 };
 
