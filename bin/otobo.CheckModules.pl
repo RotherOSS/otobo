@@ -127,42 +127,41 @@ my %IsStandardFeature = (
 
 # defines a set of features considered standard for docker environments
 my %IsDockerFeature = (
-    'db:mysql'           => 1,
-    'db:odbc'            => 1,
-    'db:postgresql'      => 1,
-    'db:sqlite'          => 1,
-    'devel:dbviewer'     => 1,
-    'devel:encoding'     => 1,
-    'devel:test'         => 1,
-    'div:bcrypt'         => 1,
-    'div:ldap'           => 1,
-    'div:readonly'       => 1,
-    'div:xslt'           => 1,
-    'mail:imap'          => 1,
-    'mail:ntlm'          => 1,
-    'mail:sasl'          => 1,
-    'performance:csv'    => 1,
-    'performance:json'   => 1,
-    'performance:redis'  => 1,
-    'plack'              => 1,
+    'db:mysql'          => 1,
+    'db:odbc'           => 1,
+    'db:postgresql'     => 1,
+    'db:sqlite'         => 1,
+    'devel:encoding'    => 1,
+    'devel:test'        => 1,
+    'div:bcrypt'        => 1,
+    'div:ldap'          => 1,
+    'div:readonly'      => 1,
+    'div:xslt'          => 1,
+    'mail:imap'         => 1,
+    'mail:ntlm'         => 1,
+    'mail:sasl'         => 1,
+    'performance:csv'   => 1,
+    'performance:json'  => 1,
+    'performance:redis' => 1,
+    'plack'             => 1,
 );
 
 # Used for the generation of a cpanfile.
 my %FeatureDescription = (
-    'aaacore'         => 'Required packages',
-    'zzznone'         => 'Uncategorized',
-    'db'              => 'Database support (installing one is required)',
-    'db:mysql'        => 'Support for database MySQL',
-    'db:odbc'         => 'Support for database access via ODBC',
-    'db:oracle'       => 'Support for database Oracle',
-    'db:postgresql'   => 'Support for database PostgreSQL',
-    'db:sqlite'       => 'Support for database SQLLite',
-    'apache'          => 'Recommended features for setups using apache',
-    'mail'            => 'Features enabling communication with a mail-server',
-    'performance'     => 'Optional features which can increase performance',
-    'plack'           => 'Required packages if you want to use PSGI/Plack (experimental and advanced)',
-    'div'             => 'Various features for additional functionality',
-    'devel'           => 'Features which can be useful in development environments',
+    'aaacore'       => 'Required packages',
+    'zzznone'       => 'Uncategorized',
+    'db'            => 'Database support (installing one is required)',
+    'db:mysql'      => 'Support for database MySQL',
+    'db:odbc'       => 'Support for database access via ODBC',
+    'db:oracle'     => 'Support for database Oracle',
+    'db:postgresql' => 'Support for database PostgreSQL',
+    'db:sqlite'     => 'Support for database SQLLite',
+    'apache'        => 'Recommended features for setups using apache',
+    'mail'          => 'Features enabling communication with a mail-server',
+    'performance'   => 'Optional features which can increase performance',
+    'plack'         => 'Required packages if you want to use PSGI/Plack (experimental and advanced)',
+    'div'           => 'Various features for additional functionality',
+    'devel'         => 'Features which can be useful in development environments',
 );
 
 my $OSDist;
@@ -194,10 +193,10 @@ GetOptions(
     'docker-cpanfile' => \$DoPrintDockerCpanfile,
 );
 
-if ( @FeatureList ) {
+if (@FeatureList) {
     $DoPrintPackageList = 1;
 }
-elsif ( @FeatureInstList ) {
+elsif (@FeatureInstList) {
     $DoPrintInstCommand = 1;
 }
 elsif ( !$DoPrintAllModules && !$DoPrintInstCommand && !$DoPrintPackageList && !$DoPrintFeatures && !$DoPrintCpanfile && !$DoPrintDockerCpanfile ) {
@@ -214,16 +213,17 @@ if ($DoPrintHelp) {
     print "  otobo.CheckModules.pl [-help|-inst|-list|-all|-features|-flist <features>|-finst <features>|-cpanfile]\n";
     print "\n";
     print "Options:\n";
-    printf " %-22s - %s\n", '[-help]',             'Print this help message.';
-    printf " %-22s - %s\n", '[-h]',                'Same as -help.';
-    printf " %-22s - %s\n", '[-inst]',             'Print the console command to install all missing packages for the standard configuration via the system package manager.';
-    printf " %-22s - %s\n", '[-list]',             'Print a list of those required and most commonly used optional packages for OTOBO.';
-    printf " %-22s - %s\n", '[-all]',              'Print all required, optional and bundled packages of OTOBO.';
+    printf " %-22s - %s\n", '[-help]', 'Print this help message.';
+    printf " %-22s - %s\n", '[-h]',    'Same as -help.';
+    printf " %-22s - %s\n", '[-inst]', 'Print the console command to install all missing packages for the standard configuration via the system package manager.';
+    printf " %-22s - %s\n", '[-list]', 'Print a list of those required and most commonly used optional packages for OTOBO.';
+    printf " %-22s - %s\n", '[-all]',  'Print all required, optional and bundled packages of OTOBO.';
     printf " %-22s - %s\n", '[-features]',         'Print a list of all available features.';
     printf " %-22s - %s\n", '[-flist <features>]', 'Print a list of all packages belonging to at least one of the listed features.';
-    printf " %-22s - %s\n", '[-finst <features>]', 'Print the console command to install all missing packages belonging to at least one of the listed features via the system package manager.';
-    printf " %-22s - %s\n", '[-cpanfile]',         'Print a cpanfile with the required modules regardless whether they are already available.';
-    printf " %-22s - %s\n", '[-docker-cpanfile]',  'Print a cpanfile with the required modules for a Docker-based installation.';
+    printf " %-22s - %s\n", '[-finst <features>]',
+        'Print the console command to install all missing packages belonging to at least one of the listed features via the system package manager.';
+    printf " %-22s - %s\n", '[-cpanfile]',        'Print a cpanfile with the required modules regardless whether they are already available.';
+    printf " %-22s - %s\n", '[-docker-cpanfile]', 'Print a cpanfile with the required modules for a Docker-based installation.';
     print "\n";
 
     exit 1;
@@ -247,7 +247,7 @@ my $ExitCode = 0;    # success
 #           bin/otobo.CheckModules.pl --cpanfile > cpanfile
 my @NeededModules = (
 
-# Core
+    # Core
     {
         Module    => 'Archive::Tar',
         Required  => 1,
@@ -280,10 +280,10 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'DateTime',
-        Required  => 1,
+        Module          => 'DateTime',
+        Required        => 1,
         VersionRequired => '1.08',
-        InstTypes => {
+        InstTypes       => {
             aptget => 'libdatetime-perl',
             emerge => 'dev-perl/DateTime',
             zypper => 'perl-DateTime',
@@ -474,9 +474,9 @@ my @NeededModules = (
         },
     },
     {
-        Module   => 'YAML::XS',
-        Required => 1,
-        Comment  => 'Required for fast YAML processing.',
+        Module    => 'YAML::XS',
+        Required  => 1,
+        Comment   => 'Required for fast YAML processing.',
         InstTypes => {
             aptget => 'libyaml-libyaml-perl',
             emerge => 'dev-perl/YAML-LibYAML',
@@ -485,17 +485,18 @@ my @NeededModules = (
         },
     },
     {
-        Module   => 'Unicode::Collate',
-        Required => 1,
-        Comment  => 'For internationalised sorting',
+        Module    => 'Unicode::Collate',
+        Required  => 1,
+        Comment   => 'For internationalised sorting',
         InstTypes => {
+
             # This is a core Perl module which should be available on most distributions.
             # Redhat seems to be an exception. See https://github.com/RotherOSS/otobo/issues/219
-            yum    => 'perl-Unicode-Collate',
+            yum => 'perl-Unicode-Collate',
         },
     },
 
-# Feature db
+    # Feature db
     {
         Module    => 'DBD::mysql',
         Required  => 0,
@@ -509,9 +510,9 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'DBD::ODBC',
-        Required  => 0,
-        Features  => ['db:odbc'],
+        Module               => 'DBD::ODBC',
+        Required             => 0,
+        Features             => ['db:odbc'],
         VersionsNotSupported => [
             {
                 Version => '1.23',
@@ -562,7 +563,7 @@ my @NeededModules = (
         },
     },
 
-# Feature apache
+    # Feature apache
     {
         Module    => 'ModPerl::Util',
         Required  => 0,
@@ -600,7 +601,7 @@ my @NeededModules = (
         },
     },
 
-# Feature mail
+    # Feature mail
     {
         Module              => 'Net::SMTP',
         Required            => 0,
@@ -655,7 +656,7 @@ my @NeededModules = (
         },
     },
 
-# Feature performance
+    # Feature performance
     {
         Module    => 'JSON::XS',
         Required  => 0,
@@ -707,11 +708,11 @@ my @NeededModules = (
         },
     },
 
-# Feature plack
+    # Feature plack
     {
         Module    => 'CGI::Emulate::PSGI',
         Required  => 0,
-        Features   => ['plack'],
+        Features  => ['plack'],
         Comment   => 'Support old fashioned CGI in a PSGI application',
         InstTypes => {
             aptget => undef,
@@ -723,7 +724,7 @@ my @NeededModules = (
     {
         Module    => 'CGI::PSGI',
         Required  => 0,
-        Features   => ['plack'],
+        Features  => ['plack'],
         Comment   => 'Adapt CGI.pm to the PSGI protocol',
         InstTypes => {
             aptget => undef,
@@ -735,7 +736,7 @@ my @NeededModules = (
     {
         Module    => 'DBIx::Connector',
         Required  => 0,
-        Features   => ['plack'],
+        Features  => ['plack'],
         Comment   => 'Sane persistent database connection',
         InstTypes => {
             aptget => undef,
@@ -747,7 +748,7 @@ my @NeededModules = (
     {
         Module    => 'Gazelle',
         Required  => 0,
-        Features   => ['plack'],
+        Features  => ['plack'],
         Comment   => 'High-performance preforking PSGI/Plack web server',
         InstTypes => {
             aptget => undef,
@@ -759,7 +760,7 @@ my @NeededModules = (
     {
         Module    => 'Linux::Inotify2',
         Required  => 0,
-        Features   => ['plack'],
+        Features  => ['plack'],
         Comment   => 'Used when plackup is run with the -R option. This option restarts the server when files have changed.',
         InstTypes => {
             aptget => undef,
@@ -783,7 +784,7 @@ my @NeededModules = (
     {
         Module    => 'Plack',
         Required  => 0,
-        Features   => ['plack'],
+        Features  => ['plack'],
         Comment   => 'Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)',
         InstTypes => {
             aptget => undef,
@@ -795,7 +796,7 @@ my @NeededModules = (
     {
         Module    => 'Plack::App::File',
         Required  => 0,
-        Features   => ['plack'],
+        Features  => ['plack'],
         Comment   => 'Serve static files',
         InstTypes => {
             aptget => undef,
@@ -807,7 +808,7 @@ my @NeededModules = (
     {
         Module    => 'Plack::Middleware::ForceEnv',
         Required  => 0,
-        Features   => ['plack'],
+        Features  => ['plack'],
         Comment   => 'Set environment variables',
         InstTypes => {
             aptget => undef,
@@ -819,7 +820,7 @@ my @NeededModules = (
     {
         Module    => 'Plack::Middleware::Header',
         Required  => 0,
-        Features   => ['plack'],
+        Features  => ['plack'],
         Comment   => 'Set HTTP headers',
         InstTypes => {
             aptget => undef,
@@ -831,7 +832,7 @@ my @NeededModules = (
     {
         Module    => 'Plack::Middleware::Refresh',
         Required  => 0,
-        Features   => ['plack'],
+        Features  => ['plack'],
         Comment   => 'Watch for changed modules in %INC. Depends on Module::Refresh',
         InstTypes => {
             aptget => undef,
@@ -843,7 +844,7 @@ my @NeededModules = (
     {
         Module    => 'Plack::Middleware::ReverseProxy',
         Required  => 0,
-        Features   => ['plack'],
+        Features  => ['plack'],
         Comment   => 'Twist some HTTP variables so that the reverse proxy is transparent',
         InstTypes => {
             aptget => undef,
@@ -855,7 +856,7 @@ my @NeededModules = (
     {
         Module    => 'Plack::Middleware::Rewrite',
         Required  => 0,
-        Features   => ['plack'],
+        Features  => ['plack'],
         Comment   => 'Set environment variables',
         InstTypes => {
             aptget => undef,
@@ -867,7 +868,7 @@ my @NeededModules = (
     {
         Module    => 'SOAP::Transport::HTTP::Plack',
         Required  => 0,
-        Features   => ['plack'],
+        Features  => ['plack'],
         Comment   => 'PSGI SOAP adapter',
         InstTypes => {
             aptget => undef,
@@ -877,7 +878,7 @@ my @NeededModules = (
         },
     },
 
-# Feature div
+    # Feature div
     {
         Module          => 'Encode::HanExtra',
         VersionRequired => '0.23',
@@ -894,7 +895,7 @@ my @NeededModules = (
     {
         Module              => 'IO::Socket::SSL',
         Required            => 0,
-        Features            => ['div:ssl', 'mail:ssl'],
+        Features            => [ 'div:ssl', 'mail:ssl' ],
         Comment             => 'Required for SSL connections to web and mail servers.',
         VersionsRecommended => [
             {
@@ -969,11 +970,11 @@ my @NeededModules = (
         },
     },
 
-# Feature devel
+    # Feature devel
     {
         Module    => 'Selenium::Remote::Driver',
         Required  => 0,
-        Features   => ['devel:test'],
+        Features  => ['devel:test'],
         Comment   => 'used by Kernel::System::UnitTest::Selenium',
         InstTypes => {
             aptget => undef,
@@ -985,7 +986,7 @@ my @NeededModules = (
     {
         Module    => 'String::Dump',
         Required  => 0,
-        Features   => ['devel:encoding'],
+        Features  => ['devel:encoding'],
         Comment   => 'for deeply inspecting strings',
         InstTypes => {
             aptget => undef,
@@ -997,7 +998,7 @@ my @NeededModules = (
     {
         Module    => 'Test::Compile',
         Required  => 0,
-        Features   => ['devel:test'],
+        Features  => ['devel:test'],
         Comment   => 'a quick compile check',
         InstTypes => {
             aptget => undef,
@@ -1009,7 +1010,7 @@ my @NeededModules = (
     {
         Module    => 'Test2::Suite',
         Required  => 0,
-        Features   => ['devel:test'],
+        Features  => ['devel:test'],
         Comment   => 'basic test functions',
         InstTypes => {
             aptget => undef,
@@ -1021,7 +1022,7 @@ my @NeededModules = (
     {
         Module    => 'Test::Simple',
         Required  => 0,
-        Features   => ['devel:test'],
+        Features  => ['devel:test'],
         Comment   => 'contains Test2::API which is used in Kernel::System::UnitTest::Driver',
         InstTypes => {
             aptget => undef,
@@ -1033,33 +1034,8 @@ my @NeededModules = (
     {
         Module    => 'Test2::Tools::HTTP',
         Required  => 0,
-        Features   => ['devel:test'],
+        Features  => ['devel:test'],
         Comment   => 'testing PSGI apps and URLs',
-        InstTypes => {
-            aptget => undef,
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
-        Module          => 'Mojolicious',
-        Required        => 0,
-        Features        => ['devel:dbviewer'],
-        Comment         => 'a web framework that makes web development fun again',
-        VersionRequired => '8.73',
-        InstTypes       => {
-            aptget => undef,
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
-        Module    => 'Mojolicious::Plugin::DBViewer',
-        Required  => 0,
-        Features   => ['devel:dbviewer'],
-        Comment   => 'Mojolicious plugin to display database information on browser',
         InstTypes => {
             aptget => undef,
             emerge => undef,
@@ -1069,7 +1045,7 @@ my @NeededModules = (
     },
 );
 
-if ( $DoPrintCpanfile ) {
+if ($DoPrintCpanfile) {
     say <<'END_HEADER';
 # Do not change this file manually.
 # Instead adapt bin/otobo.CheckModules.pl and call
@@ -1078,7 +1054,7 @@ END_HEADER
 
     PrintCpanfile( \@NeededModules, 1, 1, 0 );
 }
-elsif ( $DoPrintDockerCpanfile) {
+elsif ($DoPrintDockerCpanfile) {
     say <<'END_HEADER';
 # Do not change this file manually.
 # Instead adapt bin/otobo.CheckModules.pl and call
@@ -1087,18 +1063,18 @@ END_HEADER
 
     PrintCpanfile( \@NeededModules, 1, 1, 1 );
 }
-elsif ( $DoPrintInstCommand ) {
+elsif ($DoPrintInstCommand) {
 
     my @SelectedModules;
     my %FeatureIsUsed = @FeatureInstList ? map { $_ => 1 } @FeatureInstList : %IsStandardFeature;
 
-    for my $Module ( @NeededModules ) {
+    for my $Module (@NeededModules) {
         if ( $Module->{Required} ) {
             push @SelectedModules, $Module;
         }
         elsif ( $Module->{Features} ) {
             for my $Feature ( @{ $Module->{Features} } ) {
-                if ( $FeatureIsUsed{ $Feature } || $FeatureIsUsed{ ( split( /:/, $Feature ) )[0] } ) {
+                if ( $FeatureIsUsed{$Feature} || $FeatureIsUsed{ ( split( /:/, $Feature ) )[0] } ) {
                     push @SelectedModules, $Module;
                 }
             }
@@ -1120,13 +1096,13 @@ elsif ( $DoPrintInstCommand ) {
         print "\n";
     }
 }
-elsif ( $DoPrintFeatures ) {
+elsif ($DoPrintFeatures) {
     my %Features;
     MODULE:
-    for my $Module ( @NeededModules ) {
+    for my $Module (@NeededModules) {
         next MODULE if !$Module->{Features};
         for my $Feature ( @{ $Module->{Features} } ) {
-            $Features{ $Feature }++
+            $Features{$Feature}++;
         }
     }
 
@@ -1139,12 +1115,12 @@ elsif ( $DoPrintFeatures ) {
 else {
 
     my %Features;
-    if ( $DoPrintAllModules ) {
+    if ($DoPrintAllModules) {
         MODULE:
-        for my $Module ( @NeededModules ) {
+        for my $Module (@NeededModules) {
             next MODULE if !$Module->{Features};
             for my $Feature ( @{ $Module->{Features} } ) {
-                $Features{ $Feature }++
+                $Features{$Feature}++;
             }
         }
         $Features{aaacore} = 1;
@@ -1153,30 +1129,32 @@ else {
     else {
         $IsStandardFeature{aaacore} = 1;
         $IsStandardFeature{zzznone} = 1;
-        %Features = @FeatureList ? map { $_ => 1 } @FeatureList : %IsStandardFeature;
+        %Features                   = @FeatureList ? map { $_ => 1 } @FeatureList : %IsStandardFeature;
     }
 
     my %PrintFeatures;
-    for my $Module ( @NeededModules ) {
+    for my $Module (@NeededModules) {
         if ( $Module->{Required} && $Features{aaacore} ) {
             push @{ $PrintFeatures{aaacore} }, $Module;
         }
         elsif ( $Module->{Features} ) {
+
             # user defined features
             if ( !$Features{aaacore} ) {
                 for my $Feature ( @{ $Module->{Features} } ) {
-                    if ( $Features{ $Feature } ) {
-                        push @{ $PrintFeatures{ $Feature } }, $Module;
+                    if ( $Features{$Feature} ) {
+                        push @{ $PrintFeatures{$Feature} }, $Module;
                     }
                     elsif ( $Features{ ( split( /:/, $Feature ) )[0] } ) {
                         push @{ $PrintFeatures{ ( split( /:/, $Feature ) )[0] } }, $Module;
                     }
                 }
             }
+
             # else just take main categories
             else {
                 for my $Feature ( @{ $Module->{Features} } ) {
-                    if ( $Features{ $Feature } ) {
+                    if ( $Features{$Feature} ) {
                         push @{ $PrintFeatures{ ( split( /:/, $Feature ) )[0] } }, $Module;
                     }
                 }
@@ -1192,7 +1170,7 @@ else {
 
     for my $Category ( sort keys %PrintFeatures ) {
         print $FeatureDescription{$Category} ? "\n$FeatureDescription{$Category}:\n" : "\nPackages needed for the feature '$Category':\n";
-        for my $Module (@{ $PrintFeatures{ $Category } }) {
+        for my $Module ( @{ $PrintFeatures{$Category} } ) {
             Check( $Module, $Depends, $NoColors );
         }
     }
@@ -1248,8 +1226,7 @@ sub Check {
             'Apache2::Reload' => 1,    # is not needed / working on systems without mod_perl (like Plack etc.)
         );
 
-
-        if ( !$DontRequire{ $Module->{Module} } && !eval "require $Module->{Module}" ) { ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+        if ( !$DontRequire{ $Module->{Module} } && !eval "require $Module->{Module}" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
             $ErrorMessage .= 'Not all prerequisites for this module correctly installed. ';
         }
 
@@ -1405,7 +1382,7 @@ sub CollectPackageInfo {
 
             $CMD    = $InstallCommand{CMD};
             $SubCMD = $InstallCommand{SubCMD};
-            push @Packages, $InstallCommand{Package};
+            push @Packages,       $InstallCommand{Package};
             push @MissingModules, $Module;
         }
     }
@@ -1498,7 +1475,7 @@ sub GetInstallCommand {
 }
 
 sub PrintCpanfile {
-    my ($NeededModules, $FilterRequired, $HandleFeatures, $ForDocker) = @_;
+    my ( $NeededModules, $FilterRequired, $HandleFeatures, $ForDocker ) = @_;
 
     # Indent the statements in the feature sections
     my $Indent = $FilterRequired ? '' : '    ';
@@ -1510,16 +1487,16 @@ sub PrintCpanfile {
     for my $Module ( $NeededModules->@* ) {
 
         # put all not required modules into 'optional'
-        if ( $FilterRequired && ! $Module->{Required} ) {
+        if ( $FilterRequired && !$Module->{Required} ) {
             my $Feature = 'optional';
             $ModulesForFeature{$Feature} //= [];
             push $ModulesForFeature{$Feature}->@*, $Module;
         }
 
         # print out the requirements, either because it is required, or because it is a feature
-        if ( ! $FilterRequired || $Module->{Required} ) {
+        if ( !$FilterRequired || $Module->{Required} ) {
             my $Comment = $Module->{Comment};
-            if ( $Comment ) {
+            if ($Comment) {
                 $Comment =~ s/\n/\n$Indent\#/g;
                 say $Indent, "# $Comment";
             }
@@ -1552,7 +1529,7 @@ sub PrintCpanfile {
                 }
 
                 # assemble the argument for the 'requires' command
-                if ( @Conditions ) {
+                if (@Conditions) {
                     $VersionRequirement = qq{, "@{[ join ', ', @Conditions ]}"};
                 }
             }
@@ -1583,7 +1560,7 @@ sub PrintCpanfile {
         say '';
 
         # When a cpanfile for Docker is generated then filter out the not-needed features
-        if ( $ForDocker && ! $IsDockerFeature{$Feature} ) {
+        if ( $ForDocker && !$IsDockerFeature{$Feature} ) {
             say "# Feature '$Feature' is not needed for Docker\n";
 
             next FEATURE;
@@ -1591,7 +1568,7 @@ sub PrintCpanfile {
 
         # Don't declare the features in the Docker case
         my $PoundOrEmpty = $ForDocker ? '# ' : '';
-        my $Desc = $FeatureDescription{$Feature} // "Suppport for $Feature";
+        my $Desc         = $FeatureDescription{$Feature} // "Suppport for $Feature";
         say "${PoundOrEmpty}feature '$Feature', '$Desc' => sub {";
         PrintCpanfile( $ModulesForFeature{$Feature}, 0, 0, $ForDocker );
         say "${PoundOrEmpty}};";

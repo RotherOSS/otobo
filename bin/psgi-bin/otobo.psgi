@@ -1,20 +1,18 @@
 #!/usr/bin/env perl
 # --
-# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2020-2021 Rother OSS GmbH, https://otobo.de/
+# OTOBO is a web-based ticketing system for service organisations.
 # --
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
 =head1 NAME
@@ -74,6 +72,11 @@ use FindBin qw($Bin);
 use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
+
+## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
+## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
+## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
+## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 
 # This package is used by rpc.pl.
 # NOTE: this is mostly untested
@@ -262,31 +265,31 @@ use Data::Dumper;
 use DateTime ();
 use Template ();
 use Encode qw(:all);
-use CGI ();
-use CGI::Carp ();
+use CGI                ();
+use CGI::Carp          ();
 use CGI::Emulate::PSGI ();
 use CGI::PSGI;
 use Plack::Builder;
+use Plack::Request;
 use Plack::Response;
 use Plack::App::File;
 use SOAP::Transport::HTTP::Plack;
-use Mojo::Server::PSGI; # for dbviewer
 use Module::Refresh;
 
 # OTOBO modules
 use Kernel::GenericInterface::Provider;
 use Kernel::System::ObjectManager;
-use Kernel::System::Web::Exception ();
-use Kernel::System::Web::InterfaceAgent ();
-use Kernel::System::Web::InterfaceCustomer ();
-use Kernel::System::Web::InterfaceInstaller ();
+use Kernel::System::Web::Exception                ();
+use Kernel::System::Web::InterfaceAgent           ();
+use Kernel::System::Web::InterfaceCustomer        ();
+use Kernel::System::Web::InterfaceInstaller       ();
 use Kernel::System::Web::InterfaceMigrateFromOTRS ();
-use Kernel::System::Web::InterfacePublic ();
+use Kernel::System::Web::InterfacePublic          ();
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.
 eval {
-    require Net::DNS
+    require Net::DNS;
 };
 
 # this might improve performance
@@ -303,9 +306,10 @@ my $RefreshZZZAAutoMiddleWare = sub {
     return sub {
         my $Env = shift;
 
-        if ( $INC{ 'Kernel/Config/Files/ZZZAAuto.pm' } ) {
+        if ( $INC{'Kernel/Config/Files/ZZZAAuto.pm'} ) {
+
             # Module::Refresh::Cache already set up in Plack::Middleware::Refresh::prepara_app();
-            Module::Refresh->refresh_module( 'Kernel/Config/Files/ZZZAAuto.pm' );
+            Module::Refresh->refresh_module('Kernel/Config/Files/ZZZAAuto.pm');
         }
 
         return $App->($Env);
@@ -351,8 +355,8 @@ my $FixFCGIProxyMiddleware = sub {
         # This means that otobo.psgi expects that SCRIPT_NAME is either '' or '/' and that
         # PATH_INFO is something like '/otobo/index.pl'.
         # But we get PATH_INFO = '' and SCRIPT_NAME = '/otobo/index.pl'.
-        if ( $Env->{PATH_INFO} eq '' && ( $Env->{SCRIPT_NAME} ne ''  && $Env->{SCRIPT_NAME} ne '/' ) ) {
-            ($Env->{PATH_INFO}, $Env->{SCRIPT_NAME}) = ($Env->{SCRIPT_NAME}, '/');
+        if ( $Env->{PATH_INFO} eq '' && ( $Env->{SCRIPT_NAME} ne '' && $Env->{SCRIPT_NAME} ne '/' ) ) {
+            ( $Env->{PATH_INFO}, $Env->{SCRIPT_NAME} ) = ( $Env->{SCRIPT_NAME}, '/' );
         }
 
         return $App->($Env);
@@ -401,7 +405,7 @@ my $AdminOnlyMiddeware = sub {
 
             return ( 0, undef ) unless $ConfigObject->Get('SessionUseCookie');
 
-            my $SessionName  = $ConfigObject->Get('SessionName');
+            my $SessionName = $ConfigObject->Get('SessionName');
 
             return ( 0, undef ) unless $SessionName;
 
@@ -421,7 +425,7 @@ my $AdminOnlyMiddeware = sub {
 
             return ( 0, $UserData{UserLogin} ) unless $GroupObject;
 
-            my $IsAdmin =  $GroupObject->PermissionCheck(
+            my $IsAdmin = $GroupObject->PermissionCheck(
                 UserID    => $UserData{UserID},
                 GroupName => 'admin',
                 Type      => 'rw',
@@ -430,14 +434,16 @@ my $AdminOnlyMiddeware = sub {
             return ( $IsAdmin, $UserData{UserLogin} );
         };
         if ($@) {
+
             # deny access when anything goes wrong
             $UserIsAdmin = 0;
             $UserLogin   = undef;
         }
 
         # deny access for non-admins
-        if ( ! $UserIsAdmin ) {
-            my $Message = $UserLogin ?
+        if ( !$UserIsAdmin ) {
+            my $Message = $UserLogin
+                ?
                 "User $UserLogin has no admin privileges."
                 :
                 'Not logged in.';
@@ -466,12 +472,12 @@ my $HelloApp = sub {
     # But turn it into a byte array, at that is wanted by Plack.
     # The actual bytes are not changed.
     my $Message = "Hallo 🌍!";
-    utf8::encode( $Message );
+    utf8::encode($Message);
 
     return [
         '200',
         [ 'Content-Type' => 'text/plain;charset=utf-8' ],
-        [ $Message ],
+        [$Message],
     ];
 };
 
@@ -481,12 +487,12 @@ my $DumpEnvApp = sub {
 
     local $Data::Dumper::Sortkeys = 1;
     my $Message = Dumper( [ "DumpEnvApp:", scalar localtime, $Env ] );
-    utf8::encode( $Message );
+    utf8::encode($Message);
 
     return [
         '200',
         [ 'Content-Type' => 'text/plain;charset=utf-8' ],
-        [ $Message ],
+        [$Message],
     ];
 };
 
@@ -498,10 +504,10 @@ my $RedirectOtoboApp = sub {
     my $Env = shift;
 
     # construct a relative path to otobo/index.pl
-    my $Req = Plack::Request->new($Env);
+    my $Req      = Plack::Request->new($Env);
     my $OrigPath = $Req->path();
     my $Levels   = $OrigPath =~ tr[/][];
-    my $NewPath  = join '/', map( {  '..' } ( 1 .. $Levels ) ), 'otobo/index.pl';
+    my $NewPath  = join '/', map( {'..'} ( 1 .. $Levels ) ), 'otobo/index.pl';
 
     # redirect
     my $Res = Plack::Response->new();
@@ -509,39 +515,6 @@ my $RedirectOtoboApp = sub {
 
     # send the PSGI response
     return $Res->finalize();
-};
-
-# an App for inspecting the database, logged in user must be an admin
-my $DBViewerApp = builder {
-
-    # a simplistic detection whether we are behind a revers proxy
-    enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
-
-    # allow access only for admins
-    enable $AdminOnlyMiddeware;
-
-    # rewrite PATH_INFO, not sure why, but at least it seems to work
-    enable 'Plack::Middleware::Rewrite',
-        request => sub {
-            $_ ||= '/dbviewer/';
-            $_ = '/dbviewer/' if $_ eq '/';
-            $_ = '/otobo/dbviewer' . $_;
-
-            1;
-        };
-
-    # relies on that Plack::Middleware::Refresh already has populated %Module::Refresh::CACHE
-    enable $RefreshZZZAAutoMiddleWare;
-
-    # check ever 10s for changed Perl modules, including Kernel/Config/Files/ZZZAAuto.pm
-    enable 'Plack::Middleware::Refresh';
-
-    my $Server = Mojo::Server::PSGI->new();
-    $Server->load_app("$FindBin::Bin/../mojo-bin/dbviewer.pl");
-
-    sub {
-        $Server->run(@_)
-    };
 };
 
 # Server the static files in var/httpd/httpd.
@@ -566,12 +539,12 @@ my $StaticApp = builder {
     enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Plack::Middleware::Header',
         set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
 
-    Plack::App::File->new(root => "$FindBin::Bin/../../var/httpd/htdocs")->to_app();
+    Plack::App::File->new( root => "$FindBin::Bin/../../var/httpd/htdocs" )->to_app();
 };
 
 # Port of nph-genericinterface.pl to Plack.
 #my $GenericInterfaceApp = builder {
-    # TODO
+# TODO
 #};
 
 # Port of index.pl, customer.pl, public.pl, installer.pl, migration.pl, nph-genericinterface.pl to Plack.
@@ -579,7 +552,7 @@ my $StaticApp = builder {
 my $OTOBOApp = builder {
 
     enable 'Plack::Middleware::ErrorDocument',
-        403 => '/otobo/index.pl';  # forbidden files
+        403 => '/otobo/index.pl';    # forbidden files
 
     # a simplistic detection whether we are behind a revers proxy
     enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
@@ -632,10 +605,11 @@ my $OTOBOApp = builder {
             # nph-genericinterface.pl has specific logging
             my @ObjectManagerArgs;
             if ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
-                push  @ObjectManagerArgs,
+                push @ObjectManagerArgs,
                     'Kernel::System::Log' => {
-                        LogPrefix => 'GenericInterfaceProvider',
+                    LogPrefix => 'GenericInterfaceProvider',
                     },
+                    ;
             }
 
             local $Kernel::OM = Kernel::System::ObjectManager->new(@ObjectManagerArgs);
@@ -645,27 +619,27 @@ my $OTOBOApp = builder {
             {
                 if ( $ScriptFileName eq 'index.pl' ) {
                     $Interface = Kernel::System::Web::InterfaceAgent->new(
-                        Debug      => $Debug,
+                        Debug => $Debug,
                     );
                 }
                 elsif ( $ScriptFileName eq 'customer.pl' ) {
                     $Interface = Kernel::System::Web::InterfaceCustomer->new(
-                        Debug      => $Debug,
+                        Debug => $Debug,
                     );
                 }
                 elsif ( $ScriptFileName eq 'public.pl' ) {
                     $Interface = Kernel::System::Web::InterfacePublic->new(
-                        Debug      => $Debug,
+                        Debug => $Debug,
                     );
                 }
                 elsif ( $ScriptFileName eq 'installer.pl' ) {
                     $Interface = Kernel::System::Web::InterfaceInstaller->new(
-                        Debug      => $Debug,
+                        Debug => $Debug,
                     );
                 }
                 elsif ( $ScriptFileName eq 'migration.pl' ) {
                     $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
-                        Debug      => $Debug,
+                        Debug => $Debug,
                     );
                 }
                 elsif ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
@@ -676,7 +650,7 @@ my $OTOBOApp = builder {
                     # fallback
                     warn " using fallback InterfaceAgeng for ScriptFileName: '$ScriptFileName'\n";
                     $Interface = Kernel::System::Web::InterfaceAgent->new(
-                        Debug      => $Debug,
+                        Debug => $Debug,
                     );
                 }
             }
@@ -705,8 +679,8 @@ my $RPCApp = builder {
         my $Env = shift;
 
         return $Soap->dispatch_to(
-                'OTOBO::RPC'
-            )->handler( Plack::Request->new( $Env ) );
+            'OTOBO::RPC'
+        )->handler( Plack::Request->new($Env) );
     };
 };
 
@@ -723,34 +697,32 @@ builder {
     enable $ExactlyRootMiddleware;
 
     # fixing PATH_INFO
-    enable_if { ($_[0]->{FCGI_ROLE} // '') eq 'RESPONDER' } $FixFCGIProxyMiddleware;
+    enable_if { ( $_[0]->{FCGI_ROLE} // '' ) eq 'RESPONDER' } $FixFCGIProxyMiddleware;
 
     # Server the static files in var/httpd/httpd.
-    mount '/otobo-web'                     => $StaticApp;
+    mount '/otobo-web' => $StaticApp;
 
     # the most basic App
-    mount '/hello'                         => $HelloApp;
-
-    # OTOBO DBViewer, must be below /otobo because of the session cookie
-    mount '/otobo/dbviewer'                => $DBViewerApp;
+    mount '/hello' => $HelloApp;
 
     # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
     # The pathes are such that $Env->{SCRIPT_NAME} and $Env->{PATH_INFO} are set up just like they are set up under mod_perl,
-    mount '/otobo'                         => $RedirectOtoboApp; #redirect to /otobo/index.pl when in doubt
-    mount '/otobo/customer.pl'             => $OTOBOApp;
-    mount '/otobo/index.pl'                => $OTOBOApp;
-    mount '/otobo/installer.pl'            => $OTOBOApp;
-    mount '/otobo/migration.pl'            => $OTOBOApp;
-    mount '/otobo/public.pl'               => $OTOBOApp;
+    mount '/otobo'              => $RedirectOtoboApp;    #redirect to /otobo/index.pl when in doubt
+    mount '/otobo/customer.pl'  => $OTOBOApp;
+    mount '/otobo/index.pl'     => $OTOBOApp;
+    mount '/otobo/installer.pl' => $OTOBOApp;
+    mount '/otobo/migration.pl' => $OTOBOApp;
+    mount '/otobo/public.pl'    => $OTOBOApp;
+
     # mount '/otobo/nph-genericinterface.pl' => $GenericInterfaceApp; # TODO
     mount '/otobo/nph-genericinterface.pl' => $OTOBOApp;
 
     # some SOAP stuff
-    mount '/otobo/rpc.pl'                  => $RPCApp;
+    mount '/otobo/rpc.pl' => $RPCApp;
 
     # some static pages, '/' is already translate to '/index.html'
-    mount "/robots.txt"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/robots.txt")->to_app();
-    mount "/index.html"                    => Plack::App::File->new(file => "$FindBin::Bin/../../var/httpd/htdocs/index.html")->to_app();
+    mount "/robots.txt" => Plack::App::File->new( file => "$FindBin::Bin/../../var/httpd/htdocs/robots.txt" )->to_app();
+    mount "/index.html" => Plack::App::File->new( file => "$FindBin::Bin/../../var/httpd/htdocs/index.html" )->to_app();
 };
 
 # for debugging, only dump the PSGI environment
