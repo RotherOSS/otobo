@@ -51,11 +51,11 @@ my $BackupType       = 'fullbackup';
 
 GetOptions(
     'help|h'                 => \$HelpFlag,
-    'backup-dir|d=s'         => \$BackupDir,           # current dir is the default
+    'backup-dir|d=s'         => \$BackupDir,                       # current dir is the default
     'compress|c=s'           => \$CompressOption,
     'remove-old-backups|r=i' => \$RemoveDays,
     'backup-type|t=s'        => \$BackupType,
-    'max-allowed-packet=i'   => \$MaxAllowedPacket,    # no short option for that special case
+    'max-allowed-packet=s'   => \&HandleMaxAllowedPacketOption,    # check the units, set $MaxAllowedPacket
     'db-host=s'              => \$DatabaseHost,
     'db-name=s'              => \$DatabaseName,
     'db-user=s'              => \$DatabaseUser,
@@ -662,10 +662,28 @@ sub RemoveIncompleteBackup {
     return;
 }
 
+# Validate that the option max-allowed-packet is sane.
+# The value must be one of these cases:
+#   i.   an integer, indicating the size in bytes
+#   ii.  an integer immediately followed by 'K', indicating the size in kilobytes
+#   iii. an integer immediately followed by 'M', indicating the size in Megabytes
+#   iv.  an integer immediately followed by 'G', indicating the size in Gigabytes
+sub HandleMaxAllowedPacketOption {
+    my ( $OptName, $OptValue ) = @_;
+
+    # check the format
+    if ( $OptValue !~ m/^\d+[KMG]?$/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass an integer or an integer followed by K, M, or G.";
+    }
+
+    $MaxAllowedPacket = $OptValue;
+
+    return;
+}
+
 sub PrintHelpAndExit {
     print <<'END_HELP';
-
-Backup an OTOBO system.
+Back up an OTOBO system.
 
 Usage:
 
@@ -711,6 +729,7 @@ With -t migratefromotrs only the OTRS database will be saved and prepared for mi
 Override the max allowed packet size:
 When backing up a MySQL one might run into very large database fields. In this case the backup fails.
 For making the backup succeed one can explicitly add the parameter --max-allowed-packet=<SIZE IN BYTES>.
+The units K, M, and G are allowed, indicating kilobytes, Megabytes, and Gigabytes.
 This setting will be passed on to the command mysqldump.
 
 Output:
