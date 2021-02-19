@@ -1,4 +1,37 @@
 
+# OTOBO 10.0.9 2021-02-19
+- 2021-02-19 15:15:48 +0100 Create new OTOBO language files.
+- 2021-02-17 23:32:31 +0000 Translated using Weblate (French)
+- 2021-02-14 21:04:12 +0000 Translated using Weblate (Danish)
+- 2021-02-12 15:57:52 +0000 Translated using Weblate (German)
+- 2021-02-12 15:31:23 +0000 Update translation files
+- 2021-02-19 10:45:27 +0100 fix for GenericInterface: If one ticket has less articles than a given article limit, the article limit is set to the number of articles in that article.
+- 2021-02-18 19:16:48 +0100 [Security] PSGI: remove the /otobo/dbviewer route (https://github.com/RotherOSS/otobo/issues/806)
+- 2021-02-16 14:25:44 +0100 [Enhanced] Optionally remove CustomerInfomation from CustomerTicketPrint. (https://github.com/RotherOSS/otobo/issues/801)
+- 2021-02-15 17:31:51 +0100 Issue rotheross/CodePolicy#8: filter out a Perl::Critic violation
+- 2021-02-15 16:00:37 +0100 Issue rotheross/CodePolicy#8: remove the command Dev::Git::InstallHooks
+- 2021-02-15 12:14:08 +0100 [Tidied]   Adjust the code to work with CodePolicy. (https://github.com/RotherOSS/otobo/issues/760) - in progress
+- 2021-02-14 16:04:05 +0100 Perl::Critiic: do not violate ValuesAndExpressions::ProhibitCommaSeparatedStatements (https://github.com/RotherOSS/otobo/issues/795)
+- 2021-02-13 21:50:33 +0100 Issue rotheross/CodePolicy#21: don't filter OTOBO::RequireParensWithMethods violations
+- 2021-02-13 15:00:59 +0100 Issue rotheross/CodePolicy#22: give 'no strict refs' it's own scope
+- 2021-02-13 14:56:12 +0100 Issue rotheross/CodePolicy#22: no strict 'refs' moved up
+- 2021-02-13 14:03:29 +0100 Issue rotheross/CodePolicy#22: remove a file scoped 'no critic'
+- 2021-02-13 14:02:46 +0100 Issue rotheross/CodePolicy#22: remove some unneeded 'use critic' declarations
+- 2021-02-13 13:54:41 +0100 Issue rotheross/CodePolicy#22: fix syntax error
+- 2021-02-13 13:19:05 +0100 Issue rotheross/CodePolicy#22: eliminate unrestricted 'no critic'
+- 2021-02-13 13:15:07 +0100 Issue rotheross/CodePolicy#22: eliminate unrestricted 'no critic'
+- 2021-02-13 12:59:42 +0100 Issue rotheross/CodePolicy#22: eliminate unrestricted 'no critic'
+- 2021-02-13 12:57:27 +0100 Issue rotheross/CodePolicy#22: elimininate unrestricted 'no critic'
+- 2021-02-12 17:15:51 +0100 Fix CHANGES (Hallo Wochenende!^^)
+- 2021-02-08 22:21:17 +0100 Issue rotheross/CodePolicy#22: remove some useless 'no critic' declarations
+- 2021-02-08 21:26:54 +0100 Issue rotheross/CodePolicy#22: restrict 'no critic' for some 'no strict' lines
+- 2021-02-08 20:19:38 +0100 Issue rotheross/CodePolicy#22: restrict 'no critic'
+- 2021-02-08 20:13:06 +0100 Issue rotheross/CodePolicy#22: restrict some 'no critic' directives
+- 2021-02-08 19:52:25 +0100 Issue rotheross/CodePolicy#22: remove unrestricted 'no critic'
+- 2021-02-08 19:51:13 +0100 Issue rotheross/CodePolicy#22: remove an unrestricted and an allegedly unneeded 'no critic'
+- 2021-02-08 19:40:26 +0100 Issue rotheross/CodePolicy#22: first batch of removing useless 'no critic'
+
+
 # OTOBO 10.0.8 2021-02-12
 - 2021-02-12 16:30:54 +0100 Create new OTOBO language files.
 - 2021-02-12 13:04:53 +0000 Translated using Weblate (Danish)
@@ -579,4 +612,5 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
