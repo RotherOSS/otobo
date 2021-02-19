@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-02-12 15:30+0000\n"
+"POT-Creation-Date: 2021-02-19 14:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24563,6 +24563,10 @@ msgstr ""
 
 #. SysConfig
 msgid "When tickets are merged, the customer can be informed per email by setting the check box \"Inform Sender\". In this text area, you can define a pre-formatted text which can later be modified by the agents."
+msgstr ""
+
+#. SysConfig
+msgid "Whether extended customer information is shown in the ticket print screen of the customer interface."
 msgstr ""
 
 #. SysConfig

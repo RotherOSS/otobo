@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.997727641616621;
+    $Self->{Completeness}        = 0.997565725413827;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -9214,6 +9214,8 @@ Thanks for your help!
             '工单被合并时，自动添加一个备注到不再活动的工单，您可以在这里定义这个备注的主题（这个主题不能被服务人员修改）。',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '工单被合并时，通过设置“通知发送人”复选框选项，客户能收到邮件通知，您可以在这个文本框中定义一个预先格式化的文本（服务人员可在以后修改）。',
+        'Whether extended customer information is shown in the ticket print screen of the customer interface.' =>
+            '',
         'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
             '字段是否自动填充(1)， 那种情况下将会在工单表中隐藏起来(2)。',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>

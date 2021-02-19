@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.612400584320727;
+    $Self->{Completeness}        = 0.612301200908796;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -9211,6 +9211,8 @@ NOTA: i sistemi di terze parti richiedono una configurazione a se.',
             'Quando i ticket vengono uniti, una nota verrà aggiunta automaticamente al ticket che non è più attivo. Qui è possibile definire l\'oggetto di questa nota (questo argomento non può essere modificato dall\'agente).',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Quando i ticket vengono uniti, è possibile avvisare l\'utente che li ha aperti di questa operazione attraverso una mail grazie al campo "Inform Sender". In quest\'area di testo puoi definire un testo preformattato che successivamente può essere modificato dagli agenti.',
+        'Whether extended customer information is shown in the ticket print screen of the customer interface.' =>
+            '',
         'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
             '',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
