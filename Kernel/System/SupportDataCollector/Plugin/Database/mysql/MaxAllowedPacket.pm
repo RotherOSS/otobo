@@ -53,7 +53,7 @@ sub Run {
                 Label => Translatable('Maximum Query Size'),
                 Value => $Row[1] / 1024 / 1024 . ' MB',
                 Message =>
-                    Translatable("The setting 'max_allowed_packet' must be higher than 64 MB."),
+                    Translatable("The setting 'max_allowed_packet' must be 64 MB or higher."),
             );
         }
         else {
