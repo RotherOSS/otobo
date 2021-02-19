@@ -39,15 +39,15 @@ my (
     $HelpFlag,
     $CompressOption,
     $RemoveDays,
-    $MaxAllowedPacket,
     $DatabaseHost,
     $DatabaseName,
     $DatabaseUser,
     $DatabasePw,
     $DatabaseType,
 );
-my $BackupDir  = getcwd();
-my $BackupType = 'fullbackup';
+my $MaxAllowedPacket = '64M';          # 64 Megabytes is fine as the default, as that is already required on the server side
+my $BackupDir        = getcwd();
+my $BackupType       = 'fullbackup';
 
 GetOptions(
     'help|h'                 => \$HelpFlag,
