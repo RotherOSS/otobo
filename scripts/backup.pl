@@ -39,23 +39,23 @@ my (
     $HelpFlag,
     $CompressOption,
     $RemoveDays,
-    $MaxAllowedPacket,
     $DatabaseHost,
     $DatabaseName,
     $DatabaseUser,
     $DatabasePw,
     $DatabaseType,
 );
-my $BackupDir  = getcwd();
-my $BackupType = 'fullbackup';
+my $MaxAllowedPacket = '64M';          # 64 Megabytes is fine as the default, as that is already required on the server side
+my $BackupDir        = getcwd();
+my $BackupType       = 'fullbackup';
 
 GetOptions(
     'help|h'                 => \$HelpFlag,
-    'backup-dir|d=s'         => \$BackupDir,        # current dir is the default
+    'backup-dir|d=s'         => \$BackupDir,                       # current dir is the default
     'compress|c=s'           => \$CompressOption,
     'remove-old-backups|r=i' => \$RemoveDays,
     'backup-type|t=s'        => \$BackupType,
-    'max-allowed-packet=i'   => \$MaxAllowedPacket, # no short option for that special case
+    'max-allowed-packet=s'   => \&HandleMaxAllowedPacketOption,    # check the units, set $MaxAllowedPacket
     'db-host=s'              => \$DatabaseHost,
     'db-name=s'              => \$DatabaseName,
     'db-user=s'              => \$DatabaseUser,
@@ -66,19 +66,19 @@ GetOptions(
 PrintHelpAndExit() if $HelpFlag;
 
 # check backup dir
-if ( ! $BackupDir ) {
+if ( !$BackupDir ) {
     say STDERR "ERROR: Need -d for backup directory";
 
     exit 1;
 }
-if ( ! -d $BackupDir ) {
+if ( !-d $BackupDir ) {
     say STDERR "ERROR: No such directory: $BackupDir";
 
     exit 1;
 }
 
 # check compress mode
-my ($Compress, $CompressCMD, $CompressEXT) = ('z', 'gzip', 'gz');
+my ( $Compress, $CompressCMD, $CompressEXT ) = ( 'z', 'gzip', 'gz' );
 if ( $CompressOption && $CompressOption =~ m/bzip2/i ) {
     $Compress    = 'j';
     $CompressCMD = 'bzip2';
@@ -86,7 +86,7 @@ if ( $CompressOption && $CompressOption =~ m/bzip2/i ) {
 }
 
 # check backup type
-my ($DBOnlyBackup, $FullBackup, $MigrateFromOTRSBackup) = (0, 0, 0);
+my ( $DBOnlyBackup, $FullBackup, $MigrateFromOTRSBackup ) = ( 0, 0, 0 );
 {
     $BackupType //= '';
     $BackupType = lc $BackupType;
@@ -117,8 +117,8 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 
-my $DatabaseDSN  = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseDSN'); # for the database type
-my $ArticleDir   = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::ArticleDataDir');
+my $DatabaseDSN = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseDSN');                                          # for the database type
+my $ArticleDir  = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::ArticleDataDir');
 
 # database connection can be overridden on the command line
 $DatabaseHost //= $Kernel::OM->Get('Kernel::Config')->Get('DatabaseHost');
@@ -126,7 +126,7 @@ $DatabaseName //= $Kernel::OM->Get('Kernel::Config')->Get('Database');
 $DatabaseUser //= $Kernel::OM->Get('Kernel::Config')->Get('DatabaseUser');
 $DatabasePw   //= $Kernel::OM->Get('Kernel::Config')->Get('DatabasePw');
 $DatabaseType //=
-    $DatabaseDSN =~ m/:mysql/i ? 'mysql'      :
+    $DatabaseDSN =~ m/:mysql/i ? 'mysql' :
     $DatabaseDSN =~ m/:pg/i    ? 'postgresql' :
     'mysql';
 $DatabaseType = lc $DatabaseType;
@@ -162,9 +162,9 @@ else {
         push @Cmds, $CompressCMD;
     }
 
-    for my $Cmd ( @Cmds ) {
+    for my $Cmd (@Cmds) {
         my $IsInstalled = 0;
-        open my $In, '-|', "which $Cmd"; ## no critic qw(InputOutput::RequireBriefOpen)
+        open my $In, '-|', "which $Cmd";    ## no critic qw(InputOutput::RequireBriefOpen)
         while (<$In>) {
             $IsInstalled = 1;
         }
@@ -184,7 +184,7 @@ if ( $Home !~ m{\/\z} ) {
     $Home .= '/';
 }
 
-$BackupDir = abs_path( $BackupDir );
+$BackupDir = abs_path($BackupDir);
 chdir($Home);
 
 # current time needed for the backup-dir and for removing old backups
@@ -194,7 +194,7 @@ my $SystemDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
 my $Directory = join '/',
     $BackupDir,
     $SystemDTObject->Format( Format => '%Y-%m-%d_%H-%M-%S' );
-mkdir $Directory or die "ERROR: Can't create directory: $Directory: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
+mkdir $Directory or die "ERROR: Can't create directory: $Directory: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
 
 # backup application
 if ($DBOnlyBackup) {
@@ -265,11 +265,11 @@ if ( $DatabaseType eq 'mysql' ) {
         push @DBDumpOptions, qq{-p'$DatabasePw'};
     }
 
-    if ( $MaxAllowedPacket ) {
+    if ($MaxAllowedPacket) {
         push @DBDumpOptions, "--max-allowed-packet=$MaxAllowedPacket";
     }
 
-    if ( $MigrateFromOTRSBackup ) {
+    if ($MigrateFromOTRSBackup) {
 
         BackupForMigrateFromOTRS(
             Directory     => $Directory,
@@ -305,7 +305,7 @@ else {
 
     # set password via environment variable if there is one
     if ($DatabasePw) {
-        $ENV{PGPASSWORD} = $DatabasePw; ## no critic qw(Variables::RequireLocalizedPunctuationVars)
+        $ENV{PGPASSWORD} = $DatabasePw;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
     }
 
     if ($DatabaseHost) {
@@ -426,7 +426,7 @@ sub BackupForMigrateFromOTRS {
     {
         # skipping tables
         my @SkippedTables = sort keys $MigrationBaseObject->DBSkipTables()->%*;
-        push @DBDumpOptions,  map { ( '--ignore-table' => qq{'$DatabaseName.$_'} ) } @SkippedTables;
+        push @DBDumpOptions, map { ( '--ignore-table' => qq{'$DatabaseName.$_'} ) } @SkippedTables;
 
         # print a time stamp at the end of the dump
         push @DBDumpOptions, qq{--dump-date};
@@ -456,9 +456,9 @@ END_MESSAGE
 
     # print only the count avoids printing a password into a logfile
     my $Cnt = 0;
-    for my $Command ( @Commands ) {
+    for my $Command (@Commands) {
         $Cnt++;
-        if ( ! system( $Command ) ) {
+        if ( !system($Command ) ) {
             say "done command $Cnt";
         }
         else {
@@ -475,8 +475,8 @@ END_MESSAGE
         # find the changed columns per table
         my %IsShortened;
         for my $Short ( $MigrationBaseObject->DBShortenedColumns() ) {
-             $IsShortened{ $Short->{Table} } //= {};
-             $IsShortened{ $Short->{Table} }->{ $Short->{Column} } = 1;
+            $IsShortened{ $Short->{Table} } //= {};
+            $IsShortened{ $Short->{Table} }->{ $Short->{Column} } = 1;
         }
 
         my @Lines = $MainObject->FileRead(
@@ -486,23 +486,23 @@ END_MESSAGE
 
         # now adapt the relevant lines
         # TODO: make this less nasty. Make it nicety.
-        open my $Adapted, '>', $AdaptedSchemaDumpFile                   ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
-            or die "Can't open $AdaptedSchemaDumpFile for writing: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
+        open my $Adapted, '>', $AdaptedSchemaDumpFile    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
+            or die "Can't open $AdaptedSchemaDumpFile for writing: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
         say $Adapted "-- adapted by $0";
         say $Adapted '';
         my $CurrentTable;
         LINE:
-        for my $Line ( @Lines ) {
+        for my $Line (@Lines) {
 
             # substitutions for changing the character set
-            $Line =~ s/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/;             # for CREATE TABLE
-            $Line =~ s/utf8mb4mb4/utf8mb4/;                                       # in case it already was utf8mb4
-            $Line =~ s/utf8mb3mb4/utf8mb4/;                                       # in case of some mixup
-            $Line =~ s/utf8mb4mb3/utf8mb4/;                                       # in case of some mixup
+            $Line =~ s/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/;      # for CREATE TABLE
+            $Line =~ s/utf8mb4mb4/utf8mb4/;                                # in case it already was utf8mb4
+            $Line =~ s/utf8mb3mb4/utf8mb4/;                                # in case of some mixup
+            $Line =~ s/utf8mb4mb3/utf8mb4/;                                # in case of some mixup
 
             # substitutions for removing COLLATE directives
-            $Line =~ s/COLLATE\s+\w+/ /;     # for CREATE TABLE, remove customer specific collation
-            $Line =~ s/COLLATE\s*=\s*\w+/ /; # for CREATE TABLE, remove customer specific collation
+            $Line =~ s/COLLATE\s+\w+/ /;                                   # for CREATE TABLE, remove customer specific collation
+            $Line =~ s/COLLATE\s*=\s*\w+/ /;                               # for CREATE TABLE, remove customer specific collation
 
             # leaving a Table Create Block
             # e.g.: ") ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4  ;"
@@ -522,15 +522,15 @@ END_MESSAGE
 
             # check whether the current table has shortened columns
             next LINE unless $CurrentTable;
-            next LINE unless $IsShortened{ $CurrentTable };
-            next LINE unless keys $IsShortened{ $CurrentTable  }->%*;
+            next LINE unless $IsShortened{$CurrentTable};
+            next LINE unless keys $IsShortened{$CurrentTable}->%*;
 
             # are we in a column line ?
             # e.g.: "  `name` varchar(200) COLLATE utf8_bin NOT NULL,"
-            next LINE unless my ($ColumnName, $ColumnLength ) = $Line =~ m/^ \s+ `(\w+)` \s+ varchar\( (\d+) \)/x;
+            next LINE unless my ( $ColumnName, $ColumnLength ) = $Line =~ m/^ \s+ `(\w+)` \s+ varchar\( (\d+) \)/x;
 
             # does the column need to be shortened
-            next LINE unless $IsShortened{ $CurrentTable }->{ $ColumnName };
+            next LINE unless $IsShortened{$CurrentTable}->{$ColumnName};
             next LINE unless $ColumnLength > 191;
 
             # shorten
@@ -552,15 +552,16 @@ END_MESSAGE
         my @DropSQLs;
 
         LINE:
-        for my $Line ( @Lines ) {
+        for my $Line (@Lines) {
 
             next LINE unless $Line =~ m/^DROP TABLE /;
 
             push @DropSQLs, $Line;
         }
 
+        my $Now       = $Kernel::OM->Create('Kernel::System::DateTime')->ToCTimeString;
         my $SQLScript = <<"END_SQL";
--- SQL script generated by $0 at @{[ scalar localtime ]}.
+-- SQL script generated by $0 at $Now.
 
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -614,8 +615,9 @@ EXECUTE stmtRename_$Cnt;
 END_SQL
         }
 
+        my $Now       = $Kernel::OM->Create('Kernel::System::DateTime')->ToCTimeString;
         my $SQLScript = <<"END_SQL";
--- SQL script generated by $0 at @{[ scalar localtime ]}.
+-- SQL script generated by $0 at $Now.
 
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -660,10 +662,28 @@ sub RemoveIncompleteBackup {
     return;
 }
 
+# Validate that the option max-allowed-packet is sane.
+# The value must be one of these cases:
+#   i.   an integer, indicating the size in bytes
+#   ii.  an integer immediately followed by 'K', indicating the size in kilobytes
+#   iii. an integer immediately followed by 'M', indicating the size in Megabytes
+#   iv.  an integer immediately followed by 'G', indicating the size in Gigabytes
+sub HandleMaxAllowedPacketOption {
+    my ( $OptName, $OptValue ) = @_;
+
+    # check the format
+    if ( $OptValue !~ m/^\d+[KMG]?$/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass an integer or an integer followed by K, M, or G.";
+    }
+
+    $MaxAllowedPacket = $OptValue;
+
+    return;
+}
+
 sub PrintHelpAndExit {
     print <<'END_HELP';
-
-Backup an OTOBO system.
+Back up an OTOBO system.
 
 Usage:
 
@@ -709,6 +729,7 @@ With -t migratefromotrs only the OTRS database will be saved and prepared for mi
 Override the max allowed packet size:
 When backing up a MySQL one might run into very large database fields. In this case the backup fails.
 For making the backup succeed one can explicitly add the parameter --max-allowed-packet=<SIZE IN BYTES>.
+The units K, M, and G are allowed, indicating kilobytes, Megabytes, and Gigabytes.
 This setting will be passed on to the command mysqldump.
 
 Output:
