@@ -35,7 +35,6 @@ settings and cause unexpected test failures.
 
 =cut
 
-
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');

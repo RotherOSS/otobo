@@ -1017,8 +1017,7 @@ sub SettingEffectiveValueGet {
                 {
                     my $DefaultItemValueType = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{ValueType};
                     if ( $ForbiddenValueTypes{$DefaultItemValueType} ) {
-                        my $SubValueType
-                            = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{Item}->[0]->{ValueType};
+                        my $SubValueType = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{Item}->[0]->{ValueType};
 
                         if ( !grep { $_ eq $SubValueType } @{ $ForbiddenValueTypes{$DefaultItemValueType} } ) {
                             next ATTRIBUTE;

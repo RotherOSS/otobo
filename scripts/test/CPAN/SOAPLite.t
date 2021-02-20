@@ -40,7 +40,7 @@ $Kernel::OM->ObjectParamAdd(
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $RandomID = $Helper->GetRandomID();
 

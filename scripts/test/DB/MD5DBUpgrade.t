@@ -69,7 +69,7 @@ for ( 1 .. 10_000 ) {
 
     last INSERT unless $Success;
 }
-$Self->True( $Success, '10000 INSERTs ok');
+$Self->True( $Success, '10000 INSERTs ok' );
 
 # conversion to MD5
 if (
@@ -120,7 +120,6 @@ if ( !$PrepareSuccess ) {
 
     exit 0;
 }
-
 
 my $Result = 1;
 

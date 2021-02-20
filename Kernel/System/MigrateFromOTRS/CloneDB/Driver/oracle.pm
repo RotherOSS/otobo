@@ -255,8 +255,8 @@ END_SQL
     ) || return {};
 
     my %Result;
-    while ( my ($Column, $Type) = $Param{DBObject}->FetchrowArray() ) {
-        $Result{ $Column } = $Type;
+    while ( my ( $Column, $Type ) = $Param{DBObject}->FetchrowArray() ) {
+        $Result{$Column} = $Type;
     }
 
     return \%Result;

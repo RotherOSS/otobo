@@ -27,7 +27,7 @@ use Test2::API qw/context/;
 
 # OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 
 our $Self;
 
@@ -101,7 +101,6 @@ sub CheckNumEvents {
             TicketID => $Param{TicketID},
             UserID   => 1,
         );
-
 
         while ( my ( $Event, $NumEvents ) = each %{ $Param{NumEvents} } ) {
 
@@ -415,7 +414,7 @@ for my $Hours ( sort keys %WorkingHours ) {
             HistoryType          => 'OwnerUpdate',
             HistoryComment       => 'first response',
             UserID               => 1,
-            NoAgentNotify => 1,    # if you don't want to send agent notifications
+            NoAgentNotify        => 1,                                                   # if you don't want to send agent notifications
         );
 
         if ( $WorkingHours{$Hours} ) {
@@ -491,7 +490,7 @@ for my $Hours ( sort keys %WorkingHours ) {
             HistoryType          => 'OwnerUpdate',
             HistoryComment       => 'Some free text!',
             UserID               => 1,
-            NoAgentNotify => 1,    # if you don't want to send agent notifications
+            NoAgentNotify        => 1,                                                   # if you don't want to send agent notifications
         );
 
         # Renew objects because of transaction.

@@ -105,9 +105,8 @@ sub Run {
 
     if ( !$Export ) {
         my %Result;
-        $Result{Message} = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
-        $Result{Comment} = $Self->{LanguageObject}
-            ->Translate("An error occured during SysConfig data migration or no configuration exists.");
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate("An error occured during SysConfig data migration or no configuration exists.");
         $Result{Successful} = 1;
 
         return \%Result;

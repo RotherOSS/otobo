@@ -434,7 +434,7 @@ sub DESTROY {
     # restore environment variable to skip SSL certificate verification if needed
     if ( $Self->{RestoreSSLVerify} ) {
         $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME};    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
-        $Self->{RestoreSSLVerify}          = 0;
+        $Self->{RestoreSSLVerify} = 0;
     }
 
     # restore database, clean caches
