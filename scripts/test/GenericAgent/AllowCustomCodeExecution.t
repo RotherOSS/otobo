@@ -177,5 +177,3 @@ for my $AllowCustomScriptExecution ( 0, 1 ) {
 
 
 $Self->DoneTesting();
-
-

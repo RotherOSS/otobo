@@ -552,5 +552,3 @@ for my $Test (@SoapTests) {
 
 
 $Self->DoneTesting();
-
-

@@ -196,5 +196,3 @@ for my $Article (@Articles) {
 
 
 $Self->DoneTesting();
-
-

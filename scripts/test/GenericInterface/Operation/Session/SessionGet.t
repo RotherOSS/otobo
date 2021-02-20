@@ -575,5 +575,3 @@ for my $SessionID ( $SessionID1, $SessionID2, $SessionID3, $SessionID4 ) {
 
 
 $Self->DoneTesting();
-
-

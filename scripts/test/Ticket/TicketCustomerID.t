@@ -137,5 +137,3 @@ for my $CustomerID (@CustomerCompanyIDs) {
 
 
 $Self->DoneTesting();
-
-

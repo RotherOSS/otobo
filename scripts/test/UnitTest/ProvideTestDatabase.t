@@ -81,5 +81,3 @@ else {
 # Cleanup is done by TmpDatabaseCleanup().
 
 $Self->DoneTesting();
-
-

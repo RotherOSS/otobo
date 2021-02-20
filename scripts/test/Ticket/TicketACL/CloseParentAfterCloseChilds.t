@@ -246,5 +246,3 @@ $CheckACLs->(
 
 
 $Self->DoneTesting();
-
-

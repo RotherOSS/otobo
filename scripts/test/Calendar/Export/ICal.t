@@ -370,5 +370,3 @@ for my $ImportedAppointment (@ImportedAppointments) {
 
 
 $Self->DoneTesting();
-
-

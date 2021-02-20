@@ -985,5 +985,3 @@ for my $PermissionTest (@UserRoleGroupPermissionTests) {
 
 
 $Self->DoneTesting();
-
-

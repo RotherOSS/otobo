@@ -391,5 +391,3 @@ JAVASCRIPT
 
 
 $Self->DoneTesting();
-
-

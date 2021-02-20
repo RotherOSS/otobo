@@ -73,5 +73,3 @@ $Selenium->RunTest(
 
 
 $Self->DoneTesting();
-
-

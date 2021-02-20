@@ -238,5 +238,3 @@ if ( ! $BailOut ) {
 
 
 $Self->DoneTesting();
-
-

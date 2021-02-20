@@ -1100,5 +1100,3 @@ for my $TicketID (@CreatedTicketIds) {
 
 
 $Self->DoneTesting();
-
-

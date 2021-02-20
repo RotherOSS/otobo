@@ -184,5 +184,3 @@ for my $CustomerUserLogin (@CustomerLogins) {
 
 
 $Self->DoneTesting();
-
-

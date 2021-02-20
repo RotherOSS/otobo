@@ -64,5 +64,3 @@ for my $Cache ( 0 .. 1 ) {
 
 
 $Self->DoneTesting();
-
-

@@ -177,5 +177,3 @@ if ($InitialCounterID) {
 
 
 $Self->DoneTesting();
-
-

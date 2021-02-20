@@ -197,5 +197,3 @@ $CheckUpload->(
 
 
 $Self->DoneTesting();
-
-

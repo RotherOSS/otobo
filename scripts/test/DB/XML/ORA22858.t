@@ -130,5 +130,3 @@ for my $SQL (@SQL) {
 
 
 $Self->DoneTesting();
-
-

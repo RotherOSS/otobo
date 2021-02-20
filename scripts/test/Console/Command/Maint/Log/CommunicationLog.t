@@ -290,5 +290,3 @@ for my $CommunicationListItem (@$CommunicationsList) {
 
 
 $Self->DoneTesting();
-
-

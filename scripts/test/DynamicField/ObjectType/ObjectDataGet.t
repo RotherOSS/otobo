@@ -74,5 +74,3 @@ for my $ObjectType ( sort keys %{$DynamicFieldObjectTypeConfig} ) {
 
 
 $Self->DoneTesting();
-
-

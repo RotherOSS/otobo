@@ -424,5 +424,3 @@ for my $XML (@TableDropStatements) {
 
 
 $Self->DoneTesting();
-
-

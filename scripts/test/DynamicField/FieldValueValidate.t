@@ -281,5 +281,3 @@ for my $Test (@Tests) {
 # We don't need any cleanup.
 
 $Self->DoneTesting();
-
-

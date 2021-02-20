@@ -202,5 +202,3 @@ $Selenium->RunTest(
 
 
 $Self->DoneTesting();
-
-

@@ -213,5 +213,3 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
 
 
 $Self->DoneTesting();
-
-

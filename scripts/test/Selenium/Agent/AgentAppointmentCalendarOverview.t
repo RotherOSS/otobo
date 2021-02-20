@@ -993,5 +993,3 @@ $Selenium->RunTest(
 
 
 $Self->DoneTesting();
-
-

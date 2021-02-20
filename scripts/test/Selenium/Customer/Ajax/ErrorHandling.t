@@ -221,5 +221,3 @@ JAVASCRIPT
 
 
 $Self->DoneTesting();
-
-

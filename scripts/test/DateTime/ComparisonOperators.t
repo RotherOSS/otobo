@@ -137,5 +137,3 @@ for my $Operator ( '>', '<', '>=', '<=', '==', '!=' ) {
 }
 
 $Self->DoneTesting();
-
-

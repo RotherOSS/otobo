@@ -183,5 +183,3 @@ for my $Directory ( map { $Home . $_ } sort @DirectoriesToSearch ) {
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 $Self->DoneTesting();
-
-
