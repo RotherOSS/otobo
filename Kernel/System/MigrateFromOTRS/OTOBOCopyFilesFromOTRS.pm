@@ -90,7 +90,7 @@ sub Run {
     }
 
     # check needed parameters
-    for my $Key ( qw(OTRSData) ) {
+    for my $Key (qw(OTRSData)) {
         if ( !$Param{$Key} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -146,7 +146,7 @@ sub Run {
         );
 
         return {
-            Message    => $Self->{LanguageObject}->Translate( $Message ),
+            Message    => $Self->{LanguageObject}->Translate($Message),
             Comment    => $Self->{LanguageObject}->Translate( "Can't access OTRS Home: %s!", $Param{OTRSData}->{OTRSHome} ),
             Successful => 0,
         };
@@ -213,9 +213,9 @@ sub Run {
                 print STDERR "EXIT: $ExitCode \n OTRSPath: $OTRSPathFile\n OTOBO: $OTOBOPathFile\n ";
 
                 return {
-                    Message      => $Self->{LanguageObject}->Translate($Message),
-                    Comment      => $Self->{LanguageObject}->Translate(q{Can't copy or move files from OTRS!}),
-                    Successful   => 0,
+                    Message    => $Self->{LanguageObject}->Translate($Message),
+                    Comment    => $Self->{LanguageObject}->Translate(q{Can't copy or move files from OTRS!}),
+                    Successful => 0,
                 };
             }
         }
@@ -265,9 +265,9 @@ sub Run {
     $Self->DisableSecureMode();
 
     return {
-        Message      => $Self->{LanguageObject}->Translate($Message),
-        Comment      => $Self->{LanguageObject}->Translate("All needed files copied and migrated, perfect!"),
-        Successful   => 1,
+        Message    => $Self->{LanguageObject}->Translate($Message),
+        Comment    => $Self->{LanguageObject}->Translate("All needed files copied and migrated, perfect!"),
+        Successful => 1,
     };
 }
 
@@ -295,14 +295,14 @@ sub ReConfigure {
     # content of changed config file
     my $Config = '';
     {
-        open my $In, '<:encoding(utf-8)', $ConfigFile ## no critic qw(InputOutput::RequireBriefOpen)
-            or return "Can't open $ConfigFile: $!";   ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
+        open my $In, '<:encoding(utf-8)', $ConfigFile    ## no critic qw(InputOutput::RequireBriefOpen)
+            or return "Can't open $ConfigFile: $!";      ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
 
         LINE:
         while ( my $Line = <$In> ) {
 
             # keep empty lines or comments.
-            if ( ! $Line || $Line =~ m/^\s*#/ || $Line =~ m/^\s*$/ ) {
+            if ( !$Line || $Line =~ m/^\s*#/ || $Line =~ m/^\s*$/ ) {
                 $Config .= $Line;
 
                 next LINE;
@@ -345,8 +345,8 @@ sub ReConfigure {
 
     # Write new config file, the file handle is autoclosed as it is lexical to the block
     {
-        open my $Out, '>:encoding(utf-8)', $ConfigFile ## no critic qw(InputOutput::RequireBriefOpen)
-            or return "Can't open $ConfigFile: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
+        open my $Out, '>:encoding(utf-8)', $ConfigFile    ## no critic qw(InputOutput::RequireBriefOpen)
+            or return "Can't open $ConfigFile: $!";       ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
         print $Out $Config;
     }
 

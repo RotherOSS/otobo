@@ -959,7 +959,7 @@ EOF
     # translating the core
     else {
 
-        open( my $In, '<', $Param{LanguageFile} ) || die "Can't open: $Param{LanguageFile}\n"; ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
+        open( my $In, '<', $Param{LanguageFile} ) || die "Can't open: $Param{LanguageFile}\n";    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         while (<$In>) {
             my $Line = $_;
             $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Line );

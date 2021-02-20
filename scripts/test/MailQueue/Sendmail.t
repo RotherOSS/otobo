@@ -27,7 +27,7 @@ use List::Util qw();
 
 use Kernel::System::Email::Sendmail;
 
-no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitProlongedStrictureOverride TestingAndDebugging::ProhibitNoStrict)
+no strict 'refs';    ## no critic (TestingAndDebugging::ProhibitProlongedStrictureOverride TestingAndDebugging::ProhibitNoStrict)
 
 my $Home           = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my %SendmailAction = (
@@ -223,7 +223,4 @@ for my $Test (@Tests) {
 
 # restore to the previous state is done by RestoreDatabase
 
-
 $Self->DoneTesting();
-
-

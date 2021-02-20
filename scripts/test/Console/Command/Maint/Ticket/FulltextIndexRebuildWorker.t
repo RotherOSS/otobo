@@ -37,7 +37,7 @@ my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
-my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Ticket::FulltextIndexRebuildWorker');
+my $CommandObject        = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Ticket::FulltextIndexRebuildWorker');
 
 my $RandomID = $Helper->GetRandomID();
 
@@ -123,7 +123,7 @@ $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchIndexRebuildFl
 );
 
 # Empty the search index. This is needed as article only have a flag to be re-indexed
-my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
 my $DeleteSuccess = $DBObject->Do(
     SQL => 'DELETE FROM article_search_index',
 );
@@ -133,7 +133,6 @@ if ( !$DeleteSuccess ) {
 
     exit 0;
 }
-
 
 # Remove DB object to make sure it does not interfere with the console command.
 $Kernel::OM->ObjectsDiscard(
@@ -251,7 +250,4 @@ for my $Ticket (@Tickets) {
 
 # Cleanup cache is done by RestoreDatabase
 
-
 $Self->DoneTesting();
-
-

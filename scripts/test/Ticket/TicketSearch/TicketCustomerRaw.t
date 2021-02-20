@@ -182,7 +182,4 @@ for my $CustomerUserLogin (@CustomerLogins) {
 
 # cleanup is done by RestoreDatabase.
 
-
 $Self->DoneTesting();
-
-

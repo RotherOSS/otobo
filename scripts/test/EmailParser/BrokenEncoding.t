@@ -57,5 +57,3 @@ $Self->Is(
 );
 
 $Self->DoneTesting();
-
-

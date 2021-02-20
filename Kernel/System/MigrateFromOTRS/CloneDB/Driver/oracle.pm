@@ -255,8 +255,8 @@ END_SQL
     ) || return {};
 
     my %Result;
-    while ( my ($Column, $Type) = $Param{DBObject}->FetchrowArray() ) {
-        $Result{ $Column } = $Type;
+    while ( my ( $Column, $Type ) = $Param{DBObject}->FetchrowArray() ) {
+        $Result{$Column} = $Type;
     }
 
     return \%Result;
@@ -374,7 +374,7 @@ sub AlterTableAddColumn {
 
     my %ColumnInfos = %{ $Param{ColumnInfos} };
     my $QuotedTable = $Param{DBObject}->QuoteIdentifier( Table => $Param{Table} );
-    my $SQL = "ALTER TABLE $QuotedTable ADD $Param{Column} $ColumnInfos{DATA_TYPE}";
+    my $SQL         = "ALTER TABLE $QuotedTable ADD $Param{Column} $ColumnInfos{DATA_TYPE}";
 
     if ( $ColumnInfos{LENGTH} ) {
         $SQL .= " \($ColumnInfos{LENGTH}\)";

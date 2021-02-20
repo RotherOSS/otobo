@@ -475,7 +475,7 @@ my @SearchTests = (
         },
     },
 
-# Nr 11 - search for customer companies with the strings 'A Example text' and string 'Example text' in the text dynamic field.
+    # Nr 11 - search for customer companies with the strings 'A Example text' and string 'Example text' in the text dynamic field.
     {
         Description => "Search for $DynamicFields[0]->{Name} with string 'A Example text' and string 'Example text'",
         SearchData  => {
@@ -838,8 +838,7 @@ my @OrderByColumns = qw(
 
 for my $OrderByColumn (@OrderByColumns) {
 
-    my @SortedCustomerCompanies
-        = sort { $a->{$OrderByColumn} cmp $b->{$OrderByColumn} || $b->{CustomerID} cmp $a->{CustomerID} }
+    my @SortedCustomerCompanies = sort { $a->{$OrderByColumn} cmp $b->{$OrderByColumn} || $b->{CustomerID} cmp $a->{CustomerID} }
         @OrderBySearchTestCustomerCompanies;
     my @ReferenceSortedIDs = map { $_->{CustomerID} } @SortedCustomerCompanies;
 
@@ -855,8 +854,7 @@ for my $OrderByColumn (@OrderByColumns) {
         "Test $TestCount: CustomerCompanySearchDetail() OrderBy $OrderByColumn (Up)."
     );
 
-    my @SortedCustomerCompaniesDown
-        = sort { $b->{$OrderByColumn} cmp $a->{$OrderByColumn} || $b->{CustomerID} cmp $a->{CustomerID} }
+    my @SortedCustomerCompaniesDown = sort { $b->{$OrderByColumn} cmp $a->{$OrderByColumn} || $b->{CustomerID} cmp $a->{CustomerID} }
         @OrderBySearchTestCustomerCompanies;
     my @ReferenceSortedIDsDown = map { $_->{CustomerID} } @SortedCustomerCompaniesDown;
 
@@ -888,6 +886,5 @@ for my $OrderByColumn (@OrderByColumns) {
 continue {
     $TestCount++;
 }
-
 
 $Self->DoneTesting();

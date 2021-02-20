@@ -415,7 +415,7 @@ sub _PDFOutputTicketInfos {
             $Responsible = $Ticket{Responsible} || '-';
         }
 
-        if ( $Responsible ) {
+        if ($Responsible) {
             my $Row = {
                 Key   => $LayoutObject->{LanguageObject}->Translate('Responsible'),
                 Value => $Responsible,

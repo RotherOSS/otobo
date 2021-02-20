@@ -24,7 +24,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 
 our $Self;
 
@@ -109,7 +109,4 @@ $Selenium->RunTest(
     }
 );
 
-
 $Self->DoneTesting();
-
-

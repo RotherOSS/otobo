@@ -222,8 +222,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ColumnFilterQueue0120-TicketNew option[value='$QueueID']", 'css' )->click();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Loading").length' );
 
-     # Verify ticket with different priority is present on screen with filter, it's still on the first page.
-     # See bug#11422 ( http://bugs.otrs.org/show_bug.cgi?id=11422 ), there is no change in order when activating filter.
+        # Verify ticket with different priority is present on screen with filter, it's still on the first page.
+        # See bug#11422 ( http://bugs.otrs.org/show_bug.cgi?id=11422 ), there is no change in order when activating filter.
         $Self->True(
             $Selenium->find_element("//a[contains(\@title, \'Queue, filter active' )]"),
             "Filter for queue column is active",
@@ -341,7 +341,4 @@ $Selenium->RunTest(
     }
 );
 
-
 $Self->DoneTesting();
-
-

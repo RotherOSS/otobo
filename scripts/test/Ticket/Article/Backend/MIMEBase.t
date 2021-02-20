@@ -321,7 +321,4 @@ for my $ChannelName (qw(Email Phone Internal)) {
 
 # Cleanup is done by RestoreDatabase.
 
-
 $Self->DoneTesting();
-
-

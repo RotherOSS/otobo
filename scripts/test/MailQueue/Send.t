@@ -43,7 +43,7 @@ my %FakeSMTPEnv = (
     'connect' => 1,
 );
 
-no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
+no strict 'refs';    ## no critic (TestingAndDebugging::ProhibitNoStrict)
 
 # Overwrite the OTOBO Email::SMTP check method to use our fake smtp client,
 #   but make this change local to the unit test scope, as you can see, it also
@@ -613,7 +613,4 @@ for my $Test (@Tests) {
 
 # restore to the previous state is done by RestoreDatabase
 
-
 $Self->DoneTesting();
-
-

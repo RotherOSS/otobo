@@ -1229,7 +1229,7 @@ sub Run {
 
         # Only if we have mod_perl we have to restart.
         if ( exists $ENV{MOD_PERL} ) {
-            eval 'require mod_perl';               ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+            eval 'require mod_perl';    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
             if ( defined $mod_perl::VERSION ) {
                 $Webserver = 'Apache2 + mod_perl';
                 if ( -f '/etc/SuSE-release' ) {
@@ -1334,8 +1334,8 @@ sub ReConfigure {
 
     # Read config file.
     my $ConfigFile = "$Self->{Path}/Kernel/Config.pm";
-    open( my $In, '<', $ConfigFile )            ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
-        or return "Can't open $ConfigFile: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
+    open( my $In, '<', $ConfigFile )               ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
+        or return "Can't open $ConfigFile: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
     my $Config = '';
     while (<$In>) {
 
@@ -1366,8 +1366,8 @@ sub ReConfigure {
     close $In;
 
     # Write new config file.
-    open( my $Out, '>:utf8', $ConfigFile )      ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
-        or return "Can't open $ConfigFile: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
+    open( my $Out, '>:utf8', $ConfigFile )         ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+        or return "Can't open $ConfigFile: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
     print $Out $Config;
     close $Out;
 

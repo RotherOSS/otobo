@@ -46,7 +46,4 @@ for my $Argument (qw(--status --rebuild)) {
 
 # Cleanup cache is done by RestoreDatabase
 
-
 $Self->DoneTesting();
-
-

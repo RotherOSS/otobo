@@ -533,7 +533,4 @@ for my $DebugLogID (@DebugLogIDs) {
 
 # cleanup is done by RestoreDatabase.
 
-
 $Self->DoneTesting();
-
-

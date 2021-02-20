@@ -32,7 +32,7 @@ use LWP::UserAgent;
 
 use Kernel::System::UnitTest::Helper;
 
-my $Debug = 0;
+my $Debug        = 0;
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
 
@@ -174,7 +174,7 @@ if ( ! $BailOut ) {
             );
 
             # check response contents
-            my $ContentType =  $Response->header('Content-type') // '';
+            my $ContentType = $Response->header('Content-type') // '';
             $Self->Note( Note => "Response:\n" . $Response->as_string() ) if $Debug;
             if ( $ContentType =~ m/html/ ) {
                 $Self->True(
@@ -236,7 +236,4 @@ if ( ! $BailOut ) {
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 }
 
-
 $Self->DoneTesting();
-
-

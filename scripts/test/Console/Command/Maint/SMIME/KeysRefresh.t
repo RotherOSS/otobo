@@ -157,7 +157,6 @@ if ( !$Success ) {
     exit 0;
 }
 
-
 # set a new certificate private key and secret files
 for my $Type (qw(Certificate PrivateKey PrivateKeyPass)) {
 
@@ -462,7 +461,4 @@ File::Path::rmtree($PrivatePath);
 
 # cleanup cache is done by RestoreDatabase
 
-
 $Self->DoneTesting();
-
-

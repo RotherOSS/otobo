@@ -119,7 +119,4 @@ for my $File (qw(1 2 3 5 6 11 21)) {
 
 # cleanup is done by RestoreDatabase.
 
-
 $Self->DoneTesting();
-
-

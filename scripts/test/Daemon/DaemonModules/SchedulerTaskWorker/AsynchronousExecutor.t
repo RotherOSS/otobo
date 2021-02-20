@@ -212,8 +212,7 @@ my @Tests = (
 );
 
 # get task handler objects
-my $TaskHandlerObject
-    = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker::AsynchronousExecutor');
+my $TaskHandlerObject = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker::AsynchronousExecutor');
 
 for my $Test (@Tests) {
 
@@ -229,7 +228,4 @@ for my $Test (@Tests) {
 
 # cleanup cache is done by RestoreDatabase.
 
-
 $Self->DoneTesting();
-
-

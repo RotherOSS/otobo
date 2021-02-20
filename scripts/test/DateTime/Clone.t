@@ -97,5 +97,3 @@ for my $Timezone (@Timezones) {
 }
 
 $Self->DoneTesting();
-
-

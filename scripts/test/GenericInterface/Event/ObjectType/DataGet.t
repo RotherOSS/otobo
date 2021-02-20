@@ -63,7 +63,4 @@ for my $EventType ( sort keys %RegisteredEvents ) {
     );
 }
 
-
 $Self->DoneTesting();
-
-

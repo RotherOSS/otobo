@@ -276,7 +276,4 @@ for my $Item ( sort keys %{ $SecondTicketValues{ArticleUpdateJob} } ) {
 
 # Cleanup is done by RestoreDatabase.
 
-
 $Self->DoneTesting();
-
-

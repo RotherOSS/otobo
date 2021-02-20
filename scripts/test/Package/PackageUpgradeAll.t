@@ -253,7 +253,7 @@ for my $Test (@Tests) {
     );
 
     # Redefine key features to prevent real network communications and use local results for this test.
-    no warnings qw(once redefine); ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
+    no warnings qw(once redefine);    ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
     local *Kernel::System::Package::PackageOnlineList = sub {
         return do "$TestPath/$Test->{PackageOnlineList}";
     };
@@ -323,7 +323,4 @@ continue {
     );
 }
 
-
 $Self->DoneTesting();
-
-

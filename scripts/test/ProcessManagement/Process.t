@@ -1928,7 +1928,7 @@ my @Tests = (
         }
     },
 
- # Transition + TicketServiceSet + TicketSLASet TransitionAction on matching Transition change Service and SLA on Ticket
+    # Transition + TicketServiceSet + TicketSLASet TransitionAction on matching Transition change Service and SLA on Ticket
     {
         ProcessTransition => {
             Config => {
@@ -2427,6 +2427,5 @@ for my $Test (@Tests) {
 }
 
 # cleanup is done by RestoreDatabase
-
 
 $Self->DoneTesting();

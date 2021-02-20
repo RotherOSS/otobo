@@ -105,8 +105,7 @@ for my $TestConfig (@TestConfigs) {
     );
 
     my $CalendarStr = $TestConfig->{Params}->{Calendar} ? " Calendar: $TestConfig->{Params}->{Calendar}" : '';
-    my $TestName
-        = "$TestConfig->{Params}->{Year}-$TestConfig->{Params}->{Month}-$TestConfig->{Params}->{Day}" . $CalendarStr;
+    my $TestName    = "$TestConfig->{Params}->{Year}-$TestConfig->{Params}->{Month}-$TestConfig->{Params}->{Day}" . $CalendarStr;
 
     $Self->Is(
         $DateTimeObject->IsVacationDay(
@@ -118,5 +117,3 @@ for my $TestConfig (@TestConfigs) {
 }
 
 $Self->DoneTesting();
-
-

@@ -500,7 +500,4 @@ $Self->True(
     "CheckEmail() - 'somebody123456789\@otrs.com'",
 );
 
-
 $Self->DoneTesting();
-
-

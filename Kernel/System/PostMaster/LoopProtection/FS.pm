@@ -68,10 +68,10 @@ sub Check {
 
     # check existing logfile
 
-    if ( !open( my $In, '<', $Self->{LoopProtectionLog} ) ) { ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
+    if ( !open( my $In, '<', $Self->{LoopProtectionLog} ) ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
 
         # create new log file
-        if ( !open( my $Out, '>', $Self->{LoopProtectionLog} ) ) { ## no critic qw(OTOBO::ProhibitOpen)
+        if ( !open( my $Out, '>', $Self->{LoopProtectionLog} ) ) {    ## no critic qw(OTOBO::ProhibitOpen)
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "LoopProtection! Can't write '$Self->{LoopProtectionLog}': $!!",

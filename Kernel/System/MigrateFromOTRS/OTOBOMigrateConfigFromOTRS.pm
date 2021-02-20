@@ -79,7 +79,7 @@ sub Run {
     my $SysConfigObject     = $Kernel::OM->Get('Kernel::System::SysConfig');
     my $SysConfigDBObject   = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
-    my $Epoch   = $DateTimeObject->ToEpoch();
+    my $Epoch = $DateTimeObject->ToEpoch();
 
     $CacheObject->Set(
         Type  => 'OTRSMigration',
@@ -105,9 +105,8 @@ sub Run {
 
     if ( !$Export ) {
         my %Result;
-        $Result{Message} = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
-        $Result{Comment} = $Self->{LanguageObject}
-            ->Translate("An error occured during SysConfig data migration or no configuration exists.");
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate("An error occured during SysConfig data migration or no configuration exists.");
         $Result{Successful} = 1;
 
         return \%Result;

@@ -244,8 +244,8 @@ sub _CheckConfigpmAndWriteCache {
     my %CacheOptions;
 
     {
-        open my $In, '<', $ConfigFile               ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
-            or return "Can't open $ConfigFile: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
+        open my $In, '<', $ConfigFile    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
+            or return "Can't open $ConfigFile: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
 
         CONFIGLINE:
         while (<$In>) {
@@ -282,7 +282,7 @@ sub _CheckConfigpmAndWriteCache {
         Key   => 'OTRSDBSettings',
         Value => {
             DBType     => $CacheOptions{DBType},
-            DBHost     => $CacheOptions{DBHost},   # usually needs to be adapted when running under Docker
+            DBHost     => $CacheOptions{DBHost},         # usually needs to be adapted when running under Docker
             DBUser     => $CacheOptions{DBUser},
             DBPassword => $CacheOptions{DBPassword},
             DBName     => $CacheOptions{DBName},

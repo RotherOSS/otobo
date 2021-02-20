@@ -769,5 +769,3 @@ unlink $TmpDir . '/test1';
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 $Self->DoneTesting();
-
-

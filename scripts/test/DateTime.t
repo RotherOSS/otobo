@@ -498,7 +498,4 @@ $Self->Is(
     'System time zone must match expected one.'
 );
 
-
 $Self->DoneTesting();
-
-

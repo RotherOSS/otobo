@@ -69,5 +69,3 @@ $Self->Is(
 unlink $XXEFilename;
 
 $Self->DoneTesting();
-
-

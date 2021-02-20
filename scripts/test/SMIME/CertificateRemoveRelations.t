@@ -328,7 +328,4 @@ for my $Directory ( $CertPath, $PrivatePath ) {
 
 # Cleanup is done by RestoreDatabase.
 
-
 $Self->DoneTesting();
-
-

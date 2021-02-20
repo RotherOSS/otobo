@@ -1919,9 +1919,9 @@ for my $State ( values %StateList ) {
         "TicketSearch() - StateTypeID - found ticket",
     );
 
-# if it is not equal then there is in the using of StateType or StateTypeID an error
-# check if you get the same result if you use the StateType attribute or the StateTypeIDs attribute.
-# State($State) StateType($StateAsKeyAndStateTypeAsValue{$State}->{Name}) and StateTypeIDs($StateAsKeyAndStateTypeAsValue{$State}->{ID})
+    # if it is not equal then there is in the using of StateType or StateTypeID an error
+    # check if you get the same result if you use the StateType attribute or the StateTypeIDs attribute.
+    # State($State) StateType($StateAsKeyAndStateTypeAsValue{$State}->{Name}) and StateTypeIDs($StateAsKeyAndStateTypeAsValue{$State}->{ID})
     $Self->Is(
         scalar @TicketIDs,
         scalar @TicketIDsType,
@@ -2835,7 +2835,4 @@ $Self->True(
     "TicketCountByAttribute() for more then 1000 entries correct"
 );
 
-
 $Self->DoneTesting();
-
-

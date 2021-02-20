@@ -15,9 +15,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use Kernel::Output::HTML::Layout; ## no critic (Modules::RequireExplicitPackage)
+use Kernel::Output::HTML::Layout;    ## no critic (Modules::RequireExplicitPackage)
 
-package Kernel::Output::HTML::Layout; ## no critic (Modules::RequireFilenameMatchesPackage)
+package Kernel::Output::HTML::Layout;    ## no critic (Modules::RequireFilenameMatchesPackage)
 
 use strict;
 use warnings;
@@ -29,7 +29,7 @@ our @ObjectDependencies = (
 
 # disable redefine warnings in this scope
 {
-    no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
+    no warnings 'redefine';              ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 
     # backup original Redirect()
     my $Redirect = \&Kernel::Output::HTML::Layout::Redirect;

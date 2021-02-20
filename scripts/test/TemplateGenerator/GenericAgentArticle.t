@@ -107,7 +107,4 @@ $Self->Is(
     "TicketNumber found. OTOBO Tag used.",
 );
 
-
 $Self->DoneTesting();
-
-

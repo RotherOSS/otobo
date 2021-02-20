@@ -25,7 +25,7 @@ use Test2::V0;
 use Try::Tiny;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
 use Kernel::Language;
 
 our $Self;

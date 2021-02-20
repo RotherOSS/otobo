@@ -26,8 +26,8 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 our $Self;
 
-my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+my $Home         = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my $ChecksumFile = "$Home/ARCHIVE";
 
 # Checksum file content as an array ref.
