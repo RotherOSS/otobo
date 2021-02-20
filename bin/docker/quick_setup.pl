@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -76,18 +76,29 @@ use Const::Fast qw(const);
 use Kernel::System::ObjectManager;
 
 sub Main {
-    my $HelpFlag;       # print help
-    my $DBPassword;     # required
-    my $HTTPPort = 80;  # only used for success message
+    my $HelpFlag;      # print help
+    my $DBPassword;    # required
+    my $HTTPPort = 80; # only used for success message
 
     Getopt::Long::GetOptions(
         'help'          => \$HelpFlag,
         'db-password=s' => \$DBPassword,
         'http-port=i'   => \$HTTPPort,
-    ) || pod2usage({ -exitval => 1, -verbose => 1 });
+        )
+        || pod2usage(
+        {
+            -exitval => 1,
+            -verbose => 1
+        }
+        );
 
-    if ( $HelpFlag ) {
-        pod2usage({ -exitval => 0, -verbose => 2});
+    if ($HelpFlag) {
+        pod2usage(
+            {
+                -exitval => 0,
+                -verbose => 2
+            }
+        );
     }
 
     $Kernel::OM = Kernel::System::ObjectManager->new(
@@ -106,16 +117,16 @@ sub Main {
     # we can rely on Kernel::Config now
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    const my $DBName           => $ConfigObject->Get('Database');
-    const my $OTOBODBUser      => $ConfigObject->Get('DatabaseUser');
-    const my $OTOBODBPassword  => $ConfigObject->Get('DatabasePw');
-    const my $DBType           => 'mysql';
+    const my $DBName          => $ConfigObject->Get('Database');
+    const my $OTOBODBUser     => $ConfigObject->Get('DatabaseUser');
+    const my $OTOBODBPassword => $ConfigObject->Get('DatabasePw');
+    const my $DBType          => 'mysql';
 
     {
         # in the Docker use case we can safely assume tha we are dealing with MySQL
         my ( $Success, $Message ) = CheckDBRequirements(
             DBPassword => $DBPassword,
-            DBName     => $DBName, # for checking that the database does not exist yet
+            DBName     => $DBName,       # for checking that the database does not exist yet
         );
 
         say $Message if defined $Message;
@@ -125,10 +136,10 @@ sub Main {
 
     {
         my ( $Success, $Message ) = DBCreateUserAndDatabase(
-            DBName           => $DBName,
-            DBPassword       => $DBPassword,
-            OTOBODBUser      => $OTOBODBUser,
-            OTOBODBPassword  => $OTOBODBPassword,
+            DBName          => $DBName,
+            DBPassword      => $DBPassword,
+            OTOBODBUser     => $OTOBODBUser,
+            OTOBODBPassword => $OTOBODBPassword,
         );
 
         say $Message if defined $Message;
@@ -179,7 +190,7 @@ sub Main {
             [ 'SecureMode'      => 1 ],
         );
 
-        my ( $Success, $Message ) = AdaptSettings( Settings => \@NewSettings);
+        my ( $Success, $Message ) = AdaptSettings( Settings => \@NewSettings );
 
         say $Message if defined $Message;
 
@@ -207,17 +218,17 @@ sub CheckSystemRequirements {
     my $Home         = $ConfigObject->Get('Home');
 
     # verify that Home exists
-    if ( ! $Home ) {
+    if ( !$Home ) {
         return 0, q{setting 'Home' is not configured};
     }
 
     my $HomeDir = dir($Home);
 
-    if ( ! $HomeDir->is_absolute() ) {
+    if ( !$HomeDir->is_absolute() ) {
         return 0, "'$HomeDir' is not an absolute path";
     }
 
-    if ( ! -d $HomeDir ) {
+    if ( !-d $HomeDir ) {
         return 0, "'$HomeDir' is not a directory";
     }
 
@@ -235,31 +246,31 @@ sub CheckSystemRequirements {
     # verify that Kernel/Config.pm exists and is readable and writeable
     my $ConfigPmFile = $HomeDir->file('Kernel/Config.pm');
 
-    if ( ! -f $ConfigPmFile ) {
+    if ( !-f $ConfigPmFile ) {
         return 0, "'$ConfigPmFile' does not exist";
     }
 
-    if ( ! -r $ConfigPmFile ) {
+    if ( !-r $ConfigPmFile ) {
         return 0, "'$ConfigPmFile' is not readable";
     }
 
-    if ( ! -w $ConfigPmFile ) {
+    if ( !-w $ConfigPmFile ) {
         return 0, "'$ConfigPmFile' is not writeable";
     }
 
     # verify the scripts/database and the relevant .xml files exits
-    my $DatabaseDir = $HomeDir->subdir( 'scripts/database' );
+    my $DatabaseDir = $HomeDir->subdir('scripts/database');
 
-    if ( ! -d $DatabaseDir ) {
+    if ( !-d $DatabaseDir ) {
         return 0, "'$DatabaseDir' does not exist";
     }
 
     for my $XmlFile ( map { $DatabaseDir->file($_) } ( 'otobo-schema.xml', 'otobo-initial_insert.xml' ) ) {
-        if ( ! -f $XmlFile ) {
+        if ( !-f $XmlFile ) {
             return 0, "'$XmlFile' does not exist";
         }
 
-        if ( ! -r $XmlFile ) {
+        if ( !-r $XmlFile ) {
             return 0, "'$XmlFile' is not readable";
         }
     }
@@ -271,8 +282,8 @@ sub DBConnectAsRoot {
     my %Param = @_;
 
     # check the params
-    for my $Key ( grep { ! $Param{$_} } qw(DBPassword ) ) {
-        my $SubName = (caller(0))[3];
+    for my $Key ( grep { !$Param{$_} } qw(DBPassword ) ) {
+        my $SubName = ( caller(0) )[3];
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
@@ -280,10 +291,10 @@ sub DBConnectAsRoot {
     # verify that the connection to the DB is possible, password was passed on command line
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $DatabaseHost = $ConfigObject->Get('DatabaseHost');
-    my $DSN = "DBI:mysql:database=mysql;host=$DatabaseHost;";
+    my $DSN          = "DBI:mysql:database=mysql;host=$DatabaseHost;";
 
-    my $DBHandle = DBI->connect($DSN, 'root', $Param{DBPassword});
-    if ( ! $DBHandle ) {
+    my $DBHandle = DBI->connect( $DSN, 'root', $Param{DBPassword} );
+    if ( !$DBHandle ) {
         return 0, $DBI::errstr;
     }
 
@@ -297,7 +308,7 @@ sub CheckDBRequirements {
 
     # verify that some expected settings are available
     KEY:
-    for my $Key ( qw(Database DatabaseUser DatabasePw DatabaseDSN DatabaseHost) ) {
+    for my $Key (qw(Database DatabaseUser DatabasePw DatabaseDSN DatabaseHost)) {
 
         next KEY if $ConfigObject->Get($Key);
 
@@ -305,21 +316,21 @@ sub CheckDBRequirements {
     }
 
     # try to connect as root to mysql
-    my ( $DBHandle, $Message ) = DBConnectAsRoot( %Param );
+    my ( $DBHandle, $Message ) = DBConnectAsRoot(%Param);
 
-    if ( ! $DBHandle ) {
+    if ( !$DBHandle ) {
         return 0, $Message;
     }
 
     # check whether the database is alive
     my $DBIsAlive = $DBHandle->ping();
-    if ( ! $DBIsAlive ) {
+    if ( !$DBIsAlive ) {
         return 0, 'no pingback from the database';
     }
 
     # verify that the database does not exist yet
     my $TableInfoSth = $DBHandle->table_info( '%', $Param{DBName}, '%', 'TABLE' );
-    my $Rows = $TableInfoSth->fetchall_arrayref();
+    my $Rows         = $TableInfoSth->fetchall_arrayref();
 
     if ( $Rows->@* ) {
         return 0, "the schema '$Param{DBName}' already exists";
@@ -333,15 +344,15 @@ sub DBCreateUserAndDatabase {
     my %Param = @_;
 
     # check the params
-    for my $Key ( grep { ! $Param{$_} } qw(DBPassword DBName OTOBODBUser OTOBODBPassword) ) {
-        my $SubName = (caller(0))[3];
+    for my $Key ( grep { !$Param{$_} } qw(DBPassword DBName OTOBODBUser OTOBODBPassword) ) {
+        my $SubName = ( caller(0) )[3];
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
 
-    my ( $DBHandle, $Message ) = DBConnectAsRoot( %Param );
+    my ( $DBHandle, $Message ) = DBConnectAsRoot(%Param);
 
-    if ( ! $DBHandle ) {
+    if ( !$DBHandle ) {
         return 0, $Message;
     }
 
@@ -377,10 +388,11 @@ sub DBCreateUserAndDatabase {
         "GRANT ALL PRIVILEGES ON `$Param{DBName}`.* TO `$Param{OTOBODBUser}`\@`$Host` WITH GRANT OPTION",
     );
 
-    for my $Statement ( @Statements ) {
+    for my $Statement (@Statements) {
+
         # do() returns undef in the error case
         my $Success = defined $DBHandle->do($Statement);
-        if ( ! $Success ) {
+        if ( !$Success ) {
             return 0, $DBHandle->errstr();
         }
     }
@@ -392,8 +404,8 @@ sub ExecuteSQL {
     my %Param = @_;
 
     # check the params
-    for my $Key ( grep { ! $Param{$_} } qw(XMLFiles) ) {
-        my $SubName = (caller(0))[3];
+    for my $Key ( grep { !$Param{$_} } qw(XMLFiles) ) {
+        my $SubName = ( caller(0) )[3];
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
@@ -402,12 +414,12 @@ sub ExecuteSQL {
     my @SQLPost;
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
 
     for my $XMLFile ( $Param{XMLFiles}->@* ) {
 
         my $XML = $MainObject->FileRead(
-            Location  => $XMLFile,
+            Location => $XMLFile,
         );
         my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse(
             String => $XML,
@@ -448,8 +460,8 @@ sub SetRootAtLocalhostPassword {
     my %Param = @_;
 
     # check the params
-    for my $Key ( grep { ! $Param{$_} } qw(HTTPPort) ) {
-        my $SubName = (caller(0))[3];
+    for my $Key ( grep { !$Param{$_} } qw(HTTPPort) ) {
+        my $SubName = ( caller(0) )[3];
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
@@ -472,8 +484,8 @@ sub AdaptSettings {
     my %Param = @_;
 
     # check the params
-    for my $Key ( grep { ! $Param{$_} } qw(Settings) ) {
-        my $SubName = (caller(0))[3];
+    for my $Key ( grep { !$Param{$_} } qw(Settings) ) {
+        my $SubName = ( caller(0) )[3];
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
@@ -482,9 +494,9 @@ sub AdaptSettings {
 
     # read files in Kernel/Config/Files/XML and store config in DB
     $SysConfigObject->ConfigurationXML2DB(
-        UserID    => 1,
-        Force     => 1,
-        CleanUp   => 1,
+        UserID  => 1,
+        Force   => 1,
+        CleanUp => 1,
     ) || return ( 0, 'Could not save config in DB' );
 
     my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
@@ -523,22 +535,22 @@ sub AdaptSettings {
 sub DeactivateElasticsearch {
 
     my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
-    my $ESWebservice = $WebserviceObject->WebserviceGet(
+    my $ESWebservice     = $WebserviceObject->WebserviceGet(
         Name => 'Elasticsearch',
     );
 
     # nothing to do when there is no Elasticsearch webservice
     return 1 unless $ESWebservice;
-    return 1 if $ESWebservice->{ValidID} != 1; # not valid
+    return 1 if $ESWebservice->{ValidID} != 1;    # not valid
 
     # deactivate the Elasticsearch webservice
     my $Success = $WebserviceObject->WebserviceUpdate(
         $ESWebservice->%*,
-        ValidID => 2, # invalid
+        ValidID => 2,                             # invalid
         UserID  => 1,
     );
 
-    if ( ! $Success ) {
+    if ( !$Success ) {
         return 0, 'Could not deactivate Elasticsearch';
     }
 
