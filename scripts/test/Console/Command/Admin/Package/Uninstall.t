@@ -33,5 +33,4 @@ $Self->Is(
     "Admin::Package::Uninstall exit code without arguments",
 );
 
-
 $Self->DoneTesting();

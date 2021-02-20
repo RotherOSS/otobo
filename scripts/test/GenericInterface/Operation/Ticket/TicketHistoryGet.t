@@ -1008,5 +1008,4 @@ for my $TicketID ( $TicketID1, $TicketID2 ) {
     );
 }
 
-
 $Self->DoneTesting();

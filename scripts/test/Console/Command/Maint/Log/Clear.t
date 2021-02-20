@@ -57,5 +57,4 @@ $Self->Is(
     "Error log after resetting",
 );
 
-
 $Self->DoneTesting();

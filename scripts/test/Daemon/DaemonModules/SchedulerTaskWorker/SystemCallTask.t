@@ -286,5 +286,4 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     system("$^X $Daemon start");
 }
 
-
 $Self->DoneTesting();

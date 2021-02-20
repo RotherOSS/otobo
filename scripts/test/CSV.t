@@ -357,5 +357,4 @@ $Self->True(
     'Array2CSV() with Format => Excel return data',
 );
 
-
 $Self->DoneTesting();

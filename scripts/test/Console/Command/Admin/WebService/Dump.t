@@ -142,5 +142,4 @@ if ( -e $TargetPath ) {
 
 # cleanup is done by RestoreDatabase
 
-
 $Self->DoneTesting();

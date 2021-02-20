@@ -75,5 +75,4 @@ $Self->Is(
     'Maint::PostMaster::MailAccountFetch exit code for non-existing mail account'
 );
 
-
 $Self->DoneTesting();

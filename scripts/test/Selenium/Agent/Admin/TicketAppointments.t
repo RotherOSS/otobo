@@ -800,5 +800,4 @@ $Selenium->RunTest(
     },
 );
 
-
 $Self->DoneTesting();

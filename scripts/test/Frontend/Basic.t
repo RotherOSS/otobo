@@ -236,5 +236,4 @@ if ( ! $BailOut ) {
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 }
 
-
 $Self->DoneTesting();

@@ -368,5 +368,4 @@ for my $ImportedAppointment (@ImportedAppointments) {
     $Count++;
 }
 
-
 $Self->DoneTesting();

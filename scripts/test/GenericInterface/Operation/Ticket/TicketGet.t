@@ -2159,5 +2159,4 @@ for my $TestFieldConfigItem (@TestFieldConfig) {
 # cleanup cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
-
 $Self->DoneTesting();

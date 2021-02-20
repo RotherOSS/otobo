@@ -3990,5 +3990,4 @@ $Kernel::OM->ObjectsDiscard(
 
 # cleanup is done by RestoreDatabase.
 
-
 $Self->DoneTesting();

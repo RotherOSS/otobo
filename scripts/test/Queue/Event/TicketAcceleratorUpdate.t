@@ -252,5 +252,4 @@ for my $TicketID (@TicketIDs) {
 
 # cleanup is done by RestoreDatabase.
 
-
 $Self->DoneTesting();

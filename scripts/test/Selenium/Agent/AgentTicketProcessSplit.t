@@ -501,5 +501,4 @@ $Selenium->RunTest(
     },
 );
 
-
 $Self->DoneTesting();

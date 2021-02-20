@@ -887,5 +887,4 @@ if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
 
 # cleanup is done by RestoreDatabase.
 
-
 $Self->DoneTesting();

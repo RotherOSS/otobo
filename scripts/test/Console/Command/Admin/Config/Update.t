@@ -298,5 +298,4 @@ if ( -e $SourcePath ) {
 
 # cleanup is done by RestoreDatabase
 
-
 $Self->DoneTesting();

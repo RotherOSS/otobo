@@ -318,5 +318,4 @@ $Self->IsDeeply(
     "ConfigurationDeployGetLast() Deployment 2",
 );
 
-
 $Self->DoneTesting();

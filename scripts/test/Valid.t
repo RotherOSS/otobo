@@ -99,5 +99,4 @@ for my $ValidIDKey ( sort keys %ValidList ) {
 
 # cleanup cache is done by RestoreDatabase
 
-
 $Self->DoneTesting();

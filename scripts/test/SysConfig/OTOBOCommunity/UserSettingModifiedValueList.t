@@ -246,5 +246,4 @@ $Self->IsDeeply(
     "ConfigurationUsersModifiedSettingList() - Match with expected result from modified settings, just by users.",
 );
 
-
 $Self->DoneTesting();

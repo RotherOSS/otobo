@@ -376,5 +376,4 @@ $Selenium->RunTest(
     }
 );
 
-
 $Self->DoneTesting();

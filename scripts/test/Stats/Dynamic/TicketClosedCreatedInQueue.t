@@ -311,5 +311,4 @@ $Self->True(
     'StatsRun() TicketClosedCreatedInQueueStatID - All closed tickets present in the stat result',
 );
 
-
 $Self->DoneTesting();

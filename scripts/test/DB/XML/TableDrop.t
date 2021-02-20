@@ -198,5 +198,4 @@ for my $SQL (@SQLARRAY) {
 
 # cleanup cache is done by RestoreDatabase.
 
-
 $Self->DoneTesting();

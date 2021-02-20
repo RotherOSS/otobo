@@ -271,5 +271,4 @@ $Self->Is(
     'HandleResponse call response failure error message (array ref as response)',
 );
 
-
 $Self->DoneTesting();

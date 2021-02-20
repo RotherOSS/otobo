@@ -58,5 +58,4 @@ $Self->Is(
     "All tasks where created successfully",
 );
 
-
 $Self->DoneTesting();

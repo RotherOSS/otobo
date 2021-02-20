@@ -462,5 +462,4 @@ File::Path::rmtree($PrivatePath);
 
 # cleanup cache is done by RestoreDatabase
 
-
 $Self->DoneTesting();
