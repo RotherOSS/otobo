@@ -36,7 +36,7 @@ package MyIMAP {    ## no critic qw(Modules::ProhibitMultiplePackages)
     our $AUTOLOAD;
 
     sub new {
-        my ($Class, %Param) = @_;
+        my ( $Class, %Param ) = @_;
 
         $Param{TotalProcessed} = 0;
         $Param{Processed}      = {};
@@ -110,7 +110,7 @@ test %s';
         return wantarray ? @Lines : \@Lines;
     }
 
-    sub select {  ## no critic qw(Subroutines::ProhibitBuiltinHomonyms)
+    sub select {    ## no critic qw(Subroutines::ProhibitBuiltinHomonyms)
         my $Self = shift;
 
         return $Self->{Total} - $Self->{TotalProcessed};
@@ -249,7 +249,7 @@ sub _ImportEmails {
 
     # Redefine PostMaster::Run so we can fail some messages
     #   and keep this change local to the current scope
-    no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
+    no strict 'refs';    ## no critic (TestingAndDebugging::ProhibitNoStrict)
 
     local *{'Kernel::System::MailAccount::IMAP::Connect'} = sub {
         my ( $Self, %Param ) = @_;

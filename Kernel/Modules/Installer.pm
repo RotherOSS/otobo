@@ -1229,7 +1229,7 @@ sub Run {
 
         # Only if we have mod_perl we have to restart.
         if ( exists $ENV{MOD_PERL} ) {
-            eval 'require mod_perl';               ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+            eval 'require mod_perl';    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
             if ( defined $mod_perl::VERSION ) {
                 $Webserver = 'Apache2 + mod_perl';
                 if ( -f '/etc/SuSE-release' ) {

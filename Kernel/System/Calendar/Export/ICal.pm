@@ -430,7 +430,7 @@ sub Export {
 }
 
 {
-    no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
+    no warnings 'redefine';    ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 
     # Include product name and version in product ID property for debugging purposes, by redefining
     #   external library method.

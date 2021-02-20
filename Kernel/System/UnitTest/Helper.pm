@@ -190,6 +190,7 @@ sub TestUserCreate {
 
     # code that emits test events for the subtest
     my $Code = sub {
+
         # Disable email checks to create new user.
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
         local $ConfigObject->{CheckEmailAddresses} = 0;
@@ -212,11 +213,11 @@ sub TestUserCreate {
             last COUNT if $TestUserID;
         }
 
-        bail_out( 'Could not create test user login' ) unless $TestUserLogin;
-        bail_out( 'Could not create test user' )       unless $TestUserID;
+        bail_out('Could not create test user login') unless $TestUserLogin;
+        bail_out('Could not create test user')       unless $TestUserID;
 
         # looks good so far
-        pass( "Created test user $TestUserID" );
+        pass("Created test user $TestUserID");
 
         # Remember UserID of the test user to later set it to invalid
         #   in the destructor.
@@ -228,7 +229,7 @@ sub TestUserCreate {
         for my $GroupName ( @{ $Param{Groups} || [] } ) {
 
             my $GroupID = $GroupObject->GroupLookup( Group => $GroupName );
-            bail_out( "Cannot find group $GroupName" ) unless $GroupID;
+            bail_out("Cannot find group $GroupName") unless $GroupID;
 
             $GroupObject->PermissionGroupUserAdd(
                 GID        => $GroupID,
@@ -242,9 +243,9 @@ sub TestUserCreate {
                     rw        => 1,
                 },
                 UserID => 1,
-            ) || bail_out( "Could not add test user $TestUserLogin to group $GroupName" );
+            ) || bail_out("Could not add test user $TestUserLogin to group $GroupName");
 
-            pass( "Added test user $TestUserLogin to group $GroupName" );
+            pass("Added test user $TestUserLogin to group $GroupName");
         }
 
         # Set user language.
@@ -255,10 +256,17 @@ sub TestUserCreate {
             Value  => $UserLanguage,
         );
 
-        note( "Set user UserLanguage to $UserLanguage" );
+        note("Set user UserLanguage to $UserLanguage");
     };
 
-    run_subtest( 'TestUserCreate', $Code, { buffered => 1, inherit_trace => 1 } );
+    run_subtest(
+        'TestUserCreate',
+        $Code,
+        {
+            buffered      => 1,
+            inherit_trace => 1
+        }
+    );
 
     $Context->release();
 
@@ -286,6 +294,7 @@ sub TestCustomerUserCreate {
     my $TestUser;
 
     my $Code = sub {
+
         # Disable email checks to create new user.
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
         local $ConfigObject->{CheckEmailAddresses} = 0;
@@ -310,8 +319,8 @@ sub TestCustomerUserCreate {
             last COUNT if $TestUser;
         }
 
-        bail_out( 'Could not create test user' ) unless $TestUser;
-        pass( "Created test customer user $TestUser" );
+        bail_out('Could not create test user') unless $TestUser;
+        pass("Created test customer user $TestUser");
 
         # Remember UserID of the test user to later set it to invalid
         #   in the destructor.
@@ -326,10 +335,17 @@ sub TestCustomerUserCreate {
             Value  => $UserLanguage,
         );
 
-        note( "Set customer user UserLanguage to $UserLanguage" );
+        note("Set customer user UserLanguage to $UserLanguage");
     };
 
-    run_subtest( 'TestCustomerUsers', $Code, { buffered => 1, inherit_trace => 1 } );
+    run_subtest(
+        'TestCustomerUsers',
+        $Code,
+        {
+            buffered      => 1,
+            inherit_trace => 1
+        }
+    );
 
     $Context->release();
 
@@ -345,7 +361,7 @@ Starts a database transaction (in order to isolate the test from the static data
 =cut
 
 sub BeginWork {
-    my ( $Self ) = @_;
+    my ($Self) = @_;
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     $DBObject->Connect();
@@ -363,7 +379,7 @@ Should only be called when BeginWork() has been called before.
 =cut
 
 sub Rollback {
-    my ( $Self ) = @_;
+    my ($Self) = @_;
 
     return $Kernel::OM->Get('Kernel::System::DB')->Rollback();
 }
@@ -879,7 +895,7 @@ sub TestDatabaseCleanup {
     # Get a list of all tables in database.
     my @Tables = $DBObject->ListTables();
 
-    if ( @Tables ) {
+    if (@Tables) {
         my $TableList = join ', ', sort @Tables;
         my $DBType    = $DBObject->{'DB::Type'};
 

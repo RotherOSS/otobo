@@ -79,7 +79,7 @@ sub Run {
     my $SysConfigObject     = $Kernel::OM->Get('Kernel::System::SysConfig');
     my $SysConfigDBObject   = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
-    my $Epoch   = $DateTimeObject->ToEpoch();
+    my $Epoch = $DateTimeObject->ToEpoch();
 
     $CacheObject->Set(
         Type  => 'OTRSMigration',

@@ -374,7 +374,7 @@ sub AlterTableAddColumn {
 
     my %ColumnInfos = %{ $Param{ColumnInfos} };
     my $QuotedTable = $Param{DBObject}->QuoteIdentifier( Table => $Param{Table} );
-    my $SQL = "ALTER TABLE $QuotedTable ADD $Param{Column} $ColumnInfos{DATA_TYPE}";
+    my $SQL         = "ALTER TABLE $QuotedTable ADD $Param{Column} $ColumnInfos{DATA_TYPE}";
 
     if ( $ColumnInfos{LENGTH} ) {
         $SQL .= " \($ColumnInfos{LENGTH}\)";

@@ -282,7 +282,7 @@ sub _CheckConfigpmAndWriteCache {
         Key   => 'OTRSDBSettings',
         Value => {
             DBType     => $CacheOptions{DBType},
-            DBHost     => $CacheOptions{DBHost},   # usually needs to be adapted when running under Docker
+            DBHost     => $CacheOptions{DBHost},         # usually needs to be adapted when running under Docker
             DBUser     => $CacheOptions{DBUser},
             DBPassword => $CacheOptions{DBPassword},
             DBName     => $CacheOptions{DBName},

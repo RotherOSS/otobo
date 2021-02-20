@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use Kernel::System::Valid; ## no critic (Modules::RequireExplicitPackage)
+use Kernel::System::Valid;    ## no critic (Modules::RequireExplicitPackage)
 
-package Kernel::System::Valid; ## no critic (Modules::RequireFilenameMatchesPackage)
+package Kernel::System::Valid;    ## no critic (Modules::RequireFilenameMatchesPackage)
 
 use strict;
 use warnings;

@@ -842,7 +842,7 @@ sub Run {
             # Do not validate only if object type is Article and CreateArticle value is not defined, or Field is invisible.
             if (
                 !( $DynamicFieldConfig->{ObjectType} eq 'Article' && !$GetParam{CreateArticle} )
-                && $Visibility{ 'DynamicField_'.$DynamicFieldConfig->{Name} }
+                && $Visibility{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
                 )
             {
 

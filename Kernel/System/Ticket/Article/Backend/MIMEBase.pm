@@ -1070,7 +1070,7 @@ Write a plain email to storage. This is a delegate method from active backend.
 
 =cut
 
-sub ArticleWritePlain { ## no critic qw(Subroutines::RequireArgUnpacking)
+sub ArticleWritePlain {    ## no critic qw(Subroutines::RequireArgUnpacking)
     my $Self = shift;
 
     return $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticleWritePlain(@_);
@@ -1101,7 +1101,7 @@ Returns:
 =cut
 
 sub ArticlePlain {
-    my ($Self, @Args) = @_;
+    my ( $Self, @Args ) = @_;
 
     return $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticlePlain(@Args);
 }
