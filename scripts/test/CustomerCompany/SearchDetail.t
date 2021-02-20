@@ -475,7 +475,7 @@ my @SearchTests = (
         },
     },
 
-# Nr 11 - search for customer companies with the strings 'A Example text' and string 'Example text' in the text dynamic field.
+    # Nr 11 - search for customer companies with the strings 'A Example text' and string 'Example text' in the text dynamic field.
     {
         Description => "Search for $DynamicFields[0]->{Name} with string 'A Example text' and string 'Example text'",
         SearchData  => {

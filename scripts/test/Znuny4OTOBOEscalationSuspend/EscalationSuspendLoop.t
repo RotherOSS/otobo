@@ -184,7 +184,7 @@ $TicketObject->TicketStateSet(
     UserID   => 1,
 );
 $TicketObject->TicketPendingTimeSet(
-    String   => '2016-04-15 16:52:00',                            # Friday
+    String   => '2016-04-15 16:52:00',    # Friday
     TicketID => $TicketID,
     UserID   => 1,
 );
@@ -292,7 +292,7 @@ $TicketObject->TicketStateSet(
     UserID   => 1,
 );
 $TicketObject->TicketPendingTimeSet(
-    String   => '2016-06-19 08:34:00',                            # Sunday
+    String   => '2016-06-19 08:34:00',    # Sunday
     TicketID => $TicketID,
     UserID   => 1,
 );

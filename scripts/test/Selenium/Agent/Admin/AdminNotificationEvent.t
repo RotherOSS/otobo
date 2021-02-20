@@ -541,8 +541,8 @@ $Selenium->RunTest(
 
         $Selenium->find_element("//p[contains(text(), \'The following Notifications have been updated successfully')]");
 
-       # For English notification text remove button is added.
-       # Notification text it is not shown on add screen if DefaultUsedLanguages has no English included. See bug#14594.
+        # For English notification text remove button is added.
+        # Notification text it is not shown on add screen if DefaultUsedLanguages has no English included. See bug#14594.
         my $NotificationEventObject = $Kernel::OM->Get('Kernel::System::NotificationEvent');
         my $NotificationID          = $NotificationEventObject->NotificationAdd(
             Name => "Notification$Helper->GetRandomID()",

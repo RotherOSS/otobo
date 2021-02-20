@@ -721,11 +721,11 @@ my @Tests = (
                                                 'Key'          => 'Description',
                                                 'Translatable' => '1',
                                                 'ValueContent' =>
-                                                    'Overview of all open Tickets.'   # There are more than 1 attributes
+                                                    'Overview of all open Tickets.'    # There are more than 1 attributes
                                             },
                                             {
                                                 'Key'          => 'NavBar',
-                                                'ValueContent' => 'Ticket'            # There are more than 1 attributes
+                                                'ValueContent' => 'Ticket'             # There are more than 1 attributes
                                             }
                                         ]
                                     }

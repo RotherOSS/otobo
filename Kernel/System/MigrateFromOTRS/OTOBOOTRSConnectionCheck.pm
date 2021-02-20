@@ -244,8 +244,8 @@ sub _CheckConfigpmAndWriteCache {
     my %CacheOptions;
 
     {
-        open my $In, '<', $ConfigFile               ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
-            or return "Can't open $ConfigFile: $!"; ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
+        open my $In, '<', $ConfigFile    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
+            or return "Can't open $ConfigFile: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
 
         CONFIGLINE:
         while (<$In>) {

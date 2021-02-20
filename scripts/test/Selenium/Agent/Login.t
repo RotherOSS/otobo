@@ -25,7 +25,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
 
 our $Self;
 
@@ -161,7 +161,7 @@ $Selenium->RunTest(
             push @SessionIDs, $NewSessionID;
         }
 
- # Create also two webservice session, to check that the sessions are not influence the active sessions and limit check.
+        # Create also two webservice session, to check that the sessions are not influence the active sessions and limit check.
         for my $Counter ( 1 .. 2 ) {
 
             my $NewSessionID = Kernel::GenericInterface::Operation::Session::Common->CreateSessionID(

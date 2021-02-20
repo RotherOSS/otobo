@@ -27,7 +27,7 @@ use List::Util qw();
 
 use Kernel::System::Email::Sendmail;
 
-no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitProlongedStrictureOverride TestingAndDebugging::ProhibitNoStrict)
+no strict 'refs';    ## no critic (TestingAndDebugging::ProhibitProlongedStrictureOverride TestingAndDebugging::ProhibitNoStrict)
 
 my $Home           = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my %SendmailAction = (
