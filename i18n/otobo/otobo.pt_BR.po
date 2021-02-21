@@ -57,7 +57,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-02-10 23:40+0000\n"
+"PO-Revision-Date: 2021-02-22 10:54+0000\n"
 "Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.otobo.org/projects/"
 "otobo10/otobo/pt_BR/>\n"
@@ -9993,7 +9993,7 @@ msgstr "retornar à página anterior"
 
 #. Template: CustomerAccept
 msgid "Mit einem Klick erkläre ich meine Zustimmung."
-msgstr ""
+msgstr "Dou meu consentimento com um clique."
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -10025,7 +10025,7 @@ msgstr "De IDs de Cliente designados."
 
 #. Template: CustomerDashboard
 msgid "Ticket Search"
-msgstr ""
+msgstr "Procurar chamado"
 
 #. Template: CustomerDashboard
 msgid "New Ticket"
@@ -10045,7 +10045,7 @@ msgstr "Rastreamento"
 
 #. Template: CustomerFooter
 msgid "Powered by %s"
-msgstr ""
+msgstr "Desenvolvido por %s"
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -10106,12 +10106,16 @@ msgstr ""
 msgid ""
 "The browser you are using doesn't support css-grid. It's likely too old."
 msgstr ""
+"O navegador que você está usando não oferece suporte a css-grid. "
+"Provavelmente é muito antigo."
 
 #. Template: CustomerLogin
 msgid ""
 "Internet Explorer is functional, but not all features are fully supported. "
 "Please consider updating to a modern browser."
 msgstr ""
+"O Internet Explorer é funcional, mas nem todos os recursos são totalmente "
+"suportados. Considere atualizar para um navegador moderno."
 
 #. Template: CustomerLogin
 msgid "One moment please, you are being redirected..."
@@ -10151,7 +10155,7 @@ msgstr "Entrar"
 
 #. Template: CustomerLogin
 msgid "Request Account"
-msgstr ""
+msgstr "Solicitar conta"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -10197,7 +10201,7 @@ msgstr "Sair"
 
 #. Template: CustomerPassword
 msgid "Change Password"
-msgstr ""
+msgstr "Alterar Senha"
 
 #. Template: CustomerPassword
 msgid ""
@@ -10207,7 +10211,7 @@ msgstr ""
 
 #. Template: CustomerTicketList
 msgid "Nr."
-msgstr ""
+msgstr "N.º"
 
 #. Template: CustomerTicketList
 msgid "Welcome!"
@@ -10215,11 +10219,11 @@ msgstr "Bem-vindo!"
 
 #. Template: CustomerTicketList
 msgid "You have no tickets yet. Please click here, to create a new one."
-msgstr ""
+msgstr "Você ainda não tem chamados. Clique aqui para criar um novo."
 
 #. Template: CustomerTicketList
 msgid "Nothing to show."
-msgstr ""
+msgstr "Nada para exibir."
 
 #. Template: CustomerTicketList
 msgid "Click here for an unfiltered list of all your tickets."
