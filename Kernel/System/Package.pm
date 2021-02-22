@@ -4056,7 +4056,7 @@ Additionally this method creates a backup if needed.
 
 There is also special support for notifying the webserver about new modules
 in the F<Custom/Kernel> folder. These files may override core modules in F<Kernel>,
-but module refreshers like M<Module::Refresh> won't catch this. Therefore
+but module refreshers like L<Module::Refresh> won't catch this. Therefore
 _FileInstall() will touch the core module when it exists.
 
 Return undef on failure, 1 on success.
