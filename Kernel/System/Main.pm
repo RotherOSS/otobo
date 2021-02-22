@@ -116,9 +116,9 @@ sub Require {
 
 =head2 RequireBaseClass()
 
-require/load a module and add it as a base class to the
-calling package, if not already present (this check is needed
-for persistent environments).
+Load a module and check whether the calling package is already a base class of the loaded package.
+If not, add the calling package as a base class of the loaded package.
+The check is necessary for persistent environments.
 
     my $Loaded = $MainObject->RequireBaseClass(
         'Kernel::System::Example',
