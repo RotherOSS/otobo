@@ -79,7 +79,7 @@ sub new {
     return bless {}, $Class;
 }
 
-=head2 SanityChecks
+=head2 SanityChecks()
 
 check several sanity conditions of the source database.
 
@@ -117,7 +117,7 @@ sub SanityChecks {
 
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
-    $Param{Message} ||= $Self->{LanguageObject}->Translate( 'Sanity checks for database.' );
+    $Param{Message} ||= $Self->{LanguageObject}->Translate('Sanity checks for database.');
 
     # check needed stuff
     if ( !$Param{OTRSDBObject} ) {
@@ -146,9 +146,9 @@ sub SanityChecks {
         oracle     => 'DBD::Oracle',
     );
 
-    my $DBType = $SourceDBObject->GetDatabaseFunction( 'Type' ) // '';
+    my $DBType = $SourceDBObject->GetDatabaseFunction('Type') // '';
     my $Module = $DBDModule{$DBType};
-    if ( ! $Module ) {
+    if ( !$Module ) {
         my $Comment = "The source database type $DBType is not supported";
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -163,9 +163,9 @@ sub SanityChecks {
         };
     }
 
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-    my $ModuleIsInstalled = $MainObject->Require( $Module );
-    if ( ! $ModuleIsInstalled ) {
+    my $MainObject        = $Kernel::OM->Get('Kernel::System::Main');
+    my $ModuleIsInstalled = $MainObject->Require($Module);
+    if ( !$ModuleIsInstalled ) {
         my $Comment = "The module $Module is not installed.";
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -182,7 +182,7 @@ sub SanityChecks {
 
     # check connection
     my $DbHandle = $SourceDBObject->Connect();
-    if ( ! $DbHandle ) {
+    if ( !$DbHandle ) {
         my $Comment = 'Could not connect to the source database!';
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -200,7 +200,7 @@ sub SanityChecks {
     my @SourceTables = $SourceDBObject->ListTables();
 
     # no need to migrate when the source has no tables
-    if ( ! @SourceTables ) {
+    if ( !@SourceTables ) {
         my $Comment = 'No tables available in the  source database!';
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -217,7 +217,7 @@ sub SanityChecks {
     SOURCE_TABLE:
     for my $SourceTable (@SourceTables) {
 
-        if ( $TableIsSkipped{ $SourceTable } ) {
+        if ( $TableIsSkipped{$SourceTable} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'info',
                 Message  => "Skipping table $SourceTable on SanityChecks.",
@@ -257,7 +257,7 @@ sub SanityChecks {
     };
 }
 
-=head2 RowCount
+=head2 RowCount()
 
 Get the number of rows in a table.
 
@@ -298,14 +298,14 @@ sub RowCount {
     return $NumRows;
 }
 
-=head2 DataTransfer
+=head2 DataTransfer()
 
 Transfer the actual table data
 
 =cut
 
 sub DataTransfer {
-    my ( $Self, %Param ) = @_; # $Self is  the source db backend
+    my ( $Self, %Param ) = @_;    # $Self is  the source db backend
 
     # check needed parameters
     for my $Needed (qw(OTRSDBObject OTOBODBObject OTOBODBBackend DBInfo)) {
@@ -337,8 +337,8 @@ sub DataTransfer {
     my %BlobConversionNeeded;
 
     # Because of InnodB max key size in MySQL 5.6 or earlier
-    my $MaxMb4CharsInIndexKey     = 191; # int( 767 / 4 )
-    my $MaxLenghtShortenedColumns = 190; # 191 - 1
+    my $MaxMb4CharsInIndexKey     = 191;    # int( 767 / 4 )
+    my $MaxLenghtShortenedColumns = 190;    # 191 - 1
 
     # Use a locking table for avoiding concurrent migrations.
     # Open for writing as the file usually does not exist yet.
@@ -379,17 +379,21 @@ sub DataTransfer {
     my ( $SourceSchema, $TargetSchema );
     {
         if ( $SourceDBObject->{'DB::Type'} eq 'mysql' ) {
-            $SourceSchema = ( $SourceDBObject->SelectAll(
-                SQL   => 'SELECT DATABASE()',
-                Limit => 1,
-            ) // [ [ 'unknown source database' ] ] )->[0]->[0];
+            $SourceSchema = (
+                $SourceDBObject->SelectAll(
+                    SQL   => 'SELECT DATABASE()',
+                    Limit => 1,
+                ) // [ ['unknown source database'] ]
+            )->[0]->[0];
         }
 
         if ( $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
-            $TargetSchema = ( $TargetDBObject->SelectAll(
-                SQL   => 'SELECT DATABASE()',
-                Limit => 1,
-            ) // [ [ 'unknown target database' ] ] )->[0]->[0];
+            $TargetSchema = (
+                $TargetDBObject->SelectAll(
+                    SQL   => 'SELECT DATABASE()',
+                    Limit => 1,
+                ) // [ ['unknown target database'] ]
+            )->[0]->[0];
         }
     }
 
@@ -416,7 +420,7 @@ sub DataTransfer {
         my $TargetTable = $RenameTables{$SourceTable} // $SourceTable;
 
         # Do not migrate tables that not needed on the target
-        if ( ! $TargetTableExists{$TargetTable} ) {
+        if ( !$TargetTableExists{$TargetTable} ) {
 
             # Log info to apache error log and OTOBO log (syslog or file)
             $MigrationBaseObject->MigrationLog(
@@ -453,13 +457,13 @@ sub DataTransfer {
             DBObject => $SourceDBObject,
         );
 
-        if ( ! $SourceColumnsRef || ! $SourceColumnsRef->@* ) {
+        if ( !$SourceColumnsRef || !$SourceColumnsRef->@* ) {
             $MigrationBaseObject->MigrationLog(
                 String   => "Could not get columns of source table '$SourceTable'",
                 Priority => "error",
             );
 
-            return; # bail out
+            return;    # bail out
         }
 
         $AlterSourceSQLs{$SourceTable} //= [];
@@ -467,7 +471,7 @@ sub DataTransfer {
         if ( $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
 
             my @MaybeShortenedColumns;
-            my $DoShorten; # flag used for assembly of $SourceColumnsString
+            my $DoShorten;    # flag used for assembly of $SourceColumnsString
             SOURCE_COLUMN:
             for my $SourceColumn ( $SourceColumnsRef->@* ) {
 
@@ -515,10 +519,11 @@ sub DataTransfer {
                 # The source column might have to be shortened.
                 # In that case add the SUBSTRING() function.
                 push @MaybeShortenedColumns,
-                    $DoShorten ?
-                        "SUBSTRING( $SourceColumn, 1, $MaxLenghtShortenedColumns )"
-                        :
-                        $SourceColumn;
+                    $DoShorten
+                    ?
+                    "SUBSTRING( $SourceColumn, 1, $MaxLenghtShortenedColumns )"
+                    :
+                    $SourceColumn;
             }
 
             # This string might contain some MySQL SUBSTRING() calls
@@ -579,7 +584,7 @@ sub DataTransfer {
         # $DoBatchInsert{$SourceTable} = $BatchInsertIsPossible;
         $DoBatchInsert{$SourceTable} = 0;
 
-        if ( $BatchInsertIsPossible ) {
+        if ($BatchInsertIsPossible) {
 
             # drop foreign keys in the source
             my $SourceForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
@@ -614,7 +619,7 @@ sub DataTransfer {
 
             ROW:
             while ( my @Row = $TargetForeignKeySth->fetchrow_array() ) {
-                my ($PKTableName, $PKColumnName, $FKColumnName, $FKName) = @Row[2, 3, 7, 11];
+                my ( $PKTableName, $PKColumnName, $FKColumnName, $FKName ) = @Row[ 2, 3, 7, 11 ];
 
                 # skip cruft
                 next ROW unless $PKTableName;
@@ -637,13 +642,13 @@ sub DataTransfer {
         # foreign keys.
         my $TrunkateSuccess = $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
 
-        if ( ! $TrunkateSuccess ) {
+        if ( !$TrunkateSuccess ) {
             $MigrationBaseObject->MigrationLog(
                 String   => "Could not truncate target table '$TargetTable'",
                 Priority => "error",
             );
 
-            return; # bail out
+            return;    # bail out
         }
     }
 
@@ -703,7 +708,7 @@ sub DataTransfer {
 
             my %AlreadyExists = map { $_ => 1 } $TargetColumnRef->@*;
 
-            for my $SourceColumn ( grep { ! $AlreadyExists{$_} } @SourceColumns ) {
+            for my $SourceColumn ( grep { !$AlreadyExists{$_} } @SourceColumns ) {
 
                 my $SourceColumnInfos = $Self->GetColumnInfos(
                     Table    => $SourceTable,
@@ -735,7 +740,7 @@ INSERT INTO $TargetSchema.$TargetTable ($TargetColumnsString)
   SELECT $SourceColumnsString{$SourceTable}
     FROM $SourceSchema.$QuotedSourceTable
 END_SQL
-            my $Success = $TargetDBObject->Do( SQL  => $BatchInsertSQL );
+            my $Success = $TargetDBObject->Do( SQL => $BatchInsertSQL );
             if ( !$Success ) {
 
                 # Log info to apache error log and OTOBO log (syslog or file)
@@ -754,8 +759,8 @@ END_SQL
             my ( $SelectSQL, $InsertSQL );
             {
                 my $BindString = join ', ', map {'?'} @SourceColumns;
-                $InsertSQL     = "INSERT INTO $TargetTable ($TargetColumnsString) VALUES ($BindString)";
-                $SelectSQL     = "SELECT $SourceColumnsString{$SourceTable} FROM $QuotedSourceTable";
+                $InsertSQL = "INSERT INTO $TargetTable ($TargetColumnsString) VALUES ($BindString)";
+                $SelectSQL = "SELECT $SourceColumnsString{$SourceTable} FROM $QuotedSourceTable";
             }
 
             # Now fetch all the data and insert it to the target DB.
@@ -794,7 +799,7 @@ END_SQL
 
                 my $Success = $TargetDBObject->Do(
                     SQL  => $InsertSQL,
-                    Bind => [ \( @Row ) ], # reference to an array of references
+                    Bind => [ \(@Row) ],    # reference to an array of references
                 );
 
                 if ( !$Success ) {

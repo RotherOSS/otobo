@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -51,7 +51,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 PUBLIC INTERFACE
 
-=head2 new
+=head2 new()
 
 create an exception object
 
@@ -67,10 +67,10 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # start with a hash containing the params
-    return bless { %Param }, $Type;
+    return bless {%Param}, $Type;
 }
 
-=head2 as_psgi
+=head2 as_psgi()
 
 make use of a caught exception object
 
@@ -78,7 +78,7 @@ make use of a caught exception object
 
 =cut
 
-sub as_psgi { ## no critic qw(OTOBO::RequireCamelCase)
+sub as_psgi {    ## no critic qw(OTOBO::RequireCamelCase)
     my $Self = shift;
 
     # The thrower created the error message
