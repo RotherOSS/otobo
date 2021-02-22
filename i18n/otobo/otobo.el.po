@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-01-19 18:56+0000\n"
+"POT-Creation-Date: 2021-02-12 15:30+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Krikor Maroukian <krikor.maroukian@gmail.com>, 2019\n"
 "Language-Team: Greek (https://translate.otobo.org/projects/otobo10/otobo/el/)\n"
@@ -14349,15 +14349,7 @@ msgid "Migrate web service configuration."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
-msgid "Can't add web service for Elasticsearch. File %s not found!"
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Failed - see the log!"
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
-msgid "Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
@@ -14513,7 +14505,11 @@ msgid "Package not verified by the OTOBO community!"
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
-msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"AllowNotVerifiedPackages\" system configuration setting.</p>"
+msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"Package::AllowNotVerifiedPackages\" system configuration setting.</p>"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "Verification not possible (e.g. no internet connection)!"
 msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
@@ -24728,11 +24724,7 @@ msgstr ""
 #~ msgid "Free Fields"
 #~ msgstr "Ελεύθερα Πεδία"
 
-#. Perl Module: Kernel/System/Package.pm
-msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"Package::AllowNotVerifiedPackages\" system configuration setting.</p>"
-msgstr ""
-
-#. Perl Module: Kernel/System/Package.pm
-msgid "Verification not possible (e.g. no internet connection)!"
+#. SysConfig
+msgid "Whether extended customer information is shown in the ticket print screen of the customer interface."
 msgstr ""
 

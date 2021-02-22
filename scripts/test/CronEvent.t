@@ -475,7 +475,7 @@ my @TestsNextEventList = (
             '2021-03-28 01:20:00',
             '2021-03-28 01:30:00',
             '2021-03-28 01:40:00',
-            '2021-03-28 01:50:00',   # note the switchover
+            '2021-03-28 01:50:00',    # note the switchover
             '2021-03-28 03:00:00',
             '2021-03-28 03:10:00',
             '2021-03-28 03:20:00',
@@ -1010,5 +1010,3 @@ for my $Test (@TestsGenericAgentSchedule2CronTab) {
 }
 
 $Self->DoneTesting();
-
-

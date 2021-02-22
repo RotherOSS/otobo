@@ -1709,7 +1709,4 @@ for my $DynamicFieldID (@AddedFieldIDs) {
 
 # cleanup is done by RestoreDatabase
 
-
 $Self->DoneTesting();
-
-

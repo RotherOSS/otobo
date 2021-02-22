@@ -26,7 +26,7 @@ use File::stat;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::System::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::System::OM
 
 our $Self;
 

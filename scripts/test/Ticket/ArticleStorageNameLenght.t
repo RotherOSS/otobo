@@ -332,7 +332,4 @@ for my $TicketID (@DeleteTicketList) {
     );
 }
 
-
 $Self->DoneTesting();
-
-

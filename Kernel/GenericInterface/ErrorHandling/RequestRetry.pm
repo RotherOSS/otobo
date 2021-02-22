@@ -167,8 +167,7 @@ sub Run {
     # Calculate interval for next execution.
     my $RetryInterval;
     if ( IsStringWithData( $Param{PastExecutionData}->{RetryInterval} ) ) {
-        $RetryInterval
-            = int( $Param{PastExecutionData}->{RetryInterval} * $Param{ModuleConfig}->{RetryIntervalFactor} );
+        $RetryInterval = int( $Param{PastExecutionData}->{RetryInterval} * $Param{ModuleConfig}->{RetryIntervalFactor} );
         if (
             IsStringWithData( $Param{ModuleConfig}->{RetryIntervalMax} )
             && $RetryInterval > $Param{ModuleConfig}->{RetryIntervalMax}

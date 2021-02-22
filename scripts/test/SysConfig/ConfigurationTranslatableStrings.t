@@ -124,7 +124,4 @@ $Self->IsNot(
     "ConfigurationTranslatableStrings() cardinality (Full)",
 );
 
-
 $Self->DoneTesting();
-
-

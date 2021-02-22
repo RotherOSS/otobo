@@ -37,7 +37,7 @@ sub new {
     my ( $Class, %Param ) = @_;
 
     # allocate new hash for object
-    return bless { %Param }, $Class;
+    return bless {%Param}, $Class;
 }
 
 sub LoadPreferences {
@@ -807,8 +807,9 @@ sub Insert {
                 $SQL .= $Self->{'DB::Comment'}
                     . "----------------------------------------------------------\n";
             }
+
             # TODO: might be safer to call $Self->QuoteIndetifier() for quoting the table.
-            #       but beware that $Tag->{Table} might already be quoted. 
+            #       but beware that $Tag->{Table} might already be quoted.
             $SQL .= "INSERT INTO $Tag->{Table} ";
         }
         if ( $Tag->{Tag} eq 'Data' && $Tag->{TagType} eq 'Start' ) {

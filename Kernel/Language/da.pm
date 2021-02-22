@@ -33,7 +33,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.378509982145756;
+    $Self->{Completeness}        = 0.379422265498215;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -359,7 +359,7 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => 'Kontostatus',
-        'Back to overview' => '',
+        'Back to overview' => 'Gå tilbage til oversigt',
         'Filter for Accounts' => 'Filtrer konti',
         'Filter for accounts' => 'Filtrer konti',
         'You can change the sort and order of those columns by clicking on the column header.' =>
@@ -404,7 +404,7 @@ sub Data {
         'Select' => 'Vælg',
         'Search' => 'Søg',
         'Wildcards like \'*\' are allowed.' => 'Jokertegn som \'*\' er tilladt.',
-        'Please enter a search term to look for contacts with data.' => '',
+        'Please enter a search term to look for contacts with data.' => 'Angiv en søgestreng for at finde kontakter.',
         'Valid' => 'Gyldig',
 
         # Template: AdminCustomerCompany
@@ -416,7 +416,7 @@ sub Data {
         'Please enter a search term to look for customers.' => 'Angiv søgeord for at lede efter kunder',
         'Customer ID' => 'Kunde-ID',
         'Please note' => 'Bemærk',
-        'This customer backend is read only!' => '',
+        'This customer backend is read only!' => 'Denne kunde-backend er skrivebeskyttet!',
 
         # Template: AdminCustomerGroup
         'Manage Customer-Group Relations' => 'Administrer Kunde/Gruppe-relationer',
@@ -428,7 +428,7 @@ sub Data {
         'Edit Customer Default Groups' => 'Rediger standardgrupper for kunder',
         'These groups are automatically assigned to all customers.' => 'Disse grupper tildeles automatisk til alle kunder.',
         'You can manage these groups via the configuration setting "CustomerGroupCompanyAlwaysGroups".' =>
-            '',
+            'Du kan administrere disse grupper via konfigurationsindstillingen "CustomerGroupCompanyAlwaysGroups".',
         'Filter for Groups' => 'Filtrer grupper',
         'Select the customer:group permissions.' => 'Vælg kunde:gruppe-tilladelser.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
@@ -454,14 +454,14 @@ sub Data {
         'Edit Customer User' => 'Rediger Kundebruger',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             'Kundebrugere skal oprettes for at få vist kundehistorik og for at kunne logge på i kundepanelet.',
-        'List (%s total)' => '',
+        'List (%s total)' => 'Liste (%s total)',
         'Username' => 'Brugernavn',
         'Email' => 'Mail',
         'Last Login' => 'Seneste login',
         'Login as' => 'Login som',
         'Switch to customer' => 'Skift til kunde',
         'This customer backend is read only, but the customer user preferences can be changed!' =>
-            '',
+            'Denne kunde-backend er skrivebeskyttet, men du kan ændre bruger præferencerne!',
         'This field is required and needs to be a valid email address.' =>
             'Dette felt er kævet og skal være en gyldig mail-adresse.',
         'This email address is not allowed due to the system configuration.' =>
@@ -9199,6 +9199,8 @@ Thanks for your help!
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
+            '',
+        'Whether extended customer information is shown in the ticket print screen of the customer interface.' =>
             '',
         'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
             '',

@@ -274,7 +274,7 @@ sub Translate {
 
     # Expecting that the replacements do not contain a '%'.
     # That the substitutions stop at the first undefined replacement can be considered a bug.
-    for my $Replacement ( @Replacements ) {
+    for my $Replacement (@Replacements) {
         return $Text unless defined $Replacement;
 
         $Text =~ s/\%(?:s|d)/$Replacement/;

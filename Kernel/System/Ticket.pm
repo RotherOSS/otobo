@@ -1211,9 +1211,8 @@ sub TicketGet {
     # check cache
     my $FetchDynamicFields = $Param{DynamicFields} ? 1 : 0;
 
-    my $CacheKey = 'Cache::GetTicket' . $Param{TicketID};
-    my $CacheKeyDynamicFields
-        = 'Cache::GetTicket' . $Param{TicketID} . '::' . $Param{Extended} . '::' . $FetchDynamicFields;
+    my $CacheKey              = 'Cache::GetTicket' . $Param{TicketID};
+    my $CacheKeyDynamicFields = 'Cache::GetTicket' . $Param{TicketID} . '::' . $Param{Extended} . '::' . $FetchDynamicFields;
 
     my $CachedDynamicFields = $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type           => $Self->{CacheType},
@@ -2559,7 +2558,7 @@ sub TicketEscalationIndexBuild {
 
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
-        if ( ! defined $Param{$Needed} ) {
+        if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
@@ -2570,14 +2569,14 @@ sub TicketEscalationIndexBuild {
     }
 
     # extract params
-   my $TicketID = $Param{TicketID};
-   my $UserID   = $Param{UserID};
+    my $TicketID = $Param{TicketID};
+    my $UserID   = $Param{UserID};
 
     my %Ticket = $Self->TicketGet(
         TicketID      => $TicketID,
         UserID        => $UserID,
         DynamicFields => 0,
-        Silent        => 1,                  # Suppress warning if the ticket was deleted in the meantime.
+        Silent        => 1,           # Suppress warning if the ticket was deleted in the meantime.
     );
 
     return unless %Ticket;
@@ -2605,7 +2604,7 @@ sub TicketEscalationIndexBuild {
         ( $Ticket{StateType} && $Ticket{StateType} =~ m/^(merge|close|remove)/i )
         ||
         ( $ConfigObject->Get('EscalationSuspendCancelEscalation') && $SuspendStateActive )
-    )
+        )
     {
 
         # update escalation times with 0
@@ -2627,7 +2626,7 @@ sub TicketEscalationIndexBuild {
         }
 
         # reset escalation time in the ticket table
-        if ( @SetClauses ) {
+        if (@SetClauses) {
             my $UpdateList = join ',', @SetClauses;
             $DBObject->Do(
                 SQL  => "UPDATE ticket SET $UpdateList WHERE id = ?",
@@ -2652,7 +2651,7 @@ sub TicketEscalationIndexBuild {
 
     # update first response (if not responded till now)
     if ( !$Escalation{FirstResponseTime} ) {
-        my $SQL  = "UPDATE ticket SET escalation_response_time = 0 WHERE id = ?";
+        my $SQL = "UPDATE ticket SET escalation_response_time = 0 WHERE id = ?";
         $DBObject->Do(
             SQL  => $SQL,
             Bind => [ \$Ticket{TicketID} ],
@@ -2685,7 +2684,7 @@ sub TicketEscalationIndexBuild {
                 Suspended    => $SuspendStateActive,
             );
 
-            my $SQL  = "UPDATE ticket SET escalation_response_time = ? WHERE id = ?";
+            my $SQL = "UPDATE ticket SET escalation_response_time = ? WHERE id = ?";
             $DBObject->Do(
                 SQL  => $SQL,
                 Bind => [ \$DestinationTime, \$Ticket{TicketID} ],
@@ -2785,7 +2784,7 @@ END_SQL
                 Suspended    => $SuspendStateActive,
             );
 
-            my $SQL  = "UPDATE ticket SET escalation_update_time = ? WHERE id = ?";
+            my $SQL = "UPDATE ticket SET escalation_update_time = ? WHERE id = ?";
             $DBObject->Do(
                 SQL  => $SQL,
                 Bind => [ \$DestinationTime, \$Ticket{TicketID} ],
@@ -2857,7 +2856,7 @@ END_SQL
 
     # update escalation time (< escalation time)
     if ( defined $EscalationTime ) {
-        my $SQL  = "UPDATE ticket SET escalation_time = ? WHERE id = ?";
+        my $SQL = "UPDATE ticket SET escalation_time = ? WHERE id = ?";
         $DBObject->Do(
             SQL  => $SQL,
             Bind => [ \$EscalationTime, \$Ticket{TicketID} ],
@@ -2970,8 +2969,7 @@ sub TicketEscalationSuspendCalculate {
                 $UpdateDiffTime -= $WorkingTime;
             }
             else {
-                my $LoopProtectionMax
-                    = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendLoopProtection') || 500;
+                my $LoopProtectionMax = $Kernel::OM->Get('Kernel::Config')->Get('EscalationSuspendLoopProtection') || 500;
 
                 # target time reached, calculate exact time
                 my $Substract;
@@ -3253,7 +3251,7 @@ sub TicketWorkingTimeSuspendCalculate {
     return $WorkingTimeUnsuspended;
 }
 
-=head2 RebuildEscalationIndex
+=head2 RebuildEscalationIndex()
 
 This method is a helper for the escalation suspend feature.
 It calls the method B<TicketEscalationIndexBuild()> for all tickets that are in
@@ -3281,7 +3279,7 @@ sub RebuildEscalationIndex {
     # get all tickets
     my @TicketIDs = $Self->TicketSearch(
         Result     => 'ARRAY',
-        States     => $EscalationSuspendStates, # restrict to the escalation suspend states
+        States     => $EscalationSuspendStates,    # restrict to the escalation suspend states
         Limit      => 100_000_000,
         UserID     => 1,
         Permission => 'ro',
@@ -5729,8 +5727,7 @@ sub HistoryTicketGet {
         return %{$Cached};
     }
 
-    my $Time
-        = "$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} $Param{StopHour}:$Param{StopMinute}:$Param{StopSecond}";
+    my $Time = "$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} $Param{StopHour}:$Param{StopMinute}:$Param{StopSecond}";
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');

@@ -129,5 +129,3 @@ for my $Test (@Tests) {
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 $Self->DoneTesting();
-
-

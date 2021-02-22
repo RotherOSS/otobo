@@ -165,7 +165,4 @@ $Self->Is(
     "Maint::FormDraft::Delete exit code - with ----object-type option with 'Ticket' value",
 );
 
-
 $Self->DoneTesting();
-
-

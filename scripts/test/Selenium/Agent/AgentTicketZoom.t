@@ -25,7 +25,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::PL
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::PL
 
 our $Self;
 

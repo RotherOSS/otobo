@@ -775,7 +775,7 @@ $Selenium->RunTest(
                 }
                 else {
 
-              # Switch to the "main" window to click the search submit button and switch back to the address book frame.
+                    # Switch to the "main" window to click the search submit button and switch back to the address book frame.
                     $Selenium->switch_to_frame();
                     $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
@@ -1072,7 +1072,4 @@ $Selenium->RunTest(
     }
 );
 
-
 $Self->DoneTesting();
-
-

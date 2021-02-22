@@ -46,8 +46,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2021-01-19 18:56+0000\n"
-"PO-Revision-Date: 2021-02-07 21:07+0000\n"
+"POT-Creation-Date: 2021-02-12 15:30+0000\n"
+"PO-Revision-Date: 2021-02-12 16:16+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/>\n"
 "Language: de\n"
@@ -14382,16 +14382,8 @@ msgid "Migrate web service configuration."
 msgstr "Migration der Webservice-Konfiguration."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
-msgid "Can't add web service for Elasticsearch. File %s not found!"
-msgstr "Kann Webservice für Elasticsearch nicht hinzufügen. Datei %s nicht gefunden!"
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Failed - see the log!"
 msgstr "Fehlgeschlagen – bitte Protokoll prüfen!"
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
-msgid "Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed."
-msgstr "Migration abgeschlossen. Bitte aktivieren Sie den Webservice unter Admin -> Webservice, sobald die Elasticsearch-Installation abgeschlossen ist."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
 msgid "Migrate database table notification."
@@ -14546,8 +14538,12 @@ msgid "Package not verified by the OTOBO community!"
 msgstr "Paket wurde nicht von der OTOBO Community verifiziert!"
 
 #. Perl Module: Kernel/System/Package.pm
-msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"AllowNotVerifiedPackages\" system configuration setting.</p>"
-msgstr "<p>Die Installation von nicht verifizierten Paketen ist deaktiviert. Sie können die Installation nicht-verfizierter Pakete in der Systemkonfiguration über die Einstellung \"AllowNotVerifiedPackages\" aktivieren.</p>"
+msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"Package::AllowNotVerifiedPackages\" system configuration setting.</p>"
+msgstr "<p>Die Installation nicht verifizierter Pakete ist standardmäßig deaktiviert. Sie können diese über die Einstellung \"Package::AllowNotVerifiedPackages\" in der Systemkonfiguration aktivieren.</p>"
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "Verification not possible (e.g. no internet connection)!"
+msgstr "Verifizierung nicht möglich (z. B. keine Internetverbindung)!"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -24732,6 +24728,15 @@ msgstr "umgekehrt"
 msgid "stats"
 msgstr "Stats"
 
+#~ msgid "Can't add web service for Elasticsearch. File %s not found!"
+#~ msgstr "Kann Webservice für Elasticsearch nicht hinzufügen. Datei %s nicht gefunden!"
+
+#~ msgid "Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed."
+#~ msgstr "Migration abgeschlossen. Bitte aktivieren Sie den Webservice unter Admin -> Webservice, sobald die Elasticsearch-Installation abgeschlossen ist."
+
+#~ msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"AllowNotVerifiedPackages\" system configuration setting.</p>"
+#~ msgstr "<p>Die Installation von nicht verifizierten Paketen ist deaktiviert. Sie können die Installation nicht-verfizierter Pakete in der Systemkonfiguration über die Einstellung \"AllowNotVerifiedPackages\" aktivieren.</p>"
+
 #~ msgid "Database is a throwawy copy"
 #~ msgstr "Datenbank ist eine Kopie und kann gelöscht werden"
 
@@ -25289,11 +25294,7 @@ msgstr "Stats"
 #~ msgid "This module is part of the admin area of OTOBO Community Edition."
 #~ msgstr "Diese Modul ist Teil des Admin-Bereichs von OTOBO."
 
-#. Perl Module: Kernel/System/Package.pm
-msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"Package::AllowNotVerifiedPackages\" system configuration setting.</p>"
-msgstr ""
-
-#. Perl Module: Kernel/System/Package.pm
-msgid "Verification not possible (e.g. no internet connection)!"
+#. SysConfig
+msgid "Whether extended customer information is shown in the ticket print screen of the customer interface."
 msgstr ""
 

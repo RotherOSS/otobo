@@ -34,7 +34,4 @@ $Self->Is(
     "Maint::PostMaster::SpoolMailsReprocess exit code",
 );
 
-
 $Self->DoneTesting();
-
-

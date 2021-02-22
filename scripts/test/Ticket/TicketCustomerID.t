@@ -135,7 +135,4 @@ for my $CustomerID (@CustomerCompanyIDs) {
 
 # cleanup is done by RestoreDatabase.
 
-
 $Self->DoneTesting();
-
-

@@ -46,7 +46,4 @@ $Self->Is(
 
 # It is also possible to capture the command output, see test/Console/Command/Maint/Config/Dump.t for an example.
 
-
 $Self->DoneTesting();
-
-

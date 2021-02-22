@@ -87,7 +87,4 @@ $Self->Is(
     "Admin::Package::Upgrade exit code without arguments",
 );
 
-
 $Self->DoneTesting();
-
-

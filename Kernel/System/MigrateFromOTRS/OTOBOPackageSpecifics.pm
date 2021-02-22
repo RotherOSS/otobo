@@ -29,14 +29,16 @@ use parent qw(Kernel::System::MigrateFromOTRS::Base);
 # OTOBO modules
 
 our @ObjectDependencies = (
-    'Kernel::System::DB',
     'Kernel::System::Cache',
+    'Kernel::System::DB',
     'Kernel::System::DateTime',
+    'Kernel::System::FAQ',
+    'Kernel::System::Package',
 );
 
 =head1 NAME
 
-Kernel::System::MigrateFromOTRS::OTOBOResponseTemplatesMigrate - Migrate response table to OTOBO.
+Kernel::System::MigrateFromOTRS::OTOBOPackageSpecifics - Migrate response table to OTOBO.
 
 =head1 SYNOPSIS
 
@@ -70,8 +72,8 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # Set cache object with taskinfo and starttime to show current state in frontend
-    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
-    my $PackageObject  = $Kernel::OM->Get('Kernel::System::Package');
+    my $CacheObject   = $Kernel::OM->Get('Kernel::System::Cache');
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 
     my @SubTasks = (
         {
@@ -80,18 +82,19 @@ sub Run {
             Result      => 'Changed path of inline images.',
             Sub         => \&_FAQ_InlineImg,
         },
-#        {
-#            Package     => 'Name of Package required',
-#            Description => 'What are we doing?',
-#            Result      => 'What was done in case of success.',
-#            Sub         => \&Subroutine,
-#        },
+
+        #        {
+        #            Package     => 'Name of Package required',
+        #            Description => 'What are we doing?',
+        #            Result      => 'What was done in case of success.',
+        #            Sub         => \&Subroutine,
+        #        },
     );
 
     my %Done;
     my %Failed;
     SUBTASK:
-    for my $SubTask ( @SubTasks ) {
+    for my $SubTask (@SubTasks) {
 
         next SUBTASK if !$PackageObject->PackageIsInstalled( Name => $SubTask->{Package} );
 
@@ -106,7 +109,7 @@ sub Run {
             },
         );
 
-        if ( $SubTask->{Sub}->( $Self ) ) {
+        if ( $SubTask->{Sub}->($Self) ) {
             push @{ $Done{ $SubTask->{Package} } }, $SubTask->{Result};
         }
         else {
@@ -120,26 +123,26 @@ sub Run {
         Successful => 1,
     );
 
-    if ( %Done ) {
+    if (%Done) {
         $Result{Comment} = $Self->{LanguageObject}->Translate('Done -');
         for my $Package ( sort keys %Done ) {
             $Result{Comment} .= " $Package:";
-            for my $Task ( @{ $Done{ $Package } } ) {
+            for my $Task ( @{ $Done{$Package} } ) {
                 $Result{Comment} .= " $Task";
             }
         }
     }
 
-    if ( %Failed ) {
+    if (%Failed) {
         $Result{Comment} .= $Result{Comment} ? ' ' : '';
         $Result{Comment} .= $Self->{LanguageObject}->Translate('Failed at -');
         for my $Package ( sort keys %Failed ) {
             $Result{Comment} .= " $Package:";
-            for my $Task ( @{ $Failed{ $Package } } ) {
+            for my $Task ( @{ $Failed{$Package} } ) {
                 $Result{Comment} .= " $Task";
             }
         }
-        
+
         $Result{Successful} = 0;
     }
 
@@ -148,7 +151,7 @@ sub Run {
 
 sub _FAQ_InlineImg {
     my ( $Self, %Param ) = @_;
-    
+
     my %Substitutions = (
         qr/src="\/otrs\/index\.pl/ => 'src="/otobo/index.pl',
     );
@@ -163,7 +166,7 @@ sub _FAQ_InlineImg {
     my $Success = 1;
 
     FAQ:
-    for my $FAQID ( @FAQIDs ) {
+    for my $FAQID (@FAQIDs) {
         my %FAQ = $FAQObject->FAQGet(
             ItemID     => $FAQID,
             ItemFields => 1,
@@ -172,7 +175,7 @@ sub _FAQ_InlineImg {
 
         my $Substituded = 0;
 
-        for my $i ( 1..6 ) {
+        for my $i ( 1 .. 6 ) {
             for my $RegEx ( keys %Substitutions ) {
                 $Substituded = 1 if ( $FAQ{"Field$i"} && $FAQ{"Field$i"} =~ s/$RegEx/$Substitutions{ $RegEx }/ );
             }

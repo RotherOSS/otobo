@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.397175783152086;
+    $Self->{Completeness}        = 0.440928270042194;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -92,7 +92,7 @@ sub Data {
         'Change settings' => 'Changer les paramètres',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Établir le changement souhaité si le critère correspond. Garder en tête que "Possible" est une liste blanche, "PossibleNot" est une liste noire.',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => 'Vérifier la documentation officielle.',
         'Show or hide the content' => 'Montrer ou cacher le contenu',
         'Edit ACL Information' => 'Éditer les informations de l\'ACL',
         'Name' => 'Nom',
@@ -171,9 +171,9 @@ sub Data {
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             'Si le calendrier désiré n\'est pas listé ici, merci de vous assurer que vous disposez des permissions "créer".',
         'Upload' => 'Envoyer',
-        'Update existing appointments?' => 'Mettre à jour les rendez-vous existants ? ',
+        'Update existing appointments?' => 'Mettre à jour les rendez-vous existants ?',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
-            'Tous les rendez-vous existants dans le calendrier avec le même ID seront remplacés',
+            'Tous les rendez-vous existants dans le calendrier avec le même ID seront remplacés.',
         'Upload calendar' => 'Téléverser le calendrier',
         'Import appointments' => 'Importer les rendez-vous',
 
@@ -186,7 +186,7 @@ sub Data {
         'Filter for notifications' => 'filtre pour les notifications',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
             'Ici vous pouvez téléverser un fichier de configuration pour importer les notifications de rendez-vous vers votre système. Le fichier doit être au format .yml comme celui exporté par le module de notification de rendez-vous.',
-        'Overwrite existing notifications?' => 'Écraser les notifications existantes ? ',
+        'Overwrite existing notifications?' => 'Écraser les notifications existantes ?',
         'Upload Notification configuration' => 'Téléverser la configuration de notification',
         'Import Notification configuration' => 'Importer la configuration de notification',
         'List' => 'Lister',
@@ -200,7 +200,7 @@ sub Data {
         'Events' => 'Évènements',
         'Event' => 'Évènement',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
-            'Vous pouvez choisir ici quel événement déclenchera cette notification. Un filtre de rendez-vous supplémentaire peut être appliqué ci dessous pour envoyer les rendez vous uniquement selon certains critères. ',
+            'Vous pouvez choisir ici quel événement déclenchera cette notification. Un filtre de rendez-vous supplémentaire peut être appliqué ci dessous pour envoyer les rendez vous uniquement selon certains critères.',
         'Appointment Filter' => 'Filtre de rendez-vous',
         'Type' => 'Type',
         'Title' => 'Titre',
@@ -213,7 +213,7 @@ sub Data {
         'Send to all group members (agents only)' => 'Envoyer à tous les membres du groupe (agents seulement)',
         'Send to all role members' => 'Envoyer à tous les membres du rôle',
         'Send on out of office' => 'Envoyer lorsqu\'absent du bureau',
-        'Also send if the user is currently out of office.' => 'Envoyer même si l\'utilisateur est défini comme absent',
+        'Also send if the user is currently out of office.' => 'Envoyer même si l\'utilisateur est défini comme absent.',
         'Once per day' => 'Un par jour',
         'Notify user just once per day about a single appointment using a selected transport.' =>
             'Notifie l\'utilisateur juste une fois par jour par un seul rendez vous en utilisant le transport désiré.',
@@ -241,18 +241,18 @@ sub Data {
         'Add new notification language' => 'Ajouter une nouvelle notification de langue',
         'Save Changes' => 'Enregistrer les modifications',
         'Tag Reference' => 'Référence du tag',
-        'Notifications are sent to an agent.' => 'Les notifications sont envoyés à un agent',
+        'Notifications are sent to an agent.' => 'Les notifications sont envoyés à un agent.',
         'You can use the following tags' => 'Vous pouvez utiliser les tags suivants',
         'To get the first 20 character of the appointment title.' => 'Pour avoir les 20 premiers caractères du titre d\'un rendez-vous.',
         'To get the appointment attribute' => 'Pour avoir l\'attribut d\'un rendez-vous',
         ' e. g.' => 'p. ex.',
         'To get the calendar attribute' => 'Pour avoir l\'attribut du calendrier',
-        'Attributes of the recipient user for the notification' => 'Caractéristiques du destinataire pour les notifications.',
+        'Attributes of the recipient user for the notification' => 'Caractéristiques du destinataire pour les notifications',
         'Config options' => 'Options de configuration',
         'Example notification' => 'Exemple de notification',
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
-        'Additional recipient email addresses' => 'Adresses de courriel supplémentaires pour les destinataires.',
+        'Additional recipient email addresses' => 'Adresses de courriel supplémentaires pour les destinataires',
         'This field must have less then 200 characters.' => 'Ce champ doit contenir moins de 200 caractères.',
         'Article visible for customer' => 'Article visible pour le client',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
@@ -307,22 +307,22 @@ sub Data {
         'Hint' => 'Conseil',
         'Currently support data is only shown in this system.' => 'Actuellement les données de support sont uniquement disponible sur ce système.',
         'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
-            '',
+            'Il est recommandé d\'envoyer de temps en temps cette donnée à l\'équipe OTOBO dans le but d\'avoir un meilleur support.',
         'Configuration' => 'Configuration',
         'Send support data' => 'Envoyer les données de support',
         'This will allow the system to send additional support data information to the OTOBO team.' =>
-            '',
+            'Cela autorisera le système à envoyer des informations supplémentaires à l\'équipe OTOBO.',
         'Update' => 'Mettre à jour',
         'System Registration' => 'Enregistrement du système',
         'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '',
+            'Pour permettre l\'envoi des données, enregistrez votre système à l\'équipe OTOBO or mettez à jour les informations d\'enregistrement de votre système (activez l\'option "envoi de données au support".)',
         'Register this System' => 'Enregistrer ce système',
         'System Registration is disabled for your system. Please check your configuration.' =>
-            'L\'enregistrement est désactivé pour votre système. Veuillez vérifier votre configuration. ',
+            'L\'enregistrement est désactivé pour votre système. Veuillez vérifier votre configuration.',
 
         # Template: AdminCloudServices
         'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
-            '',
+            'L\'enregistrement du système est un service de l\'équipe OTOBO, qui donne beaucoup d\'avantages !',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             'L\'utilisation des services de cloud OTOBO nécessitent d\'enregistrer le système.',
         'Register this system' => 'Enregistrer ce système',
@@ -332,10 +332,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => 'Journal d’événements des notifications',
-        'Time Range' => '',
+        'Time Range' => 'Intervalle de temps',
         'Show only communication logs created in specific time range.' =>
             'Afficher uniquement les logs de communication créés pendant un intervalle de temps spécifique.',
-        'Filter for Communications' => '',
+        'Filter for Communications' => 'Filtre pour les Communications',
         'Filter for communications' => 'Filtre pour les communications',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             'Dans cet écran vous pouvez voir une synthèse des communications entrantes et sortantes.',
@@ -3806,7 +3806,7 @@ sub Data {
         'Transport sending outgoing response data' => '',
         'skip same backend modules only' => '',
         'skip all modules' => '',
-        'Operation deleted' => '',
+        'Operation deleted' => 'Opération supprimée',
         'Invoker deleted' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
@@ -3822,38 +3822,38 @@ sub Data {
         '10 minutes' => '10 minutes',
         '15 minutes' => '15 minutes',
         '30 minutes' => '',
-        '1 hour' => '',
-        '2 hours' => '',
-        '3 hours' => '',
-        '4 hours' => '',
-        '5 hours' => '',
-        '6 hours' => '',
-        '12 hours' => '',
-        '18 hours' => '',
-        '1 day' => '',
-        '2 days' => '',
-        '3 days' => '',
-        '4 days' => '',
-        '6 days' => '',
-        '1 week' => '',
+        '1 hour' => '1 heure',
+        '2 hours' => '2 heures',
+        '3 hours' => '3 heures',
+        '4 hours' => '4 heures',
+        '5 hours' => '5 heures',
+        '6 hours' => '6 heures',
+        '12 hours' => '12 heures',
+        '18 hours' => '18 heures',
+        '1 day' => '1 jour',
+        '2 days' => '2 jours',
+        '3 days' => '3 jours',
+        '4 days' => '4 jours',
+        '6 days' => '6 jours',
+        '1 week' => '1 semaine',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
         'Could not determine config for invoker %s' => '',
-        'InvokerType %s is not registered' => '',
-        'MappingType %s is not registered' => '',
+        'InvokerType %s is not registered' => 'InvokerType %s n\'est pas enregistré',
+        'MappingType %s is not registered' => 'MappingType %s n\'est pas enregistré',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => '',
         'Need Event!' => '',
         'Could not get registered modules for Invoker' => '',
         'Could not get backend for Invoker %s' => '',
-        'The event %s is not valid.' => '',
+        'The event %s is not valid.' => 'L\'événement %s n\'est pas valide.',
         'Could not update configuration data for WebserviceID %s' => '',
         'This sub-action is not valid' => '',
-        'xor' => '',
+        'xor' => 'xor',
         'String' => '',
         'Regexp' => '',
-        'Validation Module' => '',
+        'Validation Module' => 'Module de validation',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
         'Simple Mapping for Outgoing Data' => '',
@@ -3895,21 +3895,21 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
         'Need valid Subaction!' => '',
         'This field should be an integer.' => '',
-        'File or Directory not found.' => '',
+        'File or Directory not found.' => 'Fichier ou dossier non trouvé.',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
-        'There is another web service with the same name.' => '',
-        'There was an error updating the web service.' => '',
-        'There was an error creating the web service.' => '',
-        'Web service "%s" created!' => '',
-        'Need Name!' => '',
+        'There is another web service with the same name.' => 'Il y a un autre service web avec le même nom.',
+        'There was an error updating the web service.' => 'Il y a eu une erreur en mettant à jour le service web.',
+        'There was an error creating the web service.' => 'Il y a eu une erreur en créant le service web.',
+        'Web service "%s" created!' => 'Le service web "%s" a été créé !',
+        'Need Name!' => 'Nom requis !',
         'Need ExampleWebService!' => '',
         'Could not load %s.' => '',
         'Could not read %s!' => '',
-        'Need a file to import!' => 'Besoin d\'importer un fichier!',
+        'Need a file to import!' => 'Besoin d\'importer un fichier !',
         'The imported file has not valid YAML content! Please check OTOBO log for details' =>
-            'Le contenu du fichier importé n\'est pas en format "YAML" valide. Veuillez vérifier le journal de OTOBO pour des détailles.',
-        'Web service "%s" deleted!' => '',
+            'Le contenu du fichier importé n\'est pas en format "YAML" valide. Veuillez vérifier le journal de OTOBO pour des détails',
+        'Web service "%s" deleted!' => 'Le service web "%s" a été supprimé !',
         'OTOBO as provider' => 'OTOBO, fournisseur',
         'Operations' => '',
         'OTOBO as requester' => 'OTOBO, demandeur',
@@ -3931,23 +3931,23 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'Agent who created the ticket' => '',
-        'Agent who owns the ticket' => '',
-        'Agent who is responsible for the ticket' => '',
-        'All agents watching the ticket' => '',
-        'All agents with write permission for the ticket' => '',
-        'All agents subscribed to the ticket\'s queue' => '',
-        'All agents subscribed to the ticket\'s service' => '',
+        'Agent who owns the ticket' => 'L\'agent qui est propriétaire du ticket',
+        'Agent who is responsible for the ticket' => 'L\'agent qui est responsable du ticket',
+        'All agents watching the ticket' => 'Tous les agents en observation du ticket',
+        'All agents with write permission for the ticket' => 'Tous les agents avec le droit d\'écriture pour le ticket',
+        'All agents subscribed to the ticket\'s queue' => 'Tous les agents souscrits à la file de tickets',
+        'All agents subscribed to the ticket\'s service' => 'Tous les agents souscrits au service des tickets',
         'All agents subscribed to both the ticket\'s queue and service' =>
-            '',
-        'Customer user of the ticket' => '',
-        'All recipients of the first article' => '',
-        'All recipients of the last article' => '',
-        'Invisible to customer' => '',
-        'Visible to customer' => '',
+            'Tous les agents souscrits à la file et service des tickets',
+        'Customer user of the ticket' => 'Utilisateur client du ticket',
+        'All recipients of the first article' => 'Tous les destinataires du premier article',
+        'All recipients of the last article' => 'Tous les destinataires du dernier article',
+        'Invisible to customer' => 'Invisible par client',
+        'Visible to customer' => 'Visible par le client',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
-            '',
+            'L\'environnement PGP ne fonctionne pas. Allez voir les logs pour plus d\'informations !',
         'Need param Key to delete!' => '',
         'Key %s deleted!' => '',
         'Need param Key to download!' => '',
@@ -3959,38 +3959,38 @@ sub Data {
         'No such file %s in package!' => '',
         'No such file %s in local file system!' => '',
         'Can\'t read %s!' => '',
-        'File is OK' => '',
-        'Package has locally modified files.' => '',
-        'Package not verified by the OTOBO Team!' => '',
-        'Not Started' => '',
-        'Updated' => '',
-        'Already up-to-date' => '',
-        'Installed' => '',
-        'Not correctly deployed' => '',
-        'Package updated correctly' => '',
-        'Package was already updated' => '',
-        'Dependency installed correctly' => '',
-        'The package needs to be reinstalled' => '',
+        'File is OK' => 'Le fichier est OK',
+        'Package has locally modified files.' => 'Le paquet a localement modifié les fichiers.',
+        'Package not verified by the OTOBO Team!' => 'Le paquet n\'a pas été vérifié par l\'équipe OTOBO !',
+        'Not Started' => 'Pas commencé',
+        'Updated' => 'Mis à jour',
+        'Already up-to-date' => 'Déjà à jour',
+        'Installed' => 'Installé',
+        'Not correctly deployed' => 'Pas correctement déployé',
+        'Package updated correctly' => 'Le paquet a été mis à jour avec succès',
+        'Package was already updated' => 'Le paquet a déjà été mis à jour',
+        'Dependency installed correctly' => 'Les dépendances ont été installés correctement',
+        'The package needs to be reinstalled' => 'Le paquet a besoin d\'être ré-installé',
         'The package contains cyclic dependencies' => '',
         'Not found in on-line repositories' => '',
-        'Required version is higher than available' => '',
-        'Dependencies fail to upgrade or install' => '',
-        'Package could not be installed' => '',
-        'Package could not be upgraded' => '',
+        'Required version is higher than available' => 'La version requise est plus élevé que celle disponible',
+        'Dependencies fail to upgrade or install' => 'Les dépendances n\'ont pas pu être mises à jour ou installées',
+        'Package could not be installed' => 'Le paquet pourrait ne pas installé',
+        'Package could not be upgraded' => 'Le paquet pourrait ne pas être mis à jour',
         'Repository List' => '',
         'No packages found in selected repository. Please check log for more info!' =>
             '',
         'Package not verified due a communication issue with verification server!' =>
-            '',
+            'Le paquet n\'a pas été vérifié à cause d\'un problème de communication avec le serveur de vérification !',
         'Can\'t connect to OTOBO Feature Add-on list server!' => '',
         'Can\'t get OTOBO Feature Add-on list from server!' => '',
         'Can\'t get OTOBO Feature Add-on from server!' => '',
 
         # Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
-        'No such filter: %s' => '',
+        'No such filter: %s' => 'Pas de filtre : %s',
 
         # Perl Module: Kernel/Modules/AdminPriority.pm
-        'Priority added!' => 'Priorité ajoutée!',
+        'Priority added!' => 'Priorité ajoutée !',
 
         # Perl Module: Kernel/Modules/AdminProcessManagement.pm
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
@@ -4009,8 +4009,8 @@ sub Data {
         'There was an error updating the Process' => '',
         'Process: %s could not be deleted' => '',
         'There was an error synchronizing the processes.' => '',
-        'The %s:%s is still in use' => '',
-        'The %s:%s has a different EntityID' => '',
+        'The %s:%s is still in use' => 'Le %s : %s est encore utilisé',
+        'The %s:%s has a different EntityID' => 'Le %s : %s a un EntityID différent',
         'Could not delete %s:%s' => '',
         'There was an error setting the entity sync status for %s entity: %s' =>
             '',
@@ -4024,15 +4024,15 @@ sub Data {
         'There was an error creating the Activity' => '',
         'There was an error setting the entity sync status for Activity entity: %s' =>
             '',
-        'Need ActivityID!' => '',
+        'Need ActivityID!' => 'ActivityID requis !',
         'Could not get data for ActivityID %s' => '',
         'There was an error updating the Activity' => '',
         'Missing Parameter: Need Activity and ActivityDialog!' => '',
-        'Activity not found!' => '',
-        'ActivityDialog not found!' => '',
+        'Activity not found!' => 'Activité non trouvée !',
+        'ActivityDialog not found!' => 'ActivityDialog non trouvé !',
         'ActivityDialog already assigned to Activity. You cannot add an ActivityDialog twice!' =>
-            '',
-        'Error while saving the Activity to the database!' => '',
+            'ActivityDialog déjà assigné à une Activité. Vous ne pouvez pas ajouter un ActivityDialog 2 fois !',
+        'Error while saving the Activity to the database!' => 'Erreur durant la sauvegarde de l\'Activité dans la base de données !',
         'This subaction is not valid' => '',
         'Edit Activity "%s"' => '',
 
@@ -4050,11 +4050,11 @@ sub Data {
         'Customer Interface' => '',
         'Agent and Customer Interface' => '',
         'Do not show Field' => '',
-        'Show Field' => '',
-        'Show Field As Mandatory' => '',
+        'Show Field' => 'Montrez le champ',
+        'Show Field As Mandatory' => 'Montrez le champ comme obligatoire',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
-        'Edit Path' => '',
+        'Edit Path' => 'Editez le chemin',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
         'There was an error generating a new EntityID for this Transition' =>
@@ -4075,15 +4075,15 @@ sub Data {
         'There was an error creating the TransitionAction' => '',
         'There was an error setting the entity sync status for TransitionAction entity: %s' =>
             '',
-        'Need TransitionActionID!' => '',
+        'Need TransitionActionID!' => 'TransitionActionID requis !',
         'Could not get data for TransitionActionID %s' => '',
         'There was an error updating the TransitionAction' => '',
         'Edit Transition Action "%s"' => '',
         'Error: Not all keys seem to have values or vice versa.' => '',
 
         # Perl Module: Kernel/Modules/AdminQueue.pm
-        'Queue updated!' => 'File mise à jour!',
-        'Don\'t use :: in queue name!' => '',
+        'Queue updated!' => 'File mise à jour !',
+        'Don\'t use :: in queue name!' => 'Ne pas utiliser :: dans un nom de file !',
         'Click back and change it!' => '',
         '-none-' => '-aucun-',
 
@@ -4109,7 +4109,7 @@ sub Data {
         'Change Role Relations for Group' => 'Modifier les relations des rôles pour un groupe',
 
         # Perl Module: Kernel/Modules/AdminRoleUser.pm
-        'Role' => '',
+        'Role' => 'Rôle',
         'Change Role Relations for Agent' => 'Changer les rôles pour un opérateur',
         'Change Agent Relations for Role' => 'Changer les opérateurs pour un rôle ',
 
@@ -4150,7 +4150,7 @@ sub Data {
         'System e-mail address added!' => 'Adresse e-mail système ajoutée !',
 
         # Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
-        'Invalid Settings' => '',
+        'Invalid Settings' => 'Paramètres invalides',
         'There are no invalid settings active at this time.' => '',
         'You currently don\'t have any favourite settings.' => '',
         'The following settings could not be found: %s' => '',
@@ -4176,9 +4176,9 @@ sub Data {
         'Missing ResetOptions!' => '',
         'System was not able to lock the setting!' => '',
         'System was unable to update setting!' => '',
-        'Missing setting name.' => '',
-        'Setting not found.' => '',
-        'Missing Settings!' => '',
+        'Missing setting name.' => 'Nom du paramètre manquant.',
+        'Setting not found.' => 'Paramètre non trouvé.',
+        'Missing Settings!' => 'Paramètres manquant !',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
         'No setting name received!' => '',
@@ -4199,7 +4199,7 @@ sub Data {
         'Could not get data for SystemMaintenanceID %s' => '',
         'System Maintenance was added successfully!' => '',
         'System Maintenance was updated successfully!' => '',
-        'Session has been killed!' => '',
+        'Session has been killed!' => 'La session a été interrompue !',
         'All sessions have been killed, except for your own.' => 'Toutes les sessions ont été détruites, exceptée la vôtre. ',
         'There was an error updating the System Maintenance' => '',
         'Was not possible to delete the SystemMaintenance entry: %s!' => '',
@@ -4214,10 +4214,10 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminType.pm
         'Need Type!' => '',
-        'Type added!' => 'Type ajouté!',
+        'Type added!' => 'Type ajouté !',
 
         # Perl Module: Kernel/Modules/AdminUser.pm
-        'Agent updated!' => 'Information de l\'opérateur mises à jour',
+        'Agent updated!' => 'Information de l\'opérateur mises à jour !',
 
         # Perl Module: Kernel/Modules/AdminUserGroup.pm
         'Change Group Relations for Agent' => 'Changer les relations de groupe pour l\'opérateur : ',
@@ -4225,43 +4225,43 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentAppointmentAgendaOverview.pm
         'Month' => 'Mois',
-        'Week' => '',
+        'Week' => 'Semaine',
         'Day' => 'Jour',
 
         # Perl Module: Kernel/Modules/AgentAppointmentCalendarOverview.pm
-        'All appointments' => '',
-        'Appointments assigned to me' => '',
-        'Showing only appointments assigned to you! Change settings' => '',
+        'All appointments' => 'Tous les rendez-vous',
+        'Appointments assigned to me' => 'Tous les rendez-vous qui me sont assignés',
+        'Showing only appointments assigned to you! Change settings' => 'Montrez seulement les rendez-vous qui me sont assignés ! Changement des paramètres',
 
         # Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
-        'Appointment not found!' => '',
-        'Never' => '',
-        'Every Day' => '',
-        'Every Week' => '',
-        'Every Month' => '',
-        'Every Year' => '',
+        'Appointment not found!' => 'Rendez-vous non trouvé !',
+        'Never' => 'Jamais',
+        'Every Day' => 'Chaque jour',
+        'Every Week' => 'Chaque semaine',
+        'Every Month' => 'Chaque mois',
+        'Every Year' => 'Chaque année',
         'Custom' => '',
-        'Daily' => '',
-        'Weekly' => '',
-        'Monthly' => '',
-        'Yearly' => '',
-        'every' => '',
+        'Daily' => 'Quotidien',
+        'Weekly' => 'Hebdomadaire',
+        'Monthly' => 'Mensuel',
+        'Yearly' => 'Annuel',
+        'every' => 'chaque',
         'for %s time(s)' => '',
-        'until ...' => '',
+        'until ...' => 'jusqu\'à ...',
         'for ... time(s)' => '',
-        'until %s' => '',
-        'No notification' => '',
-        '%s minute(s) before' => '',
-        '%s hour(s) before' => '',
-        '%s day(s) before' => '',
-        '%s week before' => '',
-        'before the appointment starts' => '',
-        'after the appointment has been started' => '',
-        'before the appointment ends' => '',
-        'after the appointment has been ended' => '',
-        'No permission!' => '',
+        'until %s' => 'jusqu\'à %s',
+        'No notification' => 'Pas de notification',
+        '%s minute(s) before' => '%s minute(s) avant',
+        '%s hour(s) before' => '%s hour(s) avant',
+        '%s day(s) before' => '%s day(s) avant',
+        '%s week before' => '%s semaine avant',
+        'before the appointment starts' => 'avant que le rendez-vous commence',
+        'after the appointment has been started' => 'après que le rendez-vous soit commencé',
+        'before the appointment ends' => 'avant que le rendez-vous se termine',
+        'after the appointment has been ended' => 'après que le rendez-vous soit terminé',
+        'No permission!' => 'Pas les droits !',
         'Cannot delete ticket appointment!' => '',
-        'No permissions!' => '',
+        'No permissions!' => 'Pas les droits !',
 
         # Perl Module: Kernel/Modules/AgentAppointmentList.pm
         '+%s more' => '',
@@ -4275,41 +4275,41 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
         'No such config for %s' => '',
         'Statistic' => '',
-        'No preferences for %s!' => '',
+        'No preferences for %s!' => 'Pas de préférences pour %s !',
         'Can\'t get element data of %s!' => '',
         'Can\'t get filter content data of %s!' => '',
-        'Customer Name' => '',
-        'Customer User Name' => '',
+        'Customer Name' => 'Nom du Client',
+        'Customer User Name' => 'Nom d\'utilisateur du client',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
-        'Need SourceObject and SourceKey!' => '',
-        'You need ro permission!' => '',
-        'Can not delete link with %s!' => '',
-        '%s Link(s) deleted successfully.' => '',
-        'Can not create link with %s! Object already linked as %s.' => '',
-        'Can not create link with %s!' => '',
+        'Need SourceObject and SourceKey!' => 'SourceObject et SourceKey requis !',
+        'You need ro permission!' => 'Vous avez besoin du droit de lecture !',
+        'Can not delete link with %s!' => 'Ne peut pas supprimer le lien avec %s !',
+        '%s Link(s) deleted successfully.' => '%s Liens supprimés avec succès.',
+        'Can not create link with %s! Object already linked as %s.' => 'Ne peut pas créer le lien avec %s ! L\'objet est déjà lié en tant que %s.',
+        'Can not create link with %s!' => 'Ne peut pas créer le lien avec %s !',
         '%s links added successfully.' => '',
-        'The object %s cannot link with other object!' => '',
+        'The object %s cannot link with other object!' => 'L\'objet %s ne peut pas être lié avec un autre objet !',
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => '',
-        'This feature is not available.' => '',
-        'Updated user preferences' => '',
-        'System was unable to deploy your changes.' => '',
-        'Setting not found!' => '',
-        'System was unable to reset the setting!' => '',
+        'This feature is not available.' => 'Cette fonctionnalité n\'est pas disponible.',
+        'Updated user preferences' => 'Les préférences utilisateur mises à jour',
+        'System was unable to deploy your changes.' => 'Le système n\'a pas été capable de déployer vos changements.',
+        'Setting not found!' => 'Paramètre non trouvé !',
+        'System was unable to reset the setting!' => 'Le système a été incapable de réinitialiser le paramètre !',
 
         # Perl Module: Kernel/Modules/AgentSplitSelection.pm
         'Process ticket' => '',
 
         # Perl Module: Kernel/Modules/AgentStatistics.pm
-        'Parameter %s is missing.' => '',
+        'Parameter %s is missing.' => 'Le paramètre %s est manquant.',
         'Invalid Subaction.' => '',
         'Statistic could not be imported.' => 'Statistique n\'a pas pu être importé.',
-        'Please upload a valid statistic file.' => '',
-        'Export: Need StatID!' => '',
-        'Delete: Get no StatID!' => '',
-        'Need StatID!' => '',
+        'Please upload a valid statistic file.' => 'Ajoutez un fichier de statistique valide.',
+        'Export: Need StatID!' => 'Export : StatID requis !',
+        'Delete: Get no StatID!' => 'Supprimer : Pas de StatID !',
+        'Need StatID!' => 'StatID requis !',
         'Could not load stat.' => '',
         'Add New Statistic' => 'Ajout une nouvelle statistique',
         'Could not create statistic.' => '',
@@ -4326,8 +4326,8 @@ sub Data {
         'Draft name is required!' => '',
         'FormDraft name %s is already in use!' => '',
         'Could not perform validation on field %s!' => '',
-        'No subject' => '',
-        'Could not delete draft!' => '',
+        'No subject' => 'Pas de sujet',
+        'Could not delete draft!' => 'Impossible de supprimer le brouillon !',
         'Previous Owner' => 'Propriétaire Précédent',
         'wrote' => 'a écrit',
         'Message from' => 'Message de',
@@ -4338,24 +4338,24 @@ sub Data {
         'Plain article not found for article %s!' => '',
         'Article does not belong to ticket %s!' => '',
         'Can\'t bounce email!' => '',
-        'Can\'t send email!' => '',
+        'Can\'t send email!' => 'Impossible d\'envoyer le mail !',
         'Wrong Subaction!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
-        'Can\'t lock Tickets, no TicketIDs are given!' => '',
-        'Ticket (%s) is not unlocked!' => '',
+        'Can\'t lock Tickets, no TicketIDs are given!' => 'Impossible de bloquer les tickets, aucun TicketIDs fournis !',
+        'Ticket (%s) is not unlocked!' => 'Ticket (%s) n\'est pas débloqué !',
         'The following tickets were ignored because they are locked by another agent or you don\'t have write access to tickets: %s.' =>
-            '',
+            'Les tickets suivants ont été ignorés parce qu\'ils sont bloqués par un autre agent ou vous n\'avez pas l\'accès en écriture aux tickets : %s.',
         'The following ticket was ignored because it is locked by another agent or you don\'t have write access to ticket: %s.' =>
-            '',
-        'You need to select at least one ticket.' => '',
+            'Le ticket suivant a été ignoré parce qu\'il a été bloqué par un autre agent ou vous n\'avez pas les droits d\'écriture sur le ticket : %s.',
+        'You need to select at least one ticket.' => 'Vous devez sélectionner au moins un ticket.',
         'Bulk feature is not enabled!' => '',
         'No selectable TicketID is given!' => '',
         'You either selected no ticket or only tickets which are locked by other agents.' =>
             '',
         'The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.' =>
-            '',
-        'The following tickets were locked: %s.' => '',
+            'Les tickets suivants ont été ignorés parce qu\'ils sont bloqués par un autre agent ou vous n\'avez pas l\'accès en écriture aux tickets : %s.',
+        'The following tickets were locked: %s.' => 'Les tickets suivants ont été bloqués : %s.',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
         'Article subject will be empty if the subject contains only the ticket hook!' =>
@@ -4369,29 +4369,29 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
         'Got no TicketID!' => '',
-        'System Error!' => '',
+        'System Error!' => 'Erreur du système !',
 
         # Perl Module: Kernel/Modules/AgentTicketEmailResend.pm
-        'No ArticleID is given!' => '',
+        'No ArticleID is given!' => 'Aucun ArticleID donné !',
 
         # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
         'Next week' => 'Semaine prochaine',
         'Ticket Escalation View' => 'Vue des remontées du ticket',
 
         # Perl Module: Kernel/Modules/AgentTicketForward.pm
-        'Article %s could not be found!' => '',
+        'Article %s could not be found!' => 'L\'article %s n\'a pas été trouvé !',
         'Forwarded message from' => 'Message transféré par',
         'End forwarded message' => 'Fin du message tranféré',
 
         # Perl Module: Kernel/Modules/AgentTicketHistory.pm
-        'Can\'t show history, no TicketID is given!' => '',
+        'Can\'t show history, no TicketID is given!' => 'Impossible de monter l\'historique, aucun TicketID fourni !',
 
         # Perl Module: Kernel/Modules/AgentTicketLock.pm
         'Can\'t lock Ticket, no TicketID is given!' => '',
-        'Sorry, the current owner is %s!' => '',
-        'Please become the owner first.' => '',
-        'Ticket (ID=%s) is locked by %s!' => '',
-        'Change the owner!' => '',
+        'Sorry, the current owner is %s!' => 'Désolé, le propriétaire actuel est %s !',
+        'Please become the owner first.' => 'Devenez le premier propriétaire.',
+        'Ticket (ID=%s) is locked by %s!' => 'Le ticket (ID=%s) est bloqué par %s !',
+        'Change the owner!' => 'Changement du propriétaire !',
 
         # Perl Module: Kernel/Modules/AgentTicketLockedView.pm
         'New Article' => 'Nouvel Article',
@@ -4400,37 +4400,37 @@ sub Data {
         'My Locked Tickets' => 'Mes tickets verrouillés',
 
         # Perl Module: Kernel/Modules/AgentTicketMerge.pm
-        'Can\'t merge ticket with itself!' => '',
+        'Can\'t merge ticket with itself!' => 'Impossible de fusionner le ticket avec lui-même !',
 
         # Perl Module: Kernel/Modules/AgentTicketMove.pm
         'You need move permissions!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketPhone.pm
-        'Chat is not active.' => '',
-        'No permission.' => '',
-        '%s has left the chat.' => '',
-        'This chat has been closed and will be removed in %s hours.' => '',
+        'Chat is not active.' => 'Le tchat n\'est pas actif.',
+        'No permission.' => 'Pas de droits.',
+        '%s has left the chat.' => '%s a quitté le tchat.',
+        'This chat has been closed and will be removed in %s hours.' => 'Ce tchat a été fermé et sera supprimé dans %s heures.',
 
         # Perl Module: Kernel/Modules/AgentTicketPhoneCommon.pm
         'Ticket locked.' => 'Ticket verrouillé.',
 
         # Perl Module: Kernel/Modules/AgentTicketPlain.pm
-        'No ArticleID!' => '',
+        'No ArticleID!' => 'Aucun ArticleID !',
         'This is not an email article.' => '',
         'Can\'t read plain article! Maybe there is no plain email in backend! Read backend message.' =>
             '',
 
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
-        'Need TicketID!' => '',
+        'Need TicketID!' => 'TicketID requis !',
 
         # Perl Module: Kernel/Modules/AgentTicketProcess.pm
-        'Couldn\'t get ActivityDialogEntityID "%s"!' => '',
+        'Couldn\'t get ActivityDialogEntityID "%s"!' => 'Impossible d\'obtenir ActivityDialogEntityID "%s" !',
         'No Process configured!' => '',
         'The selected process is invalid!' => 'Le processus sélectionné n\'est pas valide !',
         'Process %s is invalid!' => '',
         'Subaction is invalid!' => '',
-        'Parameter %s is missing in %s.' => '',
-        'No ActivityDialog configured for %s in _RenderAjax!' => '',
+        'Parameter %s is missing in %s.' => 'Le paramètre %s est manquant dans %s.',
+        'No ActivityDialog configured for %s in _RenderAjax!' => 'Pas de ActivityDialog configuré pour %s dans _RenderAjax !',
         'Got no Start ActivityEntityID or Start ActivityDialogEntityID for Process: %s in _GetParam!' =>
             '',
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => '',
@@ -4453,7 +4453,7 @@ sub Data {
             '',
         'Pending Date' => 'En attendant la date',
         'for pending* states' => 'pour les états en attente*',
-        'ActivityDialogEntityID missing!' => '',
+        'ActivityDialogEntityID missing!' => 'ActivityDialogEntityID manquant !',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => '',
         'Couldn\'t use CustomerID as an invisible field.' => '',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
@@ -4465,7 +4465,7 @@ sub Data {
         'Couldn\'t set ProcessEntityID "%s" on TicketID "%s"!' => '',
         'Couldn\'t set ActivityEntityID "%s" on TicketID "%s"!' => '',
         'Could not store ActivityDialog, invalid TicketID: %s!' => '',
-        'Invalid TicketID: %s!' => '',
+        'Invalid TicketID: %s!' => 'TicketID invalide : %s !',
         'Missing ActivityEntityID in Ticket %s!' => '',
         'This step does not belong anymore to the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
             '',
@@ -4492,7 +4492,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'last-search' => 'dernière-recherche',
-        'Untitled' => '',
+        'Untitled' => 'Sans titre',
         'Ticket Number' => 'Numéro de ticket',
         'Ticket' => 'Ticket',
         'printed by' => 'Imprimé par :',
@@ -4505,7 +4505,7 @@ sub Data {
         'in more than ...' => 'dans plus de ...',
 
         # Perl Module: Kernel/Modules/AgentTicketService.pm
-        'Feature not enabled!' => 'Fonctionnalité non activée ! ',
+        'Feature not enabled!' => 'Fonctionnalité non activée !',
         'Service View' => 'Vue par service',
 
         # Perl Module: Kernel/Modules/AgentTicketStatusView.pm
@@ -4528,24 +4528,24 @@ sub Data {
         'Escalation Update Time In Effect' => '',
         'Escalation Update Time Stopped' => '',
         'Escalation First Response Time Stopped' => '',
-        'Customer Updated' => '',
+        'Customer Updated' => 'Client mis à jour',
         'Internal Chat' => 'Messagerie interne',
         'Automatic Follow-Up Sent' => '',
         'Note Added' => 'Note ajoutée',
         'Note Added (Customer)' => 'Note ajoutée (Client)',
-        'SMS Added' => '',
-        'SMS Added (Customer)' => '',
-        'State Updated' => '',
+        'SMS Added' => 'SMS Ajouté',
+        'SMS Added (Customer)' => 'SMS Ajouté (Client)',
+        'State Updated' => 'Etat mis à jour',
         'Outgoing Answer' => '',
-        'Service Updated' => '',
+        'Service Updated' => 'Service mis à jour',
         'Link Added' => '',
         'Incoming Customer Email' => 'Mail client entrant',
-        'Incoming Web Request' => '',
+        'Incoming Web Request' => 'Requête web entrante',
         'Priority Updated' => 'Priorité mise à jour',
         'Ticket Unlocked' => 'Ticket déverrouillé',
         'Outgoing Email' => 'Mail sortant',
         'Title Updated' => 'Titre mis à jou',
-        'Ticket Merged' => '',
+        'Ticket Merged' => 'Ticket fusionné',
         'Outgoing Phone Call' => 'Appel téléphonique sortant',
         'Forwarded Message' => 'Message transféré',
         'Removed User Subscription' => '',
@@ -4559,26 +4559,26 @@ sub Data {
         'Escalation Solution Time Stopped' => '',
         'Escalation Response Time In Effect' => '',
         'Escalation Response Time Stopped' => '',
-        'SLA Updated' => '',
+        'SLA Updated' => 'SLA mis à jour',
         'External Chat' => 'Messagerie externe',
         'Queue Changed' => '',
-        'Notification Was Sent' => '',
+        'Notification Was Sent' => 'La notification a été envoyée',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
-            '',
-        'Missing FormDraftID!' => '',
+            'Ce ticket n\'existe pas, ou vous n\'avez pas les droits pour y accéder dans son état actuel.',
+        'Missing FormDraftID!' => 'FormDraftID manquant !',
         'Can\'t get for ArticleID %s!' => '',
         'Article filter settings were saved.' => '',
         'Event type filter settings were saved.' => '',
         'Need ArticleID!' => '',
-        'Invalid ArticleID!' => '',
+        'Invalid ArticleID!' => 'ArticleID invalide !',
         'Forward article via mail' => 'Transférer cet article par mail',
         'Forward' => 'Transférer',
-        'Fields with no group' => '',
-        'Invisible only' => '',
-        'Visible only' => '',
-        'Visible and invisible' => '',
+        'Fields with no group' => 'Les champs sans groupe',
+        'Invisible only' => 'Seulement invisible',
+        'Visible only' => 'seulement visible',
+        'Visible and invisible' => 'visible et invisible',
         'Article could not be opened! Perhaps it is on another article page?' =>
-            'L\'article ne peut être ouvert. Peut-être est-il déjà ouvert sur une autre page ? ',
+            'L\'article ne peut être ouvert. Peut-être est-il déjà ouvert sur une autre page ?',
         'Show one article' => 'Montrer un article',
         'Show all articles' => 'Montrer tous les articles',
         'Show Ticket Timeline View' => '',
@@ -4594,7 +4594,7 @@ sub Data {
         'HTML body attachment is missing!' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
-        'FileID and ArticleID are needed!' => '',
+        'FileID and ArticleID are needed!' => 'FileID et ArticleID sont requis !',
         'No such attachment (%s)!' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
@@ -4618,10 +4618,10 @@ sub Data {
 
         # Perl Module: Kernel/Modules/CustomerTicketZoom.pm
         'Can\'t reopen ticket, not possible in this queue!' => '',
-        'Create a new ticket!' => '',
+        'Create a new ticket!' => 'Créer un nouveau ticket !',
 
         # Perl Module: Kernel/Modules/Installer.pm
-        'SecureMode active!' => '',
+        'SecureMode active!' => 'SecureMode est activé !',
         'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
             '',
         'Directory "%s" doesn\'t exist!' => '',
@@ -4637,7 +4637,7 @@ sub Data {
         'Unknown Check!' => '',
         'The check "%s" doesn\'t exist!' => '',
         'Enter the password for the database user.' => 'Entrer le mot de passe pour l\'utilisateur base de données',
-        'Database %s' => '',
+        'Database %s' => 'Base de données %s',
         'Configure MySQL' => '',
         'Enter the password for the administrative database user.' => 'Entrer le mot de passe de l\'administrateur de la base de données',
         'Configure PostgreSQL' => '',
@@ -4651,7 +4651,7 @@ sub Data {
         'https' => '',
         'http' => '',
         'System Settings' => 'Paramètres Système',
-        'Syslog' => '',
+        'Syslog' => 'Syslog',
         'Configure Mail' => 'Configurer Mail',
         'Mail Configuration' => 'Configuration de la messagerie',
         'Can\'t write Config file!' => '',
@@ -4659,7 +4659,7 @@ sub Data {
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
             '',
         'Can\'t connect to database, read comment!' => '',
-        'Database already contains data - it should be empty!' => 'La base de données contient déjà des données - elle doit être vide',
+        'Database already contains data - it should be empty!' => 'La base de données contient déjà des données - elle doit être vide !',
         'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             '',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
@@ -4668,32 +4668,32 @@ sub Data {
         # Perl Module: Kernel/Modules/MigrateFromOTRS.pm
         'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.' =>
             '',
-        'OTRS to OTOBO migration' => '',
+        'OTRS to OTOBO migration' => 'La migration de OTRS vers OTOBO',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => '',
         'No such user!' => '',
-        'Invalid calendar!' => '',
-        'Invalid URL!' => '',
-        'There was an error exporting the calendar!' => '',
+        'Invalid calendar!' => 'Calendrier invalide !',
+        'Invalid URL!' => 'URL invalide !',
+        'There was an error exporting the calendar!' => 'Il y a eu une erreur lors de l\'exportation du calendrier !',
 
         # Perl Module: Kernel/Modules/PublicRepository.pm
-        'Need config Package::RepositoryAccessRegExp' => '',
-        'Authentication failed from %s!' => '',
+        'Need config Package::RepositoryAccessRegExp' => 'Besoin de configurer Package::RepositoryAccessRegExp',
+        'Authentication failed from %s!' => 'Echec de l\'authentification à partir de %s !',
 
         # Perl Module: Kernel/Output/HTML/Article/Chat.pm
         'Chat' => 'Chat',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketBounce.pm
-        'Bounce Article to a different mail address' => 'Faire suivre l\'article à une adresse mail différente.',
+        'Bounce Article to a different mail address' => 'Faire suivre l\'article à une adresse mail différente',
         'Bounce' => 'Renvoyer',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketCompose.pm
         'Reply All' => 'Répondre à tous',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketEmailResend.pm
-        'Resend this article' => '',
-        'Resend' => '',
+        'Resend this article' => 'Ré-envoyer cet article',
+        'Resend' => 'Ré-envoyer',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketMessageLog.pm
         'View message log details for this article' => '',
@@ -4713,8 +4713,8 @@ sub Data {
         'Print this article' => 'Imprimer cet article',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => '',
-        'Get Help' => '',
+        'Contact us at hello@otobo.de' => 'Contactez nous à hello@otobo.de',
+        'Get Help' => 'Obtenir de l\'aide',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
         'Mark' => 'Marquer comme important',
@@ -4726,7 +4726,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
         'Crypted' => 'Crypté',
-        'Sent message encrypted to recipient!' => '',
+        'Sent message encrypted to recipient!' => 'Envoyer un message chiffré au destinataire !',
         'Signed' => 'Signé',
         '"PGP SIGNED MESSAGE" header found, but invalid!' => '',
 
@@ -4745,33 +4745,33 @@ sub Data {
             '',
         'Cannot use revoked encryption keys for the addresses: \'%s\'. ' =>
             '',
-        'Encrypt' => '',
+        'Encrypt' => 'Chiffré',
         'Keys/certificates will only be shown for recipients with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one.' =>
             '',
 
         # Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
         'Email security' => 'courriel sécurité',
-        'PGP sign' => '',
+        'PGP sign' => 'signature PGP',
         'PGP sign and encrypt' => '',
-        'PGP encrypt' => '',
-        'SMIME sign' => '',
-        'SMIME sign and encrypt' => '',
-        'SMIME encrypt' => '',
+        'PGP encrypt' => 'Chiffrement PGP',
+        'SMIME sign' => 'Signature SMIME',
+        'SMIME sign and encrypt' => 'Signature et chiffrement SMIME',
+        'SMIME encrypt' => 'Chiffrement SMIME',
 
         # Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
-        'Cannot use expired signing key: \'%s\'. ' => '',
-        'Cannot use revoked signing key: \'%s\'. ' => '',
+        'Cannot use expired signing key: \'%s\'. ' => 'Ne peut utiliser une clé signée expirée: \'%s\'. ',
+        'Cannot use revoked signing key: \'%s\'. ' => 'Ne peut utiliser une clé signée révoquée: \'%s\'. ',
         'There are no signing keys available for the addresses \'%s\'.' =>
-            '',
+            'Il n\'y a aucunes clés signés disponible pour les adresses \'%s\'.',
         'There are no selected signing keys for the addresses \'%s\'.' =>
-            '',
+            'Il n\'y a pas de clés signées sélectionnées pour les adresses \'%s\'.',
         'Sign' => 'Signer',
         'Keys/certificates will only be shown for a sender with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one.' =>
             '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/AppointmentCalendar.pm
         'Shown' => 'Affiché(s)',
-        'Refresh (minutes)' => '',
+        'Refresh (minutes)' => 'Rafraichissement (minutes)',
         'off' => 'désactivé',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/CustomerIDList.pm
@@ -4779,70 +4779,70 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
         'Shown customer users' => 'Utilisateurs clients affichés',
-        'Offline' => '',
-        'User is currently offline.' => '',
-        'User is currently active.' => '',
-        'Away' => '',
-        'User was inactive for a while.' => '',
+        'Offline' => 'Hors ligne',
+        'User is currently offline.' => 'L\'utilisateur est actuellement hors-ligne.',
+        'User is currently active.' => 'L\'utilisateur est actuellement en ligne.',
+        'Away' => 'Absent',
+        'User was inactive for a while.' => 'L\'utilisateur est resté inactif depuis un moment.',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
         'The start time of a ticket has been set after the end time!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
-        'Can\'t connect to OTOBO News server!' => '',
-        'Can\'t get OTOBO News from server!' => '',
+        'Can\'t connect to OTOBO News server!' => 'Impossible de se connecter au serveur des nouvelles OTOBO !',
+        'Can\'t get OTOBO News from server!' => 'Impossible d\'obtenir les nouvelles OTOBO à partir du serveur !',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
         'Can\'t connect to Product News server!' => '',
         'Can\'t get Product News from server!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
-        'Can\'t connect to %s!' => '',
+        'Can\'t connect to %s!' => 'Impossible de se connecter à %s !',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'Shown Tickets' => 'Tickets affichés',
         'Shown Columns' => 'Colonnes affcihées',
-        'filter not active' => '',
-        'filter active' => '',
-        'This ticket has no title or subject' => '',
+        'filter not active' => 'filtre non actif',
+        'filter active' => 'filtre actif',
+        'This ticket has no title or subject' => 'Ce ticket n\'a pas de titre ou sujet',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketStatsGeneric.pm
         '7 Day Stats' => 'Stats sur 7 jours',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-        'User set their status to unavailable.' => '',
-        'Unavailable' => '',
+        'User set their status to unavailable.' => 'L\'utilisateur a mis son statut en indisponible.',
+        'Unavailable' => 'Indisponible',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'Standard' => 'Standard',
-        'The following tickets are not updated: %s.' => '',
+        'The following tickets are not updated: %s.' => 'Les tickets suivants n\'ont pas été mis à jour : %s.',
         'h' => 'h',
         'm' => 'm',
         'd' => 'j',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
-            '',
+            'Ce ticket n\'existe pas, ou vous n\'avez pas les droits d\'y accéder dans son état actuel. Vous pouvez prendre l\'une des actions suivantes :',
         'This is a' => 'Ceci est un',
         'email' => 'e-mail',
         'click here' => 'Cliquer ici',
-        'to open it in a new window.' => 'L\'ouvrir dans une nouvelle fenêtre',
+        'to open it in a new window.' => 'L\'ouvrir dans une nouvelle fenêtre.',
         'Year' => 'Année',
         'Hours' => 'Heures',
         'Minutes' => 'Minutes',
         'Check to activate this date' => 'Cochez pour activer cette date',
-        '%s TB' => '',
-        '%s GB' => '',
-        '%s MB' => '',
-        '%s KB' => '',
-        '%s B' => '',
+        '%s TB' => '%s To',
+        '%s GB' => '%s Go',
+        '%s MB' => '%s Mo',
+        '%s KB' => '%s Ko',
+        '%s B' => '%s o',
         'No Permission!' => 'Pas de permission !',
-        'No Permission' => '',
+        'No Permission' => 'Pas de permission',
         'Show Tree Selection' => 'Afficher l\'Arbre de Sélection',
         'Split Quote' => '',
         'Remove Quote' => '',
 
         # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
-        'Linked as' => '',
-        'Search Result' => '',
+        'Linked as' => 'Lié en tant que',
+        'Search Result' => 'Résultat de la recherche',
         'Linked' => 'Lié',
         'Bulk' => 'Actions groupées',
 
@@ -4870,7 +4870,7 @@ sub Data {
         'Online Customer: %s' => 'Clients en ligne: %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-        'System maintenance is active!' => '',
+        'System maintenance is active!' => 'La maintenance système est active !',
         'A system maintenance period will start at: %s and is expected to stop at: %s' =>
             '',
 
@@ -4887,10 +4887,10 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationIsDirtyCheck.pm
         'You have undeployed settings, would you like to deploy them?' =>
-            '',
+            'Vous avez des paramètres non déployés, voulez-vous les déployer ?',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
-        'The configuration is being updated, please be patient...' => '',
+        'The configuration is being updated, please be patient...' => 'La configuration est en cours de mis à jour, soyez patient...',
         'There is an error updating the system configuration!' => '',
 
         # Perl Module: Kernel/Output/HTML/Notification/UIDCheck.pm
@@ -4917,12 +4917,12 @@ sub Data {
         'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             '',
         'Can\'t update password, it must be at least %s characters long!' =>
-            'Impossible de mettre à jour le mot de passe,, il doit contenir au moins %s caractères!',
+            'Impossible de mettre à jour le mot de passe, il doit contenir au moins %s caractères !',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase letter characters!' =>
             '',
-        'Can\'t update password, it must contain at least 1 digit!' => 'Impossible de mettre à jour le mot de passe, il doit contenir au moins 1 chiffre!',
+        'Can\'t update password, it must contain at least 1 digit!' => 'Impossible de mettre à jour le mot de passe, il doit contenir au moins 1 chiffre !',
         'Can\'t update password, it must contain at least 2 letter characters!' =>
-            '',
+            'Impossible de mettre à jour le mot de passe. Il doit contenir au moins 2 lettres !',
         'Can\'t update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!' =>
             '',
 
@@ -4939,20 +4939,20 @@ sub Data {
             '',
         'No time scale value available for the current selected time scale value on the X axis.' =>
             '',
-        'The selected date is not valid.' => '',
+        'The selected date is not valid.' => 'La date sélectionnée n\'est pas valide.',
         'The selected end time is before the start time.' => '',
         'There is something wrong with your time selection.' => '',
         'Please select only one element or allow modification at stat generation time.' =>
             '',
         'Please select at least one value of this field or allow modification at stat generation time.' =>
             '',
-        'Please select one element for the X-axis.' => '',
-        'You can only use one time element for the Y axis.' => '',
+        'Please select one element for the X-axis.' => 'Sélectionner un élément pour l\'abscisse.',
+        'You can only use one time element for the Y axis.' => 'Vous pouvez seulement sélectionner un seul élément à la fois pour l\'axe des ordonnées.',
         'You can only use one or two elements for the Y axis.' => '',
         'Please select at least one value of this field.' => '',
         'Please provide a value or allow modification at stat generation time.' =>
             '',
-        'Please select a time scale.' => '',
+        'Please select a time scale.' => 'Sélectionnez une échelle de temps.',
         'Your reporting time interval is too small, please use a larger time scale.' =>
             '',
         'second(s)' => 'seconde(s)',
@@ -4963,8 +4963,8 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/SysConfig.pm
         'Cancel editing and unlock this setting' => '',
-        'Reset this setting to its default value.' => '',
-        'Unable to load %s!' => '',
+        'Reset this setting to its default value.' => 'Réinitialiser ce paramètre à sa valeur par défaut.',
+        'Unable to load %s!' => 'Incapable de charger %s !',
         'Content' => 'Contenu',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
@@ -9084,33 +9084,33 @@ Thanks for your help!
         'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
             '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
-            '',
-        'This setting is deprecated. Set OTOBOTimeZone instead.' => '',
+            'Ce paramètre permet d\'utiliser ta propre liste des pays plutôt que celle par défaut. C\'est conseillé si vous souhaitez seulement utiliser une sélection de pays.',
+        'This setting is deprecated. Set OTOBOTimeZone instead.' => 'Ce paramètre est déprécié. Utilisez OTOBOTimeZone.',
         'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
             '',
-        'Ticket Close' => '',
+        'Ticket Close' => 'Ticket fermé',
         'Ticket Close.' => 'Ticket fermé.',
         'Ticket Compose Bounce Email.' => '',
         'Ticket Compose email Answer.' => '',
-        'Ticket Customer.' => '',
-        'Ticket Forward Email.' => '',
+        'Ticket Customer.' => 'Ticket Client.',
+        'Ticket Forward Email.' => 'Transfert du ticket par Email.',
         'Ticket FreeText.' => '',
-        'Ticket History.' => '',
-        'Ticket Lock.' => 'Verrouillage ticket',
+        'Ticket History.' => 'Historique du ticket.',
+        'Ticket Lock.' => 'Verrouillage ticket.',
         'Ticket Merge.' => '',
         'Ticket Move.' => '',
-        'Ticket Note.' => '',
+        'Ticket Note.' => 'Note du ticket.',
         'Ticket Notifications' => 'Notifications concernant les tickets',
         'Ticket Outbound Email.' => '',
         'Ticket Overview "Medium" Limit' => 'limite "Moyenne" de Vue Générale des Tickets',
         'Ticket Overview "Preview" Limit' => 'Vue générale "­<petit | moyen | élargi>" - Limite',
         'Ticket Overview "Small" Limit' => 'limite "Petite" de Vue Générale des Tickets',
-        'Ticket Owner.' => '',
+        'Ticket Owner.' => 'Propriétaire du ticket.',
         'Ticket Pending.' => 'Ticket en attente.',
-        'Ticket Print.' => '',
+        'Ticket Print.' => 'Impression du ticket.',
         'Ticket Priority.' => 'Priorité du ticket.',
         'Ticket Queue Overview' => 'Vue d\'ensemble des files de tickets',
-        'Ticket Responsible.' => '',
+        'Ticket Responsible.' => 'Responsable du ticket.',
         'Ticket Watcher' => '',
         'Ticket Zoom' => '',
         'Ticket Zoom.' => '',
@@ -9128,15 +9128,15 @@ Thanks for your help!
         'Ticket zoom view.' => '',
         'TicketNumber' => 'NuméroTicket',
         'Tickets in the following queues will not be stored on the Elasticsearch server. To apply this to existing tickets, the ticket migration has to be run via console, after changing this option.' =>
-            '',
+            'Les tickets dans les files suivantes ne seront pas stockés sur le serveur Elasticsearch. Pour appliquer ceci aux tickets existants, la migration des tickets doit être lancée via la console, après le changement de cette option.',
         'Tickets.' => 'Tickets.',
         'Tile registration for the CustomerDashboard. Module is required.' =>
             '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
-            'Temps en secondes à ajouter à l\'heure actuelle dans le cas dans état en attente (défaut: 86400 = 1 jour)',
+            'Temps en secondes à ajouter à l\'heure actuelle dans le cas dans état en attente (défaut: 86400 = 1 jour).',
         'To accept login information, such as an EULA or license.' => '',
         'To download attachments.' => 'Pour télécharger les pièces jointes.',
-        'To view HTML attachments.' => '',
+        'To view HTML attachments.' => 'Voir les pièces jointes HTML.',
         'Toggles display of OTOBO FeatureAddons list in PackageManager.' =>
             'Déclenche l\'affichage de la liste des modules complémentaires d\'OTOBO dans le gestionnaire de paquets.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -9150,16 +9150,16 @@ Thanks for your help!
             '',
         'Triggers ticket escalation events and notification events for escalation.' =>
             '',
-        'Turkish' => '',
+        'Turkish' => 'turc',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
-            '',
-        'Turns on drag and drop for the main navigation.' => '',
+            'Désactive la validation des certificats SSL, par exemple si vous utilisez un proxy HTTPS transparent. A utiliser en connaissance de cause !',
+        'Turns on drag and drop for the main navigation.' => 'Activez le glisser déposer pour la navigation principale.',
         'Turns on the remote ip address check. It should not be enabled if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '',
         'Tweak the system as you wish.' => 'Ajuster le système comme vous le désirez.',
         'Type of daemon log rotation to use: Choose \'OTOBO\' to let OTOBO system to handle the file rotation, or choose \'External\' to use a 3rd party rotation mechanism (i.e. logrotate). Note: External rotation mechanism requires its own and independent configuration.' =>
             '',
-        'Ukrainian' => '',
+        'Ukrainian' => 'ukrainien',
         'Unlock tickets that are past their unlock timeout.' => '',
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
             '',
@@ -9168,13 +9168,13 @@ Thanks for your help!
         'Upcoming Events' => 'Évènements à venir',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '',
-        'Update time' => '',
+        'Update time' => 'temps mis à jour',
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
-            '',
-        'Updates the ticket index accelerator.' => '',
-        'Upload your PGP key.' => '',
-        'Upload your S/MIME certificate.' => '',
-        'Use Redis::Fast instead of Redis.' => '',
+            'Mise à jour de l\'index d\'escalade des tickets après qu\'un ticket attribué a été mis à jour.',
+        'Updates the ticket index accelerator.' => 'Mise à jour de l\'accélérateur d\'index des tickets.',
+        'Upload your PGP key.' => 'Ajoutez votre clé PGP.',
+        'Upload your S/MIME certificate.' => 'Ajouter votre certificat S/MIME.',
+        'Use Redis::Fast instead of Redis.' => 'Utilisez Redis::Fast au lieu de Redis.',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             '',
         'Use specified Redis logical database.' => '',
@@ -9185,39 +9185,41 @@ Thanks for your help!
         'Uses richtext for viewing and editing ticket notification.' => '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '',
-        'Vietnam' => '',
+        'Vietnam' => 'Vietnam',
         'View performance benchmark results.' => 'Voir les résultats du benchmark de performance.',
         'Watch this ticket' => 'Suivre ce ticket',
         'Watched Tickets' => 'Tickets surveillés',
-        'Watched Tickets.' => '',
-        'We are performing scheduled maintenance.' => '',
+        'Watched Tickets.' => 'Tickets observés.',
+        'We are performing scheduled maintenance.' => 'Nous effectuons une opération de maintenance.',
         'We are performing scheduled maintenance. Login is temporarily not available.' =>
-            '',
+            'Nous effectuons une opération de maintenance. L\'authentification est temporairement non disponible.',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
-            '',
-        'Web Service' => '',
+            'Nous effectuons une opération de maintenance. Le service sera de retour d\'ici quelques instants.',
+        'Web Service' => 'Service Web',
         'Web Services' => 'Services Web',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
             '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
-            'Dès que les tickets sont fusionnés, une note est ajoutée automatiquement au ticket qui devient inactif. Vous pouvez définir ici le texte de cette note (ce texte ne peut pas être modifié par les agents). ',
+            'Dès que les tickets sont fusionnés, une note est ajoutée automatiquement au ticket qui devient inactif. Vous pouvez définir ici le texte de cette note (ce texte ne peut pas être modifié par les agents).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
-            'Dès que les tickets sont fusionnés, une note est ajoutée automatiquement au ticket qui devient inactif. Vous pouvez définir ici le sujet de cette note (ce sujet ne peut pas être modifié par les agents). ',
+            'Dès que les tickets sont fusionnés, une note est ajoutée automatiquement au ticket qui devient inactif. Vous pouvez définir ici le sujet de cette note (ce sujet ne peut pas être modifié par les agents).',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
-            'Quand les ticjets sont fusionnés, le client peut être informé par mail en cochant la case "Informer l\'émetteur". Dans cette zone de texte, vous pouvez définir un texte pré-formaté qui pourra ensuite être modifié par les agents. ',
+            'Quand les tickets sont fusionnés, le client peut être informé par mail en cochant la case "Informer l\'émetteur". Dans cette zone de texte, vous pouvez définir un texte pré-formaté qui pourra ensuite être modifié par les agents.',
+        'Whether extended customer information is shown in the ticket print screen of the customer interface.' =>
+            '',
         'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
             '',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
-            '',
+            'Collecter ou non les meta informations à partir des articles en utilisant les filtres configurés dans Ticket::Frontend::ZoomCollectMetaFilters.',
         'Whether the execution of TicketACL can be avoided by checking cached field dependencies. This can improve loading times of ticket formulars, but has to be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes.' =>
             '',
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
         'Yes, but hide archived tickets' => 'Oui mais masquer les tickets archivés',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
-            '',
+            'Votre email avec le ticket numéro "<OTOBO_TICKET>" est renvoyé à "<OTOBO_BOUNCE_TO>". Contactez cette adresse pour plus d\'informations.',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'Votre e-mail avec le numéro de ticket "<OTOBO_TICKET>" a été fusionné avec le ticket numéro "<OTOBO_MERGE_TO_TICKET>".',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
@@ -9227,8 +9229,8 @@ Thanks for your help!
         'Zoom' => 'Détails',
         'attachment' => 'pièce jointe',
         'bounce' => '',
-        'compose' => '',
-        'debug' => '',
+        'compose' => 'écrire',
+        'debug' => 'debug',
         'error' => 'erreur',
         'forward' => 'transférer',
         'info' => 'information',

@@ -30,12 +30,13 @@ use parent qw(Kernel::System::MigrateFromOTRS::Base);
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
-    'Kernel::System::GenericInterface::Webservice',
-    'Kernel::System::Cache',
-    'Kernel::System::DateTime',
     'Kernel::Config',
+    'Kernel::System::Cache',
     'Kernel::System::DB',
+    'Kernel::System::DateTime',
+    'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Main',
+    'Kernel::System::Package',
     'Kernel::System::XML',
 );
 
@@ -99,7 +100,7 @@ sub Run {
     my %Webservices = $Self->_GetWebserviceConfigs();
     my %Result      = (
         Message => $Self->{LanguageObject}->Translate("Migrate web service configuration."),
-    );        
+    );
 
     WEBSERVICE:
     for my $Name ( sort keys %Webservices ) {
@@ -121,7 +122,7 @@ sub Run {
         my $Webservice = $WebserviceObject->WebserviceGet(
             Name => 'Elasticsearch',
         );
-        
+
         if ( IsHashRefWithData($Webservice) ) {
             $Result{Comment} .= 'use existing; ';
             next WEBSERVICE;
@@ -134,7 +135,7 @@ sub Run {
         );
 
         if ( !$ID ) {
-            $Result{Comment}   .= $Self->{LanguageObject}->Translate( 'Failed - see the log!' );
+            $Result{Comment} .= $Self->{LanguageObject}->Translate('Failed - see the log!');
             $Result{Successful} = 0;
             return \%Result;
         }
@@ -356,7 +357,7 @@ sub _GetWebserviceConfigs {
     return (
         Elasticsearch => {
             ValidID => 2,
-            Config => {
+            Config  => {
                 Debugger => {
                     DebugThreshold => 'error',
                     TestMode       => '0',
@@ -369,13 +370,13 @@ sub _GetWebserviceConfigs {
                 },
                 RemoteSystem => '',
                 Requester    => {
-                    Invoker => $Invoker{Elasticsearch},
+                    Invoker   => $Invoker{Elasticsearch},
                     Transport => {
                         Config => {
                             DefaultCommand           => 'POST',
                             Host                     => 'http://localhost:9200',
                             InvokerControllerMapping => $ICMapping{Elasticsearch},
-                            Timeout => '30',
+                            Timeout                  => '30',
                         },
                         Type => 'HTTP::REST',
                     },

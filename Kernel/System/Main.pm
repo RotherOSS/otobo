@@ -135,9 +135,9 @@ sub Require {
 
 =head2 RequireBaseClass()
 
-require/load a module and add it as a base class to the
-calling package, if not already present (this check is needed
-for persistent environments).
+Load a module and check whether the calling package is already a base class of the loaded package.
+If not, add the calling package as a base class of the loaded package.
+The check is necessary for persistent environments.
 
     my $Loaded = $MainObject->RequireBaseClass(
         'Kernel::System::Example',
@@ -151,11 +151,10 @@ sub RequireBaseClass {
     # Load the module, if not already loaded.
     return if !$Self->Require($Module);
 
-
     my $CallingClass = caller(0);
 
     {
-        no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
+        no strict 'refs';    ## no critic (TestingAndDebugging::ProhibitNoStrict)
 
         # Check if the base class was already loaded.
         # This can happen in persistent environments as mod_perl (see bug#9686).

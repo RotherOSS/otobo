@@ -32,9 +32,10 @@ use Kernel::System::ObjectManager;
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
+    'Kernel::Language',
     'Kernel::System::DB',
-    'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Log',
 );
 
 =head1 NAME

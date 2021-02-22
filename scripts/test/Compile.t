@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -25,7 +25,7 @@ use Test2::V0;
 use Test::Compile::Internal;
 
 my $Internal = Test::Compile::Internal->new();
-my @Dirs = qw(Kernel Custom scripts bin);
+my @Dirs     = qw(Kernel Custom scripts bin);
 
 # List of files that are know to have compile issues.
 # NOTE: Please create an issue when adding to this list and the reason is not acceptable.

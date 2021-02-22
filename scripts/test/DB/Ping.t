@@ -109,5 +109,3 @@ for my $TestCase (@TestsMofifiers) {
 }
 
 $Self->DoneTesting();
-
-

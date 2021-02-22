@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2021-01-19 18:56+0000\n"
-"PO-Revision-Date: 2021-02-12 13:45+0000\n"
+"POT-Creation-Date: 2021-02-12 15:30+0000\n"
+"PO-Revision-Date: 2021-02-15 04:19+0000\n"
 "Last-Translator: Kim Mølgaard <kim@itandmore.dk>\n"
 "Language-Team: Danish <https://translate.otobo.org/projects/otobo10/otobo/da/>\n"
 "Language: da\n"
@@ -1042,9 +1042,8 @@ msgid "Account Status"
 msgstr "Kontostatus"
 
 #. Template: AdminCommunicationLogAccounts
-#, fuzzy
 msgid "Back to overview"
-msgstr ""
+msgstr "Gå tilbage til oversigt"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for Accounts"
@@ -1188,7 +1187,7 @@ msgstr "Jokertegn som '*' er tilladt."
 
 #. Template: AdminContactWD
 msgid "Please enter a search term to look for contacts with data."
-msgstr ""
+msgstr "Angiv en søgestreng for at finde kontakter."
 
 #. Template: AdminContactWD
 msgid "Valid"
@@ -1228,7 +1227,7 @@ msgstr "Bemærk"
 
 #. Template: AdminCustomerCompany
 msgid "This customer backend is read only!"
-msgstr ""
+msgstr "Denne kunde-backend er skrivebeskyttet!"
 
 #. Template: AdminCustomerGroup
 msgid "Manage Customer-Group Relations"
@@ -1260,7 +1259,7 @@ msgstr "Disse grupper tildeles automatisk til alle kunder."
 
 #. Template: AdminCustomerGroup
 msgid "You can manage these groups via the configuration setting \"CustomerGroupCompanyAlwaysGroups\"."
-msgstr ""
+msgstr "Du kan administrere disse grupper via konfigurationsindstillingen \"CustomerGroupCompanyAlwaysGroups\"."
 
 #. Template: AdminCustomerGroup
 msgid "Filter for Groups"
@@ -1344,7 +1343,7 @@ msgstr "Kundebrugere skal oprettes for at få vist kundehistorik og for at kunne
 
 #. Template: AdminCustomerUser
 msgid "List (%s total)"
-msgstr ""
+msgstr "Liste (%s total)"
 
 #. Template: AdminCustomerUser
 msgid "Username"
@@ -1368,7 +1367,7 @@ msgstr "Skift til kunde"
 
 #. Template: AdminCustomerUser
 msgid "This customer backend is read only, but the customer user preferences can be changed!"
-msgstr ""
+msgstr "Denne kunde-backend er skrivebeskyttet, men du kan ændre bruger præferencerne!"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
@@ -14347,15 +14346,7 @@ msgid "Migrate web service configuration."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
-msgid "Can't add web service for Elasticsearch. File %s not found!"
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Failed - see the log!"
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
-msgid "Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
@@ -14511,7 +14502,11 @@ msgid "Package not verified by the OTOBO community!"
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
-msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"AllowNotVerifiedPackages\" system configuration setting.</p>"
+msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"Package::AllowNotVerifiedPackages\" system configuration setting.</p>"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "Verification not possible (e.g. no internet connection)!"
 msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
@@ -24876,11 +24871,7 @@ msgstr ""
 #~ msgid "This will allow the system to send text messages via SMS."
 #~ msgstr "Dette tillader systemet at sende tekstbeskeder via SMS."
 
-#. Perl Module: Kernel/System/Package.pm
-msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"Package::AllowNotVerifiedPackages\" system configuration setting.</p>"
-msgstr ""
-
-#. Perl Module: Kernel/System/Package.pm
-msgid "Verification not possible (e.g. no internet connection)!"
+#. SysConfig
+msgid "Whether extended customer information is shown in the ticket print screen of the customer interface."
 msgstr ""
 

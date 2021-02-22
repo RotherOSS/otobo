@@ -281,15 +281,15 @@ sub _ObjectBuild {
 
     my %ObjectManagerFlags;
     {
-        no strict 'refs'; ## no critic (TestingAndDebugging::ProhibitNoStrict)
-        no warnings 'once'; ## no critic (TestingAndDebugging::ProhibitNoWarnings)
+        no strict 'refs';      ## no critic (TestingAndDebugging::ProhibitNoStrict)
+        no warnings 'once';    ## no critic (TestingAndDebugging::ProhibitNoWarnings)
 
         %ObjectManagerFlags = %{ $Package . '::ObjectManagerFlags' };
     }
 
     if ( $Package ne 'Kernel::Config' ) {
-        no strict 'refs'; ## no critic qw(TestingAndDebugging::ProhibitProlongedStrictureOverride TestingAndDebugging::ProhibitNoStrict)
-        no warnings 'once'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
+        no strict 'refs';      ## no critic qw(TestingAndDebugging::ProhibitProlongedStrictureOverride TestingAndDebugging::ProhibitNoStrict)
+        no warnings 'once';    ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 
         if ( !exists ${ $Package . '::' }{ObjectDependencies} ) {
             $Self->_DieWithError( Error => "$Package does not declare its object dependencies!" );

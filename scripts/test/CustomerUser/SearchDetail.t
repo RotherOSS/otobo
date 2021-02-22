@@ -543,7 +543,7 @@ my @SearchTests = (
         },
     },
 
-# Nr 16 - search for customer user with the strings 'A Example text' and string 'Example text' in the text dynamic field.
+    # Nr 16 - search for customer user with the strings 'A Example text' and string 'Example text' in the text dynamic field.
     {
         Description => "Search for $DynamicFields[0]->{Name} with string 'A Example text' and string 'Example text'",
         SearchData  => {
@@ -907,8 +907,7 @@ my @OrderByColumns = qw(
 
 for my $OrderByColumn (@OrderByColumns) {
 
-    my @SortedCustomerLogins
-        = sort { $a->{$OrderByColumn} cmp $b->{$OrderByColumn} || $b->{UserLogin} cmp $a->{UserLogin} }
+    my @SortedCustomerLogins = sort { $a->{$OrderByColumn} cmp $b->{$OrderByColumn} || $b->{UserLogin} cmp $a->{UserLogin} }
         @OrderBySearchTestCustomerLogins;
     my @ReferenceSortedIDs = map { $_->{UserLogin} } @SortedCustomerLogins;
 
@@ -924,8 +923,7 @@ for my $OrderByColumn (@OrderByColumns) {
         "Test $TestCount: CustomerSearchDetail() OrderBy $OrderByColumn (Up)."
     );
 
-    my @SortedCustomerLoginsDown
-        = sort { $b->{$OrderByColumn} cmp $a->{$OrderByColumn} || $b->{UserLogin} cmp $a->{UserLogin} }
+    my @SortedCustomerLoginsDown = sort { $b->{$OrderByColumn} cmp $a->{$OrderByColumn} || $b->{UserLogin} cmp $a->{UserLogin} }
         @OrderBySearchTestCustomerLogins;
     my @ReferenceSortedIDsDown = map { $_->{UserLogin} } @SortedCustomerLoginsDown;
 
@@ -1019,7 +1017,4 @@ $Self->IsDeeply(
     "Test $TestCount: CustomerSearchDetail() special param 'CustomerCompanySearchCustomerIDs' (with more then 1000 values)."
 );
 
-
 $Self->DoneTesting();
-
-

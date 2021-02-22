@@ -339,7 +339,4 @@ $Self->False(
     "Make sure that ConfigurationDeploymentSync() removed the user's file",
 );
 
-
 $Self->DoneTesting();
-
-

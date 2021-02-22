@@ -273,7 +273,7 @@ sub ModifiedValueGet {
             'ValueType' => 'Day',
         };
 
-        if ( @HourItems ) {
+        if (@HourItems) {
             $Item->{Item} = \@HourItems;
         }
         else {

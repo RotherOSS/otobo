@@ -1006,8 +1006,7 @@ sub SettingEffectiveValueGet {
                     && $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{$Attribute}->[0]->{DefaultItem}
                     )
                 {
-                    $Attributes{DefaultItem}
-                        = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{$Attribute}->[0]->{DefaultItem};
+                    $Attributes{DefaultItem} = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{$Attribute}->[0]->{DefaultItem};
                 }
                 next ATTRIBUTE if grep { $Attribute eq $_ } ( qw (Array Hash), @ValueAttributeList );
 
@@ -1018,8 +1017,7 @@ sub SettingEffectiveValueGet {
                 {
                     my $DefaultItemValueType = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{ValueType};
                     if ( $ForbiddenValueTypes{$DefaultItemValueType} ) {
-                        my $SubValueType
-                            = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{Item}->[0]->{ValueType};
+                        my $SubValueType = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{Item}->[0]->{ValueType};
 
                         if ( !grep { $_ eq $SubValueType } @{ $ForbiddenValueTypes{$DefaultItemValueType} } ) {
                             next ATTRIBUTE;
@@ -2651,15 +2649,15 @@ sub ConfigurationXML2DB {
 
                 # Update default setting.
                 my $Success = $SysConfigDBObject->DefaultSettingUpdate(
-                    DefaultID      => $DefaultSetting->{DefaultID},
-                    Name           => $Settings{$SettingName}->{XMLContentParsed}->{Name},
-                    Description    => $Settings{$SettingName}->{XMLContentParsed}->{Description}->[0]->{Content} || '',
-                    Navigation     => $Settings{$SettingName}->{XMLContentParsed}->{Navigation}->[0]->{Content} || '',
-                    IsInvisible    => $Settings{$SettingName}->{XMLContentParsed}->{Invisible} || 0,
-                    IsReadonly     => $Settings{$SettingName}->{XMLContentParsed}->{ReadOnly} || 0,
-                    IsRequired     => $Settings{$SettingName}->{XMLContentParsed}->{Required} || 0,
-                    IsValid        => $Settings{$SettingName}->{XMLContentParsed}->{Valid} || 0,
-                    HasConfigLevel => $Settings{$SettingName}->{XMLContentParsed}->{ConfigLevel} || 100,
+                    DefaultID                => $DefaultSetting->{DefaultID},
+                    Name                     => $Settings{$SettingName}->{XMLContentParsed}->{Name},
+                    Description              => $Settings{$SettingName}->{XMLContentParsed}->{Description}->[0]->{Content} || '',
+                    Navigation               => $Settings{$SettingName}->{XMLContentParsed}->{Navigation}->[0]->{Content} || '',
+                    IsInvisible              => $Settings{$SettingName}->{XMLContentParsed}->{Invisible} || 0,
+                    IsReadonly               => $Settings{$SettingName}->{XMLContentParsed}->{ReadOnly} || 0,
+                    IsRequired               => $Settings{$SettingName}->{XMLContentParsed}->{Required} || 0,
+                    IsValid                  => $Settings{$SettingName}->{XMLContentParsed}->{Valid} || 0,
+                    HasConfigLevel           => $Settings{$SettingName}->{XMLContentParsed}->{ConfigLevel} || 100,
                     UserModificationPossible => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationPossible}
                         || 0,
                     UserModificationActive => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationActive}
@@ -2721,14 +2719,14 @@ sub ConfigurationXML2DB {
                 );
 
                 $DefaultSettingsAdd{ $Settings{$SettingName}->{XMLContentParsed}->{Name} } = {
-                    Name           => $Settings{$SettingName}->{XMLContentParsed}->{Name},
-                    Description    => $Settings{$SettingName}->{XMLContentParsed}->{Description}->[0]->{Content} || '',
-                    Navigation     => $Settings{$SettingName}->{XMLContentParsed}->{Navigation}->[0]->{Content} || '',
-                    IsInvisible    => $Settings{$SettingName}->{XMLContentParsed}->{Invisible} || 0,
-                    IsReadonly     => $Settings{$SettingName}->{XMLContentParsed}->{ReadOnly} || 0,
-                    IsRequired     => $Settings{$SettingName}->{XMLContentParsed}->{Required} || 0,
-                    IsValid        => $Settings{$SettingName}->{XMLContentParsed}->{Valid} || 0,
-                    HasConfigLevel => $Settings{$SettingName}->{XMLContentParsed}->{ConfigLevel} || 100,
+                    Name                     => $Settings{$SettingName}->{XMLContentParsed}->{Name},
+                    Description              => $Settings{$SettingName}->{XMLContentParsed}->{Description}->[0]->{Content} || '',
+                    Navigation               => $Settings{$SettingName}->{XMLContentParsed}->{Navigation}->[0]->{Content} || '',
+                    IsInvisible              => $Settings{$SettingName}->{XMLContentParsed}->{Invisible} || 0,
+                    IsReadonly               => $Settings{$SettingName}->{XMLContentParsed}->{ReadOnly} || 0,
+                    IsRequired               => $Settings{$SettingName}->{XMLContentParsed}->{Required} || 0,
+                    IsValid                  => $Settings{$SettingName}->{XMLContentParsed}->{Valid} || 0,
+                    HasConfigLevel           => $Settings{$SettingName}->{XMLContentParsed}->{ConfigLevel} || 100,
                     UserModificationPossible => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationPossible}
                         || 0,
                     UserModificationActive => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationActive}
@@ -2952,9 +2950,9 @@ sub ConfigurationNavigationTree {
         );
     }
 
- # Until now we have structure of the Navigation tree without sub-node count. We need this number to disable
- # click on empty nodes. We could implement that in the _NavigationTree, but it's not efficient(loop of 1800+ settings).
- # Instead, we extend result in the _NavigationTreeNodeCount.
+    # Until now we have structure of the Navigation tree without sub-node count. We need this number to disable
+    # click on empty nodes. We could implement that in the _NavigationTree, but it's not efficient(loop of 1800+ settings).
+    # Instead, we extend result in the _NavigationTreeNodeCount.
     %Result = $Self->_NavigationTreeNodeCount(
         Tree     => \%Result,
         Settings => \@Settings,
@@ -4143,7 +4141,7 @@ sub ConfigurationDump {
                 SettingList => \@SettingsList,
                 OnlyValues  => $Param{OnlyValues},
             );
-            if ( %UserSettings ) {
+            if (%UserSettings) {
                 %Result = ( %Result, %UserSettings );
             }
         }
@@ -4180,8 +4178,7 @@ sub ConfigurationLoad {
         }
     }
 
-    my %ConfigurationRaw
-        = %{ $Kernel::OM->Get('Kernel::System::YAML')->Load( Data => $Param{ConfigurationYAML} ) || {} };
+    my %ConfigurationRaw = %{ $Kernel::OM->Get('Kernel::System::YAML')->Load( Data => $Param{ConfigurationYAML} ) || {} };
 
     if ( !%ConfigurationRaw ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -4364,8 +4361,7 @@ sub ConfigurationLockedSettingsList {
     return if !IsArrayRefWithData( \@DefaultSettingsList );
 
     if ( $Param{ExclusiveLockUserID} ) {
-        @DefaultSettingsList
-            = map { $_->{Name} } grep { $_->{ExclusiveLockUserID} eq $Param{ExclusiveLockUserID} } @DefaultSettingsList;
+        @DefaultSettingsList = map { $_->{Name} } grep { $_->{ExclusiveLockUserID} eq $Param{ExclusiveLockUserID} } @DefaultSettingsList;
     }
     else {
         @DefaultSettingsList = map { $_->{Name} } @DefaultSettingsList;
@@ -4880,7 +4876,7 @@ sub OverriddenFileNameGet {
         return if !$LastDeployment{EffectiveValueStrg};
 
         {
-            eval $LastDeployment{EffectiveValueStrg}; ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+            eval $LastDeployment{EffectiveValueStrg};    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
             Kernel::Config::Files::ZZZAAuto->Load($ConfigFromDB);
         }
 
@@ -5117,11 +5113,11 @@ sub _FileWriteAtomic {
     }
 
     # write to a temp file
-    my $TempFilename = $Param{Filename} . '.' . $$; # append the processs id
+    my $TempFilename = $Param{Filename} . '.' . $$;    # append the processs id
     {
 
-        my $Success = open( my $FH, ">$Self->{FileMode}", $TempFilename ); ## no critic qw(InputOutput::RequireBriefOpen)
-        if ( ! $Success ) {
+        my $Success = open( my $FH, ">$Self->{FileMode}", $TempFilename );    ## no critic qw(InputOutput::RequireBriefOpen)
+        if ( !$Success ) {
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',

@@ -3537,7 +3537,7 @@ my @NotificationUpdateTests = (
         },
     },
 
-# update appointment from custom relative notification 2 days before start template to notification date 2 minutes before start template
+    # update appointment from custom relative notification 2 days before start template to notification date 2 minutes before start template
     {
         DataBefore => {
             CalendarID                            => $Calendar{CalendarID},
@@ -3734,7 +3734,4 @@ for my $Test (@NotificationUpdateTests) {
     }
 }
 
-
 $Self->DoneTesting();
-
-

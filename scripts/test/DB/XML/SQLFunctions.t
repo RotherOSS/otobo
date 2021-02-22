@@ -143,7 +143,4 @@ for my $SQL (@SQL) {
 
 # cleanup cache is done by RestoreDatabase.
 
-
 $Self->DoneTesting();
-
-

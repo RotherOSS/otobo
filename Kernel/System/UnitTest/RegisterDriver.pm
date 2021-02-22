@@ -41,6 +41,7 @@ use utf8;
 # OTOBO modules
 use Kernel::System::ObjectManager;
 
+our $ObjectManagerDisabled = 1;
 
 sub import { ## no critic qw(OTOBO::RequireCamelCase)
 

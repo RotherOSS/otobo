@@ -497,7 +497,4 @@ $ConfigObject->Set(
 
 # cleanup is done by RestoreDatabase.
 
-
 $Self->DoneTesting();
-
-

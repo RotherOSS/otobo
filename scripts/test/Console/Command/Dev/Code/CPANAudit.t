@@ -49,7 +49,4 @@ No advisories found
     "Dev::Tools::CPANAudit reports no vulnerabilities",
 );
 
-
 $Self->DoneTesting();
-
-

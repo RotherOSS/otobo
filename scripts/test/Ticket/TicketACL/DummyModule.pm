@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use Kernel::System::ObjectManager; ## no critic (Modules::RequireExplicitPackage)
+use Kernel::System::ObjectManager;    ## no critic (Modules::RequireExplicitPackage)
 
 package scripts::test::Ticket::TicketACL::DummyModule;
 

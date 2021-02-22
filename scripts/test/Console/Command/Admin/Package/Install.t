@@ -33,7 +33,4 @@ $Self->Is(
     "Admin::Package::Install exit code without arguments",
 );
 
-
 $Self->DoneTesting();
-
-

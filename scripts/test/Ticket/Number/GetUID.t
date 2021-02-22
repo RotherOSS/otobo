@@ -49,7 +49,4 @@ $Self->Is(
     "_GetUID() generated all UIDs."
 );
 
-
 $Self->DoneTesting();
-
-

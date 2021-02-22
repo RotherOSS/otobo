@@ -83,7 +83,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = bless { %Param }, $Type;
+    my $Self = bless {%Param}, $Type;
 
     # set debug
     $Self->{Debug} = 0;
@@ -149,7 +149,7 @@ sub new {
 
     # set charset if there is no charset given
     $Self->{UserCharset} = 'utf-8';
-    $Self->{Charset}     = $Self->{UserCharset};                            # just for compat.
+    $Self->{Charset}     = $Self->{UserCharset};                                                                         # just for compat.
     $Self->{SessionID}   = $Param{SessionID} || '';
     $Self->{SessionName} = $Param{SessionName} || 'SessionID';
     $Self->{CGIHandle}   = $ParamObject->ScriptName() || 'No-$ENV{"SCRIPT_NAME"}';
@@ -380,7 +380,7 @@ EOF
 
     # force a theme based on host name
     my $DefaultThemeHostBased = $ConfigObject->Get('DefaultTheme::HostBased');
-    my $Host = $ParamObject->HTTP('HOST');
+    my $Host                  = $ParamObject->HTTP('HOST');
     if ( $DefaultThemeHostBased && $Host ) {
 
         THEME:
@@ -660,7 +660,7 @@ sub Redirect {
 }
 
 sub Login {
-    my ($Self, %Param) = @_;
+    my ( $Self, %Param ) = @_;
 
     # set Action parameter for the loader
     $Self->{Action}     = 'Login';
@@ -1226,8 +1226,7 @@ sub NotifyNonUpdatedTickets {
     );
 
     return $Self->Notify(
-        Info => $Self->{LanguageObject}
-            ->Translate( "The following tickets are not updated: %s.", $NonUpdatedTicketsString ),
+        Info => $Self->{LanguageObject}->Translate( "The following tickets are not updated: %s.", $NonUpdatedTicketsString ),
     );
 
 }
@@ -1248,7 +1247,7 @@ As a side effect HTTP headers are added to the Kernel::System::Web::Response obj
 =cut
 
 sub Header {
-    my ($Self, %Param) = @_;
+    my ( $Self, %Param ) = @_;
 
     # extract params
     my $Type              = $Param{Type} || '';
@@ -1510,8 +1509,7 @@ sub Header {
                 # See bug#13790 (https://bugs.otrs.org/show_bug.cgi?id=13790).
                 if ( $ConfigObject->Get('Ticket::ArchiveSystem') && $Modules{$Key}->{Block} eq 'ToolBarSearchFulltext' )
                 {
-                    $Modules{$Key}->{SearchInArchive}
-                        = $ConfigObject->Get('Ticket::Frontend::AgentTicketSearch')->{Defaults}->{SearchInArchive};
+                    $Modules{$Key}->{SearchInArchive} = $ConfigObject->Get('Ticket::Frontend::AgentTicketSearch')->{Defaults}->{SearchInArchive};
                 }
 
                 $Self->Block(
@@ -1548,8 +1546,7 @@ sub Header {
         if ( $ConfigObject->Get('Frontend::AvatarEngine') eq 'Gravatar' && $Self->{UserEmail} ) {
             my $DefaultIcon = $ConfigObject->Get('Frontend::Gravatar::DefaultImage') || 'mp';
             $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Self->{UserEmail} );
-            $Param{Avatar}
-                = '//www.gravatar.com/avatar/' . md5_hex( lc $Self->{UserEmail} ) . '?s=100&d=' . $DefaultIcon;
+            $Param{Avatar} = '//www.gravatar.com/avatar/' . md5_hex( lc $Self->{UserEmail} ) . '?s=100&d=' . $DefaultIcon;
         }
         else {
             my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
@@ -5191,7 +5188,7 @@ sub RichTextDocumentServe {
 
             $Param{Data}->{Content} = $SafetyCheckResult{String};
 
-           # Show confirmation button to load external content explicitly only if BlockLoadingRemoteContent is disabled.
+            # Show confirmation button to load external content explicitly only if BlockLoadingRemoteContent is disabled.
             if (
                 $SafetyCheckResult{Replace}
                 && !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::BlockLoadingRemoteContent')

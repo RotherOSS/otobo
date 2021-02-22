@@ -458,7 +458,4 @@ $Self->True(
 # cleanup sessions
 my $CleanUp = $Kernel::OM->Get('Kernel::System::AuthSession')->CleanUp();
 
-
 $Self->DoneTesting();
-
-

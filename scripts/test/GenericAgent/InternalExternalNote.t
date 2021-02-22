@@ -228,7 +228,4 @@ $Self->False(
     'No Article found in customer view.'
 );
 
-
 $Self->DoneTesting();
-
-

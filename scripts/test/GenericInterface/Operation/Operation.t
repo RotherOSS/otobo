@@ -154,7 +154,4 @@ $Self->True(
     'OperationObject call data provided',
 );
 
-
 $Self->DoneTesting();
-
-

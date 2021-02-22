@@ -39,7 +39,4 @@ $Self->Is(
     "Successful exit code"
 );
 
-
 $Self->DoneTesting();
-
-

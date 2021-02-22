@@ -104,13 +104,13 @@ sub Run {
 
     # run tests in a subdir when requested
     my $Directory = "$Home/scripts/test";
-    if ( $DirectoryParam ) {
+    if ($DirectoryParam) {
         $Directory .= "/$DirectoryParam";
         $Directory =~ s/\.//g;
     }
 
     # Determine which tests should be skipped because of UnitTest::Blacklist
-    my (@SkippedTests, @ActualTests);
+    my ( @SkippedTests, @ActualTests );
     {
         # Get patterns for blacklisted tests
         my @BlacklistPatterns;
@@ -140,7 +140,7 @@ sub Run {
         for my $File (@Files) {
 
             # check if only some tests are requested
-            if ( @ExecuteTestPatterns ) {
+            if (@ExecuteTestPatterns) {
                 next FILE unless any { $File =~ /\/\Q$_\E\.t$/smx } @ExecuteTestPatterns;
             }
 
@@ -190,6 +190,7 @@ sub Run {
                     $Cmd =~ s{%TestOk%}{$TestOk}iesmxg;
                     my $TestNotOk = $Parser->actual_failed();
                     $Cmd =~ s{%TestNotOk%}{$TestNotOk}iesmxg;
+
                     #use Data::Dumper;
                     #warn Dumper( [ 'LLL', $Cmd, $TestScript, $TestInfo, $Parser ] );
 
@@ -200,7 +201,7 @@ sub Run {
         );
     }
 
-    my $Aggregate = $Harness->runtests( @ActualTests );
+    my $Aggregate = $Harness->runtests(@ActualTests);
 
     if (@SkippedTests) {
         print "Following blacklisted tests were skipped:\n";

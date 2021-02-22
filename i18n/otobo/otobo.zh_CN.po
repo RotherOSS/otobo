@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2021-01-19 18:56+0000\n"
+"POT-Creation-Date: 2021-02-12 15:30+0000\n"
 "PO-Revision-Date: 2020-11-17 04:38+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/otobo10/otobo/zh_Hans/>\n"
@@ -14356,16 +14356,8 @@ msgid "Migrate web service configuration."
 msgstr "迁移网络服务配置。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
-msgid "Can't add web service for Elasticsearch. File %s not found!"
-msgstr "无法为Elasticsearch添加网络服务，未发现文件 %s！"
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Failed - see the log!"
 msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
-msgid "Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed."
-msgstr "迁移完成。 请在ElasticSearch安装完成后，在管理-> Web服务中激活Web服务。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
 msgid "Migrate database table notification."
@@ -14520,8 +14512,12 @@ msgid "Package not verified by the OTOBO community!"
 msgstr "软件包没有经过OTOBO社区验证！"
 
 #. Perl Module: Kernel/System/Package.pm
-msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"AllowNotVerifiedPackages\" system configuration setting.</p>"
-msgstr "<p>未验证的软件包安装被禁止，你可以通过\"AllowNotVerifiedPackages\" （容许未验证软件包）系统设置激活未验证软件包的安装。</p>"
+msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"Package::AllowNotVerifiedPackages\" system configuration setting.</p>"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid "Verification not possible (e.g. no internet connection)!"
+msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -24699,6 +24695,15 @@ msgstr "倒序"
 msgid "stats"
 msgstr "stats（统计）"
 
+#~ msgid "Can't add web service for Elasticsearch. File %s not found!"
+#~ msgstr "无法为Elasticsearch添加网络服务，未发现文件 %s！"
+
+#~ msgid "Migration completed. Please activate the web service in Admin -> Web Service when ElasticSearch installation is completed."
+#~ msgstr "迁移完成。 请在ElasticSearch安装完成后，在管理-> Web服务中激活Web服务。"
+
+#~ msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"AllowNotVerifiedPackages\" system configuration setting.</p>"
+#~ msgstr "<p>未验证的软件包安装被禁止，你可以通过\"AllowNotVerifiedPackages\" （容许未验证软件包）系统设置激活未验证软件包的安装。</p>"
+
 #~ msgid "Database is a throwawy copy"
 #~ msgstr "数据库是一次性副本"
 
@@ -25233,11 +25238,7 @@ msgstr "stats（统计）"
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "请通过sales@otrs.com联系我们"
 
-#. Perl Module: Kernel/System/Package.pm
-msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"Package::AllowNotVerifiedPackages\" system configuration setting.</p>"
-msgstr ""
-
-#. Perl Module: Kernel/System/Package.pm
-msgid "Verification not possible (e.g. no internet connection)!"
+#. SysConfig
+msgid "Whether extended customer information is shown in the ticket print screen of the customer interface."
 msgstr ""
 

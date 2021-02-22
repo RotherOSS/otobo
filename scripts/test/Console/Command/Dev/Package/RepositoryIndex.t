@@ -57,7 +57,4 @@ $Self->Is(
     "Dev::Package::RepositoryIndex result for empty directory",
 );
 
-
 $Self->DoneTesting();
-
-

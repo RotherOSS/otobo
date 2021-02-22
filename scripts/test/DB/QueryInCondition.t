@@ -64,8 +64,8 @@ my @Tests = (
         },
     },
     {
-        Description => "Test QueryInCondition with some ids and quote type 'Integer', but one wrong value (BindMode 0)",
-        Fails       => 1,
+        Description      => "Test QueryInCondition with some ids and quote type 'Integer', but one wrong value (BindMode 0)",
+        Fails            => 1,
         QueryInCondition => {
             Key       => 't.id',
             Values    => [ 1, 2, 3, 4, 'test' ],
@@ -177,7 +177,7 @@ my @Tests = (
             Values => [ 1 .. 1200 ],
         },
         ReferenceDataOracle => {
-            SQL => '( t.id IN (' . ( join ', ', ('?') x 1000 ) . ') OR t.id IN (' . ( join ', ', ('?') x 200 ) . ') )',
+            SQL    => '( t.id IN (' . ( join ', ', ('?') x 1000 ) . ') OR t.id IN (' . ( join ', ', ('?') x 200 ) . ') )',
             Values => [ 1 .. 1200 ],
         },
     },
@@ -366,5 +366,3 @@ continue {
 }
 
 $Self->DoneTesting();
-
-

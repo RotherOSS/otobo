@@ -126,7 +126,6 @@ sub Error {
 
     return if !$Self->{Query}->cgi_error();
 
-
     return $Self->{Query}->cgi_error() . ' - POST_MAX=' . ( $CGI::POST_MAX / 1024 ) . 'KB';
 }
 
@@ -382,7 +381,7 @@ sub GetCookie {
     return $Self->{Query}->cookie( $Param{Key} );
 }
 
-=head2 RemoteAddr
+=head2 RemoteAddr()
 
 get the remote address of the HTTP client.
 This is a wrapper around CGI::remote_addr().
@@ -394,10 +393,10 @@ This is a wrapper around CGI::remote_addr().
 sub RemoteAddr {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->remote_addr( @Params );
+    return $Self->{Query}->remote_addr(@Params);
 }
 
-=head2 RemoteUser
+=head2 RemoteUser()
 
 get the remote user.
 This is a wrapper around CGI::remote_user().
@@ -409,10 +408,10 @@ This is a wrapper around CGI::remote_user().
 sub RemoteUser {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->remote_user( @Params );
+    return $Self->{Query}->remote_user(@Params);
 }
 
-=head2 ScriptName
+=head2 ScriptName()
 
 return the script name as a partial URL, for self-referring scripts.
 This is a wrapper around CGI::script_name().
@@ -425,13 +424,13 @@ sub ScriptName {
     my ( $Self, @Params ) = @_;
 
     # fix erroneous double slashes at the beginning of SCRIPT_NAME as it worked in OTRS
-    my $ScriptName = $Self->{Query}->script_name( @Params );
+    my $ScriptName = $Self->{Query}->script_name(@Params);
     $ScriptName =~ s{^//+}{/};
 
     return $ScriptName;
 }
 
-=head2 ServerProtocol
+=head2 ServerProtocol()
 
 return info about the protocol.
 This is a wrapper around CGI::server_protocol().
@@ -443,10 +442,10 @@ This is a wrapper around CGI::server_protocol().
 sub ServerProtocol {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->server_protocol( @Params );
+    return $Self->{Query}->server_protocol(@Params);
 }
 
-=head2 ServerSoftware
+=head2 ServerSoftware()
 
 return info which server is running.
 This is a wrapper around CGI::server_software().
@@ -458,10 +457,10 @@ This is a wrapper around CGI::server_software().
 sub ServerSoftware {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->server_software( @Params );
+    return $Self->{Query}->server_software(@Params);
 }
 
-=head2 RequestURI
+=head2 RequestURI()
 
 Returns the interpreted pathname of the requested document or CGI (relative to the document root). Or undef if not set.
 This is a wrapper around CGI::request_uri().
@@ -473,10 +472,10 @@ This is a wrapper around CGI::request_uri().
 sub RequestURI {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->request_uri( @Params );
+    return $Self->{Query}->request_uri(@Params);
 }
 
-=head2 ContentType
+=head2 ContentType()
 
 Returns content-type header.
 This is a wrapper around CGI::content_type().
@@ -488,10 +487,10 @@ This is a wrapper around CGI::content_type().
 sub ContentType {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->content_type( @Params );
+    return $Self->{Query}->content_type(@Params);
 }
 
-=head2 EnvQueryString
+=head2 EnvQueryString()
 
 Returns the original query string.
 This is a wrapper around CGI::env_query_string().
@@ -503,10 +502,10 @@ This is a wrapper around CGI::env_query_string().
 sub EnvQueryString {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->env_query_string( @Params );
+    return $Self->{Query}->env_query_string(@Params);
 }
 
-=head2 RequestMethod
+=head2 RequestMethod()
 
 Usually either GET or POST.
 This is a wrapper around CGI::request_method().
@@ -518,10 +517,10 @@ This is a wrapper around CGI::request_method().
 sub RequestMethod {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->request_method( @Params );
+    return $Self->{Query}->request_method(@Params);
 }
 
-=head2 PathInfo
+=head2 PathInfo()
 
 Returns additional path information from the script URL.
 This is a wrapper around CGI::path_info().
@@ -533,10 +532,10 @@ This is a wrapper around CGI::path_info().
 sub PathInfo {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->path_info( @Params );
+    return $Self->{Query}->path_info(@Params);
 }
 
-=head2 HTTP
+=head2 HTTP()
 
 get the HTTP environment variable. Called with a single argument get the specific environment variable.
 This is a wrapper around CGI::http().
@@ -548,13 +547,13 @@ This is a wrapper around CGI::http().
 sub HTTP {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->http( @Params );
+    return $Self->{Query}->http(@Params);
 }
 
-=head2 HTTPS
+=head2 HTTPS()
 
-same as HTTP(), but operate on the HTTPS environment varibles.
-This is a wrapper around CGI::https().
+same as HTTP(), but operate on the HTTPS environment variables.
+This is a wrapper around C<CGI::https()>.
 
     my $UserAgent = $ParamObject->HTTPS('USER_AGENT');
 
@@ -563,9 +562,8 @@ This is a wrapper around CGI::https().
 sub HTTPS {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->https( @Params );
+    return $Self->{Query}->https(@Params);
 }
-
 
 =head2 IsAJAXRequest()
 

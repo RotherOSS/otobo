@@ -34,12 +34,12 @@ use Getopt::Long qw(GetOptions);
 # OTOBO modules
 
 # some file scoped for convenience
-my ( $DryRun );
+my ($DryRun);
 
 # for determining the group
 my %DefaultGroupNames = (
-    Apache => [ qw(wwwrun apache www-data www _www) ],
-    PSGI   => [ qw(otobo) ],
+    Apache => [qw(wwwrun apache www-data www _www)],
+    PSGI   => [qw(otobo)],
 );
 
 # Files/directories that should be ignored and not recursed into.
@@ -68,7 +68,7 @@ my @ProtectedFiles = (
 my $ExitStatus = 0;
 
 sub PrintUsageAndExit {
-    my ($DefaultGroupNames, $ExitCode) = @_;
+    my ( $DefaultGroupNames, $ExitCode ) = @_;
 
     print <<"END_USAGE";
 
@@ -191,9 +191,9 @@ sub Run {
     say "Setting permissions on $OtoboDirectory";
     File::Find::find(
         {
-            wanted   => sub {
-                    SetPermissions( $OtoboDirectory, $OtoboUserID, $GroupID, $AdminGroupID );
-                },
+            wanted => sub {
+                SetPermissions( $OtoboDirectory, $OtoboUserID, $GroupID, $AdminGroupID );
+            },
             no_chdir => 1,
             follow   => 1,
         },
