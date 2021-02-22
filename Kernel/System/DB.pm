@@ -19,7 +19,7 @@ package Kernel::System::DB;
 
 use strict;
 use warnings;
-use feature qw(state);
+use v5.24;
 
 # core modules
 use List::Util();
@@ -29,6 +29,7 @@ use DBI;
 
 # Set a flag indicating the PSGI case.
 my $DBIxConnectorIsUsed;
+
 BEGIN {
     $DBIxConnectorIsUsed = $ENV{OTOBO_RUNS_UNDER_PSGI} ? 1 : 0;
 }
@@ -130,14 +131,14 @@ sub new {
         return $ConfigObject->Get('Database::Type') if $ConfigObject->Get('Database::Type');
 
         # otherwise auto detection from the DSN
-        return 'mysql'       if $Self->{DSN} =~ m/:mysql/i;
-        return 'postgresql'  if $Self->{DSN} =~ m/:pg/i;
-        return 'oracle'      if $Self->{DSN} =~ m/:oracle/i;
-        return 'db2'         if $Self->{DSN} =~ m/:db2/i;
-        return 'mssql'       if $Self->{DSN} =~ m/(mssql|sybase|sql server)/i;
+        return 'mysql'      if $Self->{DSN} =~ m/:mysql/i;
+        return 'postgresql' if $Self->{DSN} =~ m/:pg/i;
+        return 'oracle'     if $Self->{DSN} =~ m/:oracle/i;
+        return 'db2'        if $Self->{DSN} =~ m/:db2/i;
+        return 'mssql'      if $Self->{DSN} =~ m/(mssql|sybase|sql server)/i;
     };
 
-    if ( ! $Self->{'DB::Type'} ) {
+    if ( !$Self->{'DB::Type'} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'Error',
             Message  => 'Unknown database type! Set option Database::Type in '
@@ -198,7 +199,7 @@ sub Connect {
     # Under PSGI we rely on DBI-Connector.
     if ( !$DBIxConnectorIsUsed && $Self->{dbh} ) {
 
-        my $PingTimeout = 10;        # Only ping every 10 seconds (see bug#12383).
+        my $PingTimeout = 10;     # Only ping every 10 seconds (see bug#12383).
         my $CurrentTime = time;
 
         if ( $CurrentTime - ( $Self->{LastPingTime} // 0 ) < $PingTimeout ) {
@@ -227,7 +228,7 @@ sub Connect {
     }
 
     # db connect
-    if ( $DBIxConnectorIsUsed ) {
+    if ($DBIxConnectorIsUsed) {
 
         my ( %ConnectAttributes, %Callbacks );
         {
@@ -249,11 +250,11 @@ sub Connect {
                 $Callbacks{connected} = sub {
                     my $DatabaseHandle = shift;
 
-                    if ( $DBConnectSQL) {
+                    if ($DBConnectSQL) {
                         $DatabaseHandle->do($DBConnectSQL);
                     }
 
-                    if ( $DeactivateSQL) {
+                    if ($DeactivateSQL) {
                         $DatabaseHandle->do($DeactivateSQL);
                     }
 
@@ -296,14 +297,14 @@ sub Connect {
                 $Self->{USER},
                 $Self->{PW},
                 DBI::_concat_hash_sorted(
-                    {
-                        %ConnectAttributes,
-                        DeactivateForeignKeyChecks => $Self->{DeactivateForeignKeyChecks}
-                    },
-                    "=\001",
-                    ",\001",
-                    0,
-                    0
+                {
+                    %ConnectAttributes,
+                    DeactivateForeignKeyChecks => $Self->{DeactivateForeignKeyChecks}
+                },
+                "=\001",
+                ",\001",
+                0,
+                0
                 );
         };
 
@@ -314,7 +315,7 @@ sub Connect {
             $Self->{USER},
             $Self->{PW},
             {
-                Callbacks  => \%Callbacks,
+                Callbacks => \%Callbacks,
                 %ConnectAttributes,
             }
         );
@@ -343,7 +344,7 @@ sub Connect {
     }
 
     # In the PSGI case this is included in the connection attributes
-    if ( ! $DBIxConnectorIsUsed ) {
+    if ( !$DBIxConnectorIsUsed ) {
         if ( $Self->{Backend}->{'DB::Connect'} ) {
             $Self->Do( SQL => $Self->{Backend}->{'DB::Connect'} );
         }
@@ -351,7 +352,7 @@ sub Connect {
         # maybe deactivate foreign key checks
         if ( $Self->{DeactivateForeignKeyChecks} ) {
             my $DeactivateSQL = $Self->GetDatabaseFunction('DeactivateForeignKeyChecks');
-            if ( $DeactivateSQL) {
+            if ($DeactivateSQL) {
                 $Self->Do( SQL => $DeactivateSQL );
             }
         }
@@ -1574,12 +1575,12 @@ sub QueryCondition {
                         $WordSQL = "'" . $WordSQL . "'";
                     }
 
-        # check if database supports LIKE in large text types
-        # the first condition is a little bit opaque
-        # CaseSensitive of the database defines, if the database handles case sensitivity or not
-        # and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
-        # so if the database dont support case sensitivity or the configuration of the customer database want to do this
-        # then we prevent the LOWER() statements.
+                    # check if database supports LIKE in large text types
+                    # the first condition is a little bit opaque
+                    # CaseSensitive of the database defines, if the database handles case sensitivity or not
+                    # and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
+                    # so if the database dont support case sensitivity or the configuration of the customer database want to do this
+                    # then we prevent the LOWER() statements.
                     if ( !$Self->GetDatabaseFunction('CaseSensitive') || $CaseSensitive ) {
                         $SQLA .= "$Key $Type $WordSQL";
                     }
@@ -1623,12 +1624,12 @@ sub QueryCondition {
                         $WordSQL = "'" . $WordSQL . "'";
                     }
 
-        # check if database supports LIKE in large text types
-        # the first condition is a little bit opaque
-        # CaseSensitive of the database defines, if the database handles case sensitivity or not
-        # and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
-        # so if the database dont support case sensitivity or the configuration of the customer database want to do this
-        # then we prevent the LOWER() statements.
+                    # check if database supports LIKE in large text types
+                    # the first condition is a little bit opaque
+                    # CaseSensitive of the database defines, if the database handles case sensitivity or not
+                    # and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
+                    # so if the database dont support case sensitivity or the configuration of the customer database want to do this
+                    # then we prevent the LOWER() statements.
                     if ( !$Self->GetDatabaseFunction('CaseSensitive') || $CaseSensitive ) {
                         $SQLA .= "$Key $Type $WordSQL";
                     }
@@ -1984,7 +1985,7 @@ start a transaction
 =cut
 
 sub BeginWork {
-    my ( $Self ) = @_;
+    my ($Self) = @_;
 
     # exception when there is no database handle
     return $Self->{dbh}->begin_work();
@@ -2000,11 +2001,11 @@ Useful only when BeginWork() has been called before.
 =cut
 
 sub Rollback {
-    my ( $Self ) = @_;
+    my ($Self) = @_;
 
     my $DatabaseHandle = $Self->{dbh};
 
-    return 1 if !$DatabaseHandle; # no need to rollback
+    return 1 if !$DatabaseHandle;    # no need to rollback
     return $DatabaseHandle->rollback();
 }
 
