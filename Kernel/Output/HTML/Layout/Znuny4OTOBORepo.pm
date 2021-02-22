@@ -24,17 +24,13 @@ Kernel::Output::HTML::Layout::Znuny4OTOBORepo - Znuny4OTOBORepo lib
 
 =head1 SYNOPSIS
 
-All Znuny4OTOBORepo functions.
-
-=head1 PUBLIC INTERFACE
-
-=head2 new()
-
-create an object. Do not use it directly, instead use:
-
+    # No instances of this class should be created directly.
+    # Instead the module is loaded implicitly by Kernel::Output::HTML::Layout
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+=head1 PUBLIC INTERFACE
 
 =head2 _OutputFilterHookShift()
 

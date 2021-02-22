@@ -26,14 +26,16 @@ use parent qw(Kernel::System::Console::BaseCommand);
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ForeachToFor)
 
 our @ObjectDependencies = (
-    'Kernel::System::Elasticsearch',
     'Kernel::Config',
     'Kernel::System::CustomerCompany',
     'Kernel::System::CustomerUser',
+    'Kernel::System::Elasticsearch',
+    'Kernel::System::GeneralCatalog',
     'Kernel::System::GenericInterface::Webservice',
+    'Kernel::System::ITSMConfigItem',
+    'Kernel::System::Package',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
-    'Kernel::System::Package',
 );
 
 sub Configure {
@@ -110,7 +112,7 @@ sub Run {
 
     if ( $Targets =~ /t|i/ ) {
         $Self->CreateAttachmentPipeline(
-            ESObject  => $ESObject,
+            ESObject => $ESObject,
         );
     }
 
@@ -521,8 +523,8 @@ sub MigrateConfigItems {
 
     # check whether ITSMConfigurationManagment is installed
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
-    my $IsInstalled = $PackageObject->PackageIsInstalled(
-        Name   => 'ITSMConfigurationManagement',
+    my $IsInstalled   = $PackageObject->PackageIsInstalled(
+        Name => 'ITSMConfigurationManagement',
     );
     if ( !$IsInstalled ) {
         $Self->Print("<green>Skipping ITSMConfigItems (ITSMConfigurationManagment not installed)...</green>\n");
@@ -530,7 +532,7 @@ sub MigrateConfigItems {
     }
 
     my $GeneralCatalogObject = $Kernel::OM->Get('Kernel::System::GeneralCatalog');
-    my $ConfigItemObject = $Kernel::OM->Get('Kernel::System::ITSMConfigItem');
+    my $ConfigItemObject     = $Kernel::OM->Get('Kernel::System::ITSMConfigItem');
 
     my $ClassList = $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemList(
         Class => 'ITSM::ConfigItem::Class',
@@ -541,7 +543,7 @@ sub MigrateConfigItems {
 
     my @ActiveClasses;
     CLASS:
-    for my $Class ( keys %{ $ClassList } ) {
+    for my $Class ( keys %{$ClassList} ) {
         next CLASS if $ExcludedClasses->{$Class};
         push @ActiveClasses, $Class;
     }
@@ -604,14 +606,14 @@ sub MigrateConfigItems {
     return 1 if !@ActiveClasses;
 
     my $ConfigItems = $ConfigItemObject->ConfigItemSearch(
-        ClassIDs     => [ @ActiveClasses ],
+        ClassIDs => [@ActiveClasses],
     );
 
     my $Count   = 0;
-    my $CICount = scalar( @{ $ConfigItems } );
+    my $CICount = scalar( @{$ConfigItems} );
 
     my $Errors = 0;
-    for my $ConfigItemID ( @{ $ConfigItems } ) {
+    for my $ConfigItemID ( @{$ConfigItems} ) {
 
         $Count++;
 
