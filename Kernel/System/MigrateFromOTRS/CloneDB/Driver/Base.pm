@@ -87,7 +87,7 @@ check several sanity conditions of the source database.
 
 =item check whether the passed database object is supported
 
-=item check whether the required M<DBD::*> module can be loaded
+=item check whether the required L<DBD::*> module can be loaded
 
 =item check whether a connection is possible
 
@@ -540,7 +540,7 @@ sub DataTransfer {
         if (
             $TargetDBObject->GetDatabaseFunction('DirectBlob')
             != $SourceDBObject->GetDatabaseFunction('DirectBlob')
-        )
+            )
         {
             $BlobConversionNeeded{$SourceTable} = $Self->BlobColumnsList(
                 Table    => $SourceTable,
@@ -821,7 +821,7 @@ END_SQL
         if (
             $TargetDBObject->can('ResetAutoIncrementField')
             && any { lc($_) eq 'id' } @SourceColumns
-        )
+            )
         {
 
             $TargetDBObject->ResetAutoIncrementField(

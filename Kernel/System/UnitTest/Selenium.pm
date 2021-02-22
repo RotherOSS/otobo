@@ -252,9 +252,9 @@ sub BUILD {
 
 =head2 button_up()
 
-In Selenium::Remote::Driver 1.39 there seems to be a bug in button_up().
-There the type of the action is pointerDown.
-pointerUp makes more sense and fixes DragAndDrop test failures.
+In L<Selenium::Remote::Driver> 1.39 there seems to be a bug in the method C<button_up()>.
+In the original version the the type of the action is I<Pointer Down>.
+But the action I<Pointer Up> makes more sense and fixes DragAndDrop test failures.
 Therefore override that subroutine.
 
 =cut

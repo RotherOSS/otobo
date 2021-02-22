@@ -2607,7 +2607,7 @@ sub TicketEscalationIndexBuild {
         ( $Ticket{StateType} && $Ticket{StateType} =~ m/^(merge|close|remove)/i )
         ||
         ( $ConfigObject->Get('EscalationSuspendCancelEscalation') && $SuspendStateActive )
-    )
+        )
     {
 
         # update escalation times with 0
