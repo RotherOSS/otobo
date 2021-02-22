@@ -34,12 +34,14 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Language',
+    'Kernel::System::Cache',
     'Kernel::System::DB',
+    'Kernel::System::DateTime',
     'Kernel::System::Encode',
     'Kernel::System::Log',
-    'Kernel::System::DateTime',
+    'Kernel::System::Main',
     'Kernel::System::MigrateFromOTRS::Base',
-    'Kernel::System::Cache',
 );
 
 =head1 NAME

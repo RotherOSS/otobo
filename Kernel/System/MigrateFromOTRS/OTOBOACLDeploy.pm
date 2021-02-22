@@ -29,6 +29,7 @@ use parent qw(Kernel::System::MigrateFromOTRS::Base);
 # OTOBO modules
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::ACL::DB::ACL',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
