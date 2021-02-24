@@ -40,8 +40,7 @@ $Selenium->RunTest(
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # enable google authenticator shared secret preference
-        my $SharedSecretConfig
-            = $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups')->{'GoogleAuthenticatorSecretKey'};
+        my $SharedSecretConfig = $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups')->{'GoogleAuthenticatorSecretKey'};
         $SharedSecretConfig->{Active} = 1;
         $Helper->ConfigSettingChange(
             Valid => 1,
@@ -128,8 +127,8 @@ $Selenium->RunTest(
             )
         {
             # see issue 715: https://github.com/RotherOSS/otobo/issues/715
-            my %IdIsTodo = map { $_ => 1 } ( qw(CurPw NewPw NewPw1 ) );
-            my $ToDo = $IdIsTodo{$ID} ? todo( "field $ID not active, issue #715" ) : undef;
+            my %IdIsTodo = map { $_ => 1 } (qw(CurPw NewPw NewPw1 ));
+            my $ToDo     = $IdIsTodo{$ID} ? todo("field $ID not active, issue #715") : undef;
 
             # Scroll to element view if necessary.
             my $ScrollSuccess = try_ok {
@@ -140,8 +139,8 @@ $Selenium->RunTest(
 
             my $Element = $Selenium->find_element( "#$ID", 'css' );
 
-            ok( $Element, "element $ID found" );
-            ok( $Element->is_enabled(), "$ID is enabled." );
+            ok( $Element,                 "element $ID found" );
+            ok( $Element->is_enabled(),   "$ID is enabled." );
             ok( $Element->is_displayed(), "$ID is displayed." );
         }
 
@@ -227,7 +226,7 @@ $Selenium->RunTest(
             );
             my $PageSource = $Selenium->get_page_source();
             for my $String ( 'Change password', 'Language', 'Out Of Office Time' ) {
-                my $ToDo = $String eq 'Change password' ? todo( "Change password not active, issue #715" ) : undef;
+                my $ToDo = $String eq 'Change password' ? todo("Change password not active, issue #715") : undef;
 
                 my $Translation = $LanguageObject->Translate($String);
                 ok(
@@ -541,7 +540,7 @@ JAVASCRIPT
         # check edited values
         my $UserSkin = $Selenium->find_element( '#UserSkin', 'css' )->get_value();
         {
-            my $ToDo = todo( 'skin ivory does not exist in OTOBO, issue #678' );
+            my $ToDo = todo('skin ivory does not exist in OTOBO, issue #678');
 
             is( $UserSkin, "ivory", "#UserSkin updated value" );
         }

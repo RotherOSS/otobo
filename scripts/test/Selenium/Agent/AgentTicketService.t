@@ -154,8 +154,7 @@ $Selenium->RunTest(
         $Element->VerifiedClick();
 
         # click on child service
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketService;ServiceID=$ServiceIDs[1];\' )]")
-            ->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketService;ServiceID=$ServiceIDs[1];\' )]")->VerifiedClick();
 
         # check different views for filters
         for my $View (qw(Small Medium Preview)) {

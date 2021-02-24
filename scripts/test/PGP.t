@@ -79,7 +79,7 @@ if ( !-e $ConfigObject->Get('PGP::Bin') ) {
 # create local crypt object
 my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
 
-skip_all( "No PGP support" ) unless $PGPObject;
+skip_all("No PGP support") unless $PGPObject;
 
 my %Search = (
     1 => 'unittest@example.com',
@@ -130,7 +130,7 @@ my $TestText = 'hello1234567890äöüÄÖÜ€';
 my $EncodedTestText = $TestText;
 utf8::encode($EncodedTestText);
 
-my $Home     = $ConfigObject->Get('Home');
+my $Home = $ConfigObject->Get('Home');
 
 # delete existing keys to have a cleaned test environment
 COUNT:
@@ -234,7 +234,7 @@ for my $Count ( 1 .. 3 ) {
         my %Decrypt = $PGPObject->Decrypt(
             Message => $Crypted,
         );
-        utf8::decode($Decrypt{Data});
+        utf8::decode( $Decrypt{Data} );
         $Self->True(
             $Decrypt{Successful} || '',
             "Decrypt() - Successful",
@@ -254,7 +254,7 @@ for my $Count ( 1 .. 3 ) {
         my $Sign = $PGPObject->Sign(
             Message => $TestText,
             Key     => $Key->{KeyPrivate},
-            Type    => 'Inline'                  # Detached|Inline
+            Type    => 'Inline'              # Detached|Inline
         );
         $Self->True(
             $Sign || '',
@@ -295,7 +295,7 @@ for my $Count ( 1 .. 3 ) {
         $Sign = $PGPObject->Sign(
             Message => $TestText,
             Key     => $Key->{KeyPrivate},
-            Type    => 'Detached'                # Detached|Inline
+            Type    => 'Detached'            # Detached|Inline
         );
         $Self->True(
             $Sign || '',
@@ -359,7 +359,7 @@ for my $Count ( 1 .. 3 ) {
             my %Decrypt = $PGPObject->Decrypt(
                 Message => $Crypted,
             );
-            utf8::decode($Decrypt{Data});
+            utf8::decode( $Decrypt{Data} );
             $Self->True(
                 $Decrypt{Successful} || '',
                 "Decrypt() - Successful",
@@ -378,7 +378,7 @@ for my $Count ( 1 .. 3 ) {
             my $Sign = $PGPObject->Sign(
                 Message => $Reference,
                 Key     => $Key->{KeyPrivate},
-                Type    => 'Inline'                  # Detached|Inline
+                Type    => 'Inline'              # Detached|Inline
             );
             $Self->True(
                 $Sign || '',
@@ -408,7 +408,7 @@ for my $Count ( 1 .. 3 ) {
             $Sign = $PGPObject->Sign(
                 Message => $Reference,
                 Key     => $Key->{KeyPrivate},
-                Type    => 'Detached'                # Detached|Inline
+                Type    => 'Detached'            # Detached|Inline
             );
             $Self->True(
                 $Sign || '',
@@ -503,7 +503,7 @@ for my $Count (3) {
             my $Sign = $PGPObject->Sign(
                 Message => $TestText,
                 Key     => $Key->{KeyPrivate},
-                Type    => 'Inline'                  # Detached|Inline
+                Type    => 'Inline'              # Detached|Inline
             );
             if ( $DeprecatedDigestTypes{$DigestPreference} ) {
                 $Self->False(
@@ -562,7 +562,7 @@ for my $Count (3) {
             $Sign = $PGPObject->Sign(
                 Message => $TestText,
                 Key     => $Key->{KeyPrivate},
-                Type    => 'Detached'                # Detached|Inline
+                Type    => 'Detached'            # Detached|Inline
             );
             if ( $DeprecatedDigestTypes{$DigestPreference} ) {
                 $Self->False(

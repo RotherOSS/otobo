@@ -235,8 +235,7 @@ my $CheckForCommunicationLog = sub {
         }
     ];
 
-    my $CommunicationLogConnection
-        = List::Util::first { $_->{ObjectLogType} eq 'Connection' } @{$CommunicationLogObjects};
+    my $CommunicationLogConnection = List::Util::first { $_->{ObjectLogType} eq 'Connection' } @{$CommunicationLogObjects};
     $Self->True(
         $CommunicationLogConnection->{ObjectLogStatus} eq $CommunicationLogStatus->{Connection},
         $TestBaseMessage

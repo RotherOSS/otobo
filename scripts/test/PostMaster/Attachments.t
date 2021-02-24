@@ -101,8 +101,7 @@ for my $FieldName ( sort keys %NeededDynamicfields ) {
         push @DynamicfieldIDs, $FieldID;
     }
     else {
-        my $DynamicField
-            = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
+        my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
 
         if ( $DynamicField->{ValidID} > 1 ) {
             push @DynamicFieldUpdate, $DynamicField;

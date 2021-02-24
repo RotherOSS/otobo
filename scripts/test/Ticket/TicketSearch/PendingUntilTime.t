@@ -151,8 +151,8 @@ my @Tests = (
         ExpectedResultTicketIDs => [],
     },
     {
-        Description => "Test search param 'TicketPendingTimeOlderDate' and 'TicketPendingTimeNewerDate' together",
-        TimeStamp   => '2015-11-20 08:00:00',
+        Description        => "Test search param 'TicketPendingTimeOlderDate' and 'TicketPendingTimeNewerDate' together",
+        TimeStamp          => '2015-11-20 08:00:00',
         TicketSearchConfig => {
             TicketPendingTimeNewerDate => '2015-12-01 00:00:00',
             TicketPendingTimeOlderDate => '2015-12-05 00:00:00',
@@ -205,8 +205,8 @@ my @Tests = (
         ExpectedResultTicketIDs => [ $TicketIDs[3] ],
     },
     {
-        Description => "Test search param 'TicketPendingTimeNewerMinutes' and 'TicketPendingTimeOlderMinutes' together",
-        TimeStamp   => '2016-04-14 19:00:00',
+        Description        => "Test search param 'TicketPendingTimeNewerMinutes' and 'TicketPendingTimeOlderMinutes' together",
+        TimeStamp          => '2016-04-14 19:00:00',
         TicketSearchConfig => {
             TicketPendingTimeNewerMinutes => '2160',
             TicketPendingTimeOlderMinutes => '120',

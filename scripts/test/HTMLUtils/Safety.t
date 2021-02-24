@@ -850,8 +850,8 @@ You should be able to continue reading these lessons, however.
         },
     },
     {
-        Name  => 'Safety - malicious CSS content - remote background image, forbidden',
-        Input => '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
+        Name   => 'Safety - malicious CSS content - remote background image, forbidden',
+        Input  => '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
         Config => {
             NoExtSrcLoad => 1,
         },
@@ -861,8 +861,8 @@ You should be able to continue reading these lessons, however.
         },
     },
     {
-        Name  => 'Safety - malicious CSS content - remote background image, allowed',
-        Input => '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
+        Name   => 'Safety - malicious CSS content - remote background image, allowed',
+        Input  => '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
         Config => {
             NoExtSrcLoad => 0,
         },

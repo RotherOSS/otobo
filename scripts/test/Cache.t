@@ -97,7 +97,7 @@ for my $ModuleFile (@BackendModuleFiles) {
         # Under Docker Redis should be available.
         # In a classical Installation we don't know. So we tentatively try to connect
         # to the configured Redis Server, and proceed only if that works.
-        if ( $Module =~ m/Redis/i && ! $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
+        if ( $Module =~ m/Redis/i && !$ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
             next MODULEFILE unless $CacheObject->{CacheObject}->_Connect();
         }
 

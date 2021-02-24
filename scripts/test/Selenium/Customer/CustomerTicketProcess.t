@@ -364,11 +364,10 @@ $Selenium->RunTest(
             "DynamicField filtered options count",
         );
 
-        my $SubjectRandom  = 'Subject' . $Helper->GetRandomID();
-        my $ContentRandom  = 'Content' . $Helper->GetRandomID();
-        my $AttachmentName = "StdAttachment-Test1.txt";
-        my $AttachmentLocation
-            = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/scripts/test/sample/StdAttachment/$AttachmentName";
+        my $SubjectRandom      = 'Subject' . $Helper->GetRandomID();
+        my $ContentRandom      = 'Content' . $Helper->GetRandomID();
+        my $AttachmentName     = "StdAttachment-Test1.txt";
+        my $AttachmentLocation = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/scripts/test/sample/StdAttachment/$AttachmentName";
 
         $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRandom);
         $Selenium->find_element( "#RichText", 'css' )->send_keys($ContentRandom);

@@ -33,7 +33,7 @@ $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 
-plan( 2 );
+plan(2);
 
 my $Helper   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $RandomID = $Helper->GetRandomID();
@@ -50,7 +50,7 @@ my @Tests = (
             Key   => 'UnitTest::Blacklist###1000-UnitTest' . $RandomID,
             Value => ['NutsAndBolts.t'],
         },
-        ResultPattern        => qr{Result: \s+ NOTESTS}x,
+        ResultPattern => qr{Result: \s+ NOTESTS}x,
     },
     {
         Name                 => "UnitTest 'NutsAndBolts.t' executed because not blacklisted",
@@ -61,7 +61,7 @@ my @Tests = (
             Key   => 'UnitTest::Blacklist###1000-UnitTest' . $RandomID,
             Value => [],
         },
-        ResultPattern        => qr{\QParse errors: No plan found in TAP output\E},
+        ResultPattern => qr{\QParse errors: No plan found in TAP output\E},
     },
 );
 
@@ -89,8 +89,8 @@ for my $Test (@Tests) {
     # some diagnostics
     $ResultStderr //= 'undef';
     $ResultStdout //= 'undef';
-    note( "err: '$ResultStderr'" );
-    note( "out: '$ResultStdout'" );
+    note("err: '$ResultStderr'");
+    note("out: '$ResultStdout'");
 
     # Check for executed tests message.
     like( $ResultStdout, $Test->{ResultPattern}, $Test->{Name} );

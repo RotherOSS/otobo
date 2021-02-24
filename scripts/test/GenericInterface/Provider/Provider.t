@@ -320,8 +320,7 @@ for my $Test (@Tests) {
                     );
 
                     # prepare CGI environment variables
-                    $ENV{REQUEST_URI}
-                        = "http://localhost/otobo/nph-genericinterface.pl/$WebserviceAccess?" . $QueryString;
+                    $ENV{REQUEST_URI}    = "http://localhost/otobo/nph-genericinterface.pl/$WebserviceAccess?" . $QueryString;
                     $ENV{QUERY_STRING}   = $QueryString;
                     $ENV{REQUEST_METHOD} = 'GET';
                 }

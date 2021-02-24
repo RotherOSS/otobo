@@ -86,7 +86,7 @@ my $CryptObject = eval {
     Kernel::System::Crypt::SMIME->new();
 };
 
-skip_all( 'The system with current configuration does not support SMIME, this test can not continue!' ) unless $CryptObject;
+skip_all('The system with current configuration does not support SMIME, this test can not continue!') unless $CryptObject;
 
 # get current configuration settings
 my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin');

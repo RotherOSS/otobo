@@ -37,7 +37,7 @@ sub Run {
     # Skip the plugin, if the support data collection isn't running in a web request.
     return $Self->GetResults() if !$ENV{GATEWAY_INTERFACE};
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ParamObject    = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ServerSoftware = $ParamObject->ServerSoftware();
 
     if ($ServerSoftware) {

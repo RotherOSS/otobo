@@ -237,7 +237,7 @@ $Selenium->RunTest(
         for my $Test (@MandatoryTests) {
 
             # Write test case description.
-            note( "Test case for 'mandatory': $Test->{Name}" );
+            note("Test case for 'mandatory': $Test->{Name}");
 
             for my $NoMandatoryField ( values $FreeTextFields{NoMandatory}->%* ) {
 
@@ -272,8 +272,7 @@ $Selenium->RunTest(
             );
 
             # Click on 'Free Fields' and switch window.
-            $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketFreeText;TicketID=$TicketID' )]")
-                ->click();
+            $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketFreeText;TicketID=$TicketID' )]")->click();
 
             $Selenium->WaitFor( WindowCount => 2 );
             my $Handles = $Selenium->get_window_handles();
@@ -392,6 +391,7 @@ $Selenium->RunTest(
                 SLAID      => $SLAID,
                 NewQueueID => '',
             },
+
             # These tests currently run into a time out.
             # There is a Github issue for reactivating them: issue #748.
             #{
@@ -425,7 +425,7 @@ $Selenium->RunTest(
         for my $Test (@ClearTests) {
 
             # Write test case description.
-            note( "Test case for 'clear': $Test->{Name}" );
+            note("Test case for 'clear': $Test->{Name}");
 
             my $ExpectedErrorFieldID;
 

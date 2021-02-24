@@ -58,10 +58,9 @@ $ConfigObject->Set(
     Value => '6.0.2',
 );
 
-my @OrigPackageInstalledList
-    = $Kernel::OM->Get('Kernel::System::Package')->RepositoryList(    # do not create object instance
+my @OrigPackageInstalledList = $Kernel::OM->Get('Kernel::System::Package')->RepositoryList(    # do not create object instance
     Result => 'short',
-    );
+);
 my %OrigInstalledList = map { $_->{Name} => $_->{Version} } @OrigPackageInstalledList;
 
 my $Home     = $ConfigObject->Get('Home');
@@ -276,8 +275,7 @@ for my $Test (@Tests) {
     my @PackageInstalledList = $PackageObject->RepositoryList(
         Result => 'short',
     );
-    my %InstalledList
-        = map { $_->{Name} => $_->{Version} } grep { !defined $OrigInstalledList{ $_->{Name} } } @PackageInstalledList;
+    my %InstalledList = map { $_->{Name} => $_->{Version} } grep { !defined $OrigInstalledList{ $_->{Name} } } @PackageInstalledList;
     $Self->IsDeeply(
         \%InstalledList,
         $Test->{RepositoryListBefore},
@@ -295,8 +293,7 @@ for my $Test (@Tests) {
     @PackageInstalledList = $PackageObject->RepositoryList(
         Result => 'short',
     );
-    %InstalledList
-        = map { $_->{Name} => $_->{Version} } grep { !defined $OrigInstalledList{ $_->{Name} } } @PackageInstalledList;
+    %InstalledList = map { $_->{Name} => $_->{Version} } grep { !defined $OrigInstalledList{ $_->{Name} } } @PackageInstalledList;
     $Self->IsDeeply(
         \%InstalledList,
         $Test->{RepositoryListAfter},

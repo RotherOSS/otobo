@@ -68,8 +68,8 @@ $Selenium->RunTest(
             # Try to drag the admin item to the front of the nav bar.
             # Specifying offsets is a bit tricky. So simply drag Admin on top of Dashboard.
             $Selenium->DragAndDrop(
-                Element      => 'li#nav-Admin',
-                Target       => 'li#nav-Dashboard',
+                Element => 'li#nav-Admin',
+                Target  => 'li#nav-Dashboard',
             );
 
             # Wait for the success arrow to show up.

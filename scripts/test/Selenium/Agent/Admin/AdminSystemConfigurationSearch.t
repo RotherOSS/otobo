@@ -53,8 +53,7 @@ $Selenium->RunTest(
         );
 
         # Search for CloudService::Admin::Module###100-SupportDataCollector(setting with : and # to test encoding).
-        $Selenium->find_element( '#SysConfigSearch', 'css' )
-            ->send_keys('CloudService::Admin::Module###100-SupportDataCollector');
+        $Selenium->find_element( '#SysConfigSearch', 'css' )->send_keys('CloudService::Admin::Module###100-SupportDataCollector');
         $Selenium->WaitFor(
             JavaScript => 'return $("ul.ui-autocomplete a:visible").length',
         );

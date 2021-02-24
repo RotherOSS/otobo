@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -34,7 +34,7 @@ use Kernel::System::ObjectManager;
 # even though this route could also be available outside Docker.
 skip_all 'not running under Docker' unless $ENV{OTOBO_RUNS_UNDER_DOCKER};
 
-plan( 1 );
+plan(1);
 
 $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
@@ -56,8 +56,8 @@ http_request(
     [ GET($RobotsTxtURL) ],
     http_response {
         http_is_success();
-        http_content_type( 'text/plain' );
-        http_content( match( qr!Allow:\s+/otobo/public.pl! ) );
+        http_content_type('text/plain');
+        http_content( match(qr!Allow:\s+/otobo/public.pl!) );
     },
     "testing $RobotsTxtURL",
 );

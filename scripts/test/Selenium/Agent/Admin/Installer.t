@@ -26,7 +26,7 @@ use File::Copy qw(copy);
 use Test2::V0;
 
 # OTOBO moduled
-use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
 
 our $Self;
 
@@ -36,10 +36,10 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 # ProvideTestDatabase() will clean the test database and change database settings system-wide.
 my $Success = $Helper->ProvideTestDatabase();
 if ( !$Success ) {
-    skip_all( 'Test database could not be provided, skipping test' );
+    skip_all('Test database could not be provided, skipping test');
 }
 else {
-    pass( 'ProvideTestDatabase() - Database cleared' );
+    pass('ProvideTestDatabase() - Database cleared');
 
     my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
@@ -115,8 +115,7 @@ else {
                 $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
                 # Go to second step of installation (Database Selection).
-                $Selenium->find_element("//button[\@value='Accept license and continue'][\@type='submit']")
-                    ->VerifiedClick();
+                $Selenium->find_element("//button[\@value='Accept license and continue'][\@type='submit']")->VerifiedClick();
 
                 # Set database type.
                 $Selenium->InputFieldValueSet(
@@ -318,8 +317,8 @@ else {
             }
 
             # Restore original configuration.
-            copy( $ConfigPmFileBackup, $ConfigPmFile) if -e $ConfigPmFileBackup;
-            unlink $ConfigPmFileBackup                if -e $ConfigPmFileBackup;
+            copy( $ConfigPmFileBackup, $ConfigPmFile ) if -e $ConfigPmFileBackup;
+            unlink $ConfigPmFileBackup                 if -e $ConfigPmFileBackup;
         }
     );
 

@@ -64,12 +64,19 @@ sub VerifiedSubmit {
         $Self->driver()->WaitFor(
             JavaScript =>
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        ) || $Context->throw( "OTOBO API verification failed after element submit." );
+        ) || $Context->throw("OTOBO API verification failed after element submit.");
     };
-    my $Pass = run_subtest( 'VerifiedSubmit', $Code, { buffered => 1, inherit_trace => 1 } );
+    my $Pass = run_subtest(
+        'VerifiedSubmit',
+        $Code,
+        {
+            buffered      => 1,
+            inherit_trace => 1
+        }
+    );
 
     # run_subtest() does an implicit eval(), but we want do bail out on the first error
-    $Context->throw( 'VerifiedSubmit() failed' ) unless $Pass;
+    $Context->throw('VerifiedSubmit() failed') unless $Pass;
 
     $Context->release();
 

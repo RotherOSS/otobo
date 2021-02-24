@@ -56,7 +56,7 @@ my $Response = $UserAgent->get(
     $BaseURL . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;"
 );
 if ( !$Response->is_success() ) {
-    skip_all( "Could not login to agent interface, aborting! URL: ${BaseURL}Action=Login;User=$TestUserLogin;Password=$TestUserLogin;" );
+    skip_all("Could not login to agent interface, aborting! URL: ${BaseURL}Action=Login;User=$TestUserLogin;Password=$TestUserLogin;");
 }
 
 my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');

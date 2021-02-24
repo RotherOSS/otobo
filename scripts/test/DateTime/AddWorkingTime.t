@@ -90,9 +90,9 @@ my @TestConfigs = (
         WorkingTimeToAdd    => {
             Years => 2,    # invalid param
         },
-        WorkingHoursConfig => $WorkingHours{MonToSun}->{'0To23'},
-        VacationDaysConfig => \%VacationDays,
-        ExpectedEndDateTimeString => '2015-02-17 12:00:00',    # because of invalid param, date must not be changed
+        WorkingHoursConfig        => $WorkingHours{MonToSun}->{'0To23'},
+        VacationDaysConfig        => \%VacationDays,
+        ExpectedEndDateTimeString => '2015-02-17 12:00:00',                # because of invalid param, date must not be changed
     },
 
     # must fail because of not negative parameters
@@ -101,22 +101,22 @@ my @TestConfigs = (
         TimeZone            => 'UTC',
         StartDateTimeString => '2015-02-17 12:00:00',
         WorkingTimeToAdd    => {
-            Hours => -2,                                       # invalid param
+            Hours => -2,                                                   # invalid param
         },
-        WorkingHoursConfig => $WorkingHours{MonToSun}->{'0To23'},
-        VacationDaysConfig => \%VacationDays,
-        ExpectedEndDateTimeString => '2015-02-17 12:00:00',    # because of invalid param, date must not be changed
+        WorkingHoursConfig        => $WorkingHours{MonToSun}->{'0To23'},
+        VacationDaysConfig        => \%VacationDays,
+        ExpectedEndDateTimeString => '2015-02-17 12:00:00',                # because of invalid param, date must not be changed
     },
 
     {
         Name                => '15h via Calendar 9',
         TimeZone            => 'UTC',
-        Calendar            => 9,                              # time zone Europe/Berlin
-        StartDateTimeString => '2015-03-27 11:00:00',          # UTC
+        Calendar            => 9,                                          # time zone Europe/Berlin
+        StartDateTimeString => '2015-03-27 11:00:00',                      # UTC
         WorkingTimeToAdd    => {
             Hours => 15,
         },
-        ExpectedEndDateTimeString => '2015-03-31 07:00:00',    # UTC
+        ExpectedEndDateTimeString => '2015-03-31 07:00:00',                # UTC
     },
     {
         Name                => '90d',

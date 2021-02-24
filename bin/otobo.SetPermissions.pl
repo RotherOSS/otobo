@@ -179,7 +179,7 @@ sub Run {
         exit 1;
     }
 
-    if ( $SkipArticleDir ) {
+    if ($SkipArticleDir) {
         push @IgnoreFiles, qr{^/var/article}smx;
     }
 
@@ -282,7 +282,7 @@ sub SetFilePermissions {
     # There seem to be cases when stat does not work on a dangling link, skip in this case.
     my $Stat = File::stat::stat($File) || return;
     if ( ( $Stat->mode() & 07777 ) != $TargetPermission ) {
-        if ( $DryRun ) {
+        if ($DryRun) {
             print sprintf(
                 "$RelativeFile permissions %o -> %o\n",
                 $Stat->mode() & 07777,
@@ -300,7 +300,7 @@ sub SetFilePermissions {
     }
 
     if ( ( $Stat->uid() != $TargetUserID ) || ( $Stat->gid() != $TargetGroupID ) ) {
-        if ( $DryRun ) {
+        if ($DryRun) {
             print sprintf(
                 "$RelativeFile ownership %s:%s -> %s:%s\n",
                 $Stat->uid(),

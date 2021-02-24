@@ -613,8 +613,7 @@ $Selenium->RunTest(
                     }
                 ' );
 
-                $Selenium->find_element( "#OptionCustomerUserAddressBook" . $SubTest->{RecipientField}, 'css' )
-                    ->click();
+                $Selenium->find_element( "#OptionCustomerUserAddressBook" . $SubTest->{RecipientField}, 'css' )->click();
 
                 $Selenium->SwitchToFrame(
                     FrameSelector => '.CustomerUserAddressBook',

@@ -193,8 +193,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Search", 'css' )->send_keys($CustomerName);
         $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
 
-        $Selenium->find_element("//ul[contains(\@id, \'Customers')]//li//a[contains(\@href, \'ID=$CustomerName' )]")
-            ->VerifiedClick();
+        $Selenium->find_element("//ul[contains(\@id, \'Customers')]//li//a[contains(\@href, \'ID=$CustomerName' )]")->VerifiedClick();
 
         # Check if customer user is displayed after customer search.
         $Self->Is(

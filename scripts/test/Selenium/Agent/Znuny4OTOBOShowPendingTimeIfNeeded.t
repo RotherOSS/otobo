@@ -113,13 +113,13 @@ my $SeleniumTest = sub {
             my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
             $TicketID = $TicketObject->TicketCreate(
-                Title        => "Selenium Test Ticket for Znuny4OTOBOShowPendingTimeIfNeeded.t",
-                Queue        => 'Raw',
-                Lock         => 'unlock',
-                Priority     => '3 normal',
-                State        => 'new',
-                OwnerID      => 1,
-                UserID       => 1,
+                Title    => "Selenium Test Ticket for Znuny4OTOBOShowPendingTimeIfNeeded.t",
+                Queue    => 'Raw',
+                Lock     => 'unlock',
+                Priority => '3 normal',
+                State    => 'new',
+                OwnerID  => 1,
+                UserID   => 1,
             );
         }
 
@@ -132,7 +132,7 @@ my $SeleniumTest = sub {
                 $Selenium->find_element( "#$Field", 'css' )->is_displayed();
             };
 
-            ok( ! $IsDisplayed, "disabled element '$Field' is not displayed" );
+            ok( !$IsDisplayed, "disabled element '$Field' is not displayed" );
         }
 
         my $StateElement = eval {
@@ -141,8 +141,8 @@ my $SeleniumTest = sub {
         ok( $StateElement, 'state input field found' );
 
         my $Result = $Selenium->InputFieldValueSet(
-            Element     => "#$Test->{Data}->{State}",
-            Value       => $PendingStateIDs[0],
+            Element => "#$Test->{Data}->{State}",
+            Value   => $PendingStateIDs[0],
         );
 
         ok( $Result, 'Changed state successfully' );
