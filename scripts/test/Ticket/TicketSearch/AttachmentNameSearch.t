@@ -53,9 +53,9 @@ my @TicketIDs;
 # Create two test tickets.
 for my $Item ( 1 .. 2 ) {
     my $TicketID = $TicketObject->TicketCreate(
-        Title => ( $Item == 1 ) ? ( $RandomID . 'Ticket One Title' ) : ( $RandomID . 'Ticket Two Title ' . $RandomID ),
-        Queue => 'Raw',
-        Lock  => 'unlock',
+        Title        => ( $Item == 1 ) ? ( $RandomID . 'Ticket One Title' ) : ( $RandomID . 'Ticket Two Title ' . $RandomID ),
+        Queue        => 'Raw',
+        Lock         => 'unlock',
         Priority     => '3 normal',
         State        => 'new',
         CustomerID   => '123465' . $RandomID,

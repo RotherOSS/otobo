@@ -255,8 +255,7 @@ $Selenium->RunTest(
         );
 
         # Check for upcoming System Maintenance notification.
-        my $UpcomingSysMaintenanceNotif
-            = "A system maintenance period will start at: $StartTimeString and is expected to stop at: $EndTimeString";
+        my $UpcomingSysMaintenanceNotif = "A system maintenance period will start at: $StartTimeString and is expected to stop at: $EndTimeString";
         $Self->False(
             $Selenium->execute_script(
                 "return \$('.MessageBox.Notice p:contains(\"$UpcomingSysMaintenanceNotif\")').length"

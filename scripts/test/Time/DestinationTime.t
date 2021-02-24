@@ -89,11 +89,11 @@ my @Tests = (
         VacationDays    => \%VacationDays,
     },
     {
-        Name           => 'Europe/Berlin ( Daylight Saving Time UTC+1 => UTC+2 )',
-        TimeStampStart => '2015-02-17 12:00:00',
-        OTOBOTimeZone  => 'Europe/Berlin',
-        Time           => 60 * 60 * 24 * 90 + 60 * 60,
-        TimeDate        => '90 days and 1h',                     # 90 days and 1h, contains 05-01 vacation day
+        Name            => 'Europe/Berlin ( Daylight Saving Time UTC+1 => UTC+2 )',
+        TimeStampStart  => '2015-02-17 12:00:00',
+        OTOBOTimeZone   => 'Europe/Berlin',
+        Time            => 60 * 60 * 24 * 90 + 60 * 60,
+        TimeDate        => '90 days and 1h',                                          # 90 days and 1h, contains 05-01 vacation day
         DestinationTime => '2015-05-19 14:00:00',
         WorkingHours    => $WorkingHours{MonToSun}->{'0To23'},
         VacationDays    => \%VacationDays,
@@ -102,7 +102,7 @@ my @Tests = (
         Name            => 'UTC',
         TimeStampStart  => '2015-02-21 22:00:00',
         OTOBOTimeZone   => 'UTC',
-        Time            => 60 * 60 * 6,                          # 6h
+        Time            => 60 * 60 * 6,                                               # 6h
         TimeDate        => '6h',
         DestinationTime => '2015-02-22 04:00:00',
         WorkingHours    => $WorkingHours{MonToSun}->{'0To23'},
@@ -129,10 +129,10 @@ my @Tests = (
         VacationDays    => \%VacationDays,
     },
     {
-        Name           => 'America/Sao_Paulo - end DST from 00 to 23 - with min and sec ( UTC-2 => UTC-3 )',
-        TimeStampStart => '2015-02-21 22:10:05',
-        OTOBOTimeZone  => 'America/Sao_Paulo',
-        Time            => 60 * 60 * 24 * 4 + 60 * 60 * 5 + 60 * 20 + 15,                     # 4 days 05:20:15
+        Name            => 'America/Sao_Paulo - end DST from 00 to 23 - with min and sec ( UTC-2 => UTC-3 )',
+        TimeStampStart  => '2015-02-21 22:10:05',
+        OTOBOTimeZone   => 'America/Sao_Paulo',
+        Time            => 60 * 60 * 24 * 4 + 60 * 60 * 5 + 60 * 20 + 15,                                       # 4 days 05:20:15
         TimeDate        => '4 days 05:20:15',
         DestinationTime => '2015-02-26 02:30:20',
         WorkingHours    => $WorkingHours{MonToSun}->{'0To23'},
@@ -142,7 +142,7 @@ my @Tests = (
         Name            => 'UTC',
         TimeStampStart  => '2015-10-17 22:00:00',
         OTOBOTimeZone   => 'UTC',
-        Time            => 60 * 60 * 6,                                                       # 6h
+        Time            => 60 * 60 * 6,                                                                         # 6h
         TimeDate        => '6h',
         DestinationTime => '2015-10-18 04:00:00',
         WorkingHours    => $WorkingHours{MonToSun}->{'0To23'},
@@ -152,7 +152,7 @@ my @Tests = (
         Name            => 'America/Sao_Paulo - start DST from 00 to 01 ( UTC-3 => UTC-2 )',
         TimeStampStart  => '2015-10-17 22:00:00',
         OTOBOTimeZone   => 'America/Sao_Paulo',
-        Time            => 60 * 60 * 7,                                                        # 7h
+        Time            => 60 * 60 * 7,                                                                         # 7h
         TimeDate        => '7h',
         DestinationTime => '2015-10-18 06:00:00',
         WorkingHours    => $WorkingHours{MonToSun}->{'0To23'},
@@ -162,7 +162,7 @@ my @Tests = (
         Name            => 'UTC',
         TimeStampStart  => '2015-03-21 12:00:00',
         OTOBOTimeZone   => 'UTC',
-        Time            => 60 * 60 * 24,                                                       # 24h
+        Time            => 60 * 60 * 24,                                                                        # 24h
         TimeDate        => '24h',
         DestinationTime => '2015-03-22 12:00:00',
         WorkingHours    => $WorkingHours{MonToSun}->{'0To23'},
@@ -172,7 +172,7 @@ my @Tests = (
         Name            => 'UTC',
         TimeStampStart  => '2015-09-21 12:00:00',
         OTOBOTimeZone   => 'UTC',
-        Time            => 60 * 60 * 16,                                                       # 16h
+        Time            => 60 * 60 * 16,                                                                        # 16h
         TimeDate        => '16h',
         DestinationTime => '2015-09-22 04:00:00',
         WorkingHours    => $WorkingHours{MonToSun}->{'0To23'},
@@ -182,7 +182,7 @@ my @Tests = (
         Name            => 'Asia/Tehran - end DST from 00 to 23  ( UTC+3:30 => UTC+4:30 )',
         TimeStampStart  => '2015-09-21 12:00:00',
         OTOBOTimeZone   => 'Asia/Tehran',
-        Time            => 60 * 60 * 15,                                                       # 15h
+        Time            => 60 * 60 * 15,                                                                        # 15h
         TimeDate        => '15h',
         DestinationTime => '2015-09-22 02:00:00',
         WorkingHours    => $WorkingHours{MonToSun}->{'0To23'},
@@ -192,7 +192,7 @@ my @Tests = (
         Name            => 'UTC',
         TimeStampStart  => '2015-03-21 12:00:00',
         OTOBOTimeZone   => 'UTC',
-        Time            => 60 * 60 * 16,                                                       # 16h
+        Time            => 60 * 60 * 16,                                                                        # 16h
         TimeDate        => '16h',
         DestinationTime => '2015-03-22 04:00:00',
         WorkingHours    => $WorkingHours{MonToSun}->{'0To23'},
@@ -202,7 +202,7 @@ my @Tests = (
         Name            => 'Asia/Tehran - start DST from 00 to 01  ( UTC+4:30 => UTC+3:30 )',
         TimeStampStart  => '2015-03-21 12:00:00',
         OTOBOTimeZone   => 'Asia/Tehran',
-        Time            => 60 * 60 * 17,                                                        # 17h
+        Time            => 60 * 60 * 17,                                                                        # 17h
         TimeDate        => '17h',
         DestinationTime => '2015-03-22 06:00:00',
         WorkingHours    => $WorkingHours{MonToSun}->{'0To23'},
@@ -212,7 +212,7 @@ my @Tests = (
         Name            => 'Asia/Tehran - start DST from 00 to 01  ( UTC+4:30 => UTC+3:30 )',
         TimeStampStart  => '2015-01-21 12:00:00',
         OTOBOTimeZone   => 'Asia/Tehran',
-        Time            => 60 * 60 * 24 * 90 + 60 * 60 * 17,                                    # 90 days and 17h
+        Time            => 60 * 60 * 24 * 90 + 60 * 60 * 17,                                                    # 90 days and 17h
         TimeDate        => '90 days and 17h',
         DestinationTime => '2015-04-22 06:00:00',
         WorkingHours    => $WorkingHours{MonToSun}->{'0To23'},
@@ -222,7 +222,7 @@ my @Tests = (
         Name            => 'UTC',
         TimeStampStart  => '2015-01-21 12:00:00',
         OTOBOTimeZone   => 'UTC',
-        Time            => 60 * 60 * 24 * 90 + 60 * 60 * 16,                                    # 90 days and 16h
+        Time            => 60 * 60 * 24 * 90 + 60 * 60 * 16,                                                    # 90 days and 16h
         TimeDate        => '90 days and 16h',
         DestinationTime => '2015-04-22 04:00:00',
         WorkingHours    => $WorkingHours{MonToSun}->{'0To23'},
@@ -353,11 +353,11 @@ my @Tests = (
 
     # test for calendar 9
     {
-        Name => 'OTOBO time zone UTC, Calendar 9 time zone Europe/Berlin ( Daylight Saving Time UTC+1 => UTC+2 )',
-        TimeStampStart  => '2015-03-27 11:00:00',    # UTC
-        OTOBOTimeZone   => 'UTC',
-        Calendar        => 9,
-        Time            => 60 * 60 * 15,             # Cal. 9 has 9 hours per day, Mon - Fri
+        Name           => 'OTOBO time zone UTC, Calendar 9 time zone Europe/Berlin ( Daylight Saving Time UTC+1 => UTC+2 )',
+        TimeStampStart => '2015-03-27 11:00:00',                                                                               # UTC
+        OTOBOTimeZone  => 'UTC',
+        Calendar       => 9,
+        Time           => 60 * 60 * 15,                                                                                        # Cal. 9 has 9 hours per day, Mon - Fri
         TimeDate        => '15h',                    # 90 days and 1h, contains 05-01 vacation day
         DestinationTime => '2015-03-31 07:00:00',    # UTC
     },

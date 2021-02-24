@@ -199,4 +199,3 @@ $Selenium->RunTest(
 );
 
 done_testing();
-

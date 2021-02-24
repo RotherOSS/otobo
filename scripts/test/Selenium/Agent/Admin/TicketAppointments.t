@@ -587,8 +587,7 @@ $Selenium->RunTest(
                     $Selenium->find_element( '.AddButton', 'css' )->click();
                     $Selenium->WaitFor( JavaScript => "return \$('#SearchParam_1_$SearchParam').length" );
 
-                    $Selenium->find_element( "#SearchParam_1_$SearchParam", 'css' )
-                        ->send_keys( $Test->{Config}->{SearchParams}->{$SearchParam} );
+                    $Selenium->find_element( "#SearchParam_1_$SearchParam", 'css' )->send_keys( $Test->{Config}->{SearchParams}->{$SearchParam} );
                 }
             }
 

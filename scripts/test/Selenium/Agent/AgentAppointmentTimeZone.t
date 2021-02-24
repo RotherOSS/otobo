@@ -167,8 +167,7 @@ $Selenium->RunTest(
         );
 
         # Get displayed start date.
-        my $StartDate
-            = $Selenium->find_element( "//*[\@id='AppointmentID_$AppointmentID']/td[4]", 'xpath' )->get_text();
+        my $StartDate = $Selenium->find_element( "//*[\@id='AppointmentID_$AppointmentID']/td[4]", 'xpath' )->get_text();
 
         # Check start time.
         $StartDate =~ /(\d{2}:\d{2}:\d{2})$/;
@@ -209,8 +208,7 @@ $Selenium->RunTest(
         sleep 1;
 
         # Get displayed start date.
-        my $StartDateTZ
-            = $Selenium->find_element( "//*[\@id='AppointmentID_$AppointmentID']/td[4]", 'xpath' )->get_text();
+        my $StartDateTZ = $Selenium->find_element( "//*[\@id='AppointmentID_$AppointmentID']/td[4]", 'xpath' )->get_text();
 
         # Convert date time object to user time zone.
         $DateTimeObject->ToTimeZone(

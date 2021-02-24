@@ -309,8 +309,7 @@ my $CertificationConversionTest = sub {
 
         # Remove any not needed information for easy compare.
         if ( $FormatedCertificate && $FormatedCertificate !~ m{\A-----BEGIN} ) {
-            $FormatedCertificate
-                = substr( $FormatedCertificate, index( $FormatedCertificate, '-----BEGIN' ), -1 ) . "\n";
+            $FormatedCertificate = substr( $FormatedCertificate, index( $FormatedCertificate, '-----BEGIN' ), -1 ) . "\n";
         }
 
         if ($Success) {

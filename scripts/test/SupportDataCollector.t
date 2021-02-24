@@ -50,10 +50,9 @@ $Helper->ConfigSettingChange(
     ],
 );
 
-
 $Self->Note( Note => 'testing CollectAsynchronous' );
 {
-    my $TimeStart = [ Time::HiRes::gettimeofday() ];
+    my $TimeStart   = [ Time::HiRes::gettimeofday() ];
     my %ResultAsync = $SupportDataCollectorObject->CollectAsynchronous();
 
     $Self->Is(
@@ -79,7 +78,7 @@ $Self->Note( Note => 'testing CollectAsynchronous' );
         # Convert file name => package name
         $PluginFile =~ s{^.*(Kernel/System.*)[.]pm$}{$1}xmsg;
         $PluginFile =~ s{/+}{::}xmsg;
-    
+
         if ( !$MainObject->Require($PluginFile) ) {
             $Self->Note( Note => "Could not load $PluginFile!" );
 

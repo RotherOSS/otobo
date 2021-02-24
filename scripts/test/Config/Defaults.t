@@ -62,7 +62,7 @@ for my $ConfigFile (@ConfigFiles) {
     $ConfigFile =~ s{^${Home}/(.*/[^/]+.xml)$}{$1}xmsg;
 
     if ( !grep { $_ =~ $ConfigFile } @{$ChecksumFileArrayRef} ) {
-        skip_all( "Custom configuration file found ($ConfigFile), skipping test..." );
+        skip_all("Custom configuration file found ($ConfigFile), skipping test...");
     }
 }
 

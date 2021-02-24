@@ -85,7 +85,7 @@ if ( !$Response->is_success() ) {
     $BailOut = 1;
 }
 
-if ( ! $BailOut ) {
+if ( !$BailOut ) {
 
     $Response = $UserAgent->get(
         $CustomerBaseURL . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;"
@@ -99,12 +99,13 @@ if ( ! $BailOut ) {
                 . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;"
         );
         $BailOut = 1;
-   }
+    }
 }
 
 my ( $AgentSessionValid, $CustomerSessionValid );
 
-if ( ! $BailOut ) {
+if ( !$BailOut ) {
+
     # Get session info from cookie
     $UserAgent->cookie_jar()->scan(
         sub {
@@ -127,7 +128,7 @@ if ( ! $BailOut ) {
     }
 }
 
-if ( ! $BailOut ) {
+if ( !$BailOut ) {
 
     my %Frontends = (
         $AgentBaseURL    => $ConfigObject->Get('Frontend::Module'),
@@ -141,6 +142,7 @@ if ( ! $BailOut ) {
         for my $Frontend ( sort keys %{ $Frontends{$BaseURL} } ) {
 
             next FRONTEND if $Frontend =~ m/Login|Logout/;
+
             #next FRONTEND if $Frontend !~ m/AgentAppointmentEdit/;
 
             my $URL = $BaseURL . "Action=$Frontend";

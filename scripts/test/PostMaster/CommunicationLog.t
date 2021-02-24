@@ -211,8 +211,7 @@ my $GetMailAcountLastCommunicationLog = sub {
             || []
     };
 
-    @MailAccountCommunicationLog
-        = sort { $b->{CommunicationID} <=> $a->{CommunicationID} } @MailAccountCommunicationLog;
+    @MailAccountCommunicationLog = sort { $b->{CommunicationID} <=> $a->{CommunicationID} } @MailAccountCommunicationLog;
 
     # Get all communication related objects.
     my $Objects = $CommunicationLogDBObj->ObjectLogList(

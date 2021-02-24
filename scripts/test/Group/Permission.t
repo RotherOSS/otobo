@@ -186,8 +186,7 @@ for my $PermissionTest (@UserGroupPermissionTests) {
                     $PermissionSet = 0;
                 }
 
-                my $PermissionMatch
-                    = ( $PermissionSet && exists $UserList{$UserID} && $UserList{$UserID} eq $UserLogin )
+                my $PermissionMatch = ( $PermissionSet && exists $UserList{$UserID} && $UserList{$UserID} eq $UserLogin )
                     || ( !$PermissionSet && !exists $UserList{$UserID} );
 
                 $Self->True(
@@ -221,8 +220,7 @@ for my $PermissionTest (@UserGroupPermissionTests) {
                     $PermissionSet = 0;
                 }
 
-                my $PermissionMatch
-                    = ( $PermissionSet && exists $GroupList{$GroupID} && $GroupList{$GroupID} eq $GroupName )
+                my $PermissionMatch = ( $PermissionSet && exists $GroupList{$GroupID} && $GroupList{$GroupID} eq $GroupName )
                     || ( !$PermissionSet && !exists $GroupList{$GroupID} );
 
                 $Self->True(
@@ -257,8 +255,7 @@ for my $PermissionTest (@UserGroupPermissionTests) {
                     $PermissionSet = 0;
                 }
 
-                my $PermissionMatch
-                    = ( $PermissionSet && exists $UserList{$UserID} && $UserList{$UserID} eq $UserLogin )
+                my $PermissionMatch = ( $PermissionSet && exists $UserList{$UserID} && $UserList{$UserID} eq $UserLogin )
                     || ( !$PermissionSet && !exists $UserList{$UserID} );
 
                 $Self->True(
@@ -292,8 +289,7 @@ for my $PermissionTest (@UserGroupPermissionTests) {
                     $PermissionSet = 0;
                 }
 
-                my $PermissionMatch
-                    = ( $PermissionSet && exists $GroupList{$GroupID} && $GroupList{$GroupID} eq $GroupName )
+                my $PermissionMatch = ( $PermissionSet && exists $GroupList{$GroupID} && $GroupList{$GroupID} eq $GroupName )
                     || ( !$PermissionSet && !exists $GroupList{$GroupID} );
 
                 $Self->True(
@@ -780,8 +776,7 @@ for my $PermissionTest (@UserRoleGroupPermissionTests) {
                     $PermissionSet = 0;
                 }
 
-                my $PermissionMatch
-                    = ( $PermissionSet && exists $GroupList{$GroupID} && $GroupList{$GroupID} eq $GroupName )
+                my $PermissionMatch = ( $PermissionSet && exists $GroupList{$GroupID} && $GroupList{$GroupID} eq $GroupName )
                     || ( !$PermissionSet && !exists $GroupList{$GroupID} );
 
                 $Self->True(
@@ -832,8 +827,7 @@ for my $PermissionTest (@UserRoleGroupPermissionTests) {
                     $PermissionSet = 0;
                 }
 
-                my $PermissionMatch
-                    = ( $PermissionSet && exists $UserList{$UserID} && $UserList{$UserID} eq $UserLogin )
+                my $PermissionMatch = ( $PermissionSet && exists $UserList{$UserID} && $UserList{$UserID} eq $UserLogin )
                     || ( !$PermissionSet && !exists $UserList{$UserID} );
 
                 $Self->True(
@@ -867,8 +861,7 @@ for my $PermissionTest (@UserRoleGroupPermissionTests) {
                     $PermissionSet = 0;
                 }
 
-                my $PermissionMatch
-                    = ( $PermissionSet && exists $GroupList{$GroupID} && $GroupList{$GroupID} eq $GroupName )
+                my $PermissionMatch = ( $PermissionSet && exists $GroupList{$GroupID} && $GroupList{$GroupID} eq $GroupName )
                     || ( !$PermissionSet && !exists $GroupList{$GroupID} );
 
                 $Self->True(

@@ -600,10 +600,8 @@ my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::
 for my $Test (@Tests) {
 
     my $WebserviceConfigTest = $WebserviceConfig;
-    $WebserviceConfigTest->{Requester}->{Invoker}->{TicketGet}->{MappingInbound}->{Config}->{Template}
-        = $Test->{MappingInbound};
-    $WebserviceConfigTest->{Requester}->{Invoker}->{TicketGet}->{MappingOutbound}->{Config}->{Template}
-        = $Test->{MappingOutbound};
+    $WebserviceConfigTest->{Requester}->{Invoker}->{TicketGet}->{MappingInbound}->{Config}->{Template}  = $Test->{MappingInbound};
+    $WebserviceConfigTest->{Requester}->{Invoker}->{TicketGet}->{MappingOutbound}->{Config}->{Template} = $Test->{MappingOutbound};
 
     my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
         ID      => $WebserviceID,

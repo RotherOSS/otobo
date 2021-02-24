@@ -143,7 +143,7 @@ for my $Hours ( sort keys %WorkingHours ) {
     {
         my %Week;
         my @WindowTime = split ',', $WorkingHours{$Hours};
-        for my $Day ( qw(Sun Mon Tue Wed Thu Fri Sat) ) {
+        for my $Day (qw(Sun Mon Tue Wed Thu Fri Sat)) {
             $Week{$Day} = \@WindowTime;
         }
 

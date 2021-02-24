@@ -68,8 +68,8 @@ my $SkipITSM;
 {
     # check whether ITSMConfigurationManagment is installed
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
-    my $IsInstalled = $PackageObject->PackageIsInstalled(
-        Name   => 'ITSMConfigurationManagement',
+    my $IsInstalled   = $PackageObject->PackageIsInstalled(
+        Name => 'ITSMConfigurationManagement',
     );
     if ( !$IsInstalled ) {
         $SkipITSM = 1;
@@ -80,7 +80,6 @@ my $Home = $ConfigObject->Get('Home');
 
 # get main object
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
 
 # for avoiding duplicate word
 my %OperationAlreadyChecked;
@@ -99,7 +98,7 @@ DIRECTORY:
 for my $Directory ( map { $Home . $_ } sort @DirectoriesToSearch ) {
 
     # Custom/Kernel and var/packagesetup do not necessarily exist
-    if ( ! -d $Directory ) {
+    if ( !-d $Directory ) {
         $Self->Note( Note => "$Directory does not exist" );
 
         next DIRECTORY;
@@ -111,9 +110,12 @@ for my $Directory ( map { $Home . $_ } sort @DirectoriesToSearch ) {
         Recursive => 1,
     );
 
-    $Self->Note( Note => sprintf "%d files in directory $Directory", scalar @FilesInDirectory );
+    $Self->Note(
+        Note => sprintf "%d files in directory $Directory",
+        scalar @FilesInDirectory
+    );
 
-    for my $Location ( sort @FilesInDirectory) {
+    for my $Location ( sort @FilesInDirectory ) {
         my $ContentSCALARRef = $MainObject->FileRead(
             Location => $Location,
         );
@@ -162,7 +164,7 @@ for my $Directory ( map { $Home . $_ } sort @DirectoriesToSearch ) {
             my $Description = "$Module | $1->$2()";
 
             # no need to call can when there is no object
-            if ( ! $Object ) {
+            if ( !$Object ) {
                 $Self->True( 0, "Instance of $1 is available" );
 
                 next OPERATION;

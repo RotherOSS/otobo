@@ -42,7 +42,7 @@ use warnings;
 use v5.24;
 use utf8;
 
-if (  $ENV{SKIP_NUTSANDBOLTS_TEST} ) {
+if ( $ENV{SKIP_NUTSANDBOLTS_TEST} ) {
     say 'NutsAndBolts.t: skip all tests as SKIP_NUTSANDBOLTS_TEST is set';
 
     exit 0;

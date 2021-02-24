@@ -27,7 +27,7 @@ our $Self;
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # Check if needed frontend module is registered in sysconfig.
-skip_all( "No AdminGenericAgent" ) unless $ConfigObject->Get('Frontend::Module')->{AdminGenericAgent};
+skip_all("No AdminGenericAgent") unless $ConfigObject->Get('Frontend::Module')->{AdminGenericAgent};
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 

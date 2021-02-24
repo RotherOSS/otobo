@@ -148,7 +148,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return \$('#Name.Error').length;" );
 
         $Self->Is(
-            $Selenium->execute_script( "return \$('#Name').hasClass('Error');" ),
+            $Selenium->execute_script("return \$('#Name').hasClass('Error');"),
             '1',
             'Client side validation correctly detected missing input value',
         );
@@ -454,8 +454,7 @@ JAVASCRIPT
                 "return typeof(\$) === 'function' && \$('a[href*=\"Action=AdminACL;Subaction=ACLCopy;ID=$ACLID\"]').length;"
         );
 
-        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLCopy;ID=$ACLID;' )]")
-            ->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLCopy;ID=$ACLID;' )]")->VerifiedClick();
 
         $Selenium->WaitFor(
             JavaScript =>
@@ -463,8 +462,7 @@ JAVASCRIPT
         );
 
         # Create another copy of the same ACL, see bug#13204 (https://bugs.otrs.org/show_bug.cgi?id=13204).
-        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLCopy;ID=$ACLID;' )]")
-            ->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLCopy;ID=$ACLID;' )]")->VerifiedClick();
 
         # Verify there are both copied ACL's.
         push @TestACLNames,

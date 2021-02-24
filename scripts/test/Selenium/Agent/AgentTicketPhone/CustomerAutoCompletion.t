@@ -202,7 +202,7 @@ $Selenium->RunTest(
 
         my %AutoCompleteExpected = (
             "$CustomerUser" => {
-                Expected => 2,    # AgentCustomerSearch should return only 2 records (see bug#11996)
+                Expected     => 2,                                                                            # AgentCustomerSearch should return only 2 records (see bug#11996)
                 CustomerUser => "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com>",
                 CustomerID   => $CustomerIDs[0],
                 AutocompleteInput =>

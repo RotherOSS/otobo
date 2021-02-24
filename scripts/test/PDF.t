@@ -114,8 +114,7 @@ while ( chop($StringWidthText) ) {
 my %TextCalculateData;
 
 # test0 - test new line calculation with spaces
-$TextCalculateData{0}{Text}
-    = 'US    Space   Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{0}{Text}            = 'US    Space   Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{0}{Type}            = 'ReturnLeftOverHard';
 $TextCalculateData{0}{State}           = 1;
 $TextCalculateData{0}{RequiredWidth}   = 96.71;
@@ -128,8 +127,7 @@ $TextCalculateData{0}{PossibleRows}{3} = 'd today at Kennedy S';
 $TextCalculateData{0}{PossibleRows}{4} = 'pace Center.';
 
 # test1 - test new line calculation with spaces
-$TextCalculateData{1}{Text}
-    = ' US   Space   Shuttle  Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{1}{Text}            = ' US   Space   Shuttle  Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{1}{Type}            = 'ReturnLeftOverHard';
 $TextCalculateData{1}{State}           = 1;
 $TextCalculateData{1}{RequiredWidth}   = 96.71;
@@ -142,8 +140,7 @@ $TextCalculateData{1}{PossibleRows}{3} = 'd today at Kennedy S';
 $TextCalculateData{1}{PossibleRows}{4} = 'pace Center.';
 
 # test2 - test LeftOver function
-$TextCalculateData{2}{Text}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{2}{Text}            = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{2}{Type}            = 'ReturnLeftOverHard';
 $TextCalculateData{2}{Width}           = 30;
 $TextCalculateData{2}{Height}          = 105;
@@ -163,32 +160,27 @@ $TextCalculateData{2}{PossibleRows}{8} = 'safely';
 $TextCalculateData{2}{PossibleRows}{9} = 'lande';
 
 # test3 - test Width and Height
-$TextCalculateData{3}{Text}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{3}{Text}           = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{3}{Type}           = 'ReturnLeftOverHard';
 $TextCalculateData{3}{Width}          = 1;
 $TextCalculateData{3}{Height}         = 1;
 $TextCalculateData{3}{State}          = 0;
 $TextCalculateData{3}{RequiredWidth}  = 0;
 $TextCalculateData{3}{RequiredHeight} = 0;
-$TextCalculateData{3}{LeftOver}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{3}{LeftOver}       = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 
 # test4 - test Width and Height
-$TextCalculateData{4}{Text}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{4}{Text}           = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{4}{Type}           = 'ReturnLeftOverHard';
 $TextCalculateData{4}{Width}          = 0;
 $TextCalculateData{4}{Height}         = 0;
 $TextCalculateData{4}{State}          = 0;
 $TextCalculateData{4}{RequiredWidth}  = 0;
 $TextCalculateData{4}{RequiredHeight} = 0;
-$TextCalculateData{4}{LeftOver}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{4}{LeftOver}       = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 
 # test5 - test new line calculation
-$TextCalculateData{5}{Text}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{5}{Text}            = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{5}{Type}            = 'ReturnLeftOver';
 $TextCalculateData{5}{State}           = 1;
 $TextCalculateData{5}{RequiredWidth}   = 92.25;
@@ -202,8 +194,7 @@ $TextCalculateData{5}{PossibleRows}{4} = 'Kennedy Space';
 $TextCalculateData{5}{PossibleRows}{5} = 'Center.';
 
 # test6 - test new line and LeftOver calculation
-$TextCalculateData{6}{Text}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{6}{Text}            = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{6}{Type}            = 'ReturnLeftOver';
 $TextCalculateData{6}{Width}           = 30;
 $TextCalculateData{6}{Height}          = 53;
@@ -218,32 +209,27 @@ $TextCalculateData{6}{PossibleRows}{3} = 'e';
 $TextCalculateData{6}{PossibleRows}{4} = 'Atlanti';
 
 # test7 - test Width and Height
-$TextCalculateData{7}{Text}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{7}{Text}           = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{7}{Type}           = 'ReturnLeftOver';
 $TextCalculateData{7}{Width}          = 1;
 $TextCalculateData{7}{Height}         = 1;
 $TextCalculateData{7}{State}          = 0;
 $TextCalculateData{7}{RequiredWidth}  = 0;
 $TextCalculateData{7}{RequiredHeight} = 0;
-$TextCalculateData{7}{LeftOver}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{7}{LeftOver}       = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 
 # test8 - test Width and Height
-$TextCalculateData{8}{Text}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{8}{Text}           = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{8}{Type}           = 'ReturnLeftOver';
 $TextCalculateData{8}{Width}          = 0;
 $TextCalculateData{8}{Height}         = 0;
 $TextCalculateData{8}{State}          = 0;
 $TextCalculateData{8}{RequiredWidth}  = 0;
 $TextCalculateData{8}{RequiredHeight} = 0;
-$TextCalculateData{8}{LeftOver}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{8}{LeftOver}       = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 
 # test9 - test Type Cut
-$TextCalculateData{9}{Text}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{9}{Text}            = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{9}{Type}            = 'Cut';
 $TextCalculateData{9}{State}           = 1;
 $TextCalculateData{9}{RequiredWidth}   = 92.25;
@@ -257,8 +243,7 @@ $TextCalculateData{9}{PossibleRows}{4} = 'Kennedy Space';
 $TextCalculateData{9}{PossibleRows}{5} = 'Center.';
 
 # test10 - test new line and [..]
-$TextCalculateData{10}{Text}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{10}{Text}            = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{10}{Type}            = 'Cut';
 $TextCalculateData{10}{Width}           = 20;
 $TextCalculateData{10}{Height}          = 49;
@@ -272,32 +257,27 @@ $TextCalculateData{10}{PossibleRows}{2} = 'ce';
 $TextCalculateData{10}{PossibleRows}{3} = 'S[..]';
 
 # test11 - test Width and Height
-$TextCalculateData{11}{Text}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{11}{Text}           = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{11}{Type}           = 'Cut';
 $TextCalculateData{11}{Width}          = 1;
 $TextCalculateData{11}{Height}         = 1;
 $TextCalculateData{11}{State}          = 0;
 $TextCalculateData{11}{RequiredWidth}  = 0;
 $TextCalculateData{11}{RequiredHeight} = 0;
-$TextCalculateData{11}{LeftOver}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{11}{LeftOver}       = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 
 # test12 - test Width and Height
-$TextCalculateData{12}{Text}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{12}{Text}           = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{12}{Type}           = 'Cut';
 $TextCalculateData{12}{Width}          = 0;
 $TextCalculateData{12}{Height}         = 0;
 $TextCalculateData{12}{State}          = 0;
 $TextCalculateData{12}{RequiredWidth}  = 0;
 $TextCalculateData{12}{RequiredHeight} = 0;
-$TextCalculateData{12}{LeftOver}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{12}{LeftOver}       = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 
 # test13 - test new line calculation
-$TextCalculateData{13}{Text}
-    = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{13}{Text}            = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{13}{Type}            = 'Cut';
 $TextCalculateData{13}{Width}           = 10;
 $TextCalculateData{13}{Height}          = 40;
@@ -389,8 +369,7 @@ for ( sort keys %TextCalculateData ) {
 my %TextData;
 
 # test0
-$TextData{0}{Text}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{0}{Text}           = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{0}{Type}           = 'ReturnLeftOver';
 $TextData{0}{Width}          = 700;
 $TextData{0}{State}          = 1;
@@ -399,8 +378,7 @@ $TextData{0}{RequiredHeight} = 10;
 $TextData{0}{LeftOver}       = '';
 
 # test1
-$TextData{1}{Text}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{1}{Text}           = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{1}{Type}           = 'ReturnLeftOver';
 $TextData{1}{Width}          = 300;
 $TextData{1}{State}          = 0;
@@ -409,30 +387,25 @@ $TextData{1}{RequiredHeight} = 10;
 $TextData{1}{LeftOver}       = 'laboratory mission to the International Space Station.';
 
 # test2
-$TextData{2}{Text}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{2}{Text}           = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{2}{Type}           = 'ReturnLeftOver';
 $TextData{2}{Width}          = 0;
 $TextData{2}{State}          = 0;
 $TextData{2}{RequiredWidth}  = 0;
 $TextData{2}{RequiredHeight} = 0;
-$TextData{2}{LeftOver}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{2}{LeftOver}       = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 
 # test3
-$TextData{3}{Text}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{3}{Text}           = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{3}{Type}           = 'ReturnLeftOver';
 $TextData{3}{Width}          = 1;
 $TextData{3}{State}          = 0;
 $TextData{3}{RequiredWidth}  = 0;
 $TextData{3}{RequiredHeight} = 0;
-$TextData{3}{LeftOver}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{3}{LeftOver}       = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 
 # test4
-$TextData{4}{Text}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{4}{Text}           = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{4}{Type}           = 'ReturnLeftOverHard';
 $TextData{4}{Width}          = 700;
 $TextData{4}{State}          = 1;
@@ -441,8 +414,7 @@ $TextData{4}{RequiredHeight} = 10;
 $TextData{4}{LeftOver}       = '';
 
 # test5
-$TextData{5}{Text}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{5}{Text}           = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{5}{Type}           = 'ReturnLeftOverHard';
 $TextData{5}{Width}          = 300;
 $TextData{5}{State}          = 0;
@@ -451,30 +423,25 @@ $TextData{5}{RequiredHeight} = 10;
 $TextData{5}{LeftOver}       = 'oratory mission to the International Space Station.';
 
 # test6
-$TextData{6}{Text}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{6}{Text}           = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{6}{Type}           = 'ReturnLeftOverHard';
 $TextData{6}{Width}          = 0;
 $TextData{6}{State}          = 0;
 $TextData{6}{RequiredWidth}  = 0;
 $TextData{6}{RequiredHeight} = 0;
-$TextData{6}{LeftOver}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{6}{LeftOver}       = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 
 # test7
-$TextData{7}{Text}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{7}{Text}           = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{7}{Type}           = 'ReturnLeftOverHard';
 $TextData{7}{Width}          = 1;
 $TextData{7}{State}          = 0;
 $TextData{7}{RequiredWidth}  = 0;
 $TextData{7}{RequiredHeight} = 0;
-$TextData{7}{LeftOver}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{7}{LeftOver}       = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 
 # test8
-$TextData{8}{Text}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{8}{Text}           = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{8}{Type}           = 'Cut';
 $TextData{8}{Width}          = 700;
 $TextData{8}{State}          = 1;
@@ -483,8 +450,7 @@ $TextData{8}{RequiredHeight} = 10;
 $TextData{8}{LeftOver}       = '';
 
 # test9
-$TextData{9}{Text}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{9}{Text}           = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{9}{Type}           = 'Cut';
 $TextData{9}{Width}          = 300;
 $TextData{9}{State}          = 1;
@@ -493,26 +459,22 @@ $TextData{9}{RequiredHeight} = 10;
 $TextData{9}{LeftOver}       = '';
 
 # test10
-$TextData{10}{Text}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{10}{Text}           = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{10}{Type}           = 'Cut';
 $TextData{10}{Width}          = 0;
 $TextData{10}{State}          = 0;
 $TextData{10}{RequiredWidth}  = 0;
 $TextData{10}{RequiredHeight} = 0;
-$TextData{10}{LeftOver}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{10}{LeftOver}       = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 
 # test11
-$TextData{11}{Text}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{11}{Text}           = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{11}{Type}           = 'Cut';
 $TextData{11}{Width}          = 1;
 $TextData{11}{State}          = 0;
 $TextData{11}{RequiredWidth}  = 0;
 $TextData{11}{RequiredHeight} = 0;
-$TextData{11}{LeftOver}
-    = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
+$TextData{11}{LeftOver}       = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 
 # start testing Text()
 for ( sort keys %TextData ) {
@@ -588,39 +550,34 @@ $Self->True(
 my %TextData2;
 
 # positiontest0
-$TextData2{0}{Text}
-    = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
-$TextData2{0}{Type}           = 'ReturnLeftOver';
-$TextData2{0}{Width}          = 150;
-$TextData2{0}{Position1X}     = 'left';
-$TextData2{0}{Position1Y}     = 'bottom';
-$TextData2{0}{State}          = 0;
-$TextData2{0}{RequiredWidth}  = 0;
-$TextData2{0}{RequiredHeight} = 0;
-$TextData2{0}{LeftOver}
-    = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
+$TextData2{0}{Text}            = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
+$TextData2{0}{Type}            = 'ReturnLeftOver';
+$TextData2{0}{Width}           = 150;
+$TextData2{0}{Position1X}      = 'left';
+$TextData2{0}{Position1Y}      = 'bottom';
+$TextData2{0}{State}           = 0;
+$TextData2{0}{RequiredWidth}   = 0;
+$TextData2{0}{RequiredHeight}  = 0;
+$TextData2{0}{LeftOver}        = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{0}{PositionReturnX} = 40;
 $TextData2{0}{PositionReturnY} = 56;
 
 # positiontest1
-$TextData2{1}{Text}
-    = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
-$TextData2{1}{Type}           = 'ReturnLeftOver';
-$TextData2{1}{Width}          = 150;
-$TextData2{1}{Position1X}     = 'left';
-$TextData2{1}{Position1Y}     = 'bottom';
-$TextData2{1}{Position2Y}     = 9;
-$TextData2{1}{State}          = 0;
-$TextData2{1}{RequiredWidth}  = 0;
-$TextData2{1}{RequiredHeight} = 0;
-$TextData2{1}{LeftOver}
-    = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
+$TextData2{1}{Text}            = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
+$TextData2{1}{Type}            = 'ReturnLeftOver';
+$TextData2{1}{Width}           = 150;
+$TextData2{1}{Position1X}      = 'left';
+$TextData2{1}{Position1Y}      = 'bottom';
+$TextData2{1}{Position2Y}      = 9;
+$TextData2{1}{State}           = 0;
+$TextData2{1}{RequiredWidth}   = 0;
+$TextData2{1}{RequiredHeight}  = 0;
+$TextData2{1}{LeftOver}        = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{1}{PositionReturnX} = 40;
 $TextData2{1}{PositionReturnY} = 65;
 
 # positiontest2
-$TextData2{2}{Text}
-    = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
+$TextData2{2}{Text}            = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{2}{Type}            = 'ReturnLeftOver';
 $TextData2{2}{Width}           = 150;
 $TextData2{2}{Position1X}      = 'left';
@@ -634,8 +591,7 @@ $TextData2{2}{PositionReturnX} = 40;
 $TextData2{2}{PositionReturnY} = 56;
 
 # positiontest3
-$TextData2{3}{Text}
-    = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
+$TextData2{3}{Text}            = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{3}{Type}            = 'ReturnLeftOver';
 $TextData2{3}{Width}           = 150;
 $TextData2{3}{Position1X}      = 'left';
@@ -649,23 +605,21 @@ $TextData2{3}{PositionReturnX} = 40;
 $TextData2{3}{PositionReturnY} = 57;
 
 # positiontest4
-$TextData2{4}{Text}
-    = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
-$TextData2{4}{Type}           = 'ReturnLeftOver';
-$TextData2{4}{Width}          = 30;
-$TextData2{4}{Position1X}     = 'left';
-$TextData2{4}{Position1Y}     = 'bottom';
-$TextData2{4}{Position2Y}     = 39;
-$TextData2{4}{State}          = 0;
-$TextData2{4}{RequiredWidth}  = 29.46;
-$TextData2{4}{RequiredHeight} = 30;
-$TextData2{4}{LeftOver} = 'space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
+$TextData2{4}{Text}            = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
+$TextData2{4}{Type}            = 'ReturnLeftOver';
+$TextData2{4}{Width}           = 30;
+$TextData2{4}{Position1X}      = 'left';
+$TextData2{4}{Position1Y}      = 'bottom';
+$TextData2{4}{Position2Y}      = 39;
+$TextData2{4}{State}           = 0;
+$TextData2{4}{RequiredWidth}   = 29.46;
+$TextData2{4}{RequiredHeight}  = 30;
+$TextData2{4}{LeftOver}        = 'space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{4}{PositionReturnX} = 40;
 $TextData2{4}{PositionReturnY} = 65;
 
 # positiontest5
-$TextData2{5}{Text}
-    = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
+$TextData2{5}{Text}            = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{5}{Type}            = 'ReturnLeftOver';
 $TextData2{5}{Width}           = 100;
 $TextData2{5}{Lead}            = 7;
@@ -680,8 +634,7 @@ $TextData2{5}{PositionReturnX} = 40;
 $TextData2{5}{PositionReturnY} = 71;
 
 # positiontest6
-$TextData2{6}{Text}
-    = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
+$TextData2{6}{Text}            = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{6}{Type}            = 'ReturnLeftOver';
 $TextData2{6}{Width}           = 105;
 $TextData2{6}{Lead}            = 9;

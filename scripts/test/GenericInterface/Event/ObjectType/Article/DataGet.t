@@ -58,9 +58,8 @@ $Self->True(
     'TicketCreate()',
 );
 
-my $ArticleBackendObject
-    = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel( ChannelName => 'Phone' );
-my $ArticleID = $ArticleBackendObject->ArticleCreate(
+my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel( ChannelName => 'Phone' );
+my $ArticleID            = $ArticleBackendObject->ArticleCreate(
     TicketID             => $TicketID,
     SenderType           => 'agent',
     IsVisibleForCustomer => 1,

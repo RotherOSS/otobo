@@ -599,7 +599,6 @@ for my $Test (@ArticleDeleteTests) {
             exit 0;
         }
 
-
         my $Articles;
         while ( my @Row = $DBObject->FetchrowArray() ) {
             $Articles = $Row[0];

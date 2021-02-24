@@ -118,9 +118,8 @@ for my $Item ( sort keys %{ $FirstTicketValues{Create} } ) {
 }
 
 # Create Article which will trigger first GenericAgent job for ArticleCreate event.
-my $ArticleBackendObject
-    = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel( ChannelName => 'Email' );
-my $FirstArticleID = $ArticleBackendObject->ArticleCreate(
+my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel( ChannelName => 'Email' );
+my $FirstArticleID       = $ArticleBackendObject->ArticleCreate(
     TicketID             => $FirstTicketID,
     IsVisibleForCustomer => 0,
     SenderType           => 'agent',

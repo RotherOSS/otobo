@@ -422,8 +422,7 @@ $Selenium->RunTest(
         );
 
         # Click 'Failing accounts' for account overview.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminCommunicationLog;Subaction=Accounts' )]")
-            ->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminCommunicationLog;Subaction=Accounts' )]")->VerifiedClick();
 
         # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(

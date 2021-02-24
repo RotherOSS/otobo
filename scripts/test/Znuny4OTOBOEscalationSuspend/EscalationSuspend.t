@@ -33,7 +33,7 @@ our $Self;
 
 # explicitly declare the number of tests. This makes is obvious when the
 # test script prematurely exits
-plan( 24 );
+plan(24);
 
 ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
 
@@ -56,7 +56,7 @@ my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->
 
 # Disable transaction mode for escalation index ticket event module
 my $TicketEventModulePostConfig = $ConfigObject->Get('Ticket::EventModulePost');
-my $EscalationIndexName = '9990-EscalationIndex';
+my $EscalationIndexName         = '9990-EscalationIndex';
 
 $Self->True(
     $TicketEventModulePostConfig->{$EscalationIndexName},
@@ -189,10 +189,10 @@ my $ArticleID = $ArticleBackendObject->ArticleCreate(
     Subject              => 'some short description',             # required
     Body                 => 'the message text',                   # required
     ContentType          => 'text/plain; charset=ISO-8859-15',    # or optional Charset & MimeType
-    HistoryType    => 'OwnerUpdate',       # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
-    HistoryComment => 'Some free text!',
-    UserID         => 1,
-    NoAgentNotify  => 0,                   # if you don't want to send agent notifications
+    HistoryType          => 'OwnerUpdate',                        # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+    HistoryComment       => 'Some free text!',
+    UserID               => 1,
+    NoAgentNotify        => 0,                                    # if you don't want to send agent notifications
 );
 $Self->True(
     $ArticleID,
@@ -433,15 +433,15 @@ if ( $SystemTime gt $SystemPendingTime ) {
         IsVisibleForCustomer => 1,
 
         #         ArticleType => 'note-internal',                      # email-external|email-internal|phone|fax|...
-        SenderType  => 'customer',                           # agent|system|customer
-        From        => 'Some Agent <email@example.com>',     # not required but useful
-        Subject     => 'some short description',             # required
-        Body        => 'the message text',                   # required
-        ContentType => 'text/plain; charset=ISO-8859-15',    # or optional Charset & MimeType
-        HistoryType    => 'OwnerUpdate',       # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+        SenderType     => 'customer',                           # agent|system|customer
+        From           => 'Some Agent <email@example.com>',     # not required but useful
+        Subject        => 'some short description',             # required
+        Body           => 'the message text',                   # required
+        ContentType    => 'text/plain; charset=ISO-8859-15',    # or optional Charset & MimeType
+        HistoryType    => 'OwnerUpdate',                        # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
         HistoryComment => 'Some free text!',
         UserID         => 1,
-        NoAgentNotify  => 0,                   # if you don't want to send agent notifications
+        NoAgentNotify  => 0,                                    # if you don't want to send agent notifications
     );
     $Self->True(
         $ArticleID,

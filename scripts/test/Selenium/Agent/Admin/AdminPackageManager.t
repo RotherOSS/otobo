@@ -36,7 +36,7 @@ my $NumberOfPackagesInstalled = scalar @List;
 # Skip the test if there is more then 8 packages installed (8 because of SaaS scenarios).
 # TODO: fix the main issue with "unexpected alert open".
 if ( $NumberOfPackagesInstalled > 8 ) {
-    skip_all( "Found $NumberOfPackagesInstalled packages installed, skipping test..." );
+    skip_all("Found $NumberOfPackagesInstalled packages installed, skipping test...");
 }
 
 # Make sure to enable cloud services.

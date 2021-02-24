@@ -68,8 +68,8 @@ $Selenium->RunTest(
         $Selenium->delete_all_cookies();
 
         # Check Secure::DisableBanner functionality.
-        my $Product          = $Kernel::OM->Get('Kernel::Config')->Get('Product');
-        my $Version          = $Kernel::OM->Get('Kernel::Config')->Get('Version');
+        my $Product = $Kernel::OM->Get('Kernel::Config')->Get('Product');
+        my $Version = $Kernel::OM->Get('Kernel::Config')->Get('Version');
 
         for my $Disabled ( reverse 0 .. 1 ) {
             $Helper->ConfigSettingChange(
@@ -197,7 +197,7 @@ $Selenium->RunTest(
         # Check for the prior warning.
         my $PageSource = $Selenium->get_page_source();
         {
-            my $ToDo = todo( 'no session limit in OTOBO, issue #734' );
+            my $ToDo = todo('no session limit in OTOBO, issue #734');
 
             ok(
                 index( $PageSource, 'Please note that the session limit is almost reached.' ) > -1,

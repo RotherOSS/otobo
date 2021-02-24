@@ -28,7 +28,7 @@ our $Self;
 
 use Kernel::System::VariableCheck qw(:all);
 
-plan( 6 );
+plan(6);
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -45,10 +45,10 @@ my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
 $ConfigObject->Set(
     Key   => 'EscalationSuspendStates',
     Value => [
-            'pending auto close+',
-            'pending auto close-',
-            'pending reminder',
-        ],
+        'pending auto close+',
+        'pending auto close-',
+        'pending reminder',
+    ],
 );
 
 # Disable transaction mode for escalation index ticket event module
@@ -125,14 +125,14 @@ FixedTimeSet(
             String => '2016-04-12 16:50:08',
         },
     )
-); # Tuesday
+);    # Tuesday
 my $TicketID = $TicketObject->TicketCreate(
-    UserID        => 1,
-    State         => 'new',                    # or StateID => 5,
-    Lock          => 'unlock',
-    Priority      => '3 normal',               # or PriorityID => 2,
-    QueueID       => $QueueID,
-    OwnerID       => 1,
+    UserID   => 1,
+    State    => 'new',         # or StateID => 5,
+    Lock     => 'unlock',
+    Priority => '3 normal',    # or PriorityID => 2,
+    QueueID  => $QueueID,
+    OwnerID  => 1,
 );
 
 {
@@ -155,16 +155,14 @@ my $TicketID = $TicketObject->TicketCreate(
         }
     )->ToEpoch();
 
-
     $Self->Is(
         $Ticket{SolutionTimeDestinationTime},
         $SolutionTime,
         'SolutionTimeDestinationTime calculated correctly'
     );
-    $Self->Note( Note => "expected solution time: " . localtime( $SolutionTime ) );
+    $Self->Note( Note => "expected solution time: " . localtime($SolutionTime) );
     $Self->Note( Note => "computed solution time: " . localtime( $Ticket{SolutionTimeDestinationTime} ) );
 }
-
 
 # Set pending reminder
 # TicketEscalationSuspendCalculate will add 4 minutes to prevent escalation
@@ -209,16 +207,14 @@ $TicketObject->TicketPendingTimeSet(
         },
     )->ToEpoch();
 
-
     $Self->Is(
         $Ticket{SolutionTimeDestinationTime},
         $SolutionTime,
         'SolutionTimeDestinationTime calculated correctly'
     );
-    $Self->Note( Note => "expected solution time: " . localtime( $SolutionTime ) );
+    $Self->Note( Note => "expected solution time: " . localtime($SolutionTime) );
     $Self->Note( Note => "computed solution time: " . localtime( $Ticket{SolutionTimeDestinationTime} ) );
 }
-
 
 # Set status "open"
 # This leads to +3:09 minutes because 16:52:53 from above + 4 minutes (see above)
@@ -264,16 +260,14 @@ $TicketObject->TicketPendingTimeSet(
         },
     )->ToEpoch();
 
-
     $Self->Is(
         $Ticket{SolutionTimeDestinationTime},
         $SolutionTime,
         'SolutionTimeDestinationTime calculated correctly'
     );
-    $Self->Note( Note => "expected solution time: " . localtime( $SolutionTime ) );
+    $Self->Note( Note => "expected solution time: " . localtime($SolutionTime) );
     $Self->Note( Note => "computed solution time: " . localtime( $Ticket{SolutionTimeDestinationTime} ) );
 }
-
 
 # Set pending reminder
 # this adds another 4 minutes to the solution time
@@ -322,7 +316,7 @@ $TicketObject->TicketPendingTimeSet(
         $SolutionTime,
         'SolutionTimeDestinationTime calculated correctly'
     );
-    $Self->Note( Note => "expected solution time: " . localtime( $SolutionTime ) );
+    $Self->Note( Note => "expected solution time: " . localtime($SolutionTime) );
     $Self->Note( Note => "computed solution time: " . localtime( $Ticket{SolutionTimeDestinationTime} ) );
 }
 

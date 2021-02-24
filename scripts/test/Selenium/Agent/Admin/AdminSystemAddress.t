@@ -243,8 +243,7 @@ $Selenium->RunTest(
             "#Comment stored value",
         );
 
-        my $ErrorMessage
-            = 'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).';
+        my $ErrorMessage = 'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).';
 
         # Verify field explanation for valid field when system address is used in one or more queues or auto response.
         $Self->Is(

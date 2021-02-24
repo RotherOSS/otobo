@@ -109,14 +109,14 @@ $Selenium->RunTest(
         # Note that find_element_by_xpath() does not throw exceptions.
         # The method returns 0 when the element is not found.
         {
-            my $AcceptGDPRLink = $Selenium->find_element_by_xpath( q{//a[@id="AcceptGDPR"]} );
-            if ( $AcceptGDPRLink ) {
+            my $AcceptGDPRLink = $Selenium->find_element_by_xpath(q{//a[@id="AcceptGDPR"]});
+            if ($AcceptGDPRLink) {
                 $AcceptGDPRLink->click();
             }
         }
 
         # check if login is successful
-        my $ButtonLogout = $Selenium->find_element( q{//a[@id='oooUser']} );
+        my $ButtonLogout = $Selenium->find_element(q{//a[@id='oooUser']});
 
         # Check for footer, even though it is not visible
         my $PageSource = $Selenium->get_page_source();

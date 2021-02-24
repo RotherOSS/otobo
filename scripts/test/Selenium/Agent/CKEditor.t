@@ -96,7 +96,7 @@ $Selenium->RunTest(
                 "return typeof(\$) === 'function' && \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
         );
 
-       # send some text to the CKE's textarea (we cant do it with Selenium directly because the textarea is not visible)
+        # send some text to the CKE's textarea (we cant do it with Selenium directly because the textarea is not visible)
         my $SetCKEContent = 1;
         eval {
             $SetCKEContent = $Selenium->execute_script(

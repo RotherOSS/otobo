@@ -183,9 +183,8 @@ my $CheckProcess = sub {
                     next TRANSITION if $Transition->{Name} ne $TransitionName;
 
                     # locate the destination activity and its name
-                    my $OriginalDestinationActivityEntityID
-                        = $OriginalTransitions->{$OriginalTransitionEntityID}->{ActivityEntityID};
-                    my $DestinationActivityName = $ProcessData->{Activities}->{$OriginalDestinationActivityEntityID}
+                    my $OriginalDestinationActivityEntityID = $OriginalTransitions->{$OriginalTransitionEntityID}->{ActivityEntityID};
+                    my $DestinationActivityName             = $ProcessData->{Activities}->{$OriginalDestinationActivityEntityID}
                         ->{Name};
 
                     # search added activities for the destination activity name
@@ -207,8 +206,7 @@ my $CheckProcess = sub {
                     }
 
                     # locate each transition action and its names
-                    my $OriginalTransitionActions
-                        = $OriginalTransitions->{$OriginalTransitionEntityID}->{TransitionAction};
+                    my $OriginalTransitionActions = $OriginalTransitions->{$OriginalTransitionEntityID}->{TransitionAction};
                     my @ExpectedTrasitionActionEntityIDs;
                     for my $OriginalTransitionActionEntityID ( @{$OriginalTransitionActions} ) {
                         my $TransitionActionName = $ProcessData->{TransitionActions}

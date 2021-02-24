@@ -388,7 +388,7 @@ EOF
             q{return $('#ServiceID option:not([value=""])').length;}
         );
         {
-            my $ToDo = todo( 'setup of ACL may be messed up, issue #763' );
+            my $ToDo = todo('setup of ACL may be messed up, issue #763');
 
             is(
                 $NumVisibleServices,
