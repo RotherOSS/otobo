@@ -15,7 +15,6 @@
 # --
 
 package Kernel::System::Ticket::Event::LockAfterCreate;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
 use strict;
 use warnings;

@@ -16,7 +16,6 @@
 
 package Kernel::System::Calendar::Event::Transport::Email;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
-## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
 use strict;
 use warnings;
