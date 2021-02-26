@@ -27,7 +27,7 @@ use Test2::V0;
 # OTOBO modules
 use Kernel::System::ObjectManager;
 
-plan( 1 );
+plan(1);
 
 $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {

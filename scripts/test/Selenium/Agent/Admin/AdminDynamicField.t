@@ -105,8 +105,8 @@ $Selenium->RunTest(
         my $IDText;
 
         # Check page.
-        for my $Type ( qw(Ticket Article)) {
-            for my $ID ( qw(Checkbox Date DateTime Dropdown Multiselect Text TextArea)) {
+        for my $Type (qw(Ticket Article)) {
+            for my $ID (qw(Checkbox Date DateTime Dropdown Multiselect Text TextArea)) {
                 my $ObjectType = $Type . "DynamicField";
                 my $Element    = $Selenium->find_element( "#$ObjectType option[value=$ID]", 'css' );
                 $Element->is_enabled();

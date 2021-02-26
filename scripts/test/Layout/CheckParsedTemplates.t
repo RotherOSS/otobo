@@ -121,7 +121,7 @@ my $HomeDirectory = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my $DTLDirectory  = $HomeDirectory . '/Kernel/Output/HTML/Templates/Standard/';
 my $DIR;
 if ( !opendir $DIR, $DTLDirectory ) {
-    note( "Can not open Directory: $DTLDirectory" );
+    note("Can not open Directory: $DTLDirectory");
     done_testing();
 
     exit 0;

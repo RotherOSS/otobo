@@ -272,7 +272,7 @@ my $InvalidID = $ValidObject->ValidLookup(
     Valid => 'invalid',
 );
 
-for my $Test  (@Tests) {
+for my $Test (@Tests) {
 
     subtest "$Test->{Name} $RandomID" => sub {
 

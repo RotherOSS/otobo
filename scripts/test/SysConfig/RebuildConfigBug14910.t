@@ -102,8 +102,7 @@ my $ValidSettingXML = <<EOF,
 </otobo_config>
 EOF
 
-    my $ConfigFileLocation
-    = $ConfigObject->Get('Home') . '/Kernel/Config/Files/XML/UnitTest' . $HelperObject->GetRandomNumber() . '.xml';
+    my $ConfigFileLocation = $ConfigObject->Get('Home') . '/Kernel/Config/Files/XML/UnitTest' . $HelperObject->GetRandomNumber() . '.xml';
 my $ConfigFileWriteOk = $MainObject->FileWrite(
     Location => $ConfigFileLocation,
     Content  => \$ValidSettingXML,

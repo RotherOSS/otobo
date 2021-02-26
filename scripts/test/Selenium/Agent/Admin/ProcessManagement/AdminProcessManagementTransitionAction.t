@@ -335,11 +335,10 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
 
         # Delete test transition action.
-        my $Success
-            = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction')->TransitionActionDelete(
+        my $Success = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction')->TransitionActionDelete(
             ID     => $TransitionActionID,
             UserID => $TestUserID,
-            );
+        );
 
         $Self->True(
             $Success,

@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -24,18 +24,19 @@ use utf8;
 use Test2::V0;
 
 use Kernel::System::UnitTest::MockTime qw(:all);
+
 # OTOBO modules
 
 # Testing Kernel::System::UnitTest::MockTime.
 
-plan( 5 );
+plan(5);
 
 subtest 'before setting a fixed time' => sub {
     my $CoreTime   = CORE::time;
     my $MockedTime = time;         # might differ by 1 by chance
-    ok( ($MockedTime - $CoreTime) >= 0, 'time not running backwards' );
-    ok( ($MockedTime - $CoreTime) <= 1, 'at most 1 second diff between two calls' );
-    ok( ! defined FixedTimeGet(), 'no fixed time set yet' );
+    ok( ( $MockedTime - $CoreTime ) >= 0, 'time not running backwards' );
+    ok( ( $MockedTime - $CoreTime ) <= 1, 'at most 1 second diff between two calls' );
+    ok( !defined FixedTimeGet(),          'no fixed time set yet' );
 };
 
 # epoch 1604562142 is Thu Nov  5 08:42:22 2020 CET
@@ -43,34 +44,34 @@ my $SampleTime = 1604562142;
 
 subtest 'fixing a specific time' => sub {
     my $SampleTime = 1604562142;
-    is( FixedTimeSet( $SampleTime ), $SampleTime, 'FixedTimeSet() with sample time' );
-    is( FixedTimeGet(), $SampleTime, 'FixedTimeGet() with sample time' );
-    is( time, $SampleTime, 'time mocked' );
+    is( FixedTimeSet($SampleTime), $SampleTime, 'FixedTimeSet() with sample time' );
+    is( FixedTimeGet(),            $SampleTime, 'FixedTimeGet() with sample time' );
+    is( time,                      $SampleTime, 'time mocked' );
 };
 
 subtest 'add seconds' => sub {
-    my $AddedSeconds = -122333; # yes, it's negative
+    my $AddedSeconds = -122333;                       # yes, it's negative
     my $ExpectedTime = $SampleTime + $AddedSeconds;
-    is( FixedTimeAddSeconds( $AddedSeconds ), $ExpectedTime, 'FixedTimeSet() with added seconds' );
-    is( FixedTimeGet(), $ExpectedTime, 'FixedTimeGet() with added seconds' );
-    is( time, $ExpectedTime, 'time mocked with added seconds' );
+    is( FixedTimeAddSeconds($AddedSeconds), $ExpectedTime, 'FixedTimeSet() with added seconds' );
+    is( FixedTimeGet(),                     $ExpectedTime, 'FixedTimeGet() with added seconds' );
+    is( time,                               $ExpectedTime, 'time mocked with added seconds' );
 };
 
 subtest 'fixing time to now' => sub {
-    my $CoreTime   = CORE::time;
-    sleep 1; # just to have a difference
-    my $MockedTime = FixedTimeSet();         # might differ by 1 by chance
-    ok( ($MockedTime - $CoreTime) >= 1, 'time not running backwards' );
-    ok( ($MockedTime - $CoreTime) <= 2, 'at most 2 second diff between two calls' );
+    my $CoreTime = CORE::time;
+    sleep 1;                                          # just to have a difference
+    my $MockedTime = FixedTimeSet();                  # might differ by 1 by chance
+    ok( ( $MockedTime - $CoreTime ) >= 1, 'time not running backwards' );
+    ok( ( $MockedTime - $CoreTime ) <= 2, 'at most 2 second diff between two calls' );
     is( FixedTimeGet(), $MockedTime, 'FixedTimeGet() with time fixed to one second ago' );
-    is( time(), $MockedTime, 'mocked time with time fixed to one second ago' );
+    is( time(),         $MockedTime, 'mocked time with time fixed to one second ago' );
 };
 
 subtest 'back to normal' => sub {
-    my $CoreTime   = CORE::time;
+    my $CoreTime = CORE::time;
     is( FixedTimeUnset(), undef, 'FixedTimeUnset' );
-    my $MockedTime = time;         # might differ by 1 by chance
+    my $MockedTime = time;                            # might differ by 1 by chance
     is( FixedTimeGet(), undef, 'FixedTimeGet() with fixed time unset' );
-    ok( ($MockedTime - $CoreTime) >= 0, 'time not running backwards' );
-    ok( ($MockedTime - $CoreTime) <= 1, 'at most 1 second diff between two calls' );
+    ok( ( $MockedTime - $CoreTime ) >= 0, 'time not running backwards' );
+    ok( ( $MockedTime - $CoreTime ) <= 1, 'at most 1 second diff between two calls' );
 };

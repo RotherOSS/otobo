@@ -126,8 +126,7 @@ $Selenium->RunTest(
 
         # Create test articles.
         for my $Test (@Tests) {
-            my $ArticleID
-                = $Kernel::OM->Get("Kernel::System::Ticket::Article::Backend::$Test->{Backend}")->ArticleCreate(
+            my $ArticleID = $Kernel::OM->Get("Kernel::System::Ticket::Article::Backend::$Test->{Backend}")->ArticleCreate(
                 TicketID             => $TicketID,
                 IsVisibleForCustomer => $Test->{IsVisibleForCustomer},
                 SenderType           => $Test->{SenderType},
@@ -138,7 +137,7 @@ $Selenium->RunTest(
                 HistoryType          => 'AddNote',
                 HistoryComment       => 'Some free text!',
                 UserID               => $TestUserID,
-                );
+            );
             $Self->True(
                 $ArticleID,
                 "Article $Test->{Subject} - created",

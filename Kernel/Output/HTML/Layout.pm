@@ -3775,8 +3775,7 @@ sub BuildDateSelection {
 
         # minute
         if ( $DateInputStyle eq 'Option' ) {
-            my %Minute
-                = map { $_ => sprintf( "%02d", $_ ); } map { $_ * $MinuteStep } ( 0 .. ( 60 / $MinuteStep - 1 ) );
+            my %Minute = map { $_ => sprintf( "%02d", $_ ); } map { $_ * $MinuteStep } ( 0 .. ( 60 / $MinuteStep - 1 ) );
             $Param{Minute} = $Self->BuildSelection(
                 Name       => $Prefix . 'Minute',
                 Data       => \%Minute,
@@ -6206,12 +6205,12 @@ sub SetRichTextParameters {
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
 
     # get needed variables
-    my $ScreenRichTextHeight = $Param{Data}->{RichTextHeight} || $ConfigObject->Get("Frontend::RichTextHeight");
-    my $ScreenRichTextWidth  = $Param{Data}->{RichTextWidth}  || $ConfigObject->Get("Frontend::RichTextWidth");
-    my $RichTextType         = $Param{Data}->{RichTextType}   || '';
-    my $PictureUploadAction = $Param{Data}->{RichTextPictureUploadAction} || '';
-    my $TextDir             = $Self->{TextDirection}                      || '';
-    my $EditingAreaCSS      = 'body.cke_editable { ' . $ConfigObject->Get("Frontend::RichText::DefaultCSS") . ' }';
+    my $ScreenRichTextHeight = $Param{Data}->{RichTextHeight}              || $ConfigObject->Get("Frontend::RichTextHeight");
+    my $ScreenRichTextWidth  = $Param{Data}->{RichTextWidth}               || $ConfigObject->Get("Frontend::RichTextWidth");
+    my $RichTextType         = $Param{Data}->{RichTextType}                || '';
+    my $PictureUploadAction  = $Param{Data}->{RichTextPictureUploadAction} || '';
+    my $TextDir              = $Self->{TextDirection}                      || '';
+    my $EditingAreaCSS       = 'body.cke_editable { ' . $ConfigObject->Get("Frontend::RichText::DefaultCSS") . ' }';
 
     # decide if we need to use the enhanced mode (with tables)
     my @Toolbar;

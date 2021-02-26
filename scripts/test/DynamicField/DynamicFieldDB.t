@@ -38,7 +38,7 @@ my $DBServer     = $ConfigObject->Get('DatabaseHost');
 
 # Check if DB is MySQL, finish test if it is not.
 if ( $ConfigObject->Get('DatabaseDSN') !~ /^DBI:mysql/ ) {
-    skip_all( "Finishing prematurely test, need MySQL database" );
+    skip_all("Finishing prematurely test, need MySQL database");
 }
 
 # Create random test variable.

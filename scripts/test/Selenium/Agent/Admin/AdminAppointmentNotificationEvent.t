@@ -80,8 +80,7 @@ $Selenium->RunTest(
         );
 
         # Click "Add notification"
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminAppointmentNotificationEvent;Subaction=Add' )]")
-            ->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminAppointmentNotificationEvent;Subaction=Add' )]")->VerifiedClick();
 
         # Check add NotificationEvent screen.
         for my $ID (
@@ -314,8 +313,7 @@ $Selenium->RunTest(
         );
 
         # Create copy of test Notification.
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=NotificationCopy;ID=$NotifEventID{ID}' )]")
-            ->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=NotificationCopy;ID=$NotifEventID{ID}' )]")->VerifiedClick();
         my $TranslatedNotificationCopy = $LanguageObject->Translate( '%s (copy)', $NotifEventRandomID );
         $Self->True(
             $Selenium->find_element("//a[contains(.,'$TranslatedNotificationCopy')]"),
@@ -339,8 +337,7 @@ JAVASCRIPT
             );
 
             # Delete test Notification with delete button.
-            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$NotifEventID{ID}' )]")
-                ->VerifiedClick();
+            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$NotifEventID{ID}' )]")->VerifiedClick();
 
             # Check if test NotificationEvent is deleted
             $Self->False(

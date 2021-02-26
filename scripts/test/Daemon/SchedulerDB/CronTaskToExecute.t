@@ -35,7 +35,7 @@ my $PreviousDaemonStatus = `$Daemon status`;
 
 # Check if there is permissions for daemon commands.
 if ( !defined $PreviousDaemonStatus ) {
-    skip_all( 'Permission denied for deamon commands, skipping test' );
+    skip_all('Permission denied for deamon commands, skipping test');
 }
 
 # Stop daemon if it was already running before this test.

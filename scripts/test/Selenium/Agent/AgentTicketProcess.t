@@ -348,8 +348,7 @@ $Selenium->RunTest(
             $Selenium->WaitFor(
                 JavaScript => "return !\$('#OverwriteExistingEntitiesImport:checked').length;"
             );
-            $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")
-                ->VerifiedClick();
+            $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->VerifiedClick();
             sleep 1;
             $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 

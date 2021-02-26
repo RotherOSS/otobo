@@ -87,7 +87,7 @@ if ( !-e $ConfigObject->Get('PGP::Bin') ) {
 # Create local crypt object.
 my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
 
-skip_all( 'no PGP support' ) unless $PGPObject;
+skip_all('no PGP support') unless $PGPObject;
 
 # Make some preparations
 my %Search = (

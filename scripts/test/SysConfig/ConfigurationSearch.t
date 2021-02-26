@@ -57,7 +57,7 @@ my $DoSuccess = $DBObject->Prepare(
         ",
 );
 
-skip_all( 'cannot get defaults' ) unless $DoSuccess;
+skip_all('cannot get defaults') unless $DoSuccess;
 
 my $OTOBOSettings;
 while ( my @Data = $DBObject->FetchrowArray() ) {

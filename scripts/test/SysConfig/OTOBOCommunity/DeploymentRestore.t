@@ -37,12 +37,12 @@ my $UserID = 1;
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
 # clear some tables
-for my $Table ( qw(sysconfig_modified_version sysconfig_modified sysconfig_deployment) ) {
+for my $Table (qw(sysconfig_modified_version sysconfig_modified sysconfig_deployment)) {
     my $DoSuccess = $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => "DELETE FROM $Table",
     );
 
-    skip_all( "cannot delete from $Table" ) unless $DoSuccess;
+    skip_all("cannot delete from $Table") unless $DoSuccess;
 }
 
 my %DefaultSettingAddTemplate = (
@@ -733,6 +733,5 @@ for my $ModifiedVersionID ( sort @ModifiedVersions ) {
         $Index++;
     }
 }
-
 
 done_testing();

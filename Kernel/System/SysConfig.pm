@@ -1115,8 +1115,7 @@ sub SettingEffectiveValueGet {
                     && $Param{Value}->[0]->{Array}->[0]->{DefaultItem}->[0]->{$Attribute}->[0]->{DefaultItem}
                     )
                 {
-                    $Attributes{DefaultItem}
-                        = $Param{Value}->[0]->{Array}->[0]->{DefaultItem}->[0]->{$Attribute}->[0]->{DefaultItem};
+                    $Attributes{DefaultItem} = $Param{Value}->[0]->{Array}->[0]->{DefaultItem}->[0]->{$Attribute}->[0]->{DefaultItem};
                 }
                 next ATTRIBUTE if grep { $Attribute eq $_ } qw (Array Hash Content SelectedID);
 
@@ -2454,7 +2453,7 @@ sub ConfigurationXML2DB {
 
     my $Directory = $Param{Directory} || "$Self->{Home}/Kernel/Config/Files/XML/";
 
-    if ( ! -e $Directory ) {
+    if ( !-e $Directory ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Directory '$Directory' does not exists",
@@ -2510,8 +2509,7 @@ sub ConfigurationXML2DB {
             && ref $Cache->{Settings} eq 'ARRAY'
             )
         {
-            @{ $SettingsByInit{ $Cache->{Init} } }
-                = ( @{ $SettingsByInit{ $Cache->{Init} } }, @{ $Cache->{Settings} } );
+            @{ $SettingsByInit{ $Cache->{Init} } } = ( @{ $SettingsByInit{ $Cache->{Init} } }, @{ $Cache->{Settings} } );
 
             next FILE;
         }

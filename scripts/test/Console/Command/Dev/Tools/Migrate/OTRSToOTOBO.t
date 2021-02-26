@@ -38,7 +38,7 @@ $Kernel::OM = Kernel::System::ObjectManager->new(
 );
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Tools::Migrate::OTRSToOTOBO');
-my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+my $Home          = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 subtest
     'error with missing parameter --target',

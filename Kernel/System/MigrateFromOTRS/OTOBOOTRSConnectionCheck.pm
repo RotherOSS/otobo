@@ -132,15 +132,14 @@ sub Run {
         );
     }
 
-    if ( ! $OTRSConfigpmPath || ! -e $OTRSConfigpmPath ) {
+    if ( !$OTRSConfigpmPath || !-e $OTRSConfigpmPath ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't open Kernel/Config.pm file from OTRSHome: $Param{OTRSData}->{OTRSHome}!",
         );
         my %Result;
-        $Result{Message} = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
-        $Result{Comment} = $Self->{LanguageObject}
-            ->Translate( 'Can\'t open Kernel/Config.pm file from OTRSHome: %s!', $Param{OTRSData}->{OTRSHome} );
+        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
+        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Can\'t open Kernel/Config.pm file from OTRSHome: %s!', $Param{OTRSData}->{OTRSHome} );
         $Result{Successful} = 0;
 
         return \%Result;
@@ -173,7 +172,7 @@ sub _CheckOTOBOConfigpmExists {
     my $Message   = $Self->{LanguageObject}->Translate("Check if Kernel/Config.pm exists in OTOBO home.");
 
     # load Kernel/Config.pm file
-    if ( ! -e "$OTOBOHome/Kernel/Config.pm" ) {
+    if ( !-e "$OTOBOHome/Kernel/Config.pm" ) {
         my %Result;
         $Result{Message}    = $Message;
         $Result{Comment}    = $Self->{LanguageObject}->Translate( '%s does not exist!', "$OTOBOHome/Kernel/Config.pm" );
@@ -197,7 +196,7 @@ sub _CheckOTRSConfigpm {
     my $OTRSConfigpmPath = $Param{OTRSConfigpmPath};
 
     # load Kernel/Config.pm file
-    if ( ! -e "$OTRSConfigpmPath" ) {
+    if ( !-e "$OTRSConfigpmPath" ) {
         my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Check if we are able to connect to OTRS Home.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("Can't connect to OTRS file directory.");

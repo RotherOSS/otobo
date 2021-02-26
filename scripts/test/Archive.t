@@ -70,14 +70,14 @@ else {
     while ( my $Line = shift @{$ChecksumFileArrayRef} ) {
         chomp $Line;
 
-        my ($MD5Sum, $Filename) = split /::/, $Line, 2;
+        my ( $MD5Sum, $Filename ) = split /::/, $Line, 2;
 
         next LINE if !$MD5Sum;
         next LINE if !$Filename;
 
         $Filename = "$Home/$Filename";
 
-        if ( ! -f $Filename ) {
+        if ( !-f $Filename ) {
             $Self->False( 1, "$Filename found" );
 
             next LINE;
@@ -102,7 +102,7 @@ else {
 
         # To save data, we only record errors of files, no positive results.
         if ( $ComputedMD5Sum ne $MD5Sum ) {
-            $Self->Is( $ComputedMD5Sum, $MD5Sum, "$Filename digest");
+            $Self->Is( $ComputedMD5Sum, $MD5Sum, "$Filename digest" );
             $ErrorsFound++;
         }
     }

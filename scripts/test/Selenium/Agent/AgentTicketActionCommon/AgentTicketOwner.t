@@ -179,7 +179,7 @@ $Selenium->RunTest(
 
         # The convoluted way of getting the focus seems to work.
         my $SearchElement = $Selenium->find_element_by_css( '#NewOwnerID_Search', 'css' );
-        ok( $SearchElement, '#NewOwnerID_Search found');
+        ok( $SearchElement, '#NewOwnerID_Search found' );
         $SearchElement->execute_script("arguments[0].focus();");
         ok(
             $Selenium->find_element_by_css( '#NewOwnerID_Search', 'css' ),

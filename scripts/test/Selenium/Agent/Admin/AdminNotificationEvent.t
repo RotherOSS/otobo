@@ -76,8 +76,7 @@ $Selenium->RunTest(
         );
 
         # Click "Add notification".
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminNotificationEvent;Subaction=Add' )]")
-            ->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminNotificationEvent;Subaction=Add' )]")->VerifiedClick();
 
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length;" );
 

@@ -164,13 +164,13 @@ sub Run {
     my %OTOBOParams;
     {
         # remember the current DB-Settings
-        for my $Key ( qw( DatabaseHost Database DatabaseUser DatabasePw DatabaseDSN Home ) ) {
+        for my $Key (qw( DatabaseHost Database DatabaseUser DatabasePw DatabaseDSN Home )) {
             $OTOBOParams{$Key} = $ConfigObject->Get($Key);
         }
 
         # under Docker we also want to keep the log settings
         if ( $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
-            for my $Key ( qw( LogModule LogModule::LogFile ) ) {
+            for my $Key (qw( LogModule LogModule::LogFile )) {
                 $OTOBOParams{$Key} = $ConfigObject->Get($Key);
             }
         }

@@ -167,12 +167,12 @@ sub Run {
 
     # Convert XML files to entries in the database
     if (
-        ! $SysConfigObject->ConfigurationXML2DB(
+        !$SysConfigObject->ConfigurationXML2DB(
             Force   => 1,
             UserID  => 1,
             CleanUp => 1,
         )
-    )
+        )
     {
         # Log info to apache error log and OTOBO log (syslog or file)
         $MigrationBaseObject->MigrationLog(

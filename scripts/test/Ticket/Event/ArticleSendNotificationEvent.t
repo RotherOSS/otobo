@@ -89,8 +89,7 @@ $Self->True(
 );
 
 # Create test email article.
-my $ArticleID
-    = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel( ChannelName => 'Email' )->ArticleCreate(
+my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel( ChannelName => 'Email' )->ArticleCreate(
     TicketID             => $TicketID,
     SenderType           => 'system',
     IsVisibleForCustomer => 1,
@@ -101,7 +100,7 @@ my $ArticleID
     HistoryType          => 'SendCustomerNotification',
     HistoryComment       => 'Some free text!',
     UserID               => 1,
-    );
+);
 $Self->True(
     $ArticleID,
     "ArticleID $ArticleID is created",

@@ -123,8 +123,7 @@ $Selenium->RunTest(
             );
 
             # Click on viewer controller.
-            $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketWatchView;Filter=All;View=$View;\' )]")
-                ->VerifiedClick();
+            $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketWatchView;Filter=All;View=$View;\' )]")->VerifiedClick();
 
             $Selenium->WaitFor(
                 JavaScript =>

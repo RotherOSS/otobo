@@ -145,8 +145,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
 
         $Self->Is(
-            $Selenium->find_element("//input[contains(\@title, \'Toggle active state for $CustomerUserName' )]")
-                ->is_selected(),
+            $Selenium->find_element("//input[contains(\@title, \'Toggle active state for $CustomerUserName' )]")->is_selected(),
             1,
             "Service $ServiceName is active for CustomerUser $CustomerUserName",
         ) || die;

@@ -63,7 +63,7 @@ sub CheckSessionID {
     }
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $RemoteAddr  = $ParamObject->RemoteAddr()      || 'none';
+    my $RemoteAddr  = $ParamObject->RemoteAddr() || 'none';
 
     # set default message
     $Self->{SessionIDErrorMessage} = Translatable('Session invalid. Please log in again.');
@@ -241,7 +241,7 @@ sub CreateSessionID {
 
     # get remote address and the http user agent
     my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $RemoteAddr      = $ParamObject->RemoteAddr()       || 'none';
+    my $RemoteAddr      = $ParamObject->RemoteAddr() || 'none';
     my $RemoteUserAgent = $ParamObject->HTTP('USER_AGENT') || 'none';
 
     # get main object

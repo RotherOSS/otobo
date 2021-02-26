@@ -62,8 +62,7 @@ sub LoadPreferences {
     # version can have package prefix, we need to extract that
     # example of VERSION() output: '5.5.32-0ubuntu0.12.04.1'
     # if VERSION() contains 'MariaDB', add MariaDB, otherwise MySQL.
-    $Self->{'DB::Version'}
-        = "SELECT CONCAT( IF (INSTR( VERSION(),'MariaDB'),'MariaDB ','MySQL '), SUBSTRING_INDEX(VERSION(),'-',1))";
+    $Self->{'DB::Version'} = "SELECT CONCAT( IF (INSTR( VERSION(),'MariaDB'),'MariaDB ','MySQL '), SUBSTRING_INDEX(VERSION(),'-',1))";
 
     # how to get list of tables in the current schema
     $Self->{'DB::ListTables'} = 'SHOW TABLES';

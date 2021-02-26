@@ -124,8 +124,7 @@ for my $Test (@Tests) {
             "$Test->{Name} | EntityID should not be undef",
         );
 
-        my $EntityPrefix
-            = $Kernel::OM->Get('Kernel::Config')->Get('Process::Entity::Prefix')->{ $Test->{Config}->{EntityType} };
+        my $EntityPrefix = $Kernel::OM->Get('Kernel::Config')->Get('Process::Entity::Prefix')->{ $Test->{Config}->{EntityType} };
 
         my $Match;
         if ( $EntityID =~ m{\A $Test->{Config}->{EntityType} - [0-9a-f]{32} \z}smx ) {

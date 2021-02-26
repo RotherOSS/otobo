@@ -667,10 +667,10 @@ $Selenium->RunTest(
             # Custom datetime notification $YearBeforeLast-09-01 10:10:00.
             {
                 Data => {
-                    Description                     => "Custom datetime $YearBeforeLastSettings->{Year}-09-01 10:10:00",
-                    NotificationTemplate            => 'Custom',
-                    NotificationCustomRelativeInput => 0,
-                    NotificationCustomDateTimeInput => 1,
+                    Description                           => "Custom datetime $YearBeforeLastSettings->{Year}-09-01 10:10:00",
+                    NotificationTemplate                  => 'Custom',
+                    NotificationCustomRelativeInput       => 0,
+                    NotificationCustomDateTimeInput       => 1,
                     NotificationCustomRelativeUnitCount   => 0,
                     NotificationCustomRelativeUnit        => 'minutes',
                     NotificationCustomRelativePointOfTime => 'beforestart',
@@ -695,10 +695,10 @@ $Selenium->RunTest(
             # Custom datetime notification $YearBeforeLast-10-18 00:03:00.
             {
                 Data => {
-                    Description                     => "Custom datetime $YearBeforeLastSettings->{Year}-10-18 01:03:00",
-                    NotificationTemplate            => 'Custom',
-                    NotificationCustomRelativeInput => 0,
-                    NotificationCustomDateTimeInput => 1,
+                    Description                           => "Custom datetime $YearBeforeLastSettings->{Year}-10-18 01:03:00",
+                    NotificationTemplate                  => 'Custom',
+                    NotificationCustomRelativeInput       => 0,
+                    NotificationCustomDateTimeInput       => 1,
                     NotificationCustomRelativeUnitCount   => 0,
                     NotificationCustomRelativeUnit        => 'minutes',
                     NotificationCustomRelativePointOfTime => 'beforestart',
@@ -751,10 +751,10 @@ $Selenium->RunTest(
             # Custom datetime notification $YearBeforeLast-10-18 02:03:00.
             {
                 Data => {
-                    Description                     => "Custom datetime $YearBeforeLastSettings->{Year}-10-18 02:03:00",
-                    NotificationTemplate            => 'Custom',
-                    NotificationCustomRelativeInput => 0,
-                    NotificationCustomDateTimeInput => 1,
+                    Description                           => "Custom datetime $YearBeforeLastSettings->{Year}-10-18 02:03:00",
+                    NotificationTemplate                  => 'Custom',
+                    NotificationCustomRelativeInput       => 0,
+                    NotificationCustomDateTimeInput       => 1,
                     NotificationCustomRelativeUnitCount   => 0,
                     NotificationCustomRelativeUnit        => 'minutes',
                     NotificationCustomRelativePointOfTime => 'beforestart',

@@ -514,8 +514,8 @@ for my $Test (@Tests) {
         Data    => $Test->{Data},
         Message => {
             en => {
-                Subject => 'JobName',
-                Body    => 'JobName <OTOBO_TICKET_TicketID> <OTOBO_CONFIG_SendmailModule> <OTOBO_OWNER_UserFirstname>',
+                Subject     => 'JobName',
+                Body        => 'JobName <OTOBO_TICKET_TicketID> <OTOBO_CONFIG_SendmailModule> <OTOBO_OWNER_UserFirstname>',
                 ContentType => 'text/plain',
             },
         },

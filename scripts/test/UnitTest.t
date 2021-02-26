@@ -36,7 +36,7 @@ use Kernel::System::UnitTest;
 our $Self;
 my $UnitTestObject = Kernel::System::UnitTest::Driver->new();
 
-note( 'Testing True() and False()' );
+note('Testing True() and False()');
 
 my @TestTrueFalse = (
     {
@@ -68,21 +68,22 @@ my @TestTrueFalse = (
 
 for my $Test (@TestTrueFalse) {
     my $Events = intercept {
-            $UnitTestObject->True( $Test->{Value}, $Test->{Name} );
-            $UnitTestObject->False( $Test->{Value}, $Test->{Name} );
-        };
+        $UnitTestObject->True( $Test->{Value}, $Test->{Name} );
+        $UnitTestObject->False( $Test->{Value}, $Test->{Name} );
+    };
+
     # diag Dumper( $Events->[0], $Events->[1] );
     if ( $Test->{Result} ) {
-        isa_ok( $Events->[0], [ 'Test2::Event::Pass' ], "True() - $Test->{Name}" );
-        isa_ok( $Events->[1], [ 'Test2::Event::Fail' ], "False() - $Test->{Name}" );
+        isa_ok( $Events->[0], ['Test2::Event::Pass'], "True() - $Test->{Name}" );
+        isa_ok( $Events->[1], ['Test2::Event::Fail'], "False() - $Test->{Name}" );
     }
     else {
-        isa_ok( $Events->[0], [ 'Test2::Event::Fail' ], "True() - $Test->{Name}" );
-        isa_ok( $Events->[1], [ 'Test2::Event::Pass' ], "False() - $Test->{Name}" );
+        isa_ok( $Events->[0], ['Test2::Event::Fail'], "True() - $Test->{Name}" );
+        isa_ok( $Events->[1], ['Test2::Event::Pass'], "False() - $Test->{Name}" );
     }
 }
 
-note( 'Testing Is() and IsNot()' );
+note('Testing Is() and IsNot()');
 
 my @TestIsIsNot = (
     {
@@ -161,21 +162,22 @@ my @TestIsIsNot = (
 
 for my $Test (@TestIsIsNot) {
     my $Events = intercept {
-            $UnitTestObject->Is( $Test->{ValueX}, $Test->{ValueY}, $Test->{Name} );
-            $UnitTestObject->IsNot( $Test->{ValueX}, $Test->{ValueY}, $Test->{Name} );
-        };
+        $UnitTestObject->Is( $Test->{ValueX}, $Test->{ValueY}, $Test->{Name} );
+        $UnitTestObject->IsNot( $Test->{ValueX}, $Test->{ValueY}, $Test->{Name} );
+    };
+
     # diag Dumper( $Events->[0], $Events->[1] );
     if ( $Test->{Result} eq 'Is' ) {
-        isa_ok( $Events->[0], [ 'Test2::Event::Pass' ], "Is() - $Test->{Name}" );
-        isa_ok( $Events->[1], [ 'Test2::Event::Fail' ], "IsNot() - $Test->{Name}" );
+        isa_ok( $Events->[0], ['Test2::Event::Pass'], "Is() - $Test->{Name}" );
+        isa_ok( $Events->[1], ['Test2::Event::Fail'], "IsNot() - $Test->{Name}" );
     }
     else {
-        isa_ok( $Events->[0], [ 'Test2::Event::Fail' ], "Is() - $Test->{Name}" );
-        isa_ok( $Events->[1], [ 'Test2::Event::Pass' ], "IsNot() - $Test->{Name}" );
+        isa_ok( $Events->[0], ['Test2::Event::Fail'], "Is() - $Test->{Name}" );
+        isa_ok( $Events->[1], ['Test2::Event::Pass'], "IsNot() - $Test->{Name}" );
     }
 }
 
-note( 'Testing IsDeeply() and IsNotDeeply()' );
+note('Testing IsDeeply() and IsNotDeeply()');
 
 {
     my %Hash1 = (
@@ -212,12 +214,13 @@ note( 'Testing IsDeeply() and IsNotDeeply()' );
     # loop over the cross product of the values
     my @Values = ( \%Hash1, \%Hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 );
     my $Count1 = 0;
-    for my $Value1 ( @Values )  {
+    for my $Value1 (@Values) {
 
         $Count1++;
+
         # compare each data structures with each other data structure
         my $Count2 = 0;
-        for my $Value2 ( @Values ) {
+        for my $Value2 (@Values) {
             $Count2++;
 
             my $Events = intercept {
@@ -226,12 +229,12 @@ note( 'Testing IsDeeply() and IsNotDeeply()' );
             };
 
             if ( $Value2 == $Value1 ) {
-                isa_ok( $Events->[0], [ 'Test2::Event::Pass' ], "IsDeeply - same $Count1:$Count2" );
-                isa_ok( $Events->[1], [ 'Test2::Event::Fail' ], "IsNotDeeply - same $Count1:$Count2" );
+                isa_ok( $Events->[0], ['Test2::Event::Pass'], "IsDeeply - same $Count1:$Count2" );
+                isa_ok( $Events->[1], ['Test2::Event::Fail'], "IsNotDeeply - same $Count1:$Count2" );
             }
             else {
-                isa_ok( $Events->[0], [ 'Test2::Event::Fail' ], "IsDeeply() - not same $Count1:$Count2" );
-                isa_ok( $Events->[1], [ 'Test2::Event::Pass' ], "IsNotDeeply - not same $Count1:$Count2" );
+                isa_ok( $Events->[0], ['Test2::Event::Fail'], "IsDeeply() - not same $Count1:$Count2" );
+                isa_ok( $Events->[1], ['Test2::Event::Pass'], "IsNotDeeply - not same $Count1:$Count2" );
             }
         }
     }

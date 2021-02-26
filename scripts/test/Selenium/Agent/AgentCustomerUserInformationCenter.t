@@ -241,8 +241,7 @@ $Selenium->RunTest(
             );
         }
 
-        $Selenium->find_element( "#DashboardAdditionalFilter0130-CUIC-TicketOpenAccessibleForCustomerUser", 'css' )
-            ->click();
+        $Selenium->find_element( "#DashboardAdditionalFilter0130-CUIC-TicketOpenAccessibleForCustomerUser", 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && !$("#Dashboard0120-CUIC-TicketNew-box.Loading").length;'

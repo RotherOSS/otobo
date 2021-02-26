@@ -34,12 +34,12 @@ $Kernel::OM->ObjectParamAdd(
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # clear some tables
-for my $Table ( qw(sysconfig_modified_version sysconfig_modified sysconfig_default_version sysconfig_default) ) {
+for my $Table (qw(sysconfig_modified_version sysconfig_modified sysconfig_default_version sysconfig_default)) {
     my $DoSuccess = $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => "DELETE FROM $Table",
     );
 
-    skip_all( "cannot delete from $Table" ) unless $DoSuccess;
+    skip_all("cannot delete from $Table") unless $DoSuccess;
 }
 
 my $RandomID = $HelperObject->GetRandomID();

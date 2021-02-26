@@ -260,14 +260,14 @@ $Self->True(
 
 # update escalation times directly in the DB
 my $EscalationTime = $StartTime->ToEpoch() + 120;
-my $DoSuccess = $Kernel::OM->Get('Kernel::System::DB')->Do(
+my $DoSuccess      = $Kernel::OM->Get('Kernel::System::DB')->Do(
     SQL => '
         UPDATE ticket
         SET escalation_time = ?, escalation_response_time = ?, escalation_update_time = ?,
             escalation_solution_time = ?, change_time = current_timestamp, change_by = ?
         WHERE id = ?',
     Bind => [
-        \$EscalationTime, 
+        \$EscalationTime,
         \$EscalationTime,
         \$EscalationTime,
         \$EscalationTime,
@@ -280,7 +280,6 @@ if ( !$DoSuccess ) {
 
     exit 0;
 }
-
 
 # create backend object and delegates
 my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -1423,8 +1422,8 @@ my @Tests = (
         RequestData    => {
             TicketLastChangeTimeNewerDate => $StartTime->ToString(),
             TicketCreateTimeNewerDate     => $StartTime->ToString(),
-            SortBy  => 'Ticket',    # force order, because the Age (default) can be the same
-            OrderBy => 'Down',
+            SortBy                        => 'Ticket',                 # force order, because the Age (default) can be the same
+            OrderBy                       => 'Down',
         },
         ExpectedReturnLocalData => {
             Data => {
@@ -1469,9 +1468,9 @@ my @Tests = (
         RequestData    => {
             TicketLastChangeTimeNewerDate => $StartTime->ToString(),
             TicketCreateTimeNewerDate     => $StartTime->ToString(),
-            SortBy  => 'Ticket',    # force order, because the Age (default) can be the same
-            OrderBy => 'Down',
-            Limit   => 1,
+            SortBy                        => 'Ticket',                 # force order, because the Age (default) can be the same
+            OrderBy                       => 'Down',
+            Limit                         => 1,
         },
         ExpectedReturnLocalData => {
             Data => {

@@ -41,9 +41,9 @@ my %FailureIsAccepted = (
     'scripts/apache2-perl-startup.pl'            => 'mod_perl not neccessarily available',
 );
 
-note( 'check syntax of the Perl modules' );
+note('check syntax of the Perl modules');
 
-foreach my $File ( $Internal->all_pm_files(@Dirs) ) {
+for my $File ( $Internal->all_pm_files(@Dirs) ) {
     if ( $FailureIsAccepted{$File} ) {
         my $ToDo = todo "$File: $FailureIsAccepted{$File}";
 
@@ -54,9 +54,9 @@ foreach my $File ( $Internal->all_pm_files(@Dirs) ) {
     }
 }
 
-note( 'check syntax of the Perl scripts' );
+note('check syntax of the Perl scripts');
 
-foreach my $File ( $Internal->all_pl_files(@Dirs) ) {
+for my $File ( $Internal->all_pl_files(@Dirs) ) {
     if ( $FailureIsAccepted{$File} ) {
         my $ToDo = todo "$File: $FailureIsAccepted{$File}";
 
@@ -67,12 +67,12 @@ foreach my $File ( $Internal->all_pl_files(@Dirs) ) {
     }
 }
 
-note( 'look at Perl code with an unusual extension' );
+note('look at Perl code with an unusual extension');
 {
     my @Files = (
         'bin/psgi-bin/otobo.psgi',
     );
-    foreach my $File ( @Files ) {
+    for my $File (@Files) {
         if ( $FailureIsAccepted{$File} ) {
             my $ToDo = todo "$File: $FailureIsAccepted{$File}";
 
@@ -84,24 +84,24 @@ note( 'look at Perl code with an unusual extension' );
     }
 }
 
-note( 'check syntax of some shell scripts' );
+note('check syntax of some shell scripts');
 {
     my @ShellScripts = glob 'bin/docker/*.sh';
 
-    if ( ! $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
+    if ( !$ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
         push @ShellScripts, 'bin/Cron.sh';
     }
 
-    for my $File ( @ShellScripts ) {
+    for my $File (@ShellScripts) {
         my $CompileErrors = `bash -n "$File" 2>&1`;
         is( $CompileErrors, '', "$File compiles" );
     }
 }
 
-note( 'check syntax of Docker hub hook scripts, when the dir hooks exists' );
+note('check syntax of Docker hub hook scripts, when the dir hooks exists');
 
 SKIP: {
-    skip 'no hooks dir' if ! -d 'hooks';
+    skip 'no hooks dir' if !-d 'hooks';
 
     for my $File ( glob 'hooks/*' ) {
         my $CompileErrors = `bash -n "$File" 2>&1`;
