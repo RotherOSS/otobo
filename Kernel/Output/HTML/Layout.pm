@@ -149,7 +149,7 @@ sub new {
 
     # set charset if there is no charset given
     $Self->{UserCharset} = 'utf-8';
-    $Self->{Charset}     = $Self->{UserCharset};                                                                         # just for compat.
+    $Self->{Charset}     = $Self->{UserCharset};                                     # just for compat.
     $Self->{SessionID}   = $Param{SessionID} || '';
     $Self->{SessionName} = $Param{SessionName} || 'SessionID';
     $Self->{CGIHandle}   = $ParamObject->ScriptName() || 'No-$ENV{"SCRIPT_NAME"}';
@@ -214,7 +214,7 @@ EOF
     $Self->{BrowserJavaScriptSupport} = 1;
     $Self->{BrowserRichText}          = 1;
 
-    my $HttpUserAgent = lc ( $ParamObject->HTTP('USER_AGENT') // '' );
+    my $HttpUserAgent = lc( $ParamObject->HTTP('USER_AGENT') // '' );
 
     if ( !$HttpUserAgent ) {
         $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
@@ -562,14 +562,13 @@ for the session cookie to be not yet set.
 =cut
 
 sub Redirect {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # get singletons
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # Figure out where to redirect to,
-    my $Redirect = $Self->{Baselink}; # the fallback
+    my $Redirect = $Self->{Baselink};    # the fallback
     if ( $Param{ExtURL} ) {
         $Redirect = $Param{ExtURL};
     }
@@ -642,7 +641,7 @@ sub Redirect {
 
     # create an response object we can work with
     my $RedirectResponse = Plack::Response->new();
-    $RedirectResponse->redirect( $Redirect );
+    $RedirectResponse->redirect($Redirect);
 
     # add cookies to the HTTP headers if there are any
     # TODO: use the Plack::Response::cookies() method
@@ -928,8 +927,7 @@ sub ChallengeTokenCheck {
 }
 
 sub FatalError {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Prevent endless recursion in case of problems with Template engine.
     return if $Self->{InFatalError}++;
@@ -970,8 +968,7 @@ sub FatalError {
 }
 
 sub SecureMode {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     return join '',
         $Self->Header(
@@ -1017,8 +1014,7 @@ sub FatalDie {
 }
 
 sub ErrorScreen {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     return join '',
         $Self->Header( Title => 'Error' ),
@@ -1250,12 +1246,12 @@ sub Header {
     my ( $Self, %Param ) = @_;
 
     # extract params
-    my $Type              = $Param{Type} || '';
+    my $Type = $Param{Type} || '';
 
     # check params
-   $Param{ShowToolbarItems} //= 1;
-   $Param{ShowPrefLink}     //= 1;
-   $Param{ShowLogoutButton} //= 1;
+    $Param{ShowToolbarItems} //= 1;
+    $Param{ShowPrefLink}     //= 1;
+    $Param{ShowLogoutButton} //= 1;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -1615,7 +1611,7 @@ sub _AddHeadersToResponseOBject {
 
     # check needed stuff
     for (qw(Data)) {
-        if ( ! $Param{$_} ) {
+        if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $_!"
@@ -1629,31 +1625,30 @@ sub _AddHeadersToResponseOBject {
     my %Data = $Param{Data}->%*;
 
     # get singletons
-    my $ResponseObject = $Kernel::OM->Get( 'Kernel::System::Web::Response' );
+    my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
     my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
 
     # first the unconditional headers
     my %Headers = (
-        'Content-Type'          => 'text/html; charset=utf-8',
-        'X-UA-Compatible'       => 'IE=edge,chrome=1',
-        'Expires'               => 'Tue, 1 Jan 1980 12:00:00 GMT',
-        'Cache-Control'         => 'no-cache',
-        'Pragma'                => 'no-cache',
+        'Content-Type'    => 'text/html; charset=utf-8',
+        'X-UA-Compatible' => 'IE=edge,chrome=1',
+        'Expires'         => 'Tue, 1 Jan 1980 12:00:00 GMT',
+        'Cache-Control'   => 'no-cache',
+        'Pragma'          => 'no-cache',
     );
 
     if ( $Data{ContentDisposition} ) {
         $Headers{'Content-Disposition'} = $Data{ContentDisposition};
     }
 
-    if ( ! $ConfigObject->Get('Secure::DisableBanner') ) {
-        $Headers{'X-Powered-By'}
-            = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version'), '(https://www.otobo.de/)';
+    if ( !$ConfigObject->Get('Secure::DisableBanner') ) {
+        $Headers{'X-Powered-By'} = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version'), '(https://www.otobo.de/)';
     }
 
     if (
-        ! $ConfigObject->Get('DisableIFrameOriginRestricted')
-        && ! $Data{DisableIFrameOriginRestricted}
-    )
+        !$ConfigObject->Get('DisableIFrameOriginRestricted')
+        && !$Data{DisableIFrameOriginRestricted}
+        )
     {
         $Headers{'X-Frame-Options'} = 'SAMEORIGIN';
     }
@@ -2695,8 +2690,7 @@ Or when running under PSGI where the content will be encoded later:
 =cut
 
 sub Attachment {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed params
     for (qw(Content ContentType)) {
@@ -2762,7 +2756,8 @@ sub Attachment {
         # frame-src:  block all frames
         # style-src:  allow inline styles for nice email display
         # referrer:   don't send referrers to prevent referrer-leak attacks
-        $Headers{'Content-Security-Policy'} = q{default-src *; img-src * data:; script-src 'none'; object-src 'self'; frame-src 'none'; style-src 'unsafe-inline'; referrer no-referrer;};
+        $Headers{'Content-Security-Policy'}
+            = q{default-src *; img-src * data:; script-src 'none'; object-src 'self'; frame-src 'none'; style-src 'unsafe-inline'; referrer no-referrer;};
 
         # Use Referrer-Policy header to suppress referrer information in modern browsers
         #   (to prevent referrer-leak attacks).
@@ -2778,16 +2773,16 @@ sub Attachment {
 
     # additional headers are supported, but currently not used
     my @AdditionalHeaders = ( $Param{AdditionalHeader} // [] )->@*;
-    $Kernel::OM->Get( 'Kernel::System::Web::Response' )->Headers( [ %Headers, @AdditionalHeaders ] );
+    $Kernel::OM->Get('Kernel::System::Web::Response')->Headers( [ %Headers, @AdditionalHeaders ] );
 
     # disable utf8 flag, to write binary to output
-    if ( ! $Param{NoEncode} ) {
+    if ( !$Param{NoEncode} ) {
         my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
         $EncodeObject->EncodeOutput( \$Param{Content} );
     }
 
     # fix for firefox HEAD problem
-    my $Output = '';
+    my $Output        = '';
     my $RequestMethod = $Kernel::OM->Get('Kernel::System::Web::Request')->RequestMethod();
     if ( !$RequestMethod || $RequestMethod ne 'HEAD' ) {
         $Output .= $Param{Content};
@@ -3972,12 +3967,12 @@ sub HumanReadableDataSize {
 sub CustomerLogin {
     my ( $Self, %Param ) = @_;
 
-    $Param{TitleArea}      = $Self->{LanguageObject}->Translate('Login') . ' - ';
-    $Param{IsLoginPage}    = 1;
-    $Param{XLoginHeader}   = 1;
+    $Param{TitleArea}    = $Self->{LanguageObject}->Translate('Login') . ' - ';
+    $Param{IsLoginPage}  = 1;
+    $Param{XLoginHeader} = 1;
 
     # set Action parameter for the loader
-    $Self->{Action}        = 'CustomerLogin';
+    $Self->{Action} = 'CustomerLogin';
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -4018,7 +4013,7 @@ sub CustomerLogin {
             push @CookieHeaders, 'Set-Cookie' => $Self->{SetCookies}->{$_};
         }
 
-        $Kernel::OM->Get( 'Kernel::System::Web::Response' )->Headers( \@CookieHeaders );
+        $Kernel::OM->Get('Kernel::System::Web::Response')->Headers( \@CookieHeaders );
     }
 
     # check if message should be shown
@@ -6071,51 +6066,6 @@ sub _BuildSelectionOutput {
     return $String;
 }
 
-=head2 _RemoveScriptTags()
-
-This function will remove the surrounding <script> tags of a
-piece of JavaScript code, if they are present, and return the result.
-
-    my $CodeContent = $LayoutObject->_RemoveScriptTags(Code => $SomeCode);
-
-=cut
-
-sub _RemoveScriptTags {
-    my ( $Self, %Param ) = @_;
-
-    my $Code = $Param{Code} || '';
-
-    if ( $Code =~ m/<script/ ) {
-
-        # cut out dtl block comments of already replaced dtl blocks
-        $Code =~ s{
-            ^
-            <!--
-            \/?
-            \w+
-            -->
-            \r?\n
-        }{}smxg;
-
-        # cut out opening script tags
-        $Code =~ s{
-            <script[^>]+>
-            (?:\s*<!--)?
-            (?:\s*//\s*<!\[CDATA\[)?
-        }
-        {}smxg;
-
-        # cut out closing script tags
-        $Code =~ s{
-            (?:-->\s*)?
-            (?://\s*\]\]>\s*)?
-            </script>
-        }{}smxg;
-
-    }
-    return $Code;
-}
-
 =end Internal:
 
 =head2 WrapPlainText()
@@ -6178,7 +6128,7 @@ sub WrapPlainText {
 
 =head2 SetRichTextParameters()
 
-set properties for rich text editor and send them to JS via AddJSData()
+set properties for rich text editor and send them to JavaScript via AddJSData()
 
 $LayoutObject->SetRichTextParameters(
     Data => \%Param,
@@ -6316,7 +6266,7 @@ sub SetRichTextParameters {
 
 =head2 CustomerSetRichTextParameters()
 
-set properties for customer rich text editor and send them to JS via AddJSData()
+set properties for customer rich text editor and send them to JavaScript via AddJSData()
 
 $LayoutObject->CustomerSetRichTextParameters(
     Data => \%Param,
@@ -6520,9 +6470,5 @@ sub UserInitialsGet {
 
     return $UserInitials;
 }
-
-=end Internal:
-
-=cut
 
 1;
