@@ -19,10 +19,13 @@ package Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker::Cron;
 use strict;
 use warnings;
 
-use IPC::Open3;
-use Symbol;
-
 use parent qw(Kernel::System::Daemon::DaemonModules::BaseTaskWorker);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
