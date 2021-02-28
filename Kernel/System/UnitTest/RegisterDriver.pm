@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -21,12 +21,13 @@ Kernel::System::UnitTest::RegisterDriver - another helper for unit tests
 
 =head1 SYNOPSIS
 
-    # Set up the test driver $Self when we are running as a standalone script.
-    use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+    # Set up the test driver $Self and $Kernel::OM in test scripts.
+    use Kernel::System::UnitTest::RegisterDriver;
 
 =head1 DESCRIPTION
 
 Support for running test scripts as standalone scripts.
+Sets up C<$main::Self> and C<$Kernel::OM>.
 
 =cut
 
@@ -43,20 +44,23 @@ use Kernel::System::ObjectManager;
 
 our $ObjectManagerDisabled = 1;
 
-sub import { ## no critic qw(OTOBO::RequireCamelCase)
+sub import {    ## no critic qw(OTOBO::RequireCamelCase)
 
     # RegisterDriver is meant for test scripts,
     # meaning that each sript has it's own process.
     # This means that we don't have to localize $Kernel::OM.
     # This is good, we are in a subroutine that does not eval the test script.
     $Kernel::OM = Kernel::System::ObjectManager->new(
+
+        # Log to an identifiable logfile.
         'Kernel::System::Log' => {
             LogPrefix => 'OTOBO-otobo.UnitTest',
         },
     );
 
-    # provide $Self in the test scripts
-    $main::Self = $Kernel::OM->Get( 'Kernel::System::UnitTest::Driver' );
+    # Provide $Self in the test scripts.
+    # This is mostly for methods like $Self->Is() or $Self->True().
+    $main::Self = $Kernel::OM->Get('Kernel::System::UnitTest::Driver');
 
     return;
 }
@@ -70,10 +74,11 @@ sub import { ## no critic qw(OTOBO::RequireCamelCase)
         # Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker, and maybe other modules, is forking processes.
         # But we want no cleanup in the child processes.
         if ( $$ == $OriginalPID ) {
+
             # trigger Kernel::System::UnitTest::Helper::DESTROY()
             # perform cleanup actions, including some tests, in Kernel::System::UnitTest::Helper::DESTROY
             $Kernel::OM->ObjectsDiscard(
-                Objects            => ['Kernel::System::UnitTest::Helper'],
+                Objects => ['Kernel::System::UnitTest::Helper'],
             );
         }
     }
