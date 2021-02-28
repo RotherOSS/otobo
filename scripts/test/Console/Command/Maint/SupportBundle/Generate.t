@@ -18,10 +18,21 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use CGI;
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::ObjectManager;
+
+# give the SupportDataCollector an empty HTTP request
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    'Kernel::System::Web::Request' => {
+        WebRequest => CGI->new
+    }
+);
 
 # Work around a Perl bug that is triggered in Carp
 #   (Bizarre copy of HASH in list assignment at /usr/share/perl5/vendor_perl/Carp.pm line 229).
@@ -34,12 +45,7 @@ use Carp;
 local *Carp::caller_info = sub { };
 use warnings 'redefine';
 
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+plan(2);
 
 my $TargetDirectory = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/tmp';
 
@@ -54,31 +60,19 @@ foreach my $File (@SupportFiles) {
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::SupportBundle::Generate');
 
-# Run the console command and get its exit code as a result.
+# Run the console command and get its exit code as a result. 0 indicates success.
 my $ExitCode = $CommandObject->Execute( '--target-directory', $TargetDirectory );
 
-$Self->Is(
-    $ExitCode,
-    0,
-    'Maint::SupportBundle::Generate exit code'
-);
+is( $ExitCode, 0, 'Maint::SupportBundle::Generate exit code' );
 
 @SupportFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
     Directory => $TargetDirectory,
     Filter    => 'SupportBundle_*.tar.gz',
 );
 
-$Self->Is(
-    scalar @SupportFiles,
-    1,
-    'Support bundle generated'
-);
+is( scalar @SupportFiles, 1, 'Support bundle generated' );
 
 # Remove generated support files.
 foreach my $File (@SupportFiles) {
     unlink $File;
 }
-
-# Cleanup cache is done by RestoreDatabase.
-
-$Self->DoneTesting();
