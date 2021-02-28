@@ -29,9 +29,7 @@ use Kernel::System::ObjectManager;
 
 # give the SupportDataCollector an empty HTTP request
 local $Kernel::OM = Kernel::System::ObjectManager->new(
-    'Kernel::System::Web::Request' => {
-        WebRequest => CGI->new
-    }
+    'Kernel::System::Web::Request' => { WebRequest => CGI->new() }
 );
 
 plan(2);
