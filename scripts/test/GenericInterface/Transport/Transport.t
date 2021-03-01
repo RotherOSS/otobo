@@ -25,7 +25,7 @@ use Test2::V0;
 use CGI;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport;
 
@@ -53,7 +53,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     WebserviceID      => 1,
 );
 
-note( 'failing backend' );
+note('failing backend');
 
 {
     my $TransportObject = Kernel::GenericInterface::Transport->new(
@@ -152,7 +152,7 @@ for my $Fail ( 0 .. 1 ) {
         },
     );
 
-    note( "RequesterPerformRequest() (Fail $Fail)" );
+    note("RequesterPerformRequest() (Fail $Fail)");
 
     for my $TestEntry (@RPRTestData) {
 
@@ -234,7 +234,7 @@ for my $Fail ( 0 .. 1 ) {
         },
     );
 
-    note( "ProviderProcessRequest() (Fail $Fail)" );
+    note("ProviderProcessRequest() (Fail $Fail)");
 
     for my $TestEntry (@PPRTestData) {
 
@@ -252,7 +252,7 @@ for my $Fail ( 0 .. 1 ) {
 
                 # redirect STDIN from String so that the transport layer will use this data
                 local *STDIN;
-                open STDIN, '<:utf8', \$TestEntry->{RequestContent};    ## no critic
+                open STDIN, '<:encoding(UTF-8)', \$TestEntry->{RequestContent};
 
                 # force the ParamObject to use the new request params
                 CGI::initialize_globals();
@@ -301,13 +301,13 @@ for my $Fail ( 0 .. 1 ) {
                 );
             }
 
-#use Data::Dumper;
-#warn Dumper( 'YYY', $WebException, $Result );
-                #can_ok( $WebException, [ 'as_psgi' ], 'exception with as_psgi() method' );
-                #my $PSGIResponse = $WebException->as_psgi();
-                #ref_ok( $PSGIResponse, 'ARRAY', 'PSGI response is an array ref' );
-#
-                #ok( $PSGIResponse->[2], "error message found" );
+            #use Data::Dumper;
+            #warn Dumper( 'YYY', $WebException, $Result );
+            #can_ok( $WebException, [ 'as_psgi' ], 'exception with as_psgi() method' );
+            #my $PSGIResponse = $WebException->as_psgi();
+            #ref_ok( $PSGIResponse, 'ARRAY', 'PSGI response is an array ref' );
+            #
+            #ok( $PSGIResponse->[2], "error message found" );
         };
     }
 
@@ -352,7 +352,7 @@ for my $Fail ( 0 .. 1 ) {
 
     for my $OptionSuccess ( 0 .. 1 ) {
 
-        note( "ProviderGenerateResponse() (Fail $Fail) (success $OptionSuccess)" );
+        note("ProviderGenerateResponse() (Fail $Fail) (success $OptionSuccess)");
 
         for my $TestEntry (@PGRTestEntries) {
 
@@ -373,13 +373,13 @@ for my $Fail ( 0 .. 1 ) {
                         );
                     };
                     $WebException = $@;
-                    $Response = delete $Result->{Output} if ref $Result eq 'HASH';
+                    $Response     = delete $Result->{Output} if ref $Result eq 'HASH';
                 }
 
                 if ( !$Fail && $TestEntry->{ResultSuccess} ) {
 
                     if ($OptionSuccess) {
-                        ok( "success" );
+                        ok("success");
 
                         $Self->True(
                             index( $Response, '200 OK' ) > -1,
@@ -400,7 +400,7 @@ for my $Fail ( 0 .. 1 ) {
                         is( $Result, undef, 'no result as exception is thrown' );
                         my $PSGIResponse = $WebException->as_psgi;
                         is( $PSGIResponse->[0], 500, 'HTTP status 500' );
-                        is( $PSGIResponse->[2], [ $CustomErrorMessage ], 'custom error message' );
+                        is( $PSGIResponse->[2], [$CustomErrorMessage], 'custom error message' );
                     }
                 }
                 elsif ( $Fail && $TestEntry->{ResultSuccess} ) {
@@ -410,7 +410,7 @@ for my $Fail ( 0 .. 1 ) {
                     is( $Result, undef, 'no result as exception is thrown' );
                     my $PSGIResponse = $WebException->as_psgi;
                     is( $PSGIResponse->[0], 500, 'HTTP status 500' );
-                    is( $PSGIResponse->[2], [ 'Test response generation failed' ], 'error message for Fail = 1' );
+                    is( $PSGIResponse->[2], ['Test response generation failed'], 'error message for Fail = 1' );
                     use Data::Dumper;
                     warn Dumper( 'KKK', $Fail, $OptionSuccess, $TestEntry, $Result, $WebException );
                 }
