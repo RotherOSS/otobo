@@ -23,6 +23,7 @@ use utf8;
 
 # CPAN modules
 use LWP::UserAgent;
+use CGI;
 use Test2::V0;
 
 # OTOBO modules
@@ -306,7 +307,6 @@ for my $Test (@Tests) {
 
                     if ( $RequestMethod eq 'post' ) {
 
-                        # TODO: why ???
                         # prepare CGI environment variables
                         $ENV{REQUEST_URI}    = "http://localhost/otobo/nph-genericinterface.pl/$PathInfo";
                         $ENV{REQUEST_METHOD} = 'POST';
@@ -337,9 +337,14 @@ for my $Test (@Tests) {
                     local *STDIN;
                     open STDIN, '<:utf8', \$RequestData;    ## no critic
 
-                    # reset CGI object from previous runs
+                    # force the ParamObject to use the new request params
                     CGI::initialize_globals();
                     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
+                    $Kernel::OM->ObjectParamAdd(
+                        'Kernel::System::Web::Request' => {
+                            WebRequest => CGI->new(),
+                        }
+                    );
 
                     eval {
                         $ResponseData = $ProviderObject->Content();

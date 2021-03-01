@@ -18,12 +18,12 @@ use strict;
 use warnings;
 use utf8;
 
+use CGI;
+
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
-
-use CGI;
+our $Self;
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -175,7 +175,13 @@ for my $Test (@Tests) {
         QUERY_STRING   => $Test->{QueryString} // '',
     );
 
-    CGI->initialize_globals();
+    # force the ParamObject to use the new request params
+    CGI::initialize_globals();
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Web::Request' => {
+            WebRequest => CGI->new(),
+        }
+    );
 
     # implicitly call Kernel::System::Web::Request->new();
     my $EntityName = $Kernel::OM->Get('Kernel::System::SysConfig::ValueType::Entity')->EntityLookupFromWebRequest(
@@ -196,7 +202,8 @@ for my $Test (@Tests) {
         $Test->{ExpectedValue},
         "$Test->{Name} EntityLookupFromWebRequest() - EntityName",
     );
-
+}
+continue {
     $Kernel::OM->ObjectsDiscard(
         Objects => [ 'Kernel::System::Web::Request', ],
     );

@@ -22,6 +22,7 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
+use CGI;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
@@ -242,7 +243,7 @@ for my $Fail ( 0 .. 1 ) {
             my ( $Result, $WebException );
             {
                 # prepare CGI environment variables
-                # %ENV will be picked up in Kernel::System::Web::Request::new().
+                # %ENV will be picked up in CGI->new()
                 local $ENV{REQUEST_METHOD} = 'POST';
                 local $ENV{CONTENT_LENGTH} = length( $TestEntry->{RequestContent} );
                 local $ENV{CONTENT_TYPE}   = 'application/x-www-form-urlencoded; charset=utf-8;';
@@ -253,11 +254,14 @@ for my $Fail ( 0 .. 1 ) {
                 local *STDIN;
                 open STDIN, '<:utf8', \$TestEntry->{RequestContent};    ## no critic
 
-                # reset CGI object from previous runs
+                # force the ParamObject to use the new request params
                 CGI::initialize_globals();
-
-                # discard Web::Request from OM to prevent errors
                 $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
+                $Kernel::OM->ObjectParamAdd(
+                    'Kernel::System::Web::Request' => {
+                        WebRequest => CGI->new(),
+                    }
+                );
 
                 $Result = eval {
                     $TransportObject->ProviderProcessRequest();

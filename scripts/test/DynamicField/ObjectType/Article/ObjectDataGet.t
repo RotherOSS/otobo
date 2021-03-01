@@ -18,10 +18,12 @@ use strict;
 use warnings;
 use utf8;
 
+use CGI;
+
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # Get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -215,7 +217,13 @@ for my $Test (@Tests) {
         QUERY_STRING   => $Test->{Request} // '',
     );
 
-    CGI->initialize_globals();
+    # force the ParamObject to use the new request params
+    CGI::initialize_globals();
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Web::Request' => {
+            WebRequest => CGI->new(),
+        }
+    );
 
     # implicitly call Kernel::System::Web::Request->new();
     my %ObjectData = $ObjectHandlerObject->ObjectDataGet( %{ $Test->{Config} } );
