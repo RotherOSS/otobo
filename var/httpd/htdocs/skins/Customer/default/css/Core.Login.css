@@ -33,7 +33,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     #MainBox {
         position: absolute;
-        top 0;
+        top: 0;
         left: 0;
         width: 100vw;
         min-width: 320px;
@@ -110,7 +110,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     #MainBox {
         position: absolute;
-        top 0;
+        top: 0;
         left: 0;
         width: 35vw;
         min-width: 358px;
