@@ -249,7 +249,7 @@ sub CreateQueryString {
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$QueryString );
 
     return $QueryString;
-};
+}
 
 # get remote host with some precautions for certain unit test systems
 my $Host = $Helper->GetTestHTTPHostname();
@@ -297,7 +297,7 @@ for my $Test (@Tests) {
         # Test with IO redirection, no real HTTP request
         for my $RequestMethod (qw(get post)) {
             for my $WebserviceAccess ( sort keys %WebserviceAccess2PathInfo ) {
-                my $PathInfo = $WebserviceAccess2PathInfo{$WebserviceAccess};
+                my $PathInfo     = $WebserviceAccess2PathInfo{$WebserviceAccess};
                 my $RequestData  = '';
                 my $ResponseData = '';
                 my $WebException;
@@ -325,8 +325,7 @@ for my $Test (@Tests) {
                         );
 
                         # prepare CGI environment variables
-                        $ENV{REQUEST_URI}
-                            = "http://localhost/otobo/nph-genericinterface.pl/$PathInfo?" . $QueryString;
+                        $ENV{REQUEST_URI}    = "http://localhost/otobo/nph-genericinterface.pl/$PathInfo?" . $QueryString;
                         $ENV{QUERY_STRING}   = $QueryString;
                         $ENV{REQUEST_METHOD} = 'GET';
                     }
@@ -335,7 +334,7 @@ for my $Test (@Tests) {
 
                     # redirect STDIN from String so that the transport layer will use this data
                     local *STDIN;
-                    open STDIN, '<:utf8', \$RequestData;    ## no critic
+                    open STDIN, '<:encoding(UTF-8)', \$RequestData;
 
                     # force the ParamObject to use the new request params
                     CGI::initialize_globals();
@@ -349,7 +348,7 @@ for my $Test (@Tests) {
                     eval {
                         $ResponseData = $ProviderObject->Content();
                     };
-                    $WebException = $@; # assign '' in case of success
+                    $WebException = $@;    # assign '' in case of success
                 }
 
                 if ( $Test->{ResponseSuccess} ) {
@@ -377,13 +376,13 @@ for my $Test (@Tests) {
                 else {
 
                     ok( defined $WebException, 'exception when failure is expected' );
-                    can_ok( $WebException, [ 'as_psgi' ], 'sane exception when failure is expected' );
+                    can_ok( $WebException, ['as_psgi'], 'sane exception when failure is expected' );
 
                     # status 500 is expected
                     my $PSGIResponse = $WebException->as_psgi();
                     ok( $PSGIResponse, 'got a PSGI response' );
                     ref_ok( $PSGIResponse, 'ARRAY', 'got array ref as PSGI response' );
-                    is( $PSGIResponse->[0], 500, 'HTTP status 500');
+                    is( $PSGIResponse->[0], 500, 'HTTP status 500' );
                 }
             }
         }
@@ -398,10 +397,10 @@ for my $Test (@Tests) {
                 push @BaseURLs, $PlackBaseURL;
             }
 
-            for my $BaseURL ( @BaseURLs ) {
+            for my $BaseURL (@BaseURLs) {
                 for my $WebserviceAccess ( sort keys %WebserviceAccess2PathInfo ) {
                     my $PathInfo = $WebserviceAccess2PathInfo{$WebserviceAccess};
-                    my $URL = $BaseURL . $PathInfo;
+                    my $URL      = $BaseURL . $PathInfo;
                     my $Response;
                     my $ResponseData;
                     my $QueryString = CreateQueryString(
@@ -465,7 +464,7 @@ for my $Test (@Tests) {
 # Test non existing web service
 for my $RequestMethod (qw(get post)) {
 
-    my $URL = $ApacheBaseURL . 'undefined';
+    my $URL      = $ApacheBaseURL . 'undefined';
     my $Response = LWP::UserAgent->new()->$RequestMethod($URL);
 
     is(
