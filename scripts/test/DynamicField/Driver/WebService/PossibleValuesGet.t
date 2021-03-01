@@ -630,7 +630,7 @@ my $DynamicFieldDeleteSuccess = $DynamicFieldObject->DynamicFieldDelete(
     ID     => $DynamicFieldID,
     UserID => 1,
 );
-ok( $DynamicFieldDelete, "Database dynamic field ID $DynamicFieldID - deleted" );
+ok( $DynamicFieldDeleteSuccess, "Database dynamic field ID $DynamicFieldID - deleted" );
 
 my $WebserviceDeleteSuccess = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
@@ -639,7 +639,7 @@ my $WebserviceDeleteSuccess = $WebserviceObject->WebserviceDelete(
 ok( $WebserviceDeleteSuccess, "Web Service ID $WebserviceID - deleted" );
 
 # Make sure the cache is correct.
-for my $Cache ( qw(Ticket DynamicField Webservice) ) {
+for my $Cache (qw(Ticket DynamicField Webservice)) {
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => $Cache,
     );
