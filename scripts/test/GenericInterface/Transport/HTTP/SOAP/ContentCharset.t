@@ -119,16 +119,22 @@ END_XML
 
     # Fake STDIN and fill it with the request.
     local *STDIN;
-    open STDIN, '<:utf8', \$Request;    ## no critic
-
-    CGI::initialize_globals();
-    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
+    open STDIN, '<:encoding(UTF-8)', \$Request;
 
     # Fake environment variables as it gets it from the request.
     # %ENV will be picked up in Kernel::System::Web::Request::new().
     local $ENV{REQUEST_METHOD} = 'POST';
     local $ENV{CONTENT_LENGTH} = length $Request;
     local $ENV{CONTENT_TYPE}   = $Test->{ContentType};
+
+    # force the ParamObject to use the new request params
+    CGI::initialize_globals();
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Web::Request' => {
+            WebRequest => CGI->new(),
+        }
+    );
 
     my $Result = $SOAPObject->ProviderProcessRequest();
 

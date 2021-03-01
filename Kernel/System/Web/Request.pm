@@ -24,6 +24,7 @@ use namespace::autoclean;
 # core modules
 
 # CPAN modules
+use CGI;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -103,9 +104,11 @@ sub new {
         $Self->{Query} = $Param{WebRequest};
     }
 
-    # there is no fallback that would e.g. assume the CGI %ENV variables
+    # Use an empty CGI object as a fallback.
+    # This is needed because the ParamObject is sometimes created outside a web context.
+    # Pass an empty string, in order to avoid that params in %ENV are considered.
     else {
-        die 'Bailing out as neither PSGIEnv nor WebRequest was passed!';
+        $Self->{Query} = CGI->new('');
     }
 
     return $Self;
@@ -146,7 +149,7 @@ sub GetParam {
     my $Value = $Self->{Query}->param( $Param{Param} );
 
     # Fallback to query string for mixed requests.
-    if ( ! defined $Value ) {
+    if ( !defined $Value ) {
         my $RequestMethod = $Self->{Query}->request_method() // '';
         if ( $RequestMethod eq 'POST' ) {
             $Value = $Self->{Query}->url_param( $Param{Param} );
@@ -234,7 +237,7 @@ sub GetArray {
     my @Values = $Self->{Query}->multi_param( $Param{Param} );
 
     # Fallback to query string for mixed requests.
-    if ( ! @Values ) {
+    if ( !@Values ) {
         my $RequestMethod = $Self->{Query}->request_method() // '';
         if ( $RequestMethod eq 'POST' ) {
             @Values = $Self->{Query}->url_param( $Param{Param} );

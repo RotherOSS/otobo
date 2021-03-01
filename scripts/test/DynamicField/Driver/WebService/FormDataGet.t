@@ -18,15 +18,18 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self));
-
+# core modules
 use URI::Escape;
 
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+# CPAN modules
+use CGI;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;
+
+our $Self;
+
+my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # Disable email address checks
@@ -108,7 +111,13 @@ for my $Test (@Tests) {
         QUERY_STRING   => $Test->{Request} // '',
     );
 
-    CGI->initialize_globals();
+    # force the ParamObject to use the new request params
+    CGI::initialize_globals();
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Web::Request' => {
+            WebRequest => CGI->new(),
+        }
+    );
 
     # _FormDataGet() implicitly calls Kernel::System::Web::Request->new();
     my $FormData = $DynamicFieldDriverObject->_FormDataGet();

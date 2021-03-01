@@ -18,23 +18,26 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
-
+# CPAN modules
 use CGI;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver; # Set up $Self and $Kernel::OM
 use Kernel::System::Web::Request;
 
+our $Self;
+
 {
-    # %ENV will be picked up in Kernel::System::Web::Request::new().
+    # %ENV will be picked up in CGI->new()
     local %ENV = (
         REQUEST_METHOD => 'GET',
         QUERY_STRING   => 'a=4;b=5',
     );
 
     CGI->initialize_globals();
-    my $Request = Kernel::System::Web::Request->new();
+    my $Request = Kernel::System::Web::Request->new( WebRequest => CGI->new() );
 
     my @ParamNames = $Request->GetParamNames();
     $Self->IsDeeply(
@@ -70,7 +73,7 @@ use Kernel::System::Web::Request;
 {
     my $PostData = 'a=4&b=5;d=2';
 
-    # %ENV will be picked up in Kernel::System::Web::Request::new().
+    # %ENV will be picked up in CGI->new()
     local %ENV = (
         REQUEST_METHOD => 'POST',
         CONTENT_LENGTH => length($PostData),
@@ -81,7 +84,7 @@ use Kernel::System::Web::Request;
     open STDIN, '<:utf8', \$PostData;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
 
     CGI->initialize_globals();
-    my $Request = Kernel::System::Web::Request->new();
+    my $Request = Kernel::System::Web::Request->new( WebRequest => CGI->new() );
 
     my @ParamNames = $Request->GetParamNames();
     $Self->IsDeeply(
