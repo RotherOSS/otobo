@@ -17,7 +17,7 @@ package Kernel::System::UnitTest::RegisterDriver;
 
 =head1 NAME
 
-Kernel::System::UnitTest::RegisterDriver - another helper for unit tests
+Kernel::System::UnitTest::RegisterDriver - setup for test scripts
 
 =head1 SYNOPSIS
 
@@ -26,8 +26,8 @@ Kernel::System::UnitTest::RegisterDriver - another helper for unit tests
 
 =head1 DESCRIPTION
 
-Support for running test scripts as standalone scripts.
-Sets up C<$main::Self> and C<$Kernel::OM>.
+This script provides support for running test scripts as standalone scripts.
+It sets up the variables C<$main::Self> and C<$Kernel::OM>.
 
 =cut
 
@@ -58,8 +58,8 @@ sub import {    ## no critic qw(OTOBO::RequireCamelCase)
         },
     );
 
-    # Provide $Self in the test scripts.
-    # This is mostly for methods like $Self->Is() or $Self->True().
+    # Provide $Self in the test script.
+    # $Self is primarily used for methods like $Self->Is() or $Self->True().
     $main::Self = $Kernel::OM->Get('Kernel::System::UnitTest::Driver');
 
     return;
