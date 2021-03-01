@@ -65,7 +65,7 @@ sub import {    ## no critic qw(OTOBO::RequireCamelCase)
     return;
 }
 
-# NOTE: it is not obvious whether this is still needed
+# this also seems to avoid memory leaks
 {
     # remember the id of the process that loaded this module.
     my $OriginalPID = $$;
