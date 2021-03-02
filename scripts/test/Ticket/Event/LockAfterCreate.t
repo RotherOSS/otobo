@@ -169,8 +169,13 @@ for my $Test (@Tests) {
         QUERY_STRING   => $Test->{Request} || '',
     );
 
-    CGI->initialize_globals();
-    my $Request = Kernel::System::Web::Request->new( WebRequest => CGI->new() );
+    # force the ParamObject to use the new request params
+    CGI::initialize_globals();
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Web::Request' => {
+            WebRequest => CGI->new(),
+        }
+    );
 
     # Create an unlocked ticket,
     my $TicketID = $TicketObject->TicketCreate(
@@ -192,7 +197,7 @@ for my $Test (@Tests) {
 }
 continue {
 
-    # Discard web request object as it is used by OM in LockAfterCreate event.
+    # Discard web request object as we need a new one in the next iteration.
     $Kernel::OM->ObjectsDiscard(
         Objects => [ 'Kernel::System::Web::Request', ],
     );
