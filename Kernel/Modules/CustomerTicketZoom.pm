@@ -1061,7 +1061,23 @@ sub Run {
 
     # set priority from ticket as fallback
     $GetParam{PriorityID} ||= $Ticket{PriorityID};
-    $GetParam{NextStateID} = $GetParam{StateID} || $Ticket{StateID};
+
+    # set initial state
+    if ( $Config->{State} && $Config->{StatePreset} ) {
+        my %NextStates = reverse $Kernel::OM->Get('Kernel::System::Ticket')->TicketStateList(
+            %GetParam,
+            TicketID       => $Self->{TicketID},
+            Action         => $Self->{Action},
+            CustomerUserID => $Self->{UserID},
+            Type           => undef,
+        );
+
+        if ( $NextStates{ $Config->{StatePreset} } ) {
+            $GetParam{NextStateID} = $NextStates{ $Config->{StatePreset} };
+        }
+    }
+    $GetParam{NextStateID} ||= $GetParam{StateID} || $Ticket{StateID};
+
     my $CustomerUser = $Self->{UserID};
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{$FollowUpDynamicField} ) {
