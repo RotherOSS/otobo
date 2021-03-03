@@ -13,9 +13,10 @@ RUN apt-get update\
         gcc \
         libc-dev \
         make \
-        pcre-dev \
-        zlib-dev \
-        krb5-dev \
+        libpcre3-dev \
+	libpcre++-dev \
+        zlib1g-dev \
+        libkrb5-dev \
 	wget
 
 RUN set -x && \
