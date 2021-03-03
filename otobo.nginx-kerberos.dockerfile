@@ -27,6 +27,7 @@ RUN set -x && \
     wget https://github.com/stnoonan/spnego-http-auth-nginx-module/archive/${SPNEGO_AUTH_COMMIT_ID}.tar.gz -O spnego-http-auth.tar.gz
 
 RUN cd /usr/src && \
+    NGINX_CONFIG="$( nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p' )" && \
     tar -xzC /usr/src -f nginx.tar.gz && \
     tar -xzvf spnego-http-auth.tar.gz && \
     SPNEGO_AUTH_DIR="$( pwd )/spnego-http-auth-nginx-module-${SPNEGO_AUTH_COMMIT_ID}" && \
