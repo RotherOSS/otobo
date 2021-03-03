@@ -8,12 +8,6 @@ FROM nginx:mainline AS builder
 
 ENV SPNEGO_AUTH_COMMIT_ID=v1.1.1
 
-RUN set -x && \
-    NGINX_VERSION="$( nginx -v 2>&1 | awk -F/ '{print $2}' )" && \
-    NGINX_CONFIG="$( nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p' )" && \
-    wget "http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" -O nginx.tar.gz && \
-    wget https://github.com/stnoonan/spnego-http-auth-nginx-module/archive/${SPNEGO_AUTH_COMMIT_ID}.tar.gz -O spnego-http-auth.tar.gz && \
-
 RUN apt-get update\
  && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
         gcc \
@@ -22,8 +16,16 @@ RUN apt-get update\
         pcre-dev \
         zlib-dev \
         krb5-dev \
-        && \
-    mkdir /usr/src && \
+	wget
+
+RUN set -x && \
+    mkdir /usr/src && cd /usr/src \
+    NGINX_VERSION="$( nginx -v 2>&1 | awk -F/ '{print $2}' )" && \
+    NGINX_CONFIG="$( nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p' )" && \
+    wget "http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" -O nginx.tar.gz && \
+    wget https://github.com/stnoonan/spnego-http-auth-nginx-module/archive/${SPNEGO_AUTH_COMMIT_ID}.tar.gz -O spnego-http-auth.tar.gz
+
+RUN cd /usr/src && \
     tar -xzC /usr/src -f nginx.tar.gz && \
     tar -xzvf spnego-http-auth.tar.gz && \
     SPNEGO_AUTH_DIR="$( pwd )/spnego-http-auth-nginx-module-${SPNEGO_AUTH_COMMIT_ID}" && \
