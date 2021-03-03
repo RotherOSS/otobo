@@ -19,17 +19,8 @@ RUN apt-get update\
  "libpam-ccreds"\
  "krb5-multidev"\
  "libkrb5-dev"\
+ "nginx-plus-module-auth-spnego"\
  && rm -rf /var/lib/apt/lists/*
-
-# download kerberos nginx module
-RUN cd /usr/src && mkdir nginx \
- && git clone https://github.com/stnoonan/spnego-http-auth-nginx-module.git
-
-# install kerberos nginx mdule
-RUN cd /usr/src/nginx \
- && ./configure --with-compat --add-dynamic-module=spnego-http-auth-nginx-module \
- && make modules \
- && cp objs/ngx_http_auth_spnego_module.so /etc/nginx/modules/
 
 # No need to run on the low ports 80 and 443,
 # even though this would be possible as the master process runs as root.
