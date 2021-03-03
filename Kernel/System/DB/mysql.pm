@@ -66,6 +66,9 @@ sub LoadPreferences {
     # how to turn off foreign key checks for the current session
     $Self->{'DB::DeactivateForeignKeyChecks'} = 'SET FOREIGN_KEY_CHECKS = 0';
 
+    # how to delete all rows of a table, use with sprintf for inserting the table name
+    $Self->{'DB::PurgeTable'} = 'TRUNCATE TABLE %s';
+
     # DBI/DBD::mysql attributes
     # disable automatic reconnects as they do not execute DB::Connect, which will
     # cause charset problems
