@@ -19,7 +19,6 @@ RUN apt-get update\
  "libpam-ccreds"\
  "krb5-multidev"\
  "libkrb5-dev"\
- "nginx-plus-module-auth-spnego"\
  && rm -rf /var/lib/apt/lists/*
 
 # No need to run on the low ports 80 and 443,
