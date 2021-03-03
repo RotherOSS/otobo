@@ -20,7 +20,7 @@ RUN apt-get update\
 	wget
 
 RUN set -x && \
-    mkdir /usr/src && cd /usr/src \
+    cd /usr/src \
     NGINX_VERSION="$( nginx -v 2>&1 | awk -F/ '{print $2}' )" && \
     NGINX_CONFIG="$( nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p' )" && \
     wget "http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" -O nginx.tar.gz && \
