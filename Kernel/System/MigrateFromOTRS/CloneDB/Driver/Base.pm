@@ -588,7 +588,7 @@ sub DataTransfer {
 
             # drop foreign keys in the source
             my $SourceForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
-                undef, undef, undef,
+                undef, undef,         undef,
                 undef, $SourceSchema, $SourceTable
             );
 
@@ -613,7 +613,7 @@ sub DataTransfer {
             # readd foreign keys in the target
             $TargetAddForeignKeysClauses{$TargetTable} //= [];
             my $TargetForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
-                undef, undef, undef,
+                undef, undef,         undef,
                 undef, $TargetSchema, $TargetTable
             );
 
