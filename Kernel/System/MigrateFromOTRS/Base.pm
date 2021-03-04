@@ -1303,7 +1303,8 @@ sub ResetConfigOption {
 
 sub DBSkipTables {
 
-    # the tables must be lower case
+    # These tables will not be migrated.
+    # Note: entries should be in lower case
     return {
         cloud_service_config           => 1,
         communication_log              => 1,
@@ -1316,6 +1317,7 @@ sub DBSkipTables {
         process_id                     => 1,
         scheduler_recurrent_task       => 1,
         sessions                       => 1,
+        system_data                    => 1,
         web_upload_cache               => 1,
     };
 }
