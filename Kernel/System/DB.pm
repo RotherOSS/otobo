@@ -1088,6 +1088,7 @@ to get database functions like
     - ShellCommit
     - ShellConnect
     - Version
+    - PurgeTable
 
     my $What = $DBObject->GetDatabaseFunction('DirectBlob');
 
