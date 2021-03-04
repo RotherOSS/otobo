@@ -468,8 +468,8 @@ sub DataTransfer {
 
         $AlterSourceSQLs{$SourceTable} //= [];
 
-        if ( $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
-
+        # Columns might be shortened for any database type.
+        {
             my @MaybeShortenedColumns;
             my $DoShorten;    # flag used for assembly of $SourceColumnsString
             SOURCE_COLUMN:
@@ -528,11 +528,6 @@ sub DataTransfer {
 
             # This string might contain some MySQL SUBSTRING() calls
             $SourceColumnsString{$SourceTable} = join ', ', @MaybeShortenedColumns;
-        }
-        else {
-
-            # There is no shortening. This means that source and target columns are identical.
-            $SourceColumnsString{$SourceTable} = join ', ', $SourceColumnsRef->@*;
         }
 
         # get a list of blob columns from OTRS DB
