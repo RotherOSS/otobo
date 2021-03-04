@@ -147,51 +147,33 @@ sub ResetAutoIncrementField {
         }
     }
 
-    my $QuotedTable = $Param{DBObject}->QuoteIdentifier( Table => $Param{Table} );
+    # The OTOBO naming convention uses 'id' for the primary keys.
+    # Special handling for a table with no 'id' column but with a 'object_id' column.
+    my $TableName       = $Param{Table};
+    my $SerialAttribute = $TableName eq 'dynamic_field_obj_id_name' ? 'object_id' : 'id';
+
+    # check whether there is a sequence for the serial attribute.
+    # early exit when there is no sequence
+    my $Row = $Param{DBObject}->SelectAll(
+        SQL   => qq{SELECT pg_get_serial_sequence(?, ?)},
+        Bind  => [ \$TableName, \$SerialAttribute ],
+        LIMIT => 1,
+    );
+
+    return 1 unless $Row;
+    return 1 unless $Row->@*;
+
+    my $SequenceName = $Row->[0]->[0];
+
+    return 1 unless $SequenceName;
+
+    # The 2 argument form setval() sets the last used value of the sequence.
+    # Thus the next value will be the set plus one.
     $Param{DBObject}->Prepare(
-        SQL => "
-            SELECT id
-            FROM $QuotedTable
-            ORDER BY id DESC",
-        Limit => 1,
+        SQL => qq{ SELECT setval('$SequenceName', ( SELECT coalesce(max(id), 0) FROM $TableName ) )},
     ) || return;
 
-    my $LastID;
-    while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
-        $LastID = $Row[0];
-    }
-
-    # add one more to the last ID
-    $LastID++;
-
-    # assuming that the sequnce name does not have to be quoted
-    my $SequenceName = "$Param{Table}_id_seq";
-
-    # check if sequence exists
-    $Param{DBObject}->Prepare(
-        SQL => "
-        SELECT
-            1
-        FROM pg_class c
-        WHERE
-            c.relkind = 'S' AND
-            c.relname = '$SequenceName'",
-        Limit => 1,
-    ) || return;
-
-    my $SequenceExists = 0;
-    while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
-        $SequenceExists = $Row[0];
-    }
-
-    return 1 if !$SequenceExists;
-
-    my $SQL = qq{ALTER SEQUENCE $SequenceName RESTART WITH $LastID;};
-
-    $Param{DBObject}->Do(
-        SQL => $SQL,
-    ) || return;
-
+    # no need to fetch anything, as Prepare() already executes the query
     return 1;
 }
 
