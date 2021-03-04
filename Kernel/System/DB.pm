@@ -167,8 +167,8 @@ sub new {
     # (overwrite auto-detection with config options)
     for my $Setting (
         qw(
-        Type Limit DirectBlob Attribute QuoteSingle QuoteBack
-        Connect Encode CaseSensitive LcaseLikeInLargeText
+            Type Limit DirectBlob Attribute QuoteSingle QuoteBack
+            Connect Encode CaseSensitive LcaseLikeInLargeText
         )
         )
     {
@@ -222,7 +222,7 @@ sub Connect {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Caller   => 1,
             Priority => 'debug',
-            Message =>
+            Message  =>
                 "DB.pm->Connect: DSN: $Self->{DSN}, User: $Self->{USER}, Pw: $Self->{PW}, DB Type: $Self->{'DB::Type'};",
         );
     }
@@ -297,14 +297,14 @@ sub Connect {
                 $Self->{USER},
                 $Self->{PW},
                 DBI::_concat_hash_sorted(
-                {
-                    %ConnectAttributes,
-                    DeactivateForeignKeyChecks => $Self->{DeactivateForeignKeyChecks}
-                },
-                "=\001",
-                ",\001",
-                0,
-                0
+                    {
+                        %ConnectAttributes,
+                        DeactivateForeignKeyChecks => $Self->{DeactivateForeignKeyChecks}
+                    },
+                    "=\001",
+                    ",\001",
+                    0,
+                    0
                 );
         };
 
@@ -714,7 +714,7 @@ sub _InitSlaveDB {
 
 =head2 Prepare()
 
-to prepare a SELECT statement
+to prepare and execute a SELECT statement
 
     $DBObject->Prepare(
         SQL   => "SELECT id, name FROM table",
@@ -736,7 +736,7 @@ in case you don't want utf-8 encoding for some columns, use this:
         Encode => [ 1, 1, 0 ],
     );
 
-you also can use DBI bind values, required for large strings:
+It is recommended to use bind variables:
 
     my $Var1 = 'dog1';
     my $Var2 = 'dog2';
@@ -1664,7 +1664,7 @@ sub QueryCondition {
                 if ( $SQL =~ m/ OR $/ ) {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'notice',
-                        Message =>
+                        Message  =>
                             "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
                     );
                     return "1=0";
@@ -1679,7 +1679,7 @@ sub QueryCondition {
                 if ( $SQL =~ m/ AND $/ ) {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'notice',
-                        Message =>
+                        Message  =>
                             "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
                     );
                     return "1=0";
