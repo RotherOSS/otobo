@@ -685,8 +685,8 @@ sub _RequestParamsGet {
     my %GetParam;
     for my $StringParam (
         qw(
-        Description ErrorCode ErrorMessage
-        ErrorMessageContentFilter StopAfterMatch
+            Description ErrorCode ErrorMessage
+            ErrorMessageContentFilter StopAfterMatch
         )
         )
     {

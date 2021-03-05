@@ -199,9 +199,9 @@ sub Run {
     my %GetParam;
     for (
         qw(
-        To Cc Bcc Subject Body InReplyTo References ResponseID ReplyArticleID StateID ArticleID
-        IsVisibleForCustomerPresent IsVisibleForCustomer TimeUnits Year Month Day Hour Minute FormID ReplyAll
-        FormDraftID Title
+            To Cc Bcc Subject Body InReplyTo References ResponseID ReplyArticleID StateID ArticleID
+            IsVisibleForCustomerPresent IsVisibleForCustomer TimeUnits Year Month Day Hour Minute FormID ReplyAll
+            FormDraftID Title
         )
         )
     {
@@ -433,9 +433,9 @@ sub Run {
         # extract the dynamic field value from the web request
         $DynamicFieldValues{ $DynamicFieldConfig->{Name} } =
             $DynamicFieldBackendObject->EditFieldValueGet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            ParamObject        => $ParamObject,
-            LayoutObject       => $LayoutObject,
+                DynamicFieldConfig => $DynamicFieldConfig,
+                ParamObject        => $ParamObject,
+                LayoutObject       => $LayoutObject,
             );
     }
 
@@ -846,7 +846,7 @@ sub Run {
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
                 ParamObject          => $ParamObject,
-                Mandatory =>
+                Mandatory            =>
                     $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
             );
 
@@ -868,16 +868,16 @@ sub Run {
             # get field html
             $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
                 $DynamicFieldBackendObject->EditFieldRender(
-                DynamicFieldConfig   => $DynamicFieldConfig,
-                PossibleValuesFilter => $PossibleValuesFilter,
-                Mandatory =>
+                    DynamicFieldConfig   => $DynamicFieldConfig,
+                    PossibleValuesFilter => $PossibleValuesFilter,
+                    Mandatory            =>
                     $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                ServerError  => $ValidationResult->{ServerError}  || '',
-                ErrorMessage => $ValidationResult->{ErrorMessage} || '',
-                LayoutObject => $LayoutObject,
-                ParamObject  => $ParamObject,
-                AJAXUpdate   => 1,
-                UpdatableFields => $Self->_GetFieldsToUpdate(),
+                    ServerError     => $ValidationResult->{ServerError}  || '',
+                    ErrorMessage    => $ValidationResult->{ErrorMessage} || '',
+                    LayoutObject    => $LayoutObject,
+                    ParamObject     => $ParamObject,
+                    AJAXUpdate      => 1,
+                    UpdatableFields => $Self->_GetFieldsToUpdate(),
                 );
         }
 
@@ -1475,7 +1475,7 @@ sub Run {
             if ( scalar @Body > $MaxLines ) {
 
                 # splice to max. allowed lines and reassemble
-                @Body = @Body[ 0 .. ( $MaxLines - 1 ) ];
+                @Body       = @Body[ 0 .. ( $MaxLines - 1 ) ];
                 $Data{Body} = join "\n", @Body;
             }
         }
@@ -1835,15 +1835,15 @@ sub Run {
             # get field html
             $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
                 $DynamicFieldBackendObject->EditFieldRender(
-                DynamicFieldConfig   => $DynamicFieldConfig,
-                PossibleValuesFilter => $PossibleValuesFilter,
-                Value                => $Value,
-                Mandatory =>
+                    DynamicFieldConfig   => $DynamicFieldConfig,
+                    PossibleValuesFilter => $PossibleValuesFilter,
+                    Value                => $Value,
+                    Mandatory            =>
                     $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                LayoutObject    => $LayoutObject,
-                ParamObject     => $ParamObject,
-                AJAXUpdate      => 1,
-                UpdatableFields => $Self->_GetFieldsToUpdate(),
+                    LayoutObject    => $LayoutObject,
+                    ParamObject     => $ParamObject,
+                    AJAXUpdate      => 1,
+                    UpdatableFields => $Self->_GetFieldsToUpdate(),
                 );
         }
 
@@ -1998,7 +1998,7 @@ sub _Mask {
         YearPeriodPast       => 0,
         YearPeriodFuture     => 5,
         DiffTime             => $ConfigObject->Get('Ticket::Frontend::PendingDiffTime') || 0,
-        Class                => $Param{Errors}->{DateInvalid} || ' ',
+        Class                => $Param{Errors}->{DateInvalid}                           || ' ',
         Validate             => 1,
         ValidateDateInFuture => 1,
         Calendar             => $Calendar,

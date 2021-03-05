@@ -53,14 +53,14 @@ sub Run {
     $Param{CustomerUserID} = $ParamObject->GetParam( Param => 'SelectedCustomerUser' );
     $Param{CustomerID}     = $ParamObject->GetParam( Param => 'CustomerID' );
     $Param{ResponsibleID}  = $ParamObject->GetParam( Param => 'NewResponsibleID' ) || '';
-    $Param{OwnerID}        = $ParamObject->GetParam( Param => 'NewUserID' ) || '';
-    $Param{Dest}           = $ParamObject->GetParam( Param => 'Dest' ) || '';
-    $Param{PriorityID}     = $ParamObject->GetParam( Param => 'PriorityID' ) || '';
-    $Param{ServiceID}      = $ParamObject->GetParam( Param => 'ServiceID' ) || '';
-    $Param{SLAID}          = $ParamObject->GetParam( Param => 'SLAID' ) || '';
-    $Param{StateID}        = $ParamObject->GetParam( Param => 'NextStateID' ) || '';
-    $Param{Subject}        = $ParamObject->GetParam( Param => 'Subject' ) || '';
-    $Param{TypeID}         = $ParamObject->GetParam( Param => 'TypeID' ) || '';
+    $Param{OwnerID}        = $ParamObject->GetParam( Param => 'NewUserID' )        || '';
+    $Param{Dest}           = $ParamObject->GetParam( Param => 'Dest' )             || '';
+    $Param{PriorityID}     = $ParamObject->GetParam( Param => 'PriorityID' )       || '';
+    $Param{ServiceID}      = $ParamObject->GetParam( Param => 'ServiceID' )        || '';
+    $Param{SLAID}          = $ParamObject->GetParam( Param => 'SLAID' )            || '';
+    $Param{StateID}        = $ParamObject->GetParam( Param => 'NextStateID' )      || '';
+    $Param{Subject}        = $ParamObject->GetParam( Param => 'Subject' )          || '';
+    $Param{TypeID}         = $ParamObject->GetParam( Param => 'TypeID' )           || '';
 
     # Also get params from process management
     $Param{QueueID} = $ParamObject->GetParam( Param => 'QueueID' ) || '';

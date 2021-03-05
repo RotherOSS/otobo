@@ -271,8 +271,8 @@ sub Run {
                 $LayoutObject->Block(
                     Name => 'SearchField',
                     Data => {
-                        FieldKey  => $FieldKey,
-                        FieldName => $PreparedPossibleValues->{$FieldKey}->{"FieldName_$FieldKey"},
+                        FieldKey   => $FieldKey,
+                        FieldName  => $PreparedPossibleValues->{$FieldKey}->{"FieldName_$FieldKey"},
                         FieldLabel =>
                             $PreparedPossibleValues->{$FieldKey}->{"FieldLabel_$FieldKey"},
                         FieldValue => $SearchParameters{$FieldKey},
@@ -287,8 +287,8 @@ sub Run {
                 $LayoutObject->Block(
                     Name => 'SearchFieldHidden',
                     Data => {
-                        FieldKey  => $FieldKey,
-                        FieldName => $PreparedPossibleValues->{$FieldKey}->{"FieldName_$FieldKey"},
+                        FieldKey   => $FieldKey,
+                        FieldName  => $PreparedPossibleValues->{$FieldKey}->{"FieldName_$FieldKey"},
                         FieldLabel =>
                             $PreparedPossibleValues->{$FieldKey}->{"FieldLabel_$FieldKey"},
                         FieldValue => $SearchParameters{$FieldKey},

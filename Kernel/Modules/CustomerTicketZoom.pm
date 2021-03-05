@@ -512,10 +512,10 @@ sub Run {
                 ? $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}
                 :
                 (
-                $BackendObject->BuildSelectionDataGet(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    PossibleValues     => $DynFieldStates{Fields}{$Index}{PossibleValues},
-                    Value              => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+                    $BackendObject->BuildSelectionDataGet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        PossibleValues     => $DynFieldStates{Fields}{$Index}{PossibleValues},
+                        Value              => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
                     )
                     || $DynFieldStates{Fields}{$Index}{PossibleValues}
                 );
@@ -752,7 +752,7 @@ sub Run {
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
                     ParamObject          => $ParamObject,
-                    Mandatory =>
+                    Mandatory            =>
                         $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} }
                         == 2,
                 );
@@ -782,13 +782,13 @@ sub Run {
             $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } = $BackendObject->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
-                Mandatory =>
+                Mandatory            =>
                     $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                ServerError  => $ValidationResult->{ServerError}  || '',
-                ErrorMessage => $ValidationResult->{ErrorMessage} || '',
-                LayoutObject => $LayoutObject,
-                ParamObject  => $ParamObject,
-                AJAXUpdate   => 1,
+                ServerError     => $ValidationResult->{ServerError}  || '',
+                ErrorMessage    => $ValidationResult->{ErrorMessage} || '',
+                LayoutObject    => $LayoutObject,
+                ParamObject     => $ParamObject,
+                AJAXUpdate      => 1,
                 UpdatableFields => $Self->_GetFieldsToUpdate(),
             );
         }

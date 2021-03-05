@@ -828,7 +828,7 @@ sub RequesterPerformRequest {
             $SizeExeeded = 1;
             $Self->{DebuggerObject}->Debug(
                 Summary => "JSON data received from remote system was too large for logging",
-                Data =>
+                Data    =>
                     'See SysConfig option GenericInterface::Operation::ResponseLoggingMaxSize to change the maximum.',
             );
         }

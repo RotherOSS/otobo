@@ -127,12 +127,12 @@ sub Run {
     if ( !IsHashRefWithData($Webservice) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message =>
+            Message  =>
                 "Could not load web service configuration for web service $Param{WebserviceID}",
         );
 
         return {
-            Success => 0,
+            Success      => 0,
             ErrorMessage =>
                 "Could not load web service configuration for web service $Param{WebserviceID}",
         };
@@ -255,7 +255,7 @@ sub Run {
             DebuggerObject => $DebuggerObject,
             Invoker        => $Param{Invoker},
             InvokerType    => $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{Type},
-            MappingConfig =>
+            MappingConfig  =>
                 $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingOutbound},
         );
 
@@ -385,7 +385,7 @@ sub Run {
             DebuggerObject => $DebuggerObject,
             Invoker        => $Param{Invoker},
             InvokerType    => $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{Type},
-            MappingConfig =>
+            MappingConfig  =>
                 $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingInbound},
         );
 
@@ -426,7 +426,7 @@ sub Run {
         if ($SizeExeeded) {
             $DebuggerObject->Debug(
                 Summary => "Incoming data after mapping was too large for logging",
-                Data =>
+                Data    =>
                     'See SysConfig option GenericInterface::Operation::ResponseLoggingMaxSize to change the maximum.',
             );
         }

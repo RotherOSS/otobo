@@ -772,7 +772,7 @@ sub Run {
                 );
 
                 return $LayoutObject->Attachment(
-                    Filename => $FileName . '.xlsx',
+                    Filename    => $FileName . '.xlsx',
                     ContentType =>
                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     Content => $Excel,
@@ -1354,10 +1354,10 @@ sub Run {
             )
         {
             next KEY if !$GetParam{$Key};
-            my $Attribute = $IDMap{$Key}->{Name}   || $Key;
-            my $Object    = $IDMap{$Key}->{Object} || '';
-            my $Method    = $IDMap{$Key}->{Method};
-            my $MethodKey = $IDMap{$Key}->{Key};
+            my $Attribute   = $IDMap{$Key}->{Name}   || $Key;
+            my $Object      = $IDMap{$Key}->{Object} || '';
+            my $Method      = $IDMap{$Key}->{Method};
+            my $MethodKey   = $IDMap{$Key}->{Key};
             my $Translation = $IDMap{$Key}->{Translation};
             my $Value;
 
@@ -1451,7 +1451,7 @@ sub Run {
                 Name => 'SearchTerms',
                 Data => {
                     Attribute => $DynamicFieldConfig->{Label},
-                    Value =>
+                    Value     =>
                         $DynamicFieldSearchDisplay{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
                 },
             );
@@ -1626,7 +1626,7 @@ sub Run {
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     Profile              => \%GetParam,
                     PossibleValuesFilter => $PossibleValuesFilter,
-                    DefaultValue =>
+                    DefaultValue         =>
                         $Config->{Defaults}->{DynamicField}
                         ->{ $DynamicFieldConfig->{Name} },
                     LayoutObject           => $LayoutObject,

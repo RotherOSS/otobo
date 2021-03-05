@@ -120,11 +120,11 @@ sub OverviewScreen {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # Get Params
-    $Param{SearchPageShown} = $ConfigObject->Get('Stats::SearchPageShown') || 50;
-    $Param{SearchLimit}     = $ConfigObject->Get('Stats::SearchLimit')     || 1000;
-    $Param{OrderBy}   = $ParamObject->GetParam( Param => 'OrderBy' )   || 'ID';
-    $Param{Direction} = $ParamObject->GetParam( Param => 'Direction' ) || 'ASC';
-    $Param{StartHit} = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
+    $Param{SearchPageShown} = $ConfigObject->Get('Stats::SearchPageShown')   || 50;
+    $Param{SearchLimit}     = $ConfigObject->Get('Stats::SearchLimit')       || 1000;
+    $Param{OrderBy}         = $ParamObject->GetParam( Param => 'OrderBy' )   || 'ID';
+    $Param{Direction}       = $ParamObject->GetParam( Param => 'Direction' ) || 'ASC';
+    $Param{StartHit}        = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
 
     # get all Stats from the db
     my $Result = $Kernel::OM->Get('Kernel::System::Stats')->GetStatsList(

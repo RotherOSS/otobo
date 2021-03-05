@@ -1368,7 +1368,7 @@ sub _Mask {
                 %Param,
                 Format               => 'DateInputFormatLong',
                 DiffTime             => $ConfigObject->Get('Ticket::Frontend::PendingDiffTime') || 0,
-                Class                => $Param{Errors}->{DateInvalid} || '',
+                Class                => $Param{Errors}->{DateInvalid}                           || '',
                 Validate             => 1,
                 ValidateDateInFuture => 1,
             );

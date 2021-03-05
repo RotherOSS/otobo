@@ -750,7 +750,7 @@ sub _Edit {
         SelectedID   => $Param{SystemAddressID},
         PossibleNone => 1,                         # to avoid automatic assignments if the current SA is invalid
         Max          => 200,
-        Class => 'Modernize Validate_Required ' . ( $Param{Errors}->{'SystemAddressIDInvalid'} || '' ),
+        Class        => 'Modernize Validate_Required ' . ( $Param{Errors}->{'SystemAddressIDInvalid'} || '' ),
     );
 
     my %DefaultSignKeyList = ();

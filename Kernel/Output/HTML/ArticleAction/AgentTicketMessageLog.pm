@@ -118,7 +118,7 @@ sub GetConfig {
         ItemType    => 'Link',
         Description => Translatable('View message log details for this article'),
         Name        => Translatable('Message Log'),
-        Link =>
+        Link        =>
             "Action=AdminCommunicationLog;Subaction=Zoom;CommunicationID=$CommunicationID;ObjectLogID=$ObjectLogID"
     );
 

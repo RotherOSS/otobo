@@ -155,7 +155,7 @@ sub Run {
         # log event
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message =>
+            Message  =>
                 "Switched from Agent to Customer ($Self->{UserLogin} -=> $UserData{UserLogin})",
         );
 
@@ -765,9 +765,9 @@ sub Run {
                     if ($URL) {
                         $Output
                             .= $LayoutObject->Notify(
-                            Data => $LayoutObject->{LanguageObject}->Translate(
-                                'Customer %s added',
-                                $UserQuote,
+                                Data => $LayoutObject->{LanguageObject}->Translate(
+                                    'Customer %s added',
+                                    $UserQuote,
                                 )
                                 . " ( $URL )!",
                             );
@@ -775,9 +775,9 @@ sub Run {
                     else {
                         $Output
                             .= $LayoutObject->Notify(
-                            Data => $LayoutObject->{LanguageObject}->Translate(
-                                'Customer %s added',
-                                $UserQuote,
+                                Data => $LayoutObject->{LanguageObject}->Translate(
+                                    'Customer %s added',
+                                    $UserQuote,
                                 )
                                 . "!",
                             );

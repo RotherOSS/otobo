@@ -105,10 +105,10 @@ sub Run {
         my %GetParam;
         for my $Key (
             qw(
-            NewStateID NewPriorityID TimeUnits IsVisibleForCustomer Title Body Subject NewQueueID
-            Year Month Day Hour Minute NewOwnerID NewOwnerType OldOwnerID NewResponsibleID
-            TypeID ServiceID SLAID Expand ReplyToArticle StandardTemplateID CreateArticle
-            FormID ElementChanged
+                NewStateID NewPriorityID TimeUnits IsVisibleForCustomer Title Body Subject NewQueueID
+                Year Month Day Hour Minute NewOwnerID NewOwnerType OldOwnerID NewResponsibleID
+                TypeID ServiceID SLAID Expand ReplyToArticle StandardTemplateID CreateArticle
+                FormID ElementChanged
             )
             )
         {
@@ -766,15 +766,15 @@ sub Form {
         # get field HTML
         $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
             $DynamicFieldBackendObject->EditFieldRender(
-            DynamicFieldConfig   => $DynamicFieldConfig,
-            PossibleValuesFilter => $PossibleValuesFilter,
-            Value                => $Value,
-            Mandatory =>
+                DynamicFieldConfig   => $DynamicFieldConfig,
+                PossibleValuesFilter => $PossibleValuesFilter,
+                Value                => $Value,
+                Mandatory            =>
                 $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-            LayoutObject    => $LayoutObject,
-            ParamObject     => $ParamObject,
-            AJAXUpdate      => 1,
-            UpdatableFields => $Self->_GetFieldsToUpdate(),
+                LayoutObject    => $LayoutObject,
+                ParamObject     => $ParamObject,
+                AJAXUpdate      => 1,
+                UpdatableFields => $Self->_GetFieldsToUpdate(),
             );
     }
 
@@ -987,9 +987,9 @@ sub SendEmail {
         # extract the dynamic field value from the web request
         $DynamicFieldValues{ $DynamicFieldConfig->{Name} } =
             $DynamicFieldBackendObject->EditFieldValueGet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            ParamObject        => $ParamObject,
-            LayoutObject       => $LayoutObject,
+                DynamicFieldConfig => $DynamicFieldConfig,
+                ParamObject        => $ParamObject,
+                LayoutObject       => $LayoutObject,
             );
     }
 
@@ -1130,7 +1130,7 @@ sub SendEmail {
             DynamicFieldConfig   => $DynamicFieldConfig,
             PossibleValuesFilter => $PossibleValuesFilter,
             ParamObject          => $ParamObject,
-            Mandatory =>
+            Mandatory            =>
                 $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
         );
 
@@ -1151,16 +1151,16 @@ sub SendEmail {
         # get field HTML
         $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
             $DynamicFieldBackendObject->EditFieldRender(
-            DynamicFieldConfig   => $DynamicFieldConfig,
-            PossibleValuesFilter => $PossibleValuesFilter,
-            Mandatory =>
+                DynamicFieldConfig   => $DynamicFieldConfig,
+                PossibleValuesFilter => $PossibleValuesFilter,
+                Mandatory            =>
                 $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-            ServerError  => $ValidationResult->{ServerError}  || '',
-            ErrorMessage => $ValidationResult->{ErrorMessage} || '',
-            LayoutObject => $LayoutObject,
-            ParamObject  => $ParamObject,
-            AJAXUpdate   => 1,
-            UpdatableFields => $Self->_GetFieldsToUpdate(),
+                ServerError     => $ValidationResult->{ServerError}  || '',
+                ErrorMessage    => $ValidationResult->{ErrorMessage} || '',
+                LayoutObject    => $LayoutObject,
+                ParamObject     => $ParamObject,
+                AJAXUpdate      => 1,
+                UpdatableFields => $Self->_GetFieldsToUpdate(),
             );
     }
 
@@ -1640,9 +1640,9 @@ sub AjaxUpdate {
         # extract the dynamic field value from the web request
         $DynamicFieldValues{ $DynamicFieldConfig->{Name} } =
             $DynamicFieldBackendObject->EditFieldValueGet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            ParamObject        => $ParamObject,
-            LayoutObject       => $LayoutObject,
+                DynamicFieldConfig => $DynamicFieldConfig,
+                ParamObject        => $ParamObject,
+                LayoutObject       => $LayoutObject,
             );
     }
 
@@ -1813,7 +1813,7 @@ sub _Mask {
         YearPeriodFuture     => 5,
         Format               => 'DateInputFormatLong',
         DiffTime             => $ConfigObject->Get('Ticket::Frontend::PendingDiffTime') || 0,
-        Class                => $Param{Errors}->{DateInvalid} || ' ',
+        Class                => $Param{Errors}->{DateInvalid}                           || ' ',
         Validate             => 1,
         ValidateDateInFuture => 1,
     );

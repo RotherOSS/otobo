@@ -58,7 +58,7 @@ sub Run {
             if ( !$UsedTiles->{$Tile}{Template} ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message =>
+                    Message  =>
                         "Registration for tile $Tile of CustomerDashboard is invalid! Either Module or Template needed.",
                 );
                 return;
@@ -87,7 +87,7 @@ sub Run {
         if ( $TileID !~ /^\d+$/ || ++$OrderUsed{$TileID} > 1 ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message =>
+                Message  =>
                     "Registration for tile $Tile of CustomerDashboard is invalid! Order needs to be a unique number.",
             );
             return;
@@ -97,7 +97,7 @@ sub Run {
         $TileHTML .= $BackendObject->Run(
             TileID   => $TileID,
             Template => $UsedTiles->{$Tile}{Template} || '',
-            Config   => $UsedTiles->{$Tile}{Config} || {},
+            Config   => $UsedTiles->{$Tile}{Config}   || {},
             UserID   => $Self->{UserID},
         );
     }

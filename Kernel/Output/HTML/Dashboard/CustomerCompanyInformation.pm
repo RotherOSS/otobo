@@ -180,7 +180,7 @@ sub Run {
                     %CustomerCompany,
                     Label => $Label,
                     Value => $Value,
-                    URL =>
+                    URL   =>
                         '[% Env("Baselink") %]Action=AdminCustomerCompany;Subaction=Change;CustomerID=[% Data.CustomerID | uri %];Nav=Agent',
                     Target => '',
                 },

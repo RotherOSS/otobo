@@ -333,8 +333,8 @@ sub _ShowEdit {
     # Extract display parameters from transport config.
     for my $ParamName (
         qw(
-        Host DefaultCommand KeepAlive MaxLength Timeout
-        AdditionalHeaders
+            Host DefaultCommand KeepAlive MaxLength Timeout
+            AdditionalHeaders
         )
         )
     {
@@ -463,8 +463,8 @@ sub _ShowEdit {
             for my $CurrentInvoker ( sort keys %{$Invokers} ) {
 
                 my $CommandStrg = $LayoutObject->BuildSelection(
-                    Data => \@PossibleRequestMethods,
-                    Name => 'Command' . $CurrentInvoker,
+                    Data          => \@PossibleRequestMethods,
+                    Name          => 'Command' . $CurrentInvoker,
                     SelectedValue =>
                         $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}->{Command}
                         || '-',
@@ -593,10 +593,10 @@ sub _GetParams {
     # Get parameters from web browser.
     for my $ParamName (
         qw(
-        Host DefaultCommand MaxLength KeepAlive Timeout
-        AuthType BasicAuthUser BasicAuthPassword
-        UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude
-        UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir SSLVerifyHostname
+            Host DefaultCommand MaxLength KeepAlive Timeout
+            AuthType BasicAuthUser BasicAuthPassword
+            UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude
+            UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir SSLVerifyHostname
         )
         )
     {

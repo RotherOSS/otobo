@@ -199,7 +199,7 @@ sub new {
     $Context->define_filter( 'Localize',            [ $LocalizeFilterFactory,     1 ] );
     $Context->define_filter( 'Interpolate',         [ $InterpolateFilterFactory,  1 ] );
     $Context->define_filter( 'ReplacePlaceholders', [ $ReplacePlaceholdersFilter, 1 ] );
-    $Context->define_filter( 'JSON', $JSONFilter );
+    $Context->define_filter( 'JSON',                $JSONFilter );
 
     return bless {
         _CONTEXT => $Context,

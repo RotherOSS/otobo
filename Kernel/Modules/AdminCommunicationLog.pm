@@ -42,8 +42,8 @@ sub Run {
     my %GetParam;
     for my $Param (
         qw(
-        CommunicationID ObjectLogID StartTime Filter SortBy
-        OrderBy StartHit Expand AccountID Direct PriorityFilter
+            CommunicationID ObjectLogID StartTime Filter SortBy
+            OrderBy StartHit Expand AccountID Direct PriorityFilter
         )
         )
     {
@@ -931,9 +931,9 @@ sub _HumanReadableAverage {
         push @HumanReadableUnits,
             "$AverageDelta->{Days} " .
             (
-            $AverageDelta->{Days} > 1
-            ? $LayoutObject->{LanguageObject}->Translate('days')
-            : $LayoutObject->{LanguageObject}->Translate('day')
+                $AverageDelta->{Days} > 1
+                ? $LayoutObject->{LanguageObject}->Translate('days')
+                : $LayoutObject->{LanguageObject}->Translate('day')
             );
     }
 
@@ -941,9 +941,9 @@ sub _HumanReadableAverage {
         push @HumanReadableUnits,
             "$AverageDelta->{Hours} " .
             (
-            $AverageDelta->{Hours} > 1
-            ? $LayoutObject->{LanguageObject}->Translate('hours')
-            : $LayoutObject->{LanguageObject}->Translate('hour')
+                $AverageDelta->{Hours} > 1
+                ? $LayoutObject->{LanguageObject}->Translate('hours')
+                : $LayoutObject->{LanguageObject}->Translate('hour')
             );
     }
 
@@ -951,9 +951,9 @@ sub _HumanReadableAverage {
         push @HumanReadableUnits,
             "$AverageDelta->{Minutes} " .
             (
-            $AverageDelta->{Minutes} > 1
-            ? $LayoutObject->{LanguageObject}->Translate('minutes')
-            : $LayoutObject->{LanguageObject}->Translate('minute')
+                $AverageDelta->{Minutes} > 1
+                ? $LayoutObject->{LanguageObject}->Translate('minutes')
+                : $LayoutObject->{LanguageObject}->Translate('minute')
             );
     }
 
@@ -961,9 +961,9 @@ sub _HumanReadableAverage {
         push @HumanReadableUnits,
             "$AverageDelta->{Seconds} " .
             (
-            $AverageDelta->{Seconds} > 1
-            ? $LayoutObject->{LanguageObject}->Translate('seconds')
-            : $LayoutObject->{LanguageObject}->Translate('second')
+                $AverageDelta->{Seconds} > 1
+                ? $LayoutObject->{LanguageObject}->Translate('seconds')
+                : $LayoutObject->{LanguageObject}->Translate('second')
             );
     }
 

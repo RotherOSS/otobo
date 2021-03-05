@@ -89,7 +89,7 @@ sub Run {
         if ( !$ACLImport->{Success} ) {
             my $Message = $ACLImport->{Message}
                 || Translatable(
-                'ACLs could not be Imported due to a unknown error, please check OTOBO logs for more information'
+                    'ACLs could not be Imported due to a unknown error, please check OTOBO logs for more information'
                 );
             return $LayoutObject->ErrorScreen(
                 Message => $Message,
@@ -287,7 +287,7 @@ sub Run {
         $ACLData->{Description}    = $GetParam->{Description};
         $ACLData->{StopAfterMatch} = $GetParam->{StopAfterMatch} || 0;
         $ACLData->{ValidID}        = $GetParam->{ValidID};
-        $ACLData->{ConfigMatch}    = $GetParam->{ConfigMatch} || '';
+        $ACLData->{ConfigMatch}    = $GetParam->{ConfigMatch}  || '';
         $ACLData->{ConfigChange}   = $GetParam->{ConfigChange} || '';
 
         # check required parameters
@@ -324,7 +324,7 @@ sub Run {
             Description    => $ACLData->{Description},
             StopAfterMatch => $ACLData->{StopAfterMatch} || 0,
             ValidID        => $ACLData->{ValidID},
-            ConfigMatch    => $ACLData->{ConfigMatch} || '',
+            ConfigMatch    => $ACLData->{ConfigMatch}  || '',
             ConfigChange   => $ACLData->{ConfigChange} || '',
             UserID         => $Self->{UserID},
         );
@@ -548,8 +548,8 @@ sub Run {
             Name           => $ACLName,
             Comment        => $ACLData->{Comment},
             Description    => $ACLData->{Description},
-            ConfigMatch    => $ACLData->{ConfigMatch} || '',
-            ConfigChange   => $ACLData->{ConfigChange} || '',
+            ConfigMatch    => $ACLData->{ConfigMatch}    || '',
+            ConfigChange   => $ACLData->{ConfigChange}   || '',
             StopAfterMatch => $ACLData->{StopAfterMatch} || 0,
             ValidID        => $ACLData->{ValidID},
             UserID         => $Self->{UserID},
@@ -589,7 +589,7 @@ sub _ShowOverview {
         # show error notfy, don't work with user id 1
         $Output .= $LayoutObject->Notify(
             Priority => 'Error',
-            Info =>
+            Info     =>
                 Translatable('Please note that ACL restrictions will be ignored for the Superuser account (UserID 1).'),
         );
     }

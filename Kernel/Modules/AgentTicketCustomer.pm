@@ -283,8 +283,8 @@ sub Form {
 
     $Output
         .= $LayoutObject->Output(
-        TemplateFile => 'AgentTicketCustomer',
-        Data         => \%Param
+            TemplateFile => 'AgentTicketCustomer',
+            Data         => \%Param
         );
     $Output .= $LayoutObject->Footer(
         Type => 'Small',

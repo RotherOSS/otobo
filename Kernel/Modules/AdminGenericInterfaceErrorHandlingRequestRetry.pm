@@ -710,9 +710,9 @@ sub _RequestParamsGet {
     my %GetParam;
     for my $StringParam (
         qw(
-        Description ErrorCode ErrorMessage
-        ErrorMessageContentFilter StopAfterMatch
-        ScheduleRetry RetryIntervalStart RetryIntervalFactor RetryIntervalMax RetryCountMax RetryPeriodMax
+            Description ErrorCode ErrorMessage
+            ErrorMessageContentFilter StopAfterMatch
+            ScheduleRetry RetryIntervalStart RetryIntervalFactor RetryIntervalMax RetryCountMax RetryPeriodMax
         )
         )
     {

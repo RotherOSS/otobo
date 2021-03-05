@@ -130,7 +130,7 @@ sub GetConfig {
         Description => Translatable('Resend this article'),
         Name        => Translatable('Resend'),
         Class       => 'AsPopup PopupType_TicketAction',
-        Link =>
+        Link        =>
             "Action=AgentTicketEmailResend;TicketID=$Param{Ticket}->{TicketID};ArticleID=$Param{Article}->{ArticleID}",
     );
 
