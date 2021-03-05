@@ -128,7 +128,7 @@ sub Run {
         # check required parameters
         my @DynamicFieldsSelected          = $ParamObject->GetArray( Param => 'DynamicFields' );
         my @DynamicFieldForScreensSelected = $ParamObject->GetArray( Param => 'DynamicFieldScreens' );
-        my $OverwriteExistingEntities = $ParamObject->GetParam( Param => 'OverwriteExistingEntities' ) || 0;
+        my $OverwriteExistingEntities      = $ParamObject->GetParam( Param => 'OverwriteExistingEntities' ) || 0;
 
         $CacheObject->Delete(
             Type => 'AdminDynamicFieldImportExport',
@@ -156,7 +156,7 @@ sub Run {
 
                     $LogObject->Log(
                         'Priority' => 'error',
-                        'Message' =>
+                        'Message'  =>
                             "Could not import dynamic field '$ImportData->{DynamicFields}->{$DynamicField}->{Name}' - Dynamic field backend for FieldType '$ImportData->{DynamicFields}->{$DynamicField}->{FieldType}' does not exists!",
                     );
                     next DYNAMICFIELD;

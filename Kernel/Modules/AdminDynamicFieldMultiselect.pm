@@ -177,8 +177,8 @@ sub _AddAction {
 
     for my $ConfigParam (
         qw(
-        ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-        TranslatableValues ValidID
+            ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
+            TranslatableValues ValidID
         )
         )
     {
@@ -450,8 +450,8 @@ sub _ChangeAction {
 
     for my $ConfigParam (
         qw(
-        ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-        TranslatableValues ValidID
+            ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
+            TranslatableValues ValidID
         )
         )
     {

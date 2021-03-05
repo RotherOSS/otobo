@@ -54,9 +54,9 @@ sub Run {
 
         return $LayoutObject->Notify(
             Priority => 'Notice',
-            Data =>
+            Data     =>
                 $LayoutObject->{LanguageObject}->Translate(
-                $NotifyMessage,
+                    $NotifyMessage,
                 ),
         );
     }
@@ -91,10 +91,10 @@ sub Run {
 
         return $LayoutObject->Notify(
             Priority => 'Notice',
-            Data =>
+            Data     =>
                 $LayoutObject->{LanguageObject}->Translate(
-                "A system maintenance period will start at: %s and is expected to stop at: %s",
-                $MaintenanceStartDateTime, $MaintenanceStopDateTime
+                    "A system maintenance period will start at: %s and is expected to stop at: %s",
+                    $MaintenanceStartDateTime, $MaintenanceStopDateTime
                 ),
         );
 

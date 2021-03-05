@@ -391,9 +391,9 @@ sub Run {
     my %GetParam;
     for my $Key (
         qw(
-        NewStateID NewPriorityID TimeUnits IsVisibleForCustomer Title Body Subject NewQueueID
-        Year Month Day Hour Minute NewOwnerID NewResponsibleID TypeID ServiceID SLAID
-        ReplyToArticle StandardTemplateID CreateArticle FormDraftID Title
+            NewStateID NewPriorityID TimeUnits IsVisibleForCustomer Title Body Subject NewQueueID
+            Year Month Day Hour Minute NewOwnerID NewResponsibleID TypeID ServiceID SLAID
+            ReplyToArticle StandardTemplateID CreateArticle FormDraftID Title
         )
         )
     {
@@ -850,7 +850,7 @@ sub Run {
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
                     ParamObject          => $ParamObject,
-                    Mandatory =>
+                    Mandatory            =>
                         $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
                 );
 
@@ -858,7 +858,7 @@ sub Run {
                     return $LayoutObject->ErrorScreen(
                         Message =>
                             $LayoutObject->{LanguageObject}->Translate(
-                            'Could not perform validation on field %s!', $DynamicFieldConfig->{Label}
+                                'Could not perform validation on field %s!', $DynamicFieldConfig->{Label}
                             ),
                         Comment => Translatable('Please contact the administrator.'),
                     );
@@ -877,7 +877,7 @@ sub Run {
                 my $DynamicFieldHTML = $DynamicFieldBackendObject->EditFieldRender(
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
-                    ServerError          => $ValidationResult->{ServerError} || '',
+                    ServerError          => $ValidationResult->{ServerError}  || '',
                     ErrorMessage         => $ValidationResult->{ErrorMessage} || '',
                     Mandatory            => $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
                     LayoutObject         => $LayoutObject,
@@ -914,7 +914,7 @@ sub Run {
                 my $DynamicFieldHTML = $DynamicFieldBackendObject->EditFieldRender(
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
-                    ServerError          => $ValidationResult->{ServerError} || '',
+                    ServerError          => $ValidationResult->{ServerError}  || '',
                     ErrorMessage         => $ValidationResult->{ErrorMessage} || '',
                     Mandatory            => ( $Class eq 'Validate_Required' ) ? 1 : 0,
                     Class                => $Class,
@@ -1370,8 +1370,8 @@ sub Run {
         # use the FieldIDs, which are found in AgentTicketPhone/Email, and CustomerTicketMessage; if needed, fill with ticket values
         $GetParam{QueueID}     = $GetParam{NewQueueID} || $Ticket{QueueID};
         $GetParam{Dest}        = $GetParam{QueueID};
-        $GetParam{NextStateID} = $GetParam{NewStateID} || $Ticket{StateID};
-        $GetParam{NewUserID}   = $GetParam{NewOwnerID} || '';
+        $GetParam{NextStateID} = $GetParam{NewStateID}    || $Ticket{StateID};
+        $GetParam{NewUserID}   = $GetParam{NewOwnerID}    || '';
         $GetParam{PriorityID}  = $GetParam{NewPriorityID} || '';
 
         # get list type
@@ -1608,10 +1608,10 @@ sub Run {
                 ? $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}
                 :
                 (
-                $DynamicFieldBackendObject->BuildSelectionDataGet(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    PossibleValues     => $DynFieldStates{Fields}{$Index}{PossibleValues},
-                    Value              => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+                    $DynamicFieldBackendObject->BuildSelectionDataGet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        PossibleValues     => $DynFieldStates{Fields}{$Index}{PossibleValues},
+                        Value              => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
                     )
                     || $DynFieldStates{Fields}{$Index}{PossibleValues}
                 );
@@ -2316,13 +2316,13 @@ sub _Mask {
     if (
         ( $ConfigObject->Get('Ticket::Type') && $Config->{TicketType} )
         ||
-        ( $ConfigObject->Get('Ticket::Service')     && $Config->{Service} )     ||
+        ( $ConfigObject->Get('Ticket::Service') && $Config->{Service} )         ||
         ( $ConfigObject->Get('Ticket::Responsible') && $Config->{Responsible} ) ||
-        $Config->{Title}    ||
-        $Config->{Queue}    ||
-        $Config->{Owner}    ||
-        $Config->{State}    ||
-        $Config->{Priority} ||
+        $Config->{Title}                                                        ||
+        $Config->{Queue}                                                        ||
+        $Config->{Owner}                                                        ||
+        $Config->{State}                                                        ||
+        $Config->{Priority}                                                     ||
         scalar @{ $Param{TicketTypeDynamicFields} } > 0
         )
     {

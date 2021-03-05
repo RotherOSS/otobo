@@ -190,8 +190,8 @@ sub Run {
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $Error{Message}
             ? $LayoutObject->Notify(
-            Priority => 'Error',
-            Info     => $Error{Message},
+                Priority => 'Error',
+                Info     => $Error{Message},
             )
             : '';
 
@@ -220,7 +220,7 @@ sub Run {
             $Output .= $LayoutObject->Notify(
                 Priority => 'Error',
                 Data     => $LayoutObject->{LanguageObject}->Translate( "Please activate %s first!", "Service" ),
-                Link =>
+                Link     =>
                     $LayoutObject->{Baselink}
                     . 'Action=AdminSystemConfiguration;Subaction=View;Setting=Ticket%3A%3AService;',
             );

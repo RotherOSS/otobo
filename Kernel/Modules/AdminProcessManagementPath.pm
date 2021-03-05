@@ -136,8 +136,8 @@ sub Run {
         # insert the "new" transition entry into path hash
         $ProcessData->{ $TransferData->{ProcessEntityID} }->{Path}
             ->{ $DataToMerge->{StartActivityEntityID} }->{ $DataToMerge->{NewTransitionEntityID} } = {
-            TransitionAction => $DataToMerge->{NewTransitionActions},
-            ActivityEntityID => $DataToMerge->{NewTransitionActivityID},
+                TransitionAction => $DataToMerge->{NewTransitionActions},
+                ActivityEntityID => $DataToMerge->{NewTransitionActivityID},
             };
 
         my $ReturnConfig;

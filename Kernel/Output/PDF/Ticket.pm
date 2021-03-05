@@ -780,7 +780,7 @@ sub _PDFOutputTicketDynamicFields {
                 Title => {
                     Text  => $DynamicFieldConfig->{Label},
                     Style => "",
-                    Size  => $DynamicFieldConfig->{Config}{FontSize} || 12,
+                    Size  => $DynamicFieldConfig->{Config}{FontSize}  || 12,
                     Color => $DynamicFieldConfig->{Config}{FontColor} || '#000000',
                 },
             };

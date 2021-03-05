@@ -252,8 +252,8 @@ sub StatsParamsWidget {
                         Data       => $ParamItem->{Data},
                         Name       => $ParamItem->{Name},
                         SelectedID => $LocalGetParam->( Param => $ParamItem->{Name} ) // $ParamItem->{SelectedID} || '',
-                        Multiple   => $ParamItem->{Multiple} || 0,
-                        Size       => $ParamItem->{Size} || '',
+                        Multiple   => $ParamItem->{Multiple}                                                      || 0,
+                        Size       => $ParamItem->{Size}                                                          || '',
                         Class      => 'Modernize',
                     ),
                 },
@@ -1453,7 +1453,7 @@ sub StatsParamsGet {
                                 if ( !$Time{TimeRelativeCount} && !$Time{TimeRelativeUpcomingCount} ) {
                                     push @Errors,
                                         Translatable(
-                                        'No past complete or the current+upcoming complete relative time value selected.'
+                                            'No past complete or the current+upcoming complete relative time value selected.'
                                         );
                                 }
 
@@ -1534,7 +1534,7 @@ sub StatsParamsGet {
             if ( !IsHashRefWithData($TimeScale) ) {
                 push @Errors,
                     Translatable(
-                    'No time scale value available for the current selected time scale value on the X axis.'
+                        'No time scale value available for the current selected time scale value on the X axis.'
                     );
             }
         }

@@ -437,7 +437,7 @@ sub Run {
             %GetParam,
             %Appointment,
             Prefix                   => 'Start',
-            StartHour                => $Appointment{StartHour} // $GetParam{StartHour},
+            StartHour                => $Appointment{StartHour}   // $GetParam{StartHour},
             StartMinute              => $Appointment{StartMinute} // $GetParam{StartMinute},
             Format                   => 'DateInputFormatLong',
             ValidateDateBeforePrefix => 'End',
@@ -452,7 +452,7 @@ sub Run {
             %GetParam,
             %Appointment,
             Prefix                  => 'End',
-            EndHour                 => $Appointment{EndHour} // $GetParam{EndHour},
+            EndHour                 => $Appointment{EndHour}   // $GetParam{EndHour},
             EndMinute               => $Appointment{EndMinute} // $GetParam{EndMinute},
             Format                  => 'DateInputFormatLong',
             ValidateDateAfterPrefix => 'Start',
@@ -1517,10 +1517,10 @@ sub Run {
                 # If we are dealing with a parent, include any child appointments.
                 push @RelatedAppointments,
                     map {
-                    $_->{AppointmentID}
+                        $_->{AppointmentID}
                     }
                     grep {
-                    defined $_->{ParentID}
+                        defined $_->{ParentID}
                         && $_->{ParentID} eq $Appointment{AppointmentID}
                     } @CalendarAppointments;
 
@@ -1573,10 +1573,10 @@ sub Run {
                 # If we are dealing with a parent, include any child appointments as well.
                 push @RelatedAppointments,
                     map {
-                    $_->{AppointmentID}
+                        $_->{AppointmentID}
                     }
                     grep {
-                    defined $_->{ParentID}
+                        defined $_->{ParentID}
                         && $_->{ParentID} eq $AppointmentID
                     } @CalendarAppointments;
 
@@ -1649,10 +1649,10 @@ sub Run {
                 # If we are dealing with a parent, include any child appointments.
                 push @RelatedAppointments,
                     map {
-                    $_->{AppointmentID}
+                        $_->{AppointmentID}
                     }
                     grep {
-                    defined $_->{ParentID}
+                        defined $_->{ParentID}
                         && $_->{ParentID} eq $Appointment{AppointmentID}
                     } @CalendarAppointments;
 

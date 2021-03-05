@@ -289,7 +289,7 @@ sub Run {
         if ($SuccessCounter) {
             $Output .= $LayoutObject->Notify(
                 Priority => 'Info',
-                Data =>
+                Data     =>
                     $LayoutObject->{LanguageObject}->Translate( "%s Link(s) deleted successfully.", $SuccessCounter ),
             );
         }

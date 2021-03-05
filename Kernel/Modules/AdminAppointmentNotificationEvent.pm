@@ -578,7 +578,7 @@ sub Run {
         if ( !$NotificationImport->{Success} ) {
             my $Message = $NotificationImport->{Message}
                 || Translatable(
-                'Notifications could not be Imported due to a unknown error, please check OTOBO logs for more information'
+                    'Notifications could not be Imported due to a unknown error, please check OTOBO logs for more information'
                 );
             return $LayoutObject->ErrorScreen(
                 Message => $Message,
@@ -677,7 +677,7 @@ sub _Edit {
 
     $Param{RecipientsStrg} = $LayoutObject->BuildSelection(
         Data => {
-            AppointmentAgents => Translatable('Agent (resources), who are selected within the appointment'),
+            AppointmentAgents               => Translatable('Agent (resources), who are selected within the appointment'),
             AppointmentAgentReadPermissions =>
                 Translatable('All agents with (at least) read permission for the appointment (calendar)'),
             AppointmentAgentWritePermissions =>
@@ -952,12 +952,12 @@ sub _Edit {
             Name => 'NotificationLanguage',
             Data => {
                 %Param,
-                Subject => $Param{Message}->{$LanguageID}->{Subject} || '',
-                Body    => $Param{Message}->{$LanguageID}->{Body}    || '',
+                Subject            => $Param{Message}->{$LanguageID}->{Subject} || '',
+                Body               => $Param{Message}->{$LanguageID}->{Body}    || '',
                 LanguageID         => $LanguageID,
                 Language           => $Languages{$LanguageID},
                 SubjectServerError => $Param{ $LanguageID . '_SubjectServerError' } || '',
-                BodyServerError    => $Param{ $LanguageID . '_BodyServerError' } || '',
+                BodyServerError    => $Param{ $LanguageID . '_BodyServerError' }    || '',
             },
         );
 
@@ -1097,7 +1097,7 @@ sub _Edit {
                     # get transport settings string from transport object
                     my $TransportSettings =
                         $TransportObject->TransportSettingsDisplayGet(
-                        %Param,
+                            %Param,
                         );
 
                     # it should decide if the default value for the

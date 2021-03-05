@@ -71,7 +71,7 @@ sub Run {
 
         my $Category               = $ParamObject->GetParam( Param => 'Category' )               || '';
         my $UserModificationActive = $ParamObject->GetParam( Param => 'UserModificationActive' ) || '0';
-        my $IsValid = $ParamObject->GetParam( Param => 'IsValid' ) // undef;
+        my $IsValid                = $ParamObject->GetParam( Param => 'IsValid' ) // undef;
 
         my %Tree = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationNavigationTree(
             Category               => $Category,
@@ -215,8 +215,8 @@ sub Run {
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSystemConfigurationSpecialGroup',
             Data         => {
-                GroupName => $LayoutObject->{LanguageObject}->Translate('Invalid Settings'),
-                GroupLink => 'AdminSystemConfiguration;Subaction=Invalid',
+                GroupName         => $LayoutObject->{LanguageObject}->Translate('Invalid Settings'),
+                GroupLink         => 'AdminSystemConfiguration;Subaction=Invalid',
                 GroupEmptyMessage =>
                     $LayoutObject->{LanguageObject}->Translate("There are no invalid settings active at this time."),
                 Results     => scalar @SettingList,
@@ -373,8 +373,8 @@ sub Run {
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSystemConfigurationSpecialGroup',
             Data         => {
-                GroupName => $LayoutObject->{LanguageObject}->Translate('My favourite settings'),
-                GroupLink => 'AdminSystemConfiguration;Subaction=Favourites',
+                GroupName         => $LayoutObject->{LanguageObject}->Translate('My favourite settings'),
+                GroupLink         => 'AdminSystemConfiguration;Subaction=Favourites',
                 GroupEmptyMessage =>
                     $LayoutObject->{LanguageObject}->Translate("You currently don't have any favourite settings."),
                 Results     => scalar @SettingList,
@@ -598,7 +598,7 @@ sub Run {
             return $LayoutObject->ErrorScreen(
                 Message =>
                     Translatable(
-                    'System Configuration could not be imported due to an unknown error, please check OTOBO logs for more information.'
+                        'System Configuration could not be imported due to an unknown error, please check OTOBO logs for more information.'
                     ),
             );
         }

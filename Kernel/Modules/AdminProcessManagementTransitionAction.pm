@@ -619,8 +619,8 @@ sub _GetParams {
 
     my ( $KeyValue, $ValueValue );
     for my $Key (@ConfigParamKeys) {
-        $KeyValue   = $ParamObject->GetParam( Param => "ConfigKey[$Key]" );
-        $ValueValue = $ParamObject->GetParam( Param => "ConfigValue[$Key]" );
+        $KeyValue                        = $ParamObject->GetParam( Param => "ConfigKey[$Key]" );
+        $ValueValue                      = $ParamObject->GetParam( Param => "ConfigValue[$Key]" );
         $GetParam->{Config}->{$KeyValue} = $ValueValue;
     }
 
